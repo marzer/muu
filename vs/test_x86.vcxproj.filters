@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Natvis Include="muu.natvis" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\tests\aligned_alloc.cpp" />
+    <ClCompile Include="..\tests\main.cpp" />
+    <ClCompile Include="..\tests\blob.cpp" />
+    <ClCompile Include="..\tests\tests.cpp" />
+    <ClCompile Include="..\tests\common.cpp" />
+    <ClCompile Include="..\tests\tagged_ptr.cpp" />
+    <ClCompile Include="..\tests\scope_guard.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\tests\tests.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\tests\meson.build" />
+  </ItemGroup>
+</Project>

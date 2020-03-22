@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="..\include\muu\accumulator.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\bitset.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\blob.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\common.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\concatenate.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\moving_average.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\numeric_range.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\uuid.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\thread_pool.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\tagged_ptr.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\semver.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\scope_guard.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\catch2.h">
+      <Filter>extern</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\aligned_alloc.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\half.h">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.editorconfig" />
+    <None Include="..\CONTRIBUTING.md" />
+    <None Include="..\meson.build" />
+    <None Include="..\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{71fc6b00-e942-4c1d-947c-ae9e8427ac49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="extern">
+      <UniqueIdentifier>{9f8abdc5-e45e-496b-9bc1-f7b758c1c3a3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
