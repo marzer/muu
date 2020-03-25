@@ -40,6 +40,7 @@ if build_tests #or build_examples
 		add_project_arguments([
 				'-g0',
 				'-fmax-errors=5',
+				'-march=native',
 				'-Wno-init-list-lifetime'
 			],
 			language : 'cpp'
@@ -50,16 +51,17 @@ if build_tests #or build_examples
 		add_project_arguments([
 				'-g0',
 				'-ferror-limit=5',
+				'-march=native',
 				'-fchar8_t',
-				# '-Weverything',
+				#'-Weverything',
 				'-Wno-c++98-compat',
 				'-Wno-c++98-compat-pedantic',
 				'-Wno-float-equal',
-				'-Wno-switch-enum',
 				'-Wno-documentation-unknown-command',
 				'-Wno-padded',
 				'-Wno-weak-vtables',
-				'-Wno-double-promotion'
+				'-Wno-double-promotion',
+				'-Wno-date-time'
 				#, '-ftime-trace'
 			],
 			language : 'cpp'

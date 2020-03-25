@@ -43,7 +43,7 @@
     <ClInclude Include="..\include\muu\aligned_alloc.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\muu\half.h">
+    <ClInclude Include="..\include\muu\float16.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
@@ -52,6 +52,24 @@
     <None Include="..\CONTRIBUTING.md" />
     <None Include="..\meson.build" />
     <None Include="..\README.md" />
+    <None Include="..\docs\Doxyfile">
+      <Filter>docs</Filter>
+    </None>
+    <None Include="..\docs\Doxyfile-mcss">
+      <Filter>docs</Filter>
+    </None>
+    <None Include="..\docs\generate.py">
+      <Filter>docs</Filter>
+    </None>
+    <None Include="..\docs\muu.css">
+      <Filter>docs</Filter>
+    </None>
+    <None Include="..\docs\muu.js">
+      <Filter>docs</Filter>
+    </None>
+    <None Include="..\include\main_page.dox">
+      <Filter>docs</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -59,6 +77,9 @@
     </Filter>
     <Filter Include="extern">
       <UniqueIdentifier>{9f8abdc5-e45e-496b-9bc1-f7b758c1c3a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="docs">
+      <UniqueIdentifier>{20e0e0c1-be5a-4c5b-9dba-9c351a948a81}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

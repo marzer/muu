@@ -1,6 +1,7 @@
-//# This file is a part of muu and is subject to the the terms of the MIT license.
-//# Copyright (c) 2020 Mark Gillard <mark.gillard@outlook.com.au>
-//# See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
+// This file is a part of muu and is subject to the the terms of the MIT license.
+// Copyright (c) 2020 Mark Gillard <mark.gillard@outlook.com.au>
+// See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
+// SPDX-License-Identifier: MIT
 
 #pragma once
 #include "../muu/common.h"
@@ -10,21 +11,6 @@ namespace muu::impl
 	inline constexpr size_t tptr_addr_highest_used_bit = MUU_ARCH_AMD64 ? 47 : build::pointer_bits - 1;
 	inline constexpr size_t tptr_addr_used_bits = tptr_addr_highest_used_bit + 1;
 	inline constexpr size_t tptr_addr_free_bits = build::pointer_bits - tptr_addr_used_bits;
-
-	template <typename T>
-	inline constexpr size_t tptr_default_align = alignof(T);
-	template <>
-	inline constexpr size_t tptr_default_align<void> = 1;
-	template <typename T>
-	inline constexpr size_t tptr_default_align<const T> = tptr_default_align<T>;
-	template <typename T>
-	inline constexpr size_t tptr_default_align<volatile T> = tptr_default_align<T>;
-	template <typename T>
-	inline constexpr size_t tptr_default_align<const volatile T> = tptr_default_align<T>;
-	template <typename R, typename ...P>
-	inline constexpr size_t tptr_default_align<R(P...)> = 1_sz;
-	template <typename R, typename ...P>
-	inline constexpr size_t tptr_default_align<R(P...) noexcept> = tptr_default_align<R(P...)>;
 
 	template <size_t min_align>
 	struct tptr final
@@ -188,19 +174,28 @@ namespace muu::impl
 			return bits;
 		}
 	};
+
+	struct tptr_nullptr_deduced_tag {};
 }
 
 namespace muu
 {
-	/// \brief	A specialized pointer capable of packing 'tag' data into the unused bits of a pointer's value.
+	/// \brief	Specialized pointer capable of storing data in the unused bits of a pointer's value.
 	///
 	/// \tparam	T			The type being pointed to.
 	/// \tparam	min_align	Minimum alignment of values stored in the tagged_ptr.
-	/// 					Default is `alignof(T)`, but you may override it if you know
+	/// 					Default is alignof(T), but you may override it if you know
 	/// 					you will only be storing values with larger alignments.
-	template <typename T = void, size_t min_align = impl::tptr_default_align<T>>
+	/// 
+	/// \see [Tagged pointer (wikipedia)](https://en.wikipedia.org/wiki/Tagged_pointer)
+	template <typename T, size_t min_align = alignment_of<T>>
 	class MUU_TRIVIAL_ABI tagged_ptr final
 	{
+		static_assert(
+			!std::is_same_v<T, impl::tptr_nullptr_deduced_tag>,
+			"Tagged pointers cannot have their type deduced from a nullptr"
+			" (a nullptr is meaningless in this context)"
+		);
 		static_assert(
 			!std::is_reference_v<T>,
 			"Tagged pointers cannot store references"
@@ -211,7 +206,7 @@ namespace muu
 		);
 		static_assert(
 			std::is_function_v<T> //the default is not strictly the minimum for function pointers
-			|| min_align >= impl::tptr_default_align<T>,
+			|| min_align >= alignment_of<T>,
 			"Minimum alignment cannot be smaller than the type's actual minimum alignment"
 		);
 		static_assert(
@@ -220,7 +215,7 @@ namespace muu
 		);
 
 		private:
-			mutable uintptr_t bits = {};
+			uintptr_t bits = {};
 
 			using tptr = impl::tptr<min_align>;
 
@@ -538,12 +533,17 @@ namespace muu
 			}
 	};
 
+	// bogus deduction guides for nullptr_t to force the tptr_nullptr_deduced_tag static_assert to fail
 	template <typename T>
-	tagged_ptr(T*&&) -> tagged_ptr<T>;
-	template <typename T>
-	tagged_ptr(T*&) -> tagged_ptr<T>;
+	tagged_ptr(nullptr_t, T) -> tagged_ptr<impl::tptr_nullptr_deduced_tag, 1_sz>;
+	tagged_ptr(nullptr_t) -> tagged_ptr<impl::tptr_nullptr_deduced_tag, 1_sz>;
+
+	// deduction guides
+	template <typename T, typename U>
+	tagged_ptr(T*, U) -> tagged_ptr<T>;
 	template <typename T>
 	tagged_ptr(T*) -> tagged_ptr<T>;
+
 }
 
 namespace std

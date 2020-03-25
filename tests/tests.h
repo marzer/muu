@@ -7,9 +7,12 @@
 #endif
 #include "../include/muu/common.h"
 
+MUU_PUSH_WARNINGS
+MUU_DISABLE_ALL_WARNINGS
 using namespace muu;
 using namespace std::string_view_literals;
 using namespace Catch::literals;
+MUU_POP_WARNINGS
 
 // manually instantiate some templates to reduce test compilation time (chosen using ClangBuildAnalyzer)
 #define TESTS_MANUAL_INSTANTIATIONS 1

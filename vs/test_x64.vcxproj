@@ -60,6 +60,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="..\tests\aligned_alloc.cpp" />
+    <ClCompile Include="..\tests\float16.cpp" />
     <ClCompile Include="..\tests\main.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>

@@ -9,17 +9,20 @@ MUU_DISABLE_INIT_WARNINGS
 template <typename T, size_t min_align>
 struct tagged_ptr_static_checks final
 {
+	// type traits
 	using tptr = tagged_ptr<T, min_align>;
 	static_assert(sizeof(tptr) == sizeof(T*));
 	static_assert(std::is_trivially_copyable_v<tptr>);
 	static_assert(std::is_trivially_destructible_v<tptr>);
 
+	// static members and typedefs
 	static_assert(std::is_same_v<typename tptr::element_type, T>);
 	static_assert(std::is_same_v<typename tptr::pointer, T*>);
 	static_assert(std::is_same_v<typename tptr::const_pointer, const T*>);
 	static_assert(tptr::minimum_alignment == min_align);
 	static_assert(tptr::tag_bit_count >= bit_width(min_align - 1_sz));
 
+	// tag size
 	using tag_type = typename tptr::tag_type;
 	static_assert(sizeof(tag_type) * build::bits_per_byte >= tptr::tag_bit_count);
 	static_assert(tptr::max_tag == bit_fill_right<tag_type>(tptr::tag_bit_count));
@@ -74,6 +77,10 @@ template struct tagged_ptr_static_checks<int64_t, 32768>;
 static_assert(!noexcept(std::declval<tagged_ptr<int(), 4>>()()));
 static_assert(noexcept(std::declval<tagged_ptr<int()noexcept, 4>>()()));
 
+// check deduction guides
+static_assert(std::is_same_v<decltype(tagged_ptr{ std::add_pointer_t<int>{}, 0u }), tagged_ptr<int>>);
+static_assert(std::is_same_v<decltype(tagged_ptr{ std::add_pointer_t<int>{} }), tagged_ptr<int>>);
+
 namespace
 {
 	template <size_t align>
@@ -97,7 +104,7 @@ TEST_CASE("tagged_ptr - basic initialization")
 	CHECK(pointer_cast<const void*>(nullptr) == val);
 	CHECK(val.tag() == 0u);
 
-	auto ptr = reinterpret_cast<void*>(uintptr_t{ 0x12345670u });
+	auto ptr = pointer_cast<void*>(uintptr_t{ 0x12345670u });
 	val = tp{ ptr };
 	CHECK(val.ptr() == ptr);
 	CHECK(val.tag() == 0u);
@@ -109,7 +116,7 @@ TEST_CASE("tagged_ptr - basic initialization")
 	if constexpr (MUU_ARCH_AMD64)
 	{
 		//see https://en.wikipedia.org/wiki/X86-64#Virtual_address_space_details
-		ptr = reinterpret_cast<void*>(static_cast<uintptr_t>(0xFFFF800000000000ull));
+		ptr = pointer_cast<void*>(static_cast<uintptr_t>(0xFFFF800000000000ull));
 		val = tp{ ptr };
 		CHECK(val.ptr() == ptr);
 		CHECK(val.tag() == 0u);
@@ -125,7 +132,7 @@ TEST_CASE("tagged_ptr - integral tags")
 	using tp = tagged_ptr<void, 16>; //4 free bits
 	static_assert(sizeof(tp) == sizeof(void*));
 
-	auto ptr = reinterpret_cast<void*>(uintptr_t{ 0x12345670u });
+	auto ptr = pointer_cast<void*>(uintptr_t{ 0x12345670u });
 	tp val{ ptr, 0b1100u };
 	CHECK(val.ptr() == ptr);
 	CHECK(val == ptr);
@@ -248,7 +255,7 @@ TEST_CASE("tagged_ptr - alignments")
 	CHECK(ptr.tag() == expectedTag);
 
 	auto unaligned = apply_offset(aligned.get(), 1);
-	CHECK(pointer_cast<byte*>(aligned.get()) != pointer_cast<byte*>(unaligned) + 1);
+	CHECK(pointer_cast<std::byte*>(aligned.get()) != pointer_cast<std::byte*>(unaligned) + 1);
 	ptr = unaligned; //low bit of the pointer should get masked off
 	CHECK(ptr.ptr() != unaligned);
 	CHECK(ptr.ptr() == aligned.get());

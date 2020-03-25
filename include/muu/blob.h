@@ -1,13 +1,18 @@
-//# This file is a part of muu and is subject to the the terms of the MIT license.
-//# Copyright (c) 2020 Mark Gillard <mark.gillard@outlook.com.au>
-//# See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
+// This file is a part of muu and is subject to the the terms of the MIT license.
+// Copyright (c) 2020 Mark Gillard <mark.gillard@outlook.com.au>
+// See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
+// SPDX-License-Identifier: MIT
 
 #pragma once
 #include "../muu/common.h"
 
 namespace muu
 {
-	/// \brief Simple interface for creating, converting and destroying chunks of memory.
+	/// \brief Interface for managing chunks of memory.
+	/// 
+	/// \detail A blob is effectively an RAII wrapper around muu::aligned_alloc, muu::aligned_realloc and muu::aligned_free,
+	/// 		intended to be used anywhere you might previously have used something like std::vector<std::byte>.
+	/// 		
 	class MUU_API blob final
 	{
 		private:
@@ -97,16 +102,16 @@ namespace muu
 
 			/// \brief Returns a pointer to the blob's data.
 			[[nodiscard]]
-			byte* data() noexcept
+			std::byte* data() noexcept
 			{
-				return reinterpret_cast<byte*>(data_);
+				return pointer_cast<std::byte*>(data_);
 			}
 
 			/// \brief Returns a pointer to the blob's data (const overload).
 			[[nodiscard]]
-			const byte* data() const noexcept
+			const std::byte* data() const noexcept
 			{
-				return reinterpret_cast<const byte*>(data_);
+				return pointer_cast<const std::byte*>(data_);
 			}
 
 			/// \brief Returns true if the blob contains data.
@@ -132,14 +137,14 @@ namespace muu::impl
 			return blob::default_alignment;
 
 		MUU_ASSERT(
-			align <= 8192_sz
-			&& "Alignment must not be greater than 8192 (it will be clamped)."
+			align <= impl::aligned_alloc_max_alignment
+			&& "Alignment must not be greater than impl::aligned_alloc_max_alignment (it will be clamped)."
 		);
 		MUU_ASSERT(
 			has_single_bit(align)
 			&& "Alignment must be a power of two (it will be rounded up)."
 		);
-		return bit_ceil(min(align, 8192_sz));
+		return bit_ceil(min(align, impl::aligned_alloc_max_alignment));
 	}
 
 	[[nodiscard]]
@@ -149,7 +154,7 @@ namespace muu::impl
 	{
 		MUU_ASSERT(align);
 		MUU_ASSERT(has_single_bit(align));
-		MUU_ASSERT(align <= 8192_sz);
+		MUU_ASSERT(align <= impl::aligned_alloc_max_alignment);
 
 		return size
 			? muu::aligned_alloc(align, size)

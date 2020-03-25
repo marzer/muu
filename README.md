@@ -1,3 +1,5 @@
+# ** this project is in development and is only made public for the sake of providing a bug report repro; please do not use it yet **
+
 ![banner](docs/muu-banner-small.png)  
 [![C++](https://img.shields.io/badge/c%2B%2B-17%2C%2020-informational)][cpp_compilers]
 [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)

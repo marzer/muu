@@ -5,6 +5,7 @@ test_sources = [
 	'blob.cpp',
 	'aligned_alloc.cpp',
 	'tagged_ptr.cpp',
+	'float16.cpp',
 	'scope_guard.cpp',
 ]
 

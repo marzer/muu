@@ -63,7 +63,7 @@
     <ClInclude Include="..\include\muu\blob.h" />
     <ClInclude Include="..\include\muu\common.h" />
     <ClInclude Include="..\include\muu\concatenate.h" />
-    <ClInclude Include="..\include\muu\half.h" />
+    <ClInclude Include="..\include\muu\float16.h" />
     <ClInclude Include="..\include\muu\moving_average.h" />
     <ClInclude Include="..\include\muu\numeric_range.h" />
     <ClInclude Include="..\include\muu\scope_guard.h" />
@@ -75,6 +75,12 @@
   <ItemGroup>
     <None Include="..\.editorconfig" />
     <None Include="..\CONTRIBUTING.md" />
+    <None Include="..\docs\Doxyfile" />
+    <None Include="..\docs\Doxyfile-mcss" />
+    <None Include="..\docs\generate.py" />
+    <None Include="..\docs\muu.css" />
+    <None Include="..\docs\muu.js" />
+    <None Include="..\include\main_page.dox" />
     <None Include="..\meson.build" />
     <None Include="..\README.md" />
   </ItemGroup>

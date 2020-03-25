@@ -16,3 +16,4 @@
 *.runsettings   text        encoding=UTF-8      eol=crlf
 *.md            text        encoding=UTF-8      eol=lf
 *.css           text        encoding=UTF-8      eol=lf
+meson.build     text        encoding=UTF-8      eol=lf

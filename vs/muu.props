@@ -17,7 +17,6 @@
 		<ClCompile>
 			<BufferSecurityCheck>false</BufferSecurityCheck>
 			<ControlFlowGuard>false</ControlFlowGuard>
-			<RuntimeTypeInfo>false</RuntimeTypeInfo> <!-- /GR- -->
 			<FloatingPointExceptions>false</FloatingPointExceptions> <!-- /fp:except- -->
 			<ExceptionHandling>Sync</ExceptionHandling> <!-- /EHsc -->
 			<ConformanceMode>true</ConformanceMode>  <!-- /permissive- -->

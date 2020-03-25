@@ -6,8 +6,7 @@ MUU_DISABLE_ALL_WARNINGS
 
 namespace
 {
-	int val = 1;
-
+	static int val = 1;
 	static void func() noexcept { val *= 2;  }
 	static_assert(std::is_same_v<decltype(scope_guard{ func }), scope_guard<std::add_pointer_t<decltype(func)>>>);
 }

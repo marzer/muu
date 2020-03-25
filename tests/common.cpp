@@ -1355,3 +1355,105 @@ TEST_CASE("is_between")
 	CHECK(is_between(4, 2, 4));
 	CHECK(!is_between(5, 2, 4));
 }
+
+namespace
+{
+	static int test_val = 0;
+	MUU_NEVER_INLINE int func1() { return test_val = 1; }
+	MUU_NEVER_INLINE int func2() noexcept { return test_val = 2; }
+
+	struct base { virtual ~base() noexcept = default; };
+	struct derived1 : base {};
+	struct derived2 : base {};
+}
+
+TEST_CASE("pointer_cast")
+{
+	using int_ptr = int*;
+
+	// same input and output types (no-op)
+	CHECK(pointer_cast<int*>(&test_val) == &test_val);
+
+	// nullptr -> *
+	CHECK(pointer_cast<int*>(nullptr) == int_ptr{});
+
+	// pointer -> integer
+	// integer -> pointer
+	CHECK(pointer_cast<intptr_t>(&test_val) == reinterpret_cast<intptr_t>(&test_val));
+	CHECK(pointer_cast<uintptr_t>(&test_val) == reinterpret_cast<uintptr_t>(&test_val));
+
+	// function pointers
+	if constexpr (sizeof(void*) == sizeof(void(*)()))
+	{
+		// function -> void
+		CHECK(pointer_cast<void*>(func1) == reinterpret_cast<void*>(func1));
+		CHECK(pointer_cast<void*>(func2) == reinterpret_cast<void*>(func2));
+
+		// void -> function
+		// function -> function (noexcept)
+		// function (noexcept) -> function
+		{
+			void* ptr1 = pointer_cast<void*>(func1);
+			CHECK(pointer_cast<int(*)()>(ptr1) == reinterpret_cast<int(*)()>(ptr1));
+			CHECK(pointer_cast<int(*)()>(ptr1) == func1);
+			pointer_cast<int(*)()>(ptr1)();
+			CHECK(test_val == 1);
+
+			void* ptr2 = pointer_cast<void*>(func2);
+			CHECK(pointer_cast<int(*)()noexcept>(ptr2) == reinterpret_cast<int(*)()noexcept>(ptr2));
+			CHECK(pointer_cast<int(*)()noexcept>(ptr2) == func2);
+			pointer_cast<int(*)()noexcept>(ptr2)();
+			CHECK(test_val == 2);
+
+			test_val = 0;
+
+			pointer_cast<int(*)()noexcept>(func1)();
+			CHECK(test_val == 1);
+			pointer_cast<int(*)()>(func2)();
+			CHECK(test_val == 2);
+
+			test_val = 0;
+		}
+	}
+
+	// void -> void (different cv)
+	CHECK(pointer_cast<void*>(static_cast<const void*>(&test_val)) == &test_val);
+	CHECK(pointer_cast<const void*>(static_cast<volatile void*>(&test_val)) == &test_val);
+	CHECK(pointer_cast<volatile void*>(static_cast<const void*>(&test_val)) == &test_val);
+	CHECK(pointer_cast<const volatile void*>(static_cast<volatile void*>(&test_val)) == &test_val);
+
+	// * -> void
+	CHECK(pointer_cast<void*>(&test_val) == &test_val);
+	CHECK(pointer_cast<const void*>(&test_val) == &test_val);
+	CHECK(pointer_cast<volatile void*>(&test_val) == &test_val);
+	CHECK(pointer_cast<const volatile void*>(&test_val) == &test_val);
+
+	// void -> *
+	CHECK(pointer_cast<int*>(static_cast<void*>(&test_val)) == &test_val);
+	CHECK(pointer_cast<const int*>(static_cast<void*>(&test_val)) == &test_val);
+	CHECK(pointer_cast<volatile int*>(static_cast<void*>(&test_val)) == &test_val);
+	CHECK(pointer_cast<const volatile int*>(static_cast<void*>(&test_val)) == &test_val);
+
+	//derived -> base
+	{
+		derived1 d{};
+		CHECK(pointer_cast<base*>(&d) == &d);
+		CHECK(pointer_cast<const base*>(&d) == &d);
+		CHECK(pointer_cast<volatile base*>(&d) == &d);
+		CHECK(pointer_cast<const volatile base*>(&d) == &d);
+	}
+
+	// base -> derived
+	{
+		std::unique_ptr<base> b{ new derived1 };
+		CHECK(pointer_cast<derived1*>(b.get()) == b.get());
+		CHECK(pointer_cast<const derived1*>(b.get()) == b.get());
+		CHECK(pointer_cast<volatile derived1*>(b.get()) == b.get());
+		CHECK(pointer_cast<const volatile derived1*>(b.get()) == b.get());
+
+		CHECK(pointer_cast<derived2*>(b.get()) == nullptr);
+		CHECK(pointer_cast<const derived2*>(b.get()) == nullptr);
+		CHECK(pointer_cast<volatile derived2*>(b.get()) == nullptr);
+		CHECK(pointer_cast<const volatile derived2*>(b.get()) == nullptr);
+	}
+}

@@ -14,12 +14,14 @@ namespace
 
 TEST_CASE("aligned_alloc")
 {
+	static constexpr size_t test_size_max = 1024_sz * 1024_sz * 16_sz; // 16 mb
+
 	std::vector<int32_t> vals;
-	vals.reserve(2048_sz);
-	for (size_t i = 0; i < 2048_sz; i++)
+	vals.reserve(test_size_max / sizeof(int32_t));
+	for (size_t i = 0; i < test_size_max / sizeof(int32_t); i++)
 		vals.push_back(rand());
 
-	for (size_t align = 1_sz; align <= 8192_sz; align *= 2_sz)
+	for (size_t align = 1_sz; align <= impl::aligned_alloc_max_alignment; align *= 2_sz)
 	{
 		// check that zero alignments fail
 		{
@@ -33,9 +35,9 @@ TEST_CASE("aligned_alloc")
 			REQUIRE(ptr == nullptr);
 		}
 
-		for (size_t size = 16_sz; size <= 8192_sz; size *= 2_sz)
+		for (size_t size = 256_sz; size <= test_size_max; size *= 2_sz)
 		{
-			INFO("Testing aligned_alloc with align = "sv << align << "and size = "sv << size);
+			INFO("Testing aligned_alloc with align = "sv << align << " and size = "sv << size)
 
 			void* ptr{};
 
@@ -47,9 +49,9 @@ TEST_CASE("aligned_alloc")
 			}
 
 			// check that trying to over-align past the limit fails
-			if (align == 8192_sz)
+			if (align == impl::aligned_alloc_max_alignment)
 			{
-				ptr = muu::aligned_alloc(16384_sz, size);
+				ptr = muu::aligned_alloc(impl::aligned_alloc_max_alignment << 1, size);
 				REQUIRE(ptr == nullptr);
 			}
 
