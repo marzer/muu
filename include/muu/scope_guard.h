@@ -3,12 +3,14 @@
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 
+/// \file
+/// \brief  Contains the definition of muu::scope_guard.
 #pragma once
 #include "../muu/common.h"
 
 namespace muu
 {
-	/// \brief	Deterministically performs actions when going out of scope.
+	/// \brief	Performs actions when going out of scope.
 	/// 
 	/// \detail Use a scope_guard to simplify cleanup routines
 	/// 		or code that has acquire/release semantics, e.g. locking: \cpp
@@ -43,7 +45,7 @@ namespace muu
 	/// 
 	/// \tparam	T	A function, lambda or other callable with the signature `void() noexcept`.
 	template <typename T>
-	class scope_guard final
+	class scope_guard
 	{
 		static_assert(
 			std::is_invocable_v<T>,
@@ -55,12 +57,12 @@ namespace muu
 			" (there would be no way to recover the returned value)"
 		);
 		static_assert(
-			!build::exceptions_enabled || std::is_nothrow_invocable_v<T>,
+			!build::has_exceptions || std::is_nothrow_invocable_v<T>,
 			"Callables wrapped by a scope guard must be marked noexcept"
-			" (throwing from destructors is a universally terrible idea)"
+			" (throwing from destructors is a almost never a good move)"
 		);
 		static_assert(
-			!build::exceptions_enabled || std::is_trivially_destructible_v<T> || std::is_nothrow_destructible_v<T>,
+			!build::has_exceptions || std::is_trivially_destructible_v<T> || std::is_nothrow_destructible_v<T>,
 			"Callables wrapped by a scope guard must be nothrow-destructible"
 		);
 
@@ -78,7 +80,7 @@ namespace muu
 			template <typename U, typename = std::enable_if_t<std::is_constructible_v<T, U&&>>>
 			MUU_NODISCARD_CTOR
 			explicit constexpr scope_guard(U&& func)
-				noexcept(!build::exceptions_enabled || std::is_nothrow_constructible_v<T, U&&>)
+				noexcept(std::is_nothrow_constructible_v<T, U&&>)
 				: func_{ std::forward<U>(func) }
 			{}
 

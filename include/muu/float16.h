@@ -3,6 +3,8 @@
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 
+/// \file
+/// \brief  Contains the definition of muu::float16.
 #pragma once
 #include "../muu/common.h"
 
@@ -30,8 +32,8 @@ MUU_POP_WARNINGS
 
 namespace muu::impl
 {
-	[[nodiscard]] constexpr uint16_t f32_to_f16(float) noexcept;
-	[[nodiscard]] constexpr float f16_to_f32(uint16_t) noexcept;
+	[[nodiscard]] constexpr uint16_t MUU_VECTORCALL f32_to_f16(float) noexcept;
+	[[nodiscard]] constexpr float MUU_VECTORCALL f16_to_f32(uint16_t) noexcept;
 	struct f16_from_bits_tag {};
 }
 
@@ -39,8 +41,39 @@ namespace muu
 {
 	/// \brief	A 16-bit "half-precision" floating point type.
 	/// 
+	/// \detail This type is equipped with the full set of operators you'd expect from a float type,
+	/// 		and is capable of being converted to other floats and integers, as well as direct construction
+	/// 		using the `_f16` literal: \cpp
+	/// 
+	/// // creation from other floats and integers is explicit:
+	/// auto f1 = float16{ 1.0f };
+	/// auto f2 = static_cast<float16>(2);
+	/// 
+	/// // promotion to larger float types is implicit (to mimic the behaviour of the built-ins):
+	/// double f3 = f2;
+	/// 
+	/// // using the _f16 literal
+	/// using namespace muu::literals;
+	/// auto f4 = 4.0_f16;
+	/// 
+	/// // arithmetic operators
+	/// auto f5 = 4.0_f16 * 5.0_f16; // result is a float16
+	/// auto f6 = 4.0_f16 * 5.0;     // result is a double because of promotion
+	/// auto f7 = 4.0_f16 * 5;       // result is a float16 because of promotion
+	/// 
+	/// // comparison operators
+	/// auto b1 = 4.0_f16 <= 5.0_f16;
+	/// auto b2 = 4.0_f16 <= 5.0;
+	/// auto b3 = 4.0_f16 <= 5;
+	/// \ecpp
+	/// 
+	/// \attention Despite the arithmetic operations being implemented as you'd expect, 16-bit floating-point
+	/// 		 arithmetic is _very_ lossy and should be avoided for all but the most trivial cases.
+	/// 		 In general it's better to do your arithmetic in a higher-precision type (e.g. float) and convert
+	/// 		 back to float16 when you're finished.
+	/// 
 	/// \see [Half-precision floating-point (wikipedia)](https://en.wikipedia.org/wiki/Half-precision_floating-point_format)
-	struct MUU_TRIVIAL_ABI float16 final
+	struct MUU_TRIVIAL_ABI float16
 	{
 		/// \brief	The raw bits of the float.
 		uint16_t bits;
@@ -49,8 +82,8 @@ namespace muu
 		// CONSTRUCTORS
 		//====================================================
 
-		/// \brief	Default 'uninitialized' constructor.
 		float16() noexcept = default;
+		constexpr float16(const float16&) noexcept = default;
 
 		private:
 
@@ -68,166 +101,95 @@ namespace muu
 			return float16{ val, impl::f16_from_bits_tag{} };
 		}
 
-		/// \brief	Constructs a half-precision float from a single-precision float.
-		explicit constexpr float16(float val) noexcept
-			: bits{ impl::f32_to_f16(val) }
-		{}
-
-		/// \brief	Constructs a half-precision float from a double-precision float.
-		explicit constexpr float16(double val) noexcept
-			: float16{ static_cast<float>(val) }
-		{ }
-
-		/// \brief	Constructs a half-precision float from a long double.
-		explicit constexpr float16(long double val) noexcept
-			: float16{ static_cast<float>(val) }
-		{ }
-
-		/// \brief	Constructs a half-precision float from a boolean.
+		MUU_NODISCARD_CTOR
 		explicit constexpr float16(bool val) noexcept
 			: bits{ val ? 0x3c00_u16 : 0_u16 }
 		{ }
 
-		/// \brief	Constructs a half-precision float from an 8-bit integer.
-		explicit constexpr float16(int8_t val) noexcept
-			: float16{ static_cast<float>(val) }
-		{ }
+		#define MUU_F16_EXPLICIT_CONSTRUCTOR(type)					\
+			MUU_NODISCARD_CTOR										\
+			explicit constexpr float16(type val) noexcept			\
+				: bits{ impl::f32_to_f16(static_cast<float>(val)) }	\
+			{}
 
-		/// \brief	Constructs a half-precision float from an 16-bit integer.
-		explicit constexpr float16(int16_t val) noexcept
-			: float16{ static_cast<float>(val) }
-		{ }
+		MUU_F16_EXPLICIT_CONSTRUCTOR(float)
+		MUU_F16_EXPLICIT_CONSTRUCTOR(double)
+		MUU_F16_EXPLICIT_CONSTRUCTOR(long double)
+		MUU_F16_EXPLICIT_CONSTRUCTOR(char)
+		MUU_F16_EXPLICIT_CONSTRUCTOR(signed char)
+		MUU_F16_EXPLICIT_CONSTRUCTOR(unsigned char)
+		MUU_F16_EXPLICIT_CONSTRUCTOR(short)
+		MUU_F16_EXPLICIT_CONSTRUCTOR(unsigned short)
+		MUU_F16_EXPLICIT_CONSTRUCTOR(int)
+		MUU_F16_EXPLICIT_CONSTRUCTOR(unsigned int)
+		MUU_F16_EXPLICIT_CONSTRUCTOR(long)
+		MUU_F16_EXPLICIT_CONSTRUCTOR(unsigned long)
+		MUU_F16_EXPLICIT_CONSTRUCTOR(long long)
+		MUU_F16_EXPLICIT_CONSTRUCTOR(unsigned long long)
 
-		/// \brief	Constructs a half-precision float from an 32-bit integer.
-		explicit constexpr float16(int32_t val) noexcept
-			: float16{ static_cast<float>(val) }
-		{ }
-
-		/// \brief	Constructs a half-precision float from an 64-bit integer.
-		explicit constexpr float16(int64_t val) noexcept
-			: float16{ static_cast<float>(val) }
-		{ }
-
-		/// \brief	Constructs a half-precision float from an unsigned 8-bit integer.
-		explicit constexpr float16(uint8_t val) noexcept
-			: float16{ static_cast<float>(val) }
-		{ }
-
-		/// \brief	Constructs a half-precision float from an unsigned 16-bit integer.
-		explicit constexpr float16(uint16_t val) noexcept
-			: float16{ static_cast<float>(val) }
-		{ }
-
-		/// \brief	Constructs a half-precision float from an unsigned 32-bit integer.
-		explicit constexpr float16(uint32_t val) noexcept
-			: float16{ static_cast<float>(val) }
-		{ }
-
-		/// \brief	Constructs a half-precision float from an unsigned 64-bit integer.
-		explicit constexpr float16(uint64_t val) noexcept
-			: float16{ static_cast<float>(val) }
-		{ }
+		#undef MUU_F16_EXPLICIT_CONSTRUCTOR
 
 		//====================================================
 		// CONVERSIONS
 		//====================================================
 
-		/// \brief	Creates a single-precision float by expanding a half-precision float.
 		[[nodiscard]] MUU_ALWAYS_INLINE
-		/*explicit*/ constexpr operator float() const noexcept
+		constexpr operator float() const noexcept
 		{
 			return impl::f16_to_f32(bits);
 		}
 
-		/// \brief	Creates a double-precision float by expanding a half-precision float.
 		[[nodiscard]] MUU_ALWAYS_INLINE
-		/*explicit*/ constexpr operator double() const noexcept
+		constexpr operator double() const noexcept
 		{
 			return static_cast<double>(impl::f16_to_f32(bits));
 		}
 
-		/// \brief	Creates a long double-precision float by expanding a half-precision float.
 		[[nodiscard]] MUU_ALWAYS_INLINE
-		/*explicit*/ constexpr operator long double() const noexcept
+		constexpr operator long double() const noexcept
 		{
 			return static_cast<long double>(impl::f16_to_f32(bits));
 		}
 
-		/// \brief	Converts a half-precision float to a boolean.
 		[[nodiscard]] MUU_ALWAYS_INLINE
 		explicit constexpr operator bool() const noexcept
 		{
 			return (bits & 0x7FFFu) != 0u;
 		}
 
-		/// \brief	Creates an 8-bit integer from a half-precision float.
-		[[nodiscard]] MUU_ALWAYS_INLINE
-		explicit constexpr operator int8_t() const noexcept
-		{
-			return static_cast<int8_t>(impl::f16_to_f32(bits));
-		}
+		#define MUU_F16_EXPLICIT_CONVERSION(type)				\
+			[[nodiscard]] MUU_ALWAYS_INLINE							\
+			explicit constexpr operator type() const noexcept		\
+			{														\
+				return static_cast<type>(impl::f16_to_f32(bits));	\
+			}
 
-		/// \brief	Creates a 16-bit integer from a half-precision float.
-		[[nodiscard]] MUU_ALWAYS_INLINE
-		explicit constexpr operator int16_t() const noexcept
-		{
-			return static_cast<int16_t>(impl::f16_to_f32(bits));
-		}
+		MUU_F16_EXPLICIT_CONVERSION(char)
+		MUU_F16_EXPLICIT_CONVERSION(signed char)
+		MUU_F16_EXPLICIT_CONVERSION(unsigned char)
+		MUU_F16_EXPLICIT_CONVERSION(short)
+		MUU_F16_EXPLICIT_CONVERSION(unsigned short)
+		MUU_F16_EXPLICIT_CONVERSION(int)
+		MUU_F16_EXPLICIT_CONVERSION(unsigned int)
+		MUU_F16_EXPLICIT_CONVERSION(long)
+		MUU_F16_EXPLICIT_CONVERSION(unsigned long)
+		MUU_F16_EXPLICIT_CONVERSION(long long)
+		MUU_F16_EXPLICIT_CONVERSION(unsigned long long)
 
-		/// \brief	Creates a 32-bit integer from a half-precision float.
-		[[nodiscard]] MUU_ALWAYS_INLINE
-		explicit constexpr operator int32_t() const noexcept
-		{
-			return static_cast<int32_t>(impl::f16_to_f32(bits));
-		}
-
-		/// \brief	Creates a 64-bit integer from a half-precision float.
-		[[nodiscard]] MUU_ALWAYS_INLINE
-		explicit constexpr operator int64_t() const noexcept
-		{
-			return static_cast<int64_t>(impl::f16_to_f32(bits));
-		}
-
-		/// \brief	Creates an unsigned 8-bit integer from a half-precision float.
-		[[nodiscard]] MUU_ALWAYS_INLINE
-		explicit constexpr operator uint8_t() const noexcept
-		{
-			return static_cast<uint8_t>(impl::f16_to_f32(bits));
-		}
-
-		/// \brief	Creates an unsigned 16-bit integer from a half-precision float.
-		[[nodiscard]] MUU_ALWAYS_INLINE
-		explicit constexpr operator uint16_t() const noexcept
-		{
-			return static_cast<uint16_t>(impl::f16_to_f32(bits));
-		}
-
-		/// \brief	Creates an unsigned 32-bit integer from a half-precision float.
-		[[nodiscard]] MUU_ALWAYS_INLINE
-		explicit constexpr operator uint32_t() const noexcept
-		{
-			return static_cast<uint32_t>(impl::f16_to_f32(bits));
-		}
-
-		/// \brief	Creates an unsigned 64-bit integer from a half-precision float.
-		[[nodiscard]] MUU_ALWAYS_INLINE
-		explicit constexpr operator uint64_t() const noexcept
-		{
-			return static_cast<uint64_t>(impl::f16_to_f32(bits));
-		}
+		#undef MUU_F16_EXPLICIT_CONVERSION
 
 		//====================================================
 		// INFINITY AND NAN
 		//====================================================
 
-		/// \brief	Returns true if the value of a half-precision float is infinity or NaN.
+		/// \brief	Returns true if the value of a float16 is infinity or NaN.
 		[[nodiscard]] MUU_ALWAYS_INLINE
-		constexpr bool is_inf_or_nan() const noexcept
+		constexpr bool is_infinity_or_nan() const noexcept
 		{
 			return (0b0111110000000000_u16 & bits) == 0b0111110000000000_u16;
 		}
 
-		/// \brief	Returns true if the value of a half-precision float is NaN.
+		/// \brief	Returns true if the value of a float16 is NaN.
 		[[nodiscard]] MUU_ALWAYS_INLINE
 		constexpr bool is_nan() const noexcept
 		{
@@ -239,114 +201,176 @@ namespace muu
 		// COMPARISONS
 		//====================================================
 
-		/// \brief	Equality operator.
 		[[nodiscard]] MUU_ALWAYS_INLINE
-		friend constexpr bool operator == (float16 lhs, float16 rhs) noexcept
+		friend constexpr bool MUU_VECTORCALL operator == (float16 lhs, float16 rhs) noexcept
 		{
 			return static_cast<float>(lhs) == static_cast<float>(rhs);
 		}
 
-		/// \brief	Inequality operator.
 		[[nodiscard]] MUU_ALWAYS_INLINE
-		friend constexpr bool operator != (float16 lhs, float16 rhs) noexcept
+		friend constexpr bool MUU_VECTORCALL operator != (float16 lhs, float16 rhs) noexcept
 		{
 			return static_cast<float>(lhs) != static_cast<float>(rhs);
 		}
 
-		/// \brief	Less-than operator.
 		[[nodiscard]] MUU_ALWAYS_INLINE
-		friend constexpr bool operator < (float16 lhs, float16 rhs) noexcept
+		friend constexpr bool MUU_VECTORCALL operator < (float16 lhs, float16 rhs) noexcept
 		{
 			return static_cast<float>(lhs) < static_cast<float>(rhs);
 		}
 
-		/// \brief	Less-than-or-equal-to operator.
 		[[nodiscard]] MUU_ALWAYS_INLINE
-		friend constexpr bool operator <= (float16 lhs, float16 rhs) noexcept
+		friend constexpr bool MUU_VECTORCALL operator <= (float16 lhs, float16 rhs) noexcept
 		{
 			return static_cast<float>(lhs) <= static_cast<float>(rhs);
 		}
 
-		/// \brief	Greater-than operator.
 		[[nodiscard]] MUU_ALWAYS_INLINE
-		friend constexpr bool operator > (float16 lhs, float16 rhs) noexcept
+		friend constexpr bool MUU_VECTORCALL operator > (float16 lhs, float16 rhs) noexcept
 		{
 			return static_cast<float>(lhs) > static_cast<float>(rhs);
 		}
 
-		/// \brief	Greater-than-or-equal-to operator.
 		[[nodiscard]] MUU_ALWAYS_INLINE
-		friend constexpr bool operator >= (float16 lhs, float16 rhs) noexcept
+		friend constexpr bool MUU_VECTORCALL operator >= (float16 lhs, float16 rhs) noexcept
 		{
 			return static_cast<float>(lhs) >= static_cast<float>(rhs);
 		}
 
-		#if 1 // DEMO_INTELLISENSE_BUG
-
-		#define MUU_F16_PROMOTING_BINARY_OP(input_type, return_type, op)
-
-		#else
-
-		#define MUU_F16_PROMOTING_BINARY_OP(input_type, return_type, op)					\
-			[[nodiscard]] MUU_ALWAYS_INLINE													\
-			friend constexpr return_type operator op (float16 lhs, input_type rhs) noexcept	\
+		#define MUU_F16_PROMOTING_BINARY_OP(return_type, input_type, op)					\
+			[[nodiscard]] MUU_ALWAYS_INLINE friend constexpr return_type MUU_VECTORCALL		\
+			operator op (float16 lhs, input_type rhs) noexcept								\
 			{																				\
 				return static_cast<input_type>(lhs) op rhs;									\
 			}																				\
-			friend constexpr return_type operator op (input_type rhs, float16 lhs) noexcept	\
+			[[nodiscard]] MUU_ALWAYS_INLINE friend constexpr return_type MUU_VECTORCALL		\
+			operator op (input_type rhs, float16 lhs) noexcept								\
 			{																				\
 				return lhs op static_cast<input_type>(rhs);									\
 			}
 
-		#endif // DEMO_INTELLISENSE_BUG
+		MUU_F16_PROMOTING_BINARY_OP(bool, float, ==)
+		MUU_F16_PROMOTING_BINARY_OP(bool, float, !=)
+		MUU_F16_PROMOTING_BINARY_OP(bool, float, < )
+		MUU_F16_PROMOTING_BINARY_OP(bool, float, <=)
+		MUU_F16_PROMOTING_BINARY_OP(bool, float, > )
+		MUU_F16_PROMOTING_BINARY_OP(bool, float, >=)
+		MUU_F16_PROMOTING_BINARY_OP(bool, double, ==)
+		MUU_F16_PROMOTING_BINARY_OP(bool, double, !=)
+		MUU_F16_PROMOTING_BINARY_OP(bool, double, < )
+		MUU_F16_PROMOTING_BINARY_OP(bool, double, <=)
+		MUU_F16_PROMOTING_BINARY_OP(bool, double, > )
+		MUU_F16_PROMOTING_BINARY_OP(bool, double, >=)
+		MUU_F16_PROMOTING_BINARY_OP(bool, long double, ==)
+		MUU_F16_PROMOTING_BINARY_OP(bool, long double, !=)
+		MUU_F16_PROMOTING_BINARY_OP(bool, long double, < )
+		MUU_F16_PROMOTING_BINARY_OP(bool, long double, <=)
+		MUU_F16_PROMOTING_BINARY_OP(bool, long double, > )
+		MUU_F16_PROMOTING_BINARY_OP(bool, long double, >=)
 
-		MUU_F16_PROMOTING_BINARY_OP(float, bool, ==)
-		MUU_F16_PROMOTING_BINARY_OP(float, bool, !=)
-		MUU_F16_PROMOTING_BINARY_OP(float, bool, < )
-		MUU_F16_PROMOTING_BINARY_OP(float, bool, <=)
-		MUU_F16_PROMOTING_BINARY_OP(float, bool, > )
-		MUU_F16_PROMOTING_BINARY_OP(float, bool, >=)
-		MUU_F16_PROMOTING_BINARY_OP(double, bool, ==)
-		MUU_F16_PROMOTING_BINARY_OP(double, bool, !=)
-		MUU_F16_PROMOTING_BINARY_OP(double, bool, < )
-		MUU_F16_PROMOTING_BINARY_OP(double, bool, <=)
-		MUU_F16_PROMOTING_BINARY_OP(double, bool, > )
-		MUU_F16_PROMOTING_BINARY_OP(double, bool, >=)
-		MUU_F16_PROMOTING_BINARY_OP(long double, bool, ==)
-		MUU_F16_PROMOTING_BINARY_OP(long double, bool, !=)
-		MUU_F16_PROMOTING_BINARY_OP(long double, bool, < )
-		MUU_F16_PROMOTING_BINARY_OP(long double, bool, <=)
-		MUU_F16_PROMOTING_BINARY_OP(long double, bool, > )
-		MUU_F16_PROMOTING_BINARY_OP(long double, bool, >=)
+		#define MUU_F16_CONVERTING_BINARY_OP(return_type, input_type, op)					\
+			[[nodiscard]] MUU_ALWAYS_INLINE friend constexpr return_type MUU_VECTORCALL		\
+			operator op (float16 lhs, input_type rhs) noexcept								\
+			{																				\
+				return return_type{ static_cast<float>(lhs) op static_cast<float>(rhs) };	\
+			}																				\
+			[[nodiscard]] MUU_ALWAYS_INLINE	friend constexpr return_type MUU_VECTORCALL		\
+			operator op (input_type rhs, float16 lhs) noexcept								\
+			{																				\
+				return return_type{ static_cast<float>(lhs) op static_cast<float>(rhs) };	\
+			}
+
+		MUU_F16_CONVERTING_BINARY_OP(bool, char, ==)
+		MUU_F16_CONVERTING_BINARY_OP(bool, char, !=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, char, < )
+		MUU_F16_CONVERTING_BINARY_OP(bool, char, <=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, char, > )
+		MUU_F16_CONVERTING_BINARY_OP(bool, char, >=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, signed char, ==)
+		MUU_F16_CONVERTING_BINARY_OP(bool, signed char, !=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, signed char, < )
+		MUU_F16_CONVERTING_BINARY_OP(bool, signed char, <=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, signed char, > )
+		MUU_F16_CONVERTING_BINARY_OP(bool, signed char, >=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned char, ==)
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned char, !=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned char, < )
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned char, <=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned char, > )
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned char, >=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, short, ==)
+		MUU_F16_CONVERTING_BINARY_OP(bool, short, !=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, short, < )
+		MUU_F16_CONVERTING_BINARY_OP(bool, short, <=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, short, > )
+		MUU_F16_CONVERTING_BINARY_OP(bool, short, >=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned short, ==)
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned short, !=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned short, < )
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned short, <=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned short, > )
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned short, >=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, int, ==)
+		MUU_F16_CONVERTING_BINARY_OP(bool, int, !=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, int, < )
+		MUU_F16_CONVERTING_BINARY_OP(bool, int, <=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, int, > )
+		MUU_F16_CONVERTING_BINARY_OP(bool, int, >=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned int, ==)
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned int, !=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned int, < )
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned int, <=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned int, > )
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned int, >=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, long, ==)
+		MUU_F16_CONVERTING_BINARY_OP(bool, long, !=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, long, < )
+		MUU_F16_CONVERTING_BINARY_OP(bool, long, <=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, long, > )
+		MUU_F16_CONVERTING_BINARY_OP(bool, long, >=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned long, ==)
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned long, !=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned long, < )
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned long, <=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned long, > )
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned long, >=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, long long, ==)
+		MUU_F16_CONVERTING_BINARY_OP(bool, long long, !=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, long long, < )
+		MUU_F16_CONVERTING_BINARY_OP(bool, long long, <=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, long long, > )
+		MUU_F16_CONVERTING_BINARY_OP(bool, long long, >=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned long long, ==)
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned long long, !=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned long long, < )
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned long long, <=)
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned long long, > )
+		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned long long, >=)
 
 		//====================================================
 		// ARITHMETIC OPERATORS
 		//====================================================
 
-		/// \brief	Adds two half-precision floats.
 		[[nodiscard]]
-		friend constexpr float16 operator + (float16 lhs, float16 rhs) noexcept
+		friend constexpr float16 MUU_VECTORCALL operator + (float16 lhs, float16 rhs) noexcept
 		{
 			return float16{ static_cast<float>(lhs) + static_cast<float>(rhs) };
 		}
 
-		/// \brief	Subtracts one half-precision float from another.
 		[[nodiscard]]
-		friend constexpr float16 operator - (float16 lhs, float16 rhs) noexcept
+		friend constexpr float16 MUU_VECTORCALL operator - (float16 lhs, float16 rhs) noexcept
 		{
 			return float16{ static_cast<float>(lhs) - static_cast<float>(rhs) };
 		}
 
-		/// \brief	Multiplies two half-precision floats.
 		[[nodiscard]]
-		friend constexpr float16 operator * (float16 lhs, float16 rhs) noexcept
+		friend constexpr float16 MUU_VECTORCALL operator * (float16 lhs, float16 rhs) noexcept
 		{
 			return float16{ static_cast<float>(lhs) * static_cast<float>(rhs) };
 		}
 
-		/// \brief	Divides one half-precision float by another.
 		[[nodiscard]]
-		friend constexpr float16 operator / (float16 lhs, float16 rhs) noexcept
+		friend constexpr float16 MUU_VECTORCALL operator / (float16 lhs, float16 rhs) noexcept
 		{
 			return float16{ static_cast<float>(lhs) / static_cast<float>(rhs) };
 		}
@@ -366,10 +390,57 @@ namespace muu
 
 		#undef MUU_F16_PROMOTING_BINARY_OP
 
+		MUU_F16_CONVERTING_BINARY_OP(float16, char, +)
+		MUU_F16_CONVERTING_BINARY_OP(float16, char, -)
+		MUU_F16_CONVERTING_BINARY_OP(float16, char, *)
+		MUU_F16_CONVERTING_BINARY_OP(float16, char, /)
+		MUU_F16_CONVERTING_BINARY_OP(float16, signed char, +)
+		MUU_F16_CONVERTING_BINARY_OP(float16, signed char, -)
+		MUU_F16_CONVERTING_BINARY_OP(float16, signed char, *)
+		MUU_F16_CONVERTING_BINARY_OP(float16, signed char, /)
+		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned char, +)
+		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned char, -)
+		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned char, *)
+		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned char, /)
+		MUU_F16_CONVERTING_BINARY_OP(float16, short, +)
+		MUU_F16_CONVERTING_BINARY_OP(float16, short, -)
+		MUU_F16_CONVERTING_BINARY_OP(float16, short, *)
+		MUU_F16_CONVERTING_BINARY_OP(float16, short, /)
+		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned short, +)
+		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned short, -)
+		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned short, *)
+		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned short, /)
+		MUU_F16_CONVERTING_BINARY_OP(float16, int, +)
+		MUU_F16_CONVERTING_BINARY_OP(float16, int, -)
+		MUU_F16_CONVERTING_BINARY_OP(float16, int, *)
+		MUU_F16_CONVERTING_BINARY_OP(float16, int, /)
+		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned int, +)
+		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned int, -)
+		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned int, *)
+		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned int, /)
+		MUU_F16_CONVERTING_BINARY_OP(float16, long, +)
+		MUU_F16_CONVERTING_BINARY_OP(float16, long, -)
+		MUU_F16_CONVERTING_BINARY_OP(float16, long, *)
+		MUU_F16_CONVERTING_BINARY_OP(float16, long, /)
+		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned long, +)
+		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned long, -)
+		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned long, *)
+		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned long, /)
+		MUU_F16_CONVERTING_BINARY_OP(float16, long long, +)
+		MUU_F16_CONVERTING_BINARY_OP(float16, long long, -)
+		MUU_F16_CONVERTING_BINARY_OP(float16, long long, *)
+		MUU_F16_CONVERTING_BINARY_OP(float16, long long, /)
+		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned long long, +)
+		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned long long, -)
+		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned long long, *)
+		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned long long, /)
+
+		#undef MUU_F16_CONVERTING_BINARY_OP
+
 		/// \brief	Performs a fused-multiply-add.
 		/// 
-		/// \details The FMA operation is performed on the inputs after promoting them to floats
-		/// 		 so the intermediate precision loss is minimized.
+		/// \details The FMA operation is performed on the inputs as if they were higher-precision
+		/// 		 types so the intermediate precision loss is minimized.
 		/// 
 		/// \param 	m1	The first multiplication operand.
 		/// \param 	m2	The second multiplication operand.
@@ -377,7 +448,7 @@ namespace muu
 		///
 		/// \returns	The result of `(m1 * m2) + a`.
 		[[nodiscard]]
-		static constexpr float16 fma(float16 m1, float16 m2, float16 a) noexcept
+		static constexpr float16 MUU_VECTORCALL fma(float16 m1, float16 m2, float16 a) noexcept
 		{
 			#if defined(__GNUC__) || defined(__clang__)
 				if (!is_constant_evaluated())
@@ -390,53 +461,121 @@ namespace muu
 		// ARITHMETIC ASSIGNMENTS
 		//====================================================
 
-		/// \brief	Addition-assignment operator.
 		friend constexpr float16& operator += (float16& lhs, float16 rhs) noexcept
 		{
 			lhs.bits = impl::f32_to_f16(static_cast<float>(lhs) + static_cast<float>(rhs));
 			return lhs;
 		}
 
-		/// \brief	Subtraction-assignment operator.
 		friend constexpr float16& operator -= (float16& lhs, float16 rhs) noexcept
 		{
 			lhs.bits = impl::f32_to_f16(static_cast<float>(lhs) - static_cast<float>(rhs));
 			return lhs;
 		}
 
-		/// \brief	Multiplication-assignment operator.
 		friend constexpr float16& operator *= (float16& lhs, float16 rhs) noexcept
 		{
 			lhs.bits = impl::f32_to_f16(static_cast<float>(lhs) * static_cast<float>(rhs));
 			return lhs;
 		}
 
-		/// \brief	Division-assignment operator.
 		friend constexpr float16& operator /= (float16& lhs, float16 rhs) noexcept
 		{
 			lhs.bits = impl::f32_to_f16(static_cast<float>(lhs) / static_cast<float>(rhs));
 			return lhs;
 		}
 
+		#define MUU_F16_ASSIGN_OP(input_type, op)												\
+			friend constexpr float16& operator op##= (float16& lhs, input_type rhs) noexcept	\
+			{																					\
+				lhs.bits = impl::f32_to_f16(static_cast<float>(lhs op rhs));					\
+				return lhs;																		\
+			}
+
+		MUU_F16_ASSIGN_OP(float, +)
+		MUU_F16_ASSIGN_OP(float, -)
+		MUU_F16_ASSIGN_OP(float, *)
+		MUU_F16_ASSIGN_OP(float, /)
+		MUU_F16_ASSIGN_OP(double, +)
+		MUU_F16_ASSIGN_OP(double, -)
+		MUU_F16_ASSIGN_OP(double, *)
+		MUU_F16_ASSIGN_OP(double, /)
+		MUU_F16_ASSIGN_OP(long double, +)
+		MUU_F16_ASSIGN_OP(long double, -)
+		MUU_F16_ASSIGN_OP(long double, *)
+		MUU_F16_ASSIGN_OP(long double, /)
+
+		#undef MUU_F16_ASSIGN_OP
+		#define MUU_F16_ASSIGN_OP(input_type, op)									\
+			friend constexpr float16& operator op##= (float16& lhs, input_type rhs) noexcept	\
+			{																					\
+				lhs.bits = impl::f32_to_f16(static_cast<float>(lhs) op rhs);					\
+				return lhs;																		\
+			}
+
+		MUU_F16_ASSIGN_OP(char, +)
+		MUU_F16_ASSIGN_OP(char, -)
+		MUU_F16_ASSIGN_OP(char, *)
+		MUU_F16_ASSIGN_OP(char, /)
+		MUU_F16_ASSIGN_OP(signed char, +)
+		MUU_F16_ASSIGN_OP(signed char, -)
+		MUU_F16_ASSIGN_OP(signed char, *)
+		MUU_F16_ASSIGN_OP(signed char, /)
+		MUU_F16_ASSIGN_OP(unsigned char, +)
+		MUU_F16_ASSIGN_OP(unsigned char, -)
+		MUU_F16_ASSIGN_OP(unsigned char, *)
+		MUU_F16_ASSIGN_OP(unsigned char, /)
+		MUU_F16_ASSIGN_OP(short, +)
+		MUU_F16_ASSIGN_OP(short, -)
+		MUU_F16_ASSIGN_OP(short, *)
+		MUU_F16_ASSIGN_OP(short, /)
+		MUU_F16_ASSIGN_OP(unsigned short, +)
+		MUU_F16_ASSIGN_OP(unsigned short, -)
+		MUU_F16_ASSIGN_OP(unsigned short, *)
+		MUU_F16_ASSIGN_OP(unsigned short, /)
+		MUU_F16_ASSIGN_OP(int, +)
+		MUU_F16_ASSIGN_OP(int, -)
+		MUU_F16_ASSIGN_OP(int, *)
+		MUU_F16_ASSIGN_OP(int, /)
+		MUU_F16_ASSIGN_OP(unsigned int, +)
+		MUU_F16_ASSIGN_OP(unsigned int, -)
+		MUU_F16_ASSIGN_OP(unsigned int, *)
+		MUU_F16_ASSIGN_OP(unsigned int, /)
+		MUU_F16_ASSIGN_OP(long, +)
+		MUU_F16_ASSIGN_OP(long, -)
+		MUU_F16_ASSIGN_OP(long, *)
+		MUU_F16_ASSIGN_OP(long, /)
+		MUU_F16_ASSIGN_OP(unsigned long, +)
+		MUU_F16_ASSIGN_OP(unsigned long, -)
+		MUU_F16_ASSIGN_OP(unsigned long, *)
+		MUU_F16_ASSIGN_OP(unsigned long, /)
+		MUU_F16_ASSIGN_OP(long long, +)
+		MUU_F16_ASSIGN_OP(long long, -)
+		MUU_F16_ASSIGN_OP(long long, *)
+		MUU_F16_ASSIGN_OP(long long, /)
+		MUU_F16_ASSIGN_OP(unsigned long long, +)
+		MUU_F16_ASSIGN_OP(unsigned long long, -)
+		MUU_F16_ASSIGN_OP(unsigned long long, *)
+		MUU_F16_ASSIGN_OP(unsigned long long, /)
+
+		#undef MUU_F16_ASSIGN_OP
+
 		//====================================================
 		// INCREMENTS AND DECREMENTS
 		//====================================================
 
-		/// \brief	Pre-increment operator.
 		constexpr float16& operator++() noexcept
 		{
 			bits = impl::f32_to_f16(static_cast<float>(*this) + 1.0f);
 			return *this;
 		}
 
-		/// \brief	Pre-decrement operator.
 		constexpr float16& operator--() noexcept
 		{
 			bits = impl::f32_to_f16(static_cast<float>(*this) - 1.0f);
 			return *this;
 		}
 
-		/// \brief	Post-increment operator.
 		constexpr float16 operator++(int) noexcept
 		{
 			float16 prev = *this;
@@ -444,7 +583,6 @@ namespace muu
 			return prev;
 		}
 
-		/// \brief	Post-decrement operator.
 		constexpr float16 operator--(int) noexcept
 		{
 			float16 prev = *this;
@@ -456,14 +594,12 @@ namespace muu
 		// MISC
 		//====================================================
 
-		/// \brief	Unary plus operator.
 		[[nodiscard]]
 		constexpr float16 operator + () const noexcept
 		{
 			return *this;
 		}
 
-		/// \brief	Negation operator.
 		[[nodiscard]]
 		constexpr float16 operator - () const noexcept
 		{
@@ -480,6 +616,20 @@ namespace muu
 			return float16{ val };
 		}
 	}
+
+	template <>
+	[[nodiscard]] MUU_ALWAYS_INLINE
+	constexpr bool MUU_VECTORCALL is_infinity_or_nan<float16>(float16 val) noexcept
+	{
+		return val.is_infinity_or_nan();
+	}
+
+	template <>
+	[[nodiscard]] MUU_ALWAYS_INLINE
+	constexpr float16 MUU_VECTORCALL abs<float16, void>(float16 val) noexcept
+	{
+		return static_cast<float>(val) < 0.0f ? -val : val;
+	}
 }
 
 namespace muu::impl
@@ -490,7 +640,7 @@ namespace muu::impl
 	MUU_PRAGMA_MSVC(warning(disable: 4556)) //value of intrinsic immediate argument '8' is out of range '0 - 7'
 
 	[[nodiscard]] MUU_ALWAYS_INLINE
-	uint16_t f32_to_f16_intrinsic(float val) noexcept
+	uint16_t MUU_VECTORCALL f32_to_f16_intrinsic(float val) noexcept
 	{
 		//_mm_set_ss			store a single float in a m128
 		//_mm_cvtps_ph			convert floats in a m128 to half-precision floats in an m128i
@@ -502,7 +652,7 @@ namespace muu::impl
 	}
 
 	[[nodiscard]] MUU_ALWAYS_INLINE
-	float f16_to_f32_intrinsic(uint16_t val) noexcept
+	float MUU_VECTORCALL f16_to_f32_intrinsic(uint16_t val) noexcept
 	{
 		//_mm_cvtsi32_si128		store a single int in an m128i
 		//_mm_cvtph_ps			convert half-precision floats in a m128i to floats in an m128
@@ -521,7 +671,7 @@ namespace muu::impl
 	inline constexpr int8_t f16_half_exp_bias = 15;
 
 	[[nodiscard]]
-	constexpr uint16_t f32_to_f16_native(float val) noexcept
+	constexpr uint16_t MUU_VECTORCALL f32_to_f16_native(float val) noexcept
 	{
 		const uint32_t bits32 = bit_cast<uint32_t>(val);
 		const uint16_t s16 = (bits32 & 0x80000000u) >> 16;
@@ -572,7 +722,7 @@ namespace muu::impl
 	}
 
 	[[nodiscard]]
-	constexpr float f16_to_f32_native(uint16_t val) noexcept
+	constexpr float MUU_VECTORCALL f16_to_f32_native(uint16_t val) noexcept
 	{
 		// 1000 0000 0000 0000 ->
 		// 1000 0000 0000 0000 0000 0000 0000 0000
@@ -624,7 +774,7 @@ namespace muu::impl
 	}
 
 	[[nodiscard]] MUU_ALWAYS_INLINE
-	constexpr uint16_t f32_to_f16(float val) noexcept
+	constexpr uint16_t MUU_VECTORCALL f32_to_f16(float val) noexcept
 	{
 		#if MUU_F16_USE_INTRINSICS
 		if constexpr (build::supports_is_constant_evaluated)
@@ -638,7 +788,7 @@ namespace muu::impl
 	}
 
 	[[nodiscard]] MUU_ALWAYS_INLINE
-	constexpr float f16_to_f32(uint16_t val) noexcept
+	constexpr float MUU_VECTORCALL f16_to_f32(uint16_t val) noexcept
 	{
 		#if MUU_F16_USE_INTRINSICS
 		if constexpr (build::supports_is_constant_evaluated)
@@ -654,6 +804,7 @@ namespace muu::impl
 
 namespace std
 {
+	/// \brief	Specialization of std::numeric_limits for muu::float16.
 	template<>
 	struct numeric_limits<::muu::float16>
 	{
@@ -670,7 +821,7 @@ namespace std
 		static constexpr bool has_denorm_loss = false;
 		static constexpr std::float_round_style round_style = std::round_to_nearest;
 		static constexpr bool is_iec559 = true;
-		static constexpr bool is_bounded = false;
+		static constexpr bool is_bounded = true;
 		static constexpr bool is_modulo = false;
 		static constexpr int digits = 11;
 		static constexpr int digits10 = 3;
@@ -680,9 +831,9 @@ namespace std
 		static constexpr int min_exponent10 = -4;
 		static constexpr int max_exponent = 16;
 		static constexpr int max_exponent10 = 4;
-		static constexpr bool traps = true;
+		static constexpr bool traps = false;
 		static constexpr bool tinyness_before = false;
-
+		
 		[[nodiscard]]
 		static constexpr float16 min() noexcept
 		{

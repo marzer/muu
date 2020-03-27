@@ -174,7 +174,7 @@ TEST_CASE("float16 - addition")
 	}
 
 	// very small numbers - this is already beyond the accuracy of 16 bit floats.
-	for (float f = 0.003f; f < 1000.f; f += 0.0005f)
+	for (float f = 0.003f; f < 100.f; f += 0.0005f)
 	{
 		float16 one = float16{ f };
 		float16 two = float16{ f };

@@ -118,38 +118,44 @@ pre.m-code + pre.m-console span
 }
 
 /* comments */
-.m-code .c1
+pre.m-code .c1
 {
 	color: rgb(87,166,74);
 }
 
 /* int and float literals */
-.m-code .mi,
-.m-code .mf
+pre.m-code .mi,
+pre.m-code .mf
 {
 	color: rgb(181,206,168);
 }
 
 /* keywords */
-.m-code .k
+pre.m-code .k
 {
 	color: rgb(86,156,214);
 }
+pre.m-code .kt,
+pre.m-code .k,
+pre.m-code .nc
+{
+	font-weight: normal;
+}
 
 /* identifier names */
-.m-code .n
+pre.m-code .n
 {
 	color: rgb(220,220,220);
 }
 
 /* punctuators (brackets etc) */
-.m-code .p
+pre.m-code .p
 {
 	color: rgb(120,120,120);
 }
 
 /* preprocessor directives */
-.m-code .cp
+pre.m-code .cp
 {
 	color: rgb(120,120,120);
 }
@@ -163,22 +169,15 @@ pre.m-code + pre.m-console span
 	color: rgb(214,157,133);
 }
 
-.m-code .kt,
-.m-code .k,
-.m-code .nc
-{
-	font-weight: normal;
-}
-
 /* user types and typedefs */
-.m-code .ut,
-.m-code .nc
+pre.m-code .ut,
+pre.m-code .nc
 {
 	color: rgb(78,201,176);
 }
 
 /* namespace::scopes:: */
-.m-code .ns
+pre.m-code .ns
 {
 	color: rgb(140,140,140);
 }
@@ -198,3 +197,25 @@ h1 span.m-thin
 {
 	color: #747474;
 }
+
+/* include <blah.h> */
+.m-doc-details div h3
+{
+	overflow: auto;
+}
+h1 .m-doc-include,
+h3 .m-doc-include
+{
+	float: right;
+}
+h1 .m-doc-include *,
+h3 .m-doc-include *
+{
+	opacity: 1.0 !important;
+}
+h1 .m-doc-include .cp,
+h3 .m-doc-include .cp
+{
+	color: #747474;
+}
+

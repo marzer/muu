@@ -68,6 +68,7 @@
     <ClInclude Include="..\include\muu\numeric_range.h" />
     <ClInclude Include="..\include\muu\scope_guard.h" />
     <ClInclude Include="..\include\muu\semver.h" />
+    <ClInclude Include="..\include\muu\string_param.h" />
     <ClInclude Include="..\include\muu\tagged_ptr.h" />
     <ClInclude Include="..\include\muu\thread_pool.h" />
     <ClInclude Include="..\include\muu\uuid.h" />
@@ -83,6 +84,7 @@
     <None Include="..\include\main_page.dox" />
     <None Include="..\meson.build" />
     <None Include="..\README.md" />
+    <None Include=".runsettings" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

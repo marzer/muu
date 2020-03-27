@@ -12,6 +12,7 @@
     <ClCompile Include="..\tests\tagged_ptr.cpp" />
     <ClCompile Include="..\tests\scope_guard.cpp" />
     <ClCompile Include="..\tests\float16.cpp" />
+    <ClCompile Include="..\tests\accumulator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\tests\tests.h" />

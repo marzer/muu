@@ -3,6 +3,8 @@
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 
+/// \file
+/// \brief  Contains the definition of muu::blob.
 #pragma once
 #include "../muu/common.h"
 
@@ -13,7 +15,7 @@ namespace muu
 	/// \detail A blob is effectively an RAII wrapper around muu::aligned_alloc, muu::aligned_realloc and muu::aligned_free,
 	/// 		intended to be used anywhere you might previously have used something like std::vector<std::byte>.
 	/// 		
-	class MUU_API blob final
+	class MUU_API blob
 	{
 		private:
 			size_t alignment_, size_ = 0;

@@ -46,6 +46,9 @@
     <ClInclude Include="..\include\muu\float16.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\muu\string_param.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />
@@ -70,6 +73,7 @@
     <None Include="..\include\main_page.dox">
       <Filter>docs</Filter>
     </None>
+    <None Include=".runsettings" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">

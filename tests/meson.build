@@ -7,6 +7,7 @@ test_sources = [
 	'tagged_ptr.cpp',
 	'float16.cpp',
 	'scope_guard.cpp',
+	'accumulator.cpp',
 ]
 
 tests = executable(

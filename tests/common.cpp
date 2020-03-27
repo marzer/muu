@@ -1,5 +1,26 @@
 #include "tests.h"
 
+// variadic size traits
+static_assert(std::is_same_v<largest<char, char[2], char[4], char[128]>, char[128]>);
+static_assert(std::is_same_v<largest<char, char[2], char[4]>, char[4]>);
+static_assert(std::is_same_v<largest<char, char[2]>, char[2]>);
+static_assert(std::is_same_v<largest<char>, char>);
+static_assert(std::is_same_v<smallest<char, char[2], char[4], char[128]>, char>);
+static_assert(std::is_same_v<smallest<char[2], char[4], char[128]>, char[2]>);
+static_assert(std::is_same_v<smallest<char[4], char[128]>, char[4]>);
+static_assert(std::is_same_v<smallest<char[128]>, char[128]>);
+
+// variadic alignment traits
+template <size_t align> struct aligned { alignas(align) char kek; };
+static_assert(std::is_same_v<most_aligned<aligned<1>, aligned<2>, aligned<4>, aligned<128>>, aligned<128>>);
+static_assert(std::is_same_v<most_aligned<aligned<1>, aligned<2>, aligned<4>>, aligned<4>>);
+static_assert(std::is_same_v<most_aligned<aligned<1>, aligned<2>>, aligned<2>>);
+static_assert(std::is_same_v<most_aligned<aligned<1>>, aligned<1>>);
+static_assert(std::is_same_v<least_aligned<aligned<1>, aligned<2>, aligned<4>, aligned<128>>, aligned<1>>);
+static_assert(std::is_same_v<least_aligned<aligned<2>, aligned<4>, aligned<128>>, aligned<2>>);
+static_assert(std::is_same_v<least_aligned<aligned<4>, aligned<128>>, aligned<4>>);
+static_assert(std::is_same_v<least_aligned<aligned<128>>, aligned<128>>);
+
 // is_const - should return true when const or reference-to-const
 static_assert(!is_const<int>);
 static_assert(!is_const<int&>);
@@ -207,6 +228,7 @@ static_assert(std::is_same_v<match_cv<const volatile int, float&>, int>);
 static_assert(std::is_same_v<match_cv<const volatile int, const float&>, const int>);
 static_assert(std::is_same_v<match_cv<const volatile int, volatile float&>, volatile int>);
 static_assert(std::is_same_v<match_cv<const volatile int, const volatile float&>, const volatile int>);
+
 
 TEST_CASE("has_single_bit")
 {

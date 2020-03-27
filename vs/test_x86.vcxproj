@@ -59,6 +59,7 @@
     <LocalDebuggerWorkingDirectory>..\tests\</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
   <ItemGroup>
+    <ClCompile Include="..\tests\accumulator.cpp" />
     <ClCompile Include="..\tests\aligned_alloc.cpp" />
     <ClCompile Include="..\tests\common.cpp" />
     <ClCompile Include="..\tests\float16.cpp" />

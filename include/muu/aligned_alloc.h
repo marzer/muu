@@ -3,9 +3,10 @@
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 
+/// \file
+/// \brief Contains the definitions of muu::aligned_alloc, muu::aligned_realloc and muu::aligned_free.
 #pragma once
 #include "../muu/common.h"
-
 
 namespace muu
 {

@@ -3,7 +3,8 @@
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 
-
+/// \file
+/// \brief Typedefs, macros and intrinsics used by all other muu headers.
 #pragma once
 
 /// \addtogroup		macros		Preprocessor macros
@@ -36,7 +37,9 @@
 
 // MUU_ASSERT
 
-////////// COMPILER, ARCHITECTURE ETC.
+//=====================================================================================================================
+// COMPILER, ARCHITECTURE & ENVIRONMENT
+//=====================================================================================================================
 
 #ifndef __cplusplus
 	#error muu is a C++ library.
@@ -283,10 +286,13 @@
 #ifndef MUU_TRIVIAL_ABI
 	#define MUU_TRIVIAL_ABI
 #endif
-#ifndef MUU_VECTORCALL
+#ifdef MUU_VECTORCALL
+	#define MUU_VECTORCALL_ARG
+#else
 	#define MUU_VECTORCALL
+	#define MUU_VECTORCALL_ARG const&
 #endif
-#ifdef __cpp_consteval
+#if defined(__cpp_consteval) && !defined(__INTELLISENSE__)
 	#define MUU_CONSTEVAL				consteval
 #else
 	#define MUU_CONSTEVAL				constexpr
@@ -535,15 +541,23 @@
 
 /// @}
 
-////////// INCLUDES
+//=====================================================================================================================
+// INCLUDES
+//=====================================================================================================================
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_ALL_WARNINGS
+
+// common.h include file rationale:
+// If it's small and simple it can go in (c headers are generally OK)
+// If it drags in half the standard library or is itself a behemoth it stays out (<algorithm>...)
+// (more info: https://www.reddit.com/r/cpp/comments/eumou7/stl_header_token_parsing_benchmarks_for_vs2017/)
 
 #include <cstdint>
 #include <cstddef>
 #include <cstring>
 #include <climits>
+#include <cmath>
 #include <type_traits>
 #include <utility>
 #ifndef MUU_ASSERT
@@ -560,7 +574,40 @@ MUU_DISABLE_ALL_WARNINGS
 
 MUU_POP_WARNINGS
 
-////////// TYPE TRAITS AND METAFUNCTIONS
+////////// FORWARD DECLARATIONS
+
+/// \brief	The root namespace for all muu functions and types.
+namespace muu
+{
+	using size_t = std::size_t;
+	using intptr_t = std::intptr_t;
+	using uintptr_t = std::uintptr_t;
+	using ptrdiff_t = std::ptrdiff_t;
+	using nullptr_t = std::nullptr_t;
+
+	#ifndef DOXYGEN
+
+	// foward declarations are hidden from doxygen
+	// because they fuck it up =/
+
+	struct uuid;
+	struct semver;
+	struct float16;
+
+	class blob;
+	class string_param;
+	class bitset;
+	class thread_pool;
+
+	template <typename>				class scope_guard;
+	template <typename, size_t>		class tagged_ptr;
+
+	#endif
+}
+
+//=====================================================================================================================
+// TYPE TRAITS AND METAFUNCTIONS
+//=====================================================================================================================
 
 namespace muu::impl
 {
@@ -699,6 +746,58 @@ namespace muu::impl
 	template <> struct alignment_of<void> { static constexpr size_t value = 1; };
 	template <typename R, typename ...P> struct alignment_of<R(P...)> { static constexpr size_t value = 1; };
 	template <typename R, typename ...P> struct alignment_of<R(P...)noexcept> { static constexpr size_t value = 1; };
+
+	template <typename...> struct largest;
+	template <typename T> struct largest<T> { using type = T; };
+	template <typename T, typename U>
+	struct largest<T, U>
+	{
+		using type = std::conditional_t<(sizeof(U) < sizeof(T)), T, U>;
+	};
+	template <typename T, typename U, typename... V>
+	struct largest<T, U, V...>
+	{
+		using type = typename largest<T, typename largest<U, V...>::type>::type;
+	};
+
+	template <typename...>	struct smallest;
+	template <typename T>	struct smallest<T> { using type = T; };
+	template <typename T, typename U>
+	struct smallest<T, U>
+	{
+		using type = std::conditional_t<(sizeof(T) < sizeof(U)), T, U>;
+	};
+	template <typename T, typename U, typename... V>
+	struct smallest<T, U, V...>
+	{
+		using type = typename smallest<T, typename smallest<U, V...>::type>::type;
+	};
+
+	template <typename...>	struct most_aligned;
+	template <typename T>	struct most_aligned<T> { using type = T; };
+	template <typename T, typename U>
+	struct most_aligned<T, U>
+	{
+		using type = std::conditional_t<(alignment_of<U>::value < alignment_of<T>::value), T, U>;
+	};
+	template <typename T, typename U, typename... V>
+	struct most_aligned<T, U, V...>
+	{
+		using type = typename most_aligned<T, typename most_aligned<U, V...>::type>::type;
+	};
+
+	template <typename...>	struct least_aligned;
+	template <typename T>	struct least_aligned<T> { using type = T; };
+	template <typename T, typename U>
+	struct least_aligned<T, U>
+	{
+		using type = std::conditional_t<(alignment_of<T>::value < alignment_of<U>::value), T, U>;
+	};
+	template <typename T, typename U, typename... V>
+	struct least_aligned<T, U, V...>
+	{
+		using type = typename least_aligned<T, typename least_aligned<U, V...>::type>::type;
+	};
 }
 
 namespace muu
@@ -722,10 +821,28 @@ namespace muu
 		using remove_cvref = std::remove_cv_t<std::remove_reference_t<T>>;
 	#endif
 
+	/// \brief The largest type from a set of types.
+	template <typename... T>
+	using largest = typename impl::largest<T...>::type;
+
+	/// \brief The smallest type from a set of types.
+	template <typename... T>
+	using smallest = typename impl::smallest<T...>::type;
+
 	/// \brief The default alignment of a type.
-	/// \remarks Unlike the `alignof()` operator this works with void and function types (returning 1).
+	/// \remarks This returns an alignment of `1` for `void` and functions.
 	template <typename T>
 	inline constexpr size_t alignment_of = impl::alignment_of<remove_cvref<T>>::value;
+
+	/// \brief The type with the largest alignment (i.e. having the largest value for `alignof(T)`) from a set of types.
+	/// \remarks `void` and functions are considered as having an alignment of `1`.
+	template <typename... T>
+	using most_aligned = typename impl::most_aligned<T...>::type;
+
+	/// \brief The type with the smallest alignment (i.e. having the smallest value for `alignof(T)`) from a set of types.
+	/// \remarks `void` and functions are considered as having an alignment of `1`.
+	template <typename... T>
+	using least_aligned = typename impl::least_aligned<T...>::type;
 
 	/// \brief	True if T is exactly the same as one or more of the types named by U.
 	template <typename T, typename... U>
@@ -736,8 +853,22 @@ namespace muu
 	inline constexpr bool is_unsigned = std::is_unsigned_v<underlying_type<std::remove_reference_t<T>>>;
 
 	/// \brief Is a type signed or reference-to-signed?
+	/// \remarks This will also return true for muu::float16.
 	template <typename T>
-	inline constexpr bool is_signed = std::is_signed_v<underlying_type<std::remove_reference_t<T>>>;
+	inline constexpr bool is_signed = std::is_signed_v<underlying_type<std::remove_reference_t<T>>>
+		|| std::is_same_v<remove_cvref<T>, float16>;
+
+	/// \brief Is a type a floating-point or reference-to-floating-point?
+	/// \remarks This will also return true for muu::float16.
+	template <typename T>
+	inline constexpr bool is_floating_point = std::is_floating_point_v<std::remove_reference_t<T>>
+		|| std::is_same_v<remove_cvref<T>, float16>;
+
+	/// \brief Is a type arithmetic or reference-to-arithmetic?
+	/// \remarks This will also return true for muu::float16.
+	template <typename T>
+	inline constexpr bool is_arithmetic = std::is_arithmetic_v<std::remove_reference_t<T>>
+		|| std::is_same_v<remove_cvref<T>, float16>;
 
 	/// \brief Is a type const or reference-to-const?
 	template <typename T>
@@ -780,6 +911,10 @@ namespace muu
 	template <typename T, typename match_with>
 	using match_cv = match_const<match_volatile<T, match_with>, match_with>;
 
+	/// \brief Is a type const, volatile, or a reference?
+	template <typename T>
+	inline constexpr bool is_cvref = std::is_const_v<T> || std::is_volatile_v<T> || std::is_reference_v<T>;
+
 	/// \brief Removes any `noexcept` modifier from a functional type.
 	template <typename T>
 	using remove_noexcept = typename impl::remove_noexcept<T>::type;
@@ -802,32 +937,12 @@ namespace muu
 	/// @}
 }
 
-////////// FORWARD DECLARATIONS, TYPEDEFS & 'INTRINSICS'
+//=====================================================================================================================
+// LITERALS, BUILD CONSTANTS AND 'INTRINSICS'
+//=====================================================================================================================
 
-/// \brief	The root namespace for all muu functions and types.
 namespace muu
 {
-	using size_t = std::size_t;
-	using intptr_t = std::intptr_t;
-	using uintptr_t = std::uintptr_t;
-	using ptrdiff_t = std::ptrdiff_t;
-	using nullptr_t = std::nullptr_t;
-
-	#ifndef DOXYGEN
-
-	// foward declarations are hidden from doxygen
-	// because they fuck it up =/
-	struct uuid;
-	struct semver;
-	struct float16;
-	class blob;
-	class bitset;
-	class thread_pool;
-	template <typename>				class scope_guard;
-	template <typename, size_t>		class tagged_ptr;
-
-	#endif
-
 	/// \brief Literal operators.
 	inline namespace literals
 	{
@@ -979,10 +1094,10 @@ namespace muu
 		static constexpr size_t pointer_bits = pointer_size * bits_per_byte;
 
 		/// \brief True if exceptions are enabled.
-		static constexpr bool exceptions_enabled = !!MUU_EXCEPTIONS;
+		static constexpr bool has_exceptions = !!MUU_EXCEPTIONS;
 
 		/// \brief True if run-time type identification (RTTI) is enabled.
-		static constexpr bool rtti_enabled = !!MUU_RTTI;
+		static constexpr bool has_rtti = !!MUU_RTTI;
 	
 	} //::build
 
@@ -1284,12 +1399,18 @@ namespace muu
 		}
 	}
 
+	#define MUU_HAS_CONSTEXPR_BIT_CAST 1
+
 	/// \brief	Equivalent to C++20's std::bit_cast.
 	/// 
 	/// \remarks Compilers implement this as an intrinsic which is typically
 	/// 		 available regardless of the C++ mode. Using this function
 	/// 		 on these compilers allows you to get the same behaviour
 	/// 		 even when you aren't targeting C++20.
+	/// 
+	/// \attention On older compilers lacking support for std::bit_cast you won't be able to call this function
+	/// 		   in constexpr contexts (since it falls back to a memcpy-based implementation).
+	/// 		   You can check for constexpr support by examining build::supports_constexpr_bit_cast.
 	template <typename TO, typename FROM>
 	[[nodiscard]] MUU_ALWAYS_INLINE
 	constexpr TO bit_cast(const FROM& from) noexcept
@@ -1317,6 +1438,8 @@ namespace muu
 				return __builtin_bit_cast(TO, from);
 			#else
 				MUU_FALLBACK_IMPL;
+				#undef MUU_HAS_CONSTEXPR_BIT_CAST
+				#define MUU_HAS_CONSTEXPR_BIT_CAST 0
 			#endif
 		#elif defined(__GNUC__) && __GNUC__ >= 10 // ??
 			return __builtin_bit_cast(TO, from);
@@ -1324,11 +1447,20 @@ namespace muu
 			return __builtin_bit_cast(TO, from);
 		#else
 			MUU_FALLBACK_IMPL;
+			#undef MUU_HAS_CONSTEXPR_BIT_CAST
+			#define MUU_HAS_CONSTEXPR_BIT_CAST 0
 		#endif
 
 		#undef MUU_FALLBACK_IMPL
 	}
 
+	namespace build
+	{
+		/// \brief	True if using bit_cast() in constexpr contexts is supported on this compiler.
+		inline constexpr bool supports_constexpr_bit_cast = !!MUU_HAS_CONSTEXPR_BIT_CAST;
+	}
+
+	#undef MUU_HAS_CONSTEXPR_BIT_CAST
 
 	/// \brief	Returns the minimum of two values.
 	/// 
@@ -1368,6 +1500,19 @@ namespace muu
 		return min <= val && val <= max;
 	}
 
+	/// \brief	Returns the absolute value of an arithmetic value.
+	/// 
+	/// \remarks This is similar to std::abs but is `constexpr` and doesn't coerce or promote the input types.
+	template <typename T, typename = std::enable_if_t<is_arithmetic<T>>>
+	[[nodiscard]] MUU_ALWAYS_INLINE
+	constexpr T MUU_VECTORCALL abs(T val) noexcept
+	{
+		if constexpr (is_unsigned<T>)
+			return val;
+		else
+			return val < T{} ? -val : val;
+	}
+
 	/// \brief	Casts between pointers, choosing the most appropriate conversion path.
 	/// 
 	/// \detail Doing low-level work with pointers often requires a lot of tedious boilerplate,
@@ -1382,18 +1527,21 @@ namespace muu
 	/// 		- converting between pointers and integers => `reinterpret_cast`  
 	/// 		- converting between pointers to unrelated types => `reinterpret_cast`  
 	/// 		- converting between function pointers and `void` => `reinterpret_cast` (where available)  
+	/// \cpp
+	/// 
+	/// \ecpp
 	/// 
 	/// \warning There are lots of static checks to make sure you don't do something completely insane,
 	/// 		 but ultimately the fallback behaviour for casting between unrelated types is to use a
 	/// 		 `reinterpret_cast`, and there's nothing stopping you from using multiple `pointer_casts`
 	/// 		 through `void*` to make a conversion 'work'. Footguns aplenty!
-	/// 		 
+	/// 
 	/// 
 	/// \tparam TO	A pointer or integer large enough to store a pointer
 	/// \tparam FROM A pointer, array, nullptr_t, or an integer large enough to store a pointer.
 	/// \param from The value being cast.
 	/// 
-	/// \return The input value casted to the desired type.
+	/// \return The input casted to the desired type.
 	/// 
 	template <typename TO, typename FROM>
 	[[nodiscard]] MUU_ALWAYS_INLINE
@@ -1599,12 +1747,40 @@ namespace muu
 	/// \param	ptr	The pointer to offset.
 	/// \param	offset	The number of bytes to add to the pointer's address.
 	///
-	/// \return	A pointer to T containing the result of `static_cast<char>(ptr) + offset`.
+	/// \return	The equivalent of `(T*)((std::byte*)ptr + offset)`.
+	/// 
+	/// \warning This function is a simple pointer arithmetic helper; absolutely no consideration
+	/// 		 is given to the alignment of the pointed type. If you need to dereference pointers
+	/// 		 returned by apply_offset the onus is on you to ensure that the offset made sense
+	/// 		 before doing so!
 	template <typename T>
 	[[nodiscard]] MUU_ALWAYS_INLINE
 	constexpr T* apply_offset(T* ptr, ptrdiff_t offset) noexcept
 	{
 		return pointer_cast<T*>(pointer_cast<rebase_pointer<T*, std::byte>>(ptr) + offset);
+	}
+
+	/// \brief	Checks if a value is infinity or NaN.
+	///
+	/// \tparam	T	The value type.
+	/// \param 	val	The value to examine.
+	///
+	/// \returns	True if the value is floating-point infinity or NaN.
+	/// 			Always returns false if the value was not a floating-point type.
+	template <typename T>
+	[[nodiscard]] MUU_ALWAYS_INLINE
+	constexpr bool MUU_VECTORCALL is_infinity_or_nan(T val) noexcept
+	{
+		if constexpr (std::is_floating_point_v<T>) //not muu::is_floating_point; TINAE
+		{
+			auto classification = std::fpclassify(val);
+			return classification == FP_INFINITE || classification == FP_NAN;
+		}
+		else
+		{
+			(void)val;
+			return false;
+		}
 	}
 
 	/// @}

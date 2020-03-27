@@ -41,7 +41,8 @@ if build_tests #or build_examples
 				'-g0',
 				'-fmax-errors=5',
 				'-march=native',
-				'-Wno-init-list-lifetime'
+				'-Wno-init-list-lifetime',
+				'-fcompare-debug-second'
 			],
 			language : 'cpp'
 		)

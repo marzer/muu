@@ -3,6 +3,8 @@
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 
+/// \file
+/// \brief  Contains the definition of muu::tagged_ptr.
 #pragma once
 #include "../muu/common.h"
 
@@ -189,7 +191,7 @@ namespace muu
 	/// 
 	/// \see [Tagged pointer (wikipedia)](https://en.wikipedia.org/wiki/Tagged_pointer)
 	template <typename T, size_t min_align = alignment_of<T>>
-	class MUU_TRIVIAL_ABI tagged_ptr final
+	class MUU_TRIVIAL_ABI tagged_ptr
 	{
 		static_assert(
 			!std::is_same_v<T, impl::tptr_nullptr_deduced_tag>,
@@ -449,7 +451,7 @@ namespace muu
 
 			/// \brief	Returns a reference the pointed object.
 			/// 
-			/// \remarks This operator is not available for pointers to void or functions.
+			/// \remarks This operator is not available for pointers to `void` or functions.
 			template <typename U = element_type, typename = std::enable_if_t<
 				!std::is_void_v<U>
 				&& !std::is_function_v<U>
@@ -462,7 +464,7 @@ namespace muu
 
 			/// \brief	Returns the target pointer value.
 			/// 
-			/// \remarks This operator is not available for pointers to void or functions.
+			/// \remarks This operator is not available for pointers to `void` or functions.
 			template <typename U = element_type, typename = std::enable_if_t<
 				!std::is_void_v<U>
 				&& !std::is_function_v<U>
@@ -480,7 +482,7 @@ namespace muu
 			///
 			/// \returns	The return value of the function call.
 			/// 
-			/// \remarks This operator is only available when the pointed value is a function.
+			/// \remarks This operator is only available when the pointed type is a function.
 			template <typename... U, typename V = element_type, typename = std::enable_if_t<std::is_function_v<V>>>
 			constexpr decltype(auto) operator () (U&&... args) const
 				noexcept(std::is_nothrow_invocable_v<V, U&&...>)

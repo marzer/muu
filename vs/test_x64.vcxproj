@@ -59,6 +59,7 @@
     <LocalDebuggerWorkingDirectory>..\tests\</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
   <ItemGroup>
+    <ClCompile Include="..\tests\accumulator.cpp" />
     <ClCompile Include="..\tests\aligned_alloc.cpp" />
     <ClCompile Include="..\tests\float16.cpp" />
     <ClCompile Include="..\tests\main.cpp">
@@ -80,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\tests\meson.build" />
+    <None Include=".runsettings" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

@@ -7,6 +7,11 @@
 #endif
 #include "../include/muu/common.h"
 
+namespace muu
+{
+	std::ostream& operator << (std::ostream& os, const float16& value);
+}
+
 MUU_PUSH_WARNINGS
 MUU_DISABLE_ALL_WARNINGS
 using namespace muu;
