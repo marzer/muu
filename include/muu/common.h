@@ -62,9 +62,22 @@
 #else
 	#define MUU_ARCH_x86 0
 #endif
-#if (MUU_ARCH_IA64 + MUU_ARCH_AMD64 + MUU_ARCH_x86) != 1
-	#error Could not uniquely identify target architecture.
+#if defined(__arm__) || defined(_M_ARM) || defined(__ARM_32BIT_STATE)
+	#define MUU_ARCH_ARM 1
+	#define MUU_ARCH_ARM64_0
+	#define MUU_ARCH_BITNESS 32
+#elif defined(__aarch64__) || defined(__ARM_ARCH_ISA_A64) || defined(_M_ARM64) || defined(__ARM_64BIT_STATE)
+	#define MUU_ARCH_ARM 0
+	#define MUU_ARCH_ARM64 1
+	#define MUU_ARCH_BITNESS 64
 #endif
+#define MUU_ARCH_SUM (MUU_ARCH_IA64 + MUU_ARCH_AMD64 + MUU_ARCH_x86 + MUU_ARCH_ARM + MUU_ARCH_ARM64)
+#if MUU_ARCH_SUM > 1
+	#error Could not uniquely identify target architecture.
+#elif MUU_ARCH_SUM == 0
+	#error Unknown target architecture.
+#endif
+#undef MUU_ARCH_SUM
 
 /// \def MUU_ARCH_IA64
 /// \brief `1` when targeting 64-bit Itanium, `0` otherwise.
