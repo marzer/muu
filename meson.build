@@ -86,6 +86,8 @@ if build_tests #or build_examples
 
 	inc = include_directories('include', 'extern')
 
+	dep_uuid = dependency('uuid')
+
 	if build_tests
 		subdir('tests')
 	else

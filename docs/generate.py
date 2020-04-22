@@ -181,12 +181,14 @@ class HTMLDocument(object):
 
 
 
-def html_find_parent(tag,name,cutoff=None):
+def html_find_parent(tag, names, cutoff=None):
+	if not is_collection(names):
+		names = [ names ]
 	parent = tag.parent
 	while (parent is not None):
 		if (cutoff is not None and parent is cutoff):
 			return None
-		if (parent.name == name):
+		if parent.name in names:
 			return parent;
 		parent = parent.parent 
 	return parent
@@ -467,7 +469,7 @@ class IndexPageFix(object):
 		parent = doc.new_tag('div', class_='gh-badges', after=banner)
 		for (alt, src, href) in self.__badges:
 			anchor = doc.new_tag('a', parent=parent, href=href, target='_blank')
-			doc.new_tag('img', parent=anchor, src=src, alt='caption')
+			doc.new_tag('img', parent=anchor, src=src, alt=alt)
 		return True
 
 
@@ -777,9 +779,9 @@ class ExtDocLinksFix(object):
 	@classmethod
 	def __substitute(cls, m, uri):
 		external = uri.startswith('http')
-		return r'<a href="{}" class="m-doc tpp-injected{}"{}>{}</a>'.format(
+		return r'<a href="{}" class="m-doc muu-injected{}"{}>{}</a>'.format(
 			uri,
-			' tpp-external' if external else '',
+			' muu-external' if external else '',
 			' target="_blank"' if external else '',
 			m.group(0),
 		)

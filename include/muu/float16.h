@@ -619,7 +619,7 @@ namespace muu
 
 	template <>
 	[[nodiscard]] MUU_ALWAYS_INLINE
-	constexpr bool MUU_VECTORCALL is_infinity_or_nan<float16>(float16 val) noexcept
+	constexpr bool MUU_VECTORCALL is_infinity_or_nan<float16, void>(float16 val) noexcept
 	{
 		return val.is_infinity_or_nan();
 	}

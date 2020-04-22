@@ -1,234 +1,66 @@
 #include "tests.h"
 
-// variadic size traits
-static_assert(std::is_same_v<largest<char, char[2], char[4], char[128]>, char[128]>);
-static_assert(std::is_same_v<largest<char, char[2], char[4]>, char[4]>);
-static_assert(std::is_same_v<largest<char, char[2]>, char[2]>);
-static_assert(std::is_same_v<largest<char>, char>);
-static_assert(std::is_same_v<smallest<char, char[2], char[4], char[128]>, char>);
-static_assert(std::is_same_v<smallest<char[2], char[4], char[128]>, char[2]>);
-static_assert(std::is_same_v<smallest<char[4], char[128]>, char[4]>);
-static_assert(std::is_same_v<smallest<char[128]>, char[128]>);
+TEST_CASE("unwrap")
+{
+	enum class scoped_enum : uint32_t
+	{
+		zero, one, two
+	};
+	const auto se_val = scoped_enum{};
+	static_assert(std::is_same_v<uint32_t, decltype(unwrap(se_val))>);
+	static_assert(std::is_same_v<uint32_t, decltype(unwrap(std::declval<scoped_enum&>()))>);
+	static_assert(std::is_same_v<uint32_t, decltype(unwrap(std::declval<const scoped_enum&>()))>);
+	static_assert(std::is_same_v<uint32_t, decltype(unwrap(std::declval<volatile scoped_enum&>()))>);
+	static_assert(std::is_same_v<uint32_t, decltype(unwrap(std::declval<const volatile scoped_enum&>()))>);
+	static_assert(std::is_same_v<uint32_t, decltype(unwrap(std::declval<scoped_enum&&>()))>);
+	static_assert(std::is_same_v<uint32_t, decltype(unwrap(std::declval<const scoped_enum&&>()))>);
+	static_assert(std::is_same_v<uint32_t, decltype(unwrap(std::declval<volatile scoped_enum&&>()))>);
+	static_assert(std::is_same_v<uint32_t, decltype(unwrap(std::declval<const volatile scoped_enum&&>()))>);
 
-// variadic alignment traits
-template <size_t align> struct aligned { alignas(align) char kek; };
-static_assert(std::is_same_v<most_aligned<aligned<1>, aligned<2>, aligned<4>, aligned<128>>, aligned<128>>);
-static_assert(std::is_same_v<most_aligned<aligned<1>, aligned<2>, aligned<4>>, aligned<4>>);
-static_assert(std::is_same_v<most_aligned<aligned<1>, aligned<2>>, aligned<2>>);
-static_assert(std::is_same_v<most_aligned<aligned<1>>, aligned<1>>);
-static_assert(std::is_same_v<least_aligned<aligned<1>, aligned<2>, aligned<4>, aligned<128>>, aligned<1>>);
-static_assert(std::is_same_v<least_aligned<aligned<2>, aligned<4>, aligned<128>>, aligned<2>>);
-static_assert(std::is_same_v<least_aligned<aligned<4>, aligned<128>>, aligned<4>>);
-static_assert(std::is_same_v<least_aligned<aligned<128>>, aligned<128>>);
+	static_assert(unwrap(scoped_enum::zero) == 0u);
+	static_assert(unwrap(scoped_enum::one) == 1u);
+	static_assert(unwrap(scoped_enum::two) == 2u);
 
-// is_const - should return true when const or reference-to-const
-static_assert(!is_const<int>);
-static_assert(!is_const<int&>);
-static_assert(!is_const<int&&>);
-static_assert(is_const<const int>);
-static_assert(is_const<const int&>);
-static_assert(is_const<const int&&>);
-static_assert(!is_const<volatile int>);
-static_assert(!is_const<volatile int&>);
-static_assert(!is_const<volatile int&&>);
-static_assert(is_const<const volatile int>);
-static_assert(is_const<const volatile int&>);
-static_assert(is_const<const volatile int&&>);
+	CHECK(unwrap(scoped_enum::zero) == 0u);
+	CHECK(unwrap(scoped_enum::one) == 1u);
+	CHECK(unwrap(scoped_enum::two) == 2u);
 
-// remove_const - should remove const from types or references
-static_assert(std::is_same_v<remove_const<int>, int>);
-static_assert(std::is_same_v<remove_const<int&>, int&>);
-static_assert(std::is_same_v<remove_const<const int>, int>);
-static_assert(std::is_same_v<remove_const<const int&>, int&>);
-static_assert(std::is_same_v<remove_const<volatile int>, volatile int>);
-static_assert(std::is_same_v<remove_const<volatile int&>, volatile int&>);
-static_assert(std::is_same_v<remove_const<const volatile int>, volatile int>);
-static_assert(std::is_same_v<remove_const<const volatile int&>, volatile int&>);
+	enum unscoped_enum : uint32_t
+	{
+		ue_zero, ue_one, ue_two
+	};
+	const auto ue_val = unscoped_enum{};
+	static_assert(std::is_same_v<uint32_t, decltype(unwrap(ue_val))>);
+	static_assert(std::is_same_v<uint32_t, decltype(unwrap(std::declval<unscoped_enum&>()))>);
+	static_assert(std::is_same_v<uint32_t, decltype(unwrap(std::declval<const unscoped_enum&>()))>);
+	static_assert(std::is_same_v<uint32_t, decltype(unwrap(std::declval<volatile unscoped_enum&>()))>);
+	static_assert(std::is_same_v<uint32_t, decltype(unwrap(std::declval<const volatile unscoped_enum&>()))>);
+	static_assert(std::is_same_v<uint32_t, decltype(unwrap(std::declval<unscoped_enum&&>()))>);
+	static_assert(std::is_same_v<uint32_t, decltype(unwrap(std::declval<const unscoped_enum&&>()))>);
+	static_assert(std::is_same_v<uint32_t, decltype(unwrap(std::declval<volatile unscoped_enum&&>()))>);
+	static_assert(std::is_same_v<uint32_t, decltype(unwrap(std::declval<const volatile unscoped_enum&&>()))>);
 
-// conditionally_add_const - should add const from types or references per condition
-static_assert(std::is_same_v<conditionally_add_const<int, true>, const int>);
-static_assert(std::is_same_v<conditionally_add_const<int, false>, int>);
-static_assert(std::is_same_v<conditionally_add_const<const int, true>, const int>);
-static_assert(std::is_same_v<conditionally_add_const<const int, false>, const int>);
-static_assert(std::is_same_v<conditionally_add_const<volatile int, true>, const volatile int>);
-static_assert(std::is_same_v<conditionally_add_const<volatile int, false>, volatile int>);
-static_assert(std::is_same_v<conditionally_add_const<const volatile int, true>, const volatile int>);
-static_assert(std::is_same_v<conditionally_add_const<const volatile int, false>, const volatile int>);
-static_assert(std::is_same_v<conditionally_add_const<int&, true>, const int&>);
-static_assert(std::is_same_v<conditionally_add_const<int&, false>, int&>);
-static_assert(std::is_same_v<conditionally_add_const<const int&, true>, const int&>);
-static_assert(std::is_same_v<conditionally_add_const<const int&, false>, const int&>);
-static_assert(std::is_same_v<conditionally_add_const<volatile int&, true>, const volatile int&>);
-static_assert(std::is_same_v<conditionally_add_const<volatile int&, false>, volatile int&>);
-static_assert(std::is_same_v<conditionally_add_const<const volatile int&, true>, const volatile int&>);
-static_assert(std::is_same_v<conditionally_add_const<const volatile int&, false>, const volatile int&>);
+	static_assert(unwrap(unscoped_enum::ue_zero) == 0u);
+	static_assert(unwrap(unscoped_enum::ue_one) == 1u);
+	static_assert(unwrap(unscoped_enum::ue_two) == 2u);
 
-// match_const - should set constness of types and references by matching that of another type
-static_assert(std::is_same_v<match_const<int, float>, int>);
-static_assert(std::is_same_v<match_const<int, const float>, const int>);
-static_assert(std::is_same_v<match_const<int, volatile float>, int>);
-static_assert(std::is_same_v<match_const<int, const volatile float>, const int>);
-static_assert(std::is_same_v<match_const<const int, float>, int>);
-static_assert(std::is_same_v<match_const<const int, const float>, const int>);
-static_assert(std::is_same_v<match_const<const int, volatile float>, int>);
-static_assert(std::is_same_v<match_const<const int, const volatile float>, const int>);
-static_assert(std::is_same_v<match_const<const volatile int, float>, volatile int>);
-static_assert(std::is_same_v<match_const<const volatile int, const float>, const volatile int>);
-static_assert(std::is_same_v<match_const<const volatile int, volatile float>, volatile int>);
-static_assert(std::is_same_v<match_const<const volatile int, const volatile float>, const volatile int>);
-static_assert(std::is_same_v<match_const<int&, float>, int&>);
-static_assert(std::is_same_v<match_const<int&, const float>, const int&>);
-static_assert(std::is_same_v<match_const<int&, volatile float>, int&>);
-static_assert(std::is_same_v<match_const<int&, const volatile float>, const int&>);
-static_assert(std::is_same_v<match_const<const int&, float>, int&>);
-static_assert(std::is_same_v<match_const<const int&, const float>, const int&>);
-static_assert(std::is_same_v<match_const<const int&, volatile float>, int&>);
-static_assert(std::is_same_v<match_const<const int&, const volatile float>, const int&>);
-static_assert(std::is_same_v<match_const<const volatile int&, float>, volatile int&>);
-static_assert(std::is_same_v<match_const<const volatile int&, const float>, const volatile int&>);
-static_assert(std::is_same_v<match_const<const volatile int&, volatile float>, volatile int&>);
-static_assert(std::is_same_v<match_const<const volatile int&, const volatile float>, const volatile int&>);
-static_assert(std::is_same_v<match_const<int, float&>, int>);
-static_assert(std::is_same_v<match_const<int, const float&>, const int>);
-static_assert(std::is_same_v<match_const<int, volatile float&>, int>);
-static_assert(std::is_same_v<match_const<int, const volatile float&>, const int>);
-static_assert(std::is_same_v<match_const<const int, float&>, int>);
-static_assert(std::is_same_v<match_const<const int, const float&>, const int>);
-static_assert(std::is_same_v<match_const<const int, volatile float&>, int>);
-static_assert(std::is_same_v<match_const<const int, const volatile float&>, const int>);
-static_assert(std::is_same_v<match_const<const volatile int, float&>, volatile int>);
-static_assert(std::is_same_v<match_const<const volatile int, const float&>, const volatile int>);
-static_assert(std::is_same_v<match_const<const volatile int, volatile float&>, volatile int>);
-static_assert(std::is_same_v<match_const<const volatile int, const volatile float&>, const volatile int>);
+	CHECK(unwrap(unscoped_enum::ue_zero) == 0u);
+	CHECK(unwrap(unscoped_enum::ue_one) == 1u);
+	CHECK(unwrap(unscoped_enum::ue_two) == 2u);
 
-// is_const - should return true when volatile or reference-to-volatile
-static_assert(!is_volatile<int>);
-static_assert(!is_volatile<int&>);
-static_assert(!is_volatile<int&&>);
-static_assert(!is_volatile<const int>);
-static_assert(!is_volatile<const int&>);
-static_assert(!is_volatile<const int&&>);
-static_assert(is_volatile<volatile int>);
-static_assert(is_volatile<volatile int&>);
-static_assert(is_volatile<volatile int&&>);
-static_assert(is_volatile<const volatile int>);
-static_assert(is_volatile<const volatile int&>);
-static_assert(is_volatile<const volatile int&&>);
+	struct not_an_enum {};
+	const auto ne_val = not_an_enum{};
+	static_assert(std::is_same_v<const not_an_enum&, decltype(unwrap(ne_val))>);
+	static_assert(std::is_same_v<not_an_enum&, decltype(unwrap(std::declval<not_an_enum&>()))>);
+	static_assert(std::is_same_v<const not_an_enum&, decltype(unwrap(std::declval<const not_an_enum&>()))>);
+	static_assert(std::is_same_v<volatile not_an_enum&, decltype(unwrap(std::declval<volatile not_an_enum&>()))>);
+	static_assert(std::is_same_v<const volatile not_an_enum&, decltype(unwrap(std::declval<const volatile not_an_enum&>()))>);
+	static_assert(std::is_same_v<not_an_enum&&, decltype(unwrap(std::declval<not_an_enum&&>()))>);
+	static_assert(std::is_same_v<const not_an_enum&&, decltype(unwrap(std::declval<const not_an_enum&&>()))>);
+	static_assert(std::is_same_v<volatile not_an_enum&&, decltype(unwrap(std::declval<volatile not_an_enum&&>()))>);
+	static_assert(std::is_same_v<const volatile not_an_enum&&, decltype(unwrap(std::declval<const volatile not_an_enum&&>()))>);
 
-// remove_volatile - should remove volatility from types or references
-static_assert(std::is_same_v<remove_volatile<int>, int>);
-static_assert(std::is_same_v<remove_volatile<int&>, int&>);
-static_assert(std::is_same_v<remove_volatile<const int>, const int>);
-static_assert(std::is_same_v<remove_volatile<const int&>, const int&>);
-static_assert(std::is_same_v<remove_volatile<volatile int>, int>);
-static_assert(std::is_same_v<remove_volatile<volatile int&>, int&>);
-static_assert(std::is_same_v<remove_volatile<const volatile int>, const int>);
-static_assert(std::is_same_v<remove_volatile<const volatile int&>, const int&>);
-
-// conditionally_add_volatile - should add volatile from types or references per condition
-static_assert(std::is_same_v<conditionally_add_volatile<int, true>, volatile int>);
-static_assert(std::is_same_v<conditionally_add_volatile<int, false>, int>);
-static_assert(std::is_same_v<conditionally_add_volatile<const int, true>, const volatile int>);
-static_assert(std::is_same_v<conditionally_add_volatile<const int, false>, const int>);
-static_assert(std::is_same_v<conditionally_add_volatile<volatile int, true>, volatile int>);
-static_assert(std::is_same_v<conditionally_add_volatile<volatile int, false>, volatile int>);
-static_assert(std::is_same_v<conditionally_add_volatile<const volatile int, true>, const volatile int>);
-static_assert(std::is_same_v<conditionally_add_volatile<const volatile int, false>, const volatile int>);
-static_assert(std::is_same_v<conditionally_add_volatile<int&, true>, volatile int&>);
-static_assert(std::is_same_v<conditionally_add_volatile<int&, false>, int&>);
-static_assert(std::is_same_v<conditionally_add_volatile<const int&, true>, const volatile int&>);
-static_assert(std::is_same_v<conditionally_add_volatile<const int&, false>, const int&>);
-static_assert(std::is_same_v<conditionally_add_volatile<volatile int&, true>, volatile int&>);
-static_assert(std::is_same_v<conditionally_add_volatile<volatile int&, false>, volatile int&>);
-static_assert(std::is_same_v<conditionally_add_volatile<const volatile int&, true>, const volatile int&>);
-static_assert(std::is_same_v<conditionally_add_volatile<const volatile int&, false>, const volatile int&>);
-
-// match_volatile - should set volatility of types and references by matching that of another type
-static_assert(std::is_same_v<match_volatile<int, float>, int>);
-static_assert(std::is_same_v<match_volatile<int, const float>, int>);
-static_assert(std::is_same_v<match_volatile<int, volatile float>, volatile int>);
-static_assert(std::is_same_v<match_volatile<int, const volatile float>, volatile int>);
-static_assert(std::is_same_v<match_volatile<const int, float>, const int>);
-static_assert(std::is_same_v<match_volatile<const int, const float>, const int>);
-static_assert(std::is_same_v<match_volatile<const int, volatile float>, const volatile int>);
-static_assert(std::is_same_v<match_volatile<const int, const volatile float>, const volatile int>);
-static_assert(std::is_same_v<match_volatile<const volatile int, float>, const int>);
-static_assert(std::is_same_v<match_volatile<const volatile int, const float>, const int>);
-static_assert(std::is_same_v<match_volatile<const volatile int, volatile float>, const volatile int>);
-static_assert(std::is_same_v<match_volatile<const volatile int, const volatile float>, const volatile int>);
-static_assert(std::is_same_v<match_volatile<int&, float>, int&>);
-static_assert(std::is_same_v<match_volatile<int&, const float>, int&>);
-static_assert(std::is_same_v<match_volatile<int&, volatile float>, volatile int&>);
-static_assert(std::is_same_v<match_volatile<int&, const volatile float>, volatile int&>);
-static_assert(std::is_same_v<match_volatile<const int&, float>, const int&>);
-static_assert(std::is_same_v<match_volatile<const int&, const float>, const int&>);
-static_assert(std::is_same_v<match_volatile<const int&, volatile float>, const volatile int&>);
-static_assert(std::is_same_v<match_volatile<const int&, const volatile float>, const volatile int&>);
-static_assert(std::is_same_v<match_volatile<const volatile int&, float>, const int&>);
-static_assert(std::is_same_v<match_volatile<const volatile int&, const float>, const int&>);
-static_assert(std::is_same_v<match_volatile<const volatile int&, volatile float>, const volatile int&>);
-static_assert(std::is_same_v<match_volatile<const volatile int&, const volatile float>, const volatile int&>);
-static_assert(std::is_same_v<match_volatile<int, float&>, int>);
-static_assert(std::is_same_v<match_volatile<int, const float&>, int>);
-static_assert(std::is_same_v<match_volatile<int, volatile float&>, volatile int>);
-static_assert(std::is_same_v<match_volatile<int, const volatile float&>, volatile int>);
-static_assert(std::is_same_v<match_volatile<const int, float&>, const int>);
-static_assert(std::is_same_v<match_volatile<const int, const float&>, const int>);
-static_assert(std::is_same_v<match_volatile<const int, volatile float&>, const volatile int>);
-static_assert(std::is_same_v<match_volatile<const int, const volatile float&>, const volatile int>);
-static_assert(std::is_same_v<match_volatile<const volatile int, float&>, const int>);
-static_assert(std::is_same_v<match_volatile<const volatile int, const float&>, const int>);
-static_assert(std::is_same_v<match_volatile<const volatile int, volatile float&>, const volatile int>);
-static_assert(std::is_same_v<match_volatile<const volatile int, const volatile float&>, const volatile int>);
-
-// remove_volatile - should remove constness and volatility from types or references
-static_assert(std::is_same_v<remove_cv<int>, int>);
-static_assert(std::is_same_v<remove_cv<int&>, int&>);
-static_assert(std::is_same_v<remove_cv<const int>, int>);
-static_assert(std::is_same_v<remove_cv<const int&>, int&>);
-static_assert(std::is_same_v<remove_cv<volatile int>, int>);
-static_assert(std::is_same_v<remove_cv<volatile int&>, int&>);
-static_assert(std::is_same_v<remove_cv<const volatile int>, int>);
-static_assert(std::is_same_v<remove_cv<const volatile int&>, int&>);
-
-// match_cv - should set constness and volatility of types and references by matching that of another type
-static_assert(std::is_same_v<match_cv<int, float>, int>);
-static_assert(std::is_same_v<match_cv<int, const float>, const int>);
-static_assert(std::is_same_v<match_cv<int, volatile float>, volatile int>);
-static_assert(std::is_same_v<match_cv<int, const volatile float>, const volatile int>);
-static_assert(std::is_same_v<match_cv<const int, float>, int>);
-static_assert(std::is_same_v<match_cv<const int, const float>, const int>);
-static_assert(std::is_same_v<match_cv<const int, volatile float>, volatile int>);
-static_assert(std::is_same_v<match_cv<const int, const volatile float>, const volatile int>);
-static_assert(std::is_same_v<match_cv<const volatile int, float>, int>);
-static_assert(std::is_same_v<match_cv<const volatile int, const float>, const int>);
-static_assert(std::is_same_v<match_cv<const volatile int, volatile float>, volatile int>);
-static_assert(std::is_same_v<match_cv<const volatile int, const volatile float>, const volatile int>);
-static_assert(std::is_same_v<match_cv<int&, float>, int&>);
-static_assert(std::is_same_v<match_cv<int&, const float>, const int&>);
-static_assert(std::is_same_v<match_cv<int&, volatile float>, volatile int&>);
-static_assert(std::is_same_v<match_cv<int&, const volatile float>, const volatile int&>);
-static_assert(std::is_same_v<match_cv<const int&, float>, int&>);
-static_assert(std::is_same_v<match_cv<const int&, const float>, const int&>);
-static_assert(std::is_same_v<match_cv<const int&, volatile float>, volatile int&>);
-static_assert(std::is_same_v<match_cv<const int&, const volatile float>, const volatile int&>);
-static_assert(std::is_same_v<match_cv<const volatile int&, float>, int&>);
-static_assert(std::is_same_v<match_cv<const volatile int&, const float>, const int&>);
-static_assert(std::is_same_v<match_cv<const volatile int&, volatile float>, volatile int&>);
-static_assert(std::is_same_v<match_cv<const volatile int&, const volatile float>, const volatile int&>);
-static_assert(std::is_same_v<match_cv<int, float&>, int>);
-static_assert(std::is_same_v<match_cv<int, const float&>, const int>);
-static_assert(std::is_same_v<match_cv<int, volatile float&>, volatile int>);
-static_assert(std::is_same_v<match_cv<int, const volatile float&>, const volatile int>);
-static_assert(std::is_same_v<match_cv<const int, float&>, int>);
-static_assert(std::is_same_v<match_cv<const int, const float&>, const int>);
-static_assert(std::is_same_v<match_cv<const int, volatile float&>, volatile int>);
-static_assert(std::is_same_v<match_cv<const int, const volatile float&>, const volatile int>);
-static_assert(std::is_same_v<match_cv<const volatile int, float&>, int>);
-static_assert(std::is_same_v<match_cv<const volatile int, const float&>, const int>);
-static_assert(std::is_same_v<match_cv<const volatile int, volatile float&>, volatile int>);
-static_assert(std::is_same_v<match_cv<const volatile int, const volatile float&>, const volatile int>);
-
+}
 
 TEST_CASE("has_single_bit")
 {
@@ -1346,6 +1178,47 @@ TEST_CASE("bit_fill_left")
 	CHECK(bit_fill_left<uint32_t>(31) == 0b11111111111111111111111111111110_u32);
 	CHECK(bit_fill_left<uint32_t>(32) == 0b11111111111111111111111111111111_u32);
 	CHECK(bit_fill_left<uint32_t>(99) == 0b11111111111111111111111111111111_u32);
+}
+
+TEST_CASE("select_byte")
+{
+	static_assert(select_byte<7>(0xAABBCCDDABCDEF01_u64) == 0xAA_u8);
+	static_assert(select_byte<6>(0xAABBCCDDABCDEF01_u64) == 0xBB_u8);
+	static_assert(select_byte<5>(0xAABBCCDDABCDEF01_u64) == 0xCC_u8);
+	static_assert(select_byte<4>(0xAABBCCDDABCDEF01_u64) == 0xDD_u8);
+	static_assert(select_byte<3>(0xAABBCCDDABCDEF01_u64) == 0xAB_u8);
+	static_assert(select_byte<2>(0xAABBCCDDABCDEF01_u64) == 0xCD_u8);
+	static_assert(select_byte<1>(0xAABBCCDDABCDEF01_u64) == 0xEF_u8);
+	static_assert(select_byte<0>(0xAABBCCDDABCDEF01_u64) == 0x01_u8);
+
+	CHECK(select_byte<7>(0xAABBCCDDABCDEF01_u64) == 0xAA_u8);
+	CHECK(select_byte<6>(0xAABBCCDDABCDEF01_u64) == 0xBB_u8);
+	CHECK(select_byte<5>(0xAABBCCDDABCDEF01_u64) == 0xCC_u8);
+	CHECK(select_byte<4>(0xAABBCCDDABCDEF01_u64) == 0xDD_u8);
+	CHECK(select_byte<3>(0xAABBCCDDABCDEF01_u64) == 0xAB_u8);
+	CHECK(select_byte<2>(0xAABBCCDDABCDEF01_u64) == 0xCD_u8);
+	CHECK(select_byte<1>(0xAABBCCDDABCDEF01_u64) == 0xEF_u8);
+	CHECK(select_byte<0>(0xAABBCCDDABCDEF01_u64) == 0x01_u8);
+
+	static_assert(select_byte<3>(0xABCDEF01_u32) == 0xAB_u8);
+	static_assert(select_byte<2>(0xABCDEF01_u32) == 0xCD_u8);
+	static_assert(select_byte<1>(0xABCDEF01_u32) == 0xEF_u8);
+	static_assert(select_byte<0>(0xABCDEF01_u32) == 0x01_u8);
+
+	CHECK(select_byte<3>(0xABCDEF01_u32) == 0xAB_u8);
+	CHECK(select_byte<2>(0xABCDEF01_u32) == 0xCD_u8);
+	CHECK(select_byte<1>(0xABCDEF01_u32) == 0xEF_u8);
+	CHECK(select_byte<0>(0xABCDEF01_u32) == 0x01_u8);
+
+	static_assert(select_byte<1>(0xEF01_u16) == 0xEF_u8);
+	static_assert(select_byte<0>(0xEF01_u16) == 0x01_u8);
+
+	CHECK(select_byte<1>(0xEF01_u16) == 0xEF_u8);
+	CHECK(select_byte<0>(0xEF01_u16) == 0x01_u8);
+
+	static_assert(select_byte<0>(0x01_u8) == 0x01_u8);
+
+	CHECK(select_byte<0>(0x01_u8) == 0x01_u8);
 }
 
 TEST_CASE("clamp")

@@ -43,18 +43,14 @@ namespace muu
 	/// 
 	/// \ecpp
 	/// 
-	/// \tparam	T	A function, lambda or other callable with the signature `void() noexcept`.
+	/// \tparam	T	A `noexcept` function, lambda or other callable not requiring
+	/// 			any arguments (e.g. `void() noexcept`)`.
 	template <typename T>
 	class scope_guard
 	{
 		static_assert(
 			std::is_invocable_v<T>,
 			"Types wrapped by a scope guard must be callable (functions, lambdas, etc.)"
-		);
-		static_assert(
-			std::is_same_v<decltype(std::declval<T>()()), void>,
-			"Callables wrapped by a scope guard must return void"
-			" (there would be no way to recover the returned value)"
 		);
 		static_assert(
 			!build::has_exceptions || std::is_nothrow_invocable_v<T>,

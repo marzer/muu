@@ -8,11 +8,13 @@ test_sources = [
 	'float16.cpp',
 	'scope_guard.cpp',
 	'accumulator.cpp',
+	'uuid.cpp',
 ]
 
 tests = executable(
 	'tests',
 	test_sources,
-	include_directories : inc
+	include_directories : inc,
+	dependencies: dep_uuid
 )
 test('tests', tests)

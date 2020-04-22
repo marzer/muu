@@ -22,26 +22,26 @@ namespace muu
 	/// 		types the default implementation uses Kahan summation to reduce numerical error.
 	///
 	/// \tparam	T		Type being accumulated.
-	/// \tparam	IMPL	Implementation type.
+	/// \tparam	Impl	Implementation type.
 	///
 	/// \see [Kahan summation algorithm (wikipedia)](https://en.wikipedia.org/wiki/Kahan_summation_algorithm)
-	template <typename T, typename IMPL = impl::accumulator<T>>
-	class accumulator final
+	template <typename T, typename Impl = impl::accumulator<T>>
+	class accumulator
 	{
 		static_assert(
 			!is_cvref<T>,
 			"Accumulated type cannot be const, volatile, or a reference"
 		);
 		static_assert(
-			!is_cvref<IMPL>,
+			!is_cvref<Impl>,
 			"Implementation type cannot be const, volatile, or a reference"
 		);
 		static_assert(
-			std::is_default_constructible_v<IMPL>,
+			std::is_default_constructible_v<Impl>,
 			"Implementation type must be default-constructible"
 		);
 		static_assert(
-			!build::has_exceptions || std::is_trivially_destructible_v<IMPL> || std::is_nothrow_destructible_v<IMPL>,
+			!build::has_exceptions || std::is_trivially_destructible_v<Impl> || std::is_nothrow_destructible_v<Impl>,
 			"Implementation type must be nothrow-destructible"
 		);
 
@@ -52,7 +52,7 @@ namespace muu
 
 		private:
 			size_t count{};
-			MUU_NO_UNIQUE_ADDRESS IMPL impl{};
+			MUU_NO_UNIQUE_ADDRESS Impl impl{};
 
 		public:
 
@@ -74,15 +74,27 @@ namespace muu
 				return *this;
 			}
 
+			/// \brief	Adds a new sample to the accumulator.
+			///
+			/// \param	sample	The sample to add.
+			///
+			/// \return	A reference to the accumulator.
+			MUU_ALWAYS_INLINE
+			constexpr accumulator& MUU_VECTORCALL operator() (value_type MUU_VECTORCALL_ARG sample)
+				noexcept(noexcept(std::declval<accumulator>().add(sample)))
+			{
+				return add(sample);
+			}
+
 			/// \brief	Adds a range of values to the accumulator.
 			///
-			/// \tparam	IT		Iterator type.
+			/// \tparam	Iter		Iterator type.
 			/// \param	begin	The beginning iterator.
 			/// \param	end  	The end iterator.
 			///
 			/// \return	A reference to the accumulator.
-			template <typename IT>
-			constexpr accumulator& add(IT begin, IT end)
+			template <typename Iter>
+			constexpr accumulator& add(Iter begin, Iter end)
 				noexcept(noexcept(std::declval<accumulator>().add(value_type{})))
 			{
 				while (begin != end)
@@ -93,25 +105,25 @@ namespace muu
 			/// \brief	Constructs an empty accumulator.
 			MUU_NODISCARD_CTOR
 			constexpr accumulator()
-				noexcept(std::is_nothrow_default_constructible_v<IMPL>)
+				noexcept(std::is_nothrow_default_constructible_v<Impl>)
 			{}
 
 			/// \brief	Constructs an accumulator with one sample.
 			MUU_NODISCARD_CTOR
 			constexpr accumulator(const value_type& sample)
-				noexcept(std::is_nothrow_default_constructible_v<IMPL> && noexcept(impl.add(sample)))
+				noexcept(std::is_nothrow_default_constructible_v<Impl> && noexcept(impl.add(sample)))
 			{
 				add(sample);
 			}
 
 			/// \brief	Constructs an accumulator with an initial range of samples.
 			///
-			/// \tparam	IT		Iterator type.
+			/// \tparam	Iter		Iterator type.
 			/// \param	begin	The beginning iterator.
 			/// \param	end  	The end iterator.
-			template <typename IT>
+			template <typename Iter>
 			MUU_NODISCARD_CTOR
-			constexpr accumulator(IT begin, IT end)
+			constexpr accumulator(Iter begin, Iter end)
 				noexcept(noexcept(std::declval<accumulator>().add(begin, end)))
 			{
 				add(begin, end);

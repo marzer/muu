@@ -8,16 +8,18 @@
 #pragma once
 #include "../muu/common.h"
 
+MUU_PRAGMA_MSVC(inline_recursion(on))
+
 namespace muu::impl
 {
 	inline constexpr size_t tptr_addr_highest_used_bit = MUU_ARCH_AMD64 ? 47 : build::pointer_bits - 1;
 	inline constexpr size_t tptr_addr_used_bits = tptr_addr_highest_used_bit + 1;
 	inline constexpr size_t tptr_addr_free_bits = build::pointer_bits - tptr_addr_used_bits;
 
-	template <size_t min_align>
+	template <size_t MinAlign>
 	struct tptr final
 	{
-		static constexpr size_t tag_bits = (muu::max(bit_width(min_align), 1_sz) - 1_sz) + impl::tptr_addr_free_bits;
+		static constexpr size_t tag_bits = (muu::max(bit_width(MinAlign), 1_sz) - 1_sz) + impl::tptr_addr_free_bits;
 		static constexpr uintptr_t tag_mask = bit_fill_right<uintptr_t>(tag_bits);
 		static constexpr uintptr_t ptr_mask = ~tag_mask;
 
@@ -34,8 +36,8 @@ namespace muu::impl
 		static constexpr uintptr_t pack_ptr(const volatile void* ptr) noexcept
 		{
 			MUU_ASSERT(
-				(!ptr || bit_floor(pointer_cast<uintptr_t>(ptr)) >= min_align)
-				&& "The pointer's address is more strictly aligned than min_align"
+				(!ptr || bit_floor(pointer_cast<uintptr_t>(ptr)) >= MinAlign)
+				&& "The pointer's address is more strictly aligned than MinAlign"
 			);
 
 			if constexpr (tptr_addr_free_bits > 0)
@@ -53,27 +55,32 @@ namespace muu::impl
 				"The tag type must be trivially copyable"
 			);
 
-			MUU_ASSERT(
-				(!ptr || bit_floor(pointer_cast<uintptr_t>(ptr)) >= min_align)
-				&& "The pointer's address is more strictly aligned than min_align"
-			);
+			if constexpr (is_enum<T>)
+				return pack_both(ptr, unwrap(tag));
+			else
+			{
+				MUU_ASSERT(
+				(!ptr || bit_floor(pointer_cast<uintptr_t>(ptr)) >= MinAlign)
+					&& "The pointer's address is more strictly aligned than MinAlign"
+					);
 
-			if constexpr (is_unsigned<T>)
-			{
-				if constexpr ((sizeof(T) * build::bits_per_byte) > tag_bits)
-					return pack_ptr(ptr) | (static_cast<uintptr_t>(unbox(tag)) & tag_mask);
-				else
-					return pack_ptr(ptr) | static_cast<uintptr_t>(unbox(tag));
-			}
-			else //some pod type
-			{
-				static_assert(
-					(sizeof(T) * build::bits_per_byte) <= tag_bits,
-					"The tag type must fit in the available tag bits"
-				);
-				auto bits = pack_ptr(ptr);
-				memcpy(&bits, &tag, sizeof(T));
-				return bits;
+				if constexpr (is_unsigned<T>)
+				{
+					if constexpr ((sizeof(T) * build::bits_per_byte) > tag_bits)
+						return pack_ptr(ptr) | (static_cast<uintptr_t>(tag) & tag_mask);
+					else
+						return pack_ptr(ptr) | static_cast<uintptr_t>(tag);
+				}
+				else //some pod type
+				{
+					static_assert(
+						(sizeof(T) * build::bits_per_byte) <= tag_bits,
+						"The tag type must fit in the available tag bits"
+						);
+					auto bits = pack_ptr(ptr);
+					memcpy(&bits, &tag, sizeof(T));
+					return bits;
+				}
 			}
 		}
 
@@ -87,7 +94,9 @@ namespace muu::impl
 		[[nodiscard]] MUU_ALWAYS_INLINE
 		static constexpr uintptr_t set_tag(uintptr_t bits, T tag) noexcept
 		{
-			if constexpr ((sizeof(T) * build::bits_per_byte) > tag_bits)
+			if constexpr (is_enum<T>)
+				return set_tag(bits, unwrap(tag));
+			else if constexpr ((sizeof(T) * build::bits_per_byte) > tag_bits)
 				return (bits & ptr_mask) | (static_cast<uintptr_t>(tag) & tag_mask);
 			else
 				return (bits & ptr_mask) | static_cast<uintptr_t>(tag);
@@ -167,7 +176,8 @@ namespace muu::impl
 					constexpr uintptr_t canon_test = uintptr_t{ 1u } << tptr_addr_highest_used_bit;
 					if (bits & canon_test)
 					{
-						constexpr uintptr_t canon_mask = bit_fill_right<uintptr_t>(tptr_addr_free_bits) << tptr_addr_used_bits;
+						constexpr uintptr_t canon_mask
+							= bit_fill_right<uintptr_t>(tptr_addr_free_bits) << tptr_addr_used_bits;
 						bits |= canon_mask;
 					}
 				}
@@ -185,12 +195,12 @@ namespace muu
 	/// \brief	Specialized pointer capable of storing data in the unused bits of a pointer's value.
 	///
 	/// \tparam	T			The type being pointed to.
-	/// \tparam	min_align	Minimum alignment of values stored in the tagged_ptr.
+	/// \tparam	MinAlign	Minimum alignment of values stored in the tagged_ptr.
 	/// 					Default is alignof(T), but you may override it if you know
 	/// 					you will only be storing values with larger alignments.
 	/// 
 	/// \see [Tagged pointer (wikipedia)](https://en.wikipedia.org/wiki/Tagged_pointer)
-	template <typename T, size_t min_align = alignment_of<T>>
+	template <typename T, size_t MinAlign = alignment_of<T>>
 	class MUU_TRIVIAL_ABI tagged_ptr
 	{
 		static_assert(
@@ -203,23 +213,23 @@ namespace muu
 			"Tagged pointers cannot store references"
 		);
 		static_assert(
-			min_align > 0 && has_single_bit(min_align),
+			MinAlign > 0 && has_single_bit(MinAlign),
 			"Minimum alignment must be a power of two"
 		);
 		static_assert(
 			std::is_function_v<T> //the default is not strictly the minimum for function pointers
-			|| min_align >= alignment_of<T>,
+			|| MinAlign >= alignment_of<T>,
 			"Minimum alignment cannot be smaller than the type's actual minimum alignment"
 		);
 		static_assert(
-			min_align > 1 || impl::tptr_addr_free_bits > 0,
+			MinAlign > 1 || impl::tptr_addr_free_bits > 0,
 			"Types aligned on a single byte cannot be pointed to by a tagged pointer on this platform"
 		);
 
 		private:
 			uintptr_t bits = {};
 
-			using tptr = impl::tptr<min_align>;
+			using tptr = impl::tptr<MinAlign>;
 
 		public:
 
@@ -233,7 +243,7 @@ namespace muu
 			using tag_type = typename tptr::tag_type;
 
 			/// \brief The minimum alignment of values stored in this pointer.
-			static constexpr size_t minimum_alignment = min_align;
+			static constexpr size_t minimum_alignment = MinAlign;
 			/// \brief	The number of tag bits available.
 			static constexpr size_t tag_bit_count = tptr::tag_bits;
 			/// \brief	The largest integral value that can be stored in the available tag bits.
@@ -260,8 +270,10 @@ namespace muu
 				: bits{ tptr::pack_both(value, tag) }
 			{
 				static_assert(
-					is_unsigned<U> || (std::is_trivially_copyable_v<U> && sizeof(U) * build::bits_per_byte <= tag_bit_count),
-					"Tag types must be unsigned integrals or trivially-copyable and small enough to fit in the available tag bits"
+					is_unsigned<U>
+					|| (std::is_trivially_copyable_v<U> && sizeof(U) * build::bits_per_byte <= tag_bit_count),
+					"Tag types must be unsigned integrals or trivially-copyable"
+					" and small enough to fit in the available tag bits"
 				);
 			}
 
@@ -316,8 +328,10 @@ namespace muu
 			constexpr tagged_ptr& reset(pointer value, const U& tag) noexcept
 			{
 				static_assert(
-					is_unsigned<U> || (std::is_trivially_copyable_v<U> && sizeof(U) * build::bits_per_byte <= tag_bit_count),
-					"Tag types must be unsigned integrals or trivially-copyable and small enough to fit in the available tag bits"
+					is_unsigned<U>
+					|| (std::is_trivially_copyable_v<U> && sizeof(U) * build::bits_per_byte <= tag_bit_count),
+					"Tag types must be unsigned integrals or trivially-copyable"
+					" and small enough to fit in the available tag bits"
 				);
 
 				bits = tptr::pack_both(value, tag);
@@ -417,8 +431,10 @@ namespace muu
 			constexpr tagged_ptr& tag(const U& tag) noexcept
 			{
 				static_assert(
-					is_unsigned<U> || (std::is_trivially_copyable_v<U> && sizeof(U) * build::bits_per_byte <= tag_bit_count),
-					"Tag types must be unsigned integrals or trivially-copyable and small enough to fit in the available tag bits"
+					is_unsigned<U>
+					|| (std::is_trivially_copyable_v<U> && sizeof(U) * build::bits_per_byte <= tag_bit_count),
+					"Tag types must be unsigned integrals or trivially-copyable"
+					" and small enough to fit in the available tag bits"
 				);
 
 				bits = tptr::set_tag(bits, tag);
@@ -545,19 +561,18 @@ namespace muu
 	tagged_ptr(T*, U) -> tagged_ptr<T>;
 	template <typename T>
 	tagged_ptr(T*) -> tagged_ptr<T>;
-
 }
 
 namespace std
 {
-	template <typename T, size_t min_align>
-	struct pointer_traits<muu::tagged_ptr<T, min_align>>
+	template <typename T, size_t MinAlign>
+	struct pointer_traits<muu::tagged_ptr<T, MinAlign>>
 	{
-		using pointer = muu::tagged_ptr<T, min_align>;
+		using pointer = muu::tagged_ptr<T, MinAlign>;
 		using element_type = T;
 		using difference_type = ptrdiff_t;
 		template <typename U>
-		using rebind = muu::tagged_ptr<U, min_align>;
+		using rebind = muu::tagged_ptr<U, MinAlign>;
 
 		static pointer pointer_to(element_type& r) noexcept
 		{
@@ -571,5 +586,4 @@ namespace std
 	};
 }
 
-
-
+MUU_PRAGMA_MSVC(inline_recursion(off))

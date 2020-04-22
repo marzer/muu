@@ -59,19 +59,21 @@
     <LocalDebuggerWorkingDirectory>..\tests\</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
   <ItemGroup>
-    <ClCompile Include="..\tests\accumulator.cpp" />
-    <ClCompile Include="..\tests\aligned_alloc.cpp" />
-    <ClCompile Include="..\tests\common.cpp" />
-    <ClCompile Include="..\tests\float16.cpp" />
-    <ClCompile Include="..\tests\main.cpp">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\tests\blob.cpp" />
-    <ClCompile Include="..\tests\scope_guard.cpp" />
-    <ClCompile Include="..\tests\tagged_ptr.cpp" />
+    <ClCompile Include="..\tests\meta.cpp" />
     <ClCompile Include="..\tests\tests.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\tests\main.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\tests\accumulator.cpp" />
+    <ClCompile Include="..\tests\aligned_alloc.cpp" />
+    <ClCompile Include="..\tests\blob.cpp" />
+    <ClCompile Include="..\tests\common.cpp" />
+    <ClCompile Include="..\tests\float16.cpp" />
+    <ClCompile Include="..\tests\scope_guard.cpp" />
+    <ClCompile Include="..\tests\tagged_ptr.cpp" />
+    <ClCompile Include="..\tests\uuid.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="muu.natvis" />

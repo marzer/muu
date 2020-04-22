@@ -31,6 +31,12 @@ a.muu-external
 {
 	font-weight: normal;
 }
+pre a.muu-external,
+pre a.muu-injected
+{
+	font-weight: inherit !important;
+	color: inherit !important;
+}
 
 .muu-enable-if
 {
@@ -88,7 +94,7 @@ a.muu-external
 	}
 }
 
-@media screen and (max-width: 576px)
+@media screen and (max-width: 575px)
 {
 	nav .m-thin, nav .github
 	{
@@ -169,6 +175,14 @@ pre.m-code .cp
 	color: rgb(214,157,133);
 }
 
+.m-code .kt,
+.m-code .k,
+.m-code .nc
+{
+	font-weight: normal;
+}
+
+
 /* user types and typedefs */
 pre.m-code .ut,
 pre.m-code .nc
@@ -185,17 +199,54 @@ pre.m-code .ns
 /* github badges (index.html) */
 .gh-badges
 {
-	padding-bottom: 0.75rem;
+	padding-bottom: 0.25rem;
+	margin-left: -0.9rem;
+	margin-right: -0.9rem;
+	margin-top: -0.5rem;
 }
-.gh-badges a
+@media screen and (min-width: 992px)
 {
-	margin-right: 0.5rem;
+	.gh-badges
+	{
+		display: flex;
+		justify-content: space-between;		
+	}
+	.gh-badges br
+	{
+		display: none;
+	}
+}
+@media screen and (max-width: 991px)
+{
+	.gh-badges
+	{
+		text-align: center;
+		line-height: 1.75rem;
+	}
+	.gh-badges a
+	{
+		margin-left: 0.2rem;
+		margin-right: 0.2rem;
+		margin-bottom: 0.4rem;
+	}
 }
 
 /* page category subheading ("module" etc) */
 h1 span.m-thin
 {
 	color: #747474;
+}
+
+/* banner on index page */
+main > article > .m-container.m-container-inflatable > .m-row > div.m-col-l-10.m-push-l-1 > img.m-image
+{
+	border-color: #405363;
+	border-style: solid;
+	border-width: 0.1rem;
+	margin-left: -1rem;
+	margin-right: -1rem;
+	margin-top: -1.75rem;
+	max-width: calc(100% + 2rem);
 }
 
 /* include <blah.h> */

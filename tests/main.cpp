@@ -6,6 +6,7 @@
 // files that have a split implementation:
 #include "../include/muu/aligned_alloc.h"
 #include "../include/muu/blob.h"
+#include "../include/muu/uuid.h"
 
 #define CATCH_CONFIG_RUNNER
 #include "catch2.h"
