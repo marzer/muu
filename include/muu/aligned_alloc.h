@@ -77,7 +77,7 @@ namespace muu::impl
 	#include <cstdlib>
 #endif
 
-namespace muu::impl
+namespace MUU_INTERNAL_NAMESPACE
 {
 	struct aligned_alloc_data final
 	{
@@ -86,11 +86,11 @@ namespace muu::impl
 		size_t requested_size;
 		size_t actual_size; //as passed to malloc etc.
 	};
-	inline constexpr size_t aligned_alloc_data_footprint = max(
-		bit_ceil(sizeof(aligned_alloc_data)),
+	inline constexpr size_t aligned_alloc_data_footprint = ::muu::max(
+		::muu::bit_ceil(sizeof(aligned_alloc_data)),
 		alignof(aligned_alloc_data)
 	);
-	static_assert(has_single_bit(aligned_alloc_data_footprint));
+	static_assert(::muu::has_single_bit(aligned_alloc_data_footprint));
 }
 
 namespace muu
@@ -98,19 +98,20 @@ namespace muu
 	MUU_PUSH_WARNINGS
 	MUU_DISABLE_INIT_WARNINGS
 
-	MUU_FUNC_EXTERNAL_LINKAGE
+	MUU_EXTERNAL_LINKAGE
 	MUU_API
 	MUU_UNALIASED_ALLOC
 	void* aligned_alloc(size_t alignment, size_t size) noexcept
 	{
 		using std::byte;
+		using MUU_INTERNAL_NAMESPACE::aligned_alloc_data;
 
 		if (!alignment || !size || !has_single_bit(alignment) || alignment > impl::aligned_alloc_max_alignment)
 			return nullptr;
 
-		impl::aligned_alloc_data data{
+		aligned_alloc_data data{
 			alignment,
-			max(alignment, impl::aligned_alloc_data_footprint),
+			max(alignment, MUU_INTERNAL_NAMESPACE::aligned_alloc_data_footprint),
 			size
 		};
 		data.actual_size = data.actual_alignment
@@ -125,29 +126,30 @@ namespace muu
 		);
 
 		memcpy(
-			priv_alloc + data.actual_alignment - impl::aligned_alloc_data_footprint,
+			priv_alloc + data.actual_alignment - MUU_INTERNAL_NAMESPACE::aligned_alloc_data_footprint,
 			&data,
-			sizeof(impl::aligned_alloc_data)
+			sizeof(aligned_alloc_data)
 		);
 		return pointer_cast<void*>(priv_alloc + data.actual_alignment);
 	}
 
 	MUU_POP_WARNINGS
 
-	MUU_FUNC_EXTERNAL_LINKAGE
+	MUU_EXTERNAL_LINKAGE
 	MUU_API
 	MUU_UNALIASED_ALLOC
 	void* aligned_realloc(void* ptr, size_t new_size) noexcept
 	{
 		using std::byte;
+		using MUU_INTERNAL_NAMESPACE::aligned_alloc_data;
 
 		if (!new_size)
 			return nullptr;
 		if (!ptr)
 			return aligned_alloc(__STDCPP_DEFAULT_NEW_ALIGNMENT__, new_size);
 
-		auto data = *pointer_cast<impl::aligned_alloc_data*>(
-			pointer_cast<byte*>(ptr) - impl::aligned_alloc_data_footprint
+		auto data = *pointer_cast<aligned_alloc_data*>(
+			pointer_cast<byte*>(ptr) - MUU_INTERNAL_NAMESPACE::aligned_alloc_data_footprint
 		);
 		const auto new_actual_size = data.actual_alignment
 			+ ((new_size + data.actual_alignment - 1_sz) & ~(data.actual_alignment - 1_sz));
@@ -164,9 +166,9 @@ namespace muu
 			{
 				data.actual_size = new_actual_size;
 				memcpy(
-					pointer_cast<byte*>(ptr) + data.actual_alignment - impl::aligned_alloc_data_footprint,
+					pointer_cast<byte*>(ptr) + data.actual_alignment - MUU_INTERNAL_NAMESPACE::aligned_alloc_data_footprint,
 					&data,
-					sizeof(impl::aligned_alloc_data)
+					sizeof(aligned_alloc_data)
 				);
 				return pointer_cast<byte*>(ptr) + data.actual_alignment;
 			}
@@ -185,16 +187,17 @@ namespace muu
 		return nullptr;
 	}
 
-	MUU_FUNC_EXTERNAL_LINKAGE
+	MUU_EXTERNAL_LINKAGE
 	MUU_API
 	void aligned_free(void* ptr) noexcept
 	{
 		using std::byte;
+		using MUU_INTERNAL_NAMESPACE::aligned_alloc_data;
 
 		if (!ptr)
 			return;
-		const auto& data = *pointer_cast<impl::aligned_alloc_data*>(
-			pointer_cast<byte*>(ptr) - impl::aligned_alloc_data_footprint
+		const auto& data = *pointer_cast<aligned_alloc_data*>(
+			pointer_cast<byte*>(ptr) - MUU_INTERNAL_NAMESPACE::aligned_alloc_data_footprint
 		);
 
 		#ifdef _MSC_VER

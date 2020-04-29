@@ -1,4 +1,5 @@
 #include "tests.h"
+#include "../include/muu/common.h"
 
 TEST_CASE("unwrap")
 {

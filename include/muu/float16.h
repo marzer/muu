@@ -688,12 +688,12 @@ namespace muu::impl
 		uint16_t exp16 = static_cast<uint16_t>(exp32ub + 15);
 
 		// clamp the exponent
-		if (exp32 == 0xFF /*|| exp32ub > single_exp_bias*/) MUU_UNLIKELY
+		if MUU_UNLIKELY(exp32 == 0xFF /*|| exp32ub > single_exp_bias*/)
 		{
 			// 0001 1111, use all five bits
 			exp16 = 0x1F;
 		}
-		else if (exp32 == 0 /*|| exp32ub < -(single_exp_bias - 1)*/) MUU_UNLIKELY
+		else if MUU_UNLIKELY(exp32 == 0 /*|| exp32ub < -(single_exp_bias - 1)*/)
 		{
 			exp16 = 0;
 		}
@@ -701,7 +701,7 @@ namespace muu::impl
 		uint16_t frac16 = static_cast<uint16_t>(frac32 >> 13);
 
 		// nan
-		if (exp32 == 0xFF && frac32 != 0 && frac16 == 0) MUU_UNLIKELY
+		if MUU_UNLIKELY(exp32 == 0xFF && frac32 != 0 && frac16 == 0)
 		{
 			// 0000 0010 0000 0000
 			frac16 = 0x0200;
@@ -712,7 +712,7 @@ namespace muu::impl
 			frac16 = 0;
 		}
 		// denormal underflow
-		else if (exp16 == 0 && exp32 != 0) MUU_UNLIKELY
+		else if MUU_UNLIKELY(exp16 == 0 && exp32 != 0)
 		{
 			// 0000 0001 0000 0000
 			frac16 = 0x0100 | (frac16 >> 2);
@@ -739,7 +739,7 @@ namespace muu::impl
 		uint32_t frac32 = static_cast<uint32_t>(frac16);
 
 		// the number is denormal if exp16 == 0 and frac16 != 0
-		if (exp16 == 0 && frac16 != 0)  MUU_UNLIKELY
+		if MUU_UNLIKELY(exp16 == 0 && frac16 != 0)
 		{
 			uint32_t offset = 0;
 			do
@@ -753,17 +753,17 @@ namespace muu::impl
 			exp32 = 113 - offset; // 113 = 127-14
 		}
 		// +-0
-		else if (exp16 == 0 && frac16 == 0) MUU_UNLIKELY
+		else if MUU_UNLIKELY(exp16 == 0 && frac16 == 0)
 		{
 			exp32 = 0;
 		}
 		// +- inf
-		else if (exp16 == 31 && frac16 == 0) MUU_UNLIKELY
+		else if MUU_UNLIKELY(exp16 == 31 && frac16 == 0)
 		{
 			exp32 = 0xFF;
 		}
 		// +- nan
-		else if (exp16 == 31 && frac16 != 0) MUU_UNLIKELY
+		else if MUU_UNLIKELY(exp16 == 31 && frac16 != 0)
 		{
 			exp32 = 0xFF;
 		}

@@ -49,6 +49,9 @@
     <ClInclude Include="..\include\muu\string_param.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\muu\preprocessor.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />

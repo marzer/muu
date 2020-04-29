@@ -7,7 +7,8 @@ project(
 		'cpp_std=c++17',
 		'warning_level=3',
 		'werror=true',
-		'cpp_eh=default'
+		'cpp_eh=default',
+		'b_ndebug=if-release'
 	]
 )
 
@@ -16,19 +17,8 @@ muu_dep = declare_dependency(
 	version : meson.project_version(),
 )
 
-build_tests = false
-if get_option('BUILD_TESTS').auto()
-	build_tests = (not meson.is_subproject())
-else
-	build_tests = get_option('BUILD_TESTS').enabled()
-endif
-
-#build_examples = false
-#if get_option('BUILD_EXAMPLES').auto()
-#	build_examples = (not meson.is_subproject())
-#else
-#	build_examples = get_option('BUILD_EXAMPLES').enabled()
-#endif
+build_tests = get_option('BUILD_TESTS').enabled() or (get_option('BUILD_TESTS').auto() and not meson.is_subproject())
+#build_examples = get_option('BUILD_EXAMPLES').enabled() or (get_option('BUILD_EXAMPLES').auto() and not meson.is_subproject())
 
 if build_tests #or build_examples
 
@@ -36,37 +26,94 @@ if build_tests #or build_examples
 	message(['compiler ID: ', compiler.get_id()])
 	message(['compiler version: ', compiler.version()])
 
-	if compiler.get_id() == 'gcc'
+	# GCC or Clang
+	if compiler.get_id() == 'gcc' or compiler.get_id() == 'clang'
 		add_project_arguments([
-				'-g0',
-				'-fmax-errors=5',
-				'-march=native',
-				'-Wno-init-list-lifetime',
-				'-fcompare-debug-second'
+				'-march=native'
 			],
 			language : 'cpp'
 		)
 	endif
 
-	if compiler.get_id() == 'clang'
+	# GCC
+	if compiler.get_id() == 'gcc'
 		add_project_arguments([
-				'-g0',
-				'-ferror-limit=5',
-				'-march=native',
-				'-fchar8_t',
-				#'-Weverything',
-				'-Wno-c++98-compat',
-				'-Wno-c++98-compat-pedantic',
-				'-Wno-float-equal',
-				'-Wno-documentation-unknown-command',
-				'-Wno-padded',
-				'-Wno-weak-vtables',
-				'-Wno-double-promotion',
-				'-Wno-date-time'
-				#, '-ftime-trace'
+				'-fmax-errors=5',
+				'-Wno-init-list-lifetime'
 			],
 			language : 'cpp'
 		)
+		if get_option('ALL_WARNINGS')
+			add_project_arguments([
+					'-Wcast-align',
+					'-Wcast-qual',
+					'-Wctor-dtor-privacy',
+					'-Wdisabled-optimization',
+					'-Wextra',
+					'-Wfloat-equal',
+					'-Wimport',
+					'-Winit-self',
+					'-Winline',
+					'-Wlogical-op',
+					'-Wmissing-declarations',
+					'-Wmissing-field-initializers',
+					'-Wmissing-format-attribute',
+					'-Wmissing-include-dirs',
+					'-Wmissing-noreturn',
+					'-Wnoexcept',
+					'-Wold-style-cast',
+					'-Woverloaded-virtual',
+					'-Wpacked',
+					'-Wpadded',
+					'-Wpedantic',
+					'-Wpointer-arith',
+					'-Wredundant-decls',
+					'-Wshadow',
+					'-Wsign-conversion',
+					'-Wsign-promo',
+					'-Wstack-protector',
+					'-Wstrict-null-sentinel',
+					'-Wswitch-default',
+					'-Wswitch-enum',
+					'-Wundef',
+					'-Wunreachable-code',
+					'-Wunused',
+					'-Wunused-parameter',
+					'-Wvariadic-macros',
+					'-Wwrite-strings',
+				],
+				language : 'cpp'
+			)
+		endif
+		if get_option('SMALL_BINARIES')
+			add_project_arguments([ '-fmerge-constants' ], language : 'cpp')
+		endif
+	endif
+
+	# Clang
+	if compiler.get_id() == 'clang'
+	
+		if get_option('ALL_WARNINGS')
+			add_project_arguments([ '-Weverything' ], language : 'cpp')
+		endif
+		add_project_arguments([
+				'-ferror-limit=5',
+				'-fchar8_t',
+				'-Wno-unused-command-line-argument',
+
+				# flags from here down are disabling stupidly pedantic warnings that only appear with -Weverything
+				'-Wno-c++98-compat',
+				'-Wno-c++98-compat-pedantic',
+				'-Wno-documentation',
+				'-Wno-documentation-unknown-command',
+				'-Wno-switch-enum',
+				'-Wno-covered-switch-default'
+			],
+			language : 'cpp'
+		)
+		if get_option('TIME_TRACE')
+			add_project_arguments([ '-ftime-trace' ], language : 'cpp')
+		endif
 	endif
 
 	if compiler.get_id() == 'intel-cl'
@@ -85,8 +132,6 @@ if build_tests #or build_examples
 	endif
 
 	inc = include_directories('include', 'extern')
-
-	dep_uuid = dependency('uuid')
 
 	if build_tests
 		subdir('tests')

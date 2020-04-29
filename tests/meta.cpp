@@ -1,4 +1,5 @@
 #include "tests.h"
+#include "../include/muu/common.h"
 
 //=====================================================================================================================
 // these are all the public metafunctions and type traits in common.h (ideally in the order they appear)

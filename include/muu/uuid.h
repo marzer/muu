@@ -288,7 +288,7 @@ MUU_POP_WARNINGS
 
 namespace muu
 {
-	MUU_FUNC_EXTERNAL_LINKAGE
+	MUU_EXTERNAL_LINKAGE
 	MUU_API
 	uuid uuid::generate() noexcept
 	{

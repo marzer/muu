@@ -129,12 +129,14 @@ namespace muu
 
 #include "../muu/aligned_alloc.h"
 
-namespace muu::impl
+namespace MUU_INTERNAL_NAMESPACE
 {
 	[[nodiscard]]
-	MUU_FUNC_INTERNAL_LINKAGE
+	MUU_INTERNAL_LINKAGE
 	size_t blob_check_alignment(size_t align) noexcept
 	{
+		using namespace ::muu;
+
 		if (!align)
 			return blob::default_alignment;
 
@@ -150,10 +152,12 @@ namespace muu::impl
 	}
 
 	[[nodiscard]]
-	MUU_FUNC_INTERNAL_LINKAGE
+	MUU_INTERNAL_LINKAGE
 	MUU_UNALIASED_ALLOC
 	void* blob_allocate(size_t align, size_t size) noexcept
 	{
+		using namespace ::muu;
+
 		MUU_ASSERT(align);
 		MUU_ASSERT(has_single_bit(align));
 		MUU_ASSERT(align <= impl::aligned_alloc_max_alignment);
@@ -166,32 +170,32 @@ namespace muu::impl
 
 namespace muu
 {
-	MUU_FUNC_EXTERNAL_LINKAGE
+	MUU_EXTERNAL_LINKAGE
 	blob::blob() noexcept
 		: alignment_{ default_alignment }
 	{}
 
-	MUU_FUNC_EXTERNAL_LINKAGE
+	MUU_EXTERNAL_LINKAGE
 	blob::blob(size_t sz, const void* src, size_t align) noexcept
-		: alignment_{ impl::blob_check_alignment(align) },
+		: alignment_{ MUU_INTERNAL_NAMESPACE::blob_check_alignment(align) },
 		size_{ sz },
-		data_{ impl::blob_allocate(alignment_, size_) }
+		data_{ MUU_INTERNAL_NAMESPACE::blob_allocate(alignment_, size_) }
 	{
 		if (data_ && src)
 			memcpy(data_, src, size_);
 	}
 
-	MUU_FUNC_EXTERNAL_LINKAGE
+	MUU_EXTERNAL_LINKAGE
 	blob::blob(const blob& other, size_t align) noexcept
 		: blob{ other.size_, other.data_, align ? align : other.alignment_ }
 	{ }
 
-	MUU_FUNC_EXTERNAL_LINKAGE
+	MUU_EXTERNAL_LINKAGE
 	blob::blob(const blob& other) noexcept
 		: blob{ other.size_, other.data_, other.alignment_ }
 	{ }
 
-	MUU_FUNC_EXTERNAL_LINKAGE
+	MUU_EXTERNAL_LINKAGE
 	blob::blob(blob&& other) noexcept
 		: alignment_{ other.alignment_ },
 		size_{ other.size_ },
@@ -202,14 +206,14 @@ namespace muu
 		other.data_ = nullptr;
 	}
 
-	MUU_FUNC_EXTERNAL_LINKAGE
+	MUU_EXTERNAL_LINKAGE
 	blob::~blob() noexcept
 	{
 		if (data_)
 			muu::aligned_free(data_);
 	}
 
-	MUU_FUNC_EXTERNAL_LINKAGE
+	MUU_EXTERNAL_LINKAGE
 	blob& blob::operator=(blob&& rhs) noexcept
 	{
 		if (&rhs != this)
@@ -228,10 +232,10 @@ namespace muu
 		return *this;
 	}
 
-	MUU_FUNC_EXTERNAL_LINKAGE
+	MUU_EXTERNAL_LINKAGE
 	blob& blob::assign(size_t sz, const void* src, size_t align) noexcept
 	{
-		align = impl::blob_check_alignment(align);
+		align = MUU_INTERNAL_NAMESPACE::blob_check_alignment(align);
 
 		//check if this is effectively a resize with a copy or move
 		if (alignment_ == align)
@@ -248,13 +252,13 @@ namespace muu
 			muu::aligned_free(data_);
 		alignment_ = align;
 		size_ = sz;
-		data_ = impl::blob_allocate(alignment_, size_);
+		data_ = MUU_INTERNAL_NAMESPACE::blob_allocate(alignment_, size_);
 		if (src && data_)
 			memcpy(data_, src, size_);
 		return *this;
 	}
 
-	MUU_FUNC_EXTERNAL_LINKAGE
+	MUU_EXTERNAL_LINKAGE
 	blob& blob::size(size_t sz) noexcept
 	{
 		if (size_ == sz)
@@ -282,7 +286,7 @@ namespace muu
 
 		//nothing -> something
 		MUU_ASSERT(!data_);
-		data_ = impl::blob_allocate(alignment_, size_);
+		data_ = MUU_INTERNAL_NAMESPACE::blob_allocate(alignment_, size_);
 		return *this;
 	}
 }

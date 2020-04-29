@@ -1,2 +1,4 @@
-option('BUILD_TESTS', type : 'feature', value : 'auto', description : 'Whether to build tests (defaults to auto: only if not a subproject)')
-option('BUILD_EXAMPLES', type : 'feature', value : 'auto', description : 'Whether to build examples (defaults to auto: only if not a subproject)')
+option('BUILD_TESTS',		type : 'feature', value : 'auto',	description : 'Whether to build tests (defaults to auto: only if not a subproject)')
+option('BUILD_EXAMPLES',	type : 'feature', value : 'auto',	description : 'Whether to build examples (defaults to auto: only if not a subproject)')
+option('ALL_WARNINGS',		type : 'boolean', value : false,	description : 'Enable all the extra super-extremely-pedantic compiler warnings')
+option('TIME_TRACE',		type : 'boolean', value : false,	description : 'Enable the -ftime-trace option (Clang only)')
