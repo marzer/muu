@@ -64,7 +64,7 @@
     <ClInclude Include="..\include\muu\common.h" />
     <ClInclude Include="..\include\muu\concatenate.h" />
     <ClInclude Include="..\include\muu\float16.h" />
-    <ClInclude Include="..\include\muu\moving_average.h" />
+    <ClInclude Include="..\include\muu\rolling_average.h" />
     <ClInclude Include="..\include\muu\numeric_range.h" />
     <ClInclude Include="..\include\muu\preprocessor.h" />
     <ClInclude Include="..\include\muu\scope_guard.h" />

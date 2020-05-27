@@ -8,6 +8,10 @@
 #pragma once
 #include "../muu/common.h"
 
+#if !defined(DOXYGEN) && (!defined(MUU_DEV) || !MUU_DEV)
+	#error Including muu/uuid.h is currently prohibited - muu::uuid is not fully implemented
+#endif
+
 namespace muu
 {
 	/// \brief A 16-byte universally-unique identifier (UUID).
@@ -282,7 +286,7 @@ MUU_DISABLE_ALL_WARNINGS
 	#include <rpc.h>
 	MUU_PRAGMA_MSVC(comment(lib, "rpcrt4.lib"))
 #else
-	#include <uuid/uuid.h>
+	
 #endif
 MUU_POP_WARNINGS
 
@@ -309,10 +313,12 @@ namespace muu
 		}
 		#else
 		{
-			uuid_t native; //unsigned char[16]
-			uuid_generate(native);
-			static_assert(sizeof(uuid_t) == sizeof(val));
-			memcpy(&val, native, sizeof(val));
+			//uuid_t native; //unsigned char[16]
+			//uuid_generate(native);
+			//static_assert(sizeof(uuid_t) == sizeof(val));
+			//memcpy(&val, native, sizeof(val));
+			
+			val = {}; // todo
 		}
 		#endif
 		return val;

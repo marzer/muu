@@ -556,9 +556,14 @@ namespace muu
 
 	namespace impl
 	{
+		MUU_PUSH_WARNINGS
+		MUU_DISABLE_ALL_WARNINGS //reproducible build warnings
+
 		inline constexpr auto date_str = __DATE__;
 		inline constexpr auto date_month_hash = date_str[0] + date_str[1] + date_str[2];
 		inline constexpr auto time_str = __TIME__;
+
+		MUU_POP_WARNINGS
 	}
 
 	/// \addtogroup		constants		Compile-time constants
@@ -755,6 +760,9 @@ namespace muu
 			return val != T{} && (val & (val - T{ 1 })) == T{};
 	}
 
+	MUU_PUSH_WARNINGS
+	MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wsign-conversion\"")
+
 	/// \brief	Counts the number of consecutive 0 bits, starting from the most significant bit.
 	///
 	/// \tparam	T		An unsigned integral or enum type.
@@ -949,6 +957,8 @@ namespace muu
 		}
 	}
 
+	MUU_POP_WARNINGS // gcc 'may change sign' spam
+
 	#define MUU_HAS_CONSTEXPR_BIT_CAST 1
 
 	/// \brief	Equivalent to C++20's std::bit_cast.
@@ -991,7 +1001,7 @@ namespace muu
 				#undef MUU_HAS_CONSTEXPR_BIT_CAST
 				#define MUU_HAS_CONSTEXPR_BIT_CAST 0
 			#endif
-		#elif defined(__GNUC__) && __GNUC__ >= 10 // ??
+		#elif defined(__GNUC__) && __GNUC__ >= 11 // ??
 			return __builtin_bit_cast(To, from);
 		#elif defined(_MSC_VER) && _MSC_VER >= 1926 // Visual Studio 2019 version 16.6
 			return __builtin_bit_cast(To, from);

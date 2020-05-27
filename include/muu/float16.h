@@ -28,7 +28,7 @@ MUU_DISABLE_ALL_WARNINGS
 	#include <immintrin.h>
 #endif
 
-MUU_POP_WARNINGS
+MUU_POP_WARNINGS // MUU_DISABLE_ALL_WARNINGS
 
 namespace muu::impl
 {
@@ -36,6 +36,9 @@ namespace muu::impl
 	[[nodiscard]] constexpr float MUU_VECTORCALL f16_to_f32(uint16_t) noexcept;
 	struct f16_from_bits_tag {};
 }
+
+MUU_PUSH_WARNINGS
+MUU_DISABLE_FLOAT_WARNINGS
 
 namespace muu
 {
@@ -84,6 +87,7 @@ namespace muu
 
 		float16() noexcept = default;
 		constexpr float16(const float16&) noexcept = default;
+		constexpr float16& operator = (const float16&) noexcept = default;
 
 		private:
 
@@ -638,6 +642,7 @@ namespace muu::impl
 
 	MUU_PUSH_WARNINGS
 	MUU_PRAGMA_MSVC(warning(disable: 4556)) //value of intrinsic immediate argument '8' is out of range '0 - 7'
+	MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wold-style-cast\"") // false positive with _mm_set_ss
 
 	[[nodiscard]] MUU_ALWAYS_INLINE
 	uint16_t MUU_VECTORCALL f32_to_f16_intrinsic(float val) noexcept
@@ -902,5 +907,6 @@ namespace std
 	template <> struct numeric_limits<const volatile ::muu::float16> : numeric_limits<::muu::float16> {};
 }
 
+MUU_POP_WARNINGS // MUU_DISABLE_FLOAT_WARNINGS
 
 #undef MUU_F16_USE_INTRINSICS

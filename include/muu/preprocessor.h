@@ -95,8 +95,15 @@
 	#define MUU_DISABLE_VTABLE_WARNINGS		_Pragma("clang diagnostic ignored \"-Weverything\"") \
 											_Pragma("clang diagnostic ignored \"-Wweak-vtables\"")
 	#define MUU_DISABLE_PADDING_WARNINGS	_Pragma("clang diagnostic ignored \"-Wpadded\"")
+	#if __clang_major__ >= 10
+		#define MUU_DISABLE_FLOAT_WARNINGS_CLANG_10	\
+											_Pragma("clang diagnostic ignored \"-Wimplicit-int-float-conversion\"")
+	#else
+		#define MUU_DISABLE_FLOAT_WARNINGS_CLANG_10
+	#endif
 	#define MUU_DISABLE_FLOAT_WARNINGS		_Pragma("clang diagnostic ignored \"-Wfloat-equal\"") \
-											_Pragma("clang diagnostic ignored \"-Wdouble-promotion\"")
+											_Pragma("clang diagnostic ignored \"-Wdouble-promotion\"") \
+											MUU_DISABLE_FLOAT_WARNINGS_CLANG_10
 	#define MUU_DISABLE_SHADOW_WARNINGS		_Pragma("clang diagnostic ignored \"-Wshadow\"")
 	#define MUU_DISABLE_ALL_WARNINGS		_Pragma("clang diagnostic ignored \"-Weverything\"")
 	#define MUU_POP_WARNINGS				_Pragma("clang diagnostic pop")

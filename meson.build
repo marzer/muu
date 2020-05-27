@@ -33,6 +33,9 @@ if build_tests #or build_examples
 			],
 			language : 'cpp'
 		)
+		if get_option('SMALL_BINARIES')
+			add_project_arguments([ '-fdata-sections', '-ffunction-sections', '-Wl,--gc-sections', '-Wl,-s' ], language : 'cpp')
+		endif
 	endif
 
 	# GCC
@@ -53,7 +56,6 @@ if build_tests #or build_examples
 					'-Wfloat-equal',
 					'-Wimport',
 					'-Winit-self',
-					'-Winline',
 					'-Wlogical-op',
 					'-Wmissing-declarations',
 					'-Wmissing-field-initializers',
@@ -114,8 +116,12 @@ if build_tests #or build_examples
 		if get_option('TIME_TRACE')
 			add_project_arguments([ '-ftime-trace' ], language : 'cpp')
 		endif
+		if get_option('SMALL_BINARIES')
+			add_project_arguments([ '-Oz', '-fmerge-all-constants' ], language : 'cpp')
+		endif
 	endif
 
+	# ICC's visual studio frontend, ICL
 	if compiler.get_id() == 'intel-cl'
 		add_project_arguments([
 				'/Qoption,cpp,--unicode_source_kind,UTF-8',

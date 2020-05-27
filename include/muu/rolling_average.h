@@ -5,3 +5,7 @@
 
 #pragma once
 #include "../muu/common.h"
+
+#if !defined(DOXYGEN) && (!defined(MUU_DEV) || !MUU_DEV)
+	#error Including muu/rolling_average.h is currently prohibited - muu::rolling_average is not fully implemented
+#endif

@@ -71,7 +71,7 @@ type_names = [
 	'tagged_ptr',
 	'blob',
 	'float16',
-	'moving_average',
+	'rolling_average',
 	'bitset'
 ]
 all_namespaces = [

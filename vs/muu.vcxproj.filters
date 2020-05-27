@@ -16,9 +16,6 @@
     <ClInclude Include="..\include\muu\concatenate.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\muu\moving_average.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\muu\numeric_range.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -50,6 +47,9 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\include\muu\preprocessor.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\rolling_average.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

@@ -2,6 +2,9 @@
 #include "../include/muu/accumulator.h"
 #include "../include/muu/float16.h"
 
+MUU_PUSH_WARNINGS
+MUU_DISABLE_FLOAT_WARNINGS
+
 MUU_PRAGMA_MSVC(float_control(precise, on, push))
 
 template <typename T>
@@ -502,3 +505,5 @@ TEST_CASE("accumulator - integers")
 	CHECK(accum.sample_count() == 1000_sz);
 	CHECK(accum.value() == raw_sum);
 }
+
+MUU_POP_WARNINGS // MUU_DISABLE_FLOAT_WARNINGS

@@ -261,13 +261,13 @@ namespace muu
 			///
 			/// \tparam	U			An unsigned integral type, or a trivially-copyable type small enough to fit.
 			/// \param	value		The inital address of the pointer's target.
-			/// \param	tag			The initial value of the pointer's tag bits.
+			/// \param	tag_		The initial value of the pointer's tag bits.
 			///
 			/// \warning If the tag parameter is an integer larger than the available tag bits,
 			/// 		 any overflow will be masked out and ignored.
 			template <typename U>
-			constexpr tagged_ptr(pointer value, const U& tag) noexcept
-				: bits{ tptr::pack_both(value, tag) }
+			constexpr tagged_ptr(pointer value, const U& tag_) noexcept
+				: bits{ tptr::pack_both(value, tag_) }
 			{
 				static_assert(
 					is_unsigned<U>
@@ -318,14 +318,14 @@ namespace muu
 			///
 			/// \tparam	U		An unsigned integral type, or a trivially-copyable type small enough to fit.
 			/// \param	value	The new target pointer value.
-			/// \param	tag		The new tag.
+			/// \param	tag_	The new tag.
 			///
 			/// \warning If the tag parameter is an integer larger than the available tag bits,
 			/// 		 any overflow will be masked out and ignored.
 			/// 
 			/// \returns	A reference to the tagged_ptr.
 			template <typename U>
-			constexpr tagged_ptr& reset(pointer value, const U& tag) noexcept
+			constexpr tagged_ptr& reset(pointer value, const U& tag_) noexcept
 			{
 				static_assert(
 					is_unsigned<U>
@@ -334,7 +334,7 @@ namespace muu
 					" and small enough to fit in the available tag bits"
 				);
 
-				bits = tptr::pack_both(value, tag);
+				bits = tptr::pack_both(value, tag_);
 				return *this;
 			}
 
@@ -420,15 +420,15 @@ namespace muu
 
 			/// \brief	Sets the tag bits, leaving the target pointer value unchanged.
 			///
-			/// \tparam	U	An unsigned integral type, or a trivially-copyable type small enough to fit.
-			/// \param	tag	The new value to set for the pointer's tag bits.
+			/// \tparam	U		An unsigned integral type, or a trivially-copyable type small enough to fit.
+			/// \param	tag_	The new value to set for the pointer's tag bits.
 			///
 			/// \warning If the tag parameter is an integer larger than the available tag bits,
 			/// 		 any overflow will be masked out and ignored.
 			/// 
 			/// \returns	A reference to the tagged_ptr.
 			template <typename U>
-			constexpr tagged_ptr& tag(const U& tag) noexcept
+			constexpr tagged_ptr& tag(const U& tag_) noexcept
 			{
 				static_assert(
 					is_unsigned<U>
@@ -437,7 +437,7 @@ namespace muu
 					" and small enough to fit in the available tag bits"
 				);
 
-				bits = tptr::set_tag(bits, tag);
+				bits = tptr::set_tag(bits, tag_);
 				return *this;
 			}
 

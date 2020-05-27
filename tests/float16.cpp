@@ -1,6 +1,9 @@
 #include "tests.h"
 #include "../include/muu/float16.h"
 
+MUU_PUSH_WARNINGS
+MUU_DISABLE_FLOAT_WARNINGS
+
 ///////////////////////////////////////////////////////////////////////////////////
 // Some runtime tests in this file adapted from
 // 1) https://github.com/acgessler/half_float/blob/master/HalfPrecisionFloatTest.cpp
@@ -27,7 +30,7 @@ TEST_CASE("float16 - negation")
 		else
 		{
 			CHECK(negated1.bits == negated2.bits);
-			CHECK(!!(negated2.bits & 0b1000000000000000_u16) == i >= 0);
+			CHECK(!!(negated2.bits & 0b1000000000000000_u16) == (i >= 0));
 		}
 		CHECK(static_cast<float>(negated1) == -static_cast<float>(i));
 		CHECK(static_cast<double>(negated1) == -static_cast<double>(i));
@@ -36,11 +39,11 @@ TEST_CASE("float16 - negation")
 
 TEST_CASE("float16 - conversions")
 {
-	static constexpr auto convert_from_int = [](auto i) noexcept
+	static constexpr auto convert_from_int = [](auto v) noexcept
 	{
-		const auto val = float16{ i };
-		CHECK(static_cast<float>(val) == static_cast<float>(i));
-		CHECK(static_cast<double>(val) == static_cast<double>(i));
+		const auto val = float16{ v };
+		CHECK(static_cast<float>(val) == static_cast<float>(v));
+		CHECK(static_cast<double>(val) == static_cast<double>(v));
 	};
 
 	for (int i = -10; i < 0; i++)
@@ -80,22 +83,26 @@ TEST_CASE("float16 - basic arithmetic")
 		h = h2;
 		h2 = float16{ 15.5f };
 
-		f = static_cast<float>(h2), f2 = static_cast<float>(h);
+		f = static_cast<float>(h2);
+		f2 = static_cast<float>(h);
 		CHECK(15.5f == f);
 		CHECK(1.f == f2);
 
 		h2 *= h;
-		f = static_cast<float>(h2), f2 = static_cast<float>(h);
+		f = static_cast<float>(h2);
+		f2 = static_cast<float>(h);
 		CHECK(15.5f == f);
 		CHECK(1.f == f2);
 
 		h2 /= h;
-		f = static_cast<float>(h2), f2 = static_cast<float>(h);
+		f = static_cast<float>(h2);
+		f2 = static_cast<float>(h);
 		CHECK(15.5f == f);
 		CHECK(1.f == f2);
 
 		h2 += h;
-		f = static_cast<float>(h2), f2 = static_cast<float>(h);
+		f = static_cast<float>(h2);
+		f2 = static_cast<float>(h);
 		CHECK(16.5f == f);
 		CHECK(1.f == f2);
 
@@ -103,7 +110,8 @@ TEST_CASE("float16 - basic arithmetic")
 		h2 = -h2;
 		h2 += float16{ 17.5f };
 		h2 *= h;
-		f = static_cast<float>(h2), f2 = static_cast<float>(h);
+		f = static_cast<float>(h2);
+		f2 = static_cast<float>(h);
 		CHECK(4.f == f);
 		CHECK(4.f == f2);
 		CHECK(h == h2);
@@ -119,7 +127,8 @@ TEST_CASE("float16 - basic arithmetic")
 		CHECK(h > h2);
 		CHECK(h >= h2);
 
-		f = static_cast<float>(h2), f2 = static_cast<float>(h);
+		f = static_cast<float>(h2);
+		f2 = static_cast<float>(h);
 		CHECK(h * h2 == float16{ f * f2 });
 	}
 
@@ -208,3 +217,5 @@ TEST_CASE("float16 - subtraction")
 		CHECK(f - fp == f2);
 	}
 }
+
+MUU_POP_WARNINGS // MUU_DISABLE_FLOAT_WARNINGS

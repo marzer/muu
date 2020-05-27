@@ -14,7 +14,6 @@ test_sources = [
 tests = executable(
 	'tests',
 	test_sources,
-	include_directories : inc,
-	dependencies: dep_uuid
+	include_directories : inc
 )
 test('tests', tests)

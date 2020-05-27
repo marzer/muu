@@ -5,3 +5,7 @@
 
 #pragma once
 #include "../muu/common.h"
+
+#if !defined(DOXYGEN) && (!defined(MUU_DEV) || !MUU_DEV)
+	#error Including muu/concatenate.h is currently prohibited - muu::concatenate is not fully implemented
+#endif

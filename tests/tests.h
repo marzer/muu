@@ -2,6 +2,7 @@
 #if !defined(_MSC_VER) || !defined(_M_IX86)
 	#define MUU_ALL_INLINE 0
 #endif
+#define MUU_DEV 1
 #include "../include/muu/preprocessor.h"
 
 MUU_PUSH_WARNINGS

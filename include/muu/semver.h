@@ -5,3 +5,7 @@
 
 #pragma once
 #include "../muu/common.h"
+
+#if !defined(DOXYGEN) && (!defined(MUU_DEV) || !MUU_DEV)
+	#error Including muu/semver.h is currently prohibited - muu::semver is not fully implemented
+#endif

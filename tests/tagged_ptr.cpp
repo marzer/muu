@@ -4,6 +4,7 @@
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_INIT_WARNINGS
+MUU_DISABLE_PADDING_WARNINGS
 
 // check all static invariants
 template <typename T, size_t min_align>

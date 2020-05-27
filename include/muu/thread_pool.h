@@ -5,3 +5,8 @@
 
 #pragma once
 #include "../muu/common.h"
+
+#if !defined(DOXYGEN) && (!defined(MUU_DEV) || !MUU_DEV)
+	#error Including muu/thread_pool.h is currently prohibited - muu::thread_pool is not fully implemented
+#endif
+

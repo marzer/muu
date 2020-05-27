@@ -8,6 +8,9 @@
 #pragma once
 #include "../muu/common.h"
 
+MUU_PUSH_WARNINGS
+MUU_DISABLE_PADDING_WARNINGS
+
 namespace muu::impl
 {
 	template <typename T>
@@ -230,3 +233,5 @@ namespace muu::impl
 	MUU_PRAGMA_MSVC(float_control(pop))
 
 }
+
+MUU_POP_WARNINGS // MUU_DISABLE_PADDING_WARNINGS

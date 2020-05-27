@@ -8,6 +8,9 @@
 #pragma once
 #include "../muu/common.h"
 
+MUU_PUSH_WARNINGS
+MUU_DISABLE_PADDING_WARNINGS
+
 namespace muu
 {
 	/// \brief	Performs actions when going out of scope.
@@ -112,3 +115,5 @@ namespace muu
 	template <typename T>
 	scope_guard(T&) -> scope_guard<T>;
 }
+
+MUU_POP_WARNINGS // MUU_DISABLE_PADDING_WARNINGS
