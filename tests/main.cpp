@@ -1,10 +1,10 @@
-#define MUU_DEV 1
 #if !defined(_MSC_VER) || !defined(_M_IX86)
 	#define MUU_ALL_INLINE 0
 	#define MUU_IMPLEMENTATION
 	#include "../include/muu/aligned_alloc.h"
 	#include "../include/muu/blob.h"
 	#include "../include/muu/uuid.h"
+	#include "../include/muu/hashing.h"
 #else
 	#include "../include/muu/preprocessor.h"
 #endif

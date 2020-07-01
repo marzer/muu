@@ -155,11 +155,18 @@ TEST_CASE("tagged_ptr - integral tags")
 	}
 }
 
+// gcc bug spam, see: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=92519
+#if MUU_GCC <= 9
+	#define GCC_INITIALIZER_SPAM_FIX	= {}
+#else
+	#define GCC_INITIALIZER_SPAM_FIX
+#endif
+
 TEST_CASE("tagged_ptr - pod tags")
 {
 	struct data
 	{
-		char val;
+		char val GCC_INITIALIZER_SPAM_FIX;
 	};
 	static_assert(sizeof(data) == 1);
 
@@ -198,7 +205,7 @@ TEST_CASE("tagged_ptr - pod tags (large)")
 {
 	struct data
 	{
-		char val[3];
+		char val[3] GCC_INITIALIZER_SPAM_FIX;
 	};
 	static_assert(sizeof(data) == 3);
 
@@ -245,9 +252,10 @@ TEST_CASE("tagged_ptr - alignments")
 
 	tagged_ptr<align32> ptr;
 	static_assert(sizeof(ptr) == sizeof(void*));
-	ptr.tag(~uintptr_t{});
+	using tag_type = decltype(ptr)::tag_type;
+	ptr.tag(static_cast<tag_type>(~tag_type{}));
 	const auto expectedTag = ptr.tag();
-	CHECK(expectedTag != ~uintptr_t{});
+	CHECK(expectedTag != ~tag_type{});
 	CHECK(expectedTag == tagged_ptr<align32>::max_tag);
 
 	std::unique_ptr<align32> aligned{ new align32 };

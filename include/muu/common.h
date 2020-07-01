@@ -4,9 +4,10 @@
 // SPDX-License-Identifier: MIT
 
 /// \file
-/// \brief Typedefs and intrinsics used by all other muu headers.
+/// \brief Typedefs and intrinsics used by muu components.
+
 #pragma once
-#include "preprocessor.h"
+#include "../muu/preprocessor.h"
 
 //=====================================================================================================================
 // INCLUDES
@@ -27,27 +28,44 @@ MUU_DISABLE_ALL_WARNINGS
 #include <cmath>
 #include <type_traits>
 #include <utility>
-
+#include <limits>
 
 MUU_POP_WARNINGS
+
+//=====================================================================================================================
+// ENVIRONMENT GROUND-TRUTHS
+//=====================================================================================================================
+
+static_assert(CHAR_BIT == 8);
+static_assert(sizeof(std::size_t) >= 4);
+static_assert(std::numeric_limits<float>::is_iec559);
+static_assert(std::numeric_limits<double>::is_iec559);
+static_assert('A' == 65);
 
 //=====================================================================================================================
 // TYPEDES AND FORWARD DECLARATIONS
 //=====================================================================================================================
 
 /// \brief	The root namespace for all muu functions and types.
+namespace muu {}
+
+namespace muu_this_is_not_a_real_namespace {}
+
+#if !MUU_DOXYGEN
+// forward declarations are hidden from doxygen
+// because they fuck it up =/
+
 namespace muu
 {
-	using size_t = std::size_t;
-	using intptr_t = std::intptr_t;
+	using size_t    = std::size_t;
+	using intptr_t  = std::intptr_t;
 	using uintptr_t = std::uintptr_t;
 	using ptrdiff_t = std::ptrdiff_t;
 	using nullptr_t = std::nullptr_t;
-
-	#if !MUU_DOXYGEN
-
-	// foward declarations are hidden from doxygen
-	// because they fuck it up =/
+	#if MUU_HAS_INT128
+	using int128_t = __int128_t;
+	using uint128_t = __uint128_t;
+	#endif
 
 	struct uuid;
 	struct semver;
@@ -58,11 +76,20 @@ namespace muu
 	class bitset;
 	class thread_pool;
 
+	template <size_t>				class hash_combiner;
+	template <size_t>				class fnv1a;
 	template <typename>				class scope_guard;
 	template <typename, size_t>		class tagged_ptr;
-
-	#endif
 }
+
+namespace std
+{
+	template <typename>				struct hash;
+	template <typename, typename>	class basic_string_view;
+	template <typename, typename>	class basic_ostream;
+}
+
+#endif // !MUU_DOXYGEN
 
 //=====================================================================================================================
 // TYPE TRAITS AND METAFUNCTIONS
@@ -71,9 +98,16 @@ namespace muu
 namespace muu::impl
 {
 	template <typename T, typename... U>
-	struct is_one_of : std::integral_constant<bool,
+	struct same_as_any : std::integral_constant<bool,
 		(false || ... || std::is_same_v<T, U>)
-	> {};
+	>
+	{};
+
+	template <typename T, typename... U>
+	struct same_as_all : std::integral_constant<bool,
+		(true && ...&& std::is_same_v<T, U>)
+	>
+	{};
 
 	template <typename T> using add_lref = std::add_lvalue_reference_t<T>;
 	template <typename T> using add_rref = std::add_rvalue_reference_t<T>;
@@ -241,6 +275,10 @@ namespace muu::impl
 	template <> struct make_signed<float> { using type = float; };
 	template <> struct make_signed<double> { using type = double; };
 	template <> struct make_signed<long double> { using type = long double; };
+	#if MUU_HAS_INT128
+	template <> struct make_signed<int128_t> { using type = int128_t; };
+	template <> struct make_signed<uint128_t> { using type = int128_t; };
+	#endif
 
 	template <typename T> struct make_unsigned;
 	template <typename T> struct make_unsigned<const volatile T> { using type = const volatile typename make_unsigned<T>::type; };
@@ -259,6 +297,10 @@ namespace muu::impl
 	template <> struct make_unsigned<unsigned long> { using type = unsigned long; };
 	template <> struct make_unsigned<long long> { using type = unsigned long long; };
 	template <> struct make_unsigned<unsigned long long> { using type = unsigned long long; };
+	#if MUU_HAS_INT128
+	template <> struct make_unsigned<int128_t> { using type = uint128_t; };
+	template <> struct make_unsigned<uint128_t> { using type = uint128_t; };
+	#endif
 
 	template <typename T, bool = std::is_enum_v<remove_cvref<T>>>
 	struct remove_enum
@@ -276,14 +318,33 @@ namespace muu::impl
 	//struct underlying_type : std::underlying_type<T> {};
 	//template <typename T>
 	//struct underlying_type<T, false> { using type = T; };
+
+	template <size_t bits> struct canonical_int;
+	template <> struct canonical_int<8> { using type = int8_t; };
+	template <> struct canonical_int<16> { using type = int16_t; };
+	template <> struct canonical_int<32> { using type = int32_t; };
+	template <> struct canonical_int<64> { using type = int64_t; };
+	#if MUU_HAS_INT128
+	template <> struct canonical_int<128> { using type = int128_t; };
+	#endif
+
+	template <size_t bits> struct canonical_uint;
+	template <> struct canonical_uint<8> { using type = uint8_t; };
+	template <> struct canonical_uint<16> { using type = uint16_t; };
+	template <> struct canonical_uint<32> { using type = uint32_t; };
+	template <> struct canonical_uint<64> { using type = uint64_t; };
+	#if MUU_HAS_INT128
+	template <> struct canonical_uint<128> { using type = uint128_t; };
+	#endif
 }
 
 namespace muu
 {
-	/// \addtogroup		meta		Metafunctions and type traits.
-	/// \brief Many of these are mirrors of (or supplementary to) traits found in the standard library's
-	/// 	   `<type_traits>`, but with simpler/saner default behaviour (e.g. most metafunctions treat references to
-	/// 	   types as if they were the actual type, because that's typically how you actually want them to work).
+	/// \addtogroup		meta		Metafunctions and type traits
+	/// \brief Metaprogramming utilities to complement those found in `<type_traits>`.
+	/// \remarks	Many of these are mirrors of (or supplementary to) traits found in the standard library's
+	//				`<type_traits>`, but with simpler/saner default behaviour (e.g. most metafunctions treat references to
+	/// 			types as if they were the actual type, because that's typically how you actually want them to work).
 	/// @{
 
 	/// \brief	Removes the topmost const, volatile and reference qualifiers from a type.
@@ -327,9 +388,14 @@ namespace muu
 	using least_aligned = typename impl::least_aligned<T...>::type;
 
 	/// \brief	True if T is exactly the same as one or more of the types named by U.
-	/// \remarks This is a variadic version of std::is_same_v.
+	/// \remarks This is a variadic version of `std::is_same_v<T, U1> || std::is_same_v<T, U2> ...`.
 	template <typename T, typename... U>
-	inline constexpr bool is_one_of = impl::is_one_of<T, U...>::value;
+	inline constexpr bool same_as_any = impl::same_as_any<T, U...>::value;
+
+	/// \brief	True if all the type arguments are the same type.
+	/// \remarks This is a variadic version of `std::is_same_v<T, U1> && std::is_same_v<T, U2> ...`.
+	template <typename T, typename... U>
+	inline constexpr bool same_as_all = impl::same_as_all<T, U...>::value;
 
 	/// \brief Is a type an enum or reference-to-enum?
 	template <typename T>
@@ -347,20 +413,67 @@ namespace muu
 
 	/// \brief Is a type unsigned or reference-to-unsigned?
 	/// \remarks Returns true for enums backed by unsigned integers.
+	/// \remarks Returns true for uint128_t (where supported).
 	template <typename T>
-	inline constexpr bool is_unsigned = std::is_unsigned_v<remove_enum<remove_cvref<T>>>;
+	inline constexpr bool is_unsigned = std::is_unsigned_v<remove_enum<remove_cvref<T>>>
+		#if MUU_HAS_INT128
+		|| std::is_same_v<remove_enum<remove_cvref<T>>, uint128_t>
+		#endif
+	;
+
+	/// \brief Are any of the named types unsigned or reference-to-unsigned?
+	/// \remarks Returns true for enums backed by unsigned integers.
+	template <typename T, typename... U>
+	inline constexpr bool any_unsigned = is_unsigned<T> || (false || ... || is_unsigned<U>);
+
+	/// \brief Are all of the named types unsigned or reference-to-unsigned?
+	/// \remarks Returns true for enums backed by unsigned integers.
+	template <typename T, typename... U>
+	inline constexpr bool all_unsigned = is_unsigned<T> && (true && ... && is_unsigned<U>);
 
 	/// \brief Is a type signed or reference-to-signed?
 	/// \remarks Returns true for enums backed by signed integers.
 	/// \remarks Returns true for muu::float16.
+	/// \remarks Returns true for int128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_signed = std::is_signed_v<remove_enum<remove_cvref<T>>>
-		|| std::is_same_v<remove_cvref<T>, float16>;
+		|| std::is_same_v<remove_cvref<T>, float16>
+		#if MUU_HAS_INT128
+		|| std::is_same_v<remove_enum<remove_cvref<T>>, int128_t>
+		#endif
+	;
+
+	/// \brief Are any of the named types signed or reference-to-signed?
+	/// \remarks Returns true for enums backed by signed integers.
+	template <typename T, typename... U>
+	inline constexpr bool any_signed = is_signed<T> || (false || ... || is_signed<U>);
+
+	/// \brief Are all of the named types signed or reference-to-signed?
+	/// \remarks Returns true for enums backed by signed integers.
+	template <typename T, typename... U>
+	inline constexpr bool all_signed = is_signed<T> && (true && ... && is_signed<U>);
 
 	/// \brief Is a type an integral type or a reference to an integral type?
 	/// \remarks Returns true for enums.
+	/// \remarks Returns true for int128_t and uint128_t (where supported).
 	template <typename T>
-	inline constexpr bool is_integral = std::is_integral_v<remove_enum<remove_cvref<T>>>;
+	inline constexpr bool is_integral = std::is_integral_v<remove_enum<remove_cvref<T>>>
+		#if MUU_HAS_INT128
+		|| same_as_any<remove_enum<remove_cvref<T>>, int128_t, uint128_t>
+		#endif
+	;
+
+	/// \brief Are any of the named types integral or reference-to-integral?
+	/// \remarks Returns true for enums.
+	/// \remarks Returns true for int128_t and uint128_t (where supported).
+	template <typename T, typename... U>
+	inline constexpr bool any_integral = is_integral<T> || (false || ... || is_integral<U>);
+
+	/// \brief Are all of the named types integral or reference-to-integral?
+	/// \remarks Returns true for enums.
+	/// \remarks Returns true for int128_t and uint128_t (where supported).
+	template <typename T, typename... U>
+	inline constexpr bool all_integral = is_integral<T> && (true && ... && is_integral<U>);
 
 	/// \brief Is a type a floating-point or reference-to-floating-point?
 	/// \remarks Returns true for muu::float16.
@@ -370,9 +483,14 @@ namespace muu
 
 	/// \brief Is a type arithmetic or reference-to-arithmetic?
 	/// \remarks Returns true for muu::float16.
+	/// \remarks Returns true for int128_t and uint128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_arithmetic = std::is_arithmetic_v<std::remove_reference_t<T>>
-		|| std::is_same_v<remove_cvref<T>, float16>;
+		|| std::is_same_v<remove_cvref<T>, float16>
+		#if MUU_HAS_INT128
+		|| same_as_any<remove_enum<remove_cvref<T>>, int128_t, uint128_t>
+		#endif
+	;
 
 	/// \brief Is a type const or reference-to-const?
 	template <typename T>
@@ -476,6 +594,21 @@ namespace muu
 	template <typename T>
 	using make_unsigned = typename impl::make_unsigned<T>::type;
 
+	/// \brief	Evaluates to false but with type-dependent evaluation.
+	/// \details Allows you to do this: \cpp
+	///	static_assert(dependent_false<T>, "Oh no, T is the wrong type for some reason");
+	/// \ecpp
+	template <typename T>
+	inline constexpr bool dependent_false = false;
+
+	/// \brief	Gets the 'canonical' unsigned integer with a specific number of bits for this platform.
+	template <size_t Bits>
+	using canonical_uint = typename impl::canonical_uint<Bits>::type;
+
+	/// \brief	Gets the 'canonical' signed integer with a specific number of bits for this platform.
+	template <size_t Bits>
+	using canonical_int = typename impl::canonical_int<Bits>::type;
+
 	/// @}
 }
 
@@ -491,67 +624,114 @@ namespace muu
 	inline namespace literals
 	{
 		/// \brief	Creates a size_t.
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_GNU_ATTR(const)
 		MUU_CONSTEVAL size_t operator"" _sz(unsigned long long n) noexcept
 		{
 			return static_cast<size_t>(n);
 		}
 
 		/// \brief	Creates a uint8_t.
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_GNU_ATTR(const)
 		MUU_CONSTEVAL uint8_t operator"" _u8(unsigned long long n) noexcept
 		{
 			return static_cast<uint8_t>(n);
 		}
 
 		/// \brief	Creates a uint16_t.
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_GNU_ATTR(const)
 		MUU_CONSTEVAL uint16_t operator"" _u16(unsigned long long n) noexcept
 		{
 			return static_cast<uint16_t>(n);
 		}
 
 		/// \brief	Creates a uint32_t.
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_GNU_ATTR(const)
 		MUU_CONSTEVAL uint32_t operator"" _u32(unsigned long long n) noexcept
 		{
 			return static_cast<uint32_t>(n);
 		}
 
 		/// \brief	Creates a uint64_t.
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_GNU_ATTR(const)
 		MUU_CONSTEVAL uint64_t operator"" _u64(unsigned long long n) noexcept
 		{
 			return static_cast<uint64_t>(n);
 		}
 
 		/// \brief	Creates a int8_t.
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_GNU_ATTR(const)
 		MUU_CONSTEVAL int8_t operator"" _i8(unsigned long long n) noexcept
 		{
 			return static_cast<int8_t>(n);
 		}
 
 		/// \brief	Creates a int16_t.
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_GNU_ATTR(const)
 		MUU_CONSTEVAL int16_t operator"" _i16(unsigned long long n) noexcept
 		{
 			return static_cast<int16_t>(n);
 		}
 
 		/// \brief	Creates a int32_t.
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_GNU_ATTR(const)
 		MUU_CONSTEVAL int32_t operator"" _i32(unsigned long long n) noexcept
 		{
 			return static_cast<int32_t>(n);
 		}
 
 		/// \brief	Creates a int64_t.
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_GNU_ATTR(const)
 		MUU_CONSTEVAL int64_t operator"" _i64(unsigned long long n) noexcept
 		{
 			return static_cast<int64_t>(n);
 		}
+
+		/// \brief	Creates a std::byte.
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_GNU_ATTR(const)
+		MUU_CONSTEVAL std::byte operator"" _byte(unsigned long long n) noexcept
+		{
+			return static_cast<std::byte>(n);
+		}
+
+		#if MUU_HAS_INT128
+
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_GNU_ATTR(const)
+		MUU_CONSTEVAL int128_t operator"" _i128(unsigned long long n) noexcept
+		{
+			return static_cast<int128_t>(n);
+		}
+
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_GNU_ATTR(const)
+		MUU_CONSTEVAL uint128_t operator"" _u128(unsigned long long n) noexcept
+		{
+			return static_cast<uint128_t>(n);
+		}
+
+		#endif
 	}
 
 	namespace impl
@@ -639,9 +819,6 @@ namespace muu
 		/// \brief The number of bytes required to store a pointer.
 		inline constexpr size_t pointer_size = sizeof(void*);
 
-		/// \brief The number of bits required to store a pointer.
-		inline constexpr size_t pointer_bits = pointer_size * bits_per_byte;
-
 		/// \brief True if exceptions are enabled.
 		inline constexpr bool has_exceptions = !!MUU_EXCEPTIONS;
 
@@ -654,6 +831,7 @@ namespace muu
 		/// \brief True if the target environment is big-endian.
 		inline constexpr bool is_big_endian = !!MUU_BIG_ENDIAN;
 	
+		static_assert(pointer_size * bits_per_byte == bitness);
 		static_assert(is_little_endian != is_big_endian);
 	
 	} //::build
@@ -672,18 +850,19 @@ namespace muu
 	/// 
 	/// \attention On older compilers lacking support for std::is_constant_evaluated this will always return `false`.
 	/// 		   You can check for support by examining build::supports_is_constant_evaluated.
-	[[nodiscard]] MUU_ALWAYS_INLINE
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
 	constexpr bool is_constant_evaluated() noexcept
 	{
-		#if defined(__clang__)
+		#if MUU_CLANG
 			#if __has_builtin(__builtin_is_constant_evaluated)
 				return __builtin_is_constant_evaluated();
 			#else
 				return false;
 			#endif
-		#elif defined(__GNUC__) && __GNUC__ >= 9
+		#elif MUU_GCC >= 9
 			return __builtin_is_constant_evaluated();
-		#elif defined(_MSC_VER) && _MSC_VER >= 1925 // Visual Studio 2019 version 16.5
+		#elif MUU_MSVC >= 1925 // Visual Studio 2019 version 16.5
 			return __builtin_is_constant_evaluated();
 		#elif defined(__cpp_lib_is_constant_evaluated)
 			return std::is_constant_evaluated();
@@ -704,18 +883,19 @@ namespace muu
 	/// 		 for it in their standard library. Using this version allows you to get around that 
 	/// 		 by writing code 'as if' it were there and have it compile just the same.
 	template <class T>
-	[[nodiscard]] MUU_ALWAYS_INLINE
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
 	constexpr T* launder(T* p) noexcept
 	{
-		#if defined(__clang__)
+		#if MUU_CLANG
 			#if __has_builtin(__builtin_launder)
 				return __builtin_launder(p);
 			#else
 				return p;
 			#endif
-		#elif defined(__GNUC__)
+		#elif MUU_GCC
 			return __builtin_launder(p);
-		#elif defined(_MSC_VER) && _MSC_VER >= 1914 // Visual Studio 2017 version 15.7
+		#elif MUU_MSVC >= 1914 // Visual Studio 2017 version 15.7
 			return __builtin_launder(p);
 		#elif defined(__cpp_lib_launder)
 			return std::launder(p);
@@ -729,16 +909,24 @@ namespace muu
 	/// \tparam	T		An enum type.
 	/// \param 	val		The value to unwrap.
 	///
-	/// \returns	<strong><em>Enum inputs: </em></strong>`static_cast<std::underlying_type_t<T>>(val)`<br>
-	/// 			<strong><em>Everything else: A straight pass-through of the input (a no-op).<br>
-	template <typename T>
-	[[nodiscard]] MUU_ALWAYS_INLINE
+	/// \returns	<strong><em>Enum inputs:</em></strong> `static_cast<std::underlying_type_t<T>>(val)`<br>
+	/// 			<strong><em>Everything else:</em></strong> A straight pass-through of the input (a no-op).<br>
+	template <typename T, typename = std::enable_if_t<is_enum<T>>>
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	MUU_GNU_ATTR(const)
+	constexpr auto unwrap(T val) noexcept
+	{
+		return static_cast<std::underlying_type_t<T>>(val);
+	}
+
+	template <typename T, std::enable_if_t<!is_enum<T>>* = nullptr>
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	MUU_GNU_ATTR(const)
 	constexpr decltype(auto) unwrap(T&& val) noexcept
 	{
-		if constexpr (is_enum<T>)
-			return static_cast<std::underlying_type_t<std::remove_reference_t<T>>>(val);
-		else
-			return std::forward<T>(val);
+		return std::forward<T>(val);
 	}
 
 	/// \brief	Checks if an integral value has only a single bit set.
@@ -751,7 +939,8 @@ namespace muu
 	/// \remarks This is equivalent to C++20's std::has_single_bit, with the addition of also being
 	/// 		 extended to work with enum types.
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
-	[[nodiscard]] MUU_ALWAYS_INLINE
+	[[nodiscard]]
+	MUU_GNU_ATTR(const)
 	constexpr bool has_single_bit(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -773,7 +962,8 @@ namespace muu
 	/// \remarks This is equivalent to C++20's std::countl_zero, with the addition of also being
 	/// 		 extended to work with enum types.
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
-	[[nodiscard]] MUU_ALWAYS_INLINE
+	[[nodiscard]]
+	MUU_GNU_ATTR(const)
 	constexpr int countl_zero(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -783,14 +973,14 @@ namespace muu
 			if (!val)
 				return static_cast<int>(sizeof(T) * CHAR_BIT);
 
-			#if defined(__GNUC__) || defined(__clang__) || defined(_MSC_VER)
+			#if MUU_GCC || MUU_CLANG || MUU_MSVC
 			{
-				if constexpr (std::is_same_v<T, unsigned long long> || sizeof(T) == sizeof(unsigned long long))
+				if constexpr (std::is_same_v<T, unsigned long long>)
 					return __builtin_clzll(val);
-				else if constexpr (std::is_same_v<T, unsigned int> || sizeof(T) == sizeof(unsigned int))
-					return __builtin_clz(val);
-				else if constexpr (std::is_same_v<T, unsigned long> || sizeof(T) == sizeof(unsigned long))
+				else if constexpr (std::is_same_v<T, unsigned long>)
 					return __builtin_clzl(val);
+				else if constexpr (std::is_same_v<T, unsigned int>)
+					return __builtin_clz(val);
 				else if constexpr (sizeof(T) < sizeof(unsigned int))
 					return __builtin_clz(val) - static_cast<int>((sizeof(unsigned int) - sizeof(T)) * CHAR_BIT);
 			}
@@ -810,7 +1000,8 @@ namespace muu
 	/// \remarks This is equivalent to C++20's std::countr_zero, with the addition of also being
 	/// 		 extended to work with enum types.
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
-	[[nodiscard]] MUU_ALWAYS_INLINE
+	[[nodiscard]]
+	MUU_GNU_ATTR(const)
 	constexpr int countr_zero(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -820,14 +1011,14 @@ namespace muu
 			if (!val)
 				return static_cast<int>(sizeof(T) * CHAR_BIT);
 
-			#if defined(__GNUC__) || defined(__clang__) || defined(_MSC_VER)
+			#if MUU_GCC || MUU_CLANG || MUU_MSVC
 			{
-				if constexpr (std::is_same_v<T, unsigned long long> || sizeof(T) == sizeof(unsigned long long))
+				if constexpr (std::is_same_v<T, unsigned long long>)
 					return __builtin_ctzll(val);
+				else if constexpr (std::is_same_v<T, unsigned long>)
+					return __builtin_ctzl(val);
 				else if constexpr (std::is_same_v<T, unsigned int> || sizeof(T) <= sizeof(unsigned int))
 					return __builtin_ctz(val);
-				else if constexpr (std::is_same_v<T, unsigned long> || sizeof(T) == sizeof(unsigned long))
-					return __builtin_ctzl(val);
 			}
 			#else 
 				// ...
@@ -845,7 +1036,8 @@ namespace muu
 	/// \remarks This is equivalent to C++20's std::bit_ceil, with the addition of also being
 	/// 		 extended to work with enum types.
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
-	[[nodiscard]] MUU_ALWAYS_INLINE
+	[[nodiscard]]
+	MUU_GNU_ATTR(const)
 	constexpr T bit_ceil(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -868,7 +1060,8 @@ namespace muu
 	/// \remarks This is equivalent to C++20's std::bit_floor, with the addition of also being
 	/// 		 extended to work with enum types.
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
-	[[nodiscard]] MUU_ALWAYS_INLINE
+	[[nodiscard]]
+	MUU_GNU_ATTR(const)
 	constexpr T bit_floor(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -892,7 +1085,8 @@ namespace muu
 	/// \remarks This is equivalent to C++20's std::bit_width, with the addition of also being
 	/// 		 extended to work with enum types.
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
-	[[nodiscard]] MUU_ALWAYS_INLINE
+	[[nodiscard]]
+	MUU_GNU_ATTR(const)
 	constexpr T bit_width(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -915,6 +1109,7 @@ namespace muu
 	/// \returns	An instance of T right-filled with the desired number of ones.
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
 	[[nodiscard]]
+	MUU_GNU_ATTR(const)
 	constexpr T bit_fill_right(size_t count) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -943,6 +1138,7 @@ namespace muu
 	/// \returns	An instance of T left-filled with the desired number of ones.
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
 	[[nodiscard]]
+	MUU_GNU_ATTR(const)
 	constexpr T bit_fill_left(size_t count) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -959,7 +1155,33 @@ namespace muu
 
 	MUU_POP_WARNINGS // gcc 'may change sign' spam
 
-	#define MUU_HAS_CONSTEXPR_BIT_CAST 1
+	namespace impl
+	{
+		MUU_PUSH_WARNINGS
+		MUU_DISABLE_INIT_WARNINGS
+
+		template <typename To, typename From>
+		[[nodiscard]]
+		constexpr To bit_cast_fallback(const From& from) noexcept
+		{
+			static_assert(!std::is_reference_v<To> && !std::is_reference_v<From>);
+			static_assert(std::is_trivially_copyable_v<From> && std::is_trivially_copyable_v<To>);
+			static_assert(sizeof(To) == sizeof(From));
+
+			if constexpr (std::is_same_v<remove_cv<To>, remove_cv<From>>)
+				return from;
+			else if constexpr (all_integral<To, From>)
+				return static_cast<To>(static_cast<remove_enum<remove_cv<To>>>(unwrap(from)));
+			else if constexpr (std::is_default_constructible_v<To>)
+			{
+				To dst;
+				memcpy(&dst, &from, sizeof(To));
+				return dst;
+			}
+		}
+
+		MUU_POP_WARNINGS
+	}
 
 	/// \brief	Equivalent to C++20's std::bit_cast.
 	/// 
@@ -972,7 +1194,8 @@ namespace muu
 	/// 		   in constexpr contexts (since it falls back to a memcpy-based implementation).
 	/// 		   You can check for constexpr support by examining build::supports_constexpr_bit_cast.
 	template <typename To, typename From>
-	[[nodiscard]] MUU_ALWAYS_INLINE
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
 	constexpr To bit_cast(const From& from) noexcept
 	{
 		static_assert(
@@ -988,30 +1211,25 @@ namespace muu
 			"FROM and TO types must be the same size"
 		);
 
-		#define MUU_FALLBACK_IMPL				\
-			To dst;								\
-			memcpy(&dst, &from, sizeof(To));	\
-			return dst
-
-		#if defined(__clang__)
+		#if MUU_CLANG
 			#if __has_builtin(__builtin_bit_cast)
 				return __builtin_bit_cast(To, from);
-			#else
-				MUU_FALLBACK_IMPL;
-				#undef MUU_HAS_CONSTEXPR_BIT_CAST
-				#define MUU_HAS_CONSTEXPR_BIT_CAST 0
+				#define MUU_HAS_CONSTEXPR_BIT_CAST 1
 			#endif
-		#elif defined(__GNUC__) && __GNUC__ >= 11 // ??
+		#elif MUU_GCC >= 11 // ??
 			return __builtin_bit_cast(To, from);
-		#elif defined(_MSC_VER) && _MSC_VER >= 1926 // Visual Studio 2019 version 16.6
+			#define MUU_HAS_CONSTEXPR_BIT_CAST 1
+		#elif MUU_MSVC >= 1926 // Visual Studio 2019 version 16.6
 			return __builtin_bit_cast(To, from);
+			#define MUU_HAS_CONSTEXPR_BIT_CAST 1
 		#else
-			MUU_FALLBACK_IMPL;
-			#undef MUU_HAS_CONSTEXPR_BIT_CAST
-			#define MUU_HAS_CONSTEXPR_BIT_CAST 0
+		///...
 		#endif
 
-		#undef MUU_FALLBACK_IMPL
+		#ifndef MUU_HAS_CONSTEXPR_BIT_CAST
+			#define MUU_HAS_CONSTEXPR_BIT_CAST 0
+			return impl::bit_cast_fallback<To>(from);
+		#endif
 	}
 
 	namespace build
@@ -1026,7 +1244,8 @@ namespace muu
 	/// 
 	/// \remarks This is equivalent to std::min without requiring you to drag in the enormity of `<algorithm>`.
 	template <typename T>
-	[[nodiscard]] MUU_ALWAYS_INLINE
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
 	constexpr const T& min(const T& val1, const T& val2) noexcept
 	{
 		return val1 < val2 ? val1 : val2;
@@ -1036,7 +1255,8 @@ namespace muu
 	/// 
 	/// \remarks This is equivalent to std::max without requiring you to drag in the enormity of `<algorithm>`.
 	template <typename T>
-	[[nodiscard]] MUU_ALWAYS_INLINE
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
 	constexpr const T& max(const T& val1, const T& val2) noexcept
 	{
 		return val1 < val2 ? val2 : val1;
@@ -1046,25 +1266,27 @@ namespace muu
 	///
 	/// \remarks This is equivalent to std::clamp without requiring you to drag in the enormity of `<algorithm>`.
 	template <typename T>
-	[[nodiscard]] MUU_ALWAYS_INLINE
-	constexpr const T& clamp(const T& val, const T& min, const T& max) noexcept
+	[[nodiscard]]
+	constexpr const T& clamp(const T& val, const T& min_, const T& max_) noexcept
 	{
-		return muu::max(muu::min(val, max), min);
+		return (muu::max)((muu::min)(val, max_), min_);
 	}
 
 	/// \brief	Returns true if a value is between two bounds (inclusive).
 	template <typename T>
-	[[nodiscard]] MUU_ALWAYS_INLINE
-	constexpr bool MUU_VECTORCALL is_between(T val, T min, T max) noexcept
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	constexpr bool MUU_VECTORCALL is_between(T val, T min_, T max_) noexcept
 	{
-		return min <= val && val <= max;
+		return min_ <= val && val <= max_;
 	}
 
 	/// \brief	Returns the absolute value of an arithmetic value.
 	/// 
 	/// \remarks This is similar to std::abs but is `constexpr` and doesn't coerce or promote the input types.
 	template <typename T, typename = std::enable_if_t<is_arithmetic<T>>>
-	[[nodiscard]] MUU_ALWAYS_INLINE
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
 	constexpr T MUU_VECTORCALL abs(T val) noexcept
 	{
 		if constexpr (is_unsigned<T>)
@@ -1072,6 +1294,9 @@ namespace muu
 		else
 			return val < T{} ? -val : val;
 	}
+
+	MUU_PUSH_WARNINGS
+	MUU_PRAGMA_MSVC(warning(disable: 4191)) // unsafe pointer conversion (that's the whole point)
 
 	/// \brief	Casts between pointers, choosing the most appropriate conversion path.
 	/// 
@@ -1104,7 +1329,8 @@ namespace muu
 	/// \return The input casted to the desired type.
 	/// 
 	template <typename To, typename From>
-	[[nodiscard]] MUU_ALWAYS_INLINE
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
 	constexpr To pointer_cast(From from) noexcept
 	{
 		static_assert(
@@ -1184,7 +1410,7 @@ namespace muu
 					return pointer_cast<To>(unwrap(from));
 
 				// (uintptr_t, intptr_t) -> pointer
-				else if constexpr (is_one_of<From, uintptr_t, intptr_t>)
+				else if constexpr (same_as_any<From, uintptr_t, intptr_t>)
 					return reinterpret_cast<To>(from);
 
 				// other integers -> pointer
@@ -1243,14 +1469,14 @@ namespace muu
 				else if constexpr (std::is_void_v<from_base> && std::is_void_v<to_base>)
 				{
 					// remove const/volatile
-					if constexpr (is_one_of<From, const void*, const volatile void*, volatile void*>)
+					if constexpr (same_as_any<From, const void*, const volatile void*, volatile void*>)
 						return static_cast<To>(const_cast<void*>(from));
 
 					// add const/volatile
 					else
 					{
 						static_assert(std::is_same_v<From, void*>);
-						static_assert(is_one_of<To, const void*, const volatile void*, volatile void*>);
+						static_assert(same_as_any<To, const void*, const volatile void*, volatile void*>);
 						return static_cast<To>(from);
 					}
 				}
@@ -1283,7 +1509,7 @@ namespace muu
 					else
 					{
 						static_assert(std::is_same_v<From, remove_cv<from_base>*>);
-						static_assert(is_one_of<To, const to_base*, const volatile to_base*, volatile to_base*>);
+						static_assert(same_as_any<To, const to_base*, const volatile to_base*, volatile to_base*>);
 						return static_cast<To>(from);
 					}
 				}
@@ -1292,18 +1518,22 @@ namespace muu
 	}
 
 	template <typename To, typename From, size_t N>
-	[[nodiscard]] MUU_ALWAYS_INLINE
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
 	constexpr To pointer_cast(From(&arr)[N]) noexcept
 	{
 		return pointer_cast<To>(&arr[0]);
 	}
 
 	template <typename To, typename From, size_t N>
-	[[nodiscard]] MUU_ALWAYS_INLINE
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
 	constexpr To pointer_cast(From(&&arr)[N]) noexcept
 	{
 		return pointer_cast<To>(&arr[0]);
 	}
+
+	MUU_POP_WARNINGS
 
 	/// \brief	Applies a byte offset to a pointer.
 	///
@@ -1318,7 +1548,9 @@ namespace muu
 	/// 		 returned by apply_offset the onus is on you to ensure that the offset made sense
 	/// 		 before doing so!
 	template <typename T>
-	[[nodiscard]] MUU_ALWAYS_INLINE
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	MUU_GNU_ATTR(const)
 	constexpr T* apply_offset(T* ptr, ptrdiff_t offset) noexcept
 	{
 		return pointer_cast<T*>(pointer_cast<rebase_pointer<T*, std::byte>>(ptr) + offset);
@@ -1332,7 +1564,9 @@ namespace muu
 	/// \returns	True if the value is floating-point infinity or NaN.
 	/// 			Always returns false if the value was not a floating-point type.
 	template <typename T, typename = std::enable_if_t<is_arithmetic<T>>>
-	[[nodiscard]] MUU_ALWAYS_INLINE
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	MUU_GNU_ATTR(const)
 	constexpr bool MUU_VECTORCALL is_infinity_or_nan(T val) noexcept
 	{
 		if constexpr (is_floating_point<T>)
@@ -1359,8 +1593,10 @@ namespace muu
 	/// 
 	/// \returns	The value of the selected byte.
 	template <size_t Index, typename T, typename = std::enable_if_t<is_integral<T>>>
-	[[nodiscard]] MUU_ALWAYS_INLINE
-	constexpr uint8_t MUU_VECTORCALL select_byte(T val) noexcept
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	MUU_GNU_ATTR(const)
+	constexpr uint8_t MUU_VECTORCALL byte_select(T val) noexcept
 	{
 		static_assert(
 			Index < sizeof(T),
@@ -1368,9 +1604,9 @@ namespace muu
 		);
 
 		if constexpr (is_enum<T>)
-			return select_byte<Index>(unwrap(val));
+			return byte_select<Index>(unwrap(val));
 		else if constexpr (is_signed<T>)
-			return select_byte<Index>(static_cast<make_unsigned<T>>(val));
+			return byte_select<Index>(static_cast<make_unsigned<T>>(val));
 		else if constexpr (sizeof(T) == 1_sz)
 			return static_cast<uint8_t>(val);
 		else
@@ -1383,8 +1619,177 @@ namespace muu
 		}
 	}
 
+	#if !MUU_DOXYGEN
+	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	MUU_GNU_ATTR(const)
+	constexpr T byte_reverse(T) noexcept;
+	#endif
+
+	namespace impl
+	{
+		template <typename T>
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_GNU_ATTR(const)
+		T byte_reverse_intrinsic(T val) noexcept
+		{
+			#if MUU_GCC || MUU_CLANG
+			{
+				if constexpr (sizeof(T) == sizeof(uint16_t))
+					return __builtin_bswap16(val);
+				else if constexpr (sizeof(T) == sizeof(uint32_t))
+					return __builtin_bswap32(val);
+				else if constexpr (sizeof(T) == sizeof(uint64_t))
+					return __builtin_bswap64(val);
+				#if MUU_HAS_INT128
+				else if constexpr (sizeof(T) == sizeof(uint128_t))
+					return __builtin_bswap128(val);
+				#endif
+				else
+					static_assert(dependent_false<T>, "Unsupported integer type");
+			}
+			#elif MUU_MSVC
+			{
+				if constexpr (sizeof(T) == sizeof(unsigned short))
+					return static_cast<T>(_byteswap_ushort(static_cast<unsigned short>(val)));
+				else if constexpr (sizeof(T) == sizeof(unsigned long))
+					return static_cast<T>(_byteswap_ulong(static_cast<unsigned long>(val)));
+				else if constexpr (sizeof(T) == sizeof(unsigned long long))
+					return static_cast<T>(_byteswap_uint64(static_cast<unsigned long long>(val)));
+				else
+					static_assert(dependent_false<T>, "Unsupported integer type");
+			}
+			#else
+			// ...
+			#endif
+		}
+
+		template <typename T>
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_GNU_ATTR(const)
+		constexpr T byte_reverse_native(T val) noexcept
+		{
+			if constexpr (sizeof(T) == sizeof(uint16_t))
+			{
+				return static_cast<T>(
+					static_cast<uint32_t>(val << 8)
+					| static_cast<uint32_t>(val >> 8)
+				);
+			}
+			else if constexpr (sizeof(T) == sizeof(uint32_t))
+			{
+				return (val << 24)
+					| ((val << 8) & 0x00FF0000_u32)
+					| ((val >> 8) & 0x0000FF00_u32)
+					| (val >> 24);
+			}
+			else if constexpr (sizeof(T) == sizeof(uint64_t))
+			{
+				return (val << 56)
+					| ((val << 40) & 0x00FF000000000000_u64)
+					| ((val << 24) & 0x0000FF0000000000_u64)
+					| ((val << 8)  & 0x000000FF00000000_u64)
+					| ((val >> 8)  & 0x00000000FF000000_u64)
+					| ((val >> 24) & 0x0000000000FF0000_u64)
+					| ((val >> 40) & 0x000000000000FF00_u64)
+					| (val  >> 56);
+			}
+			#if MUU_HAS_INT128
+			else if constexpr (sizeof(T) == sizeof(uint128_t))
+			{
+				return (static_cast<uint128_t>(::muu::byte_reverse(static_cast<uint64_t>(val))) << 64)
+					| ::muu::byte_reverse(static_cast<uint64_t>(val >> 64));
+			}
+			#endif
+			else
+				static_assert(dependent_false<T>, "Unsupported integer type");
+		}
+	}
+
+	/// \brief	Reverses the byte order of an unsigned integral type.
+	///
+	/// \detail \cpp
+	/// const auto i = 0xAABBCCDDu;
+	/// const auto j = byte_reverse(i);
+	/// std::cout << std::hex << i << "\n" << j;
+	/// \ecpp
+	/// 
+	/// \out
+	/// AABBCCDD
+	/// DDBBCCAA
+	/// \eout
+	/// 
+	/// \tparam	T	An unsigned integer or enum type.
+	/// \param 	val	An unsigned integer or enum value.
+	///
+	/// \returns	A copy of the input value with the byte order reversed.
+	template <typename T, typename /* = std::enable_if_t<is_unsigned<T>>*/ >
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	MUU_GNU_ATTR(const)
+	constexpr T byte_reverse(T val) noexcept
+	{
+		if constexpr (is_enum<T>)
+			return static_cast<T>(byte_reverse(unwrap(val)));
+		else
+		{
+			using canonical = canonical_uint<sizeof(val) * build::bits_per_byte>;
+			if constexpr (!build::supports_is_constant_evaluated)
+				return static_cast<T>(impl::byte_reverse_native(static_cast<canonical>(val)));
+			else
+			{
+				if (is_constant_evaluated())
+					return static_cast<T>(impl::byte_reverse_native(static_cast<canonical>(val)));
+				else
+					return impl::byte_reverse_intrinsic(val);
+			}
+		}
+	}
+
+
+	namespace impl
+	{
+		// a lightweight drop-in substitute for std::array, because <array> drags in _a lot_ of cruft
+		// (see https://www.reddit.com/r/cpp/comments/eumou7/stl_header_token_parsing_benchmarks_for_vs2017/)
+		template <typename T, size_t N>
+		struct array
+		{
+			using value_type = T;
+			using size_type = size_t;
+			using difference_type = ptrdiff_t;
+			using reference = T&;
+			using const_reference = const T&;
+			using pointer = T*;
+			using const_pointer = const T*;
+			using iterator = pointer;
+			using const_iterator = const_pointer;
+		
+			T values[N];
+		
+			[[nodiscard]] MUU_ALWAYS_INLINE constexpr T& operator[](size_t pos) noexcept { return values[pos]; }
+			[[nodiscard]] MUU_ALWAYS_INLINE constexpr const T& operator[](size_t pos) const noexcept { return values[pos]; }
+			[[nodiscard]] MUU_ALWAYS_INLINE constexpr T* data() noexcept { return values; }
+			[[nodiscard]] MUU_ALWAYS_INLINE constexpr const T* data() const noexcept { return values; }
+			[[nodiscard]] MUU_ALWAYS_INLINE constexpr size_t size() const noexcept { return N; }
+			[[nodiscard]] MUU_ALWAYS_INLINE constexpr reference back() noexcept { return values[N - 1]; }
+			[[nodiscard]] MUU_ALWAYS_INLINE constexpr const_reference back() const noexcept { return values[N - 1]; }
+			[[nodiscard]] MUU_ALWAYS_INLINE constexpr reference front() noexcept { return values[0]; }
+			[[nodiscard]] MUU_ALWAYS_INLINE constexpr const_reference front() const noexcept { return values[0]; }
+			[[nodiscard]] MUU_ALWAYS_INLINE constexpr bool empty() const noexcept { return !N; }
+			[[nodiscard]] MUU_ALWAYS_INLINE constexpr iterator begin() noexcept { return values; }
+			[[nodiscard]] MUU_ALWAYS_INLINE constexpr const_iterator begin() const noexcept { return values; }
+			[[nodiscard]] MUU_ALWAYS_INLINE constexpr const_iterator cbegin() const noexcept { return values; }
+			[[nodiscard]] MUU_ALWAYS_INLINE constexpr iterator end() noexcept { return values + N; }
+			[[nodiscard]] MUU_ALWAYS_INLINE constexpr const_iterator end() const noexcept { return values + N; }
+			[[nodiscard]] MUU_ALWAYS_INLINE constexpr const_iterator cend() const noexcept { return values + N; }
+		};
+	}
 
 	/// @}
+
 }
 
 MUU_PRAGMA_MSVC(inline_recursion(off))

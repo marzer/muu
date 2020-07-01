@@ -5,6 +5,7 @@
 
 /// \file
 /// \brief  Contains the definition of muu::accumulator.
+
 #pragma once
 #include "../muu/common.h"
 

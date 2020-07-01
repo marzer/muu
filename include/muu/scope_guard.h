@@ -4,7 +4,8 @@
 // SPDX-License-Identifier: MIT
 
 /// \file
-/// \brief  Contains the definition of muu::scope_guard.
+/// \brief Contains the definition of muu::scope_guard.
+
 #pragma once
 #include "../muu/common.h"
 
@@ -66,8 +67,8 @@ namespace muu
 		);
 
 		private:
-			T func_;
-			bool suppressed = false;
+			MUU_NO_UNIQUE_ADDRESS T func_;
+			bool cancelled = false;
 
 		public:
 
@@ -85,7 +86,7 @@ namespace muu
 
 			~scope_guard() noexcept
 			{
-				if (!suppressed)
+				if (!cancelled)
 					func_();
 			}
 
@@ -96,13 +97,13 @@ namespace muu
 
 			/// \brief	Suppresses invocation of the the scope_guard's wrapped callable.
 			///
-			/// \remarks This 'disables' a scope_guard, preventing the callable from being
+			/// \remarks This cancels the pending invocation of the wrapped callable, preventing it from being
 			/// 		called when the scope_guard goes out of scope. In general it's better to
-			/// 		structure RAII code to not require this sort of manoeuvring, but suppress()
+			/// 		structure RAII code to not require this sort of manoeuvring, but cancel()
 			/// 		is provided as an 'escape hatch' if you have no other choice.
-			void suppress() noexcept
+			void cancel() noexcept
 			{
-				suppressed = true;
+				cancelled = true;
 			}
 	};
 

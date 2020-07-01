@@ -19,7 +19,7 @@ TEST_CASE("scope_guard")
 		val = 1;
 		scope_guard sg1{ func };
 		scope_guard sg2{ func };
-		sg2.suppress();
+		sg2.cancel();
 	}
 	CHECK(val == 2);
 
@@ -28,7 +28,7 @@ TEST_CASE("scope_guard")
 		val = 1;
 		scope_guard sg1{ []()noexcept { func(); } };
 		scope_guard sg2{ []()noexcept { func(); } };
-		sg2.suppress();
+		sg2.cancel();
 	}
 	CHECK(val == 2);
 
@@ -38,7 +38,7 @@ TEST_CASE("scope_guard")
 		auto lambda = []()noexcept { func(); };
 		scope_guard sg1{ lambda };
 		scope_guard sg2{ lambda };
-		sg2.suppress();
+		sg2.cancel();
 	}
 	CHECK(val == 2);
 
@@ -48,7 +48,7 @@ TEST_CASE("scope_guard")
 		{
 			scope_guard sg1{ [&]()noexcept { v++; } };
 			scope_guard sg2{ [&]()noexcept { v += 10; } };
-			sg2.suppress();
+			sg2.cancel();
 		}
 		CHECK(v == 2);
 	}
@@ -61,7 +61,7 @@ TEST_CASE("scope_guard")
 			scope_guard sg1{ lambda1 };
 			auto lambda2 = [&]()noexcept { v += 10; };
 			scope_guard sg2{ lambda2 };
-			sg2.suppress();
+			sg2.cancel();
 		}
 		CHECK(v == 2);
 	}

@@ -4,7 +4,8 @@
 // SPDX-License-Identifier: MIT
 
 /// \file
-/// \brief  Contains the definition of muu::float16.
+/// \brief Contains the definition of muu::float16.
+
 #pragma once
 #include "../muu/common.h"
 
@@ -18,7 +19,7 @@ MUU_DISABLE_ALL_WARNINGS
 	#undef MUU_F16_USE_INTRINSICS
 	#define MUU_F16_USE_INTRINSICS 0
 #endif
-#if MUU_F16_USE_INTRINSICS && defined(__clang__)
+#if MUU_F16_USE_INTRINSICS && MUU_CLANG
 	#if !__has_feature(f16c)
 		#undef MUU_F16_USE_INTRINSICS
 		#define MUU_F16_USE_INTRINSICS 0
@@ -130,7 +131,10 @@ namespace muu
 		MUU_F16_EXPLICIT_CONSTRUCTOR(unsigned long)
 		MUU_F16_EXPLICIT_CONSTRUCTOR(long long)
 		MUU_F16_EXPLICIT_CONSTRUCTOR(unsigned long long)
-
+		#if MUU_HAS_INT128
+		MUU_F16_EXPLICIT_CONSTRUCTOR(int128_t)
+		MUU_F16_EXPLICIT_CONSTRUCTOR(uint128_t)
+		#endif
 		#undef MUU_F16_EXPLICIT_CONSTRUCTOR
 
 		//====================================================
@@ -161,7 +165,7 @@ namespace muu
 			return (bits & 0x7FFFu) != 0u;
 		}
 
-		#define MUU_F16_EXPLICIT_CONVERSION(type)				\
+		#define MUU_F16_EXPLICIT_CONVERSION(type)					\
 			[[nodiscard]] MUU_ALWAYS_INLINE							\
 			explicit constexpr operator type() const noexcept		\
 			{														\
@@ -179,7 +183,10 @@ namespace muu
 		MUU_F16_EXPLICIT_CONVERSION(unsigned long)
 		MUU_F16_EXPLICIT_CONVERSION(long long)
 		MUU_F16_EXPLICIT_CONVERSION(unsigned long long)
-
+		#if MUU_HAS_INT128
+		MUU_F16_EXPLICIT_CONVERSION(int128_t)
+		MUU_F16_EXPLICIT_CONVERSION(uint128_t)
+		#endif
 		#undef MUU_F16_EXPLICIT_CONVERSION
 
 		//====================================================
@@ -253,25 +260,6 @@ namespace muu
 				return lhs op static_cast<input_type>(rhs);									\
 			}
 
-		MUU_F16_PROMOTING_BINARY_OP(bool, float, ==)
-		MUU_F16_PROMOTING_BINARY_OP(bool, float, !=)
-		MUU_F16_PROMOTING_BINARY_OP(bool, float, < )
-		MUU_F16_PROMOTING_BINARY_OP(bool, float, <=)
-		MUU_F16_PROMOTING_BINARY_OP(bool, float, > )
-		MUU_F16_PROMOTING_BINARY_OP(bool, float, >=)
-		MUU_F16_PROMOTING_BINARY_OP(bool, double, ==)
-		MUU_F16_PROMOTING_BINARY_OP(bool, double, !=)
-		MUU_F16_PROMOTING_BINARY_OP(bool, double, < )
-		MUU_F16_PROMOTING_BINARY_OP(bool, double, <=)
-		MUU_F16_PROMOTING_BINARY_OP(bool, double, > )
-		MUU_F16_PROMOTING_BINARY_OP(bool, double, >=)
-		MUU_F16_PROMOTING_BINARY_OP(bool, long double, ==)
-		MUU_F16_PROMOTING_BINARY_OP(bool, long double, !=)
-		MUU_F16_PROMOTING_BINARY_OP(bool, long double, < )
-		MUU_F16_PROMOTING_BINARY_OP(bool, long double, <=)
-		MUU_F16_PROMOTING_BINARY_OP(bool, long double, > )
-		MUU_F16_PROMOTING_BINARY_OP(bool, long double, >=)
-
 		#define MUU_F16_CONVERTING_BINARY_OP(return_type, input_type, op)					\
 			[[nodiscard]] MUU_ALWAYS_INLINE friend constexpr return_type MUU_VECTORCALL		\
 			operator op (float16 lhs, input_type rhs) noexcept								\
@@ -284,72 +272,33 @@ namespace muu
 				return return_type{ static_cast<float>(lhs) op static_cast<float>(rhs) };	\
 			}
 
-		MUU_F16_CONVERTING_BINARY_OP(bool, char, ==)
-		MUU_F16_CONVERTING_BINARY_OP(bool, char, !=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, char, < )
-		MUU_F16_CONVERTING_BINARY_OP(bool, char, <=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, char, > )
-		MUU_F16_CONVERTING_BINARY_OP(bool, char, >=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, signed char, ==)
-		MUU_F16_CONVERTING_BINARY_OP(bool, signed char, !=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, signed char, < )
-		MUU_F16_CONVERTING_BINARY_OP(bool, signed char, <=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, signed char, > )
-		MUU_F16_CONVERTING_BINARY_OP(bool, signed char, >=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned char, ==)
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned char, !=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned char, < )
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned char, <=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned char, > )
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned char, >=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, short, ==)
-		MUU_F16_CONVERTING_BINARY_OP(bool, short, !=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, short, < )
-		MUU_F16_CONVERTING_BINARY_OP(bool, short, <=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, short, > )
-		MUU_F16_CONVERTING_BINARY_OP(bool, short, >=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned short, ==)
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned short, !=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned short, < )
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned short, <=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned short, > )
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned short, >=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, int, ==)
-		MUU_F16_CONVERTING_BINARY_OP(bool, int, !=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, int, < )
-		MUU_F16_CONVERTING_BINARY_OP(bool, int, <=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, int, > )
-		MUU_F16_CONVERTING_BINARY_OP(bool, int, >=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned int, ==)
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned int, !=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned int, < )
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned int, <=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned int, > )
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned int, >=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, long, ==)
-		MUU_F16_CONVERTING_BINARY_OP(bool, long, !=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, long, < )
-		MUU_F16_CONVERTING_BINARY_OP(bool, long, <=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, long, > )
-		MUU_F16_CONVERTING_BINARY_OP(bool, long, >=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned long, ==)
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned long, !=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned long, < )
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned long, <=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned long, > )
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned long, >=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, long long, ==)
-		MUU_F16_CONVERTING_BINARY_OP(bool, long long, !=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, long long, < )
-		MUU_F16_CONVERTING_BINARY_OP(bool, long long, <=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, long long, > )
-		MUU_F16_CONVERTING_BINARY_OP(bool, long long, >=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned long long, ==)
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned long long, !=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned long long, < )
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned long long, <=)
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned long long, > )
-		MUU_F16_CONVERTING_BINARY_OP(bool, unsigned long long, >=)
+		#define MUU_F16_BINARY_OPS(func, input_type)	\
+			func(bool, input_type, ==)					\
+			func(bool, input_type, !=)					\
+			func(bool, input_type, < )					\
+			func(bool, input_type, <=)					\
+			func(bool, input_type, > )					\
+			func(bool, input_type, >=)
+
+		MUU_F16_BINARY_OPS(MUU_F16_PROMOTING_BINARY_OP,  float)
+		MUU_F16_BINARY_OPS(MUU_F16_PROMOTING_BINARY_OP,  double)
+		MUU_F16_BINARY_OPS(MUU_F16_PROMOTING_BINARY_OP,  long double)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, char)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, signed char)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, unsigned char)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, short)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, unsigned short)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, int)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, unsigned int)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, long)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, unsigned long)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, long long)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, unsigned long long)
+		#if MUU_HAS_INT128
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, int128_t)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, uint128_t)
+		#endif
+		#undef MUU_F16_BINARY_OPS
 
 		//====================================================
 		// ARITHMETIC OPERATORS
@@ -379,66 +328,32 @@ namespace muu
 			return float16{ static_cast<float>(lhs) / static_cast<float>(rhs) };
 		}
 
-		MUU_F16_PROMOTING_BINARY_OP(float, float, +)
-		MUU_F16_PROMOTING_BINARY_OP(float, float, -)
-		MUU_F16_PROMOTING_BINARY_OP(float, float, *)
-		MUU_F16_PROMOTING_BINARY_OP(float, float, /)
-		MUU_F16_PROMOTING_BINARY_OP(double, double, +)
-		MUU_F16_PROMOTING_BINARY_OP(double, double, -)
-		MUU_F16_PROMOTING_BINARY_OP(double, double, *)
-		MUU_F16_PROMOTING_BINARY_OP(double, double, /)
-		MUU_F16_PROMOTING_BINARY_OP(long double, long double, +)
-		MUU_F16_PROMOTING_BINARY_OP(long double, long double, -)
-		MUU_F16_PROMOTING_BINARY_OP(long double, long double, *)
-		MUU_F16_PROMOTING_BINARY_OP(long double, long double, /)
+		#define MUU_F16_BINARY_OPS(func, return_type, input_type)	\
+			func(return_type, input_type, +)						\
+			func(return_type, input_type, -)						\
+			func(return_type, input_type, *)						\
+			func(return_type, input_type, /)
 
+		MUU_F16_BINARY_OPS(MUU_F16_PROMOTING_BINARY_OP,		float,			float)
+		MUU_F16_BINARY_OPS(MUU_F16_PROMOTING_BINARY_OP,		double,			double)
+		MUU_F16_BINARY_OPS(MUU_F16_PROMOTING_BINARY_OP,		long double,	long double)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	float16,		char)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	float16,		signed char)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	float16,		unsigned char)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	float16,		short)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	float16,		unsigned short)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	float16,		int)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	float16,		unsigned int)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	float16,		long)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	float16,		unsigned long)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	float16,		long long)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	float16,		unsigned long long)
+		#if MUU_HAS_INT128
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	float16,		int128_t)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	float16,		uint128_t)
+		#endif
+		#undef MUU_F16_BINARY_OPS
 		#undef MUU_F16_PROMOTING_BINARY_OP
-
-		MUU_F16_CONVERTING_BINARY_OP(float16, char, +)
-		MUU_F16_CONVERTING_BINARY_OP(float16, char, -)
-		MUU_F16_CONVERTING_BINARY_OP(float16, char, *)
-		MUU_F16_CONVERTING_BINARY_OP(float16, char, /)
-		MUU_F16_CONVERTING_BINARY_OP(float16, signed char, +)
-		MUU_F16_CONVERTING_BINARY_OP(float16, signed char, -)
-		MUU_F16_CONVERTING_BINARY_OP(float16, signed char, *)
-		MUU_F16_CONVERTING_BINARY_OP(float16, signed char, /)
-		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned char, +)
-		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned char, -)
-		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned char, *)
-		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned char, /)
-		MUU_F16_CONVERTING_BINARY_OP(float16, short, +)
-		MUU_F16_CONVERTING_BINARY_OP(float16, short, -)
-		MUU_F16_CONVERTING_BINARY_OP(float16, short, *)
-		MUU_F16_CONVERTING_BINARY_OP(float16, short, /)
-		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned short, +)
-		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned short, -)
-		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned short, *)
-		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned short, /)
-		MUU_F16_CONVERTING_BINARY_OP(float16, int, +)
-		MUU_F16_CONVERTING_BINARY_OP(float16, int, -)
-		MUU_F16_CONVERTING_BINARY_OP(float16, int, *)
-		MUU_F16_CONVERTING_BINARY_OP(float16, int, /)
-		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned int, +)
-		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned int, -)
-		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned int, *)
-		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned int, /)
-		MUU_F16_CONVERTING_BINARY_OP(float16, long, +)
-		MUU_F16_CONVERTING_BINARY_OP(float16, long, -)
-		MUU_F16_CONVERTING_BINARY_OP(float16, long, *)
-		MUU_F16_CONVERTING_BINARY_OP(float16, long, /)
-		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned long, +)
-		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned long, -)
-		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned long, *)
-		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned long, /)
-		MUU_F16_CONVERTING_BINARY_OP(float16, long long, +)
-		MUU_F16_CONVERTING_BINARY_OP(float16, long long, -)
-		MUU_F16_CONVERTING_BINARY_OP(float16, long long, *)
-		MUU_F16_CONVERTING_BINARY_OP(float16, long long, /)
-		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned long long, +)
-		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned long long, -)
-		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned long long, *)
-		MUU_F16_CONVERTING_BINARY_OP(float16, unsigned long long, /)
-
 		#undef MUU_F16_CONVERTING_BINARY_OP
 
 		/// \brief	Performs a fused-multiply-add.
@@ -454,7 +369,7 @@ namespace muu
 		[[nodiscard]]
 		static constexpr float16 MUU_VECTORCALL fma(float16 m1, float16 m2, float16 a) noexcept
 		{
-			#if defined(__GNUC__) || defined(__clang__)
+			#if defined(__GNUC__) || MUU_CLANG
 				if (!is_constant_evaluated())
 					return float16{ __builtin_fmaf(m1, m2, a) };
 			#endif
@@ -489,80 +404,47 @@ namespace muu
 			return lhs;
 		}
 
-		#define MUU_F16_ASSIGN_OP(input_type, op)												\
+		#define MUU_F16_DEMOTING_ASSIGN_OP(input_type, op)										\
 			friend constexpr float16& operator op##= (float16& lhs, input_type rhs) noexcept	\
 			{																					\
 				lhs.bits = impl::f32_to_f16(static_cast<float>(lhs op rhs));					\
 				return lhs;																		\
 			}
 
-		MUU_F16_ASSIGN_OP(float, +)
-		MUU_F16_ASSIGN_OP(float, -)
-		MUU_F16_ASSIGN_OP(float, *)
-		MUU_F16_ASSIGN_OP(float, /)
-		MUU_F16_ASSIGN_OP(double, +)
-		MUU_F16_ASSIGN_OP(double, -)
-		MUU_F16_ASSIGN_OP(double, *)
-		MUU_F16_ASSIGN_OP(double, /)
-		MUU_F16_ASSIGN_OP(long double, +)
-		MUU_F16_ASSIGN_OP(long double, -)
-		MUU_F16_ASSIGN_OP(long double, *)
-		MUU_F16_ASSIGN_OP(long double, /)
-
-		#undef MUU_F16_ASSIGN_OP
-		#define MUU_F16_ASSIGN_OP(input_type, op)									\
+		#define MUU_F16_CONVERTING_ASSIGN_OP(input_type, op)									\
 			friend constexpr float16& operator op##= (float16& lhs, input_type rhs) noexcept	\
 			{																					\
 				lhs.bits = impl::f32_to_f16(static_cast<float>(lhs) op rhs);					\
 				return lhs;																		\
 			}
 
-		MUU_F16_ASSIGN_OP(char, +)
-		MUU_F16_ASSIGN_OP(char, -)
-		MUU_F16_ASSIGN_OP(char, *)
-		MUU_F16_ASSIGN_OP(char, /)
-		MUU_F16_ASSIGN_OP(signed char, +)
-		MUU_F16_ASSIGN_OP(signed char, -)
-		MUU_F16_ASSIGN_OP(signed char, *)
-		MUU_F16_ASSIGN_OP(signed char, /)
-		MUU_F16_ASSIGN_OP(unsigned char, +)
-		MUU_F16_ASSIGN_OP(unsigned char, -)
-		MUU_F16_ASSIGN_OP(unsigned char, *)
-		MUU_F16_ASSIGN_OP(unsigned char, /)
-		MUU_F16_ASSIGN_OP(short, +)
-		MUU_F16_ASSIGN_OP(short, -)
-		MUU_F16_ASSIGN_OP(short, *)
-		MUU_F16_ASSIGN_OP(short, /)
-		MUU_F16_ASSIGN_OP(unsigned short, +)
-		MUU_F16_ASSIGN_OP(unsigned short, -)
-		MUU_F16_ASSIGN_OP(unsigned short, *)
-		MUU_F16_ASSIGN_OP(unsigned short, /)
-		MUU_F16_ASSIGN_OP(int, +)
-		MUU_F16_ASSIGN_OP(int, -)
-		MUU_F16_ASSIGN_OP(int, *)
-		MUU_F16_ASSIGN_OP(int, /)
-		MUU_F16_ASSIGN_OP(unsigned int, +)
-		MUU_F16_ASSIGN_OP(unsigned int, -)
-		MUU_F16_ASSIGN_OP(unsigned int, *)
-		MUU_F16_ASSIGN_OP(unsigned int, /)
-		MUU_F16_ASSIGN_OP(long, +)
-		MUU_F16_ASSIGN_OP(long, -)
-		MUU_F16_ASSIGN_OP(long, *)
-		MUU_F16_ASSIGN_OP(long, /)
-		MUU_F16_ASSIGN_OP(unsigned long, +)
-		MUU_F16_ASSIGN_OP(unsigned long, -)
-		MUU_F16_ASSIGN_OP(unsigned long, *)
-		MUU_F16_ASSIGN_OP(unsigned long, /)
-		MUU_F16_ASSIGN_OP(long long, +)
-		MUU_F16_ASSIGN_OP(long long, -)
-		MUU_F16_ASSIGN_OP(long long, *)
-		MUU_F16_ASSIGN_OP(long long, /)
-		MUU_F16_ASSIGN_OP(unsigned long long, +)
-		MUU_F16_ASSIGN_OP(unsigned long long, -)
-		MUU_F16_ASSIGN_OP(unsigned long long, *)
-		MUU_F16_ASSIGN_OP(unsigned long long, /)
+		#define MUU_F16_BINARY_OPS(func, input_type)	\
+			func(input_type, +)							\
+			func(input_type, -)							\
+			func(input_type, *)							\
+			func(input_type, /)
 
-		#undef MUU_F16_ASSIGN_OP
+		MUU_F16_BINARY_OPS(MUU_F16_DEMOTING_ASSIGN_OP,		float)
+		MUU_F16_BINARY_OPS(MUU_F16_DEMOTING_ASSIGN_OP,		double)
+		MUU_F16_BINARY_OPS(MUU_F16_DEMOTING_ASSIGN_OP,		long double)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	char)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	signed char)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	unsigned char)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	short)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	unsigned short)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	int)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	unsigned int)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	long)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	unsigned long)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	long long)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	unsigned long long)
+		#if MUU_HAS_INT128
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	int128_t)
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	uint128_t)
+		#endif
+		#undef MUU_F16_BINARY_OPS
+		#undef MUU_F16_DEMOTING_ASSIGN_OP
+		#undef MUU_F16_CONVERTING_ASSIGN_OP
 
 		//====================================================
 		// INCREMENTS AND DECREMENTS
@@ -679,7 +561,7 @@ namespace muu::impl
 	constexpr uint16_t MUU_VECTORCALL f32_to_f16_native(float val) noexcept
 	{
 		const uint32_t bits32 = bit_cast<uint32_t>(val);
-		const uint16_t s16 = (bits32 & 0x80000000u) >> 16;
+		const uint16_t s16 = static_cast<uint16_t>((bits32 & 0x80000000u) >> 16);
 
 		// 0000 0000 0111 1111 1111 1111 1111 1111
 		const uint32_t frac32 = bits32 & 0x007FFFFFu;
@@ -696,11 +578,11 @@ namespace muu::impl
 		if MUU_UNLIKELY(exp32 == 0xFF /*|| exp32ub > single_exp_bias*/)
 		{
 			// 0001 1111, use all five bits
-			exp16 = 0x1F;
+			exp16 = 0x1F_u16;
 		}
 		else if MUU_UNLIKELY(exp32 == 0 /*|| exp32ub < -(single_exp_bias - 1)*/)
 		{
-			exp16 = 0;
+			exp16 = {};
 		}
 
 		uint16_t frac16 = static_cast<uint16_t>(frac32 >> 13);
@@ -709,12 +591,12 @@ namespace muu::impl
 		if MUU_UNLIKELY(exp32 == 0xFF && frac32 != 0 && frac16 == 0)
 		{
 			// 0000 0010 0000 0000
-			frac16 = 0x0200;
+			frac16 = 0x0200_u16;
 		}
 		// denormal overflow
 		else if (exp32 == 0 || (exp16 == 0x1F && exp32 != 0xFF))
 		{
-			frac16 = 0;
+			frac16 = {};
 		}
 		// denormal underflow
 		else if MUU_UNLIKELY(exp16 == 0 && exp32 != 0)
@@ -746,7 +628,7 @@ namespace muu::impl
 		// the number is denormal if exp16 == 0 and frac16 != 0
 		if MUU_UNLIKELY(exp16 == 0 && frac16 != 0)
 		{
-			uint32_t offset = 0;
+			uint32_t offset = {};
 			do
 			{
 				++offset;
@@ -755,22 +637,22 @@ namespace muu::impl
 			while ((frac32 & 0x0400u) != 0x0400u); // 0100 0000 0000
 
 			frac32 &= 0x03FFu;
-			exp32 = 113 - offset; // 113 = 127-14
+			exp32 = 113u - offset; // 113 = 127-14
 		}
 		// +-0
 		else if MUU_UNLIKELY(exp16 == 0 && frac16 == 0)
 		{
-			exp32 = 0;
+			exp32 = {};
 		}
 		// +- inf
-		else if MUU_UNLIKELY(exp16 == 31 && frac16 == 0)
+		else if MUU_UNLIKELY(exp16 == 31_u16 && frac16 == 0_u16)
 		{
-			exp32 = 0xFF;
+			exp32 = 0xFFu;
 		}
 		// +- nan
-		else if MUU_UNLIKELY(exp16 == 31 && frac16 != 0)
+		else if MUU_UNLIKELY(exp16 == 31_u16 && frac16 != 0_u16)
 		{
-			exp32 = 0xFF;
+			exp32 = 0xFFu;
 		}
 
 		exp32 = exp32 << 23;

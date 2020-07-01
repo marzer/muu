@@ -52,6 +52,9 @@ TEST_CASE("float16 - conversions")
 		convert_from_int(static_cast<int16_t>(i));
 		convert_from_int(static_cast<int32_t>(i));
 		convert_from_int(static_cast<int64_t>(i));
+		#if MUU_HAS_INT128
+		convert_from_int(static_cast<int128_t>(i));
+		#endif
 	}
 	for (int i = 0; i < 10; i++)
 	{
@@ -63,6 +66,10 @@ TEST_CASE("float16 - conversions")
 		convert_from_int(static_cast<uint16_t>(i));
 		convert_from_int(static_cast<uint32_t>(i));
 		convert_from_int(static_cast<uint64_t>(i));
+		#if MUU_HAS_INT128
+		convert_from_int(static_cast<int128_t>(i));
+		convert_from_int(static_cast<uint128_t>(i));
+		#endif
 	}
 }
 

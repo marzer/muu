@@ -7,23 +7,34 @@
 
 /// \file
 /// \brief Compiler feature detection, attributes, string-makers, etc.
+
 #pragma once
 
 //=====================================================================================================================
 // CONFIGURATION
 //=====================================================================================================================
 
+#ifndef MUU_DOXYGEN
+	#define MUU_DOXYGEN 0
+#endif
+
 #ifdef MUU_CONFIG_HEADER
 	#include MUU_CONFIG_HEADER
 	#undef MUU_CONFIG_HEADER
 #endif
 
-#if !defined(MUU_ALL_INLINE) || (defined(MUU_ALL_INLINE) && MUU_ALL_INLINE)
+#if !defined(MUU_ALL_INLINE) || (defined(MUU_ALL_INLINE) && MUU_ALL_INLINE) || defined(__INTELLISENSE__)
 	#undef MUU_ALL_INLINE
 	#define MUU_ALL_INLINE 1
 #endif
 
-#if defined(MUU_IMPLEMENTATION) || MUU_ALL_INLINE || defined(__INTELLISENSE__)
+#if MUU_DOXYGEN
+	#undef MUU_ALL_INLINE
+	#undef MUU_IMPLEMENTATION
+	#define MUU_ALL_INLINE 0
+#endif
+
+#if defined(MUU_IMPLEMENTATION) || MUU_ALL_INLINE
 	#undef MUU_IMPLEMENTATION
 	#define MUU_IMPLEMENTATION 1
 #else
@@ -38,9 +49,6 @@
 // ARCHITECTURE & ENVIRONMENT
 //=====================================================================================================================
 
-#ifndef MUU_DOXYGEN
-	#define MUU_DOXYGEN 0
-#endif
 #ifndef __cplusplus
 	#error muu is a C++ library.
 #endif
@@ -81,6 +89,11 @@
 	#error Unknown target architecture.
 #endif
 #undef MUU_ARCH_SUM
+#ifdef _WIN32
+	#define MUU_WINDOWS 1
+#else
+	#define MUU_WINDOWS 0
+#endif
 
 //=====================================================================================================================
 // CLANG
@@ -88,6 +101,7 @@
 
 #ifdef __clang__
 
+	#define MUU_CLANG						__clang_major__
 	#define MUU_PRAGMA_CLANG(...)			_Pragma(__VA_ARGS__)
 	#define MUU_PUSH_WARNINGS				_Pragma("clang diagnostic push")
 	#define MUU_DISABLE_SWITCH_WARNINGS		_Pragma("clang diagnostic ignored \"-Wswitch\"")
@@ -95,7 +109,7 @@
 	#define MUU_DISABLE_VTABLE_WARNINGS		_Pragma("clang diagnostic ignored \"-Weverything\"") \
 											_Pragma("clang diagnostic ignored \"-Wweak-vtables\"")
 	#define MUU_DISABLE_PADDING_WARNINGS	_Pragma("clang diagnostic ignored \"-Wpadded\"")
-	#if __clang_major__ >= 10
+	#if MUU_CLANG >= 10
 		#define MUU_DISABLE_FLOAT_WARNINGS_CLANG_10	\
 											_Pragma("clang diagnostic ignored \"-Wimplicit-int-float-conversion\"")
 	#else
@@ -122,7 +136,9 @@
 				#define MUU_UNALIASED_ALLOC	__declspec(restrict)
 			#endif
 			#define MUU_ALWAYS_INLINE		__forceinline
-			#define MUU_NEVER_INLINE		__declspec(noinline)
+			#if __has_declspec_attribute(noinline)
+				#define MUU_NEVER_INLINE	__declspec(noinline)
+			#endif
 			#define MUU_PRAGMA_MSVC(pragma)	__pragma(pragma)
 			#define MUU_VECTORCALL			__vectorcall
 		#endif
@@ -159,6 +175,12 @@
 
 #elif defined(_MSC_VER) || (defined(__INTEL_COMPILER) && defined(__ICL))
 
+	#if (defined(__INTEL_COMPILER) && defined(__ICL))
+		#define MUU_ICC						__INTEL_COMPILER
+	#else
+		#define MUU_MSVC					_MSC_VER
+	#endif
+
 	#define MUU_CPP_VERSION					_MSVC_LANG
 	#define MUU_PRAGMA_MSVC(...)			__pragma(__VA_ARGS__)
 	#define MUU_PUSH_WARNINGS				__pragma(warning(push))
@@ -187,20 +209,29 @@
 	#define MUU_LITTLE_ENDIAN				1
 	#define MUU_BIG_ENDIAN					0
 
+
 //=====================================================================================================================
 // GCC
 //=====================================================================================================================
 
 #elif defined(__GNUC__)
 
+	#define MUU_GCC							__GNUC__
 	#define MUU_PRAGMA_GCC(...)				_Pragma(__VA_ARGS__)
 	#define MUU_PUSH_WARNINGS				_Pragma("GCC diagnostic push")
 	#define MUU_DISABLE_SWITCH_WARNINGS		_Pragma("GCC diagnostic ignored \"-Wswitch\"")						\
 											_Pragma("GCC diagnostic ignored \"-Wswitch-enum\"")					\
 											_Pragma("GCC diagnostic ignored \"-Wswitch-default\"")
+	#if MUU_GCC >= 8
+		#define MUU_DISABLE_INIT_WARNINGS_GCC8	\
+											_Pragma("GCC diagnostic ignored \"-Wclass-memaccess\"")
+	#else
+		#define MUU_DISABLE_INIT_WARNINGS_GCC8
+	#endif
 	#define MUU_DISABLE_INIT_WARNINGS		_Pragma("GCC diagnostic ignored \"-Wmissing-field-initializers\"")	\
 											_Pragma("GCC diagnostic ignored \"-Wmaybe-uninitialized\"")			\
-											_Pragma("GCC diagnostic ignored \"-Wuninitialized\"")
+											_Pragma("GCC diagnostic ignored \"-Wuninitialized\"")				\
+											MUU_DISABLE_INIT_WARNINGS_GCC8
 	#define MUU_DISABLE_PADDING_WARNINGS	_Pragma("GCC diagnostic ignored \"-Wpadded\"")
 	#define MUU_DISABLE_FLOAT_WARNINGS		_Pragma("GCC diagnostic ignored \"-Wfloat-equal\"")
 	#define MUU_DISABLE_SHADOW_WARNINGS		_Pragma("GCC diagnostic ignored \"-Wshadow\"")
@@ -258,14 +289,32 @@
 #ifndef MUU_EXCEPTIONS
 	#define MUU_EXCEPTIONS 1
 #endif
+
 #ifndef MUU_RTTI
 	#define MUU_RTTI 1
 #endif
+
 #ifndef MUU_LITTLE_ENDIAN
-	#define MUU_LITTLE_ENDIAN 1
+	#define MUU_LITTLE_ENDIAN 0
 #endif
 #ifndef MUU_BIG_ENDIAN
 	#define MUU_BIG_ENDIAN 0
+#endif
+#if MUU_BIG_ENDIAN == MUU_LITTLE_ENDIAN
+	#error Unknown platform endianness.
+#endif
+
+#ifndef MUU_CLANG
+	#define MUU_CLANG 0
+#endif
+#ifndef MUU_MSVC
+	#define MUU_MSVC 0
+#endif
+#ifndef MUU_ICC
+	#define MUU_ICC 0
+#endif
+#ifndef MUU_GCC
+	#define MUU_GCC 0
 #endif
 
 #ifndef MUU_PRAGMA_CLANG
@@ -377,13 +426,15 @@
 #endif
 
 #if MUU_ALL_INLINE
-	#define MUU_EXTERNAL_LINKAGE	inline
-	#define MUU_INTERNAL_LINKAGE	inline
-	#define MUU_INTERNAL_NAMESPACE	muu::impl
+	#define MUU_EXTERNAL_LINKAGE			inline
+	#define MUU_INTERNAL_LINKAGE			inline
+	#define MUU_INTERNAL_NAMESPACE			muu::impl
+	#define MUU_USING_INTERNAL_NAMESPACE	using namespace ::MUU_INTERNAL_NAMESPACE
 #else
 	#define MUU_EXTERNAL_LINKAGE
-	#define MUU_INTERNAL_LINKAGE	static
+	#define MUU_INTERNAL_LINKAGE			static
 	#define MUU_INTERNAL_NAMESPACE
+	#define MUU_USING_INTERNAL_NAMESPACE	using namespace ::muu_this_is_not_a_real_namespace
 #endif
 
 #define MUU_PREPEND_R_1(S)				R##S
@@ -413,8 +464,15 @@ MUU_DISABLE_ALL_WARNINGS
 #endif
 MUU_POP_WARNINGS
 
-#if MUU_DOXYGEN
+#ifndef MUU_HAS_INT128
+	#ifdef __SIZEOF_INT128__
+		#define MUU_HAS_INT128 1
+	#else
+		#define MUU_HAS_INT128 0
+	#endif
+#endif
 
+#if MUU_DOXYGEN
 
 /// \def MUU_ARCH_IA64
 /// \brief `1` when targeting 64-bit Itanium, `0` otherwise.
@@ -433,7 +491,22 @@ MUU_POP_WARNINGS
 /// 
 /// \def MUU_ARCH_BITNESS
 /// \brief The 'bitness' of the current architecture (e.g. `64` on AMD64).
-
+/// 
+/// \def MUU_CLANG
+/// \brief `1` when the code is being compiled by LLVM/Clang, `0` otherwise.
+/// 
+/// \def MUU_MSVC
+/// \brief `1` when the code is being compiled by MSVC, `0` otherwise.
+/// 
+/// \def MUU_ICC
+/// \brief `1` when the code is being compiled by Intel ICC, `0` otherwise.
+/// 
+/// \def MUU_GCC
+/// \brief `1` when the code is being compiled by Intel GCC, `0` otherwise.
+/// 
+/// \def MUU_WINDOWS
+/// \brief `1` when building for the Windows operating system, `0` otherwise.
+/// 
 /// \def MUU_EXCEPTIONS
 /// \brief `1` when support for C++ exceptions is enabled, `0` otherwise.
 /// 
@@ -599,10 +672,22 @@ MUU_POP_WARNINGS
 /// \see [\[\[trivial_abi\]\]](https://quuxplusone.github.io/blog/2018/05/02/trivial-abi-101/)
 ///
 /// \def MUU_LIKELY
-/// \brief Expands to C++20's `[[likely]]` or a compiler-specific 'likely' intrinsic.
+/// \brief Expands to an optimizer intrinsic meant to indicate that an if/else conditional is the likely path.
+/// \detail \cpp
+/// 	if MUU_LIKELY(condition_that_is_almost_always_true)
+/// 	{
+/// 		do_the_thing();
+/// 	}
+/// \ecpp
 ///
 /// \def MUU_UNLIKELY
-/// \brief Expands to C++20's `[[unlikely]]` or a compiler-specific 'unlikely' intrinsic.
+/// \brief Expands to an optimizer intrinsic meant to indicate that an if/else conditional is the unlikely path.
+/// \detail \cpp
+/// 	if MUU_UNLIKELY(condition_that_is_almost_always_false)
+/// 	{
+/// 		do_the_thing();
+/// 	}
+/// \ecpp
 ///
 /// \def MUU_NO_UNIQUE_ADDRESS
 /// \brief Expands to C++20's `[[no_unique_address]]` if supported by your compiler.
@@ -645,8 +730,8 @@ MUU_POP_WARNINGS
 /// \brief Stringifies the input, converting it verbatim into a raw string literal.
 /// \detail \cpp
 /// // these are equivalent:
-///	constexpr auto str1 = MUU_MAKE_STRING("It's trap!", he bellowed.);
-///	constexpr auto str2 = "\"It's trap!\", he bellowed.";
+///	constexpr auto str1 = MUU_MAKE_STRING("It's trap!" the admiral cried.);
+///	constexpr auto str2 = "\"It's trap!\" the admiral cried.";
 /// \ecpp
 /// \see [String literals in C++](https://en.cppreference.com/w/cpp/language/string_literal)
 /// 
@@ -654,12 +739,13 @@ MUU_POP_WARNINGS
 /// \brief Stringifies the input, converting it verbatim into a string view literal.
 /// \detail \cpp
 /// // these are equivalent:
-///	constexpr std::string_view str1 = MUU_MAKE_STRING_VIEW("It's trap!", he bellowed.);
-///	constexpr std::string_view str2 = "\"It's trap!\", he bellowed."sv;
+///	constexpr std::string_view str1 = MUU_MAKE_STRING_VIEW("It's trap!" the admiral cried.);
+///	constexpr std::string_view str2 = "\"It's trap!\" the admiral cried."sv;
 /// \ecpp
 /// \see [String literals in C++](https://en.cppreference.com/w/cpp/language/string_literal)
 
-
+/// \def MUU_HAS_INT128
+/// \brief `1` when the target environment has 128-bit integers, `0` otherwise.
 
 #endif // MUU_DOXYGEN
 

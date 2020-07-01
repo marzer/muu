@@ -5,12 +5,9 @@
 
 /// \file
 /// \brief  Contains the definition of muu::uuid.
-#pragma once
-#include "../muu/common.h"
 
-#if !defined(DOXYGEN) && (!defined(MUU_DEV) || !MUU_DEV)
-	#error Including muu/uuid.h is currently prohibited - muu::uuid is not fully implemented
-#endif
+#pragma once
+#include "../muu/hashing.h"
 
 namespace muu
 {
@@ -19,25 +16,55 @@ namespace muu
 	/// \see RFC 4122: https://www.ietf.org/rfc/rfc4122.txt
 	struct uuid
 	{
+		/// \brief	The UUID's byte type.
+		using byte = ::std::byte;
+
 		/// \brief The raw bytes in the UUID.
-		/// \detail The byte layout of the UUID is big-endian regardless of the target platform:
-		/// <br>` [ 0] ` time_low - most significant byte
-		/// <br>` [ 1] ` ...
-		/// <br>` [ 2] ` ...
-		/// <br>` [ 3] ` time_low - least significant byte
-		/// <br>` [ 4] ` time_mid - most significante byte
-		/// <br>` [ 5] ` time_mid - least significante byte
-		/// <br>` [ 6] ` time_hi_and_version - most significante byte
-		/// <br>` [ 7] ` time_hi_and_version - least significante byte
-		/// <br>` [ 8] ` clock_seq_and_reserved
-		/// <br>` [ 9] ` clock_seq_low
-		/// <br>` [10] ` node - most significant byte
-		/// <br>` [11] ` ...
-		/// <br>` [12] ` ...
-		/// <br>` [13] ` ...
-		/// <br>` [14] ` ...
-		/// <br>` [15] ` node - least significant byte
-		std::byte bytes[16];
+		/// \detail The byte layout of the UUID is big-endian, regardless of the target platform:
+		/// <br>
+		/// <br>`[ 0]`&nbsp;&nbsp; time_low - most significant byte
+		/// <br>`[ 1]`&nbsp;&nbsp; ...
+		/// <br>`[ 2]`&nbsp;&nbsp; ...
+		/// <br>`[ 3]`&nbsp;&nbsp; time_low - least significant byte
+		/// <br>`[ 4]`&nbsp;&nbsp; time_mid - most significante byte
+		/// <br>`[ 5]`&nbsp;&nbsp; time_mid - least significante byte
+		/// <br>`[ 6]`&nbsp;&nbsp; time_hi_and_version - most significante byte
+		/// <br>`[ 7]`&nbsp;&nbsp; time_hi_and_version - least significante byte
+		/// <br>`[ 8]`&nbsp;&nbsp; clock_seq_and_reserved
+		/// <br>`[ 9]`&nbsp;&nbsp; clock_seq_low
+		/// <br>`[10]`&nbsp;&nbsp; node - most significant byte
+		/// <br>`[11]`&nbsp;&nbsp; ...
+		/// <br>`[12]`&nbsp;&nbsp; ...
+		/// <br>`[13]`&nbsp;&nbsp; ...
+		/// <br>`[14]`&nbsp;&nbsp; ...
+		/// <br>`[15]`&nbsp;&nbsp; node - least significant byte
+		/// <br><br>Relevent excerpt from the UUID rfc:
+		/// \out
+		/// In the absence of explicit application or presentation protocol
+		/// specification to the contrary, a UUID is encoded as a 128-bit object,
+		/// as follows:
+		/// 
+		/// The fields are encoded as 16 octets, with the sizes and order of the
+		/// fields defined above, and with each field encoded with the Most
+		/// Significant Byte first (known as network byte order).  Note that the
+		/// field names, particularly for multiplexed fields, follow historical
+		/// practice.
+		/// 
+		/// 0                   1                   2                   3
+		///  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+		/// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+		/// |                          time_low                             |
+		/// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+		/// |       time_mid                |         time_hi_and_version   |
+		/// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+		/// |clk_seq_hi_res |  clk_seq_low  |         node (0-1)            |
+		/// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+		/// |                         node (2-5)                            |
+		/// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+		/// \eout
+		/// 
+		/// \see RFC 4122: https://www.ietf.org/rfc/rfc4122.txt
+		byte bytes[16];
 		
 		/// \brief Creates a new UUID using the platform's UUID generator.
 		static MUU_API uuid generate() noexcept;
@@ -66,22 +93,22 @@ namespace muu
 				uint64_t node) noexcept
 			: bytes
 			{
-				std::byte{ select_byte<build::is_little_endian ? 3 : 0>(time_low) },
-				std::byte{ select_byte<build::is_little_endian ? 2 : 1>(time_low) },
-				std::byte{ select_byte<build::is_little_endian ? 1 : 2>(time_low) },
-				std::byte{ select_byte<build::is_little_endian ? 0 : 3>(time_low) },
-				std::byte{ select_byte<build::is_little_endian ? 1 : 0>(time_mid) },
-				std::byte{ select_byte<build::is_little_endian ? 0 : 1>(time_mid) },
-				std::byte{ select_byte<build::is_little_endian ? 1 : 0>(time_hi_and_version) },
-				std::byte{ select_byte<build::is_little_endian ? 0 : 1>(time_hi_and_version) },
-				std::byte{ clock_seq_and_reserved },
-				std::byte{ clock_seq_low },
-				std::byte{ select_byte<build::is_little_endian ? 5 : 2>(node) },
-				std::byte{ select_byte<build::is_little_endian ? 4 : 3>(node) },
-				std::byte{ select_byte<build::is_little_endian ? 3 : 4>(node) },
-				std::byte{ select_byte<build::is_little_endian ? 2 : 5>(node) },
-				std::byte{ select_byte<build::is_little_endian ? 1 : 6>(node) },
-				std::byte{ select_byte<build::is_little_endian ? 0 : 7>(node) }
+				byte{ byte_select<build::is_little_endian ? 3 : 0>(time_low) },
+				byte{ byte_select<build::is_little_endian ? 2 : 1>(time_low) },
+				byte{ byte_select<build::is_little_endian ? 1 : 2>(time_low) },
+				byte{ byte_select<build::is_little_endian ? 0 : 3>(time_low) },
+				byte{ byte_select<build::is_little_endian ? 1 : 0>(time_mid) },
+				byte{ byte_select<build::is_little_endian ? 0 : 1>(time_mid) },
+				byte{ byte_select<build::is_little_endian ? 1 : 0>(time_hi_and_version) },
+				byte{ byte_select<build::is_little_endian ? 0 : 1>(time_hi_and_version) },
+				byte{ clock_seq_and_reserved },
+				byte{ clock_seq_low },
+				byte{ byte_select<build::is_little_endian ? 5 : 2>(node) },
+				byte{ byte_select<build::is_little_endian ? 4 : 3>(node) },
+				byte{ byte_select<build::is_little_endian ? 3 : 4>(node) },
+				byte{ byte_select<build::is_little_endian ? 2 : 5>(node) },
+				byte{ byte_select<build::is_little_endian ? 1 : 6>(node) },
+				byte{ byte_select<build::is_little_endian ? 0 : 7>(node) }
 			}
 		{}
 
@@ -103,29 +130,57 @@ namespace muu
 				uint64_t node) noexcept
 			: bytes
 			{
-				std::byte{ select_byte<build::is_little_endian ? 3 : 0>(time_low) },
-				std::byte{ select_byte<build::is_little_endian ? 2 : 1>(time_low) },
-				std::byte{ select_byte<build::is_little_endian ? 1 : 2>(time_low) },
-				std::byte{ select_byte<build::is_little_endian ? 0 : 3>(time_low) },
-				std::byte{ select_byte<build::is_little_endian ? 1 : 0>(time_mid) },
-				std::byte{ select_byte<build::is_little_endian ? 0 : 1>(time_mid) },
-				std::byte{ select_byte<build::is_little_endian ? 1 : 0>(time_hi_and_version) },
-				std::byte{ select_byte<build::is_little_endian ? 0 : 1>(time_hi_and_version) },
-				std::byte{ select_byte<build::is_little_endian ? 1 : 0>(clock_seq) },
-				std::byte{ select_byte<build::is_little_endian ? 0 : 1>(clock_seq) },
-				std::byte{ select_byte<build::is_little_endian ? 5 : 2>(node) },
-				std::byte{ select_byte<build::is_little_endian ? 4 : 3>(node) },
-				std::byte{ select_byte<build::is_little_endian ? 3 : 4>(node) },
-				std::byte{ select_byte<build::is_little_endian ? 2 : 5>(node) },
-				std::byte{ select_byte<build::is_little_endian ? 1 : 6>(node) },
-				std::byte{ select_byte<build::is_little_endian ? 0 : 7>(node) }
+				byte{ byte_select<build::is_little_endian ? 3 : 0>(time_low) },
+				byte{ byte_select<build::is_little_endian ? 2 : 1>(time_low) },
+				byte{ byte_select<build::is_little_endian ? 1 : 2>(time_low) },
+				byte{ byte_select<build::is_little_endian ? 0 : 3>(time_low) },
+				byte{ byte_select<build::is_little_endian ? 1 : 0>(time_mid) },
+				byte{ byte_select<build::is_little_endian ? 0 : 1>(time_mid) },
+				byte{ byte_select<build::is_little_endian ? 1 : 0>(time_hi_and_version) },
+				byte{ byte_select<build::is_little_endian ? 0 : 1>(time_hi_and_version) },
+				byte{ byte_select<build::is_little_endian ? 1 : 0>(clock_seq) },
+				byte{ byte_select<build::is_little_endian ? 0 : 1>(clock_seq) },
+				byte{ byte_select<build::is_little_endian ? 5 : 2>(node) },
+				byte{ byte_select<build::is_little_endian ? 4 : 3>(node) },
+				byte{ byte_select<build::is_little_endian ? 3 : 4>(node) },
+				byte{ byte_select<build::is_little_endian ? 2 : 5>(node) },
+				byte{ byte_select<build::is_little_endian ? 1 : 6>(node) },
+				byte{ byte_select<build::is_little_endian ? 0 : 7>(node) }
 			}
 		{}
+
+		//[[nodiscard]]
+		//constexpr uint64_t high() const noexcept
+		//{
+		//	if constexpr (build::is_little_endian)
+		//		return byte_reverse(bit_cast<uint64_t>(*pointer_cast<const byte(*)[8]>(bytes)));
+		//	else
+		//		return bit_cast<uint64_t>(*pointer_cast<const byte(*)[8]>(bytes));
+		//}
+
+		//[[nodiscard]]
+		//constexpr uint64_t high() const noexcept
+		//{
+		//	if constexpr (build::is_little_endian)
+		//		return byte_reverse(bit_cast<uint64_t>(*pointer_cast<const byte(*)[8]>(bytes)));
+		//	else
+		//		return bit_cast<uint64_t>(*pointer_cast<const byte(*)[8]>(bytes));
+		//}
+
+		//template <typename T>
+		//[[nodiscard]]
+		//constexpr uint64_t select() const noexcept
+		////{
+		////	if constexpr (build::is_little_endian)
+		////		return byte_reverse(bit_cast<uint64_t>(*pointer_cast<const byte(*)[8]>(bytes + 8)));
+		////	else
+		////		return bit_cast<uint64_t>(*pointer_cast<const byte(*)[8]>(bytes + 8));
+		////}
 
 		#if 0
 		private:
 
-			Uuid(const Uuid&, const std::byte*, size_t) noexcept;
+			Uuid(const Uuid&, const byte*, size_t) noexcept;
 
 		public:
 
@@ -146,7 +201,7 @@ namespace muu
 		/// 
 		/// \remarks IDs generated by this constructor are deterministic; the same namespace ID and name will always produce the same ID.
 		Uuid(const Uuid& idNamespace, std::string_view name) noexcept
-			: Uuid{ idNamespace, PointerCast<const std::byte*>(name.data()), name.length() }
+			: Uuid{ idNamespace, PointerCast<const byte*>(name.data()), name.length() }
 		{}
 
 		/// \brief	Tries to parse a UUID from a string.
@@ -215,7 +270,7 @@ namespace muu
 		explicit constexpr operator bool() const noexcept
 		{
 			for (size_t i = 0; i < 16_sz; i++)
-				if (bytes[i] != std::byte{})
+				if (bytes[i] != byte{})
 					return true;
 			return false;
 		}
@@ -278,51 +333,43 @@ namespace muu
 	};
 }
 
-#if MUU_IMPLEMENTATION
-
-MUU_PUSH_WARNINGS
-MUU_DISABLE_ALL_WARNINGS
-#ifdef _WIN32
-	#include <rpc.h>
-	MUU_PRAGMA_MSVC(comment(lib, "rpcrt4.lib"))
-#else
-	
-#endif
-MUU_POP_WARNINGS
-
-namespace muu
+namespace std
 {
-	MUU_EXTERNAL_LINKAGE
-	MUU_API
-	uuid uuid::generate() noexcept
+	/// \brief	Specialization of std::hash for muu::uuid.
+	template <>
+	struct hash<::muu::uuid>
 	{
-		uuid val;
-		#ifdef _WIN32
+		[[nodiscard]]
+		constexpr size_t operator()(const ::muu::uuid& id) const noexcept
 		{
-			UUID native;
-			UuidCreate(&native);
-			val.bytes[0] = std::byte{ select_byte<build::is_little_endian ? 3 : 0>(native.Data1) };
-			val.bytes[1] = std::byte{ select_byte<build::is_little_endian ? 2 : 1>(native.Data1) };
-			val.bytes[2] = std::byte{ select_byte<build::is_little_endian ? 1 : 2>(native.Data1) };
-			val.bytes[3] = std::byte{ select_byte<build::is_little_endian ? 0 : 3>(native.Data1) };
-			val.bytes[4] = std::byte{ select_byte<build::is_little_endian ? 1 : 0>(native.Data2) };
-			val.bytes[5] = std::byte{ select_byte<build::is_little_endian ? 0 : 1>(native.Data2) };
-			val.bytes[6] = std::byte{ select_byte<build::is_little_endian ? 1 : 0>(native.Data3) };
-			val.bytes[7] = std::byte{ select_byte<build::is_little_endian ? 0 : 1>(native.Data3) };
-			memcpy(&val.bytes[8], native.Data4, 8);
+			using namespace ::muu;
+			using uuid_slice = const byte[sizeof(size_t)];
+
+			#if MUU_LITTLE_ENDIAN
+				#define maybe_byte_reverse(val) byte_reverse(val)
+			#else
+				#define maybe_byte_reverse(val) val
+			#endif
+			#define get_slice(idx)	\
+				maybe_byte_reverse(bit_cast<size_t>(*pointer_cast<uuid_slice*>(id.bytes + sizeof(size_t) * idx)))
+
+			hash_combiner<> hasher{ get_slice(0_sz) };
+			hasher(get_slice(1_sz));
+			if constexpr (sizeof(size_t) == 4)
+			{
+				hasher(get_slice(2_sz));
+				hasher(get_slice(3_sz));
+			}
+
+			return hasher.value();
+
+			#undef maybe_byte_reverse
+			#undef get_slice
 		}
-		#else
-		{
-			//uuid_t native; //unsigned char[16]
-			//uuid_generate(native);
-			//static_assert(sizeof(uuid_t) == sizeof(val));
-			//memcpy(&val, native, sizeof(val));
-			
-			val = {}; // todo
-		}
-		#endif
-		return val;
-	}
+	};
 }
 
-#endif // MUU_IMPLEMENTATION
+
+#if MUU_IMPLEMENTATION
+	#include "../muu/impl/uuid.hpp"
+#endif

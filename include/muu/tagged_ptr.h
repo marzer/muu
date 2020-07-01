@@ -5,6 +5,7 @@
 
 /// \file
 /// \brief  Contains the definition of muu::tagged_ptr.
+
 #pragma once
 #include "../muu/common.h"
 
@@ -12,27 +13,21 @@ MUU_PRAGMA_MSVC(inline_recursion(on))
 
 namespace muu::impl
 {
-	inline constexpr size_t tptr_addr_highest_used_bit = MUU_ARCH_AMD64 ? 47 : build::pointer_bits - 1;
+	inline constexpr size_t tptr_addr_highest_used_bit = MUU_ARCH_AMD64 ? 47 : build::bitness - 1;
 	inline constexpr size_t tptr_addr_used_bits = tptr_addr_highest_used_bit + 1;
-	inline constexpr size_t tptr_addr_free_bits = build::pointer_bits - tptr_addr_used_bits;
+	inline constexpr size_t tptr_addr_free_bits = build::bitness - tptr_addr_used_bits;
 
 	template <size_t MinAlign>
 	struct tptr final
 	{
-		static constexpr size_t tag_bits = (muu::max(bit_width(MinAlign), 1_sz) - 1_sz) + impl::tptr_addr_free_bits;
+		static constexpr size_t tag_bits = ((muu::max)(bit_width(MinAlign), 1_sz) - 1_sz) + impl::tptr_addr_free_bits;
 		static constexpr uintptr_t tag_mask = bit_fill_right<uintptr_t>(tag_bits);
 		static constexpr uintptr_t ptr_mask = ~tag_mask;
 
-		using tag_type =
-			std::conditional_t<(tag_bits <= 8_sz), uint8_t,
-			std::conditional_t<(tag_bits <= 16_sz), uint16_t,
-			std::conditional_t<(tag_bits <= 32_sz), uint32_t,
-			std::conditional_t<(tag_bits <= 64_sz), uint64_t,
-			uintptr_t // catch-all
-		>>>>;
+		using tag_type = muu::canonical_uint<muu::clamp(bit_ceil(tag_bits), 8_sz, build::bitness)>;
 		static_assert(sizeof(tag_type) <= sizeof(uintptr_t));
 
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
 		static constexpr uintptr_t pack_ptr(const volatile void* ptr) noexcept
 		{
 			MUU_ASSERT(
@@ -47,7 +42,7 @@ namespace muu::impl
 		}
 
 		template <typename T>
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
 		static constexpr uintptr_t pack_both(const volatile void* ptr, const T& tag) noexcept
 		{
 			static_assert(
@@ -76,7 +71,7 @@ namespace muu::impl
 					static_assert(
 						(sizeof(T) * build::bits_per_byte) <= tag_bits,
 						"The tag type must fit in the available tag bits"
-						);
+					);
 					auto bits = pack_ptr(ptr);
 					memcpy(&bits, &tag, sizeof(T));
 					return bits;
@@ -84,14 +79,16 @@ namespace muu::impl
 			}
 		}
 
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
 		static constexpr uintptr_t set_ptr(uintptr_t bits, const volatile void* ptr) noexcept
 		{
 			return pack_ptr(ptr) | (bits & tag_mask);
 		}
 
 		template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
 		static constexpr uintptr_t set_tag(uintptr_t bits, T tag) noexcept
 		{
 			if constexpr (is_enum<T>)
@@ -120,14 +117,15 @@ namespace muu::impl
 			return bits;
 		}
 
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
 		static constexpr uintptr_t get_tag(uintptr_t bits) noexcept
 		{
 			return bits & tag_mask;
 		}
 
 		template <typename T>
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
 		static constexpr T get_tag_as(uintptr_t bits) noexcept
 		{
 			static_assert(
@@ -139,12 +137,7 @@ namespace muu::impl
 				"The tag type must fit in the available tag bits"
 			);
 
-			using intermediate_type =
-				std::conditional_t<(sizeof(T) > 4), uint64_t,
-				std::conditional_t<(sizeof(T) > 2), uint32_t,
-				std::conditional_t<(sizeof(T) > 1), uint16_t,
-				uint8_t
-			>>>;
+			using intermediate_type = muu::canonical_uint<(muu::bit_ceil(sizeof(T) * build::bits_per_byte))>;
 			static_assert(sizeof(intermediate_type) >= sizeof(T));
 			static_assert(sizeof(intermediate_type) <= sizeof(tag_type));
 
@@ -199,7 +192,7 @@ namespace muu
 	/// 					Default is alignof(T), but you may override it if you know
 	/// 					you will only be storing values with larger alignments.
 	/// 
-	/// \see [Tagged pointer (wikipedia)](https://en.wikipedia.org/wiki/Tagged_pointer)
+	/// \see [Tagged pointer](https://en.wikipedia.org/wiki/Tagged_pointer)
 	template <typename T, size_t MinAlign = alignment_of<T>>
 	class MUU_TRIVIAL_ABI tagged_ptr
 	{

@@ -7,7 +7,7 @@
 
 template <size_t align, typename T = char> struct aligned { alignas(align) T kek; };
 enum an_enum : int { an_enum_one, an_enum_two, an_enum_three };
-enum class an_enum_class : unsigned int { one, two, three };
+enum class an_enum_class : unsigned { one, two, three };
 using not_an_enum = double;
 
 // remove_cvref
@@ -31,12 +31,12 @@ static_assert(std::is_same_v<remove_enum<an_enum&&>, int&&>);
 static_assert(std::is_same_v<remove_enum<const an_enum>, const int>);
 static_assert(std::is_same_v<remove_enum<const an_enum&>, const int&>);
 static_assert(std::is_same_v<remove_enum<const an_enum&&>, const int&&>);
-static_assert(std::is_same_v<remove_enum<an_enum_class>, unsigned int>);
-static_assert(std::is_same_v<remove_enum<an_enum_class&>, unsigned int&>);
-static_assert(std::is_same_v<remove_enum<an_enum_class&&>, unsigned int&&>);
-static_assert(std::is_same_v<remove_enum<const an_enum_class>, const unsigned int>);
-static_assert(std::is_same_v<remove_enum<const an_enum_class&>, const unsigned int&>);
-static_assert(std::is_same_v<remove_enum<const an_enum_class&&>, const unsigned int&&>);
+static_assert(std::is_same_v<remove_enum<an_enum_class>, unsigned>);
+static_assert(std::is_same_v<remove_enum<an_enum_class&>, unsigned&>);
+static_assert(std::is_same_v<remove_enum<an_enum_class&&>, unsigned&&>);
+static_assert(std::is_same_v<remove_enum<const an_enum_class>, const unsigned>);
+static_assert(std::is_same_v<remove_enum<const an_enum_class&>, const unsigned&>);
+static_assert(std::is_same_v<remove_enum<const an_enum_class&&>, const unsigned&&>);
 static_assert(std::is_same_v<remove_enum<not_an_enum>, not_an_enum>);
 static_assert(std::is_same_v<remove_enum<not_an_enum&>, not_an_enum&>);
 static_assert(std::is_same_v<remove_enum<not_an_enum&&>, not_an_enum&&>);
@@ -80,15 +80,32 @@ static_assert(std::is_same_v<least_aligned<aligned<2>, aligned<4>, aligned<128>>
 static_assert(std::is_same_v<least_aligned<aligned<4>, aligned<128>>, aligned<4>>);
 static_assert(std::is_same_v<least_aligned<aligned<128>>, aligned<128>>);
 
-// is_one_of (variadic std::is_same_v)
-static_assert(is_one_of<int, int>);
-static_assert(is_one_of<int, int, float>);
-static_assert(is_one_of<int, int, float, double>);
-static_assert(is_one_of<int, float, int, double>);
-static_assert(!is_one_of<int&, int>);
-static_assert(!is_one_of<int&, int, float>);
-static_assert(!is_one_of<int&, int, float, double>);
-static_assert(!is_one_of<int&, float, int, double>);
+// same_as_any (variadic std::is_same_v || std::is_same_v)
+static_assert(same_as_any<int, int>);
+static_assert(same_as_any<int, int, float>);
+static_assert(same_as_any<int, int, float, double>);
+static_assert(same_as_any<int, float, int, double>);
+static_assert(!same_as_any<int&, int>);
+static_assert(!same_as_any<int&, int, float>);
+static_assert(!same_as_any<int&, int, float, double>);
+static_assert(!same_as_any<int&, float, int, double>);
+
+// same_as_all (variadic std::is_same_v && std::is_same_v)
+static_assert(same_as_all<int, int>);
+static_assert(same_as_all<int, int, int>);
+static_assert(same_as_all<int, int, int, int>);
+static_assert(same_as_all<int, int, int, int, int>);
+static_assert(!same_as_all<int, int&>);
+static_assert(!same_as_all<int, int, int&>);
+static_assert(!same_as_all<int, int, int, int&>);
+static_assert(!same_as_all<int, int, int, int, int&>);
+static_assert(!same_as_all<int, int, float>);
+static_assert(!same_as_all<int, int, float, double>);
+static_assert(!same_as_all<int, float, int, double>);
+static_assert(!same_as_all<int&, int>);
+static_assert(!same_as_all<int&, int, float>);
+static_assert(!same_as_all<int&, int, float, double>);
+static_assert(!same_as_all<int&, float, int, double>);
 
 // is_enum
 static_assert(is_enum<an_enum>);
@@ -157,19 +174,78 @@ static_assert(!is_legacy_enum<not_an_enum&>);
 static_assert(!is_legacy_enum<not_an_enum&&>);
 
 // is_unsigned
-static_assert(is_unsigned<unsigned int>);
+static_assert(is_unsigned<unsigned>);
 static_assert(is_unsigned<an_enum_class>);
-static_assert(is_unsigned<const unsigned int>);
+static_assert(is_unsigned<const unsigned>);
 static_assert(is_unsigned<const an_enum_class>);
-static_assert(is_unsigned<unsigned int&>);
+static_assert(is_unsigned<unsigned&>);
 static_assert(is_unsigned<an_enum_class&>);
-static_assert(is_unsigned<unsigned int&&>);
+static_assert(is_unsigned<unsigned&&>);
 static_assert(is_unsigned<an_enum_class&&>);
 static_assert(!is_unsigned<int>);
 static_assert(!is_unsigned<float16>);
 static_assert(!is_unsigned<float>);
 static_assert(!is_unsigned<an_enum>);
 static_assert(!is_unsigned<double>);
+
+// any_unsigned
+static_assert(any_unsigned<unsigned>);
+static_assert(any_unsigned<an_enum_class>);
+static_assert(any_unsigned<const unsigned>);
+static_assert(any_unsigned<const an_enum_class>);
+static_assert(any_unsigned<unsigned&>);
+static_assert(any_unsigned<an_enum_class&>);
+static_assert(any_unsigned<unsigned&&>);
+static_assert(any_unsigned<an_enum_class&&>);
+static_assert(!any_unsigned<int>);
+static_assert(!any_unsigned<float16>);
+static_assert(!any_unsigned<float>);
+static_assert(!any_unsigned<an_enum>);
+static_assert(!any_unsigned<double>);
+static_assert(any_unsigned<unsigned, int>);
+static_assert(any_unsigned<an_enum_class, int>);
+static_assert(any_unsigned<const unsigned, int>);
+static_assert(any_unsigned<const an_enum_class, int>);
+static_assert(any_unsigned<unsigned&, int>);
+static_assert(any_unsigned<an_enum_class&, int>);
+static_assert(any_unsigned<unsigned&&, int>);
+static_assert(any_unsigned<an_enum_class&&, int>);
+static_assert(!any_unsigned<int, int>);
+static_assert(!any_unsigned<float16, int>);
+static_assert(!any_unsigned<float, int>);
+static_assert(!any_unsigned<an_enum, int>);
+static_assert(!any_unsigned<double, int>);
+
+// all_unsigned
+static_assert(all_unsigned<unsigned>);
+static_assert(all_unsigned<an_enum_class>);
+static_assert(all_unsigned<const unsigned>);
+static_assert(all_unsigned<const an_enum_class>);
+static_assert(all_unsigned<unsigned&>);
+static_assert(all_unsigned<an_enum_class&>);
+static_assert(all_unsigned<unsigned&&>);
+static_assert(all_unsigned<an_enum_class&&>);
+static_assert(!all_unsigned<int>);
+static_assert(!all_unsigned<float16>);
+static_assert(!all_unsigned<float>);
+static_assert(!all_unsigned<an_enum>);
+static_assert(!all_unsigned<double>);
+static_assert(all_unsigned<unsigned, unsigned>);
+static_assert(all_unsigned<an_enum_class, unsigned>);
+static_assert(all_unsigned<const unsigned, unsigned>);
+static_assert(all_unsigned<const an_enum_class, unsigned>);
+static_assert(all_unsigned<unsigned&, unsigned>);
+static_assert(all_unsigned<an_enum_class&, unsigned>);
+static_assert(all_unsigned<unsigned&&, unsigned>);
+static_assert(all_unsigned<an_enum_class&&, unsigned>);
+static_assert(!all_unsigned<unsigned, int>);
+static_assert(!all_unsigned<an_enum_class, int>);
+static_assert(!all_unsigned<const unsigned, int>);
+static_assert(!all_unsigned<const an_enum_class, int>);
+static_assert(!all_unsigned<unsigned&, int>);
+static_assert(!all_unsigned<an_enum_class&, int>);
+static_assert(!all_unsigned<unsigned&&, int>);
+static_assert(!all_unsigned<an_enum_class&&, int>);
 
 // is_signed
 static_assert(is_signed<int>);
@@ -192,11 +268,11 @@ static_assert(is_signed<float16&&>);
 static_assert(is_signed<float&&>);
 static_assert(is_signed<an_enum&&>);
 static_assert(is_signed<double&&>);
-static_assert(!is_signed<unsigned int>);
+static_assert(!is_signed<unsigned>);
 static_assert(!is_signed<an_enum_class>);
-static_assert(!is_signed<const unsigned int>);
+static_assert(!is_signed<const unsigned>);
 static_assert(!is_signed<const an_enum_class>);
-static_assert(!is_signed<unsigned int&>);
+static_assert(!is_signed<unsigned&>);
 static_assert(!is_signed<an_enum_class&>);
 
 // is_integral
@@ -205,7 +281,7 @@ static_assert(is_integral<int>);
 static_assert(is_integral<long>);
 static_assert(is_integral<long long>);
 static_assert(is_integral<unsigned short>);
-static_assert(is_integral<unsigned int>);
+static_assert(is_integral<unsigned>);
 static_assert(is_integral<unsigned long>);
 static_assert(is_integral<unsigned long long>);
 static_assert(is_integral<an_enum_class>);
@@ -218,7 +294,7 @@ static_assert(is_integral<int&>);
 static_assert(is_integral<long&>);
 static_assert(is_integral<long long&>);
 static_assert(is_integral<unsigned short&>);
-static_assert(is_integral<unsigned int&>);
+static_assert(is_integral<unsigned&>);
 static_assert(is_integral<unsigned long&>);
 static_assert(is_integral<unsigned long long&>);
 static_assert(is_integral<an_enum_class&>);
@@ -233,7 +309,7 @@ static_assert(!is_floating_point<int>);
 static_assert(!is_floating_point<long>);
 static_assert(!is_floating_point<long long>);
 static_assert(!is_floating_point<unsigned short>);
-static_assert(!is_floating_point<unsigned int>);
+static_assert(!is_floating_point<unsigned>);
 static_assert(!is_floating_point<unsigned long>);
 static_assert(!is_floating_point<unsigned long long>);
 static_assert(!is_floating_point<an_enum_class>);
@@ -246,7 +322,7 @@ static_assert(!is_floating_point<int&>);
 static_assert(!is_floating_point<long&>);
 static_assert(!is_floating_point<long long&>);
 static_assert(!is_floating_point<unsigned short&>);
-static_assert(!is_floating_point<unsigned int&>);
+static_assert(!is_floating_point<unsigned&>);
 static_assert(!is_floating_point<unsigned long&>);
 static_assert(!is_floating_point<unsigned long long&>);
 static_assert(!is_floating_point<an_enum_class&>);
@@ -261,7 +337,7 @@ static_assert(is_arithmetic<int>);
 static_assert(is_arithmetic<long>);
 static_assert(is_arithmetic<long long>);
 static_assert(is_arithmetic<unsigned short>);
-static_assert(is_arithmetic<unsigned int>);
+static_assert(is_arithmetic<unsigned>);
 static_assert(is_arithmetic<unsigned long>);
 static_assert(is_arithmetic<unsigned long long>);
 static_assert(!is_arithmetic<an_enum_class>);
@@ -274,7 +350,7 @@ static_assert(is_arithmetic<int&>);
 static_assert(is_arithmetic<long&>);
 static_assert(is_arithmetic<long long&>);
 static_assert(is_arithmetic<unsigned short&>);
-static_assert(is_arithmetic<unsigned int&>);
+static_assert(is_arithmetic<unsigned&>);
 static_assert(is_arithmetic<unsigned long&>);
 static_assert(is_arithmetic<unsigned long long&>);
 static_assert(!is_arithmetic<an_enum_class&>);
@@ -730,7 +806,7 @@ static_assert(std::is_same_v<make_signed<const volatile char&&>, const volatile 
 static_assert(std::is_same_v<make_signed<short>, short>);
 static_assert(std::is_same_v<make_signed<unsigned short>, short>);
 static_assert(std::is_same_v<make_signed<int>, int>);
-static_assert(std::is_same_v<make_signed<unsigned int>, int>);
+static_assert(std::is_same_v<make_signed<unsigned>, int>);
 static_assert(std::is_same_v<make_signed<long>, long>);
 static_assert(std::is_same_v<make_signed<unsigned long>, long>);
 static_assert(std::is_same_v<make_signed<long long>, long long>);
@@ -755,8 +831,8 @@ static_assert(std::is_same_v<make_unsigned<volatile char&&>, volatile unsigned c
 static_assert(std::is_same_v<make_unsigned<const volatile char&&>, const volatile unsigned char&&>);
 static_assert(std::is_same_v<make_unsigned<short>, unsigned short>);
 static_assert(std::is_same_v<make_unsigned<unsigned short>, unsigned short>);
-static_assert(std::is_same_v<make_unsigned<int>, unsigned int>);
-static_assert(std::is_same_v<make_unsigned<unsigned int>, unsigned int>);
+static_assert(std::is_same_v<make_unsigned<int>, unsigned>);
+static_assert(std::is_same_v<make_unsigned<unsigned>, unsigned>);
 static_assert(std::is_same_v<make_unsigned<long>, unsigned long>);
 static_assert(std::is_same_v<make_unsigned<unsigned long>, unsigned long>);
 static_assert(std::is_same_v<make_unsigned<long long>, unsigned long long>);

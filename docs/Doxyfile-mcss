@@ -10,7 +10,11 @@ HTML_EXTRA_FILES = \
 	logo.png \
 	banner.png	\
 	banner-small.png	\
-	github-icon.png
+	github-icon.png	\
+	badge-C++17.svg	\
+	badge-C++20.svg	\
+	badge-license-MIT.svg
+
 
 ##! M_THEME_COLOR				= #22272e
 ##! M_LINKS_NAVBAR1 = \

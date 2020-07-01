@@ -6,6 +6,6 @@
 #pragma once
 #include "../muu/common.h"
 
-#if !defined(DOXYGEN) && (!defined(MUU_DEV) || !MUU_DEV)
+#if !MUU_DOXYGEN && (!defined(MUU_DEV) || !MUU_DEV)
 	#error Including muu/bitset.h is currently prohibited - muu::bitset is not fully implemented
 #endif

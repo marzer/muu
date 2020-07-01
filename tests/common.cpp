@@ -1181,45 +1181,56 @@ TEST_CASE("bit_fill_left")
 	CHECK(bit_fill_left<uint32_t>(99) == 0b11111111111111111111111111111111_u32);
 }
 
-TEST_CASE("select_byte")
+TEST_CASE("byte_select")
 {
-	static_assert(select_byte<7>(0xAABBCCDDABCDEF01_u64) == 0xAA_u8);
-	static_assert(select_byte<6>(0xAABBCCDDABCDEF01_u64) == 0xBB_u8);
-	static_assert(select_byte<5>(0xAABBCCDDABCDEF01_u64) == 0xCC_u8);
-	static_assert(select_byte<4>(0xAABBCCDDABCDEF01_u64) == 0xDD_u8);
-	static_assert(select_byte<3>(0xAABBCCDDABCDEF01_u64) == 0xAB_u8);
-	static_assert(select_byte<2>(0xAABBCCDDABCDEF01_u64) == 0xCD_u8);
-	static_assert(select_byte<1>(0xAABBCCDDABCDEF01_u64) == 0xEF_u8);
-	static_assert(select_byte<0>(0xAABBCCDDABCDEF01_u64) == 0x01_u8);
+	static_assert(byte_select<7>(0xAABBCCDDABCDEF01_u64) == 0xAA_u8);
+	static_assert(byte_select<6>(0xAABBCCDDABCDEF01_u64) == 0xBB_u8);
+	static_assert(byte_select<5>(0xAABBCCDDABCDEF01_u64) == 0xCC_u8);
+	static_assert(byte_select<4>(0xAABBCCDDABCDEF01_u64) == 0xDD_u8);
+	static_assert(byte_select<3>(0xAABBCCDDABCDEF01_u64) == 0xAB_u8);
+	static_assert(byte_select<2>(0xAABBCCDDABCDEF01_u64) == 0xCD_u8);
+	static_assert(byte_select<1>(0xAABBCCDDABCDEF01_u64) == 0xEF_u8);
+	static_assert(byte_select<0>(0xAABBCCDDABCDEF01_u64) == 0x01_u8);
 
-	CHECK(select_byte<7>(0xAABBCCDDABCDEF01_u64) == 0xAA_u8);
-	CHECK(select_byte<6>(0xAABBCCDDABCDEF01_u64) == 0xBB_u8);
-	CHECK(select_byte<5>(0xAABBCCDDABCDEF01_u64) == 0xCC_u8);
-	CHECK(select_byte<4>(0xAABBCCDDABCDEF01_u64) == 0xDD_u8);
-	CHECK(select_byte<3>(0xAABBCCDDABCDEF01_u64) == 0xAB_u8);
-	CHECK(select_byte<2>(0xAABBCCDDABCDEF01_u64) == 0xCD_u8);
-	CHECK(select_byte<1>(0xAABBCCDDABCDEF01_u64) == 0xEF_u8);
-	CHECK(select_byte<0>(0xAABBCCDDABCDEF01_u64) == 0x01_u8);
+	CHECK(byte_select<7>(0xAABBCCDDABCDEF01_u64) == 0xAA_u8);
+	CHECK(byte_select<6>(0xAABBCCDDABCDEF01_u64) == 0xBB_u8);
+	CHECK(byte_select<5>(0xAABBCCDDABCDEF01_u64) == 0xCC_u8);
+	CHECK(byte_select<4>(0xAABBCCDDABCDEF01_u64) == 0xDD_u8);
+	CHECK(byte_select<3>(0xAABBCCDDABCDEF01_u64) == 0xAB_u8);
+	CHECK(byte_select<2>(0xAABBCCDDABCDEF01_u64) == 0xCD_u8);
+	CHECK(byte_select<1>(0xAABBCCDDABCDEF01_u64) == 0xEF_u8);
+	CHECK(byte_select<0>(0xAABBCCDDABCDEF01_u64) == 0x01_u8);
 
-	static_assert(select_byte<3>(0xABCDEF01_u32) == 0xAB_u8);
-	static_assert(select_byte<2>(0xABCDEF01_u32) == 0xCD_u8);
-	static_assert(select_byte<1>(0xABCDEF01_u32) == 0xEF_u8);
-	static_assert(select_byte<0>(0xABCDEF01_u32) == 0x01_u8);
+	static_assert(byte_select<3>(0xABCDEF01_u32) == 0xAB_u8);
+	static_assert(byte_select<2>(0xABCDEF01_u32) == 0xCD_u8);
+	static_assert(byte_select<1>(0xABCDEF01_u32) == 0xEF_u8);
+	static_assert(byte_select<0>(0xABCDEF01_u32) == 0x01_u8);
 
-	CHECK(select_byte<3>(0xABCDEF01_u32) == 0xAB_u8);
-	CHECK(select_byte<2>(0xABCDEF01_u32) == 0xCD_u8);
-	CHECK(select_byte<1>(0xABCDEF01_u32) == 0xEF_u8);
-	CHECK(select_byte<0>(0xABCDEF01_u32) == 0x01_u8);
+	CHECK(byte_select<3>(0xABCDEF01_u32) == 0xAB_u8);
+	CHECK(byte_select<2>(0xABCDEF01_u32) == 0xCD_u8);
+	CHECK(byte_select<1>(0xABCDEF01_u32) == 0xEF_u8);
+	CHECK(byte_select<0>(0xABCDEF01_u32) == 0x01_u8);
 
-	static_assert(select_byte<1>(0xEF01_u16) == 0xEF_u8);
-	static_assert(select_byte<0>(0xEF01_u16) == 0x01_u8);
+	static_assert(byte_select<1>(0xEF01_u16) == 0xEF_u8);
+	static_assert(byte_select<0>(0xEF01_u16) == 0x01_u8);
 
-	CHECK(select_byte<1>(0xEF01_u16) == 0xEF_u8);
-	CHECK(select_byte<0>(0xEF01_u16) == 0x01_u8);
+	CHECK(byte_select<1>(0xEF01_u16) == 0xEF_u8);
+	CHECK(byte_select<0>(0xEF01_u16) == 0x01_u8);
 
-	static_assert(select_byte<0>(0x01_u8) == 0x01_u8);
+	static_assert(byte_select<0>(0x01_u8) == 0x01_u8);
 
-	CHECK(select_byte<0>(0x01_u8) == 0x01_u8);
+	CHECK(byte_select<0>(0x01_u8) == 0x01_u8);
+}
+
+TEST_CASE("byte_reverse")
+{
+	static_assert(byte_reverse(0xAABBCCDDABCDEF01_u64) == 0x01EFCDABDDCCBBAA_u64);
+	static_assert(byte_reverse(0xABCDEF01_u32) == 0x01EFCDAB_u32);
+	static_assert(byte_reverse(0xABCD_u16) == 0xCDAB_u16);
+
+	CHECK(byte_reverse(0xAABBCCDDABCDEF01_u64) == 0x01EFCDABDDCCBBAA_u64);
+	CHECK(byte_reverse(0xABCDEF01_u32) == 0x01EFCDAB_u32);
+	CHECK(byte_reverse(0xABCD_u16) == 0xCDAB_u16);
 }
 
 TEST_CASE("clamp")
