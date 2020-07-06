@@ -14,15 +14,19 @@ MUU_PRAGMA_MSVC(inline_recursion(on))
 namespace muu::impl
 {
 	[[nodiscard]]
-	MUU_GNU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	MUU_ATTR(const)
+	constexpr char dec_to_hex_lowercase(unsigned val) noexcept
+	{
+		return static_cast<char>(val >= 10u ? 'a' + (val - 10u) : '0' + val);
+	}
+
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR_CLANG(flatten)
 	constexpr array<char,2> byte_to_chars_lowercase(std::byte byte) noexcept
 	{
-		const auto high = unwrap(byte) / 16u;
-		const auto low = unwrap(byte) % 16u;
-		return {{
-				static_cast<char>(high >= 10u ? 'a' + (high - 10u) : '0' + high),
-				static_cast<char>(low >= 10u  ? 'a' + (low  - 10u) : '0' + low)
-			}};
+		return {{ dec_to_hex_lowercase(unwrap(byte) / 16u), dec_to_hex_lowercase(unwrap(byte) % 16u) }};
 	}
 }
 
@@ -205,47 +209,57 @@ namespace muu
 	};
 
 	/// \brief	SHA-1 hasher.
+	///
+	/// \detail \cpp
+	/// sha1 hasher;
+	/// hasher("The quick brown fox jumps over the lazy dog"sv);
+	/// hasher.finish();
+	/// std::cout << hasher << std::endl;
+	/// \ecpp
+	/// 
+	/// \out
+	/// 2fd4e1c67a2d28fced849ee1bb76e7391b93eb12
+	/// \eout
+	/// 
+	/// \see [SHA-1](https://en.wikipedia.org/wiki/SHA-1)
 	class MUU_API sha1 final
 	{
 		public:
 			using hash_type = std::byte[20];
 
 		private:
-			struct active_state
-			{
-				uint32_t digest[5];
-				uint32_t processed_blocks;
-				uint8_t current_block_length;
-				uint8_t current_block[64];
-			};
-			struct finished_state
-			{
-				impl::array<std::byte, 20> hash;
-			};
 			union state_t
 			{
-				active_state active;
-				finished_state finished;
+				impl::array<uint32_t, 5> digest;
+				impl::array<std::byte, 20> hash;
 			}
 			state;
-			bool is_finished = false;
+			uint32_t processed_blocks{};
+			uint8_t current_block_length{};
+			uint8_t current_block[64];
+			bool finished_ = false;
 
 			void add(uint8_t) noexcept;
 			void add(const uint8_t*, size_t) noexcept;
 
 		public:
 
+			/// \brief	Constructs a new SHA-1 hasher.
 			sha1() noexcept;
 
+			/// \brief	Appends a single byte to the hash function's input.
 			sha1& operator() (uint8_t byte) noexcept;
 
+			/// \brief	Appends a single byte to the hash function's input.
 			sha1& operator() (std::byte byte) noexcept
 			{
 				return (*this)(unwrap(byte));
 			}
 
+			/// \brief	Appends a sequence of data to the hash function's input.
 			sha1& operator() (const void* data, size_t size) noexcept;
 
+			/// \brief	Appends a string to the hash input.
 			template <typename Char, typename Traits>
 			constexpr sha1& operator() (std::basic_string_view<Char, Traits> sv) noexcept
 			{
@@ -253,18 +267,26 @@ namespace muu
 				return (*this)(sv.data(), sv.size());
 			}
 
+			/// \brief	Finishes calculating the hash.
+			/// \remarks Appending to the hash function's input has no effect after finish() is called.
 			sha1& finish() noexcept;
 
+			/// \brief	Returns the calculated hash value.
+			///
+			/// \warning Calling this before `finish()` has been called is undefined behaviour.
 			[[nodiscard]]
 			const hash_type& value() const noexcept
 			{
-				return state.finished.hash.values;
+				MUU_ASSERT(finished_);
+				return state.hash.values;
 			}
 
+			/// \brief	Writes the calculated hash to a text stream in hexadecimal form.
+			///
+			///	\warning Calling this before `finish()` has been called is undefined behaviour.
 			template <typename Char, typename Traits>
 			friend std::basic_ostream<Char, Traits>& operator<< (std::basic_ostream<Char, Traits>& lhs, const sha1& rhs)
 			{
-				static_assert(sizeof(Char) == 1);
 				for (auto byte : rhs.value())
 				{
 					const auto hex = impl::byte_to_chars_lowercase(byte);

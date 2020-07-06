@@ -15,6 +15,7 @@ import random
 import concurrent.futures as futures
 import html
 import bs4 as soup
+import json
 
 
 
@@ -41,6 +42,8 @@ type_names = [
 	'iterator',
 	'const_iterator',
 	'void',
+	'char',
+	'wchar_t',
 	'int',
 	'long',
 	'short',
@@ -61,6 +64,7 @@ type_names = [
 	'string_view',
 	'string',
 	'byte',
+    'optional',
 	#------ muu types
 	'thread_pool',
 	'uuid',
@@ -93,6 +97,12 @@ class HTMLDocument(object):
 			self.__doc = soup.BeautifulSoup(f, 'html5lib', from_encoding='utf-8')
 		self.head = self.__doc.head
 		self.body = self.__doc.body
+		self.table_of_contents = None
+		toc_candidates = self.body.main.article.div.div.div('div', class_='m-block m-default', recursive=False)
+		for div in toc_candidates:
+			if div.h3 and div.h3.string == 'Contents':
+				self.table_of_contents = div
+				break
 
 	def flush(self):
 		with open(self.__path, 'w', encoding='utf-8', newline='\n') as f:
@@ -120,12 +130,14 @@ class HTMLDocument(object):
 		return tag
 		
 
-	def find_all_from_sections(self, name=None, select=None, section=None, **kwargs):
+	def find_all_from_sections(self, name=None, select=None, section=None, include_toc=False, **kwargs):
 		tags = []
 		sectionArgs = { }
 		if (section is not None):
 			sectionArgs['id'] = section
 		sections = self.body.main.article.div.div.div('section', recursive=False, **sectionArgs)
+		if include_toc and self.table_of_contents is not None:
+			sections = [self.table_of_contents, *sections]
 		for sect in sections:
 			matches = sect(name, **kwargs) if name is not None else [ sect ]
 			if (select is not None):
@@ -213,6 +225,20 @@ def html_string_descendants(starting_tag, filter = None):
 
 
 
+def html_append_class(tag, classes):
+	appended = False
+	if 'class' not in tag.attrs:
+		tag['class'] = []
+	if not utils.is_collection(classes):
+		classes = (classes,)
+	for class_ in classes:
+		if class_ not in tag['class']:
+			tag['class'].append(class_)
+			appended = True
+	return appended
+
+
+
 class RegexReplacer(object):
 
 	def __substitute(self, m):
@@ -248,29 +274,72 @@ class RegexReplacer(object):
 
 # allows the injection of custom tags using square-bracketed proxies.
 class CustomTagsFix(object): 
-	__expression = re.compile(r"\[\s*(span|div|code|pre)(.*?)\s*\](.*?)\[\s*/\s*\1\s*\]", re.I)
-	__allowedNames = ['dd', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']
-	
+	__double_tags = re.compile(r"\[\s*(span|div|code|pre|h1|h2|h3|h4|h5|h6)(.*?)\s*\](.*?)\[\s*/\s*\1\s*\]", re.I)
+	__single_tags = re.compile(r"\[\s*(/?(?:span|div|code|pre|emoji|br|li|ul|ol))(\s.*?)?\s*\]", re.I)
+	__allowed_parents = ['dd', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li']
+	__emojis = None
+	__emoji_uri = re.compile(r".+unicode/([0-9a-fA-F]+)[.]png.*", re.I)
+
 	@classmethod
-	def __substitute(cls, m):
+	def __double_tags_substitute(cls, m):
 		return '<{}{}>{}</{}>'.format(
 			m.group(1),
 			html.unescape(m.group(2)),
 			m.group(3),
 			m.group(1)
 		)
+
+	@classmethod
+	def __single_tags_substitute(cls, m):
+		if (str(m.group(1)).lower() == 'emoji'):
+			emoji = str(m.group(2)).strip().lower()
+			if emoji == '':
+				return ''
+			if cls.__emojis is None:
+				cls.__emojis = json.loads(utils.read_all_text_from_file('emojis.json', 'https://api.github.com/emojis'))
+				if '__processed' not in cls.__emojis:
+					emojis = {}
+					for key, uri in cls.__emojis.items():
+						m2 = cls.__emoji_uri.fullmatch(uri)
+						if m2:
+							emojis[key] = [ str(m2.group(1)).upper(), uri ]
+					aliases = [('sundae', 'ice_cream')]
+					for alias, key in aliases:
+						emojis[alias] = emojis[key]
+					emojis['__processed'] = True
+					with open('emojis.json', 'w', encoding='utf-8', newline='\n') as f:
+						f.write(json.dumps(emojis, sort_keys=True, indent=4))
+					cls.__emojis = emojis
+			if emoji not in cls.__emojis:
+				return ''
+			return '&#x{}'.format(cls.__emojis[emoji][0])
+			
+		else:
+			return '<{}{}>'.format(
+				m.group(1),
+				(' ' + str(m.group(2)).strip()) if m.group(2) else ''
+			)
 		
 	def __call__(self, file, doc):
 		changed = False
-		for name in self.__allowedNames:
-			tags = doc.find_all_from_sections(name)
+		for name in self.__allowed_parents:
+			tags = doc.find_all_from_sections(name, include_toc=True)
 			for tag in tags:
 				if (len(tag.contents) == 0 or html_find_parent(tag, 'a', doc.body) is not None):
 					continue
-				replacer = RegexReplacer(self.__expression, self.__substitute, str(tag))
+
+				replacer = RegexReplacer(self.__double_tags, self.__double_tags_substitute, str(tag))
 				if (replacer):
 					changed = True
 					html_replace_tag(tag, str(replacer))
+					continue
+
+				replacer = RegexReplacer(self.__single_tags, self.__single_tags_substitute, str(tag))
+				if (replacer):
+					changed = True
+					html_replace_tag(tag, str(replacer))
+					continue
+
 		return changed
 
 
@@ -851,6 +920,40 @@ class EnableIfFix(object):
 
 
 
+# makes sure links to certain external sources are correctly marked as such.
+class ExternalLinksFix(object):
+
+	__href = re.compile(r'^\s*(?:https?|s?ftp|mailto)[:]', re.I)
+	__godbolt = re.compile(r'^\s*https[:]//godbolt.org/z/.+?$', re.I)
+
+	def __call__(self, file, doc):
+		changed = False
+		for anchor in doc.body('a', recursive=True):
+			if self.__href.search(anchor['href']):
+				if 'target' not in anchor.attrs or anchor['target'] != '_blank':
+					anchor['target'] = '_blank'
+					changed = True
+				changed = html_append_class(anchor, 'muu-external') or changed
+
+				# do magic with godbolt.org links
+				if self.__godbolt.fullmatch(anchor['href']):
+					changed = html_append_class(anchor, 'godbolt') or changed
+					if anchor.parent.name == 'p' and len(anchor.parent.contents) == 1:
+						changed = html_append_class(anchor.parent, ('m-note', 'm-success', 'godbolt')) or changed
+						if anchor.parent.next_sibling is not None and anchor.parent.next_sibling.name == 'pre':
+							code_block = anchor.parent.next_sibling
+							code_block.insert(0, anchor.parent.extract())
+
+
+
+		return changed
+
+
+
+#=======================================================================================================================
+
+
+
 _threadError = False
 
 
@@ -931,6 +1034,7 @@ def main():
 		, InlineNamespaceFix3()
 		, ExtDocLinksFix()
 		, EnableIfFix()
+        , ExternalLinksFix()
 	]
 	files = [path.split(f) for f in utils.get_all_files(html_dir, any=('*.html', '*.htm'))]
 	if files:

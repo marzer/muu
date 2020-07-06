@@ -1,0 +1,129 @@
+version: 2
+
+jobs:
+
+    debug_clang9:
+        docker:
+            - image: marzer/misc_cpp17_dev:latest
+        steps:
+            - checkout
+            - run:
+                name: Pulling submodules
+                command: |
+                    git submodule update --init extern/Catch2
+            - run:
+                name: Building and testing with clang 9
+                command: |
+                    CXX=clang++-9 meson build --buildtype=debug -DGENERATE_CMAKE_CONFIG=disabled -DBUILD_EXAMPLES=disabled
+                    cd build && ninja -v -j 4 && ninja test
+
+
+    release_clang9:
+        docker:
+            - image: marzer/misc_cpp17_dev:latest
+        steps:
+            - checkout
+            - run:
+                name: Pulling submodules
+                command: |
+                    git submodule update --init extern/Catch2
+            - run:
+                name: Building and testing with clang 9
+                command: |
+                    CXX=clang++-9 meson build --buildtype=release -DGENERATE_CMAKE_CONFIG=disabled -DBUILD_EXAMPLES=disabled
+                    cd build && ninja -v -j 4 && ninja test
+
+
+    debug_gcc9:
+        docker:
+            - image: marzer/misc_cpp17_dev:latest
+        steps:
+            - checkout
+            - run:
+                name: Pulling submodules
+                command: |
+                    git submodule update --init extern/Catch2
+            - run:
+                name: Building and testing with gcc9
+                command: |
+                    CXX=g++-9 meson build --buildtype=debug -DGENERATE_CMAKE_CONFIG=disabled -DBUILD_EXAMPLES=disabled
+                    cd build && ninja -v -j 4 && ninja test
+
+
+    release_gcc9:
+        docker:
+            - image: marzer/misc_cpp17_dev:latest
+        steps:
+            - checkout
+            - run:
+                name: Pulling submodules
+                command: |
+                    git submodule update --init extern/Catch2
+            - run:
+                name: Building and testing with gcc9
+                command: |
+                    CXX=g++-9 meson build --buildtype=release -DGENERATE_CMAKE_CONFIG=disabled -DBUILD_EXAMPLES=disabled
+                    cd build && ninja -v -j 4 && ninja test
+                    
+    generate_dox:
+        docker:
+            - image: marzer/misc_cpp17_dev:latest
+        steps:
+            - checkout
+            - run:
+                name: Pulling submodules
+                command: |
+                    git submodule update --init extern/mcss
+            - run:
+                name: Generating documentation
+                command: |
+                    cd python && python3 generate_documentation.py
+            - persist_to_workspace:
+                root: docs
+                paths: html
+
+    deploy_dox:
+        docker:
+            - image: node:14.4.0
+        steps:
+            - checkout
+            - attach_workspace:
+                at: docs
+            - run:
+                name: Disable jekyll builds
+                command: |
+                    touch docs/html/.nojekyll
+            - run:
+                name: Installing dependencies
+                command: |
+                    npm install -g --silent gh-pages@3.0.0
+                    git config user.email "ci-build@muu.com"
+                    git config user.name "ci-build"
+            - add_ssh_keys:
+                fingerprints:
+                    - "7d:0c:c6:80:21:69:dd:e7:6c:c4:07:5b:f6:8f:e0:30"
+            - run:
+                name: Deploy docs to gh-pages branch
+                command: gh-pages --dotfiles --message "[skip ci] Updates" --dist docs/html
+
+
+workflows:
+    version: 2
+    build:
+        jobs:
+            - debug_clang9
+            - release_clang9
+            - debug_gcc9
+            - release_gcc9
+            - generate_dox:
+                requires:
+                    - debug_clang9
+                    - release_clang9
+                    - debug_gcc9
+                    - release_gcc9
+                filters:
+                    branches:
+                        only: master
+            - deploy_dox:
+                requires:
+                    - generate_dox

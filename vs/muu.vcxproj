@@ -87,10 +87,12 @@
     <None Include="..\docs\Doxyfile-mcss" />
     <None Include="..\docs\muu.css" />
     <None Include="..\docs\muu.js" />
+    <None Include="..\docs\pages\main_page.dox" />
     <None Include="..\examples\meson.build" />
     <None Include="..\include\main_page.dox" />
     <None Include="..\meson.build" />
     <None Include="..\python\generate_documentation.py" />
+    <None Include="..\python\generate_float_test_data.py" />
     <None Include="..\python\utils.py" />
     <None Include="..\README.md" />
     <None Include=".runsettings" />

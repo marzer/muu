@@ -100,7 +100,8 @@ namespace muu
 		public:
 
 		/// \brief	Creates a half-precision float from its raw bit equivalent.
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
 		static constexpr float16 from_bits(uint16_t val) noexcept
 		{
 			return float16{ val, impl::f16_from_bits_tag{} };
@@ -141,32 +142,33 @@ namespace muu
 		// CONVERSIONS
 		//====================================================
 
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
 		constexpr operator float() const noexcept
 		{
 			return impl::f16_to_f32(bits);
 		}
 
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
 		constexpr operator double() const noexcept
 		{
 			return static_cast<double>(impl::f16_to_f32(bits));
 		}
 
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
 		constexpr operator long double() const noexcept
 		{
 			return static_cast<long double>(impl::f16_to_f32(bits));
 		}
 
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
 		explicit constexpr operator bool() const noexcept
 		{
 			return (bits & 0x7FFFu) != 0u;
 		}
 
 		#define MUU_F16_EXPLICIT_CONVERSION(type)					\
-			[[nodiscard]] MUU_ALWAYS_INLINE							\
+			[[nodiscard]]											\
 			explicit constexpr operator type() const noexcept		\
 			{														\
 				return static_cast<type>(impl::f16_to_f32(bits));	\
@@ -194,14 +196,16 @@ namespace muu
 		//====================================================
 
 		/// \brief	Returns true if the value of a float16 is infinity or NaN.
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
 		constexpr bool is_infinity_or_nan() const noexcept
 		{
 			return (0b0111110000000000_u16 & bits) == 0b0111110000000000_u16;
 		}
 
 		/// \brief	Returns true if the value of a float16 is NaN.
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
 		constexpr bool is_nan() const noexcept
 		{
 			return (0b0111110000000000_u16 & bits) == 0b0111110000000000_u16
@@ -212,61 +216,61 @@ namespace muu
 		// COMPARISONS
 		//====================================================
 
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
 		friend constexpr bool MUU_VECTORCALL operator == (float16 lhs, float16 rhs) noexcept
 		{
 			return static_cast<float>(lhs) == static_cast<float>(rhs);
 		}
 
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
 		friend constexpr bool MUU_VECTORCALL operator != (float16 lhs, float16 rhs) noexcept
 		{
 			return static_cast<float>(lhs) != static_cast<float>(rhs);
 		}
 
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
 		friend constexpr bool MUU_VECTORCALL operator < (float16 lhs, float16 rhs) noexcept
 		{
 			return static_cast<float>(lhs) < static_cast<float>(rhs);
 		}
 
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
 		friend constexpr bool MUU_VECTORCALL operator <= (float16 lhs, float16 rhs) noexcept
 		{
 			return static_cast<float>(lhs) <= static_cast<float>(rhs);
 		}
 
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
 		friend constexpr bool MUU_VECTORCALL operator > (float16 lhs, float16 rhs) noexcept
 		{
 			return static_cast<float>(lhs) > static_cast<float>(rhs);
 		}
 
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
 		friend constexpr bool MUU_VECTORCALL operator >= (float16 lhs, float16 rhs) noexcept
 		{
 			return static_cast<float>(lhs) >= static_cast<float>(rhs);
 		}
 
 		#define MUU_F16_PROMOTING_BINARY_OP(return_type, input_type, op)					\
-			[[nodiscard]] MUU_ALWAYS_INLINE friend constexpr return_type MUU_VECTORCALL		\
+			[[nodiscard]] friend constexpr return_type MUU_VECTORCALL						\
 			operator op (float16 lhs, input_type rhs) noexcept								\
 			{																				\
 				return static_cast<input_type>(lhs) op rhs;									\
 			}																				\
-			[[nodiscard]] MUU_ALWAYS_INLINE friend constexpr return_type MUU_VECTORCALL		\
+			[[nodiscard]] friend constexpr return_type MUU_VECTORCALL						\
 			operator op (input_type rhs, float16 lhs) noexcept								\
 			{																				\
 				return lhs op static_cast<input_type>(rhs);									\
 			}
 
 		#define MUU_F16_CONVERTING_BINARY_OP(return_type, input_type, op)					\
-			[[nodiscard]] MUU_ALWAYS_INLINE friend constexpr return_type MUU_VECTORCALL		\
+			[[nodiscard]] friend constexpr return_type MUU_VECTORCALL						\
 			operator op (float16 lhs, input_type rhs) noexcept								\
 			{																				\
 				return return_type{ static_cast<float>(lhs) op static_cast<float>(rhs) };	\
 			}																				\
-			[[nodiscard]] MUU_ALWAYS_INLINE	friend constexpr return_type MUU_VECTORCALL		\
+			[[nodiscard]] friend constexpr return_type MUU_VECTORCALL						\
 			operator op (input_type rhs, float16 lhs) noexcept								\
 			{																				\
 				return return_type{ static_cast<float>(lhs) op static_cast<float>(rhs) };	\
@@ -369,7 +373,7 @@ namespace muu
 		[[nodiscard]]
 		static constexpr float16 MUU_VECTORCALL fma(float16 m1, float16 m2, float16 a) noexcept
 		{
-			#if defined(__GNUC__) || MUU_CLANG
+			#if MUU_GCC || MUU_CLANG
 				if (!is_constant_evaluated())
 					return float16{ __builtin_fmaf(m1, m2, a) };
 			#endif
@@ -496,7 +500,8 @@ namespace muu
 	inline namespace literals
 	{
 		/// \brief	Literal for creating a half-precision float.
-		[[nodiscard]] MUU_ALWAYS_INLINE
+		[[nodiscard]]
+		MUU_ATTR(const)
 		MUU_CONSTEVAL float16 operator "" _f16(long double val) noexcept
 		{
 			return float16{ val };
@@ -504,14 +509,14 @@ namespace muu
 	}
 
 	template <>
-	[[nodiscard]] MUU_ALWAYS_INLINE
+	[[nodiscard]]
 	constexpr bool MUU_VECTORCALL is_infinity_or_nan<float16, void>(float16 val) noexcept
 	{
 		return val.is_infinity_or_nan();
 	}
 
 	template <>
-	[[nodiscard]] MUU_ALWAYS_INLINE
+	[[nodiscard]]
 	constexpr float16 MUU_VECTORCALL abs<float16, void>(float16 val) noexcept
 	{
 		return static_cast<float>(val) < 0.0f ? -val : val;
@@ -526,7 +531,9 @@ namespace muu::impl
 	MUU_PRAGMA_MSVC(warning(disable: 4556)) //value of intrinsic immediate argument '8' is out of range '0 - 7'
 	MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wold-style-cast\"") // false positive with _mm_set_ss
 
-	[[nodiscard]] MUU_ALWAYS_INLINE
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	MUU_ATTR(const)
 	uint16_t MUU_VECTORCALL f32_to_f16_intrinsic(float val) noexcept
 	{
 		//_mm_set_ss			store a single float in a m128
@@ -538,7 +545,9 @@ namespace muu::impl
 		));
 	}
 
-	[[nodiscard]] MUU_ALWAYS_INLINE
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	MUU_ATTR(const)
 	float MUU_VECTORCALL f16_to_f32_intrinsic(uint16_t val) noexcept
 	{
 		//_mm_cvtsi32_si128		store a single int in an m128i
@@ -558,6 +567,7 @@ namespace muu::impl
 	inline constexpr int8_t f16_half_exp_bias = 15;
 
 	[[nodiscard]]
+	MUU_ATTR(const)
 	constexpr uint16_t MUU_VECTORCALL f32_to_f16_native(float val) noexcept
 	{
 		const uint32_t bits32 = bit_cast<uint32_t>(val);
@@ -609,6 +619,7 @@ namespace muu::impl
 	}
 
 	[[nodiscard]]
+	MUU_ATTR(const)
 	constexpr float MUU_VECTORCALL f16_to_f32_native(uint16_t val) noexcept
 	{
 		// 1000 0000 0000 0000 ->
@@ -660,7 +671,9 @@ namespace muu::impl
 		return bit_cast<float>(s32 | exp32 | frac32);
 	}
 
-	[[nodiscard]] MUU_ALWAYS_INLINE
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR_CLANG(flatten)
 	constexpr uint16_t MUU_VECTORCALL f32_to_f16(float val) noexcept
 	{
 		#if MUU_F16_USE_INTRINSICS
@@ -674,7 +687,9 @@ namespace muu::impl
 		return f32_to_f16_native(val);
 	}
 
-	[[nodiscard]] MUU_ALWAYS_INLINE
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR_CLANG(flatten)
 	constexpr float MUU_VECTORCALL f16_to_f32(uint16_t val) noexcept
 	{
 		#if MUU_F16_USE_INTRINSICS
@@ -722,6 +737,7 @@ namespace std
 		static constexpr bool tinyness_before = false;
 		
 		[[nodiscard]]
+		MUU_ATTR(const)
 		static constexpr float16 min() noexcept
 		{
 			using namespace ::muu::literals;
@@ -729,12 +745,15 @@ namespace std
 		}
 
 		[[nodiscard]]
+		MUU_ATTR(const)
 		static constexpr float16 lowest() noexcept
 		{
 			using namespace ::muu::literals;
 			return float16::from_bits(0xFBFF_u16); // -65504
 		}
+
 		[[nodiscard]]
+		MUU_ATTR(const)
 		static constexpr float16 max() noexcept
 		{
 			using namespace ::muu::literals;
@@ -742,6 +761,7 @@ namespace std
 		}
 
 		[[nodiscard]]
+		MUU_ATTR(const)
 		static constexpr float16 epsilon() noexcept
 		{
 			using namespace ::muu::literals;
@@ -749,6 +769,7 @@ namespace std
 		}
 
 		[[nodiscard]]
+		MUU_ATTR(const)
 		static constexpr float16 round_error() noexcept
 		{
 			using namespace ::muu::literals;
@@ -756,6 +777,7 @@ namespace std
 		}
 
 		[[nodiscard]]
+		MUU_ATTR(const)
 		static constexpr float16 infinity() noexcept
 		{
 			using namespace ::muu::literals;
@@ -763,6 +785,7 @@ namespace std
 		}
 
 		[[nodiscard]]
+		MUU_ATTR(const)
 		static constexpr float16 quiet_NaN() noexcept
 		{
 			using namespace ::muu::literals;
@@ -770,6 +793,7 @@ namespace std
 		}
 
 		[[nodiscard]]
+		MUU_ATTR(const)
 		static constexpr float16 signaling_NaN() noexcept
 		{
 			using namespace ::muu::literals;
@@ -777,6 +801,7 @@ namespace std
 		}
 
 		[[nodiscard]]
+		MUU_ATTR(const)
 		static constexpr float16 denorm_min() noexcept
 		{
 			using namespace ::muu::literals;

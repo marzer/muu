@@ -56,6 +56,13 @@ static_assert(std::is_same_v<smallest<char[2], char[4], char[128]>, char[2]>);
 static_assert(std::is_same_v<smallest<char[4], char[128]>, char[4]>);
 static_assert(std::is_same_v<smallest<char[128]>, char[128]>);
 
+// total_size
+static_assert(total_size<uint8_t> == 1);
+static_assert(total_size<uint8_t, int8_t> == 2);
+static_assert(total_size<uint8_t, int8_t, char> == 3);
+static_assert(total_size<uint8_t, int8_t, char, std::byte> == 4);
+static_assert(total_size<uint8_t, int8_t, char, std::byte, uint16_t> == 6);
+
 // alignment_of
 static_assert(alignment_of<aligned<1>> == 1);
 static_assert(alignment_of<aligned<2>> == 2);
@@ -69,16 +76,16 @@ static_assert(alignment_of<int()> == 1);
 static_assert(alignment_of<int()noexcept> == 1);
 
 // most_aligned
-static_assert(std::is_same_v<most_aligned<aligned<1>, aligned<2>, aligned<4>, aligned<128>>, aligned<128>>);
-static_assert(std::is_same_v<most_aligned<aligned<1>, aligned<2>, aligned<4>>, aligned<4>>);
-static_assert(std::is_same_v<most_aligned<aligned<1>, aligned<2>>, aligned<2>>);
-static_assert(std::is_same_v<most_aligned<aligned<1>>, aligned<1>>);
+static_assert(std::is_same_v<most_aligned<void, aligned<1>, aligned<2>, aligned<4>, aligned<128>>, aligned<128>>);
+static_assert(std::is_same_v<most_aligned<void, aligned<1>, aligned<2>, aligned<4>>, aligned<4>>);
+static_assert(std::is_same_v<most_aligned<void, aligned<1>, aligned<2>>, aligned<2>>);
+static_assert(std::is_same_v<most_aligned<void, aligned<1>>, aligned<1>>);
 
 // least_aligned
-static_assert(std::is_same_v<least_aligned<aligned<1>, aligned<2>, aligned<4>, aligned<128>>, aligned<1>>);
-static_assert(std::is_same_v<least_aligned<aligned<2>, aligned<4>, aligned<128>>, aligned<2>>);
-static_assert(std::is_same_v<least_aligned<aligned<4>, aligned<128>>, aligned<4>>);
-static_assert(std::is_same_v<least_aligned<aligned<128>>, aligned<128>>);
+static_assert(std::is_same_v<least_aligned<void, aligned<1>, aligned<2>, aligned<4>, aligned<128>>, aligned<1>>);
+static_assert(std::is_same_v<least_aligned<void, aligned<2>, aligned<4>, aligned<128>>, aligned<2>>);
+static_assert(std::is_same_v<least_aligned<void, aligned<4>, aligned<128>>, aligned<4>>);
+static_assert(std::is_same_v<least_aligned<void, aligned<128>>, aligned<128>>);
 
 // same_as_any (variadic std::is_same_v || std::is_same_v)
 static_assert(same_as_any<int, int>);

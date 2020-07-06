@@ -18,6 +18,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\tests\tests.h" />
+    <ClInclude Include="..\tests\float_test_data.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\tests\meson.build" />

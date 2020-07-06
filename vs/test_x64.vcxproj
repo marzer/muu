@@ -59,6 +59,7 @@
     <LocalDebuggerWorkingDirectory>..\tests\</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
   <ItemGroup>
+    <ClCompile Include="..\tests\hashing.cpp" />
     <ClCompile Include="..\tests\tests.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -79,6 +80,7 @@
     <Natvis Include="muu.natvis" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\tests\float_test_data.h" />
     <ClInclude Include="..\tests\tests.h" />
   </ItemGroup>
   <ItemGroup>

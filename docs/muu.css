@@ -8,6 +8,19 @@ body
 	margin-top: 3rem;
 }
 
+@media screen and (min-width: 768px) and (max-width: 991px)
+{
+	body
+	{
+		margin-top: 6rem;
+	}
+}
+
+a
+{
+	text-decoration: none !important; 
+}
+
 header
 {
 	position: fixed;
@@ -17,9 +30,19 @@ header
 	z-index: 100;
 }
 
-article, article > header, article section
+header, header *
 {
-	margin-bottom: 3em;
+	white-space: nowrap;
+}
+
+article, article > header, article div > section
+{
+	margin-bottom: 5rem;
+}
+
+article div > section > section
+{
+	margin-bottom: 1.25rem;
 }
 
 pre, code, .muu-enable-if > a
@@ -131,7 +154,8 @@ pre.m-code .c1
 
 /* int and float literals */
 pre.m-code .mi,
-pre.m-code .mf
+pre.m-code .mf,
+pre.m-code .mh
 {
 	color: rgb(181,206,168);
 }
@@ -268,5 +292,31 @@ h1 .m-doc-include .cp,
 h3 .m-doc-include .cp
 {
 	color: #747474;
+}
+
+/* "Try this code on Compiler Explorer" */
+.godbolt
+{
+	font-family: 'Source Sans Pro', sans-serif;
+}
+p.godbolt
+{
+	text-align: center;
+	padding: 0.0rem;
+	text-indent: 0.0rem;
+	opacity: 0.5;
+}
+p.godbolt:hover
+{
+	opacity: 1.0;
+}
+a.godbolt
+{
+	padding: 0.5rem;
+	display: inline-block;
+}
+pre > p.godbolt
+{
+  float: right;
 }
 

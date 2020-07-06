@@ -101,6 +101,12 @@
     <None Include="..\examples\meson.build">
       <Filter>examples</Filter>
     </None>
+    <None Include="..\docs\pages\main_page.dox">
+      <Filter>docs\pages</Filter>
+    </None>
+    <None Include="..\python\generate_float_test_data.py">
+      <Filter>python</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -120,6 +126,9 @@
     </Filter>
     <Filter Include="examples">
       <UniqueIdentifier>{8c060e25-0088-4efc-87ec-0e1c502800d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="docs\pages">
+      <UniqueIdentifier>{f71d09f5-b09a-4cdf-b292-f3ff5a9dcb3c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

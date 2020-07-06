@@ -9,14 +9,13 @@
 /// \brief Compiler feature detection, attributes, string-makers, etc.
 
 #pragma once
+#ifndef __cplusplus
+	#error muu is a C++ library.
+#endif
 
 //=====================================================================================================================
 // CONFIGURATION
 //=====================================================================================================================
-
-#ifndef MUU_DOXYGEN
-	#define MUU_DOXYGEN 0
-#endif
 
 #ifdef MUU_CONFIG_HEADER
 	#include MUU_CONFIG_HEADER
@@ -26,12 +25,6 @@
 #if !defined(MUU_ALL_INLINE) || (defined(MUU_ALL_INLINE) && MUU_ALL_INLINE) || defined(__INTELLISENSE__)
 	#undef MUU_ALL_INLINE
 	#define MUU_ALL_INLINE 1
-#endif
-
-#if MUU_DOXYGEN
-	#undef MUU_ALL_INLINE
-	#undef MUU_IMPLEMENTATION
-	#define MUU_ALL_INLINE 0
 #endif
 
 #if defined(MUU_IMPLEMENTATION) || MUU_ALL_INLINE
@@ -46,19 +39,55 @@
 #endif
 
 //=====================================================================================================================
+// COMPILER DETECTION
+//=====================================================================================================================
+
+#ifndef MUU_DOXYGEN
+	#define MUU_DOXYGEN			0
+#endif
+#ifdef __clang__
+	#define MUU_CLANG		__clang_major__
+#else
+	#define MUU_CLANG		0
+#endif
+#ifdef __INTEL_COMPILER
+	#define MUU_ICC			__INTEL_COMPILER
+#else
+	#define MUU_ICC			0
+#endif
+#if defined(_MSC_VER) && !MUU_CLANG && !MUU_ICC
+	#define MUU_MSVC		_MSC_VER
+#else
+	#define MUU_MSVC		0
+#endif
+#if defined(__GNUC__) && !MUU_CLANG && !MUU_ICC
+	#define MUU_GCC			__GNUC__
+#else
+	#define MUU_GCC			0
+#endif
+#if !MUU_DOXYGEN
+	#if !MUU_CLANG && !MUU_ICC && !MUU_MSVC && !MUU_GCC
+		#error Unknown compiler.
+	#endif
+	#if (MUU_CLANG && (MUU_ICC || MUU_MSVC || MUU_GCC)) \
+		|| (MUU_ICC && (MUU_CLANG || MUU_MSVC || MUU_GCC)) \
+		|| (MUU_MSVC && (MUU_CLANG || MUU_ICC || MUU_GCC)) \
+		|| (MUU_GCC && (MUU_CLANG || MUU_ICC || MUU_MSVC))
+		#error Could not uniquely identify compiler.
+	#endif
+#endif
+
+//=====================================================================================================================
 // ARCHITECTURE & ENVIRONMENT
 //=====================================================================================================================
 
-#ifndef __cplusplus
-	#error muu is a C++ library.
-#endif
-#if defined(__ia64__) || defined(__ia64) || defined(_IA64) || defined(__IA64__) || defined(_M_IA64) || MUU_DOXYGEN
+#if defined(__ia64__) || defined(__ia64) || defined(_IA64) || defined(__IA64__) || defined(_M_IA64)
 	#define MUU_ARCH_IA64 1
 	#define MUU_ARCH_BITNESS 64
 #else
 	#define MUU_ARCH_IA64 0
 #endif
-#if defined(__amd64__) || defined(__amd64) || defined(__x86_64__) || defined(__x86_64) || defined(_M_AMD64)
+#if defined(__amd64__) || defined(__amd64) || defined(__x86_64__) || defined(__x86_64) || defined(_M_AMD64) || MUU_DOXYGEN
 	#define MUU_ARCH_AMD64 1
 	#define MUU_ARCH_BITNESS 64
 #else
@@ -94,38 +123,75 @@
 #else
 	#define MUU_WINDOWS 0
 #endif
+#define MUU_MACRO_DISPATCHER(func, ...)	func(__VA_ARGS__)
 
 //=====================================================================================================================
 // CLANG
 //=====================================================================================================================
 
-#ifdef __clang__
+#if MUU_CLANG
 
-	#define MUU_CLANG						__clang_major__
-	#define MUU_PRAGMA_CLANG(...)			_Pragma(__VA_ARGS__)
+	#define MUU_PRAGMA_CLANG(...)					_Pragma(__VA_ARGS__)
+
+	#if MUU_CLANG >= 7
+		#define MUU_MACRO_DISPATCH_CLANG_GE_7(...)	__VA_ARGS__
+		#define MUU_MACRO_DISPATCH_CLANG_LT_7(...)
+	#else
+		#define MUU_MACRO_DISPATCH_CLANG_GE_7(...)
+		#define MUU_MACRO_DISPATCH_CLANG_LT_7(...)	__VA_ARGS__
+	#endif
+	#if MUU_CLANG >= 8
+		#define MUU_MACRO_DISPATCH_CLANG_GE_8(...)	__VA_ARGS__
+		#define MUU_MACRO_DISPATCH_CLANG_LT_8(...)
+	#else
+		#define MUU_MACRO_DISPATCH_CLANG_GE_8(...)
+		#define MUU_MACRO_DISPATCH_CLANG_LT_8(...)	__VA_ARGS__
+	#endif
+	#if MUU_CLANG >= 9
+		#define MUU_MACRO_DISPATCH_CLANG_GE_9(...)	__VA_ARGS__
+		#define MUU_MACRO_DISPATCH_CLANG_LT_9(...)
+	#else
+		#define MUU_MACRO_DISPATCH_CLANG_GE_9(...)
+		#define MUU_MACRO_DISPATCH_CLANG_LT_9(...)	__VA_ARGS__
+	#endif
+	#if MUU_CLANG >= 10
+		#define MUU_MACRO_DISPATCH_CLANG_GE_10(...)	__VA_ARGS__
+		#define MUU_MACRO_DISPATCH_CLANG_LT_10(...)
+	#else
+		#define MUU_MACRO_DISPATCH_CLANG_GE_10(...)
+		#define MUU_MACRO_DISPATCH_CLANG_LT_10(...)	__VA_ARGS__
+	#endif
+	#if MUU_CLANG >= 11
+		#define MUU_MACRO_DISPATCH_CLANG_GE_11(...)	__VA_ARGS__
+		#define MUU_MACRO_DISPATCH_CLANG_LT_11(...)
+	#else
+		#define MUU_MACRO_DISPATCH_CLANG_GE_11(...)
+		#define MUU_MACRO_DISPATCH_CLANG_LT_11(...)	__VA_ARGS__
+	#endif
+
+	#define MUU_PRAGMA_CLANG_GE(ver, ...)	MUU_MACRO_DISPATCHER(MUU_MACRO_DISPATCH_CLANG_GE_##ver, _Pragma(__VA_ARGS__))
+	#define MUU_PRAGMA_CLANG_LT(ver, ...)	MUU_MACRO_DISPATCHER(MUU_MACRO_DISPATCH_CLANG_LT_##ver, _Pragma(__VA_ARGS__))
+
 	#define MUU_PUSH_WARNINGS				_Pragma("clang diagnostic push")
 	#define MUU_DISABLE_SWITCH_WARNINGS		_Pragma("clang diagnostic ignored \"-Wswitch\"")
-	#define MUU_DISABLE_INIT_WARNINGS		_Pragma("clang diagnostic ignored \"-Wmissing-field-initializers\"")
+	#define MUU_DISABLE_INIT_WARNINGS		_Pragma("clang diagnostic ignored \"-Wmissing-field-initializers\"")	\
+											_Pragma("clang diagnostic ignored \"-Wglobal-constructors\"")
 	#define MUU_DISABLE_VTABLE_WARNINGS		_Pragma("clang diagnostic ignored \"-Weverything\"") \
 											_Pragma("clang diagnostic ignored \"-Wweak-vtables\"")
 	#define MUU_DISABLE_PADDING_WARNINGS	_Pragma("clang diagnostic ignored \"-Wpadded\"")
-	#if MUU_CLANG >= 10
-		#define MUU_DISABLE_FLOAT_WARNINGS_CLANG_10	\
-											_Pragma("clang diagnostic ignored \"-Wimplicit-int-float-conversion\"")
-	#else
-		#define MUU_DISABLE_FLOAT_WARNINGS_CLANG_10
-	#endif
 	#define MUU_DISABLE_FLOAT_WARNINGS		_Pragma("clang diagnostic ignored \"-Wfloat-equal\"") \
 											_Pragma("clang diagnostic ignored \"-Wdouble-promotion\"") \
-											MUU_DISABLE_FLOAT_WARNINGS_CLANG_10
+							MUU_PRAGMA_CLANG_GE(10, "clang diagnostic ignored \"-Wimplicit-int-float-conversion\"")
 	#define MUU_DISABLE_SHADOW_WARNINGS		_Pragma("clang diagnostic ignored \"-Wshadow\"")
 	#define MUU_DISABLE_ALL_WARNINGS		_Pragma("clang diagnostic ignored \"-Weverything\"")
 	#define MUU_POP_WARNINGS				_Pragma("clang diagnostic pop")
 	#define MUU_ASSUME(cond)				__builtin_assume(cond)
 	#define MUU_UNREACHABLE					__builtin_unreachable()
-	#define MUU_GNU_ATTR(attr)				__attribute__((attr))
+	#define MUU_ATTR(attr)					__attribute__((attr))
+	#define MUU_ATTR_CLANG(attr)			MUU_ATTR(attr)
 	#if defined(_MSC_VER) // msvc compat mode
 		#ifdef __has_declspec_attribute
+			#define MUU_DECLSPEC(attr)		__declspec(attr)
 			#if __has_declspec_attribute(novtable)
 				#define MUU_INTERFACE		__declspec(novtable)
 			#endif
@@ -168,18 +234,15 @@
 	#define MUU_BIG_ENDIAN					(__BYTE_ORDER__ == __ORDER_BIG_ENDIAN__)
 	#define MUU_LIKELY(...)					(__builtin_expect(!!(__VA_ARGS__), 1) )
 	#define MUU_UNLIKELY(...)				(__builtin_expect(!!(__VA_ARGS__), 0) )
+	#ifdef __has_builtin
+		#define MUU_HAS_BUILTIN(name)	__has_builtin(name)
+	#endif
 
 //=====================================================================================================================
 // MSVC
 //=====================================================================================================================
 
-#elif defined(_MSC_VER) || (defined(__INTEL_COMPILER) && defined(__ICL))
-
-	#if (defined(__INTEL_COMPILER) && defined(__ICL))
-		#define MUU_ICC						__INTEL_COMPILER
-	#else
-		#define MUU_MSVC					_MSC_VER
-	#endif
+#elif MUU_MSVC || (defined(_MSC_VER) && MUU_ICC && defined(__ICL))
 
 	#define MUU_CPP_VERSION					_MSVC_LANG
 	#define MUU_PRAGMA_MSVC(...)			__pragma(__VA_ARGS__)
@@ -188,6 +251,7 @@
 	#define MUU_DISABLE_ALL_WARNINGS		__pragma(warning(pop))	\
 											__pragma(warning(push, 0))
 	#define MUU_POP_WARNINGS				__pragma(warning(pop))
+	#define MUU_DECLSPEC(attr)				__declspec(attr)
 	#define MUU_ALWAYS_INLINE				__forceinline
 	#define MUU_NEVER_INLINE				__declspec(noinline)
 	#define MUU_ASSUME(cond)				__assume(cond)
@@ -209,14 +273,12 @@
 	#define MUU_LITTLE_ENDIAN				1
 	#define MUU_BIG_ENDIAN					0
 
-
 //=====================================================================================================================
 // GCC
 //=====================================================================================================================
 
-#elif defined(__GNUC__)
+#elif MUU_GCC
 
-	#define MUU_GCC							__GNUC__
 	#define MUU_PRAGMA_GCC(...)				_Pragma(__VA_ARGS__)
 	#define MUU_PUSH_WARNINGS				_Pragma("GCC diagnostic push")
 	#define MUU_DISABLE_SWITCH_WARNINGS		_Pragma("GCC diagnostic ignored \"-Wswitch\"")						\
@@ -235,17 +297,21 @@
 	#define MUU_DISABLE_PADDING_WARNINGS	_Pragma("GCC diagnostic ignored \"-Wpadded\"")
 	#define MUU_DISABLE_FLOAT_WARNINGS		_Pragma("GCC diagnostic ignored \"-Wfloat-equal\"")
 	#define MUU_DISABLE_SHADOW_WARNINGS		_Pragma("GCC diagnostic ignored \"-Wshadow\"")
+	#define MUU_DISABLE_SUGGEST_WARNINGS	_Pragma("GCC diagnostic ignored \"-Wsuggest-attribute=const\"")		\
+											_Pragma("GCC diagnostic ignored \"-Wsuggest-attribute=pure\"")
 	#define MUU_DISABLE_ALL_WARNINGS		_Pragma("GCC diagnostic ignored \"-Wall\"")							\
 											_Pragma("GCC diagnostic ignored \"-Wextra\"")						\
 											_Pragma("GCC diagnostic ignored \"-Wchar-subscripts\"")				\
 											_Pragma("GCC diagnostic ignored \"-Wtype-limits\"")					\
+											MUU_DISABLE_SUGGEST_WARNINGS										\
 											MUU_DISABLE_SWITCH_WARNINGS											\
 											MUU_DISABLE_INIT_WARNINGS											\
 											MUU_DISABLE_PADDING_WARNINGS										\
 											MUU_DISABLE_FLOAT_WARNINGS											\
 											MUU_DISABLE_SHADOW_WARNINGS
 	#define MUU_POP_WARNINGS				_Pragma("GCC diagnostic pop")
-	#define MUU_GNU_ATTR(attr)				__attribute__((attr))
+	#define MUU_ATTR(attr)					__attribute__((attr))
+	#define MUU_ATTR_GCC(attr)				MUU_ATTR(attr)
 	#define MUU_ALWAYS_INLINE				__attribute__((__always_inline__)) inline
 	#define MUU_NEVER_INLINE				__attribute__((__noinline__))
 	#define MUU_UNREACHABLE					__builtin_unreachable()
@@ -263,6 +329,9 @@
 	#define MUU_BIG_ENDIAN					(__BYTE_ORDER__ == __ORDER_BIG_ENDIAN__)
 	#define MUU_LIKELY(...)					(__builtin_expect(!!(__VA_ARGS__), 1) )
 	#define MUU_UNLIKELY(...)				(__builtin_expect(!!(__VA_ARGS__), 0) )
+	#ifdef __has_builtin
+		#define MUU_HAS_BUILTIN(name)	__has_builtin(name)
+	#endif
 
 #endif
 
@@ -304,21 +373,14 @@
 	#error Unknown platform endianness.
 #endif
 
-#ifndef MUU_CLANG
-	#define MUU_CLANG 0
-#endif
-#ifndef MUU_MSVC
-	#define MUU_MSVC 0
-#endif
-#ifndef MUU_ICC
-	#define MUU_ICC 0
-#endif
-#ifndef MUU_GCC
-	#define MUU_GCC 0
-#endif
-
 #ifndef MUU_PRAGMA_CLANG
 	#define MUU_PRAGMA_CLANG(...)
+#endif
+#ifndef MUU_PRAGMA_CLANG_GE
+	#define MUU_PRAGMA_CLANG_GE(...)
+#endif
+#ifndef MUU_PRAGMA_CLANG_LT
+	#define MUU_PRAGMA_CLANG_LT(...)
 #endif
 #ifndef MUU_PRAGMA_MSVC
 	#define MUU_PRAGMA_MSVC(...)
@@ -326,8 +388,18 @@
 #ifndef MUU_PRAGMA_GCC
 	#define MUU_PRAGMA_GCC(...)
 #endif
-#ifndef MUU_GNU_ATTR
-	#define MUU_GNU_ATTR(attr)
+
+#ifndef MUU_ATTR
+	#define MUU_ATTR(attr)
+#endif
+#ifndef MUU_ATTR_CLANG
+	#define MUU_ATTR_CLANG(attr)
+#endif
+#ifndef MUU_ATTR_GCC
+	#define MUU_ATTR_GCC(attr)
+#endif
+#ifndef MUU_DECLSPEC
+	#define MUU_DECLSPEC(attr)
 #endif
 
 #ifndef MUU_PUSH_WARNINGS
@@ -350,6 +422,9 @@
 #endif
 #ifndef MUU_DISABLE_SHADOW_WARNINGS
 	#define MUU_DISABLE_SHADOW_WARNINGS
+#endif
+#ifndef MUU_DISABLE_SUGGEST_WARNINGS
+	#define MUU_DISABLE_SUGGEST_WARNINGS
 #endif
 #ifndef MUU_DISABLE_ALL_WARNINGS
 	#define MUU_DISABLE_ALL_WARNINGS
@@ -413,10 +488,10 @@
 	#define MUU_TRIVIAL_ABI
 #endif
 #ifdef MUU_VECTORCALL
-	#define MUU_VECTORCALL_ARG
+	#define MUU_VECTORCALL_CONSTREF
 #else
 	#define MUU_VECTORCALL
-	#define MUU_VECTORCALL_ARG const&
+	#define MUU_VECTORCALL_CONSTREF const&
 #endif
 
 #if defined(__cpp_consteval) && !defined(__INTELLISENSE__)
@@ -472,6 +547,10 @@ MUU_POP_WARNINGS
 	#endif
 #endif
 
+#ifndef MUU_HAS_BUILTIN
+	#define MUU_HAS_BUILTIN(name)	0
+#endif
+
 #if MUU_DOXYGEN
 
 /// \def MUU_ARCH_IA64
@@ -493,16 +572,20 @@ MUU_POP_WARNINGS
 /// \brief The 'bitness' of the current architecture (e.g. `64` on AMD64).
 /// 
 /// \def MUU_CLANG
-/// \brief `1` when the code is being compiled by LLVM/Clang, `0` otherwise.
+/// \brief The value of `__clang_major__` when the code is being compiled by LLVM/Clang, `0` otherwise.
+/// \see https://sourceforge.net/p/predef/wiki/Compilers/
 /// 
 /// \def MUU_MSVC
-/// \brief `1` when the code is being compiled by MSVC, `0` otherwise.
+/// \brief The value of `_MSC_VER` when the code is being compiled by MSVC, `0` otherwise.
+/// \see https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros
 /// 
 /// \def MUU_ICC
-/// \brief `1` when the code is being compiled by Intel ICC, `0` otherwise.
+/// \brief The value of `__INTEL_COMPILER` when the code is being compiled by Intel ICC, `0` otherwise.
+/// \see http://scv.bu.edu/computation/bladecenter/manpages/icc.html
 /// 
 /// \def MUU_GCC
-/// \brief `1` when the code is being compiled by Intel GCC, `0` otherwise.
+/// \brief The value of `__GNUC__` when the code is being compiled by GCC, `0` otherwise.
+/// \see https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
 /// 
 /// \def MUU_WINDOWS
 /// \brief `1` when building for the Windows operating system, `0` otherwise.
@@ -519,7 +602,7 @@ MUU_POP_WARNINGS
 /// \def MUU_BIG_ENDIAN
 /// \brief `1` when the target environment is big-endian, `0` otherwise.
 /// 
-/// \def MUU_CPP_VERSION
+/// \def MUU_CPP
 /// \brief The currently-targeted C++ standard. `17` for C++17, `20` for C++20, etc.
 /// 
 /// \def MUU_PRAGMA_CLANG(...)
@@ -530,6 +613,18 @@ MUU_POP_WARNINGS
 ///
 /// \def MUU_PRAGMA_GCC(...)
 /// \brief Expands to a `_Pragma()` directive when compiling with GCC.
+/// 
+/// \def MUU_ATTR(attr)
+/// \brief Expands to `__attribute__(( attr ))` when compiling with a compiler that supports GNU-style attributes.
+/// 
+/// \def MUU_ATTR_CLANG(attr)
+/// \brief Expands to `__attribute__(( attr ))` when compiling with Clang.
+///
+/// \def MUU_ATTR_GCC(attr)
+/// \brief Expands to `__attribute__(( attr ))` when compiling with GCC.
+/// 
+/// \def MUU_DECLSPEC(attr)
+/// \brief Expands to `__declspec( attr )` when compiling with MSVC (or another compiler in MSVC-mode).
 /// 
 /// \def MUU_PUSH_WARNINGS
 /// \brief Pushes the current compiler warning state onto the stack.
@@ -743,9 +838,12 @@ MUU_POP_WARNINGS
 ///	constexpr std::string_view str2 = "\"It's trap!\" the admiral cried."sv;
 /// \ecpp
 /// \see [String literals in C++](https://en.cppreference.com/w/cpp/language/string_literal)
-
+///
 /// \def MUU_HAS_INT128
 /// \brief `1` when the target environment has 128-bit integers, `0` otherwise.
+///
+/// \def MUU_HAS_BUILTIN(name)
+/// \brief Expands to `__has_builtin(name)` when supported by the compiler, `0` otherwise.
 
 #endif // MUU_DOXYGEN
 

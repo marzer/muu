@@ -65,7 +65,7 @@ namespace muu
 			/// \param	sample	The sample to add.
 			///
 			/// \return	A reference to the accumulator.
-			constexpr accumulator& MUU_VECTORCALL add(value_type MUU_VECTORCALL_ARG sample)
+			constexpr accumulator& MUU_VECTORCALL add(value_type MUU_VECTORCALL_CONSTREF sample)
 				noexcept(noexcept(impl.start(sample)) && noexcept(impl.add(sample)))
 			{
 				if constexpr (is_floating_point<value_type>)
@@ -84,7 +84,7 @@ namespace muu
 			///
 			/// \return	A reference to the accumulator.
 			MUU_ALWAYS_INLINE
-			constexpr accumulator& MUU_VECTORCALL operator() (value_type MUU_VECTORCALL_ARG sample)
+			constexpr accumulator& MUU_VECTORCALL operator() (value_type MUU_VECTORCALL_CONSTREF sample)
 				noexcept(noexcept(std::declval<accumulator>().add(sample)))
 			{
 				return add(sample);
@@ -102,7 +102,7 @@ namespace muu
 				noexcept(noexcept(std::declval<accumulator>().add(value_type{})))
 			{
 				while (begin != end)
-					add(*(begin++));
+					add(static_cast<value_type>(*(begin++)));
 				return *this;
 			}
 
@@ -166,14 +166,14 @@ namespace muu::impl
 		value_type sum = {};
 
 		MUU_ALWAYS_INLINE
-		constexpr void MUU_VECTORCALL start(value_type MUU_VECTORCALL_ARG sample)
+		constexpr void MUU_VECTORCALL start(value_type MUU_VECTORCALL_CONSTREF sample)
 			noexcept(noexcept(sum = sample))
 		{
 			sum = sample;
 		}
 
 		MUU_ALWAYS_INLINE
-		constexpr void MUU_VECTORCALL add(value_type MUU_VECTORCALL_ARG sample)
+		constexpr void MUU_VECTORCALL add(value_type MUU_VECTORCALL_CONSTREF sample)
 			noexcept(noexcept(sum += sample))
 		{
 			sum += sample;
@@ -187,6 +187,9 @@ namespace muu::impl
 	};
 
 	MUU_PRAGMA_MSVC(float_control(precise, on, push))
+	MUU_PRAGMA_CLANG_GE(11, "float_control(precise, on, push)")
+	MUU_PRAGMA_GCC("GCC push_options")
+	MUU_PRAGMA_GCC("GCC optimize (\"-fno-fast-math\")")
 
 	template <typename value_type, typename sum_type = value_type>
 	struct kahan_accumulator // https://en.wikipedia.org/wiki/Kahan_summation_algorithm#Further_enhancements
@@ -203,8 +206,14 @@ namespace muu::impl
 			sum = static_cast<sum_type>(sample);
 		}
 
+		MUU_PRAGMA_CLANG_LT(11, "clang optimize off")
+
+		MUU_ATTR_CLANG(flatten)
 		constexpr void MUU_VECTORCALL kahan_add(sum_type sample) noexcept
 		{
+			MUU_PRAGMA_CLANG_GE(11, "clang fp reassociate(off)")
+			MUU_PRAGMA_CLANG_LT(11, "clang fp contract(on)")
+
 			const auto t = sum + sample;
 			if (abs(sum) >= abs(sample))
 				correction += (sum - t) + sample;
@@ -213,7 +222,10 @@ namespace muu::impl
 			sum = t;
 		}
 
+		MUU_PRAGMA_CLANG_LT(11, "clang optimize on")
+
 		MUU_ALWAYS_INLINE
+		MUU_ATTR_CLANG(flatten)
 		constexpr void MUU_VECTORCALL add(value_type sample) noexcept
 		{
 			kahan_add(static_cast<sum_type>(sample));
@@ -231,8 +243,9 @@ namespace muu::impl
 	template <> struct MUU_EMPTY_BASES accumulator<double>		: kahan_accumulator<double> {};
 	template <> struct MUU_EMPTY_BASES accumulator<long double>	: kahan_accumulator<long double> {};
 
+	MUU_PRAGMA_GCC("GCC pop_options")
+	MUU_PRAGMA_CLANG_GE(11, "float_control(pop)")
 	MUU_PRAGMA_MSVC(float_control(pop))
-
 }
 
 MUU_POP_WARNINGS // MUU_DISABLE_PADDING_WARNINGS

@@ -18,9 +18,9 @@ muu_dep = declare_dependency(
 )
 
 build_tests = get_option('BUILD_TESTS').enabled() or (get_option('BUILD_TESTS').auto() and not meson.is_subproject())
-#build_examples = get_option('BUILD_EXAMPLES').enabled() or (get_option('BUILD_EXAMPLES').auto() and not meson.is_subproject())
+build_examples = get_option('BUILD_EXAMPLES').enabled() or (get_option('BUILD_EXAMPLES').auto() and not meson.is_subproject())
 
-if build_tests #or build_examples
+if build_tests or build_examples
 
 	compiler = meson.get_compiler('cpp')
 	message(['compiler ID: ', compiler.get_id()])
@@ -29,7 +29,9 @@ if build_tests #or build_examples
 	# GCC or Clang
 	if compiler.get_id() == 'gcc' or compiler.get_id() == 'clang'
 		add_project_arguments([
-				'-march=native'
+				'-march=native',
+				'-ffast-math',
+				'-ffp-contract=fast'
 			],
 			language : 'cpp'
 		)
@@ -83,6 +85,9 @@ if build_tests #or build_examples
 					'-Wunused-parameter',
 					'-Wvariadic-macros',
 					'-Wwrite-strings',
+					'-Wmissing-noreturn',
+					'-Wsuggest-attribute=const',
+					'-Wsuggest-attribute=pure'
 				],
 				language : 'cpp'
 			)
@@ -145,11 +150,22 @@ if build_tests #or build_examples
 		message('Not building tests')
 	endif
 
-	#if build_examples
-	#	subdir('examples')
-	#else
-	#	message('Not building examples')
-	#endif
+	if build_examples
+		subdir('examples')
+	else
+		message('Not building examples')
+	endif
 
 endif
 
+install_subdir('include/muu',
+	strip_directory: true,
+	install_dir: 'include/muu'
+)
+
+pkgc = import('pkgconfig')
+pkgc.generate (
+	name: meson.project_name(),
+	version: meson.project_version(),
+	description: 'Muscellaneous useful utilities for modern C++'
+)

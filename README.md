@@ -1,6 +1,6 @@
-# ** this project is in development and is only made public for the sake of providing a bug report repro; please do not use it yet **
+# ** this project is still in development and is not even remotely production-ready; please do not use it yet **
 
-![banner](docs/muu-banner-small.png)  
+![banner](docs/banner-small.png)  
 [![C++](https://img.shields.io/badge/c%2B%2B-17%2C%2020-informational)][cpp_compilers]
 [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 [![Releases](https://img.shields.io/github/release/marzer/muu.svg)](https://github.com/marzer/muu/releases)
@@ -35,4 +35,4 @@ If you wish to submit a pull request, please see [CONTRIBUTING] for all the deta
 [CONTRIBUTING]: ./CONTRIBUTING.md
 [LICENSE]: ./LICENSE
 [cpp_compilers]: https://en.cppreference.com/w/cpp/compiler_support
-[reporting issues]: https://github.com/marzer/tomlplusplus/issues
+[reporting issues]: https://github.com/marzer/muu/issues
