@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8"/>
+  <title>Metafunctions and type traits module | muu Useful
+utilities
+for
+modern
+C++</title>
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
+  <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
+  <link href="muu.css" rel="stylesheet"/>
+  <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="#22272e" name="theme-color"/>
+  <meta content="gbtcNgKlNiPSMKkYMw4zWFVWGPH_oU93m9n_-nb4qK8" name="google-site-verification"/>
+  <meta content="Miscellaneous
+  useful
+  utilities
+  for
+  modern
+  C++." name="description"/>
+  <script src="muu.js"></script>
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a class="m-col-t-8 m-col-m-none m-left-m" href="index.html" id="m-navbar-brand"><img alt="" src="logo.png"/>muu <span class="m-thin">Useful
+utilities
+for
+modern
+C++</span></a>
+      <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
+        <a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+          <path d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z" id="m-doc-search-icon-path"></path>
+        </svg></a>
+        <a href="#navigation" id="m-navbar-show" title="Show navigation"></a>
+        <a href="#" id="m-navbar-hide" title="Hide navigation"></a>
+      </div>
+      <div class="m-col-t-12 m-show-m m-col-m-none m-right-m" id="m-navbar-collapse">
+        <div class="m-row">
+          <ol class="m-col-t-6 m-col-m-none">
+            <li><a href="modules.html">Modules</a></li>
+            <li><a href="namespaces.html">Namespaces</a></li>
+          </ol>
+          <ol class="m-col-t-6 m-col-m-none" start="3">
+            <li><a href="annotated.html">Classes</a></li>
+            <li><a class="github muu-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
+            <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+              <use href="#m-doc-search-icon-path"></use>
+            </svg></a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main><article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>
+          Metafunctions and type traits <span class="m-thin">module</span></h1>
+        <p>Metaprogramming utilities to complement those found in <code>&lt;type_traits&gt;</code>.</p>
+        <div class="m-block m-default">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#typedef-members">Typedefs</a></li>
+                <li><a href="#var-members">Variables</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+<aside class="m-note m-default"><h4>Remark</h4><p>Many of these are mirrors of (or supplementary to) traits found in the standard library's <code>&lt;type_traits&gt;</code>, but with simpler/saner default behaviour (e.g. most metafunctions treat references to types as if they were the actual type, because that typically makes more intuitive sense).</p></aside>
+        <section id="typedef-members">
+          <h2><a href="#typedef-members">Typedefs</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="#ga46852bdb87c782113c290e96390278d3">add_const</a> = impl::add_const&lt;T&gt;
+            </dt>
+            <dd>Adds a const qualifier to a type or reference.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="#gab35af6547793d266bcaa9b9736ed0332">add_cv</a> = add_const&lt;add_volatile&lt;T&gt;&gt;
+            </dt>
+            <dd>Adds const and volatile qualifiers to a type or reference.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="#ga2d3d76b24998790747a6887a88d0a1e4">add_volatile</a> = impl::add_volatile&lt;T&gt;
+            </dt>
+            <dd>Adds a volatile qualifier to a type or reference.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
+              using <a class="m-doc" href="#ga5764fd313d83982437e6119b01b96edb">canonical_int</a> = typename impl::canonical_int&lt;Bits&gt;::type
+            </dt>
+            <dd>Gets the 'canonical' signed integer with a specific number of bits for this platform.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
+              using <a class="m-doc" href="#gad64466a03ac38699f994ba5e2203d0d0">canonical_uint</a> = typename impl::canonical_uint&lt;Bits&gt;::type
+            </dt>
+            <dd>Gets the 'canonical' unsigned integer with a specific number of bits for this platform.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, bool AddConst&gt;</div>
+              using <a class="m-doc" href="#ga23ee95c345637ff50a6cc88c4fb0d031">conditionally_add_const</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;AddConst, add_const&lt;T&gt;, T&gt;
+            </dt>
+            <dd>Shorthand for conditionally adding const to a type or reference.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, bool AddConstVolatile&gt;</div>
+              using <a class="m-doc" href="#gaccbf5f71e9b673c2f490c0c0406042ac">conditionally_add_cv</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;AddConstVolatile, add_cv&lt;T&gt;, T&gt;
+            </dt>
+            <dd>Shorthand for conditionally adding const and volatile qualifiers to a type or reference.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, bool AddVolatile&gt;</div>
+              using <a class="m-doc" href="#ga5387101d09160941cca73a48954eb7af">conditionally_add_volatile</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;AddVolatile, add_volatile&lt;T&gt;, T&gt;
+            </dt>
+            <dd>Shorthand for conditionally adding volatile to a type or reference.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="#ga90378d8510545aa6f87611d584be12fc">constify_pointer</a> = typename impl::constify_pointer&lt;T&gt;::type
+            </dt>
+            <dd>Adds const to the pointed-to type of a pointer, correctly handling pointers-to-void.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              using <a class="m-doc" href="#ga08897f2a98f81f54e88d634e9a755476">largest</a> = typename impl::largest&lt;T...&gt;::type
+            </dt>
+            <dd>The largest type from a set of types.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              using <a class="m-doc" href="#ga953885530667d9f2a6e95ad82fffc370">least_aligned</a> = typename impl::least_aligned&lt;T...&gt;::type
+            </dt>
+            <dd>The type with the smallest alignment (i.e. having the smallest value for <code>alignment_of&lt;T&gt;</code>) from a set of types.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="#gaf177f0fe579f7fcf670ee1c4b04dc860">make_signed</a> = typename impl::make_signed&lt;T&gt;::type
+            </dt>
+            <dd>Converts a numeric type to the signed equivalent with the same rank.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="#ga4408a91f38068b2a4b807739cf3e187c">make_unsigned</a> = typename impl::make_unsigned&lt;T&gt;::type
+            </dt>
+            <dd>Converts a numeric type to the unsigned equivalent with the same rank.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename MatchWith&gt;</div>
+              using <a class="m-doc" href="#ga7f199f436b29ee4f17d93f06ff3af691">match_const</a> = set_const&lt;T, is_const&lt;MatchWith&gt;&gt;
+            </dt>
+            <dd>Shorthand for marking a type or reference with the same constness as another type or reference.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename MatchWith&gt;</div>
+              using <a class="m-doc" href="#ga3ebb8edda949ae4da9d7c4d0293efeb9">match_cv</a> = match_const&lt;match_volatile&lt;T, MatchWith&gt;, MatchWith&gt;
+            </dt>
+            <dd>Shorthand for marking a type or reference with the same constness and volatility as another type or reference.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename MatchWith&gt;</div>
+              using <a class="m-doc" href="#gaee2c9dcc0f981214aa7ee3faec5a2ff8">match_volatile</a> = set_volatile&lt;T, is_volatile&lt;MatchWith&gt;&gt;
+            </dt>
+            <dd>Shorthand for marking a type or reference with the same volatility as another type or reference.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              using <a class="m-doc" href="#ga81e4bf2a45a1dbcec544a44d28e0a624">most_aligned</a> = typename impl::most_aligned&lt;T...&gt;::type
+            </dt>
+            <dd>The type with the largest alignment (i.e. having the largest value for <code>alignment_of&lt;T&gt;</code>) from a set of types.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Ptr, typename Base&gt;</div>
+              using <a class="m-doc" href="#gaac6ef690f4c4f45443676d5cd20c9863">rebase_pointer</a> = typename impl::rebase_pointer&lt;Ptr, Base&gt;::type
+            </dt>
+            <dd>Rebases a pointer, preserving the const and volatile qualification of the pointed type.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="#ga25755f21eb6a14cfc16c1ec68a93072e">remove_const</a> = impl::remove_const&lt;T&gt;
+            </dt>
+            <dd>Removes the topmost const qualifier from a type or reference.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="#gaca9db12832fb43826bcda39e23262e3e">remove_cv</a> = remove_const&lt;remove_volatile&lt;T&gt;&gt;
+            </dt>
+            <dd>Removes the topmost const and volatile qualifiers from a type or reference.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="#gadb8c008184b023112068a9b1c5b22fdc">remove_cvref</a> = impl::remove_cvref&lt;T&gt;
+            </dt>
+            <dd>Removes the topmost const, volatile and reference qualifiers from a type.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="#ga35eca85e0ea3a043762ca9b5bd0100b2">remove_enum</a> = typename impl::remove_enum&lt;T&gt;::type
+            </dt>
+            <dd>Removes the outer enum wrapper from a type, converting it to the underlying integer equivalent.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="#ga9c954ca44cc3b9937a2c9bab9552bf0e">remove_noexcept</a> = typename impl::remove_noexcept&lt;T&gt;::type
+            </dt>
+            <dd>Removes any <code>noexcept</code> modifier from a functional type.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="#ga08e16648a25313a8eeb064346eea3ae2">remove_volatile</a> = impl::remove_volatile&lt;T&gt;
+            </dt>
+            <dd>Removes the topmost volatile qualifier from a type or reference.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, bool Const&gt;</div>
+              using <a class="m-doc" href="#ga70ea61c88a2156d5ca0576b338692597">set_const</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;Const, add_const&lt;T&gt;, remove_const&lt;T&gt;&gt;
+            </dt>
+            <dd>Sets the constness of a type or reference according to a boolean.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, bool ConstVolatile&gt;</div>
+              using <a class="m-doc" href="#ga75174a7728c44e0ef2c5c573910945d7">set_cv</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;ConstVolatile, add_cv&lt;T&gt;, remove_cv&lt;T&gt;&gt;
+            </dt>
+            <dd>Sets the constness and volatility of a type or reference according to a boolean.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, bool Volatile&gt;</div>
+              using <a class="m-doc" href="#ga3216c56b6dfa3cd6045818d2f8e09612">set_volatile</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;Volatile, add_volatile&lt;T&gt;, remove_volatile&lt;T&gt;&gt;
+            </dt>
+            <dd>Sets the volatility of a type or reference according to a boolean.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              using <a class="m-doc" href="#ga605deffbc895ea863586315ad73e9547">smallest</a> = typename impl::smallest&lt;T...&gt;::type
+            </dt>
+            <dd>The smallest type from a set of types.</dd>
+          </dl>
+        </section>
+        <section id="var-members">
+          <h2><a href="#var-members">Variables</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#ga693c421331c5f268eb2e2fdd318368fd">alignment_of</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>The default alignment of a type.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="#ga02060371498ff52c8d225e379fe00975">all_integral</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are all of the named types integral or reference-to-integral?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="#gaa7a73625bc705a9021924a54729c192e">all_signed</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are all of the named types signed or reference-to-signed?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="#gaa29a6fbd7e596e20dd8769aefc3cd51e">all_unsigned</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are all of the named types unsigned or reference-to-unsigned?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="#ga531166c296beeb911cb00d6ce826d3e8">any_integral</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are any of the named types integral or reference-to-integral?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="#ga68d2257a9ace0f37200d05117931baed">any_signed</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are any of the named types signed or reference-to-signed?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="#ga3bb31ded23944badda78774761206c09">any_unsigned</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are any of the named types unsigned or reference-to-unsigned?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="#gaeb2da559efbc44792993d44b57e1b48d">dependent_false</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Evaluates to false but with type-dependent evaluation.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Parent, typename Child&gt;</div>
+              bool <a class="m-doc" href="#gad99449272de65874d3b7569d9eb9e805">inherits_from</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Does Child inherit from Parent?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="#ga62cd2e27697815af581b5a8584fd1f76">is_arithmetic</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Is a type arithmetic or reference-to-arithmetic?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="#ga79cf1d440a2967847a6d0a08dc22fa19">is_const</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Is a type const or reference-to-const?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="#ga21f392701d987b745866ab36fa3c6242">is_cvref</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Is a type const, volatile, or a reference?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="#gaf1d5da5278f527b501cecffdd38e2e7d">is_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Is a type an enum or reference-to-enum?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="#gae74155e0cf085141e1923124718915a4">is_floating_point</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Is a type a floating-point or reference-to-floating-point?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="#ga6283839d5536a4ee096adccee42b88c5">is_integral</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Is a type an integral type or a reference to an integral type?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="#ga0ad880900bc41c21a698d9114f333e3d">is_legacy_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Is a type a pre-C++11 unscoped enum, or reference to one?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="#ga54c8d27010a9c661dba826d90f0c9ace">is_scoped_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Is a type a C++11 scoped enum class, or reference to one?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="#ga8692cd4c2e3c8e2b0167a5a586f1f6e1">is_signed</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Is a type signed or reference-to-signed?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="#ga9e9c5b2e65e4f784d2a6b52b6a33a34f">is_unsigned</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Is a type unsigned or reference-to-unsigned?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="#gaa1afdcda38765572b01f8112bea59913">is_volatile</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Is a type volatile or reference-to-volatile?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="#ga32b1b26352b00fdb597367cf96e554a2">same_as_all</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if all the type arguments are the same type.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="#ga54c8d1915f709782046e638fee47394f">same_as_any</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if T is exactly the same as one or more of the types named by U.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#ga3b7e16d2f90358811bc6231eb993ff33">total_size</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Returns the sum of <code>sizeof()</code> for all of the types named by T.</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Typedef documentation</h2>
+          <section class="m-doc-details" id="ga46852bdb87c782113c290e96390278d3"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga46852bdb87c782113c290e96390278d3">add_const</a> = impl::add_const&lt;T&gt;
+            </h3>
+            <p>Adds a const qualifier to a type or reference.</p>
+          </div></section>
+          <section class="m-doc-details" id="gab35af6547793d266bcaa9b9736ed0332"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using <a class="m-doc-self" href="#gab35af6547793d266bcaa9b9736ed0332">add_cv</a> = add_const&lt;add_volatile&lt;T&gt;&gt;
+            </h3>
+            <p>Adds const and volatile qualifiers to a type or reference.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga2d3d76b24998790747a6887a88d0a1e4"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga2d3d76b24998790747a6887a88d0a1e4">add_volatile</a> = impl::add_volatile&lt;T&gt;
+            </h3>
+            <p>Adds a volatile qualifier to a type or reference.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga5764fd313d83982437e6119b01b96edb"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga5764fd313d83982437e6119b01b96edb">canonical_int</a> = typename impl::canonical_int&lt;Bits&gt;::type
+            </h3>
+            <p>Gets the 'canonical' signed integer with a specific number of bits for this platform.</p>
+          </div></section>
+          <section class="m-doc-details" id="gad64466a03ac38699f994ba5e2203d0d0"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;
+              </div>
+              using <a class="m-doc-self" href="#gad64466a03ac38699f994ba5e2203d0d0">canonical_uint</a> = typename impl::canonical_uint&lt;Bits&gt;::type
+            </h3>
+            <p>Gets the 'canonical' unsigned integer with a specific number of bits for this platform.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga23ee95c345637ff50a6cc88c4fb0d031"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, bool AddConst&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga23ee95c345637ff50a6cc88c4fb0d031">conditionally_add_const</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;AddConst, add_const&lt;T&gt;, T&gt;
+            </h3>
+            <p>Shorthand for conditionally adding const to a type or reference.</p>
+          </div></section>
+          <section class="m-doc-details" id="gaccbf5f71e9b673c2f490c0c0406042ac"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, bool AddConstVolatile&gt;
+              </div>
+              using <a class="m-doc-self" href="#gaccbf5f71e9b673c2f490c0c0406042ac">conditionally_add_cv</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;AddConstVolatile, add_cv&lt;T&gt;, T&gt;
+            </h3>
+            <p>Shorthand for conditionally adding const and volatile qualifiers to a type or reference.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga5387101d09160941cca73a48954eb7af"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, bool AddVolatile&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga5387101d09160941cca73a48954eb7af">conditionally_add_volatile</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;AddVolatile, add_volatile&lt;T&gt;, T&gt;
+            </h3>
+            <p>Shorthand for conditionally adding volatile to a type or reference.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga90378d8510545aa6f87611d584be12fc"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga90378d8510545aa6f87611d584be12fc">constify_pointer</a> = typename impl::constify_pointer&lt;T&gt;::type
+            </h3>
+            <p>Adds const to the pointed-to type of a pointer, correctly handling pointers-to-void.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga08897f2a98f81f54e88d634e9a755476"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename... T&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga08897f2a98f81f54e88d634e9a755476">largest</a> = typename impl::largest&lt;T...&gt;::type
+            </h3>
+            <p>The largest type from a set of types.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga953885530667d9f2a6e95ad82fffc370"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename... T&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga953885530667d9f2a6e95ad82fffc370">least_aligned</a> = typename impl::least_aligned&lt;T...&gt;::type
+            </h3>
+            <p>The type with the smallest alignment (i.e. having the smallest value for <code>alignment_of&lt;T&gt;</code>) from a set of types.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p><code>void</code> and functions are considered as having an alignment of <code>1</code>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gaf177f0fe579f7fcf670ee1c4b04dc860"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using <a class="m-doc-self" href="#gaf177f0fe579f7fcf670ee1c4b04dc860">make_signed</a> = typename impl::make_signed&lt;T&gt;::type
+            </h3>
+            <p>Converts a numeric type to the signed equivalent with the same rank.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>CV qualifiers and reference categories are preserved.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga4408a91f38068b2a4b807739cf3e187c"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga4408a91f38068b2a4b807739cf3e187c">make_unsigned</a> = typename impl::make_unsigned&lt;T&gt;::type
+            </h3>
+            <p>Converts a numeric type to the unsigned equivalent with the same rank.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>CV qualifiers and reference categories are preserved.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga7f199f436b29ee4f17d93f06ff3af691"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename MatchWith&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga7f199f436b29ee4f17d93f06ff3af691">match_const</a> = set_const&lt;T, is_const&lt;MatchWith&gt;&gt;
+            </h3>
+            <p>Shorthand for marking a type or reference with the same constness as another type or reference.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga3ebb8edda949ae4da9d7c4d0293efeb9"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename MatchWith&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga3ebb8edda949ae4da9d7c4d0293efeb9">match_cv</a> = match_const&lt;match_volatile&lt;T, MatchWith&gt;, MatchWith&gt;
+            </h3>
+            <p>Shorthand for marking a type or reference with the same constness and volatility as another type or reference.</p>
+          </div></section>
+          <section class="m-doc-details" id="gaee2c9dcc0f981214aa7ee3faec5a2ff8"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename MatchWith&gt;
+              </div>
+              using <a class="m-doc-self" href="#gaee2c9dcc0f981214aa7ee3faec5a2ff8">match_volatile</a> = set_volatile&lt;T, is_volatile&lt;MatchWith&gt;&gt;
+            </h3>
+            <p>Shorthand for marking a type or reference with the same volatility as another type or reference.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga81e4bf2a45a1dbcec544a44d28e0a624"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename... T&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga81e4bf2a45a1dbcec544a44d28e0a624">most_aligned</a> = typename impl::most_aligned&lt;T...&gt;::type
+            </h3>
+            <p>The type with the largest alignment (i.e. having the largest value for <code>alignment_of&lt;T&gt;</code>) from a set of types.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p><code>void</code> and functions are considered as having an alignment of <code>1</code>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gaac6ef690f4c4f45443676d5cd20c9863"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename Ptr, typename Base&gt;
+              </div>
+              using <a class="m-doc-self" href="#gaac6ef690f4c4f45443676d5cd20c9863">rebase_pointer</a> = typename impl::rebase_pointer&lt;Ptr, Base&gt;::type
+            </h3>
+            <p>Rebases a pointer, preserving the const and volatile qualification of the pointed type.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga25755f21eb6a14cfc16c1ec68a93072e"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga25755f21eb6a14cfc16c1ec68a93072e">remove_const</a> = impl::remove_const&lt;T&gt;
+            </h3>
+            <p>Removes the topmost const qualifier from a type or reference.</p>
+          </div></section>
+          <section class="m-doc-details" id="gaca9db12832fb43826bcda39e23262e3e"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using <a class="m-doc-self" href="#gaca9db12832fb43826bcda39e23262e3e">remove_cv</a> = remove_const&lt;remove_volatile&lt;T&gt;&gt;
+            </h3>
+            <p>Removes the topmost const and volatile qualifiers from a type or reference.</p>
+          </div></section>
+          <section class="m-doc-details" id="gadb8c008184b023112068a9b1c5b22fdc"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using <a class="m-doc-self" href="#gadb8c008184b023112068a9b1c5b22fdc">remove_cvref</a> = impl::remove_cvref&lt;T&gt;
+            </h3>
+            <p>Removes the topmost const, volatile and reference qualifiers from a type.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's std::remove_cvref_t.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga35eca85e0ea3a043762ca9b5bd0100b2"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga35eca85e0ea3a043762ca9b5bd0100b2">remove_enum</a> = typename impl::remove_enum&lt;T&gt;::type
+            </h3>
+            <p>Removes the outer enum wrapper from a type, converting it to the underlying integer equivalent.</p>
+<p>This is similar to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/underlying_type" target="_blank">std::underlying_type_t</a> but preserves cv qualifiers and ref categories, as well as being safe to use in SFINAE contexts.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga9c954ca44cc3b9937a2c9bab9552bf0e"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga9c954ca44cc3b9937a2c9bab9552bf0e">remove_noexcept</a> = typename impl::remove_noexcept&lt;T&gt;::type
+            </h3>
+            <p>Removes any <code>noexcept</code> modifier from a functional type.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga08e16648a25313a8eeb064346eea3ae2"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga08e16648a25313a8eeb064346eea3ae2">remove_volatile</a> = impl::remove_volatile&lt;T&gt;
+            </h3>
+            <p>Removes the topmost volatile qualifier from a type or reference.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga70ea61c88a2156d5ca0576b338692597"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, bool Const&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga70ea61c88a2156d5ca0576b338692597">set_const</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;Const, add_const&lt;T&gt;, remove_const&lt;T&gt;&gt;
+            </h3>
+            <p>Sets the constness of a type or reference according to a boolean.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga75174a7728c44e0ef2c5c573910945d7"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, bool ConstVolatile&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga75174a7728c44e0ef2c5c573910945d7">set_cv</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;ConstVolatile, add_cv&lt;T&gt;, remove_cv&lt;T&gt;&gt;
+            </h3>
+            <p>Sets the constness and volatility of a type or reference according to a boolean.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga3216c56b6dfa3cd6045818d2f8e09612"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, bool Volatile&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga3216c56b6dfa3cd6045818d2f8e09612">set_volatile</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;Volatile, add_volatile&lt;T&gt;, remove_volatile&lt;T&gt;&gt;
+            </h3>
+            <p>Sets the volatility of a type or reference according to a boolean.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga605deffbc895ea863586315ad73e9547"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename... T&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga605deffbc895ea863586315ad73e9547">smallest</a> = typename impl::smallest&lt;T...&gt;::type
+            </h3>
+            <p>The smallest type from a set of types.</p>
+          </div></section>
+        </section>
+        <section>
+          <h2>Variable documentation</h2>
+          <section class="m-doc-details" id="ga693c421331c5f268eb2e2fdd318368fd"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#ga693c421331c5f268eb2e2fdd318368fd">alignment_of</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>The default alignment of a type.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns an alignment of <code>1</code> for <code>void</code> and functions.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga02060371498ff52c8d225e379fe00975"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename... U&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga02060371498ff52c8d225e379fe00975">all_integral</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Are all of the named types integral or reference-to-integral?</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums.</p><p>Returns true for int128_t and uint128_t (where supported).</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gaa7a73625bc705a9021924a54729c192e"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename... U&gt;
+              </div>
+              bool <a class="m-doc-self" href="#gaa7a73625bc705a9021924a54729c192e">all_signed</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Are all of the named types signed or reference-to-signed?</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums backed by signed integers.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gaa29a6fbd7e596e20dd8769aefc3cd51e"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename... U&gt;
+              </div>
+              bool <a class="m-doc-self" href="#gaa29a6fbd7e596e20dd8769aefc3cd51e">all_unsigned</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Are all of the named types unsigned or reference-to-unsigned?</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums backed by unsigned integers.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga531166c296beeb911cb00d6ce826d3e8"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename... U&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga531166c296beeb911cb00d6ce826d3e8">any_integral</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Are any of the named types integral or reference-to-integral?</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums.</p><p>Returns true for int128_t and uint128_t (where supported).</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga68d2257a9ace0f37200d05117931baed"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename... U&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga68d2257a9ace0f37200d05117931baed">any_signed</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Are any of the named types signed or reference-to-signed?</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums backed by signed integers.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga3bb31ded23944badda78774761206c09"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename... U&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga3bb31ded23944badda78774761206c09">any_unsigned</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Are any of the named types unsigned or reference-to-unsigned?</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums backed by unsigned integers.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gaeb2da559efbc44792993d44b57e1b48d"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#gaeb2da559efbc44792993d44b57e1b48d">dependent_false</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Evaluates to false but with type-dependent evaluation.</p>
+<p>Allows you to do this: <code class="m-code"><span class="k">static_assert</span><span class="p">(</span><span class="n">dependent_false</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">,</span> <span class="s">"Oh no, T is the wrong type for some reason"</span><span class="p">);</span></code></p>
+          </div></section>
+          <section class="m-doc-details" id="gad99449272de65874d3b7569d9eb9e805"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename Parent, typename Child&gt;
+              </div>
+              bool <a class="m-doc-self" href="#gad99449272de65874d3b7569d9eb9e805">inherits_from</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Does Child inherit from Parent?</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This does not return true when the objects are the same type, unlike <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_base_of" target="_blank">std::is_base_of</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga62cd2e27697815af581b5a8584fd1f76"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga62cd2e27697815af581b5a8584fd1f76">is_arithmetic</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Is a type arithmetic or reference-to-arithmetic?</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for <a class="m-doc" href="structmuu_1_1float16.html">muu::<wbr/>float16</a>.</p><p>Returns true for int128_t and uint128_t (where supported).</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga79cf1d440a2967847a6d0a08dc22fa19"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga79cf1d440a2967847a6d0a08dc22fa19">is_const</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Is a type const or reference-to-const?</p>
+          </div></section>
+          <section class="m-doc-details" id="ga21f392701d987b745866ab36fa3c6242"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga21f392701d987b745866ab36fa3c6242">is_cvref</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Is a type const, volatile, or a reference?</p>
+          </div></section>
+          <section class="m-doc-details" id="gaf1d5da5278f527b501cecffdd38e2e7d"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#gaf1d5da5278f527b501cecffdd38e2e7d">is_enum</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Is a type an enum or reference-to-enum?</p>
+          </div></section>
+          <section class="m-doc-details" id="gae74155e0cf085141e1923124718915a4"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#gae74155e0cf085141e1923124718915a4">is_floating_point</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Is a type a floating-point or reference-to-floating-point?</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for <a class="m-doc" href="structmuu_1_1float16.html">muu::<wbr/>float16</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga6283839d5536a4ee096adccee42b88c5"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga6283839d5536a4ee096adccee42b88c5">is_integral</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Is a type an integral type or a reference to an integral type?</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums.</p><p>Returns true for int128_t and uint128_t (where supported).</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga0ad880900bc41c21a698d9114f333e3d"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga0ad880900bc41c21a698d9114f333e3d">is_legacy_enum</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Is a type a pre-C++11 unscoped enum, or reference to one?</p>
+          </div></section>
+          <section class="m-doc-details" id="ga54c8d27010a9c661dba826d90f0c9ace"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga54c8d27010a9c661dba826d90f0c9ace">is_scoped_enum</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Is a type a C++11 scoped enum class, or reference to one?</p>
+          </div></section>
+          <section class="m-doc-details" id="ga8692cd4c2e3c8e2b0167a5a586f1f6e1"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga8692cd4c2e3c8e2b0167a5a586f1f6e1">is_signed</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Is a type signed or reference-to-signed?</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums backed by signed integers.</p><p>Returns true for <a class="m-doc" href="structmuu_1_1float16.html">muu::<wbr/>float16</a>.</p><p>Returns true for int128_t (where supported).</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga9e9c5b2e65e4f784d2a6b52b6a33a34f"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga9e9c5b2e65e4f784d2a6b52b6a33a34f">is_unsigned</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Is a type unsigned or reference-to-unsigned?</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums backed by unsigned integers.</p><p>Returns true for uint128_t (where supported).</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gaa1afdcda38765572b01f8112bea59913"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#gaa1afdcda38765572b01f8112bea59913">is_volatile</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Is a type volatile or reference-to-volatile?</p>
+          </div></section>
+          <section class="m-doc-details" id="ga32b1b26352b00fdb597367cf96e554a2"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename... U&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga32b1b26352b00fdb597367cf96e554a2">same_as_all</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>True if all the type arguments are the same type.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is a variadic version of <code>(<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U1&gt; &amp;&amp; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U2&gt; &amp;&amp; ...)</code>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga54c8d1915f709782046e638fee47394f"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename... U&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga54c8d1915f709782046e638fee47394f">same_as_any</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>True if T is exactly the same as one or more of the types named by U.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is a variadic version of <code>(<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U1&gt; || <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U2&gt; || ...)</code>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga3b7e16d2f90358811bc6231eb993ff33"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename... T&gt;
+              </div> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#ga3b7e16d2f90358811bc6231eb993ff33">total_size</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Returns the sum of <code>sizeof()</code> for all of the types named by T.</p>
+          </div></section>
+        </section>
+      </div>
+    </div>
+  </div>
+</article></main>
+<div class="m-doc-search" id="search">
+  <a href="#!" onclick="return hideSearch()"></a>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-m-8 m-push-m-2">
+        <div class="m-doc-search-header m-text m-small">
+          <div><span class="m-label m-default">Tab</span> / <span class="m-label m-default">T</span> to search, <span class="m-label m-default">Esc</span> to close</div>
+          <div id="search-symbolcount">…</div>
+        </div>
+        <div class="m-doc-search-content">
+          <form>
+            <input autocomplete="off" autofocus="autofocus" disabled="disabled" id="search-input" name="q" placeholder="Loading …" spellcheck="false" type="search"/>
+          </form>
+          <noscript class="m-text m-danger m-text-center">Unlike everything else in the docs, the search functionality <em>requires</em> JavaScript.</noscript>
+          <div class="m-text m-dim m-text-center" id="search-help">
+            <p class="m-noindent">Search for symbols, directories, files, pages or
+            modules. You can omit any prefix from the symbol or file path; adding a
+            <code>:</code> or <code>/</code> suffix lists all members of given symbol or
+            directory.</p>
+            <p class="m-noindent">Use <span class="m-label m-dim">↓</span>
+            / <span class="m-label m-dim">↑</span> to navigate through the list,
+            <span class="m-label m-dim">Enter</span> to go.
+            <span class="m-label m-dim">Tab</span> autocompletes common prefix, you can
+            copy a link to the result using <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">L</span> while <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">M</span> produces a Markdown link.</p>
+          </div>
+          <div class="m-text m-warning m-text-center" id="search-notfound">Sorry, nothing was found.</div>
+          <ul id="search-results"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="search-v1.js"></script>
+<script async="async" src="searchdata-v1.js"></script>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <a class="muu-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
+•
+
+<a class="muu-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
+an
+issue</a>
+
+<br/><br/>Documentation
+generated
+using
+<a class="muu-external" href="https://mcss.mosra.cz/" target="_blank">m.css</a>
+      </div>
+    </div>
+  </div>
+</nav></footer>
+
+
+</body></html>

@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8"/>
+  <title>Intrinsics module | muu Useful
+utilities
+for
+modern
+C++</title>
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
+  <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
+  <link href="muu.css" rel="stylesheet"/>
+  <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="#22272e" name="theme-color"/>
+  <meta content="gbtcNgKlNiPSMKkYMw4zWFVWGPH_oU93m9n_-nb4qK8" name="google-site-verification"/>
+  <meta content="Miscellaneous
+  useful
+  utilities
+  for
+  modern
+  C++." name="description"/>
+  <script src="muu.js"></script>
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a class="m-col-t-8 m-col-m-none m-left-m" href="index.html" id="m-navbar-brand"><img alt="" src="logo.png"/>muu <span class="m-thin">Useful
+utilities
+for
+modern
+C++</span></a>
+      <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
+        <a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+          <path d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z" id="m-doc-search-icon-path"></path>
+        </svg></a>
+        <a href="#navigation" id="m-navbar-show" title="Show navigation"></a>
+        <a href="#" id="m-navbar-hide" title="Hide navigation"></a>
+      </div>
+      <div class="m-col-t-12 m-show-m m-col-m-none m-right-m" id="m-navbar-collapse">
+        <div class="m-row">
+          <ol class="m-col-t-6 m-col-m-none">
+            <li><a href="modules.html">Modules</a></li>
+            <li><a href="namespaces.html">Namespaces</a></li>
+          </ol>
+          <ol class="m-col-t-6 m-col-m-none" start="3">
+            <li><a href="annotated.html">Classes</a></li>
+            <li><a class="github muu-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
+            <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+              <use href="#m-doc-search-icon-path"></use>
+            </svg></a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main><article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>
+          Intrinsics <span class="m-thin">module</span></h1>
+        <p>Small functions available from any muu header, many of which map to compiler intrinsics.</p>
+        <div class="m-block m-default">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#namespaces">Namespaces</a></li>
+                <li><a href="#func-members">Functions</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <section id="namespaces">
+          <h2><a href="#namespaces">Namespaces</a></h2>
+          <dl class="m-doc">
+            <dt>namespace <a class="m-doc" href="namespacemuu_1_1build.html">muu::build</a></dt>
+            <dd>Compile-time build constants.</dd>
+          </dl>
+        </section>
+        <section id="func-members">
+          <h2><a href="#func-members">Functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_arithmetic&lt;T">...</a><span>is_arithmetic&lt;T</span></span>&gt;&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga1626be842bb2d3dae2294082b204be44">abs</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the absolute value of an arithmetic value.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gab2974794f3fabb23885328be0436b3f6">apply_offset</a>(</span><span class="m-doc-wrap">T* ptr,
+              ptrdiff_t offset) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Applies a byte offset to a pointer.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename To, typename From&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaadb4c6332c738c248f84f43ece303657">bit_cast</a>(</span><span class="m-doc-wrap">const From&amp; from) -&gt; To <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/bit_cast" target="_blank">std::bit_cast</a>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_unsigned&lt;T">...</a><span>is_unsigned&lt;T</span></span>&gt;&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga4e87b4f6b14e9dfcc11124c0888b1023">bit_ceil</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Finds the smallest integral power of two not less than the given value.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_unsigned&lt;T">...</a><span>is_unsigned&lt;T</span></span>&gt;&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga9e0044f820f888178e6ebd2454940680">bit_fill_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an unsigned integer filled from the most-significant end with the desired number of consecutive ones.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_unsigned&lt;T">...</a><span>is_unsigned&lt;T</span></span>&gt;&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga90a564eecd0b5f4f39956cce3e848d2a">bit_fill_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an unsigned integer filled from the least-significant end with the desired number of consecutive ones.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_unsigned&lt;T">...</a><span>is_unsigned&lt;T</span></span>&gt;&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gab14515e44007ad1d1260e1af7d364e80">bit_floor</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Finds the largest integral power of two not greater than the given value.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_unsigned&lt;T">...</a><span>is_unsigned&lt;T</span></span>&gt;&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga60642e2702369473ea50c984f8afb41d">bit_width</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Finds the smallest number of bits needed to represent the given value.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gad2825a3940f7dbf287e8dd7f451663b3">byte_reverse</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Reverses the byte order of an unsigned integral type.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index, typename T, typename = std::enable_if_t&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_integral&lt;T">...</a><span>is_integral&lt;T</span></span>&gt;&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaae1dac822cc639027fb3d6af868e75a0">byte_select</a>(</span><span class="m-doc-wrap">T val) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Gets a specific byte from an integer.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga27b0469e7cb9c473ff666913e803dcf1">clamp</a>(</span><span class="m-doc-wrap">const T&amp; val,
+              const T&amp; min_,
+              const T&amp; max_) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a value clamped between two bounds (inclusive).</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_unsigned&lt;T">...</a><span>is_unsigned&lt;T</span></span>&gt;&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gac6cd863da59c3e288b8eef6649f53eac">countl_zero</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Counts the number of consecutive 0 bits, starting from the left.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_unsigned&lt;T">...</a><span>is_unsigned&lt;T</span></span>&gt;&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga94373722ff292c13686fbfdbbb5d79a1">countr_zero</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Counts the number of consecutive 0 bits, starting from the right.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_unsigned&lt;T">...</a><span>is_unsigned&lt;T</span></span>&gt;&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gac539226257e00f10503effbad6f1cda4">has_single_bit</a>(</span><span class="m-doc-wrap">T val) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Checks if an integral value has only a single bit set.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga6ca164dd9768ded7a96085c0be31e81e">is_between</a>(</span><span class="m-doc-wrap">T val,
+              T min_,
+              T max_) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a value is between two bounds (inclusive).</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga8a9b0aaf9860b30f93639333a5214d34">is_constant_evaluated</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_arithmetic&lt;T">...</a><span>is_arithmetic&lt;T</span></span>&gt;&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga01db0943171e7dcd3d89fc9dd1c8072d">is_infinity_or_nan</a>(</span><span class="m-doc-wrap">T val) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Checks if an arithmetic value is infinity or NaN.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;class T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga863d5b4b9a2c6508fded78b6cc411a24">launder</a>(</span><span class="m-doc-wrap">T* p) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Equivalent to C++17's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/launder" target="_blank">std::launder</a>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga67052cab1c45673f85ee326e91aafbde">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              const T&amp; val2) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the maximum of two values.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gacc52016e295ef88268bd5835a23b69d8">min</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              const T&amp; val2) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the minimum of two values.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Return = void, typename T, typename U, typename... V, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="all_unsigned&lt;T, U, V...">...</a><span>all_unsigned&lt;T, U, V...</span></span>&gt;	&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga779636378c657618c3c4b35634cd4e13">pack</a>(</span><span class="m-doc-wrap">T val1,
+              U val2,
+              V... vals) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Bitwise-packs unsigned integers left-to-right into a larger unsigned integer.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename To, typename From&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gab714a50e01b58e7d4117d5ef9d403d39">pointer_cast</a>(</span><span class="m-doc-wrap">From from) -&gt; To <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Casts between pointers, choosing the most appropriate conversion path.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_enum&lt;T">...</a><span>is_enum&lt;T</span></span>&gt;&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga6aa05b68e530495f18bd77be7fa0c243">unwrap</a>(</span><span class="m-doc-wrap">T val) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Unwraps an enum to it's raw integer equivalent.</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="ga1626be842bb2d3dae2294082b204be44"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_arithmetic&lt;T">...</a><span>is_arithmetic&lt;T</span></span>&gt;&gt;&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga1626be842bb2d3dae2294082b204be44">abs</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns the absolute value of an arithmetic value.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is similar to std::abs but is <code>constexpr</code> and doesn't coerce or promote the input types.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gab2974794f3fabb23885328be0436b3f6"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">T* </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gab2974794f3fabb23885328be0436b3f6">apply_offset</a>(</span><span class="m-doc-wrap">T* ptr,
+              ptrdiff_t offset) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Applies a byte offset to a pointer.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>The type being pointed to.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>ptr</td>
+                  <td>The pointer to offset.</td>
+                </tr>
+                <tr>
+                  <td>offset</td>
+                  <td>The number of bytes to add to the pointer's address.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>The cv-correct equivalent of <code>(T*)((<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>*)ptr + offset)</code>.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-danger"><h4>Warning</h4><p>This function is a simple pointer arithmetic helper; absolutely no consideration is given to the alignment of the pointed type. If you need to dereference pointers returned by apply_offset the onus is on you to ensure that the offset made sense before doing so!</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gaadb4c6332c738c248f84f43ece303657"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename To, typename From&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">To </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaadb4c6332c738c248f84f43ece303657">bit_cast</a>(</span><span class="m-doc-wrap">const From&amp; from) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/bit_cast" target="_blank">std::bit_cast</a>.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Compilers implement this as an intrinsic which is typically available regardless of the C++ mode. Using this function on these compilers allows you to get the same behaviour even when you aren't targeting C++20.</p></aside><aside class="m-note m-warning"><h4>Attention</h4><p>On older compilers lacking support for <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/bit_cast" target="_blank">std::bit_cast</a> you won't be able to call this function in constexpr contexts (since it falls back to a memcpy-based implementation). You can check for constexpr support by examining <a class="m-doc" href="namespacemuu_1_1build.html#a5ee6b53a87bd46b2bf84f2bea9e2a0b5">build::<wbr/>supports_constexpr_bit_cast</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga4e87b4f6b14e9dfcc11124c0888b1023"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_unsigned&lt;T">...</a><span>is_unsigned&lt;T</span></span>&gt;&gt;&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga4e87b4f6b14e9dfcc11124c0888b1023">bit_ceil</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Finds the smallest integral power of two not less than the given value.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>An unsigned integral or enum type.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>val</td>
+                  <td>The input value.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>The smallest integral power of two that is not smaller than <code>val</code>.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/bit_ceil" target="_blank">std::bit_ceil</a>, with the addition of also being extended to work with enum types.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga9e0044f820f888178e6ebd2454940680"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_unsigned&lt;T">...</a><span>is_unsigned&lt;T</span></span>&gt;&gt;&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga9e0044f820f888178e6ebd2454940680">bit_fill_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns an unsigned integer filled from the most-significant end with the desired number of consecutive ones.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>An unsigned integral type.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>count</td>
+                  <td>Number of consecutive ones.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>An instance of T left-filled with the desired number of ones.</td>
+                </tr>
+              </tfoot>
+            </table>
+<pre class="m-code"><span class="k">const</span> <span class="k">auto</span> <span class="n">val1</span> <span class="o">=</span> <span class="n">bit_fill_left</span><span class="o">&lt;</span><span class="ut"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a></span><span class="o">&gt;</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+<span class="k">const</span> <span class="k">auto</span> <span class="n">val2</span> <span class="o">=</span> <span class="mi">0</span><span class="n">b11111000000000000000000000000000u</span><span class="p">;</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">val1</span> <span class="o">==</span> <span class="n">val2</span><span class="p">);</span></pre>
+          </div></section>
+          <section class="m-doc-details" id="ga90a564eecd0b5f4f39956cce3e848d2a"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_unsigned&lt;T">...</a><span>is_unsigned&lt;T</span></span>&gt;&gt;&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga90a564eecd0b5f4f39956cce3e848d2a">bit_fill_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns an unsigned integer filled from the least-significant end with the desired number of consecutive ones.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>An unsigned integral type.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>count</td>
+                  <td>Number of consecutive ones.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>An instance of T right-filled with the desired number of ones.</td>
+                </tr>
+              </tfoot>
+            </table>
+<pre class="m-code"><span class="k">const</span> <span class="k">auto</span> <span class="n">val1</span> <span class="o">=</span> <span class="n">bit_fill_right</span><span class="o">&lt;</span><span class="ut"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a></span><span class="o">&gt;</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+<span class="k">const</span> <span class="k">auto</span> <span class="n">val2</span> <span class="o">=</span> <span class="mi">0</span><span class="n">b00000000000000000000000000011111u</span><span class="p">;</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">val1</span> <span class="o">==</span> <span class="n">val2</span><span class="p">);</span></pre>
+          </div></section>
+          <section class="m-doc-details" id="gab14515e44007ad1d1260e1af7d364e80"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_unsigned&lt;T">...</a><span>is_unsigned&lt;T</span></span>&gt;&gt;&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gab14515e44007ad1d1260e1af7d364e80">bit_floor</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Finds the largest integral power of two not greater than the given value.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>An unsigned integral or enum type.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>val</td>
+                  <td>The input value.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>Zero if <code>val</code> is zero; otherwise, the largest integral power of two that is not greater than <code>val</code>.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/bit_floor" target="_blank">std::bit_floor</a>, with the addition of also being extended to work with enum types.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga60642e2702369473ea50c984f8afb41d"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_unsigned&lt;T">...</a><span>is_unsigned&lt;T</span></span>&gt;&gt;&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga60642e2702369473ea50c984f8afb41d">bit_width</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Finds the smallest number of bits needed to represent the given value.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>An unsigned integral or enum type.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>val</td>
+                  <td>The input value.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>If <code>val</code> is not zero, calculates the number of bits needed to store <code>val</code> (i.e. <code>1 + log2(x)</code>). Returns <code>0</code> if <code>val</code> is zero.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/bit_width" target="_blank">std::bit_width</a>, with the addition of also being extended to work with enum types.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gad2825a3940f7dbf287e8dd7f451663b3"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gad2825a3940f7dbf287e8dd7f451663b3">byte_reverse</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Reverses the byte order of an unsigned integral type.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>An unsigned integer or enum type.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>val</td>
+                  <td>An unsigned integer or enum value.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A copy of the input value with the byte order reversed.</td>
+                </tr>
+              </tfoot>
+            </table>
+<pre class="m-code"><span class="k">const</span> <span class="k">auto</span> <span class="n">i</span> <span class="o">=</span> <span class="mh">0xAABBCCDDu</span><span class="p">;</span>
+<span class="k">const</span> <span class="k">auto</span> <span class="n">j</span> <span class="o">=</span> <span class="n">byte_reverse</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="ns">std::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="ns">std::</span><span class="n">hex</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span> <span class="o">&lt;&lt;</span> <span class="n">j</span><span class="p">;</span></pre><pre class="m-console"><span class="go">AABBCCDD</span>
+<span class="go">DDBBCCAA</span></pre>
+          </div></section>
+          <section class="m-doc-details" id="gaae1dac822cc639027fb3d6af868e75a0"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index, typename T, typename = std::enable_if_t&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_integral&lt;T">...</a><span>is_integral&lt;T</span></span>&gt;&gt;&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaae1dac822cc639027fb3d6af868e75a0">byte_select</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Gets a specific byte from an integer.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">Index</td>
+                  <td>Index of the byte to retrieve.</td>
+                </tr>
+                <tr>
+                  <td>T</td>
+                  <td>An integer or enum type.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>val</td>
+                  <td>An integer or enum value.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>The value of the selected byte.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-default"><h4>Remark</h4><p>The indexation order of bytes is the <em>memory</em> order, not their numeric significance (i.e. byte 0 is always the first byte in the integer's memory allocation, regardless of the endianness of the platform).</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga27b0469e7cb9c473ff666913e803dcf1"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">const T&amp; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga27b0469e7cb9c473ff666913e803dcf1">clamp</a>(</span><span class="m-doc-wrap">const T&amp; val,
+              const T&amp; min_,
+              const T&amp; max_) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns a value clamped between two bounds (inclusive).</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/algorithm/clamp" target="_blank">std::clamp</a> without requiring you to drag in the enormity of <code>&lt;algorithm&gt;</code>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gac6cd863da59c3e288b8eef6649f53eac"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_unsigned&lt;T">...</a><span>is_unsigned&lt;T</span></span>&gt;&gt;&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">int </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gac6cd863da59c3e288b8eef6649f53eac">countl_zero</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Counts the number of consecutive 0 bits, starting from the left.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>An unsigned integral or enum type.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>val</td>
+                  <td>The value to test.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>The number of consecutive zeros from the left end of an integer's bits.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/countl_zero" target="_blank">std::countl_zero</a>, with the addition of also being extended to work with enum types.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga94373722ff292c13686fbfdbbb5d79a1"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_unsigned&lt;T">...</a><span>is_unsigned&lt;T</span></span>&gt;&gt;&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">int </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga94373722ff292c13686fbfdbbb5d79a1">countr_zero</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Counts the number of consecutive 0 bits, starting from the right.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>An unsigned integral or enum type.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>val</td>
+                  <td>The input value.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>The number of consecutive zeros from the right end of an integer's bits.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/countr_zero" target="_blank">std::countr_zero</a>, with the addition of also being extended to work with enum types.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gac539226257e00f10503effbad6f1cda4"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_unsigned&lt;T">...</a><span>is_unsigned&lt;T</span></span>&gt;&gt;&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gac539226257e00f10503effbad6f1cda4">has_single_bit</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Checks if an integral value has only a single bit set.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>An unsigned integral or enum type.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>val</td>
+                  <td>The value to test.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>True if the input value had only a single bit set (and thus was a power of two).</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/has_single_bit" target="_blank">std::has_single_bit</a>, with the addition of also being extended to work with enum types.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga6ca164dd9768ded7a96085c0be31e81e"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga6ca164dd9768ded7a96085c0be31e81e">is_between</a>(</span><span class="m-doc-wrap">T val,
+              T min_,
+              T max_) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if a value is between two bounds (inclusive).</p>
+          </div></section>
+          <section class="m-doc-details" id="ga8a9b0aaf9860b30f93639333a5214d34"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga8a9b0aaf9860b30f93639333a5214d34">is_constant_evaluated</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+            </h3>
+            <p>Equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a>.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Compilers typically implement <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a> as an intrinsic which is available regardless of the C++ mode. Using this function on these compilers allows you to get the same behaviour even when you aren't targeting C++20.</p></aside><aside class="m-note m-warning"><h4>Attention</h4><p>On older compilers lacking support for <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a> this will always return <code>false</code>. You can check for support by examining <a class="m-doc" href="namespacemuu_1_1build.html#a8398d41dfdf02da1234b776f754bbb3d">build::<wbr/>supports_is_constant_evaluated</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga01db0943171e7dcd3d89fc9dd1c8072d"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_arithmetic&lt;T">...</a><span>is_arithmetic&lt;T</span></span>&gt;&gt;&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga01db0943171e7dcd3d89fc9dd1c8072d">is_infinity_or_nan</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Checks if an arithmetic value is infinity or NaN.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>The value type.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>val</td>
+                  <td>The value to examine.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>True if the value is floating-point infinity or NaN. Always returns false if the value was not a floating-point type.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="ga863d5b4b9a2c6508fded78b6cc411a24"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">T* </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga863d5b4b9a2c6508fded78b6cc411a24">launder</a>(</span><span class="m-doc-wrap">T* p) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Equivalent to C++17's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/launder" target="_blank">std::launder</a>.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Older implementations don't provide this as an intinsic or have a placeholder for it in their standard library. Using this version allows you to get around that by writing code 'as if' it were there and have it compile just the same.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga67052cab1c45673f85ee326e91aafbde"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">const T&amp; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga67052cab1c45673f85ee326e91aafbde">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              const T&amp; val2) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns the maximum of two values.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/algorithm/max" target="_blank">std::max</a> without requiring you to drag in the enormity of <code>&lt;algorithm&gt;</code>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gacc52016e295ef88268bd5835a23b69d8"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">const T&amp; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gacc52016e295ef88268bd5835a23b69d8">min</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              const T&amp; val2) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns the minimum of two values.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/algorithm/min" target="_blank">std::min</a> without requiring you to drag in the enormity of <code>&lt;algorithm&gt;</code>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga779636378c657618c3c4b35634cd4e13"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;typename Return = void, typename T, typename U, typename... V, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="all_unsigned&lt;T, U, V...">...</a><span>all_unsigned&lt;T, U, V...</span></span>&gt;	&gt;&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">auto </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga779636378c657618c3c4b35634cd4e13">pack</a>(</span><span class="m-doc-wrap">T val1,
+              U val2,
+              V... vals) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Bitwise-packs unsigned integers left-to-right into a larger unsigned integer.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">Return</td>
+                  <td>An unsigned integral or enum type, or leave as <code>void</code> to choose based on the total size of the inputs.</td>
+                </tr>
+                <tr>
+                  <td>T</td>
+                  <td>An unsigned integral or enum type.</td>
+                </tr>
+                <tr>
+                  <td>U</td>
+                  <td>An unsigned integral or enum type.</td>
+                </tr>
+                <tr>
+                  <td>V</td>
+                  <td>Unsigned integral or enum types.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>val1</td>
+                  <td>The left-most value to be packed.</td>
+                </tr>
+                <tr>
+                  <td>val2</td>
+                  <td>The second-left-most value to be packed.</td>
+                </tr>
+                <tr>
+                  <td>vals</td>
+                  <td>Any remaining values to be packed.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>An unsigned integral value containing the input values packed bitwise left-to-right.</td>
+                </tr>
+              </tfoot>
+            </table>
+<pre class="m-code"><span class="k">const</span> <span class="k">auto</span> <span class="n">val</span> <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="mh">0xAABB</span><span class="n">_u16</span><span class="p">,</span> <span class="mh">0xCCDD</span><span class="n">_u16</span><span class="p">);</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">val</span> <span class="o">==</span> <span class="mh">0xAABBCCDD</span><span class="n">_u32</span><span class="p">);</span></pre>
+          </div></section>
+          <section class="m-doc-details" id="gab714a50e01b58e7d4117d5ef9d403d39"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename To, typename From&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">To </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gab714a50e01b58e7d4117d5ef9d403d39">pointer_cast</a>(</span><span class="m-doc-wrap">From from) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Casts between pointers, choosing the most appropriate conversion path.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">To</td>
+                  <td>A pointer or integral type large enough to store a pointer</td>
+                </tr>
+                <tr>
+                  <td>From</td>
+                  <td>A pointer, array, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/nullptr_t" target="_blank">nullptr_t</a>, or an integral type large enough to store a pointer.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>from</td>
+                  <td>The value being cast.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>The input casted to the desired type.</td>
+                </tr>
+              </tfoot>
+            </table>
+<p>Doing low-level work with pointers often requires a lot of tedious boilerplate, particularly when moving to/from raw byte representations or dealing with <code>const</code>. By using <code>pointer_cast</code> instead you can eliminate a lot of that boilerplate, since it will do 'the right thing' via some combination of:</p><ul><li>adding <code>const</code> and/or <code>volatile</code> =&gt; <code>static_cast</code><br/></li><li>removing <code>const</code> and/or <code>volatile</code> =&gt; <code>const_cast</code><br/></li><li>casting to/from <code>void*</code> =&gt; <code>static_cast</code><br/></li><li>casting from derived to base =&gt; <code>static_cast</code><br/></li><li>casting from base to derived =&gt; <code>dynamic_cast</code><br/></li><li>converting between pointers and integers =&gt; <code>reinterpret_cast</code><br/></li><li>converting between pointers to unrelated types =&gt; <code>reinterpret_cast</code><br/></li><li>converting between function pointers and <code>void*</code> =&gt; <code>reinterpret_cast</code> (where available)<br/> <code class="m-code"></code></li></ul><aside class="m-note m-danger"><h4>Warning</h4><p>There are lots of static checks to make sure you don't do something completely insane, but ultimately the fallback behaviour for casting between unrelated types is to use a <code>reinterpret_cast</code>, and there's nothing stopping you from using multiple <code>pointer_casts</code> through <code>void*</code> to make a conversion 'work'. Footguns aplenty!</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga6aa05b68e530495f18bd77be7fa0c243"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="common_8h.html">&lt;muu/common.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_enum&lt;T">...</a><span>is_enum&lt;T</span></span>&gt;&gt;&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">auto </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga6aa05b68e530495f18bd77be7fa0c243">unwrap</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Unwraps an enum to it's raw integer equivalent.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>An enum type.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>val</td>
+                  <td>The value to unwrap.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td><strong><em>Enum inputs:</em></strong> <code>static_cast&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/underlying_type" target="_blank">std::underlying_type_t</a>&lt;T&gt;&gt;(val)</code><br/><strong><em>Everything else:</em></strong> A straight pass-through of the input (a no-op).<br/></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+        </section>
+      </div>
+    </div>
+  </div>
+</article></main>
+<div class="m-doc-search" id="search">
+  <a href="#!" onclick="return hideSearch()"></a>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-m-8 m-push-m-2">
+        <div class="m-doc-search-header m-text m-small">
+          <div><span class="m-label m-default">Tab</span> / <span class="m-label m-default">T</span> to search, <span class="m-label m-default">Esc</span> to close</div>
+          <div id="search-symbolcount">…</div>
+        </div>
+        <div class="m-doc-search-content">
+          <form>
+            <input autocomplete="off" autofocus="autofocus" disabled="disabled" id="search-input" name="q" placeholder="Loading …" spellcheck="false" type="search"/>
+          </form>
+          <noscript class="m-text m-danger m-text-center">Unlike everything else in the docs, the search functionality <em>requires</em> JavaScript.</noscript>
+          <div class="m-text m-dim m-text-center" id="search-help">
+            <p class="m-noindent">Search for symbols, directories, files, pages or
+            modules. You can omit any prefix from the symbol or file path; adding a
+            <code>:</code> or <code>/</code> suffix lists all members of given symbol or
+            directory.</p>
+            <p class="m-noindent">Use <span class="m-label m-dim">↓</span>
+            / <span class="m-label m-dim">↑</span> to navigate through the list,
+            <span class="m-label m-dim">Enter</span> to go.
+            <span class="m-label m-dim">Tab</span> autocompletes common prefix, you can
+            copy a link to the result using <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">L</span> while <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">M</span> produces a Markdown link.</p>
+          </div>
+          <div class="m-text m-warning m-text-center" id="search-notfound">Sorry, nothing was found.</div>
+          <ul id="search-results"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="search-v1.js"></script>
+<script async="async" src="searchdata-v1.js"></script>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <a class="muu-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
+•
+
+<a class="muu-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
+an
+issue</a>
+
+<br/><br/>Documentation
+generated
+using
+<a class="muu-external" href="https://mcss.mosra.cz/" target="_blank">m.css</a>
+      </div>
+    </div>
+  </div>
+</nav></footer>
+
+
+</body></html>
