@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu/common.h file | muu Useful
+  <title>muu/all.h file | muu Useful
 utilities
 for
 modern
@@ -60,31 +60,10 @@ C++</span></a>
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span>common.h <span class="m-thin">file</span>
+          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span>all.h <span class="m-thin">file</span>
         </h1>
-        <p>Typedefs and intrinsics used by muu components.</p>
-        <div class="m-block m-default">
-          <h3>Contents</h3>
-          <ul>
-            <li>
-              Reference
-              <ul>
-                <li><a href="#namespaces">Namespaces</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-        <section id="namespaces">
-          <h2><a href="#namespaces">Namespaces</a></h2>
-          <dl class="m-doc">
-            <dt>namespace <a class="m-doc" href="namespacemuu.html">muu</a></dt>
-            <dd>The root namespace for all muu functions and types.</dd>
-            <dt>namespace <a class="m-doc" href="namespacemuu_1_1build.html">muu::build</a></dt>
-            <dd>Compile-time build constants.</dd>
-            <dt>namespace <a class="m-doc" href="namespacemuu_1_1literals.html">muu::literals</a> <span class="m-label m-info m-flat muu-injected muu-inline-namespace" title="All members of this namespace are automatically members of the parent namespace. It does not require an explicit 'using' statement.">inline</span></dt>
-            <dd>Literal operators.</dd>
-          </dl>
-        </section>
+        <p>Convenience header for including <em>all</em> other muu headers.</p>
+<aside class="m-note m-danger"><h4>Warning</h4><p>This header is a convenience facility meant to simplify builds with precompiled headers or where MUU_ALL_INLINE is disabled. Using it outside of these contexts may cause compile-times to increase significantly. Buyer beware.</p></aside>
       </div>
     </div>
   </div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu Useful
+  <title>muu/core.h file | muu Useful
 utilities
 for
 modern
@@ -40,7 +40,7 @@ C++</span></a>
       <div class="m-col-t-12 m-show-m m-col-m-none m-right-m" id="m-navbar-collapse">
         <div class="m-row">
           <ol class="m-col-t-6 m-col-m-none">
-            <li><a href="modules.html" id="m-navbar-current">Modules</a></li>
+            <li><a href="modules.html">Modules</a></li>
             <li><a href="namespaces.html">Namespaces</a></li>
           </ol>
           <ol class="m-col-t-6 m-col-m-none" start="3">
@@ -59,31 +59,32 @@ C++</span></a>
   <div class="m-container m-container-inflatable">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <h1>Modules</h1>
-        <ul class="m-doc">
-          <li>module <a class="m-doc" href="group__aligned__alloc.html">Aligned allocation</a> <span class="m-doc">Functions for performing (re)allocations on specific alignment boundaries.</span></li>
-          <li>module <a class="m-doc" href="group__meta.html">Metafunctions and type traits</a> <span class="m-doc">Metaprogramming utilities to complement those found in <code>&lt;type_traits&gt;</code>.</span></li>
-          <li>module <a class="m-doc" href="group__constants.html">Compile-time constants</a> <span class="m-doc"></span></li>
-          <li>module <a class="m-doc" href="group__intrinsics.html">Intrinsics</a> <span class="m-doc">Small functions available from any muu header, many of which map to compiler intrinsics.</span></li>
-          <li>module <a class="m-doc" href="group__hashing.html">Hashing</a> <span class="m-doc">Functions and types related to the generation of hashes.</span></li>
-          <li>module <a class="m-doc" href="group__preprocessor.html">Preprocessor magic</a> <span class="m-doc">Compiler feature detection, attributes, string-makers, etc.</span></li>
-        </ul>
-        <script>
-        function toggle(e) {
-            e.parentElement.className = e.parentElement.className == 'm-doc-collapsible' ?
-                'm-doc-expansible' : 'm-doc-collapsible';
-            return false;
-        }
-        /* Collapse all nodes marked as such. Doing it via JS instead of
-           directly in markup so disabling it doesn't harm usability. The list
-           is somehow regenerated on every iteration and shrinks as I change
-           the classes. It's not documented anywhere and I'm not sure if this
-           is the same across browsers, so I am going backwards in that list to
-           be sure. */
-        var collapsed = document.getElementsByClassName("collapsed");
-        for(var i = collapsed.length - 1; i >= 0; --i)
-            collapsed[i].className = 'm-doc-expansible';
-        </script>
+        <h1>
+          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span>core.h <span class="m-thin">file</span>
+        </h1>
+        <p>Typedefs and intrinsics used by muu components.</p>
+        <div class="m-block m-default">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#namespaces">Namespaces</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <section id="namespaces">
+          <h2><a href="#namespaces">Namespaces</a></h2>
+          <dl class="m-doc">
+            <dt>namespace <a class="m-doc" href="namespacemuu.html">muu</a></dt>
+            <dd>The root namespace for all muu functions and types.</dd>
+            <dt>namespace <a class="m-doc" href="namespacemuu_1_1build.html">muu::build</a></dt>
+            <dd>Compile-time build constants.</dd>
+            <dt>namespace <a class="m-doc" href="namespacemuu_1_1literals.html">muu::literals</a> <span class="m-label m-info m-flat muu-injected muu-inline-namespace" title="All members of this namespace are automatically members of the parent namespace. It does not require an explicit 'using' statement.">inline</span></dt>
+            <dd>Literal operators.</dd>
+          </dl>
+        </section>
       </div>
     </div>
   </div>
