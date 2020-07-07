@@ -1,4 +1,4 @@
-# ** this project is still in development and is not even remotely production-ready; please do not use it yet **
+# ⚠ this project is still in development and is not even remotely release-ready; please do not use it yet ⚠
 
 ![banner](docs/banner-small.png)  
 [![C++](https://img.shields.io/badge/c%2B%2B-17%2C%2020-informational)][cpp_compilers]

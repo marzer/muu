@@ -7,7 +7,7 @@
 /// \brief  Contains the definition of muu::accumulator.
 
 #pragma once
-#include "../muu/common.h"
+#include "../muu/core.h"
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_PADDING_WARNINGS

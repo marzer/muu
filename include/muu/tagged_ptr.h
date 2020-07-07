@@ -7,7 +7,7 @@
 /// \brief  Contains the definition of muu::tagged_ptr.
 
 #pragma once
-#include "../muu/common.h"
+#include "../muu/core.h"
 
 MUU_PRAGMA_MSVC(inline_recursion(on))
 

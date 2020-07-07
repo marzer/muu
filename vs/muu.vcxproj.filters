@@ -10,9 +10,6 @@
     <ClInclude Include="..\include\muu\blob.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\muu\common.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\muu\concatenate.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -70,6 +67,12 @@
     <ClInclude Include="..\examples\utf8_console.h">
       <Filter>examples</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\muu\all.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\core.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />
@@ -107,6 +110,8 @@
     <None Include="..\python\generate_float_test_data.py">
       <Filter>python</Filter>
     </None>
+    <None Include="..\.gitattributes" />
+    <None Include="..\.gitignore" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">

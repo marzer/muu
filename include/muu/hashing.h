@@ -7,7 +7,7 @@
 /// \brief Contains the definitions of functions and types related to the generation of hashes.
 
 #pragma once
-#include "../muu/common.h"
+#include "../muu/core.h"
 
 MUU_PRAGMA_MSVC(inline_recursion(on))
 

@@ -7,7 +7,7 @@
 /// \brief Contains the definition of muu::blob.
 
 #pragma once
-#include "../muu/common.h"
+#include "../muu/core.h"
 
 namespace muu
 {

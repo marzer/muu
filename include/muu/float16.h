@@ -7,7 +7,7 @@
 /// \brief Contains the definition of muu::float16.
 
 #pragma once
-#include "../muu/common.h"
+#include "../muu/core.h"
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_ALL_WARNINGS
@@ -494,6 +494,21 @@ namespace muu
 		constexpr float16 operator - () const noexcept
 		{
 			return from_bits(bits ^ 0b1000000000000000_u16);
+		}
+
+		template <typename Char, typename Traits>
+		friend std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& lhs, float16 rhs)
+		{
+			return lhs << static_cast<float>(rhs);
+		}
+
+		template <typename Char, typename Traits>
+		friend std::basic_istream<Char, Traits>& operator >> (std::basic_istream<Char, Traits>& lhs, float16& rhs)
+		{
+			float val;
+			if (lhs >> val)
+				rhs = static_cast<float16>(val);
+			return lhs;
 		}
 	};
 

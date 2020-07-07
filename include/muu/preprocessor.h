@@ -42,8 +42,17 @@
 // COMPILER DETECTION
 //=====================================================================================================================
 
+#ifdef DOXYGEN
+	#undef	MUU_DOXYGEN
+	#define MUU_DOXYGEN			1
+#endif
 #ifndef MUU_DOXYGEN
 	#define MUU_DOXYGEN			0
+#endif
+#ifdef __INTELLISENSE__
+	#define MUU_INTELLISENSE	1
+#else
+	#define MUU_INTELLISENSE	0
 #endif
 #ifdef __clang__
 	#define MUU_CLANG		__clang_major__
@@ -81,37 +90,45 @@
 // ARCHITECTURE & ENVIRONMENT
 //=====================================================================================================================
 
+// MUU_ARCH_ITANIUM
 #if defined(__ia64__) || defined(__ia64) || defined(_IA64) || defined(__IA64__) || defined(_M_IA64)
-	#define MUU_ARCH_IA64 1
+	#define MUU_ARCH_ITANIUM 1
 	#define MUU_ARCH_BITNESS 64
 #else
-	#define MUU_ARCH_IA64 0
+	#define MUU_ARCH_ITANIUM 0
 #endif
-#if defined(__amd64__) || defined(__amd64) || defined(__x86_64__) || defined(__x86_64) || defined(_M_AMD64) || MUU_DOXYGEN
+
+// MUU_ARCH_AMD64
+#if defined(__amd64__) || defined(__amd64) || defined(__x86_64__) || defined(__x86_64) || defined(_M_AMD64)
 	#define MUU_ARCH_AMD64 1
 	#define MUU_ARCH_BITNESS 64
 #else
 	#define MUU_ARCH_AMD64 0
 #endif
+
+// MUU_ARCH_X86
 #if defined(__i386__) || defined(_M_IX86)
 	#define MUU_ARCH_X86 1
 	#define MUU_ARCH_BITNESS 32
 #else
 	#define MUU_ARCH_X86 0
 #endif
-#if defined(__arm__) || defined(_M_ARM) || defined(__ARM_32BIT_STATE)
-	#define MUU_ARCH_ARM 1
-	#define MUU_ARCH_ARM64 0
-	#define MUU_ARCH_BITNESS 32
-#elif defined(__aarch64__) || defined(__ARM_ARCH_ISA_A64) || defined(_M_ARM64) || defined(__ARM_64BIT_STATE)
-	#define MUU_ARCH_ARM 0
+
+// MUU_ARCH_ARM32 and MUU_ARCH_ARM64
+#if defined(__aarch64__) || defined(__ARM_ARCH_ISA_A64) || defined(_M_ARM64) || defined(__ARM_64BIT_STATE)
+	#define MUU_ARCH_ARM32 0
 	#define MUU_ARCH_ARM64 1
 	#define MUU_ARCH_BITNESS 64
+#elif defined(__arm__) || defined(_M_ARM) || defined(__ARM_32BIT_STATE)
+	#define MUU_ARCH_ARM32 1
+	#define MUU_ARCH_ARM64 0
+	#define MUU_ARCH_BITNESS 32
 #else
-	#define MUU_ARCH_ARM 0
+	#define MUU_ARCH_ARM32 0
 	#define MUU_ARCH_ARM64 0
 #endif
-#define MUU_ARCH_SUM (MUU_ARCH_IA64 + MUU_ARCH_AMD64 + MUU_ARCH_X86 + MUU_ARCH_ARM + MUU_ARCH_ARM64)
+
+#define MUU_ARCH_SUM (MUU_ARCH_ITANIUM + MUU_ARCH_AMD64 + MUU_ARCH_X86 + MUU_ARCH_ARM32 + MUU_ARCH_ARM64)
 #if MUU_ARCH_SUM > 1
 	#error Could not uniquely identify target architecture.
 #elif MUU_ARCH_SUM == 0
@@ -123,6 +140,7 @@
 #else
 	#define MUU_WINDOWS 0
 #endif
+
 #define MUU_MACRO_DISPATCHER(func, ...)	func(__VA_ARGS__)
 
 //=====================================================================================================================
@@ -315,6 +333,7 @@
 	#define MUU_ALWAYS_INLINE				__attribute__((__always_inline__)) inline
 	#define MUU_NEVER_INLINE				__attribute__((__noinline__))
 	#define MUU_UNREACHABLE					__builtin_unreachable()
+	#define MUU_UNALIASED_ALLOC				__attribute__((__malloc__))
 	#ifdef __cpp_exceptions
 		#define MUU_EXCEPTIONS 1
 	#else
@@ -457,7 +476,7 @@
 
 #define MUU_NO_DEFAULT_CASE				default: MUU_UNREACHABLE
 
-#if !MUU_DOXYGEN && !defined(__INTELLISENSE__)
+#if !MUU_DOXYGEN && !MUU_INTELLISENSE
 	#if !defined(MUU_LIKELY) && __has_cpp_attribute(likely)
 		#define MUU_LIKELY(...)	(__VA_ARGS__) [[likely]]
 	#endif
@@ -470,7 +489,7 @@
 	#if __has_cpp_attribute(nodiscard) >= 201907L
 		#define MUU_NODISCARD_CTOR		[[nodiscard]]
 	#endif
-#endif //__INTELLISENSE__
+#endif
 #ifndef MUU_LIKELY
 	#define MUU_LIKELY(...)	(__VA_ARGS__)
 #endif
@@ -494,7 +513,7 @@
 	#define MUU_VECTORCALL_CONSTREF const&
 #endif
 
-#if defined(__cpp_consteval) && !defined(__INTELLISENSE__)
+#if defined(__cpp_consteval) && !MUU_INTELLISENSE
 	#define MUU_CONSTEVAL				consteval
 #else
 	#define MUU_CONSTEVAL				constexpr
@@ -551,9 +570,11 @@ MUU_POP_WARNINGS
 	#define MUU_HAS_BUILTIN(name)	0
 #endif
 
-#if MUU_DOXYGEN
+/// \addtogroup		preprocessor		Preprocessor magic
+/// \brief		Compiler feature detection, attributes, string-makers, etc.
+/// @{
 
-/// \def MUU_ARCH_IA64
+/// \def MUU_ARCH_ITANIUM
 /// \brief `1` when targeting 64-bit Itanium, `0` otherwise.
 ///
 /// \def MUU_ARCH_AMD64
@@ -562,7 +583,7 @@ MUU_POP_WARNINGS
 /// \def MUU_ARCH_X86
 /// \brief `1` when targeting 32-bit x86, `0` otherwise.
 /// 
-/// \def MUU_ARCH_ARM
+/// \def MUU_ARCH_ARM32
 /// \brief `1` when targeting 32-bit ARM, `0` otherwise.
 /// 
 /// \def MUU_ARCH_ARM64
@@ -589,6 +610,9 @@ MUU_POP_WARNINGS
 /// 
 /// \def MUU_WINDOWS
 /// \brief `1` when building for the Windows operating system, `0` otherwise.
+/// 
+/// \def MUU_INTELLISENSE
+/// \brief `1` when the code being compiled by an IDE's 'intellisense' compiler, `0` otherwise.
 /// 
 /// \def MUU_EXCEPTIONS
 /// \brief `1` when support for C++ exceptions is enabled, `0` otherwise.
@@ -845,6 +869,6 @@ MUU_POP_WARNINGS
 /// \def MUU_HAS_BUILTIN(name)
 /// \brief Expands to `__has_builtin(name)` when supported by the compiler, `0` otherwise.
 
-#endif // MUU_DOXYGEN
+/// @}
 
 // clang-format on

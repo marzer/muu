@@ -1,8 +1,8 @@
 #include "tests.h"
-#include "../include/muu/common.h"
+#include "../include/muu/core.h"
 
 //=====================================================================================================================
-// these are all the public metafunctions and type traits in common.h (ideally in the order they appear)
+// these are all the public metafunctions and type traits in core.h (ideally in the order they appear)
 //=====================================================================================================================
 
 template <size_t align, typename T = char> struct aligned { alignas(align) T kek; };

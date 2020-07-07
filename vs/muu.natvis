@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
 
+	<Type Name="::muu::float16">
+		<!--  bits & 0x7C00 == 0x7C00   ::  Infinity or NaN -->
+		<!--  bits & 0x03FF == 0        ::  No mantissa (Infinity if exp is all 1's) -->
+		<!--  bits & 0x8000 != 0        ::  Negative -->
+		<DisplayString Condition="((int)bits &amp; 0x7C00) == 0x7C00 &amp;&amp; ((int)bits &amp; 0x03FF) == 0 &amp;&amp; ((int)bits &amp; 0x8000) == 0">inf</DisplayString>
+		<DisplayString Condition="((int)bits &amp; 0x7C00) == 0x7C00 &amp;&amp; ((int)bits &amp; 0x03FF) == 0 &amp;&amp; ((int)bits &amp; 0x8000) != 0">-inf</DisplayString>
+		<DisplayString Condition="((int)bits &amp; 0x7C00) == 0x7C00 &amp;&amp; ((int)bits &amp; 0x03FF) != 0">nan</DisplayString>
+		<DisplayString Condition="((int)bits &amp; 0x7C00) == 0x7C00 &amp;&amp; ((int)bits &amp; 0x03FF) != 0">nan</DisplayString>
+		<!--<DisplayString>{*reinterpret_cast&lt;const float*&gt;(&amp;((((unsigned int)bits &amp; 0x7C00u) == 0u ? 0u : (((unsigned int)bits &amp; 0x7FFFu) &lt;&lt; 13) + 0x38000000u) | (((unsigned int)bits &amp; 0x8000u) &lt;&lt; 16)));}</DisplayString> -->
+		<DisplayString>Raw bits: {bits}</DisplayString>
+	</Type>
+
 </AutoVisualizer>

@@ -7,7 +7,7 @@
 /// \brief  Contains the definition of muu::string_param.
 
 #pragma once
-#include "../muu/common.h"
+#include "../muu/core.h"
 
 #if !MUU_DOXYGEN && (!defined(MUU_DEV) || !MUU_DEV)
 	#error Including muu/string_param.h is currently prohibited - muu::string_param is not fully implemented

@@ -16,10 +16,15 @@
 MUU_PUSH_WARNINGS
 MUU_DISABLE_ALL_WARNINGS
 
-// common.h include file rationale:
-// If it's small and simple it can go in (c headers are generally OK)
-// If it drags in half the standard library or is itself a behemoth it stays out (<algorithm>...)
-// (more info: https://www.reddit.com/r/cpp/comments/eumou7/stl_header_token_parsing_benchmarks_for_vs2017/)
+// core.h include file rationale:
+// - If it's small and simple it can go in (c headers are generally OK)
+// - If it drags in half the standard library or is itself a behemoth it stays out (<algorithm>...)
+// 
+// Or, put differently: If the 'impact' is anything above green according to
+// https://artificial-mind.net/projects/compile-health/, or measuring off-the-charts expensive according to
+// https://www.reddit.com/r/cpp/comments/eumou7/stl_header_token_parsing_benchmarks_for_vs2017/, it's a no from me, dawg.
+// 
+// Mercifully, most things that you might feel compelled to stick here can be worked around by forward-declarations.
 
 #include <cstdint>
 #include <cstddef>
@@ -81,9 +86,15 @@ namespace muu
 namespace std
 {
 	template <typename>				struct hash;
+	template <typename>				struct pointer_traits;
 	template <typename, typename>	class basic_string_view;
 	template <typename, typename>	class basic_ostream;
+	template <typename, typename>	class basic_istream;
 }
+
+#if MUU_WINDOWS
+	struct IUnknown;
+#endif
 
 namespace muu_this_is_not_a_real_namespace {}
 
@@ -346,6 +357,14 @@ namespace muu::impl
 	#if MUU_HAS_INT128
 	template <> struct canonical_uint<128> { using type = uint128_t; };
 	#endif
+
+	#if MUU_WINDOWS
+		template <typename T> inline constexpr bool is_win32_iunknown
+			= std::is_class_v<remove_cvref<T>>
+			&& std::is_base_of_v<IUnknown, T>;
+	#else
+		template <typename T> inline constexpr bool is_win32_iunknown = false;
+	#endif
 }
 
 namespace muu
@@ -591,8 +610,8 @@ namespace muu
 		&& !std::is_same_v<remove_cvref<Parent>, remove_cvref<Child>>;
 
 	/// \brief	Rebases a pointer, preserving the const and volatile qualification of the pointed type.
-	template <typename Ptr, typename Base>
-	using rebase_pointer = typename impl::rebase_pointer<Ptr, Base>::type;
+	template <typename Ptr, typename NewBase>
+	using rebase_pointer = typename impl::rebase_pointer<Ptr, NewBase>::type;
 
 	/// \brief	Adds const to the pointed-to type of a pointer, correctly handling pointers-to-void.
 	template <typename T>
@@ -1400,8 +1419,10 @@ namespace muu
 	/// 		- adding `const` and/or `volatile` => `static_cast`  
 	/// 		- removing `const` and/or `volatile` => `const_cast`  
 	/// 		- casting to/from `void*` => `static_cast`  
-	/// 		- casting from derived to base => `static_cast`  
-	/// 		- casting from base to derived => `dynamic_cast`  
+	/// 		- casting from derived to base => `static_cast`    
+	/// 		- casting from `IUnknown` to `IUnknown` => `QueryInterface` (windows only)
+	/// 		- casting from polymorphic base to derived => `dynamic_cast`  
+	/// 		- casting from non-polymorphic base to derived => `reinterpret_cast`  
 	/// 		- converting between pointers and integers => `reinterpret_cast`  
 	/// 		- converting between pointers to unrelated types => `reinterpret_cast`  
 	/// 		- converting between function pointers and `void*` => `reinterpret_cast` (where available)  
@@ -1581,19 +1602,10 @@ namespace muu
 				else if constexpr (std::is_void_v<from_base> || std::is_void_v<to_base> || inherits_from<to_base, from_base>)
 					return pointer_cast<To>(static_cast<rebase_pointer<From, remove_cv<to_base>>>(from));
 
-				// base -> derived
-				else if constexpr (inherits_from<from_base, to_base>)
-					return pointer_cast<To>(dynamic_cast<rebase_pointer<From, remove_cv<to_base>>>(from));
-
-				// A -> B (unrelated types)
-				else if constexpr (!std::is_same_v<remove_cv<from_base>, remove_cv<to_base>>)
-					return pointer_cast<To>(reinterpret_cast<rebase_pointer<From, remove_cv<to_base>>>(from));
-
 				// A -> A (different cv)
-				else
+				else if constexpr (std::is_same_v<remove_cv<from_base>, remove_cv<to_base>>)
 				{
 					static_assert(!std::is_same_v<from_base, to_base>);
-					static_assert(std::is_same_v<remove_cv<from_base>, remove_cv<to_base>>);
 
 					// remove const/volatile
 					if constexpr (is_const<from_base> || is_volatile<from_base>)
@@ -1606,6 +1618,50 @@ namespace muu
 						static_assert(same_as_any<To, const to_base*, const volatile to_base*, volatile to_base*>);
 						return static_cast<To>(from);
 					}
+				}
+
+				// IUnknown -> IUnknown (windows only)
+				#if MUU_WINDOWS
+				else if constexpr (impl::is_win32_iunknown<from_base> && impl::is_win32_iunknown<to_base>)
+				{
+					if (!from)
+						return nullptr;
+
+					// remove const/volatile from source type
+					if constexpr (is_const<from_base> || is_volatile<from_base>)
+						return pointer_cast<To>(const_cast<remove_cv<from_base>*>(from));
+
+					// remove const/volatile from destination type
+					else if constexpr (is_const<to_base> || is_volatile<to_base>)
+						return const_cast<To>(pointer_cast<remove_cv<to_base>*>(from));
+
+					else
+					{
+						static_assert(!is_const<from_base> && !is_volatile<from_base>);
+						static_assert(!is_const<to_base> && !is_volatile<to_base>);
+
+						to_base* to = {};
+						if (from->QueryInterface(__uuidof(to_base), reinterpret_cast<void**>(&to)) == 0)
+							to->Release();
+						return to;
+					}
+				}
+				#endif
+
+				// base -> derived
+				else if constexpr (inherits_from<from_base, to_base>)
+				{
+					if constexpr (std::is_polymorphic_v<from_base>)
+						return pointer_cast<To>(dynamic_cast<rebase_pointer<From, remove_cv<to_base>>>(from));
+					else
+						return pointer_cast<To>(reinterpret_cast<rebase_pointer<From, remove_cv<to_base>>>(from));
+				}
+
+				// A -> B (unrelated types)
+				else
+				{
+					static_assert(!std::is_same_v<remove_cv<from_base>, remove_cv<to_base>>);
+					return pointer_cast<To>(reinterpret_cast<rebase_pointer<From, remove_cv<to_base>>>(from));
 				}
 			}
 		}

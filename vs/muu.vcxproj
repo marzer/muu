@@ -60,9 +60,10 @@
     <ClInclude Include="..\extern\catch2.h" />
     <ClInclude Include="..\include\muu\accumulator.h" />
     <ClInclude Include="..\include\muu\aligned_alloc.h" />
+    <ClInclude Include="..\include\muu\all.h" />
     <ClInclude Include="..\include\muu\bitset.h" />
     <ClInclude Include="..\include\muu\blob.h" />
-    <ClInclude Include="..\include\muu\common.h" />
+    <ClInclude Include="..\include\muu\core.h" />
     <ClInclude Include="..\include\muu\concatenate.h" />
     <ClInclude Include="..\include\muu\float16.h" />
     <ClInclude Include="..\include\muu\hashing.h" />
@@ -82,6 +83,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />
+    <None Include="..\.gitattributes" />
+    <None Include="..\.gitignore" />
     <None Include="..\CONTRIBUTING.md" />
     <None Include="..\docs\Doxyfile" />
     <None Include="..\docs\Doxyfile-mcss" />

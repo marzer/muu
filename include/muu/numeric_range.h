@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: MIT
 
 #pragma once
-#include "../muu/common.h"
+#include "../muu/core.h"
 
 #if !MUU_DOXYGEN && (!defined(MUU_DEV) || !MUU_DEV)
 	#error Including muu/numeric_range.h is currently prohibited - muu::numeric_range is not fully implemented

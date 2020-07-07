@@ -1,13 +1,15 @@
 test_sources = [
-	'main.cpp',
-	'tests.cpp',
-	'common.cpp',
-	'blob.cpp',
-	'aligned_alloc.cpp',
-	'tagged_ptr.cpp',
-	'float16.cpp',
-	'scope_guard.cpp',
 	'accumulator.cpp',
+	'aligned_alloc.cpp',
+	'blob.cpp',
+	'core.cpp',
+	'float16.cpp',
+	'hashing.cpp',
+	'main.cpp',
+	'meta.cpp',
+	'scope_guard.cpp',
+	'tagged_ptr.cpp',
+	'tests.cpp',
 	'uuid.cpp',
 ]
 
