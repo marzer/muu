@@ -78,13 +78,10 @@ pre a.muu-injected
 .muu-enable-if > a
 {
 	white-space: nowrap;
-	font-size: 0.8rem;
+	font-size: 0.7rem;
 	font-weight: bold;
 	background-color: #858585;
 	color: #050505;
-	padding-bottom: 0px;
-	margin: 0px 1px;
-	margin-bottom: 2px;
 }
 
 .muu-enable-if > a:hover

@@ -2,7 +2,7 @@
 #include "../include/muu/float16.h"
 
 MUU_PUSH_WARNINGS
-MUU_DISABLE_FLOAT_WARNINGS
+MUU_DISABLE_ARITHMETIC_WARNINGS
 
 ///////////////////////////////////////////////////////////////////////////////////
 // Some runtime tests in this file adapted from
@@ -225,4 +225,4 @@ TEST_CASE("float16 - subtraction")
 	}
 }
 
-MUU_POP_WARNINGS // MUU_DISABLE_FLOAT_WARNINGS
+MUU_POP_WARNINGS // MUU_DISABLE_ARITHMETIC_WARNINGS

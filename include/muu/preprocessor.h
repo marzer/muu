@@ -55,24 +55,24 @@
 	#define MUU_INTELLISENSE	0
 #endif
 #ifdef __clang__
-	#define MUU_CLANG		__clang_major__
+	#define MUU_CLANG			__clang_major__
 #else
-	#define MUU_CLANG		0
+	#define MUU_CLANG			0
 #endif
 #ifdef __INTEL_COMPILER
-	#define MUU_ICC			__INTEL_COMPILER
+	#define MUU_ICC				__INTEL_COMPILER
 #else
-	#define MUU_ICC			0
+	#define MUU_ICC				0
 #endif
 #if defined(_MSC_VER) && !MUU_CLANG && !MUU_ICC
-	#define MUU_MSVC		_MSC_VER
+	#define MUU_MSVC			_MSC_VER
 #else
-	#define MUU_MSVC		0
+	#define MUU_MSVC			0
 #endif
 #if defined(__GNUC__) && !MUU_CLANG && !MUU_ICC
-	#define MUU_GCC			__GNUC__
+	#define MUU_GCC				__GNUC__
 #else
-	#define MUU_GCC			0
+	#define MUU_GCC				0
 #endif
 #if !MUU_DOXYGEN
 	#if !MUU_CLANG && !MUU_ICC && !MUU_MSVC && !MUU_GCC
@@ -141,7 +141,8 @@
 	#define MUU_WINDOWS 0
 #endif
 
-#define MUU_MACRO_DISPATCHER(func, ...)	func(__VA_ARGS__)
+#define MUU_CONCAT_1(x, y) x##y
+#define MUU_CONCAT(x, y) MUU_CONCAT_1(x, y)
 
 //=====================================================================================================================
 // CLANG
@@ -187,8 +188,8 @@
 		#define MUU_MACRO_DISPATCH_CLANG_LT_11(...)	__VA_ARGS__
 	#endif
 
-	#define MUU_PRAGMA_CLANG_GE(ver, ...)	MUU_MACRO_DISPATCHER(MUU_MACRO_DISPATCH_CLANG_GE_##ver, _Pragma(__VA_ARGS__))
-	#define MUU_PRAGMA_CLANG_LT(ver, ...)	MUU_MACRO_DISPATCHER(MUU_MACRO_DISPATCH_CLANG_LT_##ver, _Pragma(__VA_ARGS__))
+	#define MUU_PRAGMA_CLANG_GE(ver, ...)	MUU_CONCAT(MUU_MACRO_DISPATCH_CLANG_GE_, ver)(_Pragma(__VA_ARGS__))
+	#define MUU_PRAGMA_CLANG_LT(ver, ...)	MUU_CONCAT(MUU_MACRO_DISPATCH_CLANG_LT_, ver)(_Pragma(__VA_ARGS__))
 
 	#define MUU_PUSH_WARNINGS				_Pragma("clang diagnostic push")
 	#define MUU_DISABLE_SWITCH_WARNINGS		_Pragma("clang diagnostic ignored \"-Wswitch\"")
@@ -197,8 +198,9 @@
 	#define MUU_DISABLE_VTABLE_WARNINGS		_Pragma("clang diagnostic ignored \"-Weverything\"") \
 											_Pragma("clang diagnostic ignored \"-Wweak-vtables\"")
 	#define MUU_DISABLE_PADDING_WARNINGS	_Pragma("clang diagnostic ignored \"-Wpadded\"")
-	#define MUU_DISABLE_FLOAT_WARNINGS		_Pragma("clang diagnostic ignored \"-Wfloat-equal\"") \
+	#define MUU_DISABLE_ARITHMETIC_WARNINGS	_Pragma("clang diagnostic ignored \"-Wfloat-equal\"") \
 											_Pragma("clang diagnostic ignored \"-Wdouble-promotion\"") \
+											_Pragma("clang diagnostic ignored \"-Wshift-sign-overflow\"") \
 							MUU_PRAGMA_CLANG_GE(10, "clang diagnostic ignored \"-Wimplicit-int-float-conversion\"")
 	#define MUU_DISABLE_SHADOW_WARNINGS		_Pragma("clang diagnostic ignored \"-Wshadow\"")
 	#define MUU_DISABLE_ALL_WARNINGS		_Pragma("clang diagnostic ignored \"-Weverything\"")
@@ -256,11 +258,13 @@
 		#define MUU_HAS_BUILTIN(name)	__has_builtin(name)
 	#endif
 
+#endif // clang
+
 //=====================================================================================================================
 // MSVC
 //=====================================================================================================================
 
-#elif MUU_MSVC || (defined(_MSC_VER) && MUU_ICC && defined(__ICL))
+#if MUU_MSVC || (defined(_MSC_VER) && MUU_ICC && defined(__ICL))
 
 	#define MUU_CPP_VERSION					_MSVC_LANG
 	#define MUU_PRAGMA_MSVC(...)			__pragma(__VA_ARGS__)
@@ -291,29 +295,66 @@
 	#define MUU_LITTLE_ENDIAN				1
 	#define MUU_BIG_ENDIAN					0
 
+#endif // msvc
+
 //=====================================================================================================================
 // GCC
 //=====================================================================================================================
 
-#elif MUU_GCC
+#if MUU_GCC
 
 	#define MUU_PRAGMA_GCC(...)				_Pragma(__VA_ARGS__)
+
+	#if MUU_GCC >= 7
+		#define MUU_MACRO_DISPATCH_GCC_GE_7(...)	__VA_ARGS__
+		#define MUU_MACRO_DISPATCH_GCC_LT_7(...)
+	#else
+		#define MUU_MACRO_DISPATCH_GCC_GE_7(...)
+		#define MUU_MACRO_DISPATCH_GCC_LT_7(...)	__VA_ARGS__
+	#endif
+	#if MUU_GCC >= 8
+		#define MUU_MACRO_DISPATCH_GCC_GE_8(...)	__VA_ARGS__
+		#define MUU_MACRO_DISPATCH_GCC_LT_8(...)
+	#else
+		#define MUU_MACRO_DISPATCH_GCC_GE_8(...)
+		#define MUU_MACRO_DISPATCH_GCC_LT_8(...)	__VA_ARGS__
+	#endif
+	#if MUU_GCC >= 9
+		#define MUU_MACRO_DISPATCH_GCC_GE_9(...)	__VA_ARGS__
+		#define MUU_MACRO_DISPATCH_GCC_LT_9(...)
+	#else
+		#define MUU_MACRO_DISPATCH_GCC_GE_9(...)
+		#define MUU_MACRO_DISPATCH_GCC_LT_9(...)	__VA_ARGS__
+	#endif
+	#if MUU_GCC >= 10
+		#define MUU_MACRO_DISPATCH_GCC_GE_10(...)	__VA_ARGS__
+		#define MUU_MACRO_DISPATCH_GCC_LT_10(...)
+	#else
+		#define MUU_MACRO_DISPATCH_GCC_GE_10(...)
+		#define MUU_MACRO_DISPATCH_GCC_LT_10(...)	__VA_ARGS__
+	#endif
+	#if MUU_GCC >= 11
+		#define MUU_MACRO_DISPATCH_GCC_GE_11(...)	__VA_ARGS__
+		#define MUU_MACRO_DISPATCH_GCC_LT_11(...)
+	#else
+		#define MUU_MACRO_DISPATCH_GCC_GE_11(...)
+		#define MUU_MACRO_DISPATCH_GCC_LT_11(...)	__VA_ARGS__
+	#endif
+
+	#define MUU_PRAGMA_GCC_GE(ver, ...)		MUU_CONCAT(MUU_MACRO_DISPATCH_GCC_GE_, ver)(_Pragma(__VA_ARGS__))
+	#define MUU_PRAGMA_GCC_LT(ver, ...)		MUU_CONCAT(MUU_MACRO_DISPATCH_GCC_LT_, ver)(_Pragma(__VA_ARGS__))
+
 	#define MUU_PUSH_WARNINGS				_Pragma("GCC diagnostic push")
 	#define MUU_DISABLE_SWITCH_WARNINGS		_Pragma("GCC diagnostic ignored \"-Wswitch\"")						\
 											_Pragma("GCC diagnostic ignored \"-Wswitch-enum\"")					\
 											_Pragma("GCC diagnostic ignored \"-Wswitch-default\"")
-	#if MUU_GCC >= 8
-		#define MUU_DISABLE_INIT_WARNINGS_GCC8	\
-											_Pragma("GCC diagnostic ignored \"-Wclass-memaccess\"")
-	#else
-		#define MUU_DISABLE_INIT_WARNINGS_GCC8
-	#endif
 	#define MUU_DISABLE_INIT_WARNINGS		_Pragma("GCC diagnostic ignored \"-Wmissing-field-initializers\"")	\
 											_Pragma("GCC diagnostic ignored \"-Wmaybe-uninitialized\"")			\
 											_Pragma("GCC diagnostic ignored \"-Wuninitialized\"")				\
-											MUU_DISABLE_INIT_WARNINGS_GCC8
+							   MUU_PRAGMA_GCC_GE(8, "GCC diagnostic ignored \"-Wclass-memaccess\"")
 	#define MUU_DISABLE_PADDING_WARNINGS	_Pragma("GCC diagnostic ignored \"-Wpadded\"")
-	#define MUU_DISABLE_FLOAT_WARNINGS		_Pragma("GCC diagnostic ignored \"-Wfloat-equal\"")
+	#define MUU_DISABLE_ARITHMETIC_WARNINGS	_Pragma("GCC diagnostic ignored \"-Wfloat-equal\"")					\
+											_Pragma("GCC diagnostic ignored \"-Wsign-conversion\"")
 	#define MUU_DISABLE_SHADOW_WARNINGS		_Pragma("GCC diagnostic ignored \"-Wshadow\"")
 	#define MUU_DISABLE_SUGGEST_WARNINGS	_Pragma("GCC diagnostic ignored \"-Wsuggest-attribute=const\"")		\
 											_Pragma("GCC diagnostic ignored \"-Wsuggest-attribute=pure\"")
@@ -325,7 +366,7 @@
 											MUU_DISABLE_SWITCH_WARNINGS											\
 											MUU_DISABLE_INIT_WARNINGS											\
 											MUU_DISABLE_PADDING_WARNINGS										\
-											MUU_DISABLE_FLOAT_WARNINGS											\
+											MUU_DISABLE_ARITHMETIC_WARNINGS										\
 											MUU_DISABLE_SHADOW_WARNINGS
 	#define MUU_POP_WARNINGS				_Pragma("GCC diagnostic pop")
 	#define MUU_ATTR(attr)					__attribute__((attr))
@@ -352,7 +393,7 @@
 		#define MUU_HAS_BUILTIN(name)	__has_builtin(name)
 	#endif
 
-#endif
+#endif // gcc
 
 //=====================================================================================================================
 // ALL COMPILERS
@@ -407,6 +448,12 @@
 #ifndef MUU_PRAGMA_GCC
 	#define MUU_PRAGMA_GCC(...)
 #endif
+#ifndef MUU_PRAGMA_GCC_GE
+	#define MUU_PRAGMA_GCC_GE(...)
+#endif
+#ifndef MUU_PRAGMA_GCC_LT
+	#define MUU_PRAGMA_GCC_LT(...)
+#endif
 
 #ifndef MUU_ATTR
 	#define MUU_ATTR(attr)
@@ -436,8 +483,8 @@
 #ifndef MUU_DISABLE_PADDING_WARNINGS
 	#define MUU_DISABLE_PADDING_WARNINGS
 #endif
-#ifndef MUU_DISABLE_FLOAT_WARNINGS
-	#define MUU_DISABLE_FLOAT_WARNINGS
+#ifndef MUU_DISABLE_ARITHMETIC_WARNINGS
+	#define MUU_DISABLE_ARITHMETIC_WARNINGS
 #endif
 #ifndef MUU_DISABLE_SHADOW_WARNINGS
 	#define MUU_DISABLE_SHADOW_WARNINGS
@@ -791,23 +838,31 @@ MUU_POP_WARNINGS
 /// \see [\[\[trivial_abi\]\]](https://quuxplusone.github.io/blog/2018/05/02/trivial-abi-101/)
 ///
 /// \def MUU_LIKELY
-/// \brief Expands to an optimizer intrinsic meant to indicate that an if/else conditional is the likely path.
+/// \brief Expands a conditional to include an optimizer intrinsic (or C++20's [[likely]], if available)
+/// 	   indicating that an if/else conditional is the likely path.
 /// \detail \cpp
 /// 	if MUU_LIKELY(condition_that_is_almost_always_true)
 /// 	{
 /// 		do_the_thing();
 /// 	}
 /// \ecpp
-///
+/// \see
+///		- [\[\[likely\]\]](https://en.cppreference.com/w/cpp/language/attributes/likely)
+///		- [__builtin_expect()](https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html)
+/// 	 
 /// \def MUU_UNLIKELY
-/// \brief Expands to an optimizer intrinsic meant to indicate that an if/else conditional is the unlikely path.
+/// \brief Expands a conditional to include an optimizer intrinsic (or C++20's [[unlikely]], if available)
+/// 	   indicating that an if/else conditional is the unlikely path.
 /// \detail \cpp
 /// 	if MUU_UNLIKELY(condition_that_is_almost_always_false)
 /// 	{
 /// 		do_the_thing();
 /// 	}
 /// \ecpp
-///
+/// \see
+///		- [\[\[likely\]\]](https://en.cppreference.com/w/cpp/language/attributes/likely)
+///		- [__builtin_expect()](https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html)
+/// 
 /// \def MUU_NO_UNIQUE_ADDRESS
 /// \brief Expands to C++20's `[[no_unique_address]]` if supported by your compiler.
 /// 
@@ -830,7 +885,7 @@ MUU_POP_WARNINGS
 /// 	
 /// 	int whoops() noexcept
 /// 	{
-/// 		raii_lock{}; // whoops! forgot to give a name; would be destroyed immediately.
+/// 		raii_lock{}; // oh noes! forgot to give a name; would be destroyed immediately.
 /// 		             // MUU_NODISCARD_CTOR makes the compiler emit a warning here.
 ///
 /// 		something_that_requires_the_lock();
@@ -850,16 +905,16 @@ MUU_POP_WARNINGS
 /// \detail \cpp
 /// // these are equivalent:
 ///	constexpr auto str1 = MUU_MAKE_STRING("It's trap!" the admiral cried.);
-///	constexpr auto str2 = "\"It's trap!\" the admiral cried.";
+///	constexpr auto str2 = R"("It's trap!" the admiral cried.)";
 /// \ecpp
 /// \see [String literals in C++](https://en.cppreference.com/w/cpp/language/string_literal)
 /// 
 /// \def MUU_MAKE_STRING_VIEW(str)
-/// \brief Stringifies the input, converting it verbatim into a string view literal.
+/// \brief Stringifies the input, converting it verbatim into a raw string view literal.
 /// \detail \cpp
 /// // these are equivalent:
 ///	constexpr std::string_view str1 = MUU_MAKE_STRING_VIEW("It's trap!" the admiral cried.);
-///	constexpr std::string_view str2 = "\"It's trap!\" the admiral cried."sv;
+///	constexpr std::string_view str2 = R"("It's trap!" the admiral cried.)"sv;
 /// \ecpp
 /// \see [String literals in C++](https://en.cppreference.com/w/cpp/language/string_literal)
 ///

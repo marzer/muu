@@ -34,6 +34,9 @@ MUU_DISABLE_ALL_WARNINGS
 #include <type_traits>
 #include <utility>
 #include <limits>
+#if MUU_MSVC
+	#include <intrin0.h>
+#endif
 
 MUU_POP_WARNINGS
 
@@ -52,21 +55,40 @@ static_assert('A' == 65);
 //=====================================================================================================================
 
 /// \brief	The root namespace for all muu functions and types.
-namespace muu {}
+namespace muu
+{
+	#if MUU_HAS_INT128 || MUU_DOXYGEN
+
+	/// \brief	An alias for a signed 128-bit integer.
+	/// 
+	/// \remarks This typedef is only present when 128-bit integers are supported by your compiler.
+	using int128_t = __int128_t;
+
+	/// \brief	An alias for an unsigned 128-bit integer.
+	/// 
+	/// \remarks This typedef is only present when 128-bit integers are supported by your compiler.
+	using uint128_t = __uint128_t;
+
+	#endif
+}
 
 #if !MUU_DOXYGEN // forward declarations are hidden from doxygen because they fuck it up =/
 
 namespace muu
 {
-	using size_t    = std::size_t;
-	using intptr_t  = std::intptr_t;
-	using uintptr_t = std::uintptr_t;
-	using ptrdiff_t = std::ptrdiff_t;
-	using nullptr_t = std::nullptr_t;
-	#if MUU_HAS_INT128
-	using int128_t = __int128_t;
-	using uint128_t = __uint128_t;
-	#endif
+	using std::size_t;
+	using std::intptr_t;
+	using std::uintptr_t;
+	using std::ptrdiff_t;
+	using std::nullptr_t;
+	using std::int8_t;
+	using std::int16_t;
+	using std::int32_t;
+	using std::int64_t;
+	using std::uint8_t;
+	using std::uint16_t;
+	using std::uint32_t;
+	using std::uint64_t;
 
 	struct uuid;
 	struct semver;
@@ -81,6 +103,7 @@ namespace muu
 	template <size_t>				class fnv1a;
 	template <typename>				class scope_guard;
 	template <typename, size_t>		class tagged_ptr;
+	template <typename, typename>	class accumulator;
 }
 
 namespace std
@@ -938,7 +961,7 @@ namespace muu
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
-	constexpr auto unwrap(T val) noexcept
+	constexpr auto MUU_VECTORCALL unwrap(T val) noexcept
 	{
 		return static_cast<std::underlying_type_t<T>>(val);
 	}
@@ -955,7 +978,7 @@ namespace muu
 
 	/// \brief	Checks if an integral value has only a single bit set.
 	///
-	/// \tparam	T		An unsigned integral or enum type.
+	/// \tparam	T		An unsigned integer or enum type.
 	/// \param 	val		The value to test.
 	///
 	/// \returns	True if the input value had only a single bit set (and thus was a power of two).
@@ -966,7 +989,7 @@ namespace muu
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ATTR_CLANG(flatten)
-	constexpr bool has_single_bit(T val) noexcept
+	constexpr bool MUU_VECTORCALL has_single_bit(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
 			return has_single_bit(unwrap(val));
@@ -975,11 +998,11 @@ namespace muu
 	}
 
 	MUU_PUSH_WARNINGS
-	MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wsign-conversion\"")
+	MUU_DISABLE_ARITHMETIC_WARNINGS
 
 	/// \brief	Counts the number of consecutive 0 bits, starting from the left.
 	///
-	/// \tparam	T		An unsigned integral or enum type.
+	/// \tparam	T		An unsigned integer or enum type.
 	/// \param 	val		The value to test.
 	///
 	/// \returns	The number of consecutive zeros from the left end of an integer's bits.
@@ -990,7 +1013,7 @@ namespace muu
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ATTR_CLANG(flatten)
-	constexpr int countl_zero(T val) noexcept
+	constexpr int MUU_VECTORCALL countl_zero(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
 			return static_cast<T>(countl_zero(unwrap(val)));
@@ -1032,7 +1055,7 @@ namespace muu
 
 	/// \brief	Counts the number of consecutive 0 bits, starting from the right.
 	///
-	/// \tparam	T		An unsigned integral or enum type.
+	/// \tparam	T		An unsigned integer or enum type.
 	/// \param 	val		The input value.
 	///
 	/// \returns	The number of consecutive zeros from the right end of an integer's bits.
@@ -1043,7 +1066,7 @@ namespace muu
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ATTR_CLANG(flatten)
-	constexpr int countr_zero(T val) noexcept
+	constexpr int MUU_VECTORCALL countr_zero(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
 			return static_cast<T>(countr_zero(unwrap(val)));
@@ -1084,7 +1107,7 @@ namespace muu
 
 	/// \brief	Finds the smallest integral power of two not less than the given value.
 	///
-	/// \tparam	T		An unsigned integral or enum type.
+	/// \tparam	T		An unsigned integer or enum type.
 	/// \param 	val		The input value.
 	///
 	/// \returns	The smallest integral power of two that is not smaller than `val`.
@@ -1095,7 +1118,7 @@ namespace muu
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ATTR_CLANG(flatten)
-	constexpr T bit_ceil(T val) noexcept
+	constexpr T MUU_VECTORCALL bit_ceil(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
 			return static_cast<T>(bit_ceil(unwrap(val)));
@@ -1113,10 +1136,10 @@ namespace muu
 	/// assert(val == 0xAABBCCDD_u32);
 	/// \ecpp
 	/// 
-	/// \tparam	Return	An unsigned integral or enum type, or leave as `void` to choose based on the total size of the inputs.
-	/// \tparam	T	  	An unsigned integral or enum type.
-	/// \tparam	U	  	An unsigned integral or enum type.
-	/// \tparam	V	  	Unsigned integral or enum types.
+	/// \tparam	Return	An unsigned integer or enum type, or leave as `void` to choose based on the total size of the inputs.
+	/// \tparam	T	  	An unsigned integer or enum type.
+	/// \tparam	U	  	An unsigned integer or enum type.
+	/// \tparam	V	  	Unsigned integer or enum types.
 	/// \param 	val1	The left-most value to be packed.
 	/// \param 	val2	The second-left-most value to be packed.
 	/// \param 	vals	Any remaining values to be packed.
@@ -1169,7 +1192,7 @@ namespace muu
 
 	/// \brief	Finds the largest integral power of two not greater than the given value.
 	///
-	/// \tparam	T		An unsigned integral or enum type.
+	/// \tparam	T		An unsigned integer or enum type.
 	/// \param 	val		The input value.
 	///
 	/// \returns	Zero if `val` is zero; otherwise, the largest integral power of two that is not greater than `val`.
@@ -1180,7 +1203,7 @@ namespace muu
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ATTR_CLANG(flatten)
-	constexpr T bit_floor(T val) noexcept
+	constexpr T MUU_VECTORCALL bit_floor(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
 			return static_cast<T>(bit_floor(unwrap(val)));
@@ -1194,7 +1217,7 @@ namespace muu
 
 	/// \brief	Finds the smallest number of bits needed to represent the given value.
 	///
-	/// \tparam	T		An unsigned integral or enum type.
+	/// \tparam	T		An unsigned integer or enum type.
 	/// \param 	val		The input value.
 	///
 	/// \returns	If `val` is not zero, calculates the number of bits needed to store `val` (i.e. `1 + log2(x)`).
@@ -1206,7 +1229,7 @@ namespace muu
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ATTR_CLANG(flatten)
-	constexpr T bit_width(T val) noexcept
+	constexpr T MUU_VECTORCALL bit_width(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
 			return static_cast<T>(bit_width(unwrap(val)));
@@ -1222,7 +1245,7 @@ namespace muu
 	/// assert(val1 == val2);
 	///  \ecpp
 	///  
-	/// \tparam	T		An unsigned integral type.
+	/// \tparam	T		An unsigned integer type.
 	/// \param 	count	Number of consecutive ones.
 	///
 	/// \returns	An instance of T right-filled with the desired number of ones.
@@ -1230,7 +1253,7 @@ namespace muu
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ATTR_CLANG(flatten)
-	constexpr T bit_fill_right(size_t count) noexcept
+	constexpr T MUU_VECTORCALL bit_fill_right(size_t count) noexcept
 	{
 		if constexpr (is_enum<T>)
 			return T{ bit_fill_right<remove_enum<remove_cvref<T>>>(count) };
@@ -1252,7 +1275,7 @@ namespace muu
 	/// assert(val1 == val2);
 	///  \ecpp
 	///  
-	/// \tparam	T		An unsigned integral type.
+	/// \tparam	T		An unsigned integer type.
 	/// \param 	count	Number of consecutive ones.
 	///
 	/// \returns	An instance of T left-filled with the desired number of ones.
@@ -1260,7 +1283,7 @@ namespace muu
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ATTR_CLANG(flatten)
-	constexpr T bit_fill_left(size_t count) noexcept
+	constexpr T MUU_VECTORCALL bit_fill_left(size_t count) noexcept
 	{
 		if constexpr (is_enum<T>)
 			return T{ bit_fill_left<remove_enum<remove_cvref<T>>>(count) };
@@ -1274,7 +1297,160 @@ namespace muu
 		}
 	}
 
-	MUU_POP_WARNINGS // gcc 'may change sign' spam
+	namespace impl
+	{
+		template <size_t> struct popcount_traits;
+
+		template <>
+		struct popcount_traits<8>
+		{
+			static constexpr uint8_t m1 =  0x55_u8;
+			static constexpr uint8_t m2 =  0x33_u8;
+			static constexpr uint8_t m4 =  0x0f_u8;
+			static constexpr uint8_t h01 = 0x01_u8;
+			static constexpr int rsh = 0;
+		};
+
+		template <>
+		struct popcount_traits<16>
+		{
+			static constexpr uint16_t m1 =  0x5555_u16;
+			static constexpr uint16_t m2 =  0x3333_u16;
+			static constexpr uint16_t m4 =  0x0f0f_u16;
+			static constexpr uint16_t h01 = 0x0101_u16;
+			static constexpr int rsh = 8;
+		};
+
+		template <>
+		struct popcount_traits<32>
+		{
+			static constexpr uint32_t m1 =  0x55555555_u32;
+			static constexpr uint32_t m2 =  0x33333333_u32;
+			static constexpr uint32_t m4 =  0x0f0f0f0f_u32;
+			static constexpr uint32_t h01 = 0x01010101_u32;
+			static constexpr int rsh = 24;
+		};
+
+		template <>
+		struct popcount_traits<64>
+		{
+			static constexpr uint64_t m1 =  0x5555555555555555_u64;
+			static constexpr uint64_t m2 =  0x3333333333333333_u64;
+			static constexpr uint64_t m4 =  0x0f0f0f0f0f0f0f0f_u64;
+			static constexpr uint64_t h01 = 0x0101010101010101_u64;
+			static constexpr int rsh = 56;
+		};
+
+		#if MUU_HAS_INT128
+
+		template <>
+		struct popcount_traits<128>
+		{
+			static constexpr uint128_t m1 =  pack(0x5555555555555555_u64, 0x5555555555555555_u64);
+			static constexpr uint128_t m2 =  pack(0x3333333333333333_u64, 0x3333333333333333_u64);
+			static constexpr uint128_t m4 =  pack(0x0f0f0f0f0f0f0f0f_u64, 0x0f0f0f0f0f0f0f0f_u64);
+			static constexpr uint128_t h01 = pack(0x0101010101010101_u64, 0x0101010101010101_u64);
+			static constexpr int rsh = 120;
+		};
+
+		#endif
+
+		template <typename T>
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
+		constexpr int MUU_VECTORCALL popcount_native(T val) noexcept
+		{
+			using pt = popcount_traits<sizeof(T) * CHAR_BIT>;
+			val -= ((val >> 1) & pt::m1);
+			val = (val & pt::m2) + ((val >> 2) & pt::m2);
+			return static_cast<T>(((val + (val >> 4)) & pt::m4) * pt::h01) >> pt::rsh;
+		}
+
+		template <typename T>
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
+		int MUU_VECTORCALL popcount_intrinsic(T val) noexcept
+		{
+			#if MUU_GCC || MUU_CLANG
+			{
+				if constexpr (std::is_same_v<T, unsigned int>)
+					return __builtin_popcount(val);
+				else if constexpr (std::is_same_v<T, unsigned long>)
+					return __builtin_popcountl(val);
+				else if constexpr (std::is_same_v<T, unsigned long long>)
+					return __builtin_popcountll(val);
+				else if constexpr (sizeof(T) <= sizeof(unsigned int))
+					return __builtin_popcount(static_cast<unsigned int>(val));
+				#if MUU_HAS_INT128
+				else if constexpr (std::is_same_v<T, uint128_t>)
+					return __builtin_popcountll(static_cast<unsigned long long>(val >> 64))
+						+ __builtin_popcountll(static_cast<unsigned long long>(val));
+				#endif
+				else
+					static_assert(dependent_false<T>, "Unsupported integer type");
+			}
+			#elif MUU_MSVC
+			{
+				if constexpr (sizeof(T) == sizeof(unsigned int))
+					return __popcnt(static_cast<unsigned int>(val));
+				else if constexpr (sizeof(T) <= sizeof(unsigned short))
+				{
+					#if MUU_MSVC >= 1928 // VS 16.8
+						return __popcnt16(static_cast<unsigned short>(val));
+					#else
+						return popcount_native(val);
+					#endif
+				}
+				else if constexpr (std::is_same_v<T, unsigned __int64>)
+				{
+					#if MUU_MSVC >= 1928 // VS 16.8
+						return __popcnt64(static_cast<unsigned __int64>(val));
+					#else
+						return __popcnt(static_cast<unsigned int>(val >> 32))
+							+ __popcnt(static_cast<unsigned int>(val));
+					#endif
+				}
+				else
+					static_assert(dependent_false<T>, "Unsupported integer type");
+			}
+			#endif
+		}
+	}
+
+	/// \brief	Counts the number of set bits (the 'population count') of an unsigned integer.
+	///
+	/// \tparam	T		An unsigned integer or enum type.
+	/// \param 	val		The input value.
+	///
+	/// \returns	The number of bits that were set to `1` in `val`.
+	/// 
+	/// \remarks This is equivalent to C++20's std::popcount, with the addition of also being
+	/// 		 extended to work with enum types.
+	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR_CLANG(flatten)
+	constexpr int MUU_VECTORCALL popcount(T val) noexcept
+	{
+		if constexpr (is_enum<T>)
+			return popcount(unwrap(val));
+		else
+		{
+			if constexpr (!build::supports_is_constant_evaluated)
+				return impl::popcount_native(val);
+			else
+			{
+				if (is_constant_evaluated())
+					return impl::popcount_native(val);
+				else
+					return impl::popcount_intrinsic(val);
+			}
+		}
+	}
+
+	MUU_POP_WARNINGS // MUU_DISABLE_ARITHMETIC_WARNINGS
 
 	namespace impl
 	{
@@ -1388,7 +1564,7 @@ namespace muu
 	template <typename T>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
-	constexpr bool MUU_VECTORCALL is_between(T val, T min_, T max_) noexcept
+	constexpr bool MUU_VECTORCALL between(T val, T min_, T max_) noexcept
 	{
 		return min_ <= val && val <= max_;
 	}
@@ -1720,7 +1896,7 @@ namespace muu
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
-	constexpr bool MUU_VECTORCALL is_infinity_or_nan(T val) noexcept
+	constexpr bool MUU_VECTORCALL infinity_or_nan(T val) noexcept
 	{
 		if constexpr (is_floating_point<T>)
 		{
@@ -1780,7 +1956,7 @@ namespace muu
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
 	MUU_ATTR_CLANG(flatten)
-	constexpr T byte_reverse(T) noexcept;
+	constexpr T MUU_VECTORCALL byte_reverse(T) noexcept;
 
 	#endif
 
@@ -1790,7 +1966,7 @@ namespace muu
 		[[nodiscard]]
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
-		T byte_reverse_intrinsic(T val) noexcept
+		T MUU_VECTORCALL byte_reverse_intrinsic(T val) noexcept
 		{
 			#if MUU_GCC || MUU_CLANG
 			{
@@ -1827,7 +2003,7 @@ namespace muu
 		[[nodiscard]]
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
-		constexpr T byte_reverse_native(T val) noexcept
+		constexpr T MUU_VECTORCALL byte_reverse_native(T val) noexcept
 		{
 			if constexpr (sizeof(T) == sizeof(uint16_t))
 			{
@@ -1888,7 +2064,7 @@ namespace muu
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
 	MUU_ATTR_CLANG(flatten)
-	constexpr T byte_reverse(T val) noexcept
+	constexpr T MUU_VECTORCALL byte_reverse(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
 			return static_cast<T>(byte_reverse(unwrap(val)));

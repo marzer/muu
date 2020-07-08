@@ -39,7 +39,7 @@ namespace muu::impl
 }
 
 MUU_PUSH_WARNINGS
-MUU_DISABLE_FLOAT_WARNINGS
+MUU_DISABLE_ARITHMETIC_WARNINGS
 
 namespace muu
 {
@@ -198,7 +198,7 @@ namespace muu
 		/// \brief	Returns true if the value of a float16 is infinity or NaN.
 		[[nodiscard]]
 		MUU_ALWAYS_INLINE
-		constexpr bool is_infinity_or_nan() const noexcept
+		constexpr bool infinity_or_nan() const noexcept
 		{
 			return (0b0111110000000000_u16 & bits) == 0b0111110000000000_u16;
 		}
@@ -525,9 +525,9 @@ namespace muu
 
 	template <>
 	[[nodiscard]]
-	constexpr bool MUU_VECTORCALL is_infinity_or_nan<float16, void>(float16 val) noexcept
+	constexpr bool MUU_VECTORCALL infinity_or_nan<float16, void>(float16 val) noexcept
 	{
-		return val.is_infinity_or_nan();
+		return val.infinity_or_nan();
 	}
 
 	template <>
@@ -829,6 +829,6 @@ namespace std
 	template <> struct numeric_limits<const volatile ::muu::float16> : numeric_limits<::muu::float16> {};
 }
 
-MUU_POP_WARNINGS // MUU_DISABLE_FLOAT_WARNINGS
+MUU_POP_WARNINGS // MUU_DISABLE_ARITHMETIC_WARNINGS
 
 #undef MUU_F16_USE_INTRINSICS

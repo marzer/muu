@@ -69,9 +69,9 @@ namespace muu
 				noexcept(noexcept(impl.start(sample)) && noexcept(impl.add(sample)))
 			{
 				if constexpr (is_floating_point<value_type>)
-					MUU_ASSERT(!is_infinity_or_nan(sample));
+					MUU_ASSERT(!infinity_or_nan(sample));
 
-				if (!count++)
+				if MUU_UNLIKELY(!count++)
 					impl.start(sample);
 				else
 					impl.add(sample);

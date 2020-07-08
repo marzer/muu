@@ -4,7 +4,7 @@
 #include "float_test_data.h"
 
 MUU_PUSH_WARNINGS
-MUU_DISABLE_FLOAT_WARNINGS
+MUU_DISABLE_ARITHMETIC_WARNINGS
 
 template <typename T>
 static void test_float_accumulator() noexcept
@@ -77,4 +77,4 @@ TEST_CASE("accumulator - integers")
 	CHECK(accum.value() == raw_sum);
 }
 
-MUU_POP_WARNINGS // MUU_DISABLE_FLOAT_WARNINGS
+MUU_POP_WARNINGS // MUU_DISABLE_ARITHMETIC_WARNINGS

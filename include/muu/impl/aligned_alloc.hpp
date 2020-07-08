@@ -90,7 +90,7 @@ namespace muu
 		);
 		const auto new_actual_size = data.actual_alignment
 			+ ((new_size + data.actual_alignment - 1_sz) & ~(data.actual_alignment - 1_sz));
-		if (is_between(new_actual_size, data.actual_size / 2_sz, data.actual_size))
+		if (between(new_actual_size, data.actual_size / 2_sz, data.actual_size))
 			return ptr;
 		
 		#if MUU_MSVC

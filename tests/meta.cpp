@@ -1,6 +1,9 @@
 #include "tests.h"
 #include "../include/muu/core.h"
 
+MUU_PUSH_WARNINGS
+MUU_DISABLE_PADDING_WARNINGS
+
 //=====================================================================================================================
 // these are all the public metafunctions and type traits in core.h (ideally in the order they appear)
 //=====================================================================================================================
@@ -844,3 +847,5 @@ static_assert(std::is_same_v<make_unsigned<long>, unsigned long>);
 static_assert(std::is_same_v<make_unsigned<unsigned long>, unsigned long>);
 static_assert(std::is_same_v<make_unsigned<long long>, unsigned long long>);
 static_assert(std::is_same_v<make_unsigned<unsigned long long>, unsigned long long>);
+
+MUU_POP_WARNINGS // MUU_DISABLE_PADDING_WARNINGS

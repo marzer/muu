@@ -55,9 +55,9 @@ namespace muu::impl
 			else
 			{
 				MUU_ASSERT(
-				(!ptr || bit_floor(pointer_cast<uintptr_t>(ptr)) >= MinAlign)
+					(!ptr || bit_floor(pointer_cast<uintptr_t>(ptr)) >= MinAlign)
 					&& "The pointer's address is more strictly aligned than MinAlign"
-					);
+				);
 
 				if constexpr (is_unsigned<T>)
 				{
@@ -80,7 +80,6 @@ namespace muu::impl
 		}
 
 		[[nodiscard]]
-		MUU_ALWAYS_INLINE
 		static constexpr uintptr_t set_ptr(uintptr_t bits, const volatile void* ptr) noexcept
 		{
 			return pack_ptr(ptr) | (bits & tag_mask);
@@ -88,7 +87,6 @@ namespace muu::impl
 
 		template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
 		[[nodiscard]]
-		MUU_ALWAYS_INLINE
 		static constexpr uintptr_t set_tag(uintptr_t bits, T tag) noexcept
 		{
 			if constexpr (is_enum<T>)
@@ -118,10 +116,26 @@ namespace muu::impl
 		}
 
 		[[nodiscard]]
-		MUU_ALWAYS_INLINE
 		static constexpr uintptr_t get_tag(uintptr_t bits) noexcept
 		{
 			return bits & tag_mask;
+		}
+
+		[[nodiscard]]
+		static constexpr bool get_tag_bit(uintptr_t bits, size_t index) noexcept
+		{
+			MUU_ASSERT(index < tag_bits && "Tag bit index out-of-bounds");
+			return bits & (uintptr_t{1} << index);
+		}
+
+		[[nodiscard]]
+		static constexpr uintptr_t set_tag_bit(uintptr_t bits, size_t index, bool state) noexcept
+		{
+			MUU_ASSERT(index < tag_bits && "Tag bit index out-of-bounds");
+			if (state)
+				return bits | (uintptr_t{ 1 } << index);
+			else
+				return bits & (~(uintptr_t{ 1 } << index));
 		}
 
 		template <typename T>
@@ -372,7 +386,8 @@ namespace muu
 			/// \brief	Returns the target pointer value.
 			/// 
 			/// \remarks This is an alias for ptr(); it exists to keep the interface consistent with std::unique_ptr.
-			[[nodiscard]] MUU_ALWAYS_INLINE
+			[[nodiscard]]
+			MUU_ALWAYS_INLINE
 			constexpr pointer get() const noexcept
 			{
 				return ptr();
@@ -434,6 +449,29 @@ namespace muu
 				return *this;
 			}
 
+			/// \brief	Returns the value of one of the tag bits.
+			[[nodiscard]]
+			constexpr bool tag_bit(size_t tag_bit_index) const noexcept
+			{
+				return tptr::get_tag_bit(bits, tag_bit_index);
+			}
+
+			/// \brief	Sets the value of one of the tag bits.
+			///
+			/// \param	tag_bit_index	Zero-based index of the tag bit.
+			/// \param	val		   		The bit state to set.
+			///
+			/// \returns	A reference to the tagged_ptr.
+			/// 
+			/// \warning Using the pointer's tag to store a small POD type is generally incompatible with setting
+			/// 		 individual tag bits, as one is likely to render the other meaningless. Mix methodologies with
+			/// 		 caution!
+			constexpr tagged_ptr& tag_bit(size_t tag_bit_index, bool val) noexcept
+			{
+				bits = tptr::set_tag_bit(bits, tag_bit_index, val);
+				return *this;
+			}
+
 			/// \brief	Sets the tag bits to zero, leaving the target pointer value unchanged.
 			///
 			/// \returns	A reference to the tagged_ptr.
@@ -445,14 +483,16 @@ namespace muu
 			}
 
 			/// \brief	Returns the target pointer value.
-			[[nodiscard]] MUU_ALWAYS_INLINE
+			[[nodiscard]]
+			MUU_ALWAYS_INLINE
 			explicit constexpr operator pointer () const noexcept
 			{
 				return ptr();
 			}
 
 			/// \brief	Returns true if the target pointer value is not nullptr.
-			[[nodiscard]] MUU_ALWAYS_INLINE
+			[[nodiscard]]
+			MUU_ALWAYS_INLINE
 			explicit constexpr operator bool() const noexcept
 			{
 				return bits & tptr::ptr_mask;
@@ -465,7 +505,8 @@ namespace muu
 				!std::is_void_v<U>
 				&& !std::is_function_v<U>
 			>>
-			[[nodiscard]] MUU_ALWAYS_INLINE
+			[[nodiscard]]
+			MUU_ALWAYS_INLINE
 			constexpr U& operator * () const noexcept
 			{
 				return *ptr();
@@ -478,7 +519,8 @@ namespace muu
 				!std::is_void_v<U>
 				&& !std::is_function_v<U>
 			>>
-			[[nodiscard]] MUU_ALWAYS_INLINE
+			[[nodiscard]]
+			MUU_ALWAYS_INLINE
 			constexpr pointer operator -> () const noexcept
 			{
 				return ptr();
@@ -530,14 +572,16 @@ namespace muu
 			}
 
 			/// \brief	Returns true if two tagged_ptrs are equal (including their tag bits).
-			[[nodiscard]] MUU_ALWAYS_INLINE
+			[[nodiscard]]
+			MUU_ALWAYS_INLINE
 			friend constexpr bool operator == (tagged_ptr lhs, tagged_ptr rhs) noexcept
 			{
 				return lhs.bits == rhs.bits;
 			}
 
 			/// \brief	Returns true if two tagged_ptrs are not equal (including their tag bits).
-			[[nodiscard]] MUU_ALWAYS_INLINE
+			[[nodiscard]]
+			MUU_ALWAYS_INLINE
 			friend constexpr bool operator != (tagged_ptr lhs, tagged_ptr rhs) noexcept
 			{
 				return lhs.bits != rhs.bits;
