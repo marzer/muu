@@ -183,7 +183,7 @@ C++</span></a>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga96965362141a0033ee6aae1a68d8b30f">MUU_LIKELY</a>(</span><span class="m-doc-wrap">...)</span>
             </dt>
-            <dd>Expands to an optimizer intrinsic meant to indicate that an if/else conditional is the likely path.</dd>
+            <dd>Expands a conditional to include an optimizer intrinsic (or C++20's [[likely]], if available) indicating that an if/else conditional is the likely path.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga94d4f95aab666decfb7e1aac26d82f45">MUU_LITTLE_ENDIAN</a></span>
             </dt>
@@ -195,7 +195,7 @@ C++</span></a>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga5245729e8f732ddf7aa770ddc7fdd822">MUU_MAKE_STRING_VIEW</a>(</span><span class="m-doc-wrap">S)</span>
             </dt>
-            <dd>Stringifies the input, converting it verbatim into a string view literal.</dd>
+            <dd>Stringifies the input, converting it verbatim into a raw string view literal.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gacf33ca59cc4d469b40b34ea471a0f57d">MUU_MSVC</a></span>
             </dt>
@@ -251,7 +251,7 @@ C++</span></a>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga69620e1889e6b7ff936d34210ecf9bf5">MUU_UNLIKELY</a>(</span><span class="m-doc-wrap">...)</span>
             </dt>
-            <dd>Expands to an optimizer intrinsic meant to indicate that an if/else conditional is the unlikely path.</dd>
+            <dd>Expands a conditional to include an optimizer intrinsic (or C++20's [[unlikely]], if available) indicating that an if/else conditional is the unlikely path.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga5180303025bb345be8bf831f1e84abed">MUU_UNREACHABLE</a></span>
             </dt>
@@ -486,11 +486,11 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga96965362141a0033ee6aae1a68d8b30f">MUU_LIKELY</a>(</span><span class="m-doc-wrap">...)</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>Expands to an optimizer intrinsic meant to indicate that an if/else conditional is the likely path.</p>
+            <p>Expands a conditional to include an optimizer intrinsic (or C++20's [[likely]], if available) indicating that an if/else conditional is the likely path.</p>
 <pre class="m-code"><span class="k">if</span> <span class="nf">MUU_LIKELY</span><span class="p">(</span><span class="n">condition_that_is_almost_always_true</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">do_the_thing</span><span class="p">();</span>
-<span class="p">}</span></pre>
+<span class="p">}</span></pre><aside class="m-note m-default"><h4>See also</h4><ul><li><a class="muu-external" href="https://en.cppreference.com/w/cpp/language/attributes/likely" target="_blank">[[likely]]</a></li><li><a class="muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html" target="_blank">_<wbr/>_<wbr/>builtin_<wbr/>expect()</a></li></ul></aside>
           </div></section>
           <section class="m-doc-details" id="ga94d4f95aab666decfb7e1aac26d82f45"><div>
             <h3>
@@ -507,17 +507,17 @@ C++</span></a>
             <p>Stringifies the input, converting it verbatim into a raw string literal.</p>
 <pre class="m-code"><span class="c1">// these are equivalent:</span>
 <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">str1</span> <span class="o">=</span> <span class="n">MUU_MAKE_STRING</span><span class="p">(</span><span class="s">"It's trap!"</span> <span class="n">the</span> <span class="n">admiral</span> <span class="n">cried</span><span class="p">.);</span>
-<span class="k">constexpr</span> <span class="k">auto</span> <span class="n">str2</span> <span class="o">=</span> <span class="s">"</span><span class="se">\"</span><span class="s">It's trap!</span><span class="se">\"</span><span class="s"> the admiral cried."</span><span class="p">;</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="https://en.cppreference.com/w/cpp/language/string_literal" target="_blank">String literals in C++</a></p></aside>
+<span class="k">constexpr</span> <span class="k">auto</span> <span class="n">str2</span> <span class="o">=</span> <span class="sa">R</span><span class="s">"</span><span class="dl">(</span><span class="s">"It's trap!" the admiral cried.</span><span class="dl">)</span><span class="s">"</span><span class="p">;</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="https://en.cppreference.com/w/cpp/language/string_literal" target="_blank">String literals in C++</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga5245729e8f732ddf7aa770ddc7fdd822"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga5245729e8f732ddf7aa770ddc7fdd822">MUU_MAKE_STRING_VIEW</a>(</span><span class="m-doc-wrap">S)</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>Stringifies the input, converting it verbatim into a string view literal.</p>
+            <p>Stringifies the input, converting it verbatim into a raw string view literal.</p>
 <pre class="m-code"><span class="c1">// these are equivalent:</span>
 <span class="k">constexpr</span> <span class="ns">std::</span><span class="ut">string_view</span> <span class="n">str1</span> <span class="o">=</span> <span class="n">MUU_MAKE_STRING_VIEW</span><span class="p">(</span><span class="s">"It's trap!"</span> <span class="n">the</span> <span class="n">admiral</span> <span class="n">cried</span><span class="p">.);</span>
-<span class="k">constexpr</span> <span class="ns">std::</span><span class="ut">string_view</span> <span class="n">str2</span> <span class="o">=</span> <span class="s">"</span><span class="se">\"</span><span class="s">It's trap!</span><span class="se">\"</span><span class="s"> the admiral cried."</span><span class="sa">sv</span><span class="p">;</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="https://en.cppreference.com/w/cpp/language/string_literal" target="_blank">String literals in C++</a></p></aside>
+<span class="k">constexpr</span> <span class="ns">std::</span><span class="ut">string_view</span> <span class="n">str2</span> <span class="o">=</span> <span class="sa">R</span><span class="s">"</span><span class="dl">(</span><span class="s">"It's trap!" the admiral cried.</span><span class="dl">)</span><span class="s">"</span><span class="sa">sv</span><span class="p">;</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="https://en.cppreference.com/w/cpp/language/string_literal" target="_blank">String literals in C++</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="gacf33ca59cc4d469b40b34ea471a0f57d"><div>
             <h3>
@@ -594,7 +594,7 @@ C++</span></a>
 
 <span class="ut">int</span> <span class="nf">whoops</span><span class="p">()</span> <span class="k">noexcept</span>
 <span class="p">{</span>
-    <span class="n">raii_lock</span><span class="p">{};</span> <span class="c1">// whoops! forgot to give a name; would be destroyed immediately.</span>
+    <span class="n">raii_lock</span><span class="p">{};</span> <span class="c1">// oh noes! forgot to give a name; would be destroyed immediately.</span>
                  <span class="c1">// MUU_NODISCARD_CTOR makes the compiler emit a warning here.</span>
 
     <span class="n">something_that_requires_the_lock</span><span class="p">();</span>
@@ -687,11 +687,11 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga69620e1889e6b7ff936d34210ecf9bf5">MUU_UNLIKELY</a>(</span><span class="m-doc-wrap">...)</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>Expands to an optimizer intrinsic meant to indicate that an if/else conditional is the unlikely path.</p>
+            <p>Expands a conditional to include an optimizer intrinsic (or C++20's [[unlikely]], if available) indicating that an if/else conditional is the unlikely path.</p>
 <pre class="m-code"><span class="k">if</span> <span class="nf">MUU_UNLIKELY</span><span class="p">(</span><span class="n">condition_that_is_almost_always_false</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">do_the_thing</span><span class="p">();</span>
-<span class="p">}</span></pre>
+<span class="p">}</span></pre><aside class="m-note m-default"><h4>See also</h4><ul><li><a class="muu-external" href="https://en.cppreference.com/w/cpp/language/attributes/likely" target="_blank">[[likely]]</a></li><li><a class="muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html" target="_blank">_<wbr/>_<wbr/>builtin_<wbr/>expect()</a></li></ul></aside>
           </div></section>
           <section class="m-doc-details" id="ga5180303025bb345be8bf831f1e84abed"><div>
             <h3>

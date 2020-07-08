@@ -182,6 +182,10 @@ C++</span></a>
             </dt>
             <dd>Adds const to the pointed-to type of a pointer, correctly handling pointers-to-void.</dd>
             <dt>
+              using <a class="m-doc" href="#af8e0aa5a37ec05e07c7b69077de9303c">int128_t</a> = __int128_t
+            </dt>
+            <dd>An alias for a signed 128-bit integer.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga08897f2a98f81f54e88d634e9a755476">largest</a> = typename impl::largest&lt;T...&gt;::type
             </dt>
@@ -276,6 +280,10 @@ C++</span></a>
               using <a class="m-doc" href="group__meta.html#ga605deffbc895ea863586315ad73e9547">smallest</a> = typename impl::smallest&lt;T...&gt;::type
             </dt>
             <dd>The smallest type from a set of types.</dd>
+            <dt>
+              using <a class="m-doc" href="#aa82164a62949a1b029695dff5441d577">uint128_t</a> = __uint128_t
+            </dt>
+            <dd>An alias for an unsigned 128-bit integer.</dd>
           </dl>
         </section>
         <section id="func-members">
@@ -306,6 +314,13 @@ C++</span></a>
               ptrdiff_t offset) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Applies a byte offset to a pointer.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gaa5a1669fa4064c0583eb5140b359aa1b">between</a>(</span><span class="m-doc-wrap">T val,
+              T min_,
+              T max_) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a value is between two bounds (inclusive).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename To, typename From&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gaadb4c6332c738c248f84f43ece303657">bit_cast</a>(</span><span class="m-doc-wrap">const From&amp; from) -&gt; To <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -369,21 +384,14 @@ C++</span></a>
             </dt>
             <dd>Checks if an integral value has only a single bit set.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga6ca164dd9768ded7a96085c0be31e81e">is_between</a>(</span><span class="m-doc-wrap">T val,
-              T min_,
-              T max_) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_arithmetic&lt;T">...</a><span>is_arithmetic&lt;T</span></span>&gt;&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gadb8593f07bab330eaca2690b3801876b">infinity_or_nan</a>(</span><span class="m-doc-wrap">T val) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if a value is between two bounds (inclusive).</dd>
+            <dd>Checks if an arithmetic value is infinity or NaN.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga8a9b0aaf9860b30f93639333a5214d34">is_constant_evaluated</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a>.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_arithmetic&lt;T">...</a><span>is_arithmetic&lt;T</span></span>&gt;&gt;&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga01db0943171e7dcd3d89fc9dd1c8072d">is_infinity_or_nan</a>(</span><span class="m-doc-wrap">T val) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Checks if an arithmetic value is infinity or NaN.</dd>
             <dt>
               <div class="m-doc-template">template&lt;class T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga863d5b4b9a2c6508fded78b6cc411a24">launder</a>(</span><span class="m-doc-wrap">T* p) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -457,6 +465,11 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gab714a50e01b58e7d4117d5ef9d403d39">pointer_cast</a>(</span><span class="m-doc-wrap">From from) -&gt; To <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Casts between pointers, choosing the most appropriate conversion path.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_unsigned&lt;T">...</a><span>is_unsigned&lt;T</span></span>&gt;&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga140c7a57f0e4f8968de73fb5f6580b4d">popcount</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Counts the number of set bits (the 'population count') of an unsigned integer.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_enum&lt;T">...</a><span>is_enum&lt;T</span></span>&gt;&gt;&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga6aa05b68e530495f18bd77be7fa0c243">unwrap</a>(</span><span class="m-doc-wrap">T val) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -584,6 +597,25 @@ C++</span></a>
             </dt>
             <dd>Returns the sum of <code>sizeof()</code> for all of the types named by T.</dd>
           </dl>
+        </section>
+        <section>
+          <h2>Typedef documentation</h2>
+          <section class="m-doc-details" id="af8e0aa5a37ec05e07c7b69077de9303c"><div>
+            <h3>
+              using muu::<wbr/><a class="m-doc-self" href="#af8e0aa5a37ec05e07c7b69077de9303c">int128_t</a> = __int128_t
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>An alias for a signed 128-bit integer.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This typedef is only present when 128-bit integers are supported by your compiler.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="aa82164a62949a1b029695dff5441d577"><div>
+            <h3>
+              using muu::<wbr/><a class="m-doc-self" href="#aa82164a62949a1b029695dff5441d577">uint128_t</a> = __uint128_t
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>An alias for an unsigned 128-bit integer.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This typedef is only present when 128-bit integers are supported by your compiler.</p></aside>
+          </div></section>
         </section>
       </div>
     </div>

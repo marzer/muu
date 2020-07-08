@@ -241,6 +241,15 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ade6fb2dc58316208c6b2091a8dc9ebe0">tag</a>(</span><span class="m-doc-wrap">const U&amp; tag_) -&gt; <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Sets the tag bits, leaving the target pointer value unchanged.</dd>
+            <dt id="ac4b316ed78f483aa31b9d8cb917681bd">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac4b316ed78f483aa31b9d8cb917681bd">tag_bit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> tag_bit_index) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the value of one of the tag bits.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aea3e98b1f44b9c854439fd8a49a3f473">tag_bit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> tag_bit_index,
+              bool val) -&gt; <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Sets the value of one of the tag bits.</dd>
           </dl>
         </section>
         <section id="friends">
@@ -603,6 +612,37 @@ C++</span></a>
               </tfoot>
             </table>
 <aside class="m-note m-danger"><h4>Warning</h4><p>If the tag parameter is an integer larger than the available tag bits, any overflow will be masked out and ignored.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="aea3e98b1f44b9c854439fd8a49a3f473"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> MinAlign&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, MinAlign&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aea3e98b1f44b9c854439fd8a49a3f473">tag_bit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> tag_bit_index,
+              bool val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Sets the value of one of the tag bits.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">tag_bit_index</td>
+                  <td>Zero-based index of the tag bit.</td>
+                </tr>
+                <tr>
+                  <td>val</td>
+                  <td>The bit state to set.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A reference to the <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-danger"><h4>Warning</h4><p>Using the pointer's tag to store a small POD type is generally incompatible with setting individual tag bits, as one is likely to render the other meaningless. Mix methodologies with caution!</p></aside>
           </div></section>
         </section>
       </div>

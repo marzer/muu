@@ -184,7 +184,7 @@ C++</span></a>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga96965362141a0033ee6aae1a68d8b30f">MUU_LIKELY</a>(</span><span class="m-doc-wrap">...)</span>
             </dt>
-            <dd>Expands to an optimizer intrinsic meant to indicate that an if/else conditional is the likely path.</dd>
+            <dd>Expands a conditional to include an optimizer intrinsic (or C++20's [[likely]], if available) indicating that an if/else conditional is the likely path.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga94d4f95aab666decfb7e1aac26d82f45">MUU_LITTLE_ENDIAN</a></span>
             </dt>
@@ -196,7 +196,7 @@ C++</span></a>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga5245729e8f732ddf7aa770ddc7fdd822">MUU_MAKE_STRING_VIEW</a>(</span><span class="m-doc-wrap">S)</span>
             </dt>
-            <dd>Stringifies the input, converting it verbatim into a string view literal.</dd>
+            <dd>Stringifies the input, converting it verbatim into a raw string view literal.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#gacf33ca59cc4d469b40b34ea471a0f57d">MUU_MSVC</a></span>
             </dt>
@@ -252,7 +252,7 @@ C++</span></a>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga69620e1889e6b7ff936d34210ecf9bf5">MUU_UNLIKELY</a>(</span><span class="m-doc-wrap">...)</span>
             </dt>
-            <dd>Expands to an optimizer intrinsic meant to indicate that an if/else conditional is the unlikely path.</dd>
+            <dd>Expands a conditional to include an optimizer intrinsic (or C++20's [[unlikely]], if available) indicating that an if/else conditional is the unlikely path.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga5180303025bb345be8bf831f1e84abed">MUU_UNREACHABLE</a></span>
             </dt>
