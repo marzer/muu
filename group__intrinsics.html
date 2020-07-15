@@ -133,7 +133,7 @@ C++</span></a>
             </dt>
             <dd>Finds the smallest number of bits needed to represent the given value.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename&gt;</div>
+              <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_unsigned&lt;T">...</a><span>is_unsigned&lt;T</span></span>&gt;&gt;&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gad2825a3940f7dbf287e8dd7f451663b3">byte_reverse</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Reverses the byte order of an unsigned integral type.</dd>
@@ -478,8 +478,7 @@ C++</span></a>
           <section class="m-doc-details" id="gad2825a3940f7dbf287e8dd7f451663b3"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T, typename&gt;
+              <div class="m-doc-template"> template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_unsigned&lt;T">...</a><span>is_unsigned&lt;T</span></span>&gt;&gt;&gt;
               </div>
               <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gad2825a3940f7dbf287e8dd7f451663b3">byte_reverse</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -710,6 +709,7 @@ C++</span></a>
                 </tr>
               </tfoot>
             </table>
+<aside class="m-note m-warning"><h4>Attention</h4><p>On older compilers lacking support for <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a> and std::bit_cast you won't be able to call this function in constexpr contexts. You can check for constexpr support by examining <a class="m-doc" href="namespacemuu_1_1build.html#ac2ed8c664a3937f1d6beca3916098ebd">build::<wbr/>supports_constexpr_infinity_or_nan</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga8a9b0aaf9860b30f93639333a5214d34"><div>
             <h3>
