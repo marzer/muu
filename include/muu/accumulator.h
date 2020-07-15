@@ -208,7 +208,7 @@ namespace muu::impl
 
 		MUU_PRAGMA_CLANG_LT(11, "clang optimize off")
 
-		MUU_ATTR_CLANG(flatten)
+		MUU_ATTR(flatten)
 		constexpr void MUU_VECTORCALL kahan_add(sum_type sample) noexcept
 		{
 			MUU_PRAGMA_CLANG_GE(11, "clang fp reassociate(off)")
@@ -225,7 +225,7 @@ namespace muu::impl
 		MUU_PRAGMA_CLANG_LT(11, "clang optimize on")
 
 		MUU_ALWAYS_INLINE
-		MUU_ATTR_CLANG(flatten)
+		MUU_ATTR(flatten)
 		constexpr void MUU_VECTORCALL add(value_type sample) noexcept
 		{
 			kahan_add(static_cast<sum_type>(sample));

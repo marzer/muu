@@ -107,11 +107,11 @@
     <None Include="..\docs\pages\main_page.dox">
       <Filter>docs\pages</Filter>
     </None>
-    <None Include="..\python\generate_float_test_data.py">
-      <Filter>python</Filter>
-    </None>
     <None Include="..\.gitattributes" />
     <None Include="..\.gitignore" />
+    <None Include="..\python\generate_float_tests_header.py">
+      <Filter>python</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">

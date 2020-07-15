@@ -525,6 +525,7 @@ namespace muu
 
 	template <>
 	[[nodiscard]]
+	MUU_ALWAYS_INLINE
 	constexpr bool MUU_VECTORCALL infinity_or_nan<float16, void>(float16 val) noexcept
 	{
 		return val.infinity_or_nan();
@@ -688,7 +689,7 @@ namespace muu::impl
 
 	[[nodiscard]]
 	MUU_ATTR(const)
-	MUU_ATTR_CLANG(flatten)
+	MUU_ATTR(flatten)
 	constexpr uint16_t MUU_VECTORCALL f32_to_f16(float val) noexcept
 	{
 		#if MUU_F16_USE_INTRINSICS
@@ -704,7 +705,7 @@ namespace muu::impl
 
 	[[nodiscard]]
 	MUU_ATTR(const)
-	MUU_ATTR_CLANG(flatten)
+	MUU_ATTR(flatten)
 	constexpr float MUU_VECTORCALL f16_to_f32(uint16_t val) noexcept
 	{
 		#if MUU_F16_USE_INTRINSICS

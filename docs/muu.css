@@ -128,6 +128,7 @@ pre.m-code + pre.m-console
 	margin-top: -1.0rem;
 	border-top: 1px solid #444444;
 	font-size: 0.8rem;
+	background-color: #1a1c1d !important;
 }
 pre.m-code + pre.m-console span
 {
@@ -202,7 +203,6 @@ pre.m-code .cp
 {
 	font-weight: normal;
 }
-
 
 /* user types and typedefs */
 pre.m-code .ut,

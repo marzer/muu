@@ -388,6 +388,43 @@ namespace muu::impl
 	#else
 		template <typename T> inline constexpr bool is_win32_iunknown = false;
 	#endif
+
+	// a lightweight drop-in substitute for std::array, because <array> drags in _a lot_ of cruft
+	// (see https://www.reddit.com/r/cpp/comments/eumou7/stl_header_token_parsing_benchmarks_for_vs2017/)
+	template <typename T, size_t N>
+	struct array
+	{
+		using value_type = T;
+		using size_type = size_t;
+		using difference_type = ptrdiff_t;
+		using reference = T&;
+		using const_reference = const T&;
+		using pointer = T*;
+		using const_pointer = const T*;
+		using iterator = pointer;
+		using const_iterator = const_pointer;
+
+		T values[N];
+
+		[[nodiscard]] MUU_ALWAYS_INLINE constexpr T& operator[](size_t pos) noexcept { return values[pos]; }
+		[[nodiscard]] MUU_ALWAYS_INLINE constexpr const T& operator[](size_t pos) const noexcept { return values[pos]; }
+		[[nodiscard]] MUU_ALWAYS_INLINE constexpr T* data() noexcept { return values; }
+		[[nodiscard]] MUU_ALWAYS_INLINE constexpr const T* data() const noexcept { return values; }
+		[[nodiscard]] MUU_ALWAYS_INLINE constexpr size_t size() const noexcept { return N; }
+		[[nodiscard]] MUU_ALWAYS_INLINE constexpr reference back() noexcept { return values[N - 1]; }
+		[[nodiscard]] MUU_ALWAYS_INLINE constexpr const_reference back() const noexcept { return values[N - 1]; }
+		[[nodiscard]] MUU_ALWAYS_INLINE constexpr reference front() noexcept { return values[0]; }
+		[[nodiscard]] MUU_ALWAYS_INLINE constexpr const_reference front() const noexcept { return values[0]; }
+		[[nodiscard]] MUU_ALWAYS_INLINE constexpr bool empty() const noexcept { return !N; }
+		[[nodiscard]] MUU_ALWAYS_INLINE constexpr iterator begin() noexcept { return values; }
+		[[nodiscard]] MUU_ALWAYS_INLINE constexpr const_iterator begin() const noexcept { return values; }
+		[[nodiscard]] MUU_ALWAYS_INLINE constexpr const_iterator cbegin() const noexcept { return values; }
+		[[nodiscard]] MUU_ALWAYS_INLINE constexpr iterator end() noexcept { return values + N; }
+		[[nodiscard]] MUU_ALWAYS_INLINE constexpr const_iterator end() const noexcept { return values + N; }
+		[[nodiscard]] MUU_ALWAYS_INLINE constexpr const_iterator cend() const noexcept { return values + N; }
+	};
+	template <typename... T>
+	array(T...) -> array<std::common_type_t<T...>, sizeof...(T)>;
 }
 
 namespace muu
@@ -674,6 +711,9 @@ namespace muu
 
 MUU_PRAGMA_MSVC(inline_recursion(on))
 
+MUU_PUSH_WARNINGS
+MUU_DISABLE_ARITHMETIC_WARNINGS
+
 namespace muu
 {
 	/// \brief Literal operators.
@@ -908,7 +948,7 @@ namespace muu
 	/// 		   You can check for support by examining build::supports_is_constant_evaluated.
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
-	MUU_ATTR_CLANG(flatten)
+	MUU_ATTR(flatten)
 	constexpr bool is_constant_evaluated() noexcept
 	{
 		#if MUU_CLANG >= 9		\
@@ -936,7 +976,7 @@ namespace muu
 	template <class T>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
-	MUU_ATTR_CLANG(flatten)
+	MUU_ATTR(flatten)
 	constexpr T* launder(T* p) noexcept
 	{
 		#if MUU_CLANG >= 7		\
@@ -970,35 +1010,11 @@ namespace muu
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
-	MUU_ATTR_CLANG(flatten)
+	MUU_ATTR(flatten)
 	constexpr decltype(auto) unwrap(T&& val) noexcept
 	{
 		return std::forward<T>(val);
 	}
-
-	/// \brief	Checks if an integral value has only a single bit set.
-	///
-	/// \tparam	T		An unsigned integer or enum type.
-	/// \param 	val		The value to test.
-	///
-	/// \returns	True if the input value had only a single bit set (and thus was a power of two).
-	/// 
-	/// \remarks This is equivalent to C++20's std::has_single_bit, with the addition of also being
-	/// 		 extended to work with enum types.
-	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
-	[[nodiscard]]
-	MUU_ATTR(const)
-	MUU_ATTR_CLANG(flatten)
-	constexpr bool MUU_VECTORCALL has_single_bit(T val) noexcept
-	{
-		if constexpr (is_enum<T>)
-			return has_single_bit(unwrap(val));
-		else
-			return val != T{} && (val & (val - T{ 1 })) == T{};
-	}
-
-	MUU_PUSH_WARNINGS
-	MUU_DISABLE_ARITHMETIC_WARNINGS
 
 	/// \brief	Counts the number of consecutive 0 bits, starting from the left.
 	///
@@ -1012,7 +1028,7 @@ namespace muu
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
 	[[nodiscard]]
 	MUU_ATTR(const)
-	MUU_ATTR_CLANG(flatten)
+	MUU_ATTR(flatten)
 	constexpr int MUU_VECTORCALL countl_zero(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -1065,7 +1081,7 @@ namespace muu
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
 	[[nodiscard]]
 	MUU_ATTR(const)
-	MUU_ATTR_CLANG(flatten)
+	MUU_ATTR(flatten)
 	constexpr int MUU_VECTORCALL countr_zero(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -1117,7 +1133,7 @@ namespace muu
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
 	[[nodiscard]]
 	MUU_ATTR(const)
-	MUU_ATTR_CLANG(flatten)
+	MUU_ATTR(flatten)
 	constexpr T MUU_VECTORCALL bit_ceil(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -1151,12 +1167,16 @@ namespace muu
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
-	MUU_ATTR_CLANG(flatten)
+	MUU_ATTR(flatten)
 	constexpr auto MUU_VECTORCALL pack(T val1, U val2, V... vals) noexcept
 	{
 		static_assert(
 			!is_cvref<Return>,
 			"Return type cannot be const, volatile, or a reference"
+		);
+		static_assert(
+			(total_size<T, U, V...> * CHAR_BIT) <= (MUU_HAS_INT128 ? 128 : 64),
+			"No integer type large enough to hold the packed values exists on this platform"
 		);
 		using return_type = std::conditional_t<
 			std::is_void_v<Return>,
@@ -1188,269 +1208,6 @@ namespace muu
 			);
 		}
 	}
-
-
-	/// \brief	Finds the largest integral power of two not greater than the given value.
-	///
-	/// \tparam	T		An unsigned integer or enum type.
-	/// \param 	val		The input value.
-	///
-	/// \returns	Zero if `val` is zero; otherwise, the largest integral power of two that is not greater than `val`.
-	/// 
-	/// \remarks This is equivalent to C++20's std::bit_floor, with the addition of also being
-	/// 		 extended to work with enum types.
-	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
-	[[nodiscard]]
-	MUU_ATTR(const)
-	MUU_ATTR_CLANG(flatten)
-	constexpr T MUU_VECTORCALL bit_floor(T val) noexcept
-	{
-		if constexpr (is_enum<T>)
-			return static_cast<T>(bit_floor(unwrap(val)));
-		else
-		{
-			if (!val)
-				return T{ 0 };
-			return T{ 1 } << (sizeof(T) * CHAR_BIT - 1_sz - static_cast<size_t>(countl_zero(val)));
-		}
-	}
-
-	/// \brief	Finds the smallest number of bits needed to represent the given value.
-	///
-	/// \tparam	T		An unsigned integer or enum type.
-	/// \param 	val		The input value.
-	///
-	/// \returns	If `val` is not zero, calculates the number of bits needed to store `val` (i.e. `1 + log2(x)`).
-	/// 			Returns `0` if `val` is zero.
-	/// 
-	/// \remarks This is equivalent to C++20's std::bit_width, with the addition of also being
-	/// 		 extended to work with enum types.
-	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
-	[[nodiscard]]
-	MUU_ATTR(const)
-	MUU_ATTR_CLANG(flatten)
-	constexpr T MUU_VECTORCALL bit_width(T val) noexcept
-	{
-		if constexpr (is_enum<T>)
-			return static_cast<T>(bit_width(unwrap(val)));
-		else
-			return static_cast<T>(sizeof(T) * CHAR_BIT - static_cast<size_t>(countl_zero(val)));
-	}
-
-	/// \brief	Returns an unsigned integer filled from the least-significant end
-	/// 		with the desired number of consecutive ones.
-	/// \detail \cpp
-	/// const auto val1 = bit_fill_right<uint32_t>(5);
-	/// const auto val2 = 0b00000000000000000000000000011111u;
-	/// assert(val1 == val2);
-	///  \ecpp
-	///  
-	/// \tparam	T		An unsigned integer type.
-	/// \param 	count	Number of consecutive ones.
-	///
-	/// \returns	An instance of T right-filled with the desired number of ones.
-	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
-	[[nodiscard]]
-	MUU_ATTR(const)
-	MUU_ATTR_CLANG(flatten)
-	constexpr T MUU_VECTORCALL bit_fill_right(size_t count) noexcept
-	{
-		if constexpr (is_enum<T>)
-			return T{ bit_fill_right<remove_enum<remove_cvref<T>>>(count) };
-		else
-		{
-			if (!count)
-				return T{};
-			if (count >= build::bits_per_byte * sizeof(T))
-				return static_cast<T>(~T{});
-			return static_cast<T>((T{ 1 } << count) - T{ 1 });
-		}
-	}
-
-	/// \brief	Returns an unsigned integer filled from the most-significant end
-	/// 		with the desired number of consecutive ones.
-	/// \detail \cpp
-	/// const auto val1 = bit_fill_left<uint32_t>(5);
-	/// const auto val2 = 0b11111000000000000000000000000000u;
-	/// assert(val1 == val2);
-	///  \ecpp
-	///  
-	/// \tparam	T		An unsigned integer type.
-	/// \param 	count	Number of consecutive ones.
-	///
-	/// \returns	An instance of T left-filled with the desired number of ones.
-	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
-	[[nodiscard]]
-	MUU_ATTR(const)
-	MUU_ATTR_CLANG(flatten)
-	constexpr T MUU_VECTORCALL bit_fill_left(size_t count) noexcept
-	{
-		if constexpr (is_enum<T>)
-			return T{ bit_fill_left<remove_enum<remove_cvref<T>>>(count) };
-		else
-		{
-			if (!count)
-				return T{};
-			if (count >= build::bits_per_byte * sizeof(T))
-				return static_cast<T>(~T{});
-			return static_cast<T>(bit_fill_right<T>(count) << (build::bits_per_byte * sizeof(T) - count));
-		}
-	}
-
-	namespace impl
-	{
-		template <size_t> struct popcount_traits;
-
-		template <>
-		struct popcount_traits<8>
-		{
-			static constexpr uint8_t m1 =  0x55_u8;
-			static constexpr uint8_t m2 =  0x33_u8;
-			static constexpr uint8_t m4 =  0x0f_u8;
-			static constexpr uint8_t h01 = 0x01_u8;
-			static constexpr int rsh = 0;
-		};
-
-		template <>
-		struct popcount_traits<16>
-		{
-			static constexpr uint16_t m1 =  0x5555_u16;
-			static constexpr uint16_t m2 =  0x3333_u16;
-			static constexpr uint16_t m4 =  0x0f0f_u16;
-			static constexpr uint16_t h01 = 0x0101_u16;
-			static constexpr int rsh = 8;
-		};
-
-		template <>
-		struct popcount_traits<32>
-		{
-			static constexpr uint32_t m1 =  0x55555555_u32;
-			static constexpr uint32_t m2 =  0x33333333_u32;
-			static constexpr uint32_t m4 =  0x0f0f0f0f_u32;
-			static constexpr uint32_t h01 = 0x01010101_u32;
-			static constexpr int rsh = 24;
-		};
-
-		template <>
-		struct popcount_traits<64>
-		{
-			static constexpr uint64_t m1 =  0x5555555555555555_u64;
-			static constexpr uint64_t m2 =  0x3333333333333333_u64;
-			static constexpr uint64_t m4 =  0x0f0f0f0f0f0f0f0f_u64;
-			static constexpr uint64_t h01 = 0x0101010101010101_u64;
-			static constexpr int rsh = 56;
-		};
-
-		#if MUU_HAS_INT128
-
-		template <>
-		struct popcount_traits<128>
-		{
-			static constexpr uint128_t m1 =  pack(0x5555555555555555_u64, 0x5555555555555555_u64);
-			static constexpr uint128_t m2 =  pack(0x3333333333333333_u64, 0x3333333333333333_u64);
-			static constexpr uint128_t m4 =  pack(0x0f0f0f0f0f0f0f0f_u64, 0x0f0f0f0f0f0f0f0f_u64);
-			static constexpr uint128_t h01 = pack(0x0101010101010101_u64, 0x0101010101010101_u64);
-			static constexpr int rsh = 120;
-		};
-
-		#endif
-
-		template <typename T>
-		[[nodiscard]]
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
-		constexpr int MUU_VECTORCALL popcount_native(T val) noexcept
-		{
-			using pt = popcount_traits<sizeof(T) * CHAR_BIT>;
-			val -= ((val >> 1) & pt::m1);
-			val = (val & pt::m2) + ((val >> 2) & pt::m2);
-			return static_cast<T>(((val + (val >> 4)) & pt::m4) * pt::h01) >> pt::rsh;
-		}
-
-		template <typename T>
-		[[nodiscard]]
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
-		int MUU_VECTORCALL popcount_intrinsic(T val) noexcept
-		{
-			#if MUU_GCC || MUU_CLANG
-			{
-				if constexpr (std::is_same_v<T, unsigned int>)
-					return __builtin_popcount(val);
-				else if constexpr (std::is_same_v<T, unsigned long>)
-					return __builtin_popcountl(val);
-				else if constexpr (std::is_same_v<T, unsigned long long>)
-					return __builtin_popcountll(val);
-				else if constexpr (sizeof(T) <= sizeof(unsigned int))
-					return __builtin_popcount(static_cast<unsigned int>(val));
-				#if MUU_HAS_INT128
-				else if constexpr (std::is_same_v<T, uint128_t>)
-					return __builtin_popcountll(static_cast<unsigned long long>(val >> 64))
-						+ __builtin_popcountll(static_cast<unsigned long long>(val));
-				#endif
-				else
-					static_assert(dependent_false<T>, "Unsupported integer type");
-			}
-			#elif MUU_MSVC
-			{
-				if constexpr (sizeof(T) == sizeof(unsigned int))
-					return __popcnt(static_cast<unsigned int>(val));
-				else if constexpr (sizeof(T) <= sizeof(unsigned short))
-				{
-					#if MUU_MSVC >= 1928 // VS 16.8
-						return __popcnt16(static_cast<unsigned short>(val));
-					#else
-						return popcount_native(val);
-					#endif
-				}
-				else if constexpr (std::is_same_v<T, unsigned __int64>)
-				{
-					#if MUU_MSVC >= 1928 // VS 16.8
-						return __popcnt64(static_cast<unsigned __int64>(val));
-					#else
-						return __popcnt(static_cast<unsigned int>(val >> 32))
-							+ __popcnt(static_cast<unsigned int>(val));
-					#endif
-				}
-				else
-					static_assert(dependent_false<T>, "Unsupported integer type");
-			}
-			#endif
-		}
-	}
-
-	/// \brief	Counts the number of set bits (the 'population count') of an unsigned integer.
-	///
-	/// \tparam	T		An unsigned integer or enum type.
-	/// \param 	val		The input value.
-	///
-	/// \returns	The number of bits that were set to `1` in `val`.
-	/// 
-	/// \remarks This is equivalent to C++20's std::popcount, with the addition of also being
-	/// 		 extended to work with enum types.
-	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
-	[[nodiscard]]
-	MUU_ATTR(const)
-	MUU_ATTR_CLANG(flatten)
-	constexpr int MUU_VECTORCALL popcount(T val) noexcept
-	{
-		if constexpr (is_enum<T>)
-			return popcount(unwrap(val));
-		else
-		{
-			if constexpr (!build::supports_is_constant_evaluated)
-				return impl::popcount_native(val);
-			else
-			{
-				if (is_constant_evaluated())
-					return impl::popcount_native(val);
-				else
-					return impl::popcount_intrinsic(val);
-			}
-		}
-	}
-
-	MUU_POP_WARNINGS // MUU_DISABLE_ARITHMETIC_WARNINGS
 
 	namespace impl
 	{
@@ -1493,7 +1250,7 @@ namespace muu
 	template <typename To, typename From>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
-	MUU_ATTR_CLANG(flatten)
+	MUU_ATTR(flatten)
 	constexpr To bit_cast(const From& from) noexcept
 	{
 		static_assert(
@@ -1513,74 +1270,17 @@ namespace muu
 			|| MUU_GCC >= 11	\
 			|| MUU_MSVC >= 1926
 			return __builtin_bit_cast(To, from);
-			#define MUU_HAS_CONSTEXPR_BIT_CAST 1
+			#define MUU_HAS_INTRINSIC_BIT_CAST 1
 		#else
 			return impl::bit_cast_fallback<To>(from);
-			#define MUU_HAS_CONSTEXPR_BIT_CAST 0
+			#define MUU_HAS_INTRINSIC_BIT_CAST 0
 		#endif
 	}
 
 	namespace build
 	{
 		/// \brief	True if using bit_cast() in constexpr contexts is supported on this compiler.
-		inline constexpr bool supports_constexpr_bit_cast = !!MUU_HAS_CONSTEXPR_BIT_CAST;
-	}
-
-	#undef MUU_HAS_CONSTEXPR_BIT_CAST
-
-	/// \brief	Returns the minimum of two values.
-	/// 
-	/// \remarks This is equivalent to std::min without requiring you to drag in the enormity of `<algorithm>`.
-	template <typename T>
-	[[nodiscard]]
-	MUU_ALWAYS_INLINE
-	constexpr const T& min(const T& val1, const T& val2) noexcept
-	{
-		return val1 < val2 ? val1 : val2;
-	}
-
-	/// \brief	Returns the maximum of two values.
-	/// 
-	/// \remarks This is equivalent to std::max without requiring you to drag in the enormity of `<algorithm>`.
-	template <typename T>
-	[[nodiscard]]
-	MUU_ALWAYS_INLINE
-	constexpr const T& max(const T& val1, const T& val2) noexcept
-	{
-		return val1 < val2 ? val2 : val1;
-	}
-
-	/// \brief	Returns a value clamped between two bounds (inclusive).
-	///
-	/// \remarks This is equivalent to std::clamp without requiring you to drag in the enormity of `<algorithm>`.
-	template <typename T>
-	[[nodiscard]]
-	constexpr const T& clamp(const T& val, const T& min_, const T& max_) noexcept
-	{
-		return (muu::max)((muu::min)(val, max_), min_);
-	}
-
-	/// \brief	Returns true if a value is between two bounds (inclusive).
-	template <typename T>
-	[[nodiscard]]
-	MUU_ALWAYS_INLINE
-	constexpr bool MUU_VECTORCALL between(T val, T min_, T max_) noexcept
-	{
-		return min_ <= val && val <= max_;
-	}
-
-	/// \brief	Returns the absolute value of an arithmetic value.
-	/// 
-	/// \remarks This is similar to std::abs but is `constexpr` and doesn't coerce or promote the input types.
-	template <typename T, typename = std::enable_if_t<is_arithmetic<T>>>
-	[[nodiscard]]
-	MUU_ALWAYS_INLINE
-	constexpr T MUU_VECTORCALL abs(T val) noexcept
-	{
-		if constexpr (is_unsigned<T>)
-			return val;
-		else
-			return val < T{} ? -val : val;
+		inline constexpr bool supports_constexpr_bit_cast = !!MUU_HAS_INTRINSIC_BIT_CAST;
 	}
 
 	MUU_PUSH_WARNINGS
@@ -1621,7 +1321,7 @@ namespace muu
 	template <typename To, typename From>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
-	MUU_ATTR_CLANG(flatten)
+	MUU_ATTR(flatten)
 	constexpr To pointer_cast(From from) noexcept
 	{
 		static_assert(
@@ -1846,7 +1546,7 @@ namespace muu
 	template <typename To, typename From, size_t N>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
-	MUU_ATTR_CLANG(flatten)
+	MUU_ATTR(flatten)
 	constexpr To pointer_cast(From(&arr)[N]) noexcept
 	{
 		return pointer_cast<To>(&arr[0]);
@@ -1855,13 +1555,13 @@ namespace muu
 	template <typename To, typename From, size_t N>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
-	MUU_ATTR_CLANG(flatten)
+	MUU_ATTR(flatten)
 	constexpr To pointer_cast(From(&&arr)[N]) noexcept
 	{
 		return pointer_cast<To>(&arr[0]);
 	}
 
-	MUU_POP_WARNINGS
+	MUU_POP_WARNINGS // MUU_PRAGMA_MSVC(warning(disable: 4191))
 
 	/// \brief	Applies a byte offset to a pointer.
 	///
@@ -1879,34 +1579,365 @@ namespace muu
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
-	MUU_ATTR_CLANG(flatten)
+	MUU_ATTR(flatten)
 	constexpr T* apply_offset(T* ptr, ptrdiff_t offset) noexcept
 	{
 		return pointer_cast<T*>(pointer_cast<rebase_pointer<T*, std::byte>>(ptr) + offset);
 	}
 
-	/// \brief	Checks if an arithmetic value is infinity or NaN.
-	///
-	/// \tparam	T	The value type.
-	/// \param 	val	The value to examine.
-	///
-	/// \returns	True if the value is floating-point infinity or NaN.
-	/// 			Always returns false if the value was not a floating-point type.
+	/// \brief	Returns the minimum of two values.
+	/// 
+	/// \remarks This is equivalent to std::min without requiring you to drag in the enormity of `<algorithm>`.
+	template <typename T>
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	constexpr const T& min(const T& val1, const T& val2) noexcept
+	{
+		return val1 < val2 ? val1 : val2;
+	}
+
+	/// \brief	Returns the maximum of two values.
+	/// 
+	/// \remarks This is equivalent to std::max without requiring you to drag in the enormity of `<algorithm>`.
+	template <typename T>
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	constexpr const T& max(const T& val1, const T& val2) noexcept
+	{
+		return val1 < val2 ? val2 : val1;
+	}
+
+	/// \brief	Returns the absolute value of an arithmetic value.
+	/// 
+	/// \remarks This is similar to std::abs but is `constexpr` and doesn't coerce or promote the input types.
 	template <typename T, typename = std::enable_if_t<is_arithmetic<T>>>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
-	MUU_ATTR(const)
-	constexpr bool MUU_VECTORCALL infinity_or_nan(T val) noexcept
+	constexpr T MUU_VECTORCALL abs(T val) noexcept
 	{
-		if constexpr (is_floating_point<T>)
+		if constexpr (is_unsigned<T>)
+			return val;
+		else
+			return val < T{} ? -val : val;
+	}
+
+	/// \brief	Returns a value clamped between two bounds (inclusive).
+	///
+	/// \remarks This is equivalent to std::clamp without requiring you to drag in the enormity of `<algorithm>`.
+	template <typename T>
+	[[nodiscard]]
+	constexpr const T& clamp(const T& val, const T& min_, const T& max_) noexcept
+	{
+		return (muu::max)((muu::min)(val, max_), min_);
+	}
+
+	/// \brief	Returns true if a value is between two bounds (inclusive).
+	template <typename T>
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	constexpr bool MUU_VECTORCALL between(T val, T min_, T max_) noexcept
+	{
+		return min_ <= val && val <= max_;
+	}
+
+	namespace impl
+	{
+		template <size_t> struct popcount_traits;
+
+		template <>
+		struct popcount_traits<8>
 		{
-			auto classification = std::fpclassify(val);
-			return classification == FP_INFINITE || classification == FP_NAN;
+			static constexpr uint8_t m1 =  0x55_u8;
+			static constexpr uint8_t m2 =  0x33_u8;
+			static constexpr uint8_t m4 =  0x0f_u8;
+			static constexpr uint8_t h01 = 0x01_u8;
+			static constexpr int rsh = 0;
+		};
+
+		template <>
+		struct popcount_traits<16>
+		{
+			static constexpr uint16_t m1 =  0x5555_u16;
+			static constexpr uint16_t m2 =  0x3333_u16;
+			static constexpr uint16_t m4 =  0x0f0f_u16;
+			static constexpr uint16_t h01 = 0x0101_u16;
+			static constexpr int rsh = 8;
+		};
+
+		template <>
+		struct popcount_traits<32>
+		{
+			static constexpr uint32_t m1 =  0x55555555_u32;
+			static constexpr uint32_t m2 =  0x33333333_u32;
+			static constexpr uint32_t m4 =  0x0f0f0f0f_u32;
+			static constexpr uint32_t h01 = 0x01010101_u32;
+			static constexpr int rsh = 24;
+		};
+
+		template <>
+		struct popcount_traits<64>
+		{
+			static constexpr uint64_t m1 =  0x5555555555555555_u64;
+			static constexpr uint64_t m2 =  0x3333333333333333_u64;
+			static constexpr uint64_t m4 =  0x0f0f0f0f0f0f0f0f_u64;
+			static constexpr uint64_t h01 = 0x0101010101010101_u64;
+			static constexpr int rsh = 56;
+		};
+
+		#if MUU_HAS_INT128
+
+		template <>
+		struct popcount_traits<128>
+		{
+			static constexpr uint128_t m1 =  pack(0x5555555555555555_u64, 0x5555555555555555_u64);
+			static constexpr uint128_t m2 =  pack(0x3333333333333333_u64, 0x3333333333333333_u64);
+			static constexpr uint128_t m4 =  pack(0x0f0f0f0f0f0f0f0f_u64, 0x0f0f0f0f0f0f0f0f_u64);
+			static constexpr uint128_t h01 = pack(0x0101010101010101_u64, 0x0101010101010101_u64);
+			static constexpr int rsh = 120;
+		};
+
+		#endif
+
+		template <typename T>
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
+		constexpr int MUU_VECTORCALL popcount_native(T val) noexcept
+		{
+			using pt = popcount_traits<sizeof(T) * CHAR_BIT>;
+			val -= ((val >> 1) & pt::m1);
+			val = (val & pt::m2) + ((val >> 2) & pt::m2);
+			return static_cast<T>(((val + (val >> 4)) & pt::m4) * pt::h01) >> pt::rsh;
 		}
+
+		template <typename T>
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
+		int MUU_VECTORCALL popcount_intrinsic(T val) noexcept
+		{
+			#if MUU_GCC || MUU_CLANG
+			{
+				#define MUU_HAS_INTRINSIC_POPCOUNT 1
+
+				if constexpr (std::is_same_v<T, unsigned int>)
+					return __builtin_popcount(val);
+				else if constexpr (std::is_same_v<T, unsigned long>)
+					return __builtin_popcountl(val);
+				else if constexpr (std::is_same_v<T, unsigned long long>)
+					return __builtin_popcountll(val);
+				else if constexpr (sizeof(T) <= sizeof(unsigned int))
+					return __builtin_popcount(static_cast<unsigned int>(val));
+				#if MUU_HAS_INT128
+				else if constexpr (std::is_same_v<T, uint128_t>)
+					return __builtin_popcountll(static_cast<unsigned long long>(val >> 64))
+						+ __builtin_popcountll(static_cast<unsigned long long>(val));
+				#endif
+				else
+					static_assert(dependent_false<T>, "Unsupported integer type");
+			}
+			#elif MUU_MSVC
+			{
+				#define MUU_HAS_INTRINSIC_POPCOUNT 1
+
+				if constexpr (sizeof(T) == sizeof(unsigned int))
+					return __popcnt(static_cast<unsigned int>(val));
+				else if constexpr (sizeof(T) <= sizeof(unsigned short))
+				{
+					#if MUU_MSVC >= 1928 // VS 16.8
+						return __popcnt16(static_cast<unsigned short>(val));
+					#else
+						return popcount_native(val);
+					#endif
+				}
+				else if constexpr (std::is_same_v<T, unsigned __int64>)
+				{
+					#if MUU_MSVC >= 1928 // VS 16.8
+						return __popcnt64(static_cast<unsigned __int64>(val));
+					#else
+						return __popcnt(static_cast<unsigned int>(val >> 32))
+							+ __popcnt(static_cast<unsigned int>(val));
+					#endif
+				}
+				else
+					static_assert(dependent_false<T>, "Unsupported integer type");
+			}
+			#else
+            {
+				#define MUU_HAS_INTRINSIC_POPCOUNT 0
+
+				static_assert(dependent_false<T>, "popcount_intrinsic not implemented for this compiler");
+			}
+			#endif
+		}
+	}
+
+	/// \brief	Counts the number of set bits (the 'population count') of an unsigned integer.
+	///
+	/// \tparam	T		An unsigned integer or enum type.
+	/// \param 	val		The input value.
+	///
+	/// \returns	The number of bits that were set to `1` in `val`.
+	/// 
+	/// \remarks This is equivalent to C++20's std::popcount, with the addition of also being
+	/// 		 extended to work with enum types.
+	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR(flatten)
+	constexpr int MUU_VECTORCALL popcount(T val) noexcept
+	{
+		if constexpr (is_enum<T>)
+			return popcount(unwrap(val));
 		else
 		{
-			(void)val;
-			return false;
+			if constexpr (!build::supports_is_constant_evaluated || !MUU_HAS_INTRINSIC_POPCOUNT)
+				return impl::popcount_native(val);
+			else
+			{
+				if (is_constant_evaluated())
+					return impl::popcount_native(val);
+				else
+					return impl::popcount_intrinsic(val);
+			}
+		}
+	}
+
+	/// \brief	Checks if an integral value has only a single bit set.
+	///
+	/// \tparam	T		An unsigned integer or enum type.
+	/// \param 	val		The value to test.
+	///
+	/// \returns	True if the input value had only a single bit set (and thus was a power of two).
+	/// 
+	/// \remarks This is equivalent to C++20's std::has_single_bit, with the addition of also being
+	/// 		 extended to work with enum types.
+	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR(flatten)
+	constexpr bool MUU_VECTORCALL has_single_bit(T val) noexcept
+	{
+		if constexpr (is_enum<T>)
+			return has_single_bit(unwrap(val));
+		else
+		{
+			if constexpr (!build::supports_is_constant_evaluated || !MUU_HAS_INTRINSIC_POPCOUNT)
+				return val != T{} && (val & (val - T{ 1 })) == T{};
+			else
+			{
+				if (is_constant_evaluated())
+					return val != T{} && (val & (val - T{ 1 })) == T{};
+				else
+					return impl::popcount_intrinsic(val) == 1;
+			}
+		}
+	}
+
+	/// \brief	Finds the largest integral power of two not greater than the given value.
+	///
+	/// \tparam	T		An unsigned integer or enum type.
+	/// \param 	val		The input value.
+	///
+	/// \returns	Zero if `val` is zero; otherwise, the largest integral power of two that is not greater than `val`.
+	/// 
+	/// \remarks This is equivalent to C++20's std::bit_floor, with the addition of also being
+	/// 		 extended to work with enum types.
+	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR(flatten)
+	constexpr T MUU_VECTORCALL bit_floor(T val) noexcept
+	{
+		if constexpr (is_enum<T>)
+			return static_cast<T>(bit_floor(unwrap(val)));
+		else
+		{
+			if (!val)
+				return T{ 0 };
+			return T{ 1 } << (sizeof(T) * CHAR_BIT - 1_sz - static_cast<size_t>(countl_zero(val)));
+		}
+	}
+
+	/// \brief	Finds the smallest number of bits needed to represent the given value.
+	///
+	/// \tparam	T		An unsigned integer or enum type.
+	/// \param 	val		The input value.
+	///
+	/// \returns	If `val` is not zero, calculates the number of bits needed to store `val` (i.e. `1 + log2(x)`).
+	/// 			Returns `0` if `val` is zero.
+	/// 
+	/// \remarks This is equivalent to C++20's std::bit_width, with the addition of also being
+	/// 		 extended to work with enum types.
+	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR(flatten)
+	constexpr T MUU_VECTORCALL bit_width(T val) noexcept
+	{
+		if constexpr (is_enum<T>)
+			return static_cast<T>(bit_width(unwrap(val)));
+		else
+			return static_cast<T>(sizeof(T) * CHAR_BIT - static_cast<size_t>(countl_zero(val)));
+	}
+
+	/// \brief	Returns an unsigned integer filled from the least-significant end
+	/// 		with the desired number of consecutive ones.
+	/// \detail \cpp
+	/// const auto val1 = bit_fill_right<uint32_t>(5);
+	/// const auto val2 = 0b00000000000000000000000000011111u;
+	/// assert(val1 == val2);
+	///  \ecpp
+	///  
+	/// \tparam	T		An unsigned integer type.
+	/// \param 	count	Number of consecutive ones.
+	///
+	/// \returns	An instance of T right-filled with the desired number of ones.
+	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR(flatten)
+	constexpr T MUU_VECTORCALL bit_fill_right(size_t count) noexcept
+	{
+		if constexpr (is_enum<T>)
+			return T{ bit_fill_right<remove_enum<remove_cvref<T>>>(count) };
+		else
+		{
+			if (!count)
+				return T{};
+			if (count >= build::bits_per_byte * sizeof(T))
+				return static_cast<T>(~T{});
+			return static_cast<T>((T{ 1 } << count) - T{ 1 });
+		}
+	}
+
+	/// \brief	Returns an unsigned integer filled from the most-significant end
+	/// 		with the desired number of consecutive ones.
+	/// \detail \cpp
+	/// const auto val1 = bit_fill_left<uint32_t>(5);
+	/// const auto val2 = 0b11111000000000000000000000000000u;
+	/// assert(val1 == val2);
+	///  \ecpp
+	///  
+	/// \tparam	T		An unsigned integer type.
+	/// \param 	count	Number of consecutive ones.
+	///
+	/// \returns	An instance of T left-filled with the desired number of ones.
+	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR(flatten)
+	constexpr T MUU_VECTORCALL bit_fill_left(size_t count) noexcept
+	{
+		if constexpr (is_enum<T>)
+			return T{ bit_fill_left<remove_enum<remove_cvref<T>>>(count) };
+		else
+		{
+			if (!count)
+				return T{};
+			if (count >= build::bits_per_byte * sizeof(T))
+				return static_cast<T>(~T{});
+			return static_cast<T>(bit_fill_right<T>(count) << (build::bits_per_byte * sizeof(T) - count));
 		}
 	}
 
@@ -1925,7 +1956,7 @@ namespace muu
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
-	MUU_ATTR_CLANG(flatten)
+	MUU_ATTR(flatten)
 	constexpr uint8_t MUU_VECTORCALL byte_select(T val) noexcept
 	{
 		static_assert(
@@ -1949,17 +1980,6 @@ namespace muu
 		}
 	}
 
-	#if !MUU_DOXYGEN
-
-	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
-	[[nodiscard]]
-	MUU_ALWAYS_INLINE
-	MUU_ATTR(const)
-	MUU_ATTR_CLANG(flatten)
-	constexpr T MUU_VECTORCALL byte_reverse(T) noexcept;
-
-	#endif
-
 	namespace impl
 	{
 		template <typename T>
@@ -1970,6 +1990,8 @@ namespace muu
 		{
 			#if MUU_GCC || MUU_CLANG
 			{
+				#define MUU_HAS_INTRINSIC_BYTE_REVERSE 1
+
 				if constexpr (std::is_same_v<T, uint16_t>)
 					return __builtin_bswap16(val);
 				else if constexpr (std::is_same_v<T, uint32_t>)
@@ -1978,13 +2000,22 @@ namespace muu
 					return __builtin_bswap64(val);
 				#if MUU_HAS_INT128
 				else if constexpr (std::is_same_v<T, uint128_t>)
-					return __builtin_bswap128(val);
+				{
+					#if MUU_HAS_BUILTIN(__builtin_bswap128)
+						return __builtin_bswap128(val);
+					#else
+                    	return (static_cast<uint128_t>(byte_reverse_intrinsic(static_cast<uint64_t>(val))) << 64)
+							| byte_reverse_intrinsic(static_cast<uint64_t>(val >> 64));
+					#endif
+				}
 				#endif
 				else
 					static_assert(dependent_false<T>, "Unsupported integer type");
 			}
 			#elif MUU_MSVC
 			{
+				#define MUU_HAS_INTRINSIC_BYTE_REVERSE 1
+
 				if constexpr (sizeof(T) == sizeof(unsigned short))
 					return static_cast<T>(_byteswap_ushort(static_cast<unsigned short>(val)));
 				else if constexpr (sizeof(T) == sizeof(unsigned long))
@@ -1995,7 +2026,11 @@ namespace muu
 					static_assert(dependent_false<T>, "Unsupported integer type");
 			}
 			#else
-			// ...
+			{
+				#define MUU_HAS_INTRINSIC_BYTE_REVERSE 0
+
+				static_assert(dependent_false<T>, "byte_reverse_intrinsic not implemented for this compiler");
+			}
 			#endif
 		}
 
@@ -2033,8 +2068,8 @@ namespace muu
 			#if MUU_HAS_INT128
 			else if constexpr (sizeof(T) == sizeof(uint128_t))
 			{
-				return (static_cast<uint128_t>(::muu::byte_reverse(static_cast<uint64_t>(val))) << 64)
-					| ::muu::byte_reverse(static_cast<uint64_t>(val >> 64));
+				return (static_cast<uint128_t>(byte_reverse_native(static_cast<uint64_t>(val))) << 64)
+					| byte_reverse_native(static_cast<uint64_t>(val >> 64));
 			}
 			#endif
 			else
@@ -2059,79 +2094,206 @@ namespace muu
 	/// \param 	val	An unsigned integer or enum value.
 	///
 	/// \returns	A copy of the input value with the byte order reversed.
-	template <typename T, typename /* = std::enable_if_t<is_unsigned<T>>*/ >
+	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
-	MUU_ATTR_CLANG(flatten)
+	MUU_ATTR(flatten)
 	constexpr T MUU_VECTORCALL byte_reverse(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
 			return static_cast<T>(byte_reverse(unwrap(val)));
 		else
 		{
-			using canonical = canonical_uint<sizeof(val) * build::bits_per_byte>;
-
-			#if MUU_CLANG || MUU_GCC
-			if constexpr (sizeof(canonical) == 16 && !MUU_HAS_BUILTIN(__builtin_bswap128))
-				return static_cast<T>(impl::byte_reverse_native(static_cast<canonical>(val)));
-			else
-			#endif
-
-			if constexpr (!build::supports_is_constant_evaluated)
-				return static_cast<T>(impl::byte_reverse_native(static_cast<canonical>(val)));
+			if constexpr (!build::supports_is_constant_evaluated || !MUU_HAS_INTRINSIC_BYTE_REVERSE)
+				return impl::byte_reverse_native(val);
 			else
 			{
 				if (is_constant_evaluated())
-					return static_cast<T>(impl::byte_reverse_native(static_cast<canonical>(val)));
+					return impl::byte_reverse_native(val);
 				else
 					return impl::byte_reverse_intrinsic(val);
 			}
 		}
 	}
 
+	MUU_PRAGMA_GCC("GCC push_options")
+	MUU_PRAGMA_GCC("GCC optimize (\"-fno-finite-math-only\")")
 
 	namespace impl
 	{
-		// a lightweight drop-in substitute for std::array, because <array> drags in _a lot_ of cruft
-		// (see https://www.reddit.com/r/cpp/comments/eumou7/stl_header_token_parsing_benchmarks_for_vs2017/)
-		template <typename T, size_t N>
-		struct array
+		template <size_t TotalBits, size_t SignificandBits>
+		struct infinity_or_nan_traits;
+
+		template <>
+		struct infinity_or_nan_traits<16, 11>
 		{
-			using value_type = T;
-			using size_type = size_t;
-			using difference_type = ptrdiff_t;
-			using reference = T&;
-			using const_reference = const T&;
-			using pointer = T*;
-			using const_pointer = const T*;
-			using iterator = pointer;
-			using const_iterator = const_pointer;
-		
-			T values[N];
-		
-			[[nodiscard]] MUU_ALWAYS_INLINE constexpr T& operator[](size_t pos) noexcept { return values[pos]; }
-			[[nodiscard]] MUU_ALWAYS_INLINE constexpr const T& operator[](size_t pos) const noexcept { return values[pos]; }
-			[[nodiscard]] MUU_ALWAYS_INLINE constexpr T* data() noexcept { return values; }
-			[[nodiscard]] MUU_ALWAYS_INLINE constexpr const T* data() const noexcept { return values; }
-			[[nodiscard]] MUU_ALWAYS_INLINE constexpr size_t size() const noexcept { return N; }
-			[[nodiscard]] MUU_ALWAYS_INLINE constexpr reference back() noexcept { return values[N - 1]; }
-			[[nodiscard]] MUU_ALWAYS_INLINE constexpr const_reference back() const noexcept { return values[N - 1]; }
-			[[nodiscard]] MUU_ALWAYS_INLINE constexpr reference front() noexcept { return values[0]; }
-			[[nodiscard]] MUU_ALWAYS_INLINE constexpr const_reference front() const noexcept { return values[0]; }
-			[[nodiscard]] MUU_ALWAYS_INLINE constexpr bool empty() const noexcept { return !N; }
-			[[nodiscard]] MUU_ALWAYS_INLINE constexpr iterator begin() noexcept { return values; }
-			[[nodiscard]] MUU_ALWAYS_INLINE constexpr const_iterator begin() const noexcept { return values; }
-			[[nodiscard]] MUU_ALWAYS_INLINE constexpr const_iterator cbegin() const noexcept { return values; }
-			[[nodiscard]] MUU_ALWAYS_INLINE constexpr iterator end() noexcept { return values + N; }
-			[[nodiscard]] MUU_ALWAYS_INLINE constexpr const_iterator end() const noexcept { return values + N; }
-			[[nodiscard]] MUU_ALWAYS_INLINE constexpr const_iterator cend() const noexcept { return values + N; }
+			static constexpr auto mask = 0b0111110000000000_u16;
 		};
+
+		template <>
+		struct infinity_or_nan_traits<32, 24>
+		{
+			static constexpr auto mask = 0b01111111100000000000000000000000_u32;
+		};
+
+		template <>
+		struct infinity_or_nan_traits<64, 53>
+		{
+			static constexpr auto mask = 0b0111111111110000000000000000000000000000000000000000000000000000_u64;
+		};
+
+		template <>
+		struct infinity_or_nan_traits<80, 64>
+		{
+			static constexpr auto mask = array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x7FFF_u16 };
+
+			template <typename T>
+			[[nodiscard]]
+			MUU_ALWAYS_INLINE
+			static constexpr bool MUU_VECTORCALL check(const T& val) noexcept
+			{
+				return (val[3] & mask[3]) == mask[3]
+					&& (val[4] & mask[4]) == mask[4];
+			}
+		};
+
+		template <>
+		struct infinity_or_nan_traits<128, 64>
+		{
+			#if MUU_HAS_INT128
+			static constexpr auto mask = pack(0x0000000000007FFF_u64, 0x8000000000000000_u64);
+			#else
+			static constexpr auto mask = array{ 0x8000000000000000_u64, 0x0000000000007FFF_u64 };
+
+			template <typename T>
+			[[nodiscard]]
+			MUU_ALWAYS_INLINE
+			static constexpr bool MUU_VECTORCALL check(const T& val) noexcept
+			{
+				return (val[0] & mask[0]) == mask[0]
+					&& (val[1] & mask[1]) == mask[1];
+			}
+
+			#endif
+		};
+
+		template <typename T>
+		[[nodiscard]]
+		MUU_ATTR(const)
+		MUU_ATTR(flatten)
+		constexpr bool MUU_VECTORCALL infinity_or_nan_bits(T val) noexcept
+		{
+			using traits = infinity_or_nan_traits<sizeof(T) * CHAR_BIT, std::numeric_limits<T>::digits>;
+			using blit_type = std::remove_const_t<decltype(traits::mask)>;
+
+			if constexpr (is_integral<blit_type>)
+			{
+				return (bit_cast<blit_type>(val) & traits::mask) == traits::mask;
+			}
+			else
+			{
+				return traits::check(bit_cast<blit_type>(val));
+			}
+		}
+
+		template <typename T>
+		[[nodiscard]]
+		MUU_ATTR(const)
+		bool MUU_VECTORCALL infinity_or_nan_fpclassify(T val) noexcept
+		{
+			#if defined(__FAST_MATH__)
+			{
+				return infinity_or_nan_bits(val);
+			}
+			#else
+			{
+				#define MAYBE_FLAG(v) (v == 0 || (v >= 0 && has_single_bit(static_cast<unsigned>(v))))
+				#define IS_FLAG(v) (v > 0 && has_single_bit(static_cast<unsigned>(v)))
+
+				if constexpr (IS_FLAG(FP_INFINITE)
+					&& IS_FLAG(FP_NAN)
+					&& MAYBE_FLAG(FP_NORMAL)
+					&& MAYBE_FLAG(FP_SUBNORMAL)
+					&& MAYBE_FLAG(FP_ZERO)
+					&& between(popcount(
+						static_cast<unsigned>(FP_INFINITE)
+						| static_cast<unsigned>(FP_NAN)
+						| static_cast<unsigned>(FP_NORMAL)
+						| static_cast<unsigned>(FP_SUBNORMAL)
+						| static_cast<unsigned>(FP_ZERO)), 4, 5)
+					)
+				{
+					return !!(std::fpclassify(val) & (FP_INFINITE | FP_NAN));
+				}
+				else
+				{
+					const auto classification = std::fpclassify(val);
+					return classification == FP_INFINITE || classification == FP_NAN;
+				}
+
+				#undef MAYBE_FLAG
+				#undef IS_FLAG
+			}
+			#endif
+		}
 	}
+
+	/// \brief	Checks if an arithmetic value is infinity or NaN.
+	///
+	/// \tparam	T	The value type.
+	/// \param 	val	The value to examine.
+	///
+	/// \returns	True if the value is floating-point infinity or NaN.
+	/// 			Always returns false if the value was not a floating-point type.
+	/// 
+	/// \attention	On older compilers lacking support for std::is_constant_evaluated and std::bit_cast you won't be
+	///				able to call this function in constexpr contexts. You can check for constexpr support by examining
+	///				build::supports_constexpr_infinity_or_nan.
+	template <typename T, typename = std::enable_if_t<is_arithmetic<T>>>
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	MUU_ATTR(const)
+	MUU_ATTR(flatten)
+	constexpr bool MUU_VECTORCALL infinity_or_nan(T val) noexcept
+	{
+		if constexpr (!is_floating_point<T>)
+		{
+			(void)val;
+			return false;
+		}
+		else
+		{
+			if constexpr (!build::supports_is_constant_evaluated || !build::supports_constexpr_bit_cast)
+				return impl::infinity_or_nan_fpclassify(val);
+			else
+			{
+				if (is_constant_evaluated())
+					return impl::infinity_or_nan_bits(val);
+				else
+					return impl::infinity_or_nan_fpclassify(val);
+			}
+		}
+	}
+
+	namespace build
+	{
+		/// \brief	True if using infinity_or_nan() in constexpr contexts is supported on this compiler.
+		inline constexpr bool supports_constexpr_infinity_or_nan
+			= build::supports_is_constant_evaluated && build::supports_constexpr_bit_cast;
+	}
+
+	MUU_PRAGMA_GCC("GCC pop_options")
 
 	/// @}
 
 }
+
+#undef MUU_HAS_INTRINSIC_BIT_CAST
+#undef MUU_HAS_INTRINSIC_POPCOUNT
+#undef MUU_HAS_INTRINSIC_BYTE_REVERSE
+
+MUU_POP_WARNINGS // MUU_DISABLE_ARITHMETIC_WARNINGS
 
 MUU_PRAGMA_MSVC(inline_recursion(off))
 

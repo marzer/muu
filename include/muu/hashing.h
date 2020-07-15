@@ -23,7 +23,7 @@ namespace muu::impl
 
 	[[nodiscard]]
 	MUU_ATTR(const)
-	MUU_ATTR_CLANG(flatten)
+	MUU_ATTR(flatten)
 	constexpr array<char,2> byte_to_chars_lowercase(std::byte byte) noexcept
 	{
 		return {{ dec_to_hex_lowercase(unwrap(byte) / 16u), dec_to_hex_lowercase(unwrap(byte) % 16u) }};

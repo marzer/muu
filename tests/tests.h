@@ -19,8 +19,14 @@ using namespace muu;
 using namespace std::string_view_literals;
 MUU_POP_WARNINGS
 
-// Q: why is this a thing?
+// Q: why is this CHECK_AND_STATIC_ASSERT thing?
 // A: because std::is_constant_evaluated().
-#define CHECK_AND_STATIC_ASSERT(...)	\
-	static_assert(__VA_ARGS__);			\
-	CHECK(__VA_ARGS__)
+
+#if MUU_INTELLISENSE
+	#define CHECK_AND_STATIC_ASSERT(...)	\
+		CHECK(__VA_ARGS__)
+#else
+	#define CHECK_AND_STATIC_ASSERT(...)	\
+		static_assert(__VA_ARGS__);			\
+		CHECK(__VA_ARGS__)
+#endif

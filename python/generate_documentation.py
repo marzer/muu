@@ -64,7 +64,7 @@ type_names = [
 	'string_view',
 	'string',
 	'byte',
-    'optional',
+	'optional',
 	#------ muu types
 	'thread_pool',
 	'uuid',
@@ -86,6 +86,12 @@ string_literals = [
 	's',
 	'sv'
 ]
+
+
+
+
+
+
 
 
 
@@ -128,7 +134,6 @@ class HTMLDocument(object):
 				parent.insert(index, tag)
 				
 		return tag
-		
 
 	def find_all_from_sections(self, name=None, select=None, section=None, include_toc=False, **kwargs):
 		tags = []
@@ -509,6 +514,16 @@ class IndexPageFix(object):
 		)
 	]
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	def __call__(self, file, doc):
 		if file != 'index.html':
 			return False
@@ -822,6 +837,8 @@ class ExtDocLinksFix(object):
 		#, 
 		# muu-specific
 		# ...
+		# ...
+		# ...
 	]
 	__allowedNames = ['dd', 'p', 'dt', 'h3', 'td', 'div']
 	
@@ -847,7 +864,6 @@ class ExtDocLinksFix(object):
 		strings = []
 		for tag in tags:
 			strings = strings + html_string_descendants(tag, lambda t: html_find_parent(t, 'a', tag) is None)
-		
 		for expr, uri in self.__expressions:
 			for string in strings:
 				if string.parent is None:
@@ -860,9 +876,7 @@ class ExtDocLinksFix(object):
 					if (begins_with_ws and new_tag.string is not None and not new_tag.string[:1].isspace()):
 						new_tag.insert_before(' ')
 					changed = True
-			
 		return changed
-
 
 
 
@@ -994,6 +1008,7 @@ def preprocess_xml(xml_dir):
 	pass
 
 
+
 def main():
 	global _threadError
 	
@@ -1034,7 +1049,7 @@ def main():
 		, InlineNamespaceFix3()
 		, ExtDocLinksFix()
 		, EnableIfFix()
-        , ExternalLinksFix()
+		, ExternalLinksFix()
 	]
 	files = [path.split(f) for f in utils.get_all_files(html_dir, any=('*.html', '*.htm'))]
 	if files:

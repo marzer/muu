@@ -1,5 +1,17 @@
 #include "tests.h"
-#include "../include/muu/core.h"
+#include "float_tests.h"
+
+TEST_CASE("is_constant_evaluated")
+{
+	static_assert(is_constant_evaluated() == build::supports_is_constant_evaluated);
+	volatile bool val = is_constant_evaluated();
+	CHECK(val == false);
+}
+
+//TEST_CASE("launder")
+//{
+//	// todo?? kinda impossible to test, without being the compiler itself.
+//}
 
 TEST_CASE("unwrap")
 {
@@ -53,20 +65,6 @@ TEST_CASE("unwrap")
 	static_assert(std::is_same_v<volatile not_an_enum&&, decltype(unwrap(std::declval<volatile not_an_enum&&>()))>);
 	static_assert(std::is_same_v<const volatile not_an_enum&&, decltype(unwrap(std::declval<const volatile not_an_enum&&>()))>);
 
-}
-
-TEST_CASE("has_single_bit")
-{
-	CHECK_AND_STATIC_ASSERT(has_single_bit(1u));
-	CHECK_AND_STATIC_ASSERT(has_single_bit(2u));
-	CHECK_AND_STATIC_ASSERT(!has_single_bit(3u));
-	CHECK_AND_STATIC_ASSERT(has_single_bit(4u));
-	CHECK_AND_STATIC_ASSERT(!has_single_bit(5u));
-	CHECK_AND_STATIC_ASSERT(!has_single_bit(6u));
-	CHECK_AND_STATIC_ASSERT(!has_single_bit(7u));
-	CHECK_AND_STATIC_ASSERT(has_single_bit(8u));
-	CHECK_AND_STATIC_ASSERT(!has_single_bit(9u));
-	CHECK_AND_STATIC_ASSERT(!has_single_bit(10u));
 }
 
 TEST_CASE("countl_zero")
@@ -611,10 +609,204 @@ TEST_CASE("bit_ceil")
 
 TEST_CASE("pack")
 {
-	CHECK_AND_STATIC_ASSERT(pack(0xFEDCBA98_u32, 0x76543210_u32)							 == 0xFEDCBA9876543210_u64);
-	CHECK_AND_STATIC_ASSERT(pack(0xFEDC_u16, 0xBA98_u16, 0x76543210_u32)					 == 0xFEDCBA9876543210_u64);
-	CHECK_AND_STATIC_ASSERT(pack(0xFEDC_u16, 0xBA98_u16, 0x7654_u16, 0x3210_u16)			 == 0xFEDCBA9876543210_u64);
+	CHECK_AND_STATIC_ASSERT(pack(0xFEDCBA98_u32, 0x76543210_u32) == 0xFEDCBA9876543210_u64);
+	CHECK_AND_STATIC_ASSERT(pack(0xFEDC_u16, 0xBA98_u16, 0x76543210_u32) == 0xFEDCBA9876543210_u64);
+	CHECK_AND_STATIC_ASSERT(pack(0xFEDC_u16, 0xBA98_u16, 0x7654_u16, 0x3210_u16) == 0xFEDCBA9876543210_u64);
 	CHECK_AND_STATIC_ASSERT(pack(0xFEDC_u16, 0xBA_u8, 0x98_u8, 0x7654_u16, 0x32_u8, 0x10_u8) == 0xFEDCBA9876543210_u64);
+}
+
+//TEST_CASE("bit_cast")
+//{
+//	// todo
+//}
+
+namespace
+{
+	static int test_val = 0;
+	MUU_NEVER_INLINE int func1() { return test_val = 1; }
+	MUU_NEVER_INLINE int func2() noexcept { return test_val = 2; }
+
+	struct base { virtual ~base() noexcept = default; };
+	struct derived1 : base {};
+	struct derived2 : base {};
+}
+
+TEST_CASE("pointer_cast")
+{
+	using int_ptr = int*;
+
+	// same input and output types (no-op)
+	CHECK(pointer_cast<int*>(&test_val) == &test_val);
+
+	// nullptr -> *
+	CHECK(pointer_cast<int*>(nullptr) == int_ptr{});
+
+	// pointer -> integer
+	// integer -> pointer
+	CHECK(pointer_cast<intptr_t>(&test_val) == reinterpret_cast<intptr_t>(&test_val));
+	CHECK(pointer_cast<uintptr_t>(&test_val) == reinterpret_cast<uintptr_t>(&test_val));
+
+	// function pointers
+	if constexpr (sizeof(void*) == sizeof(void(*)()))
+	{
+		// function -> void
+		CHECK(pointer_cast<void*>(func1) == reinterpret_cast<void*>(func1));
+		CHECK(pointer_cast<void*>(func2) == reinterpret_cast<void*>(func2));
+
+		// void -> function
+		// function -> function (noexcept)
+		// function (noexcept) -> function
+		{
+			void* ptr1 = pointer_cast<void*>(func1);
+			CHECK(pointer_cast<int(*)()>(ptr1) == reinterpret_cast<int(*)()>(ptr1));
+			CHECK(pointer_cast<int(*)()>(ptr1) == func1);
+			pointer_cast<int(*)()>(ptr1)();
+			CHECK(test_val == 1);
+
+			void* ptr2 = pointer_cast<void*>(func2);
+			CHECK(pointer_cast<int(*)()noexcept>(ptr2) == reinterpret_cast<int(*)()noexcept>(ptr2));
+			CHECK(pointer_cast<int(*)()noexcept>(ptr2) == func2);
+			pointer_cast<int(*)()noexcept>(ptr2)();
+			CHECK(test_val == 2);
+
+			test_val = 0;
+
+			pointer_cast<int(*)()noexcept>(func1)();
+			CHECK(test_val == 1);
+			pointer_cast<int(*)()>(func2)();
+			CHECK(test_val == 2);
+
+			test_val = 0;
+		}
+	}
+
+	// void -> void (different cv)
+	CHECK(pointer_cast<void*>(static_cast<const void*>(&test_val)) == &test_val);
+	CHECK(pointer_cast<const void*>(static_cast<volatile void*>(&test_val)) == &test_val);
+	CHECK(pointer_cast<volatile void*>(static_cast<const void*>(&test_val)) == &test_val);
+	CHECK(pointer_cast<const volatile void*>(static_cast<volatile void*>(&test_val)) == &test_val);
+
+	// * -> void
+	CHECK(pointer_cast<void*>(&test_val) == &test_val);
+	CHECK(pointer_cast<const void*>(&test_val) == &test_val);
+	CHECK(pointer_cast<volatile void*>(&test_val) == &test_val);
+	CHECK(pointer_cast<const volatile void*>(&test_val) == &test_val);
+
+	// void -> *
+	CHECK(pointer_cast<int*>(static_cast<void*>(&test_val)) == &test_val);
+	CHECK(pointer_cast<const int*>(static_cast<void*>(&test_val)) == &test_val);
+	CHECK(pointer_cast<volatile int*>(static_cast<void*>(&test_val)) == &test_val);
+	CHECK(pointer_cast<const volatile int*>(static_cast<void*>(&test_val)) == &test_val);
+
+	//derived -> base
+	{
+		derived1 d{};
+		CHECK(pointer_cast<base*>(&d) == &d);
+		CHECK(pointer_cast<const base*>(&d) == &d);
+		CHECK(pointer_cast<volatile base*>(&d) == &d);
+		CHECK(pointer_cast<const volatile base*>(&d) == &d);
+	}
+
+	// base -> derived
+	{
+		std::unique_ptr<base> b{ new derived1 };
+		CHECK(pointer_cast<derived1*>(b.get()) == b.get());
+		CHECK(pointer_cast<const derived1*>(b.get()) == b.get());
+		CHECK(pointer_cast<volatile derived1*>(b.get()) == b.get());
+		CHECK(pointer_cast<const volatile derived1*>(b.get()) == b.get());
+
+		CHECK(pointer_cast<derived2*>(b.get()) == nullptr);
+		CHECK(pointer_cast<const derived2*>(b.get()) == nullptr);
+		CHECK(pointer_cast<volatile derived2*>(b.get()) == nullptr);
+		CHECK(pointer_cast<const volatile derived2*>(b.get()) == nullptr);
+	}
+}
+
+//TEST_CASE("apply_offset")
+//{
+//	// todo
+//}
+
+//TEST_CASE("min")
+//{
+//	// todo
+//}
+
+//TEST_CASE("max")
+//{
+//	// todo
+//}
+
+//TEST_CASE("abs")
+//{
+//	// todo
+//}
+
+TEST_CASE("clamp")
+{
+	CHECK_AND_STATIC_ASSERT(clamp(1, 2, 4) == 2);
+	CHECK_AND_STATIC_ASSERT(clamp(2, 2, 4) == 2);
+	CHECK_AND_STATIC_ASSERT(clamp(3, 2, 4) == 3);
+	CHECK_AND_STATIC_ASSERT(clamp(4, 2, 4) == 4);
+	CHECK_AND_STATIC_ASSERT(clamp(5, 2, 4) == 4);
+}
+
+TEST_CASE("between")
+{
+	CHECK_AND_STATIC_ASSERT(!between(1, 2, 4));
+	CHECK_AND_STATIC_ASSERT(between(2, 2, 4));
+	CHECK_AND_STATIC_ASSERT(between(3, 2, 4));
+	CHECK_AND_STATIC_ASSERT(between(4, 2, 4));
+	CHECK_AND_STATIC_ASSERT(!between(5, 2, 4));
+}
+
+TEST_CASE("popcount")
+{
+	CHECK_AND_STATIC_ASSERT(popcount(0b00000000_u8) == 0);
+	CHECK_AND_STATIC_ASSERT(popcount(0b00000010_u8) == 1);
+	CHECK_AND_STATIC_ASSERT(popcount(0b00110010_u8) == 3);
+	CHECK_AND_STATIC_ASSERT(popcount(0b10110010_u8) == 4);
+	CHECK_AND_STATIC_ASSERT(popcount(0b11111111_u8) == 8);
+
+	CHECK_AND_STATIC_ASSERT(popcount(0b0000000000000000_u16) == 0);
+	CHECK_AND_STATIC_ASSERT(popcount(0b0000001000000010_u16) == 2);
+	CHECK_AND_STATIC_ASSERT(popcount(0b0011001000110010_u16) == 6);
+	CHECK_AND_STATIC_ASSERT(popcount(0b1011001010110010_u16) == 8);
+	CHECK_AND_STATIC_ASSERT(popcount(0b1111111111111111_u16) == 16);
+
+	CHECK_AND_STATIC_ASSERT(popcount(0b00000000000000000000000000000000_u32) == 0);
+	CHECK_AND_STATIC_ASSERT(popcount(0b00000010000000100000001000000010_u32) == 4);
+	CHECK_AND_STATIC_ASSERT(popcount(0b00110010001100100011001000110010_u32) == 12);
+	CHECK_AND_STATIC_ASSERT(popcount(0b10110010101100101011001010110010_u32) == 16);
+	CHECK_AND_STATIC_ASSERT(popcount(0b11111111111111111111111111111111_u32) == 32);
+
+	CHECK_AND_STATIC_ASSERT(popcount(0b0000000000000000000000000000000000000000000000000000000000000000_u64) == 0);
+	CHECK_AND_STATIC_ASSERT(popcount(0b0000001000000010000000100000001000000010000000100000001000000010_u64) == 8);
+	CHECK_AND_STATIC_ASSERT(popcount(0b0011001000110010001100100011001000110010001100100011001000110010_u64) == 24);
+	CHECK_AND_STATIC_ASSERT(popcount(0b1011001010110010101100101011001010110010101100101011001010110010_u64) == 32);
+	CHECK_AND_STATIC_ASSERT(popcount(0b1111111111111111111111111111111111111111111111111111111111111111_u64) == 64);
+	#if MUU_HAS_INT128
+	CHECK_AND_STATIC_ASSERT(popcount(pack(0b0000000000000000000000000000000000000000000000000000000000000000_u64, 0b0000000000000000000000000000000000000000000000000000000000000000_u64)) == 0);
+	CHECK_AND_STATIC_ASSERT(popcount(pack(0b0000001000000010000000100000001000000010000000100000001000000010_u64, 0b0000001000000010000000100000001000000010000000100000001000000010_u64)) == 16);
+	CHECK_AND_STATIC_ASSERT(popcount(pack(0b0011001000110010001100100011001000110010001100100011001000110010_u64, 0b0011001000110010001100100011001000110010001100100011001000110010_u64)) == 48);
+	CHECK_AND_STATIC_ASSERT(popcount(pack(0b1011001010110010101100101011001010110010101100101011001010110010_u64, 0b1011001010110010101100101011001010110010101100101011001010110010_u64)) == 64);
+	CHECK_AND_STATIC_ASSERT(popcount(pack(0b1111111111111111111111111111111111111111111111111111111111111111_u64, 0b1111111111111111111111111111111111111111111111111111111111111111_u64)) == 128);
+	#endif
+}
+
+TEST_CASE("has_single_bit")
+{
+	CHECK_AND_STATIC_ASSERT(!has_single_bit(0u));
+	CHECK_AND_STATIC_ASSERT(has_single_bit(1u));
+	CHECK_AND_STATIC_ASSERT(has_single_bit(2u));
+	CHECK_AND_STATIC_ASSERT(!has_single_bit(3u));
+	CHECK_AND_STATIC_ASSERT(has_single_bit(4u));
+	CHECK_AND_STATIC_ASSERT(!has_single_bit(5u));
+	CHECK_AND_STATIC_ASSERT(!has_single_bit(6u));
+	CHECK_AND_STATIC_ASSERT(!has_single_bit(7u));
+	CHECK_AND_STATIC_ASSERT(has_single_bit(8u));
+	CHECK_AND_STATIC_ASSERT(!has_single_bit(9u));
+	CHECK_AND_STATIC_ASSERT(!has_single_bit(10u));
 }
 
 TEST_CASE("bit_floor")
@@ -1298,40 +1490,6 @@ TEST_CASE("bit_fill_left")
 	#endif
 }
 
-TEST_CASE("popcount")
-{
-	CHECK_AND_STATIC_ASSERT(popcount(0b00000000_u8) == 0);
-	CHECK_AND_STATIC_ASSERT(popcount(0b00000010_u8) == 1);
-	CHECK_AND_STATIC_ASSERT(popcount(0b00110010_u8) == 3);
-	CHECK_AND_STATIC_ASSERT(popcount(0b10110010_u8) == 4);
-	CHECK_AND_STATIC_ASSERT(popcount(0b11111111_u8) == 8);
-
-	CHECK_AND_STATIC_ASSERT(popcount(0b0000000000000000_u16) == 0);
-	CHECK_AND_STATIC_ASSERT(popcount(0b0000001000000010_u16) == 2);
-	CHECK_AND_STATIC_ASSERT(popcount(0b0011001000110010_u16) == 6);
-	CHECK_AND_STATIC_ASSERT(popcount(0b1011001010110010_u16) == 8);
-	CHECK_AND_STATIC_ASSERT(popcount(0b1111111111111111_u16) == 16);
-
-	CHECK_AND_STATIC_ASSERT(popcount(0b00000000000000000000000000000000_u32) == 0);
-	CHECK_AND_STATIC_ASSERT(popcount(0b00000010000000100000001000000010_u32) == 4);
-	CHECK_AND_STATIC_ASSERT(popcount(0b00110010001100100011001000110010_u32) == 12);
-	CHECK_AND_STATIC_ASSERT(popcount(0b10110010101100101011001010110010_u32) == 16);
-	CHECK_AND_STATIC_ASSERT(popcount(0b11111111111111111111111111111111_u32) == 32);
-
-	CHECK_AND_STATIC_ASSERT(popcount(0b0000000000000000000000000000000000000000000000000000000000000000_u64) == 0);
-	CHECK_AND_STATIC_ASSERT(popcount(0b0000001000000010000000100000001000000010000000100000001000000010_u64) == 8);
-	CHECK_AND_STATIC_ASSERT(popcount(0b0011001000110010001100100011001000110010001100100011001000110010_u64) == 24);
-	CHECK_AND_STATIC_ASSERT(popcount(0b1011001010110010101100101011001010110010101100101011001010110010_u64) == 32);
-	CHECK_AND_STATIC_ASSERT(popcount(0b1111111111111111111111111111111111111111111111111111111111111111_u64) == 64);
-	#if MUU_HAS_INT128
-	CHECK_AND_STATIC_ASSERT(popcount(pack(0b0000000000000000000000000000000000000000000000000000000000000000_u64, 0b0000000000000000000000000000000000000000000000000000000000000000_u64)) == 0);
-	CHECK_AND_STATIC_ASSERT(popcount(pack(0b0000001000000010000000100000001000000010000000100000001000000010_u64, 0b0000001000000010000000100000001000000010000000100000001000000010_u64)) == 16);
-	CHECK_AND_STATIC_ASSERT(popcount(pack(0b0011001000110010001100100011001000110010001100100011001000110010_u64, 0b0011001000110010001100100011001000110010001100100011001000110010_u64)) == 48);
-	CHECK_AND_STATIC_ASSERT(popcount(pack(0b1011001010110010101100101011001010110010101100101011001010110010_u64, 0b1011001010110010101100101011001010110010101100101011001010110010_u64)) == 64);
-	CHECK_AND_STATIC_ASSERT(popcount(pack(0b1111111111111111111111111111111111111111111111111111111111111111_u64, 0b1111111111111111111111111111111111111111111111111111111111111111_u64)) == 128);
-	#endif
-}
-
 TEST_CASE("byte_select")
 {
 	#if MUU_HAS_INT128
@@ -1386,122 +1544,129 @@ TEST_CASE("byte_reverse")
 	CHECK_AND_STATIC_ASSERT(byte_reverse(0xABCD_u16) == 0xCDAB_u16);
 }
 
-TEST_CASE("clamp")
-{
-	CHECK_AND_STATIC_ASSERT(clamp(1, 2, 4) == 2);
-	CHECK_AND_STATIC_ASSERT(clamp(2, 2, 4) == 2);
-	CHECK_AND_STATIC_ASSERT(clamp(3, 2, 4) == 3);
-	CHECK_AND_STATIC_ASSERT(clamp(4, 2, 4) == 4);
-	CHECK_AND_STATIC_ASSERT(clamp(5, 2, 4) == 4);
-}
-
-TEST_CASE("between")
-{
-	CHECK_AND_STATIC_ASSERT(!between(1, 2, 4));
-	CHECK_AND_STATIC_ASSERT(between(2, 2, 4));
-	CHECK_AND_STATIC_ASSERT(between(3, 2, 4));
-	CHECK_AND_STATIC_ASSERT(between(4, 2, 4));
-	CHECK_AND_STATIC_ASSERT(!between(5, 2, 4));
-}
-
 namespace
 {
-	static int test_val = 0;
-	MUU_NEVER_INLINE int func1() { return test_val = 1; }
-	MUU_NEVER_INLINE int func2() noexcept { return test_val = 2; }
+	#define INF_OR_NAN_RANGE_CHECKS 1
 
-	struct base { virtual ~base() noexcept = default; };
-	struct derived1 : base {};
-	struct derived2 : base {};
-}
-
-TEST_CASE("pointer_cast")
-{
-	using int_ptr = int*;
-
-	// same input and output types (no-op)
-	CHECK(pointer_cast<int*>(&test_val) == &test_val);
-
-	// nullptr -> *
-	CHECK(pointer_cast<int*>(nullptr) == int_ptr{});
-
-	// pointer -> integer
-	// integer -> pointer
-	CHECK(pointer_cast<intptr_t>(&test_val) == reinterpret_cast<intptr_t>(&test_val));
-	CHECK(pointer_cast<uintptr_t>(&test_val) == reinterpret_cast<uintptr_t>(&test_val));
-
-	// function pointers
-	if constexpr (sizeof(void*) == sizeof(void(*)()))
+	#if INF_OR_NAN_RANGE_CHECKS
+	template <typename T, int sign>
+	constexpr bool test_infinity_or_nan_ranges() noexcept
 	{
-		// function -> void
-		CHECK(pointer_cast<void*>(func1) == reinterpret_cast<void*>(func1));
-		CHECK(pointer_cast<void*>(func2) == reinterpret_cast<void*>(func2));
+		using data = float_test_data<T>;
 
-		// void -> function
-		// function -> function (noexcept)
-		// function (noexcept) -> function
+		if constexpr (data::int_blittable)
 		{
-			void* ptr1 = pointer_cast<void*>(func1);
-			CHECK(pointer_cast<int(*)()>(ptr1) == reinterpret_cast<int(*)()>(ptr1));
-			CHECK(pointer_cast<int(*)()>(ptr1) == func1);
-			pointer_cast<int(*)()>(ptr1)();
-			CHECK(test_val == 1);
+			constexpr auto test_range = [](auto min_, auto max_) noexcept
+			{
+				using blit_type = decltype(min_);
+				const blit_type first = (min)(min_, max_); // normalize for endiannness
+				const blit_type last = (max)(min_, max_);  //
 
-			void* ptr2 = pointer_cast<void*>(func2);
-			CHECK(pointer_cast<int(*)()noexcept>(ptr2) == reinterpret_cast<int(*)()noexcept>(ptr2));
-			CHECK(pointer_cast<int(*)()noexcept>(ptr2) == func2);
-			pointer_cast<int(*)()noexcept>(ptr2)();
-			CHECK(test_val == 2);
+				if constexpr (std::numeric_limits<T>::digits <= 24)
+				{
+					for (auto bits = first; bits < last; bits++)
+						if (!infinity_or_nan(bit_cast<T>(bits)))
+							return false;
+				}
+				else
+				{
+					auto bits = first;
+					const uint64_t step = bit_fill_right<uint64_t>(std::numeric_limits<T>::digits-1) / (bit_fill_right<uint64_t>(23_sz)-1_u64);
+					for (auto iters = bit_fill_right<uint64_t>(23_sz) - 1_u64; iters --> uint64_t{};)
+					{
+						const auto v = bit_cast<T>(bits);
+						if (!infinity_or_nan(v))
+							return false;
+						bits += static_cast<blit_type>(step);
+					}
+				}
 
-			test_val = 0;
+				if (!infinity_or_nan(bit_cast<T>(last)))
+					return false;
 
-			pointer_cast<int(*)()noexcept>(func1)();
-			CHECK(test_val == 1);
-			pointer_cast<int(*)()>(func2)();
-			CHECK(test_val == 2);
+				return true;
+			};
 
-			test_val = 0;
+			if constexpr (sign >= 0)
+			{
+				if (!test_range(data::bits_pos_nan_min, data::bits_pos_nan_max)) return false;
+			}
+			else
+			{
+				if (!test_range(data::bits_neg_nan_min, data::bits_neg_nan_max)) return false;
+			}
 		}
+
+		return true;
 	}
-
-	// void -> void (different cv)
-	CHECK(pointer_cast<void*>(static_cast<const void*>(&test_val)) == &test_val);
-	CHECK(pointer_cast<const void*>(static_cast<volatile void*>(&test_val)) == &test_val);
-	CHECK(pointer_cast<volatile void*>(static_cast<const void*>(&test_val)) == &test_val);
-	CHECK(pointer_cast<const volatile void*>(static_cast<volatile void*>(&test_val)) == &test_val);
-
-	// * -> void
-	CHECK(pointer_cast<void*>(&test_val) == &test_val);
-	CHECK(pointer_cast<const void*>(&test_val) == &test_val);
-	CHECK(pointer_cast<volatile void*>(&test_val) == &test_val);
-	CHECK(pointer_cast<const volatile void*>(&test_val) == &test_val);
-
-	// void -> *
-	CHECK(pointer_cast<int*>(static_cast<void*>(&test_val)) == &test_val);
-	CHECK(pointer_cast<const int*>(static_cast<void*>(&test_val)) == &test_val);
-	CHECK(pointer_cast<volatile int*>(static_cast<void*>(&test_val)) == &test_val);
-	CHECK(pointer_cast<const volatile int*>(static_cast<void*>(&test_val)) == &test_val);
-
-	//derived -> base
-	{
-		derived1 d{};
-		CHECK(pointer_cast<base*>(&d) == &d);
-		CHECK(pointer_cast<const base*>(&d) == &d);
-		CHECK(pointer_cast<volatile base*>(&d) == &d);
-		CHECK(pointer_cast<const volatile base*>(&d) == &d);
-	}
-
-	// base -> derived
-	{
-		std::unique_ptr<base> b{ new derived1 };
-		CHECK(pointer_cast<derived1*>(b.get()) == b.get());
-		CHECK(pointer_cast<const derived1*>(b.get()) == b.get());
-		CHECK(pointer_cast<volatile derived1*>(b.get()) == b.get());
-		CHECK(pointer_cast<const volatile derived1*>(b.get()) == b.get());
-
-		CHECK(pointer_cast<derived2*>(b.get()) == nullptr);
-		CHECK(pointer_cast<const derived2*>(b.get()) == nullptr);
-		CHECK(pointer_cast<volatile derived2*>(b.get()) == nullptr);
-		CHECK(pointer_cast<const volatile derived2*>(b.get()) == nullptr);
-	}
+	#endif // INF_OR_NAN_RANGE_CHECKS
 }
+
+#define INF_OR_NAN_CHECK(expr)												\
+	static_assert(!build::supports_constexpr_infinity_or_nan || (expr));	\
+	CHECK(expr)
+
+TEST_CASE("infinity_or_nan - float16")
+{
+	INF_OR_NAN_CHECK(!infinity_or_nan(float16::from_bits(0x0000_u16)));
+
+	using limits = std::numeric_limits<float16>;
+	if constexpr (limits::has_quiet_NaN)
+		INF_OR_NAN_CHECK(infinity_or_nan(limits::quiet_NaN()));
+	INF_OR_NAN_CHECK(infinity_or_nan(limits::infinity()));
+	INF_OR_NAN_CHECK(infinity_or_nan(-limits::infinity()));
+
+	#if INF_OR_NAN_RANGE_CHECKS
+	CHECK((test_infinity_or_nan_ranges<float16, -1>()));
+	CHECK((test_infinity_or_nan_ranges<float16, 1>()));
+	#endif
+}
+
+TEST_CASE("infinity_or_nan - float")
+{
+	INF_OR_NAN_CHECK(!infinity_or_nan(0.0f));
+
+	using limits = std::numeric_limits<float>;
+	if constexpr (limits::has_quiet_NaN)
+		INF_OR_NAN_CHECK(infinity_or_nan(limits::quiet_NaN()));
+	INF_OR_NAN_CHECK(infinity_or_nan(limits::infinity()));
+	INF_OR_NAN_CHECK(infinity_or_nan(-limits::infinity()));
+
+	#if INF_OR_NAN_RANGE_CHECKS
+	CHECK((test_infinity_or_nan_ranges<float, -1>()));
+	CHECK((test_infinity_or_nan_ranges<float, 1>()));
+	#endif
+}
+
+TEST_CASE("infinity_or_nan - double")
+{
+	INF_OR_NAN_CHECK(!infinity_or_nan(0.0));
+
+	using limits = std::numeric_limits<double>;
+	if constexpr (limits::has_quiet_NaN)
+		INF_OR_NAN_CHECK(infinity_or_nan(limits::quiet_NaN()));
+	INF_OR_NAN_CHECK(infinity_or_nan(limits::infinity()));
+	INF_OR_NAN_CHECK(infinity_or_nan(-limits::infinity()));
+
+	#if INF_OR_NAN_RANGE_CHECKS
+	CHECK((test_infinity_or_nan_ranges<double, -1>()));
+	CHECK((test_infinity_or_nan_ranges<double, 1>()));
+	#endif
+}
+
+TEST_CASE("infinity_or_nan - long double")
+{
+	INF_OR_NAN_CHECK(!infinity_or_nan(0.0L));
+
+	using limits = std::numeric_limits<long double>;
+	if constexpr (limits::has_quiet_NaN)
+		INF_OR_NAN_CHECK(infinity_or_nan(limits::quiet_NaN()));
+	INF_OR_NAN_CHECK(infinity_or_nan(limits::infinity()));
+	INF_OR_NAN_CHECK(infinity_or_nan(-limits::infinity()));
+
+	#if INF_OR_NAN_RANGE_CHECKS
+	CHECK((test_infinity_or_nan_ranges<long double, -1>()));
+	CHECK((test_infinity_or_nan_ranges<long double, 1>()));
+	#endif
+}
+

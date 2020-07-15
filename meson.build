@@ -30,8 +30,6 @@ if build_tests or build_examples
 	if compiler.get_id() == 'gcc' or compiler.get_id() == 'clang'
 		add_project_arguments([
 				'-march=native',
-				'-ffast-math',
-				'-ffp-contract=fast'
 			],
 			language : 'cpp'
 		)

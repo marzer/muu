@@ -79,7 +79,7 @@
     <Natvis Include="muu.natvis" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\tests\float_test_data.h" />
+    <ClInclude Include="..\tests\float_tests.h" />
     <ClInclude Include="..\tests\tests.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,6 @@
 #include "tests.h"
+#include "float_tests.h"
 #include "../include/muu/accumulator.h"
-#include "../include/muu/float16.h"
-#include "float_test_data.h"
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_ARITHMETIC_WARNINGS
