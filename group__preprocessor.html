@@ -165,6 +165,10 @@ C++</span></a>
             </dt>
             <dd>Expands to <code>__has_builtin(name)</code> when supported by the compiler, <code>0</code> otherwise.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gad6cf2ebac5d966916c61f46e79f035b2">MUU_HAS_FLOAT128</a></span>
+            </dt>
+            <dd><code>1</code> when the target environment has 128-bit floats ('quads'), <code>0</code> otherwise.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga61a9c9471317fa76fa46bd87d8f671b6">MUU_HAS_INT128</a></span>
             </dt>
             <dd><code>1</code> when the target environment has 128-bit integers, <code>0</code> otherwise.</dd>
@@ -216,6 +220,11 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga2b6bac0477246591441528bf0bafeb39">MUU_NODISCARD_CTOR</a></span>
             </dt>
             <dd>Expands to <code>[[nodiscard]]</code> if your compiler supports it on constructors.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gaf60d17cb41e219543658aaad10768867">MUU_OFFSETOF</a>(</span><span class="m-doc-wrap">s,
+              m)</span>
+            </dt>
+            <dd>Constexpr-friendly alias of <code>offsetof()</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga70d1ba7b4018ae5521eed5b23e98d41c">MUU_POP_WARNINGS</a></span>
             </dt>
@@ -447,6 +456,13 @@ C++</span></a>
             </h3>
             <p>Expands to <code>__has_builtin(name)</code> when supported by the compiler, <code>0</code> otherwise.</p>
           </div></section>
+          <section class="m-doc-details" id="gad6cf2ebac5d966916c61f46e79f035b2"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gad6cf2ebac5d966916c61f46e79f035b2">MUU_HAS_FLOAT128</a></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p><code>1</code> when the target environment has 128-bit floats ('quads'), <code>0</code> otherwise.</p>
+          </div></section>
           <section class="m-doc-details" id="ga61a9c9471317fa76fa46bd87d8f671b6"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga61a9c9471317fa76fa46bd87d8f671b6">MUU_HAS_INT128</a></span>
@@ -599,6 +615,14 @@ C++</span></a>
 
     <span class="n">something_that_requires_the_lock</span><span class="p">();</span>
 <span class="p">}</span></pre>
+          </div></section>
+          <section class="m-doc-details" id="gaf60d17cb41e219543658aaad10768867"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gaf60d17cb41e219543658aaad10768867">MUU_OFFSETOF</a>(</span><span class="m-doc-wrap">s,
+              m)</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>Constexpr-friendly alias of <code>offsetof()</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga70d1ba7b4018ae5521eed5b23e98d41c"><div>
             <h3>

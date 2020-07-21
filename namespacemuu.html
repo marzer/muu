@@ -182,9 +182,13 @@ C++</span></a>
             </dt>
             <dd>Adds const to the pointed-to type of a pointer, correctly handling pointers-to-void.</dd>
             <dt>
+              using <a class="m-doc" href="#a74a70ec9e3331f37ebbc3e875e183861">float128_t</a> = __float128
+            </dt>
+            <dd>A 128-bit quad-precision float.</dd>
+            <dt>
               using <a class="m-doc" href="#af8e0aa5a37ec05e07c7b69077de9303c">int128_t</a> = __int128_t
             </dt>
-            <dd>An alias for a signed 128-bit integer.</dd>
+            <dd>A 128-bit signed integer.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga08897f2a98f81f54e88d634e9a755476">largest</a> = typename impl::largest&lt;T...&gt;::type
@@ -283,7 +287,7 @@ C++</span></a>
             <dt>
               using <a class="m-doc" href="#aa82164a62949a1b029695dff5441d577">uint128_t</a> = __uint128_t
             </dt>
-            <dd>An alias for an unsigned 128-bit integer.</dd>
+            <dd>A 128-bit unsigned integer.</dd>
           </dl>
         </section>
         <section id="func-members">
@@ -315,10 +319,10 @@ C++</span></a>
             </dt>
             <dd>Applies a byte offset to a pointer.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gaa5a1669fa4064c0583eb5140b359aa1b">between</a>(</span><span class="m-doc-wrap">T val,
-              T min_,
-              T max_) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename T, typename U&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga5b043c21509a069a2fc06ed8e0df2279">between</a>(</span><span class="m-doc-wrap">T val,
+              U min_,
+              U max_) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a value is between two bounds (inclusive).</dd>
             <dt>
@@ -600,12 +604,20 @@ C++</span></a>
         </section>
         <section>
           <h2>Typedef documentation</h2>
+          <section class="m-doc-details" id="a74a70ec9e3331f37ebbc3e875e183861"><div>
+            <h3>
+              using muu::<wbr/><a class="m-doc-self" href="#a74a70ec9e3331f37ebbc3e875e183861">float128_t</a> = __float128
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>A 128-bit quad-precision float.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This typedef is only present when 128-bit floats are supported by your compiler.</p></aside>
+          </div></section>
           <section class="m-doc-details" id="af8e0aa5a37ec05e07c7b69077de9303c"><div>
             <h3>
               using muu::<wbr/><a class="m-doc-self" href="#af8e0aa5a37ec05e07c7b69077de9303c">int128_t</a> = __int128_t
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
             </h3>
-            <p>An alias for a signed 128-bit integer.</p>
+            <p>A 128-bit signed integer.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This typedef is only present when 128-bit integers are supported by your compiler.</p></aside>
           </div></section>
           <section class="m-doc-details" id="aa82164a62949a1b029695dff5441d577"><div>
@@ -613,7 +625,7 @@ C++</span></a>
               using muu::<wbr/><a class="m-doc-self" href="#aa82164a62949a1b029695dff5441d577">uint128_t</a> = __uint128_t
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
             </h3>
-            <p>An alias for an unsigned 128-bit integer.</p>
+            <p>A 128-bit unsigned integer.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This typedef is only present when 128-bit integers are supported by your compiler.</p></aside>
           </div></section>
         </section>
