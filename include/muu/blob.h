@@ -9,7 +9,7 @@
 #pragma once
 #include "../muu/core.h"
 
-namespace muu
+MUU_NAMESPACE_START
 {
 	/// \brief Interface for managing chunks of memory.
 	/// 
@@ -125,6 +125,7 @@ namespace muu
 			}
 	};
 }
+MUU_NAMESPACE_END
 
 #if MUU_IMPLEMENTATION
 	#include "../muu/impl/blob.hpp"

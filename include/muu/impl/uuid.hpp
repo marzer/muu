@@ -21,7 +21,7 @@ MUU_DISABLE_ALL_WARNINGS
 #endif
 MUU_POP_WARNINGS
 
-namespace muu
+MUU_NAMESPACE_START
 {
 	MUU_EXTERNAL_LINKAGE
 	MUU_API
@@ -31,16 +31,16 @@ namespace muu
 		#if MUU_WINDOWS
 		{
 			UUID native;
+			static_assert(sizeof(UUID) == sizeof(uuid));
+
 			UuidCreate(&native);
-			val.bytes[0] = std::byte{ byte_select<build::is_little_endian ? 3 : 0>(native.Data1) };
-			val.bytes[1] = std::byte{ byte_select<build::is_little_endian ? 2 : 1>(native.Data1) };
-			val.bytes[2] = std::byte{ byte_select<build::is_little_endian ? 1 : 2>(native.Data1) };
-			val.bytes[3] = std::byte{ byte_select<build::is_little_endian ? 0 : 3>(native.Data1) };
-			val.bytes[4] = std::byte{ byte_select<build::is_little_endian ? 1 : 0>(native.Data2) };
-			val.bytes[5] = std::byte{ byte_select<build::is_little_endian ? 0 : 1>(native.Data2) };
-			val.bytes[6] = std::byte{ byte_select<build::is_little_endian ? 1 : 0>(native.Data3) };
-			val.bytes[7] = std::byte{ byte_select<build::is_little_endian ? 0 : 1>(native.Data3) };
-			memcpy(&val.bytes[8], native.Data4, 8);
+			if constexpr (build::is_little_endian)
+			{
+				native.Data1 = byte_reverse(native.Data1);
+				native.Data2 = byte_reverse(native.Data2);
+				native.Data3 = byte_reverse(native.Data3);
+			}
+			memcpy(&val.bytes, &native, sizeof(UUID));
 		}
 		#else
 		{
@@ -55,3 +55,4 @@ namespace muu
 		return val;
 	}
 }
+MUU_NAMESPACE_END

@@ -112,6 +112,9 @@
     <None Include="..\python\generate_float_tests_header.py">
       <Filter>python</Filter>
     </None>
+    <None Include="..\python\generate_windows_test_targets.py">
+      <Filter>python</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">

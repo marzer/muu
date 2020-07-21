@@ -200,6 +200,7 @@
 	#define MUU_DISABLE_PADDING_WARNINGS	_Pragma("clang diagnostic ignored \"-Wpadded\"")
 	#define MUU_DISABLE_ARITHMETIC_WARNINGS	_Pragma("clang diagnostic ignored \"-Wfloat-equal\"") \
 											_Pragma("clang diagnostic ignored \"-Wdouble-promotion\"") \
+											_Pragma("clang diagnostic ignored \"-Wchar-subscripts\"") \
 											_Pragma("clang diagnostic ignored \"-Wshift-sign-overflow\"") \
 							MUU_PRAGMA_CLANG_GE(10, "clang diagnostic ignored \"-Wimplicit-int-float-conversion\"")
 	#define MUU_DISABLE_SHADOW_WARNINGS		_Pragma("clang diagnostic ignored \"-Wshadow\"")
@@ -255,8 +256,9 @@
 	#define MUU_LIKELY(...)					(__builtin_expect(!!(__VA_ARGS__), 1) )
 	#define MUU_UNLIKELY(...)				(__builtin_expect(!!(__VA_ARGS__), 0) )
 	#ifdef __has_builtin
-		#define MUU_HAS_BUILTIN(name)	__has_builtin(name)
+		#define MUU_HAS_BUILTIN(name)		__has_builtin(name)
 	#endif
+	#define MUU_OFFSETOF(s, m)				__builtin_offsetof(s,m)
 
 #endif // clang
 
@@ -294,6 +296,7 @@
 	#endif
 	#define MUU_LITTLE_ENDIAN				1
 	#define MUU_BIG_ENDIAN					0
+	#define MUU_OFFSETOF(s, m)				__builtin_offsetof(s,m)
 
 #endif // msvc
 
@@ -354,20 +357,20 @@
 							   MUU_PRAGMA_GCC_GE(8, "GCC diagnostic ignored \"-Wclass-memaccess\"")
 	#define MUU_DISABLE_PADDING_WARNINGS	_Pragma("GCC diagnostic ignored \"-Wpadded\"")
 	#define MUU_DISABLE_ARITHMETIC_WARNINGS	_Pragma("GCC diagnostic ignored \"-Wfloat-equal\"")					\
-											_Pragma("GCC diagnostic ignored \"-Wsign-conversion\"")
+											_Pragma("GCC diagnostic ignored \"-Wsign-conversion\"")				\
+											_Pragma("GCC diagnostic ignored \"-Wchar-subscripts\"")
 	#define MUU_DISABLE_SHADOW_WARNINGS		_Pragma("GCC diagnostic ignored \"-Wshadow\"")
 	#define MUU_DISABLE_SUGGEST_WARNINGS	_Pragma("GCC diagnostic ignored \"-Wsuggest-attribute=const\"")		\
 											_Pragma("GCC diagnostic ignored \"-Wsuggest-attribute=pure\"")
 	#define MUU_DISABLE_ALL_WARNINGS		_Pragma("GCC diagnostic ignored \"-Wall\"")							\
 											_Pragma("GCC diagnostic ignored \"-Wextra\"")						\
-											_Pragma("GCC diagnostic ignored \"-Wchar-subscripts\"")				\
 											_Pragma("GCC diagnostic ignored \"-Wtype-limits\"")					\
-											MUU_DISABLE_SUGGEST_WARNINGS										\
 											MUU_DISABLE_SWITCH_WARNINGS											\
 											MUU_DISABLE_INIT_WARNINGS											\
 											MUU_DISABLE_PADDING_WARNINGS										\
 											MUU_DISABLE_ARITHMETIC_WARNINGS										\
-											MUU_DISABLE_SHADOW_WARNINGS
+											MUU_DISABLE_SHADOW_WARNINGS											\
+											MUU_DISABLE_SUGGEST_WARNINGS
 	#define MUU_POP_WARNINGS				_Pragma("GCC diagnostic pop")
 	#define MUU_ATTR(attr)					__attribute__((attr))
 	#define MUU_ATTR_GCC(attr)				MUU_ATTR(attr)
@@ -390,8 +393,9 @@
 	#define MUU_LIKELY(...)					(__builtin_expect(!!(__VA_ARGS__), 1) )
 	#define MUU_UNLIKELY(...)				(__builtin_expect(!!(__VA_ARGS__), 0) )
 	#ifdef __has_builtin
-		#define MUU_HAS_BUILTIN(name)	__has_builtin(name)
+		#define MUU_HAS_BUILTIN(name)		__has_builtin(name)
 	#endif
+	#define MUU_OFFSETOF(s, m)				__builtin_offsetof(s,m)
 
 #endif // gcc
 
@@ -566,18 +570,6 @@
 	#define MUU_CONSTEVAL				constexpr
 #endif
 
-#if MUU_ALL_INLINE
-	#define MUU_EXTERNAL_LINKAGE			inline
-	#define MUU_INTERNAL_LINKAGE			inline
-	#define MUU_INTERNAL_NAMESPACE			muu::impl
-	#define MUU_USING_INTERNAL_NAMESPACE	using namespace ::MUU_INTERNAL_NAMESPACE
-#else
-	#define MUU_EXTERNAL_LINKAGE
-	#define MUU_INTERNAL_LINKAGE			static
-	#define MUU_INTERNAL_NAMESPACE
-	#define MUU_USING_INTERNAL_NAMESPACE	using namespace ::muu_this_is_not_a_real_namespace
-#endif
-
 #define MUU_PREPEND_R_1(S)				R##S
 #define MUU_PREPEND_R(S)				MUU_PREPEND_R_1(S)
 #define MUU_ADD_PARENTHESES_1(S)		(S)
@@ -589,9 +581,59 @@
 #define MUU_APPEND_SV_1(S)				S##sv
 #define MUU_APPEND_SV(S)				MUU_APPEND_SV_1(S)
 #define MUU_MAKE_STRING_VIEW(S)			MUU_APPEND_SV(MUU_MAKE_STRING(S))
+
+#ifdef __SIZEOF_INT128__
+	#define MUU_HAS_INT128 1
+#else
+	#define MUU_HAS_INT128 0
+#endif
+
+#ifdef __SIZEOF_FLOAT128__
+	#define MUU_HAS_FLOAT128 1
+#else
+	#define MUU_HAS_FLOAT128 0
+#endif
+
+#ifndef MUU_HAS_BUILTIN
+	#define MUU_HAS_BUILTIN(name)	0
+#endif
+
+//=====================================================================================================================
+// VERSIONS AND NAMESPACES
+//=====================================================================================================================
+
 #define MUU_VERSION_MAJOR				0
 #define MUU_VERSION_MINOR				1
 #define MUU_VERSION_PATCH				0
+
+#if !MUU_DOXYGEN
+	#define MUU_NAMESPACE_START			namespace muu { inline namespace MUU_CONCAT(v, MUU_VERSION_MAJOR)
+	#define MUU_NAMESPACE_END			}
+#else
+	#define MUU_NAMESPACE_START			namespace muu
+	#define MUU_NAMESPACE_END		
+#endif
+#define MUU_IMPL_NAMESPACE_START		MUU_NAMESPACE_START { namespace impl
+#define MUU_IMPL_NAMESPACE_END			} MUU_NAMESPACE_END
+#if MUU_ALL_INLINE
+	#define MUU_ANON_NAMESPACE_START	MUU_IMPL_NAMESPACE_START { namespace anon
+	#define MUU_ANON_NAMESPACE_END		} MUU_IMPL_NAMESPACE_END
+	#define MUU_ANON_NAMESPACE			muu::MUU_CONCAT(v, MUU_VERSION_MAJOR)::impl::anon
+	#define MUU_USING_ANON_NAMESPACE	using namespace MUU_ANON_NAMESPACE
+	#define MUU_EXTERNAL_LINKAGE		inline
+	#define MUU_INTERNAL_LINKAGE		inline
+#else
+	#define MUU_ANON_NAMESPACE_START	namespace
+	#define MUU_ANON_NAMESPACE_END
+	#define MUU_ANON_NAMESPACE
+	#define MUU_USING_ANON_NAMESPACE	(void)0
+	#define MUU_EXTERNAL_LINKAGE
+	#define MUU_INTERNAL_LINKAGE		static
+#endif
+
+//=====================================================================================================================
+// ASSERT
+//=====================================================================================================================
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_ALL_WARNINGS
@@ -605,22 +647,24 @@ MUU_DISABLE_ALL_WARNINGS
 #endif
 MUU_POP_WARNINGS
 
-#ifndef MUU_HAS_INT128
-	#ifdef __SIZEOF_INT128__
-		#define MUU_HAS_INT128 1
-	#else
-		#define MUU_HAS_INT128 0
-	#endif
-#endif
+//=====================================================================================================================
+// OFFSETOF
+//=====================================================================================================================
 
-#ifndef MUU_HAS_BUILTIN
-	#define MUU_HAS_BUILTIN(name)	0
+MUU_PUSH_WARNINGS
+MUU_DISABLE_ALL_WARNINGS
+#ifndef MUU_OFFSETOF
+	#ifndef offsetof
+		#include <cstddef>
+	#endif
+	#define MUU_OFFSETOF(s, m) offsetof(s, m)
 #endif
+MUU_POP_WARNINGS
 
 /// \addtogroup		preprocessor		Preprocessor magic
 /// \brief		Compiler feature detection, attributes, string-makers, etc.
 /// @{
-
+///
 /// \def MUU_ARCH_ITANIUM
 /// \brief `1` when targeting 64-bit Itanium, `0` otherwise.
 ///
@@ -920,10 +964,16 @@ MUU_POP_WARNINGS
 ///
 /// \def MUU_HAS_INT128
 /// \brief `1` when the target environment has 128-bit integers, `0` otherwise.
+/// 
+/// \def MUU_HAS_FLOAT128
+/// \brief `1` when the target environment has 128-bit floats ('quads'), `0` otherwise.
 ///
 /// \def MUU_HAS_BUILTIN(name)
 /// \brief Expands to `__has_builtin(name)` when supported by the compiler, `0` otherwise.
-
+///
+/// \def MUU_OFFSETOF(type, member)
+/// \brief Constexpr-friendly alias of `offsetof()`.
+///
 /// @}
 
 // clang-format on

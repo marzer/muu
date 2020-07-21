@@ -11,7 +11,7 @@
 
 MUU_PRAGMA_MSVC(inline_recursion(on))
 
-namespace muu::impl
+MUU_IMPL_NAMESPACE_START
 {
 	inline constexpr size_t tptr_addr_highest_used_bit = MUU_ARCH_AMD64 ? 47 : build::bitness - 1;
 	inline constexpr size_t tptr_addr_used_bits = tptr_addr_highest_used_bit + 1;
@@ -196,8 +196,9 @@ namespace muu::impl
 
 	struct tptr_nullptr_deduced_tag {};
 }
+MUU_IMPL_NAMESPACE_END
 
-namespace muu
+MUU_NAMESPACE_START
 {
 	/// \brief	Specialized pointer capable of storing data in the unused bits of a pointer's value.
 	///
@@ -599,6 +600,7 @@ namespace muu
 	template <typename T>
 	tagged_ptr(T*) -> tagged_ptr<T>;
 }
+MUU_NAMESPACE_END
 
 namespace std
 {

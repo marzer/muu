@@ -31,18 +31,19 @@ MUU_DISABLE_ALL_WARNINGS
 
 MUU_POP_WARNINGS // MUU_DISABLE_ALL_WARNINGS
 
-namespace muu::impl
-{
-	[[nodiscard]] constexpr uint16_t MUU_VECTORCALL f32_to_f16(float) noexcept;
-	[[nodiscard]] constexpr float MUU_VECTORCALL f16_to_f32(uint16_t) noexcept;
-	struct f16_from_bits_tag {};
-}
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_ARITHMETIC_WARNINGS
 
-namespace muu
+MUU_NAMESPACE_START
 {
+	namespace impl
+	{
+		[[nodiscard]] constexpr uint16_t MUU_VECTORCALL f32_to_f16(float) noexcept;
+		[[nodiscard]] constexpr float MUU_VECTORCALL f16_to_f32(uint16_t) noexcept;
+		struct f16_from_bits_tag {};
+	}
+
 	/// \brief	A 16-bit "half-precision" floating point type.
 	/// 
 	/// \detail This type is equipped with the full set of operators you'd expect from a float type,
@@ -538,8 +539,9 @@ namespace muu
 		return static_cast<float>(val) < 0.0f ? -val : val;
 	}
 }
+MUU_NAMESPACE_END
 
-namespace muu::impl
+MUU_IMPL_NAMESPACE_START
 {
 	#if MUU_F16_USE_INTRINSICS
 
@@ -719,6 +721,7 @@ namespace muu::impl
 		return f16_to_f32_native(val);
 	}
 }
+MUU_IMPL_NAMESPACE_END
 
 namespace std
 {
@@ -754,7 +757,7 @@ namespace std
 		
 		[[nodiscard]]
 		MUU_ATTR(const)
-		static constexpr float16 min() noexcept
+		static MUU_CONSTEVAL float16 min() noexcept
 		{
 			using namespace ::muu::literals;
 			return float16::from_bits(0x0400_u16); // 0.000061035 (ish)
@@ -762,7 +765,7 @@ namespace std
 
 		[[nodiscard]]
 		MUU_ATTR(const)
-		static constexpr float16 lowest() noexcept
+		static MUU_CONSTEVAL float16 lowest() noexcept
 		{
 			using namespace ::muu::literals;
 			return float16::from_bits(0xFBFF_u16); // -65504
@@ -770,7 +773,7 @@ namespace std
 
 		[[nodiscard]]
 		MUU_ATTR(const)
-		static constexpr float16 max() noexcept
+		static MUU_CONSTEVAL float16 max() noexcept
 		{
 			using namespace ::muu::literals;
 			return float16::from_bits(0x7BFF_u16); // 65504
@@ -778,7 +781,7 @@ namespace std
 
 		[[nodiscard]]
 		MUU_ATTR(const)
-		static constexpr float16 epsilon() noexcept
+		static MUU_CONSTEVAL float16 epsilon() noexcept
 		{
 			using namespace ::muu::literals;
 			return float16::from_bits(0x0800_u16);
@@ -786,7 +789,7 @@ namespace std
 
 		[[nodiscard]]
 		MUU_ATTR(const)
-		static constexpr float16 round_error() noexcept
+		static MUU_CONSTEVAL float16 round_error() noexcept
 		{
 			using namespace ::muu::literals;
 			return float16::from_bits(0x3800_u16);
@@ -794,31 +797,31 @@ namespace std
 
 		[[nodiscard]]
 		MUU_ATTR(const)
-		static constexpr float16 infinity() noexcept
+		static MUU_CONSTEVAL float16 infinity() noexcept
 		{
 			using namespace ::muu::literals;
-			return float16::from_bits(0x7C00_u16);
+			return float16::from_bits(0b0111110000000000_u16);
 		}
 
 		[[nodiscard]]
 		MUU_ATTR(const)
-		static constexpr float16 quiet_NaN() noexcept
+		static MUU_CONSTEVAL float16 quiet_NaN() noexcept
 		{
 			using namespace ::muu::literals;
-			return float16::from_bits(0x7E00_u16);
+			return float16::from_bits(0b1111111000000001_u16);
 		}
 
 		[[nodiscard]]
 		MUU_ATTR(const)
-		static constexpr float16 signaling_NaN() noexcept
+		static MUU_CONSTEVAL float16 signaling_NaN() noexcept
 		{
 			using namespace ::muu::literals;
-			return float16::from_bits(0x7E00_u16);
+			return float16::from_bits(0b1111110000000001_u16);
 		}
 
 		[[nodiscard]]
 		MUU_ATTR(const)
-		static constexpr float16 denorm_min() noexcept
+		static MUU_CONSTEVAL float16 denorm_min() noexcept
 		{
 			using namespace ::muu::literals;
 			return float16::from_bits(0x0001_u16); // 0.000000059605 (ish)

@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup Label="ProjectConfigurations">
+		<ProjectConfiguration Include="Debug|Win32">
+			<Configuration>Debug</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<VCProjectVersion>16.0</VCProjectVersion>
+		<ProjectGuid>{CFBAF3E0-2F81-5178-964C-F419CD2F296D}</ProjectGuid>
+		<WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<UseDebugLibraries>true</UseDebugLibraries>
+		<PlatformToolset>v142</PlatformToolset>
+		<CharacterSet>MultiByte</CharacterSet>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<UseDebugLibraries>false</UseDebugLibraries>
+		<PlatformToolset>v142</PlatformToolset>
+		<WholeProgramOptimization>true</WholeProgramOptimization>
+		<CharacterSet>MultiByte</CharacterSet>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+	<ImportGroup Label="PropertySheets">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props"
+			Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<Import Project="../muu.props" />
+	<ItemDefinitionGroup>
+		<ClCompile>
+			<AdditionalIncludeDirectories>..\..\tests;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<ExceptionHandling>Sync</ExceptionHandling>
+			<PrecompiledHeader>Use</PrecompiledHeader>
+			<PrecompiledHeaderFile>tests.h</PrecompiledHeaderFile>
+			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">_HAS_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<LanguageStandard>stdcpp17</LanguageStandard>
+		</ClCompile>
+	</ItemDefinitionGroup>
+	<PropertyGroup>
+		<LocalDebuggerWorkingDirectory>..\..\tests\</LocalDebuggerWorkingDirectory>
+	</PropertyGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\tests\accumulator.cpp" />
+		<ClCompile Include="..\..\tests\aligned_alloc.cpp" />
+		<ClCompile Include="..\..\tests\blob.cpp" />
+		<ClCompile Include="..\..\tests\core.cpp" />
+		<ClCompile Include="..\..\tests\float16.cpp" />
+		<ClCompile Include="..\..\tests\hashing.cpp" />
+		<ClCompile Include="..\..\tests\main.cpp">
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+		</ClCompile>
+		<ClCompile Include="..\..\tests\meta.cpp" />
+		<ClCompile Include="..\..\tests\scope_guard.cpp" />
+		<ClCompile Include="..\..\tests\tests.cpp">
+			<PrecompiledHeader>Create</PrecompiledHeader>
+		</ClCompile>
+		<ClCompile Include="..\..\tests\uuid.cpp" />
+	</ItemGroup>
+	<ItemGroup>
+		<Natvis Include="..\muu.natvis" />
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\tests\catch2.h" />
+		<ClInclude Include="..\..\tests\settings.h" />
+		<ClInclude Include="..\..\tests\float_test_data.h" />
+		<ClInclude Include="..\..\tests\tests.h" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\tests\meson.build" />
+		<None Include="..\.runsettings" />
+		<None Include="..\muu.props" />
+	</ItemGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

@@ -11,30 +11,30 @@
 
 MUU_PRAGMA_MSVC(inline_recursion(on))
 
-namespace muu::impl
-{
-	[[nodiscard]]
-	MUU_ALWAYS_INLINE
-	MUU_ATTR(const)
-	constexpr char dec_to_hex_lowercase(unsigned val) noexcept
-	{
-		return static_cast<char>(val >= 10u ? 'a' + (val - 10u) : '0' + val);
-	}
-
-	[[nodiscard]]
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
-	constexpr array<char,2> byte_to_chars_lowercase(std::byte byte) noexcept
-	{
-		return {{ dec_to_hex_lowercase(unwrap(byte) / 16u), dec_to_hex_lowercase(unwrap(byte) % 16u) }};
-	}
-}
-
 MUU_PUSH_WARNINGS
 MUU_DISABLE_PADDING_WARNINGS
 
-namespace muu
+MUU_NAMESPACE_START
 {
+	namespace impl
+	{
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
+		constexpr char dec_to_hex_lowercase(unsigned val) noexcept
+		{
+			return static_cast<char>(val >= 10u ? 'a' + (val - 10u) : '0' + val);
+		}
+
+		[[nodiscard]]
+		MUU_ATTR(const)
+		MUU_ATTR(flatten)
+		constexpr array<char,2> byte_to_chars_lowercase(std::byte byte) noexcept
+		{
+			return {{ dec_to_hex_lowercase(unwrap(byte) / 16u), dec_to_hex_lowercase(unwrap(byte) % 16u) }};
+		}
+	}
+
 	/// \addtogroup		hashing		Hashing
 	/// \brief Functions and types related to the generation of hashes.
 	/// @{
@@ -296,9 +296,9 @@ namespace muu
 			}
 	};
 
-
 	/// @}
 }
+MUU_NAMESPACE_END
 
 MUU_POP_WARNINGS // MUU_DISABLE_PADDING_WARNINGS
 

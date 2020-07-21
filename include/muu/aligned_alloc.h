@@ -9,12 +9,11 @@
 #pragma once
 #include "../muu/core.h"
 
-namespace muu
+MUU_NAMESPACE_START
 {
 	/// \addtogroup		aligned_alloc		Aligned allocation
 	/// \brief Functions for performing (re)allocations on specific alignment boundaries.
 	/// @{
-
 
 	/// \brief	Allocates memory with a specific alignment boundary.
 	///
@@ -65,12 +64,13 @@ namespace muu
 	void aligned_free(void* ptr) noexcept;
 
 	/// @}
-}
 
-namespace muu::impl
-{
-	inline constexpr size_t aligned_alloc_max_alignment = 32768;
+	namespace impl
+	{
+		inline constexpr size_t aligned_alloc_max_alignment = 32768;
+	}
 }
+MUU_NAMESPACE_END
 
 #if MUU_IMPLEMENTATION
 	#include "../muu/impl/aligned_alloc.hpp"

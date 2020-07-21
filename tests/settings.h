@@ -1,18 +1,27 @@
 // This file is a part of muu and is subject to the the terms of the MIT license.
-// Copyright (c) 2020 Mark Gillard <mark.gillard@outlook.com.au>
-// See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
+// Copyright (c) 2019-2020 Mark Gillard <mark.gillard@outlook.com.au>
+// See https://github.com/marzer/tomlplusplus/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 
 #pragma once
 
-//catch config
+// muu config
+#define MUU_DEV	1
+#ifndef MUU_ALL_INLINE
+	#define MUU_ALL_INLINE 0
+#endif
+
+//catch2 config
 #define CATCH_CONFIG_CPP11_TO_STRING
 #define CATCH_CONFIG_CPP17_OPTIONAL
 #define CATCH_CONFIG_CPP17_STRING_VIEW
 #define CATCH_CONFIG_FAST_COMPILE
 #define CATCH_CONFIG_CONSOLE_WIDTH 120
+#define CATCH_CONFIG_CPP11_TO_STRING
+#define CATCH_CONFIG_DISABLE_MATCHERS
+#define CATCH_CONFIG_NO_NOMINMAX
 
-//windows.h config
+//windows.h config (included transitively by catch2 on windows)
 #ifdef _WIN32
 	#define WIN32_LEAN_AND_MEAN
 	#define VC_EXTRALEAN
@@ -36,9 +45,9 @@
 	#define NOMENUS //           - MF_*
 	#define NOMEMMGR //          - GMEM_*, LMEM_*, GHND, LHND, associated routines
 	#define NOMETAFILE //        - typedef METAFILEPICT
-	#define NOMINMAX //          - Macros min(a,b) and max(a,b)
+	//#define NOMINMAX //          - Macros min(a,b) and max(a,b)
 	#define NOMSG //             - typedef MSG and associated routines
-	#define NONLS //             - All NLS defines and routines
+	//#define NONLS //             - All NLS defines and routines
 	#define NOOPENFILE //        - OpenFile(), OemToAnsi, AnsiToOem, and OF_*
 	#define NOPROFILER //        - Profiler interface.
 	#define NORASTEROPS //       - Binary and Tertiary raster ops
@@ -55,10 +64,4 @@
 	#define NOWINOFFSETS //      - GWL_*, GCL_*, associated routines
 	#define NOWINMESSAGES //     - WM_*, EM_*, LB_*, CB_*
 	#define NOWINSTYLES //       - WS_*, CS_*, ES_*, LBS_*, SBS_*, CBS_*
-#endif
-
-#if __has_include("./Catch2/single_include/catch2/catch.hpp")
-	#include "./Catch2/single_include/catch2/catch.hpp"
-#else
-	#error Catch2 is missing! You probably need to fetch submodules ("git submodule update --init extern/Catch2")
 #endif

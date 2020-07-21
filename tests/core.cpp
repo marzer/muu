@@ -1,5 +1,10 @@
+// This file is a part of muu and is subject to the the terms of the MIT license.
+// Copyright (c) 2020 Mark Gillard <mark.gillard@outlook.com.au>
+// See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
+// SPDX-License-Identifier: MIT
+
 #include "tests.h"
-#include "float_tests.h"
+#include "../include/muu/float16.h"
 
 TEST_CASE("is_constant_evaluated")
 {
@@ -753,11 +758,62 @@ TEST_CASE("clamp")
 
 TEST_CASE("between")
 {
-	CHECK_AND_STATIC_ASSERT(!between(1, 2, 4));
-	CHECK_AND_STATIC_ASSERT(between(2, 2, 4));
-	CHECK_AND_STATIC_ASSERT(between(3, 2, 4));
-	CHECK_AND_STATIC_ASSERT(between(4, 2, 4));
-	CHECK_AND_STATIC_ASSERT(!between(5, 2, 4));
+	// signed, signed
+	CHECK_AND_STATIC_ASSERT(!between(   -1,     2,     4));
+	CHECK_AND_STATIC_ASSERT(!between(    0,     2,     4));
+	CHECK_AND_STATIC_ASSERT(!between(    1,     2,     4));
+	CHECK_AND_STATIC_ASSERT( between(    2,     2,     4));
+	CHECK_AND_STATIC_ASSERT( between(    3,     2,     4));
+	CHECK_AND_STATIC_ASSERT( between(    4,     2,     4));
+	CHECK_AND_STATIC_ASSERT(!between(    5,     2,     4));
+
+	// signed, unsigned
+	CHECK_AND_STATIC_ASSERT(!between(   -1,    2u,    4u));
+	CHECK_AND_STATIC_ASSERT(!between(    0,    2u,    4u));
+	CHECK_AND_STATIC_ASSERT(!between(    1,    2u,    4u));
+	CHECK_AND_STATIC_ASSERT( between(    2,    2u,    4u));
+	CHECK_AND_STATIC_ASSERT( between(    3,    2u,    4u));
+	CHECK_AND_STATIC_ASSERT( between(    4,    2u,    4u));
+	CHECK_AND_STATIC_ASSERT(!between(    5,    2u,    4u));
+
+	// float, signed
+	CHECK_AND_STATIC_ASSERT(!between(-1.0f,     2,     4));
+	CHECK_AND_STATIC_ASSERT(!between( 0.0f,     2,     4));
+	CHECK_AND_STATIC_ASSERT(!between( 1.0f,     2,     4));
+	CHECK_AND_STATIC_ASSERT( between( 2.0f,     2,     4));
+	CHECK_AND_STATIC_ASSERT( between( 3.0f,     2,     4));
+	CHECK_AND_STATIC_ASSERT( between( 4.0f,     2,     4));
+	CHECK_AND_STATIC_ASSERT(!between( 5.0f,     2,     4));
+
+	// float, unsigned
+	CHECK_AND_STATIC_ASSERT(!between(-1.0f,    2u,    4u));
+	CHECK_AND_STATIC_ASSERT(!between( 0.0f,    2u,    4u));
+	CHECK_AND_STATIC_ASSERT(!between( 1.0f,    2u,    4u));
+	CHECK_AND_STATIC_ASSERT( between( 2.0f,    2u,    4u));
+	CHECK_AND_STATIC_ASSERT( between( 3.0f,    2u,    4u));
+	CHECK_AND_STATIC_ASSERT( between( 4.0f,    2u,    4u));
+	CHECK_AND_STATIC_ASSERT(!between( 5.0f,    2u,    4u));
+
+	// signed, float
+	CHECK_AND_STATIC_ASSERT(!between(   -1,  2.0f,  4.0f));
+	CHECK_AND_STATIC_ASSERT(!between(    0,  2.0f,  4.0f));
+	CHECK_AND_STATIC_ASSERT(!between(    1,  2.0f,  4.0f));
+	CHECK_AND_STATIC_ASSERT( between(    2,  2.0f,  4.0f));
+	CHECK_AND_STATIC_ASSERT( between(    3,  2.0f,  4.0f));
+	CHECK_AND_STATIC_ASSERT( between(    4,  2.0f,  4.0f));
+	CHECK_AND_STATIC_ASSERT(!between(    5,  2.0f,  4.0f));
+
+	// check for integer overflow nonsense
+	{
+		constexpr uint8_t minval = 5;
+		constexpr uint8_t maxval = 100;
+		for (int32_t i = -128; i <= 4; i++)
+			CHECK(!between(i, minval, maxval));
+		for (int32_t i = 5; i <= 100; i++)
+			CHECK(between(i, minval, maxval));
+		for (int32_t i = 101; i <= 255; i++)
+			CHECK(!between(i, minval, maxval));
+	}
 }
 
 TEST_CASE("popcount")
@@ -1609,12 +1665,9 @@ namespace
 TEST_CASE("infinity_or_nan - float16")
 {
 	INF_OR_NAN_CHECK(!infinity_or_nan(float16::from_bits(0x0000_u16)));
-
-	using limits = std::numeric_limits<float16>;
-	if constexpr (limits::has_quiet_NaN)
-		INF_OR_NAN_CHECK(infinity_or_nan(limits::quiet_NaN()));
-	INF_OR_NAN_CHECK(infinity_or_nan(limits::infinity()));
-	INF_OR_NAN_CHECK(infinity_or_nan(-limits::infinity()));
+	INF_OR_NAN_CHECK(infinity_or_nan(make_nan<float16>()));
+	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float16>(-1)));
+	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float16>()));
 
 	#if INF_OR_NAN_RANGE_CHECKS
 	CHECK((test_infinity_or_nan_ranges<float16, -1>()));
@@ -1625,12 +1678,9 @@ TEST_CASE("infinity_or_nan - float16")
 TEST_CASE("infinity_or_nan - float")
 {
 	INF_OR_NAN_CHECK(!infinity_or_nan(0.0f));
-
-	using limits = std::numeric_limits<float>;
-	if constexpr (limits::has_quiet_NaN)
-		INF_OR_NAN_CHECK(infinity_or_nan(limits::quiet_NaN()));
-	INF_OR_NAN_CHECK(infinity_or_nan(limits::infinity()));
-	INF_OR_NAN_CHECK(infinity_or_nan(-limits::infinity()));
+	INF_OR_NAN_CHECK(infinity_or_nan(make_nan<float>()));
+	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float>(-1)));
+	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float>()));
 
 	#if INF_OR_NAN_RANGE_CHECKS
 	CHECK((test_infinity_or_nan_ranges<float, -1>()));
@@ -1641,12 +1691,9 @@ TEST_CASE("infinity_or_nan - float")
 TEST_CASE("infinity_or_nan - double")
 {
 	INF_OR_NAN_CHECK(!infinity_or_nan(0.0));
-
-	using limits = std::numeric_limits<double>;
-	if constexpr (limits::has_quiet_NaN)
-		INF_OR_NAN_CHECK(infinity_or_nan(limits::quiet_NaN()));
-	INF_OR_NAN_CHECK(infinity_or_nan(limits::infinity()));
-	INF_OR_NAN_CHECK(infinity_or_nan(-limits::infinity()));
+	INF_OR_NAN_CHECK(infinity_or_nan(make_nan<double>()));
+	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<double>(-1)));
+	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<double>()));
 
 	#if INF_OR_NAN_RANGE_CHECKS
 	CHECK((test_infinity_or_nan_ranges<double, -1>()));
@@ -1657,12 +1704,9 @@ TEST_CASE("infinity_or_nan - double")
 TEST_CASE("infinity_or_nan - long double")
 {
 	INF_OR_NAN_CHECK(!infinity_or_nan(0.0L));
-
-	using limits = std::numeric_limits<long double>;
-	if constexpr (limits::has_quiet_NaN)
-		INF_OR_NAN_CHECK(infinity_or_nan(limits::quiet_NaN()));
-	INF_OR_NAN_CHECK(infinity_or_nan(limits::infinity()));
-	INF_OR_NAN_CHECK(infinity_or_nan(-limits::infinity()));
+	INF_OR_NAN_CHECK(infinity_or_nan(make_nan<long double>()));
+	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<long double>(-1)));
+	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<long double>()));
 
 	#if INF_OR_NAN_RANGE_CHECKS
 	CHECK((test_infinity_or_nan_ranges<long double, -1>()));

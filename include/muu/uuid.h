@@ -9,7 +9,7 @@
 #pragma once
 #include "../muu/hashing.h"
 
-namespace muu
+MUU_NAMESPACE_START
 {
 	/// \brief A 16-byte universally-unique identifier (UUID).
 	///
@@ -332,6 +332,7 @@ namespace muu
 		}
 	};
 }
+MUU_NAMESPACE_END
 
 namespace std
 {

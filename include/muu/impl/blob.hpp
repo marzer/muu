@@ -12,7 +12,7 @@
 #include "../../muu/blob.h"
 #include "../../muu/aligned_alloc.h"
 
-namespace MUU_INTERNAL_NAMESPACE
+MUU_ANON_NAMESPACE_START
 {
 	[[nodiscard]]
 	MUU_INTERNAL_LINKAGE
@@ -50,8 +50,9 @@ namespace MUU_INTERNAL_NAMESPACE
 			: nullptr;
 	}
 }
+MUU_ANON_NAMESPACE_END
 
-namespace muu
+MUU_NAMESPACE_START
 {
 	MUU_EXTERNAL_LINKAGE
 	blob::blob() noexcept
@@ -60,9 +61,9 @@ namespace muu
 
 	MUU_EXTERNAL_LINKAGE
 	blob::blob(size_t sz, const void* src, size_t align) noexcept
-		: alignment_{ MUU_INTERNAL_NAMESPACE::blob_check_alignment(align) },
+		: alignment_{ MUU_ANON_NAMESPACE::blob_check_alignment(align) },
 		size_{ sz },
-		data_{ MUU_INTERNAL_NAMESPACE::blob_allocate(alignment_, size_) }
+		data_{ MUU_ANON_NAMESPACE::blob_allocate(alignment_, size_) }
 	{
 		if (data_ && src)
 			memcpy(data_, src, size_);
@@ -118,7 +119,7 @@ namespace muu
 	MUU_EXTERNAL_LINKAGE
 	blob& blob::assign(size_t sz, const void* src, size_t align) noexcept
 	{
-		MUU_USING_INTERNAL_NAMESPACE;
+		MUU_USING_ANON_NAMESPACE;
 
 		align = blob_check_alignment(align);
 
@@ -146,7 +147,7 @@ namespace muu
 	MUU_EXTERNAL_LINKAGE
 	blob& blob::size(size_t sz) noexcept
 	{
-		MUU_USING_INTERNAL_NAMESPACE;
+		MUU_USING_ANON_NAMESPACE;
 
 		if (size_ == sz)
 			return *this;
@@ -177,3 +178,4 @@ namespace muu
 		return *this;
 	}
 }
+MUU_NAMESPACE_END

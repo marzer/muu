@@ -1,19 +1,39 @@
+// This file is a part of muu and is subject to the the terms of the MIT license.
+// Copyright (c) 2020 Mark Gillard <mark.gillard@outlook.com.au>
+// See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
+// SPDX-License-Identifier: MIT
+
 #pragma once
-#if !defined(_MSC_VER) || !defined(_M_IX86)
-	#define MUU_ALL_INLINE 0
-#endif
-#include "../include/muu/preprocessor.h"
+#include "float_test_data.h"
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_ALL_WARNINGS
 #include "catch2.h"
 #include <sstream>
 #include <string_view>
-namespace muu
+MUU_NAMESPACE_START
 {
 	struct float16;
 	std::ostream& operator << (std::ostream& os, const float16& value);
+
+	template <typename T>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_CONSTEVAL double make_infinity(int sign = 1) noexcept
+	{
+		using ftd = float_test_data<T>;
+		return bit_cast<T>(sign >= 0 ? ftd::bits_pos_inf : ftd::bits_neg_inf);
+	}
+
+	template <typename T>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_CONSTEVAL double make_nan() noexcept
+	{
+		return bit_cast<T>(float_test_data<T>::bits_qnan);
+	}
 }
+MUU_NAMESPACE_END
 using namespace Catch::literals;
 using namespace muu;
 using namespace std::string_view_literals;

@@ -12,7 +12,7 @@
 MUU_PUSH_WARNINGS
 MUU_DISABLE_PADDING_WARNINGS
 
-namespace muu
+MUU_NAMESPACE_START
 {
 	/// \brief	Performs actions when going out of scope.
 	/// 
@@ -116,5 +116,6 @@ namespace muu
 	template <typename T>
 	scope_guard(T&) -> scope_guard<T>;
 }
+MUU_NAMESPACE_END
 
 MUU_POP_WARNINGS // MUU_DISABLE_PADDING_WARNINGS

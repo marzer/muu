@@ -13,10 +13,11 @@
 	#error Including muu/string_param.h is currently prohibited - muu::string_param is not fully implemented
 #endif
 
-namespace muu
+MUU_NAMESPACE_START
 {
 
 }
+MUU_NAMESPACE_END
 
 #if MUU_IMPLEMENTATION
 

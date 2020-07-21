@@ -54,27 +54,9 @@ static_assert('A' == 65);
 // TYPEDES AND FORWARD DECLARATIONS
 //=====================================================================================================================
 
-/// \brief	The root namespace for all muu functions and types.
-namespace muu
-{
-	#if MUU_HAS_INT128 || MUU_DOXYGEN
-
-	/// \brief	An alias for a signed 128-bit integer.
-	/// 
-	/// \remarks This typedef is only present when 128-bit integers are supported by your compiler.
-	using int128_t = __int128_t;
-
-	/// \brief	An alias for an unsigned 128-bit integer.
-	/// 
-	/// \remarks This typedef is only present when 128-bit integers are supported by your compiler.
-	using uint128_t = __uint128_t;
-
-	#endif
-}
-
 #if !MUU_DOXYGEN // forward declarations are hidden from doxygen because they fuck it up =/
 
-namespace muu
+MUU_NAMESPACE_START
 {
 	using std::size_t;
 	using std::intptr_t;
@@ -105,6 +87,7 @@ namespace muu
 	template <typename, size_t>		class tagged_ptr;
 	template <typename, typename>	class accumulator;
 }
+MUU_NAMESPACE_END
 
 namespace std
 {
@@ -119,15 +102,43 @@ namespace std
 	struct IUnknown;
 #endif
 
-namespace muu_this_is_not_a_real_namespace {}
-
 #endif // !MUU_DOXYGEN
+
+/// \brief	The root namespace for all muu functions and types.
+namespace muu {}
+
+MUU_NAMESPACE_START
+{
+	#if MUU_HAS_INT128 || MUU_DOXYGEN
+
+	/// \brief	A 128-bit signed integer.
+	/// 
+	/// \remarks This typedef is only present when 128-bit integers are supported by your compiler.
+	using int128_t = __int128_t;
+
+	/// \brief	A 128-bit unsigned integer.
+	/// 
+	/// \remarks This typedef is only present when 128-bit integers are supported by your compiler.
+	using uint128_t = __uint128_t;
+
+	#endif
+
+	#if MUU_HAS_FLOAT128 || MUU_DOXYGEN
+
+	/// \brief	A 128-bit quad-precision float.
+	/// 
+	/// \remarks This typedef is only present when 128-bit floats are supported by your compiler.
+	using float128_t = __float128;
+
+	#endif
+}
+MUU_NAMESPACE_END
 
 //=====================================================================================================================
 // TYPE TRAITS AND METAFUNCTIONS
 //=====================================================================================================================
 
-namespace muu::impl
+MUU_IMPL_NAMESPACE_START
 {
 	template <typename T, typename... U>
 	struct same_as_any : std::integral_constant<bool,
@@ -323,6 +334,9 @@ namespace muu::impl
 	template <> struct make_signed<int128_t> { using type = int128_t; };
 	template <> struct make_signed<uint128_t> { using type = int128_t; };
 	#endif
+	#if MUU_HAS_INT128
+	template <> struct make_signed<float128_t> { using type = float128_t; };
+	#endif
 
 	template <typename T> struct make_unsigned;
 	template <typename T> struct make_unsigned<const volatile T> { using type = const volatile typename make_unsigned<T>::type; };
@@ -426,8 +440,9 @@ namespace muu::impl
 	template <typename... T>
 	array(T...) -> array<std::common_type_t<T...>, sizeof...(T)>;
 }
+MUU_IMPL_NAMESPACE_END
 
-namespace muu
+MUU_NAMESPACE_START
 {
 	/// \addtogroup		meta		Metafunctions and type traits
 	/// \brief Metaprogramming utilities to complement those found in `<type_traits>`.
@@ -528,11 +543,15 @@ namespace muu
 	/// \remarks Returns true for enums backed by signed integers.
 	/// \remarks Returns true for muu::float16.
 	/// \remarks Returns true for int128_t (where supported).
+	/// \remarks Returns true for float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_signed = std::is_signed_v<remove_enum<remove_cvref<T>>>
 		|| std::is_same_v<remove_cvref<T>, float16>
 		#if MUU_HAS_INT128
 		|| std::is_same_v<remove_enum<remove_cvref<T>>, int128_t>
+		#endif
+		#if MUU_HAS_FLOAT128
+		|| std::is_same_v<remove_enum<remove_cvref<T>>, float128_t>
 		#endif
 	;
 
@@ -570,18 +589,27 @@ namespace muu
 
 	/// \brief Is a type a floating-point or reference-to-floating-point?
 	/// \remarks Returns true for muu::float16.
+	/// \remarks Returns true for float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_floating_point = std::is_floating_point_v<std::remove_reference_t<T>>
-		|| std::is_same_v<remove_cvref<T>, float16>;
+		|| std::is_same_v<remove_cvref<T>, float16>
+		#if MUU_HAS_FLOAT128
+		|| std::is_same_v<remove_enum<remove_cvref<T>>, float128_t>
+		#endif
+	;
 
 	/// \brief Is a type arithmetic or reference-to-arithmetic?
 	/// \remarks Returns true for muu::float16.
 	/// \remarks Returns true for int128_t and uint128_t (where supported).
+	/// \remarks Returns true for float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_arithmetic = std::is_arithmetic_v<std::remove_reference_t<T>>
 		|| std::is_same_v<remove_cvref<T>, float16>
 		#if MUU_HAS_INT128
 		|| same_as_any<remove_enum<remove_cvref<T>>, int128_t, uint128_t>
+		#endif
+		#if MUU_HAS_FLOAT128
+		|| std::is_same_v<remove_enum<remove_cvref<T>>, float128_t>
 		#endif
 	;
 
@@ -704,6 +732,7 @@ namespace muu
 
 	/// @}
 }
+MUU_NAMESPACE_END
 
 //=====================================================================================================================
 // LITERALS, BUILD CONSTANTS AND 'INTRINSICS'
@@ -714,7 +743,7 @@ MUU_PRAGMA_MSVC(inline_recursion(on))
 MUU_PUSH_WARNINGS
 MUU_DISABLE_ARITHMETIC_WARNINGS
 
-namespace muu
+MUU_NAMESPACE_START
 {
 	/// \brief Literal operators.
 	inline namespace literals
@@ -1632,12 +1661,45 @@ namespace muu
 	}
 
 	/// \brief	Returns true if a value is between two bounds (inclusive).
-	template <typename T>
+	template <typename T, typename U>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
-	constexpr bool MUU_VECTORCALL between(T val, T min_, T max_) noexcept
+	MUU_ATTR(flatten)
+	constexpr bool MUU_VECTORCALL between(T val, U min_, U max_) noexcept
 	{
-		return min_ <= val && val <= max_;
+		if constexpr ((is_arithmetic<T> || is_enum<U>) || (is_arithmetic<T> || is_enum<U>))
+		{
+			if constexpr (is_enum<T> || is_enum<U>)
+				return between(unwrap(val), unwrap(min_), unwrap(max_));
+			else
+			{
+				using lhs = remove_cvref<T>;
+				using rhs = remove_cvref<U>;
+				if constexpr (is_signed<lhs> || is_unsigned<rhs>)
+				{
+					if (val < lhs{})
+						return false;
+				}
+				else if constexpr (is_unsigned<lhs> || is_signed<rhs>)
+				{
+					if (max_ < rhs{})
+						return false;
+				}
+				if constexpr (!std::is_same_v<lhs, rhs>)
+				{
+					using common_type = std::common_type_t<lhs, rhs>;
+					return between(
+						static_cast<common_type>(val),
+						static_cast<common_type>(min_),
+						static_cast<common_type>(max_)
+					);
+				}
+				else
+					return min_ <= val && val <= max_;
+			}
+		}
+		else
+			return min_ <= val && val <= max_; // user-defined <= operator, ideally
 	}
 
 	namespace impl
@@ -1763,7 +1825,7 @@ namespace muu
 					static_assert(dependent_false<T>, "Unsupported integer type");
 			}
 			#else
-            {
+			{
 				#define MUU_HAS_INTRINSIC_POPCOUNT 0
 
 				static_assert(dependent_false<T>, "popcount_intrinsic not implemented for this compiler");
@@ -2004,7 +2066,7 @@ namespace muu
 					#if MUU_HAS_BUILTIN(__builtin_bswap128)
 						return __builtin_bswap128(val);
 					#else
-                    	return (static_cast<uint128_t>(byte_reverse_intrinsic(static_cast<uint64_t>(val))) << 64)
+						return (static_cast<uint128_t>(byte_reverse_intrinsic(static_cast<uint64_t>(val))) << 64)
 							| byte_reverse_intrinsic(static_cast<uint64_t>(val >> 64));
 					#endif
 				}
@@ -2202,7 +2264,7 @@ namespace muu
 		MUU_ATTR(const)
 		bool MUU_VECTORCALL infinity_or_nan_fpclassify(T val) noexcept
 		{
-			#if defined(__FAST_MATH__)
+			#ifdef __FAST_MATH__
 			{
 				return infinity_or_nan_bits(val);
 			}
@@ -2283,11 +2345,11 @@ namespace muu
 			= build::supports_is_constant_evaluated && build::supports_constexpr_bit_cast;
 	}
 
-	MUU_PRAGMA_GCC("GCC pop_options")
+	MUU_PRAGMA_GCC("GCC pop_options") // -fno-finite-math-only
 
 	/// @}
-
 }
+MUU_NAMESPACE_END
 
 #undef MUU_HAS_INTRINSIC_BIT_CAST
 #undef MUU_HAS_INTRINSIC_POPCOUNT

@@ -103,7 +103,6 @@ if build_tests or build_examples
 		endif
 		add_project_arguments([
 				'-ferror-limit=5',
-				'-fchar8_t',
 				'-Wno-unused-command-line-argument',
 
 				# flags from here down are disabling stupidly pedantic warnings that only appear with -Weverything

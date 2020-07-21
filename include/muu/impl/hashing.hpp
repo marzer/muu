@@ -11,7 +11,7 @@
 
 #include "../../muu/hashing.h"
 
-namespace MUU_INTERNAL_NAMESPACE { namespace sha1_utils
+MUU_ANON_NAMESPACE_START { namespace sha1_utils
 {
 	using block = ::muu::impl::array<uint32_t, 16>;
 
@@ -182,8 +182,9 @@ namespace MUU_INTERNAL_NAMESPACE { namespace sha1_utils
 		digest[4] += e;
 	}
 }}
+MUU_ANON_NAMESPACE_END
 
-namespace muu
+MUU_NAMESPACE_START
 {
 	MUU_EXTERNAL_LINKAGE
 	sha1::sha1() noexcept
@@ -201,7 +202,7 @@ namespace muu
 	MUU_EXTERNAL_LINKAGE
 	void sha1::add(uint8_t byte) noexcept
 	{
-		MUU_USING_INTERNAL_NAMESPACE;
+		MUU_USING_ANON_NAMESPACE;
 		MUU_ASSERT(!finished_);
 		MUU_ASSERT(current_block_length < 64_u8);
 
@@ -217,7 +218,7 @@ namespace muu
 	MUU_EXTERNAL_LINKAGE
 	void sha1::add(const uint8_t* bytes, size_t num) noexcept
 	{
-		MUU_USING_INTERNAL_NAMESPACE;
+		MUU_USING_ANON_NAMESPACE;
 		MUU_ASSERT(!finished_);
 		MUU_ASSERT(current_block_length < 64_u8);
 		MUU_ASSERT(num > 0_sz);
@@ -239,7 +240,7 @@ namespace muu
 	MUU_EXTERNAL_LINKAGE
 	sha1& sha1::operator() (uint8_t byte) noexcept
 	{
-		MUU_USING_INTERNAL_NAMESPACE;
+		MUU_USING_ANON_NAMESPACE;
 
 		if (!finished_)
 			add(byte);
@@ -249,7 +250,7 @@ namespace muu
 	MUU_EXTERNAL_LINKAGE
 	sha1& sha1::operator() (const void* data, size_t size) noexcept
 	{
-		MUU_USING_INTERNAL_NAMESPACE;
+		MUU_USING_ANON_NAMESPACE;
 
 		if (!finished_ && data && size)
 		{
@@ -274,7 +275,7 @@ namespace muu
 	MUU_EXTERNAL_LINKAGE
 	sha1& sha1::finish() noexcept
 	{
-		MUU_USING_INTERNAL_NAMESPACE;
+		MUU_USING_ANON_NAMESPACE;
 
 		if (finished_)
 			return *this;
@@ -311,3 +312,4 @@ namespace muu
 		return *this;
 	}
 }
+MUU_NAMESPACE_END

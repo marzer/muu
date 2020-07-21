@@ -14,7 +14,7 @@
 	#include <cstdlib>
 #endif
 
-namespace MUU_INTERNAL_NAMESPACE
+MUU_ANON_NAMESPACE_START
 {
 	struct aligned_alloc_data final
 	{
@@ -29,8 +29,9 @@ namespace MUU_INTERNAL_NAMESPACE
 	);
 	static_assert(::muu::has_single_bit(aligned_alloc_data_footprint));
 }
+MUU_ANON_NAMESPACE_END
 
-namespace muu
+MUU_NAMESPACE_START
 {
 	MUU_PUSH_WARNINGS
 	MUU_DISABLE_INIT_WARNINGS
@@ -40,7 +41,7 @@ namespace muu
 	MUU_UNALIASED_ALLOC
 	void* aligned_alloc(size_t alignment, size_t size) noexcept
 	{
-		MUU_USING_INTERNAL_NAMESPACE;
+		MUU_USING_ANON_NAMESPACE;
 		using std::byte;
 
 		if (!alignment || !size || !has_single_bit(alignment) || alignment > impl::aligned_alloc_max_alignment)
@@ -77,7 +78,7 @@ namespace muu
 	MUU_UNALIASED_ALLOC
 	void* aligned_realloc(void* ptr, size_t new_size) noexcept
 	{
-		MUU_USING_INTERNAL_NAMESPACE;
+		MUU_USING_ANON_NAMESPACE;
 		using std::byte;
 
 		if (!new_size)
@@ -128,7 +129,7 @@ namespace muu
 	MUU_API
 	void aligned_free(void* ptr) noexcept
 	{
-		MUU_USING_INTERNAL_NAMESPACE;
+		MUU_USING_ANON_NAMESPACE;
 		using std::byte;
 
 		if (!ptr)
@@ -144,3 +145,4 @@ namespace muu
 		#endif
 	}
 }
+MUU_NAMESPACE_END

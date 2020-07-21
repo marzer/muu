@@ -17,7 +17,6 @@ jobs:
                     CXX=clang++-9 meson build --buildtype=debug -DGENERATE_CMAKE_CONFIG=disabled -DBUILD_EXAMPLES=disabled
                     cd build && ninja -v -j 4 && ninja test
 
-
     release_clang9:
         docker:
             - image: marzer/misc_cpp17_dev:latest
@@ -32,7 +31,6 @@ jobs:
                 command: |
                     CXX=clang++-9 meson build --buildtype=release -DGENERATE_CMAKE_CONFIG=disabled -DBUILD_EXAMPLES=disabled
                     cd build && ninja -v -j 4 && ninja test
-
 
     debug_gcc9:
         docker:
@@ -49,7 +47,6 @@ jobs:
                     CXX=g++-9 meson build --buildtype=debug -DGENERATE_CMAKE_CONFIG=disabled -DBUILD_EXAMPLES=disabled
                     cd build && ninja -v -j 4 && ninja test
 
-
     release_gcc9:
         docker:
             - image: marzer/misc_cpp17_dev:latest
@@ -64,7 +61,7 @@ jobs:
                 command: |
                     CXX=g++-9 meson build --buildtype=release -DGENERATE_CMAKE_CONFIG=disabled -DBUILD_EXAMPLES=disabled
                     cd build && ninja -v -j 4 && ninja test
-                    
+
     generate_dox:
         docker:
             - image: marzer/misc_cpp17_dev:latest
@@ -105,7 +102,6 @@ jobs:
             - run:
                 name: Deploy docs to gh-pages branch
                 command: gh-pages --dotfiles --message "[skip ci] Updates" --dist docs/html
-
 
 workflows:
     version: 2

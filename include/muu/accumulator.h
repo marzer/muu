@@ -12,14 +12,14 @@
 MUU_PUSH_WARNINGS
 MUU_DISABLE_PADDING_WARNINGS
 
-namespace muu::impl
+MUU_NAMESPACE_START
 {
-	template <typename T>
-	struct accumulator;
-}
+	namespace impl
+	{
+		template <typename T>
+		struct accumulator;
+	}
 
-namespace muu
-{
 	/// \brief	Statefully accumulates (adds) an indeterminate range of values.
 	/// 
 	/// \detail For integral types the accumulator is a simple bookkeeping helper, but for floating-point
@@ -156,96 +156,97 @@ namespace muu
 				return impl.value();
 			}
 	};
-}
 
-namespace muu::impl
-{
-	template <typename value_type>
-	struct accumulator
+	namespace impl
 	{
-		value_type sum = {};
-
-		MUU_ALWAYS_INLINE
-		constexpr void MUU_VECTORCALL start(value_type MUU_VECTORCALL_CONSTREF sample)
-			noexcept(noexcept(sum = sample))
+		template <typename value_type>
+		struct accumulator
 		{
-			sum = sample;
-		}
+			value_type sum = {};
 
-		MUU_ALWAYS_INLINE
-		constexpr void MUU_VECTORCALL add(value_type MUU_VECTORCALL_CONSTREF sample)
-			noexcept(noexcept(sum += sample))
+			MUU_ALWAYS_INLINE
+			constexpr void MUU_VECTORCALL start(value_type MUU_VECTORCALL_CONSTREF sample)
+				noexcept(noexcept(sum = sample))
+			{
+				sum = sample;
+			}
+
+			MUU_ALWAYS_INLINE
+			constexpr void MUU_VECTORCALL add(value_type MUU_VECTORCALL_CONSTREF sample)
+				noexcept(noexcept(sum += sample))
+			{
+				sum += sample;
+			}
+
+			[[nodiscard]] MUU_ALWAYS_INLINE
+			constexpr value_type value() const noexcept
+			{
+				return sum;
+			}
+		};
+
+		MUU_PRAGMA_MSVC(float_control(precise, on, push))
+		MUU_PRAGMA_CLANG_GE(11, "float_control(precise, on, push)")
+		MUU_PRAGMA_GCC("GCC push_options")
+		MUU_PRAGMA_GCC("GCC optimize (\"-fno-fast-math\")")
+
+		template <typename value_type, typename sum_type = value_type>
+		struct kahan_accumulator // https://en.wikipedia.org/wiki/Kahan_summation_algorithm#Further_enhancements
 		{
-			sum += sample;
-		}
+			static_assert(
+				is_floating_point<value_type> && is_floating_point<sum_type>,
+				"Kahan summation only makes sense with float types"
+			);
+			sum_type sum = {}, correction = {};
 
-		[[nodiscard]] MUU_ALWAYS_INLINE
-		constexpr value_type value() const noexcept
-		{
-			return sum;
-		}
-	};
+			MUU_ALWAYS_INLINE
+			constexpr void MUU_VECTORCALL start(value_type sample) noexcept
+			{
+				sum = static_cast<sum_type>(sample);
+			}
 
-	MUU_PRAGMA_MSVC(float_control(precise, on, push))
-	MUU_PRAGMA_CLANG_GE(11, "float_control(precise, on, push)")
-	MUU_PRAGMA_GCC("GCC push_options")
-	MUU_PRAGMA_GCC("GCC optimize (\"-fno-fast-math\")")
+			MUU_PRAGMA_CLANG_LT(11, "clang optimize off")
 
-	template <typename value_type, typename sum_type = value_type>
-	struct kahan_accumulator // https://en.wikipedia.org/wiki/Kahan_summation_algorithm#Further_enhancements
-	{
-		static_assert(
-			is_floating_point<value_type> && is_floating_point<sum_type>,
-			"Kahan summation only makes sense with float types"
-		);
-		sum_type sum = {}, correction = {};
+			MUU_ATTR(flatten)
+			constexpr void MUU_VECTORCALL kahan_add(sum_type sample) noexcept
+			{
+				MUU_PRAGMA_CLANG_GE(11, "clang fp reassociate(off)")
+				MUU_PRAGMA_CLANG_LT(11, "clang fp contract(on)")
 
-		MUU_ALWAYS_INLINE
-		constexpr void MUU_VECTORCALL start(value_type sample) noexcept
-		{
-			sum = static_cast<sum_type>(sample);
-		}
+				const auto t = sum + sample;
+				if (abs(sum) >= abs(sample))
+					correction += (sum - t) + sample;
+				else
+					correction += (sample - t) + sum;
+				sum = t;
+			}
 
-		MUU_PRAGMA_CLANG_LT(11, "clang optimize off")
+			MUU_PRAGMA_CLANG_LT(11, "clang optimize on")
 
-		MUU_ATTR(flatten)
-		constexpr void MUU_VECTORCALL kahan_add(sum_type sample) noexcept
-		{
-			MUU_PRAGMA_CLANG_GE(11, "clang fp reassociate(off)")
-			MUU_PRAGMA_CLANG_LT(11, "clang fp contract(on)")
+			MUU_ALWAYS_INLINE
+			MUU_ATTR(flatten)
+			constexpr void MUU_VECTORCALL add(value_type sample) noexcept
+			{
+				kahan_add(static_cast<sum_type>(sample));
+			}
 
-			const auto t = sum + sample;
-			if (abs(sum) >= abs(sample))
-				correction += (sum - t) + sample;
-			else
-				correction += (sample - t) + sum;
-			sum = t;
-		}
+			[[nodiscard]] MUU_ALWAYS_INLINE
+			constexpr value_type value() const noexcept
+			{
+				return static_cast<value_type>(sum + correction);
+			}
+		};
 
-		MUU_PRAGMA_CLANG_LT(11, "clang optimize on")
+		template <> struct MUU_EMPTY_BASES accumulator<float16>		: kahan_accumulator<float16, float> {};
+		template <> struct MUU_EMPTY_BASES accumulator<float>		: kahan_accumulator<float> {};
+		template <> struct MUU_EMPTY_BASES accumulator<double>		: kahan_accumulator<double> {};
+		template <> struct MUU_EMPTY_BASES accumulator<long double>	: kahan_accumulator<long double> {};
 
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(flatten)
-		constexpr void MUU_VECTORCALL add(value_type sample) noexcept
-		{
-			kahan_add(static_cast<sum_type>(sample));
-		}
-
-		[[nodiscard]] MUU_ALWAYS_INLINE
-		constexpr value_type value() const noexcept
-		{
-			return static_cast<value_type>(sum + correction);
-		}
-	};
-
-	template <> struct MUU_EMPTY_BASES accumulator<float16>		: kahan_accumulator<float16, float> {};
-	template <> struct MUU_EMPTY_BASES accumulator<float>		: kahan_accumulator<float> {};
-	template <> struct MUU_EMPTY_BASES accumulator<double>		: kahan_accumulator<double> {};
-	template <> struct MUU_EMPTY_BASES accumulator<long double>	: kahan_accumulator<long double> {};
-
-	MUU_PRAGMA_GCC("GCC pop_options")
-	MUU_PRAGMA_CLANG_GE(11, "float_control(pop)")
-	MUU_PRAGMA_MSVC(float_control(pop))
+		MUU_PRAGMA_GCC("GCC pop_options")
+		MUU_PRAGMA_CLANG_GE(11, "float_control(pop)")
+		MUU_PRAGMA_MSVC(float_control(pop))
+	}
 }
+MUU_NAMESPACE_END
 
 MUU_POP_WARNINGS // MUU_DISABLE_PADDING_WARNINGS

@@ -1,18 +1,18 @@
-#if !defined(_MSC_VER) || !defined(_M_IX86)
-	#define MUU_ALL_INLINE 0
-	#define MUU_DEV 1
-	#define MUU_IMPLEMENTATION
+// This file is a part of muu and is subject to the the terms of the MIT license.
+// Copyright (c) 2020 Mark Gillard <mark.gillard@outlook.com.au>
+// See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
+// SPDX-License-Identifier: MIT
+
+#include "settings.h"
+#define MUU_IMPLEMENTATION
+#include "../include/muu/preprocessor.h"
+#if !MUU_ALL_INLINE
 	#include "../include/muu/all.h"
-#else
-	#include "../include/muu/preprocessor.h"
 #endif
 
-MUU_PUSH_WARNINGS
-MUU_DISABLE_ALL_WARNINGS
 #define CATCH_CONFIG_RUNNER
 #include "catch2.h"
 #include <clocale>
-MUU_POP_WARNINGS
 
 int main(int argc, char* argv[])
 {
