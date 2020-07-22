@@ -85,6 +85,10 @@ C++</span></a>
             </dt>
             <dd><code>1</code> when targeting AMD64, <code>0</code> otherwise.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gae07f9cdd5a8d78f5a0672a865fd7cc43">MUU_ARCH_ARM</a></span>
+            </dt>
+            <dd><code>1</code> when targeting any flavour of ARM, <code>0</code> otherwise.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga7f49df29b5350349e0f51b96a9d33044">MUU_ARCH_ARM32</a></span>
             </dt>
             <dd><code>1</code> when targeting 32-bit ARM, <code>0</code> otherwise.</dd>
@@ -168,6 +172,10 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gad6cf2ebac5d966916c61f46e79f035b2">MUU_HAS_FLOAT128</a></span>
             </dt>
             <dd><code>1</code> when the target environment has 128-bit floats ('quads'), <code>0</code> otherwise.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga27290363c4626a953e97d39dd042af66">MUU_HAS_FLOAT16</a></span>
+            </dt>
+            <dd><code>1</code> when the target environment has native IEC559 16-bit floats ('halfs'), <code>0</code> otherwise.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga61a9c9471317fa76fa46bd87d8f671b6">MUU_HAS_INT128</a></span>
             </dt>
@@ -295,6 +303,13 @@ C++</span></a>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p><code>1</code> when targeting AMD64, <code>0</code> otherwise.</p>
+          </div></section>
+          <section class="m-doc-details" id="gae07f9cdd5a8d78f5a0672a865fd7cc43"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gae07f9cdd5a8d78f5a0672a865fd7cc43">MUU_ARCH_ARM</a></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p><code>1</code> when targeting any flavour of ARM, <code>0</code> otherwise.</p>
           </div></section>
           <section class="m-doc-details" id="ga7f49df29b5350349e0f51b96a9d33044"><div>
             <h3>
@@ -462,6 +477,14 @@ C++</span></a>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p><code>1</code> when the target environment has 128-bit floats ('quads'), <code>0</code> otherwise.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga27290363c4626a953e97d39dd042af66"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga27290363c4626a953e97d39dd042af66">MUU_HAS_FLOAT16</a></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p><code>1</code> when the target environment has native IEC559 16-bit floats ('halfs'), <code>0</code> otherwise.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is completely unrelated to the class <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>, which is always available.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga61a9c9471317fa76fa46bd87d8f671b6"><div>
             <h3>

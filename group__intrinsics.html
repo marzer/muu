@@ -709,7 +709,7 @@ C++</span></a>
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-warning"><h4>Attention</h4><p>On older compilers lacking support for <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a> and std::bit_cast you won't be able to call this function in constexpr contexts. You can check for constexpr support by examining <a class="m-doc" href="namespacemuu_1_1build.html#ac2ed8c664a3937f1d6beca3916098ebd">build::<wbr/>supports_constexpr_infinity_or_nan</a>.</p></aside>
+<aside class="m-note m-warning"><h4>Attention</h4><p>Older compilers won't provide the necessary machinery for you to be able to call this function in constexpr contexts. You can check for constexpr support by examining <a class="m-doc" href="namespacemuu_1_1build.html#ac2ed8c664a3937f1d6beca3916098ebd">build::<wbr/>supports_constexpr_infinity_or_nan</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga8a9b0aaf9860b30f93639333a5214d34"><div>
             <h3>

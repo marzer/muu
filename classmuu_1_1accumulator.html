@@ -61,7 +61,7 @@ C++</span></a>
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="accumulator_8h.html">&lt;muu/accumulator.h&gt;</a></div>
-          <div class="m-doc-template">template&lt;typename T, typename Impl = impl::accumulator&lt;T&gt;&gt;</div>
+          <div class="m-doc-template">template&lt;typename ValueType, typename Impl = impl::accumulator&lt;ValueType&gt;&gt;</div>
           <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>accumulator <span class="m-thin">class</span>
         </h1>
         <p>Statefully accumulates (adds) an indeterminate range of values.</p>
@@ -71,7 +71,7 @@ C++</span></a>
           </thead>
           <tbody>
             <tr>
-              <td style="width: 1%">T</td>
+              <td style="width: 1%">ValueType</td>
               <td>Type being accumulated.</td>
             </tr>
             <tr>
@@ -97,8 +97,8 @@ C++</span></a>
         <section id="pub-types">
           <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
-            <dt id="aadf843403df4f68d32e3295ae142e178">
-              using <a class="m-doc-self" href="#aadf843403df4f68d32e3295ae142e178">value_type</a> = T
+            <dt id="abee6107aad0b0a1ef9a4c44c0c1eb6a4">
+              using <a class="m-doc-self" href="#abee6107aad0b0a1ef9a4c44c0c1eb6a4">value_type</a> = ValueType
             </dt>
             <dd>The type being accumulated.</dd>
           </dl>
@@ -106,22 +106,22 @@ C++</span></a>
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="ada68840415c126f52b6d4adc50ebbe89">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ada68840415c126f52b6d4adc50ebbe89">accumulator</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
+            <dt id="a78316ec2c16bf2de3bdb85e1ec35de74">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a78316ec2c16bf2de3bdb85e1ec35de74">accumulator</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
             </dt>
             <dd>Constructs an empty accumulator.</dd>
-            <dt id="ac7b284bccd43997fb972cad55e51314f">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ac7b284bccd43997fb972cad55e51314f">accumulator</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1accumulator.html#aadf843403df4f68d32e3295ae142e178">value_<wbr/>type</a>&amp; sample) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
+            <dt id="a768f01ea128c7966b87be1a5af686de7">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a768f01ea128c7966b87be1a5af686de7">accumulator</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1accumulator.html#abee6107aad0b0a1ef9a4c44c0c1eb6a4">value_<wbr/>type</a>&amp; sample) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
             </dt>
             <dd>Constructs an accumulator with one sample.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Iter&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#ad8f624ff7fa04c04ce8d436c66eaeeef">accumulator</a>(</span><span class="m-doc-wrap">Iter begin,
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a0d4531a8b584875cc0924ffff69a9442">accumulator</a>(</span><span class="m-doc-wrap">Iter begin,
               Iter end) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
             </dt>
             <dd>Constructs an accumulator with an initial range of samples.</dd>
-            <dt id="a5ae526dfca932e76459a421afa7f31f7">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a5ae526dfca932e76459a421afa7f31f7">operator value_type</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept(…)</span></span>
+            <dt id="ad637bd59b572cec1f7cdd6f2b1d89a55">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad637bd59b572cec1f7cdd6f2b1d89a55">operator value_type</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept(…)</span></span>
             </dt>
             <dd>Returns the sum of all values added to the accumulator.</dd>
           </dl>
@@ -131,37 +131,37 @@ C++</span></a>
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;typename Iter&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a261072354b841189a141d71274f7256e">add</a>(</span><span class="m-doc-wrap">Iter begin,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ad8a96c207f9a42542d65c3f942e03524">add</a>(</span><span class="m-doc-wrap">Iter begin,
               Iter end) -&gt; <a class="m-doc" href="classmuu_1_1accumulator.html">accumulator</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
             </dt>
             <dd>Adds a range of values to the accumulator.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a9bd61c1969847cb8f1efebe0c89e14eb">add</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1accumulator.html#aadf843403df4f68d32e3295ae142e178">value_<wbr/>type</a> const&amp; sample) -&gt; <a class="m-doc" href="classmuu_1_1accumulator.html">accumulator</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a4d86b726092dcb53487b5795ed31a4ce">add</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1accumulator.html#abee6107aad0b0a1ef9a4c44c0c1eb6a4">value_<wbr/>type</a> const&amp; sample) -&gt; <a class="m-doc" href="classmuu_1_1accumulator.html">accumulator</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
             </dt>
             <dd>Adds a new sample to the accumulator.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a4b372ebf84d7544c194d329e49ef1870">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1accumulator.html#aadf843403df4f68d32e3295ae142e178">value_<wbr/>type</a> const&amp; sample) -&gt; <a class="m-doc" href="classmuu_1_1accumulator.html">accumulator</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a80e5d1c8a8adbd511b579dc25e92cb1e">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1accumulator.html#abee6107aad0b0a1ef9a4c44c0c1eb6a4">value_<wbr/>type</a> const&amp; sample) -&gt; <a class="m-doc" href="classmuu_1_1accumulator.html">accumulator</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
             </dt>
             <dd>Adds a new sample to the accumulator.</dd>
-            <dt id="af14ab6276244b7ff01a7ebed10fd54f2">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af14ab6276244b7ff01a7ebed10fd54f2">sample_count</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="ab66b086f96e81bca84781af22f4e7909">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab66b086f96e81bca84781af22f4e7909">sample_count</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the number of samples added to the accumulator.</dd>
-            <dt id="aa589efacdb3553a4d77128faaa0fc247">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa589efacdb3553a4d77128faaa0fc247">value</a>(</span><span class="m-doc-wrap">) const -&gt; decltype(auto) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
+            <dt id="a2a38c5bb3000e57c0c909560966032cb">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2a38c5bb3000e57c0c909560966032cb">value</a>(</span><span class="m-doc-wrap">) const -&gt; decltype(auto) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
             </dt>
             <dd>Returns the sum of all values added to the accumulator.</dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="ad8f624ff7fa04c04ce8d436c66eaeeef"><div>
+          <section class="m-doc-details" id="a0d4531a8b584875cc0924ffff69a9442"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;typename T, typename Impl&gt;
+                template&lt;typename ValueType, typename Impl&gt;
                 template&lt;typename Iter&gt;
               </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>accumulator&lt;T, Impl&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad8f624ff7fa04c04ce8d436c66eaeeef">accumulator</a>(</span><span class="m-doc-wrap">Iter begin,
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>accumulator&lt;ValueType, Impl&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0d4531a8b584875cc0924ffff69a9442">accumulator</a>(</span><span class="m-doc-wrap">Iter begin,
               Iter end) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept(…)</span></span></span>
             </h3>
             <p>Constructs an accumulator with an initial range of samples.</p>
@@ -190,13 +190,13 @@ C++</span></a>
               </tbody>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a261072354b841189a141d71274f7256e"><div>
+          <section class="m-doc-details" id="ad8a96c207f9a42542d65c3f942e03524"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;typename T, typename Impl&gt;
+                template&lt;typename ValueType, typename Impl&gt;
                 template&lt;typename Iter&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1accumulator.html">accumulator</a>&amp; muu::<wbr/>accumulator&lt;T, Impl&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a261072354b841189a141d71274f7256e">add</a>(</span><span class="m-doc-wrap">Iter begin,
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1accumulator.html">accumulator</a>&amp; muu::<wbr/>accumulator&lt;ValueType, Impl&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad8a96c207f9a42542d65c3f942e03524">add</a>(</span><span class="m-doc-wrap">Iter begin,
               Iter end) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept(…)</span></span></span>
             </h3>
             <p>Adds a range of values to the accumulator.</p>
@@ -231,12 +231,12 @@ C++</span></a>
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a9bd61c1969847cb8f1efebe0c89e14eb"><div>
+          <section class="m-doc-details" id="a4d86b726092dcb53487b5795ed31a4ce"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;typename T, typename Impl&gt;
+                template&lt;typename ValueType, typename Impl&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1accumulator.html">accumulator</a>&amp; muu::<wbr/>accumulator&lt;T, Impl&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a9bd61c1969847cb8f1efebe0c89e14eb">add</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1accumulator.html#aadf843403df4f68d32e3295ae142e178">value_<wbr/>type</a> const&amp; sample) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept(…)</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1accumulator.html">accumulator</a>&amp; muu::<wbr/>accumulator&lt;ValueType, Impl&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4d86b726092dcb53487b5795ed31a4ce">add</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1accumulator.html#abee6107aad0b0a1ef9a4c44c0c1eb6a4">value_<wbr/>type</a> const&amp; sample) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept(…)</span></span></span>
             </h3>
             <p>Adds a new sample to the accumulator.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -257,12 +257,12 @@ C++</span></a>
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a4b372ebf84d7544c194d329e49ef1870"><div>
+          <section class="m-doc-details" id="a80e5d1c8a8adbd511b579dc25e92cb1e"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;typename T, typename Impl&gt;
+                template&lt;typename ValueType, typename Impl&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1accumulator.html">accumulator</a>&amp; muu::<wbr/>accumulator&lt;T, Impl&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4b372ebf84d7544c194d329e49ef1870">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1accumulator.html#aadf843403df4f68d32e3295ae142e178">value_<wbr/>type</a> const&amp; sample) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept(…)</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1accumulator.html">accumulator</a>&amp; muu::<wbr/>accumulator&lt;ValueType, Impl&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a80e5d1c8a8adbd511b579dc25e92cb1e">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1accumulator.html#abee6107aad0b0a1ef9a4c44c0c1eb6a4">value_<wbr/>type</a> const&amp; sample) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept(…)</span></span></span>
             </h3>
             <p>Adds a new sample to the accumulator.</p>
             <table class="m-table m-fullwidth m-flat">

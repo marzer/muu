@@ -646,7 +646,7 @@ C++</span></a>
               bool <a class="m-doc-self" href="#ga02060371498ff52c8d225e379fe00975">all_integral</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are all of the named types integral or reference-to-integral?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums.</p><p>Returns true for int128_t and uint128_t (where supported).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums.</p><p>Returns true for native int128_t and uint128_t (where supported).</p></aside>
           </div></section>
           <section class="m-doc-details" id="gaa7a73625bc705a9021924a54729c192e"><div>
             <h3>
@@ -679,7 +679,7 @@ C++</span></a>
               bool <a class="m-doc-self" href="#ga531166c296beeb911cb00d6ce826d3e8">any_integral</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are any of the named types integral or reference-to-integral?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums.</p><p>Returns true for int128_t and uint128_t (where supported).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums.</p><p>Returns true for native int128_t and uint128_t (where supported).</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga68d2257a9ace0f37200d05117931baed"><div>
             <h3>
@@ -734,7 +734,7 @@ C++</span></a>
               bool <a class="m-doc-self" href="#ga62cd2e27697815af581b5a8584fd1f76">is_arithmetic</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Is a type arithmetic or reference-to-arithmetic?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for <a class="m-doc" href="structmuu_1_1float16.html">muu::<wbr/>float16</a>.</p><p>Returns true for int128_t and uint128_t (where supported).</p><p>Returns true for float128_t (where supported).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>Returns true for native int128_t, uint128_t, float16_t and float128_t (where supported).</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga79cf1d440a2967847a6d0a08dc22fa19"><div>
             <h3>
@@ -775,7 +775,7 @@ C++</span></a>
               bool <a class="m-doc-self" href="#gae74155e0cf085141e1923124718915a4">is_floating_point</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Is a type a floating-point or reference-to-floating-point?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for <a class="m-doc" href="structmuu_1_1float16.html">muu::<wbr/>float16</a>.</p><p>Returns true for float128_t (where supported).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>Returns true for native float16_t and float128_t (where supported).</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga6283839d5536a4ee096adccee42b88c5"><div>
             <h3>
@@ -786,7 +786,7 @@ C++</span></a>
               bool <a class="m-doc-self" href="#ga6283839d5536a4ee096adccee42b88c5">is_integral</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Is a type an integral type or a reference to an integral type?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums.</p><p>Returns true for int128_t and uint128_t (where supported).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums.</p><p>Returns true for native int128_t and uint128_t (where supported).</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga0ad880900bc41c21a698d9114f333e3d"><div>
             <h3>
@@ -817,7 +817,7 @@ C++</span></a>
               bool <a class="m-doc-self" href="#ga8692cd4c2e3c8e2b0167a5a586f1f6e1">is_signed</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Is a type signed or reference-to-signed?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums backed by signed integers.</p><p>Returns true for <a class="m-doc" href="structmuu_1_1float16.html">muu::<wbr/>float16</a>.</p><p>Returns true for int128_t (where supported).</p><p>Returns true for float128_t (where supported).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums backed by signed integers.</p><p>Returns true for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>Returns true for native int128_t, float16_t and float128_t (where supported).</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga9e9c5b2e65e4f784d2a6b52b6a33a34f"><div>
             <h3>
@@ -828,7 +828,7 @@ C++</span></a>
               bool <a class="m-doc-self" href="#ga9e9c5b2e65e4f784d2a6b52b6a33a34f">is_unsigned</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Is a type unsigned or reference-to-unsigned?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums backed by unsigned integers.</p><p>Returns true for uint128_t (where supported).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums backed by unsigned integers.</p><p>Returns true for native uint128_t (where supported).</p></aside>
           </div></section>
           <section class="m-doc-details" id="gaa1afdcda38765572b01f8112bea59913"><div>
             <h3>

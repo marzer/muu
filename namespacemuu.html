@@ -91,7 +91,7 @@ C++</span></a>
           <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename Impl = impl::accumulator&lt;T&gt;&gt;</div>
+              <div class="m-doc-template">template&lt;typename ValueType, typename Impl = impl::accumulator&lt;ValueType&gt;&gt;</div>
               class <a class="m-doc" href="classmuu_1_1accumulator.html">accumulator</a>
             </dt>
             <dd>Statefully accumulates (adds) an indeterminate range of values.</dd>
@@ -100,14 +100,14 @@ C++</span></a>
             </dt>
             <dd>Interface for managing chunks of memory.</dd>
             <dt>
-              struct <a class="m-doc" href="structmuu_1_1float16.html">float16</a>
-            </dt>
-            <dd>A 16-bit "half-precision" floating point type.</dd>
-            <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits = <a class="m-doc" href="group__hashing.html#gafa54216d12dc26ba3dcc9074b516f852">default_<wbr/>hash_<wbr/>size</a>&gt;</div>
               class <a class="m-doc" href="classmuu_1_1fnv1a.html">fnv1a</a>
             </dt>
             <dd>FNV-1a hasher.</dd>
+            <dt>
+              struct <a class="m-doc" href="structmuu_1_1half.html">half</a>
+            </dt>
+            <dd>A 16-bit "half-precision" floating point type.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits = <a class="m-doc" href="group__hashing.html#gafa54216d12dc26ba3dcc9074b516f852">default_<wbr/>hash_<wbr/>size</a>&gt;</div>
               class <a class="m-doc" href="classmuu_1_1hash__combiner.html">hash_combiner</a>
@@ -127,10 +127,6 @@ C++</span></a>
               class <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_ptr</a>
             </dt>
             <dd>Specialized pointer capable of storing data in the unused bits of a pointer's value.</dd>
-            <dt>
-              struct <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>
-            </dt>
-            <dd>A 16-byte universally-unique identifier (UUID).</dd>
           </dl>
         </section>
         <section id="typedef-members">
@@ -185,6 +181,10 @@ C++</span></a>
               using <a class="m-doc" href="#a74a70ec9e3331f37ebbc3e875e183861">float128_t</a> = __float128
             </dt>
             <dd>A 128-bit quad-precision float.</dd>
+            <dt>
+              using <a class="m-doc" href="#ac1f6704b74f509e1de86f816c08632f2">float16_t</a> = _Float16
+            </dt>
+            <dd>A 16-bit half-precision float.</dd>
             <dt>
               using <a class="m-doc" href="#af8e0aa5a37ec05e07c7b69077de9303c">int128_t</a> = __int128_t
             </dt>
@@ -418,7 +418,7 @@ C++</span></a>
             </dt>
             <dd>Creates a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a78ccf7d26f7805fd998bfa82f19fa6b9">operator""_f16</a>(</span><span class="m-doc-wrap">long double val) -&gt; <a class="m-doc" href="structmuu_1_1float16.html">float16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a8020f75ca707dd47c7c88a23945329b5">operator""_f16</a>(</span><span class="m-doc-wrap">long double val) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Literal for creating a half-precision float.</dd>
             <dt>
@@ -610,7 +610,15 @@ C++</span></a>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
             </h3>
             <p>A 128-bit quad-precision float.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This typedef is only present when 128-bit floats are supported by your compiler.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This typedef is only present when 128-bit floats are supported by your target platform.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ac1f6704b74f509e1de86f816c08632f2"><div>
+            <h3>
+              using muu::<wbr/><a class="m-doc-self" href="#ac1f6704b74f509e1de86f816c08632f2">float16_t</a> = _Float16
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>A 16-bit half-precision float.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This will be an alias for your target platform's native IEC559 16-bit float type if present (e.g. <code>_Float16</code>), otherwise it will alias <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="af8e0aa5a37ec05e07c7b69077de9303c"><div>
             <h3>
@@ -618,7 +626,7 @@ C++</span></a>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
             </h3>
             <p>A 128-bit signed integer.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This typedef is only present when 128-bit integers are supported by your compiler.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This typedef is only present when 128-bit integers are supported by your target platform.</p></aside>
           </div></section>
           <section class="m-doc-details" id="aa82164a62949a1b029695dff5441d577"><div>
             <h3>
@@ -626,7 +634,7 @@ C++</span></a>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
             </h3>
             <p>A 128-bit unsigned integer.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This typedef is only present when 128-bit integers are supported by your compiler.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This typedef is only present when 128-bit integers are supported by your target platform.</p></aside>
           </div></section>
         </section>
       </div>
