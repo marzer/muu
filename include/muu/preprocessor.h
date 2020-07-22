@@ -614,9 +614,9 @@
 	#if __FLT_RADIX__ == 2					\
 			&& __FLT16_MANT_DIG__ == 11		\
 			&& __FLT16_DIG__ == 3			\
-			&& __FLT16_MIN_EXP__ == -14		\
-			&& __FLT16_MIN_10_EXP__ == -13	\
-			&& __FLT16_MAX_EXP__ == 15		\
+			&& __FLT16_MIN_EXP__ == -13		\
+			&& __FLT16_MIN_10_EXP__ == -4	\
+			&& __FLT16_MAX_EXP__ == 16		\
 			&& __FLT16_MAX_10_EXP__ == 4
 		#define MUU_HAS_FLOAT16 1
 	#endif

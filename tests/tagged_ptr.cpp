@@ -253,9 +253,10 @@ TEST_CASE("tagged_ptr - alignments")
 	tagged_ptr<align32> ptr;
 	static_assert(sizeof(ptr) == sizeof(void*));
 	using tag_type = decltype(ptr)::tag_type;
-	ptr.tag(static_cast<tag_type>(~tag_type{}));
+	constexpr auto filled_tag = bit_fill_right<tag_type>(sizeof(tag_type) * CHAR_BIT);
+	ptr.tag(filled_tag);
 	const auto expectedTag = ptr.tag();
-	CHECK(expectedTag != ~tag_type{});
+	CHECK(expectedTag != filled_tag);
 	CHECK(expectedTag == tagged_ptr<align32>::max_tag);
 
 	std::unique_ptr<align32> aligned{ new align32 };

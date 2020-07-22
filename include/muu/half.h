@@ -740,9 +740,9 @@ namespace std
 		static constexpr int radix = 2;
 		static constexpr int digits = 11;			// equivalent to __FLT16_MANT_DIG__
 		static constexpr int digits10 = 3;			// equivalent to __FLT16_DIG__
-		static constexpr int min_exponent = -14;	// equivalent to __FLT16_MIN_EXP__
-		static constexpr int min_exponent10 = -13;	// equivalent to __FLT16_MIN_10_EXP__
-		static constexpr int max_exponent = 15;		// equivalent to __FLT16_MAX_EXP__
+		static constexpr int min_exponent = -13;	// equivalent to __FLT16_MIN_EXP__
+		static constexpr int min_exponent10 = -4;	// equivalent to __FLT16_MIN_10_EXP__
+		static constexpr int max_exponent = 16;		// equivalent to __FLT16_MAX_EXP__
 		static constexpr int max_exponent10 = 4;	// equivalent to __FLT16_MAX_10_EXP__
 		static constexpr int max_digits10 = 5;
 		static constexpr bool traps = false;
