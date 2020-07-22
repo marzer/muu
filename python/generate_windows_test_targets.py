@@ -92,7 +92,7 @@ def main():
 		<ClCompile Include="..\..\tests\aligned_alloc.cpp" />
 		<ClCompile Include="..\..\tests\blob.cpp" />
 		<ClCompile Include="..\..\tests\core.cpp" />
-		<ClCompile Include="..\..\tests\float16.cpp" />
+		<ClCompile Include="..\..\tests\half.cpp" />
 		<ClCompile Include="..\..\tests\hashing.cpp" />
 		<ClCompile Include="..\..\tests\main.cpp">
 			<PrecompiledHeader>NotUsing</PrecompiledHeader>

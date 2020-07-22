@@ -13,8 +13,12 @@ MUU_DISABLE_ALL_WARNINGS
 #include <string_view>
 MUU_NAMESPACE_START
 {
-	struct float16;
-	std::ostream& operator << (std::ostream& os, const float16& value);
+	#if MUU_HAS_FLOAT16
+	template <> struct float_test_data<float16_t> : float_test_data_by_traits<16, 11> {};
+	#endif
+
+	struct half;
+	std::ostream& operator << (std::ostream& os, const half& value);
 
 	template <typename T>
 	[[nodiscard]]

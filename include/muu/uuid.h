@@ -9,16 +9,113 @@
 #pragma once
 #include "../muu/hashing.h"
 
+MUU_IMPL_NAMESPACE_START
+{
+	using uuid_bytes = std::byte[16];
+
+	namespace MUU_EVAL(MUU_BIG_ENDIAN, be, le)
+	{
+		template <unsigned>
+		struct uuid_slicer;
+
+		template <>
+		struct uuid_slicer<2>
+		{
+			[[nodiscard]]
+			MUU_ATTR(pure)
+			static constexpr uint16_t slice(const uuid_bytes& byte_arr, unsigned first) noexcept
+			{
+				MUU_ASSUME((first + 2u) <= 16u);
+				if constexpr (build::is_little_endian)
+					return pack(byte_arr[first], byte_arr[first + 1]);
+				else
+					return pack(byte_arr[first + 1], byte_arr[first]);
+			}
+		};
+
+		template <>
+		struct uuid_slicer<4>
+		{
+			[[nodiscard]]
+			MUU_ATTR(pure)
+			static constexpr uint32_t slice(const uuid_bytes& byte_arr, unsigned first) noexcept
+			{
+				MUU_ASSUME((first + 4u) <= 16u);
+				if constexpr (build::is_little_endian)
+					return pack(byte_arr[first], byte_arr[first + 1], byte_arr[first + 2], byte_arr[first + 3]);
+				else
+					return pack(byte_arr[first + 3], byte_arr[first + 2], byte_arr[first + 1], byte_arr[first]);
+			}
+		};
+
+		template <>
+		struct uuid_slicer<8>
+		{
+			[[nodiscard]]
+			MUU_ATTR(pure)
+			static constexpr uint64_t slice(const uuid_bytes& byte_arr, unsigned first) noexcept
+			{
+				MUU_ASSUME((first + 8u) <= 16u);
+				if constexpr (build::is_little_endian)
+					return pack(
+						byte_arr[first], byte_arr[first + 1], byte_arr[first + 2], byte_arr[first + 3],
+						byte_arr[first + 4], byte_arr[first + 5], byte_arr[first + 6], byte_arr[first + 7]
+					);
+				else
+					return pack(
+						byte_arr[first + 7], byte_arr[first + 6], byte_arr[first + 5], byte_arr[first + 4],
+						byte_arr[first + 3], byte_arr[first + 2], byte_arr[first + 1], byte_arr[first]
+					);
+			}
+		};
+	} // be/le
+
+	template <unsigned N>
+	MUU_ATTR(pure)
+	MUU_ATTR(flatten)
+	constexpr auto uuid_slice(const uuid_bytes& byte_arr, unsigned first) noexcept
+	{
+		using slicer = MUU_EVAL(MUU_BIG_ENDIAN, be, le)::uuid_slicer<N>;
+		return slicer::slice(byte_arr, first);
+	}
+}
+MUU_IMPL_NAMESPACE_END
+
 MUU_NAMESPACE_START
 {
+
+
+	/// \brief	A UUID variant as per RFC 4122.
+	///
+	/// \see RFC 4122: https://www.ietf.org/rfc/rfc4122.txt
+	enum class uuid_variant : uint8_t
+	{
+		none,				///< No variant specified.
+		standard,			///< The 'standard' variant outlaid in RFC 4122.
+		reserved_ncs,		///< Reserved for backward compatibility.
+		reserved_microsoft,	///< Reserved for backward compatibility.
+		reserved_future,	///< Reserved for backward compatibility.
+	};
+
+	/// \brief	A UUID version as per RFC 4122.
+	///
+	/// \see RFC 4122: https://www.ietf.org/rfc/rfc4122.txt
+	enum class uuid_version : uint8_t
+	{
+		none,		///< No version specified.
+		time,		///< Version 1: Time-based UUID.
+		dce,		///< Version 2: DCE Security version, with embedded POSIX UIDs.
+		name_md5,	///< Version 3: Name-based UUID generated using MD5 hashing.
+		random,		///< Version 4: Randomly-generated UUID.
+		name_sha1,	///< Version 5: Name-based UUID generated using SHA-1 hashing.
+		unknown	= 0b1111	///< Unknown or non-standard version.
+	};
+
 	/// \brief A 16-byte universally-unique identifier (UUID).
 	///
 	/// \see RFC 4122: https://www.ietf.org/rfc/rfc4122.txt
 	struct uuid
 	{
-		/// \brief	The UUID's byte type.
-		using byte = ::std::byte;
-
 		/// \brief The raw bytes in the UUID.
 		/// \detail The byte layout of the UUID is big-endian, regardless of the target platform:
 		/// <br>
@@ -55,7 +152,7 @@ MUU_NAMESPACE_START
 		/// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 		/// |                          time_low                             |
 		/// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-		/// |       time_mid                |         time_hi_and_version   |
+		/// |       time_mid                |      time_high_and_version    |
 		/// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 		/// |clk_seq_hi_res |  clk_seq_low  |         node (0-1)            |
 		/// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -64,7 +161,7 @@ MUU_NAMESPACE_START
 		/// \eout
 		/// 
 		/// \see RFC 4122: https://www.ietf.org/rfc/rfc4122.txt
-		byte bytes[16];
+		std::byte bytes[16];
 		
 		/// \brief Creates a new UUID using the platform's UUID generator.
 		static MUU_API uuid generate() noexcept;
@@ -74,108 +171,170 @@ MUU_NAMESPACE_START
 
 		/// \brief	Creates a UUID from it's raw integral components, as per RFC 4122.
 		///
-		/// \param	time_low				The "time-low" component.
-		/// \param	time_mid				The "time-middle" component.
-		/// \param	time_hi_and_version		The "time-high-and-version" component.
-		/// \param	clock_seq_and_reserved	The "clock-seq-and-reserved" component.
-		/// \param	clock_seq_low			The "clock-seq-low" component.
-		/// \param	node					The "node" component. The highest 2 bytes are ignored
-		/// 								(the `node` component of a UUID is a 48-bit unsigned int).
+		/// \param	time_low						The 'time-low' field.
+		/// \param	time_mid						The 'time-middle' field.
+		/// \param	time_high_and_version			The 'time-high-and-version' field.
+		/// \param	clock_seq_high_and_reserved		The 'clock-seq-high-and-reserved' field.
+		/// \param	clock_seq_low					The 'clock-seq-low' field.
+		/// \param	node							The 'node' field. The highest 2 bytes are ignored
+		/// 										(the 'node' field of a UUID is a 48-bit unsigned int).
 		///
 		/// \remarks Despite the UUID's byte storage being big-endian,
 		/// 		 inputs are assumed to be platform-endian and are re-ordered as required.
 		constexpr uuid(
 				uint32_t time_low,
 				uint16_t time_mid,
-				uint16_t time_hi_and_version,
-				uint8_t clock_seq_and_reserved,
+				uint16_t time_high_and_version,
+				uint8_t clock_seq_high_and_reserved,
 				uint8_t clock_seq_low,
 				uint64_t node) noexcept
 			: bytes
 			{
-				byte{ byte_select<build::is_little_endian ? 3 : 0>(time_low) },
-				byte{ byte_select<build::is_little_endian ? 2 : 1>(time_low) },
-				byte{ byte_select<build::is_little_endian ? 1 : 2>(time_low) },
-				byte{ byte_select<build::is_little_endian ? 0 : 3>(time_low) },
-				byte{ byte_select<build::is_little_endian ? 1 : 0>(time_mid) },
-				byte{ byte_select<build::is_little_endian ? 0 : 1>(time_mid) },
-				byte{ byte_select<build::is_little_endian ? 1 : 0>(time_hi_and_version) },
-				byte{ byte_select<build::is_little_endian ? 0 : 1>(time_hi_and_version) },
-				byte{ clock_seq_and_reserved },
-				byte{ clock_seq_low },
-				byte{ byte_select<build::is_little_endian ? 5 : 2>(node) },
-				byte{ byte_select<build::is_little_endian ? 4 : 3>(node) },
-				byte{ byte_select<build::is_little_endian ? 3 : 4>(node) },
-				byte{ byte_select<build::is_little_endian ? 2 : 5>(node) },
-				byte{ byte_select<build::is_little_endian ? 1 : 6>(node) },
-				byte{ byte_select<build::is_little_endian ? 0 : 7>(node) }
+				std::byte{ byte_select<build::is_little_endian ? 3 : 0>(time_low) },
+				std::byte{ byte_select<build::is_little_endian ? 2 : 1>(time_low) },
+				std::byte{ byte_select<build::is_little_endian ? 1 : 2>(time_low) },
+				std::byte{ byte_select<build::is_little_endian ? 0 : 3>(time_low) },
+				std::byte{ byte_select<build::is_little_endian ? 1 : 0>(time_mid) },
+				std::byte{ byte_select<build::is_little_endian ? 0 : 1>(time_mid) },
+				std::byte{ byte_select<build::is_little_endian ? 1 : 0>(time_high_and_version) },
+				std::byte{ byte_select<build::is_little_endian ? 0 : 1>(time_high_and_version) },
+				std::byte{ clock_seq_high_and_reserved },
+				std::byte{ clock_seq_low },
+				std::byte{ byte_select<build::is_little_endian ? 5 : 2>(node) },
+				std::byte{ byte_select<build::is_little_endian ? 4 : 3>(node) },
+				std::byte{ byte_select<build::is_little_endian ? 3 : 4>(node) },
+				std::byte{ byte_select<build::is_little_endian ? 2 : 5>(node) },
+				std::byte{ byte_select<build::is_little_endian ? 1 : 6>(node) },
+				std::byte{ byte_select<build::is_little_endian ? 0 : 7>(node) }
 			}
 		{}
 
 		/// \brief	Creats a UUID from it's raw integral components, as per RFC 4122.
 		///
-		/// \param	time_low				The "time-low" component.
-		/// \param	time_mid				The "time-middle" component.
-		/// \param	time_hi_and_version		The "time-high-and-version" component.
-		/// \param	clock_seq				The "clock-seq-and-reserved" (MSB) and "clock-seq-low" (LSB) components.
-		/// \param	node					The "node" component. The highest 2 bytes are ignored
-		/// 								(the `node` component of a UUID is a 48-bit unsigned int).
+		/// \param	time_low				The 'time-low' field.
+		/// \param	time_mid				The 'time-middle' field.
+		/// \param	time_high_and_version	The 'time-high-and-version' field.
+		/// \param	clock_seq				The 'clock-seq-high-and-reserved' (MSB) and 'clock-seq-low' (LSB) fields.
+		/// \param	node					The 'node' field. The highest 2 bytes are ignored
+		/// 								(the 'node' field of a UUID is a 48-bit unsigned int).
 		///
 		/// \remarks Despite the UUID's byte storage being big-endian,
 		/// 		 inputs are assumed to be platform-endian and are re-ordered as required.
 		constexpr uuid(uint32_t time_low,
 				uint16_t time_mid,
-				uint16_t time_hi_and_version,
+				uint16_t time_high_and_version,
 				uint16_t clock_seq,
 				uint64_t node) noexcept
 			: bytes
 			{
-				byte{ byte_select<build::is_little_endian ? 3 : 0>(time_low) },
-				byte{ byte_select<build::is_little_endian ? 2 : 1>(time_low) },
-				byte{ byte_select<build::is_little_endian ? 1 : 2>(time_low) },
-				byte{ byte_select<build::is_little_endian ? 0 : 3>(time_low) },
-				byte{ byte_select<build::is_little_endian ? 1 : 0>(time_mid) },
-				byte{ byte_select<build::is_little_endian ? 0 : 1>(time_mid) },
-				byte{ byte_select<build::is_little_endian ? 1 : 0>(time_hi_and_version) },
-				byte{ byte_select<build::is_little_endian ? 0 : 1>(time_hi_and_version) },
-				byte{ byte_select<build::is_little_endian ? 1 : 0>(clock_seq) },
-				byte{ byte_select<build::is_little_endian ? 0 : 1>(clock_seq) },
-				byte{ byte_select<build::is_little_endian ? 5 : 2>(node) },
-				byte{ byte_select<build::is_little_endian ? 4 : 3>(node) },
-				byte{ byte_select<build::is_little_endian ? 3 : 4>(node) },
-				byte{ byte_select<build::is_little_endian ? 2 : 5>(node) },
-				byte{ byte_select<build::is_little_endian ? 1 : 6>(node) },
-				byte{ byte_select<build::is_little_endian ? 0 : 7>(node) }
+				std::byte{ byte_select<build::is_little_endian ? 3 : 0>(time_low) },
+				std::byte{ byte_select<build::is_little_endian ? 2 : 1>(time_low) },
+				std::byte{ byte_select<build::is_little_endian ? 1 : 2>(time_low) },
+				std::byte{ byte_select<build::is_little_endian ? 0 : 3>(time_low) },
+				std::byte{ byte_select<build::is_little_endian ? 1 : 0>(time_mid) },
+				std::byte{ byte_select<build::is_little_endian ? 0 : 1>(time_mid) },
+				std::byte{ byte_select<build::is_little_endian ? 1 : 0>(time_high_and_version) },
+				std::byte{ byte_select<build::is_little_endian ? 0 : 1>(time_high_and_version) },
+				std::byte{ byte_select<build::is_little_endian ? 1 : 0>(clock_seq) },
+				std::byte{ byte_select<build::is_little_endian ? 0 : 1>(clock_seq) },
+				std::byte{ byte_select<build::is_little_endian ? 5 : 2>(node) },
+				std::byte{ byte_select<build::is_little_endian ? 4 : 3>(node) },
+				std::byte{ byte_select<build::is_little_endian ? 3 : 4>(node) },
+				std::byte{ byte_select<build::is_little_endian ? 2 : 5>(node) },
+				std::byte{ byte_select<build::is_little_endian ? 1 : 6>(node) },
+				std::byte{ byte_select<build::is_little_endian ? 0 : 7>(node) }
 			}
 		{}
 
-		//[[nodiscard]]
-		//constexpr uint64_t high() const noexcept
-		//{
-		//	if constexpr (build::is_little_endian)
-		//		return byte_reverse(bit_cast<uint64_t>(*pointer_cast<const byte(*)[8]>(bytes)));
-		//	else
-		//		return bit_cast<uint64_t>(*pointer_cast<const byte(*)[8]>(bytes));
-		//}
+		/// \brief	Explicitly constructs a null UUID.
+		constexpr uuid(std::nullptr_t) noexcept
+			: bytes
+			{
+				std::byte{}, std::byte{}, std::byte{}, std::byte{},
+				std::byte{}, std::byte{}, std::byte{}, std::byte{},
+				std::byte{}, std::byte{}, std::byte{}, std::byte{},
+				std::byte{}, std::byte{}, std::byte{}, std::byte{}
+			}
+		{}
 
-		//[[nodiscard]]
-		//constexpr uint64_t high() const noexcept
-		//{
-		//	if constexpr (build::is_little_endian)
-		//		return byte_reverse(bit_cast<uint64_t>(*pointer_cast<const byte(*)[8]>(bytes)));
-		//	else
-		//		return bit_cast<uint64_t>(*pointer_cast<const byte(*)[8]>(bytes));
-		//}
+		/// \brief	Returns the UUID's variant.
+		[[nodiscard]]
+		constexpr uuid_variant variant() const noexcept
+		{
+			const auto var = static_cast<unsigned>(unwrap((bytes[8] & 0b11100000_byte) >> 5));
+			MUU_ASSUME(var <= 0b111u);
 
-		//template <typename T>
-		//[[nodiscard]]
-		//constexpr uint64_t select() const noexcept
-		////{
-		////	if constexpr (build::is_little_endian)
-		////		return byte_reverse(bit_cast<uint64_t>(*pointer_cast<const byte(*)[8]>(bytes + 8)));
-		////	else
-		////		return bit_cast<uint64_t>(*pointer_cast<const byte(*)[8]>(bytes + 8));
-		////}
+			if (!var)
+				return uuid_variant::none;
+			else if MUU_UNLIKELY(var <= 0b011u) // 0 x x
+				return uuid_variant::reserved_ncs;
+			else
+			{
+				// any possible variant in this branch has the high bit set, i.e. 0b1XX
+				
+				if MUU_LIKELY((var | 0b101u) == 0b101u)	// 1 0 x
+					return uuid_variant::standard;
+				else if (var == 0b110) // 1 1 0
+					return uuid_variant::reserved_microsoft;
+				else // 1 1 1
+					return uuid_variant::reserved_future;
+			}
+		}
+
+		/// \brief	Returns the UUID's version.
+		[[nodiscard]]
+		constexpr uuid_version version() const noexcept
+		{
+			const auto var = static_cast<unsigned>(unwrap((bytes[6] & 0b11110000_byte) >> 4));
+			MUU_ASSUME(var <= 0b1111u);
+
+			return var > 5u ? uuid_version::unknown : static_cast<uuid_version>(var);
+		}
+
+		/// \brief	Returns the value of the 'time-low' field.
+		[[nodiscard]]
+		constexpr uint32_t time_low() const noexcept
+		{
+			return impl::uuid_slice<4>(bytes, 0);
+		}
+
+		/// \brief	Returns the value of the 'time-mid' field.
+		[[nodiscard]]
+		constexpr uint16_t time_mid() const noexcept
+		{
+			return impl::uuid_slice<2>(bytes, 4);
+		}
+
+		/// \brief	Returns the value of the 'time-high-and-version' field.
+		[[nodiscard]]
+		constexpr uint16_t time_high_and_version() const noexcept
+		{
+			return impl::uuid_slice<2>(bytes, 6);
+		}
+
+		/// \brief	Returns the value of the 'clock-seq-high-and-reserved' field.
+		[[nodiscard]]
+		constexpr uint8_t clock_seq_high_and_reserved() const noexcept
+		{
+			return unwrap(bytes[8]);
+		}
+
+		/// \brief	Returns the value of the 'clock-seq-low' field.
+		[[nodiscard]]
+		constexpr uint8_t clock_seq_low() const noexcept
+		{
+			return unwrap(bytes[9]);
+		}
+
+		/// \brief	Returns the value of the 'node' field.
+		/// 
+		/// \remarks The two most significant bytes of the return value will be zero
+		/// 		 (the 'node' field of a UUID is a 48-bit unsigned int).
+		[[nodiscard]]
+		constexpr uint64_t node() const noexcept
+		{
+			return impl::uuid_slice<8>(bytes, 8) & 0x0000FFFFFFFFFFFF_u64;
+		}
 
 		#if 0
 		private:
@@ -270,9 +429,30 @@ MUU_NAMESPACE_START
 		explicit constexpr operator bool() const noexcept
 		{
 			for (size_t i = 0; i < 16_sz; i++)
-				if (bytes[i] != byte{})
+				if (bytes[i] != std::byte{})
 					return true;
 			return false;
+		}
+
+		/// \brief	Returns true if two UUIDs are equal.
+		[[nodiscard]]
+		friend constexpr bool operator == (const uuid& lhs, const uuid& rhs) noexcept
+		{
+			if (&lhs == &rhs)
+				return true;
+			for (size_t i = 0; i < 16_sz; i++)
+			{
+				if (lhs.bytes[i] != rhs.bytes[i])
+					return false;
+			}
+			return true;
+		}
+
+		/// \brief	Returns true if two UUIDs are not equal.
+		[[nodiscard]]
+		friend constexpr bool operator != (const uuid& lhs, const uuid& rhs) noexcept
+		{
+			return !(lhs == rhs);
 		}
 
 		/// \brief	Returns the lexicographical ordering of two UUID's.
@@ -287,20 +467,6 @@ MUU_NAMESPACE_START
 					return lhs.bytes[i] < rhs.bytes[i] ? -1 : 1;
 			}
 			return 0;
-		}
-
-		/// \brief	Returns true if two UUIDs are equal.
-		[[nodiscard]]
-		friend constexpr bool operator == (const uuid& lhs, const uuid& rhs) noexcept
-		{
-			return compare(lhs, rhs) == 0;
-		}
-
-		/// \brief	Returns true if two UUIDs are not equal.
-		[[nodiscard]]
-		friend constexpr bool operator != (const uuid& lhs, const uuid& rhs) noexcept
-		{
-			return compare(lhs, rhs) != 0;
 		}
 
 		/// \brief	Returns true if the LHS UUID is ordered lower than the RHS UUID.
@@ -338,33 +504,34 @@ namespace std
 {
 	/// \brief	Specialization of std::hash for muu::uuid.
 	template <>
-	struct hash<::muu::uuid>
+	struct hash<MUU_NAMESPACE::uuid>
 	{
 		[[nodiscard]]
-		constexpr size_t operator()(const ::muu::uuid& id) const noexcept
+		MUU_API
+		constexpr size_t operator()(const MUU_NAMESPACE::uuid& id) const noexcept
 		{
-			using namespace ::muu;
-			using uuid_slice = const byte[sizeof(size_t)];
+			using namespace MUU_NAMESPACE;
 
-			#if MUU_LITTLE_ENDIAN
-				#define maybe_byte_reverse(val) byte_reverse(val)
-			#else
-				#define maybe_byte_reverse(val) val
-			#endif
 			#define get_slice(idx)	\
-				maybe_byte_reverse(bit_cast<size_t>(*pointer_cast<uuid_slice*>(id.bytes + sizeof(size_t) * idx)))
+				impl::uuid_slice<sizeof(size_t)>(id.bytes, sizeof(size_t) * idx)
 
-			hash_combiner<> hasher{ get_slice(0_sz) };
-			hasher(get_slice(1_sz));
-			if constexpr (sizeof(size_t) == 4)
+			hash_combiner<> hasher{ get_slice(0) };
+			if constexpr (sizeof(size_t) < 16)
+				hasher(get_slice(1));
+			if constexpr (sizeof(size_t) < 8)
 			{
-				hasher(get_slice(2_sz));
-				hasher(get_slice(3_sz));
+				hasher(get_slice(2));
+				hasher(get_slice(3));
 			}
-
+			if constexpr (sizeof(size_t) < 4)
+			{
+				hasher(get_slice(4));
+				hasher(get_slice(5));
+				hasher(get_slice(6));
+				hasher(get_slice(7));
+			}
 			return hasher.value();
 
-			#undef maybe_byte_reverse
 			#undef get_slice
 		}
 	};

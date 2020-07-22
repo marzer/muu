@@ -74,7 +74,7 @@ MUU_NAMESPACE_START
 
 	struct uuid;
 	struct semver;
-	struct float16;
+	struct half;
 
 	class blob;
 	class string_param;
@@ -113,12 +113,12 @@ MUU_NAMESPACE_START
 
 	/// \brief	A 128-bit signed integer.
 	/// 
-	/// \remarks This typedef is only present when 128-bit integers are supported by your compiler.
+	/// \remarks This typedef is only present when 128-bit integers are supported by your target platform.
 	using int128_t = __int128_t;
 
 	/// \brief	A 128-bit unsigned integer.
 	/// 
-	/// \remarks This typedef is only present when 128-bit integers are supported by your compiler.
+	/// \remarks This typedef is only present when 128-bit integers are supported by your target platform.
 	using uint128_t = __uint128_t;
 
 	#endif
@@ -127,8 +127,23 @@ MUU_NAMESPACE_START
 
 	/// \brief	A 128-bit quad-precision float.
 	/// 
-	/// \remarks This typedef is only present when 128-bit floats are supported by your compiler.
+	/// \remarks This typedef is only present when 128-bit floats are supported by your target platform.
 	using float128_t = __float128;
+
+	#endif
+
+	#if MUU_HAS_FLOAT16 || MUU_DOXYGEN
+
+	/// \brief	A 16-bit half-precision float.
+	/// 
+	/// \remarks This will be an alias for your target platform's native IEC559 16-bit float type
+	/// 		 if present (e.g. `_Float16`), otherwise it will alias muu::half.
+
+	using float16_t = _Float16;
+
+	#else
+
+	using float16_t = half;
 
 	#endif
 }
@@ -326,7 +341,7 @@ MUU_IMPL_NAMESPACE_START
 	template <> struct make_signed<unsigned long> { using type = long; };
 	template <> struct make_signed<long long> { using type = long long; };
 	template <> struct make_signed<unsigned long long> { using type = long long; };
-	template <> struct make_signed<float16> { using type = float16; };
+	template <> struct make_signed<half> { using type = half; };
 	template <> struct make_signed<float> { using type = float; };
 	template <> struct make_signed<double> { using type = double; };
 	template <> struct make_signed<long double> { using type = long double; };
@@ -334,8 +349,11 @@ MUU_IMPL_NAMESPACE_START
 	template <> struct make_signed<int128_t> { using type = int128_t; };
 	template <> struct make_signed<uint128_t> { using type = int128_t; };
 	#endif
-	#if MUU_HAS_INT128
+	#if MUU_HAS_FLOAT128
 	template <> struct make_signed<float128_t> { using type = float128_t; };
+	#endif
+	#if MUU_HAS_FLOAT16
+	template <> struct make_signed<float16_t> { using type = float16_t; };
 	#endif
 
 	template <typename T> struct make_unsigned;
@@ -420,22 +438,22 @@ MUU_IMPL_NAMESPACE_START
 
 		T values[N];
 
-		[[nodiscard]] MUU_ALWAYS_INLINE constexpr T& operator[](size_t pos) noexcept { return values[pos]; }
-		[[nodiscard]] MUU_ALWAYS_INLINE constexpr const T& operator[](size_t pos) const noexcept { return values[pos]; }
-		[[nodiscard]] MUU_ALWAYS_INLINE constexpr T* data() noexcept { return values; }
-		[[nodiscard]] MUU_ALWAYS_INLINE constexpr const T* data() const noexcept { return values; }
-		[[nodiscard]] MUU_ALWAYS_INLINE constexpr size_t size() const noexcept { return N; }
-		[[nodiscard]] MUU_ALWAYS_INLINE constexpr reference back() noexcept { return values[N - 1]; }
-		[[nodiscard]] MUU_ALWAYS_INLINE constexpr const_reference back() const noexcept { return values[N - 1]; }
-		[[nodiscard]] MUU_ALWAYS_INLINE constexpr reference front() noexcept { return values[0]; }
-		[[nodiscard]] MUU_ALWAYS_INLINE constexpr const_reference front() const noexcept { return values[0]; }
-		[[nodiscard]] MUU_ALWAYS_INLINE constexpr bool empty() const noexcept { return !N; }
-		[[nodiscard]] MUU_ALWAYS_INLINE constexpr iterator begin() noexcept { return values; }
-		[[nodiscard]] MUU_ALWAYS_INLINE constexpr const_iterator begin() const noexcept { return values; }
-		[[nodiscard]] MUU_ALWAYS_INLINE constexpr const_iterator cbegin() const noexcept { return values; }
-		[[nodiscard]] MUU_ALWAYS_INLINE constexpr iterator end() noexcept { return values + N; }
-		[[nodiscard]] MUU_ALWAYS_INLINE constexpr const_iterator end() const noexcept { return values + N; }
-		[[nodiscard]] MUU_ALWAYS_INLINE constexpr const_iterator cend() const noexcept { return values + N; }
+		[[nodiscard]] constexpr T& operator[](size_t pos) noexcept { return values[pos]; }
+		[[nodiscard]] constexpr const T& operator[](size_t pos) const noexcept { return values[pos]; }
+		[[nodiscard]] constexpr T* data() noexcept { return values; }
+		[[nodiscard]] constexpr const T* data() const noexcept { return values; }
+		[[nodiscard]] constexpr size_t size() const noexcept { return N; }
+		[[nodiscard]] constexpr reference back() noexcept { return values[N - 1]; }
+		[[nodiscard]] constexpr const_reference back() const noexcept { return values[N - 1]; }
+		[[nodiscard]] constexpr reference front() noexcept { return values[0]; }
+		[[nodiscard]] constexpr const_reference front() const noexcept { return values[0]; }
+		[[nodiscard]] constexpr bool empty() const noexcept { return !N; }
+		[[nodiscard]] constexpr iterator begin() noexcept { return values; }
+		[[nodiscard]] constexpr const_iterator begin() const noexcept { return values; }
+		[[nodiscard]] constexpr const_iterator cbegin() const noexcept { return values; }
+		[[nodiscard]] constexpr iterator end() noexcept { return values + N; }
+		[[nodiscard]] constexpr const_iterator end() const noexcept { return values + N; }
+		[[nodiscard]] constexpr const_iterator cend() const noexcept { return values + N; }
 	};
 	template <typename... T>
 	array(T...) -> array<std::common_type_t<T...>, sizeof...(T)>;
@@ -521,7 +539,7 @@ MUU_NAMESPACE_START
 
 	/// \brief Is a type unsigned or reference-to-unsigned?
 	/// \remarks Returns true for enums backed by unsigned integers.
-	/// \remarks Returns true for uint128_t (where supported).
+	/// \remarks Returns true for native uint128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_unsigned = std::is_unsigned_v<remove_enum<remove_cvref<T>>>
 		#if MUU_HAS_INT128
@@ -541,17 +559,19 @@ MUU_NAMESPACE_START
 
 	/// \brief Is a type signed or reference-to-signed?
 	/// \remarks Returns true for enums backed by signed integers.
-	/// \remarks Returns true for muu::float16.
-	/// \remarks Returns true for int128_t (where supported).
-	/// \remarks Returns true for float128_t (where supported).
+	/// \remarks Returns true for muu::half.
+	/// \remarks Returns true for native int128_t, float16_t and float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_signed = std::is_signed_v<remove_enum<remove_cvref<T>>>
-		|| std::is_same_v<remove_cvref<T>, float16>
+		|| std::is_same_v<remove_cvref<T>, half>
 		#if MUU_HAS_INT128
 		|| std::is_same_v<remove_enum<remove_cvref<T>>, int128_t>
 		#endif
 		#if MUU_HAS_FLOAT128
 		|| std::is_same_v<remove_enum<remove_cvref<T>>, float128_t>
+		#endif
+		#if MUU_HAS_FLOAT16
+		|| std::is_same_v<remove_enum<remove_cvref<T>>, float16_t>
 		#endif
 	;
 
@@ -567,7 +587,7 @@ MUU_NAMESPACE_START
 
 	/// \brief Is a type an integral type or a reference to an integral type?
 	/// \remarks Returns true for enums.
-	/// \remarks Returns true for int128_t and uint128_t (where supported).
+	/// \remarks Returns true for native int128_t and uint128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_integral = std::is_integral_v<remove_enum<remove_cvref<T>>>
 		#if MUU_HAS_INT128
@@ -577,39 +597,44 @@ MUU_NAMESPACE_START
 
 	/// \brief Are any of the named types integral or reference-to-integral?
 	/// \remarks Returns true for enums.
-	/// \remarks Returns true for int128_t and uint128_t (where supported).
+	/// \remarks Returns true for native int128_t and uint128_t (where supported).
 	template <typename T, typename... U>
 	inline constexpr bool any_integral = is_integral<T> || (false || ... || is_integral<U>);
 
 	/// \brief Are all of the named types integral or reference-to-integral?
 	/// \remarks Returns true for enums.
-	/// \remarks Returns true for int128_t and uint128_t (where supported).
+	/// \remarks Returns true for native int128_t and uint128_t (where supported).
 	template <typename T, typename... U>
 	inline constexpr bool all_integral = is_integral<T> && (true && ... && is_integral<U>);
 
 	/// \brief Is a type a floating-point or reference-to-floating-point?
-	/// \remarks Returns true for muu::float16.
-	/// \remarks Returns true for float128_t (where supported).
+	/// \remarks Returns true for muu::half.
+	/// \remarks Returns true for native float16_t and float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_floating_point = std::is_floating_point_v<std::remove_reference_t<T>>
-		|| std::is_same_v<remove_cvref<T>, float16>
+		|| std::is_same_v<remove_cvref<T>, half>
 		#if MUU_HAS_FLOAT128
 		|| std::is_same_v<remove_enum<remove_cvref<T>>, float128_t>
+		#endif
+		#if MUU_HAS_FLOAT16
+		|| std::is_same_v<remove_enum<remove_cvref<T>>, float16_t>
 		#endif
 	;
 
 	/// \brief Is a type arithmetic or reference-to-arithmetic?
-	/// \remarks Returns true for muu::float16.
-	/// \remarks Returns true for int128_t and uint128_t (where supported).
-	/// \remarks Returns true for float128_t (where supported).
+	/// \remarks Returns true for muu::half.
+	/// \remarks Returns true for native int128_t, uint128_t, float16_t and float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_arithmetic = std::is_arithmetic_v<std::remove_reference_t<T>>
-		|| std::is_same_v<remove_cvref<T>, float16>
+		|| std::is_same_v<remove_cvref<T>, half>
 		#if MUU_HAS_INT128
 		|| same_as_any<remove_enum<remove_cvref<T>>, int128_t, uint128_t>
 		#endif
 		#if MUU_HAS_FLOAT128
 		|| std::is_same_v<remove_enum<remove_cvref<T>>, float128_t>
+		#endif
+		#if MUU_HAS_FLOAT16
+		|| std::is_same_v<remove_enum<remove_cvref<T>>, float16_t>
 		#endif
 	;
 
@@ -1057,7 +1082,6 @@ MUU_NAMESPACE_START
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
 	[[nodiscard]]
 	MUU_ATTR(const)
-	MUU_ATTR(flatten)
 	constexpr int MUU_VECTORCALL countl_zero(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -1110,7 +1134,6 @@ MUU_NAMESPACE_START
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
 	[[nodiscard]]
 	MUU_ATTR(const)
-	MUU_ATTR(flatten)
 	constexpr int MUU_VECTORCALL countr_zero(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -1162,7 +1185,6 @@ MUU_NAMESPACE_START
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
 	[[nodiscard]]
 	MUU_ATTR(const)
-	MUU_ATTR(flatten)
 	constexpr T MUU_VECTORCALL bit_ceil(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -1194,9 +1216,7 @@ MUU_NAMESPACE_START
 		all_unsigned<T, U, V...>
 	>>
 	[[nodiscard]]
-	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
-	MUU_ATTR(flatten)
 	constexpr auto MUU_VECTORCALL pack(T val1, U val2, V... vals) noexcept
 	{
 		static_assert(
@@ -1245,6 +1265,7 @@ MUU_NAMESPACE_START
 
 		template <typename To, typename From>
 		[[nodiscard]]
+		MUU_ALWAYS_INLINE
 		constexpr To bit_cast_fallback(const From& from) noexcept
 		{
 			static_assert(!std::is_reference_v<To> && !std::is_reference_v<From>);
@@ -1663,8 +1684,6 @@ MUU_NAMESPACE_START
 	/// \brief	Returns true if a value is between two bounds (inclusive).
 	template <typename T, typename U>
 	[[nodiscard]]
-	MUU_ALWAYS_INLINE
-	MUU_ATTR(flatten)
 	constexpr bool MUU_VECTORCALL between(T val, U min_, U max_) noexcept
 	{
 		if constexpr ((is_arithmetic<T> || is_enum<U>) || (is_arithmetic<T> || is_enum<U>))
@@ -1762,7 +1781,6 @@ MUU_NAMESPACE_START
 
 		template <typename T>
 		[[nodiscard]]
-		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
 		constexpr int MUU_VECTORCALL popcount_native(T val) noexcept
 		{
@@ -1846,7 +1864,6 @@ MUU_NAMESPACE_START
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
 	[[nodiscard]]
 	MUU_ATTR(const)
-	MUU_ATTR(flatten)
 	constexpr int MUU_VECTORCALL popcount(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -1877,7 +1894,6 @@ MUU_NAMESPACE_START
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
 	[[nodiscard]]
 	MUU_ATTR(const)
-	MUU_ATTR(flatten)
 	constexpr bool MUU_VECTORCALL has_single_bit(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -1908,7 +1924,6 @@ MUU_NAMESPACE_START
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
 	[[nodiscard]]
 	MUU_ATTR(const)
-	MUU_ATTR(flatten)
 	constexpr T MUU_VECTORCALL bit_floor(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -1934,7 +1949,6 @@ MUU_NAMESPACE_START
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
 	[[nodiscard]]
 	MUU_ATTR(const)
-	MUU_ATTR(flatten)
 	constexpr T MUU_VECTORCALL bit_width(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -1958,7 +1972,6 @@ MUU_NAMESPACE_START
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
 	[[nodiscard]]
 	MUU_ATTR(const)
-	MUU_ATTR(flatten)
 	constexpr T MUU_VECTORCALL bit_fill_right(size_t count) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -1988,7 +2001,6 @@ MUU_NAMESPACE_START
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
 	[[nodiscard]]
 	MUU_ATTR(const)
-	MUU_ATTR(flatten)
 	constexpr T MUU_VECTORCALL bit_fill_left(size_t count) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -2018,7 +2030,6 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
-	MUU_ATTR(flatten)
 	constexpr uint8_t MUU_VECTORCALL byte_select(T val) noexcept
 	{
 		static_assert(
@@ -2098,7 +2109,6 @@ MUU_NAMESPACE_START
 
 		template <typename T>
 		[[nodiscard]]
-		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
 		constexpr T MUU_VECTORCALL byte_reverse_native(T val) noexcept
 		{
@@ -2160,7 +2170,6 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
-	MUU_ATTR(flatten)
 	constexpr T MUU_VECTORCALL byte_reverse(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -2241,12 +2250,45 @@ MUU_NAMESPACE_START
 		};
 
 		template <typename T>
-		[[nodiscard]]
-		MUU_ATTR(const)
-		MUU_ATTR(flatten)
-		constexpr bool MUU_VECTORCALL infinity_or_nan_bits(T val) noexcept
+		struct infinity_or_nan_traits_typed
+			: infinity_or_nan_traits<sizeof(T) * CHAR_BIT, std::numeric_limits<T>::digits>
+		{};
+
+		#if MUU_HAS_FLOAT16
+		template <> struct infinity_or_nan_traits_typed<float16_t> : infinity_or_nan_traits<16, 11> {};
+		#endif
+	}
+
+	/// \brief	Checks if an arithmetic value is infinity or NaN.
+	///
+	/// \tparam	T	The value type.
+	/// \param 	val	The value to examine.
+	///
+	/// \returns	True if the value is floating-point infinity or NaN.
+	/// 			Always returns false if the value was not a floating-point type.
+	/// 
+	/// \attention	Older compilers won't provide the necessary machinery for you to be able to call this function in
+	/// 			constexpr contexts. You can check for constexpr support by examining
+	/// 			build::supports_constexpr_infinity_or_nan.
+	template <typename T, typename = std::enable_if_t<is_arithmetic<T>>>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR(flatten)
+	constexpr bool MUU_VECTORCALL infinity_or_nan(T val) noexcept
+	{
+		// Q: "what about fpclassify, isnan, isinf??"
+		// A1: They're not constexpr
+		// A2: They don't work reliably with -ffast-math
+		// A3: https://godbolt.org/z/P9GGdK
+
+		if constexpr (!is_floating_point<T>)
 		{
-			using traits = infinity_or_nan_traits<sizeof(T) * CHAR_BIT, std::numeric_limits<T>::digits>;
+			(void)val;
+			return false;
+		}
+		else
+		{
+			using traits = impl::infinity_or_nan_traits_typed<T>;
 			using blit_type = std::remove_const_t<decltype(traits::mask)>;
 
 			if constexpr (is_integral<blit_type>)
@@ -2258,91 +2300,12 @@ MUU_NAMESPACE_START
 				return traits::check(bit_cast<blit_type>(val));
 			}
 		}
-
-		template <typename T>
-		[[nodiscard]]
-		MUU_ATTR(const)
-		bool MUU_VECTORCALL infinity_or_nan_fpclassify(T val) noexcept
-		{
-			#ifdef __FAST_MATH__
-			{
-				return infinity_or_nan_bits(val);
-			}
-			#else
-			{
-				#define MAYBE_FLAG(v) (v == 0 || (v >= 0 && has_single_bit(static_cast<unsigned>(v))))
-				#define IS_FLAG(v) (v > 0 && has_single_bit(static_cast<unsigned>(v)))
-
-				if constexpr (IS_FLAG(FP_INFINITE)
-					&& IS_FLAG(FP_NAN)
-					&& MAYBE_FLAG(FP_NORMAL)
-					&& MAYBE_FLAG(FP_SUBNORMAL)
-					&& MAYBE_FLAG(FP_ZERO)
-					&& between(popcount(
-						static_cast<unsigned>(FP_INFINITE)
-						| static_cast<unsigned>(FP_NAN)
-						| static_cast<unsigned>(FP_NORMAL)
-						| static_cast<unsigned>(FP_SUBNORMAL)
-						| static_cast<unsigned>(FP_ZERO)), 4, 5)
-					)
-				{
-					return !!(std::fpclassify(val) & (FP_INFINITE | FP_NAN));
-				}
-				else
-				{
-					const auto classification = std::fpclassify(val);
-					return classification == FP_INFINITE || classification == FP_NAN;
-				}
-
-				#undef MAYBE_FLAG
-				#undef IS_FLAG
-			}
-			#endif
-		}
-	}
-
-	/// \brief	Checks if an arithmetic value is infinity or NaN.
-	///
-	/// \tparam	T	The value type.
-	/// \param 	val	The value to examine.
-	///
-	/// \returns	True if the value is floating-point infinity or NaN.
-	/// 			Always returns false if the value was not a floating-point type.
-	/// 
-	/// \attention	On older compilers lacking support for std::is_constant_evaluated and std::bit_cast you won't be
-	///				able to call this function in constexpr contexts. You can check for constexpr support by examining
-	///				build::supports_constexpr_infinity_or_nan.
-	template <typename T, typename = std::enable_if_t<is_arithmetic<T>>>
-	[[nodiscard]]
-	MUU_ALWAYS_INLINE
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
-	constexpr bool MUU_VECTORCALL infinity_or_nan(T val) noexcept
-	{
-		if constexpr (!is_floating_point<T>)
-		{
-			(void)val;
-			return false;
-		}
-		else
-		{
-			if constexpr (!build::supports_is_constant_evaluated || !build::supports_constexpr_bit_cast)
-				return impl::infinity_or_nan_fpclassify(val);
-			else
-			{
-				if (is_constant_evaluated())
-					return impl::infinity_or_nan_bits(val);
-				else
-					return impl::infinity_or_nan_fpclassify(val);
-			}
-		}
 	}
 
 	namespace build
 	{
 		/// \brief	True if using infinity_or_nan() in constexpr contexts is supported on this compiler.
-		inline constexpr bool supports_constexpr_infinity_or_nan
-			= build::supports_is_constant_evaluated && build::supports_constexpr_bit_cast;
+		inline constexpr bool supports_constexpr_infinity_or_nan = build::supports_constexpr_bit_cast;
 	}
 
 	MUU_PRAGMA_GCC("GCC pop_options") // -fno-finite-math-only

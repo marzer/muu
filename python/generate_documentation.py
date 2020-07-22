@@ -72,7 +72,7 @@ type_names = [
 	'numeric_range',
 	'tagged_ptr',
 	'blob',
-	'float16',
+	'half',
 	'rolling_average',
 	'bitset'
 ]

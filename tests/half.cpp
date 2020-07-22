@@ -1,5 +1,5 @@
 #include "tests.h"
-#include "../include/muu/float16.h"
+#include "../include/muu/half.h"
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_ARITHMETIC_WARNINGS
@@ -10,21 +10,21 @@ MUU_DISABLE_ARITHMETIC_WARNINGS
 // 2) https://github.com/openexr/openexr/blob/develop/IlmBase/HalfTest/
 ///////////////////////////////////////////////////////////////////////////////////
 
-static_assert(std::is_standard_layout_v<float16>);
-static_assert(std::is_trivially_constructible_v<float16>);
-static_assert(std::is_trivially_copy_constructible_v<float16>);
-static_assert(std::is_trivially_copy_assignable_v<float16>);
-static_assert(std::is_trivially_move_constructible_v<float16>);
-static_assert(std::is_trivially_move_assignable_v<float16>);
-static_assert(std::is_trivially_destructible_v<float16>);
-static_assert(sizeof(float16) == 2_sz);
+static_assert(std::is_standard_layout_v<half>);
+static_assert(std::is_trivially_constructible_v<half>);
+static_assert(std::is_trivially_copy_constructible_v<half>);
+static_assert(std::is_trivially_copy_assignable_v<half>);
+static_assert(std::is_trivially_move_constructible_v<half>);
+static_assert(std::is_trivially_move_assignable_v<half>);
+static_assert(std::is_trivially_destructible_v<half>);
+static_assert(sizeof(half) == 2_sz);
 
-TEST_CASE("float16 - negation")
+TEST_CASE("half - negation")
 {
 	for (int i = -100; i <= 100; i++)
 	{
-		const auto negated1 = -float16{ i };
-		const auto negated2 = float16{ -i };
+		const auto negated1 = -half{ i };
+		const auto negated2 = half{ -i };
 		if (i == 0)
 			CHECK((negated1.bits & 0b0111111111111111_u16) == (negated2.bits & 0b0111111111111111_u16));
 		else
@@ -37,11 +37,11 @@ TEST_CASE("float16 - negation")
 	}
 }
 
-TEST_CASE("float16 - conversions")
+TEST_CASE("half - conversions")
 {
 	static constexpr auto convert_from_int = [](auto v) noexcept
 	{
-		const auto val = float16{ v };
+		const auto val = half{ v };
 		CHECK(static_cast<float>(val) == static_cast<float>(v));
 		CHECK(static_cast<double>(val) == static_cast<double>(v));
 	};
@@ -73,22 +73,22 @@ TEST_CASE("float16 - conversions")
 	}
 }
 
-TEST_CASE("float16 - basic arithmetic")
+TEST_CASE("half - basic arithmetic")
 {
 	//adapted from acgessler:
 	{
-		float16 h{ 1 }, h2{ 2 };
+		half h{ 1 }, h2{ 2 };
 		--h2;
 		++h2;
 		--h;
 		++h;
-		h2 -= float16{ 1 };
+		h2 -= half{ 1 };
 		float f = static_cast<float>(h2), f2 = static_cast<float>(h);
 		CHECK(f == 1.0f);
 		CHECK(f == f2);
 
 		h = h2;
-		h2 = float16{ 15.5f };
+		h2 = half{ 15.5f };
 
 		f = static_cast<float>(h2);
 		f2 = static_cast<float>(h);
@@ -115,7 +115,7 @@ TEST_CASE("float16 - basic arithmetic")
 
 		h++; h++; h++;
 		h2 = -h2;
-		h2 += float16{ 17.5f };
+		h2 += half{ 17.5f };
 		h2 *= h;
 		f = static_cast<float>(h2);
 		f2 = static_cast<float>(h);
@@ -127,54 +127,54 @@ TEST_CASE("float16 - basic arithmetic")
 		--h;
 		CHECK(h <= h2);
 
-		h -= float16{ 250.f };
+		h -= half{ 250.f };
 		CHECK(h < h2);
 
-		h += float16{ 500.f };
+		h += half{ 500.f };
 		CHECK(h > h2);
 		CHECK(h >= h2);
 
 		f = static_cast<float>(h2);
 		f2 = static_cast<float>(h);
-		CHECK(h * h2 == float16{ f * f2 });
+		CHECK(h * h2 == half{ f * f2 });
 	}
 
 	//adapted from openexr:
 	{
 		float f1 = 1.0f;
 		float f2 = 2.0f;
-		float16  h1 = float16{ 3 };
-		float16  h2 = float16{ 4 };
+		half  h1 = half{ 3 };
+		half  h2 = half{ 4 };
 
-		h1 = float16{ f1 + f2 };
-		CHECK(h1 == float16{ 3 });
+		h1 = half{ f1 + f2 };
+		CHECK(h1 == half{ 3 });
 
-		h2 += float16{ f1 };
-		CHECK(h2 == float16{ 5 });
+		h2 += half{ f1 };
+		CHECK(h2 == half{ 5 });
 
 		h2 = h1 + h2;
-		CHECK(h2 == float16{ 8 });
+		CHECK(h2 == half{ 8 });
 
 		h2 += h1;
-		CHECK(h2 == float16{ 11 });
+		CHECK(h2 == half{ 11 });
 
 		h1 = h2;
-		CHECK(h1 == float16{ 11 });
+		CHECK(h1 == half{ 11 });
 
 		h2 = -h1;
-		CHECK(h2 == float16{ -11 });
+		CHECK(h2 == half{ -11 });
 	}
 
 }
 
-TEST_CASE("float16 - addition")
+TEST_CASE("half - addition")
 {
 	// identical exponents
 	for (float f = 0.f; f < 1000.f; ++f)
 	{
-		float16 one = float16{ f };
-		float16 two = float16{ f };
-		float16 three = one + two;
+		half one = half{ f };
+		half two = half{ f };
+		half three = one + two;
 		auto f2 = static_cast<float>(three);
 		CHECK(f * 2.f == f2);
 	}
@@ -182,9 +182,9 @@ TEST_CASE("float16 - addition")
 	// different exponents
 	for (float f = 0.f, fp = 1000.f; f < 500.f; ++f, --fp)
 	{
-		float16 one = float16{ f };
-		float16 two = float16{ fp };
-		float16 three = one + two;
+		half one = half{ f };
+		half two = half{ fp };
+		half three = one + two;
 		auto f2 = static_cast<float>(three);
 		CHECK(f + fp == f2);
 	}
@@ -192,9 +192,9 @@ TEST_CASE("float16 - addition")
 	// very small numbers - this is already beyond the accuracy of 16 bit floats.
 	for (float f = 0.003f; f < 100.f; f += 0.0005f)
 	{
-		float16 one = float16{ f };
-		float16 two = float16{ f };
-		float16 three = one + two;
+		half one = half{ f };
+		half two = half{ f };
+		half three = one + two;
 		auto f2 = static_cast<float>(three);
 		float m = f * 2.f;
 		CHECK(f2 > (m - 0.05 * m));
@@ -202,14 +202,14 @@ TEST_CASE("float16 - addition")
 	}
 }
 
-TEST_CASE("float16 - subtraction")
+TEST_CASE("half - subtraction")
 {
 	// identical exponents
 	for (float f = 0.f; f < 1000.f; ++f)
 	{
-		float16 one = float16{ f };
-		float16 two = float16{ f };
-		float16 three = one - two;
+		half one = half{ f };
+		half two = half{ f };
+		half three = one - two;
 		auto f2 = static_cast<float>(three);
 		CHECK(0.f == f2);
 	}
@@ -217,9 +217,9 @@ TEST_CASE("float16 - subtraction")
 	// different exponents
 	for (float f = 0.f, fp = 1000.f; f < 500.f; ++f, --fp)
 	{
-		float16 one = float16{ f };
-		float16 two = float16{ fp };
-		float16 three = one - two;
+		half one = half{ f };
+		half two = half{ fp };
+		half three = one - two;
 		auto f2 = static_cast<float>(three);
 		CHECK(f - fp == f2);
 	}

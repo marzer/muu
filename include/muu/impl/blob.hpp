@@ -18,7 +18,7 @@ MUU_ANON_NAMESPACE_START
 	MUU_INTERNAL_LINKAGE
 	size_t blob_check_alignment(size_t align) noexcept
 	{
-		using namespace ::muu;
+		using namespace MUU_NAMESPACE;
 
 		if (!align)
 			return blob::default_alignment;
@@ -39,7 +39,7 @@ MUU_ANON_NAMESPACE_START
 	MUU_UNALIASED_ALLOC
 	void* blob_allocate(size_t align, size_t size) noexcept
 	{
-		using namespace ::muu;
+		using namespace MUU_NAMESPACE;
 
 		MUU_ASSERT(align);
 		MUU_ASSERT(has_single_bit(align));

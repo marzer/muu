@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
 
-	<Type Name="::muu::float16">
+	<Type Name="muu::half">
 		<!--  bits & 0x7C00 == 0x7C00   ::  Infinity or NaN -->
 		<!--  bits & 0x03FF == 0        ::  No mantissa (Infinity if exp is all 1's) -->
 		<!--  bits & 0x8000 != 0        ::  Negative -->
@@ -13,7 +13,7 @@
 		<DisplayString>Raw bits: {bits}</DisplayString>
 	</Type>
 
-	<Type Name="::muu::tagged_ptr&lt;*,*&gt;">
+	<Type Name="muu::tagged_ptr&lt;*,*&gt;">
 		<!-- 64-bit -->
 		<DisplayString Condition="sizeof(void*) == 8">
 			{

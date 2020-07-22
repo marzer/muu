@@ -10,6 +10,13 @@
 	#include "../include/muu/all.h"
 #endif
 
+#if MUU_BIG_ENDIAN != SHOULD_BE_BIG_ENDIAN
+	#error MUU_BIG_ENDIAN was not deduced correctly
+#endif
+#if MUU_HAS_FLOAT16 != SHOULD_HAVE_FLOAT16
+	#error MUU_HAS_FLOAT16 was not deduced correctly
+#endif
+
 #define CATCH_CONFIG_RUNNER
 #include "catch2.h"
 #include <clocale>

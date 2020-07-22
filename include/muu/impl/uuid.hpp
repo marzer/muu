@@ -45,9 +45,15 @@ MUU_NAMESPACE_START
 		#else
 		{
 			// generate a version 4 uuid as per https://www.cryptosys.net/pki/uuid-rfc4122.html
-			for (auto& b : val.bytes)
+
+			// "Set all the other bits to randomly (or pseudo-randomly) chosen values."
+			for (auto& b : val.bytes)		
 				b = static_cast<std::byte>(rand() % 256);
-			val.bytes[6] = (val.bytes[6] & 0b00001111_byte) | 0b10000000_byte;
+
+			// "Set the four most significant bits (bits 12 through 15) of the time_hi_and_version field to the 4-bit version number."
+			val.bytes[6] = (val.bytes[6] & 0b00001111_byte) | 0b01000000_byte;
+
+			// "Set the two most significant bits (bits 6 and 7) of the clock_seq_hi_and_reserved to zero and one, respectively."
 			val.bytes[8] = (val.bytes[8] & 0b00111111_byte) | 0b10000000_byte;
 
 		}

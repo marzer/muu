@@ -5,7 +5,7 @@
 
 #include "tests.h"
 #include "../include/muu/accumulator.h"
-#include "../include/muu/float16.h"
+#include "../include/muu/half.h"
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_ARITHMETIC_WARNINGS
@@ -14,6 +14,8 @@ template <typename T>
 static void test_float_accumulator() noexcept
 {
 	using data = float_test_data<T>;
+
+	using big = largest<T, long double>;
 
 	//test calling add() for each value
 	{
@@ -27,27 +29,36 @@ static void test_float_accumulator() noexcept
 			accum.add(static_cast<T>(val));
 		}
 		CHECK(accum.sample_count() == std::size(data::values));
-		CHECK(raw_sum != data::values_sum);
-		CHECK((std::abs(data::values_sum - accum.value()))
-		   <= (std::abs(data::values_sum - raw_sum)));
-		CHECK(accum.value() >= data::values_sum_low);
-		CHECK(accum.value() <= data::values_sum_high);
+		CHECK(static_cast<big>(raw_sum) != data::values_sum);
+		CHECK((abs(static_cast<big>(data::values_sum) - static_cast<big>(accum.value())))
+		   <= (abs(static_cast<big>(data::values_sum) - static_cast<big>(raw_sum))));
+		CHECK(static_cast<big>(accum.value()) >= static_cast<big>(data::values_sum_low));
+		CHECK(static_cast<big>(accum.value()) <= static_cast<big>(data::values_sum_high));
 	}
 
 	//test calling add(begin, end)
-	if constexpr (!std::is_same_v<T, float16>)
+	//if constexpr (!std::is_same_v<T, half>)
 	{
 		accumulator<T> accum;
 		accum.add(std::begin(data::values), std::end(data::values));
 		CHECK(accum.sample_count() == std::size(data::values));
-		CHECK(accum.value() >= data::values_sum_low);
-		CHECK(accum.value() <= data::values_sum_high);
+		CHECK(static_cast<big>(accum.value()) >= static_cast<big>(data::values_sum_low));
+		CHECK(static_cast<big>(accum.value()) <= static_cast<big>(data::values_sum_high));
 	}
 }
 
-TEST_CASE("accumulator - float16")
+#if MUU_HAS_FLOAT16
+
+TEST_CASE("accumulator - float16_t")
 {
-	test_float_accumulator<float16>();
+	test_float_accumulator<float16_t>();
+}
+
+#endif // MUU_HAS_FLOAT16
+
+TEST_CASE("accumulator - half")
+{
+	test_float_accumulator<half>();
 }
 
 TEST_CASE("accumulator - float")

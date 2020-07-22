@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: MIT
 
 #include "tests.h"
-#include "../include/muu/float16.h"
+#include "../include/muu/half.h"
 
 TEST_CASE("is_constant_evaluated")
 {
@@ -1662,22 +1662,39 @@ namespace
 	static_assert(!build::supports_constexpr_infinity_or_nan || (expr));	\
 	CHECK(expr)
 
-TEST_CASE("infinity_or_nan - float16")
+#if MUU_HAS_FLOAT16
+
+TEST_CASE("infinity_or_nan - float16_t")
 {
-	INF_OR_NAN_CHECK(!infinity_or_nan(float16::from_bits(0x0000_u16)));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_nan<float16>()));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float16>(-1)));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float16>()));
+	INF_OR_NAN_CHECK(!infinity_or_nan(float16_t{}));
+	INF_OR_NAN_CHECK(infinity_or_nan(make_nan<float16_t>()));
+	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float16_t>(-1)));
+	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float16_t>()));
 
 	#if INF_OR_NAN_RANGE_CHECKS
-	CHECK((test_infinity_or_nan_ranges<float16, -1>()));
-	CHECK((test_infinity_or_nan_ranges<float16, 1>()));
+	CHECK((test_infinity_or_nan_ranges<float16_t, -1>()));
+	CHECK((test_infinity_or_nan_ranges<float16_t, 1>()));
+	#endif
+}
+
+#endif // MUU_HAS_FLOAT16
+
+TEST_CASE("infinity_or_nan - half")
+{
+	INF_OR_NAN_CHECK(!infinity_or_nan(half::from_bits(0x0000_u16)));
+	INF_OR_NAN_CHECK(infinity_or_nan(make_nan<half>()));
+	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<half>(-1)));
+	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<half>()));
+
+	#if INF_OR_NAN_RANGE_CHECKS
+	CHECK((test_infinity_or_nan_ranges<half, -1>()));
+	CHECK((test_infinity_or_nan_ranges<half, 1>()));
 	#endif
 }
 
 TEST_CASE("infinity_or_nan - float")
 {
-	INF_OR_NAN_CHECK(!infinity_or_nan(0.0f));
+	INF_OR_NAN_CHECK(!infinity_or_nan(float{}));
 	INF_OR_NAN_CHECK(infinity_or_nan(make_nan<float>()));
 	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float>(-1)));
 	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float>()));

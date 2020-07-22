@@ -37,9 +37,6 @@
     <ClInclude Include="..\include\muu\aligned_alloc.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\muu\float16.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\muu\string_param.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -71,6 +68,9 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\include\muu\core.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\half.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

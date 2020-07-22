@@ -605,13 +605,13 @@ MUU_NAMESPACE_END
 namespace std
 {
 	template <typename T, size_t MinAlign>
-	struct pointer_traits<muu::tagged_ptr<T, MinAlign>>
+	struct pointer_traits<MUU_NAMESPACE::tagged_ptr<T, MinAlign>>
 	{
-		using pointer = muu::tagged_ptr<T, MinAlign>;
+		using pointer = MUU_NAMESPACE::tagged_ptr<T, MinAlign>;
 		using element_type = T;
 		using difference_type = ptrdiff_t;
 		template <typename U>
-		using rebind = muu::tagged_ptr<U, MinAlign>;
+		using rebind = MUU_NAMESPACE::tagged_ptr<U, MinAlign>;
 
 		static pointer pointer_to(element_type& r) noexcept
 		{

@@ -16,7 +16,7 @@ MUU_NAMESPACE_START
 {
 	namespace impl
 	{
-		template <typename T>
+		template <typename>
 		struct accumulator;
 	}
 
@@ -25,15 +25,15 @@ MUU_NAMESPACE_START
 	/// \detail For integral types the accumulator is a simple bookkeeping helper, but for floating-point
 	/// 		types the default implementation uses Kahan summation to reduce numerical error.
 	///
-	/// \tparam	T		Type being accumulated.
-	/// \tparam	Impl	Implementation type.
+	/// \tparam	ValueType		Type being accumulated.
+	/// \tparam	Impl			Implementation type.
 	///
 	/// \see [Kahan summation algorithm (wikipedia)](https://en.wikipedia.org/wiki/Kahan_summation_algorithm)
-	template <typename T, typename Impl = impl::accumulator<T>>
+	template <typename ValueType, typename Impl = impl::accumulator<ValueType>>
 	class accumulator
 	{
 		static_assert(
-			!is_cvref<T>,
+			!is_cvref<ValueType>,
 			"Accumulated type cannot be const, volatile, or a reference"
 		);
 		static_assert(
@@ -52,7 +52,7 @@ MUU_NAMESPACE_START
 		public:
 
 			/// \brief	The type being accumulated.
-			using value_type = T;
+			using value_type = ValueType;
 
 		private:
 			size_t count{};
@@ -159,27 +159,27 @@ MUU_NAMESPACE_START
 
 	namespace impl
 	{
-		template <typename value_type>
+		template <typename ValueType>
 		struct accumulator
 		{
-			value_type sum = {};
+			ValueType sum = {};
 
 			MUU_ALWAYS_INLINE
-			constexpr void MUU_VECTORCALL start(value_type MUU_VECTORCALL_CONSTREF sample)
+			constexpr void MUU_VECTORCALL start(ValueType MUU_VECTORCALL_CONSTREF sample)
 				noexcept(noexcept(sum = sample))
 			{
 				sum = sample;
 			}
 
 			MUU_ALWAYS_INLINE
-			constexpr void MUU_VECTORCALL add(value_type MUU_VECTORCALL_CONSTREF sample)
+			constexpr void MUU_VECTORCALL add(ValueType MUU_VECTORCALL_CONSTREF sample)
 				noexcept(noexcept(sum += sample))
 			{
 				sum += sample;
 			}
 
 			[[nodiscard]] MUU_ALWAYS_INLINE
-			constexpr value_type value() const noexcept
+			constexpr ValueType value() const noexcept
 			{
 				return sum;
 			}
@@ -190,25 +190,25 @@ MUU_NAMESPACE_START
 		MUU_PRAGMA_GCC("GCC push_options")
 		MUU_PRAGMA_GCC("GCC optimize (\"-fno-fast-math\")")
 
-		template <typename value_type, typename sum_type = value_type>
+		template <typename ValueType, typename SumType = ValueType>
 		struct kahan_accumulator // https://en.wikipedia.org/wiki/Kahan_summation_algorithm#Further_enhancements
 		{
 			static_assert(
-				is_floating_point<value_type> && is_floating_point<sum_type>,
+				is_floating_point<ValueType> && is_floating_point<SumType>,
 				"Kahan summation only makes sense with float types"
 			);
-			sum_type sum = {}, correction = {};
+			SumType sum = {}, correction = {};
 
 			MUU_ALWAYS_INLINE
-			constexpr void MUU_VECTORCALL start(value_type sample) noexcept
+			constexpr void MUU_VECTORCALL start(ValueType sample) noexcept
 			{
-				sum = static_cast<sum_type>(sample);
+				sum = static_cast<SumType>(sample);
 			}
 
 			MUU_PRAGMA_CLANG_LT(11, "clang optimize off")
 
 			MUU_ATTR(flatten)
-			constexpr void MUU_VECTORCALL kahan_add(sum_type sample) noexcept
+			constexpr void MUU_VECTORCALL kahan_add(SumType sample) noexcept
 			{
 				MUU_PRAGMA_CLANG_GE(11, "clang fp reassociate(off)")
 				MUU_PRAGMA_CLANG_LT(11, "clang fp contract(on)")
@@ -225,19 +225,19 @@ MUU_NAMESPACE_START
 
 			MUU_ALWAYS_INLINE
 			MUU_ATTR(flatten)
-			constexpr void MUU_VECTORCALL add(value_type sample) noexcept
+			constexpr void MUU_VECTORCALL add(ValueType sample) noexcept
 			{
-				kahan_add(static_cast<sum_type>(sample));
+				kahan_add(static_cast<SumType>(sample));
 			}
 
 			[[nodiscard]] MUU_ALWAYS_INLINE
-			constexpr value_type value() const noexcept
+			constexpr ValueType value() const noexcept
 			{
-				return static_cast<value_type>(sum + correction);
+				return static_cast<ValueType>(sum + correction);
 			}
 		};
 
-		template <> struct MUU_EMPTY_BASES accumulator<float16>		: kahan_accumulator<float16, float> {};
+		template <> struct MUU_EMPTY_BASES accumulator<half>		: kahan_accumulator<half, float> {};
 		template <> struct MUU_EMPTY_BASES accumulator<float>		: kahan_accumulator<float> {};
 		template <> struct MUU_EMPTY_BASES accumulator<double>		: kahan_accumulator<double> {};
 		template <> struct MUU_EMPTY_BASES accumulator<long double>	: kahan_accumulator<long double> {};

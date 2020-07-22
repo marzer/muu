@@ -118,14 +118,17 @@
 #if defined(__aarch64__) || defined(__ARM_ARCH_ISA_A64) || defined(_M_ARM64) || defined(__ARM_64BIT_STATE)
 	#define MUU_ARCH_ARM32 0
 	#define MUU_ARCH_ARM64 1
+	#define MUU_ARCH_ARM 1
 	#define MUU_ARCH_BITNESS 64
 #elif defined(__arm__) || defined(_M_ARM) || defined(__ARM_32BIT_STATE)
 	#define MUU_ARCH_ARM32 1
 	#define MUU_ARCH_ARM64 0
+	#define MUU_ARCH_ARM 1
 	#define MUU_ARCH_BITNESS 32
 #else
 	#define MUU_ARCH_ARM32 0
 	#define MUU_ARCH_ARM64 0
+	#define MUU_ARCH_ARM 0
 #endif
 
 #define MUU_ARCH_SUM (MUU_ARCH_ITANIUM + MUU_ARCH_AMD64 + MUU_ARCH_X86 + MUU_ARCH_ARM32 + MUU_ARCH_ARM64)
@@ -251,8 +254,11 @@
 	#else
 		#define MUU_RTTI 0
 	#endif
-	#define MUU_LITTLE_ENDIAN				(__BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__)
-	#define MUU_BIG_ENDIAN					(__BYTE_ORDER__ == __ORDER_BIG_ENDIAN__)
+	#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+		#define MUU_LITTLE_ENDIAN 1
+	#elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+		#define MUU_BIG_ENDIAN 1
+	#endif
 	#define MUU_LIKELY(...)					(__builtin_expect(!!(__VA_ARGS__), 1) )
 	#define MUU_UNLIKELY(...)				(__builtin_expect(!!(__VA_ARGS__), 0) )
 	#ifdef __has_builtin
@@ -388,8 +394,11 @@
 	#else
 		#define MUU_RTTI 0
 	#endif
-	#define MUU_LITTLE_ENDIAN				(__BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__)
-	#define MUU_BIG_ENDIAN					(__BYTE_ORDER__ == __ORDER_BIG_ENDIAN__)
+	#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+		#define MUU_LITTLE_ENDIAN 1
+	#elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+		#define MUU_BIG_ENDIAN 1
+	#endif
 	#define MUU_LIKELY(...)					(__builtin_expect(!!(__VA_ARGS__), 1) )
 	#define MUU_UNLIKELY(...)				(__builtin_expect(!!(__VA_ARGS__), 0) )
 	#ifdef __has_builtin
@@ -582,20 +591,51 @@
 #define MUU_APPEND_SV(S)				MUU_APPEND_SV_1(S)
 #define MUU_MAKE_STRING_VIEW(S)			MUU_APPEND_SV(MUU_MAKE_STRING(S))
 
-#ifdef __SIZEOF_INT128__
-	#define MUU_HAS_INT128 1
-#else
-	#define MUU_HAS_INT128 0
+#ifndef MUU_HAS_BUILTIN
+	#define MUU_HAS_BUILTIN(name)	0
 #endif
 
-#ifdef __SIZEOF_FLOAT128__
+#define MUU_EVAL_1(T, F)		T
+#define MUU_EVAL_0(T, F)		F
+#define MUU_EVAL(cond, T, F)	MUU_CONCAT(MUU_EVAL_, cond)(T, F)
+
+//=====================================================================================================================
+// EXTENDED INT AND FLOAT TYPES
+//=====================================================================================================================
+
+#ifdef __FLT16_MANT_DIG__
+	// #pragma message("__FLT_RADIX__        " MUU_MAKE_STRING(__FLT_RADIX__))
+	// #pragma message("__FLT16_MANT_DIG__   " MUU_MAKE_STRING(__FLT16_MANT_DIG__))
+	// #pragma message("__FLT16_DIG__        " MUU_MAKE_STRING(__FLT16_DIG__))
+	// #pragma message("__FLT16_MIN_EXP__    " MUU_MAKE_STRING(__FLT16_MIN_EXP__))
+	// #pragma message("__FLT16_MIN_10_EXP__ " MUU_MAKE_STRING(__FLT16_MIN_10_EXP__))
+	// #pragma message("__FLT16_MAX_EXP__    " MUU_MAKE_STRING(__FLT16_MAX_EXP__))
+	// #pragma message("__FLT16_MAX_10_EXP__ " MUU_MAKE_STRING(__FLT16_MAX_10_EXP__))
+	#if __FLT_RADIX__ == 2					\
+			&& __FLT16_MANT_DIG__ == 11		\
+			&& __FLT16_DIG__ == 3			\
+			&& __FLT16_MIN_EXP__ == -14		\
+			&& __FLT16_MIN_10_EXP__ == -13	\
+			&& __FLT16_MAX_EXP__ == 15		\
+			&& __FLT16_MAX_10_EXP__ == 4
+		#define MUU_HAS_FLOAT16 1
+	#endif
+#endif
+#if !defined(MUU_HAS_FLOAT16) || !MUU_ARCH_ARM
+	#undef MUU_HAS_FLOAT16
+	#define MUU_HAS_FLOAT16 0
+#endif
+
+#ifdef __FLT128_MANT_DIG__
 	#define MUU_HAS_FLOAT128 1
 #else
 	#define MUU_HAS_FLOAT128 0
 #endif
 
-#ifndef MUU_HAS_BUILTIN
-	#define MUU_HAS_BUILTIN(name)	0
+#ifdef __SIZEOF_INT128__
+	#define MUU_HAS_INT128 1
+#else
+	#define MUU_HAS_INT128 0
 #endif
 
 //=====================================================================================================================
@@ -606,19 +646,21 @@
 #define MUU_VERSION_MINOR				1
 #define MUU_VERSION_PATCH				0
 
-#if !MUU_DOXYGEN
+#if !MUU_DOXYGEN && !defined(__INTELLISENSE__)
 	#define MUU_NAMESPACE_START			namespace muu { inline namespace MUU_CONCAT(v, MUU_VERSION_MAJOR)
 	#define MUU_NAMESPACE_END			}
+	#define MUU_NAMESPACE				::muu::MUU_CONCAT(v, MUU_VERSION_MAJOR)
 #else
 	#define MUU_NAMESPACE_START			namespace muu
-	#define MUU_NAMESPACE_END		
+	#define MUU_NAMESPACE_END
+	#define MUU_NAMESPACE				::muu
 #endif
 #define MUU_IMPL_NAMESPACE_START		MUU_NAMESPACE_START { namespace impl
 #define MUU_IMPL_NAMESPACE_END			} MUU_NAMESPACE_END
 #if MUU_ALL_INLINE
 	#define MUU_ANON_NAMESPACE_START	MUU_IMPL_NAMESPACE_START { namespace anon
 	#define MUU_ANON_NAMESPACE_END		} MUU_IMPL_NAMESPACE_END
-	#define MUU_ANON_NAMESPACE			muu::MUU_CONCAT(v, MUU_VERSION_MAJOR)::impl::anon
+	#define MUU_ANON_NAMESPACE			MUU_NAMESPACE::impl::anon
 	#define MUU_USING_ANON_NAMESPACE	using namespace MUU_ANON_NAMESPACE
 	#define MUU_EXTERNAL_LINKAGE		inline
 	#define MUU_INTERNAL_LINKAGE		inline
@@ -679,6 +721,9 @@ MUU_POP_WARNINGS
 /// 
 /// \def MUU_ARCH_ARM64
 /// \brief `1` when targeting 64-bit ARM, `0` otherwise.
+/// 
+/// \def MUU_ARCH_ARM
+/// \brief `1` when targeting any flavour of ARM, `0` otherwise.
 /// 
 /// \def MUU_ARCH_BITNESS
 /// \brief The 'bitness' of the current architecture (e.g. `64` on AMD64).
@@ -967,6 +1012,10 @@ MUU_POP_WARNINGS
 /// 
 /// \def MUU_HAS_FLOAT128
 /// \brief `1` when the target environment has 128-bit floats ('quads'), `0` otherwise.
+/// 	   
+/// \def MUU_HAS_FLOAT16
+/// \brief `1` when the target environment has native IEC559 16-bit floats ('halfs'), `0` otherwise.
+/// \remarks This is completely unrelated to the class muu::half, which is always available.
 ///
 /// \def MUU_HAS_BUILTIN(name)
 /// \brief Expands to `__has_builtin(name)` when supported by the compiler, `0` otherwise.

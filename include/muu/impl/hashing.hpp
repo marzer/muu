@@ -13,7 +13,7 @@
 
 MUU_ANON_NAMESPACE_START { namespace sha1_utils
 {
-	using block = ::muu::impl::array<uint32_t, 16>;
+	using block = MUU_NAMESPACE::impl::array<uint32_t, 16>;
 
 	[[nodiscard]]
 	MUU_INTERNAL_LINKAGE
@@ -77,7 +77,7 @@ MUU_ANON_NAMESPACE_START { namespace sha1_utils
 	MUU_INTERNAL_LINKAGE
 	void process_block(const uint8_t(&raw_block)[64], uint32_t(&digest)[5]) noexcept
 	{
-		using namespace ::muu;
+		using namespace MUU_NAMESPACE;
 		block bl = bit_cast<block>(raw_block);
 		if constexpr (build::is_little_endian)
 		{
