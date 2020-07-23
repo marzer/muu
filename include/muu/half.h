@@ -81,6 +81,9 @@ MUU_NAMESPACE_START
 		/// \brief	The raw bits of the float.
 		uint16_t bits;
 
+		/// \brief	Static constants for this type.
+		using constants = muu::constants<half>;
+
 		//====================================================
 		// CONSTRUCTORS
 		//====================================================
@@ -581,6 +584,99 @@ MUU_NAMESPACE_START
 }
 MUU_NAMESPACE_END
 
+namespace muu
+{
+	/// \brief	16-bit half-precision float constants.
+	/// \ingroup		constants
+	template <>
+	struct constants<half>
+	{
+		/// \brief The lowest representable value (`-65504.0`)
+		static constexpr half lowest			= half::from_bits(0xFBFF_u16);
+
+		/// \brief The highest representable value (`65504`)
+		static constexpr half highest			= half::from_bits(0x7BFF_u16);
+
+		/// \brief Not-A-Number (quiet)
+		static constexpr half nan				= half::from_bits(0b1'11111'1000000001_u16);
+
+		/// \brief Not-A-Number (signalling)
+		static constexpr half snan				= half::from_bits(0b1'11111'0000000001_u16);
+
+		/// \brief Positive infinity
+		static constexpr half infinity			= half::from_bits(0b0'11111'0000000000_u16);
+
+		/// \brief Negative infinity
+		static constexpr half negative_infinity = half::from_bits(0b1'11111'0000000000_u16);
+
+		/// \brief Epsilon (`0.00097656`)
+		static constexpr half epsilon			= half::from_bits(0b0'00101'0000000000_u16);
+
+		/// \brief `0.0`
+		static constexpr half zero				= half::from_bits(0b0'00000'0000000000_u16);
+
+		/// \brief `1.0`
+		static constexpr half one				= half::from_bits(0b0'01111'0000000000_u16);
+
+		/// \brief `2.0`
+		static constexpr half two				= half::from_bits(0b0'10000'0000000000_u16);
+
+		/// \brief `3.0`
+		static constexpr half three				= half::from_bits(0b0'10000'1000000000_u16);
+
+		/// \brief `4.0`
+		static constexpr half four				= half::from_bits(0b0'10001'0000000000_u16);
+
+		/// \brief `5.0`
+		static constexpr half five				= half::from_bits(0b0'10001'0100000000_u16);
+
+		/// \brief `6.0`
+		static constexpr half six				= half::from_bits(0b0'10001'1000000000_u16);
+
+		/// \brief `7.0`
+		static constexpr half seven				= half::from_bits(0b0'10001'1100000000_u16);
+
+		/// \brief `8.0`
+		static constexpr half eight				= half::from_bits(0b0'10010'0000000000_u16);
+
+		/// \brief `9.0`
+		static constexpr half nine				= half::from_bits(0b0'10010'0010000000_u16);
+
+		/// \brief `10.0`
+		static constexpr half ten				= half::from_bits(0b0'10010'0100000000_u16);
+
+		/// \brief `-1.0`
+		static constexpr half minus_one			= half::from_bits(0b1'01111'0000000000_u16);
+
+		/// \brief `-2.0`
+		static constexpr half minus_two			= half::from_bits(0b1'10000'0000000000_u16);
+
+		/// \brief `-3.0`
+		static constexpr half minus_three		= half::from_bits(0b1'10000'1000000000_u16);
+
+		/// \brief `-4.0`
+		static constexpr half minus_four		= half::from_bits(0b1'10001'0000000000_u16);
+
+		/// \brief `-5.0`
+		static constexpr half minus_five		= half::from_bits(0b1'10001'0100000000_u16);
+
+		/// \brief `-6.0`
+		static constexpr half minus_six			= half::from_bits(0b1'10001'1000000000_u16);
+
+		/// \brief `-7.0`
+		static constexpr half minus_seven		= half::from_bits(0b1'10001'1100000000_u16);
+
+		/// \brief `-8.0`
+		static constexpr half minus_eight		= half::from_bits(0b1'10010'0000000000_u16);
+
+		/// \brief `-9.0`
+		static constexpr half minus_nine		= half::from_bits(0b1'10010'0010000000_u16);
+
+		/// \brief `-10.0`
+		static constexpr half minus_ten			= half::from_bits(0b1'10010'0100000000_u16);
+	};
+}
+
 MUU_IMPL_NAMESPACE_START
 {
 	#if MUU_F16_USE_INTRINSICS
@@ -766,40 +862,41 @@ MUU_IMPL_NAMESPACE_END
 namespace std
 {
 	/// \brief	Specialization of std::numeric_limits for muu::half.
+	/// \ingroup constants
 	template<>
-	struct numeric_limits<MUU_NAMESPACE::half>
+	struct numeric_limits<muu::half>
 	{
-		using half = MUU_NAMESPACE::half;
+		using half = muu::half;
 
-		static constexpr bool is_specialized = true;
-		static constexpr bool is_signed = true;
-		static constexpr bool is_integer = false;
-		static constexpr bool is_exact = false;
-		static constexpr bool has_infinity = true;
-		static constexpr bool has_quiet_NaN = true;
-		static constexpr bool has_signaling_NaN = true;
-		static constexpr float_denorm_style has_denorm = denorm_present;
-		static constexpr bool has_denorm_loss = false;
-		static constexpr float_round_style round_style = round_to_nearest;
-		static constexpr bool is_iec559 = true;
-		static constexpr bool is_bounded = true;
-		static constexpr bool is_modulo = false;
-		static constexpr int radix = 2;
-		static constexpr int digits = 11;			// equivalent to __FLT16_MANT_DIG__
-		static constexpr int digits10 = 3;			// equivalent to __FLT16_DIG__
-		static constexpr int min_exponent = -13;	// equivalent to __FLT16_MIN_EXP__
-		static constexpr int min_exponent10 = -4;	// equivalent to __FLT16_MIN_10_EXP__
-		static constexpr int max_exponent = 16;		// equivalent to __FLT16_MAX_EXP__
-		static constexpr int max_exponent10 = 4;	// equivalent to __FLT16_MAX_10_EXP__
-		static constexpr int max_digits10 = 5;
-		static constexpr bool traps = false;
-		static constexpr bool tinyness_before = false;
+		static constexpr auto is_specialized	= true;
+		static constexpr auto is_signed			= true;
+		static constexpr auto is_integer		= false;
+		static constexpr auto is_exact			= false;
+		static constexpr auto has_infinity		= true;
+		static constexpr auto has_quiet_NaN		= true;
+		static constexpr auto has_signaling_NaN	= true;
+		static constexpr auto has_denorm		= float_denorm_style::denorm_present;
+		static constexpr auto has_denorm_loss	= false;
+		static constexpr auto round_style		= float_round_style::round_to_nearest;
+		static constexpr auto is_iec559			= true;
+		static constexpr auto is_bounded		= true;
+		static constexpr auto is_modulo			= false;
+		static constexpr auto radix				= 2;
+		static constexpr auto digits			= 11;	// equivalent to __FLT16_MANT_DIG__
+		static constexpr auto digits10			= 3;	// equivalent to __FLT16_DIG__
+		static constexpr auto min_exponent		= -13;	// equivalent to __FLT16_MIN_EXP__
+		static constexpr auto min_exponent10	= -4;	// equivalent to __FLT16_MIN_10_EXP__
+		static constexpr auto max_exponent		= 16;	// equivalent to __FLT16_MAX_EXP__
+		static constexpr auto max_exponent10	= 4;	// equivalent to __FLT16_MAX_10_EXP__
+		static constexpr auto max_digits10		= 5;
+		static constexpr auto traps				= false;
+		static constexpr auto tinyness_before	= false;
 		
 		[[nodiscard]]
 		MUU_ATTR(const)
 		static MUU_CONSTEVAL half min() noexcept
 		{
-			using namespace MUU_NAMESPACE::literals;
+			using namespace muu::literals;
 			return half::from_bits(0x0400_u16); // 0.000061035 (ish)
 		}
 
@@ -807,70 +904,64 @@ namespace std
 		MUU_ATTR(const)
 		static MUU_CONSTEVAL half lowest() noexcept
 		{
-			using namespace MUU_NAMESPACE::literals;
-			return half::from_bits(0xFBFF_u16); // -65504
+			return half::constants::lowest;
 		}
 
 		[[nodiscard]]
 		MUU_ATTR(const)
 		static MUU_CONSTEVAL half max() noexcept
 		{
-			using namespace MUU_NAMESPACE::literals;
-			return half::from_bits(0x7BFF_u16); // 65504
+			return half::constants::highest;
 		}
 
 		[[nodiscard]]
 		MUU_ATTR(const)
 		static MUU_CONSTEVAL half epsilon() noexcept
 		{
-			using namespace MUU_NAMESPACE::literals;
-			return half::from_bits(0x0800_u16);
+			return half::constants::epsilon;
 		}
 
 		[[nodiscard]]
 		MUU_ATTR(const)
 		static MUU_CONSTEVAL half round_error() noexcept
 		{
-			using namespace MUU_NAMESPACE::literals;
-			return half::from_bits(0x3800_u16);
+			using namespace muu::literals;
+			return half::from_bits(0b0'00100'0000000000_u16); // epsilon / 2
 		}
 
 		[[nodiscard]]
 		MUU_ATTR(const)
 		static MUU_CONSTEVAL half infinity() noexcept
 		{
-			using namespace MUU_NAMESPACE::literals;
-			return half::from_bits(0b0111110000000000_u16);
+			return half::constants::infinity;
 		}
 
 		[[nodiscard]]
 		MUU_ATTR(const)
 		static MUU_CONSTEVAL half quiet_NaN() noexcept
 		{
-			using namespace MUU_NAMESPACE::literals;
-			return half::from_bits(0b1111111000000001_u16);
+			return half::constants::nan;
 		}
 
 		[[nodiscard]]
 		MUU_ATTR(const)
 		static MUU_CONSTEVAL half signaling_NaN() noexcept
 		{
-			using namespace MUU_NAMESPACE::literals;
-			return half::from_bits(0b1111110000000001_u16);
+			return half::constants::snan;
 		}
 
 		[[nodiscard]]
 		MUU_ATTR(const)
 		static MUU_CONSTEVAL half denorm_min() noexcept
 		{
-			using namespace MUU_NAMESPACE::literals;
+			using namespace muu::literals;
 			return half::from_bits(0x0001_u16); // 0.000000059605 (ish)
 		}
 	};
 
-	template <> struct numeric_limits<const MUU_NAMESPACE::half>			: numeric_limits<MUU_NAMESPACE::half> {};
-	template <> struct numeric_limits<volatile MUU_NAMESPACE::half>			: numeric_limits<MUU_NAMESPACE::half> {};
-	template <> struct numeric_limits<const volatile MUU_NAMESPACE::half>	: numeric_limits<MUU_NAMESPACE::half> {};
+	template <> struct numeric_limits<const muu::half>			: numeric_limits<muu::half> {};
+	template <> struct numeric_limits<volatile muu::half>		: numeric_limits<muu::half> {};
+	template <> struct numeric_limits<const volatile muu::half>	: numeric_limits<muu::half> {};
 }
 
 MUU_POP_WARNINGS // MUU_DISABLE_ARITHMETIC_WARNINGS

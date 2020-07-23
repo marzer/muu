@@ -7,7 +7,7 @@
 /// \brief Contains the definitions of functions for performing (re)allocations on specific alignment boundaries.
 
 #pragma once
-#include "../muu/core.h"
+#include "../muu/fwd.h"
 
 MUU_NAMESPACE_START
 {

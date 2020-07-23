@@ -42,11 +42,10 @@
 // COMPILER DETECTION
 //=====================================================================================================================
 
+#undef	MUU_DOXYGEN
 #ifdef DOXYGEN
-	#undef	MUU_DOXYGEN
 	#define MUU_DOXYGEN			1
-#endif
-#ifndef MUU_DOXYGEN
+#else
 	#define MUU_DOXYGEN			0
 #endif
 #ifdef __INTELLISENSE__
@@ -74,16 +73,14 @@
 #else
 	#define MUU_GCC				0
 #endif
-#if !MUU_DOXYGEN
-	#if !MUU_CLANG && !MUU_ICC && !MUU_MSVC && !MUU_GCC
-		#error Unknown compiler.
-	#endif
-	#if (MUU_CLANG && (MUU_ICC || MUU_MSVC || MUU_GCC)) \
-		|| (MUU_ICC && (MUU_CLANG || MUU_MSVC || MUU_GCC)) \
-		|| (MUU_MSVC && (MUU_CLANG || MUU_ICC || MUU_GCC)) \
-		|| (MUU_GCC && (MUU_CLANG || MUU_ICC || MUU_MSVC))
-		#error Could not uniquely identify compiler.
-	#endif
+#if !MUU_CLANG && !MUU_ICC && !MUU_MSVC && !MUU_GCC
+	#error Unknown compiler.
+#endif
+#if (MUU_CLANG && (MUU_ICC || MUU_MSVC || MUU_GCC)) \
+	|| (MUU_ICC && (MUU_CLANG || MUU_MSVC || MUU_GCC)) \
+	|| (MUU_MSVC && (MUU_CLANG || MUU_ICC || MUU_GCC)) \
+	|| (MUU_GCC && (MUU_CLANG || MUU_ICC || MUU_MSVC))
+	#error Could not uniquely identify compiler.
 #endif
 
 //=====================================================================================================================
@@ -99,7 +96,7 @@
 #endif
 
 // MUU_ARCH_AMD64
-#if defined(__amd64__) || defined(__amd64) || defined(__x86_64__) || defined(__x86_64) || defined(_M_AMD64)
+#if defined(__amd64__) || defined(__amd64) || defined(__x86_64__) || defined(__x86_64) || defined(_M_AMD64) || MUU_DOXYGEN
 	#define MUU_ARCH_AMD64 1
 	#define MUU_ARCH_BITNESS 64
 #else
@@ -138,6 +135,9 @@
 	#error Unknown target architecture.
 #endif
 #undef MUU_ARCH_SUM
+#ifndef MUU_ARCH_BITNESS
+	#error Unknown target architecture bitness.
+#endif
 #ifdef _WIN32
 	#define MUU_WINDOWS 1
 #else
@@ -437,7 +437,11 @@
 #endif
 
 #ifndef MUU_LITTLE_ENDIAN
-	#define MUU_LITTLE_ENDIAN 0
+	#if MUU_DOXYGEN
+		#define MUU_LITTLE_ENDIAN 1
+	#else
+		#define MUU_LITTLE_ENDIAN 0
+	#endif
 #endif
 #ifndef MUU_BIG_ENDIAN
 	#define MUU_BIG_ENDIAN 0
@@ -653,14 +657,14 @@
 #define MUU_VERSION_MINOR				1
 #define MUU_VERSION_PATCH				0
 
-#if !MUU_DOXYGEN && !defined(__INTELLISENSE__)
+#if MUU_DOXYGEN
+	#define MUU_NAMESPACE_START			namespace muu
+	#define MUU_NAMESPACE_END
+	#define MUU_NAMESPACE				muu
+#else
 	#define MUU_NAMESPACE_START			namespace muu { inline namespace MUU_CONCAT(v, MUU_VERSION_MAJOR)
 	#define MUU_NAMESPACE_END			}
 	#define MUU_NAMESPACE				::muu::MUU_CONCAT(v, MUU_VERSION_MAJOR)
-#else
-	#define MUU_NAMESPACE_START			namespace muu
-	#define MUU_NAMESPACE_END
-	#define MUU_NAMESPACE				::muu
 #endif
 #define MUU_IMPL_NAMESPACE_START		MUU_NAMESPACE_START { namespace impl
 #define MUU_IMPL_NAMESPACE_END			} MUU_NAMESPACE_END
@@ -690,7 +694,9 @@ MUU_DISABLE_ALL_WARNINGS
 	#ifdef NDEBUG
 		#define MUU_ASSERT(expr)	(void)0
 	#else
-		#include <cassert>
+		#ifndef assert
+			#include <cassert>
+		#endif
 		#define MUU_ASSERT(expr)	assert(expr)
 	#endif
 #endif
@@ -709,6 +715,12 @@ MUU_DISABLE_ALL_WARNINGS
 	#define MUU_OFFSETOF(s, m) offsetof(s, m)
 #endif
 MUU_POP_WARNINGS
+
+//=====================================================================================================================
+// DOXYGEN SPAM
+//=====================================================================================================================
+
+#if MUU_DOXYGEN
 
 /// \addtogroup		preprocessor		Preprocessor magic
 /// \brief		Compiler feature detection, attributes, string-makers, etc.
@@ -1031,5 +1043,7 @@ MUU_POP_WARNINGS
 /// \brief Constexpr-friendly alias of `offsetof()`.
 ///
 /// @}
+
+#endif // MUU_DOXYGEN
 
 // clang-format on

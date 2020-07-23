@@ -9,6 +9,7 @@
 	#error This is an implementation-only header.
 #endif
 
+#include "../../muu/core.h"
 #include "../../muu/aligned_alloc.h"
 #if !MUU_MSVC
 	#include <cstdlib>
@@ -23,11 +24,11 @@ MUU_ANON_NAMESPACE_START
 		size_t requested_size;
 		size_t actual_size; //as passed to malloc etc.
 	};
-	inline constexpr size_t aligned_alloc_data_footprint = (MUU_NAMESPACE::max)(
-		MUU_NAMESPACE::bit_ceil(sizeof(aligned_alloc_data)),
+	inline constexpr size_t aligned_alloc_data_footprint = (muu::max)(
+		muu::bit_ceil(sizeof(aligned_alloc_data)),
 		alignof(aligned_alloc_data)
 	);
-	static_assert(MUU_NAMESPACE::has_single_bit(aligned_alloc_data_footprint));
+	static_assert(muu::has_single_bit(aligned_alloc_data_footprint));
 }
 MUU_ANON_NAMESPACE_END
 

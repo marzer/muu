@@ -73,6 +73,9 @@
     <ClInclude Include="..\include\muu\half.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\muu\fwd.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />

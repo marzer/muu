@@ -9,6 +9,14 @@
 #pragma once
 #include "../muu/core.h"
 
+#ifndef NDEBUG
+	#define MUU_TPTR_ATTR(attr)		MUU_ATTR(attr)
+	#define MUU_TPTR_ASSERT(...)	(void)0
+#else
+	#define MUU_TPTR_ATTR(attr)
+	#define MUU_TPTR_ASSERT(...)	MUU_ASSERT(__VA_ARGS__)
+#endif
+
 MUU_PRAGMA_MSVC(inline_recursion(on))
 
 MUU_IMPL_NAMESPACE_START
@@ -28,9 +36,10 @@ MUU_IMPL_NAMESPACE_START
 		static_assert(sizeof(tag_type) <= sizeof(uintptr_t));
 
 		[[nodiscard]]
+		MUU_TPTR_ATTR(const)
 		static constexpr uintptr_t pack_ptr(const volatile void* ptr) noexcept
 		{
-			MUU_ASSERT(
+			MUU_TPTR_ASSERT(
 				(!ptr || bit_floor(pointer_cast<uintptr_t>(ptr)) >= MinAlign)
 				&& "The pointer's address is more strictly aligned than MinAlign"
 			);
@@ -43,6 +52,7 @@ MUU_IMPL_NAMESPACE_START
 
 		template <typename T>
 		[[nodiscard]]
+		MUU_TPTR_ATTR(pure)
 		static constexpr uintptr_t pack_both(const volatile void* ptr, const T& tag) noexcept
 		{
 			static_assert(
@@ -54,7 +64,7 @@ MUU_IMPL_NAMESPACE_START
 				return pack_both(ptr, unwrap(tag));
 			else
 			{
-				MUU_ASSERT(
+				MUU_TPTR_ASSERT(
 					(!ptr || bit_floor(pointer_cast<uintptr_t>(ptr)) >= MinAlign)
 					&& "The pointer's address is more strictly aligned than MinAlign"
 				);
@@ -80,6 +90,7 @@ MUU_IMPL_NAMESPACE_START
 		}
 
 		[[nodiscard]]
+		MUU_TPTR_ATTR(const)
 		static constexpr uintptr_t set_ptr(uintptr_t bits, const volatile void* ptr) noexcept
 		{
 			return pack_ptr(ptr) | (bits & tag_mask);
@@ -87,6 +98,7 @@ MUU_IMPL_NAMESPACE_START
 
 		template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
 		[[nodiscard]]
+		MUU_ATTR(const)
 		static constexpr uintptr_t set_tag(uintptr_t bits, T tag) noexcept
 		{
 			if constexpr (is_enum<T>)
@@ -99,6 +111,7 @@ MUU_IMPL_NAMESPACE_START
 
 		template <typename T, std::enable_if_t<!is_unsigned<T>>* = nullptr>
 		[[nodiscard]]
+		MUU_ATTR(pure)
 		static uintptr_t set_tag(uintptr_t bits, const T& tag) noexcept
 		{
 			static_assert(
@@ -116,22 +129,25 @@ MUU_IMPL_NAMESPACE_START
 		}
 
 		[[nodiscard]]
+		MUU_ATTR(const)
 		static constexpr uintptr_t get_tag(uintptr_t bits) noexcept
 		{
 			return bits & tag_mask;
 		}
 
 		[[nodiscard]]
+		MUU_TPTR_ATTR(const)
 		static constexpr bool get_tag_bit(uintptr_t bits, size_t index) noexcept
 		{
-			MUU_ASSERT(index < tag_bits && "Tag bit index out-of-bounds");
+			MUU_TPTR_ASSERT(index < tag_bits && "Tag bit index out-of-bounds");
 			return bits & (uintptr_t{1} << index);
 		}
 
 		[[nodiscard]]
+		MUU_TPTR_ATTR(const)
 		static constexpr uintptr_t set_tag_bit(uintptr_t bits, size_t index, bool state) noexcept
 		{
-			MUU_ASSERT(index < tag_bits && "Tag bit index out-of-bounds");
+			MUU_TPTR_ASSERT(index < tag_bits && "Tag bit index out-of-bounds");
 			if (state)
 				return bits | (uintptr_t{ 1 } << index);
 			else
@@ -140,6 +156,7 @@ MUU_IMPL_NAMESPACE_START
 
 		template <typename T>
 		[[nodiscard]]
+		MUU_ATTR(const)
 		static constexpr T get_tag_as(uintptr_t bits) noexcept
 		{
 			static_assert(
@@ -171,6 +188,7 @@ MUU_IMPL_NAMESPACE_START
 		}
 
 		[[nodiscard]]
+		MUU_ATTR(const)
 		static constexpr uintptr_t get_ptr(uintptr_t bits) noexcept
 		{
 			bits &= ptr_mask;
@@ -605,13 +623,13 @@ MUU_NAMESPACE_END
 namespace std
 {
 	template <typename T, size_t MinAlign>
-	struct pointer_traits<MUU_NAMESPACE::tagged_ptr<T, MinAlign>>
+	struct pointer_traits<muu::tagged_ptr<T, MinAlign>>
 	{
-		using pointer = MUU_NAMESPACE::tagged_ptr<T, MinAlign>;
+		using pointer = muu::tagged_ptr<T, MinAlign>;
 		using element_type = T;
 		using difference_type = ptrdiff_t;
 		template <typename U>
-		using rebind = MUU_NAMESPACE::tagged_ptr<U, MinAlign>;
+		using rebind = muu::tagged_ptr<U, MinAlign>;
 
 		static pointer pointer_to(element_type& r) noexcept
 		{
@@ -626,3 +644,6 @@ namespace std
 }
 
 MUU_PRAGMA_MSVC(inline_recursion(off))
+
+#undef MUU_TPTR_ATTR
+#undef MUU_TPTR_ASSERT

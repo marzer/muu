@@ -44,6 +44,7 @@
     <ClInclude Include="..\include\muu\blob.h" />
     <ClInclude Include="..\include\muu\core.h" />
     <ClInclude Include="..\include\muu\concatenate.h" />
+    <ClInclude Include="..\include\muu\fwd.h" />
     <ClInclude Include="..\include\muu\half.h" />
     <ClInclude Include="..\include\muu\hashing.h" />
     <ClInclude Include="..\include\muu\impl\aligned_alloc.hpp" />

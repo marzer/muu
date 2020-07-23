@@ -9,6 +9,7 @@
 	#error This is an implementation-only header.
 #endif
 
+#include "../../muu/core.h"
 #include "../../muu/blob.h"
 #include "../../muu/aligned_alloc.h"
 

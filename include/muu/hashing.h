@@ -39,9 +39,6 @@ MUU_NAMESPACE_START
 	/// \brief Functions and types related to the generation of hashes.
 	/// @{
 	
-	/// \brief	The default hash size of hash functions, in bits.
-	inline constexpr size_t default_hash_size = sizeof(size_t) * CHAR_BIT;
-
 	namespace impl
 	{
 		template <size_t Bits>
@@ -56,25 +53,25 @@ MUU_NAMESPACE_START
 		template <>
 		struct hash_combiner<16>
 		{
-			static constexpr auto offset = 0x9E37_u16;
-			static constexpr auto left_shift = 3;
-			static constexpr auto right_shift = 1;
+			static constexpr uint16_t offset = 0x9E37_u16;
+			static constexpr int left_shift = 3;
+			static constexpr int right_shift = 1;
 		};
 
 		template <>
 		struct hash_combiner<32>
 		{
-			static constexpr auto offset = 0x9E3779B9_u32;
-			static constexpr auto left_shift = 6;
-			static constexpr auto right_shift = 2;
+			static constexpr uint32_t offset = 0x9E3779B9_u32;
+			static constexpr int left_shift = 6;
+			static constexpr int right_shift = 2;
 		};
 
 		template <>
 		struct hash_combiner<64>
 		{
-			static constexpr auto offset = 0x9E3779B97F4A7C15_u64;
-			static constexpr auto left_shift = 12;
-			static constexpr auto right_shift = 4;
+			static constexpr uint64_t offset = 0x9E3779B97F4A7C15_u64;
+			static constexpr int left_shift = 12;
+			static constexpr int right_shift = 4;
 		};
 
 		#if MUU_HAS_INT128
@@ -82,9 +79,9 @@ MUU_NAMESPACE_START
 		template <>
 		struct hash_combiner<128>
 		{
-			static constexpr auto offset = pack(0x9E3779B97F4A7C15_u64, 0xF39CC0605D396154_u64);
-			static constexpr auto left_shift = 24;
-			static constexpr auto right_shift = 8;
+			static constexpr uint128_t offset = pack(0x9E3779B97F4A7C15_u64, 0xF39CC0605D396154_u64);
+			static constexpr int left_shift = 24;
+			static constexpr int right_shift = 8;
 		};
 
 		#endif
@@ -93,7 +90,7 @@ MUU_NAMESPACE_START
 	/// \brief	A hash combiner.
 	///
 	/// \tparam	Bits	The hash size, in bits.
-	template <size_t Bits = default_hash_size>
+	template <size_t Bits = (sizeof(size_t) * CHAR_BIT)>
 	class MUU_TRIVIAL_ABI hash_combiner
 	{
 		public:
@@ -135,15 +132,15 @@ MUU_NAMESPACE_START
 		template <>
 		struct fnv1a<32>
 		{
-			static constexpr auto prime = 0x01000193_u32;
-			static constexpr auto offset_basis = 0x811C9DC5_u32;
+			static constexpr uint32_t prime = 0x01000193_u32;
+			static constexpr uint32_t offset_basis = 0x811C9DC5_u32;
 		};
 
 		template <>
 		struct fnv1a<64>
 		{
-			static constexpr auto prime = 0x00000100000001B3_u64;
-			static constexpr auto offset_basis = 0xCBF29CE484222325_u64;
+			static constexpr uint64_t prime = 0x00000100000001B3_u64;
+			static constexpr uint64_t offset_basis = 0xCBF29CE484222325_u64;
 		};
 
 		#if MUU_HAS_INT128
@@ -151,8 +148,8 @@ MUU_NAMESPACE_START
 		template <>
 		struct fnv1a<128>
 		{
-			static constexpr auto prime =        pack(0x0000000001000000_u64, 0x000000000000013B_u64);
-			static constexpr auto offset_basis = pack(0x6C62272E07BB0142_u64, 0x62B821756295C58D_u64);
+			static constexpr uint128_t prime =        pack(0x0000000001000000_u64, 0x000000000000013B_u64);
+			static constexpr uint128_t offset_basis = pack(0x6C62272E07BB0142_u64, 0x62B821756295C58D_u64);
 		};
 
 		#endif
@@ -163,7 +160,7 @@ MUU_NAMESPACE_START
 	/// \tparam	Bits	The hash size, in bits.
 	/// 
 	/// \see [Fowler-Noll-Vo hash function](https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function)
-	template <size_t Bits = default_hash_size>
+	template <size_t Bits = (sizeof(size_t) * CHAR_BIT)>
 	class MUU_TRIVIAL_ABI fnv1a
 	{
 		public:
@@ -208,12 +205,6 @@ MUU_NAMESPACE_START
 			}
 	};
 
-	/// \brief	A SHA-1 hash.
-	struct sha1_hash
-	{
-		std::byte bytes[20];
-	};
-
 	/// \brief	SHA-1 hasher.
 	///
 	/// \detail \cpp
@@ -233,8 +224,8 @@ MUU_NAMESPACE_START
 		private:
 			union state_t
 			{
-				impl::array<uint32_t, 5> digest;
-				sha1_hash hash;
+				array<uint32_t, 5> digest;
+				array<std::byte, 20> hash;
 			}
 			state;
 			uint32_t processed_blocks{};
@@ -247,7 +238,7 @@ MUU_NAMESPACE_START
 
 		public:
 
-			using hash_type = sha1_hash;
+			using hash_type = array<std::byte, 20>;
 
 			/// \brief	Constructs a new SHA-1 hasher.
 			sha1() noexcept;
@@ -278,9 +269,9 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns the calculated hash value.
 			///
-			/// \warning Calling this before `finish()` has been called is undefined behaviour.
+			/// \warning Calling this before finish() has been called is undefined behaviour.
 			[[nodiscard]]
-			const sha1_hash& value() const noexcept
+			const hash_type& value() const noexcept
 			{
 				MUU_ASSERT(finished_);
 				return state.hash;
@@ -288,11 +279,11 @@ MUU_NAMESPACE_START
 
 			/// \brief	Writes the calculated hash to a text stream in hexadecimal form.
 			///
-			///	\warning Calling this before `finish()` has been called is undefined behaviour.
+			///	\warning Calling this before finish() has been called is undefined behaviour.
 			template <typename Char, typename Traits>
 			friend std::basic_ostream<Char, Traits>& operator<< (std::basic_ostream<Char, Traits>& lhs, const sha1& rhs)
 			{
-				for (auto byte : rhs.value().bytes)
+				for (auto byte : rhs.value())
 				{
 					const auto hex = impl::byte_to_chars_lowercase(byte);
 					lhs.write(hex.data(), hex.size());

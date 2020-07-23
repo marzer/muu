@@ -7,7 +7,7 @@
 /// \brief Contains the definition of muu::blob.
 
 #pragma once
-#include "../muu/core.h"
+#include "../muu/fwd.h"
 
 MUU_NAMESPACE_START
 {

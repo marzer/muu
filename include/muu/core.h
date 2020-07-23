@@ -7,7 +7,7 @@
 /// \brief Typedefs and intrinsics used by muu components.
 
 #pragma once
-#include "../muu/preprocessor.h"
+#include "../muu/fwd.h"
 
 //=====================================================================================================================
 // INCLUDES
@@ -26,8 +26,6 @@ MUU_DISABLE_ALL_WARNINGS
 // 
 // Mercifully, most things that you might feel compelled to stick here can be worked around by forward-declarations.
 
-#include <cstdint>
-#include <cstddef>
 #include <cstring>
 #include <climits>
 #include <cmath>
@@ -49,116 +47,6 @@ static_assert(sizeof(std::size_t) >= 4);
 static_assert(std::numeric_limits<float>::is_iec559);
 static_assert(std::numeric_limits<double>::is_iec559);
 static_assert('A' == 65);
-
-//=====================================================================================================================
-// TYPEDES AND FORWARD DECLARATIONS
-//=====================================================================================================================
-
-#if !MUU_DOXYGEN // forward declarations are hidden from doxygen because they fuck it up =/
-
-MUU_NAMESPACE_START
-{
-	using std::size_t;
-	using std::intptr_t;
-	using std::uintptr_t;
-	using std::ptrdiff_t;
-	using std::nullptr_t;
-	using std::int8_t;
-	using std::int16_t;
-	using std::int32_t;
-	using std::int64_t;
-	using std::uint8_t;
-	using std::uint16_t;
-	using std::uint32_t;
-	using std::uint64_t;
-
-	struct uuid;
-	struct semver;
-	struct half;
-
-	class blob;
-	class string_param;
-	class bitset;
-	class thread_pool;
-
-	template <size_t>				class hash_combiner;
-	template <size_t>				class fnv1a;
-	template <typename>				class scope_guard;
-	template <typename, size_t>		class tagged_ptr;
-	template <typename, typename>	class accumulator;
-}
-MUU_NAMESPACE_END
-
-namespace std
-{
-	template <typename>				struct hash;
-	template <typename>				struct pointer_traits;
-	template <typename, typename>	class basic_string_view;
-	template <typename, typename>	class basic_ostream;
-	template <typename, typename>	class basic_istream;
-}
-
-#if MUU_WINDOWS
-	struct IUnknown;
-#endif
-
-#endif // !MUU_DOXYGEN
-
-/// \brief	The root namespace for all muu functions and types.
-namespace muu {}
-
-MUU_NAMESPACE_START
-{
-	#if MUU_HAS_INT128 || MUU_DOXYGEN
-
-	/// \brief	A 128-bit signed integer.
-	/// 
-	/// \remarks This typedef is only present when 128-bit integers are supported by your target platform.
-	using int128_t = __int128_t;
-
-	/// \brief	A 128-bit unsigned integer.
-	/// 
-	/// \remarks This typedef is only present when 128-bit integers are supported by your target platform.
-	using uint128_t = __uint128_t;
-
-	#endif
-
-	#if MUU_HAS_FLOAT128 || MUU_DOXYGEN
-
-	/// \brief	A 128-bit quad-precision float.
-	/// 
-	/// \remarks This typedef is only present when 128-bit floats are supported by your target platform.
-	using float128_t = __float128;
-
-	#endif
-
-	#if MUU_HAS_FLOAT16 || MUU_DOXYGEN
-
-	/// \brief	A 16-bit half-precision float.
-	/// 
-	/// \remarks This will be an alias for your target platform's native IEC559 16-bit float type
-	/// 		 if present (e.g. `_Float16`), otherwise it will alias muu::half.
-
-	using float16_t = _Float16;
-
-	#else
-
-	using float16_t = half;
-
-	#endif
-
-	/// \brief	A container for typed static constants, similar to std::numeric_limits.
-	///
-	/// \tparam	T	The constant value type.
-	template <typename T>
-	struct constants {};
-	template <typename T> struct constants<T&>					: constants<T> {};
-	template <typename T> struct constants<T&&>					: constants<T> {};
-	template <typename T> struct constants<const T>				: constants<T> {};
-	template <typename T> struct constants<volatile T>			: constants<T> {};
-	template <typename T> struct constants<const volatile T>	: constants<T> {};
-}
-MUU_NAMESPACE_END
 
 //=====================================================================================================================
 // TYPE TRAITS AND METAFUNCTIONS
@@ -755,20 +643,20 @@ MUU_NAMESPACE_END
 // ARRAY
 //=====================================================================================================================
 
-MUU_IMPL_NAMESPACE_START
+MUU_NAMESPACE_START
 {
-	// A (mostly) drop-in substitute for std::array.
-	// 
-	// "Why does this exist? Why not just use std::array?"
-	// The standard library's <array> header drags in _a lot_ of cruft, regardless of implementation,
-	// typically bringing <algorithm>, <iterator> and <tuple> with it. This array does not claim to
-	// support the tuple protocol like the one in the standard, nor does it provide swap, fill, et cetera.
-	// 
-	// To see what I mean:
-	// - https://artificial-mind.net/projects/compile-health/
-	// - https://www.reddit.com/r/cpp/comments/eumou7/stl_header_token_parsing_benchmarks_for_vs2017/
-	//
-	// TL;DR: haha compiler go brrrrrr
+	/// \brief A (mostly) drop-in substitute for std::array.
+	/// 
+	/// \remark <strong><em>"Why does this exist? Why not just use std::array?"</em></strong>
+	/// <br><br>
+	///	The standard library's `<array>` header drags in _a lot_ of cruft, regardless of implementation,
+	///	typically bringing `<algorithm>`, `<iterator>` and `<tuple>` with it. This array does not claim to
+	///	support the tuple protocol like the one in the standard, nor does it provide swap, fill, et cetera,
+	///	so it can be implemented without all the baggage.
+	///	<br><br>
+	///	More info:
+	///	- https://artificial-mind.net/projects/compile-health/
+	///	- https://www.reddit.com/r/cpp/comments/eumou7/stl_header_token_parsing_benchmarks_for_vs2017/
 	template <typename T, size_t N>
 	struct array
 	{
@@ -804,7 +692,7 @@ MUU_IMPL_NAMESPACE_START
 	template <typename... T>
 	array(T...) -> array<std::common_type_t<T...>, sizeof...(T)>;
 }
-MUU_IMPL_NAMESPACE_END
+MUU_NAMESPACE_END
 
 //=====================================================================================================================
 // LITERALS, BUILD CONSTANTS AND 'INTRINSICS'
@@ -817,7 +705,6 @@ MUU_DISABLE_ARITHMETIC_WARNINGS
 
 MUU_NAMESPACE_START
 {
-	/// \brief Literal operators.
 	inline namespace literals
 	{
 		/// \brief	Creates a size_t.
@@ -943,10 +830,6 @@ MUU_NAMESPACE_START
 		MUU_POP_WARNINGS
 	}
 
-	/// \addtogroup		constants		Compile-time constants
-	/// @{
-
-	/// \brief Compile-time build constants.
 	namespace build
 	{
 		/// \brief The current C++ language version (17, 20...)
@@ -1033,8 +916,6 @@ MUU_NAMESPACE_START
 	
 	} //::build
 
-	/// @}
-
 	/// \addtogroup		intrinsics		Intrinsics
 	/// \brief Small functions available from any muu header, many of which map to compiler intrinsics.
 	/// @{
@@ -1096,8 +977,8 @@ MUU_NAMESPACE_START
 	/// \tparam	T		An enum type.
 	/// \param 	val		The value to unwrap.
 	///
-	/// \returns	<strong><em>Enum inputs:</em></strong> `static_cast<std::underlying_type_t<T>>(val)`<br>
-	/// 			<strong><em>Everything else:</em></strong> A straight pass-through of the input (a no-op).<br>
+	/// \returns	<strong><em>Enum inputs:</em></strong> `static_cast<std::underlying_type_t<T>>(val)` <br>
+	/// 			<strong><em>Everything else:</em></strong> A straight pass-through of the input (a no-op).
 	template <typename T, typename = std::enable_if_t<is_enum<T>>>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
@@ -1248,6 +1129,8 @@ MUU_NAMESPACE_START
 	/// \detail \cpp
 	/// const auto val = pack(0xAABB_u16, 0xCCDD_u16);
 	/// assert(val == 0xAABBCCDD_u32);
+	/// const auto val = pack(0xAABB_u16, 0xCCDD_u16, 0xEEFF_u16);
+	/// assert(val == 0x0000AABBCCDDEEFF_u64); // input was zero-padded from the left
 	/// \ecpp
 	/// 
 	/// \tparam	Return	An unsigned integer or enum type, or leave as `void` to choose based on the total size of the inputs.
@@ -1287,20 +1170,20 @@ MUU_NAMESPACE_START
 			total_size<T, U, V...> <= sizeof(return_type),
 			"Return type cannot fit all the input values"
 		);
-		using intermediate_type = remove_enum<return_type>;
+		using transit_type = remove_enum<return_type>;
 
 		if constexpr (sizeof...(V) > 0)
 		{
 			return static_cast<return_type>(
-				static_cast<intermediate_type>(static_cast<intermediate_type>(unwrap(val1)) << (total_size<U, V...> * CHAR_BIT))
-				| pack<intermediate_type>(val2, vals...)
+				static_cast<transit_type>(static_cast<transit_type>(unwrap(val1)) << (total_size<U, V...> * CHAR_BIT))
+				| pack<transit_type>(val2, vals...)
 			);
 		}
 		else
 		{
 			return static_cast<return_type>(
-				static_cast<intermediate_type>(static_cast<intermediate_type>(unwrap(val1)) << (sizeof(U) * CHAR_BIT))
-				| static_cast<intermediate_type>(unwrap(val2))
+				static_cast<transit_type>(static_cast<transit_type>(unwrap(val1)) << (sizeof(U) * CHAR_BIT))
+				| static_cast<transit_type>(unwrap(val2))
 			);
 		}
 	}
@@ -1347,6 +1230,7 @@ MUU_NAMESPACE_START
 	template <typename To, typename From>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
+	MUU_ATTR(pure)
 	MUU_ATTR(flatten)
 	constexpr To bit_cast(const From& from) noexcept
 	{
@@ -1393,21 +1277,17 @@ MUU_NAMESPACE_START
 	/// 		- removing `const` and/or `volatile` => `const_cast`  
 	/// 		- casting to/from `void*` => `static_cast`  
 	/// 		- casting from derived to base => `static_cast`    
-	/// 		- casting from `IUnknown` to `IUnknown` => `QueryInterface` (windows only)
 	/// 		- casting from polymorphic base to derived => `dynamic_cast`  
 	/// 		- casting from non-polymorphic base to derived => `reinterpret_cast`  
+	/// 		- casting from `IUnknown` to `IUnknown` => `QueryInterface` (windows only)
 	/// 		- converting between pointers and integers => `reinterpret_cast`  
 	/// 		- converting between pointers to unrelated types => `reinterpret_cast`  
 	/// 		- converting between function pointers and `void*` => `reinterpret_cast` (where available)  
-	/// \cpp
-	/// 
-	/// \ecpp
 	/// 
 	/// \warning There are lots of static checks to make sure you don't do something completely insane,
 	/// 		 but ultimately the fallback behaviour for casting between unrelated types is to use a
 	/// 		 `reinterpret_cast`, and there's nothing stopping you from using multiple `pointer_casts`
 	/// 		 through `void*` to make a conversion 'work'. Footguns aplenty!
-	/// 
 	/// 
 	/// \tparam To	A pointer or integral type large enough to store a pointer
 	/// \tparam From A pointer, array, nullptr_t, or an integral type large enough to store a pointer.
@@ -1688,7 +1568,7 @@ MUU_NAMESPACE_START
 	template <typename T>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
-	constexpr const T& min(const T& val1, const T& val2) noexcept
+	constexpr const T& (min)(const T& val1, const T& val2) noexcept
 	{
 		return val1 < val2 ? val1 : val2;
 	}
@@ -1699,7 +1579,7 @@ MUU_NAMESPACE_START
 	template <typename T>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
-	constexpr const T& max(const T& val1, const T& val2) noexcept
+	constexpr const T& (max)(const T& val1, const T& val2) noexcept
 	{
 		return val1 < val2 ? val2 : val1;
 	}
@@ -2187,8 +2067,10 @@ MUU_NAMESPACE_START
 			#if MUU_HAS_INT128
 			else if constexpr (sizeof(T) == sizeof(uint128_t))
 			{
-				return (static_cast<uint128_t>(byte_reverse_native(static_cast<uint64_t>(val))) << 64)
-					| byte_reverse_native(static_cast<uint64_t>(val >> 64));
+				return (static_cast<uint128_t>(
+					byte_reverse_native(static_cast<uint64_t>(val))) << 64)
+					| byte_reverse_native(static_cast<uint64_t>(val >> 64)
+				);
 			}
 			#endif
 			else
@@ -2206,7 +2088,7 @@ MUU_NAMESPACE_START
 	/// 
 	/// \out
 	/// AABBCCDD
-	/// DDBBCCAA
+	/// DDCCBBAA
 	/// \eout
 	/// 
 	/// \tparam	T	An unsigned integer or enum type.
@@ -2264,7 +2146,7 @@ MUU_NAMESPACE_START
 		template <>
 		struct infinity_or_nan_traits<80, 64>
 		{
-			static constexpr auto mask = impl::array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x7FFF_u16 };
+			static constexpr auto mask = array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x7FFF_u16 };
 
 			template <typename T>
 			[[nodiscard]]
@@ -2282,7 +2164,7 @@ MUU_NAMESPACE_START
 			#if MUU_HAS_INT128
 			static constexpr auto mask = pack(0x0000000000007FFF_u64, 0x8000000000000000_u64);
 			#else
-			static constexpr auto mask = impl::array{ 0x8000000000000000_u64, 0x0000000000007FFF_u64 };
+			static constexpr auto mask = array{ 0x8000000000000000_u64, 0x0000000000007FFF_u64 };
 
 			template <typename T>
 			[[nodiscard]]

@@ -361,18 +361,18 @@ MUU_NAMESPACE_START
 		static constexpr long double values_sum_high = 102.739434643001161382L;
 
 		static constexpr auto int_blittable    = false;
-		static constexpr auto bits_sign        = impl::array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16 };
-		static constexpr auto bits_exponent    = impl::array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x7FFF_u16 };
-		static constexpr auto bits_integer     = impl::array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x0000_u16 };
-		static constexpr auto bits_mantissa    = impl::array{ 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16, 0x7FFF_u16, 0x0000_u16 };
-		static constexpr auto bits_pos_inf     = impl::array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x7FFF_u16 };
-		static constexpr auto bits_neg_inf     = impl::array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0xFFFF_u16 };
-		static constexpr auto bits_pos_nan_min = impl::array{ 0x0001_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x7FFF_u16 };
-		static constexpr auto bits_pos_nan_max = impl::array{ 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16, 0x7FFF_u16 };
-		static constexpr auto bits_neg_nan_min = impl::array{ 0x0001_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0xFFFF_u16 };
-		static constexpr auto bits_neg_nan_max = impl::array{ 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16 };
-		static constexpr auto bits_snan        = impl::array{ 0x0001_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0xFFFF_u16 };
-		static constexpr auto bits_qnan        = impl::array{ 0x0001_u16, 0x0000_u16, 0x0000_u16, 0xC000_u16, 0xFFFF_u16 };
+		static constexpr auto bits_sign        = array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16 };
+		static constexpr auto bits_exponent    = array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x7FFF_u16 };
+		static constexpr auto bits_integer     = array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x0000_u16 };
+		static constexpr auto bits_mantissa    = array{ 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16, 0x7FFF_u16, 0x0000_u16 };
+		static constexpr auto bits_pos_inf     = array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x7FFF_u16 };
+		static constexpr auto bits_neg_inf     = array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0xFFFF_u16 };
+		static constexpr auto bits_pos_nan_min = array{ 0x0001_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x7FFF_u16 };
+		static constexpr auto bits_pos_nan_max = array{ 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16, 0x7FFF_u16 };
+		static constexpr auto bits_neg_nan_min = array{ 0x0001_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0xFFFF_u16 };
+		static constexpr auto bits_neg_nan_max = array{ 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16 };
+		static constexpr auto bits_snan        = array{ 0x0001_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0xFFFF_u16 };
+		static constexpr auto bits_qnan        = array{ 0x0001_u16, 0x0000_u16, 0x0000_u16, 0xC000_u16, 0xFFFF_u16 };
 	};
 
 	template <>
@@ -502,18 +502,18 @@ MUU_NAMESPACE_START
 		static constexpr auto bits_qnan        = pack(0x000000000000FFFF_u64, 0xC000000000000001_u64);
 		#else
 		static constexpr auto int_blittable    = false;
-		static constexpr auto bits_sign        = impl::array{ 0x0000000000000000_u64, 0x0000000000008000_u64 };
-		static constexpr auto bits_exponent    = impl::array{ 0x0000000000000000_u64, 0x0000000000007FFF_u64 };
-		static constexpr auto bits_integer     = impl::array{ 0x8000000000000000_u64, 0x0000000000000000_u64 };
-		static constexpr auto bits_mantissa    = impl::array{ 0x7FFFFFFFFFFFFFFF_u64, 0x0000000000000000_u64 };
-		static constexpr auto bits_pos_inf     = impl::array{ 0x8000000000000000_u64, 0x0000000000007FFF_u64 };
-		static constexpr auto bits_neg_inf     = impl::array{ 0x8000000000000000_u64, 0x000000000000FFFF_u64 };
-		static constexpr auto bits_pos_nan_min = impl::array{ 0x8000000000000001_u64, 0x0000000000007FFF_u64 };
-		static constexpr auto bits_pos_nan_max = impl::array{ 0xFFFFFFFFFFFFFFFF_u64, 0x0000000000007FFF_u64 };
-		static constexpr auto bits_neg_nan_min = impl::array{ 0x8000000000000001_u64, 0x000000000000FFFF_u64 };
-		static constexpr auto bits_neg_nan_max = impl::array{ 0xFFFFFFFFFFFFFFFF_u64, 0x000000000000FFFF_u64 };
-		static constexpr auto bits_snan        = impl::array{ 0x8000000000000001_u64, 0x000000000000FFFF_u64 };
-		static constexpr auto bits_qnan        = impl::array{ 0xC000000000000001_u64, 0x000000000000FFFF_u64 };
+		static constexpr auto bits_sign        = array{ 0x0000000000000000_u64, 0x0000000000008000_u64 };
+		static constexpr auto bits_exponent    = array{ 0x0000000000000000_u64, 0x0000000000007FFF_u64 };
+		static constexpr auto bits_integer     = array{ 0x8000000000000000_u64, 0x0000000000000000_u64 };
+		static constexpr auto bits_mantissa    = array{ 0x7FFFFFFFFFFFFFFF_u64, 0x0000000000000000_u64 };
+		static constexpr auto bits_pos_inf     = array{ 0x8000000000000000_u64, 0x0000000000007FFF_u64 };
+		static constexpr auto bits_neg_inf     = array{ 0x8000000000000000_u64, 0x000000000000FFFF_u64 };
+		static constexpr auto bits_pos_nan_min = array{ 0x8000000000000001_u64, 0x0000000000007FFF_u64 };
+		static constexpr auto bits_pos_nan_max = array{ 0xFFFFFFFFFFFFFFFF_u64, 0x0000000000007FFF_u64 };
+		static constexpr auto bits_neg_nan_min = array{ 0x8000000000000001_u64, 0x000000000000FFFF_u64 };
+		static constexpr auto bits_neg_nan_max = array{ 0xFFFFFFFFFFFFFFFF_u64, 0x000000000000FFFF_u64 };
+		static constexpr auto bits_snan        = array{ 0x8000000000000001_u64, 0x000000000000FFFF_u64 };
+		static constexpr auto bits_qnan        = array{ 0xC000000000000001_u64, 0x000000000000FFFF_u64 };
 		#endif // MUU_HAS_INT128
 	};
 

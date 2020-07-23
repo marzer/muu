@@ -73,7 +73,7 @@ class FloatTraits(object):
 			for i in range(0, int(self.total_bits / elem_bits)):
 				elems.append(int_literal(val, elem_bits, always_hex = True))
 				val = val >> elem_bits
-			return 'impl::array{{ {} }}'.format(', '.join(elems))
+			return 'array{{ {} }}'.format(', '.join(elems))
 
 
 

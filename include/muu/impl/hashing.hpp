@@ -13,7 +13,7 @@
 
 MUU_ANON_NAMESPACE_START { namespace sha1_utils
 {
-	using block = MUU_NAMESPACE::impl::array<uint32_t, 16>;
+	using block = muu::array<uint32_t, 16>;
 
 	[[nodiscard]]
 	MUU_INTERNAL_LINKAGE
@@ -307,7 +307,7 @@ MUU_NAMESPACE_START
 		}
 
 		// convert the digest to bytes
-		state.hash = bit_cast<sha1_hash>(state.digest);
+		state.hash = bit_cast<hash_type>(state.digest);
 
 		return *this;
 	}
