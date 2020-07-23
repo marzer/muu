@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu Useful
+  <title>muu::constants struct | muu Useful
 utilities
 for
 modern
@@ -44,7 +44,7 @@ C++</span></a>
             <li><a href="namespaces.html">Namespaces</a></li>
           </ol>
           <ol class="m-col-t-6 m-col-m-none" start="3">
-            <li><a href="annotated.html" id="m-navbar-current">Classes</a></li>
+            <li><a href="annotated.html">Classes</a></li>
             <li><a class="github muu-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
             <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
               <use href="#m-doc-search-icon-path"></use>
@@ -59,48 +59,23 @@ C++</span></a>
   <div class="m-container m-container-inflatable">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <h1>Classes</h1>
-        <ul class="m-doc">
-          <li class="m-doc-collapsible">
-            <a href="#" onclick="return toggle(this)">namespace</a> <a class="m-doc" href="namespacemuu.html">muu</a> <span class="m-doc">The root namespace for all muu functions and types.</span>
-            <ul class="m-doc">
-              <li>namespace <a class="m-doc" href="namespacemuu_1_1build.html">build</a> <span class="m-doc">Compile-time build constants.</span></li>
-              <li>namespace <a class="m-doc" href="namespacemuu_1_1literals.html">literals</a> <span class="m-label m-info m-flat muu-injected muu-inline-namespace" title="All members of this namespace are automatically members of the parent namespace. It does not require an explicit 'using' statement.">inline</span> <span class="m-doc">Literal operators.</span></li>
-              <li>class <a class="m-doc" href="classmuu_1_1accumulator.html">accumulator</a> <span class="m-doc">Statefully accumulates (adds) an indeterminate range of values.</span></li>
-              <li>class <a class="m-doc" href="classmuu_1_1blob.html">blob</a> <span class="m-doc">Interface for managing chunks of memory.</span></li>
-              <li>struct <a class="m-doc" href="structmuu_1_1constants.html">constants</a> <span class="m-doc">A container for typed static constants, similar to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/numeric_limits" target="_blank">std::numeric_limits</a>.</span></li>
-              <li>class <a class="m-doc" href="classmuu_1_1fnv1a.html">fnv1a</a> <span class="m-doc">FNV-1a hasher.</span></li>
-              <li>struct <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-doc">A 16-bit "half-precision" floating point type.</span></li>
-              <li>class <a class="m-doc" href="classmuu_1_1hash__combiner.html">hash_combiner</a> <span class="m-doc">A hash combiner.</span></li>
-              <li>class <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_guard</a> <span class="m-doc">Performs actions when going out of scope.</span></li>
-              <li>class <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a> <span class="m-label m-flat m-warning">final</span> <span class="m-doc">SHA-1 hasher.</span></li>
-              <li>struct <a class="m-doc" href="structmuu_1_1sha1__hash.html">sha1_hash</a> <span class="m-doc">A SHA-1 hash.</span></li>
-              <li>class <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_ptr</a> <span class="m-doc">Specialized pointer capable of storing data in the unused bits of a pointer's value.</span></li>
-            </ul>
-          </li>
-          <li class="m-doc-collapsible">
-            <a href="#" onclick="return toggle(this)">namespace</a> <a class="m-doc" href="namespacestd.html">std</a> <span class="m-doc">STL namespace.</span>
-            <ul class="m-doc">
-              <li>struct <a class="m-doc" href="structstd_1_1numeric__limits_3_01_1_1muu_01_1_1half_01_4.html">numeric_limits&lt;::muu ::half&gt;</a> <span class="m-doc">Specialization of <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/numeric_limits" target="_blank">std::numeric_limits</a> for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</span></li>
-            </ul>
-          </li>
-        </ul>
-        <script>
-        function toggle(e) {
-            e.parentElement.className = e.parentElement.className == 'm-doc-collapsible' ?
-                'm-doc-expansible' : 'm-doc-collapsible';
-            return false;
-        }
-        /* Collapse all nodes marked as such. Doing it via JS instead of
-           directly in markup so disabling it doesn't harm usability. The list
-           is somehow regenerated on every iteration and shrinks as I change
-           the classes. It's not documented anywhere and I'm not sure if this
-           is the same across browsers, so I am going backwards in that list to
-           be sure. */
-        var collapsed = document.getElementsByClassName("collapsed");
-        for(var i = collapsed.length - 1; i >= 0; --i)
-            collapsed[i].className = 'm-doc-expansible';
-        </script>
+        <h1>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+          <div class="m-doc-template">template&lt;typename T&gt;</div>
+          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>constants <span class="m-thin">struct</span>
+        </h1>
+        <p>A container for typed static constants, similar to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/numeric_limits" target="_blank">std::numeric_limits</a>.</p>
+        <table class="m-table m-fullwidth m-flat">
+          <thead>
+            <tr><th colspan="2">Template parameters</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="width: 1%">T</td>
+              <td>The constant value type.</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
