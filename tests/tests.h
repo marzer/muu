@@ -13,6 +13,9 @@ MUU_DISABLE_ALL_WARNINGS
 #include <string_view>
 MUU_NAMESPACE_START
 {
+	#if MUU_HAS_INTERCHANGE_FP16
+	template <> struct float_test_data<__fp16> : float_test_data_by_traits<16, 11> {};
+	#endif
 	#if MUU_HAS_FLOAT16
 	template <> struct float_test_data<float16_t> : float_test_data_by_traits<16, 11> {};
 	#endif

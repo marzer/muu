@@ -29,7 +29,7 @@ MUU_NAMESPACE_START
 		[[nodiscard]]
 		MUU_ATTR(const)
 		MUU_ATTR(flatten)
-		constexpr array<char,2> byte_to_chars_lowercase(std::byte byte) noexcept
+		constexpr array<char, 2> byte_to_chars_lowercase(std::byte byte) noexcept
 		{
 			return {{ dec_to_hex_lowercase(unwrap(byte) / 16u), dec_to_hex_lowercase(unwrap(byte) % 16u) }};
 		}
@@ -82,7 +82,7 @@ MUU_NAMESPACE_START
 		template <>
 		struct hash_combiner<128>
 		{
-			static constexpr auto offset = (0x9E3779B97F4A7C15_u128 << 64) | 0xF39CC0605D396154_u128;
+			static constexpr auto offset = pack(0x9E3779B97F4A7C15_u64, 0xF39CC0605D396154_u64);
 			static constexpr auto left_shift = 24;
 			static constexpr auto right_shift = 8;
 		};
@@ -151,8 +151,8 @@ MUU_NAMESPACE_START
 		template <>
 		struct fnv1a<128>
 		{
-			static constexpr auto prime =        (0x0000000001000000_u128 << 64) | 0x000000000000013B_u128;
-			static constexpr auto offset_basis = (0x6C62272E07BB0142_u128 << 64) | 0x62B821756295C58D_u128;
+			static constexpr auto prime =        pack(0x0000000001000000_u64, 0x000000000000013B_u64);
+			static constexpr auto offset_basis = pack(0x6C62272E07BB0142_u64, 0x62B821756295C58D_u64);
 		};
 
 		#endif
@@ -208,6 +208,12 @@ MUU_NAMESPACE_START
 			}
 	};
 
+	/// \brief	A SHA-1 hash.
+	struct sha1_hash
+	{
+		std::byte bytes[20];
+	};
+
 	/// \brief	SHA-1 hasher.
 	///
 	/// \detail \cpp
@@ -224,14 +230,11 @@ MUU_NAMESPACE_START
 	/// \see [SHA-1](https://en.wikipedia.org/wiki/SHA-1)
 	class MUU_API sha1 final
 	{
-		public:
-			using hash_type = std::byte[20];
-
 		private:
 			union state_t
 			{
 				impl::array<uint32_t, 5> digest;
-				impl::array<std::byte, 20> hash;
+				sha1_hash hash;
 			}
 			state;
 			uint32_t processed_blocks{};
@@ -243,6 +246,8 @@ MUU_NAMESPACE_START
 			void add(const uint8_t*, size_t) noexcept;
 
 		public:
+
+			using hash_type = sha1_hash;
 
 			/// \brief	Constructs a new SHA-1 hasher.
 			sha1() noexcept;
@@ -275,10 +280,10 @@ MUU_NAMESPACE_START
 			///
 			/// \warning Calling this before `finish()` has been called is undefined behaviour.
 			[[nodiscard]]
-			const hash_type& value() const noexcept
+			const sha1_hash& value() const noexcept
 			{
 				MUU_ASSERT(finished_);
-				return state.hash.values;
+				return state.hash;
 			}
 
 			/// \brief	Writes the calculated hash to a text stream in hexadecimal form.
@@ -287,7 +292,7 @@ MUU_NAMESPACE_START
 			template <typename Char, typename Traits>
 			friend std::basic_ostream<Char, Traits>& operator<< (std::basic_ostream<Char, Traits>& lhs, const sha1& rhs)
 			{
-				for (auto byte : rhs.value())
+				for (auto byte : rhs.value().bytes)
 				{
 					const auto hex = impl::byte_to_chars_lowercase(byte);
 					lhs.write(hex.data(), hex.size());

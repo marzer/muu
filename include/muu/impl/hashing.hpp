@@ -307,7 +307,7 @@ MUU_NAMESPACE_START
 		}
 
 		// convert the digest to bytes
-		state.hash = bit_cast<decltype(state.hash)>(state.digest);
+		state.hash = bit_cast<sha1_hash>(state.digest);
 
 		return *this;
 	}

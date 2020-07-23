@@ -146,6 +146,17 @@ MUU_NAMESPACE_START
 	using float16_t = half;
 
 	#endif
+
+	/// \brief	A container for typed static constants, similar to std::numeric_limits.
+	///
+	/// \tparam	T	The constant value type.
+	template <typename T>
+	struct constants {};
+	template <typename T> struct constants<T&>					: constants<T> {};
+	template <typename T> struct constants<T&&>					: constants<T> {};
+	template <typename T> struct constants<const T>				: constants<T> {};
+	template <typename T> struct constants<volatile T>			: constants<T> {};
+	template <typename T> struct constants<const volatile T>	: constants<T> {};
 }
 MUU_NAMESPACE_END
 
@@ -352,6 +363,9 @@ MUU_IMPL_NAMESPACE_START
 	#if MUU_HAS_FLOAT128
 	template <> struct make_signed<float128_t> { using type = float128_t; };
 	#endif
+	#if MUU_HAS_INTERCHANGE_FP16
+	template <> struct make_signed<__fp16> { using type = __fp16; };
+	#endif
 	#if MUU_HAS_FLOAT16
 	template <> struct make_signed<float16_t> { using type = float16_t; };
 	#endif
@@ -420,43 +434,6 @@ MUU_IMPL_NAMESPACE_START
 	#else
 		template <typename T> inline constexpr bool is_win32_iunknown = false;
 	#endif
-
-	// a lightweight drop-in substitute for std::array, because <array> drags in _a lot_ of cruft
-	// (see https://www.reddit.com/r/cpp/comments/eumou7/stl_header_token_parsing_benchmarks_for_vs2017/)
-	template <typename T, size_t N>
-	struct array
-	{
-		using value_type = T;
-		using size_type = size_t;
-		using difference_type = ptrdiff_t;
-		using reference = T&;
-		using const_reference = const T&;
-		using pointer = T*;
-		using const_pointer = const T*;
-		using iterator = pointer;
-		using const_iterator = const_pointer;
-
-		T values[N];
-
-		[[nodiscard]] constexpr T& operator[](size_t pos) noexcept { return values[pos]; }
-		[[nodiscard]] constexpr const T& operator[](size_t pos) const noexcept { return values[pos]; }
-		[[nodiscard]] constexpr T* data() noexcept { return values; }
-		[[nodiscard]] constexpr const T* data() const noexcept { return values; }
-		[[nodiscard]] constexpr size_t size() const noexcept { return N; }
-		[[nodiscard]] constexpr reference back() noexcept { return values[N - 1]; }
-		[[nodiscard]] constexpr const_reference back() const noexcept { return values[N - 1]; }
-		[[nodiscard]] constexpr reference front() noexcept { return values[0]; }
-		[[nodiscard]] constexpr const_reference front() const noexcept { return values[0]; }
-		[[nodiscard]] constexpr bool empty() const noexcept { return !N; }
-		[[nodiscard]] constexpr iterator begin() noexcept { return values; }
-		[[nodiscard]] constexpr const_iterator begin() const noexcept { return values; }
-		[[nodiscard]] constexpr const_iterator cbegin() const noexcept { return values; }
-		[[nodiscard]] constexpr iterator end() noexcept { return values + N; }
-		[[nodiscard]] constexpr const_iterator end() const noexcept { return values + N; }
-		[[nodiscard]] constexpr const_iterator cend() const noexcept { return values + N; }
-	};
-	template <typename... T>
-	array(T...) -> array<std::common_type_t<T...>, sizeof...(T)>;
 }
 MUU_IMPL_NAMESPACE_END
 
@@ -563,16 +540,21 @@ MUU_NAMESPACE_START
 	/// \remarks Returns true for native int128_t, float16_t and float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_signed = std::is_signed_v<remove_enum<remove_cvref<T>>>
-		|| std::is_same_v<remove_cvref<T>, half>
-		#if MUU_HAS_INT128
-		|| std::is_same_v<remove_enum<remove_cvref<T>>, int128_t>
-		#endif
-		#if MUU_HAS_FLOAT128
-		|| std::is_same_v<remove_enum<remove_cvref<T>>, float128_t>
-		#endif
-		#if MUU_HAS_FLOAT16
-		|| std::is_same_v<remove_enum<remove_cvref<T>>, float16_t>
-		#endif
+		|| same_as_any<remove_enum<remove_cvref<T>>,
+			half
+			#if MUU_HAS_INT128
+				, int128_t
+			#endif
+			#if MUU_HAS_FLOAT128
+				, float128_t
+			#endif
+			#if MUU_HAS_FLOAT16
+				, float16_t
+			#endif
+			#if MUU_HAS_INTERCHANGE_FP16
+				, __fp16
+			#endif
+		>
 	;
 
 	/// \brief Are any of the named types signed or reference-to-signed?
@@ -612,13 +594,18 @@ MUU_NAMESPACE_START
 	/// \remarks Returns true for native float16_t and float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_floating_point = std::is_floating_point_v<std::remove_reference_t<T>>
-		|| std::is_same_v<remove_cvref<T>, half>
-		#if MUU_HAS_FLOAT128
-		|| std::is_same_v<remove_enum<remove_cvref<T>>, float128_t>
-		#endif
-		#if MUU_HAS_FLOAT16
-		|| std::is_same_v<remove_enum<remove_cvref<T>>, float16_t>
-		#endif
+		|| same_as_any<remove_cvref<T>,
+			half
+			#if MUU_HAS_FLOAT128
+				, float128_t
+			#endif
+			#if MUU_HAS_FLOAT16
+				, float16_t
+			#endif
+			#if MUU_HAS_INTERCHANGE_FP16
+				, __fp16
+			#endif
+		>
 	;
 
 	/// \brief Is a type arithmetic or reference-to-arithmetic?
@@ -626,16 +613,21 @@ MUU_NAMESPACE_START
 	/// \remarks Returns true for native int128_t, uint128_t, float16_t and float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_arithmetic = std::is_arithmetic_v<std::remove_reference_t<T>>
-		|| std::is_same_v<remove_cvref<T>, half>
-		#if MUU_HAS_INT128
-		|| same_as_any<remove_enum<remove_cvref<T>>, int128_t, uint128_t>
-		#endif
-		#if MUU_HAS_FLOAT128
-		|| std::is_same_v<remove_enum<remove_cvref<T>>, float128_t>
-		#endif
-		#if MUU_HAS_FLOAT16
-		|| std::is_same_v<remove_enum<remove_cvref<T>>, float16_t>
-		#endif
+		|| same_as_any<remove_cvref<T>,
+			half
+			#if MUU_HAS_INT128
+				, int128_t, uint128_t
+			#endif
+			#if MUU_HAS_FLOAT128
+				, float128_t
+			#endif
+			#if MUU_HAS_FLOAT16
+				, float16_t
+			#endif
+			#if MUU_HAS_INTERCHANGE_FP16
+				, __fp16
+			#endif
+		>
 	;
 
 	/// \brief Is a type const or reference-to-const?
@@ -758,6 +750,61 @@ MUU_NAMESPACE_START
 	/// @}
 }
 MUU_NAMESPACE_END
+
+//=====================================================================================================================
+// ARRAY
+//=====================================================================================================================
+
+MUU_IMPL_NAMESPACE_START
+{
+	// A (mostly) drop-in substitute for std::array.
+	// 
+	// "Why does this exist? Why not just use std::array?"
+	// The standard library's <array> header drags in _a lot_ of cruft, regardless of implementation,
+	// typically bringing <algorithm>, <iterator> and <tuple> with it. This array does not claim to
+	// support the tuple protocol like the one in the standard, nor does it provide swap, fill, et cetera.
+	// 
+	// To see what I mean:
+	// - https://artificial-mind.net/projects/compile-health/
+	// - https://www.reddit.com/r/cpp/comments/eumou7/stl_header_token_parsing_benchmarks_for_vs2017/
+	//
+	// TL;DR: haha compiler go brrrrrr
+	template <typename T, size_t N>
+	struct array
+	{
+		using value_type = T;
+		using size_type = size_t;
+		using difference_type = ptrdiff_t;
+		using reference = T&;
+		using const_reference = const T&;
+		using pointer = T*;
+		using const_pointer = const T*;
+		using iterator = pointer;
+		using const_iterator = const_pointer;
+
+		T values[N];
+
+		[[nodiscard]] MUU_ATTR(pure) constexpr T& operator[](size_t pos) noexcept { return values[pos]; }
+		[[nodiscard]] MUU_ATTR(pure) constexpr const T& operator[](size_t pos) const noexcept { return values[pos]; }
+		[[nodiscard]] MUU_ATTR(pure) constexpr T* data() noexcept { return values; }
+		[[nodiscard]] MUU_ATTR(pure) constexpr const T* data() const noexcept { return values; }
+		[[nodiscard]] MUU_ATTR(pure) constexpr size_t size() const noexcept { return N; }
+		[[nodiscard]] MUU_ATTR(pure) constexpr reference back() noexcept { return values[N - 1]; }
+		[[nodiscard]] MUU_ATTR(pure) constexpr const_reference back() const noexcept { return values[N - 1]; }
+		[[nodiscard]] MUU_ATTR(pure) constexpr reference front() noexcept { return values[0]; }
+		[[nodiscard]] MUU_ATTR(pure) constexpr const_reference front() const noexcept { return values[0]; }
+		[[nodiscard]] MUU_ATTR(pure) constexpr bool empty() const noexcept { return !N; }
+		[[nodiscard]] MUU_ATTR(pure) constexpr iterator begin() noexcept { return values; }
+		[[nodiscard]] MUU_ATTR(pure) constexpr const_iterator begin() const noexcept { return values; }
+		[[nodiscard]] MUU_ATTR(pure) constexpr const_iterator cbegin() const noexcept { return values; }
+		[[nodiscard]] MUU_ATTR(pure) constexpr iterator end() noexcept { return values + N; }
+		[[nodiscard]] MUU_ATTR(pure) constexpr const_iterator end() const noexcept { return values + N; }
+		[[nodiscard]] MUU_ATTR(pure) constexpr const_iterator cend() const noexcept { return values + N; }
+	};
+	template <typename... T>
+	array(T...) -> array<std::common_type_t<T...>, sizeof...(T)>;
+}
+MUU_IMPL_NAMESPACE_END
 
 //=====================================================================================================================
 // LITERALS, BUILD CONSTANTS AND 'INTRINSICS'
@@ -2217,7 +2264,7 @@ MUU_NAMESPACE_START
 		template <>
 		struct infinity_or_nan_traits<80, 64>
 		{
-			static constexpr auto mask = array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x7FFF_u16 };
+			static constexpr auto mask = impl::array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x7FFF_u16 };
 
 			template <typename T>
 			[[nodiscard]]
@@ -2235,7 +2282,7 @@ MUU_NAMESPACE_START
 			#if MUU_HAS_INT128
 			static constexpr auto mask = pack(0x0000000000007FFF_u64, 0x8000000000000000_u64);
 			#else
-			static constexpr auto mask = array{ 0x8000000000000000_u64, 0x0000000000007FFF_u64 };
+			static constexpr auto mask = impl::array{ 0x8000000000000000_u64, 0x0000000000007FFF_u64 };
 
 			template <typename T>
 			[[nodiscard]]
@@ -2254,6 +2301,9 @@ MUU_NAMESPACE_START
 			: infinity_or_nan_traits<sizeof(T) * CHAR_BIT, std::numeric_limits<T>::digits>
 		{};
 
+		#if MUU_HAS_INTERCHANGE_FP16
+		template <> struct infinity_or_nan_traits_typed<__fp16> : infinity_or_nan_traits<16, 11> {};
+		#endif
 		#if MUU_HAS_FLOAT16
 		template <> struct infinity_or_nan_traits_typed<float16_t> : infinity_or_nan_traits<16, 11> {};
 		#endif

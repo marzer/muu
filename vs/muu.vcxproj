@@ -71,7 +71,6 @@
     <None Include="..\docs\muu.js" />
     <None Include="..\docs\pages\main_page.dox" />
     <None Include="..\examples\meson.build" />
-    <None Include="..\include\main_page.dox" />
     <None Include="..\meson.build" />
     <None Include="..\python\generate_documentation.py" />
     <None Include="..\python\generate_float_tests_header.py" />

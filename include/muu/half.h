@@ -37,8 +37,8 @@ MUU_NAMESPACE_START
 {
 	namespace impl
 	{
-		[[nodiscard]] constexpr uint16_t MUU_VECTORCALL f32_to_f16(float) noexcept;
-		[[nodiscard]] constexpr float MUU_VECTORCALL f16_to_f32(uint16_t) noexcept;
+		[[nodiscard]] MUU_ATTR(const) constexpr uint16_t MUU_VECTORCALL f32_to_f16(float) noexcept;
+		[[nodiscard]] MUU_ATTR(const) constexpr float MUU_VECTORCALL f16_to_f32(uint16_t) noexcept;
 		struct f16_from_bits_tag {};
 	}
 
@@ -101,6 +101,7 @@ MUU_NAMESPACE_START
 		/// \brief	Creates a half-precision float from its raw bit equivalent.
 		[[nodiscard]]
 		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
 		static constexpr half from_bits(uint16_t val) noexcept
 		{
 			return half{ val, impl::f16_from_bits_tag{} };
@@ -113,7 +114,7 @@ MUU_NAMESPACE_START
 
 		#define MUU_F16_EXPLICIT_CONSTRUCTOR(type)					\
 			MUU_NODISCARD_CTOR										\
-			explicit constexpr half(type val) noexcept			\
+			explicit constexpr half(type val) noexcept				\
 				: bits{ impl::f32_to_f16(static_cast<float>(val)) }	\
 			{}
 
@@ -137,6 +138,14 @@ MUU_NAMESPACE_START
 		#endif
 		#undef MUU_F16_EXPLICIT_CONSTRUCTOR
 
+		#if MUU_HAS_INTERCHANGE_FP16
+
+		/*explicit*/ constexpr half(__fp16 val) noexcept
+			: bits{ bit_cast<uint16_t>(val) }
+		{}
+
+		#endif // MUU_HAS_INTERCHANGE_FP16
+
 		#if MUU_HAS_FLOAT16
 
 		explicit constexpr half(float16_t val) noexcept
@@ -145,13 +154,26 @@ MUU_NAMESPACE_START
 
 		#endif // MUU_HAS_FLOAT16
 
+
 		//====================================================
 		// CONVERSIONS
 		//====================================================
 
+		#if MUU_HAS_INTERCHANGE_FP16
+
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		explicit constexpr operator __fp16() const noexcept
+		{
+			return bit_cast<__fp16>(bits);
+		}
+
+		#endif // MUU_HAS_INTERCHANGE_FP16
+
 		#if MUU_HAS_FLOAT16
 
 		[[nodiscard]]
+		MUU_ATTR(pure)
 		constexpr operator float16_t() const noexcept
 		{
 			return bit_cast<float16_t>(bits);
@@ -160,24 +182,28 @@ MUU_NAMESPACE_START
 		#endif // MUU_HAS_FLOAT16
 
 		[[nodiscard]]
+		MUU_ATTR(pure)
 		constexpr operator float() const noexcept
 		{
 			return impl::f16_to_f32(bits);
 		}
 
 		[[nodiscard]]
+		MUU_ATTR(pure)
 		constexpr operator double() const noexcept
 		{
 			return static_cast<double>(impl::f16_to_f32(bits));
 		}
 
 		[[nodiscard]]
+		MUU_ATTR(pure)
 		constexpr operator long double() const noexcept
 		{
 			return static_cast<long double>(impl::f16_to_f32(bits));
 		}
 
 		[[nodiscard]]
+		MUU_ATTR(pure)
 		MUU_ALWAYS_INLINE
 		explicit constexpr operator bool() const noexcept
 		{
@@ -213,43 +239,49 @@ MUU_NAMESPACE_START
 		//====================================================
 
 		[[nodiscard]]
+		MUU_ATTR(const)
 		friend constexpr bool MUU_VECTORCALL operator == (half lhs, half rhs) noexcept
 		{
 			return static_cast<float>(lhs) == static_cast<float>(rhs);
 		}
 
 		[[nodiscard]]
+		MUU_ATTR(const)
 		friend constexpr bool MUU_VECTORCALL operator != (half lhs, half rhs) noexcept
 		{
 			return static_cast<float>(lhs) != static_cast<float>(rhs);
 		}
 
 		[[nodiscard]]
+		MUU_ATTR(const)
 		friend constexpr bool MUU_VECTORCALL operator < (half lhs, half rhs) noexcept
 		{
 			return static_cast<float>(lhs) < static_cast<float>(rhs);
 		}
 
 		[[nodiscard]]
+		MUU_ATTR(const)
 		friend constexpr bool MUU_VECTORCALL operator <= (half lhs, half rhs) noexcept
 		{
 			return static_cast<float>(lhs) <= static_cast<float>(rhs);
 		}
 
 		[[nodiscard]]
+		MUU_ATTR(const)
 		friend constexpr bool MUU_VECTORCALL operator > (half lhs, half rhs) noexcept
 		{
 			return static_cast<float>(lhs) > static_cast<float>(rhs);
 		}
 
 		[[nodiscard]]
+		MUU_ATTR(const)
 		friend constexpr bool MUU_VECTORCALL operator >= (half lhs, half rhs) noexcept
 		{
 			return static_cast<float>(lhs) >= static_cast<float>(rhs);
 		}
 
 		#define MUU_F16_PROMOTING_BINARY_OP(return_type, input_type, op)					\
-			[[nodiscard]] friend constexpr return_type MUU_VECTORCALL						\
+			[[nodiscard]] MUU_ATTR(const) friend constexpr return_type MUU_VECTORCALL		\
 			operator op (half lhs, input_type rhs) noexcept									\
 			{																				\
 				return static_cast<input_type>(lhs) op rhs;									\
@@ -261,7 +293,7 @@ MUU_NAMESPACE_START
 			}
 
 		#define MUU_F16_CONVERTING_BINARY_OP(return_type, input_type, op)					\
-			[[nodiscard]] friend constexpr return_type MUU_VECTORCALL						\
+			[[nodiscard]] MUU_ATTR(const) friend constexpr return_type MUU_VECTORCALL		\
 			operator op (half lhs, input_type rhs) noexcept									\
 			{																				\
 				return return_type{ static_cast<float>(lhs) op static_cast<float>(rhs) };	\
@@ -280,6 +312,9 @@ MUU_NAMESPACE_START
 			func(bool, input_type, > )					\
 			func(bool, input_type, >=)
 
+		#if MUU_HAS_INTERCHANGE_FP16
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, __fp16)
+		#endif
 		#if MUU_HAS_FLOAT16
 		MUU_F16_BINARY_OPS(MUU_F16_PROMOTING_BINARY_OP,  float16_t)
 		#endif
@@ -308,24 +343,28 @@ MUU_NAMESPACE_START
 		//====================================================
 
 		[[nodiscard]]
+		MUU_ATTR(const)
 		friend constexpr half MUU_VECTORCALL operator + (half lhs, half rhs) noexcept
 		{
 			return half{ static_cast<float>(lhs) + static_cast<float>(rhs) };
 		}
 
 		[[nodiscard]]
+		MUU_ATTR(const)
 		friend constexpr half MUU_VECTORCALL operator - (half lhs, half rhs) noexcept
 		{
 			return half{ static_cast<float>(lhs) - static_cast<float>(rhs) };
 		}
 
 		[[nodiscard]]
+		MUU_ATTR(const)
 		friend constexpr half MUU_VECTORCALL operator * (half lhs, half rhs) noexcept
 		{
 			return half{ static_cast<float>(lhs) * static_cast<float>(rhs) };
 		}
 
 		[[nodiscard]]
+		MUU_ATTR(const)
 		friend constexpr half MUU_VECTORCALL operator / (half lhs, half rhs) noexcept
 		{
 			return half{ static_cast<float>(lhs) / static_cast<float>(rhs) };
@@ -337,6 +376,9 @@ MUU_NAMESPACE_START
 			func(return_type, input_type, *)						\
 			func(return_type, input_type, /)
 
+		#if MUU_HAS_INTERCHANGE_FP16
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	half,			__fp16)
+		#endif
 		#if MUU_HAS_FLOAT16
 		MUU_F16_BINARY_OPS(MUU_F16_PROMOTING_BINARY_OP,		float16_t,		float16_t)
 		#endif
@@ -417,6 +459,9 @@ MUU_NAMESPACE_START
 			func(input_type, *)							\
 			func(input_type, /)
 
+		#if MUU_HAS_INTERCHANGE_FP16
+		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	__fp16)
+		#endif
 		#if MUU_HAS_FLOAT16
 		MUU_F16_BINARY_OPS(MUU_F16_CASTING_ASSIGN_OP,		float16_t)
 		#endif
@@ -478,12 +523,14 @@ MUU_NAMESPACE_START
 		//====================================================
 
 		[[nodiscard]]
+		MUU_ATTR(pure)
 		constexpr half operator + () const noexcept
 		{
 			return *this;
 		}
 
 		[[nodiscard]]
+		MUU_ATTR(pure)
 		constexpr half operator - () const noexcept
 		{
 			return from_bits(bits ^ 0b1000000000000000_u16);

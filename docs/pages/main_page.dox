@@ -7,8 +7,9 @@
 
 \tableofcontents
 
-\section main-kek
+\section main
 
-Some text.
+This page is a placeholder. See <a href="modules.html">Modules</a> or <a href="annotated.html">Classes</a> for
+categorized lists of what's actually in the library. Or press TAB.
 
 */

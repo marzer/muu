@@ -1662,6 +1662,23 @@ namespace
 	static_assert(!build::supports_constexpr_infinity_or_nan || (expr));	\
 	CHECK(expr)
 
+#if MUU_HAS_INTERCHANGE_FP16
+
+TEST_CASE("infinity_or_nan - __fp16")
+{
+	INF_OR_NAN_CHECK(!infinity_or_nan(__fp16{}));
+	INF_OR_NAN_CHECK(infinity_or_nan(make_nan<__fp16>()));
+	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<__fp16>(-1)));
+	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<__fp16>()));
+
+	#if INF_OR_NAN_RANGE_CHECKS
+	CHECK((test_infinity_or_nan_ranges<__fp16, -1>()));
+	CHECK((test_infinity_or_nan_ranges<__fp16, 1>()));
+	#endif
+}
+
+#endif // MUU_HAS_INTERCHANGE_FP16
+
 #if MUU_HAS_FLOAT16
 
 TEST_CASE("infinity_or_nan - float16_t")

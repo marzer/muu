@@ -47,6 +47,15 @@ static void test_float_accumulator() noexcept
 	}
 }
 
+#if MUU_HAS_INTERCHANGE_FP16
+
+TEST_CASE("accumulator - __fp16")
+{
+	test_float_accumulator<__fp16>();
+}
+
+#endif // MUU_HAS_FLOAT16
+
 #if MUU_HAS_FLOAT16
 
 TEST_CASE("accumulator - float16_t")

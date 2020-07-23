@@ -13,8 +13,14 @@
 #if MUU_BIG_ENDIAN != SHOULD_BE_BIG_ENDIAN
 	#error MUU_BIG_ENDIAN was not deduced correctly
 #endif
+#if MUU_HAS_INTERCHANGE_FP16 != SHOULD_HAVE_FP16
+	#error MUU_HAS_INTERCHANGE_FP16 was not deduced correctly
+#endif
 #if MUU_HAS_FLOAT16 != SHOULD_HAVE_FLOAT16
 	#error MUU_HAS_FLOAT16 was not deduced correctly
+#endif
+#if MUU_HAS_INT128 != SHOULD_HAVE_INT128
+	#error MUU_HAS_INT128 was not deduced correctly
 #endif
 
 #define CATCH_CONFIG_RUNNER

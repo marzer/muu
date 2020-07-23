@@ -618,11 +618,18 @@
 			&& __FLT16_MIN_10_EXP__ == -4	\
 			&& __FLT16_MAX_EXP__ == 16		\
 			&& __FLT16_MAX_10_EXP__ == 4
-		#define MUU_HAS_FLOAT16 1
+		#if (MUU_ARCH_ARM && MUU_GCC) || MUU_CLANG
+			#define MUU_HAS_INTERCHANGE_FP16 1
+		#endif
+		#if MUU_ARCH_ARM && (MUU_GCC || MUU_CLANG)
+			#define MUU_HAS_FLOAT16 1
+		#endif
 	#endif
 #endif
-#if !defined(MUU_HAS_FLOAT16) || !MUU_ARCH_ARM
-	#undef MUU_HAS_FLOAT16
+#ifndef MUU_HAS_INTERCHANGE_FP16
+	#define MUU_HAS_INTERCHANGE_FP16 0
+#endif
+#ifndef MUU_HAS_FLOAT16
 	#define MUU_HAS_FLOAT16 0
 #endif
 

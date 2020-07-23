@@ -91,9 +91,6 @@
     <None Include="..\docs\muu.js">
       <Filter>docs</Filter>
     </None>
-    <None Include="..\include\main_page.dox">
-      <Filter>docs</Filter>
-    </None>
     <None Include=".runsettings" />
     <None Include="..\python\generate_documentation.py">
       <Filter>python</Filter>

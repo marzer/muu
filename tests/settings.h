@@ -70,6 +70,12 @@
 #ifndef SHOULD_BE_BIG_ENDIAN
 	#define SHOULD_BE_BIG_ENDIAN 0
 #endif
+#ifndef SHOULD_HAVE_FP16
+	#define SHOULD_HAVE_FP16 0
+#endif
 #ifndef SHOULD_HAVE_FLOAT16
 	#define SHOULD_HAVE_FLOAT16 0
+#endif
+#ifndef SHOULD_HAVE_INT128
+	#define SHOULD_HAVE_INT128 0
 #endif
