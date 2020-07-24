@@ -79,3 +79,7 @@
 #ifndef SHOULD_HAVE_INT128
 	#define SHOULD_HAVE_INT128 0
 #endif
+#ifndef SHOULD_HAVE_FLOAT128
+	#define SHOULD_HAVE_FLOAT128 0
+#endif
+

@@ -22,6 +22,9 @@
 #if MUU_HAS_INT128 != SHOULD_HAVE_INT128
 	#error MUU_HAS_INT128 was not deduced correctly
 #endif
+#if MUU_HAS_FLOAT128 != SHOULD_HAVE_FLOAT128
+	#error MUU_HAS_FLOAT128 was not deduced correctly
+#endif
 
 #define CATCH_CONFIG_RUNNER
 #include "catch2.h"

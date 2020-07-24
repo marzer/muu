@@ -82,6 +82,15 @@ TEST_CASE("accumulator - long double")
 	test_float_accumulator<long double>();
 }
 
+#if MUU_HAS_FLOAT128
+
+TEST_CASE("accumulator - float128_t")
+{
+	test_float_accumulator<float128_t>();
+}
+
+#endif
+
 TEST_CASE("accumulator - integers")
 {
 	int raw_sum = {};

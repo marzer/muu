@@ -1697,6 +1697,9 @@ MUU_NAMESPACE_START
 		using finish_type = remove_cv<std::conditional_t<is_floating_point<U>, U, double>>;
 		using alpha_type = remove_cv<std::conditional_t<is_floating_point<V>, V, double>>;
 		using return_type =
+			#if MUU_HAS_FLOAT128
+			std::conditional_t<same_as_any<float128_t, start_type, finish_type, alpha_type>, float128_t,
+			#endif
 			std::conditional_t<same_as_any<long double, start_type, finish_type, alpha_type>, long double,
 			std::conditional_t<same_as_any<double, start_type, finish_type, alpha_type>, double,
 			std::conditional_t<same_as_any<float, start_type, finish_type, alpha_type>, float,
@@ -1712,6 +1715,9 @@ MUU_NAMESPACE_START
 			>
 			#endif
 			#if MUU_HAS_FLOAT16
+			>
+			#endif
+			#if MUU_HAS_FLOAT128
 			>
 			#endif
 		>>>>;
@@ -2432,6 +2438,24 @@ MUU_NAMESPACE_START
 			#endif
 		};
 
+		template <>
+		struct is_infinity_or_nan_traits<128, 113>
+		{
+			#if MUU_HAS_INT128
+			static constexpr auto mask = pack(0x7FFF000000000000_u64, 0x0000000000000000_u64);
+			#else
+			static constexpr auto mask = array{ 0x0000000000000000_u64, 0x7FFF000000000000_u64 };
+
+			template <typename T>
+			[[nodiscard]]
+			MUU_ALWAYS_INLINE
+				static constexpr bool MUU_VECTORCALL check(const T& val) noexcept
+			{
+				return (val[1] & mask[1]) == mask[1];
+			}
+			#endif
+		};
+
 		template <typename T>
 		struct is_infinity_or_nan_traits_typed
 			: is_infinity_or_nan_traits<sizeof(T) * CHAR_BIT, std::numeric_limits<T>::digits>
@@ -2443,6 +2467,10 @@ MUU_NAMESPACE_START
 		#if MUU_HAS_FLOAT16
 		template <> struct is_infinity_or_nan_traits_typed<float16_t> : is_infinity_or_nan_traits<16, 11> {};
 		#endif
+		#if MUU_HAS_FLOAT128
+		template <> struct is_infinity_or_nan_traits_typed<float128_t> : is_infinity_or_nan_traits<128, __FLT128_MANT_DIG__> {};
+		#endif
+		
 	}
 
 	/// \brief	Checks if an arithmetic value is infinity or NaN.

@@ -1869,9 +1869,6 @@ TEST_CASE("is_infinity_or_nan - float128_t")
 	INF_OR_NAN_CHECK(is_infinity_or_nan(make_nan<float128_t>()));
 	INF_OR_NAN_CHECK(is_infinity_or_nan(make_infinity<float128_t>(-1)));
 	INF_OR_NAN_CHECK(is_infinity_or_nan(make_infinity<float128_t>()));
-
-	CHECK((test_is_infinity_or_nan_ranges<float128_t, -1>()));
-	CHECK((test_is_infinity_or_nan_ranges<float128_t, 1>()));
 }
 
 #endif // MUU_HAS_FLOAT128

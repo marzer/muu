@@ -87,7 +87,13 @@ def write_float_data(file, traits):
 	write('\tstruct float_test_data_by_traits<{}, {}>'.format(traits.total_bits, traits.digits))
 	write('\t{')
 
-	write('\t\tstatic constexpr long double values[] = ')
+	type = 'long double'
+	suffix = 'L'
+	if traits.total_bits == 128 and traits.significand_bits == 112:
+		type = 'float128_t'
+		suffix = 'q'
+
+	write(f'\t\tstatic constexpr {type} values[] = ')
 	write('\t\t{',end='')
 	per_line = max(int(108 / (traits.digits10 + 5)), 1)
 	decimal.getcontext().prec = 256
@@ -102,16 +108,16 @@ def write_float_data(file, traits):
 			write(', ',end='')
 		if i % per_line == 0:
 			write('\n\t\t\t',end='')
-		write('{}L'.format(val), end='')
+		write('{}{}'.format(val, suffix), end='')
 	write('\n\t\t};')
 	write('')
 
 	delta = (D(10) ** -(max(int(round(3.0*traits.digits10/4.0))+1,2)))
 	# write('\t\t// {}'.format(D(1) - delta))
 	# write('\t\t// {}'.format(D(1) + delta))
-	write('\t\tstatic constexpr long double values_sum_low  = {}L;'.format(rounded(sum * (D(1) - delta))))
-	write('\t\tstatic constexpr long double values_sum      = {}L;'.format(rounded(sum)))
-	write('\t\tstatic constexpr long double values_sum_high = {}L;'.format(rounded(sum * (D(1) + delta))))
+	write('\t\tstatic constexpr {} values_sum_low  = {}{};'.format(type, rounded(sum * (D(1) - delta)), suffix))
+	write('\t\tstatic constexpr {} values_sum      = {}{};'.format(type, rounded(sum), suffix))
+	write('\t\tstatic constexpr {} values_sum_high = {}{};'.format(type, rounded(sum * (D(1) + delta)), suffix))
 	write('')
 
 	if traits.total_bits > 64 and traits.int_blittable:
@@ -144,7 +150,6 @@ def write_float_data(file, traits):
 		write('\t\t#endif // MUU_HAS_INT{}'.format(traits.total_bits))
 
 	write('\t};')
-	write('')
 
 
 def main():
@@ -167,9 +172,16 @@ def main():
 		write('#include "settings.h"')
 		write('#include "../include/muu/core.h"')
 		write('')
+		write('#if MUU_GCC')
+		write('\t#pragma GCC system_header')
+		write('#endif')
+		write('')
 		write('#ifndef MUU_HAS_INT256')
 		write('\t#define MUU_HAS_INT256 0')
 		write('#endif')
+		write('')
+		write('MUU_PUSH_WARNINGS')
+		write('MUU_DISABLE_ALL_WARNINGS')
 		write('')
 		write('MUU_NAMESPACE_START')
 		write('{')
@@ -182,13 +194,20 @@ def main():
 
 		# (padding_bits, sign_bits, exponent_bits, integer_part_bits, significand_bits)
 
-		write_float_data(file, FloatTraits( 0, 1,  5, 0,  10)) # 16-bit 'half'
-		write_float_data(file, FloatTraits( 0, 1,  8, 0,  23)) # 32-bit float
-		write_float_data(file, FloatTraits( 0, 1, 11, 0,  52)) # 64-bit double
-		write_float_data(file, FloatTraits( 0, 1, 15, 1,  63)) # 80-bit long double
-		write_float_data(file, FloatTraits(48, 1, 15, 1,  63)) # 80-bit long double stored as 128 bits
-
-		#write_float_data(file, FloatTraits(128,  0, 15, 0, 113))
+		write_float_data(file, FloatTraits(  0, 1,  5, 0,  10)) # 16-bit 'half'
+		write('')
+		write_float_data(file, FloatTraits(  0, 1,  8, 0,  23)) # 32-bit float
+		write('')
+		write_float_data(file, FloatTraits(  0, 1, 11, 0,  52)) # 64-bit double
+		write('')
+		write_float_data(file, FloatTraits(  0, 1, 15, 1,  63)) # 80-bit long double
+		write('')
+		write_float_data(file, FloatTraits( 48, 1, 15, 1,  63)) # 80-bit long double stored as 128 bits
+		write('')
+		write('#if MUU_HAS_FLOAT128')
+		write_float_data(file, FloatTraits(  0, 1, 15, 0, 112)) # 128-bit quad
+		write('#endif // MUU_HAS_FLOAT128')
+		write('')
 		#write_float_data(file, FloatTraits(256,  0, 19, 0, 237))
 
 		# alias by type
@@ -198,6 +217,8 @@ def main():
 		indent = indent - 1 
 		write('}')
 		write('MUU_NAMESPACE_END')
+		write('')
+		write('MUU_POP_WARNINGS')
 		
 
 if __name__ == '__main__':

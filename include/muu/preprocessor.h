@@ -370,6 +370,7 @@
 											_Pragma("GCC diagnostic ignored \"-Wsuggest-attribute=pure\"")
 	#define MUU_DISABLE_ALL_WARNINGS		_Pragma("GCC diagnostic ignored \"-Wall\"")							\
 											_Pragma("GCC diagnostic ignored \"-Wextra\"")						\
+											_Pragma("GCC diagnostic ignored \"-Wpedantic\"")					\
 											_Pragma("GCC diagnostic ignored \"-Wtype-limits\"")					\
 											MUU_DISABLE_SWITCH_WARNINGS											\
 											MUU_DISABLE_INIT_WARNINGS											\
@@ -642,7 +643,10 @@
 	#define MUU_HAS_FLOAT16 0
 #endif
 
-#ifdef __FLT128_MANT_DIG__
+#if defined(__SIZEOF_FLOAT128__)		\
+	&& defined(__FLT128_MANT_DIG__)		\
+	&& defined(__LDBL_MANT_DIG__)		\
+	&& __FLT128_MANT_DIG__ > __LDBL_MANT_DIG__
 	#define MUU_HAS_FLOAT128 1
 #else
 	#define MUU_HAS_FLOAT128 0

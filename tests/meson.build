@@ -135,7 +135,7 @@ compiler_supports_float16 = compiler.links('''
 
 compiler_supports_int128 = compiler.links('''
 	#ifndef __SIZEOF_INT128__
-		__SIZEOF_INT128__ wasn't defined!
+		#error __SIZEOF_INT128__ wasn't defined!
 	#endif
 
 	#include <cstdint>
@@ -150,8 +150,35 @@ compiler_supports_int128 = compiler.links('''
 		const auto i3 = static_cast<int32_t>(i);
 		return 0;
 	}
-	'''.format(float_16_preprocessor_checks),
+	''',
 	name : 'supports __int128_t',
+	args : [ '-O0' ]
+)
+
+compiler_supports_float128 = compiler.links('''
+	#ifndef __SIZEOF_FLOAT128__
+		#error __SIZEOF_FLOAT128__ wasn't defined!
+	#endif
+	#ifndef __FLT128_MANT_DIG__
+		#error __FLT128_MANT_DIG__ wasn't defined!
+	#endif
+	#ifndef __LDBL_MANT_DIG__
+		#error __LDBL_MANT_DIG__ wasn't defined!
+	#endif
+	#if __FLT128_MANT_DIG__ <= __LDBL_MANT_DIG__
+		#error __FLT128_MANT_DIG__ was <= __LDBL_MANT_DIG__
+	#endif
+	int main()
+	{
+		static_assert(__SIZEOF_FLOAT128__ == 16);
+		static_assert(sizeof(__float128) == 16);
+		__float128 f = static_cast<__float128>(1);
+		const auto f2 = static_cast<long double>(f);
+		const auto f3 = static_cast<double>(f);
+		return 0;
+	}
+	''',
+	name : 'supports __float128',
 	args : [ '-O0' ]
 )
 
@@ -227,7 +254,17 @@ foreach cpp20 : cpp20_modes
 			if compiler_supports_int128
 				args += '-DSHOULD_HAVE_INT128=1'
 			endif
-				
+			
+			if compiler_supports_float128
+				args += '-DSHOULD_HAVE_FLOAT128=1'
+			endif
+
+			if compiler_supports_float16 or compiler_supports_int128 or compiler_supports_float128
+				if compiler.get_id() == 'gcc'
+					args += '-fext-numeric-literals'
+				endif
+			endif
+
 			if counter % 4 == 2
 				args += '-DMUU_HEADER_ONLY=1'
 			endif

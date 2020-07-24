@@ -8,6 +8,8 @@
 
 MUU_PRAGMA_CLANG("clang diagnostic ignored \"-Wc++2a-compat\"")
 MUU_PRAGMA_CLANG("clang diagnostic ignored \"-Wfloat-equal\"")
+MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wfloat-equal\"")
+MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wpedantic\"")
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_ALL_WARNINGS
@@ -21,6 +23,9 @@ MUU_NAMESPACE_START
 	#endif
 	#if MUU_HAS_FLOAT16
 	template <> struct float_test_data<float16_t> : float_test_data_by_traits<16, 11> {};
+	#endif
+	#if MUU_HAS_FLOAT128
+	template <> struct float_test_data<float128_t> : float_test_data_by_traits<128, __FLT128_MANT_DIG__> {};
 	#endif
 
 	struct half;
