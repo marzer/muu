@@ -29,9 +29,9 @@ MUU_NAMESPACE_START
 		[[nodiscard]]
 		MUU_ATTR(const)
 		MUU_ATTR(flatten)
-		constexpr array<char, 2> byte_to_chars_lowercase(std::byte byte) noexcept
+		constexpr array<char, 2> byte_to_hex_lowercase(uint8_t byte) noexcept
 		{
-			return {{ dec_to_hex_lowercase(unwrap(byte) / 16u), dec_to_hex_lowercase(unwrap(byte) % 16u) }};
+			return {{ dec_to_hex_lowercase(byte / 16u), dec_to_hex_lowercase(byte % 16u) }};
 		}
 	}
 
@@ -46,7 +46,7 @@ MUU_NAMESPACE_START
 		{
 			static_assert(
 				dependent_false<std::integral_constant<size_t, Bits>>,
-				"Hash combining with hashes of given number of bits is not implemented on this platform"
+				"Hash combining with hashes of given number of bits is not implemented on the target platform"
 			);
 		};
 
@@ -125,7 +125,7 @@ MUU_NAMESPACE_START
 		{
 			static_assert(
 				dependent_false<std::integral_constant<size_t, Bits>>,
-				"FNV-1a hashing with integers of given number of bits is not implemented on this platform"
+				"FNV-1a hashing with integers of given number of bits is not implemented on the target platform"
 			);
 		};
 
@@ -169,39 +169,111 @@ MUU_NAMESPACE_START
 		private:
 			hash_type value_ = impl::fnv1a<Bits>::offset_basis;
 
+			template <typename T>
+			constexpr void append(T atom) noexcept
+			{
+				value_ ^= static_cast<hash_type>(atom);
+				value_ *= impl::fnv1a<Bits>::prime;
+			}
+
 		public:
+
+			/// \brief	Constructs a new FNV-1a hasher.
 			constexpr fnv1a() noexcept = default;
 
+			/// \brief	Appends a single byte to the hash function's input.
 			constexpr fnv1a& operator() (uint8_t byte) noexcept
 			{
-				value_ ^= static_cast<hash_type>(byte);
-				value_ *= impl::fnv1a<Bits>::Prime;
+				append(byte);
+				return *this;
 			}
 
+			/// \brief	Appends a single byte to the hash function's input.
 			constexpr fnv1a& operator() (std::byte byte) noexcept
 			{
-				return (*this)(unwrap(byte));
+				append(static_cast<uint8_t>(byte));
+				return *this;
 			}
 
+			/// \brief	Appends a single character to the hash function's input.
+			constexpr fnv1a& operator() (char c) noexcept
+			{
+				append(static_cast<uint8_t>(c));
+				return *this;
+			}
+
+			/// \brief	Appends a sequence of data to the hash function's input.
 			constexpr fnv1a& operator() (const void* data, size_t size) noexcept
 			{
 				const auto end = pointer_cast<const uint8_t*>(data) + size;
 				for (auto ptr = pointer_cast<const uint8_t*>(data); ptr != end; ptr++)
-					(*this)(*ptr);
+					append(*ptr);
 				return *this;
 			}
 
-			template <typename Char, typename Traits>
-			constexpr fnv1a& operator() (std::basic_string_view<Char, Traits> sv) noexcept
+			/// \brief	Appends a string to the hash function's input.
+			constexpr fnv1a& operator() (std::string_view sv) noexcept
 			{
-				static_assert(sizeof(Char) == 1);
 				return (*this)(sv.data(), sv.size());
 			}
 
+			#if MUU_WINDOWS || MUU_DOXYGEN
+
+			/// \brief	Appends a wide string to the hash function's input.
+			/// 
+			/// \attention This overload is only available when building for Windows.
+			constexpr fnv1a& operator() (std::wstring_view sv) noexcept
+			{
+				for (auto c : sv)
+					append(c);
+				return *this;
+			}
+
+			/// \brief	Appends a single wide character to the hash function's input.
+			/// 
+			/// \attention This overload is only available when building for Windows.
+			constexpr fnv1a& operator() (wchar_t c) noexcept
+			{
+				append(c);
+				return *this;
+			}
+
+			#endif
+
+			#ifdef __cpp_lib_char8_t
+
+			/// \brief	Appends a single UTF-8 character to the hash function's input.
+			constexpr fnv1a& operator() (char8_t c) noexcept
+			{
+				append(static_cast<uint8_t>(c));
+				return *this;
+			}
+
+			/// \brief	Appends a UTF-8 string to the hash function's input.
+			constexpr fnv1a& operator() (std::u8string_view sv) noexcept
+			{
+				return (*this)(sv.data(), sv.size());
+			}
+
+			#endif
+
+			/// \brief	Returns the calculated hash value.
 			[[nodiscard]]
 			constexpr hash_type value() const noexcept
 			{
 				return value_;
+			}
+
+			/// \brief	Writes the calculated hash to a text stream in hexadecimal form.
+			template <typename Char, typename Traits>
+			friend std::basic_ostream<Char, Traits>& operator<< (std::basic_ostream<Char, Traits>& lhs, const fnv1a& rhs)
+			{
+				for (unsigned i = sizeof(value_); i --> 0u;)
+				{
+					const auto hex = impl::byte_to_hex_lowercase(byte_select(rhs.value_, i));
+					lhs.write(hex.data(), hex.size());
+				}
+				return lhs;
 			}
 	};
 
@@ -256,12 +328,20 @@ MUU_NAMESPACE_START
 			sha1& operator() (const void* data, size_t size) noexcept;
 
 			/// \brief	Appends a string to the hash input.
-			template <typename Char, typename Traits>
-			constexpr sha1& operator() (std::basic_string_view<Char, Traits> sv) noexcept
+			sha1& operator() (std::string_view sv) noexcept
 			{
-				static_assert(sizeof(Char) == 1);
 				return (*this)(sv.data(), sv.size());
 			}
+
+			#ifdef __cpp_lib_char8_t
+
+			/// \brief	Appends a string to the hash input.
+			sha1& operator() (std::u8string_view sv) noexcept
+			{
+				return (*this)(sv.data(), sv.size());
+			}
+
+			#endif
 
 			/// \brief	Finishes calculating the hash.
 			/// \remarks Appending to the hash function's input has no effect after finish() is called.
@@ -285,7 +365,7 @@ MUU_NAMESPACE_START
 			{
 				for (auto byte : rhs.value())
 				{
-					const auto hex = impl::byte_to_chars_lowercase(byte);
+					const auto hex = impl::byte_to_hex_lowercase(unwrap(byte));
 					lhs.write(hex.data(), hex.size());
 				}
 				return lhs;

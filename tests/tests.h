@@ -6,6 +6,9 @@
 #pragma once
 #include "float_test_data.h"
 
+MUU_PRAGMA_CLANG("clang diagnostic ignored \"-Wc++2a-compat\"")
+MUU_PRAGMA_CLANG("clang diagnostic ignored \"-Wfloat-equal\"")
+
 MUU_PUSH_WARNINGS
 MUU_DISABLE_ALL_WARNINGS
 #include "catch2.h"

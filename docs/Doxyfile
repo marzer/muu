@@ -27,7 +27,7 @@ ABBREVIATE_BRIEF       = "The $name class" \
                          an \
                          the
 ALWAYS_DETAILED_SEC    = NO
-INLINE_INHERITED_MEMB  = NO
+INLINE_INHERITED_MEMB  = YES
 FULL_PATH_NAMES        = YES
 STRIP_FROM_PATH        = ../include/
 STRIP_FROM_INC_PATH    =
@@ -314,7 +314,8 @@ PREDEFINED             = DOXYGEN=1 \
                          __cplusplus=201703L \
                          __has_include(x)=0 \
                          __has_attribute(x)=0 \
-                         MUU_ALL_INLINE=0
+                         __cpp_lib_char8_t=201907L \
+                         MUU_HEADER_ONLY=0
 EXPAND_AS_DEFINED      = 
 SKIP_FUNCTION_MACROS   = NO
 #---------------------------------------------------------------------------

@@ -249,7 +249,7 @@ MUU_NAMESPACE_START
 		);
 		static_assert(
 			MinAlign > 1 || impl::tptr_addr_free_bits > 0,
-			"Types aligned on a single byte cannot be pointed to by a tagged pointer on this platform"
+			"Types aligned on a single byte cannot be pointed to by a tagged pointer on the target platform"
 		);
 
 		private:

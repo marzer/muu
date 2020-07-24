@@ -756,63 +756,161 @@ TEST_CASE("clamp")
 	CHECK_AND_STATIC_ASSERT(clamp(5, 2, 4) == 4);
 }
 
-TEST_CASE("between")
+namespace
+{
+	template <typename T>
+	struct lerp_test_data
+	{
+		struct test_case
+		{
+			T start;
+			T finish;
+			T alpha;
+			T expected;
+		};
+
+		using c = muu::constants<T>;
+
+		static constexpr auto cases = array
+		{
+			test_case{ c::minus_one,	c::one,			c::two,				c::three },
+			test_case{ c::zero,			c::one,			c::two,				c::two },
+			test_case{ c::minus_one,	c::zero,		c::two,				c::one },
+			test_case{ c::one,			c::minus_one,	c::two,				c::minus_three },
+			test_case{ c::zero,			c::minus_one,	c::two,				c::minus_two },
+			test_case{ c::one,			c::zero,		c::two,				c::minus_one },
+			test_case{ c::one,			c::two,			c::one,				c::two },
+			test_case{ c::one,			c::two,			c::two,				c::three },
+			test_case{ c::one,			c::two,			c::one_over_two,	c::three_over_two },
+			test_case{ c::one,			c::two,			c::zero,			c::one },
+			test_case{ c::one,			c::one,			c::two,				c::one },
+			test_case{ c::minus_zero,	c::minus_zero,	c::one_over_two,	c::minus_zero },
+			test_case{ c::zero,			c::zero,		c::one_over_two,	c::zero },
+			test_case{ c::minus_five,	c::five,		c::one_over_two,	c::zero }
+		};
+	};
+
+
+	/*
+	
+        {Ty(-5.0), Ty(5.0), Ty(0.5), Ty(0.0)},
+	
+	*/
+
+
+
+	template <typename T>
+	void lerp_tests()
+	{
+		for (const auto& test_case : lerp_test_data<T>::cases)
+			CHECK(muu::lerp(test_case.start, test_case.finish, test_case.alpha) == test_case.expected);
+	}
+}
+
+#if MUU_HAS_INTERCHANGE_FP16
+
+TEST_CASE("lerp - __fp16")
+{
+	lerp_tests<__fp16>();
+}
+
+#endif // MUU_HAS_INTERCHANGE_FP16
+
+#if MUU_HAS_FLOAT16
+
+TEST_CASE("lerp - float16_t")
+{
+	lerp_tests<float16_t>();
+}
+
+#endif // MUU_HAS_FLOAT16
+
+TEST_CASE("lerp - half")
+{
+	lerp_tests<half>();
+}
+
+TEST_CASE("lerp - float")
+{
+	lerp_tests<float>();
+}
+
+TEST_CASE("lerp - double")
+{
+	lerp_tests<double>();
+}
+
+TEST_CASE("lerp - long double")
+{
+	lerp_tests<long double>();
+}
+
+#if MUU_HAS_FLOAT128
+
+TEST_CASE("lerp - float128_t")
+{
+	lerp_tests<float128_t>();
+}
+
+#endif // MUU_HAS_FLOAT128
+
+TEST_CASE("is_between")
 {
 	// signed, signed
-	CHECK_AND_STATIC_ASSERT(!between(   -1,     2,     4));
-	CHECK_AND_STATIC_ASSERT(!between(    0,     2,     4));
-	CHECK_AND_STATIC_ASSERT(!between(    1,     2,     4));
-	CHECK_AND_STATIC_ASSERT( between(    2,     2,     4));
-	CHECK_AND_STATIC_ASSERT( between(    3,     2,     4));
-	CHECK_AND_STATIC_ASSERT( between(    4,     2,     4));
-	CHECK_AND_STATIC_ASSERT(!between(    5,     2,     4));
+	CHECK_AND_STATIC_ASSERT(!is_between(   -1,     2,     4));
+	CHECK_AND_STATIC_ASSERT(!is_between(    0,     2,     4));
+	CHECK_AND_STATIC_ASSERT(!is_between(    1,     2,     4));
+	CHECK_AND_STATIC_ASSERT( is_between(    2,     2,     4));
+	CHECK_AND_STATIC_ASSERT( is_between(    3,     2,     4));
+	CHECK_AND_STATIC_ASSERT( is_between(    4,     2,     4));
+	CHECK_AND_STATIC_ASSERT(!is_between(    5,     2,     4));
 
 	// signed, unsigned
-	CHECK_AND_STATIC_ASSERT(!between(   -1,    2u,    4u));
-	CHECK_AND_STATIC_ASSERT(!between(    0,    2u,    4u));
-	CHECK_AND_STATIC_ASSERT(!between(    1,    2u,    4u));
-	CHECK_AND_STATIC_ASSERT( between(    2,    2u,    4u));
-	CHECK_AND_STATIC_ASSERT( between(    3,    2u,    4u));
-	CHECK_AND_STATIC_ASSERT( between(    4,    2u,    4u));
-	CHECK_AND_STATIC_ASSERT(!between(    5,    2u,    4u));
+	CHECK_AND_STATIC_ASSERT(!is_between(   -1,    2u,    4u));
+	CHECK_AND_STATIC_ASSERT(!is_between(    0,    2u,    4u));
+	CHECK_AND_STATIC_ASSERT(!is_between(    1,    2u,    4u));
+	CHECK_AND_STATIC_ASSERT( is_between(    2,    2u,    4u));
+	CHECK_AND_STATIC_ASSERT( is_between(    3,    2u,    4u));
+	CHECK_AND_STATIC_ASSERT( is_between(    4,    2u,    4u));
+	CHECK_AND_STATIC_ASSERT(!is_between(    5,    2u,    4u));
 
 	// float, signed
-	CHECK_AND_STATIC_ASSERT(!between(-1.0f,     2,     4));
-	CHECK_AND_STATIC_ASSERT(!between( 0.0f,     2,     4));
-	CHECK_AND_STATIC_ASSERT(!between( 1.0f,     2,     4));
-	CHECK_AND_STATIC_ASSERT( between( 2.0f,     2,     4));
-	CHECK_AND_STATIC_ASSERT( between( 3.0f,     2,     4));
-	CHECK_AND_STATIC_ASSERT( between( 4.0f,     2,     4));
-	CHECK_AND_STATIC_ASSERT(!between( 5.0f,     2,     4));
+	CHECK_AND_STATIC_ASSERT(!is_between(-1.0f,     2,     4));
+	CHECK_AND_STATIC_ASSERT(!is_between( 0.0f,     2,     4));
+	CHECK_AND_STATIC_ASSERT(!is_between( 1.0f,     2,     4));
+	CHECK_AND_STATIC_ASSERT( is_between( 2.0f,     2,     4));
+	CHECK_AND_STATIC_ASSERT( is_between( 3.0f,     2,     4));
+	CHECK_AND_STATIC_ASSERT( is_between( 4.0f,     2,     4));
+	CHECK_AND_STATIC_ASSERT(!is_between( 5.0f,     2,     4));
 
 	// float, unsigned
-	CHECK_AND_STATIC_ASSERT(!between(-1.0f,    2u,    4u));
-	CHECK_AND_STATIC_ASSERT(!between( 0.0f,    2u,    4u));
-	CHECK_AND_STATIC_ASSERT(!between( 1.0f,    2u,    4u));
-	CHECK_AND_STATIC_ASSERT( between( 2.0f,    2u,    4u));
-	CHECK_AND_STATIC_ASSERT( between( 3.0f,    2u,    4u));
-	CHECK_AND_STATIC_ASSERT( between( 4.0f,    2u,    4u));
-	CHECK_AND_STATIC_ASSERT(!between( 5.0f,    2u,    4u));
+	CHECK_AND_STATIC_ASSERT(!is_between(-1.0f,    2u,    4u));
+	CHECK_AND_STATIC_ASSERT(!is_between( 0.0f,    2u,    4u));
+	CHECK_AND_STATIC_ASSERT(!is_between( 1.0f,    2u,    4u));
+	CHECK_AND_STATIC_ASSERT( is_between( 2.0f,    2u,    4u));
+	CHECK_AND_STATIC_ASSERT( is_between( 3.0f,    2u,    4u));
+	CHECK_AND_STATIC_ASSERT( is_between( 4.0f,    2u,    4u));
+	CHECK_AND_STATIC_ASSERT(!is_between( 5.0f,    2u,    4u));
 
 	// signed, float
-	CHECK_AND_STATIC_ASSERT(!between(   -1,  2.0f,  4.0f));
-	CHECK_AND_STATIC_ASSERT(!between(    0,  2.0f,  4.0f));
-	CHECK_AND_STATIC_ASSERT(!between(    1,  2.0f,  4.0f));
-	CHECK_AND_STATIC_ASSERT( between(    2,  2.0f,  4.0f));
-	CHECK_AND_STATIC_ASSERT( between(    3,  2.0f,  4.0f));
-	CHECK_AND_STATIC_ASSERT( between(    4,  2.0f,  4.0f));
-	CHECK_AND_STATIC_ASSERT(!between(    5,  2.0f,  4.0f));
+	CHECK_AND_STATIC_ASSERT(!is_between(   -1,  2.0f,  4.0f));
+	CHECK_AND_STATIC_ASSERT(!is_between(    0,  2.0f,  4.0f));
+	CHECK_AND_STATIC_ASSERT(!is_between(    1,  2.0f,  4.0f));
+	CHECK_AND_STATIC_ASSERT( is_between(    2,  2.0f,  4.0f));
+	CHECK_AND_STATIC_ASSERT( is_between(    3,  2.0f,  4.0f));
+	CHECK_AND_STATIC_ASSERT( is_between(    4,  2.0f,  4.0f));
+	CHECK_AND_STATIC_ASSERT(!is_between(    5,  2.0f,  4.0f));
 
 	// check for integer overflow nonsense
 	{
 		constexpr uint8_t minval = 5;
 		constexpr uint8_t maxval = 100;
 		for (int32_t i = -128; i <= 4; i++)
-			CHECK(!between(i, minval, maxval));
+			CHECK(!is_between(i, minval, maxval));
 		for (int32_t i = 5; i <= 100; i++)
-			CHECK(between(i, minval, maxval));
+			CHECK(is_between(i, minval, maxval));
 		for (int32_t i = 101; i <= 255; i++)
-			CHECK(!between(i, minval, maxval));
+			CHECK(!is_between(i, minval, maxval));
 	}
 }
 
@@ -1548,43 +1646,48 @@ TEST_CASE("bit_fill_left")
 
 TEST_CASE("byte_select")
 {
+	#define CHECK_BYTE_SELECT(index, expected, ...)										\
+		CHECK_AND_STATIC_ASSERT(byte_select<index>(__VA_ARGS__) == 0x##expected##_u8);	\
+		CHECK_AND_STATIC_ASSERT(byte_select(__VA_ARGS__, index) == 0x##expected##_u8)
+
+
 	#if MUU_HAS_INT128
-	CHECK_AND_STATIC_ASSERT(byte_select<15>(pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64)) == 0xFE_u8);
-	CHECK_AND_STATIC_ASSERT(byte_select<14>(pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64)) == 0xDC_u8);
-	CHECK_AND_STATIC_ASSERT(byte_select<13>(pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64)) == 0xBA_u8);
-	CHECK_AND_STATIC_ASSERT(byte_select<12>(pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64)) == 0x98_u8);
-	CHECK_AND_STATIC_ASSERT(byte_select<11>(pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64)) == 0x76_u8);
-	CHECK_AND_STATIC_ASSERT(byte_select<10>(pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64)) == 0x54_u8);
-	CHECK_AND_STATIC_ASSERT(byte_select< 9>(pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64)) == 0x32_u8);
-	CHECK_AND_STATIC_ASSERT(byte_select< 8>(pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64)) == 0x10_u8);
-	CHECK_AND_STATIC_ASSERT(byte_select< 7>(pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64)) == 0xAA_u8);
-	CHECK_AND_STATIC_ASSERT(byte_select< 6>(pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64)) == 0xBB_u8);
-	CHECK_AND_STATIC_ASSERT(byte_select< 5>(pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64)) == 0xCC_u8);
-	CHECK_AND_STATIC_ASSERT(byte_select< 4>(pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64)) == 0xDD_u8);
-	CHECK_AND_STATIC_ASSERT(byte_select< 3>(pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64)) == 0xAB_u8);
-	CHECK_AND_STATIC_ASSERT(byte_select< 2>(pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64)) == 0xCD_u8);
-	CHECK_AND_STATIC_ASSERT(byte_select< 1>(pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64)) == 0xEF_u8);
-	CHECK_AND_STATIC_ASSERT(byte_select< 0>(pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64)) == 0x01_u8);
+	CHECK_BYTE_SELECT(15, FE, pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64));
+	CHECK_BYTE_SELECT(14, DC, pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64));
+	CHECK_BYTE_SELECT(13, BA, pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64));
+	CHECK_BYTE_SELECT(12, 98, pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64));
+	CHECK_BYTE_SELECT(11, 76, pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64));
+	CHECK_BYTE_SELECT(10, 54, pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64));
+	CHECK_BYTE_SELECT( 9, 32, pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64));
+	CHECK_BYTE_SELECT( 8, 10, pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64));
+	CHECK_BYTE_SELECT( 7, AA, pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64));
+	CHECK_BYTE_SELECT( 6, BB, pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64));
+	CHECK_BYTE_SELECT( 5, CC, pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64));
+	CHECK_BYTE_SELECT( 4, DD, pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64));
+	CHECK_BYTE_SELECT( 3, AB, pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64));
+	CHECK_BYTE_SELECT( 2, CD, pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64));
+	CHECK_BYTE_SELECT( 1, EF, pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64));
+	CHECK_BYTE_SELECT( 0, 01, pack(0xFEDCBA9876543210_u64, 0xAABBCCDDABCDEF01_u64));
 	#endif
 
-	CHECK_AND_STATIC_ASSERT(byte_select<7>(0xAABBCCDDABCDEF01_u64) == 0xAA_u8);
-	CHECK_AND_STATIC_ASSERT(byte_select<6>(0xAABBCCDDABCDEF01_u64) == 0xBB_u8);
-	CHECK_AND_STATIC_ASSERT(byte_select<5>(0xAABBCCDDABCDEF01_u64) == 0xCC_u8);
-	CHECK_AND_STATIC_ASSERT(byte_select<4>(0xAABBCCDDABCDEF01_u64) == 0xDD_u8);
-	CHECK_AND_STATIC_ASSERT(byte_select<3>(0xAABBCCDDABCDEF01_u64) == 0xAB_u8);
-	CHECK_AND_STATIC_ASSERT(byte_select<2>(0xAABBCCDDABCDEF01_u64) == 0xCD_u8);
-	CHECK_AND_STATIC_ASSERT(byte_select<1>(0xAABBCCDDABCDEF01_u64) == 0xEF_u8);
-	CHECK_AND_STATIC_ASSERT(byte_select<0>(0xAABBCCDDABCDEF01_u64) == 0x01_u8);
+	CHECK_BYTE_SELECT(7, AA, 0xAABBCCDDABCDEF01_u64);
+	CHECK_BYTE_SELECT(6, BB, 0xAABBCCDDABCDEF01_u64);
+	CHECK_BYTE_SELECT(5, CC, 0xAABBCCDDABCDEF01_u64);
+	CHECK_BYTE_SELECT(4, DD, 0xAABBCCDDABCDEF01_u64);
+	CHECK_BYTE_SELECT(3, AB, 0xAABBCCDDABCDEF01_u64);
+	CHECK_BYTE_SELECT(2, CD, 0xAABBCCDDABCDEF01_u64);
+	CHECK_BYTE_SELECT(1, EF, 0xAABBCCDDABCDEF01_u64);
+	CHECK_BYTE_SELECT(0, 01, 0xAABBCCDDABCDEF01_u64);
 
-	CHECK_AND_STATIC_ASSERT(byte_select<3>(0xABCDEF01_u32) == 0xAB_u8);
-	CHECK_AND_STATIC_ASSERT(byte_select<2>(0xABCDEF01_u32) == 0xCD_u8);
-	CHECK_AND_STATIC_ASSERT(byte_select<1>(0xABCDEF01_u32) == 0xEF_u8);
-	CHECK_AND_STATIC_ASSERT(byte_select<0>(0xABCDEF01_u32) == 0x01_u8);
+	CHECK_BYTE_SELECT(3, AB, 0xABCDEF01_u32);
+	CHECK_BYTE_SELECT(2, CD, 0xABCDEF01_u32);
+	CHECK_BYTE_SELECT(1, EF, 0xABCDEF01_u32);
+	CHECK_BYTE_SELECT(0, 01, 0xABCDEF01_u32);
 
-	CHECK_AND_STATIC_ASSERT(byte_select<1>(0xEF01_u16) == 0xEF_u8);
-	CHECK_AND_STATIC_ASSERT(byte_select<0>(0xEF01_u16) == 0x01_u8);
+	CHECK_BYTE_SELECT(1, EF, 0xEF01_u16);
+	CHECK_BYTE_SELECT(0, 01, 0xEF01_u16);
 
-	CHECK_AND_STATIC_ASSERT(byte_select<0>(0x01_u8) == 0x01_u8);
+	CHECK_BYTE_SELECT(0, 01, 0x01_u8);
 }
 
 TEST_CASE("byte_reverse")
@@ -1600,13 +1703,36 @@ TEST_CASE("byte_reverse")
 	CHECK_AND_STATIC_ASSERT(byte_reverse(0xABCD_u16) == 0xCDAB_u16);
 }
 
+TEST_CASE("swizzle")
+{
+	#define CHECK_SWIZZLE(input, expected, ...)	\
+		CHECK_AND_STATIC_ASSERT(swizzle<__VA_ARGS__>(input) == expected)
+
+	CHECK_SWIZZLE(0xAABBCCDD_u32, 0xDD_u8, 0);
+	CHECK_SWIZZLE(0xAABBCCDD_u32, 0xCCDD_u16, 1, 0);
+	CHECK_SWIZZLE(0xAABBCCDD_u32, 0xBBCCDD_u32, 2, 1, 0);
+	CHECK_SWIZZLE(0xAABBCCDD_u32, 0xAABBCCDD_u32, 3, 2, 1, 0);
+	CHECK_SWIZZLE(0xAABBCCDD_u32, 0xAA_u8, 3);
+	CHECK_SWIZZLE(0xAABBCCDD_u32, 0xCCCC_u16, 1, 1);
+	CHECK_SWIZZLE(0xAABBCCDD_u32, 0xBBDDBB_u32, 2, 0, 2);
+	CHECK_SWIZZLE(0xAABBCCDD_u32, 0xAAAABBBB_u32, 3, 3, 2, 2);
+	CHECK_SWIZZLE(0xAABBCCDD_u32, 0xAACCBBCCDD_u64, 3, 1, 2, 1, 0);
+
+	CHECK_SWIZZLE(0xAABBCCDD_i32, 0xDD_i8, 0);
+	CHECK_SWIZZLE(0xAABBCCDD_i32, 0xCCDD_i16, 1, 0);
+	CHECK_SWIZZLE(0xAABBCCDD_i32, 0xBBCCDD_i32, 2, 1, 0);
+	CHECK_SWIZZLE(0xAABBCCDD_i32, 0xAABBCCDD_i32, 3, 2, 1, 0);
+	CHECK_SWIZZLE(0xAABBCCDD_i32, 0xAA_i8, 3);
+	CHECK_SWIZZLE(0xAABBCCDD_i32, 0xCCCC_i16, 1, 1);
+	CHECK_SWIZZLE(0xAABBCCDD_i32, 0xBBDDBB_i32, 2, 0, 2);
+	CHECK_SWIZZLE(0xAABBCCDD_i32, 0xAAAABBBB_i32, 3, 3, 2, 2);
+	CHECK_SWIZZLE(0xAABBCCDD_i32, 0xAACCBBCCDD_i64, 3, 1, 2, 1, 0);
+}
+
 namespace
 {
-	#define INF_OR_NAN_RANGE_CHECKS 1
-
-	#if INF_OR_NAN_RANGE_CHECKS
 	template <typename T, int sign>
-	constexpr bool test_infinity_or_nan_ranges() noexcept
+	constexpr bool test_is_infinity_or_nan_ranges() noexcept
 	{
 		using data = float_test_data<T>;
 
@@ -1621,23 +1747,23 @@ namespace
 				if constexpr (std::numeric_limits<T>::digits <= 24)
 				{
 					for (auto bits = first; bits < last; bits++)
-						if (!infinity_or_nan(bit_cast<T>(bits)))
+						if (!is_infinity_or_nan(bit_cast<T>(bits)))
 							return false;
 				}
 				else
 				{
 					auto bits = first;
-					const uint64_t step = bit_fill_right<uint64_t>(std::numeric_limits<T>::digits-1) / (bit_fill_right<uint64_t>(23_sz)-1_u64);
-					for (auto iters = bit_fill_right<uint64_t>(23_sz) - 1_u64; iters --> uint64_t{};)
+					const uint64_t step = bit_fill_right<uint64_t>(std::numeric_limits<T>::digits-1) / (bit_fill_right<uint64_t>(23)-1_u64);
+					for (auto iters = bit_fill_right<uint64_t>(23) - 1_u64; iters --> uint64_t{};)
 					{
 						const auto v = bit_cast<T>(bits);
-						if (!infinity_or_nan(v))
+						if (!is_infinity_or_nan(v))
 							return false;
 						bits += static_cast<blit_type>(step);
 					}
 				}
 
-				if (!infinity_or_nan(bit_cast<T>(last)))
+				if (!is_infinity_or_nan(bit_cast<T>(last)))
 					return false;
 
 				return true;
@@ -1655,96 +1781,97 @@ namespace
 
 		return true;
 	}
-	#endif // INF_OR_NAN_RANGE_CHECKS
 }
 
-#define INF_OR_NAN_CHECK(expr)												\
-	static_assert(!build::supports_constexpr_infinity_or_nan || (expr));	\
+#define INF_OR_NAN_CHECK(expr)																	\
+	static_assert(MUU_INTELLISENSE || !build::supports_constexpr_is_infinity_or_nan || (expr));	\
 	CHECK(expr)
 
 #if MUU_HAS_INTERCHANGE_FP16
 
-TEST_CASE("infinity_or_nan - __fp16")
+TEST_CASE("is_infinity_or_nan - __fp16")
 {
-	INF_OR_NAN_CHECK(!infinity_or_nan(__fp16{}));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_nan<__fp16>()));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<__fp16>(-1)));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<__fp16>()));
+	INF_OR_NAN_CHECK(!is_infinity_or_nan(__fp16{}));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_nan<__fp16>()));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_infinity<__fp16>(-1)));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_infinity<__fp16>()));
 
-	#if INF_OR_NAN_RANGE_CHECKS
-	CHECK((test_infinity_or_nan_ranges<__fp16, -1>()));
-	CHECK((test_infinity_or_nan_ranges<__fp16, 1>()));
-	#endif
+	CHECK((test_is_infinity_or_nan_ranges<__fp16, -1>()));
+	CHECK((test_is_infinity_or_nan_ranges<__fp16, 1>()));
 }
 
 #endif // MUU_HAS_INTERCHANGE_FP16
 
 #if MUU_HAS_FLOAT16
 
-TEST_CASE("infinity_or_nan - float16_t")
+TEST_CASE("is_infinity_or_nan - float16_t")
 {
-	INF_OR_NAN_CHECK(!infinity_or_nan(float16_t{}));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_nan<float16_t>()));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float16_t>(-1)));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float16_t>()));
+	INF_OR_NAN_CHECK(!is_infinity_or_nan(float16_t{}));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_nan<float16_t>()));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_infinity<float16_t>(-1)));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_infinity<float16_t>()));
 
-	#if INF_OR_NAN_RANGE_CHECKS
-	CHECK((test_infinity_or_nan_ranges<float16_t, -1>()));
-	CHECK((test_infinity_or_nan_ranges<float16_t, 1>()));
-	#endif
+	CHECK((test_is_infinity_or_nan_ranges<float16_t, -1>()));
+	CHECK((test_is_infinity_or_nan_ranges<float16_t, 1>()));
 }
 
 #endif // MUU_HAS_FLOAT16
 
-TEST_CASE("infinity_or_nan - half")
+TEST_CASE("is_infinity_or_nan - half")
 {
-	INF_OR_NAN_CHECK(!infinity_or_nan(half::from_bits(0x0000_u16)));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_nan<half>()));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<half>(-1)));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<half>()));
+	INF_OR_NAN_CHECK(!is_infinity_or_nan(half::from_bits(0x0000_u16)));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_nan<half>()));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_infinity<half>(-1)));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_infinity<half>()));
 
-	#if INF_OR_NAN_RANGE_CHECKS
-	CHECK((test_infinity_or_nan_ranges<half, -1>()));
-	CHECK((test_infinity_or_nan_ranges<half, 1>()));
-	#endif
+	CHECK((test_is_infinity_or_nan_ranges<half, -1>()));
+	CHECK((test_is_infinity_or_nan_ranges<half, 1>()));
 }
 
-TEST_CASE("infinity_or_nan - float")
+TEST_CASE("is_infinity_or_nan - float")
 {
-	INF_OR_NAN_CHECK(!infinity_or_nan(float{}));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_nan<float>()));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float>(-1)));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float>()));
+	INF_OR_NAN_CHECK(!is_infinity_or_nan(float{}));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_nan<float>()));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_infinity<float>(-1)));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_infinity<float>()));
 
-	#if INF_OR_NAN_RANGE_CHECKS
-	CHECK((test_infinity_or_nan_ranges<float, -1>()));
-	CHECK((test_infinity_or_nan_ranges<float, 1>()));
-	#endif
+	CHECK((test_is_infinity_or_nan_ranges<float, -1>()));
+	CHECK((test_is_infinity_or_nan_ranges<float, 1>()));
 }
 
-TEST_CASE("infinity_or_nan - double")
+TEST_CASE("is_infinity_or_nan - double")
 {
-	INF_OR_NAN_CHECK(!infinity_or_nan(0.0));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_nan<double>()));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<double>(-1)));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<double>()));
+	INF_OR_NAN_CHECK(!is_infinity_or_nan(0.0));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_nan<double>()));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_infinity<double>(-1)));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_infinity<double>()));
 
-	#if INF_OR_NAN_RANGE_CHECKS
-	CHECK((test_infinity_or_nan_ranges<double, -1>()));
-	CHECK((test_infinity_or_nan_ranges<double, 1>()));
-	#endif
+	CHECK((test_is_infinity_or_nan_ranges<double, -1>()));
+	CHECK((test_is_infinity_or_nan_ranges<double, 1>()));
 }
 
-TEST_CASE("infinity_or_nan - long double")
+TEST_CASE("is_infinity_or_nan - long double")
 {
-	INF_OR_NAN_CHECK(!infinity_or_nan(0.0L));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_nan<long double>()));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<long double>(-1)));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<long double>()));
+	INF_OR_NAN_CHECK(!is_infinity_or_nan(0.0L));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_nan<long double>()));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_infinity<long double>(-1)));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_infinity<long double>()));
 
-	#if INF_OR_NAN_RANGE_CHECKS
-	CHECK((test_infinity_or_nan_ranges<long double, -1>()));
-	CHECK((test_infinity_or_nan_ranges<long double, 1>()));
-	#endif
+	CHECK((test_is_infinity_or_nan_ranges<long double, -1>()));
+	CHECK((test_is_infinity_or_nan_ranges<long double, 1>()));
 }
 
+#if MUU_HAS_FLOAT128
+
+TEST_CASE("is_infinity_or_nan - float128_t")
+{
+	INF_OR_NAN_CHECK(!is_infinity_or_nan(float128_t{}));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_nan<float128_t>()));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_infinity<float128_t>(-1)));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_infinity<float128_t>()));
+
+	CHECK((test_is_infinity_or_nan_ranges<float128_t, -1>()));
+	CHECK((test_is_infinity_or_nan_ranges<float128_t, 1>()));
+}
+
+#endif // MUU_HAS_FLOAT128

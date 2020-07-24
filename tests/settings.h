@@ -7,8 +7,8 @@
 
 // muu config
 #define MUU_DEV	1
-#ifndef MUU_ALL_INLINE
-	#define MUU_ALL_INLINE 0
+#ifndef MUU_HEADER_ONLY
+	#define MUU_HEADER_ONLY 0
 #endif
 
 //catch2 config

@@ -6,7 +6,7 @@
 #include "settings.h"
 #define MUU_IMPLEMENTATION
 #include "../include/muu/preprocessor.h"
-#if !MUU_ALL_INLINE
+#if !MUU_HEADER_ONLY
 	#include "../include/muu/all.h"
 #endif
 

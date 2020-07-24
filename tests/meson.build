@@ -229,7 +229,7 @@ foreach cpp20 : cpp20_modes
 			endif
 				
 			if counter % 4 == 2
-				args += '-DMUU_ALL_INLINE=1'
+				args += '-DMUU_HEADER_ONLY=1'
 			endif
 	
 			executables += [[

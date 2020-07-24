@@ -8,6 +8,7 @@
 
 #pragma once
 #include "../muu/fwd.h"
+MUU_PRAGMA_MSVC(inline_recursion(on))
 
 //=====================================================================================================================
 // INCLUDES
@@ -15,7 +16,6 @@
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_ALL_WARNINGS
-
 // core.h include file rationale:
 // - If it's small and simple it can go in (c headers are generally OK)
 // - If it drags in half the standard library or is itself a behemoth it stays out (<algorithm>...)
@@ -25,17 +25,19 @@ MUU_DISABLE_ALL_WARNINGS
 // https://www.reddit.com/r/cpp/comments/eumou7/stl_header_token_parsing_benchmarks_for_vs2017/, it's a no from me, dawg.
 // 
 // Mercifully, most things that you might feel compelled to stick here can be worked around by forward-declarations.
-
 #include <cstring>
 #include <climits>
 #include <cmath>
 #include <type_traits>
 #include <utility>
 #include <limits>
+#include <string_view>
 #if MUU_MSVC
 	#include <intrin0.h>
 #endif
-
+#if MUU_HAS_INCLUDE(<version>)
+	#include <version>
+#endif
 MUU_POP_WARNINGS
 
 //=====================================================================================================================
@@ -330,8 +332,8 @@ MUU_NAMESPACE_START
 	/// \addtogroup		meta		Metafunctions and type traits
 	/// \brief Metaprogramming utilities to complement those found in `<type_traits>`.
 	/// \remarks	Many of these are mirrors of (or supplementary to) traits found in the standard library's
-	///				`<type_traits>`, but with simpler/saner default behaviour (e.g. most metafunctions treat references to
-	/// 			types as if they were the actual type, because that typically makes more intuitive sense).
+	///				`<type_traits>`, but with simpler/saner default behaviour
+	///				(e.g. most of the is_X metafunctions do not make a distinction between T and T&).
 	/// @{
 
 	/// \brief	Removes the topmost const, volatile and reference qualifiers from a type.
@@ -391,6 +393,14 @@ MUU_NAMESPACE_START
 	/// \brief Is a type an enum or reference-to-enum?
 	template <typename T>
 	inline constexpr bool is_enum = std::is_enum_v<std::remove_reference_t<T>>;
+
+	/// \brief Are any of the named types enums or reference-to-enum?
+	template <typename T, typename... U>
+	inline constexpr bool any_enum = is_enum<T> || (false || ... || is_enum<U>);
+
+	/// \brief Are all of the named types enums or reference-to-enum?
+	template <typename T, typename... U>
+	inline constexpr bool all_enum = is_enum<T> && (true && ... && is_enum<U>);
 
 	/// \brief Is a type a C++11 scoped enum class, or reference to one?
 	template <typename T>
@@ -496,6 +506,18 @@ MUU_NAMESPACE_START
 		>
 	;
 
+	/// \brief Are any of the named types floating-point or reference-to-floating-point?
+	/// \remarks Returns true for muu::half.
+	/// \remarks Returns true for native float16_t and float128_t (where supported).
+	template <typename T, typename... U>
+	inline constexpr bool any_floating_point = is_floating_point<T> || (false || ... || is_floating_point<U>);
+
+	/// \brief Are all of the named types floating-point or reference-to-floating-point?
+	/// \remarks Returns true for muu::half.
+	/// \remarks Returns true for native float16_t and float128_t (where supported).
+	template <typename T, typename... U>
+	inline constexpr bool all_floating_point = is_floating_point<T> && (true && ... && is_floating_point<U>);
+
 	/// \brief Is a type arithmetic or reference-to-arithmetic?
 	/// \remarks Returns true for muu::half.
 	/// \remarks Returns true for native int128_t, uint128_t, float16_t and float128_t (where supported).
@@ -517,6 +539,18 @@ MUU_NAMESPACE_START
 			#endif
 		>
 	;
+
+	/// \brief Are any of the named types arithmetic or reference-to-arithmetic?
+	/// \remarks Returns true for muu::half.
+	/// \remarks Returns true for native int128_t, uint128_t, float16_t and float128_t (where supported).
+	template <typename T, typename... U>
+	inline constexpr bool any_arithmetic = is_arithmetic<T> || (false || ... || is_arithmetic<U>);
+
+	/// \brief Are all of the named types arithmetic or reference-to-arithmetic?
+	/// \remarks Returns true for muu::half.
+	/// \remarks Returns true for native int128_t, uint128_t, float16_t and float128_t (where supported).
+	template <typename T, typename... U>
+	inline constexpr bool all_arithmetic = is_arithmetic<T> && (true && ... && is_arithmetic<U>);
 
 	/// \brief Is a type const or reference-to-const?
 	template <typename T>
@@ -627,11 +661,11 @@ MUU_NAMESPACE_START
 	template <typename T>
 	inline constexpr bool dependent_false = false;
 
-	/// \brief	Gets the 'canonical' unsigned integer with a specific number of bits for this platform.
+	/// \brief	Gets the 'canonical' unsigned integer with a specific number of bits for the target platform.
 	template <size_t Bits>
 	using canonical_uint = typename impl::canonical_uint<Bits>::type;
 
-	/// \brief	Gets the 'canonical' signed integer with a specific number of bits for this platform.
+	/// \brief	Gets the 'canonical' signed integer with a specific number of bits for the target platform.
 	template <size_t Bits>
 	using canonical_int = typename impl::canonical_int<Bits>::type;
 
@@ -697,8 +731,6 @@ MUU_NAMESPACE_END
 //=====================================================================================================================
 // LITERALS, BUILD CONSTANTS AND 'INTRINSICS'
 //=====================================================================================================================
-
-MUU_PRAGMA_MSVC(inline_recursion(on))
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_ARITHMETIC_WARNINGS
@@ -935,7 +967,7 @@ MUU_NAMESPACE_START
 	{
 		#if MUU_CLANG >= 9		\
 			|| MUU_GCC >= 9		\
-			|| MUU_MSVC >= 1925
+			|| (MUU_MSVC >= 1925 && !MUU_INTELLISENSE)
 				return __builtin_is_constant_evaluated();
 		#elif defined(__cpp_lib_is_constant_evaluated)
 			return std::is_constant_evaluated();
@@ -1125,25 +1157,27 @@ MUU_NAMESPACE_START
 		}
 	}
 
-	/// \brief	Bitwise-packs unsigned integers left-to-right into a larger unsigned integer.
+	/// \brief	Bitwise-packs integers left-to-right into a larger integer.
 	/// \detail \cpp
 	/// const auto val = pack(0xAABB_u16, 0xCCDD_u16);
 	/// assert(val == 0xAABBCCDD_u32);
 	/// const auto val = pack(0xAABB_u16, 0xCCDD_u16, 0xEEFF_u16);
-	/// assert(val == 0x0000AABBCCDDEEFF_u64); // input was zero-padded from the left
+	/// assert(val == 0x0000AABBCCDDEEFF_u64);
+	///              // ^^^^ input was zero-padded on the left
 	/// \ecpp
 	/// 
-	/// \tparam	Return	An unsigned integer or enum type, or leave as `void` to choose based on the total size of the inputs.
-	/// \tparam	T	  	An unsigned integer or enum type.
-	/// \tparam	U	  	An unsigned integer or enum type.
-	/// \tparam	V	  	Unsigned integer or enum types.
+	/// \tparam	Return	An integer or enum type, or leave as `void` to choose an unsigned type based on the total size of the inputs.
+	/// \tparam	T	  	An integer or enum type.
+	/// \tparam	U	  	An integer or enum type.
+	/// \tparam	V	  	Integer or enum types.
 	/// \param 	val1	The left-most value to be packed.
 	/// \param 	val2	The second-left-most value to be packed.
 	/// \param 	vals	Any remaining values to be packed.
 	///
-	/// \returns	An unsigned integral value containing the input values packed bitwise left-to-right.
+	/// \returns	An integral value containing the input values packed bitwise left-to-right. If the total size of the
+	/// 			inputs was less than the return type, the output will be zero-padded on the left.
 	template <typename Return = void, typename T, typename U, typename... V, typename = std::enable_if_t<
-		all_unsigned<T, U, V...>
+		all_integral<T, U, V...>
 	>>
 	[[nodiscard]]
 	MUU_ATTR(const)
@@ -1155,7 +1189,7 @@ MUU_NAMESPACE_START
 		);
 		static_assert(
 			(total_size<T, U, V...> * CHAR_BIT) <= (MUU_HAS_INT128 ? 128 : 64),
-			"No integer type large enough to hold the packed values exists on this platform"
+			"No integer type large enough to hold the packed values exists on the target platform"
 		);
 		using return_type = std::conditional_t<
 			std::is_void_v<Return>,
@@ -1163,27 +1197,38 @@ MUU_NAMESPACE_START
 			Return
 		>;
 		static_assert(
-			is_unsigned<return_type>,
-			"Return type must be unsigned"
-		);
-		static_assert(
 			total_size<T, U, V...> <= sizeof(return_type),
 			"Return type cannot fit all the input values"
 		);
-		using transit_type = remove_enum<return_type>;
 
-		if constexpr (sizeof...(V) > 0)
+		if constexpr (any_enum<return_type, T, U, V...>)
+		{
+			return static_cast<return_type>(pack<remove_enum<return_type>>(
+				static_cast<remove_enum<T>>(val1),
+				static_cast<remove_enum<U>>(val2),
+				static_cast<remove_enum<V>>(vals)...
+			));
+		}
+		else if constexpr (any_signed<return_type, T, U, V...>)
+		{
+			return static_cast<return_type>(pack<make_unsigned<return_type>>(
+				static_cast<make_unsigned<T>>(val1),
+				static_cast<make_unsigned<U>>(val2),
+				static_cast<make_unsigned<V>>(vals)...
+			 ));
+		}
+		else if constexpr (sizeof...(V) > 0)
 		{
 			return static_cast<return_type>(
-				static_cast<transit_type>(static_cast<transit_type>(unwrap(val1)) << (total_size<U, V...> * CHAR_BIT))
-				| pack<transit_type>(val2, vals...)
+				static_cast<return_type>(static_cast<return_type>(val1) << (total_size<U, V...> * CHAR_BIT))
+				| pack<return_type>(val2, vals...)
 			);
 		}
 		else
 		{
 			return static_cast<return_type>(
-				static_cast<transit_type>(static_cast<transit_type>(unwrap(val1)) << (sizeof(U) * CHAR_BIT))
-				| static_cast<transit_type>(unwrap(val2))
+				static_cast<return_type>(static_cast<return_type>(val1) << (sizeof(U) * CHAR_BIT))
+				| static_cast<return_type>(val2)
 			);
 		}
 	}
@@ -1273,18 +1318,26 @@ MUU_NAMESPACE_START
 	/// 		particularly when moving to/from raw byte representations or dealing with `const`.
 	/// 		By using `pointer_cast` instead you can eliminate a lot of that boilerplate,
 	/// 		since it will do 'the right thing' via some combination of:
-	/// 		- adding `const` and/or `volatile` => `static_cast`  
-	/// 		- removing `const` and/or `volatile` => `const_cast`  
-	/// 		- casting to/from `void*` => `static_cast`  
-	/// 		- casting from derived to base => `static_cast`    
-	/// 		- casting from polymorphic base to derived => `dynamic_cast`  
-	/// 		- casting from non-polymorphic base to derived => `reinterpret_cast`  
-	/// 		- casting from `IUnknown` to `IUnknown` => `QueryInterface` (windows only)
-	/// 		- converting between pointers and integers => `reinterpret_cast`  
-	/// 		- converting between pointers to unrelated types => `reinterpret_cast`  
-	/// 		- converting between function pointers and `void*` => `reinterpret_cast` (where available)  
-	/// 
-	/// \warning There are lots of static checks to make sure you don't do something completely insane,
+	///	| From                    | To                      | Cast              | Note                  |
+	///	|-------------------------|-------------------------|-------------------|-----------------------|
+	///	| void\*                  | T\*                     | static_cast       |                       |
+	///	| T\*                     | void\*                  | static_cast       |                       |
+	///	| T\*                     | const T\*               | static_cast       |                       |
+	///	| const T\*               | T\*                     | const_cast        |                       |
+	///	| T\*                     | volatile T\*            | static_cast       |                       |
+	///	| volatile T\*            | T\*                     | const_cast        |                       |
+	///	| IUnknown\*              | IUnknown\*              | QueryInterface    | Windows only          |
+	///	| Derived\*               | Base\*                  | static_cast       |                       |
+	///	| Base\*                  | Derived\*               | dynamic_cast      | Polymorphic bases     |
+	///	| Base\*                  | Derived\*               | reinterpret_cast  | non-polymorphic bases |
+	///	| T\*                     | (u)intptr_t             | reinterpret_cast  |                       |
+	///	| (u)intptr_t             | T\*                     | reinterpret_cast  |                       |
+	///	| void\*                  | T(\*func_ptr)()         | reinterpret_cast  | Where supported       |
+	///	| T(\*func_ptr)()         | void\*                  | reinterpret_cast  | Where supported       |
+	///	| T(\*func_ptr)()         | T(\*func_ptr)()noexcept | reinterpret_cast  |                       |
+	///	| T(\*func_ptr)()noexcept | T(\*func_ptr)()         | static_cast       |                       |
+	///
+	///  \warning There are lots of static checks to make sure you don't do something completely insane,
 	/// 		 but ultimately the fallback behaviour for casting between unrelated types is to use a
 	/// 		 `reinterpret_cast`, and there's nothing stopping you from using multiple `pointer_casts`
 	/// 		 through `void*` to make a conversion 'work'. Footguns aplenty!
@@ -1336,7 +1389,7 @@ MUU_NAMESPACE_START
 		static_assert(
 			(!std::is_function_v<from_base> || sizeof(From) == sizeof(void*))
 			&& (!std::is_function_v<to_base> || sizeof(To) == sizeof(void*)),
-			"Cannot pointer_cast with function pointers on this platform"
+			"Cannot pointer_cast with function pointers on the target platform"
 		);
 
 		// same input and output types (no-op)
@@ -1590,6 +1643,7 @@ MUU_NAMESPACE_START
 	template <typename T, typename = std::enable_if_t<is_arithmetic<T>>>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
+	MUU_ATTR(const)
 	constexpr T MUU_VECTORCALL abs(T val) noexcept
 	{
 		if constexpr (is_unsigned<T>)
@@ -1608,15 +1662,77 @@ MUU_NAMESPACE_START
 		return (muu::max)((muu::min)(val, max_), min_);
 	}
 
+	namespace impl
+	{
+		template <typename T>
+		[[nodiscard]]
+		MUU_ATTR(const)
+		constexpr T MUU_VECTORCALL lerp(T start, T finish, T alpha) noexcept
+		{
+			static_assert(is_floating_point<T>);
+			return start * (T{ 1 } - alpha) + finish * alpha;
+		}
+	}
+
+
+	/// \brief	Calculates a linear interpolation between two values.
+	///
+	/// \tparam	T	An arithmetic type.
+	/// \tparam	U	An arithmetic type.
+	/// \tparam	V	An arithmetic type.
+	/// \param 	start 	The start value.
+	/// \param 	finish	The finish value.
+	/// \param 	alpha 	The alpha value (blend factor).
+	///
+	/// \returns	The requested linear interpolation between the start and finish values.
+	/// 
+	/// \remarks	Argument type promotion and return type determination are equivalent to the various overloads
+	/// 		of C++20's std::lerp, though this version does _not_ make the same garuntees about infinities and NaN's.
+	template <typename T, typename U, typename V, typename = std::enable_if_t<all_arithmetic<T, U, V>>>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr auto MUU_VECTORCALL lerp(T start, U finish, V alpha) noexcept
+	{
+		using start_type = remove_cv<std::conditional_t<is_floating_point<T>, T, double>>;
+		using finish_type = remove_cv<std::conditional_t<is_floating_point<U>, U, double>>;
+		using alpha_type = remove_cv<std::conditional_t<is_floating_point<V>, V, double>>;
+		using return_type =
+			std::conditional_t<same_as_any<long double, start_type, finish_type, alpha_type>, long double,
+			std::conditional_t<same_as_any<double, start_type, finish_type, alpha_type>, double,
+			std::conditional_t<same_as_any<float, start_type, finish_type, alpha_type>, float,
+			#if MUU_HAS_FLOAT16
+			std::conditional_t<same_as_any<float16_t, start_type, finish_type, alpha_type>, float16_t,
+			#endif
+			std::conditional_t<same_as_any<half, start_type, finish_type, alpha_type>, half,
+			#if MUU_HAS_INTERCHANGE_FP16
+			std::conditional_t<same_as_any<__fp16, start_type, finish_type, alpha_type>, __fp16,
+			#endif
+			void
+			#if MUU_HAS_INTERCHANGE_FP16
+			>
+			#endif
+			#if MUU_HAS_FLOAT16
+			>
+			#endif
+		>>>>;
+		static_assert(!std::is_void_v<return_type>);
+
+		if constexpr (sizeof(return_type) < sizeof(float))
+			return static_cast<return_type>(impl::lerp(static_cast<float>(start), static_cast<float>(finish), static_cast<float>(alpha)));
+		else
+			return impl::lerp(static_cast<return_type>(start), static_cast<return_type>(finish), static_cast<return_type>(alpha));
+	}
+
 	/// \brief	Returns true if a value is between two bounds (inclusive).
 	template <typename T, typename U>
 	[[nodiscard]]
-	constexpr bool MUU_VECTORCALL between(T val, U min_, U max_) noexcept
+	MUU_ATTR(const)
+	constexpr bool MUU_VECTORCALL is_between(T val, U min_, U max_) noexcept
 	{
 		if constexpr ((is_arithmetic<T> || is_enum<U>) || (is_arithmetic<T> || is_enum<U>))
 		{
 			if constexpr (is_enum<T> || is_enum<U>)
-				return between(unwrap(val), unwrap(min_), unwrap(max_));
+				return is_between(unwrap(val), unwrap(min_), unwrap(max_));
 			else
 			{
 				using lhs = remove_cvref<T>;
@@ -1634,7 +1750,7 @@ MUU_NAMESPACE_START
 				if constexpr (!std::is_same_v<lhs, rhs>)
 				{
 					using common_type = std::common_type_t<lhs, rhs>;
-					return between(
+					return is_between(
 						static_cast<common_type>(val),
 						static_cast<common_type>(min_),
 						static_cast<common_type>(max_)
@@ -1884,7 +2000,7 @@ MUU_NAMESPACE_START
 			return static_cast<T>(sizeof(T) * CHAR_BIT - static_cast<size_t>(countl_zero(val)));
 	}
 
-	/// \brief	Returns an unsigned integer filled from the least-significant end
+	/// \brief	Returns an unsigned integer filled from the right
 	/// 		with the desired number of consecutive ones.
 	/// \detail \cpp
 	/// const auto val1 = bit_fill_right<uint32_t>(5);
@@ -1913,7 +2029,7 @@ MUU_NAMESPACE_START
 		}
 	}
 
-	/// \brief	Returns an unsigned integer filled from the most-significant end
+	/// \brief	Returns an unsigned integer filled from the left
 	/// 		with the desired number of consecutive ones.
 	/// \detail \cpp
 	/// const auto val1 = bit_fill_left<uint32_t>(5);
@@ -1944,6 +2060,26 @@ MUU_NAMESPACE_START
 
 	/// \brief	Gets a specific byte from an integer.
 	///
+	/// \detail \cpp
+	/// const auto i = 0xAABBCCDDu;
+	/// //                ^ ^ ^ ^
+	/// // byte indices:  3 2 1 0
+	/// 
+	/// std::cout << std::hex;
+	///	std::cout << "0: " << byte_select<0>(i) << "\n";
+	///	std::cout << "1: " << byte_select<1>(i) << "\n";
+	///	std::cout << "2: " << byte_select<2>(i) << "\n";
+	///	std::cout << "3: " << byte_select<3>(i) << "\n";
+	/// \ecpp
+	/// 
+	/// \out
+	/// 0: DD
+	/// 1: CC
+	/// 2: BB
+	/// 3: AA
+	/// (on a little-endian system)
+	/// \eout
+	/// 
 	/// \tparam	Index	Index of the byte to retrieve.
 	/// \tparam	T		An integer or enum type.
 	/// \param 	val		An integer or enum value.
@@ -1978,6 +2114,56 @@ MUU_NAMESPACE_START
 			else
 				return static_cast<uint8_t>((mask & static_cast<T>(val)) >> (Index * CHAR_BIT));
 		}
+	}
+
+	/// \brief	Gets a specific byte from an integer.
+	///
+	/// \detail \cpp
+	/// const auto i = 0xAABBCCDDu;
+	/// //                ^ ^ ^ ^
+	/// // byte indices:  3 2 1 0
+	/// 
+	/// std::cout << std::hex;
+	///	std::cout << "0: " << byte_select(i, 0) << "\n";
+	///	std::cout << "1: " << byte_select(i, 1) << "\n";
+	///	std::cout << "2: " << byte_select(i, 2) << "\n";
+	///	std::cout << "3: " << byte_select(i, 3) << "\n";
+	/// \ecpp
+	/// 
+	/// \out
+	/// 0: DD
+	/// 1: CC
+	/// 2: BB
+	/// 3: AA
+	/// (on a little-endian system)
+	/// \eout
+	/// 
+	/// \tparam	T		An integer or enum type.
+	/// \param 	val		An integer or enum value.
+	/// \param	index	Index of the byte to retrieve.
+	///
+	/// \remarks The indexation order of bytes is the _memory_ order, not their
+	/// 		 numeric significance (i.e. byte 0 is always the first byte in the integer's
+	/// 		 memory allocation, regardless of the endianness of the platform).
+	/// 
+	/// \returns	The value of the selected byte, or 0 if the index was out-of-range.
+	template <typename T, typename = std::enable_if_t<is_integral<T>>>
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	MUU_ATTR(const)
+	constexpr uint8_t MUU_VECTORCALL byte_select(T val, size_t index) noexcept
+	{
+		if (index > sizeof(T))
+			return uint8_t{};
+
+		if constexpr (is_enum<T>)
+			return byte_select(unwrap(val), index);
+		else if constexpr (is_signed<T>)
+			return byte_select(static_cast<make_unsigned<T>>(val), index);
+		else if constexpr (sizeof(T) == 1_sz)
+			return static_cast<uint8_t>(val);
+		else
+			return static_cast<uint8_t>(static_cast<T>(val >> (index * CHAR_BIT)) & static_cast<T>(0xFFu));
 	}
 
 	namespace impl
@@ -2117,34 +2303,102 @@ MUU_NAMESPACE_START
 		}
 	}
 
+	/// \brief	Select and re-pack arbitrary bytes from an integer.
+	///
+	/// \detail \cpp
+	///
+	/// const auto i = 0xAABBCCDDu;
+	/// //                ^ ^ ^ ^
+	/// // byte indices:  3 2 1 0
+	/// 
+	/// std::cout << std::hex << std::setfill('0') << std::setw(8);
+	///	std::cout << "      <0>: " << swizzle<0>(i) << "\n";
+	///	std::cout << "   <1, 0>: " << swizzle<1, 0>(i) << "\n";
+	///	std::cout << "<3, 2, 3>: " << swizzle<3, 2, 3>(i) << "\n";
+	/// \ecpp
+	/// 
+	/// \out
+	///       <0>: 000000DD
+	///    <1, 0>: 0000CCDD
+	/// <3, 2, 3>: 00AABBAA
+	/// (on a little-endian system)
+	/// \eout
+	/// 
+	/// \tparam	ByteIndices		Indices of the bytes from the source integer, in the order they're to be packed.
+	/// \tparam	T				An integer or enum type.
+	/// 
+	/// \remarks The indexation order of bytes is the _memory_ order, not their
+	/// 		 numeric significance (i.e. byte 0 is always the first byte in the integer's
+	/// 		 memory allocation, regardless of the endianness of the platform).
+	/// 
+	/// \returns	An integral value containing the selected bytes packed bitwise left-to-right. If the total size of the
+	/// 			inputs was less than the return type, the output will be zero-padded on the left.
+	template <size_t... ByteIndices, typename T, typename = std::enable_if_t<is_integral<T>>>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr auto MUU_VECTORCALL swizzle(T val) noexcept
+	{
+		static_assert(
+			sizeof...(ByteIndices) > 0_sz,
+			"At least one byte index must be specified."
+		);
+		static_assert(
+			(sizeof...(ByteIndices) * CHAR_BIT) <= (MUU_HAS_INT128 ? 128 : 64),
+			"No integer type large enough to hold the swizzled value exists on the target platform"
+		);
+		static_assert(
+			(true && ... && (ByteIndices < sizeof(T))),
+			"One or more of the source byte indices was out-of-range"
+		);
+		using swizzle_type = std::conditional_t<
+			is_signed<T>,
+			canonical_int<bit_ceil(sizeof...(ByteIndices) * CHAR_BIT)>,
+			canonical_uint<bit_ceil(sizeof...(ByteIndices) * CHAR_BIT)>
+		>;
+		using return_type = std::conditional_t<
+			sizeof...(ByteIndices) == sizeof(T),
+			T,
+			swizzle_type
+		>;
+
+		if constexpr (is_enum<T>)
+			return static_cast<return_type>(swizzle<ByteIndices...>(unwrap(val)));
+		else if constexpr (is_signed<T>)
+			return static_cast<return_type>(swizzle<ByteIndices...>(static_cast<make_unsigned<T>>(val)));
+		else if constexpr (sizeof...(ByteIndices) == 1_sz)
+			return static_cast<return_type>(byte_select<ByteIndices...>(val));
+		else
+			return pack<return_type>(byte_select<ByteIndices>(val)...);
+	}
+
 	MUU_PRAGMA_GCC("GCC push_options")
 	MUU_PRAGMA_GCC("GCC optimize (\"-fno-finite-math-only\")")
 
 	namespace impl
 	{
 		template <size_t TotalBits, size_t SignificandBits>
-		struct infinity_or_nan_traits;
+		struct is_infinity_or_nan_traits;
 
 		template <>
-		struct infinity_or_nan_traits<16, 11>
+		struct is_infinity_or_nan_traits<16, 11>
 		{
 			static constexpr auto mask = 0b0111110000000000_u16;
 		};
 
 		template <>
-		struct infinity_or_nan_traits<32, 24>
+		struct is_infinity_or_nan_traits<32, 24>
 		{
 			static constexpr auto mask = 0b01111111100000000000000000000000_u32;
 		};
 
 		template <>
-		struct infinity_or_nan_traits<64, 53>
+		struct is_infinity_or_nan_traits<64, 53>
 		{
 			static constexpr auto mask = 0b0111111111110000000000000000000000000000000000000000000000000000_u64;
 		};
 
 		template <>
-		struct infinity_or_nan_traits<80, 64>
+		struct is_infinity_or_nan_traits<80, 64>
 		{
 			static constexpr auto mask = array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x7FFF_u16 };
 
@@ -2159,7 +2413,7 @@ MUU_NAMESPACE_START
 		};
 
 		template <>
-		struct infinity_or_nan_traits<128, 64>
+		struct is_infinity_or_nan_traits<128, 64>
 		{
 			#if MUU_HAS_INT128
 			static constexpr auto mask = pack(0x0000000000007FFF_u64, 0x8000000000000000_u64);
@@ -2179,15 +2433,15 @@ MUU_NAMESPACE_START
 		};
 
 		template <typename T>
-		struct infinity_or_nan_traits_typed
-			: infinity_or_nan_traits<sizeof(T) * CHAR_BIT, std::numeric_limits<T>::digits>
+		struct is_infinity_or_nan_traits_typed
+			: is_infinity_or_nan_traits<sizeof(T) * CHAR_BIT, std::numeric_limits<T>::digits>
 		{};
 
 		#if MUU_HAS_INTERCHANGE_FP16
-		template <> struct infinity_or_nan_traits_typed<__fp16> : infinity_or_nan_traits<16, 11> {};
+		template <> struct is_infinity_or_nan_traits_typed<__fp16> : is_infinity_or_nan_traits<16, 11> {};
 		#endif
 		#if MUU_HAS_FLOAT16
-		template <> struct infinity_or_nan_traits_typed<float16_t> : infinity_or_nan_traits<16, 11> {};
+		template <> struct is_infinity_or_nan_traits_typed<float16_t> : is_infinity_or_nan_traits<16, 11> {};
 		#endif
 	}
 
@@ -2201,12 +2455,12 @@ MUU_NAMESPACE_START
 	/// 
 	/// \attention	Older compilers won't provide the necessary machinery for you to be able to call this function in
 	/// 			constexpr contexts. You can check for constexpr support by examining
-	/// 			build::supports_constexpr_infinity_or_nan.
+	/// 			build::supports_constexpr_is_infinity_or_nan.
 	template <typename T, typename = std::enable_if_t<is_arithmetic<T>>>
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ATTR(flatten)
-	constexpr bool MUU_VECTORCALL infinity_or_nan(T val) noexcept
+	constexpr bool MUU_VECTORCALL is_infinity_or_nan(T val) noexcept
 	{
 		// Q: "what about fpclassify, isnan, isinf??"
 		// A1: They're not constexpr
@@ -2220,7 +2474,7 @@ MUU_NAMESPACE_START
 		}
 		else
 		{
-			using traits = impl::infinity_or_nan_traits_typed<T>;
+			using traits = impl::is_infinity_or_nan_traits_typed<T>;
 			using blit_type = std::remove_const_t<decltype(traits::mask)>;
 
 			if constexpr (is_integral<blit_type>)
@@ -2236,8 +2490,8 @@ MUU_NAMESPACE_START
 
 	namespace build
 	{
-		/// \brief	True if using infinity_or_nan() in constexpr contexts is supported on this compiler.
-		inline constexpr bool supports_constexpr_infinity_or_nan = build::supports_constexpr_bit_cast;
+		/// \brief	True if using is_infinity_or_nan() in constexpr contexts is supported on this compiler.
+		inline constexpr bool supports_constexpr_is_infinity_or_nan = build::supports_constexpr_bit_cast;
 	}
 
 	MUU_PRAGMA_GCC("GCC pop_options") // -fno-finite-math-only
@@ -2246,12 +2500,234 @@ MUU_NAMESPACE_START
 }
 MUU_NAMESPACE_END
 
+MUU_POP_WARNINGS // MUU_DISABLE_ARITHMETIC_WARNINGS
+
+//=====================================================================================================================
+// CONSTANTS
+//=====================================================================================================================
+
+MUU_NAMESPACE_START
+{
+	namespace impl
+	{
+		template <typename T>
+		struct floating_point_constants
+		{
+			/// \brief The lowest representable 'normal' value
+			static constexpr T lowest = std::numeric_limits<T>::lowest();
+
+			/// \brief The highest representable 'normal' value
+			static constexpr T highest = std::numeric_limits<T>::max();
+
+			/// \brief Not-A-Number (quiet)
+			static constexpr T nan = std::numeric_limits<T>::quiet_NaN();
+
+			/// \brief Not-A-Number (signalling)
+			static constexpr T snan = std::numeric_limits<T>::signaling_NaN();
+
+			/// \brief Positive infinity
+			static constexpr T infinity = std::numeric_limits<T>::infinity();
+
+			/// \brief Negative infinity
+			static constexpr T negative_infinity = -infinity;
+
+			/// \brief Epsilon
+			static constexpr T epsilon = std::numeric_limits<T>::epsilon();
+
+			/// \brief `0.0`
+			static constexpr T zero = T{};
+
+			/// \brief `-0.0`
+			static constexpr T minus_zero = -zero;
+
+			/// \brief `0.5`
+			static constexpr T one_over_two = T(0.5L);
+
+			/// \brief `1.0`
+			static constexpr T one = T{ 1 };
+
+			/// \brief `1.5`
+			static constexpr T three_over_two = T(1.5L);
+
+			/// \brief `2.0`
+			static constexpr T two = T{ 2 };
+
+			/// \brief `3.0`
+			static constexpr T three = T{ 3 };
+
+			/// \brief `4.0`
+			static constexpr T four = T{ 4 };
+
+			/// \brief `5.0`
+			static constexpr T five = T{ 5 };
+
+			/// \brief `6.0`
+			static constexpr T six = T{ 6 };
+
+			/// \brief `7.0`
+			static constexpr T seven = T{ 7 };
+
+			/// \brief `8.0`
+			static constexpr T eight = T{ 8 };
+
+			/// \brief `9.0`
+			static constexpr T nine = T{ 9 };
+
+			/// \brief `10.0`
+			static constexpr T ten = T{ 10 };
+
+			/// \brief `-1.0`
+			static constexpr T minus_one = -one;
+
+			/// \brief `-2.0`
+			static constexpr T minus_two = -two;
+
+			/// \brief `-3.0`
+			static constexpr T minus_three = -three;
+
+			/// \brief `-4.0`
+			static constexpr T minus_four = -four;
+
+			/// \brief `-5.0`
+			static constexpr T minus_five = -five;
+
+			/// \brief `-6.0`
+			static constexpr T minus_six = -six;
+
+			/// \brief `-7.0`
+			static constexpr T minus_seven = -seven;
+
+			/// \brief `-8.0`
+			static constexpr T minus_eight = -eight;
+
+			/// \brief `-9.0`
+			static constexpr T minus_nine = -nine;
+
+			/// \brief `-10.0`
+			static constexpr T minus_ten = -ten;
+		};
+	}
+
+	/// \addtogroup		constants
+	/// @{
+
+	/// \brief	`float` constants.
+	template <> struct constants<float> : impl::floating_point_constants<float> {};
+
+	/// \brief	`double` constants.
+	template <> struct constants<double> : impl::floating_point_constants<double> {};
+
+	/// \brief	`long double` constants.
+	template <> struct constants<long double> : impl::floating_point_constants<long double> {};
+
+	#if MUU_HAS_FLOAT16 || MUU_DOXYGEN
+	/// \brief	`float16_t` constants.
+	template <> struct constants<float16_t> : impl::floating_point_constants<float16_t> {};
+	#endif
+
+	#if MUU_HAS_FLOAT128 || MUU_DOXYGEN
+	/// \brief	`float128_t` constants.
+	template <> struct constants<float128_t> : impl::floating_point_constants<float128_t> {};
+	#endif
+
+	/// @}
+}
+MUU_NAMESPACE_END
+
+//=====================================================================================================================
+// STRING FUNCTIONS
+//=====================================================================================================================
+
+MUU_NAMESPACE_START
+{
+	/// \addtogroup		strings		Strings
+	/// \brief Utilities to simplify working with strings.
+	/// @{
+
+	namespace impl
+	{
+		template <typename Char, typename Func>
+		[[nodiscard]]
+		constexpr auto predicated_trim(std::basic_string_view<Char> str, Func&& trim_pred) noexcept
+			-> std::basic_string_view<Char>
+		{
+			using view = std::basic_string_view<Char>;
+
+			if (str.empty())
+				return view{};
+
+			auto first = view::npos;
+			for (size_t i = 0; i < str.length() && first == view::npos; i++)
+				if (!std::forward<Func>(trim_pred)(str[i]))
+					first = i;
+			if (first == view::npos)
+				return view{};
+
+			auto last = view::npos;
+			for (size_t i = str.length(); i --> 0 && last == view::npos && i >= first;)
+				if (!std::forward<Func>(trim_pred)(str[i]))
+					last = i;
+
+			return str.substr(first, (last - first) + 1);
+		}
+
+		template <typename Char, typename Func>
+		[[nodiscard]]
+		constexpr auto predicated_trim_left(std::basic_string_view<Char> str, Func&& trim_pred) noexcept
+			-> std::basic_string_view<Char>
+		{
+			using view = std::basic_string_view<Char>;
+
+			if (str.empty())
+				return view{};
+
+			auto first = view::npos;
+			for (size_t i = 0; i < str.length() && first == view::npos; i++)
+				if (!std::forward<Func>(trim_pred)(str[i]))
+					first = i;
+			if (first == view::npos)
+				return view{};
+
+			return str.substr(first);
+		}
+
+		template <typename Char, typename Func>
+		[[nodiscard]]
+		constexpr auto predicated_trim_right(std::basic_string_view<Char> str, Func&& trim_pred) noexcept
+			-> std::basic_string_view<Char>
+		{
+			using view = std::basic_string_view<Char>;
+
+			if (str.empty())
+				return view{};
+
+			auto last = view::npos;
+			for (size_t i = str.length(); i --> 0 && last == view::npos;)
+				if (!std::forward<Func>(trim_pred)(str[i]))
+					last = i;
+			if (last == view::npos)
+				return view{};
+
+			return str.substr(0, last + 1);
+		}
+	
+	}
+
+
+
+
+	// Trim
+	// TrimLeft
+	// TrimRight
+	// IsWhitespace
+	// IsHexadecimal
+	// Find
+
+	/// @}
+}
+MUU_NAMESPACE_END
+
 #undef MUU_HAS_INTRINSIC_BIT_CAST
 #undef MUU_HAS_INTRINSIC_POPCOUNT
 #undef MUU_HAS_INTRINSIC_BYTE_REVERSE
-
-MUU_POP_WARNINGS // MUU_DISABLE_ARITHMETIC_WARNINGS
-
 MUU_PRAGMA_MSVC(inline_recursion(off))
-
-// clang-format on

@@ -8,8 +8,6 @@
 #include <set>
 #include <unordered_set>
 
-MUU_PRAGMA_CLANG("clang diagnostic ignored \"-Wc++2a-compat\"")
-
 TEST_CASE("uuid - initialization")
 {
 	//null uuids

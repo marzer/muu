@@ -19,7 +19,6 @@ namespace std
 {
 	template <typename>				struct hash;
 	template <typename>				struct pointer_traits;
-	template <typename, typename>	class basic_string_view;
 	template <typename, typename>	class basic_ostream;
 	template <typename, typename>	class basic_istream;
 }
@@ -120,37 +119,8 @@ MUU_NAMESPACE_END
 /// \brief	The root namespace for all muu functions and types.
 namespace muu { }
 
-MUU_NAMESPACE_START // abi namespace
-{
-	namespace impl {}
-
-	/// \brief Literal operators.
-	inline namespace literals {}
-
-	/// \addtogroup		constants		Compile-time constants
-	/// @{
-
-	/// \brief Build environment information (compiler, date/time, support for various things...)
-	namespace build {}
-
-	/// @}
-}
-MUU_NAMESPACE_END
-
 namespace muu // non-abi namespace; this is not an error
 {
-	/// \brief	A container for typed static constants, similar to std::numeric_limits.
-	///	\ingroup		constants
-	///
-	/// \tparam	T	The constant value type.
-	template <typename T>
-	struct constants {};
-	template <typename T> struct constants<T&> : constants<T> {};
-	template <typename T> struct constants<T&&> : constants<T> {};
-	template <typename T> struct constants<const T> : constants<T> {};
-	template <typename T> struct constants<volatile T> : constants<T> {};
-	template <typename T> struct constants<const volatile T> : constants<T> {};
-
 	#if MUU_HAS_INT128 || MUU_DOXYGEN
 
 	/// \brief	A 128-bit signed integer.
@@ -192,3 +162,32 @@ namespace muu // non-abi namespace; this is not an error
 
 	#endif
 }
+
+MUU_NAMESPACE_START // abi namespace
+{
+	namespace impl {}
+
+	/// \brief Literal operators.
+	inline namespace literals {}
+
+	/// \addtogroup		constants		Compile-time constants
+	/// @{
+
+	/// \brief Build environment information (compiler, date/time, support for various things...)
+	namespace build {}
+
+	/// \brief	A container for typed static constants, similar to std::numeric_limits.
+	///
+	/// \tparam	T	The constant value type.
+	template <typename T>
+	struct constants {};
+	template <typename T> struct constants<T&> : constants<T> {};
+	template <typename T> struct constants<T&&> : constants<T> {};
+	template <typename T> struct constants<const T> : constants<T> {};
+	template <typename T> struct constants<volatile T> : constants<T> {};
+	template <typename T> struct constants<const volatile T> : constants<T> {};
+
+	/// @}
+}
+MUU_NAMESPACE_END
+

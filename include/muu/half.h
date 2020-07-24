@@ -13,7 +13,7 @@ MUU_PUSH_WARNINGS
 MUU_DISABLE_ALL_WARNINGS
 
 #define MUU_F16_USE_INTRINSICS 1
-#if !__has_include(<immintrin.h>)
+#if !MUU_HAS_INCLUDE(<immintrin.h>)
 	#undef MUU_F16_USE_INTRINSICS
 	#define MUU_F16_USE_INTRINSICS 0
 #endif
@@ -553,6 +553,32 @@ MUU_NAMESPACE_START
 				rhs = static_cast<half>(val);
 			return lhs;
 		}
+
+		/// \brief	Returns true if the value of the half is positive or negative infinity.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr bool is_infinity() const noexcept
+		{
+			return (0b0111110000000000_u16 & bits) == 0b0111110000000000_u16
+				&& (0b0000001111111111_u16 & bits) == 0_u16;
+		}
+
+		/// \brief	Returns true if the value of the half is Not-A-Number.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr bool is_nan() const noexcept
+		{
+			return (0b0111110000000000_u16 & bits) == 0b0111110000000000_u16
+				&& (0b0000001111111111_u16 & bits) != 0_u16;
+		}
+
+		/// \brief	Returns true if the value of the half is positive/negative infinity or Not-A-Number.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr bool is_infinity_or_nan() const noexcept
+		{
+			return (0b0111110000000000_u16 & bits) == 0b0111110000000000_u16;
+		}
 	};
 
 	inline namespace literals
@@ -566,31 +592,20 @@ MUU_NAMESPACE_START
 		}
 	}
 
-	///// \brief	Returns true if the value of a half is NaN.
-	//[[nodiscard]]
-	//MUU_ALWAYS_INLINE
-	//	constexpr bool is_nan() const noexcept
-	//{
-	//	return (0b0111110000000000_u16 & bits) == 0b0111110000000000_u16
-	//		&& (0b0000001111111111_u16 & bits) != 0_u16;
-	//}
-
 	template <>
 	[[nodiscard]]
 	constexpr half MUU_VECTORCALL abs<half, void>(half val) noexcept
 	{
 		return static_cast<float>(val) < 0.0f ? -val : val;
 	}
-}
-MUU_NAMESPACE_END
 
-namespace muu
-{
 	/// \brief	16-bit half-precision float constants.
 	/// \ingroup		constants
 	template <>
 	struct constants<half>
 	{
+		// these were generated using this: http://weitz.de/ieee/
+
 		/// \brief The lowest representable value (`-65504.0`)
 		static constexpr half lowest			= half::from_bits(0xFBFF_u16);
 
@@ -615,8 +630,17 @@ namespace muu
 		/// \brief `0.0`
 		static constexpr half zero				= half::from_bits(0b0'00000'0000000000_u16);
 
+		/// \brief `-0.0`
+		static constexpr half minus_zero		= half::from_bits(0b1'00000'0000000000_u16);
+
+		/// \brief `0.5`
+		static constexpr half one_over_two		= half::from_bits(0b0'01110'0000000000_u16);
+
 		/// \brief `1.0`
 		static constexpr half one				= half::from_bits(0b0'01111'0000000000_u16);
+
+		/// \brief `1.5`
+		static constexpr half three_over_two	= half::from_bits(0b0'01111'1000000000_u16);
 
 		/// \brief `2.0`
 		static constexpr half two				= half::from_bits(0b0'10000'0000000000_u16);
@@ -676,6 +700,7 @@ namespace muu
 		static constexpr half minus_ten			= half::from_bits(0b1'10010'0100000000_u16);
 	};
 }
+MUU_NAMESPACE_END
 
 MUU_IMPL_NAMESPACE_START
 {

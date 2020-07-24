@@ -6,7 +6,6 @@
 #include "tests.h"
 #include "../include/muu/core.h"
 
-MUU_PUSH_WARNINGS
 MUU_DISABLE_PADDING_WARNINGS
 
 //=====================================================================================================================
@@ -852,5 +851,3 @@ static_assert(std::is_same_v<make_unsigned<long>, unsigned long>);
 static_assert(std::is_same_v<make_unsigned<unsigned long>, unsigned long>);
 static_assert(std::is_same_v<make_unsigned<long long>, unsigned long long>);
 static_assert(std::is_same_v<make_unsigned<unsigned long long>, unsigned long long>);
-
-MUU_POP_WARNINGS // MUU_DISABLE_PADDING_WARNINGS

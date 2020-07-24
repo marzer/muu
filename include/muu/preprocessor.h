@@ -22,12 +22,12 @@
 	#undef MUU_CONFIG_HEADER
 #endif
 
-#if !defined(MUU_ALL_INLINE) || (defined(MUU_ALL_INLINE) && MUU_ALL_INLINE) || defined(__INTELLISENSE__)
-	#undef MUU_ALL_INLINE
-	#define MUU_ALL_INLINE 1
+#if !defined(MUU_HEADER_ONLY) || (defined(MUU_HEADER_ONLY) && MUU_HEADER_ONLY) || defined(__INTELLISENSE__)
+	#undef MUU_HEADER_ONLY
+	#define MUU_HEADER_ONLY 1
 #endif
 
-#if defined(MUU_IMPLEMENTATION) || MUU_ALL_INLINE
+#if defined(MUU_IMPLEMENTATION) || MUU_HEADER_ONLY
 	#undef MUU_IMPLEMENTATION
 	#define MUU_IMPLEMENTATION 1
 #else
@@ -595,6 +595,11 @@
 #define MUU_APPEND_SV(S)				MUU_APPEND_SV_1(S)
 #define MUU_MAKE_STRING_VIEW(S)			MUU_APPEND_SV(MUU_MAKE_STRING(S))
 
+#ifdef __has_include
+	#define MUU_HAS_INCLUDE(header)		__has_include(header)
+#else
+	#define MUU_HAS_INCLUDE(header)		0
+#endif
 #ifndef MUU_HAS_BUILTIN
 	#define MUU_HAS_BUILTIN(name)	0
 #endif
@@ -668,7 +673,7 @@
 #endif
 #define MUU_IMPL_NAMESPACE_START		MUU_NAMESPACE_START { namespace impl
 #define MUU_IMPL_NAMESPACE_END			} MUU_NAMESPACE_END
-#if MUU_ALL_INLINE
+#if MUU_HEADER_ONLY
 	#define MUU_ANON_NAMESPACE_START	MUU_IMPL_NAMESPACE_START { namespace anon
 	#define MUU_ANON_NAMESPACE_END		} MUU_IMPL_NAMESPACE_END
 	#define MUU_ANON_NAMESPACE			MUU_NAMESPACE::impl::anon
@@ -1039,6 +1044,9 @@ MUU_POP_WARNINGS
 /// \def MUU_HAS_BUILTIN(name)
 /// \brief Expands to `__has_builtin(name)` when supported by the compiler, `0` otherwise.
 ///
+/// \def MUU_HAS_INCLUDE(header)
+/// \brief Expands to `__has_include(name)` when supported by the compiler, `0` otherwise.
+/// 
 /// \def MUU_OFFSETOF(type, member)
 /// \brief Constexpr-friendly alias of `offsetof()`.
 ///

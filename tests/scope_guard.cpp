@@ -6,16 +6,12 @@
 #include "tests.h"
 #include "../include/muu/scope_guard.h"
 
-MUU_PUSH_WARNINGS
-MUU_DISABLE_ALL_WARNINGS
-
 namespace
 {
 	static int val = 1;
 	static void func() noexcept { val *= 2;  }
 	static_assert(std::is_same_v<decltype(scope_guard{ func }), scope_guard<std::add_pointer_t<decltype(func)>>>);
 }
-
 
 TEST_CASE("scope_guard")
 {
@@ -71,5 +67,3 @@ TEST_CASE("scope_guard")
 		CHECK(v == 2);
 	}
 }
-
-MUU_POP_WARNINGS

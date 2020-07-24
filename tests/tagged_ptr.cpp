@@ -2,7 +2,6 @@
 #include "../include/muu/tagged_ptr.h"
 #include <array>
 
-MUU_PUSH_WARNINGS
 MUU_DISABLE_INIT_WARNINGS
 MUU_DISABLE_PADDING_WARNINGS
 
@@ -334,5 +333,3 @@ TEST_CASE("tagged_ptr - operators")
 	ptr3 = apply_offset(ptr3.ptr(), static_cast<int>(sizeof(vec3i)) * -1);
 	CHECK(ptr3 == &vecs[1]);
 }
-
-MUU_POP_WARNINGS

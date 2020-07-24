@@ -1,7 +1,6 @@
 #include "tests.h"
 #include "../include/muu/half.h"
 
-MUU_PUSH_WARNINGS
 MUU_DISABLE_ARITHMETIC_WARNINGS
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -225,4 +224,3 @@ TEST_CASE("half - subtraction")
 	}
 }
 
-MUU_POP_WARNINGS // MUU_DISABLE_ARITHMETIC_WARNINGS
