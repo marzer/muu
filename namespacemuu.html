@@ -71,6 +71,7 @@ C++</span></a>
               <ul>
                 <li><a href="#namespaces">Namespaces</a></li>
                 <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#enum-members">Enums</a></li>
                 <li><a href="#typedef-members">Typedefs</a></li>
                 <li><a href="#func-members">Functions</a></li>
                 <li><a href="#var-members">Variables</a></li>
@@ -82,7 +83,7 @@ C++</span></a>
           <h2><a href="#namespaces">Namespaces</a></h2>
           <dl class="m-doc">
             <dt>namespace <a class="m-doc" href="namespacemuu_1_1build.html">build</a></dt>
-            <dd>Compile-time build constants.</dd>
+            <dd>Build environment information (compiler, date/time, support for various things...)</dd>
             <dt>namespace <a class="m-doc" href="namespacemuu_1_1literals.html">literals</a> <span class="m-label m-info m-flat muu-injected muu-inline-namespace" title="All members of this namespace are automatically members of the parent namespace. It does not require an explicit 'using' statement.">inline</span></dt>
             <dd>Literal operators.</dd>
           </dl>
@@ -96,6 +97,11 @@ C++</span></a>
             </dt>
             <dd>Statefully accumulates (adds) an indeterminate range of values.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1array.html">array</a>
+            </dt>
+            <dd>A (mostly) drop-in substitute for <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a>.</dd>
+            <dt>
               class <a class="m-doc" href="classmuu_1_1blob.html">blob</a>
             </dt>
             <dd>Interface for managing chunks of memory.</dd>
@@ -105,7 +111,42 @@ C++</span></a>
             </dt>
             <dd>A container for typed static constants, similar to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/numeric_limits" target="_blank">std::numeric_limits</a>.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits = <a class="m-doc" href="group__hashing.html#gafa54216d12dc26ba3dcc9074b516f852">default_<wbr/>hash_<wbr/>size</a>&gt;</div>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01double_01_4.html">constants&lt;double&gt;</a>
+            </dt>
+            <dd><code>double</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01float_01_4.html">constants&lt;float&gt;</a>
+            </dt>
+            <dd><code>float</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01float128__t_01_4.html">constants&lt;float128_t&gt;</a>
+            </dt>
+            <dd><code>float128_t</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01float16__t_01_4.html">constants&lt;float16_t&gt;</a>
+            </dt>
+            <dd><code>float16_t</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01half_01_4.html">constants&lt;half&gt;</a>
+            </dt>
+            <dd>16-bit half-precision float constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01long_01double_01_4.html">constants&lt;long double&gt;</a>
+            </dt>
+            <dd><code>long double</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01uuid_01_4.html">constants&lt;uuid&gt;</a>
+            </dt>
+            <dd>UUID constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits = (sizeof(<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>)* CHAR_BIT)&gt;</div>
               class <a class="m-doc" href="classmuu_1_1fnv1a.html">fnv1a</a>
             </dt>
             <dd>FNV-1a hasher.</dd>
@@ -114,7 +155,7 @@ C++</span></a>
             </dt>
             <dd>A 16-bit "half-precision" floating point type.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits = <a class="m-doc" href="group__hashing.html#gafa54216d12dc26ba3dcc9074b516f852">default_<wbr/>hash_<wbr/>size</a>&gt;</div>
+              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits = (sizeof(<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>)* CHAR_BIT)&gt;</div>
               class <a class="m-doc" href="classmuu_1_1hash__combiner.html">hash_combiner</a>
             </dt>
             <dd>A hash combiner.</dd>
@@ -128,14 +169,37 @@ C++</span></a>
             </dt>
             <dd>SHA-1 hasher.</dd>
             <dt>
-              struct <a class="m-doc" href="structmuu_1_1sha1__hash.html">sha1_hash</a>
-            </dt>
-            <dd>A SHA-1 hash.</dd>
-            <dt>
               <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> MinAlign = <a class="m-doc" href="group__meta.html#ga693c421331c5f268eb2e2fdd318368fd">alignment_<wbr/>of</a>&lt;T&gt;&gt;</div>
               class <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_ptr</a>
             </dt>
             <dd>Specialized pointer capable of storing data in the unused bits of a pointer's value.</dd>
+            <dt>
+              struct <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>
+            </dt>
+            <dd>A 128-bit universally-unique identifier (UUID).</dd>
+          </dl>
+        </section>
+        <section id="enum-members">
+          <h2><a href="#enum-members">Enums</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">enum class <a class="m-doc" href="#a0af5ea664875aa7ce96e0105152bc59c">uuid_variant</a>: <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> { </span><span class="m-doc-wrap"><a class="m-doc" href="#a0af5ea664875aa7ce96e0105152bc59ca334c4a4c42fdb79d7ebc3e73b517e6f8">none</a>,
+              <a class="m-doc" href="#a0af5ea664875aa7ce96e0105152bc59cac00f0c4675b91fb8b918e4079a0b1bac">standard</a>,
+              <a class="m-doc" href="#a0af5ea664875aa7ce96e0105152bc59cae966b89dbea9cb554e901f2978c329b6">reserved_ncs</a>,
+              <a class="m-doc" href="#a0af5ea664875aa7ce96e0105152bc59cac7cee24c14e39b1f43ae8fbbe515c8d9">reserved_microsoft</a>,
+              <a class="m-doc" href="#a0af5ea664875aa7ce96e0105152bc59cac28fc2abb01622a9e2696124c3693086">reserved_future</a> }</span>
+            </dt>
+            <dd>A UUID variant as per RFC 4122.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">enum class <a class="m-doc" href="#ab0531af99b7f9b575c98ea05d8b76bc8">uuid_version</a>: <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> { </span><span class="m-doc-wrap"><a class="m-doc" href="#ab0531af99b7f9b575c98ea05d8b76bc8a334c4a4c42fdb79d7ebc3e73b517e6f8">none</a>,
+              <a class="m-doc" href="#ab0531af99b7f9b575c98ea05d8b76bc8a07cc694b9b3fc636710fa08b6922c42b">time</a>,
+              <a class="m-doc" href="#ab0531af99b7f9b575c98ea05d8b76bc8a3a5aed6b06fcfed497ba6585ae456878">dce</a>,
+              <a class="m-doc" href="#ab0531af99b7f9b575c98ea05d8b76bc8a4723a0fd093feaf03788fea4e81de56a">name_md5</a>,
+              <a class="m-doc" href="#ab0531af99b7f9b575c98ea05d8b76bc8a7ddf32e17a6ac5ce04a8ecbf782ca509">random</a>,
+              <a class="m-doc" href="#ab0531af99b7f9b575c98ea05d8b76bc8a79998e27ea91ebec2647c8cb2c145285">name_sha1</a>,
+              <a class="m-doc" href="#ab0531af99b7f9b575c98ea05d8b76bc8aad921d60486366258809553a3db49a4a">unknown</a> = 0b1111 }</span>
+            </dt>
+            <dd>A UUID version as per RFC 4122.</dd>
           </dl>
         </section>
         <section id="typedef-members">
@@ -160,12 +224,12 @@ C++</span></a>
               <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga5764fd313d83982437e6119b01b96edb">canonical_int</a> = typename impl::canonical_int&lt;Bits&gt;::type
             </dt>
-            <dd>Gets the 'canonical' signed integer with a specific number of bits for this platform.</dd>
+            <dd>Gets the 'canonical' signed integer with a specific number of bits for the target platform.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
               using <a class="m-doc" href="group__meta.html#gad64466a03ac38699f994ba5e2203d0d0">canonical_uint</a> = typename impl::canonical_uint&lt;Bits&gt;::type
             </dt>
-            <dd>Gets the 'canonical' unsigned integer with a specific number of bits for this platform.</dd>
+            <dd>Gets the 'canonical' unsigned integer with a specific number of bits for the target platform.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, bool AddConst&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga23ee95c345637ff50a6cc88c4fb0d031">conditionally_add_const</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;AddConst, <a class="m-doc" href="group__meta.html#ga46852bdb87c782113c290e96390278d3">add_<wbr/>const</a>&lt;T&gt;, T&gt;
@@ -328,13 +392,6 @@ C++</span></a>
             </dt>
             <dd>Applies a byte offset to a pointer.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename U&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga5b043c21509a069a2fc06ed8e0df2279">between</a>(</span><span class="m-doc-wrap">T val,
-              U min_,
-              U max_) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if a value is between two bounds (inclusive).</dd>
-            <dt>
               <div class="m-doc-template">template&lt;typename To, typename From&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gaadb4c6332c738c248f84f43ece303657">bit_cast</a>(</span><span class="m-doc-wrap">const From&amp; from) -&gt; To <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -348,12 +405,12 @@ C++</span></a>
               <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_unsigned&lt;T">...</a><span>is_unsigned&lt;T</span></span>&gt;&gt;&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga9e0044f820f888178e6ebd2454940680">bit_fill_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns an unsigned integer filled from the most-significant end with the desired number of consecutive ones.</dd>
+            <dd>Returns an unsigned integer filled from the left with the desired number of consecutive ones.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_unsigned&lt;T">...</a><span>is_unsigned&lt;T</span></span>&gt;&gt;&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga90a564eecd0b5f4f39956cce3e848d2a">bit_fill_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns an unsigned integer filled from the least-significant end with the desired number of consecutive ones.</dd>
+            <dd>Returns an unsigned integer filled from the right with the desired number of consecutive ones.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_unsigned&lt;T">...</a><span>is_unsigned&lt;T</span></span>&gt;&gt;&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gab14515e44007ad1d1260e1af7d364e80">bit_floor</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -372,6 +429,12 @@ C++</span></a>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index, typename T, typename = std::enable_if_t&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_integral&lt;T">...</a><span>is_integral&lt;T</span></span>&gt;&gt;&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gaae1dac822cc639027fb3d6af868e75a0">byte_select</a>(</span><span class="m-doc-wrap">T val) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Gets a specific byte from an integer.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_integral&lt;T">...</a><span>is_integral&lt;T</span></span>&gt;&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gabc2e2bcf1d0921fa147dbb5fe2d171de">byte_select</a>(</span><span class="m-doc-wrap">T val,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> index) -&gt; uint8_t <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Gets a specific byte from an integer.</dd>
             <dt>
@@ -397,29 +460,43 @@ C++</span></a>
             </dt>
             <dd>Checks if an integral value has only a single bit set.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_arithmetic&lt;T">...</a><span>is_arithmetic&lt;T</span></span>&gt;&gt;&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gadb8593f07bab330eaca2690b3801876b">infinity_or_nan</a>(</span><span class="m-doc-wrap">T val) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename T, typename U&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gaaa585b16639dcf742fd46b8e589a5ab1">is_between</a>(</span><span class="m-doc-wrap">T val,
+              U min_,
+              U max_) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Checks if an arithmetic value is infinity or NaN.</dd>
+            <dd>Returns true if a value is between two bounds (inclusive).</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga8a9b0aaf9860b30f93639333a5214d34">is_constant_evaluated</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_arithmetic&lt;T">...</a><span>is_arithmetic&lt;T</span></span>&gt;&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga01db0943171e7dcd3d89fc9dd1c8072d">is_infinity_or_nan</a>(</span><span class="m-doc-wrap">T val) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Checks if an arithmetic value is infinity or NaN.</dd>
             <dt>
               <div class="m-doc-template">template&lt;class T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga863d5b4b9a2c6508fded78b6cc411a24">launder</a>(</span><span class="m-doc-wrap">T* p) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Equivalent to C++17's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/launder" target="_blank">std::launder</a>.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename T, typename U, typename V, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="all_arithmetic&lt;T, U, V">...</a><span>all_arithmetic&lt;T, U, V</span></span>&gt;&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gaff048c01d61412077fb5541571a52e67">lerp</a>(</span><span class="m-doc-wrap">T start,
+              U finish,
+              V alpha) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Calculates a linear interpolation between two values.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga67052cab1c45673f85ee326e91aafbde">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
-              const T&amp; val2) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga0ed7737393aa2394099febe6bf265249">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              const T&amp; val2) -&gt; const T&amp;() <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the maximum of two values.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gacc52016e295ef88268bd5835a23b69d8">min</a>(</span><span class="m-doc-wrap">const T&amp; val1,
-              const T&amp; val2) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga444cfa020e30e49e983080d65c38aaf7">min</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              const T&amp; val2) -&gt; const T&amp;() <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the minimum of two values.</dd>
             <dt>
@@ -467,12 +544,12 @@ C++</span></a>
             </dt>
             <dd>Creates a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a>.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename Return = void, typename T, typename U, typename... V, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="all_unsigned&lt;T, U, V...">...</a><span>all_unsigned&lt;T, U, V...</span></span>&gt;	&gt;&gt;</div>
+              <div class="m-doc-template">template&lt;typename Return = void, typename T, typename U, typename... V, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="all_integral&lt;T, U, V...">...</a><span>all_integral&lt;T, U, V...</span></span>&gt;	&gt;&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga779636378c657618c3c4b35634cd4e13">pack</a>(</span><span class="m-doc-wrap">T val1,
               U val2,
               V... vals) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Bitwise-packs unsigned integers left-to-right into a larger unsigned integer.</dd>
+            <dd>Bitwise-packs integers left-to-right into a larger integer.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename To, typename From&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gab714a50e01b58e7d4117d5ef9d403d39">pointer_cast</a>(</span><span class="m-doc-wrap">From from) -&gt; To <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -483,6 +560,11 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga140c7a57f0e4f8968de73fb5f6580b4d">popcount</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Counts the number of set bits (the 'population count') of an unsigned integer.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>... ByteIndices, typename T, typename = std::enable_if_t&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_integral&lt;T">...</a><span>is_integral&lt;T</span></span>&gt;&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga4a0f401e8d09a5a18443190d7c85feb7">swizzle</a>(</span><span class="m-doc-wrap">T val) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Select and re-pack arbitrary bytes from an integer.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_enum&lt;T">...</a><span>is_enum&lt;T</span></span>&gt;&gt;&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga6aa05b68e530495f18bd77be7fa0c243">unwrap</a>(</span><span class="m-doc-wrap">T val) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -497,6 +579,21 @@ C++</span></a>
               <div class="m-doc-template">template&lt;typename T&gt;</div> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="group__meta.html#ga693c421331c5f268eb2e2fdd318368fd">alignment_of</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The default alignment of a type.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gaccb79366bc73cbc96f8a6317fead16f1">all_arithmetic</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are all of the named types arithmetic or reference-to-arithmetic?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gafaa3803206e27df19fde422d3b1eb540">all_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are all of the named types enums or reference-to-enum?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gad2165666bd79caf59277b9c4488a1bde">all_floating_point</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are all of the named types floating-point or reference-to-floating-point?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga02060371498ff52c8d225e379fe00975">all_integral</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -514,6 +611,21 @@ C++</span></a>
             <dd>Are all of the named types unsigned or reference-to-unsigned?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gad067ec94bd319f3cd1b8406d5d208701">any_arithmetic</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are any of the named types arithmetic or reference-to-arithmetic?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gabc989dd91eaeb76cf275afe1e1de94bf">any_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are any of the named types enums or reference-to-enum?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gadcd85258054ff54b7d0dd7f875185bf0">any_floating_point</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are any of the named types floating-point or reference-to-floating-point?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga531166c296beeb911cb00d6ce826d3e8">any_integral</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are any of the named types integral or reference-to-integral?</dd>
@@ -527,9 +639,6 @@ C++</span></a>
               bool <a class="m-doc" href="group__meta.html#ga3bb31ded23944badda78774761206c09">any_unsigned</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are any of the named types unsigned or reference-to-unsigned?</dd>
-            <dt> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="group__hashing.html#gafa54216d12dc26ba3dcc9074b516f852">default_hash_size</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>The default hash size of hash functions, in bits.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gaeb2da559efbc44792993d44b57e1b48d">dependent_false</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -612,38 +721,139 @@ C++</span></a>
           </dl>
         </section>
         <section>
+          <h2>Enum documentation</h2>
+          <section class="m-doc-details" id="a0af5ea664875aa7ce96e0105152bc59c"><div>
+            <h3>
+              enum class muu::<wbr/><a class="m-doc-self" href="#a0af5ea664875aa7ce96e0105152bc59c">uuid_variant</a>: <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="uuid_8h.html">&lt;muu/uuid.h&gt;</a></div>
+            </h3>
+            <p>A UUID variant as per RFC 4122.</p>
+<aside class="m-note m-default"><h4>See also</h4><p>RFC 4122: <a class="muu-external" href="https://tools.ietf.org/html/rfc4122" target="_blank">https:/<wbr/>/<wbr/>tools.ietf.org/<wbr/>html/<wbr/>rfc4122</a></p></aside>
+            <table class="m-table m-fullwidth m-flat m-doc">
+              <thead><tr><th style="width: 1%">Enumerators</th><th></th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><a class="m-doc-self" href="#a0af5ea664875aa7ce96e0105152bc59ca334c4a4c42fdb79d7ebc3e73b517e6f8" id="a0af5ea664875aa7ce96e0105152bc59ca334c4a4c42fdb79d7ebc3e73b517e6f8">none</a></td>
+                  <td>
+                  <p>No variant specified.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a class="m-doc-self" href="#a0af5ea664875aa7ce96e0105152bc59cac00f0c4675b91fb8b918e4079a0b1bac" id="a0af5ea664875aa7ce96e0105152bc59cac00f0c4675b91fb8b918e4079a0b1bac">standard</a></td>
+                  <td>
+                  <p>The 'standard' variant outlaid in RFC 4122.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a class="m-doc-self" href="#a0af5ea664875aa7ce96e0105152bc59cae966b89dbea9cb554e901f2978c329b6" id="a0af5ea664875aa7ce96e0105152bc59cae966b89dbea9cb554e901f2978c329b6">reserved_ncs</a></td>
+                  <td>
+                  <p>Reserved for backward compatibility.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a class="m-doc-self" href="#a0af5ea664875aa7ce96e0105152bc59cac7cee24c14e39b1f43ae8fbbe515c8d9" id="a0af5ea664875aa7ce96e0105152bc59cac7cee24c14e39b1f43ae8fbbe515c8d9">reserved_microsoft</a></td>
+                  <td>
+                  <p>Reserved for backward compatibility.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a class="m-doc-self" href="#a0af5ea664875aa7ce96e0105152bc59cac28fc2abb01622a9e2696124c3693086" id="a0af5ea664875aa7ce96e0105152bc59cac28fc2abb01622a9e2696124c3693086">reserved_future</a></td>
+                  <td>
+                  <p>Reserved for backward compatibility.</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="ab0531af99b7f9b575c98ea05d8b76bc8"><div>
+            <h3>
+              enum class muu::<wbr/><a class="m-doc-self" href="#ab0531af99b7f9b575c98ea05d8b76bc8">uuid_version</a>: <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="uuid_8h.html">&lt;muu/uuid.h&gt;</a></div>
+            </h3>
+            <p>A UUID version as per RFC 4122.</p>
+<aside class="m-note m-default"><h4>See also</h4><p>RFC 4122: <a class="muu-external" href="https://tools.ietf.org/html/rfc4122" target="_blank">https:/<wbr/>/<wbr/>tools.ietf.org/<wbr/>html/<wbr/>rfc4122</a></p></aside>
+            <table class="m-table m-fullwidth m-flat m-doc">
+              <thead><tr><th style="width: 1%">Enumerators</th><th></th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><a class="m-doc-self" href="#ab0531af99b7f9b575c98ea05d8b76bc8a334c4a4c42fdb79d7ebc3e73b517e6f8" id="ab0531af99b7f9b575c98ea05d8b76bc8a334c4a4c42fdb79d7ebc3e73b517e6f8">none</a></td>
+                  <td>
+                  <p>No version specified.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a class="m-doc-self" href="#ab0531af99b7f9b575c98ea05d8b76bc8a07cc694b9b3fc636710fa08b6922c42b" id="ab0531af99b7f9b575c98ea05d8b76bc8a07cc694b9b3fc636710fa08b6922c42b">time</a></td>
+                  <td>
+                  <p>Version 1: Time-based UUID.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a class="m-doc-self" href="#ab0531af99b7f9b575c98ea05d8b76bc8a3a5aed6b06fcfed497ba6585ae456878" id="ab0531af99b7f9b575c98ea05d8b76bc8a3a5aed6b06fcfed497ba6585ae456878">dce</a></td>
+                  <td>
+                  <p>Version 2: DCE Security version, with embedded POSIX UIDs.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a class="m-doc-self" href="#ab0531af99b7f9b575c98ea05d8b76bc8a4723a0fd093feaf03788fea4e81de56a" id="ab0531af99b7f9b575c98ea05d8b76bc8a4723a0fd093feaf03788fea4e81de56a">name_md5</a></td>
+                  <td>
+                  <p>Version 3: Name-based UUID generated using MD5 hashing.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a class="m-doc-self" href="#ab0531af99b7f9b575c98ea05d8b76bc8a7ddf32e17a6ac5ce04a8ecbf782ca509" id="ab0531af99b7f9b575c98ea05d8b76bc8a7ddf32e17a6ac5ce04a8ecbf782ca509">random</a></td>
+                  <td>
+                  <p>Version 4: Randomly-generated UUID.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a class="m-doc-self" href="#ab0531af99b7f9b575c98ea05d8b76bc8a79998e27ea91ebec2647c8cb2c145285" id="ab0531af99b7f9b575c98ea05d8b76bc8a79998e27ea91ebec2647c8cb2c145285">name_sha1</a></td>
+                  <td>
+                  <p>Version 5: Name-based UUID generated using SHA-1 hashing.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a class="m-doc-self" href="#ab0531af99b7f9b575c98ea05d8b76bc8aad921d60486366258809553a3db49a4a" id="ab0531af99b7f9b575c98ea05d8b76bc8aad921d60486366258809553a3db49a4a">unknown</a></td>
+                  <td>
+                  <p>Unknown or non-standard version.</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+        </section>
+        <section>
           <h2>Typedef documentation</h2>
           <section class="m-doc-details" id="a74a70ec9e3331f37ebbc3e875e183861"><div>
             <h3>
               using muu::<wbr/><a class="m-doc-self" href="#a74a70ec9e3331f37ebbc3e875e183861">float128_t</a> = __float128
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="fwd_8h.html">&lt;muu/fwd.h&gt;</a></div>
             </h3>
             <p>A 128-bit quad-precision float.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This typedef is only present when 128-bit floats are supported by your target platform.</p></aside>
+<aside class="m-note m-warning"><h4>Attention</h4><p>This typedef is only present when 128-bit floats are supported by your target platform. You can check support using <a class="m-doc" href="group__preprocessor.html#gad6cf2ebac5d966916c61f46e79f035b2">MUU_<wbr/>HAS_<wbr/>FLOAT128</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ac1f6704b74f509e1de86f816c08632f2"><div>
             <h3>
               using muu::<wbr/><a class="m-doc-self" href="#ac1f6704b74f509e1de86f816c08632f2">float16_t</a> = _Float16
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="fwd_8h.html">&lt;muu/fwd.h&gt;</a></div>
             </h3>
             <p>A 16-bit half-precision float.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This will be an alias for your target platform's native IEC559 16-bit float type if present (e.g. <code>_Float16</code>), otherwise it will alias <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p></aside>
+<aside class="m-note m-warning"><h4>Attention</h4><p>This will be an alias for your target platform's native IEC559 16-bit float type if present (e.g. <code>_Float16</code>), otherwise it will alias <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>. You can check support using <a class="m-doc" href="group__preprocessor.html#ga27290363c4626a953e97d39dd042af66">MUU_<wbr/>HAS_<wbr/>FLOAT16</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="af8e0aa5a37ec05e07c7b69077de9303c"><div>
             <h3>
               using muu::<wbr/><a class="m-doc-self" href="#af8e0aa5a37ec05e07c7b69077de9303c">int128_t</a> = __int128_t
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="fwd_8h.html">&lt;muu/fwd.h&gt;</a></div>
             </h3>
             <p>A 128-bit signed integer.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This typedef is only present when 128-bit integers are supported by your target platform.</p></aside>
+<aside class="m-note m-warning"><h4>Attention</h4><p>This typedef is only present when 128-bit integers are supported by your target platform. You can check support using <a class="m-doc" href="group__preprocessor.html#ga61a9c9471317fa76fa46bd87d8f671b6">MUU_<wbr/>HAS_<wbr/>INT128</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="aa82164a62949a1b029695dff5441d577"><div>
             <h3>
               using muu::<wbr/><a class="m-doc-self" href="#aa82164a62949a1b029695dff5441d577">uint128_t</a> = __uint128_t
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="fwd_8h.html">&lt;muu/fwd.h&gt;</a></div>
             </h3>
             <p>A 128-bit unsigned integer.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This typedef is only present when 128-bit integers are supported by your target platform.</p></aside>
+<aside class="m-note m-warning"><h4>Attention</h4><p>This typedef is only present when 128-bit integers are supported by your target platform. You can check support using <a class="m-doc" href="group__preprocessor.html#ga61a9c9471317fa76fa46bd87d8f671b6">MUU_<wbr/>HAS_<wbr/>INT128</a>.</p></aside>
           </div></section>
         </section>
       </div>

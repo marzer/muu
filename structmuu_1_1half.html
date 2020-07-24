@@ -70,6 +70,7 @@ C++</span></a>
             <li>
               Reference
               <ul>
+                <li><a href="#pub-types">Public types</a></li>
                 <li><a href="#pub-static-methods">Public static functions</a></li>
                 <li><a href="#pub-attribs">Public variables</a></li>
               </ul>
@@ -78,7 +79,7 @@ C++</span></a>
         </div>
 <p>This type is equipped with the full set of operators you'd expect from a float type, and is capable of being converted to other floats and integers, as well as direct construction using the <code>_f16</code> literal:</p><pre class="m-code"><span class="c1">// creation from other floats and integers is explicit:</span>
 <span class="k">auto</span> <span class="n">f1</span> <span class="o">=</span> <span class="ut">half</span><span class="p">{</span> <span class="mf">1.0f</span> <span class="p">};</span>
-<span class="k">auto</span> <span class="n">f2</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="ut">half</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="k">auto</span> <span class="n">f2</span> <span class="o">=</span> <span class="k"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></span><span class="o">&lt;</span><span class="ut">half</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
 
 <span class="c1">// promotion to larger float types is implicit (to mimic the behaviour of the built-ins):</span>
 <span class="ut">double</span> <span class="n">f3</span> <span class="o">=</span> <span class="n">f2</span><span class="p">;</span>
@@ -96,6 +97,15 @@ C++</span></a>
 <span class="k">auto</span> <span class="n">b1</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">&lt;=</span> <span class="mf">5.0</span><span class="n">_f16</span><span class="p">;</span>
 <span class="k">auto</span> <span class="n">b2</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">&lt;=</span> <span class="mf">5.0</span><span class="p">;</span>
 <span class="k">auto</span> <span class="n">b3</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">;</span></pre><aside class="m-note m-warning"><h4>Attention</h4><p>Despite the arithmetic operations being implemented as you'd expect, 16-bit floating-point arithmetic is <em>very</em> lossy and should be avoided for all but the most trivial cases. In general it's better to do your arithmetic in a higher-precision type (e.g. float) and convert back to half when you're finished.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="https://en.wikipedia.org/wiki/Half-precision_floating-point_format" target="_blank">Half-precision floating-point (wikipedia)</a></p></aside>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
+          <dl class="m-doc">
+            <dt id="a330ce245f239afeaf90588eb8493e824">
+              using <a class="m-doc-self" href="#a330ce245f239afeaf90588eb8493e824">constants</a> = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;<a class="m-doc" href="structmuu_1_1half.html">half</a>&gt;
+            </dt>
+            <dd>Static constants for this type.</dd>
+          </dl>
+        </section>
         <section id="pub-static-methods">
           <h2><a href="#pub-static-methods">Public static functions</a></h2>
           <dl class="m-doc">

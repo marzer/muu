@@ -102,21 +102,24 @@ C++</span></a>
               <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Appends a sequence of data to the hash function's input.</dd>
-            <dt id="a799cf66e7cad7f74437c36a25875aa88">
-              <div class="m-doc-template">template&lt;typename Char, typename Traits&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a799cf66e7cad7f74437c36a25875aa88">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::basic_string_view</a>&lt;Char, Traits&gt; sv) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Appends a string to the hash input.</dd>
             <dt id="a2cfc2f933f53af2ba83d2b85daf3f0b6">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2cfc2f933f53af2ba83d2b85daf3f0b6">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a> byte) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Appends a single byte to the hash function's input.</dd>
+            <dt id="a2672d514cdd6b78f59173b728c90a96b">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2672d514cdd6b78f59173b728c90a96b">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> sv) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Appends a string to the hash input.</dd>
+            <dt id="a452ea48103777ac4b4bfbb44b5ba8df5">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a452ea48103777ac4b4bfbb44b5ba8df5">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> sv) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Appends a string to the hash input.</dd>
             <dt id="ac039bd5671573a6ec0f61e1101286e20">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac039bd5671573a6ec0f61e1101286e20">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> byte) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Appends a single byte to the hash function's input.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aa462b1ead0256e2e43d4f04c3edd1c63">value</a>(</span><span class="m-doc-wrap">) const -&gt; const <a class="m-doc" href="structmuu_1_1sha1__hash.html">sha1_<wbr/>hash</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a653ab6f85c2ce69355b5e45e3c7edca6">value</a>(</span><span class="m-doc-wrap">) const -&gt; const <a class="m-doc" href="structmuu_1_1array.html">hash_<wbr/>type</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the calculated hash value.</dd>
           </dl>
@@ -141,12 +144,12 @@ C++</span></a>
             <p>Finishes calculating the hash.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>Appending to the hash function's input has no effect after <a class="m-doc" href="classmuu_1_1sha1.html#a78d696ccc194131132ffdc5792571415">finish()</a> is called.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="aa462b1ead0256e2e43d4f04c3edd1c63"><div>
+          <section class="m-doc-details" id="a653ab6f85c2ce69355b5e45e3c7edca6"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">const <a class="m-doc" href="structmuu_1_1sha1__hash.html">sha1_<wbr/>hash</a>&amp; muu::<wbr/>sha1::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa462b1ead0256e2e43d4f04c3edd1c63">value</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">const <a class="m-doc" href="structmuu_1_1array.html">hash_<wbr/>type</a>&amp; muu::<wbr/>sha1::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a653ab6f85c2ce69355b5e45e3c7edca6">value</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns the calculated hash value.</p>
-<aside class="m-note m-danger"><h4>Warning</h4><p>Calling this before <code><a class="m-doc" href="classmuu_1_1sha1.html#a78d696ccc194131132ffdc5792571415">finish()</a></code> has been called is undefined behaviour.</p></aside>
+<aside class="m-note m-danger"><h4>Warning</h4><p>Calling this before <a class="m-doc" href="classmuu_1_1sha1.html#a78d696ccc194131132ffdc5792571415">finish()</a> has been called is undefined behaviour.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a830b5f6209cf1b5f958fe56c0d5953eb"><div>
             <h3>
@@ -157,7 +160,7 @@ C++</span></a>
               const <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; rhs)</span></span>
             </h3>
             <p>Writes the calculated hash to a text stream in hexadecimal form.</p>
-<aside class="m-note m-danger"><h4>Warning</h4><p>Calling this before <code><a class="m-doc" href="classmuu_1_1sha1.html#a78d696ccc194131132ffdc5792571415">finish()</a></code> has been called is undefined behaviour.</p></aside>
+<aside class="m-note m-danger"><h4>Warning</h4><p>Calling this before <a class="m-doc" href="classmuu_1_1sha1.html#a78d696ccc194131132ffdc5792571415">finish()</a> has been called is undefined behaviour.</p></aside>
           </div></section>
         </section>
       </div>

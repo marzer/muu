@@ -64,24 +64,33 @@ C++</span></a>
           <li class="m-doc-collapsible">
             <a href="#" onclick="return toggle(this)">namespace</a> <a class="m-doc" href="namespacemuu.html">muu</a> <span class="m-doc">The root namespace for all muu functions and types.</span>
             <ul class="m-doc">
-              <li>namespace <a class="m-doc" href="namespacemuu_1_1build.html">build</a> <span class="m-doc">Compile-time build constants.</span></li>
+              <li>namespace <a class="m-doc" href="namespacemuu_1_1build.html">build</a> <span class="m-doc">Build environment information (compiler, date/time, support for various things...)</span></li>
               <li>namespace <a class="m-doc" href="namespacemuu_1_1literals.html">literals</a> <span class="m-label m-info m-flat muu-injected muu-inline-namespace" title="All members of this namespace are automatically members of the parent namespace. It does not require an explicit 'using' statement.">inline</span> <span class="m-doc">Literal operators.</span></li>
               <li>class <a class="m-doc" href="classmuu_1_1accumulator.html">accumulator</a> <span class="m-doc">Statefully accumulates (adds) an indeterminate range of values.</span></li>
+              <li>struct <a class="m-doc" href="structmuu_1_1array.html">array</a> <span class="m-doc">A (mostly) drop-in substitute for <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a>.</span></li>
               <li>class <a class="m-doc" href="classmuu_1_1blob.html">blob</a> <span class="m-doc">Interface for managing chunks of memory.</span></li>
               <li>struct <a class="m-doc" href="structmuu_1_1constants.html">constants</a> <span class="m-doc">A container for typed static constants, similar to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/numeric_limits" target="_blank">std::numeric_limits</a>.</span></li>
+              <li>struct <a class="m-doc" href="structmuu_1_1constants_3_01double_01_4.html">constants&lt;double&gt;</a> <span class="m-doc"><code>double</code> constants.</span></li>
+              <li>struct <a class="m-doc" href="structmuu_1_1constants_3_01float_01_4.html">constants&lt;float&gt;</a> <span class="m-doc"><code>float</code> constants.</span></li>
+              <li>struct <a class="m-doc" href="structmuu_1_1constants_3_01float128__t_01_4.html">constants&lt;float128_t&gt;</a> <span class="m-doc"><code>float128_t</code> constants.</span></li>
+              <li>struct <a class="m-doc" href="structmuu_1_1constants_3_01float16__t_01_4.html">constants&lt;float16_t&gt;</a> <span class="m-doc"><code>float16_t</code> constants.</span></li>
+              <li>struct <a class="m-doc" href="structmuu_1_1constants_3_01half_01_4.html">constants&lt;half&gt;</a> <span class="m-doc">16-bit half-precision float constants.</span></li>
+              <li>struct <a class="m-doc" href="structmuu_1_1constants_3_01long_01double_01_4.html">constants&lt;long double&gt;</a> <span class="m-doc"><code>long double</code> constants.</span></li>
+              <li>struct <a class="m-doc" href="structmuu_1_1constants_3_01uuid_01_4.html">constants&lt;uuid&gt;</a> <span class="m-doc">UUID constants.</span></li>
               <li>class <a class="m-doc" href="classmuu_1_1fnv1a.html">fnv1a</a> <span class="m-doc">FNV-1a hasher.</span></li>
               <li>struct <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-doc">A 16-bit "half-precision" floating point type.</span></li>
               <li>class <a class="m-doc" href="classmuu_1_1hash__combiner.html">hash_combiner</a> <span class="m-doc">A hash combiner.</span></li>
               <li>class <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_guard</a> <span class="m-doc">Performs actions when going out of scope.</span></li>
               <li>class <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a> <span class="m-label m-flat m-warning">final</span> <span class="m-doc">SHA-1 hasher.</span></li>
-              <li>struct <a class="m-doc" href="structmuu_1_1sha1__hash.html">sha1_hash</a> <span class="m-doc">A SHA-1 hash.</span></li>
               <li>class <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_ptr</a> <span class="m-doc">Specialized pointer capable of storing data in the unused bits of a pointer's value.</span></li>
+              <li>struct <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a> <span class="m-doc">A 128-bit universally-unique identifier (UUID).</span></li>
             </ul>
           </li>
           <li class="m-doc-collapsible">
             <a href="#" onclick="return toggle(this)">namespace</a> <a class="m-doc" href="namespacestd.html">std</a> <span class="m-doc">STL namespace.</span>
             <ul class="m-doc">
-              <li>struct <a class="m-doc" href="structstd_1_1numeric__limits_3_01_1_1muu_01_1_1half_01_4.html">numeric_limits&lt;::muu ::half&gt;</a> <span class="m-doc">Specialization of <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/numeric_limits" target="_blank">std::numeric_limits</a> for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</span></li>
+              <li>struct <a class="m-doc" href="structstd_1_1hash_3_01muu_1_1uuid_01_4.html">hash&lt;muu::uuid&gt;</a> <span class="m-doc">Specialization of std::hash for <a class="m-doc" href="structmuu_1_1uuid.html">muu::<wbr/>uuid</a>.</span></li>
+              <li>struct <a class="m-doc" href="structstd_1_1numeric__limits_3_01muu_1_1half_01_4.html">numeric_limits&lt;muu::half&gt;</a> <span class="m-doc">Specialization of <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/numeric_limits" target="_blank">std::numeric_limits</a> for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</span></li>
             </ul>
           </li>
         </ul>

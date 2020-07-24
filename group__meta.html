@@ -74,7 +74,7 @@ C++</span></a>
             </li>
           </ul>
         </div>
-<aside class="m-note m-default"><h4>Remark</h4><p>Many of these are mirrors of (or supplementary to) traits found in the standard library's <code>&lt;type_traits&gt;</code>, but with simpler/saner default behaviour (e.g. most metafunctions treat references to types as if they were the actual type, because that typically makes more intuitive sense).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>Many of these are mirrors of (or supplementary to) traits found in the standard library's <code>&lt;type_traits&gt;</code>, but with simpler/saner default behaviour (e.g. most of the is_X metafunctions do not make a distinction between T and T&amp;).</p></aside>
         <section id="typedef-members">
           <h2><a href="#typedef-members">Typedefs</a></h2>
           <dl class="m-doc">
@@ -97,12 +97,12 @@ C++</span></a>
               <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
               using <a class="m-doc" href="#ga5764fd313d83982437e6119b01b96edb">canonical_int</a> = typename impl::canonical_int&lt;Bits&gt;::type
             </dt>
-            <dd>Gets the 'canonical' signed integer with a specific number of bits for this platform.</dd>
+            <dd>Gets the 'canonical' signed integer with a specific number of bits for the target platform.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
               using <a class="m-doc" href="#gad64466a03ac38699f994ba5e2203d0d0">canonical_uint</a> = typename impl::canonical_uint&lt;Bits&gt;::type
             </dt>
-            <dd>Gets the 'canonical' unsigned integer with a specific number of bits for this platform.</dd>
+            <dd>Gets the 'canonical' unsigned integer with a specific number of bits for the target platform.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, bool AddConst&gt;</div>
               using <a class="m-doc" href="#ga23ee95c345637ff50a6cc88c4fb0d031">conditionally_add_const</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;AddConst, add_const&lt;T&gt;, T&gt;
@@ -229,6 +229,21 @@ C++</span></a>
             <dd>The default alignment of a type.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="#gaccb79366bc73cbc96f8a6317fead16f1">all_arithmetic</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are all of the named types arithmetic or reference-to-arithmetic?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="#gafaa3803206e27df19fde422d3b1eb540">all_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are all of the named types enums or reference-to-enum?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="#gad2165666bd79caf59277b9c4488a1bde">all_floating_point</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are all of the named types floating-point or reference-to-floating-point?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="#ga02060371498ff52c8d225e379fe00975">all_integral</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are all of the named types integral or reference-to-integral?</dd>
@@ -242,6 +257,21 @@ C++</span></a>
               bool <a class="m-doc" href="#gaa29a6fbd7e596e20dd8769aefc3cd51e">all_unsigned</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are all of the named types unsigned or reference-to-unsigned?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="#gad067ec94bd319f3cd1b8406d5d208701">any_arithmetic</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are any of the named types arithmetic or reference-to-arithmetic?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="#gabc989dd91eaeb76cf275afe1e1de94bf">any_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are any of the named types enums or reference-to-enum?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="#gadcd85258054ff54b7d0dd7f875185bf0">any_floating_point</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are any of the named types floating-point or reference-to-floating-point?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="#ga531166c296beeb911cb00d6ce826d3e8">any_integral</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -377,7 +407,7 @@ C++</span></a>
               </div>
               using <a class="m-doc-self" href="#ga5764fd313d83982437e6119b01b96edb">canonical_int</a> = typename impl::canonical_int&lt;Bits&gt;::type
             </h3>
-            <p>Gets the 'canonical' signed integer with a specific number of bits for this platform.</p>
+            <p>Gets the 'canonical' signed integer with a specific number of bits for the target platform.</p>
           </div></section>
           <section class="m-doc-details" id="gad64466a03ac38699f994ba5e2203d0d0"><div>
             <h3>
@@ -386,7 +416,7 @@ C++</span></a>
               </div>
               using <a class="m-doc-self" href="#gad64466a03ac38699f994ba5e2203d0d0">canonical_uint</a> = typename impl::canonical_uint&lt;Bits&gt;::type
             </h3>
-            <p>Gets the 'canonical' unsigned integer with a specific number of bits for this platform.</p>
+            <p>Gets the 'canonical' unsigned integer with a specific number of bits for the target platform.</p>
           </div></section>
           <section class="m-doc-details" id="ga23ee95c345637ff50a6cc88c4fb0d031"><div>
             <h3>
@@ -637,6 +667,38 @@ C++</span></a>
             <p>The default alignment of a type.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>Returns an alignment of <code>1</code> for <code>void</code> and functions.</p></aside>
           </div></section>
+          <section class="m-doc-details" id="gaccb79366bc73cbc96f8a6317fead16f1"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename... U&gt;
+              </div>
+              bool <a class="m-doc-self" href="#gaccb79366bc73cbc96f8a6317fead16f1">all_arithmetic</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Are all of the named types arithmetic or reference-to-arithmetic?</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>Returns true for native int128_t, uint128_t, float16_t and float128_t (where supported).</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gafaa3803206e27df19fde422d3b1eb540"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename... U&gt;
+              </div>
+              bool <a class="m-doc-self" href="#gafaa3803206e27df19fde422d3b1eb540">all_enum</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Are all of the named types enums or reference-to-enum?</p>
+          </div></section>
+          <section class="m-doc-details" id="gad2165666bd79caf59277b9c4488a1bde"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename... U&gt;
+              </div>
+              bool <a class="m-doc-self" href="#gad2165666bd79caf59277b9c4488a1bde">all_floating_point</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Are all of the named types floating-point or reference-to-floating-point?</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>Returns true for native float16_t and float128_t (where supported).</p></aside>
+          </div></section>
           <section class="m-doc-details" id="ga02060371498ff52c8d225e379fe00975"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
@@ -669,6 +731,38 @@ C++</span></a>
             </h3>
             <p>Are all of the named types unsigned or reference-to-unsigned?</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums backed by unsigned integers.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gad067ec94bd319f3cd1b8406d5d208701"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename... U&gt;
+              </div>
+              bool <a class="m-doc-self" href="#gad067ec94bd319f3cd1b8406d5d208701">any_arithmetic</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Are any of the named types arithmetic or reference-to-arithmetic?</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>Returns true for native int128_t, uint128_t, float16_t and float128_t (where supported).</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gabc989dd91eaeb76cf275afe1e1de94bf"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename... U&gt;
+              </div>
+              bool <a class="m-doc-self" href="#gabc989dd91eaeb76cf275afe1e1de94bf">any_enum</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Are any of the named types enums or reference-to-enum?</p>
+          </div></section>
+          <section class="m-doc-details" id="gadcd85258054ff54b7d0dd7f875185bf0"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename... U&gt;
+              </div>
+              bool <a class="m-doc-self" href="#gadcd85258054ff54b7d0dd7f875185bf0">any_floating_point</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Are any of the named types floating-point or reference-to-floating-point?</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>Returns true for native float16_t and float128_t (where supported).</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga531166c296beeb911cb00d6ce826d3e8"><div>
             <h3>

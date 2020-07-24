@@ -97,6 +97,10 @@ C++</span></a>
             </dt>
             <dd><code>1</code> when targeting 64-bit ARM, <code>0</code> otherwise.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga2e302f23e8da851a0443167d733facc3">MUU_ARCH_BITNESS</a></span>
+            </dt>
+            <dd>The 'bitness' of the current architecture (e.g. <code>64</code> on AMD64).</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga1741334d0b0155633d2c2cb965b4e363">MUU_ARCH_ITANIUM</a></span>
             </dt>
             <dd><code>1</code> when targeting 64-bit Itanium, <code>0</code> otherwise.</dd>
@@ -176,6 +180,10 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga27290363c4626a953e97d39dd042af66">MUU_HAS_FLOAT16</a></span>
             </dt>
             <dd><code>1</code> when the target environment has native IEC559 16-bit floats ('halfs'), <code>0</code> otherwise.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gaa46769772ecacae384f202d2288b5ef9">MUU_HAS_INCLUDE</a>(</span><span class="m-doc-wrap">header)</span>
+            </dt>
+            <dd>Expands to <code>__has_include(name)</code> when supported by the compiler, <code>0</code> otherwise.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga61a9c9471317fa76fa46bd87d8f671b6">MUU_HAS_INT128</a></span>
             </dt>
@@ -324,6 +332,13 @@ C++</span></a>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p><code>1</code> when targeting 64-bit ARM, <code>0</code> otherwise.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga2e302f23e8da851a0443167d733facc3"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga2e302f23e8da851a0443167d733facc3">MUU_ARCH_BITNESS</a></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>The 'bitness' of the current architecture (e.g. <code>64</code> on AMD64).</p>
           </div></section>
           <section class="m-doc-details" id="ga1741334d0b0155633d2c2cb965b4e363"><div>
             <h3>
@@ -485,6 +500,13 @@ C++</span></a>
             </h3>
             <p><code>1</code> when the target environment has native IEC559 16-bit floats ('halfs'), <code>0</code> otherwise.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is completely unrelated to the class <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>, which is always available.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gaa46769772ecacae384f202d2288b5ef9"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gaa46769772ecacae384f202d2288b5ef9">MUU_HAS_INCLUDE</a>(</span><span class="m-doc-wrap">header)</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>Expands to <code>__has_include(name)</code> when supported by the compiler, <code>0</code> otherwise.</p>
           </div></section>
           <section class="m-doc-details" id="ga61a9c9471317fa76fa46bd87d8f671b6"><div>
             <h3>

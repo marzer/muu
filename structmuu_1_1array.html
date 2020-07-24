@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>std::numeric_limits&lt;::muu ::half&gt; struct | muu Useful
+  <title>muu::array struct | muu Useful
 utilities
 for
 modern
@@ -60,11 +60,12 @@ C++</span></a>
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="half_8h.html">&lt;muu/half.h&gt;</a></div>
-          <div class="m-doc-template">template&lt;&gt;</div>
-          <span class="m-breadcrumb"><a href="namespacestd.html">std</a>::<wbr/></span>numeric_limits&lt;::muu ::half&gt; <span class="m-thin">struct</span>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+          <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>array <span class="m-thin">struct</span>
         </h1>
-        <p>Specialization of <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/numeric_limits" target="_blank">std::numeric_limits</a> for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p>
+        <p>A (mostly) drop-in substitute for <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a>.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p><strong><em>"Why does this exist? Why not just use <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a>?"</em></strong><br/><br/>The standard library's <code>&lt;array&gt;</code> header drags in <em>a lot</em> of cruft, regardless of implementation, typically bringing <code>&lt;algorithm&gt;</code>, <code>&lt;iterator&gt;</code> and <code>&lt;tuple&gt;</code> with it. This array does not claim to support the tuple protocol like the one in the standard, nor does it provide swap, fill, et cetera, so it can be implemented without all the baggage.<br/><br/>More info:</p><ul><li><a class="muu-external" href="https://artificial-mind.net/projects/compile-health/" target="_blank">https:/<wbr/>/<wbr/>artificial-mind.net/<wbr/>projects/<wbr/>compile-health/<wbr/></a></li><li><a class="muu-external" href="https://www.reddit.com/r/cpp/comments/eumou7/stl_header_token_parsing_benchmarks_for_vs2017/" target="_blank">https://www.reddit.com/r/cpp/comments/eumou7/stl_<wbr/>header_<wbr/>token_<wbr/>parsing_<wbr/>benchmarks_<wbr/>for_<wbr/>vs2017/</a></li></ul></aside>
       </div>
     </div>
   </div>

@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8"/>
+  <title>muu::uuid struct | muu Useful
+utilities
+for
+modern
+C++</title>
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
+  <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
+  <link href="muu.css" rel="stylesheet"/>
+  <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="#22272e" name="theme-color"/>
+  <meta content="gbtcNgKlNiPSMKkYMw4zWFVWGPH_oU93m9n_-nb4qK8" name="google-site-verification"/>
+  <meta content="Miscellaneous
+  useful
+  utilities
+  for
+  modern
+  C++." name="description"/>
+  <script src="muu.js"></script>
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a class="m-col-t-8 m-col-m-none m-left-m" href="index.html" id="m-navbar-brand"><img alt="" src="logo.png"/>muu <span class="m-thin">Useful
+utilities
+for
+modern
+C++</span></a>
+      <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
+        <a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+          <path d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z" id="m-doc-search-icon-path"></path>
+        </svg></a>
+        <a href="#navigation" id="m-navbar-show" title="Show navigation"></a>
+        <a href="#" id="m-navbar-hide" title="Hide navigation"></a>
+      </div>
+      <div class="m-col-t-12 m-show-m m-col-m-none m-right-m" id="m-navbar-collapse">
+        <div class="m-row">
+          <ol class="m-col-t-6 m-col-m-none">
+            <li><a href="modules.html">Modules</a></li>
+            <li><a href="namespaces.html">Namespaces</a></li>
+          </ol>
+          <ol class="m-col-t-6 m-col-m-none" start="3">
+            <li><a href="annotated.html">Classes</a></li>
+            <li><a class="github muu-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
+            <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+              <use href="#m-doc-search-icon-path"></use>
+            </svg></a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main><article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>
+          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>uuid <span class="m-thin">struct</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="uuid_8h.html">&lt;muu/uuid.h&gt;</a></div>
+        </h1>
+        <p>A 128-bit universally-unique identifier (UUID).</p>
+        <div class="m-block m-default">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#pub-types">Public types</a></li>
+                <li><a href="#pub-static-methods">Public static functions</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#pub-attribs">Public variables</a></li>
+                <li><a href="#friends">Friends</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+<aside class="m-note m-default"><h4>See also</h4><p>RFC 4122: <a class="muu-external" href="https://tools.ietf.org/html/rfc4122" target="_blank">https:/<wbr/>/<wbr/>tools.ietf.org/<wbr/>html/<wbr/>rfc4122</a></p></aside>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
+          <dl class="m-doc">
+            <dt id="ab0df339caf9ad01abf31bb6f208bb72f">
+              using <a class="m-doc-self" href="#ab0df339caf9ad01abf31bb6f208bb72f">constants</a> = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;<a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&gt;
+            </dt>
+            <dd>Static constants for this type.</dd>
+          </dl>
+        </section>
+        <section id="pub-static-methods">
+          <h2><a href="#pub-static-methods">Public static functions</a></h2>
+          <dl class="m-doc">
+            <dt id="ab19449ba8e22d8be85e9f790555e952f">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ab19449ba8e22d8be85e9f790555e952f">compare</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; lhs,
+              const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; rhs) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int32_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the lexicographical ordering of two UUID's.</dd>
+            <dt id="a0d71e15720bef12a18b7922331be4386">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a0d71e15720bef12a18b7922331be4386">generate</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Creates a new UUID using the platform's UUID generator.</dd>
+          </dl>
+        </section>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+          <dl class="m-doc">
+            <dt id="ac6d637c87ce5a7d9a0745ec52964f0ad">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ac6d637c87ce5a7d9a0745ec52964f0ad">uuid</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Default constructor. Leaves the UUID uninitialized.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#aeffec1e0d86eba26298f34d0103c6228">uuid</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; name_space,
+              const void* name_data,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> name_size) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a version-5 named UUID by hashing some binary data.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#af01488b5a153b0659278c7c7ae6ca75d">uuid</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; name_space,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> name) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a version-5 named UUID by hashing a string.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a8ca2e68bb49a0579a53bf607e6be67ee">uuid</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; name_space,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> name) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a version-5 named UUID by hashing a string.</dd>
+            <dt id="a8d29048ee0984dcf90335a8a7507a040">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8d29048ee0984dcf90335a8a7507a040">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/nullptr_t" target="_blank">std::nullptr_t</a>) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Explicitly constructs a null UUID.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#aef18acb93c75e1c427639b855030b373">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="namespacemuu.html#aa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a> val) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a UUID directly from a 128-bit integer.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a52d9303cb2231fcd1613b2819b8c4ba1">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> time_low,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_mid,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_high_and_version,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> clock_seq,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a> node) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Creats a UUID from it's raw integral components, as per RFC 4122.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a3f394360cf4bc0fa6e8828ec5ef60661">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> time_low,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_mid,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_high_and_version,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> clock_seq_high_and_reserved,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> clock_seq_low,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a> node) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Creates a UUID from it's raw integral components, as per RFC 4122.</dd>
+            <dt id="a999e785719acedf45fdf4dfbc97c1c65">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a999e785719acedf45fdf4dfbc97c1c65">operator bool</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if this UUID has non-zero value.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a507cb7feaab9dc6e2a83def097249324">operator uint128_t</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Converts a UUID directly into a 128-bit integer.</dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt id="a0142dd278affa6dcddfe0a3a8db98786">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0142dd278affa6dcddfe0a3a8db98786">clock_seq_high_and_reserved</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the value of the 'clock-seq-high-and-reserved' field.</dd>
+            <dt id="a75c354441ef8da4a6f0cd474c3746fcd">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a75c354441ef8da4a6f0cd474c3746fcd">clock_seq_low</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the value of the 'clock-seq-low' field.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a761a163d20263bfce093f280151977d2">node</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the value of the 'node' field.</dd>
+            <dt id="a5fbb66418327dc3c0969c69b217cf31d">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a5fbb66418327dc3c0969c69b217cf31d">time_high_and_version</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the value of the 'time-high-and-version' field.</dd>
+            <dt id="a0445f7982a6afa971040f61acbc55b7c">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0445f7982a6afa971040f61acbc55b7c">time_low</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the value of the 'time-low' field.</dd>
+            <dt id="ab481a846a20ae5b7095fa8fef2bd2ce5">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab481a846a20ae5b7095fa8fef2bd2ce5">time_mid</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the value of the 'time-mid' field.</dd>
+            <dt id="afcbbb495f4dd099810e261b4238a1578">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#afcbbb495f4dd099810e261b4238a1578">variant</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="namespacemuu.html#a0af5ea664875aa7ce96e0105152bc59c">uuid_<wbr/>variant</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the UUID's variant.</dd>
+            <dt id="a8ee49a1025c2dd2494ec5a293e1af7d7">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a8ee49a1025c2dd2494ec5a293e1af7d7">version</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="namespacemuu.html#ab0531af99b7f9b575c98ea05d8b76bc8">uuid_<wbr/>version</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the UUID's version.</dd>
+          </dl>
+        </section>
+        <section id="pub-attribs">
+          <h2><a href="#pub-attribs">Public variables</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <a class="m-doc" href="structmuu_1_1array.html">array</a>&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>, 16&gt; <a class="m-doc" href="#addf17f997274cc8131f70a63583a79f6">bytes</a>
+            </dt>
+            <dd>The raw bytes in the UUID.</dd>
+          </dl>
+        </section>
+        <section id="friends">
+          <h2><a href="#friends">Friends</a></h2>
+          <dl class="m-doc">
+            <dt id="a01aa7ebbc1ab07350bf14ee893710e00">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a01aa7ebbc1ab07350bf14ee893710e00">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; lhs,
+              const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two UUIDs are not equal.</dd>
+            <dt id="ac453086e7f9261eaf9791fa3680cb504">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac453086e7f9261eaf9791fa3680cb504">operator&lt;</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; lhs,
+              const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the LHS UUID is ordered lower than the RHS UUID.</dd>
+            <dt id="ac63dc0944f3c3346efa0f3ddcfd89e05">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac63dc0944f3c3346efa0f3ddcfd89e05">operator&lt;=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; lhs,
+              const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the LHS UUID is ordered lower than or equal to the RHS UUID.</dd>
+            <dt id="aceb36e3dbf16250c8ee9e74e8669b25e">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aceb36e3dbf16250c8ee9e74e8669b25e">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; lhs,
+              const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two UUIDs are equal.</dd>
+            <dt id="a0dc1c90782c2688914e3aaaf4146d974">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0dc1c90782c2688914e3aaaf4146d974">operator&gt;</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; lhs,
+              const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the LHS UUID is ordered higher than the RHS UUID.</dd>
+            <dt id="a89a8947cb5bd1f53e510223fad0c0771">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a89a8947cb5bd1f53e510223fad0c0771">operator&gt;=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; lhs,
+              const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the LHS UUID is ordered higher than or equal to the RHS UUID.</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="aeffec1e0d86eba26298f34d0103c6228"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>uuid::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aeffec1e0d86eba26298f34d0103c6228">uuid</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; name_space,
+              const void* name_data,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> name_size) <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Constructs a version-5 named UUID by hashing some binary data.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">name_space</td>
+                  <td>The 'name space' the ID will belong to.</td>
+                </tr>
+                <tr>
+                  <td>name_data</td>
+                  <td>The 'name' data to hash.</td>
+                </tr>
+                <tr>
+                  <td>name_size</td>
+                  <td>Size of the name data in bytes.</td>
+                </tr>
+              </tbody>
+            </table>
+<aside class="m-note m-default"><h4>Remark</h4><p>UUIDs generated by this constructor are deterministic; the same namespace and name will always produce the same UUID.</p></aside><aside class="m-note m-default"><h4>See also</h4><p>RFC 4122 Section 4.3: <a class="muu-external" href="https://tools.ietf.org/html/rfc4122#section-4.3" target="_blank">https:/<wbr/>/<wbr/>tools.ietf.org/<wbr/>html/<wbr/>rfc4122#section-4.3</a></p></aside>
+          </div></section>
+          <section class="m-doc-details" id="af01488b5a153b0659278c7c7ae6ca75d"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>uuid::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af01488b5a153b0659278c7c7ae6ca75d">uuid</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; name_space,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> name) <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Constructs a version-5 named UUID by hashing a string.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">name_space</td>
+                  <td>The 'namespace' for the id.</td>
+                </tr>
+                <tr>
+                  <td>name</td>
+                  <td>The 'name' of the ID.</td>
+                </tr>
+              </tbody>
+            </table>
+<aside class="m-note m-default"><h4>Remark</h4><p>UUIDs generated by this constructor are deterministic; the same namespace and name will always produce the same UUID.</p></aside><aside class="m-note m-default"><h4>See also</h4><p>RFC 4122 Section 4.3: <a class="muu-external" href="https://tools.ietf.org/html/rfc4122#section-4.3" target="_blank">https:/<wbr/>/<wbr/>tools.ietf.org/<wbr/>html/<wbr/>rfc4122#section-4.3</a></p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a8ca2e68bb49a0579a53bf607e6be67ee"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>uuid::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8ca2e68bb49a0579a53bf607e6be67ee">uuid</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; name_space,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> name) <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Constructs a version-5 named UUID by hashing a string.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">name_space</td>
+                  <td>The 'namespace' for the id.</td>
+                </tr>
+                <tr>
+                  <td>name</td>
+                  <td>The 'name' of the ID.</td>
+                </tr>
+              </tbody>
+            </table>
+<aside class="m-note m-default"><h4>Remark</h4><p>UUIDs generated by this constructor are deterministic; the same namespace and name will always produce the same UUID.</p></aside><aside class="m-note m-default"><h4>See also</h4><p>RFC 4122 Section 4.3: <a class="muu-external" href="https://tools.ietf.org/html/rfc4122#section-4.3" target="_blank">https:/<wbr/>/<wbr/>tools.ietf.org/<wbr/>html/<wbr/>rfc4122#section-4.3</a></p></aside>
+          </div></section>
+          <section class="m-doc-details" id="aef18acb93c75e1c427639b855030b373"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>uuid::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aef18acb93c75e1c427639b855030b373">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="namespacemuu.html#aa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a> val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Constructs a UUID directly from a 128-bit integer.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">val</td>
+                  <td>The value to convert into a UUID.</td>
+                </tr>
+              </tbody>
+            </table>
+<aside class="m-note m-warning"><h4>Attention</h4><p>This constructor is only available when <a class="m-doc" href="group__preprocessor.html#ga61a9c9471317fa76fa46bd87d8f671b6">MUU_<wbr/>HAS_<wbr/>INT128</a> is <code>1</code>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a52d9303cb2231fcd1613b2819b8c4ba1"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>uuid::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a52d9303cb2231fcd1613b2819b8c4ba1">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> time_low,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_mid,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_high_and_version,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> clock_seq,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a> node) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Creats a UUID from it's raw integral components, as per RFC 4122.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">time_low</td>
+                  <td>The 'time-low' field.</td>
+                </tr>
+                <tr>
+                  <td>time_mid</td>
+                  <td>The 'time-middle' field.</td>
+                </tr>
+                <tr>
+                  <td>time_high_and_version</td>
+                  <td>The 'time-high-and-version' field.</td>
+                </tr>
+                <tr>
+                  <td>clock_seq</td>
+                  <td>The 'clock-seq-high-and-reserved' (MSB) and 'clock-seq-low' (LSB) fields.</td>
+                </tr>
+                <tr>
+                  <td>node</td>
+                  <td>The 'node' field. The highest 2 bytes are ignored (the 'node' field of a UUID is a 48-bit unsigned int).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a3f394360cf4bc0fa6e8828ec5ef60661"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>uuid::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3f394360cf4bc0fa6e8828ec5ef60661">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> time_low,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_mid,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_high_and_version,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> clock_seq_high_and_reserved,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> clock_seq_low,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a> node) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Creates a UUID from it's raw integral components, as per RFC 4122.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">time_low</td>
+                  <td>The 'time-low' field.</td>
+                </tr>
+                <tr>
+                  <td>time_mid</td>
+                  <td>The 'time-middle' field.</td>
+                </tr>
+                <tr>
+                  <td>time_high_and_version</td>
+                  <td>The 'time-high-and-version' field.</td>
+                </tr>
+                <tr>
+                  <td>clock_seq_high_and_reserved</td>
+                  <td>The 'clock-seq-high-and-reserved' field.</td>
+                </tr>
+                <tr>
+                  <td>clock_seq_low</td>
+                  <td>The 'clock-seq-low' field.</td>
+                </tr>
+                <tr>
+                  <td>node</td>
+                  <td>The 'node' field. The highest 2 bytes are ignored (the 'node' field of a UUID is a 48-bit unsigned int).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a507cb7feaab9dc6e2a83def097249324"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>uuid::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a507cb7feaab9dc6e2a83def097249324">operator uint128_t</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Converts a UUID directly into a 128-bit integer.</p>
+<aside class="m-note m-warning"><h4>Attention</h4><p>This conversion is only available when <a class="m-doc" href="group__preprocessor.html#ga61a9c9471317fa76fa46bd87d8f671b6">MUU_<wbr/>HAS_<wbr/>INT128</a> is <code>1</code>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a761a163d20263bfce093f280151977d2"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a> muu::<wbr/>uuid::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a761a163d20263bfce093f280151977d2">node</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns the value of the 'node' field.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>The two most significant bytes of the return value will be zero (the 'node' field of a UUID is a 48-bit unsigned int).</p></aside>
+          </div></section>
+        </section>
+        <section>
+          <h2>Variable documentation</h2>
+          <section class="m-doc-details" id="addf17f997274cc8131f70a63583a79f6"><div>
+            <h3>
+              <a class="m-doc" href="structmuu_1_1array.html">array</a>&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>, 16&gt; muu::<wbr/>uuid::<wbr/><a class="m-doc-self" href="#addf17f997274cc8131f70a63583a79f6">bytes</a>
+            </h3>
+            <p>The raw bytes in the UUID.</p>
+<p>The byte layout of the UUID is big-endian, regardless of the target platform:<br/><br/><code>[ 0]</code>   time_low - most significant byte<br/><code>[ 1]</code>   ...<br/><code>[ 2]</code>   ...<br/><code>[ 3]</code>   time_low - least significant byte<br/><code>[ 4]</code>   time_mid - most significante byte<br/><code>[ 5]</code>   time_mid - least significante byte<br/><code>[ 6]</code>   time_high_and_version - most significante byte<br/><code>[ 7]</code>   time_high_and_version - least significante byte<br/><code>[ 8]</code>   clock_seq_high_and_reserved<br/><code>[ 9]</code>   clock_seq_low<br/><code>[10]</code>   node - most significant byte<br/><code>[11]</code>   ...<br/><code>[12]</code>   ...<br/><code>[13]</code>   ...<br/><code>[14]</code>   ...<br/><code>[15]</code>   node - least significant byte<br/><br/>Relevant excerpt from the UUID rfc:</p><pre class="m-console"><span class="go">In the absence of explicit application or presentation protocol</span>
+<span class="go">specification to the contrary, a UUID is encoded as a 128-bit object,</span>
+<span class="go">as follows:</span>
+
+<span class="go">The fields are encoded as 16 octets, with the sizes and order of the</span>
+<span class="go">fields defined above, and with each field encoded with the Most</span>
+<span class="go">Significant Byte first (known as network byte order).  Note that the</span>
+<span class="go">field names, particularly for multiplexed fields, follow historical</span>
+<span class="go">practice.</span>
+
+<span class="go">0                   1                   2                   3</span>
+<span class="go"> 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1</span>
+<span class="go">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span>
+<span class="go">|                          time_low                             |</span>
+<span class="go">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span>
+<span class="go">|       time_mid                |      time_high_and_version    |</span>
+<span class="go">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span>
+<span class="go">|clk_seq_hi_res |  clk_seq_low  |         node (0-1)            |</span>
+<span class="go">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span>
+<span class="go">|                         node (2-5)                            |</span>
+<span class="go">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span></pre>
+          </div></section>
+        </section>
+      </div>
+    </div>
+  </div>
+</article></main>
+<div class="m-doc-search" id="search">
+  <a href="#!" onclick="return hideSearch()"></a>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-m-8 m-push-m-2">
+        <div class="m-doc-search-header m-text m-small">
+          <div><span class="m-label m-default">Tab</span> / <span class="m-label m-default">T</span> to search, <span class="m-label m-default">Esc</span> to close</div>
+          <div id="search-symbolcount">…</div>
+        </div>
+        <div class="m-doc-search-content">
+          <form>
+            <input autocomplete="off" autofocus="autofocus" disabled="disabled" id="search-input" name="q" placeholder="Loading …" spellcheck="false" type="search"/>
+          </form>
+          <noscript class="m-text m-danger m-text-center">Unlike everything else in the docs, the search functionality <em>requires</em> JavaScript.</noscript>
+          <div class="m-text m-dim m-text-center" id="search-help">
+            <p class="m-noindent">Search for symbols, directories, files, pages or
+            modules. You can omit any prefix from the symbol or file path; adding a
+            <code>:</code> or <code>/</code> suffix lists all members of given symbol or
+            directory.</p>
+            <p class="m-noindent">Use <span class="m-label m-dim">↓</span>
+            / <span class="m-label m-dim">↑</span> to navigate through the list,
+            <span class="m-label m-dim">Enter</span> to go.
+            <span class="m-label m-dim">Tab</span> autocompletes common prefix, you can
+            copy a link to the result using <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">L</span> while <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">M</span> produces a Markdown link.</p>
+          </div>
+          <div class="m-text m-warning m-text-center" id="search-notfound">Sorry, nothing was found.</div>
+          <ul id="search-results"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="search-v1.js"></script>
+<script async="async" src="searchdata-v1.js"></script>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <a class="muu-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
+•
+
+<a class="muu-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
+an
+issue</a>
+
+<br/><br/>Documentation
+generated
+using
+<a class="muu-external" href="https://mcss.mosra.cz/" target="_blank">m.css</a>
+      </div>
+    </div>
+  </div>
+</nav></footer>
+
+
+</body></html>
