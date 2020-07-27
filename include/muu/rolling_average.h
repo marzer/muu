@@ -6,6 +6,6 @@
 #pragma once
 #include "../muu/core.h"
 
-#if !MUU_DOXYGEN && !MUU_INTELLISENSE && (!defined(MUU_DEV) || !MUU_DEV)
+#if !defined(DOXYGEN) && !MUU_INTELLISENSE && (!defined(MUU_DEV) || !MUU_DEV)
 	#error Including muu/rolling_average.h is currently prohibited - muu::rolling_average is not fully implemented
 #endif

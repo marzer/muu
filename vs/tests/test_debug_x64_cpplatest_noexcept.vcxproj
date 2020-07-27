@@ -38,6 +38,8 @@
 			<PrecompiledHeader>Use</PrecompiledHeader>
 			<PrecompiledHeaderFile>tests.h</PrecompiledHeaderFile>
 			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">_HAS_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">SHOULD_HAVE_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'!='false'">SHOULD_HAVE_EXCEPTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<LanguageStandard>stdcpplatest</LanguageStandard>
 		</ClCompile>
 	</ItemDefinitionGroup>

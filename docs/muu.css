@@ -47,7 +47,7 @@ article div > section > section
 
 pre, code, .muu-enable-if > a
 {
-	font-family: 'Consolas', 'Source Sans Pro', monospace;
+	font-family: 'Consolas', 'Source Code Pro', monospace;
 }
 
 a.muu-external
@@ -316,4 +316,10 @@ pre > p.godbolt
 {
   float: right;
 }
-
+@media only screen and ((max-width: 575px) or (hover: none) or (pointer: coarse) or (pointer: none))
+{
+	.godbolt
+	{
+		display: none;
+	}
+}

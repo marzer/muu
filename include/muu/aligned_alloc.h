@@ -11,8 +11,7 @@
 
 MUU_NAMESPACE_START
 {
-	/// \addtogroup		aligned_alloc		Aligned allocation
-	/// \brief Functions for performing (re)allocations on specific alignment boundaries.
+	/// \addtogroup		aligned_alloc
 	/// @{
 
 	/// \brief	Allocates memory with a specific alignment boundary.

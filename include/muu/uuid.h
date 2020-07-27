@@ -9,8 +9,7 @@
 #pragma once
 #include "../muu/hashing.h"
 
-#if !MUU_DOXYGEN // MUU_EVAL fucks it up
-
+#if !defined(DOXYGEN) // MUU_EVAL fucks it up
 MUU_IMPL_NAMESPACE_START
 {
 	using uuid_bytes = std::byte[16];
@@ -83,8 +82,7 @@ MUU_IMPL_NAMESPACE_START
 	}
 }
 MUU_IMPL_NAMESPACE_END
-
-#endif // !MUU_DOXYGEN
+#endif // !DOXYGEN
 
 MUU_NAMESPACE_START
 {
@@ -259,7 +257,7 @@ MUU_NAMESPACE_START
 			}}
 		{}
 
-		#if MUU_HAS_INT128 || MUU_DOXYGEN
+		#if defined(DOXYGEN) || MUU_HAS_INT128
 
 		/// \brief	Constructs a UUID directly from a 128-bit integer.
 		/// 
@@ -412,7 +410,7 @@ MUU_NAMESPACE_START
 			return impl::uuid_slice<8>(bytes.values, 8) & 0x0000FFFFFFFFFFFF_u64;
 		}
 
-		#if MUU_HAS_INT128 || MUU_DOXYGEN
+		#if defined(DOXYGEN) || MUU_HAS_INT128
 
 		/// \brief	Converts a UUID directly into a 128-bit integer.
 		/// 

@@ -226,9 +226,12 @@ foreach cpp20 : cpp20_modes
 				name = 'cpp17'
 			endif
 				
-			if not exceptions
+			if exceptions
+				args += '-DSHOULD_HAVE_EXCEPTIONS=1'
+			else
 				name = name + '_noexcept'
 				overrides += 'cpp_eh=none'
+				args += '-DSHOULD_HAVE_EXCEPTIONS=0'
 			endif
 	
 			if fast_math

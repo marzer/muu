@@ -9,7 +9,7 @@
 #pragma once
 #include "../muu/preprocessor.h"
 
-#if !MUU_DOXYGEN // undocumented forward declarations are hidden from doxygen because they fuck it up =/
+#if !defined(DOXYGEN) // undocumented forward declarations are hidden from doxygen because they fuck it up =/
 
 //=====================================================================================================================
 // STANDARD-LIBRARY / NON-MUU TYPEDEFS AND FORWARD DECLARATIONS
@@ -66,7 +66,7 @@ struct IUnknown;
 #endif // MUU_WINDOWS
 
 //=====================================================================================================================
-// MUU TYPEDEFS AND CLASS FORWARD DECLARATIONS
+// UNDOCUMENTED TYPEDEFS AND FORWARD DECLARATIONS
 //=====================================================================================================================
 
 MUU_PUSH_WARNINGS
@@ -111,17 +111,23 @@ MUU_NAMESPACE_START // abi namespace
 	template <typename>				class scope_guard;
 	template <typename, size_t>		class tagged_ptr;
 	template <typename, typename>	class accumulator;
+	
+	namespace impl {}
 }
 MUU_NAMESPACE_END
 
-#endif // !MUU_DOXYGEN
+#endif // !DOXYGEN
+
+//=====================================================================================================================
+// TYPEDEFS AND FORWARD DECLARATIONS
+//=====================================================================================================================
 
 /// \brief	The root namespace for all muu functions and types.
 namespace muu { }
 
 namespace muu // non-abi namespace; this is not an error
 {
-	#if MUU_HAS_INT128 || MUU_DOXYGEN
+	#if defined(DOXYGEN) || MUU_HAS_INT128
 
 	/// \brief	A 128-bit signed integer.
 	/// 
@@ -137,7 +143,7 @@ namespace muu // non-abi namespace; this is not an error
 
 	#endif
 
-	#if MUU_HAS_FLOAT128 || MUU_DOXYGEN
+	#if defined(DOXYGEN) || MUU_HAS_FLOAT128
 
 	/// \brief	A 128-bit quad-precision float.
 	/// 
@@ -147,7 +153,7 @@ namespace muu // non-abi namespace; this is not an error
 
 	#endif
 
-	#if MUU_HAS_FLOAT16 || MUU_DOXYGEN
+	#if defined(DOXYGEN) || MUU_HAS_FLOAT16
 
 	/// \brief	A 16-bit half-precision float.
 	/// 
@@ -163,20 +169,39 @@ namespace muu // non-abi namespace; this is not an error
 	#endif
 }
 
+/// \defgroup		meta			Metafunctions and type traits
+/// \brief Metaprogramming utilities to complement those found in `<type_traits>`.
+/// \remarks	Many of these are mirrors of (or supplementary to) traits found in the standard library's
+///				`<type_traits>`, but with simpler/saner default behaviour
+///				(e.g. most of the is_X metafunctions do not make a distinction between T and T&).
+
+/// \defgroup		intrinsics		Intrinsics
+/// \brief Small, generally-useful functions, many of which map to compiler intrinsics.
+
+/// \defgroup		constants		Compile-time constants
+/// 
+
+/// \defgroup		strings			Strings
+/// \brief Utilities to simplify working with strings.
+
+/// \defgroup		hashing		Hashing
+/// \brief Functions and types related to the generation of hashes.
+
+
+/// \defgroup		aligned_alloc		Aligned allocation
+/// \brief Utilities for performing (re)allocations on specific alignment boundaries.
+
 MUU_NAMESPACE_START // abi namespace
 {
-	namespace impl {}
-
 	/// \brief Literal operators.
 	inline namespace literals {}
 
-	/// \addtogroup		constants		Compile-time constants
-	/// @{
-
 	/// \brief Build environment information (compiler, date/time, support for various things...)
+	/// \ingroup constants
 	namespace build {}
 
 	/// \brief	A container for typed static constants, similar to std::numeric_limits.
+	/// \ingroup constants
 	///
 	/// \tparam	T	The constant value type.
 	template <typename T>
@@ -186,8 +211,6 @@ MUU_NAMESPACE_START // abi namespace
 	template <typename T> struct constants<const T> : constants<T> {};
 	template <typename T> struct constants<volatile T> : constants<T> {};
 	template <typename T> struct constants<const volatile T> : constants<T> {};
-
-	/// @}
 }
 MUU_NAMESPACE_END
 

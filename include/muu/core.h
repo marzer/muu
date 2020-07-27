@@ -28,6 +28,7 @@ MUU_DISABLE_ALL_WARNINGS
 #include <cstring>
 #include <climits>
 #include <cmath>
+#include <cfloat>
 #include <type_traits>
 #include <utility>
 #include <limits>
@@ -44,11 +45,24 @@ MUU_POP_WARNINGS
 // ENVIRONMENT GROUND-TRUTHS
 //=====================================================================================================================
 
-static_assert(CHAR_BIT == 8);
-static_assert(sizeof(std::size_t) >= 4);
-static_assert(std::numeric_limits<float>::is_iec559);
-static_assert(std::numeric_limits<double>::is_iec559);
-static_assert('A' == 65);
+#ifndef DOXYGEN
+#ifndef MUU_DISABLE_ENVIRONMENT_CHECKS
+#define MUU_ENV_MESSAGE																								\
+	"If you're seeing this error it's because you're building muu for an environment that doesn't conform to "		\
+	"one of the 'ground truths' assumed by the library. Essentially this just means that I don't have the "			\
+	"resources to test on more esoteric platforms, but I wish I did! You can try disabling the checks by defining "	\
+	"MUU_DISABLE_ENVIRONMENT_CHECKS, but your mileage may vary. Please consider filing an issue at "				\
+	"https://github.com/marzer/muu/issues to help me improve support for your target environment. Thanks!"
+
+static_assert(CHAR_BIT == 8, MUU_ENV_MESSAGE);
+static_assert(FLT_RADIX == 2, MUU_ENV_MESSAGE);
+static_assert('A' == 65, MUU_ENV_MESSAGE);
+static_assert(std::numeric_limits<float>::is_iec559, MUU_ENV_MESSAGE);
+static_assert(std::numeric_limits<double>::is_iec559, MUU_ENV_MESSAGE);
+
+#undef MUU_ENV_MESSAGE
+#endif // !MUU_DISABLE_ENVIRONMENT_CHECKS
+#endif // !DOXYGEN
 
 //=====================================================================================================================
 // TYPE TRAITS AND METAFUNCTIONS
@@ -329,11 +343,7 @@ MUU_IMPL_NAMESPACE_END
 
 MUU_NAMESPACE_START
 {
-	/// \addtogroup		meta		Metafunctions and type traits
-	/// \brief Metaprogramming utilities to complement those found in `<type_traits>`.
-	/// \remarks	Many of these are mirrors of (or supplementary to) traits found in the standard library's
-	///				`<type_traits>`, but with simpler/saner default behaviour
-	///				(e.g. most of the is_X metafunctions do not make a distinction between T and T&).
+	/// \addtogroup		meta
 	/// @{
 
 	/// \brief	Removes the topmost const, volatile and reference qualifiers from a type.
@@ -381,12 +391,12 @@ MUU_NAMESPACE_START
 	using least_aligned = typename impl::least_aligned<T...>::type;
 
 	/// \brief	True if T is exactly the same as one or more of the types named by U.
-	/// \remarks This is a variadic version of `(std::is_same_v<T, U1> || std::is_same_v<T, U2> || ...)`.
+	/// \remarks This equivalent to `(std::is_same_v<T, U1> || std::is_same_v<T, U2> || ...)`.
 	template <typename T, typename... U>
 	inline constexpr bool same_as_any = impl::same_as_any<T, U...>::value;
 
 	/// \brief	True if all the type arguments are the same type.
-	/// \remarks This is a variadic version of `(std::is_same_v<T, U1> && std::is_same_v<T, U2> && ...)`.
+	/// \remarks This equivalent to `(std::is_same_v<T, U1> && std::is_same_v<T, U2> && ...)`.
 	template <typename T, typename... U>
 	inline constexpr bool same_as_all = impl::same_as_all<T, U...>::value;
 
@@ -414,7 +424,7 @@ MUU_NAMESPACE_START
 
 	/// \brief Is a type unsigned or reference-to-unsigned?
 	/// \remarks Returns true for enums backed by unsigned integers.
-	/// \remarks Returns true for native uint128_t (where supported).
+	/// \remarks Returns true for native #uint128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_unsigned = std::is_unsigned_v<remove_enum<remove_cvref<T>>>
 		#if MUU_HAS_INT128
@@ -435,7 +445,7 @@ MUU_NAMESPACE_START
 	/// \brief Is a type signed or reference-to-signed?
 	/// \remarks Returns true for enums backed by signed integers.
 	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for native int128_t, float16_t and float128_t (where supported).
+	/// \remarks Returns true for native #int128_t, #float16_t and #float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_signed = std::is_signed_v<remove_enum<remove_cvref<T>>>
 		|| same_as_any<remove_enum<remove_cvref<T>>,
@@ -467,7 +477,7 @@ MUU_NAMESPACE_START
 
 	/// \brief Is a type an integral type or a reference to an integral type?
 	/// \remarks Returns true for enums.
-	/// \remarks Returns true for native int128_t and uint128_t (where supported).
+	/// \remarks Returns true for native #int128_t and #uint128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_integral = std::is_integral_v<remove_enum<remove_cvref<T>>>
 		#if MUU_HAS_INT128
@@ -477,19 +487,19 @@ MUU_NAMESPACE_START
 
 	/// \brief Are any of the named types integral or reference-to-integral?
 	/// \remarks Returns true for enums.
-	/// \remarks Returns true for native int128_t and uint128_t (where supported).
+	/// \remarks Returns true for native #int128_t and #uint128_t (where supported).
 	template <typename T, typename... U>
 	inline constexpr bool any_integral = is_integral<T> || (false || ... || is_integral<U>);
 
 	/// \brief Are all of the named types integral or reference-to-integral?
 	/// \remarks Returns true for enums.
-	/// \remarks Returns true for native int128_t and uint128_t (where supported).
+	/// \remarks Returns true for native #int128_t and #uint128_t (where supported).
 	template <typename T, typename... U>
 	inline constexpr bool all_integral = is_integral<T> && (true && ... && is_integral<U>);
 
 	/// \brief Is a type a floating-point or reference-to-floating-point?
 	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for native float16_t and float128_t (where supported).
+	/// \remarks Returns true for native #float16_t and #float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_floating_point = std::is_floating_point_v<std::remove_reference_t<T>>
 		|| same_as_any<remove_cvref<T>,
@@ -508,19 +518,19 @@ MUU_NAMESPACE_START
 
 	/// \brief Are any of the named types floating-point or reference-to-floating-point?
 	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for native float16_t and float128_t (where supported).
+	/// \remarks Returns true for native #float16_t and #float128_t (where supported).
 	template <typename T, typename... U>
 	inline constexpr bool any_floating_point = is_floating_point<T> || (false || ... || is_floating_point<U>);
 
 	/// \brief Are all of the named types floating-point or reference-to-floating-point?
 	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for native float16_t and float128_t (where supported).
+	/// \remarks Returns true for native #float16_t and #float128_t (where supported).
 	template <typename T, typename... U>
 	inline constexpr bool all_floating_point = is_floating_point<T> && (true && ... && is_floating_point<U>);
 
 	/// \brief Is a type arithmetic or reference-to-arithmetic?
 	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for native int128_t, uint128_t, float16_t and float128_t (where supported).
+	/// \remarks Returns true for native #int128_t, #uint128_t, #float16_t and #float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_arithmetic = std::is_arithmetic_v<std::remove_reference_t<T>>
 		|| same_as_any<remove_cvref<T>,
@@ -542,13 +552,13 @@ MUU_NAMESPACE_START
 
 	/// \brief Are any of the named types arithmetic or reference-to-arithmetic?
 	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for native int128_t, uint128_t, float16_t and float128_t (where supported).
+	/// \remarks Returns true for native #int128_t, #uint128_t, #float16_t and #float128_t (where supported).
 	template <typename T, typename... U>
 	inline constexpr bool any_arithmetic = is_arithmetic<T> || (false || ... || is_arithmetic<U>);
 
 	/// \brief Are all of the named types arithmetic or reference-to-arithmetic?
 	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for native int128_t, uint128_t, float16_t and float128_t (where supported).
+	/// \remarks Returns true for native #int128_t, #uint128_t, #float16_t and #float128_t (where supported).
 	template <typename T, typename... U>
 	inline constexpr bool all_arithmetic = is_arithmetic<T> && (true && ... && is_arithmetic<U>);
 
@@ -655,8 +665,12 @@ MUU_NAMESPACE_START
 	using make_unsigned = typename impl::make_unsigned<T>::type;
 
 	/// \brief	Evaluates to false but with type-dependent evaluation.
-	/// \details Allows you to do this: \cpp
-	///	static_assert(dependent_false<T>, "Oh no, T is the wrong type for some reason");
+	/// \details Allows you to do this:
+	/// \cpp
+	///	static_assert(
+	///		dependent_false<T>,
+	///		"Oh no, T is the wrong type for some reason"
+	///	);
 	/// \ecpp
 	template <typename T>
 	inline constexpr bool dependent_false = false;
@@ -948,12 +962,9 @@ MUU_NAMESPACE_START
 	
 	} //::build
 
-	/// \addtogroup		intrinsics		Intrinsics
-	/// \brief Small functions available from any muu header, many of which map to compiler intrinsics.
-	/// @{
-
 	/// \brief	Equivalent to C++20's std::is_constant_evaluated.
-	/// 
+	/// \ingroup	intrinsics
+	///
 	/// \remarks Compilers typically implement std::is_constant_evaluated as an intrinsic which is
 	/// 		 available regardless of the C++ mode. Using this function on these compilers allows
 	/// 		 you to get the same behaviour even when you aren't targeting C++20.
@@ -983,7 +994,8 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Equivalent to C++17's std::launder.
-	/// 		
+	/// \ingroup	intrinsics
+	///
 	/// \remarks Older implementations don't provide this as an intinsic or have a placeholder
 	/// 		 for it in their standard library. Using this version allows you to get around that 
 	/// 		 by writing code 'as if' it were there and have it compile just the same.
@@ -1005,6 +1017,7 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Unwraps an enum to it's raw integer equivalent.
+	/// \ingroup	intrinsics
 	///
 	/// \tparam	T		An enum type.
 	/// \param 	val		The value to unwrap.
@@ -1031,6 +1044,7 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Counts the number of consecutive 0 bits, starting from the left.
+	/// \ingroup	intrinsics
 	///
 	/// \tparam	T		An unsigned integer or enum type.
 	/// \param 	val		The value to test.
@@ -1083,6 +1097,7 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Counts the number of consecutive 0 bits, starting from the right.
+	/// \ingroup	intrinsics
 	///
 	/// \tparam	T		An unsigned integer or enum type.
 	/// \param 	val		The input value.
@@ -1134,6 +1149,7 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Finds the smallest integral power of two not less than the given value.
+	/// \ingroup	intrinsics
 	///
 	/// \tparam	T		An unsigned integer or enum type.
 	/// \param 	val		The input value.
@@ -1158,6 +1174,8 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Bitwise-packs integers left-to-right into a larger integer.
+	/// \ingroup	intrinsics
+	///
 	/// \detail \cpp
 	/// const auto val = pack(0xAABB_u16, 0xCCDD_u16);
 	/// assert(val == 0xAABBCCDD_u32);
@@ -1263,7 +1281,8 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Equivalent to C++20's std::bit_cast.
-	/// 
+	/// \ingroup	intrinsics
+	///
 	/// \remarks Compilers implement this as an intrinsic which is typically
 	/// 		 available regardless of the C++ mode. Using this function
 	/// 		 on these compilers allows you to get the same behaviour
@@ -1313,7 +1332,8 @@ MUU_NAMESPACE_START
 	MUU_PRAGMA_MSVC(warning(disable: 4191)) // unsafe pointer conversion (that's the whole point)
 
 	/// \brief	Casts between pointers, choosing the most appropriate conversion path.
-	/// 
+	/// \ingroup	intrinsics
+	///
 	/// \detail Doing low-level work with pointers often requires a lot of tedious boilerplate,
 	/// 		particularly when moving to/from raw byte representations or dealing with `const`.
 	/// 		By using `pointer_cast` instead you can eliminate a lot of that boilerplate,
@@ -1329,7 +1349,7 @@ MUU_NAMESPACE_START
 	///	| IUnknown\*              | IUnknown\*              | QueryInterface    | Windows only          |
 	///	| Derived\*               | Base\*                  | static_cast       |                       |
 	///	| Base\*                  | Derived\*               | dynamic_cast      | Polymorphic bases     |
-	///	| Base\*                  | Derived\*               | reinterpret_cast  | non-polymorphic bases |
+	///	| Base\*                  | Derived\*               | reinterpret_cast  | Non-polymorphic bases |
 	///	| T\*                     | (u)intptr_t             | reinterpret_cast  |                       |
 	///	| (u)intptr_t             | T\*                     | reinterpret_cast  |                       |
 	///	| void\*                  | T(\*func_ptr)()         | reinterpret_cast  | Where supported       |
@@ -1594,6 +1614,7 @@ MUU_NAMESPACE_START
 	MUU_POP_WARNINGS // MUU_PRAGMA_MSVC(warning(disable: 4191))
 
 	/// \brief	Applies a byte offset to a pointer.
+	/// \ingroup	intrinsics
 	///
 	/// \tparam	T	The type being pointed to.
 	/// \param	ptr	The pointer to offset.
@@ -1616,7 +1637,8 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Returns the minimum of two values.
-	/// 
+	/// \ingroup	intrinsics
+	///
 	/// \remarks This is equivalent to std::min without requiring you to drag in the enormity of `<algorithm>`.
 	template <typename T>
 	[[nodiscard]]
@@ -1627,7 +1649,8 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Returns the maximum of two values.
-	/// 
+	/// \ingroup	intrinsics
+	///
 	/// \remarks This is equivalent to std::max without requiring you to drag in the enormity of `<algorithm>`.
 	template <typename T>
 	[[nodiscard]]
@@ -1638,7 +1661,8 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Returns the absolute value of an arithmetic value.
-	/// 
+	/// \ingroup	intrinsics
+	///
 	/// \remarks This is similar to std::abs but is `constexpr` and doesn't coerce or promote the input types.
 	template <typename T, typename = std::enable_if_t<is_arithmetic<T>>>
 	[[nodiscard]]
@@ -1653,6 +1677,7 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Returns a value clamped between two bounds (inclusive).
+	/// \ingroup	intrinsics
 	///
 	/// \remarks This is equivalent to std::clamp without requiring you to drag in the enormity of `<algorithm>`.
 	template <typename T>
@@ -1676,6 +1701,7 @@ MUU_NAMESPACE_START
 
 
 	/// \brief	Calculates a linear interpolation between two values.
+	/// \ingroup	intrinsics
 	///
 	/// \tparam	T	An arithmetic type.
 	/// \tparam	U	An arithmetic type.
@@ -1730,6 +1756,7 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Returns true if a value is between two bounds (inclusive).
+	/// \ingroup	intrinsics
 	template <typename T, typename U>
 	[[nodiscard]]
 	MUU_ATTR(const)
@@ -1902,6 +1929,7 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Counts the number of set bits (the 'population count') of an unsigned integer.
+	/// \ingroup	intrinsics
 	///
 	/// \tparam	T		An unsigned integer or enum type.
 	/// \param 	val		The input value.
@@ -1932,6 +1960,7 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Checks if an integral value has only a single bit set.
+	/// \ingroup	intrinsics
 	///
 	/// \tparam	T		An unsigned integer or enum type.
 	/// \param 	val		The value to test.
@@ -1962,6 +1991,7 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Finds the largest integral power of two not greater than the given value.
+	/// \ingroup	intrinsics
 	///
 	/// \tparam	T		An unsigned integer or enum type.
 	/// \param 	val		The input value.
@@ -1986,6 +2016,7 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Finds the smallest number of bits needed to represent the given value.
+	/// \ingroup	intrinsics
 	///
 	/// \tparam	T		An unsigned integer or enum type.
 	/// \param 	val		The input value.
@@ -2008,6 +2039,8 @@ MUU_NAMESPACE_START
 
 	/// \brief	Returns an unsigned integer filled from the right
 	/// 		with the desired number of consecutive ones.
+	/// \ingroup	intrinsics
+	///
 	/// \detail \cpp
 	/// const auto val1 = bit_fill_right<uint32_t>(5);
 	/// const auto val2 = 0b00000000000000000000000000011111u;
@@ -2037,6 +2070,8 @@ MUU_NAMESPACE_START
 
 	/// \brief	Returns an unsigned integer filled from the left
 	/// 		with the desired number of consecutive ones.
+	/// \ingroup	intrinsics
+	///
 	/// \detail \cpp
 	/// const auto val1 = bit_fill_left<uint32_t>(5);
 	/// const auto val2 = 0b11111000000000000000000000000000u;
@@ -2065,6 +2100,7 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Gets a specific byte from an integer.
+	/// \ingroup	intrinsics
 	///
 	/// \detail \cpp
 	/// const auto i = 0xAABBCCDDu;
@@ -2123,6 +2159,7 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Gets a specific byte from an integer.
+	/// \ingroup	intrinsics
 	///
 	/// \detail \cpp
 	/// const auto i = 0xAABBCCDDu;
@@ -2271,6 +2308,7 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Reverses the byte order of an unsigned integral type.
+	/// \ingroup	intrinsics
 	///
 	/// \detail \cpp
 	/// const auto i = 0xAABBCCDDu;
@@ -2310,6 +2348,7 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Select and re-pack arbitrary bytes from an integer.
+	/// \ingroup	intrinsics
 	///
 	/// \detail \cpp
 	///
@@ -2474,6 +2513,7 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Checks if an arithmetic value is infinity or NaN.
+	/// \ingroup	intrinsics
 	///
 	/// \tparam	T	The value type.
 	/// \param 	val	The value to examine.
@@ -2523,8 +2563,6 @@ MUU_NAMESPACE_START
 	}
 
 	MUU_PRAGMA_GCC("GCC pop_options") // -fno-finite-math-only
-
-	/// @}
 }
 MUU_NAMESPACE_END
 
@@ -2648,12 +2686,12 @@ MUU_NAMESPACE_START
 	/// \brief	`long double` constants.
 	template <> struct constants<long double> : impl::floating_point_constants<long double> {};
 
-	#if MUU_HAS_FLOAT16 || MUU_DOXYGEN
+	#if defined(DOXYGEN) || MUU_HAS_FLOAT16
 	/// \brief	`float16_t` constants.
 	template <> struct constants<float16_t> : impl::floating_point_constants<float16_t> {};
 	#endif
 
-	#if MUU_HAS_FLOAT128 || MUU_DOXYGEN
+	#if defined(DOXYGEN) || MUU_HAS_FLOAT128
 	/// \brief	`float128_t` constants.
 	template <> struct constants<float128_t> : impl::floating_point_constants<float128_t> {};
 	#endif
@@ -2668,8 +2706,7 @@ MUU_NAMESPACE_END
 
 MUU_NAMESPACE_START
 {
-	/// \addtogroup		strings		Strings
-	/// \brief Utilities to simplify working with strings.
+	/// \addtogroup		strings
 	/// @{
 
 	namespace impl

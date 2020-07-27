@@ -31,12 +31,12 @@ def main():
 				mode[i] = mode[i][1:]
 	modes.sort()
 
-	vs_root = path.join(utils.get_script_folder(), '..', 'vs', 'tests')
+	test_root = path.join(utils.get_script_folder(), '..', 'vs', 'tests')
 	uuid_namespace = UUID('{51C7001B-048C-4AF0-B598-D75E78FF31F0}')
 	configuration_name = lambda x: 'Debug' if x.lower() == 'debug' else 'Release'
 	platform_name = lambda x: 'Win32' if x == 'x86' else x
 	for mode in modes:
-		file_path = path.join(vs_root, 'test_{}.vcxproj'.format('_'.join(mode)))
+		file_path = path.join(test_root, 'test_{}.vcxproj'.format('_'.join(mode)))
 		print("Writing to {}".format(file_path))
 		with open(file_path, 'w', encoding='utf-8-sig', newline='\r\n') as file:
 			write = lambda txt: print(txt, file=file)
@@ -81,6 +81,8 @@ def main():
 			<PrecompiledHeader>Use</PrecompiledHeader>
 			<PrecompiledHeaderFile>tests.h</PrecompiledHeaderFile>
 			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">_HAS_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">SHOULD_HAVE_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'!='false'">SHOULD_HAVE_EXCEPTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<LanguageStandard>std{standard}</LanguageStandard>
 		</ClCompile>
 	</ItemDefinitionGroup>

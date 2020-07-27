@@ -9,7 +9,7 @@
 #pragma once
 #include "../muu/core.h"
 
-#if !MUU_DOXYGEN && !MUU_INTELLISENSE && (!defined(MUU_DEV) || !MUU_DEV)
+#if !defined(DOXYGEN) && !MUU_INTELLISENSE && (!defined(MUU_DEV) || !MUU_DEV)
 	#error Including muu/string_param.h is currently prohibited - muu::string_param is not fully implemented
 #endif
 

@@ -6,6 +6,6 @@
 #pragma once
 #include "../muu/core.h"
 
-#if !MUU_DOXYGEN && !MUU_INTELLISENSE && (!defined(MUU_DEV) || !MUU_DEV)
+#if !defined(DOXYGEN) && !MUU_INTELLISENSE && (!defined(MUU_DEV) || !MUU_DEV)
 	#error Including muu/concatenate.h is currently prohibited - muu::concatenate is not fully implemented
 #endif

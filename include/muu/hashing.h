@@ -35,8 +35,7 @@ MUU_NAMESPACE_START
 		}
 	}
 
-	/// \addtogroup		hashing		Hashing
-	/// \brief Functions and types related to the generation of hashes.
+	/// \addtogroup		hashing
 	/// @{
 	
 	namespace impl
@@ -217,7 +216,7 @@ MUU_NAMESPACE_START
 				return (*this)(sv.data(), sv.size());
 			}
 
-			#if MUU_WINDOWS || MUU_DOXYGEN
+			#if defined(DOXYGEN) || MUU_WINDOWS
 
 			/// \brief	Appends a wide string to the hash function's input.
 			/// 
@@ -238,7 +237,7 @@ MUU_NAMESPACE_START
 				return *this;
 			}
 
-			#endif
+			#endif // windows
 
 			#ifdef __cpp_lib_char8_t
 

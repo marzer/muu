@@ -14,40 +14,9 @@
 #endif
 
 //=====================================================================================================================
-// CONFIGURATION
-//=====================================================================================================================
-
-#ifdef MUU_CONFIG_HEADER
-	#include MUU_CONFIG_HEADER
-	#undef MUU_CONFIG_HEADER
-#endif
-
-#if !defined(MUU_HEADER_ONLY) || (defined(MUU_HEADER_ONLY) && MUU_HEADER_ONLY) || defined(__INTELLISENSE__)
-	#undef MUU_HEADER_ONLY
-	#define MUU_HEADER_ONLY 1
-#endif
-
-#if defined(MUU_IMPLEMENTATION) || MUU_HEADER_ONLY
-	#undef MUU_IMPLEMENTATION
-	#define MUU_IMPLEMENTATION 1
-#else
-	#define MUU_IMPLEMENTATION 0
-#endif
-
-#ifndef MUU_API
-	#define MUU_API
-#endif
-
-//=====================================================================================================================
 // COMPILER DETECTION
 //=====================================================================================================================
 
-#undef	MUU_DOXYGEN
-#ifdef DOXYGEN
-	#define MUU_DOXYGEN			1
-#else
-	#define MUU_DOXYGEN			0
-#endif
 #ifdef __INTELLISENSE__
 	#define MUU_INTELLISENSE	1
 #else
@@ -96,7 +65,7 @@
 #endif
 
 // MUU_ARCH_AMD64
-#if defined(__amd64__) || defined(__amd64) || defined(__x86_64__) || defined(__x86_64) || defined(_M_AMD64) || MUU_DOXYGEN
+#if defined(__amd64__) || defined(__amd64) || defined(__x86_64__) || defined(__x86_64) || defined(_M_AMD64) || defined(DOXYGEN)
 	#define MUU_ARCH_AMD64 1
 	#define MUU_ARCH_BITNESS 64
 #else
@@ -128,15 +97,17 @@
 	#define MUU_ARCH_ARM 0
 #endif
 
-#define MUU_ARCH_SUM (MUU_ARCH_ITANIUM + MUU_ARCH_AMD64 + MUU_ARCH_X86 + MUU_ARCH_ARM32 + MUU_ARCH_ARM64)
-#if MUU_ARCH_SUM > 1
-	#error Could not uniquely identify target architecture.
-#elif MUU_ARCH_SUM == 0
-	#error Unknown target architecture.
-#endif
-#undef MUU_ARCH_SUM
-#ifndef MUU_ARCH_BITNESS
-	#error Unknown target architecture bitness.
+#ifndef DOXYGEN
+	#define MUU_ARCH_SUM (MUU_ARCH_ITANIUM + MUU_ARCH_AMD64 + MUU_ARCH_X86 + MUU_ARCH_ARM32 + MUU_ARCH_ARM64)
+	#if MUU_ARCH_SUM > 1
+		#error Could not uniquely identify target architecture.
+	#elif MUU_ARCH_SUM == 0
+		#error Unknown target architecture.
+	#endif
+	#undef MUU_ARCH_SUM
+	#ifndef MUU_ARCH_BITNESS
+		#error Unknown target architecture bitness.
+	#endif
 #endif
 #ifdef _WIN32
 	#define MUU_WINDOWS 1
@@ -410,7 +381,35 @@
 #endif // gcc
 
 //=====================================================================================================================
-// ALL COMPILERS
+// USER CONFIGURATION
+//=====================================================================================================================
+
+#ifdef MUU_CONFIG_HEADER
+	#include MUU_CONFIG_HEADER
+#endif
+
+#ifdef DOXYGEN
+	#define MUU_HEADER_ONLY 0
+#endif
+
+#if !defined(MUU_HEADER_ONLY) || (defined(MUU_HEADER_ONLY) && MUU_HEADER_ONLY) || MUU_INTELLISENSE
+	#undef MUU_HEADER_ONLY
+	#define MUU_HEADER_ONLY 1
+#endif
+
+#if defined(MUU_IMPLEMENTATION) || MUU_HEADER_ONLY
+	#undef MUU_IMPLEMENTATION
+	#define MUU_IMPLEMENTATION 1
+#else
+	#define MUU_IMPLEMENTATION 0
+#endif
+
+#ifndef MUU_API
+	#define MUU_API
+#endif
+
+//=====================================================================================================================
+// ATTRIBUTES, UTILITY MACROS ETC
 //=====================================================================================================================
 
 #ifndef MUU_CPP_VERSION
@@ -429,6 +428,15 @@
 #endif
 #undef MUU_CPP_VERSION
 
+#ifdef __has_include
+	#define MUU_HAS_INCLUDE(header)		__has_include(header)
+#else
+	#define MUU_HAS_INCLUDE(header)		0
+#endif
+#ifndef MUU_HAS_BUILTIN
+	#define MUU_HAS_BUILTIN(name)		0
+#endif
+
 #ifndef MUU_EXCEPTIONS
 	#define MUU_EXCEPTIONS 1
 #endif
@@ -438,7 +446,7 @@
 #endif
 
 #ifndef MUU_LITTLE_ENDIAN
-	#if MUU_DOXYGEN
+	#ifdef DOXYGEN
 		#define MUU_LITTLE_ENDIAN 1
 	#else
 		#define MUU_LITTLE_ENDIAN 0
@@ -541,7 +549,7 @@
 
 #define MUU_NO_DEFAULT_CASE				default: MUU_UNREACHABLE
 
-#if !MUU_DOXYGEN && !MUU_INTELLISENSE
+#if !defined(DOXYGEN) && !MUU_INTELLISENSE
 	#if !defined(MUU_LIKELY) && __has_cpp_attribute(likely)
 		#define MUU_LIKELY(...)	(__VA_ARGS__) [[likely]]
 	#endif
@@ -595,15 +603,6 @@
 #define MUU_APPEND_SV_1(S)				S##sv
 #define MUU_APPEND_SV(S)				MUU_APPEND_SV_1(S)
 #define MUU_MAKE_STRING_VIEW(S)			MUU_APPEND_SV(MUU_MAKE_STRING(S))
-
-#ifdef __has_include
-	#define MUU_HAS_INCLUDE(header)		__has_include(header)
-#else
-	#define MUU_HAS_INCLUDE(header)		0
-#endif
-#ifndef MUU_HAS_BUILTIN
-	#define MUU_HAS_BUILTIN(name)	0
-#endif
 
 #define MUU_EVAL_1(T, F)		T
 #define MUU_EVAL_0(T, F)		F
@@ -666,14 +665,21 @@
 #define MUU_VERSION_MINOR				1
 #define MUU_VERSION_PATCH				0
 
-#if MUU_DOXYGEN
-	#define MUU_NAMESPACE_START			namespace muu
-	#define MUU_NAMESPACE_END
-	#define MUU_NAMESPACE				muu
-#else
+#ifndef MUU_ABI_NAMESPACES
+	#ifdef DOXYGEN
+		#define MUU_ABI_NAMESPACES 0
+	#else
+		#define MUU_ABI_NAMESPACES 1
+	#endif
+#endif
+#if MUU_ABI_NAMESPACES
 	#define MUU_NAMESPACE_START			namespace muu { inline namespace MUU_CONCAT(v, MUU_VERSION_MAJOR)
 	#define MUU_NAMESPACE_END			}
 	#define MUU_NAMESPACE				::muu::MUU_CONCAT(v, MUU_VERSION_MAJOR)
+#else
+	#define MUU_NAMESPACE_START			namespace muu
+	#define MUU_NAMESPACE_END
+	#define MUU_NAMESPACE				muu
 #endif
 #define MUU_IMPL_NAMESPACE_START		MUU_NAMESPACE_START { namespace impl
 #define MUU_IMPL_NAMESPACE_END			} MUU_NAMESPACE_END
@@ -729,9 +735,9 @@ MUU_POP_WARNINGS
 // DOXYGEN SPAM
 //=====================================================================================================================
 
-#if MUU_DOXYGEN
+#if defined(DOXYGEN)
 
-/// \addtogroup		preprocessor		Preprocessor magic
+/// \defgroup	preprocessor		Preprocessor magic
 /// \brief		Compiler feature detection, attributes, string-makers, etc.
 /// @{
 ///
@@ -813,7 +819,8 @@ MUU_POP_WARNINGS
 /// 
 /// \def MUU_DECLSPEC(attr)
 /// \brief Expands to `__declspec( attr )` when compiling with MSVC (or another compiler in MSVC-mode).
-/// 
+
+//#define MUU_PUSH_WARNINGS
 /// \def MUU_PUSH_WARNINGS
 /// \brief Pushes the current compiler warning state onto the stack.
 /// \detail Use this in tandem with the other warning macros to demarcate regions of code
@@ -834,19 +841,23 @@ MUU_POP_WARNINGS
 /// 	
 /// 	MUU_POP_WARNINGS
 /// \ecpp
-/// 
+
+//#define MUU_DISABLE_SWITCH_WARNINGS
 /// \def MUU_DISABLE_SWITCH_WARNINGS
 /// \brief Disables compiler warnings relating to the use of switch statements.
 /// \see MUU_PUSH_WARNINGS
-///
+
+//#define MUU_DISABLE_INIT_WARNINGS
 /// \def MUU_DISABLE_INIT_WARNINGS
 /// \brief Disables compiler warnings relating to variable initialization.
 /// \see MUU_PUSH_WARNINGS
-/// 
+
+//#define MUU_DISABLE_ALL_WARNINGS
 /// \def MUU_DISABLE_ALL_WARNINGS
 /// \brief Disables ALL compiler warnings.
 /// \see MUU_PUSH_WARNINGS
-/// 
+
+//#define MUU_POP_WARNINGS
 /// \def MUU_POP_WARNINGS
 /// \brief Pops the current compiler warning state off the stack.
 /// \see MUU_PUSH_WARNINGS
@@ -1056,6 +1067,6 @@ MUU_POP_WARNINGS
 ///
 /// @}
 
-#endif // MUU_DOXYGEN
+#endif // DOXYGEN
 
 // clang-format on
