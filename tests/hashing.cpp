@@ -18,23 +18,18 @@ TEST_CASE("hashing - fnv1a")
 		return hasher.value();
 	};
 
-	#define CHECK_FNV1A_STR(input, expected)	CHECK(hash(i<sizeof(expected)* CHAR_BIT>{}, input) == expected)
-	#if MUU_WINDOWS
-		#define CHECK_FNV1A_W(input, expected)												\
-			CHECK_FNV1A_STR(MUU_CONCAT(L, input), expected)
-	#else
-		#define CHECK_FNV1A_W(input, expected)	(void)0
-	#endif
+	#define CHECK_FNV1A_STR(input, expected)				\
+		CHECK_AND_STATIC_ASSERT(hash(i<sizeof(expected)* CHAR_BIT>{}, input) == expected)
 
-	#define CHECK_FNV1A(input, expected)													\
+	#define CHECK_FNV1A(input, expected)					\
 		CHECK_FNV1A_STR(input, expected);					\
 		CHECK_FNV1A_STR(MUU_CONCAT(u8, input), expected);	\
-		CHECK_FNV1A_W(input, expected)
+		CHECK_FNV1A_STR(MUU_CONCAT(L, input), expected)
 
 	CHECK_FNV1A("The quick brown fox jumps over the lazy dog"sv, 0x048FFF90_u32);
 	CHECK_FNV1A("The quick brown fox jumps over the lazy dog"sv, 0xF3F9B7F5E7E47110_u64);
-	//CHECK_FNV1A("ði ıntəˈnæʃənəl fəˈnɛtık əsoʊsiˈeıʃn"sv, 0xAFED7BC2_u32);
-	//CHECK_FNV1A("ði ıntəˈnæʃənəl fəˈnɛtık əsoʊsiˈeıʃn"sv, 0xF1C64B37A795CB62_u64);
+	CHECK_FNV1A("ði ıntəˈnæʃənəl fəˈnɛtık əsoʊsiˈeıʃn"sv, 0xAFED7BC2_u32);
+	CHECK_FNV1A("ði ıntəˈnæʃənəl fəˈnɛtık əsoʊsiˈeıʃn"sv, 0xF1C64B37A795CB62_u64);
 }
 
 TEST_CASE("hashing - sha1")

@@ -38,5 +38,19 @@ int main(int /*argc*/, char** /*argv*/)
 		std::cout << "  actual: "sv << hasher << std::endl;
 	}
 
+	{
+		std::cout << "expected: f1c64b37a795cb62"sv << std::endl;
+		muu::fnv1a<64> hasher;
+		hasher("ði ıntəˈnæʃənəl fəˈnɛtık əsoʊsiˈeıʃn"sv);
+		std::cout << "  actual: "sv << hasher << std::endl;
+	}
+
+	{
+		std::cout << "expected: f1c64b37a795cb62"sv << std::endl;
+		muu::fnv1a<64> hasher;
+		hasher(L"ði ıntəˈnæʃənəl fəˈnɛtık əsoʊsiˈeıʃn"sv);
+		std::cout << "  actual: "sv << hasher << std::endl;
+	}
+
 	return 0;
 }

@@ -128,7 +128,6 @@ namespace muu { }
 namespace muu // non-abi namespace; this is not an error
 {
 	#if defined(DOXYGEN) || MUU_HAS_INT128
-
 	/// \brief	A 128-bit signed integer.
 	/// 
 	/// \attention This typedef is only present when 128-bit integers are supported by your target platform.
@@ -140,32 +139,25 @@ namespace muu // non-abi namespace; this is not an error
 	/// \attention This typedef is only present when 128-bit integers are supported by your target platform.
 	/// 		 You can check support using #MUU_HAS_INT128.
 	using uint128_t = __uint128_t;
-
 	#endif
 
 	#if defined(DOXYGEN) || MUU_HAS_FLOAT128
-
 	/// \brief	A 128-bit quad-precision float.
 	/// 
 	/// \attention This typedef is only present when 128-bit floats are supported by your target platform.
 	/// 		 You can check support using #MUU_HAS_FLOAT128.
 	using float128_t = __float128;
-
 	#endif
 
 	#if defined(DOXYGEN) || MUU_HAS_FLOAT16
-
 	/// \brief	A 16-bit half-precision float.
 	/// 
 	/// \attention This will be an alias for your target platform's native IEC559 16-bit float type
 	/// 		 if present (e.g. `_Float16`), otherwise it will alias muu::half. You can check support using
 	/// 		 #MUU_HAS_FLOAT16.
 	using float16_t = _Float16;
-
 	#else
-
 	using float16_t = half;
-
 	#endif
 }
 

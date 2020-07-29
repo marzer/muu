@@ -56,6 +56,7 @@
     <ClInclude Include="..\include\muu\preprocessor.h" />
     <ClInclude Include="..\include\muu\scope_guard.h" />
     <ClInclude Include="..\include\muu\semver.h" />
+    <ClInclude Include="..\include\muu\strings.h" />
     <ClInclude Include="..\include\muu\string_param.h" />
     <ClInclude Include="..\include\muu\tagged_ptr.h" />
     <ClInclude Include="..\include\muu\thread_pool.h" />
@@ -75,6 +76,7 @@
     <None Include="..\meson.build" />
     <None Include="..\python\generate_documentation.py" />
     <None Include="..\python\generate_float_tests_header.py" />
+    <None Include="..\python\generate_unicode_functions.py" />
     <None Include="..\python\generate_windows_test_targets.py" />
     <None Include="..\python\utils.py" />
     <None Include="..\README.md" />

@@ -42,7 +42,17 @@ article, article > header, article div > section
 
 article div > section > section
 {
-	margin-bottom: 1.25rem;
+	margin-bottom: 2.25rem;
+}
+
+article section.m-doc-details > div
+{
+	background-color: rgba(0,0,0,0.07)
+}
+
+article section.m-doc-details > div > h3:first-child
+{
+	background-color: #22272e;
 }
 
 pre, code, .muu-enable-if > a
@@ -142,6 +152,7 @@ pre.m-code + pre.m-console span
 .m-doc-details div table.m-table.m-fullwidth.m-flat tbody tr td strong em
 {
 	color: #a5c9ea;
+	font-style: normal;
 }
 
 /* comments */
@@ -316,7 +327,7 @@ pre > p.godbolt
 {
   float: right;
 }
-@media only screen and ((max-width: 575px) or (hover: none) or (pointer: coarse) or (pointer: none))
+@media screen and (max-width: 767px)
 {
 	.godbolt
 	{

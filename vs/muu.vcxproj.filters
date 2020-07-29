@@ -76,6 +76,9 @@
     <ClInclude Include="..\include\muu\fwd.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\muu\strings.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />
@@ -113,6 +116,9 @@
       <Filter>python</Filter>
     </None>
     <None Include="..\python\generate_windows_test_targets.py">
+      <Filter>python</Filter>
+    </None>
+    <None Include="..\python\generate_unicode_functions.py">
       <Filter>python</Filter>
     </None>
   </ItemGroup>

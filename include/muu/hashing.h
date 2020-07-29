@@ -8,8 +8,7 @@
 
 #pragma once
 #include "../muu/core.h"
-
-MUU_PRAGMA_MSVC(inline_recursion(on))
+#include "../muu/strings.h"
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_PADDING_WARNINGS
@@ -40,11 +39,13 @@ MUU_NAMESPACE_START
 	
 	namespace impl
 	{
+		// these v
+
 		template <size_t Bits>
 		struct hash_combiner
 		{
 			static_assert(
-				dependent_false<std::integral_constant<size_t, Bits>>,
+				dependent_false<hash_combiner<Bits>>,
 				"Hash combining with hashes of given number of bits is not implemented on the target platform"
 			);
 		};
@@ -168,13 +169,6 @@ MUU_NAMESPACE_START
 		private:
 			hash_type value_ = impl::fnv1a<Bits>::offset_basis;
 
-			template <typename T>
-			constexpr void append(T atom) noexcept
-			{
-				value_ ^= static_cast<hash_type>(atom);
-				value_ *= impl::fnv1a<Bits>::prime;
-			}
-
 		public:
 
 			/// \brief	Constructs a new FNV-1a hasher.
@@ -183,78 +177,59 @@ MUU_NAMESPACE_START
 			/// \brief	Appends a single byte to the hash function's input.
 			constexpr fnv1a& operator() (uint8_t byte) noexcept
 			{
-				append(byte);
+				value_ ^= static_cast<hash_type>(byte);
+				value_ *= impl::fnv1a<Bits>::prime;
 				return *this;
 			}
 
 			/// \brief	Appends a single byte to the hash function's input.
 			constexpr fnv1a& operator() (std::byte byte) noexcept
 			{
-				append(static_cast<uint8_t>(byte));
-				return *this;
+				return (*this)(static_cast<uint8_t>(byte));
 			}
 
-			/// \brief	Appends a single character to the hash function's input.
-			constexpr fnv1a& operator() (char c) noexcept
-			{
-				append(static_cast<uint8_t>(c));
-				return *this;
-			}
-
-			/// \brief	Appends a sequence of data to the hash function's input.
-			constexpr fnv1a& operator() (const void* data, size_t size) noexcept
+			/// \brief	Appends a sequence of raw data to the hash function's input.
+			fnv1a& operator() (const void* data, size_t size) noexcept
 			{
 				const auto end = pointer_cast<const uint8_t*>(data) + size;
 				for (auto ptr = pointer_cast<const uint8_t*>(data); ptr != end; ptr++)
-					append(*ptr);
-				return *this;
-			}
-
-			/// \brief	Appends a string to the hash function's input.
-			constexpr fnv1a& operator() (std::string_view sv) noexcept
-			{
-				return (*this)(sv.data(), sv.size());
-			}
-
-			#if defined(DOXYGEN) || MUU_WINDOWS
-
-			/// \brief	Appends a wide string to the hash function's input.
-			/// 
-			/// \attention This overload is only available when building for Windows.
-			constexpr fnv1a& operator() (std::wstring_view sv) noexcept
-			{
-				for (auto c : sv)
-					append(c);
-				return *this;
-			}
-
-			/// \brief	Appends a single wide character to the hash function's input.
-			/// 
-			/// \attention This overload is only available when building for Windows.
-			constexpr fnv1a& operator() (wchar_t c) noexcept
-			{
-				append(c);
-				return *this;
-			}
-
-			#endif // windows
-
-			#ifdef __cpp_lib_char8_t
-
-			/// \brief	Appends a single UTF-8 character to the hash function's input.
-			constexpr fnv1a& operator() (char8_t c) noexcept
-			{
-				append(static_cast<uint8_t>(c));
+					(*this)(*ptr);
 				return *this;
 			}
 
 			/// \brief	Appends a UTF-8 string to the hash function's input.
-			constexpr fnv1a& operator() (std::u8string_view sv) noexcept
+			constexpr fnv1a& operator() (std::string_view sv) noexcept
 			{
-				return (*this)(sv.data(), sv.size());
+				for (auto c : sv)
+					(*this)(static_cast<uint8_t>(c));
+				return *this;
 			}
 
+			#ifdef __cpp_lib_char8_t
+			/// \brief	Appends a UTF-8 string to the hash function's input.
+			constexpr fnv1a& operator() (std::u8string_view sv) noexcept
+			{
+				for (auto c : sv)
+					(*this)(static_cast<uint8_t>(c));
+				return *this;
+			}
 			#endif
+
+			/// \brief	Appends a wide string to the hash function's input.
+			constexpr fnv1a& operator() (std::wstring_view sv) noexcept
+			{
+				impl::utf_decode(sv, [this](char32_t cu) noexcept
+				{
+					if (!cu)
+						(*this)(0_u8);
+					else
+					{
+						auto cp = impl::utf8_code_point{ cu };
+						(*this)(cp.view());
+					}
+				});
+				return *this;
+			}
 
 			/// \brief	Returns the calculated hash value.
 			[[nodiscard]]
@@ -323,24 +298,38 @@ MUU_NAMESPACE_START
 				return (*this)(unwrap(byte));
 			}
 
-			/// \brief	Appends a sequence of data to the hash function's input.
+			/// \brief	Appends a sequence of raw data to the hash function's input.
 			sha1& operator() (const void* data, size_t size) noexcept;
 
-			/// \brief	Appends a string to the hash input.
+			/// \brief	Appends a UTF-8 string to the hash function's input.
 			sha1& operator() (std::string_view sv) noexcept
 			{
 				return (*this)(sv.data(), sv.size());
 			}
 
 			#ifdef __cpp_lib_char8_t
-
-			/// \brief	Appends a string to the hash input.
+			/// \brief	Appends a UTF-8 string to the hash function's input.
 			sha1& operator() (std::u8string_view sv) noexcept
 			{
 				return (*this)(sv.data(), sv.size());
 			}
-
 			#endif
+
+			/// \brief	Appends a wide string to the hash function's input.
+			constexpr sha1& operator() (std::wstring_view sv) noexcept
+			{
+				impl::utf_decode(sv, [this](char32_t cu) noexcept
+				{
+					if (!cu)
+						(*this)(0_u8);
+					else
+					{
+						auto cp = impl::utf8_code_point{ cu };
+						(*this)(cp.view());
+					}
+				});
+				return *this;
+			}
 
 			/// \brief	Finishes calculating the hash.
 			/// \remarks Appending to the hash function's input has no effect after finish() is called.
@@ -376,8 +365,6 @@ MUU_NAMESPACE_START
 MUU_NAMESPACE_END
 
 MUU_POP_WARNINGS // MUU_DISABLE_PADDING_WARNINGS
-
-MUU_PRAGMA_MSVC(inline_recursion(off))
 
 #if MUU_IMPLEMENTATION
 	#include "../muu/impl/hashing.hpp"

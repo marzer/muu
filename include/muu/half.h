@@ -599,106 +599,70 @@ MUU_NAMESPACE_START
 		return static_cast<float>(val) < 0.0f ? -val : val;
 	}
 
+	namespace impl
+	{
+		// hex/bit patterns for constants were generated using this: http://weitz.de/ieee/
+
+		template <>
+		struct numeric_limits<half>
+		{
+			static constexpr half lowest = half::from_bits(0xFBFF_u16);
+			static constexpr half highest = half::from_bits(0x7BFF_u16);
+		};
+
+		template <>
+		struct unsigned_integral_named_constants<half>
+		{
+			static constexpr half zero = half::from_bits(0b0'00000'0000000000_u16);
+			static constexpr half one = half::from_bits(0b0'01111'0000000000_u16);
+			static constexpr half two = half::from_bits(0b0'10000'0000000000_u16);
+			static constexpr half three = half::from_bits(0b0'10000'1000000000_u16);
+			static constexpr half four = half::from_bits(0b0'10001'0000000000_u16);
+			static constexpr half five = half::from_bits(0b0'10001'0100000000_u16);
+			static constexpr half six = half::from_bits(0b0'10001'1000000000_u16);
+			static constexpr half seven = half::from_bits(0b0'10001'1100000000_u16);
+			static constexpr half eight = half::from_bits(0b0'10010'0000000000_u16);
+			static constexpr half nine = half::from_bits(0b0'10010'0010000000_u16);
+			static constexpr half ten = half::from_bits(0b0'10010'0100000000_u16);
+		};
+
+		template <>
+		struct signed_integral_named_constants<half>
+		{
+			static constexpr half minus_one = half::from_bits(0b1'01111'0000000000_u16);
+			static constexpr half minus_two = half::from_bits(0b1'10000'0000000000_u16);
+			static constexpr half minus_three = half::from_bits(0b1'10000'1000000000_u16);
+			static constexpr half minus_four = half::from_bits(0b1'10001'0000000000_u16);
+			static constexpr half minus_five = half::from_bits(0b1'10001'0100000000_u16);
+			static constexpr half minus_six = half::from_bits(0b1'10001'1000000000_u16);
+			static constexpr half minus_seven = half::from_bits(0b1'10001'1100000000_u16);
+			static constexpr half minus_eight = half::from_bits(0b1'10010'0000000000_u16);
+			static constexpr half minus_nine = half::from_bits(0b1'10010'0010000000_u16);
+			static constexpr half minus_ten = half::from_bits(0b1'10010'0100000000_u16);
+		};
+
+		template <>
+		struct floating_point_special_constants<half>
+		{
+			static constexpr half nan = half::from_bits(0b1'11111'1000000001_u16);
+			static constexpr half snan = half::from_bits(0b1'11111'0000000001_u16);
+			static constexpr half infinity = half::from_bits(0b0'11111'0000000000_u16);
+			static constexpr half negative_infinity = half::from_bits(0b1'11111'0000000000_u16);
+		};
+
+		template <>
+		struct floating_point_named_constants<half>
+		{
+			static constexpr half minus_zero = half::from_bits(0b1'00000'0000000000_u16);
+			static constexpr half one_over_two = half::from_bits(0b0'01110'0000000000_u16);
+			static constexpr half three_over_two = half::from_bits(0b0'01111'1000000000_u16);
+		};
+
+	}
+
 	/// \brief	16-bit half-precision float constants.
 	/// \ingroup		constants
-	template <>
-	struct constants<half>
-	{
-		// these were generated using this: http://weitz.de/ieee/
-
-		/// \brief The lowest representable value (`-65504.0`)
-		static constexpr half lowest			= half::from_bits(0xFBFF_u16);
-
-		/// \brief The highest representable value (`65504`)
-		static constexpr half highest			= half::from_bits(0x7BFF_u16);
-
-		/// \brief Not-A-Number (quiet)
-		static constexpr half nan				= half::from_bits(0b1'11111'1000000001_u16);
-
-		/// \brief Not-A-Number (signalling)
-		static constexpr half snan				= half::from_bits(0b1'11111'0000000001_u16);
-
-		/// \brief Positive infinity
-		static constexpr half infinity			= half::from_bits(0b0'11111'0000000000_u16);
-
-		/// \brief Negative infinity
-		static constexpr half negative_infinity = half::from_bits(0b1'11111'0000000000_u16);
-
-		/// \brief Epsilon (`0.00097656`)
-		static constexpr half epsilon			= half::from_bits(0b0'00101'0000000000_u16);
-
-		/// \brief `0.0`
-		static constexpr half zero				= half::from_bits(0b0'00000'0000000000_u16);
-
-		/// \brief `-0.0`
-		static constexpr half minus_zero		= half::from_bits(0b1'00000'0000000000_u16);
-
-		/// \brief `0.5`
-		static constexpr half one_over_two		= half::from_bits(0b0'01110'0000000000_u16);
-
-		/// \brief `1.0`
-		static constexpr half one				= half::from_bits(0b0'01111'0000000000_u16);
-
-		/// \brief `1.5`
-		static constexpr half three_over_two	= half::from_bits(0b0'01111'1000000000_u16);
-
-		/// \brief `2.0`
-		static constexpr half two				= half::from_bits(0b0'10000'0000000000_u16);
-
-		/// \brief `3.0`
-		static constexpr half three				= half::from_bits(0b0'10000'1000000000_u16);
-
-		/// \brief `4.0`
-		static constexpr half four				= half::from_bits(0b0'10001'0000000000_u16);
-
-		/// \brief `5.0`
-		static constexpr half five				= half::from_bits(0b0'10001'0100000000_u16);
-
-		/// \brief `6.0`
-		static constexpr half six				= half::from_bits(0b0'10001'1000000000_u16);
-
-		/// \brief `7.0`
-		static constexpr half seven				= half::from_bits(0b0'10001'1100000000_u16);
-
-		/// \brief `8.0`
-		static constexpr half eight				= half::from_bits(0b0'10010'0000000000_u16);
-
-		/// \brief `9.0`
-		static constexpr half nine				= half::from_bits(0b0'10010'0010000000_u16);
-
-		/// \brief `10.0`
-		static constexpr half ten				= half::from_bits(0b0'10010'0100000000_u16);
-
-		/// \brief `-1.0`
-		static constexpr half minus_one			= half::from_bits(0b1'01111'0000000000_u16);
-
-		/// \brief `-2.0`
-		static constexpr half minus_two			= half::from_bits(0b1'10000'0000000000_u16);
-
-		/// \brief `-3.0`
-		static constexpr half minus_three		= half::from_bits(0b1'10000'1000000000_u16);
-
-		/// \brief `-4.0`
-		static constexpr half minus_four		= half::from_bits(0b1'10001'0000000000_u16);
-
-		/// \brief `-5.0`
-		static constexpr half minus_five		= half::from_bits(0b1'10001'0100000000_u16);
-
-		/// \brief `-6.0`
-		static constexpr half minus_six			= half::from_bits(0b1'10001'1000000000_u16);
-
-		/// \brief `-7.0`
-		static constexpr half minus_seven		= half::from_bits(0b1'10001'1100000000_u16);
-
-		/// \brief `-8.0`
-		static constexpr half minus_eight		= half::from_bits(0b1'10010'0000000000_u16);
-
-		/// \brief `-9.0`
-		static constexpr half minus_nine		= half::from_bits(0b1'10010'0010000000_u16);
-
-		/// \brief `-10.0`
-		static constexpr half minus_ten			= half::from_bits(0b1'10010'0100000000_u16);
-	};
+	template <> struct constants<half> : impl::floating_point_constants<half> {};
 }
 MUU_NAMESPACE_END
 
@@ -943,7 +907,8 @@ namespace std
 		MUU_ATTR(const)
 		static MUU_CONSTEVAL half epsilon() noexcept
 		{
-			return half::constants::epsilon;
+			using namespace muu::literals;
+			return half::from_bits(0b0'00101'0000000000_u16); // 0.00097656
 		}
 
 		[[nodiscard]]

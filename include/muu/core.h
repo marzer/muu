@@ -32,7 +32,6 @@ MUU_DISABLE_ALL_WARNINGS
 #include <type_traits>
 #include <utility>
 #include <limits>
-#include <string_view>
 #if MUU_MSVC
 	#include <intrin0.h>
 #endif
@@ -688,6 +687,327 @@ MUU_NAMESPACE_START
 MUU_NAMESPACE_END
 
 //=====================================================================================================================
+// CONSTANTS
+//=====================================================================================================================
+
+MUU_NAMESPACE_START
+{
+	namespace impl
+	{
+		//------------- standalone 'trait' constant classes
+
+		template <typename T>
+		struct numeric_limits
+		{
+			/// \brief The lowest representable 'normal' value (equivalent to std::numeric_limits::lowest()).
+			static constexpr T lowest = std::numeric_limits<T>::lowest();
+
+			/// \brief The highest representable 'normal' value (equivalent to std::numeric_limits::max()).
+			static constexpr T highest = (std::numeric_limits<T>::max)();
+		};
+
+		#if MUU_HAS_INT128
+		template <>
+		struct numeric_limits<int128_t>
+		{
+			static constexpr int128_t max = static_cast<int128_t>(
+				(int128_t{ 1u } << ((__SIZEOF_INT128__ * CHAR_BIT) - 1)) - 1
+				);
+			static constexpr int128_t min = -max - int128_t{ 1 };
+		};
+		template <>
+		struct numeric_limits<uint128_t>
+		{
+			static constexpr uint128_t min = uint128_t{};
+			static constexpr uint128_t max = (2u * static_cast<uint128_t>(numeric_limits<int128_t>::max)) + 1u;
+		};
+		#endif // MUU_HAS_INT128
+
+		template <typename T>
+		struct unsigned_integral_named_constants
+		{
+			static constexpr T zero = T{};		///< `0`
+			static constexpr T one = T{ 1 };	///< `1`
+			static constexpr T two = T{ 2 };	///< `2`
+			static constexpr T three = T{ 3 };	///< `3`
+			static constexpr T four = T{ 4 };	///< `4`
+			static constexpr T five = T{ 5 };	///< `5`
+			static constexpr T six = T{ 6 };	///< `6`
+			static constexpr T seven = T{ 7 };	///< `7`
+			static constexpr T eight = T{ 8 };	///< `8`
+			static constexpr T nine = T{ 9 };	///< `9`
+			static constexpr T ten = T{ 10 };	///< `10`
+		};
+
+		template <typename T>
+		struct signed_integral_named_constants
+		{
+			static constexpr T minus_one = T{ -1 };		///< `-1`
+			static constexpr T minus_two = T{ -2 };		///< `-2`
+			static constexpr T minus_three = T{ -3 };	///< `-3`
+			static constexpr T minus_four = T{ -4 };	///< `-4`
+			static constexpr T minus_five = T{ -5 };	///< `-5`
+			static constexpr T minus_six = T{ -6 };		///< `-6`
+			static constexpr T minus_seven = T{ -7 };	///< `-7`
+			static constexpr T minus_eight = T{ -8 };	///< `-8`
+			static constexpr T minus_nine = T{ -9 };	///< `-9`
+			static constexpr T minus_ten = T{ -10 };	///< `-10`
+		};
+
+		template <typename T>
+		struct floating_point_special_constants
+		{
+			/// \brief Not-A-Number (quiet)
+			static constexpr T nan = std::numeric_limits<T>::quiet_NaN();
+
+			/// \brief Not-A-Number (signalling)
+			static constexpr T snan = std::numeric_limits<T>::signaling_NaN();
+
+			/// \brief Positive infinity
+			static constexpr T infinity = std::numeric_limits<T>::infinity();
+
+			/// \brief Negative infinity
+			static constexpr T negative_infinity = -infinity;
+		};
+
+		template <typename T>
+		struct floating_point_named_constants
+		{
+			static constexpr T minus_zero = T(-0.0L);		///< `-0.0`
+			static constexpr T one_over_two = T(0.5L);		///< `0.5`
+			static constexpr T three_over_two = T(1.5L);	///< `1.5`
+		};
+
+
+		//-------------  constant class aggregates
+
+		template <typename T>
+		struct character_constants
+			: numeric_limits<T>,
+			unsigned_integral_named_constants<T>
+		{
+			static constexpr T backspace = T{ 8 };				///< The backspace character.
+			static constexpr T tab = T{ 9 };					///< `\t`
+			static constexpr T line_feed = T{ 10 };				///< `\n`
+			static constexpr T vertical_tab = T{ 11 };			///< `\v`
+			static constexpr T form_feed = T{ 12 };				///< `\f`
+			static constexpr T carriage_return = T{ 13 };		///< `\r`
+			static constexpr T escape = T{ 27 };				///< `ESC`
+
+			static constexpr T space = T{ 32 };					///< `&nbsp;` (space)
+			static constexpr T exclaimation_mark = T{ 33 };		///< `!`
+			static constexpr T quote = T{ 34 };					///< `"`
+			static constexpr T number_sign = T{ 35 };			///< `#`
+			static constexpr T dollar_sign = T{ 36 };			///< `$`
+			static constexpr T percent = T{ 37 };				///< `%`
+			static constexpr T ampersand = T{ 38 };				///< `&amp;`
+			static constexpr T apostrophe = T{ 39 };			///< `&apos;`
+
+			static constexpr T left_parenthesis = T{ 40 };		///< `(`
+			static constexpr T right_parenthesis = T{ 41 };		///< `)`
+			static constexpr T asterisk = T{ 42 };				///< `*`
+			static constexpr T plus = T{ 43 };					///< `+`
+			static constexpr T comma = T{ 44 };					///< `,`
+			static constexpr T hyphen = T{ 45 };				///< `-`
+			static constexpr T period = T{ 46 };				///< `.`
+			static constexpr T forward_slash = T{ 47 };			///< `/`
+
+			static constexpr T digit_0 = T{ 48 };				///< `0`
+			static constexpr T digit_1 = T{ 49 };				///< `1`
+			static constexpr T digit_2 = T{ 50 };				///< `2`
+			static constexpr T digit_3 = T{ 51 };				///< `3`
+			static constexpr T digit_4 = T{ 52 };				///< `4`
+			static constexpr T digit_5 = T{ 53 };				///< `5`
+			static constexpr T digit_6 = T{ 54 };				///< `6`
+			static constexpr T digit_7 = T{ 55 };				///< `7`
+			static constexpr T digit_8 = T{ 56 };				///< `8`
+			static constexpr T digit_9 = T{ 57 };				///< `9`
+
+			static constexpr T colon = T{ 58 };					///< `:`
+			static constexpr T semi_colon = T{ 59 };			///< `;`
+			static constexpr T less_than = T{ 60 };				///< `&lt;`
+			static constexpr T equal = T{ 61 };					///< `=`
+			static constexpr T greater_than = T{ 62 };			///< `&gt;`
+			static constexpr T question_mark = T{ 63 };			///< `?`
+			static constexpr T at = T{ 64 };					///< `@`
+
+			static constexpr T letter_A = T{ 65 };				///< `A`
+			static constexpr T letter_B = T{ 66 };				///< `B`
+			static constexpr T letter_C = T{ 67 };				///< `C`
+			static constexpr T letter_D = T{ 68 };				///< `D`
+			static constexpr T letter_E = T{ 69 };				///< `E`
+			static constexpr T letter_F = T{ 70 };				///< `F`
+			static constexpr T letter_G = T{ 71 };				///< `G`
+			static constexpr T letter_H = T{ 72 };				///< `H`
+			static constexpr T letter_I = T{ 73 };				///< `I`
+			static constexpr T letter_J = T{ 74 };				///< `J`
+			static constexpr T letter_K = T{ 75 };				///< `K`
+			static constexpr T letter_L = T{ 76 };				///< `L`
+			static constexpr T letter_M = T{ 77 };				///< `M`
+			static constexpr T letter_N = T{ 78 };				///< `N`
+			static constexpr T letter_O = T{ 79 };				///< `O`
+			static constexpr T letter_P = T{ 80 };				///< `P`
+			static constexpr T letter_Q = T{ 81 };				///< `Q`
+			static constexpr T letter_R = T{ 82 };				///< `R`
+			static constexpr T letter_S = T{ 83 };				///< `S`
+			static constexpr T letter_T = T{ 84 };				///< `T`
+			static constexpr T letter_U = T{ 85 };				///< `U`
+			static constexpr T letter_V = T{ 86 };				///< `V`
+			static constexpr T letter_W = T{ 87 };				///< `W`
+			static constexpr T letter_X = T{ 88 };				///< `X`
+			static constexpr T letter_Y = T{ 89 };				///< `Y`
+			static constexpr T letter_Z = T{ 90 };				///< `Z`
+
+			static constexpr T left_square_bracket = T{ 91 };	///< `[`
+			static constexpr T back_slash = T{ 92 };			///< `\\`
+			static constexpr T right_square_bracket = T{ 93 };	///< `]`
+			static constexpr T hat = T{ 94 };					///< `^`
+			static constexpr T underscore = T{ 95 };			///<  `_`
+			static constexpr T backtick = T{ 96 };				///<  `&#96;` (backtick)
+
+			static constexpr T letter_a = T{ 97 };				///< `a`
+			static constexpr T letter_b = T{ 98 };				///< `b`
+			static constexpr T letter_c = T{ 99 };				///< `c`
+			static constexpr T letter_d = T{ 100 };				///< `d`
+			static constexpr T letter_e = T{ 101 };				///< `e`
+			static constexpr T letter_f = T{ 102 };				///< `f`
+			static constexpr T letter_g = T{ 103 };				///< `g`
+			static constexpr T letter_h = T{ 104 };				///< `h`
+			static constexpr T letter_i = T{ 105 };				///< `i`
+			static constexpr T letter_j = T{ 106 };				///< `j`
+			static constexpr T letter_k = T{ 107 };				///< `k`
+			static constexpr T letter_l = T{ 108 };				///< `l`
+			static constexpr T letter_m = T{ 109 };				///< `m`
+			static constexpr T letter_n = T{ 110 };				///< `n`
+			static constexpr T letter_o = T{ 111 };				///< `o`
+			static constexpr T letter_p = T{ 112 };				///< `p`
+			static constexpr T letter_q = T{ 113 };				///< `q`
+			static constexpr T letter_r = T{ 114 };				///< `r`
+			static constexpr T letter_s = T{ 115 };				///< `s`
+			static constexpr T letter_t = T{ 116 };				///< `t`
+			static constexpr T letter_u = T{ 117 };				///< `u`
+			static constexpr T letter_v = T{ 118 };				///< `v`
+			static constexpr T letter_w = T{ 119 };				///< `w`
+			static constexpr T letter_x = T{ 120 };				///< `x`
+			static constexpr T letter_y = T{ 121 };				///< `y`
+			static constexpr T letter_z = T{ 122 };				///< `z`
+
+			static constexpr T left_brace = T{ 123 };			///< `{`
+			static constexpr T bar = T{ 124 };					///< `|`
+			static constexpr T right_brace = T{ 125 };			///< `}`
+			static constexpr T tilde = T{ 126 };				///< `~`
+			static constexpr T del = T{ 127 };					///< `DEL`
+		};
+
+		template <typename T>
+		struct floating_point_constants
+			: numeric_limits<T>,
+			unsigned_integral_named_constants<T>,
+			signed_integral_named_constants<T>,
+			floating_point_special_constants<T>,
+			floating_point_named_constants<T>
+		{};
+
+		template <typename T>
+		struct unsigned_integral_constants
+			: numeric_limits<T>,
+			unsigned_integral_named_constants<T>
+		{};
+
+		template <typename T>
+		struct signed_integral_constants
+			: numeric_limits<T>,
+			unsigned_integral_named_constants<T>,
+			signed_integral_named_constants<T>
+		{};
+	}
+
+	/// \addtogroup		constants
+	/// @{
+
+	/// \brief	`float` constants.
+	template <> struct constants<float> : impl::floating_point_constants<float> {};
+
+	/// \brief	`double` constants.
+	template <> struct constants<double> : impl::floating_point_constants<double> {};
+
+	/// \brief	`long double` constants.
+	template <> struct constants<long double> : impl::floating_point_constants<long double> {};
+
+	#if MUU_HAS_INTERCHANGE_FP16
+	template <> struct constants<__fp16> : impl::floating_point_constants<__fp16> {};
+	#endif
+
+	#if defined(DOXYGEN) || MUU_HAS_FLOAT16
+	/// \brief	`float16_t` constants.
+	template <> struct constants<float16_t> : impl::floating_point_constants<float16_t> {};
+	#endif
+
+	#if defined(DOXYGEN) || MUU_HAS_FLOAT128
+	/// \brief	`float128_t` constants.
+	template <> struct constants<float128_t> : impl::floating_point_constants<float128_t> {};
+	#endif
+
+	/// \brief	`char` constants.
+	template <> struct constants<char> : impl::character_constants<char> {};
+
+	/// \brief	`wchar_t` constants.
+	template <> struct constants<wchar_t> : impl::character_constants<wchar_t> {};
+
+	#if defined(DOXYGEN) || defined(__cpp_char8_t)
+	/// \brief	`char8_t` constants.
+	template <> struct constants<char8_t> : impl::character_constants<char8_t> {};
+	#endif
+
+	/// \brief	`char16_t` constants.
+	template <> struct constants<char16_t> : impl::character_constants<char16_t> {};
+
+	/// \brief	`char32_t` constants.
+	template <> struct constants<char32_t> : impl::character_constants<char32_t> {};
+
+	/// \brief	`signed char` constants.
+	template <> struct constants<signed char> : impl::signed_integral_constants<signed char> {};
+
+	/// \brief	`unsigned char` constants.
+	template <> struct constants<unsigned char> : impl::unsigned_integral_constants<unsigned char> {};
+
+	/// \brief	`signed short` constants.
+	template <> struct constants<signed short> : impl::signed_integral_constants<signed short> {};
+
+	/// \brief	`unsigned short` constants.
+	template <> struct constants<unsigned short> : impl::unsigned_integral_constants<unsigned short> {};
+
+	/// \brief	`signed int` constants.
+	template <> struct constants<signed int> : impl::signed_integral_constants<signed int> {};
+
+	/// \brief	`unsigned int` constants.
+	template <> struct constants<unsigned int> : impl::unsigned_integral_constants<unsigned int> {};
+
+	/// \brief	`signed long` constants.
+	template <> struct constants<signed long> : impl::signed_integral_constants<signed long> {};
+
+	/// \brief	`unsigned long` constants.
+	template <> struct constants<unsigned long> : impl::unsigned_integral_constants<unsigned long> {};
+
+	/// \brief	`signed long long` constants.
+	template <> struct constants<signed long long> : impl::signed_integral_constants<signed long long> {};
+
+	/// \brief	`unsigned long long` constants.
+	template <> struct constants<unsigned long long> : impl::unsigned_integral_constants<unsigned long long> {};
+
+	#if defined(DOXYGEN) || MUU_HAS_INT128
+	/// \brief	`int128_t` constants.
+	template <> struct constants<int128_t> : impl::signed_integral_constants<int128_t> {};
+
+	/// \brief	`uint128_t` constants.
+	template <> struct constants<uint128_t> : impl::unsigned_integral_constants<uint128_t> {};
+	#endif
+
+	/// @}
+}
+MUU_NAMESPACE_END
+
+//=====================================================================================================================
 // ARRAY
 //=====================================================================================================================
 
@@ -996,7 +1316,7 @@ MUU_NAMESPACE_START
 	/// \brief	Equivalent to C++17's std::launder.
 	/// \ingroup	intrinsics
 	///
-	/// \remarks Older implementations don't provide this as an intinsic or have a placeholder
+	/// \remarks Older implementations don't provide this as an intrinsic or have a placeholder
 	/// 		 for it in their standard library. Using this version allows you to get around that 
 	/// 		 by writing code 'as if' it were there and have it compile just the same.
 	template <class T>
@@ -1083,10 +1403,12 @@ MUU_NAMESPACE_START
 					return __builtin_clzll(val);
 				else if constexpr (std::is_same_v<T, unsigned long>)
 					return __builtin_clzl(val);
-				else if constexpr (std::is_same_v<T, unsigned int>)
-					return __builtin_clz(val);
+				else if constexpr (std::is_same_v<T, unsigned int> || sizeof(T) == sizeof(unsigned int))
+					return __builtin_clz(static_cast<unsigned int>(val));
 				else if constexpr (sizeof(T) < sizeof(unsigned int))
 					return __builtin_clz(val) - static_cast<int>((sizeof(unsigned int) - sizeof(T)) * CHAR_BIT);
+				else
+					static_assert(dependent_false<T>, "Evaluated unreachable branch!");
 			}
 			#else
 			{
@@ -2569,138 +2891,6 @@ MUU_NAMESPACE_END
 MUU_POP_WARNINGS // MUU_DISABLE_ARITHMETIC_WARNINGS
 
 //=====================================================================================================================
-// CONSTANTS
-//=====================================================================================================================
-
-MUU_NAMESPACE_START
-{
-	namespace impl
-	{
-		template <typename T>
-		struct floating_point_constants
-		{
-			/// \brief The lowest representable 'normal' value
-			static constexpr T lowest = std::numeric_limits<T>::lowest();
-
-			/// \brief The highest representable 'normal' value
-			static constexpr T highest = std::numeric_limits<T>::max();
-
-			/// \brief Not-A-Number (quiet)
-			static constexpr T nan = std::numeric_limits<T>::quiet_NaN();
-
-			/// \brief Not-A-Number (signalling)
-			static constexpr T snan = std::numeric_limits<T>::signaling_NaN();
-
-			/// \brief Positive infinity
-			static constexpr T infinity = std::numeric_limits<T>::infinity();
-
-			/// \brief Negative infinity
-			static constexpr T negative_infinity = -infinity;
-
-			/// \brief Epsilon
-			static constexpr T epsilon = std::numeric_limits<T>::epsilon();
-
-			/// \brief `0.0`
-			static constexpr T zero = T{};
-
-			/// \brief `-0.0`
-			static constexpr T minus_zero = -zero;
-
-			/// \brief `0.5`
-			static constexpr T one_over_two = T(0.5L);
-
-			/// \brief `1.0`
-			static constexpr T one = T{ 1 };
-
-			/// \brief `1.5`
-			static constexpr T three_over_two = T(1.5L);
-
-			/// \brief `2.0`
-			static constexpr T two = T{ 2 };
-
-			/// \brief `3.0`
-			static constexpr T three = T{ 3 };
-
-			/// \brief `4.0`
-			static constexpr T four = T{ 4 };
-
-			/// \brief `5.0`
-			static constexpr T five = T{ 5 };
-
-			/// \brief `6.0`
-			static constexpr T six = T{ 6 };
-
-			/// \brief `7.0`
-			static constexpr T seven = T{ 7 };
-
-			/// \brief `8.0`
-			static constexpr T eight = T{ 8 };
-
-			/// \brief `9.0`
-			static constexpr T nine = T{ 9 };
-
-			/// \brief `10.0`
-			static constexpr T ten = T{ 10 };
-
-			/// \brief `-1.0`
-			static constexpr T minus_one = -one;
-
-			/// \brief `-2.0`
-			static constexpr T minus_two = -two;
-
-			/// \brief `-3.0`
-			static constexpr T minus_three = -three;
-
-			/// \brief `-4.0`
-			static constexpr T minus_four = -four;
-
-			/// \brief `-5.0`
-			static constexpr T minus_five = -five;
-
-			/// \brief `-6.0`
-			static constexpr T minus_six = -six;
-
-			/// \brief `-7.0`
-			static constexpr T minus_seven = -seven;
-
-			/// \brief `-8.0`
-			static constexpr T minus_eight = -eight;
-
-			/// \brief `-9.0`
-			static constexpr T minus_nine = -nine;
-
-			/// \brief `-10.0`
-			static constexpr T minus_ten = -ten;
-		};
-	}
-
-	/// \addtogroup		constants
-	/// @{
-
-	/// \brief	`float` constants.
-	template <> struct constants<float> : impl::floating_point_constants<float> {};
-
-	/// \brief	`double` constants.
-	template <> struct constants<double> : impl::floating_point_constants<double> {};
-
-	/// \brief	`long double` constants.
-	template <> struct constants<long double> : impl::floating_point_constants<long double> {};
-
-	#if defined(DOXYGEN) || MUU_HAS_FLOAT16
-	/// \brief	`float16_t` constants.
-	template <> struct constants<float16_t> : impl::floating_point_constants<float16_t> {};
-	#endif
-
-	#if defined(DOXYGEN) || MUU_HAS_FLOAT128
-	/// \brief	`float128_t` constants.
-	template <> struct constants<float128_t> : impl::floating_point_constants<float128_t> {};
-	#endif
-
-	/// @}
-}
-MUU_NAMESPACE_END
-
-//=====================================================================================================================
 // STRING FUNCTIONS
 //=====================================================================================================================
 
@@ -2711,73 +2901,9 @@ MUU_NAMESPACE_START
 
 	namespace impl
 	{
-		template <typename Char, typename Func>
-		[[nodiscard]]
-		constexpr auto predicated_trim(std::basic_string_view<Char> str, Func&& trim_pred) noexcept
-			-> std::basic_string_view<Char>
-		{
-			using view = std::basic_string_view<Char>;
 
-			if (str.empty())
-				return view{};
-
-			auto first = view::npos;
-			for (size_t i = 0; i < str.length() && first == view::npos; i++)
-				if (!std::forward<Func>(trim_pred)(str[i]))
-					first = i;
-			if (first == view::npos)
-				return view{};
-
-			auto last = view::npos;
-			for (size_t i = str.length(); i --> 0 && last == view::npos && i >= first;)
-				if (!std::forward<Func>(trim_pred)(str[i]))
-					last = i;
-
-			return str.substr(first, (last - first) + 1);
-		}
-
-		template <typename Char, typename Func>
-		[[nodiscard]]
-		constexpr auto predicated_trim_left(std::basic_string_view<Char> str, Func&& trim_pred) noexcept
-			-> std::basic_string_view<Char>
-		{
-			using view = std::basic_string_view<Char>;
-
-			if (str.empty())
-				return view{};
-
-			auto first = view::npos;
-			for (size_t i = 0; i < str.length() && first == view::npos; i++)
-				if (!std::forward<Func>(trim_pred)(str[i]))
-					first = i;
-			if (first == view::npos)
-				return view{};
-
-			return str.substr(first);
-		}
-
-		template <typename Char, typename Func>
-		[[nodiscard]]
-		constexpr auto predicated_trim_right(std::basic_string_view<Char> str, Func&& trim_pred) noexcept
-			-> std::basic_string_view<Char>
-		{
-			using view = std::basic_string_view<Char>;
-
-			if (str.empty())
-				return view{};
-
-			auto last = view::npos;
-			for (size_t i = str.length(); i --> 0 && last == view::npos;)
-				if (!std::forward<Func>(trim_pred)(str[i]))
-					last = i;
-			if (last == view::npos)
-				return view{};
-
-			return str.substr(0, last + 1);
-		}
 	
 	}
-
 
 
 
