@@ -62,6 +62,1015 @@ C++</span></a>
         <h1>
           Strings <span class="m-thin">module</span></h1>
         <p>Utilities to simplify working with strings.</p>
+        <div class="m-block m-default">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#func-members">Functions</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <section id="func-members">
+          <h2><a href="#func-members">Functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga76689b41c6518c56f53cf21f3a3afc37">is_ascii_letter</a>(</span><span class="m-doc-wrap">char c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a character is a letter from the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaaa51884019a1be6887087df31bf325b7">is_ascii_letter</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-16 code unit is a letter from the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga8c4a12b0beaa751c007b4277b91fb0a1">is_ascii_letter</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF code point is a letter from the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga8d01d9eccd21d22604f6028f6e76c483">is_ascii_letter</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-8 code unit is a letter from the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaf7fe2351f7882f54d8f250412e6b8389">is_ascii_letter</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a wide character is a letter from the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gac63fc46d0d9899f8456e5c678e8d2473">is_ascii_number</a>(</span><span class="m-doc-wrap">char c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a character is a number from the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gad2f5745eb580521a6879041e41782dce">is_ascii_number</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-16 code unit is a number from the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gafa23a97548b6cc50426931ecdc4406ef">is_ascii_number</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF code point is a number from the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gae9ecb7d04cfe21314a70e1675aa77fa7">is_ascii_number</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-8 code unit is a number from the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gac5d9c01ac4e06e01379f8d6104f6a4ed">is_ascii_number</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a wide character is a number from the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaf1b29bb2cafb2343ed3d111bb4da2778">is_ascii_whitespace</a>(</span><span class="m-doc-wrap">char c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a character is whitespace from the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga4f1ceff57c8aed91fa13cd872b68f8fc">is_ascii_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-16 code unit is whitespace from the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaefcf15993ac4f08028753206912394ec">is_ascii_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF code point is whitespace from the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gafe17a863740a3eec1fa34bbaba49b64f">is_ascii_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-8 code unit is whitespace from the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga09ef1c5da9b104b959ac51e9e910653a">is_ascii_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a wide character is whitespace from the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga79c41c8b3a1af5ad6149aec00051005a">is_code_point_boundary</a>(</span><span class="m-doc-wrap">char c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a character is a code point boundary.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga0add0fe467cafaf15eb1dbc2e59c7bca">is_code_point_boundary</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-16 code unit is a code point boundary.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga6eb9cc18abda4165f1c2e30b7cad5ca4">is_code_point_boundary</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF code point is a code point boundary.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gafae81212824d3162f63d50318bb53a85">is_code_point_boundary</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-8 code unit is a code point boundary.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaeee1a57cd6415ebbed78a3c2255b461f">is_code_point_boundary</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a wide character is a code point boundary.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga301f16f8a9fbf354fc33cf3f95d9b160">is_combining_mark</a>(</span><span class="m-doc-wrap">char c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a character is a combining mark.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga9943e9c30d711657bf3551f15646e276">is_combining_mark</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-16 code unit is a combining mark.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga512f69627685a22136d237dca2f83eab">is_combining_mark</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF code point is a combining mark.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga05a17fc217a97cd9c7e453a20be0c5a2">is_combining_mark</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-8 code unit is a combining mark.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga45cb7533e0fb2568e97a78bd3666f1fe">is_combining_mark</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a wide character is a combining mark.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gab690f0ed310af57ede2e2c4e16bcca7f">is_decimal_digit</a>(</span><span class="m-doc-wrap">char c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a character is a decimal digit.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga7f77259b7f536ab687c5a15a7b02be7c">is_decimal_digit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-16 code unit is a decimal digit.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaf50d69ac260e6246bdfd050d1ce87736">is_decimal_digit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF code point is a decimal digit.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga73d6b65b100e679927b317940f250a39">is_decimal_digit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-8 code unit is a decimal digit.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaa74fd64f064d5b662b340fcc76679d11">is_decimal_digit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a wide character is a decimal digit.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga0c1fc84c4a7efae54fb420cdb9e80d8b">is_hexadecimal_digit</a>(</span><span class="m-doc-wrap">char c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a character is a hexadecimal digit.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga0745f352f07ac7d21a3411074e48569f">is_hexadecimal_digit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-16 code unit is a hexadecimal digit.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaf3d4cb15f91b4ed87cead7f8051d6953">is_hexadecimal_digit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF code point is a hexadecimal digit.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaeae240f3f020aed73b8ce2e4f308d867">is_hexadecimal_digit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-8 code unit is a hexadecimal digit.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga117a786a06ab8801ab862607353d7e1a">is_hexadecimal_digit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a wide character is a hexadecimal digit.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga9514b6bf16508d2474f8f5ec70a8eaab">is_letter</a>(</span><span class="m-doc-wrap">char c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a character is a letter.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga0a0cdc660ed29ab425298d93f751b13d">is_letter</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-16 code unit is a letter.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaad41014bebb0bbb56e1203237852eb98">is_letter</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF code point is a letter.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga27712db66a343a62a359c8c36c509746">is_letter</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-8 code unit is a letter.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga3586c395e1c97d138944bec915f2a737">is_letter</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a wide character is a letter.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga99573e984f5183b1a2633a1dfed6ff1f">is_non_ascii_letter</a>(</span><span class="m-doc-wrap">char c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a character is a letter from outside the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga54365f44fc248898d4c7feed9a416bd3">is_non_ascii_letter</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-16 code unit is a letter from outside the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga25e7166a83dad643d0e47e6c83066241">is_non_ascii_letter</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF code point is a letter from outside the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga6ab614deb2bf1627d470563c3c69016f">is_non_ascii_letter</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-8 code unit is a letter from outside the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga5452909ac8d5e332fe072059310a5267">is_non_ascii_letter</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a wide character is a letter from outside the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaaa75df191ffc636e98570ece15381605">is_non_ascii_number</a>(</span><span class="m-doc-wrap">char c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a character is a number from outside the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaeaea844a807cdc2454f4fd9c0c5a8e58">is_non_ascii_number</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-16 code unit is a number from outside the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga0da536ef0d2037dd3b5e060b7c60fbbe">is_non_ascii_number</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF code point is a number from outside the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga8d59af272564fb25c47b13512936bf1d">is_non_ascii_number</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-8 code unit is a number from outside the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga87e7c319c1857e1294312d1a296c92a9">is_non_ascii_number</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a wide character is a number from outside the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga02235449e07d2ef76043194ab6516191">is_non_ascii_whitespace</a>(</span><span class="m-doc-wrap">char c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a character is whitespace from outside the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga0cee28c3a17a13cd7a2866ffae805d98">is_non_ascii_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-16 code unit is whitespace from outside the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga5866007e015ad1e3c20aa19c4fce6316">is_non_ascii_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF code point is whitespace from outside the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga2a0ff02223c049ad9b052ee85fdfa51b">is_non_ascii_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-8 code unit is whitespace from outside the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga276020e5289781752e847e2662e64a2c">is_non_ascii_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a wide character is whitespace from outside the ASCII range.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga943cb03f7094c7658758c2b5cfb6e298">is_not_whitespace</a>(</span><span class="m-doc-wrap">char c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a character is not whitespace.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga4fe0a886b291797ee162dc20fd0b91cf">is_not_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-16 code unit is not whitespace.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga0237af087d7d31099e8c78a58d605f9c">is_not_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF code point is not whitespace.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga6dc981327a62bbcb998fca79956165e3">is_not_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-8 code unit is not whitespace.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga3c80b451132c34fe571f46b28b8bb70d">is_not_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a wide character is not whitespace.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga78dcc236127325d26ef15569e003de48">is_number</a>(</span><span class="m-doc-wrap">char c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a character is a number.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga650ea3f8ee77a12bd366a4719cd25e5a">is_number</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-16 code unit is a number.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga26ffef5becf680cb2b3f6f015cbb3706">is_number</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF code point is a number.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga7a7fed3e0d5c76d5d0c27ef780b882a0">is_number</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-8 code unit is a number.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gac66e35dfd03d8e92e2a83d1699423d22">is_number</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a wide character is a number.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaf0bd4f10bb2327981fd129da56e3ba39">is_octal_digit</a>(</span><span class="m-doc-wrap">char c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a character is an octal digit.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga1f9244209d55d92781a22f3fbd692aa2">is_octal_digit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-16 code unit is an octal digit.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaad523a1c84c600045e7d43e5234807bb">is_octal_digit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF code point is an octal digit.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga310e4044ce4614694d7d4f840c9a6a01">is_octal_digit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-8 code unit is an octal digit.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gadcaa979e1d2172fcb8075b9e408233be">is_octal_digit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a wide character is an octal digit.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga3f227d85734bfb486c928279d30c03c7">is_whitespace</a>(</span><span class="m-doc-wrap">char c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a character is whitespace.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gabaa43eb005e243d98110f92e73e7c8bd">is_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-16 code unit is whitespace.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaf3db7e1842d84227c7feac23c80167cb">is_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF code point is whitespace.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga5ea3da66063d2b055981bb7d5708589e">is_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a UTF-8 code unit is whitespace.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gacf6c4c0e50aa41b7b4916fa489d4560c">is_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a wide character is whitespace.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga591693ed2095787d40f63ae8c0c60b74">trim</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Trims whitespace from both ends of a UTF-8 string.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gac721a6b23447d8c2950803acf99a8f34">trim</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Trims whitespace from both ends of a UTF-16 string.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga74cfd907d595f68a757aa50640f9d210">trim</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Trims whitespace from both ends of a UTF-32 string.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gabc24677b997440512aefe4e685b0d2a7">trim</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Trims whitespace from both ends of a UTF-8 string.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga71cd0aeed9fed904bbdd3789c81684a3">trim</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Trims whitespace from both ends of a wide string.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga3aea46929051176b4afb4e23b551ffc5">trim_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Trims whitespace from the left end of a UTF-8 string.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga3c0e502baa6f3067e1d26bf5572938f8">trim_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Trims whitespace from the left end of a UTF-16 string.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gae32d321796864fd5adeaaec227134e53">trim_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Trims whitespace from the left end of a UTF-32 string.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gad2bab2c91264a3b5241a8d182c922ebd">trim_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Trims whitespace from the left end of a UTF-8 string.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gac23a274a25ef0a4e5b97c0d46b2ccd39">trim_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Trims whitespace from the left end of a wide string.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga3f499b7f36518026e86dd95624740111">trim_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Trims whitespace from the right end of a UTF-8 string.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga18068afb63f4c781d92f7895872a180c">trim_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Trims whitespace from the right end of a UTF-16 string.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga5c65eceb22233e5c09096e48cadeb195">trim_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Trims whitespace from the right end of a UTF-32 string.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gacd9946ff120c34af5e6634c247a50ba5">trim_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Trims whitespace from the right end of a UTF-8 string.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga24e088ccb48af0182c8cc2e433a7cae8">trim_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Trims whitespace from the right end of a wide string.</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="ga76689b41c6518c56f53cf21f3a3afc37"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga76689b41c6518c56f53cf21f3a3afc37">is_ascii_letter</a>(</span><span class="m-doc-wrap">char c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a character is a letter from the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="gaaa51884019a1be6887087df31bf325b7"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaaa51884019a1be6887087df31bf325b7">is_ascii_letter</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-16 code unit is a letter from the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga8c4a12b0beaa751c007b4277b91fb0a1"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga8c4a12b0beaa751c007b4277b91fb0a1">is_ascii_letter</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF code point is a letter from the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga8d01d9eccd21d22604f6028f6e76c483"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga8d01d9eccd21d22604f6028f6e76c483">is_ascii_letter</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-8 code unit is a letter from the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="gaf7fe2351f7882f54d8f250412e6b8389"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaf7fe2351f7882f54d8f250412e6b8389">is_ascii_letter</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a wide character is a letter from the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="gac63fc46d0d9899f8456e5c678e8d2473"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gac63fc46d0d9899f8456e5c678e8d2473">is_ascii_number</a>(</span><span class="m-doc-wrap">char c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a character is a number from the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="gad2f5745eb580521a6879041e41782dce"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gad2f5745eb580521a6879041e41782dce">is_ascii_number</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-16 code unit is a number from the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="gafa23a97548b6cc50426931ecdc4406ef"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gafa23a97548b6cc50426931ecdc4406ef">is_ascii_number</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF code point is a number from the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="gae9ecb7d04cfe21314a70e1675aa77fa7"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gae9ecb7d04cfe21314a70e1675aa77fa7">is_ascii_number</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-8 code unit is a number from the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="gac5d9c01ac4e06e01379f8d6104f6a4ed"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gac5d9c01ac4e06e01379f8d6104f6a4ed">is_ascii_number</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a wide character is a number from the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="gaf1b29bb2cafb2343ed3d111bb4da2778"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaf1b29bb2cafb2343ed3d111bb4da2778">is_ascii_whitespace</a>(</span><span class="m-doc-wrap">char c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a character is whitespace from the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga4f1ceff57c8aed91fa13cd872b68f8fc"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga4f1ceff57c8aed91fa13cd872b68f8fc">is_ascii_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-16 code unit is whitespace from the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="gaefcf15993ac4f08028753206912394ec"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaefcf15993ac4f08028753206912394ec">is_ascii_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF code point is whitespace from the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="gafe17a863740a3eec1fa34bbaba49b64f"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gafe17a863740a3eec1fa34bbaba49b64f">is_ascii_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-8 code unit is whitespace from the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga09ef1c5da9b104b959ac51e9e910653a"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga09ef1c5da9b104b959ac51e9e910653a">is_ascii_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a wide character is whitespace from the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga79c41c8b3a1af5ad6149aec00051005a"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga79c41c8b3a1af5ad6149aec00051005a">is_code_point_boundary</a>(</span><span class="m-doc-wrap">char c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a character is a code point boundary.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga0add0fe467cafaf15eb1dbc2e59c7bca"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga0add0fe467cafaf15eb1dbc2e59c7bca">is_code_point_boundary</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-16 code unit is a code point boundary.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga6eb9cc18abda4165f1c2e30b7cad5ca4"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga6eb9cc18abda4165f1c2e30b7cad5ca4">is_code_point_boundary</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF code point is a code point boundary.</p>
+          </div></section>
+          <section class="m-doc-details" id="gafae81212824d3162f63d50318bb53a85"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gafae81212824d3162f63d50318bb53a85">is_code_point_boundary</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-8 code unit is a code point boundary.</p>
+          </div></section>
+          <section class="m-doc-details" id="gaeee1a57cd6415ebbed78a3c2255b461f"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaeee1a57cd6415ebbed78a3c2255b461f">is_code_point_boundary</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a wide character is a code point boundary.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga301f16f8a9fbf354fc33cf3f95d9b160"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga301f16f8a9fbf354fc33cf3f95d9b160">is_combining_mark</a>(</span><span class="m-doc-wrap">char c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a character is a combining mark.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga9943e9c30d711657bf3551f15646e276"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga9943e9c30d711657bf3551f15646e276">is_combining_mark</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-16 code unit is a combining mark.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga512f69627685a22136d237dca2f83eab"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga512f69627685a22136d237dca2f83eab">is_combining_mark</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF code point is a combining mark.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga05a17fc217a97cd9c7e453a20be0c5a2"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga05a17fc217a97cd9c7e453a20be0c5a2">is_combining_mark</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-8 code unit is a combining mark.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga45cb7533e0fb2568e97a78bd3666f1fe"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga45cb7533e0fb2568e97a78bd3666f1fe">is_combining_mark</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a wide character is a combining mark.</p>
+          </div></section>
+          <section class="m-doc-details" id="gab690f0ed310af57ede2e2c4e16bcca7f"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gab690f0ed310af57ede2e2c4e16bcca7f">is_decimal_digit</a>(</span><span class="m-doc-wrap">char c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a character is a decimal digit.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga7f77259b7f536ab687c5a15a7b02be7c"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga7f77259b7f536ab687c5a15a7b02be7c">is_decimal_digit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-16 code unit is a decimal digit.</p>
+          </div></section>
+          <section class="m-doc-details" id="gaf50d69ac260e6246bdfd050d1ce87736"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaf50d69ac260e6246bdfd050d1ce87736">is_decimal_digit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF code point is a decimal digit.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga73d6b65b100e679927b317940f250a39"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga73d6b65b100e679927b317940f250a39">is_decimal_digit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-8 code unit is a decimal digit.</p>
+          </div></section>
+          <section class="m-doc-details" id="gaa74fd64f064d5b662b340fcc76679d11"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaa74fd64f064d5b662b340fcc76679d11">is_decimal_digit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a wide character is a decimal digit.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga0c1fc84c4a7efae54fb420cdb9e80d8b"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga0c1fc84c4a7efae54fb420cdb9e80d8b">is_hexadecimal_digit</a>(</span><span class="m-doc-wrap">char c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a character is a hexadecimal digit.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga0745f352f07ac7d21a3411074e48569f"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga0745f352f07ac7d21a3411074e48569f">is_hexadecimal_digit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-16 code unit is a hexadecimal digit.</p>
+          </div></section>
+          <section class="m-doc-details" id="gaf3d4cb15f91b4ed87cead7f8051d6953"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaf3d4cb15f91b4ed87cead7f8051d6953">is_hexadecimal_digit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF code point is a hexadecimal digit.</p>
+          </div></section>
+          <section class="m-doc-details" id="gaeae240f3f020aed73b8ce2e4f308d867"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaeae240f3f020aed73b8ce2e4f308d867">is_hexadecimal_digit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-8 code unit is a hexadecimal digit.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga117a786a06ab8801ab862607353d7e1a"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga117a786a06ab8801ab862607353d7e1a">is_hexadecimal_digit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a wide character is a hexadecimal digit.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga9514b6bf16508d2474f8f5ec70a8eaab"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga9514b6bf16508d2474f8f5ec70a8eaab">is_letter</a>(</span><span class="m-doc-wrap">char c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a character is a letter.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga0a0cdc660ed29ab425298d93f751b13d"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga0a0cdc660ed29ab425298d93f751b13d">is_letter</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-16 code unit is a letter.</p>
+          </div></section>
+          <section class="m-doc-details" id="gaad41014bebb0bbb56e1203237852eb98"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaad41014bebb0bbb56e1203237852eb98">is_letter</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF code point is a letter.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga27712db66a343a62a359c8c36c509746"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga27712db66a343a62a359c8c36c509746">is_letter</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-8 code unit is a letter.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga3586c395e1c97d138944bec915f2a737"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga3586c395e1c97d138944bec915f2a737">is_letter</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a wide character is a letter.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga99573e984f5183b1a2633a1dfed6ff1f"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga99573e984f5183b1a2633a1dfed6ff1f">is_non_ascii_letter</a>(</span><span class="m-doc-wrap">char c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a character is a letter from outside the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga54365f44fc248898d4c7feed9a416bd3"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga54365f44fc248898d4c7feed9a416bd3">is_non_ascii_letter</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-16 code unit is a letter from outside the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga25e7166a83dad643d0e47e6c83066241"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga25e7166a83dad643d0e47e6c83066241">is_non_ascii_letter</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF code point is a letter from outside the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga6ab614deb2bf1627d470563c3c69016f"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga6ab614deb2bf1627d470563c3c69016f">is_non_ascii_letter</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-8 code unit is a letter from outside the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga5452909ac8d5e332fe072059310a5267"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga5452909ac8d5e332fe072059310a5267">is_non_ascii_letter</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a wide character is a letter from outside the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="gaaa75df191ffc636e98570ece15381605"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaaa75df191ffc636e98570ece15381605">is_non_ascii_number</a>(</span><span class="m-doc-wrap">char c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a character is a number from outside the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="gaeaea844a807cdc2454f4fd9c0c5a8e58"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaeaea844a807cdc2454f4fd9c0c5a8e58">is_non_ascii_number</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-16 code unit is a number from outside the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga0da536ef0d2037dd3b5e060b7c60fbbe"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga0da536ef0d2037dd3b5e060b7c60fbbe">is_non_ascii_number</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF code point is a number from outside the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga8d59af272564fb25c47b13512936bf1d"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga8d59af272564fb25c47b13512936bf1d">is_non_ascii_number</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-8 code unit is a number from outside the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga87e7c319c1857e1294312d1a296c92a9"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga87e7c319c1857e1294312d1a296c92a9">is_non_ascii_number</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a wide character is a number from outside the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga02235449e07d2ef76043194ab6516191"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga02235449e07d2ef76043194ab6516191">is_non_ascii_whitespace</a>(</span><span class="m-doc-wrap">char c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a character is whitespace from outside the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga0cee28c3a17a13cd7a2866ffae805d98"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga0cee28c3a17a13cd7a2866ffae805d98">is_non_ascii_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-16 code unit is whitespace from outside the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga5866007e015ad1e3c20aa19c4fce6316"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga5866007e015ad1e3c20aa19c4fce6316">is_non_ascii_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF code point is whitespace from outside the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga2a0ff02223c049ad9b052ee85fdfa51b"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga2a0ff02223c049ad9b052ee85fdfa51b">is_non_ascii_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-8 code unit is whitespace from outside the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga276020e5289781752e847e2662e64a2c"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga276020e5289781752e847e2662e64a2c">is_non_ascii_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a wide character is whitespace from outside the ASCII range.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga943cb03f7094c7658758c2b5cfb6e298"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga943cb03f7094c7658758c2b5cfb6e298">is_not_whitespace</a>(</span><span class="m-doc-wrap">char c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a character is not whitespace.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga4fe0a886b291797ee162dc20fd0b91cf"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga4fe0a886b291797ee162dc20fd0b91cf">is_not_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-16 code unit is not whitespace.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga0237af087d7d31099e8c78a58d605f9c"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga0237af087d7d31099e8c78a58d605f9c">is_not_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF code point is not whitespace.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga6dc981327a62bbcb998fca79956165e3"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga6dc981327a62bbcb998fca79956165e3">is_not_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-8 code unit is not whitespace.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga3c80b451132c34fe571f46b28b8bb70d"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga3c80b451132c34fe571f46b28b8bb70d">is_not_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a wide character is not whitespace.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga78dcc236127325d26ef15569e003de48"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga78dcc236127325d26ef15569e003de48">is_number</a>(</span><span class="m-doc-wrap">char c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a character is a number.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga650ea3f8ee77a12bd366a4719cd25e5a"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga650ea3f8ee77a12bd366a4719cd25e5a">is_number</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-16 code unit is a number.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga26ffef5becf680cb2b3f6f015cbb3706"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga26ffef5becf680cb2b3f6f015cbb3706">is_number</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF code point is a number.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga7a7fed3e0d5c76d5d0c27ef780b882a0"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga7a7fed3e0d5c76d5d0c27ef780b882a0">is_number</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-8 code unit is a number.</p>
+          </div></section>
+          <section class="m-doc-details" id="gac66e35dfd03d8e92e2a83d1699423d22"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gac66e35dfd03d8e92e2a83d1699423d22">is_number</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a wide character is a number.</p>
+          </div></section>
+          <section class="m-doc-details" id="gaf0bd4f10bb2327981fd129da56e3ba39"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaf0bd4f10bb2327981fd129da56e3ba39">is_octal_digit</a>(</span><span class="m-doc-wrap">char c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a character is an octal digit.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga1f9244209d55d92781a22f3fbd692aa2"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga1f9244209d55d92781a22f3fbd692aa2">is_octal_digit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-16 code unit is an octal digit.</p>
+          </div></section>
+          <section class="m-doc-details" id="gaad523a1c84c600045e7d43e5234807bb"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaad523a1c84c600045e7d43e5234807bb">is_octal_digit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF code point is an octal digit.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga310e4044ce4614694d7d4f840c9a6a01"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga310e4044ce4614694d7d4f840c9a6a01">is_octal_digit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-8 code unit is an octal digit.</p>
+          </div></section>
+          <section class="m-doc-details" id="gadcaa979e1d2172fcb8075b9e408233be"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gadcaa979e1d2172fcb8075b9e408233be">is_octal_digit</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a wide character is an octal digit.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga3f227d85734bfb486c928279d30c03c7"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga3f227d85734bfb486c928279d30c03c7">is_whitespace</a>(</span><span class="m-doc-wrap">char c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a character is whitespace.</p>
+          </div></section>
+          <section class="m-doc-details" id="gabaa43eb005e243d98110f92e73e7c8bd"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gabaa43eb005e243d98110f92e73e7c8bd">is_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-16 code unit is whitespace.</p>
+          </div></section>
+          <section class="m-doc-details" id="gaf3db7e1842d84227c7feac23c80167cb"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaf3db7e1842d84227c7feac23c80167cb">is_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF code point is whitespace.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga5ea3da66063d2b055981bb7d5708589e"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga5ea3da66063d2b055981bb7d5708589e">is_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a UTF-8 code unit is whitespace.</p>
+          </div></section>
+          <section class="m-doc-details" id="gacf6c4c0e50aa41b7b4916fa489d4560c"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gacf6c4c0e50aa41b7b4916fa489d4560c">is_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Returns true if a wide character is whitespace.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga591693ed2095787d40f63ae8c0c60b74"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga591693ed2095787d40f63ae8c0c60b74">trim</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Trims whitespace from both ends of a UTF-8 string.</p>
+          </div></section>
+          <section class="m-doc-details" id="gac721a6b23447d8c2950803acf99a8f34"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gac721a6b23447d8c2950803acf99a8f34">trim</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Trims whitespace from both ends of a UTF-16 string.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga74cfd907d595f68a757aa50640f9d210"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga74cfd907d595f68a757aa50640f9d210">trim</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Trims whitespace from both ends of a UTF-32 string.</p>
+          </div></section>
+          <section class="m-doc-details" id="gabc24677b997440512aefe4e685b0d2a7"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gabc24677b997440512aefe4e685b0d2a7">trim</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Trims whitespace from both ends of a UTF-8 string.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga71cd0aeed9fed904bbdd3789c81684a3"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga71cd0aeed9fed904bbdd3789c81684a3">trim</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Trims whitespace from both ends of a wide string.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga3aea46929051176b4afb4e23b551ffc5"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga3aea46929051176b4afb4e23b551ffc5">trim_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Trims whitespace from the left end of a UTF-8 string.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga3c0e502baa6f3067e1d26bf5572938f8"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga3c0e502baa6f3067e1d26bf5572938f8">trim_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Trims whitespace from the left end of a UTF-16 string.</p>
+          </div></section>
+          <section class="m-doc-details" id="gae32d321796864fd5adeaaec227134e53"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gae32d321796864fd5adeaaec227134e53">trim_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Trims whitespace from the left end of a UTF-32 string.</p>
+          </div></section>
+          <section class="m-doc-details" id="gad2bab2c91264a3b5241a8d182c922ebd"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gad2bab2c91264a3b5241a8d182c922ebd">trim_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Trims whitespace from the left end of a UTF-8 string.</p>
+          </div></section>
+          <section class="m-doc-details" id="gac23a274a25ef0a4e5b97c0d46b2ccd39"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gac23a274a25ef0a4e5b97c0d46b2ccd39">trim_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Trims whitespace from the left end of a wide string.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga3f499b7f36518026e86dd95624740111"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga3f499b7f36518026e86dd95624740111">trim_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Trims whitespace from the right end of a UTF-8 string.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga18068afb63f4c781d92f7895872a180c"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga18068afb63f4c781d92f7895872a180c">trim_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Trims whitespace from the right end of a UTF-16 string.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga5c65eceb22233e5c09096e48cadeb195"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga5c65eceb22233e5c09096e48cadeb195">trim_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Trims whitespace from the right end of a UTF-32 string.</p>
+          </div></section>
+          <section class="m-doc-details" id="gacd9946ff120c34af5e6634c247a50ba5"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gacd9946ff120c34af5e6634c247a50ba5">trim_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Trims whitespace from the right end of a UTF-8 string.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga24e088ccb48af0182c8cc2e433a7cae8"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga24e088ccb48af0182c8cc2e433a7cae8">trim_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+            </h3>
+            <p>Trims whitespace from the right end of a wide string.</p>
+          </div></section>
+        </section>
       </div>
     </div>
   </div>

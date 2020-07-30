@@ -94,16 +94,6 @@ C++</span></a>
             </dt>
             <dd>Adds a volatile qualifier to a type or reference.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
-              using <a class="m-doc" href="#ga5764fd313d83982437e6119b01b96edb">canonical_int</a> = typename impl::canonical_int&lt;Bits&gt;::type
-            </dt>
-            <dd>Gets the 'canonical' signed integer with a specific number of bits for the target platform.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
-              using <a class="m-doc" href="#gad64466a03ac38699f994ba5e2203d0d0">canonical_uint</a> = typename impl::canonical_uint&lt;Bits&gt;::type
-            </dt>
-            <dd>Gets the 'canonical' unsigned integer with a specific number of bits for the target platform.</dd>
-            <dt>
               <div class="m-doc-template">template&lt;typename T, bool AddConst&gt;</div>
               using <a class="m-doc" href="#ga23ee95c345637ff50a6cc88c4fb0d031">conditionally_add_const</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;AddConst, add_const&lt;T&gt;, T&gt;
             </dt>
@@ -214,10 +204,20 @@ C++</span></a>
             </dt>
             <dd>Sets the volatility of a type or reference according to a boolean.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
+              using <a class="m-doc" href="#ga183715bf5f6a9b3399af8e9804cafacc">signed_integer</a> = typename impl::signed_integer&lt;Bits&gt;::type
+            </dt>
+            <dd>Gets the signed integer type with a specific number of bits for the target platform.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
               using <a class="m-doc" href="#ga605deffbc895ea863586315ad73e9547">smallest</a> = typename impl::smallest&lt;T...&gt;::type
             </dt>
             <dd>The smallest type from a set of types.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
+              using <a class="m-doc" href="#ga0ca8f76b9009f40bdfbb89a1c51b9d82">unsigned_integer</a> = typename impl::unsigned_integer&lt;Bits&gt;::type
+            </dt>
+            <dd>Gets the unsigned integer type with a specific number of bits for the target platform.</dd>
           </dl>
         </section>
         <section id="var-members">
@@ -291,7 +291,7 @@ C++</span></a>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="#gaeb2da559efbc44792993d44b57e1b48d">dependent_false</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Evaluates to false but with type-dependent evaluation.</dd>
+            <dd>Evaluates to false but with delayed, type-dependent evaluation.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Parent, typename Child&gt;</div>
               bool <a class="m-doc" href="#gad99449272de65874d3b7569d9eb9e805">inherits_from</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -302,6 +302,11 @@ C++</span></a>
               bool <a class="m-doc" href="#ga62cd2e27697815af581b5a8584fd1f76">is_arithmetic</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Is a type arithmetic or reference-to-arithmetic?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="#ga0e1dddeef206a9a47a8223994c219cd3">is_code_unit</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Is a type a Unicode 'code unit' type, or reference to one?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="#ga79cf1d440a2967847a6d0a08dc22fa19">is_const</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -399,24 +404,6 @@ C++</span></a>
               using <a class="m-doc-self" href="#ga2d3d76b24998790747a6887a88d0a1e4">add_volatile</a> = impl::add_volatile&lt;T&gt;
             </h3>
             <p>Adds a volatile qualifier to a type or reference.</p>
-          </div></section>
-          <section class="m-doc-details" id="ga5764fd313d83982437e6119b01b96edb"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;
-              </div>
-              using <a class="m-doc-self" href="#ga5764fd313d83982437e6119b01b96edb">canonical_int</a> = typename impl::canonical_int&lt;Bits&gt;::type
-            </h3>
-            <p>Gets the 'canonical' signed integer with a specific number of bits for the target platform.</p>
-          </div></section>
-          <section class="m-doc-details" id="gad64466a03ac38699f994ba5e2203d0d0"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;
-              </div>
-              using <a class="m-doc-self" href="#gad64466a03ac38699f994ba5e2203d0d0">canonical_uint</a> = typename impl::canonical_uint&lt;Bits&gt;::type
-            </h3>
-            <p>Gets the 'canonical' unsigned integer with a specific number of bits for the target platform.</p>
           </div></section>
           <section class="m-doc-details" id="ga23ee95c345637ff50a6cc88c4fb0d031"><div>
             <h3>
@@ -644,6 +631,15 @@ C++</span></a>
             </h3>
             <p>Sets the volatility of a type or reference according to a boolean.</p>
           </div></section>
+          <section class="m-doc-details" id="ga183715bf5f6a9b3399af8e9804cafacc"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga183715bf5f6a9b3399af8e9804cafacc">signed_integer</a> = typename impl::signed_integer&lt;Bits&gt;::type
+            </h3>
+            <p>Gets the signed integer type with a specific number of bits for the target platform.</p>
+          </div></section>
           <section class="m-doc-details" id="ga605deffbc895ea863586315ad73e9547"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
@@ -653,6 +649,15 @@ C++</span></a>
               using <a class="m-doc-self" href="#ga605deffbc895ea863586315ad73e9547">smallest</a> = typename impl::smallest&lt;T...&gt;::type
             </h3>
             <p>The smallest type from a set of types.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga0ca8f76b9009f40bdfbb89a1c51b9d82"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga0ca8f76b9009f40bdfbb89a1c51b9d82">unsigned_integer</a> = typename impl::unsigned_integer&lt;Bits&gt;::type
+            </h3>
+            <p>Gets the unsigned integer type with a specific number of bits for the target platform.</p>
           </div></section>
         </section>
         <section>
@@ -805,7 +810,7 @@ C++</span></a>
               </div>
               bool <a class="m-doc-self" href="#gaeb2da559efbc44792993d44b57e1b48d">dependent_false</a> <span class="m-label m-primary">constexpr</span>
             </h3>
-            <p>Evaluates to false but with type-dependent evaluation.</p>
+            <p>Evaluates to false but with delayed, type-dependent evaluation.</p>
 <p>Allows you to do this:</p><pre class="m-code"><span class="k">static_assert</span><span class="p">(</span>
     <span class="n">dependent_false</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">,</span>
     <span class="s">"Oh no, T is the wrong type for some reason"</span>
@@ -832,6 +837,16 @@ C++</span></a>
             </h3>
             <p>Is a type arithmetic or reference-to-arithmetic?</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>Returns true for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>Returns true for native <a class="m-doc" href="namespacemuu.html#af8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a>, <a class="m-doc" href="namespacemuu.html#aa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a>, <a class="m-doc" href="namespacemuu.html#ac1f6704b74f509e1de86f816c08632f2">float16_<wbr/>t</a> and <a class="m-doc" href="namespacemuu.html#a74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga0e1dddeef206a9a47a8223994c219cd3"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga0e1dddeef206a9a47a8223994c219cd3">is_code_unit</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Is a type a Unicode 'code unit' type, or reference to one?</p>
           </div></section>
           <section class="m-doc-details" id="ga79cf1d440a2967847a6d0a08dc22fa19"><div>
             <h3>

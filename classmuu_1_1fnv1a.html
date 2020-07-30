@@ -102,43 +102,39 @@ C++</span></a>
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="a1754fe62402b925d21c9de5bf5d090d8">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a1754fe62402b925d21c9de5bf5d090d8">operator()</a>(</span><span class="m-doc-wrap">char c) -&gt; <a class="m-doc" href="classmuu_1_1fnv1a.html">fnv1a</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a3d1848b2c29a5a1c1eeb7b5f39715e3a">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a3d1848b2c29a5a1c1eeb7b5f39715e3a">operator()</a>(</span><span class="m-doc-wrap">const void* data,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size) -&gt; <a class="m-doc" href="classmuu_1_1fnv1a.html">fnv1a</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Appends a single character to the hash function's input.</dd>
-            <dt id="af691f97e34a8eedcb8dd7c3c49c3108c">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af691f97e34a8eedcb8dd7c3c49c3108c">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types" target="_blank">char8_t</a> c) -&gt; <a class="m-doc" href="classmuu_1_1fnv1a.html">fnv1a</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Appends a single UTF-8 character to the hash function's input.</dd>
-            <dt id="a93111ee132f57e2b2825b7f8d3f2bc5a">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a93111ee132f57e2b2825b7f8d3f2bc5a">operator()</a>(</span><span class="m-doc-wrap">const void* data,
-              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size) -&gt; <a class="m-doc" href="classmuu_1_1fnv1a.html">fnv1a</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Appends a sequence of data to the hash function's input.</dd>
+            <dd>Appends a sequence of raw data to the hash function's input.</dd>
             <dt id="a05a1cafb51285ce303ed125fd2452ade">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a05a1cafb51285ce303ed125fd2452ade">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a> byte) -&gt; <a class="m-doc" href="classmuu_1_1fnv1a.html">fnv1a</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Appends a single byte to the hash function's input.</dd>
-            <dt id="a4477b040f7ef24215f9ba7ee6fa2953c">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a4477b040f7ef24215f9ba7ee6fa2953c">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> sv) -&gt; <a class="m-doc" href="classmuu_1_1fnv1a.html">fnv1a</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Appends a string to the hash function's input.</dd>
-            <dt id="afc0a70d4cd0f2ce8721ff971ce67a5f0">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#afc0a70d4cd0f2ce8721ff971ce67a5f0">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> sv) -&gt; <a class="m-doc" href="classmuu_1_1fnv1a.html">fnv1a</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="ad46d9f8160c13f902f0c08739ff48f4b">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad46d9f8160c13f902f0c08739ff48f4b">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1fnv1a.html">fnv1a</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Appends a UTF-8 string to the hash function's input.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ad5eff9aa29def3e42212228b074c88e0">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> sv) -&gt; <a class="m-doc" href="classmuu_1_1fnv1a.html">fnv1a</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="ad6ac7397af4a23e1197bf29288956e04">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad6ac7397af4a23e1197bf29288956e04">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1fnv1a.html">fnv1a</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Appends a UTF-16 string to the hash function's input.</dd>
+            <dt id="a5db31728e14dd4f0f41ecd7f9a24eb5d">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a5db31728e14dd4f0f41ecd7f9a24eb5d">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1fnv1a.html">fnv1a</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Appends a UTF-32 string to the hash function's input.</dd>
+            <dt id="a1174392926af3454f7fe0ff847f837df">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a1174392926af3454f7fe0ff847f837df">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1fnv1a.html">fnv1a</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Appends a UTF-8 string to the hash function's input.</dd>
+            <dt id="ac2390c999deca9d0489e30b3314ea41e">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac2390c999deca9d0489e30b3314ea41e">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1fnv1a.html">fnv1a</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Appends a wide string to the hash function's input.</dd>
             <dt id="a4bafa31c65e5151ca0e6e3b64fc96736">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a4bafa31c65e5151ca0e6e3b64fc96736">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> byte) -&gt; <a class="m-doc" href="classmuu_1_1fnv1a.html">fnv1a</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Appends a single byte to the hash function's input.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aa5d9d266e17eb85edd62e1b8fe130357">operator()</a>(</span><span class="m-doc-wrap">wchar_t c) -&gt; <a class="m-doc" href="classmuu_1_1fnv1a.html">fnv1a</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Appends a single wide character to the hash function's input.</dd>
             <dt id="a3a890cd7b57aa791eeb40eaeddeb4a57">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a3a890cd7b57aa791eeb40eaeddeb4a57">value</a>(</span><span class="m-doc-wrap">) const -&gt; hash_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -155,27 +151,6 @@ C++</span></a>
             </dt>
             <dd>Writes the calculated hash to a text stream in hexadecimal form.</dd>
           </dl>
-        </section>
-        <section>
-          <h2>Function documentation</h2>
-          <section class="m-doc-details" id="ad5eff9aa29def3e42212228b074c88e0"><div>
-            <h3>
-              <div class="m-doc-template"> template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;
-              </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1fnv1a.html">fnv1a</a>&amp; muu::<wbr/>fnv1a&lt;Bits&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad5eff9aa29def3e42212228b074c88e0">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> sv) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Appends a wide string to the hash function's input.</p>
-<aside class="m-note m-warning"><h4>Attention</h4><p>This overload is only available when building for Windows.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="aa5d9d266e17eb85edd62e1b8fe130357"><div>
-            <h3>
-              <div class="m-doc-template"> template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;
-              </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1fnv1a.html">fnv1a</a>&amp; muu::<wbr/>fnv1a&lt;Bits&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa5d9d266e17eb85edd62e1b8fe130357">operator()</a>(</span><span class="m-doc-wrap">wchar_t c) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Appends a single wide character to the hash function's input.</p>
-<aside class="m-note m-warning"><h4>Attention</h4><p>This overload is only available when building for Windows.</p></aside>
-          </div></section>
         </section>
       </div>
     </div>
