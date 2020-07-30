@@ -18,6 +18,8 @@ import bs4 as soup
 import json
 
 
+#=== CONFIG ============================================================================================================
+
 
 inline_namespaces = [
 	"muu::literals",
@@ -86,13 +88,135 @@ string_literals = [
 	's',
 	'sv'
 ]
+external_links = [
+	(r'static_cast','https://en.cppreference.com/w/cpp/language/static_cast'),
+	(r'const_cast','https://en.cppreference.com/w/cpp/language/const_cast'),
+	(r'dynamic_cast','https://en.cppreference.com/w/cpp/language/dynamic_cast'),
+	(r'reinterpret_cast','https://en.cppreference.com/w/cpp/language/reinterpret_cast'),
+	(r'(?:std::)?size_t', 'https://en.cppreference.com/w/cpp/types/size_t'),
+	(r'(?:std::)?u?int(_fast|_least)?(?:8|16|32|64)_ts?', 'https://en.cppreference.com/w/cpp/types/integer'),
+	(r'std::pairs?', 'https://en.cppreference.com/w/cpp/utility/pair'),
+	(r'std::bytes?', 'https://en.cppreference.com/w/cpp/types/byte'),
+	(r'std::optionals?', 'https://en.cppreference.com/w/cpp/utility/optional'),
+	(r'std::tuples?', 'https://en.cppreference.com/w/cpp/utility/tuple'),
+	(r'std::integral_constants?', 'https://en.cppreference.com/w/cpp/types/integral_constant'),
+	(r'std::char_traits', 'https://en.cppreference.com/w/cpp/string/char_traits'),
+	(r'std::allocators?', 'https://en.cppreference.com/w/cpp/memory/allocator'),
+	(r'std::enable_if(?:_t)?', 'https://en.cppreference.com/w/cpp/types/enable_if'),
+	(r'std::conditional(?:_t)?', 'https://en.cppreference.com/w/cpp/types/conditional'),
+	(r'std::unordered_maps?', 'https://en.cppreference.com/w/cpp/container/unordered_map'),
+	(r'std::unordered_sets?', 'https://en.cppreference.com/w/cpp/container/unordered_set'),
+	(r'std::maps?', 'https://en.cppreference.com/w/cpp/container/map'),
+	(r'std::sets?', 'https://en.cppreference.com/w/cpp/container/set'),
+	(r'std::vectors?', 'https://en.cppreference.com/w/cpp/container/vector'),
+	(r'std::arrays?', 'https://en.cppreference.com/w/cpp/container/array'),
+	(r'std::chrono::durations?', 'https://en.cppreference.com/w/cpp/chrono/duration'),
+	(
+		r'std::atomic(?:_(?:'
+			+ r'bool|[su]?char(?:8_t|16_t|32_t)?|u?short'
+			+ r'|u?int(?:8_t|16_t|32_t|64_t)?|u?l?long'
+			+ r'))?',
+		'https://en.cppreference.com/w/cpp/atomic/atomic'
+	),
+	(r'std::unique_ptrs?', 'https://en.cppreference.com/w/cpp/memory/unique_ptr'),
+	(r'std::shared_ptrs?', 'https://en.cppreference.com/w/cpp/memory/shared_ptr'),
+	(r'(?:std::)?nullptr_t', 'https://en.cppreference.com/w/cpp/types/nullptr_t'),
+	(r'std::reverse_iterator', 'https://en.cppreference.com/w/cpp/iterator/reverse_iterator'),
+	(r'std::(?:basic_|w)?istreams?', 'https://en.cppreference.com/w/cpp/io/basic_istream'),
+	(r'std::(?:basic_|w)?ostreams?', 'https://en.cppreference.com/w/cpp/io/basic_ostream'),
+	(r'std::(?:basic_|w)?iostreams?', 'https://en.cppreference.com/w/cpp/io/basic_iostream'),
+	(r'std::(?:basic_|w)?ifstreams?', 'https://en.cppreference.com/w/cpp/io/basic_ifstream'),
+	(r'std::(?:basic_|w)?ofstreams?', 'https://en.cppreference.com/w/cpp/io/basic_ofstream'),
+	(r'std::(?:basic_|w)?fstreams?', 'https://en.cppreference.com/w/cpp/io/basic_fstream'),
+	(r'std::(?:basic_|w)?istringstreams?', 'https://en.cppreference.com/w/cpp/io/basic_istringstream'),
+	(r'std::(?:basic_|w)?ostringstreams?', 'https://en.cppreference.com/w/cpp/io/basic_ostringstream'),
+	(r'std::(?:basic_|w)?stringstreams?', 'https://en.cppreference.com/w/cpp/io/basic_stringstream'),
+	(r'std::(?:basic_|w|u(?:8|16|32))?string_views?', 'https://en.cppreference.com/w/cpp/string/basic_string_view'),	
+	(r'std::(?:basic_|w|u(?:8|16|32))?strings?', 'https://en.cppreference.com/w/cpp/string/basic_string'),	
+	(r'\s(?:<|&lt;)fstream(?:>|&gt;)', 'https://en.cppreference.com/w/cpp/header/fstream'),
+	(r'\s(?:<|&lt;)sstream(?:>|&gt;)', 'https://en.cppreference.com/w/cpp/header/sstream'),
+	(r'\s(?:<|&lt;)iostream(?:>|&gt;)', 'https://en.cppreference.com/w/cpp/header/iostream'),
+	(r'\s(?:<|&lt;)iosfwd(?:>|&gt;)', 'https://en.cppreference.com/w/cpp/header/iosfwd'),
+	(r'\s(?:<|&lt;)string(?:>|&gt;)', 'https://en.cppreference.com/w/cpp/header/string'),
+	(r'\s(?:<|&lt;)string_view(?:>|&gt;)', 'https://en.cppreference.com/w/cpp/header/string_view'),
+	(r'(?:wchar|char(?:8|16|32))_ts?', 'https://en.cppreference.com/w/cpp/language/types#Character_types'),
+	(r'std::is_(?:nothrow_)?convertible(?:_v)?', 'https://en.cppreference.com/w/cpp/types/is_convertible'),
+	(r'std::is_same(?:_v)?', 'https://en.cppreference.com/w/cpp/types/is_same'),
+	(r'std::is_base_of(?:_v)?', 'https://en.cppreference.com/w/cpp/types/is_base_of'),
+	(r'std::is_enum(?:_v)?', 'https://en.cppreference.com/w/cpp/types/is_enum'),
+	(r'std::is_floating_point(?:_v)?', 'https://en.cppreference.com/w/cpp/types/is_floating_point'),
+	(r'std::is_integral(?:_v)?', 'https://en.cppreference.com/w/cpp/types/is_integral'),
+	(r'std::is_pointer(?:_v)?', 'https://en.cppreference.com/w/cpp/types/is_pointer'),
+	(r'std::is_reference(?:_v)?', 'https://en.cppreference.com/w/cpp/types/is_reference'),
+	(r'std::is_signed(?:_v)?', 'https://en.cppreference.com/w/cpp/types/is_signed'),
+	(r'std::is_unsigned(?:_v)?', 'https://en.cppreference.com/w/cpp/types/is_unsigned'),
+	(r'std::is_void(?:_v)?', 'https://en.cppreference.com/w/cpp/types/is_void'),
+	(r'std::is_(?:nothrow_)?invocable(?:_r)?', 'https://en.cppreference.com/w/cpp/types/is_invocable'),
+	(r'std::add_[lr]value_reference(?:_t)?', 'https://en.cppreference.com/w/cpp/types/add_reference'),
+	(r'std::remove_reference(?:_t)?', 'https://en.cppreference.com/w/cpp/types/remove_reference'),
+	(r'std::remove_cv(?:_t)?', 'https://en.cppreference.com/w/cpp/types/remove_cv'),
+	(r'std::underlying_type(?:_t)?', 'https://en.cppreference.com/w/cpp/types/underlying_type'),
+	(r'std::exceptions?', 'https://en.cppreference.com/w/cpp/error/exception'),
+	(r'std::runtime_errors?', 'https://en.cppreference.com/w/cpp/error/runtime_error'),
+	(r'std::is_constant_evaluated', 'https://en.cppreference.com/w/cpp/types/is_constant_evaluated'),
+	(r'std::launder', 'https://en.cppreference.com/w/cpp/utility/launder'),
+	(r'std::bit_width', 'https://en.cppreference.com/w/cpp/numeric/bit_width'),
+	(r'std::bit_ceil', 'https://en.cppreference.com/w/cpp/numeric/bit_ceil'),
+	(r'std::bit_floor', 'https://en.cppreference.com/w/cpp/numeric/bit_floor'),
+	(r'std::bit_cast', 'https://en.cppreference.com/w/cpp/numeric/bit_cast'),
+	(r'std::countl_zero', 'https://en.cppreference.com/w/cpp/numeric/countl_zero'),
+	(r'std::countr_zero', 'https://en.cppreference.com/w/cpp/numeric/countr_zero'),
+	(r'std::countl_one', 'https://en.cppreference.com/w/cpp/numeric/countl_one'),
+	(r'std::countr_one', 'https://en.cppreference.com/w/cpp/numeric/countr_one'),
+	(r'std::popcount', 'https://en.cppreference.com/w/cpp/numeric/popcount'),
+	(r'std::has_single_bit', 'https://en.cppreference.com/w/cpp/numeric/has_single_bit'),
+	(r'std::min', 'https://en.cppreference.com/w/cpp/algorithm/min'),
+	(r'std::max', 'https://en.cppreference.com/w/cpp/algorithm/max'),
+	(r'std::clamp', 'https://en.cppreference.com/w/cpp/algorithm/clamp'),
+	(r'std::numeric_limits', 'https://en.cppreference.com/w/cpp/types/numeric_limits'),
+	(r'std::initializer_lists?', 'https://en.cppreference.com/w/cpp/utility/initializer_list'),
+	(
+		r'(?:L?P)?(?:'
+			+ r'D?WORD(?:32|64|_PTR)?|HANDLE|HMODULE|BOOL(?:EAN)?'
+			+ r'|U?SHORT|U?LONG|U?INT(?:8|16|32|64)?'
+			+ r'|BYTE|VOID|C[WT]?STR'
+			+ r')',
+		'https://docs.microsoft.com/en-us/windows/desktop/winprog/windows-data-types'
+	),
+	(
+		r'(?:__INTELLISENSE__|_MSC_FULL_VER|_MSC_VER|_MSVC_LANG|_WIN32|_WIN64)',
+		'https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros?view=vs-2019'
+	),
+	(r'IUnknowns?', 'https://docs.microsoft.com/en-us/windows/win32/api/unknwn/nn-unknwn-iunknown'),
+	(r'(?:IUnknown::)?QueryInterface?', 'https://docs.microsoft.com/en-us/windows/win32/api/unknwn/nf-unknwn-iunknown-queryinterface(q)'),
+	(r'(?:Legacy)?InputIterators?', 'https://en.cppreference.com/w/cpp/named_req/InputIterator'),
+	(r'(?:Legacy)?OutputIterators?', 'https://en.cppreference.com/w/cpp/named_req/OutputIterator'),
+	(r'(?:Legacy)?ForwardIterators?', 'https://en.cppreference.com/w/cpp/named_req/ForwardIterator'),
+	(r'(?:Legacy)?BidirectionalIterators?', 'https://en.cppreference.com/w/cpp/named_req/BidirectionalIterator'),
+	(r'(?:Legacy)?RandomAccessIterators?', 'https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator'),
+	(r'(?:Legacy)?ContiguousIterators?', 'https://en.cppreference.com/w/cpp/named_req/ContiguousIterator'),
+	(
+		r'(?:'
+			+ r'__cplusplus|__STDC_HOSTED__'
+			+ r'|__FILE__|__LINE__'
+			+ r'|__DATE__|__TIME__'
+			+ r'|__STDCPP_DEFAULT_NEW_ALIGNMENT__'
+			+ r')',
+		'https://en.cppreference.com/w/cpp/preprocessor/replace'
+	)
+	#, 
+	# muu-specific
+	# ...
+	# ...
+	# ...
+]
+header_overrides = [
+	(r'muu/impl/unicode_.*?\.h', 'muu/strings.h', 'strings_8h.html')
+]
 
 
 
-
-
-
-
+#=== HTML DOCUMENT =====================================================================================================
 
 
 class HTMLDocument(object):
@@ -725,133 +849,13 @@ class SyntaxHighlightingFix(object):
 
 # adds links to external sources where appropriate
 class ExtDocLinksFix(object): 
-	__types = [
-		(r'static_cast','https://en.cppreference.com/w/cpp/language/static_cast'),
-		(r'const_cast','https://en.cppreference.com/w/cpp/language/const_cast'),
-		(r'dynamic_cast','https://en.cppreference.com/w/cpp/language/dynamic_cast'),
-		(r'reinterpret_cast','https://en.cppreference.com/w/cpp/language/reinterpret_cast'),
-		(r'(?:std::)?size_t', 'https://en.cppreference.com/w/cpp/types/size_t'),
-		(r'(?:std::)?u?int(?:8|16|32|64)(fast|least)?_ts?', 'https://en.cppreference.com/w/cpp/types/integer'),
-		(r'std::pairs?', 'https://en.cppreference.com/w/cpp/utility/pair'),
-		(r'std::bytes?', 'https://en.cppreference.com/w/cpp/types/byte'),
-		(r'std::optionals?', 'https://en.cppreference.com/w/cpp/utility/optional'),
-		(r'std::tuples?', 'https://en.cppreference.com/w/cpp/utility/tuple'),
-		(r'std::integral_constants?', 'https://en.cppreference.com/w/cpp/types/integral_constant'),
-		(r'std::char_traits', 'https://en.cppreference.com/w/cpp/string/char_traits'),
-		(r'std::allocators?', 'https://en.cppreference.com/w/cpp/memory/allocator'),
-		(r'std::enable_if(?:_t)?', 'https://en.cppreference.com/w/cpp/types/enable_if'),
-		(r'std::conditional(?:_t)?', 'https://en.cppreference.com/w/cpp/types/conditional'),
-		(r'std::unordered_maps?', 'https://en.cppreference.com/w/cpp/container/unordered_map'),
-		(r'std::unordered_sets?', 'https://en.cppreference.com/w/cpp/container/unordered_set'),
-		(r'std::maps?', 'https://en.cppreference.com/w/cpp/container/map'),
-		(r'std::sets?', 'https://en.cppreference.com/w/cpp/container/set'),
-		(r'std::vectors?', 'https://en.cppreference.com/w/cpp/container/vector'),
-		(r'std::arrays?', 'https://en.cppreference.com/w/cpp/container/array'),
-		(r'std::chrono::durations?', 'https://en.cppreference.com/w/cpp/chrono/duration'),
-		(
-			r'std::atomic(?:_(?:'
-				+ r'bool|[su]?char(?:8_t|16_t|32_t)?|u?short'
-				+ r'|u?int(?:8_t|16_t|32_t|64_t)?|u?l?long'
-				+ r'))?',
-			'https://en.cppreference.com/w/cpp/atomic/atomic'
-		),
-		(r'std::unique_ptrs?', 'https://en.cppreference.com/w/cpp/memory/unique_ptr'),
-		(r'std::shared_ptrs?', 'https://en.cppreference.com/w/cpp/memory/shared_ptr'),
-		(r'(?:std::)?nullptr_t', 'https://en.cppreference.com/w/cpp/types/nullptr_t'),
-		(r'std::reverse_iterator', 'https://en.cppreference.com/w/cpp/iterator/reverse_iterator'),
-		(r'std::(?:basic_|w)?istreams?', 'https://en.cppreference.com/w/cpp/io/basic_istream'),
-		(r'std::(?:basic_|w)?ostreams?', 'https://en.cppreference.com/w/cpp/io/basic_ostream'),
-		(r'std::(?:basic_|w)?iostreams?', 'https://en.cppreference.com/w/cpp/io/basic_iostream'),
-		(r'std::(?:basic_|w)?ifstreams?', 'https://en.cppreference.com/w/cpp/io/basic_ifstream'),
-		(r'std::(?:basic_|w)?ofstreams?', 'https://en.cppreference.com/w/cpp/io/basic_ofstream'),
-		(r'std::(?:basic_|w)?fstreams?', 'https://en.cppreference.com/w/cpp/io/basic_fstream'),
-		(r'std::(?:basic_|w)?istringstreams?', 'https://en.cppreference.com/w/cpp/io/basic_istringstream'),
-		(r'std::(?:basic_|w)?ostringstreams?', 'https://en.cppreference.com/w/cpp/io/basic_ostringstream'),
-		(r'std::(?:basic_|w)?stringstreams?', 'https://en.cppreference.com/w/cpp/io/basic_stringstream'),
-		(r'std::(?:basic_|w|u8)?string_views?', 'https://en.cppreference.com/w/cpp/string/basic_string_view'),	
-		(r'std::(?:basic_|w|u8)?strings?', 'https://en.cppreference.com/w/cpp/string/basic_string'),	
-		(r'\s(?:<|&lt;)fstream(?:>|&gt;)', 'https://en.cppreference.com/w/cpp/header/fstream'),
-		(r'\s(?:<|&lt;)sstream(?:>|&gt;)', 'https://en.cppreference.com/w/cpp/header/sstream'),
-		(r'\s(?:<|&lt;)iostream(?:>|&gt;)', 'https://en.cppreference.com/w/cpp/header/iostream'),
-		(r'\s(?:<|&lt;)iosfwd(?:>|&gt;)', 'https://en.cppreference.com/w/cpp/header/iosfwd'),
-		(r'\s(?:<|&lt;)string(?:>|&gt;)', 'https://en.cppreference.com/w/cpp/header/string'),
-		(r'\s(?:<|&lt;)string_view(?:>|&gt;)', 'https://en.cppreference.com/w/cpp/header/string_view'),
-		(r'char(?:8|16|32)_ts?', 'https://en.cppreference.com/w/cpp/language/types'),
-		(r'std::is_(?:nothrow_)?convertible(?:_v)?', 'https://en.cppreference.com/w/cpp/types/is_convertible'),
-		(r'std::is_same(?:_v)?', 'https://en.cppreference.com/w/cpp/types/is_same'),
-		(r'std::is_base_of(?:_v)?', 'https://en.cppreference.com/w/cpp/types/is_base_of'),
-		(r'std::is_enum(?:_v)?', 'https://en.cppreference.com/w/cpp/types/is_enum'),
-		(r'std::is_floating_point(?:_v)?', 'https://en.cppreference.com/w/cpp/types/is_floating_point'),
-		(r'std::is_integral(?:_v)?', 'https://en.cppreference.com/w/cpp/types/is_integral'),
-		(r'std::is_pointer(?:_v)?', 'https://en.cppreference.com/w/cpp/types/is_pointer'),
-		(r'std::is_reference(?:_v)?', 'https://en.cppreference.com/w/cpp/types/is_reference'),
-		(r'std::is_signed(?:_v)?', 'https://en.cppreference.com/w/cpp/types/is_signed'),
-		(r'std::is_unsigned(?:_v)?', 'https://en.cppreference.com/w/cpp/types/is_unsigned'),
-		(r'std::is_void(?:_v)?', 'https://en.cppreference.com/w/cpp/types/is_void'),
-		(r'std::is_(?:nothrow_)?invocable(?:_r)?', 'https://en.cppreference.com/w/cpp/types/is_invocable'),
-		(r'std::add_[lr]value_reference(?:_t)?', 'https://en.cppreference.com/w/cpp/types/add_reference'),
-		(r'std::remove_reference(?:_t)?', 'https://en.cppreference.com/w/cpp/types/remove_reference'),
-		(r'std::remove_cv(?:_t)?', 'https://en.cppreference.com/w/cpp/types/remove_cv'),
-		(r'std::underlying_type(?:_t)?', 'https://en.cppreference.com/w/cpp/types/underlying_type'),
-		(r'std::exceptions?', 'https://en.cppreference.com/w/cpp/error/exception'),
-		(r'std::runtime_errors?', 'https://en.cppreference.com/w/cpp/error/runtime_error'),
-		(r'std::is_constant_evaluated', 'https://en.cppreference.com/w/cpp/types/is_constant_evaluated'),
-		(r'std::launder', 'https://en.cppreference.com/w/cpp/utility/launder'),
-		(r'std::bit_width', 'https://en.cppreference.com/w/cpp/numeric/bit_width'),
-		(r'std::bit_ceil', 'https://en.cppreference.com/w/cpp/numeric/bit_ceil'),
-		(r'std::bit_floor', 'https://en.cppreference.com/w/cpp/numeric/bit_floor'),
-		(r'std::bit_cast', 'https://en.cppreference.com/w/cpp/numeric/bit_cast'),
-		(r'std::countl_zero', 'https://en.cppreference.com/w/cpp/numeric/countl_zero'),
-		(r'std::countr_zero', 'https://en.cppreference.com/w/cpp/numeric/countr_zero'),
-		(r'std::countl_one', 'https://en.cppreference.com/w/cpp/numeric/countl_one'),
-		(r'std::countr_one', 'https://en.cppreference.com/w/cpp/numeric/countr_one'),
-		(r'std::popcount', 'https://en.cppreference.com/w/cpp/numeric/popcount'),
-		(r'std::has_single_bit', 'https://en.cppreference.com/w/cpp/numeric/has_single_bit'),
-		(r'std::min', 'https://en.cppreference.com/w/cpp/algorithm/min'),
-		(r'std::max', 'https://en.cppreference.com/w/cpp/algorithm/max'),
-		(r'std::clamp', 'https://en.cppreference.com/w/cpp/algorithm/clamp'),
-		(r'std::numeric_limits', 'https://en.cppreference.com/w/cpp/types/numeric_limits'),
-		(r'std::initializer_lists?', 'https://en.cppreference.com/w/cpp/utility/initializer_list'),
-		(
-			r'(?:L?P)?(?:'
-				+ r'D?WORD(?:32|64|_PTR)?|HANDLE|HMODULE|BOOL(?:EAN)?'
-				+ r'|U?SHORT|U?LONG|U?INT(?:8|16|32|64)?'
-				+ r'|BYTE|VOID|C[WT]?STR'
-				+ r')',
-			'https://docs.microsoft.com/en-us/windows/desktop/winprog/windows-data-types'
-		),
-		(
-			r'(?:__INTELLISENSE__|_MSC_FULL_VER|_MSC_VER|_MSVC_LANG|_WIN32|_WIN64)',
-			'https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros?view=vs-2019'
-		),
-		(r'IUnknowns?', 'https://docs.microsoft.com/en-us/windows/win32/api/unknwn/nn-unknwn-iunknown'),
-		(r'(?:IUnknown::)?QueryInterface?', 'https://docs.microsoft.com/en-us/windows/win32/api/unknwn/nf-unknwn-iunknown-queryinterface(q)'),
-		(r'(?:Legacy)?InputIterators?', 'https://en.cppreference.com/w/cpp/named_req/InputIterator'),
-		(r'(?:Legacy)?OutputIterators?', 'https://en.cppreference.com/w/cpp/named_req/OutputIterator'),
-		(r'(?:Legacy)?ForwardIterators?', 'https://en.cppreference.com/w/cpp/named_req/ForwardIterator'),
-		(r'(?:Legacy)?BidirectionalIterators?', 'https://en.cppreference.com/w/cpp/named_req/BidirectionalIterator'),
-		(r'(?:Legacy)?RandomAccessIterators?', 'https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator'),
-		(r'(?:Legacy)?ContiguousIterators?', 'https://en.cppreference.com/w/cpp/named_req/ContiguousIterator'),
-		(
-			r'(?:'
-				+ r'__cplusplus|__STDC_HOSTED__'
-				+ r'|__FILE__|__LINE__'
-				+ r'|__DATE__|__TIME__'
-				+ r'|__STDCPP_DEFAULT_NEW_ALIGNMENT__'
-				+ r')',
-			'https://en.cppreference.com/w/cpp/preprocessor/replace'
-		)
-		#, 
-		# muu-specific
-		# ...
-		# ...
-		# ...
-	]
+
 	__allowedNames = ['dd', 'p', 'dt', 'h3', 'td', 'div']
 	
 	def __init__(self):
+		global external_links
 		self.__expressions = []
-		for type, uri in self.__types:
+		for type, uri in external_links:
 			self.__expressions.append((re.compile('(?<![a-zA-Z_])'+type+'(?![a-zA-Z_])'), uri))
 	
 	@classmethod
@@ -867,7 +871,7 @@ class ExtDocLinksFix(object):
 	def __call__(self, file, doc):
 		changed = False
 		root = doc.body.main.article.div.div
-		tags = tags = html_shallow_search(root, self.__allowedNames, lambda t: html_find_parent(t, 'a', root) is None)
+		tags = html_shallow_search(root, self.__allowedNames, lambda t: html_find_parent(t, 'a', root) is None)
 		strings = []
 		for tag in tags:
 			strings = strings + html_string_descendants(tag, lambda t: html_find_parent(t, 'a', tag) is None)
@@ -975,6 +979,46 @@ class ExternalLinksFix(object):
 
 
 
+# overrides <path/to/header.h> links
+class HeaderOverridesFix(object): 
+
+	def __init__(self):
+		global header_overrides
+		self.__expressions = []
+		for header, repl, html_file in header_overrides:
+			self.__expressions.append((
+				re.compile('(?:<|")'+header+'(?:>|")'),
+				'<' + repl + '>',
+				html_file
+			))
+	
+	@classmethod
+	def __substitute(cls, m, repl):
+		return repl
+
+	def __call__(self, file, doc):
+		changed = False
+		root = doc.body.main.article.div.div
+		tags = root.find_all('a', string=True)
+		for tag in tags:
+			skip = False
+			for expr, repl, html_file in self.__expressions:
+				replacer = RegexReplacer(expr, lambda m: self.__substitute(m, repl), tag.string)
+				if replacer:
+					tag.string = str(replacer)
+					tag["href"] = html_file
+					changed = True
+					skip = True
+				if skip:
+					continue
+		return changed
+
+
+
+#=======================================================================================================================
+
+
+
 _threadError = False
 
 
@@ -1057,6 +1101,7 @@ def main():
 		, ExtDocLinksFix()
 		, EnableIfFix()
 		, ExternalLinksFix()
+		, HeaderOverridesFix()
 	]
 	files = [path.split(f) for f in utils.get_all_files(html_dir, any=('*.html', '*.htm'))]
 	if files:

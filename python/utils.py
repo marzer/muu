@@ -129,6 +129,43 @@ def make_divider(text = None, text_col = 40, pattern = '-', line_length = 120):
 
 
 
+def __hash_combine_32(current_hash, next_hash):
+	current_hash = current_hash & 0xFFFFFFFF
+	next_hash = next_hash & 0xFFFFFFFF
+	current_hash = current_hash ^ (next_hash + 0x9E3779B9 + (current_hash << 6) + (current_hash >> 2))
+	return current_hash & 0xFFFFFFFF
+def __hash_combine_64(current_hash, next_hash):
+	current_hash = current_hash & 0xFFFFFFFFFFFFFFFF
+	next_hash = next_hash & 0xFFFFFFFFFFFFFFFF
+	current_hash = current_hash ^ (next_hash + 0x9E3779B97F4A7C15 + (current_hash << 12) + (current_hash >> 4))
+	return current_hash & 0xFFFFFFFFFFFFFFFF
+__hash_combine_func = None
+if sys.hash_info.width == 64:
+	__hash_combine_func = __hash_combine_64
+elif sys.hash_info.width == 32:
+	__hash_combine_func = __hash_combine_32
+
+
+
+def hash_combine(current_hash, next_hash, *nexts):
+	global __hash_combine_func
+	current_hash = __hash_combine_func(current_hash, next_hash)
+	if nexts:
+		for n in nexts:
+			current_hash = __hash_combine_func(current_hash, n)
+	return current_hash
+
+
+
+def multi_hash(obj, *objs):
+	h = hash(obj)
+	if objs:
+		for o in objs:
+			h = hash_combine(h, hash(o))
+	return h
+
+
+
 def run(main_func):
 	try:
 		result = main_func()

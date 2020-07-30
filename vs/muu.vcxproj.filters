@@ -79,6 +79,24 @@
     <ClInclude Include="..\include\muu\strings.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\muu\impl\unicode_char.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\impl\unicode_char8_t.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\impl\unicode_char16_t.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\impl\unicode_char32_t.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\impl\unicode_wchar_t.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\impl\unicode_unsigned_char.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />

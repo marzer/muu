@@ -8,6 +8,7 @@ test_sources = [
 	'main.cpp',
 	'meta.cpp',
 	'scope_guard.cpp',
+	'strings.cpp',
 	'tagged_ptr.cpp',
 	'tests.cpp',
 	'uuid.cpp',

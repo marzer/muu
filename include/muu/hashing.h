@@ -7,7 +7,6 @@
 /// \brief Contains the definitions of functions and types related to the generation of hashes.
 
 #pragma once
-#include "../muu/core.h"
 #include "../muu/strings.h"
 
 MUU_PUSH_WARNINGS
@@ -39,7 +38,9 @@ MUU_NAMESPACE_START
 	
 	namespace impl
 	{
-		// these v
+		// these constants are based on the 'golden ratio', as seen in boost::hash_combine
+		// and about a million other places. It probably *should* be something better, but I'm no hashing expert.
+		// see: https://stackoverflow.com/questions/35985960/c-why-is-boosthash-combine-the-best-way-to-combine-hash-values/50978188#50978188
 
 		template <size_t Bits>
 		struct hash_combiner
@@ -87,14 +88,14 @@ MUU_NAMESPACE_START
 		#endif
 	}
 
-	/// \brief	A hash combiner.
+	/// \brief	A hash combiner for integral hashes.
 	///
 	/// \tparam	Bits	The hash size, in bits.
 	template <size_t Bits = (sizeof(size_t) * CHAR_BIT)>
 	class MUU_TRIVIAL_ABI hash_combiner
 	{
 		public:
-			using hash_type = canonical_uint<Bits>;
+			using hash_type = unsigned_integer<Bits>;
 
 		private:
 			hash_type value_;
@@ -153,6 +154,27 @@ MUU_NAMESPACE_START
 		};
 
 		#endif
+
+		template <typename T>
+		constexpr void add_to_hasher_as_utf8(T& hasher, char32_t cp) noexcept
+		{
+			if (!cp)
+				hasher(uint8_t{});
+			else
+			{
+				auto utf8 = utf8_code_point<char>{ cp };
+				hasher(utf8.view());
+			}
+		}
+
+		template <typename T, typename U>
+		constexpr void add_to_hasher_as_utf8(T& hasher, std::basic_string_view<U> str) noexcept
+		{
+			utf_decode(str, [&](char32_t cp) noexcept
+			{
+				add_to_hasher_as_utf8(hasher, cp);
+			});
+		}
 	}
 
 	/// \brief	FNV-1a hasher.
@@ -164,7 +186,7 @@ MUU_NAMESPACE_START
 	class MUU_TRIVIAL_ABI fnv1a
 	{
 		public:
-			using hash_type = canonical_uint<Bits>;
+			using hash_type = unsigned_integer<Bits>;
 		
 		private:
 			hash_type value_ = impl::fnv1a<Bits>::offset_basis;
@@ -198,36 +220,41 @@ MUU_NAMESPACE_START
 			}
 
 			/// \brief	Appends a UTF-8 string to the hash function's input.
-			constexpr fnv1a& operator() (std::string_view sv) noexcept
+			constexpr fnv1a& operator() (std::string_view str) noexcept
 			{
-				for (auto c : sv)
+				for (auto c : str)
 					(*this)(static_cast<uint8_t>(c));
 				return *this;
 			}
 
 			#ifdef __cpp_lib_char8_t
 			/// \brief	Appends a UTF-8 string to the hash function's input.
-			constexpr fnv1a& operator() (std::u8string_view sv) noexcept
+			constexpr fnv1a& operator() (std::u8string_view str) noexcept
 			{
-				for (auto c : sv)
+				for (auto c : str)
 					(*this)(static_cast<uint8_t>(c));
 				return *this;
 			}
 			#endif
 
-			/// \brief	Appends a wide string to the hash function's input.
-			constexpr fnv1a& operator() (std::wstring_view sv) noexcept
+			/// \brief	Appends a UTF-16 string to the hash function's input.
+			constexpr fnv1a& operator() (std::u16string_view str) noexcept
 			{
-				impl::utf_decode(sv, [this](char32_t cu) noexcept
-				{
-					if (!cu)
-						(*this)(0_u8);
-					else
-					{
-						auto cp = impl::utf8_code_point{ cu };
-						(*this)(cp.view());
-					}
-				});
+				impl::add_to_hasher_as_utf8(*this, str);
+				return *this;
+			}
+
+			/// \brief	Appends a UTF-32 string to the hash function's input.
+			constexpr fnv1a& operator() (std::u32string_view str) noexcept
+			{
+				impl::add_to_hasher_as_utf8(*this, str);
+				return *this;
+			}
+
+			/// \brief	Appends a wide string to the hash function's input.
+			constexpr fnv1a& operator() (std::wstring_view str) noexcept
+			{
+				impl::add_to_hasher_as_utf8(*this, str);
 				return *this;
 			}
 
@@ -302,32 +329,37 @@ MUU_NAMESPACE_START
 			sha1& operator() (const void* data, size_t size) noexcept;
 
 			/// \brief	Appends a UTF-8 string to the hash function's input.
-			sha1& operator() (std::string_view sv) noexcept
+			sha1& operator() (std::string_view str) noexcept
 			{
-				return (*this)(sv.data(), sv.size());
+				return (*this)(str.data(), str.size());
 			}
 
 			#ifdef __cpp_lib_char8_t
 			/// \brief	Appends a UTF-8 string to the hash function's input.
-			sha1& operator() (std::u8string_view sv) noexcept
+			sha1& operator() (std::u8string_view str) noexcept
 			{
-				return (*this)(sv.data(), sv.size());
+				return (*this)(str.data(), str.size());
 			}
 			#endif
 
-			/// \brief	Appends a wide string to the hash function's input.
-			constexpr sha1& operator() (std::wstring_view sv) noexcept
+			/// \brief	Appends a UTF-16 string to the hash function's input.
+			sha1& operator() (std::u16string_view str) noexcept
 			{
-				impl::utf_decode(sv, [this](char32_t cu) noexcept
-				{
-					if (!cu)
-						(*this)(0_u8);
-					else
-					{
-						auto cp = impl::utf8_code_point{ cu };
-						(*this)(cp.view());
-					}
-				});
+				impl::add_to_hasher_as_utf8(*this, str);
+				return *this;
+			}
+
+			/// \brief	Appends a UTF-32 string to the hash function's input.
+			sha1& operator() (std::u32string_view str) noexcept
+			{
+				impl::add_to_hasher_as_utf8(*this, str);
+				return *this;
+			}
+
+			/// \brief	Appends a wide string to the hash function's input.
+			sha1& operator() (std::wstring_view str) noexcept
+			{
+				impl::add_to_hasher_as_utf8(*this, str);
 				return *this;
 			}
 

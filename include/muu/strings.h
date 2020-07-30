@@ -4,92 +4,29 @@
 // SPDX-License-Identifier: MIT
 
 /// \file
-/// \brief Functions and types to simplify working with strings.
+/// \brief Functions and types for working with strings.
 
 #pragma once
 #include "../muu/core.h"
+#include "../muu/impl/unicode_char.h"
+#include "../muu/impl/unicode_wchar_t.h"
+#include "../muu/impl/unicode_char16_t.h"
+#include "../muu/impl/unicode_char32_t.h"
+#ifdef __cpp_char8_t
+#include "../muu/impl/unicode_char8_t.h"
+#endif
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_ALL_WARNINGS
 #include <string_view>
 MUU_POP_WARNINGS
 
+//=====================================================================================================================
+// UNICODE
+//=====================================================================================================================
+
 MUU_IMPL_NAMESPACE_START
 {
-	template <typename T>
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr bool is_ascii_whitespace(T c) noexcept
-	{
-		using chars = constants<T>;
-		return c == chars::space || (c >= chars::tab && c <= chars::carriage_return);
-	}
-
-	template <typename Char, typename Func>
-	[[nodiscard]]
-	constexpr auto predicated_trim(std::basic_string_view<Char> str, Func&& trim_pred) noexcept
-		-> std::basic_string_view<Char>
-	{
-		using view = std::basic_string_view<Char>;
-
-		if (str.empty())
-			return view{};
-
-		auto first = view::npos;
-		for (size_t i = 0; i < str.length() && first == view::npos; i++)
-			if (!std::forward<Func>(trim_pred)(str[i]))
-				first = i;
-		if (first == view::npos)
-			return view{};
-
-		auto last = view::npos;
-		for (size_t i = str.length(); i --> 0 && last == view::npos && i >= first;)
-			if (!std::forward<Func>(trim_pred)(str[i]))
-				last = i;
-
-		return str.substr(first, (last - first) + 1);
-	}
-
-	template <typename Char, typename Func>
-	[[nodiscard]]
-	constexpr auto predicated_trim_left(std::basic_string_view<Char> str, Func&& trim_pred) noexcept
-		-> std::basic_string_view<Char>
-	{
-		using view = std::basic_string_view<Char>;
-
-		if (str.empty())
-			return view{};
-
-		auto first = view::npos;
-		for (size_t i = 0; i < str.length() && first == view::npos; i++)
-			if (!std::forward<Func>(trim_pred)(str[i]))
-				first = i;
-		if (first == view::npos)
-			return view{};
-
-		return str.substr(first);
-	}
-
-	template <typename Char, typename Func>
-	[[nodiscard]]
-	constexpr auto predicated_trim_right(std::basic_string_view<Char> str, Func&& trim_pred) noexcept
-		-> std::basic_string_view<Char>
-	{
-		using view = std::basic_string_view<Char>;
-
-		if (str.empty())
-			return view{};
-
-		auto last = view::npos;
-		for (size_t i = str.length(); i --> 0 && last == view::npos;)
-			if (!std::forward<Func>(trim_pred)(str[i]))
-				last = i;
-		if (last == view::npos)
-			return view{};
-
-		return str.substr(0, last + 1);
-	}
-
 	class MUU_TRIVIAL_ABI utf8_decoder final
 	{
 		private:
@@ -160,10 +97,6 @@ MUU_IMPL_NAMESPACE_START
 			constexpr void operator () (char code_unit) noexcept
 			{
 				(*this)(static_cast<uint8_t>(code_unit));
-			}
-			constexpr void operator () (std::byte code_unit) noexcept
-			{
-				(*this)(unwrap(code_unit));
 			}
 			#ifdef __cpp_char8_t
 			constexpr void operator () (char8_t code_unit) noexcept
@@ -259,7 +192,7 @@ MUU_IMPL_NAMESPACE_START
 			{
 				(*this)(static_cast<uint16_t>(code_unit));
 			}
-			#if MUU_SIZEOF_WCHAR_T == 2
+			#if MUU_WCHAR_BYTES == 2
 			constexpr void operator () (wchar_t code_unit) noexcept
 			{
 				(*this)(static_cast<uint16_t>(code_unit));
@@ -273,41 +206,200 @@ MUU_IMPL_NAMESPACE_START
 		void
 	>>;
 
-	template <typename T, typename Func>
-	constexpr void utf_decode(std::basic_string_view<T> sv, Func&& func) noexcept
+	template <typename T, typename Func, size_t PositionalArgs = (
+		std::is_nothrow_invocable_v<Func, T, size_t, size_t> ? 2 :
+		(std::is_nothrow_invocable_v<Func, T, size_t> ? 1 : 0)
+	)>
+	struct utf_decode_func_traits
 	{
-		if (sv.empty())
+		using return_type = decltype(std::declval<Func>()(
+			std::declval<T>(),
+			std::declval<size_t>(),
+			std::declval<size_t>()
+		));
+	};
+
+	template <typename T, typename Func>
+	struct utf_decode_func_traits<T, Func, 1>
+	{
+		using return_type = decltype(std::declval<Func>()(
+			std::declval<T>(),
+			std::declval<size_t>()
+		));
+	};
+
+	template <typename T, typename Func>
+	struct utf_decode_func_traits<T, Func, 0>
+	{
+		using return_type = decltype(std::declval<Func>()(
+			std::declval<T>()
+		));
+	};
+
+	template <typename T, typename Func>
+	constexpr void utf_decode(std::basic_string_view<T> str, bool reverse, Func&& func) noexcept
+	{
+		if (str.empty())
 			return;
 
-		if constexpr (sizeof(T) > 4_sz)
+		static_assert(
+			is_code_unit<T>,
+			"unknown code unit type"
+		);
+		static_assert(
+			   std::is_nothrow_invocable_v<Func&&, T, size_t, size_t>
+			|| std::is_nothrow_invocable_v<Func&&, T, size_t>
+			|| std::is_nothrow_invocable_v<Func&&, T>,
+			"decoder func must be nothrow-invocable with (T), (T, size_t) or (T, size_t, size_t)"
+		);
+
+		using func_return_type = typename utf_decode_func_traits<T, Func>::return_type;
+		constexpr auto stop_after_invoking = [](auto&& f, char32_t cp, size_t cp_start, size_t cu_count) noexcept -> bool
 		{
-			static_assert(dependent_false<T>, "unknown character type");
-		}
-		else if constexpr (sizeof(T) == 4_sz)
+			(void)cp_start;
+			(void)cu_count;
+			if constexpr (std::is_convertible_v<func_return_type, bool>)
+			{
+				if constexpr (std::is_nothrow_invocable_v<Func&&, T, size_t, size_t>)
+					return !static_cast<bool>(std::forward<decltype(f)>(f)(cp, cp_start, cu_count));
+				else if constexpr (std::is_nothrow_invocable_v<Func&&, T, size_t>)
+					return !static_cast<bool>(std::forward<decltype(f)>(f)(cp, cp_start));
+				else
+					return !static_cast<bool>(std::forward<decltype(f)>(f)(cp));
+			}
+			else
+			{
+				if constexpr (std::is_nothrow_invocable_v<Func&&, T, size_t, size_t>)
+					std::forward<decltype(f)>(f)(cp, cp_start, cu_count);
+				else if constexpr (std::is_nothrow_invocable_v<Func&&, T, size_t>)
+					std::forward<decltype(f)>(f)(cp, cp_start);
+				else
+					std::forward<decltype(f)>(f)(cp);
+				return false;
+			}
+		};
+		
+		bool stop = false;
+		if constexpr (sizeof(T) == 4)
 		{
 			// todo: bom handling
-			for (auto c : sv)
-				func(static_cast<char32_t>(c));
+			if (reverse)
+			{
+				for (size_t i = str.length(); i --> 0u && !stop;)
+					stop = stop_after_invoking(std::forward<Func>(func), static_cast<char32_t>(str[i]), i, 1);
+			}
+			else
+			{
+				for (size_t i = 0, e = str.length(); i < e && !stop; i++)
+					stop = stop_after_invoking(std::forward<Func>(func), static_cast<char32_t>(str[i]), i, 1);
+			}
 		}
 		else
 		{
 			// todo: bom handling
 			utf_decoder<T> decoder;
-			for (auto c : sv)
+			if (reverse)
 			{
-				decoder(c);
-				if (decoder.has_value())
-					func(decoder.value());
-				else if (decoder.error())
+				size_t cp_start = str.length();
+				size_t cu_count = {};
+				constexpr size_t max_cu_count = 4_sz / sizeof(T);
+				while (cp_start--> 0u && !stop)
 				{
-					func(static_cast<char32_t>(c));
-					decoder.clear_error();
+					using muu::is_code_point_boundary;
+
+					cu_count++;
+					if (cu_count == max_cu_count || is_code_point_boundary(str[cp_start]))
+					{
+						for (size_t i = cp_start, e = cp_start + cu_count; i < e; i++)
+						{
+							decoder(str[i]);
+							if (decoder.error())
+								break;
+						}
+
+						if (decoder.has_value())
+							stop = stop_after_invoking(std::forward<Func>(func), decoder.value(), cp_start, cu_count);
+						else if (decoder.error())
+						{
+							decoder.clear_error();
+							for (size_t i = cp_start + cu_count; i --> cp_start && !stop;)
+								stop = stop_after_invoking(std::forward<Func>(func), static_cast<char32_t>(str[i]), i, 1);
+						}
+						cu_count = {};
+					}
+				}
+			}
+			else
+			{
+				for (size_t i = 0, e = str.length(), cp_start = 0, cu_count = 0; i < e && !stop; i++)
+				{
+					cu_count++;
+					decoder(str[i]);
+					if (decoder.has_value())
+					{
+						stop = stop_after_invoking(std::forward<Func>(func), decoder.value(), cp_start, cu_count);
+						cp_start = i + 1u;
+						cu_count = {};
+					}
+					else if (decoder.error())
+					{
+						decoder.clear_error();
+						for (size_t j = cp_start, je = cp_start + cu_count; j < je && !stop; j++)
+							stop = stop_after_invoking(std::forward<Func>(func), static_cast<char32_t>(str[j]), j, 1);
+						cp_start = i + 1u;
+						cu_count = {};
+					}
 				}
 			}
 		}
 	}
 
-	template <typename T = char>
+	template <typename T, typename Func>
+	constexpr void utf_decode(std::basic_string_view<T> str, Func&& func) noexcept
+	{
+		utf_decode(str, false, std::forward<Func>(func));
+	}
+
+	struct utf_find_result
+	{
+		size_t index;
+		size_t length;
+
+		[[nodiscard]]
+		MUU_ATTR(pure)
+			explicit constexpr operator bool() const noexcept
+		{
+			return index != impl::numeric_limits<size_t>::highest;
+		}
+
+		[[nodiscard]]
+		MUU_ATTR(pure)
+			constexpr size_t end() const noexcept
+		{
+			return index + length;
+		}
+	};
+
+	template <typename T, typename Func>
+	constexpr utf_find_result utf_find(std::basic_string_view<T> str, bool reverse, Func&& predicate) noexcept
+	{
+		utf_find_result result{ numeric_limits<size_t>::highest, {} };
+		if (!str.empty())
+		{
+			utf_decode(str, reverse, [&](char32_t cp, size_t starts_at, size_t goes_for) noexcept
+			{
+				if (std::forward<Func>(predicate)(cp))
+				{
+					result = { starts_at, goes_for };
+					return false;
+				}
+				return true;
+			});
+		}
+		return result;
+	}
+
+	template <typename T>
 	class MUU_TRIVIAL_ABI utf8_code_point
 	{
 		private:
@@ -365,30 +457,197 @@ MUU_IMPL_NAMESPACE_START
 }
 MUU_IMPL_NAMESPACE_END
 
+//=====================================================================================================================
+// TRIM
+//=====================================================================================================================
+
 MUU_NAMESPACE_START
 {
+	namespace impl
+	{
+		template <typename T, typename Func>
+		[[nodiscard]]
+		constexpr auto predicated_trim(std::basic_string_view<T> str, Func&& predicate) noexcept
+			-> std::basic_string_view<T>
+		{
+			using view = std::basic_string_view<T>;
+
+			if (str.empty())
+				return view{};
+
+			auto first = utf_find(str, false, std::forward<Func>(predicate));
+			if (!first)
+				return view{};
+
+			auto last = utf_find(str, true, std::forward<Func>(predicate));
+
+			return str.substr(first.index, last.end() - first.index);
+		}
+
+		template <typename T, typename Func>
+		[[nodiscard]]
+		constexpr auto predicated_trim_left(std::basic_string_view<T> str, Func&& predicate) noexcept
+			-> std::basic_string_view<T>
+		{
+			using view = std::basic_string_view<T>;
+
+			if (str.empty())
+				return view{};
+
+			auto first = utf_find(str, false, std::forward<Func>(predicate));
+			if (!first)
+				return view{};
+
+			return str.substr(first.index);
+		}
+
+		template <typename T, typename Func>
+		[[nodiscard]]
+		constexpr auto predicated_trim_right(std::basic_string_view<T> str, Func&& predicate) noexcept
+			-> std::basic_string_view<T>
+		{
+			using view = std::basic_string_view<T>;
+
+			if (str.empty())
+				return view{};
+
+			auto last = utf_find(str, true, std::forward<Func>(predicate));
+			if (!last)
+				return view{};
+
+			return str.substr(0, last.end());
+		}
+	}
+
+	/// \addtogroup strings
+	/// @{
+
+	/// \brief		Trims whitespace from both ends of a UTF-8 string.
 	[[nodiscard]]
+	MUU_ATTR(pure)
 	constexpr std::string_view trim(std::string_view str) noexcept
 	{
-		return impl::predicated_trim(str, impl::is_ascii_whitespace<char>);
+		return impl::predicated_trim(str, static_cast<bool(*)(char32_t)>(is_not_whitespace));
 	}
 
+	/// \brief		Trims whitespace from both ends of a wide string.
 	[[nodiscard]]
+	MUU_ATTR(pure)
 	constexpr std::wstring_view trim(std::wstring_view str) noexcept
 	{
-		return impl::predicated_trim(str, impl::is_ascii_whitespace<wchar_t>);
+		return impl::predicated_trim(str, static_cast<bool(*)(char32_t)>(is_not_whitespace));
 	}
 
+	/// \brief		Trims whitespace from both ends of a UTF-16 string.
 	[[nodiscard]]
+	MUU_ATTR(pure)
 	constexpr std::u16string_view trim(std::u16string_view str) noexcept
 	{
-		return impl::predicated_trim(str, impl::is_ascii_whitespace<char16_t>);
+		return impl::predicated_trim(str, static_cast<bool(*)(char32_t)>(is_not_whitespace));
 	}
 
+	/// \brief		Trims whitespace from both ends of a UTF-32 string.
 	[[nodiscard]]
+	MUU_ATTR(pure)
 	constexpr std::u32string_view trim(std::u32string_view str) noexcept
 	{
-		return impl::predicated_trim(str, impl::is_ascii_whitespace<char32_t>);
+		return impl::predicated_trim(str, static_cast<bool(*)(char32_t)>(is_not_whitespace));
 	}
+
+	#ifdef __cpp_lib_char8_t
+	/// \brief		Trims whitespace from both ends of a UTF-8 string.
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr std::u8string_view trim(std::u8string_view str) noexcept
+	{
+		return impl::predicated_trim(str, static_cast<bool(*)(char32_t)>(is_not_whitespace));
+	}
+	#endif
+
+	/// \brief		Trims whitespace from the left end of a UTF-8 string.
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr std::string_view trim_left(std::string_view str) noexcept
+	{
+		return impl::predicated_trim_left(str, static_cast<bool(*)(char32_t)>(is_not_whitespace));
+	}
+
+	/// \brief		Trims whitespace from the left end of a wide string.
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr std::wstring_view trim_left(std::wstring_view str) noexcept
+	{
+		return impl::predicated_trim_left(str, static_cast<bool(*)(char32_t)>(is_not_whitespace));
+	}
+
+	/// \brief		Trims whitespace from the left end of a UTF-16 string.
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr std::u16string_view trim_left(std::u16string_view str) noexcept
+	{
+		return impl::predicated_trim_left(str, static_cast<bool(*)(char32_t)>(is_not_whitespace));
+	}
+
+	/// \brief		Trims whitespace from the left end of a UTF-32 string.
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr std::u32string_view trim_left(std::u32string_view str) noexcept
+	{
+		return impl::predicated_trim_left(str, static_cast<bool(*)(char32_t)>(is_not_whitespace));
+	}
+
+	#ifdef __cpp_lib_char8_t
+	/// \brief		Trims whitespace from the left end of a UTF-8 string.
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr std::u8string_view trim_left(std::u8string_view str) noexcept
+	{
+		return impl::predicated_trim_left(str, static_cast<bool(*)(char32_t)>(is_not_whitespace));
+	}
+	#endif
+
+	/// \brief		Trims whitespace from the right end of a UTF-8 string.
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr std::string_view trim_right(std::string_view str) noexcept
+	{
+		return impl::predicated_trim_right(str, static_cast<bool(*)(char32_t)>(is_not_whitespace));
+	}
+
+	/// \brief		Trims whitespace from the right end of a wide string.
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr std::wstring_view trim_right(std::wstring_view str) noexcept
+	{
+		return impl::predicated_trim_right(str, static_cast<bool(*)(char32_t)>(is_not_whitespace));
+	}
+
+	/// \brief		Trims whitespace from the right end of a UTF-16 string.
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr std::u16string_view trim_right(std::u16string_view str) noexcept
+	{
+		return impl::predicated_trim_right(str, static_cast<bool(*)(char32_t)>(is_not_whitespace));
+	}
+
+	/// \brief		Trims whitespace from the right end of a UTF-32 string.
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr std::u32string_view trim_right(std::u32string_view str) noexcept
+	{
+		return impl::predicated_trim_right(str, static_cast<bool(*)(char32_t)>(is_not_whitespace));
+	}
+
+	#ifdef __cpp_lib_char8_t
+	/// \brief		Trims whitespace from the right end of a UTF-8 string.
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr std::u8string_view trim_right(std::u8string_view str) noexcept
+	{
+		return impl::predicated_trim_right(str, static_cast<bool(*)(char32_t)>(is_not_whitespace));
+	}
+	#endif
+
+	/// @}
 }
 MUU_NAMESPACE_END

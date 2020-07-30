@@ -100,8 +100,9 @@ def main():
 			<PrecompiledHeader>NotUsing</PrecompiledHeader>
 		</ClCompile>
 		<ClCompile Include="..\..\tests\meta.cpp" />
-		<ClCompile Include="..\..\tests\tagged_ptr.cpp" />
 		<ClCompile Include="..\..\tests\scope_guard.cpp" />
+		<ClCompile Include="..\..\tests\strings.cpp" />
+		<ClCompile Include="..\..\tests\tagged_ptr.cpp" />
 		<ClCompile Include="..\..\tests\tests.cpp">
 			<PrecompiledHeader>Create</PrecompiledHeader>
 		</ClCompile>

@@ -312,23 +312,34 @@ MUU_IMPL_NAMESPACE_START
 	//template <typename T>
 	//struct underlying_type<T, false> { using type = T; };
 
-	template <size_t Bits> struct canonical_int;
-	template <> struct canonical_int<8> { using type = int8_t; };
-	template <> struct canonical_int<16> { using type = int16_t; };
-	template <> struct canonical_int<32> { using type = int32_t; };
-	template <> struct canonical_int<64> { using type = int64_t; };
+	template <size_t Bits> struct signed_integer;
+	template <> struct signed_integer<8> { using type = int8_t; };
+	template <> struct signed_integer<16> { using type = int16_t; };
+	template <> struct signed_integer<32> { using type = int32_t; };
+	template <> struct signed_integer<64> { using type = int64_t; };
 	#if MUU_HAS_INT128
-	template <> struct canonical_int<128> { using type = int128_t; };
+	template <> struct signed_integer<128> { using type = int128_t; };
 	#endif
 
-	template <size_t Bits> struct canonical_uint;
-	template <> struct canonical_uint<8> { using type = uint8_t; };
-	template <> struct canonical_uint<16> { using type = uint16_t; };
-	template <> struct canonical_uint<32> { using type = uint32_t; };
-	template <> struct canonical_uint<64> { using type = uint64_t; };
+	template <size_t Bits> struct unsigned_integer;
+	template <> struct unsigned_integer<8> { using type = uint8_t; };
+	template <> struct unsigned_integer<16> { using type = uint16_t; };
+	template <> struct unsigned_integer<32> { using type = uint32_t; };
+	template <> struct unsigned_integer<64> { using type = uint64_t; };
 	#if MUU_HAS_INT128
-	template <> struct canonical_uint<128> { using type = uint128_t; };
+	template <> struct unsigned_integer<128> { using type = uint128_t; };
 	#endif
+
+	template <size_t Bits> struct code_unit;
+	#ifdef __cpp_char8_t
+	template <> struct code_unit<8> { using type = char8_t; };
+	#else
+		template <> struct code_unit<8> { using type = unsigned char; };
+	#endif
+	template <> struct code_unit<16> { using type = char16_t; };
+	template <> struct code_unit<32> { using type = char32_t; };
+	using char_unicode_t = typename code_unit<CHAR_BIT>::type;
+	using wchar_unicode_t = typename code_unit<sizeof(wchar_t) * CHAR_BIT>::type;
 
 	#if MUU_WINDOWS
 		template <typename T> inline constexpr bool is_win32_iunknown
@@ -663,7 +674,7 @@ MUU_NAMESPACE_START
 	template <typename T>
 	using make_unsigned = typename impl::make_unsigned<T>::type;
 
-	/// \brief	Evaluates to false but with type-dependent evaluation.
+	/// \brief	Evaluates to false but with delayed, type-dependent evaluation.
 	/// \details Allows you to do this:
 	/// \cpp
 	///	static_assert(
@@ -674,13 +685,25 @@ MUU_NAMESPACE_START
 	template <typename T>
 	inline constexpr bool dependent_false = false;
 
-	/// \brief	Gets the 'canonical' unsigned integer with a specific number of bits for the target platform.
+	/// \brief	Gets the unsigned integer type with a specific number of bits for the target platform.
 	template <size_t Bits>
-	using canonical_uint = typename impl::canonical_uint<Bits>::type;
+	using unsigned_integer = typename impl::unsigned_integer<Bits>::type;
 
-	/// \brief	Gets the 'canonical' signed integer with a specific number of bits for the target platform.
+	/// \brief	Gets the signed integer type with a specific number of bits for the target platform.
 	template <size_t Bits>
-	using canonical_int = typename impl::canonical_int<Bits>::type;
+	using signed_integer = typename impl::signed_integer<Bits>::type;
+
+	/// \brief Is a type a Unicode 'code unit' type, or reference to one?
+	template <typename T>
+	inline constexpr bool is_code_unit = same_as_any<remove_cvref<T>,
+		char,
+		wchar_t,
+		char16_t,
+		char32_t
+		#ifdef __cpp_char8_t
+		, char8_t
+		#endif
+	>;
 
 	/// @}
 }
@@ -689,6 +712,9 @@ MUU_NAMESPACE_END
 //=====================================================================================================================
 // CONSTANTS
 //=====================================================================================================================
+
+MUU_PUSH_WARNINGS
+MUU_DISABLE_ARITHMETIC_WARNINGS
 
 MUU_NAMESPACE_START
 {
@@ -711,8 +737,8 @@ MUU_NAMESPACE_START
 		struct numeric_limits<int128_t>
 		{
 			static constexpr int128_t max = static_cast<int128_t>(
-				(int128_t{ 1u } << ((__SIZEOF_INT128__ * CHAR_BIT) - 1)) - 1
-				);
+				(uint128_t{ 1u } << ((__SIZEOF_INT128__ * CHAR_BIT) - 1)) - 1
+			);
 			static constexpr int128_t min = -max - int128_t{ 1 };
 		};
 		template <>
@@ -782,7 +808,7 @@ MUU_NAMESPACE_START
 		//-------------  constant class aggregates
 
 		template <typename T>
-		struct character_constants
+		struct ascii_character_constants
 			: numeric_limits<T>,
 			unsigned_integral_named_constants<T>
 		{
@@ -949,21 +975,21 @@ MUU_NAMESPACE_START
 	#endif
 
 	/// \brief	`char` constants.
-	template <> struct constants<char> : impl::character_constants<char> {};
+	template <> struct constants<char> : impl::ascii_character_constants<char> {};
 
 	/// \brief	`wchar_t` constants.
-	template <> struct constants<wchar_t> : impl::character_constants<wchar_t> {};
+	template <> struct constants<wchar_t> : impl::ascii_character_constants<wchar_t> {};
 
-	#if defined(DOXYGEN) || defined(__cpp_char8_t)
+	#ifdef __cpp_char8_t
 	/// \brief	`char8_t` constants.
-	template <> struct constants<char8_t> : impl::character_constants<char8_t> {};
+	template <> struct constants<char8_t> : impl::ascii_character_constants<char8_t> {};
 	#endif
 
 	/// \brief	`char16_t` constants.
-	template <> struct constants<char16_t> : impl::character_constants<char16_t> {};
+	template <> struct constants<char16_t> : impl::ascii_character_constants<char16_t> {};
 
 	/// \brief	`char32_t` constants.
-	template <> struct constants<char32_t> : impl::character_constants<char32_t> {};
+	template <> struct constants<char32_t> : impl::ascii_character_constants<char32_t> {};
 
 	/// \brief	`signed char` constants.
 	template <> struct constants<signed char> : impl::signed_integral_constants<signed char> {};
@@ -1065,9 +1091,6 @@ MUU_NAMESPACE_END
 //=====================================================================================================================
 // LITERALS, BUILD CONSTANTS AND 'INTRINSICS'
 //=====================================================================================================================
-
-MUU_PUSH_WARNINGS
-MUU_DISABLE_ARITHMETIC_WARNINGS
 
 MUU_NAMESPACE_START
 {
@@ -1533,7 +1556,7 @@ MUU_NAMESPACE_START
 		);
 		using return_type = std::conditional_t<
 			std::is_void_v<Return>,
-			canonical_uint<bit_ceil(total_size<T, U, V...> * CHAR_BIT)>,
+			unsigned_integer<bit_ceil(total_size<T, U, V...> * CHAR_BIT)>,
 			Return
 		>;
 		static_assert(
@@ -2719,8 +2742,8 @@ MUU_NAMESPACE_START
 		);
 		using swizzle_type = std::conditional_t<
 			is_signed<T>,
-			canonical_int<bit_ceil(sizeof...(ByteIndices) * CHAR_BIT)>,
-			canonical_uint<bit_ceil(sizeof...(ByteIndices) * CHAR_BIT)>
+			signed_integer<bit_ceil(sizeof...(ByteIndices) * CHAR_BIT)>,
+			unsigned_integer<bit_ceil(sizeof...(ByteIndices) * CHAR_BIT)>
 		>;
 		using return_type = std::conditional_t<
 			sizeof...(ByteIndices) == sizeof(T),
@@ -2889,34 +2912,6 @@ MUU_NAMESPACE_START
 MUU_NAMESPACE_END
 
 MUU_POP_WARNINGS // MUU_DISABLE_ARITHMETIC_WARNINGS
-
-//=====================================================================================================================
-// STRING FUNCTIONS
-//=====================================================================================================================
-
-MUU_NAMESPACE_START
-{
-	/// \addtogroup		strings
-	/// @{
-
-	namespace impl
-	{
-
-	
-	}
-
-
-
-	// Trim
-	// TrimLeft
-	// TrimRight
-	// IsWhitespace
-	// IsHexadecimal
-	// Find
-
-	/// @}
-}
-MUU_NAMESPACE_END
 
 #undef MUU_HAS_INTRINSIC_BIT_CAST
 #undef MUU_HAS_INTRINSIC_POPCOUNT

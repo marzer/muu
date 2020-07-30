@@ -613,11 +613,17 @@
 //=====================================================================================================================
 
 #if MUU_WINDOWS
-	#define MUU_SIZEOF_WCHAR_T		2
+	#define MUU_WCHAR_BYTES			2
+	#define MUU_WCHAR_BITS			16
 #elif defined(__SIZEOF_WCHAR_T__)
-	#define MUU_SIZEOF_WCHAR_T		__SIZEOF_WCHAR_T__
-#else
-	#define MUU_SIZEOF_WCHAR_T		0 // ??
+	#define MUU_WCHAR_BYTES			__SIZEOF_WCHAR_T__
+	#if __SIZEOF_WCHAR_T__ == 4
+		#define MUU_WCHAR_BITS		32
+	#elif __SIZEOF_WCHAR_T__ == 2
+		#define MUU_WCHAR_BITS		16
+	#elif __SIZEOF_WCHAR_T__ == 1
+		#define MUU_WCHAR_BITS		8
+	#endif
 #endif
 
 //=====================================================================================================================

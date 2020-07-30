@@ -50,6 +50,12 @@
     <ClInclude Include="..\include\muu\impl\aligned_alloc.hpp" />
     <ClInclude Include="..\include\muu\impl\blob.hpp" />
     <ClInclude Include="..\include\muu\impl\hashing.hpp" />
+    <ClInclude Include="..\include\muu\impl\unicode_char.h" />
+    <ClInclude Include="..\include\muu\impl\unicode_char16_t.h" />
+    <ClInclude Include="..\include\muu\impl\unicode_char32_t.h" />
+    <ClInclude Include="..\include\muu\impl\unicode_char8_t.h" />
+    <ClInclude Include="..\include\muu\impl\unicode_unsigned_char.h" />
+    <ClInclude Include="..\include\muu\impl\unicode_wchar_t.h" />
     <ClInclude Include="..\include\muu\impl\uuid.hpp" />
     <ClInclude Include="..\include\muu\rolling_average.h" />
     <ClInclude Include="..\include\muu\numeric_range.h" />

@@ -4,13 +4,14 @@
 # See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 # SPDX-License-Identifier: MIT
 
+# conversions between character types of the same size: https://godbolt.org/z/KeddME
+
 import sys
 import os.path as path
 import utils
 import re
 import math
 import bisect
-
 
 
 #### SETTINGS / MISC ##################################################################################################
@@ -24,16 +25,15 @@ class G: # G for Globals
 	bitmask_tables				= True
 	depth_limit					= 0
 	word_size					= 64
+	compound_boolean_limit		= 3
+	expression_ids				= False
 
 
 
-def make_literal(codepoint):
-	if (32 <= codepoint < 127 and chr(codepoint).isprintable()):
-		return "U'{}'".format(chr(codepoint))
-	elif (codepoint > 0xFFFF):
-		return "U'\\U{:08X}'".format(codepoint)
-	else:
-		return "U'\\u{:04X}'".format(codepoint)
+def exid(id):
+	if G.expression_ids:
+		return f' /* EX {id} */'
+	return ''
 
 
 
@@ -56,9 +56,9 @@ def make_bitmask_index_test_expression(index, bitmask, index_offset = 0, bits = 
 	if not bits:
 		bits = 64 if (bitmask >> 32) > 0 else 32
 	suffix = 'ull' if bits >= 64 else 'u'
-	s = 'static_cast<ui{}>({})'.format(bits, index) if cast else str(index)
+	s = f'static_cast<uint_least{bits}_t>({index})' if cast else str(index)
 	if index_offset != 0:
-		s = '({} {} 0x{:X}{})'.format(s, '-' if index_offset < 0 else '+', abs(index_offset), suffix)
+		s = '({} {} 0x{:X}u)'.format(s, '-' if index_offset < 0 else '+', abs(index_offset))
 	return '(1{} << {}) & {}'.format(suffix, s, make_bitmask_literal(bitmask, bits))
 
 
@@ -468,13 +468,13 @@ class CodepointChunk:
 			self.span_first = None
 			self.span_last = None
 
-	def __init__(self, data=None):
+	def __init__(self, code_unit, data=None):
+		self.__code_unit = code_unit
 		self.__finished = False
 		self.__children = None
 		self.__expr = None
 		self.__expr_handles_low_end = True
 		self.__expr_handles_high_end = True
-		self.__uint_typedefs = set()
 		if data is not None:
 			if not isinstance(data, self.__Data):
 				raise Exception("nope")
@@ -499,10 +499,10 @@ class CodepointChunk:
 		return self.range().last()
 
 	def first_lit(self):
-		return make_literal(self.first())
+		return self.__code_unit.literal(self.first())
 
 	def last_lit(self):
-		return make_literal(self.last())
+		return self.__code_unit.literal(self.last())
 
 	def span_first(self):
 		return self.__data.span_first
@@ -511,16 +511,13 @@ class CodepointChunk:
 		return self.__data.span_last
 
 	def span_first_lit(self):
-		return make_literal(self.span_first())
+		return self.__code_unit.literal(self.span_first())
 
 	def span_last_lit(self):
-		return make_literal(self.span_last())
+		return self.__code_unit.literal(self.span_last())
 
 	def span_size(self):
 		return (self.span_last() - self.span_first()) + 1
-
-	def required_uint_typedefs(self):
-		return iter(self.__uint_typedefs)
 
 	def level(self):
 		return self.__data.level
@@ -546,8 +543,7 @@ class CodepointChunk:
 		)
 
 	def child_selector(self):
-		self.__uint_typedefs.add(64)
-		s = 'static_cast<ui64>(cp)'
+		s = 'static_cast<uint_least64_t>(c)'
 		if (self.first() > 0):
 			s = '({} - 0x{:X}ull)'.format(s, self.first())
 		return s + ' / 0x{:X}ull'.format(self.__children[0].span_size())
@@ -555,13 +551,17 @@ class CodepointChunk:
 	def expression(self, clamp = False):
 		if self.__expr is None:
 			return None
-		if not clamp or (self.__expr_handles_low_end and self.__expr_handles_high_end):
+		elif not clamp or (self.__expr_handles_low_end and self.__expr_handles_high_end):
 			return self.__expr
-		return '{}{}{}'.format(
-			'cp >= {} && '.format(self.span_first_lit()) if not self.__expr_handles_low_end else '',
-			'cp <= {} && '.format(self.span_last_lit()) if not self.__expr_handles_high_end else '',
-			self.__expr
-		)
+		else:
+			bools = []
+			if not self.__expr_handles_low_end:
+				bools.append('c >= '+ self.span_first_lit())
+			if not self.__expr_handles_high_end:
+				bools.append('c <= '+ self.span_last_lit())
+			if len(bools) == 0 or not self.always_returns_true():
+				bools.append(self.__expr)
+			return strip_brackets(compound_and(*bools)) + exid(16)
 
 	def add(self, first, last = None):
 		if self.__finished:
@@ -585,15 +585,15 @@ class CodepointChunk:
 
 		# false
 		if self.always_returns_false():
-			self.__expr = 'false'
+			self.__expr = f'false{exid(0)}'
 
 		# true
 		elif self.always_returns_true():
-			self.__expr = 'true'
-			self.__expr_handles_low_end = False
-			self.__expr_handles_high_end = False
+			self.__expr = f'true{exid(1)}'
+			self.__expr_handles_low_end = self.span_first() == 0
+			self.__expr_handles_high_end = self.span_last() == self.__code_unit.max
 
-		# cp != A
+		# c != A
 		elif (len(self) == self.span_size() - 1):
 			gap = None
 			for i in range(self.span_first(), self.span_last()+1):
@@ -601,33 +601,33 @@ class CodepointChunk:
 					gap = i
 					break
 			assert gap is not None
-			self.__expr = 'cp != ' + make_literal(gap)
+			self.__expr = 'c != ' + self.__code_unit.literal(gap) + exid(2)
 			self.__expr_handles_low_end = gap == self.span_first()
 			self.__expr_handles_high_end = gap == self.span_last()
 
-		# cp == A
-		# cp >= A
-		# cp >= A && cp <= B
+		# c == A
+		# c >= A
+		# c >= A && c <= B
 		elif self.range().contiguous():
 			if len(self) == 1:
-				self.__expr = 'cp == ' + self.first_lit()
+				self.__expr = 'c == ' + self.first_lit() + exid(3)
 			elif (self.first() > self.span_first()) and (self.last() < self.span_last()):
-				self.__expr = '(cp >= {} && cp <= {})'.format(self.first_lit(), self.last_lit())
+				self.__expr = '(c >= {} && c <= {})'.format(self.first_lit(), self.last_lit()) + exid(4)
 			elif self.last() < self.span_last():
 				assert self.first() == self.span_first()
-				self.__expr = 'cp <= ' + self.last_lit()
+				self.__expr = 'c <= ' + self.last_lit() + exid(5)
 				self.__expr_handles_low_end = False
 			else:
 				assert self.first() > self.span_first()
 				assert self.last() == self.span_last(), "{} {}".format(self.last(), self.span_last())
-				self.__expr = 'cp >= ' + self.first_lit()
+				self.__expr = 'c >= ' + self.first_lit() + exid(6)
 				self.__expr_handles_high_end = False
 
 		if self.__expr is not None:
 			return
 
-		# cp % A == 0
-		# (cp + A) % B == 0
+		# c % A == 0
+		# (c + A) % B == 0
 		for div in range(2, 11):
 			for add in range(0, div):
 				ok = True
@@ -639,20 +639,19 @@ class CodepointChunk:
 					if not ok:
 						break
 				if ok:
-					s = 'static_cast<ui32>(cp)'
-					self.__uint_typedefs.add(32)
+					s = 'static_cast<uint_least32_t>(c)'
 					if (add):
 						s = '({} + {}u)'.format(s, add)
 					bools = [ '({} % {}u) == 0u'.format(s, div) ]
 					self.__expr_handles_low_end = False
 					self.__expr_handles_high_end = False
 					if (self.last() < self.span_last()):
-						bools.insert(0, 'cp <= {}'.format(self.last_lit()))
+						bools.insert(0, 'c <= {}'.format(self.last_lit()))
 						self.__expr_handles_high_end = True
 					if (self.first() > self.span_first()):
-						bools.insert(0, 'cp >= {}'.format(self.first_lit()))
+						bools.insert(0, 'c >= {}'.format(self.first_lit()))
 						self.__expr_handles_low_end = True
-					self.__expr = compound_and(*bools)
+					self.__expr = compound_and(*bools) + exid(7)
 					break
 			if self.__expr:
 				break
@@ -660,7 +659,7 @@ class CodepointChunk:
 		if self.__expr is not None:
 			return
 
-		# cp & A
+		# c & A
 		if G.bitmask_expressions and (self.last() - self.first() + 1) <= G.word_size:
 			bitmask = 0
 			for i in self.range():
@@ -668,17 +667,16 @@ class CodepointChunk:
 				if shift >= G.word_size:
 					break
 				bitmask |= 1 << shift
-			bools = [ make_bitmask_index_test_expression('cp', bitmask, -self.first()) ]
-			self.__uint_typedefs.add(64 if bitmask > 0xFFFFFFFF else 32)
+			bools = [ make_bitmask_index_test_expression('c', bitmask, -self.first()) ]
 			self.__expr_handles_low_end = False
 			self.__expr_handles_high_end = False
 			if (self.last() < self.span_last()):
-				bools.insert(0, 'cp <= {}'.format(self.last_lit()))
+				bools.insert(0, 'c <= {}'.format(self.last_lit()))
 				self.__expr_handles_high_end = True
 			if (self.first() > self.span_first()):
-				bools.insert(0, 'cp >= {}'.format(self.first_lit()))
+				bools.insert(0, 'c >= {}'.format(self.first_lit()))
 				self.__expr_handles_low_end = True
-			self.__expr = wrap_lines(compound_and(*bools), sep='&&', wrap_prefix='\t\t', assumed_indent=self.level()*8)
+			self.__expr = wrap_lines(compound_and(*bools), sep='&&', wrap_prefix='\t\t', assumed_indent=self.level()*8)  + exid(8)
 
 
 		if self.__expr is not None:
@@ -693,28 +691,28 @@ class CodepointChunk:
 			and calc_child_size(child_span) < child_span
 		)
 
-		# (cp >= A && cp <= B) || cp == C || cp == D ...
-		if (self.range().sparse_value_count() + self.range().contiguous_subrange_count()) <= 3 or not subdivision_allowed:
+		# (c >= A && c <= B) || c == C || c == D ...
+		if (self.range().sparse_value_count() + self.range().contiguous_subrange_count()) <= G.compound_boolean_limit or not subdivision_allowed:
 			self.__expr_handles_low_end = False
 			self.__expr_handles_high_end = False
 			bools = []
 			for f, l in self.range().contiguous_subranges():
 				if l == f + 1:
 					if f > 0:
-						bools.append('cp == {}'.format(make_literal(f)))
-					bools.append('cp == {}'.format(make_literal(l)))
+						bools.append('c == {}'.format(self.__code_unit.literal(f)))
+					bools.append('c == {}'.format(self.__code_unit.literal(l)))
 				else:
 					if f > 0:
-						bools.append('(cp >= {} && cp <= {})'.format(make_literal(f), make_literal(l)))
+						bools.append('(c >= {} && c <= {})'.format(self.__code_unit.literal(f), self.__code_unit.literal(l)))
 					else:
-						bools.append('cp <= {}'.format(make_literal(l)))
+						bools.append('c <= {}'.format(self.__code_unit.literal(l)))
 				self.__expr_handles_low_end = self.__expr_handles_low_end or f == self.span_first()
 				self.__expr_handles_high_end = self.__expr_handles_high_end or l == self.span_last()
 			for v in self.range().sparse_values():
-				bools.append('cp == ' + make_literal(v))
+				bools.append('c == ' + self.__code_unit.literal(v))
 				self.__expr_handles_low_end = self.__expr_handles_low_end or v == self.span_first()
 				self.__expr_handles_high_end = self.__expr_handles_high_end or v == self.span_last()
-			self.__expr = wrap_lines(compound_or(*bools), wrap_prefix='\t\t')
+			self.__expr = wrap_lines(compound_or(*bools), wrap_prefix='\t\t') + exid(9)
 
 
 		if self.__expr is not None:
@@ -723,11 +721,9 @@ class CodepointChunk:
 		# haven't been able to make an expression so check if the chunk
 		# can be made into a bitmask lookup table
 		if self.makes_bitmask_table():
-			self.__uint_typedefs.add(G.word_size)
 			return
 
 		# couldn't figure out a return expression or make a bitmask lookup table, so subdivide
-		self.__uint_typedefs.add(G.word_size)
 		child_node_max_size = calc_child_size(child_span)
 		child_nodes = ceil(child_span / float(child_node_max_size))
 		self.__children = [None] * child_nodes
@@ -746,46 +742,41 @@ class CodepointChunk:
 			data.range.add(i)
 		for i in range(0, child_nodes):
 			if self.__children[i] is not None:
-				self.__children[i] = CodepointChunk(self.__children[i])
-				for ui in self.__children[i].required_uint_typedefs():
-					self.__uint_typedefs.add(ui)
+				self.__children[i] = CodepointChunk(self.__code_unit, self.__children[i])
 		for child_index in range(0, child_nodes):
 			child = self.__children[child_index]
 			if child is None:
 				data = self.__Data(self.level() + 1)
 				data.span_first = child_first + child_index * child_node_max_size
 				data.span_last = min(data.span_first + child_node_max_size - 1, child_last)
-				self.__children[child_index] = CodepointChunk(data)
+				self.__children[child_index] = CodepointChunk(self.__code_unit, data)
 
 	def __str__(self):
 		self.__finish()
 		s = ''
-		if self.root() and len(self.__uint_typedefs) > 0:
-			for ui in self.__uint_typedefs:
-				s += 'using ui{} = std::uint_least{}_t;\n'.format(ui, ui)
-			s += '\n'
 		if self.has_expression():
 			return s + 'return {};'.format(strip_brackets(self.expression(self.root())))
 		else:
 			exclusions = []
 			assumptions = []
 			if self.first() > 0 and (self.root() or self.first() > self.span_first()):
-				exclusions.append('cp < ' + self.first_lit())
+				exclusions.append('c < ' + self.first_lit())
 			else:
-				assumptions.append('cp >= ' + self.first_lit())
-			if self.root() or self.last() < self.span_last():
-				exclusions.append('cp > ' + self.last_lit())
-			else:
-				assumptions.append('cp <= ' + self.last_lit())
+				assumptions.append('c >= ' + self.first_lit())
+			if self.span_last() < self.__code_unit.max:
+				if (self.root() or self.last() < self.span_last()):
+					exclusions.append('c > ' + self.last_lit())
+				else:
+					assumptions.append('c <= ' + self.last_lit())
 			if exclusions:
-				s += 'if ({})\n\treturn false;\n'.format(strip_brackets(compound_or(*exclusions)))
+				s += 'if ({})\n\treturn false{};\n'.format(strip_brackets(compound_or(*exclusions)), exid(10))
 			if assumptions:
-				s += 'TOML_ASSUME({});'.format(strip_brackets(compound_and(*assumptions)))
+				s += 'MUU_ASSUME({}){};'.format(strip_brackets(compound_and(*assumptions)), exid(11))
 				s += '\n'
 			if exclusions or assumptions:
 				s += '\n'
 
-			summary = "//# chunk summary: {} codepoints from {} ranges (spanning a search area of {})".format(
+			summary = "// {} codepoints from {} ranges (spanning a search area of {})".format(
 				len(self),
 				self.range().sparse_value_count() + self.range().contiguous_subrange_count(),
 				self.span_size()
@@ -793,7 +784,7 @@ class CodepointChunk:
 
 			if (self.makes_bitmask_table()):
 				table_name = 'bitmask_table_' + str(self.level())
-				s += 'constexpr ui{} {}[] = \n{{'.format(G.word_size, table_name)
+				s += 'constexpr uint_least{}_t {}[] = \n{{'.format(G.word_size, table_name)
 				fmt_str = "\t0x{{:0{}X}}{{}},".format(int(G.word_size/4))
 				idx = -1
 				for v in range(self.first(), self.last() + 1, G.word_size):
@@ -804,13 +795,13 @@ class CodepointChunk:
 					for i in range(v, min(v + G.word_size, self.last() + 1)):
 						if i in self.range():
 							mask = mask | (1 << (i - v))
-					s += fmt_str.format(mask, 'ull' if G.word_size > 32 else 'u')
-				element_selector = '(static_cast<ui{}>(cp) - {}) / {}'.format(
+					s += fmt_str.format(mask, 'u')#'ull' if G.word_size > 32 else 'u')
+				element_selector = '(static_cast<uint_least{}_t>(c) - {}) / {}'.format(
 					G.word_size,
 					make_bitmask_literal(self.first(), G.word_size),
 					make_bitmask_literal(G.word_size, G.word_size)
 				)
-				bit_selector = 'static_cast<ui{}>(cp)'.format(G.word_size)
+				bit_selector = 'static_cast<uint_least{}_t>(c)'.format(G.word_size)
 				if (self.first() % G.word_size != 0):
 					bit_selector = '({} - {})'.format(bit_selector, make_bitmask_literal(self.first(), G.word_size))
 				bit_selector = '{} % {}'.format(bit_selector, make_bitmask_literal(G.word_size, G.word_size))
@@ -869,17 +860,24 @@ class CodepointChunk:
 				default_check = lambda c: c.always_returns_true()
 
 			emittables = []
+			emittables_simple_equality = []
+			emittables_other = []
 			emittables_all_have_expressions = True
 			defaulted = 0
 			for i in range(0, len(self.__children)):
-				if ((always_true_selector and self.__children[i].always_returns_true())
-					or (always_false_selector and self.__children[i].always_returns_false())):
+				child = self.__children[i]
+				if ((always_true_selector and child.always_returns_true())
+					or (always_false_selector and child.always_returns_false())):
 					continue
-				if (default_check and default_check(self.__children[i])):
+				if (default_check and default_check(child)):
 					defaulted += 1
 					continue
-				emittables.append((i,self.__children[i]))
-				emittables_all_have_expressions = emittables_all_have_expressions and self.__children[i].has_expression()
+				emittables.append((i, child))
+				emittables_all_have_expressions = emittables_all_have_expressions and child.has_expression()
+				if len(child) == 1 and child.has_expression() and not child.always_returns_true():
+					emittables_simple_equality.append((i, child))
+				else:
+					emittables_other.append((i, child))
 			if defaulted == 0:
 				default = None
 
@@ -888,15 +886,16 @@ class CodepointChunk:
 			if selector_references > 1:
 				s += 'const auto {} = {};\n'.format(selector_name, selector)
 
-			requires_switch = len(emittables) > 1 or not emittables_all_have_expressions
+			requires_switch = len(emittables_other) > 1 or not emittables_all_have_expressions
 			return_trues = []
 			if always_true_selector:
 				return_trues.append(always_true_selector)
 			elif always_false_selector and not expressions_or_switches:
 				return_trues.append('!({})'.format(always_false_selector))
 				always_false_selector = None
+			return_trues += [e[1].expression() for e in emittables_simple_equality]
 			if not requires_switch:
-				return_trues += [e[1].expression() for e in emittables if e[1].has_expression()]
+				return_trues += [e[1].expression() for e in emittables_other if e[1].has_expression()]
 			
 			return_falses = []
 			if always_false_selector:
@@ -907,47 +906,51 @@ class CodepointChunk:
 					continue
 				ret = '\n\t|| '.join(l)
 				if (return_trues and return_falses) or requires_switch or default is not None:
-					s += 'if ({})\n\treturn {};\n'.format(ret, 'true' if v else 'false')
+					s += 'if ({})\n\treturn {}{};\n'.format(ret, 'true' if v else 'false', exid(30))
 				else:
-					s += 'return {}{}{};'.format(
+					s += 'return {}{}{}{};'.format(
 						'' if v else '!(',
 						strip_brackets(ret),
-						'' if v else ')'
+						'' if v else ')',
+						exid(31)
 					)
 
-			if len(emittables) == 0 and default is not None:
-				s += 'return {};\n'.format(str(default).lower())
-			elif not requires_switch:
-				if default is True:
-					s += 'return ((@@SELECTOR@@) != {})\n\t|| ({});'.format(
-						emittables[0][0],
-						strip_brackets(emittables[0][1].expression())
-					)
-				elif default is False:
-					s += 'return ((@@SELECTOR@@) == {})\n\t&& ({});'.format(
-						emittables[0][0],
-						strip_brackets(emittables[0][1].expression())
-					)
+			if (return_trues and return_falses) or requires_switch or default is not None:
+				if len(emittables_other) == 0 and default is not None:
+					s += 'return {}{};\n'.format(str(default).lower(), exid(12))
+				elif not requires_switch:
+					if default is True:
+						s += 'return ((@@SELECTOR@@) != {})\n\t|| ({}){};'.format(
+							emittables_other[0][0],
+							strip_brackets(emittables_other[0][1].expression()),
+							exid(13)
+						)
+					elif default is False:
+						s += 'return ((@@SELECTOR@@) == {})\n\t&& ({}){};'.format(
+							emittables_other[0][0],
+							strip_brackets(emittables_other[0][1].expression()),
+							exid(14)
+						)
+					else:
+						selector_references -= 1
+						s += 'return {}{};'.format(strip_brackets(emittables_other[0][1].expression()), exid(15))
 				else:
-					selector_references -= 1
-					s += 'return {};'.format(strip_brackets(emittables[0][1].expression()))
-			else:
-				s += "switch (@@SELECTOR@@)\n"
-				s += "{\n"
-				emitted = 0
-				for i, c in emittables:
-					s += '\tcase 0x{:02X}:{}{}{}'.format(
-						i,
-						' ' if c.has_expression() else ' // [{}] {:04X} - {:04X}\n\t{{\n'.format(i, c.span_first(), c.span_last()),
-						indent_with_tabs(str(c), 0 if c.has_expression() else 2),
-						'\n' if c.has_expression() else '\n\t}\n',
-					)
-					emitted += 1
-				s += '\t{};\n'.format('TOML_NO_DEFAULT_CASE' if default is None else 'default: return '+str(default).lower())
-				s += "}"
-				if (emitted <= 1):
-						s += "\n/* FIX ME: switch has only {} case{}! */".format(emitted, 's' if emitted > 1 else '')
-				s += '\n' + summary
+					s += "switch (@@SELECTOR@@)\n"
+					s += "{\n"
+					emitted = 0
+					for i, c in emittables_other:
+						s += '\tcase 0x{:02X}:{}{}{}'.format(
+							i,
+							' ' if c.has_expression() else ' // [{}] {:04X} - {:04X}\n\t{{\n'.format(i, c.span_first(), c.span_last()),
+							indent_with_tabs(str(c), 0 if c.has_expression() else 2),
+							'\n' if c.has_expression() else '\n\t}\n',
+						)
+						emitted += 1
+					s += '\t{};\n'.format('MUU_NO_DEFAULT_CASE' if default is None else 'default: return '+str(default).lower())
+					s += "}"
+					if (emitted <= 1):
+							s += "\n/* FIX ME: switch has only {} case{}! */".format(emitted, 's' if emitted > 1 else '')
+					s += '\n' + summary
 
 			if selector_references > 0:
 				s = s.replace('@@SELECTOR@@', selector_name if selector_references > 1 else selector)
@@ -955,152 +958,183 @@ class CodepointChunk:
 
 
 
-##### FUNCTION GENERATORS #############################################################################################
+#### UNICODE DATABASE ##################################################################################################
 
 
 
-def emit_function(name, header_file, test_file, codepoints, test_func, description):
-	root_chunk = CodepointChunk()
-	for cp in codepoints:
-		if test_func is None or test_func(cp):
-			root_chunk.add(cp[0])
+class UnicodeDatabase(object):
 
-	header = lambda txt: print(txt, file=header_file)
-	header("	// " + ("\n\t//# ".join(description.split('\n'))))
-	header('	[[nodiscard]]')
-	header('	TOML_ATTR(const)')
-	header('	constexpr bool {}(char32_t cp) noexcept'.format(name))
-	header('	{')
-	header(indent_with_tabs(str(root_chunk), 2))
-	header('	}')
-	header('')
+	__re_code_point = re.compile(r'^([0-9a-fA-F]+);(.+?);([a-zA-Z]+);')
 
-	if not test_file:
-		return
-	test = lambda txt: print(txt, file=test_file)
-	test('TEST_CASE("unicode - {}")'.format(name))
-	test('{')
-	test('	static constexpr auto fn = {};'.format(name))
-
-	if root_chunk.range().contiguous_subrange_count():
-		test('')
-		test('	// contiguous ranges of values which should return true')
-		test('	static constexpr codepoint_range inclusive_ranges[] = ')
-		test('	{')
-		test('		'+'\n		'.join([' '.join(r) for r in chunks(
-			['{{ {}, {} }},'.format(make_literal(f), make_literal(l)) for f, l in root_chunk.range().contiguous_subranges()], 3
-		)]))
-		test('	};')
-		test('	for (const auto& r : inclusive_ranges)')
-		test('		REQUIRE(in(fn, r));')
-
-	if root_chunk.range().sparse_value_count():
-		test('')
-		test('	// individual values which should return true')
-		test('	static constexpr char32_t inclusive_values[] = ')
-		test('	{')
-		test('		'+'\n		'.join([' '.join(r) for r in chunks(
-			['{},'.format(make_literal(v)) for v in root_chunk.range().sparse_values()], 6
-		)]))
-		test('	};')
-		test('	for (auto v : inclusive_values)')
-		test('		REQUIRE(fn(v));')
-
-	unicode_max = 0x10FFFF
-	if len(root_chunk.range()) < (unicode_max + 1):
-		exclusive_values = SparseRange()
-		low_iter = iter(root_chunk.range())
-		high_iter = iter(root_chunk.range())
-		try:
-			high = next(high_iter)
-			while True:
-				low = next(low_iter)
-				high = next(high_iter)
-				if low+1 < high:
-					exclusive_values.add(low+1, high-1)
-		except StopIteration:
-			pass
-		if root_chunk.range().first() > 0:
-			exclusive_values.add(0, root_chunk.range().first()-1)
-		if root_chunk.range().last() < unicode_max:
-			exclusive_values.add(root_chunk.range().last()+1, unicode_max)
-		exclusive_values.finish()
-
-		if exclusive_values.contiguous_subrange_count():
-			test('')
-			test('	// contiguous ranges of values which should return false')
-			test('	static constexpr codepoint_range exclusive_ranges[] = ')
-			test('	{')
-			test('		'+'\n		'.join([' '.join(r) for r in chunks(
-				['{{ {}, {} }},'.format(make_literal(f), make_literal(l)) for f, l in exclusive_values.contiguous_subranges()], 3
-			)]))
-			test('	};')
-			test('	for (const auto& r : exclusive_ranges)')
-			test('		REQUIRE(not_in(fn, r));')
-
-		if exclusive_values.sparse_value_count():
-			test('')
-			test('	// individual values which should return false')
-			test('	static constexpr char32_t exclusive_values[] = ')
-			test('	{')
-			test('		'+'\n		'.join([' '.join(r) for r in chunks(
-				['{},'.format(make_literal(v)) for v in exclusive_values.sparse_values()], 6
-			)]))
-			test('	};')
-			test('	for (auto v : exclusive_values)')
-			test('		REQUIRE(!fn(v));')
-
-	test('}')
-	test('')
-
-
-
-def emit_category_function(name, header_file, test_file, codepoints, categories, exclusions = None):
-	emit_function(
-		name, header_file, test_file, codepoints,
-		lambda cp: (True if exclusions is None else cp[0] not in exclusions) and cp[1] in categories,
-		'Returns true if a codepoint belongs to any of these categories:\n\t{}'.format(', '.join(categories))
-	)
-
-
-
-def emit_character_function(name, header_file, test_file, codepoints, *characters):
-	rng = SparseRange()
-	for c in characters:
-		if isinstance(c, int):
-			rng.add(c)
-		elif isinstance(c, str):
-			rng.add(ord(c))
-		elif isinstance(c, tuple) and len(c) == 2:
-			rng.add(
-				ord(c[0]) if isinstance(c[0], str) else c[0],
-				ord(c[1]) if isinstance(c[1], str) else c[1]
-			)
-		else:
-			raise Exception("Invalid argument")
-	rng.finish()
-	emit_function(
-		name, header_file, test_file, codepoints,
-		lambda cp: cp[0] in rng,
-		'Returns true if a codepoint matches {}:\n\t{}'.format(
-			'any of' if len(rng) > 1 else '',
-			rng.stringify(lambda v: chr(v) if 32 < v < 127 and chr(v).isprintable() else ('U+{:08X}'.format(v) if v > 0xFFFF else 'U+{:04X}'.format(v)))
+	def __init_code_points(self):
+		self.__code_points = SparseRange()
+		self.__categories = dict()
+		code_point_list = utils.read_all_text_from_file(
+			path.join(utils.get_script_folder(), 'Unicode_UnicodeData.txt'),
+			'https://www.unicode.org/Public/UCD/latest/ucd/UnicodeData.txt'
 		)
-	)
+		first = -1
+		for line in code_point_list.split('\n'):
+			match = self.__re_code_point.search(line)
+			if not match:
+				if (first > -1):
+					raise Exception('Previous code point indicated the start of a range but the next one was null')
+				continue
+			cp = int(f'0x{match.group(1)}', 16)
+			last = None
+			category_key = None
+			if (first > -1):
+				last = cp
+				category_key = match.group(3)
+			else:
+				first = cp
+				if not match.group(2).endswith(', First>'):
+					last = cp
+					category_key = match.group(3)
+
+			if last is not None:
+				self.__code_points.add(first, last)
+				category = self.__categories.get(category_key)
+				if category is None:
+					category = SparseRange()
+					self.__categories[category_key] = category
+				category.add(first, last)
+				first = -1
+		self.__code_points.finish()
+		for _, v in self.__categories.items():
+			v.finish()
+		print(f"Read {len(self.__code_points)} code points from unicode database.")
+
+
+	__re_property = re.compile(r'^\s*([0-9a-fA-F]{4})\s*(?:\.\.\s*([0-9a-fA-F]{4})\s*)?;\s*([A-Za-z_]+)\s+')
+	def __init_properties(self):
+		self.__properties = dict()
+		property_list = utils.read_all_text_from_file(
+			path.join(utils.get_script_folder(), 'Unicode_PropList.txt'),
+			'https://www.unicode.org/Public/UCD/latest/ucd/PropList.txt'
+		)
+		for line in property_list.split('\n'):
+			match = self.__re_property.search(line)
+			if match:
+				first = int(f'0x{match.group(1)}', 16)
+				last = match.group(2)
+				last = int(f'0x{last}', 16) if last is not None else first
+				property_key = match.group(3)
+				props = self.__properties.get(property_key)
+				if props is None:
+					props = SparseRange()
+					self.__properties[property_key] = props
+				props.add(first, last)
+		for _, v in self.__properties.items():
+			v.finish()
+
+	def __init__(self):
+		self.__init_code_points()
+		self.__init_properties()
+
+	def __iter__(self):
+		return self.__code_points.__iter__()
+
+	def category(self, cp):
+		for k, v in self.__categories.items():
+			if cp in v:
+				return k
+		return None
+
+	def has_property(self, cp, prop):
+		p = self.__properties.get(prop)
+		if p is not None:
+			return cp in p
+		return False
+
+	def has_properties(self, cp, props):
+		for p in props:
+			if not self.has_property(cp, p):
+				return False
+		return True
+
+	def category_iterator(self, cat):
+		for cp in self.__categories[cat]:
+			yield cp
+
+
+__ucd = None
+def ucd():
+	global __ucd
+	if __ucd is None:
+		__ucd = UnicodeDatabase()
+	return __ucd
 
 
 
-#### MAIN #############################################################################################################
+__code_point_range_cache = dict()
+def get_code_point_range(h):
+	assert isinstance(h, int)
+	global __code_point_range_cache
+	return __code_point_range_cache.get(h)
+
+
+
+def store_code_point_range(h, code_points):
+	assert isinstance(h, int)
+	assert isinstance(code_points, SparseRange)
+	global __code_point_range_cache
+	__code_point_range_cache[h] = code_points
+
+
+
+def get_code_points_in_categories(*categories):
+	h = utils.multi_hash(*categories)
+	code_points = get_code_point_range(h)
+	if code_points is None:
+		code_points = SparseRange()
+		for cat in categories:
+			for cp in ucd().category_iterator(cat):
+				code_points.add(cp)
+		code_points.finish()
+		store_code_point_range(h, code_points)
+	return code_points
+
+
+
+def get_code_points_with_properties(*properties):
+	h = utils.multi_hash(*properties)
+	code_points = get_code_point_range(h)
+	if code_points is None:
+		code_points = SparseRange()
+		for cp in ucd():
+			if ucd().has_properties(cp, properties):
+				code_points.add(cp)
+		code_points.finish()
+		store_code_point_range(h, code_points)
+	return code_points
+
+
+
+#### CODE UNIT #########################################################################################################
 
 
 
 class CodeUnit(object):
 
 	__types = {
-		'char': 8,
-		'char8_t': 8,
-		'char16_t': 16,
-		'char32_t': 32
+		'char': 			(8,   ''),
+		'unsigned char': 	(8,   ''), # unsigned char is used when the compiler doesn't support char8_t
+		'char8_t':			(8, 'u8'),
+		'char16_t':			(16, 'u'),
+		'char32_t':			(32, 'U'),
+		'wchar_t':			(16, 'L'), # 16 isn't necessarily true but it doesn't matter here
+	}
+
+	__escapes = {
+		0x00: '\\0',
+		0x07: '\\a',
+		0x08: '\\b',
+		0x09: '\\t',
+		0x0A: '\\n',
+		0x0B: '\\v',
+		0x0C: '\\f',
+		0x0D: '\\r'
 	}
 
 	def __init__(self, typename):
@@ -1108,196 +1142,351 @@ class CodeUnit(object):
 		assert typename in self.__types
 
 		self.typename = typename
-		self.bits = self.__types[typename]
-		self.signed = True if typename == 'char' else False # not strictly true but yolo
-		self.max = min(0x10FFFF, (1 << (self.bits - (1 if self.signed else 0))) - 1)
-		self.equivalent_integer = 'uint8_t' if typename == 'char' else f'std::uint_least{self.bits}_t'
+		self.bits = self.__types[typename][0]
+		self.max = min(0x10FFFF, (1 << self.bits) - 1)
+		self.equivalent_integer = 'uint8_t' if self.bits == 8 else f'uint_least{self.bits}_t'
 		self.can_represent_ascii = True
 		self.can_represent_any_unicode = self.max >= 128
 		self.can_represent_all_unicode = self.max >= 0x10FFFF
+		self.literal_prefix = self.__types[typename][1]
+		self.integral_literals = self.typename == 'unsigned char'
+		self.private_api = self.typename == 'unsigned char'
+		self.proxy = self.typename in ('char', 'wchar_t')
+		if self.proxy:
+			self.proxy_typename = 'wchar_unicode_t' if self.typename == 'wchar_t' else 'char_unicode_t'
+
+	def literal(self, codepoint):
+		if self.integral_literals or (self.bits == 8 and codepoint >= 0x80):
+			if codepoint > 0xFFFF:
+				return f"0x{codepoint:08X}u"
+			elif codepoint > 0xFF:
+				return f"0x{codepoint:04X}u"
+			else:
+				return f"0x{codepoint:02X}u"
+		else:
+			if codepoint < 32:
+				esc = self.__escapes.get(codepoint)
+				if esc:
+					return self.literal_prefix + f"'{esc}'"
+			if (32 <= codepoint < 127):
+				c = chr(codepoint)
+				if c.isprintable():
+					return self.literal_prefix + f"'{c}'"
+			if codepoint > 0xFFFF:
+				return self.literal_prefix + "'\\U{:08X}'".format(codepoint)
+			elif codepoint > 0xFF:
+				return self.literal_prefix + "'\\u{:04X}'".format(codepoint)
+			else:
+				return self.literal_prefix + "'\\x{:02X}'".format(codepoint)
 
 
-def write_function(file, code_points, code_units, name, description, categories=None, characters=None):
+
+#### FUNCTION GENERATORS ###############################################################################################
+
+
+
+def write_function_header(file, code_unit, name, return_type, description):
+	write = lambda txt,end='\n': print(txt, file=file, end=end)
+	if not code_unit.private_api:
+		write('\t/// \\brief\t\t' + ("\n\t///\t\t\t\t".join(description.split('\n'))))
+		write('\t/// \\ingroup\tstrings')
+	write('\t[[nodiscard]]')
+	if code_unit.proxy:
+		write('\tMUU_ALWAYS_INLINE')
+	write('\tMUU_ATTR(const)')
+	write(f'\tconstexpr {return_type} {name}({code_unit.typename} c) noexcept')
+	write('\t{')
+
+
+
+def write_function_body(file, text):
+	write = lambda txt,end='\n': print(txt, file=file, end=end)
+	write(indent_with_tabs(text, 2))
+
+
+
+def write_function_footer(file):
+	write = lambda txt,end='\n': print(txt, file=file, end=end)
+	write('\t}')
+	write('')
+
+
+
+def write_identification_function(file, code_unit, name, description, categories=None,
+		characters=None, properties=None, min_codepoint=0, max_codepoint=0x10FFFF):
 	assert file is not None
-	assert code_points is not None
+	assert isinstance(code_unit, CodeUnit)
 	assert isinstance(name, str)
 	assert isinstance(description, str)
-	assert categories is not None or characters is not None
-	assert code_units is not None
-	if not utils.is_collection(code_units):
-		code_units = (code_units,)
-	assert len(code_units) > 0
+	assert categories is not None or characters is not None or properties is not None
 
-	local_max = 0
-	for cu in code_units:
-		local_max = max(local_max, cu.max)
+	if code_unit.proxy:
+		write_function_header(file, code_unit, name, 'bool', description)
+		write_function_body(file, f'using namespace impl;')
+		write_function_body(file, f'return {name}(static_cast<{code_unit.proxy_typename}>(c));')
+		write_function_footer(file)
+		return
 
-	allowed_code_points = SparseRange()
-	if categories is not None:
-		if not utils.is_collection(categories):
-			categories = (categories,)
-		for cp, cat in code_points:
-			if cp > local_max:
-				break
-			if cat in categories:
-				allowed_code_points.add(cp)
+	min_codepoint = max(min_codepoint, 0)
+	max_codepoint = min(max_codepoint, 0x10FFFF)
+	local_min = min_codepoint
+	local_max = min(code_unit.max, max_codepoint)
+	if categories is None:
+		categories = False
+	elif not utils.is_collection(categories):
+		categories = (categories,)
+	if characters is None:
+		characters = False
+	elif not utils.is_collection(characters):
+		characters = (characters,)
+	if properties is None:
+		properties = False
+	elif not utils.is_collection(properties):
+		properties = (properties,)
 
-	if characters is not None:
-		if not utils.is_collection(characters):
-			characters = (characters,)
-		for c in characters:
-			cp = c
-			if isinstance(cp, str):
-				cp = ord(cp)
-			if isinstance(cp, int):
-				if cp <= local_max:
-					allowed_code_points.add(cp)
-			elif isinstance(cp, tuple) and len(cp) == 2:
-				cp = range_intersection(
-					ord(cp[0]) if isinstance(c[0], str) else cp[0],
-					ord(cp[1]) if isinstance(c[1], str) else cp[1],
-					0,
-					local_max
-				)
-				if cp is not None:
-					allowed_code_points.add(cp[0], cp[1])
-			else:
-				raise Exception("Invalid argument")
-
-	allowed_code_points.finish()
-	if (not allowed_code_points):
-		return False
-
-	chunks = dict()
-	write = lambda txt,end='\n': print(txt, file=file, end=end)
-	for cu in code_units:
-		if allowed_code_points.first() > cu.max:
-			continue
-		if cu.max not in chunks:
-			chunk = CodepointChunk()
-			for cp in allowed_code_points:
-				if cp > cu.max:
+	code_points_hash = utils.multi_hash(local_min, local_max, categories, characters, properties)
+	code_points = get_code_point_range(code_points_hash)
+	if code_points is None:
+		code_points = SparseRange()
+		if categories:
+			for cp in get_code_points_in_categories(*categories):
+				if cp < local_min:
+					continue
+				if cp > local_max:
 					break
-				chunk.add(cp)
+				code_points.add(cp)
 
-		write('\t/// \\brief\t\t' + ("\n\t///\t\t\t\t".join(description.split('\n'))))
-		write('\t[[nodiscard]]')
-		write('\tTOML_ATTR(const)')
-		write(f'\tconstexpr bool {name}({cu.typename} c) noexcept'')
-		write('\t{')
-		#write(indent_with_tabs(str(chunks[cu.max]), 2))
-		write('\t}')
-		write('')
+		if characters:
+			for c in characters:
+				cp = c
+				if isinstance(cp, str):
+					cp = ord(cp)
+				if isinstance(cp, int):
+					if local_min <= cp <= local_max:
+						code_points.add(cp)
+				elif isinstance(cp, tuple) and len(cp) == 2:
+					cp = range_intersection(
+						ord(cp[0]) if isinstance(c[0], str) else cp[0],
+						ord(cp[1]) if isinstance(c[1], str) else cp[1],
+						local_min,
+						local_max
+					)
+					if cp is not None:
+						code_points.add(cp[0], cp[1])
+				else:
+					raise Exception("Invalid argument")
 
-	return True
+		if properties:
+			for cp in get_code_points_with_properties(*properties):
+				if cp < local_min:
+					continue
+				if cp > local_max:
+					break
+				code_points.add(cp)
 
-	
+		code_points.finish()
+		store_code_point_range(code_points_hash, code_points)
+
+	chunk = None
+	if code_points:
+		chunk = CodepointChunk(code_unit)
+		for (f,l) in code_points.contiguous_subranges():
+			chunk.add(f,l)
+		for cp in code_points.sparse_values():
+			chunk.add(cp)
+
+	write_function_header(file, code_unit, name, 'bool', description)
+	if chunk is not None:
+		write_function_body(file, str(chunk))
+	else:
+		write_function_body(file, '(void)c;\nreturn false;')
+	write_function_footer(file)
 
 
-def write_header(code_points, code_units, file_path, description):
-	assert code_points is not None
-	assert isinstance(file_path, str)
+
+def write_compound_boolean_function(file, code_unit, name, description, *functions):
+	assert file is not None
+	assert isinstance(code_unit, CodeUnit)
+	assert isinstance(name, str)
 	assert isinstance(description, str)
-	assert code_units is not None
-	if not utils.is_collection(code_units):
-		code_units = (code_units,)
-	assert len(code_units) > 0
+	assert functions is not None
 
+	write_function_header(file, code_unit, name, 'bool', description)
+	if code_unit.proxy:
+		write_function_body(file, f'using namespace impl;')
+		write_function_body(file, f'return {name}(static_cast<{code_unit.proxy_typename}>(c));')
+	else:
+		write_function_body(file, f'return {strip_brackets(compound_or(*[f+"(c)" for f in functions]))};')
+	write_function_footer(file)
+
+
+
+#### HEADER GENERATOR ##################################################################################################
+
+
+def write_header(folder, code_unit):
+	assert isinstance(folder, str)
+	assert isinstance(code_unit, CodeUnit)
+
+	file_path = re.sub(r'\s+', '_', code_unit.typename)
+	file_path = path.join(folder, f'unicode_{file_path}.h')
 	print("Writing to {}".format(file_path))
 	with open(file_path, 'w', encoding='utf-8', newline='\n') as file:
 		
 		# preamble
 		write = lambda txt,end='\n': print(txt, file=file, end=end)
-		write('//# This file is a part of muu and is subject to the the terms of the MIT license.')
-		write('//# Copyright (c) 2020 Mark Gillard <mark.gillard@outlook.com.au>')
-		write('//# See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.')
+		write('// This file is a part of muu and is subject to the the terms of the MIT license.')
+		write('// Copyright (c) 2020 Mark Gillard <mark.gillard@outlook.com.au>')
+		write('// See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.')
 		write('// SPDX-License-Identifier: MIT')
-		write('//#-----')
-		write('//# this file was generated by generate_unicode_functions.py - do not modify it directly')
+		write('//-----')
+		write('// this file was generated by generate_unicode_functions.py - do not modify it directly')
 		write('')
-		write('/// \file')
-		write(f'/// \brief {description}')
+		write('/// \\file')
+		write(f'/// \\attention These are not the droids you are looking for. Try \\ref strings instead.')
+		write('')
 		write('#pragma once')
-		write('#include "../muu/core.h"')
+		if code_unit.typename == 'char':
+			write('#ifdef __cpp_char8_t')
+			write('\t#include "../../muu/impl/unicode_char8_t.h"')
+			write('#else')
+			write('\t#include "../../muu/impl/unicode_unsigned_char.h"')
+			write('#endif')
+		elif code_unit.typename == 'wchar_t':
+			write('#include "../../muu/preprocessor.h"')
+			write('#include MUU_MAKE_STRING_2(MUU_CONCAT(MUU_CONCAT(../../muu/impl/unicode_char, MUU_WCHAR_BITS), _t.h))')
+		else:
+			write('#include "../../muu/fwd.h"')
 		write('')
-		write('MUU_NAMESPACE_START')
+		write('MUU_{}NAMESPACE_START'.format('IMPL_' if code_unit.private_api else ''))
 		write('{')
 
-		write_function(file, code_points, code_units, 'is_hexadecimal_digit', characters=(('a', 'f'), ('A', 'F'), ('0', '9')))
+		specifier = None
+		if code_unit.typename == 'char':
+			specifier = 'character'
+		elif code_unit.typename == 'wchar_t':
+			specifier = 'wide character'
+		elif code_unit.bits == 32:
+			specifier = 'UTF code point'
+		else:
+			specifier = f'UTF-{code_unit.bits} code unit'
 
-		# finishing up
+		write_identification_function(file, code_unit,
+			'is_ascii_whitespace',
+			f'Returns true if a {specifier} is whitespace from the ASCII range.',
+			properties='White_Space',
+			max_codepoint=127
+		)
+		write_identification_function(file, code_unit,
+			'is_non_ascii_whitespace',
+			f'Returns true if a {specifier} is whitespace from outside the ASCII range.',
+			properties='White_Space',
+			min_codepoint=128
+		)
+		write_compound_boolean_function(file, code_unit,
+			'is_whitespace',
+			f'Returns true if a {specifier} is whitespace.',
+			'is_ascii_whitespace', 'is_non_ascii_whitespace'
+		)
+		write_compound_boolean_function(file, code_unit,
+			'is_not_whitespace',
+			f'Returns true if a {specifier} is not whitespace.',
+			'!is_whitespace'
+		)
+		write_identification_function(file, code_unit,
+			'is_ascii_letter',
+			f"Returns true if a {specifier} is a letter from the ASCII range.",
+			categories=('Ll', 'Lm', 'Lo', 'Lt', 'Lu'),
+			max_codepoint=127
+		)
+		write_identification_function(file, code_unit,
+			'is_non_ascii_letter',
+			f'Returns true if a {specifier} is a letter from outside the ASCII range.',
+			categories=('Ll', 'Lm', 'Lo', 'Lt', 'Lu'),
+			min_codepoint=128
+		)
+		write_compound_boolean_function(file, code_unit,
+			'is_letter',
+			f'Returns true if a {specifier} is a letter.',
+			'is_ascii_letter', 'is_non_ascii_letter'
+		)
+		write_identification_function(file, code_unit,
+			'is_ascii_number',
+			f"Returns true if a {specifier} is a number from the ASCII range.",
+			categories=('Nd', 'Nl'),
+			max_codepoint=127
+		)
+		write_identification_function(file, code_unit,
+			'is_non_ascii_number',
+			f"Returns true if a {specifier} is a number from outside the ASCII range.",
+			categories=('Nd', 'Nl'),
+			min_codepoint=128
+		)
+		write_compound_boolean_function(file, code_unit,
+			'is_number',
+			f'Returns true if a {specifier} is a number.',
+			'is_ascii_number', 'is_non_ascii_number'
+		)
+		write_identification_function(file, code_unit,
+			'is_combining_mark',
+			f"Returns true if a {specifier} is a combining mark.",
+			categories=('Mn', 'Mc')
+		)
+		write_identification_function(file, code_unit,
+			'is_octal_digit',
+			f"Returns true if a {specifier} is an octal digit.",
+			characters=(('0', '7'), )
+		)
+		write_identification_function(file, code_unit,
+			'is_decimal_digit',
+			f"Returns true if a {specifier} is a decimal digit.",
+			characters=(('0', '9'), )
+		)
+		write_identification_function(file, code_unit,
+			'is_hexadecimal_digit',
+			f"Returns true if a {specifier} is a hexadecimal digit.",
+			characters=(('a', 'f'), ('A', 'F'), ('0', '9'))
+		)
+		write_function_header(file, code_unit,
+			'is_code_point_boundary',
+			'bool',
+			f"Returns true if a {specifier} is a code point boundary."
+		)
+		if code_unit.proxy:
+			write_function_body(file, f'using namespace impl;')
+			write_function_body(file, f'return is_code_point_boundary(static_cast<{code_unit.proxy_typename}>(c));')
+		elif code_unit.bits == 32:
+			write_function_body(file, f'(void)c;')
+			write_function_body(file, 'return true;')
+		elif code_unit.bits == 16:
+			write_function_body(file, 'return c <= 0xDBFFu || c >= 0xE000u;')
+		elif code_unit.bits == 8:
+			write_function_body(file, 'return (c & 0b11000000u) != 0b10000000u;')
+		write_function_footer(file)
+
 		write('}')
-		write('MUU_NAMESPACE_END')
-		write('')
+		write('MUU_{}NAMESPACE_END'.format('IMPL_' if code_unit.private_api else ''))
 
-	
-	# header('#ifndef DOXYGEN')
-	# header('')
-	# header('TOML_IMPL_NAMESPACE_START')
-	# header('{')
-# 
-	# test('#include "tests.h"')
-	# test('#include "unicode.h"')
-	# test('using namespace toml::impl;')
-	# test('')
-# 
-	# emit_character_function('is_hexadecimal_digit', header_file, test_file, codepoints, ('a', 'f'), ('A', 'F'), ('0', '9'))
-# 
-	# both('\t#if TOML_LANG_UNRELEASED // toml/issues/687 (unicode bare keys)')
-	# both('')
-	# unicode_exclusions = SparseRange()
-	# unicode_exclusions.add(0, 127) # ascii block
-	# unicode_exclusions.finish()
-	# emit_category_function('is_unicode_letter', header_file, test_file, codepoints, ('Ll', 'Lm', 'Lo', 'Lt', 'Lu'), unicode_exclusions)
-	# emit_category_function('is_unicode_number', header_file, test_file, codepoints, ('Nd', 'Nl'), unicode_exclusions)
-	# emit_category_function('is_unicode_combining_mark', header_file, test_file, codepoints, ('Mn', 'Mc'), unicode_exclusions)
-	# both('\t#endif // TOML_LANG_UNRELEASED')
-# 
-	# header('')
-	# header('}')
-	# header('TOML_IMPL_NAMESPACE_END')
-	# header('')
-	# header('#endif // !DOXYGEN')
+
+
+#### MAIN ##############################################################################################################
 
 
 
 def main():
+	folder = path.join(utils.get_script_folder(), '..', 'include', 'muu', 'impl')
 
-	# get unicode character database
-	codepoint_list = utils.read_all_text_from_file(
-		path.join(utils.get_script_folder(), 'UnicodeData.txt'),
-		'https://www.unicode.org/Public/UCD/latest/ucd/UnicodeData.txt'
-	)
+	ucd() # force generation first
 
-	# parse the database file into codepoints
-	re_codepoint = re.compile(r'^([0-9a-fA-F]+);(.+?);([a-zA-Z]+);')
-	current_range_start = -1
-	codepoints = []
-	parsed_codepoints = 0
-	for codepoint_entry in codepoint_list.split('\n'):
-		match = re_codepoint.search(codepoint_entry)
-		if (match is None):
-			if (current_range_start > -1):
-				raise Exception('Previous codepoint indicated the start of a range but the next one was null')
-			continue
-		codepoint = int('0x{}'.format(match.group(1)), 16)
-		if (current_range_start > -1):
-			for cp in range(current_range_start, codepoint):
-				parsed_codepoints += 1
-				codepoints.append((cp, match.group(3)))
-			current_range_start = -1
-		else:
-			if (match.group(2).endswith(', First>')):
-				current_range_start = codepoint
-			else:
-				parsed_codepoints += 1
-				codepoints.append((codepoint, match.group(3)))
-	print("Extracted {} of {} codepoints from unicode database file.".format(len(codepoints), parsed_codepoints))
-	codepoints.sort(key=lambda r:r[0])
-
-	header_root = path.join(utils.get_script_folder(), '..', 'include', 'muu')
-
-	write_header(code_points, (CodeUnit('char'),)), path.join(header_root, 'utf8.h'), 'utf8'):
+	#G.subdivision_allowed = False
+	#G.word_size = 32
+	#G.compound_boolean_limit = 3
+	write_header(folder, CodeUnit('char'))
+	write_header(folder, CodeUnit('unsigned char'))
+	write_header(folder, CodeUnit('char8_t'))
+	write_header(folder, CodeUnit('char16_t'))
+	write_header(folder, CodeUnit('char32_t'))
+	write_header(folder, CodeUnit('wchar_t'))
 
 
 if __name__ == '__main__':
