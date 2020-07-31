@@ -61,7 +61,7 @@ C++</span></a>
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           Metafunctions and type traits <span class="m-thin">module</span></h1>
-        <p>Metaprogramming utilities to complement those found in <code>&lt;type_traits&gt;</code>.</p>
+        <p>Type traits and metaprogramming utilities.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -74,7 +74,7 @@ C++</span></a>
             </li>
           </ul>
         </div>
-<aside class="m-note m-default"><h4>Remark</h4><p>Many of these are mirrors of (or supplementary to) traits found in the standard library's <code>&lt;type_traits&gt;</code>, but with simpler/saner default behaviour (e.g. most of the is_X metafunctions do not make a distinction between T and T&amp;).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>Many of these are mirrors of (or supplementary to) traits found in the standard library's <code>&lt;type_traits&gt;</code>, but with simpler/saner default behaviour (e.g. most of the <code>is_X</code> metafunctions do not make a distinction between T and T&amp;).</p></aside>
         <section id="typedef-members">
           <h2><a href="#typedef-members">Typedefs</a></h2>
           <dl class="m-doc">
@@ -464,7 +464,7 @@ C++</span></a>
               using <a class="m-doc-self" href="#ga953885530667d9f2a6e95ad82fffc370">least_aligned</a> = typename impl::least_aligned&lt;T...&gt;::type
             </h3>
             <p>The type with the smallest alignment (i.e. having the smallest value for <code>alignment_of&lt;T&gt;</code>) from a set of types.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p><code>void</code> and functions are considered as having an alignment of <code>1</code>.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>Treats <code>void</code> and functions as having an alignment of <code>1</code>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="gaf177f0fe579f7fcf670ee1c4b04dc860"><div>
             <h3>
@@ -527,7 +527,7 @@ C++</span></a>
               using <a class="m-doc-self" href="#ga81e4bf2a45a1dbcec544a44d28e0a624">most_aligned</a> = typename impl::most_aligned&lt;T...&gt;::type
             </h3>
             <p>The type with the largest alignment (i.e. having the largest value for <code>alignment_of&lt;T&gt;</code>) from a set of types.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p><code>void</code> and functions are considered as having an alignment of <code>1</code>.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>Treats <code>void</code> and functions as having an alignment of <code>1</code>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga2f756a1134b2630ecb0167d4c79e88fe"><div>
             <h3>
@@ -568,7 +568,7 @@ C++</span></a>
               using <a class="m-doc-self" href="#gadb8c008184b023112068a9b1c5b22fdc">remove_cvref</a> = impl::remove_cvref&lt;T&gt;
             </h3>
             <p>Removes the topmost const, volatile and reference qualifiers from a type.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's std::remove_cvref_t.</p></aside>
+<p>This is equivalent to C++20's std::remove_cvref_t.</p>
           </div></section>
           <section class="m-doc-details" id="ga35eca85e0ea3a043762ca9b5bd0100b2"><div>
             <h3>
@@ -670,7 +670,7 @@ C++</span></a>
               </div> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#ga693c421331c5f268eb2e2fdd318368fd">alignment_of</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>The default alignment of a type.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Returns an alignment of <code>1</code> for <code>void</code> and functions.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>Treats <code>void</code> and functions as having an alignment of <code>1</code>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="gaccb79366bc73cbc96f8a6317fead16f1"><div>
             <h3>
@@ -961,7 +961,7 @@ C++</span></a>
               bool <a class="m-doc-self" href="#ga32b1b26352b00fdb597367cf96e554a2">same_as_all</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>True if all the type arguments are the same type.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This equivalent to <code>(<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U1&gt; &amp;&amp; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U2&gt; &amp;&amp; ...)</code>.</p></aside>
+<p>This equivalent to <code>(<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U1&gt; &amp;&amp; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U2&gt; &amp;&amp; ...)</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga54c8d1915f709782046e638fee47394f"><div>
             <h3>
@@ -972,7 +972,7 @@ C++</span></a>
               bool <a class="m-doc-self" href="#ga54c8d1915f709782046e638fee47394f">same_as_any</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>True if T is exactly the same as one or more of the types named by U.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This equivalent to <code>(<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U1&gt; || <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U2&gt; || ...)</code>.</p></aside>
+<p>This equivalent to <code>(<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U1&gt; || <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U2&gt; || ...)</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga3b7e16d2f90358811bc6231eb993ff33"><div>
             <h3>

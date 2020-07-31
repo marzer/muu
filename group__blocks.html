@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu Useful
+  <title>Building blocks module | muu Useful
 utilities
 for
 modern
@@ -40,7 +40,7 @@ C++</span></a>
       <div class="m-col-t-12 m-show-m m-col-m-none m-right-m" id="m-navbar-collapse">
         <div class="m-row">
           <ol class="m-col-t-6 m-col-m-none">
-            <li><a href="modules.html" id="m-navbar-current">Modules</a></li>
+            <li><a href="modules.html">Modules</a></li>
             <li><a href="namespaces.html">Namespaces</a></li>
           </ol>
           <ol class="m-col-t-6 m-col-m-none" start="3">
@@ -59,34 +59,52 @@ C++</span></a>
   <div class="m-container m-container-inflatable">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <h1>Modules</h1>
-        <ul class="m-doc">
-          <li>module <a class="m-doc" href="group__meta.html">Metafunctions and type traits</a> <span class="m-doc">Type traits and metaprogramming utilities.</span></li>
-          <li>module <a class="m-doc" href="group__intrinsics.html">Intrinsics</a> <span class="m-doc">Small, generally-useful functions, many of which map to compiler intrinsics.</span></li>
-          <li>module <a class="m-doc" href="group__blocks.html">Building blocks</a> <span class="m-doc">Small, generally-useful classes and types.</span></li>
-          <li>module <a class="m-doc" href="group__constants.html">Constants</a> <span class="m-doc">Compile-time constant values (Pi, et cetera.).</span></li>
-          <li>module <a class="m-doc" href="group__characters.html">Characters</a> <span class="m-doc">Utilities for manipulating individual characters (or 'code points').</span></li>
-          <li>module <a class="m-doc" href="group__strings.html">Strings</a> <span class="m-doc">Utilities to simplify working with strings.</span></li>
-          <li>module <a class="m-doc" href="group__hashing.html">Hashing</a> <span class="m-doc">Utilities for generating (non-cryptographic) hashes.</span></li>
-          <li>module <a class="m-doc" href="group__aligned__alloc.html">Aligned allocation</a> <span class="m-doc">Utilities for performing (re)allocations on specific alignment boundaries.</span></li>
-          <li>module <a class="m-doc" href="group__preprocessor.html">Preprocessor magic</a> <span class="m-doc">Compiler feature detection, attributes, string-makers, etc.</span></li>
-        </ul>
-        <script>
-        function toggle(e) {
-            e.parentElement.className = e.parentElement.className == 'm-doc-collapsible' ?
-                'm-doc-expansible' : 'm-doc-collapsible';
-            return false;
-        }
-        /* Collapse all nodes marked as such. Doing it via JS instead of
-           directly in markup so disabling it doesn't harm usability. The list
-           is somehow regenerated on every iteration and shrinks as I change
-           the classes. It's not documented anywhere and I'm not sure if this
-           is the same across browsers, so I am going backwards in that list to
-           be sure. */
-        var collapsed = document.getElementsByClassName("collapsed");
-        for(var i = collapsed.length - 1; i >= 0; --i)
-            collapsed[i].className = 'm-doc-expansible';
-        </script>
+        <h1>
+          Building blocks <span class="m-thin">module</span></h1>
+        <p>Small, generally-useful classes and types.</p>
+        <div class="m-block m-default">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#nested-classes">Classes</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <section id="nested-classes">
+          <h2><a href="#nested-classes">Classes</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;typename ValueType, typename Impl = impl::accumulator&lt;ValueType&gt;&gt;</div>
+              class <a class="m-doc" href="classmuu_1_1accumulator.html">muu::accumulator</a>
+            </dt>
+            <dd>Statefully accumulates (adds) an indeterminate range of values.</dd>
+            <dt>
+              class <a class="m-doc" href="classmuu_1_1blob.html">muu::blob</a>
+            </dt>
+            <dd>Interface for managing chunks of memory.</dd>
+            <dt>
+              struct <a class="m-doc" href="structmuu_1_1half.html">muu::half</a>
+            </dt>
+            <dd>A 16-bit "half-precision" floating point type.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              class <a class="m-doc" href="classmuu_1_1scope__guard.html">muu::scope_guard</a>
+            </dt>
+            <dd>Performs actions when going out of scope.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> MinAlign = <a class="m-doc" href="group__meta.html#ga693c421331c5f268eb2e2fdd318368fd">alignment_<wbr/>of</a>&lt;T&gt;&gt;</div>
+              class <a class="m-doc" href="classmuu_1_1tagged__ptr.html">muu::tagged_ptr</a>
+            </dt>
+            <dd>Specialized pointer capable of storing data in the unused bits of a pointer's value.</dd>
+            <dt>
+              struct <a class="m-doc" href="structmuu_1_1uuid.html">muu::uuid</a>
+            </dt>
+            <dd>A 128-bit universally-unique identifier (UUID).</dd>
+          </dl>
+        </section>
       </div>
     </div>
   </div>

@@ -209,9 +209,13 @@ C++</span></a>
             </dt>
             <dd><code>1</code> when the target environment is little-endian, <code>0</code> otherwise.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gab401c33333f1f3738017604899eff04f">MUU_MAKE_STRING</a>(</span><span class="m-doc-wrap">S)</span>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga7c2288010e7da6b2fc852e0cd46171b1">MUU_MAKE_RAW_STRING</a>(</span><span class="m-doc-wrap">S)</span>
             </dt>
             <dd>Stringifies the input, converting it verbatim into a raw string literal.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gab401c33333f1f3738017604899eff04f">MUU_MAKE_STRING</a>(</span><span class="m-doc-wrap">S)</span>
+            </dt>
+            <dd>Stringifies the input, converting it into a string literal.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga5245729e8f732ddf7aa770ddc7fdd822">MUU_MAKE_STRING_VIEW</a>(</span><span class="m-doc-wrap">S)</span>
             </dt>
@@ -560,15 +564,25 @@ C++</span></a>
             </h3>
             <p><code>1</code> when the target environment is little-endian, <code>0</code> otherwise.</p>
           </div></section>
+          <section class="m-doc-details" id="ga7c2288010e7da6b2fc852e0cd46171b1"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga7c2288010e7da6b2fc852e0cd46171b1">MUU_MAKE_RAW_STRING</a>(</span><span class="m-doc-wrap">S)</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>Stringifies the input, converting it verbatim into a raw string literal.</p>
+<pre class="m-code"><span class="c1">// these are equivalent:</span>
+<span class="k">constexpr</span> <span class="k">auto</span> <span class="n">str1</span> <span class="o">=</span> <span class="n">MUU_MAKE_RAW_STRING</span><span class="p">(</span><span class="s">"It's trap!"</span> <span class="n">the</span> <span class="n">admiral</span> <span class="n">cried</span><span class="p">.);</span>
+<span class="k">constexpr</span> <span class="k">auto</span> <span class="n">str2</span> <span class="o">=</span> <span class="sa">R</span><span class="s">"</span><span class="dl">(</span><span class="s">"It's trap!" the admiral cried.</span><span class="dl">)</span><span class="s">"</span><span class="p">;</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="https://en.cppreference.com/w/cpp/language/string_literal" target="_blank">String literals in C++</a></p></aside>
+          </div></section>
           <section class="m-doc-details" id="gab401c33333f1f3738017604899eff04f"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gab401c33333f1f3738017604899eff04f">MUU_MAKE_STRING</a>(</span><span class="m-doc-wrap">S)</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>Stringifies the input, converting it verbatim into a raw string literal.</p>
+            <p>Stringifies the input, converting it into a string literal.</p>
 <pre class="m-code"><span class="c1">// these are equivalent:</span>
-<span class="k">constexpr</span> <span class="k">auto</span> <span class="n">str1</span> <span class="o">=</span> <span class="n">MUU_MAKE_STRING</span><span class="p">(</span><span class="s">"It's trap!"</span> <span class="n">the</span> <span class="n">admiral</span> <span class="n">cried</span><span class="p">.);</span>
-<span class="k">constexpr</span> <span class="k">auto</span> <span class="n">str2</span> <span class="o">=</span> <span class="sa">R</span><span class="s">"</span><span class="dl">(</span><span class="s">"It's trap!" the admiral cried.</span><span class="dl">)</span><span class="s">"</span><span class="p">;</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="https://en.cppreference.com/w/cpp/language/string_literal" target="_blank">String literals in C++</a></p></aside>
+<span class="k">constexpr</span> <span class="k">auto</span> <span class="n">str1</span> <span class="o">=</span> <span class="n">MUU_MAKE_STRING</span><span class="p">(</span><span class="n">Oh</span> <span class="n">noes</span><span class="o">!</span><span class="p">);</span>
+<span class="k">constexpr</span> <span class="k">auto</span> <span class="n">str2</span> <span class="o">=</span> <span class="s">"Oh noes!"</span><span class="p">;</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="https://en.cppreference.com/w/cpp/language/string_literal" target="_blank">String literals in C++</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga5245729e8f732ddf7aa770ddc7fdd822"><div>
             <h3>

@@ -165,7 +165,7 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">void muu::<wbr/>scope_guard&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0848341baedff7638c58afa038b1cfc2">cancel</a>(</span><span class="m-doc-wrap">) <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Suppresses invocation of the the <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_<wbr/>guard</a>'s wrapped callable.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This cancels the pending invocation of the wrapped callable, preventing it from being called when the <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_<wbr/>guard</a> goes out of scope. In general it's better to structure RAII code to not require this sort of manoeuvring, but <a class="m-doc" href="classmuu_1_1scope__guard.html#a0848341baedff7638c58afa038b1cfc2">cancel()</a> is provided as an 'escape hatch' if you have no other choice.</p></aside>
+<p>This cancels the pending invocation of the wrapped callable, preventing it from being called when the <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_<wbr/>guard</a> goes out of scope. In general it's better to structure RAII code to not require this sort of manoeuvring, but <a class="m-doc" href="classmuu_1_1scope__guard.html#a0848341baedff7638c58afa038b1cfc2">cancel()</a> is provided as an 'escape hatch' if you have no other choice.</p>
           </div></section>
         </section>
       </div>
