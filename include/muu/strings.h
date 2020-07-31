@@ -20,6 +20,7 @@ MUU_PUSH_WARNINGS
 MUU_DISABLE_ALL_WARNINGS
 #include <string_view>
 MUU_POP_WARNINGS
+namespace muu { using namespace std::string_view_literals; }
 
 //=====================================================================================================================
 // UNICODE
@@ -206,6 +207,19 @@ MUU_IMPL_NAMESPACE_START
 		void
 	>>;
 
+	template <typename T>
+	struct utf8_bom
+	{
+		static constexpr auto value = "\xEF\xBB\xBF"sv;
+	};
+	#ifdef __cpp_lib_char8_t
+	template <>
+	struct utf8_bom<char8_t>
+	{
+		static constexpr auto value = u8"\xEF\xBB\xBF"sv;
+	};
+	#endif
+
 	template <typename T, typename Func, size_t PositionalArgs = (
 		std::is_nothrow_invocable_v<Func, T, size_t, size_t> ? 2 :
 		(std::is_nothrow_invocable_v<Func, T, size_t> ? 1 : 0)
@@ -235,6 +249,22 @@ MUU_IMPL_NAMESPACE_START
 			std::declval<T>()
 		));
 	};
+
+	template <typename T>
+	constexpr bool utf_detect_platform_endian(const T* data, const T*const end) noexcept
+	{
+		static_assert(sizeof(T) >= 2);
+		int low{}, high{}; // number of zeroes in low/high byte
+		for (auto c = data; c < end; c++)
+		{
+			low += static_cast<int>(byte_select<0>(*c) == uint8_t{});
+			high += static_cast<int>(byte_select<sizeof(T)-1u>(*c) == uint8_t{});
+		}
+		if constexpr (build::is_big_endian)
+			return low > high;
+		else
+			return high > low;
+	}
 
 	template <typename T, typename Func>
 	constexpr void utf_decode(std::basic_string_view<T> str, bool reverse, Func&& func) noexcept
@@ -280,39 +310,84 @@ MUU_IMPL_NAMESPACE_START
 		};
 		
 		bool stop = false;
+		size_t data_start = 0;
+		[[maybe_unused]] bool requires_bswap = false;
+		const auto get = [&](size_t idx) noexcept
+		{
+			if constexpr (sizeof(T) == 1)
+				return str[idx];
+			else
+			{
+				if (requires_bswap)
+					return static_cast<T>(byte_reverse(static_cast<muu::unsigned_integer<sizeof(T) * CHAR_BIT>>(str[idx])));
+				return str[idx];
+			}
+		};
+
+		// UTF-32
 		if constexpr (sizeof(T) == 4)
 		{
-			// todo: bom handling
+			// endianness
+			if (static_cast<uint32_t>(str[0]) == 0xFFFE0000u)
+			{
+				data_start = 1u;
+				requires_bswap = true;
+			}
+			else if (static_cast<uint32_t>(str[0]) == 0x0000FEFFu)
+				data_start = 1u;
+			else
+				requires_bswap = !utf_detect_platform_endian(str.data(), str.data() + (min)(str.length(), 16_sz));
+
 			if (reverse)
 			{
-				for (size_t i = str.length(); i --> 0u && !stop;)
-					stop = stop_after_invoking(std::forward<Func>(func), static_cast<char32_t>(str[i]), i, 1);
+				for (size_t i = str.length(); i --> data_start && !stop;)
+					stop = stop_after_invoking(std::forward<Func>(func), static_cast<char32_t>(get(i)), i, 1);
 			}
 			else
 			{
-				for (size_t i = 0, e = str.length(); i < e && !stop; i++)
-					stop = stop_after_invoking(std::forward<Func>(func), static_cast<char32_t>(str[i]), i, 1);
+				for (size_t i = data_start, e = str.length(); i < e && !stop; i++)
+					stop = stop_after_invoking(std::forward<Func>(func), static_cast<char32_t>(get(i)), i, 1);
 			}
 		}
+
+		// UTF-8, UTF-16
 		else
 		{
-			// todo: bom handling
+			// endianness
+			if constexpr (sizeof(T) == 1)
+			{
+				if (str.length() >= 3u && pack(str[0], str[1], str[2]) == 0x00EFBBBF)
+					data_start = 3u;
+			}
+			else
+			{
+				if (static_cast<uint16_t>(str[0]) == 0xFFFEu)
+				{
+					data_start = 1u;
+					requires_bswap = true;
+				}
+				else if (static_cast<uint16_t>(str[0]) == 0xFEFFu)
+					data_start = 1u;
+				else
+					requires_bswap = !utf_detect_platform_endian(str.data(), str.data() + (min)(str.length(), 16_sz));
+			}
+
 			utf_decoder<T> decoder;
 			if (reverse)
 			{
 				size_t cp_start = str.length();
 				size_t cu_count = {};
 				constexpr size_t max_cu_count = 4_sz / sizeof(T);
-				while (cp_start--> 0u && !stop)
+				while (cp_start--> data_start && !stop)
 				{
 					using muu::is_code_point_boundary;
 
 					cu_count++;
-					if (cu_count == max_cu_count || is_code_point_boundary(str[cp_start]))
+					if (cu_count == max_cu_count || is_code_point_boundary(get(cp_start)))
 					{
 						for (size_t i = cp_start, e = cp_start + cu_count; i < e; i++)
 						{
-							decoder(str[i]);
+							decoder(get(i));
 							if (decoder.error())
 								break;
 						}
@@ -323,7 +398,7 @@ MUU_IMPL_NAMESPACE_START
 						{
 							decoder.clear_error();
 							for (size_t i = cp_start + cu_count; i --> cp_start && !stop;)
-								stop = stop_after_invoking(std::forward<Func>(func), static_cast<char32_t>(str[i]), i, 1);
+								stop = stop_after_invoking(std::forward<Func>(func), static_cast<char32_t>(get(i)), i, 1);
 						}
 						cu_count = {};
 					}
@@ -331,10 +406,10 @@ MUU_IMPL_NAMESPACE_START
 			}
 			else
 			{
-				for (size_t i = 0, e = str.length(), cp_start = 0, cu_count = 0; i < e && !stop; i++)
+				for (size_t i = data_start, e = str.length(), cp_start = data_start, cu_count = 0; i < e && !stop; i++)
 				{
 					cu_count++;
-					decoder(str[i]);
+					decoder(get(i));
 					if (decoder.has_value())
 					{
 						stop = stop_after_invoking(std::forward<Func>(func), decoder.value(), cp_start, cu_count);
@@ -345,7 +420,7 @@ MUU_IMPL_NAMESPACE_START
 					{
 						decoder.clear_error();
 						for (size_t j = cp_start, je = cp_start + cu_count; j < je && !stop; j++)
-							stop = stop_after_invoking(std::forward<Func>(func), static_cast<char32_t>(str[j]), j, 1);
+							stop = stop_after_invoking(std::forward<Func>(func), static_cast<char32_t>(get(j)), j, 1);
 						cp_start = i + 1u;
 						cu_count = {};
 					}
@@ -454,6 +529,20 @@ MUU_IMPL_NAMESPACE_START
 				return view();
 			}
 	};
+
+	template <typename T>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr uint_least32_t hex_to_dec(T codepoint) noexcept
+	{
+		if constexpr (std::is_same_v<remove_cvref<T>, uint_least32_t>)
+			return codepoint >= 0x41u // >= 'A'
+			? 10u + (codepoint | 0x20u) - 0x61u // - 'a'
+			: codepoint - 0x30u // - '0'
+		;
+		else
+			return hex_to_dec(static_cast<uint_least32_t>(codepoint));
+	}
 }
 MUU_IMPL_NAMESPACE_END
 

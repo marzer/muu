@@ -13,35 +13,53 @@
 
 MUU_NAMESPACE_START
 {
-	/// \brief		Returns true if a UTF-8 code unit is whitespace from the ASCII range.
-	/// \ingroup	strings
+	/// \brief		Returns true if a UTF-8 code unit is within the ASCII range.
+	/// \ingroup	characters
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_ascii(char8_t c) noexcept
+	{
+		return c <= u8'\x7F';
+	}
+
+	/// \brief		Returns true if a UTF-8 code unit is not within the ASCII range (i.e. it is a part greater Unicode).
+	/// \ingroup	characters
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_unicode(char8_t c) noexcept
+	{
+		return 0x80u <= c;
+	}
+
+	/// \brief		Returns true if a UTF-8 code unit is a whitespace code point from the ASCII range.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool is_ascii_whitespace(char8_t c) noexcept
 	{
-		return c >= u8'\t' && c <= u8' ' && (1u << (static_cast<uint_least32_t>(c) - 0x9u)) & 0x80001Fu;
+		return u8'\t' <= c && c <= u8' ' && (1u << (static_cast<uint_least32_t>(c) - 0x9u)) & 0x80001Fu;
 	}
 
-	/// \brief		Returns true if a UTF-8 code unit is whitespace from outside the ASCII range.
-	/// \ingroup	strings
+	/// \brief		Returns true if a UTF-8 code unit is a whitespace code point from outside the ASCII range.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool is_non_ascii_whitespace(char8_t c) noexcept
+	constexpr bool is_unicode_whitespace(char8_t c) noexcept
 	{
-		return c >= 0x85u && c <= 0xA0u && (1u << (static_cast<uint_least32_t>(c) - 0x85u)) & 0x8000001u;
+		return 0x85u <= c && c <= 0xA0u && (1u << (static_cast<uint_least32_t>(c) - 0x85u)) & 0x8000001u;
 	}
 
-	/// \brief		Returns true if a UTF-8 code unit is whitespace.
-	/// \ingroup	strings
+	/// \brief		Returns true if a UTF-8 code unit is a whitespace code point.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool is_whitespace(char8_t c) noexcept
 	{
-		return is_ascii_whitespace(c) || is_non_ascii_whitespace(c);
+		return is_ascii_whitespace(c) || is_unicode_whitespace(c);
 	}
 
-	/// \brief		Returns true if a UTF-8 code unit is not whitespace.
-	/// \ingroup	strings
+	/// \brief		Returns true if a UTF-8 code unit is not a whitespace code point.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool is_not_whitespace(char8_t c) noexcept
@@ -49,72 +67,100 @@ MUU_NAMESPACE_START
 		return !is_whitespace(c);
 	}
 
-	/// \brief		Returns true if a UTF-8 code unit is a letter from the ASCII range.
-	/// \ingroup	strings
+	/// \brief		Returns true if a UTF-8 code unit is a letter code point from the ASCII range.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool is_ascii_letter(char8_t c) noexcept
 	{
-		return c >= u8'A' && c <= u8'z' && (1ull << (static_cast<uint_least64_t>(c) - 0x41u)) & 0x3FFFFFF03FFFFFFull;
+		return u8'A' <= c && c <= u8'z' && (1ull << (static_cast<uint_least64_t>(c) - 0x41u)) & 0x3FFFFFF03FFFFFFull;
 	}
 
-	/// \brief		Returns true if a UTF-8 code unit is a letter from outside the ASCII range.
-	/// \ingroup	strings
+	/// \brief		Returns true if a UTF-8 code unit is a letter code point from outside the ASCII range.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool is_non_ascii_letter(char8_t c) noexcept
+	constexpr bool is_unicode_letter(char8_t c) noexcept
 	{
 		if (c < 0xAAu)
 			return false;
+		MUU_ASSUME(c <= 0xFFu);
 		
 		switch ((static_cast<uint_least64_t>(c) - 0xAAull) / 0x40ull)
 		{
 			case 0x00: return (1ull << (static_cast<uint_least64_t>(c) - 0xAAu)) & 0xFFFFDFFFFFC10801ull;
-			case 0x01: return c != 0xF7u;
+			case 0x01: return (c <= 0xF6u) || (0xF8u <= c);
 			MUU_NO_DEFAULT_CASE;
 		}
-		// 65 codepoints from 6 ranges (spanning a search area of 86)
+		// 65 codepoints from 6 ranges (spanning a search area of 256)
 	}
 
-	/// \brief		Returns true if a UTF-8 code unit is a letter.
-	/// \ingroup	strings
+	/// \brief		Returns true if a UTF-8 code unit is a letter code point.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool is_letter(char8_t c) noexcept
 	{
-		return is_ascii_letter(c) || is_non_ascii_letter(c);
+		return is_ascii_letter(c) || is_unicode_letter(c);
 	}
 
-	/// \brief		Returns true if a UTF-8 code unit is a number from the ASCII range.
-	/// \ingroup	strings
+	/// \brief		Returns true if a UTF-8 code unit is a number code point from the ASCII range.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool is_ascii_number(char8_t c) noexcept
 	{
-		return c >= u8'0' && c <= u8'9';
+		return u8'0' <= c && c <= u8'9';
 	}
 
-	/// \brief		Returns true if a UTF-8 code unit is a number from outside the ASCII range.
-	/// \ingroup	strings
+	/// \brief		Returns true if a UTF-8 code unit is a number code point from outside the ASCII range.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool is_non_ascii_number(char8_t c) noexcept
+	constexpr bool is_unicode_number(char8_t c) noexcept
 	{
 		(void)c;
 		return false;
 	}
 
-	/// \brief		Returns true if a UTF-8 code unit is a number.
-	/// \ingroup	strings
+	/// \brief		Returns true if a UTF-8 code unit is a number code point.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool is_number(char8_t c) noexcept
 	{
-		return is_ascii_number(c) || is_non_ascii_number(c);
+		return is_ascii_number(c) || is_unicode_number(c);
 	}
 
-	/// \brief		Returns true if a UTF-8 code unit is a combining mark.
-	/// \ingroup	strings
+	/// \brief		Returns true if a UTF-8 code unit is a hyphen code point from the ASCII range.
+	/// \ingroup	characters
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_ascii_hyphen(char8_t c) noexcept
+	{
+		return c == u8'-';
+	}
+
+	/// \brief		Returns true if a UTF-8 code unit is a hyphen code point from outside the ASCII range.
+	/// \ingroup	characters
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_unicode_hyphen(char8_t c) noexcept
+	{
+		return c == 0xADu;
+	}
+
+	/// \brief		Returns true if a UTF-8 code unit is a hyphen code point.
+	/// \ingroup	characters
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_hyphen(char8_t c) noexcept
+	{
+		return is_ascii_hyphen(c) || is_unicode_hyphen(c);
+	}
+
+	/// \brief		Returns true if a UTF-8 code unit is a combining mark code point.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool is_combining_mark(char8_t c) noexcept
@@ -123,40 +169,78 @@ MUU_NAMESPACE_START
 		return false;
 	}
 
-	/// \brief		Returns true if a UTF-8 code unit is an octal digit.
-	/// \ingroup	strings
+	/// \brief		Returns true if a UTF-8 code unit is an octal digit code point.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool is_octal_digit(char8_t c) noexcept
 	{
-		return c >= u8'0' && c <= u8'7';
+		return u8'0' <= c && c <= u8'7';
 	}
 
-	/// \brief		Returns true if a UTF-8 code unit is a decimal digit.
-	/// \ingroup	strings
+	/// \brief		Returns true if a UTF-8 code unit is a decimal digit code point.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool is_decimal_digit(char8_t c) noexcept
 	{
-		return c >= u8'0' && c <= u8'9';
+		return u8'0' <= c && c <= u8'9';
 	}
 
-	/// \brief		Returns true if a UTF-8 code unit is a hexadecimal digit.
-	/// \ingroup	strings
+	/// \brief		Returns true if a UTF-8 code unit is a hexadecimal digit code point.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool is_hexadecimal_digit(char8_t c) noexcept
 	{
-		return c >= u8'0' && c <= u8'f' && (1ull << (static_cast<uint_least64_t>(c) - 0x30u)) & 0x7E0000007E03FFull;
+		return u8'0' <= c && c <= u8'f' && (1ull << (static_cast<uint_least64_t>(c) - 0x30u)) & 0x7E0000007E03FFull;
+	}
+
+	/// \brief		Returns true if a UTF-8 code unit is an uppercase code point.
+	/// \ingroup	characters
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_uppercase(char8_t c) noexcept
+	{
+		return ((u8'A' <= c && c <= u8'Z')) || ((0xC0u <= c && c <= 0xD6u)) || ((0xD8u <= c && c <= 0xDEu));
+	}
+
+	/// \brief		Returns true if a UTF-8 code unit is an lowercase code point.
+	/// \ingroup	characters
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_lowercase(char8_t c) noexcept
+	{
+		if (c < u8'a')
+			return false;
+		MUU_ASSUME(c <= 0xFFu);
+		
+		switch ((static_cast<uint_least64_t>(c) - 0x61ull) / 0x40ull)
+		{
+			case 0x00: return c <= u8'z';
+			case 0x01: return 0xAAu <= c && (1ull << (static_cast<uint_least64_t>(c) - 0xAAu)) & 0x60000000010801ull;
+			case 0x02: return (c <= 0xF6u) || (0xF8u <= c);
+			MUU_NO_DEFAULT_CASE;
+		}
+		// 61 codepoints from 6 ranges (spanning a search area of 256)
 	}
 
 	/// \brief		Returns true if a UTF-8 code unit is a code point boundary.
-	/// \ingroup	strings
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool is_code_point_boundary(char8_t c) noexcept
 	{
 		return (c & 0b11000000u) != 0b10000000u;
+	}
+
+	/// \brief		Returns true if a UTF-8 code unit is in-and-of-itself a valid code point.
+	/// \ingroup	characters
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_code_point(char8_t c) noexcept
+	{
+		return c <= 0x007Fu;
 	}
 
 }

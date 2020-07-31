@@ -21,7 +21,8 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Statefully accumulates (adds) an indeterminate range of values.
-	/// 
+	/// \ingroup blocks
+	///
 	/// \detail For integral types the accumulator is a simple bookkeeping helper, but for floating-point
 	/// 		types the default implementation uses Kahan summation to reduce numerical error.
 	///

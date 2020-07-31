@@ -15,23 +15,37 @@ MUU_IMPL_NAMESPACE_START
 {
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool is_ascii_whitespace(unsigned char c) noexcept
+	constexpr bool is_ascii(unsigned char c) noexcept
 	{
-		return c >= 0x09u && c <= 0x20u && (1u << (static_cast<uint_least32_t>(c) - 0x9u)) & 0x80001Fu;
+		return c <= 0x7Fu;
 	}
 
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool is_non_ascii_whitespace(unsigned char c) noexcept
+	constexpr bool is_unicode(unsigned char c) noexcept
 	{
-		return c >= 0x85u && c <= 0xA0u && (1u << (static_cast<uint_least32_t>(c) - 0x85u)) & 0x8000001u;
+		return 0x80u <= c;
+	}
+
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_ascii_whitespace(unsigned char c) noexcept
+	{
+		return 0x09u <= c && c <= 0x20u && (1u << (static_cast<uint_least32_t>(c) - 0x9u)) & 0x80001Fu;
+	}
+
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_unicode_whitespace(unsigned char c) noexcept
+	{
+		return 0x85u <= c && c <= 0xA0u && (1u << (static_cast<uint_least32_t>(c) - 0x85u)) & 0x8000001u;
 	}
 
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool is_whitespace(unsigned char c) noexcept
 	{
-		return is_ascii_whitespace(c) || is_non_ascii_whitespace(c);
+		return is_ascii_whitespace(c) || is_unicode_whitespace(c);
 	}
 
 	[[nodiscard]]
@@ -45,42 +59,43 @@ MUU_IMPL_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_ascii_letter(unsigned char c) noexcept
 	{
-		return c >= 0x41u && c <= 0x7Au && (1ull << (static_cast<uint_least64_t>(c) - 0x41u)) & 0x3FFFFFF03FFFFFFull;
+		return 0x41u <= c && c <= 0x7Au && (1ull << (static_cast<uint_least64_t>(c) - 0x41u)) & 0x3FFFFFF03FFFFFFull;
 	}
 
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool is_non_ascii_letter(unsigned char c) noexcept
+	constexpr bool is_unicode_letter(unsigned char c) noexcept
 	{
 		if (c < 0xAAu)
 			return false;
+		MUU_ASSUME(c <= 0xFFu);
 		
 		switch ((static_cast<uint_least64_t>(c) - 0xAAull) / 0x40ull)
 		{
 			case 0x00: return (1ull << (static_cast<uint_least64_t>(c) - 0xAAu)) & 0xFFFFDFFFFFC10801ull;
-			case 0x01: return c != 0xF7u;
+			case 0x01: return (c <= 0xF6u) || (0xF8u <= c);
 			MUU_NO_DEFAULT_CASE;
 		}
-		// 65 codepoints from 6 ranges (spanning a search area of 86)
+		// 65 codepoints from 6 ranges (spanning a search area of 256)
 	}
 
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool is_letter(unsigned char c) noexcept
 	{
-		return is_ascii_letter(c) || is_non_ascii_letter(c);
+		return is_ascii_letter(c) || is_unicode_letter(c);
 	}
 
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool is_ascii_number(unsigned char c) noexcept
 	{
-		return c >= 0x30u && c <= 0x39u;
+		return 0x30u <= c && c <= 0x39u;
 	}
 
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool is_non_ascii_number(unsigned char c) noexcept
+	constexpr bool is_unicode_number(unsigned char c) noexcept
 	{
 		(void)c;
 		return false;
@@ -90,7 +105,28 @@ MUU_IMPL_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_number(unsigned char c) noexcept
 	{
-		return is_ascii_number(c) || is_non_ascii_number(c);
+		return is_ascii_number(c) || is_unicode_number(c);
+	}
+
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_ascii_hyphen(unsigned char c) noexcept
+	{
+		return c == 0x2Du;
+	}
+
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_unicode_hyphen(unsigned char c) noexcept
+	{
+		return c == 0xADu;
+	}
+
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_hyphen(unsigned char c) noexcept
+	{
+		return is_ascii_hyphen(c) || is_unicode_hyphen(c);
 	}
 
 	[[nodiscard]]
@@ -105,21 +141,46 @@ MUU_IMPL_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_octal_digit(unsigned char c) noexcept
 	{
-		return c >= 0x30u && c <= 0x37u;
+		return 0x30u <= c && c <= 0x37u;
 	}
 
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool is_decimal_digit(unsigned char c) noexcept
 	{
-		return c >= 0x30u && c <= 0x39u;
+		return 0x30u <= c && c <= 0x39u;
 	}
 
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool is_hexadecimal_digit(unsigned char c) noexcept
 	{
-		return c >= 0x30u && c <= 0x66u && (1ull << (static_cast<uint_least64_t>(c) - 0x30u)) & 0x7E0000007E03FFull;
+		return 0x30u <= c && c <= 0x66u && (1ull << (static_cast<uint_least64_t>(c) - 0x30u)) & 0x7E0000007E03FFull;
+	}
+
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_uppercase(unsigned char c) noexcept
+	{
+		return ((0x41u <= c && c <= 0x5Au)) || ((0xC0u <= c && c <= 0xD6u)) || ((0xD8u <= c && c <= 0xDEu));
+	}
+
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_lowercase(unsigned char c) noexcept
+	{
+		if (c < 0x61u)
+			return false;
+		MUU_ASSUME(c <= 0xFFu);
+		
+		switch ((static_cast<uint_least64_t>(c) - 0x61ull) / 0x40ull)
+		{
+			case 0x00: return c <= 0x7Au;
+			case 0x01: return 0xAAu <= c && (1ull << (static_cast<uint_least64_t>(c) - 0xAAu)) & 0x60000000010801ull;
+			case 0x02: return (c <= 0xF6u) || (0xF8u <= c);
+			MUU_NO_DEFAULT_CASE;
+		}
+		// 61 codepoints from 6 ranges (spanning a search area of 256)
 	}
 
 	[[nodiscard]]
@@ -127,6 +188,13 @@ MUU_IMPL_NAMESPACE_START
 	constexpr bool is_code_point_boundary(unsigned char c) noexcept
 	{
 		return (c & 0b11000000u) != 0b10000000u;
+	}
+
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_code_point(unsigned char c) noexcept
+	{
+		return c <= 0x007Fu;
 	}
 
 }

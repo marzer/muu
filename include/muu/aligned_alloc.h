@@ -30,6 +30,12 @@ MUU_NAMESPACE_START
 	void* aligned_alloc(size_t alignment, size_t size) noexcept;
 
 	/// \brief	Resizes memory previously allocated with a specific alignment boundary.
+	/// 
+	/// \detail Allocations returned by muu::aligned_realloc will have the same alignment
+	/// 		 as was initially requested by muu::aligned_alloc.
+	///	
+	///			Calling muu::aligned_realloc with `nullptr` for `ptr`
+	/// 		is equivalent to calling muu::aligned_alloc with an alignment of `__STDCPP_DEFAULT_NEW_ALIGNMENT__`.
 	///
 	/// \warning Do not use this to reallocate memory allocated from any source,
 	/// 		 not even your implementation's `std::aligned_alloc`!
@@ -40,13 +46,6 @@ MUU_NAMESPACE_START
 	/// \returns	A (possibly-relocated) pointer to the beginning of the reallocated memory, or `nullptr` if
 	/// 			`new_size` was `0` or the system could not provide the requested allocation.
 	/// 			Null return values leave the original input allocation unchanged.
-	/// 
-	/// \remark Allocations returned by muu::aligned_realloc will have the same alignment
-	/// 		 as was initially requested by muu::aligned_alloc.
-	///	
-	/// \remark Calling muu::aligned_realloc with `nullptr` for `ptr`
-	/// 		is equivalent to calling muu::aligned_alloc with an alignment of `__STDCPP_DEFAULT_NEW_ALIGNMENT__`.
-	/// 
 	[[nodiscard]]
 	MUU_API
 	MUU_UNALIASED_ALLOC

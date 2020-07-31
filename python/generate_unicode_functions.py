@@ -12,6 +12,7 @@ import utils
 import re
 import math
 import bisect
+import json
 
 
 #### SETTINGS / MISC ##################################################################################################
@@ -32,7 +33,7 @@ class G: # G for Globals
 
 def exid(id):
 	if G.expression_ids:
-		return f' /* EX {id} */'
+		return f' /* exid({id}) */'
 	return ''
 
 
@@ -138,11 +139,31 @@ def compound_and(*bools):
 
 
 
-def strip_brackets(s):
-	if s.startswith('(') and s.endswith(')'):
-		return s[1:-1]
-	return s
+def __strip_brackets(s):
+	if not (s.startswith('(') and s.endswith(')')):
+		return (s, False)
+	current_depth = 0
+	#max_depth = 0
+	pairs = 0
+	for c in s:
+		if c == '(':
+			if current_depth == 0 and pairs > 0:
+				return (s, False)
+			current_depth = current_depth + 1
+			#max_depth = max(max_depth, max_depth)
+		elif c == ')':
+			current_depth = current_depth - 1
+			pairs = pairs + 1
+	if current_depth == 0:
+		return (s[1:-1], True)
+	return (s, False)
 
+
+def strip_brackets(s):
+	result = __strip_brackets(s)
+	while result[1]:
+		result = __strip_brackets(result[0])
+	return result[0]
 
 
 def wrap_lines(s, sep = '||', wrap_prefix = '\t', assumed_indent = 0):
@@ -153,7 +174,7 @@ def wrap_lines(s, sep = '||', wrap_prefix = '\t', assumed_indent = 0):
 	for c in wrap_prefix:
 		wrap_prefix_len += 4 if c == '\t' else 1
 	for e in elems:
-		if line_len + len(e) + assumed_indent >= 100:
+		if line_len + len(e) + assumed_indent >= 120:
 			s += '\n{}{} {}'.format(wrap_prefix, sep, e)
 			line_len = len(sep) + len(e) + 1 + wrap_prefix_len
 		elif len(s) > 0:
@@ -396,7 +417,7 @@ class SparseRange:
 			if not self.__values or self.__idx >= len(self.__values):
 				raise StopIteration
 			elem = self.__values[self.__idx]
-			if isinstance(elem, tuple):
+			if isinstance(elem, (tuple, list)):
 				val = elem[0] + self.__subidx
 				if val == elem[1]:
 					self.__idx = self.__idx + 1
@@ -438,7 +459,7 @@ class SparseRange:
 		if not self.finished():
 			raise Exception('finish() has not been called')
 		for v in self.__values:
-			if isinstance(v, tuple):
+			if isinstance(v, (tuple, list)):
 				yield v
 
 	def sparse_value_count(self):
@@ -450,8 +471,26 @@ class SparseRange:
 		if not self.finished():
 			raise Exception('finish() has not been called')
 		for v in self.__values:
-			if not isinstance(v, tuple):
+			if not isinstance(v, (tuple, list)):
 				yield v
+
+	def serialize(self):
+		if not self.finished():
+			raise Exception('finish() has not been called')
+		vals = dict()
+		vals['_SparseRange__first'] = self.__first
+		vals['_SparseRange__last'] = self.__last
+		vals['_SparseRange__count'] = self.__count
+		vals['_SparseRange__sparse_value_count'] = self.__sparse_value_count
+		vals['_SparseRange__contiguous_subrange_count'] = self.__contiguous_subrange_count
+		vals['_SparseRange__values'] = self.__values
+		return vals
+
+	def deserialize(self, vals):
+		self.__dict__.clear()
+		self.__dict__.update(vals)
+		self.__ranges = None
+		self.__sparse_values = None
 
 
 
@@ -482,6 +521,8 @@ class CodepointChunk:
 			self.__finish()
 		else:
 			self.__data = self.__Data()
+			self.__data.span_first = 0
+			self.__data.span_last = min(code_unit.max, 0x10FFFF)
 
 	def range(self):
 		return self.__data.range
@@ -555,18 +596,29 @@ class CodepointChunk:
 			return self.__expr
 		else:
 			bools = []
-			if not self.__expr_handles_low_end:
-				bools.append('c >= '+ self.span_first_lit())
-			if not self.__expr_handles_high_end:
-				bools.append('c <= '+ self.span_last_lit())
+			if not self.__expr_handles_low_end and self.span_first() > 0:
+				bools.append(f'{self.span_first_lit()} <= c' + exid(50))
+			if not self.__expr_handles_high_end and self.span_last() < self.__code_unit.max:
+				bools.append(f'c <= {self.span_last_lit()}' + exid(51))
 			if len(bools) == 0 or not self.always_returns_true():
 				bools.append(self.__expr)
-			return strip_brackets(compound_and(*bools)) + exid(16)
+			return compound_and(*bools) + exid(16)
 
 	def add(self, first, last = None):
 		if self.__finished:
 			raise Exception('the chunk is read-only')
 		self.range().add(first, last)
+
+	class __Expression:
+		def __init__(self, base_score, expr, handles_low=False, handles_high=False):
+			self.expr = expr
+			self.handles_low = handles_low
+			self.handles_high = handles_high
+			self.score = int(base_score * (
+				1.0													\
+				+ (0.05 if handles_low else 0.0)					\
+				+ (0.05 if handles_high else 0.0) 					\
+				+ (0.15 if handles_low and handles_high else 0.0)))
 
 	def __finish(self):
 		if self.__finished:
@@ -575,92 +627,131 @@ class CodepointChunk:
 			self.range().finish()
 		self.__finished = True
 		if self.root():
-			self.__data.span_first = self.first()
-			self.__data.span_last = self.last()
+			if self.__data.span_first is None:
+				self.__data.span_first = self.first()
+			if self.__data.span_last is None:
+				self.__data.span_last = self.last()
 		if self.range():
 			assert self.first() >= self.span_first()
 			assert self.last() <= self.span_last()
 
 		# try to figure out a return expression if possible.
 
+		expressions = []
+
 		# false
 		if self.always_returns_false():
-			self.__expr = f'false{exid(0)}'
+			expressions.append(self.__Expression(
+				1000,
+				f'false{exid(0)}',
+				True,
+				True
+			))
 
 		# true
-		elif self.always_returns_true():
-			self.__expr = f'true{exid(1)}'
-			self.__expr_handles_low_end = self.span_first() == 0
-			self.__expr_handles_high_end = self.span_last() == self.__code_unit.max
+		if self.always_returns_true():
+			expressions.append(self.__Expression(
+				1000,
+				f'true{exid(1)}',
+				True,
+				True
+			))
 
 		# c != A
-		elif (len(self) == self.span_size() - 1):
+		if (len(self) == self.span_size() - 1):
 			gap = None
 			for i in range(self.span_first(), self.span_last()+1):
 				if i not in self.range():
 					gap = i
 					break
 			assert gap is not None
-			self.__expr = 'c != ' + self.__code_unit.literal(gap) + exid(2)
-			self.__expr_handles_low_end = gap == self.span_first()
-			self.__expr_handles_high_end = gap == self.span_last()
+			expressions.append(self.__Expression(
+				500,
+				'c != ' + self.__code_unit.literal(gap) + exid(2),
+				gap == self.span_first(),
+				gap == self.span_last()
+			))
 
 		# c == A
-		# c >= A
-		# c >= A && c <= B
-		elif self.range().contiguous():
+		# A <= c
+		# c <= A
+		# A <= c && c <= B
+		if len(self) > 0 and len(self) < self.span_size() and self.range().contiguous():
 			if len(self) == 1:
-				self.__expr = 'c == ' + self.first_lit() + exid(3)
+				expressions.append(self.__Expression(
+					500,
+					'c == ' + self.first_lit() + exid(3),
+					True,
+					True
+				))
 			elif (self.first() > self.span_first()) and (self.last() < self.span_last()):
-				self.__expr = '(c >= {} && c <= {})'.format(self.first_lit(), self.last_lit()) + exid(4)
+				expressions.append(self.__Expression(
+					500,
+					f'({self.first_lit()} <= c && c <= {self.last_lit()})' + exid(4),
+					True,
+					True
+				))
 			elif self.last() < self.span_last():
 				assert self.first() == self.span_first()
-				self.__expr = 'c <= ' + self.last_lit() + exid(5)
-				self.__expr_handles_low_end = False
+				expressions.append(self.__Expression(
+					500,
+					f'c <= {self.last_lit()}' + exid(5),
+					False,
+					True
+				))
 			else:
-				assert self.first() > self.span_first()
-				assert self.last() == self.span_last(), "{} {}".format(self.last(), self.span_last())
-				self.__expr = 'c >= ' + self.first_lit() + exid(6)
-				self.__expr_handles_high_end = False
-
-		if self.__expr is not None:
-			return
+				assert self.first() > self.span_first(), f"{self.first()} {self.span_first()}"
+				assert self.last() == self.span_last()
+				expressions.append(self.__Expression(
+					500,
+					f'{self.first_lit()} <= c' + exid(6),
+					True,
+					False
+				))
 
 		# c % A == 0
 		# (c + A) % B == 0
-		for div in range(2, 11):
-			for add in range(0, div):
-				ok = True
-				for i in range(self.first(), self.last() + 1):
-					if (i + add) % div == 0:
-						ok = ok and i in self.range()
-					else:
-						ok = ok and i not in self.range()
-					if not ok:
+		if len(self) > 0:
+			stop_searching = False
+			for div in range(2, 11):
+				for add in range(0, div):
+					ok = True
+					for i in range(self.first(), self.last() + 1):
+						if (i + add) % div == 0:
+							ok = ok and i in self.range()
+						else:
+							ok = ok and i not in self.range()
+						if not ok:
+							break
+					if ok:
+						s = 'static_cast<uint_least32_t>(c)'
+						score = 500
+						if (add):
+							s = f'({s} + {add}u)'
+							score = score - 10
+						bools = [ f'({s} % {div}u) == 0u' ]
+						handles_low = False
+						handles_high = False
+						if (self.last() < self.span_last()):
+							bools.insert(0, f'c <= {self.last_lit()}')
+							handles_high = True
+						if (self.first() > self.span_first()):
+							bools.insert(0, f'{self.first_lit()} <= c')
+							handles_low = True
+						score = score - 10 * (len(bools) - 1)
+						expressions.append(self.__Expression(
+							score,
+							compound_and(*bools) + exid(7),
+							handles_low,
+							handles_high
+						))
+						stop_searching = True
 						break
-				if ok:
-					s = 'static_cast<uint_least32_t>(c)'
-					if (add):
-						s = '({} + {}u)'.format(s, add)
-					bools = [ '({} % {}u) == 0u'.format(s, div) ]
-					self.__expr_handles_low_end = False
-					self.__expr_handles_high_end = False
-					if (self.last() < self.span_last()):
-						bools.insert(0, 'c <= {}'.format(self.last_lit()))
-						self.__expr_handles_high_end = True
-					if (self.first() > self.span_first()):
-						bools.insert(0, 'c >= {}'.format(self.first_lit()))
-						self.__expr_handles_low_end = True
-					self.__expr = compound_and(*bools) + exid(7)
+				if stop_searching:
 					break
-			if self.__expr:
-				break
-
-		if self.__expr is not None:
-			return
 
 		# c & A
-		if G.bitmask_expressions and (self.last() - self.first() + 1) <= G.word_size:
+		if len(self) > 0 and G.bitmask_expressions and (self.last() - self.first() + 1) <= G.word_size:
 			bitmask = 0
 			for i in self.range():
 				shift = i - self.first()
@@ -668,23 +759,26 @@ class CodepointChunk:
 					break
 				bitmask |= 1 << shift
 			bools = [ make_bitmask_index_test_expression('c', bitmask, -self.first()) ]
-			self.__expr_handles_low_end = False
-			self.__expr_handles_high_end = False
+			handles_low = False
+			handles_high = False
+			score = 500
 			if (self.last() < self.span_last()):
-				bools.insert(0, 'c <= {}'.format(self.last_lit()))
-				self.__expr_handles_high_end = True
+				bools.insert(0, f'c <= {self.last_lit()}')
+				handles_high = True
 			if (self.first() > self.span_first()):
-				bools.insert(0, 'c >= {}'.format(self.first_lit()))
-				self.__expr_handles_low_end = True
-			self.__expr = wrap_lines(compound_and(*bools), sep='&&', wrap_prefix='\t\t', assumed_indent=self.level()*8)  + exid(8)
-
-
-		if self.__expr is not None:
-			return
+				bools.insert(0, f'{self.first_lit()} <= c')
+				handles_low = True
+			score = score - 10 * len(bools)
+			expressions.append(self.__Expression(
+				score,
+				wrap_lines(compound_and(*bools), sep='&&', wrap_prefix='\t\t', assumed_indent=self.level()*8)  + exid(8),
+				handles_low,
+				handles_high
+			))
 
 		child_first = self.first()
 		child_last = self.last()
-		child_span = child_last - child_first + 1
+		child_span = 0 if len(self) == 0 else (child_last - child_first + 1)
 		subdivision_allowed = (
 			(G.depth_limit <= 0 or (self.level()+1) < G.depth_limit)
 			and child_span > 4
@@ -692,30 +786,43 @@ class CodepointChunk:
 		)
 
 		# (c >= A && c <= B) || c == C || c == D ...
-		if (self.range().sparse_value_count() + self.range().contiguous_subrange_count()) <= G.compound_boolean_limit or not subdivision_allowed:
-			self.__expr_handles_low_end = False
-			self.__expr_handles_high_end = False
+		if len(self) > 0 and (	\
+			(self.range().sparse_value_count() + self.range().contiguous_subrange_count()) <= G.compound_boolean_limit	\
+				or not subdivision_allowed):
+			score = 500
+			handles_low = False
+			handles_high = False
 			bools = []
+			comps = 0
 			for f, l in self.range().contiguous_subranges():
-				if l == f + 1:
-					if f > 0:
-						bools.append('c == {}'.format(self.__code_unit.literal(f)))
-					bools.append('c == {}'.format(self.__code_unit.literal(l)))
-				else:
-					if f > 0:
-						bools.append('(c >= {} && c <= {})'.format(self.__code_unit.literal(f), self.__code_unit.literal(l)))
-					else:
-						bools.append('c <= {}'.format(self.__code_unit.literal(l)))
-				self.__expr_handles_low_end = self.__expr_handles_low_end or f == self.span_first()
-				self.__expr_handles_high_end = self.__expr_handles_high_end or l == self.span_last()
+				ands = []
+				if f > self.span_first():
+					ands.append(f'{self.__code_unit.literal(f)} <= c')
+				if l < self.span_last():
+					ands.append(f'c <= {self.__code_unit.literal(l)}')
+				bools.append(f'({compound_and(*ands)})')
+				comps = comps + len(ands)
+				handles_low = handles_low or f == self.span_first()
+				handles_high = handles_high or l == self.span_last()
 			for v in self.range().sparse_values():
 				bools.append('c == ' + self.__code_unit.literal(v))
-				self.__expr_handles_low_end = self.__expr_handles_low_end or v == self.span_first()
-				self.__expr_handles_high_end = self.__expr_handles_high_end or v == self.span_last()
-			self.__expr = wrap_lines(compound_or(*bools), wrap_prefix='\t\t') + exid(9)
+				comps = comps + 1
+				handles_low = handles_low or v == self.span_first()
+				handles_high = handles_high or v == self.span_last()
+			expressions.append(self.__Expression(
+				score - (20 * comps),
+				wrap_lines(compound_or(*bools), wrap_prefix='\t\t') + exid(9),
+				handles_low,
+				handles_high
+			))
 
 
-		if self.__expr is not None:
+		# if we've identified some candidate expressions, sort them and pick the best one
+		if len(expressions) > 0:
+			expressions.sort(key=lambda ex: ex.score, reverse=True)
+			self.__expr = expressions[0].expr
+			self.__expr_handles_low_end = expressions[0].handles_low
+			self.__expr_handles_high_end = expressions[0].handles_high
 			return
 
 		# haven't been able to make an expression so check if the chunk
@@ -759,15 +866,14 @@ class CodepointChunk:
 		else:
 			exclusions = []
 			assumptions = []
-			if self.first() > 0 and (self.root() or self.first() > self.span_first()):
-				exclusions.append('c < ' + self.first_lit())
+			if self.first() > self.span_first():
+				exclusions.append(f'c < {self.first_lit()}')
 			else:
-				assumptions.append('c >= ' + self.first_lit())
-			if self.span_last() < self.__code_unit.max:
-				if (self.root() or self.last() < self.span_last()):
-					exclusions.append('c > ' + self.last_lit())
-				else:
-					assumptions.append('c <= ' + self.last_lit())
+				assumptions.append(f'{self.first_lit()} <= c')
+			if self.last() < self.span_last():
+				exclusions.append(f'{self.last_lit()} < c')
+			else:
+				assumptions.append(f'c <= {self.last_lit()}')
 			if exclusions:
 				s += 'if ({})\n\treturn false{};\n'.format(strip_brackets(compound_or(*exclusions)), exid(10))
 			if assumptions:
@@ -808,9 +914,9 @@ class CodepointChunk:
 				s += '\n};'
 				s += '\nreturn {}[{}]\n\t& ({} << ({}));'.format(
 					table_name,
-					element_selector,
+					strip_brackets(element_selector),
 					make_bitmask_literal(1, G.word_size),
-					bit_selector
+					strip_brackets(bit_selector)
 				)
 				s += '\n' + summary
 				return s
@@ -901,16 +1007,17 @@ class CodepointChunk:
 			if always_false_selector:
 				return_falses.append(always_false_selector)
 
-			for l, v in [(return_trues, True), (return_falses, False)]:
+			for l, v in [(return_falses, False), (return_trues, True)]:
 				if not l:
 					continue
-				ret = '\n\t|| '.join(l)
+				ret = 'true' if v else 'false'
+				cond = strip_brackets(wrap_lines(' || '.join(l), assumed_indent=16 + 8 * self.level()).strip())
 				if (return_trues and return_falses) or requires_switch or default is not None:
-					s += 'if ({})\n\treturn {}{};\n'.format(ret, 'true' if v else 'false', exid(30))
+					s += f'if ({cond})\n\treturn {ret}{exid(30)};\n'
 				else:
 					s += 'return {}{}{}{};'.format(
 						'' if v else '!(',
-						strip_brackets(ret),
+						cond,
 						'' if v else ')',
 						exid(31)
 					)
@@ -942,7 +1049,7 @@ class CodepointChunk:
 						s += '\tcase 0x{:02X}:{}{}{}'.format(
 							i,
 							' ' if c.has_expression() else ' // [{}] {:04X} - {:04X}\n\t{{\n'.format(i, c.span_first(), c.span_last()),
-							indent_with_tabs(str(c), 0 if c.has_expression() else 2),
+							indent_with_tabs(strip_brackets(str(c)), 0 if c.has_expression() else 2),
 							'\n' if c.has_expression() else '\n\t}\n',
 						)
 						emitted += 1
@@ -953,7 +1060,7 @@ class CodepointChunk:
 					s += '\n' + summary
 
 			if selector_references > 0:
-				s = s.replace('@@SELECTOR@@', selector_name if selector_references > 1 else selector)
+				s = s.replace('@@SELECTOR@@', selector_name if selector_references > 1 else strip_brackets(selector))
 			return s
 
 
@@ -961,8 +1068,30 @@ class CodepointChunk:
 #### UNICODE DATABASE ##################################################################################################
 
 
+class Serializer(json.JSONEncoder):
+	def default(self, o):
+		d = o.serialize()
+		d['__serialized_type_key'] = type(o).__name__
+		return d
 
-class UnicodeDatabase(object):
+
+class Deserializer(json.JSONDecoder):
+	def __init__(self, *args, **kwargs):
+		json.JSONDecoder.__init__(self, object_hook=self.__object_hook, *args, **kwargs)
+
+	def __object_hook(self, dct):
+		if '__serialized_type_key' in dct:
+			obj_type = globals()[dct['__serialized_type_key']]
+			del dct['__serialized_type_key']
+			obj = obj_type()
+			obj.deserialize(dct)
+			return obj
+		return dct
+
+
+
+
+class UnicodeDatabase:
 
 	__re_code_point = re.compile(r'^([0-9a-fA-F]+);(.+?);([a-zA-Z]+);')
 
@@ -1007,26 +1136,36 @@ class UnicodeDatabase(object):
 
 
 	__re_property = re.compile(r'^\s*([0-9a-fA-F]{4})\s*(?:\.\.\s*([0-9a-fA-F]{4})\s*)?;\s*([A-Za-z_]+)\s+')
+
 	def __init_properties(self):
-		self.__properties = dict()
-		property_list = utils.read_all_text_from_file(
-			path.join(utils.get_script_folder(), 'Unicode_PropList.txt'),
-			'https://www.unicode.org/Public/UCD/latest/ucd/PropList.txt'
-		)
-		for line in property_list.split('\n'):
-			match = self.__re_property.search(line)
-			if match:
-				first = int(f'0x{match.group(1)}', 16)
-				last = match.group(2)
-				last = int(f'0x{last}', 16) if last is not None else first
-				property_key = match.group(3)
-				props = self.__properties.get(property_key)
-				if props is None:
-					props = SparseRange()
-					self.__properties[property_key] = props
-				props.add(first, last)
-		for _, v in self.__properties.items():
-			v.finish()
+		json_path = path.join(utils.get_script_folder(), 'Unicode_Properties.json')
+		try:
+			self.__properties = json.loads(utils.read_all_text_from_file(json_path), cls=Deserializer)
+		except:
+			self.__properties = dict()
+			files = ('PropList.txt', 'DerivedCoreProperties.txt')
+			for file in files:
+				property_list = utils.read_all_text_from_file(
+					path.join(utils.get_script_folder(), f'Unicode_{file}'),
+					f'https://www.unicode.org/Public/UCD/latest/ucd/{file}'
+				)
+				for line in property_list.split('\n'):
+					match = self.__re_property.search(line)
+					if match:
+						first = int(f'0x{match.group(1)}', 16)
+						last = match.group(2)
+						last = int(f'0x{last}', 16) if last is not None else first
+						property_key = match.group(3)
+						props = self.__properties.get(property_key)
+						if props is None:
+							props = SparseRange()
+							self.__properties[property_key] = props
+						props.add(first, last)
+			for _, v in self.__properties.items():
+				v.finish()
+			print("Writing to {}".format(json_path))
+			with open(json_path, 'w', encoding='utf-8', newline='\n') as f:
+				f.write(json.dumps(self.__properties, sort_keys=True, indent=4, cls=Serializer))
 
 	def __init__(self):
 		self.__init_code_points()
@@ -1115,7 +1254,7 @@ def get_code_points_with_properties(*properties):
 
 
 
-class CodeUnit(object):
+class CodeUnit:
 
 	__types = {
 		'char': 			(8,   ''),
@@ -1143,7 +1282,7 @@ class CodeUnit(object):
 
 		self.typename = typename
 		self.bits = self.__types[typename][0]
-		self.max = min(0x10FFFF, (1 << self.bits) - 1)
+		self.max = (1 << self.bits) - 1
 		self.equivalent_integer = 'uint8_t' if self.bits == 8 else f'uint_least{self.bits}_t'
 		self.can_represent_ascii = True
 		self.can_represent_any_unicode = self.max >= 128
@@ -1189,7 +1328,7 @@ def write_function_header(file, code_unit, name, return_type, description):
 	write = lambda txt,end='\n': print(txt, file=file, end=end)
 	if not code_unit.private_api:
 		write('\t/// \\brief\t\t' + ("\n\t///\t\t\t\t".join(description.split('\n'))))
-		write('\t/// \\ingroup\tstrings')
+		write('\t/// \\ingroup\tcharacters')
 	write('\t[[nodiscard]]')
 	if code_unit.proxy:
 		write('\tMUU_ALWAYS_INLINE')
@@ -1304,19 +1443,19 @@ def write_identification_function(file, code_unit, name, description, categories
 
 
 
-def write_compound_boolean_function(file, code_unit, name, description, *functions):
+def write_compound_boolean_function(file, code_unit, name, description, *booleans):
 	assert file is not None
 	assert isinstance(code_unit, CodeUnit)
 	assert isinstance(name, str)
 	assert isinstance(description, str)
-	assert functions is not None
+	assert booleans is not None
 
 	write_function_header(file, code_unit, name, 'bool', description)
 	if code_unit.proxy:
 		write_function_body(file, f'using namespace impl;')
 		write_function_body(file, f'return {name}(static_cast<{code_unit.proxy_typename}>(c));')
 	else:
-		write_function_body(file, f'return {strip_brackets(compound_or(*[f+"(c)" for f in functions]))};')
+		write_function_body(file, f'return {strip_brackets(compound_or(*booleans))};')
 	write_function_footer(file)
 
 
@@ -1354,7 +1493,7 @@ def write_header(folder, code_unit):
 			write('#endif')
 		elif code_unit.typename == 'wchar_t':
 			write('#include "../../muu/preprocessor.h"')
-			write('#include MUU_MAKE_STRING_2(MUU_CONCAT(MUU_CONCAT(../../muu/impl/unicode_char, MUU_WCHAR_BITS), _t.h))')
+			write('#include MUU_MAKE_STRING(MUU_CONCAT(MUU_CONCAT(../../muu/impl/unicode_char, MUU_WCHAR_BITS), _t.h))')
 		else:
 			write('#include "../../muu/fwd.h"')
 		write('')
@@ -1366,87 +1505,130 @@ def write_header(folder, code_unit):
 			specifier = 'character'
 		elif code_unit.typename == 'wchar_t':
 			specifier = 'wide character'
-		elif code_unit.bits == 32:
-			specifier = 'UTF code point'
 		else:
 			specifier = f'UTF-{code_unit.bits} code unit'
 
 		write_identification_function(file, code_unit,
+			'is_ascii',
+			f'Returns true if a {specifier} is within the ASCII range.',
+			characters=((0,127),)
+		)
+		write_identification_function(file, code_unit,
+			'is_unicode',
+			f'Returns true if a {specifier} is not within the ASCII range (i.e. it is a part greater Unicode).',
+			characters=((128,0xFFFFFFFF),)
+		)
+		write_identification_function(file, code_unit,
 			'is_ascii_whitespace',
-			f'Returns true if a {specifier} is whitespace from the ASCII range.',
+			f'Returns true if a {specifier} is a whitespace code point from the ASCII range.',
 			properties='White_Space',
 			max_codepoint=127
 		)
 		write_identification_function(file, code_unit,
-			'is_non_ascii_whitespace',
-			f'Returns true if a {specifier} is whitespace from outside the ASCII range.',
+			'is_unicode_whitespace',
+			f'Returns true if a {specifier} is a whitespace code point from outside the ASCII range.',
 			properties='White_Space',
 			min_codepoint=128
 		)
 		write_compound_boolean_function(file, code_unit,
 			'is_whitespace',
-			f'Returns true if a {specifier} is whitespace.',
-			'is_ascii_whitespace', 'is_non_ascii_whitespace'
+			f'Returns true if a {specifier} is a whitespace code point.',
+			'is_ascii_whitespace(c)', 'is_unicode_whitespace(c)'
 		)
+
 		write_compound_boolean_function(file, code_unit,
 			'is_not_whitespace',
-			f'Returns true if a {specifier} is not whitespace.',
-			'!is_whitespace'
+			f'Returns true if a {specifier} is not a whitespace code point.',
+			'!is_whitespace(c)'
 		)
+
 		write_identification_function(file, code_unit,
 			'is_ascii_letter',
-			f"Returns true if a {specifier} is a letter from the ASCII range.",
+			f"Returns true if a {specifier} is a letter code point from the ASCII range.",
 			categories=('Ll', 'Lm', 'Lo', 'Lt', 'Lu'),
 			max_codepoint=127
 		)
 		write_identification_function(file, code_unit,
-			'is_non_ascii_letter',
-			f'Returns true if a {specifier} is a letter from outside the ASCII range.',
+			'is_unicode_letter',
+			f'Returns true if a {specifier} is a letter code point from outside the ASCII range.',
 			categories=('Ll', 'Lm', 'Lo', 'Lt', 'Lu'),
 			min_codepoint=128
 		)
 		write_compound_boolean_function(file, code_unit,
 			'is_letter',
-			f'Returns true if a {specifier} is a letter.',
-			'is_ascii_letter', 'is_non_ascii_letter'
+			f'Returns true if a {specifier} is a letter code point.',
+			'is_ascii_letter(c)', 'is_unicode_letter(c)'
 		)
+
 		write_identification_function(file, code_unit,
 			'is_ascii_number',
-			f"Returns true if a {specifier} is a number from the ASCII range.",
+			f"Returns true if a {specifier} is a number code point from the ASCII range.",
 			categories=('Nd', 'Nl'),
 			max_codepoint=127
 		)
 		write_identification_function(file, code_unit,
-			'is_non_ascii_number',
-			f"Returns true if a {specifier} is a number from outside the ASCII range.",
+			'is_unicode_number',
+			f"Returns true if a {specifier} is a number code point from outside the ASCII range.",
 			categories=('Nd', 'Nl'),
 			min_codepoint=128
 		)
 		write_compound_boolean_function(file, code_unit,
 			'is_number',
-			f'Returns true if a {specifier} is a number.',
-			'is_ascii_number', 'is_non_ascii_number'
+			f'Returns true if a {specifier} is a number code point.',
+			'is_ascii_number(c)', 'is_unicode_number(c)'
 		)
+
+		write_identification_function(file, code_unit,
+			'is_ascii_hyphen',
+			f"Returns true if a {specifier} is a hyphen code point from the ASCII range.",
+			properties='Hyphen',
+			max_codepoint=127
+		)
+		write_identification_function(file, code_unit,
+			'is_unicode_hyphen',
+			f"Returns true if a {specifier} is a hyphen code point from outside the ASCII range.",
+			properties='Hyphen',
+			min_codepoint=128
+		)
+		write_compound_boolean_function(file, code_unit,
+			'is_hyphen',
+			f'Returns true if a {specifier} is a hyphen code point.',
+			'is_ascii_hyphen(c)', 'is_unicode_hyphen(c)'
+		)
+
 		write_identification_function(file, code_unit,
 			'is_combining_mark',
-			f"Returns true if a {specifier} is a combining mark.",
+			f"Returns true if a {specifier} is a combining mark code point.",
 			categories=('Mn', 'Mc')
 		)
+
 		write_identification_function(file, code_unit,
 			'is_octal_digit',
-			f"Returns true if a {specifier} is an octal digit.",
+			f"Returns true if a {specifier} is an octal digit code point.",
 			characters=(('0', '7'), )
 		)
 		write_identification_function(file, code_unit,
 			'is_decimal_digit',
-			f"Returns true if a {specifier} is a decimal digit.",
+			f"Returns true if a {specifier} is a decimal digit code point.",
 			characters=(('0', '9'), )
 		)
 		write_identification_function(file, code_unit,
 			'is_hexadecimal_digit',
-			f"Returns true if a {specifier} is a hexadecimal digit.",
+			f"Returns true if a {specifier} is a hexadecimal digit code point.",
 			characters=(('a', 'f'), ('A', 'F'), ('0', '9'))
 		)
+
+		write_identification_function(file, code_unit,
+			'is_uppercase',
+			f'Returns true if a {specifier} is an uppercase code point.',
+			properties='Uppercase'
+		)
+		write_identification_function(file, code_unit,
+			'is_lowercase',
+			f'Returns true if a {specifier} is an lowercase code point.',
+			properties='Lowercase'
+		)
+
 		write_function_header(file, code_unit,
 			'is_code_point_boundary',
 			'bool',
@@ -1462,6 +1644,23 @@ def write_header(folder, code_unit):
 			write_function_body(file, 'return c <= 0xDBFFu || c >= 0xE000u;')
 		elif code_unit.bits == 8:
 			write_function_body(file, 'return (c & 0b11000000u) != 0b10000000u;')
+		write_function_footer(file)
+
+		write_function_header(file, code_unit,
+			'is_code_point',
+			'bool',
+			f"Returns true if a {specifier} is in-and-of-itself a valid code point."
+		)
+		if code_unit.proxy:
+			write_function_body(file, f'using namespace impl;')
+			write_function_body(file, f'return is_code_point(static_cast<{code_unit.proxy_typename}>(c));')
+		elif code_unit.bits == 32:
+			write_function_body(file, f'(void)c;')
+			write_function_body(file, 'return true;')
+		elif code_unit.bits == 16:
+			write_function_body(file, 'return c <= 0xD7FFu || c >= 0xE000u;')
+		elif code_unit.bits == 8:
+			write_function_body(file, 'return c <= 0x007Fu;')
 		write_function_footer(file)
 
 		write('}')
@@ -1480,7 +1679,8 @@ def main():
 
 	#G.subdivision_allowed = False
 	#G.word_size = 32
-	#G.compound_boolean_limit = 3
+	#G.compound_boolean_limit = 4
+	#G.expression_ids = True
 	write_header(folder, CodeUnit('char'))
 	write_header(folder, CodeUnit('unsigned char'))
 	write_header(folder, CodeUnit('char8_t'))

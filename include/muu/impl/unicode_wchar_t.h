@@ -10,12 +10,34 @@
 
 #pragma once
 #include "../../muu/preprocessor.h"
-#include MUU_MAKE_STRING_2(MUU_CONCAT(MUU_CONCAT(../../muu/impl/unicode_char, MUU_WCHAR_BITS), _t.h))
+#include MUU_MAKE_STRING(MUU_CONCAT(MUU_CONCAT(../../muu/impl/unicode_char, MUU_WCHAR_BITS), _t.h))
 
 MUU_NAMESPACE_START
 {
-	/// \brief		Returns true if a wide character is whitespace from the ASCII range.
-	/// \ingroup	strings
+	/// \brief		Returns true if a wide character is within the ASCII range.
+	/// \ingroup	characters
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	MUU_ATTR(const)
+	constexpr bool is_ascii(wchar_t c) noexcept
+	{
+		using namespace impl;
+		return is_ascii(static_cast<wchar_unicode_t>(c));
+	}
+
+	/// \brief		Returns true if a wide character is not within the ASCII range (i.e. it is a part greater Unicode).
+	/// \ingroup	characters
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	MUU_ATTR(const)
+	constexpr bool is_unicode(wchar_t c) noexcept
+	{
+		using namespace impl;
+		return is_unicode(static_cast<wchar_unicode_t>(c));
+	}
+
+	/// \brief		Returns true if a wide character is a whitespace code point from the ASCII range.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
@@ -25,19 +47,19 @@ MUU_NAMESPACE_START
 		return is_ascii_whitespace(static_cast<wchar_unicode_t>(c));
 	}
 
-	/// \brief		Returns true if a wide character is whitespace from outside the ASCII range.
-	/// \ingroup	strings
+	/// \brief		Returns true if a wide character is a whitespace code point from outside the ASCII range.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
-	constexpr bool is_non_ascii_whitespace(wchar_t c) noexcept
+	constexpr bool is_unicode_whitespace(wchar_t c) noexcept
 	{
 		using namespace impl;
-		return is_non_ascii_whitespace(static_cast<wchar_unicode_t>(c));
+		return is_unicode_whitespace(static_cast<wchar_unicode_t>(c));
 	}
 
-	/// \brief		Returns true if a wide character is whitespace.
-	/// \ingroup	strings
+	/// \brief		Returns true if a wide character is a whitespace code point.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
@@ -47,8 +69,8 @@ MUU_NAMESPACE_START
 		return is_whitespace(static_cast<wchar_unicode_t>(c));
 	}
 
-	/// \brief		Returns true if a wide character is not whitespace.
-	/// \ingroup	strings
+	/// \brief		Returns true if a wide character is not a whitespace code point.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
@@ -58,8 +80,8 @@ MUU_NAMESPACE_START
 		return is_not_whitespace(static_cast<wchar_unicode_t>(c));
 	}
 
-	/// \brief		Returns true if a wide character is a letter from the ASCII range.
-	/// \ingroup	strings
+	/// \brief		Returns true if a wide character is a letter code point from the ASCII range.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
@@ -69,19 +91,19 @@ MUU_NAMESPACE_START
 		return is_ascii_letter(static_cast<wchar_unicode_t>(c));
 	}
 
-	/// \brief		Returns true if a wide character is a letter from outside the ASCII range.
-	/// \ingroup	strings
+	/// \brief		Returns true if a wide character is a letter code point from outside the ASCII range.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
-	constexpr bool is_non_ascii_letter(wchar_t c) noexcept
+	constexpr bool is_unicode_letter(wchar_t c) noexcept
 	{
 		using namespace impl;
-		return is_non_ascii_letter(static_cast<wchar_unicode_t>(c));
+		return is_unicode_letter(static_cast<wchar_unicode_t>(c));
 	}
 
-	/// \brief		Returns true if a wide character is a letter.
-	/// \ingroup	strings
+	/// \brief		Returns true if a wide character is a letter code point.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
@@ -91,8 +113,8 @@ MUU_NAMESPACE_START
 		return is_letter(static_cast<wchar_unicode_t>(c));
 	}
 
-	/// \brief		Returns true if a wide character is a number from the ASCII range.
-	/// \ingroup	strings
+	/// \brief		Returns true if a wide character is a number code point from the ASCII range.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
@@ -102,19 +124,19 @@ MUU_NAMESPACE_START
 		return is_ascii_number(static_cast<wchar_unicode_t>(c));
 	}
 
-	/// \brief		Returns true if a wide character is a number from outside the ASCII range.
-	/// \ingroup	strings
+	/// \brief		Returns true if a wide character is a number code point from outside the ASCII range.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
-	constexpr bool is_non_ascii_number(wchar_t c) noexcept
+	constexpr bool is_unicode_number(wchar_t c) noexcept
 	{
 		using namespace impl;
-		return is_non_ascii_number(static_cast<wchar_unicode_t>(c));
+		return is_unicode_number(static_cast<wchar_unicode_t>(c));
 	}
 
-	/// \brief		Returns true if a wide character is a number.
-	/// \ingroup	strings
+	/// \brief		Returns true if a wide character is a number code point.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
@@ -124,8 +146,41 @@ MUU_NAMESPACE_START
 		return is_number(static_cast<wchar_unicode_t>(c));
 	}
 
-	/// \brief		Returns true if a wide character is a combining mark.
-	/// \ingroup	strings
+	/// \brief		Returns true if a wide character is a hyphen code point from the ASCII range.
+	/// \ingroup	characters
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	MUU_ATTR(const)
+	constexpr bool is_ascii_hyphen(wchar_t c) noexcept
+	{
+		using namespace impl;
+		return is_ascii_hyphen(static_cast<wchar_unicode_t>(c));
+	}
+
+	/// \brief		Returns true if a wide character is a hyphen code point from outside the ASCII range.
+	/// \ingroup	characters
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	MUU_ATTR(const)
+	constexpr bool is_unicode_hyphen(wchar_t c) noexcept
+	{
+		using namespace impl;
+		return is_unicode_hyphen(static_cast<wchar_unicode_t>(c));
+	}
+
+	/// \brief		Returns true if a wide character is a hyphen code point.
+	/// \ingroup	characters
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	MUU_ATTR(const)
+	constexpr bool is_hyphen(wchar_t c) noexcept
+	{
+		using namespace impl;
+		return is_hyphen(static_cast<wchar_unicode_t>(c));
+	}
+
+	/// \brief		Returns true if a wide character is a combining mark code point.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
@@ -135,8 +190,8 @@ MUU_NAMESPACE_START
 		return is_combining_mark(static_cast<wchar_unicode_t>(c));
 	}
 
-	/// \brief		Returns true if a wide character is an octal digit.
-	/// \ingroup	strings
+	/// \brief		Returns true if a wide character is an octal digit code point.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
@@ -146,8 +201,8 @@ MUU_NAMESPACE_START
 		return is_octal_digit(static_cast<wchar_unicode_t>(c));
 	}
 
-	/// \brief		Returns true if a wide character is a decimal digit.
-	/// \ingroup	strings
+	/// \brief		Returns true if a wide character is a decimal digit code point.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
@@ -157,8 +212,8 @@ MUU_NAMESPACE_START
 		return is_decimal_digit(static_cast<wchar_unicode_t>(c));
 	}
 
-	/// \brief		Returns true if a wide character is a hexadecimal digit.
-	/// \ingroup	strings
+	/// \brief		Returns true if a wide character is a hexadecimal digit code point.
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
@@ -168,8 +223,30 @@ MUU_NAMESPACE_START
 		return is_hexadecimal_digit(static_cast<wchar_unicode_t>(c));
 	}
 
+	/// \brief		Returns true if a wide character is an uppercase code point.
+	/// \ingroup	characters
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	MUU_ATTR(const)
+	constexpr bool is_uppercase(wchar_t c) noexcept
+	{
+		using namespace impl;
+		return is_uppercase(static_cast<wchar_unicode_t>(c));
+	}
+
+	/// \brief		Returns true if a wide character is an lowercase code point.
+	/// \ingroup	characters
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	MUU_ATTR(const)
+	constexpr bool is_lowercase(wchar_t c) noexcept
+	{
+		using namespace impl;
+		return is_lowercase(static_cast<wchar_unicode_t>(c));
+	}
+
 	/// \brief		Returns true if a wide character is a code point boundary.
-	/// \ingroup	strings
+	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
@@ -177,6 +254,17 @@ MUU_NAMESPACE_START
 	{
 		using namespace impl;
 		return is_code_point_boundary(static_cast<wchar_unicode_t>(c));
+	}
+
+	/// \brief		Returns true if a wide character is in-and-of-itself a valid code point.
+	/// \ingroup	characters
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	MUU_ATTR(const)
+	constexpr bool is_code_point(wchar_t c) noexcept
+	{
+		using namespace impl;
+		return is_code_point(static_cast<wchar_unicode_t>(c));
 	}
 
 }

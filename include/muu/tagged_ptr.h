@@ -219,7 +219,8 @@ MUU_IMPL_NAMESPACE_END
 MUU_NAMESPACE_START
 {
 	/// \brief	Specialized pointer capable of storing data in the unused bits of a pointer's value.
-	///
+	/// \ingroup blocks
+	/// 
 	/// \tparam	T			The type being pointed to.
 	/// \tparam	MinAlign	Minimum alignment of values stored in the tagged_ptr.
 	/// 					Default is alignof(T), but you may override it if you know
@@ -276,9 +277,9 @@ MUU_NAMESPACE_START
 			static constexpr tag_type max_tag = bit_fill_right<tag_type>(tag_bit_count);
 
 			/// \brief	Constructs a tagged pointer.
+			/// \detail Tag bits are initialized to zero.
 			///
 			/// \param	value	The inital address of the pointer's target.
-			/// \remarks Tag bits are initialized to zero.
 			explicit constexpr tagged_ptr(pointer value) noexcept
 				: bits{ tptr::pack_ptr(value) }
 			{}

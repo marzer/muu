@@ -15,7 +15,8 @@ MUU_DISABLE_PADDING_WARNINGS
 MUU_NAMESPACE_START
 {
 	/// \brief	Performs actions when going out of scope.
-	/// 
+	/// \ingroup blocks
+	///
 	/// \detail Use a scope_guard to simplify cleanup routines
 	/// 		or code that has acquire/release semantics, e.g. locking: \cpp
 	/// 
@@ -97,7 +98,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Suppresses invocation of the the scope_guard's wrapped callable.
 			///
-			/// \remarks This cancels the pending invocation of the wrapped callable, preventing it from being
+			/// \detail This cancels the pending invocation of the wrapped callable, preventing it from being
 			/// 		called when the scope_guard goes out of scope. In general it's better to
 			/// 		structure RAII code to not require this sort of manoeuvring, but cancel()
 			/// 		is provided as an 'escape hatch' if you have no other choice.

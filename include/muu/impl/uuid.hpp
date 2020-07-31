@@ -10,6 +10,7 @@
 #endif
 
 #include "../../muu/uuid.h"
+#include "../../muu/hashing.h"
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_ALL_WARNINGS

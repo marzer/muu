@@ -596,13 +596,13 @@
 #define MUU_PREPEND_R(S)				MUU_PREPEND_R_1(S)
 #define MUU_ADD_PARENTHESES_1(S)		(S)
 #define MUU_ADD_PARENTHESES(S)			MUU_ADD_PARENTHESES_1(S)
-#define MUU_MAKE_STRING_3(S)			#S
-#define MUU_MAKE_STRING_2(S)			MUU_MAKE_STRING_3(S)
-#define MUU_MAKE_STRING_1(S)			MUU_MAKE_STRING_2(MUU_ADD_PARENTHESES(S))
-#define MUU_MAKE_STRING(S)				MUU_PREPEND_R(MUU_MAKE_STRING_1(S))
+#define MUU_MAKE_STRING_1(S)			#S
+#define MUU_MAKE_STRING(S)				MUU_MAKE_STRING_1(S)
+#define MUU_MAKE_RAW_STRING_1(S)		MUU_MAKE_STRING(MUU_ADD_PARENTHESES(S))
+#define MUU_MAKE_RAW_STRING(S)			MUU_PREPEND_R(MUU_MAKE_RAW_STRING_1(S))
 #define MUU_APPEND_SV_1(S)				S##sv
 #define MUU_APPEND_SV(S)				MUU_APPEND_SV_1(S)
-#define MUU_MAKE_STRING_VIEW(S)			MUU_APPEND_SV(MUU_MAKE_STRING(S))
+#define MUU_MAKE_STRING_VIEW(S)			MUU_APPEND_SV(MUU_MAKE_RAW_STRING(S))
 
 #define MUU_EVAL_1(T, F)		T
 #define MUU_EVAL_0(T, F)		F
@@ -1047,10 +1047,19 @@ MUU_POP_WARNINGS
 /// \see [__vectorcall](https://docs.microsoft.com/en-us/cpp/cpp/vectorcall?view=vs-2019)
 /// 
 /// \def MUU_MAKE_STRING(str)
+/// \brief Stringifies the input, converting it into a string literal.
+/// \detail \cpp
+/// // these are equivalent:
+///	constexpr auto str1 = MUU_MAKE_STRING(Oh noes!);
+///	constexpr auto str2 = "Oh noes!";
+/// \ecpp
+/// \see [String literals in C++](https://en.cppreference.com/w/cpp/language/string_literal)
+/// 
+/// \def MUU_MAKE_RAW_STRING(str)
 /// \brief Stringifies the input, converting it verbatim into a raw string literal.
 /// \detail \cpp
 /// // these are equivalent:
-///	constexpr auto str1 = MUU_MAKE_STRING("It's trap!" the admiral cried.);
+///	constexpr auto str1 = MUU_MAKE_RAW_STRING("It's trap!" the admiral cried.);
 ///	constexpr auto str2 = R"("It's trap!" the admiral cried.)";
 /// \ecpp
 /// \see [String literals in C++](https://en.cppreference.com/w/cpp/language/string_literal)

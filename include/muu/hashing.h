@@ -364,7 +364,7 @@ MUU_NAMESPACE_START
 			}
 
 			/// \brief	Finishes calculating the hash.
-			/// \remarks Appending to the hash function's input has no effect after finish() is called.
+			/// \detail Appending to the hash function's input has no effect after finish() is called.
 			sha1& finish() noexcept;
 
 			/// \brief	Returns the calculated hash value.

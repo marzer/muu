@@ -238,6 +238,24 @@ MUU_IMPL_NAMESPACE_START
 		using type = typename least_aligned<T, typename least_aligned<U, V...>::type>::type;
 	};
 
+	template <size_t Bits> struct signed_integer;
+	template <> struct signed_integer<8> { using type = int8_t; };
+	template <> struct signed_integer<16> { using type = int16_t; };
+	template <> struct signed_integer<32> { using type = int32_t; };
+	template <> struct signed_integer<64> { using type = int64_t; };
+	#if MUU_HAS_INT128
+	template <> struct signed_integer<128> { using type = int128_t; };
+	#endif
+
+	template <size_t Bits> struct unsigned_integer;
+	template <> struct unsigned_integer<8> { using type = uint8_t; };
+	template <> struct unsigned_integer<16> { using type = uint16_t; };
+	template <> struct unsigned_integer<32> { using type = uint32_t; };
+	template <> struct unsigned_integer<64> { using type = uint64_t; };
+	#if MUU_HAS_INT128
+	template <> struct unsigned_integer<128> { using type = uint128_t; };
+	#endif
+
 	template <typename T> struct make_signed;
 	template <typename T> struct make_signed<const volatile T> { using type = const volatile typename make_signed<T>::type; };
 	template <typename T> struct make_signed<volatile T> { using type = volatile typename make_signed<T>::type; };
@@ -272,6 +290,17 @@ MUU_IMPL_NAMESPACE_START
 	#if MUU_HAS_FLOAT16
 	template <> struct make_signed<float16_t> { using type = float16_t; };
 	#endif
+	template <bool s = std::is_signed_v<wchar_t>>
+	struct make_signed_wchar_t
+	{
+		using type = wchar_t;
+	};
+	template <>
+	struct make_signed_wchar_t<false>
+	{
+		using type = signed_integer<sizeof(wchar_t) * CHAR_BIT>::type;
+	};
+	template <> struct make_signed<wchar_t> : make_signed_wchar_t<> {};
 
 	template <typename T> struct make_unsigned;
 	template <typename T> struct make_unsigned<const volatile T> { using type = const volatile typename make_unsigned<T>::type; };
@@ -294,6 +323,17 @@ MUU_IMPL_NAMESPACE_START
 	template <> struct make_unsigned<int128_t> { using type = uint128_t; };
 	template <> struct make_unsigned<uint128_t> { using type = uint128_t; };
 	#endif
+	template <bool u = std::is_unsigned_v<wchar_t>>
+	struct make_unsigned_wchar_t
+	{
+		using type = wchar_t;
+	};
+	template <>
+	struct make_unsigned_wchar_t<false>
+	{
+		using type = unsigned_integer<sizeof(wchar_t) * CHAR_BIT>::type;
+	};
+	template <> struct make_unsigned<wchar_t> : make_unsigned_wchar_t<> {};
 
 	template <typename T, bool = std::is_enum_v<remove_cvref<T>>>
 	struct remove_enum
@@ -311,24 +351,6 @@ MUU_IMPL_NAMESPACE_START
 	//struct underlying_type : std::underlying_type<T> {};
 	//template <typename T>
 	//struct underlying_type<T, false> { using type = T; };
-
-	template <size_t Bits> struct signed_integer;
-	template <> struct signed_integer<8> { using type = int8_t; };
-	template <> struct signed_integer<16> { using type = int16_t; };
-	template <> struct signed_integer<32> { using type = int32_t; };
-	template <> struct signed_integer<64> { using type = int64_t; };
-	#if MUU_HAS_INT128
-	template <> struct signed_integer<128> { using type = int128_t; };
-	#endif
-
-	template <size_t Bits> struct unsigned_integer;
-	template <> struct unsigned_integer<8> { using type = uint8_t; };
-	template <> struct unsigned_integer<16> { using type = uint16_t; };
-	template <> struct unsigned_integer<32> { using type = uint32_t; };
-	template <> struct unsigned_integer<64> { using type = uint64_t; };
-	#if MUU_HAS_INT128
-	template <> struct unsigned_integer<128> { using type = uint128_t; };
-	#endif
 
 	template <size_t Bits> struct code_unit;
 	#ifdef __cpp_char8_t
@@ -357,7 +379,7 @@ MUU_NAMESPACE_START
 	/// @{
 
 	/// \brief	Removes the topmost const, volatile and reference qualifiers from a type.
-	/// \remarks This is equivalent to C++20's std::remove_cvref_t.
+	/// \detail This is equivalent to C++20's std::remove_cvref_t.
 	template <typename T>
 	using remove_cvref = impl::remove_cvref<T>;
 
@@ -386,27 +408,27 @@ MUU_NAMESPACE_START
 	inline constexpr size_t total_size = (size_t{} + ... + sizeof(T));
 
 	/// \brief The default alignment of a type.
-	/// \remarks Returns an alignment of `1` for `void` and functions.
+	/// \remarks Treats `void` and functions as having an alignment of `1`.
 	template <typename T>
 	inline constexpr size_t alignment_of = impl::alignment_of<remove_cvref<T>>::value;
 
 	/// \brief The type with the largest alignment (i.e. having the largest value for `alignment_of<T>`) from a set of types.
-	/// \remarks `void` and functions are considered as having an alignment of `1`.
+	/// \remarks Treats `void` and functions as having an alignment of `1`.
 	template <typename... T>
 	using most_aligned = typename impl::most_aligned<T...>::type;
 
 	/// \brief The type with the smallest alignment (i.e. having the smallest value for `alignment_of<T>`) from a set of types.
-	/// \remarks `void` and functions are considered as having an alignment of `1`.
+	/// \remarks Treats `void` and functions as having an alignment of `1`.
 	template <typename... T>
 	using least_aligned = typename impl::least_aligned<T...>::type;
 
 	/// \brief	True if T is exactly the same as one or more of the types named by U.
-	/// \remarks This equivalent to `(std::is_same_v<T, U1> || std::is_same_v<T, U2> || ...)`.
+	/// \detail This equivalent to `(std::is_same_v<T, U1> || std::is_same_v<T, U2> || ...)`.
 	template <typename T, typename... U>
 	inline constexpr bool same_as_any = impl::same_as_any<T, U...>::value;
 
 	/// \brief	True if all the type arguments are the same type.
-	/// \remarks This equivalent to `(std::is_same_v<T, U1> && std::is_same_v<T, U2> && ...)`.
+	/// \detail This equivalent to `(std::is_same_v<T, U1> && std::is_same_v<T, U2> && ...)`.
 	template <typename T, typename... U>
 	inline constexpr bool same_as_all = impl::same_as_all<T, U...>::value;
 
@@ -1308,7 +1330,7 @@ MUU_NAMESPACE_START
 	/// \brief	Equivalent to C++20's std::is_constant_evaluated.
 	/// \ingroup	intrinsics
 	///
-	/// \remarks Compilers typically implement std::is_constant_evaluated as an intrinsic which is
+	/// \detail Compilers typically implement std::is_constant_evaluated as an intrinsic which is
 	/// 		 available regardless of the C++ mode. Using this function on these compilers allows
 	/// 		 you to get the same behaviour even when you aren't targeting C++20.
 	/// 
@@ -1339,7 +1361,7 @@ MUU_NAMESPACE_START
 	/// \brief	Equivalent to C++17's std::launder.
 	/// \ingroup	intrinsics
 	///
-	/// \remarks Older implementations don't provide this as an intrinsic or have a placeholder
+	/// \detail Older implementations don't provide this as an intrinsic or have a placeholder
 	/// 		 for it in their standard library. Using this version allows you to get around that 
 	/// 		 by writing code 'as if' it were there and have it compile just the same.
 	template <class T>
@@ -1389,13 +1411,13 @@ MUU_NAMESPACE_START
 	/// \brief	Counts the number of consecutive 0 bits, starting from the left.
 	/// \ingroup	intrinsics
 	///
+	/// \detail This is equivalent to C++20's std::countl_zero, with the addition of also being
+	/// 		 extended to work with enum types.
+	/// 
 	/// \tparam	T		An unsigned integer or enum type.
 	/// \param 	val		The value to test.
 	///
 	/// \returns	The number of consecutive zeros from the left end of an integer's bits.
-	/// 
-	/// \remarks This is equivalent to C++20's std::countl_zero, with the addition of also being
-	/// 		 extended to work with enum types.
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
 	[[nodiscard]]
 	MUU_ATTR(const)
@@ -1444,13 +1466,13 @@ MUU_NAMESPACE_START
 	/// \brief	Counts the number of consecutive 0 bits, starting from the right.
 	/// \ingroup	intrinsics
 	///
+	/// \detail This is equivalent to C++20's std::countr_zero, with the addition of also being
+	/// 		 extended to work with enum types.
+	/// 		 
 	/// \tparam	T		An unsigned integer or enum type.
 	/// \param 	val		The input value.
 	///
 	/// \returns	The number of consecutive zeros from the right end of an integer's bits.
-	/// 
-	/// \remarks This is equivalent to C++20's std::countr_zero, with the addition of also being
-	/// 		 extended to work with enum types.
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
 	[[nodiscard]]
 	MUU_ATTR(const)
@@ -1496,13 +1518,13 @@ MUU_NAMESPACE_START
 	/// \brief	Finds the smallest integral power of two not less than the given value.
 	/// \ingroup	intrinsics
 	///
+	/// \detail This is equivalent to C++20's std::bit_ceil, with the addition of also being
+	/// 		 extended to work with enum types.
+	/// 
 	/// \tparam	T		An unsigned integer or enum type.
 	/// \param 	val		The input value.
 	///
 	/// \returns	The smallest integral power of two that is not smaller than `val`.
-	/// 
-	/// \remarks This is equivalent to C++20's std::bit_ceil, with the addition of also being
-	/// 		 extended to work with enum types.
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
 	[[nodiscard]]
 	MUU_ATTR(const)
@@ -1628,7 +1650,7 @@ MUU_NAMESPACE_START
 	/// \brief	Equivalent to C++20's std::bit_cast.
 	/// \ingroup	intrinsics
 	///
-	/// \remarks Compilers implement this as an intrinsic which is typically
+	/// \detail Compilers implement this as an intrinsic which is typically
 	/// 		 available regardless of the C++ mode. Using this function
 	/// 		 on these compilers allows you to get the same behaviour
 	/// 		 even when you aren't targeting C++20.
@@ -1984,7 +2006,7 @@ MUU_NAMESPACE_START
 	/// \brief	Returns the minimum of two values.
 	/// \ingroup	intrinsics
 	///
-	/// \remarks This is equivalent to std::min without requiring you to drag in the enormity of `<algorithm>`.
+	/// \detail This is equivalent to std::min without requiring you to drag in the enormity of `<algorithm>`.
 	template <typename T>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
@@ -1996,7 +2018,7 @@ MUU_NAMESPACE_START
 	/// \brief	Returns the maximum of two values.
 	/// \ingroup	intrinsics
 	///
-	/// \remarks This is equivalent to std::max without requiring you to drag in the enormity of `<algorithm>`.
+	/// \detail This is equivalent to std::max without requiring you to drag in the enormity of `<algorithm>`.
 	template <typename T>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
@@ -2008,7 +2030,7 @@ MUU_NAMESPACE_START
 	/// \brief	Returns the absolute value of an arithmetic value.
 	/// \ingroup	intrinsics
 	///
-	/// \remarks This is similar to std::abs but is `constexpr` and doesn't coerce or promote the input types.
+	/// \detail This is similar to std::abs but is `constexpr` and doesn't coerce or promote the input types.
 	template <typename T, typename = std::enable_if_t<is_arithmetic<T>>>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
@@ -2024,7 +2046,7 @@ MUU_NAMESPACE_START
 	/// \brief	Returns a value clamped between two bounds (inclusive).
 	/// \ingroup	intrinsics
 	///
-	/// \remarks This is equivalent to std::clamp without requiring you to drag in the enormity of `<algorithm>`.
+	/// \detail This is equivalent to std::clamp without requiring you to drag in the enormity of `<algorithm>`.
 	template <typename T>
 	[[nodiscard]]
 	constexpr const T& clamp(const T& val, const T& min_, const T& max_) noexcept
@@ -2048,6 +2070,9 @@ MUU_NAMESPACE_START
 	/// \brief	Calculates a linear interpolation between two values.
 	/// \ingroup	intrinsics
 	///
+	/// \attention	Argument type promotion and return type determination are equivalent to the various overloads
+	/// 		of C++20's std::lerp, though this version does _not_ make the same garuntees about infinities and NaN's.
+	/// 
 	/// \tparam	T	An arithmetic type.
 	/// \tparam	U	An arithmetic type.
 	/// \tparam	V	An arithmetic type.
@@ -2056,9 +2081,6 @@ MUU_NAMESPACE_START
 	/// \param 	alpha 	The alpha value (blend factor).
 	///
 	/// \returns	The requested linear interpolation between the start and finish values.
-	/// 
-	/// \remarks	Argument type promotion and return type determination are equivalent to the various overloads
-	/// 		of C++20's std::lerp, though this version does _not_ make the same garuntees about infinities and NaN's.
 	template <typename T, typename U, typename V, typename = std::enable_if_t<all_arithmetic<T, U, V>>>
 	[[nodiscard]]
 	MUU_ATTR(const)
@@ -2276,13 +2298,13 @@ MUU_NAMESPACE_START
 	/// \brief	Counts the number of set bits (the 'population count') of an unsigned integer.
 	/// \ingroup	intrinsics
 	///
+	/// \detail This is equivalent to C++20's std::popcount, with the addition of also being
+	/// 		 extended to work with enum types.
+	/// 
 	/// \tparam	T		An unsigned integer or enum type.
 	/// \param 	val		The input value.
 	///
 	/// \returns	The number of bits that were set to `1` in `val`.
-	/// 
-	/// \remarks This is equivalent to C++20's std::popcount, with the addition of also being
-	/// 		 extended to work with enum types.
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
 	[[nodiscard]]
 	MUU_ATTR(const)
@@ -2306,14 +2328,14 @@ MUU_NAMESPACE_START
 
 	/// \brief	Checks if an integral value has only a single bit set.
 	/// \ingroup	intrinsics
+	/// 
+	/// \detail This is equivalent to C++20's std::has_single_bit, with the addition of also being
+	/// 		 extended to work with enum types.
 	///
 	/// \tparam	T		An unsigned integer or enum type.
 	/// \param 	val		The value to test.
 	///
 	/// \returns	True if the input value had only a single bit set (and thus was a power of two).
-	/// 
-	/// \remarks This is equivalent to C++20's std::has_single_bit, with the addition of also being
-	/// 		 extended to work with enum types.
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
 	[[nodiscard]]
 	MUU_ATTR(const)
@@ -2337,14 +2359,14 @@ MUU_NAMESPACE_START
 
 	/// \brief	Finds the largest integral power of two not greater than the given value.
 	/// \ingroup	intrinsics
+	/// 
+	/// \detail This is equivalent to C++20's std::bit_floor, with the addition of also being
+	/// 		 extended to work with enum types.
 	///
 	/// \tparam	T		An unsigned integer or enum type.
 	/// \param 	val		The input value.
 	///
 	/// \returns	Zero if `val` is zero; otherwise, the largest integral power of two that is not greater than `val`.
-	/// 
-	/// \remarks This is equivalent to C++20's std::bit_floor, with the addition of also being
-	/// 		 extended to work with enum types.
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
 	[[nodiscard]]
 	MUU_ATTR(const)
@@ -2362,15 +2384,15 @@ MUU_NAMESPACE_START
 
 	/// \brief	Finds the smallest number of bits needed to represent the given value.
 	/// \ingroup	intrinsics
+	/// 
+	/// \detail This is equivalent to C++20's std::bit_width, with the addition of also being
+	/// 		 extended to work with enum types.
 	///
 	/// \tparam	T		An unsigned integer or enum type.
 	/// \param 	val		The input value.
 	///
 	/// \returns	If `val` is not zero, calculates the number of bits needed to store `val` (i.e. `1 + log2(x)`).
 	/// 			Returns `0` if `val` is zero.
-	/// 
-	/// \remarks This is equivalent to C++20's std::bit_width, with the addition of also being
-	/// 		 extended to work with enum types.
 	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
 	[[nodiscard]]
 	MUU_ATTR(const)
@@ -2471,7 +2493,7 @@ MUU_NAMESPACE_START
 	/// \tparam	T		An integer or enum type.
 	/// \param 	val		An integer or enum value.
 	///
-	/// \remarks The indexation order of bytes is the _memory_ order, not their
+	/// \attention The indexation order of bytes is the _memory_ order, not their
 	/// 		 numeric significance (i.e. byte 0 is always the first byte in the integer's
 	/// 		 memory allocation, regardless of the endianness of the platform).
 	/// 
@@ -2530,7 +2552,7 @@ MUU_NAMESPACE_START
 	/// \param 	val		An integer or enum value.
 	/// \param	index	Index of the byte to retrieve.
 	///
-	/// \remarks The indexation order of bytes is the _memory_ order, not their
+	/// \attention The indexation order of bytes is the _memory_ order, not their
 	/// 		 numeric significance (i.e. byte 0 is always the first byte in the integer's
 	/// 		 memory allocation, regardless of the endianness of the platform).
 	/// 
@@ -2717,7 +2739,7 @@ MUU_NAMESPACE_START
 	/// \tparam	ByteIndices		Indices of the bytes from the source integer, in the order they're to be packed.
 	/// \tparam	T				An integer or enum type.
 	/// 
-	/// \remarks The indexation order of bytes is the _memory_ order, not their
+	/// \attention The indexation order of bytes is the _memory_ order, not their
 	/// 		 numeric significance (i.e. byte 0 is always the first byte in the integer's
 	/// 		 memory allocation, regardless of the endianness of the platform).
 	/// 

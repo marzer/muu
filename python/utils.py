@@ -103,7 +103,7 @@ def get_all_files(dir, all=None, any=None):
 		all = [f for f in all if f is not None]
 		for fil in all:
 			files = fnmatch.filter(files, fil)
-				
+
 	if (files and any is not None):
 		if (not is_collection(any)):
 			any = (any,)

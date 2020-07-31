@@ -291,5 +291,5 @@ foreach cpp20 : cpp20_modes
 endforeach # cpp20
 
 foreach executable : executables
-	test(executable[0], executable[1])
+	test(executable[0], executable[1], workdir : meson.source_root() / 'tests')
 endforeach

@@ -16,6 +16,7 @@ MUU_DISABLE_ALL_WARNINGS
 #include "catch2.h"
 #include <sstream>
 #include <string_view>
+#include <fstream>
 MUU_NAMESPACE_START
 {
 	#if MUU_HAS_INTERCHANGE_FP16

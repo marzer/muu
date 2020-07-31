@@ -21,6 +21,8 @@ import json
 #=== CONFIG ============================================================================================================
 
 
+
+repository = 'marzer/muu'
 inline_namespaces = [
 	"muu::literals",
 ]
@@ -78,6 +80,12 @@ type_names = [
 	'rolling_average',
 	'bitset'
 ]
+
+
+
+
+
+
 all_namespaces = [
 	'std',
 	'muu',
@@ -88,6 +96,7 @@ string_literals = [
 	's',
 	'sv'
 ]
+
 external_links = [
 	(r'static_cast','https://en.cppreference.com/w/cpp/language/static_cast'),
 	(r'const_cast','https://en.cppreference.com/w/cpp/language/const_cast'),
@@ -131,8 +140,8 @@ external_links = [
 	(r'std::(?:basic_|w)?istringstreams?', 'https://en.cppreference.com/w/cpp/io/basic_istringstream'),
 	(r'std::(?:basic_|w)?ostringstreams?', 'https://en.cppreference.com/w/cpp/io/basic_ostringstream'),
 	(r'std::(?:basic_|w)?stringstreams?', 'https://en.cppreference.com/w/cpp/io/basic_stringstream'),
-	(r'std::(?:basic_|w|u(?:8|16|32))?string_views?', 'https://en.cppreference.com/w/cpp/string/basic_string_view'),	
-	(r'std::(?:basic_|w|u(?:8|16|32))?strings?', 'https://en.cppreference.com/w/cpp/string/basic_string'),	
+	(r'std::(?:basic_|w|u(?:8|16|32))?string_views?', 'https://en.cppreference.com/w/cpp/string/basic_string_view'),
+	(r'std::(?:basic_|w|u(?:8|16|32))?strings?', 'https://en.cppreference.com/w/cpp/string/basic_string'),
 	(r'\s(?:<|&lt;)fstream(?:>|&gt;)', 'https://en.cppreference.com/w/cpp/header/fstream'),
 	(r'\s(?:<|&lt;)sstream(?:>|&gt;)', 'https://en.cppreference.com/w/cpp/header/sstream'),
 	(r'\s(?:<|&lt;)iostream(?:>|&gt;)', 'https://en.cppreference.com/w/cpp/header/iostream'),
@@ -204,7 +213,7 @@ external_links = [
 			+ r')',
 		'https://en.cppreference.com/w/cpp/preprocessor/replace'
 	)
-	#, 
+	#,
 	# muu-specific
 	# ...
 	# ...
@@ -213,10 +222,49 @@ external_links = [
 header_overrides = [
 	(r'muu/impl/unicode_.*?\.h', 'muu/strings.h', 'strings_8h.html')
 ]
+badges = [
+	(
+		'Releases',
+		'https://img.shields.io/github/v/release/marzer/muu?style=flat-square',
+		'https://github.com/marzer/muu/releases'
+	),
+	(
+		'C++17',
+		'badge-C++17.svg',
+		'https://en.cppreference.com/w/cpp/compiler_support'
+	),
+	(
+		'C++20',
+		'badge-C++20.svg',
+		'https://en.cppreference.com/w/cpp/compiler_support'
+	),
+	(None, None, None), # <br>
+	(
+		'MIT License',
+		'badge-license-MIT.svg',
+		'https://github.com/marzer/muu/blob/master/LICENSE'
+	),
+	(
+		'CircleCI',
+		'https://img.shields.io/circleci/build/github/marzer/muu'
+			+ '?label=circle%20ci&logo=circleci&logoColor=white&style=flat-square',
+		'https://circleci.com/gh/marzer/muu'
+	)
+]
+
+
+
+
+
+
+
+
+
 
 
 
 #=== HTML DOCUMENT =====================================================================================================
+
 
 
 class HTMLDocument(object):
@@ -237,7 +285,7 @@ class HTMLDocument(object):
 	def flush(self):
 		with open(self.__path, 'w', encoding='utf-8', newline='\n') as f:
 			f.write(str(self.__doc))
-			
+
 	def new_tag(self, name, parent=None, string=None, class_=None, index=None, before=None, after=None, **kwargs):
 		tag = self.__doc.new_tag(name, **kwargs)
 		if (string is not None):
@@ -256,7 +304,7 @@ class HTMLDocument(object):
 				parent.append(tag)
 			else:
 				parent.insert(index, tag)
-				
+
 		return tag
 
 	def find_all_from_sections(self, name=None, select=None, section=None, include_toc=False, **kwargs):
@@ -288,7 +336,7 @@ def html_find_parent(tag, names, cutoff=None):
 			return None
 		if parent.name in names:
 			return parent;
-		parent = parent.parent 
+		parent = parent.parent
 	return parent
 
 
@@ -305,7 +353,7 @@ def html_replace_tag(tag,str):
 			prev = newTag
 	else:
 		newTags = []
-	
+
 	if (isinstance(tag, soup.NavigableString)):
 		tag.extract()
 	else:
@@ -317,14 +365,14 @@ def html_replace_tag(tag,str):
 def html_shallow_search(starting_tag, names, filter = None):
 	if isinstance(starting_tag, soup.NavigableString):
 		return []
-	
+
 	if not utils.is_collection(names):
 		names = [ names ]
-		
+
 	if starting_tag.name in names:
 		if filter is None or filter(starting_tag):
 			return [ starting_tag ]
-		
+
 	results = []
 	for tag in starting_tag.children:
 		if isinstance(tag, soup.NavigableString):
@@ -342,7 +390,7 @@ def html_string_descendants(starting_tag, filter = None):
 	if isinstance(starting_tag, soup.NavigableString):
 		if filter is None or filter(starting_tag):
 			return [ starting_tag ]
-	
+
 	results = []
 	for tag in starting_tag.children:
 		if isinstance(tag, soup.NavigableString):
@@ -382,16 +430,16 @@ class RegexReplacer(object):
 		self.__value = expression.sub(lambda m: self.__substitute(m), value)
 		if (not self.__result):
 			self.__groups = []
-	
+
 	def __str__(self):
 		return self.__value
-			
+
 	def __bool__(self):
 		return self.__result
-		
+
 	def __getitem__(self, key):
 		return self.__groups[key]
-		
+
 	def __len__(self):
 		return len(self.__groups)
 
@@ -402,7 +450,7 @@ class RegexReplacer(object):
 
 
 # allows the injection of custom tags using square-bracketed proxies.
-class CustomTagsFix(object): 
+class CustomTagsFix(object):
 	__double_tags = re.compile(r"\[\s*(span|div|code|pre|h1|h2|h3|h4|h5|h6)(.*?)\s*\](.*?)\[\s*/\s*\1\s*\]", re.I)
 	__single_tags = re.compile(r"\[\s*(/?(?:span|div|code|pre|emoji|br|li|ul|ol))(\s.*?)?\s*\]", re.I)
 	__allowed_parents = ['dd', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li']
@@ -425,7 +473,8 @@ class CustomTagsFix(object):
 			if emoji == '':
 				return ''
 			if cls.__emojis is None:
-				cls.__emojis = json.loads(utils.read_all_text_from_file('emojis.json', 'https://api.github.com/emojis'))
+				file_path = path.join(utils.get_script_folder(), 'emojis.json')
+				cls.__emojis = json.loads(utils.read_all_text_from_file(file_path, 'https://api.github.com/emojis'))
 				if '__processed' not in cls.__emojis:
 					emojis = {}
 					for key, uri in cls.__emojis.items():
@@ -436,19 +485,19 @@ class CustomTagsFix(object):
 					for alias, key in aliases:
 						emojis[alias] = emojis[key]
 					emojis['__processed'] = True
-					with open('emojis.json', 'w', encoding='utf-8', newline='\n') as f:
+					with open(file_path, 'w', encoding='utf-8', newline='\n') as f:
 						f.write(json.dumps(emojis, sort_keys=True, indent=4))
 					cls.__emojis = emojis
 			if emoji not in cls.__emojis:
 				return ''
 			return '&#x{}'.format(cls.__emojis[emoji][0])
-			
+
 		else:
 			return '<{}{}>'.format(
 				m.group(1),
 				(' ' + str(m.group(2)).strip()) if m.group(2) else ''
 			)
-		
+
 	def __call__(self, file, doc):
 		changed = False
 		for name in self.__allowed_parents:
@@ -478,14 +527,14 @@ class CustomTagsFix(object):
 
 
 # adds custom links to the navbar.
-class NavBarFix(object): 
-	
-	__links = [
-		('Report an issue', 'https://github.com/marzer/muu/issues'),
-		('Github', 'https://github.com/marzer/muu/')
-	]
+class NavBarFix(object):
 
 	def __call__(self, file, doc):
+		global repository
+		__links = [
+			('Report an issue', f'https://github.com/{repository}/issues'),
+			('Github', f'https://github.com/{repository}/')
+		]
 		list = doc.body.header.nav.div.div.select_one('#m-navbar-collapse').div.ol
 		if (list.select_one('.muu-injected') is None):
 			for label, url in self.__links:
@@ -527,11 +576,11 @@ class ModifiersFixBase(object):
 
 
 # fixes improperly-parsed modifiers on function signatures in the various 'detail view' sections.
-class ModifiersFix1(ModifiersFixBase): 
+class ModifiersFix1(ModifiersFixBase):
 
 	__expression = re.compile(r'(\s+)({})(\s+)'.format(ModifiersFixBase._modifierRegex))
 	__sections = ['pub-static-methods', 'pub-methods', 'friends', 'func-members']
-	
+
 	@classmethod
 	def __substitute(cls, m):
 		return '{}<span class="muu-injected m-label m-flat {}">{}</span>{}'.format(
@@ -540,7 +589,7 @@ class ModifiersFix1(ModifiersFixBase):
 			m.group(2),
 			m.group(3)
 		)
-	
+
 	def __call__(self, file, doc):
 		changed = False
 		for sect in self.__sections:
@@ -559,7 +608,7 @@ class ModifiersFix1(ModifiersFixBase):
 
 
 # fixes improperly-parsed modifiers on function signatures in the 'Function documentation' section.
-class ModifiersFix2(ModifiersFixBase): 
+class ModifiersFix2(ModifiersFixBase):
 
 	__expression = re.compile(r'\s+({})\s+'.format(ModifiersFixBase._modifierRegex))
 
@@ -567,7 +616,7 @@ class ModifiersFix2(ModifiersFixBase):
 	def __substitute(cls, m, matches):
 		matches.append(m.group(1))
 		return ' '
-	
+
 	def __call__(self, file, doc):
 		changed = False
 		sections = doc.find_all_from_sections(section=False) # all sections without an id
@@ -606,56 +655,17 @@ class ModifiersFix2(ModifiersFixBase):
 
 
 # applies some basic fixes to index.html
-class IndexPageFix(object): 
+class IndexPageFix(object):
 
-	__badges = [
-		(
-			'Releases',
-			'https://img.shields.io/github/v/release/marzer/muu?style=flat-square',
-			'https://github.com/marzer/muu/releases'
-		),
-		(
-			'C++17',
-			'badge-C++17.svg',
-			'https://en.cppreference.com/w/cpp/compiler_support'
-		),
-		(
-			'C++20',
-			'badge-C++20.svg',
-			'https://en.cppreference.com/w/cpp/compiler_support'
-		),
-		(None, None, None), # <br>
-		(
-			'MIT License',
-			'badge-license-MIT.svg',
-			'https://github.com/marzer/muu/blob/master/LICENSE'
-		),
-		(
-			'CircleCI',
-			'https://img.shields.io/circleci/build/github/marzer/muu'
-				+ '?label=circle%20ci&logo=circleci&logoColor=white&style=flat-square',
-			'https://circleci.com/gh/marzer/muu'
-		)
-	]
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	def __call__(self, file, doc):
+		global badges
 		if file != 'index.html':
 			return False
 		parent = doc.body.main.article.div.div.div
 		banner = parent('img')[0].extract()
 		parent('h1')[0].replace_with(banner)
 		parent = doc.new_tag('div', class_='gh-badges', after=banner)
-		for (alt, src, href) in self.__badges:
+		for (alt, src, href) in badges:
 			if alt is None and src is None and href is None:
 				doc.new_tag('br', parent=parent)
 			else:
@@ -792,7 +802,7 @@ class SyntaxHighlightingFix(object):
 		code_blocks = doc.body('pre', class_='m-code')
 		changed = False
 		for code_block in code_blocks:
-			
+
 			# namespaces
 			names = code_block('span', class_='n')
 			names_ = []
@@ -848,16 +858,16 @@ class SyntaxHighlightingFix(object):
 
 
 # adds links to external sources where appropriate
-class ExtDocLinksFix(object): 
+class ExtDocLinksFix(object):
 
 	__allowedNames = ['dd', 'p', 'dt', 'h3', 'td', 'div']
-	
+
 	def __init__(self):
 		global external_links
 		self.__expressions = []
 		for type, uri in external_links:
 			self.__expressions.append((re.compile('(?<![a-zA-Z_])'+type+'(?![a-zA-Z_])'), uri))
-	
+
 	@classmethod
 	def __substitute(cls, m, uri):
 		external = uri.startswith('http')
@@ -909,7 +919,7 @@ class EnableIfFix(object):
 	)
 
 	__spacingFix1 = re.compile(r'(_v|>::value)(&&|\|\|)')
-	
+
 	@classmethod
 	def __substitute(cls, m):
 		return r'{}<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;">...</a><span>{}</span></span>{}'.format(
@@ -917,7 +927,7 @@ class EnableIfFix(object):
 			m.group(2),
 			m.group(3)
 		)
-	
+
 	def __call__(self, file, doc):
 		changed = False
 		for template in doc.body('div', class_='m-doc-template'):
@@ -980,7 +990,7 @@ class ExternalLinksFix(object):
 
 
 # overrides <path/to/header.h> links
-class HeaderOverridesFix(object): 
+class HeaderOverridesFix(object):
 
 	def __init__(self):
 		global header_overrides
@@ -991,7 +1001,7 @@ class HeaderOverridesFix(object):
 				'<' + repl + '>',
 				html_file
 			))
-	
+
 	@classmethod
 	def __substitute(cls, m, repl):
 		return repl
@@ -1062,7 +1072,7 @@ def preprocess_xml(xml_dir):
 
 def main():
 	global _threadError
-	
+
 	num_threads = os.cpu_count() * 2
 	root_dir = path.join(utils.get_script_folder(), '..')
 	docs_dir = path.join(root_dir, 'docs')
@@ -1086,7 +1096,7 @@ def main():
 
 	# delete xml
 	utils.delete_directory(xml_dir)
-		
+
 	# post-process html files
 	fixes = [
 		CustomTagsFix()

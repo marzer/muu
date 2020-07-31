@@ -6,7 +6,7 @@
 #include "tests.h"
 #include "../include/muu/strings.h"
 
-#define APPEND_SV(v) MUU_CONCAT(v, sv)
+#define SV(v) MUU_APPEND_SV(v)
 
 #if !MUU_CLANG || MUU_CLANG > 8
 	#define CHECK_AND_STATIC_ASSERT_W(x) CHECK_AND_STATIC_ASSERT(x)
@@ -14,16 +14,102 @@
 	#define CHECK_AND_STATIC_ASSERT_W(x) CHECK(x)
 #endif
 
-#define CHECK_FUNC(func, input, expected)																	\
-	CHECK_AND_STATIC_ASSERT(func(APPEND_SV(input)) == APPEND_SV(expected));									\
-	CHECK_AND_STATIC_ASSERT(func(MUU_CONCAT(u8, APPEND_SV(input))) == MUU_CONCAT(u8, APPEND_SV(expected)));	\
-	CHECK_AND_STATIC_ASSERT(func(MUU_CONCAT(u, APPEND_SV(input)))  == MUU_CONCAT(u,  APPEND_SV(expected)));	\
-	CHECK_AND_STATIC_ASSERT(func(MUU_CONCAT(U, APPEND_SV(input)))  == MUU_CONCAT(U,  APPEND_SV(expected)));	\
-	CHECK_AND_STATIC_ASSERT_W(func(MUU_CONCAT(L, APPEND_SV(input)))  == MUU_CONCAT(L,  APPEND_SV(expected)))
+#define CHECK_FUNC(func, input, expected)														\
+	CHECK_AND_STATIC_ASSERT(func(SV(input)) == SV(expected));									\
+	CHECK_AND_STATIC_ASSERT(func(MUU_CONCAT(u8, SV(input))) == MUU_CONCAT(u8, SV(expected)));	\
+	CHECK_AND_STATIC_ASSERT(func(MUU_CONCAT(u, SV(input)))  == MUU_CONCAT(u,  SV(expected)));	\
+	CHECK_AND_STATIC_ASSERT(func(MUU_CONCAT(U, SV(input)))  == MUU_CONCAT(U,  SV(expected)));	\
+	CHECK_AND_STATIC_ASSERT_W(func(MUU_CONCAT(L, SV(input)))  == MUU_CONCAT(L,  SV(expected)))
 
 #define ALL_WS	"\u0009\u000A\u000B\u000C\u000D\u0020\u0085\u00A0\u1680\u2000\u2001\u2002\u3000"	\
 				"\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u2028\u2029\u202F\u205F"
 
+#define UTF_TEST_TEXT_EXPECTED(...)																			\
+                              MUU_CONCAT(__VA_ARGS__, R"(The quick brown fox jumped over the lazy dog)"	)	\
+MUU_CONCAT(__VA_ARGS__, "\n")																				\
+MUU_CONCAT(__VA_ARGS__, "\n") MUU_CONCAT(__VA_ARGS__, R"(ሰማይ አይታረስ ንጉሥ አይከሰስ።)"						)	\
+MUU_CONCAT(__VA_ARGS__, "\n") MUU_CONCAT(__VA_ARGS__, R"(ብላ ካለኝ እንደአባቴ በቆመጠኝ።)"						)	\
+MUU_CONCAT(__VA_ARGS__, "\n") MUU_CONCAT(__VA_ARGS__, R"(ጌጥ ያለቤቱ ቁምጥና ነው።)"							)	\
+MUU_CONCAT(__VA_ARGS__, "\n") MUU_CONCAT(__VA_ARGS__, R"(ደሀ በሕልሙ ቅቤ ባይጠጣ ንጣት በገደለው።)"				)	\
+MUU_CONCAT(__VA_ARGS__, "\n") MUU_CONCAT(__VA_ARGS__, R"(የአፍ ወለምታ በቅቤ አይታሽም።)"						)	\
+MUU_CONCAT(__VA_ARGS__, "\n") MUU_CONCAT(__VA_ARGS__, R"(አይጥ በበላ ዳዋ ተመታ።)"							)	\
+MUU_CONCAT(__VA_ARGS__, "\n") MUU_CONCAT(__VA_ARGS__, R"(ሲተረጉሙ ይደረግሙ።)"								)	\
+MUU_CONCAT(__VA_ARGS__, "\n") MUU_CONCAT(__VA_ARGS__, R"(ቀስ በቀስ፥ ዕንቁላል በእግሩ ይሄዳል።)"					)	\
+MUU_CONCAT(__VA_ARGS__, "\n") MUU_CONCAT(__VA_ARGS__, R"(ድር ቢያብር አንበሳ ያስር።)"							)	\
+MUU_CONCAT(__VA_ARGS__, "\n") MUU_CONCAT(__VA_ARGS__, R"(ሰው እንደቤቱ እንጅ እንደ ጉረቤቱ አይተዳደርም።)"			)	\
+MUU_CONCAT(__VA_ARGS__, "\n") MUU_CONCAT(__VA_ARGS__, R"(እግዜር የከፈተውን ጉሮሮ ሳይዘጋው አይድርም።)"			)	\
+MUU_CONCAT(__VA_ARGS__, "\n") MUU_CONCAT(__VA_ARGS__, R"(የጎረቤት ሌባ፥ ቢያዩት ይስቅ ባያዩት ያጠልቅ።)"				)	\
+MUU_CONCAT(__VA_ARGS__, "\n") MUU_CONCAT(__VA_ARGS__, R"(ሥራ ከመፍታት ልጄን ላፋታት።)"						)	\
+MUU_CONCAT(__VA_ARGS__, "\n") MUU_CONCAT(__VA_ARGS__, R"(ዓባይ ማደሪያ የለው፥ ግንድ ይዞ ይዞራል።)"				)	\
+MUU_CONCAT(__VA_ARGS__, "\n") MUU_CONCAT(__VA_ARGS__, R"(የእስላም አገሩ መካ የአሞራ አገሩ ዋርካ።)"					)	\
+MUU_CONCAT(__VA_ARGS__, "\n") MUU_CONCAT(__VA_ARGS__, R"(ተንጋሎ ቢተፉ ተመልሶ ባፉ።)"							)	\
+MUU_CONCAT(__VA_ARGS__, "\n") MUU_CONCAT(__VA_ARGS__, R"(ወዳጅህ ማር ቢሆን ጨርስህ አትላሰው።)"					)	\
+MUU_CONCAT(__VA_ARGS__, "\n") MUU_CONCAT(__VA_ARGS__, R"(እግርህን በፍራሽህ ልክ ዘርጋ።)"							)	\
+MUU_CONCAT(__VA_ARGS__, SV("\n"))
+
+TEST_CASE("strings - utf_decode")
+{
+	constexpr auto test = [](const char* path, std::string_view code_unit_name, auto code_unit_val) noexcept
+	{
+		(void)code_unit_val;
+		using code_unit = remove_cvref<decltype(code_unit_val)>;
+		using string_view = std::basic_string_view<code_unit>;
+
+		INFO("Decoding " << path << " as UTF-" << sizeof(code_unit) * CHAR_BIT << " (" << code_unit_name << ")")
+
+		std::ifstream file(path, std::ios::binary | std::ios::ate);
+		if (!file)
+			FAIL("Couldn't open stream");
+
+		std::streamsize size = file.tellg();
+		if (size <= 0)
+			FAIL("Couldn't determine file size");
+		if (static_cast<size_t>(size) % sizeof(code_unit) != 0u)
+			FAIL("File size was not a multiple of code unit size (" << size << " % " << sizeof(code_unit) << " != 0)");
+
+		file.seekg(0, std::ios::beg);
+		std::vector<std::byte> input_buffer(static_cast<size_t>(size));
+		if (!file.read(pointer_cast<char*>(input_buffer.data()), size))
+			FAIL("Reading failed");
+		const auto input = string_view{ pointer_cast<const code_unit*>(input_buffer.data()), input_buffer.size() / sizeof(code_unit) };
+
+		std::vector<char32_t> output_buffer;
+		impl::utf_decode(input, [&](char32_t cp) noexcept
+		{
+			output_buffer.push_back(cp);
+		});
+		const auto output = std::u32string_view{ output_buffer.data(), output_buffer.size() };
+		CHECK(output == UTF_TEST_TEXT_EXPECTED(U));
+
+	};
+
+	#define CHECK_DECODER(file, type) \
+		test(file, MUU_MAKE_STRING_VIEW(type), type{})
+
+	CHECK_DECODER("data/unicode_test_file_utf8.bin",			char);
+	CHECK_DECODER("data/unicode_test_file_utf8_bom.bin",		char);
+	CHECK_DECODER("data/unicode_test_file_utf16be.bin",			char16_t);
+	CHECK_DECODER("data/unicode_test_file_utf16be_bom.bin",		char16_t);
+	CHECK_DECODER("data/unicode_test_file_utf16le.bin",			char16_t);
+	CHECK_DECODER("data/unicode_test_file_utf16le_bom.bin",		char16_t);
+	CHECK_DECODER("data/unicode_test_file_utf32be.bin",			char32_t);
+	CHECK_DECODER("data/unicode_test_file_utf32be_bom.bin",		char32_t);
+	CHECK_DECODER("data/unicode_test_file_utf32le.bin",			char32_t);
+	CHECK_DECODER("data/unicode_test_file_utf32le_bom.bin",		char32_t);
+	#ifdef __cpp_lib_char8_t
+	CHECK_DECODER("data/unicode_test_file_utf8.bin",			char8_t);
+	CHECK_DECODER("data/unicode_test_file_utf8_bom.bin",		char8_t);
+	#endif
+	#if MUU_WCHAR_BYTES > 1
+	CHECK_DECODER("data/unicode_test_file_utf" MUU_MAKE_STRING(MUU_WCHAR_BITS) "be.bin",		wchar_t);
+	CHECK_DECODER("data/unicode_test_file_utf" MUU_MAKE_STRING(MUU_WCHAR_BITS) "be_bom.bin",	wchar_t);
+	CHECK_DECODER("data/unicode_test_file_utf" MUU_MAKE_STRING(MUU_WCHAR_BITS) "le.bin",		wchar_t);
+	CHECK_DECODER("data/unicode_test_file_utf" MUU_MAKE_STRING(MUU_WCHAR_BITS) "le_bom.bin",	wchar_t);
+	#else
+	CHECK_DECODER("data/unicode_test_file_utf8.bin",			wchar_t);
+	CHECK_DECODER("data/unicode_test_file_utf8_bom.bin",		wchar_t);
+	#endif
+}
 
 TEST_CASE("strings - utf_find")
 {

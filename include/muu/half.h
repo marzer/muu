@@ -43,6 +43,7 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	A 16-bit "half-precision" floating point type.
+	/// \ingroup blocks
 	/// 
 	/// \detail This type is equipped with the full set of operators you'd expect from a float type,
 	/// 		and is capable of being converted to other floats and integers, as well as direct construction

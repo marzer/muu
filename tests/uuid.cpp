@@ -265,3 +265,63 @@ TEST_CASE("uuid - relops")
 		CHECK(uuid::compare(constants<uuid>::namespace_dns, rfc) == -1);
 	}
 }
+
+TEST_CASE("uuid - parsing")
+{
+	//'empty' strings
+	CHECK_AND_STATIC_ASSERT(!uuid::parse(""sv));
+	CHECK_AND_STATIC_ASSERT(!uuid::parse("  "sv));
+	CHECK_AND_STATIC_ASSERT(!uuid::parse("{}"sv));
+	CHECK_AND_STATIC_ASSERT(!uuid::parse(" {} "sv));
+
+	//too short
+	CHECK_AND_STATIC_ASSERT(!uuid::parse("FAEADACA-BBAA-9988-7766-55443322110"sv)); //missing one digit
+	CHECK_AND_STATIC_ASSERT(!uuid::parse("FAEADACA-BBAA-9988-7766-5544332211"sv)); //missing one octet
+	CHECK_AND_STATIC_ASSERT(!uuid::parse("FAEADACA-BBAA"sv));
+
+	//too long
+	CHECK_AND_STATIC_ASSERT(!uuid::parse("FAEADACA-BBAA-9988-7766-554433221100FF"sv)); //one whole octet too long
+	CHECK_AND_STATIC_ASSERT(!uuid::parse("FAEADACA-BBAA-9988-7766-554433221100F"sv));  //one digit too long
+
+	//begins/ends with invalid characters
+	CHECK_AND_STATIC_ASSERT(!uuid::parse("FAEADACA-BBAA-9988-7766-554433221100Z"sv));
+	CHECK_AND_STATIC_ASSERT(!uuid::parse("ZFAEADACA-BBAA-9988-7766-554433221100"sv));
+
+	//contains invalid characters                              vv
+	CHECK_AND_STATIC_ASSERT(!uuid::parse("FAEADACA-BBAA-9988-77GG-554433221100"sv));
+
+	//valid characters but in the wrong place
+	CHECK_AND_STATIC_ASSERT(!uuid::parse("}FAEADACA-BBAA-9988-7766-554433221100"sv));
+	CHECK_AND_STATIC_ASSERT(!uuid::parse("FAEADACA-BBAA{9988-7766-554433221100"sv));
+	CHECK_AND_STATIC_ASSERT(!uuid::parse("FAEADACA-BBAA-9988}7766-554433221100"sv));
+	CHECK_AND_STATIC_ASSERT(!uuid::parse("FAEADACA-BBAA-9988-7766-554433221100{"sv));
+
+	//bad use of brackets
+	CHECK_AND_STATIC_ASSERT(!uuid::parse("{{FAEADACA-BBAA-9988-7766-554433221100}}"sv));
+	CHECK_AND_STATIC_ASSERT(!uuid::parse("{FAEADACA-BBAA{9988-7766-554433221100"sv));
+	CHECK_AND_STATIC_ASSERT(!uuid::parse("FAEADACA-BBAA-9988}7766-554433221100}"sv));
+	CHECK_AND_STATIC_ASSERT(!uuid::parse("{{FAEADACA-BBAA-9988-7766-554433221100}"sv));
+	CHECK_AND_STATIC_ASSERT(!uuid::parse("{FAEADACA-BBAA-9988-7766-554433221100}}"sv));
+
+	//splices an octet                              v
+	CHECK_AND_STATIC_ASSERT(!uuid::parse("FAEADACA-B-BAA-99887766-554433221100"sv));
+
+	//valid!
+	static constexpr auto valid = uuid{ 0xFAEADACAu, 0xBBAA_u16, 0x9988_u16, 0x7766_u16, 0x554433221100_u64 };
+	CHECK_AND_STATIC_ASSERT(valid == uuid::parse("FAEADACA-BBAA-9988-7766-554433221100"sv));
+	CHECK_AND_STATIC_ASSERT(valid == uuid::parse("  FAEADACA-BBAA-9988-7766-554433221100   "sv));
+	CHECK_AND_STATIC_ASSERT(valid == uuid::parse("{FAEADACA-BBAA-9988-7766-554433221100}"sv));
+	CHECK_AND_STATIC_ASSERT(valid == uuid::parse("FAEADACABBAA99887766554433221100"sv));
+	CHECK_AND_STATIC_ASSERT(valid == uuid::parse("{FAEADACABBAA99887766554433221100}"sv));
+	CHECK_AND_STATIC_ASSERT(valid == uuid::parse("{FA EA DA CA BB AA 99 88 77 66 55 44 33 22 11 00}"sv));
+
+	////valid, this time using the UDL
+	//CHECK_AND_STATIC_ASSERT(valid, "FAEADACA-BBAA-9988-7766-554433221100"_uuid);
+	//CHECK_AND_STATIC_ASSERT(valid, "  FAEADACA-BBAA-9988-7766-554433221100   "_uuid);
+	//CHECK_AND_STATIC_ASSERT(valid, "{FAEADACA-BBAA-9988-7766-554433221100}"_uuid);
+	//CHECK_AND_STATIC_ASSERT(valid, "FAEADACABBAA99887766554433221100"_uuid);
+	//CHECK_AND_STATIC_ASSERT(valid, "{FAEADACABBAA99887766554433221100}"_uuid);
+	//CHECK_AND_STATIC_ASSERT(valid, "{FAEADACA,BBAA,9988,7766,554433221100}"_uuid);
+	//CHECK_AND_STATIC_ASSERT(valid, "{ FAEADACA, BBAA, 9988, 7766, 554433221100 }"_uuid);
+	//CHECK_AND_STATIC_ASSERT(valid, "{FA EA DA CA BB AA 99 88 77 66 55 44 33 22 11 00}"_uuid);
+}

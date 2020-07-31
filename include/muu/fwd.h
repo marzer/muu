@@ -180,22 +180,28 @@ namespace muu // non-abi namespace; this is not an error
 }
 
 /// \defgroup		meta			Metafunctions and type traits
-/// \brief Metaprogramming utilities to complement those found in `<type_traits>`.
+/// \brief			Type traits and metaprogramming utilities.
 /// \remarks	Many of these are mirrors of (or supplementary to) traits found in the standard library's
-///				`<type_traits>`, but with simpler/saner default behaviour
-///				(e.g. most of the is_X metafunctions do not make a distinction between T and T&).
+///				`<type_traits>`, but with simpler/saner default behaviour (e.g. most of the `is_X` metafunctions do
+///				not make a distinction between T and T&).
 
-/// \defgroup		intrinsics		Intrinsics
+/// \defgroup		intrinsics			Intrinsics
 /// \brief Small, generally-useful functions, many of which map to compiler intrinsics.
 
-/// \defgroup		constants		Compile-time constants
-/// 
+/// \defgroup		blocks		Building blocks
+/// \brief Small, generally-useful classes and types.
+
+/// \defgroup		constants		Constants
+/// \brief Compile-time constant values (Pi, et cetera.).
+
+/// \defgroup		characters			Characters
+/// \brief Utilities for manipulating individual characters (or 'code points').
 
 /// \defgroup		strings			Strings
 /// \brief Utilities to simplify working with strings.
 
 /// \defgroup		hashing		Hashing
-/// \brief Functions and types related to the generation of hashes.
+/// \brief Utilities for generating (non-cryptographic) hashes.
 
 
 /// \defgroup		aligned_alloc		Aligned allocation
