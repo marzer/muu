@@ -319,6 +319,11 @@ MUU_IMPL_NAMESPACE_START
 	template <> struct make_unsigned<unsigned long> { using type = unsigned long; };
 	template <> struct make_unsigned<long long> { using type = unsigned long long; };
 	template <> struct make_unsigned<unsigned long long> { using type = unsigned long long; };
+	template <> struct make_unsigned<char32_t> { using type = char32_t; };
+	template <> struct make_unsigned<char16_t> { using type = char16_t; };
+	#ifdef __cpp_char8_t
+	template <> struct make_unsigned<char8_t> { using type = char8_t; };
+	#endif
 	#if MUU_HAS_INT128
 	template <> struct make_unsigned<int128_t> { using type = uint128_t; };
 	template <> struct make_unsigned<uint128_t> { using type = uint128_t; };

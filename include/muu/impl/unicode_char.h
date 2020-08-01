@@ -134,8 +134,8 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_unicode_number(char c) noexcept
 	{
-		using namespace impl;
-		return is_unicode_number(static_cast<char_unicode_t>(c));
+		(void)c;
+		return false;
 	}
 
 	/// \brief		Returns true if a character is a number code point.
@@ -189,8 +189,8 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_combining_mark(char c) noexcept
 	{
-		using namespace impl;
-		return is_combining_mark(static_cast<char_unicode_t>(c));
+		(void)c;
+		return false;
 	}
 
 	/// \brief		Returns true if a character is an octal digit code point.

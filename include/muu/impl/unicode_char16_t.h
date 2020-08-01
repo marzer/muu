@@ -37,7 +37,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_ascii_whitespace(char16_t c) noexcept
 	{
-		return u'\t' <= c && c <= u' ' && (1u << (static_cast<uint_least32_t>(c) - 0x9u)) & 0x80001Fu;
+		return (u'\t' <= c && c <= u'\r') || c == u' ';
 	}
 
 	/// \brief		Returns true if a UTF-16 code unit is a whitespace code point from outside the ASCII range.
@@ -56,7 +56,7 @@ MUU_NAMESPACE_START
 			return true;
 		switch (child_index_0)
 		{
-			case 0x00: return c <= u'\xA0' && (1u << (static_cast<uint_least32_t>(c) - 0x85u)) & 0x8000001u;
+			case 0x00: return c == u'\x85' || c == u'\xA0';
 			case 0x2A: // [42] 1FB1 - 206E
 			{
 				if (c < u'\u2000' || u'\u205F' < c)
@@ -94,7 +94,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_ascii_letter(char16_t c) noexcept
 	{
-		return u'A' <= c && c <= u'z' && (1ull << (static_cast<uint_least64_t>(c) - 0x41u)) & 0x3FFFFFF03FFFFFFull;
+		return (u'A' <= c && c <= u'Z') || (u'a' <= c && c <= u'z');
 	}
 
 	/// \brief		Returns true if a UTF-16 code unit is a letter code point from outside the ASCII range.
@@ -253,7 +253,7 @@ MUU_NAMESPACE_START
 				}
 				// 59 codepoints from 15 ranges (spanning a search area of 1021)
 			}
-			case 0x0A: return ((u'\u2C00' <= c && c <= u'\u2C2E')) || ((u'\u2C30' <= c && c <= u'\u2C5E')) || (u'\u2C60' <= c);
+			case 0x0A: return (u'\u2C00' <= c && c <= u'\u2C2E') || (u'\u2C30' <= c && c <= u'\u2C5E') || u'\u2C60' <= c;
 			case 0x0B: // [11] 2C89 - 3085
 			{
 				MUU_ASSUME(u'\u2C89' <= c && c <= u'\u3085');
@@ -284,8 +284,8 @@ MUU_NAMESPACE_START
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x3086ull) % 0x40ull));
 				// 430 codepoints from 9 ranges (spanning a search area of 1021)
 			}
-			case 0x13: return (c <= u'\u4DBF') || (u'\u4E00' <= c);
-			case 0x27: return (c <= u'\u9FFC') || (u'\uA000' <= c);
+			case 0x13: return c <= u'\u4DBF' || u'\u4E00' <= c;
+			case 0x27: return c <= u'\u9FFC' || u'\uA000' <= c;
 			case 0x29: // [41] A42F - A82B
 			{
 				if (u'\uA822' < c)
@@ -320,7 +320,7 @@ MUU_NAMESPACE_START
 					& (0x1ull << (static_cast<uint_least64_t>(c) % 0x40ull));
 				// 657 codepoints from 36 ranges (spanning a search area of 1021)
 			}
-			case 0x35: return (c <= u'\uD7A3') || ((u'\uD7B0' <= c && c <= u'\uD7C6')) || ((u'\uD7CB' <= c && c <= u'\uD7FB'));
+			case 0x35: return c <= u'\uD7A3' || (u'\uD7B0' <= c && c <= u'\uD7C6') || (u'\uD7CB' <= c && c <= u'\uD7FB');
 			case 0x3E: // [62] F7F0 - FBEC
 			{
 				if (c < u'\uF900')
@@ -665,8 +665,8 @@ MUU_NAMESPACE_START
 				// 189 codepoints from 16 ranges (spanning a search area of 1005)
 			}
 			case 0x07: return u'\u20D0' <= c && c <= u'\u20F0' && (1ull << (static_cast<uint_least64_t>(c) - 0x20D0u)) & 0x1FFE21FFFull;
-			case 0x0A: return ((u'\u2CEF' <= c && c <= u'\u2CF1')) || ((u'\u2DE0' <= c && c <= u'\u2DFF')) || c == u'\u2D7F';
-			case 0x0B: return ((u'\u302A' <= c && c <= u'\u302F')) || ((u'\u3099' <= c && c <= u'\u309A'));
+			case 0x0A: return (u'\u2CEF' <= c && c <= u'\u2CF1') || (u'\u2DE0' <= c && c <= u'\u2DFF') || c == u'\u2D7F';
+			case 0x0B: return (u'\u302A' <= c && c <= u'\u302F') || (u'\u3099' <= c && c <= u'\u309A');
 			case 0x29: // [41] A3F5 - A7E1
 			{
 				if (c < u'\uA66F' || u'\uA6F1' < c)
@@ -696,7 +696,7 @@ MUU_NAMESPACE_START
 				// 124 codepoints from 25 ranges (spanning a search area of 1005)
 			}
 			case 0x2B: return u'\uABE3' <= c && c <= u'\uABED' && (1u << (static_cast<uint_least32_t>(c) - 0xABE3u)) & 0x6FFu;
-			case 0x3F: return ((u'\uFE00' <= c && c <= u'\uFE0F')) || (u'\uFE20' <= c) || c == u'\uFB1E';
+			case 0x3F: return (u'\uFE00' <= c && c <= u'\uFE0F') || u'\uFE20' <= c || c == u'\uFB1E';
 			MUU_NO_DEFAULT_CASE;
 		}
 		// 1288 codepoints from 190 ranges (spanning a search area of 65536)
@@ -812,7 +812,7 @@ MUU_NAMESPACE_START
 				if (c < u'\u2102' || u'\u2183' < c)
 					return false;
 				
-				if (c == u'\u2183')
+				if (c != u'\u2182')
 					return true;
 				switch ((static_cast<uint_least64_t>(c) - 0x2102ull) / 0x40ull)
 				{
@@ -914,7 +914,7 @@ MUU_NAMESPACE_START
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x45Dull) % 0x40ull));
 				// 144 codepoints from 101 ranges (spanning a search area of 1020)
 			}
-			case 0x04: return ((u'\u10D0' <= c && c <= u'\u10FA')) || ((u'\u10FD' <= c && c <= u'\u10FF')) || ((u'\u13F8' <= c && c <= u'\u13FD'));
+			case 0x04: return (u'\u10D0' <= c && c <= u'\u10FA') || (u'\u10FD' <= c && c <= u'\u10FF') || (u'\u13F8' <= c && c <= u'\u13FD');
 			case 0x07: // [7] 1C45 - 2040
 			{
 				if (c < u'\u1C80' || u'\u1FF7' < c)
@@ -959,7 +959,7 @@ MUU_NAMESPACE_START
 					case 0x01: return u'\u2C76' <= c && c <= u'\u2CB3'
 						&& (1ull << (static_cast<uint_least64_t>(c) - 0x2C76u)) & 0x2AAAAAAAAAAAA8FFull;
 					case 0x02: return c <= u'\u2CF3' && (1ull << (static_cast<uint_least64_t>(c) - 0x2CB5u)) & 0x4280D55555555555ull;
-					case 0x03: return u'\u2D00' <= c && (1ull << (static_cast<uint_least64_t>(c) - 0x2D00u)) & 0x20BFFFFFFFFFull;
+					case 0x03: return (u'\u2D00' <= c && c <= u'\u2D25') || c == u'\u2D27' || c == u'\u2D2D';
 					MUU_NO_DEFAULT_CASE;
 				}
 				// 153 codepoints from 65 ranges (spanning a search area of 1020)

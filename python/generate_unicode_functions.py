@@ -98,11 +98,6 @@ def range_intersection(first1, last1, first2, last2):
 
 
 
-def is_pow2(v):
-	return v & (v-1) == 0
-
-
-
 def binary_search(elements, value):
 	index = bisect.bisect_left(elements, value)
 	if index < len(elements) and elements[index] == value:
@@ -116,6 +111,33 @@ def indent_with_tabs(text, count = 1):
 		return text
 	indent = '\t' * count
 	return indent + ('\n' + indent).join(text.split('\n'))
+
+
+
+def __strip_brackets(s):
+	if not (s.startswith('(') and s.endswith(')')):
+		return (s, False)
+	current_depth = 0
+	pairs = 0
+	for c in s:
+		if c == '(':
+			if current_depth == 0 and pairs > 0:
+				return (s, False)
+			current_depth = current_depth + 1
+		elif c == ')':
+			current_depth = current_depth - 1
+			pairs = pairs + 1
+	if current_depth == 0:
+		return (s[1:-1], True)
+	return (s, False)
+
+
+
+def strip_brackets(s):
+	result = __strip_brackets(s)
+	while result[1]:
+		result = __strip_brackets(result[0])
+	return result[0]
 
 
 
@@ -137,33 +159,6 @@ def compound_and(*bools):
 		s = '({})'.format(s)
 	return s
 
-
-
-def __strip_brackets(s):
-	if not (s.startswith('(') and s.endswith(')')):
-		return (s, False)
-	current_depth = 0
-	#max_depth = 0
-	pairs = 0
-	for c in s:
-		if c == '(':
-			if current_depth == 0 and pairs > 0:
-				return (s, False)
-			current_depth = current_depth + 1
-			#max_depth = max(max_depth, max_depth)
-		elif c == ')':
-			current_depth = current_depth - 1
-			pairs = pairs + 1
-	if current_depth == 0:
-		return (s[1:-1], True)
-	return (s, False)
-
-
-def strip_brackets(s):
-	result = __strip_brackets(s)
-	while result[1]:
-		result = __strip_brackets(result[0])
-	return result[0]
 
 
 def wrap_lines(s, sep = '||', wrap_prefix = '\t', assumed_indent = 0):
@@ -242,6 +237,9 @@ class SparseRange:
 		self.__count = None
 		self.__first = None
 		self.__last = None
+		self.__sparse_value_count = 0
+		self.__contiguous_subrange_count = 0
+		self.__sparse_values = None
 		for v in inital_values:
 			self.add(v)
 
@@ -288,6 +286,8 @@ class SparseRange:
 
 		self.__count = 0
 		if len(self.__ranges) == 0 and len(self.__values) == 0:
+			self.__values = []
+			self.__ranges = None
 			return
 
 		# convert sparse values to a list, sort them and convert contiguous spans into ranges
@@ -362,7 +362,6 @@ class SparseRange:
 
 		# finalize
 		self.__ranges = None
-		self.__sparse_values = None
 		self.__first = range_first(self.__values[0])
 		self.__last = range_last(self.__values[-1])
 		for v in self.__values:
@@ -492,6 +491,29 @@ class SparseRange:
 		self.__ranges = None
 		self.__sparse_values = None
 
+	def inverse(self, min_, max_):
+		inv = SparseRange()
+		if len(self) == 0:
+			inv.add(min_, max_)
+		else:
+			low_iter = iter(self)
+			high_iter = iter(self)
+			try:
+				high = next(high_iter)
+				while True:
+					low = next(low_iter)
+					high = next(high_iter)
+					if low+1 < high:
+						inv.add(low+1, high-1)
+			except StopIteration:
+				pass
+			#print(f'{self.first()} - {self.last()} ({len(self)})')
+			if self.first() > min_:
+				inv.add(min_, self.first()-1)
+			if self.last() < max_:
+				inv.add(self.last()+1, max_)
+		inv.finish()
+		return inv
 
 
 #### CODEPOINT CHUNK ##################################################################################################
@@ -666,7 +688,7 @@ class CodepointChunk:
 					break
 			assert gap is not None
 			expressions.append(self.__Expression(
-				500,
+				900,
 				'c != ' + self.__code_unit.literal(gap) + exid(2),
 				gap == self.span_first(),
 				gap == self.span_last()
@@ -679,14 +701,14 @@ class CodepointChunk:
 		if len(self) > 0 and len(self) < self.span_size() and self.range().contiguous():
 			if len(self) == 1:
 				expressions.append(self.__Expression(
-					500,
+					750,
 					'c == ' + self.first_lit() + exid(3),
 					True,
 					True
 				))
 			elif (self.first() > self.span_first()) and (self.last() < self.span_last()):
 				expressions.append(self.__Expression(
-					500,
+					750,
 					f'({self.first_lit()} <= c && c <= {self.last_lit()})' + exid(4),
 					True,
 					True
@@ -694,7 +716,7 @@ class CodepointChunk:
 			elif self.last() < self.span_last():
 				assert self.first() == self.span_first()
 				expressions.append(self.__Expression(
-					500,
+					750,
 					f'c <= {self.last_lit()}' + exid(5),
 					False,
 					True
@@ -703,7 +725,7 @@ class CodepointChunk:
 				assert self.first() > self.span_first(), f"{self.first()} {self.span_first()}"
 				assert self.last() == self.span_last()
 				expressions.append(self.__Expression(
-					500,
+					750,
 					f'{self.first_lit()} <= c' + exid(6),
 					True,
 					False
@@ -790,30 +812,28 @@ class CodepointChunk:
 			(self.range().sparse_value_count() + self.range().contiguous_subrange_count()) <= G.compound_boolean_limit	\
 				or not subdivision_allowed):
 			score = 500
-			handles_low = False
-			handles_high = False
 			bools = []
 			comps = 0
+			closed = True
 			for f, l in self.range().contiguous_subranges():
 				ands = []
 				if f > self.span_first():
 					ands.append(f'{self.__code_unit.literal(f)} <= c')
 				if l < self.span_last():
 					ands.append(f'c <= {self.__code_unit.literal(l)}')
-				bools.append(f'({compound_and(*ands)})')
+				bools.append(f'{compound_and(*ands)}')
 				comps = comps + len(ands)
-				handles_low = handles_low or f == self.span_first()
-				handles_high = handles_high or l == self.span_last()
+				closed = closed and len(ands) == 2
 			for v in self.range().sparse_values():
 				bools.append('c == ' + self.__code_unit.literal(v))
 				comps = comps + 1
-				handles_low = handles_low or v == self.span_first()
-				handles_high = handles_high or v == self.span_last()
+			if self.root() and comps <= 4:
+				score += 200
 			expressions.append(self.__Expression(
 				score - (20 * comps),
 				wrap_lines(compound_or(*bools), wrap_prefix='\t\t') + exid(9),
-				handles_low,
-				handles_high
+				closed,
+				closed
 			))
 
 
@@ -1068,11 +1088,13 @@ class CodepointChunk:
 #### UNICODE DATABASE ##################################################################################################
 
 
+
 class Serializer(json.JSONEncoder):
 	def default(self, o):
 		d = o.serialize()
 		d['__serialized_type_key'] = type(o).__name__
 		return d
+
 
 
 class Deserializer(json.JSONDecoder):
@@ -1087,7 +1109,6 @@ class Deserializer(json.JSONDecoder):
 			obj.deserialize(dct)
 			return obj
 		return dct
-
 
 
 
@@ -1133,7 +1154,6 @@ class UnicodeDatabase:
 		for _, v in self.__categories.items():
 			v.finish()
 		print(f"Read {len(self.__code_points)} code points from unicode database.")
-
 
 	__re_property = re.compile(r'^\s*([0-9a-fA-F]{4})\s*(?:\.\.\s*([0-9a-fA-F]{4})\s*)?;\s*([A-Za-z_]+)\s+')
 
@@ -1197,6 +1217,7 @@ class UnicodeDatabase:
 			yield cp
 
 
+
 __ucd = None
 def ucd():
 	global __ucd
@@ -1208,22 +1229,39 @@ def ucd():
 
 __code_point_range_cache = dict()
 def get_code_point_range(h):
-	assert isinstance(h, int)
+	assert isinstance(h, str)
 	global __code_point_range_cache
-	return __code_point_range_cache.get(h)
-
+	code_points = __code_point_range_cache.get(h)
+	if code_points is None:
+		json_path = path.join(utils.get_script_folder(), f'Unicode_CodePoints_{h}.json')
+		if path.exists(json_path):
+			try:
+				code_points = json.loads(utils.read_all_text_from_file(json_path), cls=Deserializer)
+				assert h not in __code_point_range_cache
+				__code_point_range_cache[h] = code_points
+			except:
+				pass
+	return code_points
 
 
 def store_code_point_range(h, code_points):
-	assert isinstance(h, int)
+	assert isinstance(h, str)
 	assert isinstance(code_points, SparseRange)
 	global __code_point_range_cache
+	assert h not in __code_point_range_cache
 	__code_point_range_cache[h] = code_points
+	json_path = path.join(utils.get_script_folder(), f'Unicode_CodePoints_{h}.json')
+	print("Writing to {}".format(json_path))
+	with open(json_path, 'w', encoding='utf-8', newline='\n') as f:
+		f.write(json.dumps(code_points, sort_keys=True, indent=4, cls=Serializer))
 
 
 
 def get_code_points_in_categories(*categories):
-	h = utils.multi_hash(*categories)
+	categories = [c.strip() for c in categories]
+	categories.sort()
+	categories = tuple(categories)
+	h = utils.multi_sha256(*categories)
 	code_points = get_code_point_range(h)
 	if code_points is None:
 		code_points = SparseRange()
@@ -1237,7 +1275,10 @@ def get_code_points_in_categories(*categories):
 
 
 def get_code_points_with_properties(*properties):
-	h = utils.multi_hash(*properties)
+	properties = [p.strip() for p in properties]
+	properties.sort()
+	properties = tuple(properties)
+	h = utils.multi_sha256(*properties)
 	code_points = get_code_point_range(h)
 	if code_points is None:
 		code_points = SparseRange()
@@ -1295,7 +1336,7 @@ class CodeUnit:
 			self.proxy_typename = 'wchar_unicode_t' if self.typename == 'wchar_t' else 'char_unicode_t'
 
 	def literal(self, codepoint):
-		if self.integral_literals or (self.bits == 8 and codepoint >= 0x80):
+		if self.integral_literals or (self.bits == 8 and codepoint >= 0x80) or codepoint > 0x10FFFF:
 			if codepoint > 0xFFFF:
 				return f"0x{codepoint:08X}u"
 			elif codepoint > 0xFF:
@@ -1324,48 +1365,57 @@ class CodeUnit:
 
 
 
-def write_function_header(file, code_unit, name, return_type, description):
-	write = lambda txt,end='\n': print(txt, file=file, end=end)
+def write_function_header(files, code_unit, name, return_type, description):
+	assert utils.is_collection(files)
+	assert len(files) == 2
+	assert files[0] is not None
+	assert files[1] is not None
+	h = lambda txt,end='\n': print(txt, file=files[0], end=end)
 	if not code_unit.private_api:
-		write('\t/// \\brief\t\t' + ("\n\t///\t\t\t\t".join(description.split('\n'))))
-		write('\t/// \\ingroup\tcharacters')
-	write('\t[[nodiscard]]')
+		h('\t/// \\brief\t\t' + ("\n\t///\t\t\t\t".join(description.split('\n'))))
+		h('\t/// \\ingroup\tcharacters')
+	h('\t[[nodiscard]]')
 	if code_unit.proxy:
-		write('\tMUU_ALWAYS_INLINE')
-	write('\tMUU_ATTR(const)')
-	write(f'\tconstexpr {return_type} {name}({code_unit.typename} c) noexcept')
-	write('\t{')
+		h('\tMUU_ALWAYS_INLINE')
+	h('\tMUU_ATTR(const)')
+	h(f'\tconstexpr {return_type} {name}({code_unit.typename} c) noexcept')
+	h('\t{')
 
 
 
-def write_function_body(file, text):
-	write = lambda txt,end='\n': print(txt, file=file, end=end)
-	write(indent_with_tabs(text, 2))
+def write_function_body(files, text):
+	assert utils.is_collection(files)
+	assert len(files) == 2
+	assert files[0] is not None
+	assert files[1] is not None
+	h = lambda txt,end='\n': print(txt, file=files[0], end=end)
+	h(indent_with_tabs(text, 2))
 
 
 
-def write_function_footer(file):
-	write = lambda txt,end='\n': print(txt, file=file, end=end)
-	write('\t}')
-	write('')
+def write_function_footer(files):
+	assert utils.is_collection(files)
+	assert len(files) == 2
+	assert files[0] is not None
+	assert files[1] is not None
+	h = lambda txt,end='\n': print(txt, file=files[0], end=end)
+	h('\t}')
+	h('')
 
 
 
-def write_identification_function(file, code_unit, name, description, categories=None,
-		characters=None, properties=None, min_codepoint=0, max_codepoint=0x10FFFF):
-	assert file is not None
+def write_identification_function(files, code_unit, name, description, categories=None,
+		characters=None, properties=None, min_codepoint=0, max_codepoint=0x10FFFF, mutex_groups=None, mutex_groups_dict=None):
+	assert utils.is_collection(files)
+	assert len(files) == 2
+	assert files[0] is not None
+	assert files[1] is not None
 	assert isinstance(code_unit, CodeUnit)
 	assert isinstance(name, str)
 	assert isinstance(description, str)
 	assert categories is not None or characters is not None or properties is not None
 
-	if code_unit.proxy:
-		write_function_header(file, code_unit, name, 'bool', description)
-		write_function_body(file, f'using namespace impl;')
-		write_function_body(file, f'return {name}(static_cast<{code_unit.proxy_typename}>(c));')
-		write_function_footer(file)
-		return
-
+	# normalize inputs
 	min_codepoint = max(min_codepoint, 0)
 	max_codepoint = min(max_codepoint, 0x10FFFF)
 	local_min = min_codepoint
@@ -1382,9 +1432,22 @@ def write_identification_function(file, code_unit, name, description, categories
 		properties = False
 	elif not utils.is_collection(properties):
 		properties = (properties,)
+	if mutex_groups is not None:
+		if not utils.is_collection(mutex_groups):
+			mutex_groups = (mutex_groups,)
+		if mutex_groups_dict is not None:
+			for mx in mutex_groups:
+				if mx not in mutex_groups_dict:
+					mutex_groups_dict[mx] = []
+				mutex_groups_dict[mx].append(name)
 
-	code_points_hash = utils.multi_hash(local_min, local_max, categories, characters, properties)
+
+	# get relevant code points and their inverse
+	code_points_hash = utils.multi_sha256(local_min, local_max, categories, characters, properties)
 	code_points = get_code_point_range(code_points_hash)
+	inverse_code_points_hash = utils.multi_sha256(local_min, local_max, categories, characters, properties, -1)
+	inverse_code_points = get_code_point_range(inverse_code_points_hash)
+	assert code_points_hash != inverse_code_points_hash
 	if code_points is None:
 		code_points = SparseRange()
 		if categories:
@@ -1394,7 +1457,6 @@ def write_identification_function(file, code_unit, name, description, categories
 				if cp > local_max:
 					break
 				code_points.add(cp)
-
 		if characters:
 			for c in characters:
 				cp = c
@@ -1414,7 +1476,6 @@ def write_identification_function(file, code_unit, name, description, categories
 						code_points.add(cp[0], cp[1])
 				else:
 					raise Exception("Invalid argument")
-
 		if properties:
 			for cp in get_code_points_with_properties(*properties):
 				if cp < local_min:
@@ -1422,249 +1483,381 @@ def write_identification_function(file, code_unit, name, description, categories
 				if cp > local_max:
 					break
 				code_points.add(cp)
-
 		code_points.finish()
 		store_code_point_range(code_points_hash, code_points)
+		inverse_code_points = code_points.inverse(0, min(code_unit.max, 0x10FFFF + 10))
+		store_code_point_range(inverse_code_points_hash, inverse_code_points)
 
-	chunk = None
-	if code_points:
-		chunk = CodepointChunk(code_unit)
-		for (f,l) in code_points.contiguous_subranges():
-			chunk.add(f,l)
-		for cp in code_points.sparse_values():
-			chunk.add(cp)
-
-	write_function_header(file, code_unit, name, 'bool', description)
-	if chunk is not None:
-		write_function_body(file, str(chunk))
+	# write function
+	write_function_header(files, code_unit, name, 'bool', description)
+	if not code_points:
+		write_function_body(files, f'(void)c;')
+		write_function_body(files, f'return false;')
+	elif code_unit.proxy:
+		write_function_body(files, f'using namespace impl;')
+		write_function_body(files, f'return {name}(static_cast<{code_unit.proxy_typename}>(c));')
 	else:
-		write_function_body(file, '(void)c;\nreturn false;')
-	write_function_footer(file)
+		chunk = None
+		if code_points:
+			chunk = CodepointChunk(code_unit)
+			for (f,l) in code_points.contiguous_subranges():
+				chunk.add(f,l)
+			for cp in code_points.sparse_values():
+				chunk.add(cp)
+		if chunk is not None:
+			write_function_body(files, str(chunk))
+		else:
+			write_function_body(files, '(void)c;\nreturn false;')
+	write_function_footer(files)
 
+	# write tests
+	t = lambda txt,end='\n': print(txt, file=files[1], end=end)
+	if inverse_code_points is None:
+		inverse_code_points = code_points.inverse(0, min(code_unit.max, 0x10FFFF))
+		store_code_point_range(inverse_code_points_hash, inverse_code_points)
+	t(f'TEST_CASE("unicode - {name} ({code_unit.typename})")')
+	t('{')
+	t('\tusing namespace impl;')
+	t(f'\tstatic constexpr auto fn = static_cast<code_unit_func<{code_unit.typename}>*>({name});')
+	iterations = ((code_points, True), (inverse_code_points, False))
+	for cps, expected in iterations:
+		if cps.contiguous_subrange_count() or cps.sparse_value_count():
+			t(' ')
+			t(f'\t// values which should return {str(expected).lower()}')
+			if cps.contiguous_subrange_count():
+				t(f'\tstatic constexpr code_unit_range<uint32_t> {str(expected).lower()}_ranges[] = ')
+				t('\t{')
+				t('\t\t'+'\n\t\t'.join([' '.join(r) for r in chunks(
+					['{{ {}, {} }},'.format(code_unit.literal(f), code_unit.literal(l)) for f, l in cps.contiguous_subranges()], 3
+				)]))
+				t('\t};')
+				t(f'\tfor (const auto& r : {str(expected).lower()}_ranges)')
+				if expected and mutex_groups is not None:
+					t('\t{')
+				t(f'\t\tREQUIRE({"not_" if not expected else ""}in(fn, r));')
+				if expected and mutex_groups is not None:
+					for mx in mutex_groups:
+						t(f'\t\tREQUIRE(in_only<{mx}>(fn, r));')
+					t('\t}')
+			if cps.sparse_value_count():
+				t(f'\tstatic constexpr {code_unit.typename} {str(expected).lower()}_values[] = ')
+				t('\t{')
+				t('\t\t'+'\n\t\t'.join([' '.join(r) for r in chunks(
+					['{},'.format(code_unit.literal(v)) for v in cps.sparse_values()], 6
+				)]))
+				t('\t};')
+				t(f'\tfor (auto v : {str(expected).lower()}_values)')
+				if expected and mutex_groups is not None:
+					t('\t{')
+				t(f'\t\tREQUIRE({"!" if not expected else ""}fn(v));')
+				if expected and mutex_groups is not None:
+					for mx in mutex_groups:
+						t(f'\t\tREQUIRE(in_only<{mx}>(fn, v));')
+					t('\t}')
+		
+	t('}')
+	t('')
 
+#if mutex_groups is not None:
 
-def write_compound_boolean_function(file, code_unit, name, description, *booleans):
-	assert file is not None
+def write_compound_boolean_function(files, code_unit, name, description, *booleans):
+	assert utils.is_collection(files)
+	assert len(files) == 2
+	assert files[0] is not None
+	assert files[1] is not None
 	assert isinstance(code_unit, CodeUnit)
 	assert isinstance(name, str)
 	assert isinstance(description, str)
 	assert booleans is not None
 
-	write_function_header(file, code_unit, name, 'bool', description)
+	write_function_header(files, code_unit, name, 'bool', description)
 	if code_unit.proxy:
-		write_function_body(file, f'using namespace impl;')
-		write_function_body(file, f'return {name}(static_cast<{code_unit.proxy_typename}>(c));')
+		write_function_body(files, f'using namespace impl;')
+		write_function_body(files, f'return {name}(static_cast<{code_unit.proxy_typename}>(c));')
 	else:
-		write_function_body(file, f'return {strip_brackets(compound_or(*booleans))};')
-	write_function_footer(file)
+		write_function_body(files, f'return {strip_brackets(compound_or(*booleans))};')
+	write_function_footer(files)
 
 
 
 #### HEADER GENERATOR ##################################################################################################
 
 
-def write_header(folder, code_unit):
-	assert isinstance(folder, str)
+
+def write_header(folders, code_unit):
+	assert utils.is_collection(folders)
+	assert len(folders) == 2
+	assert isinstance(folders[0], str)
+	assert isinstance(folders[1], str)
 	assert isinstance(code_unit, CodeUnit)
 
-	file_path = re.sub(r'\s+', '_', code_unit.typename)
-	file_path = path.join(folder, f'unicode_{file_path}.h')
-	print("Writing to {}".format(file_path))
-	with open(file_path, 'w', encoding='utf-8', newline='\n') as file:
-		
-		# preamble
-		write = lambda txt,end='\n': print(txt, file=file, end=end)
-		write('// This file is a part of muu and is subject to the the terms of the MIT license.')
-		write('// Copyright (c) 2020 Mark Gillard <mark.gillard@outlook.com.au>')
-		write('// See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.')
-		write('// SPDX-License-Identifier: MIT')
-		write('//-----')
-		write('// this file was generated by generate_unicode_functions.py - do not modify it directly')
-		write('')
-		write('/// \\file')
-		write(f'/// \\attention These are not the droids you are looking for. Try \\ref strings instead.')
-		write('')
-		write('#pragma once')
-		if code_unit.typename == 'char':
-			write('#ifdef __cpp_char8_t')
-			write('\t#include "../../muu/impl/unicode_char8_t.h"')
-			write('#else')
-			write('\t#include "../../muu/impl/unicode_unsigned_char.h"')
-			write('#endif')
-		elif code_unit.typename == 'wchar_t':
-			write('#include "../../muu/preprocessor.h"')
-			write('#include MUU_MAKE_STRING(MUU_CONCAT(MUU_CONCAT(../../muu/impl/unicode_char, MUU_WCHAR_BITS), _t.h))')
-		else:
-			write('#include "../../muu/fwd.h"')
-		write('')
-		write('MUU_{}NAMESPACE_START'.format('IMPL_' if code_unit.private_api else ''))
-		write('{')
+	header_path = re.sub(r'\s+', '_', code_unit.typename)
+	tests_path = path.join(folders[1], f'unicode_{header_path}.cpp')
+	header_path = path.join(folders[0], f'unicode_{header_path}.h')
+	print("Writing to {}".format(header_path))
+	with open(header_path, 'w', encoding='utf-8', newline='\n') as header_file:
+		print("Writing to {}".format(tests_path))
+		with open(tests_path, 'w', encoding='utf-8', newline='\n') as tests_file:
+			h = lambda txt,end='\n': print(txt, file=header_file, end=end)
+			t = lambda txt,end='\n': print(txt, file=tests_file, end=end)
+			both = lambda txt: (h(txt), t(txt))
 
-		specifier = None
-		if code_unit.typename == 'char':
-			specifier = 'character'
-		elif code_unit.typename == 'wchar_t':
-			specifier = 'wide character'
-		else:
-			specifier = f'UTF-{code_unit.bits} code unit'
+			# common preamble
+			both('// This file is a part of muu and is subject to the the terms of the MIT license.')
+			both('// Copyright (c) 2020 Mark Gillard <mark.gillard@outlook.com.au>')
+			both('// See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.')
+			both('// SPDX-License-Identifier: MIT')
+			both('//-----')
+			both('// this file was generated by generate_unicode_functions.py - do not modify it directly')
+			both('')
 
-		write_identification_function(file, code_unit,
-			'is_ascii',
-			f'Returns true if a {specifier} is within the ASCII range.',
-			characters=((0,127),)
-		)
-		write_identification_function(file, code_unit,
-			'is_unicode',
-			f'Returns true if a {specifier} is not within the ASCII range (i.e. it is a part greater Unicode).',
-			characters=((128,0xFFFFFFFF),)
-		)
-		write_identification_function(file, code_unit,
-			'is_ascii_whitespace',
-			f'Returns true if a {specifier} is a whitespace code point from the ASCII range.',
-			properties='White_Space',
-			max_codepoint=127
-		)
-		write_identification_function(file, code_unit,
-			'is_unicode_whitespace',
-			f'Returns true if a {specifier} is a whitespace code point from outside the ASCII range.',
-			properties='White_Space',
-			min_codepoint=128
-		)
-		write_compound_boolean_function(file, code_unit,
-			'is_whitespace',
-			f'Returns true if a {specifier} is a whitespace code point.',
-			'is_ascii_whitespace(c)', 'is_unicode_whitespace(c)'
-		)
+			# header preamble
+			if code_unit.typename != 'unsigned char':
+				h('/// \\file')
+				h(f'/// \\attention These are not the droids you are looking for. Try \\ref strings instead.')
+				h('')
+			h('#pragma once')
+			if code_unit.typename == 'char':
+				h('#ifdef __cpp_char8_t')
+				h('\t#include "../../muu/impl/unicode_char8_t.h"')
+				h('#else')
+				h('\t#include "../../muu/impl/unicode_unsigned_char.h"')
+				h('#endif')
+			elif code_unit.typename == 'wchar_t':
+				h('#include "../../muu/preprocessor.h"')
+				h('#include MUU_MAKE_STRING(MUU_CONCAT(MUU_CONCAT(../../muu/impl/unicode_char, MUU_WCHAR_BITS), _t.h))')
+			else:
+				h('#include "../../muu/fwd.h"')
+			h('')
+			h('MUU_{}NAMESPACE_START'.format('IMPL_' if code_unit.private_api else ''))
+			h('{')
 
-		write_compound_boolean_function(file, code_unit,
-			'is_not_whitespace',
-			f'Returns true if a {specifier} is not a whitespace code point.',
-			'!is_whitespace(c)'
-		)
+			# tests preamble
+			t('#include "tests.h"')
+			if code_unit.typename == 'unsigned char':
+				t('')
+				t('#ifndef __cpp_char8_t')
+				t('')
+			t('#include "unicode.h"')
+			t('#include "../include/muu/strings.h"')
+			t('')
+			if code_unit.typename == 'char8_t':
+				t('#ifdef __cpp_char8_t')
+				t('')
 
-		write_identification_function(file, code_unit,
-			'is_ascii_letter',
-			f"Returns true if a {specifier} is a letter code point from the ASCII range.",
-			categories=('Ll', 'Lm', 'Lo', 'Lt', 'Lu'),
-			max_codepoint=127
-		)
-		write_identification_function(file, code_unit,
-			'is_unicode_letter',
-			f'Returns true if a {specifier} is a letter code point from outside the ASCII range.',
-			categories=('Ll', 'Lm', 'Lo', 'Lt', 'Lu'),
-			min_codepoint=128
-		)
-		write_compound_boolean_function(file, code_unit,
-			'is_letter',
-			f'Returns true if a {specifier} is a letter code point.',
-			'is_ascii_letter(c)', 'is_unicode_letter(c)'
-		)
+			specifier = None
+			if code_unit.typename == 'char':
+				specifier = 'character'
+			elif code_unit.typename == 'wchar_t':
+				specifier = 'wide character'
+			else:
+				specifier = f'UTF-{code_unit.bits} code unit'
 
-		write_identification_function(file, code_unit,
-			'is_ascii_number',
-			f"Returns true if a {specifier} is a number code point from the ASCII range.",
-			categories=('Nd', 'Nl'),
-			max_codepoint=127
-		)
-		write_identification_function(file, code_unit,
-			'is_unicode_number',
-			f"Returns true if a {specifier} is a number code point from outside the ASCII range.",
-			categories=('Nd', 'Nl'),
-			min_codepoint=128
-		)
-		write_compound_boolean_function(file, code_unit,
-			'is_number',
-			f'Returns true if a {specifier} is a number code point.',
-			'is_ascii_number(c)', 'is_unicode_number(c)'
-		)
+			files = (header_file, tests_file)
+			mutex_groups = dict()
+			write_identification_function(files, code_unit,
+				'is_ascii',
+				f'Returns true if a {specifier} is within the ASCII range.',
+				characters=((0,127),),
+				mutex_groups=1,
+				mutex_groups_dict=mutex_groups
+			)
+			write_identification_function(files, code_unit,
+				'is_unicode',
+				f'Returns true if a {specifier} is not within the ASCII range (i.e. it is a part greater Unicode).',
+				characters=((128,0xFFFFFFFF),),
+				mutex_groups=1,
+				mutex_groups_dict=mutex_groups
+			)
+			write_identification_function(files, code_unit,
+				'is_ascii_whitespace',
+				f'Returns true if a {specifier} is a whitespace code point from the ASCII range.',
+				properties='White_Space',
+				max_codepoint=127,
+				mutex_groups=(2, 7),
+				mutex_groups_dict=mutex_groups
+			)
+			write_identification_function(files, code_unit,
+				'is_unicode_whitespace',
+				f'Returns true if a {specifier} is a whitespace code point from outside the ASCII range.',
+				properties='White_Space',
+				min_codepoint=128,
+				mutex_groups=(2, 7),
+				mutex_groups_dict=mutex_groups
+			)
+			write_compound_boolean_function(files, code_unit,
+				'is_whitespace',
+				f'Returns true if a {specifier} is a whitespace code point.',
+				'is_ascii_whitespace(c)', 'is_unicode_whitespace(c)'
+			)
 
-		write_identification_function(file, code_unit,
-			'is_ascii_hyphen',
-			f"Returns true if a {specifier} is a hyphen code point from the ASCII range.",
-			properties='Hyphen',
-			max_codepoint=127
-		)
-		write_identification_function(file, code_unit,
-			'is_unicode_hyphen',
-			f"Returns true if a {specifier} is a hyphen code point from outside the ASCII range.",
-			properties='Hyphen',
-			min_codepoint=128
-		)
-		write_compound_boolean_function(file, code_unit,
-			'is_hyphen',
-			f'Returns true if a {specifier} is a hyphen code point.',
-			'is_ascii_hyphen(c)', 'is_unicode_hyphen(c)'
-		)
+			write_compound_boolean_function(files, code_unit,
+				'is_not_whitespace',
+				f'Returns true if a {specifier} is not a whitespace code point.',
+				'!is_whitespace(c)'
+			)
 
-		write_identification_function(file, code_unit,
-			'is_combining_mark',
-			f"Returns true if a {specifier} is a combining mark code point.",
-			categories=('Mn', 'Mc')
-		)
+			write_identification_function(files, code_unit,
+				'is_ascii_letter',
+				f"Returns true if a {specifier} is a letter code point from the ASCII range.",
+				categories=('Ll', 'Lm', 'Lo', 'Lt', 'Lu'),
+				max_codepoint=127,
+				mutex_groups=(3, 7),
+				mutex_groups_dict=mutex_groups
+			)
+			write_identification_function(files, code_unit,
+				'is_unicode_letter',
+				f'Returns true if a {specifier} is a letter code point from outside the ASCII range.',
+				categories=('Ll', 'Lm', 'Lo', 'Lt', 'Lu'),
+				min_codepoint=128,
+				mutex_groups=(3, 7),
+				mutex_groups_dict=mutex_groups
+			)
+			write_compound_boolean_function(files, code_unit,
+				'is_letter',
+				f'Returns true if a {specifier} is a letter code point.',
+				'is_ascii_letter(c)', 'is_unicode_letter(c)'
+			)
 
-		write_identification_function(file, code_unit,
-			'is_octal_digit',
-			f"Returns true if a {specifier} is an octal digit code point.",
-			characters=(('0', '7'), )
-		)
-		write_identification_function(file, code_unit,
-			'is_decimal_digit',
-			f"Returns true if a {specifier} is a decimal digit code point.",
-			characters=(('0', '9'), )
-		)
-		write_identification_function(file, code_unit,
-			'is_hexadecimal_digit',
-			f"Returns true if a {specifier} is a hexadecimal digit code point.",
-			characters=(('a', 'f'), ('A', 'F'), ('0', '9'))
-		)
+			write_identification_function(files, code_unit,
+				'is_ascii_number',
+				f"Returns true if a {specifier} is a number code point from the ASCII range.",
+				categories=('Nd', 'Nl'),
+				max_codepoint=127,
+				mutex_groups=(4, 7),
+				mutex_groups_dict=mutex_groups
+			)
+			write_identification_function(files, code_unit,
+				'is_unicode_number',
+				f"Returns true if a {specifier} is a number code point from outside the ASCII range.",
+				categories=('Nd', 'Nl'),
+				min_codepoint=128,
+				mutex_groups=(4, 7),
+				mutex_groups_dict=mutex_groups
+			)
+			write_compound_boolean_function(files, code_unit,
+				'is_number',
+				f'Returns true if a {specifier} is a number code point.',
+				'is_ascii_number(c)', 'is_unicode_number(c)'
+			)
 
-		write_identification_function(file, code_unit,
-			'is_uppercase',
-			f'Returns true if a {specifier} is an uppercase code point.',
-			properties='Uppercase'
-		)
-		write_identification_function(file, code_unit,
-			'is_lowercase',
-			f'Returns true if a {specifier} is an lowercase code point.',
-			properties='Lowercase'
-		)
+			write_identification_function(files, code_unit,
+				'is_ascii_hyphen',
+				f"Returns true if a {specifier} is a hyphen code point from the ASCII range.",
+				properties='Hyphen',
+				max_codepoint=127
+				, mutex_groups=(5, 7),
+				mutex_groups_dict=mutex_groups
+			)
+			write_identification_function(files, code_unit,
+				'is_unicode_hyphen',
+				f"Returns true if a {specifier} is a hyphen code point from outside the ASCII range.",
+				properties='Hyphen',
+				min_codepoint=128,
+				mutex_groups=(5, 7),
+				mutex_groups_dict=mutex_groups
+			)
+			write_compound_boolean_function(files, code_unit,
+				'is_hyphen',
+				f'Returns true if a {specifier} is a hyphen code point.',
+				'is_ascii_hyphen(c)', 'is_unicode_hyphen(c)'
+			)
 
-		write_function_header(file, code_unit,
-			'is_code_point_boundary',
-			'bool',
-			f"Returns true if a {specifier} is a code point boundary."
-		)
-		if code_unit.proxy:
-			write_function_body(file, f'using namespace impl;')
-			write_function_body(file, f'return is_code_point_boundary(static_cast<{code_unit.proxy_typename}>(c));')
-		elif code_unit.bits == 32:
-			write_function_body(file, f'(void)c;')
-			write_function_body(file, 'return true;')
-		elif code_unit.bits == 16:
-			write_function_body(file, 'return c <= 0xDBFFu || c >= 0xE000u;')
-		elif code_unit.bits == 8:
-			write_function_body(file, 'return (c & 0b11000000u) != 0b10000000u;')
-		write_function_footer(file)
+			write_identification_function(files, code_unit,
+				'is_combining_mark',
+				f"Returns true if a {specifier} is a combining mark code point.",
+				categories=('Mn', 'Mc'),
+				mutex_groups=(7,),
+				mutex_groups_dict=mutex_groups
+			)
 
-		write_function_header(file, code_unit,
-			'is_code_point',
-			'bool',
-			f"Returns true if a {specifier} is in-and-of-itself a valid code point."
-		)
-		if code_unit.proxy:
-			write_function_body(file, f'using namespace impl;')
-			write_function_body(file, f'return is_code_point(static_cast<{code_unit.proxy_typename}>(c));')
-		elif code_unit.bits == 32:
-			write_function_body(file, f'(void)c;')
-			write_function_body(file, 'return true;')
-		elif code_unit.bits == 16:
-			write_function_body(file, 'return c <= 0xD7FFu || c >= 0xE000u;')
-		elif code_unit.bits == 8:
-			write_function_body(file, 'return c <= 0x007Fu;')
-		write_function_footer(file)
+			write_identification_function(files, code_unit,
+				'is_octal_digit',
+				f"Returns true if a {specifier} is an octal digit code point.",
+				characters=(('0', '7'), )
+			)
+			write_identification_function(files, code_unit,
+				'is_decimal_digit',
+				f"Returns true if a {specifier} is a decimal digit code point.",
+				characters=(('0', '9'), )
+			)
+			write_identification_function(files, code_unit,
+				'is_hexadecimal_digit',
+				f"Returns true if a {specifier} is a hexadecimal digit code point.",
+				characters=(('a', 'f'), ('A', 'F'), ('0', '9'))
+			)
 
-		write('}')
-		write('MUU_{}NAMESPACE_END'.format('IMPL_' if code_unit.private_api else ''))
+			write_identification_function(files, code_unit,
+				'is_uppercase',
+				f'Returns true if a {specifier} is an uppercase code point.',
+				properties='Uppercase',
+				mutex_groups=6,
+				mutex_groups_dict=mutex_groups
+			)
+			write_identification_function(files, code_unit,
+				'is_lowercase',
+				f'Returns true if a {specifier} is an lowercase code point.',
+				properties='Lowercase',
+				mutex_groups=6,
+				mutex_groups_dict=mutex_groups
+			)
+
+			write_function_header(files, code_unit,
+				'is_code_point_boundary',
+				'bool',
+				f"Returns true if a {specifier} is a code point boundary."
+			)
+			if code_unit.proxy:
+				write_function_body(files, f'using namespace impl;')
+				write_function_body(files, f'return is_code_point_boundary(static_cast<{code_unit.proxy_typename}>(c));')
+			elif code_unit.bits == 32:
+				write_function_body(files, f'(void)c;')
+				write_function_body(files, 'return true;')
+			elif code_unit.bits == 16:
+				write_function_body(files, 'return c <= 0xDBFFu || c >= 0xE000u;')
+			elif code_unit.bits == 8:
+				write_function_body(files, 'return (c & 0b11000000u) != 0b10000000u;')
+			write_function_footer(files)
+
+			write_function_header(files, code_unit,
+				'is_code_point',
+				'bool',
+				f"Returns true if a {specifier} is in-and-of-itself a valid code point."
+			)
+			if code_unit.proxy:
+				write_function_body(files, f'using namespace impl;')
+				write_function_body(files, f'return is_code_point(static_cast<{code_unit.proxy_typename}>(c));')
+			elif code_unit.bits == 32:
+				write_function_body(files, f'(void)c;')
+				write_function_body(files, 'return true;')
+			elif code_unit.bits == 16:
+				write_function_body(files, 'return c <= 0xD7FFu || c >= 0xE000u;')
+			elif code_unit.bits == 8:
+				write_function_body(files, 'return c <= 0x007Fu;')
+			write_function_footer(files)
+
+			# finish up header
+			h('}')
+			h('MUU_{}NAMESPACE_END'.format('IMPL_' if code_unit.private_api else ''))
+
+			# finish up tests
+			if len(mutex_groups) > 0:
+				for mx, names in mutex_groups.items():
+					t('template <>')
+					t(f'struct code_unit_func_group<{code_unit.typename}, {mx}>')
+					t('{')
+					t(f'\tstatic constexpr code_unit_func<{code_unit.typename}>* functions[] =')
+					t('\t{')
+					names.sort()
+					for n in names:
+						t(f'\t\t{"impl::" if code_unit.typename == "unsigned char" else ""}{n},')
+					t('\t};')
+					t('};')
+					t('')
+			if code_unit.typename == 'char8_t':
+				t('#endif // __cpp_char8_t')
+			elif code_unit.typename == 'unsigned char':
+				t('#endif // !__cpp_char8_t')
 
 
 
@@ -1673,20 +1866,20 @@ def write_header(folder, code_unit):
 
 
 def main():
-	folder = path.join(utils.get_script_folder(), '..', 'include', 'muu', 'impl')
-
+	header_folder = path.join(utils.get_script_folder(), '..', 'include', 'muu', 'impl')
+	tests_folder = path.join(utils.get_script_folder(), '..', 'tests')
 	ucd() # force generation first
 
 	#G.subdivision_allowed = False
 	#G.word_size = 32
 	#G.compound_boolean_limit = 4
 	#G.expression_ids = True
-	write_header(folder, CodeUnit('char'))
-	write_header(folder, CodeUnit('unsigned char'))
-	write_header(folder, CodeUnit('char8_t'))
-	write_header(folder, CodeUnit('char16_t'))
-	write_header(folder, CodeUnit('char32_t'))
-	write_header(folder, CodeUnit('wchar_t'))
+	write_header((header_folder, tests_folder), CodeUnit('char'))
+	write_header((header_folder, tests_folder), CodeUnit('unsigned char'))
+	write_header((header_folder, tests_folder), CodeUnit('char8_t'))
+	write_header((header_folder, tests_folder), CodeUnit('char16_t'))
+	write_header((header_folder, tests_folder), CodeUnit('char32_t'))
+	write_header((header_folder, tests_folder), CodeUnit('wchar_t'))
 
 
 if __name__ == '__main__':

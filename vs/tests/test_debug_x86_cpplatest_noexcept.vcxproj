@@ -63,6 +63,12 @@
 		<ClCompile Include="..\..\tests\tests.cpp">
 			<PrecompiledHeader>Create</PrecompiledHeader>
 		</ClCompile>
+		<ClCompile Include="..\..\tests\unicode_char.cpp" />
+		<ClCompile Include="..\..\tests\unicode_char16_t.cpp" />
+		<ClCompile Include="..\..\tests\unicode_char32_t.cpp" />
+		<ClCompile Include="..\..\tests\unicode_char8_t.cpp" />
+		<ClCompile Include="..\..\tests\unicode_unsigned_char.cpp" />
+		<ClCompile Include="..\..\tests\unicode_wchar_t.cpp" />
 		<ClCompile Include="..\..\tests\uuid.cpp" />
 	</ItemGroup>
 	<ItemGroup>
@@ -70,9 +76,10 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ClInclude Include="..\..\tests\catch2.h" />
-		<ClInclude Include="..\..\tests\settings.h" />
 		<ClInclude Include="..\..\tests\float_test_data.h" />
+		<ClInclude Include="..\..\tests\settings.h" />
 		<ClInclude Include="..\..\tests\tests.h" />
+		<ClInclude Include="..\..\tests\unicode.h" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="..\..\tests\meson.build" />

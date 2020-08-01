@@ -16,7 +16,6 @@ MUU_POP_WARNINGS
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_LIFETIME_WARNINGS
-MUU_PRAGMA_CLANG("clang diagnostic ignored \"-Wmissing-prototypes\"")
 
 MUU_IMPL_NAMESPACE_START
 {
@@ -24,14 +23,14 @@ MUU_IMPL_NAMESPACE_START
 	// I should implement a way of controlling this via a library config option or two.
 
 	[[nodiscard]]
-	std::random_device& random_device() noexcept
+	inline std::random_device& random_device() noexcept
 	{
 		thread_local std::random_device rdev;
 		return rdev;
 	}
 
 	[[nodiscard]]
-	std::mt19937& mersenne_twister() noexcept
+	inline std::mt19937& mersenne_twister() noexcept
 	{
 		thread_local std::mt19937 engine{ random_device()() };
 		return engine;

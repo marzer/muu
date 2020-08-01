@@ -37,7 +37,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_ascii_whitespace(char8_t c) noexcept
 	{
-		return u8'\t' <= c && c <= u8' ' && (1u << (static_cast<uint_least32_t>(c) - 0x9u)) & 0x80001Fu;
+		return (u8'\t' <= c && c <= u8'\r') || c == u8' ';
 	}
 
 	/// \brief		Returns true if a UTF-8 code unit is a whitespace code point from outside the ASCII range.
@@ -46,7 +46,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_unicode_whitespace(char8_t c) noexcept
 	{
-		return 0x85u <= c && c <= 0xA0u && (1u << (static_cast<uint_least32_t>(c) - 0x85u)) & 0x8000001u;
+		return c == 0x85u || c == 0xA0u;
 	}
 
 	/// \brief		Returns true if a UTF-8 code unit is a whitespace code point.
@@ -73,7 +73,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_ascii_letter(char8_t c) noexcept
 	{
-		return u8'A' <= c && c <= u8'z' && (1ull << (static_cast<uint_least64_t>(c) - 0x41u)) & 0x3FFFFFF03FFFFFFull;
+		return (u8'A' <= c && c <= u8'Z') || (u8'a' <= c && c <= u8'z');
 	}
 
 	/// \brief		Returns true if a UTF-8 code unit is a letter code point from outside the ASCII range.
@@ -89,7 +89,7 @@ MUU_NAMESPACE_START
 		switch ((static_cast<uint_least64_t>(c) - 0xAAull) / 0x40ull)
 		{
 			case 0x00: return (1ull << (static_cast<uint_least64_t>(c) - 0xAAu)) & 0xFFFFDFFFFFC10801ull;
-			case 0x01: return (c <= 0xF6u) || (0xF8u <= c);
+			case 0x01: return c != 0xF7u;
 			MUU_NO_DEFAULT_CASE;
 		}
 		// 65 codepoints from 6 ranges (spanning a search area of 256)
@@ -202,7 +202,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_uppercase(char8_t c) noexcept
 	{
-		return ((u8'A' <= c && c <= u8'Z')) || ((0xC0u <= c && c <= 0xD6u)) || ((0xD8u <= c && c <= 0xDEu));
+		return (u8'A' <= c && c <= u8'Z') || (0xC0u <= c && c <= 0xD6u) || (0xD8u <= c && c <= 0xDEu);
 	}
 
 	/// \brief		Returns true if a UTF-8 code unit is an lowercase code point.
@@ -219,7 +219,7 @@ MUU_NAMESPACE_START
 		{
 			case 0x00: return c <= u8'z';
 			case 0x01: return 0xAAu <= c && (1ull << (static_cast<uint_least64_t>(c) - 0xAAu)) & 0x60000000010801ull;
-			case 0x02: return (c <= 0xF6u) || (0xF8u <= c);
+			case 0x02: return c != 0xF7u;
 			MUU_NO_DEFAULT_CASE;
 		}
 		// 61 codepoints from 6 ranges (spanning a search area of 256)
