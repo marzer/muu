@@ -533,15 +533,30 @@ MUU_IMPL_NAMESPACE_START
 	template <typename T>
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr uint_least32_t hex_to_dec(T codepoint) noexcept
+	constexpr unsigned hex_to_dec(T codepoint) noexcept
 	{
-		if constexpr (std::is_same_v<remove_cvref<T>, uint_least32_t>)
+		if constexpr (std::is_same_v<remove_cvref<T>, unsigned>)
 			return codepoint >= 0x41u // >= 'A'
 			? 10u + (codepoint | 0x20u) - 0x61u // - 'a'
 			: codepoint - 0x30u // - '0'
 		;
 		else
-			return hex_to_dec(static_cast<uint_least32_t>(codepoint));
+			return hex_to_dec(static_cast<unsigned>(codepoint));
+	}
+
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	MUU_ATTR(const)
+	constexpr char dec_to_hex(unsigned val, char a = 'a') noexcept
+	{
+		return static_cast<char>(val >= 10u ? static_cast<unsigned>(a) + (val - 10u) : '0' + val);
+	}
+
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr array<char, 2> byte_to_hex(uint8_t byte, char a = 'a') noexcept
+	{
+		return { { dec_to_hex(byte / 16u, a), dec_to_hex(byte % 16u, a) } };
 	}
 }
 MUU_IMPL_NAMESPACE_END

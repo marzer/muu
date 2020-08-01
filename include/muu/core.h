@@ -843,7 +843,7 @@ MUU_NAMESPACE_START
 			static constexpr T escape = T{ 27 };				///< `ESC`
 
 			static constexpr T space = T{ 32 };					///< `&nbsp;` (space)
-			static constexpr T exclaimation_mark = T{ 33 };		///< `!`
+			static constexpr T exclamation_mark = T{ 33 };		///< `!`
 			static constexpr T quote = T{ 34 };					///< `"`
 			static constexpr T number_sign = T{ 35 };			///< `#`
 			static constexpr T dollar_sign = T{ 36 };			///< `$`
@@ -986,12 +986,12 @@ MUU_NAMESPACE_START
 	template <> struct constants<__fp16> : impl::floating_point_constants<__fp16> {};
 	#endif
 
-	#if defined(DOXYGEN) || MUU_HAS_FLOAT16
+	#if MUU_HAS_FLOAT16
 	/// \brief	`float16_t` constants.
 	template <> struct constants<float16_t> : impl::floating_point_constants<float16_t> {};
 	#endif
 
-	#if defined(DOXYGEN) || MUU_HAS_FLOAT128
+	#if MUU_HAS_FLOAT128
 	/// \brief	`float128_t` constants.
 	template <> struct constants<float128_t> : impl::floating_point_constants<float128_t> {};
 	#endif
@@ -1043,7 +1043,7 @@ MUU_NAMESPACE_START
 	/// \brief	`unsigned long long` constants.
 	template <> struct constants<unsigned long long> : impl::unsigned_integral_constants<unsigned long long> {};
 
-	#if defined(DOXYGEN) || MUU_HAS_INT128
+	#if MUU_HAS_INT128
 	/// \brief	`int128_t` constants.
 	template <> struct constants<int128_t> : impl::signed_integral_constants<int128_t> {};
 
@@ -1062,7 +1062,8 @@ MUU_NAMESPACE_END
 MUU_NAMESPACE_START
 {
 	/// \brief A (mostly) drop-in substitute for std::array.
-	/// 
+	/// \ingroup blocks
+	///
 	/// \remark <strong><em>"Why does this exist? Why not just use std::array?"</em></strong>
 	/// <br><br>
 	///	The standard library's `<array>` header drags in _a lot_ of cruft, regardless of implementation,
@@ -1621,7 +1622,7 @@ MUU_NAMESPACE_START
 	namespace impl
 	{
 		MUU_PUSH_WARNINGS
-		MUU_DISABLE_INIT_WARNINGS
+		MUU_DISABLE_LIFETIME_WARNINGS
 
 		template <typename To, typename From>
 		[[nodiscard]]

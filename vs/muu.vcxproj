@@ -50,6 +50,7 @@
     <ClInclude Include="..\include\muu\impl\aligned_alloc.hpp" />
     <ClInclude Include="..\include\muu\impl\blob.hpp" />
     <ClInclude Include="..\include\muu\impl\hashing.hpp" />
+    <ClInclude Include="..\include\muu\impl\random.hpp" />
     <ClInclude Include="..\include\muu\impl\unicode_char.h" />
     <ClInclude Include="..\include\muu\impl\unicode_char16_t.h" />
     <ClInclude Include="..\include\muu\impl\unicode_char32_t.h" />

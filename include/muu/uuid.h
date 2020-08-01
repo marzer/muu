@@ -36,9 +36,9 @@ MUU_IMPL_NAMESPACE_START
 			{
 				MUU_ASSUME((first + 2u) <= 16u);
 				if constexpr (build::is_little_endian)
-					return pack(byte_arr[first], byte_arr[first + 1]);
+					return pack(byte_arr[first], byte_arr[first + 1u]);
 				else
-					return pack(byte_arr[first + 1], byte_arr[first]);
+					return pack(byte_arr[first + 1u], byte_arr[first]);
 			}
 		};
 
@@ -51,9 +51,9 @@ MUU_IMPL_NAMESPACE_START
 			{
 				MUU_ASSUME((first + 4u) <= 16u);
 				if constexpr (build::is_little_endian)
-					return pack(byte_arr[first], byte_arr[first + 1], byte_arr[first + 2], byte_arr[first + 3]);
+					return pack(byte_arr[first], byte_arr[first + 1u], byte_arr[first + 2u], byte_arr[first + 3u]);
 				else
-					return pack(byte_arr[first + 3], byte_arr[first + 2], byte_arr[first + 1], byte_arr[first]);
+					return pack(byte_arr[first + 3u], byte_arr[first + 2u], byte_arr[first + 1u], byte_arr[first]);
 			}
 		};
 
@@ -67,13 +67,13 @@ MUU_IMPL_NAMESPACE_START
 				MUU_ASSUME((first + 8u) <= 16u);
 				if constexpr (build::is_little_endian)
 					return pack(
-						byte_arr[first], byte_arr[first + 1], byte_arr[first + 2], byte_arr[first + 3],
-						byte_arr[first + 4], byte_arr[first + 5], byte_arr[first + 6], byte_arr[first + 7]
+						byte_arr[first], byte_arr[first + 1u], byte_arr[first + 2u], byte_arr[first + 3u],
+						byte_arr[first + 4u], byte_arr[first + 5u], byte_arr[first + 6u], byte_arr[first + 7u]
 					);
 				else
 					return pack(
-						byte_arr[first + 7], byte_arr[first + 6], byte_arr[first + 5], byte_arr[first + 4],
-						byte_arr[first + 3], byte_arr[first + 2], byte_arr[first + 1], byte_arr[first]
+						byte_arr[first + 7u], byte_arr[first + 6u], byte_arr[first + 5u], byte_arr[first + 4u],
+						byte_arr[first + 3u], byte_arr[first + 2u], byte_arr[first + 1u], byte_arr[first]
 					);
 			}
 		};
@@ -266,7 +266,7 @@ MUU_NAMESPACE_START
 			}}
 		{}
 
-		#if defined(DOXYGEN) || MUU_HAS_INT128
+		#if MUU_HAS_INT128
 
 		/// \brief	Constructs a UUID directly from a 128-bit integer.
 		/// 
@@ -413,7 +413,7 @@ MUU_NAMESPACE_START
 			return impl::uuid_slice<8>(bytes.values, 8) & 0x0000FFFFFFFFFFFF_u64;
 		}
 
-		#if defined(DOXYGEN) || MUU_HAS_INT128
+		#if MUU_HAS_INT128
 
 		/// \brief	Converts a UUID directly into a 128-bit integer.
 		[[nodiscard]]
@@ -557,9 +557,68 @@ MUU_NAMESPACE_START
 			return compare(lhs, rhs) >= 0;
 		}
 
-		template <typename T>
+		private:
+
+			template <typename T>
+			[[nodiscard]]
+			static constexpr std::optional<uuid> parse_impl(std::basic_string_view<T> str) noexcept;
+
+		public:
+
+		/// \brief	Attempts to parse a UUID from a UTF-8 string.
 		[[nodiscard]]
-		static constexpr std::optional<uuid> parse(std::basic_string_view<T> str) noexcept;
+		static constexpr std::optional<uuid> parse(std::string_view str) noexcept;
+
+		#ifdef __cpp_lib_char8_t
+		/// \brief	Attempts to parse a UUID from a UTF-8 string.
+		[[nodiscard]]
+		static constexpr std::optional<uuid> parse(std::u8string_view str) noexcept;
+		#endif
+
+		/// \brief	Attempts to parse a UUID from a UTF-16 string.
+		[[nodiscard]]
+		static constexpr std::optional<uuid> parse(std::u16string_view str) noexcept;
+
+		/// \brief	Attempts to parse a UUID from a UTF-32 string.
+		[[nodiscard]]
+		static constexpr std::optional<uuid> parse(std::u32string_view str) noexcept;
+
+		/// \brief	Attempts to parse a UUID from a wide string.
+		[[nodiscard]]
+		static constexpr std::optional<uuid> parse(std::wstring_view str) noexcept;
+
+		/// \brief	Writes a UUID to a text stream.
+		template <typename Char, typename Traits>
+		friend std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& lhs, const uuid& rhs)
+		{
+			constexpr auto print_byte = [](auto& stream, std::byte byte)
+			{
+				const auto hex = impl::byte_to_hex(unwrap(byte), 'A');
+				stream.write(hex.data(), hex.size());
+			};
+			using c = muu::constants<Char>;
+			print_byte(lhs, rhs.bytes[0]);
+			print_byte(lhs, rhs.bytes[1]);
+			print_byte(lhs, rhs.bytes[2]);
+			print_byte(lhs, rhs.bytes[3]);
+			lhs << c::hyphen;
+			print_byte(lhs, rhs.bytes[4]);
+			print_byte(lhs, rhs.bytes[5]);
+			lhs << c::hyphen;
+			print_byte(lhs, rhs.bytes[6]);
+			print_byte(lhs, rhs.bytes[7]);
+			lhs << c::hyphen;
+			print_byte(lhs, rhs.bytes[8]);
+			print_byte(lhs, rhs.bytes[9]);
+			lhs << c::hyphen;
+			print_byte(lhs, rhs.bytes[10]);
+			print_byte(lhs, rhs.bytes[11]);
+			print_byte(lhs, rhs.bytes[12]);
+			print_byte(lhs, rhs.bytes[13]);
+			print_byte(lhs, rhs.bytes[14]);
+			print_byte(lhs, rhs.bytes[15]);
+			return lhs;
+		}
 	};
 
 	/// \brief	UUID constants.
@@ -678,7 +737,7 @@ MUU_NAMESPACE_START
 	}
 
 	template <typename T>
-	constexpr std::optional<uuid> uuid::parse(std::basic_string_view<T> str) noexcept
+	constexpr std::optional<uuid> uuid::parse_impl(std::basic_string_view<T> str) noexcept
 	{
 		if (str.length() < 32) // uuid with no braces or hyphens
 			return {};
@@ -689,6 +748,14 @@ MUU_NAMESPACE_START
 			return parser.value;
 		return {};
 	}
+
+	constexpr std::optional<uuid> uuid::parse(std::string_view str) noexcept { return parse_impl(str); }
+	#ifdef __cpp_lib_char8_t
+	constexpr std::optional<uuid> uuid::parse(std::u8string_view str) noexcept { return parse_impl(str); }
+	#endif
+	constexpr std::optional<uuid> uuid::parse(std::u16string_view str) noexcept { return parse_impl(str); }
+	constexpr std::optional<uuid> uuid::parse(std::u32string_view str) noexcept { return parse_impl(str); }
+	constexpr std::optional<uuid> uuid::parse(std::wstring_view str) noexcept { return parse_impl(str); }
 }
 MUU_NAMESPACE_END
 

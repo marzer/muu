@@ -8,12 +8,6 @@
 
 #define SV(v) MUU_APPEND_SV(v)
 
-#if !MUU_CLANG || MUU_CLANG > 8
-	#define CHECK_AND_STATIC_ASSERT_W(x) CHECK_AND_STATIC_ASSERT(x)
-#else
-	#define CHECK_AND_STATIC_ASSERT_W(x) CHECK(x)
-#endif
-
 #define CHECK_FUNC(func, input, expected)														\
 	CHECK_AND_STATIC_ASSERT(func(SV(input)) == SV(expected));									\
 	CHECK_AND_STATIC_ASSERT(func(MUU_CONCAT(u8, SV(input))) == MUU_CONCAT(u8, SV(expected)));	\

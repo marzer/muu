@@ -12,15 +12,16 @@
 #if !defined(DOXYGEN) // undocumented forward declarations are hidden from doxygen because they fuck it up =/
 
 //=====================================================================================================================
-// STANDARD-LIBRARY / NON-MUU TYPEDEFS AND FORWARD DECLARATIONS
+// NON-MUU TYPEDEFS AND FORWARD DECLARATIONS
 //=====================================================================================================================
 
 namespace std
 {
-	template <typename>				struct hash;
-	template <typename>				struct pointer_traits;
-	template <typename, typename>	class basic_ostream;
-	template <typename, typename>	class basic_istream;
+	template <typename>				struct	hash;
+	template <typename>				struct	pointer_traits;
+	template <typename>				class	optional;
+	template <typename, typename>	class	basic_ostream;
+	template <typename, typename>	class	basic_istream;
 }
 
 #if MUU_WINDOWS
@@ -112,23 +113,21 @@ namespace muu // non-abi namespace; this is not an error
 
 MUU_NAMESPACE_START // abi namespace
 {
-	struct uuid;
-	struct semver;
-	struct half;
+	struct									uuid;
+	struct									semver;
+	struct									half;
+	template <typename, size_t>		struct	array;
 
-	class blob;
-	class string_param;
-	class bitset;
-	class thread_pool;
-	class sha1;
-
-	template <typename, size_t>		struct array;
-
-	template <size_t>				class hash_combiner;
-	template <size_t>				class fnv1a;
-	template <typename>				class scope_guard;
-	template <typename, size_t>		class tagged_ptr;
-	template <typename, typename>	class accumulator;
+	class									blob;
+	class									string_param;
+	class									bitset;
+	class									thread_pool;
+	class									sha1;
+	template <size_t>				class	hash_combiner;
+	template <size_t>				class	fnv1a;
+	template <typename>				class	scope_guard;
+	template <typename, size_t>		class	tagged_ptr;
+	template <typename, typename>	class	accumulator;
 	
 	namespace impl {}
 }
@@ -139,45 +138,6 @@ MUU_NAMESPACE_END
 //=====================================================================================================================
 // TYPEDEFS AND FORWARD DECLARATIONS
 //=====================================================================================================================
-
-/// \brief	The root namespace for all muu functions and types.
-namespace muu { }
-
-namespace muu // non-abi namespace; this is not an error
-{
-	#if defined(DOXYGEN) || MUU_HAS_INT128
-	/// \brief	A 128-bit signed integer.
-	/// 
-	/// \attention This typedef is only present when 128-bit integers are supported by your target platform.
-	/// 		 You can check support using #MUU_HAS_INT128.
-	using int128_t = __int128_t;
-
-	/// \brief	A 128-bit unsigned integer.
-	/// 
-	/// \attention This typedef is only present when 128-bit integers are supported by your target platform.
-	/// 		 You can check support using #MUU_HAS_INT128.
-	using uint128_t = __uint128_t;
-	#endif
-
-	#if defined(DOXYGEN) || MUU_HAS_FLOAT128
-	/// \brief	A 128-bit quad-precision float.
-	/// 
-	/// \attention This typedef is only present when 128-bit floats are supported by your target platform.
-	/// 		 You can check support using #MUU_HAS_FLOAT128.
-	using float128_t = __float128;
-	#endif
-
-	#if defined(DOXYGEN) || MUU_HAS_FLOAT16
-	/// \brief	A 16-bit half-precision float.
-	/// 
-	/// \attention This will be an alias for your target platform's native IEC559 16-bit float type
-	/// 		 if present (e.g. `_Float16`), otherwise it will alias muu::half. You can check support using
-	/// 		 #MUU_HAS_FLOAT16.
-	using float16_t = _Float16;
-	#else
-	using float16_t = half;
-	#endif
-}
 
 /// \defgroup		meta			Metafunctions and type traits
 /// \brief			Type traits and metaprogramming utilities.
@@ -203,9 +163,51 @@ namespace muu // non-abi namespace; this is not an error
 /// \defgroup		hashing		Hashing
 /// \brief Utilities for generating (non-cryptographic) hashes.
 
-
 /// \defgroup		aligned_alloc		Aligned allocation
 /// \brief Utilities for performing (re)allocations on specific alignment boundaries.
+
+/// \brief	The root namespace for all muu functions and types.
+namespace muu { }
+
+namespace muu // non-abi namespace; this is not an error
+{
+	#if MUU_HAS_INT128
+	/// \brief	A 128-bit signed integer.
+	/// \ingroup blocks
+	/// 
+	/// \attention This typedef is only present when 128-bit integers are supported by your target platform.
+	/// 		 You can check support using #MUU_HAS_INT128.
+	using int128_t = __int128_t;
+
+	/// \brief	A 128-bit unsigned integer.
+	/// \ingroup blocks
+	/// 
+	/// \attention This typedef is only present when 128-bit integers are supported by your target platform.
+	/// 		 You can check support using #MUU_HAS_INT128.
+	using uint128_t = __uint128_t;
+	#endif
+
+	#if MUU_HAS_FLOAT128
+	/// \brief	A 128-bit quad-precision float.
+	/// \ingroup blocks
+	/// 
+	/// \attention This typedef is only present when 128-bit floats are supported by your target platform.
+	/// 		 You can check support using #MUU_HAS_FLOAT128.
+	using float128_t = __float128;
+	#endif
+
+	#if MUU_HAS_FLOAT16
+	/// \brief	A 16-bit half-precision float.
+	/// \ingroup blocks
+	/// 
+	/// \attention This will be an alias for your target platform's native IEC559 16-bit float type
+	/// 		 if present (e.g. `_Float16`), otherwise it will alias muu::half. You can check support using
+	/// 		 #MUU_HAS_FLOAT16.
+	using float16_t = _Float16;
+	#else
+	using float16_t = half;
+	#endif
+}
 
 MUU_NAMESPACE_START // abi namespace
 {

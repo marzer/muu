@@ -167,8 +167,9 @@
 
 	#define MUU_PUSH_WARNINGS				_Pragma("clang diagnostic push")
 	#define MUU_DISABLE_SWITCH_WARNINGS		_Pragma("clang diagnostic ignored \"-Wswitch\"")
-	#define MUU_DISABLE_INIT_WARNINGS		_Pragma("clang diagnostic ignored \"-Wmissing-field-initializers\"")	\
-											_Pragma("clang diagnostic ignored \"-Wglobal-constructors\"")
+	#define MUU_DISABLE_LIFETIME_WARNINGS	_Pragma("clang diagnostic ignored \"-Wmissing-field-initializers\"")	\
+											_Pragma("clang diagnostic ignored \"-Wglobal-constructors\"")	\
+											_Pragma("clang diagnostic ignored \"-Wexit-time-destructors\"")
 	#define MUU_DISABLE_VTABLE_WARNINGS		_Pragma("clang diagnostic ignored \"-Weverything\"") \
 											_Pragma("clang diagnostic ignored \"-Wweak-vtables\"")
 	#define MUU_DISABLE_PADDING_WARNINGS	_Pragma("clang diagnostic ignored \"-Wpadded\"")
@@ -328,9 +329,10 @@
 	#define MUU_DISABLE_SWITCH_WARNINGS		_Pragma("GCC diagnostic ignored \"-Wswitch\"")						\
 											_Pragma("GCC diagnostic ignored \"-Wswitch-enum\"")					\
 											_Pragma("GCC diagnostic ignored \"-Wswitch-default\"")
-	#define MUU_DISABLE_INIT_WARNINGS		_Pragma("GCC diagnostic ignored \"-Wmissing-field-initializers\"")	\
+	#define MUU_DISABLE_LIFETIME_WARNINGS	_Pragma("GCC diagnostic ignored \"-Wmissing-field-initializers\"")	\
 											_Pragma("GCC diagnostic ignored \"-Wmaybe-uninitialized\"")			\
 											_Pragma("GCC diagnostic ignored \"-Wuninitialized\"")				\
+											_Pragma("GCC diagnostic ignored \"-Wmissing-declarations\"")		\
 							   MUU_PRAGMA_GCC_GE(8, "GCC diagnostic ignored \"-Wclass-memaccess\"")
 	#define MUU_DISABLE_PADDING_WARNINGS	_Pragma("GCC diagnostic ignored \"-Wpadded\"")
 	#define MUU_DISABLE_ARITHMETIC_WARNINGS	_Pragma("GCC diagnostic ignored \"-Wfloat-equal\"")					\
@@ -344,7 +346,7 @@
 											_Pragma("GCC diagnostic ignored \"-Wpedantic\"")					\
 											_Pragma("GCC diagnostic ignored \"-Wtype-limits\"")					\
 											MUU_DISABLE_SWITCH_WARNINGS											\
-											MUU_DISABLE_INIT_WARNINGS											\
+											MUU_DISABLE_LIFETIME_WARNINGS											\
 											MUU_DISABLE_PADDING_WARNINGS										\
 											MUU_DISABLE_ARITHMETIC_WARNINGS										\
 											MUU_DISABLE_SHADOW_WARNINGS											\
@@ -500,8 +502,8 @@
 #ifndef MUU_DISABLE_SWITCH_WARNINGS
 	#define	MUU_DISABLE_SWITCH_WARNINGS
 #endif
-#ifndef MUU_DISABLE_INIT_WARNINGS
-	#define	MUU_DISABLE_INIT_WARNINGS
+#ifndef MUU_DISABLE_LIFETIME_WARNINGS
+	#define	MUU_DISABLE_LIFETIME_WARNINGS
 #endif
 #ifndef MUU_DISABLE_VTABLE_WARNINGS
 	#define MUU_DISABLE_VTABLE_WARNINGS
@@ -657,19 +659,23 @@
 	#define MUU_HAS_INTERCHANGE_FP16 0
 #endif
 #ifndef MUU_HAS_FLOAT16
-	#define MUU_HAS_FLOAT16 0
+	#ifdef DOXYGEN
+		#define MUU_HAS_FLOAT16 1
+	#else
+		#define MUU_HAS_FLOAT16 0
+	#endif
 #endif
 
-#if defined(__SIZEOF_FLOAT128__)		\
-	&& defined(__FLT128_MANT_DIG__)		\
-	&& defined(__LDBL_MANT_DIG__)		\
-	&& __FLT128_MANT_DIG__ > __LDBL_MANT_DIG__
+#if defined(DOXYGEN) || (defined(__SIZEOF_FLOAT128__)	\
+	&& defined(__FLT128_MANT_DIG__)						\
+	&& defined(__LDBL_MANT_DIG__)						\
+	&& __FLT128_MANT_DIG__ > __LDBL_MANT_DIG__)
 	#define MUU_HAS_FLOAT128 1
 #else
 	#define MUU_HAS_FLOAT128 0
 #endif
 
-#ifdef __SIZEOF_INT128__
+#if defined(DOXYGEN) || defined(__SIZEOF_INT128__)
 	#define MUU_HAS_INT128 1
 #else
 	#define MUU_HAS_INT128 0
@@ -760,59 +766,59 @@ MUU_POP_WARNINGS
 /// @{
 ///
 /// \def MUU_ARCH_ITANIUM
-/// \brief `1` when targeting 64-bit Itanium, `0` otherwise.
+/// \brief `1` when targeting 64-bit Itanium, otherwise `0`.
 ///
 /// \def MUU_ARCH_AMD64
-/// \brief `1` when targeting AMD64, `0` otherwise.
+/// \brief `1` when targeting AMD64, otherwise `0`.
 ///
 /// \def MUU_ARCH_X86
-/// \brief `1` when targeting 32-bit x86, `0` otherwise.
+/// \brief `1` when targeting 32-bit x86, otherwise `0`.
 /// 
 /// \def MUU_ARCH_ARM32
-/// \brief `1` when targeting 32-bit ARM, `0` otherwise.
+/// \brief `1` when targeting 32-bit ARM, otherwise `0`.
 /// 
 /// \def MUU_ARCH_ARM64
-/// \brief `1` when targeting 64-bit ARM, `0` otherwise.
+/// \brief `1` when targeting 64-bit ARM, otherwise `0`.
 /// 
 /// \def MUU_ARCH_ARM
-/// \brief `1` when targeting any flavour of ARM, `0` otherwise.
+/// \brief `1` when targeting any flavour of ARM, otherwise `0`.
 /// 
 /// \def MUU_ARCH_BITNESS
 /// \brief The 'bitness' of the current architecture (e.g. `64` on AMD64).
 /// 
 /// \def MUU_CLANG
-/// \brief The value of `__clang_major__` when the code is being compiled by LLVM/Clang, `0` otherwise.
+/// \brief The value of `__clang_major__` when the code is being compiled by LLVM/Clang, otherwise `0`.
 /// \see https://sourceforge.net/p/predef/wiki/Compilers/
 /// 
 /// \def MUU_MSVC
-/// \brief The value of `_MSC_VER` when the code is being compiled by MSVC, `0` otherwise.
+/// \brief The value of `_MSC_VER` when the code is being compiled by MSVC, otherwise `0`.
 /// \see https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros
 /// 
 /// \def MUU_ICC
-/// \brief The value of `__INTEL_COMPILER` when the code is being compiled by Intel ICC, `0` otherwise.
+/// \brief The value of `__INTEL_COMPILER` when the code is being compiled by Intel ICC, otherwise `0`.
 /// \see http://scv.bu.edu/computation/bladecenter/manpages/icc.html
 /// 
 /// \def MUU_GCC
-/// \brief The value of `__GNUC__` when the code is being compiled by GCC, `0` otherwise.
+/// \brief The value of `__GNUC__` when the code is being compiled by GCC, otherwise `0`.
 /// \see https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
 /// 
 /// \def MUU_WINDOWS
-/// \brief `1` when building for the Windows operating system, `0` otherwise.
+/// \brief `1` when building for the Windows operating system, otherwise `0`.
 /// 
 /// \def MUU_INTELLISENSE
-/// \brief `1` when the code being compiled by an IDE's 'intellisense' compiler, `0` otherwise.
+/// \brief `1` when the code being compiled by an IDE's 'intellisense' compiler, otherwise `0`.
 /// 
 /// \def MUU_EXCEPTIONS
-/// \brief `1` when support for C++ exceptions is enabled, `0` otherwise.
+/// \brief `1` when support for C++ exceptions is enabled, otherwise `0`.
 /// 
 /// \def MUU_RTTI
-/// \brief `1` when support for C++ run-time type identification (RTTI) is enabled, `0` otherwise.
+/// \brief `1` when support for C++ run-time type identification (RTTI) is enabled, otherwise `0`.
 /// 
 /// \def MUU_LITTLE_ENDIAN
-/// \brief `1` when the target environment is little-endian, `0` otherwise.
+/// \brief `1` when the target environment is little-endian, otherwise `0`.
 /// 
 /// \def MUU_BIG_ENDIAN
-/// \brief `1` when the target environment is big-endian, `0` otherwise.
+/// \brief `1` when the target environment is big-endian, otherwise `0`.
 /// 
 /// \def MUU_CPP
 /// \brief The currently-targeted C++ standard. `17` for C++17, `20` for C++20, etc.
@@ -865,9 +871,10 @@ MUU_POP_WARNINGS
 /// \brief Disables compiler warnings relating to the use of switch statements.
 /// \see MUU_PUSH_WARNINGS
 
-//#define MUU_DISABLE_INIT_WARNINGS
-/// \def MUU_DISABLE_INIT_WARNINGS
-/// \brief Disables compiler warnings relating to variable initialization.
+//#define MUU_DISABLE_LIFETIME_WARNINGS
+/// \def MUU_DISABLE_LIFETIME_WARNINGS
+/// \brief Disables compiler warnings relating to object lifetime
+/// 	   (initialization, destruction, magic statics, et cetera).
 /// \see MUU_PUSH_WARNINGS
 
 //#define MUU_DISABLE_ALL_WARNINGS
@@ -1039,7 +1046,7 @@ MUU_POP_WARNINGS
 /// \ecpp
 /// 
 /// \def MUU_CONSTEVAL
-/// \brief Expands to C++20's `consteval` if supported by your compiler, or `constexpr` otherwise.
+/// \brief Expands to C++20's `consteval` if supported by your compiler, otherwise `constexpr`.
 /// \see [consteval](https://en.cppreference.com/w/cpp/language/consteval)
 /// 
 /// \def MUU_VECTORCALL
@@ -1074,20 +1081,20 @@ MUU_POP_WARNINGS
 /// \see [String literals in C++](https://en.cppreference.com/w/cpp/language/string_literal)
 ///
 /// \def MUU_HAS_INT128
-/// \brief `1` when the target environment has 128-bit integers, `0` otherwise.
+/// \brief `1` when the target environment has 128-bit integers, otherwise `0`.
 /// 
 /// \def MUU_HAS_FLOAT128
-/// \brief `1` when the target environment has 128-bit floats ('quads'), `0` otherwise.
+/// \brief `1` when the target environment has 128-bit floats ('quads'), otherwise `0`.
 /// 	   
 /// \def MUU_HAS_FLOAT16
-/// \brief `1` when the target environment has native IEC559 16-bit floats ('halfs'), `0` otherwise.
+/// \brief `1` when the target environment has native IEC559 16-bit floats ('halfs'), otherwise `0`.
 /// \remarks This is completely unrelated to the class muu::half, which is always available.
 ///
 /// \def MUU_HAS_BUILTIN(name)
-/// \brief Expands to `__has_builtin(name)` when supported by the compiler, `0` otherwise.
+/// \brief Expands to `__has_builtin(name)` when supported by the compiler, otherwise `0`.
 ///
 /// \def MUU_HAS_INCLUDE(header)
-/// \brief Expands to `__has_include(name)` when supported by the compiler, `0` otherwise.
+/// \brief Expands to `__has_include(name)` when supported by the compiler, otherwise `0`.
 /// 
 /// \def MUU_OFFSETOF(type, member)
 /// \brief Constexpr-friendly alias of `offsetof()`.

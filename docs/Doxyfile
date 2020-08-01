@@ -309,8 +309,6 @@ EXPAND_ONLY_PREDEF     = NO
 SEARCH_INCLUDES        = NO
 INCLUDE_PATH           =
 INCLUDE_FILE_PATTERNS  =
-
-
 PREDEFINED             =                                          \
     "DOXYGEN=1"                                                   \
     "NDEBUG=1"                                                    \
@@ -353,7 +351,7 @@ PREDEFINED             =                                          \
 #   "MUU_DISABLE_ALL_WARNINGS="                                   \
 #   "MUU_DISABLE_ARITHMETIC_WARNINGS="                            \
 #   "MUU_DISABLE_ENVIRONMENT_CHECKS="                             \
-#   "MUU_DISABLE_INIT_WARNINGS="                                  \
+#   "MUU_DISABLE_LIFETIME_WARNINGS="                                  \
 #   "MUU_DISABLE_MISC_WARNINGS="                                  \
 #   "MUU_DISABLE_PADDING_WARNINGS="                               \
 #   "MUU_DISABLE_SHADOW_WARNINGS="                                \

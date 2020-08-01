@@ -20,7 +20,7 @@ MUU_NAMESPACE_START
 		struct accumulator;
 	}
 
-	/// \brief	Statefully accumulates (adds) an indeterminate range of values.
+	/// \brief	Statefully accumulates (adds) an indeterminate number of values.
 	/// \ingroup blocks
 	///
 	/// \detail For integral types the accumulator is a simple bookkeeping helper, but for floating-point

@@ -66,3 +66,11 @@ MUU_POP_WARNINGS
 		static_assert(__VA_ARGS__);			\
 		CHECK(__VA_ARGS__)
 #endif
+
+// CHECK_AND_STATIC_ASSERT_W for wide string-related code
+// because a bunch of wide string traits code doesn't work in constexpr on older clang
+#if !MUU_CLANG || MUU_CLANG > 8
+	#define CHECK_AND_STATIC_ASSERT_W(x) CHECK_AND_STATIC_ASSERT(x)
+#else
+	#define CHECK_AND_STATIC_ASSERT_W(x) CHECK(x)
+#endif

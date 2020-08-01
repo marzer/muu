@@ -2,7 +2,7 @@
 #include "../include/muu/tagged_ptr.h"
 #include <array>
 
-MUU_DISABLE_INIT_WARNINGS
+MUU_DISABLE_LIFETIME_WARNINGS
 MUU_DISABLE_PADDING_WARNINGS
 
 // check all static invariants

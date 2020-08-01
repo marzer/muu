@@ -14,25 +14,6 @@ MUU_DISABLE_PADDING_WARNINGS
 
 MUU_NAMESPACE_START
 {
-	namespace impl
-	{
-		[[nodiscard]]
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
-		constexpr char dec_to_hex_lowercase(unsigned val) noexcept
-		{
-			return static_cast<char>(val >= 10u ? 'a' + (val - 10u) : '0' + val);
-		}
-
-		[[nodiscard]]
-		MUU_ATTR(const)
-		MUU_ATTR(flatten)
-		constexpr array<char, 2> byte_to_hex_lowercase(uint8_t byte) noexcept
-		{
-			return {{ dec_to_hex_lowercase(byte / 16u), dec_to_hex_lowercase(byte % 16u) }};
-		}
-	}
-
 	/// \addtogroup		hashing
 	/// @{
 	
@@ -265,13 +246,13 @@ MUU_NAMESPACE_START
 				return value_;
 			}
 
-			/// \brief	Writes the calculated hash to a text stream in hexadecimal form.
+			/// \brief	Writes ah FNV-1a hash to a text stream.
 			template <typename Char, typename Traits>
 			friend std::basic_ostream<Char, Traits>& operator<< (std::basic_ostream<Char, Traits>& lhs, const fnv1a& rhs)
 			{
 				for (unsigned i = sizeof(value_); i --> 0u;)
 				{
-					const auto hex = impl::byte_to_hex_lowercase(byte_select(rhs.value_, i));
+					const auto hex = impl::byte_to_hex(byte_select(rhs.value_, i));
 					lhs.write(hex.data(), hex.size());
 				}
 				return lhs;
@@ -377,7 +358,7 @@ MUU_NAMESPACE_START
 				return state.hash;
 			}
 
-			/// \brief	Writes the calculated hash to a text stream in hexadecimal form.
+			/// \brief	Writes a SHA-1 hash to a text stream.
 			///
 			///	\warning Calling this before finish() has been called is undefined behaviour.
 			template <typename Char, typename Traits>
@@ -385,7 +366,7 @@ MUU_NAMESPACE_START
 			{
 				for (auto byte : rhs.value())
 				{
-					const auto hex = impl::byte_to_hex_lowercase(unwrap(byte));
+					const auto hex = impl::byte_to_hex(unwrap(byte));
 					lhs.write(hex.data(), hex.size());
 				}
 				return lhs;

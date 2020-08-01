@@ -11,16 +11,15 @@
 
 #include "../../muu/uuid.h"
 #include "../../muu/hashing.h"
-
-MUU_PUSH_WARNINGS
-MUU_DISABLE_ALL_WARNINGS
 #if MUU_WINDOWS
+	MUU_PUSH_WARNINGS
+	MUU_DISABLE_ALL_WARNINGS
 	#include <rpc.h>
 	MUU_PRAGMA_MSVC(comment(lib, "rpcrt4.lib"))
+	MUU_POP_WARNINGS
 #else
-	#include <cstdlib>
+	#include "../../muu/impl/random.hpp"
 #endif
-MUU_POP_WARNINGS
 
 MUU_NAMESPACE_START
 {
@@ -48,8 +47,9 @@ MUU_NAMESPACE_START
 			// generate a version 4 uuid as per https://www.cryptosys.net/pki/uuid-rfc4122.html
 
 			// "Set all the other bits to randomly (or pseudo-randomly) chosen values."
+			std::uniform_int_distribution<unsigned> dist{ 0, 255 };
 			for (auto& b : val.bytes)
-				b = static_cast<std::byte>(rand() % 256);
+				b = static_cast<std::byte>(dist(impl::mersenne_twister()));
 
 			// "Set the four most significant bits (bits 12 through 15) of the
 			// time_hi_and_version field to the 4-bit version number."
