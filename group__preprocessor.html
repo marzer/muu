@@ -83,19 +83,19 @@ C++</span></a>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga032b28f73dc7b93f02c43a8ea6242731">MUU_ARCH_AMD64</a></span>
             </dt>
-            <dd><code>1</code> when targeting AMD64, <code>0</code> otherwise.</dd>
+            <dd><code>1</code> when targeting AMD64, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gae07f9cdd5a8d78f5a0672a865fd7cc43">MUU_ARCH_ARM</a></span>
             </dt>
-            <dd><code>1</code> when targeting any flavour of ARM, <code>0</code> otherwise.</dd>
+            <dd><code>1</code> when targeting any flavour of ARM, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga7f49df29b5350349e0f51b96a9d33044">MUU_ARCH_ARM32</a></span>
             </dt>
-            <dd><code>1</code> when targeting 32-bit ARM, <code>0</code> otherwise.</dd>
+            <dd><code>1</code> when targeting 32-bit ARM, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gab192624d5c5336adc054f386dc362f97">MUU_ARCH_ARM64</a></span>
             </dt>
-            <dd><code>1</code> when targeting 64-bit ARM, <code>0</code> otherwise.</dd>
+            <dd><code>1</code> when targeting 64-bit ARM, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga2e302f23e8da851a0443167d733facc3">MUU_ARCH_BITNESS</a></span>
             </dt>
@@ -103,11 +103,11 @@ C++</span></a>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga1741334d0b0155633d2c2cb965b4e363">MUU_ARCH_ITANIUM</a></span>
             </dt>
-            <dd><code>1</code> when targeting 64-bit Itanium, <code>0</code> otherwise.</dd>
+            <dd><code>1</code> when targeting 64-bit Itanium, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga026661cf5e2ffbb7699f14b57a36bc45">MUU_ARCH_X86</a></span>
             </dt>
-            <dd><code>1</code> when targeting 32-bit x86, <code>0</code> otherwise.</dd>
+            <dd><code>1</code> when targeting 32-bit x86, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gabed9674c744db2fe13aa5a486b072d02">MUU_ASSUME</a>(</span><span class="m-doc-wrap">cond)</span>
             </dt>
@@ -127,15 +127,15 @@ C++</span></a>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga4e94491264f3712dd7dc6dbde6331a0f">MUU_BIG_ENDIAN</a></span>
             </dt>
-            <dd><code>1</code> when the target environment is big-endian, <code>0</code> otherwise.</dd>
+            <dd><code>1</code> when the target environment is big-endian, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga060dd82f84c0c24bf0be1462d79cbaef">MUU_CLANG</a></span>
             </dt>
-            <dd>The value of <code>__clang_major__</code> when the code is being compiled by LLVM/Clang, <code>0</code> otherwise.</dd>
+            <dd>The value of <code>__clang_major__</code> when the code is being compiled by LLVM/Clang, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gad89d19ea9cfdd7ec957df9cb6189f552">MUU_CONSTEVAL</a></span>
             </dt>
-            <dd>Expands to C++20's <code>consteval</code> if supported by your compiler, or <code>constexpr</code> otherwise.</dd>
+            <dd>Expands to C++20's <code>consteval</code> if supported by your compiler, otherwise <code>constexpr</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gadb6fae17fb19af86f59b0ec414838070">MUU_CPP</a></span>
             </dt>
@@ -149,9 +149,9 @@ C++</span></a>
             </dt>
             <dd>Disables ALL compiler warnings.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gaea4fd183ca4c9e1b1fc13372521e443a">MUU_DISABLE_INIT_WARNINGS</a></span>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga94a89890f03584dd7d3fda2bb9d80013">MUU_DISABLE_LIFETIME_WARNINGS</a></span>
             </dt>
-            <dd>Disables compiler warnings relating to variable initialization.</dd>
+            <dd>Disables compiler warnings relating to object lifetime (initialization, destruction, magic statics, et cetera).</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gac70b9a17a5df0f9790896ac3bdd66269">MUU_DISABLE_SWITCH_WARNINGS</a></span>
             </dt>
@@ -163,39 +163,39 @@ C++</span></a>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga967eb97bf52ae15db445b4564c2ee789">MUU_EXCEPTIONS</a></span>
             </dt>
-            <dd><code>1</code> when support for C++ exceptions is enabled, <code>0</code> otherwise.</dd>
+            <dd><code>1</code> when support for C++ exceptions is enabled, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga4e615ca6ddf99207d0d46055db0a9aaa">MUU_GCC</a></span>
             </dt>
-            <dd>The value of <code>__GNUC__</code> when the code is being compiled by GCC, <code>0</code> otherwise.</dd>
+            <dd>The value of <code>__GNUC__</code> when the code is being compiled by GCC, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga555a63af817046f3efcdf5e5df32924b">MUU_HAS_BUILTIN</a>(</span><span class="m-doc-wrap">name)</span>
             </dt>
-            <dd>Expands to <code>__has_builtin(name)</code> when supported by the compiler, <code>0</code> otherwise.</dd>
+            <dd>Expands to <code>__has_builtin(name)</code> when supported by the compiler, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gad6cf2ebac5d966916c61f46e79f035b2">MUU_HAS_FLOAT128</a></span>
             </dt>
-            <dd><code>1</code> when the target environment has 128-bit floats ('quads'), <code>0</code> otherwise.</dd>
+            <dd><code>1</code> when the target environment has 128-bit floats ('quads'), otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga27290363c4626a953e97d39dd042af66">MUU_HAS_FLOAT16</a></span>
             </dt>
-            <dd><code>1</code> when the target environment has native IEC559 16-bit floats ('halfs'), <code>0</code> otherwise.</dd>
+            <dd><code>1</code> when the target environment has native IEC559 16-bit floats ('halfs'), otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gaa46769772ecacae384f202d2288b5ef9">MUU_HAS_INCLUDE</a>(</span><span class="m-doc-wrap">header)</span>
             </dt>
-            <dd>Expands to <code>__has_include(name)</code> when supported by the compiler, <code>0</code> otherwise.</dd>
+            <dd>Expands to <code>__has_include(name)</code> when supported by the compiler, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga61a9c9471317fa76fa46bd87d8f671b6">MUU_HAS_INT128</a></span>
             </dt>
-            <dd><code>1</code> when the target environment has 128-bit integers, <code>0</code> otherwise.</dd>
+            <dd><code>1</code> when the target environment has 128-bit integers, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga909a6807c9b69a3b6e146a709c2a248d">MUU_ICC</a></span>
             </dt>
-            <dd>The value of <code>__INTEL_COMPILER</code> when the code is being compiled by Intel ICC, <code>0</code> otherwise.</dd>
+            <dd>The value of <code>__INTEL_COMPILER</code> when the code is being compiled by Intel ICC, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga0f1d961fa4c5109d8e007ddbaf868339">MUU_INTELLISENSE</a></span>
             </dt>
-            <dd><code>1</code> when the code being compiled by an IDE's 'intellisense' compiler, <code>0</code> otherwise.</dd>
+            <dd><code>1</code> when the code being compiled by an IDE's 'intellisense' compiler, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga829a1da3c00348065ab81819a5754243">MUU_INTERFACE</a></span>
             </dt>
@@ -207,7 +207,7 @@ C++</span></a>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga94d4f95aab666decfb7e1aac26d82f45">MUU_LITTLE_ENDIAN</a></span>
             </dt>
-            <dd><code>1</code> when the target environment is little-endian, <code>0</code> otherwise.</dd>
+            <dd><code>1</code> when the target environment is little-endian, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga7c2288010e7da6b2fc852e0cd46171b1">MUU_MAKE_RAW_STRING</a>(</span><span class="m-doc-wrap">S)</span>
             </dt>
@@ -223,7 +223,7 @@ C++</span></a>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gacf33ca59cc4d469b40b34ea471a0f57d">MUU_MSVC</a></span>
             </dt>
-            <dd>The value of <code><a class="m-doc muu-injected muu-external" href="https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros?view=vs-2019" target="_blank">_MSC_VER</a></code> when the code is being compiled by MSVC, <code>0</code> otherwise.</dd>
+            <dd>The value of <code><a class="m-doc muu-injected muu-external" href="https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros?view=vs-2019" target="_blank">_MSC_VER</a></code> when the code is being compiled by MSVC, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga00e7d0da1019e1fc64eff53311eab35e">MUU_NEVER_INLINE</a></span>
             </dt>
@@ -268,7 +268,7 @@ C++</span></a>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gae29a01d73beb23c20515ba3ba8b8f830">MUU_RTTI</a></span>
             </dt>
-            <dd><code>1</code> when support for C++ run-time type identification (RTTI) is enabled, <code>0</code> otherwise.</dd>
+            <dd><code>1</code> when support for C++ run-time type identification (RTTI) is enabled, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gaff60752ea9802d5cb7f09835672bd801">MUU_TRIVIAL_ABI</a></span>
             </dt>
@@ -292,7 +292,7 @@ C++</span></a>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga9dee2f6a74a083b6305a29cfea6e2e01">MUU_WINDOWS</a></span>
             </dt>
-            <dd><code>1</code> when building for the Windows operating system, <code>0</code> otherwise.</dd>
+            <dd><code>1</code> when building for the Windows operating system, otherwise <code>0</code>.</dd>
           </dl>
         </section>
         <section>
@@ -314,28 +314,28 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga032b28f73dc7b93f02c43a8ea6242731">MUU_ARCH_AMD64</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p><code>1</code> when targeting AMD64, <code>0</code> otherwise.</p>
+            <p><code>1</code> when targeting AMD64, otherwise <code>0</code>.</p>
           </div></section>
           <section class="m-doc-details" id="gae07f9cdd5a8d78f5a0672a865fd7cc43"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gae07f9cdd5a8d78f5a0672a865fd7cc43">MUU_ARCH_ARM</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p><code>1</code> when targeting any flavour of ARM, <code>0</code> otherwise.</p>
+            <p><code>1</code> when targeting any flavour of ARM, otherwise <code>0</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga7f49df29b5350349e0f51b96a9d33044"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga7f49df29b5350349e0f51b96a9d33044">MUU_ARCH_ARM32</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p><code>1</code> when targeting 32-bit ARM, <code>0</code> otherwise.</p>
+            <p><code>1</code> when targeting 32-bit ARM, otherwise <code>0</code>.</p>
           </div></section>
           <section class="m-doc-details" id="gab192624d5c5336adc054f386dc362f97"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gab192624d5c5336adc054f386dc362f97">MUU_ARCH_ARM64</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p><code>1</code> when targeting 64-bit ARM, <code>0</code> otherwise.</p>
+            <p><code>1</code> when targeting 64-bit ARM, otherwise <code>0</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga2e302f23e8da851a0443167d733facc3"><div>
             <h3>
@@ -349,14 +349,14 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga1741334d0b0155633d2c2cb965b4e363">MUU_ARCH_ITANIUM</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p><code>1</code> when targeting 64-bit Itanium, <code>0</code> otherwise.</p>
+            <p><code>1</code> when targeting 64-bit Itanium, otherwise <code>0</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga026661cf5e2ffbb7699f14b57a36bc45"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga026661cf5e2ffbb7699f14b57a36bc45">MUU_ARCH_X86</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p><code>1</code> when targeting 32-bit x86, <code>0</code> otherwise.</p>
+            <p><code>1</code> when targeting 32-bit x86, otherwise <code>0</code>.</p>
           </div></section>
           <section class="m-doc-details" id="gabed9674c744db2fe13aa5a486b072d02"><div>
             <h3>
@@ -392,14 +392,14 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga4e94491264f3712dd7dc6dbde6331a0f">MUU_BIG_ENDIAN</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p><code>1</code> when the target environment is big-endian, <code>0</code> otherwise.</p>
+            <p><code>1</code> when the target environment is big-endian, otherwise <code>0</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga060dd82f84c0c24bf0be1462d79cbaef"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga060dd82f84c0c24bf0be1462d79cbaef">MUU_CLANG</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>The value of <code>__clang_major__</code> when the code is being compiled by LLVM/Clang, <code>0</code> otherwise.</p>
+            <p>The value of <code>__clang_major__</code> when the code is being compiled by LLVM/Clang, otherwise <code>0</code>.</p>
 <aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="https://sourceforge.net/p/predef/wiki/Compilers/" target="_blank">https:/<wbr/>/<wbr/>sourceforge.net/<wbr/>p/<wbr/>predef/<wbr/>wiki/<wbr/>Compilers/<wbr/></a></p></aside>
           </div></section>
           <section class="m-doc-details" id="gad89d19ea9cfdd7ec957df9cb6189f552"><div>
@@ -407,7 +407,7 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gad89d19ea9cfdd7ec957df9cb6189f552">MUU_CONSTEVAL</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>Expands to C++20's <code>consteval</code> if supported by your compiler, or <code>constexpr</code> otherwise.</p>
+            <p>Expands to C++20's <code>consteval</code> if supported by your compiler, otherwise <code>constexpr</code>.</p>
 <aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="https://en.cppreference.com/w/cpp/language/consteval" target="_blank">consteval</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="gadb6fae17fb19af86f59b0ec414838070"><div>
@@ -432,12 +432,12 @@ C++</span></a>
             <p>Disables ALL compiler warnings.</p>
 <aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__preprocessor.html#ga0b9c2e2b602c21d5f58ddaeb74923019">MUU_<wbr/>PUSH_<wbr/>WARNINGS</a></p></aside>
           </div></section>
-          <section class="m-doc-details" id="gaea4fd183ca4c9e1b1fc13372521e443a"><div>
+          <section class="m-doc-details" id="ga94a89890f03584dd7d3fda2bb9d80013"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gaea4fd183ca4c9e1b1fc13372521e443a">MUU_DISABLE_INIT_WARNINGS</a></span>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga94a89890f03584dd7d3fda2bb9d80013">MUU_DISABLE_LIFETIME_WARNINGS</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>Disables compiler warnings relating to variable initialization.</p>
+            <p>Disables compiler warnings relating to object lifetime (initialization, destruction, magic statics, et cetera).</p>
 <aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__preprocessor.html#ga0b9c2e2b602c21d5f58ddaeb74923019">MUU_<wbr/>PUSH_<wbr/>WARNINGS</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="gac70b9a17a5df0f9790896ac3bdd66269"><div>
@@ -473,14 +473,14 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga967eb97bf52ae15db445b4564c2ee789">MUU_EXCEPTIONS</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p><code>1</code> when support for C++ exceptions is enabled, <code>0</code> otherwise.</p>
+            <p><code>1</code> when support for C++ exceptions is enabled, otherwise <code>0</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga4e615ca6ddf99207d0d46055db0a9aaa"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga4e615ca6ddf99207d0d46055db0a9aaa">MUU_GCC</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>The value of <code>__GNUC__</code> when the code is being compiled by GCC, <code>0</code> otherwise.</p>
+            <p>The value of <code>__GNUC__</code> when the code is being compiled by GCC, otherwise <code>0</code>.</p>
 <aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html" target="_blank">https:/<wbr/>/<wbr/>gcc.gnu.org/<wbr/>onlinedocs/<wbr/>cpp/<wbr/>Common-Predefined-Macros.html</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga555a63af817046f3efcdf5e5df32924b"><div>
@@ -488,21 +488,21 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga555a63af817046f3efcdf5e5df32924b">MUU_HAS_BUILTIN</a>(</span><span class="m-doc-wrap">name)</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>Expands to <code>__has_builtin(name)</code> when supported by the compiler, <code>0</code> otherwise.</p>
+            <p>Expands to <code>__has_builtin(name)</code> when supported by the compiler, otherwise <code>0</code>.</p>
           </div></section>
           <section class="m-doc-details" id="gad6cf2ebac5d966916c61f46e79f035b2"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gad6cf2ebac5d966916c61f46e79f035b2">MUU_HAS_FLOAT128</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p><code>1</code> when the target environment has 128-bit floats ('quads'), <code>0</code> otherwise.</p>
+            <p><code>1</code> when the target environment has 128-bit floats ('quads'), otherwise <code>0</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga27290363c4626a953e97d39dd042af66"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga27290363c4626a953e97d39dd042af66">MUU_HAS_FLOAT16</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p><code>1</code> when the target environment has native IEC559 16-bit floats ('halfs'), <code>0</code> otherwise.</p>
+            <p><code>1</code> when the target environment has native IEC559 16-bit floats ('halfs'), otherwise <code>0</code>.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is completely unrelated to the class <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>, which is always available.</p></aside>
           </div></section>
           <section class="m-doc-details" id="gaa46769772ecacae384f202d2288b5ef9"><div>
@@ -510,21 +510,21 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gaa46769772ecacae384f202d2288b5ef9">MUU_HAS_INCLUDE</a>(</span><span class="m-doc-wrap">header)</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>Expands to <code>__has_include(name)</code> when supported by the compiler, <code>0</code> otherwise.</p>
+            <p>Expands to <code>__has_include(name)</code> when supported by the compiler, otherwise <code>0</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga61a9c9471317fa76fa46bd87d8f671b6"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga61a9c9471317fa76fa46bd87d8f671b6">MUU_HAS_INT128</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p><code>1</code> when the target environment has 128-bit integers, <code>0</code> otherwise.</p>
+            <p><code>1</code> when the target environment has 128-bit integers, otherwise <code>0</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga909a6807c9b69a3b6e146a709c2a248d"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga909a6807c9b69a3b6e146a709c2a248d">MUU_ICC</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>The value of <code>__INTEL_COMPILER</code> when the code is being compiled by Intel ICC, <code>0</code> otherwise.</p>
+            <p>The value of <code>__INTEL_COMPILER</code> when the code is being compiled by Intel ICC, otherwise <code>0</code>.</p>
 <aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="http://scv.bu.edu/computation/bladecenter/manpages/icc.html" target="_blank">http:/<wbr/>/<wbr/>scv.bu.edu/<wbr/>computation/<wbr/>bladecenter/<wbr/>manpages/<wbr/>icc.html</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga0f1d961fa4c5109d8e007ddbaf868339"><div>
@@ -532,7 +532,7 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga0f1d961fa4c5109d8e007ddbaf868339">MUU_INTELLISENSE</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p><code>1</code> when the code being compiled by an IDE's 'intellisense' compiler, <code>0</code> otherwise.</p>
+            <p><code>1</code> when the code being compiled by an IDE's 'intellisense' compiler, otherwise <code>0</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga829a1da3c00348065ab81819a5754243"><div>
             <h3>
@@ -562,7 +562,7 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga94d4f95aab666decfb7e1aac26d82f45">MUU_LITTLE_ENDIAN</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p><code>1</code> when the target environment is little-endian, <code>0</code> otherwise.</p>
+            <p><code>1</code> when the target environment is little-endian, otherwise <code>0</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga7c2288010e7da6b2fc852e0cd46171b1"><div>
             <h3>
@@ -599,7 +599,7 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gacf33ca59cc4d469b40b34ea471a0f57d">MUU_MSVC</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>The value of <code><a class="m-doc muu-injected muu-external" href="https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros?view=vs-2019" target="_blank">_MSC_VER</a></code> when the code is being compiled by MSVC, <code>0</code> otherwise.</p>
+            <p>The value of <code><a class="m-doc muu-injected muu-external" href="https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros?view=vs-2019" target="_blank">_MSC_VER</a></code> when the code is being compiled by MSVC, otherwise <code>0</code>.</p>
 <aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros" target="_blank">https:/<wbr/>/<wbr/>docs.microsoft.com/<wbr/>en-us/<wbr/>cpp/<wbr/>preprocessor/<wbr/>predefined-macros</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga00e7d0da1019e1fc64eff53311eab35e"><div>
@@ -739,7 +739,7 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gae29a01d73beb23c20515ba3ba8b8f830">MUU_RTTI</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p><code>1</code> when support for C++ run-time type identification (RTTI) is enabled, <code>0</code> otherwise.</p>
+            <p><code>1</code> when support for C++ run-time type identification (RTTI) is enabled, otherwise <code>0</code>.</p>
           </div></section>
           <section class="m-doc-details" id="gaff60752ea9802d5cb7f09835672bd801"><div>
             <h3>
@@ -797,7 +797,7 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga9dee2f6a74a083b6305a29cfea6e2e01">MUU_WINDOWS</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p><code>1</code> when building for the Windows operating system, <code>0</code> otherwise.</p>
+            <p><code>1</code> when building for the Windows operating system, otherwise <code>0</code>.</p>
           </div></section>
         </section>
       </div>

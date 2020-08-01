@@ -95,7 +95,7 @@ C++</span></a>
               <div class="m-doc-template">template&lt;typename ValueType, typename Impl = impl::accumulator&lt;ValueType&gt;&gt;</div>
               class <a class="m-doc" href="classmuu_1_1accumulator.html">accumulator</a>
             </dt>
-            <dd>Statefully accumulates (adds) an indeterminate range of values.</dd>
+            <dd>Statefully accumulates (adds) an indeterminate number of values.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1array.html">array</a>
@@ -326,15 +326,15 @@ C++</span></a>
             </dt>
             <dd>Adds const to the pointed-to type of a pointer, correctly handling pointers-to-void.</dd>
             <dt>
-              using <a class="m-doc" href="#a74a70ec9e3331f37ebbc3e875e183861">float128_t</a> = __float128
+              using <a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> = __float128
             </dt>
             <dd>A 128-bit quad-precision float.</dd>
             <dt>
-              using <a class="m-doc" href="#ac1f6704b74f509e1de86f816c08632f2">float16_t</a> = _Float16
+              using <a class="m-doc" href="group__blocks.html#gac1f6704b74f509e1de86f816c08632f2">float16_t</a> = _Float16
             </dt>
             <dd>A 16-bit half-precision float.</dd>
             <dt>
-              using <a class="m-doc" href="#af8e0aa5a37ec05e07c7b69077de9303c">int128_t</a> = __int128_t
+              using <a class="m-doc" href="group__blocks.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_t</a> = __int128_t
             </dt>
             <dd>A 128-bit signed integer.</dd>
             <dt>
@@ -438,7 +438,7 @@ C++</span></a>
             </dt>
             <dd>The smallest type from a set of types.</dd>
             <dt>
-              using <a class="m-doc" href="#aa82164a62949a1b029695dff5441d577">uint128_t</a> = __uint128_t
+              using <a class="m-doc" href="group__blocks.html#gaa82164a62949a1b029695dff5441d577">uint128_t</a> = __uint128_t
             </dt>
             <dd>A 128-bit unsigned integer.</dd>
             <dt>
@@ -1429,41 +1429,6 @@ C++</span></a>
                 </tr>
               </tbody>
             </table>
-          </div></section>
-        </section>
-        <section>
-          <h2>Typedef documentation</h2>
-          <section class="m-doc-details" id="a74a70ec9e3331f37ebbc3e875e183861"><div>
-            <h3>
-              using muu::<wbr/><a class="m-doc-self" href="#a74a70ec9e3331f37ebbc3e875e183861">float128_t</a> = __float128
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="fwd_8h.html">&lt;muu/fwd.h&gt;</a></div>
-            </h3>
-            <p>A 128-bit quad-precision float.</p>
-<aside class="m-note m-warning"><h4>Attention</h4><p>This typedef is only present when 128-bit floats are supported by your target platform. You can check support using <a class="m-doc" href="group__preprocessor.html#gad6cf2ebac5d966916c61f46e79f035b2">MUU_<wbr/>HAS_<wbr/>FLOAT128</a>.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="ac1f6704b74f509e1de86f816c08632f2"><div>
-            <h3>
-              using muu::<wbr/><a class="m-doc-self" href="#ac1f6704b74f509e1de86f816c08632f2">float16_t</a> = _Float16
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="fwd_8h.html">&lt;muu/fwd.h&gt;</a></div>
-            </h3>
-            <p>A 16-bit half-precision float.</p>
-<aside class="m-note m-warning"><h4>Attention</h4><p>This will be an alias for your target platform's native IEC559 16-bit float type if present (e.g. <code>_Float16</code>), otherwise it will alias <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>. You can check support using <a class="m-doc" href="group__preprocessor.html#ga27290363c4626a953e97d39dd042af66">MUU_<wbr/>HAS_<wbr/>FLOAT16</a>.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="af8e0aa5a37ec05e07c7b69077de9303c"><div>
-            <h3>
-              using muu::<wbr/><a class="m-doc-self" href="#af8e0aa5a37ec05e07c7b69077de9303c">int128_t</a> = __int128_t
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="fwd_8h.html">&lt;muu/fwd.h&gt;</a></div>
-            </h3>
-            <p>A 128-bit signed integer.</p>
-<aside class="m-note m-warning"><h4>Attention</h4><p>This typedef is only present when 128-bit integers are supported by your target platform. You can check support using <a class="m-doc" href="group__preprocessor.html#ga61a9c9471317fa76fa46bd87d8f671b6">MUU_<wbr/>HAS_<wbr/>INT128</a>.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="aa82164a62949a1b029695dff5441d577"><div>
-            <h3>
-              using muu::<wbr/><a class="m-doc-self" href="#aa82164a62949a1b029695dff5441d577">uint128_t</a> = __uint128_t
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="fwd_8h.html">&lt;muu/fwd.h&gt;</a></div>
-            </h3>
-            <p>A 128-bit unsigned integer.</p>
-<aside class="m-note m-warning"><h4>Attention</h4><p>This typedef is only present when 128-bit integers are supported by your target platform. You can check support using <a class="m-doc" href="group__preprocessor.html#ga61a9c9471317fa76fa46bd87d8f671b6">MUU_<wbr/>HAS_<wbr/>INT128</a>.</p></aside>
           </div></section>
         </section>
       </div>

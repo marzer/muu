@@ -102,6 +102,26 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a0d71e15720bef12a18b7922331be4386">generate</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Creates a new UUID using the platform's UUID generator.</dd>
+            <dt id="a515d10c2fd1f78385dcf822eae061431">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a515d10c2fd1f78385dcf822eae061431">parse</a>(</span><span class="m-doc-wrap">std::string_view str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/optional" target="_blank">std::optional</a>&lt;<a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Attempts to parse a UUID from a UTF-8 string.</dd>
+            <dt id="a73ed7b25faba6022a93ef213c111e7b9">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a73ed7b25faba6022a93ef213c111e7b9">parse</a>(</span><span class="m-doc-wrap">std::u16string_view str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/optional" target="_blank">std::optional</a>&lt;<a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Attempts to parse a UUID from a UTF-16 string.</dd>
+            <dt id="a5f1094c963c793610b00e2ba3b6b8967">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a5f1094c963c793610b00e2ba3b6b8967">parse</a>(</span><span class="m-doc-wrap">std::u32string_view str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/optional" target="_blank">std::optional</a>&lt;<a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Attempts to parse a UUID from a UTF-32 string.</dd>
+            <dt id="ac20ee83b703c7c80e0e7482ee9e9dec0">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ac20ee83b703c7c80e0e7482ee9e9dec0">parse</a>(</span><span class="m-doc-wrap">std::u8string_view str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/optional" target="_blank">std::optional</a>&lt;<a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Attempts to parse a UUID from a UTF-8 string.</dd>
+            <dt id="af15d043c75480a5def3fce8d0399fc53">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#af15d043c75480a5def3fce8d0399fc53">parse</a>(</span><span class="m-doc-wrap">std::wstring_view str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/optional" target="_blank">std::optional</a>&lt;<a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Attempts to parse a UUID from a wide string.</dd>
           </dl>
         </section>
         <section id="typeless-methods">
@@ -132,7 +152,7 @@ C++</span></a>
             </dt>
             <dd>Explicitly constructs a null UUID.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#aef18acb93c75e1c427639b855030b373">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="namespacemuu.html#aa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a> val) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#aef18acb93c75e1c427639b855030b373">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__blocks.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a> val) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a UUID directly from a 128-bit integer.</dd>
             <dt>
@@ -221,6 +241,12 @@ C++</span></a>
               const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if the LHS UUID is ordered lower than the RHS UUID.</dd>
+            <dt id="ae8f2076a2999b6b191c1f34621e89ba7">
+              <div class="m-doc-template">template&lt;typename Char, typename Traits&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ae8f2076a2999b6b191c1f34621e89ba7">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/io/basic_ostream" target="_blank">std::basic_ostream</a>&lt;Char, Traits&gt;&amp; lhs,
+              const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; rhs) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/io/basic_ostream" target="_blank">std::basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
+            </dt>
+            <dd>Writes a UUID to a text stream.</dd>
             <dt id="ac63dc0944f3c3346efa0f3ddcfd89e05">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac63dc0944f3c3346efa0f3ddcfd89e05">operator&lt;=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -321,7 +347,7 @@ C++</span></a>
           </div></section>
           <section class="m-doc-details" id="aef18acb93c75e1c427639b855030b373"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>uuid::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aef18acb93c75e1c427639b855030b373">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="namespacemuu.html#aa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a> val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>uuid::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aef18acb93c75e1c427639b855030b373">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__blocks.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a> val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Constructs a UUID directly from a 128-bit integer.</p>
             <table class="m-table m-fullwidth m-flat">
