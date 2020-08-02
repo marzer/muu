@@ -9,6 +9,7 @@ MUU_DISABLE_ARITHMETIC_WARNINGS
 // 2) https://github.com/openexr/openexr/blob/develop/IlmBase/HalfTest/
 ///////////////////////////////////////////////////////////////////////////////////
 
+static_assert(sizeof(half) == 2_sz);
 static_assert(std::is_standard_layout_v<half>);
 static_assert(std::is_trivially_constructible_v<half>);
 static_assert(std::is_trivially_copy_constructible_v<half>);
@@ -16,7 +17,6 @@ static_assert(std::is_trivially_copy_assignable_v<half>);
 static_assert(std::is_trivially_move_constructible_v<half>);
 static_assert(std::is_trivially_move_assignable_v<half>);
 static_assert(std::is_trivially_destructible_v<half>);
-static_assert(sizeof(half) == 2_sz);
 
 TEST_CASE("half - negation")
 {

@@ -288,15 +288,15 @@ MUU_NAMESPACE_START
 		add(0x80_u8);
 
 		// padding
-		if (current_block_length > 56_u8)
-			add(nullptr, (64_sz - current_block_length) + 56_sz);
-		else if (current_block_length < 56_u8)
-			add(nullptr, 56_sz - current_block_length);
+		if (current_block_length > 56u)
+			add(nullptr, 64u - current_block_length);
+		if (current_block_length < 56u)
+			add(nullptr, 56u - current_block_length);
 
-		MUU_ASSERT(current_block_length == 56_u8);
+		MUU_ASSERT(current_block_length == 56u);
 
 		// add hashed bit count and finish
-		add(pointer_cast<const uint8_t*>(&hashed_bits), 8_sz);
+		add(pointer_cast<const uint8_t*>(&hashed_bits), 8u);
 		finished_ = true;
 
 		// correct the endianness of the digest if necessary

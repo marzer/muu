@@ -25,7 +25,6 @@ namespace std
 }
 
 #if MUU_WINDOWS
-
 #ifndef _MINWINDEF_
 extern "C"
 {
@@ -59,11 +58,9 @@ extern "C"
 	using PUINT = unsigned int*;
 }
 #endif // !_MINWINDEF_
-
 #ifndef __unknwnbase_h__
 struct IUnknown;
 #endif
-
 #endif // MUU_WINDOWS
 
 //=====================================================================================================================
@@ -218,7 +215,7 @@ MUU_NAMESPACE_START // abi namespace
 	/// \ingroup constants
 	namespace build {}
 
-	/// \brief	A container for typed static constants, similar to std::numeric_limits.
+	/// \brief	A typed container for static constants, similar to std::numeric_limits.
 	/// \ingroup constants
 	///
 	/// \tparam	T	The constant value type.

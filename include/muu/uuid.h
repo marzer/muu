@@ -414,7 +414,6 @@ MUU_NAMESPACE_START
 		}
 
 		#if MUU_HAS_INT128
-
 		/// \brief	Converts a UUID directly into a 128-bit integer.
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -445,7 +444,6 @@ MUU_NAMESPACE_START
 					);
 			}
 		}
-		
 		#endif
 
 		/// \brief	Returns true if this UUID has non-zero value.
@@ -594,7 +592,13 @@ MUU_NAMESPACE_START
 			constexpr auto print_byte = [](auto& stream, std::byte byte)
 			{
 				const auto hex = impl::byte_to_hex(unwrap(byte), 'A');
-				stream.write(hex.data(), hex.size());
+				if constexpr (sizeof(Char) == 1)
+					stream.write(hex.data(), hex.size());
+				else
+				{
+					stream << hex[0];
+					stream << hex[1];
+				}
 			};
 			using c = muu::constants<Char>;
 			print_byte(lhs, rhs.bytes[0]);
@@ -626,8 +630,8 @@ MUU_NAMESPACE_START
 	template <>
 	struct constants<uuid>
 	{
-		/// \brief	The null UUID (all bytes are zero).
-		static constexpr uuid null = uuid{ nullptr };
+		/// \brief	The nil UUID (all bytes are zero).
+		static constexpr uuid nil = uuid{ nullptr };
 
 		/// \brief	The UUID namespace for domain names (6BA7B810-9DAD-11D1-80B4-00C04FD430C8).
 		static constexpr uuid namespace_dns = uuid{ 0x6BA7B810u, 0x9DAD_u16, 0x11D1_u16, 0x80B4_u16, 0x00C04FD430C8_u64 };
@@ -736,7 +740,10 @@ MUU_NAMESPACE_START
 		};
 	}
 
+	#ifndef DOXYGEN
+
 	template <typename T>
+	MUU_ATTR(pure)
 	constexpr std::optional<uuid> uuid::parse_impl(std::basic_string_view<T> str) noexcept
 	{
 		if (str.length() < 32) // uuid with no braces or hyphens
@@ -749,13 +756,27 @@ MUU_NAMESPACE_START
 		return {};
 	}
 
-	constexpr std::optional<uuid> uuid::parse(std::string_view str) noexcept { return parse_impl(str); }
+	MUU_ATTR(pure) constexpr std::optional<uuid> uuid::parse(std::string_view str) noexcept { return parse_impl(str); }
 	#ifdef __cpp_lib_char8_t
-	constexpr std::optional<uuid> uuid::parse(std::u8string_view str) noexcept { return parse_impl(str); }
+	MUU_ATTR(pure) constexpr std::optional<uuid> uuid::parse(std::u8string_view str) noexcept { return parse_impl(str); }
 	#endif
-	constexpr std::optional<uuid> uuid::parse(std::u16string_view str) noexcept { return parse_impl(str); }
-	constexpr std::optional<uuid> uuid::parse(std::u32string_view str) noexcept { return parse_impl(str); }
-	constexpr std::optional<uuid> uuid::parse(std::wstring_view str) noexcept { return parse_impl(str); }
+	MUU_ATTR(pure) constexpr std::optional<uuid> uuid::parse(std::u16string_view str) noexcept { return parse_impl(str); }
+	MUU_ATTR(pure) constexpr std::optional<uuid> uuid::parse(std::u32string_view str) noexcept { return parse_impl(str); }
+	MUU_ATTR(pure) constexpr std::optional<uuid> uuid::parse(std::wstring_view str) noexcept { return parse_impl(str); }
+	
+	#endif //DOXYGEN
+
+	inline namespace literals
+	{
+		/// \brief	Constructs a uuid from a string literal using uuid::parse.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		MUU_CONSTEVAL uuid operator"" _uuid(const char* str, size_t len) noexcept
+		{
+			auto id = uuid::parse(std::string_view{ str, len });
+			return id ? *id : uuid{};
+		}
+	}
 }
 MUU_NAMESPACE_END
 

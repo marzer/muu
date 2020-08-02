@@ -8,6 +8,15 @@
 #include <set>
 #include <unordered_set>
 
+static_assert(sizeof(uuid) == 16);
+static_assert(std::is_standard_layout_v<uuid>);
+static_assert(std::is_trivially_constructible_v<uuid>);
+static_assert(std::is_trivially_copy_constructible_v<uuid>);
+static_assert(std::is_trivially_copy_assignable_v<uuid>);
+static_assert(std::is_trivially_move_constructible_v<uuid>);
+static_assert(std::is_trivially_move_assignable_v<uuid>);
+static_assert(std::is_trivially_destructible_v<uuid>);
+
 TEST_CASE("uuid - initialization")
 {
 	//null uuids
