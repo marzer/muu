@@ -82,7 +82,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_unicode_letter(char8_t c) noexcept
 	{
-		if (c < 0xAAu)
+		if (0xAAu > c)
 			return false;
 		MUU_ASSUME(c <= 0xFFu);
 		
@@ -211,7 +211,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_lowercase(char8_t c) noexcept
 	{
-		if (c < u8'a')
+		if (u8'a' > c)
 			return false;
 		MUU_ASSUME(c <= 0xFFu);
 		

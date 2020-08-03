@@ -13,12 +13,62 @@ import decimal
 
 
 
+__pi_and_tau = dict()
+def pi_and_tau():
+	global __pi_and_tau
+	result = __pi_and_tau.get(decimal.getcontext().prec)
+	if result is None:
+		decimal.getcontext().prec += 4
+		three = decimal.Decimal(3)
+		lasts, t, s, n, na, d, da = 0, three, 3, 1, 0, 0, 24
+		while s != lasts:
+			lasts = s
+			n, na = n+na, na+8
+			d, da = d+da, da+32
+			t = (t * n) / d
+			s += t
+		tau = s * decimal.Decimal(2)
+		decimal.getcontext().prec -= 4
+		result = (decimal.Decimal(s), decimal.Decimal(tau))
+		__pi_and_tau[decimal.getcontext().prec] = result
+	return result
+
+
+def pi():
+	return pi_and_tau()[0]
+
+
+def tau():
+	return pi_and_tau()[1]
+
+
+__e = dict()
+def e(power):
+	global __e
+	h = utils.multi_hash(decimal.getcontext().prec, power)
+	result = __e.get(h)
+	if result is None:
+		decimal.getcontext().prec += 4
+		i, lasts, s, fact, num = 0, 0, 1, 1, 1
+		while s != lasts:
+			lasts = s
+			i += 1
+			fact *= i
+			num *= power
+			s += num / fact
+		decimal.getcontext().prec -= 4
+		result = decimal.Decimal(s)
+		__e[h] = result
+	return result
+
+
+
 def int_literal(val, bits, always_hex = False):
 	if not utils.is_pow2(bits):
 		bits = utils.next_power_of_2(bits)
 	if bits > 64:
 		vals = []
-		for i in range(0, int(bits / 64)):
+		for _ in range(0, int(bits / 64)):
 			vals.insert(0, int_literal(val & 0xFFFFFFFFFFFFFFFF, 64, always_hex))
 			val = val >> 64
 		return 'pack({})'.format(', '.join(vals))
@@ -49,6 +99,7 @@ class FloatTraits(object):
 		self.significand_bits = significand_bits
 		self.digits = max(integer_part_bits,1) + significand_bits
 		self.digits10 = int(math.floor((self.digits - 1) * math.log10(2)))
+		self.max_digits10 = int(math.ceil(1 + self.digits * math.log10(2)))
 		self.int_blittable = utils.is_pow2(self.total_bits)
 
 		bit_fill = lambda b: (1 << b) - 1
@@ -70,7 +121,7 @@ class FloatTraits(object):
 			while (self.total_bits % elem_bits) != 0 or elem_bits > 64:
 				elem_bits = elem_bits >> 1
 			elems = []
-			for i in range(0, int(self.total_bits / elem_bits)):
+			for _ in range(0, int(self.total_bits / elem_bits)):
 				elems.append(int_literal(val, elem_bits, always_hex = True))
 				val = val >> elem_bits
 			return 'array{{ {} }}'.format(', '.join(elems))
@@ -115,9 +166,12 @@ def write_float_data(file, traits):
 	delta = (D(10) ** -(max(int(round(3.0*traits.digits10/4.0))+1,2)))
 	# write('\t\t// {}'.format(D(1) - delta))
 	# write('\t\t// {}'.format(D(1) + delta))
-	write('\t\tstatic constexpr {} values_sum_low  = {}{};'.format(type, rounded(sum * (D(1) - delta)), suffix))
-	write('\t\tstatic constexpr {} values_sum      = {}{};'.format(type, rounded(sum), suffix))
-	write('\t\tstatic constexpr {} values_sum_high = {}{};'.format(type, rounded(sum * (D(1) + delta)), suffix))
+	write(f'\t\tstatic constexpr {type} values_sum_low  = {rounded(sum * (D(1) - delta))}{suffix};')
+	write(f'\t\tstatic constexpr {type} values_sum      = {rounded(sum)}{suffix};')
+	write(f'\t\tstatic constexpr {type} values_sum_high = {rounded(sum * (D(1) + delta))}{suffix};')
+	write(f'\t\tstatic constexpr {type} pi              = {rounded(pi())}{suffix};')
+	write(f'\t\tstatic constexpr {type} tau             = {rounded(tau())}{suffix};')
+	write(f'\t\tstatic constexpr {type} e               = {rounded(e(1))}{suffix};')
 	write('')
 
 	if traits.total_bits > 64 and traits.int_blittable:
@@ -142,7 +196,7 @@ def write_float_data(file, traits):
 		write('\t\t{} bits_qnan        = {};'.format(sca, traits.constant(traits.quiet_nan_mask, blit)))
 
 		if traits.total_bits <= 64 or not blit:
-			break;
+			break
 		write('\t\t#else')
 		blit = not blit
 

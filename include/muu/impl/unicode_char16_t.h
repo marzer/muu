@@ -46,7 +46,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_unicode_whitespace(char16_t c) noexcept
 	{
-		if (c < u'\x85' || u'\u3000' < c)
+		if (u'\x85' > c || c > u'\u3000')
 			return false;
 		
 		const auto child_index_0 = (static_cast<uint_least64_t>(c) - 0x85ull) / 0xBEull;
@@ -59,7 +59,7 @@ MUU_NAMESPACE_START
 			case 0x00: return c == u'\x85' || c == u'\xA0';
 			case 0x2A: // [42] 1FB1 - 206E
 			{
-				if (c < u'\u2000' || u'\u205F' < c)
+				if (u'\u2000' > c || c > u'\u205F')
 					return false;
 				
 				return c == u'\u205F'
@@ -103,7 +103,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_unicode_letter(char16_t c) noexcept
 	{
-		if (c < u'\xAA' || u'\uFFDC' < c)
+		if (u'\xAA' > c || c > u'\uFFDC')
 			return false;
 		
 		const auto child_index_0 = (static_cast<uint_least64_t>(c) - 0xAAull) / 0x3FDull;
@@ -160,7 +160,7 @@ MUU_NAMESPACE_START
 			}
 			case 0x03: // [3] 0CA1 - 109D
 			{
-				if (u'\u108E' < c)
+				if (c > u'\u108E')
 					return false;
 				MUU_ASSUME(u'\u0CA1' <= c);
 				
@@ -177,7 +177,7 @@ MUU_NAMESPACE_START
 			}
 			case 0x04: // [4] 109E - 149A
 			{
-				if (c < u'\u10A0')
+				if (u'\u10A0' > c)
 					return false;
 				MUU_ASSUME(c <= u'\u149A');
 				
@@ -239,7 +239,7 @@ MUU_NAMESPACE_START
 			}
 			case 0x08: // [8] 2092 - 248E
 			{
-				if (u'\u2184' < c)
+				if (c > u'\u2184')
 					return false;
 				MUU_ASSUME(u'\u2092' <= c);
 				
@@ -288,7 +288,7 @@ MUU_NAMESPACE_START
 			case 0x27: return c <= u'\u9FFC' || u'\uA000' <= c;
 			case 0x29: // [41] A42F - A82B
 			{
-				if (u'\uA822' < c)
+				if (c > u'\uA822')
 					return false;
 				MUU_ASSUME(u'\uA42F' <= c);
 				
@@ -305,7 +305,7 @@ MUU_NAMESPACE_START
 			}
 			case 0x2A: // [42] A82C - AC28
 			{
-				if (c < u'\uA840')
+				if (u'\uA840' > c)
 					return false;
 				MUU_ASSUME(c <= u'\uAC28');
 				
@@ -323,7 +323,7 @@ MUU_NAMESPACE_START
 			case 0x35: return c <= u'\uD7A3' || (u'\uD7B0' <= c && c <= u'\uD7C6') || (u'\uD7CB' <= c && c <= u'\uD7FB');
 			case 0x3E: // [62] F7F0 - FBEC
 			{
-				if (c < u'\uF900')
+				if (u'\uF900' > c)
 					return false;
 				MUU_ASSUME(c <= u'\uFBEC');
 				
@@ -381,7 +381,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_unicode_number(char16_t c) noexcept
 	{
-		if (c < u'\u0660' || u'\uFF19' < c)
+		if (u'\u0660' > c || c > u'\uFF19')
 			return false;
 		
 		const auto child_index_0 = (static_cast<uint_least64_t>(c) - 0x660ull) / 0x3E3ull;
@@ -391,7 +391,7 @@ MUU_NAMESPACE_START
 		{
 			case 0x00: // [0] 0660 - 0A42
 			{
-				if (u'\u09EF' < c)
+				if (c > u'\u09EF')
 					return false;
 				MUU_ASSUME(u'\u0660' <= c);
 				
@@ -408,7 +408,7 @@ MUU_NAMESPACE_START
 			}
 			case 0x01: // [1] 0A43 - 0E25
 			{
-				if (c < u'\u0A66' || u'\u0DEF' < c)
+				if (u'\u0A66' > c || c > u'\u0DEF')
 					return false;
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
@@ -424,7 +424,7 @@ MUU_NAMESPACE_START
 			}
 			case 0x02: // [2] 0E26 - 1208
 			{
-				if (c < u'\u0E50' || u'\u1099' < c)
+				if (u'\u0E50' > c || c > u'\u1099')
 					return false;
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
@@ -439,7 +439,7 @@ MUU_NAMESPACE_START
 			}
 			case 0x04: // [4] 15EC - 19CE
 			{
-				if (c < u'\u16EE' || u'\u194F' < c)
+				if (u'\u16EE' > c || c > u'\u194F')
 					return false;
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
@@ -454,7 +454,7 @@ MUU_NAMESPACE_START
 			}
 			case 0x05: // [5] 19CF - 1DB1
 			{
-				if (c < u'\u19D0' || u'\u1C59' < c)
+				if (u'\u19D0' > c || c > u'\u1C59')
 					return false;
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
@@ -471,7 +471,7 @@ MUU_NAMESPACE_START
 			case 0x0A: return u'\u3007' <= c && c <= u'\u303A' && (1ull << (static_cast<uint_least64_t>(c) - 0x3007u)) & 0xE0007FC000001ull;
 			case 0x29: // [41] A5BB - A99D
 			{
-				if (c < u'\uA620' || u'\uA909' < c)
+				if (u'\uA620' > c || c > u'\uA909')
 					return false;
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
@@ -486,7 +486,7 @@ MUU_NAMESPACE_START
 			}
 			case 0x2A: // [42] A99E - AD80
 			{
-				if (c < u'\uA9D0' || u'\uABF9' < c)
+				if (u'\uA9D0' > c || c > u'\uABF9')
 					return false;
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
@@ -529,7 +529,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_unicode_hyphen(char16_t c) noexcept
 	{
-		if (c < u'\xAD' || u'\uFF65' < c)
+		if (u'\xAD' > c || c > u'\uFF65')
 			return false;
 		
 		const auto child_index_0 = (static_cast<uint_least64_t>(c) - 0xADull) / 0x3FBull;
@@ -561,7 +561,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_combining_mark(char16_t c) noexcept
 	{
-		if (c < u'\u0300' || u'\uFE2F' < c)
+		if (u'\u0300' > c || c > u'\uFE2F')
 			return false;
 		
 		const auto child_index_0 = (static_cast<uint_least64_t>(c) - 0x300ull) / 0x3EDull;
@@ -586,7 +586,7 @@ MUU_NAMESPACE_START
 			}
 			case 0x01: // [1] 06ED - 0AD9
 			{
-				if (u'\u0ACD' < c)
+				if (c > u'\u0ACD')
 					return false;
 				MUU_ASSUME(u'\u06ED' <= c);
 				
@@ -603,7 +603,7 @@ MUU_NAMESPACE_START
 			}
 			case 0x02: // [2] 0ADA - 0EC6
 			{
-				if (c < u'\u0AE2' || u'\u0EBC' < c)
+				if (u'\u0AE2' > c || c > u'\u0EBC')
 					return false;
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
@@ -619,7 +619,7 @@ MUU_NAMESPACE_START
 			}
 			case 0x03: // [3] 0EC7 - 12B3
 			{
-				if (c < u'\u0EC8' || u'\u109D' < c)
+				if (u'\u0EC8' > c || c > u'\u109D')
 					return false;
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
@@ -634,7 +634,7 @@ MUU_NAMESPACE_START
 			case 0x04: return u'\u135D' <= c && c <= u'\u135F';
 			case 0x05: // [5] 16A1 - 1A8D
 			{
-				if (c < u'\u1712' || u'\u1A7F' < c)
+				if (u'\u1712' > c || c > u'\u1A7F')
 					return false;
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
@@ -650,7 +650,7 @@ MUU_NAMESPACE_START
 			}
 			case 0x06: // [6] 1A8E - 1E7A
 			{
-				if (c < u'\u1AB0' || u'\u1DFF' < c)
+				if (u'\u1AB0' > c || c > u'\u1DFF')
 					return false;
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
@@ -669,7 +669,7 @@ MUU_NAMESPACE_START
 			case 0x0B: return (u'\u302A' <= c && c <= u'\u302F') || (u'\u3099' <= c && c <= u'\u309A');
 			case 0x29: // [41] A3F5 - A7E1
 			{
-				if (c < u'\uA66F' || u'\uA6F1' < c)
+				if (u'\uA66F' > c || c > u'\uA6F1')
 					return false;
 				
 				switch ((static_cast<uint_least64_t>(c) - 0xA66Full) / 0x40ull)
@@ -682,7 +682,7 @@ MUU_NAMESPACE_START
 			}
 			case 0x2A: // [42] A7E2 - ABCE
 			{
-				if (c < u'\uA802' || u'\uAAF6' < c)
+				if (u'\uA802' > c || c > u'\uAAF6')
 					return false;
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
@@ -735,7 +735,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_uppercase(char16_t c) noexcept
 	{
-		if (c < u'A' || u'\uFF3A' < c)
+		if (u'A' > c || c > u'\uFF3A')
 			return false;
 		
 		const auto child_index_0 = (static_cast<uint_least64_t>(c) - 0x41ull) / 0x3FCull;
@@ -745,7 +745,7 @@ MUU_NAMESPACE_START
 		{
 			case 0x00: // [0] 0041 - 043C
 			{
-				if (u'\u042F' < c)
+				if (c > u'\u042F')
 					return false;
 				MUU_ASSUME(u'A' <= c);
 				
@@ -762,7 +762,7 @@ MUU_NAMESPACE_START
 			}
 			case 0x01: // [1] 043D - 0838
 			{
-				if (c < u'\u0460' || u'\u0556' < c)
+				if (u'\u0460' > c || c > u'\u0556')
 					return false;
 				
 				switch ((static_cast<uint_least64_t>(c) - 0x460ull) / 0x40ull)
@@ -777,7 +777,7 @@ MUU_NAMESPACE_START
 			}
 			case 0x04: // [4] 1031 - 142C
 			{
-				if (c < u'\u10A0' || u'\u13F5' < c)
+				if (u'\u10A0' > c || c > u'\u13F5')
 					return false;
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
@@ -793,7 +793,7 @@ MUU_NAMESPACE_START
 			}
 			case 0x07: // [7] 1C25 - 2020
 			{
-				if (c < u'\u1C90' || u'\u1FFB' < c)
+				if (u'\u1C90' > c || c > u'\u1FFB')
 					return false;
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
@@ -809,10 +809,10 @@ MUU_NAMESPACE_START
 			}
 			case 0x08: // [8] 2021 - 241C
 			{
-				if (c < u'\u2102' || u'\u2183' < c)
+				if (u'\u2102' > c || c > u'\u2183')
 					return false;
 				
-				if (c != u'\u2182')
+				if (c == u'\u2183')
 					return true;
 				switch ((static_cast<uint_least64_t>(c) - 0x2102ull) / 0x40ull)
 				{
@@ -827,7 +827,7 @@ MUU_NAMESPACE_START
 			case 0x0A: return u'\u2C00' <= c;
 			case 0x0B: // [11] 2C15 - 3010
 			{
-				if (u'\u2CF2' < c)
+				if (c > u'\u2CF2')
 					return false;
 				MUU_ASSUME(u'\u2C15' <= c);
 				
@@ -843,7 +843,7 @@ MUU_NAMESPACE_START
 			}
 			case 0x29: // [41] A39D - A798
 			{
-				if (c < u'\uA640')
+				if (u'\uA640' > c)
 					return false;
 				MUU_ASSUME(c <= u'\uA798');
 				
@@ -858,7 +858,7 @@ MUU_NAMESPACE_START
 			}
 			case 0x2A: // [42] A799 - AB94
 			{
-				if (c < u'\uA79A' || u'\uA7F5' < c)
+				if (u'\uA79A' > c || c > u'\uA7F5')
 					return false;
 				
 				return c == u'\uA7F5'
@@ -876,7 +876,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_lowercase(char16_t c) noexcept
 	{
-		if (c < u'a' || u'\uFF5A' < c)
+		if (u'a' > c || c > u'\uFF5A')
 			return false;
 		
 		const auto child_index_0 = (static_cast<uint_least64_t>(c) - 0x61ull) / 0x3FCull;
@@ -901,7 +901,7 @@ MUU_NAMESPACE_START
 			}
 			case 0x01: // [1] 045D - 0858
 			{
-				if (u'\u0588' < c)
+				if (c > u'\u0588')
 					return false;
 				MUU_ASSUME(u'\u045D' <= c);
 				
@@ -917,7 +917,7 @@ MUU_NAMESPACE_START
 			case 0x04: return (u'\u10D0' <= c && c <= u'\u10FA') || (u'\u10FD' <= c && c <= u'\u10FF') || (u'\u13F8' <= c && c <= u'\u13FD');
 			case 0x07: // [7] 1C45 - 2040
 			{
-				if (c < u'\u1C80' || u'\u1FF7' < c)
+				if (u'\u1C80' > c || c > u'\u1FF7')
 					return false;
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
@@ -933,7 +933,7 @@ MUU_NAMESPACE_START
 			}
 			case 0x08: // [8] 2041 - 243C
 			{
-				if (c < u'\u2071' || u'\u2184' < c)
+				if (u'\u2071' > c || c > u'\u2184')
 					return false;
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
@@ -949,7 +949,7 @@ MUU_NAMESPACE_START
 			case 0x0A: return u'\u2C30' <= c;
 			case 0x0B: // [11] 2C35 - 3030
 			{
-				if (u'\u2D2D' < c)
+				if (c > u'\u2D2D')
 					return false;
 				MUU_ASSUME(u'\u2C35' <= c);
 				
@@ -966,7 +966,7 @@ MUU_NAMESPACE_START
 			}
 			case 0x29: // [41] A3BD - A7B8
 			{
-				if (c < u'\uA641' || u'\uA7B7' < c)
+				if (u'\uA641' > c || c > u'\uA7B7')
 					return false;
 				
 				constexpr uint_least64_t bitmask_table_1[] = 

@@ -66,6 +66,9 @@ MUU_NAMESPACE_START
 		static constexpr long double values_sum_low  = 102.974L;
 		static constexpr long double values_sum      = 103.077L;
 		static constexpr long double values_sum_high = 103.180L;
+		static constexpr long double pi              = 3.142L;
+		static constexpr long double tau             = 6.283L;
+		static constexpr long double e               = 2.718L;
 
 		static constexpr auto int_blittable    = true;
 		static constexpr auto bits_sign        = 0b1000000000000000_u16;
@@ -136,6 +139,9 @@ MUU_NAMESPACE_START
 		static constexpr long double values_sum_low  = 101.661622L;
 		static constexpr long double values_sum      = 101.662639L;
 		static constexpr long double values_sum_high = 101.663656L;
+		static constexpr long double pi              = 3.141593L;
+		static constexpr long double tau             = 6.283185L;
+		static constexpr long double e               = 2.718282L;
 
 		static constexpr auto int_blittable    = true;
 		static constexpr auto bits_sign        = 0b10000000000000000000000000000000_u32;
@@ -241,6 +247,9 @@ MUU_NAMESPACE_START
 		static constexpr long double values_sum_low  = 102.528340980158395L;
 		static constexpr long double values_sum      = 102.528340980260923L;
 		static constexpr long double values_sum_high = 102.528340980363451L;
+		static constexpr long double pi              = 3.141592653589793L;
+		static constexpr long double tau             = 6.283185307179586L;
+		static constexpr long double e               = 2.718281828459046L;
 
 		static constexpr auto int_blittable    = true;
 		static constexpr auto bits_sign        = 0x8000000000000000_u64;
@@ -366,6 +375,9 @@ MUU_NAMESPACE_START
 		static constexpr long double values_sum_low  = 102.739434643000955904L;
 		static constexpr long double values_sum      = 102.739434643001058643L;
 		static constexpr long double values_sum_high = 102.739434643001161382L;
+		static constexpr long double pi              = 3.141592653589793238L;
+		static constexpr long double tau             = 6.283185307179586477L;
+		static constexpr long double e               = 2.718281828459045535L;
 
 		static constexpr auto int_blittable    = false;
 		static constexpr auto bits_sign        = array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16 };
@@ -492,6 +504,9 @@ MUU_NAMESPACE_START
 		static constexpr long double values_sum_low  = 102.739434643000955904L;
 		static constexpr long double values_sum      = 102.739434643001058643L;
 		static constexpr long double values_sum_high = 102.739434643001161382L;
+		static constexpr long double pi              = 3.141592653589793238L;
+		static constexpr long double tau             = 6.283185307179586477L;
+		static constexpr long double e               = 2.718281828459045535L;
 
 		#if MUU_HAS_INT128
 		static constexpr auto int_blittable    = true;
@@ -735,6 +750,9 @@ MUU_NAMESPACE_START
 		static constexpr float128_t values_sum_low  = 97.927944306207317800749240923218632q;
 		static constexpr float128_t values_sum      = 97.927944306207317800749241902498075q;
 		static constexpr float128_t values_sum_high = 97.927944306207317800749242881777518q;
+		static constexpr float128_t pi              = 3.141592653589793238462643383279503q;
+		static constexpr float128_t tau             = 6.283185307179586476925286766559006q;
+		static constexpr float128_t e               = 2.718281828459045534884808148490265q;
 
 		#if MUU_HAS_INT128
 		static constexpr auto int_blittable    = true;

@@ -777,7 +777,7 @@ MUU_NAMESPACE_START
 		#endif // MUU_HAS_INT128
 
 		template <typename T>
-		struct unsigned_integral_named_constants
+		struct integer_positive_constants
 		{
 			static constexpr T zero = T{};		///< `0`
 			static constexpr T one = T{ 1 };	///< `1`
@@ -793,7 +793,7 @@ MUU_NAMESPACE_START
 		};
 
 		template <typename T>
-		struct signed_integral_named_constants
+		struct integer_negative_constants
 		{
 			static constexpr T minus_one = T{ -1 };		///< `-1`
 			static constexpr T minus_two = T{ -2 };		///< `-2`
@@ -810,23 +810,34 @@ MUU_NAMESPACE_START
 		template <typename T>
 		struct floating_point_special_constants
 		{
-			/// \brief Not-A-Number (quiet)
-			static constexpr T nan = std::numeric_limits<T>::quiet_NaN();
-
-			/// \brief Not-A-Number (signalling)
-			static constexpr T snan = std::numeric_limits<T>::signaling_NaN();
-
-			/// \brief Positive infinity
-			static constexpr T infinity = std::numeric_limits<T>::infinity();
-
-			/// \brief Negative infinity
-			static constexpr T negative_infinity = -infinity;
+			static constexpr T nan = std::numeric_limits<T>::quiet_NaN();		///< Not-A-Number (quiet)
+			static constexpr T snan = std::numeric_limits<T>::signaling_NaN();	///< Not-A-Number (signalling)
+			static constexpr T infinity = std::numeric_limits<T>::infinity();	///< Positive infinity
+			static constexpr T negative_infinity = -infinity;					///< Negative infinity
+			static constexpr T minus_zero = T(-0.0L);							///< `-0.0`
 		};
 
 		template <typename T>
-		struct floating_point_named_constants
+		struct floating_point_irrational_constants
 		{
-			static constexpr T minus_zero = T(-0.0L);		///< `-0.0`
+			static constexpr T pi              = T( 3.141592653589793238463L );
+			static constexpr T tau             = T( 6.283185307179586476925L );
+			static constexpr T e               = T( 2.718281828459045534885L );
+		};
+
+		#if MUU_HAS_FLOAT128
+		template <>
+		struct floating_point_irrational_constants<float_128_t>
+		{
+			static constexpr float_128_t pi    = 3.141592653589793238462643383279502884q;
+			static constexpr float_128_t tau   = 6.283185307179586476925286766559005768q;
+			static constexpr float_128_t e     = 2.718281828459045534884808148490265012q;
+		}
+		#endif
+
+		template <typename T>
+		struct floating_point_rational_constants
+		{
 			static constexpr T one_over_two = T(0.5L);		///< `0.5`
 			static constexpr T three_over_two = T(1.5L);	///< `1.5`
 		};
@@ -837,7 +848,7 @@ MUU_NAMESPACE_START
 		template <typename T>
 		struct ascii_character_constants
 			: numeric_limits<T>,
-			unsigned_integral_named_constants<T>
+			integer_positive_constants<T>
 		{
 			static constexpr T backspace = T{ 8 };				///< The backspace character.
 			static constexpr T tab = T{ 9 };					///< `\t`
@@ -955,23 +966,24 @@ MUU_NAMESPACE_START
 		template <typename T>
 		struct floating_point_constants
 			: numeric_limits<T>,
-			unsigned_integral_named_constants<T>,
-			signed_integral_named_constants<T>,
+			integer_positive_constants<T>,
+			integer_negative_constants<T>,
 			floating_point_special_constants<T>,
-			floating_point_named_constants<T>
+			floating_point_irrational_constants<T>,
+			floating_point_rational_constants<T>
 		{};
 
 		template <typename T>
 		struct unsigned_integral_constants
 			: numeric_limits<T>,
-			unsigned_integral_named_constants<T>
+			integer_positive_constants<T>
 		{};
 
 		template <typename T>
 		struct signed_integral_constants
 			: numeric_limits<T>,
-			unsigned_integral_named_constants<T>,
-			signed_integral_named_constants<T>
+			integer_positive_constants<T>,
+			integer_negative_constants<T>
 		{};
 	}
 

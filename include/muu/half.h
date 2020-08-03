@@ -612,51 +612,59 @@ MUU_NAMESPACE_START
 		};
 
 		template <>
-		struct unsigned_integral_named_constants<half>
+		struct integer_positive_constants<half>
 		{
-			static constexpr half zero = half::from_bits(0b0'00000'0000000000_u16);
-			static constexpr half one = half::from_bits(0b0'01111'0000000000_u16);
-			static constexpr half two = half::from_bits(0b0'10000'0000000000_u16);
-			static constexpr half three = half::from_bits(0b0'10000'1000000000_u16);
-			static constexpr half four = half::from_bits(0b0'10001'0000000000_u16);
-			static constexpr half five = half::from_bits(0b0'10001'0100000000_u16);
-			static constexpr half six = half::from_bits(0b0'10001'1000000000_u16);
-			static constexpr half seven = half::from_bits(0b0'10001'1100000000_u16);
-			static constexpr half eight = half::from_bits(0b0'10010'0000000000_u16);
-			static constexpr half nine = half::from_bits(0b0'10010'0010000000_u16);
-			static constexpr half ten = half::from_bits(0b0'10010'0100000000_u16);
+			static constexpr half zero	= half::from_bits(0b0'00000'0000000000_u16);
+			static constexpr half one	= half::from_bits(0b0'01111'0000000000_u16);
+			static constexpr half two	= half::from_bits(0b0'10000'0000000000_u16);
+			static constexpr half three	= half::from_bits(0b0'10000'1000000000_u16);
+			static constexpr half four	= half::from_bits(0b0'10001'0000000000_u16);
+			static constexpr half five	= half::from_bits(0b0'10001'0100000000_u16);
+			static constexpr half six	= half::from_bits(0b0'10001'1000000000_u16);
+			static constexpr half seven	= half::from_bits(0b0'10001'1100000000_u16);
+			static constexpr half eight	= half::from_bits(0b0'10010'0000000000_u16);
+			static constexpr half nine	= half::from_bits(0b0'10010'0010000000_u16);
+			static constexpr half ten	= half::from_bits(0b0'10010'0100000000_u16);
 		};
 
 		template <>
-		struct signed_integral_named_constants<half>
+		struct integer_negative_constants<half>
 		{
-			static constexpr half minus_one = half::from_bits(0b1'01111'0000000000_u16);
-			static constexpr half minus_two = half::from_bits(0b1'10000'0000000000_u16);
-			static constexpr half minus_three = half::from_bits(0b1'10000'1000000000_u16);
-			static constexpr half minus_four = half::from_bits(0b1'10001'0000000000_u16);
-			static constexpr half minus_five = half::from_bits(0b1'10001'0100000000_u16);
-			static constexpr half minus_six = half::from_bits(0b1'10001'1000000000_u16);
-			static constexpr half minus_seven = half::from_bits(0b1'10001'1100000000_u16);
-			static constexpr half minus_eight = half::from_bits(0b1'10010'0000000000_u16);
-			static constexpr half minus_nine = half::from_bits(0b1'10010'0010000000_u16);
-			static constexpr half minus_ten = half::from_bits(0b1'10010'0100000000_u16);
+			static constexpr half minus_one		= half::from_bits(0b1'01111'0000000000_u16);
+			static constexpr half minus_two		= half::from_bits(0b1'10000'0000000000_u16);
+			static constexpr half minus_three	= half::from_bits(0b1'10000'1000000000_u16);
+			static constexpr half minus_four	= half::from_bits(0b1'10001'0000000000_u16);
+			static constexpr half minus_five	= half::from_bits(0b1'10001'0100000000_u16);
+			static constexpr half minus_six		= half::from_bits(0b1'10001'1000000000_u16);
+			static constexpr half minus_seven	= half::from_bits(0b1'10001'1100000000_u16);
+			static constexpr half minus_eight	= half::from_bits(0b1'10010'0000000000_u16);
+			static constexpr half minus_nine	= half::from_bits(0b1'10010'0010000000_u16);
+			static constexpr half minus_ten		= half::from_bits(0b1'10010'0100000000_u16);
 		};
 
 		template <>
 		struct floating_point_special_constants<half>
 		{
-			static constexpr half nan = half::from_bits(0b1'11111'1000000001_u16);
-			static constexpr half snan = half::from_bits(0b1'11111'0000000001_u16);
-			static constexpr half infinity = half::from_bits(0b0'11111'0000000000_u16);
-			static constexpr half negative_infinity = half::from_bits(0b1'11111'0000000000_u16);
+			static constexpr half nan				= half::from_bits(0b1'11111'1000000001_u16);
+			static constexpr half snan				= half::from_bits(0b1'11111'0000000001_u16);
+			static constexpr half infinity			= half::from_bits(0b0'11111'0000000000_u16);
+			static constexpr half negative_infinity	= half::from_bits(0b1'11111'0000000000_u16);
+			static constexpr half minus_zero		= half::from_bits(0b1'00000'0000000000_u16);
 		};
 
 		template <>
-		struct floating_point_named_constants<half>
+		struct floating_point_irrational_constants<half>
 		{
-			static constexpr half minus_zero = half::from_bits(0b1'00000'0000000000_u16);
-			static constexpr half one_over_two = half::from_bits(0b0'01110'0000000000_u16);
-			static constexpr half three_over_two = half::from_bits(0b0'01111'1000000000_u16);
+			static constexpr half pi	= half::from_bits(0b0'10000'1001001000_u16);
+			static constexpr half tau	= half::from_bits(0b0'10001'1001001000_u16);
+			static constexpr half e		= half::from_bits(0b0'10000'0101110000_u16);
+		};
+
+		template <>
+		struct floating_point_rational_constants<half>
+		{
+			static constexpr half one_over_two		= half::from_bits(0b0'01110'0000000000_u16);
+			static constexpr half three_over_two	= half::from_bits(0b0'01111'1000000000_u16);
 		};
 
 	}

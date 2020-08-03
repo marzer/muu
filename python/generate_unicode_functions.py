@@ -594,6 +594,9 @@ class CodepointChunk:
 	def always_returns_false(self):
 		return not self
 
+	def closed(self):
+		return self.__expr_handles_low_end and self.__expr_handles_high_end
+
 	def has_expression(self):
 		return self.__expr is not None
 
@@ -688,7 +691,7 @@ class CodepointChunk:
 					break
 			assert gap is not None
 			expressions.append(self.__Expression(
-				900,
+				750,
 				'c != ' + self.__code_unit.literal(gap) + exid(2),
 				gap == self.span_first(),
 				gap == self.span_last()
@@ -886,12 +889,12 @@ class CodepointChunk:
 		else:
 			exclusions = []
 			assumptions = []
-			if self.first() > self.span_first():
-				exclusions.append(f'c < {self.first_lit()}')
+			if self.span_first() < self.first():
+				exclusions.append(f'{self.first_lit()} > c')
 			else:
 				assumptions.append(f'{self.first_lit()} <= c')
 			if self.last() < self.span_last():
-				exclusions.append(f'{self.last_lit()} < c')
+				exclusions.append(f'c > {self.last_lit()}')
 			else:
 				assumptions.append(f'c <= {self.last_lit()}')
 			if exclusions:
@@ -1000,7 +1003,7 @@ class CodepointChunk:
 					continue
 				emittables.append((i, child))
 				emittables_all_have_expressions = emittables_all_have_expressions and child.has_expression()
-				if len(child) == 1 and child.has_expression() and not child.always_returns_true():
+				if len(child) == 1 and child.has_expression() and not child.always_returns_true() and child.closed():
 					emittables_simple_equality.append((i, child))
 				else:
 					emittables_other.append((i, child))
@@ -1870,10 +1873,10 @@ def main():
 	tests_folder = path.join(utils.get_script_folder(), '..', 'tests')
 	ucd() # force generation first
 
-	#G.subdivision_allowed = False
-	#G.word_size = 32
-	#G.compound_boolean_limit = 4
-	#G.expression_ids = True
+	# G.subdivision_allowed = False
+	# G.word_size = 32
+	# G.compound_boolean_limit = 4
+	# G.expression_ids = True
 	write_header((header_folder, tests_folder), CodeUnit('char'))
 	write_header((header_folder, tests_folder), CodeUnit('unsigned char'))
 	write_header((header_folder, tests_folder), CodeUnit('char8_t'))

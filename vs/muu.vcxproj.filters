@@ -142,6 +142,8 @@
     <None Include="..\python\generate_unicode_functions.py">
       <Filter>python</Filter>
     </None>
+    <None Include="..\CODE_OF_CONDUCT.md" />
+    <None Include="..\LICENSE" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -168,5 +170,8 @@
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="muu.natvis" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\meson_options.txt" />
   </ItemGroup>
 </Project>

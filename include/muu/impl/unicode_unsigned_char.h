@@ -63,7 +63,7 @@ MUU_IMPL_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_unicode_letter(unsigned char c) noexcept
 	{
-		if (c < 0xAAu)
+		if (0xAAu > c)
 			return false;
 		MUU_ASSUME(c <= 0xFFu);
 		
@@ -166,7 +166,7 @@ MUU_IMPL_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_lowercase(unsigned char c) noexcept
 	{
-		if (c < 0x61u)
+		if (0x61u > c)
 			return false;
 		MUU_ASSUME(c <= 0xFFu);
 		
