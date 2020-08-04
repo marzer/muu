@@ -48,16 +48,16 @@ MUU_NAMESPACE_START
 
 			// "Set all the other bits to randomly (or pseudo-randomly) chosen values."
 			std::uniform_int_distribution<unsigned> dist{ 0, 255 };
-			for (auto& b : val.bytes)
+			for (auto& b : val.bytes.value)
 				b = static_cast<std::byte>(dist(impl::mersenne_twister()));
 
 			// "Set the four most significant bits (bits 12 through 15) of the
 			// time_hi_and_version field to the 4-bit version number."
-			val.bytes[6] = (val.bytes[6] & 0b00001111_byte) | 0b01000000_byte; //version 4 (random)
+			val.bytes.value[6] = (val.bytes.value[6] & 0b00001111_byte) | 0b01000000_byte; //version 4 (random)
 
 			// "Set the two most significant bits (bits 6 and 7) of the
 			// clock_seq_hi_and_reserved to zero and one, respectively."
-			val.bytes[8] = (val.bytes[8] & 0b00111111_byte) | 0b10000000_byte; //variant (standard)
+			val.bytes.value[8] = (val.bytes.value[8] & 0b00111111_byte) | 0b10000000_byte; //variant (standard)
 
 		}
 		#endif
@@ -80,11 +80,11 @@ MUU_NAMESPACE_START
 
 		// "Set the four most significant bits (bits 12 through 15) of the
 		// time_hi_and_version field to the 4-bit version number."
-		bytes[6] = (bytes[6] & 0b00001111_byte) | 0b01010000_byte; //version 5 (SHA1)
+		bytes.value[6] = (bytes.value[6] & 0b00001111_byte) | 0b01010000_byte; //version 5 (SHA1)
 
 		// "Set the two most significant bits (bits 6 and 7) of the
 		// clock_seq_hi_and_reserved to zero and one, respectively."
-		bytes[8] = (bytes[8] & 0b00111111_byte) | 0b10000000_byte; //variant (standard)
+		bytes.value[8] = (bytes.value[8] & 0b00111111_byte) | 0b10000000_byte; //variant (standard)
 	}
 }
 MUU_NAMESPACE_END

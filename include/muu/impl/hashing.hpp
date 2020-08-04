@@ -13,7 +13,11 @@
 
 MUU_ANON_NAMESPACE_START { namespace sha1_utils
 {
-	using block = muu::array<uint32_t, 16>;
+	using raw_block = uint32_t[16];
+	struct block
+	{
+		raw_block value;
+	};
 
 	[[nodiscard]]
 	MUU_INTERNAL_LINKAGE
@@ -25,14 +29,14 @@ MUU_ANON_NAMESPACE_START { namespace sha1_utils
 
 	[[nodiscard]]
 	MUU_INTERNAL_LINKAGE
-	constexpr uint32_t MUU_VECTORCALL blk(const block& bl, size_t i) noexcept
+	constexpr uint32_t MUU_VECTORCALL blk(const raw_block& bl, size_t i) noexcept
 	{
 		return rol(bl[(i + 13u) & 15u] ^ bl[(i + 8u) & 15u] ^ bl[(i + 2u) & 15u] ^ bl[i], 1);
 	}
 
 	MUU_INTERNAL_LINKAGE
 	constexpr void MUU_VECTORCALL
-	R0(const block& bl, uint32_t v, uint32_t& w, uint32_t x, uint32_t y, uint32_t& z, size_t i) noexcept
+	R0(const raw_block& bl, uint32_t v, uint32_t& w, uint32_t x, uint32_t y, uint32_t& z, size_t i) noexcept
 	{
 		z += ((w & (x ^ y)) ^ y) + bl[i] + 0x5a827999u + rol(v, 5u);
 		w = rol(w, 30u);
@@ -40,7 +44,7 @@ MUU_ANON_NAMESPACE_START { namespace sha1_utils
 
 	MUU_INTERNAL_LINKAGE
 	constexpr void MUU_VECTORCALL
-	R1(block& bl, uint32_t v, uint32_t& w, uint32_t x, uint32_t y, uint32_t& z, size_t i) noexcept
+	R1(raw_block& bl, uint32_t v, uint32_t& w, uint32_t x, uint32_t y, uint32_t& z, size_t i) noexcept
 	{
 		bl[i] = blk(bl, i);
 		z += ((w & (x ^ y)) ^ y) + bl[i] + 0x5a827999u + rol(v, 5u);
@@ -49,7 +53,7 @@ MUU_ANON_NAMESPACE_START { namespace sha1_utils
 
 	MUU_INTERNAL_LINKAGE
 	constexpr void MUU_VECTORCALL
-	R2(block& bl, uint32_t v, uint32_t& w, uint32_t x, uint32_t y, uint32_t& z, size_t i) noexcept
+	R2(raw_block& bl, uint32_t v, uint32_t& w, uint32_t x, uint32_t y, uint32_t& z, size_t i) noexcept
 	{
 		bl[i] = blk(bl, i);
 		z += (w ^ x ^ y) + bl[i] + 0x6ed9eba1u + rol(v, 5u);
@@ -58,7 +62,7 @@ MUU_ANON_NAMESPACE_START { namespace sha1_utils
 
 	MUU_INTERNAL_LINKAGE
 	constexpr void MUU_VECTORCALL
-	R3(block& bl, uint32_t v, uint32_t& w, uint32_t x, uint32_t y, uint32_t& z, size_t i) noexcept
+	R3(raw_block& bl, uint32_t v, uint32_t& w, uint32_t x, uint32_t y, uint32_t& z, size_t i) noexcept
 	{
 		bl[i] = blk(bl, i);
 		z += (((w | x) & y) | (w & x)) + bl[i] + 0x8f1bbcdcu + rol(v, 5u);
@@ -67,7 +71,7 @@ MUU_ANON_NAMESPACE_START { namespace sha1_utils
 
 	MUU_INTERNAL_LINKAGE
 	constexpr void MUU_VECTORCALL
-	R4(block& bl, uint32_t v, uint32_t& w, uint32_t x, uint32_t y, uint32_t& z, size_t i) noexcept
+	R4(raw_block& bl, uint32_t v, uint32_t& w, uint32_t x, uint32_t y, uint32_t& z, size_t i) noexcept
 	{
 		bl[i] = blk(bl, i);
 		z += (w ^ x ^ y) + bl[i] + 0xca62c1d6u + rol(v, 5u);
@@ -75,14 +79,13 @@ MUU_ANON_NAMESPACE_START { namespace sha1_utils
 	}
 
 	MUU_INTERNAL_LINKAGE
-	void process_block(const uint8_t(&raw_block)[64], uint32_t(&digest)[5]) noexcept
+	void process_block(const uint8_t(&block_)[64], uint32_t(&digest)[5]) noexcept
 	{
-		using namespace MUU_NAMESPACE;
-		block bl = bit_cast<block>(raw_block);
-		if constexpr (build::is_little_endian)
+		block bl = muu::bit_cast<block>(block_);
+		if constexpr (muu::build::is_little_endian)
 		{
-			for (auto& i : bl)
-				i = byte_reverse(i);
+			for (auto& i : bl.value)
+				i = muu::byte_reverse(i);
 		}
 
 		// copy digest
@@ -93,86 +96,86 @@ MUU_ANON_NAMESPACE_START { namespace sha1_utils
 		uint32_t e = digest[4];
 
 		// 4 rounds of 20 operations each, loop unrolled
-		R0(bl, a, b, c, d, e,  0_sz);
-		R0(bl, e, a, b, c, d,  1_sz);
-		R0(bl, d, e, a, b, c,  2_sz);
-		R0(bl, c, d, e, a, b,  3_sz);
-		R0(bl, b, c, d, e, a,  4_sz);
-		R0(bl, a, b, c, d, e,  5_sz);
-		R0(bl, e, a, b, c, d,  6_sz);
-		R0(bl, d, e, a, b, c,  7_sz);
-		R0(bl, c, d, e, a, b,  8_sz);
-		R0(bl, b, c, d, e, a,  9_sz);
-		R0(bl, a, b, c, d, e, 10_sz);
-		R0(bl, e, a, b, c, d, 11_sz);
-		R0(bl, d, e, a, b, c, 12_sz);
-		R0(bl, c, d, e, a, b, 13_sz);
-		R0(bl, b, c, d, e, a, 14_sz);
-		R0(bl, a, b, c, d, e, 15_sz);
-		R1(bl, e, a, b, c, d,  0_sz);
-		R1(bl, d, e, a, b, c,  1_sz);
-		R1(bl, c, d, e, a, b,  2_sz);
-		R1(bl, b, c, d, e, a,  3_sz);
-		R2(bl, a, b, c, d, e,  4_sz);
-		R2(bl, e, a, b, c, d,  5_sz);
-		R2(bl, d, e, a, b, c,  6_sz);
-		R2(bl, c, d, e, a, b,  7_sz);
-		R2(bl, b, c, d, e, a,  8_sz);
-		R2(bl, a, b, c, d, e,  9_sz);
-		R2(bl, e, a, b, c, d, 10_sz);
-		R2(bl, d, e, a, b, c, 11_sz);
-		R2(bl, c, d, e, a, b, 12_sz);
-		R2(bl, b, c, d, e, a, 13_sz);
-		R2(bl, a, b, c, d, e, 14_sz);
-		R2(bl, e, a, b, c, d, 15_sz);
-		R2(bl, d, e, a, b, c,  0_sz);
-		R2(bl, c, d, e, a, b,  1_sz);
-		R2(bl, b, c, d, e, a,  2_sz);
-		R2(bl, a, b, c, d, e,  3_sz);
-		R2(bl, e, a, b, c, d,  4_sz);
-		R2(bl, d, e, a, b, c,  5_sz);
-		R2(bl, c, d, e, a, b,  6_sz);
-		R2(bl, b, c, d, e, a,  7_sz);
-		R3(bl, a, b, c, d, e,  8_sz);
-		R3(bl, e, a, b, c, d,  9_sz);
-		R3(bl, d, e, a, b, c, 10_sz);
-		R3(bl, c, d, e, a, b, 11_sz);
-		R3(bl, b, c, d, e, a, 12_sz);
-		R3(bl, a, b, c, d, e, 13_sz);
-		R3(bl, e, a, b, c, d, 14_sz);
-		R3(bl, d, e, a, b, c, 15_sz);
-		R3(bl, c, d, e, a, b,  0_sz);
-		R3(bl, b, c, d, e, a,  1_sz);
-		R3(bl, a, b, c, d, e,  2_sz);
-		R3(bl, e, a, b, c, d,  3_sz);
-		R3(bl, d, e, a, b, c,  4_sz);
-		R3(bl, c, d, e, a, b,  5_sz);
-		R3(bl, b, c, d, e, a,  6_sz);
-		R3(bl, a, b, c, d, e,  7_sz);
-		R3(bl, e, a, b, c, d,  8_sz);
-		R3(bl, d, e, a, b, c,  9_sz);
-		R3(bl, c, d, e, a, b, 10_sz);
-		R3(bl, b, c, d, e, a, 11_sz);
-		R4(bl, a, b, c, d, e, 12_sz);
-		R4(bl, e, a, b, c, d, 13_sz);
-		R4(bl, d, e, a, b, c, 14_sz);
-		R4(bl, c, d, e, a, b, 15_sz);
-		R4(bl, b, c, d, e, a,  0_sz);
-		R4(bl, a, b, c, d, e,  1_sz);
-		R4(bl, e, a, b, c, d,  2_sz);
-		R4(bl, d, e, a, b, c,  3_sz);
-		R4(bl, c, d, e, a, b,  4_sz);
-		R4(bl, b, c, d, e, a,  5_sz);
-		R4(bl, a, b, c, d, e,  6_sz);
-		R4(bl, e, a, b, c, d,  7_sz);
-		R4(bl, d, e, a, b, c,  8_sz);
-		R4(bl, c, d, e, a, b,  9_sz);
-		R4(bl, b, c, d, e, a, 10_sz);
-		R4(bl, a, b, c, d, e, 11_sz);
-		R4(bl, e, a, b, c, d, 12_sz);
-		R4(bl, d, e, a, b, c, 13_sz);
-		R4(bl, c, d, e, a, b, 14_sz);
-		R4(bl, b, c, d, e, a, 15_sz);
+		R0(bl.value, a, b, c, d, e,  0u);
+		R0(bl.value, e, a, b, c, d,  1u);
+		R0(bl.value, d, e, a, b, c,  2u);
+		R0(bl.value, c, d, e, a, b,  3u);
+		R0(bl.value, b, c, d, e, a,  4u);
+		R0(bl.value, a, b, c, d, e,  5u);
+		R0(bl.value, e, a, b, c, d,  6u);
+		R0(bl.value, d, e, a, b, c,  7u);
+		R0(bl.value, c, d, e, a, b,  8u);
+		R0(bl.value, b, c, d, e, a,  9u);
+		R0(bl.value, a, b, c, d, e, 10u);
+		R0(bl.value, e, a, b, c, d, 11u);
+		R0(bl.value, d, e, a, b, c, 12u);
+		R0(bl.value, c, d, e, a, b, 13u);
+		R0(bl.value, b, c, d, e, a, 14u);
+		R0(bl.value, a, b, c, d, e, 15u);
+		R1(bl.value, e, a, b, c, d,  0u);
+		R1(bl.value, d, e, a, b, c,  1u);
+		R1(bl.value, c, d, e, a, b,  2u);
+		R1(bl.value, b, c, d, e, a,  3u);
+		R2(bl.value, a, b, c, d, e,  4u);
+		R2(bl.value, e, a, b, c, d,  5u);
+		R2(bl.value, d, e, a, b, c,  6u);
+		R2(bl.value, c, d, e, a, b,  7u);
+		R2(bl.value, b, c, d, e, a,  8u);
+		R2(bl.value, a, b, c, d, e,  9u);
+		R2(bl.value, e, a, b, c, d, 10u);
+		R2(bl.value, d, e, a, b, c, 11u);
+		R2(bl.value, c, d, e, a, b, 12u);
+		R2(bl.value, b, c, d, e, a, 13u);
+		R2(bl.value, a, b, c, d, e, 14u);
+		R2(bl.value, e, a, b, c, d, 15u);
+		R2(bl.value, d, e, a, b, c,  0u);
+		R2(bl.value, c, d, e, a, b,  1u);
+		R2(bl.value, b, c, d, e, a,  2u);
+		R2(bl.value, a, b, c, d, e,  3u);
+		R2(bl.value, e, a, b, c, d,  4u);
+		R2(bl.value, d, e, a, b, c,  5u);
+		R2(bl.value, c, d, e, a, b,  6u);
+		R2(bl.value, b, c, d, e, a,  7u);
+		R3(bl.value, a, b, c, d, e,  8u);
+		R3(bl.value, e, a, b, c, d,  9u);
+		R3(bl.value, d, e, a, b, c, 10u);
+		R3(bl.value, c, d, e, a, b, 11u);
+		R3(bl.value, b, c, d, e, a, 12u);
+		R3(bl.value, a, b, c, d, e, 13u);
+		R3(bl.value, e, a, b, c, d, 14u);
+		R3(bl.value, d, e, a, b, c, 15u);
+		R3(bl.value, c, d, e, a, b,  0u);
+		R3(bl.value, b, c, d, e, a,  1u);
+		R3(bl.value, a, b, c, d, e,  2u);
+		R3(bl.value, e, a, b, c, d,  3u);
+		R3(bl.value, d, e, a, b, c,  4u);
+		R3(bl.value, c, d, e, a, b,  5u);
+		R3(bl.value, b, c, d, e, a,  6u);
+		R3(bl.value, a, b, c, d, e,  7u);
+		R3(bl.value, e, a, b, c, d,  8u);
+		R3(bl.value, d, e, a, b, c,  9u);
+		R3(bl.value, c, d, e, a, b, 10u);
+		R3(bl.value, b, c, d, e, a, 11u);
+		R4(bl.value, a, b, c, d, e, 12u);
+		R4(bl.value, e, a, b, c, d, 13u);
+		R4(bl.value, d, e, a, b, c, 14u);
+		R4(bl.value, c, d, e, a, b, 15u);
+		R4(bl.value, b, c, d, e, a,  0u);
+		R4(bl.value, a, b, c, d, e,  1u);
+		R4(bl.value, e, a, b, c, d,  2u);
+		R4(bl.value, d, e, a, b, c,  3u);
+		R4(bl.value, c, d, e, a, b,  4u);
+		R4(bl.value, b, c, d, e, a,  5u);
+		R4(bl.value, a, b, c, d, e,  6u);
+		R4(bl.value, e, a, b, c, d,  7u);
+		R4(bl.value, d, e, a, b, c,  8u);
+		R4(bl.value, c, d, e, a, b,  9u);
+		R4(bl.value, b, c, d, e, a, 10u);
+		R4(bl.value, a, b, c, d, e, 11u);
+		R4(bl.value, e, a, b, c, d, 12u);
+		R4(bl.value, d, e, a, b, c, 13u);
+		R4(bl.value, c, d, e, a, b, 14u);
+		R4(bl.value, b, c, d, e, a, 15u);
 
 		// add back into digest
 		digest[0] += a;
@@ -210,7 +213,7 @@ MUU_NAMESPACE_START
 		if (current_block_length == 64_u8)
 		{
 			current_block_length = 0_u8;
-			sha1_utils::process_block(current_block, state.digest.values);
+			sha1_utils::process_block(current_block, state.digest.value);
 			processed_blocks++;
 		}
 	}
@@ -232,7 +235,7 @@ MUU_NAMESPACE_START
 		if (current_block_length == 64_u8)
 		{
 			current_block_length = 0_u8;
-			sha1_utils::process_block(current_block, state.digest.values);
+			sha1_utils::process_block(current_block, state.digest.value);
 			processed_blocks++;
 		}
 	}
@@ -302,7 +305,7 @@ MUU_NAMESPACE_START
 		// correct the endianness of the digest if necessary
 		if constexpr (build::is_little_endian)
 		{
-			for (auto& i : state.digest.values)
+			for (auto& i : state.digest.value)
 				i = byte_reverse(i);
 		}
 

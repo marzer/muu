@@ -20,7 +20,14 @@ MUU_DISABLE_PADDING_WARNINGS
 #if !defined(DOXYGEN) // MUU_EVAL fucks it up
 MUU_IMPL_NAMESPACE_START
 {
-	using uuid_bytes = std::byte[16];
+	using uuid_raw_bytes = std::byte[16];
+
+	struct uuid_bytes final
+	{
+		uuid_raw_bytes value;
+	};
+	static_assert(sizeof(uuid_bytes) == 16);
+
 
 	namespace MUU_EVAL(MUU_BIG_ENDIAN, be, le)
 	{
@@ -32,7 +39,7 @@ MUU_IMPL_NAMESPACE_START
 		{
 			[[nodiscard]]
 			MUU_ATTR(pure)
-			static constexpr uint16_t slice(const uuid_bytes& byte_arr, unsigned first) noexcept
+			static constexpr uint16_t slice(const uuid_raw_bytes& byte_arr, unsigned first) noexcept
 			{
 				MUU_ASSUME((first + 2u) <= 16u);
 				if constexpr (build::is_little_endian)
@@ -47,7 +54,7 @@ MUU_IMPL_NAMESPACE_START
 		{
 			[[nodiscard]]
 			MUU_ATTR(pure)
-			static constexpr uint32_t slice(const uuid_bytes& byte_arr, unsigned first) noexcept
+			static constexpr uint32_t slice(const uuid_raw_bytes& byte_arr, unsigned first) noexcept
 			{
 				MUU_ASSUME((first + 4u) <= 16u);
 				if constexpr (build::is_little_endian)
@@ -62,7 +69,7 @@ MUU_IMPL_NAMESPACE_START
 		{
 			[[nodiscard]]
 			MUU_ATTR(pure)
-			static constexpr uint64_t slice(const uuid_bytes& byte_arr, unsigned first) noexcept
+			static constexpr uint64_t slice(const uuid_raw_bytes& byte_arr, unsigned first) noexcept
 			{
 				MUU_ASSUME((first + 8u) <= 16u);
 				if constexpr (build::is_little_endian)
@@ -83,7 +90,7 @@ MUU_IMPL_NAMESPACE_START
 	template <unsigned N>
 	MUU_ATTR(pure)
 	MUU_ATTR(flatten)
-	constexpr auto uuid_slice(const uuid_bytes& byte_arr, unsigned first) noexcept
+	constexpr auto uuid_slice(const uuid_raw_bytes& byte_arr, unsigned first) noexcept
 	{
 		using slicer = MUU_EVAL(MUU_BIG_ENDIAN, be, le)::uuid_slicer<N>;
 		return slicer::slice(byte_arr, first);
@@ -173,7 +180,7 @@ MUU_NAMESPACE_START
 		/// |                         node (2-5)                            |
 		/// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 		/// \eout
-		array<std::byte, 16> bytes;
+		impl::uuid_bytes bytes;
 		
 		/// \brief Creates a new UUID using the platform's UUID generator.
 		static MUU_API uuid generate() noexcept;
@@ -257,13 +264,7 @@ MUU_NAMESPACE_START
 		/// \brief	Explicitly constructs a null UUID.
 		MUU_NODISCARD_CTOR
 		constexpr uuid(std::nullptr_t) noexcept
-			: bytes
-			{{
-				{}, {}, {}, {},
-				{}, {}, {}, {},
-				{}, {}, {}, {},
-				{}, {}, {}, {}
-			}}
+			: bytes{}
 		{}
 
 		#if MUU_HAS_INT128
@@ -331,7 +332,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		constexpr uuid_variant variant() const noexcept
 		{
-			const auto var = static_cast<unsigned>(unwrap((bytes[8] & 0b11100000_byte) >> 5));
+			const auto var = static_cast<unsigned>(unwrap((bytes.value[8] & 0b11100000_byte) >> 5));
 			MUU_ASSUME(var <= 0b111u);
 
 			if (!var)
@@ -356,7 +357,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		constexpr uuid_version version() const noexcept
 		{
-			const auto var = static_cast<unsigned>(unwrap((bytes[6] & 0b11110000_byte) >> 4));
+			const auto var = static_cast<unsigned>(unwrap((bytes.value[6] & 0b11110000_byte) >> 4));
 			MUU_ASSUME(var <= 0b1111u);
 
 			return var > 5u ? uuid_version::unknown : static_cast<uuid_version>(var);
@@ -367,7 +368,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		constexpr uint32_t time_low() const noexcept
 		{
-			return impl::uuid_slice<4>(bytes.values, 0);
+			return impl::uuid_slice<4>(bytes.value, 0);
 		}
 
 		/// \brief	Returns the value of the 'time-mid' field.
@@ -375,7 +376,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		constexpr uint16_t time_mid() const noexcept
 		{
-			return impl::uuid_slice<2>(bytes.values, 4);
+			return impl::uuid_slice<2>(bytes.value, 4);
 		}
 
 		/// \brief	Returns the value of the 'time-high-and-version' field.
@@ -383,7 +384,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		constexpr uint16_t time_high_and_version() const noexcept
 		{
-			return impl::uuid_slice<2>(bytes.values, 6);
+			return impl::uuid_slice<2>(bytes.value, 6);
 		}
 
 		/// \brief	Returns the value of the 'clock-seq-high-and-reserved' field.
@@ -391,7 +392,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		constexpr uint8_t clock_seq_high_and_reserved() const noexcept
 		{
-			return unwrap(bytes[8]);
+			return unwrap(bytes.value[8]);
 		}
 
 		/// \brief	Returns the value of the 'clock-seq-low' field.
@@ -399,7 +400,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		constexpr uint8_t clock_seq_low() const noexcept
 		{
-			return unwrap(bytes[9]);
+			return unwrap(bytes.value[9]);
 		}
 
 		/// \brief	Returns the value of the 'node' field.
@@ -410,7 +411,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		constexpr uint64_t node() const noexcept
 		{
-			return impl::uuid_slice<8>(bytes.values, 8) & 0x0000FFFFFFFFFFFF_u64;
+			return impl::uuid_slice<8>(bytes.value, 8) & 0x0000FFFFFFFFFFFF_u64;
 		}
 
 		#if MUU_HAS_INT128
@@ -430,17 +431,17 @@ MUU_NAMESPACE_START
 			{
 				if constexpr (build::is_little_endian)
 					return pack(
-						bytes[0],  bytes[1],  bytes[2],  bytes[3],
-						bytes[4],  bytes[5],  bytes[6],  bytes[7],
-						bytes[8],  bytes[9],  bytes[10], bytes[11],
-						bytes[12], bytes[13], bytes[14], bytes[15]
+						bytes.value[0],  bytes.value[1],  bytes.value[2],  bytes.value[3],
+						bytes.value[4],  bytes.value[5],  bytes.value[6],  bytes.value[7],
+						bytes.value[8],  bytes.value[9],  bytes.value[10], bytes.value[11],
+						bytes.value[12], bytes.value[13], bytes.value[14], bytes.value[15]
 					);
 				else
 					return pack(
-						bytes[15], bytes[14], bytes[13], bytes[12],
-						bytes[11], bytes[10], bytes[9],	 bytes[8],
-						bytes[7],  bytes[6],  bytes[5],	 bytes[4],
-						bytes[3],  bytes[2],  bytes[1],	 bytes[0]
+						bytes.value[15], bytes.value[14], bytes.value[13],	bytes.value[12],
+						bytes.value[11], bytes.value[10], bytes.value[9],	bytes.value[8],
+						bytes.value[7],  bytes.value[6],  bytes.value[5],	bytes.value[4],
+						bytes.value[3],  bytes.value[2],  bytes.value[1],	bytes.value[0]
 					);
 			}
 		}
@@ -458,7 +459,7 @@ MUU_NAMESPACE_START
 			#endif
 			{
 				for (size_t i = 0; i < 16_sz; i++)
-					if (bytes[i] != std::byte{})
+					if (bytes.value[i] != std::byte{})
 						return true;
 				return false;
 			}
@@ -480,7 +481,7 @@ MUU_NAMESPACE_START
 			{
 				for (size_t i = 0; i < 16_sz; i++)
 				{
-					if (lhs.bytes[i] != rhs.bytes[i])
+					if (lhs.bytes.value[i] != rhs.bytes.value[i])
 						return false;
 				}
 				return true;
@@ -514,8 +515,8 @@ MUU_NAMESPACE_START
 			{
 				for (size_t i = 0; i < 16_sz; i++)
 				{
-					if (lhs.bytes[i] != rhs.bytes[i])
-						return lhs.bytes[i] < rhs.bytes[i] ? -1 : 1;
+					if (lhs.bytes.value[i] != rhs.bytes.value[i])
+						return lhs.bytes.value[i] < rhs.bytes.value[i] ? -1 : 1;
 				}
 			}
 			#endif
@@ -589,38 +590,28 @@ MUU_NAMESPACE_START
 		template <typename Char, typename Traits>
 		friend std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& lhs, const uuid& rhs)
 		{
-			constexpr auto print_byte = [](auto& stream, std::byte byte)
-			{
-				const auto hex = impl::byte_to_hex(unwrap(byte), 'A');
-				if constexpr (sizeof(Char) == 1)
-					stream.write(hex.data(), hex.size());
-				else
-				{
-					stream << hex[0];
-					stream << hex[1];
-				}
-			};
+
 			using c = muu::constants<Char>;
-			print_byte(lhs, rhs.bytes[0]);
-			print_byte(lhs, rhs.bytes[1]);
-			print_byte(lhs, rhs.bytes[2]);
-			print_byte(lhs, rhs.bytes[3]);
+			lhs << impl::byte_to_hex(rhs.bytes.value[0], 'A');
+			lhs << impl::byte_to_hex(rhs.bytes.value[1], 'A');
+			lhs << impl::byte_to_hex(rhs.bytes.value[2], 'A');
+			lhs << impl::byte_to_hex(rhs.bytes.value[3], 'A');
 			lhs << c::hyphen;
-			print_byte(lhs, rhs.bytes[4]);
-			print_byte(lhs, rhs.bytes[5]);
+			lhs << impl::byte_to_hex(rhs.bytes.value[4], 'A');
+			lhs << impl::byte_to_hex(rhs.bytes.value[5], 'A');
 			lhs << c::hyphen;
-			print_byte(lhs, rhs.bytes[6]);
-			print_byte(lhs, rhs.bytes[7]);
+			lhs << impl::byte_to_hex(rhs.bytes.value[6], 'A');
+			lhs << impl::byte_to_hex(rhs.bytes.value[7], 'A');
 			lhs << c::hyphen;
-			print_byte(lhs, rhs.bytes[8]);
-			print_byte(lhs, rhs.bytes[9]);
+			lhs << impl::byte_to_hex(rhs.bytes.value[8], 'A');
+			lhs << impl::byte_to_hex(rhs.bytes.value[9], 'A');
 			lhs << c::hyphen;
-			print_byte(lhs, rhs.bytes[10]);
-			print_byte(lhs, rhs.bytes[11]);
-			print_byte(lhs, rhs.bytes[12]);
-			print_byte(lhs, rhs.bytes[13]);
-			print_byte(lhs, rhs.bytes[14]);
-			print_byte(lhs, rhs.bytes[15]);
+			lhs << impl::byte_to_hex(rhs.bytes.value[10], 'A');
+			lhs << impl::byte_to_hex(rhs.bytes.value[11], 'A');
+			lhs << impl::byte_to_hex(rhs.bytes.value[12], 'A');
+			lhs << impl::byte_to_hex(rhs.bytes.value[13], 'A');
+			lhs << impl::byte_to_hex(rhs.bytes.value[14], 'A');
+			lhs << impl::byte_to_hex(rhs.bytes.value[15], 'A');
 			return lhs;
 		}
 	};
@@ -706,7 +697,7 @@ MUU_NAMESPACE_START
 					case s_parsing:
 						if (muu::is_hexadecimal_digit(c))
 						{
-							value.bytes[digits / 2u] |= static_cast<std::byte>(hex_to_dec(c) << rsh);
+							value.bytes.value[digits / 2u] |= static_cast<std::byte>(hex_to_dec(c) << rsh);
 							if (++digits == 32)
 								state = s_finished;
 							rsh = ((digits+1u) % 2u) * 4u;
@@ -794,7 +785,7 @@ namespace std
 			using namespace MUU_NAMESPACE;
 
 			#define get_slice(idx)	\
-				impl::uuid_slice<sizeof(size_t)>(id.bytes.values, sizeof(size_t) * idx)
+				impl::uuid_slice<sizeof(size_t)>(id.bytes.value, sizeof(size_t) * idx)
 
 			hash_combiner<> hasher{ get_slice(0) };
 			if constexpr (sizeof(size_t) < 16)

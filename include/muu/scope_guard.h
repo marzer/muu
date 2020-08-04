@@ -60,7 +60,6 @@ MUU_NAMESPACE_START
 		static_assert(
 			!build::has_exceptions || std::is_nothrow_invocable_v<T>,
 			"Callables wrapped by a scope guard must be marked noexcept"
-			" (throwing from destructors is a almost never a good move)"
 		);
 		static_assert(
 			!build::has_exceptions || std::is_trivially_destructible_v<T> || std::is_nothrow_destructible_v<T>,
@@ -68,8 +67,7 @@ MUU_NAMESPACE_START
 		);
 
 		private:
-			MUU_NO_UNIQUE_ADDRESS T func_;
-			bool cancelled = false;
+			impl::compressed_pair<T, bool> func_and_cancelled;
 
 		public:
 
@@ -82,13 +80,13 @@ MUU_NAMESPACE_START
 			MUU_NODISCARD_CTOR
 			explicit constexpr scope_guard(U&& func)
 				noexcept(std::is_nothrow_constructible_v<T, U&&>)
-				: func_{ std::forward<U>(func) }
+				: func_and_cancelled{ std::forward<U>(func), false }
 			{}
 
 			~scope_guard() noexcept
 			{
-				if (!cancelled)
-					func_();
+				if (!func_and_cancelled.second())
+					func_and_cancelled.first()();
 			}
 
 			scope_guard(const scope_guard&) = delete;
@@ -104,7 +102,7 @@ MUU_NAMESPACE_START
 			/// 		is provided as an 'escape hatch' if you have no other choice.
 			void cancel() noexcept
 			{
-				cancelled = true;
+				func_and_cancelled.second() = true;
 			}
 	};
 

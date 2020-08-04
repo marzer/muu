@@ -56,8 +56,7 @@ MUU_NAMESPACE_START
 			using value_type = ValueType;
 
 		private:
-			size_t count{};
-			MUU_NO_UNIQUE_ADDRESS Impl impl{};
+			impl::compressed_pair<Impl, size_t> impl_and_count{};
 
 		public:
 
@@ -67,15 +66,15 @@ MUU_NAMESPACE_START
 			///
 			/// \return	A reference to the accumulator.
 			constexpr accumulator& MUU_VECTORCALL add(value_type MUU_VECTORCALL_CONSTREF sample)
-				noexcept(noexcept(impl.start(sample)) && noexcept(impl.add(sample)))
+				noexcept(noexcept(std::declval<Impl>().start(sample)) && noexcept(std::declval<Impl>().add(sample)))
 			{
 				if constexpr (is_floating_point<value_type>)
 					MUU_ASSERT(!is_infinity_or_nan(sample));
 
-				if MUU_UNLIKELY(!count++)
-					impl.start(sample);
+				if MUU_UNLIKELY(!impl_and_count.second()++)
+					impl_and_count.first().start(sample);
 				else
-					impl.add(sample);
+					impl_and_count.first().add(sample);
 				return *this;
 			}
 
@@ -123,7 +122,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Constructs an accumulator with an initial range of samples.
 			///
-			/// \tparam	Iter		Iterator type.
+			/// \tparam	Iter	Iterator type.
 			/// \param	begin	The beginning iterator.
 			/// \param	end  	The end iterator.
 			template <typename Iter>
@@ -138,23 +137,23 @@ MUU_NAMESPACE_START
 			[[nodiscard]] MUU_ALWAYS_INLINE
 			constexpr size_t sample_count() const noexcept
 			{
-				return count;
+				return impl_and_count.second();
 			}
 
 			/// \brief	Returns the sum of all values added to the accumulator.
 			[[nodiscard]] MUU_ALWAYS_INLINE
 			constexpr decltype(auto) value() const
-				noexcept(noexcept(impl.value()))
+				noexcept(noexcept(std::declval<Impl>().value()))
 			{
-				return impl.value();
+				return impl_and_count.first().value();
 			}
 
 			/// \brief	Returns the sum of all values added to the accumulator.
 			[[nodiscard]] MUU_ALWAYS_INLINE
 			explicit operator value_type() const
-				noexcept(noexcept(impl.value()))
+				noexcept(noexcept(std::declval<Impl>().value()))
 			{
-				return impl.value();
+				return impl_and_count.first().value();
 			}
 	};
 

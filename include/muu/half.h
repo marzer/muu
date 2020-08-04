@@ -653,18 +653,14 @@ MUU_NAMESPACE_START
 		};
 
 		template <>
-		struct floating_point_irrational_constants<half>
+		struct floating_point_named_constants<half>
 		{
-			static constexpr half pi	= half::from_bits(0b0'10000'1001001000_u16);
-			static constexpr half tau	= half::from_bits(0b0'10001'1001001000_u16);
-			static constexpr half e		= half::from_bits(0b0'10000'0101110000_u16);
-		};
+			static constexpr half pi			= half::from_bits(0b0'10000'1001001000_u16);
+			static constexpr half two_pi		= half::from_bits(0b0'10001'1001001000_u16);
+			static constexpr half e				= half::from_bits(0b0'10000'0101110000_u16);
 
-		template <>
-		struct floating_point_rational_constants<half>
-		{
-			static constexpr half one_over_two		= half::from_bits(0b0'01110'0000000000_u16);
-			static constexpr half three_over_two	= half::from_bits(0b0'01111'1000000000_u16);
+			static constexpr half one_over_two	= half::from_bits(0b0'01110'0000000000_u16);
+			static constexpr half three_over_two = half::from_bits(0b0'01111'1000000000_u16);
 		};
 
 	}

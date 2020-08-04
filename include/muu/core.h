@@ -20,7 +20,7 @@ MUU_DISABLE_ALL_WARNINGS
 // - If it's small and simple it can go in (c headers are generally OK)
 // - If it drags in half the standard library or is itself a behemoth it stays out (<algorithm>...)
 // 
-// Or, put differently: If the 'impact' is anything above green according to
+// Or, put differently: If the 'impact' is anything above green-yellow according to
 // https://artificial-mind.net/projects/compile-health/, or measuring off-the-charts expensive according to
 // https://www.reddit.com/r/cpp/comments/eumou7/stl_header_token_parsing_benchmarks_for_vs2017/, it's a no from me, dawg.
 // 
@@ -818,30 +818,86 @@ MUU_NAMESPACE_START
 		};
 
 		template <typename T>
-		struct floating_point_irrational_constants
+		struct floating_point_named_constants
 		{
-			static constexpr T pi              = T( 3.141592653589793238463L );
-			static constexpr T tau             = T( 6.283185307179586476925L );
-			static constexpr T e               = T( 2.718281828459045534885L );
+			static constexpr T one_over_two         = T( 0.500000000000000000000L ); ///< `1 / 2`
+			static constexpr T one_over_three       = T( 0.333333333333333333333L ); ///< `1 / 3`
+			static constexpr T one_over_four        = T( 0.250000000000000000000L ); ///< `1 / 4`
+			static constexpr T one_over_five        = T( 0.200000000000000000000L ); ///< `1 / 5`
+			static constexpr T one_over_six         = T( 0.166666666666666666667L ); ///< `1 / 6`
+			static constexpr T root_one_over_two    = T( 0.707106781186547524401L ); ///< `sqrt(1 / 2)`
+			static constexpr T root_one_over_three  = T( 0.577350269189625764509L ); ///< `sqrt(1 / 3)`
+			static constexpr T root_one_over_four   = T( 0.500000000000000000000L ); ///< `sqrt(1 / 4)`
+			static constexpr T root_one_over_five   = T( 0.447213595499957939282L ); ///< `sqrt(1 / 5)`
+			static constexpr T root_one_over_six    = T( 0.408248290463863016366L ); ///< `sqrt(1 / 6)`
+			static constexpr T two_over_three       = T( 0.666666666666666666667L ); ///< `2 / 3`
+			static constexpr T two_over_five        = T( 0.400000000000000000000L ); ///< `2 / 5`
+			static constexpr T root_two_over_three  = T( 0.816496580927726032732L ); ///< `sqrt(2 / 3)`
+			static constexpr T root_two_over_five   = T( 0.632455532033675866400L ); ///< `sqrt(2 / 5)`
+			static constexpr T three_over_two       = T( 1.500000000000000000000L ); ///< `3 / 2`
+			static constexpr T three_over_four      = T( 0.750000000000000000000L ); ///< `3 / 4`
+			static constexpr T three_over_five      = T( 0.600000000000000000000L ); ///< `3 / 5`
+			static constexpr T root_three_over_two  = T( 1.224744871391589049099L ); ///< `sqrt(3 / 2)`
+			static constexpr T root_three_over_four = T( 0.866025403784438646764L ); ///< `sqrt(3 / 4)`
+			static constexpr T root_three_over_five = T( 0.774596669241483377036L ); ///< `sqrt(3 / 5)`
+			static constexpr T pi                   = T( 3.141592653589793238463L ); ///< `pi`
+			static constexpr T pi_over_two          = T( 1.570796326794896619231L ); ///< `pi / 2`
+			static constexpr T pi_over_three        = T( 1.047197551196597746154L ); ///< `pi / 3`
+			static constexpr T pi_over_four         = T( 0.785398163397448309616L ); ///< `pi / 4`
+			static constexpr T pi_over_five         = T( 0.628318530717958647693L ); ///< `pi / 5`
+			static constexpr T pi_over_six          = T( 0.523598775598298873077L ); ///< `pi / 6`
+			static constexpr T two_pi               = T( 6.283185307179586476925L ); ///< `2 * pi`
+			static constexpr T root_pi              = T( 1.772453850905516027298L ); ///< `sqrt(pi)`
+			static constexpr T root_pi_over_two     = T( 1.253314137315500251208L ); ///< `sqrt(pi / 2)`
+			static constexpr T root_pi_over_three   = T( 1.023326707946488488480L ); ///< `sqrt(pi / 3)`
+			static constexpr T root_pi_over_four    = T( 0.886226925452758013649L ); ///< `sqrt(pi / 4)`
+			static constexpr T root_pi_over_five    = T( 0.792665459521202202669L ); ///< `sqrt(pi / 5)`
+			static constexpr T root_pi_over_six     = T( 0.723601254558267659363L ); ///< `sqrt(pi / 6)`
+			static constexpr T root_two_pi          = T( 2.506628274631000502416L ); ///< `sqrt(2 * pi)`
+			static constexpr T e                    = T( 2.718281828459045534885L ); ///< `e`
 		};
 
 		#if MUU_HAS_FLOAT128
 		template <>
-		struct floating_point_irrational_constants<float_128_t>
+		struct floating_point_named_constants<float_128_t>
 		{
-			static constexpr float_128_t pi    = 3.141592653589793238462643383279502884q;
-			static constexpr float_128_t tau   = 6.283185307179586476925286766559005768q;
-			static constexpr float_128_t e     = 2.718281828459045534884808148490265012q;
+			static constexpr float128_t one_over_two         = 0.500000000000000000000000000000000000q;
+			static constexpr float128_t one_over_three       = 0.333333333333333333333333333333333333q;
+			static constexpr float128_t one_over_four        = 0.250000000000000000000000000000000000q;
+			static constexpr float128_t one_over_five        = 0.200000000000000000000000000000000000q;
+			static constexpr float128_t one_over_six         = 0.166666666666666666666666666666666667q;
+			static constexpr float128_t root_one_over_two    = 0.707106781186547524400844362104849039q;
+			static constexpr float128_t root_one_over_three  = 0.577350269189625764509148780501957456q;
+			static constexpr float128_t root_one_over_four   = 0.500000000000000000000000000000000000q;
+			static constexpr float128_t root_one_over_five   = 0.447213595499957939281834733746255247q;
+			static constexpr float128_t root_one_over_six    = 0.408248290463863016366214012450981899q;
+			static constexpr float128_t two_over_three       = 0.666666666666666666666666666666666667q;
+			static constexpr float128_t two_over_five        = 0.400000000000000000000000000000000000q;
+			static constexpr float128_t root_two_over_three  = 0.816496580927726032732428024901963797q;
+			static constexpr float128_t root_two_over_five   = 0.632455532033675866399778708886543707q;
+			static constexpr float128_t three_over_two       = 1.500000000000000000000000000000000000q;
+			static constexpr float128_t three_over_four      = 0.750000000000000000000000000000000000q;
+			static constexpr float128_t three_over_five      = 0.600000000000000000000000000000000000q;
+			static constexpr float128_t root_three_over_two  = 1.224744871391589049098642037352945696q;
+			static constexpr float128_t root_three_over_four = 0.866025403784438646763723170752936183q;
+			static constexpr float128_t root_three_over_five = 0.774596669241483377035853079956479922q;
+			static constexpr float128_t pi                   = 3.141592653589793238462643383279502884q;
+			static constexpr float128_t pi_over_two          = 1.570796326794896619231321691639751442q;
+			static constexpr float128_t pi_over_three        = 1.047197551196597746154214461093167628q;
+			static constexpr float128_t pi_over_four         = 0.785398163397448309615660845819875721q;
+			static constexpr float128_t pi_over_five         = 0.628318530717958647692528676655900577q;
+			static constexpr float128_t pi_over_six          = 0.523598775598298873077107230546583814q;
+			static constexpr float128_t two_pi               = 6.283185307179586476925286766559005768q;
+			static constexpr float128_t root_pi              = 1.772453850905516027298167483341145183q;
+			static constexpr float128_t root_pi_over_two     = 1.253314137315500251207882642405522627q;
+			static constexpr float128_t root_pi_over_three   = 1.023326707946488488479551624889264861q;
+			static constexpr float128_t root_pi_over_four    = 0.886226925452758013649083741670572591q;
+			static constexpr float128_t root_pi_over_five    = 0.792665459521202202669005753024036606q;
+			static constexpr float128_t root_pi_over_six     = 0.723601254558267659363014627290795768q;
+			static constexpr float128_t root_two_pi          = 2.506628274631000502415765284811045253q;
+			static constexpr float128_t e                    = 2.718281828459045534884808148490265012q;
 		}
 		#endif
-
-		template <typename T>
-		struct floating_point_rational_constants
-		{
-			static constexpr T one_over_two = T(0.5L);		///< `0.5`
-			static constexpr T three_over_two = T(1.5L);	///< `1.5`
-		};
-
 
 		//-------------  constant class aggregates
 
@@ -969,8 +1025,7 @@ MUU_NAMESPACE_START
 			integer_positive_constants<T>,
 			integer_negative_constants<T>,
 			floating_point_special_constants<T>,
-			floating_point_irrational_constants<T>,
-			floating_point_rational_constants<T>
+			floating_point_named_constants<T>
 		{};
 
 		template <typename T>
@@ -1069,62 +1124,6 @@ MUU_NAMESPACE_START
 	#endif
 
 	/// @}
-}
-MUU_NAMESPACE_END
-
-//=====================================================================================================================
-// ARRAY
-//=====================================================================================================================
-
-MUU_NAMESPACE_START
-{
-	/// \brief A (mostly) drop-in substitute for std::array.
-	/// \ingroup blocks
-	///
-	/// \remark <strong><em>"Why does this exist? Why not just use std::array?"</em></strong>
-	/// <br><br>
-	///	The standard library's `<array>` header drags in _a lot_ of cruft, regardless of implementation,
-	///	typically bringing `<algorithm>`, `<iterator>` and `<tuple>` with it. This array does not claim to
-	///	support the tuple protocol like the one in the standard, nor does it provide swap, fill, et cetera,
-	///	so it can be implemented without all the baggage.
-	///	<br><br>
-	///	More info:
-	///	- https://artificial-mind.net/projects/compile-health/
-	///	- https://www.reddit.com/r/cpp/comments/eumou7/stl_header_token_parsing_benchmarks_for_vs2017/
-	template <typename T, size_t N>
-	struct array
-	{
-		using value_type = T;
-		using size_type = size_t;
-		using difference_type = ptrdiff_t;
-		using reference = T&;
-		using const_reference = const T&;
-		using pointer = T*;
-		using const_pointer = const T*;
-		using iterator = pointer;
-		using const_iterator = const_pointer;
-
-		T values[N];
-
-		[[nodiscard]] MUU_ATTR(pure) constexpr T& operator[](size_t pos) noexcept { return values[pos]; }
-		[[nodiscard]] MUU_ATTR(pure) constexpr const T& operator[](size_t pos) const noexcept { return values[pos]; }
-		[[nodiscard]] MUU_ATTR(pure) constexpr T* data() noexcept { return values; }
-		[[nodiscard]] MUU_ATTR(pure) constexpr const T* data() const noexcept { return values; }
-		[[nodiscard]] MUU_ATTR(pure) constexpr size_t size() const noexcept { return N; }
-		[[nodiscard]] MUU_ATTR(pure) constexpr reference back() noexcept { return values[N - 1]; }
-		[[nodiscard]] MUU_ATTR(pure) constexpr const_reference back() const noexcept { return values[N - 1]; }
-		[[nodiscard]] MUU_ATTR(pure) constexpr reference front() noexcept { return values[0]; }
-		[[nodiscard]] MUU_ATTR(pure) constexpr const_reference front() const noexcept { return values[0]; }
-		[[nodiscard]] MUU_ATTR(pure) constexpr bool empty() const noexcept { return !N; }
-		[[nodiscard]] MUU_ATTR(pure) constexpr iterator begin() noexcept { return values; }
-		[[nodiscard]] MUU_ATTR(pure) constexpr const_iterator begin() const noexcept { return values; }
-		[[nodiscard]] MUU_ATTR(pure) constexpr const_iterator cbegin() const noexcept { return values; }
-		[[nodiscard]] MUU_ATTR(pure) constexpr iterator end() noexcept { return values + N; }
-		[[nodiscard]] MUU_ATTR(pure) constexpr const_iterator end() const noexcept { return values + N; }
-		[[nodiscard]] MUU_ATTR(pure) constexpr const_iterator cend() const noexcept { return values + N; }
-	};
-	template <typename... T>
-	array(T...) -> array<std::common_type_t<T...>, sizeof...(T)>;
 }
 MUU_NAMESPACE_END
 
@@ -2830,7 +2829,7 @@ MUU_NAMESPACE_START
 		template <>
 		struct is_infinity_or_nan_traits<80, 64>
 		{
-			static constexpr auto mask = array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x7FFF_u16 };
+			static constexpr uint16_t mask[] { 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x7FFF_u16 };
 
 			template <typename T>
 			[[nodiscard]]
@@ -2848,7 +2847,7 @@ MUU_NAMESPACE_START
 			#if MUU_HAS_INT128
 			static constexpr auto mask = pack(0x0000000000007FFF_u64, 0x8000000000000000_u64);
 			#else
-			static constexpr auto mask = array{ 0x8000000000000000_u64, 0x0000000000007FFF_u64 };
+			static constexpr uint64_t mask[]{ 0x8000000000000000_u64, 0x0000000000007FFF_u64 };
 
 			template <typename T>
 			[[nodiscard]]
@@ -2868,7 +2867,7 @@ MUU_NAMESPACE_START
 			#if MUU_HAS_INT128
 			static constexpr auto mask = pack(0x7FFF000000000000_u64, 0x0000000000000000_u64);
 			#else
-			static constexpr auto mask = array{ 0x0000000000000000_u64, 0x7FFF000000000000_u64 };
+			static constexpr uint64_t mask[]{ 0x0000000000000000_u64, 0x7FFF000000000000_u64 };
 
 			template <typename T>
 			[[nodiscard]]
@@ -2952,6 +2951,116 @@ MUU_NAMESPACE_START
 MUU_NAMESPACE_END
 
 MUU_POP_WARNINGS // MUU_DISABLE_ARITHMETIC_WARNINGS
+
+//=====================================================================================================================
+// COMPRESSED PAIR
+//=====================================================================================================================
+
+MUU_IMPL_NAMESPACE_START
+{
+	template <typename T1, typename T2, int empty_base = (
+		std::is_empty_v<T1> ? 1 : (std::is_empty_v<T2> ? 2 : 0)
+	)>
+	class compressed_pair
+	{
+		private:
+			static_assert(!std::is_empty_v<T1> && !std::is_empty_v<T2>);
+			T1 first_;
+			T2 second_;
+
+		public:
+
+			MUU_NODISCARD_CTOR
+			compressed_pair()
+				noexcept(std::is_nothrow_default_constructible_v<T1> && std::is_nothrow_default_constructible_v<T2>)
+			= default;
+
+			template <typename U1, typename U2>
+			MUU_NODISCARD_CTOR
+			compressed_pair(U1&& first_init, U2&& second_init)
+				noexcept(std::is_nothrow_constructible_v<T1, U1&&> && std::is_nothrow_constructible_v<T2, U2&&>)
+				: first_{ std::forward<U1>(first_init)},
+				second_{ std::forward<U2>(second_init) }
+			{}
+
+			[[nodiscard]] T1& first() & noexcept				{ return first_; }
+			[[nodiscard]] T1&& first() && noexcept				{ return std::move(first_); }
+			[[nodiscard]] const T1& first() const& noexcept		{ return first_; }
+			[[nodiscard]] const T1&& first() const&& noexcept	{ return std::move(first_); }
+
+			[[nodiscard]] T2& second() & noexcept				{ return second_; }
+			[[nodiscard]] T2&& second() && noexcept				{ return std::move(second_); }
+			[[nodiscard]] const T2& second() const& noexcept	{ return second_; }
+			[[nodiscard]] const T2&& second() const&& noexcept	{ return std::move(second_); }
+	};
+
+	template <typename T1, typename T2>
+	class MUU_EMPTY_BASES compressed_pair<T1, T2, 1> : private T1
+	{
+		private:
+			static_assert(std::is_empty_v<T1> && !std::is_empty_v<T2>);
+			T2 second_;
+
+		public:
+
+			MUU_NODISCARD_CTOR
+			compressed_pair()
+				noexcept(std::is_nothrow_default_constructible_v<T1> && std::is_nothrow_default_constructible_v<T2>)
+			= default;
+
+			template <typename U1, typename U2>
+			MUU_NODISCARD_CTOR
+			compressed_pair(U1&& first_init, U2&& second_init)
+				noexcept(std::is_nothrow_constructible_v<T1, U1&&> && std::is_nothrow_constructible_v<T2, U2&&>)
+				: T1{ std::forward<U1>(first_init) },
+				second_{ std::forward<U2>(second_init) }
+			{}
+
+			[[nodiscard]] T1& first() & noexcept				{ return *this; }
+			[[nodiscard]] T1&& first() && noexcept				{ return std::move(*this); }
+			[[nodiscard]] const T1& first() const& noexcept		{ return *this; }
+			[[nodiscard]] const T1&& first() const&& noexcept	{ return std::move(*this); }
+
+			[[nodiscard]] T2& second() & noexcept				{ return second_; }
+			[[nodiscard]] T2&& second() && noexcept				{ return std::move(second_); }
+			[[nodiscard]] const T2& second() const& noexcept	{ return second_; }
+			[[nodiscard]] const T2&& second() const&& noexcept	{ return std::move(second_); }
+	};
+
+	template <typename T1, typename T2>
+	class MUU_EMPTY_BASES compressed_pair<T1, T2, 2> : private T2
+	{
+		private:
+			static_assert(!std::is_empty_v<T1> && std::is_empty_v<T2>);
+			T1 first_;
+
+		public:
+
+			MUU_NODISCARD_CTOR
+			compressed_pair()
+				noexcept(std::is_nothrow_default_constructible_v<T1> && std::is_nothrow_default_constructible_v<T2>)
+			= default;
+
+			template <typename U1, typename U2>
+			MUU_NODISCARD_CTOR
+			compressed_pair(U1&& first_init, U2&& second_init)
+				noexcept(std::is_nothrow_constructible_v<T1, U1&&> && std::is_nothrow_constructible_v<T2, U2&&>)
+				: T2{ std::forward<U2>(second_init) },
+				first_{ std::forward<U1>(first_init) }
+			{}
+
+			[[nodiscard]] T1& first() & noexcept				{ return first_; }
+			[[nodiscard]] T1&& first() && noexcept				{ return std::move(first_); }
+			[[nodiscard]] const T1& first() const& noexcept		{ return first_; }
+			[[nodiscard]] const T1&& first() const&& noexcept	{ return std::move(first_); }
+
+			[[nodiscard]] T2& second() & noexcept				{ return *this; }
+			[[nodiscard]] T2&& second() && noexcept				{ return std::move(*this); }
+			[[nodiscard]] const T2& second() const& noexcept	{ return *this; }
+			[[nodiscard]] const T2&& second() const&& noexcept	{ return std::move(*this); }
+	};
+}
+MUU_IMPL_NAMESPACE_END
 
 #undef MUU_HAS_INTRINSIC_BIT_CAST
 #undef MUU_HAS_INTRINSIC_POPCOUNT

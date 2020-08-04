@@ -17,6 +17,7 @@ MUU_DISABLE_ALL_WARNINGS
 #include <sstream>
 #include <string_view>
 #include <fstream>
+#include <array>
 MUU_NAMESPACE_START
 {
 	#if MUU_HAS_INTERCHANGE_FP16

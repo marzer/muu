@@ -479,7 +479,7 @@ MUU_IMPL_NAMESPACE_START
 	{
 		private:
 			static_assert(sizeof(T) == 1);
-			array<T, 4> bytes{};
+			T bytes[4] = {};
 
 		public:
 
@@ -519,8 +519,8 @@ MUU_IMPL_NAMESPACE_START
 			constexpr std::basic_string_view<T> view() const noexcept
 			{
 				return bytes[3]
-					? std::basic_string_view<T>{ bytes.data(), 4_sz }
-					: std::basic_string_view<T>{ bytes.data() };
+					? std::basic_string_view<T>{ bytes, 4_sz }
+					: std::basic_string_view<T>{ bytes };
 			}
 
 			[[nodiscard]]
@@ -552,11 +552,38 @@ MUU_IMPL_NAMESPACE_START
 		return static_cast<char>(val >= 10u ? static_cast<unsigned>(a) + (val - 10u) : '0' + val);
 	}
 
+	struct hex_char_pair final
+	{
+		char high;
+		char low;
+	};
+	static_assert(sizeof(hex_char_pair) == 2);
+
+	template <typename Char, typename Traits>
+	inline std::basic_ostream<Char, Traits>& operator<< (std::basic_ostream<Char, Traits>& lhs, hex_char_pair rhs)
+	{
+		if constexpr (sizeof(Char) == 1)
+			lhs.write(&rhs.high, 2u);
+		else
+		{
+			lhs << rhs.high;
+			lhs << rhs.low;
+		}
+		return lhs;
+	}
+
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr array<char, 2> byte_to_hex(uint8_t byte, char a = 'a') noexcept
+	constexpr hex_char_pair byte_to_hex(uint8_t byte, char a = 'a') noexcept
 	{
-		return { { dec_to_hex(byte / 16u, a), dec_to_hex(byte % 16u, a) } };
+		return { dec_to_hex(byte / 16u, a), dec_to_hex(byte % 16u, a) };
+	}
+
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr hex_char_pair byte_to_hex(std::byte byte, char a = 'a') noexcept
+	{
+		return byte_to_hex(unwrap(byte), a);
 	}
 }
 MUU_IMPL_NAMESPACE_END

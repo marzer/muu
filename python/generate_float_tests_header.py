@@ -124,7 +124,82 @@ class FloatTraits(object):
 			for _ in range(0, int(self.total_bits / elem_bits)):
 				elems.append(int_literal(val, elem_bits, always_hex = True))
 				val = val >> elem_bits
-			return 'array{{ {} }}'.format(', '.join(elems))
+			return 'std::array{{ {} }}'.format(', '.join(elems))
+
+	def bit_representation(self,dec):
+		return ""
+		#D = decimal.Decimal
+		#dec = dec.normalize()
+		#
+		#sign_bit = '1' if dec < D(0) else '0'
+		#if dec < D(0):
+		#	dec = -dec
+		#assert dec >= D(0)
+		#
+		#integral = int(dec.to_integral_value(rounding=decimal.ROUND_FLOOR))
+		#fractional = dec
+		#if integral > 0:
+		#	fractional = fractional - D(integral)
+		#	if fractional < D(0):
+		#		fractional = -fractional
+		#assert integral >= 0
+		#assert fractional >= D(0)
+		#assert fractional < D(1)
+		#assert (integral + fractional) == dec, f"{integral}.{fractional} == {dec}"
+		#
+		#integral_bits = ''
+		#if integral == 0:
+		#	integral_bits = '0'
+		#else:
+		#	bit = 1 << (self.significand_bits-1)
+		#	while bit:
+		#		if bit & integral:
+		#			integral_bits = integral_bits + '1'
+		#		elif len(integral_bits) > 0:
+		#			integral_bits = integral_bits + '0'
+		#		bit = bit >> 1
+		#	pass
+		#
+		#fractional_bits = ''
+		#prevPrec = decimal.getcontext().prec
+		#p = self.max_digits10 + 5
+		#if fractional.is_zero():
+		#	fractional_bits = '0'
+		#else:
+		#	while p > 0:
+		#		decimal.getcontext().prec = p
+		#		fractional = (+fractional).normalize()
+		#		f = (fractional * D(2)).normalize()
+		#		if f >= D(1):
+		#			fractional_bits = fractional_bits + '1'
+		#			if f == D(1):
+		#				break
+		#			fractional = f - D(1)
+		#		else:
+		#			fractional_bits = fractional_bits + '0'
+		#			fractional = f
+		#		p = p - 1
+		#		print(fractional)
+		#decimal.getcontext().prec = prevPrec
+		#
+		#exponent_bits = ''
+		#if integral == 0:
+		#	exponent_bits = '0' * self.exponent_bits
+		#else:
+		#	exponent = len(exponent_bits)
+		#	bit = 1 << (self.exponent_bits-1)
+		#	while bit:
+		#		if bit & integral:
+		#			exponent_bits = exponent_bits + '1'
+		#		else:
+		#			exponent_bits = exponent_bits + '0'
+		#		bit = bit >> 1
+		#
+		#mantissa_bits = (integral_bits + fractional_bits)[:self.significand_bits]
+		#if len(mantissa_bits) < self.significand_bits:
+		#	mantissa_bits = mantissa_bits + '0' * (self.significand_bits - len(mantissa_bits))
+		#
+		#return sign_bit + "'" + exponent_bits + "'" + mantissa_bits
 
 
 
@@ -166,12 +241,48 @@ def write_float_data(file, traits):
 	delta = (D(10) ** -(max(int(round(3.0*traits.digits10/4.0))+1,2)))
 	# write('\t\t// {}'.format(D(1) - delta))
 	# write('\t\t// {}'.format(D(1) + delta))
-	write(f'\t\tstatic constexpr {type} values_sum_low  = {rounded(sum * (D(1) - delta))}{suffix};')
-	write(f'\t\tstatic constexpr {type} values_sum      = {rounded(sum)}{suffix};')
-	write(f'\t\tstatic constexpr {type} values_sum_high = {rounded(sum * (D(1) + delta))}{suffix};')
-	write(f'\t\tstatic constexpr {type} pi              = {rounded(pi())}{suffix};')
-	write(f'\t\tstatic constexpr {type} tau             = {rounded(tau())}{suffix};')
-	write(f'\t\tstatic constexpr {type} e               = {rounded(e(1))}{suffix};')
+	write(f'\t\tstatic constexpr {type} values_sum_low      = {rounded(sum * (D(1) - delta))}{suffix};')
+	write(f'\t\tstatic constexpr {type} values_sum          = {rounded(sum)}{suffix};')
+	write(f'\t\tstatic constexpr {type} values_sum_high     = {rounded(sum * (D(1) + delta))}{suffix};')
+	write('')
+
+	print_constant = lambda name, value: \
+		write(f'\t\tstatic constexpr {type} {name}{" " * (22 - len(name))}= {rounded(value, traits.max_digits10)}{suffix}; // {traits.bit_representation(value)}')
+	print_constant('one_over_two',			D(1)/D(2))
+	print_constant('one_over_three',		D(1)/D(3))
+	print_constant('one_over_four',			D(1)/D(4))
+	print_constant('one_over_five',			D(1)/D(5))
+	print_constant('one_over_six',			D(1)/D(6))
+	print_constant('root_one_over_two',		(D(1)/D(2)).sqrt())
+	print_constant('root_one_over_three',	(D(1)/D(3)).sqrt())
+	print_constant('root_one_over_four',	(D(1)/D(4)).sqrt())
+	print_constant('root_one_over_five',	(D(1)/D(5)).sqrt())
+	print_constant('root_one_over_six',		(D(1)/D(6)).sqrt())
+	print_constant('two_over_three',		D(2)/D(3))
+	print_constant('two_over_five',			D(2)/D(5))
+	print_constant('root_two_over_three',	(D(2)/D(3)).sqrt())
+	print_constant('root_two_over_five',	(D(2)/D(5)).sqrt())
+	print_constant('three_over_two',		D(3)/D(2))
+	print_constant('three_over_four',		D(3)/D(4))
+	print_constant('three_over_five',		D(3)/D(5))
+	print_constant('root_three_over_two',	(D(3)/D(2)).sqrt())
+	print_constant('root_three_over_four',	(D(3)/D(4)).sqrt())
+	print_constant('root_three_over_five',	(D(3)/D(5)).sqrt())
+	print_constant('pi',					pi())
+	print_constant('pi_over_two',			pi() / D(2))
+	print_constant('pi_over_three',			pi() / D(3))
+	print_constant('pi_over_four',			pi() / D(4))
+	print_constant('pi_over_five',			pi() / D(5))
+	print_constant('pi_over_six',			pi() / D(6))
+	print_constant('two_pi',				tau())
+	print_constant('root_pi',				pi().sqrt())
+	print_constant('root_pi_over_two',		(pi() / D(2)).sqrt())
+	print_constant('root_pi_over_three',	(pi() / D(3)).sqrt())
+	print_constant('root_pi_over_four',		(pi() / D(4)).sqrt())
+	print_constant('root_pi_over_five',		(pi() / D(5)).sqrt())
+	print_constant('root_pi_over_six',		(pi() / D(6)).sqrt())
+	print_constant('root_two_pi',			tau().sqrt())
+	print_constant('e',						e(1))
 	write('')
 
 	if traits.total_bits > 64 and traits.int_blittable:
@@ -225,6 +336,10 @@ def main():
 		write('#pragma once')
 		write('#include "settings.h"')
 		write('#include "../include/muu/core.h"')
+		write('MUU_PUSH_WARNINGS')
+		write('MUU_DISABLE_ALL_WARNINGS')
+		write('#include <array>')
+		write('MUU_POP_WARNINGS')
 		write('')
 		write('#if MUU_GCC')
 		write('\t#pragma GCC system_header')

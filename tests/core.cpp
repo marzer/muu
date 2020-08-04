@@ -771,7 +771,7 @@ namespace
 
 		using c = muu::constants<T>;
 
-		static constexpr auto cases = array
+		static constexpr auto cases = std::array
 		{
 			test_case{ c::minus_one,	c::one,			c::two,				c::three },
 			test_case{ c::zero,			c::one,			c::two,				c::two },

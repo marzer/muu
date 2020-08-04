@@ -27,7 +27,7 @@ TEST_CASE("uuid - initialization")
 	CHECK_AND_STATIC_ASSERT(uuid( nullptr ) == uuid(0, 0, 0, 0, 0, 0));
 	{
 		const auto id = uuid{ nullptr };
-		for (auto byte : id.bytes)
+		for (auto byte : id.bytes.value)
 			CHECK(byte == 0x00_byte);
 	}
 
@@ -35,22 +35,22 @@ TEST_CASE("uuid - initialization")
 	{
 		// 00112233-4455-6677-8899-aabbccddeeff
 		auto id = uuid{ 0x00112233u, 0x4455_u16, 0x6677_u16, 0x88_u8, 0x99_u8, 0xAABBCCDDEEFF_u64 };
-		CHECK(id.bytes[0]  == 0x00_byte);
-		CHECK(id.bytes[1]  == 0x11_byte);
-		CHECK(id.bytes[2]  == 0x22_byte);
-		CHECK(id.bytes[3]  == 0x33_byte);
-		CHECK(id.bytes[4]  == 0x44_byte);
-		CHECK(id.bytes[5]  == 0x55_byte);
-		CHECK(id.bytes[6]  == 0x66_byte);
-		CHECK(id.bytes[7]  == 0x77_byte);
-		CHECK(id.bytes[8]  == 0x88_byte);
-		CHECK(id.bytes[9]  == 0x99_byte);
-		CHECK(id.bytes[10] == 0xAA_byte);
-		CHECK(id.bytes[11] == 0xBB_byte);
-		CHECK(id.bytes[12] == 0xCC_byte);
-		CHECK(id.bytes[13] == 0xDD_byte);
-		CHECK(id.bytes[14] == 0xEE_byte);
-		CHECK(id.bytes[15] == 0xFF_byte);
+		CHECK(id.bytes.value[0]  == 0x00_byte);
+		CHECK(id.bytes.value[1]  == 0x11_byte);
+		CHECK(id.bytes.value[2]  == 0x22_byte);
+		CHECK(id.bytes.value[3]  == 0x33_byte);
+		CHECK(id.bytes.value[4]  == 0x44_byte);
+		CHECK(id.bytes.value[5]  == 0x55_byte);
+		CHECK(id.bytes.value[6]  == 0x66_byte);
+		CHECK(id.bytes.value[7]  == 0x77_byte);
+		CHECK(id.bytes.value[8]  == 0x88_byte);
+		CHECK(id.bytes.value[9]  == 0x99_byte);
+		CHECK(id.bytes.value[10] == 0xAA_byte);
+		CHECK(id.bytes.value[11] == 0xBB_byte);
+		CHECK(id.bytes.value[12] == 0xCC_byte);
+		CHECK(id.bytes.value[13] == 0xDD_byte);
+		CHECK(id.bytes.value[14] == 0xEE_byte);
+		CHECK(id.bytes.value[15] == 0xFF_byte);
 		CHECK(id.version() == uuid_version::unknown); // ((0x66 & 0b11110000) >> 4) == 0b0110 == unknown (>= 6)
 		CHECK(id.variant() == uuid_variant::standard); // ((0x88 & 0b11100000) >> 5) == 0b100 == standard
 		CHECK(id.time_low() == 0x00112233u);
@@ -62,22 +62,22 @@ TEST_CASE("uuid - initialization")
 
 		// FFEEDDCC-BBAA-9988-7766-554433221100
 		id = uuid{ 0xFFEEDDCCu, 0xBBAA_u16, 0x9988_u16, 0x7766_u16, 0x554433221100_u64 };
-		CHECK(id.bytes[0]  == 0xFF_byte);
-		CHECK(id.bytes[1]  == 0xEE_byte);
-		CHECK(id.bytes[2]  == 0xDD_byte);
-		CHECK(id.bytes[3]  == 0xCC_byte);
-		CHECK(id.bytes[4]  == 0xBB_byte);
-		CHECK(id.bytes[5]  == 0xAA_byte);
-		CHECK(id.bytes[6]  == 0x99_byte);
-		CHECK(id.bytes[7]  == 0x88_byte);
-		CHECK(id.bytes[8]  == 0x77_byte);
-		CHECK(id.bytes[9]  == 0x66_byte);
-		CHECK(id.bytes[10] == 0x55_byte);
-		CHECK(id.bytes[11] == 0x44_byte);
-		CHECK(id.bytes[12] == 0x33_byte);
-		CHECK(id.bytes[13] == 0x22_byte);
-		CHECK(id.bytes[14] == 0x11_byte);
-		CHECK(id.bytes[15] == 0x00_byte);
+		CHECK(id.bytes.value[0]  == 0xFF_byte);
+		CHECK(id.bytes.value[1]  == 0xEE_byte);
+		CHECK(id.bytes.value[2]  == 0xDD_byte);
+		CHECK(id.bytes.value[3]  == 0xCC_byte);
+		CHECK(id.bytes.value[4]  == 0xBB_byte);
+		CHECK(id.bytes.value[5]  == 0xAA_byte);
+		CHECK(id.bytes.value[6]  == 0x99_byte);
+		CHECK(id.bytes.value[7]  == 0x88_byte);
+		CHECK(id.bytes.value[8]  == 0x77_byte);
+		CHECK(id.bytes.value[9]  == 0x66_byte);
+		CHECK(id.bytes.value[10] == 0x55_byte);
+		CHECK(id.bytes.value[11] == 0x44_byte);
+		CHECK(id.bytes.value[12] == 0x33_byte);
+		CHECK(id.bytes.value[13] == 0x22_byte);
+		CHECK(id.bytes.value[14] == 0x11_byte);
+		CHECK(id.bytes.value[15] == 0x00_byte);
 		CHECK(id.version() == uuid_version::unknown); // ((0x99 & 0b11110000) >> 4) == 0b1001 == unknown (>= 6)
 		CHECK(id.variant() == uuid_variant::reserved_ncs); // ((0x77 & 0b11100000) >> 5) == 0b011 == reserved_ncs
 		CHECK(id.time_low() == 0xFFEEDDCCu);
@@ -89,22 +89,22 @@ TEST_CASE("uuid - initialization")
 
 		// 7D444840-9DC0-11D1-B245-5FFDCE74FAD2 (example from the rfc doc)
 		id = uuid{ 0x7D444840u, 0x9DC0_u16, 0x11D1_u16, 0xB245_u16, 0x5FFDCE74FAD2_u64 };
-		CHECK(id.bytes[0]  == 0x7D_byte);
-		CHECK(id.bytes[1]  == 0x44_byte);
-		CHECK(id.bytes[2]  == 0x48_byte);
-		CHECK(id.bytes[3]  == 0x40_byte);
-		CHECK(id.bytes[4]  == 0x9D_byte);
-		CHECK(id.bytes[5]  == 0xC0_byte);
-		CHECK(id.bytes[6]  == 0x11_byte);
-		CHECK(id.bytes[7]  == 0xD1_byte);
-		CHECK(id.bytes[8]  == 0xB2_byte);
-		CHECK(id.bytes[9]  == 0x45_byte);
-		CHECK(id.bytes[10] == 0x5F_byte);
-		CHECK(id.bytes[11] == 0xFD_byte);
-		CHECK(id.bytes[12] == 0xCE_byte);
-		CHECK(id.bytes[13] == 0x74_byte);
-		CHECK(id.bytes[14] == 0xFA_byte);
-		CHECK(id.bytes[15] == 0xD2_byte);
+		CHECK(id.bytes.value[0]  == 0x7D_byte);
+		CHECK(id.bytes.value[1]  == 0x44_byte);
+		CHECK(id.bytes.value[2]  == 0x48_byte);
+		CHECK(id.bytes.value[3]  == 0x40_byte);
+		CHECK(id.bytes.value[4]  == 0x9D_byte);
+		CHECK(id.bytes.value[5]  == 0xC0_byte);
+		CHECK(id.bytes.value[6]  == 0x11_byte);
+		CHECK(id.bytes.value[7]  == 0xD1_byte);
+		CHECK(id.bytes.value[8]  == 0xB2_byte);
+		CHECK(id.bytes.value[9]  == 0x45_byte);
+		CHECK(id.bytes.value[10] == 0x5F_byte);
+		CHECK(id.bytes.value[11] == 0xFD_byte);
+		CHECK(id.bytes.value[12] == 0xCE_byte);
+		CHECK(id.bytes.value[13] == 0x74_byte);
+		CHECK(id.bytes.value[14] == 0xFA_byte);
+		CHECK(id.bytes.value[15] == 0xD2_byte);
 		CHECK(id.version() == uuid_version::time); // ((0x11 & 0b11110000) >> 4) == 0b0001 == version 1 (time)
 		CHECK(id.variant() == uuid_variant::standard); // ((0xB2 & 0b11100000) >> 5) == 0b101 == standard
 		CHECK(id.time_low() == 0x7D444840u);
@@ -121,22 +121,22 @@ TEST_CASE("uuid - initialization")
 		if constexpr (build::is_big_endian)
 			i128 = byte_reverse(i128);
 		id = uuid{ i128 };
-		CHECK(id.bytes[0] == 0x0C_byte);
-		CHECK(id.bytes[1] == 0xBC_byte);
-		CHECK(id.bytes[2] == 0x8F_byte);
-		CHECK(id.bytes[3] == 0x62_byte);
-		CHECK(id.bytes[4] == 0x78_byte);
-		CHECK(id.bytes[5] == 0xFE_byte);
-		CHECK(id.bytes[6] == 0x40_byte);
-		CHECK(id.bytes[7] == 0x61_byte);
-		CHECK(id.bytes[8] == 0x84_byte);
-		CHECK(id.bytes[9] == 0x73_byte);
-		CHECK(id.bytes[10] == 0x9F_byte);
-		CHECK(id.bytes[11] == 0xCB_byte);
-		CHECK(id.bytes[12] == 0x66_byte);
-		CHECK(id.bytes[13] == 0x2A_byte);
-		CHECK(id.bytes[14] == 0xEE_byte);
-		CHECK(id.bytes[15] == 0xDF_byte);
+		CHECK(id.bytes.value[0] == 0x0C_byte);
+		CHECK(id.bytes.value[1] == 0xBC_byte);
+		CHECK(id.bytes.value[2] == 0x8F_byte);
+		CHECK(id.bytes.value[3] == 0x62_byte);
+		CHECK(id.bytes.value[4] == 0x78_byte);
+		CHECK(id.bytes.value[5] == 0xFE_byte);
+		CHECK(id.bytes.value[6] == 0x40_byte);
+		CHECK(id.bytes.value[7] == 0x61_byte);
+		CHECK(id.bytes.value[8] == 0x84_byte);
+		CHECK(id.bytes.value[9] == 0x73_byte);
+		CHECK(id.bytes.value[10] == 0x9F_byte);
+		CHECK(id.bytes.value[11] == 0xCB_byte);
+		CHECK(id.bytes.value[12] == 0x66_byte);
+		CHECK(id.bytes.value[13] == 0x2A_byte);
+		CHECK(id.bytes.value[14] == 0xEE_byte);
+		CHECK(id.bytes.value[15] == 0xDF_byte);
 		CHECK(id.version() == uuid_version::random); // ((0x40 & 0b11110000) >> 4) == 0b0100 == version 4 (random)
 		CHECK(id.variant() == uuid_variant::standard); // ((0x84 & 0b11100000) >> 5) == 0b100 == standard
 		CHECK(id.time_low() == 0x0CBC8F62u);

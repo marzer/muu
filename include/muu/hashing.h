@@ -251,10 +251,7 @@ MUU_NAMESPACE_START
 			friend std::basic_ostream<Char, Traits>& operator<< (std::basic_ostream<Char, Traits>& lhs, const fnv1a& rhs)
 			{
 				for (unsigned i = sizeof(value_); i --> 0u;)
-				{
-					const auto hex = impl::byte_to_hex(byte_select(rhs.value_, i));
-					lhs.write(hex.data(), hex.size());
-				}
+					lhs << impl::byte_to_hex(byte_select(rhs.value_, i));
 				return lhs;
 			}
 	};
@@ -275,11 +272,23 @@ MUU_NAMESPACE_START
 	/// \see [SHA-1](https://en.wikipedia.org/wiki/SHA-1)
 	class MUU_API sha1 final
 	{
+		public:
+			struct hash_bytes
+			{
+				std::byte value[20];
+			};
+			using hash_type = hash_bytes;
+
 		private:
+			struct digest_bytes
+			{
+				uint32_t value[5];
+			};
+
 			union state_t
 			{
-				array<uint32_t, 5> digest;
-				array<std::byte, 20> hash;
+				digest_bytes digest;
+				hash_bytes hash;
 			}
 			state;
 			uint32_t processed_blocks{};
@@ -291,8 +300,6 @@ MUU_NAMESPACE_START
 			void add(const uint8_t*, size_t) noexcept;
 
 		public:
-
-			using hash_type = array<std::byte, 20>;
 
 			/// \brief	Constructs a new SHA-1 hasher.
 			sha1() noexcept;
@@ -364,11 +371,8 @@ MUU_NAMESPACE_START
 			template <typename Char, typename Traits>
 			friend std::basic_ostream<Char, Traits>& operator<< (std::basic_ostream<Char, Traits>& lhs, const sha1& rhs)
 			{
-				for (auto byte : rhs.value())
-				{
-					const auto hex = impl::byte_to_hex(unwrap(byte));
-					lhs.write(hex.data(), hex.size());
-				}
+				for (auto byte : rhs.value().value)
+					lhs << impl::byte_to_hex(unwrap(byte));
 				return lhs;
 			}
 	};
