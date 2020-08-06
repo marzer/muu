@@ -83,14 +83,14 @@ C++</span></a>
             </dt>
             <dd>Statefully accumulates (adds) an indeterminate number of values.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1array.html">muu::array</a>
-            </dt>
-            <dd>A (mostly) drop-in substitute for <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a>.</dd>
-            <dt>
               class <a class="m-doc" href="classmuu_1_1blob.html">muu::blob</a>
             </dt>
             <dd>Interface for managing chunks of memory.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename First, typename Second&gt;</div>
+              class <a class="m-doc" href="classmuu_1_1compressed__pair.html">muu::compressed_pair</a>
+            </dt>
+            <dd>A pair that uses Empty Base Class Optimization to elide storage for one of its members where possible.</dd>
             <dt>
               struct <a class="m-doc" href="structmuu_1_1half.html">muu::half</a>
             </dt>
@@ -100,6 +100,11 @@ C++</span></a>
               class <a class="m-doc" href="classmuu_1_1scope__guard.html">muu::scope_guard</a>
             </dt>
             <dd>Performs actions when going out of scope.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Extent = <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>&gt;</div>
+              class <a class="m-doc" href="classmuu_1_1span.html">muu::span</a>
+            </dt>
+            <dd>A non-owning view of contiguous elements.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> MinAlign = <a class="m-doc" href="group__meta.html#ga693c421331c5f268eb2e2fdd318368fd">alignment_<wbr/>of</a>&lt;T&gt;&gt;</div>
               class <a class="m-doc" href="classmuu_1_1tagged__ptr.html">muu::tagged_ptr</a>

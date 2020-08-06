@@ -214,6 +214,11 @@ C++</span></a>
             </dt>
             <dd>The smallest type from a set of types.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="#gaf647153950c46df708bcdd860e59f0d1">type_identity</a> = typename impl::type_identity&lt;T&gt;::type
+            </dt>
+            <dd>Provides an identity type transformation.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
               using <a class="m-doc" href="#ga0ca8f76b9009f40bdfbb89a1c51b9d82">unsigned_integer</a> = typename impl::unsigned_integer&lt;Bits&gt;::type
             </dt>
@@ -649,6 +654,17 @@ C++</span></a>
               using <a class="m-doc-self" href="#ga605deffbc895ea863586315ad73e9547">smallest</a> = typename impl::smallest&lt;T...&gt;::type
             </h3>
             <p>The smallest type from a set of types.</p>
+          </div></section>
+          <section class="m-doc-details" id="gaf647153950c46df708bcdd860e59f0d1"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using <a class="m-doc-self" href="#gaf647153950c46df708bcdd860e59f0d1">type_identity</a> = typename impl::type_identity&lt;T&gt;::type
+            </h3>
+            <p>Provides an identity type transformation.</p>
+<p>This is equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/type_identity" target="_blank">std::type_identity_t</a>.</p>
           </div></section>
           <section class="m-doc-details" id="ga0ca8f76b9009f40bdfbb89a1c51b9d82"><div>
             <h3>

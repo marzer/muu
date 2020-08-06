@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>Aligned allocation module | muu Useful
+  <title>Memory management module | muu Useful
 utilities
 for
 modern
@@ -60,8 +60,8 @@ C++</span></a>
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          Aligned allocation <span class="m-thin">module</span></h1>
-        <p>Utilities for performing (re)allocations on specific alignment boundaries.</p>
+          Memory management <span class="m-thin">module</span></h1>
+        <p>Utilities for allocating, destroying and manipulating memory.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -70,6 +70,7 @@ C++</span></a>
               <ul>
                 <li><a href="#nested-classes">Classes</a></li>
                 <li><a href="#func-members">Functions</a></li>
+                <li><a href="#var-members">Variables</a></li>
               </ul>
             </li>
           </ul>
@@ -81,6 +82,11 @@ C++</span></a>
               class <a class="m-doc" href="classmuu_1_1blob.html">muu::blob</a>
             </dt>
             <dd>Interface for managing chunks of memory.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Extent = <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>&gt;</div>
+              class <a class="m-doc" href="classmuu_1_1span.html">muu::span</a>
+            </dt>
+            <dd>A non-owning view of contiguous elements.</dd>
           </dl>
         </section>
         <section id="func-members">
@@ -94,12 +100,30 @@ C++</span></a>
             <dt>
               <span class="m-doc-wrap-bumper">void <a class="m-doc" href="#ga980d079c5d73e2b8bf65a4130f3793b0">aligned_free</a>(</span><span class="m-doc-wrap">void* ptr) <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Frees memory previously allocated with <a class="m-doc" href="group__aligned__alloc.html#gaa9c8bea0bc7d56f3f2693dd23f3c5865">muu::<wbr/>aligned_alloc</a>.</dd>
+            <dd>Frees memory previously allocated with <a class="m-doc" href="group__mem.html#gaa9c8bea0bc7d56f3f2693dd23f3c5865">muu::<wbr/>aligned_alloc</a>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga28d3ce6d2657711ad053aa74410f61d5">aligned_realloc</a>(</span><span class="m-doc-wrap">void* ptr,
               <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> new_size) -&gt; void* <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Resizes memory previously allocated with a specific alignment boundary.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga7809e878e8e7c2d0377b3c7089e9c452">as_bytes</a>(</span><span class="m-doc-wrap">span&lt;T, N&gt; s) -&gt; auto <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Reinterprets a span as an immutable view of the underlying bytes.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga114d47f342c4d20827ca4e5b39551d11">as_writable_bytes</a>(</span><span class="m-doc-wrap">span&lt;T, N&gt; s) -&gt; auto <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Reinterprets a span as a view of the underlying bytes.</dd>
+          </dl>
+        </section>
+        <section id="var-members">
+          <h2><a href="#var-members">Variables</a></h2>
+          <dl class="m-doc">
+            <dt> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#ga3cc0f4ca005186681123b33b6a754a36">dynamic_extent</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Indicates the number of elements covered by a span should be dynamically-determined at runtime.</dd>
           </dl>
         </section>
         <section>
@@ -138,7 +162,7 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">void </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga980d079c5d73e2b8bf65a4130f3793b0">aligned_free</a>(</span><span class="m-doc-wrap">void* ptr) <span class="m-label m-success">noexcept</span></span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="aligned__alloc_8h.html">&lt;muu/aligned_alloc.h&gt;</a></div>
             </h3>
-            <p>Frees memory previously allocated with <a class="m-doc" href="group__aligned__alloc.html#gaa9c8bea0bc7d56f3f2693dd23f3c5865">muu::<wbr/>aligned_alloc</a>.</p>
+            <p>Frees memory previously allocated with <a class="m-doc" href="group__mem.html#gaa9c8bea0bc7d56f3f2693dd23f3c5865">muu::<wbr/>aligned_alloc</a>.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
@@ -166,7 +190,7 @@ C++</span></a>
               <tbody>
                 <tr>
                   <td style="width: 1%">ptr</td>
-                  <td>An allocation previously returned from <a class="m-doc" href="group__aligned__alloc.html#gaa9c8bea0bc7d56f3f2693dd23f3c5865">muu::<wbr/>aligned_alloc</a> or <a class="m-doc" href="group__aligned__alloc.html#ga28d3ce6d2657711ad053aa74410f61d5">muu::<wbr/>aligned_realloc</a>.</td>
+                  <td>An allocation previously returned from <a class="m-doc" href="group__mem.html#gaa9c8bea0bc7d56f3f2693dd23f3c5865">muu::<wbr/>aligned_alloc</a> or <a class="m-doc" href="group__mem.html#ga28d3ce6d2657711ad053aa74410f61d5">muu::<wbr/>aligned_realloc</a>.</td>
                 </tr>
                 <tr>
                   <td>new_size</td>
@@ -180,7 +204,36 @@ C++</span></a>
                 </tr>
               </tfoot>
             </table>
-<p>Allocations returned by <a class="m-doc" href="group__aligned__alloc.html#ga28d3ce6d2657711ad053aa74410f61d5">muu::<wbr/>aligned_realloc</a> will have the same alignment as was initially requested by <a class="m-doc" href="group__aligned__alloc.html#gaa9c8bea0bc7d56f3f2693dd23f3c5865">muu::<wbr/>aligned_alloc</a>.</p><p>Calling <a class="m-doc" href="group__aligned__alloc.html#ga28d3ce6d2657711ad053aa74410f61d5">muu::<wbr/>aligned_realloc</a> with <code>nullptr</code> for <code>ptr</code> is equivalent to calling <a class="m-doc" href="group__aligned__alloc.html#gaa9c8bea0bc7d56f3f2693dd23f3c5865">muu::<wbr/>aligned_alloc</a> with an alignment of <code><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/preprocessor/replace" target="_blank">__STDCPP_DEFAULT_NEW_ALIGNMENT__</a></code>.</p><aside class="m-note m-danger"><h4>Warning</h4><p>Do not use this to reallocate memory allocated from any source, not even your implementation's <code>std::aligned_alloc</code>!</p></aside>
+<p>Allocations returned by <a class="m-doc" href="group__mem.html#ga28d3ce6d2657711ad053aa74410f61d5">muu::<wbr/>aligned_realloc</a> will have the same alignment as was initially requested by <a class="m-doc" href="group__mem.html#gaa9c8bea0bc7d56f3f2693dd23f3c5865">muu::<wbr/>aligned_alloc</a>.</p><p>Calling <a class="m-doc" href="group__mem.html#ga28d3ce6d2657711ad053aa74410f61d5">muu::<wbr/>aligned_realloc</a> with <code>nullptr</code> for <code>ptr</code> is equivalent to calling <a class="m-doc" href="group__mem.html#gaa9c8bea0bc7d56f3f2693dd23f3c5865">muu::<wbr/>aligned_alloc</a> with an alignment of <code><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/preprocessor/replace" target="_blank">__STDCPP_DEFAULT_NEW_ALIGNMENT__</a></code>.</p><aside class="m-note m-danger"><h4>Warning</h4><p>Do not use this to reallocate memory allocated from any source, not even your implementation's <code>std::aligned_alloc</code>!</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga7809e878e8e7c2d0377b3c7089e9c452"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="span_8h.html">&lt;muu/span.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">auto </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga7809e878e8e7c2d0377b3c7089e9c452">as_bytes</a>(</span><span class="m-doc-wrap">span&lt;T, N&gt; s) <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Reinterprets a span as an immutable view of the underlying bytes.</p>
+<p>Equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/span/as_bytes" target="_blank">std::as_bytes</a>.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga114d47f342c4d20827ca4e5b39551d11"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="span_8h.html">&lt;muu/span.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">auto </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga114d47f342c4d20827ca4e5b39551d11">as_writable_bytes</a>(</span><span class="m-doc-wrap">span&lt;T, N&gt; s) <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Reinterprets a span as a view of the underlying bytes.</p>
+<p>Equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/span/as_bytes" target="_blank">std::as_writable_bytes</a>.</p>
+          </div></section>
+        </section>
+        <section>
+          <h2>Variable documentation</h2>
+          <section class="m-doc-details" id="ga3cc0f4ca005186681123b33b6a754a36"><div>
+            <h3> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#ga3cc0f4ca005186681123b33b6a754a36">dynamic_extent</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="span_8h.html">&lt;muu/span.h&gt;</a></div>
+            </h3>
+            <p>Indicates the number of elements covered by a span should be dynamically-determined at runtime.</p>
           </div></section>
         </section>
       </div>

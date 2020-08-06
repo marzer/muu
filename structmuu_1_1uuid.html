@@ -223,7 +223,7 @@ C++</span></a>
           <h2><a href="#pub-attribs">Public variables</a></h2>
           <dl class="m-doc">
             <dt>
-              <a class="m-doc" href="structmuu_1_1array.html">array</a>&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>, 16&gt; <a class="m-doc" href="#addf17f997274cc8131f70a63583a79f6">bytes</a>
+              impl::uuid_bytes <a class="m-doc" href="#a6f04e89c59ce24cb6d2f19bc149f2277">bytes</a>
             </dt>
             <dd>The raw bytes in the UUID.</dd>
           </dl>
@@ -451,9 +451,9 @@ C++</span></a>
         </section>
         <section>
           <h2>Variable documentation</h2>
-          <section class="m-doc-details" id="addf17f997274cc8131f70a63583a79f6"><div>
+          <section class="m-doc-details" id="a6f04e89c59ce24cb6d2f19bc149f2277"><div>
             <h3>
-              <a class="m-doc" href="structmuu_1_1array.html">array</a>&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>, 16&gt; muu::<wbr/>uuid::<wbr/><a class="m-doc-self" href="#addf17f997274cc8131f70a63583a79f6">bytes</a>
+              impl::uuid_bytes muu::<wbr/>uuid::<wbr/><a class="m-doc-self" href="#a6f04e89c59ce24cb6d2f19bc149f2277">bytes</a>
             </h3>
             <p>The raw bytes in the UUID.</p>
 <p>The byte layout of the UUID is big-endian, regardless of the target platform:<br/><br/><code>[ 0]</code>   time_low - most significant byte<br/><code>[ 1]</code>   ...<br/><code>[ 2]</code>   ...<br/><code>[ 3]</code>   time_low - least significant byte<br/><code>[ 4]</code>   time_mid - most significante byte<br/><code>[ 5]</code>   time_mid - least significante byte<br/><code>[ 6]</code>   time_high_and_version - most significante byte<br/><code>[ 7]</code>   time_high_and_version - least significante byte<br/><code>[ 8]</code>   clock_seq_high_and_reserved<br/><code>[ 9]</code>   clock_seq_low<br/><code>[10]</code>   node - most significant byte<br/><code>[11]</code>   ...<br/><code>[12]</code>   ...<br/><code>[13]</code>   ...<br/><code>[14]</code>   ...<br/><code>[15]</code>   node - least significant byte<br/><br/>Relevant excerpt from the UUID rfc:</p><pre class="m-console"><span class="go">In the absence of explicit application or presentation protocol</span>

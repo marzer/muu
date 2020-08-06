@@ -60,7 +60,7 @@ C++</span></a>
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="scope__guard_8h.html">&lt;muu/scope_guard.h&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
           <div class="m-doc-template">template&lt;typename T&gt;</div>
           <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>scope_guard <span class="m-thin">class</span>
         </h1>
@@ -111,8 +111,8 @@ C++</span></a>
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;typename U, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="std::is_constructible_v&lt;T, U &amp;&amp;">...</a><span>std::is_constructible_v&lt;T, U &amp;&amp;</span></span>&gt;&gt;&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a45852b220ba8225a929f115a05531c8d">scope_guard</a>(</span><span class="m-doc-wrap">U&amp;&amp; func) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
+              <div class="m-doc-template">template&lt;typename U&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a77f4d6415d1059419bd4e6b0864e17e2">scope_guard</a>(</span><span class="m-doc-wrap">U&amp;&amp; func) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_<wbr/>guard</a> by wrapping a callable.</dd>
           </dl>
@@ -120,20 +120,21 @@ C++</span></a>
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt>
-              <span class="m-doc-wrap-bumper">void <a class="m-doc" href="#a0848341baedff7638c58afa038b1cfc2">cancel</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a44879b040554411653acd5b47b57de96">
+              <span class="m-doc-wrap-bumper">void <a class="m-doc-self" href="#a44879b040554411653acd5b47b57de96">dismiss</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Suppresses invocation of the the <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_<wbr/>guard</a>'s wrapped callable.</dd>
+            <dd>Dismisses the scope guard, cancelling invocation of the wrapped callable.</dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a45852b220ba8225a929f115a05531c8d"><div>
+          <section class="m-doc-details" id="a77f4d6415d1059419bd4e6b0864e17e2"><div>
             <h3>
-              <div class="m-doc-template"> template&lt;typename T&gt;
-                template&lt;typename U, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="std::is_constructible_v&lt;T, U &amp;&amp;">...</a><span>std::is_constructible_v&lt;T, U &amp;&amp;</span></span>&gt;&gt;&gt;
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+                template&lt;typename U&gt;
               </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>scope_guard&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a45852b220ba8225a929f115a05531c8d">scope_guard</a>(</span><span class="m-doc-wrap">U&amp;&amp; func) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept(…)</span></span></span>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>scope_guard&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a77f4d6415d1059419bd4e6b0864e17e2">scope_guard</a>(</span><span class="m-doc-wrap">U&amp;&amp; func) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Constructs a <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_<wbr/>guard</a> by wrapping a callable.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -156,16 +157,6 @@ C++</span></a>
                 </tr>
               </tbody>
             </table>
-          </div></section>
-          <section class="m-doc-details" id="a0848341baedff7638c58afa038b1cfc2"><div>
-            <h3>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">void muu::<wbr/>scope_guard&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0848341baedff7638c58afa038b1cfc2">cancel</a>(</span><span class="m-doc-wrap">) <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Suppresses invocation of the the <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_<wbr/>guard</a>'s wrapped callable.</p>
-<p>This cancels the pending invocation of the wrapped callable, preventing it from being called when the <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_<wbr/>guard</a> goes out of scope. In general it's better to structure RAII code to not require this sort of manoeuvring, but <a class="m-doc" href="classmuu_1_1scope__guard.html#a0848341baedff7638c58afa038b1cfc2">cancel()</a> is provided as an 'escape hatch' if you have no other choice.</p>
           </div></section>
         </section>
       </div>

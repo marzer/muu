@@ -133,6 +133,10 @@ C++</span></a>
             </dt>
             <dd>The value of <code>__clang_major__</code> when the code is being compiled by LLVM/Clang, otherwise <code>0</code>.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gae013033da8c52eee6ca7b7415b9c0eb4">MUU_CONCEPTS</a></span>
+            </dt>
+            <dd><code>1</code> when both the compiler and standard library implementation support C++20 constraints and concepts, otherwise <code>0</code>.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gad89d19ea9cfdd7ec957df9cb6189f552">MUU_CONSTEVAL</a></span>
             </dt>
             <dd>Expands to C++20's <code>consteval</code> if supported by your compiler, otherwise <code>constexpr</code>.</dd>
@@ -164,6 +168,10 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga967eb97bf52ae15db445b4564c2ee789">MUU_EXCEPTIONS</a></span>
             </dt>
             <dd><code>1</code> when support for C++ exceptions is enabled, otherwise <code>0</code>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga24ff28b8474a961dda8c107ed6303187">MUU_EXPLICIT</a>(</span><span class="m-doc-wrap">...)</span>
+            </dt>
+            <dd>Expands a C++20 conditional <code>explicit(...)</code> specifier if supported by the compiler, otherwise <code>explicit</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga4e615ca6ddf99207d0d46055db0a9aaa">MUU_GCC</a></span>
             </dt>
@@ -402,6 +410,14 @@ C++</span></a>
             <p>The value of <code>__clang_major__</code> when the code is being compiled by LLVM/Clang, otherwise <code>0</code>.</p>
 <aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="https://sourceforge.net/p/predef/wiki/Compilers/" target="_blank">https:/<wbr/>/<wbr/>sourceforge.net/<wbr/>p/<wbr/>predef/<wbr/>wiki/<wbr/>Compilers/<wbr/></a></p></aside>
           </div></section>
+          <section class="m-doc-details" id="gae013033da8c52eee6ca7b7415b9c0eb4"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gae013033da8c52eee6ca7b7415b9c0eb4">MUU_CONCEPTS</a></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p><code>1</code> when both the compiler and standard library implementation support C++20 constraints and concepts, otherwise <code>0</code>.</p>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="https://en.cppreference.com/w/cpp/language/constraints" target="_blank">Constraints and concepts</a></p></aside>
+          </div></section>
           <section class="m-doc-details" id="gad89d19ea9cfdd7ec957df9cb6189f552"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gad89d19ea9cfdd7ec957df9cb6189f552">MUU_CONSTEVAL</a></span>
@@ -474,6 +490,13 @@ C++</span></a>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p><code>1</code> when support for C++ exceptions is enabled, otherwise <code>0</code>.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga24ff28b8474a961dda8c107ed6303187"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga24ff28b8474a961dda8c107ed6303187">MUU_EXPLICIT</a>(</span><span class="m-doc-wrap">...)</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>Expands a C++20 conditional <code>explicit(...)</code> specifier if supported by the compiler, otherwise <code>explicit</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga4e615ca6ddf99207d0d46055db0a9aaa"><div>
             <h3>

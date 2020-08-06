@@ -62,7 +62,7 @@ C++</span></a>
         <h1>
           <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span>core.h <span class="m-thin">file</span>
         </h1>
-        <p>Typedefs and intrinsics used by muu components.</p>
+        <p>Typedefs, intrinsics and core components.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -90,10 +90,10 @@ C++</span></a>
           <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1array.html">muu::array</a>
+              <div class="m-doc-template">template&lt;typename First, typename Second&gt;</div>
+              class <a class="m-doc" href="classmuu_1_1compressed__pair.html">muu::compressed_pair</a>
             </dt>
-            <dd>A (mostly) drop-in substitute for <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a>.</dd>
+            <dd>A pair that uses Empty Base Class Optimization to elide storage for one of its members where possible.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01char_01_4.html">muu::constants&lt;char&gt;</a>
@@ -204,6 +204,11 @@ C++</span></a>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01wchar__t_01_4.html">muu::constants&lt;wchar_t&gt;</a>
             </dt>
             <dd><code><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a></code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              class <a class="m-doc" href="classmuu_1_1scope__guard.html">muu::scope_guard</a>
+            </dt>
+            <dd>Performs actions when going out of scope.</dd>
           </dl>
         </section>
       </div>

@@ -97,14 +97,14 @@ C++</span></a>
             </dt>
             <dd>Statefully accumulates (adds) an indeterminate number of values.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1array.html">array</a>
-            </dt>
-            <dd>A (mostly) drop-in substitute for <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a>.</dd>
-            <dt>
               class <a class="m-doc" href="classmuu_1_1blob.html">blob</a>
             </dt>
             <dd>Interface for managing chunks of memory.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename First, typename Second&gt;</div>
+              class <a class="m-doc" href="classmuu_1_1compressed__pair.html">compressed_pair</a>
+            </dt>
+            <dd>A pair that uses Empty Base Class Optimization to elide storage for one of its members where possible.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants.html">constants</a>
@@ -253,6 +253,11 @@ C++</span></a>
               class <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>
             </dt>
             <dd>SHA-1 hasher.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Extent = <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>&gt;</div>
+              class <a class="m-doc" href="classmuu_1_1span.html">span</a>
+            </dt>
+            <dd>A non-owning view of contiguous elements.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> MinAlign = <a class="m-doc" href="group__meta.html#ga693c421331c5f268eb2e2fdd318368fd">alignment_<wbr/>of</a>&lt;T&gt;&gt;</div>
               class <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_ptr</a>
@@ -438,6 +443,11 @@ C++</span></a>
             </dt>
             <dd>The smallest type from a set of types.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="group__meta.html#gaf647153950c46df708bcdd860e59f0d1">type_identity</a> = typename impl::type_identity&lt;T&gt;::type
+            </dt>
+            <dd>Provides an identity type transformation.</dd>
+            <dt>
               using <a class="m-doc" href="group__blocks.html#gaa82164a62949a1b029695dff5441d577">uint128_t</a> = __uint128_t
             </dt>
             <dd>A 128-bit unsigned integer.</dd>
@@ -457,16 +467,16 @@ C++</span></a>
             </dt>
             <dd>Returns the absolute value of an arithmetic value.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__aligned__alloc.html#gaa9c8bea0bc7d56f3f2693dd23f3c5865">aligned_alloc</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__mem.html#gaa9c8bea0bc7d56f3f2693dd23f3c5865">aligned_alloc</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment,
               <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size) -&gt; void* <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Allocates memory with a specific alignment boundary.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">void <a class="m-doc" href="group__aligned__alloc.html#ga980d079c5d73e2b8bf65a4130f3793b0">aligned_free</a>(</span><span class="m-doc-wrap">void* ptr) <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">void <a class="m-doc" href="group__mem.html#ga980d079c5d73e2b8bf65a4130f3793b0">aligned_free</a>(</span><span class="m-doc-wrap">void* ptr) <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Frees memory previously allocated with <a class="m-doc" href="group__aligned__alloc.html#gaa9c8bea0bc7d56f3f2693dd23f3c5865">muu::<wbr/>aligned_alloc</a>.</dd>
+            <dd>Frees memory previously allocated with <a class="m-doc" href="group__mem.html#gaa9c8bea0bc7d56f3f2693dd23f3c5865">muu::<wbr/>aligned_alloc</a>.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__aligned__alloc.html#ga28d3ce6d2657711ad053aa74410f61d5">aligned_realloc</a>(</span><span class="m-doc-wrap">void* ptr,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__mem.html#ga28d3ce6d2657711ad053aa74410f61d5">aligned_realloc</a>(</span><span class="m-doc-wrap">void* ptr,
               <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> new_size) -&gt; void* <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Resizes memory previously allocated with a specific alignment boundary.</dd>
@@ -476,6 +486,16 @@ C++</span></a>
               ptrdiff_t offset) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Applies a byte offset to a pointer.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__mem.html#ga7809e878e8e7c2d0377b3c7089e9c452">as_bytes</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;T, N&gt; s) -&gt; auto <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Reinterprets a span as an immutable view of the underlying bytes.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__mem.html#ga114d47f342c4d20827ca4e5b39551d11">as_writable_bytes</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;T, N&gt; s) -&gt; auto <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Reinterprets a span as a view of the underlying bytes.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename To, typename From&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gaadb4c6332c738c248f84f43ece303657">bit_cast</a>(</span><span class="m-doc-wrap">const From&amp; from) -&gt; To <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -1254,6 +1274,9 @@ C++</span></a>
               bool <a class="m-doc" href="group__meta.html#gaeb2da559efbc44792993d44b57e1b48d">dependent_false</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Evaluates to false but with delayed, type-dependent evaluation.</dd>
+            <dt> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_extent</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Indicates the number of elements covered by a span should be dynamically-determined at runtime.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Parent, typename Child&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gad99449272de65874d3b7569d9eb9e805">inherits_from</a> <span class="m-label m-flat m-primary">constexpr</span>

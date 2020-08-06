@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu::array struct | muu Useful
+  <title>muu/span.h file | muu Useful
 utilities
 for
 modern
@@ -60,12 +60,38 @@ C++</span></a>
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-          <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
-          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>array <span class="m-thin">struct</span>
+          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span>span.h <span class="m-thin">file</span>
         </h1>
-        <p>A (mostly) drop-in substitute for <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a>.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p><strong><em>"Why does this exist? Why not just use <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a>?"</em></strong><br/><br/>The standard library's <code>&lt;array&gt;</code> header drags in <em>a lot</em> of cruft, regardless of implementation, typically bringing <code>&lt;algorithm&gt;</code>, <code>&lt;iterator&gt;</code> and <code>&lt;tuple&gt;</code> with it. This array does not claim to support the tuple protocol like the one in the standard, nor does it provide swap, fill, et cetera, so it can be implemented without all the baggage.<br/><br/>More info:</p><ul><li><a class="muu-external" href="https://artificial-mind.net/projects/compile-health/" target="_blank">https:/<wbr/>/<wbr/>artificial-mind.net/<wbr/>projects/<wbr/>compile-health/<wbr/></a></li><li><a class="muu-external" href="https://www.reddit.com/r/cpp/comments/eumou7/stl_header_token_parsing_benchmarks_for_vs2017/" target="_blank">https://www.reddit.com/r/cpp/comments/eumou7/stl_<wbr/>header_<wbr/>token_<wbr/>parsing_<wbr/>benchmarks_<wbr/>for_<wbr/>vs2017/</a></li></ul></aside>
+        <p>Contains the definition of <a class="m-doc" href="classmuu_1_1span.html">muu::<wbr/>span</a>.</p>
+        <div class="m-block m-default">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#namespaces">Namespaces</a></li>
+                <li><a href="#nested-classes">Classes</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <section id="namespaces">
+          <h2><a href="#namespaces">Namespaces</a></h2>
+          <dl class="m-doc">
+            <dt>namespace <a class="m-doc" href="namespacemuu.html">muu</a></dt>
+            <dd>The root namespace for all muu functions and types.</dd>
+          </dl>
+        </section>
+        <section id="nested-classes">
+          <h2><a href="#nested-classes">Classes</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Extent = <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>&gt;</div>
+              class <a class="m-doc" href="classmuu_1_1span.html">muu::span</a>
+            </dt>
+            <dd>A non-owning view of contiguous elements.</dd>
+          </dl>
+        </section>
       </div>
     </div>
   </div>
