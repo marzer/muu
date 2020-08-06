@@ -4,11 +4,15 @@
 // SPDX-License-Identifier: MIT
 
 /// \file
-/// \brief Typedefs and intrinsics used by muu components.
+/// \brief Typedefs, intrinsics and core components.
 
 #pragma once
 #include "../muu/fwd.h"
 MUU_PRAGMA_MSVC(inline_recursion(on))
+
+#if MUU_GCC && MUU_HAS_FLOAT128 && MUU_EXTENDED_LITERALS
+	#pragma GCC system_header
+#endif
 
 //=====================================================================================================================
 // INCLUDES
@@ -35,10 +39,10 @@ MUU_DISABLE_ALL_WARNINGS
 #if MUU_MSVC
 	#include <intrin0.h>
 #endif
-#if MUU_HAS_INCLUDE(<version>)
-	#include <version>
-#endif
 MUU_POP_WARNINGS
+
+MUU_PUSH_WARNINGS
+MUU_DISABLE_PADDING_WARNINGS
 
 //=====================================================================================================================
 // ENVIRONMENT GROUND-TRUTHS
@@ -375,6 +379,14 @@ MUU_IMPL_NAMESPACE_START
 	#else
 		template <typename T> inline constexpr bool is_win32_iunknown = false;
 	#endif
+
+	template <typename T>
+	using iter_reference_t = decltype(*std::declval<T&>());
+	template <typename T>
+	using iter_value_t = std::remove_reference_t<iter_reference_t<T>>;
+
+	template <typename T>
+	struct type_identity { using type = T; };
 }
 MUU_IMPL_NAMESPACE_END
 
@@ -732,6 +744,11 @@ MUU_NAMESPACE_START
 		#endif
 	>;
 
+	/// \brief	Provides an identity type transformation.
+	/// \detail This is equivalent to C++20's std::type_identity_t.
+	template <typename T>
+	using type_identity = typename impl::type_identity<T>::type;
+
 	/// @}
 }
 MUU_NAMESPACE_END
@@ -857,9 +874,9 @@ MUU_NAMESPACE_START
 			static constexpr T e                    = T( 2.718281828459045534885L ); ///< `e`
 		};
 
-		#if MUU_HAS_FLOAT128
+		#if MUU_HAS_FLOAT128 && MUU_EXTENDED_LITERALS
 		template <>
-		struct floating_point_named_constants<float_128_t>
+		struct floating_point_named_constants<float128_t>
 		{
 			static constexpr float128_t one_over_two         = 0.500000000000000000000000000000000000q;
 			static constexpr float128_t one_over_three       = 0.333333333333333333333333333333333333q;
@@ -896,7 +913,7 @@ MUU_NAMESPACE_START
 			static constexpr float128_t root_pi_over_six     = 0.723601254558267659363014627290795768q;
 			static constexpr float128_t root_two_pi          = 2.506628274631000502415765284811045253q;
 			static constexpr float128_t e                    = 2.718281828459045534884808148490265012q;
-		}
+		};
 		#endif
 
 		//-------------  constant class aggregates
@@ -2947,6 +2964,47 @@ MUU_NAMESPACE_START
 	}
 
 	MUU_PRAGMA_GCC("GCC pop_options") // -fno-finite-math-only
+
+
+	namespace impl
+	{
+		#ifndef DOXYGEN
+		template <typename T>
+		struct detect_pointer_traits_to_address final
+		{
+			template <typename U>		static auto test(const U& p) -> decltype(std::pointer_traits<U>::to_address(p));
+			template <typename... U>	static std::false_type test(U&&...);
+			static constexpr auto value = !std::is_same_v<decltype(test(std::declval<const T&>())), std::false_type>;
+		};
+		#endif
+	}
+
+	// \brief Obtain the address represented by p without forming a reference to the pointee.
+	// \detail This is equivalent to C++20's std::to_address.
+	template <typename T>
+	[[nodiscard]]
+	constexpr T* to_address(T* p) noexcept
+	{
+		static_assert(!std::is_function_v<T>, "muu::to_address may not be used on functions.");
+		return p;
+	}
+
+	// \brief Obtain the address represented by p without forming a reference to the pointee.
+	// \detail This is equivalent to C++20's std::to_address.
+	template <typename Ptr>
+	[[nodiscard]]
+	constexpr auto to_address(const Ptr& p) noexcept //(1)
+	{
+		if constexpr (impl::detect_pointer_traits_to_address<Ptr>::value)
+		{
+			return std::pointer_traits<Ptr>::to_address(p);
+		}
+		else
+		{
+			return to_address(p.operator->());
+		}
+	}
+
 }
 MUU_NAMESPACE_END
 
@@ -2956,113 +3014,278 @@ MUU_POP_WARNINGS // MUU_DISABLE_ARITHMETIC_WARNINGS
 // COMPRESSED PAIR
 //=====================================================================================================================
 
-MUU_IMPL_NAMESPACE_START
+MUU_NAMESPACE_START
 {
-	template <typename T1, typename T2, int empty_base = (
-		std::is_empty_v<T1> ? 1 : (std::is_empty_v<T2> ? 2 : 0)
-	)>
+	/// \brief	A pair that uses Empty Base Class Optimization to elide storage for one of its members where possible.
+	/// \ingroup blocks
+	/// 
+	/// \tparam	First		First member type.
+	/// \tparam	Second		Second member type.
+	template <typename First, typename Second
+		#ifndef DOXYGEN
+		, int empty_base = (std::is_empty_v<First> ? 1 : (std::is_empty_v<Second> ? 2 : 0))
+		#endif
+	>
 	class compressed_pair
 	{
 		private:
-			static_assert(!std::is_empty_v<T1> && !std::is_empty_v<T2>);
-			T1 first_;
-			T2 second_;
+			static_assert(!std::is_empty_v<First> && !std::is_empty_v<Second>);
+			First first_;
+			Second second_;
 
 		public:
 
-			MUU_NODISCARD_CTOR
-			compressed_pair()
-				noexcept(std::is_nothrow_default_constructible_v<T1> && std::is_nothrow_default_constructible_v<T2>)
-			= default;
+			/// \brief	The pair's first member type.
+			using first_type = First;
+			/// \brief	The pair's second member type.
+			using second_type = Second;
 
-			template <typename U1, typename U2>
+			/// \brief	Default constructor.
 			MUU_NODISCARD_CTOR
-			compressed_pair(U1&& first_init, U2&& second_init)
-				noexcept(std::is_nothrow_constructible_v<T1, U1&&> && std::is_nothrow_constructible_v<T2, U2&&>)
-				: first_{ std::forward<U1>(first_init)},
-				second_{ std::forward<U2>(second_init) }
+			constexpr compressed_pair() = default;
+
+			/// \brief	Copy constructor.
+			MUU_NODISCARD_CTOR
+			constexpr compressed_pair(const compressed_pair&) = default;
+
+			/// \brief	Move constructor.
+			MUU_NODISCARD_CTOR
+			constexpr compressed_pair(compressed_pair&&) = default;
+
+			/// \brief	Copy-assignment operator.
+			constexpr compressed_pair& operator =(const compressed_pair&) = default;
+
+			/// \brief	Move-assignment operator.
+			constexpr compressed_pair& operator =(compressed_pair&&) = default;
+			
+			/// \brief	Constructs a compressed pair from two values.
+			/// 
+			/// \tparam	F	First member initializer type.
+			/// \tparam	S	Second member initializer type.
+			/// \param 	first_init 	First member initializer.
+			/// \param 	second_init	Second member initializer.
+			template <typename F, typename S>
+			MUU_NODISCARD_CTOR
+			constexpr compressed_pair(F&& first_init, S&& second_init)
+				noexcept(std::is_nothrow_constructible_v<First, F&&> && std::is_nothrow_constructible_v<Second, S&&>)
+				: first_{ std::forward<F>(first_init) },
+				second_{ std::forward<S>(second_init) }
 			{}
 
-			[[nodiscard]] T1& first() & noexcept				{ return first_; }
-			[[nodiscard]] T1&& first() && noexcept				{ return std::move(first_); }
-			[[nodiscard]] const T1& first() const& noexcept		{ return first_; }
-			[[nodiscard]] const T1&& first() const&& noexcept	{ return std::move(first_); }
+			/// \brief	Returns an lvalue reference to the first member.
+			[[nodiscard]] constexpr first_type& first() & noexcept					{ return first_; }
+			/// \brief	Returns an rvalue reference to the first member.
+			[[nodiscard]] constexpr first_type&& first() && noexcept				{ return std::move(first_); }
+			/// \brief	Returns a const lvalue reference to the first member.
+			[[nodiscard]] constexpr const first_type& first() const& noexcept		{ return first_; }
+			/// \brief	Returns a const rvalue reference to the first member.
+			[[nodiscard]] constexpr const first_type&& first() const&& noexcept		{ return std::move(first_); }
 
-			[[nodiscard]] T2& second() & noexcept				{ return second_; }
-			[[nodiscard]] T2&& second() && noexcept				{ return std::move(second_); }
-			[[nodiscard]] const T2& second() const& noexcept	{ return second_; }
-			[[nodiscard]] const T2&& second() const&& noexcept	{ return std::move(second_); }
+			/// \brief	Returns an lvalue reference to the second member.
+			[[nodiscard]] constexpr second_type& second() & noexcept				{ return second_; }
+			/// \brief	Returns an rvalue reference to the second member.
+			[[nodiscard]] constexpr second_type&& second() && noexcept				{ return std::move(second_); }
+			/// \brief	Returns a const lvalue reference to the second member.
+			[[nodiscard]] constexpr const second_type& second() const& noexcept		{ return second_; }
+			/// \brief	Returns a const rvalue reference to the second member.
+			[[nodiscard]] constexpr const second_type&& second() const&& noexcept	{ return std::move(second_); }
 	};
 
-	template <typename T1, typename T2>
-	class MUU_EMPTY_BASES compressed_pair<T1, T2, 1> : private T1
+	#ifndef DOXYGEN
+
+	template <typename First, typename Second>
+	class MUU_EMPTY_BASES compressed_pair<First, Second, 1> : private First
 	{
 		private:
-			static_assert(std::is_empty_v<T1> && !std::is_empty_v<T2>);
-			T2 second_;
+			static_assert(std::is_empty_v<First> && !std::is_empty_v<Second>);
+			Second second_;
 
 		public:
 
-			MUU_NODISCARD_CTOR
-			compressed_pair()
-				noexcept(std::is_nothrow_default_constructible_v<T1> && std::is_nothrow_default_constructible_v<T2>)
-			= default;
+			using first_type = First;
+			using second_type = Second;
 
-			template <typename U1, typename U2>
+			MUU_NODISCARD_CTOR constexpr compressed_pair() = default;
+			MUU_NODISCARD_CTOR constexpr compressed_pair(const compressed_pair&) = default;
+			MUU_NODISCARD_CTOR constexpr compressed_pair(compressed_pair&&) = default;
+			constexpr compressed_pair& operator =(const compressed_pair&) = default;
+			constexpr compressed_pair& operator =(compressed_pair&&) = default;
+
+			template <typename F, typename S>
 			MUU_NODISCARD_CTOR
-			compressed_pair(U1&& first_init, U2&& second_init)
-				noexcept(std::is_nothrow_constructible_v<T1, U1&&> && std::is_nothrow_constructible_v<T2, U2&&>)
-				: T1{ std::forward<U1>(first_init) },
-				second_{ std::forward<U2>(second_init) }
+			constexpr compressed_pair(F&& first_init, S&& second_init)
+				noexcept(std::is_nothrow_constructible_v<First, F&&> && std::is_nothrow_constructible_v<Second, S&&>)
+				: First{ std::forward<F>(first_init) },
+				second_{ std::forward<S>(second_init) }
 			{}
 
-			[[nodiscard]] T1& first() & noexcept				{ return *this; }
-			[[nodiscard]] T1&& first() && noexcept				{ return std::move(*this); }
-			[[nodiscard]] const T1& first() const& noexcept		{ return *this; }
-			[[nodiscard]] const T1&& first() const&& noexcept	{ return std::move(*this); }
+			[[nodiscard]] constexpr first_type& first() & noexcept					{ return *this; }
+			[[nodiscard]] constexpr first_type&& first() && noexcept				{ return std::move(*this); }
+			[[nodiscard]] constexpr const first_type& first() const& noexcept		{ return *this; }
+			[[nodiscard]] constexpr const first_type&& first() const&& noexcept		{ return std::move(*this); }
 
-			[[nodiscard]] T2& second() & noexcept				{ return second_; }
-			[[nodiscard]] T2&& second() && noexcept				{ return std::move(second_); }
-			[[nodiscard]] const T2& second() const& noexcept	{ return second_; }
-			[[nodiscard]] const T2&& second() const&& noexcept	{ return std::move(second_); }
+			[[nodiscard]] constexpr second_type& second() & noexcept				{ return second_; }
+			[[nodiscard]] constexpr second_type&& second() && noexcept				{ return std::move(second_); }
+			[[nodiscard]] constexpr const second_type& second() const& noexcept		{ return second_; }
+			[[nodiscard]] constexpr const second_type&& second() const&& noexcept	{ return std::move(second_); }
 	};
 
-	template <typename T1, typename T2>
-	class MUU_EMPTY_BASES compressed_pair<T1, T2, 2> : private T2
+	template <typename First, typename Second>
+	class MUU_EMPTY_BASES compressed_pair<First, Second, 2> : private Second
 	{
 		private:
-			static_assert(!std::is_empty_v<T1> && std::is_empty_v<T2>);
-			T1 first_;
+			static_assert(!std::is_empty_v<First> && std::is_empty_v<Second>);
+			First first_;
 
 		public:
 
-			MUU_NODISCARD_CTOR
-			compressed_pair()
-				noexcept(std::is_nothrow_default_constructible_v<T1> && std::is_nothrow_default_constructible_v<T2>)
-			= default;
+			using first_type = First;
+			using second_type = Second;
 
-			template <typename U1, typename U2>
+			MUU_NODISCARD_CTOR constexpr compressed_pair() = default;
+			MUU_NODISCARD_CTOR constexpr compressed_pair(const compressed_pair&) = default;
+			MUU_NODISCARD_CTOR constexpr compressed_pair(compressed_pair&&) = default;
+			constexpr compressed_pair& operator =(const compressed_pair&) = default;
+			constexpr compressed_pair& operator =(compressed_pair&&) = default;
+
+			template <typename F, typename S>
 			MUU_NODISCARD_CTOR
-			compressed_pair(U1&& first_init, U2&& second_init)
-				noexcept(std::is_nothrow_constructible_v<T1, U1&&> && std::is_nothrow_constructible_v<T2, U2&&>)
-				: T2{ std::forward<U2>(second_init) },
-				first_{ std::forward<U1>(first_init) }
+			constexpr compressed_pair(F&& first_init, S&& second_init)
+				noexcept(std::is_nothrow_constructible_v<First, F&&> && std::is_nothrow_constructible_v<Second, S&&>)
+				: Second{ std::forward<S>(second_init) },
+				first_{ std::forward<F>(first_init) }
 			{}
 
-			[[nodiscard]] T1& first() & noexcept				{ return first_; }
-			[[nodiscard]] T1&& first() && noexcept				{ return std::move(first_); }
-			[[nodiscard]] const T1& first() const& noexcept		{ return first_; }
-			[[nodiscard]] const T1&& first() const&& noexcept	{ return std::move(first_); }
+			[[nodiscard]] constexpr first_type& first() & noexcept					{ return first_; }
+			[[nodiscard]] constexpr first_type&& first() && noexcept				{ return std::move(first_); }
+			[[nodiscard]] constexpr const first_type& first() const& noexcept		{ return first_; }
+			[[nodiscard]] constexpr const first_type&& first() const&& noexcept		{ return std::move(first_); }
 
-			[[nodiscard]] T2& second() & noexcept				{ return *this; }
-			[[nodiscard]] T2&& second() && noexcept				{ return std::move(*this); }
-			[[nodiscard]] const T2& second() const& noexcept	{ return *this; }
-			[[nodiscard]] const T2&& second() const&& noexcept	{ return std::move(*this); }
+			[[nodiscard]] constexpr second_type& second() & noexcept				{ return *this; }
+			[[nodiscard]] constexpr second_type&& second() && noexcept				{ return std::move(*this); }
+			[[nodiscard]] constexpr const second_type& second() const& noexcept		{ return *this; }
+			[[nodiscard]] constexpr const second_type&& second() const&& noexcept	{ return std::move(*this); }
 	};
+
+	#endif // DOXYGEN
 }
-MUU_IMPL_NAMESPACE_END
+MUU_NAMESPACE_END
+
+//=====================================================================================================================
+// SCOPE GUARD
+//=====================================================================================================================
+
+MUU_NAMESPACE_START
+{
+	/// \brief	Performs actions when going out of scope.
+	/// \ingroup blocks
+	///
+	/// \detail Use a scope_guard to simplify cleanup routines
+	/// 		or code that has acquire/release semantics, e.g. locking: \cpp
+	/// 
+	/// void do_something()
+	/// {
+	///		acquire_magic_lock();
+	///		scope_guard sg{ release_magic_lock };
+	///		something_that_throws();
+	/// }
+	/// 
+	/// \ecpp
+	/// 
+	/// For comparison's sake, here's the same function without a scope_guard: \cpp
+	/// 
+	/// void do_something()
+	/// {
+	///		acquire_magic_lock();
+	///		try
+	///		{
+	///			something_that_throws();
+	///		}
+	///		catch (...)
+	///		{
+	///			release_magic_lock();
+	///			throw;
+	///		}
+	///		release_magic_lock();
+	/// }
+	/// 
+	/// \ecpp
+	/// 
+	/// \tparam	T	A `noexcept` function, lambda or other callable not requiring
+	/// 			any arguments (e.g. `void() noexcept`)`.
+	template <typename T>
+	class scope_guard
+	{
+
+		static_assert(
+			std::is_invocable_v<std::remove_reference_t<T>>,
+			"Types wrapped by a scope guard must be callable (functions, lambdas, etc.)"
+		);
+		static_assert(
+			!build::has_exceptions
+			|| std::is_nothrow_invocable_v<std::remove_reference_t<T>>,
+			"Callables wrapped by a scope guard must be marked noexcept"
+		);
+		static_assert(
+			!build::has_exceptions
+			|| std::is_trivially_destructible_v<std::remove_reference_t<T>>
+			|| std::is_nothrow_destructible_v<std::remove_reference_t<T>>,
+			"Callables wrapped by a scope guard must be nothrow-destructible"
+		);
+
+		private:
+			compressed_pair<T, bool> func_and_active;
+
+		public:
+
+			/// \brief	Constructs a scope_guard by wrapping a callable.
+			///
+			/// \tparam	U	 	A function, lambda or other callable with the signature `void() noexcept`.
+			/// 
+			/// \param 	func	The callable to invoke when the scope_guard goes out of scope.
+			template <typename U>
+			MUU_NODISCARD_CTOR
+			explicit constexpr scope_guard(U&& func) noexcept
+				: func_and_active{ std::forward<U>(func), true }
+			{
+				static_assert(
+					!build::has_exceptions
+					|| std::is_nothrow_constructible_v<std::remove_reference_t<T>, U&&>,
+					"A scope_guard's callable must be nothrow-constructible from its initializer"
+				);
+			}
+
+			~scope_guard() noexcept
+			{
+				if (func_and_active.second())
+					func_and_active.first()();
+			}
+
+			scope_guard(const scope_guard&) = delete;
+			scope_guard(scope_guard&&) = delete;
+			scope_guard& operator = (const scope_guard&) = delete;
+			scope_guard& operator = (scope_guard&&) = delete;
+
+			/// \brief	Dismisses the scope guard, cancelling invocation of the wrapped callable.
+			void dismiss() noexcept
+			{
+				func_and_active.second() = false;
+			}
+	};
+
+	template <typename R, typename ...P>
+	scope_guard(R(P...)noexcept) -> scope_guard<R(*)(P...)noexcept>;
+	template <typename R, typename ...P>
+	scope_guard(R(P...)) -> scope_guard<R(*)(P...)>;
+	template <typename T>
+	scope_guard(T&&) -> scope_guard<T>;
+	template <typename T>
+	scope_guard(T&) -> scope_guard<T&>;
+}
+MUU_NAMESPACE_END
 
 #undef MUU_HAS_INTRINSIC_BIT_CAST
 #undef MUU_HAS_INTRINSIC_POPCOUNT
 #undef MUU_HAS_INTRINSIC_BYTE_REVERSE
+MUU_POP_WARNINGS // MUU_DISABLE_PADDING_WARNINGS
 MUU_PRAGMA_MSVC(inline_recursion(off))

@@ -113,7 +113,6 @@ MUU_NAMESPACE_START // abi namespace
 	struct									uuid;
 	struct									semver;
 	struct									half;
-	template <typename, size_t>		struct	array;
 
 	class									blob;
 	class									string_param;
@@ -125,6 +124,8 @@ MUU_NAMESPACE_START // abi namespace
 	template <typename>				class	scope_guard;
 	template <typename, size_t>		class	tagged_ptr;
 	template <typename, typename>	class	accumulator;
+
+	template <typename, size_t = static_cast<size_t>(-1)>		class	span;
 	
 	namespace impl {}
 }
@@ -160,8 +161,8 @@ MUU_NAMESPACE_END
 /// \defgroup		hashing		Hashing
 /// \brief Utilities for generating (non-cryptographic) hashes.
 
-/// \defgroup		aligned_alloc		Aligned allocation
-/// \brief Utilities for performing (re)allocations on specific alignment boundaries.
+/// \defgroup		mem			Memory management
+/// \brief Utilities for allocating, destroying and manipulating memory.
 
 /// \brief	The root namespace for all muu functions and types.
 namespace muu { }

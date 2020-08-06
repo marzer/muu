@@ -179,10 +179,14 @@ external_links = [
 	(r'std::countr_one', 'https://en.cppreference.com/w/cpp/numeric/countr_one'),
 	(r'std::popcount', 'https://en.cppreference.com/w/cpp/numeric/popcount'),
 	(r'std::has_single_bit', 'https://en.cppreference.com/w/cpp/numeric/has_single_bit'),
+	(r'std::to_address', 'https://en.cppreference.com/w/cpp/memory/to_address'),
+	(r'std::spans?', 'https://en.cppreference.com/w/cpp/container/span'),
+	(r'std::type_identity(?:_t)?', 'https://en.cppreference.com/w/cpp/types/type_identity'),
 	(r'std::min', 'https://en.cppreference.com/w/cpp/algorithm/min'),
 	(r'std::max', 'https://en.cppreference.com/w/cpp/algorithm/max'),
 	(r'std::clamp', 'https://en.cppreference.com/w/cpp/algorithm/clamp'),
 	(r'std::numeric_limits', 'https://en.cppreference.com/w/cpp/types/numeric_limits'),
+	(r'std::as_(writable_)?bytes', 'https://en.cppreference.com/w/cpp/container/span/as_bytes'),
 	(r'std::initializer_lists?', 'https://en.cppreference.com/w/cpp/utility/initializer_list'),
 	(
 		r'(?:L?P)?(?:'

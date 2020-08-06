@@ -409,6 +409,10 @@
 	#define MUU_API
 #endif
 
+#ifndef MUU_EXTENDED_LITERALS
+	#define MUU_EXTENDED_LITERALS 0
+#endif
+
 //=====================================================================================================================
 // ATTRIBUTES, UTILITY MACROS ETC
 //=====================================================================================================================
@@ -434,6 +438,10 @@
 #else
 	#define MUU_HAS_INCLUDE(header)		0
 #endif
+#if MUU_HAS_INCLUDE(<version>)
+	#include <version>
+#endif
+
 #ifndef MUU_HAS_BUILTIN
 	#define MUU_HAS_BUILTIN(name)		0
 #endif
@@ -593,6 +601,12 @@
 	#define MUU_CONSTEVAL				constexpr
 #endif
 
+#if !defined(DOXYGEN) && defined(__cpp_conditional_explicit)
+	#define MUU_EXPLICIT(...)			explicit(__VA_ARGS__)
+#else
+	#define MUU_EXPLICIT(...)			explicit
+#endif
+
 #define MUU_PREPEND_R_1(S)				R##S
 #define MUU_PREPEND_R(S)				MUU_PREPEND_R_1(S)
 #define MUU_ADD_PARENTHESES_1(S)		(S)
@@ -608,6 +622,28 @@
 #define MUU_EVAL_1(T, F)		T
 #define MUU_EVAL_0(T, F)		F
 #define MUU_EVAL(cond, T, F)	MUU_CONCAT(MUU_EVAL_, cond)(T, F)
+
+//=====================================================================================================================
+// SFINAE AND CONCEPTS
+//=====================================================================================================================
+
+#ifdef DOXYGEN
+	#define MUU_SFINAE(...)
+	#define MUU_SFINAE_NO_CONCEPTS(...)
+	#define MUU_REQUIRES(...)
+	#define MUU_CONCEPTS 0
+#else
+	#define MUU_SFINAE(...)						, std::enable_if_t<__VA_ARGS__, int> = 0
+	#if defined(__cpp_concepts) && defined(__cpp_lib_concepts) && !MUU_INTELLISENSE
+		#define MUU_CONCEPTS 1
+		#define MUU_REQUIRES(...)				requires(__VA_ARGS__)
+		#define MUU_SFINAE_NO_CONCEPTS(...)
+	#else
+		#define MUU_CONCEPTS 0
+		#define MUU_REQUIRES(...)
+		#define MUU_SFINAE_NO_CONCEPTS(...)		MUU_SFINAE(__VA_ARGS__)
+	#endif
+#endif
 
 //=====================================================================================================================
 // WHAT THE HELL IS WCHAR_T?
@@ -988,7 +1024,7 @@ MUU_POP_WARNINGS
 /// 	}
 /// \ecpp
 /// \see [\[\[trivial_abi\]\]](https://quuxplusone.github.io/blog/2018/05/02/trivial-abi-101/)
-///
+/// 
 /// \def MUU_LIKELY
 /// \brief Expands a conditional to include an optimizer intrinsic (or C++20's [[likely]], if available)
 /// 	   indicating that an if/else conditional is the likely path.
@@ -999,8 +1035,8 @@ MUU_POP_WARNINGS
 /// 	}
 /// \ecpp
 /// \see
-///		- [\[\[likely\]\]](https://en.cppreference.com/w/cpp/language/attributes/likely)
-///		- [__builtin_expect()](https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html)
+/// 	- [\[\[likely\]\]](https://en.cppreference.com/w/cpp/language/attributes/likely)
+/// 	- [__builtin_expect()](https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html)
 /// 	 
 /// \def MUU_UNLIKELY
 /// \brief Expands a conditional to include an optimizer intrinsic (or C++20's [[unlikely]], if available)
@@ -1012,8 +1048,8 @@ MUU_POP_WARNINGS
 /// 	}
 /// \ecpp
 /// \see
-///		- [\[\[likely\]\]](https://en.cppreference.com/w/cpp/language/attributes/likely)
-///		- [__builtin_expect()](https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html)
+/// 	- [\[\[likely\]\]](https://en.cppreference.com/w/cpp/language/attributes/likely)
+/// 	- [__builtin_expect()](https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html)
 /// 
 /// \def MUU_NO_UNIQUE_ADDRESS
 /// \brief Expands to C++20's `[[no_unique_address]]` if supported by your compiler.
@@ -1026,12 +1062,12 @@ MUU_POP_WARNINGS
 /// 		MUU_NODISCARD_CTOR
 /// 		raii_lock() noexcept
 /// 		{
-///				super_special_global_lock();
+/// 			super_special_global_lock();
 /// 		}
 /// 		
 /// 		~raii_lock() noexcept
 /// 		{
-///				super_special_global_unlock();
+/// 			super_special_global_unlock();
 /// 		}
 /// 	};
 /// 	
@@ -1065,8 +1101,8 @@ MUU_POP_WARNINGS
 /// \brief Stringifies the input, converting it verbatim into a raw string literal.
 /// \detail \cpp
 /// // these are equivalent:
-///	constexpr auto str1 = MUU_MAKE_RAW_STRING("It's trap!" the admiral cried.);
-///	constexpr auto str2 = R"("It's trap!" the admiral cried.)";
+/// constexpr auto str1 = MUU_MAKE_RAW_STRING("It's trap!" the admiral cried.);
+/// constexpr auto str2 = R"("It's trap!" the admiral cried.)";
 /// \ecpp
 /// \see [String literals in C++](https://en.cppreference.com/w/cpp/language/string_literal)
 /// 
@@ -1097,6 +1133,13 @@ MUU_POP_WARNINGS
 /// 
 /// \def MUU_OFFSETOF(type, member)
 /// \brief Constexpr-friendly alias of `offsetof()`.
+/// 
+/// \def MUU_CONCEPTS
+/// \brief `1` when both the compiler and standard library implementation support C++20 constraints and concepts, otherwise `0`.
+/// \see [Constraints and concepts](https://en.cppreference.com/w/cpp/language/constraints)
+/// 
+/// \def MUU_EXPLICIT(...)
+/// \brief Expands a C++20 conditional `explicit(...)` specifier if supported by the compiler, otherwise `explicit`.
 ///
 /// @}
 

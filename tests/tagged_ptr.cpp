@@ -26,52 +26,62 @@ struct tagged_ptr_static_checks final
 	using tag_type = typename tptr::tag_type;
 	static_assert(sizeof(tag_type) * build::bits_per_byte >= tptr::tag_bit_count);
 	static_assert(tptr::max_tag == bit_fill_right<tag_type>(tptr::tag_bit_count));
+
+	// to_address
+	static_assert(std::is_same_v<decltype(to_address(std::declval<tptr>())), T*>);
 };
+
+#define CHECK_TRAITS(type, min_align)											\
+	template struct tagged_ptr_static_checks<type, min_align>;					\
+	template struct tagged_ptr_static_checks<const type, min_align>;			\
+	template struct tagged_ptr_static_checks<volatile type, min_align>;			\
+	template struct tagged_ptr_static_checks<const volatile type, min_align>
+
 #if MUU_ARCH_AMD64
-template struct tagged_ptr_static_checks<void, 1    >;
+CHECK_TRAITS( void,        1 );
 #endif
-template struct tagged_ptr_static_checks<void, 2    >;
-template struct tagged_ptr_static_checks<void, 4    >;
-template struct tagged_ptr_static_checks<void, 8    >;
-template struct tagged_ptr_static_checks<void, 16   >;
-template struct tagged_ptr_static_checks<void, 32   >;
-template struct tagged_ptr_static_checks<void, 64   >;
-template struct tagged_ptr_static_checks<void, 128  >;
-template struct tagged_ptr_static_checks<void, 256  >;
-template struct tagged_ptr_static_checks<void, 512  >;
-template struct tagged_ptr_static_checks<void, 1024 >;
-template struct tagged_ptr_static_checks<void, 2048 >;
-template struct tagged_ptr_static_checks<void, 4096 >;
-template struct tagged_ptr_static_checks<void, 8192 >;
-template struct tagged_ptr_static_checks<void, 16384>;
-template struct tagged_ptr_static_checks<void, 32768>;
-template struct tagged_ptr_static_checks<int32_t, 4    >;
-template struct tagged_ptr_static_checks<int32_t, 8    >;
-template struct tagged_ptr_static_checks<int32_t, 16   >;
-template struct tagged_ptr_static_checks<int32_t, 32   >;
-template struct tagged_ptr_static_checks<int32_t, 64   >;
-template struct tagged_ptr_static_checks<int32_t, 128  >;
-template struct tagged_ptr_static_checks<int32_t, 256  >;
-template struct tagged_ptr_static_checks<int32_t, 512  >;
-template struct tagged_ptr_static_checks<int32_t, 1024 >;
-template struct tagged_ptr_static_checks<int32_t, 2048 >;
-template struct tagged_ptr_static_checks<int32_t, 4096 >;
-template struct tagged_ptr_static_checks<int32_t, 8192 >;
-template struct tagged_ptr_static_checks<int32_t, 16384>;
-template struct tagged_ptr_static_checks<int32_t, 32768>;
-template struct tagged_ptr_static_checks<int64_t, 8    >;
-template struct tagged_ptr_static_checks<int64_t, 16   >;
-template struct tagged_ptr_static_checks<int64_t, 32   >;
-template struct tagged_ptr_static_checks<int64_t, 64   >;
-template struct tagged_ptr_static_checks<int64_t, 128  >;
-template struct tagged_ptr_static_checks<int64_t, 256  >;
-template struct tagged_ptr_static_checks<int64_t, 512  >;
-template struct tagged_ptr_static_checks<int64_t, 1024 >;
-template struct tagged_ptr_static_checks<int64_t, 2048 >;
-template struct tagged_ptr_static_checks<int64_t, 4096 >;
-template struct tagged_ptr_static_checks<int64_t, 8192 >;
-template struct tagged_ptr_static_checks<int64_t, 16384>;
-template struct tagged_ptr_static_checks<int64_t, 32768>;
+CHECK_TRAITS( void,        2 );
+CHECK_TRAITS( void,        4 );
+CHECK_TRAITS( void,        8 );
+CHECK_TRAITS( void,       16 );
+CHECK_TRAITS( void,       32 );
+CHECK_TRAITS( void,       64 );
+CHECK_TRAITS( void,      128 );
+CHECK_TRAITS( void,      256 );
+CHECK_TRAITS( void,      512 );
+CHECK_TRAITS( void,     1024 );
+CHECK_TRAITS( void,     2048 );
+CHECK_TRAITS( void,     4096 );
+CHECK_TRAITS( void,     8192 );
+CHECK_TRAITS( void,    16384 );
+CHECK_TRAITS( void,    32768 );
+CHECK_TRAITS( int32_t,     4 );
+CHECK_TRAITS( int32_t,     8 );
+CHECK_TRAITS( int32_t,    16 );
+CHECK_TRAITS( int32_t,    32 );
+CHECK_TRAITS( int32_t,    64 );
+CHECK_TRAITS( int32_t,   128 );
+CHECK_TRAITS( int32_t,   256 );
+CHECK_TRAITS( int32_t,   512 );
+CHECK_TRAITS( int32_t,  1024 );
+CHECK_TRAITS( int32_t,  2048 );
+CHECK_TRAITS( int32_t,  4096 );
+CHECK_TRAITS( int32_t,  8192 );
+CHECK_TRAITS( int32_t, 16384 );
+CHECK_TRAITS( int32_t, 32768 );
+CHECK_TRAITS( int64_t,     8 );
+CHECK_TRAITS( int64_t,    16 );
+CHECK_TRAITS( int64_t,    32 );
+CHECK_TRAITS( int64_t,    64 );
+CHECK_TRAITS( int64_t,   128 );
+CHECK_TRAITS( int64_t,   256 );
+CHECK_TRAITS( int64_t,   512 );
+CHECK_TRAITS( int64_t,  1024 );
+CHECK_TRAITS( int64_t,  2048 );
+CHECK_TRAITS( int64_t,  4096 );
+CHECK_TRAITS( int64_t,  8192 );
+CHECK_TRAITS( int64_t, 16384 );
+CHECK_TRAITS( int64_t, 32768 );
 
 // check that noexcept propagation works correctly for function pointers
 static_assert(!noexcept(std::declval<tagged_ptr<int(), 4>>()()));

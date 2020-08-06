@@ -602,29 +602,27 @@ MUU_NAMESPACE_START
 
 	namespace impl
 	{
-		// hex/bit patterns for constants were generated using this: http://weitz.de/ieee/
-
 		template <>
 		struct numeric_limits<half>
 		{
-			static constexpr half lowest = half::from_bits(0xFBFF_u16);
-			static constexpr half highest = half::from_bits(0x7BFF_u16);
+			static constexpr half lowest		= half::from_bits(0b1'11110'1111111111_u16);
+			static constexpr half highest		= half::from_bits(0b0'11110'1111111111_u16);
 		};
 
 		template <>
 		struct integer_positive_constants<half>
 		{
-			static constexpr half zero	= half::from_bits(0b0'00000'0000000000_u16);
-			static constexpr half one	= half::from_bits(0b0'01111'0000000000_u16);
-			static constexpr half two	= half::from_bits(0b0'10000'0000000000_u16);
-			static constexpr half three	= half::from_bits(0b0'10000'1000000000_u16);
-			static constexpr half four	= half::from_bits(0b0'10001'0000000000_u16);
-			static constexpr half five	= half::from_bits(0b0'10001'0100000000_u16);
-			static constexpr half six	= half::from_bits(0b0'10001'1000000000_u16);
-			static constexpr half seven	= half::from_bits(0b0'10001'1100000000_u16);
-			static constexpr half eight	= half::from_bits(0b0'10010'0000000000_u16);
-			static constexpr half nine	= half::from_bits(0b0'10010'0010000000_u16);
-			static constexpr half ten	= half::from_bits(0b0'10010'0100000000_u16);
+			static constexpr half zero			= half::from_bits(0b0'00000'0000000000_u16);
+			static constexpr half one			= half::from_bits(0b0'01111'0000000000_u16);
+			static constexpr half two			= half::from_bits(0b0'10000'0000000000_u16);
+			static constexpr half three			= half::from_bits(0b0'10000'1000000000_u16);
+			static constexpr half four			= half::from_bits(0b0'10001'0000000000_u16);
+			static constexpr half five			= half::from_bits(0b0'10001'0100000000_u16);
+			static constexpr half six			= half::from_bits(0b0'10001'1000000000_u16);
+			static constexpr half seven			= half::from_bits(0b0'10001'1100000000_u16);
+			static constexpr half eight			= half::from_bits(0b0'10010'0000000000_u16);
+			static constexpr half nine			= half::from_bits(0b0'10010'0010000000_u16);
+			static constexpr half ten			= half::from_bits(0b0'10010'0100000000_u16);
 		};
 
 		template <>
@@ -655,12 +653,41 @@ MUU_NAMESPACE_START
 		template <>
 		struct floating_point_named_constants<half>
 		{
-			static constexpr half pi			= half::from_bits(0b0'10000'1001001000_u16);
-			static constexpr half two_pi		= half::from_bits(0b0'10001'1001001000_u16);
-			static constexpr half e				= half::from_bits(0b0'10000'0101110000_u16);
-
-			static constexpr half one_over_two	= half::from_bits(0b0'01110'0000000000_u16);
-			static constexpr half three_over_two = half::from_bits(0b0'01111'1000000000_u16);
+			static constexpr half one_over_two          = half::from_bits( 0b0'01110'0000000000_u16 );
+			static constexpr half one_over_three        = half::from_bits( 0b0'01101'0101010110_u16 );
+			static constexpr half one_over_four         = half::from_bits( 0b0'01101'0000000000_u16 );
+			static constexpr half one_over_five         = half::from_bits( 0b0'01100'1001100111_u16 );
+			static constexpr half one_over_six          = half::from_bits( 0b0'01100'0101010110_u16 );
+			static constexpr half root_one_over_two     = half::from_bits( 0b0'01110'0110101000_u16 );
+			static constexpr half root_one_over_three   = half::from_bits( 0b0'01110'0010011111_u16 );
+			static constexpr half root_one_over_four    = half::from_bits( 0b0'01110'0000000000_u16 );
+			static constexpr half root_one_over_five    = half::from_bits( 0b0'01101'1100101000_u16 );
+			static constexpr half root_one_over_six     = half::from_bits( 0b0'01101'1010001000_u16 );
+			static constexpr half two_over_three        = half::from_bits( 0b0'01110'0101010110_u16 );
+			static constexpr half two_over_five         = half::from_bits( 0b0'01101'1001100111_u16 );
+			static constexpr half root_two_over_three   = half::from_bits( 0b0'01110'1010001000_u16 );
+			static constexpr half root_two_over_five    = half::from_bits( 0b0'01110'0100010000_u16 );
+			static constexpr half three_over_two        = half::from_bits( 0b0'01111'1000000000_u16 );
+			static constexpr half three_over_four       = half::from_bits( 0b0'01110'1000000000_u16 );
+			static constexpr half three_over_five       = half::from_bits( 0b0'01110'0011001101_u16 );
+			static constexpr half root_three_over_two   = half::from_bits( 0b0'01111'0011100110_u16 );
+			static constexpr half root_three_over_four  = half::from_bits( 0b0'01110'1011101110_u16 );
+			static constexpr half root_three_over_five  = half::from_bits( 0b0'01110'1000110011_u16 );
+			static constexpr half pi                    = half::from_bits( 0b0'10000'1001001001_u16 );
+			static constexpr half pi_over_two           = half::from_bits( 0b0'01111'1001001001_u16 );
+			static constexpr half pi_over_three         = half::from_bits( 0b0'01111'0000110001_u16 );
+			static constexpr half pi_over_four          = half::from_bits( 0b0'01110'1001001001_u16 );
+			static constexpr half pi_over_five          = half::from_bits( 0b0'01110'0100000111_u16 );
+			static constexpr half pi_over_six           = half::from_bits( 0b0'01110'0000110001_u16 );
+			static constexpr half two_pi                = half::from_bits( 0b0'10001'1001001001_u16 );
+			static constexpr half root_pi               = half::from_bits( 0b0'01111'1100010111_u16 );
+			static constexpr half root_pi_over_two      = half::from_bits( 0b0'01111'0100000100_u16 );
+			static constexpr half root_pi_over_three    = half::from_bits( 0b0'01111'0000011000_u16 );
+			static constexpr half root_pi_over_four     = half::from_bits( 0b0'01110'1100010111_u16 );
+			static constexpr half root_pi_over_five     = half::from_bits( 0b0'01110'1001011000_u16 );
+			static constexpr half root_pi_over_six      = half::from_bits( 0b0'01110'0111001010_u16 );
+			static constexpr half root_two_pi           = half::from_bits( 0b0'10000'0100000100_u16 );
+			static constexpr half e                     = half::from_bits( 0b0'10000'0101110000_u16 );
 		};
 
 	}

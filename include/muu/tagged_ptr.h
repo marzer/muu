@@ -14,7 +14,7 @@
 	#define MUU_TPTR_ASSERT(...)	(void)0
 #else
 	#define MUU_TPTR_ATTR(attr)
-	#define MUU_TPTR_ASSERT(...)	MUU_ASSERT(__VA_ARGS__)
+	#define MUU_TPTR_ASSERT(...)	do { if (::muu::is_constant_evaluated()) MUU_ASSERT(__VA_ARGS__); } while(false)
 #endif
 
 MUU_PRAGMA_MSVC(inline_recursion(on))
@@ -607,44 +607,53 @@ MUU_NAMESPACE_START
 				return lhs.bits != rhs.bits;
 			}
 	};
+	#ifndef DOXYGEN
+	tagged_ptr(nullptr_t)							-> tagged_ptr<impl::tptr_nullptr_deduced_tag, 1_sz>;
+	template <typename T> tagged_ptr(nullptr_t, T)	-> tagged_ptr<impl::tptr_nullptr_deduced_tag, 1_sz>;
+	template <typename T, typename U>	tagged_ptr(T*, U)	-> tagged_ptr<T>;
+	template <typename T>				tagged_ptr(T*)		-> tagged_ptr<T>;
+	#endif
 
-	// bogus deduction guides for nullptr_t to force the tptr_nullptr_deduced_tag static_assert to fail
-	template <typename T>
-	tagged_ptr(nullptr_t, T) -> tagged_ptr<impl::tptr_nullptr_deduced_tag, 1_sz>;
-	tagged_ptr(nullptr_t) -> tagged_ptr<impl::tptr_nullptr_deduced_tag, 1_sz>;
+	namespace impl
+	{
+		template <typename T, size_t MinAlign, bool = !std::is_void_v<T>>
+		struct tagged_pointer_traits
+		{
+			using pointer = muu::tagged_ptr<T, MinAlign>;
+			using element_type = T;
+			using difference_type = ptrdiff_t;
+			template <typename U>
+			using rebind = muu::tagged_ptr<U, MinAlign>;
 
-	// deduction guides
-	template <typename T, typename U>
-	tagged_ptr(T*, U) -> tagged_ptr<T>;
-	template <typename T>
-	tagged_ptr(T*) -> tagged_ptr<T>;
+			constexpr static element_type* to_address(const pointer& p) noexcept
+			{
+				return p.ptr();
+			}
+		};
+
+		template <typename T, size_t MinAlign>
+		struct tagged_pointer_traits<T, MinAlign, true> : tagged_pointer_traits<T, MinAlign, false>
+		{
+			using pointer = muu::tagged_ptr<T, MinAlign>;
+			using element_type = T;
+
+			constexpr static pointer pointer_to(element_type& r) noexcept
+			{
+				return pointer{ &r };
+			}
+		};
+	}
 }
 MUU_NAMESPACE_END
 
 namespace std
 {
 	template <typename T, size_t MinAlign>
-	struct pointer_traits<muu::tagged_ptr<T, MinAlign>>
-	{
-		using pointer = muu::tagged_ptr<T, MinAlign>;
-		using element_type = T;
-		using difference_type = ptrdiff_t;
-		template <typename U>
-		using rebind = muu::tagged_ptr<U, MinAlign>;
-
-		static pointer pointer_to(element_type& r) noexcept
-		{
-			return pointer{ &r };
-		}
-
-		static element_type* to_address(pointer p) noexcept
-		{
-			return p.ptr();
-		}
-	};
+	struct pointer_traits<muu::tagged_ptr<T, MinAlign>> : muu::impl::tagged_pointer_traits<T, MinAlign> {};
 }
 
 MUU_PRAGMA_MSVC(inline_recursion(off))
 
 #undef MUU_TPTR_ATTR
 #undef MUU_TPTR_ASSERT
+

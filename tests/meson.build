@@ -2,12 +2,13 @@ test_sources = [
 	'accumulator.cpp',
 	'aligned_alloc.cpp',
 	'blob.cpp',
-	'core.cpp',
+	'intrinsics.cpp',
 	'half.cpp',
 	'hashing.cpp',
 	'main.cpp',
 	'meta.cpp',
 	'scope_guard.cpp',
+	'span.cpp',
 	'strings.cpp',
 	'tagged_ptr.cpp',
 	'tests.cpp',
@@ -258,7 +259,8 @@ foreach cpp20 : cpp20_modes
 			if compiler_supports_int128
 				args += '-DSHOULD_HAVE_INT128=1'
 			endif
-			
+		
+		
 			if compiler_supports_float128
 				args += '-DSHOULD_HAVE_FLOAT128=1'
 			endif
@@ -267,6 +269,7 @@ foreach cpp20 : cpp20_modes
 				if compiler.get_id() == 'gcc'
 					args += '-fext-numeric-literals'
 				endif
+				args += '-DMUU_EXTENDED_LITERALS=1'
 			endif
 
 			if counter % 4 == 2

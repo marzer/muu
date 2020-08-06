@@ -11,7 +11,7 @@
 
 MUU_NAMESPACE_START
 {
-	/// \addtogroup		aligned_alloc
+	/// \addtogroup		mem
 	/// @{
 
 	/// \brief	Allocates memory with a specific alignment boundary.

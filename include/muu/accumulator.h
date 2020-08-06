@@ -56,7 +56,7 @@ MUU_NAMESPACE_START
 			using value_type = ValueType;
 
 		private:
-			impl::compressed_pair<Impl, size_t> impl_and_count{};
+			compressed_pair<Impl, size_t> impl_and_count{};
 
 		public:
 
@@ -115,7 +115,7 @@ MUU_NAMESPACE_START
 			/// \brief	Constructs an accumulator with one sample.
 			MUU_NODISCARD_CTOR
 			constexpr accumulator(const value_type& sample)
-				noexcept(std::is_nothrow_default_constructible_v<Impl> && noexcept(impl.add(sample)))
+				noexcept(std::is_nothrow_default_constructible_v<Impl> && noexcept(std::declval<Impl>().add(sample)))
 			{
 				add(sample);
 			}

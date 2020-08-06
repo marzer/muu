@@ -19,16 +19,10 @@
     <ClInclude Include="..\include\muu\uuid.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\muu\thread_pool.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\muu\tagged_ptr.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\include\muu\semver.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\muu\scope_guard.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\catch2.h">
@@ -99,6 +93,12 @@
     </ClInclude>
     <ClInclude Include="..\include\muu\impl\random.hpp">
       <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\thread_pool.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\span.h">
+      <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
