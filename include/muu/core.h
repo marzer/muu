@@ -3125,6 +3125,7 @@ MUU_NAMESPACE_START
 	};
 
 	#ifndef DOXYGEN
+	template <typename F, typename S> compressed_pair(F, S) -> compressed_pair<F, S>;
 
 	template <typename First, typename Second>
 	class MUU_EMPTY_BASES compressed_pair<First, Second, 1> : private First

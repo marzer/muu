@@ -1,251 +1,236 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
 
-	<Type Name="muu::half">
-		<!--  bits & 0x7C00 == 0x7C00   ::  Infinity or NaN -->
-		<!--  bits & 0x03FF == 0        ::  No mantissa (Infinity if exp is all 1's) -->
-		<!--  bits & 0x8000 != 0        ::  Negative -->
-		<DisplayString Condition="((int)bits &amp; 0x7C00) == 0x7C00 &amp;&amp; ((int)bits &amp; 0x03FF) == 0 &amp;&amp; ((int)bits &amp; 0x8000) == 0">inf</DisplayString>
-		<DisplayString Condition="((int)bits &amp; 0x7C00) == 0x7C00 &amp;&amp; ((int)bits &amp; 0x03FF) == 0 &amp;&amp; ((int)bits &amp; 0x8000) != 0">-inf</DisplayString>
-		<DisplayString Condition="((int)bits &amp; 0x7C00) == 0x7C00 &amp;&amp; ((int)bits &amp; 0x03FF) != 0">nan</DisplayString>
-		<DisplayString Condition="((int)bits &amp; 0x7C00) == 0x7C00 &amp;&amp; ((int)bits &amp; 0x03FF) != 0">nan</DisplayString>
-		<!--<DisplayString>{*reinterpret_cast&lt;const float*&gt;(&amp;((((unsigned int)bits &amp; 0x7C00u) == 0u ? 0u : (((unsigned int)bits &amp; 0x7FFFu) &lt;&lt; 13) + 0x38000000u) | (((unsigned int)bits &amp; 0x8000u) &lt;&lt; 16)));}</DisplayString> -->
-		<DisplayString>Raw bits: {bits}</DisplayString>
+	<Type Name="muu::v0::half">
+		<Intrinsic Name="sign" Expression="(((unsigned)bits &amp; 0x8000u) &gt;&gt; 15)" />
+		<Intrinsic Name="exponent" Expression="(((unsigned)bits &amp; 0x7C00u) &gt;&gt; 10)" />
+		<Intrinsic Name="mantissa" Expression="((unsigned)bits &amp; 0x03FFu)" />
+		<Intrinsic Name="is_infinity" Expression="exponent() == 0b11111u &amp;&amp; mantissa() == 0u" />
+		<Intrinsic Name="is_nan" Expression="exponent() == 0b11111u &amp;&amp; mantissa() != 0u" />
+		<DisplayString Condition="is_nan()">nan</DisplayString>
+		<DisplayString Condition="is_infinity() &amp;&amp; sign() == 1u">-inf</DisplayString>
+		<DisplayString Condition="is_infinity()">inf</DisplayString>
+		<DisplayString Condition="exponent() == 0u &amp;&amp; mantissa() == 0u &amp;&amp; sign() == 1u">-0.00000000</DisplayString>
+		<DisplayString Condition="exponent() == 0u &amp;&amp; mantissa() == 0u">0.00000000</DisplayString>
+		<DisplayString Condition="exponent() == 0u &amp;&amp; mantissa() != 0u">#DEN</DisplayString>
+		<DisplayString Condition="exponent() == 0u">   { (1.0f / (1 &lt;&lt; 14)) * (-2 * sign() + 1.0f) * (mantissa() / 1024.0f) }</DisplayString>
+		<DisplayString Condition="exponent() &lt; 15u">{ (1.0f / (1 &lt;&lt; (15u - exponent()))) * (-2 * (signed)sign() + 1.0f) * (1.0f + mantissa() / 1024.0f) }</DisplayString>
+		<DisplayString Condition="exponent() &gt;= 15u">{ (1 &lt;&lt; (exponent() - 15u)) * (-2 * (signed)sign() + 1.0f) * (1.0f + mantissa() / 1024.0f) }</DisplayString>
+		<DisplayString>Raw bits: {bits,bb}</DisplayString>
+		<Expand>
+			<Synthetic Name="[sign]" ExcludeView="simple">
+				<DisplayString>{(unsigned short)sign(),bb} ({sign(),d})</DisplayString>
+			</Synthetic>
+			<Synthetic Name="[exponent]" ExcludeView="simple">
+				<DisplayString>{(unsigned short)exponent(),bb} ({exponent(),d})</DisplayString>
+			</Synthetic>
+			<Synthetic Name="[mantissa]" ExcludeView="simple">
+				<DisplayString>{(unsigned short)mantissa(),bb} ({mantissa(),d})</DisplayString>
+			</Synthetic>
+		</Expand>
 	</Type>
 
-	<Type Name="muu::tagged_ptr&lt;*,*&gt;">
+	<Type Name="muu::v0::tagged_ptr&lt;*,*&gt;">
+		<Intrinsic Name="offset_64" Expression="16" />
+		<Intrinsic Name="offset_32" Expression="0" />
+
+		<Intrinsic Name="tag_mask_64" Expression="
+			(1ull
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 1  ? (1ull &lt;&lt;  1) : 0ull)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 2  ? (1ull &lt;&lt;  2) : 0ull)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 3  ? (1ull &lt;&lt;  3) : 0ull)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 4  ? (1ull &lt;&lt;  4) : 0ull)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 5  ? (1ull &lt;&lt;  5) : 0ull)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 6  ? (1ull &lt;&lt;  6) : 0ull)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 7  ? (1ull &lt;&lt;  7) : 0ull)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 8  ? (1ull &lt;&lt;  8) : 0ull)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 9  ? (1ull &lt;&lt;  9) : 0ull)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 10 ? (1ull &lt;&lt; 10) : 0ull)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 11 ? (1ull &lt;&lt; 11) : 0ull)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 12 ? (1ull &lt;&lt; 12) : 0ull)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 13 ? (1ull &lt;&lt; 13) : 0ull)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 14 ? (1ull &lt;&lt; 14) : 0ull)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 15 ? (1ull &lt;&lt; 15) : 0ull)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 16 ? (1ull &lt;&lt; 16) : 0ull)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 17 ? (1ull &lt;&lt; 17) : 0ull)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 18 ? (1ull &lt;&lt; 18) : 0ull)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 19 ? (1ull &lt;&lt; 19) : 0ull)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 20 ? (1ull &lt;&lt; 20) : 0ull)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 21 ? (1ull &lt;&lt; 21) : 0ull)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 22 ? (1ull &lt;&lt; 22) : 0ull)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 23 ? (1ull &lt;&lt; 23) : 0ull)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 24 ? (1ull &lt;&lt; 24) : 0ull)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 25 ? (1ull &lt;&lt; 25) : 0ull))
+		" />
+		
+		<Intrinsic Name="tag_mask_32" Expression="
+			(1u
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_32()) > 1  ? (1u &lt;&lt;  1) : 0u)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_32()) > 2  ? (1u &lt;&lt;  2) : 0u)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_32()) > 3  ? (1u &lt;&lt;  3) : 0u)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_32()) > 4  ? (1u &lt;&lt;  4) : 0u)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_32()) > 5  ? (1u &lt;&lt;  5) : 0u)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_32()) > 6  ? (1u &lt;&lt;  6) : 0u)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_32()) > 7  ? (1u &lt;&lt;  7) : 0u)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_32()) > 8  ? (1u &lt;&lt;  8) : 0u)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_32()) > 9  ? (1u &lt;&lt;  9) : 0u)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_32()) > 10 ? (1u &lt;&lt; 10) : 0u)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_32()) > 11 ? (1u &lt;&lt; 11) : 0u)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_32()) > 12 ? (1u &lt;&lt; 12) : 0u)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_32()) > 13 ? (1u &lt;&lt; 13) : 0u)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_32()) > 14 ? (1u &lt;&lt; 14) : 0u)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_32()) > 15 ? (1u &lt;&lt; 15) : 0u)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_32()) > 16 ? (1u &lt;&lt; 16) : 0u)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_32()) > 17 ? (1u &lt;&lt; 17) : 0u)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_32()) > 18 ? (1u &lt;&lt; 18) : 0u)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_32()) > 19 ? (1u &lt;&lt; 19) : 0u)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_32()) > 20 ? (1u &lt;&lt; 20) : 0u)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_32()) > 21 ? (1u &lt;&lt; 21) : 0u)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_32()) > 22 ? (1u &lt;&lt; 22) : 0u)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_32()) > 23 ? (1u &lt;&lt; 23) : 0u)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_32()) > 24 ? (1u &lt;&lt; 24) : 0u)
+			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_32()) > 25 ? (1u &lt;&lt; 25) : 0u))
+		" />
+
+		<Intrinsic Name="value_mask_64" Expression="(~tag_mask_64())" />
+		<Intrinsic Name="value_mask_32" Expression="(~tag_mask_32())" />
+
 		<!-- 64-bit -->
 		<DisplayString Condition="sizeof(void*) == 8">
-			{
-				(
-					(
-						bits &amp;
-						~(
-							1ull
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 1  ? (1 &lt;&lt; 1) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 2  ? (1 &lt;&lt; 2) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 3  ? (1 &lt;&lt; 3) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 4  ? (1 &lt;&lt; 4) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 5  ? (1 &lt;&lt; 5) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 6  ? (1 &lt;&lt; 6) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 7  ? (1 &lt;&lt; 7) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 8  ? (1 &lt;&lt; 8) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 9  ? (1 &lt;&lt; 9) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 10 ? (1 &lt;&lt; 10) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 11 ? (1 &lt;&lt; 11) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 12 ? (1 &lt;&lt; 12) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 13 ? (1 &lt;&lt; 13) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 14 ? (1 &lt;&lt; 14) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 15 ? (1 &lt;&lt; 15) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 16 ? (1 &lt;&lt; 16) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 17 ? (1 &lt;&lt; 17) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 18 ? (1 &lt;&lt; 18) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 19 ? (1 &lt;&lt; 19) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 20 ? (1 &lt;&lt; 20) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 21 ? (1 &lt;&lt; 21) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 22 ? (1 &lt;&lt; 22) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 23 ? (1 &lt;&lt; 23) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 24 ? (1 &lt;&lt; 24) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 25 ? (1 &lt;&lt; 25) : 0)
-						)
-					) >> 16
-				)
-			,x}
+			{(bits &amp; value_mask_64()) >> offset_64(), x}
 		</DisplayString>
 
 		<!-- 32-bit -->
 		<DisplayString Condition="sizeof(void*) == 4">
-			{
-				(
-					(
-						bits &amp;
-						~(
-							1ull
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 1  ? (1 &lt;&lt; 1) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 2  ? (1 &lt;&lt; 2) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 3  ? (1 &lt;&lt; 3) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 4  ? (1 &lt;&lt; 4) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 5  ? (1 &lt;&lt; 5) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 6  ? (1 &lt;&lt; 6) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 7  ? (1 &lt;&lt; 7) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 8  ? (1 &lt;&lt; 8) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 9  ? (1 &lt;&lt; 9) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 10 ? (1 &lt;&lt; 10) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 11 ? (1 &lt;&lt; 11) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 12 ? (1 &lt;&lt; 12) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 13 ? (1 &lt;&lt; 13) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 14 ? (1 &lt;&lt; 14) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 15 ? (1 &lt;&lt; 15) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 16 ? (1 &lt;&lt; 16) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 17 ? (1 &lt;&lt; 17) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 18 ? (1 &lt;&lt; 18) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 19 ? (1 &lt;&lt; 19) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 20 ? (1 &lt;&lt; 20) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 21 ? (1 &lt;&lt; 21) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 22 ? (1 &lt;&lt; 22) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 23 ? (1 &lt;&lt; 23) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 24 ? (1 &lt;&lt; 24) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 25 ? (1 &lt;&lt; 25) : 0)
-						)
-					)
-				)
-			,x}
+			{(bits &amp; value_mask_32()) >> offset_32(), x}
 		</DisplayString>
 
 		<Expand>
 			<!-- 64-bit -->
 			<Item Name="[value]" Condition="sizeof(void*) == 8">
-				($T1*)
-				(
-					(
-						bits &amp;
-						~(
-							1ull
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 1  ? (1 &lt;&lt; 1) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 2  ? (1 &lt;&lt; 2) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 3  ? (1 &lt;&lt; 3) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 4  ? (1 &lt;&lt; 4) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 5  ? (1 &lt;&lt; 5) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 6  ? (1 &lt;&lt; 6) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 7  ? (1 &lt;&lt; 7) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 8  ? (1 &lt;&lt; 8) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 9  ? (1 &lt;&lt; 9) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 10 ? (1 &lt;&lt; 10) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 11 ? (1 &lt;&lt; 11) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 12 ? (1 &lt;&lt; 12) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 13 ? (1 &lt;&lt; 13) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 14 ? (1 &lt;&lt; 14) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 15 ? (1 &lt;&lt; 15) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 16 ? (1 &lt;&lt; 16) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 17 ? (1 &lt;&lt; 17) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 18 ? (1 &lt;&lt; 18) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 19 ? (1 &lt;&lt; 19) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 20 ? (1 &lt;&lt; 20) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 21 ? (1 &lt;&lt; 21) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 22 ? (1 &lt;&lt; 22) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 23 ? (1 &lt;&lt; 23) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 24 ? (1 &lt;&lt; 24) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 25 ? (1 &lt;&lt; 25) : 0)
-						)
-					) >> 16
-				)
+				($T1*)((bits &amp; value_mask_64()) >> offset_64())
 			</Item>
 			<Synthetic Name="[tag]" Condition="sizeof(void*) == 8" ExcludeView="simple">
 				<DisplayString>
-					{
-						(
-							(
-								bits &amp;
-								(
-									1ull
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 1  ? (1 &lt;&lt; 1) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 2  ? (1 &lt;&lt; 2) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 3  ? (1 &lt;&lt; 3) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 4  ? (1 &lt;&lt; 4) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 5  ? (1 &lt;&lt; 5) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 6  ? (1 &lt;&lt; 6) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 7  ? (1 &lt;&lt; 7) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 8  ? (1 &lt;&lt; 8) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 9  ? (1 &lt;&lt; 9) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 10 ? (1 &lt;&lt; 10) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 11 ? (1 &lt;&lt; 11) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 12 ? (1 &lt;&lt; 12) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 13 ? (1 &lt;&lt; 13) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 14 ? (1 &lt;&lt; 14) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 15 ? (1 &lt;&lt; 15) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 16 ? (1 &lt;&lt; 16) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 17 ? (1 &lt;&lt; 17) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 18 ? (1 &lt;&lt; 18) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 19 ? (1 &lt;&lt; 19) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 20 ? (1 &lt;&lt; 20) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 21 ? (1 &lt;&lt; 21) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 22 ? (1 &lt;&lt; 22) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 23 ? (1 &lt;&lt; 23) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 24 ? (1 &lt;&lt; 24) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + 16) > 25 ? (1 &lt;&lt; 25) : 0)
-								)
-							)
-						)
-					, bb}
+					{(bits &amp; tag_mask_64()) >> offset_64(), bb}
 				</DisplayString>
 			</Synthetic>
 	  
 			<!-- 32-bit -->
 			<Item Name="[value]" Condition="sizeof(void*) == 4">
-				($T1*)
-				(
-					(
-						bits &amp;
-						~(
-							1ull
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 1  ? (1 &lt;&lt; 1) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 2  ? (1 &lt;&lt; 2) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 3  ? (1 &lt;&lt; 3) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 4  ? (1 &lt;&lt; 4) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 5  ? (1 &lt;&lt; 5) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 6  ? (1 &lt;&lt; 6) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 7  ? (1 &lt;&lt; 7) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 8  ? (1 &lt;&lt; 8) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 9  ? (1 &lt;&lt; 9) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 10 ? (1 &lt;&lt; 10) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 11 ? (1 &lt;&lt; 11) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 12 ? (1 &lt;&lt; 12) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 13 ? (1 &lt;&lt; 13) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 14 ? (1 &lt;&lt; 14) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 15 ? (1 &lt;&lt; 15) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 16 ? (1 &lt;&lt; 16) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 17 ? (1 &lt;&lt; 17) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 18 ? (1 &lt;&lt; 18) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 19 ? (1 &lt;&lt; 19) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 20 ? (1 &lt;&lt; 20) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 21 ? (1 &lt;&lt; 21) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 22 ? (1 &lt;&lt; 22) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 23 ? (1 &lt;&lt; 23) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 24 ? (1 &lt;&lt; 24) : 0)
-							| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 25 ? (1 &lt;&lt; 25) : 0)
-						)
-					)
-				)
+				($T1*)((bits &amp; value_mask_32()) >> offset_32())
 			</Item>
 			<Synthetic Name="[tag]" Condition="sizeof(void*) == 4" ExcludeView="simple">
 				<DisplayString>
-					{
-						(
-							(
-								bits &amp;
-								(
-									1ull
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 1  ? (1 &lt;&lt; 1) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 2  ? (1 &lt;&lt; 2) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 3  ? (1 &lt;&lt; 3) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 4  ? (1 &lt;&lt; 4) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 5  ? (1 &lt;&lt; 5) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 6  ? (1 &lt;&lt; 6) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 7  ? (1 &lt;&lt; 7) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 8  ? (1 &lt;&lt; 8) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 9  ? (1 &lt;&lt; 9) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 10 ? (1 &lt;&lt; 10) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 11 ? (1 &lt;&lt; 11) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 12 ? (1 &lt;&lt; 12) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 13 ? (1 &lt;&lt; 13) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 14 ? (1 &lt;&lt; 14) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 15 ? (1 &lt;&lt; 15) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 16 ? (1 &lt;&lt; 16) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 17 ? (1 &lt;&lt; 17) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 18 ? (1 &lt;&lt; 18) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 19 ? (1 &lt;&lt; 19) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 20 ? (1 &lt;&lt; 20) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 21 ? (1 &lt;&lt; 21) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 22 ? (1 &lt;&lt; 22) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 23 ? (1 &lt;&lt; 23) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 24 ? (1 &lt;&lt; 24) : 0)
-									| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1)) > 25 ? (1 &lt;&lt; 25) : 0)
-								)
-							)
-						)
-					, bb}
+					{(bits &amp; tag_mask_32()) >> offset_32(), bb}
 				</DisplayString>
 			</Synthetic>
+		</Expand>
+	</Type>
+
+	<Type Name="muu::v0::uuid">
+		<Intrinsic Name="b0" Expression="((unsigned)bytes.value[0])" />
+		<Intrinsic Name="b1" Expression="((unsigned)bytes.value[1])" />
+		<Intrinsic Name="b2" Expression="((unsigned)bytes.value[2])" />
+		<Intrinsic Name="b3" Expression="((unsigned)bytes.value[3])" />
+		<Intrinsic Name="b4" Expression="((unsigned)bytes.value[4])" />
+		<Intrinsic Name="b5" Expression="((unsigned)bytes.value[5])" />
+		<Intrinsic Name="b6" Expression="((unsigned)bytes.value[6])" />
+		<Intrinsic Name="b7" Expression="((unsigned)bytes.value[7])" />
+		<Intrinsic Name="b8" Expression="((unsigned)bytes.value[8])" />
+		<Intrinsic Name="b9" Expression="((unsigned)bytes.value[9])" />
+		<Intrinsic Name="b10" Expression="((unsigned)bytes.value[10])" />
+		<Intrinsic Name="b11" Expression="((unsigned)bytes.value[11])" />
+		<Intrinsic Name="b12" Expression="((unsigned)bytes.value[12])" />
+		<Intrinsic Name="b13" Expression="((unsigned)bytes.value[13])" />
+		<Intrinsic Name="b14" Expression="((unsigned)bytes.value[14])" />
+		<Intrinsic Name="b15" Expression="((unsigned)bytes.value[15])" />
+		<Intrinsic Name="time_low" Expression="((b0() &lt;&lt; 24) | (b1() &lt;&lt; 16) | (b2() &lt;&lt; 8) | b3())" />
+		<Intrinsic Name="time_mid" Expression="(unsigned short)(((b4() &lt;&lt; 8) | b5()))" />
+		<Intrinsic Name="time_high" Expression="(unsigned short)(((b6() &lt;&lt; 8) | b7()))" />
+		<Intrinsic Name="clock_seq" Expression="(unsigned short)(((b8() &lt;&lt; 8) | b9()))" />
+		<Intrinsic Name="node_high" Expression="(unsigned short)(((b10() &lt;&lt; 8) | b11()))" />
+		<Intrinsic Name="node_low" Expression="((b12() &lt;&lt; 24) | (b13() &lt;&lt; 16) | (b14() &lt;&lt; 8) | b15())" />
+		<Intrinsic Name="version" Expression="((b6() &amp; 0b11110000u) >> 4)" />
+		<Intrinsic Name="variant" Expression="((b8() &amp; 0b11100000u) >> 5)" />
+		<DisplayString>
+			{{{time_low(),Xb}-{time_mid(),Xb}-{time_high(),Xb}-{clock_seq(),Xb}-{node_high(),Xb}{node_low(),Xb}}}
+		</DisplayString>
+		<Expand>
+			<Synthetic Name="[version]" ExcludeView="simple">
+				<DisplayString Condition="version() &gt;= 5u">{muu::v0::uuid_version::unknown}</DisplayString>
+				<DisplayString>{(muu::v0::uuid_version)version()}</DisplayString>
+			</Synthetic>
+			<Synthetic Name="[variant]" ExcludeView="simple">
+				<DisplayString Condition="variant() == 0u">{muu::v0::uuid_variant::none}</DisplayString>
+				<DisplayString Condition="variant() &lt;= 0b011u">{muu::v0::uuid_variant::reserved_ncs}</DisplayString>
+				<DisplayString Condition="(variant() | 0b101u) == 0b101u">{muu::v0::uuid_variant::standard}</DisplayString>
+				<DisplayString Condition="variant() == 0b110">{muu::v0::uuid_variant::reserved_microsoft}</DisplayString>
+				<DisplayString>{muu::v0::uuid_variant::reserved_future}</DisplayString>
+			</Synthetic>
+			<ArrayItems>
+				<Size>16</Size>
+				<ValuePointer>&amp;bytes.value[0]</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+
+	<Type Name="muu::v0::compressed_pair&lt;*, *, 0&gt;">
+		<DisplayString IncludeView="noparens">{first_}, {second_}</DisplayString>
+		<DisplayString ExcludeView="noparens">({first_}, {second_})</DisplayString>
+		<Expand>
+			<Item Name="first">first_</Item>
+			<Item Name="second">second_</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="muu::v0::compressed_pair&lt;*, *, 1&gt;">
+		<DisplayString IncludeView="noparens">{*($T1 *)this}, {second_}</DisplayString>
+		<DisplayString ExcludeView="noparens">({*($T1 *)this}, {second_})</DisplayString>
+		<Expand>
+			<Item Name="first">*($T1 *)this</Item>
+			<Item Name="second">second_</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="muu::v0::compressed_pair&lt;*, *, 2&gt;">
+		<DisplayString IncludeView="noparens">{first_}, {*($T2 *)this}</DisplayString>
+		<DisplayString ExcludeView="noparens">({first_}, {*($T2 *)this})</DisplayString>
+		<Expand>
+			<Item Name="first">first_</Item>
+			<Item Name="second">*($T2 *)this</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="muu::v0::span&lt;*, 0&gt;" Priority="High">
+		<DisplayString>{{ count=0 }}</DisplayString>
+		<Expand>
+			<Item Name="[count]" ExcludeView="simple">0</Item>
+			<Item Name="[ptr]" ExcludeView="simple">ptr_and_size.first_</Item>
+		</Expand>
+	</Type>
+	
+	<Type Name="muu::v0::span&lt;*, -1&gt;" Priority="Medium">
+		<DisplayString>{{ count={ptr_and_size.second_} }}</DisplayString>
+		<Expand>
+			<Item Name="[count]" ExcludeView="simple">ptr_and_size.second_</Item>
+			<Item Name="[ptr]" ExcludeView="simple">ptr_and_size.first_</Item>
+			<ArrayItems>
+				<Size>ptr_and_size.second_</Size>
+				<ValuePointer>(($T1*)ptr_and_size.first_)</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+
+	<Type Name="muu::v0::span&lt;*, *&gt;" Priority="Low">
+		<DisplayString>{{ count={$T2} }}</DisplayString>
+		<Expand>
+			<Item Name="[count]" ExcludeView="simple">$T2</Item>
+			<Item Name="[ptr]" ExcludeView="simple">ptr_and_size.first_</Item>
+			<ArrayItems>
+				<Size>$T2</Size>
+				<ValuePointer>(($T1*)ptr_and_size.first_)</ValuePointer>
+			</ArrayItems>
 		</Expand>
 	</Type>
 

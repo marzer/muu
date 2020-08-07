@@ -332,20 +332,20 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		constexpr uuid_variant variant() const noexcept
 		{
-			const auto var = static_cast<unsigned>(unwrap((bytes.value[8] & 0b11100000_byte) >> 5));
-			MUU_ASSUME(var <= 0b111u);
+			const auto v = static_cast<unsigned>(unwrap((bytes.value[8] & 0b11100000_byte) >> 5));
+			MUU_ASSUME(v <= 0b111u);
 
-			if (!var)
+			if (!v)
 				return uuid_variant::none;
-			else if MUU_UNLIKELY(var <= 0b011u) // 0 x x
+			else if MUU_UNLIKELY(v <= 0b011u) // 0 x x
 				return uuid_variant::reserved_ncs;
 			else
 			{
 				// any possible variant in this branch has the high bit set, i.e. 0b1XX
 				
-				if MUU_LIKELY((var | 0b101u) == 0b101u)	// 1 0 x
+				if MUU_LIKELY((v | 0b101u) == 0b101u)	// 1 0 x
 					return uuid_variant::standard;
-				else if (var == 0b110) // 1 1 0
+				else if (v == 0b110) // 1 1 0
 					return uuid_variant::reserved_microsoft;
 				else // 1 1 1
 					return uuid_variant::reserved_future;
@@ -357,10 +357,10 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		constexpr uuid_version version() const noexcept
 		{
-			const auto var = static_cast<unsigned>(unwrap((bytes.value[6] & 0b11110000_byte) >> 4));
-			MUU_ASSUME(var <= 0b1111u);
+			const auto v = static_cast<unsigned>(unwrap((bytes.value[6] & 0b11110000_byte) >> 4));
+			MUU_ASSUME(v <= 0b1111u);
 
-			return var > 5u ? uuid_version::unknown : static_cast<uuid_version>(var);
+			return v > 5u ? uuid_version::unknown : static_cast<uuid_version>(v);
 		}
 
 		/// \brief	Returns the value of the 'time-low' field.

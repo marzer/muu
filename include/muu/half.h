@@ -915,7 +915,7 @@ namespace std
 		
 		[[nodiscard]]
 		MUU_ATTR(const)
-		static MUU_CONSTEVAL half min() noexcept
+		static MUU_CONSTEVAL half (min)() noexcept
 		{
 			using namespace muu::literals;
 			return half::from_bits(0x0400_u16); // 0.000061035 (ish)
@@ -930,7 +930,7 @@ namespace std
 
 		[[nodiscard]]
 		MUU_ATTR(const)
-		static MUU_CONSTEVAL half max() noexcept
+		static MUU_CONSTEVAL half (max)() noexcept
 		{
 			return half::constants::highest;
 		}
