@@ -61,22 +61,11 @@ MUU_NAMESPACE_START
 		inline constexpr bool is_qualifier_conversion_only =
 			std::is_same_v<remove_cvref<From>, remove_cvref<To>>
 			&& is_qualifier_compatible<std::remove_reference_t<From>, std::remove_reference_t<To>>::value;
-
-		#ifndef DOXYGEN
-		template <typename It, typename End>
-		struct detect_span_range_difference final
-		{
-			template <typename I, typename E>	static auto test(I i, E e) -> decltype(e - i);
-			template <typename... T>			static std::false_type test(T&&...);
-			static constexpr auto value = !std::is_same_v<decltype(test(std::declval<It>(), std::declval<End>())), std::false_type>;
-		};
-		#endif
 	}
 
 	/// \brief	A non-owning view of contiguous elements.
-	/// \ingroup	blocks
-	/// \ingroup	mem
-	///
+	/// \ingroup	blocks mem
+	/// 
 	/// \remarks This is equivalent to C++20's std::span.
 	///
 	/// \tparam	T	  	The span's element type.
@@ -143,13 +132,17 @@ MUU_NAMESPACE_START
 					&& impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type>
 				)
 				: ptr_and_size{ pointer_cast<pointer>(muu::to_address(first)), count }
-			{}
+			{
+				if constexpr (Extent != dynamic_extent)
+					MUU_SPAN_ASSERT(count == Extent && "count must be equal to span extent for statically-sized spans");
+				if constexpr (Extent > 0)
+					MUU_SPAN_ASSERT(ptr_and_size.first() != nullptr && "a nullptr span is undefined behaviour");
+			}
 
 			/// \brief Constructs a span from a pair of contiguous iterators.
 			template <typename It, typename End MUU_SFINAE_NO_CONCEPTS(
 				impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type>
 				&& !std::is_convertible_v<End, size_t>
-				//&& impl::detect_span_range_difference<It, End>::value
 			)>
 			MUU_NODISCARD_CTOR
 			MUU_EXPLICIT(Extent != dynamic_extent)
@@ -160,10 +153,16 @@ MUU_NAMESPACE_START
 					&& std::sized_sentinel_for<End, It>
 					&& impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type>
 					&& !std::is_convertible_v<End, size_t>
-					//&& impl::detect_span_range_difference<It, End>::value
 				)
 				: ptr_and_size{ pointer_cast<pointer>(muu::to_address(first)), static_cast<size_t>(last - first) }
-			{}
+			{
+				if constexpr (Extent != dynamic_extent)
+					MUU_SPAN_ASSERT(static_cast<size_t>(last - first) == size()
+						&& "(last - first) must be equal to span extent for statically-sized spans"
+					);
+				if constexpr (Extent > 0)
+					MUU_SPAN_ASSERT(ptr_and_size.first() != nullptr && "a nullptr span is undefined behaviour");
+			}
 
 			/// \brief Constructs a span from an array.
 			template <size_t N MUU_SFINAE_NO_CONCEPTS(Extent == dynamic_extent || N == Extent)>
@@ -235,7 +234,10 @@ MUU_NAMESPACE_START
 			[[nodiscard]]
 			constexpr size_t size_bytes() const noexcept
 			{
-				return size() * sizeof(element_type);
+				if constexpr (Extent == dynamic_extent)
+					return ptr_and_size.second() * sizeof(element_type);
+				else
+					return Extent * sizeof(element_type);
 			}
 
 			/// \brief Returns true if the span is empty (i.e. covers zero elements).
@@ -389,6 +391,7 @@ MUU_NAMESPACE_START
 			}
 	};
 	#ifndef DOXYGEN
+	template <typename T>				span(T*, size_t)				-> span<T>;
 	template <typename T, size_t N>		span(T(&)[N])					-> span<T, N>;
 	template <typename T, size_t N>		span(T(&&)[N])					-> span<T, N>;
 	template <typename T, size_t N>		span(std::array<T, N>&)			-> span<T, N>;
@@ -400,6 +403,19 @@ MUU_NAMESPACE_START
 	template <typename It>				span(It, It)					->	span<impl::iter_value_t<It>>;
 	#endif
 	#endif // !DOXYGEN
+
+	/// \brief	Convenience alias for `span<const T>`.
+	/// \ingroup	mem
+	template <typename T>
+	using const_span = span<const T>;
+
+	/// \brief	Convenience alias for `span<std::byte>`.
+	/// \ingroup	mem
+	using byte_span = span<std::byte>;
+
+	/// \brief	Convenience alias for `span<const std::byte>`.
+	/// \ingroup	mem
+	using const_byte_span = span<const std::byte>;
 
 	/// \brief	Reinterprets a span as an immutable view of the underlying bytes.
 	/// \ingroup	mem

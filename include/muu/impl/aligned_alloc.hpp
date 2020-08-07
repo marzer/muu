@@ -43,7 +43,6 @@ MUU_NAMESPACE_START
 	void* aligned_alloc(size_t alignment, size_t size) noexcept
 	{
 		MUU_USING_ANON_NAMESPACE;
-		using std::byte;
 
 		if (!alignment || !size || !has_single_bit(alignment) || alignment > impl::aligned_alloc_max_alignment)
 			return nullptr;
@@ -54,9 +53,9 @@ MUU_NAMESPACE_START
 			size
 		};
 		data.actual_size = data.actual_alignment
-			+ ((size + data.actual_alignment - 1_sz) & ~(data.actual_alignment - 1_sz));
+			+ ((size + data.actual_alignment - 1u) & ~(data.actual_alignment - 1u));
 
-		auto priv_alloc = pointer_cast<byte*>(
+		auto priv_alloc = pointer_cast<std::byte*>(
 			#if MUU_MSVC
 				_aligned_malloc(data.actual_size, data.actual_alignment)
 			#else
@@ -80,7 +79,6 @@ MUU_NAMESPACE_START
 	void* aligned_realloc(void* ptr, size_t new_size) noexcept
 	{
 		MUU_USING_ANON_NAMESPACE;
-		using std::byte;
 
 		if (!new_size)
 			return nullptr;
@@ -88,16 +86,16 @@ MUU_NAMESPACE_START
 			return aligned_alloc(__STDCPP_DEFAULT_NEW_ALIGNMENT__, new_size);
 
 		auto data = *pointer_cast<aligned_alloc_data*>(
-			pointer_cast<byte*>(ptr) - aligned_alloc_data_footprint
+			pointer_cast<std::byte*>(ptr) - aligned_alloc_data_footprint
 		);
 		const auto new_actual_size = data.actual_alignment
-			+ ((new_size + data.actual_alignment - 1_sz) & ~(data.actual_alignment - 1_sz));
-		if (is_between(new_actual_size, data.actual_size / 2_sz, data.actual_size))
+			+ ((new_size + data.actual_alignment - 1u) & ~(data.actual_alignment - 1u));
+		if (is_between(new_actual_size, data.actual_size / 2u, data.actual_size))
 			return ptr;
 		
 		#if MUU_MSVC
 		{
-			ptr = _aligned_realloc(pointer_cast<byte*>(ptr) - data.actual_alignment,
+			ptr = _aligned_realloc(pointer_cast<std::byte*>(ptr) - data.actual_alignment,
 				new_actual_size,
 				data.actual_alignment
 			);
@@ -105,11 +103,11 @@ MUU_NAMESPACE_START
 			{
 				data.actual_size = new_actual_size;
 				memcpy(
-					pointer_cast<byte*>(ptr) + data.actual_alignment - aligned_alloc_data_footprint,
+					pointer_cast<std::byte*>(ptr) + data.actual_alignment - aligned_alloc_data_footprint,
 					&data,
 					sizeof(aligned_alloc_data)
 				);
-				return pointer_cast<byte*>(ptr) + data.actual_alignment;
+				return pointer_cast<std::byte*>(ptr) + data.actual_alignment;
 			}
 		}
 		#else
@@ -131,18 +129,17 @@ MUU_NAMESPACE_START
 	void aligned_free(void* ptr) noexcept
 	{
 		MUU_USING_ANON_NAMESPACE;
-		using std::byte;
 
 		if (!ptr)
 			return;
 		const auto& data = *pointer_cast<aligned_alloc_data*>(
-			pointer_cast<byte*>(ptr) - aligned_alloc_data_footprint
+			pointer_cast<std::byte*>(ptr) - aligned_alloc_data_footprint
 		);
 
 		#if MUU_MSVC
-			_aligned_free(pointer_cast<byte*>(ptr) - data.actual_alignment);
+			_aligned_free(pointer_cast<std::byte*>(ptr) - data.actual_alignment);
 		#else
-			std::free(pointer_cast<byte*>(ptr) - data.actual_alignment);
+			std::free(pointer_cast<std::byte*>(ptr) - data.actual_alignment);
 		#endif
 	}
 }

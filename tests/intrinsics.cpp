@@ -725,6 +725,16 @@ TEST_CASE("pointer_cast")
 		CHECK(pointer_cast<volatile derived2*>(b.get()) == nullptr);
 		CHECK(pointer_cast<const volatile derived2*>(b.get()) == nullptr);
 	}
+
+	// rank changes
+	{
+		void* void_ptr = &test_val;
+		int* val_ptr = &test_val;
+		int** val_ptr_ptr = &val_ptr;
+
+		CHECK(void_ptr == pointer_cast<int***>(val_ptr));
+		CHECK(pointer_cast<void*>(&val_ptr) == pointer_cast<const void*>(val_ptr_ptr));
+	}
 }
 
 //TEST_CASE("apply_offset")

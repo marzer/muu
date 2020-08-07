@@ -851,3 +851,22 @@ static_assert(std::is_same_v<make_unsigned<long>, unsigned long>);
 static_assert(std::is_same_v<make_unsigned<unsigned long>, unsigned long>);
 static_assert(std::is_same_v<make_unsigned<long long>, unsigned long long>);
 static_assert(std::is_same_v<make_unsigned<unsigned long long>, unsigned long long>);
+
+// pointer_rank
+static_assert(pointer_rank<void> == 0);
+static_assert(pointer_rank<void*> == 1);
+static_assert(pointer_rank<void**> == 2);
+static_assert(pointer_rank<void***> == 3);
+static_assert(pointer_rank<void****> == 4);
+static_assert(pointer_rank<void*****> == 5);
+static_assert(pointer_rank<const void*> == 1);
+static_assert(pointer_rank<const void**> == 2);
+static_assert(pointer_rank<const void***> == 3);
+static_assert(pointer_rank<const void****> == 4);
+static_assert(pointer_rank<const void*****> == 5);
+static_assert(pointer_rank<const void*> == 1);
+static_assert(pointer_rank<const void*volatile*> == 2);
+static_assert(pointer_rank<const void***> == 3);
+static_assert(pointer_rank<const void***const*const> == 4);
+static_assert(pointer_rank<const void*volatile*const volatile *const volatile*const *volatile> == 5); // lmao c++ is a nightmare
+

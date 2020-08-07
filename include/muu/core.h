@@ -387,6 +387,15 @@ MUU_IMPL_NAMESPACE_START
 
 	template <typename T>
 	struct type_identity { using type = T; };
+
+	template <typename T, bool = std::is_pointer_v<T>> struct pointer_rank
+	{
+		static constexpr size_t value = 0;
+	};
+	template <typename T> struct pointer_rank<T, true>
+	{
+		static constexpr size_t value = 1 + pointer_rank<std::remove_pointer_t<T>>::value;
+	};
 }
 MUU_IMPL_NAMESPACE_END
 
@@ -748,6 +757,11 @@ MUU_NAMESPACE_START
 	/// \detail This is equivalent to C++20's std::type_identity_t.
 	template <typename T>
 	using type_identity = typename impl::type_identity<T>::type;
+
+	/// \brief Returns the rank of a pointer.
+	/// \details Answers "how many stars does it have?".
+	template <typename T>
+	inline constexpr size_t pointer_rank = impl::pointer_rank<T>::value;
 
 	/// @}
 }
@@ -1984,10 +1998,25 @@ MUU_NAMESPACE_START
 						return pointer_cast<To>(reinterpret_cast<rebase_pointer<From, remove_cv<to_base>>>(from));
 				}
 
+				// rank 2+ pointer -> *
+				else if constexpr (std::is_pointer_v<from_base>)
+				{
+					return pointer_cast<To>(static_cast<match_cv<void, from_base>*>(from));
+				}
+
+				// * -> rank 2+ pointer
+				else if constexpr (std::is_pointer_v<to_base>)
+				{
+					static_assert(!std::is_pointer_v<from_base>);
+					return static_cast<To>(pointer_cast<match_cv<void, to_base>*>(from));
+				}
+
 				// A -> B (unrelated types)
 				else
 				{
 					static_assert(!std::is_same_v<remove_cv<from_base>, remove_cv<to_base>>);
+					static_assert(!std::is_pointer_v<from_base>);
+					static_assert(!std::is_pointer_v<to_base>);
 					return pointer_cast<To>(reinterpret_cast<rebase_pointer<From, remove_cv<to_base>>>(from));
 				}
 			}
@@ -2979,8 +3008,10 @@ MUU_NAMESPACE_START
 		#endif
 	}
 
-	// \brief Obtain the address represented by p without forming a reference to the pointee.
-	// \detail This is equivalent to C++20's std::to_address.
+	/// \brief Obtain the address represented by p without forming a reference to the pointee.
+	/// \ingroup	intrinsics
+	///
+	/// \detail This is equivalent to C++20's std::to_address.
 	template <typename T>
 	[[nodiscard]]
 	constexpr T* to_address(T* p) noexcept
@@ -2989,8 +3020,10 @@ MUU_NAMESPACE_START
 		return p;
 	}
 
-	// \brief Obtain the address represented by p without forming a reference to the pointee.
-	// \detail This is equivalent to C++20's std::to_address.
+	/// \brief Obtain the address represented by p without forming a reference to the pointee.
+	/// \ingroup	intrinsics
+	///
+	/// \detail This is equivalent to C++20's std::to_address.
 	template <typename Ptr>
 	[[nodiscard]]
 	constexpr auto to_address(const Ptr& p) noexcept //(1)

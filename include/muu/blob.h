@@ -12,8 +12,7 @@
 MUU_NAMESPACE_START
 {
 	/// \brief Interface for managing chunks of memory.
-	/// \ingroup mem
-	/// \ingroup blocks
+	/// \ingroup mem blocks
 	/// 
 	/// \detail A blob is effectively an RAII wrapper around muu::aligned_alloc, muu::aligned_realloc and muu::aligned_free,
 	/// 		intended to be used anywhere you might previously have used something like std::vector<std::byte>.
