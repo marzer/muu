@@ -218,6 +218,16 @@ C++</span></a>
             </dt>
             <dd>Select and re-pack arbitrary bytes from an integer.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename Ptr&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga4ba4d37d254803b31a71fca161a46420">to_address</a>(</span><span class="m-doc-wrap">const Ptr&amp; p) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Obtain the address represented by p without forming a reference to the pointee.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga79246c66d2df39fe825be13e654d8c52">to_address</a>(</span><span class="m-doc-wrap">T* p) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Obtain the address represented by p without forming a reference to the pointee.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_enum&lt;T">...</a><span>is_enum&lt;T</span></span>&gt;&gt;&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga6aa05b68e530495f18bd77be7fa0c243">unwrap</a>(</span><span class="m-doc-wrap">T val) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -1062,6 +1072,28 @@ C++</span></a>
 <span class="go">   &lt;1, 0&gt;: 0000CCDD</span>
 <span class="go">&lt;3, 2, 3&gt;: 00AABBAA</span>
 <span class="go">(on a little-endian system)</span></pre><aside class="m-note m-warning"><h4>Attention</h4><p>The indexation order of bytes is the <em>memory</em> order, not their numeric significance (i.e. byte 0 is always the first byte in the integer's memory allocation, regardless of the endianness of the platform).</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga4ba4d37d254803b31a71fca161a46420"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename Ptr&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">auto </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga4ba4d37d254803b31a71fca161a46420">to_address</a>(</span><span class="m-doc-wrap">const Ptr&amp; p) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Obtain the address represented by p without forming a reference to the pointee.</p>
+<p>This is equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/memory/to_address" target="_blank">std::to_address</a>.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga79246c66d2df39fe825be13e654d8c52"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">T* </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga79246c66d2df39fe825be13e654d8c52">to_address</a>(</span><span class="m-doc-wrap">T* p) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Obtain the address represented by p without forming a reference to the pointee.</p>
+<p>This is equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/memory/to_address" target="_blank">std::to_address</a>.</p>
           </div></section>
           <section class="m-doc-details" id="ga6aa05b68e530495f18bd77be7fa0c243"><div>
             <h3>

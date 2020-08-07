@@ -311,6 +311,10 @@ C++</span></a>
             </dt>
             <dd>Adds a volatile qualifier to a type or reference.</dd>
             <dt>
+              using <a class="m-doc" href="group__mem.html#gae6d7d07e5320ddbc969461099bd00db0">byte_span</a> = <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>&gt;
+            </dt>
+            <dd>Convenience alias for <code>span&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>&gt;</code>.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T, bool AddConst&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga23ee95c345637ff50a6cc88c4fb0d031">conditionally_add_const</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;AddConst, <a class="m-doc" href="group__meta.html#ga46852bdb87c782113c290e96390278d3">add_<wbr/>const</a>&lt;T&gt;, T&gt;
             </dt>
@@ -325,6 +329,15 @@ C++</span></a>
               using <a class="m-doc" href="group__meta.html#ga5387101d09160941cca73a48954eb7af">conditionally_add_volatile</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;AddVolatile, <a class="m-doc" href="group__meta.html#ga2d3d76b24998790747a6887a88d0a1e4">add_<wbr/>volatile</a>&lt;T&gt;, T&gt;
             </dt>
             <dd>Shorthand for conditionally adding volatile to a type or reference.</dd>
+            <dt>
+              using <a class="m-doc" href="group__mem.html#gaefedbd706a97f094756e86befffcf178">const_byte_span</a> = <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>&gt;
+            </dt>
+            <dd>Convenience alias for <code>span&lt;const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>&gt;</code>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="group__mem.html#ga9e0fc89cb7b1f651110f32365aba1790">const_span</a> = <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;const T&gt;
+            </dt>
+            <dd>Convenience alias for <code>span&lt;const T&gt;</code>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga90378d8510545aa6f87611d584be12fc">constify_pointer</a> = typename impl::constify_pointer&lt;T&gt;::type
@@ -1136,6 +1149,16 @@ C++</span></a>
             </dt>
             <dd>Select and re-pack arbitrary bytes from an integer.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename Ptr&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga4ba4d37d254803b31a71fca161a46420">to_address</a>(</span><span class="m-doc-wrap">const Ptr&amp; p) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Obtain the address represented by p without forming a reference to the pointee.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga79246c66d2df39fe825be13e654d8c52">to_address</a>(</span><span class="m-doc-wrap">T* p) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Obtain the address represented by p without forming a reference to the pointee.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__strings.html#ga591693ed2095787d40f63ae8c0c60b74">trim</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Trims whitespace from both ends of a UTF-8 string.</dd>
@@ -1342,6 +1365,10 @@ C++</span></a>
               bool <a class="m-doc" href="group__meta.html#gaa1afdcda38765572b01f8112bea59913">is_volatile</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Is a type volatile or reference-to-volatile?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="group__meta.html#gae9cd96c20c0f16e1e1eac99e798724ce">pointer_rank</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Returns the rank of a pointer.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga32b1b26352b00fdb597367cf96e554a2">same_as_all</a> <span class="m-label m-flat m-primary">constexpr</span>
