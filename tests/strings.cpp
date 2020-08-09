@@ -8,15 +8,32 @@
 
 #define SV(v) MUU_APPEND_SV(v)
 
-#define CHECK_FUNC(func, input, expected)														\
-	CHECK_AND_STATIC_ASSERT(func(SV(input)) == SV(expected));									\
-	CHECK_AND_STATIC_ASSERT(func(MUU_CONCAT(u8, SV(input))) == MUU_CONCAT(u8, SV(expected)));	\
-	CHECK_AND_STATIC_ASSERT(func(MUU_CONCAT(u, SV(input)))  == MUU_CONCAT(u,  SV(expected)));	\
-	CHECK_AND_STATIC_ASSERT(func(MUU_CONCAT(U, SV(input)))  == MUU_CONCAT(U,  SV(expected)));	\
-	CHECK_AND_STATIC_ASSERT_W(func(MUU_CONCAT(L, SV(input)))  == MUU_CONCAT(L,  SV(expected)))
+#if MUU_ICC
+	#define CHECK_FUNC_SINGLE(...)		CHECK(__VA_ARGS__)
+#else
+	#define CHECK_FUNC_SINGLE(...)		CHECK_AND_STATIC_ASSERT(__VA_ARGS__)
+	#define CHECK_FUNC_SINGLE_W(...)	CHECK_AND_STATIC_ASSERT_W(__VA_ARGS__)
+#endif
+
+#define CHECK_FUNC_(func, input, expected)												\
+	CHECK_FUNC_SINGLE(func(SV(input)) == SV(expected));									\
+	CHECK_FUNC_SINGLE(func(MUU_CONCAT(u8, SV(input))) == MUU_CONCAT(u8, SV(expected)));	\
+	CHECK_FUNC_SINGLE(func(MUU_CONCAT(u, SV(input)))  == MUU_CONCAT(u,  SV(expected)));	\
+	CHECK_FUNC_SINGLE(func(MUU_CONCAT(U, SV(input)))  == MUU_CONCAT(U,  SV(expected)))
+
+#if MUU_ICC
+	#define CHECK_FUNC(func, input, expected)												\
+		CHECK_FUNC_(func, input, expected)
+#else
+	#define CHECK_FUNC(func, input, expected)												\
+		CHECK_FUNC_(func, input, expected);													\
+		CHECK_FUNC_SINGLE_W(func(MUU_CONCAT(L, SV(input)))  == MUU_CONCAT(L,  SV(expected)))
+#endif
 
 #define ALL_WS	"\u0009\u000A\u000B\u000C\u000D\u0020\u0085\u00A0\u1680\u2000\u2001\u2002\u3000"	\
 				"\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u2028\u2029\u202F\u205F"
+
+#if UNICODE_LITERALS_OK
 
 #define UTF_TEST_TEXT_EXPECTED(...)																			\
                               MUU_CONCAT(__VA_ARGS__, R"(The quick brown fox jumped over the lazy dog)"	)	\
@@ -105,6 +122,8 @@ TEST_CASE("strings - utf_decode")
 	#endif
 }
 
+#endif // UNICODE_LITERALS_OK
+
 TEST_CASE("strings - utf_find")
 {
 	auto kek = impl::utf_find("abcde"sv, false, [](char32_t c)noexcept { return c == U'b'; });
@@ -138,6 +157,7 @@ TEST_CASE("strings - trim")
 	CHECK_FUNC(trim, " test ",					"test");
 	CHECK_FUNC(trim, "\ttest\t",				"test");
 	CHECK_FUNC(trim, "\t test \t",				"test");
+	#if UNICODE_LITERALS_OK
 	CHECK_FUNC(trim, "\u0009 test \u0009",		"test");
 	CHECK_FUNC(trim, "\u000A test \u000A",		"test");
 	CHECK_FUNC(trim, "\u000B test \u000B",		"test");
@@ -164,6 +184,7 @@ TEST_CASE("strings - trim")
 	CHECK_FUNC(trim, "\u205F test \u205F",		"test");
 	CHECK_FUNC(trim, "\u3000 test \u3000",		"test");
 	CHECK_FUNC(trim, ALL_WS "test" ALL_WS,		"test");
+	#endif // UNICODE_LITERALS_OK
 }
 
 TEST_CASE("strings - trim_left")
@@ -176,6 +197,7 @@ TEST_CASE("strings - trim_left")
 	CHECK_FUNC(trim_left, " test ",					"test ");
 	CHECK_FUNC(trim_left, "\ttest\t",				"test\t");
 	CHECK_FUNC(trim_left, "\t test \t",				"test \t");
+	#if UNICODE_LITERALS_OK
 	CHECK_FUNC(trim_left, "\u0009 test \u0009",		"test \u0009");
 	CHECK_FUNC(trim_left, "\u000A test \u000A",		"test \u000A");
 	CHECK_FUNC(trim_left, "\u000B test \u000B",		"test \u000B");
@@ -202,6 +224,7 @@ TEST_CASE("strings - trim_left")
 	CHECK_FUNC(trim_left, "\u205F test \u205F",		"test \u205F");
 	CHECK_FUNC(trim_left, "\u3000 test \u3000",		"test \u3000");
 	CHECK_FUNC(trim_left, ALL_WS "test" ALL_WS,		"test" ALL_WS);
+	#endif // UNICODE_LITERALS_OK
 }
 
 TEST_CASE("strings - trim_right")
@@ -214,6 +237,7 @@ TEST_CASE("strings - trim_right")
 	CHECK_FUNC(trim_right, " test ",				" test");
 	CHECK_FUNC(trim_right, "\ttest\t",				"\ttest");
 	CHECK_FUNC(trim_right, "\t test \t",			"\t test");
+	#if UNICODE_LITERALS_OK
 	CHECK_FUNC(trim_right, "\u0009 test \u0009",	"\u0009 test");
 	CHECK_FUNC(trim_right, "\u000A test \u000A",	"\u000A test");
 	CHECK_FUNC(trim_right, "\u000B test \u000B",	"\u000B test");
@@ -240,5 +264,6 @@ TEST_CASE("strings - trim_right")
 	CHECK_FUNC(trim_right, "\u205F test \u205F",	"\u205F test");
 	CHECK_FUNC(trim_right, "\u3000 test \u3000",	"\u3000 test");
 	CHECK_FUNC(trim_right, ALL_WS "test" ALL_WS,	ALL_WS "test");
+	#endif // UNICODE_LITERALS_OK
 }
 

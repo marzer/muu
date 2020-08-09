@@ -1,9 +1,13 @@
 #include "tests.h"
 #include "../include/muu/tagged_ptr.h"
 #include <array>
+#if MUU_ICC
+	#include <aligned_new>
+	#pragma warning(disable: 2960)
+#endif
 
 MUU_DISABLE_LIFETIME_WARNINGS
-MUU_DISABLE_PADDING_WARNINGS
+MUU_DISABLE_SPAM_WARNINGS
 
 // check all static invariants
 template <typename T, size_t min_align>
@@ -83,9 +87,13 @@ CHECK_TRAITS( int64_t,  8192 );
 CHECK_TRAITS( int64_t, 16384 );
 CHECK_TRAITS( int64_t, 32768 );
 
-// check that noexcept propagation works correctly for function pointers
-static_assert(!noexcept(std::declval<tagged_ptr<int(), 4>>()()));
-static_assert(noexcept(std::declval<tagged_ptr<int()noexcept, 4>>()()));
+// check that invocation and noexcept propagation works correctly for function pointers
+static_assert(std::is_invocable_v<tagged_ptr<int()noexcept, 4>>);
+static_assert(std::is_invocable_v<tagged_ptr<int(), 4>>);
+static_assert(std::is_nothrow_invocable_v<tagged_ptr<int()noexcept, 4>>);
+#if !MUU_ICC
+static_assert(!std::is_nothrow_invocable_v<tagged_ptr<int(), 4>>);
+#endif
 
 // check deduction guides
 static_assert(std::is_same_v<decltype(tagged_ptr{ std::add_pointer_t<int>{}, 0u }), tagged_ptr<int>>);

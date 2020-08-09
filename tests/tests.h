@@ -6,13 +6,18 @@
 #pragma once
 #include "float_test_data.h"
 
+#if MUU_ICC
+	#define UNICODE_LITERALS_OK 0
+#else
+	#define UNICODE_LITERALS_OK 1
+#endif
+
 MUU_PRAGMA_CLANG("clang diagnostic ignored \"-Wc++2a-compat\"")
 MUU_PRAGMA_CLANG("clang diagnostic ignored \"-Wfloat-equal\"")
 MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wfloat-equal\"")
 MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wpedantic\"")
 
-MUU_PUSH_WARNINGS
-MUU_DISABLE_ALL_WARNINGS
+MUU_DISABLE_WARNINGS
 #include "catch2.h"
 #include <sstream>
 #include <string_view>
@@ -54,7 +59,7 @@ MUU_NAMESPACE_END
 using namespace Catch::literals;
 using namespace muu;
 using namespace std::string_view_literals;
-MUU_POP_WARNINGS
+MUU_ENABLE_WARNINGS
 
 // Q: why is this CHECK_AND_STATIC_ASSERT thing?
 // A: because std::is_constant_evaluated().

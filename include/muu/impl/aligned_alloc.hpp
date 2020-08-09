@@ -11,9 +11,12 @@
 
 #include "../../muu/core.h"
 #include "../../muu/aligned_alloc.h"
-#if !MUU_MSVC
+#if !(MUU_MSVC || MUU_ICC_CL)
 	#include <cstdlib>
 #endif
+
+MUU_PUSH_WARNINGS
+MUU_DISABLE_SPAM_WARNINGS
 
 MUU_ANON_NAMESPACE_START
 {
@@ -56,7 +59,7 @@ MUU_NAMESPACE_START
 			+ ((size + data.actual_alignment - 1u) & ~(data.actual_alignment - 1u));
 
 		auto priv_alloc = pointer_cast<std::byte*>(
-			#if MUU_MSVC
+			#if MUU_MSVC || MUU_ICC_CL
 				_aligned_malloc(data.actual_size, data.actual_alignment)
 			#else
 				std::aligned_alloc(data.actual_alignment, data.actual_size)
@@ -93,7 +96,7 @@ MUU_NAMESPACE_START
 		if (is_between(new_actual_size, data.actual_size / 2u, data.actual_size))
 			return ptr;
 		
-		#if MUU_MSVC
+		#if MUU_MSVC || MUU_ICC_CL
 		{
 			ptr = _aligned_realloc(pointer_cast<std::byte*>(ptr) - data.actual_alignment,
 				new_actual_size,
@@ -136,7 +139,7 @@ MUU_NAMESPACE_START
 			pointer_cast<std::byte*>(ptr) - aligned_alloc_data_footprint
 		);
 
-		#if MUU_MSVC
+		#if MUU_MSVC || MUU_ICC_CL
 			_aligned_free(pointer_cast<std::byte*>(ptr) - data.actual_alignment);
 		#else
 			std::free(pointer_cast<std::byte*>(ptr) - data.actual_alignment);
@@ -144,3 +147,5 @@ MUU_NAMESPACE_START
 	}
 }
 MUU_NAMESPACE_END
+
+MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS

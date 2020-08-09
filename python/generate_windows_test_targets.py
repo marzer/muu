@@ -93,6 +93,7 @@ def main():
 		<ClCompile Include="..\..\tests\accumulator.cpp" />
 		<ClCompile Include="..\..\tests\aligned_alloc.cpp" />
 		<ClCompile Include="..\..\tests\blob.cpp" />
+		<ClCompile Include="..\..\tests\compressed_pair.cpp" />
 		<ClCompile Include="..\..\tests\half.cpp" />
 		<ClCompile Include="..\..\tests\hashing.cpp" />
 		<ClCompile Include="..\..\tests\intrinsics.cpp" />

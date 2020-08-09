@@ -18,8 +18,7 @@ MUU_PRAGMA_MSVC(inline_recursion(on))
 // INCLUDES
 //=====================================================================================================================
 
-MUU_PUSH_WARNINGS
-MUU_DISABLE_ALL_WARNINGS
+MUU_DISABLE_WARNINGS
 // core.h include file rationale:
 // - If it's small and simple it can go in (c headers are generally OK)
 // - If it drags in half the standard library or is itself a behemoth it stays out (<algorithm>...)
@@ -39,10 +38,10 @@ MUU_DISABLE_ALL_WARNINGS
 #if MUU_MSVC
 	#include <intrin0.h>
 #endif
-MUU_POP_WARNINGS
+MUU_ENABLE_WARNINGS
 
 MUU_PUSH_WARNINGS
-MUU_DISABLE_PADDING_WARNINGS
+MUU_DISABLE_SPAM_WARNINGS
 
 //=====================================================================================================================
 // ENVIRONMENT GROUND-TRUTHS
@@ -1279,14 +1278,13 @@ MUU_NAMESPACE_START
 
 	namespace impl
 	{
-		MUU_PUSH_WARNINGS
-		MUU_DISABLE_ALL_WARNINGS //reproducible build warnings
+		MUU_DISABLE_WARNINGS // non-determinisitic build
 
 		inline constexpr auto date_str = __DATE__;
 		inline constexpr auto date_month_hash = date_str[0] + date_str[1] + date_str[2];
 		inline constexpr auto time_str = __TIME__;
 
-		MUU_POP_WARNINGS
+		MUU_ENABLE_WARNINGS
 	}
 
 	namespace build
@@ -1389,8 +1387,8 @@ MUU_NAMESPACE_START
 	MUU_ATTR(flatten)
 	constexpr bool is_constant_evaluated() noexcept
 	{
-		#if MUU_CLANG >= 9		\
-			|| MUU_GCC >= 9		\
+		#if MUU_CLANG >= 9			\
+			|| MUU_GCC >= 9			\
 			|| (MUU_MSVC >= 1925 && !MUU_INTELLISENSE)
 				return __builtin_is_constant_evaluated();
 		#elif defined(__cpp_lib_is_constant_evaluated)
@@ -1418,8 +1416,9 @@ MUU_NAMESPACE_START
 	MUU_ATTR(flatten)
 	constexpr T* launder(T* p) noexcept
 	{
-		#if MUU_CLANG >= 7		\
-			|| MUU_GCC >= 7		\
+		#if MUU_CLANG >= 7			\
+			|| MUU_GCC >= 7			\
+			|| MUU_ICC >= 1910	\
 			|| MUU_MSVC >= 1914
 			return __builtin_launder(p);
 		#elif defined(__cpp_lib_launder)
@@ -1456,6 +1455,93 @@ MUU_NAMESPACE_START
 		return std::forward<T>(val);
 	}
 
+	namespace impl
+	{
+		template <typename T>
+		[[nodiscard]]
+		MUU_ATTR(const)
+		constexpr int MUU_VECTORCALL countl_zero_native(T val) noexcept
+		{
+			MUU_ASSUME(val > T{});
+
+			int count = 0;
+			T bit = T{ 1 } << (sizeof(T) * CHAR_BIT - 1);
+			while (true)
+			{
+				if ((bit & val))
+					break;
+				count++;
+				bit >>= 1;
+			}
+			return count;
+		}
+
+		template <typename T>
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
+		int MUU_VECTORCALL countl_zero_intrinsic(T val) noexcept
+		{
+			MUU_ASSUME(val > T{});
+
+			#if MUU_HAS_INT128
+			if constexpr (std::is_same_v<T, uint128_t>)
+			{
+				auto high = countl_zero(static_cast<uint64_t>(val >> 64));
+				if (high < 64)
+					return high;
+				else
+					return 64 + countl_zero(static_cast<uint64_t>(val));
+			}
+			else
+			#endif
+
+			#if MUU_GCC || MUU_CLANG || MUU_MSVC
+			{
+				#define MUU_HAS_INTRINSIC_COUNTL_ZERO 1
+
+				if constexpr (std::is_same_v<T, unsigned long long>)
+					return __builtin_clzll(val);
+				else if constexpr (std::is_same_v<T, unsigned long>)
+					return __builtin_clzl(val);
+				else if constexpr (std::is_same_v<T, unsigned int> || sizeof(T) == sizeof(unsigned int))
+					return __builtin_clz(static_cast<unsigned int>(val));
+				else if constexpr (sizeof(T) < sizeof(unsigned int))
+					return __builtin_clz(val) - static_cast<int>((sizeof(unsigned int) - sizeof(T)) * CHAR_BIT);
+				else
+					static_assert(dependent_false<T>, "Evaluated unreachable branch!");
+			}
+			//#elif MUU_ICC
+			//{
+			//	#define MUU_HAS_INTRINSIC_COUNTL_ZERO 1
+
+			//	if constexpr (sizeof(T) == sizeof(unsigned __int64))
+			//	{
+			//		unsigned int p;
+			//		_BitScanReverse64(&p, static_cast<unsigned __int64>(val));
+			//		return static_cast<int>(p);
+			//	}
+			//	else if constexpr (sizeof(T) == sizeof(unsigned __int32))
+			//	{
+			//		unsigned int p;
+			//		_BitScanReverse(&p, static_cast<unsigned __int32>(val));
+			//		return static_cast<int>(p);
+			//	}
+			//	else if constexpr (sizeof(T) < sizeof(unsigned __int32))
+			//		return countl_zero_intrinsic(static_cast<unsigned __int32>(val)) - static_cast<int>((sizeof(unsigned __int32) - sizeof(T)) * CHAR_BIT);
+			//	else
+			//		static_assert(dependent_false<T>, "Evaluated unreachable branch!");
+			//}
+			#else
+			{
+				#define MUU_HAS_INTRINSIC_COUNTL_ZERO 0
+
+				static_assert(dependent_false<T>, "countl_zero not implemented on this compiler");
+			}
+			#endif
+		}
+	}
+
 	/// \brief	Counts the number of consecutive 0 bits, starting from the left.
 	/// \ingroup	intrinsics
 	///
@@ -1472,40 +1558,104 @@ MUU_NAMESPACE_START
 	constexpr int MUU_VECTORCALL countl_zero(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
-			return static_cast<T>(countl_zero(unwrap(val)));
+			return countl_zero(unwrap(val));
 		else
 		{
 			if (!val)
 				return static_cast<int>(sizeof(T) * CHAR_BIT);
 
+			if constexpr (!build::supports_is_constant_evaluated || !MUU_HAS_INTRINSIC_COUNTL_ZERO)
+				return impl::countl_zero_native(val);
+			else
+			{
+				if (is_constant_evaluated())
+					return impl::countl_zero_native(val);
+				else
+					return impl::countl_zero_intrinsic(val);
+			}
+		}
+	}
+
+	namespace impl
+	{
+		template <typename T>
+		[[nodiscard]]
+		MUU_ATTR(const)
+		constexpr int MUU_VECTORCALL countr_zero_native(T val) noexcept
+		{
+			MUU_ASSUME(val > T{});
+
+			int count = 0;
+			T bit = T{ 1 };
+			while (true)
+			{
+				if ((bit & val))
+					break;
+				count++;
+				bit <<= 1;
+			}
+			return count;
+		}
+
+		template <typename T>
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
+		int MUU_VECTORCALL countr_zero_intrinsic(T val) noexcept
+		{
+			MUU_ASSUME(val > T{});
+
 			#if MUU_HAS_INT128
 			if constexpr (std::is_same_v<T, uint128_t>)
 			{
-				auto high = countl_zero(static_cast<uint64_t>(val >> 64));
-				if (high < 64)
-					return high;
+				auto low = countr_zero(static_cast<uint64_t>(val));
+				if (low < 64)
+					return low;
 				else
-					return 64 + countl_zero(static_cast<uint64_t>(val));
+					return 64 + countr_zero(static_cast<uint64_t>(val >> 64));
 			}
 			else
 			#endif
 
 			#if MUU_GCC || MUU_CLANG || MUU_MSVC
 			{
+				#define MUU_HAS_INTRINSIC_COUNTR_ZERO 1
+
 				if constexpr (std::is_same_v<T, unsigned long long>)
-					return __builtin_clzll(val);
+					return __builtin_ctzll(val);
 				else if constexpr (std::is_same_v<T, unsigned long>)
-					return __builtin_clzl(val);
-				else if constexpr (std::is_same_v<T, unsigned int> || sizeof(T) == sizeof(unsigned int))
-					return __builtin_clz(static_cast<unsigned int>(val));
-				else if constexpr (sizeof(T) < sizeof(unsigned int))
-					return __builtin_clz(val) - static_cast<int>((sizeof(unsigned int) - sizeof(T)) * CHAR_BIT);
+					return __builtin_ctzl(val);
+				else if constexpr (std::is_same_v<T, unsigned int> || sizeof(T) <= sizeof(unsigned int))
+					return __builtin_ctz(val);
 				else
 					static_assert(dependent_false<T>, "Evaluated unreachable branch!");
 			}
+			//#elif MUU_ICC
+			//{
+			//	#define MUU_HAS_INTRINSIC_COUNTR_ZERO 1
+
+			//	if constexpr (sizeof(T) == sizeof(unsigned __int64))
+			//	{
+			//		unsigned int p;
+			//		_BitScanForward64(&p, static_cast<unsigned __int64>(val));
+			//		return static_cast<int>(p);
+			//	}
+			//	else if constexpr (sizeof(T) == sizeof(unsigned __int32))
+			//	{
+			//		unsigned int p;
+			//		_BitScanForward(&p, static_cast<unsigned __int32>(val));
+			//		return static_cast<int>(p);
+			//	}
+			//	else if constexpr (sizeof(T) < sizeof(unsigned __int32))
+			//		return countr_zero_intrinsic(static_cast<unsigned __int32>(val));
+			//	else
+			//		static_assert(dependent_false<T>, "Evaluated unreachable branch!");
+			//}
 			#else
 			{
-				//...
+				#define MUU_HAS_INTRINSIC_COUNTR_ZERO 0
+
+				static_assert(dependent_false<T>, "countr_zero not implemented on this compiler");
 			}
 			#endif
 		}
@@ -1527,39 +1677,21 @@ MUU_NAMESPACE_START
 	constexpr int MUU_VECTORCALL countr_zero(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
-			return static_cast<T>(countr_zero(unwrap(val)));
+			return countr_zero(unwrap(val));
 		else
 		{
 			if (!val)
 				return static_cast<int>(sizeof(T) * CHAR_BIT);
 
-			#if MUU_HAS_INT128
-			if constexpr (std::is_same_v<T, uint128_t>)
-			{
-				auto low = countr_zero(static_cast<uint64_t>(val));
-				if (low < 64)
-					return low;
-				else
-					return 64 + countr_zero(static_cast<uint64_t>(val >> 64));
-			}
+			if constexpr (!build::supports_is_constant_evaluated || !MUU_HAS_INTRINSIC_COUNTR_ZERO)
+				return impl::countr_zero_native(val);
 			else
-			#endif
-
-			#if MUU_GCC || MUU_CLANG || MUU_MSVC
 			{
-
-				if constexpr (std::is_same_v<T, unsigned long long>)
-					return __builtin_ctzll(val);
-				else if constexpr (std::is_same_v<T, unsigned long>)
-					return __builtin_ctzl(val);
-				else if constexpr (std::is_same_v<T, unsigned int> || sizeof(T) <= sizeof(unsigned int))
-					return __builtin_ctz(val);
+				if (is_constant_evaluated())
+					return impl::countr_zero_native(val);
+				else
+					return impl::countr_zero_intrinsic(val);
 			}
-			#else 
-			{
-				//...
-			}
-			#endif
 		}
 	}
 
@@ -2290,6 +2422,8 @@ MUU_NAMESPACE_START
 		MUU_ATTR(const)
 		constexpr int MUU_VECTORCALL popcount_native(T val) noexcept
 		{
+			MUU_ASSUME(val > T{});
+
 			using pt = popcount_traits<sizeof(T) * CHAR_BIT>;
 			val -= ((val >> 1) & pt::m1);
 			val = (val & pt::m2) + ((val >> 2) & pt::m2);
@@ -2302,23 +2436,34 @@ MUU_NAMESPACE_START
 		MUU_ATTR(const)
 		int MUU_VECTORCALL popcount_intrinsic(T val) noexcept
 		{
+			MUU_ASSUME(val > T{});
+
 			#if MUU_GCC || MUU_CLANG
 			{
 				#define MUU_HAS_INTRINSIC_POPCOUNT 1
 
-				if constexpr (std::is_same_v<T, unsigned int>)
-					return __builtin_popcount(val);
+				if constexpr (sizeof(T) <= sizeof(unsigned int))
+					return __builtin_popcount(static_cast<unsigned int>(val));
 				else if constexpr (std::is_same_v<T, unsigned long>)
 					return __builtin_popcountl(val);
 				else if constexpr (std::is_same_v<T, unsigned long long>)
 					return __builtin_popcountll(val);
-				else if constexpr (sizeof(T) <= sizeof(unsigned int))
-					return __builtin_popcount(static_cast<unsigned int>(val));
 				#if MUU_HAS_INT128
 				else if constexpr (std::is_same_v<T, uint128_t>)
 					return __builtin_popcountll(static_cast<unsigned long long>(val >> 64))
 						+ __builtin_popcountll(static_cast<unsigned long long>(val));
 				#endif
+				else
+					static_assert(dependent_false<T>, "Unsupported integer type");
+			}
+			#elif MUU_ICC
+			{
+				#define MUU_HAS_INTRINSIC_POPCOUNT 1
+
+				if constexpr (sizeof(T) <= sizeof(int))
+					return _popcnt32(static_cast<int>(val));
+				else if constexpr (sizeof(T) == sizeof(__int64))
+					return _popcnt64(static_cast<__int64>(val));
 				else
 					static_assert(dependent_false<T>, "Unsupported integer type");
 			}
@@ -2377,6 +2522,9 @@ MUU_NAMESPACE_START
 			return popcount(unwrap(val));
 		else
 		{
+			if (!val)
+				return 0;
+
 			if constexpr (!build::supports_is_constant_evaluated || !MUU_HAS_INTRINSIC_POPCOUNT)
 				return impl::popcount_native(val);
 			else
@@ -2671,7 +2819,7 @@ MUU_NAMESPACE_START
 				else
 					static_assert(dependent_false<T>, "Unsupported integer type");
 			}
-			#elif MUU_MSVC
+			#elif MUU_MSVC || MUU_ICC_CL
 			{
 				#define MUU_HAS_INTRINSIC_BYTE_REVERSE 1
 
@@ -3049,14 +3197,14 @@ MUU_POP_WARNINGS // MUU_DISABLE_ARITHMETIC_WARNINGS
 
 MUU_NAMESPACE_START
 {
-	/// \brief	A pair that uses Empty Base Class Optimization to elide storage for one of its members where possible.
+	/// \brief	A pair that uses Empty Base Class Optimization to elide storage for one or both of its members where possible.
 	/// \ingroup blocks
 	/// 
 	/// \tparam	First		First member type.
 	/// \tparam	Second		Second member type.
 	template <typename First, typename Second
 		#ifndef DOXYGEN
-		, int empty_base = (std::is_empty_v<First> ? 1 : (std::is_empty_v<Second> ? 2 : 0))
+			, unsigned empty_member = ((std::is_empty_v<First> ? 1u : 0u) | (std::is_empty_v<Second> ? 2u : 0u))
 		#endif
 	>
 	class compressed_pair
@@ -3201,6 +3349,42 @@ MUU_NAMESPACE_START
 			[[nodiscard]] constexpr const second_type&& second() const&& noexcept	{ return std::move(*this); }
 	};
 
+	template <typename First, typename Second>
+	class MUU_EMPTY_BASES compressed_pair<First, Second, 3> : private First, private Second
+	{
+		private:
+			static_assert(std::is_empty_v<First> && std::is_empty_v<Second>);
+
+		public:
+
+			using first_type = First;
+			using second_type = Second;
+
+			MUU_NODISCARD_CTOR constexpr compressed_pair() = default;
+			MUU_NODISCARD_CTOR constexpr compressed_pair(const compressed_pair&) = default;
+			MUU_NODISCARD_CTOR constexpr compressed_pair(compressed_pair&&) = default;
+			constexpr compressed_pair& operator =(const compressed_pair&) = default;
+			constexpr compressed_pair& operator =(compressed_pair&&) = default;
+
+			template <typename F, typename S>
+			MUU_NODISCARD_CTOR
+			constexpr compressed_pair(F&& first_init, S&& second_init)
+				noexcept(std::is_nothrow_constructible_v<First, F&&> && std::is_nothrow_constructible_v<Second, S&&>)
+				: First{ std::forward<F>(first_init) },
+				Second{ std::forward<S>(second_init) }
+			{}
+
+			[[nodiscard]] constexpr first_type& first() & noexcept					{ return *this; }
+			[[nodiscard]] constexpr first_type&& first() && noexcept				{ return std::move(*this); }
+			[[nodiscard]] constexpr const first_type& first() const& noexcept		{ return *this; }
+			[[nodiscard]] constexpr const first_type&& first() const&& noexcept		{ return std::move(*this); }
+
+			[[nodiscard]] constexpr second_type& second() & noexcept				{ return *this; }
+			[[nodiscard]] constexpr second_type&& second() && noexcept				{ return std::move(*this); }
+			[[nodiscard]] constexpr const second_type& second() const& noexcept		{ return *this; }
+			[[nodiscard]] constexpr const second_type&& second() const&& noexcept	{ return std::move(*this); }
+	};
+
 	#endif // DOXYGEN
 }
 MUU_NAMESPACE_END
@@ -3250,7 +3434,6 @@ MUU_NAMESPACE_START
 	template <typename T>
 	class scope_guard
 	{
-
 		static_assert(
 			std::is_invocable_v<std::remove_reference_t<T>>,
 			"Types wrapped by a scope guard must be callable (functions, lambdas, etc.)"
@@ -3321,5 +3504,7 @@ MUU_NAMESPACE_END
 #undef MUU_HAS_INTRINSIC_BIT_CAST
 #undef MUU_HAS_INTRINSIC_POPCOUNT
 #undef MUU_HAS_INTRINSIC_BYTE_REVERSE
-MUU_POP_WARNINGS // MUU_DISABLE_PADDING_WARNINGS
+#undef MUU_HAS_INTRINSIC_COUNTL_ZERO
+#undef MUU_HAS_INTRINSIC_COUNTR_ZERO
+MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS
 MUU_PRAGMA_MSVC(inline_recursion(off))

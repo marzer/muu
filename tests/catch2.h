@@ -7,14 +7,26 @@
 #include "settings.h"
 
 #ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Weverything"
+	#pragma clang diagnostic push
+	#pragma clang diagnostic ignored "-Weverything"
 #elif defined (__GNUC__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wall"
-#pragma GCC diagnostic ignored "-Wextra"
-#pragma GCC diagnostic ignored "-Wpadded"
-#pragma GCC diagnostic ignored "-Wfloat-equal"
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wall"
+	#pragma GCC diagnostic ignored "-Wextra"
+	#pragma GCC diagnostic ignored "-Wpadded"
+	#pragma GCC diagnostic ignored "-Wfloat-equal"
+#elif defined(_MSC_VER) || defined(__INTEL_COMPILER)
+	#pragma warning(push, 0)
+	#ifdef __INTEL_COMPILER // icc is such fucking garbage honestly
+		#pragma warning(disable: 82)
+		#pragma warning(disable: 111)
+		#pragma warning(disable: 177)
+		#pragma warning(disable: 869)
+		#pragma warning(disable: 1011)
+		#pragma warning(disable: 2261)
+		#pragma warning(disable: 2557)
+		#pragma warning(disable: 3280)
+	#endif
 #endif
 
 #ifdef __has_include
@@ -28,8 +40,10 @@
 #endif
 
 #ifdef __clang__
-#pragma clang diagnostic pop
+	#pragma clang diagnostic pop
 #elif defined (__GNUC__)
-#pragma GCC diagnostic pop
+	#pragma GCC diagnostic pop
+#elif defined(_MSC_VER) || defined(__INTEL_COMPILER)
+	#pragma warning(pop)
 #endif
 

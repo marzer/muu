@@ -11,12 +11,11 @@
 
 #include "../../muu/uuid.h"
 #include "../../muu/hashing.h"
-#if MUU_WINDOWS
-	MUU_PUSH_WARNINGS
-	MUU_DISABLE_ALL_WARNINGS
+#if MUU_MSVC
+	MUU_DISABLE_WARNINGS
 	#include <rpc.h>
 	MUU_PRAGMA_MSVC(comment(lib, "rpcrt4.lib"))
-	MUU_POP_WARNINGS
+	MUU_ENABLE_WARNINGS
 #else
 	#include "../../muu/impl/random.hpp"
 #endif
@@ -28,7 +27,7 @@ MUU_NAMESPACE_START
 	uuid uuid::generate() noexcept
 	{
 		uuid val;
-		#if MUU_WINDOWS
+		#if MUU_MSVC
 		{
 			UUID native;
 			static_assert(sizeof(UUID) == sizeof(uuid));

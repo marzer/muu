@@ -23,24 +23,30 @@
 	#define MUU_INTELLISENSE	0
 #endif
 #ifdef __clang__
-	#define MUU_CLANG			__clang_major__
+	#define MUU_CLANG		__clang_major__
 #else
-	#define MUU_CLANG			0
+	#define MUU_CLANG		0
 #endif
 #ifdef __INTEL_COMPILER
-	#define MUU_ICC				__INTEL_COMPILER
+	#define MUU_ICC			__INTEL_COMPILER
+	#ifdef __ICL
+		#define MUU_ICC_CL	MUU_ICC
+	#else
+		#define MUU_ICC_CL	0
+	#endif
 #else
-	#define MUU_ICC				0
+	#define MUU_ICC			0
+	#define MUU_ICC_CL		0
 #endif
 #if defined(_MSC_VER) && !MUU_CLANG && !MUU_ICC
-	#define MUU_MSVC			_MSC_VER
+	#define MUU_MSVC		_MSC_VER
 #else
-	#define MUU_MSVC			0
+	#define MUU_MSVC		0
 #endif
 #if defined(__GNUC__) && !MUU_CLANG && !MUU_ICC
-	#define MUU_GCC				__GNUC__
+	#define MUU_GCC			__GNUC__
 #else
-	#define MUU_GCC				0
+	#define MUU_GCC			0
 #endif
 #if !MUU_CLANG && !MUU_ICC && !MUU_MSVC && !MUU_GCC
 	#error Unknown compiler.
@@ -170,17 +176,19 @@
 	#define MUU_DISABLE_LIFETIME_WARNINGS	_Pragma("clang diagnostic ignored \"-Wmissing-field-initializers\"")	\
 											_Pragma("clang diagnostic ignored \"-Wglobal-constructors\"")	\
 											_Pragma("clang diagnostic ignored \"-Wexit-time-destructors\"")
-	#define MUU_DISABLE_VTABLE_WARNINGS		_Pragma("clang diagnostic ignored \"-Weverything\"") \
-											_Pragma("clang diagnostic ignored \"-Wweak-vtables\"")
-	#define MUU_DISABLE_PADDING_WARNINGS	_Pragma("clang diagnostic ignored \"-Wpadded\"")
 	#define MUU_DISABLE_ARITHMETIC_WARNINGS	_Pragma("clang diagnostic ignored \"-Wfloat-equal\"") \
 											_Pragma("clang diagnostic ignored \"-Wdouble-promotion\"") \
 											_Pragma("clang diagnostic ignored \"-Wchar-subscripts\"") \
 											_Pragma("clang diagnostic ignored \"-Wshift-sign-overflow\"") \
 							MUU_PRAGMA_CLANG_GE(10, "clang diagnostic ignored \"-Wimplicit-int-float-conversion\"")
 	#define MUU_DISABLE_SHADOW_WARNINGS		_Pragma("clang diagnostic ignored \"-Wshadow\"")
-	#define MUU_DISABLE_ALL_WARNINGS		_Pragma("clang diagnostic ignored \"-Weverything\"")
+	#define MUU_DISABLE_SPAM_WARNINGS		_Pragma("clang diagnostic ignored \"-Wweak-vtables\"")			\
+											_Pragma("clang diagnostic ignored \"-Wweak-template-vtables\"")	\
+											_Pragma("clang diagnostic ignored \"-Wpadded\"")
 	#define MUU_POP_WARNINGS				_Pragma("clang diagnostic pop")
+	#define MUU_DISABLE_WARNINGS			MUU_PUSH_WARNINGS \
+											_Pragma("clang diagnostic ignored \"-Weverything\"")
+	#define MUU_ENABLE_WARNINGS				MUU_POP_WARNINGS
 	#define MUU_ASSUME(cond)				__builtin_assume(cond)
 	#define MUU_UNREACHABLE					__builtin_unreachable()
 	#define MUU_ATTR(attr)					__attribute__((attr))
@@ -201,7 +209,6 @@
 			#if __has_declspec_attribute(noinline)
 				#define MUU_NEVER_INLINE	__declspec(noinline)
 			#endif
-			#define MUU_PRAGMA_MSVC(pragma)	__pragma(pragma)
 			#define MUU_VECTORCALL			__vectorcall
 		#endif
 	#endif
@@ -216,14 +223,10 @@
 			#define MUU_TRIVIAL_ABI			__attribute__((__trivial_abi__))
 		#endif
 	#endif
-	#ifdef __EXCEPTIONS
-		#define MUU_EXCEPTIONS 1
-	#else
+	#ifndef __EXCEPTIONS
 		#define MUU_EXCEPTIONS 0
 	#endif
-	#if __has_feature(cxx_rtti)
-		#define MUU_RTTI 1
-	#else
+	#if !__has_feature(cxx_rtti)
 		#define MUU_RTTI 0
 	#endif
 	#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
@@ -244,15 +247,17 @@
 // MSVC
 //=====================================================================================================================
 
-#if MUU_MSVC || (defined(_MSC_VER) && MUU_ICC && defined(__ICL))
+#if MUU_MSVC || MUU_ICC_CL
 
 	#define MUU_CPP_VERSION					_MSVC_LANG
-	#define MUU_PRAGMA_MSVC(...)			__pragma(__VA_ARGS__)
-	#define MUU_PUSH_WARNINGS				__pragma(warning(push))
-	#define MUU_DISABLE_SWITCH_WARNINGS		__pragma(warning(disable: 4063))
-	#define MUU_DISABLE_ALL_WARNINGS		__pragma(warning(pop))	\
-											__pragma(warning(push, 0))
-	#define MUU_POP_WARNINGS				__pragma(warning(pop))
+	#if MUU_MSVC // !intel-cl
+		#define MUU_PRAGMA_MSVC(...)		__pragma(__VA_ARGS__)
+		#define MUU_PUSH_WARNINGS			__pragma(warning(push))
+		#define MUU_DISABLE_SWITCH_WARNINGS	__pragma(warning(disable: 4063))
+		#define MUU_POP_WARNINGS			__pragma(warning(pop))
+		#define MUU_DISABLE_WARNINGS		__pragma(warning(push, 0))
+		#define MUU_ENABLE_WARNINGS			MUU_POP_WARNINGS
+	#endif
 	#define MUU_DECLSPEC(attr)				__declspec(attr)
 	#define MUU_ALWAYS_INLINE				__forceinline
 	#define MUU_NEVER_INLINE				__declspec(noinline)
@@ -262,21 +267,46 @@
 	#define MUU_EMPTY_BASES					__declspec(empty_bases)
 	#define MUU_UNALIASED_ALLOC				__declspec(restrict)
 	#define MUU_VECTORCALL					__vectorcall
-	#ifdef _CPPUNWIND
-		#define MUU_EXCEPTIONS 1
-	#else
+	#ifndef _CPPUNWIND
 		#define MUU_EXCEPTIONS 0
 	#endif
-	#ifdef _CPPRTTI
-		#define MUU_RTTI 1
-	#else
+	#ifndef _CPPRTTI
 		#define MUU_RTTI 0
 	#endif
 	#define MUU_LITTLE_ENDIAN				1
 	#define MUU_BIG_ENDIAN					0
 	#define MUU_OFFSETOF(s, m)				__builtin_offsetof(s,m)
 
-#endif // msvc
+#endif // msvc (and icc in msvc mode)
+
+//=====================================================================================================================
+// ICC
+//=====================================================================================================================
+
+#if MUU_ICC
+	
+	#define MUU_PRAGMA_ICC(...)				__pragma(__VA_ARGS__)
+	#define MUU_PUSH_WARNINGS				__pragma(warning(push))
+	#define MUU_DISABLE_SPAM_WARNINGS		__pragma(warning(disable: 82))	/* storage class is not first */ \
+											__pragma(warning(disable: 111))	/* statement unreachable (false-positive) */ \
+											__pragma(warning(disable: 869)) /* unreferenced parameter */ \
+											__pragma(warning(disable: 1011)) /* missing return (false-positive) */ \
+											__pragma(warning(disable: 2261)) /* assume expr side-effects discarded */
+	#define MUU_POP_WARNINGS				__pragma(warning(pop))
+	#define MUU_DISABLE_WARNINGS			__pragma(warning(push, 0)) MUU_DISABLE_SPAM_WARNINGS
+	#define MUU_ENABLE_WARNINGS				MUU_POP_WARNINGS
+	#ifndef MUU_OFFSETOF
+		#define MUU_OFFSETOF(s, m)			__builtin_offsetof(s,m) // ??
+	#endif
+	#ifndef MUU_ASSUME
+		#define MUU_ASSUME(cond)			__builtin_assume(cond) // ??
+	#endif
+	#ifndef MUU_UNREACHABLE
+		#define MUU_UNREACHABLE				__builtin_unreachable() // ??
+	#endif
+	#define MUU_UNREACHABLE_RETURN(r)		MUU_UNREACHABLE; return r
+
+#endif // icc
 
 //=====================================================================================================================
 // GCC
@@ -333,38 +363,38 @@
 											_Pragma("GCC diagnostic ignored \"-Wmaybe-uninitialized\"")			\
 											_Pragma("GCC diagnostic ignored \"-Wuninitialized\"")				\
 							   MUU_PRAGMA_GCC_GE(8, "GCC diagnostic ignored \"-Wclass-memaccess\"")
-	#define MUU_DISABLE_PADDING_WARNINGS	_Pragma("GCC diagnostic ignored \"-Wpadded\"")
 	#define MUU_DISABLE_ARITHMETIC_WARNINGS	_Pragma("GCC diagnostic ignored \"-Wfloat-equal\"")					\
 											_Pragma("GCC diagnostic ignored \"-Wsign-conversion\"")				\
 											_Pragma("GCC diagnostic ignored \"-Wchar-subscripts\"")
 	#define MUU_DISABLE_SHADOW_WARNINGS		_Pragma("GCC diagnostic ignored \"-Wshadow\"")
 	#define MUU_DISABLE_SUGGEST_WARNINGS	_Pragma("GCC diagnostic ignored \"-Wsuggest-attribute=const\"")		\
 											_Pragma("GCC diagnostic ignored \"-Wsuggest-attribute=pure\"")
-	#define MUU_DISABLE_ALL_WARNINGS		_Pragma("GCC diagnostic ignored \"-Wall\"")							\
+	#define MUU_DISABLE_SPAM_WARNINGS		_Pragma("GCC diagnostic ignored \"-Wpadded\"")						\
+											_Pragma("GCC diagnostic ignored \"-Wcast-align\"")					\
+											_Pragma("GCC diagnostic ignored \"-Wcomment\"")						\
+											_Pragma("GCC diagnostic ignored \"-Wtype-limits\"")
+	#define MUU_POP_WARNINGS				_Pragma("GCC diagnostic pop")
+	#define MUU_DISABLE_WARNINGS			MUU_PUSH_WARNINGS \
+											_Pragma("GCC diagnostic ignored \"-Wall\"")							\
 											_Pragma("GCC diagnostic ignored \"-Wextra\"")						\
 											_Pragma("GCC diagnostic ignored \"-Wpedantic\"")					\
-											_Pragma("GCC diagnostic ignored \"-Wtype-limits\"")					\
 											MUU_DISABLE_SWITCH_WARNINGS											\
-											MUU_DISABLE_LIFETIME_WARNINGS											\
-											MUU_DISABLE_PADDING_WARNINGS										\
+											MUU_DISABLE_LIFETIME_WARNINGS										\
 											MUU_DISABLE_ARITHMETIC_WARNINGS										\
 											MUU_DISABLE_SHADOW_WARNINGS											\
-											MUU_DISABLE_SUGGEST_WARNINGS
-	#define MUU_POP_WARNINGS				_Pragma("GCC diagnostic pop")
-	#define MUU_ATTR(attr)					__attribute__((attr))
+											MUU_DISABLE_SUGGEST_WARNINGS										\
+											MUU_DISABLE_SPAM_WARNINGS
+	#define MUU_ENABLE_WARNINGS				MUU_POP_WARNINGS
+		#define MUU_ATTR(attr)					__attribute__((attr))
 	#define MUU_ATTR_GCC(attr)				MUU_ATTR(attr)
 	#define MUU_ALWAYS_INLINE				__attribute__((__always_inline__)) inline
 	#define MUU_NEVER_INLINE				__attribute__((__noinline__))
 	#define MUU_UNREACHABLE					__builtin_unreachable()
 	#define MUU_UNALIASED_ALLOC				__attribute__((__malloc__))
-	#ifdef __cpp_exceptions
-		#define MUU_EXCEPTIONS 1
-	#else
+	#ifndef __cpp_exceptions
 		#define MUU_EXCEPTIONS 0
 	#endif
-	#ifdef __GXX_RTTI
-		#define MUU_RTTI 1
-	#else
+	#ifndef __GXX_RTTI
 		#define MUU_RTTI 0
 	#endif
 	#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
@@ -477,9 +507,6 @@
 #ifndef MUU_PRAGMA_CLANG_LT
 	#define MUU_PRAGMA_CLANG_LT(...)
 #endif
-#ifndef MUU_PRAGMA_MSVC
-	#define MUU_PRAGMA_MSVC(...)
-#endif
 #ifndef MUU_PRAGMA_GCC
 	#define MUU_PRAGMA_GCC(...)
 #endif
@@ -488,6 +515,12 @@
 #endif
 #ifndef MUU_PRAGMA_GCC_LT
 	#define MUU_PRAGMA_GCC_LT(...)
+#endif
+#ifndef MUU_PRAGMA_ICC
+	#define MUU_PRAGMA_ICC(...)
+#endif
+#ifndef MUU_PRAGMA_MSVC
+	#define MUU_PRAGMA_MSVC(...)
 #endif
 
 #ifndef MUU_ATTR
@@ -512,11 +545,8 @@
 #ifndef MUU_DISABLE_LIFETIME_WARNINGS
 	#define	MUU_DISABLE_LIFETIME_WARNINGS
 #endif
-#ifndef MUU_DISABLE_VTABLE_WARNINGS
-	#define MUU_DISABLE_VTABLE_WARNINGS
-#endif
-#ifndef MUU_DISABLE_PADDING_WARNINGS
-	#define MUU_DISABLE_PADDING_WARNINGS
+#ifndef MUU_DISABLE_SPAM_WARNINGS
+	#define MUU_DISABLE_SPAM_WARNINGS
 #endif
 #ifndef MUU_DISABLE_ARITHMETIC_WARNINGS
 	#define MUU_DISABLE_ARITHMETIC_WARNINGS
@@ -527,8 +557,11 @@
 #ifndef MUU_DISABLE_SUGGEST_WARNINGS
 	#define MUU_DISABLE_SUGGEST_WARNINGS
 #endif
-#ifndef MUU_DISABLE_ALL_WARNINGS
-	#define MUU_DISABLE_ALL_WARNINGS
+#ifndef MUU_DISABLE_WARNINGS
+	#define MUU_DISABLE_WARNINGS
+#endif
+#ifndef MUU_ENABLE_WARNINGS
+	#define MUU_ENABLE_WARNINGS
 #endif
 #ifndef MUU_POP_WARNINGS
 	#define MUU_POP_WARNINGS
@@ -553,7 +586,10 @@
 	#define MUU_ASSUME(cond)			(void)0
 #endif
 #ifndef MUU_UNREACHABLE
-	#define MUU_UNREACHABLE				MUU_ASSERT(false)
+	#define MUU_UNREACHABLE				(void)0
+#endif
+#ifndef MUU_UNREACHABLE_RETURN
+	#define MUU_UNREACHABLE_RETURN(r)	MUU_UNREACHABLE
 #endif
 
 #define MUU_NO_DEFAULT_CASE				default: MUU_UNREACHABLE
@@ -762,8 +798,7 @@
 // ASSERT
 //=====================================================================================================================
 
-MUU_PUSH_WARNINGS
-MUU_DISABLE_ALL_WARNINGS
+MUU_DISABLE_WARNINGS
 #ifndef MUU_ASSERT
 	#ifdef NDEBUG
 		#define MUU_ASSERT(expr)	(void)0
@@ -774,21 +809,20 @@ MUU_DISABLE_ALL_WARNINGS
 		#define MUU_ASSERT(expr)	assert(expr)
 	#endif
 #endif
-MUU_POP_WARNINGS
+MUU_ENABLE_WARNINGS
 
 //=====================================================================================================================
 // OFFSETOF
 //=====================================================================================================================
 
-MUU_PUSH_WARNINGS
-MUU_DISABLE_ALL_WARNINGS
+MUU_DISABLE_WARNINGS
 #ifndef MUU_OFFSETOF
 	#ifndef offsetof
 		#include <cstddef>
 	#endif
 	#define MUU_OFFSETOF(s, m) offsetof(s, m)
 #endif
-MUU_POP_WARNINGS
+MUU_ENABLE_WARNINGS
 
 //=====================================================================================================================
 // DOXYGEN SPAM
@@ -830,7 +864,7 @@ MUU_POP_WARNINGS
 /// \see https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros
 /// 
 /// \def MUU_ICC
-/// \brief The value of `__INTEL_COMPILER` when the code is being compiled by Intel ICC, otherwise `0`.
+/// \brief The value of `__INTEL_COMPILER` when the code is being compiled by ICC, otherwise `0`.
 /// \see http://scv.bu.edu/computation/bladecenter/manpages/icc.html
 /// 
 /// \def MUU_GCC
@@ -863,7 +897,10 @@ MUU_POP_WARNINGS
 /// 
 /// \def MUU_PRAGMA_MSVC(...)
 /// \brief Expands to a `_pragma()` directive when compiling with MSVC.
-///
+/// 
+/// \def MUU_PRAGMA_ICC(...)
+/// \brief Expands to a `_pragma()` directive when compiling with ICC.
+/// 
 /// \def MUU_PRAGMA_GCC(...)
 /// \brief Expands to a `_Pragma()` directive when compiling with GCC.
 /// 
@@ -901,27 +938,25 @@ MUU_POP_WARNINGS
 /// 	MUU_POP_WARNINGS
 /// \ecpp
 
-//#define MUU_DISABLE_SWITCH_WARNINGS
 /// \def MUU_DISABLE_SWITCH_WARNINGS
 /// \brief Disables compiler warnings relating to the use of switch statements.
 /// \see MUU_PUSH_WARNINGS
 
-//#define MUU_DISABLE_LIFETIME_WARNINGS
 /// \def MUU_DISABLE_LIFETIME_WARNINGS
 /// \brief Disables compiler warnings relating to object lifetime
 /// 	   (initialization, destruction, magic statics, et cetera).
 /// \see MUU_PUSH_WARNINGS
 
-//#define MUU_DISABLE_ALL_WARNINGS
-/// \def MUU_DISABLE_ALL_WARNINGS
+/// \def MUU_DISABLE_WARNINGS
 /// \brief Disables ALL compiler warnings.
-/// \see MUU_PUSH_WARNINGS
 
-//#define MUU_POP_WARNINGS
+/// \def MUU_ENABLE_WARNINGS
+/// \brief Re-enables compiler warnings again after using #MUU_DISABLE_WARNINGS.
+
 /// \def MUU_POP_WARNINGS
 /// \brief Pops the current compiler warning state off the stack.
 /// \see MUU_PUSH_WARNINGS
-///
+
 /// \def MUU_ASSUME(cond)
 /// \brief Optimizer hint for signalling various assumptions about state at specific points in code.
 /// \warning Using this incorrectly can lead to seriously mis-compiled code!
@@ -1146,3 +1181,4 @@ MUU_POP_WARNINGS
 #endif // DOXYGEN
 
 // clang-format on
+

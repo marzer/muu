@@ -123,17 +123,31 @@ if build_tests or build_examples
 		endif
 	endif
 
+	# msvc
+	if compiler.get_id() == 'msvc'
+		add_project_arguments([
+				'/utf-8'
+			],
+			language : 'cpp'
+		)
+	endif
+
 	# ICC's visual studio frontend, ICL
 	if compiler.get_id() == 'intel-cl'
 		add_project_arguments([
-				'/Qoption,cpp,--unicode_source_kind,UTF-8',
-				'/std=c++latest',
-				'/wd82', # storage class is not first
-				'/wd280', # selector expression is constant (why the fuck is that a warning?)
-				'/wd411', # class provides no constructor (duh, it's an aggregate)
-				'/wd1011', # missing return statement (false negative)
-				'/wd1628', # function marked [[noreturn]] returns (false positive)
-				'/wd3280' # declaration hides member (triggered in Catch2)
+				'/Qdiag-error-limit:5'
+				, '/Qoption,cpp,--unicode_source_kind,UTF-8'
+				, '/D__builtin_bit_cast(T, v)=([&]()noexcept{ T val; memcpy(&val, &v, sizeof(T)); return val; })()' # __builtin_bit_cast workaround
+				, '/wd82' # storage class is not first
+				, '/wd177' # unreferenced var
+				, '/wd280' # selector expression is constant (why the fuck is that a warning?)
+				, '/wd411' # class provides no constructor (duh, it's an aggregate)
+				, '/wd869' # parameter "blah" was never referenced
+				, '/wd1011' # missing return statement (false negative)
+				, '/wd1628' # function marked [[noreturn]] returns (false positive)
+				, '/wd2261' # assume with side effects discarded
+				, '/wd2557' # mismatched sign compare
+				, '/wd3280' # declaration hides member (triggered in Catch2)
 			],
 			language : 'cpp'
 		)

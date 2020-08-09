@@ -67,11 +67,10 @@ struct IUnknown;
 // UNDOCUMENTED TYPEDEFS AND FORWARD DECLARATIONS
 //=====================================================================================================================
 
-MUU_PUSH_WARNINGS
-MUU_DISABLE_ALL_WARNINGS
+MUU_DISABLE_WARNINGS
 #include <cstdint>
 #include <cstddef>
-MUU_POP_WARNINGS
+MUU_ENABLE_WARNINGS
 
 namespace muu // non-abi namespace; this is not an error
 {

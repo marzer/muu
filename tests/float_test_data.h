@@ -8,10 +8,9 @@
 #pragma once
 #include "settings.h"
 #include "../include/muu/core.h"
-MUU_PUSH_WARNINGS
-MUU_DISABLE_ALL_WARNINGS
+MUU_DISABLE_WARNINGS
 #include <array>
-MUU_POP_WARNINGS
+MUU_ENABLE_WARNINGS
 
 #if MUU_GCC && MUU_HAS_FLOAT128
 	#pragma GCC system_header
@@ -20,9 +19,6 @@ MUU_POP_WARNINGS
 #ifndef MUU_HAS_INT256
 	#define MUU_HAS_INT256 0
 #endif
-
-MUU_PUSH_WARNINGS
-MUU_DISABLE_ALL_WARNINGS
 
 MUU_NAMESPACE_START
 {
@@ -810,5 +806,3 @@ MUU_NAMESPACE_START
 	struct float_test_data : float_test_data_by_traits<sizeof(T) * CHAR_BIT, std::numeric_limits<T>::digits> {};
 }
 MUU_NAMESPACE_END
-
-MUU_POP_WARNINGS

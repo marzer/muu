@@ -38,6 +38,7 @@ int main(int /*argc*/, char** /*argv*/)
 		std::cout << "  actual: "sv << hasher << std::endl;
 	}
 
+	#if !MUU_ICC
 	{
 		std::cout << "expected: f1c64b37a795cb62"sv << std::endl;
 		muu::fnv1a<64> hasher;
@@ -51,6 +52,7 @@ int main(int /*argc*/, char** /*argv*/)
 		hasher(L"ði ıntəˈnæʃənəl fəˈnɛtık əsoʊsiˈeıʃn"sv);
 		std::cout << "  actual: "sv << hasher << std::endl;
 	}
+	#endif
 
 	return 0;
 }

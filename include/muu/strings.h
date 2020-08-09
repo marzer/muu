@@ -15,11 +15,13 @@
 #ifdef __cpp_char8_t
 #include "../muu/impl/unicode_char8_t.h"
 #endif
+MUU_DISABLE_WARNINGS
+#include <string_view>
+MUU_ENABLE_WARNINGS
 
 MUU_PUSH_WARNINGS
-MUU_DISABLE_ALL_WARNINGS
-#include <string_view>
-MUU_POP_WARNINGS
+MUU_DISABLE_SPAM_WARNINGS
+
 namespace muu { using namespace std::string_view_literals; }
 
 //=====================================================================================================================
@@ -30,6 +32,9 @@ MUU_IMPL_NAMESPACE_START
 {
 	class MUU_TRIVIAL_ABI utf8_decoder final
 	{
+		// utf8_decoder based on this: https://bjoern.hoehrmann.de/utf-8/decoder/dfa/
+		// Copyright (c) 2008-2009 Bjoern Hoehrmann <bjoern@hoehrmann.de>
+
 		private:
 			uint_least32_t state{};
 			static constexpr uint8_t state_table[]
@@ -284,25 +289,25 @@ MUU_IMPL_NAMESPACE_START
 		);
 
 		using func_return_type = typename utf_decode_func_traits<T, Func>::return_type;
-		constexpr auto stop_after_invoking = [](auto&& f, char32_t cp, size_t cp_start, size_t cu_count) noexcept -> bool
+		constexpr auto stop_after_invoking = [](auto&& f, char32_t cp, size_t cu_start, size_t cu_count) noexcept -> bool
 		{
-			(void)cp_start;
+			(void)cu_start;
 			(void)cu_count;
 			if constexpr (std::is_convertible_v<func_return_type, bool>)
 			{
 				if constexpr (std::is_nothrow_invocable_v<Func&&, T, size_t, size_t>)
-					return !static_cast<bool>(std::forward<decltype(f)>(f)(cp, cp_start, cu_count));
+					return !static_cast<bool>(std::forward<decltype(f)>(f)(cp, cu_start, cu_count));
 				else if constexpr (std::is_nothrow_invocable_v<Func&&, T, size_t>)
-					return !static_cast<bool>(std::forward<decltype(f)>(f)(cp, cp_start));
+					return !static_cast<bool>(std::forward<decltype(f)>(f)(cp, cu_start));
 				else
 					return !static_cast<bool>(std::forward<decltype(f)>(f)(cp));
 			}
 			else
 			{
 				if constexpr (std::is_nothrow_invocable_v<Func&&, T, size_t, size_t>)
-					std::forward<decltype(f)>(f)(cp, cp_start, cu_count);
+					std::forward<decltype(f)>(f)(cp, cu_start, cu_count);
 				else if constexpr (std::is_nothrow_invocable_v<Func&&, T, size_t>)
-					std::forward<decltype(f)>(f)(cp, cp_start);
+					std::forward<decltype(f)>(f)(cp, cu_start);
 				else
 					std::forward<decltype(f)>(f)(cp);
 				return false;
@@ -312,7 +317,7 @@ MUU_IMPL_NAMESPACE_START
 		bool stop = false;
 		size_t data_start = 0;
 		[[maybe_unused]] bool requires_bswap = false;
-		const auto get = [&](size_t idx) noexcept
+		const auto get = [&](size_t idx) noexcept -> T
 		{
 			if constexpr (sizeof(T) == 1)
 				return str[idx];
@@ -782,3 +787,5 @@ MUU_NAMESPACE_START
 	/// @}
 }
 MUU_NAMESPACE_END
+
+MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS

@@ -883,10 +883,10 @@ class CodepointChunk:
 
 	def __str__(self):
 		self.__finish()
-		s = ''
 		if self.has_expression():
-			return s + 'return {};'.format(strip_brackets(self.expression(self.root())))
+			return 'return {};'.format(strip_brackets(self.expression(self.root())))
 		else:
+			s = ''
 			exclusions = []
 			assumptions = []
 			if self.span_first() < self.first():
@@ -1632,6 +1632,9 @@ def write_header(folders, code_unit):
 			else:
 				h('#include "../../muu/fwd.h"')
 			h('')
+			h('MUU_PUSH_WARNINGS')
+			h('MUU_DISABLE_SPAM_WARNINGS')
+			h('')
 			h('MUU_{}NAMESPACE_START'.format('IMPL_' if code_unit.private_api else ''))
 			h('{')
 
@@ -1842,6 +1845,8 @@ def write_header(folders, code_unit):
 			# finish up header
 			h('}')
 			h('MUU_{}NAMESPACE_END'.format('IMPL_' if code_unit.private_api else ''))
+			h('')
+			h('MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS')
 
 			# finish up tests
 			if len(mutex_groups) > 0:

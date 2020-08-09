@@ -398,10 +398,9 @@ def main():
 		write('#pragma once')
 		write('#include "settings.h"')
 		write('#include "../include/muu/core.h"')
-		write('MUU_PUSH_WARNINGS')
-		write('MUU_DISABLE_ALL_WARNINGS')
+		write('MUU_DISABLE_WARNINGS')
 		write('#include <array>')
-		write('MUU_POP_WARNINGS')
+		write('MUU_ENABLE_WARNINGS')
 		write('')
 		write('#if MUU_GCC && MUU_HAS_FLOAT128')
 		write('\t#pragma GCC system_header')
@@ -410,9 +409,6 @@ def main():
 		write('#ifndef MUU_HAS_INT256')
 		write('\t#define MUU_HAS_INT256 0')
 		write('#endif')
-		write('')
-		write('MUU_PUSH_WARNINGS')
-		write('MUU_DISABLE_ALL_WARNINGS')
 		write('')
 		write('MUU_NAMESPACE_START')
 		write('{')
@@ -448,8 +444,6 @@ def main():
 		indent = indent - 1 
 		write('}')
 		write('MUU_NAMESPACE_END')
-		write('')
-		write('MUU_POP_WARNINGS')
 		
 
 if __name__ == '__main__':

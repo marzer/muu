@@ -8,14 +8,13 @@
 
 #pragma once
 #include "../muu/hashing.h"
-MUU_PUSH_WARNINGS
-MUU_DISABLE_ALL_WARNINGS
+MUU_DISABLE_WARNINGS
 #include <optional>
-MUU_POP_WARNINGS
+MUU_ENABLE_WARNINGS
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_SWITCH_WARNINGS
-MUU_DISABLE_PADDING_WARNINGS
+MUU_DISABLE_SPAM_WARNINGS
 
 #if !defined(DOXYGEN) // MUU_EVAL fucks it up
 MUU_IMPL_NAMESPACE_START
@@ -470,8 +469,10 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		friend constexpr bool operator == (const uuid& lhs, const uuid& rhs) noexcept
 		{
+			#if !MUU_ICC
 			if (&lhs == &rhs)
 				return true;
+			#endif
 
 			#if MUU_HAS_INT128
 			if constexpr (build::supports_constexpr_bit_cast)
@@ -501,8 +502,10 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr int32_t compare(const uuid& lhs, const uuid& rhs) noexcept
 		{
+			#if !MUU_ICC
 			if (&lhs == &rhs)
 				return 0;
+			#endif
 			
 			#if MUU_HAS_INT128
 			{
@@ -809,7 +812,7 @@ namespace std
 	};
 }
 
-MUU_POP_WARNINGS // MUU_DISABLE_SWITCH_WARNINGS, MUU_DISABLE_PADDING_WARNINGS
+MUU_POP_WARNINGS // MUU_DISABLE_SWITCH_WARNINGS, MUU_DISABLE_SPAM_WARNINGS
 
 #if MUU_IMPLEMENTATION
 	#include "../muu/impl/uuid.hpp"

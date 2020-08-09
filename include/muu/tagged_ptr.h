@@ -556,9 +556,9 @@ MUU_NAMESPACE_START
 			/// \remarks This operator is only available when the pointed type is a function.
 			template <typename... U, typename V = element_type, typename = std::enable_if_t<std::is_function_v<V>>>
 			constexpr decltype(auto) operator () (U&&... args) const
-				noexcept(std::is_nothrow_invocable_v<V, U&&...>)
+				noexcept(std::is_nothrow_invocable_v<V*, U&&...>)
 			{
-				static_assert(std::is_invocable_v<V, U&&...>);
+				static_assert(std::is_invocable_v<V*, U&&...>);
 
 				return ptr()(std::forward<U>(args)...);
 			}
