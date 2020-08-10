@@ -8,27 +8,12 @@
 
 #define SV(v) MUU_APPEND_SV(v)
 
-#if MUU_ICC
-	#define CHECK_FUNC_SINGLE(...)		CHECK(__VA_ARGS__)
-#else
-	#define CHECK_FUNC_SINGLE(...)		CHECK_AND_STATIC_ASSERT(__VA_ARGS__)
-	#define CHECK_FUNC_SINGLE_W(...)	CHECK_AND_STATIC_ASSERT_W(__VA_ARGS__)
-#endif
-
-#define CHECK_FUNC_(func, input, expected)												\
-	CHECK_FUNC_SINGLE(func(SV(input)) == SV(expected));									\
-	CHECK_FUNC_SINGLE(func(MUU_CONCAT(u8, SV(input))) == MUU_CONCAT(u8, SV(expected)));	\
-	CHECK_FUNC_SINGLE(func(MUU_CONCAT(u, SV(input)))  == MUU_CONCAT(u,  SV(expected)));	\
-	CHECK_FUNC_SINGLE(func(MUU_CONCAT(U, SV(input)))  == MUU_CONCAT(U,  SV(expected)))
-
-#if MUU_ICC
-	#define CHECK_FUNC(func, input, expected)												\
-		CHECK_FUNC_(func, input, expected)
-#else
-	#define CHECK_FUNC(func, input, expected)												\
-		CHECK_FUNC_(func, input, expected);													\
-		CHECK_FUNC_SINGLE_W(func(MUU_CONCAT(L, SV(input)))  == MUU_CONCAT(L,  SV(expected)))
-#endif
+#define CHECK_FUNC(func, input, expected)													\
+	CHECK_STRINGS(func(SV(input)) == SV(expected));											\
+	CHECK_STRINGS(func(MUU_CONCAT(u8, SV(input))) == MUU_CONCAT(u8, SV(expected)));			\
+	CHECK_STRINGS(func(MUU_CONCAT(u, SV(input)))  == MUU_CONCAT(u,  SV(expected)));			\
+	CHECK_STRINGS(func(MUU_CONCAT(U, SV(input)))  == MUU_CONCAT(U,  SV(expected)));			\
+	CHECK_STRINGS_W(func(MUU_CONCAT(L, SV(input))) == MUU_CONCAT(L, SV(expected)))
 
 #define ALL_WS	"\u0009\u000A\u000B\u000C\u000D\u0020\u0085\u00A0\u1680\u2000\u2001\u2002\u3000"	\
 				"\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u2028\u2029\u202F\u205F"

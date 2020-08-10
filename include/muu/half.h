@@ -597,6 +597,20 @@ MUU_NAMESPACE_START
 		return static_cast<float>(val) < 0.0f ? -val : val;
 	}
 
+	/// \brief	Calculates a linear interpolation between two values.
+	/// \ingroup	intrinsics
+	///
+	/// \remark	This is a stand-in for C++20's std::lerp, but does _not_ make the same guarantees about infinities and NaN's.
+	/// 			Garbage-in, garbage-out.
+	/// 
+	/// \returns	The requested linear interpolation between the start and finish values.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr half MUU_VECTORCALL lerp(half start, half finish, half alpha) noexcept
+	{
+		return static_cast<half>(lerp(static_cast<float>(start), static_cast<float>(finish), static_cast<float>(alpha)));
+	}
+
 	namespace impl
 	{
 		template <>

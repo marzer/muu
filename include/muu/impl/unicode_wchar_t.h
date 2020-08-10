@@ -12,9 +12,6 @@
 #include "../../muu/preprocessor.h"
 #include MUU_MAKE_STRING(MUU_CONCAT(MUU_CONCAT(../../muu/impl/unicode_char, MUU_WCHAR_BITS), _t.h))
 
-MUU_PUSH_WARNINGS
-MUU_DISABLE_SPAM_WARNINGS
-
 MUU_NAMESPACE_START
 {
 	/// \brief		Returns true if a wide character is within the ASCII range.
@@ -272,5 +269,3 @@ MUU_NAMESPACE_START
 
 }
 MUU_NAMESPACE_END
-
-MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS

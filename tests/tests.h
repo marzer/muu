@@ -73,10 +73,18 @@ MUU_ENABLE_WARNINGS
 		CHECK(__VA_ARGS__)
 #endif
 
-// CHECK_AND_STATIC_ASSERT_W for wide string-related code
+// CHECK asserts for string-related code
 // because a bunch of wide string traits code doesn't work in constexpr on older clang
-#if !MUU_CLANG || MUU_CLANG > 8
-	#define CHECK_AND_STATIC_ASSERT_W(x) CHECK_AND_STATIC_ASSERT(x)
-#else
-	#define CHECK_AND_STATIC_ASSERT_W(x) CHECK(x)
+// (and straight-up fails to link on intel-cl)
+#if MUU_CLANG && MUU_CLANG <= 8
+	#define CHECK_STRINGS_W(...)	CHECK(__VA_ARGS__)
+#elif MUU_ICC_CL
+	#define CHECK_STRINGS(...)		CHECK(__VA_ARGS__)
+	#define CHECK_STRINGS_W(...)	(void)0
+#endif
+#ifndef CHECK_STRINGS
+	#define CHECK_STRINGS(...)		CHECK_AND_STATIC_ASSERT(__VA_ARGS__)
+#endif
+#ifndef CHECK_STRINGS_W
+	#define CHECK_STRINGS_W(...)	CHECK_AND_STATIC_ASSERT(__VA_ARGS__)
 #endif

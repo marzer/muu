@@ -11,9 +11,6 @@
 #pragma once
 #include "../../muu/fwd.h"
 
-MUU_PUSH_WARNINGS
-MUU_DISABLE_SPAM_WARNINGS
-
 MUU_NAMESPACE_START
 {
 	/// \brief		Returns true if a UTF-16 code unit is within the ASCII range.
@@ -1024,5 +1021,3 @@ MUU_NAMESPACE_START
 
 }
 MUU_NAMESPACE_END
-
-MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS

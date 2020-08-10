@@ -275,33 +275,19 @@ TEST_CASE("uuid - relops")
 	}
 }
 
-#define CHECK_PARSE_FAILS_(input)																\
-	CHECK_AND_STATIC_ASSERT(!uuid::parse(MUU_APPEND_SV(input)));								\
-	CHECK_AND_STATIC_ASSERT(!uuid::parse(MUU_CONCAT(u8, MUU_APPEND_SV(input))));				\
-	CHECK_AND_STATIC_ASSERT(!uuid::parse(MUU_CONCAT(u, MUU_APPEND_SV(input))));					\
-	CHECK_AND_STATIC_ASSERT(!uuid::parse(MUU_CONCAT(U, MUU_APPEND_SV(input))))
+#define CHECK_PARSE_FAILS(input)													\
+	CHECK_STRINGS(!uuid::parse(MUU_APPEND_SV(input)));								\
+	CHECK_STRINGS(!uuid::parse(MUU_CONCAT(u8, MUU_APPEND_SV(input))));				\
+	CHECK_STRINGS(!uuid::parse(MUU_CONCAT(u, MUU_APPEND_SV(input))));				\
+	CHECK_STRINGS(!uuid::parse(MUU_CONCAT(U, MUU_APPEND_SV(input))));				\
+	CHECK_STRINGS_W(!uuid::parse(MUU_CONCAT(L, MUU_APPEND_SV(input))))
 
-#define CHECK_PARSE_SUCCEEDS_(input, expected)													\
-	CHECK_AND_STATIC_ASSERT(uuid::parse(MUU_APPEND_SV(input)) == expected);						\
-	CHECK_AND_STATIC_ASSERT(uuid::parse(MUU_CONCAT(u8, MUU_APPEND_SV(input))) == expected);		\
-	CHECK_AND_STATIC_ASSERT(uuid::parse(MUU_CONCAT(u, MUU_APPEND_SV(input))) == expected);		\
-	CHECK_AND_STATIC_ASSERT(uuid::parse(MUU_CONCAT(U, MUU_APPEND_SV(input))) == expected)
-
-#if MUU_ICC
-	#define CHECK_PARSE_FAILS(input)															\
-		CHECK_PARSE_FAILS_(input)
-
-	#define CHECK_PARSE_SUCCEEDS(input, expected)												\
-		CHECK_PARSE_SUCCEEDS_(input, expected)
-#else
-	#define CHECK_PARSE_FAILS(input)															\
-		CHECK_PARSE_FAILS_(input);																\
-		CHECK_AND_STATIC_ASSERT_W(!uuid::parse(MUU_CONCAT(L, MUU_APPEND_SV(input))))
-
-	#define CHECK_PARSE_SUCCEEDS(input, expected)												\
-		CHECK_PARSE_SUCCEEDS_(input, expected);													\
-		CHECK_AND_STATIC_ASSERT_W(uuid::parse(MUU_CONCAT(L, MUU_APPEND_SV(input))) == expected)
-#endif
+#define CHECK_PARSE_SUCCEEDS(input, expected)										\
+	CHECK_STRINGS(uuid::parse(MUU_APPEND_SV(input)) == expected);					\
+	CHECK_STRINGS(uuid::parse(MUU_CONCAT(u8, MUU_APPEND_SV(input))) == expected);	\
+	CHECK_STRINGS(uuid::parse(MUU_CONCAT(u, MUU_APPEND_SV(input))) == expected);	\
+	CHECK_STRINGS(uuid::parse(MUU_CONCAT(U, MUU_APPEND_SV(input))) == expected);	\
+	CHECK_STRINGS_W(uuid::parse(MUU_CONCAT(L, MUU_APPEND_SV(input))) == expected)
 
 TEST_CASE("uuid - parsing")
 {

@@ -355,6 +355,49 @@ MUU_IMPL_NAMESPACE_START
 	template <typename T> struct remove_enum<T&, true> { using type = typename remove_enum<T>::type&; };
 	template <typename T> struct remove_enum<T&&, true> { using type = typename remove_enum<T>::type&&; };
 
+	template <typename...>				struct highest_ranked;
+	template <typename T>				struct highest_ranked<T>		{ using type = T; };
+	template <typename T>				struct highest_ranked<T, T>		{ using type = T; };
+	template <typename T>				struct highest_ranked<void, T>	{ using type = T; };
+	template <typename T>				struct highest_ranked<T, void>	{ using type = T; };
+	template <typename T, typename U>	struct highest_ranked<T, U>		{ using type = decltype(T{} + U{}); };
+	template <typename T, typename U, typename... V>
+	struct highest_ranked<T, U, V...>
+	{
+		using type = typename highest_ranked<T, typename highest_ranked<U, V...>::type>::type;
+	};
+	#define MUU_HR_SPECIALIZATION(lower, higher)									\
+		template <> struct highest_ranked<lower, higher> { using type = higher; };	\
+		template <> struct highest_ranked<higher, lower> { using type = higher; }
+	MUU_HR_SPECIALIZATION(half, float);
+	MUU_HR_SPECIALIZATION(half, double);
+	MUU_HR_SPECIALIZATION(half, long double);
+	#if MUU_HAS_INTERCHANGE_FP16
+		MUU_HR_SPECIALIZATION(__fp16, half);
+		MUU_HR_SPECIALIZATION(__fp16, float);
+		MUU_HR_SPECIALIZATION(__fp16, double);
+		MUU_HR_SPECIALIZATION(__fp16, long double);
+	#endif // MUU_HAS_INTERCHANGE_FP16
+	#if MUU_HAS_FLOAT16
+		MUU_HR_SPECIALIZATION(half, float16_t);
+		MUU_HR_SPECIALIZATION(float16_t, float);
+		MUU_HR_SPECIALIZATION(float16_t, double);
+		MUU_HR_SPECIALIZATION(float16_t, long double);
+		#if MUU_HAS_INTERCHANGE_FP16
+			MUU_HR_SPECIALIZATION(__fp16, float16_t);
+		#endif
+	#endif
+	#if MUU_HAS_FLOAT128
+		MUU_HR_SPECIALIZATION(half, float128_t);
+		#if MUU_HAS_INTERCHANGE_FP16
+			MUU_HR_SPECIALIZATION(__fp16, float128_t);
+		#endif
+		#if MUU_HAS_FLOAT16
+			MUU_HR_SPECIALIZATION(float16_t, float128_t);
+		#endif
+	#endif
+	#undef MUU_HR_SPECIALIZATION
+
 	//template <typename T, bool = std::is_enum_v<T>>
 	//struct underlying_type : std::underlying_type<T> {};
 	//template <typename T>
@@ -1380,7 +1423,7 @@ MUU_NAMESPACE_START
 	/// 		 available regardless of the C++ mode. Using this function on these compilers allows
 	/// 		 you to get the same behaviour even when you aren't targeting C++20.
 	/// 
-	/// \attention On older compilers lacking support for std::is_constant_evaluated this will always return `false`.
+	/// \remark On older compilers lacking support for std::is_constant_evaluated this will always return `false`.
 	/// 		   You can check for support by examining build::supports_is_constant_evaluated.
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
@@ -1404,7 +1447,7 @@ MUU_NAMESPACE_START
 		inline constexpr bool supports_is_constant_evaluated = is_constant_evaluated();
 	}
 
-	/// \brief	Equivalent to C++17's std::launder.
+	/// \brief	Equivalent to C++17's std::launder
 	/// \ingroup	intrinsics
 	///
 	/// \detail Older implementations don't provide this as an intrinsic or have a placeholder
@@ -1414,17 +1457,22 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(flatten)
-	constexpr T* launder(T* p) noexcept
+	constexpr T* launder(T* ptr) noexcept
 	{
-		#if MUU_CLANG >= 7			\
-			|| MUU_GCC >= 7			\
+		static_assert(
+			!std::is_function_v<T> && !std::is_void_v<T>,
+			"launder() may not be used on pointers to functions or void."
+		);
+
+		#if MUU_CLANG >= 6		\
+			|| MUU_GCC >= 7		\
 			|| MUU_ICC >= 1910	\
 			|| MUU_MSVC >= 1914
-			return __builtin_launder(p);
+			return __builtin_launder(ptr);
 		#elif defined(__cpp_lib_launder)
-			return std::launder(p);
+			return std::launder(ptr);
 		#else
-			return p;
+			return ptr;
 		#endif
 	}
 
@@ -1463,9 +1511,10 @@ MUU_NAMESPACE_START
 		constexpr int MUU_VECTORCALL countl_zero_native(T val) noexcept
 		{
 			MUU_ASSUME(val > T{});
-
+			
+			using bit_type = muu::largest<T, unsigned>;
 			int count = 0;
-			T bit = T{ 1 } << (sizeof(T) * CHAR_BIT - 1);
+			bit_type bit = bit_type{ 1 } << (sizeof(T) * CHAR_BIT - 1);
 			while (true)
 			{
 				if ((bit & val))
@@ -1483,18 +1532,6 @@ MUU_NAMESPACE_START
 		int MUU_VECTORCALL countl_zero_intrinsic(T val) noexcept
 		{
 			MUU_ASSUME(val > T{});
-
-			#if MUU_HAS_INT128
-			if constexpr (std::is_same_v<T, uint128_t>)
-			{
-				auto high = countl_zero(static_cast<uint64_t>(val >> 64));
-				if (high < 64)
-					return high;
-				else
-					return 64 + countl_zero(static_cast<uint64_t>(val));
-			}
-			else
-			#endif
 
 			#if MUU_GCC || MUU_CLANG || MUU_MSVC
 			{
@@ -1514,16 +1551,15 @@ MUU_NAMESPACE_START
 			//#elif MUU_ICC
 			//{
 			//	#define MUU_HAS_INTRINSIC_COUNTL_ZERO 1
-
 			//	if constexpr (sizeof(T) == sizeof(unsigned __int64))
 			//	{
-			//		unsigned int p;
+			//		unsigned long p;
 			//		_BitScanReverse64(&p, static_cast<unsigned __int64>(val));
 			//		return static_cast<int>(p);
 			//	}
 			//	else if constexpr (sizeof(T) == sizeof(unsigned __int32))
 			//	{
-			//		unsigned int p;
+			//		unsigned long p;
 			//		_BitScanReverse(&p, static_cast<unsigned __int32>(val));
 			//		return static_cast<int>(p);
 			//	}
@@ -1559,6 +1595,17 @@ MUU_NAMESPACE_START
 	{
 		if constexpr (is_enum<T>)
 			return countl_zero(unwrap(val));
+
+		#if MUU_HAS_INT128
+		else if constexpr (std::is_same_v<T, uint128_t>)
+		{
+			if (const auto high = countl_zero(static_cast<uint64_t>(val >> 64)); high < 64)
+				return high;
+			else
+				return 64 + countl_zero(static_cast<uint64_t>(val));
+		}
+		#endif
+
 		else
 		{
 			if (!val)
@@ -1585,8 +1632,9 @@ MUU_NAMESPACE_START
 		{
 			MUU_ASSUME(val > T{});
 
+			using bit_type = muu::largest<T, unsigned>;
 			int count = 0;
-			T bit = T{ 1 };
+			bit_type bit = 1;
 			while (true)
 			{
 				if ((bit & val))
@@ -1605,18 +1653,6 @@ MUU_NAMESPACE_START
 		{
 			MUU_ASSUME(val > T{});
 
-			#if MUU_HAS_INT128
-			if constexpr (std::is_same_v<T, uint128_t>)
-			{
-				auto low = countr_zero(static_cast<uint64_t>(val));
-				if (low < 64)
-					return low;
-				else
-					return 64 + countr_zero(static_cast<uint64_t>(val >> 64));
-			}
-			else
-			#endif
-
 			#if MUU_GCC || MUU_CLANG || MUU_MSVC
 			{
 				#define MUU_HAS_INTRINSIC_COUNTR_ZERO 1
@@ -1633,7 +1669,6 @@ MUU_NAMESPACE_START
 			//#elif MUU_ICC
 			//{
 			//	#define MUU_HAS_INTRINSIC_COUNTR_ZERO 1
-
 			//	if constexpr (sizeof(T) == sizeof(unsigned __int64))
 			//	{
 			//		unsigned int p;
@@ -1678,10 +1713,22 @@ MUU_NAMESPACE_START
 	{
 		if constexpr (is_enum<T>)
 			return countr_zero(unwrap(val));
+		
+		#if MUU_HAS_INT128
+		else if constexpr (std::is_same_v<T, uint128_t>)
+		{
+			if (const auto low = countr_zero(static_cast<uint64_t>(val)); low < 64)
+				return low;
+			else
+				return 64 + countr_zero(static_cast<uint64_t>(val >> 64));
+		}
+		#endif
+
 		else
 		{
 			if (!val)
 				return static_cast<int>(sizeof(T) * CHAR_BIT);
+
 
 			if constexpr (!build::supports_is_constant_evaluated || !MUU_HAS_INTRINSIC_COUNTR_ZERO)
 				return impl::countr_zero_native(val);
@@ -1694,6 +1741,49 @@ MUU_NAMESPACE_START
 			}
 		}
 	}
+
+	/// \brief	Counts the number of consecutive 1 bits, starting from the left.
+	/// \ingroup	intrinsics
+	///
+	/// \detail This is equivalent to C++20's std::countl_one, with the addition of also being
+	/// 		 extended to work with enum types.
+	/// 
+	/// \tparam	T		An unsigned integer or enum type.
+	/// \param 	val		The value to test.
+	///
+	/// \returns	The number of consecutive ones from the left end of an integer's bits.
+	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr int MUU_VECTORCALL countl_one(T val) noexcept
+	{
+		if constexpr (is_enum<T>)
+			return countl_one(unwrap(val));
+		else
+			return countl_zero(static_cast<T>(~val));
+	}
+
+	/// \brief	Counts the number of consecutive 1 bits, starting from the right.
+	/// \ingroup	intrinsics
+	///
+	/// \detail This is equivalent to C++20's std::countr_one, with the addition of also being
+	/// 		 extended to work with enum types.
+	/// 
+	/// \tparam	T		An unsigned integer or enum type.
+	/// \param 	val		The value to test.
+	///
+	/// \returns	The number of consecutive ones from the right end of an integer's bits.
+	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr int MUU_VECTORCALL countr_one(T val) noexcept
+	{
+		if constexpr (is_enum<T>)
+			return countr_one(unwrap(val));
+		else
+			return countr_zero(static_cast<T>(~val));
+	}
+
 
 	/// \brief	Finds the smallest integral power of two not less than the given value.
 	/// \ingroup	intrinsics
@@ -1835,7 +1925,7 @@ MUU_NAMESPACE_START
 	/// 		 on these compilers allows you to get the same behaviour
 	/// 		 even when you aren't targeting C++20.
 	/// 
-	/// \attention On older compilers lacking support for std::bit_cast you won't be able to call this function
+	/// \remark On older compilers lacking support for std::bit_cast you won't be able to call this function
 	/// 		   in constexpr contexts (since it falls back to a memcpy-based implementation).
 	/// 		   You can check for constexpr support by examining build::supports_constexpr_bit_cast.
 	template <typename To, typename From>
@@ -2261,21 +2351,89 @@ MUU_NAMESPACE_START
 		}
 	}
 
+	/// \brief	Calculates a linear interpolation between two values.
+	/// \ingroup	intrinsics
+	///
+	/// \remark	This is a stand-in for C++20's std::lerp, but does _not_ make the same guarantees about infinities and NaN's.
+	/// 			Garbage-in, garbage-out.
+	/// 
+	/// \returns	The requested linear interpolation between the start and finish values.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr float MUU_VECTORCALL lerp(float start, float finish, float alpha) noexcept
+	{
+		return start * (1.0f - alpha) + finish * alpha;
+	}
 
 	/// \brief	Calculates a linear interpolation between two values.
 	/// \ingroup	intrinsics
 	///
-	/// \attention	Argument type promotion and return type determination are equivalent to the various overloads
-	/// 		of C++20's std::lerp, though this version does _not_ make the same garuntees about infinities and NaN's.
+	/// \remark	This is a stand-in for C++20's std::lerp, but does _not_ make the same guarantees about infinities and NaN's.
+	/// 			Garbage-in, garbage-out.
 	/// 
-	/// \tparam	T	An arithmetic type.
-	/// \tparam	U	An arithmetic type.
-	/// \tparam	V	An arithmetic type.
-	/// \param 	start 	The start value.
-	/// \param 	finish	The finish value.
-	/// \param 	alpha 	The alpha value (blend factor).
-	///
 	/// \returns	The requested linear interpolation between the start and finish values.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr double MUU_VECTORCALL lerp(double start, double finish, double alpha) noexcept
+	{
+		return start * (1.0 - alpha) + finish * alpha;
+	}
+
+	/// \brief	Calculates a linear interpolation between two values.
+	/// \ingroup	intrinsics
+	///
+	/// \remark	This is a stand-in for C++20's std::lerp, but does _not_ make the same guarantees about infinities and NaN's.
+	/// 			Garbage-in, garbage-out.
+	/// 
+	/// \returns	The requested linear interpolation between the start and finish values.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr long double MUU_VECTORCALL lerp(long double start, long double finish, long double alpha) noexcept
+	{
+		return start * (1.0L - alpha) + finish * alpha;
+	}
+
+	#if MUU_HAS_FLOAT128
+	/// \brief	Calculates a linear interpolation between two values.
+	/// \ingroup	intrinsics
+	///
+	/// \remark	This is a stand-in for C++20's std::lerp, but does _not_ make the same guarantees about infinities and NaN's.
+	/// 			Garbage-in, garbage-out.
+	/// 
+	/// \returns	The requested linear interpolation between the start and finish values.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr float128_t MUU_VECTORCALL lerp(float128_t start, float128_t finish, float128_t alpha) noexcept
+	{
+		return start * (float128_t{ 1 } - alpha) + finish * alpha;
+	}
+	#endif
+
+	#if MUU_HAS_FLOAT16
+	/// \brief	Calculates a linear interpolation between two values.
+	/// \ingroup	intrinsics
+	///
+	/// \remark	This is a stand-in for C++20's std::lerp, but does _not_ make the same guarantees about infinities and NaN's.
+	/// 			Garbage-in, garbage-out.
+	/// 
+	/// \returns	The requested linear interpolation between the start and finish values.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr float16_t MUU_VECTORCALL lerp(float16_t start, float16_t finish, float16_t alpha) noexcept
+	{
+		return static_cast<float16_t>(lerp(static_cast<float>(start), static_cast<float>(finish), static_cast<float>(alpha)));
+	}
+	#endif
+
+	#if MUU_HAS_INTERCHANGE_FP16
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr __fp16 MUU_VECTORCALL lerp(__fp16 start, __fp16 finish, __fp16 alpha) noexcept
+	{
+		return static_cast<__fp16>(lerp(static_cast<float>(start), static_cast<float>(finish), static_cast<float>(alpha)));
+	}
+	#endif
+
 	template <typename T, typename U, typename V, typename = std::enable_if_t<all_arithmetic<T, U, V>>>
 	[[nodiscard]]
 	MUU_ATTR(const)
@@ -2284,37 +2442,10 @@ MUU_NAMESPACE_START
 		using start_type = remove_cv<std::conditional_t<is_floating_point<T>, T, double>>;
 		using finish_type = remove_cv<std::conditional_t<is_floating_point<U>, U, double>>;
 		using alpha_type = remove_cv<std::conditional_t<is_floating_point<V>, V, double>>;
-		using return_type =
-			#if MUU_HAS_FLOAT128
-			std::conditional_t<same_as_any<float128_t, start_type, finish_type, alpha_type>, float128_t,
-			#endif
-			std::conditional_t<same_as_any<long double, start_type, finish_type, alpha_type>, long double,
-			std::conditional_t<same_as_any<double, start_type, finish_type, alpha_type>, double,
-			std::conditional_t<same_as_any<float, start_type, finish_type, alpha_type>, float,
-			#if MUU_HAS_FLOAT16
-			std::conditional_t<same_as_any<float16_t, start_type, finish_type, alpha_type>, float16_t,
-			#endif
-			std::conditional_t<same_as_any<half, start_type, finish_type, alpha_type>, half,
-			#if MUU_HAS_INTERCHANGE_FP16
-			std::conditional_t<same_as_any<__fp16, start_type, finish_type, alpha_type>, __fp16,
-			#endif
-			void
-			#if MUU_HAS_INTERCHANGE_FP16
-			>
-			#endif
-			#if MUU_HAS_FLOAT16
-			>
-			#endif
-			#if MUU_HAS_FLOAT128
-			>
-			#endif
-		>>>>;
-		static_assert(!std::is_void_v<return_type>);
+		static_assert(all_floating_point<start_type, finish_type, alpha_type>);
 
-		if constexpr (sizeof(return_type) < sizeof(float))
-			return static_cast<return_type>(impl::lerp(static_cast<float>(start), static_cast<float>(finish), static_cast<float>(alpha)));
-		else
-			return impl::lerp(static_cast<return_type>(start), static_cast<return_type>(finish), static_cast<return_type>(alpha));
+		using return_type = typename impl::highest_ranked<start_type, finish_type, alpha_type>::type;
+		return lerp(static_cast<return_type>(start), static_cast<return_type>(finish), static_cast<return_type>(alpha));
 	}
 
 	/// \brief	Returns true if a value is between two bounds (inclusive).
@@ -2704,7 +2835,7 @@ MUU_NAMESPACE_START
 	/// \tparam	T		An integer or enum type.
 	/// \param 	val		An integer or enum value.
 	///
-	/// \attention The indexation order of bytes is the _memory_ order, not their
+	/// \remark The indexation order of bytes is the _memory_ order, not their
 	/// 		 numeric significance (i.e. byte 0 is always the first byte in the integer's
 	/// 		 memory allocation, regardless of the endianness of the platform).
 	/// 
@@ -2763,7 +2894,7 @@ MUU_NAMESPACE_START
 	/// \param 	val		An integer or enum value.
 	/// \param	index	Index of the byte to retrieve.
 	///
-	/// \attention The indexation order of bytes is the _memory_ order, not their
+	/// \remark The indexation order of bytes is the _memory_ order, not their
 	/// 		 numeric significance (i.e. byte 0 is always the first byte in the integer's
 	/// 		 memory allocation, regardless of the endianness of the platform).
 	/// 
@@ -2950,7 +3081,7 @@ MUU_NAMESPACE_START
 	/// \tparam	ByteIndices		Indices of the bytes from the source integer, in the order they're to be packed.
 	/// \tparam	T				An integer or enum type.
 	/// 
-	/// \attention The indexation order of bytes is the _memory_ order, not their
+	/// \remark The indexation order of bytes is the _memory_ order, not their
 	/// 		 numeric significance (i.e. byte 0 is always the first byte in the integer's
 	/// 		 memory allocation, regardless of the endianness of the platform).
 	/// 
@@ -3099,7 +3230,7 @@ MUU_NAMESPACE_START
 	/// \returns	True if the value is floating-point infinity or NaN.
 	/// 			Always returns false if the value was not a floating-point type.
 	/// 
-	/// \attention	Older compilers won't provide the necessary machinery for you to be able to call this function in
+	/// \remark	Older compilers won't provide the necessary machinery for you to be able to call this function in
 	/// 			constexpr contexts. You can check for constexpr support by examining
 	/// 			build::supports_constexpr_is_infinity_or_nan.
 	template <typename T, typename = std::enable_if_t<is_arithmetic<T>>>
@@ -3184,6 +3315,42 @@ MUU_NAMESPACE_START
 		{
 			return to_address(p.operator->());
 		}
+	}
+
+	/// \brief	Equivalent to C++20's std::assume_aligned.
+	/// \ingroup	intrinsics
+	///
+	/// \detail Compilers typically implement std::assume_aligned as an intrinsic which is
+	/// 		 available regardless of the C++ mode. Using this function on these compilers allows
+	/// 		 you to get the same behaviour even when you aren't targeting C++20.
+	/// 
+	/// \see [P1007R1: std::assume_aligned](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1007r1.pdf)
+	template <size_t N, typename T>
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	MUU_ATTR(flatten)
+	constexpr T* assume_aligned(T* ptr) noexcept
+	{
+		static_assert(
+			N > 0 && has_single_bit(N),
+			"assume_aligned() requires a power-of-two alignment value."
+		);
+
+		#if MUU_CLANG || MUU_GCC
+			return reinterpret_cast<T*>(__builtin_assume_aligned(pointer_cast<const void*>(ptr), N));
+		#elif MUU_MSVC
+			if constexpr (N < 16384)
+				return reinterpret_cast<T*>(__builtin_assume_aligned(pointer_cast<const void*>(ptr), N));
+			else
+				return ptr;
+		#elif MUU_ICC
+			__assume_aligned(ptr, N);
+			return ptr;
+		#elif defined(__cpp_lib_assume_aligned)
+			return std::assume_aligned<N>(ptr);
+		#else
+			return ptr;
+		#endif
 	}
 
 }

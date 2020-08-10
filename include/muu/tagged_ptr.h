@@ -40,14 +40,14 @@ MUU_IMPL_NAMESPACE_START
 		static constexpr uintptr_t pack_ptr(const volatile void* ptr) noexcept
 		{
 			MUU_TPTR_ASSERT(
-				(!ptr || bit_floor(pointer_cast<uintptr_t>(ptr)) >= MinAlign)
+				(!ptr || bit_floor(reinterpret_cast<uintptr_t>(ptr)) >= MinAlign)
 				&& "The pointer's address is more strictly aligned than MinAlign"
 			);
 
 			if constexpr (tptr_addr_free_bits > 0)
-				return (pointer_cast<uintptr_t>(ptr) << tptr_addr_free_bits);
+				return (reinterpret_cast<uintptr_t>(ptr) << tptr_addr_free_bits);
 			else
-				return pointer_cast<uintptr_t>(ptr);
+				return reinterpret_cast<uintptr_t>(ptr);
 		}
 
 		template <typename T>
@@ -59,13 +59,13 @@ MUU_IMPL_NAMESPACE_START
 				std::is_trivially_copyable_v<T>,
 				"The tag type must be trivially copyable"
 			);
-
+			
 			if constexpr (is_enum<T>)
 				return pack_both(ptr, unwrap(tag));
 			else
 			{
 				MUU_TPTR_ASSERT(
-					(!ptr || bit_floor(pointer_cast<uintptr_t>(ptr)) >= MinAlign)
+					(!ptr || bit_floor(reinterpret_cast<uintptr_t>(ptr)) >= MinAlign)
 					&& "The pointer's address is more strictly aligned than MinAlign"
 				);
 
@@ -369,7 +369,7 @@ MUU_NAMESPACE_START
 			[[nodiscard]]
 			constexpr pointer ptr() const noexcept
 			{
-				return pointer_cast<pointer>(tptr::get_ptr(bits));
+				return assume_aligned<MinAlign>(reinterpret_cast<pointer>(tptr::get_ptr(bits)));
 			}
 
 			/// \brief	Sets the target pointer value, leaving the tag bits unchanged.
@@ -556,9 +556,9 @@ MUU_NAMESPACE_START
 			/// \remarks This operator is only available when the pointed type is a function.
 			template <typename... U, typename V = element_type, typename = std::enable_if_t<std::is_function_v<V>>>
 			constexpr decltype(auto) operator () (U&&... args) const
-				noexcept(std::is_nothrow_invocable_v<V*, U&&...>)
+				noexcept(std::is_nothrow_invocable_v<V, U&&...>)
 			{
-				static_assert(std::is_invocable_v<V*, U&&...>);
+				static_assert(std::is_invocable_v<V, U&&...>);
 
 				return ptr()(std::forward<U>(args)...);
 			}
