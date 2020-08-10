@@ -150,10 +150,6 @@ C++</span></a>
             </dt>
             <dd>Expands to <code>__declspec( attr )</code> when compiling with MSVC (or another compiler in MSVC-mode).</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga6bccba83901e6ed3ca41bff3e4bad98b">MUU_DISABLE_ALL_WARNINGS</a></span>
-            </dt>
-            <dd>Disables ALL compiler warnings.</dd>
-            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga94a89890f03584dd7d3fda2bb9d80013">MUU_DISABLE_LIFETIME_WARNINGS</a></span>
             </dt>
             <dd>Disables compiler warnings relating to object lifetime (initialization, destruction, magic statics, et cetera).</dd>
@@ -162,9 +158,17 @@ C++</span></a>
             </dt>
             <dd>Disables compiler warnings relating to the use of switch statements.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga0367e17e69206f2f4718f421c4f4f5bf">MUU_DISABLE_WARNINGS</a></span>
+            </dt>
+            <dd>Disables ALL compiler warnings.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga877f0e4eacd4875af9244d38c6547277">MUU_EMPTY_BASES</a></span>
             </dt>
             <dd>Marks a class as having only empty base classes.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga7328d95e2ec9777bbbd7e81c7b4ffa68">MUU_ENABLE_WARNINGS</a></span>
+            </dt>
+            <dd>Re-enables compiler warnings again after using <a class="m-doc" href="group__preprocessor.html#ga0367e17e69206f2f4718f421c4f4f5bf">MUU_<wbr/>DISABLE_<wbr/>WARNINGS</a>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga967eb97bf52ae15db445b4564c2ee789">MUU_EXCEPTIONS</a></span>
             </dt>
@@ -200,7 +204,7 @@ C++</span></a>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga909a6807c9b69a3b6e146a709c2a248d">MUU_ICC</a></span>
             </dt>
-            <dd>The value of <code>__INTEL_COMPILER</code> when the code is being compiled by Intel ICC, otherwise <code>0</code>.</dd>
+            <dd>The value of <code>__INTEL_COMPILER</code> when the code is being compiled by ICC, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga0f1d961fa4c5109d8e007ddbaf868339">MUU_INTELLISENSE</a></span>
             </dt>
@@ -266,6 +270,10 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga6f80b008b889d869c7447aff2475dd4d">MUU_PRAGMA_GCC</a>(</span><span class="m-doc-wrap">...)</span>
             </dt>
             <dd>Expands to a <code>_Pragma()</code> directive when compiling with GCC.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga5712bc0e086c593c40c8c4ed32caa46b">MUU_PRAGMA_ICC</a>(</span><span class="m-doc-wrap">...)</span>
+            </dt>
+            <dd>Expands to a <code>_pragma()</code> directive when compiling with ICC.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#gac6b8e4b75a00c89a3f1479feb81be8e8">MUU_PRAGMA_MSVC</a>(</span><span class="m-doc-wrap">...)</span>
             </dt>

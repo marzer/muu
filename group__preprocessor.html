@@ -149,10 +149,6 @@ C++</span></a>
             </dt>
             <dd>Expands to <code>__declspec( attr )</code> when compiling with MSVC (or another compiler in MSVC-mode).</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga6bccba83901e6ed3ca41bff3e4bad98b">MUU_DISABLE_ALL_WARNINGS</a></span>
-            </dt>
-            <dd>Disables ALL compiler warnings.</dd>
-            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga94a89890f03584dd7d3fda2bb9d80013">MUU_DISABLE_LIFETIME_WARNINGS</a></span>
             </dt>
             <dd>Disables compiler warnings relating to object lifetime (initialization, destruction, magic statics, et cetera).</dd>
@@ -161,9 +157,17 @@ C++</span></a>
             </dt>
             <dd>Disables compiler warnings relating to the use of switch statements.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga0367e17e69206f2f4718f421c4f4f5bf">MUU_DISABLE_WARNINGS</a></span>
+            </dt>
+            <dd>Disables ALL compiler warnings.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga877f0e4eacd4875af9244d38c6547277">MUU_EMPTY_BASES</a></span>
             </dt>
             <dd>Marks a class as having only empty base classes.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga7328d95e2ec9777bbbd7e81c7b4ffa68">MUU_ENABLE_WARNINGS</a></span>
+            </dt>
+            <dd>Re-enables compiler warnings again after using <a class="m-doc" href="group__preprocessor.html#ga0367e17e69206f2f4718f421c4f4f5bf">MUU_<wbr/>DISABLE_<wbr/>WARNINGS</a>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga967eb97bf52ae15db445b4564c2ee789">MUU_EXCEPTIONS</a></span>
             </dt>
@@ -199,7 +203,7 @@ C++</span></a>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga909a6807c9b69a3b6e146a709c2a248d">MUU_ICC</a></span>
             </dt>
-            <dd>The value of <code>__INTEL_COMPILER</code> when the code is being compiled by Intel ICC, otherwise <code>0</code>.</dd>
+            <dd>The value of <code>__INTEL_COMPILER</code> when the code is being compiled by ICC, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga0f1d961fa4c5109d8e007ddbaf868339">MUU_INTELLISENSE</a></span>
             </dt>
@@ -265,6 +269,10 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga6f80b008b889d869c7447aff2475dd4d">MUU_PRAGMA_GCC</a>(</span><span class="m-doc-wrap">...)</span>
             </dt>
             <dd>Expands to a <code>_Pragma()</code> directive when compiling with GCC.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga5712bc0e086c593c40c8c4ed32caa46b">MUU_PRAGMA_ICC</a>(</span><span class="m-doc-wrap">...)</span>
+            </dt>
+            <dd>Expands to a <code>_pragma()</code> directive when compiling with ICC.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gac6b8e4b75a00c89a3f1479feb81be8e8">MUU_PRAGMA_MSVC</a>(</span><span class="m-doc-wrap">...)</span>
             </dt>
@@ -440,14 +448,6 @@ C++</span></a>
             </h3>
             <p>Expands to <code>__declspec( attr )</code> when compiling with MSVC (or another compiler in MSVC-mode).</p>
           </div></section>
-          <section class="m-doc-details" id="ga6bccba83901e6ed3ca41bff3e4bad98b"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga6bccba83901e6ed3ca41bff3e4bad98b">MUU_DISABLE_ALL_WARNINGS</a></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
-            </h3>
-            <p>Disables ALL compiler warnings.</p>
-<aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__preprocessor.html#ga0b9c2e2b602c21d5f58ddaeb74923019">MUU_<wbr/>PUSH_<wbr/>WARNINGS</a></p></aside>
-          </div></section>
           <section class="m-doc-details" id="ga94a89890f03584dd7d3fda2bb9d80013"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga94a89890f03584dd7d3fda2bb9d80013">MUU_DISABLE_LIFETIME_WARNINGS</a></span>
@@ -463,6 +463,13 @@ C++</span></a>
             </h3>
             <p>Disables compiler warnings relating to the use of switch statements.</p>
 <aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__preprocessor.html#ga0b9c2e2b602c21d5f58ddaeb74923019">MUU_<wbr/>PUSH_<wbr/>WARNINGS</a></p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga0367e17e69206f2f4718f421c4f4f5bf"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga0367e17e69206f2f4718f421c4f4f5bf">MUU_DISABLE_WARNINGS</a></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>Disables ALL compiler warnings.</p>
           </div></section>
           <section class="m-doc-details" id="ga877f0e4eacd4875af9244d38c6547277"><div>
             <h3>
@@ -483,6 +490,13 @@ C++</span></a>
 <span class="p">};</span>
 
 <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">nonempty_child</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">nonempty_child</span><span class="o">::</span><span class="n">value_type</span><span class="p">));</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="https://devblogs.microsoft.com/cppblog/optimizing-the-layout-of-empty-base-classes-in-vs2015-update-2-3/" target="_blank">_<wbr/>_<wbr/>declspec(empty_<wbr/>bases)</a></p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga7328d95e2ec9777bbbd7e81c7b4ffa68"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga7328d95e2ec9777bbbd7e81c7b4ffa68">MUU_ENABLE_WARNINGS</a></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>Re-enables compiler warnings again after using <a class="m-doc" href="group__preprocessor.html#ga0367e17e69206f2f4718f421c4f4f5bf">MUU_<wbr/>DISABLE_<wbr/>WARNINGS</a>.</p>
           </div></section>
           <section class="m-doc-details" id="ga967eb97bf52ae15db445b4564c2ee789"><div>
             <h3>
@@ -547,7 +561,7 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga909a6807c9b69a3b6e146a709c2a248d">MUU_ICC</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>The value of <code>__INTEL_COMPILER</code> when the code is being compiled by Intel ICC, otherwise <code>0</code>.</p>
+            <p>The value of <code>__INTEL_COMPILER</code> when the code is being compiled by ICC, otherwise <code>0</code>.</p>
 <aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="http://scv.bu.edu/computation/bladecenter/manpages/icc.html" target="_blank">http:/<wbr/>/<wbr/>scv.bu.edu/<wbr/>computation/<wbr/>bladecenter/<wbr/>manpages/<wbr/>icc.html</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga0f1d961fa4c5109d8e007ddbaf868339"><div>
@@ -727,6 +741,13 @@ C++</span></a>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Expands to a <code>_Pragma()</code> directive when compiling with GCC.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga5712bc0e086c593c40c8c4ed32caa46b"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga5712bc0e086c593c40c8c4ed32caa46b">MUU_PRAGMA_ICC</a>(</span><span class="m-doc-wrap">...)</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>Expands to a <code>_pragma()</code> directive when compiling with ICC.</p>
           </div></section>
           <section class="m-doc-details" id="gac6b8e4b75a00c89a3f1479feb81be8e8"><div>
             <h3>

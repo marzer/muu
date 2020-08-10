@@ -104,7 +104,7 @@ C++</span></a>
               <div class="m-doc-template">template&lt;typename First, typename Second&gt;</div>
               class <a class="m-doc" href="classmuu_1_1compressed__pair.html">compressed_pair</a>
             </dt>
-            <dd>A pair that uses Empty Base Class Optimization to elide storage for one of its members where possible.</dd>
+            <dd>A pair that uses Empty Base Class Optimization to elide storage for one or both of its members where possible.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants.html">constants</a>
@@ -510,6 +510,11 @@ C++</span></a>
             </dt>
             <dd>Reinterprets a span as a view of the underlying bytes.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N, typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gaf58f3326aea89653ec725ccbc5ff29d2">assume_aligned</a>(</span><span class="m-doc-wrap">T* ptr) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Equivalent to C++20's std::assume_aligned.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename To, typename From&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gaadb4c6332c738c248f84f43ece303657">bit_cast</a>(</span><span class="m-doc-wrap">const From&amp; from) -&gt; To <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -564,9 +569,19 @@ C++</span></a>
             <dd>Returns a value clamped between two bounds (inclusive).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_unsigned&lt;T">...</a><span>is_unsigned&lt;T</span></span>&gt;&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga16652b12d1fdd160598cbe5c54bd774a">countl_one</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Counts the number of consecutive 1 bits, starting from the left.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_unsigned&lt;T">...</a><span>is_unsigned&lt;T</span></span>&gt;&gt;&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gac6cd863da59c3e288b8eef6649f53eac">countl_zero</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Counts the number of consecutive 0 bits, starting from the left.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_unsigned&lt;T">...</a><span>is_unsigned&lt;T</span></span>&gt;&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gada0e99f028c6486bfd5b39e1ee5b58a2">countr_one</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Counts the number of consecutive 1 bits, starting from the right.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="is_unsigned&lt;T">...</a><span>is_unsigned&lt;T</span></span>&gt;&gt;&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga94373722ff292c13686fbfdbbb5d79a1">countr_zero</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -1055,14 +1070,43 @@ C++</span></a>
             <dd>Returns true if a wide character is a whitespace code point.</dd>
             <dt>
               <div class="m-doc-template">template&lt;class T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga863d5b4b9a2c6508fded78b6cc411a24">launder</a>(</span><span class="m-doc-wrap">T* p) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga279c303aaba76a43d1dc23834c35f857">launder</a>(</span><span class="m-doc-wrap">T* ptr) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Equivalent to C++17's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/launder" target="_blank">std::launder</a>.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename U, typename V, typename = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank">std::enable_if_t</a>&lt;<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;" title="all_arithmetic&lt;T, U, V">...</a><span>all_arithmetic&lt;T, U, V</span></span>&gt;&gt;&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gaff048c01d61412077fb5541571a52e67">lerp</a>(</span><span class="m-doc-wrap">T start,
-              U finish,
-              V alpha) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga47e41d7626365fcf881152c286833b5a">lerp</a>(</span><span class="m-doc-wrap">double start,
+              double finish,
+              double alpha) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Calculates a linear interpolation between two values.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga86b8aacc099deefdf6284d9bab7f2dad">lerp</a>(</span><span class="m-doc-wrap">float start,
+              float finish,
+              float alpha) -&gt; float <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Calculates a linear interpolation between two values.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga614ccb878d52686237995f87013cfae5">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> start,
+              <a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> finish,
+              <a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> alpha) -&gt; <a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Calculates a linear interpolation between two values.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gae35f607a047e448773492cffbf83ecce">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__blocks.html#gac1f6704b74f509e1de86f816c08632f2">float16_<wbr/>t</a> start,
+              <a class="m-doc" href="group__blocks.html#gac1f6704b74f509e1de86f816c08632f2">float16_<wbr/>t</a> finish,
+              <a class="m-doc" href="group__blocks.html#gac1f6704b74f509e1de86f816c08632f2">float16_<wbr/>t</a> alpha) -&gt; <a class="m-doc" href="group__blocks.html#gac1f6704b74f509e1de86f816c08632f2">float16_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Calculates a linear interpolation between two values.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga52c3f4f3e75c69a2775cd2d5fc92a0fd">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> start,
+              <a class="m-doc" href="structmuu_1_1half.html">half</a> finish,
+              <a class="m-doc" href="structmuu_1_1half.html">half</a> alpha) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Calculates a linear interpolation between two values.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga44b514d356d6673cc0595cf0390dd8de">lerp</a>(</span><span class="m-doc-wrap">long double start,
+              long double finish,
+              long double alpha) -&gt; long double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Calculates a linear interpolation between two values.</dd>
             <dt>
