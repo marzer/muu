@@ -96,7 +96,7 @@ C++</span></a>
             </dt>
             <dd><code>4</code></dd>
             <dt>
-              static T <a class="m-doc" href="structmuu_1_1impl_1_1numeric__limits.html#aa381384fcec220f647547c832381301f">highest</a> <span class="m-label m-flat m-primary">constexpr</span>
+              static T <a class="m-doc" href="structmuu_1_1impl_1_1integer__limits.html#a24317d3d0a6baac2b01c07f15088252b">highest</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The highest representable 'normal' value (equivalent to <a class="m-doc" href="group__intrinsics.html#ga0ed7737393aa2394099febe6bf265249">std::<wbr/>numeric_limits::<wbr/>max()</a>).</dd>
             <dt>
@@ -104,7 +104,7 @@ C++</span></a>
             </dt>
             <dd>Positive infinity.</dd>
             <dt>
-              static T <a class="m-doc" href="structmuu_1_1impl_1_1numeric__limits.html#ab83e22e4a275bf3c4f5b94dd40ac6fc9">lowest</a> <span class="m-label m-flat m-primary">constexpr</span>
+              static T <a class="m-doc" href="structmuu_1_1impl_1_1integer__limits.html#a72089a3ceead7e7dcd265ce5f6e8f13c">lowest</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The lowest representable 'normal' value (equivalent to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/numeric_limits" target="_blank">std::numeric_limits</a>::lowest()).</dd>
             <dt>
@@ -284,6 +284,10 @@ C++</span></a>
             </dt>
             <dd><code>7</code></dd>
             <dt>
+              static int <a class="m-doc" href="structmuu_1_1impl_1_1floating__point__limits.html#a8fa354c14b8a6407617136dad70cfc70">significand_digits</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>The number of significand (mantissa) digits.</dd>
+            <dt>
               static T <a class="m-doc" href="structmuu_1_1impl_1_1integer__positive__constants.html#a7fe173161cd3b9add56e813abd2a6751">six</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>6</code></dd>
@@ -375,13 +379,13 @@ C++</span></a>
             </h3>
             <p><code>4</code></p>
           </div></section>
-          <section class="m-doc-details" id="aa381384fcec220f647547c832381301f"><div>
+          <section class="m-doc-details" id="a24317d3d0a6baac2b01c07f15088252b"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;&gt;
               </div>
-              static T muu::<wbr/>constants&lt;half&gt;::<wbr/><a class="m-doc-self" href="#aa381384fcec220f647547c832381301f">highest</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;half&gt;::<wbr/><a class="m-doc-self" href="#a24317d3d0a6baac2b01c07f15088252b">highest</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>The highest representable 'normal' value (equivalent to <a class="m-doc" href="group__intrinsics.html#ga0ed7737393aa2394099febe6bf265249">std::<wbr/>numeric_limits::<wbr/>max()</a>).</p>
           </div></section>
@@ -395,13 +399,13 @@ C++</span></a>
             </h3>
             <p>Positive infinity.</p>
           </div></section>
-          <section class="m-doc-details" id="ab83e22e4a275bf3c4f5b94dd40ac6fc9"><div>
+          <section class="m-doc-details" id="a72089a3ceead7e7dcd265ce5f6e8f13c"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;&gt;
               </div>
-              static T muu::<wbr/>constants&lt;half&gt;::<wbr/><a class="m-doc-self" href="#ab83e22e4a275bf3c4f5b94dd40ac6fc9">lowest</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;half&gt;::<wbr/><a class="m-doc-self" href="#a72089a3ceead7e7dcd265ce5f6e8f13c">lowest</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>The lowest representable 'normal' value (equivalent to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/numeric_limits" target="_blank">std::numeric_limits</a>::lowest()).</p>
           </div></section>
@@ -844,6 +848,16 @@ C++</span></a>
               static T muu::<wbr/>constants&lt;half&gt;::<wbr/><a class="m-doc-self" href="#a6630425419bc354dfbb292c590dac436">seven</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>7</code></p>
+          </div></section>
+          <section class="m-doc-details" id="a8fa354c14b8a6407617136dad70cfc70"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;&gt;
+              </div>
+              static int muu::<wbr/>constants&lt;half&gt;::<wbr/><a class="m-doc-self" href="#a8fa354c14b8a6407617136dad70cfc70">significand_digits</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>The number of significand (mantissa) digits.</p>
           </div></section>
           <section class="m-doc-details" id="a7fe173161cd3b9add56e813abd2a6751"><div>
             <h3>

@@ -99,8 +99,8 @@ C++</span></a>
         <section id="pub-types">
           <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
-            <dt id="ae55c27eda048a8c8bdebdf8642ccd903">
-              using <a class="m-doc-self" href="#ae55c27eda048a8c8bdebdf8642ccd903">const_pointer</a> = <a class="m-doc" href="group__meta.html#ga90378d8510545aa6f87611d584be12fc">constify_<wbr/>pointer</a>&lt;<a class="m-doc" href="classmuu_1_1tagged__ptr.html#a7247bfb909220ebd53747353103a1001">pointer</a>&gt;
+            <dt id="aa8e95e16638a31de7d053c2e8d8a14dd">
+              using <a class="m-doc-self" href="#aa8e95e16638a31de7d053c2e8d8a14dd">const_pointer</a> = std::add_pointer_t&lt;<a class="m-doc" href="group__meta.html#ga46852bdb87c782113c290e96390278d3">add_<wbr/>const</a>&lt;T&gt;&gt;
             </dt>
             <dd>A pointer to element_type (const-qualified).</dd>
             <dt id="af7dad5fa9d70aef72a0ef9a6e96a7493">
@@ -256,13 +256,13 @@ C++</span></a>
           <h2><a href="#friends">Friends</a></h2>
           <dl class="m-doc">
             <dt id="a08031ff5015c8f8b15c28eb13315bcde">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a08031ff5015c8f8b15c28eb13315bcde">operator!=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#ae55c27eda048a8c8bdebdf8642ccd903">const_<wbr/>pointer</a> lhs,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a08031ff5015c8f8b15c28eb13315bcde">operator!=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#aa8e95e16638a31de7d053c2e8d8a14dd">const_<wbr/>pointer</a> lhs,
               <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> and raw pointer do not refer to the same address.</dd>
             <dt id="a6c3f4744679870e0a9012a34b75a186a">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a6c3f4744679870e0a9012a34b75a186a">operator!=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> lhs,
-              <a class="m-doc" href="classmuu_1_1tagged__ptr.html#ae55c27eda048a8c8bdebdf8642ccd903">const_<wbr/>pointer</a> rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <a class="m-doc" href="classmuu_1_1tagged__ptr.html#aa8e95e16638a31de7d053c2e8d8a14dd">const_<wbr/>pointer</a> rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> and raw pointer do not refer to the same address.</dd>
             <dt id="a161f3db32391e02ddf8e6f00837fa5c2">
@@ -271,13 +271,13 @@ C++</span></a>
             </dt>
             <dd>Returns true if two tagged_ptrs are not equal (including their tag bits).</dd>
             <dt id="a94d219933714bae5327dabc37bdeea69">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a94d219933714bae5327dabc37bdeea69">operator==</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#ae55c27eda048a8c8bdebdf8642ccd903">const_<wbr/>pointer</a> lhs,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a94d219933714bae5327dabc37bdeea69">operator==</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#aa8e95e16638a31de7d053c2e8d8a14dd">const_<wbr/>pointer</a> lhs,
               <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> and raw pointer refer to the same address.</dd>
             <dt id="a5be784855e42b6c3dca5bc5922fd4d76">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a5be784855e42b6c3dca5bc5922fd4d76">operator==</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> lhs,
-              <a class="m-doc" href="classmuu_1_1tagged__ptr.html#ae55c27eda048a8c8bdebdf8642ccd903">const_<wbr/>pointer</a> rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <a class="m-doc" href="classmuu_1_1tagged__ptr.html#aa8e95e16638a31de7d053c2e8d8a14dd">const_<wbr/>pointer</a> rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> and raw pointer refer to the same address.</dd>
             <dt id="a2234528d4e4f8d4fb50cca33d9bef211">

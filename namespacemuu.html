@@ -92,10 +92,10 @@ C++</span></a>
           <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;typename ValueType, typename Impl = impl::accumulator&lt;ValueType&gt;&gt;</div>
+              <div class="m-doc-template">template&lt;typename ValueType, typename Impl = impl::default_accumulator&lt;ValueType&gt;::type&gt;</div>
               class <a class="m-doc" href="classmuu_1_1accumulator.html">accumulator</a>
             </dt>
-            <dd>Statefully accumulates (adds) an indeterminate number of values.</dd>
+            <dd>Determines min, max and sum of an interderminate number of values.</dd>
             <dt>
               class <a class="m-doc" href="classmuu_1_1blob.html">blob</a>
             </dt>
@@ -338,11 +338,6 @@ C++</span></a>
               using <a class="m-doc" href="group__mem.html#ga9e0fc89cb7b1f651110f32365aba1790">const_span</a> = <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;const T&gt;
             </dt>
             <dd>Convenience alias for <code>span&lt;const T&gt;</code>.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga90378d8510545aa6f87611d584be12fc">constify_pointer</a> = typename impl::constify_pointer&lt;T&gt;::type
-            </dt>
-            <dd>Adds const to the pointed-to type of a pointer, correctly handling pointers-to-void.</dd>
             <dt>
               using <a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> = __float128
             </dt>

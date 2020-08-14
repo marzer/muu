@@ -109,11 +109,6 @@ C++</span></a>
             </dt>
             <dd>Shorthand for conditionally adding volatile to a type or reference.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="#ga90378d8510545aa6f87611d584be12fc">constify_pointer</a> = typename impl::constify_pointer&lt;T&gt;::type
-            </dt>
-            <dd>Adds const to the pointed-to type of a pointer, correctly handling pointers-to-void.</dd>
-            <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
               using <a class="m-doc" href="#ga08897f2a98f81f54e88d634e9a755476">largest</a> = typename impl::largest&lt;T...&gt;::type
             </dt>
@@ -443,16 +438,6 @@ C++</span></a>
               using <a class="m-doc-self" href="#ga5387101d09160941cca73a48954eb7af">conditionally_add_volatile</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;AddVolatile, add_volatile&lt;T&gt;, T&gt;
             </h3>
             <p>Shorthand for conditionally adding volatile to a type or reference.</p>
-          </div></section>
-          <section class="m-doc-details" id="ga90378d8510545aa6f87611d584be12fc"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-              using <a class="m-doc-self" href="#ga90378d8510545aa6f87611d584be12fc">constify_pointer</a> = typename impl::constify_pointer&lt;T&gt;::type
-            </h3>
-            <p>Adds const to the pointed-to type of a pointer, correctly handling pointers-to-void.</p>
           </div></section>
           <section class="m-doc-details" id="ga08897f2a98f81f54e88d634e9a755476"><div>
             <h3>
