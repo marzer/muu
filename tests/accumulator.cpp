@@ -7,102 +7,123 @@
 #include "../include/muu/accumulator.h"
 #include "../include/muu/half.h"
 
-template <typename T>
-static void test_float_accumulator() noexcept
+namespace
 {
-	using data = float_test_data<T>;
-
-	using big = largest<T, long double>;
-
-	//test calling add() for each value
+	template <typename T>
+	static void test_float_accumulator() noexcept
 	{
-		T raw_sum = {};
-		accumulator<T> accum;
-		CHECK(accum.sample_count() == 0_sz);
-		CHECK(accum.value() == T{});
-		for (auto val : data::values)
+		using data = float_test_data<T>;
+
+		using big = typename impl::highest_ranked<T, long double>::type;
+
+		//test calling add() for each value
 		{
-			raw_sum += static_cast<T>(val);
-			accum.add(static_cast<T>(val));
+			T raw_sum = {};
+			accumulator<T> accum;
+			CHECK(accum.sample_count() == 0_sz);
+			CHECK(accum.sum() == T{});
+			for (auto val : data::values)
+			{
+				raw_sum += static_cast<T>(val);
+				accum.add(static_cast<T>(val));
+			}
+			CHECK(accum.sample_count() == std::size(data::values));
+			CHECK(static_cast<big>(raw_sum) != data::values_sum);
+			CHECK((abs(static_cast<big>(data::values_sum) - static_cast<big>(accum.sum())))
+				<= (abs(static_cast<big>(data::values_sum) - static_cast<big>(raw_sum))));
+			CHECK(static_cast<big>(accum.sum()) >= static_cast<big>(data::values_sum_low));
+			CHECK(static_cast<big>(accum.sum()) <= static_cast<big>(data::values_sum_high));
+			if constexpr (sizeof(T) > 2u)
+			{
+				CHECK(static_cast<big>(accum.min()) == Approx(static_cast<big>(data::values_min)));
+				CHECK(static_cast<big>(accum.max()) == Approx(static_cast<big>(data::values_max)));
+			}
 		}
-		CHECK(accum.sample_count() == std::size(data::values));
-		CHECK(static_cast<big>(raw_sum) != data::values_sum);
-		CHECK((abs(static_cast<big>(data::values_sum) - static_cast<big>(accum.value())))
-		   <= (abs(static_cast<big>(data::values_sum) - static_cast<big>(raw_sum))));
-		CHECK(static_cast<big>(accum.value()) >= static_cast<big>(data::values_sum_low));
-		CHECK(static_cast<big>(accum.value()) <= static_cast<big>(data::values_sum_high));
+
+		//test calling add(begin, end)
+		{
+			accumulator<T> accum;
+			accum.add(std::begin(data::values), std::end(data::values));
+			CHECK(accum.sample_count() == std::size(data::values));
+			CHECK(static_cast<big>(accum.sum()) >= static_cast<big>(data::values_sum_low));
+			CHECK(static_cast<big>(accum.sum()) <= static_cast<big>(data::values_sum_high));
+			if constexpr (sizeof(T) > 2u)
+			{
+				CHECK(static_cast<big>(accum.min()) == Approx(static_cast<big>(data::values_min)));
+				CHECK(static_cast<big>(accum.max()) == Approx(static_cast<big>(data::values_max)));
+			}
+		}
 	}
 
-	//test calling add(begin, end)
-	//if constexpr (!std::is_same_v<T, half>)
+	template <typename T>
+	static void test_int_accumulator() noexcept
 	{
 		accumulator<T> accum;
-		accum.add(std::begin(data::values), std::end(data::values));
-		CHECK(accum.sample_count() == std::size(data::values));
-		CHECK(static_cast<big>(accum.value()) >= static_cast<big>(data::values_sum_low));
-		CHECK(static_cast<big>(accum.value()) <= static_cast<big>(data::values_sum_high));
+		using sum_type = remove_cvref<decltype(accum.sum())>;
+		sum_type raw_sum = {};
+		CHECK(accum.sample_count() == 0u);
+		CHECK(accum.sum() == sum_type{});
+
+		constexpr auto next = []() noexcept
+		{
+			using rand_type = largest<make_unsigned<T>, unsigned long long>;
+			return static_cast<T>(static_cast<rand_type>(rand()) % static_cast<rand_type>(constants<T>::highest));
+		};
+		for (size_t i = 0; i < 1000; i++)
+		{
+			const auto val = next();
+			raw_sum += val;
+			accum.add(val);
+		}
+		CHECK(accum.sample_count() == 1000u);
+		CHECK(accum.sum() == raw_sum);
 	}
-}
 
-#if MUU_HAS_INTERCHANGE_FP16
-
-TEST_CASE("accumulator - __fp16")
-{
-	test_float_accumulator<__fp16>();
-}
-
-#endif // MUU_HAS_FLOAT16
-
-#if MUU_HAS_FLOAT16
-
-TEST_CASE("accumulator - float16_t")
-{
-	test_float_accumulator<float16_t>();
-}
-
-#endif // MUU_HAS_FLOAT16
-
-TEST_CASE("accumulator - half")
-{
-	test_float_accumulator<half>();
-}
-
-TEST_CASE("accumulator - float")
-{
-	test_float_accumulator<float>();
-}
-
-TEST_CASE("accumulator - double")
-{
-	test_float_accumulator<double>();
-}
-
-TEST_CASE("accumulator - long double")
-{
-	test_float_accumulator<long double>();
-}
-
-#if MUU_HAS_FLOAT128
-
-TEST_CASE("accumulator - float128_t")
-{
-	test_float_accumulator<float128_t>();
-}
-
-#endif
-
-TEST_CASE("accumulator - integers")
-{
-	int raw_sum = {};
-	accumulator<int> accum;
-	CHECK(accum.sample_count() == 0_sz);
-	CHECK(accum.value() == 0);
-	for (size_t i = 0; i < 1000; i++)
+	template <typename T>
+	static void test_accumulator() noexcept
 	{
-		const auto val = rand();
-		raw_sum += val;
-		accum.add(val);
+		if constexpr (is_floating_point<T>)
+			test_float_accumulator<T>();
+		else
+			test_int_accumulator<T>();
 	}
-	CHECK(accum.sample_count() == 1000_sz);
-	CHECK(accum.value() == raw_sum);
+}
+
+#define CHECK_ACCUMULATOR(type)		\
+	SECTION(#type)					\
+	{								\
+		test_accumulator<type>();	\
+	} (void)0
+
+
+TEST_CASE("accumulator")
+{
+	#if MUU_HAS_INTERCHANGE_FP16
+	CHECK_ACCUMULATOR(__fp16);
+	#endif
+	#if MUU_HAS_FLOAT16
+	CHECK_ACCUMULATOR(float16_t);
+	#endif
+	CHECK_ACCUMULATOR(half);
+	CHECK_ACCUMULATOR(float);
+	CHECK_ACCUMULATOR(double);
+	CHECK_ACCUMULATOR(long double);
+	#if MUU_HAS_FLOAT128
+	CHECK_ACCUMULATOR(float128_t);
+	#endif
+
+	CHECK_ACCUMULATOR(signed char);
+	CHECK_ACCUMULATOR(unsigned char);
+	CHECK_ACCUMULATOR(signed short);
+	CHECK_ACCUMULATOR(unsigned short);
+	CHECK_ACCUMULATOR(signed int);
+	CHECK_ACCUMULATOR(unsigned int);
+	CHECK_ACCUMULATOR(signed long);
+	CHECK_ACCUMULATOR(unsigned long);
+	CHECK_ACCUMULATOR(signed long long);
+	CHECK_ACCUMULATOR(unsigned long long);
+	#if MUU_HAS_INT128
+	CHECK_ACCUMULATOR(int128_t);
+	CHECK_ACCUMULATOR(uint128_t);
+	#endif
 }

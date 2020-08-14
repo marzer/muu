@@ -144,19 +144,6 @@ MUU_IMPL_NAMESPACE_START
 	template <typename C, typename R, typename ...P>
 	struct remove_noexcept<R(C::*)(P...) const volatile&& noexcept> { using type = R(C::*)(P...) const volatile&&; };
 
-	template <typename T>
-	struct constify_pointer
-	{
-		static_assert(std::is_pointer_v<T>);
-		using type = std::add_pointer_t<std::add_const_t<std::remove_pointer_t<T>>>;
-	};
-	template <typename T> struct constify_pointer<T&> { using type = typename constify_pointer<T>::type&; };
-	template <typename T> struct constify_pointer<T&&> { using type = typename constify_pointer<T>::type&&; };
-	template <> struct constify_pointer<const volatile void*> { using type = const volatile void*; };
-	template <> struct constify_pointer<volatile void*> { using type = const volatile void*; };
-	template <> struct constify_pointer<const void*> { using type = const void*; };
-	template <> struct constify_pointer<void*> { using type = const void*; };
-
 	template <typename T, typename U> struct rebase_pointer
 	{
 		static_assert(std::is_pointer_v<T>);
@@ -750,10 +737,6 @@ MUU_NAMESPACE_START
 	template <typename Ptr, typename NewBase>
 	using rebase_pointer = typename impl::rebase_pointer<Ptr, NewBase>::type;
 
-	/// \brief	Adds const to the pointed-to type of a pointer, correctly handling pointers-to-void.
-	template <typename T>
-	using constify_pointer = typename impl::constify_pointer<T>::type;
-
 	/// \brief	Converts a numeric type to the signed equivalent with the same rank.
 	/// \remarks CV qualifiers and reference categories are preserved.
 	template <typename T>
@@ -823,7 +806,7 @@ MUU_NAMESPACE_START
 		//------------- standalone 'trait' constant classes
 
 		template <typename T>
-		struct numeric_limits
+		struct integer_limits
 		{
 			/// \brief The lowest representable 'normal' value (equivalent to std::numeric_limits::lowest()).
 			static constexpr T lowest = std::numeric_limits<T>::lowest();
@@ -834,18 +817,18 @@ MUU_NAMESPACE_START
 
 		#if MUU_HAS_INT128
 		template <>
-		struct numeric_limits<int128_t>
+		struct integer_limits<int128_t>
 		{
-			static constexpr int128_t max = static_cast<int128_t>(
+			static constexpr int128_t highest = static_cast<int128_t>(
 				(uint128_t{ 1u } << ((__SIZEOF_INT128__ * CHAR_BIT) - 1)) - 1
 			);
-			static constexpr int128_t min = -max - int128_t{ 1 };
+			static constexpr int128_t lowest = -highest - int128_t{ 1 };
 		};
 		template <>
-		struct numeric_limits<uint128_t>
+		struct integer_limits<uint128_t>
 		{
-			static constexpr uint128_t min = uint128_t{};
-			static constexpr uint128_t max = (2u * static_cast<uint128_t>(numeric_limits<int128_t>::max)) + 1u;
+			static constexpr uint128_t lowest = uint128_t{};
+			static constexpr uint128_t highest = (2u * static_cast<uint128_t>(integer_limits<int128_t>::highest)) + 1u;
 		};
 		#endif // MUU_HAS_INT128
 
@@ -879,6 +862,34 @@ MUU_NAMESPACE_START
 			static constexpr T minus_nine = T{ -9 };	///< `-9`
 			static constexpr T minus_ten = T{ -10 };	///< `-10`
 		};
+
+		template <typename T>
+		struct floating_point_limits
+		{
+			/// \brief The number of significand (mantissa) digits.
+			static constexpr int significand_digits = std::numeric_limits<T>::digits;
+		};
+		#if MUU_HAS_INTERCHANGE_FP16
+		template <>
+		struct floating_point_limits<__fp16>
+		{
+			static constexpr int significand_digits = 11;
+		};
+		#endif
+		#if MUU_HAS_FLOAT16
+		template <>
+		struct floating_point_limits<float16_t>
+		{
+			static constexpr int significand_digits = 11;
+		};
+		#endif
+		#if MUU_HAS_FLOAT128
+		template <>
+		struct floating_point_limits<float128_t>
+		{
+			static constexpr int significand_digits = __FLT128_MANT_DIG__;
+		};
+		#endif
 
 		template <typename T>
 		struct floating_point_special_constants
@@ -976,7 +987,7 @@ MUU_NAMESPACE_START
 
 		template <typename T>
 		struct ascii_character_constants
-			: numeric_limits<T>,
+			: integer_limits<T>,
 			integer_positive_constants<T>
 		{
 			static constexpr T backspace = T{ 8 };				///< The backspace character.
@@ -1094,22 +1105,23 @@ MUU_NAMESPACE_START
 
 		template <typename T>
 		struct floating_point_constants
-			: numeric_limits<T>,
+			: integer_limits<T>,
 			integer_positive_constants<T>,
 			integer_negative_constants<T>,
+			floating_point_limits<T>,
 			floating_point_special_constants<T>,
 			floating_point_named_constants<T>
 		{};
 
 		template <typename T>
 		struct unsigned_integral_constants
-			: numeric_limits<T>,
+			: integer_limits<T>,
 			integer_positive_constants<T>
 		{};
 
 		template <typename T>
 		struct signed_integral_constants
-			: numeric_limits<T>,
+			: integer_limits<T>,
 			integer_positive_constants<T>,
 			integer_negative_constants<T>
 		{};
@@ -2031,8 +2043,8 @@ MUU_NAMESPACE_START
 		);
 		static_assert(
 			std::is_pointer_v<From>
-			|| std::is_same_v<From, remove_cv<nullptr_t>>
-			|| (is_integral<From> && sizeof(From) >= sizeof(void*)),
+			|| (is_integral<From> && sizeof(From) >= sizeof(void*))
+			|| std::is_same_v<From, remove_cv<nullptr_t>>,
 			"From type must be a pointer, array, nullptr_t, or an integral type large enough to store a pointer"
 		);
 		static_assert(
@@ -2053,7 +2065,7 @@ MUU_NAMESPACE_START
 		if constexpr (std::is_same_v<From, To>)
 			return from;
 
-		// nullptr -> *
+		// nullptr_t -> *
 		else if constexpr (std::is_same_v<From, nullptr_t>)
 		{
 			(void)from;
@@ -2061,27 +2073,30 @@ MUU_NAMESPACE_START
 		}
 
 		// pointer -> integral
-		else if constexpr (is_integral<To>)
+		// integral -> pointer
+		else if constexpr (is_integral<From> || is_integral<To>)
 		{
-			// widening conversion and enums
-			if constexpr (is_enum<To> || sizeof(To) > sizeof(From))
-			{
-				using cast_t = std::conditional_t<is_signed<To>, intptr_t, uintptr_t>;
-				return static_cast<To>(reinterpret_cast<cast_t>(from));
-			}
-			// integers of the same size
-			else
-			{
-				static_assert(sizeof(To) == sizeof(From));
-				return reinterpret_cast<To>(from);
-			}
-		}
+			static_assert(std::is_pointer_v<To> || std::is_pointer_v<From>);
 
-		// * -> pointer
-		else
-		{
+			// pointer -> integral
+			if constexpr (is_integral<To>)
+			{
+				// widening conversion and enums
+				if constexpr (is_enum<To> || sizeof(To) > sizeof(From))
+				{
+					using cast_t = std::conditional_t<is_signed<To>, intptr_t, uintptr_t>;
+					return static_cast<To>(reinterpret_cast<cast_t>(from));
+				}
+				// integers of the same size
+				else
+				{
+					static_assert(sizeof(To) == sizeof(From));
+					return reinterpret_cast<To>(from);
+				}
+			}
+
 			// integral -> pointer
-			if constexpr (is_integral<From>)
+			else
 			{
 				// enum -> pointer
 				if constexpr (is_enum<From>)
@@ -2098,36 +2113,38 @@ MUU_NAMESPACE_START
 					return reinterpret_cast<To>(static_cast<cast_t>(from));
 				}
 			}
+		}
 
-			// pointer -> pointer
-			else
+		// pointer -> pointer
+		else
+		{
+			static_assert(std::is_pointer_v<To> && std::is_pointer_v<From>);
+
+			// Foo -> Foo (different cv)
+			if constexpr (std::is_same_v<remove_cv<from_base>, remove_cv<to_base>>)
 			{
-				// function -> *
-				if constexpr (std::is_function_v<from_base> && !std::is_function_v<to_base>)
+				static_assert(!std::is_same_v<from_base, to_base>);
+
+				// remove const/volatile
+				if constexpr (is_const<from_base> || is_volatile<from_base>)
+					return static_cast<To>(const_cast<remove_cv<from_base>*>(from));
+
+				// add const/volatile
+				else
 				{
-					static_assert(
-						std::is_void_v<to_base>,
-						"Cannot cast from a function pointer to a type other than void"
-					);
-
-					// function -> void
-					return static_cast<To>(reinterpret_cast<void*>(from));
+					static_assert(std::is_same_v<From, remove_cv<from_base>*>);
+					static_assert(same_as_any<To, const to_base*, const volatile to_base*, volatile to_base*>);
+					return static_cast<To>(from);
 				}
+			}
 
-				// * -> function
-				else if constexpr (!std::is_function_v<from_base> && std::is_function_v<to_base>)
-				{
-					static_assert(
-						std::is_void_v<from_base>,
-						"Cannot cast to a function pointer from a type other than void"
-					);
-
-					// void -> function
-					return reinterpret_cast<To>(pointer_cast<void*>(from));
-				}
-
-				// function -> function
-				else if constexpr (std::is_function_v<from_base> && std::is_function_v<to_base>)
+			// function -> non-function
+			// non-function -> function
+			// function -> function (different exception specifier)
+			else if constexpr (std::is_function_v<from_base> || std::is_function_v<to_base>)
+			{
+				// function -> function (different exception specifier)
+				if constexpr (std::is_function_v<from_base> && std::is_function_v<to_base>)
 				{
 					static_assert(
 						std::is_same_v<remove_noexcept<from_base>, remove_noexcept<to_base>>,
@@ -2143,104 +2160,94 @@ MUU_NAMESPACE_START
 						return static_cast<To>(from);
 				}
 
-				// void -> void (different cv)
-				else if constexpr (std::is_void_v<from_base> && std::is_void_v<to_base>)
+				// function -> non-function
+				else if constexpr (std::is_function_v<from_base>)
 				{
-					// remove const/volatile
-					if constexpr (same_as_any<From, const void*, const volatile void*, volatile void*>)
-						return static_cast<To>(const_cast<void*>(from));
+					static_assert(
+						std::is_void_v<to_base>,
+						"Cannot cast from a function pointer to a type other than void"
+					);
 
-					// add const/volatile
-					else
-					{
-						static_assert(std::is_same_v<From, void*>);
-						static_assert(same_as_any<To, const void*, const volatile void*, volatile void*>);
-						return static_cast<To>(from);
-					}
+					// function -> void
+					return static_cast<To>(reinterpret_cast<void*>(from));
 				}
 
-				// void -> *
-				// * -> void
-				// derived -> base
-				else if constexpr (std::is_void_v<from_base> || std::is_void_v<to_base> || inherits_from<to_base, from_base>)
-					return pointer_cast<To>(static_cast<rebase_pointer<From, remove_cv<to_base>>>(from));
-
-				// A -> A (different cv)
-				else if constexpr (std::is_same_v<remove_cv<from_base>, remove_cv<to_base>>)
-				{
-					static_assert(!std::is_same_v<from_base, to_base>);
-
-					// remove const/volatile
-					if constexpr (is_const<from_base> || is_volatile<from_base>)
-						return static_cast<To>(const_cast<remove_cv<from_base>*>(from));
-
-					// add const/volatile
-					else
-					{
-						static_assert(std::is_same_v<From, remove_cv<from_base>*>);
-						static_assert(same_as_any<To, const to_base*, const volatile to_base*, volatile to_base*>);
-						return static_cast<To>(from);
-					}
-				}
-
-				// IUnknown -> IUnknown (windows only)
-				#if MUU_WINDOWS
-				else if constexpr (impl::is_win32_iunknown<from_base> && impl::is_win32_iunknown<to_base>)
-				{
-					if (!from)
-						return nullptr;
-
-					// remove const/volatile from source type
-					if constexpr (is_const<from_base> || is_volatile<from_base>)
-						return pointer_cast<To>(const_cast<remove_cv<from_base>*>(from));
-
-					// remove const/volatile from destination type
-					else if constexpr (is_const<to_base> || is_volatile<to_base>)
-						return const_cast<To>(pointer_cast<remove_cv<to_base>*>(from));
-
-					else
-					{
-						static_assert(!is_const<from_base> && !is_volatile<from_base>);
-						static_assert(!is_const<to_base> && !is_volatile<to_base>);
-
-						to_base* to = {};
-						if (from->QueryInterface(__uuidof(to_base), reinterpret_cast<void**>(&to)) == 0)
-							to->Release();
-						return to;
-					}
-				}
-				#endif
-
-				// base -> derived
-				else if constexpr (inherits_from<from_base, to_base>)
-				{
-					if constexpr (std::is_polymorphic_v<from_base>)
-						return pointer_cast<To>(dynamic_cast<rebase_pointer<From, remove_cv<to_base>>>(from));
-					else
-						return pointer_cast<To>(reinterpret_cast<rebase_pointer<From, remove_cv<to_base>>>(from));
-				}
-
-				// rank 2+ pointer -> *
-				else if constexpr (std::is_pointer_v<from_base>)
-				{
-					return pointer_cast<To>(static_cast<match_cv<void, from_base>*>(from));
-				}
-
-				// * -> rank 2+ pointer
-				else if constexpr (std::is_pointer_v<to_base>)
-				{
-					static_assert(!std::is_pointer_v<from_base>);
-					return static_cast<To>(pointer_cast<match_cv<void, to_base>*>(from));
-				}
-
-				// A -> B (unrelated types)
+				// non-function -> function
 				else
 				{
-					static_assert(!std::is_same_v<remove_cv<from_base>, remove_cv<to_base>>);
-					static_assert(!std::is_pointer_v<from_base>);
-					static_assert(!std::is_pointer_v<to_base>);
-					return pointer_cast<To>(reinterpret_cast<rebase_pointer<From, remove_cv<to_base>>>(from));
+					static_assert(
+						std::is_void_v<from_base>,
+						"Cannot cast to a function pointer from a type other than void"
+					);
+
+					// void -> function
+					return reinterpret_cast<To>(pointer_cast<void*>(from));
 				}
+			}
+
+			// void -> non-void
+			// non-void -> void
+			// derived -> base
+			else if constexpr (std::is_void_v<from_base> || std::is_void_v<to_base> || inherits_from<to_base, from_base>)
+				return pointer_cast<To>(static_cast<rebase_pointer<From, remove_cv<to_base>>>(from));
+
+			// IUnknown -> IUnknown (windows only)
+			#if MUU_WINDOWS
+			else if constexpr (impl::is_win32_iunknown<from_base> && impl::is_win32_iunknown<to_base>)
+			{
+				if (!from)
+					return nullptr;
+
+				// remove const/volatile from source type
+				if constexpr (is_const<from_base> || is_volatile<from_base>)
+					return pointer_cast<To>(const_cast<remove_cv<from_base>*>(from));
+
+				// remove const/volatile from destination type
+				else if constexpr (is_const<to_base> || is_volatile<to_base>)
+					return const_cast<To>(pointer_cast<remove_cv<to_base>*>(from));
+
+				else
+				{
+					static_assert(!is_const<from_base> && !is_volatile<from_base>);
+					static_assert(!is_const<to_base> && !is_volatile<to_base>);
+
+					to_base* to = {};
+					if (from->QueryInterface(__uuidof(to_base), reinterpret_cast<void**>(&to)) == 0)
+						to->Release();
+					return to;
+				}
+			}
+			#endif
+
+			// base -> derived
+			else if constexpr (inherits_from<from_base, to_base>)
+			{
+				if constexpr (std::is_polymorphic_v<from_base>)
+					return pointer_cast<To>(dynamic_cast<rebase_pointer<From, remove_cv<to_base>>>(from));
+				else
+					return pointer_cast<To>(reinterpret_cast<rebase_pointer<From, remove_cv<to_base>>>(from));
+			}
+
+			// rank 2+ pointer -> *
+			else if constexpr (std::is_pointer_v<from_base>)
+			{
+				return pointer_cast<To>(static_cast<match_cv<void, from_base>*>(from));
+			}
+
+			// * -> rank 2+ pointer
+			else if constexpr (std::is_pointer_v<to_base>)
+			{
+				static_assert(!std::is_pointer_v<from_base>);
+				return static_cast<To>(pointer_cast<match_cv<void, to_base>*>(from));
+			}
+
+			// Foo -> Bar (unrelated types)
+			else
+			{
+				static_assert(!std::is_same_v<remove_cv<from_base>, remove_cv<to_base>>);
+				static_assert(!std::is_pointer_v<from_base>);
+				static_assert(!std::is_pointer_v<to_base>);
+				return pointer_cast<To>(reinterpret_cast<rebase_pointer<From, remove_cv<to_base>>>(from));
 			}
 		}
 	}
@@ -2535,7 +2542,6 @@ MUU_NAMESPACE_START
 		};
 
 		#if MUU_HAS_INT128
-
 		template <>
 		struct popcount_traits<128>
 		{
@@ -2545,7 +2551,6 @@ MUU_NAMESPACE_START
 			static constexpr uint128_t h01 = pack(0x0101010101010101_u64, 0x0101010101010101_u64);
 			static constexpr int rsh = 120;
 		};
-
 		#endif
 
 		template <typename T>
@@ -2602,9 +2607,7 @@ MUU_NAMESPACE_START
 			{
 				#define MUU_HAS_INTRINSIC_POPCOUNT 1
 
-				if constexpr (sizeof(T) == sizeof(unsigned int))
-					return __popcnt(static_cast<unsigned int>(val));
-				else if constexpr (sizeof(T) <= sizeof(unsigned short))
+				if constexpr (sizeof(T) <= sizeof(unsigned short))
 				{
 					#if MUU_MSVC >= 1928 // VS 16.8
 						return __popcnt16(static_cast<unsigned short>(val));
@@ -2612,6 +2615,8 @@ MUU_NAMESPACE_START
 						return popcount_native(val);
 					#endif
 				}
+				else if constexpr (sizeof(T) == sizeof(unsigned int))
+					return __popcnt(static_cast<unsigned int>(val));
 				else if constexpr (std::is_same_v<T, unsigned __int64>)
 				{
 					#if MUU_MSVC >= 1928 // VS 16.8
@@ -3206,19 +3211,8 @@ MUU_NAMESPACE_START
 
 		template <typename T>
 		struct is_infinity_or_nan_traits_typed
-			: is_infinity_or_nan_traits<sizeof(T) * CHAR_BIT, std::numeric_limits<T>::digits>
-		{};
-
-		#if MUU_HAS_INTERCHANGE_FP16
-		template <> struct is_infinity_or_nan_traits_typed<__fp16> : is_infinity_or_nan_traits<16, 11> {};
-		#endif
-		#if MUU_HAS_FLOAT16
-		template <> struct is_infinity_or_nan_traits_typed<float16_t> : is_infinity_or_nan_traits<16, 11> {};
-		#endif
-		#if MUU_HAS_FLOAT128
-		template <> struct is_infinity_or_nan_traits_typed<float128_t> : is_infinity_or_nan_traits<128, __FLT128_MANT_DIG__> {};
-		#endif
-		
+			: is_infinity_or_nan_traits<sizeof(T) * CHAR_BIT, constants<T>::significand_digits>
+		{};	
 	}
 
 	/// \brief	Checks if an arithmetic value is infinity or NaN.
@@ -3295,7 +3289,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	constexpr T* to_address(T* p) noexcept
 	{
-		static_assert(!std::is_function_v<T>, "muu::to_address may not be used on functions.");
+		static_assert(!std::is_function_v<T>, "to_address may not be used on functions.");
 		return p;
 	}
 
@@ -3335,17 +3329,22 @@ MUU_NAMESPACE_START
 			N > 0 && has_single_bit(N),
 			"assume_aligned() requires a power-of-two alignment value."
 		);
+		MUU_ASSUME((reinterpret_cast<uintptr_t>(ptr) & (N - uintptr_t{ 1 })) == 0);
 
 		#if MUU_CLANG || MUU_GCC
 			return reinterpret_cast<T*>(__builtin_assume_aligned(pointer_cast<const void*>(ptr), N));
 		#elif MUU_MSVC
+		{
 			if constexpr (N < 16384)
 				return reinterpret_cast<T*>(__builtin_assume_aligned(pointer_cast<const void*>(ptr), N));
 			else
 				return ptr;
+		}
 		#elif MUU_ICC
+		{
 			__assume_aligned(ptr, N);
 			return ptr;
+		}
 		#elif defined(__cpp_lib_assume_aligned)
 			return std::assume_aligned<N>(ptr);
 		#else

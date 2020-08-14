@@ -9,7 +9,7 @@
 #pragma once
 #include "../muu/preprocessor.h"
 
-#if !defined(DOXYGEN) // undocumented forward declarations are hidden from doxygen because they fuck it up =/
+#ifndef DOXYGEN // undocumented forward declarations are hidden from doxygen because they fuck it up =/
 
 //=====================================================================================================================
 // NON-MUU TYPEDEFS AND FORWARD DECLARATIONS
@@ -64,7 +64,7 @@ struct IUnknown;
 #endif // MUU_WINDOWS
 
 //=====================================================================================================================
-// UNDOCUMENTED TYPEDEFS AND FORWARD DECLARATIONS
+// TYPEDEFS AND FORWARD DECLARATIONS - UNDOCUMENTED
 //=====================================================================================================================
 
 MUU_DISABLE_WARNINGS
@@ -122,11 +122,26 @@ MUU_NAMESPACE_START // abi namespace
 	template <size_t>				class	fnv1a;
 	template <typename>				class	scope_guard;
 	template <typename, size_t>		class	tagged_ptr;
-	template <typename, typename>	class	accumulator;
 
-	template <typename, size_t = static_cast<size_t>(-1)>		class	span;
-	
-	namespace impl {}
+	template <typename, size_t = static_cast<size_t>(-1)>
+	class span;
+
+	namespace impl
+	{
+		template <typename>
+		struct basic_accumulator;
+
+		template <typename T>
+		struct kahan_accumulator;
+
+		template <typename T>	struct default_accumulator				{ using type = basic_accumulator<T>; };
+		template <>				struct default_accumulator<float>		{ using type = kahan_accumulator<float>; };
+		template <>				struct default_accumulator<double>		{ using type = kahan_accumulator<double>; };
+		template <>				struct default_accumulator<long double>	{ using type = kahan_accumulator<long double>; };
+		template <>				struct default_accumulator<half>		{ using type = kahan_accumulator<half>; };
+	}
+	template <typename T, typename = typename impl::default_accumulator<T>::type>
+	class accumulator;
 }
 MUU_NAMESPACE_END
 
@@ -229,3 +244,24 @@ MUU_NAMESPACE_START // abi namespace
 }
 MUU_NAMESPACE_END
 
+//=====================================================================================================================
+// TYPEDEFS AND FORWARD DECLARATIONS - UNDOCUMENTED (redux)
+//=====================================================================================================================
+
+#ifndef DOXYGEN
+
+MUU_IMPL_NAMESPACE_START
+{
+	#if MUU_HAS_INTERCHANGE_FP16
+	template <> struct default_accumulator<__fp16>		{ using type = kahan_accumulator<__fp16>; };
+#endif
+	#if MUU_HAS_FLOAT16
+	template <> struct default_accumulator<float16_t>	{ using type = kahan_accumulator<float16_t>; };
+	#endif
+	#if MUU_HAS_FLOAT128
+	template <> struct default_accumulator<float128_t>	{ using type = kahan_accumulator<float128_t>; };
+	#endif
+}
+MUU_IMPL_NAMESPACE_END
+
+#endif // !DOXYGEN

@@ -66,6 +66,8 @@ MUU_NAMESPACE_START
 		static constexpr long double values_sum_low      = 102.974L;
 		static constexpr long double values_sum          = 103.077L;
 		static constexpr long double values_sum_high     = 103.180L;
+		static constexpr long double values_min          = 0.002L;
+		static constexpr long double values_max          = 0.500L;
 
 		static constexpr long double one_over_two          = 0.500L; // 0'01110'0000000000
 		static constexpr long double one_over_three        = 0.333L; // 0'01101'0101010110
@@ -172,6 +174,8 @@ MUU_NAMESPACE_START
 		static constexpr long double values_sum_low      = 101.661622L;
 		static constexpr long double values_sum          = 101.662639L;
 		static constexpr long double values_sum_high     = 101.663656L;
+		static constexpr long double values_min          = 0.001286L;
+		static constexpr long double values_max          = 0.494187L;
 
 		static constexpr auto int_blittable    = true;
 		static constexpr auto bits_sign        = 0b10000000000000000000000000000000_u32;
@@ -277,6 +281,8 @@ MUU_NAMESPACE_START
 		static constexpr long double values_sum_low      = 102.528340980158395L;
 		static constexpr long double values_sum          = 102.528340980260923L;
 		static constexpr long double values_sum_high     = 102.528340980363451L;
+		static constexpr long double values_min          = 0.001380676677544L;
+		static constexpr long double values_max          = 0.499264978083978L;
 
 		static constexpr auto int_blittable    = true;
 		static constexpr auto bits_sign        = 0x8000000000000000_u64;
@@ -402,6 +408,8 @@ MUU_NAMESPACE_START
 		static constexpr long double values_sum_low      = 102.739434643000955904L;
 		static constexpr long double values_sum          = 102.739434643001058643L;
 		static constexpr long double values_sum_high     = 102.739434643001161382L;
+		static constexpr long double values_min          = 0.001413969650528168L;
+		static constexpr long double values_max          = 0.499697610001779184L;
 
 		static constexpr auto int_blittable    = false;
 		static constexpr auto bits_sign        = std::array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16 };
@@ -528,6 +536,8 @@ MUU_NAMESPACE_START
 		static constexpr long double values_sum_low      = 102.739434643000955904L;
 		static constexpr long double values_sum          = 102.739434643001058643L;
 		static constexpr long double values_sum_high     = 102.739434643001161382L;
+		static constexpr long double values_min          = 0.001413969650528168L;
+		static constexpr long double values_max          = 0.499697610001779184L;
 
 		#if MUU_HAS_INT128
 		static constexpr auto int_blittable    = true;
@@ -771,6 +781,8 @@ MUU_NAMESPACE_START
 		static constexpr float128_t values_sum_low      = 97.927944306207317800749240923218632q;
 		static constexpr float128_t values_sum          = 97.927944306207317800749241902498075q;
 		static constexpr float128_t values_sum_high     = 97.927944306207317800749242881777518q;
+		static constexpr float128_t values_min          = 0.002496900356267794781598768971298q;
+		static constexpr float128_t values_max          = 0.497975465838713925854335787179168q;
 
 		#if MUU_HAS_INT128
 		static constexpr auto int_blittable    = true;
@@ -803,6 +815,6 @@ MUU_NAMESPACE_START
 	#endif // MUU_HAS_FLOAT128
 
 	template <typename T>
-	struct float_test_data : float_test_data_by_traits<sizeof(T) * CHAR_BIT, std::numeric_limits<T>::digits> {};
+	struct float_test_data : float_test_data_by_traits<sizeof(T) * CHAR_BIT, constants<T>::significand_digits> {};
 }
 MUU_NAMESPACE_END

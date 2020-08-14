@@ -614,7 +614,7 @@ MUU_NAMESPACE_START
 	namespace impl
 	{
 		template <>
-		struct numeric_limits<half>
+		struct integer_limits<half>
 		{
 			static constexpr half lowest		= half::from_bits(0b1'11110'1111111111_u16);
 			static constexpr half highest		= half::from_bits(0b0'11110'1111111111_u16);
@@ -649,6 +649,12 @@ MUU_NAMESPACE_START
 			static constexpr half minus_eight	= half::from_bits(0b1'10010'0000000000_u16);
 			static constexpr half minus_nine	= half::from_bits(0b1'10010'0010000000_u16);
 			static constexpr half minus_ten		= half::from_bits(0b1'10010'0100000000_u16);
+		};
+
+		template <>
+		struct floating_point_limits<half>
+		{
+			static constexpr int significand_digits = 11;
 		};
 
 		template <>

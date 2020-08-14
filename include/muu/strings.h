@@ -449,7 +449,7 @@ MUU_IMPL_NAMESPACE_START
 		MUU_ATTR(pure)
 			explicit constexpr operator bool() const noexcept
 		{
-			return index != impl::numeric_limits<size_t>::highest;
+			return index != muu::constants<size_t>::highest;
 		}
 
 		[[nodiscard]]
@@ -463,7 +463,7 @@ MUU_IMPL_NAMESPACE_START
 	template <typename T, typename Func>
 	constexpr utf_find_result utf_find(std::basic_string_view<T> str, bool reverse, Func&& predicate) noexcept
 	{
-		utf_find_result result{ numeric_limits<size_t>::highest, {} };
+		utf_find_result result{ muu::constants<size_t>::highest, {} };
 		if (!str.empty())
 		{
 			utf_decode(str, reverse, [&](char32_t cp, size_t starts_at, size_t goes_for) noexcept

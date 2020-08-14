@@ -14,13 +14,7 @@ MUU_DISABLE_SPAM_WARNINGS
 
 MUU_NAMESPACE_START
 {
-	namespace impl
-	{
-		template <typename>
-		struct accumulator;
-	}
-
-	/// \brief	Statefully accumulates (adds) an indeterminate number of values.
+	/// \brief	Determines min, max and sum of an interderminate number of values.
 	/// \ingroup blocks
 	///
 	/// \detail For integral types the accumulator is a simple bookkeeping helper, but for floating-point
@@ -30,7 +24,11 @@ MUU_NAMESPACE_START
 	/// \tparam	Impl			Implementation type.
 	///
 	/// \see [Kahan summation algorithm (wikipedia)](https://en.wikipedia.org/wiki/Kahan_summation_algorithm)
-	template <typename ValueType, typename Impl = impl::accumulator<ValueType>>
+	template <typename ValueType, typename Impl
+		#ifdef DOXYGEN
+			= impl::default_accumulator<ValueType>::type
+		#endif
+	>
 	class accumulator
 	{
 		static_assert(
@@ -60,52 +58,6 @@ MUU_NAMESPACE_START
 
 		public:
 
-			/// \brief	Adds a new sample to the accumulator.
-			///
-			/// \param	sample	The sample to add.
-			///
-			/// \return	A reference to the accumulator.
-			constexpr accumulator& MUU_VECTORCALL add(value_type MUU_VECTORCALL_CONSTREF sample)
-				noexcept(noexcept(std::declval<Impl>().start(sample)) && noexcept(std::declval<Impl>().add(sample)))
-			{
-				if constexpr (is_floating_point<value_type>)
-					MUU_ASSERT(!is_infinity_or_nan(sample));
-
-				if MUU_UNLIKELY(!impl_and_count.second()++)
-					impl_and_count.first().start(sample);
-				else
-					impl_and_count.first().add(sample);
-				return *this;
-			}
-
-			/// \brief	Adds a new sample to the accumulator.
-			///
-			/// \param	sample	The sample to add.
-			///
-			/// \return	A reference to the accumulator.
-			MUU_ALWAYS_INLINE
-			constexpr accumulator& MUU_VECTORCALL operator() (value_type MUU_VECTORCALL_CONSTREF sample)
-				noexcept(noexcept(std::declval<accumulator>().add(sample)))
-			{
-				return add(sample);
-			}
-
-			/// \brief	Adds a range of values to the accumulator.
-			///
-			/// \tparam	Iter		Iterator type.
-			/// \param	begin	The beginning iterator.
-			/// \param	end  	The end iterator.
-			///
-			/// \return	A reference to the accumulator.
-			template <typename Iter>
-			constexpr accumulator& add(Iter begin, Iter end)
-				noexcept(noexcept(std::declval<accumulator>().add(value_type{})))
-			{
-				while (begin != end)
-					add(static_cast<value_type>(*(begin++)));
-				return *this;
-			}
-
 			/// \brief	Constructs an empty accumulator.
 			MUU_NODISCARD_CTOR
 			constexpr accumulator()
@@ -134,54 +86,192 @@ MUU_NAMESPACE_START
 			}
 
 			/// \brief	Returns the number of samples added to the accumulator.
-			[[nodiscard]] MUU_ALWAYS_INLINE
+			[[nodiscard]]
+			MUU_ALWAYS_INLINE
 			constexpr size_t sample_count() const noexcept
 			{
 				return impl_and_count.second();
 			}
 
-			/// \brief	Returns the sum of all values added to the accumulator.
-			[[nodiscard]] MUU_ALWAYS_INLINE
-			constexpr decltype(auto) value() const
-				noexcept(noexcept(std::declval<Impl>().value()))
+			/// \brief	Returns true if no samples have been added to the accumulator.
+			[[nodiscard]]
+			MUU_ALWAYS_INLINE
+			constexpr bool empty() const noexcept
 			{
-				return impl_and_count.first().value();
+				return impl_and_count.second() == size_t{};
+			}
+
+			/// \brief	Returns the minimum value added to the accumulator.
+			[[nodiscard]]
+			MUU_ALWAYS_INLINE
+			constexpr decltype(auto) (min)() const
+				noexcept(noexcept(std::declval<Impl>().min()))
+			{
+				return impl_and_count.first().min();
+			}
+
+			/// \brief	Returns the maximum value added to the accumulator.
+			[[nodiscard]]
+			MUU_ALWAYS_INLINE
+			constexpr decltype(auto) (max)() const
+				noexcept(noexcept(std::declval<Impl>().max()))
+			{
+				return impl_and_count.first().max();
 			}
 
 			/// \brief	Returns the sum of all values added to the accumulator.
-			[[nodiscard]] MUU_ALWAYS_INLINE
-			explicit operator value_type() const
-				noexcept(noexcept(std::declval<Impl>().value()))
+			[[nodiscard]]
+			MUU_ALWAYS_INLINE
+			constexpr decltype(auto) sum() const
+				noexcept(noexcept(std::declval<Impl>().sum()))
 			{
-				return impl_and_count.first().value();
+				return impl_and_count.first().sum();
+			}
+
+			/// \brief	Adds a new sample to the accumulator.
+			///
+			/// \param	sample	The sample to add.
+			///
+			/// \return	A reference to the accumulator.
+			constexpr accumulator& MUU_VECTORCALL add(value_type MUU_VECTORCALL_CONSTREF sample)
+				noexcept(noexcept(std::declval<Impl>().start(sample)) && noexcept(std::declval<Impl>().add(sample)))
+			{
+				if constexpr (is_floating_point<value_type>)
+					MUU_ASSERT(!is_infinity_or_nan(sample));
+
+				if MUU_UNLIKELY(!impl_and_count.second()++)
+					impl_and_count.first().start(sample);
+				else
+					impl_and_count.first().add(sample);
+				return *this;
+			}
+
+			/// \brief	Adds a range of values to the accumulator.
+			///
+			/// \tparam	Iter	Iterator type.
+			/// \param	begin	The beginning iterator.
+			/// \param	end  	The end iterator.
+			///
+			/// \return	A reference to the accumulator.
+			template <typename Iter>
+			constexpr accumulator& add(Iter begin, Iter end)
+				noexcept(noexcept(std::declval<accumulator>().add(value_type{})))
+			{
+				while (begin != end)
+					add(static_cast<value_type>(*(begin++)));
+				return *this;
+			}
+
+			/// \brief	Adds the entire sample set of another Accumulator to this one.
+			///
+			/// \param	other	The other accumulator.
+			///
+			/// \return	A reference to this Accumulator.
+			constexpr accumulator& add(const accumulator& other) noexcept
+			{
+				if (!other.empty())
+				{
+					if (empty())
+					{
+						impl_and_count.first().add(other.impl_and_count.first());
+						impl_and_count.second() += other.impl_and_count.second();
+					}
+					else
+					{
+						impl_and_count.first() = other.impl_and_count.first();
+						impl_and_count.second() = other.impl_and_count.second();
+					}
+				}
+				return *this;
+			}
+
+			/// \brief	Adds a new sample to the accumulator.
+			///
+			/// \param	sample	The sample to add.
+			///
+			/// \return	A reference to the accumulator.
+			MUU_ALWAYS_INLINE
+			constexpr accumulator& MUU_VECTORCALL operator() (value_type MUU_VECTORCALL_CONSTREF sample)
+				noexcept(noexcept(std::declval<accumulator>().add(sample)))
+			{
+				return add(sample);
+			}
+
+			/// \brief	Adds the entire sample set of another Accumulator to this one.
+			///
+			/// \param	other	The other accumulator.
+			///
+			/// \return	A reference to this accumulator.
+			MUU_ALWAYS_INLINE
+			constexpr accumulator& operator() (const accumulator& other)
+				noexcept(noexcept(std::declval<accumulator>().add(other)))
+			{
+				return add(other);
 			}
 	};
 
 	namespace impl
 	{
 		template <typename ValueType>
-		struct accumulator
+		struct basic_accumulator
 		{
-			ValueType sum = {};
+			using value_type = ValueType;
+			using sum_type = std::conditional_t<
+				muu::is_integral<ValueType>,
+				std::conditional_t<
+					muu::is_signed<ValueType>,
+					muu::largest<ValueType, int32_t>,
+					muu::largest<ValueType, uint32_t>
+				>,
+				ValueType
+			>;
 
-			MUU_ALWAYS_INLINE
-			constexpr void MUU_VECTORCALL start(ValueType MUU_VECTORCALL_CONSTREF sample)
-				noexcept(noexcept(sum = sample))
+			value_type min_ = {}, max_ = {};
+			sum_type sum_ = {};
+
+			constexpr void MUU_VECTORCALL start(value_type MUU_VECTORCALL_CONSTREF sample) noexcept
 			{
-				sum = sample;
+				min_ = max_ = sample;
+				sum_= static_cast<sum_type>(sample);
 			}
 
-			MUU_ALWAYS_INLINE
-			constexpr void MUU_VECTORCALL add(ValueType MUU_VECTORCALL_CONSTREF sample)
-				noexcept(noexcept(sum += sample))
+			constexpr void MUU_VECTORCALL add(value_type MUU_VECTORCALL_CONSTREF sample) noexcept
 			{
-				sum += sample;
+				using muu::min;
+				using muu::max;
+				min_ = (min)(sample, min_);
+				max_ = (max)(sample, max_);
+				sum_ += static_cast<sum_type>(sample);
 			}
 
-			[[nodiscard]] MUU_ALWAYS_INLINE
-			constexpr ValueType value() const noexcept
+			constexpr void add(const basic_accumulator& other) noexcept
 			{
-				return sum;
+				using muu::min;
+				using muu::max;
+				min_ = (min)(other.min_, min_);
+				max_ = (max)(other.max_, max_);
+				sum_ += other.sum_;
+			}
+
+			[[nodiscard]]
+			MUU_ALWAYS_INLINE
+			constexpr value_type(min)() const noexcept
+			{
+				return min_;
+			}
+
+			[[nodiscard]]
+			MUU_ALWAYS_INLINE
+			constexpr value_type(max)() const noexcept
+			{
+				return max_;
+			}
+
+			[[nodiscard]]
+			MUU_ALWAYS_INLINE
+			constexpr sum_type sum() const noexcept
+			{
+				return sum_;
 			}
 		};
 
@@ -190,57 +280,83 @@ MUU_NAMESPACE_START
 		MUU_PRAGMA_GCC("GCC push_options")
 		MUU_PRAGMA_GCC("GCC optimize (\"-fno-fast-math\")")
 
-		template <typename ValueType, typename SumType = ValueType>
+		template <typename ValueType>
 		struct kahan_accumulator // https://en.wikipedia.org/wiki/Kahan_summation_algorithm#Further_enhancements
 		{
+			using value_type = ValueType;
+			using sum_type = typename impl::highest_ranked<ValueType, float>::type;
+
 			static_assert(
-				is_floating_point<ValueType> && is_floating_point<SumType>,
+				is_floating_point<value_type>,
 				"Kahan summation only makes sense with float types"
 			);
-			SumType sum = {}, correction = {};
+			value_type min_ = {}, max_ = {};
+			sum_type sum_ = {}, correction_ = {};
 
-			MUU_ALWAYS_INLINE
-			constexpr void MUU_VECTORCALL start(ValueType sample) noexcept
+			constexpr void MUU_VECTORCALL start(value_type sample) noexcept
 			{
-				sum = static_cast<SumType>(sample);
+				min_ = max_ = sample;
+				sum_ = static_cast<sum_type>(sample);
 			}
 
 			MUU_PRAGMA_CLANG_LT(11, "clang optimize off")
 
-			MUU_ATTR(flatten)
-			constexpr void MUU_VECTORCALL kahan_add(SumType sample) noexcept
+			constexpr void MUU_VECTORCALL kahan_add(sum_type sample) noexcept
 			{
 				MUU_PRAGMA_CLANG_GE(11, "clang fp reassociate(off)")
 				MUU_PRAGMA_CLANG_LT(11, "clang fp contract(on)")
 
-				const auto t = sum + sample;
-				if (abs(sum) >= abs(sample))
-					correction += (sum - t) + sample;
+				using muu::abs;
+
+				const auto t = sum_ + sample;
+				if (abs(sum_) >= abs(sample))
+					correction_ += (sum_ - t) + sample;
 				else
-					correction += (sample - t) + sum;
-				sum = t;
+					correction_ += (sample - t) + sum_;
+				sum_ = t;
 			}
 
 			MUU_PRAGMA_CLANG_LT(11, "clang optimize on")
 
-			MUU_ALWAYS_INLINE
-			MUU_ATTR(flatten)
-			constexpr void MUU_VECTORCALL add(ValueType sample) noexcept
+			constexpr void MUU_VECTORCALL add(value_type sample) noexcept
 			{
-				kahan_add(static_cast<SumType>(sample));
+				using muu::min;
+				using muu::max;
+				min_ = (min)(sample, min_);
+				max_ = (max)(sample, max_);
+				kahan_add(static_cast<sum_type>(sample));
 			}
 
-			[[nodiscard]] MUU_ALWAYS_INLINE
-			constexpr ValueType value() const noexcept
+			constexpr void add(const kahan_accumulator& other) noexcept
 			{
-				return static_cast<ValueType>(sum + correction);
+				using muu::min;
+				using muu::max;
+				min_ = (min)(other.min_, min_);
+				max_ = (max)(other.max_, max_);
+				kahan_add(other.sum);
+			}
+
+			[[nodiscard]]
+			MUU_ALWAYS_INLINE
+			constexpr value_type(min)() const noexcept
+			{
+				return min_;
+			}
+
+			[[nodiscard]]
+			MUU_ALWAYS_INLINE
+			constexpr value_type(max)() const noexcept
+			{
+				return max_;
+			}
+
+			[[nodiscard]]
+			MUU_ALWAYS_INLINE
+			constexpr value_type sum() const noexcept
+			{
+				return static_cast<value_type>(sum_ + correction_);
 			}
 		};
-
-		template <> struct MUU_EMPTY_BASES accumulator<half>		: kahan_accumulator<half, float> {};
-		template <> struct MUU_EMPTY_BASES accumulator<float>		: kahan_accumulator<float> {};
-		template <> struct MUU_EMPTY_BASES accumulator<double>		: kahan_accumulator<double> {};
-		template <> struct MUU_EMPTY_BASES accumulator<long double>	: kahan_accumulator<long double> {};
 
 		MUU_PRAGMA_GCC("GCC pop_options")
 		MUU_PRAGMA_CLANG_GE(11, "float_control(pop)")

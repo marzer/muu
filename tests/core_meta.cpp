@@ -388,6 +388,10 @@ static_assert(is_const<const volatile int&>);
 static_assert(is_const<const volatile int&&>);
 
 // add_const
+static_assert(std::is_same_v<add_const<void>, const void>);
+static_assert(std::is_same_v<add_const<const void>, const void>);
+static_assert(std::is_same_v<add_const<volatile void>, const volatile void>);
+static_assert(std::is_same_v<add_const<const volatile void>, const volatile void>);
 static_assert(std::is_same_v<add_const<int>, const int>);
 static_assert(std::is_same_v<add_const<int&>, const int&>);
 static_assert(std::is_same_v<add_const<int&&>, const int&&>);
@@ -402,6 +406,10 @@ static_assert(std::is_same_v<add_const<const volatile int&>, const volatile int&
 static_assert(std::is_same_v<add_const<const volatile int&&>, const volatile int&&>);
 
 // remove_const
+static_assert(std::is_same_v<remove_const<void>, void>);
+static_assert(std::is_same_v<remove_const<const void>, void>);
+static_assert(std::is_same_v<remove_const<volatile void>, volatile void>);
+static_assert(std::is_same_v<remove_const<const volatile void>, volatile void>);
 static_assert(std::is_same_v<remove_const<int>, int>);
 static_assert(std::is_same_v<remove_const<int&>, int&>);
 static_assert(std::is_same_v<remove_const<int&&>, int&&>);
@@ -416,6 +424,10 @@ static_assert(std::is_same_v<remove_const<const volatile int&>, volatile int&>);
 static_assert(std::is_same_v<remove_const<const volatile int&&>, volatile int&&>);
 
 // set_const
+static_assert(std::is_same_v<set_const<void, true>, const void>);
+static_assert(std::is_same_v<set_const<const void, true>, const void>);
+static_assert(std::is_same_v<set_const<volatile void, true>, const volatile void>);
+static_assert(std::is_same_v<set_const<const volatile void, true>, const volatile void>);
 static_assert(std::is_same_v<set_const<int, true>, const int>);
 static_assert(std::is_same_v<set_const<int&, true>, const int&>);
 static_assert(std::is_same_v<set_const<int&&, true>, const int&&>);
@@ -428,6 +440,10 @@ static_assert(std::is_same_v<set_const<volatile int&&, true>, const volatile int
 static_assert(std::is_same_v<set_const<const volatile int, true>, const volatile int>);
 static_assert(std::is_same_v<set_const<const volatile int&, true>, const volatile int&>);
 static_assert(std::is_same_v<set_const<const volatile int&&, true>, const volatile int&&>);
+static_assert(std::is_same_v<set_const<void, false>, void>);
+static_assert(std::is_same_v<set_const<const void, false>, void>);
+static_assert(std::is_same_v<set_const<volatile void, false>, volatile void>);
+static_assert(std::is_same_v<set_const<const volatile void, false>, volatile void>);
 static_assert(std::is_same_v<set_const<int, false>, int>);
 static_assert(std::is_same_v<set_const<int&, false>, int&>);
 static_assert(std::is_same_v<set_const<int&&, false>, int&&>);
@@ -442,6 +458,14 @@ static_assert(std::is_same_v<set_const<const volatile int&, false>, volatile int
 static_assert(std::is_same_v<set_const<const volatile int&&, false>, volatile int&&>);
 
 // conditionally_add_const
+static_assert(std::is_same_v<conditionally_add_const<void, true>, const void>);
+static_assert(std::is_same_v<conditionally_add_const<const void, true>, const void>);
+static_assert(std::is_same_v<conditionally_add_const<volatile void, true>, const volatile void>);
+static_assert(std::is_same_v<conditionally_add_const<const volatile void, true>, const volatile void>);
+static_assert(std::is_same_v<conditionally_add_const<void, false>, void>);
+static_assert(std::is_same_v<conditionally_add_const<const void, false>, const void>);
+static_assert(std::is_same_v<conditionally_add_const<volatile void, false>, volatile void>);
+static_assert(std::is_same_v<conditionally_add_const<const volatile void, false>, const volatile void>);
 static_assert(std::is_same_v<conditionally_add_const<int, true>, const int>);
 static_assert(std::is_same_v<conditionally_add_const<int, false>, int>);
 static_assert(std::is_same_v<conditionally_add_const<const int, true>, const int>);
@@ -785,24 +809,6 @@ static_assert(std::is_same_v<rebase_pointer<void*, volatile an_enum>, volatile a
 static_assert(std::is_same_v<rebase_pointer<const void*, volatile an_enum>, const volatile an_enum*>);
 static_assert(std::is_same_v<rebase_pointer<volatile void*, volatile an_enum>, volatile an_enum*>);
 static_assert(std::is_same_v<rebase_pointer<const volatile void*, volatile an_enum>, const volatile an_enum*>);
-
-// constify_pointer
-static_assert(std::is_same_v<constify_pointer<int*>, const int*>);
-static_assert(std::is_same_v<constify_pointer<const int*>, const int*>);
-static_assert(std::is_same_v<constify_pointer<volatile int*>, const volatile int*>);
-static_assert(std::is_same_v<constify_pointer<const volatile int*>, const volatile int*>);
-static_assert(std::is_same_v<constify_pointer<void*>, const void*>);
-static_assert(std::is_same_v<constify_pointer<const void*>, const void*>);
-static_assert(std::is_same_v<constify_pointer<volatile void*>, const volatile void*>);
-static_assert(std::is_same_v<constify_pointer<const volatile void*>, const volatile void*>);
-static_assert(std::is_same_v<constify_pointer<int*&>, const int*&>);
-static_assert(std::is_same_v<constify_pointer<const int*&>, const int*&>);
-static_assert(std::is_same_v<constify_pointer<volatile int*&>, const volatile int*&>);
-static_assert(std::is_same_v<constify_pointer<const volatile int*&>, const volatile int*&>);
-static_assert(std::is_same_v<constify_pointer<void*&>, const void*&>);
-static_assert(std::is_same_v<constify_pointer<const void*&>, const void*&>);
-static_assert(std::is_same_v<constify_pointer<volatile void*&>, const volatile void*&>);
-static_assert(std::is_same_v<constify_pointer<const volatile void*&>, const volatile void*&>);
 
 // make_signed
 static_assert(std::is_same_v<make_signed<char>, signed char>);

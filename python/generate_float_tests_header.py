@@ -285,12 +285,16 @@ def write_float_data(file, traits):
 	decimal.getcontext().prec = 256
 	decimal.getcontext().rounding = decimal.ROUND_HALF_EVEN
 	sum = D(0)
+	min_ = D(10000000000000)
+	max_ = D(-10000000000000)
 	random.seed(4815162342)
 	denom = 10 ** traits.digits10
 	denom = (denom, D(denom * 2))
 	for i in range(0, 400):
 		val = rounded(D(random.randrange(1, denom[0])) / denom[1])
 		sum = sum + val
+		min_ = min(min_, val)
+		max_ = max(max_, val)
 		if i > 0:
 			write(', ',end='')
 		if i % per_line == 0:
@@ -305,6 +309,8 @@ def write_float_data(file, traits):
 	write(f'\t\tstatic constexpr {type} values_sum_low      = {rounded(sum * (D(1) - delta))}{suffix};')
 	write(f'\t\tstatic constexpr {type} values_sum          = {rounded(sum)}{suffix};')
 	write(f'\t\tstatic constexpr {type} values_sum_high     = {rounded(sum * (D(1) + delta))}{suffix};')
+	write(f'\t\tstatic constexpr {type} values_min          = {rounded(min_)}{suffix};')
+	write(f'\t\tstatic constexpr {type} values_max          = {rounded(max_)}{suffix};')
 	write('')
 
 	print_constant = lambda name, value: \
@@ -439,7 +445,7 @@ def main():
 
 		# alias by type
 		write('template <typename T>')
-		write('struct float_test_data : float_test_data_by_traits<sizeof(T) * CHAR_BIT, std::numeric_limits<T>::digits> {};')
+		write('struct float_test_data : float_test_data_by_traits<sizeof(T) * CHAR_BIT, constants<T>::significand_digits> {};')
 
 		indent = indent - 1 
 		write('}')

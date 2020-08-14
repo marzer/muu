@@ -265,7 +265,7 @@ MUU_NAMESPACE_START
 			/// \brief	A pointer to element_type.
 			using pointer = std::add_pointer_t<T>;
 			/// \brief	A pointer to element_type (const-qualified).
-			using const_pointer = constify_pointer<pointer>;
+			using const_pointer = std::add_pointer_t<add_const<T>>;
 			/// \brief	An integer just large enough to store all the bits in the tag area.
 			using tag_type = typename tptr::tag_type;
 

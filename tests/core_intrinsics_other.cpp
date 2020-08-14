@@ -241,33 +241,34 @@ namespace
 
 		using c = muu::constants<T>;
 
-		static constexpr auto cases = std::array
+		static constexpr test_case cases[]
 		{
-			/*  0 */ test_case{ c::minus_one,	c::one,			c::two,				c::three },
-			/*  1 */ test_case{ c::zero,		c::one,			c::two,				c::two },
-			/*  2 */ test_case{ c::minus_one,	c::zero,		c::two,				c::one },
-			/*  3 */ test_case{ c::one,			c::minus_one,	c::two,				c::minus_three },
-			/*  4 */ test_case{ c::zero,		c::minus_one,	c::two,				c::minus_two },
-			/*  5 */ test_case{ c::one,			c::zero,		c::two,				c::minus_one },
-			/*  6 */ test_case{ c::one,			c::two,			c::one,				c::two },
-			/*  7 */ test_case{ c::one,			c::two,			c::two,				c::three },
-			/*  8 */ test_case{ c::one,			c::two,			c::one_over_two,	c::three_over_two },
-			/*  9 */ test_case{ c::one,			c::two,			c::zero,			c::one },
-			/* 10 */ test_case{ c::one,			c::one,			c::two,				c::one },
-			/* 11 */ test_case{ c::minus_zero,	c::minus_zero,	c::one_over_two,	c::minus_zero },
-			/* 12 */ test_case{ c::zero,		c::zero,		c::one_over_two,	c::zero },
-			/* 13 */ test_case{ c::minus_five,	c::five,		c::one_over_two,	c::zero }
+			/*  0 */ { c::minus_one,	c::one,			c::two,				c::three },
+			/*  1 */ { c::zero,			c::one,			c::two,				c::two },
+			/*  2 */ { c::minus_one,	c::zero,		c::two,				c::one },
+			/*  3 */ { c::one,			c::minus_one,	c::two,				c::minus_three },
+			/*  4 */ { c::zero,			c::minus_one,	c::two,				c::minus_two },
+			/*  5 */ { c::one,			c::zero,		c::two,				c::minus_one },
+			/*  6 */ { c::one,			c::two,			c::one,				c::two },
+			/*  7 */ { c::one,			c::two,			c::two,				c::three },
+			/*  8 */ { c::one,			c::two,			c::one_over_two,	c::three_over_two },
+			/*  9 */ { c::one,			c::two,			c::zero,			c::one },
+			/* 10 */ { c::one,			c::one,			c::two,				c::one },
+			/* 11 */ { c::minus_zero,	c::minus_zero,	c::one_over_two,	c::minus_zero },
+			/* 12 */ { c::zero,			c::zero,		c::one_over_two,	c::zero },
+			/* 13 */ { c::minus_five,	c::five,		c::one_over_two,	c::zero }
 		};
 	};
 
 	template <typename T>
 	void lerp_tests()
 	{
-		for (size_t i = 0; i < lerp_test_data<T>::cases.size(); i++)
+		size_t i{};
+		for (const auto& case_ : lerp_test_data<T>::cases)
 		{
-			auto& test_case = lerp_test_data<T>::cases[i];
 			INFO("lerp test case " << i)
-			CHECK(muu::lerp(test_case.start, test_case.finish, test_case.alpha) == test_case.expected);
+			CHECK(muu::lerp(case_.start, case_.finish, case_.alpha) == case_.expected);
+			i++;
 		}
 	}
 }
@@ -290,8 +291,6 @@ TEST_CASE("lerp - float16_t")
 
 #endif // MUU_HAS_FLOAT16
 
-#if !MUU_MSVC || _MSC_FULL_VER != 192729110 //internal compiler error in VS 2019 16.7
-
 TEST_CASE("lerp - half")
 {
 	lerp_tests<half>();
@@ -311,8 +310,6 @@ TEST_CASE("lerp - long double")
 {
 	lerp_tests<long double>();
 }
-
-#endif
 
 #if MUU_HAS_FLOAT128
 
@@ -484,7 +481,7 @@ namespace
 				const blit_type first = (min)(min_, max_); // normalize for endiannness
 				const blit_type last = (max)(min_, max_);  //
 
-				if constexpr (std::numeric_limits<T>::digits <= 24)
+				if constexpr (constants<T>::significand_digits <= 24)
 				{
 					for (auto bits = first; bits < last; bits++)
 						if (!is_infinity_or_nan(bit_cast<T>(bits)))
@@ -493,7 +490,7 @@ namespace
 				else
 				{
 					auto bits = first;
-					const uint64_t step = bit_fill_right<uint64_t>(std::numeric_limits<T>::digits-1) / (bit_fill_right<uint64_t>(23)-1_u64);
+					const uint64_t step = bit_fill_right<uint64_t>(constants<T>::significand_digits - 1) / (bit_fill_right<uint64_t>(23)-1_u64);
 					for (auto iters = bit_fill_right<uint64_t>(23) - 1_u64; iters --> uint64_t{};)
 					{
 						const auto v = bit_cast<T>(bits);
