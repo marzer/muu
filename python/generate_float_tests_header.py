@@ -46,6 +46,19 @@ def tau():
 	return pi_and_tau()[1]
 
 
+__phi = dict()
+def phi():
+	global __phi
+	result = __phi.get(decimal.getcontext().prec)
+	if result is None:
+		decimal.getcontext().prec += 4
+		result = (decimal.Decimal(1) + decimal.Decimal(5).sqrt()) / decimal.Decimal(2)
+		decimal.getcontext().prec -= 4
+		result = +result
+		__phi[decimal.getcontext().prec] = result
+	return result
+
+
 __e = dict()
 def e(power):
 	global __e
@@ -313,45 +326,39 @@ def write_float_data(file, traits):
 	write(f'\t\tstatic constexpr {type} values_max          = {rounded(max_)}{suffix};')
 	write('')
 
-	print_constant = lambda name, value: \
-		write(f'\t\tstatic constexpr {type} {name}{" " * (22 - len(name))}= {rounded(value, traits.digits10)}{suffix}; // {traits.bit_representation(value)}')
-	if (traits.total_bits == 16):
-		print_constant('one_over_two',			D(1)/D(2))
-		print_constant('one_over_three',		D(1)/D(3))
-		print_constant('one_over_four',			D(1)/D(4))
-		print_constant('one_over_five',			D(1)/D(5))
-		print_constant('one_over_six',			D(1)/D(6))
-		print_constant('root_one_over_two',		(D(1)/D(2)).sqrt())
-		print_constant('root_one_over_three',	(D(1)/D(3)).sqrt())
-		print_constant('root_one_over_four',	(D(1)/D(4)).sqrt())
-		print_constant('root_one_over_five',	(D(1)/D(5)).sqrt())
-		print_constant('root_one_over_six',		(D(1)/D(6)).sqrt())
-		print_constant('two_over_three',		D(2)/D(3))
-		print_constant('two_over_five',			D(2)/D(5))
-		print_constant('root_two_over_three',	(D(2)/D(3)).sqrt())
-		print_constant('root_two_over_five',	(D(2)/D(5)).sqrt())
-		print_constant('three_over_two',		D(3)/D(2))
-		print_constant('three_over_four',		D(3)/D(4))
-		print_constant('three_over_five',		D(3)/D(5))
-		print_constant('root_three_over_two',	(D(3)/D(2)).sqrt())
-		print_constant('root_three_over_four',	(D(3)/D(4)).sqrt())
-		print_constant('root_three_over_five',	(D(3)/D(5)).sqrt())
-		print_constant('pi',					pi())
-		print_constant('pi_over_two',			pi() / D(2))
-		print_constant('pi_over_three',			pi() / D(3))
-		print_constant('pi_over_four',			pi() / D(4))
-		print_constant('pi_over_five',			pi() / D(5))
-		print_constant('pi_over_six',			pi() / D(6))
-		print_constant('two_pi',				tau())
-		print_constant('root_pi',				pi().sqrt())
-		print_constant('root_pi_over_two',		(pi() / D(2)).sqrt())
-		print_constant('root_pi_over_three',	(pi() / D(3)).sqrt())
-		print_constant('root_pi_over_four',		(pi() / D(4)).sqrt())
-		print_constant('root_pi_over_five',		(pi() / D(5)).sqrt())
-		print_constant('root_pi_over_six',		(pi() / D(6)).sqrt())
-		print_constant('root_two_pi',			tau().sqrt())
-		print_constant('e',						e(1))
-		write('')
+	constant_inputs = [
+		#(D(1), 'one'),
+		(D(2), 'two'),
+		(D(3), 'three'),
+		(pi(), 'pi'),
+		(tau(), 'two_pi'),
+		(e(1), 'e'),
+		(phi(), 'phi')
+	]
+	constants = dict()
+	constants_skip_list = ['one', 'two', 'three', 'four', 'five', 'six', 'one_over_two_pi']
+	print_constant_ = lambda name, value: \
+		write(f'\t\tstatic constexpr {type} {name}{" " * (22 - len(name))}= {rounded(value, traits.digits10)}{suffix};{" // "+traits.bit_representation(value) if traits.total_bits == 16 else ""}')
+	print_constant =  lambda n,v: (print_constant_(n, v), ) if n not in constants_skip_list else None
+	for val, name in constant_inputs:
+		print_constant(name, val)
+		print_constant(f'one_over_{name}', D(1) / val)
+		if val != tau():
+			if val != D(2):
+				print_constant(f'{name}_over_two', val / D(2))
+			if val != D(3):
+				print_constant(f'{name}_over_three', val / D(3))
+			if val != D(4) and val != D(2):
+				print_constant(f'{name}_over_four', val / D(4))
+			if val != D(5):
+				print_constant(f'{name}_over_five', val / D(5))
+			if val != D(6) and val != D(3) and val != D(2):
+				print_constant(f'{name}_over_six', val / D(6))
+
+		if val != D(1):
+			print_constant(f'sqrt_{name}', val.sqrt())
+			print_constant(f'one_over_sqrt_{name}', D(1) / val.sqrt())
+	write('')
 
 	if traits.total_bits > 64 and traits.int_blittable:
 		write('\t\t#if MUU_HAS_INT{}'.format(traits.total_bits))
