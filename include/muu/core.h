@@ -2482,12 +2482,12 @@ MUU_NAMESPACE_START
 			{
 				using lhs = remove_cvref<T>;
 				using rhs = remove_cvref<U>;
-				if constexpr (is_signed<lhs> || is_unsigned<rhs>)
+				if constexpr (is_signed<lhs> && is_unsigned<rhs>)
 				{
 					if (val < lhs{})
 						return false;
 				}
-				else if constexpr (is_unsigned<lhs> || is_signed<rhs>)
+				else if constexpr (is_unsigned<lhs> && is_signed<rhs>)
 				{
 					if (max_ < rhs{})
 						return false;

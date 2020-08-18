@@ -232,8 +232,6 @@ MUU_NAMESPACE_START // abi namespace
 
 	/// \brief	A typed container for static constants, similar to std::numeric_limits.
 	/// \ingroup constants
-	///
-	/// \tparam	T	The constant value type.
 	template <typename T>
 	struct constants {};
 	template <typename T> struct constants<T&> : constants<T> {};
@@ -254,7 +252,7 @@ MUU_IMPL_NAMESPACE_START
 {
 	#if MUU_HAS_INTERCHANGE_FP16
 	template <> struct default_accumulator<__fp16>		{ using type = kahan_accumulator<__fp16>; };
-#endif
+	#endif
 	#if MUU_HAS_FLOAT16
 	template <> struct default_accumulator<float16_t>	{ using type = kahan_accumulator<float16_t>; };
 	#endif
