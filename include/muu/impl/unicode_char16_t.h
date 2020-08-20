@@ -67,7 +67,7 @@ MUU_NAMESPACE_START
 			}
 			MUU_NO_DEFAULT_CASE;
 		}
-		// 19 codepoints from 8 ranges (spanning a search area of 65536)
+		// 19 codepoints from 8 ranges (spanning a search area of 12156)
 	}
 
 	/// \brief		Returns true if a UTF-16 code unit is a whitespace code point.
@@ -173,7 +173,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xCA1ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xCA1ull) % 0x40ull));
-				// 392 codepoints from 47 ranges (spanning a search area of 1021)
+				// 392 codepoints from 47 ranges (spanning a search area of 1006)
 			}
 			case 0x04: // [4] 109E - 149A
 			{
@@ -190,7 +190,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x10A0ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x10A0ull) % 0x40ull));
-				// 931 codepoints from 24 ranges (spanning a search area of 1021)
+				// 931 codepoints from 24 ranges (spanning a search area of 1019)
 			}
 			case 0x05: // [5] 149B - 1897
 			{
@@ -251,7 +251,7 @@ MUU_NAMESPACE_START
 					case 0x03: return u'\u2183' <= c;
 					MUU_NO_DEFAULT_CASE;
 				}
-				// 59 codepoints from 15 ranges (spanning a search area of 1021)
+				// 59 codepoints from 15 ranges (spanning a search area of 243)
 			}
 			case 0x0A: return (u'\u2C00' <= c && c <= u'\u2C2E') || (u'\u2C30' <= c && c <= u'\u2C5E') || u'\u2C60' <= c;
 			case 0x0B: // [11] 2C89 - 3085
@@ -301,7 +301,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA42Full) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xA42Full) % 0x40ull));
-				// 792 codepoints from 16 ranges (spanning a search area of 1021)
+				// 792 codepoints from 16 ranges (spanning a search area of 1012)
 			}
 			case 0x2A: // [42] A82C - AC28
 			{
@@ -318,7 +318,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA840ull) / 0x40ull]
 					& (0x1ull << (static_cast<uint_least64_t>(c) % 0x40ull));
-				// 657 codepoints from 36 ranges (spanning a search area of 1021)
+				// 657 codepoints from 36 ranges (spanning a search area of 1001)
 			}
 			case 0x35: return c <= u'\uD7A3' || (u'\uD7B0' <= c && c <= u'\uD7C6') || (u'\uD7CB' <= c && c <= u'\uD7FB');
 			case 0x3E: // [62] F7F0 - FBEC
@@ -335,7 +335,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xF900ull) / 0x40ull]
 					& (0x1ull << (static_cast<uint_least64_t>(c) % 0x40ull));
-				// 652 codepoints from 13 ranges (spanning a search area of 1021)
+				// 652 codepoints from 13 ranges (spanning a search area of 749)
 			}
 			case 0x3F: // [63] FBED - FFDC
 			{
@@ -354,7 +354,7 @@ MUU_NAMESPACE_START
 			}
 			MUU_NO_DEFAULT_CASE;
 		}
-		// 48857 codepoints from 378 ranges (spanning a search area of 65536)
+		// 48857 codepoints from 378 ranges (spanning a search area of 65331)
 	}
 
 	/// \brief		Returns true if a UTF-16 code unit is a letter code point.
@@ -404,7 +404,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x660ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x660ull) % 0x40ull));
-				// 50 codepoints from 5 ranges (spanning a search area of 995)
+				// 50 codepoints from 5 ranges (spanning a search area of 912)
 			}
 			case 0x01: // [1] 0A43 - 0E25
 			{
@@ -420,7 +420,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA66ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xA66ull) % 0x40ull));
-				// 80 codepoints from 8 ranges (spanning a search area of 995)
+				// 80 codepoints from 8 ranges (spanning a search area of 906)
 			}
 			case 0x02: // [2] 0E26 - 1208
 			{
@@ -435,7 +435,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xE50ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xE50ull) % 0x40ull));
-				// 50 codepoints from 5 ranges (spanning a search area of 995)
+				// 50 codepoints from 5 ranges (spanning a search area of 586)
 			}
 			case 0x04: // [4] 15EC - 19CE
 			{
@@ -450,7 +450,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x16EEull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x16EEull) % 0x40ull));
-				// 33 codepoints from 4 ranges (spanning a search area of 995)
+				// 33 codepoints from 4 ranges (spanning a search area of 610)
 			}
 			case 0x05: // [5] 19CF - 1DB1
 			{
@@ -465,7 +465,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x19D0ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x19D0ull) % 0x40ull));
-				// 70 codepoints from 7 ranges (spanning a search area of 995)
+				// 70 codepoints from 7 ranges (spanning a search area of 650)
 			}
 			case 0x06: return u'\u2160' <= c && c <= u'\u2188' && (1ull << (static_cast<uint_least64_t>(c) - 0x2160u)) & 0x1E7FFFFFFFFull;
 			case 0x0A: return u'\u3007' <= c && c <= u'\u303A' && (1ull << (static_cast<uint_least64_t>(c) - 0x3007u)) & 0xE0007FC000001ull;
@@ -482,7 +482,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA620ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xA620ull) % 0x40ull));
-				// 40 codepoints from 4 ranges (spanning a search area of 995)
+				// 40 codepoints from 4 ranges (spanning a search area of 746)
 			}
 			case 0x2A: // [42] A99E - AD80
 			{
@@ -497,12 +497,12 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA9D0ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xA9D0ull) % 0x40ull));
-				// 40 codepoints from 4 ranges (spanning a search area of 995)
+				// 40 codepoints from 4 ranges (spanning a search area of 554)
 			}
 			case 0x3F: return u'\uFF10' <= c;
 			MUU_NO_DEFAULT_CASE;
 		}
-		// 425 codepoints from 43 ranges (spanning a search area of 65536)
+		// 425 codepoints from 43 ranges (spanning a search area of 63674)
 	}
 
 	/// \brief		Returns true if a UTF-16 code unit is a number code point.
@@ -543,7 +543,7 @@ MUU_NAMESPACE_START
 			case 0x3F: return c == u'\uFE63' || c == u'\uFF0D' || c == u'\uFF65';
 			MUU_NO_DEFAULT_CASE;
 		}
-		// 10 codepoints from 9 ranges (spanning a search area of 65536)
+		// 10 codepoints from 9 ranges (spanning a search area of 65209)
 	}
 
 	/// \brief		Returns true if a UTF-16 code unit is a hyphen code point.
@@ -599,7 +599,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x6EDull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x6EDull) % 0x40ull));
-				// 208 codepoints from 38 ranges (spanning a search area of 1005)
+				// 208 codepoints from 38 ranges (spanning a search area of 993)
 			}
 			case 0x02: // [2] 0ADA - 0EC6
 			{
@@ -615,7 +615,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xAE2ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xAE2ull) % 0x40ull));
-				// 158 codepoints from 45 ranges (spanning a search area of 1005)
+				// 158 codepoints from 45 ranges (spanning a search area of 987)
 			}
 			case 0x03: // [3] 0EC7 - 12B3
 			{
@@ -629,7 +629,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xEC8ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xEC8ull) % 0x40ull));
-				// 141 codepoints from 20 ranges (spanning a search area of 1005)
+				// 141 codepoints from 20 ranges (spanning a search area of 470)
 			}
 			case 0x04: return u'\u135D' <= c && c <= u'\u135F';
 			case 0x05: // [5] 16A1 - 1A8D
@@ -646,7 +646,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x1712ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x1712ull) % 0x40ull));
-				// 118 codepoints from 15 ranges (spanning a search area of 1005)
+				// 118 codepoints from 15 ranges (spanning a search area of 878)
 			}
 			case 0x06: // [6] 1A8E - 1E7A
 			{
@@ -662,7 +662,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x1AB0ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x1AB0ull) % 0x40ull));
-				// 189 codepoints from 16 ranges (spanning a search area of 1005)
+				// 189 codepoints from 16 ranges (spanning a search area of 848)
 			}
 			case 0x07: return u'\u20D0' <= c && c <= u'\u20F0' && (1ull << (static_cast<uint_least64_t>(c) - 0x20D0u)) & 0x1FFE21FFFull;
 			case 0x0A: return (u'\u2CEF' <= c && c <= u'\u2CF1') || (u'\u2DE0' <= c && c <= u'\u2DFF') || c == u'\u2D7F';
@@ -678,7 +678,7 @@ MUU_NAMESPACE_START
 					case 0x02: return c != u'\uA6EF';
 					default: return false;
 				}
-				// 15 codepoints from 4 ranges (spanning a search area of 1005)
+				// 15 codepoints from 4 ranges (spanning a search area of 131)
 			}
 			case 0x2A: // [42] A7E2 - ABCE
 			{
@@ -693,13 +693,13 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA802ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xA802ull) % 0x40ull));
-				// 124 codepoints from 25 ranges (spanning a search area of 1005)
+				// 124 codepoints from 25 ranges (spanning a search area of 757)
 			}
 			case 0x2B: return u'\uABE3' <= c && c <= u'\uABED' && (1u << (static_cast<uint_least32_t>(c) - 0xABE3u)) & 0x6FFu;
 			case 0x3F: return (u'\uFE00' <= c && c <= u'\uFE0F') || u'\uFE20' <= c || c == u'\uFB1E';
 			MUU_NO_DEFAULT_CASE;
 		}
-		// 1288 codepoints from 190 ranges (spanning a search area of 65536)
+		// 1288 codepoints from 190 ranges (spanning a search area of 64304)
 	}
 
 	/// \brief		Returns true if a UTF-16 code unit is an octal digit code point.
@@ -758,7 +758,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x41ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x41ull) % 0x40ull));
-				// 330 codepoints from 172 ranges (spanning a search area of 1020)
+				// 330 codepoints from 172 ranges (spanning a search area of 1007)
 			}
 			case 0x01: // [1] 043D - 0838
 			{
@@ -773,7 +773,7 @@ MUU_NAMESPACE_START
 					case 0x03: return (1ull << (static_cast<uint_least64_t>(c) - 0x520u)) & 0x7FFFFFFFFE5555ull;
 					MUU_NO_DEFAULT_CASE;
 				}
-				// 138 codepoints from 100 ranges (spanning a search area of 1020)
+				// 138 codepoints from 100 ranges (spanning a search area of 247)
 			}
 			case 0x04: // [4] 1031 - 142C
 			{
@@ -789,7 +789,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x10A0ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x10A0ull) % 0x40ull));
-				// 126 codepoints from 4 ranges (spanning a search area of 1020)
+				// 126 codepoints from 4 ranges (spanning a search area of 854)
 			}
 			case 0x07: // [7] 1C25 - 2020
 			{
@@ -805,7 +805,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x1C90ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x1C90ull) % 0x40ull));
-				// 239 codepoints from 141 ranges (spanning a search area of 1020)
+				// 239 codepoints from 141 ranges (spanning a search area of 876)
 			}
 			case 0x08: // [8] 2021 - 241C
 			{
@@ -821,7 +821,7 @@ MUU_NAMESPACE_START
 						&& (1ull << (static_cast<uint_least64_t>(c) - 0x2145u)) & 0x7FFF8000001ull;
 					MUU_NO_DEFAULT_CASE;
 				}
-				// 45 codepoints from 15 ranges (spanning a search area of 1020)
+				// 45 codepoints from 15 ranges (spanning a search area of 130)
 			}
 			case 0x09: return u'\u24B6' <= c && c <= u'\u24CF';
 			case 0x0A: return u'\u2C00' <= c;
@@ -839,7 +839,7 @@ MUU_NAMESPACE_START
 					case 0x03: return u'\u2CD6' <= c && (1u << (static_cast<uint_least32_t>(c) - 0x2CD6u)) & 0x10A01555u;
 					MUU_NO_DEFAULT_CASE;
 				}
-				// 94 codepoints from 62 ranges (spanning a search area of 1020)
+				// 94 codepoints from 62 ranges (spanning a search area of 222)
 			}
 			case 0x29: // [41] A39D - A798
 			{
@@ -854,7 +854,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA640ull) / 0x40ull]
 					& (0x1ull << (static_cast<uint_least64_t>(c) % 0x40ull));
-				// 89 codepoints from 88 ranges (spanning a search area of 1020)
+				// 89 codepoints from 88 ranges (spanning a search area of 345)
 			}
 			case 0x2A: // [42] A799 - AB94
 			{
@@ -867,7 +867,7 @@ MUU_NAMESPACE_START
 			case 0x3F: return u'\uFF21' <= c;
 			MUU_NO_DEFAULT_CASE;
 		}
-		// 1164 codepoints from 603 ranges (spanning a search area of 65536)
+		// 1164 codepoints from 603 ranges (spanning a search area of 65274)
 	}
 
 	/// \brief		Returns true if a UTF-16 code unit is an lowercase code point.
@@ -912,7 +912,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x45Dull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x45Dull) % 0x40ull));
-				// 144 codepoints from 101 ranges (spanning a search area of 1020)
+				// 144 codepoints from 101 ranges (spanning a search area of 300)
 			}
 			case 0x04: return (u'\u10D0' <= c && c <= u'\u10FA') || (u'\u10FD' <= c && c <= u'\u10FF') || (u'\u13F8' <= c && c <= u'\u13FD');
 			case 0x07: // [7] 1C45 - 2040
@@ -929,7 +929,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x1C80ull) / 0x40ull]
 					& (0x1ull << (static_cast<uint_least64_t>(c) % 0x40ull));
-				// 455 codepoints from 146 ranges (spanning a search area of 1020)
+				// 455 codepoints from 146 ranges (spanning a search area of 888)
 			}
 			case 0x08: // [8] 2041 - 243C
 			{
@@ -943,7 +943,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x2071ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x2071ull) % 0x40ull));
-				// 46 codepoints from 14 ranges (spanning a search area of 1020)
+				// 46 codepoints from 14 ranges (spanning a search area of 276)
 			}
 			case 0x09: return u'\u24D0' <= c && c <= u'\u24E9';
 			case 0x0A: return u'\u2C30' <= c;
@@ -962,7 +962,7 @@ MUU_NAMESPACE_START
 					case 0x03: return (u'\u2D00' <= c && c <= u'\u2D25') || c == u'\u2D27' || c == u'\u2D2D';
 					MUU_NO_DEFAULT_CASE;
 				}
-				// 153 codepoints from 65 ranges (spanning a search area of 1020)
+				// 153 codepoints from 65 ranges (spanning a search area of 249)
 			}
 			case 0x29: // [41] A3BD - A7B8
 			{
@@ -976,7 +976,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA641ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xA641ull) % 0x40ull));
-				// 114 codepoints from 99 ranges (spanning a search area of 1020)
+				// 114 codepoints from 99 ranges (spanning a search area of 375)
 			}
 			case 0x2A: // [42] A7B9 - ABB4
 			{
@@ -998,7 +998,7 @@ MUU_NAMESPACE_START
 			case 0x3F: return u'\uFF41' <= c;
 			MUU_NO_DEFAULT_CASE;
 		}
-		// 1627 codepoints from 618 ranges (spanning a search area of 65536)
+		// 1627 codepoints from 618 ranges (spanning a search area of 65274)
 	}
 
 	/// \brief		Returns true if a UTF-16 code unit is a code point boundary.

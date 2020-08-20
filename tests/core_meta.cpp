@@ -876,3 +876,38 @@ static_assert(pointer_rank<const void***> == 3);
 static_assert(pointer_rank<const void***const*const> == 4);
 static_assert(pointer_rank<const void*volatile*const volatile *const volatile*const *volatile> == 5); // lmao c++ is a nightmare
 
+// has_arrow_operator
+// has_unary_plus_operator
+struct Bar
+{
+	int value;
+
+	Bar operator +() const noexcept
+	{
+		return Bar{ value };
+	}
+};
+struct Foo
+{
+	Bar value;
+
+	Bar* operator -> () noexcept
+	{
+		return &value;
+	}
+};
+static_assert(!has_arrow_operator<void>);
+static_assert(!has_arrow_operator<void*>);
+static_assert(has_arrow_operator<Foo>);
+static_assert(!has_arrow_operator<const Foo>);
+static_assert(!has_arrow_operator<Bar>);
+static_assert(!has_arrow_operator<const Bar>);
+static_assert(has_arrow_operator<Foo*>);
+static_assert(has_arrow_operator<const Foo*>);
+
+static_assert(!has_unary_plus_operator<void>);
+static_assert(has_unary_plus_operator<void*>); //built-in operator
+static_assert(!has_unary_plus_operator<Foo>);
+static_assert(!has_unary_plus_operator<const Foo>);
+static_assert(has_unary_plus_operator<Bar>);
+static_assert(has_unary_plus_operator<const Bar>);

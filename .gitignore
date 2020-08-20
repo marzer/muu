@@ -8,7 +8,7 @@ compile_commands.json
 [Bb]uild*/
 [Dd]ocs/xml
 [Dd]ocs/html
-python/*.txt
+python/Unicode_*
 python/*.json
 
 ## Ignore Visual Studio temporary files, build results, and

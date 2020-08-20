@@ -103,6 +103,13 @@
 	#define MUU_ARCH_ARM 0
 #endif
 
+// MUU_ARCH_X64
+#if MUU_ARCH_BITNESS == 64
+	#define MUU_ARCH_X64 1
+#else
+	#define MUU_ARCH_X64 0
+#endif
+
 #ifndef DOXYGEN
 	#define MUU_ARCH_SUM (MUU_ARCH_ITANIUM + MUU_ARCH_AMD64 + MUU_ARCH_X86 + MUU_ARCH_ARM32 + MUU_ARCH_ARM64)
 	#if MUU_ARCH_SUM > 1
@@ -854,6 +861,9 @@ MUU_ENABLE_WARNINGS
 /// 
 /// \def MUU_ARCH_BITNESS
 /// \brief The 'bitness' of the current architecture (e.g. `64` on AMD64).
+/// 
+/// \def MUU_ARCH_X64
+/// \brief `1` when targeting any 64-bit architecture, otherwise `0`.
 /// 
 /// \def MUU_CLANG
 /// \brief The value of `__clang_major__` when the code is being compiled by LLVM/Clang, otherwise `0`.

@@ -73,7 +73,7 @@ MUU_IMPL_NAMESPACE_START
 			case 0x01: return c != 0xF7u;
 			MUU_NO_DEFAULT_CASE;
 		}
-		// 65 codepoints from 6 ranges (spanning a search area of 256)
+		// 65 codepoints from 6 ranges (spanning a search area of 86)
 	}
 
 	[[nodiscard]]
@@ -177,7 +177,7 @@ MUU_IMPL_NAMESPACE_START
 			case 0x02: return c != 0xF7u;
 			MUU_NO_DEFAULT_CASE;
 		}
-		// 61 codepoints from 6 ranges (spanning a search area of 256)
+		// 61 codepoints from 6 ranges (spanning a search area of 159)
 	}
 
 	[[nodiscard]]

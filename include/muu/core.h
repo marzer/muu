@@ -425,6 +425,18 @@ MUU_IMPL_NAMESPACE_START
 	{
 		static constexpr size_t value = 1 + pointer_rank<std::remove_pointer_t<T>>::value;
 	};
+
+	template <template <typename...> typename Trait, typename Enabler, typename... Args>
+	struct is_detected_ : std::false_type {};
+	template <template <typename...> typename Trait, typename... Args>
+	struct is_detected_<Trait, std::void_t<Trait<Args...>>, Args...> : std::true_type {};
+	template <template <typename...> typename Trait, typename... Args>
+	inline constexpr auto is_detected = is_detected_<Trait, void, Args...>::value;
+
+	template <typename T>
+	using has_arrow_operator = decltype(std::declval<T>().operator->());
+	template <typename T>
+	using has_unary_plus_operator = decltype(+std::declval<T>());
 }
 MUU_IMPL_NAMESPACE_END
 
@@ -787,6 +799,15 @@ MUU_NAMESPACE_START
 	/// \details Answers "how many stars does it have?".
 	template <typename T>
 	inline constexpr size_t pointer_rank = impl::pointer_rank<T>::value;
+
+	/// \brief Returns true if the type has an arrow operator.
+	template <typename T>
+	inline constexpr bool has_arrow_operator = impl::is_detected<impl::has_arrow_operator, T>
+		|| (std::is_pointer_v<T> && (std::is_class_v<std::remove_pointer_t<T>> || std::is_union_v<std::remove_pointer_t<T>>));
+
+	/// \brief Returns true if the type has a unary plus operator.
+	template <typename T>
+	inline constexpr bool has_unary_plus_operator = impl::is_detected<impl::has_unary_plus_operator, T>;
 
 	/// @}
 }
@@ -1557,7 +1578,7 @@ MUU_NAMESPACE_START
 		{
 			MUU_ASSUME(val > T{});
 
-			#if MUU_GCC || MUU_CLANG || MUU_MSVC
+			#if MUU_GCC || MUU_CLANG
 			{
 				#define MUU_HAS_INTRINSIC_COUNTL_ZERO 1
 
@@ -1572,26 +1593,37 @@ MUU_NAMESPACE_START
 				else
 					static_assert(dependent_false<T>, "Evaluated unreachable branch!");
 			}
-			//#elif MUU_ICC
-			//{
-			//	#define MUU_HAS_INTRINSIC_COUNTL_ZERO 1
-			//	if constexpr (sizeof(T) == sizeof(unsigned __int64))
-			//	{
-			//		unsigned long p;
-			//		_BitScanReverse64(&p, static_cast<unsigned __int64>(val));
-			//		return static_cast<int>(p);
-			//	}
-			//	else if constexpr (sizeof(T) == sizeof(unsigned __int32))
-			//	{
-			//		unsigned long p;
-			//		_BitScanReverse(&p, static_cast<unsigned __int32>(val));
-			//		return static_cast<int>(p);
-			//	}
-			//	else if constexpr (sizeof(T) < sizeof(unsigned __int32))
-			//		return countl_zero_intrinsic(static_cast<unsigned __int32>(val)) - static_cast<int>((sizeof(unsigned __int32) - sizeof(T)) * CHAR_BIT);
-			//	else
-			//		static_assert(dependent_false<T>, "Evaluated unreachable branch!");
-			//}
+			#elif MUU_MSVC || MUU_ICC_CL
+			{
+				#define MUU_HAS_INTRINSIC_COUNTL_ZERO 1
+				if constexpr (sizeof(T) == sizeof(unsigned long long))
+				{
+					#if MUU_ARCH_X64
+					{
+						unsigned long p;
+						_BitScanReverse64(&p, static_cast<unsigned long long>(val));
+						return 63 - static_cast<int>(p);
+					}
+					#else
+					{
+						if (const auto high = static_cast<unsigned long>(val >> 32); high != 0)
+							return countl_zero_intrinsic(high);
+						return 32 + countl_zero_intrinsic(static_cast<unsigned long>(val));
+					}
+					#endif
+
+				}
+				else if constexpr (sizeof(T) == sizeof(unsigned long))
+				{
+					unsigned long p;
+					_BitScanReverse(&p, static_cast<unsigned long>(val));
+					return 31 - static_cast<int>(p);
+				}
+				else if constexpr (sizeof(T) < sizeof(unsigned long))
+					return countl_zero_intrinsic(static_cast<unsigned long>(val)) - static_cast<int>((sizeof(unsigned long) - sizeof(T)) * CHAR_BIT);
+				else
+					static_assert(dependent_false<T>, "Evaluated unreachable branch!");
+			}
 			#else
 			{
 				#define MUU_HAS_INTRINSIC_COUNTL_ZERO 0
@@ -1677,7 +1709,7 @@ MUU_NAMESPACE_START
 		{
 			MUU_ASSUME(val > T{});
 
-			#if MUU_GCC || MUU_CLANG || MUU_MSVC
+			#if MUU_GCC || MUU_CLANG
 			{
 				#define MUU_HAS_INTRINSIC_COUNTR_ZERO 1
 
@@ -1690,26 +1722,37 @@ MUU_NAMESPACE_START
 				else
 					static_assert(dependent_false<T>, "Evaluated unreachable branch!");
 			}
-			//#elif MUU_ICC
-			//{
-			//	#define MUU_HAS_INTRINSIC_COUNTR_ZERO 1
-			//	if constexpr (sizeof(T) == sizeof(unsigned __int64))
-			//	{
-			//		unsigned int p;
-			//		_BitScanForward64(&p, static_cast<unsigned __int64>(val));
-			//		return static_cast<int>(p);
-			//	}
-			//	else if constexpr (sizeof(T) == sizeof(unsigned __int32))
-			//	{
-			//		unsigned int p;
-			//		_BitScanForward(&p, static_cast<unsigned __int32>(val));
-			//		return static_cast<int>(p);
-			//	}
-			//	else if constexpr (sizeof(T) < sizeof(unsigned __int32))
-			//		return countr_zero_intrinsic(static_cast<unsigned __int32>(val));
-			//	else
-			//		static_assert(dependent_false<T>, "Evaluated unreachable branch!");
-			//}
+			#elif MUU_MSVC || MUU_ICC_CL
+			{
+				#define MUU_HAS_INTRINSIC_COUNTR_ZERO 1
+
+				if constexpr (sizeof(T) == sizeof(unsigned long long))
+				{
+					#if MUU_ARCH_X64
+					{
+						unsigned long p;
+						_BitScanForward64(&p, static_cast<unsigned long long>(val));
+						return static_cast<int>(p);
+					}
+					#else
+					{
+						if (const auto low = static_cast<unsigned long>(val); low != 0)
+							return countr_zero_intrinsic(low);
+						return 32 + countr_zero_intrinsic(static_cast<unsigned long>(val >> 32));
+					}
+					#endif
+				}
+				else if constexpr (sizeof(T) == sizeof(unsigned long))
+				{
+					unsigned long p;
+					_BitScanForward(&p, static_cast<unsigned long>(val));
+					return static_cast<int>(p);
+				}
+				else if constexpr (sizeof(T) < sizeof(unsigned long))
+					return countr_zero_intrinsic(static_cast<unsigned long>(val));
+				else
+					static_assert(dependent_false<T>, "Evaluated unreachable branch!");
+			}
 			#else
 			{
 				#define MUU_HAS_INTRINSIC_COUNTR_ZERO 0
@@ -1752,7 +1795,6 @@ MUU_NAMESPACE_START
 		{
 			if (!val)
 				return static_cast<int>(sizeof(T) * CHAR_BIT);
-
 
 			if constexpr (!build::supports_is_constant_evaluated || !MUU_HAS_INTRINSIC_COUNTR_ZERO)
 				return impl::countr_zero_native(val);
@@ -2575,14 +2617,14 @@ MUU_NAMESPACE_START
 			using pt = popcount_traits<sizeof(T) * CHAR_BIT>;
 			val -= ((val >> 1) & pt::m1);
 			val = (val & pt::m2) + ((val >> 2) & pt::m2);
-			return static_cast<T>(((val + (val >> 4)) & pt::m4) * pt::h01) >> pt::rsh;
+			return static_cast<int>(static_cast<T>(((val + (val >> 4)) & pt::m4) * pt::h01) >> pt::rsh);
 		}
 
 		template <typename T>
 		[[nodiscard]]
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
-		int MUU_VECTORCALL popcount_intrinsic(T val) noexcept
+		auto MUU_VECTORCALL popcount_intrinsic(T val) noexcept
 		{
 			MUU_ASSUME(val > T{});
 
@@ -2631,7 +2673,7 @@ MUU_NAMESPACE_START
 					return __popcnt(static_cast<unsigned int>(val));
 				else if constexpr (std::is_same_v<T, unsigned __int64>)
 				{
-					#if MUU_MSVC >= 1928 // VS 16.8
+					#if MUU_MSVC >= 1928 && MUU_ARCH_X64 // VS 16.8
 						return __popcnt64(static_cast<unsigned __int64>(val));
 					#else
 						return __popcnt(static_cast<unsigned int>(val >> 32))
@@ -2680,7 +2722,7 @@ MUU_NAMESPACE_START
 				if (is_constant_evaluated())
 					return impl::popcount_native(val);
 				else
-					return impl::popcount_intrinsic(val);
+					return static_cast<int>(impl::popcount_intrinsic(val));
 			}
 		}
 	}
@@ -3282,15 +3324,8 @@ MUU_NAMESPACE_START
 
 	namespace impl
 	{
-		#ifndef DOXYGEN
 		template <typename T>
-		struct detect_pointer_traits_to_address final
-		{
-			template <typename U>		static auto test(const U& p) -> decltype(std::pointer_traits<U>::to_address(p));
-			template <typename... U>	static std::false_type test(U&&...);
-			static constexpr auto value = !std::is_same_v<decltype(test(std::declval<const T&>())), std::false_type>;
-		};
-		#endif
+		using has_pointer_traits_to_address = decltype(std::pointer_traits<muu::remove_cvref<T>>::to_address(std::declval<muu::remove_cvref<T>>()));
 	}
 
 	/// \brief Obtain the address represented by p without forming a reference to the pointee.
@@ -3313,7 +3348,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	constexpr auto to_address(const Ptr& p) noexcept //(1)
 	{
-		if constexpr (impl::detect_pointer_traits_to_address<Ptr>::value)
+		if constexpr (impl::is_detected<impl::has_pointer_traits_to_address, Ptr>)
 		{
 			return std::pointer_traits<Ptr>::to_address(p);
 		}

@@ -92,7 +92,7 @@ MUU_NAMESPACE_START
 			case 0x01: return c != 0xF7u;
 			MUU_NO_DEFAULT_CASE;
 		}
-		// 65 codepoints from 6 ranges (spanning a search area of 256)
+		// 65 codepoints from 6 ranges (spanning a search area of 86)
 	}
 
 	/// \brief		Returns true if a UTF-8 code unit is a letter code point.
@@ -222,7 +222,7 @@ MUU_NAMESPACE_START
 			case 0x02: return c != 0xF7u;
 			MUU_NO_DEFAULT_CASE;
 		}
-		// 61 codepoints from 6 ranges (spanning a search area of 256)
+		// 61 codepoints from 6 ranges (spanning a search area of 159)
 	}
 
 	/// \brief		Returns true if a UTF-8 code unit is a code point boundary.

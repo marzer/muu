@@ -908,7 +908,7 @@ class CodepointChunk:
 			summary = "// {} codepoints from {} ranges (spanning a search area of {})".format(
 				len(self),
 				self.range().sparse_value_count() + self.range().contiguous_subrange_count(),
-				self.span_size()
+				(self.last() - self.first()) + 1
 			)
 
 			if (self.makes_bitmask_table()):
