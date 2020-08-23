@@ -191,7 +191,9 @@
 	#define MUU_DISABLE_SHADOW_WARNINGS		_Pragma("clang diagnostic ignored \"-Wshadow\"")
 	#define MUU_DISABLE_SPAM_WARNINGS		_Pragma("clang diagnostic ignored \"-Wweak-vtables\"")			\
 											_Pragma("clang diagnostic ignored \"-Wweak-template-vtables\"")	\
-											_Pragma("clang diagnostic ignored \"-Wpadded\"")
+											_Pragma("clang diagnostic ignored \"-Wpadded\"") \
+							MUU_PRAGMA_CLANG_GE(9,  "clang diagnostic ignored \"-Wctad-maybe-unsupported\"") \
+											_Pragma("clang diagnostic ignored \"-Wpacked\"")
 	#define MUU_POP_WARNINGS				_Pragma("clang diagnostic pop")
 	#define MUU_DISABLE_WARNINGS			MUU_PUSH_WARNINGS \
 											_Pragma("clang diagnostic ignored \"-Weverything\"")
@@ -200,6 +202,7 @@
 	#define MUU_UNREACHABLE					__builtin_unreachable()
 	#define MUU_ATTR(attr)					__attribute__((attr))
 	#define MUU_ATTR_CLANG(attr)			MUU_ATTR(attr)
+	#define MUU_ALIGN(alignment)			MUU_ATTR(aligned(alignment))
 	#if defined(_MSC_VER) // msvc compat mode
 		#ifdef __has_declspec_attribute
 			#define MUU_DECLSPEC(attr)		__declspec(attr)
@@ -261,11 +264,13 @@
 		#define MUU_PRAGMA_MSVC(...)		__pragma(__VA_ARGS__)
 		#define MUU_PUSH_WARNINGS			__pragma(warning(push))
 		#define MUU_DISABLE_SWITCH_WARNINGS	__pragma(warning(disable: 4063))
+		#define MUU_DISABLE_SHADOW_WARNINGS	__pragma(warning(disable: 4458))
 		#define MUU_POP_WARNINGS			__pragma(warning(pop))
 		#define MUU_DISABLE_WARNINGS		__pragma(warning(push, 0))
 		#define MUU_ENABLE_WARNINGS			MUU_POP_WARNINGS
 	#endif
 	#define MUU_DECLSPEC(attr)				__declspec(attr)
+	#define MUU_ALIGN(alignment)			MUU_DECLSPEC(align(alignment))
 	#define MUU_ALWAYS_INLINE				__forceinline
 	#define MUU_NEVER_INLINE				__declspec(noinline)
 	#define MUU_ASSUME(cond)				__assume(cond)
@@ -379,6 +384,7 @@
 	#define MUU_DISABLE_SPAM_WARNINGS		_Pragma("GCC diagnostic ignored \"-Wpadded\"")						\
 											_Pragma("GCC diagnostic ignored \"-Wcast-align\"")					\
 											_Pragma("GCC diagnostic ignored \"-Wcomment\"")						\
+											_Pragma("GCC diagnostic ignored \"-Wsubobject-linkage\"")			\
 											_Pragma("GCC diagnostic ignored \"-Wtype-limits\"")
 	#define MUU_POP_WARNINGS				_Pragma("GCC diagnostic pop")
 	#define MUU_DISABLE_WARNINGS			MUU_PUSH_WARNINGS \
@@ -394,6 +400,7 @@
 	#define MUU_ENABLE_WARNINGS				MUU_POP_WARNINGS
 		#define MUU_ATTR(attr)					__attribute__((attr))
 	#define MUU_ATTR_GCC(attr)				MUU_ATTR(attr)
+	#define MUU_ALIGN(alignment)			MUU_ATTR(aligned(alignment))
 	#define MUU_ALWAYS_INLINE				__attribute__((__always_inline__)) inline
 	#define MUU_NEVER_INLINE				__attribute__((__noinline__))
 	#define MUU_UNREACHABLE					__builtin_unreachable()
@@ -542,6 +549,9 @@
 #ifndef MUU_DECLSPEC
 	#define MUU_DECLSPEC(attr)
 #endif
+#ifndef MUU_ALIGN
+	#define MUU_ALIGN(alignment)	alignas(alignment)
+#endif
 
 #ifndef MUU_PUSH_WARNINGS
 	#define MUU_PUSH_WARNINGS
@@ -665,6 +675,18 @@
 #define MUU_EVAL_1(T, F)		T
 #define MUU_EVAL_0(T, F)		F
 #define MUU_EVAL(cond, T, F)	MUU_CONCAT(MUU_EVAL_, cond)(T, F)
+
+#define MUU_DELETE_MOVE(TYPE)				\
+	TYPE(TYPE&&) = delete;					\
+	TYPE& operator=(TYPE&&) = delete
+
+#define MUU_DELETE_COPY(TYPE)				\
+	TYPE(const TYPE&) = delete;				\
+	TYPE& operator=(const TYPE&) = delete
+
+#ifndef MUU_TRACE // spam^H^H^H^H debugging hook
+	#define MUU_TRACE(...) (void)0;
+#endif
 
 //=====================================================================================================================
 // SFINAE AND CONCEPTS
@@ -925,8 +947,7 @@ MUU_ENABLE_WARNINGS
 /// 
 /// \def MUU_DECLSPEC(attr)
 /// \brief Expands to `__declspec( attr )` when compiling with MSVC (or another compiler in MSVC-mode).
-
-//#define MUU_PUSH_WARNINGS
+///
 /// \def MUU_PUSH_WARNINGS
 /// \brief Pushes the current compiler warning state onto the stack.
 /// \detail Use this in tandem with the other warning macros to demarcate regions of code
@@ -947,26 +968,26 @@ MUU_ENABLE_WARNINGS
 /// 	
 /// 	MUU_POP_WARNINGS
 /// \ecpp
-
+///
 /// \def MUU_DISABLE_SWITCH_WARNINGS
 /// \brief Disables compiler warnings relating to the use of switch statements.
 /// \see MUU_PUSH_WARNINGS
-
+///
 /// \def MUU_DISABLE_LIFETIME_WARNINGS
 /// \brief Disables compiler warnings relating to object lifetime
 /// 	   (initialization, destruction, magic statics, et cetera).
 /// \see MUU_PUSH_WARNINGS
-
+///
 /// \def MUU_DISABLE_WARNINGS
 /// \brief Disables ALL compiler warnings.
-
+///
 /// \def MUU_ENABLE_WARNINGS
 /// \brief Re-enables compiler warnings again after using #MUU_DISABLE_WARNINGS.
-
+///
 /// \def MUU_POP_WARNINGS
 /// \brief Pops the current compiler warning state off the stack.
 /// \see MUU_PUSH_WARNINGS
-
+///
 /// \def MUU_ASSUME(cond)
 /// \brief Optimizer hint for signalling various assumptions about state at specific points in code.
 /// \warning Using this incorrectly can lead to seriously mis-compiled code!
@@ -1186,6 +1207,38 @@ MUU_ENABLE_WARNINGS
 /// \def MUU_EXPLICIT(...)
 /// \brief Expands a C++20 conditional `explicit(...)` specifier if supported by the compiler, otherwise `explicit`.
 ///
+/// \def MUU_DELETE_MOVE(name)
+/// \brief Explicitly deletes the move constructor and move-assignment operator of a class or struct.
+/// \detail \cpp
+/// class Foo
+/// {
+///		Foo() {}
+///		MUU_DELETE_MOVE(Foo);
+///	};
+///	//instances of Foo cannot be move-constructed or move-assigned.
+/// \epp
+/// \see https://cpppatterns.com/patterns/rule-of-five.html
+///
+/// \def MUU_DELETE_COPY(name)
+/// \brief Explicitly deletes the copy constructor and copy-assignment operator of a class or struct.
+/// \detail \cpp
+/// class Foo
+/// {
+///		Foo() {}
+///		MUU_DELETE_COPY(Foo);
+///	};
+///	//instances of Foo cannot be copy-constructed or copy-assigned.
+/// \epp
+/// \see https://cpppatterns.com/patterns/rule-of-five.html
+///
+/// \brief Syntatic sugar for initializing static class members.
+/// \detail \cpp
+/// class Foo
+/// {
+///		static Vec3 Bar;
+///	};
+/// 
+/// 
 /// @}
 
 #endif // DOXYGEN

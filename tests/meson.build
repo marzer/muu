@@ -14,6 +14,7 @@ test_sources = [
 	'strings.cpp',
 	'tagged_ptr.cpp',
 	'tests.cpp',
+	'thread_pool.cpp',
 	'uuid.cpp',
 ]
 
@@ -269,6 +270,7 @@ exception_modes = [ false, true ]
 cpp20_modes = [ false, true ]
 executables = []
 counter = 0
+threads = dependency('threads')
 
 foreach cpp20 : cpp20_modes
 	if cpp20 and not compiler_supports_cpp20
@@ -350,7 +352,8 @@ foreach cpp20 : cpp20_modes
 					test_sources,
 					include_directories : inc,
 					cpp_args : args,
-					override_options : overrides
+					override_options : overrides,
+					dependencies : threads
 				)
 			]]
 	

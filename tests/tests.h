@@ -19,10 +19,11 @@ MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wpedantic\"")
 
 MUU_DISABLE_WARNINGS
 #include "catch2.h"
-#include <sstream>
-#include <string_view>
-#include <fstream>
 #include <array>
+#include <string_view>
+#include <sstream>
+#include <iostream>
+#include <fstream>
 MUU_NAMESPACE_START
 {
 	struct half;
@@ -49,6 +50,7 @@ MUU_NAMESPACE_END
 using namespace Catch::literals;
 using namespace muu;
 using namespace std::string_view_literals;
+using namespace std::chrono_literals;
 MUU_ENABLE_WARNINGS
 
 // Q: why is this CHECK_AND_STATIC_ASSERT thing?

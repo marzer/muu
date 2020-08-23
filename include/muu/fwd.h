@@ -122,6 +122,7 @@ MUU_NAMESPACE_START // abi namespace
 	template <size_t>				class	fnv1a;
 	template <typename>				class	scope_guard;
 	template <typename, size_t>		class	tagged_ptr;
+	template <typename>				class	emplacement_array;
 
 	template <typename, size_t = static_cast<size_t>(-1)>
 	class span;

@@ -16,6 +16,7 @@
 #include "../muu/bitset.h"
 #include "../muu/blob.h"
 #include "../muu/concatenate.h"
+#include "../muu/emplacement_array.h"
 #include "../muu/half.h"
 #include "../muu/hashing.h"
 #include "../muu/numeric_range.h"

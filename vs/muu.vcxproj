@@ -44,6 +44,7 @@
     <ClInclude Include="..\include\muu\blob.h" />
     <ClInclude Include="..\include\muu\core.h" />
     <ClInclude Include="..\include\muu\concatenate.h" />
+    <ClInclude Include="..\include\muu\emplacement_array.h" />
     <ClInclude Include="..\include\muu\fwd.h" />
     <ClInclude Include="..\include\muu\half.h" />
     <ClInclude Include="..\include\muu\hashing.h" />
@@ -51,6 +52,7 @@
     <ClInclude Include="..\include\muu\impl\blob.hpp" />
     <ClInclude Include="..\include\muu\impl\hashing.hpp" />
     <ClInclude Include="..\include\muu\impl\random.hpp" />
+    <ClInclude Include="..\include\muu\impl\thread_pool.hpp" />
     <ClInclude Include="..\include\muu\impl\unicode_char.h" />
     <ClInclude Include="..\include\muu\impl\unicode_char16_t.h" />
     <ClInclude Include="..\include\muu\impl\unicode_char32_t.h" />

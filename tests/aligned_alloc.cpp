@@ -13,7 +13,7 @@ namespace
 	{
 		if (!ptr)
 			return 0_sz;
-		return bit_floor(pointer_cast<uintptr_t>(ptr));
+		return bit_floor(reinterpret_cast<uintptr_t>(ptr));
 	}
 }
 

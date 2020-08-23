@@ -10,6 +10,8 @@
 #ifndef MUU_HEADER_ONLY
 	#define MUU_HEADER_ONLY 0
 #endif
+// #define MUU_CONFIG_HEADER	<iostream>
+// #define MUU_TRACE(...)		do { std::cout << __VA_ARGS__ << "\n";  } while (false)
 
 //catch2 config
 #define CATCH_CONFIG_CPP11_TO_STRING

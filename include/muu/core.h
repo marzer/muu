@@ -1509,7 +1509,7 @@ MUU_NAMESPACE_START
 			"launder() may not be used on pointers to functions or void."
 		);
 
-		#if MUU_CLANG >= 6		\
+		#if MUU_CLANG >= 8		\
 			|| MUU_GCC >= 7		\
 			|| MUU_ICC >= 1910	\
 			|| MUU_MSVC >= 1914
@@ -3370,6 +3370,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(flatten)
+	MUU_ATTR(assume_aligned(N))
 	constexpr T* assume_aligned(T* ptr) noexcept
 	{
 		static_assert(

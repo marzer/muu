@@ -37,7 +37,7 @@ MUU_IMPL_NAMESPACE_START
 
 		[[nodiscard]]
 		MUU_TPTR_ATTR(const)
-		static constexpr uintptr_t pack_ptr(const volatile void* ptr) noexcept
+		static constexpr uintptr_t pack_ptr(void* ptr) noexcept
 		{
 			MUU_TPTR_ASSERT(
 				(!ptr || bit_floor(reinterpret_cast<uintptr_t>(ptr)) >= MinAlign)
@@ -53,7 +53,7 @@ MUU_IMPL_NAMESPACE_START
 		template <typename T>
 		[[nodiscard]]
 		MUU_TPTR_ATTR(pure)
-		static constexpr uintptr_t pack_both(const volatile void* ptr, const T& tag) noexcept
+		static constexpr uintptr_t pack_both(void* ptr, const T& tag) noexcept
 		{
 			static_assert(
 				std::is_trivially_copyable_v<T>,
@@ -91,7 +91,7 @@ MUU_IMPL_NAMESPACE_START
 
 		[[nodiscard]]
 		MUU_TPTR_ATTR(const)
-		static constexpr uintptr_t set_ptr(uintptr_t bits, const volatile void* ptr) noexcept
+		static constexpr uintptr_t set_ptr(uintptr_t bits, void* ptr) noexcept
 		{
 			return pack_ptr(ptr) | (bits & tag_mask);
 		}
@@ -228,7 +228,7 @@ MUU_NAMESPACE_START
 	/// 
 	/// \see [Tagged pointer](https://en.wikipedia.org/wiki/Tagged_pointer)
 	template <typename T, size_t MinAlign = alignment_of<T>>
-	class MUU_TRIVIAL_ABI tagged_ptr
+	class MUU_TRIVIAL_ABI MUU_ATTR(packed) tagged_ptr
 	{
 		static_assert(
 			!std::is_same_v<T, impl::tptr_nullptr_deduced_tag>,
@@ -281,7 +281,7 @@ MUU_NAMESPACE_START
 			///
 			/// \param	value	The inital address of the pointer's target.
 			explicit constexpr tagged_ptr(pointer value) noexcept
-				: bits{ tptr::pack_ptr(value) }
+				: bits{ tptr::pack_ptr(pointer_cast<void*>(value)) }
 			{}
 
 			/// \brief	Constructs a tagged pointer.
@@ -294,7 +294,7 @@ MUU_NAMESPACE_START
 			/// 		 any overflow will be masked out and ignored.
 			template <typename U>
 			constexpr tagged_ptr(pointer value, const U& tag_) noexcept
-				: bits{ tptr::pack_both(value, tag_) }
+				: bits{ tptr::pack_both(pointer_cast<void*>(value), tag_) }
 			{
 				static_assert(
 					is_unsigned<U>
@@ -337,7 +337,7 @@ MUU_NAMESPACE_START
 			/// \returns	A reference to the tagged_ptr.
 			constexpr tagged_ptr& reset(pointer value) noexcept
 			{
-				bits = tptr::pack_ptr(value);
+				bits = tptr::pack_ptr(pointer_cast<void*>(value));
 				return *this;
 			}
 
@@ -361,7 +361,7 @@ MUU_NAMESPACE_START
 					" and small enough to fit in the available tag bits"
 				);
 
-				bits = tptr::pack_both(value, tag_);
+				bits = tptr::pack_both(pointer_cast<void*>(value), tag_);
 				return *this;
 			}
 
@@ -379,7 +379,7 @@ MUU_NAMESPACE_START
 			/// \returns	A reference to a tagged_ptr.
 			constexpr tagged_ptr& ptr(pointer value) noexcept
 			{
-				bits = tptr::set_ptr(bits, value);
+				bits = tptr::set_ptr(bits, pointer_cast<void*>(value));
 				return *this;
 			}
 
@@ -656,4 +656,3 @@ MUU_PRAGMA_MSVC(inline_recursion(off))
 
 #undef MUU_TPTR_ATTR
 #undef MUU_TPTR_ASSERT
-

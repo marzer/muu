@@ -47,7 +47,7 @@ MUU_ANON_NAMESPACE_START
 		MUU_ASSERT(align <= impl::aligned_alloc_max_alignment);
 
 		return size
-			? muu::aligned_alloc(align, size)
+			? MUU_NAMESPACE::aligned_alloc(align, size)
 			: nullptr;
 	}
 }
@@ -95,7 +95,7 @@ MUU_NAMESPACE_START
 	blob::~blob() noexcept
 	{
 		if (data_)
-			muu::aligned_free(data_);
+			aligned_free(data_);
 	}
 
 	MUU_EXTERNAL_LINKAGE
@@ -104,7 +104,7 @@ MUU_NAMESPACE_START
 		if (&rhs != this)
 		{
 			if (data_)
-				muu::aligned_free(data_);
+				aligned_free(data_);
 
 			data_ = rhs.data_;
 			size_ = rhs.size_;
@@ -136,7 +136,7 @@ MUU_NAMESPACE_START
 
 		//changing alignment, must deallocate and reallocate
 		if (data_)
-			muu::aligned_free(data_);
+			aligned_free(data_);
 		alignment_ = align;
 		size_ = sz;
 		data_ = blob_allocate(alignment_, size_);
@@ -159,7 +159,7 @@ MUU_NAMESPACE_START
 		if (!size_)
 		{
 			MUU_ASSERT(data_);
-			muu::aligned_free(data_);
+			aligned_free(data_);
 			data_ = nullptr;
 			return *this;
 		}
@@ -167,7 +167,7 @@ MUU_NAMESPACE_START
 		//something -> something
 		if (data_)
 		{
-			data_ = muu::aligned_realloc(data_, size_);
+			data_ = aligned_realloc(data_, size_);
 			MUU_ASSERT(data_);
 
 			return *this;

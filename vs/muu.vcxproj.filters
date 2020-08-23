@@ -100,6 +100,12 @@
     <ClInclude Include="..\include\muu\span.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\muu\impl\thread_pool.hpp">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\emplacement_array.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />

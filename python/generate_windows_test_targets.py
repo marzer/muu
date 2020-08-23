@@ -110,6 +110,7 @@ def main():
 		<ClCompile Include="..\..\tests\tests.cpp">
 			<PrecompiledHeader>Create</PrecompiledHeader>
 		</ClCompile>
+		<ClCompile Include="..\..\tests\thread_pool.cpp" />
 		<ClCompile Include="..\..\tests\unicode_char.cpp" />
 		<ClCompile Include="..\..\tests\unicode_char16_t.cpp" />
 		<ClCompile Include="..\..\tests\unicode_char32_t.cpp" />
