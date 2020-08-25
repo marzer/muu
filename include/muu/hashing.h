@@ -359,9 +359,9 @@ MUU_NAMESPACE_START
 			///
 			/// \warning Calling this before finish() has been called is undefined behaviour.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			const hash_type& value() const noexcept
 			{
-				MUU_ASSERT(finished_);
 				return state.hash;
 			}
 

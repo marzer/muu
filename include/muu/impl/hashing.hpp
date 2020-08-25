@@ -11,6 +11,9 @@
 
 #include "../../muu/hashing.h"
 
+MUU_PUSH_WARNINGS
+MUU_DISABLE_SPAM_WARNINGS
+
 MUU_ANON_NAMESPACE_START { namespace sha1_utils
 {
 	using raw_block = uint32_t[16];
@@ -316,3 +319,5 @@ MUU_NAMESPACE_START
 	}
 }
 MUU_NAMESPACE_END
+
+MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS

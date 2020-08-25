@@ -17,21 +17,13 @@ MUU_ANON_NAMESPACE_START
 {
 	[[nodiscard]]
 	MUU_INTERNAL_LINKAGE
+	MUU_ATTR(pure)
 	size_t blob_check_alignment(size_t align) noexcept
 	{
 		using namespace MUU_NAMESPACE;
 
 		if (!align)
 			return blob::default_alignment;
-
-		MUU_ASSERT(
-			align <= impl::aligned_alloc_max_alignment
-			&& "Alignment must not be greater than impl::aligned_alloc_max_alignment (it will be clamped)."
-		);
-		MUU_ASSERT(
-			has_single_bit(align)
-			&& "Alignment must be a power of two (it will be rounded up)."
-		);
 		return bit_ceil(min(align, impl::aligned_alloc_max_alignment));
 	}
 

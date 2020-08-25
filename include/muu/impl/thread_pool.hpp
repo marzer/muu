@@ -102,11 +102,14 @@ MUU_ANON_NAMESPACE_START
 				MUU_ASSERT(back > front);
 
 				auto t = get_task({});
+				MUU_ASSERT(t->action_invoker);
+
 				front++;
 				return t;
 			}
 
 			[[nodiscard]]
+			MUU_ATTR(nonnull)
 			MUU_ATTR(returns_nonnull)
 			MUU_ATTR(assume_aligned(MUU_NAMESPACE::impl::thread_pool_task_granularity))
 			task* pop_front_task(void* buf) noexcept
@@ -115,7 +118,11 @@ MUU_ANON_NAMESPACE_START
 				MUU_ASSERT(back > front);
 
 				auto t = pop_front_task();
+				MUU_ASSERT(t->action_invoker);
+
 				auto result = new (MUU_NAMESPACE::assume_aligned<impl::thread_pool_task_granularity>(buf)) task{ std::move(*t) };
+				MUU_ASSERT(result->action_invoker);
+
 				t->~task();
 				return result;
 			}
@@ -193,7 +200,6 @@ MUU_ANON_NAMESPACE_START
 			//}
 
 			[[nodiscard]]
-			MUU_UNALIASED_ALLOC
 			MUU_ATTR(returns_nonnull)
 			MUU_ATTR(assume_aligned(MUU_NAMESPACE::impl::thread_pool_task_granularity))
 			void* acquire() noexcept
@@ -209,8 +215,13 @@ MUU_ANON_NAMESPACE_START
 			{
 				size_t enq = enqueues;
 				if (enq)
+				{
 					monitor.increment(enq);
-				
+					#ifndef NDEBUG
+					MUU_ASSERT(get_task(back - front - 1u)->action_invoker);
+					#endif
+				}
+
 				mutex.unlock();
 
 				if (enq == 1)
@@ -220,6 +231,7 @@ MUU_ANON_NAMESPACE_START
 			}
 
 			[[nodiscard]]
+			MUU_ATTR(nonnull)
 			MUU_ATTR(assume_aligned(MUU_NAMESPACE::impl::thread_pool_task_granularity))
 			task* try_pop(void* buf) noexcept
 			{
@@ -233,9 +245,11 @@ MUU_ANON_NAMESPACE_START
 			}
 
 			[[nodiscard]]
+			MUU_ATTR(nonnull)
 			MUU_ATTR(assume_aligned(MUU_NAMESPACE::impl::thread_pool_task_granularity))
 			task* pop(void* buf) noexcept
 			{
+				using namespace MUU_NAMESPACE;
 				using namespace std::chrono_literals;
 
 				std::unique_lock lock{ mutex };
@@ -245,7 +259,7 @@ MUU_ANON_NAMESPACE_START
 				if (terminated())
 					return nullptr;
 
-				return pop_front_task(buf);
+				return pop_front_task(MUU_NAMESPACE::assume_aligned<impl::thread_pool_task_granularity>(buf));
 			}
 	};
 
@@ -284,7 +298,7 @@ MUU_ANON_NAMESPACE_START
 						// Environment::InitializeCOM();
 						// Environment::ThreadName(std::move(name));
 
-						alignas(impl::thread_pool_task_granularity) std::byte pop_buffer[impl::thread_pool_task_granularity];
+						MUU_ALIGN(impl::thread_pool_task_granularity) std::byte pop_buffer[impl::thread_pool_task_granularity];
 
 						while (!terminated())
 						{
@@ -292,9 +306,9 @@ MUU_ANON_NAMESPACE_START
 
 							task* t = nullptr;
 							for (size_t i = 0; i < tries && !t; i++)
-								t = queues[(worker_index + i) % queues.size()].try_pop(&pop_buffer);
+								t = queues[(worker_index + i) % queues.size()].try_pop(pop_buffer);
 							if (!t)
-								t = queues[worker_index].pop(&pop_buffer); // blocks
+								t = queues[worker_index].pop(pop_buffer); // blocks
 							if (t)
 							{
 								(*t)(worker_index);
@@ -459,8 +473,8 @@ MUU_NAMESPACE_START
 		}
 
 		[[nodiscard]]
-		MUU_UNALIASED_ALLOC
-		MUU_ATTR(assume_aligned(impl::thread_pool_task_granularity))
+		MUU_ATTR(returns_nonnull)
+		MUU_ATTR(assume_aligned(MUU_NAMESPACE::impl::thread_pool_task_granularity))
 		void* acquire(size_t qindex) noexcept
 		{
 			return queues[qindex].acquire();
@@ -511,7 +525,6 @@ MUU_NAMESPACE_START
 	}
 
 	MUU_EXTERNAL_LINKAGE
-	MUU_UNALIASED_ALLOC
 	void* thread_pool::acquire(size_t qindex) noexcept
 	{
 		MUU_MOVE_CHECK;

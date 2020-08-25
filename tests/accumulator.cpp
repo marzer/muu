@@ -67,7 +67,8 @@ namespace
 		constexpr auto next = []() noexcept
 		{
 			using rand_type = largest<make_unsigned<T>, unsigned long long>;
-			return static_cast<T>(static_cast<rand_type>(rand()) % static_cast<rand_type>(constants<T>::highest));
+			static constexpr auto limit = (muu::min)(static_cast<rand_type>(constants<T>::highest), rand_type{ 32768ull });
+			return static_cast<T>(static_cast<rand_type>(rand()) % limit);
 		};
 		for (size_t i = 0; i < 1000; i++)
 		{

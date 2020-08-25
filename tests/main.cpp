@@ -6,6 +6,9 @@
 #include "settings.h"
 #define MUU_IMPLEMENTATION
 #include "../include/muu/preprocessor.h"
+
+MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wpadded\"")
+
 #if !MUU_HEADER_ONLY
 	#include "../include/muu/all.h"
 #endif

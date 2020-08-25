@@ -37,9 +37,6 @@ MUU_ANON_NAMESPACE_END
 
 MUU_NAMESPACE_START
 {
-	MUU_PUSH_WARNINGS
-	MUU_DISABLE_LIFETIME_WARNINGS
-
 	MUU_EXTERNAL_LINKAGE
 	MUU_API
 	MUU_UNALIASED_ALLOC
@@ -50,14 +47,13 @@ MUU_NAMESPACE_START
 		if (!alignment || !size || !has_single_bit(alignment) || alignment > impl::aligned_alloc_max_alignment)
 			return nullptr;
 
+		const auto actual_alignment = (max)(alignment, aligned_alloc_data_footprint);
 		aligned_alloc_data data{
 			alignment,
-			(max)(alignment, aligned_alloc_data_footprint),
-			size
+			actual_alignment,
+			size,
+			actual_alignment + ((size + actual_alignment - 1u) & ~(actual_alignment - 1u))
 		};
-		data.actual_size = data.actual_alignment
-			+ ((size + data.actual_alignment - 1u) & ~(data.actual_alignment - 1u));
-
 		auto priv_alloc = pointer_cast<std::byte*>(
 			#if MUU_MSVC || MUU_ICC_CL
 				_aligned_malloc(data.actual_size, data.actual_alignment)
@@ -73,8 +69,6 @@ MUU_NAMESPACE_START
 		);
 		return pointer_cast<void*>(priv_alloc + data.actual_alignment);
 	}
-
-	MUU_POP_WARNINGS
 
 	MUU_EXTERNAL_LINKAGE
 	MUU_API

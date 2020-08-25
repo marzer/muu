@@ -25,7 +25,6 @@ MUU_ENABLE_WARNINGS
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_SPAM_WARNINGS
-MUU_DISABLE_LIFETIME_WARNINGS
 
 MUU_IMPL_NAMESPACE_START
 {
@@ -212,6 +211,7 @@ MUU_IMPL_NAMESPACE_START
 							memcpy(&callable, action.task.callable_buffer, sizeof(callable));
 						else
 							callable = launder(reinterpret_cast<callable_type*>(action.task.callable_buffer));
+						MUU_ASSERT(callable);
 
 						if constexpr (std::is_invocable_v<callable_type, size_t>)
 							(*callable)(action.data.thread_index);
@@ -227,23 +227,21 @@ MUU_IMPL_NAMESPACE_START
 							MUU_ASSERT(!action.task.has_state(states::destroyed));
 						}
 
-						if constexpr (requires_heap<callable_type> || std::is_trivially_copyable_v<callable_type>)
-						{
-							memcpy(&action.task, action.data.source, sizeof(thread_pool_task));
-							if constexpr (requires_heap<callable_type>)
-								action.data.source->add_state(states::destroyed);
-						}
-						else
-						{
-							action.task.action_invoker = action.data.source->action_invoker;
-							#if !MUU_COMPRESSED_THREAD_POOL_TASK
-							action.task.set_state(action.data.source->state());
-							#endif
+						action.task.action_invoker = action.data.source->action_invoker;
+						#if !MUU_COMPRESSED_THREAD_POOL_TASK
+						action.task.set_state(action.data.source->state());
+						#endif
 
+						if constexpr (requires_heap<callable_type> || std::is_trivially_copyable_v<callable_type>)
+							memcpy(&action.task.callable_buffer, action.data.source->callable_buffer, sizeof(callable_buffer_type));
+						else
 							new (action.task.callable_buffer) callable_type{ std::move(
 								*launder(reinterpret_cast<callable_type*>(action.data.source->callable_buffer))
 							) };
-						}
+
+						if constexpr (requires_heap<callable_type>)
+							action.data.source->add_state(states::destroyed);
+
 						return;
 					}
 
@@ -267,18 +265,21 @@ MUU_IMPL_NAMESPACE_START
 						else
 							MUU_UNREACHABLE;
 					}
+
 					MUU_NO_DEFAULT_CASE;
 				}
+
 				MUU_UNREACHABLE;
 			};
-			
+			MUU_ASSERT(action_invoker);
+
 			if constexpr (requires_explicit_destruction)
 				set_state(states::requires_explicit_destruction);
-
 		}
 
 		thread_pool_task(thread_pool_task&& task) noexcept
 		{
+			MUU_ASSERT(task.action_invoker);
 			task.action_invoker(thread_pool_task_action{ *this, std::move(task) });
 		}
 
@@ -293,6 +294,7 @@ MUU_IMPL_NAMESPACE_START
 
 		void operator()(size_t worker_index) noexcept
 		{
+			MUU_ASSERT(action_invoker);
 			action_invoker(thread_pool_task_action{ *this, worker_index });
 		}
 	};
@@ -318,7 +320,6 @@ MUU_NAMESPACE_START
 			size_t lock() noexcept;
 
 			[[nodiscard]]
-			MUU_UNALIASED_ALLOC
 			MUU_ATTR(returns_nonnull)
 			MUU_ATTR(assume_aligned(impl::thread_pool_task_granularity))
 			void* acquire(size_t) noexcept;
