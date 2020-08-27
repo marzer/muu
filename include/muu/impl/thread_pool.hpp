@@ -254,7 +254,7 @@ MUU_ANON_NAMESPACE_START
 
 				std::unique_lock lock{ mutex };
 				while (empty() && !terminated())
-					wait.wait_for(lock, 100ms);
+					wait.wait(lock);
 
 				if (terminated())
 					return nullptr;
@@ -263,7 +263,7 @@ MUU_ANON_NAMESPACE_START
 			}
 	};
 
-	inline constexpr size_t thread_pool_wait_free_iterations = 10;
+	inline constexpr size_t thread_pool_wait_free_iterations = 20;
 
 	class thread_pool_worker final
 	{
@@ -341,21 +341,24 @@ MUU_ANON_NAMESPACE_START
 		return (min)(worker_count, static_cast<size_t>((min)(concurrency * 100, max_workers)));
 	}
 
-	static size_t calc_thread_pool_worker_queue_size(size_t worker_count, size_t worker_queue_size) noexcept
+	static size_t calc_thread_pool_worker_queue_size(size_t worker_count, size_t task_queue_size) noexcept
 	{
 		using namespace MUU_NAMESPACE;
-		static constexpr size_t max_buffer_size = 4 * 1024 * 1024; // 4 MB
-		static constexpr size_t default_buffer_size = 64 * 1024; // 64 KB
-		static constexpr size_t max_task_capacity = max_buffer_size / impl::thread_pool_task_granularity;
-		static constexpr size_t default_task_capacity = default_buffer_size / impl::thread_pool_task_granularity;
-		static_assert(max_task_capacity > 0);
-		static_assert(default_task_capacity > 0);
+		static constexpr size_t max_buffer_size = 256 * 1024 * 1024; // 256 MB (4M tasks on x64)
+		static constexpr size_t default_buffer_size = 64 * 1024;	 // 64 KB (1024 tasks on x64)
+		static constexpr size_t max_task_queue_size = max_buffer_size / impl::thread_pool_task_granularity;
+		static constexpr size_t default_task_queue_size = default_buffer_size / impl::thread_pool_task_granularity;
+		static_assert(max_task_queue_size > 0);
+		static_assert(default_task_queue_size > 0);
 		MUU_ASSUME(worker_count > 0);
 
-		if (worker_queue_size)
-			return (min)(worker_queue_size, (max)(max_task_capacity / worker_count, 1_sz));
+		if (!task_queue_size)
+			task_queue_size = default_task_queue_size;
 
-		return (max)(default_task_capacity / worker_count, 1_sz);
+		return (muu::min)(
+			static_cast<size_t>(std::ceil(static_cast<double>(task_queue_size) / static_cast<double>(worker_count))),
+			max_task_queue_size / worker_count
+		);
 	}
 }
 MUU_ANON_NAMESPACE_END
@@ -376,9 +379,9 @@ MUU_NAMESPACE_START
 		std::atomic<size_t> next_queue = 0_sz;
 		mutable monitor mon;
 
-		pimpl(size_t workers_, size_t worker_queue_size_, std::string_view name) noexcept
+		pimpl(size_t workers_, size_t task_queue_size, std::string_view name) noexcept
 			: worker_count{ MUU_ANON_NAMESPACE::calc_thread_pool_workers(workers_) },
-			worker_queue_size{ MUU_ANON_NAMESPACE::calc_thread_pool_worker_queue_size(worker_count, worker_queue_size_) },
+			worker_queue_size{ MUU_ANON_NAMESPACE::calc_thread_pool_worker_queue_size(worker_count, task_queue_size) },
 			task_buffer{ impl::thread_pool_task_granularity * worker_count * worker_queue_size, nullptr, impl::thread_pool_task_granularity }
 		{
 			using namespace std::string_view_literals;
@@ -431,12 +434,12 @@ MUU_NAMESPACE_START
 			{
 				for (size_t i = 0; i < iterations; i++)
 				{
-					const auto queueIdx = (starting_queue + i) % queues.size();
-					auto& q = queues[queueIdx];
+					const auto qindex = (starting_queue + i) % queues.size();
+					auto& q = queues[qindex];
 					if (q.try_lock())
 					{
 						if (!q.full())
-							return queueIdx;
+							return qindex;
 						q.unlock();
 					}
 				}
@@ -492,8 +495,8 @@ MUU_NAMESPACE_START
 	};
 
 	MUU_EXTERNAL_LINKAGE
-	thread_pool::thread_pool(size_t worker_count, size_t worker_queue_size, std::string_view name) noexcept
-		: pimpl_{ new pimpl{ worker_count, worker_queue_size, name }}
+	thread_pool::thread_pool(size_t worker_count, size_t task_queue_size, std::string_view name) noexcept
+		: pimpl_{ new pimpl{ worker_count, task_queue_size, name }}
 	{ }
 
 	MUU_EXTERNAL_LINKAGE

@@ -233,9 +233,6 @@
 			#define MUU_TRIVIAL_ABI			__attribute__((__trivial_abi__))
 		#endif
 	#endif
-	#ifndef __EXCEPTIONS
-		#define MUU_EXCEPTIONS 0
-	#endif
 	#if !__has_feature(cxx_rtti)
 		#define MUU_RTTI 0
 	#endif
@@ -265,6 +262,7 @@
 		#define MUU_PUSH_WARNINGS			__pragma(warning(push))
 		#define MUU_DISABLE_SWITCH_WARNINGS	__pragma(warning(disable: 4063))
 		#define MUU_DISABLE_SHADOW_WARNINGS	__pragma(warning(disable: 4458))
+		#define MUU_DISABLE_SPAM_WARNINGS	__pragma(warning(disable: 4127)) // conditional expr is constant
 		#define MUU_POP_WARNINGS			__pragma(warning(pop))
 		#define MUU_DISABLE_WARNINGS		__pragma(warning(push, 0))
 		#define MUU_ENABLE_WARNINGS			MUU_POP_WARNINGS
@@ -279,9 +277,6 @@
 	#define MUU_EMPTY_BASES					__declspec(empty_bases)
 	#define MUU_UNALIASED_ALLOC				__declspec(restrict)
 	#define MUU_VECTORCALL					__vectorcall
-	#ifndef _CPPUNWIND
-		#define MUU_EXCEPTIONS 0
-	#endif
 	#ifndef _CPPRTTI
 		#define MUU_RTTI 0
 	#endif
@@ -405,9 +400,6 @@
 	#define MUU_NEVER_INLINE				__attribute__((__noinline__))
 	#define MUU_UNREACHABLE					__builtin_unreachable()
 	#define MUU_UNALIASED_ALLOC				__attribute__((__malloc__))
-	#ifndef __cpp_exceptions
-		#define MUU_EXCEPTIONS 0
-	#endif
 	#ifndef __GXX_RTTI
 		#define MUU_RTTI 0
 	#endif
@@ -490,8 +482,10 @@
 	#define MUU_HAS_BUILTIN(name)		0
 #endif
 
-#ifndef MUU_EXCEPTIONS
+#if defined(__EXCEPTIONS) || defined(_CPPUNWIND) || defined(__cpp_exceptions)
 	#define MUU_EXCEPTIONS 1
+#else
+	#define MUU_EXCEPTIONS 0
 #endif
 
 #ifndef MUU_RTTI

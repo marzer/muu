@@ -14,6 +14,7 @@ MUU_DISABLE_WARNINGS
 	#include <new>
 #endif
 #include <string_view>
+#include <memory>
 MUU_ENABLE_WARNINGS
 
 #define MUU_MOVE_CHECK	MUU_ASSERT(pimpl_ != nullptr && "The thread_pool has been moved from!")
@@ -34,10 +35,11 @@ MUU_IMPL_NAMESPACE_START
 		|| std::is_nothrow_invocable_v<Func, Arg>;
 
 	template <typename T>
-	inline constexpr bool is_stateless_task
+	inline constexpr bool is_trivial_task
 		= std::is_function_v<std::remove_pointer_t<std::remove_reference_t<T>>>
 		|| std::is_empty_v<muu::remove_cvref<T>>
-		|| (std::is_class_v<muu::remove_cvref<T>> && sizeof(T) == 1_sz && muu::has_unary_plus_operator<T>);
+		|| (std::is_class_v<muu::remove_cvref<T>> && sizeof(T) == 1_sz && muu::has_unary_plus_operator<T>)
+		|| std::is_trivially_copyable_v<muu::remove_cvref<T>>;
 
 	#ifdef __cpp_lib_hardware_interference_size
 		inline constexpr size_t thread_pool_task_granularity = bit_ceil((max)(std::hardware_destructive_interference_size, 64_sz));
@@ -117,9 +119,6 @@ MUU_IMPL_NAMESPACE_START
 		using states_int_type = uint8_t;
 		using callable_buffer_type = std::byte[thread_pool_task_granularity - sizeof(action_invoker_type) - sizeof(states_int_type)];
 		#endif
-		static constexpr auto heap_free_threshold = sizeof(callable_buffer_type);
-		template <typename T>
-		static constexpr bool requires_heap = sizeof(T) > heap_free_threshold || alignof(T) > thread_pool_task_granularity;
 
 		enum class states : states_int_type
 		{
@@ -166,33 +165,69 @@ MUU_IMPL_NAMESPACE_START
 			set_state(static_cast<states>( unwrap(state()) | unwrap(s) ));
 		}
 
+		enum class callable_storage_modes : uint8_t
+		{
+			stored_directly = 0,
+			pointer_to_heap = 1,
+			pointer_to_source = 2
+		};
+
+		template <typename T>
+		struct callable_traits
+		{
+			using base_type = std::conditional_t<
+				std::is_function_v<remove_cvref<T>>,
+				std::add_pointer_t<remove_cvref<T>>,
+				remove_cvref<T>
+			>;
+			static_assert(
+				std::is_invocable_v<base_type, size_t>
+				|| std::is_invocable_v<base_type>
+			);
+
+			static constexpr bool small_size = sizeof(base_type) <= sizeof(callable_buffer_type);
+			static constexpr bool small_alignment = alignof(base_type) <= thread_pool_task_granularity;
+			static constexpr bool constructible = std::is_constructible_v<base_type, T>; //move or copy
+			static constexpr callable_storage_modes storage_mode = []() noexcept
+			{
+				if constexpr (callable_traits::constructible)
+				{
+					if constexpr (callable_traits::small_size && callable_traits::small_alignment)
+						return callable_storage_modes::stored_directly;
+					else
+						return callable_storage_modes::pointer_to_heap;
+				}
+				else
+					return callable_storage_modes::pointer_to_source;
+			}();
+			static constexpr bool requires_explicit_destruction = storage_mode == callable_storage_modes::pointer_to_heap
+				|| (storage_mode == callable_storage_modes::stored_directly && !std::is_trivially_destructible_v<base_type>);
+			using callable_type = std::conditional_t<
+				storage_mode == callable_storage_modes::pointer_to_source,
+				std::remove_reference_t<T>, // preserve cv qualifiers
+				base_type
+			>;
+		};
+
 		template <typename T>
 		MUU_NODISCARD_CTOR
 		thread_pool_task(T && callable_) noexcept
 		{
-			using callable_type = std::remove_reference_t<T>;
-			static_assert(
-				std::is_invocable_v<callable_type, size_t>
-				|| std::is_invocable_v<callable_type>
-			);
+			using traits = callable_traits<T&&>;
+			using callable_type = typename traits::callable_type;
 
-			static constexpr auto requires_explicit_destruction =
-				requires_heap<callable_type>
-				|| !std::is_trivially_destructible_v<callable_type>
-			;
-
-			// move object into storage
-			if constexpr (requires_heap<callable_type>)
+			// store callable
+			if constexpr (traits::storage_mode == callable_storage_modes::stored_directly)
+				new (callable_buffer) callable_type{ std::forward<T>(callable_) };
+			else if constexpr (traits::storage_mode == callable_storage_modes::pointer_to_heap)
 			{
-				static_assert(sizeof(callable_buffer) >= sizeof(callable_type*));
 				auto ptr = new callable_type{ std::forward<T>(callable_) };
 				memcpy(callable_buffer, &ptr, sizeof(ptr));
 			}
+			else if constexpr (traits::storage_mode == callable_storage_modes::pointer_to_source)
+				memcpy(callable_buffer, &callable_, sizeof(callable_type*));
 			else
-			{
-				static_assert(sizeof(callable_buffer) >= sizeof(callable_type));
-				new (callable_buffer) callable_type{ std::forward<T>(callable_) };
-			}
+				static_assert(dependent_false<T>, "Evaluated unreachable branch!");
 
 			// create invoker/mover/deleter
 			action_invoker = [](thread_pool_task_action&& action) noexcept
@@ -201,45 +236,63 @@ MUU_IMPL_NAMESPACE_START
 				{
 					case thread_pool_task_action::types::invoke:
 					{
-						if constexpr (requires_explicit_destruction)
+						if constexpr (traits::requires_explicit_destruction)
 						{
 							MUU_ASSERT(!action.task.has_state(states::destroyed));
 						}
 
+						// fetch callable
 						callable_type* callable;
-						if constexpr (requires_heap<callable_type>)
-							memcpy(&callable, action.task.callable_buffer, sizeof(callable));
-						else
+						if constexpr (traits::storage_mode == callable_storage_modes::stored_directly)
 							callable = launder(reinterpret_cast<callable_type*>(action.task.callable_buffer));
+						else
+							memcpy(&callable, action.task.callable_buffer, sizeof(callable));
 						MUU_ASSERT(callable);
 
+						//invoke callable
 						if constexpr (std::is_invocable_v<callable_type, size_t>)
 							(*callable)(action.data.thread_index);
 						else
 							(*callable)();
+
 						return;
 					}
 
 					case thread_pool_task_action::types::move:
 					{
-						if constexpr (requires_explicit_destruction)
+						if constexpr (traits::requires_explicit_destruction)
 						{
 							MUU_ASSERT(!action.task.has_state(states::destroyed));
 						}
 
+						// copy invoker/mover/deleter and flags
 						action.task.action_invoker = action.data.source->action_invoker;
 						#if !MUU_COMPRESSED_THREAD_POOL_TASK
 						action.task.set_state(action.data.source->state());
 						#endif
 
-						if constexpr (requires_heap<callable_type> || std::is_trivially_copyable_v<callable_type>)
-							memcpy(&action.task.callable_buffer, action.data.source->callable_buffer, sizeof(callable_buffer_type));
+						// move/copy callable
+						if constexpr (traits::storage_mode == callable_storage_modes::stored_directly)
+						{
+							if constexpr (std::is_trivially_copyable_v<callable_type>)
+								memcpy(&action.task.callable_buffer, action.data.source->callable_buffer, sizeof(callable_type));
+							else if constexpr (std::is_move_constructible_v<callable_type>)
+							{
+								new (action.task.callable_buffer) callable_type{ std::move(
+									*launder(reinterpret_cast<callable_type*>(action.data.source->callable_buffer))
+								) };
+							}
+							else
+							{
+								new (action.task.callable_buffer) callable_type{
+									*launder(reinterpret_cast<callable_type*>(action.data.source->callable_buffer))
+								};
+							}
+						}
 						else
-							new (action.task.callable_buffer) callable_type{ std::move(
-								*launder(reinterpret_cast<callable_type*>(action.data.source->callable_buffer))
-							) };
+							memcpy(&action.task.callable_buffer, action.data.source->callable_buffer, sizeof(callable_type*));
 
-						if constexpr (requires_heap<callable_type>)
+						if constexpr (traits::storage_mode == callable_storage_modes::pointer_to_heap)
 							action.data.source->add_state(states::destroyed);
 
 						return;
@@ -247,19 +300,22 @@ MUU_IMPL_NAMESPACE_START
 
 					case thread_pool_task_action::types::destroy:
 					{
-						if constexpr (requires_explicit_destruction)
+						if constexpr (traits::requires_explicit_destruction)
 						{
 							MUU_ASSERT(action.type == thread_pool_task_action::types::destroy);
 							MUU_ASSERT(!action.task.has_state(states::destroyed));
 
-							if constexpr (requires_heap<callable_type>)
+							if constexpr (traits::storage_mode == callable_storage_modes::stored_directly)
+								launder(reinterpret_cast<callable_type*>(action.task.callable_buffer))->~callable_type();
+							else if constexpr (traits::storage_mode == callable_storage_modes::pointer_to_heap)
 							{
 								callable_type* callable;
 								memcpy(&callable, action.task.callable_buffer, sizeof(callable));
 								delete callable;
 							}
 							else
-								launder(reinterpret_cast<callable_type*>(action.task.callable_buffer))->~callable_type();
+								static_assert(dependent_false<T>, "Evaluated unreachable branch!");
+
 							return;
 						}
 						else
@@ -273,7 +329,7 @@ MUU_IMPL_NAMESPACE_START
 			};
 			MUU_ASSERT(action_invoker);
 
-			if constexpr (requires_explicit_destruction)
+			if constexpr (traits::requires_explicit_destruction)
 				set_state(states::requires_explicit_destruction);
 		}
 
@@ -305,11 +361,44 @@ MUU_IMPL_NAMESPACE_START
 	static_assert(alignof(thread_pool_task) == thread_pool_task_granularity);
 	static_assert(MUU_OFFSETOF(thread_pool_task, callable_buffer) == 0);
 	static_assert(std::is_standard_layout_v<thread_pool_task>);
+
+	template <typename T>
+	class batch_size_generator final
+	{
+		private:
+			T remaining;
+			T constant;
+			T overflow;
+
+		public:
+			batch_size_generator(T job_count, T batch_count) noexcept
+				: remaining{ job_count },
+				constant{ job_count / batch_count },
+				overflow{ job_count % batch_count }
+			{}
+
+			[[nodiscard]]
+			MUU_ALWAYS_INLINE
+			T operator() () noexcept
+			{
+				if (!remaining)
+					return {};
+				T i = constant;
+				if (overflow)
+				{
+					i++;
+					overflow--;
+				}
+				remaining -= i;
+				return i;
+			}
+	};
 }
 MUU_IMPL_NAMESPACE_END
 
 MUU_NAMESPACE_START
 {
+	/// \brief A thread pool.
 	class MUU_API thread_pool
 	{
 		private:
@@ -332,15 +421,44 @@ MUU_NAMESPACE_START
 
 			void unlock(size_t) noexcept;
 
+			template <typename T>
+			class for_each_task final
+			{
+				private:
+					mutable T task;
+
+				public:
+
+					template <typename Arg>
+					void operator()(Arg&& arg, [[maybe_unused]] size_t tidx) const noexcept
+					{
+						if constexpr (std::is_invocable_v<T, Arg&&, size_t>)
+							task(std::forward<Arg>(arg), tidx);
+						else
+						{
+							static_assert(std::is_invocable_v<T, Arg&&>);
+							task(std::forward<Arg>(arg));
+						}
+					}
+
+					MUU_ALWAYS_INLINE for_each_task& operator* () noexcept { return *this; }
+					MUU_ALWAYS_INLINE const for_each_task& operator* () const noexcept { return *this; }
+
+					template <typename U>
+					for_each_task(U&& t) noexcept
+						: task{ std::forward<U>(t) }
+					{}
+			};
+
 		public:
 
-			/// \brief	Constructs a thread_pool.
+			/// \brief	Constructs a thread pool.
 			///
 			/// \param	worker_count		The number of worker threads in the pool. Use `0` for 'automatic'.
-			/// \param	worker_queue_size	The max length of each worker's task queue. Use `0` for 'automatic'.
+			/// \param	task_queue_size		Max tasks that can be stored in the internal queue without blocking. Use `0` for 'automatic'.
 			/// \param	name 	The name of your threadpool (for debugging purposes).
 			MUU_NODISCARD_CTOR
-			explicit thread_pool(size_t worker_count = 0, size_t worker_queue_size = 0, std::string_view name = {}) noexcept;
+			explicit thread_pool(size_t worker_count = 0, size_t task_queue_size = 0, std::string_view name = {}) noexcept;
 
 			/// \brief	Constructs a thread_pool.
 			///
@@ -392,23 +510,310 @@ MUU_NAMESPACE_START
 			/// \remarks Tasks must be finite, otherwise the pool will fill and wait() calls will never return.
 			/// \remarks Tasks must not throw exceptions.
 			///
-			/// \tparam	T		The type of the task being enqueued.
+			/// \warning Do not call this from one of the thread_pool's workers.
+			///
+			/// \tparam	Task	The type of the task being enqueued.
 			/// \param	task  	The task to enqueue.
 			///
 			/// \returns	A reference to the thread pool.
-			template <typename T>
-			thread_pool& enqueue(T && task) noexcept
+			template <typename Task>
+			thread_pool& enqueue(Task&& task) noexcept
 			{
 				static_assert(
-					std::is_nothrow_invocable_v<T&&, size_t>
-					|| std::is_nothrow_invocable_v<T&&>,
+					std::is_nothrow_invocable_v<Task&&, size_t>
+					|| std::is_nothrow_invocable_v<Task&&>,
 					"Tasks passed to thread_pool::enqueue() must be callable as void() noexcept or void(size_t) noexcept"
 				);
 				MUU_MOVE_CHECK;
 
 				const auto qindex = lock();
-				enqueue(qindex, std::forward<T>(task));
+				enqueue(qindex, std::forward<Task>(task));
 				unlock(qindex);
+				return *this;
+			}
+
+		private:
+
+			template <typename Iter, typename Task>
+			void enqueue_for_each_batch(Iter batch_start, Iter batch_end, Task&& task) noexcept
+			{
+				const auto qindex = lock();
+				enqueue(
+					qindex,
+					[
+						i = batch_start,
+						e = batch_end,
+						t = std::forward<Task>(task)
+					]
+					(size_t worker_index) mutable noexcept
+					{
+						while (i != e)
+						{
+							(*t)(*i, worker_index);
+							std::advance(i, 1);
+						}
+					}
+				);
+				unlock(qindex);
+			}
+
+			template <typename Begin, typename Task>
+			thread_pool& for_each_impl(Begin begin, size_t job_count, Task&& task) noexcept
+			{
+				using elem_reference = impl::iter_reference_t<Begin>;
+				static_assert(
+					std::is_nothrow_invocable_v<Task&&, elem_reference, size_t>
+					|| std::is_nothrow_invocable_v<Task&&, elem_reference>,
+					"Tasks passed to thread_pool::for_each() must be callable as void(elem) noexcept or void(elem, size_t) noexcept"
+				);
+
+				//determine batch count and distribute iterators
+				auto batch_generator = impl::batch_size_generator<size_t>{ job_count, this->size() };
+				size_t batch_size = batch_generator();
+				auto batch_start = begin;
+				auto batch_end = std::next(begin, static_cast<ptrdiff_t>(batch_size));
+
+				//dispatch tasks (trivial callables)
+				using for_each_task_type = for_each_task<remove_cvref<Task&&>>;
+				if (impl::is_trivial_task<Task&&> || this->size() == 1u)
+				{
+					while (batch_size)
+					{
+						enqueue_for_each_batch(batch_start, batch_end, for_each_task_type{ std::forward<Task>(task) });
+						batch_start = batch_end;
+						batch_size = batch_generator();
+						if (batch_size)
+							std::advance(batch_end, static_cast<ptrdiff_t>(batch_size));
+					}
+					return *this;
+				}
+
+				//dispatch tasks (nontrivial callables)
+				if constexpr (!impl::is_trivial_task<Task&&>)
+				{
+					auto task_ptr = std::make_shared<for_each_task_type>(std::forward<Task>(task));
+					while (batch_size)
+					{
+						enqueue_for_each_batch(batch_start, batch_end, task_ptr);
+						batch_start = batch_end;
+						batch_size = batch_generator();
+						if (batch_size)
+							std::advance(batch_end, static_cast<ptrdiff_t>(batch_size));
+					}
+				}
+				return *this;
+			}
+
+		public:
+
+			/// \brief	Enqueues a task to execute on every element in a collection.
+			/// 
+			/// \details Tasks must be callables with one parameter matching the elements in your collection,
+			/// 		 and optionally a second `size_t` parameter to recieve the index of the worker invoking the task:
+			/// \cpp
+			/// std::array<int, 10> vals;
+			/// pool.for_each(vals.begin(), vals.end(), [](int& i) noexcept
+			/// {
+			///		// i is one of the elements of vals
+			///	});
+			/// pool.for_each(vals.begin(), vals.end(), [](int& i, size_t worker_index) noexcept
+			/// {
+			///		// i is one of the elements of vals
+			///		// worker_index is in the range [0, pool.size())
+			///	});
+			/// \ecpp
+			/// 
+			/// \remarks Tasks must be finite, otherwise the pool will fill and wait() calls will never return.
+			/// \remarks Tasks must not throw exceptions.
+			/// 
+			/// \warning Do not call this from one of the thread_pool's workers.
+			/// 
+			/// \tparam	Iter 		Collection iterator type.
+			/// \tparam	Task		The type of the task being enqueued.
+			/// \param	begin		Iterator to the beginning of the collection.
+			/// \param	end			Iterator to the end of the collection.
+			/// \param	task  		The task to execute for each member of the collection.
+			///
+			/// \return	A reference to the thread pool.
+			template <typename Iter, typename Task>
+			thread_pool& for_each(Iter begin, Iter end, Task&& task) noexcept
+			{
+				MUU_MOVE_CHECK;
+
+				const auto job_count = std::distance(begin, end);
+				if (job_count <= 0)
+					return *this;
+
+				return for_each_impl(
+					begin,
+					static_cast<size_t>(job_count),
+					std::forward<Task>(task)
+				);
+			}
+
+			/// \brief	Enqueues a task to execute on every element in a collection.
+			/// 
+			/// \details Tasks must be callables with one parameter matching the elements in your collection,
+			/// 		 and optionally a second `size_t` parameter to recieve the index of the worker invoking the task:
+			/// \cpp
+			/// std::array<int, 10> vals;
+			/// pool.for_each(vals, [](int& i) noexcept
+			/// {
+			///		// i is one of the elements of vals
+			///	});
+			/// pool.for_each(vals, [](int& i, size_t worker_index) noexcept
+			/// {
+			///		// i is one of the elements of vals
+			///		// worker_index is in the range [0, pool.size())
+			///	});
+			/// \ecpp
+			/// 
+			/// \remarks Tasks must be finite, otherwise the pool will fill and wait() calls will never return.
+			/// \remarks Tasks must not throw exceptions.
+			/// 
+			/// \warning Do not call this from one of the thread_pool's workers.
+			/// 
+			/// \tparam	T 			Type of the collection.
+			/// \tparam	Task		The type of the task being enqueued.
+			/// \param	collection	The collection.
+			/// \param	task  		The task to execute for each member of the collection.
+			///
+			/// \return	A reference to the thread pool.
+			template <typename T, typename Task>
+			thread_pool& for_each(T&& collection, Task&& task) noexcept
+			{
+				MUU_MOVE_CHECK;
+
+				using std::size;
+				const size_t job_count = size(collection); //static_cast<size_t>(std::distance(b, end(std::forward<T>(collection))));
+				if (!job_count)
+					return *this;
+
+				using std::begin;
+				return for_each_impl(
+					begin(std::forward<T>(collection)),
+					job_count,
+					std::forward<Task>(task)
+				);
+			}
+
+		private:
+
+			template <typename ValueType, typename T, typename Task>
+			void enqueue_for_range_batch(T batch_start, T batch_end, Task&& task) noexcept
+			{
+				const auto qindex = lock();
+				enqueue(
+					qindex,
+					[
+						i = batch_start,
+						e = batch_end,
+						t = std::forward<Task>(task)
+					]
+					(size_t worker_index) mutable noexcept
+					{
+						if (i < e)
+						{
+							for (; i < e; i++)
+								(*t)(static_cast<ValueType>(i), worker_index);
+						}
+						else
+						{
+							for (; i > e; i--)
+								(*t)(static_cast<ValueType>(i), worker_index);
+						}
+					}
+				);
+				unlock(qindex);
+			}
+
+		public:
+	
+			/// \brief	Enqueues a task to execute once for every value in a range.
+			/// 
+			/// \details Tasks must be callables with one parameter matching the range's integer type,
+			/// 		 and optionally a second `size_t` parameter to recieve the index of the worker invoking the task:
+			/// \cpp
+			/// pool.for_range(0, 10, [](int i) noexcept
+			/// {
+			///		// i is in the range [0, 10)
+			///	});
+			/// pool.for_range(0, 10, [](int i, size_t worker_index) noexcept
+			/// {
+			///		// i is in the range [0, 10)
+			///		// worker_index is in the range [0, pool.size())
+			///	});
+			/// \ecpp
+			/// 
+			/// \remarks Tasks must be finite, otherwise the pool will fill and Wait() calls will never return.
+			/// \remarks Tasks must not throw exceptions.
+			/// 
+			/// \warning Do not call this from one of the thread_pool's workers.
+			/// 
+			/// \tparam	T 			An integer or enum type.
+			/// \tparam	Task		The type of the task being enqueued.
+			/// \param	start		The start of the value range (inclusive).
+			/// \param	end			The end of the value range (exclusive).
+			/// \param	task		The task to enqueue.
+			///
+			/// \return	A reference to the threadpool.
+			template <typename T, typename Task>
+			thread_pool& for_range(T start, T end, Task&& task) noexcept
+			{
+				static_assert(
+					std::is_nothrow_invocable_v<Task&&, T, size_t>
+					|| std::is_nothrow_invocable_v<Task&&, T>,
+					"Tasks passed to thread_pool::for_range() must be callable as void(T) noexcept or void(T, size_t) noexcept"
+				);
+				MUU_MOVE_CHECK;
+
+				//determine batch count and distribute indices
+				using value_type = remove_cvref<T>;
+				using offset_type = largest<
+					remove_enum<value_type>,
+					std::conditional_t<is_signed<remove_enum<value_type>>, signed, unsigned>
+				>;
+				using size_type = largest<make_unsigned<offset_type>, size_t>;
+				const auto job_count = static_cast<size_type>(
+					static_cast<offset_type>((max)(unwrap(start), unwrap(end)))
+					- static_cast<offset_type>((min)(unwrap(start), unwrap(end)))
+				);
+				if (!job_count)
+					return *this;
+				auto batch_generator = impl::batch_size_generator<size_type>{ job_count, this->size() };
+				offset_type batch_start = unwrap(start);
+				size_type batch_size = batch_generator();
+
+				//dispatch tasks (trivial callables)
+				using for_each_task_type = for_each_task<remove_cvref<Task&&>>;
+				if (impl::is_trivial_task<Task&&> || this->size() == 1u)
+				{
+					while (batch_size)
+					{
+						offset_type batch_end = start < end
+							? static_cast<offset_type>(batch_start + batch_size)
+							: static_cast<offset_type>(batch_start - batch_size);
+						enqueue_for_range_batch<value_type>(batch_start, batch_end, for_each_task_type{ std::forward<Task>(task) });
+						batch_start = batch_end;
+						batch_size = batch_generator();
+					}
+					return *this;
+				}
+
+				//dispatch tasks (nontrivial callables)
+				if constexpr (!impl::is_trivial_task<Task&&>)
+				{
+					auto task_ptr = std::make_shared<for_each_task_type>(std::forward<Task>(task));
+					while (batch_size)
+					{
+						offset_type batch_end = start < end
+							? static_cast<offset_type>(batch_start + batch_size)
+							: static_cast<offset_type>(batch_start - batch_size);
+						enqueue_for_range_batch<value_type>(batch_start, batch_end, task_ptr);
+						batch_start = batch_end;
+						batch_size = batch_generator();
+					}
+				}
 				return *this;
 			}
 	};

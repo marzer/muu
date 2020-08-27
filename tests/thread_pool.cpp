@@ -42,6 +42,14 @@ namespace
 {
 	int test_value = {};
 	size_t test_worker_index = {};
+
+	static void test_func(size_t worker) noexcept
+	{
+		test_value++;
+		test_worker_index  = worker;
+	}
+
+	static constexpr auto heap_free_threshold = sizeof(impl::thread_pool_task::callable_buffer_type);
 }
 
 TEST_CASE("thread_pool - enqueue")
@@ -51,20 +59,29 @@ TEST_CASE("thread_pool - enqueue")
 	//tasks with no state at all
 	{
 		test_value = {};
-		auto task = []() noexcept { test_value++; };
-		static_assert(!impl::thread_pool_task::requires_heap<decltype(task)>);
-		threads.enqueue(std::move(task));
+
+		threads.enqueue([]() noexcept { test_value++; });
 		threads.wait();
+
 		CHECK(test_value == 1);
 	}
 	{
 		test_value = {};
 		test_worker_index = 0xFFFFFFFFu;
-		auto task = [](auto workerIndex) noexcept { test_value++; test_worker_index = workerIndex; };
-		static_assert(!impl::thread_pool_task::requires_heap<decltype(task)>);
 
-		threads.enqueue(std::move(task));
+		threads.enqueue([](auto workerIndex) noexcept { test_value++; test_worker_index = workerIndex; });
 		threads.wait();
+
+		CHECK(test_value == 1);
+		CHECK(test_worker_index < threads.size());
+	}
+	{
+		test_value = {};
+		test_worker_index = 0xFFFFFFFFu;
+
+		threads.enqueue(test_func);
+		threads.wait();
+
 		CHECK(test_value == 1);
 		CHECK(test_worker_index < threads.size());
 	}
@@ -73,11 +90,11 @@ TEST_CASE("thread_pool - enqueue")
 	{
 		std::atomic_int i = 0;
 		auto task = [&]() noexcept { i++; };
-		static_assert(sizeof(task) < impl::thread_pool_task::heap_free_threshold);
-		static_assert(!impl::thread_pool_task::requires_heap<decltype(task)>);
+		static_assert(sizeof(task) < heap_free_threshold);
 
 		threads.enqueue(std::move(task));
 		threads.wait();
+
 		CHECK(i == 1);
 	}
 
@@ -87,16 +104,16 @@ TEST_CASE("thread_pool - enqueue")
 		struct Kek
 		{
 			int i;
-			std::byte junk[impl::thread_pool_task::heap_free_threshold];
+			std::byte junk[heap_free_threshold];
 		};
 
 		Kek kek{ 68, {} };
 		auto task = [&, kek]() mutable noexcept { kek.i++; i = kek.i; };
-		static_assert(sizeof(task) > impl::thread_pool_task::heap_free_threshold);
-		static_assert(impl::thread_pool_task::requires_heap<decltype(task)>);
+		static_assert(sizeof(task) > heap_free_threshold);
 
 		threads.enqueue(std::move(task));
 		threads.wait();
+
 		CHECK(i == 69);
 	}
 
@@ -111,7 +128,6 @@ TEST_CASE("thread_pool - enqueue")
 
 		Kek kek{ 41 };
 		auto task = [&, kek]() mutable noexcept { kek.i++; i = kek.i; };
-		static_assert(impl::thread_pool_task::requires_heap<decltype(task)>);
 
 		threads.enqueue(std::move(task));
 		threads.wait();
@@ -122,41 +138,50 @@ TEST_CASE("thread_pool - enqueue")
 	{
 		std::atomic_int i = 0;
 		for (int j = 0; j < 200; j++)
-			threads.enqueue([&]() noexcept { std::this_thread::sleep_for(10ms);  i++; });
+		{
+			threads.enqueue([&]() noexcept
+			{
+				std::this_thread::sleep_for(10ms);
+				i++;
+			});
+		}
 		threads.wait();
 		CHECK(i == 200);
 	}
 }
 
-#if 0
-
-TEST_CASE("thread_pool - for")
+TEST_CASE("thread_pool - for_range")
 {
 	thread_pool threads;
 	std::array<int, 1000> values;
-	std::vector<int> threadValues(threads.size(), 0);
+	std::vector<int> thread_values(threads.size(), 0);
 
 	//[A, B)
 	memset(&values, 0, sizeof(values));
-	threads.For(0u, values.size(), [&](auto i) noexcept { values[i]++; });
+	threads.for_range(0_sz, values.size(), [&](auto i) noexcept { values[i]++; });
 	threads.wait();
 	for (auto& v : values)
 		CHECK(v == 1);
 	memset(&values, 0, sizeof(values));
-	threads.For(0u, values.size(), [&](auto i, auto workerIndex) noexcept { values[i]++; threadValues[workerIndex]++; Sleep(1ms); });
+	threads.for_range(0_sz, values.size(), [&](auto i, auto workerIndex) noexcept
+	{
+		values[i]++;
+		thread_values[workerIndex]++;
+		std::this_thread::sleep_for(10ms);
+	});
 	threads.wait();
 	for (auto& v : values)
 		CHECK(v == 1);
 	{
-		size_t usedThreads{};
-		for (auto& v : threadValues)
+		size_t used_threads{};
+		for (auto& v : thread_values)
 			if (v > 0)
-				usedThreads++;
-		CHECK(usedThreads >= 2u * threads.size() / 3u);
+				used_threads++;
+		CHECK(used_threads >= 2u * threads.size() / 3u);
 	}
 
 	//[A, B)
-	threads.For(10u, 100u, [&](auto i) noexcept { values[i]--; });
+	threads.for_range(10u, 100u, [&](auto i) noexcept { values[i]--; });
 	threads.wait();
 	for (size_t i = 0; i < 10; i++)
 		CHECK(values[i] == 1);
@@ -167,7 +192,7 @@ TEST_CASE("thread_pool - for")
 
 	//[A, B) where A > B
 	memset(&values, 0, sizeof(values));
-	threads.For(500u, 300u, [&](auto i) noexcept { values[i] = 69; });
+	threads.for_range(500u, 300u, [&](auto i) noexcept { values[i] = 69; });
 	threads.wait();
 	for (size_t i = 0; i <= 300; i++)
 		CHECK(values[i] == 0);
@@ -178,7 +203,7 @@ TEST_CASE("thread_pool - for")
 
 	//[A, A)
 	memset(&values, 0, sizeof(values));
-	threads.For(100u, 100u, [&](auto i) noexcept { values[i] = 100; });
+	threads.for_range(100u, 100u, [&](auto i) noexcept { values[i] = 100; });
 	threads.wait();
 	for (auto& v : values)
 		CHECK(v == 0);
@@ -188,24 +213,46 @@ TEST_CASE("thread_pool - for_each")
 {
 	thread_pool threads;
 	std::array<int, 1000> values;
-	std::vector<int> threadValues(threads.size(), 0);
+	std::vector<int> thread_values(threads.size(), 0);
 
+	// collection
 	memset(&values, 0, sizeof(values));
-	threads.ForEach(values, [&](auto& v) noexcept { v++; });
+	threads.for_each(values, [&](auto& v) noexcept { v++; });
 	threads.wait();
 	for (auto& v : values)
 		CHECK(v == 1);
+
+	// [begin, end)
 	memset(&values, 0, sizeof(values));
-	threads.ForEach(values, [&](auto& v, auto workerIndex) noexcept { v++; threadValues[workerIndex]++; Sleep(1ms); });
+	threads.for_each(values.begin(), values.end(), [&](auto& v) noexcept { v++; });
+	threads.wait();
+	for (auto& v : values)
+		CHECK(v == 1);
+
+	// [end, begin) (should be no-op)
+	memset(&values, 0, sizeof(values));
+	threads.for_each(values.end(), values.begin(), [&](auto& v) noexcept { v++; });
+	threads.wait();
+	for (auto& v : values)
+		CHECK(v == 0);
+
+	// collection with thread_index reader
+	memset(&values, 0, sizeof(values));
+	threads.for_each(values, [&](auto& v, auto workerIndex) noexcept
+	{
+		v++;
+		thread_values[workerIndex]++;
+		std::this_thread::sleep_for(1ms);
+	});
 	threads.wait();
 	for (auto& v : values)
 		CHECK(v == 1);
 	{
-		size_t usedThreads{};
-		for (auto& v : threadValues)
+		size_t used_threads{};
+		for (auto& v : thread_values)
 			if (v > 0)
-				usedThreads++;
-		CHECK(usedThreads >= 2u * threads.size() / 3u);
+				used_threads++;
+		CHECK(used_threads >= 2u * threads.size() / 3u);
 	}
 }
-#endif
+
