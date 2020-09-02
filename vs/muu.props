@@ -7,11 +7,14 @@
 
 	<!-- :: defaults -->
 	<PropertyGroup>
-		<OutDir>$(SolutionDir)..\bin\$(PlatformTarget)-$(Configuration)\</OutDir>
-		<IntDir>$(SolutionDir)..\build\$(TargetName)$(TargetExt)-$(PlatformTarget)-$(Configuration)-$(PlatformToolsetVersion)\</IntDir>
+		<OutDir>$(SolutionDir)..\bin\$(Platform)\$(Configuration)\</OutDir>
+		<IntDir>$(SolutionDir)..\build\$(ProjectName)-$(ConfigurationType)-$(PlatformTarget)-$(Configuration)-$(PlatformToolsetVersion)\</IntDir>
 		<IncludePath>$(SolutionDir)..\include;$(SolutionDir)..\extern;$(IncludePath)</IncludePath>
 		<DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>	
 		<LinkIncremental>false</LinkIncremental>	
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(ConfigurationType)'=='StaticLibrary'">
+		<OutDir>$(SolutionDir)..\lib\$(Platform)\$(Configuration)\</OutDir>
 	</PropertyGroup>
 	<ItemDefinitionGroup>
 		<ClCompile>
@@ -23,12 +26,16 @@
 			<StringPooling>true</StringPooling>  <!-- /GF -->
 			<OpenMPSupport>false</OpenMPSupport> <!-- /openmp- -->
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat> <!-- /Zi -->
+			<SDLCheck>false</SDLCheck> <!-- /sdl- -->
+			<MultiProcessorCompilation>true</MultiProcessorCompilation> <!-- /MP -->
+			<SupportJustMyCode>false</SupportJustMyCode> <!-- /jmc- -->
 			<IntrinsicFunctions>true</IntrinsicFunctions>
 			<FunctionLevelLinking>true</FunctionLevelLinking>
 			<TreatWarningAsError>true</TreatWarningAsError>
 			<WarningLevel>Level4</WarningLevel>
 			<LanguageStandard>stdcpplatest</LanguageStandard>
 			<DiagnosticsFormat>Caret</DiagnosticsFormat>
+			<ProgramDataBaseFileName>$(OutDir)$(TargetName).pdb</ProgramDataBaseFileName>
 			<AdditionalOptions>%(AdditionalOptions) /utf-8 /volatile:iso /Zc:__cplusplus /bigobj /Zc:inline /Zc:throwingNew</AdditionalOptions>
 			<PreprocessorDefinitions>%(PreprocessorDefinitions);_CONSOLE</PreprocessorDefinitions>
 			<PreprocessorDefinitions>%(PreprocessorDefinitions);_ITERATOR_DEBUG_LEVEL=0</PreprocessorDefinitions>
@@ -40,6 +47,7 @@
 		<Link>
 			<TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
 			<SubSystem>Console</SubSystem>
+			<GenerateDebugInformation>DebugFull</GenerateDebugInformation>
 		</Link>
 	</ItemDefinitionGroup>
 	

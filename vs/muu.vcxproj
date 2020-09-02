@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
@@ -22,7 +30,20 @@
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
@@ -34,9 +55,15 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="$(ProjectDir)\muu.props" />
   </ImportGroup>
+  <ItemDefinitionGroup Label="Magic">
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);MUU_BUILDING=1</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(ConfigurationType)'=='DynamicLibrary'">%(PreprocessorDefinitions);MUU_DLL=1</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\examples\utf8_console.h" />
-    <ClInclude Include="..\extern\catch2.h" />
     <ClInclude Include="..\include\muu\accumulator.h" />
     <ClInclude Include="..\include\muu\aligned_alloc.h" />
     <ClInclude Include="..\include\muu\all.h" />
@@ -48,18 +75,12 @@
     <ClInclude Include="..\include\muu\fwd.h" />
     <ClInclude Include="..\include\muu\half.h" />
     <ClInclude Include="..\include\muu\hashing.h" />
-    <ClInclude Include="..\include\muu\impl\aligned_alloc.hpp" />
-    <ClInclude Include="..\include\muu\impl\blob.hpp" />
-    <ClInclude Include="..\include\muu\impl\hashing.hpp" />
-    <ClInclude Include="..\include\muu\impl\random.hpp" />
-    <ClInclude Include="..\include\muu\impl\thread_pool.hpp" />
     <ClInclude Include="..\include\muu\impl\unicode_char.h" />
     <ClInclude Include="..\include\muu\impl\unicode_char16_t.h" />
     <ClInclude Include="..\include\muu\impl\unicode_char32_t.h" />
     <ClInclude Include="..\include\muu\impl\unicode_char8_t.h" />
     <ClInclude Include="..\include\muu\impl\unicode_unsigned_char.h" />
     <ClInclude Include="..\include\muu\impl\unicode_wchar_t.h" />
-    <ClInclude Include="..\include\muu\impl\uuid.hpp" />
     <ClInclude Include="..\include\muu\rolling_average.h" />
     <ClInclude Include="..\include\muu\numeric_range.h" />
     <ClInclude Include="..\include\muu\preprocessor.h" />
@@ -98,6 +119,13 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\meson_options.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\aligned_alloc.cpp" />
+    <ClCompile Include="..\src\blob.cpp" />
+    <ClCompile Include="..\src\hashing.cpp" />
+    <ClCompile Include="..\src\thread_pool.cpp" />
+    <ClCompile Include="..\src\uuid.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

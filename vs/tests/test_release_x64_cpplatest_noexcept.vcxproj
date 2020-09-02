@@ -38,14 +38,15 @@
 			<PrecompiledHeader>Use</PrecompiledHeader>
 			<PrecompiledHeaderFile>tests.h</PrecompiledHeaderFile>
 			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">_HAS_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-            <PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">SHOULD_HAVE_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">SHOULD_HAVE_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'!='false'">SHOULD_HAVE_EXCEPTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<LanguageStandard>stdcpplatest</LanguageStandard>
-            <MultiProcessorCompilation>true</MultiProcessorCompilation>
 		</ClCompile>
 	</ItemDefinitionGroup>
 	<PropertyGroup>
 		<LocalDebuggerWorkingDirectory>..\..\tests\</LocalDebuggerWorkingDirectory>
+		<IntDir>$(SolutionDir)..\build\tests-6F6D8031-4BA9-5F07-BE1F-190A2FC3CC9C\</IntDir>
+		<OutDir>$(SolutionDir)..\\build\\</OutDir>
 	</PropertyGroup>
 	<ItemGroup>
 		<ClCompile Include="..\..\tests\accumulator.cpp" />
@@ -90,6 +91,11 @@
 		<None Include="..\..\tests\meson.build" />
 		<None Include="..\.runsettings" />
 		<None Include="..\muu.props" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="muu_release_x64_cpplatest_noexcept.vcxproj">
+			<Project>{6461B8EB-A104-5CED-84F6-B5CFCE57D9DE}</Project>
+		</ProjectReference>
 	</ItemGroup>
 	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

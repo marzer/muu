@@ -127,7 +127,3 @@ MUU_NAMESPACE_START
 	};
 }
 MUU_NAMESPACE_END
-
-#if MUU_IMPLEMENTATION
-	#include "../muu/impl/blob.hpp"
-#endif

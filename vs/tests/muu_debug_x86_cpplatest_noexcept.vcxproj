@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{4927E7F8-E6BD-50BB-B4AA-0FEB0FC2B0A4}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\muu.props" />
+  </ImportGroup>
+  <PropertyGroup>
+		<IntDir>$(SolutionDir)..\build\muu-4927E7F8-E6BD-50BB-B4AA-0FEB0FC2B0A4\</IntDir>
+		<OutDir>$(SolutionDir)..\build\</OutDir>
+	</PropertyGroup>
+	<ItemDefinitionGroup>
+		<ClCompile>
+			<ExceptionHandling>false</ExceptionHandling>
+			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">_HAS_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">SHOULD_HAVE_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'!='false'">SHOULD_HAVE_EXCEPTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<LanguageStandard>stdcpplatest</LanguageStandard>
+		</ClCompile>
+	</ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);MUU_BUILDING=1</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(ConfigurationType)'=='DynamicLibrary'">%(PreprocessorDefinitions);MUU_DLL=1</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\muu\accumulator.h" />
+    <ClInclude Include="..\..\include\muu\aligned_alloc.h" />
+    <ClInclude Include="..\..\include\muu\all.h" />
+    <ClInclude Include="..\..\include\muu\bitset.h" />
+    <ClInclude Include="..\..\include\muu\blob.h" />
+    <ClInclude Include="..\..\include\muu\core.h" />
+    <ClInclude Include="..\..\include\muu\concatenate.h" />
+    <ClInclude Include="..\..\include\muu\emplacement_array.h" />
+    <ClInclude Include="..\..\include\muu\fwd.h" />
+    <ClInclude Include="..\..\include\muu\half.h" />
+    <ClInclude Include="..\..\include\muu\hashing.h" />
+    <ClInclude Include="..\..\include\muu\impl\unicode_char.h" />
+    <ClInclude Include="..\..\include\muu\impl\unicode_char16_t.h" />
+    <ClInclude Include="..\..\include\muu\impl\unicode_char32_t.h" />
+    <ClInclude Include="..\..\include\muu\impl\unicode_char8_t.h" />
+    <ClInclude Include="..\..\include\muu\impl\unicode_unsigned_char.h" />
+    <ClInclude Include="..\..\include\muu\impl\unicode_wchar_t.h" />
+    <ClInclude Include="..\..\include\muu\rolling_average.h" />
+    <ClInclude Include="..\..\include\muu\numeric_range.h" />
+    <ClInclude Include="..\..\include\muu\preprocessor.h" />
+    <ClInclude Include="..\..\include\muu\semver.h" />
+    <ClInclude Include="..\..\include\muu\span.h" />
+    <ClInclude Include="..\..\include\muu\strings.h" />
+    <ClInclude Include="..\..\include\muu\string_param.h" />
+    <ClInclude Include="..\..\include\muu\tagged_ptr.h" />
+    <ClInclude Include="..\..\include\muu\thread_pool.h" />
+    <ClInclude Include="..\..\include\muu\uuid.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="..\muu.natvis" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\aligned_alloc.cpp" />
+    <ClCompile Include="..\..\src\blob.cpp" />
+    <ClCompile Include="..\..\src\hashing.cpp" />
+    <ClCompile Include="..\..\src\thread_pool.cpp" />
+    <ClCompile Include="..\..\src\uuid.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

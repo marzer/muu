@@ -399,16 +399,18 @@ MUU_IMPL_NAMESPACE_END
 MUU_NAMESPACE_START
 {
 	/// \brief A thread pool.
-	class MUU_API thread_pool
+	class thread_pool
 	{
 		private:
 			struct pimpl;
 			pimpl* pimpl_ = nullptr;
 
 			[[nodiscard]]
+			MUU_API
 			size_t lock() noexcept;
 
 			[[nodiscard]]
+			MUU_API
 			MUU_ATTR(returns_nonnull)
 			MUU_ATTR(assume_aligned(impl::thread_pool_task_granularity))
 			void* acquire(size_t) noexcept;
@@ -419,6 +421,7 @@ MUU_NAMESPACE_START
 				new (assume_aligned<impl::thread_pool_task_granularity>(acquire(queue_index))) impl::thread_pool_task{ std::forward<T>(task) };
 			}
 
+			MUU_API
 			void unlock(size_t) noexcept;
 
 			template <typename T>
@@ -458,6 +461,7 @@ MUU_NAMESPACE_START
 			/// \param	task_queue_size		Max tasks that can be stored in the internal queue without blocking. Use `0` for 'automatic'.
 			/// \param	name 	The name of your threadpool (for debugging purposes).
 			MUU_NODISCARD_CTOR
+			MUU_API
 			explicit thread_pool(size_t worker_count = 0, size_t task_queue_size = 0, std::string_view name = {}) noexcept;
 
 			/// \brief	Constructs a thread_pool.
@@ -469,27 +473,32 @@ MUU_NAMESPACE_START
 			{}
 
 			/// \brief	Move constructor.
+			MUU_API
 			thread_pool(thread_pool&&) noexcept;
 
 			/// \brief	Move-assignment operator.
+			MUU_API
 			thread_pool& operator= (thread_pool&&) noexcept;
 
 			/// \brief	Destructor.
 			/// \warning Any enqueued tasks *currently being executed* are allowed to finish;
 			/// 		 attempting to destroy a thread_pool with an enqueued task of indeterminate
 			/// 		 length may lead to a deadlock.
+			MUU_API
 			~thread_pool() noexcept;
 
 			MUU_DELETE_COPY(thread_pool);
 
 			/// \brief	The number of worker threads in the thread pool.
 			[[nodiscard]]
+			MUU_API
 			MUU_ATTR(pure)
 			size_t size() const noexcept;
 
 			/// \brief	Waits for the thread pool to finish all of its current work.
 			/// 
 			/// \warning Do not call this from one of the thread pool's workers.
+			MUU_API
 			void wait() noexcept;
 
 			/// \brief	Enqueues a task.
@@ -823,7 +832,3 @@ MUU_NAMESPACE_END
 MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS
 
 #undef MUU_MOVE_CHECK
-
-#if MUU_IMPLEMENTATION
-	#include "../muu/impl/thread_pool.hpp"
-#endif

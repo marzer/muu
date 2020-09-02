@@ -31,16 +31,67 @@ def main():
 				mode[i] = mode[i][1:]
 	modes.sort()
 
-	test_root = path.join(utils.get_script_folder(), '..', 'vs', 'tests')
 	uuid_namespace = UUID('{51C7001B-048C-4AF0-B598-D75E78FF31F0}')
 	configuration_name = lambda x: 'Debug' if x.lower() == 'debug' else 'Release'
 	platform_name = lambda x: 'Win32' if x == 'x86' else x
+	vs_root = path.join(utils.get_script_folder(), '..', 'vs')
+	test_root = path.join(vs_root, 'tests')
+
 	for mode in modes:
-		file_path = path.join(test_root, 'test_{}.vcxproj'.format('_'.join(mode)))
-		print("Writing to {}".format(file_path))
-		with open(file_path, 'w', encoding='utf-8-sig', newline='\r\n') as file:
+		configuration = next(configuration_name(x) for x in mode if x in ('debug', 'release'))
+		platform = next(platform_name(x) for x in mode if x in ('x64', 'x86'))
+		exceptions ='false' if 'noexcept' in mode else 'Sync'
+		standard ='cpplatest' if 'cpplatest' in mode else 'cpp17'
+		mode_string = '_'.join(mode)
+
+		# read in muu.vcxproj and modify configuration
+		lib_project = utils.read_all_text_from_file(path.join(vs_root, 'muu.vcxproj'))
+		lib_project_file_name = f'muu_{mode_string}.vcxproj'
+		lib_project_path = path.join(test_root, lib_project_file_name)
+		lib_project_uuid = str(uuid5(uuid_namespace, 'lib_' + mode_string)).upper()
+		lib_project = re.sub(r'<PropertyGroup\s+Condition="[^"]+?[|]Win32.+?</PropertyGroup>', '', lib_project, flags=re.I | re.S)
+		lib_project = re.sub(r'<ProjectConfiguration\s+Include="[^"]+?[|]Win32.+?</ProjectConfiguration>', '', lib_project, flags=re.I | re.S)
+		lib_project = re.sub(r'<ProjectGuid>.+?</ProjectGuid>', f'<ProjectGuid>{{{lib_project_uuid}}}</ProjectGuid>', lib_project, flags=re.I)
+		lib_project = re.sub(
+			r'<ItemDefinitionGroup\s+Label="Magic"\s*>.*?</ItemDefinitionGroup>',
+			fr'''<PropertyGroup>
+		<IntDir>$(SolutionDir)..\\build\\muu-{lib_project_uuid}\\</IntDir>
+		<OutDir>$(SolutionDir)..\\build\\</OutDir>
+	</PropertyGroup>
+	<ItemDefinitionGroup>
+		<ClCompile>
+			<ExceptionHandling>{exceptions}</ExceptionHandling>
+			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">_HAS_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">SHOULD_HAVE_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'!='false'">SHOULD_HAVE_EXCEPTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<LanguageStandard>std{standard}</LanguageStandard>
+		</ClCompile>
+	</ItemDefinitionGroup>''',
+			lib_project, flags=re.I | re.S
+		)
+		lib_project = re.sub(r'<\s*(?:None|Text)\s+.+?/>', '', lib_project)
+		lib_project = lib_project.replace(r'Include="..', r'Include="..\..')
+		lib_project = lib_project.replace('muu.natvis', '..\\muu.natvis')
+		lib_project = lib_project.replace(r'|x64', fr'|{platform}')
+		lib_project = lib_project.replace('$(ProjectDir)\\', '..\\')
+		lib_project = lib_project.replace(r'<Platform>x64</Platform>', fr'<Platform>{platform}</Platform>')
+		if configuration == 'Debug':
+			lib_project = re.sub(r'<ProjectConfiguration\s+Include="Release.*?/ProjectConfiguration>', '', lib_project, flags=re.S | re.I)
+		if configuration == 'Release':
+			lib_project = re.sub(r'<ProjectConfiguration\s+Include="Debug.*?/ProjectConfiguration>', '', lib_project, flags=re.S | re.I)
+		lib_project = re.sub('<ItemGroup>\s*</ItemGroup>', '', lib_project, flags=re.S)
+		lib_project = re.sub('\n(\s*\n)+', '\n', lib_project)
+		print(f'Writing to {lib_project_path}')
+		with open(lib_project_path, 'w', encoding='utf-8-sig', newline='\r\n') as file:
+			print(lib_project.strip(), file=file)
+
+		# write out corresponding test project
+		test_project_path = path.join(test_root, f'test_{mode_string}.vcxproj')
+		test_project_uuid = str(uuid5(uuid_namespace, mode_string)).upper()
+		print(f'Writing to {test_project_path}')
+		with open(test_project_path, 'w', encoding='utf-8-sig', newline='\r\n') as file:
 			write = lambda txt: print(txt, file=file)
-			write(r'''
+			write(fr'''
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<ItemGroup Label="ProjectConfigurations">
@@ -51,7 +102,7 @@ def main():
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
 		<VCProjectVersion>16.0</VCProjectVersion>
-		<ProjectGuid>{{{uuid}}}</ProjectGuid>
+		<ProjectGuid>{{{test_project_uuid}}}</ProjectGuid>
 		<WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
 	</PropertyGroup>
 	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -81,14 +132,15 @@ def main():
 			<PrecompiledHeader>Use</PrecompiledHeader>
 			<PrecompiledHeaderFile>tests.h</PrecompiledHeaderFile>
 			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">_HAS_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-            <PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">SHOULD_HAVE_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">SHOULD_HAVE_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'!='false'">SHOULD_HAVE_EXCEPTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<LanguageStandard>std{standard}</LanguageStandard>
-            <MultiProcessorCompilation>true</MultiProcessorCompilation>
 		</ClCompile>
 	</ItemDefinitionGroup>
 	<PropertyGroup>
 		<LocalDebuggerWorkingDirectory>..\..\tests\</LocalDebuggerWorkingDirectory>
+		<IntDir>$(SolutionDir)..\build\tests-{test_project_uuid}\</IntDir>
+		<OutDir>$(SolutionDir)..\\build\\</OutDir>
 	</PropertyGroup>
 	<ItemGroup>
 		<ClCompile Include="..\..\tests\accumulator.cpp" />
@@ -134,15 +186,15 @@ def main():
 		<None Include="..\.runsettings" />
 		<None Include="..\muu.props" />
 	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="{lib_project_file_name}">
+			<Project>{{{lib_project_uuid}}}</Project>
+		</ProjectReference>
+	</ItemGroup>
 	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
-			'''.strip().format(
-				configuration=next(configuration_name(x) for x in mode if x in ('debug', 'release')),
-				platform=next(platform_name(x) for x in mode if x in ('x64', 'x86')),
-				uuid=str(uuid5(uuid_namespace, '_'.join(mode))).upper(),
-				exceptions='false' if 'noexcept' in mode else 'Sync',
-				standard='cpplatest' if 'cpplatest' in mode else 'cpp17'
-			))
+			'''.strip()
+		)
 
 if __name__ == '__main__':
 	utils.run(main)

@@ -127,6 +127,9 @@
 #else
 	#define MUU_WINDOWS 0
 #endif
+#ifndef MUU_BUILDING
+	#define MUU_BUILDING 0
+#endif
 
 #define MUU_CONCAT_1(x, y) x##y
 #define MUU_CONCAT(x, y) MUU_CONCAT_1(x, y)
@@ -425,24 +428,23 @@
 	#include MUU_CONFIG_HEADER
 #endif
 
-#ifdef DOXYGEN
-	#define MUU_HEADER_ONLY 0
+#if !MUU_WINDOWS
+	#undef MUU_DLL
 #endif
-
-#if !defined(MUU_HEADER_ONLY) || (defined(MUU_HEADER_ONLY) && MUU_HEADER_ONLY) || MUU_INTELLISENSE
-	#undef MUU_HEADER_ONLY
-	#define MUU_HEADER_ONLY 1
-#endif
-
-#if defined(MUU_IMPLEMENTATION) || MUU_HEADER_ONLY
-	#undef MUU_IMPLEMENTATION
-	#define MUU_IMPLEMENTATION 1
-#else
-	#define MUU_IMPLEMENTATION 0
+#ifndef MUU_DLL
+	#define MUU_DLL 0
 #endif
 
 #ifndef MUU_API
-	#define MUU_API
+	#if MUU_DLL
+		#if MUU_BUILDING
+			#define MUU_API __declspec(dllexport)
+		#else
+			#define MUU_API __declspec(dllimport)
+		#endif
+	#else
+		#define MUU_API
+	#endif
 #endif
 
 #ifndef MUU_EXTENDED_LITERALS
@@ -744,7 +746,7 @@
 		#if (MUU_ARCH_ARM && MUU_GCC) || MUU_CLANG
 			#define MUU_HAS_INTERCHANGE_FP16 1
 		#endif
-		#if MUU_ARCH_ARM && (MUU_GCC || MUU_CLANG)
+		#if MUU_ARCH_ARM && MUU_CLANG // not present in g++
 			#define MUU_HAS_FLOAT16 1
 		#endif
 	#endif
@@ -801,21 +803,6 @@
 #endif
 #define MUU_IMPL_NAMESPACE_START		MUU_NAMESPACE_START { namespace impl
 #define MUU_IMPL_NAMESPACE_END			} MUU_NAMESPACE_END
-#if MUU_HEADER_ONLY
-	#define MUU_ANON_NAMESPACE_START	MUU_IMPL_NAMESPACE_START { namespace anon
-	#define MUU_ANON_NAMESPACE_END		} MUU_IMPL_NAMESPACE_END
-	#define MUU_ANON_NAMESPACE			MUU_NAMESPACE::impl::anon
-	#define MUU_USING_ANON_NAMESPACE	using namespace MUU_ANON_NAMESPACE
-	#define MUU_EXTERNAL_LINKAGE		inline
-	#define MUU_INTERNAL_LINKAGE		inline
-#else
-	#define MUU_ANON_NAMESPACE_START	namespace
-	#define MUU_ANON_NAMESPACE_END
-	#define MUU_ANON_NAMESPACE
-	#define MUU_USING_ANON_NAMESPACE	(void)0
-	#define MUU_EXTERNAL_LINKAGE
-	#define MUU_INTERNAL_LINKAGE		static
-#endif
 
 //=====================================================================================================================
 // ASSERT

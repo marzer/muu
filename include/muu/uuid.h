@@ -182,7 +182,8 @@ MUU_NAMESPACE_START
 		impl::uuid_bytes bytes;
 		
 		/// \brief Creates a new UUID using the platform's UUID generator.
-		static MUU_API uuid generate() noexcept;
+		MUU_API
+		static uuid generate() noexcept;
 
 		/// \brief Default constructor. Leaves the UUID uninitialized.
 		uuid() noexcept = default;
@@ -813,7 +814,3 @@ namespace std
 }
 
 MUU_POP_WARNINGS // MUU_DISABLE_SWITCH_WARNINGS, MUU_DISABLE_SPAM_WARNINGS
-
-#if MUU_IMPLEMENTATION
-	#include "../muu/impl/uuid.hpp"
-#endif

@@ -4,30 +4,9 @@
 // SPDX-License-Identifier: MIT
 
 #include "settings.h"
-#define MUU_IMPLEMENTATION
 #include "../include/muu/preprocessor.h"
 
 MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wpadded\"")
-
-#if !MUU_HEADER_ONLY
-	#include "../include/muu/all.h"
-#endif
-
-#if MUU_HAS_INTERCHANGE_FP16 != SHOULD_HAVE_FP16
-	#error MUU_HAS_INTERCHANGE_FP16 was not deduced correctly
-#endif
-#if MUU_HAS_FLOAT16 != SHOULD_HAVE_FLOAT16
-	#error MUU_HAS_FLOAT16 was not deduced correctly
-#endif
-#if MUU_HAS_FLOAT128 != SHOULD_HAVE_FLOAT128
-	#error MUU_HAS_FLOAT128 was not deduced correctly
-#endif
-#if MUU_HAS_INT128 != SHOULD_HAVE_INT128
-	#error MUU_HAS_INT128 was not deduced correctly
-#endif
-#if MUU_EXCEPTIONS != SHOULD_HAVE_EXCEPTIONS
-	#error MUU_EXCEPTIONS was not deduced correctly
-#endif
 
 #define CATCH_CONFIG_RUNNER
 #include "catch2.h"

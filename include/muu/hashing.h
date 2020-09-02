@@ -270,7 +270,7 @@ MUU_NAMESPACE_START
 	/// \eout
 	/// 
 	/// \see [SHA-1](https://en.wikipedia.org/wiki/SHA-1)
-	class MUU_API sha1 final
+	class sha1 final
 	{
 		public:
 			struct hash_bytes
@@ -302,9 +302,11 @@ MUU_NAMESPACE_START
 		public:
 
 			/// \brief	Constructs a new SHA-1 hasher.
+			MUU_API
 			sha1() noexcept;
 
 			/// \brief	Appends a single byte to the hash function's input.
+			MUU_API
 			sha1& operator() (uint8_t byte) noexcept;
 
 			/// \brief	Appends a single byte to the hash function's input.
@@ -314,6 +316,7 @@ MUU_NAMESPACE_START
 			}
 
 			/// \brief	Appends a sequence of raw data to the hash function's input.
+			MUU_API
 			sha1& operator() (const void* data, size_t size) noexcept;
 
 			/// \brief	Appends a UTF-8 string to the hash function's input.
@@ -323,11 +326,13 @@ MUU_NAMESPACE_START
 			}
 
 			#ifdef __cpp_lib_char8_t
+
 			/// \brief	Appends a UTF-8 string to the hash function's input.
 			sha1& operator() (std::u8string_view str) noexcept
 			{
 				return (*this)(str.data(), str.size());
 			}
+
 			#endif
 
 			/// \brief	Appends a UTF-16 string to the hash function's input.
@@ -353,6 +358,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Finishes calculating the hash.
 			/// \detail Appending to the hash function's input has no effect after finish() is called.
+			MUU_API
 			sha1& finish() noexcept;
 
 			/// \brief	Returns the calculated hash value.
@@ -382,7 +388,3 @@ MUU_NAMESPACE_START
 MUU_NAMESPACE_END
 
 MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS
-
-#if MUU_IMPLEMENTATION
-	#include "../muu/impl/hashing.hpp"
-#endif

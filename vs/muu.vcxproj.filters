@@ -25,9 +25,6 @@
     <ClInclude Include="..\include\muu\semver.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\extern\catch2.h">
-      <Filter>extern</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\muu\aligned_alloc.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -40,23 +37,8 @@
     <ClInclude Include="..\include\muu\rolling_average.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\muu\impl\aligned_alloc.hpp">
-      <Filter>include\impl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\muu\impl\blob.hpp">
-      <Filter>include\impl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\muu\impl\uuid.hpp">
-      <Filter>include\impl</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\muu\hashing.h">
       <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\muu\impl\hashing.hpp">
-      <Filter>include\impl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\examples\utf8_console.h">
-      <Filter>examples</Filter>
     </ClInclude>
     <ClInclude Include="..\include\muu\all.h">
       <Filter>include</Filter>
@@ -91,17 +73,11 @@
     <ClInclude Include="..\include\muu\impl\unicode_unsigned_char.h">
       <Filter>include\impl</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\muu\impl\random.hpp">
-      <Filter>include\impl</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\muu\thread_pool.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\include\muu\span.h">
       <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\muu\impl\thread_pool.hpp">
-      <Filter>include\impl</Filter>
     </ClInclude>
     <ClInclude Include="..\include\muu\emplacement_array.h">
       <Filter>include</Filter>
@@ -173,11 +149,31 @@
     <Filter Include="docs\pages">
       <UniqueIdentifier>{f71d09f5-b09a-4cdf-b292-f3ff5a9dcb3c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{e6706e08-07d9-4fe5-8cf6-d3ac7c413219}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="muu.natvis" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\meson_options.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\aligned_alloc.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\blob.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hashing.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\thread_pool.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\uuid.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

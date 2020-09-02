@@ -1,12 +1,8 @@
-args = []
-
-if compiler.get_id() == 'gcc' or compiler.get_id() == 'clang'
-	args += [ '-Wno-switch', '-Wno-switch-default', '-Wno-switch-enum' ]
-endif
-
-simple_parser = executable(
+example1 = executable(
 	'example',
 	[ 'example.cpp' ],
-	include_directories : inc,
-	cpp_args : args
+	include_directories: include_dirs,
+	cpp_args: additional_arguments,
+	override_options: overrides,
+	link_with: [ muu_lib ]
 )

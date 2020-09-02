@@ -11,6 +11,21 @@
 #else
 	#define UNICODE_LITERALS_OK 1
 #endif
+#if MUU_HAS_INTERCHANGE_FP16 != SHOULD_HAVE_FP16
+	#error MUU_HAS_INTERCHANGE_FP16 was not deduced correctly
+#endif
+#if MUU_HAS_FLOAT16 != SHOULD_HAVE_FLOAT16
+	#error MUU_HAS_FLOAT16 was not deduced correctly
+#endif
+#if MUU_HAS_FLOAT128 != SHOULD_HAVE_FLOAT128
+	#error MUU_HAS_FLOAT128 was not deduced correctly
+#endif
+#if MUU_HAS_INT128 != SHOULD_HAVE_INT128
+	#error MUU_HAS_INT128 was not deduced correctly
+#endif
+#if MUU_EXCEPTIONS != SHOULD_HAVE_EXCEPTIONS
+	#error MUU_EXCEPTIONS was not deduced correctly
+#endif
 
 MUU_PRAGMA_CLANG("clang diagnostic ignored \"-Wc++2a-compat\"")
 MUU_PRAGMA_CLANG("clang diagnostic ignored \"-Wfloat-equal\"")

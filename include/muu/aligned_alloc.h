@@ -69,7 +69,3 @@ MUU_NAMESPACE_START
 	}
 }
 MUU_NAMESPACE_END
-
-#if MUU_IMPLEMENTATION
-	#include "../muu/impl/aligned_alloc.hpp"
-#endif

@@ -3,18 +3,13 @@
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 
-#pragma once
-#include "../../muu/preprocessor.h"
-#if !MUU_IMPLEMENTATION
-	#error This is an implementation-only header.
-#endif
-
-#include "../../muu/hashing.h"
+#include "muu/hashing.h"
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_SPAM_WARNINGS
+using namespace muu;
 
-MUU_ANON_NAMESPACE_START { namespace sha1_utils
+namespace { namespace sha1_utils
 {
 	using raw_block = uint32_t[16];
 	struct block
@@ -23,30 +18,26 @@ MUU_ANON_NAMESPACE_START { namespace sha1_utils
 	};
 
 	[[nodiscard]]
-	MUU_INTERNAL_LINKAGE
 	MUU_ATTR(const)
-	constexpr uint32_t MUU_VECTORCALL rol(uint32_t value, uint32_t bits) noexcept
+	static constexpr uint32_t MUU_VECTORCALL rol(uint32_t value, uint32_t bits) noexcept
 	{
 		return (value << bits) | (value >> (32u - bits));
 	}
 
 	[[nodiscard]]
-	MUU_INTERNAL_LINKAGE
-	constexpr uint32_t MUU_VECTORCALL blk(const raw_block& bl, size_t i) noexcept
+	static constexpr uint32_t MUU_VECTORCALL blk(const raw_block& bl, size_t i) noexcept
 	{
 		return rol(bl[(i + 13u) & 15u] ^ bl[(i + 8u) & 15u] ^ bl[(i + 2u) & 15u] ^ bl[i], 1);
 	}
 
-	MUU_INTERNAL_LINKAGE
-	constexpr void MUU_VECTORCALL
+	static constexpr void MUU_VECTORCALL
 	R0(const raw_block& bl, uint32_t v, uint32_t& w, uint32_t x, uint32_t y, uint32_t& z, size_t i) noexcept
 	{
 		z += ((w & (x ^ y)) ^ y) + bl[i] + 0x5a827999u + rol(v, 5u);
 		w = rol(w, 30u);
 	}
 
-	MUU_INTERNAL_LINKAGE
-	constexpr void MUU_VECTORCALL
+	static constexpr void MUU_VECTORCALL
 	R1(raw_block& bl, uint32_t v, uint32_t& w, uint32_t x, uint32_t y, uint32_t& z, size_t i) noexcept
 	{
 		bl[i] = blk(bl, i);
@@ -54,8 +45,7 @@ MUU_ANON_NAMESPACE_START { namespace sha1_utils
 		w = rol(w, 30u);
 	}
 
-	MUU_INTERNAL_LINKAGE
-	constexpr void MUU_VECTORCALL
+	static constexpr void MUU_VECTORCALL
 	R2(raw_block& bl, uint32_t v, uint32_t& w, uint32_t x, uint32_t y, uint32_t& z, size_t i) noexcept
 	{
 		bl[i] = blk(bl, i);
@@ -63,8 +53,7 @@ MUU_ANON_NAMESPACE_START { namespace sha1_utils
 		w = rol(w, 30u);
 	}
 
-	MUU_INTERNAL_LINKAGE
-	constexpr void MUU_VECTORCALL
+	static constexpr void MUU_VECTORCALL
 	R3(raw_block& bl, uint32_t v, uint32_t& w, uint32_t x, uint32_t y, uint32_t& z, size_t i) noexcept
 	{
 		bl[i] = blk(bl, i);
@@ -72,8 +61,7 @@ MUU_ANON_NAMESPACE_START { namespace sha1_utils
 		w = rol(w, 30u);
 	}
 
-	MUU_INTERNAL_LINKAGE
-	constexpr void MUU_VECTORCALL
+	static constexpr void MUU_VECTORCALL
 	R4(raw_block& bl, uint32_t v, uint32_t& w, uint32_t x, uint32_t y, uint32_t& z, size_t i) noexcept
 	{
 		bl[i] = blk(bl, i);
@@ -81,8 +69,7 @@ MUU_ANON_NAMESPACE_START { namespace sha1_utils
 		w = rol(w, 30u);
 	}
 
-	MUU_INTERNAL_LINKAGE
-	void process_block(const uint8_t(&block_)[64], uint32_t(&digest)[5]) noexcept
+	static void process_block(const uint8_t(&block_)[64], uint32_t(&digest)[5]) noexcept
 	{
 		block bl = muu::bit_cast<block>(block_);
 		if constexpr (muu::build::is_little_endian)
@@ -188,136 +175,117 @@ MUU_ANON_NAMESPACE_START { namespace sha1_utils
 		digest[4] += e;
 	}
 }}
-MUU_ANON_NAMESPACE_END
 
-MUU_NAMESPACE_START
+sha1::sha1() noexcept
+	: state{
+		{{
+			0x67452301u,
+			0xEFCDAB89u,
+			0x98BADCFEu,
+			0x10325476u,
+			0xC3D2E1F0u
+		}}
+	}
+{}
+
+void sha1::add(uint8_t byte) noexcept
 {
-	MUU_EXTERNAL_LINKAGE
-	sha1::sha1() noexcept
-		: state{
-			{{
-				0x67452301u,
-				0xEFCDAB89u,
-				0x98BADCFEu,
-				0x10325476u,
-				0xC3D2E1F0u
-			}}
-		}
-	{}
+	MUU_ASSERT(!finished_);
+	MUU_ASSERT(current_block_length < 64_u8);
 
-	MUU_EXTERNAL_LINKAGE
-	void sha1::add(uint8_t byte) noexcept
+	current_block[current_block_length++] = byte;
+	if (current_block_length == 64_u8)
 	{
-		MUU_USING_ANON_NAMESPACE;
-		MUU_ASSERT(!finished_);
-		MUU_ASSERT(current_block_length < 64_u8);
-
-		current_block[current_block_length++] = byte;
-		if (current_block_length == 64_u8)
-		{
-			current_block_length = 0_u8;
-			sha1_utils::process_block(current_block, state.digest.value);
-			processed_blocks++;
-		}
-	}
-
-	MUU_EXTERNAL_LINKAGE
-	void sha1::add(const uint8_t* bytes, size_t num) noexcept
-	{
-		MUU_USING_ANON_NAMESPACE;
-		MUU_ASSERT(!finished_);
-		MUU_ASSERT(current_block_length < 64_u8);
-		MUU_ASSERT(num > 0_sz);
-		MUU_ASSERT(num <= (64_sz - current_block_length));
-
-		if (bytes)
-			memcpy(current_block + current_block_length, bytes, num);
-		else
-			memset(current_block + current_block_length, 0, num);
-		current_block_length += static_cast<uint8_t>(num);
-		if (current_block_length == 64_u8)
-		{
-			current_block_length = 0_u8;
-			sha1_utils::process_block(current_block, state.digest.value);
-			processed_blocks++;
-		}
-	}
-
-	MUU_EXTERNAL_LINKAGE
-	sha1& sha1::operator() (uint8_t byte) noexcept
-	{
-		MUU_USING_ANON_NAMESPACE;
-
-		if (!finished_)
-			add(byte);
-		return *this;
-	}
-
-	MUU_EXTERNAL_LINKAGE
-	sha1& sha1::operator() (const void* data, size_t size) noexcept
-	{
-		MUU_USING_ANON_NAMESPACE;
-
-		if (!finished_ && data && size)
-		{
-			const auto end = pointer_cast<const uint8_t*>(data) + size;
-			auto ptr = pointer_cast<const uint8_t*>(data);
-			if (current_block_length)
-			{
-				const auto delta = (min)(64_sz - current_block_length, size);
-				add(ptr, delta);
-				ptr += delta;
-			}
-			while (ptr < end)
-			{
-				const auto delta = (min)(64_sz, static_cast<size_t>(end - ptr));
-				add(ptr, delta);
-				ptr += delta;
-			}
-		}
-		return *this;
-	}
-
-	MUU_EXTERNAL_LINKAGE
-	sha1& sha1::finish() noexcept
-	{
-		MUU_USING_ANON_NAMESPACE;
-
-		if (finished_)
-			return *this;
-
-		uint64_t hashed_bits = (processed_blocks * 64_u64 + current_block_length) * build::bits_per_byte;
-		if constexpr (build::is_little_endian)
-			hashed_bits = byte_reverse(hashed_bits);
-
-		// "message length in bits is a multiple of 8"
-		add(0x80_u8);
-
-		// padding
-		if (current_block_length > 56u)
-			add(nullptr, 64u - current_block_length);
-		if (current_block_length < 56u)
-			add(nullptr, 56u - current_block_length);
-
-		MUU_ASSERT(current_block_length == 56u);
-
-		// add hashed bit count and finish
-		add(pointer_cast<const uint8_t*>(&hashed_bits), 8u);
-		finished_ = true;
-
-		// correct the endianness of the digest if necessary
-		if constexpr (build::is_little_endian)
-		{
-			for (auto& i : state.digest.value)
-				i = byte_reverse(i);
-		}
-
-		// convert the digest to bytes
-		state.hash = bit_cast<hash_type>(state.digest);
-
-		return *this;
+		current_block_length = 0_u8;
+		sha1_utils::process_block(current_block, state.digest.value);
+		processed_blocks++;
 	}
 }
-MUU_NAMESPACE_END
+
+void sha1::add(const uint8_t* bytes, size_t num) noexcept
+{
+	MUU_ASSERT(!finished_);
+	MUU_ASSERT(current_block_length < 64_u8);
+	MUU_ASSERT(num > 0_sz);
+	MUU_ASSERT(num <= (64_sz - current_block_length));
+
+	if (bytes)
+		memcpy(current_block + current_block_length, bytes, num);
+	else
+		memset(current_block + current_block_length, 0, num);
+	current_block_length += static_cast<uint8_t>(num);
+	if (current_block_length == 64_u8)
+	{
+		current_block_length = 0_u8;
+		sha1_utils::process_block(current_block, state.digest.value);
+		processed_blocks++;
+	}
+}
+
+sha1& sha1::operator() (uint8_t byte) noexcept
+{
+	if (!finished_)
+		add(byte);
+	return *this;
+}
+
+sha1& sha1::operator() (const void* data, size_t size) noexcept
+{
+	if (!finished_ && data && size)
+	{
+		const auto end = reinterpret_cast<const uint8_t*>(data) + size;
+		auto ptr = reinterpret_cast<const uint8_t*>(data);
+		if (current_block_length)
+		{
+			const auto delta = (min)(64_sz - current_block_length, size);
+			add(ptr, delta);
+			ptr += delta;
+		}
+		while (ptr < end)
+		{
+			const auto delta = (min)(64_sz, static_cast<size_t>(end - ptr));
+			add(ptr, delta);
+			ptr += delta;
+		}
+	}
+	return *this;
+}
+
+sha1& sha1::finish() noexcept
+{
+	if (finished_)
+		return *this;
+
+	uint64_t hashed_bits = (processed_blocks * 64_u64 + current_block_length) * build::bits_per_byte;
+	if constexpr (build::is_little_endian)
+		hashed_bits = byte_reverse(hashed_bits);
+
+	// "message length in bits is a multiple of 8"
+	add(0x80_u8);
+
+	// padding
+	if (current_block_length > 56u)
+		add(nullptr, 64u - current_block_length);
+	if (current_block_length < 56u)
+		add(nullptr, 56u - current_block_length);
+
+	MUU_ASSERT(current_block_length == 56u);
+
+	// add hashed bit count and finish
+	add(reinterpret_cast<const uint8_t*>(&hashed_bits), 8u);
+	finished_ = true;
+
+	// correct the endianness of the digest if necessary
+	if constexpr (build::is_little_endian)
+	{
+		for (auto& i : state.digest.value)
+			i = byte_reverse(i);
+	}
+
+	// convert the digest to bytes
+	state.hash = bit_cast<hash_type>(state.digest);
+
+	return *this;
+}
 
 MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS

@@ -5,9 +5,6 @@
 
 /// \file
 /// \brief		Convenience header for including _all_ other muu headers.
-/// \warning	This header is a convenience facility meant to simplify builds with precompiled headers or
-/// 			where MUU_HEADER_ONLY is disabled. Using it outside of these contexts may cause compile-times to
-/// 			increase significantly. Buyer beware.
 
 #pragma once
 

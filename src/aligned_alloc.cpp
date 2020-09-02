@@ -3,22 +3,17 @@
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 
-#pragma once
-#include "../../muu/preprocessor.h"
-#if !MUU_IMPLEMENTATION
-	#error This is an implementation-only header.
-#endif
-
-#include "../../muu/core.h"
-#include "../../muu/aligned_alloc.h"
+#include "muu/core.h"
+#include "muu/aligned_alloc.h"
 #if !(MUU_MSVC || MUU_ICC_CL)
 	#include <cstdlib>
 #endif
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_SPAM_WARNINGS
+using namespace muu;
 
-MUU_ANON_NAMESPACE_START
+namespace
 {
 	struct aligned_alloc_data final
 	{
@@ -33,17 +28,13 @@ MUU_ANON_NAMESPACE_START
 	);
 	static_assert(muu::has_single_bit(aligned_alloc_data_footprint));
 }
-MUU_ANON_NAMESPACE_END
 
 MUU_NAMESPACE_START
 {
-	MUU_EXTERNAL_LINKAGE
 	MUU_API
 	MUU_UNALIASED_ALLOC
 	void* aligned_alloc(size_t alignment, size_t size) noexcept
 	{
-		MUU_USING_ANON_NAMESPACE;
-
 		if (!alignment || !size || !has_single_bit(alignment) || alignment > impl::aligned_alloc_max_alignment)
 			return nullptr;
 
@@ -70,17 +61,14 @@ MUU_NAMESPACE_START
 		return pointer_cast<void*>(priv_alloc + data.actual_alignment);
 	}
 
-	MUU_EXTERNAL_LINKAGE
 	MUU_API
 	MUU_UNALIASED_ALLOC
 	void* aligned_realloc(void* ptr, size_t new_size) noexcept
 	{
-		MUU_USING_ANON_NAMESPACE;
-
 		if (!new_size)
 			return nullptr;
 		if (!ptr)
-			return aligned_alloc(__STDCPP_DEFAULT_NEW_ALIGNMENT__, new_size);
+			return muu::aligned_alloc(__STDCPP_DEFAULT_NEW_ALIGNMENT__, new_size);
 
 		auto data = *pointer_cast<aligned_alloc_data*>(
 			pointer_cast<std::byte*>(ptr) - aligned_alloc_data_footprint
@@ -89,7 +77,7 @@ MUU_NAMESPACE_START
 			+ ((new_size + data.actual_alignment - 1u) & ~(data.actual_alignment - 1u));
 		if (is_between(new_actual_size, data.actual_size / 2u, data.actual_size))
 			return ptr;
-		
+
 		#if MUU_MSVC || MUU_ICC_CL
 		{
 			ptr = _aligned_realloc(pointer_cast<std::byte*>(ptr) - data.actual_alignment,
@@ -112,7 +100,7 @@ MUU_NAMESPACE_START
 			if (auto new_ptr = aligned_alloc(data.requested_alignment, new_size))
 			{
 				memcpy(new_ptr, ptr, min(new_size, data.requested_size));
-				aligned_free(ptr);
+				muu::aligned_free(ptr);
 				return new_ptr;
 			}
 		}
@@ -121,12 +109,9 @@ MUU_NAMESPACE_START
 		return nullptr;
 	}
 
-	MUU_EXTERNAL_LINKAGE
 	MUU_API
 	void aligned_free(void* ptr) noexcept
 	{
-		MUU_USING_ANON_NAMESPACE;
-
 		if (!ptr)
 			return;
 		const auto& data = *pointer_cast<aligned_alloc_data*>(
