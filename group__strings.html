@@ -77,173 +77,68 @@ C++</span></a>
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga591693ed2095787d40f63ae8c0c60b74">trim</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename To, typename From&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gac60a8295c0784c3dc21d49dfd26ecf37">transcode</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::basic_string_view</a>&lt;From&gt; str) -&gt; std::basic_string&lt;To&gt; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Trims whitespace from both ends of a UTF-8 string.</dd>
+            <dd>Transcodes a UTF string into another UTF encoding.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gac721a6b23447d8c2950803acf99a8f34">trim</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename Char&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga6306f389b40d384d143a75266ebce6c0">trim</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::basic_string_view</a>&lt;Char&gt; str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::basic_string_view</a>&lt;Char&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Trims whitespace from both ends of a UTF-16 string.</dd>
+            <dd>Trims whitespace from both ends of a UTF string.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga74cfd907d595f68a757aa50640f9d210">trim</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename Char&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gac0dd698352937fdf5a7eb36f1bbfe344">trim_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::basic_string_view</a>&lt;Char&gt; str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::basic_string_view</a>&lt;Char&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Trims whitespace from both ends of a UTF-32 string.</dd>
+            <dd>Trims whitespace from the left end of a UTF string.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gabc24677b997440512aefe4e685b0d2a7">trim</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename Char&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaf57a1536f50f466f8dde1c4836068535">trim_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::basic_string_view</a>&lt;Char&gt; str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::basic_string_view</a>&lt;Char&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Trims whitespace from both ends of a UTF-8 string.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga71cd0aeed9fed904bbdd3789c81684a3">trim</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Trims whitespace from both ends of a wide string.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga3aea46929051176b4afb4e23b551ffc5">trim_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Trims whitespace from the left end of a UTF-8 string.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga3c0e502baa6f3067e1d26bf5572938f8">trim_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Trims whitespace from the left end of a UTF-16 string.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gae32d321796864fd5adeaaec227134e53">trim_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Trims whitespace from the left end of a UTF-32 string.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gad2bab2c91264a3b5241a8d182c922ebd">trim_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Trims whitespace from the left end of a UTF-8 string.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gac23a274a25ef0a4e5b97c0d46b2ccd39">trim_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Trims whitespace from the left end of a wide string.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga3f499b7f36518026e86dd95624740111">trim_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Trims whitespace from the right end of a UTF-8 string.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga18068afb63f4c781d92f7895872a180c">trim_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Trims whitespace from the right end of a UTF-16 string.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga5c65eceb22233e5c09096e48cadeb195">trim_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Trims whitespace from the right end of a UTF-32 string.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gacd9946ff120c34af5e6634c247a50ba5">trim_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Trims whitespace from the right end of a UTF-8 string.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga24e088ccb48af0182c8cc2e433a7cae8">trim_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Trims whitespace from the right end of a wide string.</dd>
+            <dd>Trims whitespace from the right end of a UTF string.</dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="ga591693ed2095787d40f63ae8c0c60b74"><div>
+          <section class="m-doc-details" id="gac60a8295c0784c3dc21d49dfd26ecf37"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga591693ed2095787d40f63ae8c0c60b74">trim</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename To, typename From&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string" target="_blank">std::basic_string</a>&lt;To&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gac60a8295c0784c3dc21d49dfd26ecf37">transcode</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::basic_string_view</a>&lt;From&gt; str) <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Trims whitespace from both ends of a UTF-8 string.</p>
+            <p>Transcodes a UTF string into another UTF encoding.</p>
           </div></section>
-          <section class="m-doc-details" id="gac721a6b23447d8c2950803acf99a8f34"><div>
+          <section class="m-doc-details" id="ga6306f389b40d384d143a75266ebce6c0"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gac721a6b23447d8c2950803acf99a8f34">trim</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename Char&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::basic_string_view</a>&lt;Char&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga6306f389b40d384d143a75266ebce6c0">trim</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::basic_string_view</a>&lt;Char&gt; str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Trims whitespace from both ends of a UTF-16 string.</p>
+            <p>Trims whitespace from both ends of a UTF string.</p>
           </div></section>
-          <section class="m-doc-details" id="ga74cfd907d595f68a757aa50640f9d210"><div>
+          <section class="m-doc-details" id="gac0dd698352937fdf5a7eb36f1bbfe344"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga74cfd907d595f68a757aa50640f9d210">trim</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename Char&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::basic_string_view</a>&lt;Char&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gac0dd698352937fdf5a7eb36f1bbfe344">trim_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::basic_string_view</a>&lt;Char&gt; str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Trims whitespace from both ends of a UTF-32 string.</p>
+            <p>Trims whitespace from the left end of a UTF string.</p>
           </div></section>
-          <section class="m-doc-details" id="gabc24677b997440512aefe4e685b0d2a7"><div>
+          <section class="m-doc-details" id="gaf57a1536f50f466f8dde1c4836068535"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gabc24677b997440512aefe4e685b0d2a7">trim</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename Char&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::basic_string_view</a>&lt;Char&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaf57a1536f50f466f8dde1c4836068535">trim_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::basic_string_view</a>&lt;Char&gt; str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Trims whitespace from both ends of a UTF-8 string.</p>
-          </div></section>
-          <section class="m-doc-details" id="ga71cd0aeed9fed904bbdd3789c81684a3"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga71cd0aeed9fed904bbdd3789c81684a3">trim</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
-            </h3>
-            <p>Trims whitespace from both ends of a wide string.</p>
-          </div></section>
-          <section class="m-doc-details" id="ga3aea46929051176b4afb4e23b551ffc5"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga3aea46929051176b4afb4e23b551ffc5">trim_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
-            </h3>
-            <p>Trims whitespace from the left end of a UTF-8 string.</p>
-          </div></section>
-          <section class="m-doc-details" id="ga3c0e502baa6f3067e1d26bf5572938f8"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga3c0e502baa6f3067e1d26bf5572938f8">trim_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
-            </h3>
-            <p>Trims whitespace from the left end of a UTF-16 string.</p>
-          </div></section>
-          <section class="m-doc-details" id="gae32d321796864fd5adeaaec227134e53"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gae32d321796864fd5adeaaec227134e53">trim_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
-            </h3>
-            <p>Trims whitespace from the left end of a UTF-32 string.</p>
-          </div></section>
-          <section class="m-doc-details" id="gad2bab2c91264a3b5241a8d182c922ebd"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gad2bab2c91264a3b5241a8d182c922ebd">trim_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
-            </h3>
-            <p>Trims whitespace from the left end of a UTF-8 string.</p>
-          </div></section>
-          <section class="m-doc-details" id="gac23a274a25ef0a4e5b97c0d46b2ccd39"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gac23a274a25ef0a4e5b97c0d46b2ccd39">trim_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
-            </h3>
-            <p>Trims whitespace from the left end of a wide string.</p>
-          </div></section>
-          <section class="m-doc-details" id="ga3f499b7f36518026e86dd95624740111"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga3f499b7f36518026e86dd95624740111">trim_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
-            </h3>
-            <p>Trims whitespace from the right end of a UTF-8 string.</p>
-          </div></section>
-          <section class="m-doc-details" id="ga18068afb63f4c781d92f7895872a180c"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga18068afb63f4c781d92f7895872a180c">trim_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
-            </h3>
-            <p>Trims whitespace from the right end of a UTF-16 string.</p>
-          </div></section>
-          <section class="m-doc-details" id="ga5c65eceb22233e5c09096e48cadeb195"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga5c65eceb22233e5c09096e48cadeb195">trim_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
-            </h3>
-            <p>Trims whitespace from the right end of a UTF-32 string.</p>
-          </div></section>
-          <section class="m-doc-details" id="gacd9946ff120c34af5e6634c247a50ba5"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gacd9946ff120c34af5e6634c247a50ba5">trim_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
-            </h3>
-            <p>Trims whitespace from the right end of a UTF-8 string.</p>
-          </div></section>
-          <section class="m-doc-details" id="ga24e088ccb48af0182c8cc2e433a7cae8"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga24e088ccb48af0182c8cc2e433a7cae8">trim_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> str) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strings_8h.html">&lt;muu/strings.h&gt;</a></div>
-            </h3>
-            <p>Trims whitespace from the right end of a wide string.</p>
+            <p>Trims whitespace from the right end of a UTF string.</p>
           </div></section>
         </section>
       </div>
