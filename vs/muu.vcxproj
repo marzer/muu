@@ -91,6 +91,8 @@
     <ClInclude Include="..\include\muu\tagged_ptr.h" />
     <ClInclude Include="..\include\muu\thread_pool.h" />
     <ClInclude Include="..\include\muu\uuid.h" />
+    <ClInclude Include="..\src\os_internal.h" />
+    <ClInclude Include="..\src\os_internal_windows.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />
@@ -112,6 +114,7 @@
     <None Include="..\python\generate_windows_test_targets.py" />
     <None Include="..\python\utils.py" />
     <None Include="..\README.md" />
+    <None Include="..\src\meson.build" />
     <None Include=".runsettings" />
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +127,7 @@
     <ClCompile Include="..\src\aligned_alloc.cpp" />
     <ClCompile Include="..\src\blob.cpp" />
     <ClCompile Include="..\src\hashing.cpp" />
+    <ClCompile Include="..\src\thread_name.cpp" />
     <ClCompile Include="..\src\thread_pool.cpp" />
     <ClCompile Include="..\src\uuid.cpp" />
   </ItemGroup>

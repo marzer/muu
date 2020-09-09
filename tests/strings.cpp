@@ -18,10 +18,14 @@
 #define ALL_WS	"\u0009\u000A\u000B\u000C\u000D\u0020\u0085\u00A0\u1680\u2000\u2001\u2002\u3000"	\
 				"\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u2028\u2029\u202F\u205F"
 
+#ifndef __cpp_char8_t
+using char8_t = decltype(u8'k'); // char or char8_t, depending on c++ standard
+#endif
+
 #if UNICODE_LITERALS_OK
 
 #define UTF_TEST_TEXT_EXPECTED(...)																			\
-                              MUU_CONCAT(__VA_ARGS__, R"(The quick brown fox jumped over the lazy dog)"	)	\
+							  MUU_CONCAT(__VA_ARGS__, R"(The quick brown fox jumped over the lazy dog)"	)	\
 MUU_CONCAT(__VA_ARGS__, "\n")																				\
 MUU_CONCAT(__VA_ARGS__, "\n") MUU_CONCAT(__VA_ARGS__, R"(ሰማይ አይታረስ ንጉሥ አይከሰስ።)"						)	\
 MUU_CONCAT(__VA_ARGS__, "\n") MUU_CONCAT(__VA_ARGS__, R"(ብላ ካለኝ እንደአባቴ በቆመጠኝ።)"						)	\
@@ -108,6 +112,13 @@ TEST_CASE("strings - utf_decode")
 }
 
 #endif // UNICODE_LITERALS_OK
+
+TEST_CASE("strings - utf16_code_point")
+{
+	const impl::utf16_code_point<char16_t> kek = U'\U00010437';
+	CHECK(static_cast<uint16_t>(kek.view()[0]) == 0xD801u);
+	CHECK(static_cast<uint16_t>(kek.view()[1]) == 0xDC37u);
+}
 
 TEST_CASE("strings - utf_find")
 {
@@ -250,5 +261,84 @@ TEST_CASE("strings - trim_right")
 	CHECK_FUNC(trim_right, "\u3000 test \u3000",	"\u3000 test");
 	CHECK_FUNC(trim_right, ALL_WS "test" ALL_WS,	ALL_WS "test");
 	#endif // UNICODE_LITERALS_OK
+}
+
+TEST_CASE("strings - transcode")
+{
+	#define CHECK_TRANSCODE_CASE(input, prefix)														\
+		CHECK(transcode<char>(MUU_CONCAT(prefix, SV(input))) == SV(input));							\
+		CHECK(transcode<char8_t>(MUU_CONCAT(prefix, SV(input))) == MUU_CONCAT(u8, SV(input)));	\
+		CHECK(transcode<char16_t>(MUU_CONCAT(prefix, SV(input))) == MUU_CONCAT(u,  SV(input)));	\
+		CHECK(transcode<char32_t>(MUU_CONCAT(prefix, SV(input))) == MUU_CONCAT(U,  SV(input)));	\
+		CHECK(transcode<wchar_t>(MUU_CONCAT(prefix, SV(input))) == MUU_CONCAT(L, SV(input)))
+	
+	#if !MUU_CLANG || MUU_CLANG > 8
+		#define CHECK_TRANSCODE_CASE_W(input, prefix)	CHECK_TRANSCODE_CASE(input, prefix)
+	#else
+		#define CHECK_TRANSCODE_CASE_W(input, prefix)	(void)0
+	#endif
+
+	#define CHECK_TRANSCODE(input)			\
+		CHECK_TRANSCODE_CASE(input, );		\
+		CHECK_TRANSCODE_CASE(input, u8);	\
+		CHECK_TRANSCODE_CASE(input, u);		\
+		CHECK_TRANSCODE_CASE(input, U);		\
+		CHECK_TRANSCODE_CASE_W(input, L)
+
+	CHECK_TRANSCODE("");
+	CHECK_TRANSCODE("test");
+	CHECK_TRANSCODE(" test ");
+	CHECK_TRANSCODE("The quick brown fox jumped over the lazy dog");
+	#if UNICODE_LITERALS_OK
+	CHECK_TRANSCODE(ALL_WS "test" ALL_WS);
+	CHECK_TRANSCODE(R"(ሰማይ አይታረስ ንጉሥ አይከሰስ።)");
+	CHECK_TRANSCODE(R"(ብላ ካለኝ እንደአባቴ በቆመጠኝ።)");
+	CHECK_TRANSCODE(R"(ጌጥ ያለቤቱ ቁምጥና ነው።)");
+	CHECK_TRANSCODE(R"(ደሀ በሕልሙ ቅቤ ባይጠጣ ንጣት በገደለው።)");
+	CHECK_TRANSCODE(R"(የአፍ ወለምታ በቅቤ አይታሽም።)");
+	CHECK_TRANSCODE(R"(አይጥ በበላ ዳዋ ተመታ።)");
+	CHECK_TRANSCODE(R"(ሲተረጉሙ ይደረግሙ።)");
+	CHECK_TRANSCODE(R"(ቀስ በቀስ፥ ዕንቁላል በእግሩ ይሄዳል።)");
+	CHECK_TRANSCODE(R"(ድር ቢያብር አንበሳ ያስር።)");
+	CHECK_TRANSCODE(R"(ሰው እንደቤቱ እንጅ እንደ ጉረቤቱ አይተዳደርም።)");
+	CHECK_TRANSCODE(R"(እግዜር የከፈተውን ጉሮሮ ሳይዘጋው አይድርም።)");
+	CHECK_TRANSCODE(R"(የጎረቤት ሌባ፥ ቢያዩት ይስቅ ባያዩት ያጠልቅ።)");
+	CHECK_TRANSCODE(R"(ሥራ ከመፍታት ልጄን ላፋታት።)");
+	CHECK_TRANSCODE(R"(ዓባይ ማደሪያ የለው፥ ግንድ ይዞ ይዞራል።)");
+	CHECK_TRANSCODE(R"(የእስላም አገሩ መካ የአሞራ አገሩ ዋርካ።)");
+	CHECK_TRANSCODE(R"(ተንጋሎ ቢተፉ ተመልሶ ባፉ።)");
+	CHECK_TRANSCODE(R"(ወዳጅህ ማር ቢሆን ጨርስህ አትላሰው።)");
+	CHECK_TRANSCODE(R"(እግርህን በፍራሽህ ልክ ዘርጋ።)");
+	#endif // UNICODE_LITERALS_OK
+
+
+	/*
+	* char -> char8_t
+	* char -> char16_t
+	* char -> char32_t
+	* char -> wchar_t
+	* char8_t -> char
+	* char8_t -> char16_t
+	* char8_t -> char32_t
+	* char8_t -> wchar_t
+	* char16_t -> char
+	* char16_t -> char8_t
+	* char16_t -> char32_t
+	* char16_t -> wchar_t
+	* char32_t -> char
+	* char32_t -> char8_t
+	* char32_t -> char16_t
+	* char32_t -> wchar_t
+	* wchar_t -> char
+	* wchar_t -> char8_t
+	* wchar_t -> char16_t
+	* wchar_t -> char32_t
+	
+	
+	
+	
+	
+	
+	*/
 }
 

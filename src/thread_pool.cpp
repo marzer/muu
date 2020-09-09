@@ -7,18 +7,24 @@
 #include "muu/span.h"
 #include "muu/blob.h"
 #include "muu/emplacement_array.h"
+#include "os_internal.h"
 MUU_DISABLE_WARNINGS
 #include <atomic>
+#include <string>
 #include <mutex>
 #include <condition_variable>
 #include <thread>
 #include <optional>
+#if MUU_WINDOWS
+#include <objbase.h> // CoInitializeEx, CoUninitialize
+#endif
 MUU_ENABLE_WARNINGS
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_SPAM_WARNINGS
 using namespace muu;
 using namespace std::chrono_literals;
+using namespace std::string_literals;
 using namespace std::string_view_literals;
 
 #define MUU_MOVE_CHECK	MUU_ASSERT(pimpl_ != nullptr && "The thread_pool has been moved from!")
@@ -273,16 +279,19 @@ namespace
 			}
 
 			MUU_NODISCARD_CTOR
-			thread_pool_worker(size_t worker_index, std::string_view worker_name, span<thread_pool_queue> queues, thread_pool_monitor& monitor_) noexcept
+			thread_pool_worker(size_t worker_index, std::string&& worker_name, span<thread_pool_queue> queues, thread_pool_monitor& monitor_) noexcept
 			{
-				(void)worker_name;
-
 				thread = std::thread{
-					[this, worker_index, queues, monitor = &monitor_]() noexcept
+					[this, worker_index, name = std::move(worker_name), queues, monitor = &monitor_]() noexcept
 					{
 						MUU_ASSUME(monitor != nullptr);
-						// Environment::InitializeCOM();
-						// Environment::ThreadName(std::move(name));
+
+						#if MUU_WINDOWS
+						CoInitializeEx(nullptr, COINIT_MULTITHREADED);
+						auto at_exit = scope_guard{ []() noexcept { CoUninitialize(); } };
+						#endif
+
+						set_thread_name(name);
 
 						MUU_ALIGN(impl::thread_pool_task_granularity) std::byte pop_buffer[impl::thread_pool_task_granularity];
 
@@ -377,9 +386,16 @@ struct thread_pool::pimpl final
 		workers = emplacement_array<thread_pool_worker>{ worker_count };
 		for (size_t i = 0; i < worker_count; i++)
 		{
+			std::string n;
+			n.reserve(name.length() + 5u);
+			n.append(name);
+			n.append(" ["sv);
+			n.append(std::to_string(i));
+			n += ']';
+
 			workers.emplace_back(
 				i, // worker_index
-				"" /* Concatenate<wchar_t>(nameView, L" [", i, L"]") */, // worker_name
+				std::move(n),
 				span{ queues.data(), queues.size() }, // queues
 				monitor
 			);

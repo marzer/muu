@@ -398,6 +398,13 @@ MUU_IMPL_NAMESPACE_END
 
 MUU_NAMESPACE_START
 {
+	MUU_API
+	void set_thread_name(std::string_view name) noexcept;
+
+	//[[nodiscard]]
+	//MUU_API
+	//std::string_view thread_name() noexcept;
+
 	/// \brief A thread pool.
 	class thread_pool
 	{

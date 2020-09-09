@@ -1,0 +1,98 @@
+// This file is a part of muu and is subject to the the terms of the MIT license.
+// Copyright (c) 2020 Mark Gillard <mark.gillard@outlook.com.au>
+// See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
+// SPDX-License-Identifier: MIT
+
+#include "muu/thread_pool.h"
+#include "muu/strings.h"
+#include "os_internal.h"
+
+MUU_PUSH_WARNINGS
+MUU_DISABLE_SPAM_WARNINGS
+MUU_DISABLE_SUGGEST_WARNINGS
+using namespace muu;
+
+//=====================================================================================================================
+#if MUU_WINDOWS
+//=====================================================================================================================
+
+#if MUU_WIN10_SDK >= 1607
+	MUU_DISABLE_WARNINGS
+	#include <processthreadsapi.h> // SetThreadDescription()
+	MUU_ENABLE_WARNINGS
+#endif
+
+namespace
+{
+	// https://docs.microsoft.com/en-us/visualstudio/debugger/how-to-set-a-thread-name-in-native-code?view=vs-2019
+
+	constexpr DWORD MS_VC_EXCEPTION = 0x406D1388;
+
+	#pragma pack(push, 8)
+	struct THREADNAME_INFO
+	{
+		DWORD dwType;
+		LPCSTR szName;
+		DWORD dwThreadID;
+		DWORD dwFlags;
+	};
+	#pragma pack(pop)
+
+	static void set_thread_name_legacy(const std::string& name) noexcept
+	{
+		THREADNAME_INFO info;
+		info.dwType = 0x1000u;
+		info.szName = name.c_str();
+		info.dwThreadID = GetCurrentThreadId();
+		info.dwFlags = {};
+		__try
+		{
+			RaiseException(MS_VC_EXCEPTION, 0, sizeof(info) / sizeof(ULONG_PTR), pointer_cast<ULONG_PTR*>(&info));
+		}
+		__except (EXCEPTION_EXECUTE_HANDLER) {}
+	}
+
+	static void set_thread_name_os_specific(std::string_view name_) noexcept
+	{
+		set_thread_name_legacy(std::string(name_)); // ensure zero-termination
+
+		// 'modern'
+		#if MUU_WIN10_SDK >= 1607
+		SetThreadDescription(GetCurrentThread(), transcode<wchar_t>(name_).c_str());
+		#endif
+	}
+}
+
+//=====================================================================================================================
+#else // other
+//=====================================================================================================================
+
+namespace
+{
+	//MUU_ATTR(const)
+	static void set_thread_name_os_specific(std::string_view) noexcept {}
+}
+
+#endif // other
+
+//=====================================================================================================================
+// PUBLIC INTERFACE
+//=====================================================================================================================
+
+MUU_NAMESPACE_START
+{
+	void set_thread_name(std::string_view name) noexcept
+	{
+		set_thread_name_os_specific(name);
+	}
+
+	//
+	//std::string_view thread_name() noexcept
+	//{
+	//	return {};
+	//}
+
+}
+MUU_NAMESPACE_END
+
+MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS, MUU_DISABLE_SUGGEST_WARNINGS

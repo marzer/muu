@@ -82,6 +82,12 @@
     <ClInclude Include="..\include\muu\emplacement_array.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\os_internal_windows.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\os_internal.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />
@@ -126,6 +132,9 @@
     </None>
     <None Include="..\CODE_OF_CONDUCT.md" />
     <None Include="..\LICENSE" />
+    <None Include="..\src\meson.build">
+      <Filter>src</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -173,6 +182,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\src\uuid.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\thread_name.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

@@ -27,7 +27,6 @@ MUU_IMPL_NAMESPACE_START
 	};
 	static_assert(sizeof(uuid_bytes) == 16);
 
-
 	namespace MUU_EVAL(MUU_BIG_ENDIAN, be, le)
 	{
 		template <unsigned>
