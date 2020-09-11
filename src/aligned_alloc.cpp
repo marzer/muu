@@ -31,7 +31,6 @@ namespace
 
 MUU_NAMESPACE_START
 {
-	MUU_API
 	MUU_UNALIASED_ALLOC
 	void* aligned_alloc(size_t alignment, size_t size) noexcept
 	{
@@ -61,7 +60,6 @@ MUU_NAMESPACE_START
 		return pointer_cast<void*>(priv_alloc + data.actual_alignment);
 	}
 
-	MUU_API
 	MUU_UNALIASED_ALLOC
 	void* aligned_realloc(void* ptr, size_t new_size) noexcept
 	{
@@ -109,7 +107,6 @@ MUU_NAMESPACE_START
 		return nullptr;
 	}
 
-	MUU_API
 	void aligned_free(void* ptr) noexcept
 	{
 		if (!ptr)

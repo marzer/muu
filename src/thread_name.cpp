@@ -3,7 +3,6 @@
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 
-#include "muu/thread_pool.h"
 #include "muu/strings.h"
 #include "os_internal.h"
 
@@ -52,13 +51,14 @@ namespace
 		__except (EXCEPTION_EXECUTE_HANDLER) {}
 	}
 
-	static void set_thread_name_os_specific(std::string_view name_) noexcept
+	static void set_thread_name_os_specific(string_param&& name_) noexcept
 	{
-		set_thread_name_legacy(std::string(name_)); // ensure zero-termination
+		std::string name(std::move(name_)); // ensure zero-termination
+		set_thread_name_legacy(name);
 
 		// 'modern'
 		#if MUU_WIN10_SDK >= 1607
-		SetThreadDescription(GetCurrentThread(), transcode<wchar_t>(name_).c_str());
+		SetThreadDescription(GetCurrentThread(), transcode<wchar_t>(name).c_str());
 		#endif
 	}
 }
@@ -70,7 +70,7 @@ namespace
 namespace
 {
 	//MUU_ATTR(const)
-	static void set_thread_name_os_specific(std::string_view) noexcept {}
+	static void set_thread_name_os_specific(string_param&& /*name_*/) noexcept {}
 }
 
 #endif // other
@@ -81,9 +81,9 @@ namespace
 
 MUU_NAMESPACE_START
 {
-	void set_thread_name(std::string_view name) noexcept
+	void set_thread_name(string_param&& name) noexcept
 	{
-		set_thread_name_os_specific(name);
+		set_thread_name_os_specific(std::move(name));
 	}
 
 	//

@@ -684,6 +684,35 @@
 	#define MUU_TRACE(...) (void)0;
 #endif
 
+#define MUU_MAKE_BITOPS_(type, op)											\
+	[[nodiscard]]															\
+	MUU_ALWAYS_INLINE														\
+	MUU_ATTR(flatten)														\
+	constexpr type operator op (const type& lhs, const type& rhs) noexcept	\
+	{																		\
+		return static_cast<type>(::muu::unwrap(lhs) op ::muu::unwrap(rhs));	\
+	}																		\
+	[[nodiscard]]															\
+	MUU_ALWAYS_INLINE														\
+	MUU_ATTR(flatten)														\
+	constexpr type& operator op= (type& lhs, const type& rhs) noexcept		\
+	{																		\
+		return lhs op (lhs & rhs);											\
+	}
+
+#define MUU_MAKE_BITOPS(type)												\
+	MUU_MAKE_BITOPS_(type, &)												\
+	MUU_MAKE_BITOPS_(type, |)												\
+	MUU_MAKE_BITOPS_(type, ^)												\
+	[[nodiscard]]															\
+	MUU_ALWAYS_INLINE														\
+	MUU_ATTR(flatten)														\
+	constexpr type operator ~ (const type& val) noexcept					\
+	{																		\
+		return static_cast<type>(~::muu::unwrap(val));						\
+	}
+
+
 //=====================================================================================================================
 // SFINAE AND CONCEPTS
 //=====================================================================================================================

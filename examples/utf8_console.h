@@ -8,8 +8,10 @@
 #include <Windows.h>
 #endif
 
-inline void init_utf8_console() noexcept
+inline void init_utf8_console(bool sync_with_stdio = false) noexcept
 {
+	std::ios_base::sync_with_stdio(sync_with_stdio);
+
 	#ifdef _WIN32
 	SetConsoleOutputCP(65001); //CP_UTF8
 	#endif

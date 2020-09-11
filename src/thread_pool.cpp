@@ -7,6 +7,7 @@
 #include "muu/span.h"
 #include "muu/blob.h"
 #include "muu/emplacement_array.h"
+#include "muu/strings.h"
 #include "os_internal.h"
 MUU_DISABLE_WARNINGS
 #include <atomic>
@@ -365,14 +366,11 @@ struct thread_pool::pimpl final
 	std::atomic<size_t> next_queue = 0_sz;
 	mutable thread_pool_monitor monitor;
 
-	pimpl(size_t workers_, size_t task_queue_size, std::string_view name) noexcept
+	pimpl(size_t workers_, size_t task_queue_size, string_param&& name) noexcept
 		: worker_count{ calc_thread_pool_workers(workers_) },
 		worker_queue_size{ calc_thread_pool_worker_queue_size(worker_count, task_queue_size) },
 		task_buffer{ impl::thread_pool_task_granularity * worker_count * worker_queue_size, nullptr, impl::thread_pool_task_granularity }
 	{
-		if (name.empty())
-			name = "muu::thread_pool"sv;
-
 		queues = emplacement_array<thread_pool_queue>{ worker_count };
 		for (size_t i = 0; i < worker_count; i++)
 		{
@@ -384,11 +382,12 @@ struct thread_pool::pimpl final
 		}
 
 		workers = emplacement_array<thread_pool_worker>{ worker_count };
+		std::string_view worker_name = name ? std::string_view{ name } : "muu::thread_pool"sv;
 		for (size_t i = 0; i < worker_count; i++)
 		{
 			std::string n;
-			n.reserve(name.length() + 5u);
-			n.append(name);
+			n.reserve(worker_name.length() + 5u);
+			n.append(worker_name);
 			n.append(" ["sv);
 			n.append(std::to_string(i));
 			n += ']';
@@ -482,8 +481,8 @@ struct thread_pool::pimpl final
 	}
 };
 
-thread_pool::thread_pool(size_t worker_count, size_t task_queue_size, std::string_view name) noexcept
-	: pimpl_{ new pimpl{ worker_count, task_queue_size, name }}
+thread_pool::thread_pool(size_t worker_count, size_t task_queue_size, string_param&& name) noexcept
+	: pimpl_{ new pimpl{ worker_count, task_queue_size, std::move(name) }}
 { }
 
 thread_pool::thread_pool(thread_pool&& other) noexcept

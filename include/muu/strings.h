@@ -12,10 +12,12 @@
 #include "../muu/impl/unicode_wchar_t.h"
 #include "../muu/impl/unicode_char16_t.h"
 #include "../muu/impl/unicode_char32_t.h"
+#include "../muu/string_param.h"
 #ifdef __cpp_char8_t
 #include "../muu/impl/unicode_char8_t.h"
 #endif
 MUU_DISABLE_WARNINGS
+#include <string>
 #include <string_view>
 MUU_ENABLE_WARNINGS
 
@@ -28,10 +30,17 @@ MUU_DISABLE_SPAM_WARNINGS
 	#define MUU_CONSTEXPR_STRING	inline
 #endif
 
-namespace muu { using namespace std::string_view_literals; }
+namespace muu
+{
+	using namespace std::string_view_literals;
+}
 
 MUU_NAMESPACE_START
 {
+	//=================================================================================================================
+	// unicode/boilerplate
+	//=================================================================================================================
+
 	namespace impl
 	{
 		class MUU_TRIVIAL_ABI utf8_decoder final
@@ -647,6 +656,14 @@ MUU_NAMESPACE_START
 			return byte_to_hex(unwrap(byte), a);
 		}
 
+	}
+
+	//=================================================================================================================
+	// trim
+	//=================================================================================================================
+
+	namespace impl
+	{
 		template <typename T, typename Func>
 		[[nodiscard]]
 		constexpr auto predicated_trim(std::basic_string_view<T> str, Func&& predicate) noexcept
@@ -665,7 +682,63 @@ MUU_NAMESPACE_START
 
 			return str.substr(first.index, last.end() - first.index);
 		}
+	}
 
+	/// \brief		Trims whitespace from both ends of a UTF-8 string.
+	/// \ingroup	strings
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr std::string_view trim(std::string_view str) noexcept
+	{
+		return impl::predicated_trim(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+	}
+
+	/// \brief		Trims whitespace from both ends of a UTF wide string.
+	/// \ingroup	strings
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr std::wstring_view trim(std::wstring_view str) noexcept
+	{
+		return impl::predicated_trim(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+	}
+
+	/// \brief		Trims whitespace from both ends of a UTF-16 string.
+	/// \ingroup	strings
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr std::u16string_view trim(std::u16string_view str) noexcept
+	{
+		return impl::predicated_trim(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+	}
+
+	/// \brief		Trims whitespace from both ends of a UTF-32 string.
+	/// \ingroup	strings
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr std::u32string_view trim(std::u32string_view str) noexcept
+	{
+		return impl::predicated_trim(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+	}
+
+	#ifdef __cpp_lib_char8_t
+
+	/// \brief		Trims whitespace from both ends of a UTF-8 string.
+	/// \ingroup	strings
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr std::u8string_view trim(std::u8string_view str) noexcept
+	{
+		return impl::predicated_trim(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+	}
+
+	#endif // __cpp_lib_char8_t
+
+	//=================================================================================================================
+	// trim_left
+	//=================================================================================================================
+
+	namespace impl
+	{
 		template <typename T, typename Func>
 		[[nodiscard]]
 		constexpr auto predicated_trim_left(std::basic_string_view<T> str, Func&& predicate) noexcept
@@ -682,7 +755,63 @@ MUU_NAMESPACE_START
 
 			return str.substr(first.index);
 		}
+	}
 
+	/// \brief		Trims whitespace from the left end of a UTF-8 string.
+	/// \ingroup	strings
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr std::string_view trim_left(std::string_view str) noexcept
+	{
+		return impl::predicated_trim_left(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+	}
+
+	/// \brief		Trims whitespace from the left end of a UTF wide string.
+	/// \ingroup	strings
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr std::wstring_view trim_left(std::wstring_view str) noexcept
+	{
+		return impl::predicated_trim_left(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+	}
+
+	/// \brief		Trims whitespace from the left end of a UTF-16 string.
+	/// \ingroup	strings
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr std::u16string_view trim_left(std::u16string_view str) noexcept
+	{
+		return impl::predicated_trim_left(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+	}
+
+	/// \brief		Trims whitespace from the left end of a UTF-32 string.
+	/// \ingroup	strings
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr std::u32string_view trim_left(std::u32string_view str) noexcept
+	{
+		return impl::predicated_trim_left(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+	}
+
+	#ifdef __cpp_lib_char8_t
+
+	/// \brief		Trims whitespace from the left end of a UTF-8 string.
+	/// \ingroup	strings
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr std::u8string_view trim_left(std::u8string_view str) noexcept
+	{
+		return impl::predicated_trim_left(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+	}
+
+	#endif // __cpp_lib_char8_t
+
+	//=================================================================================================================
+	// trim_right
+	//=================================================================================================================
+
+	namespace impl
+	{
 		template <typename T, typename Func>
 		[[nodiscard]]
 		constexpr auto predicated_trim_right(std::basic_string_view<T> str, Func&& predicate) noexcept
@@ -701,84 +830,172 @@ MUU_NAMESPACE_START
 		}
 	}
 
-	/// \brief		Trims whitespace from both ends of a UTF string.
-	/// \ingroup strings
-	template <typename Char>
+	/// \brief		Trims whitespace from the right end of a UTF-8 string.
+	/// \ingroup	strings
 	[[nodiscard]]
 	MUU_ATTR(pure)
-	constexpr std::basic_string_view<Char> trim(std::basic_string_view<Char> str) noexcept
+	constexpr std::string_view trim_right(std::string_view str) noexcept
 	{
-		return impl::predicated_trim(str, static_cast<bool(*)(char32_t)>(is_not_whitespace));
+		return impl::predicated_trim_right(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
 	}
 
-	/// \brief		Trims whitespace from the left end of a UTF string.
-	/// \ingroup strings
-	template <typename Char>
+	/// \brief		Trims whitespace from the right end of a UTF wide string.
+	/// \ingroup	strings
 	[[nodiscard]]
 	MUU_ATTR(pure)
-	constexpr std::basic_string_view<Char> trim_left(std::basic_string_view<Char> str) noexcept
+	constexpr std::wstring_view trim_right(std::wstring_view str) noexcept
 	{
-		return impl::predicated_trim_left(str, static_cast<bool(*)(char32_t)>(is_not_whitespace));
+		return impl::predicated_trim_right(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
 	}
 
-	/// \brief		Trims whitespace from the right end of a UTF string.
-	/// \ingroup strings
-	template <typename Char>
+	/// \brief		Trims whitespace from the right end of a UTF-16 string.
+	/// \ingroup	strings
 	[[nodiscard]]
 	MUU_ATTR(pure)
-	constexpr std::basic_string_view<Char> trim_right(std::basic_string_view<Char> str) noexcept
+	constexpr std::u16string_view trim_right(std::u16string_view str) noexcept
 	{
-		return impl::predicated_trim_right(str, static_cast<bool(*)(char32_t)>(is_not_whitespace));
+		return impl::predicated_trim_right(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
 	}
 
-	/// \brief		Transcodes a UTF string into another UTF encoding.
-	/// \ingroup strings
-	template <typename To, typename From>
+	/// \brief		Trims whitespace from the right end of a UTF-32 string.
+	/// \ingroup	strings
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr std::u32string_view trim_right(std::u32string_view str) noexcept
+	{
+		return impl::predicated_trim_right(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+	}
+
+	#ifdef __cpp_lib_char8_t
+
+	/// \brief		Trims whitespace from the right end of a UTF-8 string.
+	/// \ingroup	strings
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr std::u8string_view trim_right(std::u8string_view str) noexcept
+	{
+		return impl::predicated_trim_right(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+	}
+
+	#endif // __cpp_lib_char8_t
+
+	//=================================================================================================================
+	// transcode
+	//=================================================================================================================
+
+	namespace impl
+	{
+		template <typename To, typename From>
+		[[nodiscard]]
+		MUU_CONSTEXPR_STRING
+		std::basic_string<To> utf_transcode(std::basic_string_view<From> str) noexcept
+		{
+			if (str.empty())
+				return {};
+
+			static_assert(
+				is_code_unit<From> && is_code_unit<To>,
+				"To and From must both be valid code unit types"
+			);
+
+			if constexpr (std::is_same_v<To, From>)
+				return std::basic_string<To>(str);
+			else if constexpr (sizeof(To) == sizeof(From))
+			{
+				std::basic_string<To> out;
+				out.resize(str.length());
+				memcpy(out.data(), str.data(), str.length() * sizeof(From));
+				return out;
+			}
+			else
+			{
+				std::basic_string<To> out;
+				if constexpr (sizeof(To) < sizeof(From))
+					out.reserve((str.length() / 2u) * 3u);
+				else
+					out.reserve(str.length());
+
+				impl::utf_decode(str, [&](char32_t cp) noexcept
+				{
+					if constexpr (std::is_same_v<char32_t, To>)
+						out += cp;
+					else if constexpr (sizeof(To) == sizeof(char32_t)) // e.g. wchar_t on linux
+						out += static_cast<To>(cp);
+					else
+					{
+						impl::utf_code_point<To> enc{ cp };
+						out.append(enc.view());
+					}
+				});
+
+				return out;
+			}
+		}
+
+	}
+
+	/// \brief		Transcodes a UTF-8 string into another UTF encoding.
+	/// \ingroup	strings
+	template <typename Char>
 	[[nodiscard]]
 	MUU_CONSTEXPR_STRING
-	std::basic_string<To> transcode(std::basic_string_view<From> str) noexcept
+	std::basic_string<Char> transcode(std::string_view str) noexcept
 	{
-		if (str.empty())
-			return {};
-
-		static_assert(
-			is_code_unit<From> && is_code_unit<To>,
-			"To and From must both be valid code unit types"
-		);
-
-		if constexpr (std::is_same_v<To, From>)
-			return std::basic_string<To>(str);
-		else if constexpr (sizeof(To) == sizeof(From))
-		{
-			std::basic_string<To> out;
-			out.resize(str.length());
-			memcpy(out.data(), str.data(), str.length() * sizeof(From));
-			return out;
-		}
-		else
-		{
-			std::basic_string<To> out;
-			if constexpr (sizeof(To) < sizeof(From))
-				out.reserve((str.length() / 2u) * 3u);
-			else
-				out.reserve(str.length());
-
-			impl::utf_decode(str, [&](char32_t cp) noexcept
-			{
-				if constexpr (std::is_same_v<char32_t, To>)
-					out += cp;
-				else if constexpr (sizeof(To) == sizeof(char32_t)) // e.g. wchar_t on linux
-					out += static_cast<To>(cp);
-				else
-				{
-					impl::utf_code_point<To> enc{ cp };
-					out.append(enc.view());
-				}
-			});
-
-			return out;
-		}
+		return impl::utf_transcode<Char>(str);
 	}
+
+	/// \brief		Transcodes a UTF wide string into another UTF encoding.
+	/// \ingroup	strings
+	template <typename Char>
+	[[nodiscard]]
+	MUU_CONSTEXPR_STRING
+	std::basic_string<Char> transcode(std::wstring_view str) noexcept
+	{
+		return impl::utf_transcode<Char>(str);
+	}
+
+	/// \brief		Transcodes a UTF-16 string into another UTF encoding.
+	/// \ingroup	strings
+	template <typename Char>
+	[[nodiscard]]
+	MUU_CONSTEXPR_STRING
+	std::basic_string<Char> transcode(std::u16string_view str) noexcept
+	{
+		return impl::utf_transcode<Char>(str);
+	}
+
+	/// \brief		Transcodes a UTF-32 string into another UTF encoding.
+	/// \ingroup	strings
+	template <typename Char>
+	[[nodiscard]]
+	MUU_CONSTEXPR_STRING
+	std::basic_string<Char> transcode(std::u32string_view str) noexcept
+	{
+		return impl::utf_transcode<Char>(str);
+	}
+
+	#ifdef __cpp_lib_char8_t
+
+	/// \brief		Transcodes a UTF-8 string into another UTF encoding.
+	/// \ingroup	strings
+	template <typename Char>
+	[[nodiscard]]
+	MUU_CONSTEXPR_STRING
+	std::basic_string<Char> transcode(std::u8string_view str) noexcept
+	{
+		return impl::utf_transcode<Char>(str);
+	}
+
+	#endif // __cpp_lib_char8_t
+
+	//=================================================================================================================
+	// misc
+	//=================================================================================================================
+
+	/// \brief		Sets the name of the current thread for debuggers.
+	/// \ingroup	strings
+	MUU_API
+	void set_thread_name(string_param&& name) noexcept;
 }
 MUU_NAMESPACE_END
 

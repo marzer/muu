@@ -809,6 +809,10 @@ MUU_NAMESPACE_START
 	template <typename T>
 	inline constexpr bool has_unary_plus_operator = impl::is_detected<impl::has_unary_plus_operator, T>;
 
+	/// \brief Aliases a std::aligned_storage_t with a size and alignment capable of representing all the named types.
+	template <typename... T>
+	using variant_storage = std::aligned_storage_t<sizeof(largest<T...>), alignof(most_aligned<T...>)>;
+
 	/// @}
 }
 MUU_NAMESPACE_END

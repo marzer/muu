@@ -28,9 +28,6 @@
     <ClInclude Include="..\include\muu\aligned_alloc.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\muu\string_param.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\muu\preprocessor.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -87,6 +84,9 @@
     </ClInclude>
     <ClInclude Include="..\src\os_internal.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\string_param.h">
+      <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -185,6 +185,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\src\thread_name.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\string_param.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

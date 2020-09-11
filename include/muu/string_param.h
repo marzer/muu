@@ -8,13 +8,293 @@
 
 #pragma once
 #include "../muu/core.h"
+MUU_DISABLE_WARNINGS
+#include <string>
+#include <string_view>
+MUU_ENABLE_WARNINGS
 
-#if !defined(DOXYGEN) && !MUU_INTELLISENSE && (!defined(MUU_DEV) || !MUU_DEV)
-	#error Including muu/string_param.h is currently prohibited - muu::string_param is not fully implemented
-#endif
+MUU_PUSH_WARNINGS
+MUU_DISABLE_SPAM_WARNINGS
 
 MUU_NAMESPACE_START
 {
+	/// \brief		A move-only transport type capable of representing any UTF string.
+	/// \ingroup strings
+	class string_param
+	{
+		private:
+
+			mutable variant_storage<
+				std::string, std::string_view,
+				std::wstring, std::wstring_view,
+				std::u16string, std::u16string_view,
+				std::u32string, std::u32string_view
+			> storage;
+			mutable uint8_t mode_ = {};
+
+			struct char8_tag {};
+			MUU_API static bool built_with_char8_support() noexcept;
+			MUU_API string_param(const void*, size_t, char8_tag) noexcept; // non-owning (const char8_t*, len)
+			MUU_API string_param(void*, const void*, size_t, char8_tag) noexcept; // owning (std::u8string*, const char8_t*, len)
+			MUU_API void get_char8_view(void*) const noexcept; // (std::u8string_view*)
+			MUU_API void move_into_char8_string(void*) noexcept; // (std::u8string*)
+
+		public:
+
+			/// \brief	Constructs an empty string_param.
+			MUU_API
+			string_param() noexcept;
+
+
+
+			/// \brief	Constructs a non-owning string_param from a UTF-8 string view.
+			MUU_API
+			string_param(std::string_view str) noexcept;
+
+			/// \brief	Constructs a non-owning string_param from a UTF-8 string.
+			MUU_API
+			string_param(const std::string& str) noexcept;
+
+			/// \brief	Constructs a non-owning string_param from a pointer to a UTF-8 string and a length.
+			MUU_API
+			string_param(const char* str, size_t len) noexcept;
+
+			/// \brief	Constructs a non-owning string_param from a pointer to a UTF-8 string.
+			MUU_API
+			string_param(const char* str) noexcept;
+
+			/// \brief	Constructs an owning string_param from a UTF-8 string.
+			MUU_API
+			string_param(std::string&& str) noexcept;
+
+
+
+			/// \brief	Constructs a non-owning string_param from a UTF wide string view.
+			MUU_API
+			string_param(std::wstring_view str) noexcept;
+
+			/// \brief	Constructs a non-owning string_param from a UTF wide string.
+			MUU_API
+			string_param(const std::wstring& str) noexcept;
+
+			/// \brief	Constructs a non-owning string_param from a pointer to a UTF wide string and a length.
+			MUU_API
+			string_param(const wchar_t* str, size_t len) noexcept;
+
+			/// \brief	Constructs a non-owning string_param from a pointer to a UTF wide string.
+			MUU_API
+			string_param(const wchar_t* str) noexcept;
+
+			/// \brief	Constructs an owning string_param from a UTF wide string.
+			MUU_API
+			string_param(std::wstring&& str) noexcept;
+
+
+
+			/// \brief	Constructs a non-owning string_param from a UTF-16 string view.
+			MUU_API
+			string_param(std::u16string_view str) noexcept;
+
+			/// \brief	Constructs a non-owning string_param from a UTF-16 string.
+			MUU_API
+			string_param(const std::u16string& str) noexcept;
+
+			/// \brief	Constructs a non-owning string_param from a pointer to a UTF-16 string and a length.
+			MUU_API
+			string_param(const char16_t* str, size_t len) noexcept;
+
+			/// \brief	Constructs a non-owning string_param from a pointer to a UTF-16 string.
+			MUU_API
+			string_param(const char16_t* str) noexcept;
+
+			/// \brief	Constructs an owning string_param from a UTF-16 string.
+			MUU_API
+			string_param(std::u16string&& str) noexcept;
+
+
+
+			/// \brief	Constructs a non-owning string_param from a UTF-32 string view.
+			MUU_API
+			string_param(std::u32string_view str) noexcept;
+
+			/// \brief	Constructs a non-owning string_param from a UTF-32 string.
+			MUU_API
+			string_param(const std::u32string& str) noexcept;
+
+			/// \brief	Constructs a non-owning string_param from a pointer to a UTF-32 string and a length.
+			MUU_API
+			string_param(const char32_t* str, size_t len) noexcept;
+
+			/// \brief	Constructs a non-owning string_param from a pointer to a UTF-32 string.
+			MUU_API
+			string_param(const char32_t* str) noexcept;
+
+			/// \brief	Constructs an owning string_param from a UTF-32 string.
+			MUU_API
+			string_param(std::u32string&& str) noexcept;
+
+
+
+			#ifdef __cpp_lib_char8_t
+
+			/// \brief	Constructs a non-owning string_param from a UTF-8 string view.
+			string_param(std::u8string_view str) noexcept
+				: string_param{ str.data(), str.length(), char8_tag{} }
+			{}
+
+			/// \brief	Constructs a non-owning string_param from a UTF-8 string.
+			string_param(const std::u8string& str) noexcept
+				: string_param{ str.c_str(), str.length(), char8_tag{} }
+			{}
+
+			/// \brief	Constructs a non-owning string_param from a pointer to a UTF-8 string and a length.
+			string_param(const char8_t* str, size_t len) noexcept
+				: string_param{ str, len, char8_tag{} }
+			{}
+
+			/// \brief	Constructs a non-owning string_param from a pointer to a UTF-8 string.
+			string_param(const char8_t* str) noexcept
+				: string_param{ str, str ? std::char_traits<char8_t>::length(str) : 0u, char8_tag{} }
+			{}
+
+			/// \brief	Constructs an owning string_param from a UTF-8 string.
+			string_param(std::u8string&& str) noexcept
+				: string_param{ &str, str.c_str(), str.length(), char8_tag{} }
+			{}
+
+			#endif // __cpp_lib_char8_t
+
+
+
+			/// \brief	Move-assignment operator.
+			MUU_API
+			string_param& operator= (string_param&& rhs) noexcept;
+
+			/// \brief	Move constructor.
+			MUU_API
+			string_param(string_param&& other) noexcept;
+
+			MUU_DELETE_COPY(string_param);
+
+			/// \brief	Destructor.
+			MUU_API
+			~string_param() noexcept;
+
+
+
+			/// \brief	Returns the length of the underlying string.
+			[[nodiscard]]
+			MUU_API
+			size_t length() const noexcept;
+
+			/// \brief	Returns true if the string_param does not contain a value, or it has a length of zero.
+			[[nodiscard]]
+			MUU_API
+			bool empty() const noexcept;
+
+			/// \brief	Returns true if the string_param contains a value of non-zero length.
+			[[nodiscard]]
+			MUU_API
+			explicit operator bool() const noexcept;
+
+			/// \brief	Returns true if the string_param is not empty and owns the payload string (rather than simply being a view).
+			[[nodiscard]]
+			MUU_API
+			bool owning() const noexcept;
+
+
+
+			/// \brief	Returns a std::string_view of the string_param's payload.
+			[[nodiscard]]
+			MUU_API
+			explicit operator std::string_view() const noexcept;
+			
+			/// \brief	Returns a std::wstring_view of the string_param's payload.
+			[[nodiscard]]
+			MUU_API
+			explicit operator std::wstring_view() const noexcept;
+
+			/// \brief	Returns a std::u16string_view of the string_param's payload.
+			[[nodiscard]]
+			MUU_API
+			explicit operator std::u16string_view() const noexcept;
+
+			/// \brief	Returns a std::u32string_view of the string_param's payload.
+			[[nodiscard]]
+			MUU_API
+			explicit operator std::u32string_view() const noexcept;
+
+			#ifdef __cpp_lib_char8_t
+
+			/// \brief	Returns a std::u8string_view of the string_param's payload.
+			[[nodiscard]]
+			explicit operator std::u8string_view() const noexcept
+			{
+				if (empty())
+					return {};
+
+				if (built_with_char8_support())
+				{
+					std::u8string_view out;
+					get_char8_view(&out);
+					return out;
+				}
+				else
+				{
+					std::string_view str{ *this };
+					return std::u8string_view{ reinterpret_cast<const char8_t*>(str.data()), str.length() };
+				}
+			}
+
+			#endif // __cpp_lib_char8_t
+
+
+
+			/// \brief	Moves the string_param's payload into a std::string.
+			[[nodiscard]]
+			MUU_API
+			operator std::string() && noexcept;
+
+			/// \brief	Moves the string_param's payload into a std::wstring.
+			[[nodiscard]]
+			MUU_API
+			operator std::wstring() && noexcept;
+
+			/// \brief	Moves the string_param's payload into a std::u16string.
+			[[nodiscard]]
+			MUU_API
+			operator std::u16string() && noexcept;
+
+			/// \brief	Moves the string_param's payload into a std::u32string.
+			[[nodiscard]]
+			MUU_API
+			operator std::u32string() && noexcept;
+
+			#ifdef __cpp_lib_char8_t
+
+			/// \brief	Moves the string_param's payload into a std::u8string.
+			[[nodiscard]]
+			operator std::u8string() && noexcept
+			{
+				if (empty())
+					return {};
+
+				std::u8string out;
+				if (built_with_char8_support())
+					move_into_char8_string(&out);
+				else
+				{
+					std::string_view str{ *this };
+					out.resize(str.length());
+					memcpy(out.data(), str.data(), str.length());
+				}
+				return out;
+			}
+
+			#endif // __cpp_lib_char8_t
+	};
 
 }
 MUU_NAMESPACE_END
+
+MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS

@@ -243,4 +243,34 @@
 		</Expand>
 	</Type>
 
+	<Type Name="muu::v0::string_param">
+		<Intrinsic Name="string" Expression="(std::string*)&amp;storage" />
+		<Intrinsic Name="wstring" Expression="(std::wstring*)&amp;storage" />
+		<Intrinsic Name="u8string" Expression="(std::u8string*)&amp;storage" />
+		<Intrinsic Name="u16string" Expression="(std::u16string*)&amp;storage" />
+		<Intrinsic Name="u32string" Expression="(std::u32string*)&amp;storage" />
+		<Intrinsic Name="string_view" Expression="(std::string_view*)&amp;storage" />
+		<Intrinsic Name="wstring_view" Expression="(std::wstring_view*)&amp;storage" />
+		<Intrinsic Name="u8string_view" Expression="(std::u8string_view*)&amp;storage" />
+		<Intrinsic Name="u16string_view" Expression="(std::u16string_view*)&amp;storage" />
+		<Intrinsic Name="u32string_view" Expression="(std::u32string_view*)&amp;storage" />
+		<Intrinsic Name="owning" Expression="mode_ &gt; 0 &amp;&amp; mode_ &lt; 128" />
+		<DisplayString Condition="mode_ == 0">""</DisplayString>
+		<DisplayString Condition="mode_ == 1">{*string(),s8}</DisplayString>
+		<DisplayString Condition="mode_ == 2">{*wstring(),su}</DisplayString>
+		<DisplayString Condition="mode_ == 3">{*u8string(),s8}</DisplayString>
+		<DisplayString Condition="mode_ == 4">{*u16string(),su}</DisplayString>
+		<DisplayString Condition="mode_ == 5">{*u32string(),s32}</DisplayString>
+		<DisplayString Condition="mode_ == 128+1">{*string_view(),s8}</DisplayString>
+		<DisplayString Condition="mode_ == 128+2">{*wstring_view(),su}</DisplayString>
+		<DisplayString Condition="mode_ == 128+3">{*u8string_view(),s8}</DisplayString>
+		<DisplayString Condition="mode_ == 128+4">{*u16string_view(),su}</DisplayString>
+		<DisplayString Condition="mode_ == 128+5">{*u32string_view(),s32}</DisplayString>
+		<DisplayString>NATVIS ERROR</DisplayString>
+		<Expand>
+			<Item Name="[mode]" ExcludeView="simple">(int)mode_</Item>
+			<Item Name="[owning]" ExcludeView="simple">owning()</Item>
+		</Expand>
+	</Type>
+
 </AutoVisualizer>

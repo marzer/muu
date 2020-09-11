@@ -9,11 +9,11 @@
 #pragma once
 #include "../muu/core.h"
 #include "../muu/tagged_ptr.h"
+#include "../muu/string_param.h"
 MUU_DISABLE_WARNINGS
 #ifdef __cpp_lib_hardware_interference_size
 	#include <new>
 #endif
-#include <string_view>
 #include <memory>
 MUU_ENABLE_WARNINGS
 
@@ -398,13 +398,6 @@ MUU_IMPL_NAMESPACE_END
 
 MUU_NAMESPACE_START
 {
-	MUU_API
-	void set_thread_name(std::string_view name) noexcept;
-
-	//[[nodiscard]]
-	//MUU_API
-	//std::string_view thread_name() noexcept;
-
 	/// \brief A thread pool.
 	class thread_pool
 	{
@@ -469,14 +462,14 @@ MUU_NAMESPACE_START
 			/// \param	name 	The name of your threadpool (for debugging purposes).
 			MUU_NODISCARD_CTOR
 			MUU_API
-			explicit thread_pool(size_t worker_count = 0, size_t task_queue_size = 0, std::string_view name = {}) noexcept;
+			explicit thread_pool(size_t worker_count = 0, size_t task_queue_size = 0, string_param&& name = {}) noexcept;
 
 			/// \brief	Constructs a thread_pool.
 			///
 			/// \param	name 	The name of your thread pool (for debugging purposes).
 			MUU_NODISCARD_CTOR
-			explicit thread_pool(std::string_view name) noexcept
-				: thread_pool{ 0, 0, name }
+			explicit thread_pool(string_param&& name) noexcept
+				: thread_pool{ 0, 0, std::move(name) }
 			{}
 
 			/// \brief	Move constructor.

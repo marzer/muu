@@ -43,10 +43,14 @@
 			<LanguageStandard>stdcpplatest</LanguageStandard>
 		</ClCompile>
 	</ItemDefinitionGroup>
+  <PropertyGroup>
+    <StaticDllExport>false</StaticDllExport>
+  </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);MUU_BUILDING=1</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(ConfigurationType)'=='DynamicLibrary'">%(PreprocessorDefinitions);MUU_DLL=1</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(ConfigurationType)|$(StaticDllExport)'=='StaticLibrary|true'">%(PreprocessorDefinitions);MUU_API=__declspec(dllexport)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -77,6 +81,8 @@
     <ClInclude Include="..\..\include\muu\tagged_ptr.h" />
     <ClInclude Include="..\..\include\muu\thread_pool.h" />
     <ClInclude Include="..\..\include\muu\uuid.h" />
+    <ClInclude Include="..\..\src\os_internal.h" />
+    <ClInclude Include="..\..\src\os_internal_windows.h" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="..\muu.natvis" />
@@ -85,6 +91,7 @@
     <ClCompile Include="..\..\src\aligned_alloc.cpp" />
     <ClCompile Include="..\..\src\blob.cpp" />
     <ClCompile Include="..\..\src\hashing.cpp" />
+    <ClCompile Include="..\..\src\string_param.cpp" />
     <ClCompile Include="..\..\src\thread_name.cpp" />
     <ClCompile Include="..\..\src\thread_pool.cpp" />
     <ClCompile Include="..\..\src\uuid.cpp" />
