@@ -218,6 +218,11 @@ C++</span></a>
               using <a class="m-doc" href="#ga0ca8f76b9009f40bdfbb89a1c51b9d82">unsigned_integer</a> = typename impl::unsigned_integer&lt;Bits&gt;::type
             </dt>
             <dd>Gets the unsigned integer type with a specific number of bits for the target platform.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              using <a class="m-doc" href="#ga7e8799a37a5ce8c4eefe8f584afd2647">variant_storage</a> = std::aligned_storage_t&lt;sizeof(largest&lt;T...&gt;), alignof(most_aligned&lt;T...&gt;)&gt;
+            </dt>
+            <dd>Aliases a std::aligned_storage_t with a size and alignment capable of representing all the named types.</dd>
           </dl>
         </section>
         <section id="var-members">
@@ -673,6 +678,16 @@ C++</span></a>
               using <a class="m-doc-self" href="#ga0ca8f76b9009f40bdfbb89a1c51b9d82">unsigned_integer</a> = typename impl::unsigned_integer&lt;Bits&gt;::type
             </h3>
             <p>Gets the unsigned integer type with a specific number of bits for the target platform.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga7e8799a37a5ce8c4eefe8f584afd2647"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename... T&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga7e8799a37a5ce8c4eefe8f584afd2647">variant_storage</a> = std::aligned_storage_t&lt;sizeof(largest&lt;T...&gt;), alignof(most_aligned&lt;T...&gt;)&gt;
+            </h3>
+            <p>Aliases a std::aligned_storage_t with a size and alignment capable of representing all the named types.</p>
           </div></section>
         </section>
         <section>
