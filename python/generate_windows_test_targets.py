@@ -157,6 +157,7 @@ def main():
 		</ClCompile>
 		<ClCompile Include="..\..\tests\scope_guard.cpp" />
 		<ClCompile Include="..\..\tests\span.cpp" />
+		<ClCompile Include="..\..\tests\string_param.cpp" />
 		<ClCompile Include="..\..\tests\strings.cpp" />
 		<ClCompile Include="..\..\tests\tagged_ptr.cpp" />
 		<ClCompile Include="..\..\tests\tests.cpp">

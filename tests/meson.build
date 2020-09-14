@@ -11,6 +11,7 @@ test_sources = [
 	'main.cpp',
 	'scope_guard.cpp',
 	'span.cpp',
+	'string_param.cpp',
 	'strings.cpp',
 	'tagged_ptr.cpp',
 	'tests.cpp',

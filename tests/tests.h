@@ -96,3 +96,20 @@ MUU_ENABLE_WARNINGS
 #ifndef CHECK_STRINGS_W
 	#define CHECK_STRINGS_W(...)		CHECK_AND_STATIC_ASSERT(__VA_ARGS__)
 #endif
+
+template <typename T>
+struct nameof_;
+template <typename T>
+inline constexpr auto nameof = nameof_<T>::value;
+
+#define MAKE_NAME_OF(type)	\
+	template <> struct nameof_<type> { static constexpr auto value = MUU_MAKE_STRING_VIEW(type); }
+
+MAKE_NAME_OF(char);
+MAKE_NAME_OF(wchar_t);
+MAKE_NAME_OF(char16_t);
+MAKE_NAME_OF(char32_t);
+#ifdef __cpp_char8_t
+MAKE_NAME_OF(char8_t);
+#endif
+

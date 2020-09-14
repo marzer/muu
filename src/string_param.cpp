@@ -6,6 +6,7 @@
 #include "muu/string_param.h"
 #include "muu/strings.h"
 
+MUU_DISABLE_SUGGEST_WARNINGS
 using namespace muu;
 
 namespace
@@ -445,9 +446,6 @@ string_param::operator std::u32string_view() const noexcept
 	return get_view<char32_t>(storage, mode_);
 }
 
-#ifndef __cpp_lib_char8_t
-MUU_ATTR(const)
-#endif
 void string_param::get_char8_view(void* str) const noexcept
 {
 	#ifdef __cpp_lib_char8_t
@@ -520,9 +518,6 @@ string_param::operator std::u32string() && noexcept
 	return move_into_string<char32_t>(storage, mode_);
 }
 
-#ifndef __cpp_lib_char8_t
-MUU_ATTR(const)
-#endif
 void string_param::move_into_char8_string(void* str) noexcept
 {
 	#ifdef __cpp_lib_char8_t

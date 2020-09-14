@@ -44,7 +44,7 @@
 		</ClCompile>
 	</ItemDefinitionGroup>
   <PropertyGroup>
-    <StaticDllExport>false</StaticDllExport>
+    <StaticDllExport>true</StaticDllExport>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>

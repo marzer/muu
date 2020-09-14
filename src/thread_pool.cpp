@@ -21,7 +21,6 @@ MUU_DISABLE_WARNINGS
 #endif
 MUU_ENABLE_WARNINGS
 
-MUU_PUSH_WARNINGS
 MUU_DISABLE_SPAM_WARNINGS
 using namespace muu;
 using namespace std::chrono_literals;
@@ -405,9 +404,9 @@ struct thread_pool::pimpl final
 	{
 		for (auto& q : queues)
 			q.terminate();
-		wait();
 		for (auto& w : workers)
 			w.terminate();
+		workers.clear(); // each one calls join()
 	}
 
 	[[nodiscard]]
@@ -531,5 +530,3 @@ void thread_pool::wait() noexcept
 	MUU_MOVE_CHECK;
 	pimpl_->wait();
 }
-
-MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS

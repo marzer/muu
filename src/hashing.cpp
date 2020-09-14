@@ -5,7 +5,6 @@
 
 #include "muu/hashing.h"
 
-MUU_PUSH_WARNINGS
 MUU_DISABLE_SPAM_WARNINGS
 using namespace muu;
 
@@ -287,5 +286,3 @@ sha1& sha1::finish() noexcept
 
 	return *this;
 }
-
-MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS

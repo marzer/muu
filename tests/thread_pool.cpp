@@ -14,6 +14,8 @@ MUU_DISABLE_SPAM_WARNINGS
 TEST_CASE("thread_pool - initialization")
 {
 	{
+		INFO("single worker, queue size == 1")
+
 		thread_pool threads{ 1u, 1u };
 		CHECK(threads.size() == 1u);
 
@@ -23,16 +25,22 @@ TEST_CASE("thread_pool - initialization")
 	}
 
 	{
+		INFO("single worker, queue size == 10")
+
 		thread_pool threads{ 1u, 10u };
 		CHECK(threads.size() == 1u);
 	}
 
 	{
+		INFO("auto workers, auto queue size")
+
 		thread_pool threads;
 		CHECK(threads.size() == std::thread::hardware_concurrency());
 	}
 
 	{
+		INFO("auto workers, queue size == 10")
+
 		thread_pool threads{ 0u, 10u };
 		CHECK(threads.size() == std::thread::hardware_concurrency());
 	}
