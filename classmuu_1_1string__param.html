@@ -72,6 +72,7 @@ C++</span></a>
               <ul>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#friends">Friends</a></li>
               </ul>
             </li>
           </ul>
@@ -192,6 +193,11 @@ C++</span></a>
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af7ba420e863eee51dee1c374da8b1c06">string_param</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>&amp;&amp; other) <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Move constructor.</dd>
+            <dt id="ab4689943a50e5709f1a20415c3b13713">
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ab4689943a50e5709f1a20415c3b13713">string_param</a>(</span><span class="m-doc-wrap">T&amp;&amp; string_viewable) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a string-viewable object.</dd>
             <dt id="a7ac3fd8df057059a4092ac5b43b0ed2f">
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a7ac3fd8df057059a4092ac5b43b0ed2f">~string_param</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -204,40 +210,60 @@ C++</span></a>
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a7491415027cbf9e1bd4c57770b7bef30">operator std::string</a>(</span><span class="m-doc-wrap">) &amp;&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Moves the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload into a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string" target="_blank">std::string</a>.</dd>
-            <dt id="aae029d4874bdce690528e61f781ff4fe">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aae029d4874bdce690528e61f781ff4fe">operator std::string_view</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a4f71d4a8656f788c1db358741f355d8d">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4f71d4a8656f788c1db358741f355d8d">operator std::string_view</a>(</span><span class="m-doc-wrap">) const &amp;&amp; <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload (rvalue overload).</dd>
+            <dt id="ab8a3b240052b1376d842749e0f0fa834">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ab8a3b240052b1376d842749e0f0fa834">operator std::string_view</a>(</span><span class="m-doc-wrap">) const &amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload.</dd>
             <dt id="a8e707e861f0ecf68210dfb480c1bdcc6">
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8e707e861f0ecf68210dfb480c1bdcc6">operator std::u16string</a>(</span><span class="m-doc-wrap">) &amp;&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Moves the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload into a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string" target="_blank">std::u16string</a>.</dd>
-            <dt id="a27a806c551f14af60cb28a705b9e959e">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a27a806c551f14af60cb28a705b9e959e">operator std::u16string_view</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a062784eca5cf871a64db8b2bf9fc3db7">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a062784eca5cf871a64db8b2bf9fc3db7">operator std::u16string_view</a>(</span><span class="m-doc-wrap">) const &amp;&amp; <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload (rvalue overload).</dd>
+            <dt id="a5698df2f1d67d91102debf0072154564">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a5698df2f1d67d91102debf0072154564">operator std::u16string_view</a>(</span><span class="m-doc-wrap">) const &amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload.</dd>
             <dt id="a6180bfdf8684cde23ef746ea578d4f0b">
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a6180bfdf8684cde23ef746ea578d4f0b">operator std::u32string</a>(</span><span class="m-doc-wrap">) &amp;&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Moves the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload into a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string" target="_blank">std::u32string</a>.</dd>
-            <dt id="af8fc0ac828e5587f841ed5a48b6f5903">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af8fc0ac828e5587f841ed5a48b6f5903">operator std::u32string_view</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="af8935a227ec8b1b5c312a453d6e31b82">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af8935a227ec8b1b5c312a453d6e31b82">operator std::u32string_view</a>(</span><span class="m-doc-wrap">) const &amp;&amp; <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload (rvalue overload).</dd>
+            <dt id="a5b95213f410f5e332e86d48a127563b2">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a5b95213f410f5e332e86d48a127563b2">operator std::u32string_view</a>(</span><span class="m-doc-wrap">) const &amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload.</dd>
             <dt id="a0a9a8f1540df8298002d6b539a16df03">
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0a9a8f1540df8298002d6b539a16df03">operator std::u8string</a>(</span><span class="m-doc-wrap">) &amp;&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Moves the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload into a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string" target="_blank">std::u8string</a>.</dd>
-            <dt id="a1076059667d97f6c528367ac02bdaacd">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a1076059667d97f6c528367ac02bdaacd">operator std::u8string_view</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a219e28a7cba0d8a0fb304629e5e2c1db">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a219e28a7cba0d8a0fb304629e5e2c1db">operator std::u8string_view</a>(</span><span class="m-doc-wrap">) const &amp;&amp; <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload (rvalue overload).</dd>
+            <dt id="a7a87b1017b075114b85c52901bb5c765">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a7a87b1017b075114b85c52901bb5c765">operator std::u8string_view</a>(</span><span class="m-doc-wrap">) const &amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload.</dd>
             <dt id="a3b0a8b559b388b7639421d8d1c6f9e7c">
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3b0a8b559b388b7639421d8d1c6f9e7c">operator std::wstring</a>(</span><span class="m-doc-wrap">) &amp;&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Moves the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload into a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string" target="_blank">std::wstring</a>.</dd>
-            <dt id="a14e8a6efd7708b80013277f23ab330dc">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a14e8a6efd7708b80013277f23ab330dc">operator std::wstring_view</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a0af7002d6ec02771b164893f13c15e95">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0af7002d6ec02771b164893f13c15e95">operator std::wstring_view</a>(</span><span class="m-doc-wrap">) const &amp;&amp; <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload (rvalue overload).</dd>
+            <dt id="a707324fb5b730b2e097ce4a57a24e17a">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a707324fb5b730b2e097ce4a57a24e17a">operator std::wstring_view</a>(</span><span class="m-doc-wrap">) const &amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload.</dd>
           </dl>
@@ -249,10 +275,6 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a6969c40b36ba9f268aa7a1e0796c1322">empty</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> does not contain a value, or it has a length of zero.</dd>
-            <dt id="a01ad1a1fb01c30cf4b2028c4d391fff3">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a01ad1a1fb01c30cf4b2028c4d391fff3">length</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns the length of the underlying string.</dd>
             <dt id="a96697ca2a73523ea3b976160c115a7af">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a96697ca2a73523ea3b976160c115a7af">operator=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>&amp;&amp; rhs) -&gt; <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -261,6 +283,17 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#adf7bc87b6a36f000b08178739299c2ef">owning</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> is not empty and owns the payload string (rather than simply being a view).</dd>
+          </dl>
+        </section>
+        <section id="friends">
+          <h2><a href="#friends">Friends</a></h2>
+          <dl class="m-doc">
+            <dt id="ab2a0ced7bf560eb039e5c504b25e6183">
+              <div class="m-doc-template">template&lt;typename Char, typename Traits&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab2a0ced7bf560eb039e5c504b25e6183">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/io/basic_ostream" target="_blank">std::basic_ostream</a>&lt;Char, Traits&gt;&amp; lhs,
+              const <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>&amp; rhs) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/io/basic_ostream" target="_blank">std::basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
+            </dt>
+            <dd>Writes the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> to a text stream.</dd>
           </dl>
         </section>
       </div>

@@ -293,6 +293,16 @@ C++</span></a>
             </dt>
             <dd>Are any of the named types unsigned or reference-to-unsigned?</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="#ga58cc29667418870fced1d362380192a8">convertible_to_all</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if T is convertible to all of the types named by U.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="#ga126b58b118692f506315ba537a0dfa52">convertible_to_any</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if T is convertible to one or more of the types named by U.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="#gaeb2da559efbc44792993d44b57e1b48d">dependent_false</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
@@ -831,6 +841,28 @@ C++</span></a>
             </h3>
             <p>Are any of the named types unsigned or reference-to-unsigned?</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums backed by unsigned integers.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga58cc29667418870fced1d362380192a8"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename... U&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga58cc29667418870fced1d362380192a8">convertible_to_all</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>True if T is convertible to all of the types named by U.</p>
+<p>This equivalent to <code>(<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_convertible" target="_blank">std::is_convertible</a>&lt;T, U1&gt; &amp;&amp; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_convertible" target="_blank">std::is_convertible</a>&lt;T, U2&gt; &amp;&amp; ...)</code>.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga126b58b118692f506315ba537a0dfa52"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename... U&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga126b58b118692f506315ba537a0dfa52">convertible_to_any</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>True if T is convertible to one or more of the types named by U.</p>
+<p>This equivalent to <code>(<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_convertible" target="_blank">std::is_convertible</a>&lt;T, U1&gt; || <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_convertible" target="_blank">std::is_convertible</a>&lt;T, U2&gt; || ...)</code>.</p>
           </div></section>
           <section class="m-doc-details" id="gaeb2da559efbc44792993d44b57e1b48d"><div>
             <h3>
