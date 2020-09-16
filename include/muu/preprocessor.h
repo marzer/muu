@@ -196,6 +196,7 @@
 											_Pragma("clang diagnostic ignored \"-Wweak-template-vtables\"")	\
 											_Pragma("clang diagnostic ignored \"-Wpadded\"") \
 							MUU_PRAGMA_CLANG_GE(9,  "clang diagnostic ignored \"-Wctad-maybe-unsupported\"") \
+											_Pragma("clang diagnostic ignored \"-Wc++2a-compat\"") \
 											_Pragma("clang diagnostic ignored \"-Wpacked\"")
 	#define MUU_POP_WARNINGS				_Pragma("clang diagnostic pop")
 	#define MUU_DISABLE_WARNINGS			MUU_PUSH_WARNINGS \

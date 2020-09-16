@@ -22,6 +22,7 @@ TEST_CASE("thread_pool - initialization")
 		thread_pool threads2{ std::move(threads) };
 		CHECK(threads.size() == 0u);
 		CHECK(threads2.size() == 1u);
+		std::this_thread::sleep_for(20ms);
 	}
 
 	{
@@ -29,6 +30,7 @@ TEST_CASE("thread_pool - initialization")
 
 		thread_pool threads{ 1u, 10u };
 		CHECK(threads.size() == 1u);
+		std::this_thread::sleep_for(20ms);
 	}
 
 	{
@@ -36,6 +38,7 @@ TEST_CASE("thread_pool - initialization")
 
 		thread_pool threads;
 		CHECK(threads.size() == std::thread::hardware_concurrency());
+		std::this_thread::sleep_for(20ms);
 	}
 
 	{
@@ -43,6 +46,7 @@ TEST_CASE("thread_pool - initialization")
 
 		thread_pool threads{ 0u, 10u };
 		CHECK(threads.size() == std::thread::hardware_concurrency());
+		std::this_thread::sleep_for(20ms);
 	}
 }
 

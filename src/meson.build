@@ -22,6 +22,16 @@ if is_windows
 	endif
 endif
 
+muu_lib_overrides = []
+muu_lib_overrides +=  overrides
+if compiler_supports_cpp20
+	muu_lib_overrides += 'cpp_std=none'
+	muu_lib_args += compiler_supports_cpp20_args
+	if compiler_supports_char8
+		muu_lib_args += compiler_supports_char8_args
+	endif
+endif
+
 muu_dependencies = []
 if not is_windows
 	muu_dependencies += dependency('threads')
@@ -31,7 +41,7 @@ muu_lib = library(
 	'muu',
 	muu_lib_sources,
 	include_directories: include_dirs,
-	override_options: overrides,
+	override_options: muu_lib_overrides,
 	cpp_args: muu_lib_args,
 	name_suffix: muu_lib_suffix,
 	dependencies: muu_dependencies,

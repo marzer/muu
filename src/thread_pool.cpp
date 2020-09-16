@@ -90,7 +90,7 @@ namespace
 			task* get_task(size_t i) noexcept
 			{
 				return launder(reinterpret_cast<task*>(
-					assume_aligned<impl::thread_pool_task_granularity>(pool.data())
+					muu::assume_aligned<impl::thread_pool_task_granularity>(pool.data())
 					+ impl::thread_pool_task_granularity * ((front + i) % capacity)
 				));
 			}
@@ -206,7 +206,7 @@ namespace
 			{
 				MUU_ASSERT(!full());
 				enqueues++;
-				return assume_aligned<impl::thread_pool_task_granularity>(pool.data()) + impl::thread_pool_task_granularity * (back++ % capacity);
+				return muu::assume_aligned<impl::thread_pool_task_granularity>(pool.data()) + impl::thread_pool_task_granularity * (back++ % capacity);
 			}
 
 			void unlock() noexcept
@@ -237,7 +237,7 @@ namespace
 				if (!lock || empty() || terminated())
 					return nullptr;
 
-				return pop_front_task(assume_aligned<impl::thread_pool_task_granularity>(buf));
+				return pop_front_task(muu::assume_aligned<impl::thread_pool_task_granularity>(buf));
 			}
 
 			[[nodiscard]]
