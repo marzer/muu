@@ -20,8 +20,6 @@ namespace std
 	template <typename>				struct	hash;
 	template <typename>				struct	pointer_traits;
 	template <typename>				class	optional;
-	template <typename, typename>	class	basic_ostream;
-	template <typename, typename>	class	basic_istream;
 }
 
 #if MUU_WINDOWS

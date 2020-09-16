@@ -480,7 +480,7 @@ struct thread_pool::pimpl final
 	}
 };
 
-thread_pool::thread_pool(size_t worker_count, size_t task_queue_size, string_param&& name) noexcept
+thread_pool::thread_pool(size_t worker_count, size_t task_queue_size, string_param name) noexcept
 	: pimpl_{ new pimpl{ worker_count, task_queue_size, std::move(name) }}
 { }
 

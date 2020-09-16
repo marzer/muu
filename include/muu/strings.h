@@ -1,5 +1,6 @@
 // This file is a part of muu and is subject to the the terms of the MIT license.
 // Copyright (c) 2020 Mark Gillard <mark.gillard@outlook.com.au>
+// Copyright (c) 2008-2020 Bjoern Hoehrmann <bjoern@hoehrmann.de> (utf8 decoder)
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 
@@ -19,6 +20,7 @@
 MUU_DISABLE_WARNINGS
 #include <string>
 #include <string_view>
+#include <iosfwd>
 MUU_ENABLE_WARNINGS
 
 MUU_PUSH_WARNINGS
@@ -46,7 +48,7 @@ MUU_NAMESPACE_START
 		class MUU_TRIVIAL_ABI utf8_decoder final
 		{
 			// utf8_decoder based on this: https://bjoern.hoehrmann.de/utf-8/decoder/dfa/
-			// Copyright (c) 2008-2009 Bjoern Hoehrmann <bjoern@hoehrmann.de>
+			// Copyright (c) 2008-2020 Bjoern Hoehrmann <bjoern@hoehrmann.de>
 
 			private:
 				uint_least32_t state{};
@@ -995,7 +997,7 @@ MUU_NAMESPACE_START
 	/// \brief		Sets the name of the current thread for debuggers.
 	/// \ingroup	strings
 	MUU_API
-	void set_thread_name(string_param&& name) noexcept;
+	void set_thread_name(string_param name) noexcept;
 }
 MUU_NAMESPACE_END
 

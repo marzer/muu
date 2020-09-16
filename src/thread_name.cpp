@@ -80,7 +80,7 @@ namespace
 
 MUU_NAMESPACE_START
 {
-	void set_thread_name(string_param&& name) noexcept
+	void set_thread_name(string_param name) noexcept
 	{
 		set_thread_name_os_specific(std::move(name));
 	}

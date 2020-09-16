@@ -10,6 +10,7 @@
 #include "../muu/hashing.h"
 MUU_DISABLE_WARNINGS
 #include <optional>
+#include <iosfwd>
 MUU_ENABLE_WARNINGS
 
 MUU_PUSH_WARNINGS

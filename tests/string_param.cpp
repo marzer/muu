@@ -29,7 +29,6 @@ static void string_param_test(const T(&str_)[N]) noexcept
 
 		auto source = string_view{ str_, actual_length };
 		string_param s{ source };
-		CHECK(s.length() == actual_length);
 		CHECK(s.empty() == actual_empty);
 		CHECK(s.owning() == false);
 		CHECK(string_view{ s } == source);
@@ -40,7 +39,6 @@ static void string_param_test(const T(&str_)[N]) noexcept
 
 		const auto source = string( str_, actual_length);
 		string_param s{ source };
-		CHECK(s.length() == actual_length);
 		CHECK(s.empty() == actual_empty);
 		CHECK(s.owning() == false);
 		CHECK(string_view{ s } == source);
@@ -51,7 +49,6 @@ static void string_param_test(const T(&str_)[N]) noexcept
 
 		const T* source = str_;
 		string_param s{ source, actual_length };
-		CHECK(s.length() == actual_length);
 		CHECK(s.empty() == actual_empty);
 		CHECK(s.owning() == false);
 		CHECK(string_view{ s } == string_view{ source, actual_length });
@@ -62,7 +59,6 @@ static void string_param_test(const T(&str_)[N]) noexcept
 
 		const T* source = str_;
 		string_param s{ source };
-		CHECK(s.length() == strlen_length);
 		CHECK(s.empty() == !strlen_length);
 		CHECK(s.owning() == false);
 		CHECK(string_view{ s } == string_view{ source });
@@ -73,7 +69,6 @@ static void string_param_test(const T(&str_)[N]) noexcept
 
 		auto source = string(str_, actual_length);
 		string_param s{ std::move(source) };
-		CHECK(s.length() == actual_length);
 		CHECK(s.empty() == actual_empty);
 		CHECK(s.owning() == !actual_empty);
 	}

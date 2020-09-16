@@ -10,6 +10,7 @@
 #include "../muu/core.h"
 
 MUU_DISABLE_WARNINGS
+#include <iosfwd>
 #define MUU_F16_USE_INTRINSICS 1
 #if !MUU_HAS_INCLUDE(<immintrin.h>)
 	#undef MUU_F16_USE_INTRINSICS
@@ -588,13 +589,6 @@ MUU_NAMESPACE_START
 		{
 			return half{ val };
 		}
-	}
-
-	template <>
-	[[nodiscard]]
-	constexpr half MUU_VECTORCALL abs<half, void>(half val) noexcept
-	{
-		return static_cast<float>(val) < 0.0f ? -val : val;
 	}
 
 	/// \brief	Calculates a linear interpolation between two values.

@@ -11,6 +11,7 @@
 MUU_DISABLE_WARNINGS
 #include <string>
 #include <string_view>
+#include <iosfwd>
 MUU_ENABLE_WARNINGS
 
 MUU_PUSH_WARNINGS
@@ -18,6 +19,31 @@ MUU_DISABLE_SPAM_WARNINGS
 
 MUU_NAMESPACE_START
 {
+	namespace impl
+	{
+		template <typename>
+		struct is_string_or_string_view_ { static constexpr bool value = false; };
+		template <typename Char>
+		struct is_string_or_string_view_<std::basic_string_view<Char>> { static constexpr bool value = true; };
+		template <typename Char>
+		struct is_string_or_string_view_<std::basic_string<Char>> { static constexpr bool value = true; };
+		template <typename T>
+		inline constexpr bool is_string_or_string_view = is_string_or_string_view_<muu::remove_cvref<T>>::value;
+
+		template <typename T>
+		inline constexpr bool is_string_view_ish = !is_string_or_string_view<T>
+			&& !std::is_pointer_v<T>
+			&& muu::convertible_to_any<T,
+				std::string_view,
+				std::wstring_view,
+				std::u16string_view,
+				std::u32string_view
+				#ifdef __cpp_lib_char8_t
+				, std::u8string_view
+				#endif
+			>;
+	}
+
 	/// \brief		A move-only transport type capable of representing any UTF string.
 	/// \ingroup strings
 	class string_param
@@ -42,94 +68,115 @@ MUU_NAMESPACE_START
 		public:
 
 			/// \brief	Constructs an empty string_param.
+			MUU_NODISCARD_CTOR
 			MUU_API
 			string_param() noexcept;
 
 
 
 			/// \brief	Constructs a non-owning string_param from a UTF-8 string view.
+			MUU_NODISCARD_CTOR
 			MUU_API
 			string_param(std::string_view str) noexcept;
 
 			/// \brief	Constructs a non-owning string_param from a UTF-8 string.
+			MUU_NODISCARD_CTOR
 			MUU_API
 			string_param(const std::string& str) noexcept;
 
 			/// \brief	Constructs a non-owning string_param from a pointer to a UTF-8 string and a length.
+			MUU_NODISCARD_CTOR
 			MUU_API
 			string_param(const char* str, size_t len) noexcept;
 
 			/// \brief	Constructs a non-owning string_param from a pointer to a UTF-8 string.
+			MUU_NODISCARD_CTOR
 			MUU_API
 			string_param(const char* str) noexcept;
 
 			/// \brief	Constructs an owning string_param from a UTF-8 string.
+			MUU_NODISCARD_CTOR
 			MUU_API
 			string_param(std::string&& str) noexcept;
 
 
 
 			/// \brief	Constructs a non-owning string_param from a UTF wide string view.
+			MUU_NODISCARD_CTOR
 			MUU_API
 			string_param(std::wstring_view str) noexcept;
 
 			/// \brief	Constructs a non-owning string_param from a UTF wide string.
+			MUU_NODISCARD_CTOR
 			MUU_API
 			string_param(const std::wstring& str) noexcept;
 
 			/// \brief	Constructs a non-owning string_param from a pointer to a UTF wide string and a length.
+			MUU_NODISCARD_CTOR
 			MUU_API
 			string_param(const wchar_t* str, size_t len) noexcept;
 
 			/// \brief	Constructs a non-owning string_param from a pointer to a UTF wide string.
+			MUU_NODISCARD_CTOR
 			MUU_API
 			string_param(const wchar_t* str) noexcept;
 
 			/// \brief	Constructs an owning string_param from a UTF wide string.
+			MUU_NODISCARD_CTOR
 			MUU_API
 			string_param(std::wstring&& str) noexcept;
 
 
 
 			/// \brief	Constructs a non-owning string_param from a UTF-16 string view.
+			MUU_NODISCARD_CTOR
 			MUU_API
 			string_param(std::u16string_view str) noexcept;
 
 			/// \brief	Constructs a non-owning string_param from a UTF-16 string.
+			MUU_NODISCARD_CTOR
 			MUU_API
 			string_param(const std::u16string& str) noexcept;
 
 			/// \brief	Constructs a non-owning string_param from a pointer to a UTF-16 string and a length.
+			MUU_NODISCARD_CTOR
 			MUU_API
 			string_param(const char16_t* str, size_t len) noexcept;
 
 			/// \brief	Constructs a non-owning string_param from a pointer to a UTF-16 string.
+			MUU_NODISCARD_CTOR
 			MUU_API
 			string_param(const char16_t* str) noexcept;
 
 			/// \brief	Constructs an owning string_param from a UTF-16 string.
+			MUU_NODISCARD_CTOR
 			MUU_API
 			string_param(std::u16string&& str) noexcept;
 
 
 
 			/// \brief	Constructs a non-owning string_param from a UTF-32 string view.
+			MUU_NODISCARD_CTOR
 			MUU_API
 			string_param(std::u32string_view str) noexcept;
 
 			/// \brief	Constructs a non-owning string_param from a UTF-32 string.
+			MUU_NODISCARD_CTOR
 			MUU_API
 			string_param(const std::u32string& str) noexcept;
 
 			/// \brief	Constructs a non-owning string_param from a pointer to a UTF-32 string and a length.
+			MUU_NODISCARD_CTOR
 			MUU_API
 			string_param(const char32_t* str, size_t len) noexcept;
 
 			/// \brief	Constructs a non-owning string_param from a pointer to a UTF-32 string.
+			MUU_NODISCARD_CTOR
 			MUU_API
 			string_param(const char32_t* str) noexcept;
 
 			/// \brief	Constructs an owning string_param from a UTF-32 string.
+			MUU_NODISCARD_CTOR
 			MUU_API
 			string_param(std::u32string&& str) noexcept;
 
@@ -138,26 +185,31 @@ MUU_NAMESPACE_START
 			#ifdef __cpp_lib_char8_t
 
 			/// \brief	Constructs a non-owning string_param from a UTF-8 string view.
+			MUU_NODISCARD_CTOR
 			string_param(std::u8string_view str) noexcept
 				: string_param{ str.data(), str.length(), char8_tag{} }
 			{}
 
 			/// \brief	Constructs a non-owning string_param from a UTF-8 string.
+			MUU_NODISCARD_CTOR
 			string_param(const std::u8string& str) noexcept
 				: string_param{ str.c_str(), str.length(), char8_tag{} }
 			{}
 
 			/// \brief	Constructs a non-owning string_param from a pointer to a UTF-8 string and a length.
+			MUU_NODISCARD_CTOR
 			string_param(const char8_t* str, size_t len) noexcept
 				: string_param{ str, len, char8_tag{} }
 			{}
 
 			/// \brief	Constructs a non-owning string_param from a pointer to a UTF-8 string.
+			MUU_NODISCARD_CTOR
 			string_param(const char8_t* str) noexcept
 				: string_param{ str, str ? std::char_traits<char8_t>::length(str) : 0u, char8_tag{} }
 			{}
 
 			/// \brief	Constructs an owning string_param from a UTF-8 string.
+			MUU_NODISCARD_CTOR
 			string_param(std::u8string&& str) noexcept
 				: string_param{ &str, str.c_str(), str.length(), char8_tag{} }
 			{}
@@ -166,11 +218,47 @@ MUU_NAMESPACE_START
 
 
 
+		private:
+
+			template <typename T>
+			[[nodiscard]]
+			static auto make_string_view(T&& string_viewable) noexcept
+			{
+				#ifdef __cpp_lib_char8_t
+				if constexpr (std::is_convertible_v<T&&, std::u8string_view>)
+					return std::u8string_view{ std::forward<T&&>(string_viewable) };
+				else
+				#endif
+
+				if constexpr (std::is_convertible_v<T&&, std::u32string_view>)
+					return std::u32string_view{ std::forward<T&&>(string_viewable) };
+				else if constexpr (std::is_convertible_v<T&&, std::u16string_view>)
+					return std::u16string_view{ std::forward<T&&>(string_viewable) };
+				else if constexpr (std::is_convertible_v<T&&, std::wstring_view>)
+					return std::wstring_view{ std::forward<T&&>(string_viewable) };
+				else if constexpr (std::is_convertible_v<T&&, std::string_view>)
+					return std::string_view{ std::forward<T&&>(string_viewable) };
+				else
+					static_assert(dependent_false<T>, "Evaluated unreachable branch");
+			}
+
+		public:
+
+			/// \brief	Constructs a non-owning string_param from a string-viewable object.
+			template <typename T MUU_SFINAE(impl::is_string_view_ish<T&&>)>
+			MUU_NODISCARD_CTOR
+			string_param(T&& string_viewable) noexcept
+				: string_param{ make_string_view(std::forward<T>(string_viewable)) }
+			{}
+
+
+
 			/// \brief	Move-assignment operator.
 			MUU_API
 			string_param& operator= (string_param&& rhs) noexcept;
 
 			/// \brief	Move constructor.
+			MUU_NODISCARD_CTOR
 			MUU_API
 			string_param(string_param&& other) noexcept;
 
@@ -181,11 +269,6 @@ MUU_NAMESPACE_START
 			~string_param() noexcept;
 
 
-
-			/// \brief	Returns the length of the underlying string.
-			[[nodiscard]]
-			MUU_API
-			size_t length() const noexcept;
 
 			/// \brief	Returns true if the string_param does not contain a value, or it has a length of zero.
 			[[nodiscard]]
@@ -204,31 +287,32 @@ MUU_NAMESPACE_START
 
 
 
+
 			/// \brief	Returns a std::string_view of the string_param's payload.
 			[[nodiscard]]
 			MUU_API
-			explicit operator std::string_view() const noexcept;
+			operator std::string_view() const & noexcept;
 			
 			/// \brief	Returns a std::wstring_view of the string_param's payload.
 			[[nodiscard]]
 			MUU_API
-			explicit operator std::wstring_view() const noexcept;
+			operator std::wstring_view() const & noexcept;
 
 			/// \brief	Returns a std::u16string_view of the string_param's payload.
 			[[nodiscard]]
 			MUU_API
-			explicit operator std::u16string_view() const noexcept;
+			operator std::u16string_view() const & noexcept;
 
 			/// \brief	Returns a std::u32string_view of the string_param's payload.
 			[[nodiscard]]
 			MUU_API
-			explicit operator std::u32string_view() const noexcept;
+			operator std::u32string_view() const & noexcept;
 
 			#ifdef __cpp_lib_char8_t
 
 			/// \brief	Returns a std::u8string_view of the string_param's payload.
 			[[nodiscard]]
-			explicit operator std::u8string_view() const noexcept
+			operator std::u8string_view() const & noexcept
 			{
 				if (empty())
 					return {};
@@ -244,6 +328,39 @@ MUU_NAMESPACE_START
 					std::string_view str{ *this };
 					return std::u8string_view{ reinterpret_cast<const char8_t*>(str.data()), str.length() };
 				}
+			}
+
+			#endif // __cpp_lib_char8_t
+
+
+
+			/// \brief	Returns a std::string_view of the string_param's payload (rvalue overload).
+			[[nodiscard]]
+			MUU_API
+			explicit operator std::string_view() const&& noexcept;
+			
+			/// \brief	Returns a std::wstring_view of the string_param's payload (rvalue overload).
+			[[nodiscard]]
+			MUU_API
+			explicit operator std::wstring_view() const&& noexcept;
+
+			/// \brief	Returns a std::u16string_view of the string_param's payload (rvalue overload).
+			[[nodiscard]]
+			MUU_API
+			explicit operator std::u16string_view() const&& noexcept;
+
+			/// \brief	Returns a std::u32string_view of the string_param's payload (rvalue overload).
+			[[nodiscard]]
+			MUU_API
+			explicit operator std::u32string_view() const&& noexcept;
+
+			#ifdef __cpp_lib_char8_t
+
+			/// \brief	Returns a std::u8string_view of the string_param's payload (rvalue overload).
+			[[nodiscard]]
+			explicit operator std::u8string_view() const && noexcept
+			{
+				return std::u8string_view{ *this }; // explicitly invoke lvalue overload
 			}
 
 			#endif // __cpp_lib_char8_t
@@ -292,6 +409,17 @@ MUU_NAMESPACE_START
 			}
 
 			#endif // __cpp_lib_char8_t
+
+
+
+			/// \brief	Writes the string_param to a text stream.
+			template <typename Char, typename Traits>
+			friend std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& lhs, const string_param& rhs)
+			{
+				if (rhs)
+					lhs << std::basic_string_view<Char>{ rhs };
+				return lhs;
+			}
 	};
 
 }

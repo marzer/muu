@@ -366,16 +366,14 @@ string_param::~string_param() noexcept
 	destroy(storage, mode_);
 }
 
-size_t string_param::length() const noexcept
-{
-	size_t len = {};
-	visit(storage, mode_, [&](auto& str) noexcept { len = str.length(); });
-	return len;
-}
-
 bool string_param::empty() const noexcept
 {
-	return !mode_ || length() == 0_sz;
+	if (!mode_)
+		return true;
+
+	bool empty_;
+	visit(storage, mode_, [&](auto& str) noexcept { empty_ = str.empty(); });
+	return empty_;
 }
 
 string_param::operator bool() const noexcept
@@ -414,7 +412,7 @@ namespace
 	}
 }
 
-string_param::operator std::string_view() const noexcept
+string_param::operator std::string_view() const & noexcept
 {
 	if (empty())
 		return {};
@@ -422,7 +420,7 @@ string_param::operator std::string_view() const noexcept
 	return get_view<char>(storage, mode_);
 }
 
-string_param::operator std::wstring_view() const noexcept
+string_param::operator std::wstring_view() const & noexcept
 {
 	if (empty())
 		return {};
@@ -430,7 +428,7 @@ string_param::operator std::wstring_view() const noexcept
 	return get_view<wchar_t>(storage, mode_);
 }
 
-string_param::operator std::u16string_view() const noexcept
+string_param::operator std::u16string_view() const & noexcept
 {
 	if (empty())
 		return {};
@@ -438,7 +436,7 @@ string_param::operator std::u16string_view() const noexcept
 	return get_view<char16_t>(storage, mode_);
 }
 
-string_param::operator std::u32string_view() const noexcept
+string_param::operator std::u32string_view() const & noexcept
 {
 	if (empty())
 		return {};
@@ -454,7 +452,6 @@ void string_param::get_char8_view(void* str) const noexcept
 	(void)str;
 	#endif
 }
-
 
 namespace
 {
@@ -484,6 +481,26 @@ namespace
 		});
 		return out;
 	}
+}
+
+string_param::operator std::string_view() const&& noexcept
+{
+	return std::string_view{ *this }; // explicitly invoke lvalue overload
+}
+
+string_param::operator std::wstring_view() const&& noexcept
+{
+	return std::wstring_view{ *this }; // explicitly invoke lvalue overload
+}
+
+string_param::operator std::u16string_view() const&& noexcept
+{
+	return std::u16string_view{ *this }; // explicitly invoke lvalue overload
+}
+
+string_param::operator std::u32string_view() const&& noexcept
+{
+	return std::u32string_view{ *this }; // explicitly invoke lvalue overload
 }
 
 string_param::operator std::string() && noexcept

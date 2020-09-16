@@ -84,6 +84,18 @@ MUU_IMPL_NAMESPACE_START
 	>
 	{};
 
+	template <typename T, typename... U>
+	struct convertible_to_any : std::integral_constant<bool,
+		(false || ... || std::is_convertible_v<T, U>)
+	>
+	{};
+
+	template <typename T, typename... U>
+	struct convertible_to_all : std::integral_constant<bool,
+		(true && ...&& std::is_convertible_v<T, U>)
+	>
+	{};
+
 	template <typename T> using add_lref = std::add_lvalue_reference_t<T>;
 	template <typename T> using add_rref = std::add_rvalue_reference_t<T>;
 	template <typename T> using remove_ref = std::remove_reference_t<T>;
@@ -498,6 +510,16 @@ MUU_NAMESPACE_START
 	/// \detail This equivalent to `(std::is_same_v<T, U1> && std::is_same_v<T, U2> && ...)`.
 	template <typename T, typename... U>
 	inline constexpr bool same_as_all = impl::same_as_all<T, U...>::value;
+
+	/// \brief	True if T is convertible to one or more of the types named by U.
+	/// \detail This equivalent to `(std::is_convertible<T, U1> || std::is_convertible<T, U2> || ...)`.
+	template <typename T, typename... U>
+	inline constexpr bool convertible_to_any = impl::convertible_to_any<T, U...>::value;
+
+	/// \brief	True if T is convertible to all of the types named by U.
+	/// \detail This equivalent to `(std::is_convertible<T, U1> && std::is_convertible<T, U2> && ...)`.
+	template <typename T, typename... U>
+	inline constexpr bool convertible_to_all = impl::convertible_to_all<T, U...>::value;
 
 	/// \brief Is a type an enum or reference-to-enum?
 	template <typename T>
@@ -1533,7 +1555,7 @@ MUU_NAMESPACE_START
 	///
 	/// \returns	<strong><em>Enum inputs:</em></strong> `static_cast<std::underlying_type_t<T>>(val)` <br>
 	/// 			<strong><em>Everything else:</em></strong> A straight pass-through of the input (a no-op).
-	template <typename T, typename = std::enable_if_t<is_enum<T>>>
+	template <typename T MUU_SFINAE(is_enum<T>)>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
@@ -1541,6 +1563,8 @@ MUU_NAMESPACE_START
 	{
 		return static_cast<std::underlying_type_t<T>>(val);
 	}
+
+	#ifndef DOXYGEN
 
 	template <typename T, std::enable_if_t<!is_enum<T>>* = nullptr>
 	[[nodiscard]]
@@ -1551,6 +1575,8 @@ MUU_NAMESPACE_START
 	{
 		return std::forward<T>(val);
 	}
+
+	#endif // !DOXYGEN
 
 	namespace impl
 	{
@@ -1648,7 +1674,7 @@ MUU_NAMESPACE_START
 	/// \param 	val		The value to test.
 	///
 	/// \returns	The number of consecutive zeros from the left end of an integer's bits.
-	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
+	template <typename T MUU_SFINAE(is_unsigned<T>)>
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr int MUU_VECTORCALL countl_zero(T val) noexcept
@@ -1777,7 +1803,7 @@ MUU_NAMESPACE_START
 	/// \param 	val		The input value.
 	///
 	/// \returns	The number of consecutive zeros from the right end of an integer's bits.
-	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
+	template <typename T MUU_SFINAE(is_unsigned<T>)>
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr int MUU_VECTORCALL countr_zero(T val) noexcept
@@ -1822,7 +1848,7 @@ MUU_NAMESPACE_START
 	/// \param 	val		The value to test.
 	///
 	/// \returns	The number of consecutive ones from the left end of an integer's bits.
-	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
+	template <typename T MUU_SFINAE(is_unsigned<T>)>
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr int MUU_VECTORCALL countl_one(T val) noexcept
@@ -1843,7 +1869,7 @@ MUU_NAMESPACE_START
 	/// \param 	val		The value to test.
 	///
 	/// \returns	The number of consecutive ones from the right end of an integer's bits.
-	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
+	template <typename T MUU_SFINAE(is_unsigned<T>)>
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr int MUU_VECTORCALL countr_one(T val) noexcept
@@ -1865,7 +1891,7 @@ MUU_NAMESPACE_START
 	/// \param 	val		The input value.
 	///
 	/// \returns	The smallest integral power of two that is not smaller than `val`.
-	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
+	template <typename T MUU_SFINAE(is_unsigned<T>)>
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr T MUU_VECTORCALL bit_ceil(T val) noexcept
@@ -1901,9 +1927,7 @@ MUU_NAMESPACE_START
 	///
 	/// \returns	An integral value containing the input values packed bitwise left-to-right. If the total size of the
 	/// 			inputs was less than the return type, the output will be zero-padded on the left.
-	template <typename Return = void, typename T, typename U, typename... V, typename = std::enable_if_t<
-		all_integral<T, U, V...>
-	>>
+	template <typename Return = void, typename T, typename U, typename... V MUU_SFINAE(all_integral<T, U, V...>)>
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr auto MUU_VECTORCALL pack(T val1, U val2, V... vals) noexcept
@@ -2381,7 +2405,7 @@ MUU_NAMESPACE_START
 	/// \ingroup	intrinsics
 	///
 	/// \detail This is similar to std::abs but is `constexpr` and doesn't coerce or promote the input types.
-	template <typename T, typename = std::enable_if_t<is_arithmetic<T>>>
+	template <typename T MUU_SFINAE(is_arithmetic<T>)>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
@@ -2499,7 +2523,7 @@ MUU_NAMESPACE_START
 	}
 	#endif
 
-	template <typename T, typename U, typename V, typename = std::enable_if_t<all_arithmetic<T, U, V>>>
+	template <typename T, typename U, typename V MUU_SFINAE(all_arithmetic<T, U, V>)>
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr auto MUU_VECTORCALL lerp(T start, U finish, V alpha) noexcept
@@ -2707,7 +2731,7 @@ MUU_NAMESPACE_START
 	/// \param 	val		The input value.
 	///
 	/// \returns	The number of bits that were set to `1` in `val`.
-	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
+	template <typename T MUU_SFINAE(is_unsigned<T>)>
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr int MUU_VECTORCALL popcount(T val) noexcept
@@ -2741,7 +2765,7 @@ MUU_NAMESPACE_START
 	/// \param 	val		The value to test.
 	///
 	/// \returns	True if the input value had only a single bit set (and thus was a power of two).
-	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
+	template <typename T MUU_SFINAE(is_unsigned<T>)>
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool MUU_VECTORCALL has_single_bit(T val) noexcept
@@ -2772,7 +2796,7 @@ MUU_NAMESPACE_START
 	/// \param 	val		The input value.
 	///
 	/// \returns	Zero if `val` is zero; otherwise, the largest integral power of two that is not greater than `val`.
-	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
+	template <typename T MUU_SFINAE(is_unsigned<T>)>
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr T MUU_VECTORCALL bit_floor(T val) noexcept
@@ -2798,7 +2822,7 @@ MUU_NAMESPACE_START
 	///
 	/// \returns	If `val` is not zero, calculates the number of bits needed to store `val` (i.e. `1 + log2(x)`).
 	/// 			Returns `0` if `val` is zero.
-	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
+	template <typename T MUU_SFINAE(is_unsigned<T>)>
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr T MUU_VECTORCALL bit_width(T val) noexcept
@@ -2823,7 +2847,7 @@ MUU_NAMESPACE_START
 	/// \param 	count	Number of consecutive ones.
 	///
 	/// \returns	An instance of T right-filled with the desired number of ones.
-	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
+	template <typename T MUU_SFINAE(is_unsigned<T>)>
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr T MUU_VECTORCALL bit_fill_right(size_t count) noexcept
@@ -2854,7 +2878,7 @@ MUU_NAMESPACE_START
 	/// \param 	count	Number of consecutive ones.
 	///
 	/// \returns	An instance of T left-filled with the desired number of ones.
-	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
+	template <typename T MUU_SFINAE(is_unsigned<T>)>
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr T MUU_VECTORCALL bit_fill_left(size_t count) noexcept
@@ -2903,7 +2927,7 @@ MUU_NAMESPACE_START
 	/// 		 memory allocation, regardless of the endianness of the platform).
 	/// 
 	/// \returns	The value of the selected byte.
-	template <size_t Index, typename T, typename = std::enable_if_t<is_integral<T>>>
+	template <size_t Index, typename T MUU_SFINAE(is_integral<T>)>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
@@ -2962,7 +2986,7 @@ MUU_NAMESPACE_START
 	/// 		 memory allocation, regardless of the endianness of the platform).
 	/// 
 	/// \returns	The value of the selected byte, or 0 if the index was out-of-range.
-	template <typename T, typename = std::enable_if_t<is_integral<T>>>
+	template <typename T MUU_SFINAE(is_integral<T>)>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
@@ -3097,7 +3121,7 @@ MUU_NAMESPACE_START
 	/// \param 	val	An unsigned integer or enum value.
 	///
 	/// \returns	A copy of the input value with the byte order reversed.
-	template <typename T, typename = std::enable_if_t<is_unsigned<T>>>
+	template <typename T MUU_SFINAE(is_unsigned<T>)>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
@@ -3150,7 +3174,7 @@ MUU_NAMESPACE_START
 	/// 
 	/// \returns	An integral value containing the selected bytes packed bitwise left-to-right. If the total size of the
 	/// 			inputs was less than the return type, the output will be zero-padded on the left.
-	template <size_t... ByteIndices, typename T, typename = std::enable_if_t<is_integral<T>>>
+	template <size_t... ByteIndices, typename T MUU_SFINAE(is_integral<T>)>
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr auto MUU_VECTORCALL swizzle(T val) noexcept
@@ -3285,7 +3309,7 @@ MUU_NAMESPACE_START
 	/// \remark	Older compilers won't provide the necessary machinery for you to be able to call this function in
 	/// 			constexpr contexts. You can check for constexpr support by examining
 	/// 			build::supports_constexpr_is_infinity_or_nan.
-	template <typename T, typename = std::enable_if_t<is_arithmetic<T>>>
+	template <typename T MUU_SFINAE(is_arithmetic<T>)>
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ATTR(flatten)
