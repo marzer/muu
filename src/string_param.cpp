@@ -543,3 +543,44 @@ void string_param::move_into_char8_string(void* str) noexcept
 	(void)str;
 	#endif
 }
+
+string_param& string_param::trim() & noexcept
+{
+	visit(storage, mode_, [&](auto& str) noexcept
+	{
+		using type = remove_cvref<decltype(str)>;
+
+		const auto trimmed = muu::trim(str); // returns a string view
+		if (trimmed.empty())
+		{
+			call_destructor(str);
+			mode_ = {};
+		}
+		else
+		{
+			if constexpr (mode_of<type> < mode::view) // strings
+			{
+				// snip beginning
+				if (trimmed.data() != str.data())
+				{
+					MUU_ASSERT((trimmed.data() - str.data()) > 0);
+					str.erase(str.begin(), str.begin() + (trimmed.data() - str.data()));
+				}
+
+				// snip end
+				if (trimmed.length() != str.length())
+					str.resize(trimmed.length());
+			}
+			else // views
+			{
+				str = trimmed;
+			}
+		}
+	});
+	return *this;
+}
+
+string_param&& string_param::trim() && noexcept
+{
+	return std::move(trim());
+}

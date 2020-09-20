@@ -227,22 +227,9 @@ MUU_NAMESPACE_START
 			void
 		>>;
 
-		template <typename T>
-		struct utf8_bom
-		{
-			static constexpr auto value = "\xEF\xBB\xBF"sv;
-		};
-		#ifdef __cpp_lib_char8_t
-		template <>
-		struct utf8_bom<char8_t>
-		{
-			static constexpr auto value = u8"\xEF\xBB\xBF"sv;
-		};
-		#endif
-
 		template <typename T, typename Func, size_t PositionalArgs = (
-			std::is_nothrow_invocable_v<Func, T, size_t, size_t> ? 2 :
-			(std::is_nothrow_invocable_v<Func, T, size_t> ? 1 : 0)
+			std::is_nothrow_invocable_v<Func, T, size_t, size_t> ? 2u :
+			(std::is_nothrow_invocable_v<Func, T, size_t> ? 1u : 0u)
 		)>
 		struct utf_decode_func_traits
 		{

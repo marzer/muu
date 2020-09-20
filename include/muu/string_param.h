@@ -285,6 +285,14 @@ MUU_NAMESPACE_START
 			MUU_API
 			bool owning() const noexcept;
 
+			/// \brief	Trims leading and trailing whitespace from the payload string.
+			MUU_API
+			string_param& trim() & noexcept;
+
+			/// \brief	Trims leading and trailing whitespace from the payload string (rvalue overload).
+			MUU_API
+			string_param&& trim() && noexcept;
+
 
 
 
