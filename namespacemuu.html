@@ -310,17 +310,17 @@ C++</span></a>
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga46852bdb87c782113c290e96390278d3">add_const</a> = impl::add_const&lt;T&gt;
+              using <a class="m-doc" href="group__meta.html#ga6c121fbd44449d05f6a34f26d51d923f">add_const</a> = typename impl::rebase_ref_&lt;T, std::add_const_t&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
             </dt>
             <dd>Adds a const qualifier to a type or reference.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="group__meta.html#gab35af6547793d266bcaa9b9736ed0332">add_cv</a> = <a class="m-doc" href="group__meta.html#ga46852bdb87c782113c290e96390278d3">add_<wbr/>const</a>&lt;<a class="m-doc" href="group__meta.html#ga2d3d76b24998790747a6887a88d0a1e4">add_<wbr/>volatile</a>&lt;T&gt;&gt;
+              using <a class="m-doc" href="group__meta.html#ga946998d98f22705d1e955cc213187310">add_cv</a> = typename impl::rebase_ref_&lt;T, std::add_volatile_t&lt;std::add_const_t&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;&gt;&gt;::type
             </dt>
             <dd>Adds const and volatile qualifiers to a type or reference.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga2d3d76b24998790747a6887a88d0a1e4">add_volatile</a> = impl::add_volatile&lt;T&gt;
+              using <a class="m-doc" href="group__meta.html#gaf658a920120d44cf78a83198479de23c">add_volatile</a> = typename impl::rebase_ref_&lt;T, std::add_volatile_t&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
             </dt>
             <dd>Adds a volatile qualifier to a type or reference.</dd>
             <dt>
@@ -329,17 +329,17 @@ C++</span></a>
             <dd>Convenience alias for <code>span&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>&gt;</code>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, bool AddConst&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga23ee95c345637ff50a6cc88c4fb0d031">conditionally_add_const</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;AddConst, <a class="m-doc" href="group__meta.html#ga46852bdb87c782113c290e96390278d3">add_<wbr/>const</a>&lt;T&gt;, T&gt;
+              using <a class="m-doc" href="group__meta.html#ga23ee95c345637ff50a6cc88c4fb0d031">conditionally_add_const</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;AddConst, <a class="m-doc" href="group__meta.html#ga6c121fbd44449d05f6a34f26d51d923f">add_<wbr/>const</a>&lt;T&gt;, T&gt;
             </dt>
             <dd>Shorthand for conditionally adding const to a type or reference.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, bool AddConstVolatile&gt;</div>
-              using <a class="m-doc" href="group__meta.html#gaccbf5f71e9b673c2f490c0c0406042ac">conditionally_add_cv</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;AddConstVolatile, <a class="m-doc" href="group__meta.html#gab35af6547793d266bcaa9b9736ed0332">add_<wbr/>cv</a>&lt;T&gt;, T&gt;
+              using <a class="m-doc" href="group__meta.html#gaccbf5f71e9b673c2f490c0c0406042ac">conditionally_add_cv</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;AddConstVolatile, <a class="m-doc" href="group__meta.html#ga946998d98f22705d1e955cc213187310">add_<wbr/>cv</a>&lt;T&gt;, T&gt;
             </dt>
             <dd>Shorthand for conditionally adding const and volatile qualifiers to a type or reference.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, bool AddVolatile&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga5387101d09160941cca73a48954eb7af">conditionally_add_volatile</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;AddVolatile, <a class="m-doc" href="group__meta.html#ga2d3d76b24998790747a6887a88d0a1e4">add_<wbr/>volatile</a>&lt;T&gt;, T&gt;
+              using <a class="m-doc" href="group__meta.html#ga5387101d09160941cca73a48954eb7af">conditionally_add_volatile</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;AddVolatile, <a class="m-doc" href="group__meta.html#gaf658a920120d44cf78a83198479de23c">add_<wbr/>volatile</a>&lt;T&gt;, T&gt;
             </dt>
             <dd>Shorthand for conditionally adding volatile to a type or reference.</dd>
             <dt>
@@ -365,22 +365,22 @@ C++</span></a>
             <dd>A 128-bit signed integer.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga08897f2a98f81f54e88d634e9a755476">largest</a> = typename impl::largest&lt;T...&gt;::type
+              using <a class="m-doc" href="group__meta.html#ga7c930af45d2e06539c2a3dfcc908a854">largest</a> = typename impl::largest_&lt;T...&gt;::type
             </dt>
             <dd>The largest type from a set of types.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga953885530667d9f2a6e95ad82fffc370">least_aligned</a> = typename impl::least_aligned&lt;T...&gt;::type
+              using <a class="m-doc" href="group__meta.html#gaeb94aca04351ff030dae9dff706fe05c">least_aligned</a> = typename impl::least_aligned_&lt;T...&gt;::type
             </dt>
             <dd>The type with the smallest alignment (i.e. having the smallest value for <code>alignment_of&lt;T&gt;</code>) from a set of types.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="group__meta.html#gaf177f0fe579f7fcf670ee1c4b04dc860">make_signed</a> = typename impl::make_signed&lt;T&gt;::type
+              using <a class="m-doc" href="group__meta.html#ga8723b987045c7b40be5ce133a46e899c">make_signed</a> = typename impl::make_signed_&lt;T&gt;::type
             </dt>
             <dd>Converts a numeric type to the signed equivalent with the same rank.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga4408a91f38068b2a4b807739cf3e187c">make_unsigned</a> = typename impl::make_unsigned&lt;T&gt;::type
+              using <a class="m-doc" href="group__meta.html#ga5f3932e1b40c23bd953e0444340aa1bf">make_unsigned</a> = typename impl::make_unsigned_&lt;T&gt;::type
             </dt>
             <dd>Converts a numeric type to the unsigned equivalent with the same rank.</dd>
             <dt>
@@ -400,72 +400,72 @@ C++</span></a>
             <dd>Shorthand for marking a type or reference with the same volatility as another type or reference.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga81e4bf2a45a1dbcec544a44d28e0a624">most_aligned</a> = typename impl::most_aligned&lt;T...&gt;::type
+              using <a class="m-doc" href="group__meta.html#ga62680f064b38d875edbcb08604a2736d">most_aligned</a> = typename impl::most_aligned_&lt;T...&gt;::type
             </dt>
             <dd>The type with the largest alignment (i.e. having the largest value for <code>alignment_of&lt;T&gt;</code>) from a set of types.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Ptr, typename NewBase&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga2f756a1134b2630ecb0167d4c79e88fe">rebase_pointer</a> = typename impl::rebase_pointer&lt;Ptr, NewBase&gt;::type
+              using <a class="m-doc" href="group__meta.html#ga29769609b73728e3b7814d36a7e0c335">rebase_pointer</a> = typename impl::rebase_pointer_&lt;Ptr, NewBase&gt;::type
             </dt>
             <dd>Rebases a pointer, preserving the const and volatile qualification of the pointed type.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga25755f21eb6a14cfc16c1ec68a93072e">remove_const</a> = impl::remove_const&lt;T&gt;
+              using <a class="m-doc" href="group__meta.html#ga6d7666d41f4b1baa5e5b030e85d145c1">remove_const</a> = typename impl::rebase_ref_&lt;T, std::remove_const_t&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
             </dt>
             <dd>Removes the topmost const qualifier from a type or reference.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="group__meta.html#gaca9db12832fb43826bcda39e23262e3e">remove_cv</a> = <a class="m-doc" href="group__meta.html#ga25755f21eb6a14cfc16c1ec68a93072e">remove_<wbr/>const</a>&lt;<a class="m-doc" href="group__meta.html#ga08e16648a25313a8eeb064346eea3ae2">remove_<wbr/>volatile</a>&lt;T&gt;&gt;
+              using <a class="m-doc" href="group__meta.html#ga3d3fbe6cee41ab6b225058f8d29a17d4">remove_cv</a> = typename impl::rebase_ref_&lt;T, std::remove_volatile_t&lt;std::remove_const_t&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;&gt;&gt;::type
             </dt>
             <dd>Removes the topmost const and volatile qualifiers from a type or reference.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="group__meta.html#gadb8c008184b023112068a9b1c5b22fdc">remove_cvref</a> = impl::remove_cvref&lt;T&gt;
+              using <a class="m-doc" href="group__meta.html#ga3cac44d2af43c4fd98e835ff5b28988a">remove_cvref</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/remove_cv" target="_blank">std::remove_cv_t</a>&lt;std::remove_reference_t&lt;T&gt;&gt;
             </dt>
             <dd>Removes the topmost const, volatile and reference qualifiers from a type.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga35eca85e0ea3a043762ca9b5bd0100b2">remove_enum</a> = typename impl::remove_enum&lt;T&gt;::type
+              using <a class="m-doc" href="group__meta.html#ga4f0f94bba132e44d22663319f05d2ea8">remove_enum</a> = typename impl::remove_enum_&lt;T&gt;::type
             </dt>
             <dd>Removes the outer enum wrapper from a type, converting it to the underlying integer equivalent.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga9c954ca44cc3b9937a2c9bab9552bf0e">remove_noexcept</a> = typename impl::remove_noexcept&lt;T&gt;::type
+              using <a class="m-doc" href="group__meta.html#gaf61a06bf998aa195a3ec21cc20c4f348">remove_noexcept</a> = typename impl::remove_noexcept_&lt;T&gt;::type
             </dt>
             <dd>Removes any <code>noexcept</code> modifier from a functional type.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga08e16648a25313a8eeb064346eea3ae2">remove_volatile</a> = impl::remove_volatile&lt;T&gt;
+              using <a class="m-doc" href="group__meta.html#gabb6c34cb7b210e52a6d0d9e53234696b">remove_volatile</a> = typename impl::rebase_ref_&lt;T, std::remove_volatile_t&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
             </dt>
             <dd>Removes the topmost volatile qualifier from a type or reference.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, bool Const&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga70ea61c88a2156d5ca0576b338692597">set_const</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;Const, <a class="m-doc" href="group__meta.html#ga46852bdb87c782113c290e96390278d3">add_<wbr/>const</a>&lt;T&gt;, <a class="m-doc" href="group__meta.html#ga25755f21eb6a14cfc16c1ec68a93072e">remove_<wbr/>const</a>&lt;T&gt;&gt;
+              using <a class="m-doc" href="group__meta.html#ga70ea61c88a2156d5ca0576b338692597">set_const</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;Const, <a class="m-doc" href="group__meta.html#ga6c121fbd44449d05f6a34f26d51d923f">add_<wbr/>const</a>&lt;T&gt;, <a class="m-doc" href="group__meta.html#ga6d7666d41f4b1baa5e5b030e85d145c1">remove_<wbr/>const</a>&lt;T&gt;&gt;
             </dt>
             <dd>Sets the constness of a type or reference according to a boolean.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, bool ConstVolatile&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga75174a7728c44e0ef2c5c573910945d7">set_cv</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;ConstVolatile, <a class="m-doc" href="group__meta.html#gab35af6547793d266bcaa9b9736ed0332">add_<wbr/>cv</a>&lt;T&gt;, <a class="m-doc" href="group__meta.html#gaca9db12832fb43826bcda39e23262e3e">remove_<wbr/>cv</a>&lt;T&gt;&gt;
+              using <a class="m-doc" href="group__meta.html#ga75174a7728c44e0ef2c5c573910945d7">set_cv</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;ConstVolatile, <a class="m-doc" href="group__meta.html#ga946998d98f22705d1e955cc213187310">add_<wbr/>cv</a>&lt;T&gt;, <a class="m-doc" href="group__meta.html#ga3d3fbe6cee41ab6b225058f8d29a17d4">remove_<wbr/>cv</a>&lt;T&gt;&gt;
             </dt>
             <dd>Sets the constness and volatility of a type or reference according to a boolean.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, bool Volatile&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga3216c56b6dfa3cd6045818d2f8e09612">set_volatile</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;Volatile, <a class="m-doc" href="group__meta.html#ga2d3d76b24998790747a6887a88d0a1e4">add_<wbr/>volatile</a>&lt;T&gt;, <a class="m-doc" href="group__meta.html#ga08e16648a25313a8eeb064346eea3ae2">remove_<wbr/>volatile</a>&lt;T&gt;&gt;
+              using <a class="m-doc" href="group__meta.html#ga3216c56b6dfa3cd6045818d2f8e09612">set_volatile</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;Volatile, <a class="m-doc" href="group__meta.html#gaf658a920120d44cf78a83198479de23c">add_<wbr/>volatile</a>&lt;T&gt;, <a class="m-doc" href="group__meta.html#gabb6c34cb7b210e52a6d0d9e53234696b">remove_<wbr/>volatile</a>&lt;T&gt;&gt;
             </dt>
             <dd>Sets the volatility of a type or reference according to a boolean.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga183715bf5f6a9b3399af8e9804cafacc">signed_integer</a> = typename impl::signed_integer&lt;Bits&gt;::type
+              using <a class="m-doc" href="group__meta.html#ga4f67907a17de3414f8f0340716e987d4">signed_integer</a> = typename impl::signed_integer_&lt;Bits&gt;::type
             </dt>
             <dd>Gets the signed integer type with a specific number of bits for the target platform.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga605deffbc895ea863586315ad73e9547">smallest</a> = typename impl::smallest&lt;T...&gt;::type
+              using <a class="m-doc" href="group__meta.html#ga9cd7c756a0397747aa065ac54ddbf46b">smallest</a> = typename impl::smallest_&lt;T...&gt;::type
             </dt>
             <dd>The smallest type from a set of types.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="group__meta.html#gaf647153950c46df708bcdd860e59f0d1">type_identity</a> = typename impl::type_identity&lt;T&gt;::type
+              using <a class="m-doc" href="group__meta.html#ga8b8f215acad0e9f3d7aa52326155f030">type_identity</a> = typename impl::type_identity_&lt;T&gt;::type
             </dt>
             <dd>Provides an identity type transformation.</dd>
             <dt>
@@ -474,12 +474,12 @@ C++</span></a>
             <dd>A 128-bit unsigned integer.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga0ca8f76b9009f40bdfbb89a1c51b9d82">unsigned_integer</a> = typename impl::unsigned_integer&lt;Bits&gt;::type
+              using <a class="m-doc" href="group__meta.html#ga47a90ed3608cf7b0bf562f4ad208cd21">unsigned_integer</a> = typename impl::unsigned_integer_&lt;Bits&gt;::type
             </dt>
             <dd>Gets the unsigned integer type with a specific number of bits for the target platform.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga7e8799a37a5ce8c4eefe8f584afd2647">variant_storage</a> = std::aligned_storage_t&lt;sizeof(<a class="m-doc" href="group__meta.html#ga08897f2a98f81f54e88d634e9a755476">largest</a>&lt;T...&gt;), alignof(<a class="m-doc" href="group__meta.html#ga81e4bf2a45a1dbcec544a44d28e0a624">most_<wbr/>aligned</a>&lt;T...&gt;)&gt;
+              using <a class="m-doc" href="group__meta.html#ga7e8799a37a5ce8c4eefe8f584afd2647">variant_storage</a> = std::aligned_storage_t&lt;sizeof(<a class="m-doc" href="group__meta.html#ga7c930af45d2e06539c2a3dfcc908a854">largest</a>&lt;T...&gt;), alignof(<a class="m-doc" href="group__meta.html#ga62680f064b38d875edbcb08604a2736d">most_<wbr/>aligned</a>&lt;T...&gt;)&gt;
             </dt>
             <dd>Aliases a std::aligned_storage_t with a size and alignment capable of representing all the named types.</dd>
           </dl>
@@ -1379,16 +1379,6 @@ C++</span></a>
             </dt>
             <dd>Are any of the named types unsigned or reference-to-unsigned?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="group__meta.html#ga58cc29667418870fced1d362380192a8">convertible_to_all</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>True if T is convertible to all of the types named by U.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="group__meta.html#ga126b58b118692f506315ba537a0dfa52">convertible_to_any</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>True if T is convertible to one or more of the types named by U.</dd>
-            <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gaeb2da559efbc44792993d44b57e1b48d">dependent_false</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
@@ -1427,6 +1417,16 @@ C++</span></a>
             </dt>
             <dd>Is a type const or reference-to-const?</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga622faeced84d6fc02ccadcecd020e78a">is_convertible_to_all</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if T is convertible to all of the types named by U.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gaec35a37d461e7b8b6b6a92296c75c5fd">is_convertible_to_any</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if T is convertible to one or more of the types named by U.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga21f392701d987b745866ab36fa3c6242">is_cvref</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
@@ -1452,6 +1452,16 @@ C++</span></a>
             </dt>
             <dd>Is a type a pre-C++11 unscoped enum, or reference to one?</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga069232745f2338b2ece00c80c5d438e3">is_same_as_all</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if all the type arguments are the same type.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga526c58b5a438ba0c7746e465389e013d">is_same_as_any</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if T is exactly the same as one or more of the types named by U.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga54c8d27010a9c661dba826d90f0c9ace">is_scoped_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
@@ -1475,16 +1485,6 @@ C++</span></a>
               <div class="m-doc-template">template&lt;typename T&gt;</div> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="group__meta.html#gae9cd96c20c0f16e1e1eac99e798724ce">pointer_rank</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Returns the rank of a pointer.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="group__meta.html#ga32b1b26352b00fdb597367cf96e554a2">same_as_all</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>True if all the type arguments are the same type.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="group__meta.html#ga54c8d1915f709782046e638fee47394f">same_as_any</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>True if T is exactly the same as one or more of the types named by U.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="group__meta.html#ga3b7e16d2f90358811bc6231eb993ff33">total_size</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
