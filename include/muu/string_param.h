@@ -28,12 +28,12 @@ MUU_NAMESPACE_START
 		template <typename Char>
 		struct is_string_or_string_view_<std::basic_string<Char>> { static constexpr bool value = true; };
 		template <typename T>
-		inline constexpr bool is_string_or_string_view = is_string_or_string_view_<muu::remove_cvref<T>>::value;
+		inline constexpr bool is_string_or_string_view = is_string_or_string_view_<remove_cvref<T>>::value;
 
 		template <typename T>
 		inline constexpr bool is_string_view_ish = !is_string_or_string_view<T>
 			&& !std::is_pointer_v<T>
-			&& muu::convertible_to_any<T,
+			&& is_convertible_to_any<T,
 				std::string_view,
 				std::wstring_view,
 				std::u16string_view,

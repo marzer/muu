@@ -72,302 +72,254 @@ static_assert(std::numeric_limits<double>::is_iec559, MUU_ENV_MESSAGE);
 
 MUU_IMPL_NAMESPACE_START
 {
-	template <typename T, typename... U>
-	struct same_as_any : std::integral_constant<bool,
-		(false || ... || std::is_same_v<T, U>)
-	>
-	{};
+	// note that all the structs with nested types end in underscores;
+	// this is a disambiguation mechanism for code in the impl namespace.
 
-	template <typename T, typename... U>
-	struct same_as_all : std::integral_constant<bool,
-		(true && ...&& std::is_same_v<T, U>)
-	>
-	{};
-
-	template <typename T, typename... U>
-	struct convertible_to_any : std::integral_constant<bool,
-		(false || ... || std::is_convertible_v<T, U>)
-	>
-	{};
-
-	template <typename T, typename... U>
-	struct convertible_to_all : std::integral_constant<bool,
-		(true && ...&& std::is_convertible_v<T, U>)
-	>
-	{};
-
-	template <typename T> using add_lref = std::add_lvalue_reference_t<T>;
-	template <typename T> using add_rref = std::add_rvalue_reference_t<T>;
-	template <typename T> using remove_ref = std::remove_reference_t<T>;
 	template <typename T, typename U> struct rebase_ref_ { using type = U; };
-	template <typename T, typename U> struct rebase_ref_<T&, U> { using type = add_lref<U>; };
-	template <typename T, typename U> struct rebase_ref_<T&&, U> { using type = add_rref<U>; };
-	template <typename T, typename U> using rebase_ref = typename rebase_ref_<T, U>::type;
+	template <typename T, typename U> struct rebase_ref_<T&, U> { using type = std::add_lvalue_reference_t<U>; };
+	template <typename T, typename U> struct rebase_ref_<T&&, U> { using type = std::add_rvalue_reference_t<U>; };
 
-	template <typename T> using add_const = rebase_ref<T, std::add_const_t<remove_ref<T>>>;
-	template <typename T> using add_volatile = rebase_ref<T, std::add_volatile_t<remove_ref<T>>>;
-	template <typename T> using add_cv = rebase_ref<T, std::add_volatile_t<std::add_const_t<remove_ref<T>>>>;
-
-	template <typename T> using remove_const = rebase_ref<T, std::remove_const_t<remove_ref<T>>>;
-	template <typename T> using remove_volatile = rebase_ref<T, std::remove_volatile_t<remove_ref<T>>>;
-	template <typename T> using remove_cv = rebase_ref<T, std::remove_volatile_t<std::remove_const_t<remove_ref<T>>>>;
-	template <typename T> using remove_cvref = std::remove_cv_t<remove_ref<T>>;
-
-	template <typename T, bool Cond> using conditionally_add_cv = std::conditional_t<Cond, add_cv<T>, T>;
-
-	template <typename T>
-	struct remove_noexcept { using type = T; };
-	template <typename T>
-	struct remove_noexcept<const T> { using type = const typename remove_noexcept<T>::type; };
-	template <typename T>
-	struct remove_noexcept<volatile T> { using type = volatile typename remove_noexcept<T>::type; };
-	template <typename T>
-	struct remove_noexcept<const volatile T> { using type = const volatile typename remove_noexcept<T>::type; };
-	template <typename T>
-	struct remove_noexcept<T&> { using type = typename remove_noexcept<T>::type&; };
-	template <typename T>
-	struct remove_noexcept<T&&> { using type = typename remove_noexcept<T>::type&&; };
-	template <typename R, typename ...P>
-	struct remove_noexcept<R(P...) noexcept> { using type = R(P...); };
-	template <typename R, typename ...P>
-	struct remove_noexcept<R(*)(P...) noexcept> { using type = R(*)(P...); };
-	template <typename C, typename R, typename ...P>
-	struct remove_noexcept<R(C::*)(P...) noexcept> { using type = R(C::*)(P...); };
-	template <typename C, typename R, typename ...P>
-	struct remove_noexcept<R(C::*)(P...) & noexcept> { using type = R(C::*)(P...)&; };
-	template <typename C, typename R, typename ...P>
-	struct remove_noexcept<R(C::*)(P...) && noexcept> { using type = R(C::*)(P...)&&; };
-	template <typename C, typename R, typename ...P>
-	struct remove_noexcept<R(C::*)(P...) const noexcept> { using type = R(C::*)(P...) const; };
-	template <typename C, typename R, typename ...P>
-	struct remove_noexcept<R(C::*)(P...) const& noexcept> { using type = R(C::*)(P...) const&; };
-	template <typename C, typename R, typename ...P>
-	struct remove_noexcept<R(C::*)(P...) const&& noexcept> { using type = R(C::*)(P...) const&&; };
-	template <typename C, typename R, typename ...P>
-	struct remove_noexcept<R(C::*)(P...) volatile noexcept> { using type = R(C::*)(P...) volatile; };
-	template <typename C, typename R, typename ...P>
-	struct remove_noexcept<R(C::*)(P...) volatile& noexcept> { using type = R(C::*)(P...) volatile&; };
-	template <typename C, typename R, typename ...P>
-	struct remove_noexcept<R(C::*)(P...) volatile&& noexcept> { using type = R(C::*)(P...) volatile&&; };
-	template <typename C, typename R, typename ...P>
-	struct remove_noexcept<R(C::*)(P...) const volatile noexcept> { using type = R(C::*)(P...) const volatile; };
-	template <typename C, typename R, typename ...P>
-	struct remove_noexcept<R(C::*)(P...) const volatile& noexcept> { using type = R(C::*)(P...) const volatile&; };
-	template <typename C, typename R, typename ...P>
-	struct remove_noexcept<R(C::*)(P...) const volatile&& noexcept> { using type = R(C::*)(P...) const volatile&&; };
-
-	template <typename T, typename U> struct rebase_pointer
+	template <typename T, typename U> struct rebase_pointer_
 	{
 		static_assert(std::is_pointer_v<T>);
 		using type = U*;
 	};
-	template <typename T, typename U> struct rebase_pointer<const volatile T*, U> { using type = std::add_const_t<std::add_volatile_t<U>>*; };
-	template <typename T, typename U> struct rebase_pointer<volatile T*, U> { using type = std::add_volatile_t<U>*; };
-	template <typename T, typename U> struct rebase_pointer<const T*, U> { using type = std::add_const_t<U>*; };
-	template <typename T, typename U> struct rebase_pointer<T&, U> { using type = typename rebase_pointer<T, U>::type&; };
-	template <typename T, typename U> struct rebase_pointer<T&&, U> { using type = typename rebase_pointer<T, U>::type&&; };
+	template <typename T, typename U> struct rebase_pointer_<const volatile T*, U> { using type = std::add_const_t<std::add_volatile_t<U>>*; };
+	template <typename T, typename U> struct rebase_pointer_<volatile T*, U> { using type = std::add_volatile_t<U>*; };
+	template <typename T, typename U> struct rebase_pointer_<const T*, U> { using type = std::add_const_t<U>*; };
+	template <typename T, typename U> struct rebase_pointer_<T&, U> { using type = typename rebase_pointer_<T, U>::type&; };
+	template <typename T, typename U> struct rebase_pointer_<T&&, U> { using type = typename rebase_pointer_<T, U>::type&&; };
+
+	template <typename T, bool = std::is_enum_v<std::remove_reference_t<T>>>
+	struct remove_enum_
+	{
+		using type = std::underlying_type_t<T>;
+	};
+	template <typename T> struct remove_enum_<T, false> { using type = T; };
+	template <typename T> struct remove_enum_<const volatile T, true> { using type = const volatile typename remove_enum_<T>::type; };
+	template <typename T> struct remove_enum_<volatile T, true> { using type = volatile typename remove_enum_<T>::type; };
+	template <typename T> struct remove_enum_<const T, true> { using type = const typename remove_enum_<T>::type; };
+	template <typename T> struct remove_enum_<T&, true> { using type = typename remove_enum_<T>::type&; };
+	template <typename T> struct remove_enum_<T&&, true> { using type = typename remove_enum_<T>::type&&; };
 
 	template <typename T>
-	struct alignment_of
+	struct remove_noexcept_ { using type = T; };
+	template <typename T>
+	struct remove_noexcept_<const T> { using type = const typename remove_noexcept_<T>::type; };
+	template <typename T>
+	struct remove_noexcept_<volatile T> { using type = volatile typename remove_noexcept_<T>::type; };
+	template <typename T>
+	struct remove_noexcept_<const volatile T> { using type = const volatile typename remove_noexcept_<T>::type; };
+	template <typename T>
+	struct remove_noexcept_<T&> { using type = typename remove_noexcept_<T>::type&; };
+	template <typename T>
+	struct remove_noexcept_<T&&> { using type = typename remove_noexcept_<T>::type&&; };
+	template <typename R, typename ...P>
+	struct remove_noexcept_<R(P...) noexcept> { using type = R(P...); };
+	template <typename R, typename ...P>
+	struct remove_noexcept_<R(*)(P...) noexcept> { using type = R(*)(P...); };
+	template <typename C, typename R, typename ...P>
+	struct remove_noexcept_<R(C::*)(P...) noexcept> { using type = R(C::*)(P...); };
+	template <typename C, typename R, typename ...P>
+	struct remove_noexcept_<R(C::*)(P...) & noexcept> { using type = R(C::*)(P...)&; };
+	template <typename C, typename R, typename ...P>
+	struct remove_noexcept_<R(C::*)(P...) && noexcept> { using type = R(C::*)(P...)&&; };
+	template <typename C, typename R, typename ...P>
+	struct remove_noexcept_<R(C::*)(P...) const noexcept> { using type = R(C::*)(P...) const; };
+	template <typename C, typename R, typename ...P>
+	struct remove_noexcept_<R(C::*)(P...) const& noexcept> { using type = R(C::*)(P...) const&; };
+	template <typename C, typename R, typename ...P>
+	struct remove_noexcept_<R(C::*)(P...) const&& noexcept> { using type = R(C::*)(P...) const&&; };
+	template <typename C, typename R, typename ...P>
+	struct remove_noexcept_<R(C::*)(P...) volatile noexcept> { using type = R(C::*)(P...) volatile; };
+	template <typename C, typename R, typename ...P>
+	struct remove_noexcept_<R(C::*)(P...) volatile& noexcept> { using type = R(C::*)(P...) volatile&; };
+	template <typename C, typename R, typename ...P>
+	struct remove_noexcept_<R(C::*)(P...) volatile&& noexcept> { using type = R(C::*)(P...) volatile&&; };
+	template <typename C, typename R, typename ...P>
+	struct remove_noexcept_<R(C::*)(P...) const volatile noexcept> { using type = R(C::*)(P...) const volatile; };
+	template <typename C, typename R, typename ...P>
+	struct remove_noexcept_<R(C::*)(P...) const volatile& noexcept> { using type = R(C::*)(P...) const volatile&; };
+	template <typename C, typename R, typename ...P>
+	struct remove_noexcept_<R(C::*)(P...) const volatile&& noexcept> { using type = R(C::*)(P...) const volatile&&; };
+
+	template <typename T>
+	struct alignment_of_
 	{
 		static constexpr size_t value = alignof(T);
 	};
-	template <> struct alignment_of<void> { static constexpr size_t value = 1; };
-	template <typename R, typename ...P> struct alignment_of<R(P...)> { static constexpr size_t value = 1; };
-	template <typename R, typename ...P> struct alignment_of<R(P...)noexcept> { static constexpr size_t value = 1; };
+	template <> struct alignment_of_<void> { static constexpr size_t value = 1; };
+	template <typename R, typename ...P> struct alignment_of_<R(P...)> { static constexpr size_t value = 1; };
+	template <typename R, typename ...P> struct alignment_of_<R(P...)noexcept> { static constexpr size_t value = 1; };
 
-	template <typename...> struct largest;
-	template <typename T> struct largest<T> { using type = T; };
+	template <typename...> struct largest_;
+	template <typename T> struct largest_<T> { using type = T; };
 	template <typename T, typename U>
-	struct largest<T, U>
+	struct largest_<T, U>
 	{
 		using type = std::conditional_t<(sizeof(U) < sizeof(T)), T, U>;
 	};
 	template <typename T, typename U, typename... V>
-	struct largest<T, U, V...>
+	struct largest_<T, U, V...>
 	{
-		using type = typename largest<T, typename largest<U, V...>::type>::type;
+		using type = typename largest_<T, typename largest_<U, V...>::type>::type;
 	};
 
-	template <typename...>	struct smallest;
-	template <typename T>	struct smallest<T> { using type = T; };
+	template <typename...>	struct smallest_;
+	template <typename T>	struct smallest_<T> { using type = T; };
 	template <typename T, typename U>
-	struct smallest<T, U>
+	struct smallest_<T, U>
 	{
 		using type = std::conditional_t<(sizeof(T) < sizeof(U)), T, U>;
 	};
 	template <typename T, typename U, typename... V>
-	struct smallest<T, U, V...>
+	struct smallest_<T, U, V...>
 	{
-		using type = typename smallest<T, typename smallest<U, V...>::type>::type;
+		using type = typename smallest_<T, typename smallest_<U, V...>::type>::type;
 	};
 
-	template <typename...>	struct most_aligned;
-	template <typename T>	struct most_aligned<T> { using type = T; };
-	template <typename T>	struct most_aligned<T, void> { using type = T; };
-	template <typename T>	struct most_aligned<void, T> { using type = T; };
-	template <typename T, typename R, typename P> struct most_aligned<T, R(P...)> { using type = T; };
-	template <typename T, typename R, typename P> struct most_aligned<R(P...), T> { using type = T; };
-	template <typename T, typename R, typename P> struct most_aligned<T, R(P...)noexcept> { using type = T; };
-	template <typename T, typename R, typename P> struct most_aligned<R(P...)noexcept, T> { using type = T; };
+	template <typename...>	struct most_aligned_;
+	template <typename T>	struct most_aligned_<T> { using type = T; };
+	template <typename T>	struct most_aligned_<T, void> { using type = T; };
+	template <typename T>	struct most_aligned_<void, T> { using type = T; };
+	template <typename T, typename R, typename P> struct most_aligned_<T, R(P...)> { using type = T; };
+	template <typename T, typename R, typename P> struct most_aligned_<R(P...), T> { using type = T; };
+	template <typename T, typename R, typename P> struct most_aligned_<T, R(P...)noexcept> { using type = T; };
+	template <typename T, typename R, typename P> struct most_aligned_<R(P...)noexcept, T> { using type = T; };
 	template <typename T, typename U>
-	struct most_aligned<T, U>
+	struct most_aligned_<T, U>
 	{
-		using type = std::conditional_t<(alignment_of<U>::value < alignment_of<T>::value), T, U>;
+		using type = std::conditional_t<(alignment_of_<U>::value < alignment_of_<T>::value), T, U>;
 	};
 	template <typename T, typename U, typename... V>
-	struct most_aligned<T, U, V...>
+	struct most_aligned_<T, U, V...>
 	{
-		using type = typename most_aligned<T, typename most_aligned<U, V...>::type>::type;
+		using type = typename most_aligned_<T, typename most_aligned_<U, V...>::type>::type;
 	};
 
-	template <typename...>	struct least_aligned;
-	template <typename T>	struct least_aligned<T> { using type = T; };
-	template <typename T>	struct least_aligned<T, void> { using type = T; };
-	template <typename T>	struct least_aligned<void, T> { using type = T; };
-	template <typename T, typename R, typename P> struct least_aligned<T, R(P...)> { using type = T; };
-	template <typename T, typename R, typename P> struct least_aligned<R(P...), T> { using type = T; };
-	template <typename T, typename R, typename P> struct least_aligned<T, R(P...)noexcept> { using type = T; };
-	template <typename T, typename R, typename P> struct least_aligned<R(P...)noexcept, T> { using type = T; };
+	template <typename...>	struct least_aligned_;
+	template <typename T>	struct least_aligned_<T> { using type = T; };
+	template <typename T>	struct least_aligned_<T, void> { using type = T; };
+	template <typename T>	struct least_aligned_<void, T> { using type = T; };
+	template <typename T, typename R, typename P> struct least_aligned_<T, R(P...)> { using type = T; };
+	template <typename T, typename R, typename P> struct least_aligned_<R(P...), T> { using type = T; };
+	template <typename T, typename R, typename P> struct least_aligned_<T, R(P...)noexcept> { using type = T; };
+	template <typename T, typename R, typename P> struct least_aligned_<R(P...)noexcept, T> { using type = T; };
 	template <typename T, typename U>
-	struct least_aligned<T, U>
+	struct least_aligned_<T, U>
 	{
-		using type = std::conditional_t<(alignment_of<T>::value < alignment_of<U>::value), T, U>;
+		using type = std::conditional_t<(alignment_of_<T>::value < alignment_of_<U>::value), T, U>;
 	};
 	template <typename T, typename U, typename... V>
-	struct least_aligned<T, U, V...>
+	struct least_aligned_<T, U, V...>
 	{
-		using type = typename least_aligned<T, typename least_aligned<U, V...>::type>::type;
+		using type = typename least_aligned_<T, typename least_aligned_<U, V...>::type>::type;
 	};
 
-	template <size_t Bits> struct signed_integer;
-	template <> struct signed_integer<8> { using type = int8_t; };
-	template <> struct signed_integer<16> { using type = int16_t; };
-	template <> struct signed_integer<32> { using type = int32_t; };
-	template <> struct signed_integer<64> { using type = int64_t; };
+	template <size_t Bits> struct signed_integer_;
+	template <> struct signed_integer_<8> { using type = int8_t; };
+	template <> struct signed_integer_<16> { using type = int16_t; };
+	template <> struct signed_integer_<32> { using type = int32_t; };
+	template <> struct signed_integer_<64> { using type = int64_t; };
 	#if MUU_HAS_INT128
-	template <> struct signed_integer<128> { using type = int128_t; };
+	template <> struct signed_integer_<128> { using type = int128_t; };
 	#endif
 
-	template <size_t Bits> struct unsigned_integer;
-	template <> struct unsigned_integer<8> { using type = uint8_t; };
-	template <> struct unsigned_integer<16> { using type = uint16_t; };
-	template <> struct unsigned_integer<32> { using type = uint32_t; };
-	template <> struct unsigned_integer<64> { using type = uint64_t; };
+	template <size_t Bits> struct unsigned_integer_;
+	template <> struct unsigned_integer_<8> { using type = uint8_t; };
+	template <> struct unsigned_integer_<16> { using type = uint16_t; };
+	template <> struct unsigned_integer_<32> { using type = uint32_t; };
+	template <> struct unsigned_integer_<64> { using type = uint64_t; };
 	#if MUU_HAS_INT128
-	template <> struct unsigned_integer<128> { using type = uint128_t; };
+	template <> struct unsigned_integer_<128> { using type = uint128_t; };
 	#endif
 
-	template <typename T> struct make_signed;
-	template <typename T> struct make_signed<const volatile T> { using type = const volatile typename make_signed<T>::type; };
-	template <typename T> struct make_signed<volatile T> { using type = volatile typename make_signed<T>::type; };
-	template <typename T> struct make_signed<const T> { using type = const typename make_signed<T>::type; };
-	template <typename T> struct make_signed<T&> { using type = typename make_signed<T>::type&; };
-	template <typename T> struct make_signed<T&&> { using type = typename make_signed<T>::type&&; };
-	template <> struct make_signed<char> { using type = signed char; };
-	template <> struct make_signed<signed char> { using type = signed char; };
-	template <> struct make_signed<unsigned char> { using type = signed char; };
-	template <> struct make_signed<short> { using type = short; };
-	template <> struct make_signed<unsigned short> { using type = short; };
-	template <> struct make_signed<int> { using type = int; };
-	template <> struct make_signed<unsigned int> { using type = int; };
-	template <> struct make_signed<long> { using type = long; };
-	template <> struct make_signed<unsigned long> { using type = long; };
-	template <> struct make_signed<long long> { using type = long long; };
-	template <> struct make_signed<unsigned long long> { using type = long long; };
-	template <> struct make_signed<half> { using type = half; };
-	template <> struct make_signed<float> { using type = float; };
-	template <> struct make_signed<double> { using type = double; };
-	template <> struct make_signed<long double> { using type = long double; };
+	template <typename T> struct make_signed_;
+	template <typename T> struct make_signed_<const volatile T> { using type = const volatile typename make_signed_<T>::type; };
+	template <typename T> struct make_signed_<volatile T> { using type = volatile typename make_signed_<T>::type; };
+	template <typename T> struct make_signed_<const T> { using type = const typename make_signed_<T>::type; };
+	template <typename T> struct make_signed_<T&> { using type = typename make_signed_<T>::type&; };
+	template <typename T> struct make_signed_<T&&> { using type = typename make_signed_<T>::type&&; };
+	template <> struct make_signed_<char> { using type = signed char; };
+	template <> struct make_signed_<signed char> { using type = signed char; };
+	template <> struct make_signed_<unsigned char> { using type = signed char; };
+	template <> struct make_signed_<short> { using type = short; };
+	template <> struct make_signed_<unsigned short> { using type = short; };
+	template <> struct make_signed_<int> { using type = int; };
+	template <> struct make_signed_<unsigned int> { using type = int; };
+	template <> struct make_signed_<long> { using type = long; };
+	template <> struct make_signed_<unsigned long> { using type = long; };
+	template <> struct make_signed_<long long> { using type = long long; };
+	template <> struct make_signed_<unsigned long long> { using type = long long; };
+	template <> struct make_signed_<half> { using type = half; };
+	template <> struct make_signed_<float> { using type = float; };
+	template <> struct make_signed_<double> { using type = double; };
+	template <> struct make_signed_<long double> { using type = long double; };
 	#if MUU_HAS_INT128
-	template <> struct make_signed<int128_t> { using type = int128_t; };
-	template <> struct make_signed<uint128_t> { using type = int128_t; };
+	template <> struct make_signed_<int128_t> { using type = int128_t; };
+	template <> struct make_signed_<uint128_t> { using type = int128_t; };
 	#endif
 	#if MUU_HAS_FLOAT128
-	template <> struct make_signed<float128_t> { using type = float128_t; };
+	template <> struct make_signed_<float128_t> { using type = float128_t; };
 	#endif
 	#if MUU_HAS_INTERCHANGE_FP16
-	template <> struct make_signed<__fp16> { using type = __fp16; };
+	template <> struct make_signed_<__fp16> { using type = __fp16; };
 	#endif
 	#if MUU_HAS_FLOAT16
-	template <> struct make_signed<float16_t> { using type = float16_t; };
+	template <> struct make_signed_<float16_t> { using type = float16_t; };
 	#endif
-	template <bool s = std::is_signed_v<wchar_t>>
-	struct make_signed_wchar_t
-	{
-		using type = wchar_t;
-	};
 	template <>
-	struct make_signed_wchar_t<false>
+	struct make_signed_<wchar_t>
 	{
-		using type = signed_integer<sizeof(wchar_t) * CHAR_BIT>::type;
+		using type = std::conditional_t<std::is_signed_v<wchar_t>, wchar_t, signed_integer_<sizeof(wchar_t)* CHAR_BIT>::type>;
 	};
-	template <> struct make_signed<wchar_t> : make_signed_wchar_t<> {};
 
-	template <typename T> struct make_unsigned;
-	template <typename T> struct make_unsigned<const volatile T> { using type = const volatile typename make_unsigned<T>::type; };
-	template <typename T> struct make_unsigned<volatile T> { using type = volatile typename make_unsigned<T>::type; };
-	template <typename T> struct make_unsigned<const T> { using type = const typename make_unsigned<T>::type; };
-	template <typename T> struct make_unsigned<T&> { using type = typename make_unsigned<T>::type&; };
-	template <typename T> struct make_unsigned<T&&> { using type = typename make_unsigned<T>::type&&; };
-	template <> struct make_unsigned<char> { using type = unsigned char; };
-	template <> struct make_unsigned<signed char> { using type = unsigned char; };
-	template <> struct make_unsigned<unsigned char> { using type = unsigned char; };
-	template <> struct make_unsigned<short> { using type = unsigned short; };
-	template <> struct make_unsigned<unsigned short> { using type = unsigned short; };
-	template <> struct make_unsigned<int> { using type = unsigned int; };
-	template <> struct make_unsigned<unsigned int> { using type = unsigned int; };
-	template <> struct make_unsigned<long> { using type = unsigned long; };
-	template <> struct make_unsigned<unsigned long> { using type = unsigned long; };
-	template <> struct make_unsigned<long long> { using type = unsigned long long; };
-	template <> struct make_unsigned<unsigned long long> { using type = unsigned long long; };
-	template <> struct make_unsigned<char32_t> { using type = char32_t; };
-	template <> struct make_unsigned<char16_t> { using type = char16_t; };
+	template <typename T> struct make_unsigned_;
+	template <typename T> struct make_unsigned_<const volatile T> { using type = const volatile typename make_unsigned_<T>::type; };
+	template <typename T> struct make_unsigned_<volatile T> { using type = volatile typename make_unsigned_<T>::type; };
+	template <typename T> struct make_unsigned_<const T> { using type = const typename make_unsigned_<T>::type; };
+	template <typename T> struct make_unsigned_<T&> { using type = typename make_unsigned_<T>::type&; };
+	template <typename T> struct make_unsigned_<T&&> { using type = typename make_unsigned_<T>::type&&; };
+	template <> struct make_unsigned_<char> { using type = unsigned char; };
+	template <> struct make_unsigned_<signed char> { using type = unsigned char; };
+	template <> struct make_unsigned_<unsigned char> { using type = unsigned char; };
+	template <> struct make_unsigned_<short> { using type = unsigned short; };
+	template <> struct make_unsigned_<unsigned short> { using type = unsigned short; };
+	template <> struct make_unsigned_<int> { using type = unsigned int; };
+	template <> struct make_unsigned_<unsigned int> { using type = unsigned int; };
+	template <> struct make_unsigned_<long> { using type = unsigned long; };
+	template <> struct make_unsigned_<unsigned long> { using type = unsigned long; };
+	template <> struct make_unsigned_<long long> { using type = unsigned long long; };
+	template <> struct make_unsigned_<unsigned long long> { using type = unsigned long long; };
+	template <> struct make_unsigned_<char32_t> { using type = char32_t; };
+	template <> struct make_unsigned_<char16_t> { using type = char16_t; };
 	#ifdef __cpp_char8_t
-	template <> struct make_unsigned<char8_t> { using type = char8_t; };
+	template <> struct make_unsigned_<char8_t> { using type = char8_t; };
 	#endif
 	#if MUU_HAS_INT128
-	template <> struct make_unsigned<int128_t> { using type = uint128_t; };
-	template <> struct make_unsigned<uint128_t> { using type = uint128_t; };
+	template <> struct make_unsigned_<int128_t> { using type = uint128_t; };
+	template <> struct make_unsigned_<uint128_t> { using type = uint128_t; };
 	#endif
-	template <bool u = std::is_unsigned_v<wchar_t>>
-	struct make_unsigned_wchar_t
-	{
-		using type = wchar_t;
-	};
 	template <>
-	struct make_unsigned_wchar_t<false>
+	struct make_unsigned_<wchar_t>
 	{
-		using type = unsigned_integer<sizeof(wchar_t) * CHAR_BIT>::type;
+		using type = std::conditional_t<std::is_unsigned_v<wchar_t>, wchar_t, unsigned_integer_<sizeof(wchar_t)* CHAR_BIT>::type>;
 	};
-	template <> struct make_unsigned<wchar_t> : make_unsigned_wchar_t<> {};
 
-	template <typename T, bool = std::is_enum_v<remove_cvref<T>>>
-	struct remove_enum
-	{
-		using type = std::underlying_type_t<T>;
-	};
-	template <typename T> struct remove_enum<T, false> { using type = T; };
-	template <typename T> struct remove_enum<const volatile T, true> { using type = const volatile typename remove_enum<T>::type; };
-	template <typename T> struct remove_enum<volatile T, true> { using type = volatile typename remove_enum<T>::type; };
-	template <typename T> struct remove_enum<const T, true> { using type = const typename remove_enum<T>::type; };
-	template <typename T> struct remove_enum<T&, true> { using type = typename remove_enum<T>::type&; };
-	template <typename T> struct remove_enum<T&&, true> { using type = typename remove_enum<T>::type&&; };
-
-	template <typename...>				struct highest_ranked;
-	template <typename T>				struct highest_ranked<T>		{ using type = T; };
-	template <typename T>				struct highest_ranked<T, T>		{ using type = T; };
-	template <typename T>				struct highest_ranked<void, T>	{ using type = T; };
-	template <typename T>				struct highest_ranked<T, void>	{ using type = T; };
-	template <typename T, typename U>	struct highest_ranked<T, U>		{ using type = decltype(T{} + U{}); };
+	template <typename...>				struct highest_ranked_;
+	template <typename T>				struct highest_ranked_<T>		{ using type = T; };
+	template <typename T>				struct highest_ranked_<T, T>	{ using type = T; };
+	template <typename T>				struct highest_ranked_<void, T>	{ using type = T; };
+	template <typename T>				struct highest_ranked_<T, void>	{ using type = T; };
+	template <typename T, typename U>	struct highest_ranked_<T, U>	{ using type = decltype(T{} + U{}); };
 	template <typename T, typename U, typename... V>
-	struct highest_ranked<T, U, V...>
+	struct highest_ranked_<T, U, V...>
 	{
-		using type = typename highest_ranked<T, typename highest_ranked<U, V...>::type>::type;
+		using type = typename highest_ranked_<T, typename highest_ranked_<U, V...>::type>::type;
 	};
 	#define MUU_HR_SPECIALIZATION(lower, higher)									\
-		template <> struct highest_ranked<lower, higher> { using type = higher; };	\
-		template <> struct highest_ranked<higher, lower> { using type = higher; }
+		template <> struct highest_ranked_<lower, higher> { using type = higher; };	\
+		template <> struct highest_ranked_<higher, lower> { using type = higher; }
 	MUU_HR_SPECIALIZATION(half, float);
 	MUU_HR_SPECIALIZATION(half, double);
 	MUU_HR_SPECIALIZATION(half, long double);
@@ -376,50 +328,37 @@ MUU_IMPL_NAMESPACE_START
 		MUU_HR_SPECIALIZATION(__fp16, float);
 		MUU_HR_SPECIALIZATION(__fp16, double);
 		MUU_HR_SPECIALIZATION(__fp16, long double);
-	#endif // MUU_HAS_INTERCHANGE_FP16
+	#endif
 	#if MUU_HAS_FLOAT16
 		MUU_HR_SPECIALIZATION(half, float16_t);
 		MUU_HR_SPECIALIZATION(float16_t, float);
 		MUU_HR_SPECIALIZATION(float16_t, double);
 		MUU_HR_SPECIALIZATION(float16_t, long double);
-		#if MUU_HAS_INTERCHANGE_FP16
-			MUU_HR_SPECIALIZATION(__fp16, float16_t);
-		#endif
 	#endif
 	#if MUU_HAS_FLOAT128
 		MUU_HR_SPECIALIZATION(half, float128_t);
-		#if MUU_HAS_INTERCHANGE_FP16
-			MUU_HR_SPECIALIZATION(__fp16, float128_t);
-		#endif
-		#if MUU_HAS_FLOAT16
+	#endif
+	#if MUU_HAS_INTERCHANGE_FP16 && MUU_HAS_FLOAT16
+		MUU_HR_SPECIALIZATION(__fp16, float16_t);
+	#endif
+	#if MUU_HAS_INTERCHANGE_FP16 && MUU_HAS_FLOAT128
+		MUU_HR_SPECIALIZATION(__fp16, float128_t);
+	#endif
+	#if MUU_HAS_FLOAT16 && MUU_HAS_FLOAT128
 			MUU_HR_SPECIALIZATION(float16_t, float128_t);
-		#endif
 	#endif
 	#undef MUU_HR_SPECIALIZATION
 
-	//template <typename T, bool = std::is_enum_v<T>>
-	//struct underlying_type : std::underlying_type<T> {};
-	//template <typename T>
-	//struct underlying_type<T, false> { using type = T; };
-
-	template <size_t Bits> struct code_unit;
+	template <size_t Bits> struct code_unit_;
 	#ifdef __cpp_char8_t
-	template <> struct code_unit<8> { using type = char8_t; };
+		template <> struct code_unit_<8> { using type = char8_t; };
 	#else
-		template <> struct code_unit<8> { using type = unsigned char; };
+		template <> struct code_unit_<8> { using type = unsigned char; };
 	#endif
-	template <> struct code_unit<16> { using type = char16_t; };
-	template <> struct code_unit<32> { using type = char32_t; };
-	using char_unicode_t = typename code_unit<CHAR_BIT>::type;
-	using wchar_unicode_t = typename code_unit<sizeof(wchar_t) * CHAR_BIT>::type;
-
-	#if MUU_WINDOWS
-		template <typename T> inline constexpr bool is_win32_iunknown
-			= std::is_class_v<remove_cvref<T>>
-			&& std::is_base_of_v<IUnknown, T>;
-	#else
-		template <typename T> inline constexpr bool is_win32_iunknown = false;
-	#endif
+	template <> struct code_unit_<16> { using type = char16_t; };
+	template <> struct code_unit_<32> { using type = char32_t; };
+	using char_unicode_t = typename code_unit_<CHAR_BIT>::type;
+	using wchar_unicode_t = typename code_unit_<sizeof(wchar_t) * CHAR_BIT>::type;
 
 	template <typename T>
 	using iter_reference_t = decltype(*std::declval<T&>());
@@ -427,15 +366,17 @@ MUU_IMPL_NAMESPACE_START
 	using iter_value_t = std::remove_reference_t<iter_reference_t<T>>;
 
 	template <typename T>
-	struct type_identity { using type = T; };
+	struct type_identity_ { using type = T; };
 
-	template <typename T, bool = std::is_pointer_v<T>> struct pointer_rank
+	template <typename T, bool = std::is_pointer_v<T>>
+	struct pointer_rank_
 	{
 		static constexpr size_t value = 0;
 	};
-	template <typename T> struct pointer_rank<T, true>
+	template <typename T>
+	struct pointer_rank_<T, true>
 	{
-		static constexpr size_t value = 1 + pointer_rank<std::remove_pointer_t<T>>::value;
+		static constexpr size_t value = 1 + pointer_rank_<std::remove_pointer_t<T>>::value;
 	};
 
 	template <template <typename...> typename Trait, typename Enabler, typename... Args>
@@ -446,9 +387,9 @@ MUU_IMPL_NAMESPACE_START
 	inline constexpr auto is_detected = is_detected_<Trait, void, Args...>::value;
 
 	template <typename T>
-	using has_arrow_operator = decltype(std::declval<T>().operator->());
+	using has_arrow_operator_ = decltype(std::declval<T>().operator->());
 	template <typename T>
-	using has_unary_plus_operator = decltype(+std::declval<T>());
+	using has_unary_plus_operator_ = decltype(+std::declval<T>());
 }
 MUU_IMPL_NAMESPACE_END
 
@@ -460,27 +401,21 @@ MUU_NAMESPACE_START
 	/// \brief	Removes the topmost const, volatile and reference qualifiers from a type.
 	/// \detail This is equivalent to C++20's std::remove_cvref_t.
 	template <typename T>
-	using remove_cvref = impl::remove_cvref<T>;
+	using remove_cvref = std::remove_cv_t<std::remove_reference_t<T>>;
 
 	/// \brief	Removes the outer enum wrapper from a type, converting it to the underlying integer equivalent.
 	/// \detail This is similar to std::underlying_type_t but preserves cv qualifiers and ref categories, as well as
-	/// 		being safe to use in SFINAE contexts.
+	/// 		being safe to use in SFINAE contexts (non-enum types are simply returned as-is).
 	template <typename T>
-	using remove_enum = typename impl::remove_enum<T>::type;
-
-	///// \brief	Removes the outer enum wrapper from a type, converting it to the underlying integer equivalent.
-	///// \remarks This _exactly equivalent_ to std::underlying_type_t while also being safe to use in SFINAE contexts.
-	///// 		 If you want it to preserve ref categories and cv-qualifiers use muu::remove_enum.
-	//template <typename T>
-	//using underlying_type = typename impl::underlying_type<T>::type;
+	using remove_enum = typename impl::remove_enum_<T>::type;
 
 	/// \brief The largest type from a set of types.
 	template <typename... T>
-	using largest = typename impl::largest<T...>::type;
+	using largest = typename impl::largest_<T...>::type;
 
 	/// \brief The smallest type from a set of types.
 	template <typename... T>
-	using smallest = typename impl::smallest<T...>::type;
+	using smallest = typename impl::smallest_<T...>::type;
 
 	/// \brief Returns the sum of `sizeof()` for all of the types named by T.
 	template <typename... T>
@@ -489,37 +424,37 @@ MUU_NAMESPACE_START
 	/// \brief The default alignment of a type.
 	/// \remarks Treats `void` and functions as having an alignment of `1`.
 	template <typename T>
-	inline constexpr size_t alignment_of = impl::alignment_of<remove_cvref<T>>::value;
+	inline constexpr size_t alignment_of = impl::alignment_of_<remove_cvref<T>>::value;
 
 	/// \brief The type with the largest alignment (i.e. having the largest value for `alignment_of<T>`) from a set of types.
 	/// \remarks Treats `void` and functions as having an alignment of `1`.
 	template <typename... T>
-	using most_aligned = typename impl::most_aligned<T...>::type;
+	using most_aligned = typename impl::most_aligned_<T...>::type;
 
 	/// \brief The type with the smallest alignment (i.e. having the smallest value for `alignment_of<T>`) from a set of types.
 	/// \remarks Treats `void` and functions as having an alignment of `1`.
 	template <typename... T>
-	using least_aligned = typename impl::least_aligned<T...>::type;
+	using least_aligned = typename impl::least_aligned_<T...>::type;
 
 	/// \brief	True if T is exactly the same as one or more of the types named by U.
 	/// \detail This equivalent to `(std::is_same_v<T, U1> || std::is_same_v<T, U2> || ...)`.
 	template <typename T, typename... U>
-	inline constexpr bool same_as_any = impl::same_as_any<T, U...>::value;
+	inline constexpr bool is_same_as_any = (false || ... || std::is_same_v<T, U>);
 
 	/// \brief	True if all the type arguments are the same type.
 	/// \detail This equivalent to `(std::is_same_v<T, U1> && std::is_same_v<T, U2> && ...)`.
 	template <typename T, typename... U>
-	inline constexpr bool same_as_all = impl::same_as_all<T, U...>::value;
+	inline constexpr bool is_same_as_all = (true && ... && std::is_same_v<T, U>);
 
 	/// \brief	True if T is convertible to one or more of the types named by U.
 	/// \detail This equivalent to `(std::is_convertible<T, U1> || std::is_convertible<T, U2> || ...)`.
 	template <typename T, typename... U>
-	inline constexpr bool convertible_to_any = impl::convertible_to_any<T, U...>::value;
+	inline constexpr bool is_convertible_to_any = (false || ... || std::is_convertible_v<T, U>);
 
 	/// \brief	True if T is convertible to all of the types named by U.
 	/// \detail This equivalent to `(std::is_convertible<T, U1> && std::is_convertible<T, U2> && ...)`.
 	template <typename T, typename... U>
-	inline constexpr bool convertible_to_all = impl::convertible_to_all<T, U...>::value;
+	inline constexpr bool is_convertible_to_all = (true && ... && std::is_convertible_v<T, U>);
 
 	/// \brief Is a type an enum or reference-to-enum?
 	template <typename T>
@@ -569,7 +504,7 @@ MUU_NAMESPACE_START
 	/// \remarks Returns true for native #int128_t, #float16_t and #float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_signed = std::is_signed_v<remove_enum<remove_cvref<T>>>
-		|| same_as_any<remove_enum<remove_cvref<T>>,
+		|| is_same_as_any<remove_enum<remove_cvref<T>>,
 			half
 			#if MUU_HAS_INT128
 				, int128_t
@@ -602,7 +537,7 @@ MUU_NAMESPACE_START
 	template <typename T>
 	inline constexpr bool is_integral = std::is_integral_v<remove_enum<remove_cvref<T>>>
 		#if MUU_HAS_INT128
-		|| same_as_any<remove_enum<remove_cvref<T>>, int128_t, uint128_t>
+		|| is_same_as_any<remove_enum<remove_cvref<T>>, int128_t, uint128_t>
 		#endif
 	;
 
@@ -623,7 +558,7 @@ MUU_NAMESPACE_START
 	/// \remarks Returns true for native #float16_t and #float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_floating_point = std::is_floating_point_v<std::remove_reference_t<T>>
-		|| same_as_any<remove_cvref<T>,
+		|| is_same_as_any<remove_cvref<T>,
 			half
 			#if MUU_HAS_FLOAT128
 				, float128_t
@@ -654,7 +589,7 @@ MUU_NAMESPACE_START
 	/// \remarks Returns true for native #int128_t, #uint128_t, #float16_t and #float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_arithmetic = std::is_arithmetic_v<std::remove_reference_t<T>>
-		|| same_as_any<remove_cvref<T>,
+		|| is_same_as_any<remove_cvref<T>,
 			half
 			#if MUU_HAS_INT128
 				, int128_t, uint128_t
@@ -689,11 +624,11 @@ MUU_NAMESPACE_START
 
 	/// \brief Adds a const qualifier to a type or reference.
 	template <typename T>
-	using add_const = impl::add_const<T>;
+	using add_const = typename impl::rebase_ref_<T, std::add_const_t<std::remove_reference_t<T>>>::type;
 
 	/// \brief Removes the topmost const qualifier from a type or reference.
 	template <typename T>
-	using remove_const = impl::remove_const<T>;
+	using remove_const = typename impl::rebase_ref_<T, std::remove_const_t<std::remove_reference_t<T>>>::type;
 
 	/// \brief Sets the constness of a type or reference according to a boolean.
 	template <typename T, bool Const>
@@ -713,11 +648,11 @@ MUU_NAMESPACE_START
 
 	/// \brief Adds a volatile qualifier to a type or reference.
 	template <typename T>
-	using add_volatile = impl::add_volatile<T>;
+	using add_volatile = typename impl::rebase_ref_<T, std::add_volatile_t<std::remove_reference_t<T>>>::type;
 
 	/// \brief Removes the topmost volatile qualifier from a type or reference.
 	template <typename T>
-	using remove_volatile = impl::remove_volatile<T>;
+	using remove_volatile = typename impl::rebase_ref_<T, std::remove_volatile_t<std::remove_reference_t<T>>>::type;
 
 	/// \brief Sets the volatility of a type or reference according to a boolean.
 	template <typename T, bool Volatile>
@@ -733,11 +668,11 @@ MUU_NAMESPACE_START
 
 	/// \brief Adds const and volatile qualifiers to a type or reference.
 	template <typename T>
-	using add_cv = add_const<add_volatile<T>>;
+	using add_cv = typename impl::rebase_ref_<T, std::add_volatile_t<std::add_const_t<std::remove_reference_t<T>>>>::type;
 
 	/// \brief Removes the topmost const and volatile qualifiers from a type or reference.
 	template <typename T>
-	using remove_cv = remove_const<remove_volatile<T>>;
+	using remove_cv = typename impl::rebase_ref_<T, std::remove_volatile_t<std::remove_const_t<std::remove_reference_t<T>>>>::type;
 
 	/// \brief Sets the constness and volatility of a type or reference according to a boolean.
 	template <typename T, bool ConstVolatile>
@@ -758,7 +693,7 @@ MUU_NAMESPACE_START
 
 	/// \brief Removes any `noexcept` modifier from a functional type.
 	template <typename T>
-	using remove_noexcept = typename impl::remove_noexcept<T>::type;
+	using remove_noexcept = typename impl::remove_noexcept_<T>::type;
 
 	/// \brief Does Child inherit from Parent?
 	/// \remarks This does not return true when the objects are the same type, unlike std::is_base_of.
@@ -769,17 +704,17 @@ MUU_NAMESPACE_START
 
 	/// \brief	Rebases a pointer, preserving the const and volatile qualification of the pointed type.
 	template <typename Ptr, typename NewBase>
-	using rebase_pointer = typename impl::rebase_pointer<Ptr, NewBase>::type;
+	using rebase_pointer = typename impl::rebase_pointer_<Ptr, NewBase>::type;
 
 	/// \brief	Converts a numeric type to the signed equivalent with the same rank.
 	/// \remarks CV qualifiers and reference categories are preserved.
 	template <typename T>
-	using make_signed = typename impl::make_signed<T>::type;
+	using make_signed = typename impl::make_signed_<T>::type;
 
 	/// \brief	Converts a numeric type to the unsigned equivalent with the same rank.
 	/// \remarks CV qualifiers and reference categories are preserved.
 	template <typename T>
-	using make_unsigned = typename impl::make_unsigned<T>::type;
+	using make_unsigned = typename impl::make_unsigned_<T>::type;
 
 	/// \brief	Evaluates to false but with delayed, type-dependent evaluation.
 	/// \details Allows you to do this:
@@ -794,15 +729,15 @@ MUU_NAMESPACE_START
 
 	/// \brief	Gets the unsigned integer type with a specific number of bits for the target platform.
 	template <size_t Bits>
-	using unsigned_integer = typename impl::unsigned_integer<Bits>::type;
+	using unsigned_integer = typename impl::unsigned_integer_<Bits>::type;
 
 	/// \brief	Gets the signed integer type with a specific number of bits for the target platform.
 	template <size_t Bits>
-	using signed_integer = typename impl::signed_integer<Bits>::type;
+	using signed_integer = typename impl::signed_integer_<Bits>::type;
 
 	/// \brief Is a type a Unicode 'code unit' type, or reference to one?
 	template <typename T>
-	inline constexpr bool is_code_unit = same_as_any<remove_cvref<T>,
+	inline constexpr bool is_code_unit = is_same_as_any<remove_cvref<T>,
 		char,
 		wchar_t,
 		char16_t,
@@ -815,21 +750,21 @@ MUU_NAMESPACE_START
 	/// \brief	Provides an identity type transformation.
 	/// \detail This is equivalent to C++20's std::type_identity_t.
 	template <typename T>
-	using type_identity = typename impl::type_identity<T>::type;
+	using type_identity = typename impl::type_identity_<T>::type;
 
 	/// \brief Returns the rank of a pointer.
 	/// \details Answers "how many stars does it have?".
 	template <typename T>
-	inline constexpr size_t pointer_rank = impl::pointer_rank<T>::value;
+	inline constexpr size_t pointer_rank = impl::pointer_rank_<T>::value;
 
 	/// \brief Returns true if the type has an arrow operator.
 	template <typename T>
-	inline constexpr bool has_arrow_operator = impl::is_detected<impl::has_arrow_operator, T>
+	inline constexpr bool has_arrow_operator = impl::is_detected<impl::has_arrow_operator_, T>
 		|| (std::is_pointer_v<T> && (std::is_class_v<std::remove_pointer_t<T>> || std::is_union_v<std::remove_pointer_t<T>>));
 
 	/// \brief Returns true if the type has a unary plus operator.
 	template <typename T>
-	inline constexpr bool has_unary_plus_operator = impl::is_detected<impl::has_unary_plus_operator, T>;
+	inline constexpr bool has_unary_plus_operator = impl::is_detected<impl::has_unary_plus_operator_, T>;
 
 	/// \brief Aliases a std::aligned_storage_t with a size and alignment capable of representing all the named types.
 	template <typename... T>
@@ -838,6 +773,18 @@ MUU_NAMESPACE_START
 	/// @}
 }
 MUU_NAMESPACE_END
+
+MUU_IMPL_NAMESPACE_START
+{
+	#if MUU_WINDOWS
+		template <typename T> inline constexpr bool is_win32_iunknown
+			= std::is_class_v<remove_cvref<T>>
+			&& std::is_base_of_v<IUnknown, T>;
+	#else
+		template <typename T> inline constexpr bool is_win32_iunknown = false;
+	#endif
+}
+MUU_IMPL_NAMESPACE_END
 
 //=====================================================================================================================
 // CONSTANTS
@@ -1587,7 +1534,7 @@ MUU_NAMESPACE_START
 		{
 			MUU_ASSUME(val > T{});
 			
-			using bit_type = muu::largest<T, unsigned>;
+			using bit_type = largest<T, unsigned>;
 			int count = 0;
 			bit_type bit = bit_type{ 1 } << (sizeof(T) * CHAR_BIT - 1);
 			while (true)
@@ -1718,7 +1665,7 @@ MUU_NAMESPACE_START
 		{
 			MUU_ASSUME(val > T{});
 
-			using bit_type = muu::largest<T, unsigned>;
+			using bit_type = largest<T, unsigned>;
 			int count = 0;
 			bit_type bit = 1;
 			while (true)
@@ -2185,7 +2132,7 @@ MUU_NAMESPACE_START
 					return pointer_cast<To>(unwrap(from));
 
 				// (uintptr_t, intptr_t) -> pointer
-				else if constexpr (same_as_any<From, uintptr_t, intptr_t>)
+				else if constexpr (is_same_as_any<From, uintptr_t, intptr_t>)
 					return reinterpret_cast<To>(from);
 
 				// other integers -> pointer
@@ -2215,7 +2162,7 @@ MUU_NAMESPACE_START
 				else
 				{
 					static_assert(std::is_same_v<From, remove_cv<from_base>*>);
-					static_assert(same_as_any<To, const to_base*, const volatile to_base*, volatile to_base*>);
+					static_assert(is_same_as_any<To, const to_base*, const volatile to_base*, volatile to_base*>);
 					return static_cast<To>(from);
 				}
 			}
@@ -2533,7 +2480,7 @@ MUU_NAMESPACE_START
 		using alpha_type = remove_cv<std::conditional_t<is_floating_point<V>, V, double>>;
 		static_assert(all_floating_point<start_type, finish_type, alpha_type>);
 
-		using return_type = typename impl::highest_ranked<start_type, finish_type, alpha_type>::type;
+		using return_type = typename impl::highest_ranked_<start_type, finish_type, alpha_type>::type;
 		return lerp(static_cast<return_type>(start), static_cast<return_type>(finish), static_cast<return_type>(alpha));
 	}
 
@@ -3353,7 +3300,7 @@ MUU_NAMESPACE_START
 	namespace impl
 	{
 		template <typename T>
-		using has_pointer_traits_to_address = decltype(std::pointer_traits<muu::remove_cvref<T>>::to_address(std::declval<muu::remove_cvref<T>>()));
+		using has_pointer_traits_to_address = decltype(std::pointer_traits<remove_cvref<T>>::to_address(std::declval<remove_cvref<T>>()));
 	}
 
 	/// \brief Obtain the address represented by p without forming a reference to the pointee.

@@ -326,7 +326,7 @@ MUU_NAMESPACE_START
 				else
 				{
 					if (requires_bswap)
-						return static_cast<T>(byte_reverse(static_cast<muu::unsigned_integer<sizeof(T) * CHAR_BIT>>(str[idx])));
+						return static_cast<T>(byte_reverse(static_cast<unsigned_integer<sizeof(T) * CHAR_BIT>>(str[idx])));
 					return str[idx];
 				}
 			};
@@ -449,14 +449,14 @@ MUU_NAMESPACE_START
 
 			[[nodiscard]]
 			MUU_ATTR(pure)
-				explicit constexpr operator bool() const noexcept
+			explicit constexpr operator bool() const noexcept
 			{
-				return index != muu::constants<size_t>::highest;
+				return index != constants<size_t>::highest;
 			}
 
 			[[nodiscard]]
 			MUU_ATTR(pure)
-				constexpr size_t end() const noexcept
+			constexpr size_t end() const noexcept
 			{
 				return index + length;
 			}
@@ -465,7 +465,7 @@ MUU_NAMESPACE_START
 		template <typename T, typename Func>
 		constexpr utf_find_result utf_find(std::basic_string_view<T> str, bool reverse, Func&& predicate) noexcept
 		{
-			utf_find_result result{ muu::constants<size_t>::highest, {} };
+			utf_find_result result{ constants<size_t>::highest, {} };
 			if (!str.empty())
 			{
 				utf_decode(str, reverse, [&](char32_t cp, size_t starts_at, size_t goes_for) noexcept

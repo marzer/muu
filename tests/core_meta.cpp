@@ -94,32 +94,32 @@ static_assert(std::is_same_v<least_aligned<void, aligned<2>, aligned<4>, aligned
 static_assert(std::is_same_v<least_aligned<void, aligned<4>, aligned<128>>, aligned<4>>);
 static_assert(std::is_same_v<least_aligned<void, aligned<128>>, aligned<128>>);
 
-// same_as_any (variadic std::is_same_v || std::is_same_v)
-static_assert(same_as_any<int, int>);
-static_assert(same_as_any<int, int, float>);
-static_assert(same_as_any<int, int, float, double>);
-static_assert(same_as_any<int, float, int, double>);
-static_assert(!same_as_any<int&, int>);
-static_assert(!same_as_any<int&, int, float>);
-static_assert(!same_as_any<int&, int, float, double>);
-static_assert(!same_as_any<int&, float, int, double>);
+// is_same_as_any (variadic std::is_same_v || std::is_same_v)
+static_assert(is_same_as_any<int, int>);
+static_assert(is_same_as_any<int, int, float>);
+static_assert(is_same_as_any<int, int, float, double>);
+static_assert(is_same_as_any<int, float, int, double>);
+static_assert(!is_same_as_any<int&, int>);
+static_assert(!is_same_as_any<int&, int, float>);
+static_assert(!is_same_as_any<int&, int, float, double>);
+static_assert(!is_same_as_any<int&, float, int, double>);
 
-// same_as_all (variadic std::is_same_v && std::is_same_v)
-static_assert(same_as_all<int, int>);
-static_assert(same_as_all<int, int, int>);
-static_assert(same_as_all<int, int, int, int>);
-static_assert(same_as_all<int, int, int, int, int>);
-static_assert(!same_as_all<int, int&>);
-static_assert(!same_as_all<int, int, int&>);
-static_assert(!same_as_all<int, int, int, int&>);
-static_assert(!same_as_all<int, int, int, int, int&>);
-static_assert(!same_as_all<int, int, float>);
-static_assert(!same_as_all<int, int, float, double>);
-static_assert(!same_as_all<int, float, int, double>);
-static_assert(!same_as_all<int&, int>);
-static_assert(!same_as_all<int&, int, float>);
-static_assert(!same_as_all<int&, int, float, double>);
-static_assert(!same_as_all<int&, float, int, double>);
+// is_same_as_all (variadic std::is_same_v && std::is_same_v)
+static_assert(is_same_as_all<int, int>);
+static_assert(is_same_as_all<int, int, int>);
+static_assert(is_same_as_all<int, int, int, int>);
+static_assert(is_same_as_all<int, int, int, int, int>);
+static_assert(!is_same_as_all<int, int&>);
+static_assert(!is_same_as_all<int, int, int&>);
+static_assert(!is_same_as_all<int, int, int, int&>);
+static_assert(!is_same_as_all<int, int, int, int, int&>);
+static_assert(!is_same_as_all<int, int, float>);
+static_assert(!is_same_as_all<int, int, float, double>);
+static_assert(!is_same_as_all<int, float, int, double>);
+static_assert(!is_same_as_all<int&, int>);
+static_assert(!is_same_as_all<int&, int, float>);
+static_assert(!is_same_as_all<int&, int, float, double>);
+static_assert(!is_same_as_all<int&, float, int, double>);
 
 // is_enum
 static_assert(is_enum<an_enum>);

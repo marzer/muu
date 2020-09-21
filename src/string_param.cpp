@@ -397,7 +397,7 @@ namespace
 		visit(storage, mode_, [&](auto& str) noexcept
 		{
 			using type = remove_cvref<decltype(str)>;
-			if constexpr (same_as_any<type, std::basic_string<Char>, std::basic_string_view<Char>>)
+			if constexpr (is_same_as_any<type, std::basic_string<Char>, std::basic_string_view<Char>>)
 			{
 				out = str;
 			}

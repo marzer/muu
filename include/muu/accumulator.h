@@ -217,11 +217,11 @@ MUU_NAMESPACE_START
 		{
 			using value_type = ValueType;
 			using sum_type = std::conditional_t<
-				muu::is_integral<ValueType>,
+				is_integral<ValueType>,
 				std::conditional_t<
-					muu::is_signed<ValueType>,
-					muu::largest<ValueType, int32_t>,
-					muu::largest<ValueType, uint32_t>
+					is_signed<ValueType>,
+					largest<ValueType, int32_t>,
+					largest<ValueType, uint32_t>
 				>,
 				ValueType
 			>;
@@ -284,7 +284,7 @@ MUU_NAMESPACE_START
 		struct kahan_accumulator // https://en.wikipedia.org/wiki/Kahan_summation_algorithm#Further_enhancements
 		{
 			using value_type = ValueType;
-			using sum_type = typename impl::highest_ranked<ValueType, float>::type;
+			using sum_type = typename impl::highest_ranked_<ValueType, float>::type;
 
 			static_assert(
 				is_floating_point<value_type>,

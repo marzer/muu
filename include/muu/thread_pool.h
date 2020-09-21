@@ -37,9 +37,9 @@ MUU_IMPL_NAMESPACE_START
 	template <typename T>
 	inline constexpr bool is_trivial_task
 		= std::is_function_v<std::remove_pointer_t<std::remove_reference_t<T>>>
-		|| std::is_empty_v<muu::remove_cvref<T>>
-		|| (std::is_class_v<muu::remove_cvref<T>> && sizeof(T) == 1_sz && muu::has_unary_plus_operator<T>)
-		|| std::is_trivially_copyable_v<muu::remove_cvref<T>>;
+		|| std::is_empty_v<remove_cvref<T>>
+		|| (std::is_class_v<remove_cvref<T>> && sizeof(T) == 1_sz && has_unary_plus_operator<T>)
+		|| std::is_trivially_copyable_v<remove_cvref<T>>;
 
 	#ifdef __cpp_lib_hardware_interference_size
 		inline constexpr size_t thread_pool_task_granularity = bit_ceil((max)(std::hardware_destructive_interference_size, 64_sz));

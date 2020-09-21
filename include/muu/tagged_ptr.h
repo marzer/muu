@@ -32,7 +32,7 @@ MUU_IMPL_NAMESPACE_START
 		static constexpr uintptr_t tag_mask = bit_fill_right<uintptr_t>(tag_bits);
 		static constexpr uintptr_t ptr_mask = ~tag_mask;
 
-		using tag_type = muu::unsigned_integer<muu::clamp(bit_ceil(tag_bits), 8_sz, build::bitness)>;
+		using tag_type = unsigned_integer<muu::clamp(bit_ceil(tag_bits), 8_sz, build::bitness)>;
 		static_assert(sizeof(tag_type) <= sizeof(uintptr_t));
 
 		[[nodiscard]]
@@ -168,7 +168,7 @@ MUU_IMPL_NAMESPACE_START
 				"The tag type must fit in the available tag bits"
 			);
 
-			using intermediate_type = muu::unsigned_integer<(muu::bit_ceil(sizeof(T) * build::bits_per_byte))>;
+			using intermediate_type = unsigned_integer<(muu::bit_ceil(sizeof(T) * build::bits_per_byte))>;
 			static_assert(sizeof(intermediate_type) >= sizeof(T));
 			static_assert(sizeof(intermediate_type) <= sizeof(tag_type));
 
@@ -619,11 +619,11 @@ MUU_NAMESPACE_START
 		template <typename T, size_t MinAlign, bool = !std::is_void_v<T>>
 		struct tagged_pointer_traits
 		{
-			using pointer = muu::tagged_ptr<T, MinAlign>;
+			using pointer = tagged_ptr<T, MinAlign>;
 			using element_type = T;
 			using difference_type = ptrdiff_t;
 			template <typename U>
-			using rebind = muu::tagged_ptr<U, MinAlign>;
+			using rebind = tagged_ptr<U, MinAlign>;
 
 			constexpr static element_type* to_address(const pointer& p) noexcept
 			{
@@ -634,7 +634,7 @@ MUU_NAMESPACE_START
 		template <typename T, size_t MinAlign>
 		struct tagged_pointer_traits<T, MinAlign, true> : tagged_pointer_traits<T, MinAlign, false>
 		{
-			using pointer = muu::tagged_ptr<T, MinAlign>;
+			using pointer = tagged_ptr<T, MinAlign>;
 			using element_type = T;
 
 			constexpr static pointer pointer_to(element_type& r) noexcept
