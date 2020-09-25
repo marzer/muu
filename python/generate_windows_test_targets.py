@@ -171,6 +171,7 @@ def main():
 		<ClCompile Include="..\..\tests\unicode_unsigned_char.cpp" />
 		<ClCompile Include="..\..\tests\unicode_wchar_t.cpp" />
 		<ClCompile Include="..\..\tests\uuid.cpp" />
+		<ClCompile Include="..\..\tests\vector.cpp" />
 	</ItemGroup>
 	<ItemGroup>
 		<Natvis Include="..\muu.natvis" />

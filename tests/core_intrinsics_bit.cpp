@@ -5,7 +5,7 @@
 
 #include "tests.h"
 
-TEST_CASE("countl_zero")
+TEST_CASE("intrinsics - countl_zero")
 {
 	#if MUU_HAS_INT128
 	SECTION("uint128_t")
@@ -283,7 +283,7 @@ TEST_CASE("countl_zero")
 	}
 }
 
-TEST_CASE("countr_zero")
+TEST_CASE("intrinsics - countr_zero")
 {
 	#if MUU_HAS_INT128
 	SECTION("uint128_t")
@@ -561,7 +561,7 @@ TEST_CASE("countr_zero")
 	}
 }
 
-TEST_CASE("countl_one")
+TEST_CASE("intrinsics - countl_one")
 {
 	#if MUU_HAS_INT128
 	SECTION("uint128_t")
@@ -839,7 +839,7 @@ TEST_CASE("countl_one")
 	}
 }
 
-TEST_CASE("countr_one")
+TEST_CASE("intrinsics - countr_one")
 {
 	#if MUU_HAS_INT128
 	SECTION("uint128_t")
@@ -1117,7 +1117,7 @@ TEST_CASE("countr_one")
 	}
 }
 
-TEST_CASE("bit_ceil")
+TEST_CASE("intrinsics - bit_ceil")
 {
 	CHECK_AND_STATIC_ASSERT(bit_ceil(1u) == 1u);
 	CHECK_AND_STATIC_ASSERT(bit_ceil(2u) == 2u);
@@ -1131,7 +1131,7 @@ TEST_CASE("bit_ceil")
 	CHECK_AND_STATIC_ASSERT(bit_ceil(10u) == 16u);
 }
 
-TEST_CASE("bit_floor")
+TEST_CASE("intrinsics - bit_floor")
 {
 	CHECK_AND_STATIC_ASSERT(bit_floor(1u) == 1u);
 	CHECK_AND_STATIC_ASSERT(bit_floor(2u) == 2u);
@@ -1145,7 +1145,7 @@ TEST_CASE("bit_floor")
 	CHECK_AND_STATIC_ASSERT(bit_floor(10u) == 8u);
 }
 
-TEST_CASE("has_single_bit")
+TEST_CASE("intrinsics - has_single_bit")
 {
 	CHECK_AND_STATIC_ASSERT(!has_single_bit(0u));
 	CHECK_AND_STATIC_ASSERT(has_single_bit(1u));
@@ -1160,7 +1160,7 @@ TEST_CASE("has_single_bit")
 	CHECK_AND_STATIC_ASSERT(!has_single_bit(10u));
 }
 
-TEST_CASE("bit_width")
+TEST_CASE("intrinsics - bit_width")
 {
 	CHECK_AND_STATIC_ASSERT(bit_width(0b0000000000000000000000000000000000000000000000000000000000000000_u64) == 0);
 	CHECK_AND_STATIC_ASSERT(bit_width(0b0000000000000000000000000000000000000000000000000000000000000001_u64) == 1);
@@ -1291,7 +1291,7 @@ TEST_CASE("bit_width")
 	CHECK_AND_STATIC_ASSERT(bit_width(0b11111101_u8) == 8);
 }
 
-TEST_CASE("bit_fill_right")
+TEST_CASE("intrinsics - bit_fill_right")
 {
 	CHECK_AND_STATIC_ASSERT(bit_fill_right<uint8_t>(0)  == 0b00000000_u8);
 	CHECK_AND_STATIC_ASSERT(bit_fill_right<uint8_t>(1)  == 0b00000001_u8);
@@ -1559,7 +1559,7 @@ TEST_CASE("bit_fill_right")
 	#endif
 }
 
-TEST_CASE("bit_fill_left")
+TEST_CASE("intrinsics - bit_fill_left")
 {
 	CHECK_AND_STATIC_ASSERT(bit_fill_left<uint8_t>(0)  == 0b00000000_u8);
 	CHECK_AND_STATIC_ASSERT(bit_fill_left<uint8_t>(1)  == 0b10000000_u8);
@@ -1827,7 +1827,7 @@ TEST_CASE("bit_fill_left")
 	#endif
 }
 
-TEST_CASE("popcount")
+TEST_CASE("intrinsics - popcount")
 {
 	CHECK_AND_STATIC_ASSERT(popcount(0b00000000_u8) == 0);
 	CHECK_AND_STATIC_ASSERT(popcount(0b00000010_u8) == 1);

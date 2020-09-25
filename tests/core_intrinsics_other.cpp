@@ -6,19 +6,19 @@
 #include "tests.h"
 #include "../include/muu/half.h"
 
-TEST_CASE("is_constant_evaluated")
+TEST_CASE("intrinsics - is_constant_evaluated")
 {
 	static_assert(is_constant_evaluated() == build::supports_is_constant_evaluated);
 	volatile bool val = is_constant_evaluated();
 	CHECK(val == false);
 }
 
-//TEST_CASE("launder")
+//TEST_CASE("intrinsics - launder")
 //{
 //	// todo?? kinda impossible to test, without being the compiler itself.
 //}
 
-TEST_CASE("unwrap")
+TEST_CASE("intrinsics - unwrap")
 {
 	enum class scoped_enum : uint32_t
 	{
@@ -72,7 +72,7 @@ TEST_CASE("unwrap")
 
 }
 
-TEST_CASE("pack")
+TEST_CASE("intrinsics - pack")
 {
 	CHECK_AND_STATIC_ASSERT(pack(0xFEDCBA98_u32, 0x76543210_u32) == 0xFEDCBA9876543210_u64);
 	CHECK_AND_STATIC_ASSERT(pack(0xFEDC_u16, 0xBA98_u16, 0x76543210_u32) == 0xFEDCBA9876543210_u64);
@@ -80,7 +80,7 @@ TEST_CASE("pack")
 	CHECK_AND_STATIC_ASSERT(pack(0xFEDC_u16, 0xBA_u8, 0x98_u8, 0x7654_u16, 0x32_u8, 0x10_u8) == 0xFEDCBA9876543210_u64);
 }
 
-//TEST_CASE("bit_cast")
+//TEST_CASE("intrinsics - bit_cast")
 //{
 //	// todo
 //}
@@ -96,7 +96,7 @@ namespace
 	struct derived2 : base {};
 }
 
-TEST_CASE("pointer_cast")
+TEST_CASE("intrinsics - pointer_cast")
 {
 	using int_ptr = int*;
 
@@ -197,27 +197,27 @@ TEST_CASE("pointer_cast")
 	}
 }
 
-//TEST_CASE("apply_offset")
+//TEST_CASE("intrinsics - apply_offset")
 //{
 //	// todo
 //}
 
-//TEST_CASE("min")
+//TEST_CASE("intrinsics - min")
 //{
 //	// todo
 //}
 
-//TEST_CASE("max")
+//TEST_CASE("intrinsics - max")
 //{
 //	// todo
 //}
 
-//TEST_CASE("abs")
+//TEST_CASE("intrinsics - abs")
 //{
 //	// todo
 //}
 
-TEST_CASE("clamp")
+TEST_CASE("intrinsics - clamp")
 {
 	CHECK_AND_STATIC_ASSERT(clamp(1, 2, 4) == 2);
 	CHECK_AND_STATIC_ASSERT(clamp(2, 2, 4) == 2);
@@ -261,66 +261,41 @@ namespace
 	};
 
 	template <typename T>
-	void lerp_tests()
+	void lerp_tests(std::string_view type_name)
 	{
+		INFO(type_name)
+
 		size_t i{};
 		for (const auto& case_ : lerp_test_data<T>::cases)
 		{
-			INFO("lerp test case " << i)
+			INFO("test case " << i)
 			CHECK(muu::lerp(case_.start, case_.finish, case_.alpha) == case_.expected);
 			i++;
 		}
 	}
 }
 
-#if MUU_HAS_INTERCHANGE_FP16
+#define TEST_LERP(T)	lerp_tests<T>(MUU_MAKE_STRING_VIEW(T))
 
-TEST_CASE("lerp - __fp16")
+
+TEST_CASE("intrinsics - lerp")
 {
-	lerp_tests<__fp16>();
+	#if MUU_HAS_INTERCHANGE_FP16
+	TEST_LERP(__fp16);
+	#endif
+	#if MUU_HAS_FLOAT16
+	TEST_LERP(float16_t);
+	#endif
+	TEST_LERP(half);
+	TEST_LERP(float);
+	TEST_LERP(double);
+	TEST_LERP(long double);
+	#if MUU_HAS_FLOAT128
+	TEST_LERP(float128_t);
+	#endif
 }
 
-#endif // MUU_HAS_INTERCHANGE_FP16
-
-#if MUU_HAS_FLOAT16
-
-TEST_CASE("lerp - float16_t")
-{
-	lerp_tests<float16_t>();
-}
-
-#endif // MUU_HAS_FLOAT16
-
-TEST_CASE("lerp - half")
-{
-	lerp_tests<half>();
-}
-
-TEST_CASE("lerp - float")
-{
-	lerp_tests<float>();
-}
-
-TEST_CASE("lerp - double")
-{
-	lerp_tests<double>();
-}
-
-TEST_CASE("lerp - long double")
-{
-	lerp_tests<long double>();
-}
-
-#if MUU_HAS_FLOAT128
-
-TEST_CASE("lerp - float128_t")
-{
-	lerp_tests<float128_t>();
-}
-
-#endif // MUU_HAS_FLOAT128
-
-TEST_CASE("is_between")
+TEST_CASE("intrinsics - is_between")
 {
 	// signed, signed
 	CHECK_AND_STATIC_ASSERT(!is_between(   -1,     2,     4));
@@ -380,8 +355,7 @@ TEST_CASE("is_between")
 	}
 }
 
-
-TEST_CASE("byte_select")
+TEST_CASE("intrinsics - byte_select")
 {
 	#define CHECK_BYTE_SELECT(index, expected, ...)										\
 		CHECK_AND_STATIC_ASSERT(byte_select<index>(__VA_ARGS__) == 0x##expected##_u8);	\
@@ -427,7 +401,7 @@ TEST_CASE("byte_select")
 	CHECK_BYTE_SELECT(0, 01, 0x01_u8);
 }
 
-TEST_CASE("byte_reverse")
+TEST_CASE("intrinsics - byte_reverse")
 {
 	#if MUU_HAS_INT128
 
@@ -440,7 +414,7 @@ TEST_CASE("byte_reverse")
 	CHECK_AND_STATIC_ASSERT(byte_reverse(0xABCD_u16) == 0xCDAB_u16);
 }
 
-TEST_CASE("swizzle")
+TEST_CASE("intrinsics - swizzle")
 {
 	#define CHECK_SWIZZLE(input, expected, ...)	\
 		CHECK_AND_STATIC_ASSERT(swizzle<__VA_ARGS__>(input) == expected)
@@ -554,7 +528,7 @@ TEST_CASE("is_infinity_or_nan - float16_t")
 
 #endif // MUU_HAS_FLOAT16
 
-TEST_CASE("is_infinity_or_nan - half")
+TEST_CASE("intrinsics - is_infinity_or_nan - half")
 {
 	INF_OR_NAN_CHECK(!is_infinity_or_nan(half::from_bits(0x0000_u16)));
 	INF_OR_NAN_CHECK(is_infinity_or_nan(make_nan<half>()));
@@ -565,7 +539,7 @@ TEST_CASE("is_infinity_or_nan - half")
 	CHECK((test_is_infinity_or_nan_ranges<half, 1>()));
 }
 
-TEST_CASE("is_infinity_or_nan - float")
+TEST_CASE("intrinsics - is_infinity_or_nan - float")
 {
 	INF_OR_NAN_CHECK(!is_infinity_or_nan(float{}));
 	INF_OR_NAN_CHECK(is_infinity_or_nan(make_nan<float>()));
@@ -576,7 +550,7 @@ TEST_CASE("is_infinity_or_nan - float")
 	CHECK((test_is_infinity_or_nan_ranges<float, 1>()));
 }
 
-TEST_CASE("is_infinity_or_nan - double")
+TEST_CASE("intrinsics - is_infinity_or_nan - double")
 {
 	INF_OR_NAN_CHECK(!is_infinity_or_nan(0.0));
 	INF_OR_NAN_CHECK(is_infinity_or_nan(make_nan<double>()));
@@ -587,7 +561,7 @@ TEST_CASE("is_infinity_or_nan - double")
 	CHECK((test_is_infinity_or_nan_ranges<double, 1>()));
 }
 
-TEST_CASE("is_infinity_or_nan - long double")
+TEST_CASE("intrinsics - is_infinity_or_nan - long double")
 {
 	INF_OR_NAN_CHECK(!is_infinity_or_nan(0.0L));
 	INF_OR_NAN_CHECK(is_infinity_or_nan(make_nan<long double>()));
@@ -600,7 +574,7 @@ TEST_CASE("is_infinity_or_nan - long double")
 
 #if MUU_HAS_FLOAT128
 
-TEST_CASE("is_infinity_or_nan - float128_t")
+TEST_CASE("intrinsics - is_infinity_or_nan - float128_t")
 {
 	INF_OR_NAN_CHECK(!is_infinity_or_nan(float128_t{}));
 	INF_OR_NAN_CHECK(is_infinity_or_nan(make_nan<float128_t>()));

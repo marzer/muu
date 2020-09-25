@@ -95,6 +95,7 @@
     <ClInclude Include="..\include\muu\tagged_ptr.h" />
     <ClInclude Include="..\include\muu\thread_pool.h" />
     <ClInclude Include="..\include\muu\uuid.h" />
+    <ClInclude Include="..\include\muu\vector.h" />
     <ClInclude Include="..\src\os_internal.h" />
     <ClInclude Include="..\src\os_internal_windows.h" />
   </ItemGroup>

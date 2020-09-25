@@ -17,7 +17,7 @@ MUU_PUSH_WARNINGS
 MUU_DISABLE_SWITCH_WARNINGS
 MUU_DISABLE_SPAM_WARNINGS
 
-#if !defined(DOXYGEN) // MUU_EVAL fucks it up
+#ifndef DOXYGEN // MUU_EVAL fucks it up
 MUU_IMPL_NAMESPACE_START
 {
 	using uuid_raw_bytes = std::byte[16];

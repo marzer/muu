@@ -191,7 +191,8 @@
 											_Pragma("clang diagnostic ignored \"-Wchar-subscripts\"") \
 											_Pragma("clang diagnostic ignored \"-Wshift-sign-overflow\"") \
 							MUU_PRAGMA_CLANG_GE(10, "clang diagnostic ignored \"-Wimplicit-int-float-conversion\"")
-	#define MUU_DISABLE_SHADOW_WARNINGS		_Pragma("clang diagnostic ignored \"-Wshadow\"")
+	#define MUU_DISABLE_SHADOW_WARNINGS		_Pragma("clang diagnostic ignored \"-Wshadow\"")	\
+											_Pragma("clang diagnostic ignored \"-Wshadow-field\"")
 	#define MUU_DISABLE_SPAM_WARNINGS		_Pragma("clang diagnostic ignored \"-Wweak-vtables\"")			\
 											_Pragma("clang diagnostic ignored \"-Wweak-template-vtables\"")	\
 											_Pragma("clang diagnostic ignored \"-Wpadded\"") \
@@ -277,8 +278,10 @@
 	#define MUU_NEVER_INLINE				__declspec(noinline)
 	#define MUU_ASSUME(cond)				__assume(cond)
 	#define MUU_UNREACHABLE					__assume(0)
-	#define MUU_INTERFACE					__declspec(novtable)
-	#define MUU_EMPTY_BASES					__declspec(empty_bases)
+	#if !MUU_INTELLISENSE
+		#define MUU_INTERFACE				__declspec(novtable)
+		#define MUU_EMPTY_BASES				__declspec(empty_bases)
+	#endif
 	#define MUU_UNALIASED_ALLOC				__declspec(restrict)
 	#define MUU_VECTORCALL					__vectorcall
 	#ifndef _CPPRTTI
@@ -724,7 +727,7 @@
 	#define MUU_REQUIRES(...)
 	#define MUU_CONCEPTS 0
 #else
-	#define MUU_SFINAE(...)						, std::enable_if_t<__VA_ARGS__, int> = 0
+	#define MUU_SFINAE(...)						, std::enable_if_t<(__VA_ARGS__), int> = 0
 	#if defined(__cpp_concepts) && defined(__cpp_lib_concepts) && !MUU_INTELLISENSE
 		#define MUU_CONCEPTS 1
 		#define MUU_REQUIRES(...)				requires(__VA_ARGS__)

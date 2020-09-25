@@ -15,10 +15,18 @@
 // NON-MUU TYPEDEFS AND FORWARD DECLARATIONS
 //=====================================================================================================================
 
+MUU_DISABLE_WARNINGS
+#include <cstdint>
+#include <cstddef>
+MUU_ENABLE_WARNINGS
+
 namespace std
 {
 	template <typename>				struct	hash;
 	template <typename>				struct	pointer_traits;
+	template <typename>				struct	tuple_size;
+	template <size_t, typename>		struct	tuple_element;
+	template <typename, size_t>		class	array;
 	template <typename>				class	optional;
 }
 
@@ -65,11 +73,6 @@ struct IUnknown;
 // TYPEDEFS AND FORWARD DECLARATIONS - UNDOCUMENTED
 //=====================================================================================================================
 
-MUU_DISABLE_WARNINGS
-#include <cstdint>
-#include <cstddef>
-MUU_ENABLE_WARNINGS
-
 namespace muu // non-abi namespace; this is not an error
 {
 	using ::std::size_t;
@@ -110,6 +113,7 @@ MUU_NAMESPACE_START // abi namespace
 	struct									uuid;
 	struct									semver;
 	struct									half;
+	template <typename, size_t>		struct	vector;
 
 	class									blob;
 	class									string_param;

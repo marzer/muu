@@ -22,6 +22,7 @@ static_assert(std::is_trivially_copy_assignable_v<compressed_pair<int, int>>);
 static_assert(std::is_trivially_move_constructible_v<compressed_pair<int, int>>);
 static_assert(std::is_trivially_move_assignable_v<compressed_pair<int, int>>);
 static_assert(std::is_trivially_destructible_v<compressed_pair<int, int>>);
+static_assert(is_tuple_like<compressed_pair<int, int>>);
 
 // variant 1: empty member is first
 
@@ -35,6 +36,7 @@ static_assert(std::is_trivially_copy_assignable_v<compressed_pair<empty, int>>);
 static_assert(std::is_trivially_move_constructible_v<compressed_pair<empty, int>>);
 static_assert(std::is_trivially_move_assignable_v<compressed_pair<empty, int>>);
 static_assert(std::is_trivially_destructible_v<compressed_pair<empty, int>>);
+static_assert(is_tuple_like<compressed_pair<empty, int>>);
 
 // variant 2: empty member is second
 
@@ -48,6 +50,7 @@ static_assert(std::is_trivially_copy_assignable_v<compressed_pair<int, empty>>);
 static_assert(std::is_trivially_move_constructible_v<compressed_pair<int, empty>>);
 static_assert(std::is_trivially_move_assignable_v<compressed_pair<int, empty>>);
 static_assert(std::is_trivially_destructible_v<compressed_pair<int, empty>>);
+static_assert(is_tuple_like<compressed_pair<int, empty>>);
 
 // variant 3: both members are empty
 
@@ -63,3 +66,4 @@ static_assert(std::is_trivially_copy_assignable_v<compressed_pair<empty, empty2>
 static_assert(std::is_trivially_move_constructible_v<compressed_pair<empty, empty2>>);
 static_assert(std::is_trivially_move_assignable_v<compressed_pair<empty, empty2>>);
 static_assert(std::is_trivially_destructible_v<compressed_pair<empty, empty2>>);
+static_assert(is_tuple_like<compressed_pair<empty, empty2>>);

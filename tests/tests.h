@@ -29,6 +29,7 @@
 
 MUU_PRAGMA_CLANG("clang diagnostic ignored \"-Wc++2a-compat\"")
 MUU_PRAGMA_CLANG("clang diagnostic ignored \"-Wfloat-equal\"")
+MUU_PRAGMA_CLANG("clang diagnostic ignored \"-Wunused-template\"")
 MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wfloat-equal\"")
 MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wpedantic\"")
 MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wpadded\"")
@@ -61,6 +62,50 @@ MUU_NAMESPACE_START
 	{
 		return bit_cast<T>(float_test_data<T>::bits_qnan);
 	}
+
+	template <typename T>
+	[[nodiscard]]
+	inline T random() noexcept
+	{
+		if constexpr (is_floating_point<T>)
+		{
+			using fp = typename impl::highest_ranked_<T, double>::type;
+			return static_cast<T>(static_cast<fp>(::rand()) / fp{ RAND_MAX }); // 0.0 - 1.0
+		}
+		else
+			return static_cast<T>(static_cast<T>(::rand()) % constants<T>::highest); // 0 - min(RAND_MAX, limit)
+	}
+
+	template <typename T>
+	[[nodiscard]]
+	inline T random(T max_) noexcept
+	{
+		if constexpr (is_floating_point<T>)
+		{
+			using fp = typename impl::highest_ranked_<T, double>::type;
+			return static_cast<T>(random<fp>() * max_);
+		}
+		else
+			return static_cast<T>(random<double>() * max_);
+	}
+
+	template <typename T>
+	[[nodiscard]]
+	inline T random(T min_, T max_) noexcept
+	{
+		return static_cast<T>(min_ + random<T>(max_ - min_));
+	}
+
+	template <typename T, size_t Num>
+	[[nodiscard]]
+	inline std::array<T, Num> random_array(T min_ = T{}, T max_ = T{ 10 }) noexcept
+	{
+		std::array<T, Num> vals;
+		for (auto& v : vals)
+			v = random<T>(min_, max_);
+		return vals;
+	}
+
 }
 MUU_NAMESPACE_END
 using namespace Catch::literals;

@@ -23,4 +23,5 @@
 #include "../muu/string_param.h"
 #include "../muu/tagged_ptr.h"
 #include "../muu/thread_pool.h"
+#include "../muu/vector.h"
 #include "../muu/uuid.h"

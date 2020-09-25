@@ -8,7 +8,6 @@
 
 #pragma once
 #include "../muu/fwd.h"
-MUU_PRAGMA_MSVC(inline_recursion(on))
 
 #if MUU_GCC && MUU_HAS_FLOAT128 && MUU_EXTENDED_LITERALS
 	#pragma GCC system_header
@@ -42,6 +41,7 @@ MUU_ENABLE_WARNINGS
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_SPAM_WARNINGS
+MUU_PRAGMA_MSVC(inline_recursion(on))
 
 //=====================================================================================================================
 // ENVIRONMENT GROUND-TRUTHS
@@ -390,6 +390,19 @@ MUU_IMPL_NAMESPACE_START
 	using has_arrow_operator_ = decltype(std::declval<T>().operator->());
 	template <typename T>
 	using has_unary_plus_operator_ = decltype(+std::declval<T>());
+
+	template <typename T>
+	constexpr decltype(auto) has_tuple_get_adl_probe(T&& val)
+	{
+		using std::get;
+		return get<0>(std::forward<T&&>(val));
+	}
+	template <typename T>
+	using has_tuple_get_adl_ = decltype(has_tuple_get_adl_probe<T>());
+	template <typename T>
+	using has_tuple_get_member_ = decltype(std::declval<T>().template get<0>());
+	template <typename T>
+	using has_tuple_size_ = decltype(std::tuple_size<std::remove_cv_t<std::remove_reference_t<T>>>::value);
 }
 MUU_IMPL_NAMESPACE_END
 
@@ -769,6 +782,14 @@ MUU_NAMESPACE_START
 	/// \brief Aliases a std::aligned_storage_t with a size and alignment capable of representing all the named types.
 	template <typename... T>
 	using variant_storage = std::aligned_storage_t<sizeof(largest<T...>), alignof(most_aligned<T...>)>;
+
+	/// \brief Returns true if the type implements the C++17 tuple protocol (for structured binding).
+	template <typename T>
+	inline constexpr bool is_tuple_like = impl::is_detected<impl::has_tuple_size_, T>
+		&& (impl::is_detected<impl::has_tuple_get_adl_, T>
+			|| impl::is_detected<impl::has_tuple_get_member_, T>
+			//|| impl::has_tuple_get_member2_<T>::value
+			);
 
 	/// @}
 }
@@ -2304,7 +2325,8 @@ MUU_NAMESPACE_START
 	/// \brief	Applies a byte offset to a pointer.
 	/// \ingroup	intrinsics
 	///
-	/// \tparam	T	The type being pointed to.
+	/// \tparam	T		The type being pointed to.
+	/// \tparam	Offset	An integer type.
 	/// \param	ptr	The pointer to offset.
 	/// \param	offset	The number of bytes to add to the pointer's address.
 	///
@@ -2314,12 +2336,12 @@ MUU_NAMESPACE_START
 	/// 		 is given to the alignment of the pointed type. If you need to dereference pointers
 	/// 		 returned by apply_offset the onus is on you to ensure that the offset made sense
 	/// 		 before doing so!
-	template <typename T>
+	template <typename T, typename Offset MUU_SFINAE(is_integral<Offset> && is_arithmetic<Offset>)>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
 	MUU_ATTR(flatten)
-	constexpr T* apply_offset(T* ptr, ptrdiff_t offset) noexcept
+	constexpr T* apply_offset(T* ptr, Offset offset) noexcept
 	{
 		return pointer_cast<T*>(pointer_cast<rebase_pointer<T*, std::byte>>(ptr) + offset);
 	}
@@ -3386,6 +3408,19 @@ MUU_POP_WARNINGS // MUU_DISABLE_ARITHMETIC_WARNINGS
 
 MUU_NAMESPACE_START
 {
+	namespace impl
+	{
+		template <size_t I, typename T>
+		constexpr decltype(auto) compressed_pair_get(T&& cp) noexcept
+		{
+			static_assert(I <= 1);
+			if constexpr (I == 0)
+				return std::forward<T>(cp).first();
+			else
+				return std::forward<T>(cp).second();
+		}
+	}
+
 	/// \brief	A pair that uses Empty Base Class Optimization to elide storage for one or both of its members where possible.
 	/// \ingroup blocks
 	/// 
@@ -3459,6 +3494,38 @@ MUU_NAMESPACE_START
 			[[nodiscard]] constexpr const second_type& second() const& noexcept		{ return second_; }
 			/// \brief	Returns a const rvalue reference to the second member.
 			[[nodiscard]] constexpr const second_type&& second() const&& noexcept	{ return std::move(second_); }
+
+			/// \brief	Returns an lvalue reference to the selected member.
+			template <size_t I>
+			[[nodiscard]]
+			constexpr auto& get() & noexcept
+			{
+				return impl::compressed_pair_get<I>(*this);
+			}
+
+			/// \brief	Returns an rvalue reference to the selected member.
+			template <size_t I>
+			[[nodiscard]]
+			constexpr auto&& get() && noexcept
+			{
+				return impl::compressed_pair_get<I>(std::move(*this));
+			}
+
+			/// \brief	Returns a const lvalue reference to the selected member.
+			template <size_t I>
+			[[nodiscard]]
+			constexpr const auto& get() const & noexcept
+			{
+				return impl::compressed_pair_get<I>(*this);
+			}
+
+			/// \brief	Returns a const rvalue reference to the selected member.
+			template <size_t I>
+			[[nodiscard]]
+			constexpr const auto&& get() const && noexcept
+			{
+				return impl::compressed_pair_get<I>(std::move(*this));
+			}
 	};
 
 	#ifndef DOXYGEN
@@ -3499,6 +3566,34 @@ MUU_NAMESPACE_START
 			[[nodiscard]] constexpr second_type&& second() && noexcept				{ return std::move(second_); }
 			[[nodiscard]] constexpr const second_type& second() const& noexcept		{ return second_; }
 			[[nodiscard]] constexpr const second_type&& second() const&& noexcept	{ return std::move(second_); }
+
+			template <size_t I>
+			[[nodiscard]]
+			constexpr auto& get() & noexcept
+			{
+				return impl::compressed_pair_get<I>(*this);
+			}
+
+			template <size_t I>
+			[[nodiscard]]
+			constexpr auto&& get() && noexcept
+			{
+				return impl::compressed_pair_get<I>(std::move(*this));
+			}
+
+			template <size_t I>
+			[[nodiscard]]
+			constexpr const auto& get() const& noexcept
+			{
+				return impl::compressed_pair_get<I>(*this);
+			}
+
+			template <size_t I>
+			[[nodiscard]]
+			constexpr const auto&& get() const&& noexcept
+			{
+				return impl::compressed_pair_get<I>(std::move(*this));
+			}
 	};
 
 	template <typename First, typename Second>
@@ -3536,6 +3631,34 @@ MUU_NAMESPACE_START
 			[[nodiscard]] constexpr second_type&& second() && noexcept				{ return std::move(*this); }
 			[[nodiscard]] constexpr const second_type& second() const& noexcept		{ return *this; }
 			[[nodiscard]] constexpr const second_type&& second() const&& noexcept	{ return std::move(*this); }
+
+			template <size_t I>
+			[[nodiscard]]
+			constexpr auto& get() & noexcept
+			{
+				return impl::compressed_pair_get<I>(*this);
+			}
+
+			template <size_t I>
+			[[nodiscard]]
+			constexpr auto&& get() && noexcept
+			{
+				return impl::compressed_pair_get<I>(std::move(*this));
+			}
+
+			template <size_t I>
+			[[nodiscard]]
+			constexpr const auto& get() const& noexcept
+			{
+				return impl::compressed_pair_get<I>(*this);
+			}
+
+			template <size_t I>
+			[[nodiscard]]
+			constexpr const auto&& get() const&& noexcept
+			{
+				return impl::compressed_pair_get<I>(std::move(*this));
+			}
 	};
 
 	template <typename First, typename Second>
@@ -3572,11 +3695,57 @@ MUU_NAMESPACE_START
 			[[nodiscard]] constexpr second_type&& second() && noexcept				{ return std::move(*this); }
 			[[nodiscard]] constexpr const second_type& second() const& noexcept		{ return *this; }
 			[[nodiscard]] constexpr const second_type&& second() const&& noexcept	{ return std::move(*this); }
+
+			template <size_t I>
+			[[nodiscard]]
+			constexpr auto& get() & noexcept
+			{
+				return impl::compressed_pair_get<I>(*this);
+			}
+
+			template <size_t I>
+			[[nodiscard]]
+			constexpr auto&& get() && noexcept
+			{
+				return impl::compressed_pair_get<I>(std::move(*this));
+			}
+
+			template <size_t I>
+			[[nodiscard]]
+			constexpr const auto& get() const& noexcept
+			{
+				return impl::compressed_pair_get<I>(*this);
+			}
+
+			template <size_t I>
+			[[nodiscard]]
+			constexpr const auto&& get() const&& noexcept
+			{
+				return impl::compressed_pair_get<I>(std::move(*this));
+			}
 	};
 
 	#endif // DOXYGEN
 }
 MUU_NAMESPACE_END
+
+namespace std
+{
+	/// \brief Specialization of std::tuple_size for muu::compressed_pair.
+	template <typename First, typename Second>
+	struct tuple_size<muu::compressed_pair<First, Second>>
+	{
+		static constexpr size_t value = 2;
+	};
+
+	/// \brief Specialization of std::tuple_element for muu::compressed_pair.
+	template <size_t I, typename First, typename Second>
+	struct tuple_element<I, muu::compressed_pair<First, Second>>
+	{
+		static_assert(I <= 1);
+		using type = std::conditional_t<I == 1, Second, First>;
+	};
+}
 
 //=====================================================================================================================
 // SCOPE GUARD
@@ -3695,5 +3864,5 @@ MUU_NAMESPACE_END
 #undef MUU_HAS_INTRINSIC_BYTE_REVERSE
 #undef MUU_HAS_INTRINSIC_COUNTL_ZERO
 #undef MUU_HAS_INTRINSIC_COUNTR_ZERO
-MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS
 MUU_PRAGMA_MSVC(inline_recursion(off))
+MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS

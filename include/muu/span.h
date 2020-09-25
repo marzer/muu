@@ -10,7 +10,6 @@
 #include "../muu/core.h"
 MUU_DISABLE_WARNINGS
 #include <iterator>
-#include <array>
 MUU_ENABLE_WARNINGS
 
 #define MUU_SPAN_ASSERT(...)	do { if (::muu::is_constant_evaluated()) MUU_ASSERT(__VA_ARGS__); } while(false)
