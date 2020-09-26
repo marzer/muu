@@ -911,3 +911,10 @@ static_assert(!has_unary_plus_operator<Foo>);
 static_assert(!has_unary_plus_operator<const Foo>);
 static_assert(has_unary_plus_operator<Bar>);
 static_assert(has_unary_plus_operator<const Bar>);
+
+// is_tuple_like
+static_assert(!is_tuple_like<void>);
+static_assert(!is_tuple_like<int>);
+static_assert(!is_tuple_like<Foo>);
+static_assert(is_tuple_like<std::tuple<int, int>>);
+static_assert(is_tuple_like<std::pair<int, int>>);

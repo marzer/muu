@@ -320,6 +320,9 @@ MUU_IMPL_NAMESPACE_START
 	#define MUU_HR_SPECIALIZATION(lower, higher)									\
 		template <> struct highest_ranked_<lower, higher> { using type = higher; };	\
 		template <> struct highest_ranked_<higher, lower> { using type = higher; }
+	MUU_HR_SPECIALIZATION(signed char, signed short);
+	MUU_HR_SPECIALIZATION(unsigned char, unsigned short);
+	MUU_HR_SPECIALIZATION(unsigned char, signed short);
 	MUU_HR_SPECIALIZATION(half, float);
 	MUU_HR_SPECIALIZATION(half, double);
 	MUU_HR_SPECIALIZATION(half, long double);
@@ -345,9 +348,11 @@ MUU_IMPL_NAMESPACE_START
 		MUU_HR_SPECIALIZATION(__fp16, float128_t);
 	#endif
 	#if MUU_HAS_FLOAT16 && MUU_HAS_FLOAT128
-			MUU_HR_SPECIALIZATION(float16_t, float128_t);
+		MUU_HR_SPECIALIZATION(float16_t, float128_t);
 	#endif
 	#undef MUU_HR_SPECIALIZATION
+	template <typename... T>
+	using highest_ranked = typename highest_ranked_<T...>::type;
 
 	template <size_t Bits> struct code_unit_;
 	#ifdef __cpp_char8_t
@@ -392,17 +397,17 @@ MUU_IMPL_NAMESPACE_START
 	using has_unary_plus_operator_ = decltype(+std::declval<T>());
 
 	template <typename T>
-	constexpr decltype(auto) has_tuple_get_adl_probe(T&& val)
-	{
-		using std::get;
-		return get<0>(std::forward<T&&>(val));
-	}
-	template <typename T>
-	using has_tuple_get_adl_ = decltype(has_tuple_get_adl_probe<T>());
-	template <typename T>
 	using has_tuple_get_member_ = decltype(std::declval<T>().template get<0>());
 	template <typename T>
 	using has_tuple_size_ = decltype(std::tuple_size<std::remove_cv_t<std::remove_reference_t<T>>>::value);
+
+	template <typename T, bool = is_detected<has_tuple_size_, T>>
+	struct tuple_size_ : std::tuple_size<T>{};
+	template <typename T>
+	struct tuple_size_<T, false>
+	{
+		static constexpr size_t value = 0;
+	};
 }
 MUU_IMPL_NAMESPACE_END
 
@@ -786,10 +791,15 @@ MUU_NAMESPACE_START
 	/// \brief Returns true if the type implements the C++17 tuple protocol (for structured binding).
 	template <typename T>
 	inline constexpr bool is_tuple_like = impl::is_detected<impl::has_tuple_size_, T>
-		&& (impl::is_detected<impl::has_tuple_get_adl_, T>
-			|| impl::is_detected<impl::has_tuple_get_member_, T>
-			//|| impl::has_tuple_get_member2_<T>::value
-			);
+		&& impl::is_detected<impl::has_tuple_get_member_, T>;
+
+	template <typename T, typename U>	inline constexpr bool is_tuple_like<std::pair<T, U>> = true;
+	template <typename... T>			inline constexpr bool is_tuple_like<std::tuple<T...>> = true;
+
+	/// \brief Equivalent to std::tuple_size_v, but safe to use in SFINAE contexts.
+	/// \detail Returns 0 for types that do not implement std::tuple_size.
+	template <typename T>
+	inline constexpr size_t tuple_size = impl::tuple_size_<T>::value;
 
 	/// @}
 }
@@ -850,7 +860,7 @@ MUU_NAMESPACE_START
 		template <typename T>
 		struct integer_positive_constants
 		{
-			static constexpr T zero = T{};		///< `0`
+			static constexpr T zero = T{ 0 };	///< `0`
 			static constexpr T one = T{ 1 };	///< `1`
 			static constexpr T two = T{ 2 };	///< `2`
 			static constexpr T three = T{ 3 };	///< `3`
@@ -2502,7 +2512,7 @@ MUU_NAMESPACE_START
 		using alpha_type = remove_cv<std::conditional_t<is_floating_point<V>, V, double>>;
 		static_assert(all_floating_point<start_type, finish_type, alpha_type>);
 
-		using return_type = typename impl::highest_ranked_<start_type, finish_type, alpha_type>::type;
+		using return_type = impl::highest_ranked<start_type, finish_type, alpha_type>;
 		return lerp(static_cast<return_type>(start), static_cast<return_type>(finish), static_cast<return_type>(alpha));
 	}
 

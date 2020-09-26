@@ -41,6 +41,7 @@ MUU_DISABLE_WARNINGS
 #include <sstream>
 #include <iostream>
 #include <fstream>
+#include <tuple>
 MUU_NAMESPACE_START
 {
 	struct half;
@@ -69,7 +70,7 @@ MUU_NAMESPACE_START
 	{
 		if constexpr (is_floating_point<T>)
 		{
-			using fp = typename impl::highest_ranked_<T, double>::type;
+			using fp = impl::highest_ranked<T, double>;
 			return static_cast<T>(static_cast<fp>(::rand()) / fp{ RAND_MAX }); // 0.0 - 1.0
 		}
 		else
@@ -82,7 +83,7 @@ MUU_NAMESPACE_START
 	{
 		if constexpr (is_floating_point<T>)
 		{
-			using fp = typename impl::highest_ranked_<T, double>::type;
+			using fp = impl::highest_ranked<T, double>;
 			return static_cast<T>(random<fp>() * max_);
 		}
 		else
@@ -98,11 +99,21 @@ MUU_NAMESPACE_START
 
 	template <typename T, size_t Num>
 	[[nodiscard]]
-	inline std::array<T, Num> random_array(T min_ = T{}, T max_ = T{ 10 }) noexcept
+	inline std::array<T, Num> random_array(T min_, T max_) noexcept
 	{
 		std::array<T, Num> vals;
 		for (auto& v : vals)
 			v = random<T>(min_, max_);
+		return vals;
+	}
+
+	template <typename T, size_t Num>
+	[[nodiscard]]
+	inline std::array<T, Num> random_array() noexcept
+	{
+		std::array<T, Num> vals;
+		for (auto& v : vals)
+			v = random<T>();
 		return vals;
 	}
 

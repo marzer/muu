@@ -14,7 +14,7 @@ namespace
 	{
 		using data = float_test_data<T>;
 
-		using big = typename impl::highest_ranked_<T, long double>::type;
+		using big = impl::highest_ranked<T, long double>;
 
 		//test calling add() for each value
 		{

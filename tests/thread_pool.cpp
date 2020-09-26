@@ -13,6 +13,13 @@ MUU_DISABLE_SPAM_WARNINGS
 
 TEST_CASE("thread_pool - initialization")
 {
+	// creating and immediately destroying a threadpool causes a spurious deadlock
+	// on the CI servers for some reason, so this is a workaround
+	static constexpr auto anti_hang = []() noexcept
+	{
+		std::this_thread::sleep_for(20ms);
+	};
+
 	{
 		INFO("single worker, queue size == 1")
 
@@ -22,7 +29,7 @@ TEST_CASE("thread_pool - initialization")
 		thread_pool threads2{ std::move(threads) };
 		CHECK(threads.size() == 0u);
 		CHECK(threads2.size() == 1u);
-		std::this_thread::sleep_for(20ms);
+		threads2.for_range(0_sz, threads2.size(), anti_hang);
 	}
 
 	{
@@ -30,7 +37,7 @@ TEST_CASE("thread_pool - initialization")
 
 		thread_pool threads{ 1u, 10u };
 		CHECK(threads.size() == 1u);
-		std::this_thread::sleep_for(20ms);
+		threads.for_range(0_sz, threads.size(), anti_hang);
 	}
 
 	{
@@ -38,15 +45,13 @@ TEST_CASE("thread_pool - initialization")
 
 		thread_pool threads;
 		CHECK(threads.size() == std::thread::hardware_concurrency());
-		std::this_thread::sleep_for(20ms);
+		threads.for_range(0_sz, threads.size(), anti_hang);
 	}
 
 	{
 		INFO("auto workers, queue size == 10")
-
 		thread_pool threads{ 0u, 10u };
-		CHECK(threads.size() == std::thread::hardware_concurrency());
-		std::this_thread::sleep_for(20ms);
+		threads.for_range(0_sz, threads.size(), anti_hang);
 	}
 }
 
@@ -67,6 +72,7 @@ namespace
 TEST_CASE("thread_pool - enqueue")
 {
 	thread_pool threads;
+	CHECK(threads.size() == std::thread::hardware_concurrency());
 
 	//tasks with no state at all
 	{
@@ -165,6 +171,8 @@ TEST_CASE("thread_pool - enqueue")
 TEST_CASE("thread_pool - for_range")
 {
 	thread_pool threads;
+	CHECK(threads.size() == std::thread::hardware_concurrency());
+
 	std::array<int, 1000> values;
 	std::vector<int> thread_values(threads.size(), 0);
 
@@ -224,6 +232,8 @@ TEST_CASE("thread_pool - for_range")
 TEST_CASE("thread_pool - for_each")
 {
 	thread_pool threads;
+	CHECK(threads.size() == std::thread::hardware_concurrency());
+
 	std::array<int, 1000> values;
 	std::vector<int> thread_values(threads.size(), 0);
 

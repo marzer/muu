@@ -26,8 +26,11 @@ namespace std
 	template <typename>				struct	pointer_traits;
 	template <typename>				struct	tuple_size;
 	template <size_t, typename>		struct	tuple_element;
+	template <typename, typename>	struct	pair;
+
 	template <typename, size_t>		class	array;
 	template <typename>				class	optional;
+	template <typename...>			class	tuple;
 }
 
 #if MUU_WINDOWS

@@ -433,15 +433,16 @@ MUU_NAMESPACE_START
 				public:
 
 					template <typename Arg>
-					void operator()(Arg&& arg, [[maybe_unused]] size_t tidx) const noexcept
+					void operator()([[maybe_unused]] Arg&& arg, [[maybe_unused]] size_t tidx) const noexcept
 					{
 						if constexpr (std::is_invocable_v<T, Arg&&, size_t>)
 							task(std::forward<Arg>(arg), tidx);
-						else
-						{
-							static_assert(std::is_invocable_v<T, Arg&&>);
+						else if constexpr (std::is_invocable_v<T, Arg&&>)
 							task(std::forward<Arg>(arg));
-						}
+						else if constexpr (std::is_invocable_v<T>)
+							task();
+						else
+							static_assert(dependent_false<Arg>, "Evaluated unreachable branch!");
 					}
 
 					MUU_ALWAYS_INLINE for_each_task& operator* () noexcept { return *this; }
@@ -666,14 +667,14 @@ MUU_NAMESPACE_START
 			/// 		 and optionally a second `size_t` parameter to recieve the index of the worker invoking the task:
 			/// \cpp
 			/// std::array<int, 10> vals;
-			/// pool.for_each(vals, [](int& i) noexcept
-			/// {
-			///		// i is one of the elements of vals
-			///	});
 			/// pool.for_each(vals, [](int& i, size_t worker_index) noexcept
 			/// {
 			///		// i is one of the elements of vals
 			///		// worker_index is in the range [0, pool.size())
+			///	});
+			/// pool.for_each(vals, [](int& i) noexcept
+			/// {
+			///		// i is one of the elements of vals
 			///	});
 			/// \ecpp
 			/// 
@@ -740,17 +741,22 @@ MUU_NAMESPACE_START
 	
 			/// \brief	Enqueues a task to execute once for every value in a range.
 			/// 
-			/// \details Tasks must be callables with one parameter matching the range's integer type,
-			/// 		 and optionally a second `size_t` parameter to recieve the index of the worker invoking the task:
+			/// \details	Tasks must be callables that take 0-2 argument, with the first argument being the range's
+			///				integer type, and the second beign a `size_t` corresponding to the index of
+			///				the worker invoking the task:
 			/// \cpp
-			/// pool.for_range(0, 10, [](int i) noexcept
-			/// {
-			///		// i is in the range [0, 10)
-			///	});
 			/// pool.for_range(0, 10, [](int i, size_t worker_index) noexcept
 			/// {
 			///		// i is in the range [0, 10)
 			///		// worker_index is in the range [0, pool.size())
+			///	});
+			/// pool.for_range(0, 10, [](int i) noexcept
+			/// {
+			///		// i is in the range [0, 10)
+			///	});
+			/// pool.for_range(0, 10, []() noexcept
+			/// {
+			///		// no args is OK too
 			///	});
 			/// \ecpp
 			/// 
@@ -771,8 +777,9 @@ MUU_NAMESPACE_START
 			{
 				static_assert(
 					std::is_nothrow_invocable_v<Task&&, T, size_t>
-					|| std::is_nothrow_invocable_v<Task&&, T>,
-					"Tasks passed to thread_pool::for_range() must be callable as void(T) noexcept or void(T, size_t) noexcept"
+					|| std::is_nothrow_invocable_v<Task&&, T>
+					|| std::is_nothrow_invocable_v<Task&&>,
+					"Tasks passed to thread_pool::for_range() must be callable as void() noexcept, void(T) noexcept or void(T, size_t) noexcept"
 				);
 				MUU_MOVE_CHECK;
 

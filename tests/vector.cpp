@@ -40,11 +40,11 @@
 	TEST_FLOAT128(func)
 
 
-#if MUU_HAS_INT128
-	#define TEST_INT128(func)	TEST_TYPE(func, int128_t)
-#else
+//#if MUU_HAS_INT128
+//	#define TEST_INT128(func)	TEST_TYPE(func, int128_t)
+//#else
 	#define TEST_INT128(func)	(void)0
-#endif
+//#endif
 
 #define TEST_INTS(func)					\
 	TEST_TYPE(func, signed char);		\
@@ -142,7 +142,7 @@ namespace
 			CHECK(vec[i] == scalar_type{});
 	}
 
-	template <typename Vector, size_t NUM = 10>
+	template <typename Vector, size_t NUM>
 	void construction_test_from_larger_vector() noexcept
 	{
 		using scalar_type = typename Vector::scalar_type;
@@ -213,7 +213,36 @@ namespace
 		if constexpr (DIM > 5) construction_test_from_smaller_vector<vector_t, 5>();
 
 		// truncating constructor
-		construction_test_from_larger_vector<vector_t>();
+		if constexpr (DIM < 2) construction_test_from_larger_vector<vector_t, 2>();
+		if constexpr (DIM < 3) construction_test_from_larger_vector<vector_t, 3>();
+		if constexpr (DIM < 4) construction_test_from_larger_vector<vector_t, 4>();
+		if constexpr (DIM < 5) construction_test_from_larger_vector<vector_t, 5>();
+		if constexpr (DIM < 10) construction_test_from_larger_vector<vector_t, 10>();
+
+		// pair constructor
+		if constexpr (DIM >= 2)
+		{
+			INFO("constructing from a std::pair"sv)
+
+			auto values = std::pair{ random<T>(), random<T>() };
+			vector<T, DIM> vec{ values };
+			CHECK(vec[0] == std::get<0>(values));
+			CHECK(vec[1] == std::get<1>(values));
+			if constexpr (DIM > 2) CHECK(vec[2] == T{});
+		}
+
+		// tuple constructor (3 elems)
+		if constexpr (DIM >= 3)
+		{
+			INFO("constructing from a std::tuple"sv)
+
+			auto values = std::tuple{ random<T>(), random<T>(), random<T>() };
+			vector<T, DIM> vec{ values };
+			CHECK(vec[0] == std::get<0>(values));
+			CHECK(vec[1] == std::get<1>(values));
+			CHECK(vec[2] == std::get<2>(values));
+			if constexpr (DIM > 3) CHECK(vec[3] == T{});
+		}
 
 		//// combining constructor (xy + z)
 		//if constexpr (DIM >= 3)
@@ -238,32 +267,71 @@ namespace
 		//	if constexpr (DIM > 4) ASSERT_NEAR_EX(vector[4], 0.0);
 		//}
 
-		//// pair constructor
-		//if constexpr (DIM >= 2)
-		//{
-		//	auto values = std::pair{ Random<T>(T{}, static_cast<T>(10)), Random<T>(T{}, static_cast<T>(10)) };
-		//	Vector<T, DIM> vector{ values };
-		//	ASSERT_NEAR_EX(vector[0], std::get<0>(values));
-		//	ASSERT_NEAR_EX(vector[1], std::get<1>(values));
-		//	if constexpr (DIM > 2) ASSERT_NEAR_EX(vector[2], 0.0);
-		//}
-
-		//// tuple constructor (3 elems)
-		//if constexpr (DIM >= 3)
-		//{
-		//	auto values = std::tuple{ 2, 5, Random<T>(T{}, static_cast<T>(10)) };
-		//	Vector<T, DIM> vector{ values };
-		//	ASSERT_NEAR_EX(vector[0], std::get<0>(values));
-		//	ASSERT_NEAR_EX(vector[1], std::get<1>(values));
-		//	ASSERT_NEAR_EX(vector[2], std::get<2>(values));
-		//	if constexpr (DIM > 3) ASSERT_NEAR_EX(vector[3], 0.0);
-		//}
 
 	}
 }
 
-
 TEST_CASE("vector - construction")
 {
 	TEST_ALL_TYPES(construction_tests);
+}
+
+namespace
+{
+	template <typename T, size_t DIM>
+	void equality_tests(std::string_view scalar_typename) noexcept
+	{
+		INFO("vector<"sv << scalar_typename << ", "sv << DIM << ">"sv)
+		using vector_t = vector<T, DIM>;
+
+		
+		{
+			INFO("same type"sv)
+		
+			vector_t vec;
+			for (size_t i = 0; i < DIM; i++)
+				vec[i] = random<T>();
+
+			vector_t same{ vec };
+			CHECK(vector_t::equal(vec, same));
+			CHECK(vec == same);
+			CHECK_FALSE(vec != same);
+
+			vector_t different{ vec };
+			for (size_t i = 0; i < DIM; i++)
+				different[i]++;
+			CHECK_FALSE(vector_t::equal(vec, different));
+			CHECK(vec != different);
+			CHECK_FALSE(vec == different);
+		}
+
+		if constexpr (!is_floating_point<T>)
+		{
+			INFO("different type"sv)
+
+			using other_t = vector<std::conditional_t<std::is_same_v<T, long>, int, long>, DIM>;
+
+			vector_t vec;
+			for (size_t i = 0; i < DIM; i++)
+				vec[i] = random<T>();
+
+			other_t same{ vec };
+			CHECK(vector_t::equal(vec, same));
+			CHECK(vec == same);
+			CHECK_FALSE(vec != same);
+
+			other_t different{ vec };
+			for (size_t i = 0; i < DIM; i++)
+				different[i]++;
+			CHECK_FALSE(vector_t::equal(vec, different));
+			CHECK(vec != different);
+			CHECK_FALSE(vec == different);
+
+		}
+	}
+}
+
+TEST_CASE("vector - equality")
+{
+	TEST_ALL_TYPES(equality_tests);
 }

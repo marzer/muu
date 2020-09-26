@@ -75,7 +75,10 @@ MUU_NAMESPACE_START
 	/// 		 back to half when you're finished.
 	/// 
 	/// \see [Half-precision floating-point (wikipedia)](https://en.wikipedia.org/wiki/Half-precision_floating-point_format)
-	struct MUU_TRIVIAL_ABI half
+	struct
+	MUU_TRIVIAL_ABI
+	MUU_ATTR(packed)
+	half
 	{
 		/// \brief	The raw bits of the float.
 		uint16_t bits;

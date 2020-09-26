@@ -284,7 +284,7 @@ MUU_NAMESPACE_START
 		struct kahan_accumulator // https://en.wikipedia.org/wiki/Kahan_summation_algorithm#Further_enhancements
 		{
 			using value_type = ValueType;
-			using sum_type = typename impl::highest_ranked_<ValueType, float>::type;
+			using sum_type = impl::highest_ranked<ValueType, float>;
 
 			static_assert(
 				is_floating_point<value_type>,
