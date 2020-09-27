@@ -408,7 +408,7 @@ namespace
 				for (size_t i = 0; i < DIM; i++)
 				{
 					vector_t vector2{ vector1 };
-					vector2[i] = constants<T>::nan;
+					vector2[i] = make_nan<T>();
 					CHECK(vector2.is_infinity_or_nan());
 				}
 			}
@@ -418,7 +418,7 @@ namespace
 				for (size_t i = 0; i < DIM; i++)
 				{
 					vector_t vector2{ vector1 };
-					vector2[i] = constants<T>::infinity;
+					vector2[i] = make_infinity<T>();
 					CHECK(vector2.is_infinity_or_nan());
 				}
 			}

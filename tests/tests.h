@@ -50,7 +50,7 @@ MUU_NAMESPACE_START
 	template <typename T>
 	[[nodiscard]]
 	MUU_ATTR(const)
-	MUU_CONSTEVAL double make_infinity(int sign = 1) noexcept
+	MUU_CONSTEVAL T make_infinity(int sign = 1) noexcept
 	{
 		using ftd = float_test_data<T>;
 		return bit_cast<T>(sign >= 0 ? ftd::bits_pos_inf : ftd::bits_neg_inf);
@@ -59,7 +59,7 @@ MUU_NAMESPACE_START
 	template <typename T>
 	[[nodiscard]]
 	MUU_ATTR(const)
-	MUU_CONSTEVAL double make_nan() noexcept
+	MUU_CONSTEVAL T make_nan() noexcept
 	{
 		return bit_cast<T>(float_test_data<T>::bits_qnan);
 	}
