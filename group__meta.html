@@ -384,6 +384,11 @@ C++</span></a>
             <dd>Is a type signed or reference-to-signed?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="#ga1ce8c4c617986b508a2be61e238f764d">is_tuple_like</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Returns true if the type implements the C++17 tuple protocol (for structured binding).</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="#ga9e9c5b2e65e4f784d2a6b52b6a33a34f">is_unsigned</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Is a type unsigned or reference-to-unsigned?</dd>
@@ -400,6 +405,10 @@ C++</span></a>
               <div class="m-doc-template">template&lt;typename... T&gt;</div> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#ga3b7e16d2f90358811bc6231eb993ff33">total_size</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Returns the sum of <code>sizeof()</code> for all of the types named by T.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#gabe21403c5219a3959df510427b829038">tuple_size</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Equivalent to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size_v</a>, but safe to use in SFINAE contexts.</dd>
           </dl>
         </section>
         <section>
@@ -1035,6 +1044,16 @@ C++</span></a>
             <p>Is a type signed or reference-to-signed?</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums backed by signed integers.</p><p>Returns true for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>Returns true for native <a class="m-doc" href="group__blocks.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a>, <a class="m-doc" href="group__blocks.html#gac1f6704b74f509e1de86f816c08632f2">float16_<wbr/>t</a> and <a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
           </div></section>
+          <section class="m-doc-details" id="ga1ce8c4c617986b508a2be61e238f764d"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga1ce8c4c617986b508a2be61e238f764d">is_tuple_like</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Returns true if the type implements the C++17 tuple protocol (for structured binding).</p>
+          </div></section>
           <section class="m-doc-details" id="ga9e9c5b2e65e4f784d2a6b52b6a33a34f"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
@@ -1074,6 +1093,16 @@ C++</span></a>
               </div> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#ga3b7e16d2f90358811bc6231eb993ff33">total_size</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Returns the sum of <code>sizeof()</code> for all of the types named by T.</p>
+          </div></section>
+          <section class="m-doc-details" id="gabe21403c5219a3959df510427b829038"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#gabe21403c5219a3959df510427b829038">tuple_size</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Equivalent to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size_v</a>, but safe to use in SFINAE contexts.</p>
+<p>Returns 0 for types that do not implement <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a>.</p>
           </div></section>
         </section>
       </div>

@@ -280,6 +280,11 @@ C++</span></a>
               struct <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>
             </dt>
             <dd>A 128-bit universally-unique identifier (UUID).</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1vector.html">vector</a>
+            </dt>
+            <dd>An N-dimensional vector.</dd>
           </dl>
         </section>
         <section id="enum-members">
@@ -507,11 +512,47 @@ C++</span></a>
             </dt>
             <dd>Resizes memory previously allocated with a specific alignment boundary.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gab2974794f3fabb23885328be0436b3f6">apply_offset</a>(</span><span class="m-doc-wrap">T* ptr,
-              ptrdiff_t offset) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename T, typename Offset&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga95da5073b863161a6542266f4a6c5961">apply_offset</a>(</span><span class="m-doc-wrap">T* ptr,
+              Offset offset) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Applies a byte offset to a pointer.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gabfe9ea2afb006528b1387e6b2d7a50d8">approx_equal</a>(</span><span class="m-doc-wrap">double a,
+              double b,
+              double epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;double&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two values are approximately equal.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gac82dcde48c487938747a8baafec6bb54">approx_equal</a>(</span><span class="m-doc-wrap">float a,
+              float b,
+              float epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;float&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two values are approximately equal.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga62400f811bf59a4e92f5e8c3172d9ecb">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> a,
+              <a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> b,
+              <a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;<a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two values are approximately equal.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga7a6fee701dd396ea3d5840e694462d7c">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__blocks.html#gac1f6704b74f509e1de86f816c08632f2">float16_<wbr/>t</a> a,
+              <a class="m-doc" href="group__blocks.html#gac1f6704b74f509e1de86f816c08632f2">float16_<wbr/>t</a> b,
+              <a class="m-doc" href="group__blocks.html#gac1f6704b74f509e1de86f816c08632f2">float16_<wbr/>t</a> epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;<a class="m-doc" href="group__blocks.html#gac1f6704b74f509e1de86f816c08632f2">float16_<wbr/>t</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two values are approximately equal.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gafa07e9f7df24ef7ccfc6ff96b8b585fe">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> lhs,
+              <a class="m-doc" href="structmuu_1_1half.html">half</a> rhs,
+              <a class="m-doc" href="structmuu_1_1half.html">half</a> epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;<a class="m-doc" href="structmuu_1_1half.html">half</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two values are approximately equal.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gafde7b2a6ac13119386ed20c50ac68f70">approx_equal</a>(</span><span class="m-doc-wrap">long double a,
+              long double b,
+              long double epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;long double&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two values are approximately equal.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__mem.html#ga7809e878e8e7c2d0377b3c7089e9c452">as_bytes</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;T, N&gt; s) -&gt; auto <span class="m-label m-flat m-success">noexcept</span></span>
@@ -1473,6 +1514,11 @@ C++</span></a>
             <dd>Is a type signed or reference-to-signed?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga1ce8c4c617986b508a2be61e238f764d">is_tuple_like</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Returns true if the type implements the C++17 tuple protocol (for structured binding).</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga9e9c5b2e65e4f784d2a6b52b6a33a34f">is_unsigned</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Is a type unsigned or reference-to-unsigned?</dd>
@@ -1489,6 +1535,10 @@ C++</span></a>
               <div class="m-doc-template">template&lt;typename... T&gt;</div> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="group__meta.html#ga3b7e16d2f90358811bc6231eb993ff33">total_size</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Returns the sum of <code>sizeof()</code> for all of the types named by T.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="group__meta.html#gabe21403c5219a3959df510427b829038">tuple_size</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Equivalent to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size_v</a>, but safe to use in SFINAE contexts.</dd>
           </dl>
         </section>
         <section>
