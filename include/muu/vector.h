@@ -27,10 +27,6 @@ MUU_PRAGMA_MSVC(inline_recursion(on))
 
 #ifndef DOXYGEN // Template Specialization cast Confusion on Doxygen! It's super effective!
 
-#define	ENABLE_IF_AT_LEAST_DIMENSIONS(dim) , size_t DIM = Dimensions, typename = std::enable_if_t<(DIM >= dim)>
-#define	ENABLE_IF_AT_LEAST_DIMENSIONS_AND(dim,...) , size_t DIM = Dimensions, typename = std::enable_if_t<(__VA_ARGS__) && (DIM >= dim)>
-#define	REQUIRES_AT_LEAST_DIMENSIONS(dim) template <size_t DIM = Dimensions, typename = std::enable_if_t<(DIM >= dim)>>
-
 MUU_IMPL_NAMESPACE_START
 {
 	MUU_PRAGMA_MSVC(pack(push, 1))
@@ -51,10 +47,7 @@ MUU_IMPL_NAMESPACE_START
 	struct zerofill_tag {};
 
 	template <typename Scalar, size_t Dimensions>
-	struct
-	MUU_TRIVIAL_ABI
-	MUU_ATTR(packed)
-	vector_base
+	struct MUU_TRIVIAL_ABI vector_base
 	{
 		Scalar values[Dimensions];
 
@@ -82,10 +75,7 @@ MUU_IMPL_NAMESPACE_START
 	};
 
 	template <typename Scalar>
-	struct
-	MUU_TRIVIAL_ABI
-	MUU_ATTR(packed)
-	vector_base<Scalar, 1>
+	struct MUU_TRIVIAL_ABI vector_base<Scalar, 1>
 	{
 		Scalar x;
 
@@ -101,10 +91,7 @@ MUU_IMPL_NAMESPACE_START
 	};
 
 	template <typename Scalar>
-	struct
-	MUU_TRIVIAL_ABI
-	MUU_ATTR(packed)
-	vector_base<Scalar, 2>
+	struct MUU_TRIVIAL_ABI vector_base<Scalar, 2>
 	{
 		Scalar x;
 		Scalar y;
@@ -128,10 +115,7 @@ MUU_IMPL_NAMESPACE_START
 	};
 
 	template <typename Scalar>
-	struct
-	MUU_TRIVIAL_ABI
-	MUU_ATTR(packed)
-	vector_base<Scalar, 3>
+	struct MUU_TRIVIAL_ABI vector_base<Scalar, 3>
 	{
 		Scalar x;
 		Scalar y;
@@ -159,10 +143,7 @@ MUU_IMPL_NAMESPACE_START
 	};
 
 	template <typename Scalar>
-	struct
-	MUU_TRIVIAL_ABI
-	MUU_ATTR(packed)
-	vector_base<Scalar, 4>
+	struct MUU_TRIVIAL_ABI vector_base<Scalar, 4>
 	{
 		Scalar x;
 		Scalar y;
@@ -288,6 +269,45 @@ MUU_IMPL_NAMESPACE_START
 }
 MUU_IMPL_NAMESPACE_END
 
+#define	ENABLE_IF_AT_LEAST_DIMENSIONS(dim)	\
+	 , size_t DIM = Dimensions, typename = std::enable_if_t<(DIM >= dim)>
+
+#define	ENABLE_IF_AT_LEAST_DIMENSIONS_AND(dim,...)	\
+	, size_t DIM = Dimensions, typename = std::enable_if_t<(__VA_ARGS__) && (DIM >= dim)>
+
+#define	REQUIRES_AT_LEAST_DIMENSIONS(dim) \
+	template <size_t DIM = Dimensions, typename = std::enable_if_t<(DIM >= dim)>>
+
+#define ELEMENTWISE_AND(func)															\
+	if constexpr (Dimensions == 1) return func(x);										\
+	if constexpr (Dimensions == 2) return func(x) && func(y);							\
+	if constexpr (Dimensions == 3) return func(x) && func(y) && func(z);				\
+	if constexpr (Dimensions == 4) return func(x) && func(y) && func(z) && func(w);		\
+	if constexpr (Dimensions > 4)														\
+	{																					\
+		MUU_PRAGMA_MSVC(omp simd)														\
+		for (size_t i = 0; i < Dimensions; i++)											\
+			if (!(func(values[i])))														\
+				return false;															\
+		return true;																	\
+	}																					\
+	(void)0
+
+#define ELEMENTWISE_OR(func)															\
+	if constexpr (Dimensions == 1) return func(x);										\
+	if constexpr (Dimensions == 2) return func(x) || func(y);							\
+	if constexpr (Dimensions == 3) return func(x) || func(y) || func(z);				\
+	if constexpr (Dimensions == 4) return func(x) || func(y) || func(z) || func(w);		\
+	if constexpr (Dimensions > 4)														\
+	{																					\
+		MUU_PRAGMA_MSVC(omp simd)														\
+		for (size_t i = 0; i < Dimensions; i++)											\
+			if (func(values[i]))														\
+				return true;															\
+		return false;																	\
+	}																					\
+	(void)0
+
 #else // ^^^ !DOXYGEN / DOXYGEN vvv
 
 #define ENABLE_IF_AT_LEAST_DIMENSIONS(...)
@@ -303,10 +323,7 @@ MUU_NAMESPACE_START
 	/// \tparam	Scalar      An arithmetic type.
 	/// \tparam Dimensions  The number of dimensions.
 	template <typename Scalar, size_t Dimensions>
-	struct
-	MUU_TRIVIAL_ABI
-	MUU_ATTR(packed)
-	vector
+	struct MUU_TRIVIAL_ABI vector
 		#ifndef DOXYGEN
 		: impl::vector_base<Scalar, Dimensions>
 		#endif
@@ -358,11 +375,13 @@ MUU_NAMESPACE_START
 
 		template <typename T, size_t N>
 		friend struct vector;
-		using base_type = impl::vector_base<Scalar, Dimensions>;
+		using base = impl::vector_base<Scalar, Dimensions>;
+		static constexpr bool has_padding = sizeof(base) > (sizeof(Scalar) * Dimensions);
+		static constexpr size_t padded_element_size = sizeof(base) / Dimensions;
 
 	public:
 
-	#if 1 // element accessors
+	#if 1 // scalar component accessors -------------------------------------------------------------------------------
 
 	private:
 
@@ -378,10 +397,10 @@ MUU_NAMESPACE_START
 
 			if constexpr (Dimensions <= 4)
 			{
-				if constexpr (Index == 0)		return vec.x;
-				else if constexpr (Index == 1)	return vec.y;
-				else if constexpr (Index == 2)	return vec.z;
-				else							return vec.w;
+				if constexpr (Index == 0) return vec.x;
+				if constexpr (Index == 1) return vec.y;
+				if constexpr (Index == 2) return vec.z;
+				if constexpr (Index == 3) return vec.w;
 			}
 			else
 				return vec.values[Index];
@@ -396,7 +415,7 @@ MUU_NAMESPACE_START
 
 			if constexpr (Dimensions <= 4)
 			{
-				if (is_constant_evaluated())
+				if (has_padding || is_constant_evaluated())
 				{
 					switch (idx)
 					{
@@ -474,7 +493,7 @@ MUU_NAMESPACE_START
 
 	#endif // scalar component accessors
 
-	#if 1 // constructors
+	#if 1 // constructors ---------------------------------------------------------------------------------------------
 
 	private:
 
@@ -488,9 +507,9 @@ MUU_NAMESPACE_START
 
 			if (is_constant_evaluated())
 			{
-				impl::vector_for_each<First, Count>(vec, [](scalar_type& el) noexcept
+				impl::vector_for_each<First, Count>(vec, [](Scalar& el) noexcept
 				{
-					el = scalar_type{};
+					el = Scalar{};
 				});
 			}
 			else
@@ -498,7 +517,7 @@ MUU_NAMESPACE_START
 				if constexpr (First == 0 && Count == Dimensions)
 					memset(&vec, 0, sizeof(vector));
 				else
-					memset(&vec.template get<First>(), 0, sizeof(scalar_type) * Count);
+					memset(&vec.template get<First>(), 0, padded_element_size * Count);
 			}
 		}
 
@@ -506,23 +525,24 @@ MUU_NAMESPACE_START
 		MUU_ATTR(flatten)
 		static void fill_from_array(vector& vec, const T& arr) noexcept
 		{
-			constexpr bool can_memcpy = std::is_same_v<remove_cvref<decltype(arr[0])>, scalar_type>;
+			constexpr bool can_memcpy = !has_padding
+				&& std::is_same_v<remove_cvref<decltype(arr[0])>, Scalar>;
 
 			if constexpr (can_memcpy && build::supports_is_constant_evaluated)
 			{
 				if (is_constant_evaluated())
 				{
-					impl::vector_for_each<0, N>(vec, [&](scalar_type& el, size_t i) noexcept
+					impl::vector_for_each<0, N>(vec, [&](Scalar& el, size_t i) noexcept
 					{
 						el = arr[i];
 					});
 				}
 				else
-					memcpy(&vec, &arr, sizeof(scalar_type) * N);
+					memcpy(&vec, &arr, sizeof(Scalar) * N);
 			}
 			else
 			{
-				impl::vector_for_each<0, N>(vec, [&](scalar_type& el, size_t i) noexcept
+				impl::vector_for_each<0, N>(vec, [&](Scalar& el, size_t i) noexcept
 				{
 					el = arr[i];
 				});
@@ -552,7 +572,7 @@ MUU_NAMESPACE_START
 		}
 
 		explicit constexpr vector(impl::zerofill_tag tag) noexcept
-			: base_type{ tag }
+			: base{ tag }
 		{}
 
 	public:
@@ -571,7 +591,7 @@ MUU_NAMESPACE_START
 		/// \param	fill	The value used to initialize each of the vector's scalar components.
 		MUU_NODISCARD_CTOR
 		explicit constexpr vector(scalar_type fill) noexcept
-			: base_type{ fill }
+			: base{ fill }
 		{}
 
 		/// \brief		Constructs a vector from two scalar values.
@@ -584,7 +604,7 @@ MUU_NAMESPACE_START
 		REQUIRES_AT_LEAST_DIMENSIONS(2)
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y) noexcept
-			: base_type{ x, y }
+			: base{ x, y }
 		{}
 
 		/// \brief		Constructs a vector from three scalar values.
@@ -598,7 +618,7 @@ MUU_NAMESPACE_START
 		REQUIRES_AT_LEAST_DIMENSIONS(3)
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y, scalar_type z) noexcept
-			: base_type{ x, y, z }
+			: base{ x, y, z }
 		{}
 
 		/// \brief		Constructs a vector from four scalar values.
@@ -614,7 +634,7 @@ MUU_NAMESPACE_START
 		REQUIRES_AT_LEAST_DIMENSIONS(4)
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y, scalar_type z, scalar_type w) noexcept
-			: base_type{ x, y, z, w }
+			: base{ x, y, z, w }
 		{}
 
 		/// \brief		Constructs a vector from five or more scalar values.
@@ -631,7 +651,7 @@ MUU_NAMESPACE_START
 		template <typename... T ENABLE_IF_AT_LEAST_DIMENSIONS(5)>
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y, scalar_type z, scalar_type w, T... vals) noexcept
-			: base_type{ x, y, z, w, vals... }
+			: base{ x, y, z, w, vals... }
 		{}
 
 		/// \brief Constructs a vector from a raw array.
@@ -667,7 +687,7 @@ MUU_NAMESPACE_START
 		MUU_NODISCARD_CTOR
 		explicit vector(const vector<T, N>& vec) noexcept
 		{
-			constexpr auto can_memcpy = std::is_same_v<T, scalar_type>;
+			constexpr auto can_memcpy = std::is_same_v<T, Scalar> && has_padding == vector<T, N>::has_padding;
 
 			if constexpr (can_memcpy)
 			{
@@ -676,9 +696,9 @@ MUU_NAMESPACE_START
 			}
 			else
 			{
-				impl::vector_for_each(*this, vec, [](scalar_type& lhs, auto& rhs) noexcept
+				impl::vector_for_each(*this, vec, [](Scalar& lhs, auto& rhs) noexcept
 				{
-					lhs = static_cast<scalar_type>(rhs);
+					lhs = static_cast<Scalar>(rhs);
 				});
 			}
 
@@ -698,7 +718,7 @@ MUU_NAMESPACE_START
 
 	#endif // constructors
 
-	#if 1 // equality
+	#if 1 // equality -------------------------------------------------------------------------------------------------
 
 	private:
 
@@ -709,22 +729,24 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	static constexpr bool MUU_VECTORCALL equal(
-		vector MUU_VECTORCALL_CONSTREF lhs,
-		vector<T, Dimensions> MUU_VECTORCALL_CONSTREF rhs
+		vector MUU_VECTORCALL_CONSTREF a,
+		vector<T, Dimensions> MUU_VECTORCALL_CONSTREF b
 	) noexcept
 	{
-		if constexpr (Dimensions == 1) return lhs.x == rhs.x;
-		if constexpr (Dimensions == 2) return lhs.x == rhs.x && lhs.y == rhs.y;
-		if constexpr (Dimensions == 3) return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z;
-		if constexpr (Dimensions == 4) return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z && lhs.w == rhs.w;
-		if constexpr (Dimensions > 4)
-		{
-			MUU_PRAGMA_MSVC(omp simd)
-			for (size_t i = 0; i < Dimensions; i++)
-				if (lhs.values[i] != rhs.values[i])
-					return false;
-			return true;
-		}
+		#define VEC_FUNC(member)	a.member == b.member
+		ELEMENTWISE_AND(VEC_FUNC);
+		#undef VEC_FUNC
+	}
+
+	/// \brief	Returns true if the vector is exactly equal to another.
+	template <typename T>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr bool MUU_VECTORCALL equal(
+		vector<T, Dimensions> MUU_VECTORCALL_CONSTREF other
+	) const noexcept
+	{
+		return equal(*this, other);
 	}
 
 	/// \brief	Returns true if two vectors are exactly equal.
@@ -751,32 +773,95 @@ MUU_NAMESPACE_START
 		return !equal(lhs, rhs);
 	}
 
+	/// \brief	Returns true if two vectors are approximately equal.
+	template <typename T MUU_SFINAE(any_floating_point<Scalar, T>)>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	static constexpr bool MUU_VECTORCALL approx_equal(
+		vector MUU_VECTORCALL_CONSTREF a,
+		vector<T, Dimensions> MUU_VECTORCALL_CONSTREF b,
+		impl::highest_ranked<Scalar, T> epsilon = muu::constants<impl::highest_ranked<Scalar, T>>::approx_equal_epsilon
+	) noexcept
+	{
+		using type = impl::highest_ranked<
+			impl::promote_if_small_float<Scalar>,
+			impl::promote_if_small_float<T>
+		>;
 
+		#define VEC_FUNC(member)															\
+			static_cast<bool(MUU_VECTORCALL *)(type,type,type)noexcept>(muu::approx_equal)(	\
+				a.member,																	\
+				b.member,																	\
+				epsilon																		\
+			)
+
+		ELEMENTWISE_AND(VEC_FUNC);
+
+		#undef VEC_FUNC
+	}
+
+	/// \brief	Returns true if the vector is approximately equal to another.
+	template <typename T MUU_SFINAE(any_floating_point<Scalar, T>)>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr bool MUU_VECTORCALL approx_equal(
+		vector<T, Dimensions> MUU_VECTORCALL_CONSTREF other,
+		impl::highest_ranked<Scalar, T> epsilon = muu::constants<impl::highest_ranked<Scalar, T>>::approx_equal_epsilon
+	) const noexcept
+	{
+		return approx_equal(*this, other, epsilon);
+	}
+
+
+	/// \brief	Returns true if all the scalar components of the vector are exactly zero.
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr bool is_zero() const noexcept
+	{
+		#define VEC_FUNC(member)	base::member == Scalar{}
+		ELEMENTWISE_AND(VEC_FUNC);
+		#undef VEC_FUNC
+	}
+
+	/// \brief	Returns true if any of the scalar components of the vector are infinity or NaN.
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr bool is_infinity_or_nan() const noexcept
+	{
+		if constexpr (is_floating_point<Scalar>)
+		{
+			#define VEC_FUNC(member)	muu::is_infinity_or_nan(base::member)
+			ELEMENTWISE_OR(VEC_FUNC);
+			#undef VEC_FUNC
+		}
+		else
+			return false;
+	}
 
 	#endif // equality
 
-	#if 1 // ________________
+	#if 1 // ________________ -----------------------------------------------------------------------------------------
 	#endif // ________________
 
-	#if 1 // ________________
+	#if 1 // ________________ -----------------------------------------------------------------------------------------
 	#endif // ________________
 
-	#if 1 // ________________
+	#if 1 // ________________ -----------------------------------------------------------------------------------------
 	#endif // ________________
 
-	#if 1 // ________________
+	#if 1 // ________________ -----------------------------------------------------------------------------------------
 	#endif // ________________
 
-	#if 1 // ________________
+	#if 1 // ________________ -----------------------------------------------------------------------------------------
 	#endif // ________________
 
-	#if 1 // ________________
+	#if 1 // ________________ -----------------------------------------------------------------------------------------
 	#endif // ________________
 
-	#if 1 // ________________
+	#if 1 // ________________ -----------------------------------------------------------------------------------------
 	#endif // ________________
 
-	#if 1 // ________________
+	#if 1 // ________________ -----------------------------------------------------------------------------------------
 	#endif // ________________
 
 	};
@@ -805,10 +890,10 @@ MUU_NAMESPACE_END
 #undef ENABLE_IF_AT_LEAST_DIMENSIONS
 #undef ENABLE_IF_AT_LEAST_DIMENSIONS_AND
 #undef REQUIRES_AT_LEAST_DIMENSIONS
+#undef ELEMENTWISE_AND
+#undef ELEMENTWISE_OR
 
 #endif // vector class implementation
-
-
 
 MUU_PRAGMA_MSVC(inline_recursion(off))
 MUU_POP_WARNINGS	// MUU_DISABLE_ARITHMETIC_WARNINGS

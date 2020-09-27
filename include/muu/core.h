@@ -807,6 +807,9 @@ MUU_NAMESPACE_END
 
 MUU_IMPL_NAMESPACE_START
 {
+	template <typename T>
+	using promote_if_small_float = std::conditional_t<(is_floating_point<T> && sizeof(T) < sizeof(float)), float, T>;
+
 	#if MUU_WINDOWS
 		template <typename T> inline constexpr bool is_win32_iunknown
 			= std::is_class_v<remove_cvref<T>>
@@ -828,6 +831,27 @@ MUU_NAMESPACE_START
 {
 	namespace impl
 	{
+		//------------- helpers
+
+		template <typename T, int64_t Base, int64_t Power>
+		struct power_helper
+		{
+			static constexpr T value = T{ Base } * power_helper<T, Base, Power - 1>::value;
+		};
+		template <typename T, int64_t Base>
+		struct power_helper<T, Base, 0>
+		{
+			static constexpr T value = T{ 1 };
+		};
+		template <typename T, int64_t Base, int64_t Power>
+		struct power
+		{
+			static constexpr int64_t exponent = Power < 0 ? -Power : Power;
+			static constexpr T value = Power < 0
+				? T{ 1 } / T{ power_helper<T, Base, exponent>::value }
+				: T{ power_helper<T, Base, exponent>::value };
+		};
+
 		//------------- standalone 'trait' constant classes
 
 		template <typename T>
@@ -893,12 +917,15 @@ MUU_NAMESPACE_START
 		{
 			/// \brief The number of significand (mantissa) digits.
 			static constexpr int significand_digits = std::numeric_limits<T>::digits;
+
+			static constexpr T approx_equal_epsilon = T{ 1 } * power<T, 10, -std::numeric_limits<T>::digits10>::value;
 		};
 		#if MUU_HAS_INTERCHANGE_FP16
 		template <>
 		struct floating_point_limits<__fp16>
 		{
 			static constexpr int significand_digits = 11;
+			static constexpr __fp16 approx_equal_epsilon = static_cast<__fp16>(0.001);
 		};
 		#endif
 		#if MUU_HAS_FLOAT16
@@ -906,6 +933,7 @@ MUU_NAMESPACE_START
 		struct floating_point_limits<float16_t>
 		{
 			static constexpr int significand_digits = 11;
+			static constexpr float16_t approx_equal_epsilon = static_cast<float16_t>(0.001);
 		};
 		#endif
 		#if MUU_HAS_FLOAT128
@@ -913,6 +941,7 @@ MUU_NAMESPACE_START
 		struct floating_point_limits<float128_t>
 		{
 			static constexpr int significand_digits = __FLT128_MANT_DIG__;
+			static constexpr float128_t approx_equal_epsilon = float128_t{ 1 } * power<float128_t, 10, -__FLT128_DIG__>::value;
 		};
 		#endif
 
@@ -924,6 +953,7 @@ MUU_NAMESPACE_START
 			static constexpr T infinity = std::numeric_limits<T>::infinity();	///< Positive infinity
 			static constexpr T negative_infinity = -infinity;					///< Negative infinity
 			static constexpr T minus_zero = T(-0.0L);							///< `-0.0`
+			//
 		};
 
 		template <typename T>
@@ -2318,7 +2348,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(flatten)
 	constexpr To pointer_cast(From(&arr)[N]) noexcept
 	{
-		return pointer_cast<To>(&arr[0]);
+		return pointer_cast<To, From*>(arr);
 	}
 
 	template <typename To, typename From, size_t N>
@@ -2327,7 +2357,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(flatten)
 	constexpr To pointer_cast(From(&&arr)[N]) noexcept
 	{
-		return pointer_cast<To>(&arr[0]);
+		return pointer_cast<To, From*>(arr);
 	}
 
 	MUU_POP_WARNINGS // MUU_PRAGMA_MSVC(warning(disable: 4191))
@@ -2396,6 +2426,7 @@ MUU_NAMESPACE_START
 			return val < T{} ? -val : val;
 	}
 
+
 	/// \brief	Returns a value clamped between two bounds (inclusive).
 	/// \ingroup	intrinsics
 	///
@@ -2407,17 +2438,63 @@ MUU_NAMESPACE_START
 		return (muu::max)((muu::min)(val, max_), min_);
 	}
 
-	namespace impl
+	/// \brief	Returns true if two values are approximately equal.
+	/// \ingroup	intrinsics
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool MUU_VECTORCALL approx_equal(float a, float b, float epsilon = constants<float>::approx_equal_epsilon) noexcept
 	{
-		template <typename T>
-		[[nodiscard]]
-		MUU_ATTR(const)
-		constexpr T MUU_VECTORCALL lerp(T start, T finish, T alpha) noexcept
-		{
-			static_assert(is_floating_point<T>);
-			return start * (T{ 1 } - alpha) + finish * alpha;
-		}
+		return abs(b - a) < epsilon;
 	}
+
+	/// \brief	Returns true if two values are approximately equal.
+	/// \ingroup	intrinsics
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool MUU_VECTORCALL approx_equal(double a, double b, double epsilon = constants<double>::approx_equal_epsilon) noexcept
+	{
+		return abs(b - a) < epsilon;
+	}
+
+	/// \brief	Returns true if two values are approximately equal.
+	/// \ingroup	intrinsics
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool MUU_VECTORCALL approx_equal(long double a, long double b, long double epsilon = constants<long double>::approx_equal_epsilon) noexcept
+	{
+		return abs(b - a) < epsilon;
+	}
+
+	#if MUU_HAS_FLOAT128
+	/// \brief	Returns true if two values are approximately equal.
+	/// \ingroup	intrinsics
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool MUU_VECTORCALL approx_equal(float128_t a, float128_t b, float128_t epsilon = constants<float128_t>::approx_equal_epsilon) noexcept
+	{
+		return abs(b - a) < epsilon;
+	}
+	#endif
+
+	#if MUU_HAS_FLOAT16
+	/// \brief	Returns true if two values are approximately equal.
+	/// \ingroup	intrinsics
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool MUU_VECTORCALL approx_equal(float16_t a, float16_t b, float16_t epsilon = constants<float16_t>::approx_equal_epsilon) noexcept
+	{
+		return abs(b - a) < epsilon;
+	}
+	#endif
+
+	#if MUU_HAS_INTERCHANGE_FP16
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool MUU_VECTORCALL approx_equal(__fp16 a, __fp16 b, __fp16 epsilon = constants<__fp16>::approx_equal_epsilon) noexcept
+	{
+		return abs(b - a) < epsilon;
+	}
+	#endif
 
 	/// \brief	Calculates a linear interpolation between two values.
 	/// \ingroup	intrinsics
@@ -2512,8 +2589,8 @@ MUU_NAMESPACE_START
 		using alpha_type = remove_cv<std::conditional_t<is_floating_point<V>, V, double>>;
 		static_assert(all_floating_point<start_type, finish_type, alpha_type>);
 
-		using return_type = impl::highest_ranked<start_type, finish_type, alpha_type>;
-		return lerp(static_cast<return_type>(start), static_cast<return_type>(finish), static_cast<return_type>(alpha));
+		using type = impl::highest_ranked<start_type, finish_type, alpha_type>;
+		return static_cast<type(MUU_VECTORCALL*)(type,type,type)noexcept>(lerp)(start, finish, alpha);
 	}
 
 	/// \brief	Returns true if a value is between two bounds (inclusive).

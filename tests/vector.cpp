@@ -40,11 +40,11 @@
 	TEST_FLOAT128(func)
 
 
-//#if MUU_HAS_INT128
-//	#define TEST_INT128(func)	TEST_TYPE(func, int128_t)
-//#else
+#if MUU_HAS_INT128
+	#define TEST_INT128(func)	TEST_TYPE(func, int128_t)
+#else
 	#define TEST_INT128(func)	(void)0
-//#endif
+#endif
 
 #define TEST_INTS(func)					\
 	TEST_TYPE(func, signed char);		\
@@ -284,18 +284,19 @@ namespace
 		INFO("vector<"sv << scalar_typename << ", "sv << DIM << ">"sv)
 		using vector_t = vector<T, DIM>;
 
+		vector_t vec;
+		for (size_t i = 0; i < DIM; i++)
+			vec[i] = random<T>();
 		
 		{
 			INFO("same type"sv)
 		
-			vector_t vec;
-			for (size_t i = 0; i < DIM; i++)
-				vec[i] = random<T>();
-
 			vector_t same{ vec };
 			CHECK(vector_t::equal(vec, same));
 			CHECK(vec == same);
 			CHECK_FALSE(vec != same);
+			if constexpr (is_floating_point<T>)
+				CHECK(vector_t::approx_equal(vec, same));
 
 			vector_t different{ vec };
 			for (size_t i = 0; i < DIM; i++)
@@ -303,17 +304,18 @@ namespace
 			CHECK_FALSE(vector_t::equal(vec, different));
 			CHECK(vec != different);
 			CHECK_FALSE(vec == different);
+			if constexpr (is_floating_point<T>)
+				CHECK_FALSE(vector_t::approx_equal(vec, different));
 		}
 
 		if constexpr (!is_floating_point<T>)
 		{
 			INFO("different type"sv)
 
-			using other_t = vector<std::conditional_t<std::is_same_v<T, long>, int, long>, DIM>;
-
-			vector_t vec;
-			for (size_t i = 0; i < DIM; i++)
-				vec[i] = random<T>();
+			using other_t = vector<
+				std::conditional_t<std::is_same_v<T, long>, int, long>,
+				DIM
+			>;
 
 			other_t same{ vec };
 			CHECK(vector_t::equal(vec, same));
@@ -326,7 +328,6 @@ namespace
 			CHECK_FALSE(vector_t::equal(vec, different));
 			CHECK(vec != different);
 			CHECK_FALSE(vec == different);
-
 		}
 	}
 }
@@ -334,4 +335,98 @@ namespace
 TEST_CASE("vector - equality")
 {
 	TEST_ALL_TYPES(equality_tests);
+}
+
+namespace
+{
+	template <typename T, size_t DIM>
+	void is_zero_tests(std::string_view scalar_typename) noexcept
+	{
+		INFO("vector<"sv << scalar_typename << ", "sv << DIM << ">"sv)
+		using vector_t = vector<T, DIM>;
+
+		vector_t vec{ T{} };
+		{
+			INFO("all zeroes"sv)
+			CHECK(vec.is_zero());
+		}
+
+		{
+			INFO("no zeroes"sv)
+			for (size_t i = 0; i < DIM; i++)
+				vec[i] = random(T{ 1 }, T{ 10 });
+			CHECK_FALSE(vec.is_zero());
+		}
+
+		if constexpr (DIM > 1)
+		{
+			INFO("some zeroes"sv)
+			for (size_t i = 0; i < DIM; i += 2)
+				vec[i] = T{};
+			CHECK_FALSE(vec.is_zero());
+		}
+
+		{
+			INFO("one zero"sv)
+			for (size_t i = 0; i < DIM; i++)
+			{
+				vector_t vec2{ T{} };
+				vec2[i] = random(T{ 1 }, T{ 10 });
+				CHECK_FALSE(vec.is_zero());
+			}
+		}
+	}
+}
+
+TEST_CASE("vector - is_zero")
+{
+	TEST_ALL_TYPES(is_zero_tests);
+}
+
+
+namespace
+{
+	template <typename T, size_t DIM>
+	void is_infinity_or_nan_tests(std::string_view scalar_typename) noexcept
+	{
+		INFO("vector<"sv << scalar_typename << ", "sv << DIM << ">"sv)
+		using vector_t = vector<T, DIM>;
+
+		vector_t vector1;
+		{
+			INFO("all finite"sv)
+			for (size_t i = 0; i < DIM; i++)
+				vector1[i] = static_cast<T>(i);
+			CHECK_FALSE(vector1.is_infinity_or_nan());
+		}
+
+
+		if constexpr (is_floating_point<T>)
+		{
+			{
+				INFO("contains one NaN"sv)
+				for (size_t i = 0; i < DIM; i++)
+				{
+					vector_t vector2{ vector1 };
+					vector2[i] = constants<T>::nan;
+					CHECK(vector2.is_infinity_or_nan());
+				}
+			}
+
+			{
+				INFO("contains one infinity"sv)
+				for (size_t i = 0; i < DIM; i++)
+				{
+					vector_t vector2{ vector1 };
+					vector2[i] = constants<T>::infinity;
+					CHECK(vector2.is_infinity_or_nan());
+				}
+			}
+		}
+	}
+}
+
+TEST_CASE("vector - is_infinity_or_nan")
+{
+	TEST_ALL_TYPES(is_infinity_or_nan_tests);
 }

@@ -75,10 +75,7 @@ MUU_NAMESPACE_START
 	/// 		 back to half when you're finished.
 	/// 
 	/// \see [Half-precision floating-point (wikipedia)](https://en.wikipedia.org/wiki/Half-precision_floating-point_format)
-	struct
-	MUU_TRIVIAL_ABI
-	MUU_ATTR(packed)
-	half
+	struct MUU_TRIVIAL_ABI half
 	{
 		/// \brief	The raw bits of the float.
 		uint16_t bits;
@@ -94,14 +91,14 @@ MUU_NAMESPACE_START
 		constexpr half(const half&) noexcept = default;
 		constexpr half& operator = (const half&) noexcept = default;
 
-		private:
+	private:
 
-			constexpr half(uint16_t val, impl::f16_from_bits_tag) noexcept
-				: bits{ val }
-			{}
+		constexpr half(uint16_t val, impl::f16_from_bits_tag) noexcept
+			: bits{ val }
+		{}
 
 
-		public:
+	public:
 
 		/// \brief	Creates a half-precision float from its raw bit equivalent.
 		[[nodiscard]]
@@ -583,31 +580,6 @@ MUU_NAMESPACE_START
 		}
 	};
 
-	inline namespace literals
-	{
-		/// \brief	Literal for creating a half-precision float.
-		[[nodiscard]]
-		MUU_ATTR(const)
-		MUU_CONSTEVAL half operator "" _f16(long double val) noexcept
-		{
-			return half{ val };
-		}
-	}
-
-	/// \brief	Calculates a linear interpolation between two values.
-	/// \ingroup	intrinsics
-	///
-	/// \remark	This is a stand-in for C++20's std::lerp, but does _not_ make the same guarantees about infinities and NaN's.
-	/// 			Garbage-in, garbage-out.
-	/// 
-	/// \returns	The requested linear interpolation between the start and finish values.
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr half MUU_VECTORCALL lerp(half start, half finish, half alpha) noexcept
-	{
-		return static_cast<half>(lerp(static_cast<float>(start), static_cast<float>(finish), static_cast<float>(alpha)));
-	}
-
 	namespace impl
 	{
 		template <>
@@ -652,6 +624,7 @@ MUU_NAMESPACE_START
 		struct floating_point_limits<half>
 		{
 			static constexpr int significand_digits = 11;
+			static constexpr half approx_equal_epsilon = half::from_bits(0b0'00101'0000011001_u16); // 0.001
 		};
 
 		template <>
@@ -715,6 +688,40 @@ MUU_NAMESPACE_START
 	/// \brief	16-bit half-precision float constants.
 	/// \ingroup		constants
 	template <> struct constants<half> : impl::floating_point_constants<half> {};
+
+	inline namespace literals
+	{
+		/// \brief	Literal for creating a half-precision float.
+		[[nodiscard]]
+		MUU_ATTR(const)
+		MUU_CONSTEVAL half operator "" _f16(long double val) noexcept
+		{
+			return half{ val };
+		}
+	}
+
+	/// \brief	Calculates a linear interpolation between two values.
+	/// \ingroup	intrinsics
+	///
+	/// \remark	This is a stand-in for C++20's std::lerp, but does _not_ make the same guarantees about infinities and NaN's.
+	/// 			Garbage-in, garbage-out.
+	/// 
+	/// \returns	The requested linear interpolation between the start and finish values.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr half MUU_VECTORCALL lerp(half start, half finish, half alpha) noexcept
+	{
+		return static_cast<half>(lerp(static_cast<float>(start), static_cast<float>(finish), static_cast<float>(alpha)));
+	}
+
+	/// \brief	Returns true if two values are approximately equal.
+	/// \ingroup	intrinsics
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool MUU_VECTORCALL approx_equal(half lhs, half rhs, half epsilon = constants<half>::approx_equal_epsilon) noexcept
+	{
+		return abs(rhs - lhs) < epsilon;
+	}
 }
 MUU_NAMESPACE_END
 

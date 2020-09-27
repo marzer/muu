@@ -188,18 +188,12 @@ MUU_IMPL_NAMESPACE_START
 			static constexpr bool small_size = sizeof(base_type) <= sizeof(callable_buffer_type);
 			static constexpr bool small_alignment = alignof(base_type) <= thread_pool_task_granularity;
 			static constexpr bool constructible = std::is_constructible_v<base_type, T>; //move or copy
-			static constexpr callable_storage_modes storage_mode = []() noexcept
-			{
-				if constexpr (callable_traits::constructible)
-				{
-					if constexpr (callable_traits::small_size && callable_traits::small_alignment)
-						return callable_storage_modes::stored_directly;
-					else
-						return callable_storage_modes::pointer_to_heap;
-				}
-				else
-					return callable_storage_modes::pointer_to_source;
-			}();
+			static constexpr callable_storage_modes storage_mode =
+				callable_traits::constructible
+					? (callable_traits::small_size && callable_traits::small_alignment
+						? callable_storage_modes::stored_directly
+						: callable_storage_modes::pointer_to_heap)
+					: callable_storage_modes::pointer_to_source;
 			static constexpr bool requires_explicit_destruction = storage_mode == callable_storage_modes::pointer_to_heap
 				|| (storage_mode == callable_storage_modes::stored_directly && !std::is_trivially_destructible_v<base_type>);
 			using callable_type = std::conditional_t<
