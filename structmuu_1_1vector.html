@@ -212,7 +212,7 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a4c71b24d34ef1d94c46529134c01331a">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;T, Dimensions&gt; const&amp; other,
               impl::highest_ranked&lt;Scalar, T&gt; epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;impl::highest_ranked&lt;Scalar, T&gt;&gt;::approx_equal_epsilon) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if the vector is approximately equal to another.</dd>
+            <dd>Returns true if two vectors are approximately equal.</dd>
             <dt id="a2ce82046d73e223743ab395f6b09ff8f">
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2ce82046d73e223743ab395f6b09ff8f">equal</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;T, Dimensions&gt; const&amp; other) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -254,23 +254,23 @@ C++</span></a>
           <h2><a href="#pub-attribs">Public variables</a></h2>
           <dl class="m-doc">
             <dt>
-              T <a class="m-doc" href="#ab473538c094ef05d0f8965dfd5778a87">values</a>
+              Scalar <a class="m-doc" href="#abfb0c09bb46a2aabe9b472cad6906433">values</a>
             </dt>
             <dd>The scalar components stored in the vector.</dd>
             <dt>
-              T <a class="m-doc" href="#a15479aaf86e80c32cb380849b0750f4e">w</a>
+              Scalar <a class="m-doc" href="#a8fc1fdb22b60d26b565362448eb8f10f">w</a>
             </dt>
             <dd>The 3rd scalar component stored in the vector.</dd>
             <dt>
-              T <a class="m-doc" href="#a2fe8e0098c383348654fb2ee55d87bb1">x</a>
+              Scalar <a class="m-doc" href="#a51dd446a19e64db6734fc4b3250abcdf">x</a>
             </dt>
             <dd>The 0th scalar component stored in the vector.</dd>
             <dt>
-              T <a class="m-doc" href="#a3ef632f514a0eb85318b0a89a11f9bb1">y</a>
+              Scalar <a class="m-doc" href="#a790358e6698ea564b643ec7f35e408c4">y</a>
             </dt>
             <dd>The 1st scalar component stored in the vector.</dd>
             <dt>
-              T <a class="m-doc" href="#a8310df85d6c45cf2d0e61e02a97586d4">z</a>
+              Scalar <a class="m-doc" href="#a12814ec414c8e9db9880a0c7a5e90985">z</a>
             </dt>
             <dd>The 2nd scalar component stored in the vector.</dd>
           </dl>
@@ -322,7 +322,7 @@ C++</span></a>
                 </tr>
               </tbody>
             </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p></aside>
+<p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p>
           </div></section>
           <section class="m-doc-details" id="a16004b046d8fe003cd8eac3ad5e1e0b6"><div>
             <h3>
@@ -352,7 +352,7 @@ C++</span></a>
                 </tr>
               </tbody>
             </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p></aside>
+<p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p>
           </div></section>
           <section class="m-doc-details" id="a4d7c91978b417edebf900b8dacc756d9"><div>
             <h3>
@@ -362,7 +362,7 @@ C++</span></a>
               <span class="m-doc-wrap-bumper"> muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4d7c91978b417edebf900b8dacc756d9">vector</a>(</span><span class="m-doc-wrap">const T&amp; tuple_like) <span class="m-label m-info">explicit</span>  <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Constructs a vector from any tuple-like type.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p></aside>
+<p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p>
           </div></section>
           <section class="m-doc-details" id="ade949e55d7e98d80de789d68ab42e5d9"><div>
             <h3>
@@ -372,7 +372,7 @@ C++</span></a>
               <span class="m-doc-wrap-bumper"> muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ade949e55d7e98d80de789d68ab42e5d9">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;T, N&gt;&amp; vec) <span class="m-label m-info">explicit</span>  <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Enlarging/truncating/converting constructor.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p></aside>
+<p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p>
           </div></section>
           <section class="m-doc-details" id="a0f9026824be861f778dadb15a091a8dc"><div>
             <h3>
@@ -416,7 +416,7 @@ C++</span></a>
                 </tr>
               </tbody>
             </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p></aside><aside class="m-note m-warning"><h4>Attention</h4><p>This constructor is only available when the vector has &gt;= 2 dimensions.</p></aside>
+<p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p><aside class="m-note m-warning"><h4>Attention</h4><p>This constructor is only available when the vector has &gt;= 2 dimensions.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a728ee8868452ad9f6768c4ab6f961a0c"><div>
             <h3>
@@ -446,7 +446,7 @@ C++</span></a>
                 </tr>
               </tbody>
             </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p></aside><aside class="m-note m-warning"><h4>Attention</h4><p>This constructor is only available when the vector has &gt;= 3 dimensions.</p></aside>
+<p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p><aside class="m-note m-warning"><h4>Attention</h4><p>This constructor is only available when the vector has &gt;= 3 dimensions.</p></aside>
           </div></section>
           <section class="m-doc-details" id="aeb9e04efd86f59a605130bb438e18c55"><div>
             <h3>
@@ -481,7 +481,7 @@ C++</span></a>
                 </tr>
               </tbody>
             </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p></aside><aside class="m-note m-warning"><h4>Attention</h4><p>This constructor is only available when the vector has &gt;= 4 dimensions.</p></aside>
+<p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p><aside class="m-note m-warning"><h4>Attention</h4><p>This constructor is only available when the vector has &gt;= 4 dimensions.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ab2bfe320f1fdebb1379ad13952b21f5f"><div>
             <h3>
@@ -531,7 +531,7 @@ C++</span></a>
                 </tr>
               </tbody>
             </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p></aside><aside class="m-note m-warning"><h4>Attention</h4><p>This constructor is only available when the vector has &gt;= 5 dimensions.</p></aside>
+<p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p><aside class="m-note m-warning"><h4>Attention</h4><p>This constructor is only available when the vector has &gt;= 5 dimensions.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a6c9dc88b7400a51411156d4147b03b96"><div>
             <h3>
@@ -640,47 +640,47 @@ C++</span></a>
         </section>
         <section>
           <h2>Variable documentation</h2>
-          <section class="m-doc-details" id="ab473538c094ef05d0f8965dfd5778a87"><div>
+          <section class="m-doc-details" id="abfb0c09bb46a2aabe9b472cad6906433"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              T muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#ab473538c094ef05d0f8965dfd5778a87">values</a>
+              Scalar muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#abfb0c09bb46a2aabe9b472cad6906433">values</a>
             </h3>
             <p>The scalar components stored in the vector.</p>
 <aside class="m-note m-warning"><h4>Attention</h4><p>This field only exists when the vector has &gt; 4 dimensions.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a15479aaf86e80c32cb380849b0750f4e"><div>
+          <section class="m-doc-details" id="a8fc1fdb22b60d26b565362448eb8f10f"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              T muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a15479aaf86e80c32cb380849b0750f4e">w</a>
+              Scalar muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a8fc1fdb22b60d26b565362448eb8f10f">w</a>
             </h3>
             <p>The 3rd scalar component stored in the vector.</p>
 <aside class="m-note m-warning"><h4>Attention</h4><p>This field only exists when the vector has &lt;= 4 dimensions.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a2fe8e0098c383348654fb2ee55d87bb1"><div>
+          <section class="m-doc-details" id="a51dd446a19e64db6734fc4b3250abcdf"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              T muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a2fe8e0098c383348654fb2ee55d87bb1">x</a>
+              Scalar muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a51dd446a19e64db6734fc4b3250abcdf">x</a>
             </h3>
             <p>The 0th scalar component stored in the vector.</p>
 <aside class="m-note m-warning"><h4>Attention</h4><p>This field only exists when the vector has &lt;= 4 dimensions.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a3ef632f514a0eb85318b0a89a11f9bb1"><div>
+          <section class="m-doc-details" id="a790358e6698ea564b643ec7f35e408c4"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              T muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a3ef632f514a0eb85318b0a89a11f9bb1">y</a>
+              Scalar muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a790358e6698ea564b643ec7f35e408c4">y</a>
             </h3>
             <p>The 1st scalar component stored in the vector.</p>
 <aside class="m-note m-warning"><h4>Attention</h4><p>This field only exists when the vector has &lt;= 4 dimensions.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a8310df85d6c45cf2d0e61e02a97586d4"><div>
+          <section class="m-doc-details" id="a12814ec414c8e9db9880a0c7a5e90985"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              T muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a8310df85d6c45cf2d0e61e02a97586d4">z</a>
+              Scalar muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a12814ec414c8e9db9880a0c7a5e90985">z</a>
             </h3>
             <p>The 2nd scalar component stored in the vector.</p>
 <aside class="m-note m-warning"><h4>Attention</h4><p>This field only exists when the vector has &lt;= 4 dimensions.</p></aside>

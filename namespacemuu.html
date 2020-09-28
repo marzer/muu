@@ -464,6 +464,11 @@ C++</span></a>
             </dt>
             <dd>Gets the signed integer type with a specific number of bits for the target platform.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="group__meta.html#ga59a03d6c91a837cd5ef2010a47fc8774">simd_param</a> = typename impl::simd_param_&lt;T&gt;::type
+            </dt>
+            <dd>Type transformation for function parameter types to pass arguments in a manner well-suited to SIMD vectorization where possible.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga9cd7c756a0397747aa065ac54ddbf46b">smallest</a> = typename impl::smallest_&lt;T...&gt;::type
             </dt>
