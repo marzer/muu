@@ -53,6 +53,9 @@ MUU_NAMESPACE_START
 			/// \brief	The type being accumulated.
 			using value_type = ValueType;
 
+			/// \brief	value_type as a function input.
+			using value_param = simd_param<ValueType>;
+
 		private:
 			compressed_pair<Impl, size_t> impl_and_count{};
 
@@ -133,7 +136,7 @@ MUU_NAMESPACE_START
 			/// \param	sample	The sample to add.
 			///
 			/// \return	A reference to the accumulator.
-			constexpr accumulator& MUU_VECTORCALL add(value_type MUU_VECTORCALL_CONSTREF sample)
+			constexpr accumulator& MUU_VECTORCALL add(value_param sample)
 				noexcept(noexcept(std::declval<Impl>().start(sample)) && noexcept(std::declval<Impl>().add(sample)))
 			{
 				if constexpr (is_floating_point<value_type>)
@@ -191,7 +194,7 @@ MUU_NAMESPACE_START
 			///
 			/// \return	A reference to the accumulator.
 			MUU_ALWAYS_INLINE
-			constexpr accumulator& MUU_VECTORCALL operator() (value_type MUU_VECTORCALL_CONSTREF sample)
+			constexpr accumulator& MUU_VECTORCALL operator() (value_param sample)
 				noexcept(noexcept(std::declval<accumulator>().add(sample)))
 			{
 				return add(sample);
@@ -216,6 +219,7 @@ MUU_NAMESPACE_START
 		struct basic_accumulator
 		{
 			using value_type = ValueType;
+			using value_param = simd_param<ValueType>;
 			using sum_type = std::conditional_t<
 				is_integral<ValueType>,
 				std::conditional_t<
@@ -229,13 +233,13 @@ MUU_NAMESPACE_START
 			value_type min_ = {}, max_ = {};
 			sum_type sum_ = {};
 
-			constexpr void MUU_VECTORCALL start(value_type MUU_VECTORCALL_CONSTREF sample) noexcept
+			constexpr void MUU_VECTORCALL start(value_param sample) noexcept
 			{
 				min_ = max_ = sample;
 				sum_= static_cast<sum_type>(sample);
 			}
 
-			constexpr void MUU_VECTORCALL add(value_type MUU_VECTORCALL_CONSTREF sample) noexcept
+			constexpr void MUU_VECTORCALL add(value_param sample) noexcept
 			{
 				using muu::min;
 				using muu::max;
@@ -284,6 +288,7 @@ MUU_NAMESPACE_START
 		struct kahan_accumulator // https://en.wikipedia.org/wiki/Kahan_summation_algorithm#Further_enhancements
 		{
 			using value_type = ValueType;
+			using value_param = simd_param<ValueType>;
 			using sum_type = impl::highest_ranked<ValueType, float>;
 
 			static_assert(
@@ -293,7 +298,7 @@ MUU_NAMESPACE_START
 			value_type min_ = {}, max_ = {};
 			sum_type sum_ = {}, correction_ = {};
 
-			constexpr void MUU_VECTORCALL start(value_type sample) noexcept
+			constexpr void MUU_VECTORCALL start(value_param sample) noexcept
 			{
 				min_ = max_ = sample;
 				sum_ = static_cast<sum_type>(sample);
@@ -301,7 +306,7 @@ MUU_NAMESPACE_START
 
 			MUU_PRAGMA_CLANG_LT(11, "clang optimize off")
 
-			constexpr void MUU_VECTORCALL kahan_add(sum_type sample) noexcept
+			constexpr void MUU_VECTORCALL kahan_add(simd_param<sum_type> sample) noexcept
 			{
 				MUU_PRAGMA_CLANG_GE(11, "clang fp reassociate(off)")
 				MUU_PRAGMA_CLANG_LT(11, "clang fp contract(on)")
@@ -318,7 +323,7 @@ MUU_NAMESPACE_START
 
 			MUU_PRAGMA_CLANG_LT(11, "clang optimize on")
 
-			constexpr void MUU_VECTORCALL add(value_type sample) noexcept
+			constexpr void MUU_VECTORCALL add(value_param sample) noexcept
 			{
 				using muu::min;
 				using muu::max;

@@ -31,38 +31,38 @@ MUU_NAMESPACE_START
 		);
 
 		private:
-			size_t count = {}, cap;
-			std::byte* storage = nullptr;
+			size_t count_ = {}, capacity_;
+			std::byte* storage_ = nullptr;
 
 			[[nodiscard]]
 			MUU_ATTR(returns_nonnull)
 			T* ptr(size_t index) noexcept
 			{
-				return launder(reinterpret_cast<T*>(storage + index * sizeof(T)));
+				return launder(reinterpret_cast<T*>(storage_ + index * sizeof(T)));
 			}
 
 			[[nodiscard]]
 			MUU_ATTR(returns_nonnull)
 			const T* ptr(size_t index) const noexcept
 			{
-				return launder(reinterpret_cast<const T*>(storage + index * sizeof(T)));
+				return launder(reinterpret_cast<const T*>(storage_ + index * sizeof(T)));
 			}
 
 			void destroy_all_elements()
 				noexcept(std::is_nothrow_destructible_v<T>)
 			{
 				if constexpr (std::is_trivially_destructible_v<T>)
-					count = {};
+					count_ = {};
 				else
 				{
-					for (size_t i = count; i --> 0u;)
+					for (size_t i = count_; i --> 0u;)
 					{
 						ptr(i)->~T();
 						if constexpr (!std::is_nothrow_destructible_v<T>)
-							count--;
+							count_--;
 					}
 					if constexpr (std::is_nothrow_destructible_v<T>)
-						count = {};
+						count_ = {};
 				}
 
 			}
@@ -71,8 +71,8 @@ MUU_NAMESPACE_START
 				noexcept(std::is_nothrow_destructible_v<T>)
 			{
 				destroy_all_elements();
-				aligned_free(storage);
-				storage = nullptr;
+				aligned_free(storage_);
+				storage_ = nullptr;
 			}
 
 		public:
@@ -109,31 +109,35 @@ MUU_NAMESPACE_START
 			/// \param	capacity	The maximum number of elements the array needs to be able to store.
 			MUU_NODISCARD_CTOR
 			explicit emplacement_array(size_t capacity = 0) noexcept
-				: cap{ capacity },
-				storage{ cap ? reinterpret_cast<std::byte*>(aligned_alloc((max)(alignof(T), size_t{ __STDCPP_DEFAULT_NEW_ALIGNMENT__ }), sizeof(T) * cap)) : nullptr }
+				: capacity_{ capacity },
+				storage_{
+					capacity_
+					? reinterpret_cast<std::byte*>(aligned_alloc((max)(alignof(T), size_t{ __STDCPP_DEFAULT_NEW_ALIGNMENT__ }), sizeof(T) * capacity_))
+					: nullptr
+				}
 			{}
 
 			/// \brief	Move constructor.
 			emplacement_array(emplacement_array&& other) noexcept
-				: count{ other.count },
-				cap{ other.cap },
-				storage{ other.storage }
+				: count_{ other.count_ },
+				capacity_{ other.capacity_ },
+				storage_{ other.storage_ }
 			{
-				other.count = 0;
-				other.capacity = 0;
-				other.storage = nullptr;
+				other.count_ = 0;
+				other.capacity_ = 0;
+				other.storage_ = nullptr;
 			}
 
 			/// \brief Move-assignment operator.
 			emplacement_array& operator= (emplacement_array&& rhs) noexcept
 			{
 				release();
-				count = rhs.count;
-				cap = rhs.cap;
-				storage = rhs.storage;
-				rhs.count = 0;
-				rhs.cap = 0;
-				rhs.storage = nullptr;
+				count_ = rhs.count_;
+				capacity_ = rhs.capacity_;
+				storage_ = rhs.storage_;
+				rhs.count_ = 0;
+				rhs.capacity_ = 0;
+				rhs.storage_ = nullptr;
 				return *this;
 			}
 
@@ -155,16 +159,16 @@ MUU_NAMESPACE_START
 			reference emplace_back(Args &&... args)
 				noexcept(std::is_nothrow_constructible_v<T, Args&&...>)
 			{
-				MUU_ASSERT(count < cap && "The emplacement_array is at capacity");
+				MUU_ASSERT(count_ < capacity_ && "The emplacement_array is at capacity");
 
 				if constexpr (std::is_nothrow_constructible_v<T, Args&&...>)
 				{
-					return *(new (storage + (sizeof(T) * count++)) T{ std::forward<Args>(args)... });
+					return *(new (storage_ + (sizeof(T) * count_++)) T{ std::forward<Args>(args)... });
 				}
 				else
 				{
-					auto& newVal = *(new (storage + (sizeof(T) * count)) T{ std::forward<Args>(args)... });
-					count++;
+					auto& newVal = *(new (storage_ + (sizeof(T) * count_)) T{ std::forward<Args>(args)... });
+					count_++;
 					return newVal;
 				}
 			}
@@ -179,16 +183,16 @@ MUU_NAMESPACE_START
 			reference emplace_back_with(EmplacementFunc&& func)
 				noexcept(std::is_nothrow_invocable_r_v<T&, EmplacementFunc&&, void*>)
 			{
-				MUU_ASSERT(count < cap && "The emplacement_array is at capacity");
+				MUU_ASSERT(count_ < capacity_ && "The emplacement_array is at capacity");
 
 				if constexpr (std::is_nothrow_invocable_r_v<T&, EmplacementFunc&&, void*>)
 				{
-					return *std::forward<EmplacementFunc>(func)(static_cast<void*>(storage + (sizeof(T) * count++)));
+					return *std::forward<EmplacementFunc>(func)(static_cast<void*>(storage_ + (sizeof(T) * count_++)));
 				}
 				else
 				{
-					auto& newVal = *std::forward<EmplacementFunc>(func)(static_cast<void*>(storage + (sizeof(T) * count)));
-					count++;
+					auto& newVal = *std::forward<EmplacementFunc>(func)(static_cast<void*>(storage_ + (sizeof(T) * count_)));
+					count_++;
 					return newVal;
 				}
 			}
@@ -211,21 +215,21 @@ MUU_NAMESPACE_START
 			[[nodiscard]]
 			size_type size() const noexcept
 			{
-				return count;
+				return count_;
 			}
 
 			/// \brief	The maximum number of elements that can be stored in the array.
 			[[nodiscard]]
 			size_type capacity() const noexcept
 			{
-				return cap;
+				return capacity_;
 			}
 
 			/// \brief	Returns true if the array is empty.
 			[[nodiscard]]
 			bool empty() const noexcept
 			{
-				return count == 0u;
+				return count_ == 0u;
 			}
 
 			/// \brief	Returns the first element in the array.
@@ -246,14 +250,14 @@ MUU_NAMESPACE_START
 			[[nodiscard]]
 			reference back() noexcept
 			{
-				return (*this)[count - 1_sz];
+				return (*this)[count_ - 1_sz];
 			}
 
 			/// \brief	Returns the last element in the array.
 			[[nodiscard]]
 			const_reference back() const noexcept
 			{
-				return (*this)[count - 1_sz];
+				return (*this)[count_ - 1_sz];
 			}
 
 			/// \brief	Returns a pointer to the first element in the array.
@@ -267,7 +271,7 @@ MUU_NAMESPACE_START
 			[[nodiscard]]
 			iterator end() noexcept
 			{
-				return ptr(count);
+				return ptr(count_);
 			}
 
 			/// \brief	Returns a const pointer to the first element in the array.
@@ -281,7 +285,7 @@ MUU_NAMESPACE_START
 			[[nodiscard]]
 			const_iterator end() const noexcept
 			{
-				return ptr(count);
+				return ptr(count_);
 			}
 
 			/// \brief	Returns a const pointer to the first element in the array.
@@ -295,7 +299,7 @@ MUU_NAMESPACE_START
 			[[nodiscard]]
 			const_iterator cend() const noexcept
 			{
-				return ptr(count);
+				return ptr(count_);
 			}
 
 			/// \brief	Returns a pointer to the first element in the array.

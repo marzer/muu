@@ -35,7 +35,7 @@ MUU_DISABLE_WARNINGS
 #include <utility>
 #include <limits>
 #if MUU_MSVC
-	#include <intrin0.h>
+	#include <intrin.h>
 #endif
 MUU_ENABLE_WARNINGS
 
@@ -810,6 +810,55 @@ MUU_IMPL_NAMESPACE_START
 	template <typename T>
 	using promote_if_small_float = std::conditional_t<(is_floating_point<T> && sizeof(T) < sizeof(float)), float, T>;
 
+	template <typename T>
+	struct simd_param_
+	{
+		using type = std::conditional_t<
+			is_floating_point<T>
+			|| is_integral<T>
+			|| (std::is_class_v<T>
+				&& std::is_standard_layout_v<T>
+				&& std::is_trivially_copyable_v<T>
+				&& std::is_trivially_destructible_v<T>
+				&& sizeof(T) <= 
+				#if MUU_HAS_VECTORCALL
+					sizeof(void*) * 4
+				#else
+					sizeof(void*)
+				#endif
+			),
+			T,
+			std::add_lvalue_reference_t<std::add_const_t<T>>
+		>;
+	};
+	template <typename T> struct simd_param_<T*> { using type = T*; };
+	template <typename T> struct simd_param_<T&> { using type = T&; };
+	template <typename T> struct simd_param_<T&&> { using type = T&&; };
+	#define SIMD_PARAM_SPECIALIZATION(T) \
+		template <> struct simd_param_<T> { using type = T; }
+	SIMD_PARAM_SPECIALIZATION(half);
+	#ifdef _MMINTRIN_H_INCLUDED // <mmintrin.h>
+		SIMD_PARAM_SPECIALIZATION(__m64);
+	#endif
+	#ifdef _INCLUDED_MM2 // <xmmintrin.h>
+		SIMD_PARAM_SPECIALIZATION(__m128);
+	#endif
+	#ifdef _INCLUDED_EMM // <emmintrin.h>
+		SIMD_PARAM_SPECIALIZATION(__m128i);
+		SIMD_PARAM_SPECIALIZATION(__m128d);
+	#endif
+	#ifdef _INCLUDED_IMM // <immintrin.h>
+		SIMD_PARAM_SPECIALIZATION(__m256);
+		SIMD_PARAM_SPECIALIZATION(__m256d);
+		SIMD_PARAM_SPECIALIZATION(__m256i);
+	#endif
+	#ifdef _ZMMINTRIN_H_INCLUDED // <zmmintrin.h> (via immintrin.h)
+		SIMD_PARAM_SPECIALIZATION(__m512);
+		SIMD_PARAM_SPECIALIZATION(__m512d);
+		SIMD_PARAM_SPECIALIZATION(__m512i);
+	#endif
+	#undef SIMD_PARAM_SPECIALIZATION
+
 	#if MUU_WINDOWS
 		template <typename T> inline constexpr bool is_win32_iunknown
 			= std::is_class_v<remove_cvref<T>>
@@ -819,6 +868,21 @@ MUU_IMPL_NAMESPACE_START
 	#endif
 }
 MUU_IMPL_NAMESPACE_END
+
+MUU_NAMESPACE_START
+{
+	/// \addtogroup		meta
+	/// @{
+
+	/// \brief	Type transformation for function parameter types to pass arguments in a manner well-suited
+	/// 		to SIMD vectorization where possible.
+	/// \detail Falls back to `const T&` when T is not a SIMD type and cannot be reasonably passed by value.
+	template <typename T>
+	using simd_param = typename impl::simd_param_<T>::type;
+
+	/// @}
+}
+MUU_NAMESPACE_END
 
 //=====================================================================================================================
 // CONSTANTS
@@ -3340,7 +3404,7 @@ MUU_NAMESPACE_START
 			template <typename T>
 			[[nodiscard]]
 			MUU_ALWAYS_INLINE
-				static constexpr bool MUU_VECTORCALL check(const T& val) noexcept
+			static constexpr bool MUU_VECTORCALL check(const T& val) noexcept
 			{
 				return (val[1] & mask[1]) == mask[1];
 			}

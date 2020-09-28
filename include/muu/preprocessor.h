@@ -641,9 +641,15 @@
 #ifndef MUU_TRIVIAL_ABI
 	#define MUU_TRIVIAL_ABI
 #endif
+
+#if !MUU_ARCH_X86 && !MUU_ARCH_AMD64
+	#undef MUU_VECTORCALL
+#endif
 #ifdef MUU_VECTORCALL
+	#define MUU_HAS_VECTORCALL 1
 	#define MUU_VECTORCALL_CONSTREF
 #else
+	#define MUU_HAS_VECTORCALL 0
 	#define MUU_VECTORCALL
 	#define MUU_VECTORCALL_CONSTREF const&
 #endif

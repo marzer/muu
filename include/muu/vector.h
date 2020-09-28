@@ -19,7 +19,6 @@ MUU_DISABLE_SHADOW_WARNINGS
 MUU_DISABLE_SPAM_WARNINGS
 MUU_PRAGMA_MSVC(inline_recursion(on))
 
-
 //=====================================================================================================================
 // VECTOR CLASS IMPLEMENTATION
 //=====================================================================================================================
@@ -270,13 +269,19 @@ MUU_IMPL_NAMESPACE_START
 MUU_IMPL_NAMESPACE_END
 
 #define	ENABLE_IF_AT_LEAST_DIMENSIONS(dim)	\
-	 , size_t DIM = Dimensions, typename = std::enable_if_t<(DIM >= dim)>
+	 , size_t DIM = Dimensions, typename = std::enable_if_t<(DIM >= dim && DIM == Dimensions)>
 
 #define	ENABLE_IF_AT_LEAST_DIMENSIONS_AND(dim,...)	\
-	, size_t DIM = Dimensions, typename = std::enable_if_t<(__VA_ARGS__) && (DIM >= dim)>
+	, size_t DIM = Dimensions, typename = std::enable_if_t<(__VA_ARGS__) && (DIM >= dim && DIM == Dimensions)>
 
 #define	REQUIRES_AT_LEAST_DIMENSIONS(dim) \
-	template <size_t DIM = Dimensions, typename = std::enable_if_t<(DIM >= dim)>>
+	template <size_t DIM = Dimensions, typename = std::enable_if_t<(DIM >= dim && DIM == Dimensions)>>
+
+#define	REQUIRES_AT_LEAST_DIMENSIONS(dim) \
+	template <size_t DIM = Dimensions, typename = std::enable_if_t<(DIM >= dim && DIM == Dimensions)>>
+
+#define	REQUIRES_FLOATING_POINT	\
+	template <typename T = Scalar, typename = std::enable_if_t<std::is_floating_point<T> && std::is_same_v<T, Scalar>>>
 
 #define ELEMENTWISE_AND(func)															\
 	if constexpr (Dimensions == 1) return func(x);										\
@@ -313,11 +318,21 @@ MUU_IMPL_NAMESPACE_END
 #define ENABLE_IF_AT_LEAST_DIMENSIONS(...)
 #define ENABLE_IF_AT_LEAST_DIMENSIONS_AND(...)
 #define	REQUIRES_AT_LEAST_DIMENSIONS(...)
+#define	REQUIRES_FLOATING_POINT
 
 #endif // DOXYGEN
 
 MUU_NAMESPACE_START
 {
+	template <typename Scalar, size_t Dimensions>
+	using vector_param = std::conditional_t<
+		!std::is_reference_v<simd_param<Scalar>>
+		&& sizeof(impl::vector_base<Scalar,Dimensions>) == sizeof(Scalar) * Dimensions // no padding
+		&& Dimensions <= (MUU_HAS_VECTORCALL ? 4 : 2),
+		vector<Scalar, Dimensions>,
+		const vector<Scalar, Dimensions>&
+	>;
+
 	/// \brief An N-dimensional vector.
 	///
 	/// \tparam	Scalar      An arithmetic type.
@@ -341,6 +356,16 @@ MUU_NAMESPACE_START
 			"Scalar type must be an arithmetic type"
 		);
 
+	private:
+
+		template <typename T, size_t N>
+		friend struct vector;
+		using base = impl::vector_base<Scalar, Dimensions>;
+		static constexpr bool has_padding = sizeof(base) > (sizeof(Scalar) * Dimensions);
+		static constexpr size_t padded_element_size = sizeof(base) / Dimensions;
+
+	public:
+
 		/// \brief The type of each scalar component stored in this vector.
 		using scalar_type = Scalar;
 
@@ -356,30 +381,20 @@ MUU_NAMESPACE_START
 		#ifdef DOXYGEN
 		/// \brief The 0th scalar component stored in the vector.
 		/// \attention This field only exists when the vector has &lt;= 4 dimensions.
-		T x;
+		Scalar x;
 		/// \brief The 1st scalar component stored in the vector.
 		/// \attention This field only exists when the vector has &lt;= 4 dimensions.
-		T y;
+		Scalar y;
 		/// \brief The 2nd scalar component stored in the vector.
 		/// \attention This field only exists when the vector has &lt;= 4 dimensions.
-		T z;
+		Scalar z;
 		/// \brief The 3rd scalar component stored in the vector.
 		/// \attention This field only exists when the vector has &lt;= 4 dimensions.
-		T w;
+		Scalar w;
 		/// \brief The scalar components stored in the vector.
 		/// \attention This field only exists when the vector has &gt; 4 dimensions.
-		T values[Dimensions];
+		Scalar values[Dimensions];
 		#endif
-
-	private:
-
-		template <typename T, size_t N>
-		friend struct vector;
-		using base = impl::vector_base<Scalar, Dimensions>;
-		static constexpr bool has_padding = sizeof(base) > (sizeof(Scalar) * Dimensions);
-		static constexpr size_t padded_element_size = sizeof(base) / Dimensions;
-
-	public:
 
 	#if 1 // scalar component accessors -------------------------------------------------------------------------------
 
@@ -595,7 +610,7 @@ MUU_NAMESPACE_START
 		{}
 
 		/// \brief		Constructs a vector from two scalar values.
-		/// \remarks	Any scalar components not covered by the constructor's parameters are initialized to zero.
+		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		///
 		/// \param	x	Initial value for the vector's x scalar component.
 		/// \param	y	Initial value for the vector's y scalar component.
@@ -608,7 +623,7 @@ MUU_NAMESPACE_START
 		{}
 
 		/// \brief		Constructs a vector from three scalar values.
-		/// \remarks	Any scalar components not covered by the constructor's parameters are initialized to zero.
+		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		///
 		/// \param	x	Initial value for the vector's x scalar component.
 		/// \param	y	Initial value for the vector's y scalar component.
@@ -622,7 +637,7 @@ MUU_NAMESPACE_START
 		{}
 
 		/// \brief		Constructs a vector from four scalar values.
-		/// \remarks	Any scalar components not covered by the constructor's parameters are initialized to zero.
+		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		///
 		/// \param	x		Initial value for the vector's x scalar component.
 		/// \param	y		Initial value for the vector's y scalar component.
@@ -638,7 +653,7 @@ MUU_NAMESPACE_START
 		{}
 
 		/// \brief		Constructs a vector from five or more scalar values.
-		/// \remarks	Any scalar components not covered by the constructor's parameters are initialized to zero.
+		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		///
 		/// \tparam T		Types compatible with scalar_type.
 		/// \param	x		Initial value for the vector's x scalar component.
@@ -655,11 +670,10 @@ MUU_NAMESPACE_START
 		{}
 
 		/// \brief Constructs a vector from a raw array.
+		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		/// 
 		/// \tparam N			The number of elements in the array.
 		/// \param	vals		Array of values used to initialize the vector's scalar components.
-		/// 
-		/// \remarks	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		template <size_t N ENABLE_IF_AT_LEAST_DIMENSIONS(N)>
 		MUU_NODISCARD_CTOR
 		explicit vector(const scalar_type(& vals)[N]) noexcept
@@ -668,11 +682,10 @@ MUU_NAMESPACE_START
 		}
 
 		/// \brief Constructs a vector from a std::array.
+		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		/// 
 		/// \tparam N			The number of elements in the array.
 		/// \param	vals		Array of values used to initialize the vector's scalar components.
-		/// 
-		/// \remarks	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		template <size_t N ENABLE_IF_AT_LEAST_DIMENSIONS(N)>
 		MUU_NODISCARD_CTOR
 		explicit vector(const std::array<scalar_type, N>& vals) noexcept
@@ -682,7 +695,7 @@ MUU_NAMESPACE_START
 
 		/// \brief Enlarging/truncating/converting constructor.
 		/// 
-		/// \remarks	Any scalar components not covered by the constructor's parameters are initialized to zero.
+		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		template <typename T, size_t N>
 		MUU_NODISCARD_CTOR
 		explicit vector(const vector<T, N>& vec) noexcept
@@ -708,7 +721,7 @@ MUU_NAMESPACE_START
 
 		/// \brief Constructs a vector from any tuple-like type.
 		/// 
-		/// \remarks	Any scalar components not covered by the constructor's parameters are initialized to zero.
+		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		template <typename T ENABLE_IF_AT_LEAST_DIMENSIONS_AND(tuple_size<T>, is_tuple_like<T>)>
 		MUU_NODISCARD_CTOR
 		explicit vector(const T& tuple_like) noexcept
@@ -719,10 +732,6 @@ MUU_NAMESPACE_START
 	#endif // constructors
 
 	#if 1 // equality -------------------------------------------------------------------------------------------------
-
-	private:
-
-	public:
 
 	/// \brief	Returns true if two vectors are exactly equal.
 	template <typename T>
@@ -800,7 +809,7 @@ MUU_NAMESPACE_START
 		#undef VEC_FUNC
 	}
 
-	/// \brief	Returns true if the vector is approximately equal to another.
+	/// \brief	Returns true if two vectors are approximately equal.
 	template <typename T MUU_SFINAE(any_floating_point<Scalar, T>)>
 	[[nodiscard]]
 	MUU_ATTR(pure)
@@ -840,8 +849,44 @@ MUU_NAMESPACE_START
 
 	#endif // equality
 
-	#if 1 // ________________ -----------------------------------------------------------------------------------------
-	#endif // ________________
+	#if 1 // length and distance --------------------------------------------------------------------------------------
+
+	private:
+
+	//'raw' version that does not coerce the return type to scalar_type
+	//[[nodiscard]]
+	//MUU_ATTR(pure)
+	//friend constexpr auto MUU_VECTORCALL raw_length_squared(simd_param<vector> v) noexcept
+	//	-> impl::promote_if_small_float<T>
+	//{
+	//	if constexpr (DIM == 1) return impl::vector_length_squared(v.x);
+	//	if constexpr (DIM == 2) return impl::vector_length_squared(v.x, v.y);
+	//	if constexpr (DIM == 3) return impl::vector_length_squared(v.x, v.y, v.z);
+	//	if constexpr (DIM == 4) return impl::vector_length_squared(v.x, v.y, v.z, v.w);
+	//	else
+	//	{
+	//		using calc_t = Detail::PromoteIfHalfFloat<T>;
+	//		calc_t val = static_cast<calc_t>(v[0]) * v[0];
+	//		if constexpr (DIM > 1)
+	//		{
+	//			__pragma(omp simd)
+	//			for (size_t i = 1; i < DIM; i++)
+	//				val += static_cast<calc_t>(v[i]) * v[i];
+	//		}
+	//		return val;
+	//	}
+	//}
+
+	//[[nodiscard]] MUU_ALWAYS_INLINE
+	//	friend constexpr auto MUU_VECTORCALL RawLength(Vector v) noexcept
+	//	-> Detail::PromoteIfHalfFloat<T>
+	//{
+	//	return Sqrt(RawLengthSquared(v));
+	//}
+
+	public:
+
+	#endif // length and distance
 
 	#if 1 // ________________ -----------------------------------------------------------------------------------------
 	#endif // ________________
@@ -890,6 +935,7 @@ MUU_NAMESPACE_END
 #undef ENABLE_IF_AT_LEAST_DIMENSIONS
 #undef ENABLE_IF_AT_LEAST_DIMENSIONS_AND
 #undef REQUIRES_AT_LEAST_DIMENSIONS
+#undef REQUIRES_FLOATING_POINT
 #undef ELEMENTWISE_AND
 #undef ELEMENTWISE_OR
 
