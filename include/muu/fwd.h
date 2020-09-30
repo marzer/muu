@@ -113,21 +113,22 @@ namespace muu // non-abi namespace; this is not an error
 
 MUU_NAMESPACE_START // abi namespace
 {
-	struct									uuid;
-	struct									semver;
 	struct									half;
+	struct									semver;
+	struct									uuid;
 	template <typename, size_t>		struct	vector;
 
-	class									blob;
-	class									string_param;
 	class									bitset;
-	class									thread_pool;
+	class									blob;
 	class									sha1;
-	template <size_t>				class	hash_combiner;
+	class									string_param;
+	class									thread_pool;
+	template <typename, typename>	class	compressed_pair;
+	template <typename>				class	emplacement_array;
 	template <size_t>				class	fnv1a;
+	template <size_t>				class	hash_combiner;
 	template <typename>				class	scope_guard;
 	template <typename, size_t>		class	tagged_ptr;
-	template <typename>				class	emplacement_array;
 
 	template <typename, size_t = static_cast<size_t>(-1)>
 	class span;
@@ -164,24 +165,24 @@ MUU_NAMESPACE_END
 ///				not make a distinction between T and T&).
 
 /// \defgroup		intrinsics			Intrinsics
-/// \brief Small, generally-useful functions, many of which map to compiler intrinsics.
+/// \brief Small, generally-useful functions, many of which map to compiler built-ins.
 
-/// \defgroup		blocks		Building blocks
+/// \defgroup		building_blocks		Building blocks
 /// \brief Small, generally-useful classes and types.
 
-/// \defgroup		constants		Constants
+/// \defgroup		constants			Constants
 /// \brief Compile-time constant values (Pi, et cetera.).
 
 /// \defgroup		characters			Characters
 /// \brief Utilities for manipulating individual characters (or 'code points').
 
-/// \defgroup		strings			Strings
+/// \defgroup		strings				Strings
 /// \brief Utilities to simplify working with strings.
 
-/// \defgroup		hashing		Hashing
+/// \defgroup		hashing			Hashing
 /// \brief Utilities for generating (non-cryptographic) hashes.
 
-/// \defgroup		mem			Memory management
+/// \defgroup		mem				Memory management
 /// \brief Utilities for allocating, destroying and manipulating memory.
 
 /// \brief	The root namespace for all muu functions and types.
@@ -191,14 +192,14 @@ namespace muu // non-abi namespace; this is not an error
 {
 	#if MUU_HAS_INT128
 	/// \brief	A 128-bit signed integer.
-	/// \ingroup blocks
+	/// \ingroup building_blocks
 	/// 
 	/// \attention This typedef is only present when 128-bit integers are supported by your target platform.
 	/// 		 You can check support using #MUU_HAS_INT128.
 	using int128_t = __int128_t;
 
 	/// \brief	A 128-bit unsigned integer.
-	/// \ingroup blocks
+	/// \ingroup building_blocks
 	/// 
 	/// \attention This typedef is only present when 128-bit integers are supported by your target platform.
 	/// 		 You can check support using #MUU_HAS_INT128.
@@ -207,23 +208,11 @@ namespace muu // non-abi namespace; this is not an error
 
 	#if MUU_HAS_FLOAT128
 	/// \brief	A 128-bit quad-precision float.
-	/// \ingroup blocks
+	/// \ingroup building_blocks
 	/// 
 	/// \attention This typedef is only present when 128-bit floats are supported by your target platform.
 	/// 		 You can check support using #MUU_HAS_FLOAT128.
-	using float128_t = __float128;
-	#endif
-
-	#if MUU_HAS_FLOAT16
-	/// \brief	A 16-bit half-precision float.
-	/// \ingroup blocks
-	/// 
-	/// \attention This will be an alias for your target platform's native IEC559 16-bit float type
-	/// 		 if present (e.g. `_Float16`), otherwise it will alias muu::half. You can check support using
-	/// 		 #MUU_HAS_FLOAT16.
-	using float16_t = _Float16;
-	#else
-	using float16_t = half;
+	using quad = __float128;
 	#endif
 }
 
@@ -256,14 +245,14 @@ MUU_NAMESPACE_END
 
 MUU_IMPL_NAMESPACE_START
 {
-	#if MUU_HAS_INTERCHANGE_FP16
+	#if MUU_HAS_FP16
 	template <> struct default_accumulator<__fp16>		{ using type = kahan_accumulator<__fp16>; };
 	#endif
 	#if MUU_HAS_FLOAT16
-	template <> struct default_accumulator<float16_t>	{ using type = kahan_accumulator<float16_t>; };
+	template <> struct default_accumulator<_Float16>	{ using type = kahan_accumulator<_Float16>; };
 	#endif
 	#if MUU_HAS_FLOAT128
-	template <> struct default_accumulator<float128_t>	{ using type = kahan_accumulator<float128_t>; };
+	template <> struct default_accumulator<quad>		{ using type = kahan_accumulator<quad>; };
 	#endif
 }
 MUU_IMPL_NAMESPACE_END

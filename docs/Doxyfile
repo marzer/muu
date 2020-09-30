@@ -328,6 +328,7 @@ PREDEFINED             =                                            \
     "MUU_CONCEPTS=0"                                                \
     "MUU_REQUIRES(...)="                                            \
     "MUU_SFINAE(...)="                                              \
+    "MUU_SFINAE_2(...)="                                            \
     "MUU_SFINAE_NO_CONCEPTS(...)="
 #PREDEFINED += \
 #   "MUU_ALWAYS_INLINE=inline"                                      \

@@ -29,7 +29,22 @@ inline_namespaces = [
 inline_namespace_explainer = 'All members of this namespace are automatically members of the parent namespace. '	\
 	+ 'It does not require an explicit \'using\' statement.'
 type_names = [
-	#------ standard types
+	#------ standard/built-in types
+	'_Float16',
+	'__float128',
+	'__fp16',
+	'__int128_t',
+	'__m128',
+	'__m128d',
+	'__m128i',
+	'__m256',
+	'__m256d',
+	'__m256i',
+	'__m512',
+	'__m512d',
+	'__m512i',
+	'__m64',
+	'__uint128_t',
 	'bool',
 	'byte',
 	'char',
@@ -40,6 +55,7 @@ type_names = [
 	'fstream',
 	'ifstream',
 	'int',
+	'int128_t',
 	'int16_t',
 	'int32_t',
 	'int64_t',
@@ -63,6 +79,7 @@ type_names = [
 	'string_view',
 	'stringstream',
 	'tuple',
+	'uint128_t',
 	'uint16_t',
 	'uint32_t',
 	'uint64_t',
@@ -79,6 +96,7 @@ type_names = [
 	'constants',
 	'emplacement_array',
 	'half',
+	'quad',
 	'numeric_range',
 	'rolling_average',
 	'scope_guard',
@@ -87,11 +105,6 @@ type_names = [
 	'thread_pool',
 	'uuid',
 ]
-
-
-
-
-
 
 all_namespaces = [
 	'std',
@@ -228,9 +241,10 @@ external_links = [
 			+ r'|__STDCPP_DEFAULT_NEW_ALIGNMENT__'
 			+ r')',
 		'https://en.cppreference.com/w/cpp/preprocessor/replace'
-	)
-	#,
+	),
+	(r'(?:_Float|__fp)16s?','https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html'),
 	# muu-specific
+	(r'(?:muu::)?halfs?', 'structmuu_1_1half.html'),
 	# ...
 	# ...
 	# ...
@@ -1121,9 +1135,9 @@ def main():
 		, IndexPageFix()
 		, ModifiersFix1()
 		, ModifiersFix2()
-		, InlineNamespaceFix1()
-		, InlineNamespaceFix2()
-		, InlineNamespaceFix3()
+		# , InlineNamespaceFix1()
+		# , InlineNamespaceFix2()
+		# , InlineNamespaceFix3()
 		, ExtDocLinksFix()
 		, EnableIfFix()
 		, ExternalLinksFix()

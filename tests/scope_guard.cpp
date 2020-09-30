@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: MIT
 
 #include "tests.h"
+#include "../include/muu/scope_guard.h"
 
 namespace
 {

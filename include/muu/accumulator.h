@@ -8,6 +8,7 @@
 
 #pragma once
 #include "../muu/core.h"
+#include "../muu/compressed_pair.h"
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_SPAM_WARNINGS
@@ -15,7 +16,7 @@ MUU_DISABLE_SPAM_WARNINGS
 MUU_NAMESPACE_START
 {
 	/// \brief	Determines min, max and sum of an interderminate number of values.
-	/// \ingroup blocks
+	/// \ingroup building_blocks
 	///
 	/// \detail For integral types the accumulator is a simple bookkeeping helper, but for floating-point
 	/// 		types the default implementation uses Kahan summation to reduce numerical error.
@@ -53,8 +54,8 @@ MUU_NAMESPACE_START
 			/// \brief	The type being accumulated.
 			using value_type = ValueType;
 
-			/// \brief	value_type as a function input.
-			using value_param = simd_param<ValueType>;
+			/// \brief	`value_type` or `const value_type&`, depending on size, triviality, etc.
+			using value_param = impl::maybe_pass_by_value<ValueType>;
 
 		private:
 			compressed_pair<Impl, size_t> impl_and_count{};
@@ -219,7 +220,7 @@ MUU_NAMESPACE_START
 		struct basic_accumulator
 		{
 			using value_type = ValueType;
-			using value_param = simd_param<ValueType>;
+			using value_param = impl::maybe_pass_by_value<ValueType>;
 			using sum_type = std::conditional_t<
 				is_integral<ValueType>,
 				std::conditional_t<
@@ -288,7 +289,7 @@ MUU_NAMESPACE_START
 		struct kahan_accumulator // https://en.wikipedia.org/wiki/Kahan_summation_algorithm#Further_enhancements
 		{
 			using value_type = ValueType;
-			using value_param = simd_param<ValueType>;
+			using value_param = impl::maybe_pass_by_value<ValueType>;
 			using sum_type = impl::highest_ranked<ValueType, float>;
 
 			static_assert(
@@ -306,7 +307,7 @@ MUU_NAMESPACE_START
 
 			MUU_PRAGMA_CLANG_LT(11, "clang optimize off")
 
-			constexpr void MUU_VECTORCALL kahan_add(simd_param<sum_type> sample) noexcept
+			constexpr void MUU_VECTORCALL kahan_add(impl::maybe_pass_by_value<sum_type> sample) noexcept
 			{
 				MUU_PRAGMA_CLANG_GE(11, "clang fp reassociate(off)")
 				MUU_PRAGMA_CLANG_LT(11, "clang fp contract(on)")

@@ -73,6 +73,7 @@
     <ClInclude Include="..\include\muu\all.h" />
     <ClInclude Include="..\include\muu\bitset.h" />
     <ClInclude Include="..\include\muu\blob.h" />
+    <ClInclude Include="..\include\muu\compressed_pair.h" />
     <ClInclude Include="..\include\muu\core.h" />
     <ClInclude Include="..\include\muu\concatenate.h" />
     <ClInclude Include="..\include\muu\emplacement_array.h" />
@@ -88,6 +89,7 @@
     <ClInclude Include="..\include\muu\rolling_average.h" />
     <ClInclude Include="..\include\muu\numeric_range.h" />
     <ClInclude Include="..\include\muu\preprocessor.h" />
+    <ClInclude Include="..\include\muu\scope_guard.h" />
     <ClInclude Include="..\include\muu\semver.h" />
     <ClInclude Include="..\include\muu\span.h" />
     <ClInclude Include="..\include\muu\strings.h" />

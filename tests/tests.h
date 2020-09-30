@@ -11,8 +11,8 @@
 #else
 	#define UNICODE_LITERALS_OK 1
 #endif
-#if MUU_HAS_INTERCHANGE_FP16 != SHOULD_HAVE_FP16
-	#error MUU_HAS_INTERCHANGE_FP16 was not deduced correctly
+#if MUU_HAS_FP16 != SHOULD_HAVE_FP16
+	#error MUU_HAS_FP16 was not deduced correctly
 #endif
 #if MUU_HAS_FLOAT16 != SHOULD_HAVE_FLOAT16
 	#error MUU_HAS_FLOAT16 was not deduced correctly

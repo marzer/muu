@@ -748,7 +748,7 @@ MUU_NAMESPACE_START
 	template <>
 	struct float_test_data_by_traits<128, 113>
 	{
-		static constexpr float128_t values[] = 
+		static constexpr quad values[] =
 		{
 			0.002868982899771494123398061350766q, 0.315930513574404234347196109724236q, 
 			0.051927582269544436601802442790809q, 0.036061017294617750754103977978470q, 
@@ -952,53 +952,53 @@ MUU_NAMESPACE_START
 			0.189821416449709648068042637079742q, 0.123725492039382793718015687371694q
 		};
 
-		static constexpr float128_t values_sum_low      = 97.927944306207317800749240923218632q;
-		static constexpr float128_t values_sum          = 97.927944306207317800749241902498075q;
-		static constexpr float128_t values_sum_high     = 97.927944306207317800749242881777518q;
-		static constexpr float128_t values_min          = 0.002496900356267794781598768971298q;
-		static constexpr float128_t values_max          = 0.497975465838713925854335787179168q;
+		static constexpr quad values_sum_low      = 97.927944306207317800749240923218632q;
+		static constexpr quad values_sum          = 97.927944306207317800749241902498075q;
+		static constexpr quad values_sum_high     = 97.927944306207317800749242881777518q;
+		static constexpr quad values_min          = 0.002496900356267794781598768971298q;
+		static constexpr quad values_max          = 0.497975465838713925854335787179168q;
 
-		static constexpr float128_t one_over_two          = 0.500000000000000000000000000000000q;
-		static constexpr float128_t two_over_three        = 0.666666666666666666666666666666667q;
-		static constexpr float128_t two_over_five         = 0.400000000000000000000000000000000q;
-		static constexpr float128_t sqrt_two              = 1.414213562373095048801688724209698q;
-		static constexpr float128_t one_over_sqrt_two     = 0.707106781186547524400844362104849q;
-		static constexpr float128_t one_over_three        = 0.333333333333333333333333333333333q;
-		static constexpr float128_t three_over_two        = 1.500000000000000000000000000000000q;
-		static constexpr float128_t three_over_four       = 0.750000000000000000000000000000000q;
-		static constexpr float128_t three_over_five       = 0.600000000000000000000000000000000q;
-		static constexpr float128_t sqrt_three            = 1.732050807568877293527446341505872q;
-		static constexpr float128_t one_over_sqrt_three   = 0.577350269189625764509148780501957q;
-		static constexpr float128_t pi                    = 3.141592653589793238462643383279503q;
-		static constexpr float128_t one_over_pi           = 0.318309886183790671537767526745029q;
-		static constexpr float128_t pi_over_two           = 1.570796326794896619231321691639751q;
-		static constexpr float128_t pi_over_three         = 1.047197551196597746154214461093168q;
-		static constexpr float128_t pi_over_four          = 0.785398163397448309615660845819876q;
-		static constexpr float128_t pi_over_five          = 0.628318530717958647692528676655901q;
-		static constexpr float128_t pi_over_six           = 0.523598775598298873077107230546584q;
-		static constexpr float128_t sqrt_pi               = 1.772453850905516027298167483341145q;
-		static constexpr float128_t one_over_sqrt_pi      = 0.564189583547756286948079451560773q;
-		static constexpr float128_t two_pi                = 6.283185307179586476925286766559006q;
-		static constexpr float128_t sqrt_two_pi           = 2.506628274631000502415765284811045q;
-		static constexpr float128_t one_over_sqrt_two_pi  = 0.398942280401432677939946059934382q;
-		static constexpr float128_t e                     = 2.718281828459045534884808148490265q;
-		static constexpr float128_t one_over_e            = 0.367879441171442281059287928010393q;
-		static constexpr float128_t e_over_two            = 1.359140914229522767442404074245133q;
-		static constexpr float128_t e_over_three          = 0.906093942819681844961602716163422q;
-		static constexpr float128_t e_over_four           = 0.679570457114761383721202037122566q;
-		static constexpr float128_t e_over_five           = 0.543656365691809106976961629698053q;
-		static constexpr float128_t e_over_six            = 0.453046971409840922480801358081711q;
-		static constexpr float128_t sqrt_e                = 1.648721270700128237684053351021452q;
-		static constexpr float128_t one_over_sqrt_e       = 0.606530659712633390187322401455486q;
-		static constexpr float128_t phi                   = 1.618033988749894848204586834365638q;
-		static constexpr float128_t one_over_phi          = 0.618033988749894848204586834365638q;
-		static constexpr float128_t phi_over_two          = 0.809016994374947424102293417182819q;
-		static constexpr float128_t phi_over_three        = 0.539344662916631616068195611455213q;
-		static constexpr float128_t phi_over_four         = 0.404508497187473712051146708591410q;
-		static constexpr float128_t phi_over_five         = 0.323606797749978969640917366873128q;
-		static constexpr float128_t phi_over_six          = 0.269672331458315808034097805727606q;
-		static constexpr float128_t sqrt_phi              = 1.272019649514068964252422461737491q;
-		static constexpr float128_t one_over_sqrt_phi     = 0.786151377757423286069558585842959q;
+		static constexpr quad one_over_two          = 0.500000000000000000000000000000000q;
+		static constexpr quad two_over_three        = 0.666666666666666666666666666666667q;
+		static constexpr quad two_over_five         = 0.400000000000000000000000000000000q;
+		static constexpr quad sqrt_two              = 1.414213562373095048801688724209698q;
+		static constexpr quad one_over_sqrt_two     = 0.707106781186547524400844362104849q;
+		static constexpr quad one_over_three        = 0.333333333333333333333333333333333q;
+		static constexpr quad three_over_two        = 1.500000000000000000000000000000000q;
+		static constexpr quad three_over_four       = 0.750000000000000000000000000000000q;
+		static constexpr quad three_over_five       = 0.600000000000000000000000000000000q;
+		static constexpr quad sqrt_three            = 1.732050807568877293527446341505872q;
+		static constexpr quad one_over_sqrt_three   = 0.577350269189625764509148780501957q;
+		static constexpr quad pi                    = 3.141592653589793238462643383279503q;
+		static constexpr quad one_over_pi           = 0.318309886183790671537767526745029q;
+		static constexpr quad pi_over_two           = 1.570796326794896619231321691639751q;
+		static constexpr quad pi_over_three         = 1.047197551196597746154214461093168q;
+		static constexpr quad pi_over_four          = 0.785398163397448309615660845819876q;
+		static constexpr quad pi_over_five          = 0.628318530717958647692528676655901q;
+		static constexpr quad pi_over_six           = 0.523598775598298873077107230546584q;
+		static constexpr quad sqrt_pi               = 1.772453850905516027298167483341145q;
+		static constexpr quad one_over_sqrt_pi      = 0.564189583547756286948079451560773q;
+		static constexpr quad two_pi                = 6.283185307179586476925286766559006q;
+		static constexpr quad sqrt_two_pi           = 2.506628274631000502415765284811045q;
+		static constexpr quad one_over_sqrt_two_pi  = 0.398942280401432677939946059934382q;
+		static constexpr quad e                     = 2.718281828459045534884808148490265q;
+		static constexpr quad one_over_e            = 0.367879441171442281059287928010393q;
+		static constexpr quad e_over_two            = 1.359140914229522767442404074245133q;
+		static constexpr quad e_over_three          = 0.906093942819681844961602716163422q;
+		static constexpr quad e_over_four           = 0.679570457114761383721202037122566q;
+		static constexpr quad e_over_five           = 0.543656365691809106976961629698053q;
+		static constexpr quad e_over_six            = 0.453046971409840922480801358081711q;
+		static constexpr quad sqrt_e                = 1.648721270700128237684053351021452q;
+		static constexpr quad one_over_sqrt_e       = 0.606530659712633390187322401455486q;
+		static constexpr quad phi                   = 1.618033988749894848204586834365638q;
+		static constexpr quad one_over_phi          = 0.618033988749894848204586834365638q;
+		static constexpr quad phi_over_two          = 0.809016994374947424102293417182819q;
+		static constexpr quad phi_over_three        = 0.539344662916631616068195611455213q;
+		static constexpr quad phi_over_four         = 0.404508497187473712051146708591410q;
+		static constexpr quad phi_over_five         = 0.323606797749978969640917366873128q;
+		static constexpr quad phi_over_six          = 0.269672331458315808034097805727606q;
+		static constexpr quad sqrt_phi              = 1.272019649514068964252422461737491q;
+		static constexpr quad one_over_sqrt_phi     = 0.786151377757423286069558585842959q;
 
 		#if MUU_HAS_INT128
 		static constexpr auto int_blittable    = true;

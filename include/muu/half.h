@@ -8,24 +8,23 @@
 
 #pragma once
 #include "../muu/core.h"
-
 MUU_DISABLE_WARNINGS
 #include <iosfwd>
-#define MUU_F16_USE_INTRINSICS 1
-#if !MUU_HAS_INCLUDE(<immintrin.h>)
+MUU_ENABLE_WARNINGS
+
+// detect SSE, SSE2 and FP16C
+#define MUU_F16_USE_INTRINSICS (MUU_ISET_SSE && MUU_ISET_SSE2)
+#if MUU_GCC && !defined(__F16C__)
 	#undef MUU_F16_USE_INTRINSICS
-	#define MUU_F16_USE_INTRINSICS 0
 #endif
-#if MUU_F16_USE_INTRINSICS && MUU_CLANG
+#if MUU_CLANG
 	#if !__has_feature(f16c)
 		#undef MUU_F16_USE_INTRINSICS
-		#define MUU_F16_USE_INTRINSICS 0
 	#endif
 #endif
-#if MUU_F16_USE_INTRINSICS
-	#include <immintrin.h>
+#ifndef MUU_F16_USE_INTRINSICS
+	#define MUU_F16_USE_INTRINSICS 0
 #endif
-MUU_ENABLE_WARNINGS
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_ARITHMETIC_WARNINGS
@@ -41,7 +40,7 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	A 16-bit "half-precision" floating point type.
-	/// \ingroup blocks
+	/// \ingroup building_blocks
 	/// 
 	/// \detail This type is equipped with the full set of operators you'd expect from a float type,
 	/// 		and is capable of being converted to other floats and integers, as well as direct construction
@@ -93,7 +92,7 @@ MUU_NAMESPACE_START
 
 	private:
 
-		constexpr half(uint16_t val, impl::f16_from_bits_tag) noexcept
+		explicit constexpr half(uint16_t val, impl::f16_from_bits_tag) noexcept
 			: bits{ val }
 		{}
 
@@ -140,17 +139,17 @@ MUU_NAMESPACE_START
 		#endif
 		#undef MUU_F16_EXPLICIT_CONSTRUCTOR
 
-		#if MUU_HAS_INTERCHANGE_FP16
+		#if MUU_HAS_FP16
 
 		/*explicit*/ constexpr half(__fp16 val) noexcept
 			: bits{ bit_cast<uint16_t>(val) }
 		{}
 
-		#endif // MUU_HAS_INTERCHANGE_FP16
+		#endif // MUU_HAS_FP16
 
 		#if MUU_HAS_FLOAT16
 
-		explicit constexpr half(float16_t val) noexcept
+		explicit constexpr half(_Float16 val) noexcept
 			: bits{ bit_cast<uint16_t>(val) }
 		{}
 
@@ -161,7 +160,7 @@ MUU_NAMESPACE_START
 		// CONVERSIONS
 		//====================================================
 
-		#if MUU_HAS_INTERCHANGE_FP16
+		#if MUU_HAS_FP16
 
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -170,15 +169,15 @@ MUU_NAMESPACE_START
 			return bit_cast<__fp16>(bits);
 		}
 
-		#endif // MUU_HAS_INTERCHANGE_FP16
+		#endif // MUU_HAS_FP16
 
 		#if MUU_HAS_FLOAT16
 
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		constexpr operator float16_t() const noexcept
+		constexpr operator _Float16() const noexcept
 		{
-			return bit_cast<float16_t>(bits);
+			return bit_cast<_Float16>(bits);
 		}
 
 		#endif // MUU_HAS_FLOAT16
@@ -314,11 +313,11 @@ MUU_NAMESPACE_START
 			func(bool, input_type, > )					\
 			func(bool, input_type, >=)
 
-		#if MUU_HAS_INTERCHANGE_FP16
+		#if MUU_HAS_FP16
 		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, __fp16)
 		#endif
 		#if MUU_HAS_FLOAT16
-		MUU_F16_BINARY_OPS(MUU_F16_PROMOTING_BINARY_OP,  float16_t)
+		MUU_F16_BINARY_OPS(MUU_F16_PROMOTING_BINARY_OP, _Float16)
 		#endif
 		MUU_F16_BINARY_OPS(MUU_F16_PROMOTING_BINARY_OP,  float)
 		MUU_F16_BINARY_OPS(MUU_F16_PROMOTING_BINARY_OP,  double)
@@ -378,11 +377,11 @@ MUU_NAMESPACE_START
 			func(return_type, input_type, *)						\
 			func(return_type, input_type, /)
 
-		#if MUU_HAS_INTERCHANGE_FP16
+		#if MUU_HAS_FP16
 		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	half,			__fp16)
 		#endif
 		#if MUU_HAS_FLOAT16
-		MUU_F16_BINARY_OPS(MUU_F16_PROMOTING_BINARY_OP,		float16_t,		float16_t)
+		MUU_F16_BINARY_OPS(MUU_F16_PROMOTING_BINARY_OP,		_Float16,		_Float16)
 		#endif
 		MUU_F16_BINARY_OPS(MUU_F16_PROMOTING_BINARY_OP,		float,			float)
 		MUU_F16_BINARY_OPS(MUU_F16_PROMOTING_BINARY_OP,		double,			double)
@@ -461,11 +460,11 @@ MUU_NAMESPACE_START
 			func(input_type, *)							\
 			func(input_type, /)
 
-		#if MUU_HAS_INTERCHANGE_FP16
+		#if MUU_HAS_FP16
 		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	__fp16)
 		#endif
 		#if MUU_HAS_FLOAT16
-		MUU_F16_BINARY_OPS(MUU_F16_CASTING_ASSIGN_OP,		float16_t)
+		MUU_F16_BINARY_OPS(MUU_F16_CASTING_ASSIGN_OP,		_Float16)
 		#endif
 		MUU_F16_BINARY_OPS(MUU_F16_DEMOTING_ASSIGN_OP,		float)
 		MUU_F16_BINARY_OPS(MUU_F16_DEMOTING_ASSIGN_OP,		double)
@@ -700,13 +699,12 @@ MUU_NAMESPACE_START
 		}
 	}
 
-	/// \brief	Calculates a linear interpolation between two values.
-	/// \ingroup	intrinsics
-	///
-	/// \remark	This is a stand-in for C++20's std::lerp, but does _not_ make the same guarantees about infinities and NaN's.
-	/// 			Garbage-in, garbage-out.
-	/// 
-	/// \returns	The requested linear interpolation between the start and finish values.
+
+	/// \addtogroup 	intrinsics
+	/// @{
+
+	/// \brief	Returns a linear interpolation between two halfs.
+	/// \ingroup	lerp
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL lerp(half start, half finish, half alpha) noexcept
@@ -714,14 +712,16 @@ MUU_NAMESPACE_START
 		return static_cast<half>(lerp(static_cast<float>(start), static_cast<float>(finish), static_cast<float>(alpha)));
 	}
 
-	/// \brief	Returns true if two values are approximately equal.
-	/// \ingroup	intrinsics
+	/// \brief	Returns true if two halfs are approximately equal.
+	/// \ingroup	approx_equal
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool MUU_VECTORCALL approx_equal(half lhs, half rhs, half epsilon = constants<half>::approx_equal_epsilon) noexcept
 	{
 		return abs(rhs - lhs) < epsilon;
 	}
+
+	/// @}
 }
 MUU_NAMESPACE_END
 
@@ -730,20 +730,20 @@ MUU_IMPL_NAMESPACE_START
 	#if MUU_F16_USE_INTRINSICS
 
 	MUU_PUSH_WARNINGS
-	MUU_PRAGMA_MSVC(warning(disable: 4556)) //value of intrinsic immediate argument '8' is out of range '0 - 7'
-	MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wold-style-cast\"") // false positive with _mm_set_ss
+	MUU_PRAGMA_MSVC(warning(disable: 4556)) // value of intrinsic immediate argument '8' is out of range '0 - 7'
+	MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wold-style-cast\"") // false positive with _mm_load_ss
 
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
 	uint16_t MUU_VECTORCALL f32_to_f16_intrinsic(float val) noexcept
 	{
-		//_mm_set_ss			store a single float in a m128
-		//_mm_cvtps_ph			convert floats in a m128 to half-precision floats in an m128i
-		//_mm_cvtsi128_si32		returns the first int from an m128i
+		//_mm_load_ss			load a single float into a m128 (sse)
+		//_mm_cvtps_ph			convert floats in a m128 to half-precision floats in an m128i (FP16C)
+		//_mm_cvtsi128_si32		returns the first int from an m128i (sse2)
 
-		return static_cast<::uint16_t>(_mm_cvtsi128_si32(
-			_mm_cvtps_ph(_mm_set_ss(val), _MM_FROUND_TO_NEAREST_INT | _MM_FROUND_NO_EXC)
+		return static_cast<uint16_t>(_mm_cvtsi128_si32(
+			_mm_cvtps_ph(_mm_load_ss(&val), _MM_FROUND_TO_NEAREST_INT | _MM_FROUND_NO_EXC)
 		));
 	}
 
@@ -752,9 +752,9 @@ MUU_IMPL_NAMESPACE_START
 	MUU_ATTR(const)
 	float MUU_VECTORCALL f16_to_f32_intrinsic(uint16_t val) noexcept
 	{
-		//_mm_cvtsi32_si128		store a single int in an m128i
-		//_mm_cvtph_ps			convert half-precision floats in a m128i to floats in an m128
-		//_mm_cvtss_f32			returns the first float from an m128
+		//_mm_cvtsi32_si128		store a single int in an m128i (sse2)
+		//_mm_cvtph_ps			convert half-precision floats in a m128i to floats in an m128 (FP16C)
+		//_mm_cvtss_f32			returns the first float from an m128 (sse)
 
 		return _mm_cvtss_f32(_mm_cvtph_ps(
 			_mm_cvtsi32_si128(static_cast<int>(val))
@@ -942,7 +942,7 @@ namespace std
 		
 		[[nodiscard]]
 		MUU_ATTR(const)
-		static MUU_CONSTEVAL half (min)() noexcept
+		static MUU_CONSTEVAL half(min)() noexcept
 		{
 			using namespace muu::literals;
 			return half::from_bits(0x0400_u16); // 0.000061035 (ish)
@@ -957,7 +957,7 @@ namespace std
 
 		[[nodiscard]]
 		MUU_ATTR(const)
-		static MUU_CONSTEVAL half (max)() noexcept
+		static MUU_CONSTEVAL half(max)() noexcept
 		{
 			return half::constants::highest;
 		}

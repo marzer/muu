@@ -134,6 +134,43 @@
 #define MUU_CONCAT_1(x, y) x##y
 #define MUU_CONCAT(x, y) MUU_CONCAT_1(x, y)
 
+#if defined(__MMX__) || MUU_MSVC
+	#define MUU_ISET_MMX 1
+#else
+	#define MUU_ISET_MMX 0
+#endif
+#if defined(__SSE__) || (MUU_MSVC && (defined(_M_X64) || (defined(_M_IX86_FP) && _M_IX86_FP >= 1)))
+	#define MUU_ISET_SSE 1
+#else
+	#define MUU_ISET_SSE 0
+#endif
+#if defined(__SSE2__) || (MUU_MSVC && (defined(_M_X64) || (defined(_M_IX86_FP) && _M_IX86_FP >= 2)))
+	#define MUU_ISET_SSE2 1
+#else
+	#define MUU_ISET_SSE2 0
+#endif
+#if defined(__AVX__)
+	#define MUU_ISET_AVX 1
+#else
+	#define MUU_ISET_AVX 0
+#endif
+#if defined(__AVX2__)
+	#define MUU_ISET_AVX2 1
+#else
+	#define MUU_ISET_AVX2 0
+#endif
+#if defined(__AVX512BW__)		\
+	|| defined(__AVX512CD__)	\
+	|| defined(__AVX512DQ__)	\
+	|| defined(__AVX512ER__)	\
+	|| defined(__AVX512F__)		\
+	|| defined(__AVX512PF__)	\
+	|| defined(__AVX512VL__)
+	#define MUU_ISET_AVX512 1
+#else
+	#define MUU_ISET_AVX512 0
+#endif
+
 //=====================================================================================================================
 // CLANG
 //=====================================================================================================================
@@ -267,7 +304,8 @@
 		#define MUU_PUSH_WARNINGS			__pragma(warning(push))
 		#define MUU_DISABLE_SWITCH_WARNINGS	__pragma(warning(disable: 4063))
 		#define MUU_DISABLE_SHADOW_WARNINGS	__pragma(warning(disable: 4458))
-		#define MUU_DISABLE_SPAM_WARNINGS	__pragma(warning(disable: 4127)) // conditional expr is constant
+		#define MUU_DISABLE_SPAM_WARNINGS	__pragma(warning(disable: 4127)) /* conditional expr is constant */ \
+											__pragma(warning(disable: 4324)) /* structure was padded due to alignment specifier */
 		#define MUU_POP_WARNINGS			__pragma(warning(pop))
 		#define MUU_DISABLE_WARNINGS		__pragma(warning(push, 0))
 		#define MUU_ENABLE_WARNINGS			MUU_POP_WARNINGS
@@ -647,11 +685,9 @@
 #endif
 #ifdef MUU_VECTORCALL
 	#define MUU_HAS_VECTORCALL 1
-	#define MUU_VECTORCALL_CONSTREF
 #else
 	#define MUU_HAS_VECTORCALL 0
 	#define MUU_VECTORCALL
-	#define MUU_VECTORCALL_CONSTREF const&
 #endif
 
 #if defined(__cpp_consteval) && !MUU_INTELLISENSE
@@ -729,11 +765,13 @@
 
 #ifdef DOXYGEN
 	#define MUU_SFINAE(...)
+	#define MUU_SFINAE_2(...)
 	#define MUU_SFINAE_NO_CONCEPTS(...)
 	#define MUU_REQUIRES(...)
 	#define MUU_CONCEPTS 0
 #else
 	#define MUU_SFINAE(...)						, std::enable_if_t<(__VA_ARGS__), int> = 0
+	#define MUU_SFINAE_2(...)					, typename = std::enable_if_t<(__VA_ARGS__)>
 	#if defined(__cpp_concepts) && defined(__cpp_lib_concepts) && !MUU_INTELLISENSE
 		#define MUU_CONCEPTS 1
 		#define MUU_REQUIRES(...)				requires(__VA_ARGS__)
@@ -783,15 +821,19 @@
 			&& __FLT16_MAX_EXP__ == 16		\
 			&& __FLT16_MAX_10_EXP__ == 4
 		#if (MUU_ARCH_ARM && MUU_GCC) || MUU_CLANG
-			#define MUU_HAS_INTERCHANGE_FP16 1
+			#define MUU_HAS_FP16 1
 		#endif
 		#if MUU_ARCH_ARM && MUU_CLANG // not present in g++
 			#define MUU_HAS_FLOAT16 1
 		#endif
 	#endif
 #endif
-#ifndef MUU_HAS_INTERCHANGE_FP16
-	#define MUU_HAS_INTERCHANGE_FP16 0
+#ifndef MUU_HAS_FP16
+	#ifdef DOXYGEN
+		#define MUU_HAS_FP16 1
+	#else
+		#define MUU_HAS_FP16 0
+	#endif
 #endif
 #ifndef MUU_HAS_FLOAT16
 	#ifdef DOXYGEN
@@ -1236,7 +1278,7 @@ MUU_ENABLE_WARNINGS
 ///		MUU_DELETE_MOVE(Foo);
 ///	};
 ///	//instances of Foo cannot be move-constructed or move-assigned.
-/// \epp
+/// \ecpp
 /// \see https://cpppatterns.com/patterns/rule-of-five.html
 ///
 /// \def MUU_DELETE_COPY(name)
@@ -1248,16 +1290,9 @@ MUU_ENABLE_WARNINGS
 ///		MUU_DELETE_COPY(Foo);
 ///	};
 ///	//instances of Foo cannot be copy-constructed or copy-assigned.
-/// \epp
+/// \ecpp
 /// \see https://cpppatterns.com/patterns/rule-of-five.html
 ///
-/// \brief Syntatic sugar for initializing static class members.
-/// \detail \cpp
-/// class Foo
-/// {
-///		static Vec3 Bar;
-///	};
-/// 
 /// 
 /// @}
 

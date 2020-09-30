@@ -8,6 +8,7 @@
 #include "muu/blob.h"
 #include "muu/emplacement_array.h"
 #include "muu/strings.h"
+#include "muu/scope_guard.h"
 #include "os_internal.h"
 MUU_DISABLE_WARNINGS
 #include <atomic>

@@ -127,7 +127,7 @@ MUU_NAMESPACE_START
 	};
 
 	/// \brief A 128-bit universally-unique identifier (UUID).
-	/// \ingroup blocks
+	/// \ingroup building_blocks
 	///
 	/// \see RFC 4122: https://tools.ietf.org/html/rfc4122
 	struct uuid

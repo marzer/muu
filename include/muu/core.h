@@ -34,8 +34,10 @@ MUU_DISABLE_WARNINGS
 #include <type_traits>
 #include <utility>
 #include <limits>
-#if MUU_MSVC
+#if MUU_MSVC || MUU_ICC_CL
 	#include <intrin.h>
+#elif MUU_GCC || MUU_CLANG
+	#include <x86intrin.h>
 #endif
 MUU_ENABLE_WARNINGS
 
@@ -260,13 +262,13 @@ MUU_IMPL_NAMESPACE_START
 	template <> struct make_signed_<uint128_t> { using type = int128_t; };
 	#endif
 	#if MUU_HAS_FLOAT128
-	template <> struct make_signed_<float128_t> { using type = float128_t; };
-	#endif
-	#if MUU_HAS_INTERCHANGE_FP16
-	template <> struct make_signed_<__fp16> { using type = __fp16; };
+	template <> struct make_signed_<quad> { using type = quad; };
 	#endif
 	#if MUU_HAS_FLOAT16
-	template <> struct make_signed_<float16_t> { using type = float16_t; };
+	template <> struct make_signed_<_Float16> { using type = _Float16; };
+	#endif
+	#if MUU_HAS_FP16
+	template <> struct make_signed_<__fp16> { using type = __fp16; };
 	#endif
 	template <>
 	struct make_signed_<wchar_t>
@@ -326,29 +328,29 @@ MUU_IMPL_NAMESPACE_START
 	MUU_HR_SPECIALIZATION(half, float);
 	MUU_HR_SPECIALIZATION(half, double);
 	MUU_HR_SPECIALIZATION(half, long double);
-	#if MUU_HAS_INTERCHANGE_FP16
+	#if MUU_HAS_FP16
 		MUU_HR_SPECIALIZATION(__fp16, half);
 		MUU_HR_SPECIALIZATION(__fp16, float);
 		MUU_HR_SPECIALIZATION(__fp16, double);
 		MUU_HR_SPECIALIZATION(__fp16, long double);
 	#endif
 	#if MUU_HAS_FLOAT16
-		MUU_HR_SPECIALIZATION(half, float16_t);
-		MUU_HR_SPECIALIZATION(float16_t, float);
-		MUU_HR_SPECIALIZATION(float16_t, double);
-		MUU_HR_SPECIALIZATION(float16_t, long double);
+		MUU_HR_SPECIALIZATION(half,		_Float16);
+		MUU_HR_SPECIALIZATION(_Float16, float);
+		MUU_HR_SPECIALIZATION(_Float16, double);
+		MUU_HR_SPECIALIZATION(_Float16, long double);
 	#endif
 	#if MUU_HAS_FLOAT128
-		MUU_HR_SPECIALIZATION(half, float128_t);
+		MUU_HR_SPECIALIZATION(half, quad);
 	#endif
-	#if MUU_HAS_INTERCHANGE_FP16 && MUU_HAS_FLOAT16
-		MUU_HR_SPECIALIZATION(__fp16, float16_t);
+	#if MUU_HAS_FP16 && MUU_HAS_FLOAT16
+		MUU_HR_SPECIALIZATION(__fp16, _Float16);
 	#endif
-	#if MUU_HAS_INTERCHANGE_FP16 && MUU_HAS_FLOAT128
-		MUU_HR_SPECIALIZATION(__fp16, float128_t);
+	#if MUU_HAS_FP16 && MUU_HAS_FLOAT128
+		MUU_HR_SPECIALIZATION(__fp16, quad);
 	#endif
 	#if MUU_HAS_FLOAT16 && MUU_HAS_FLOAT128
-		MUU_HR_SPECIALIZATION(float16_t, float128_t);
+		MUU_HR_SPECIALIZATION(_Float16, quad);
 	#endif
 	#undef MUU_HR_SPECIALIZATION
 	template <typename... T>
@@ -397,9 +399,11 @@ MUU_IMPL_NAMESPACE_START
 	using has_unary_plus_operator_ = decltype(+std::declval<T>());
 
 	template <typename T>
-	using has_tuple_get_member_ = decltype(std::declval<T>().template get<0>());
-	template <typename T>
 	using has_tuple_size_ = decltype(std::tuple_size<std::remove_cv_t<std::remove_reference_t<T>>>::value);
+	template <typename T>
+	using has_tuple_element_ = std::tuple_element_t<0, std::remove_cv_t<std::remove_reference_t<T>>>;
+	template <typename T>
+	using has_tuple_get_member_ = decltype(std::declval<T>().template get<0>());
 
 	template <typename T, bool = is_detected<has_tuple_size_, T>>
 	struct tuple_size_ : std::tuple_size<T>{};
@@ -408,6 +412,23 @@ MUU_IMPL_NAMESPACE_START
 	{
 		static constexpr size_t value = 0;
 	};
+
+	template <size_t I, typename T>
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	MUU_ATTR(pure)
+	constexpr decltype(auto) get_from_tuple_like(T&& tuple_like) noexcept
+	{
+		if constexpr (is_detected<has_tuple_get_member_, T&&>)
+		{
+			return std::forward<T>(tuple_like).template get<I>();
+		}
+		else // adl
+		{
+			using std::get;
+			return get<I>(std::forward<T>(tuple_like));
+		}
+	}
 }
 MUU_IMPL_NAMESPACE_END
 
@@ -459,10 +480,10 @@ MUU_NAMESPACE_START
 	template <typename T, typename... U>
 	inline constexpr bool is_same_as_any = (false || ... || std::is_same_v<T, U>);
 
-	/// \brief	True if all the type arguments are the same type.
+	/// \brief	True if T is exactly the same all of the types named by U.
 	/// \detail This equivalent to `(std::is_same_v<T, U1> && std::is_same_v<T, U2> && ...)`.
 	template <typename T, typename... U>
-	inline constexpr bool is_same_as_all = (true && ... && std::is_same_v<T, U>);
+	inline constexpr bool is_same_as_all = (sizeof...(U) > 0) && (true && ... && std::is_same_v<T, U>);
 
 	/// \brief	True if T is convertible to one or more of the types named by U.
 	/// \detail This equivalent to `(std::is_convertible<T, U1> || std::is_convertible<T, U2> || ...)`.
@@ -472,7 +493,7 @@ MUU_NAMESPACE_START
 	/// \brief	True if T is convertible to all of the types named by U.
 	/// \detail This equivalent to `(std::is_convertible<T, U1> && std::is_convertible<T, U2> && ...)`.
 	template <typename T, typename... U>
-	inline constexpr bool is_convertible_to_all = (true && ... && std::is_convertible_v<T, U>);
+	inline constexpr bool is_convertible_to_all = (sizeof...(U) > 0) && (true && ... && std::is_convertible_v<T, U>);
 
 	/// \brief Is a type an enum or reference-to-enum?
 	template <typename T>
@@ -498,7 +519,7 @@ MUU_NAMESPACE_START
 
 	/// \brief Is a type unsigned or reference-to-unsigned?
 	/// \remarks Returns true for enums backed by unsigned integers.
-	/// \remarks Returns true for native #uint128_t (where supported).
+	/// \remarks Returns true for #uint128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_unsigned = std::is_unsigned_v<remove_enum<remove_cvref<T>>>
 		#if MUU_HAS_INT128
@@ -519,7 +540,7 @@ MUU_NAMESPACE_START
 	/// \brief Is a type signed or reference-to-signed?
 	/// \remarks Returns true for enums backed by signed integers.
 	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for native #int128_t, #float16_t and #float128_t (where supported).
+	/// \remarks Returns true for #int128_t, __fp16, _Float16 and #quad (where supported).
 	template <typename T>
 	inline constexpr bool is_signed = std::is_signed_v<remove_enum<remove_cvref<T>>>
 		|| is_same_as_any<remove_enum<remove_cvref<T>>,
@@ -528,12 +549,12 @@ MUU_NAMESPACE_START
 				, int128_t
 			#endif
 			#if MUU_HAS_FLOAT128
-				, float128_t
+				, quad
 			#endif
 			#if MUU_HAS_FLOAT16
-				, float16_t
+				, _Float16
 			#endif
-			#if MUU_HAS_INTERCHANGE_FP16
+			#if MUU_HAS_FP16
 				, __fp16
 			#endif
 		>
@@ -551,7 +572,7 @@ MUU_NAMESPACE_START
 
 	/// \brief Is a type an integral type or a reference to an integral type?
 	/// \remarks Returns true for enums.
-	/// \remarks Returns true for native #int128_t and #uint128_t (where supported).
+	/// \remarks Returns true for #int128_t and #uint128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_integral = std::is_integral_v<remove_enum<remove_cvref<T>>>
 		#if MUU_HAS_INT128
@@ -561,30 +582,30 @@ MUU_NAMESPACE_START
 
 	/// \brief Are any of the named types integral or reference-to-integral?
 	/// \remarks Returns true for enums.
-	/// \remarks Returns true for native #int128_t and #uint128_t (where supported).
+	/// \remarks Returns true for #int128_t and #uint128_t (where supported).
 	template <typename T, typename... U>
 	inline constexpr bool any_integral = is_integral<T> || (false || ... || is_integral<U>);
 
 	/// \brief Are all of the named types integral or reference-to-integral?
 	/// \remarks Returns true for enums.
-	/// \remarks Returns true for native #int128_t and #uint128_t (where supported).
+	/// \remarks Returns true for #int128_t and #uint128_t (where supported).
 	template <typename T, typename... U>
 	inline constexpr bool all_integral = is_integral<T> && (true && ... && is_integral<U>);
 
 	/// \brief Is a type a floating-point or reference-to-floating-point?
 	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for native #float16_t and #float128_t (where supported).
+	/// \remarks Returns true for __fp16, _Float16 and #quad (where supported).
 	template <typename T>
 	inline constexpr bool is_floating_point = std::is_floating_point_v<std::remove_reference_t<T>>
 		|| is_same_as_any<remove_cvref<T>,
 			half
 			#if MUU_HAS_FLOAT128
-				, float128_t
+				, quad
 			#endif
 			#if MUU_HAS_FLOAT16
-				, float16_t
+				, _Float16
 			#endif
-			#if MUU_HAS_INTERCHANGE_FP16
+			#if MUU_HAS_FP16
 				, __fp16
 			#endif
 		>
@@ -592,19 +613,19 @@ MUU_NAMESPACE_START
 
 	/// \brief Are any of the named types floating-point or reference-to-floating-point?
 	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for native #float16_t and #float128_t (where supported).
+	/// \remarks Returns true for _Float16 and #quad (where supported).
 	template <typename T, typename... U>
 	inline constexpr bool any_floating_point = is_floating_point<T> || (false || ... || is_floating_point<U>);
 
 	/// \brief Are all of the named types floating-point or reference-to-floating-point?
 	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for native #float16_t and #float128_t (where supported).
+	/// \remarks Returns true for _Float16 and #quad (where supported).
 	template <typename T, typename... U>
 	inline constexpr bool all_floating_point = is_floating_point<T> && (true && ... && is_floating_point<U>);
 
 	/// \brief Is a type arithmetic or reference-to-arithmetic?
 	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for native #int128_t, #uint128_t, #float16_t and #float128_t (where supported).
+	/// \remarks Returns true for #int128_t, #uint128_t, __fp16, _Float16 and #quad (where supported).
 	template <typename T>
 	inline constexpr bool is_arithmetic = std::is_arithmetic_v<std::remove_reference_t<T>>
 		|| is_same_as_any<remove_cvref<T>,
@@ -613,12 +634,12 @@ MUU_NAMESPACE_START
 				, int128_t, uint128_t
 			#endif
 			#if MUU_HAS_FLOAT128
-				, float128_t
+				, quad
 			#endif
 			#if MUU_HAS_FLOAT16
-				, float16_t
+				, _Float16
 			#endif
-			#if MUU_HAS_INTERCHANGE_FP16
+			#if MUU_HAS_FP16
 				, __fp16
 			#endif
 		>
@@ -626,13 +647,13 @@ MUU_NAMESPACE_START
 
 	/// \brief Are any of the named types arithmetic or reference-to-arithmetic?
 	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for native #int128_t, #uint128_t, #float16_t and #float128_t (where supported).
+	/// \remarks Returns true for #int128_t, #uint128_t, _Float16 and #quad (where supported).
 	template <typename T, typename... U>
 	inline constexpr bool any_arithmetic = is_arithmetic<T> || (false || ... || is_arithmetic<U>);
 
 	/// \brief Are all of the named types arithmetic or reference-to-arithmetic?
 	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for native #int128_t, #uint128_t, #float16_t and #float128_t (where supported).
+	/// \remarks Returns true for #int128_t, #uint128_t, _Float16 and #quad (where supported).
 	template <typename T, typename... U>
 	inline constexpr bool all_arithmetic = is_arithmetic<T> && (true && ... && is_arithmetic<U>);
 
@@ -788,18 +809,42 @@ MUU_NAMESPACE_START
 	template <typename... T>
 	using variant_storage = std::aligned_storage_t<sizeof(largest<T...>), alignof(most_aligned<T...>)>;
 
-	/// \brief Returns true if the type implements the C++17 tuple protocol (for structured binding).
+	/// \brief Returns true if the type implements std::tuple_size and std::tuple_element.
 	template <typename T>
 	inline constexpr bool is_tuple_like = impl::is_detected<impl::has_tuple_size_, T>
-		&& impl::is_detected<impl::has_tuple_get_member_, T>;
-
-	template <typename T, typename U>	inline constexpr bool is_tuple_like<std::pair<T, U>> = true;
-	template <typename... T>			inline constexpr bool is_tuple_like<std::tuple<T...>> = true;
+		&& impl::is_detected<impl::has_tuple_element_, T>
+		//&& impl::is_detected<impl::has_tuple_get_member_, T>
+	;
 
 	/// \brief Equivalent to std::tuple_size_v, but safe to use in SFINAE contexts.
 	/// \detail Returns 0 for types that do not implement std::tuple_size.
 	template <typename T>
 	inline constexpr size_t tuple_size = impl::tuple_size_<T>::value;
+
+	/// \brief Returns true if a type is a simd compiler intrinsic type (__m64, __m128, etc.).
+	template <typename T>
+	inline constexpr bool is_simd_intrinsic = is_same_as_any<remove_cvref<T>
+		#if MUU_ISET_MMX
+			, __m64
+		#endif
+		#if MUU_ISET_SSE
+			, __m128
+		#endif
+		#if MUU_ISET_SSE2
+			, __m128i
+			, __m128d
+		#endif
+		#if MUU_ISET_AVX
+			, __m256
+			, __m256d
+			, __m256i
+		#endif
+		#if MUU_ISET_AVX512
+			, __m512
+			, __m512d
+			, __m512i
+		#endif
+	>;
 
 	/// @}
 }
@@ -810,54 +855,140 @@ MUU_IMPL_NAMESPACE_START
 	template <typename T>
 	using promote_if_small_float = std::conditional_t<(is_floating_point<T> && sizeof(T) < sizeof(float)), float, T>;
 
+	struct any_type
+	{
+		template <typename T>
+		constexpr operator T() const noexcept; //non-explicit
+
+		static constexpr any_type&& ref () noexcept;
+	};
+
+	#if MUU_HAS_VECTORCALL
+
 	template <typename T>
-	struct simd_param_
+	using is_aggregate_constructible_5_args_
+		= decltype(T{ { any_type::ref() },{ any_type::ref() }, { any_type::ref() }, { any_type::ref() }, { any_type::ref() } });
+	template <typename T>
+	using is_aggregate_constructible_4_args_
+		= decltype(T{ { any_type::ref() },{ any_type::ref() }, { any_type::ref() }, { any_type::ref() } });
+	template <typename T>
+	using is_aggregate_constructible_3_args_
+		= decltype(T{ { any_type::ref() },{ any_type::ref() }, { any_type::ref() } });
+	template <typename T>
+	using is_aggregate_constructible_2_args_
+		= decltype(T{ { any_type::ref() },{ any_type::ref() } });
+	template <typename T>
+	using is_aggregate_constructible_1_arg_
+		= decltype(T{ { any_type::ref() } });
+
+	template <typename T>
+	struct hva_member_
+	{
+		using type = T;
+		static constexpr size_t arity = 1;
+	};
+	template <typename T, size_t N>
+	struct hva_member_<T[N]>
+	{
+		using type = T;
+		static constexpr size_t arity = N;
+	};
+
+	template <typename T, typename... Members>
+	struct is_valid_hva_
+	{
+		// "What is an HVA?"
+		// https://docs.microsoft.com/en-us/cpp/cpp/vectorcall?view=vs-2019
+		// 
+		// a "homogeneous vector aggregate" must:
+		// - have between 1 and 4 members (if any of the members are arrays they count as N members where N is the extent of the array)
+		// - have all members be the same type
+		// - have the member type be 'vector' types (a native float type or a simd intrinsic type)
+		// - have the same alignment as it's member type (no padding due to over-alignment)
+
+		static constexpr bool value =
+			(true && ... && (
+				(is_same_as_any<typename hva_member_<Members>::type, float, double, long double>
+					|| is_simd_intrinsic<typename hva_member_<Members>::type>)
+				&& !is_cvref<Members>
+			))
+			&& (0 + ... + hva_member_<Members>::arity) <= 4
+			&& (sizeof...(Members) == 1 || is_same_as_all<typename hva_member_<Members>::type...>)
+			&& sizeof(T) == (0u + ... + sizeof(Members));
+	};
+
+	template <typename T>
+	constexpr auto is_hva_(T&& obj) noexcept
+	{
+		if constexpr (std::is_class_v<T>
+			&& !std::is_empty_v<T>
+			&& std::is_standard_layout_v<T>
+			&& std::is_trivially_default_constructible_v<T>
+			&& std::is_trivially_copyable_v<T>
+			&& std::is_trivially_destructible_v<T>
+			&& (sizeof(T) % sizeof(float) == 0) // smallest sub-member can be a float
+			&& alignof(T) >= alignof(float)
+			)
+		{
+			if constexpr (is_detected<is_aggregate_constructible_5_args_, T>) // five or more
+				return std::false_type{};
+			else if constexpr (is_detected<is_aggregate_constructible_4_args_, T>) // four
+			{
+				auto&& [a, b, c, d] = std::forward<T>(obj);
+				return std::bool_constant<is_valid_hva_<T, decltype(a), decltype(b), decltype(c), decltype(d)>::value>{};
+			}
+			else if constexpr (is_detected<is_aggregate_constructible_3_args_, T>) // three
+			{
+				auto&& [a, b, c] = std::forward<T>(obj);
+				return std::bool_constant<is_valid_hva_<T, decltype(a), decltype(b), decltype(c)>::value>{};
+			}
+			else if constexpr (is_detected<is_aggregate_constructible_2_args_, T>) // two
+			{
+				auto&& [a, b] = std::forward<T>(obj);
+				return std::bool_constant<is_valid_hva_<T, decltype(a), decltype(b)>::value>{};
+			}
+			else if constexpr (is_detected<is_aggregate_constructible_1_arg_, T>) // one
+			{
+				auto&& [a] = std::forward<T>(obj);
+				return std::bool_constant<is_valid_hva_<T, decltype(a)>::value>{};
+			}
+			else
+				return std::false_type{};
+		}
+		else
+			return std::false_type{};
+	}
+
+	template <typename T>			inline constexpr bool is_hva = decltype(is_hva_(std::declval<T>()))::value;
+	template <>						inline constexpr bool is_hva<half> = false;
+	template <typename T, size_t N>	inline constexpr bool is_hva<std::array<T, N>> =
+		N <= 4 && (is_same_as_any<T, float, double, long double> || is_simd_intrinsic<T>);
+
+	#endif
+
+	template <typename T>
+	struct maybe_pass_by_value_
 	{
 		using type = std::conditional_t<
 			is_floating_point<T>
 			|| is_integral<T>
-			|| (std::is_class_v<T>
-				&& std::is_standard_layout_v<T>
+			|| is_simd_intrinsic<T>
+			|| std::is_scalar_v<T>
+			#if MUU_HAS_VECTORCALL
+			|| is_hva<T>
+			#endif
+			|| ((std::is_class_v<T> || std::is_union_v<T>)
 				&& std::is_trivially_copyable_v<T>
 				&& std::is_trivially_destructible_v<T>
-				&& sizeof(T) <= 
-				#if MUU_HAS_VECTORCALL
-					sizeof(void*) * 4
-				#else
-					sizeof(void*)
-				#endif
-			),
+				&& sizeof(T) <= sizeof(void*) * 2),
 			T,
 			std::add_lvalue_reference_t<std::add_const_t<T>>
 		>;
 	};
-	template <typename T> struct simd_param_<T*> { using type = T*; };
-	template <typename T> struct simd_param_<T&> { using type = T&; };
-	template <typename T> struct simd_param_<T&&> { using type = T&&; };
-	#define SIMD_PARAM_SPECIALIZATION(T) \
-		template <> struct simd_param_<T> { using type = T; }
-	SIMD_PARAM_SPECIALIZATION(half);
-	#ifdef _MMINTRIN_H_INCLUDED // <mmintrin.h>
-		SIMD_PARAM_SPECIALIZATION(__m64);
-	#endif
-	#ifdef _INCLUDED_MM2 // <xmmintrin.h>
-		SIMD_PARAM_SPECIALIZATION(__m128);
-	#endif
-	#ifdef _INCLUDED_EMM // <emmintrin.h>
-		SIMD_PARAM_SPECIALIZATION(__m128i);
-		SIMD_PARAM_SPECIALIZATION(__m128d);
-	#endif
-	#ifdef _INCLUDED_IMM // <immintrin.h>
-		SIMD_PARAM_SPECIALIZATION(__m256);
-		SIMD_PARAM_SPECIALIZATION(__m256d);
-		SIMD_PARAM_SPECIALIZATION(__m256i);
-	#endif
-	#ifdef _ZMMINTRIN_H_INCLUDED // <zmmintrin.h> (via immintrin.h)
-		SIMD_PARAM_SPECIALIZATION(__m512);
-		SIMD_PARAM_SPECIALIZATION(__m512d);
-		SIMD_PARAM_SPECIALIZATION(__m512i);
-	#endif
-	#undef SIMD_PARAM_SPECIALIZATION
+	template <typename T> struct maybe_pass_by_value_<T&> { using type = T&; };
+	template <typename T> struct maybe_pass_by_value_<T&&> { using type = T&&; };
+	template <typename T>
+	using maybe_pass_by_value = typename maybe_pass_by_value_<T>::type;
 
 	#if MUU_WINDOWS
 		template <typename T> inline constexpr bool is_win32_iunknown
@@ -868,21 +999,6 @@ MUU_IMPL_NAMESPACE_START
 	#endif
 }
 MUU_IMPL_NAMESPACE_END
-
-MUU_NAMESPACE_START
-{
-	/// \addtogroup		meta
-	/// @{
-
-	/// \brief	Type transformation for function parameter types to pass arguments in a manner well-suited
-	/// 		to SIMD vectorization where possible.
-	/// \detail Falls back to `const T&` when T is not a SIMD type and cannot be reasonably passed by value.
-	template <typename T>
-	using simd_param = typename impl::simd_param_<T>::type;
-
-	/// @}
-}
-MUU_NAMESPACE_END
 
 //=====================================================================================================================
 // CONSTANTS
@@ -984,7 +1100,7 @@ MUU_NAMESPACE_START
 
 			static constexpr T approx_equal_epsilon = T{ 1 } * power<T, 10, -std::numeric_limits<T>::digits10>::value;
 		};
-		#if MUU_HAS_INTERCHANGE_FP16
+		#if MUU_HAS_FP16
 		template <>
 		struct floating_point_limits<__fp16>
 		{
@@ -994,18 +1110,18 @@ MUU_NAMESPACE_START
 		#endif
 		#if MUU_HAS_FLOAT16
 		template <>
-		struct floating_point_limits<float16_t>
+		struct floating_point_limits<_Float16>
 		{
 			static constexpr int significand_digits = 11;
-			static constexpr float16_t approx_equal_epsilon = static_cast<float16_t>(0.001);
+			static constexpr _Float16 approx_equal_epsilon = static_cast<_Float16>(0.001);
 		};
 		#endif
 		#if MUU_HAS_FLOAT128
 		template <>
-		struct floating_point_limits<float128_t>
+		struct floating_point_limits<quad>
 		{
 			static constexpr int significand_digits = __FLT128_MANT_DIG__;
-			static constexpr float128_t approx_equal_epsilon = float128_t{ 1 } * power<float128_t, 10, -__FLT128_DIG__>::value;
+			static constexpr quad approx_equal_epsilon = quad{ 1 } * power<quad, 10, -__FLT128_DIG__>::value;
 		};
 		#endif
 
@@ -1068,49 +1184,49 @@ MUU_NAMESPACE_START
 
 		#if MUU_HAS_FLOAT128 && MUU_EXTENDED_LITERALS
 		template <>
-		struct floating_point_named_constants<float128_t>
+		struct floating_point_named_constants<quad>
 		{
-			static constexpr float128_t one_over_two          = 0.500000000000000000000000000000000q;
-			static constexpr float128_t two_over_three        = 0.666666666666666666666666666666667q;
-			static constexpr float128_t two_over_five         = 0.400000000000000000000000000000000q;
-			static constexpr float128_t sqrt_two              = 1.414213562373095048801688724209698q;
-			static constexpr float128_t one_over_sqrt_two     = 0.707106781186547524400844362104849q;
-			static constexpr float128_t one_over_three        = 0.333333333333333333333333333333333q;
-			static constexpr float128_t three_over_two        = 1.500000000000000000000000000000000q;
-			static constexpr float128_t three_over_four       = 0.750000000000000000000000000000000q;
-			static constexpr float128_t three_over_five       = 0.600000000000000000000000000000000q;
-			static constexpr float128_t sqrt_three            = 1.732050807568877293527446341505872q;
-			static constexpr float128_t one_over_sqrt_three   = 0.577350269189625764509148780501957q;
-			static constexpr float128_t pi                    = 3.141592653589793238462643383279503q;
-			static constexpr float128_t one_over_pi           = 0.318309886183790671537767526745029q;
-			static constexpr float128_t pi_over_two           = 1.570796326794896619231321691639751q;
-			static constexpr float128_t pi_over_three         = 1.047197551196597746154214461093168q;
-			static constexpr float128_t pi_over_four          = 0.785398163397448309615660845819876q;
-			static constexpr float128_t pi_over_five          = 0.628318530717958647692528676655901q;
-			static constexpr float128_t pi_over_six           = 0.523598775598298873077107230546584q;
-			static constexpr float128_t sqrt_pi               = 1.772453850905516027298167483341145q;
-			static constexpr float128_t one_over_sqrt_pi      = 0.564189583547756286948079451560773q;
-			static constexpr float128_t two_pi                = 6.283185307179586476925286766559006q;
-			static constexpr float128_t sqrt_two_pi           = 2.506628274631000502415765284811045q;
-			static constexpr float128_t one_over_sqrt_two_pi  = 0.398942280401432677939946059934382q;
-			static constexpr float128_t e                     = 2.718281828459045534884808148490265q;
-			static constexpr float128_t one_over_e            = 0.367879441171442281059287928010393q;
-			static constexpr float128_t e_over_two            = 1.359140914229522767442404074245133q;
-			static constexpr float128_t e_over_three          = 0.906093942819681844961602716163422q;
-			static constexpr float128_t e_over_four           = 0.679570457114761383721202037122566q;
-			static constexpr float128_t e_over_five           = 0.543656365691809106976961629698053q;
-			static constexpr float128_t e_over_six            = 0.453046971409840922480801358081711q;
-			static constexpr float128_t sqrt_e                = 1.648721270700128237684053351021452q;
-			static constexpr float128_t one_over_sqrt_e       = 0.606530659712633390187322401455486q;
-			static constexpr float128_t phi                   = 1.618033988749894848204586834365638q;
-			static constexpr float128_t one_over_phi          = 0.618033988749894848204586834365638q;
-			static constexpr float128_t phi_over_two          = 0.809016994374947424102293417182819q;
-			static constexpr float128_t phi_over_three        = 0.539344662916631616068195611455213q;
-			static constexpr float128_t phi_over_four         = 0.404508497187473712051146708591410q;
-			static constexpr float128_t phi_over_five         = 0.323606797749978969640917366873128q;
-			static constexpr float128_t phi_over_six          = 0.269672331458315808034097805727606q;
-			static constexpr float128_t sqrt_phi              = 1.272019649514068964252422461737491q;
-			static constexpr float128_t one_over_sqrt_phi     = 0.786151377757423286069558585842959q;
+			static constexpr quad one_over_two          = 0.500000000000000000000000000000000q;
+			static constexpr quad two_over_three        = 0.666666666666666666666666666666667q;
+			static constexpr quad two_over_five         = 0.400000000000000000000000000000000q;
+			static constexpr quad sqrt_two              = 1.414213562373095048801688724209698q;
+			static constexpr quad one_over_sqrt_two     = 0.707106781186547524400844362104849q;
+			static constexpr quad one_over_three        = 0.333333333333333333333333333333333q;
+			static constexpr quad three_over_two        = 1.500000000000000000000000000000000q;
+			static constexpr quad three_over_four       = 0.750000000000000000000000000000000q;
+			static constexpr quad three_over_five       = 0.600000000000000000000000000000000q;
+			static constexpr quad sqrt_three            = 1.732050807568877293527446341505872q;
+			static constexpr quad one_over_sqrt_three   = 0.577350269189625764509148780501957q;
+			static constexpr quad pi                    = 3.141592653589793238462643383279503q;
+			static constexpr quad one_over_pi           = 0.318309886183790671537767526745029q;
+			static constexpr quad pi_over_two           = 1.570796326794896619231321691639751q;
+			static constexpr quad pi_over_three         = 1.047197551196597746154214461093168q;
+			static constexpr quad pi_over_four          = 0.785398163397448309615660845819876q;
+			static constexpr quad pi_over_five          = 0.628318530717958647692528676655901q;
+			static constexpr quad pi_over_six           = 0.523598775598298873077107230546584q;
+			static constexpr quad sqrt_pi               = 1.772453850905516027298167483341145q;
+			static constexpr quad one_over_sqrt_pi      = 0.564189583547756286948079451560773q;
+			static constexpr quad two_pi                = 6.283185307179586476925286766559006q;
+			static constexpr quad sqrt_two_pi           = 2.506628274631000502415765284811045q;
+			static constexpr quad one_over_sqrt_two_pi  = 0.398942280401432677939946059934382q;
+			static constexpr quad e                     = 2.718281828459045534884808148490265q;
+			static constexpr quad one_over_e            = 0.367879441171442281059287928010393q;
+			static constexpr quad e_over_two            = 1.359140914229522767442404074245133q;
+			static constexpr quad e_over_three          = 0.906093942819681844961602716163422q;
+			static constexpr quad e_over_four           = 0.679570457114761383721202037122566q;
+			static constexpr quad e_over_five           = 0.543656365691809106976961629698053q;
+			static constexpr quad e_over_six            = 0.453046971409840922480801358081711q;
+			static constexpr quad sqrt_e                = 1.648721270700128237684053351021452q;
+			static constexpr quad one_over_sqrt_e       = 0.606530659712633390187322401455486q;
+			static constexpr quad phi                   = 1.618033988749894848204586834365638q;
+			static constexpr quad one_over_phi          = 0.618033988749894848204586834365638q;
+			static constexpr quad phi_over_two          = 0.809016994374947424102293417182819q;
+			static constexpr quad phi_over_three        = 0.539344662916631616068195611455213q;
+			static constexpr quad phi_over_four         = 0.404508497187473712051146708591410q;
+			static constexpr quad phi_over_five         = 0.323606797749978969640917366873128q;
+			static constexpr quad phi_over_six          = 0.269672331458315808034097805727606q;
+			static constexpr quad sqrt_phi              = 1.272019649514068964252422461737491q;
+			static constexpr quad one_over_sqrt_phi     = 0.786151377757423286069558585842959q;
 		};
 		#endif
 
@@ -1270,18 +1386,19 @@ MUU_NAMESPACE_START
 	/// \brief	`long double` constants.
 	template <> struct constants<long double> : impl::floating_point_constants<long double> {};
 
-	#if MUU_HAS_INTERCHANGE_FP16
+	#if MUU_HAS_FP16
+	/// \brief	__fp16 constants.
 	template <> struct constants<__fp16> : impl::floating_point_constants<__fp16> {};
 	#endif
 
 	#if MUU_HAS_FLOAT16
-	/// \brief	`float16_t` constants.
-	template <> struct constants<float16_t> : impl::floating_point_constants<float16_t> {};
+	/// \brief	_Float16 constants.
+	template <> struct constants<_Float16> : impl::floating_point_constants<_Float16> {};
 	#endif
 
 	#if MUU_HAS_FLOAT128
-	/// \brief	`float128_t` constants.
-	template <> struct constants<float128_t> : impl::floating_point_constants<float128_t> {};
+	/// \brief	#quad constants.
+	template <> struct constants<quad> : impl::floating_point_constants<quad> {};
 	#endif
 
 	/// \brief	`char` constants.
@@ -1396,7 +1513,7 @@ MUU_NAMESPACE_START
 			return static_cast<uint64_t>(n);
 		}
 
-		/// \brief	Creates a int8_t.
+		/// \brief	Creates an int8_t.
 		[[nodiscard]]
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
@@ -1405,7 +1522,7 @@ MUU_NAMESPACE_START
 			return static_cast<int8_t>(n);
 		}
 
-		/// \brief	Creates a int16_t.
+		/// \brief	Creates an int16_t.
 		[[nodiscard]]
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
@@ -1414,7 +1531,7 @@ MUU_NAMESPACE_START
 			return static_cast<int16_t>(n);
 		}
 
-		/// \brief	Creates a int32_t.
+		/// \brief	Creates an int32_t.
 		[[nodiscard]]
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
@@ -1423,7 +1540,7 @@ MUU_NAMESPACE_START
 			return static_cast<int32_t>(n);
 		}
 
-		/// \brief	Creates a int64_t.
+		/// \brief	Creates an int64_t.
 		[[nodiscard]]
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
@@ -2502,8 +2619,16 @@ MUU_NAMESPACE_START
 		return (muu::max)((muu::min)(val, max_), min_);
 	}
 
-	/// \brief	Returns true if two values are approximately equal.
-	/// \ingroup	intrinsics
+	/// \addtogroup 	intrinsics
+	/// @{
+	///
+	/// \defgroup		approx_equal	approx_equal()
+	/// \brief Floating-point approximate equality checks.
+	/// 
+	/// \addtogroup 	approx_equal
+	/// @{
+
+	/// \brief	Returns true if two floats are approximately equal.
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool MUU_VECTORCALL approx_equal(float a, float b, float epsilon = constants<float>::approx_equal_epsilon) noexcept
@@ -2511,8 +2636,7 @@ MUU_NAMESPACE_START
 		return abs(b - a) < epsilon;
 	}
 
-	/// \brief	Returns true if two values are approximately equal.
-	/// \ingroup	intrinsics
+	/// \brief	Returns true if two doubles are approximately equal.
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool MUU_VECTORCALL approx_equal(double a, double b, double epsilon = constants<double>::approx_equal_epsilon) noexcept
@@ -2520,8 +2644,7 @@ MUU_NAMESPACE_START
 		return abs(b - a) < epsilon;
 	}
 
-	/// \brief	Returns true if two values are approximately equal.
-	/// \ingroup	intrinsics
+	/// \brief	Returns true if two long doubles are approximately equal.
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool MUU_VECTORCALL approx_equal(long double a, long double b, long double epsilon = constants<long double>::approx_equal_epsilon) noexcept
@@ -2530,28 +2653,27 @@ MUU_NAMESPACE_START
 	}
 
 	#if MUU_HAS_FLOAT128
-	/// \brief	Returns true if two values are approximately equal.
-	/// \ingroup	intrinsics
+	/// \brief	Returns true if two quads are approximately equal.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool MUU_VECTORCALL approx_equal(float128_t a, float128_t b, float128_t epsilon = constants<float128_t>::approx_equal_epsilon) noexcept
+	constexpr bool MUU_VECTORCALL approx_equal(quad a, quad b, quad epsilon = constants<quad>::approx_equal_epsilon) noexcept
 	{
 		return abs(b - a) < epsilon;
 	}
 	#endif
 
 	#if MUU_HAS_FLOAT16
-	/// \brief	Returns true if two values are approximately equal.
-	/// \ingroup	intrinsics
+	/// \brief	Returns true if two _Float16s are approximately equal.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool MUU_VECTORCALL approx_equal(float16_t a, float16_t b, float16_t epsilon = constants<float16_t>::approx_equal_epsilon) noexcept
+	constexpr bool MUU_VECTORCALL approx_equal(_Float16 a, _Float16 b, _Float16 epsilon = constants<_Float16>::approx_equal_epsilon) noexcept
 	{
 		return abs(b - a) < epsilon;
 	}
 	#endif
 
-	#if MUU_HAS_INTERCHANGE_FP16
+	#if MUU_HAS_FP16
+	/// \brief	Returns true if two __fp16 are approximately equal.
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool MUU_VECTORCALL approx_equal(__fp16 a, __fp16 b, __fp16 epsilon = constants<__fp16>::approx_equal_epsilon) noexcept
@@ -2560,13 +2682,22 @@ MUU_NAMESPACE_START
 	}
 	#endif
 
-	/// \brief	Calculates a linear interpolation between two values.
-	/// \ingroup	intrinsics
+	/// @}
+	/// @}
+
+	/// \addtogroup 	intrinsics
+	/// @{
 	///
-	/// \remark	This is a stand-in for C++20's std::lerp, but does _not_ make the same guarantees about infinities and NaN's.
-	/// 			Garbage-in, garbage-out.
+	/// \defgroup		lerp	lerp()
+	/// \brief Linear interpolations al a C++20's std::lerp.
 	/// 
-	/// \returns	The requested linear interpolation between the start and finish values.
+	/// \addtogroup 	lerp
+	/// @{
+	/// 
+	/// \remark	Despite being stand-ins for C++20's std::lerp, these functions do _not_ make the same
+	/// 		guarantees about infinities and NaN's. Garbage-in, garbage-out.
+
+	/// \brief	Returns a linear interpolation between two floats.
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr float MUU_VECTORCALL lerp(float start, float finish, float alpha) noexcept
@@ -2574,13 +2705,7 @@ MUU_NAMESPACE_START
 		return start * (1.0f - alpha) + finish * alpha;
 	}
 
-	/// \brief	Calculates a linear interpolation between two values.
-	/// \ingroup	intrinsics
-	///
-	/// \remark	This is a stand-in for C++20's std::lerp, but does _not_ make the same guarantees about infinities and NaN's.
-	/// 			Garbage-in, garbage-out.
-	/// 
-	/// \returns	The requested linear interpolation between the start and finish values.
+	/// \brief	Returns a linear interpolation between two doubles.
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr double MUU_VECTORCALL lerp(double start, double finish, double alpha) noexcept
@@ -2588,13 +2713,7 @@ MUU_NAMESPACE_START
 		return start * (1.0 - alpha) + finish * alpha;
 	}
 
-	/// \brief	Calculates a linear interpolation between two values.
-	/// \ingroup	intrinsics
-	///
-	/// \remark	This is a stand-in for C++20's std::lerp, but does _not_ make the same guarantees about infinities and NaN's.
-	/// 			Garbage-in, garbage-out.
-	/// 
-	/// \returns	The requested linear interpolation between the start and finish values.
+	/// \brief	Returns a linear interpolation between two long doubles.
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr long double MUU_VECTORCALL lerp(long double start, long double finish, long double alpha) noexcept
@@ -2603,38 +2722,27 @@ MUU_NAMESPACE_START
 	}
 
 	#if MUU_HAS_FLOAT128
-	/// \brief	Calculates a linear interpolation between two values.
-	/// \ingroup	intrinsics
-	///
-	/// \remark	This is a stand-in for C++20's std::lerp, but does _not_ make the same guarantees about infinities and NaN's.
-	/// 			Garbage-in, garbage-out.
-	/// 
-	/// \returns	The requested linear interpolation between the start and finish values.
+	/// \brief	Returns a linear interpolation between two quads.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr float128_t MUU_VECTORCALL lerp(float128_t start, float128_t finish, float128_t alpha) noexcept
+	constexpr quad MUU_VECTORCALL lerp(quad start, quad finish, quad alpha) noexcept
 	{
-		return start * (float128_t{ 1 } - alpha) + finish * alpha;
+		return start * (quad{ 1 } - alpha) + finish * alpha;
 	}
 	#endif
 
 	#if MUU_HAS_FLOAT16
-	/// \brief	Calculates a linear interpolation between two values.
-	/// \ingroup	intrinsics
-	///
-	/// \remark	This is a stand-in for C++20's std::lerp, but does _not_ make the same guarantees about infinities and NaN's.
-	/// 			Garbage-in, garbage-out.
-	/// 
-	/// \returns	The requested linear interpolation between the start and finish values.
+	/// \brief	Returns a linear interpolation between two _Float16s.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr float16_t MUU_VECTORCALL lerp(float16_t start, float16_t finish, float16_t alpha) noexcept
+	constexpr _Float16 MUU_VECTORCALL lerp(_Float16 start, _Float16 finish, _Float16 alpha) noexcept
 	{
-		return static_cast<float16_t>(lerp(static_cast<float>(start), static_cast<float>(finish), static_cast<float>(alpha)));
+		return static_cast<_Float16>(lerp(static_cast<float>(start), static_cast<float>(finish), static_cast<float>(alpha)));
 	}
 	#endif
 
-	#if MUU_HAS_INTERCHANGE_FP16
+	#if MUU_HAS_FP16
+	/// \brief	Returns a linear interpolation between two __fp16s.
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr __fp16 MUU_VECTORCALL lerp(__fp16 start, __fp16 finish, __fp16 alpha) noexcept
@@ -2643,6 +2751,9 @@ MUU_NAMESPACE_START
 	}
 	#endif
 
+	/// \brief	Returns a linear interpolation between two arithmetic values.
+	///
+	/// \detail Integer arguments are promoted to double.
 	template <typename T, typename U, typename V MUU_SFINAE(all_arithmetic<T, U, V>)>
 	[[nodiscard]]
 	MUU_ATTR(const)
@@ -2656,6 +2767,9 @@ MUU_NAMESPACE_START
 		using type = impl::highest_ranked<start_type, finish_type, alpha_type>;
 		return static_cast<type(MUU_VECTORCALL*)(type,type,type)noexcept>(lerp)(start, finish, alpha);
 	}
+
+	/// @}
+	/// @}
 
 	/// \brief	Returns true if a value is between two bounds (inclusive).
 	/// \ingroup	intrinsics
@@ -3415,6 +3529,9 @@ MUU_NAMESPACE_START
 		struct is_infinity_or_nan_traits_typed
 			: is_infinity_or_nan_traits<sizeof(T) * CHAR_BIT, constants<T>::significand_digits>
 		{};	
+
+		template <typename T>
+		using has_member_infinity_or_nan_ = decltype(std::declval<T>().is_infinity_or_nan());
 	}
 
 	/// \brief	Checks if an arithmetic value is infinity or NaN.
@@ -3461,6 +3578,21 @@ MUU_NAMESPACE_START
 		}
 	}
 
+	/// \brief	Checks if a object is infinity or NaN.
+	/// \ingroup	intrinsics
+	///
+	/// \tparam	T		The object type.
+	/// \param 	obj		The object.
+	///
+	/// \returns	The return value of `obj.is_infinity_or_nan()`.
+	template <typename T MUU_SFINAE_2(!is_arithmetic<T> && impl::is_detected<impl::has_member_infinity_or_nan_, const T&>)>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr bool is_infinity_or_nan(const T& obj) noexcept
+	{
+		return obj.is_infinity_or_nan();
+	}
+
 	namespace build
 	{
 		/// \brief	True if using is_infinity_or_nan() in constexpr contexts is supported on this compiler.
@@ -3473,7 +3605,7 @@ MUU_NAMESPACE_START
 	namespace impl
 	{
 		template <typename T>
-		using has_pointer_traits_to_address = decltype(std::pointer_traits<remove_cvref<T>>::to_address(std::declval<remove_cvref<T>>()));
+		using has_pointer_traits_to_address_ = decltype(std::pointer_traits<remove_cvref<T>>::to_address(std::declval<remove_cvref<T>>()));
 	}
 
 	/// \brief Obtain the address represented by p without forming a reference to the pointee.
@@ -3494,9 +3626,9 @@ MUU_NAMESPACE_START
 	/// \detail This is equivalent to C++20's std::to_address.
 	template <typename Ptr>
 	[[nodiscard]]
-	constexpr auto to_address(const Ptr& p) noexcept //(1)
+	constexpr auto to_address(const Ptr& p) noexcept
 	{
-		if constexpr (impl::is_detected<impl::has_pointer_traits_to_address, Ptr>)
+		if constexpr (impl::is_detected<impl::has_pointer_traits_to_address_, Ptr>)
 		{
 			return std::pointer_traits<Ptr>::to_address(p);
 		}
@@ -3553,462 +3685,6 @@ MUU_NAMESPACE_END
 
 MUU_POP_WARNINGS // MUU_DISABLE_ARITHMETIC_WARNINGS
 
-//=====================================================================================================================
-// COMPRESSED PAIR
-//=====================================================================================================================
-
-MUU_NAMESPACE_START
-{
-	namespace impl
-	{
-		template <size_t I, typename T>
-		constexpr decltype(auto) compressed_pair_get(T&& cp) noexcept
-		{
-			static_assert(I <= 1);
-			if constexpr (I == 0)
-				return std::forward<T>(cp).first();
-			else
-				return std::forward<T>(cp).second();
-		}
-	}
-
-	/// \brief	A pair that uses Empty Base Class Optimization to elide storage for one or both of its members where possible.
-	/// \ingroup blocks
-	/// 
-	/// \tparam	First		First member type.
-	/// \tparam	Second		Second member type.
-	template <typename First, typename Second
-		#ifndef DOXYGEN
-			, unsigned empty_member = ((std::is_empty_v<First> ? 1u : 0u) | (std::is_empty_v<Second> ? 2u : 0u))
-		#endif
-	>
-	class compressed_pair
-	{
-		private:
-			static_assert(!std::is_empty_v<First> && !std::is_empty_v<Second>);
-			First first_;
-			Second second_;
-
-		public:
-
-			/// \brief	The pair's first member type.
-			using first_type = First;
-			/// \brief	The pair's second member type.
-			using second_type = Second;
-
-			/// \brief	Default constructor.
-			MUU_NODISCARD_CTOR
-			constexpr compressed_pair() = default;
-
-			/// \brief	Copy constructor.
-			MUU_NODISCARD_CTOR
-			constexpr compressed_pair(const compressed_pair&) = default;
-
-			/// \brief	Move constructor.
-			MUU_NODISCARD_CTOR
-			constexpr compressed_pair(compressed_pair&&) = default;
-
-			/// \brief	Copy-assignment operator.
-			constexpr compressed_pair& operator =(const compressed_pair&) = default;
-
-			/// \brief	Move-assignment operator.
-			constexpr compressed_pair& operator =(compressed_pair&&) = default;
-			
-			/// \brief	Constructs a compressed pair from two values.
-			/// 
-			/// \tparam	F	First member initializer type.
-			/// \tparam	S	Second member initializer type.
-			/// \param 	first_init 	First member initializer.
-			/// \param 	second_init	Second member initializer.
-			template <typename F, typename S>
-			MUU_NODISCARD_CTOR
-			constexpr compressed_pair(F&& first_init, S&& second_init)
-				noexcept(std::is_nothrow_constructible_v<First, F&&> && std::is_nothrow_constructible_v<Second, S&&>)
-				: first_{ std::forward<F>(first_init) },
-				second_{ std::forward<S>(second_init) }
-			{}
-
-			/// \brief	Returns an lvalue reference to the first member.
-			[[nodiscard]] constexpr first_type& first() & noexcept					{ return first_; }
-			/// \brief	Returns an rvalue reference to the first member.
-			[[nodiscard]] constexpr first_type&& first() && noexcept				{ return std::move(first_); }
-			/// \brief	Returns a const lvalue reference to the first member.
-			[[nodiscard]] constexpr const first_type& first() const& noexcept		{ return first_; }
-			/// \brief	Returns a const rvalue reference to the first member.
-			[[nodiscard]] constexpr const first_type&& first() const&& noexcept		{ return std::move(first_); }
-
-			/// \brief	Returns an lvalue reference to the second member.
-			[[nodiscard]] constexpr second_type& second() & noexcept				{ return second_; }
-			/// \brief	Returns an rvalue reference to the second member.
-			[[nodiscard]] constexpr second_type&& second() && noexcept				{ return std::move(second_); }
-			/// \brief	Returns a const lvalue reference to the second member.
-			[[nodiscard]] constexpr const second_type& second() const& noexcept		{ return second_; }
-			/// \brief	Returns a const rvalue reference to the second member.
-			[[nodiscard]] constexpr const second_type&& second() const&& noexcept	{ return std::move(second_); }
-
-			/// \brief	Returns an lvalue reference to the selected member.
-			template <size_t I>
-			[[nodiscard]]
-			constexpr auto& get() & noexcept
-			{
-				return impl::compressed_pair_get<I>(*this);
-			}
-
-			/// \brief	Returns an rvalue reference to the selected member.
-			template <size_t I>
-			[[nodiscard]]
-			constexpr auto&& get() && noexcept
-			{
-				return impl::compressed_pair_get<I>(std::move(*this));
-			}
-
-			/// \brief	Returns a const lvalue reference to the selected member.
-			template <size_t I>
-			[[nodiscard]]
-			constexpr const auto& get() const & noexcept
-			{
-				return impl::compressed_pair_get<I>(*this);
-			}
-
-			/// \brief	Returns a const rvalue reference to the selected member.
-			template <size_t I>
-			[[nodiscard]]
-			constexpr const auto&& get() const && noexcept
-			{
-				return impl::compressed_pair_get<I>(std::move(*this));
-			}
-	};
-
-	#ifndef DOXYGEN
-	template <typename F, typename S> compressed_pair(F, S) -> compressed_pair<F, S>;
-
-	template <typename First, typename Second>
-	class MUU_EMPTY_BASES compressed_pair<First, Second, 1> : private First
-	{
-		private:
-			static_assert(std::is_empty_v<First> && !std::is_empty_v<Second>);
-			Second second_;
-
-		public:
-
-			using first_type = First;
-			using second_type = Second;
-
-			MUU_NODISCARD_CTOR constexpr compressed_pair() = default;
-			MUU_NODISCARD_CTOR constexpr compressed_pair(const compressed_pair&) = default;
-			MUU_NODISCARD_CTOR constexpr compressed_pair(compressed_pair&&) = default;
-			constexpr compressed_pair& operator =(const compressed_pair&) = default;
-			constexpr compressed_pair& operator =(compressed_pair&&) = default;
-
-			template <typename F, typename S>
-			MUU_NODISCARD_CTOR
-			constexpr compressed_pair(F&& first_init, S&& second_init)
-				noexcept(std::is_nothrow_constructible_v<First, F&&> && std::is_nothrow_constructible_v<Second, S&&>)
-				: First{ std::forward<F>(first_init) },
-				second_{ std::forward<S>(second_init) }
-			{}
-
-			[[nodiscard]] constexpr first_type& first() & noexcept					{ return *this; }
-			[[nodiscard]] constexpr first_type&& first() && noexcept				{ return std::move(*this); }
-			[[nodiscard]] constexpr const first_type& first() const& noexcept		{ return *this; }
-			[[nodiscard]] constexpr const first_type&& first() const&& noexcept		{ return std::move(*this); }
-
-			[[nodiscard]] constexpr second_type& second() & noexcept				{ return second_; }
-			[[nodiscard]] constexpr second_type&& second() && noexcept				{ return std::move(second_); }
-			[[nodiscard]] constexpr const second_type& second() const& noexcept		{ return second_; }
-			[[nodiscard]] constexpr const second_type&& second() const&& noexcept	{ return std::move(second_); }
-
-			template <size_t I>
-			[[nodiscard]]
-			constexpr auto& get() & noexcept
-			{
-				return impl::compressed_pair_get<I>(*this);
-			}
-
-			template <size_t I>
-			[[nodiscard]]
-			constexpr auto&& get() && noexcept
-			{
-				return impl::compressed_pair_get<I>(std::move(*this));
-			}
-
-			template <size_t I>
-			[[nodiscard]]
-			constexpr const auto& get() const& noexcept
-			{
-				return impl::compressed_pair_get<I>(*this);
-			}
-
-			template <size_t I>
-			[[nodiscard]]
-			constexpr const auto&& get() const&& noexcept
-			{
-				return impl::compressed_pair_get<I>(std::move(*this));
-			}
-	};
-
-	template <typename First, typename Second>
-	class MUU_EMPTY_BASES compressed_pair<First, Second, 2> : private Second
-	{
-		private:
-			static_assert(!std::is_empty_v<First> && std::is_empty_v<Second>);
-			First first_;
-
-		public:
-
-			using first_type = First;
-			using second_type = Second;
-
-			MUU_NODISCARD_CTOR constexpr compressed_pair() = default;
-			MUU_NODISCARD_CTOR constexpr compressed_pair(const compressed_pair&) = default;
-			MUU_NODISCARD_CTOR constexpr compressed_pair(compressed_pair&&) = default;
-			constexpr compressed_pair& operator =(const compressed_pair&) = default;
-			constexpr compressed_pair& operator =(compressed_pair&&) = default;
-
-			template <typename F, typename S>
-			MUU_NODISCARD_CTOR
-			constexpr compressed_pair(F&& first_init, S&& second_init)
-				noexcept(std::is_nothrow_constructible_v<First, F&&> && std::is_nothrow_constructible_v<Second, S&&>)
-				: Second{ std::forward<S>(second_init) },
-				first_{ std::forward<F>(first_init) }
-			{}
-
-			[[nodiscard]] constexpr first_type& first() & noexcept					{ return first_; }
-			[[nodiscard]] constexpr first_type&& first() && noexcept				{ return std::move(first_); }
-			[[nodiscard]] constexpr const first_type& first() const& noexcept		{ return first_; }
-			[[nodiscard]] constexpr const first_type&& first() const&& noexcept		{ return std::move(first_); }
-
-			[[nodiscard]] constexpr second_type& second() & noexcept				{ return *this; }
-			[[nodiscard]] constexpr second_type&& second() && noexcept				{ return std::move(*this); }
-			[[nodiscard]] constexpr const second_type& second() const& noexcept		{ return *this; }
-			[[nodiscard]] constexpr const second_type&& second() const&& noexcept	{ return std::move(*this); }
-
-			template <size_t I>
-			[[nodiscard]]
-			constexpr auto& get() & noexcept
-			{
-				return impl::compressed_pair_get<I>(*this);
-			}
-
-			template <size_t I>
-			[[nodiscard]]
-			constexpr auto&& get() && noexcept
-			{
-				return impl::compressed_pair_get<I>(std::move(*this));
-			}
-
-			template <size_t I>
-			[[nodiscard]]
-			constexpr const auto& get() const& noexcept
-			{
-				return impl::compressed_pair_get<I>(*this);
-			}
-
-			template <size_t I>
-			[[nodiscard]]
-			constexpr const auto&& get() const&& noexcept
-			{
-				return impl::compressed_pair_get<I>(std::move(*this));
-			}
-	};
-
-	template <typename First, typename Second>
-	class MUU_EMPTY_BASES compressed_pair<First, Second, 3> : private First, private Second
-	{
-		private:
-			static_assert(std::is_empty_v<First> && std::is_empty_v<Second>);
-
-		public:
-
-			using first_type = First;
-			using second_type = Second;
-
-			MUU_NODISCARD_CTOR constexpr compressed_pair() = default;
-			MUU_NODISCARD_CTOR constexpr compressed_pair(const compressed_pair&) = default;
-			MUU_NODISCARD_CTOR constexpr compressed_pair(compressed_pair&&) = default;
-			constexpr compressed_pair& operator =(const compressed_pair&) = default;
-			constexpr compressed_pair& operator =(compressed_pair&&) = default;
-
-			template <typename F, typename S>
-			MUU_NODISCARD_CTOR
-			constexpr compressed_pair(F&& first_init, S&& second_init)
-				noexcept(std::is_nothrow_constructible_v<First, F&&> && std::is_nothrow_constructible_v<Second, S&&>)
-				: First{ std::forward<F>(first_init) },
-				Second{ std::forward<S>(second_init) }
-			{}
-
-			[[nodiscard]] constexpr first_type& first() & noexcept					{ return *this; }
-			[[nodiscard]] constexpr first_type&& first() && noexcept				{ return std::move(*this); }
-			[[nodiscard]] constexpr const first_type& first() const& noexcept		{ return *this; }
-			[[nodiscard]] constexpr const first_type&& first() const&& noexcept		{ return std::move(*this); }
-
-			[[nodiscard]] constexpr second_type& second() & noexcept				{ return *this; }
-			[[nodiscard]] constexpr second_type&& second() && noexcept				{ return std::move(*this); }
-			[[nodiscard]] constexpr const second_type& second() const& noexcept		{ return *this; }
-			[[nodiscard]] constexpr const second_type&& second() const&& noexcept	{ return std::move(*this); }
-
-			template <size_t I>
-			[[nodiscard]]
-			constexpr auto& get() & noexcept
-			{
-				return impl::compressed_pair_get<I>(*this);
-			}
-
-			template <size_t I>
-			[[nodiscard]]
-			constexpr auto&& get() && noexcept
-			{
-				return impl::compressed_pair_get<I>(std::move(*this));
-			}
-
-			template <size_t I>
-			[[nodiscard]]
-			constexpr const auto& get() const& noexcept
-			{
-				return impl::compressed_pair_get<I>(*this);
-			}
-
-			template <size_t I>
-			[[nodiscard]]
-			constexpr const auto&& get() const&& noexcept
-			{
-				return impl::compressed_pair_get<I>(std::move(*this));
-			}
-	};
-
-	#endif // DOXYGEN
-}
-MUU_NAMESPACE_END
-
-namespace std
-{
-	/// \brief Specialization of std::tuple_size for muu::compressed_pair.
-	template <typename First, typename Second>
-	struct tuple_size<muu::compressed_pair<First, Second>>
-	{
-		static constexpr size_t value = 2;
-	};
-
-	/// \brief Specialization of std::tuple_element for muu::compressed_pair.
-	template <size_t I, typename First, typename Second>
-	struct tuple_element<I, muu::compressed_pair<First, Second>>
-	{
-		static_assert(I <= 1);
-		using type = std::conditional_t<I == 1, Second, First>;
-	};
-}
-
-//=====================================================================================================================
-// SCOPE GUARD
-//=====================================================================================================================
-
-MUU_NAMESPACE_START
-{
-	/// \brief	Performs actions when going out of scope.
-	/// \ingroup blocks
-	///
-	/// \detail Use a scope_guard to simplify cleanup routines
-	/// 		or code that has acquire/release semantics, e.g. locking: \cpp
-	/// 
-	/// void do_something()
-	/// {
-	///		acquire_magic_lock();
-	///		scope_guard sg{ release_magic_lock };
-	///		something_that_throws();
-	/// }
-	/// 
-	/// \ecpp
-	/// 
-	/// For comparison's sake, here's the same function without a scope_guard: \cpp
-	/// 
-	/// void do_something()
-	/// {
-	///		acquire_magic_lock();
-	///		try
-	///		{
-	///			something_that_throws();
-	///		}
-	///		catch (...)
-	///		{
-	///			release_magic_lock();
-	///			throw;
-	///		}
-	///		release_magic_lock();
-	/// }
-	/// 
-	/// \ecpp
-	/// 
-	/// \tparam	T	A `noexcept` function, lambda or other callable not requiring
-	/// 			any arguments (e.g. `void() noexcept`)`.
-	template <typename T>
-	class scope_guard
-	{
-		static_assert(
-			std::is_invocable_v<std::remove_reference_t<T>>,
-			"Types wrapped by a scope guard must be callable (functions, lambdas, etc.)"
-		);
-		static_assert(
-			!build::has_exceptions
-			|| std::is_nothrow_invocable_v<std::remove_reference_t<T>>,
-			"Callables wrapped by a scope guard must be marked noexcept"
-		);
-		static_assert(
-			!build::has_exceptions
-			|| std::is_trivially_destructible_v<std::remove_reference_t<T>>
-			|| std::is_nothrow_destructible_v<std::remove_reference_t<T>>,
-			"Callables wrapped by a scope guard must be nothrow-destructible"
-		);
-
-		private:
-			compressed_pair<T, bool> func_and_active;
-
-		public:
-
-			/// \brief	Constructs a scope_guard by wrapping a callable.
-			///
-			/// \tparam	U	 	A function, lambda or other callable with the signature `void() noexcept`.
-			/// 
-			/// \param 	func	The callable to invoke when the scope_guard goes out of scope.
-			template <typename U>
-			MUU_NODISCARD_CTOR
-			explicit constexpr scope_guard(U&& func) noexcept
-				: func_and_active{ std::forward<U>(func), true }
-			{
-				static_assert(
-					!build::has_exceptions
-					|| std::is_nothrow_constructible_v<std::remove_reference_t<T>, U&&>,
-					"A scope_guard's callable must be nothrow-constructible from its initializer"
-				);
-			}
-
-			~scope_guard() noexcept
-			{
-				if (func_and_active.second())
-					func_and_active.first()();
-			}
-
-			scope_guard(const scope_guard&) = delete;
-			scope_guard(scope_guard&&) = delete;
-			scope_guard& operator = (const scope_guard&) = delete;
-			scope_guard& operator = (scope_guard&&) = delete;
-
-			/// \brief	Dismisses the scope guard, cancelling invocation of the wrapped callable.
-			void dismiss() noexcept
-			{
-				func_and_active.second() = false;
-			}
-	};
-
-	template <typename R, typename ...P>
-	scope_guard(R(P...)noexcept) -> scope_guard<R(*)(P...)noexcept>;
-	template <typename R, typename ...P>
-	scope_guard(R(P...)) -> scope_guard<R(*)(P...)>;
-	template <typename T>
-	scope_guard(T&&) -> scope_guard<T>;
-	template <typename T>
-	scope_guard(T&) -> scope_guard<T&>;
-}
-MUU_NAMESPACE_END
 
 #undef MUU_HAS_INTRINSIC_BIT_CAST
 #undef MUU_HAS_INTRINSIC_POPCOUNT

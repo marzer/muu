@@ -95,6 +95,7 @@ static_assert(std::is_same_v<least_aligned<void, aligned<4>, aligned<128>>, alig
 static_assert(std::is_same_v<least_aligned<void, aligned<128>>, aligned<128>>);
 
 // is_same_as_any (variadic std::is_same_v || std::is_same_v)
+static_assert(!is_same_as_any<int>);
 static_assert(is_same_as_any<int, int>);
 static_assert(is_same_as_any<int, int, float>);
 static_assert(is_same_as_any<int, int, float, double>);
@@ -105,6 +106,7 @@ static_assert(!is_same_as_any<int&, int, float, double>);
 static_assert(!is_same_as_any<int&, float, int, double>);
 
 // is_same_as_all (variadic std::is_same_v && std::is_same_v)
+static_assert(!is_same_as_all<int>);
 static_assert(is_same_as_all<int, int>);
 static_assert(is_same_as_all<int, int, int>);
 static_assert(is_same_as_all<int, int, int, int>);
@@ -918,3 +920,37 @@ static_assert(!is_tuple_like<int>);
 static_assert(!is_tuple_like<Foo>);
 static_assert(is_tuple_like<std::tuple<int, int>>);
 static_assert(is_tuple_like<std::pair<int, int>>);
+
+#if MUU_HAS_VECTORCALL
+
+// is_hva
+struct hva1 { float a; };
+struct hva2 { float a, b; };
+struct hva3 { float a, b, c; };
+struct hva4 { float a, b, c, d; };
+struct hva5 { __m64 a, b, c; };
+struct hva6 { float abcd[4]; };
+struct hva7 { float ab[2]; float c, d; };
+static_assert(impl::is_hva<hva1>);
+static_assert(impl::is_hva<hva2>);
+static_assert(impl::is_hva<hva3>);
+static_assert(impl::is_hva<hva4>);
+static_assert(impl::is_hva<hva5>);
+static_assert(impl::is_hva<hva6>);
+static_assert(impl::is_hva<hva7>);
+struct non_hva1 { float a, b, c, d, e; };
+struct non_hva2 {};
+struct non_hva3 { int a, b; };
+struct non_hva4 { float a, b; int c; };
+struct alignas(64) non_hva5 { float a, b, c, d; };
+struct non_hva6 { float abcde[5]; };
+struct non_hva7 { float ab[2]; int c, d; };
+static_assert(!impl::is_hva<non_hva1>);
+static_assert(!impl::is_hva<non_hva2>);
+static_assert(!impl::is_hva<non_hva3>);
+static_assert(!impl::is_hva<non_hva4>);
+static_assert(!impl::is_hva<non_hva5>);
+static_assert(!impl::is_hva<non_hva6>);
+static_assert(!impl::is_hva<non_hva7>);
+
+#endif // MUU_HAS_VECTORCALL

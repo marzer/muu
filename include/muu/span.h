@@ -8,6 +8,7 @@
 
 #pragma once
 #include "../muu/core.h"
+#include "../muu/compressed_pair.h"
 MUU_DISABLE_WARNINGS
 #include <iterator>
 MUU_ENABLE_WARNINGS
@@ -62,7 +63,7 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	A non-owning view of contiguous elements.
-	/// \ingroup	blocks mem
+	/// \ingroup	building_blocks mem
 	/// 
 	/// \remarks This is equivalent to C++20's std::span.
 	///

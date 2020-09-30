@@ -99,18 +99,18 @@ namespace
 
 TEST_CASE("accumulator")
 {
-	#if MUU_HAS_INTERCHANGE_FP16
+	#if MUU_HAS_FP16
 	CHECK_ACCUMULATOR(__fp16);
 	#endif
 	#if MUU_HAS_FLOAT16
-	CHECK_ACCUMULATOR(float16_t);
+	CHECK_ACCUMULATOR(_Float16);
 	#endif
 	CHECK_ACCUMULATOR(half);
 	CHECK_ACCUMULATOR(float);
 	CHECK_ACCUMULATOR(double);
 	CHECK_ACCUMULATOR(long double);
 	#if MUU_HAS_FLOAT128
-	CHECK_ACCUMULATOR(float128_t);
+	CHECK_ACCUMULATOR(quad);
 	#endif
 
 	CHECK_ACCUMULATOR(signed char);

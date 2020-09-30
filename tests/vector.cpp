@@ -15,17 +15,17 @@
 		func<T, 5>(MUU_MAKE_STRING_VIEW(T))
 
 #if MUU_HAS_FLOAT16
-	#define TEST_FLOAT16(func)	TEST_TYPE(func, float16_t)
+	#define TEST_FLOAT16(func)	TEST_TYPE(func, _Float16)
 #else
 	#define TEST_FLOAT16(func)	(void)0
 #endif
-#if MUU_HAS_INTERCHANGE_FP16
+#if MUU_HAS_FP16
 	#define TEST_FP16(func)		TEST_TYPE(func, __fp16)
 #else
 	#define TEST_FP16(func)		(void)0
 #endif
 #if MUU_HAS_FLOAT128
-	#define TEST_FLOAT128(func)	TEST_TYPE(func, float128_t)
+	#define TEST_FLOAT128(func)	TEST_TYPE(func, quad)
 #else
 	#define TEST_FLOAT128(func)	(void)0
 #endif
@@ -383,7 +383,6 @@ TEST_CASE("vector - is_zero")
 	TEST_ALL_TYPES(is_zero_tests);
 }
 
-
 namespace
 {
 	template <typename T, size_t DIM>
@@ -430,3 +429,14 @@ TEST_CASE("vector - is_infinity_or_nan")
 {
 	TEST_ALL_TYPES(is_infinity_or_nan_tests);
 }
+
+#if MUU_HAS_VECTORCALL
+
+static_assert(impl::is_hva<vector<float, 1>>);
+static_assert(impl::is_hva<vector<float, 2>>);
+static_assert(impl::is_hva<vector<float, 3>>);
+static_assert(impl::is_hva<vector<float, 4>>);
+
+#endif
+
+inline constexpr auto kek = vector{ std::array{1, 2} };

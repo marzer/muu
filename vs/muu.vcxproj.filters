@@ -91,6 +91,12 @@
     <ClInclude Include="..\include\muu\vector.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\muu\compressed_pair.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\scope_guard.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />

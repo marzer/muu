@@ -219,7 +219,7 @@ MUU_IMPL_NAMESPACE_END
 MUU_NAMESPACE_START
 {
 	/// \brief	Specialized pointer capable of storing data in the unused bits of a pointer's value.
-	/// \ingroup blocks
+	/// \ingroup building_blocks
 	/// 
 	/// \tparam	T			The type being pointed to.
 	/// \tparam	MinAlign	Minimum alignment of values stored in the tagged_ptr.

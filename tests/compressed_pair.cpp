@@ -4,66 +4,121 @@
 // SPDX-License-Identifier: MIT
 
 #include "tests.h"
+#include "../include/muu/compressed_pair.h"
 
 struct empty {};
 struct empty2 {};
-static_assert(std::is_empty_v<empty>);	// implementation sanity-checks
-static_assert(std::is_empty_v<empty2>);	// 
 
-// variant 0: no empty members
+// implementation sanity-checks
+static_assert(std::is_empty_v<empty>);
+static_assert(std::is_empty_v<empty2>);
+static_assert(!std::is_empty_v<int>);
 
-static_assert(sizeof(compressed_pair<int, int>) == sizeof(int) * 2);
-static_assert(std::is_same_v<compressed_pair<int, int>, compressed_pair<int, int, 0u>>);
-static_assert(!std::is_empty_v<compressed_pair<int, int>>);
-static_assert(std::is_standard_layout_v<compressed_pair<int, int>>);
-static_assert(std::is_trivially_constructible_v<compressed_pair<int, int>>);
-static_assert(std::is_trivially_copy_constructible_v<compressed_pair<int, int>>);
-static_assert(std::is_trivially_copy_assignable_v<compressed_pair<int, int>>);
-static_assert(std::is_trivially_move_constructible_v<compressed_pair<int, int>>);
-static_assert(std::is_trivially_move_assignable_v<compressed_pair<int, int>>);
-static_assert(std::is_trivially_destructible_v<compressed_pair<int, int>>);
-static_assert(is_tuple_like<compressed_pair<int, int>>);
 
-// variant 1: empty member is first
+template <typename First, typename Second>
+MUU_CONSTEVAL bool compressed_pair_static_checks() noexcept
+{
+	using pair = compressed_pair<First, Second>;
 
-static_assert(sizeof(compressed_pair<empty, int>) == sizeof(int));
-static_assert(std::is_same_v<compressed_pair<empty, int>, compressed_pair<empty, int, 1u>>);
-static_assert(!std::is_empty_v<compressed_pair<empty, int>>);
-static_assert(std::is_standard_layout_v<compressed_pair<empty, int>>);
-static_assert(std::is_trivially_constructible_v<compressed_pair<empty, int>>);
-static_assert(std::is_trivially_copy_constructible_v<compressed_pair<empty, int>>);
-static_assert(std::is_trivially_copy_assignable_v<compressed_pair<empty, int>>);
-static_assert(std::is_trivially_move_constructible_v<compressed_pair<empty, int>>);
-static_assert(std::is_trivially_move_assignable_v<compressed_pair<empty, int>>);
-static_assert(std::is_trivially_destructible_v<compressed_pair<empty, int>>);
-static_assert(is_tuple_like<compressed_pair<empty, int>>);
+	if constexpr (std::is_empty_v<First> && std::is_empty_v<Second>)
+		static_assert(sizeof(pair) == 1);
+	else if constexpr (std::is_empty_v<First>)
+		static_assert(sizeof(pair) == sizeof(Second));
+	else if constexpr (std::is_empty_v<Second>)
+		static_assert(sizeof(pair) == sizeof(First));
+	else
+		static_assert(sizeof(pair) == sizeof(First) + sizeof(Second));
+	
+	static_assert(is_tuple_like<pair>);
 
-// variant 2: empty member is second
+	static_assert(
+		std::is_empty_v<pair>
+		== (std::is_empty_v<First> && std::is_empty_v<Second>)
 
-static_assert(sizeof(compressed_pair<int, empty>) == sizeof(int));
-static_assert(std::is_same_v<compressed_pair<int, empty>, compressed_pair<int, empty, 2u>>);
-static_assert(!std::is_empty_v<compressed_pair<int, empty>>);
-static_assert(std::is_standard_layout_v<compressed_pair<int, empty>>);
-static_assert(std::is_trivially_constructible_v<compressed_pair<int, empty>>);
-static_assert(std::is_trivially_copy_constructible_v<compressed_pair<int, empty>>);
-static_assert(std::is_trivially_copy_assignable_v<compressed_pair<int, empty>>);
-static_assert(std::is_trivially_move_constructible_v<compressed_pair<int, empty>>);
-static_assert(std::is_trivially_move_assignable_v<compressed_pair<int, empty>>);
-static_assert(std::is_trivially_destructible_v<compressed_pair<int, empty>>);
-static_assert(is_tuple_like<compressed_pair<int, empty>>);
+		#if MUU_MSVC
+		// compiler bug:
+		// https://developercommunity.visualstudio.com/content/problem/1142409/c-stdis-empty-is-incorrect-for-a-template-speciali.html
+		|| (std::is_empty_v<First> && std::is_empty_v<Second>)
+		#endif
+	);
+	static_assert(
+		std::is_standard_layout_v<pair>
+		== (std::is_standard_layout_v<First> && std::is_standard_layout_v<Second>)
+	);
+	static_assert(
+		std::is_trivially_default_constructible_v<pair>
+		== (std::is_trivially_default_constructible_v<First> && std::is_trivially_default_constructible_v<Second>)
+	);
+	static_assert(
+		std::is_trivially_copy_constructible_v<pair>
+		== (std::is_trivially_copy_constructible_v<First> && std::is_trivially_copy_constructible_v<Second>)
+	);
+	static_assert(
+		std::is_trivially_copy_assignable_v<pair>
+		== (std::is_trivially_copy_assignable_v<First> && std::is_trivially_copy_assignable_v<Second>)
+	);
+	static_assert(
+		std::is_trivially_move_constructible_v<pair>
+		== (std::is_trivially_move_constructible_v<First> && std::is_trivially_move_constructible_v<Second>)
+	);
+	static_assert(
+		std::is_trivially_move_assignable_v<pair>
+		== (std::is_trivially_move_assignable_v<First> && std::is_trivially_move_assignable_v<Second>)
+	);
+	static_assert(
+		std::is_trivially_destructible_v<pair>
+		== (std::is_trivially_destructible_v<First> && std::is_trivially_destructible_v<Second>)
+	);
+	static_assert(
+		std::is_nothrow_default_constructible_v<pair>
+		== (std::is_nothrow_default_constructible_v<First> && std::is_nothrow_default_constructible_v<Second>)
+	);
+	static_assert(
+		std::is_nothrow_copy_constructible_v<pair>
+		== (std::is_nothrow_copy_constructible_v<First> && std::is_nothrow_copy_constructible_v<Second>)
+	);
+	static_assert(
+		std::is_nothrow_copy_assignable_v<pair>
+		== (std::is_nothrow_copy_assignable_v<First> && std::is_nothrow_copy_assignable_v<Second>)
+	);
+	static_assert(
+		std::is_nothrow_move_constructible_v<pair>
+		== (std::is_nothrow_move_constructible_v<First> && std::is_nothrow_move_constructible_v<Second>)
+	);
+	static_assert(
+		std::is_nothrow_move_assignable_v<pair>
+		== (std::is_nothrow_move_assignable_v<First> && std::is_nothrow_move_assignable_v<Second>)
+	);
+	static_assert(
+		std::is_nothrow_destructible_v<pair>
+		== (std::is_nothrow_destructible_v<First> && std::is_nothrow_destructible_v<Second>)
+	);
 
-// variant 3: both members are empty
+	static_assert(std::is_same_v<decltype(std::declval<pair&>().first()), First&>);
+	static_assert(std::is_same_v<decltype(std::declval<pair&&>().first()), First&&>);
+	static_assert(std::is_same_v<decltype(std::declval<const pair&>().first()), const First&>);
+	static_assert(std::is_same_v<decltype(std::declval<const pair&&>().first()), const First&&>);
 
-static_assert(sizeof(compressed_pair<empty, empty2>) == 1);
-static_assert(std::is_same_v<compressed_pair<empty, empty2>, compressed_pair<empty, empty2, 3u>>);
-#if !MUU_MSVC && !MUU_ICC_CL // https://developercommunity.visualstudio.com/content/problem/1142409/c-stdis-empty-is-incorrect-for-a-template-speciali.html
-static_assert(std::is_empty_v<compressed_pair<empty, empty2>>);
-#endif
-static_assert(std::is_standard_layout_v<compressed_pair<empty, empty2>>);
-static_assert(std::is_trivially_constructible_v<compressed_pair<empty, empty2>>);
-static_assert(std::is_trivially_copy_constructible_v<compressed_pair<empty, empty2>>);
-static_assert(std::is_trivially_copy_assignable_v<compressed_pair<empty, empty2>>);
-static_assert(std::is_trivially_move_constructible_v<compressed_pair<empty, empty2>>);
-static_assert(std::is_trivially_move_assignable_v<compressed_pair<empty, empty2>>);
-static_assert(std::is_trivially_destructible_v<compressed_pair<empty, empty2>>);
-static_assert(is_tuple_like<compressed_pair<empty, empty2>>);
+	static_assert(std::is_same_v<decltype(std::declval<pair&>().second()), Second&>);
+	static_assert(std::is_same_v<decltype(std::declval<pair&&>().second()), Second&&>);
+	static_assert(std::is_same_v<decltype(std::declval<const pair&>().second()), const Second&>);
+	static_assert(std::is_same_v<decltype(std::declval<const pair&&>().second()), const Second&&>);
+
+	static_assert(std::is_same_v<decltype(std::declval<pair&>().template get<0>()), First&>);
+	static_assert(std::is_same_v<decltype(std::declval<pair&&>().template get<0>()), First&&>);
+	static_assert(std::is_same_v<decltype(std::declval<const pair&>().template get<0>()), const First&>);
+	static_assert(std::is_same_v<decltype(std::declval<const pair&&>().template get<0>()), const First&&>);
+
+	static_assert(std::is_same_v<decltype(std::declval<pair&>().template get<1>()), Second&>);
+	static_assert(std::is_same_v<decltype(std::declval<pair&&>().template get<1>()), Second&&>);
+	static_assert(std::is_same_v<decltype(std::declval<const pair&>().template get<1>()), const Second&>);
+	static_assert(std::is_same_v<decltype(std::declval<const pair&&>().template get<1>()), const Second&&>);
+
+
+	return true;
+}
+
+static_assert(compressed_pair_static_checks<int, int>());
+static_assert(compressed_pair_static_checks<empty, int>());
+static_assert(compressed_pair_static_checks<int, empty>());
+static_assert(compressed_pair_static_checks<empty, empty2>());

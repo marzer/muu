@@ -289,7 +289,7 @@ def write_float_data(file, traits):
 	type = 'long double'
 	suffix = 'L'
 	if traits.total_bits == 128 and traits.significand_bits == 112:
-		type = 'float128_t'
+		type = 'quad'
 		suffix = 'q'
 
 	write(f'\t\tstatic constexpr {type} values[] = ')

@@ -280,18 +280,18 @@ namespace
 
 TEST_CASE("intrinsics - lerp")
 {
-	#if MUU_HAS_INTERCHANGE_FP16
+	#if MUU_HAS_FP16
 	TEST_LERP(__fp16);
 	#endif
 	#if MUU_HAS_FLOAT16
-	TEST_LERP(float16_t);
+	TEST_LERP(_Float16);
 	#endif
 	TEST_LERP(half);
 	TEST_LERP(float);
 	TEST_LERP(double);
 	TEST_LERP(long double);
 	#if MUU_HAS_FLOAT128
-	TEST_LERP(float128_t);
+	TEST_LERP(quad);
 	#endif
 }
 
@@ -498,7 +498,7 @@ namespace
 	static_assert(MUU_INTELLISENSE || !build::supports_constexpr_is_infinity_or_nan || (expr));	\
 	CHECK(expr)
 
-#if MUU_HAS_INTERCHANGE_FP16
+#if MUU_HAS_FP16
 
 TEST_CASE("is_infinity_or_nan - __fp16")
 {
@@ -511,19 +511,19 @@ TEST_CASE("is_infinity_or_nan - __fp16")
 	CHECK((test_is_infinity_or_nan_ranges<__fp16, 1>()));
 }
 
-#endif // MUU_HAS_INTERCHANGE_FP16
+#endif // MUU_HAS_FP16
 
 #if MUU_HAS_FLOAT16
 
-TEST_CASE("is_infinity_or_nan - float16_t")
+TEST_CASE("is_infinity_or_nan - _Float16")
 {
-	INF_OR_NAN_CHECK(!is_infinity_or_nan(float16_t{}));
-	INF_OR_NAN_CHECK(is_infinity_or_nan(make_nan<float16_t>()));
-	INF_OR_NAN_CHECK(is_infinity_or_nan(make_infinity<float16_t>(-1)));
-	INF_OR_NAN_CHECK(is_infinity_or_nan(make_infinity<float16_t>()));
+	INF_OR_NAN_CHECK(!is_infinity_or_nan(_Float16{}));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_nan<_Float16>()));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_infinity<_Float16>(-1)));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_infinity<_Float16>()));
 
-	CHECK((test_is_infinity_or_nan_ranges<float16_t, -1>()));
-	CHECK((test_is_infinity_or_nan_ranges<float16_t, 1>()));
+	CHECK((test_is_infinity_or_nan_ranges<_Float16, -1>()));
+	CHECK((test_is_infinity_or_nan_ranges<_Float16, 1>()));
 }
 
 #endif // MUU_HAS_FLOAT16
@@ -574,12 +574,12 @@ TEST_CASE("intrinsics - is_infinity_or_nan - long double")
 
 #if MUU_HAS_FLOAT128
 
-TEST_CASE("intrinsics - is_infinity_or_nan - float128_t")
+TEST_CASE("intrinsics - is_infinity_or_nan - quad")
 {
-	INF_OR_NAN_CHECK(!is_infinity_or_nan(float128_t{}));
-	INF_OR_NAN_CHECK(is_infinity_or_nan(make_nan<float128_t>()));
-	INF_OR_NAN_CHECK(is_infinity_or_nan(make_infinity<float128_t>(-1)));
-	INF_OR_NAN_CHECK(is_infinity_or_nan(make_infinity<float128_t>()));
+	INF_OR_NAN_CHECK(!is_infinity_or_nan(quad{}));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_nan<quad>()));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_infinity<quad>(-1)));
+	INF_OR_NAN_CHECK(is_infinity_or_nan(make_infinity<quad>()));
 }
 
 #endif // MUU_HAS_FLOAT128
