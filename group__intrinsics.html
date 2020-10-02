@@ -61,18 +61,30 @@ C++</span></a>
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           Intrinsics <span class="m-thin">module</span></h1>
-        <p>Small, generally-useful functions, many of which map to compiler intrinsics.</p>
+        <p>Small, generally-useful functions, many of which map to compiler built-ins.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
+                <li><a href="#groups">Modules</a></li>
                 <li><a href="#func-members">Functions</a></li>
               </ul>
             </li>
           </ul>
         </div>
+        <section id="groups">
+          <h2><a href="#groups">Modules</a></h2>
+          <dl class="m-doc">
+            <dt>module <a class="m-doc" href="group__sqrt.html">sqrt()</a></dt>
+            <dd>Constexpr-friendly alternatives to <a class="m-doc" href="group__sqrt.html#ga539d1077c692a4ca013f1f5c912bcc95">std::<wbr/>sqrt()</a>.</dd>
+            <dt>module <a class="m-doc" href="group__approx__equal.html">approx_equal()</a></dt>
+            <dd>Floating-point approximate equality checks.</dd>
+            <dt>module <a class="m-doc" href="group__lerp.html">lerp()</a></dt>
+            <dd>Linear interpolations al a C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/lerp" target="_blank">std::lerp</a>.</dd>
+          </dl>
+        </section>
         <section id="func-members">
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
@@ -88,46 +100,17 @@ C++</span></a>
             </dt>
             <dd>Applies a byte offset to a pointer.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gabfe9ea2afb006528b1387e6b2d7a50d8">approx_equal</a>(</span><span class="m-doc-wrap">double a,
-              double b,
-              double epsilon = constants&lt;double&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if two values are approximately equal.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gac82dcde48c487938747a8baafec6bb54">approx_equal</a>(</span><span class="m-doc-wrap">float a,
-              float b,
-              float epsilon = constants&lt;float&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if two values are approximately equal.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga62400f811bf59a4e92f5e8c3172d9ecb">approx_equal</a>(</span><span class="m-doc-wrap">float128_t a,
-              float128_t b,
-              float128_t epsilon = constants&lt;float128_t&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if two values are approximately equal.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga7a6fee701dd396ea3d5840e694462d7c">approx_equal</a>(</span><span class="m-doc-wrap">float16_t a,
-              float16_t b,
-              float16_t epsilon = constants&lt;float16_t&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if two values are approximately equal.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gafa07e9f7df24ef7ccfc6ff96b8b585fe">approx_equal</a>(</span><span class="m-doc-wrap">half lhs,
-              half rhs,
-              half epsilon = constants&lt;half&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if two values are approximately equal.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gafde7b2a6ac13119386ed20c50ac68f70">approx_equal</a>(</span><span class="m-doc-wrap">long double a,
-              long double b,
-              long double epsilon = constants&lt;long double&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if two values are approximately equal.</dd>
-            <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N, typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaf58f3326aea89653ec725ccbc5ff29d2">assume_aligned</a>(</span><span class="m-doc-wrap">T* ptr) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/memory/assume_aligned" target="_blank">std::assume_aligned</a>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename U&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga5b043c21509a069a2fc06ed8e0df2279">between</a>(</span><span class="m-doc-wrap">T val,
+              U min_,
+              U max_) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a value is between two bounds (inclusive).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename To, typename From&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaadb4c6332c738c248f84f43ece303657">bit_cast</a>(</span><span class="m-doc-wrap">const From&amp; from) -&gt; To <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -207,62 +190,24 @@ C++</span></a>
             </dt>
             <dd>Checks if an integral value has only a single bit set.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename U&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaaa585b16639dcf742fd46b8e589a5ab1">is_between</a>(</span><span class="m-doc-wrap">T val,
-              U min_,
-              U max_) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga7165ec00307546834b2cfec5dcd18920">infinity_or_nan</a>(</span><span class="m-doc-wrap">const T&amp; obj) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if a value is between two bounds (inclusive).</dd>
+            <dd>Checks if a object is infinity or NaN.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga3d90a03fff8f593add263df879139162">infinity_or_nan</a>(</span><span class="m-doc-wrap">T val) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Checks if an arithmetic value is infinity or NaN.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga8a9b0aaf9860b30f93639333a5214d34">is_constant_evaluated</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a>.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaf95d4d7851d8cae648a9a30d20842d8d">is_infinity_or_nan</a>(</span><span class="m-doc-wrap">T val) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Checks if an arithmetic value is infinity or NaN.</dd>
-            <dt>
               <div class="m-doc-template">template&lt;class T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga279c303aaba76a43d1dc23834c35f857">launder</a>(</span><span class="m-doc-wrap">T* ptr) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Equivalent to C++17's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/launder" target="_blank">std::launder</a>.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga47e41d7626365fcf881152c286833b5a">lerp</a>(</span><span class="m-doc-wrap">double start,
-              double finish,
-              double alpha) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Calculates a linear interpolation between two values.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga86b8aacc099deefdf6284d9bab7f2dad">lerp</a>(</span><span class="m-doc-wrap">float start,
-              float finish,
-              float alpha) -&gt; float <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Calculates a linear interpolation between two values.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga614ccb878d52686237995f87013cfae5">lerp</a>(</span><span class="m-doc-wrap">float128_t start,
-              float128_t finish,
-              float128_t alpha) -&gt; float128_t <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Calculates a linear interpolation between two values.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gae35f607a047e448773492cffbf83ecce">lerp</a>(</span><span class="m-doc-wrap">float16_t start,
-              float16_t finish,
-              float16_t alpha) -&gt; float16_t <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Calculates a linear interpolation between two values.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga52c3f4f3e75c69a2775cd2d5fc92a0fd">lerp</a>(</span><span class="m-doc-wrap">half start,
-              half finish,
-              half alpha) -&gt; half <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Calculates a linear interpolation between two values.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga44b514d356d6673cc0595cf0390dd8de">lerp</a>(</span><span class="m-doc-wrap">long double start,
-              long double finish,
-              long double alpha) -&gt; long double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Calculates a linear interpolation between two values.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga0ed7737393aa2394099febe6bf265249">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
@@ -373,60 +318,6 @@ C++</span></a>
             </table>
 <aside class="m-note m-danger"><h4>Warning</h4><p>This function is a simple pointer arithmetic helper; absolutely no consideration is given to the alignment of the pointed type. If you need to dereference pointers returned by apply_offset the onus is on you to ensure that the offset made sense before doing so!</p></aside>
           </div></section>
-          <section class="m-doc-details" id="gabfe9ea2afb006528b1387e6b2d7a50d8"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gabfe9ea2afb006528b1387e6b2d7a50d8">approx_equal</a>(</span><span class="m-doc-wrap">double a,
-              double b,
-              double epsilon = constants&lt;double&gt;::approx_equal_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-            </h3>
-            <p>Returns true if two values are approximately equal.</p>
-          </div></section>
-          <section class="m-doc-details" id="gac82dcde48c487938747a8baafec6bb54"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gac82dcde48c487938747a8baafec6bb54">approx_equal</a>(</span><span class="m-doc-wrap">float a,
-              float b,
-              float epsilon = constants&lt;float&gt;::approx_equal_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-            </h3>
-            <p>Returns true if two values are approximately equal.</p>
-          </div></section>
-          <section class="m-doc-details" id="ga62400f811bf59a4e92f5e8c3172d9ecb"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga62400f811bf59a4e92f5e8c3172d9ecb">approx_equal</a>(</span><span class="m-doc-wrap">float128_t a,
-              float128_t b,
-              float128_t epsilon = constants&lt;float128_t&gt;::approx_equal_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-            </h3>
-            <p>Returns true if two values are approximately equal.</p>
-          </div></section>
-          <section class="m-doc-details" id="ga7a6fee701dd396ea3d5840e694462d7c"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga7a6fee701dd396ea3d5840e694462d7c">approx_equal</a>(</span><span class="m-doc-wrap">float16_t a,
-              float16_t b,
-              float16_t epsilon = constants&lt;float16_t&gt;::approx_equal_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-            </h3>
-            <p>Returns true if two values are approximately equal.</p>
-          </div></section>
-          <section class="m-doc-details" id="gafa07e9f7df24ef7ccfc6ff96b8b585fe"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gafa07e9f7df24ef7ccfc6ff96b8b585fe">approx_equal</a>(</span><span class="m-doc-wrap">half lhs,
-              half rhs,
-              half epsilon = constants&lt;half&gt;::approx_equal_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="half_8h.html">&lt;muu/half.h&gt;</a></div>
-            </h3>
-            <p>Returns true if two values are approximately equal.</p>
-          </div></section>
-          <section class="m-doc-details" id="gafde7b2a6ac13119386ed20c50ac68f70"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gafde7b2a6ac13119386ed20c50ac68f70">approx_equal</a>(</span><span class="m-doc-wrap">long double a,
-              long double b,
-              long double epsilon = constants&lt;long double&gt;::approx_equal_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-            </h3>
-            <p>Returns true if two values are approximately equal.</p>
-          </div></section>
           <section class="m-doc-details" id="gaf58f3326aea89653ec725ccbc5ff29d2"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
@@ -436,6 +327,18 @@ C++</span></a>
             </h3>
             <p>Equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/memory/assume_aligned" target="_blank">std::assume_aligned</a>.</p>
 <p>Compilers typically implement <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/memory/assume_aligned" target="_blank">std::assume_aligned</a> as an intrinsic which is available regardless of the C++ mode. Using this function on these compilers allows you to get the same behaviour even when you aren't targeting C++20.</p><aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1007r1.pdf" target="_blank">P1007R1: std::<wbr/>assume_aligned</a></p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga5b043c21509a069a2fc06ed8e0df2279"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename U&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga5b043c21509a069a2fc06ed8e0df2279">between</a>(</span><span class="m-doc-wrap">T val,
+              U min_,
+              U max_) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if a value is between two bounds (inclusive).</p>
           </div></section>
           <section class="m-doc-details" id="gaadb4c6332c738c248f84f43ece303657"><div>
             <h3>
@@ -981,33 +884,49 @@ C++</span></a>
             </table>
 <p>This is equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/has_single_bit" target="_blank">std::has_single_bit</a>, with the addition of also being extended to work with enum types.</p>
           </div></section>
-          <section class="m-doc-details" id="gaaa585b16639dcf742fd46b8e589a5ab1"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T, typename U&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaaa585b16639dcf742fd46b8e589a5ab1">is_between</a>(</span><span class="m-doc-wrap">T val,
-              U min_,
-              U max_) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Returns true if a value is between two bounds (inclusive).</p>
-          </div></section>
-          <section class="m-doc-details" id="ga8a9b0aaf9860b30f93639333a5214d34"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga8a9b0aaf9860b30f93639333a5214d34">is_constant_evaluated</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-            </h3>
-            <p>Equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a>.</p>
-<p>Compilers typically implement <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a> as an intrinsic which is available regardless of the C++ mode. Using this function on these compilers allows you to get the same behaviour even when you aren't targeting C++20.</p><aside class="m-note m-default"><h4>Remark</h4><p>On older compilers lacking support for <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a> this will always return <code>false</code>. You can check for support by examining <a class="m-doc" href="namespacemuu_1_1build.html#a8398d41dfdf02da1234b776f754bbb3d">build::<wbr/>supports_is_constant_evaluated</a>.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="gaf95d4d7851d8cae648a9a30d20842d8d"><div>
+          <section class="m-doc-details" id="ga7165ec00307546834b2cfec5dcd18920"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaf95d4d7851d8cae648a9a30d20842d8d">is_infinity_or_nan</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga7165ec00307546834b2cfec5dcd18920">infinity_or_nan</a>(</span><span class="m-doc-wrap">const T&amp; obj) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Checks if a object is infinity or NaN.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>The object type.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>obj</td>
+                  <td>The object.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>The return value of <code><a class="m-doc" href="group__intrinsics.html#ga7165ec00307546834b2cfec5dcd18920">obj.infinity_<wbr/>or_<wbr/>nan()</a></code>.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="ga3d90a03fff8f593add263df879139162"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga3d90a03fff8f593add263df879139162">infinity_or_nan</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Checks if an arithmetic value is infinity or NaN.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -1036,7 +955,15 @@ C++</span></a>
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>Older compilers won't provide the necessary machinery for you to be able to call this function in constexpr contexts. You can check for constexpr support by examining <a class="m-doc" href="namespacemuu_1_1build.html#a641feb32c97bb3fac3142544403d8130">build::<wbr/>supports_constexpr_is_infinity_or_nan</a>.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>Older compilers won't provide the necessary machinery for you to be able to call this function in constexpr contexts. You can check for constexpr support by examining <a class="m-doc" href="namespacemuu_1_1build.html#ac2ed8c664a3937f1d6beca3916098ebd">build::<wbr/>supports_constexpr_infinity_or_nan</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga8a9b0aaf9860b30f93639333a5214d34"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga8a9b0aaf9860b30f93639333a5214d34">is_constant_evaluated</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>Equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a>.</p>
+<p>Compilers typically implement <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a> as an intrinsic which is available regardless of the C++ mode. Using this function on these compilers allows you to get the same behaviour even when you aren't targeting C++20.</p><aside class="m-note m-default"><h4>Remark</h4><p>On older compilers lacking support for <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a> this will always return <code>false</code>. You can check for support by examining <a class="m-doc" href="namespacemuu_1_1build.html#a8398d41dfdf02da1234b776f754bbb3d">build::<wbr/>supports_is_constant_evaluated</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga279c303aaba76a43d1dc23834c35f857"><div>
             <h3>
@@ -1048,114 +975,6 @@ C++</span></a>
             </h3>
             <p>Equivalent to C++17's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/launder" target="_blank">std::launder</a>.</p>
 <p>Older implementations don't provide this as an intrinsic or have a placeholder for it in their standard library. Using this version allows you to get around that by writing code 'as if' it were there and have it compile just the same.</p>
-          </div></section>
-          <section class="m-doc-details" id="ga47e41d7626365fcf881152c286833b5a"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">double </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga47e41d7626365fcf881152c286833b5a">lerp</a>(</span><span class="m-doc-wrap">double start,
-              double finish,
-              double alpha) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-            </h3>
-            <p>Calculates a linear interpolation between two values.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>The requested linear interpolation between the start and finish values.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is a stand-in for C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/lerp" target="_blank">std::lerp</a>, but does <em>not</em> make the same guarantees about infinities and NaN's. Garbage-in, garbage-out.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="ga86b8aacc099deefdf6284d9bab7f2dad"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">float </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga86b8aacc099deefdf6284d9bab7f2dad">lerp</a>(</span><span class="m-doc-wrap">float start,
-              float finish,
-              float alpha) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-            </h3>
-            <p>Calculates a linear interpolation between two values.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>The requested linear interpolation between the start and finish values.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is a stand-in for C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/lerp" target="_blank">std::lerp</a>, but does <em>not</em> make the same guarantees about infinities and NaN's. Garbage-in, garbage-out.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="ga614ccb878d52686237995f87013cfae5"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">float128_t </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga614ccb878d52686237995f87013cfae5">lerp</a>(</span><span class="m-doc-wrap">float128_t start,
-              float128_t finish,
-              float128_t alpha) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-            </h3>
-            <p>Calculates a linear interpolation between two values.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>The requested linear interpolation between the start and finish values.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is a stand-in for C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/lerp" target="_blank">std::lerp</a>, but does <em>not</em> make the same guarantees about infinities and NaN's. Garbage-in, garbage-out.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="gae35f607a047e448773492cffbf83ecce"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">float16_t </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gae35f607a047e448773492cffbf83ecce">lerp</a>(</span><span class="m-doc-wrap">float16_t start,
-              float16_t finish,
-              float16_t alpha) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-            </h3>
-            <p>Calculates a linear interpolation between two values.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>The requested linear interpolation between the start and finish values.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is a stand-in for C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/lerp" target="_blank">std::lerp</a>, but does <em>not</em> make the same guarantees about infinities and NaN's. Garbage-in, garbage-out.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="ga52c3f4f3e75c69a2775cd2d5fc92a0fd"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">half </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga52c3f4f3e75c69a2775cd2d5fc92a0fd">lerp</a>(</span><span class="m-doc-wrap">half start,
-              half finish,
-              half alpha) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="half_8h.html">&lt;muu/half.h&gt;</a></div>
-            </h3>
-            <p>Calculates a linear interpolation between two values.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>The requested linear interpolation between the start and finish values.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is a stand-in for C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/lerp" target="_blank">std::lerp</a>, but does <em>not</em> make the same guarantees about infinities and NaN's. Garbage-in, garbage-out.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="ga44b514d356d6673cc0595cf0390dd8de"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">long double </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga44b514d356d6673cc0595cf0390dd8de">lerp</a>(</span><span class="m-doc-wrap">long double start,
-              long double finish,
-              long double alpha) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-            </h3>
-            <p>Calculates a linear interpolation between two values.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>The requested linear interpolation between the start and finish values.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is a stand-in for C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/lerp" target="_blank">std::lerp</a>, but does <em>not</em> make the same guarantees about infinities and NaN's. Garbage-in, garbage-out.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga0ed7737393aa2394099febe6bf265249"><div>
             <h3>

@@ -60,10 +60,10 @@ C++</span></a>
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>half <span class="m-thin">struct</span>
+          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> <span class="m-thin">struct</span>
           <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="half_8h.html">&lt;muu/half.h&gt;</a></div>
         </h1>
-        <p>A 16-bit "half-precision" floating point type.</p>
+        <p>A 16-bit "<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision" floating point type.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -78,8 +78,8 @@ C++</span></a>
           </ul>
         </div>
 <p>This type is equipped with the full set of operators you'd expect from a float type, and is capable of being converted to other floats and integers, as well as direct construction using the <code>_f16</code> literal:</p><pre class="m-code"><span class="c1">// creation from other floats and integers is explicit:</span>
-<span class="k">auto</span> <span class="n">f1</span> <span class="o">=</span> <span class="ut">half</span><span class="p">{</span> <span class="mf">1.0f</span> <span class="p">};</span>
-<span class="k">auto</span> <span class="n">f2</span> <span class="o">=</span> <span class="k"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></span><span class="o">&lt;</span><span class="ut">half</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="k">auto</span> <span class="n">f1</span> <span class="o">=</span> <span class="ut"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a></span><span class="p">{</span> <span class="mf">1.0f</span> <span class="p">};</span>
+<span class="k">auto</span> <span class="n">f2</span> <span class="o">=</span> <span class="k"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></span><span class="o">&lt;</span><span class="ut"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a></span><span class="o">&gt;</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
 
 <span class="c1">// promotion to larger float types is implicit (to mimic the behaviour of the built-ins):</span>
 <span class="ut">double</span> <span class="n">f3</span> <span class="o">=</span> <span class="n">f2</span><span class="p">;</span>
@@ -89,14 +89,14 @@ C++</span></a>
 <span class="k">auto</span> <span class="n">f4</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span><span class="p">;</span>
 
 <span class="c1">// arithmetic operators</span>
-<span class="k">auto</span> <span class="n">f5</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">*</span> <span class="mf">5.0</span><span class="n">_f16</span><span class="p">;</span> <span class="c1">// result is a half</span>
+<span class="k">auto</span> <span class="n">f5</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">*</span> <span class="mf">5.0</span><span class="n">_f16</span><span class="p">;</span> <span class="c1">// result is a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a></span>
 <span class="k">auto</span> <span class="n">f6</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">*</span> <span class="mf">5.0</span><span class="p">;</span>     <span class="c1">// result is a double because of promotion</span>
-<span class="k">auto</span> <span class="n">f7</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">*</span> <span class="mi">5</span><span class="p">;</span>       <span class="c1">// result is a half because of promotion</span>
+<span class="k">auto</span> <span class="n">f7</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">*</span> <span class="mi">5</span><span class="p">;</span>       <span class="c1">// result is a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> because of promotion</span>
 
 <span class="c1">// comparison operators</span>
 <span class="k">auto</span> <span class="n">b1</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">&lt;=</span> <span class="mf">5.0</span><span class="n">_f16</span><span class="p">;</span>
 <span class="k">auto</span> <span class="n">b2</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">&lt;=</span> <span class="mf">5.0</span><span class="p">;</span>
-<span class="k">auto</span> <span class="n">b3</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">;</span></pre><aside class="m-note m-warning"><h4>Attention</h4><p>Despite the arithmetic operations being implemented as you'd expect, 16-bit floating-point arithmetic is <em>very</em> lossy and should be avoided for all but the most trivial cases. In general it's better to do your arithmetic in a higher-precision type (e.g. float) and convert back to half when you're finished.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="https://en.wikipedia.org/wiki/Half-precision_floating-point_format" target="_blank">Half-precision floating-point (wikipedia)</a></p></aside>
+<span class="k">auto</span> <span class="n">b3</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">;</span></pre><aside class="m-note m-warning"><h4>Attention</h4><p>Despite the arithmetic operations being implemented as you'd expect, 16-bit floating-point arithmetic is <em>very</em> lossy and should be avoided for all but the most trivial cases. In general it's better to do your arithmetic in a higher-precision type (e.g. float) and convert back to <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> when you're finished.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="https://en.wikipedia.org/wiki/Half-precision_floating-point_format" target="_blank">Half-precision floating-point (wikipedia)</a></p></aside>
         <section id="pub-types">
           <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
@@ -112,7 +112,7 @@ C++</span></a>
             <dt id="ab271e624b44ddcace710ac953457e76b">
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ab271e624b44ddcace710ac953457e76b">from_bits</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> val) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Creates a half-precision float from its raw bit equivalent.</dd>
+            <dd>Creates a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float from its raw bit equivalent.</dd>
           </dl>
         </section>
         <section id="pub-attribs">

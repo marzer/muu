@@ -204,11 +204,6 @@ C++</span></a>
             </dt>
             <dd>Gets the signed integer type with a specific number of bits for the target platform.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="#ga59a03d6c91a837cd5ef2010a47fc8774">simd_param</a> = typename impl::simd_param_&lt;T&gt;::type
-            </dt>
-            <dd>Type transformation for function parameter types to pass arguments in a manner well-suited to SIMD vectorization where possible.</dd>
-            <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
               using <a class="m-doc" href="#ga9cd7c756a0397747aa065ac54ddbf46b">smallest</a> = typename impl::smallest_&lt;T...&gt;::type
             </dt>
@@ -371,7 +366,7 @@ C++</span></a>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="#ga069232745f2338b2ece00c80c5d438e3">is_same_as_all</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>True if all the type arguments are the same type.</dd>
+            <dd>True if T is exactly the same all of the types named by U.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="#ga526c58b5a438ba0c7746e465389e013d">is_same_as_any</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -389,9 +384,14 @@ C++</span></a>
             <dd>Is a type signed or reference-to-signed?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              bool <a class="m-doc" href="#ga1ce8c4c617986b508a2be61e238f764d">is_tuple_like</a> <span class="m-label m-flat m-primary">constexpr</span>
+              bool <a class="m-doc" href="#ga7a494dff5772cf50d03fed75fd1be177">is_simd_intrinsic</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if the type implements the C++17 tuple protocol (for structured binding).</dd>
+            <dd>Returns true if a type is a simd compiler intrinsic type (__m64, __m128, etc.).</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="#ga07b1449019c885977279ee3afedb3b4f">is_tuple_like</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Returns true if the type implements <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a> and std::tuple_element.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="#ga9e9c5b2e65e4f784d2a6b52b6a33a34f">is_unsigned</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -673,17 +673,6 @@ C++</span></a>
             </h3>
             <p>Gets the signed integer type with a specific number of bits for the target platform.</p>
           </div></section>
-          <section class="m-doc-details" id="ga59a03d6c91a837cd5ef2010a47fc8774"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-              using <a class="m-doc-self" href="#ga59a03d6c91a837cd5ef2010a47fc8774">simd_param</a> = typename impl::simd_param_&lt;T&gt;::type
-            </h3>
-            <p>Type transformation for function parameter types to pass arguments in a manner well-suited to SIMD vectorization where possible.</p>
-<p>Falls back to <code>const T&amp;</code> when T is not a SIMD type and cannot be reasonably passed by value.</p>
-          </div></section>
           <section class="m-doc-details" id="ga9cd7c756a0397747aa065ac54ddbf46b"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
@@ -746,7 +735,7 @@ C++</span></a>
               bool <a class="m-doc-self" href="#gaccb79366bc73cbc96f8a6317fead16f1">all_arithmetic</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are all of the named types arithmetic or reference-to-arithmetic?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>Returns true for native <a class="m-doc" href="group__blocks.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a>, <a class="m-doc" href="group__blocks.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a>, <a class="m-doc" href="group__blocks.html#gac1f6704b74f509e1de86f816c08632f2">float16_<wbr/>t</a> and <a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>Returns true for <a class="m-doc" href="group__building__blocks.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a>, <a class="m-doc" href="group__building__blocks.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a>, <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> and <a class="m-doc" href="group__building__blocks.html#ga2a1f4a242b812d9e1ac5dccae18c6636">quad</a> (where supported).</p></aside>
           </div></section>
           <section class="m-doc-details" id="gafaa3803206e27df19fde422d3b1eb540"><div>
             <h3>
@@ -767,7 +756,7 @@ C++</span></a>
               bool <a class="m-doc-self" href="#gad2165666bd79caf59277b9c4488a1bde">all_floating_point</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are all of the named types floating-point or reference-to-floating-point?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>Returns true for native <a class="m-doc" href="group__blocks.html#gac1f6704b74f509e1de86f816c08632f2">float16_<wbr/>t</a> and <a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>Returns true for <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> and <a class="m-doc" href="group__building__blocks.html#ga2a1f4a242b812d9e1ac5dccae18c6636">quad</a> (where supported).</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga02060371498ff52c8d225e379fe00975"><div>
             <h3>
@@ -778,7 +767,7 @@ C++</span></a>
               bool <a class="m-doc-self" href="#ga02060371498ff52c8d225e379fe00975">all_integral</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are all of the named types integral or reference-to-integral?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums.</p><p>Returns true for native <a class="m-doc" href="group__blocks.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a> and <a class="m-doc" href="group__blocks.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a> (where supported).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums.</p><p>Returns true for <a class="m-doc" href="group__building__blocks.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a> and <a class="m-doc" href="group__building__blocks.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a> (where supported).</p></aside>
           </div></section>
           <section class="m-doc-details" id="gaa7a73625bc705a9021924a54729c192e"><div>
             <h3>
@@ -811,7 +800,7 @@ C++</span></a>
               bool <a class="m-doc-self" href="#gad067ec94bd319f3cd1b8406d5d208701">any_arithmetic</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are any of the named types arithmetic or reference-to-arithmetic?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>Returns true for native <a class="m-doc" href="group__blocks.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a>, <a class="m-doc" href="group__blocks.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a>, <a class="m-doc" href="group__blocks.html#gac1f6704b74f509e1de86f816c08632f2">float16_<wbr/>t</a> and <a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>Returns true for <a class="m-doc" href="group__building__blocks.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a>, <a class="m-doc" href="group__building__blocks.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a>, <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> and <a class="m-doc" href="group__building__blocks.html#ga2a1f4a242b812d9e1ac5dccae18c6636">quad</a> (where supported).</p></aside>
           </div></section>
           <section class="m-doc-details" id="gabc989dd91eaeb76cf275afe1e1de94bf"><div>
             <h3>
@@ -832,7 +821,7 @@ C++</span></a>
               bool <a class="m-doc-self" href="#gadcd85258054ff54b7d0dd7f875185bf0">any_floating_point</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are any of the named types floating-point or reference-to-floating-point?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>Returns true for native <a class="m-doc" href="group__blocks.html#gac1f6704b74f509e1de86f816c08632f2">float16_<wbr/>t</a> and <a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>Returns true for <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> and <a class="m-doc" href="group__building__blocks.html#ga2a1f4a242b812d9e1ac5dccae18c6636">quad</a> (where supported).</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga531166c296beeb911cb00d6ce826d3e8"><div>
             <h3>
@@ -843,7 +832,7 @@ C++</span></a>
               bool <a class="m-doc-self" href="#ga531166c296beeb911cb00d6ce826d3e8">any_integral</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are any of the named types integral or reference-to-integral?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums.</p><p>Returns true for native <a class="m-doc" href="group__blocks.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a> and <a class="m-doc" href="group__blocks.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a> (where supported).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums.</p><p>Returns true for <a class="m-doc" href="group__building__blocks.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a> and <a class="m-doc" href="group__building__blocks.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a> (where supported).</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga68d2257a9ace0f37200d05117931baed"><div>
             <h3>
@@ -921,7 +910,7 @@ C++</span></a>
               bool <a class="m-doc-self" href="#ga62cd2e27697815af581b5a8584fd1f76">is_arithmetic</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Is a type arithmetic or reference-to-arithmetic?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>Returns true for native <a class="m-doc" href="group__blocks.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a>, <a class="m-doc" href="group__blocks.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a>, <a class="m-doc" href="group__blocks.html#gac1f6704b74f509e1de86f816c08632f2">float16_<wbr/>t</a> and <a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>Returns true for <a class="m-doc" href="group__building__blocks.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a>, <a class="m-doc" href="group__building__blocks.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a>, <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>, <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> and <a class="m-doc" href="group__building__blocks.html#ga2a1f4a242b812d9e1ac5dccae18c6636">quad</a> (where supported).</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga0e1dddeef206a9a47a8223994c219cd3"><div>
             <h3>
@@ -994,7 +983,7 @@ C++</span></a>
               bool <a class="m-doc-self" href="#gae74155e0cf085141e1923124718915a4">is_floating_point</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Is a type a floating-point or reference-to-floating-point?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>Returns true for native <a class="m-doc" href="group__blocks.html#gac1f6704b74f509e1de86f816c08632f2">float16_<wbr/>t</a> and <a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>Returns true for <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>, <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> and <a class="m-doc" href="group__building__blocks.html#ga2a1f4a242b812d9e1ac5dccae18c6636">quad</a> (where supported).</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga6283839d5536a4ee096adccee42b88c5"><div>
             <h3>
@@ -1005,7 +994,7 @@ C++</span></a>
               bool <a class="m-doc-self" href="#ga6283839d5536a4ee096adccee42b88c5">is_integral</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Is a type an integral type or a reference to an integral type?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums.</p><p>Returns true for native <a class="m-doc" href="group__blocks.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a> and <a class="m-doc" href="group__blocks.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a> (where supported).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums.</p><p>Returns true for <a class="m-doc" href="group__building__blocks.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a> and <a class="m-doc" href="group__building__blocks.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a> (where supported).</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga0ad880900bc41c21a698d9114f333e3d"><div>
             <h3>
@@ -1025,7 +1014,7 @@ C++</span></a>
               </div>
               bool <a class="m-doc-self" href="#ga069232745f2338b2ece00c80c5d438e3">is_same_as_all</a> <span class="m-label m-primary">constexpr</span>
             </h3>
-            <p>True if all the type arguments are the same type.</p>
+            <p>True if T is exactly the same all of the types named by U.</p>
 <p>This equivalent to <code>(<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U1&gt; &amp;&amp; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U2&gt; &amp;&amp; ...)</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga526c58b5a438ba0c7746e465389e013d"><div>
@@ -1058,17 +1047,27 @@ C++</span></a>
               bool <a class="m-doc-self" href="#ga8692cd4c2e3c8e2b0167a5a586f1f6e1">is_signed</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Is a type signed or reference-to-signed?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums backed by signed integers.</p><p>Returns true for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>Returns true for native <a class="m-doc" href="group__blocks.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a>, <a class="m-doc" href="group__blocks.html#gac1f6704b74f509e1de86f816c08632f2">float16_<wbr/>t</a> and <a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums backed by signed integers.</p><p>Returns true for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>Returns true for <a class="m-doc" href="group__building__blocks.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a>, <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>, <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> and <a class="m-doc" href="group__building__blocks.html#ga2a1f4a242b812d9e1ac5dccae18c6636">quad</a> (where supported).</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ga1ce8c4c617986b508a2be61e238f764d"><div>
+          <section class="m-doc-details" id="ga7a494dff5772cf50d03fed75fd1be177"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              bool <a class="m-doc-self" href="#ga1ce8c4c617986b508a2be61e238f764d">is_tuple_like</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#ga7a494dff5772cf50d03fed75fd1be177">is_simd_intrinsic</a> <span class="m-label m-primary">constexpr</span>
             </h3>
-            <p>Returns true if the type implements the C++17 tuple protocol (for structured binding).</p>
+            <p>Returns true if a type is a simd compiler intrinsic type (__m64, __m128, etc.).</p>
+          </div></section>
+          <section class="m-doc-details" id="ga07b1449019c885977279ee3afedb3b4f"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga07b1449019c885977279ee3afedb3b4f">is_tuple_like</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Returns true if the type implements <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a> and std::tuple_element.</p>
           </div></section>
           <section class="m-doc-details" id="ga9e9c5b2e65e4f784d2a6b52b6a33a34f"><div>
             <h3>
@@ -1079,7 +1078,7 @@ C++</span></a>
               bool <a class="m-doc-self" href="#ga9e9c5b2e65e4f784d2a6b52b6a33a34f">is_unsigned</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Is a type unsigned or reference-to-unsigned?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums backed by unsigned integers.</p><p>Returns true for native <a class="m-doc" href="group__blocks.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a> (where supported).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums backed by unsigned integers.</p><p>Returns true for <a class="m-doc" href="group__building__blocks.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a> (where supported).</p></aside>
           </div></section>
           <section class="m-doc-details" id="gaa1afdcda38765572b01f8112bea59913"><div>
             <h3>

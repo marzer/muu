@@ -62,13 +62,21 @@ C++</span></a>
         <h1>Modules</h1>
         <ul class="m-doc">
           <li>module <a class="m-doc" href="group__meta.html">Metafunctions and type traits</a> <span class="m-doc">Type traits and metaprogramming utilities.</span></li>
-          <li>module <a class="m-doc" href="group__intrinsics.html">Intrinsics</a> <span class="m-doc">Small, generally-useful functions, many of which map to compiler intrinsics.</span></li>
-          <li>module <a class="m-doc" href="group__blocks.html">Building blocks</a> <span class="m-doc">Small, generally-useful classes and types.</span></li>
+          <li class="m-doc-collapsible">
+            <a href="#" onclick="return toggle(this)">module</a> <a class="m-doc" href="group__intrinsics.html">Intrinsics</a> <span class="m-doc">Small, generally-useful functions, many of which map to compiler built-ins.</span>
+            <ul class="m-doc">
+              <li>module <a class="m-doc" href="group__sqrt.html">sqrt()</a> <span class="m-doc">Constexpr-friendly alternatives to <a class="m-doc" href="group__sqrt.html#ga539d1077c692a4ca013f1f5c912bcc95">std::<wbr/>sqrt()</a>.</span></li>
+              <li>module <a class="m-doc" href="group__approx__equal.html">approx_equal()</a> <span class="m-doc">Floating-point approximate equality checks.</span></li>
+              <li>module <a class="m-doc" href="group__lerp.html">lerp()</a> <span class="m-doc">Linear interpolations al a C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/lerp" target="_blank">std::lerp</a>.</span></li>
+            </ul>
+          </li>
+          <li>module <a class="m-doc" href="group__building__blocks.html">Building blocks</a> <span class="m-doc">Small, generally-useful classes and types.</span></li>
           <li>module <a class="m-doc" href="group__constants.html">Constants</a> <span class="m-doc">Compile-time constant values (Pi, et cetera.).</span></li>
           <li>module <a class="m-doc" href="group__characters.html">Characters</a> <span class="m-doc">Utilities for manipulating individual characters (or 'code points').</span></li>
           <li>module <a class="m-doc" href="group__strings.html">Strings</a> <span class="m-doc">Utilities to simplify working with strings.</span></li>
           <li>module <a class="m-doc" href="group__hashing.html">Hashing</a> <span class="m-doc">Utilities for generating (non-cryptographic) hashes.</span></li>
           <li>module <a class="m-doc" href="group__mem.html">Memory management</a> <span class="m-doc">Utilities for allocating, destroying and manipulating memory.</span></li>
+          <li>module <a class="m-doc" href="group__preprocessor.html">Preprocessor magic</a> <span class="m-doc">Compiler feature detection, attributes, string-makers, etc.</span></li>
         </ul>
         <script>
         function toggle(e) {

@@ -82,20 +82,23 @@ C++</span></a>
             <dd>The root namespace for all muu functions and types.</dd>
             <dt>namespace <a class="m-doc" href="namespacemuu_1_1build.html">muu::build</a></dt>
             <dd>Build environment information (compiler, date/time, support for various things...)</dd>
-            <dt>namespace <a class="m-doc" href="namespacemuu_1_1literals.html">muu::literals</a> <span class="m-label m-info m-flat muu-injected muu-inline-namespace" title="All members of this namespace are automatically members of the parent namespace. It does not require an explicit 'using' statement.">inline</span></dt>
+            <dt>namespace <a class="m-doc" href="namespacemuu_1_1literals.html">muu::literals</a></dt>
             <dd>Literal operators.</dd>
-            <dt>namespace <a class="m-doc" href="namespacestd.html">std</a></dt>
-            <dd>STL namespace.</dd>
           </dl>
         </section>
         <section id="nested-classes">
           <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;typename First, typename Second&gt;</div>
-              class <a class="m-doc" href="classmuu_1_1compressed__pair.html">muu::compressed_pair</a>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01____fp16_01_4.html">muu::constants&lt;__fp16&gt;</a>
             </dt>
-            <dd>A pair that uses Empty Base Class Optimization to elide storage for one or both of its members where possible.</dd>
+            <dd><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01___float16_01_4.html">muu::constants&lt;_Float16&gt;</a>
+            </dt>
+            <dd><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01char_01_4.html">muu::constants&lt;char&gt;</a>
@@ -128,16 +131,6 @@ C++</span></a>
             <dd><code>float</code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01float128__t_01_4.html">muu::constants&lt;float128_t&gt;</a>
-            </dt>
-            <dd><code>float128_t</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01float16__t_01_4.html">muu::constants&lt;float16_t&gt;</a>
-            </dt>
-            <dd><code>float16_t</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01int128__t_01_4.html">muu::constants&lt;int128_t&gt;</a>
             </dt>
             <dd><code>int128_t</code> constants.</dd>
@@ -146,6 +139,11 @@ C++</span></a>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01long_01double_01_4.html">muu::constants&lt;long double&gt;</a>
             </dt>
             <dd><code>long double</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01quad_01_4.html">muu::constants&lt;quad&gt;</a>
+            </dt>
+            <dd><a class="m-doc" href="group__building__blocks.html#ga2a1f4a242b812d9e1ac5dccae18c6636">quad</a> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01char_01_4.html">muu::constants&lt;signed char&gt;</a>
@@ -206,21 +204,6 @@ C++</span></a>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01wchar__t_01_4.html">muu::constants&lt;wchar_t&gt;</a>
             </dt>
             <dd><code><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a></code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              class <a class="m-doc" href="classmuu_1_1scope__guard.html">muu::scope_guard</a>
-            </dt>
-            <dd>Performs actions when going out of scope.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> I, typename First, typename Second&gt;</div>
-              struct <a class="m-doc" href="structstd_1_1tuple__element_3_01_i_00_01muu_1_1compressed__pair_3_01_first_00_01_second_01_4_01_4.html">std::tuple_element&lt;I, muu::compressed_pair&lt;First, Second&gt;&gt;</a>
-            </dt>
-            <dd>Specialization of <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_element" target="_blank">std::tuple_element</a> for <a class="m-doc" href="classmuu_1_1compressed__pair.html">muu::<wbr/>compressed_pair</a>.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename First, typename Second&gt;</div>
-              struct <a class="m-doc" href="structstd_1_1tuple__size_3_01muu_1_1compressed__pair_3_01_first_00_01_second_01_4_01_4.html">std::tuple_size&lt;muu::compressed_pair&lt;First, Second&gt;&gt;</a>
-            </dt>
-            <dd>Specialization of <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a> for <a class="m-doc" href="classmuu_1_1compressed__pair.html">muu::<wbr/>compressed_pair</a>.</dd>
           </dl>
         </section>
       </div>

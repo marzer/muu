@@ -84,7 +84,7 @@ C++</span></a>
           <dl class="m-doc">
             <dt>namespace <a class="m-doc" href="namespacemuu_1_1build.html">build</a></dt>
             <dd>Build environment information (compiler, date/time, support for various things...)</dd>
-            <dt>namespace <a class="m-doc" href="namespacemuu_1_1literals.html">literals</a> <span class="m-label m-info m-flat muu-injected muu-inline-namespace" title="All members of this namespace are automatically members of the parent namespace. It does not require an explicit 'using' statement.">inline</span></dt>
+            <dt>namespace <a class="m-doc" href="namespacemuu_1_1literals.html">literals</a></dt>
             <dd>Literal operators.</dd>
           </dl>
         </section>
@@ -110,6 +110,16 @@ C++</span></a>
               struct <a class="m-doc" href="structmuu_1_1constants.html">constants</a>
             </dt>
             <dd>A typed container for static constants, similar to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/numeric_limits" target="_blank">std::numeric_limits</a>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01____fp16_01_4.html">constants&lt;__fp16&gt;</a>
+            </dt>
+            <dd><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01___float16_01_4.html">constants&lt;_Float16&gt;</a>
+            </dt>
+            <dd><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01char_01_4.html">constants&lt;char&gt;</a>
@@ -142,19 +152,9 @@ C++</span></a>
             <dd><code>float</code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01float128__t_01_4.html">constants&lt;float128_t&gt;</a>
-            </dt>
-            <dd><code>float128_t</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01float16__t_01_4.html">constants&lt;float16_t&gt;</a>
-            </dt>
-            <dd><code>float16_t</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01half_01_4.html">constants&lt;half&gt;</a>
             </dt>
-            <dd>16-bit half-precision float constants.</dd>
+            <dd>16-bit <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01int128__t_01_4.html">constants&lt;int128_t&gt;</a>
@@ -165,6 +165,11 @@ C++</span></a>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01long_01double_01_4.html">constants&lt;long double&gt;</a>
             </dt>
             <dd><code>long double</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01quad_01_4.html">constants&lt;quad&gt;</a>
+            </dt>
+            <dd><a class="m-doc" href="group__building__blocks.html#ga2a1f4a242b812d9e1ac5dccae18c6636">quad</a> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01char_01_4.html">constants&lt;signed char&gt;</a>
@@ -243,7 +248,7 @@ C++</span></a>
             <dt>
               struct <a class="m-doc" href="structmuu_1_1half.html">half</a>
             </dt>
-            <dd>A 16-bit "half-precision" floating point type.</dd>
+            <dd>A 16-bit "<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision" floating point type.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits = (sizeof(<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>)* CHAR_BIT)&gt;</div>
               class <a class="m-doc" href="classmuu_1_1hash__combiner.html">hash_combiner</a>
@@ -357,15 +362,7 @@ C++</span></a>
             </dt>
             <dd>Convenience alias for <code>span&lt;const T&gt;</code>.</dd>
             <dt>
-              using <a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> = __float128
-            </dt>
-            <dd>A 128-bit quad-precision float.</dd>
-            <dt>
-              using <a class="m-doc" href="group__blocks.html#gac1f6704b74f509e1de86f816c08632f2">float16_t</a> = _Float16
-            </dt>
-            <dd>A 16-bit half-precision float.</dd>
-            <dt>
-              using <a class="m-doc" href="group__blocks.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_t</a> = __int128_t
+              using <a class="m-doc" href="group__building__blocks.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_t</a> = __int128_t
             </dt>
             <dd>A 128-bit signed integer.</dd>
             <dt>
@@ -408,6 +405,10 @@ C++</span></a>
               using <a class="m-doc" href="group__meta.html#ga62680f064b38d875edbcb08604a2736d">most_aligned</a> = typename impl::most_aligned_&lt;T...&gt;::type
             </dt>
             <dd>The type with the largest alignment (i.e. having the largest value for <code>alignment_of&lt;T&gt;</code>) from a set of types.</dd>
+            <dt>
+              using <a class="m-doc" href="group__building__blocks.html#ga2a1f4a242b812d9e1ac5dccae18c6636">quad</a> = __float128
+            </dt>
+            <dd>A 128-bit quad-precision float.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Ptr, typename NewBase&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga29769609b73728e3b7814d36a7e0c335">rebase_pointer</a> = typename impl::rebase_pointer_&lt;Ptr, NewBase&gt;::type
@@ -464,11 +465,6 @@ C++</span></a>
             </dt>
             <dd>Gets the signed integer type with a specific number of bits for the target platform.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga59a03d6c91a837cd5ef2010a47fc8774">simd_param</a> = typename impl::simd_param_&lt;T&gt;::type
-            </dt>
-            <dd>Type transformation for function parameter types to pass arguments in a manner well-suited to SIMD vectorization where possible.</dd>
-            <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga9cd7c756a0397747aa065ac54ddbf46b">smallest</a> = typename impl::smallest_&lt;T...&gt;::type
             </dt>
@@ -479,7 +475,7 @@ C++</span></a>
             </dt>
             <dd>Provides an identity type transformation.</dd>
             <dt>
-              using <a class="m-doc" href="group__blocks.html#gaa82164a62949a1b029695dff5441d577">uint128_t</a> = __uint128_t
+              using <a class="m-doc" href="group__building__blocks.html#gaa82164a62949a1b029695dff5441d577">uint128_t</a> = __uint128_t
             </dt>
             <dd>A 128-bit unsigned integer.</dd>
             <dt>
@@ -523,41 +519,47 @@ C++</span></a>
             </dt>
             <dd>Applies a byte offset to a pointer.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gabfe9ea2afb006528b1387e6b2d7a50d8">approx_equal</a>(</span><span class="m-doc-wrap">double a,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga10846eb664ad1f4a723d73a5f3e1ad6f">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> a,
+              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> b,
+              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;<a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> are approximately equal.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#gad608fa80ae0f972c29864d7465ec8473">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> a,
+              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> b,
+              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;<a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16s</a> are approximately equal.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#gabfe9ea2afb006528b1387e6b2d7a50d8">approx_equal</a>(</span><span class="m-doc-wrap">double a,
               double b,
               double epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;double&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if two values are approximately equal.</dd>
+            <dd>Returns true if two doubles are approximately equal.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gac82dcde48c487938747a8baafec6bb54">approx_equal</a>(</span><span class="m-doc-wrap">float a,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#gac82dcde48c487938747a8baafec6bb54">approx_equal</a>(</span><span class="m-doc-wrap">float a,
               float b,
               float epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;float&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if two values are approximately equal.</dd>
+            <dd>Returns true if two floats are approximately equal.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga62400f811bf59a4e92f5e8c3172d9ecb">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> a,
-              <a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> b,
-              <a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;<a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if two values are approximately equal.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga7a6fee701dd396ea3d5840e694462d7c">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__blocks.html#gac1f6704b74f509e1de86f816c08632f2">float16_<wbr/>t</a> a,
-              <a class="m-doc" href="group__blocks.html#gac1f6704b74f509e1de86f816c08632f2">float16_<wbr/>t</a> b,
-              <a class="m-doc" href="group__blocks.html#gac1f6704b74f509e1de86f816c08632f2">float16_<wbr/>t</a> epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;<a class="m-doc" href="group__blocks.html#gac1f6704b74f509e1de86f816c08632f2">float16_<wbr/>t</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if two values are approximately equal.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gafa07e9f7df24ef7ccfc6ff96b8b585fe">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> lhs,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#gafa07e9f7df24ef7ccfc6ff96b8b585fe">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> lhs,
               <a class="m-doc" href="structmuu_1_1half.html">half</a> rhs,
               <a class="m-doc" href="structmuu_1_1half.html">half</a> epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;<a class="m-doc" href="structmuu_1_1half.html">half</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if two values are approximately equal.</dd>
+            <dd>Returns true if two <a class="m-doc muu-injected" href="structmuu_1_1half.html">halfs</a> are approximately equal.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gafde7b2a6ac13119386ed20c50ac68f70">approx_equal</a>(</span><span class="m-doc-wrap">long double a,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#gafde7b2a6ac13119386ed20c50ac68f70">approx_equal</a>(</span><span class="m-doc-wrap">long double a,
               long double b,
               long double epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;long double&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if two values are approximately equal.</dd>
+            <dd>Returns true if two long doubles are approximately equal.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#gaf0aee9cb6a6d5b13483f68161ed0d5b0">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__building__blocks.html#ga2a1f4a242b812d9e1ac5dccae18c6636">quad</a> a,
+              <a class="m-doc" href="group__building__blocks.html#ga2a1f4a242b812d9e1ac5dccae18c6636">quad</a> b,
+              <a class="m-doc" href="group__building__blocks.html#ga2a1f4a242b812d9e1ac5dccae18c6636">quad</a> epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;<a class="m-doc" href="group__building__blocks.html#ga2a1f4a242b812d9e1ac5dccae18c6636">quad</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two quads are approximately equal.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__mem.html#ga7809e878e8e7c2d0377b3c7089e9c452">as_bytes</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;T, N&gt; s) -&gt; auto <span class="m-label m-flat m-success">noexcept</span></span>
@@ -573,6 +575,13 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gaf58f3326aea89653ec725ccbc5ff29d2">assume_aligned</a>(</span><span class="m-doc-wrap">T* ptr) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/memory/assume_aligned" target="_blank">std::assume_aligned</a>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename U&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga5b043c21509a069a2fc06ed8e0df2279">between</a>(</span><span class="m-doc-wrap">T val,
+              U min_,
+              U max_) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a value is between two bounds (inclusive).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename To, typename From&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gaadb4c6332c738c248f84f43ece303657">bit_cast</a>(</span><span class="m-doc-wrap">const From&amp; from) -&gt; To <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -651,6 +660,16 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga309ac880015add971ee06b148191060f">has_single_bit</a>(</span><span class="m-doc-wrap">T val) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Checks if an integral value has only a single bit set.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga7165ec00307546834b2cfec5dcd18920">infinity_or_nan</a>(</span><span class="m-doc-wrap">const T&amp; obj) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Checks if a object is infinity or NaN.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga3d90a03fff8f593add263df879139162">infinity_or_nan</a>(</span><span class="m-doc-wrap">T val) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Checks if an arithmetic value is infinity or NaN.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__characters.html#ga0d7e040d73174475bfcc36435293326e">is_ascii</a>(</span><span class="m-doc-wrap">char c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -751,13 +770,6 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__characters.html#ga09ef1c5da9b104b959ac51e9e910653a">is_ascii_whitespace</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a wide character is a whitespace code point from the ASCII range.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T, typename U&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gaaa585b16639dcf742fd46b8e589a5ab1">is_between</a>(</span><span class="m-doc-wrap">T val,
-              U min_,
-              U max_) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if a value is between two bounds (inclusive).</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__characters.html#gaa61593ff891b26163868d3dbb14822e6">is_code_point</a>(</span><span class="m-doc-wrap">char c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -882,11 +894,6 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__characters.html#ga867f9060953226f58134dec87317ad8d">is_hyphen</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a wide character is a hyphen code point.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gaf95d4d7851d8cae648a9a30d20842d8d">is_infinity_or_nan</a>(</span><span class="m-doc-wrap">T val) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Checks if an arithmetic value is infinity or NaN.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__characters.html#ga9514b6bf16508d2474f8f5ec70a8eaab">is_letter</a>(</span><span class="m-doc-wrap">char c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -1133,41 +1140,54 @@ C++</span></a>
             </dt>
             <dd>Equivalent to C++17's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/launder" target="_blank">std::launder</a>.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga47e41d7626365fcf881152c286833b5a">lerp</a>(</span><span class="m-doc-wrap">double start,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__lerp.html#ga18ab33f3d13ed00aaabb060162e64a07">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> start,
+              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> finish,
+              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> alpha) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a linear interpolation between two <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16s</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__lerp.html#ga2ef795b3516004d50fdb7003c388e15d">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> start,
+              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> finish,
+              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> alpha) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a linear interpolation between two <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16s</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__lerp.html#ga47e41d7626365fcf881152c286833b5a">lerp</a>(</span><span class="m-doc-wrap">double start,
               double finish,
               double alpha) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Calculates a linear interpolation between two values.</dd>
+            <dd>Returns a linear interpolation between two doubles.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga86b8aacc099deefdf6284d9bab7f2dad">lerp</a>(</span><span class="m-doc-wrap">float start,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__lerp.html#ga86b8aacc099deefdf6284d9bab7f2dad">lerp</a>(</span><span class="m-doc-wrap">float start,
               float finish,
               float alpha) -&gt; float <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Calculates a linear interpolation between two values.</dd>
+            <dd>Returns a linear interpolation between two floats.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga614ccb878d52686237995f87013cfae5">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> start,
-              <a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> finish,
-              <a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> alpha) -&gt; <a class="m-doc" href="group__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Calculates a linear interpolation between two values.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gae35f607a047e448773492cffbf83ecce">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__blocks.html#gac1f6704b74f509e1de86f816c08632f2">float16_<wbr/>t</a> start,
-              <a class="m-doc" href="group__blocks.html#gac1f6704b74f509e1de86f816c08632f2">float16_<wbr/>t</a> finish,
-              <a class="m-doc" href="group__blocks.html#gac1f6704b74f509e1de86f816c08632f2">float16_<wbr/>t</a> alpha) -&gt; <a class="m-doc" href="group__blocks.html#gac1f6704b74f509e1de86f816c08632f2">float16_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Calculates a linear interpolation between two values.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga52c3f4f3e75c69a2775cd2d5fc92a0fd">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> start,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__lerp.html#ga52c3f4f3e75c69a2775cd2d5fc92a0fd">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> start,
               <a class="m-doc" href="structmuu_1_1half.html">half</a> finish,
               <a class="m-doc" href="structmuu_1_1half.html">half</a> alpha) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Calculates a linear interpolation between two values.</dd>
+            <dd>Returns a linear interpolation between two <a class="m-doc muu-injected" href="structmuu_1_1half.html">halfs</a>.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga44b514d356d6673cc0595cf0390dd8de">lerp</a>(</span><span class="m-doc-wrap">long double start,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__lerp.html#ga44b514d356d6673cc0595cf0390dd8de">lerp</a>(</span><span class="m-doc-wrap">long double start,
               long double finish,
               long double alpha) -&gt; long double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Calculates a linear interpolation between two values.</dd>
+            <dd>Returns a linear interpolation between two long doubles.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__lerp.html#gac867cd15b6eb62930e77908984cc6e3b">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__building__blocks.html#ga2a1f4a242b812d9e1ac5dccae18c6636">quad</a> start,
+              <a class="m-doc" href="group__building__blocks.html#ga2a1f4a242b812d9e1ac5dccae18c6636">quad</a> finish,
+              <a class="m-doc" href="group__building__blocks.html#ga2a1f4a242b812d9e1ac5dccae18c6636">quad</a> alpha) -&gt; <a class="m-doc" href="group__building__blocks.html#ga2a1f4a242b812d9e1ac5dccae18c6636">quad</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a linear interpolation between two quads.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename U, typename V&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__lerp.html#ga348d51a08675a8a83b04e59b7705c29e">lerp</a>(</span><span class="m-doc-wrap">T start,
+              U finish,
+              V alpha) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a linear interpolation between two arithmetic values.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga0ed7737393aa2394099febe6bf265249">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
@@ -1187,23 +1207,23 @@ C++</span></a>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a8020f75ca707dd47c7c88a23945329b5">operator""_f16</a>(</span><span class="m-doc-wrap">long double val) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Literal for creating a half-precision float.</dd>
+            <dd>Literal for creating a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#aebdabb8a45196bbc6b42c4a1aba1da70">operator""_i16</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int16_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Creates a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int16_t</a>.</dd>
+            <dd>Creates an <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int16_t</a>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a8bb8faeb0d317043b2c445b2920ed11e">operator""_i32</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int32_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Creates a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int32_t</a>.</dd>
+            <dd>Creates an <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int32_t</a>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#aa5ad5a0882c5fff84a7d5e61d836507e">operator""_i64</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int64_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Creates a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int64_t</a>.</dd>
+            <dd>Creates an <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int64_t</a>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a43a15b4448799e0e02621d9bf08104a1">operator""_i8</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int8_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Creates a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int8_t</a>.</dd>
+            <dd>Creates an <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int8_t</a>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#ac7cce4c07975fb4f279efb145f138f46">operator""_sz</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -1250,6 +1270,30 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">void <a class="m-doc" href="group__strings.html#ga208801d95047a6cff7dd75291d55601b">set_thread_name</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> name) <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Sets the name of the current thread for debuggers.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sqrt.html#ga539d1077c692a4ca013f1f5c912bcc95">sqrt</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> val) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the square-root of a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sqrt.html#ga519c7bf0ef8ac0a84811f205604cdd76">sqrt</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> val) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the square-root of a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sqrt.html#ga21d9a9cc207b749ac7836fe6f1866fc1">sqrt</a>(</span><span class="m-doc-wrap">double val) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the square-root of a double.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sqrt.html#gac7a9cbcb232acdf8478825491def5b6a">sqrt</a>(</span><span class="m-doc-wrap">float val) -&gt; float <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the square-root of a float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sqrt.html#ga8d996d68324a9977b7ce4b1c8e497e4d">sqrt</a>(</span><span class="m-doc-wrap">long double val) -&gt; long double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the square-root of a long double.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sqrt.html#gaa63a5132725ddab46055e9b52ea8b975">sqrt</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__building__blocks.html#ga2a1f4a242b812d9e1ac5dccae18c6636">quad</a> val) -&gt; <a class="m-doc" href="group__building__blocks.html#ga2a1f4a242b812d9e1ac5dccae18c6636">quad</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the square-root of a quad.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>... ByteIndices, typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga1aaa24bb10d08ad78c86695baabc1857">swizzle</a>(</span><span class="m-doc-wrap">T val) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -1501,7 +1545,7 @@ C++</span></a>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga069232745f2338b2ece00c80c5d438e3">is_same_as_all</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>True if all the type arguments are the same type.</dd>
+            <dd>True if T is exactly the same all of the types named by U.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga526c58b5a438ba0c7746e465389e013d">is_same_as_any</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -1519,9 +1563,14 @@ C++</span></a>
             <dd>Is a type signed or reference-to-signed?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              bool <a class="m-doc" href="group__meta.html#ga1ce8c4c617986b508a2be61e238f764d">is_tuple_like</a> <span class="m-label m-flat m-primary">constexpr</span>
+              bool <a class="m-doc" href="group__meta.html#ga7a494dff5772cf50d03fed75fd1be177">is_simd_intrinsic</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if the type implements the C++17 tuple protocol (for structured binding).</dd>
+            <dd>Returns true if a type is a simd compiler intrinsic type (__m64, __m128, etc.).</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga07b1449019c885977279ee3afedb3b4f">is_tuple_like</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Returns true if the type implements <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a> and std::tuple_element.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga9e9c5b2e65e4f784d2a6b52b6a33a34f">is_unsigned</a> <span class="m-label m-flat m-primary">constexpr</span>

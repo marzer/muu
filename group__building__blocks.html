@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu::scope_guard class | muu Useful
+  <title>Building blocks module | muu Useful
 utilities
 for
 modern
@@ -60,103 +60,104 @@ C++</span></a>
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="scope__guard_8h.html">&lt;muu/scope_guard.h&gt;</a></div>
-          <div class="m-doc-template">template&lt;typename T&gt;</div>
-          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>scope_guard <span class="m-thin">class</span>
-        </h1>
-        <p>Performs actions when going out of scope.</p>
-        <table class="m-table m-fullwidth m-flat">
-          <thead>
-            <tr><th colspan="2">Template parameters</th></tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="width: 1%">T</td>
-              <td>A <code>noexcept</code> function, lambda or other callable not requiring any arguments (e.g. <code>void() noexcept</code>)`.</td>
-            </tr>
-          </tbody>
-        </table>
+          Building blocks <span class="m-thin">module</span></h1>
+        <p>Small, generally-useful classes and types.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
-                <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#typedef-members">Typedefs</a></li>
               </ul>
             </li>
           </ul>
         </div>
-<p>Use a <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_<wbr/>guard</a> to simplify cleanup routines or code that has acquire/release semantics, e.g. locking:</p><pre class="m-code"><span class="ut">void</span> <span class="nf">do_something</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="n">acquire_magic_lock</span><span class="p">();</span>
-    <span class="ut">scope_guard</span> <span class="n">sg</span><span class="p">{</span> <span class="n">release_magic_lock</span> <span class="p">};</span>
-    <span class="n">something_that_throws</span><span class="p">();</span>
-<span class="p">}</span></pre><p>For comparison's sake, here's the same function without a <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_<wbr/>guard</a>:</p><pre class="m-code"><span class="ut">void</span> <span class="nf">do_something</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="n">acquire_magic_lock</span><span class="p">();</span>
-    <span class="k">try</span>
-    <span class="p">{</span>
-        <span class="n">something_that_throws</span><span class="p">();</span>
-    <span class="p">}</span>
-    <span class="k">catch</span> <span class="p">(...)</span>
-    <span class="p">{</span>
-        <span class="n">release_magic_lock</span><span class="p">();</span>
-        <span class="k">throw</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="n">release_magic_lock</span><span class="p">();</span>
-<span class="p">}</span></pre>
-        <section id="typeless-methods">
-          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+        <section id="nested-classes">
+          <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;typename U&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a77f4d6415d1059419bd4e6b0864e17e2">scope_guard</a>(</span><span class="m-doc-wrap">U&amp;&amp; func) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename ValueType, typename Impl = impl::default_accumulator&lt;ValueType&gt;::type&gt;</div>
+              class <a class="m-doc" href="classmuu_1_1accumulator.html">muu::accumulator</a>
             </dt>
-            <dd>Constructs a <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_<wbr/>guard</a> by wrapping a callable.</dd>
+            <dd>Determines min, max and sum of an interderminate number of values.</dd>
+            <dt>
+              class <a class="m-doc" href="classmuu_1_1blob.html">muu::blob</a>
+            </dt>
+            <dd>Interface for managing chunks of memory.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename First, typename Second&gt;</div>
+              class <a class="m-doc" href="classmuu_1_1compressed__pair.html">muu::compressed_pair</a>
+            </dt>
+            <dd>A pair that uses Empty Base Class Optimization to elide storage for one or both of its members where possible.</dd>
+            <dt>
+              struct <a class="m-doc" href="structmuu_1_1half.html">muu::half</a>
+            </dt>
+            <dd>A 16-bit "<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision" floating point type.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              class <a class="m-doc" href="classmuu_1_1scope__guard.html">muu::scope_guard</a>
+            </dt>
+            <dd>Performs actions when going out of scope.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Extent = <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>&gt;</div>
+              class <a class="m-doc" href="classmuu_1_1span.html">muu::span</a>
+            </dt>
+            <dd>A non-owning view of contiguous elements.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> MinAlign = <a class="m-doc" href="group__meta.html#ga693c421331c5f268eb2e2fdd318368fd">alignment_<wbr/>of</a>&lt;T&gt;&gt;</div>
+              class <a class="m-doc" href="classmuu_1_1tagged__ptr.html">muu::tagged_ptr</a>
+            </dt>
+            <dd>Specialized pointer capable of storing data in the unused bits of a pointer's value.</dd>
+            <dt>
+              struct <a class="m-doc" href="structmuu_1_1uuid.html">muu::uuid</a>
+            </dt>
+            <dd>A 128-bit universally-unique identifier (UUID).</dd>
           </dl>
         </section>
-        <section id="pub-methods">
-          <h2><a href="#pub-methods">Public functions</a></h2>
+        <section id="typedef-members">
+          <h2><a href="#typedef-members">Typedefs</a></h2>
           <dl class="m-doc">
-            <dt id="a44879b040554411653acd5b47b57de96">
-              <span class="m-doc-wrap-bumper">void <a class="m-doc-self" href="#a44879b040554411653acd5b47b57de96">dismiss</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt>
+              using <a class="m-doc" href="#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_t</a> = __int128_t
             </dt>
-            <dd>Dismisses the scope guard, cancelling invocation of the wrapped callable.</dd>
+            <dd>A 128-bit signed integer.</dd>
+            <dt>
+              using <a class="m-doc" href="#ga2a1f4a242b812d9e1ac5dccae18c6636">quad</a> = __float128
+            </dt>
+            <dd>A 128-bit quad-precision float.</dd>
+            <dt>
+              using <a class="m-doc" href="#gaa82164a62949a1b029695dff5441d577">uint128_t</a> = __uint128_t
+            </dt>
+            <dd>A 128-bit unsigned integer.</dd>
           </dl>
         </section>
         <section>
-          <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a77f4d6415d1059419bd4e6b0864e17e2"><div>
+          <h2>Typedef documentation</h2>
+          <section class="m-doc-details" id="gaf8e0aa5a37ec05e07c7b69077de9303c"><div>
             <h3>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-                template&lt;typename U&gt;
-              </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>scope_guard&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a77f4d6415d1059419bd4e6b0864e17e2">scope_guard</a>(</span><span class="m-doc-wrap">U&amp;&amp; func) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              using <a class="m-doc-self" href="#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_t</a> = __int128_t
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="fwd_8h.html">&lt;muu/fwd.h&gt;</a></div>
             </h3>
-            <p>Constructs a <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_<wbr/>guard</a> by wrapping a callable.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Template parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">U</td>
-                  <td>A function, lambda or other callable with the signature <code>void() noexcept</code>.</td>
-                </tr>
-              </tbody>
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>func</td>
-                  <td>The callable to invoke when the <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_<wbr/>guard</a> goes out of scope.</td>
-                </tr>
-              </tbody>
-            </table>
+            <p>A 128-bit signed integer.</p>
+<aside class="m-note m-warning"><h4>Attention</h4><p>This typedef is only present when 128-bit integers are supported by your target platform. You can check support using <a class="m-doc" href="group__preprocessor.html#ga61a9c9471317fa76fa46bd87d8f671b6">MUU_<wbr/>HAS_<wbr/>INT128</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga2a1f4a242b812d9e1ac5dccae18c6636"><div>
+            <h3>
+              using <a class="m-doc-self" href="#ga2a1f4a242b812d9e1ac5dccae18c6636">quad</a> = __float128
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="fwd_8h.html">&lt;muu/fwd.h&gt;</a></div>
+            </h3>
+            <p>A 128-bit quad-precision float.</p>
+<aside class="m-note m-warning"><h4>Attention</h4><p>This typedef is only present when 128-bit floats are supported by your target platform. You can check support using <a class="m-doc" href="group__preprocessor.html#gad6cf2ebac5d966916c61f46e79f035b2">MUU_<wbr/>HAS_<wbr/>FLOAT128</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gaa82164a62949a1b029695dff5441d577"><div>
+            <h3>
+              using <a class="m-doc-self" href="#gaa82164a62949a1b029695dff5441d577">uint128_t</a> = __uint128_t
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="fwd_8h.html">&lt;muu/fwd.h&gt;</a></div>
+            </h3>
+            <p>A 128-bit unsigned integer.</p>
+<aside class="m-note m-warning"><h4>Attention</h4><p>This typedef is only present when 128-bit integers are supported by your target platform. You can check support using <a class="m-doc" href="group__preprocessor.html#ga61a9c9471317fa76fa46bd87d8f671b6">MUU_<wbr/>HAS_<wbr/>INT128</a>.</p></aside>
           </div></section>
         </section>
       </div>

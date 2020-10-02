@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>Building blocks module | muu Useful
+  <title>muu/compressed_pair.h file | muu Useful
 utilities
 for
 modern
@@ -60,117 +60,49 @@ C++</span></a>
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          Building blocks <span class="m-thin">module</span></h1>
-        <p>Small, generally-useful classes and types.</p>
+          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span>compressed_pair.h <span class="m-thin">file</span>
+        </h1>
+        <p>Contains the definition of <a class="m-doc" href="classmuu_1_1compressed__pair.html">muu::<wbr/>compressed_pair</a>.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
+                <li><a href="#namespaces">Namespaces</a></li>
                 <li><a href="#nested-classes">Classes</a></li>
-                <li><a href="#typedef-members">Typedefs</a></li>
               </ul>
             </li>
           </ul>
         </div>
+        <section id="namespaces">
+          <h2><a href="#namespaces">Namespaces</a></h2>
+          <dl class="m-doc">
+            <dt>namespace <a class="m-doc" href="namespacemuu.html">muu</a></dt>
+            <dd>The root namespace for all muu functions and types.</dd>
+            <dt>namespace <a class="m-doc" href="namespacestd.html">std</a></dt>
+            <dd>STL namespace.</dd>
+          </dl>
+        </section>
         <section id="nested-classes">
           <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
-            <dt>
-              <div class="m-doc-template">template&lt;typename ValueType, typename Impl = impl::default_accumulator&lt;ValueType&gt;::type&gt;</div>
-              class <a class="m-doc" href="classmuu_1_1accumulator.html">muu::accumulator</a>
-            </dt>
-            <dd>Determines min, max and sum of an interderminate number of values.</dd>
-            <dt>
-              class <a class="m-doc" href="classmuu_1_1blob.html">muu::blob</a>
-            </dt>
-            <dd>Interface for managing chunks of memory.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename First, typename Second&gt;</div>
               class <a class="m-doc" href="classmuu_1_1compressed__pair.html">muu::compressed_pair</a>
             </dt>
             <dd>A pair that uses Empty Base Class Optimization to elide storage for one or both of its members where possible.</dd>
             <dt>
-              struct <a class="m-doc" href="structmuu_1_1half.html">muu::half</a>
+              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> I, typename First, typename Second&gt;</div>
+              struct <a class="m-doc" href="structstd_1_1tuple__element_3_01_i_00_01muu_1_1compressed__pair_3_01_first_00_01_second_01_4_01_4.html">std::tuple_element&lt;I, muu::compressed_pair&lt;First, Second&gt;&gt;</a>
             </dt>
-            <dd>A 16-bit "half-precision" floating point type.</dd>
+            <dd>Specialization of <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_element" target="_blank">std::tuple_element</a> for <a class="m-doc" href="classmuu_1_1compressed__pair.html">muu::<wbr/>compressed_pair</a>.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              class <a class="m-doc" href="classmuu_1_1scope__guard.html">muu::scope_guard</a>
+              <div class="m-doc-template">template&lt;typename First, typename Second&gt;</div>
+              struct <a class="m-doc" href="structstd_1_1tuple__size_3_01muu_1_1compressed__pair_3_01_first_00_01_second_01_4_01_4.html">std::tuple_size&lt;muu::compressed_pair&lt;First, Second&gt;&gt;</a>
             </dt>
-            <dd>Performs actions when going out of scope.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Extent = <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>&gt;</div>
-              class <a class="m-doc" href="classmuu_1_1span.html">muu::span</a>
-            </dt>
-            <dd>A non-owning view of contiguous elements.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> MinAlign = <a class="m-doc" href="group__meta.html#ga693c421331c5f268eb2e2fdd318368fd">alignment_<wbr/>of</a>&lt;T&gt;&gt;</div>
-              class <a class="m-doc" href="classmuu_1_1tagged__ptr.html">muu::tagged_ptr</a>
-            </dt>
-            <dd>Specialized pointer capable of storing data in the unused bits of a pointer's value.</dd>
-            <dt>
-              struct <a class="m-doc" href="structmuu_1_1uuid.html">muu::uuid</a>
-            </dt>
-            <dd>A 128-bit universally-unique identifier (UUID).</dd>
+            <dd>Specialization of <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a> for <a class="m-doc" href="classmuu_1_1compressed__pair.html">muu::<wbr/>compressed_pair</a>.</dd>
           </dl>
-        </section>
-        <section id="typedef-members">
-          <h2><a href="#typedef-members">Typedefs</a></h2>
-          <dl class="m-doc">
-            <dt>
-              using <a class="m-doc" href="#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> = __float128
-            </dt>
-            <dd>A 128-bit quad-precision float.</dd>
-            <dt>
-              using <a class="m-doc" href="#gac1f6704b74f509e1de86f816c08632f2">float16_t</a> = _Float16
-            </dt>
-            <dd>A 16-bit half-precision float.</dd>
-            <dt>
-              using <a class="m-doc" href="#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_t</a> = __int128_t
-            </dt>
-            <dd>A 128-bit signed integer.</dd>
-            <dt>
-              using <a class="m-doc" href="#gaa82164a62949a1b029695dff5441d577">uint128_t</a> = __uint128_t
-            </dt>
-            <dd>A 128-bit unsigned integer.</dd>
-          </dl>
-        </section>
-        <section>
-          <h2>Typedef documentation</h2>
-          <section class="m-doc-details" id="ga74a70ec9e3331f37ebbc3e875e183861"><div>
-            <h3>
-              using <a class="m-doc-self" href="#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> = __float128
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="fwd_8h.html">&lt;muu/fwd.h&gt;</a></div>
-            </h3>
-            <p>A 128-bit quad-precision float.</p>
-<aside class="m-note m-warning"><h4>Attention</h4><p>This typedef is only present when 128-bit floats are supported by your target platform. You can check support using #MUU_HAS_FLOAT128.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="gac1f6704b74f509e1de86f816c08632f2"><div>
-            <h3>
-              using <a class="m-doc-self" href="#gac1f6704b74f509e1de86f816c08632f2">float16_t</a> = _Float16
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="fwd_8h.html">&lt;muu/fwd.h&gt;</a></div>
-            </h3>
-            <p>A 16-bit half-precision float.</p>
-<aside class="m-note m-warning"><h4>Attention</h4><p>This will be an alias for your target platform's native IEC559 16-bit float type if present (e.g. <code>_Float16</code>), otherwise it will alias <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>. You can check support using #MUU_HAS_FLOAT16.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="gaf8e0aa5a37ec05e07c7b69077de9303c"><div>
-            <h3>
-              using <a class="m-doc-self" href="#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_t</a> = __int128_t
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="fwd_8h.html">&lt;muu/fwd.h&gt;</a></div>
-            </h3>
-            <p>A 128-bit signed integer.</p>
-<aside class="m-note m-warning"><h4>Attention</h4><p>This typedef is only present when 128-bit integers are supported by your target platform. You can check support using #MUU_HAS_INT128.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="gaa82164a62949a1b029695dff5441d577"><div>
-            <h3>
-              using <a class="m-doc-self" href="#gaa82164a62949a1b029695dff5441d577">uint128_t</a> = __uint128_t
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="fwd_8h.html">&lt;muu/fwd.h&gt;</a></div>
-            </h3>
-            <p>A 128-bit unsigned integer.</p>
-<aside class="m-note m-warning"><h4>Attention</h4><p>This typedef is only present when 128-bit integers are supported by your target platform. You can check support using #MUU_HAS_INT128.</p></aside>
-          </div></section>
         </section>
       </div>
     </div>
