@@ -846,7 +846,7 @@ MUU_NAMESPACE_START
 		#endif
 	>;
 
-	/// @}
+	/** @} */	// meta
 }
 MUU_NAMESPACE_END
 
@@ -859,27 +859,20 @@ MUU_IMPL_NAMESPACE_START
 	{
 		template <typename T>
 		constexpr operator T() const noexcept; //non-explicit
-
-		static constexpr any_type&& ref () noexcept;
 	};
 
 	#if MUU_HAS_VECTORCALL
 
 	template <typename T>
-	using is_aggregate_constructible_5_args_
-		= decltype(T{ { any_type::ref() },{ any_type::ref() }, { any_type::ref() }, { any_type::ref() }, { any_type::ref() } });
+	using is_aggregate_5_args_ = decltype(T{ { any_type{} },{ any_type{} }, { any_type{} }, { any_type{} }, { any_type{} } });
 	template <typename T>
-	using is_aggregate_constructible_4_args_
-		= decltype(T{ { any_type::ref() },{ any_type::ref() }, { any_type::ref() }, { any_type::ref() } });
+	using is_aggregate_4_args_ = decltype(T{ { any_type{} },{ any_type{} }, { any_type{} }, { any_type{} } });
 	template <typename T>
-	using is_aggregate_constructible_3_args_
-		= decltype(T{ { any_type::ref() },{ any_type::ref() }, { any_type::ref() } });
+	using is_aggregate_3_args_ = decltype(T{ { any_type{} },{ any_type{} }, { any_type{} } });
 	template <typename T>
-	using is_aggregate_constructible_2_args_
-		= decltype(T{ { any_type::ref() },{ any_type::ref() } });
+	using is_aggregate_2_args_ = decltype(T{ { any_type{} },{ any_type{} } });
 	template <typename T>
-	using is_aggregate_constructible_1_arg_
-		= decltype(T{ { any_type::ref() } });
+	using is_aggregate_1_arg_  = decltype(T{ { any_type{} } });
 
 	template <typename T>
 	struct hva_member_
@@ -903,18 +896,37 @@ MUU_IMPL_NAMESPACE_START
 		// a "homogeneous vector aggregate" must:
 		// - have between 1 and 4 members (if any of the members are arrays they count as N members where N is the extent of the array)
 		// - have all members be the same type
-		// - have the member type be 'vector' types (a native float type or a simd intrinsic type)
-		// - have the same alignment as it's member type (no padding due to over-alignment)
+		// - have the member type be float or simd intrinsic vector types
+		// - have the same alignment as its member type (no padding/over-alignment)
+		//
+		// some of these points were ambiguous in the vectorcall doc, but i figured them out via experimentation
+		// on godbolt https://godbolt.org/z/GzGzM6
 
 		static constexpr bool value =
+
+			// all members are non-reference, non-volatile floats or simd intrinsics
 			(true && ... && (
 				(is_same_as_any<typename hva_member_<Members>::type, float, double, long double>
 					|| is_simd_intrinsic<typename hva_member_<Members>::type>)
-				&& !is_cvref<Members>
+				&& !std::is_reference_v<Members>
+				&& !std::is_volatile_v<Members>
 			))
-			&& (0 + ... + hva_member_<Members>::arity) <= 4
-			&& (sizeof...(Members) == 1 || is_same_as_all<typename hva_member_<Members>::type...>)
-			&& sizeof(T) == (0u + ... + sizeof(Members));
+
+			// min 1 member
+			&& (0 + ... + hva_member_<Members>::arity) >= 1 
+
+			// max 4 members
+			&& (0 + ... + hva_member_<Members>::arity) <= 4 
+
+			// all members the same type
+			&& (sizeof...(Members) == 1 || is_same_as_all<typename hva_member_<Members>::type...>) 
+
+			// no padding
+			&& sizeof(T) == (0u + ... + sizeof(Members))
+
+			// alignment matches member type
+			&& alignof(T) == alignof(most_aligned<typename hva_member_<Members>::type...>) 
+		;
 	};
 
 	template <typename T>
@@ -930,24 +942,24 @@ MUU_IMPL_NAMESPACE_START
 			&& alignof(T) >= alignof(float)
 			)
 		{
-			if constexpr (is_detected<is_aggregate_constructible_5_args_, T>) // five or more
+			if constexpr (is_detected<is_aggregate_5_args_, T>) // five or more
 				return std::false_type{};
-			else if constexpr (is_detected<is_aggregate_constructible_4_args_, T>) // four
+			else if constexpr (is_detected<is_aggregate_4_args_, T>) // four
 			{
 				auto&& [a, b, c, d] = std::forward<T>(obj);
 				return std::bool_constant<is_valid_hva_<T, decltype(a), decltype(b), decltype(c), decltype(d)>::value>{};
 			}
-			else if constexpr (is_detected<is_aggregate_constructible_3_args_, T>) // three
+			else if constexpr (is_detected<is_aggregate_3_args_, T>) // three
 			{
 				auto&& [a, b, c] = std::forward<T>(obj);
 				return std::bool_constant<is_valid_hva_<T, decltype(a), decltype(b), decltype(c)>::value>{};
 			}
-			else if constexpr (is_detected<is_aggregate_constructible_2_args_, T>) // two
+			else if constexpr (is_detected<is_aggregate_2_args_, T>) // two
 			{
 				auto&& [a, b] = std::forward<T>(obj);
 				return std::bool_constant<is_valid_hva_<T, decltype(a), decltype(b)>::value>{};
 			}
-			else if constexpr (is_detected<is_aggregate_constructible_1_arg_, T>) // one
+			else if constexpr (is_detected<is_aggregate_1_arg_, T>) // one
 			{
 				auto&& [a] = std::forward<T>(obj);
 				return std::bool_constant<is_valid_hva_<T, decltype(a)>::value>{};
@@ -961,13 +973,11 @@ MUU_IMPL_NAMESPACE_START
 
 	template <typename T>			inline constexpr bool is_hva = decltype(is_hva_(std::declval<T>()))::value;
 	template <>						inline constexpr bool is_hva<half> = false;
-	template <typename T, size_t N>	inline constexpr bool is_hva<std::array<T, N>> =
-		N <= 4 && (is_same_as_any<T, float, double, long double> || is_simd_intrinsic<T>);
 
 	#endif
 
 	template <typename T>
-	struct maybe_pass_by_value_
+	struct maybe_pass_readonly_by_value_
 	{
 		using type = std::conditional_t<
 			is_floating_point<T>
@@ -978,25 +988,18 @@ MUU_IMPL_NAMESPACE_START
 			|| is_hva<T>
 			#endif
 			|| ((std::is_class_v<T> || std::is_union_v<T>)
-				&& std::is_trivially_copyable_v<T>
-				&& std::is_trivially_destructible_v<T>
-				&& sizeof(T) <= sizeof(void*) * 2),
+				&& (std::is_trivially_copyable_v<T> || std::is_nothrow_copy_constructible_v<T>)
+				&& std::is_nothrow_destructible_v<T>
+				&& sizeof(T) <= sizeof(void*)),
 			T,
 			std::add_lvalue_reference_t<std::add_const_t<T>>
 		>;
 	};
-	template <typename T> struct maybe_pass_by_value_<T&> { using type = T&; };
-	template <typename T> struct maybe_pass_by_value_<T&&> { using type = T&&; };
+	template <typename T>	struct maybe_pass_readonly_by_value_<T&>	{ using type = T&; };
+	template <typename T>	struct maybe_pass_readonly_by_value_<T&&>	{ using type = T&&; };
+	template <>				struct maybe_pass_readonly_by_value_<half>	{ using type = half; };
 	template <typename T>
-	using maybe_pass_by_value = typename maybe_pass_by_value_<T>::type;
-
-	#if MUU_WINDOWS
-		template <typename T> inline constexpr bool is_win32_iunknown
-			= std::is_class_v<remove_cvref<T>>
-			&& std::is_base_of_v<IUnknown, T>;
-	#else
-		template <typename T> inline constexpr bool is_win32_iunknown = false;
-	#endif
+	using maybe_pass_readonly_by_value = typename maybe_pass_readonly_by_value_<T>::type;
 }
 MUU_IMPL_NAMESPACE_END
 
@@ -1456,7 +1459,7 @@ MUU_NAMESPACE_START
 	template <> struct constants<uint128_t> : impl::unsigned_integral_constants<uint128_t> {};
 	#endif
 
-	/// @}
+	/** @} */	// constants
 }
 MUU_NAMESPACE_END
 
@@ -1583,9 +1586,9 @@ MUU_NAMESPACE_START
 	{
 		MUU_DISABLE_WARNINGS // non-determinisitic build
 
-		inline constexpr auto date_str = __DATE__;
-		inline constexpr auto date_month_hash = date_str[0] + date_str[1] + date_str[2];
-		inline constexpr auto time_str = __TIME__;
+		inline constexpr auto build_date_str = __DATE__;
+		inline constexpr auto build_date_month_hash = build_date_str[0] + build_date_str[1] + build_date_str[2];
+		inline constexpr auto build_time_str = __TIME__;
 
 		MUU_ENABLE_WARNINGS
 	}
@@ -1603,51 +1606,51 @@ MUU_NAMESPACE_START
 
 		/// \brief The current year.
 		inline constexpr uint32_t year =
-			(impl::date_str[7] - '0') * 1000
-			+ (impl::date_str[8] - '0') * 100
-			+ (impl::date_str[9] - '0') * 10
-			+ (impl::date_str[10] - '0');
+			(impl::build_date_str[7] - '0') * 1000
+			+ (impl::build_date_str[8] - '0') * 100
+			+ (impl::build_date_str[9] - '0') * 10
+			+ (impl::build_date_str[10] - '0');
 		static_assert(year >= 2020u);
 
 		/// \brief The current month of the year (1-12).
 		inline constexpr uint32_t month =
-			impl::date_month_hash == 281 ? 1 : (
-			impl::date_month_hash == 269 ? 2 : (
-			impl::date_month_hash == 288 ? 3 : (
-			impl::date_month_hash == 291 ? 4 : (
-			impl::date_month_hash == 295 ? 5 : (
-			impl::date_month_hash == 301 ? 6 : (
-			impl::date_month_hash == 299 ? 7 : (
-			impl::date_month_hash == 285 ? 8 : (
-			impl::date_month_hash == 296 ? 9 : (
-			impl::date_month_hash == 294 ? 10 : (
-			impl::date_month_hash == 307 ? 11 : (
-			impl::date_month_hash == 268 ? 12 : 0
+			impl::build_date_month_hash == 281 ? 1 : (
+			impl::build_date_month_hash == 269 ? 2 : (
+			impl::build_date_month_hash == 288 ? 3 : (
+			impl::build_date_month_hash == 291 ? 4 : (
+			impl::build_date_month_hash == 295 ? 5 : (
+			impl::build_date_month_hash == 301 ? 6 : (
+			impl::build_date_month_hash == 299 ? 7 : (
+			impl::build_date_month_hash == 285 ? 8 : (
+			impl::build_date_month_hash == 296 ? 9 : (
+			impl::build_date_month_hash == 294 ? 10 : (
+			impl::build_date_month_hash == 307 ? 11 : (
+			impl::build_date_month_hash == 268 ? 12 : 0
 		)))))))))));
 		static_assert(month >= 1 && month <= 12);
 
 		/// \brief The current day of the month (1-31).
 		inline constexpr uint32_t day =
-			(impl::date_str[4] == ' ' ? 0 : impl::date_str[4] - '0') * 10
-			+ (impl::date_str[5] - '0');
+			(impl::build_date_str[4] == ' ' ? 0 : impl::build_date_str[4] - '0') * 10
+			+ (impl::build_date_str[5] - '0');
 		static_assert(day >= 1 && day <= 31);
 
 		/// \brief The current hour of the day (0-23).
 		inline constexpr uint32_t hour =
-			(impl::time_str[0] == ' ' ? 0 : impl::time_str[0] - '0') * 10
-			+ (impl::time_str[1] - '0');
+			(impl::build_time_str[0] == ' ' ? 0 : impl::build_time_str[0] - '0') * 10
+			+ (impl::build_time_str[1] - '0');
 		static_assert(hour >= 0 && hour <= 23);
 
 		/// \brief The current minute (0-59).
 		inline constexpr uint32_t minute =
-			(impl::time_str[3] == ' ' ? 0 : impl::time_str[3] - '0') * 10
-			+ (impl::time_str[4] - '0');
+			(impl::build_time_str[3] == ' ' ? 0 : impl::build_time_str[3] - '0') * 10
+			+ (impl::build_time_str[4] - '0');
 		static_assert(minute >= 0 && minute <= 59);
 
 		/// \brief The current second (0-59).
 		inline constexpr uint32_t second =
-			(impl::time_str[6] == ' ' ? 0 : impl::time_str[6] - '0') * 10
-			+ (impl::time_str[7] - '0');
+			(impl::build_time_str[6] == ' ' ? 0 : impl::build_time_str[6] - '0') * 10
+			+ (impl::build_time_str[7] - '0');
 		static_assert(second >= 0 && second <= 60); // 60 b/c leap seconds
 
 		/// \brief	The bitness of the current architecture.
@@ -1676,8 +1679,10 @@ MUU_NAMESPACE_START
 	
 	} //::build
 
+	/// \addtogroup	intrinsics
+	/// @{
+
 	/// \brief	Equivalent to C++20's std::is_constant_evaluated.
-	/// \ingroup	intrinsics
 	///
 	/// \detail Compilers typically implement std::is_constant_evaluated as an intrinsic which is
 	/// 		 available regardless of the C++ mode. Using this function on these compilers allows
@@ -1701,14 +1706,18 @@ MUU_NAMESPACE_START
 		#endif
 	}
 
+	/** @} */	// intrinsics
+
 	namespace build
 	{
 		/// \brief	True if is_constant_evaluated() is properly supported on this compiler.
 		inline constexpr bool supports_is_constant_evaluated = is_constant_evaluated();
 	}
 
+	/// \addtogroup	intrinsics
+	/// @{
+
 	/// \brief	Equivalent to C++17's std::launder
-	/// \ingroup	intrinsics
 	///
 	/// \detail Older implementations don't provide this as an intrinsic or have a placeholder
 	/// 		 for it in their standard library. Using this version allows you to get around that 
@@ -1737,7 +1746,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Unwraps an enum to it's raw integer equivalent.
-	/// \ingroup	intrinsics
 	///
 	/// \tparam	T		An enum type.
 	/// \param 	val		The value to unwrap.
@@ -1755,7 +1763,7 @@ MUU_NAMESPACE_START
 
 	#ifndef DOXYGEN
 
-	template <typename T, std::enable_if_t<!is_enum<T>>* = nullptr>
+	template <typename T MUU_SFINAE_2(!is_enum<T>)>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
@@ -1764,8 +1772,6 @@ MUU_NAMESPACE_START
 	{
 		return std::forward<T>(val);
 	}
-
-	#endif // !DOXYGEN
 
 	namespace impl
 	{
@@ -1853,8 +1859,9 @@ MUU_NAMESPACE_START
 		}
 	}
 
+	#endif // !DOXYGEN
+
 	/// \brief	Counts the number of consecutive 0 bits, starting from the left.
-	/// \ingroup	intrinsics
 	///
 	/// \detail This is equivalent to C++20's std::countl_zero, with the addition of also being
 	/// 		 extended to work with enum types.
@@ -1898,6 +1905,7 @@ MUU_NAMESPACE_START
 		}
 	}
 
+	#ifndef DOXYGEN
 	namespace impl
 	{
 		template <typename T>
@@ -1981,9 +1989,9 @@ MUU_NAMESPACE_START
 			#endif
 		}
 	}
+	#endif // !DOXYGEN
 
 	/// \brief	Counts the number of consecutive 0 bits, starting from the right.
-	/// \ingroup	intrinsics
 	///
 	/// \detail This is equivalent to C++20's std::countr_zero, with the addition of also being
 	/// 		 extended to work with enum types.
@@ -2028,7 +2036,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Counts the number of consecutive 1 bits, starting from the left.
-	/// \ingroup	intrinsics
 	///
 	/// \detail This is equivalent to C++20's std::countl_one, with the addition of also being
 	/// 		 extended to work with enum types.
@@ -2049,7 +2056,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Counts the number of consecutive 1 bits, starting from the right.
-	/// \ingroup	intrinsics
 	///
 	/// \detail This is equivalent to C++20's std::countr_one, with the addition of also being
 	/// 		 extended to work with enum types.
@@ -2069,9 +2075,7 @@ MUU_NAMESPACE_START
 			return countr_zero(static_cast<T>(~val));
 	}
 
-
 	/// \brief	Finds the smallest integral power of two not less than the given value.
-	/// \ingroup	intrinsics
 	///
 	/// \detail This is equivalent to C++20's std::bit_ceil, with the addition of also being
 	/// 		 extended to work with enum types.
@@ -2096,7 +2100,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Bitwise-packs integers left-to-right into a larger integer.
-	/// \ingroup	intrinsics
 	///
 	/// \detail \cpp
 	/// const auto val = pack(0xAABB_u16, 0xCCDD_u16);
@@ -2171,6 +2174,7 @@ MUU_NAMESPACE_START
 		}
 	}
 
+	#ifndef DOXYGEN
 	namespace impl
 	{
 		MUU_PUSH_WARNINGS
@@ -2199,9 +2203,9 @@ MUU_NAMESPACE_START
 
 		MUU_POP_WARNINGS
 	}
+	#endif // !DOXYGEN
 
 	/// \brief	Equivalent to C++20's std::bit_cast.
-	/// \ingroup	intrinsics
 	///
 	/// \detail Compilers implement this as an intrinsic which is typically
 	/// 		 available regardless of the C++ mode. Using this function
@@ -2242,17 +2246,21 @@ MUU_NAMESPACE_START
 		#endif
 	}
 
+	/** @} */	// intrinsics
+
 	namespace build
 	{
 		/// \brief	True if using bit_cast() in constexpr contexts is supported on this compiler.
 		inline constexpr bool supports_constexpr_bit_cast = !!MUU_HAS_INTRINSIC_BIT_CAST;
 	}
 
+	/// \addtogroup	intrinsics
+	/// @{
+
 	MUU_PUSH_WARNINGS
 	MUU_PRAGMA_MSVC(warning(disable: 4191)) // unsafe pointer conversion (that's the whole point)
 
 	/// \brief	Casts between pointers, choosing the most appropriate conversion path.
-	/// \ingroup	intrinsics
 	///
 	/// \detail Doing low-level work with pointers often requires a lot of tedious boilerplate,
 	/// 		particularly when moving to/from raw byte representations or dealing with `const`.
@@ -2464,7 +2472,10 @@ MUU_NAMESPACE_START
 
 			// IUnknown -> IUnknown (windows only)
 			#if MUU_WINDOWS
-			else if constexpr (impl::is_win32_iunknown<from_base> && impl::is_win32_iunknown<to_base>)
+			else if constexpr (std::is_class_v<from_base>
+				&& std::is_class_v<to_base>
+				&& std::is_base_of_v<IUnknown, from_base>
+				&& std::is_base_of_v<IUnknown, to_base>)
 			{
 				if (!from)
 					return nullptr;
@@ -2523,6 +2534,8 @@ MUU_NAMESPACE_START
 		}
 	}
 
+	#ifndef DOXYGEN
+
 	template <typename To, typename From, size_t N>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
@@ -2541,10 +2554,11 @@ MUU_NAMESPACE_START
 		return pointer_cast<To, From*>(arr);
 	}
 
+	#endif // !DOXYGEN
+
 	MUU_POP_WARNINGS // MUU_PRAGMA_MSVC(warning(disable: 4191))
 
 	/// \brief	Applies a byte offset to a pointer.
-	/// \ingroup	intrinsics
 	///
 	/// \tparam	T		The type being pointed to.
 	/// \tparam	Offset	An integer type.
@@ -2568,7 +2582,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Returns the minimum of two values.
-	/// \ingroup	intrinsics
 	///
 	/// \detail This is equivalent to std::min without requiring you to drag in the enormity of `<algorithm>`.
 	template <typename T>
@@ -2580,7 +2593,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Returns the maximum of two values.
-	/// \ingroup	intrinsics
 	///
 	/// \detail This is equivalent to std::max without requiring you to drag in the enormity of `<algorithm>`.
 	template <typename T>
@@ -2592,7 +2604,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Returns the absolute value of an arithmetic value.
-	/// \ingroup	intrinsics
 	///
 	/// \detail This is similar to std::abs but is `constexpr` and doesn't coerce or promote the input types.
 	template <typename T MUU_SFINAE(is_arithmetic<T>)>
@@ -2607,9 +2618,7 @@ MUU_NAMESPACE_START
 			return val < T{} ? -val : val;
 	}
 
-
 	/// \brief	Returns a value clamped between two bounds (inclusive).
-	/// \ingroup	intrinsics
 	///
 	/// \detail This is equivalent to std::clamp without requiring you to drag in the enormity of `<algorithm>`.
 	template <typename T>
@@ -2619,9 +2628,104 @@ MUU_NAMESPACE_START
 		return (muu::max)((muu::min)(val, max_), min_);
 	}
 
-	/// \addtogroup 	intrinsics
+	/// \defgroup		sqrt	sqrt()
+	/// \brief Constexpr-friendly alternatives to std::sqrt().
+	/// 
+	/// \addtogroup 	sqrt
 	/// @{
-	///
+	
+	#ifndef DOXYGEN
+	namespace impl
+	{
+		template <typename T>
+		[[nodiscard]]
+		MUU_CONSTEVAL T MUU_VECTORCALL newton_raphson_sqrt(T x, T curr, T prev) noexcept
+		{
+			//this is function an implementation of the Newton-Raphson method:
+			//https://en.wikipedia.org/wiki/Newton%27s_method
+
+			return curr == prev
+				? curr
+				: newton_raphson_sqrt(x, constants<T>::one_over_two * (curr + x / curr), curr);
+		}
+
+		template <typename T>
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
+		constexpr T MUU_VECTORCALL sqrt_(T val) noexcept
+		{
+			if constexpr (!build::supports_is_constant_evaluated)
+				return std::sqrt(val);
+			else
+			{
+				if (is_constant_evaluated())
+				{
+					using type = highest_ranked<T, long double>;
+					return static_cast<T>(newton_raphson_sqrt<type>(val, val, type{}));
+				}
+				else
+					return std::sqrt(val);
+			}
+		}
+	}
+	#endif // !DOXYGEN
+
+	/// \brief	Returns the square-root of a float.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr float MUU_VECTORCALL sqrt(float val) noexcept
+	{
+		return impl::sqrt_(val);
+	}
+
+	/// \brief	Returns the square-root of a double.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr double MUU_VECTORCALL sqrt(double val) noexcept
+	{
+		return impl::sqrt_(val);
+	}
+
+	/// \brief	Returns the square-root of a long double.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr long double MUU_VECTORCALL sqrt(long double val) noexcept
+	{
+		return impl::sqrt_(val);
+	}
+
+	#if MUU_HAS_FLOAT128
+	/// \brief	Returns the square-root of a quad.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr quad MUU_VECTORCALL sqrt(quad val) noexcept
+	{
+		return static_cast<quad>(impl::sqrt_(static_cast<long double>(val)));
+	}
+	#endif
+
+	#if MUU_HAS_FLOAT16
+	/// \brief	Returns the square-root of a _Float16.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr _Float16 MUU_VECTORCALL sqrt(_Float16 val) noexcept
+	{
+		return static_cast<_Float16>(impl::sqrt_(static_cast<float>(val)));
+	}
+	#endif
+
+	#if MUU_HAS_FP16
+	/// \brief	Returns the square-root of a __fp16.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr __fp16 MUU_VECTORCALL sqrt(__fp16 val) noexcept
+	{
+		return static_cast<__fp16>(impl::sqrt_(static_cast<__fp16>(val)));
+	}
+	#endif
+
+	/** @} */	// intrinsics::sqrt
+
 	/// \defgroup		approx_equal	approx_equal()
 	/// \brief Floating-point approximate equality checks.
 	/// 
@@ -2682,12 +2786,8 @@ MUU_NAMESPACE_START
 	}
 	#endif
 
-	/// @}
-	/// @}
+	/** @} */	// intrinsics::approx_equal
 
-	/// \addtogroup 	intrinsics
-	/// @{
-	///
 	/// \defgroup		lerp	lerp()
 	/// \brief Linear interpolations al a C++20's std::lerp.
 	/// 
@@ -2768,20 +2868,18 @@ MUU_NAMESPACE_START
 		return static_cast<type(MUU_VECTORCALL*)(type,type,type)noexcept>(lerp)(start, finish, alpha);
 	}
 
-	/// @}
-	/// @}
+	/** @} */	// intrinsics::lerp
 
 	/// \brief	Returns true if a value is between two bounds (inclusive).
-	/// \ingroup	intrinsics
 	template <typename T, typename U>
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool MUU_VECTORCALL is_between(T val, U min_, U max_) noexcept
+	constexpr bool MUU_VECTORCALL between(T val, U min_, U max_) noexcept
 	{
 		if constexpr ((is_arithmetic<T> || is_enum<U>) || (is_arithmetic<T> || is_enum<U>))
 		{
 			if constexpr (is_enum<T> || is_enum<U>)
-				return is_between(unwrap(val), unwrap(min_), unwrap(max_));
+				return between(unwrap(val), unwrap(min_), unwrap(max_));
 			else
 			{
 				using lhs = remove_cvref<T>;
@@ -2799,7 +2897,7 @@ MUU_NAMESPACE_START
 				if constexpr (!std::is_same_v<lhs, rhs>)
 				{
 					using common_type = std::common_type_t<lhs, rhs>;
-					return is_between(
+					return between(
 						static_cast<common_type>(val),
 						static_cast<common_type>(min_),
 						static_cast<common_type>(max_)
@@ -2813,6 +2911,7 @@ MUU_NAMESPACE_START
 			return min_ <= val && val <= max_; // user-defined <= operator, ideally
 	}
 
+	#ifndef DOXYGEN
 	namespace impl
 	{
 		template <size_t> struct popcount_traits;
@@ -2954,9 +3053,9 @@ MUU_NAMESPACE_START
 			#endif
 		}
 	}
+	#endif // !DOXYGEN
 
 	/// \brief	Counts the number of set bits (the 'population count') of an unsigned integer.
-	/// \ingroup	intrinsics
 	///
 	/// \detail This is equivalent to C++20's std::popcount, with the addition of also being
 	/// 		 extended to work with enum types.
@@ -2990,7 +3089,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Checks if an integral value has only a single bit set.
-	/// \ingroup	intrinsics
 	/// 
 	/// \detail This is equivalent to C++20's std::has_single_bit, with the addition of also being
 	/// 		 extended to work with enum types.
@@ -3021,7 +3119,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Finds the largest integral power of two not greater than the given value.
-	/// \ingroup	intrinsics
 	/// 
 	/// \detail This is equivalent to C++20's std::bit_floor, with the addition of also being
 	/// 		 extended to work with enum types.
@@ -3046,7 +3143,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Finds the smallest number of bits needed to represent the given value.
-	/// \ingroup	intrinsics
 	/// 
 	/// \detail This is equivalent to C++20's std::bit_width, with the addition of also being
 	/// 		 extended to work with enum types.
@@ -3069,7 +3165,6 @@ MUU_NAMESPACE_START
 
 	/// \brief	Returns an unsigned integer filled from the right
 	/// 		with the desired number of consecutive ones.
-	/// \ingroup	intrinsics
 	///
 	/// \detail \cpp
 	/// const auto val1 = bit_fill_right<uint32_t>(5);
@@ -3100,7 +3195,6 @@ MUU_NAMESPACE_START
 
 	/// \brief	Returns an unsigned integer filled from the left
 	/// 		with the desired number of consecutive ones.
-	/// \ingroup	intrinsics
 	///
 	/// \detail \cpp
 	/// const auto val1 = bit_fill_left<uint32_t>(5);
@@ -3130,7 +3224,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Gets a specific byte from an integer.
-	/// \ingroup	intrinsics
 	///
 	/// \detail \cpp
 	/// const auto i = 0xAABBCCDDu;
@@ -3189,7 +3282,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Gets a specific byte from an integer.
-	/// \ingroup	intrinsics
 	///
 	/// \detail \cpp
 	/// const auto i = 0xAABBCCDDu;
@@ -3239,6 +3331,7 @@ MUU_NAMESPACE_START
 			return static_cast<uint8_t>(static_cast<T>(val >> (index * CHAR_BIT)) & static_cast<T>(0xFFu));
 	}
 
+	#ifndef DOXYGEN
 	namespace impl
 	{
 		template <typename T>
@@ -3336,9 +3429,9 @@ MUU_NAMESPACE_START
 				static_assert(dependent_false<T>, "Unsupported integer type");
 		}
 	}
+	#endif // !DOXYGEN
 
 	/// \brief	Reverses the byte order of an unsigned integral type.
-	/// \ingroup	intrinsics
 	///
 	/// \detail \cpp
 	/// const auto i = 0xAABBCCDDu;
@@ -3378,7 +3471,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Select and re-pack arbitrary bytes from an integer.
-	/// \ingroup	intrinsics
 	///
 	/// \detail \cpp
 	///
@@ -3449,31 +3541,32 @@ MUU_NAMESPACE_START
 	MUU_PRAGMA_GCC("GCC push_options")
 	MUU_PRAGMA_GCC("GCC optimize (\"-fno-finite-math-only\")")
 
+	#ifndef DOXYGEN
 	namespace impl
 	{
 		template <size_t TotalBits, size_t SignificandBits>
-		struct is_infinity_or_nan_traits;
+		struct infinity_or_nan_traits;
 
 		template <>
-		struct is_infinity_or_nan_traits<16, 11>
+		struct infinity_or_nan_traits<16, 11>
 		{
 			static constexpr auto mask = 0b0111110000000000_u16;
 		};
 
 		template <>
-		struct is_infinity_or_nan_traits<32, 24>
+		struct infinity_or_nan_traits<32, 24>
 		{
 			static constexpr auto mask = 0b01111111100000000000000000000000_u32;
 		};
 
 		template <>
-		struct is_infinity_or_nan_traits<64, 53>
+		struct infinity_or_nan_traits<64, 53>
 		{
 			static constexpr auto mask = 0b0111111111110000000000000000000000000000000000000000000000000000_u64;
 		};
 
 		template <>
-		struct is_infinity_or_nan_traits<80, 64>
+		struct infinity_or_nan_traits<80, 64>
 		{
 			static constexpr uint16_t mask[] { 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x7FFF_u16 };
 
@@ -3488,7 +3581,7 @@ MUU_NAMESPACE_START
 		};
 
 		template <>
-		struct is_infinity_or_nan_traits<128, 64>
+		struct infinity_or_nan_traits<128, 64>
 		{
 			#if MUU_HAS_INT128
 			static constexpr auto mask = pack(0x0000000000007FFF_u64, 0x8000000000000000_u64);
@@ -3508,7 +3601,7 @@ MUU_NAMESPACE_START
 		};
 
 		template <>
-		struct is_infinity_or_nan_traits<128, 113>
+		struct infinity_or_nan_traits<128, 113>
 		{
 			#if MUU_HAS_INT128
 			static constexpr auto mask = pack(0x7FFF000000000000_u64, 0x0000000000000000_u64);
@@ -3526,16 +3619,16 @@ MUU_NAMESPACE_START
 		};
 
 		template <typename T>
-		struct is_infinity_or_nan_traits_typed
-			: is_infinity_or_nan_traits<sizeof(T) * CHAR_BIT, constants<T>::significand_digits>
+		struct infinity_or_nan_traits_typed
+			: infinity_or_nan_traits<sizeof(T) * CHAR_BIT, constants<T>::significand_digits>
 		{};	
 
 		template <typename T>
-		using has_member_infinity_or_nan_ = decltype(std::declval<T>().is_infinity_or_nan());
+		using has_member_infinity_or_nan_ = decltype(std::declval<T>().infinity_or_nan());
 	}
+	#endif // !DOXYGEN
 
 	/// \brief	Checks if an arithmetic value is infinity or NaN.
-	/// \ingroup	intrinsics
 	///
 	/// \tparam	T	The value type.
 	/// \param 	val	The value to examine.
@@ -3545,12 +3638,12 @@ MUU_NAMESPACE_START
 	/// 
 	/// \remark	Older compilers won't provide the necessary machinery for you to be able to call this function in
 	/// 			constexpr contexts. You can check for constexpr support by examining
-	/// 			build::supports_constexpr_is_infinity_or_nan.
+	/// 			build::supports_constexpr_infinity_or_nan.
 	template <typename T MUU_SFINAE(is_arithmetic<T>)>
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ATTR(flatten)
-	constexpr bool MUU_VECTORCALL is_infinity_or_nan(T val) noexcept
+	constexpr bool MUU_VECTORCALL infinity_or_nan(T val) noexcept
 	{
 		// Q: "what about fpclassify, isnan, isinf??"
 		// A1: They're not constexpr
@@ -3564,7 +3657,7 @@ MUU_NAMESPACE_START
 		}
 		else
 		{
-			using traits = impl::is_infinity_or_nan_traits_typed<T>;
+			using traits = impl::infinity_or_nan_traits_typed<T>;
 			using blit_type = std::remove_const_t<decltype(traits::mask)>;
 
 			if constexpr (is_integral<blit_type>)
@@ -3579,37 +3672,41 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Checks if a object is infinity or NaN.
-	/// \ingroup	intrinsics
 	///
 	/// \tparam	T		The object type.
 	/// \param 	obj		The object.
 	///
-	/// \returns	The return value of `obj.is_infinity_or_nan()`.
+	/// \returns	The return value of `obj.infinity_or_nan()`.
 	template <typename T MUU_SFINAE_2(!is_arithmetic<T> && impl::is_detected<impl::has_member_infinity_or_nan_, const T&>)>
 	[[nodiscard]]
 	MUU_ATTR(pure)
-	constexpr bool is_infinity_or_nan(const T& obj) noexcept
+	constexpr bool infinity_or_nan(const T& obj) noexcept
 	{
-		return obj.is_infinity_or_nan();
+		return obj.infinity_or_nan();
 	}
+
+	/** @} */	// intrinsics
 
 	namespace build
 	{
-		/// \brief	True if using is_infinity_or_nan() in constexpr contexts is supported on this compiler.
-		inline constexpr bool supports_constexpr_is_infinity_or_nan = build::supports_constexpr_bit_cast;
+		/// \brief	True if using infinity_or_nan() in constexpr contexts is supported on this compiler.
+		inline constexpr bool supports_constexpr_infinity_or_nan = build::supports_constexpr_bit_cast;
 	}
+
+	/// \addtogroup	intrinsics
+	/// @{
 
 	MUU_PRAGMA_GCC("GCC pop_options") // -fno-finite-math-only
 
-
+	#ifndef DOXYGEN
 	namespace impl
 	{
 		template <typename T>
 		using has_pointer_traits_to_address_ = decltype(std::pointer_traits<remove_cvref<T>>::to_address(std::declval<remove_cvref<T>>()));
 	}
+	#endif // !DOXYGEN
 
 	/// \brief Obtain the address represented by p without forming a reference to the pointee.
-	/// \ingroup	intrinsics
 	///
 	/// \detail This is equivalent to C++20's std::to_address.
 	template <typename T>
@@ -3621,7 +3718,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief Obtain the address represented by p without forming a reference to the pointee.
-	/// \ingroup	intrinsics
 	///
 	/// \detail This is equivalent to C++20's std::to_address.
 	template <typename Ptr>
@@ -3639,7 +3735,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Equivalent to C++20's std::assume_aligned.
-	/// \ingroup	intrinsics
 	///
 	/// \detail Compilers typically implement std::assume_aligned as an intrinsic which is
 	/// 		 available regardless of the C++ mode. Using this function on these compilers allows
@@ -3680,11 +3775,11 @@ MUU_NAMESPACE_START
 		#endif
 	}
 
+	/** @} */	// intrinsics
 }
 MUU_NAMESPACE_END
 
 MUU_POP_WARNINGS // MUU_DISABLE_ARITHMETIC_WARNINGS
-
 
 #undef MUU_HAS_INTRINSIC_BIT_CAST
 #undef MUU_HAS_INTRINSIC_POPCOUNT

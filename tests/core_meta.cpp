@@ -931,6 +931,7 @@ struct hva4 { float a, b, c, d; };
 struct hva5 { __m64 a, b, c; };
 struct hva6 { float abcd[4]; };
 struct hva7 { float ab[2]; float c, d; };
+
 static_assert(impl::is_hva<hva1>);
 static_assert(impl::is_hva<hva2>);
 static_assert(impl::is_hva<hva3>);
@@ -938,6 +939,7 @@ static_assert(impl::is_hva<hva4>);
 static_assert(impl::is_hva<hva5>);
 static_assert(impl::is_hva<hva6>);
 static_assert(impl::is_hva<hva7>);
+
 struct non_hva1 { float a, b, c, d, e; };
 struct non_hva2 {};
 struct non_hva3 { int a, b; };
@@ -945,6 +947,7 @@ struct non_hva4 { float a, b; int c; };
 struct alignas(64) non_hva5 { float a, b, c, d; };
 struct non_hva6 { float abcde[5]; };
 struct non_hva7 { float ab[2]; int c, d; };
+
 static_assert(!impl::is_hva<non_hva1>);
 static_assert(!impl::is_hva<non_hva2>);
 static_assert(!impl::is_hva<non_hva3>);

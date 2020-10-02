@@ -97,13 +97,13 @@ MUU_NAMESPACE_START
 		return static_cast<T>(min_ + random<T>(max_ - min_));
 	}
 
-	template <typename T, size_t Num>
+	template <typename T, size_t Num, typename Min, typename Max>
 	[[nodiscard]]
-	inline std::array<T, Num> random_array(T min_, T max_) noexcept
+	inline std::array<T, Num> random_array(Min min_, Max max_) noexcept
 	{
 		std::array<T, Num> vals;
 		for (auto& v : vals)
-			v = random<T>(min_, max_);
+			v = random<T>(static_cast<T>(min_), static_cast<T>(max_));
 		return vals;
 	}
 
@@ -115,6 +115,15 @@ MUU_NAMESPACE_START
 		for (auto& v : vals)
 			v = random<T>();
 		return vals;
+	}
+
+	template <typename T>
+	auto approx_if_float(T val) noexcept
+	{
+		if constexpr (is_floating_point<T>)
+			return Approx(val);
+		else
+			return val;
 	}
 
 }

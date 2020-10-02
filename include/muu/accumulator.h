@@ -55,7 +55,7 @@ MUU_NAMESPACE_START
 			using value_type = ValueType;
 
 			/// \brief	`value_type` or `const value_type&`, depending on size, triviality, etc.
-			using value_param = impl::maybe_pass_by_value<ValueType>;
+			using value_param = impl::maybe_pass_readonly_by_value<ValueType>;
 
 		private:
 			compressed_pair<Impl, size_t> impl_and_count{};
@@ -141,7 +141,7 @@ MUU_NAMESPACE_START
 				noexcept(noexcept(std::declval<Impl>().start(sample)) && noexcept(std::declval<Impl>().add(sample)))
 			{
 				if constexpr (is_floating_point<value_type>)
-					MUU_ASSERT(!is_infinity_or_nan(sample));
+					MUU_ASSERT(!infinity_or_nan(sample));
 
 				if MUU_UNLIKELY(!impl_and_count.second()++)
 					impl_and_count.first().start(sample);
@@ -220,7 +220,7 @@ MUU_NAMESPACE_START
 		struct basic_accumulator
 		{
 			using value_type = ValueType;
-			using value_param = impl::maybe_pass_by_value<ValueType>;
+			using value_param = impl::maybe_pass_readonly_by_value<ValueType>;
 			using sum_type = std::conditional_t<
 				is_integral<ValueType>,
 				std::conditional_t<
@@ -289,7 +289,7 @@ MUU_NAMESPACE_START
 		struct kahan_accumulator // https://en.wikipedia.org/wiki/Kahan_summation_algorithm#Further_enhancements
 		{
 			using value_type = ValueType;
-			using value_param = impl::maybe_pass_by_value<ValueType>;
+			using value_param = impl::maybe_pass_readonly_by_value<ValueType>;
 			using sum_type = impl::highest_ranked<ValueType, float>;
 
 			static_assert(
@@ -307,7 +307,7 @@ MUU_NAMESPACE_START
 
 			MUU_PRAGMA_CLANG_LT(11, "clang optimize off")
 
-			constexpr void MUU_VECTORCALL kahan_add(impl::maybe_pass_by_value<sum_type> sample) noexcept
+			constexpr void MUU_VECTORCALL kahan_add(impl::maybe_pass_readonly_by_value<sum_type> sample) noexcept
 			{
 				MUU_PRAGMA_CLANG_GE(11, "clang fp reassociate(off)")
 				MUU_PRAGMA_CLANG_LT(11, "clang fp contract(on)")

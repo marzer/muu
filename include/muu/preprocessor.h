@@ -680,7 +680,7 @@
 	#define MUU_TRIVIAL_ABI
 #endif
 
-#if !MUU_ARCH_X86 && !MUU_ARCH_AMD64
+#if (!MUU_ARCH_X86 && !MUU_ARCH_AMD64) || !MUU_ISET_SSE2
 	#undef MUU_VECTORCALL
 #endif
 #ifdef MUU_VECTORCALL

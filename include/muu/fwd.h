@@ -18,7 +18,6 @@
 MUU_DISABLE_WARNINGS
 #include <cstdint>
 #include <cstddef>
-MUU_ENABLE_WARNINGS
 
 namespace std
 {
@@ -71,6 +70,8 @@ extern "C"
 struct IUnknown;
 #endif
 #endif // MUU_WINDOWS
+
+MUU_ENABLE_WARNINGS
 
 //=====================================================================================================================
 // TYPEDEFS AND FORWARD DECLARATIONS - UNDOCUMENTED

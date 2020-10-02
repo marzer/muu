@@ -5,11 +5,11 @@
 		<Intrinsic Name="sign" Expression="(((unsigned)bits &amp; 0x8000u) &gt;&gt; 15)" />
 		<Intrinsic Name="exponent" Expression="(((unsigned)bits &amp; 0x7C00u) &gt;&gt; 10)" />
 		<Intrinsic Name="mantissa" Expression="((unsigned)bits &amp; 0x03FFu)" />
-		<Intrinsic Name="is_infinity" Expression="exponent() == 0b11111u &amp;&amp; mantissa() == 0u" />
-		<Intrinsic Name="is_nan" Expression="exponent() == 0b11111u &amp;&amp; mantissa() != 0u" />
-		<DisplayString Condition="is_nan()">nan</DisplayString>
-		<DisplayString Condition="is_infinity() &amp;&amp; sign() == 1u">-inf</DisplayString>
-		<DisplayString Condition="is_infinity()">inf</DisplayString>
+		<Intrinsic Name="infinity" Expression="exponent() == 0b11111u &amp;&amp; mantissa() == 0u" />
+		<Intrinsic Name="nan" Expression="exponent() == 0b11111u &amp;&amp; mantissa() != 0u" />
+		<DisplayString Condition="nan()">nan</DisplayString>
+		<DisplayString Condition="infinity() &amp;&amp; sign() == 1u">-inf</DisplayString>
+		<DisplayString Condition="infinity()">inf</DisplayString>
 		<DisplayString Condition="exponent() == 0u &amp;&amp; mantissa() == 0u &amp;&amp; sign() == 1u">-0.00000000</DisplayString>
 		<DisplayString Condition="exponent() == 0u &amp;&amp; mantissa() == 0u">0.00000000</DisplayString>
 		<DisplayString Condition="exponent() == 0u &amp;&amp; mantissa() != 0u">#DEN</DisplayString>

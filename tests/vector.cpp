@@ -7,6 +7,82 @@
 #include "../include/muu/vector.h"
 #include "../include/muu/half.h"
 
+#if MUU_HAS_VECTORCALL
+
+static_assert(!impl::is_hva<vector<half, 1>>);
+static_assert(!impl::is_hva<vector<half, 2>>);
+static_assert(!impl::is_hva<vector<half, 3>>);
+static_assert(!impl::is_hva<vector<half, 4>>);
+static_assert(!impl::is_hva<vector<half, 5>>);
+
+static_assert(impl::is_hva<vector<float, 1>>);
+static_assert(impl::is_hva<vector<float, 2>>);
+static_assert(impl::is_hva<vector<float, 3>>);
+static_assert(impl::is_hva<vector<float, 4>>);
+static_assert(!impl::is_hva<vector<float, 5>>);
+
+static_assert(impl::is_hva<vector<double, 1>>);
+static_assert(impl::is_hva<vector<double, 2>>);
+static_assert(impl::is_hva<vector<double, 3>>);
+static_assert(impl::is_hva<vector<double, 4>>);
+static_assert(!impl::is_hva<vector<double, 5>>);
+
+static_assert(impl::is_hva<vector<long double, 1>>);
+static_assert(impl::is_hva<vector<long double, 2>>);
+static_assert(impl::is_hva<vector<long double, 3>>);
+static_assert(impl::is_hva<vector<long double, 4>>);
+static_assert(!impl::is_hva<vector<long double, 5>>);
+
+static_assert(!impl::is_hva<vector<signed char, 1>>);
+static_assert(!impl::is_hva<vector<signed char, 2>>);
+static_assert(!impl::is_hva<vector<signed char, 3>>);
+static_assert(!impl::is_hva<vector<signed char, 4>>);
+static_assert(!impl::is_hva<vector<signed char, 5>>);
+
+static_assert(!impl::is_hva<vector<signed int, 1>>);
+static_assert(!impl::is_hva<vector<signed int, 2>>);
+static_assert(!impl::is_hva<vector<signed int, 3>>);
+static_assert(!impl::is_hva<vector<signed int, 4>>);
+static_assert(!impl::is_hva<vector<signed int, 5>>);
+
+static_assert(!impl::is_hva<vector<signed long, 1>>);
+static_assert(!impl::is_hva<vector<signed long, 2>>);
+static_assert(!impl::is_hva<vector<signed long, 3>>);
+static_assert(!impl::is_hva<vector<signed long, 4>>);
+static_assert(!impl::is_hva<vector<signed long, 5>>);
+
+static_assert(!impl::is_hva<vector<signed long long, 1>>);
+static_assert(!impl::is_hva<vector<signed long long, 2>>);
+static_assert(!impl::is_hva<vector<signed long long, 3>>);
+static_assert(!impl::is_hva<vector<signed long long, 4>>);
+static_assert(!impl::is_hva<vector<signed long long, 5>>);
+
+static_assert(!impl::is_hva<vector<unsigned char, 1>>);
+static_assert(!impl::is_hva<vector<unsigned char, 2>>);
+static_assert(!impl::is_hva<vector<unsigned char, 3>>);
+static_assert(!impl::is_hva<vector<unsigned char, 4>>);
+static_assert(!impl::is_hva<vector<unsigned char, 5>>);
+
+static_assert(!impl::is_hva<vector<unsigned int, 1>>);
+static_assert(!impl::is_hva<vector<unsigned int, 2>>);
+static_assert(!impl::is_hva<vector<unsigned int, 3>>);
+static_assert(!impl::is_hva<vector<unsigned int, 4>>);
+static_assert(!impl::is_hva<vector<unsigned int, 5>>);
+
+static_assert(!impl::is_hva<vector<unsigned long, 1>>);
+static_assert(!impl::is_hva<vector<unsigned long, 2>>);
+static_assert(!impl::is_hva<vector<unsigned long, 3>>);
+static_assert(!impl::is_hva<vector<unsigned long, 4>>);
+static_assert(!impl::is_hva<vector<unsigned long, 5>>);
+
+static_assert(!impl::is_hva<vector<unsigned long long, 1>>);
+static_assert(!impl::is_hva<vector<unsigned long long, 2>>);
+static_assert(!impl::is_hva<vector<unsigned long long, 3>>);
+static_assert(!impl::is_hva<vector<unsigned long long, 4>>);
+static_assert(!impl::is_hva<vector<unsigned long long, 5>>);
+
+#endif
+
 #define TEST_TYPE(func, T)						\
 		func<T, 1>(MUU_MAKE_STRING_VIEW(T));	\
 		func<T, 2>(MUU_MAKE_STRING_VIEW(T));	\
@@ -295,6 +371,8 @@ namespace
 			CHECK(vector_t::equal(vec, same));
 			CHECK(vec == same);
 			CHECK_FALSE(vec != same);
+			CHECK(same == vec);
+			CHECK_FALSE(same != vec);
 			if constexpr (is_floating_point<T>)
 				CHECK(vector_t::approx_equal(vec, same));
 
@@ -304,6 +382,8 @@ namespace
 			CHECK_FALSE(vector_t::equal(vec, different));
 			CHECK(vec != different);
 			CHECK_FALSE(vec == different);
+			CHECK(different != vec);
+			CHECK_FALSE(different == vec);
 			if constexpr (is_floating_point<T>)
 				CHECK_FALSE(vector_t::approx_equal(vec, different));
 		}
@@ -321,6 +401,8 @@ namespace
 			CHECK(vector_t::equal(vec, same));
 			CHECK(vec == same);
 			CHECK_FALSE(vec != same);
+			CHECK(vec == same);
+			CHECK_FALSE(vec != same);
 
 			other_t different{ vec };
 			for (size_t i = 0; i < DIM; i++)
@@ -328,6 +410,8 @@ namespace
 			CHECK_FALSE(vector_t::equal(vec, different));
 			CHECK(vec != different);
 			CHECK_FALSE(vec == different);
+			CHECK(different != vec);
+			CHECK_FALSE(different == vec);
 		}
 	}
 }
@@ -340,7 +424,7 @@ TEST_CASE("vector - equality")
 namespace
 {
 	template <typename T, size_t DIM>
-	void is_zero_tests(std::string_view scalar_typename) noexcept
+	void zero_tests(std::string_view scalar_typename) noexcept
 	{
 		INFO("vector<"sv << scalar_typename << ", "sv << DIM << ">"sv)
 		using vector_t = vector<T, DIM>;
@@ -348,14 +432,14 @@ namespace
 		vector_t vec{ T{} };
 		{
 			INFO("all zeroes"sv)
-			CHECK(vec.is_zero());
+			CHECK(vec.zero());
 		}
 
 		{
 			INFO("no zeroes"sv)
 			for (size_t i = 0; i < DIM; i++)
 				vec[i] = random(T{ 1 }, T{ 10 });
-			CHECK_FALSE(vec.is_zero());
+			CHECK_FALSE(vec.zero());
 		}
 
 		if constexpr (DIM > 1)
@@ -363,7 +447,7 @@ namespace
 			INFO("some zeroes"sv)
 			for (size_t i = 0; i < DIM; i += 2)
 				vec[i] = T{};
-			CHECK_FALSE(vec.is_zero());
+			CHECK_FALSE(vec.zero());
 		}
 
 		{
@@ -372,21 +456,21 @@ namespace
 			{
 				vector_t vec2{ T{} };
 				vec2[i] = random(T{ 1 }, T{ 10 });
-				CHECK_FALSE(vec.is_zero());
+				CHECK_FALSE(vec.zero());
 			}
 		}
 	}
 }
 
-TEST_CASE("vector - is_zero")
+TEST_CASE("vector - zero")
 {
-	TEST_ALL_TYPES(is_zero_tests);
+	TEST_ALL_TYPES(zero_tests);
 }
 
 namespace
 {
 	template <typename T, size_t DIM>
-	void is_infinity_or_nan_tests(std::string_view scalar_typename) noexcept
+	void infinity_or_nan_tests(std::string_view scalar_typename) noexcept
 	{
 		INFO("vector<"sv << scalar_typename << ", "sv << DIM << ">"sv)
 		using vector_t = vector<T, DIM>;
@@ -396,7 +480,7 @@ namespace
 			INFO("all finite"sv)
 			for (size_t i = 0; i < DIM; i++)
 				vector1[i] = static_cast<T>(i);
-			CHECK_FALSE(vector1.is_infinity_or_nan());
+			CHECK_FALSE(vector1.infinity_or_nan());
 		}
 
 
@@ -408,7 +492,7 @@ namespace
 				{
 					vector_t vector2{ vector1 };
 					vector2[i] = make_nan<T>();
-					CHECK(vector2.is_infinity_or_nan());
+					CHECK(vector2.infinity_or_nan());
 				}
 			}
 
@@ -418,25 +502,354 @@ namespace
 				{
 					vector_t vector2{ vector1 };
 					vector2[i] = make_infinity<T>();
-					CHECK(vector2.is_infinity_or_nan());
+					CHECK(vector2.infinity_or_nan());
 				}
 			}
 		}
 	}
 }
 
-TEST_CASE("vector - is_infinity_or_nan")
+TEST_CASE("vector - infinity_or_nan")
 {
-	TEST_ALL_TYPES(is_infinity_or_nan_tests);
+	TEST_ALL_TYPES(infinity_or_nan_tests);
 }
 
-#if MUU_HAS_VECTORCALL
+TEST_CASE("vector - length/distance")
+{
+	{
+		INFO("vector<float, 2>"sv)
 
-static_assert(impl::is_hva<vector<float, 1>>);
-static_assert(impl::is_hva<vector<float, 2>>);
-static_assert(impl::is_hva<vector<float, 3>>);
-static_assert(impl::is_hva<vector<float, 4>>);
+		const vector<float, 2> a{ 0, 10 };
+		const vector<float, 2> b{ 15, 12 };
+		const float distance = a.distance(b);
+		CHECK(distance == Approx( std::sqrt(15.0f * 15.0f + 2.0f * 2.0f) ));
+	}
 
-#endif
+	{
+		INFO("vector<float, 3>"sv)
 
-inline constexpr auto kek = vector{ std::array{1, 2} };
+		const vector<float, 3> a{ 0, 10, 3 };
+		const vector<float, 3> b{ 15, 12, -4 };
+		const float distance = a.distance(b);
+		CHECK(distance == Approx( std::sqrt(15.0f * 15.0f + 2.0f * 2.0f + 7.0f * 7.0f)));
+	}
+
+	{
+		INFO("vector<float, 4>"sv)
+
+		const vector<float, 4> a{ 9, 10, 3, 5 };
+		const vector<float, 4> b{ 15, 12, -4, 1 };
+		const float distance = a.distance(b);
+		CHECK(distance == Approx( std::sqrt(6.0f * 6.0f + 2.0f * 2.0f + 7.0f * 7.0f + 4.0f * 4.0f)) );
+	}
+}
+
+namespace
+{
+	template <typename T, size_t DIM>
+	void dot_tests(std::string_view scalar_typename) noexcept
+	{
+		INFO("vector<"sv << scalar_typename << ", "sv << DIM << ">"sv)
+		using vector_t = vector<T, DIM>;
+
+		const auto x1 = random_array<T, DIM>();
+		const auto x2 = random_array<T, DIM>();
+		vector_t vector1(x1), vector2(x2);
+		
+		using dot_type = decltype(vector1.dot(vector2));
+		static_assert(is_floating_point<dot_type>);
+
+		// expected result
+		auto expected = dot_type{};
+		for (size_t i = 0; i < DIM; i++)
+			expected += static_cast<dot_type>(x1[i]) * static_cast<dot_type>(x2[i]);
+
+		CHECK(vector1.dot(vector2) == Approx(expected));
+		CHECK(vector_t::dot(vector1, vector2) == Approx(expected));
+		//CHECK(muu::dot(vector1, vector2) == Approx(expected));
+	}
+
+	//template <typename T, size_t DIM>
+	//void cross_tests([[maybe_unused]] std::string_view scalar_typename) noexcept
+	//{
+	//	if constexpr (DIM == 3)
+	//	{
+	//		INFO("vector<"sv << scalar_typename << ", "sv << DIM << ">"sv)
+	//		using vector_t = vector<T, DIM>;
+
+	//		vector_t f1_vector(1.1, 4.5, 9.8);
+	//		vector_t f2_vector(-1.4, 9.5, 3.2);
+	//		f1_vector.Normalize();
+	//		f2_vector.Normalize();
+
+	//		//member
+	//		vector_t fcross_vector = f1_vector.Cross(f2_vector);
+	//		T f1_dot = fcross_vector.Dot(f1_vector);
+	//		T f2_dot = fcross_vector.Dot(f2_vector);
+	//		ASSERT_NEAR(static_cast<double>(f1_dot), 0.0, DefaultPrecision<T> * 10);
+	//		ASSERT_NEAR(static_cast<double>(f2_dot), 0.0, DefaultPrecision<T> * 10);
+
+	//		//static
+	//		fcross_vector = vector_t::Cross(f1_vector, f2_vector);
+	//		f1_dot = fcross_vector.Dot(f1_vector);
+	//		f2_dot = fcross_vector.Dot(f2_vector);
+	//		ASSERT_NEAR(static_cast<double>(f1_dot), 0.0, DefaultPrecision<T> * 10);
+	//		ASSERT_NEAR(static_cast<double>(f2_dot), 0.0, DefaultPrecision<T> * 10);
+
+	//		//global
+	//		fcross_vector = Cross(f1_vector, f2_vector);
+	//		f1_dot = fcross_vector.Dot(f1_vector);
+	//		f2_dot = fcross_vector.Dot(f2_vector);
+	//		ASSERT_NEAR(static_cast<double>(f1_dot), 0.0, DefaultPrecision<T> * 10);
+	//		ASSERT_NEAR(static_cast<double>(f2_dot), 0.0, DefaultPrecision<T> * 10);
+	//	}
+	//}
+}
+
+TEST_CASE("vector - dot")
+{
+	TEST_ALL_TYPES(dot_tests);
+}
+
+//TEST_CASE("vector - cross")
+//{
+//	TEST_ALL_TYPES(cross_tests);
+//}
+
+namespace
+{
+	template <typename T, size_t DIM>
+	void addition_tests(std::string_view scalar_typename) noexcept
+	{
+		INFO("vector<"sv << scalar_typename << ", "sv << DIM << ">"sv)
+		using vector_t = vector<T, DIM>;
+
+		const auto x1 = random_array<T, DIM>(0, 5);
+		const auto x2 = random_array<T, DIM>(0, 5);
+		const vector_t vector1{ x1 }, vector2{ x2 };
+
+		{
+			INFO("add(vector, vector)"sv)
+
+			vector_t result = vector_t::add(vector1, vector2);
+			for (size_t i = 0; i < DIM; i++)
+				CHECK((x1[i] + x2[i]) == approx_if_float(result[i]));
+		}
+
+		{
+			INFO("vector + vector"sv)
+
+			vector_t result = vector1 + vector2;
+			for (size_t i = 0; i < DIM; i++)
+				CHECK((x1[i] + x2[i]) == approx_if_float(result[i]));
+		}
+
+		{
+			INFO("vector += vector"sv)
+
+			vector_t result(vector1);
+			result += vector2;
+			for (size_t i = 0; i < DIM; i++)
+				CHECK((x1[i] + x2[i]) == approx_if_float(result[i]));
+		}
+	}
+
+	template <typename T, size_t DIM>
+	void subtraction_tests(std::string_view scalar_typename) noexcept
+	{
+		INFO("vector<"sv << scalar_typename << ", "sv << DIM << ">"sv)
+		using vector_t = vector<T, DIM>;
+
+		const auto x1 = random_array<T, DIM>(0, 5);
+		const auto x2 = random_array<T, DIM>(0, 5);
+		const vector_t vector1{ x1 }, vector2{ x2 };
+
+		{
+			INFO("subtract(vector, vector)"sv)
+
+			const vector_t result = vector_t::subtract(vector1, vector2);
+			for (size_t i = 0; i < DIM; i++)
+				CHECK((x1[i] - x2[i]) == approx_if_float(result[i]));
+		}
+
+		{
+			INFO("vector - vector"sv)
+
+			const vector_t result = vector1 - vector2;
+			for (size_t i = 0; i < DIM; i++)
+				CHECK((x1[i] - x2[i]) == approx_if_float(result[i]));
+		}
+
+		{
+			INFO("vector -= vector"sv)
+
+			vector_t result(vector1);
+			result -= vector2;
+			for (size_t i = 0; i < DIM; i++)
+				CHECK((x1[i] - x2[i]) == approx_if_float(result[i]));
+		}
+
+		{
+			INFO("-vector"sv)
+
+			const vector_t result = -vector1;
+			for (size_t i = 0; i < DIM; i++)
+				CHECK(-x1[i] == approx_if_float(result[i]));
+		}
+	}
+}
+
+TEST_CASE("vector - addition")
+{
+	TEST_ALL_TYPES(addition_tests);
+}
+
+TEST_CASE("vector - subtraction")
+{
+	TEST_ALL_TYPES(subtraction_tests);
+}
+
+namespace
+{
+	template <typename T, size_t DIM>
+	void multiplication_tests(std::string_view scalar_typename) noexcept
+	{
+		INFO("vector<"sv << scalar_typename << ", "sv << DIM << ">"sv)
+		using vector_t = vector<T, DIM>;
+
+		const auto scalar = static_cast<T>(2.4);
+		const auto x1 = random_array<T, DIM>(0, 5);
+		const auto x2 = random_array<T, DIM>(0, 5);
+		const vector_t vector1{ x1 }, vector2{ x2 };
+
+		{
+			INFO("multiply(vector, vector)"sv)
+
+			vector_t result = vector_t::multiply(vector1, vector2);
+			for (size_t i = 0; i < DIM; i++)
+				CHECK(x1[i] * x2[i] == approx_if_float(result[i]));
+		}
+
+		{
+			INFO("vector * vector"sv)
+
+			vector_t result = vector1 * vector2;
+			for (size_t i = 0; i < DIM; i++)
+				CHECK(x1[i] * x2[i] == approx_if_float(result[i]));
+		}
+
+		{
+			INFO("vector *= vector"sv)
+
+			vector_t result(vector1);
+			result *= vector2;
+			for (size_t i = 0; i < DIM; i++)
+				CHECK(x1[i] * x2[i] == approx_if_float(result[i]));
+		}
+
+		{
+			INFO("multiply(vector, scalar)"sv)
+
+			vector_t result = vector_t::multiply(vector1, scalar);
+			for (size_t i = 0; i < DIM; i++)
+				CHECK(x1[i] * scalar == approx_if_float(result[i]));
+		}
+
+		{
+			INFO("vector * scalar"sv)
+
+			vector_t result = vector1 * scalar;
+			for (size_t i = 0; i < DIM; i++)
+				CHECK(x1[i] * scalar == approx_if_float(result[i]));
+		}
+
+		{
+			INFO("scalar * vector"sv)
+
+			vector_t result = scalar * vector2;
+			for (size_t i = 0; i < DIM; i++)
+				CHECK(x2[i] * scalar == approx_if_float(result[i]));
+		}
+
+
+		{
+			INFO("vector *= scalar"sv)
+
+			vector_t result(vector1);
+			result *= scalar;
+			for (size_t i = 0; i < DIM; i++)
+				CHECK(x1[i] * scalar == approx_if_float(result[i]));
+		}
+	}
+
+	template <typename T, size_t DIM>
+	void division_tests(std::string_view scalar_typename) noexcept
+	{
+		INFO("vector<"sv << scalar_typename << ", "sv << DIM << ">"sv)
+		using vector_t = vector<T, DIM>;
+
+		const auto scalar = static_cast<T>(2.4);
+		const vector_t vec1{ random_array<T, DIM>(2, 10) };
+		const vector_t vec2{ random_array<T, DIM>(2, 10) };
+
+		{
+			INFO("divide(vector, vector)"sv)
+
+			vector_t result = vector_t::divide(vec1, vec2);
+			for (size_t i = 0; i < DIM; i++)
+				CHECK(vec1[i] / vec2[i] == approx_if_float(result[i]));
+		}
+
+		{
+			INFO("vector / vector"sv)
+
+			vector_t result = vec1 / vec2;
+			for (size_t i = 0; i < DIM; i++)
+				CHECK(vec1[i] / vec2[i] == approx_if_float(result[i]));
+		}
+
+		{
+			INFO("vector /= vector"sv)
+
+			vector_t result = vec1;
+			result /= vec2;
+			for (size_t i = 0; i < DIM; i++)
+				CHECK(vec1[i] / vec2[i] == approx_if_float(result[i]));
+		}
+
+		{
+			INFO("divide(vector, scalar)"sv)
+
+			vector_t result = vector_t::divide(vec1, scalar);
+			for (size_t i = 0; i < DIM; i++)
+				CHECK(vec1[i] / scalar == approx_if_float(result[i]));
+		}
+
+		{
+			INFO("vector / scalar"sv)
+
+			vector_t result = vec1 / scalar;
+			for (size_t i = 0; i < DIM; i++)
+				CHECK(vec1[i] / scalar == approx_if_float(result[i]));
+		}
+
+		{
+			INFO("vector /= scalar"sv)
+
+			vector_t result = vec1;
+			result /= scalar;
+			for (size_t i = 0; i < DIM; i++)
+				CHECK(vec1[i] / scalar == approx_if_float(result[i]));
+		}
+	}
+}
+
+TEST_CASE("vector - multiplication")
+{
+	TEST_ALL_TYPES(multiplication_tests);
+}
+
+TEST_CASE("vector - division")
+{
+	TEST_ALL_TYPES(division_tests);
+}

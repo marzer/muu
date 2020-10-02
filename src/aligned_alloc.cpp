@@ -72,7 +72,7 @@ MUU_NAMESPACE_START
 		);
 		const auto new_actual_size = data.actual_alignment
 			+ ((new_size + data.actual_alignment - 1u) & ~(data.actual_alignment - 1u));
-		if (is_between(new_actual_size, data.actual_size / 2u, data.actual_size))
+		if (between(new_actual_size, data.actual_size / 2u, data.actual_size))
 			return ptr;
 
 		#if MUU_MSVC || MUU_ICC_CL

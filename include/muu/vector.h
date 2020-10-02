@@ -6,6 +6,8 @@
 /// \file
 /// \brief  Contains the definition of muu::vector.
 
+// vectorizer sandbox: https://godbolt.org/z/GzGzM6
+
 #pragma once
 #include "../muu/core.h"
 MUU_DISABLE_WARNINGS
@@ -26,28 +28,143 @@ MUU_PRAGMA_MSVC(inline_recursion(on))
 
 #ifndef DOXYGEN // Template Specialization cast Confusion on Doxygen! It's super effective!
 
+#define COMPONENTWISE_AND(func)																						\
+	if constexpr (Dimensions == 1) return func(x);																	\
+	if constexpr (Dimensions == 2) return func(x) && func(y);														\
+	if constexpr (Dimensions == 3) return func(x) && func(y) && func(z);											\
+	if constexpr (Dimensions == 4) return func(x) && func(y) && func(z) && func(w);									\
+	if constexpr (Dimensions > 4)																					\
+	{																												\
+		MUU_PRAGMA_MSVC(omp simd)																					\
+		for (size_t i = 0; i < Dimensions; i++)																		\
+			if (!(func(values[i])))																					\
+				return false;																						\
+		return true;																								\
+	}																												\
+	(void)0
+
+#define COMPONENTWISE_OR(func)																						\
+	if constexpr (Dimensions == 1) return func(x);																	\
+	if constexpr (Dimensions == 2) return func(x) || func(y);														\
+	if constexpr (Dimensions == 3) return func(x) || func(y) || func(z);											\
+	if constexpr (Dimensions == 4) return func(x) || func(y) || func(z) || func(w);									\
+	if constexpr (Dimensions > 4)																					\
+	{																												\
+		MUU_PRAGMA_MSVC(omp simd)																					\
+		for (size_t i = 0; i < Dimensions; i++)																		\
+			if (func(values[i]))																					\
+				return true;																						\
+		return false;																								\
+	}																												\
+	(void)0
+
+#define COMPONENTWISE_ARITHMETIC_OPERATOR(func, op)																	\
+	if constexpr (Dimensions == 1) return func(x);																	\
+	if constexpr (Dimensions == 2) return func(x) op func(y);														\
+	if constexpr (Dimensions == 3) return func(x) op func(y) op func(z);											\
+	if constexpr (Dimensions == 4) return func(x) op func(y) op func(z) op func(w);									\
+	if constexpr (Dimensions > 4)																					\
+	{																												\
+		auto val = func(values[0]);																					\
+		MUU_PRAGMA_MSVC(omp simd)																					\
+		for (size_t i = 1; i < Dimensions; i++)																		\
+			val op##= func(values[i]);																				\
+		return val;																									\
+	}																												\
+	(void)0
+
+#define COMPONENTWISE_ADD(func)		COMPONENTWISE_ARITHMETIC_OPERATOR(func, +)
+
+#define NULL_TRANSFORM(x) x
+
+#define COMPONENTWISE_CASTING_OP_BRANCH(func, transformer, x_selector)												\
+	using func_type = decltype(func(x_selector));																	\
+	if constexpr (!std::is_same_v<func_type, scalar_type>)															\
+	{																												\
+		transformer(func, static_cast<scalar_type>);																\
+	}																												\
+	else																											\
+	{																												\
+		transformer(func, NULL_TRANSFORM);																			\
+	}																												\
+	(void)0
+
+
+#define COMPONENTWISE_CASTING_OP(func, transformer)																	\
+	if constexpr (Dimensions <= 4)																					\
+	{																												\
+		COMPONENTWISE_CASTING_OP_BRANCH(func, transformer, x);														\
+	}																												\
+	else																											\
+	{																												\
+		COMPONENTWISE_CASTING_OP_BRANCH(func, transformer, values[0]);												\
+	}																												\
+	(void)0
+
+#define COMPONENTWISE_CONSTRUCT_WITH_TRANSFORM(func, xform)															\
+	if constexpr (Dimensions == 1) return vector{ xform(func(x)) };													\
+	if constexpr (Dimensions == 2) return vector{ xform(func(x)), xform(func(y)) };									\
+	if constexpr (Dimensions == 3) return vector{ xform(func(x)), xform(func(y)), xform(func(z)) };					\
+	if constexpr (Dimensions == 4) return vector{ xform(func(x)), xform(func(y)), xform(func(z)), xform(func(w)) };	\
+	if constexpr (Dimensions > 4)																					\
+	{																												\
+		return vector{																								\
+			impl::elementwise_func_tag{},																			\
+			[&](size_t i) noexcept																					\
+			{																										\
+				return xform(func(values[i]));																		\
+			}																										\
+		};																											\
+	}																												\
+	(void)0
+
+#define COMPONENTWISE_CONSTRUCT(func)	COMPONENTWISE_CASTING_OP(func, COMPONENTWISE_CONSTRUCT_WITH_TRANSFORM)
+
+#define COMPONENTWISE_ASSIGN_WITH_TRANSFORM(func, xform)															\
+	if constexpr (Dimensions <= 4)																					\
+	{																												\
+										base::x = xform(func(x));													\
+		if constexpr (Dimensions >= 2)	base::y = xform(func(y));													\
+		if constexpr (Dimensions >= 3)	base::z = xform(func(z));													\
+		if constexpr (Dimensions == 4)	base::w = xform(func(w));													\
+	}																												\
+	else																											\
+	{																												\
+		MUU_PRAGMA_MSVC(omp simd)																					\
+		for (size_t i = 0; i < Dimensions; i++)																		\
+			base::values[i] = xform(func(values[i]));																\
+	}																												\
+	return *this
+
+#define COMPONENTWISE_ASSIGN(func)		COMPONENTWISE_CASTING_OP(func, COMPONENTWISE_ASSIGN_WITH_TRANSFORM)
+
+#define	ENABLE_IF_AT_LEAST_DIMENSIONS(dim)	\
+		, size_t SFINAE = Dimensions MUU_SFINAE(SFINAE >= dim && SFINAE == Dimensions)
+
+#define	ENABLE_IF_AT_LEAST_DIMENSIONS_AND(dim,...)	\
+	, size_t SFINAE = Dimensions MUU_SFINAE_2(SFINAE >= dim && SFINAE == Dimensions && (__VA_ARGS__))
+
+#define	REQUIRES_AT_LEAST_DIMENSIONS(dim) \
+	template <size_t SFINAE = Dimensions MUU_SFINAE(SFINAE >= dim && SFINAE == Dimensions)>
+
+#define	REQUIRES_EXACTLY_DIMENSIONS(dim) \
+	template <size_t SFINAE = Dimensions MUU_SFINAE_2(SFINAE == dim && SFINAE == Dimensions)>
+
+#define	REQUIRES_FLOATING_POINT	\
+	template <typename SFINAE = Scalar MUU_SFINAE(muu::is_floating_point<SFINAE> && std::is_same_v<SFINAE, Scalar>)>
+
+#define	REQUIRES_SIGNED	\
+	template <typename SFINAE = Scalar MUU_SFINAE(muu::is_signed<SFINAE> && std::is_same_v<SFINAE, Scalar>)>
+
 MUU_IMPL_NAMESPACE_START
 {
-	MUU_PRAGMA_MSVC(pack(push, 1))
-
-	template <typename T>
-	struct value_repeater
-	{
-		T value;
-
-		[[nodiscard]]
-		MUU_ATTR(pure)
-		constexpr T operator() (size_t) const noexcept
-		{
-			return value;
-		}
-	};
-
 	struct value_fill_tag {};
 	struct zero_fill_tag {};
 	struct array_copy_tag {};
 	struct array_cast_tag {};
 	struct tuple_copy_tag {};
+	struct tuple_cast_tag {};
+	struct elementwise_func_tag {};
 
 	template <typename Scalar, size_t Dimensions>
 	struct MUU_TRIVIAL_ABI vector_base
@@ -63,12 +180,14 @@ MUU_IMPL_NAMESPACE_START
 		{}
 
 		template <size_t... Indices>
-		explicit constexpr vector_base(value_repeater<Scalar> fill, std::index_sequence<Indices...>) noexcept
-			: values{ fill(Indices)... }
-		{}
+		explicit constexpr vector_base(Scalar fill, std::index_sequence<Indices...>) noexcept
+			: values{ ((void)Indices, fill)... }
+		{
+			static_assert(sizeof...(Indices) <= Dimensions);
+		}
 
 		explicit constexpr vector_base(value_fill_tag, Scalar fill) noexcept
-			: vector_base{ value_repeater<Scalar>{ fill }, std::make_index_sequence<Dimensions>{} }
+			: vector_base{ fill, std::make_index_sequence<Dimensions>{} }
 		{}
 
 		explicit constexpr vector_base(Scalar x_) noexcept
@@ -98,7 +217,21 @@ MUU_IMPL_NAMESPACE_START
 
 		template <typename T, size_t... Indices>
 		explicit constexpr vector_base(tuple_copy_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
+			: values{ get_from_tuple_like<Indices>(tpl)... }
+		{
+			static_assert(sizeof...(Indices) <= Dimensions);
+		}
+
+		template <typename T, size_t... Indices>
+		explicit constexpr vector_base(tuple_cast_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
 			: values{ static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))... }
+		{
+			static_assert(sizeof...(Indices) <= Dimensions);
+		}
+
+		template <typename Func, size_t... Indices>
+		explicit constexpr vector_base(elementwise_func_tag, std::index_sequence<Indices...>, Func&& func) noexcept
+			: values{ func(Indices)... }
 		{
 			static_assert(sizeof...(Indices) <= Dimensions);
 		}
@@ -139,6 +272,13 @@ MUU_IMPL_NAMESPACE_START
 
 		template <typename T, size_t... Indices>
 		explicit constexpr vector_base(tuple_copy_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
+			: vector_base{ get_from_tuple_like<Indices>(tpl)... }
+		{
+			static_assert(sizeof...(Indices) == 1);
+		}
+
+		template <typename T, size_t... Indices>
+		explicit constexpr vector_base(tuple_cast_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
 			: vector_base{ static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))... }
 		{
 			static_assert(sizeof...(Indices) == 1);
@@ -184,6 +324,13 @@ MUU_IMPL_NAMESPACE_START
 
 		template <typename T, size_t... Indices>
 		explicit constexpr vector_base(tuple_copy_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
+			: vector_base{ get_from_tuple_like<Indices>(tpl)... }
+		{
+			static_assert(sizeof...(Indices) <= 2);
+		}
+
+		template <typename T, size_t... Indices>
+		explicit constexpr vector_base(tuple_cast_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
 			: vector_base{ static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))... }
 		{
 			static_assert(sizeof...(Indices) <= 2);
@@ -233,6 +380,13 @@ MUU_IMPL_NAMESPACE_START
 
 		template <typename T, size_t... Indices>
 		explicit constexpr vector_base(tuple_copy_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
+			: vector_base{ get_from_tuple_like<Indices>(tpl)... }
+		{
+			static_assert(sizeof...(Indices) <= 3);
+		}
+
+		template <typename T, size_t... Indices>
+		explicit constexpr vector_base(tuple_cast_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
 			: vector_base{ static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))... }
 		{
 			static_assert(sizeof...(Indices) <= 3);
@@ -286,13 +440,18 @@ MUU_IMPL_NAMESPACE_START
 
 		template <typename T, size_t... Indices>
 		explicit constexpr vector_base(tuple_copy_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
+			: vector_base{ get_from_tuple_like<Indices>(tpl)... }
+		{
+			static_assert(sizeof...(Indices) <= 4);
+		}
+
+		template <typename T, size_t... Indices>
+		explicit constexpr vector_base(tuple_cast_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
 			: vector_base{ static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))... }
 		{
 			static_assert(sizeof...(Indices) <= 4);
 		}
 	};
-
-	MUU_PRAGMA_MSVC(pack(pop))
 
 	#if MUU_HAS_VECTORCALL
 
@@ -300,169 +459,32 @@ MUU_IMPL_NAMESPACE_START
 	inline constexpr bool is_hva<vector_base<Scalar, Dimensions>> =
 		Dimensions <= 4
 		&& (is_same_as_any<Scalar, float, double, long double> || is_simd_intrinsic<Scalar>)
-		&& sizeof(vector_base<Scalar, Dimensions>) == sizeof(Scalar) * Dimensions;
+		&& sizeof(vector_base<Scalar, Dimensions>) == sizeof(Scalar) * Dimensions
+		&& alignof(vector_base<Scalar, Dimensions>) == alignof(Scalar)
+	;
 
 	template <typename Scalar, size_t Dimensions>
 	inline constexpr bool is_hva<vector<Scalar, Dimensions>> = is_hva<vector_base<Scalar, Dimensions>>;
 
 	#endif // MUU_HAS_VECTORCALL
 
-	template <size_t First = 0, size_t Count = constants<size_t>::highest, typename Vector, typename Func>
-	MUU_ATTR(flatten)
-	static constexpr void vector_for_each(Vector& vec, Func&& func) noexcept
-	{
-		static_assert(First < Vector::dimensions);
-		static_assert(Count > 0);
-		constexpr auto actual_count = (min)(Vector::dimensions - First, Count);
-		constexpr auto last = (First + actual_count) - 1_sz;
+	template <typename Scalar, size_t Dimensions>
+	inline constexpr bool pass_vector_by_value
+		= !std::is_reference_v<maybe_pass_readonly_by_value<vector_base<Scalar, Dimensions>>>;
 
-		if constexpr (std::is_invocable_v<Func, decltype(vec[0]), size_t>)
-		{
-			if constexpr (Vector::dimensions > 4)
-			{
-				MUU_PRAGMA_MSVC(omp simd)
-				for (size_t i = First; i <= last; i++)
-					func(vec.values[i], i);
-			}
-			else
-			{
-				if constexpr (is_between(0_sz, First, last)) func(vec.template get<0>(), 0_sz);
-				if constexpr (is_between(1_sz, First, last)) func(vec.template get<1>(), 1_sz);
-				if constexpr (is_between(2_sz, First, last)) func(vec.template get<2>(), 2_sz);
-				if constexpr (is_between(3_sz, First, last)) func(vec.template get<3>(), 3_sz);
-			}
-		}
-		else
-		{
-			static_assert(std::is_invocable_v<Func, decltype(vec[0])>);
-
-			if constexpr (Vector::dimensions > 4)
-			{
-				MUU_PRAGMA_MSVC(omp simd)
-				for (size_t i = First; i <= last; i++)
-					func(vec.values[i]);
-			}
-			else
-			{
-				if constexpr (is_between(0_sz, First, last)) func(vec.template get<0>());
-				if constexpr (is_between(1_sz, First, last)) func(vec.template get<1>());
-				if constexpr (is_between(2_sz, First, last)) func(vec.template get<2>());
-				if constexpr (is_between(3_sz, First, last)) func(vec.template get<3>());
-			}
-		}
-	}
-
-	template <size_t First = 0, size_t Count = constants<size_t>::highest, typename Vector1, typename Vector2, typename Func>
-	MUU_ATTR(flatten)
-	static constexpr void vector_for_each(Vector1& vec1, Vector2& vec2, Func&& func) noexcept
-	{
-		static_assert(First < Vector1::dimensions);
-		static_assert(First < Vector2::dimensions);
-		static_assert(Count > 0);
-		constexpr auto actual_count = (min)((min)(Vector1::dimensions, Vector2::dimensions) - First, Count);
-		constexpr auto last = (First + actual_count) - 1_sz;
-
-		if constexpr (std::is_invocable_v<Func, decltype(vec1[0]), decltype(vec2[0]), size_t>)
-		{
-			if constexpr (Vector1::dimensions > 4 && Vector2::dimensions > 4)
-			{
-				MUU_PRAGMA_MSVC(omp simd)
-				for (size_t i = First; i <= last; i++)
-					func(vec1.values[i], vec2.values[i], i);
-			}
-			else
-			{
-				if constexpr (is_between(0_sz, First, last)) func(vec1.template get<0>(), vec2.template get<0>(), 0_sz);
-				if constexpr (is_between(1_sz, First, last)) func(vec1.template get<1>(), vec2.template get<1>(), 1_sz);
-				if constexpr (is_between(2_sz, First, last)) func(vec1.template get<2>(), vec2.template get<2>(), 2_sz);
-				if constexpr (is_between(3_sz, First, last)) func(vec1.template get<3>(), vec2.template get<3>(), 3_sz);
-			}
-		}
-		else
-		{
-			static_assert(std::is_invocable_v<Func, decltype(vec1[0]), decltype(vec2[0])>);
-
-			if constexpr (Vector1::dimensions > 4 && Vector2::dimensions > 4)
-			{
-				MUU_PRAGMA_MSVC(omp simd)
-				for (size_t i = First; i <= last; i++)
-					func(vec1.values[i], vec2.values[i]);
-			}
-			else
-			{
-				if constexpr (is_between(0_sz, First, last)) func(vec1.template get<0>(), vec2.template get<0>());
-				if constexpr (is_between(1_sz, First, last)) func(vec1.template get<1>(), vec2.template get<1>());
-				if constexpr (is_between(2_sz, First, last)) func(vec1.template get<2>(), vec2.template get<2>());
-				if constexpr (is_between(3_sz, First, last)) func(vec1.template get<3>(), vec2.template get<3>());
-			}
-		}
-	}
+	template <typename Scalar, size_t Dimensions>
+	inline constexpr bool pass_vector_by_reference = !pass_vector_by_value<Scalar, Dimensions>;
 }
 MUU_IMPL_NAMESPACE_END
 
-#define ELEMENTWISE_AND(func)																\
-		if constexpr (Dimensions == 1) return func(x);										\
-		if constexpr (Dimensions == 2) return func(x) && func(y);							\
-		if constexpr (Dimensions == 3) return func(x) && func(y) && func(z);				\
-		if constexpr (Dimensions == 4) return func(x) && func(y) && func(z) && func(w);		\
-		if constexpr (Dimensions > 4)														\
-		{																					\
-			MUU_PRAGMA_MSVC(omp simd)														\
-			for (size_t i = 0; i < Dimensions; i++)											\
-				if (!(func(values[i])))														\
-					return false;															\
-			return true;																	\
-		}																					\
-		(void)0
-
-#define ELEMENTWISE_OR(func)																\
-		if constexpr (Dimensions == 1) return func(x);										\
-		if constexpr (Dimensions == 2) return func(x) || func(y);							\
-		if constexpr (Dimensions == 3) return func(x) || func(y) || func(z);				\
-		if constexpr (Dimensions == 4) return func(x) || func(y) || func(z) || func(w);		\
-		if constexpr (Dimensions > 4)														\
-		{																					\
-			MUU_PRAGMA_MSVC(omp simd)														\
-			for (size_t i = 0; i < Dimensions; i++)											\
-				if (func(values[i]))														\
-					return true;															\
-			return false;																	\
-		}																					\
-		(void)0
-
-#define ELEMENTWISE_ADD(func)																\
-		if constexpr (Dimensions == 1) return func(x);										\
-		if constexpr (Dimensions == 2) return func(x) + func(y);							\
-		if constexpr (Dimensions == 3) return func(x) + func(y) + func(z);					\
-		if constexpr (Dimensions == 4) return func(x) + func(y) + func(z) + func(w);		\
-		if constexpr (Dimensions > 4)														\
-		{																					\
-			auto val = func(values[0]);														\
-			MUU_PRAGMA_MSVC(omp simd)														\
-			for (size_t i = 1; i < Dimensions; i++)											\
-				val += func(values[i]);														\
-			return val;																		\
-		}																					\
-		(void)0
-
-	#define	ENABLE_IF_AT_LEAST_DIMENSIONS(dim)	\
-		 , size_t SFINAE = Dimensions, typename = std::enable_if_t<(SFINAE >= dim && SFINAE == Dimensions)>
-
-	#define	ENABLE_IF_AT_LEAST_DIMENSIONS_AND(dim,...)	\
-		, size_t SFINAE = Dimensions, typename = std::enable_if_t<(__VA_ARGS__) && (SFINAE >= dim && SFINAE == Dimensions)>
-
-	#define	REQUIRES_AT_LEAST_DIMENSIONS(dim) \
-		template <size_t SFINAE = Dimensions, typename = std::enable_if_t<(SFINAE >= dim && SFINAE == Dimensions)>>
-
-	#define	REQUIRES_FLOATING_POINT	\
-		template <typename SFINAE = Scalar, typename = std::enable_if_t<muu::is_floating_point<SFINAE> && std::is_same_v<SFINAE, Scalar>>>
-
 #else // ^^^ !DOXYGEN / DOXYGEN vvv
 
-	#define ENABLE_IF_AT_LEAST_DIMENSIONS(...)
-	#define ENABLE_IF_AT_LEAST_DIMENSIONS_AND(...)
-	#define	REQUIRES_AT_LEAST_DIMENSIONS(...)
-	#define	REQUIRES_FLOATING_POINT
+#define ENABLE_IF_AT_LEAST_DIMENSIONS(...)
+#define ENABLE_IF_AT_LEAST_DIMENSIONS_AND(...)
+#define	REQUIRES_AT_LEAST_DIMENSIONS(...)
+#define	REQUIRES_EXACTLY_DIMENSIONS(...)
+#define	REQUIRES_FLOATING_POINT
+#define REQUIRES_SIGNED
 
 #endif // DOXYGEN
 
@@ -509,7 +531,10 @@ MUU_NAMESPACE_START
 		using scalar_type = Scalar;
 
 		/// \brief Alias for scalar_type.
-		using value_type = Scalar;
+		using value_type = scalar_type;
+
+		/// \brief The type used to return scalar products (length/distance dot, etc.)
+		using product_type = std::conditional_t<is_integral<scalar_type>, double, scalar_type>;
 
 		/// \brief The number of scalar components stored in this vector.
 		static constexpr size_t dimensions = Dimensions;
@@ -522,26 +547,21 @@ MUU_NAMESPACE_START
 
 		/// \brief `vector` or `const vector&`, depending on depending on size, triviality, simd-friendliness, etc.
 		using vector_param = std::conditional_t<
-			std::is_reference_v<impl::maybe_pass_by_value<impl::vector_base<scalar_type, dimensions>>>,
-			const vector&,
-			vector
+			impl::pass_vector_by_value<scalar_type, dimensions>,
+			vector,
+			const vector&
 		>;
 
 		#ifdef DOXYGEN
-		/// \brief The 0th scalar component stored in the vector.
-		/// \attention This field only exists when the vector has &lt;= 4 dimensions.
+		/// \brief The vector's X scalar component (when dimensions &lt;= 4).
 		scalar_type x;
-		/// \brief The 1st scalar component stored in the vector.
-		/// \attention This field only exists when the vector has &lt;= 4 dimensions.
+		/// \brief The vector's Y scalar component (when dimensions &lt;= 4).
 		scalar_type y;
-		/// \brief The 2nd scalar component stored in the vector.
-		/// \attention This field only exists when the vector has &lt;= 4 dimensions.
+		/// \brief The vector's Z scalar component (when dimensions &lt;= 4).
 		scalar_type z;
-		/// \brief The 3rd scalar component stored in the vector.
-		/// \attention This field only exists when the vector has &lt;= 4 dimensions.
+		/// \brief The vector's W scalar component (when dimensions &lt;= 4).
 		scalar_type w;
-		/// \brief The scalar components stored in the vector.
-		/// \attention This field only exists when the vector has &gt; 4 dimensions.
+		/// \brief The array of scalar components stored in the vector (when dimensions &gt; 4).
 		scalar_type values[dimensions];
 		#endif
 
@@ -667,32 +687,13 @@ MUU_NAMESPACE_START
 
 	private:
 
-		template <size_t First = 0, size_t Count = Dimensions - First>
-		MUU_ATTR(flatten)
-		static constexpr void fill_with_zero(vector& vec) noexcept
-		{
-			static_assert(First < Dimensions);
-			static_assert(Count > 0);
-			static_assert(First + Count <= Dimensions);
-
-			if (is_constant_evaluated())
-			{
-				impl::vector_for_each<First, Count>(vec, [](Scalar& el) noexcept
-				{
-					el = Scalar{};
-				});
+		template <typename Func>
+		explicit constexpr vector(impl::elementwise_func_tag, Func&& func) noexcept
+			: base{
+				impl::elementwise_func_tag{},
+				std::make_index_sequence<Dimensions>{},
+				std::forward<Func>(func)
 			}
-			else
-			{
-				if constexpr (First == 0 && Count == Dimensions)
-					memset(&vec, 0, sizeof(vector));
-				else
-					memset(&vec.template get<First>(), 0, padded_element_size * Count);
-			}
-		}
-
-		explicit constexpr vector(impl::zero_fill_tag tag) noexcept
-			: base{ tag }
 		{}
 
 	public:
@@ -759,7 +760,7 @@ MUU_NAMESPACE_START
 		/// \brief		Constructs a vector from five or more scalar values.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		///
-		/// \tparam T		Types compatible with scalar_type.
+		/// \tparam T		Arithmetic types compatible with scalar_type.
 		/// \param	x		Initial value for the vector's x scalar component.
 		/// \param	y		Initial value for the vector's y scalar component.
 		/// \param	z		Initial value for the vector's z scalar component.
@@ -767,7 +768,7 @@ MUU_NAMESPACE_START
 		/// \param	vals	Initial values for the vector's remaining scalar components.
 		/// 
 		/// \attention This constructor is only available when the vector has &gt;= 5 dimensions.
-		template <typename... T ENABLE_IF_AT_LEAST_DIMENSIONS(5)>
+		template <typename... T ENABLE_IF_AT_LEAST_DIMENSIONS_AND(5, all_arithmetic<T...>)>
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y, scalar_type z, scalar_type w, T... vals) noexcept
 			: base{ x, y, z, w, vals... }
@@ -776,23 +777,25 @@ MUU_NAMESPACE_START
 		/// \brief Constructs a vector from a raw array.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		/// 
+		/// \tparam T			An arithmetic type.
 		/// \tparam N			The number of elements in the array.
-		/// \param	vals		Array of values used to initialize the vector's scalar components.
-		template <size_t N ENABLE_IF_AT_LEAST_DIMENSIONS(N)>
+		/// \param	arr			Array of values used to initialize the vector's scalar components.
+		template <typename T, size_t N ENABLE_IF_AT_LEAST_DIMENSIONS_AND(N, is_arithmetic<T>)>
 		MUU_NODISCARD_CTOR
-		explicit constexpr vector(const scalar_type(& vals)[N]) noexcept
-			: base{ impl::array_copy_tag{}, std::make_index_sequence<N>{}, vals }
+		explicit constexpr vector(const T(& arr)[N]) noexcept
+			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, arr }
 		{}
 
 		/// \brief Constructs a vector from a std::array.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		/// 
+		/// \tparam T			An arithmetic type.
 		/// \tparam N			The number of elements in the array.
-		/// \param	vals		Array of values used to initialize the vector's scalar components.
-		template <size_t N ENABLE_IF_AT_LEAST_DIMENSIONS(N)>
+		/// \param	arr			Array of values used to initialize the vector's scalar components.
+		template <typename T, size_t N ENABLE_IF_AT_LEAST_DIMENSIONS_AND(N, is_arithmetic<T>)>
 		MUU_NODISCARD_CTOR
-		explicit constexpr vector(const std::array<scalar_type, N>& vals) noexcept
-			: base{ impl::array_copy_tag{}, std::make_index_sequence<N>{}, vals }
+		explicit constexpr vector(const std::array<T, N>& arr) noexcept
+			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, arr }
 		{}
 
 		/// \brief Constructs a vector from any tuple-like type.
@@ -800,8 +803,8 @@ MUU_NAMESPACE_START
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		template <typename T ENABLE_IF_AT_LEAST_DIMENSIONS_AND(tuple_size<T>, is_tuple_like<T>)>
 		MUU_NODISCARD_CTOR
-		explicit constexpr vector(const T& tuple_like) noexcept
-			: base{ impl::tuple_copy_tag{}, std::make_index_sequence<tuple_size<T>>{}, tuple_like }
+		explicit constexpr vector(const T& tuple) noexcept
+			: base{ impl::tuple_cast_tag{}, std::make_index_sequence<tuple_size<T>>{}, tuple }
 		{}
 
 		/// \brief Enlarging/truncating/converting constructor.
@@ -809,120 +812,150 @@ MUU_NAMESPACE_START
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		template <typename T, size_t N>
 		MUU_NODISCARD_CTOR
-		explicit vector(const vector<T, N>& vec) noexcept
-		{
-			constexpr auto can_memcpy = std::is_same_v<T, Scalar> && has_padding == vector<T, N>::has_padding;
+		explicit constexpr vector(const vector<T, N>& vec) noexcept
+			: base{ impl::tuple_cast_tag{}, std::make_index_sequence<(N < Dimensions ? N : Dimensions)>{}, vec }
+		{}
 
-			if constexpr (can_memcpy)
-			{
-				constexpr auto size = (min)(sizeof(*this), sizeof(vector<T, N>));
-				memcpy(this, &vec, size);
-			}
-			else
-			{
-				impl::vector_for_each(*this, vec, [](Scalar& lhs, auto& rhs) noexcept
-				{
-					lhs = static_cast<Scalar>(rhs);
-				});
-			}
+		#if !defined(DOXYGEN) && !MUU_INTELLISENSE
 
-			if constexpr (N < Dimensions)
-				fill_with_zero<N>(*this);
-		}
+		template <size_t N ENABLE_IF_AT_LEAST_DIMENSIONS(N)>
+		MUU_NODISCARD_CTOR
+		explicit constexpr vector(const scalar_type(&arr)[N]) noexcept
+			: base{ impl::array_copy_tag{}, std::make_index_sequence<N>{}, arr }
+		{}
 
+		template <size_t N ENABLE_IF_AT_LEAST_DIMENSIONS(N)>
+		MUU_NODISCARD_CTOR
+		explicit constexpr vector(const std::array<scalar_type, N>& arr) noexcept
+			: base{ impl::array_copy_tag{}, std::make_index_sequence<N>{}, arr }
+		{}
+
+		template <size_t N>
+		MUU_NODISCARD_CTOR
+		explicit constexpr vector(const vector<scalar_type, N>& vec) noexcept
+			: base{ impl::tuple_copy_tag{}, std::make_index_sequence<(N < Dimensions ? N : Dimensions)>{}, vec }
+		{}
+
+		#endif // !DOXYGEN && !MUU_INTELLISENSE
 
 	#endif // constructors
 
 	#if 1 // equality -------------------------------------------------------------------------------------------------
 
 		/// \brief	Returns true if two vectors are exactly equal.
-		template <typename T>
+		template <typename T MUU_SFINAE(MUU_INTELLISENSE || impl::pass_vector_by_reference<T, dimensions>)>
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL equal(vector_param a, const vector<T, dimensions>& b) noexcept
 		{
 			#define VEC_FUNC(member)	a.member == b.member
-			ELEMENTWISE_AND(VEC_FUNC);
+			COMPONENTWISE_AND(VEC_FUNC);
 			#undef VEC_FUNC
 		}
 
-		/// \brief	Returns true if two vectors are exactly equal.
-		template <typename T>
+		/// \brief	Returns true if the vector is exactly equal to another.
+		template <typename T MUU_SFINAE(MUU_INTELLISENSE || impl::pass_vector_by_reference<T, dimensions>)>
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr bool MUU_VECTORCALL equal(const vector<T, dimensions>& a, vector_param b) noexcept
+		constexpr bool MUU_VECTORCALL equal(const vector<T, dimensions>& other) const noexcept
 		{
-			return equal(b, a);
+			return equal(*this, other);
 		}
 
 		/// \brief	Returns true if two vectors are exactly equal.
+		template <typename T MUU_SFINAE(MUU_INTELLISENSE || impl::pass_vector_by_reference<T, dimensions>)>
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr bool MUU_VECTORCALL equal(vector_param a, vector_param b) noexcept
+		friend constexpr bool MUU_VECTORCALL operator == (vector_param lhs, const vector<T, dimensions>& rhs) noexcept
+		{
+			return equal(lhs, rhs);
+		}
+
+		/// \brief	Returns true if two vectors are not exactly equal.
+		template <typename T MUU_SFINAE(MUU_INTELLISENSE || impl::pass_vector_by_reference<T, dimensions>)>
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		friend constexpr bool MUU_VECTORCALL operator != (vector_param lhs, const vector<T, dimensions>& rhs) noexcept
+		{
+			return !equal(lhs, rhs);
+		}
+
+		#if !defined(DOXYEN) && !MUU_INTELLISENSE
+
+		template <typename T MUU_SFINAE_2(impl::pass_vector_by_value<T, dimensions>)>
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr bool MUU_VECTORCALL equal(vector_param a, vector<T, dimensions> b) noexcept
 		{
 			#define VEC_FUNC(member)	a.member == b.member
-			ELEMENTWISE_AND(VEC_FUNC);
+			COMPONENTWISE_AND(VEC_FUNC);
 			#undef VEC_FUNC
 		}
 
-		/// \brief	Returns true if the vector is exactly equal to another.
-		template <typename T>
+		template <typename T MUU_SFINAE_2(impl::pass_vector_by_value<T, dimensions>)>
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		constexpr bool MUU_VECTORCALL equal(const vector<T, Dimensions>& other) const noexcept
+		constexpr bool MUU_VECTORCALL equal(vector<T, dimensions> other) const noexcept
 		{
 			return equal(*this, other);
 		}
 
-		/// \brief	Returns true if the vector is exactly equal to another.
+		template <typename T MUU_SFINAE_2(impl::pass_vector_by_value<T, dimensions>)>
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		constexpr bool MUU_VECTORCALL equal(vector_param other) const noexcept
-		{
-			return equal(*this, other);
-		}
-
-		/// \brief	Returns true if two vectors are exactly equal.
-		template <typename T>
-		[[nodiscard]]
-		MUU_ATTR(pure)
-		friend constexpr bool MUU_VECTORCALL operator == (vector_param lhs, const vector<T, Dimensions>& rhs) noexcept
+		friend constexpr bool MUU_VECTORCALL operator == (vector_param lhs, vector<T, dimensions> rhs) noexcept
 		{
 			return equal(lhs, rhs);
 		}
 
-		/// \brief	Returns true if two vectors are not exactly equal.
-		template <typename T>
+		template <typename T MUU_SFINAE_2(impl::pass_vector_by_value<T, dimensions>)>
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr bool MUU_VECTORCALL operator != (vector_param lhs, const vector<T, Dimensions>& rhs) noexcept
+		friend constexpr bool MUU_VECTORCALL operator != (vector_param lhs, vector<T, dimensions> rhs) noexcept
 		{
 			return !equal(lhs, rhs);
 		}
 
-		/// \brief	Returns true if two vectors are exactly equal.
+		#endif // !DOXYEN && !MUU_INTELLISENSE
+
+		/// \brief	Returns true if all the scalar components of the vector are exactly zero.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr bool MUU_VECTORCALL operator == (vector_param lhs, vector_param rhs) noexcept
+		constexpr bool MUU_VECTORCALL zero() const noexcept
 		{
-			return equal(lhs, rhs);
+			#define VEC_FUNC(member)	base::member == scalar_constants::zero
+			COMPONENTWISE_AND(VEC_FUNC);
+			#undef VEC_FUNC
 		}
 
-		/// \brief	Returns true if two vectors are not exactly equal.
+		/// \brief	Returns true if any of the scalar components of the vector are infinity or NaN.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr bool MUU_VECTORCALL operator != (vector_param lhs, vector_param rhs) noexcept
+		constexpr bool MUU_VECTORCALL infinity_or_nan() const noexcept
 		{
-			return !equal(lhs, rhs);
+			if constexpr (is_floating_point<Scalar>)
+			{
+				#define VEC_FUNC(member)	muu::infinity_or_nan(base::member)
+				COMPONENTWISE_OR(VEC_FUNC);
+				#undef VEC_FUNC
+			}
+			else
+				return false;
 		}
+
+	#endif // equality
+
+	#if 1 // approx_equal ---------------------------------------------------------------------------------------------
 
 		/// \brief	Returns true if two vectors are approximately equal.
-		template <typename T MUU_SFINAE(any_floating_point<Scalar, T>)>
+		template <typename T
+			MUU_SFINAE(any_floating_point<Scalar, T> && (MUU_INTELLISENSE || impl::pass_vector_by_reference<T, dimensions>))
+		>
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL approx_equal(
 			vector_param a,
-			const vector<T, Dimensions>& b,
+			const vector<T, dimensions>& b,
 			impl::highest_ranked<scalar_type, T> epsilon = muu::constants<impl::highest_ranked<scalar_type, T>>::approx_equal_epsilon
 		) noexcept
 		{
@@ -937,34 +970,39 @@ MUU_NAMESPACE_START
 					b.member,																	\
 					epsilon																		\
 				)
-			ELEMENTWISE_AND(VEC_FUNC);
+			COMPONENTWISE_AND(VEC_FUNC);
 			#undef VEC_FUNC
 		}
 
-		/// \brief	Returns true if two vectors are approximately equal.
-		template <typename T MUU_SFINAE(any_floating_point<Scalar, T>)>
+		/// \brief	Returns true if the vector is approximately equal to another.
+		template <typename T
+			MUU_SFINAE(any_floating_point<Scalar, T> && (MUU_INTELLISENSE || impl::pass_vector_by_reference<T, dimensions>))
+		>
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr bool MUU_VECTORCALL approx_equal(
-			const vector<T, Dimensions>& a,
-			vector_param b,
+		constexpr bool MUU_VECTORCALL approx_equal(
+			const vector<T, dimensions>& other,
 			impl::highest_ranked<scalar_type, T> epsilon = muu::constants<impl::highest_ranked<scalar_type, T>>::approx_equal_epsilon
-		) noexcept
+		) const noexcept
 		{
-			return approx_equal(b, a, epsilon);
+			return approx_equal(*this, other, epsilon);
 		}
 
-		/// \brief	Returns true if two vectors are approximately equal.
-		REQUIRES_FLOATING_POINT
+		#if !defined(DOXYEN) && !MUU_INTELLISENSE
+
+		template <typename T MUU_SFINAE_2(any_floating_point<Scalar, T> && impl::pass_vector_by_value<T, dimensions>)>
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL approx_equal(
 			vector_param a,
-			vector_param b,
-			scalar_type epsilon = scalar_constants::approx_equal_epsilon
+			vector<T, dimensions> b,
+			impl::highest_ranked<scalar_type, T> epsilon = muu::constants<impl::highest_ranked<scalar_type, T>>::approx_equal_epsilon
 		) noexcept
 		{
-			using type = impl::promote_if_small_float<Scalar>;
+			using type = impl::highest_ranked<
+				impl::promote_if_small_float<Scalar>,
+				impl::promote_if_small_float<T>
+			>;
 
 			#define VEC_FUNC(member)															\
 				static_cast<bool(MUU_VECTORCALL *)(type,type,type)noexcept>(muu::approx_equal)(	\
@@ -972,76 +1010,42 @@ MUU_NAMESPACE_START
 					b.member,																	\
 					epsilon																		\
 				)
-			ELEMENTWISE_AND(VEC_FUNC);
+			COMPONENTWISE_AND(VEC_FUNC);
 			#undef VEC_FUNC
 		}
 
-		/// \brief	Returns true if the vector is approximately equal to another.
-		template <typename T MUU_SFINAE(any_floating_point<Scalar, T>)>
+		template <typename T MUU_SFINAE_2(any_floating_point<Scalar, T> && impl::pass_vector_by_value<T, dimensions>)>
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_equal(
-			const vector<T, Dimensions>& other,
+			vector<T, dimensions> other,
 			impl::highest_ranked<scalar_type, T> epsilon = muu::constants<impl::highest_ranked<scalar_type, T>>::approx_equal_epsilon
 		) const noexcept
 		{
 			return approx_equal(*this, other, epsilon);
 		}
 
-		/// \brief	Returns true if the vector is approximately equal to another.
-		REQUIRES_FLOATING_POINT
-		[[nodiscard]]
-		MUU_ATTR(pure)
-		constexpr bool MUU_VECTORCALL approx_equal(
-			vector_param other,
-			scalar_type epsilon = scalar_constants::approx_equal_epsilon
-		) const noexcept
-		{
-			return approx_equal(*this, other, epsilon);
-		}
+		#endif // !DOXYEN && !MUU_INTELLISENSE
 
-		/// \brief	Returns true if all the scalar components of the vector are exactly zero.
-		[[nodiscard]]
-		MUU_ATTR(pure)
-		constexpr bool is_zero() const noexcept
-		{
-			#define VEC_FUNC(member)	base::member == scalar_constants::zero
-			ELEMENTWISE_AND(VEC_FUNC);
-			#undef VEC_FUNC
-		}
-
-		/// \brief	Returns true if any of the scalar components of the vector are infinity or NaN.
-		[[nodiscard]]
-		MUU_ATTR(pure)
-		constexpr bool is_infinity_or_nan() const noexcept
-		{
-			if constexpr (is_floating_point<Scalar>)
-			{
-				#define VEC_FUNC(member)	muu::is_infinity_or_nan(base::member)
-				ELEMENTWISE_OR(VEC_FUNC);
-				#undef VEC_FUNC
-			}
-			else
-				return false;
-		}
-
-	#endif // equality
+	#endif // approx_equal
 
 	#if 1 // length and distance --------------------------------------------------------------------------------------
 
 	private:
 
-		using raw_length_type = std::conditional_t<is_integral<Scalar>, double, impl::promote_if_small_float<Scalar>>;
+		using raw_length_type = impl::promote_if_small_float<product_type>;
 
-		// 'raw' lengthsq that does not coerce the return type to scalar_type
+		// Q: why 'raw_XXXXXX'?
+		// A: These functions called as part of intermediate calcuations in some other functions and in those cases
+		//    it's better to keep the value in the promoted 'raw' length type rather than convert back-and-forth
+		//    (e.g. float16-based vectors).
+		
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr raw_length_type MUU_VECTORCALL raw_length_squared(vector_param v) noexcept
 		{
-			using type = std::conditional_t<is_integral<Scalar>, double, impl::promote_if_small_float<Scalar>>;
-
-			#define VEC_FUNC(member)	(static_cast<type>(v.member) * v.member)
-			ELEMENTWISE_ADD(VEC_FUNC);
+			#define VEC_FUNC(member)	(static_cast<raw_length_type>(v.member) * v.member)
+			COMPONENTWISE_ADD(VEC_FUNC);
 			#undef VEC_FUNC
 		}
 
@@ -1049,18 +1053,370 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr raw_length_type MUU_VECTORCALL raw_length(vector_param v) noexcept
 		{
-			return Sqrt(raw_length_squared(v));
+			if constexpr (Dimensions == 1)
+				return static_cast<raw_length_type>(v.x);
+			else
+				return muu::sqrt(raw_length_squared(v));
+		}
+
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr raw_length_type MUU_VECTORCALL raw_distance_squared(vector_param p1, vector_param p2) noexcept
+		{
+			constexpr auto subtract_and_square = [](scalar_type component1, scalar_type component2) noexcept
+			{
+				const auto temp = static_cast<raw_length_type>(component2 - component1);
+				return temp * temp;
+			};
+
+			#define VEC_FUNC(member)	subtract_and_square(p1.member, p2.member)
+			COMPONENTWISE_ADD(VEC_FUNC);
+			#undef VEC_FUNC
+		}
+
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr raw_length_type MUU_VECTORCALL raw_distance(vector_param p1, vector_param p2) noexcept
+		{
+			if constexpr (Dimensions == 1)
+				return static_cast<raw_length_type>(p2.x - p1.x);
+			else
+				return muu::sqrt(raw_distance_squared(p1, p2));
 		}
 
 	public:
 
+		/// \brief	Returns the squared length (magnitude) of a vector.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr product_type MUU_VECTORCALL length_squared(vector_param v) noexcept
+		{
+			return static_cast<product_type>(raw_length_squared(v));
+		}
+
+		/// \brief	Returns the squared length (magnitude) of the vector.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr product_type MUU_VECTORCALL length_squared() const noexcept
+		{
+			return static_cast<product_type>(raw_length_squared(*this));
+		}
+
+		/// \brief	Returns the length (magnitude) of a vector.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr product_type MUU_VECTORCALL length(vector_param v) noexcept
+		{
+			return static_cast<product_type>(raw_length(v));
+		}
+
+		/// \brief	Returns the length (magnitude) of the vector.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr product_type MUU_VECTORCALL length() const noexcept
+		{
+			return static_cast<product_type>(raw_length(*this));
+		}
+
+		/// \brief	Returns the squared distance between two point vectors.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr product_type MUU_VECTORCALL distance_squared(vector_param p1, vector_param p2) noexcept
+		{
+			return static_cast<product_type>(raw_distance_squared(p1, p2));
+		}
+
+		/// \brief	Returns the squared distance between this and another point vector.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr product_type MUU_VECTORCALL distance_squared(vector_param p) const noexcept
+		{
+			return static_cast<product_type>(raw_distance_squared(*this, p));
+		}
+
+		/// \brief	Returns the squared distance between two point vectors.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr product_type MUU_VECTORCALL distance(vector_param p1, vector_param p2) noexcept
+		{
+			return static_cast<product_type>(raw_distance(p1, p2));
+		}
+
+		/// \brief	Returns the squared distance between this and another point vector.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr product_type MUU_VECTORCALL distance(vector_param p) const noexcept
+		{
+			return static_cast<product_type>(raw_distance(*this, p));
+		}
+
 	#endif // length and distance
 
-	#if 1 // ________________ -----------------------------------------------------------------------------------------
-	#endif // ________________
+	#if 1 // dot and cross products -----------------------------------------------------------------------------------
 
-	#if 1 // ________________ -----------------------------------------------------------------------------------------
-	#endif // ________________
+		/// \brief	Returns the dot product of two vectors.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr product_type MUU_VECTORCALL dot(vector_param v1, vector_param v2) noexcept
+		{
+			#define VEC_FUNC(member)	(static_cast<product_type>(v1.member) * v2.member)
+			COMPONENTWISE_ADD(VEC_FUNC);
+			#undef VEC_FUNC
+		}
+
+		/// \brief	Returns the dot product of this and another vector.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr product_type MUU_VECTORCALL dot(vector_param v) const noexcept
+		{
+			return dot(*this, v);
+		}
+
+		/// \brief	Returns the cross product of two three-dimensional vectors.
+		REQUIRES_EXACTLY_DIMENSIONS(3)
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr vector<product_type, 3> MUU_VECTORCALL cross(vector_param lhs, vector_param rhs) noexcept
+		{
+			return
+			{
+				static_cast<product_type>(lhs.Y) * rhs.Z - static_cast<product_type>(lhs.Z) * rhs.Y,
+				static_cast<product_type>(lhs.Z) * rhs.X - static_cast<product_type>(lhs.X) * rhs.Z,
+				static_cast<product_type>(lhs.X) * rhs.Y - static_cast<product_type>(lhs.Y) * rhs.X
+			};
+		}
+
+		/// \brief	Returns the cross product of this and another three-dimensional vector.
+		REQUIRES_EXACTLY_DIMENSIONS(3)
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr vector<product_type, 3> MUU_VECTORCALL cross(vector_param v) const noexcept
+		{
+			return cross(*this, v);
+		}
+
+	#endif // dot and cross products
+
+	#if 1 // addition -------------------------------------------------------------------------------------------------
+
+		/// \brief Returns the componentwise addition of two vectors.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr vector MUU_VECTORCALL add(vector_param lhs, vector_param rhs) noexcept
+		{
+			#define VEC_FUNC(member)	lhs.member + rhs.member
+			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
+			#undef VEC_FUNC
+		}
+
+		/// \brief Returns the componentwise addition of two vectors.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		friend constexpr vector MUU_VECTORCALL operator + (vector_param lhs, vector_param rhs) noexcept
+		{
+			return add(lhs, rhs);
+		}
+
+		/// \brief Componentwise adds another vector to this one.
+		constexpr vector& MUU_VECTORCALL operator += (vector_param rhs) noexcept
+		{
+			#define VEC_FUNC(member)	base::member + rhs.member
+			COMPONENTWISE_ASSIGN(VEC_FUNC);
+			#undef VEC_FUNC
+		}
+
+	#endif // addition
+
+	#if 1 // subtraction ----------------------------------------------------------------------------------------------
+
+		/// \brief Returns the componentwise subtraction of one vector from another.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr vector MUU_VECTORCALL subtract(vector_param lhs, vector_param rhs) noexcept
+		{
+			#define VEC_FUNC(member)	lhs.member - rhs.member
+			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
+			#undef VEC_FUNC
+		}
+
+		/// \brief Returns the componentwise subtraction of one vector from another.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		friend constexpr vector MUU_VECTORCALL operator - (vector_param lhs, vector_param rhs) noexcept
+		{
+			return subtract(lhs, rhs);
+		}
+
+		/// \brief Componentwise subtracts another vector from this one.
+		constexpr vector& MUU_VECTORCALL operator -= (vector_param rhs) noexcept
+		{
+			#define VEC_FUNC(member)	base::member - rhs.member
+			COMPONENTWISE_ASSIGN(VEC_FUNC);
+			#undef VEC_FUNC
+		}
+
+		/// \brief Returns the componentwise negation of a vector.
+		REQUIRES_SIGNED
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr vector MUU_VECTORCALL operator - () const noexcept
+		{
+			#define VEC_FUNC(member)	-base::member
+			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
+			#undef VEC_FUNC
+		}
+
+	#endif // subtraction
+
+	#if 1 // multiplication -------------------------------------------------------------------------------------------
+
+		/// \brief Returns the componentwise multiplication of two vectors.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr vector MUU_VECTORCALL multiply(vector_param lhs, vector_param rhs) noexcept
+		{
+			#define VEC_FUNC(member)	lhs.member * rhs.member
+			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
+			#undef VEC_FUNC
+		}
+
+		/// \brief Returns the componentwise multiplication of two vectors.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		friend constexpr vector MUU_VECTORCALL operator * (vector_param lhs, vector_param rhs) noexcept
+		{
+			return multiply(lhs, rhs);
+		}
+
+		/// \brief Componentwise multiplies this vector by another.
+		constexpr vector& MUU_VECTORCALL operator *= (vector_param rhs) noexcept
+		{
+			#define VEC_FUNC(member)	base::member * rhs.member
+			COMPONENTWISE_ASSIGN(VEC_FUNC);
+			#undef VEC_FUNC
+		}
+
+		/// \brief Returns the componentwise multiplication of a vector and a scalar.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr vector MUU_VECTORCALL multiply(vector_param lhs, scalar_type rhs) noexcept
+		{
+			#define VEC_FUNC(member)	lhs.member * rhs
+			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
+			#undef VEC_FUNC
+		}
+
+		/// \brief Returns the componentwise multiplication of a vector and a scalar.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		friend constexpr vector MUU_VECTORCALL operator * (vector_param lhs, scalar_type rhs) noexcept
+		{
+			return multiply(lhs, rhs);
+		}
+
+		/// \brief Returns the componentwise multiplication of a vector and a scalar.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		friend constexpr vector MUU_VECTORCALL operator * (scalar_type lhs, vector_param rhs) noexcept
+		{
+			return multiply(rhs, lhs);
+		}
+
+		/// \brief Componentwise multiplies this vector by a scalar.
+		constexpr vector& MUU_VECTORCALL operator *= (scalar_type rhs) noexcept
+		{
+			#define VEC_FUNC(member)	base::member * rhs
+			COMPONENTWISE_ASSIGN(VEC_FUNC);
+			#undef VEC_FUNC
+		}
+
+	#endif // multiplication
+
+	#if 1 // division -------------------------------------------------------------------------------------------------
+
+		/// \brief Returns the componentwise division of one vector by another.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr vector MUU_VECTORCALL divide(vector_param lhs, vector_param rhs) noexcept
+		{
+			#define VEC_FUNC(member)	lhs.member / rhs.member
+			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
+			#undef VEC_FUNC
+		}
+
+		/// \brief Returns the componentwise division of one vector by another.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		friend constexpr vector MUU_VECTORCALL operator / (vector_param lhs, vector_param rhs) noexcept
+		{
+			return divide(lhs, rhs);
+		}
+
+		/// \brief Componentwise divides this vector by another.
+		constexpr vector& MUU_VECTORCALL operator /= (vector_param rhs) noexcept
+		{
+			#define VEC_FUNC(member)	base::member / rhs.member
+			COMPONENTWISE_ASSIGN(VEC_FUNC);
+			#undef VEC_FUNC
+		}
+
+		/// \brief Returns the componentwise division of a vector by a scalar.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr vector MUU_VECTORCALL divide(vector_param lhs, scalar_type rhs) noexcept
+		{
+			if constexpr (is_floating_point<scalar_type>)
+			{
+				if constexpr (sizeof(scalar_type) < sizeof(float)) // half, _Float16 etc
+				{
+					const float inv = 1.0f / rhs;
+					#define VEC_FUNC(member)	lhs.member * inv
+					COMPONENTWISE_CONSTRUCT(VEC_FUNC);
+					#undef VEC_FUNC
+				}
+				else
+					return multiply(lhs, scalar_type{ 1 } / rhs);
+			}
+			else
+			{
+				#define VEC_FUNC(member)	lhs.member / rhs
+				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
+				#undef VEC_FUNC
+			}
+		}
+
+		/// \brief Returns the componentwise division of a vector and a scalar.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		friend constexpr vector MUU_VECTORCALL operator / (vector_param lhs, scalar_type rhs) noexcept
+		{
+			return divide(lhs, rhs);
+		}
+
+		/// \brief Componentwise divides this vector by a scalar.
+		constexpr vector& MUU_VECTORCALL operator /= (scalar_type rhs) noexcept
+		{
+			if constexpr (is_floating_point<scalar_type>)
+			{
+				if constexpr (sizeof(scalar_type) < sizeof(float)) // half, _Float16 etc
+				{
+					const float inv = 1.0f / rhs;
+					#define VEC_FUNC(member)	base::member * inv
+					COMPONENTWISE_ASSIGN(VEC_FUNC);
+					#undef VEC_FUNC
+				}
+				else
+					return (*this *= (scalar_type{ 1 } / rhs));
+			}
+			else
+			{
+				#define VEC_FUNC(member)	base::member / rhs
+				COMPONENTWISE_ASSIGN(VEC_FUNC);
+				#undef VEC_FUNC
+			}
+		}
+
+	#endif // division
 
 	#if 1 // ________________ -----------------------------------------------------------------------------------------
 	#endif // ________________
@@ -1103,10 +1459,20 @@ MUU_NAMESPACE_END
 #undef ENABLE_IF_AT_LEAST_DIMENSIONS
 #undef ENABLE_IF_AT_LEAST_DIMENSIONS_AND
 #undef REQUIRES_AT_LEAST_DIMENSIONS
+#undef REQUIRES_EXACTLY_DIMENSIONS
 #undef REQUIRES_FLOATING_POINT
-#undef ELEMENTWISE_AND
-#undef ELEMENTWISE_OR
-#undef ELEMENTWISE_ADD
+#undef REQUIRES_SIGNED
+#undef COMPONENTWISE_AND
+#undef COMPONENTWISE_OR
+#undef COMPONENTWISE_ARITHMETIC_OPERATOR
+#undef COMPONENTWISE_ADD
+#undef COMPONENTWISE_CASTING_OP_BRANCH
+#undef COMPONENTWISE_CASTING_OP
+#undef COMPONENTWISE_CONSTRUCT_WITH_TRANSFORM
+#undef COMPONENTWISE_CONSTRUCT
+#undef COMPONENTWISE_ASSIGN_WITH_TRANSFORM
+#undef COMPONENTWISE_ASSIGN
+#undef NULL_TRANSFORM
 
 #endif // vector class implementation
 

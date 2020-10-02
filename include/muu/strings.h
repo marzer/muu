@@ -183,8 +183,8 @@ MUU_NAMESPACE_START
 					};
 
 					const auto code_unit_class =
-						(static_cast<unsigned>(is_between(code_unit, 0xDC00_u16, 0xDFFF_u16)) << 4)
-						| (static_cast<unsigned>(is_between(code_unit, 0xD800_u16, 0xDBFF_u16)) << 5);
+						(static_cast<unsigned>(between(code_unit, 0xDC00_u16, 0xDFFF_u16)) << 4)
+						| (static_cast<unsigned>(between(code_unit, 0xD800_u16, 0xDBFF_u16)) << 5);
 
 					switch (code_unit_class | state)
 					{
