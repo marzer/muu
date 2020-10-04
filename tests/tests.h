@@ -117,13 +117,20 @@ MUU_NAMESPACE_START
 		return vals;
 	}
 
-	template <typename T>
-	auto approx_if_float(T val) noexcept
+	template <typename T MUU_SFINAE(is_floating_point<T>)>
+	auto approx(T val, T eps = std::numeric_limits<T>::epsilon() * 100) noexcept
 	{
-		if constexpr (is_floating_point<T>)
-			return Approx(val);
-		else
-			return val;
+		static_assert(is_floating_point<T>);
+
+		Approx a(val);
+		a.epsilon(eps);
+		return a;
+	}
+
+	template <typename T MUU_SFINAE_2(!is_floating_point<T>)>
+	auto approx(T val) noexcept
+	{
+		return val;
 	}
 
 }

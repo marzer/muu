@@ -594,7 +594,6 @@ MUU_NAMESPACE_START
 		template <typename Char, typename Traits>
 		friend std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& lhs, const uuid& rhs)
 		{
-
 			using c = muu::constants<Char>;
 			lhs << impl::byte_to_hex(rhs.bytes.value[0], 'A');
 			lhs << impl::byte_to_hex(rhs.bytes.value[1], 'A');

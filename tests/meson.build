@@ -17,8 +17,28 @@ test_sources = [
 	'tests.cpp',
 	'thread_pool.cpp',
 	'uuid.cpp',
-	'vector.cpp',
+	'vector_char.cpp',
+	'vector_double.cpp',
+	'vector_float.cpp',
+	'vector_half.cpp',
+	'vector_int.cpp',
+	'vector_long.cpp',
+	'vector_long_double.cpp',
+	'vector_long_long.cpp',
+	'vector_short.cpp',
 ]
+if compiler_supports_fp16
+	test_sources += 'vector_fp16.cpp'
+endif
+if compiler_supports_float16
+	test_sources += 'vector_Float16.cpp'
+endif
+if compiler_supports_int128
+	test_sources += 'vector_int128.cpp'
+endif
+if compiler_supports_float128
+	test_sources += 'vector_quad.cpp'
+endif
 
 #######################################################################################################################
 # fast math check

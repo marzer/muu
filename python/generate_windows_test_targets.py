@@ -171,7 +171,15 @@ def main():
 		<ClCompile Include="..\..\tests\unicode_unsigned_char.cpp" />
 		<ClCompile Include="..\..\tests\unicode_wchar_t.cpp" />
 		<ClCompile Include="..\..\tests\uuid.cpp" />
-		<ClCompile Include="..\..\tests\vector.cpp" />
+		<ClCompile Include="..\..\tests\vector_char.cpp" />
+		<ClCompile Include="..\..\tests\vector_double.cpp" />
+		<ClCompile Include="..\..\tests\vector_float.cpp" />
+		<ClCompile Include="..\..\tests\vector_half.cpp" />
+		<ClCompile Include="..\..\tests\vector_int.cpp" />
+		<ClCompile Include="..\..\tests\vector_long.cpp" />
+		<ClCompile Include="..\..\tests\vector_long_double.cpp" />
+		<ClCompile Include="..\..\tests\vector_long_long.cpp" />
+		<ClCompile Include="..\..\tests\vector_short.cpp" />
 	</ItemGroup>
 	<ItemGroup>
 		<Natvis Include="..\muu.natvis" />
@@ -182,6 +190,7 @@ def main():
 		<ClInclude Include="..\..\tests\settings.h" />
 		<ClInclude Include="..\..\tests\tests.h" />
 		<ClInclude Include="..\..\tests\unicode.h" />
+		<ClInclude Include="..\..\tests\vector_template.h" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="..\..\tests\meson.build" />

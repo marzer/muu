@@ -91,7 +91,7 @@ MUU_NAMESPACE_START
 			using const_pointer = std::add_pointer_t<std::add_const_t<T>>; ///< A const pointer to the span's element type.
 			using reference = std::add_lvalue_reference_t<T>; ///< A reference to the span's element type.
 			using const_reference = std::add_lvalue_reference_t<std::add_const_t<T>>; ///< A const reference to the span's element type.
-			using iterator = pointer; ///< A LegacyRandomAccessIterator for the element sin the span.
+			using iterator = pointer; ///< A LegacyRandomAccessIterator for the elements in the span.
 			using reverse_iterator = std::reverse_iterator<iterator>; ///< std::reverse_iterator<iterator>
 
 			static constexpr size_t extent = Extent; ///< The number of elements in the span, or muu::dynamic_extent.
@@ -451,7 +451,6 @@ MUU_NAMESPACE_START
 			return span<std::byte*, sizeof(T)* N>{ pointer_cast<std::byte*>(s.data()), sizeof(T)* N };
 		}
 	}
-
 }
 MUU_NAMESPACE_END
 

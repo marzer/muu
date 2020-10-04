@@ -417,6 +417,7 @@ MUU_IMPL_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(pure)
+	MUU_ATTR(flatten)
 	constexpr decltype(auto) get_from_tuple_like(T&& tuple_like) noexcept
 	{
 		if constexpr (is_detected<has_tuple_get_member_, T&&>)

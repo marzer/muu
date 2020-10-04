@@ -295,7 +295,7 @@ namespace std
 	template <size_t I, typename First, typename Second>
 	struct tuple_element<I, muu::compressed_pair<First, Second>>
 	{
-		static_assert(I <= 1);
+		static_assert(I < 2);
 		using type = std::conditional_t<I == 1, Second, First>;
 	};
 }

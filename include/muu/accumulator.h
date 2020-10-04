@@ -312,10 +312,8 @@ MUU_NAMESPACE_START
 				MUU_PRAGMA_CLANG_GE(11, "clang fp reassociate(off)")
 				MUU_PRAGMA_CLANG_LT(11, "clang fp contract(on)")
 
-				using muu::abs;
-
 				const auto t = sum_ + sample;
-				if (abs(sum_) >= abs(sample))
+				if (muu::abs(sum_) >= muu::abs(sample))
 					correction_ += (sum_ - t) + sample;
 				else
 					correction_ += (sample - t) + sum_;
@@ -326,19 +324,15 @@ MUU_NAMESPACE_START
 
 			constexpr void MUU_VECTORCALL add(value_param sample) noexcept
 			{
-				using muu::min;
-				using muu::max;
-				min_ = (min)(sample, min_);
-				max_ = (max)(sample, max_);
+				min_ = (muu::min)(sample, min_);
+				max_ = (muu::max)(sample, max_);
 				kahan_add(static_cast<sum_type>(sample));
 			}
 
 			constexpr void add(const kahan_accumulator& other) noexcept
 			{
-				using muu::min;
-				using muu::max;
-				min_ = (min)(other.min_, min_);
-				max_ = (max)(other.max_, max_);
+				min_ = (muu::min)(other.min_, min_);
+				max_ = (muu::max)(other.max_, max_);
 				kahan_add(other.sum);
 			}
 
