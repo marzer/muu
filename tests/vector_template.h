@@ -606,6 +606,8 @@ namespace
 		auto vec2 = vec3d{ static_cast<promoted>(-1.4), static_cast<promoted>(9.5), static_cast<promoted>(3.2) };
 		vec1.normalize();
 		vec2.normalize();
+		CHECK(vec1.unit_length());
+		CHECK(vec2.unit_length());
 
 		{
 			INFO("vector.cross(vector)"sv)
@@ -895,24 +897,23 @@ namespace
 		INFO("vector<"sv << scalar_typename << ", "sv << Dimensions << ">"sv)
 		using vector_t = vector<T, Dimensions>;
 
-		
-
 		const vector_t x{ random_array<T, Dimensions>(2, 10) };
 
 		{
 			INFO("vector.normalize()"sv)
 
-			vector_t vector{ x };
-			vector.normalize();
-			CHECK(vector.length() == approx(T{ 1 }));
+			vector_t vec{ x };
+			vec.normalize();
+			CHECK(vec.unit_length());
+			CHECK(vec.length() == approx(T{ 1 }));
 		}
 
 		{
 			INFO("vector::normalize(vector)"sv)
 
-			vector_t vector{ x };
-			vector = vector_t::normalize(vector);
-			CHECK(vector.length() == approx(T{ 1 }));
+			vector_t vec{ x };
+			vec = vector_t::normalize(vec);
+			CHECK(vec.length() == approx(T{ 1 }));
 		}
 	}
 }

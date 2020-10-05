@@ -486,15 +486,20 @@ MUU_NAMESPACE_START
 	template <typename T, typename... U>
 	inline constexpr bool is_same_as_all = (sizeof...(U) > 0) && (true && ... && std::is_same_v<T, U>);
 
-	/// \brief	True if T is convertible to one or more of the types named by U.
-	/// \detail This equivalent to `(std::is_convertible<T, U1> || std::is_convertible<T, U2> || ...)`.
-	template <typename T, typename... U>
-	inline constexpr bool is_convertible_to_any = (false || ... || std::is_convertible_v<T, U>);
+	/// \brief	True if From is convertible to one or more of the types named by To.
+	/// \detail This equivalent to `(std::is_convertible<From, To1> || std::is_convertible<From, To2> || ...)`.
+	template <typename From, typename... To>
+	inline constexpr bool is_convertible_to_any = (false || ... || std::is_convertible_v<From, To>);
 
-	/// \brief	True if T is convertible to all of the types named by U.
-	/// \detail This equivalent to `(std::is_convertible<T, U1> && std::is_convertible<T, U2> && ...)`.
-	template <typename T, typename... U>
-	inline constexpr bool is_convertible_to_all = (sizeof...(U) > 0) && (true && ... && std::is_convertible_v<T, U>);
+	/// \brief	True if From is convertible to all of the types named by To.
+	/// \detail This equivalent to `(std::is_convertible<From, To1> && std::is_convertible<From, To2> && ...)`.
+	template <typename From, typename... To>
+	inline constexpr bool is_convertible_to_all = (sizeof...(To) > 0) && (true && ... && std::is_convertible_v<From, To>);
+
+	/// \brief	True if all of the types named by From are convertible to To.
+	/// \detail This equivalent to `(std::is_convertible<From1, To> && std::is_convertible<From2, To> && ...)`.
+	template <typename To, typename... From>
+	inline constexpr bool all_convertible_to = (sizeof...(From) > 0) && (true && ... && std::is_convertible_v<From, To>);
 
 	/// \brief Is a type an enum or reference-to-enum?
 	template <typename T>
@@ -3672,7 +3677,7 @@ MUU_NAMESPACE_START
 		}
 	}
 
-	/// \brief	Checks if a object is infinity or NaN.
+	/// \brief	Checks if an object is infinity or NaN.
 	///
 	/// \tparam	T		The object type.
 	/// \param 	obj		The object.

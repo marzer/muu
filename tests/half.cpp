@@ -24,13 +24,8 @@ TEST_CASE("half - negation")
 	{
 		const auto negated1 = -half{ i };
 		const auto negated2 = half{ -i };
-		if (i == 0)
-			CHECK((negated1.bits & 0b0111111111111111_u16) == (negated2.bits & 0b0111111111111111_u16));
-		else
-		{
-			CHECK(negated1.bits == negated2.bits);
-			CHECK(!!(negated2.bits & 0b1000000000000000_u16) == (i >= 0));
-		}
+		if (i != 0)
+			CHECK(negated1 == negated2);
 		CHECK(static_cast<float>(negated1) == -static_cast<float>(i));
 		CHECK(static_cast<double>(negated1) == -static_cast<double>(i));
 	}

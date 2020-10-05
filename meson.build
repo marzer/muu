@@ -35,6 +35,7 @@ is_clang = compiler.get_id() == 'clang'
 is_msvc = compiler.get_id() == 'msvc'
 is_icc_cl = compiler.get_id() == 'intel-cl'
 is_icc = is_icc_cl or compiler.get_id() == 'intel'
+is_lld = compiler.get_linker_id() == 'ld.lld'
 is_debug = get_option('debug')
 is_release = not is_debug
 is_pedantic = get_option('pedantic')
@@ -237,6 +238,11 @@ if is_windows
 	add_project_arguments(get_option('default_library') == 'shared' ? '-DMUU_DLL=1' : '-DMUU_DLL=0', language : 'cpp')
 else
 	overrides += 'strip=true'
+endif
+
+# Clang ld
+if is_lld
+	overrides += 'b_lto=false'
 endif
 
 #######################################################################################################################

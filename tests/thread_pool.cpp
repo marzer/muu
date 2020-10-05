@@ -30,6 +30,8 @@ TEST_CASE("thread_pool - initialization")
 		CHECK(threads.size() == 0u);
 		CHECK(threads2.size() == 1u);
 		threads2.for_range(0_sz, threads2.size(), anti_hang);
+
+		std::this_thread::sleep_for(100ms);
 	}
 
 	{
@@ -38,6 +40,8 @@ TEST_CASE("thread_pool - initialization")
 		thread_pool threads{ 1u, 10u };
 		CHECK(threads.size() == 1u);
 		threads.for_range(0_sz, threads.size(), anti_hang);
+
+		std::this_thread::sleep_for(100ms);
 	}
 
 	{
@@ -46,12 +50,16 @@ TEST_CASE("thread_pool - initialization")
 		thread_pool threads;
 		CHECK(threads.size() == std::thread::hardware_concurrency());
 		threads.for_range(0_sz, threads.size(), anti_hang);
+
+		std::this_thread::sleep_for(100ms);
 	}
 
 	{
 		INFO("auto workers, queue size == 10")
 		thread_pool threads{ 0u, 10u };
 		threads.for_range(0_sz, threads.size(), anti_hang);
+
+		std::this_thread::sleep_for(100ms);
 	}
 }
 

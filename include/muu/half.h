@@ -12,18 +12,33 @@ MUU_DISABLE_WARNINGS
 #include <iosfwd>
 MUU_ENABLE_WARNINGS
 
-// detect SSE, SSE2 and FP16C
-#define MUU_F16_USE_INTRINSICS (MUU_ISET_SSE && MUU_ISET_SSE2)
-#if MUU_GCC && !defined(__F16C__)
-	#undef MUU_F16_USE_INTRINSICS
+// see if we can just wrap a 'real' fp16 type (better codegen while still being binary-compatible)
+#if MUU_HAS_FLOAT16
+	#define HALF_IMPL_TYPE		_Float16
+#elif MUU_HAS_FP16
+	#define HALF_IMPL_TYPE		__fp16
 #endif
-#if MUU_CLANG
-	#if !__has_feature(f16c)
-		#undef MUU_F16_USE_INTRINSICS
+#ifdef MUU_HALF_TYPE
+	#define HALF_EMULATED		0
+	#define HALF_USE_INTRINSICS	0
+#else
+	#define HALF_IMPL_TYPE		uint16_t
+	#define HALF_EMULATED		1
+
+	// detect SSE, SSE2 and FP16C
+	#define HALF_USE_INTRINSICS (MUU_ISET_SSE && MUU_ISET_SSE2)
+	#if MUU_GCC && !defined(__F16C__)
+		#undef HALF_USE_INTRINSICS
 	#endif
-#endif
-#ifndef MUU_F16_USE_INTRINSICS
-	#define MUU_F16_USE_INTRINSICS 0
+	#if MUU_CLANG
+		#if !__has_feature(f16c)
+			#undef HALF_USE_INTRINSICS
+		#endif
+	#endif
+	#ifndef HALF_USE_INTRINSICS
+		#define HALF_USE_INTRINSICS 0
+	#endif
+
 #endif
 
 MUU_PUSH_WARNINGS
@@ -34,9 +49,12 @@ MUU_NAMESPACE_START
 {
 	namespace impl
 	{
+		#if !defined(DOXYGEN) && HALF_EMULATED
 		[[nodiscard]] MUU_ATTR(const) constexpr uint16_t MUU_VECTORCALL f32_to_f16(float) noexcept;
 		[[nodiscard]] MUU_ATTR(const) constexpr float MUU_VECTORCALL f16_to_f32(uint16_t) noexcept;
-		struct f16_from_bits_tag {};
+		#endif
+
+		struct half_from_bits_tag {};
 	}
 
 	/// \brief	A 16-bit "half-precision" floating point type.
@@ -76,28 +94,27 @@ MUU_NAMESPACE_START
 	/// \see [Half-precision floating-point (wikipedia)](https://en.wikipedia.org/wiki/Half-precision_floating-point_format)
 	struct MUU_TRIVIAL_ABI half
 	{
-		/// \brief	The raw bits of the float.
-		uint16_t bits;
+	private:
+
+		using data_type = HALF_IMPL_TYPE;
+		data_type data_;
+
+		explicit constexpr half(impl::half_from_bits_tag, uint16_t bits) noexcept
+			#if HALF_EMULATED
+			: data_{ bits }
+			#else
+			: data_{ bit_cast<data_type>(bits) }
+			#endif
+		{}
+
+	public:
 
 		/// \brief	Static constants for this type.
 		using constants = muu::constants<half>;
 
-		//====================================================
-		// CONSTRUCTORS
-		//====================================================
-
 		half() noexcept = default;
 		constexpr half(const half&) noexcept = default;
 		constexpr half& operator = (const half&) noexcept = default;
-
-	private:
-
-		explicit constexpr half(uint16_t val, impl::f16_from_bits_tag) noexcept
-			: bits{ val }
-		{}
-
-
-	public:
 
 		/// \brief	Creates a half-precision float from its raw bit equivalent.
 		[[nodiscard]]
@@ -105,58 +122,72 @@ MUU_NAMESPACE_START
 		MUU_ATTR(const)
 		static constexpr half from_bits(uint16_t val) noexcept
 		{
-			return half{ val, impl::f16_from_bits_tag{} };
+			return half{ impl::half_from_bits_tag{}, val };
 		}
 
 		MUU_NODISCARD_CTOR
 		explicit constexpr half(bool val) noexcept
-			: bits{ val ? 0x3c00_u16 : 0_u16 }
+			#if HALF_EMULATED
+			: data_{ val ? 0x3c00_u16 : 0_u16 }
+			#else
+			: data_{ static_cast<data_type>(val ? 1.0f : 0.0f) }
+			#endif
+			
 		{ }
 
-		#define MUU_F16_EXPLICIT_CONSTRUCTOR(type)					\
-			MUU_NODISCARD_CTOR										\
-			explicit constexpr half(type val) noexcept				\
-				: bits{ impl::f32_to_f16(static_cast<float>(val)) }	\
-			{}
+		#if HALF_EMULATED
+			#define HALF_EXPLICIT_CONSTRUCTOR(type)							\
+				MUU_NODISCARD_CTOR											\
+				explicit constexpr half(type val) noexcept					\
+					: data_{ impl::f32_to_f16(static_cast<float>(val)) }	\
+				{}
+		#else
+			#define HALF_EXPLICIT_CONSTRUCTOR(type)							\
+				MUU_NODISCARD_CTOR											\
+				explicit constexpr half(type val) noexcept					\
+					: data_{ static_cast<data_type>(val) }					\
+				{}
+		#endif
 
-		MUU_F16_EXPLICIT_CONSTRUCTOR(float)
-		MUU_F16_EXPLICIT_CONSTRUCTOR(double)
-		MUU_F16_EXPLICIT_CONSTRUCTOR(long double)
+		HALF_EXPLICIT_CONSTRUCTOR(float)
+		HALF_EXPLICIT_CONSTRUCTOR(double)
+		HALF_EXPLICIT_CONSTRUCTOR(long double)
 		#if MUU_HAS_FLOAT128
-		MUU_F16_EXPLICIT_CONSTRUCTOR(quad)
+		HALF_EXPLICIT_CONSTRUCTOR(quad)
 		#endif
-		MUU_F16_EXPLICIT_CONSTRUCTOR(char)
-		MUU_F16_EXPLICIT_CONSTRUCTOR(signed char)
-		MUU_F16_EXPLICIT_CONSTRUCTOR(unsigned char)
-		MUU_F16_EXPLICIT_CONSTRUCTOR(signed short)
-		MUU_F16_EXPLICIT_CONSTRUCTOR(unsigned short)
-		MUU_F16_EXPLICIT_CONSTRUCTOR(signed int)
-		MUU_F16_EXPLICIT_CONSTRUCTOR(unsigned int)
-		MUU_F16_EXPLICIT_CONSTRUCTOR(signed long)
-		MUU_F16_EXPLICIT_CONSTRUCTOR(unsigned long)
-		MUU_F16_EXPLICIT_CONSTRUCTOR(signed long long)
-		MUU_F16_EXPLICIT_CONSTRUCTOR(unsigned long long)
+		HALF_EXPLICIT_CONSTRUCTOR(char)
+		HALF_EXPLICIT_CONSTRUCTOR(signed char)
+		HALF_EXPLICIT_CONSTRUCTOR(unsigned char)
+		HALF_EXPLICIT_CONSTRUCTOR(signed short)
+		HALF_EXPLICIT_CONSTRUCTOR(unsigned short)
+		HALF_EXPLICIT_CONSTRUCTOR(signed int)
+		HALF_EXPLICIT_CONSTRUCTOR(unsigned int)
+		HALF_EXPLICIT_CONSTRUCTOR(signed long)
+		HALF_EXPLICIT_CONSTRUCTOR(unsigned long)
+		HALF_EXPLICIT_CONSTRUCTOR(signed long long)
+		HALF_EXPLICIT_CONSTRUCTOR(unsigned long long)
 		#if MUU_HAS_INT128
-		MUU_F16_EXPLICIT_CONSTRUCTOR(int128_t)
-		MUU_F16_EXPLICIT_CONSTRUCTOR(uint128_t)
+		HALF_EXPLICIT_CONSTRUCTOR(int128_t)
+		HALF_EXPLICIT_CONSTRUCTOR(uint128_t)
 		#endif
-		#undef MUU_F16_EXPLICIT_CONSTRUCTOR
+		#undef HALF_EXPLICIT_CONSTRUCTOR
 
 		#if MUU_HAS_FP16
-
 		/*explicit*/ constexpr half(__fp16 val) noexcept
-			: bits{ bit_cast<uint16_t>(val) }
-		{}
-
-		#endif // MUU_HAS_FP16
+			: data_{ static_cast<data_type>(val) }
+		{
+			static_assert(!std::is_same_v<data_type, uint16_t>);
+		}
+		#endif
 
 		#if MUU_HAS_FLOAT16
-
 		explicit constexpr half(_Float16 val) noexcept
-			: bits{ bit_cast<uint16_t>(val) }
-		{}
-
-		#endif // MUU_HAS_FLOAT16
+			: data_{ static_cast<data_type>(val) }
+		{
+		
+			static_assert(!std::is_same_v<data_type, uint16_t>);
+		}
+		#endif
 
 		//====================================================
 		// CONVERSIONS
@@ -167,67 +198,74 @@ MUU_NAMESPACE_START
 		MUU_ALWAYS_INLINE
 		explicit constexpr operator bool() const noexcept
 		{
-			return (bits & 0x7FFFu) != 0u;
+			#if HALF_EMULATED
+				return (data_ & 0x7FFF) != 0u; // !(anything but sign bit)
+			#else
+				return static_cast<bool>(data_);
+			#endif
 		}
 
 		#if MUU_HAS_FP16
-
 		[[nodiscard]]
 		MUU_ATTR(pure)
+		MUU_ALWAYS_INLINE
 		explicit constexpr operator __fp16() const noexcept
 		{
-			return bit_cast<__fp16>(bits);
+			return static_cast<__fp16>(data_);
 		}
-
-		#endif // MUU_HAS_FP16
+		#endif
 
 		#if MUU_HAS_FLOAT16
-
 		[[nodiscard]]
 		MUU_ATTR(pure)
+		MUU_ALWAYS_INLINE
 		constexpr operator _Float16() const noexcept
 		{
-			return bit_cast<_Float16>(bits);
+			return static_cast<_Float16>(data_);
 		}
-
-		#endif // MUU_HAS_FLOAT16
+		#endif
 
 		[[nodiscard]]
 		MUU_ATTR(pure)
+		MUU_ALWAYS_INLINE
 		constexpr operator float() const noexcept
 		{
-			return impl::f16_to_f32(bits);
+			#if HALF_EMULATED
+				return impl::f16_to_f32(data_);
+			#else
+				return static_cast<float>(data_);
+			#endif
 		}
 
-		#define MUU_F16_CAST_CONVERSION(type, explicit)				\
-			[[nodiscard]]											\
-			explicit constexpr operator type() const noexcept		\
-			{														\
-				return static_cast<type>(impl::f16_to_f32(bits));	\
+		#define HALF_CAST_CONVERSION(type, explicit)					\
+			[[nodiscard]]												\
+			explicit constexpr operator type() const noexcept			\
+			{															\
+				return static_cast<type>(static_cast<float>(*this));	\
 			}
 
-		MUU_F16_CAST_CONVERSION(double,						)
-		MUU_F16_CAST_CONVERSION(long double,				)
+		HALF_CAST_CONVERSION(double,						)
+		HALF_CAST_CONVERSION(long double,					)
 		#if MUU_HAS_FLOAT128
-		MUU_F16_CAST_CONVERSION(quad,						)
+		HALF_CAST_CONVERSION(quad,							)
 		#endif
-		MUU_F16_CAST_CONVERSION(char,				explicit)
-		MUU_F16_CAST_CONVERSION(signed char,		explicit)
-		MUU_F16_CAST_CONVERSION(unsigned char,		explicit)
-		MUU_F16_CAST_CONVERSION(signed short,		explicit)
-		MUU_F16_CAST_CONVERSION(unsigned short,		explicit)
-		MUU_F16_CAST_CONVERSION(signed int,			explicit)
-		MUU_F16_CAST_CONVERSION(unsigned int,		explicit)
-		MUU_F16_CAST_CONVERSION(signed long,		explicit)
-		MUU_F16_CAST_CONVERSION(unsigned long,		explicit)
-		MUU_F16_CAST_CONVERSION(signed long long,	explicit)
-		MUU_F16_CAST_CONVERSION(unsigned long long,	explicit)
+		HALF_CAST_CONVERSION(char,					explicit)
+		HALF_CAST_CONVERSION(signed char,			explicit)
+		HALF_CAST_CONVERSION(unsigned char,			explicit)
+		HALF_CAST_CONVERSION(signed short,			explicit)
+		HALF_CAST_CONVERSION(unsigned short,		explicit)
+		HALF_CAST_CONVERSION(signed int,			explicit)
+		HALF_CAST_CONVERSION(unsigned int,			explicit)
+		HALF_CAST_CONVERSION(signed long,			explicit)
+		HALF_CAST_CONVERSION(unsigned long,			explicit)
+		HALF_CAST_CONVERSION(signed long long,		explicit)
+		HALF_CAST_CONVERSION(unsigned long long,	explicit)
 		#if MUU_HAS_INT128
-		MUU_F16_CAST_CONVERSION(int128_t,			explicit)
-		MUU_F16_CAST_CONVERSION(uint128_t,			explicit)
+		HALF_CAST_CONVERSION(int128_t,				explicit)
+		HALF_CAST_CONVERSION(uint128_t,				explicit)
 		#endif
 
-		#undef MUU_F16_CAST_CONVERSION
+		#undef HALF_CAST_CONVERSION
 
 		//====================================================
 		// COMPARISONS
@@ -275,7 +313,7 @@ MUU_NAMESPACE_START
 			return static_cast<float>(lhs) >= static_cast<float>(rhs);
 		}
 
-		#define MUU_F16_PROMOTING_BINARY_OP(return_type, input_type, op)								\
+		#define HALF_PROMOTING_BINARY_OP(return_type, input_type, op)									\
 			[[nodiscard]]																				\
 			MUU_ATTR(const)																				\
 			friend constexpr return_type MUU_VECTORCALL operator op (half lhs, input_type rhs) noexcept	\
@@ -289,7 +327,7 @@ MUU_NAMESPACE_START
 				return lhs op static_cast<input_type>(rhs);												\
 			}
 
-		#define MUU_F16_CONVERTING_BINARY_OP(return_type, input_type, op)								\
+		#define HALF_CONVERTING_BINARY_OP(return_type, input_type, op)									\
 			[[nodiscard]]																				\
 			MUU_ATTR(const)																				\
 			friend constexpr return_type MUU_VECTORCALL operator op (half lhs, input_type rhs) noexcept	\
@@ -303,42 +341,42 @@ MUU_NAMESPACE_START
 				return static_cast<return_type>( static_cast<float>(lhs) op static_cast<float>(rhs) );	\
 			}
 
-		#define MUU_F16_BINARY_OPS(func, input_type)	\
-			func(bool, input_type, ==)					\
-			func(bool, input_type, !=)					\
-			func(bool, input_type, < )					\
-			func(bool, input_type, <=)					\
-			func(bool, input_type, > )					\
+		#define HALF_BINARY_OPS(func, input_type)	\
+			func(bool, input_type, ==)				\
+			func(bool, input_type, !=)				\
+			func(bool, input_type, < )				\
+			func(bool, input_type, <=)				\
+			func(bool, input_type, > )				\
 			func(bool, input_type, >=)
 
 		#if MUU_HAS_FP16
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, __fp16)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, __fp16)
 		#endif
 		#if MUU_HAS_FLOAT16
-		MUU_F16_BINARY_OPS(MUU_F16_PROMOTING_BINARY_OP, _Float16)
+		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP, _Float16)
 		#endif
-		MUU_F16_BINARY_OPS(MUU_F16_PROMOTING_BINARY_OP,  float)
-		MUU_F16_BINARY_OPS(MUU_F16_PROMOTING_BINARY_OP,  double)
-		MUU_F16_BINARY_OPS(MUU_F16_PROMOTING_BINARY_OP,  long double)
+		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,  float)
+		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,  double)
+		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,  long double)
 		#if MUU_HAS_FLOAT128
-		MUU_F16_BINARY_OPS(MUU_F16_PROMOTING_BINARY_OP,  quad)
+		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,  quad)
 		#endif
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, char)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, signed char)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, unsigned char)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, signed short)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, unsigned short)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, signed int)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, unsigned int)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, signed long)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, unsigned long)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, signed long long)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, unsigned long long)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, char)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, signed char)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, unsigned char)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, signed short)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, unsigned short)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, signed int)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, unsigned int)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, signed long)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, unsigned long)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, signed long long)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, unsigned long long)
 		#if MUU_HAS_INT128
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, int128_t)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP, uint128_t)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, int128_t)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, uint128_t)
 		#endif
-		#undef MUU_F16_BINARY_OPS
+		#undef HALF_BINARY_OPS
 
 		//====================================================
 		// ARITHMETIC OPERATORS
@@ -372,42 +410,42 @@ MUU_NAMESPACE_START
 			return half{ static_cast<float>(lhs) / static_cast<float>(rhs) };
 		}
 
-		#define MUU_F16_BINARY_OPS(func, return_type, input_type)	\
-			func(return_type, input_type, +)						\
-			func(return_type, input_type, -)						\
-			func(return_type, input_type, *)						\
+		#define HALF_BINARY_OPS(func, return_type, input_type)	\
+			func(return_type, input_type, +)					\
+			func(return_type, input_type, -)					\
+			func(return_type, input_type, *)					\
 			func(return_type, input_type, /)
 
 		#if MUU_HAS_FP16
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	half,			__fp16)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			__fp16)
 		#endif
 		#if MUU_HAS_FLOAT16
-		MUU_F16_BINARY_OPS(MUU_F16_PROMOTING_BINARY_OP,		_Float16,		_Float16)
+		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,	_Float16,		_Float16)
 		#endif
-		MUU_F16_BINARY_OPS(MUU_F16_PROMOTING_BINARY_OP,		float,			float)
-		MUU_F16_BINARY_OPS(MUU_F16_PROMOTING_BINARY_OP,		double,			double)
-		MUU_F16_BINARY_OPS(MUU_F16_PROMOTING_BINARY_OP,		long double,	long double)
+		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,	float,			float)
+		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,	double,			double)
+		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,	long double,	long double)
 		#if MUU_HAS_FLOAT128
-		MUU_F16_BINARY_OPS(MUU_F16_PROMOTING_BINARY_OP,		quad,			quad)
+		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,	quad,			quad)
 		#endif
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	half,			char)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	half,			signed char)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	half,			unsigned char)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	half,			signed short)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	half,			unsigned short)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	half,			signed int)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	half,			unsigned int)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	half,			signed long)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	half,			unsigned long)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	half,			signed long long)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	half,			unsigned long long)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			char)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			signed char)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			unsigned char)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			signed short)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			unsigned short)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			signed int)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			unsigned int)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			signed long)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			unsigned long)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			signed long long)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			unsigned long long)
 		#if MUU_HAS_INT128
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	half,			int128_t)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_BINARY_OP,	half,			uint128_t)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			int128_t)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			uint128_t)
 		#endif
-		#undef MUU_F16_BINARY_OPS
-		#undef MUU_F16_PROMOTING_BINARY_OP
-		#undef MUU_F16_CONVERTING_BINARY_OP
+		#undef HALF_BINARY_OPS
+		#undef HALF_PROMOTING_BINARY_OP
+		#undef HALF_CONVERTING_BINARY_OP
 
 		//====================================================
 		// ARITHMETIC ASSIGNMENTS
@@ -415,86 +453,125 @@ MUU_NAMESPACE_START
 
 		friend constexpr half& operator += (half& lhs, half rhs) noexcept
 		{
-			lhs.bits = impl::f32_to_f16(static_cast<float>(lhs) + static_cast<float>(rhs));
+			#if HALF_EMULATED
+				lhs.data_ = impl::f32_to_f16(static_cast<float>(lhs) + static_cast<float>(rhs));
+			#else
+				lhs.data_ += rhs.data_;
+			#endif
 			return lhs;
 		}
 
 		friend constexpr half& operator -= (half& lhs, half rhs) noexcept
 		{
-			lhs.bits = impl::f32_to_f16(static_cast<float>(lhs) - static_cast<float>(rhs));
+			#if HALF_EMULATED
+				lhs.data_ = impl::f32_to_f16(static_cast<float>(lhs) - static_cast<float>(rhs));
+			#else
+				lhs.data_ -= rhs.data_;
+			#endif
 			return lhs;
 		}
 
 		friend constexpr half& operator *= (half& lhs, half rhs) noexcept
 		{
-			lhs.bits = impl::f32_to_f16(static_cast<float>(lhs) * static_cast<float>(rhs));
+			#if HALF_EMULATED
+				lhs.data_ = impl::f32_to_f16(static_cast<float>(lhs) * static_cast<float>(rhs));
+			#else
+				lhs.data_ *= rhs.data_;
+			#endif
 			return lhs;
 		}
 
 		friend constexpr half& operator /= (half& lhs, half rhs) noexcept
 		{
-			lhs.bits = impl::f32_to_f16(static_cast<float>(lhs) / static_cast<float>(rhs));
+			#if HALF_EMULATED
+				lhs.data_ = impl::f32_to_f16(static_cast<float>(lhs) / static_cast<float>(rhs));
+			#else
+				lhs.data_ /= rhs.data_;
+			#endif
 			return lhs;
 		}
 
-		#define MUU_F16_DEMOTING_ASSIGN_OP(input_type, op)								\
-			friend constexpr half& operator op##= (half& lhs, input_type rhs) noexcept	\
-			{																			\
-				lhs.bits = impl::f32_to_f16(static_cast<float>(lhs op rhs));			\
-				return lhs;																\
-			}
+		#if HALF_EMULATED
+			#define HALF_DEMOTING_ASSIGN_OP(input_type, op)									\
+				friend constexpr half& operator op##= (half& lhs, input_type rhs) noexcept	\
+				{																			\
+					lhs.data_ = impl::f32_to_f16(static_cast<float>(lhs op rhs));			\
+					return lhs;																\
+				}
 
-		#define MUU_F16_CONVERTING_ASSIGN_OP(input_type, op)							\
-			friend constexpr half& operator op##= (half& lhs, input_type rhs) noexcept	\
-			{																			\
-				lhs.bits = impl::f32_to_f16(static_cast<float>(lhs) op rhs);			\
-				return lhs;																\
-			}
+			#define HALF_CONVERTING_ASSIGN_OP(input_type, op)								\
+				friend constexpr half& operator op##= (half& lhs, input_type rhs) noexcept	\
+				{																			\
+					lhs.data_ = impl::f32_to_f16(static_cast<float>(lhs) op rhs);			\
+					return lhs;																\
+				}
 
-		#define MUU_F16_CASTING_ASSIGN_OP(input_type, op)								\
-			friend constexpr half& operator op##= (half& lhs, input_type rhs) noexcept	\
-			{																			\
-				lhs.bits = bit_cast<uint16_t>(lhs op rhs);								\
-				return lhs;																\
-			}
+			#define HALF_CASTING_ASSIGN_OP(input_type, op)									\
+				friend constexpr half& operator op##= (half& lhs, input_type rhs) noexcept	\
+				{																			\
+					lhs.data_ = bit_cast<data_type>(lhs op rhs);							\
+					return lhs;																\
+				}
+		#else
+			#define HALF_DEMOTING_ASSIGN_OP(input_type, op)									\
+				friend constexpr half& operator op##= (half& lhs, input_type rhs) noexcept	\
+				{																			\
+					lhs.data_ = static_cast<data_type>(lhs op rhs);							\
+					return lhs;																\
+				}
 
-		#define MUU_F16_BINARY_OPS(func, input_type)	\
-			func(input_type, +)							\
-			func(input_type, -)							\
-			func(input_type, *)							\
+			#define HALF_CONVERTING_ASSIGN_OP(input_type, op)								\
+				friend constexpr half& operator op##= (half& lhs, input_type rhs) noexcept	\
+				{																			\
+					lhs.data_ = static_cast<data_type>(static_cast<float>(lhs) op rhs);		\
+					return lhs;																\
+				}
+
+			#define HALF_CASTING_ASSIGN_OP(input_type, op)									\
+				friend constexpr half& operator op##= (half& lhs, input_type rhs) noexcept	\
+				{																			\
+					lhs.data_ = static_cast<data_type>(lhs op rhs);							\
+					return lhs;																\
+				}
+		#endif
+
+		#define HALF_BINARY_OPS(func, input_type)	\
+			func(input_type, +)						\
+			func(input_type, -)						\
+			func(input_type, *)						\
 			func(input_type, /)
 
 		#if MUU_HAS_FP16
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	__fp16)
+		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	__fp16)
 		#endif
 		#if MUU_HAS_FLOAT16
-		MUU_F16_BINARY_OPS(MUU_F16_CASTING_ASSIGN_OP,		_Float16)
+		HALF_BINARY_OPS(HALF_CASTING_ASSIGN_OP,		_Float16)
 		#endif
-		MUU_F16_BINARY_OPS(MUU_F16_DEMOTING_ASSIGN_OP,		float)
-		MUU_F16_BINARY_OPS(MUU_F16_DEMOTING_ASSIGN_OP,		double)
-		MUU_F16_BINARY_OPS(MUU_F16_DEMOTING_ASSIGN_OP,		long double)
+		HALF_BINARY_OPS(HALF_DEMOTING_ASSIGN_OP,	float)
+		HALF_BINARY_OPS(HALF_DEMOTING_ASSIGN_OP,	double)
+		HALF_BINARY_OPS(HALF_DEMOTING_ASSIGN_OP,	long double)
 		#if MUU_HAS_FLOAT128
-		MUU_F16_BINARY_OPS(MUU_F16_DEMOTING_ASSIGN_OP,		quad)
+		HALF_BINARY_OPS(HALF_DEMOTING_ASSIGN_OP,	quad)
 		#endif
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	char)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	signed char)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	unsigned char)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	signed short)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	unsigned short)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	signed int)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	unsigned int)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	signed long)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	unsigned long)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	signed long long)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	unsigned long long)
+		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	char)
+		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	signed char)
+		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	unsigned char)
+		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	signed short)
+		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	unsigned short)
+		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	signed int)
+		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	unsigned int)
+		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	signed long)
+		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	unsigned long)
+		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	signed long long)
+		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	unsigned long long)
 		#if MUU_HAS_INT128
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	int128_t)
-		MUU_F16_BINARY_OPS(MUU_F16_CONVERTING_ASSIGN_OP,	uint128_t)
+		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	int128_t)
+		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	uint128_t)
 		#endif
-		#undef MUU_F16_BINARY_OPS
-		#undef MUU_F16_DEMOTING_ASSIGN_OP
-		#undef MUU_F16_CONVERTING_ASSIGN_OP
-		#undef MUU_F16_CASTING_ASSIGN_OP
+		#undef HALF_BINARY_OPS
+		#undef HALF_DEMOTING_ASSIGN_OP
+		#undef HALF_CONVERTING_ASSIGN_OP
+		#undef HALF_CASTING_ASSIGN_OP
 
 		//====================================================
 		// INCREMENTS AND DECREMENTS
@@ -502,27 +579,43 @@ MUU_NAMESPACE_START
 
 		constexpr half& operator++() noexcept
 		{
-			bits = impl::f32_to_f16(static_cast<float>(*this) + 1.0f);
+			#if HALF_EMULATED
+				data_ = impl::f32_to_f16(static_cast<float>(*this) + 1.0f);
+			#else
+				data_++;
+			#endif
 			return *this;
 		}
 
 		constexpr half& operator--() noexcept
 		{
-			bits = impl::f32_to_f16(static_cast<float>(*this) - 1.0f);
+			#if HALF_EMULATED
+				data_ = impl::f32_to_f16(static_cast<float>(*this) - 1.0f);
+			#else
+				data_--;
+			#endif
 			return *this;
 		}
 
 		constexpr half operator++(int) noexcept
 		{
 			half prev = *this;
-			bits = impl::f32_to_f16(static_cast<float>(*this) + 1.0f);
+			#if HALF_EMULATED
+				data_ = impl::f32_to_f16(static_cast<float>(*this) + 1.0f);
+			#else
+				data_++;
+			#endif
 			return prev;
 		}
 
 		constexpr half operator--(int) noexcept
 		{
 			half prev = *this;
-			bits = impl::f32_to_f16(static_cast<float>(*this) - 1.0f);
+			#if HALF_EMULATED
+				data_ = impl::f32_to_f16(static_cast<float>(*this) - 1.0f);
+			#else
+				data_--;
+			#endif
 			return prev;
 		}
 
@@ -541,7 +634,11 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		constexpr half operator - () const noexcept
 		{
-			return from_bits(bits ^ 0b1000000000000000_u16);
+			#if HALF_EMULATED
+				return from_bits(data_ ^ 0b1000000000000000_u16);
+			#else
+				return half{ -static_cast<float>(data_) };
+			#endif
 		}
 
 		template <typename Char, typename Traits>
@@ -559,13 +656,30 @@ MUU_NAMESPACE_START
 			return lhs;
 		}
 
+
+		/// \brief	Returns true if the value of the half is positive/negative infinity or Not-A-Number.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr bool infinity_or_nan() const noexcept
+		{
+			#if HALF_EMULATED
+				return (0b0111110000000000_u16 & data_) == 0b0111110000000000_u16;
+			#else
+				return muu::infinity_or_nan(data_);
+			#endif
+		}
+
 		/// \brief	Returns true if the value of the half is positive or negative infinity.
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr bool infinity() const noexcept
 		{
-			return (0b0111110000000000_u16 & bits) == 0b0111110000000000_u16
-				&& (0b0000001111111111_u16 & bits) == 0_u16;
+			#if HALF_EMULATED
+				return (0b0111110000000000_u16 & data_) == 0b0111110000000000_u16
+					&& (0b0000001111111111_u16 & data_) == 0_u16;
+			#else
+				return infinity_or_nan() && data_ == data_;
+			#endif
 		}
 
 		/// \brief	Returns true if the value of the half is Not-A-Number.
@@ -573,21 +687,20 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		constexpr bool nan() const noexcept
 		{
-			return (0b0111110000000000_u16 & bits) == 0b0111110000000000_u16
-				&& (0b0000001111111111_u16 & bits) != 0_u16;
-		}
-
-		/// \brief	Returns true if the value of the half is positive/negative infinity or Not-A-Number.
-		[[nodiscard]]
-		MUU_ATTR(pure)
-		constexpr bool infinity_or_nan() const noexcept
-		{
-			return (0b0111110000000000_u16 & bits) == 0b0111110000000000_u16;
+			#if HALF_EMULATED
+				return (0b0111110000000000_u16 & data_) == 0b0111110000000000_u16
+					&& (0b0000001111111111_u16 & data_) != 0_u16;
+			#else
+				return infinity_or_nan() && data_ != data_;
+			#endif
 		}
 	};
 
+	#ifndef DOXYGEN
 	namespace impl
 	{
+		#if HALF_EMULATED
+
 		template <>
 		struct integer_limits<half>
 		{
@@ -624,13 +737,6 @@ MUU_NAMESPACE_START
 			static constexpr half minus_eight	= half::from_bits(0b1'10010'0000000000_u16);
 			static constexpr half minus_nine	= half::from_bits(0b1'10010'0010000000_u16);
 			static constexpr half minus_ten		= half::from_bits(0b1'10010'0100000000_u16);
-		};
-
-		template <>
-		struct floating_point_limits<half>
-		{
-			static constexpr int significand_digits = 11;
-			static constexpr half approx_equal_epsilon = half::from_bits(0b0'00101'0000011001_u16); // 0.001
 		};
 
 		template <>
@@ -689,7 +795,21 @@ MUU_NAMESPACE_START
 			static constexpr half one_over_sqrt_phi     = half::from_bits( 0b0'01110'1001001010_u16 );
 		};
 
+		#endif // HALF_EMULATED
+
+		template <>
+		struct floating_point_limits<half>
+		{
+			static constexpr int significand_digits = 11;
+			
+			#if HALF_EMULATED
+			static constexpr half approx_equal_epsilon = half::from_bits(0b0'00101'0000011001_u16); // 0.001
+			#else
+			static constexpr half approx_equal_epsilon = half{ floating_point_limits<HALF_IMPL_TYPE>::approx_equal_epsilon };
+			#endif
+		};
 	}
+	#endif // !DOXYGEN
 
 	/// \brief	16-bit half-precision float constants.
 	/// \ingroup		constants
@@ -705,7 +825,6 @@ MUU_NAMESPACE_START
 			return half{ val };
 		}
 	}
-
 
 	/// \addtogroup 	intrinsics
 	/// @{
@@ -732,9 +851,10 @@ MUU_NAMESPACE_START
 }
 MUU_NAMESPACE_END
 
+#if !defined(DOXYGEN) && HALF_EMULATED
 MUU_IMPL_NAMESPACE_START
 {
-	#if MUU_F16_USE_INTRINSICS
+	#if HALF_USE_INTRINSICS
 
 	MUU_PUSH_WARNINGS
 	MUU_PRAGMA_MSVC(warning(disable: 4556)) // value of intrinsic immediate argument '8' is out of range '0 - 7'
@@ -770,14 +890,14 @@ MUU_IMPL_NAMESPACE_START
 
 	MUU_POP_WARNINGS
 
-	#endif //MUU_F16_USE_INTRINSICS
+	#endif //HALF_USE_INTRINSICS
 
 	inline constexpr int8_t f16_single_exp_bias = 127;
 	inline constexpr int8_t f16_half_exp_bias = 15;
 
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr uint16_t MUU_VECTORCALL f32_to_f16_native(float val) noexcept
+	constexpr uint16_t MUU_VECTORCALL f32_to_f16_emulated(float val) noexcept
 	{
 		const uint32_t bits32 = bit_cast<uint32_t>(val);
 		const uint16_t s16 = static_cast<uint16_t>((bits32 & 0x80000000u) >> 16);
@@ -829,7 +949,7 @@ MUU_IMPL_NAMESPACE_START
 
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr float MUU_VECTORCALL f16_to_f32_native(uint16_t val) noexcept
+	constexpr float MUU_VECTORCALL f16_to_f32_emulated(uint16_t val) noexcept
 	{
 		// 1000 0000 0000 0000 ->
 		// 1000 0000 0000 0000 0000 0000 0000 0000
@@ -885,7 +1005,7 @@ MUU_IMPL_NAMESPACE_START
 	MUU_ATTR(flatten)
 	constexpr uint16_t MUU_VECTORCALL f32_to_f16(float val) noexcept
 	{
-		#if MUU_F16_USE_INTRINSICS
+		#if HALF_USE_INTRINSICS
 		if constexpr (build::supports_is_constant_evaluated)
 		{
 			if (!is_constant_evaluated())
@@ -893,7 +1013,7 @@ MUU_IMPL_NAMESPACE_START
 		}
 		#endif
 
-		return f32_to_f16_native(val);
+		return f32_to_f16_emulated(val);
 	}
 
 	[[nodiscard]]
@@ -901,7 +1021,7 @@ MUU_IMPL_NAMESPACE_START
 	MUU_ATTR(flatten)
 	constexpr float MUU_VECTORCALL f16_to_f32(uint16_t val) noexcept
 	{
-		#if MUU_F16_USE_INTRINSICS
+		#if HALF_USE_INTRINSICS
 		if constexpr (build::supports_is_constant_evaluated)
 		{
 			if (!is_constant_evaluated())
@@ -909,10 +1029,11 @@ MUU_IMPL_NAMESPACE_START
 		}
 		#endif
 
-		return f16_to_f32_native(val);
+		return f16_to_f32_emulated(val);
 	}
 }
 MUU_IMPL_NAMESPACE_END
+#endif // !defined(DOXYGEN) && HALF_EMULATED
 
 namespace std
 {
@@ -951,8 +1072,12 @@ namespace std
 		MUU_ATTR(const)
 		static MUU_CONSTEVAL half(min)() noexcept
 		{
-			using namespace muu::literals;
-			return half::from_bits(0x0400_u16); // 0.000061035 (ish)
+			#if HALF_EMULATED
+				using namespace muu::literals;
+				return half::from_bits(0x0400_u16); // 0.000061035 (ish)
+			#else
+				return half{ (std::numeric_limits<HALF_IMPL_TYPE>::min)() };
+			#endif
 		}
 
 		[[nodiscard]]
@@ -973,16 +1098,24 @@ namespace std
 		MUU_ATTR(const)
 		static MUU_CONSTEVAL half epsilon() noexcept
 		{
-			using namespace muu::literals;
-			return half::from_bits(0b0'00101'0000000000_u16); // 0.00097656
+			#if HALF_EMULATED
+				using namespace muu::literals;
+				return half::from_bits(0b0'00101'0000000000_u16); // 0.00097656
+			#else
+				return half{ std::numeric_limits<HALF_IMPL_TYPE>::epsilon() };
+			#endif
 		}
 
 		[[nodiscard]]
 		MUU_ATTR(const)
 		static MUU_CONSTEVAL half round_error() noexcept
 		{
-			using namespace muu::literals;
-			return half::from_bits(0b0'00100'0000000000_u16); // epsilon / 2
+			#if HALF_EMULATED
+				using namespace muu::literals;
+				return half::from_bits(0b0'00100'0000000000_u16); // epsilon / 2
+			#else
+				return half{ std::numeric_limits<HALF_IMPL_TYPE>::round_error() };
+			#endif
 		}
 
 		[[nodiscard]]
@@ -1010,8 +1143,12 @@ namespace std
 		MUU_ATTR(const)
 		static MUU_CONSTEVAL half denorm_min() noexcept
 		{
-			using namespace muu::literals;
-			return half::from_bits(0x0001_u16); // 0.000000059605 (ish)
+			#if HALF_EMULATED
+				using namespace muu::literals;
+				return half::from_bits(0x0001_u16); // 0.000000059605 (ish)
+			#else
+				return half{ std::numeric_limits<HALF_IMPL_TYPE>::denorm_min() };
+			#endif
 		}
 	};
 
@@ -1022,4 +1159,6 @@ namespace std
 
 MUU_POP_WARNINGS // MUU_DISABLE_ARITHMETIC_WARNINGS, MUU_DISABLE_SPAM_WARNINGS
 
-#undef MUU_F16_USE_INTRINSICS
+#undef HALF_IMPL_TYPE
+#undef HALF_EMULATED
+#undef HALF_USE_INTRINSICS

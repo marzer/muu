@@ -6,7 +6,35 @@
 /// \file
 /// \brief  Contains the definition of muu::vector.
 
-// vectorizer sandbox: https://godbolt.org/z/GzGzM6
+/*
+	VECTOR CLASS DESIGN - KEY POINTS
+
+	a.k.a. pre-emptive answers to "why is _____ implemented like that?"
+
+	-	Vectors of <= 4 dimensions have named member variables x,y,z and w, whereas those with dimensions > 4
+		have a single values[] array. This is accomplished by the use of specialized base class templates.
+		While complicating the main class implementation somewhat, it is a great usability boon since in general being
+		able to refer to component 0 like "vec.x" is much more user-friendly. (implementation complexity
+		is largely addressed by the use of some generic function body implementation macros)
+
+	-	"Why not just make them a union?"
+		Because unions in C++ are a complicated mess, and almost impossible to use if you value any sort of constexpr.
+
+	-	Some functions use SFINAE to select overloads that take things either by reference or value, with the value
+		overloads being 'hidden' from doxygen and intellisense. These 'hidden' overloads are optimizations to take
+		advantage of __vectorcall on windows, and only apply to float, double and long double vectors of <= dimensions
+		since the're considered "Homogeneous Vector Aggreggates" and must be passed by value to be properly vectorized.
+		- __vectorcall: https://docs.microsoft.com/en-us/cpp/cpp/vectorcall?view=vs-2019
+		- vectorizer sandbox: https://godbolt.org/z/GzGzM6
+
+	-	You'll see intermediate_type used instead of scalar_type in a few places. It's a 'better' type used for
+		intermediate floating-point values where precision loss or unnecessary cast round-tripping is to be avoided.
+		Scalar_type is a float: intermediate_type == scalar_type, except for 16-bit floats which are promoted to float.
+		Scalar_type is integral: intermediate_type == double.
+
+	-	Some code is statically switched/branched according to whether a static_cast<> is necessary; this is to avoid
+		unnecessary codegen and improve debug build performance for non-trivial scalar_types (e.g. muu::half).
+*/
 
 #pragma once
 #include "../muu/core.h"
@@ -25,37 +53,9 @@ MUU_PRAGMA_MSVC(float_control(precise, off))
 // VECTOR CLASS IMPLEMENTATION
 #if 1
 
-/*
-	VECTOR CLASS DESIGN - KEY POINTS
-
-	a.k.a. pre-emptive answers of "why is this like _that_?"
-
-	-	Vectors of <= 4 dimensions have named member variables x,y,z and w, whereas those with dimensions > 4
-		have a single values[] array. This is accomplished by the use of specialized base class templates.
-		While complicating the main class implementation somewhat, it is a great usability boon since in general being
-		able to refer to component 0 like "vec.x" is much more user-friendly. (implementation complexity
-		is largely addressed by the use of some generic function body implementation macros)
-
-	-	"Why not just make them a union?"
-		Because unions in C++ are a complicated mess, and almost impossible to use if you value any sort of constexpr.
-
-	-	Some functions use SFINAE to select overloads that take things either by reference or value, with the value
-		overloads being 'hidden' from doxygen and intellisense. These 'hidden' overloads are optimizations to take
-		advantage of __vectorcall on windows, and only apply to float, double and long double vectors of <= dimensions
-		since the're considered "Homogeneous Vector Aggreggates" and must be passed by value to be properly vectorized.
-		(see __vectorcall: https://docs.microsoft.com/en-us/cpp/cpp/vectorcall?view=vs-2019)
-
-	-	You'll see intermediate_type used instead of scalar_type in a few places. It's a 'better' type used for
-		intermediate floating-point values where precision loss or unnecessary cast round-tripping is to be avoided.
-		When scalar_type is a float: intermediate_type == scalar_type, except for 16-bit floats (they are promoted to float).
-		When scalar_type is integral: intermediate_type == double.
-
-	-	Some code is statically switched/branched according to whether a static_cast<> is necessary; this is to avoid
-		unnecessary codegen for non-trivial scalar_types (e.g. muu::half), and to improve debug codegen in general
-		(debug performance matters!).
-*/
-
 #ifndef DOXYGEN // Template Specialization cast Confusion on Doxygen! It's super effective!
+
+#if 1 // helper macros ------------------------------------------------------------------------------------------------
 
 #if MUU_CLANG
 	#define FMA_BLOCK	MUU_PRAGMA_CLANG("clang fp contract(fast)")
@@ -198,6 +198,8 @@ MUU_PRAGMA_MSVC(float_control(precise, off))
 
 #define	REQUIRES_SIGNED	\
 	template <typename SFINAE = Scalar MUU_SFINAE(muu::is_signed<SFINAE> && std::is_same_v<SFINAE, Scalar>)>
+
+#endif // helper macros
 
 MUU_IMPL_NAMESPACE_START
 {
@@ -655,7 +657,7 @@ MUU_NAMESPACE_START
 {
 	/// \brief An N-dimensional vector.
 	///
-	/// \tparam	Scalar      An arithmetic type.
+	/// \tparam	Scalar      The type of the vector's scalar components.
 	/// \tparam Dimensions  The number of dimensions.
 	template <typename Scalar, size_t Dimensions>
 	struct MUU_TRIVIAL_ABI vector
@@ -672,8 +674,10 @@ MUU_NAMESPACE_START
 			"Scalar type cannot be const- or volatile-qualified"
 		);
 		static_assert(
-			is_arithmetic<Scalar>,
-			"Scalar type must be an arithmetic type"
+			std::is_trivially_constructible_v<Scalar>
+			&& std::is_trivially_copyable_v<Scalar>
+			&& std::is_trivially_destructible_v<Scalar>,
+			"Scalar type must be trivially constructible, copyable and destructible"
 		);
 		static_assert(
 			Dimensions >= 1,
@@ -927,7 +931,7 @@ MUU_NAMESPACE_START
 		/// \brief		Constructs a vector from five or more scalar values.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		///
-		/// \tparam T		Arithmetic types compatible with scalar_type.
+		/// \tparam T		Types convertible to scalar_type.
 		/// \param	x		Initial value for the vector's x scalar component.
 		/// \param	y		Initial value for the vector's y scalar component.
 		/// \param	z		Initial value for the vector's z scalar component.
@@ -935,7 +939,7 @@ MUU_NAMESPACE_START
 		/// \param	vals	Initial values for the vector's remaining scalar components.
 		/// 
 		/// \attention This constructor is only available when the vector has &gt;= 5 dimensions.
-		template <typename... T ENABLE_IF_AT_LEAST_DIMENSIONS_AND(5, all_arithmetic<T...>)>
+		template <typename... T ENABLE_IF_AT_LEAST_DIMENSIONS_AND(5, all_convertible_to<scalar_type, T...>)>
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y, scalar_type z, scalar_type w, T... vals) noexcept
 			: base{ x, y, z, w, vals... }
@@ -944,10 +948,10 @@ MUU_NAMESPACE_START
 		/// \brief Constructs a vector from a raw array.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		/// 
-		/// \tparam T			An arithmetic type.
+		/// \tparam T			A type convertible to scalar_type.
 		/// \tparam N			The number of elements in the array.
 		/// \param	arr			Array of values used to initialize the vector's scalar components.
-		template <typename T, size_t N ENABLE_IF_AT_LEAST_DIMENSIONS_AND(N, is_arithmetic<T>)>
+		template <typename T, size_t N ENABLE_IF_AT_LEAST_DIMENSIONS_AND(N, all_convertible_to<scalar_type, T>)>
 		MUU_NODISCARD_CTOR
 		explicit constexpr vector(const T(& arr)[N]) noexcept
 			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, arr }
@@ -956,16 +960,18 @@ MUU_NAMESPACE_START
 		/// \brief Constructs a vector from a std::array.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		/// 
-		/// \tparam T			An arithmetic type.
+		/// \tparam T			A type convertible to scalar_type.
 		/// \tparam N			The number of elements in the array.
 		/// \param	arr			Array of values used to initialize the vector's scalar components.
-		template <typename T, size_t N ENABLE_IF_AT_LEAST_DIMENSIONS_AND(N, is_arithmetic<T>)>
+		template <typename T, size_t N ENABLE_IF_AT_LEAST_DIMENSIONS_AND(N, all_convertible_to<scalar_type, T>)>
 		MUU_NODISCARD_CTOR
 		explicit constexpr vector(const std::array<T, N>& arr) noexcept
 			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, arr }
 		{}
 
 		/// \brief Constructs a vector from any tuple-like type.
+		/// 
+		/// \tparam T			A tuple-like type.
 		/// 
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		template <typename T ENABLE_IF_AT_LEAST_DIMENSIONS_AND(tuple_size<T>, is_tuple_like<T>)>
@@ -1028,10 +1034,10 @@ MUU_NAMESPACE_START
 		///  
 		/// \tparam	S	  	Vector's scalar_type.
 		/// \tparam	D		Vector's dimensions.
-		/// \tparam T		Arithmetic types compatible with scalar_type.
+		/// \tparam T		Types convertible to scalar_type.
 		/// \param 	vec		A vector.
 		/// \param 	vals	Scalar values.
-		template <typename S, size_t D, typename... T ENABLE_IF_AT_LEAST_DIMENSIONS_AND(D + sizeof...(T), all_arithmetic<T...>)>
+		template <typename S, size_t D, typename... T ENABLE_IF_AT_LEAST_DIMENSIONS_AND(D + sizeof...(T), all_convertible_to<scalar_type, T...>)>
 		MUU_NODISCARD_CTOR
 			explicit constexpr vector(const vector<S, D>& vec, T... vals) noexcept
 			: base{
@@ -1373,6 +1379,45 @@ MUU_NAMESPACE_START
 		constexpr product_type MUU_VECTORCALL distance(vector_param p) const noexcept
 		{
 			return static_cast<product_type>(raw_distance(*this, p));
+		}
+
+		/// \brief Returns true if the vector has a length of 1.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr bool unit_length() const noexcept
+		{
+			if constexpr (is_integral<scalar_type>)
+			{
+				if constexpr (Dimensions == 1)
+					return base::x == scalar_type{ 1 };
+				else
+				{
+					using sum_type = decltype(scalar_type{} + scalar_type{});
+					sum_type sum{};
+					for (size_t i = 0u; i < dimensions && sum > sum_type{ 1 }; i++)
+						sum += (*this)[i];
+					return sum == sum_type{ 1 };
+				}
+			}
+			else
+			{
+				if constexpr (Dimensions == 1)
+					return muu::approx_equal(static_cast<intermediate_type>(base::x), intermediate_type{ 1 });
+				else 
+				{
+					constexpr auto epsilon = intermediate_type{ 1 } / (
+						100ull
+						* (sizeof(scalar_type) >= sizeof(float)  ? 10000ull : 1ull)
+						* (sizeof(scalar_type) >= sizeof(double) ? 10000ull : 1ull)
+					);
+
+					return muu::approx_equal(
+						raw_length_squared(*this),
+						intermediate_type{ 1 },
+						epsilon
+					);
+				}
+			}
 		}
 
 	#endif // length and distance
@@ -1816,28 +1861,28 @@ MUU_NAMESPACE_START
 	
 	#ifndef DOXYGEN // deduction guides -------------------------------------------------------------------------------
 
-	template <typename T, typename U, typename... V MUU_SFINAE(all_arithmetic<T, U, V...>)>
+	template <typename T, typename U, typename... V>
 	vector(T, U, V...) -> vector<impl::highest_ranked<std::remove_cv_t<T>, std::remove_cv_t<U>, std::remove_cv_t<V>...>, 2 + sizeof...(V)>;
 
-	template <typename T MUU_SFINAE(is_arithmetic<T>)>
+	template <typename T>
 	vector(T) -> vector<std::remove_cv_t<T>, 1>;
 
-	template <typename T, size_t N MUU_SFINAE(is_arithmetic<T>)>
+	template <typename T, size_t N>
 	vector(const T(&)[N]) -> vector<std::remove_cv_t<T>, N>;
 
-	template <typename T, size_t N MUU_SFINAE(is_arithmetic<T>)>
+	template <typename T, size_t N>
 	vector(const std::array<T, N>&) -> vector<std::remove_cv_t<T>, N>;
 
-	template <typename T, typename U MUU_SFINAE(all_arithmetic<T, U>)>
+	template <typename T, typename U>
 	vector(const std::pair<T, U>&) -> vector<impl::highest_ranked<std::remove_cv_t<T>, std::remove_cv_t<U>>, 2>;
 
-	template <typename... T MUU_SFINAE(all_arithmetic<T...>)>
+	template <typename... T>
 	vector(const std::tuple<T...>&) -> vector<impl::highest_ranked<std::remove_cv_t<T>...>, sizeof...(T)>;
 
 	template <typename S1, size_t D1, typename S2, size_t D2>
 	vector(const vector<S1, D1>&, const vector<S2, D2>&) -> vector<impl::highest_ranked<S1, S2>, D1 + D2>;
 
-	template <typename S, size_t D, typename... T, typename = std::enable_if_t<all_arithmetic<T...>>>
+	template <typename S, size_t D, typename... T>
 	vector(const vector<S, D>&, T...) -> vector<impl::highest_ranked<S, std::remove_cv_t<T>...>, D + sizeof...(T)>;
 
 	#endif // deduction guides
@@ -1861,6 +1906,8 @@ namespace std
 	};
 }
 
+#endif // vector class implementation ==================================================================================
+
 #undef ENABLE_IF_AT_LEAST_DIMENSIONS
 #undef ENABLE_IF_AT_LEAST_DIMENSIONS_AND
 #undef REQUIRES_AT_LEAST_DIMENSIONS
@@ -1879,8 +1926,6 @@ namespace std
 #undef COMPONENTWISE_ASSIGN
 #undef NULL_TRANSFORM
 #undef FMA_BLOCK
-
-#endif // vector class iplementation ==================================================================================
 
 MUU_PRAGMA_MSVC(inline_recursion(off))
 MUU_PRAGMA_MSVC(float_control(pop))
