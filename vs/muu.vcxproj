@@ -100,6 +100,7 @@
     <ClInclude Include="..\include\muu\vector.h" />
     <ClInclude Include="..\src\os_internal.h" />
     <ClInclude Include="..\src\os_internal_windows.h" />
+    <ClInclude Include="..\src\printing.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />
@@ -138,6 +139,7 @@
     <ClCompile Include="..\src\thread_name.cpp" />
     <ClCompile Include="..\src\thread_pool.cpp" />
     <ClCompile Include="..\src\uuid.cpp" />
+    <ClCompile Include="..\src\vector.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

@@ -5,6 +5,7 @@
 
 #include "muu/uuid.h"
 #include "muu/hashing.h"
+#include "printing.h"
 MUU_DISABLE_WARNINGS
 #if MUU_MSVC
 	#include <rpc.h>
@@ -91,3 +92,61 @@ uuid::uuid(const uuid& name_space, const void* name_data, size_t name_size) noex
 	// clock_seq_hi_and_reserved to zero and one, respectively."
 	bytes.value[8] = (bytes.value[8] & 0b00111111_byte) | 0b10000000_byte; //variant (standard)
 }
+
+namespace
+{
+	template <typename Char>
+	static void print(std::basic_ostream<Char>& os, const uuid& id) noexcept
+	{
+		using chars = constants<Char>;
+
+		// pre-format the uuid in a buffer so that the user's stream padding and alignment affects the whole UUID
+		// (likely faster anyway)
+		Char buffer[36];
+		Char* pos = buffer;
+		const auto write = [&](const auto& cstr) noexcept
+		{
+			memcpy(pos, &cstr, sizeof(cstr));
+			pos += sizeof(cstr) / sizeof(Char);
+		};
+		static_assert(sizeof(impl::hex_char_pair<Char>) == sizeof(Char) * 2);
+		write(impl::byte_to_hex(id.bytes.value[0], chars::letter_A));
+		write(impl::byte_to_hex(id.bytes.value[1], chars::letter_A));
+		write(impl::byte_to_hex(id.bytes.value[2], chars::letter_A));
+		write(impl::byte_to_hex(id.bytes.value[3], chars::letter_A));
+		write(chars::hyphen);
+		write(impl::byte_to_hex(id.bytes.value[4], chars::letter_A));
+		write(impl::byte_to_hex(id.bytes.value[5], chars::letter_A));
+		write(chars::hyphen);
+		write(impl::byte_to_hex(id.bytes.value[6], chars::letter_A));
+		write(impl::byte_to_hex(id.bytes.value[7], chars::letter_A));
+		write(chars::hyphen);
+		write(impl::byte_to_hex(id.bytes.value[8], chars::letter_A));
+		write(impl::byte_to_hex(id.bytes.value[9], chars::letter_A));
+		write(chars::hyphen);
+		write(impl::byte_to_hex(id.bytes.value[10], chars::letter_A));
+		write(impl::byte_to_hex(id.bytes.value[11], chars::letter_A));
+		write(impl::byte_to_hex(id.bytes.value[12], chars::letter_A));
+		write(impl::byte_to_hex(id.bytes.value[13], chars::letter_A));
+		write(impl::byte_to_hex(id.bytes.value[14], chars::letter_A));
+		write(impl::byte_to_hex(id.bytes.value[15], chars::letter_A));
+		MUU_ASSERT(pos == buffer + 36);
+
+		// print the thing
+		os << std::basic_string_view<Char>{ buffer, 36_sz };
+	}
+}
+
+MUU_IMPL_NAMESPACE_START
+{
+	void print_to_stream(std::ostream& os, const uuid& id)
+	{
+		::print(os, id);
+	}
+
+	void print_to_stream(std::wostream& os, const uuid& id)
+	{
+		::print(os, id);
+	}
+}
+MUU_IMPL_NAMESPACE_END

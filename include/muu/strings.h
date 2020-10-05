@@ -603,48 +603,45 @@ MUU_NAMESPACE_START
 				return hex_to_dec(static_cast<unsigned>(codepoint));
 		}
 
+		template <typename Char = char>
 		[[nodiscard]]
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
-		constexpr char dec_to_hex(unsigned val, char a = 'a') noexcept
+		constexpr Char dec_to_hex(unsigned val, Char a = constants<Char>::letter_a) noexcept
 		{
-			return static_cast<char>(val >= 10u ? static_cast<unsigned>(a) + (val - 10u) : '0' + val);
+			return static_cast<Char>(val >= 10u ? static_cast<unsigned>(a) + (val - 10u) : constants<Char>::digit_0 + val);
 		}
 
+		template <typename Char = char>
 		struct hex_char_pair final
 		{
-			char high;
-			char low;
+			Char high;
+			Char low;
 		};
-		static_assert(sizeof(hex_char_pair) == 2);
 
 		template <typename Char, typename Traits>
-		inline std::basic_ostream<Char, Traits>& operator<< (std::basic_ostream<Char, Traits>& lhs, hex_char_pair rhs)
+		inline std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& lhs, hex_char_pair<Char> rhs)
 		{
-			if constexpr (sizeof(Char) == 1)
-				lhs.write(&rhs.high, 2u);
-			else
-			{
-				lhs << rhs.high;
-				lhs << rhs.low;
-			}
+			static_assert(sizeof(hex_char_pair<Char>) == sizeof(Char) * 2);
+			lhs.write(&rhs.high, 2u);
 			return lhs;
 		}
 
+		template <typename Char = char>
 		[[nodiscard]]
 		MUU_ATTR(const)
-		constexpr hex_char_pair byte_to_hex(uint8_t byte, char a = 'a') noexcept
+		constexpr hex_char_pair<Char> byte_to_hex(uint8_t byte, Char a = constants<Char>::letter_a) noexcept
 		{
 			return { dec_to_hex(byte / 16u, a), dec_to_hex(byte % 16u, a) };
 		}
 
+		template <typename Char = char>
 		[[nodiscard]]
 		MUU_ATTR(const)
-		constexpr hex_char_pair byte_to_hex(std::byte byte, char a = 'a') noexcept
+		constexpr hex_char_pair<Char> byte_to_hex(std::byte byte, Char a = constants<Char>::letter_a) noexcept
 		{
 			return byte_to_hex(unwrap(byte), a);
 		}
-
 	}
 
 	//=================================================================================================================

@@ -94,6 +94,9 @@ MUU_IMPL_NAMESPACE_START
 		using slicer = MUU_EVAL(MUU_BIG_ENDIAN, be, le)::uuid_slicer<N>;
 		return slicer::slice(byte_arr, first);
 	}
+
+	MUU_API void print_to_stream(std::ostream& stream, const uuid&);
+	MUU_API void print_to_stream(std::wostream& stream, const uuid&);
 }
 MUU_IMPL_NAMESPACE_END
 #endif // !DOXYGEN
@@ -594,27 +597,7 @@ MUU_NAMESPACE_START
 		template <typename Char, typename Traits>
 		friend std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& lhs, const uuid& rhs)
 		{
-			using c = muu::constants<Char>;
-			lhs << impl::byte_to_hex(rhs.bytes.value[0], 'A');
-			lhs << impl::byte_to_hex(rhs.bytes.value[1], 'A');
-			lhs << impl::byte_to_hex(rhs.bytes.value[2], 'A');
-			lhs << impl::byte_to_hex(rhs.bytes.value[3], 'A');
-			lhs << c::hyphen;
-			lhs << impl::byte_to_hex(rhs.bytes.value[4], 'A');
-			lhs << impl::byte_to_hex(rhs.bytes.value[5], 'A');
-			lhs << c::hyphen;
-			lhs << impl::byte_to_hex(rhs.bytes.value[6], 'A');
-			lhs << impl::byte_to_hex(rhs.bytes.value[7], 'A');
-			lhs << c::hyphen;
-			lhs << impl::byte_to_hex(rhs.bytes.value[8], 'A');
-			lhs << impl::byte_to_hex(rhs.bytes.value[9], 'A');
-			lhs << c::hyphen;
-			lhs << impl::byte_to_hex(rhs.bytes.value[10], 'A');
-			lhs << impl::byte_to_hex(rhs.bytes.value[11], 'A');
-			lhs << impl::byte_to_hex(rhs.bytes.value[12], 'A');
-			lhs << impl::byte_to_hex(rhs.bytes.value[13], 'A');
-			lhs << impl::byte_to_hex(rhs.bytes.value[14], 'A');
-			lhs << impl::byte_to_hex(rhs.bytes.value[15], 'A');
+			impl::print_to_stream(lhs, rhs);
 			return lhs;
 		}
 	};

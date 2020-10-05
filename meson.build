@@ -70,6 +70,7 @@ if is_gcc or is_clang
 			'-ffunction-sections',
 			'-Wl,--gc-sections',
 			'-Wl,-s',
+			'-mfma',
 			language : 'cpp'
 		)
 	endif
@@ -128,7 +129,6 @@ if is_gcc
 	if is_release
 		add_project_arguments(
 			'-fmerge-constants',
-			'-mfma',
 			language : 'cpp'
 		)
 	endif
@@ -156,7 +156,11 @@ if is_clang
 		add_project_arguments('-ftime-trace', language : 'cpp')
 	endif
 	if is_release
-		add_project_arguments('-Oz', '-fmerge-all-constants', language : 'cpp')
+		add_project_arguments(
+			'-Oz',
+			'-fmerge-all-constants',
+			language : 'cpp'
+		)
 	endif
 endif
 
@@ -314,22 +318,41 @@ compiler_supports_char8 = compiler_supports_cpp20 and compiler.links('''
 
 #######################################################################################################################
 # consteval check
-# (this doesn't inform the build in any way; it's just so i can see who supports it)
+# (this doesn't inform the build in any way; it's just so i can see who supports it properly)
 #######################################################################################################################
 
 compiler_supports_consteval = compiler_supports_cpp20 and compiler.compiles('''
 
-	consteval int kek() noexcept
+	consteval int test() noexcept
 	{
 		return 42;
 	}
 
 	int main()
 	{
-		return kek();
+		constexpr auto val = test(); // test() should be compiletime-callable
+		return val;
 	}
 	''',
-	name : 'supports consteval',
+	name : 'supports consteval keyword',
+	args : compiler_supports_cpp20_args
+)
+
+compiler_supports_consteval_properly = compiler_supports_consteval and not compiler.compiles('''
+
+	consteval int test(int i) noexcept
+	{
+		return 42 + i;
+	}
+
+	int get_value() noexcept;
+
+	int main()
+	{
+		return test(get_value()); // test() should not be runtime-callable
+	}
+	''',
+	name : 'consteval is just renamed constexpr',
 	args : compiler_supports_cpp20_args
 )
 
@@ -363,8 +386,6 @@ if is_gcc
 	compiler_supports_float16_args += '-mfp16-format=ieee'
 endif
 compiler_supports_fp16 = compiler.links('''
-	@0@
-
 	int main()
 	{
 		static_assert(sizeof(__fp16) == 2);
@@ -373,7 +394,7 @@ compiler_supports_fp16 = compiler.links('''
 		const auto f3 = static_cast<__fp16>(0.2L);
 		return 0;
 	}
-	'''.format(float_16_preprocessor_checks),
+	''',
 	name : 'supports __fp16',
 	args : compiler_supports_float16_args
 )

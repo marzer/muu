@@ -226,9 +226,9 @@ MUU_NAMESPACE_START
 				return value_;
 			}
 
-			/// \brief	Writes ah FNV-1a hash to a text stream.
+			/// \brief	Writes an FNV-1a hash to a text stream.
 			template <typename Char, typename Traits>
-			friend std::basic_ostream<Char, Traits>& operator<< (std::basic_ostream<Char, Traits>& lhs, const fnv1a& rhs)
+			friend std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& lhs, const fnv1a& rhs)
 			{
 				for (unsigned i = sizeof(value_); i --> 0u;)
 					lhs << impl::byte_to_hex(byte_select(rhs.value_, i));
@@ -329,11 +329,11 @@ MUU_NAMESPACE_START
 				return state.hash;
 			}
 
-			/// \brief	Writes a SHA-1 hash to a text stream.
+			/// \brief	Writes an SHA-1 hash to a text stream.
 			///
 			///	\warning Calling this before finish() has been called is undefined behaviour.
 			template <typename Char, typename Traits>
-			friend std::basic_ostream<Char, Traits>& operator<< (std::basic_ostream<Char, Traits>& lhs, const sha1& rhs)
+			friend std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& lhs, const sha1& rhs)
 			{
 				for (auto byte : rhs.value().value)
 					lhs << impl::byte_to_hex(unwrap(byte));

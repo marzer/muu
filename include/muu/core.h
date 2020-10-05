@@ -906,7 +906,7 @@ MUU_IMPL_NAMESPACE_START
 		// - have the same alignment as its member type (no padding/over-alignment)
 		//
 		// some of these points were ambiguous in the vectorcall doc, but i figured them out via experimentation
-		// on godbolt https://godbolt.org/z/GzGzM6
+		// on godbolt https://godbolt.org/z/7Wq45T
 
 		static constexpr bool value =
 

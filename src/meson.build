@@ -6,6 +6,7 @@ muu_lib_sources = [
 	'thread_name.cpp',
 	'thread_pool.cpp',
 	'uuid.cpp',
+	'vector.cpp',
 ]
 
 muu_lib_args = [ '-DMUU_BUILDING=1' ]

@@ -25,7 +25,7 @@
 		advantage of __vectorcall on windows, and only apply to float, double and long double vectors of <= dimensions
 		since the're considered "Homogeneous Vector Aggreggates" and must be passed by value to be properly vectorized.
 		- __vectorcall: https://docs.microsoft.com/en-us/cpp/cpp/vectorcall?view=vs-2019
-		- vectorizer sandbox: https://godbolt.org/z/GzGzM6
+		- vectorizer sandbox: https://godbolt.org/z/7Wq45T
 
 	-	You'll see intermediate_type used instead of scalar_type in a few places. It's a 'better' type used for
 		intermediate floating-point values where precision loss or unnecessary cast round-tripping is to be avoided.
@@ -38,11 +38,12 @@
 
 #pragma once
 #include "../muu/core.h"
+MUU_DISABLE_WARNINGS
+#include <iosfwd>
+MUU_ENABLE_WARNINGS
+
 MUU_PUSH_WARNINGS
-MUU_DISABLE_ARITHMETIC_WARNINGS
-MUU_DISABLE_LIFETIME_WARNINGS
 MUU_DISABLE_SHADOW_WARNINGS
-MUU_DISABLE_SPAM_WARNINGS
 
 MUU_PRAGMA_MSVC(inline_recursion(on))
 MUU_PRAGMA_MSVC(float_control(push))
@@ -639,6 +640,62 @@ MUU_IMPL_NAMESPACE_START
 		else
 			return lhs % rhs;
 	}
+
+	MUU_API void print_vector_to_stream(std::ostream& stream, const half*, size_t);
+	MUU_API void print_vector_to_stream(std::ostream& stream, const float*, size_t);
+	MUU_API void print_vector_to_stream(std::ostream& stream, const double*, size_t);
+	MUU_API void print_vector_to_stream(std::ostream& stream, const long double*, size_t);
+	MUU_API void print_vector_to_stream(std::ostream& stream, const signed char*, size_t);
+	MUU_API void print_vector_to_stream(std::ostream& stream, const signed short*, size_t);
+	MUU_API void print_vector_to_stream(std::ostream& stream, const signed int*, size_t);
+	MUU_API void print_vector_to_stream(std::ostream& stream, const signed long*, size_t);
+	MUU_API void print_vector_to_stream(std::ostream& stream, const signed long long*, size_t);
+	MUU_API void print_vector_to_stream(std::ostream& stream, const unsigned char*, size_t);
+	MUU_API void print_vector_to_stream(std::ostream& stream, const unsigned short*, size_t);
+	MUU_API void print_vector_to_stream(std::ostream& stream, const unsigned int*, size_t);
+	MUU_API void print_vector_to_stream(std::ostream& stream, const unsigned long*, size_t);
+	MUU_API void print_vector_to_stream(std::ostream& stream, const unsigned long long*, size_t);
+	#if MUU_HAS_FLOAT16
+	MUU_API void print_vector_to_stream(std::ostream& stream, const __Float16*, size_t);
+	#endif
+	#if MUU_HAS_FP16
+	MUU_API void print_vector_to_stream(std::ostream& stream, const __fp16*, size_t);
+	#endif
+	#if MUU_HAS_FLOAT128
+	MUU_API void print_vector_to_stream(std::ostream& stream, const quad*, size_t);
+	#endif
+	#if MUU_HAS_INT128
+	MUU_API void print_vector_to_stream(std::ostream& stream, const int128_t*, size_t);
+	MUU_API void print_vector_to_stream(std::ostream& stream, const uint128_t*, size_t);
+	#endif
+
+	MUU_API void print_vector_to_stream(std::wostream& stream, const half*, size_t);
+	MUU_API void print_vector_to_stream(std::wostream& stream, const float*, size_t);
+	MUU_API void print_vector_to_stream(std::wostream& stream, const double*, size_t);
+	MUU_API void print_vector_to_stream(std::wostream& stream, const long double*, size_t);
+	MUU_API void print_vector_to_stream(std::wostream& stream, const signed char*, size_t);
+	MUU_API void print_vector_to_stream(std::wostream& stream, const signed short*, size_t);
+	MUU_API void print_vector_to_stream(std::wostream& stream, const signed int*, size_t);
+	MUU_API void print_vector_to_stream(std::wostream& stream, const signed long*, size_t);
+	MUU_API void print_vector_to_stream(std::wostream& stream, const signed long long*, size_t);
+	MUU_API void print_vector_to_stream(std::wostream& stream, const unsigned char*, size_t);
+	MUU_API void print_vector_to_stream(std::wostream& stream, const unsigned short*, size_t);
+	MUU_API void print_vector_to_stream(std::wostream& stream, const unsigned int*, size_t);
+	MUU_API void print_vector_to_stream(std::wostream& stream, const unsigned long*, size_t);
+	MUU_API void print_vector_to_stream(std::wostream& stream, const unsigned long long*, size_t);
+	#if MUU_HAS_FLOAT16
+	MUU_API void print_vector_to_stream(std::wostream& stream, const __Float16*, size_t);
+	#endif
+	#if MUU_HAS_FP16
+	MUU_API void print_vector_to_stream(std::wostream& stream, const __fp16*, size_t);
+	#endif
+	#if MUU_HAS_FLOAT128
+	MUU_API void print_vector_to_stream(std::wostream& stream, const quad*, size_t);
+	#endif
+	#if MUU_HAS_INT128
+	MUU_API void print_vector_to_stream(std::wostream& stream, const int128_t*, size_t);
+	MUU_API void print_vector_to_stream(std::wostream& stream, const uint128_t*, size_t);
+	#endif
 }
 MUU_IMPL_NAMESPACE_END
 
@@ -711,17 +768,19 @@ MUU_NAMESPACE_START
 		template <typename T, size_t N>
 		friend struct vector;
 		using base = impl::vector_base<Scalar, Dimensions>;
-		static constexpr bool has_padding = sizeof(base) > (sizeof(Scalar) * Dimensions);
-		static constexpr size_t padded_element_size = sizeof(base) / Dimensions;
+		static_assert(
+			sizeof(base) == (sizeof(Scalar) * Dimensions),
+			"Vectors should not have padding"
+		);
 		using intermediate_type = impl::promote_if_small_float<product_type>;
 
 	public:
 
 		/// \brief A LegacyRandomAccessIterator for the scalar components in the vector.
-		using iterator = std::conditional_t<has_padding, void, scalar_type*>;
+		using iterator = scalar_type*;
 
 		/// \brief A const LegacyRandomAccessIterator for the scalar components in the vector.
-		using const_iterator = std::conditional_t<has_padding, void, const scalar_type*>;
+		using const_iterator = const scalar_type*;
 
 		#ifdef DOXYGEN
 		/// \brief The vector's X scalar component (when dimensions &lt;= 4).
@@ -772,7 +831,7 @@ MUU_NAMESPACE_START
 
 			if constexpr (Dimensions <= 4)
 			{
-				if (has_padding || is_constant_evaluated())
+				if (!build::supports_is_constant_evaluated || is_constant_evaluated())
 				{
 					switch (idx)
 					{
@@ -1273,7 +1332,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr intermediate_type MUU_VECTORCALL raw_length_squared(vector_param v) noexcept
 		{
-			#define VEC_FUNC(member)	static_cast<intermediate_type>(v.member) * v.member
+			#define VEC_FUNC(member)	static_cast<intermediate_type>(v.member) * static_cast<intermediate_type>(v.member)
 			COMPONENTWISE_ACCUMULATE(VEC_FUNC);
 			#undef VEC_FUNC
 		}
@@ -1296,7 +1355,7 @@ MUU_NAMESPACE_START
 			{
 				FMA_BLOCK
 
-				const auto temp = static_cast<intermediate_type>(lhs) - rhs;
+				const auto temp = static_cast<intermediate_type>(lhs) - static_cast<intermediate_type>(rhs);
 				return temp * temp;
 			};
 
@@ -1310,7 +1369,7 @@ MUU_NAMESPACE_START
 		static constexpr intermediate_type MUU_VECTORCALL raw_distance(vector_param p1, vector_param p2) noexcept
 		{
 			if constexpr (Dimensions == 1)
-				return static_cast<intermediate_type>(p2.x) - p1.x;
+				return static_cast<intermediate_type>(p2.x) - static_cast<intermediate_type>(p1.x);
 			else
 				return muu::sqrt(raw_distance_squared(p1, p2));
 		}
@@ -1430,7 +1489,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr intermediate_type MUU_VECTORCALL raw_dot(vector_param v1, vector_param v2) noexcept
 		{
-			#define VEC_FUNC(member)	static_cast<intermediate_type>(v1.member) * v2.member
+			#define VEC_FUNC(member)	static_cast<intermediate_type>(v1.member) * static_cast<intermediate_type>(v2.member)
 			COMPONENTWISE_ACCUMULATE(VEC_FUNC);
 			#undef VEC_FUNC
 		}
@@ -1464,13 +1523,16 @@ MUU_NAMESPACE_START
 			return
 			{
 				static_cast<product_type>(
-					static_cast<intermediate_type>(lhs.y) * rhs.z - static_cast<intermediate_type>(lhs.z) * rhs.y
+					static_cast<intermediate_type>(lhs.y) * static_cast<intermediate_type>(rhs.z)
+					- static_cast<intermediate_type>(lhs.z) * static_cast<intermediate_type>(rhs.y)
 				),
 				static_cast<product_type>(
-					static_cast<intermediate_type>(lhs.z) * rhs.x - static_cast<intermediate_type>(lhs.x) * rhs.z
+					static_cast<intermediate_type>(lhs.z) * static_cast<intermediate_type>(rhs.x)
+					- static_cast<intermediate_type>(lhs.x) * static_cast<intermediate_type>(rhs.z)
 				),
 				static_cast<product_type>(
-					static_cast<intermediate_type>(lhs.x) * rhs.y - static_cast<intermediate_type>(lhs.y) * rhs.x
+					static_cast<intermediate_type>(lhs.x) * static_cast<intermediate_type>(rhs.y)
+					- static_cast<intermediate_type>(lhs.y) * static_cast<intermediate_type>(rhs.x)
 				)
 			};
 		}
@@ -1848,8 +1910,17 @@ MUU_NAMESPACE_START
 
 	#endif // iterators
 
-	#if 1 // ________________ -----------------------------------------------------------------------------------------
-	#endif // ________________
+	#if 1 // streams --------------------------------------------------------------------------------------------------
+
+		/// \brief Writes a vector out to a text stream.
+		template <typename Char, typename Traits>
+		friend std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& os, const vector& vec)
+		{
+			impl::print_vector_to_stream(os, &vec.get<0>(), Dimensions);
+			return os;
+		}
+
+	#endif // streams
 
 	#if 1 // ________________ -----------------------------------------------------------------------------------------
 	#endif // ________________
@@ -1906,7 +1977,7 @@ namespace std
 	};
 }
 
-#endif // vector class implementation ==================================================================================
+#endif // =============================================================================================================
 
 #undef ENABLE_IF_AT_LEAST_DIMENSIONS
 #undef ENABLE_IF_AT_LEAST_DIMENSIONS_AND
@@ -1930,7 +2001,4 @@ namespace std
 MUU_PRAGMA_MSVC(inline_recursion(off))
 MUU_PRAGMA_MSVC(float_control(pop))
 
-MUU_POP_WARNINGS	// MUU_DISABLE_ARITHMETIC_WARNINGS
-					// MUU_DISABLE_LIFETIME_WARNINGS
-					// MUU_DISABLE_SHADOW_WARNINGS
-					// MUU_DISABLE_SPAM_WARNINGS
+MUU_POP_WARNINGS	// MUU_DISABLE_SHADOW_WARNINGS

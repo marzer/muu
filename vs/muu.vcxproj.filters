@@ -97,6 +97,9 @@
     <ClInclude Include="..\include\muu\scope_guard.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\printing.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />
@@ -197,6 +200,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\src\string_param.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vector.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
