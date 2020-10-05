@@ -664,7 +664,7 @@ C++</span></a>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga7165ec00307546834b2cfec5dcd18920">infinity_or_nan</a>(</span><span class="m-doc-wrap">const T&amp; obj) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Checks if a object is infinity or NaN.</dd>
+            <dd>Checks if an object is infinity or NaN.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga3d90a03fff8f593add263df879139162">infinity_or_nan</a>(</span><span class="m-doc-wrap">T val) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -1414,6 +1414,11 @@ C++</span></a>
             </dt>
             <dd>Are all of the named types arithmetic or reference-to-arithmetic?</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename To, typename... From&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga20d0844251aba1af5b372c44803999eb">all_convertible_to</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if all of the types named by From are convertible to To.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gafaa3803206e27df19fde422d3b1eb540">all_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
@@ -1507,15 +1512,15 @@ C++</span></a>
             </dt>
             <dd>Is a type const or reference-to-const?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              <div class="m-doc-template">template&lt;typename From, typename... To&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga622faeced84d6fc02ccadcecd020e78a">is_convertible_to_all</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>True if T is convertible to all of the types named by U.</dd>
+            <dd>True if From is convertible to all of the types named by To.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              <div class="m-doc-template">template&lt;typename From, typename... To&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gaec35a37d461e7b8b6b6a92296c75c5fd">is_convertible_to_any</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>True if T is convertible to one or more of the types named by U.</dd>
+            <dd>True if From is convertible to one or more of the types named by To.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga21f392701d987b745866ab36fa3c6242">is_cvref</a> <span class="m-label m-flat m-primary">constexpr</span>
