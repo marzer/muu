@@ -2,7 +2,7 @@
 <RunSettings>
    <!-- Configurations that affect the Test Framework -->
    <RunConfiguration>
-       <MaxCpuCount>0</MaxCpuCount>
+       <MaxCpuCount>4</MaxCpuCount>
        <ResultsDirectory>..\build\TestResults</ResultsDirectory><!-- Path relative to solution directory -->
        <TestSessionTimeout>60000</TestSessionTimeout><!-- Milliseconds -->
    </RunConfiguration>

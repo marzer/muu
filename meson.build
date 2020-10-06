@@ -244,8 +244,8 @@ else
 	overrides += 'strip=true'
 endif
 
-# Clang ld
-if is_lld
+# LTO
+if is_lld or is_debug
 	overrides += 'b_lto=false'
 endif
 

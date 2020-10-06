@@ -96,7 +96,9 @@ type_names = [
 	'constants',
 	'emplacement_array',
 	'half',
+	'matrix',
 	'quad',
+	'quaternion',
 	'numeric_range',
 	'rolling_average',
 	'scope_guard',
@@ -104,6 +106,14 @@ type_names = [
 	'tagged_ptr',
 	'thread_pool',
 	'uuid',
+	'vector1', # 'vector' unnecessary due to std::vector, just aliases here
+	'vector2',
+	'vector3',
+	'vector4',
+	'vec1',
+	'vec2',
+	'vec3',
+	'vec4',
 ]
 
 all_namespaces = [

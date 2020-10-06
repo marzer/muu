@@ -17,7 +17,7 @@ TEST_CASE("thread_pool - initialization")
 	// on the CI servers for some reason, so this is a workaround
 	static constexpr auto anti_hang = []() noexcept
 	{
-		std::this_thread::sleep_for(20ms);
+		std::this_thread::sleep_for(100ms);
 	};
 
 	{
@@ -167,7 +167,7 @@ TEST_CASE("thread_pool - enqueue")
 		{
 			threads.enqueue([&]() noexcept
 			{
-				std::this_thread::sleep_for(10ms);
+				std::this_thread::sleep_for(25ms);
 				i++;
 			});
 		}
@@ -195,7 +195,7 @@ TEST_CASE("thread_pool - for_range")
 	{
 		values[i]++;
 		thread_values[workerIndex]++;
-		std::this_thread::sleep_for(10ms);
+		std::this_thread::sleep_for(25ms);
 	});
 	threads.wait();
 	for (auto& v : values)
@@ -272,7 +272,7 @@ TEST_CASE("thread_pool - for_each")
 	{
 		v++;
 		thread_values[workerIndex]++;
-		std::this_thread::sleep_for(10ms);
+		std::this_thread::sleep_for(25ms);
 	});
 	threads.wait();
 	for (auto& v : values)

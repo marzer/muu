@@ -785,15 +785,15 @@ MUU_NAMESPACE_START
 		using const_iterator = const scalar_type*;
 
 		#ifdef DOXYGEN
-		/// \brief The vector's X scalar component (when dimensions &lt;= 4).
+		/// \brief The vector's 0th scalar component (when #dimensions &lt;= 4).
 		scalar_type x;
-		/// \brief The vector's Y scalar component (when dimensions &lt;= 4).
+		/// \brief The vector's 1st scalar component (when #dimensions == 2, 3 or 4).
 		scalar_type y;
-		/// \brief The vector's Z scalar component (when dimensions &lt;= 4).
+		/// \brief The vector's 2nd scalar component (when #dimensions == 3 or 4).
 		scalar_type z;
-		/// \brief The vector's W scalar component (when dimensions &lt;= 4).
+		/// \brief The vector's 3rd scalar component (when #dimensions == 4).
 		scalar_type w;
-		/// \brief The array of scalar components stored in the vector (when dimensions &gt; 4).
+		/// \brief The vector's scalar component array (when #dimensions &gt;= 5).
 		scalar_type values[dimensions];
 		#endif
 
@@ -947,10 +947,10 @@ MUU_NAMESPACE_START
 		/// \brief		Constructs a vector from two scalar values.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		///
-		/// \param	x	Initial value for the vector's x scalar component.
-		/// \param	y	Initial value for the vector's y scalar component.
+		/// \param	x	Initial value for the vector's x scalar component (0).
+		/// \param	y	Initial value for the vector's y scalar component (1).
 		/// 
-		/// \note		This constructor is only available when the vector has &gt;= 2 dimensions.
+		/// \note		This constructor is only available when #dimensions &gt;= 2.
 		REQUIRES_AT_LEAST_DIMENSIONS(2)
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y) noexcept
@@ -960,11 +960,11 @@ MUU_NAMESPACE_START
 		/// \brief		Constructs a vector from three scalar values.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		///
-		/// \param	x	Initial value for the vector's x scalar component.
-		/// \param	y	Initial value for the vector's y scalar component.
-		/// \param	z	Initial value for the vector's z scalar component.
+		/// \param	x	Initial value for the vector's x scalar component (0).
+		/// \param	y	Initial value for the vector's y scalar component (1).
+		/// \param	z	Initial value for the vector's z scalar component (2).
 		/// 
-		/// \note		This constructor is only available when the vector has &gt;= 3 dimensions.
+		/// \note		This constructor is only available when #dimensions &gt;= 3.
 		REQUIRES_AT_LEAST_DIMENSIONS(3)
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y, scalar_type z) noexcept
@@ -974,12 +974,12 @@ MUU_NAMESPACE_START
 		/// \brief		Constructs a vector from four scalar values.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		///
-		/// \param	x		Initial value for the vector's x scalar component.
-		/// \param	y		Initial value for the vector's y scalar component.
-		/// \param	z		Initial value for the vector's z scalar component.
-		/// \param	w		Initial value for the vector's w scalar component.
+		/// \param	x		Initial value for the vector's x scalar component (0).
+		/// \param	y		Initial value for the vector's y scalar component (1).
+		/// \param	z		Initial value for the vector's z scalar component (2).
+		/// \param	w		Initial value for the vector's w scalar component (3).
 		/// 
-		/// \note			This constructor is only available when the vector has &gt;= 4 dimensions.
+		/// \note			This constructor is only available when #dimensions &gt;= 4.
 		REQUIRES_AT_LEAST_DIMENSIONS(4)
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y, scalar_type z, scalar_type w) noexcept
@@ -989,14 +989,14 @@ MUU_NAMESPACE_START
 		/// \brief		Constructs a vector from five or more scalar values.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		///
-		/// \tparam T		Types convertible to scalar_type.
-		/// \param	x		Initial value for the vector's x scalar component.
-		/// \param	y		Initial value for the vector's y scalar component.
-		/// \param	z		Initial value for the vector's z scalar component.
-		/// \param	w		Initial value for the vector's w scalar component.
+		/// \tparam T		Types convertible to #scalar_type.
+		/// \param	x		Initial value for the vector's x scalar component (0).
+		/// \param	y		Initial value for the vector's y scalar component (1).
+		/// \param	z		Initial value for the vector's z scalar component (2).
+		/// \param	w		Initial value for the vector's w scalar component (3).
 		/// \param	vals	Initial values for the vector's remaining scalar components.
 		/// 
-		/// \note			This constructor is only available when the vector has &gt;= 5 dimensions.
+		/// \note			This constructor is only available when #dimensions &gt;= 5.
 		template <typename... T ENABLE_IF_AT_LEAST_DIMENSIONS_AND(5, all_convertible_to<scalar_type, T...>)>
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y, scalar_type z, scalar_type w, T... vals) noexcept
@@ -1006,7 +1006,7 @@ MUU_NAMESPACE_START
 		/// \brief Constructs a vector from a raw array.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		/// 
-		/// \tparam T			A type convertible to scalar_type.
+		/// \tparam T			A type convertible to #scalar_type.
 		/// \tparam N			The number of elements in the array.
 		/// \param	arr			Array of values used to initialize the vector's scalar components.
 		template <typename T, size_t N ENABLE_IF_AT_LEAST_DIMENSIONS_AND(N, all_convertible_to<scalar_type, T>)>
@@ -1018,7 +1018,7 @@ MUU_NAMESPACE_START
 		/// \brief Constructs a vector from a std::array.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		/// 
-		/// \tparam T			A type convertible to scalar_type.
+		/// \tparam T			A type convertible to #scalar_type.
 		/// \tparam N			The number of elements in the array.
 		/// \param	arr			Array of values used to initialize the vector's scalar components.
 		template <typename T, size_t N ENABLE_IF_AT_LEAST_DIMENSIONS_AND(N, all_convertible_to<scalar_type, T>)>
@@ -1092,7 +1092,7 @@ MUU_NAMESPACE_START
 		///  
 		/// \tparam	S	  	Vector's scalar_type.
 		/// \tparam	D		Vector's dimensions.
-		/// \tparam T		Types convertible to scalar_type.
+		/// \tparam T		Types convertible to #scalar_type.
 		/// \param 	vec		A vector.
 		/// \param 	vals	Scalar values.
 		template <typename S, size_t D, typename... T ENABLE_IF_AT_LEAST_DIMENSIONS_AND(D + sizeof...(T), all_convertible_to<scalar_type, T...>)>
@@ -1108,7 +1108,7 @@ MUU_NAMESPACE_START
 		/// \brief Constructs a vector from a pointer to scalars. 
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		/// 
-		/// \tparam T			Types convertible to scalar_type.
+		/// \tparam T			Types convertible to #scalar_type.
 		/// \param	vals		Pointer to values to copy.
 		/// \param	num			Number of values to copy.
 		template <typename T MUU_SFINAE(all_convertible_to<scalar_type, T>)>
@@ -1160,19 +1160,19 @@ MUU_NAMESPACE_START
 		template <typename T MUU_SFINAE(MUU_INTELLISENSE || impl::pass_vector_by_reference<T, dimensions>)>
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr bool MUU_VECTORCALL equal(vector_param a, const vector<T, dimensions>& b) noexcept
+		static constexpr bool MUU_VECTORCALL equal(vector_param v1, const vector<T, dimensions>& v2) noexcept
 		{
 			if constexpr (is_signed<scalar_type> != is_signed<T>)
 			{
 				using common_type = impl::highest_ranked<scalar_type, T>;
 
-				#define VEC_FUNC(member)	static_cast<common_type>(a.member) == static_cast<common_type>(b.member)
+				#define VEC_FUNC(member)	static_cast<common_type>(v1.member) == static_cast<common_type>(v2.member)
 				COMPONENTWISE_AND(VEC_FUNC);
 				#undef VEC_FUNC
 			}
 			else
 			{
-				#define VEC_FUNC(member)	a.member == b.member
+				#define VEC_FUNC(member)	v1.member == v2.member
 				COMPONENTWISE_AND(VEC_FUNC);
 				#undef VEC_FUNC
 			}
@@ -1182,9 +1182,9 @@ MUU_NAMESPACE_START
 		template <typename T MUU_SFINAE(MUU_INTELLISENSE || impl::pass_vector_by_reference<T, dimensions>)>
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		constexpr bool MUU_VECTORCALL equal(const vector<T, dimensions>& other) const noexcept
+		constexpr bool MUU_VECTORCALL equal(const vector<T, dimensions>& v) const noexcept
 		{
-			return equal(*this, other);
+			return equal(*this, v);
 		}
 
 		/// \brief	Returns true if two vectors are exactly equal.
@@ -1210,19 +1210,19 @@ MUU_NAMESPACE_START
 		template <typename T MUU_SFINAE_2(impl::pass_vector_by_value<T, dimensions>)>
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr bool MUU_VECTORCALL equal(vector_param a, vector<T, dimensions> b) noexcept
+		static constexpr bool MUU_VECTORCALL equal(vector_param v1, vector<T, dimensions> v2) noexcept
 		{
 			if constexpr (is_signed<scalar_type> != is_signed<T>)
 			{
 				using common_type = impl::highest_ranked<scalar_type, T>;
 
-				#define VEC_FUNC(member)	static_cast<common_type>(a.member) == static_cast<common_type>(b.member)
+				#define VEC_FUNC(member)	static_cast<common_type>(v1.member) == static_cast<common_type>(v2.member)
 				COMPONENTWISE_AND(VEC_FUNC);
 				#undef VEC_FUNC
 			}
 			else
 			{
-				#define VEC_FUNC(member)	a.member == b.member
+				#define VEC_FUNC(member)	v1.member == v2.member
 				COMPONENTWISE_AND(VEC_FUNC);
 				#undef VEC_FUNC
 			}
@@ -1231,9 +1231,9 @@ MUU_NAMESPACE_START
 		template <typename T MUU_SFINAE_2(impl::pass_vector_by_value<T, dimensions>)>
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		constexpr bool MUU_VECTORCALL equal(vector<T, dimensions> other) const noexcept
+		constexpr bool MUU_VECTORCALL equal(vector<T, dimensions> v) const noexcept
 		{
-			return equal(*this, other);
+			return equal(*this, v);
 		}
 
 		template <typename T MUU_SFINAE_2(impl::pass_vector_by_value<T, dimensions>)>
@@ -1290,8 +1290,8 @@ MUU_NAMESPACE_START
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL approx_equal(
-			vector_param a,
-			const vector<T, dimensions>& b,
+			vector_param v1,
+			const vector<T, dimensions>& v2,
 			impl::highest_ranked<scalar_type, T> epsilon
 				= muu::constants<impl::highest_ranked<scalar_type, T>>::approx_equal_epsilon
 		) noexcept
@@ -1303,8 +1303,8 @@ MUU_NAMESPACE_START
 
 			#define VEC_FUNC(member)															\
 				static_cast<bool(MUU_VECTORCALL *)(type,type,type)noexcept>(muu::approx_equal)(	\
-					a.member,																	\
-					b.member,																	\
+					v1.member,																	\
+					v2.member,																	\
 					epsilon																		\
 				)
 			COMPONENTWISE_AND(VEC_FUNC);
@@ -1318,12 +1318,12 @@ MUU_NAMESPACE_START
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_equal(
-			const vector<T, dimensions>& other,
+			const vector<T, dimensions>& v,
 			impl::highest_ranked<scalar_type, T> epsilon
 				= muu::constants<impl::highest_ranked<scalar_type, T>>::approx_equal_epsilon
 		) const noexcept
 		{
-			return approx_equal(*this, other, epsilon);
+			return approx_equal(*this, v, epsilon);
 		}
 
 		#if !defined(DOXYEN) && !MUU_INTELLISENSE
@@ -1332,8 +1332,8 @@ MUU_NAMESPACE_START
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL approx_equal(
-			vector_param a,
-			vector<T, dimensions> b,
+			vector_param v1,
+			vector<T, dimensions> v2,
 			impl::highest_ranked<scalar_type, T> epsilon
 				= muu::constants<impl::highest_ranked<scalar_type, T>>::approx_equal_epsilon
 		) noexcept
@@ -1345,8 +1345,8 @@ MUU_NAMESPACE_START
 
 			#define VEC_FUNC(member)															\
 				static_cast<bool(MUU_VECTORCALL *)(type,type,type)noexcept>(muu::approx_equal)(	\
-					a.member,																	\
-					b.member,																	\
+					v1.member,																	\
+					v2.member,																	\
 					epsilon																		\
 				)
 			COMPONENTWISE_AND(VEC_FUNC);
@@ -1357,12 +1357,12 @@ MUU_NAMESPACE_START
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_equal(
-			vector<T, dimensions> other,
+			vector<T, dimensions> v,
 			impl::highest_ranked<scalar_type, T> epsilon
 				= muu::constants<impl::highest_ranked<scalar_type, T>>::approx_equal_epsilon
 		) const noexcept
 		{
-			return approx_equal(*this, other, epsilon);
+			return approx_equal(*this, v, epsilon);
 		}
 
 		#endif // !DOXYEN && !MUU_INTELLISENSE
@@ -1559,7 +1559,7 @@ MUU_NAMESPACE_START
 
 		/// \brief	Returns the cross product of two vectors.
 		/// 
-		/// \note		This function is only available when the vector has 3 dimensions.
+		/// \note		This function is only available when #dimensions == 3.
 		REQUIRES_EXACTLY_DIMENSIONS(3)
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -1586,7 +1586,7 @@ MUU_NAMESPACE_START
 
 		/// \brief	Returns the cross product of this vector and another.
 		/// 
-		/// \note		This function is only available when the vector has 3 dimensions.
+		/// \note		This function is only available when #dimensions == 3.
 		REQUIRES_EXACTLY_DIMENSIONS(3)
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -1861,7 +1861,7 @@ MUU_NAMESPACE_START
 
 		/// \brief Returns a vector with each scalar component left-shifted the given number of bits.
 		/// 
-		/// \note		This function is only available when scalar_type is an integral type.
+		/// \note		This function is only available when #scalar_type is an integral type.
 		REQUIRES_INTEGRAL
 		[[nodiscard]]
 		MUU_ATTR_NDEBUG(pure)
@@ -1877,7 +1877,7 @@ MUU_NAMESPACE_START
 
 		/// \brief Componentwise left-shifts each scalar component in the vector by the given number of bits.
 		/// 
-		/// \note		This function is only available when scalar_type is an integral type.
+		/// \note		This function is only available when #scalar_type is an integral type.
 		REQUIRES_INTEGRAL
 		constexpr vector& MUU_VECTORCALL operator <<= (int rhs) noexcept
 		{
@@ -1891,7 +1891,7 @@ MUU_NAMESPACE_START
 
 		/// \brief Returns a vector with each scalar component right-shifted the given number of bits.
 		/// 
-		/// \note		This function is only available when scalar_type is an integral type.
+		/// \note		This function is only available when #scalar_type is an integral type.
 		REQUIRES_INTEGRAL
 		[[nodiscard]]
 		MUU_ATTR_NDEBUG(pure)
@@ -1907,7 +1907,7 @@ MUU_NAMESPACE_START
 
 		/// \brief Componentwise right-shifts each scalar component in the vector by the given number of bits.
 		/// 
-		/// \note		This function is only available when scalar_type is an integral type.
+		/// \note		This function is only available when #scalar_type is an integral type.
 		REQUIRES_INTEGRAL
 		constexpr vector& MUU_VECTORCALL operator >>= (int rhs) noexcept
 		{
@@ -1930,7 +1930,7 @@ MUU_NAMESPACE_START
 		/// 
 		/// \return		A normalized copy of the input vector.
 		/// 
-		/// \note This function is only available when scalar_type is a float-point type.
+		/// \note This function is only available when #scalar_type is a float-point type.
 		REQUIRES_FLOATING_POINT
 		[[nodiscard]]
 		static constexpr vector MUU_VECTORCALL normalize(vector_param v, scalar_type& length_out) noexcept
@@ -1946,7 +1946,7 @@ MUU_NAMESPACE_START
 		/// 
 		/// \return		A normalized copy of the input vector.
 		/// 
-		/// \note This function is only available when scalar_type is a float-point type.
+		/// \note This function is only available when #scalar_type is a float-point type.
 		REQUIRES_FLOATING_POINT
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -1961,7 +1961,7 @@ MUU_NAMESPACE_START
 		/// 
 		/// \return	A reference to the vector.
 		/// 
-		/// \note This function is only available when scalar_type is a float-point type.
+		/// \note This function is only available when #scalar_type is a float-point type.
 		REQUIRES_FLOATING_POINT
 		constexpr vector& normalize(scalar_type& length_out) noexcept
 		{
@@ -1974,7 +1974,7 @@ MUU_NAMESPACE_START
 		///
 		/// \return	A reference to the vector.
 		/// 
-		/// \note This function is only available when scalar_type is a float-point type.
+		/// \note This function is only available when #scalar_type is a float-point type.
 		REQUIRES_FLOATING_POINT
 		constexpr vector& normalize() noexcept
 		{
@@ -2027,9 +2027,9 @@ MUU_NAMESPACE_START
 
 		/// \brief Writes a vector out to a text stream.
 		template <typename Char, typename Traits>
-		friend std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& os, const vector& vec)
+		friend std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& os, const vector& v)
 		{
-			impl::print_vector_to_stream(os, &vec.get<0>(), Dimensions);
+			impl::print_vector_to_stream(os, &v.get<0>(), Dimensions);
 			return os;
 		}
 
@@ -2076,7 +2076,7 @@ MUU_NAMESPACE_START
 		/// \brief	Clamps this vector between to bounds (in-place).
 		/// 
 		/// \param min_		The minimum bound of the clamp operation.
-		/// \param min_		The maximum bound of the clamp operation.
+		/// \param max_		The maximum bound of the clamp operation.
 		/// 
 		/// \return	A reference to the vector.
 		constexpr vector& MUU_VECTORCALL clamp(vector_param min_, vector_param max_) noexcept
@@ -2131,18 +2131,18 @@ MUU_NAMESPACE_START
 		/// //                ^  ^  ^  ^
 		/// // indices:       0  1  2  3
 		/// 
-		/// using vec = decltype(v);
+		/// using vec4 = decltype(v);
 		/// 
-		///	std::cout << "         <0>: " <<          vec::swizzle<0>(v) << "\n";
-		///	std::cout << "      <1, 0>: " <<       vec::swizzle<1, 0>(v) << "\n";
-		///	std::cout << "   <3, 2, 3>: " <<    vec::swizzle<3, 2, 3>(v) << "\n";
-		///	std::cout << "<0, 1, 0, 1>: " << vec::swizzle<0, 1, 0, 1>(v) << "\n";
+		///	std::cout << "<0>:          " << vec4::swizzle<0>(v)          << "\n";
+		///	std::cout << "<1, 0>:       " << vec4::swizzle<1, 0>(v)       << "\n";
+		///	std::cout << "<3, 2, 3>:    " << vec4::swizzle<3, 2, 3>(v)    << "\n";
+		///	std::cout << "<0, 1, 0, 1>: " << vec4::swizzle<0, 1, 0, 1>(v) << "\n";
 		/// \ecpp
 		/// 
 		/// \out
-		///          <0>: { 10 }
-		///       <1, 0>: { 7, 10 }
-		///    <3, 2, 3>: { 9, 5, 9 }
+		/// <0>:          { 10 }
+		/// <1, 0>:       { 7, 10 }
+		/// <3, 2, 3>:    { 9, 5, 9 }
 		/// <0, 1, 0, 1>: { 10, 7, 10, 7 }
 		/// \eout
 		/// 
@@ -2174,18 +2174,16 @@ MUU_NAMESPACE_START
 		/// //                ^  ^  ^  ^
 		/// // indices:       0  1  2  3
 		/// 
-		/// using vec = decltype(v);
-		/// 
-		///	std::cout << "         <0>: " <<          v.swizzle<0>() << "\n";
-		///	std::cout << "      <1, 0>: " <<       v.swizzle<1, 0>() << "\n";
-		///	std::cout << "   <3, 2, 3>: " <<    v.swizzle<3, 2, 3>() << "\n";
-		///	std::cout << "<0, 1, 0, 1>: " << v.swizzle<0, 1, 0, 1>() << "\n";
+		///	std::cout << "<0>:          " << v.swizzle<0>(v)          << "\n";
+		///	std::cout << "<1, 0>:       " << v.swizzle<1, 0>(v)       << "\n";
+		///	std::cout << "<3, 2, 3>:    " << v.swizzle<3, 2, 3>(v)    << "\n";
+		///	std::cout << "<0, 1, 0, 1>: " << v.swizzle<0, 1, 0, 1>(v) << "\n";
 		/// \ecpp
 		/// 
 		/// \out
-		///          <0>: { 10 }
-		///       <1, 0>: { 7, 10 }
-		///    <3, 2, 3>: { 9, 5, 9 }
+		/// <0>:          { 10 }
+		/// <1, 0>:       { 7, 10 }
+		/// <3, 2, 3>:    { 9, 5, 9 }
 		/// <0, 1, 0, 1>: { 10, 7, 10, 7 }
 		/// \eout
 		/// 
