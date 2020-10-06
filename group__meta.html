@@ -194,6 +194,16 @@ C++</span></a>
             </dt>
             <dd>Sets the constness and volatility of a type or reference according to a boolean.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename T, bool Signed&gt;</div>
+              using <a class="m-doc" href="#gafed1fc9809926331d0cdfb6ea3c1cb7c">set_signed</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;Signed, make_signed&lt;T&gt;, make_unsigned&lt;T&gt;&gt;
+            </dt>
+            <dd>Sets the signed-ness of a numeric type or reference according to a boolean.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, bool Unsigned&gt;</div>
+              using <a class="m-doc" href="#ga53618440cb88b6a660781cd80eff06cb">set_unsigned</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;Unsigned, make_unsigned&lt;T&gt;, make_signed&lt;T&gt;&gt;
+            </dt>
+            <dd>Sets the unsigned-ness of a numeric type or reference according to a boolean.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T, bool Volatile&gt;</div>
               using <a class="m-doc" href="#ga3216c56b6dfa3cd6045818d2f8e09612">set_volatile</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;Volatile, add_volatile&lt;T&gt;, remove_volatile&lt;T&gt;&gt;
             </dt>
@@ -354,6 +364,11 @@ C++</span></a>
             <dd>Is a type an enum or reference-to-enum?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="#ga92c7057e770b054e9d54bb28d60badea">is_extended_arithmetic</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Is a type a nonstandard 'extended' arithmetic type, or a reference to one?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="#gae74155e0cf085141e1923124718915a4">is_floating_point</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Is a type a floating-point or reference-to-floating-point?</dd>
@@ -392,6 +407,11 @@ C++</span></a>
               bool <a class="m-doc" href="#ga7a494dff5772cf50d03fed75fd1be177">is_simd_intrinsic</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Returns true if a type is a simd compiler intrinsic type (__m64, __m128, etc.).</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="#ga31dc0c880276019ff4dc15c27db38541">is_standard_arithmetic</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Is a type one of the standard c++ arithmetic types, or a reference to one?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="#ga07b1449019c885977279ee3afedb3b4f">is_tuple_like</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -658,6 +678,26 @@ C++</span></a>
               using <a class="m-doc-self" href="#ga75174a7728c44e0ef2c5c573910945d7">set_cv</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;ConstVolatile, add_cv&lt;T&gt;, remove_cv&lt;T&gt;&gt;
             </h3>
             <p>Sets the constness and volatility of a type or reference according to a boolean.</p>
+          </div></section>
+          <section class="m-doc-details" id="gafed1fc9809926331d0cdfb6ea3c1cb7c"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, bool Signed&gt;
+              </div>
+              using <a class="m-doc-self" href="#gafed1fc9809926331d0cdfb6ea3c1cb7c">set_signed</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;Signed, make_signed&lt;T&gt;, make_unsigned&lt;T&gt;&gt;
+            </h3>
+            <p>Sets the signed-ness of a numeric type or reference according to a boolean.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga53618440cb88b6a660781cd80eff06cb"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, bool Unsigned&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga53618440cb88b6a660781cd80eff06cb">set_unsigned</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;Unsigned, make_unsigned&lt;T&gt;, make_signed&lt;T&gt;&gt;
+            </h3>
+            <p>Sets the unsigned-ness of a numeric type or reference according to a boolean.</p>
           </div></section>
           <section class="m-doc-details" id="ga3216c56b6dfa3cd6045818d2f8e09612"><div>
             <h3>
@@ -990,6 +1030,17 @@ C++</span></a>
             </h3>
             <p>Is a type an enum or reference-to-enum?</p>
           </div></section>
+          <section class="m-doc-details" id="ga92c7057e770b054e9d54bb28d60badea"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga92c7057e770b054e9d54bb28d60badea">is_extended_arithmetic</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Is a type a nonstandard 'extended' arithmetic type, or a reference to one?</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns true for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>Returns true for <a class="m-doc" href="group__building__blocks.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a>, <a class="m-doc" href="group__building__blocks.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a>, <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>, <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> and <a class="m-doc" href="group__building__blocks.html#ga2a1f4a242b812d9e1ac5dccae18c6636">quad</a> (where supported).</p></aside>
+          </div></section>
           <section class="m-doc-details" id="gae74155e0cf085141e1923124718915a4"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
@@ -1074,6 +1125,16 @@ C++</span></a>
               bool <a class="m-doc-self" href="#ga7a494dff5772cf50d03fed75fd1be177">is_simd_intrinsic</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Returns true if a type is a simd compiler intrinsic type (__m64, __m128, etc.).</p>
+          </div></section>
+          <section class="m-doc-details" id="ga31dc0c880276019ff4dc15c27db38541"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga31dc0c880276019ff4dc15c27db38541">is_standard_arithmetic</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Is a type one of the standard c++ arithmetic types, or a reference to one?</p>
           </div></section>
           <section class="m-doc-details" id="ga07b1449019c885977279ee3afedb3b4f"><div>
             <h3>

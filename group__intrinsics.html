@@ -1156,11 +1156,20 @@ C++</span></a>
               <tbody>
                 <tr>
                   <td style="width: 1%">ByteIndices</td>
-                  <td>Indices of the bytes from the source integer, in the order they're to be packed.</td>
+                  <td>Indices of the bytes from the source integer in the (little-endian) order they're to be packed.</td>
                 </tr>
                 <tr>
                   <td>T</td>
                   <td>An integer or enum type.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>val</td>
+                  <td>An integer or enum value.</td>
                 </tr>
               </tbody>
               <tfoot>
@@ -1174,10 +1183,10 @@ C++</span></a>
 <span class="c1">//                ^ ^ ^ ^</span>
 <span class="c1">// byte indices:  3 2 1 0</span>
 
-<span class="ns">std::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="ns">std::</span><span class="n">hex</span> <span class="o">&lt;&lt;</span> <span class="ns">std::</span><span class="n">setfill</span><span class="p">(</span><span class="sc">'0'</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="ns">std::</span><span class="n">setw</span><span class="p">(</span><span class="mi">8</span><span class="p">);</span>
-<span class="ns">std::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"      &lt;0&gt;: "</span> <span class="o">&lt;&lt;</span> <span class="n">swizzle</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
-<span class="ns">std::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"   &lt;1, 0&gt;: "</span> <span class="o">&lt;&lt;</span> <span class="n">swizzle</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
-<span class="ns">std::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"&lt;3, 2, 3&gt;: "</span> <span class="o">&lt;&lt;</span> <span class="n">swizzle</span><span class="o">&lt;</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span></pre><pre class="m-console"><span class="go">      &lt;0&gt;: 000000DD</span>
+<span class="ns">std::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="ns">std::</span><span class="n">hex</span> <span class="o">&lt;&lt;</span> <span class="ns">std::</span><span class="n">setfill</span><span class="p">(</span><span class="sc">'0'</span><span class="p">);</span>
+<span class="ns">std::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"      &lt;0&gt;: "</span> <span class="o">&lt;&lt;</span> <span class="ns">std::</span><span class="n">setw</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="o">&lt;&lt;</span>       <span class="n">swizzle</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="ns">std::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"   &lt;1, 0&gt;: "</span> <span class="o">&lt;&lt;</span> <span class="ns">std::</span><span class="n">setw</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="o">&lt;&lt;</span>    <span class="n">swizzle</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="ns">std::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"&lt;3, 2, 3&gt;: "</span> <span class="o">&lt;&lt;</span> <span class="ns">std::</span><span class="n">setw</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">swizzle</span><span class="o">&lt;</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span></pre><pre class="m-console"><span class="go">      &lt;0&gt;: 000000DD</span>
 <span class="go">   &lt;1, 0&gt;: 0000CCDD</span>
 <span class="go">&lt;3, 2, 3&gt;: 00AABBAA</span>
 <span class="go">(on a little-endian system)</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>The indexation order of bytes is the <em>memory</em> order, not their numeric significance (i.e. byte 0 is always the first byte in the integer's memory allocation, regardless of the endianness of the platform).</p></aside>
