@@ -1,6 +1,7 @@
 #include "tests.h"
 
 #define SCALAR_TYPE int128_t
+#include "vector_test_instantiations.h"
 
-#include "vector_template.h"
-
+#define SCALAR_TYPE uint128_t
+#include "vector_test_instantiations.h"

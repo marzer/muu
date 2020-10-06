@@ -93,6 +93,7 @@ MUU_NAMESPACE_START
 
 			/// \brief Returns the size of the blob's data, in bytes.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			size_t size() const noexcept
 			{
 				return size_;
@@ -108,6 +109,7 @@ MUU_NAMESPACE_START
 
 			/// \brief Returns the alignment of the blob's data, in bytes.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			size_t alignment() const noexcept
 			{
 				return alignment_;
@@ -115,6 +117,7 @@ MUU_NAMESPACE_START
 
 			/// \brief Returns a pointer to the blob's data.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			std::byte* data() noexcept
 			{
 				return pointer_cast<std::byte*>(data_);
@@ -122,6 +125,7 @@ MUU_NAMESPACE_START
 
 			/// \brief Returns a pointer to the blob's data (const overload).
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			const std::byte* data() const noexcept
 			{
 				return pointer_cast<const std::byte*>(data_);
@@ -129,6 +133,7 @@ MUU_NAMESPACE_START
 
 			/// \brief Returns true if the blob contains data.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			explicit operator bool () const noexcept
 			{
 				return data_ != nullptr;

@@ -48,6 +48,55 @@ MUU_NAMESPACE_START
 
 	template <typename Char>
 	stream_saver(std::basic_ios<Char>&) -> stream_saver<Char>;
+
+	namespace impl
+	{
+		template <typename From>
+		struct non_convertible
+		{
+			constexpr operator From() const noexcept;
+		};
+
+		template <typename T, typename Char>
+		using has_stream_output_operator_ = decltype(std::declval<std::basic_ostream<Char>&>() << std::declval<non_convertible<const T&>>());
+
+		template <typename T> struct stream_output_cast_type_ { using type = T; };
+		template <> struct stream_output_cast_type_<half> { using type = float; };
+		template <> struct stream_output_cast_type_<signed char> { using type = signed int; };
+		template <> struct stream_output_cast_type_<unsigned char> { using type = unsigned int; };
+		#if MUU_HAS_FP16
+		template <> struct stream_output_cast_type_<__fp16> { using type = float; };
+		#endif
+		#if MUU_HAS_FLOAT16
+		template <> struct stream_output_cast_type_<_Float16> { using type = float; };
+		#endif
+		#if MUU_HAS_FLOAT128
+		template <> struct stream_output_cast_type_<quad> { using type = long double; };
+		#endif
+		#if MUU_HAS_INT128
+		template <> struct stream_output_cast_type_<int128_t> { using type = signed long long; };
+		template <> struct stream_output_cast_type_<uint128_t> { using type = unsigned long long; };
+		#endif
+	}
+
+	template <typename T, typename Char>
+	inline constexpr bool has_stream_output_operator = impl::is_detected<impl::has_stream_output_operator_, T, Char>;
+
+	template <typename T>
+	using stream_output_cast_type = typename impl::stream_output_cast_type_<T>::type;
+
+	template <typename Char, typename T>
+	inline void print_number(std::basic_ostream<Char>& os, T value) noexcept
+	{
+		// print chars as ints so they don't get interpreted as text;
+		// non-standard ints and floats can just get casted if they don't have an operator<< overload
+		if constexpr ((is_integral<T> && sizeof(T) == 1) || !has_stream_output_operator<T, Char>)
+			os << static_cast<stream_output_cast_type<T>>(value);
+
+		// sane things
+		else
+			os << value;
+	}
 }
 MUU_NAMESPACE_END
 

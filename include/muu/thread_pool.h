@@ -212,10 +212,10 @@ MUU_IMPL_NAMESPACE_START
 
 			// store callable
 			if constexpr (traits::storage_mode == callable_storage_modes::stored_directly)
-				new (callable_buffer) callable_type{ std::forward<T>(callable_) };
+				new (callable_buffer) callable_type{ static_cast<T&&>(callable_) };
 			else if constexpr (traits::storage_mode == callable_storage_modes::pointer_to_heap)
 			{
-				auto ptr = new callable_type{ std::forward<T>(callable_) };
+				auto ptr = new callable_type{ static_cast<T&&>(callable_) };
 				memcpy(callable_buffer, &ptr, sizeof(ptr));
 			}
 			else if constexpr (traits::storage_mode == callable_storage_modes::pointer_to_source)
@@ -412,7 +412,7 @@ MUU_NAMESPACE_START
 			template <typename T>
 			void enqueue(size_t queue_index, T&& task) noexcept
 			{
-				new (assume_aligned<impl::thread_pool_task_granularity>(acquire(queue_index))) impl::thread_pool_task{ std::forward<T>(task) };
+				new (assume_aligned<impl::thread_pool_task_granularity>(acquire(queue_index))) impl::thread_pool_task{ static_cast<T&&>(task) };
 			}
 
 			MUU_API
@@ -430,9 +430,9 @@ MUU_NAMESPACE_START
 					void operator()([[maybe_unused]] Arg&& arg, [[maybe_unused]] size_t tidx) const noexcept
 					{
 						if constexpr (std::is_invocable_v<T, Arg&&, size_t>)
-							task(std::forward<Arg>(arg), tidx);
+							task(static_cast<Arg&&>(arg), tidx);
 						else if constexpr (std::is_invocable_v<T, Arg&&>)
-							task(std::forward<Arg>(arg));
+							task(static_cast<Arg&&>(arg));
 						else if constexpr (std::is_invocable_v<T>)
 							task();
 						else
@@ -444,7 +444,7 @@ MUU_NAMESPACE_START
 
 					template <typename U>
 					for_each_task(U&& t) noexcept
-						: task{ std::forward<U>(t) }
+						: task{ static_cast<U&&>(t) }
 					{}
 			};
 
@@ -531,7 +531,7 @@ MUU_NAMESPACE_START
 				MUU_MOVE_CHECK;
 
 				const auto qindex = lock();
-				enqueue(qindex, std::forward<Task>(task));
+				enqueue(qindex, static_cast<Task&&>(task));
 				unlock(qindex);
 				return *this;
 			}
@@ -547,7 +547,7 @@ MUU_NAMESPACE_START
 					[
 						i = batch_start,
 						e = batch_end,
-						t = std::forward<Task>(task)
+						t = static_cast<Task&&>(task)
 					]
 					(size_t worker_index) mutable noexcept
 					{
@@ -583,7 +583,7 @@ MUU_NAMESPACE_START
 				{
 					while (batch_size)
 					{
-						enqueue_for_each_batch(batch_start, batch_end, for_each_task_type{ std::forward<Task>(task) });
+						enqueue_for_each_batch(batch_start, batch_end, for_each_task_type{ static_cast<Task&&>(task) });
 						batch_start = batch_end;
 						batch_size = batch_generator();
 						if (batch_size)
@@ -595,7 +595,7 @@ MUU_NAMESPACE_START
 				//dispatch tasks (nontrivial callables)
 				if constexpr (!impl::is_trivial_task<Task&&>)
 				{
-					auto task_ptr = std::make_shared<for_each_task_type>(std::forward<Task>(task));
+					auto task_ptr = std::make_shared<for_each_task_type>(static_cast<Task&&>(task));
 					while (batch_size)
 					{
 						enqueue_for_each_batch(batch_start, batch_end, task_ptr);
@@ -651,7 +651,7 @@ MUU_NAMESPACE_START
 				return for_each_impl(
 					begin,
 					static_cast<size_t>(job_count),
-					std::forward<Task>(task)
+					static_cast<Task&&>(task)
 				);
 			}
 
@@ -689,15 +689,15 @@ MUU_NAMESPACE_START
 				MUU_MOVE_CHECK;
 
 				using std::size;
-				const size_t job_count = size(collection); //static_cast<size_t>(std::distance(b, end(std::forward<T>(collection))));
+				const size_t job_count = size(collection);
 				if (!job_count)
 					return *this;
 
 				using std::begin;
 				return for_each_impl(
-					begin(std::forward<T>(collection)),
+					begin(static_cast<T&&>(collection)),
 					job_count,
-					std::forward<Task>(task)
+					static_cast<Task&&>(task)
 				);
 			}
 
@@ -712,7 +712,7 @@ MUU_NAMESPACE_START
 					[
 						i = batch_start,
 						e = batch_end,
-						t = std::forward<Task>(task)
+						t = static_cast<Task&&>(task)
 					]
 					(size_t worker_index) mutable noexcept
 					{
@@ -803,7 +803,7 @@ MUU_NAMESPACE_START
 						offset_type batch_end = start < end
 							? static_cast<offset_type>(batch_start + batch_size)
 							: static_cast<offset_type>(batch_start - batch_size);
-						enqueue_for_range_batch<value_type>(batch_start, batch_end, for_each_task_type{ std::forward<Task>(task) });
+						enqueue_for_range_batch<value_type>(batch_start, batch_end, for_each_task_type{ static_cast<Task&&>(task) });
 						batch_start = batch_end;
 						batch_size = batch_generator();
 					}
@@ -813,7 +813,7 @@ MUU_NAMESPACE_START
 				//dispatch tasks (nontrivial callables)
 				if constexpr (!impl::is_trivial_task<Task&&>)
 				{
-					auto task_ptr = std::make_shared<for_each_task_type>(std::forward<Task>(task));
+					auto task_ptr = std::make_shared<for_each_task_type>(static_cast<Task&&>(task));
 					while (batch_size)
 					{
 						offset_type batch_end = start < end

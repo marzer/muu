@@ -1,6 +1,7 @@
 #include "tests.h"
 
 #define SCALAR_TYPE signed long long
+#include "vector_test_instantiations.h"
 
-#include "vector_template.h"
-
+#define SCALAR_TYPE unsigned long long
+#include "vector_test_instantiations.h"

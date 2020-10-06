@@ -30,6 +30,7 @@
 MUU_PRAGMA_CLANG("clang diagnostic ignored \"-Wc++2a-compat\"")
 MUU_PRAGMA_CLANG("clang diagnostic ignored \"-Wfloat-equal\"")
 MUU_PRAGMA_CLANG("clang diagnostic ignored \"-Wunused-template\"")
+MUU_PRAGMA_CLANG("clang diagnostic ignored \"-Wpadded\"")
 MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wfloat-equal\"")
 MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wpedantic\"")
 MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wpadded\"")

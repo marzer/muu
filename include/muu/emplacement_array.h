@@ -35,6 +35,7 @@ MUU_NAMESPACE_START
 			std::byte* storage_ = nullptr;
 
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			MUU_ATTR(returns_nonnull)
 			T* ptr(size_t index) noexcept
 			{
@@ -42,6 +43,7 @@ MUU_NAMESPACE_START
 			}
 
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			MUU_ATTR(returns_nonnull)
 			const T* ptr(size_t index) const noexcept
 			{
@@ -118,6 +120,7 @@ MUU_NAMESPACE_START
 			{}
 
 			/// \brief	Move constructor.
+			MUU_NODISCARD_CTOR
 			emplacement_array(emplacement_array&& other) noexcept
 				: count_{ other.count_ },
 				capacity_{ other.capacity_ },
@@ -163,11 +166,11 @@ MUU_NAMESPACE_START
 
 				if constexpr (std::is_nothrow_constructible_v<T, Args&&...>)
 				{
-					return *(new (storage_ + (sizeof(T) * count_++)) T{ std::forward<Args>(args)... });
+					return *(new (storage_ + (sizeof(T) * count_++)) T{ static_cast<Args&&>(args)... });
 				}
 				else
 				{
-					auto& newVal = *(new (storage_ + (sizeof(T) * count_)) T{ std::forward<Args>(args)... });
+					auto& newVal = *(new (storage_ + (sizeof(T) * count_)) T{ static_cast<Args&&>(args)... });
 					count_++;
 					return newVal;
 				}
@@ -187,11 +190,11 @@ MUU_NAMESPACE_START
 
 				if constexpr (std::is_nothrow_invocable_r_v<T&, EmplacementFunc&&, void*>)
 				{
-					return *std::forward<EmplacementFunc>(func)(static_cast<void*>(storage_ + (sizeof(T) * count_++)));
+					return *static_cast<EmplacementFunc&&>(func)(static_cast<void*>(storage_ + (sizeof(T) * count_++)));
 				}
 				else
 				{
-					auto& newVal = *std::forward<EmplacementFunc>(func)(static_cast<void*>(storage_ + (sizeof(T) * count_)));
+					auto& newVal = *static_cast<EmplacementFunc&&>(func)(static_cast<void*>(storage_ + (sizeof(T) * count_)));
 					count_++;
 					return newVal;
 				}
@@ -199,6 +202,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns a reference to the element at the selected index.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			reference operator[] (size_t index) noexcept
 			{
 				return *ptr(index);
@@ -206,6 +210,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns a const reference to the element at the selected index.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			const_reference operator[] (size_t index) const noexcept
 			{
 				return *ptr(index);
@@ -213,6 +218,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	The number of elements in the array.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			size_type size() const noexcept
 			{
 				return count_;
@@ -220,6 +226,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	The maximum number of elements that can be stored in the array.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			size_type capacity() const noexcept
 			{
 				return capacity_;
@@ -227,6 +234,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns true if the array is empty.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			bool empty() const noexcept
 			{
 				return count_ == 0u;
@@ -234,6 +242,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns the first element in the array.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			reference front() noexcept
 			{
 				return (*this)[0];
@@ -241,6 +250,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns the first element in the array.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			const_reference front() const noexcept
 			{
 				return (*this)[0];
@@ -248,6 +258,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns the last element in the array.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			reference back() noexcept
 			{
 				return (*this)[count_ - 1_sz];
@@ -255,6 +266,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns the last element in the array.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			const_reference back() const noexcept
 			{
 				return (*this)[count_ - 1_sz];
@@ -262,6 +274,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns a pointer to the first element in the array.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			iterator begin() noexcept
 			{
 				return ptr(0);
@@ -269,6 +282,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns a pointer to one-past-the-last element in the array.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			iterator end() noexcept
 			{
 				return ptr(count_);
@@ -276,6 +290,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns a const pointer to the first element in the array.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			const_iterator begin() const noexcept
 			{
 				return ptr(0);
@@ -283,6 +298,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns a const pointer to one-past-the-last element in the array.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			const_iterator end() const noexcept
 			{
 				return ptr(count_);
@@ -290,6 +306,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns a const pointer to the first element in the array.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			const_iterator cbegin() const noexcept
 			{
 				return ptr(0);
@@ -297,6 +314,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns a const pointer to one-past-the-last element in the array.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			const_iterator cend() const noexcept
 			{
 				return ptr(count_);
@@ -304,6 +322,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns a pointer to the first element in the array.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			pointer data() noexcept
 			{
 				return ptr(0);
@@ -311,6 +330,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns a const pointer to the first element in the array.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			const_pointer data() const noexcept
 			{
 				return ptr(0);

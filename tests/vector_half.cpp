@@ -2,6 +2,4 @@
 #include "../include/muu/half.h"
 
 #define SCALAR_TYPE half
-
-#include "vector_template.h"
-
+#include "vector_test_instantiations.h"

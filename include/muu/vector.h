@@ -44,6 +44,7 @@ MUU_ENABLE_WARNINGS
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_SHADOW_WARNINGS
+MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wsign-conversion\"")
 
 MUU_PRAGMA_MSVC(inline_recursion(on))
 MUU_PRAGMA_MSVC(float_control(push))
@@ -58,11 +59,7 @@ MUU_PRAGMA_MSVC(float_control(precise, off))
 
 #if 1 // helper macros ------------------------------------------------------------------------------------------------
 
-#if MUU_CLANG
-	#define FMA_BLOCK	MUU_PRAGMA_CLANG("clang fp contract(fast)")
-#else
-	#define FMA_BLOCK
-#endif
+#define FMA_BLOCK	MUU_PRAGMA_CLANG("clang fp contract(fast)")
 
 #define COMPONENTWISE_AND(func)																						\
 	if constexpr (Dimensions == 1) return func(x);																	\
@@ -150,7 +147,7 @@ MUU_PRAGMA_MSVC(float_control(precise, off))
 	{																												\
 		FMA_BLOCK																									\
 		return vector{																								\
-			impl::elementwise_func_tag{},																			\
+			impl::componentwise_func_tag{},																			\
 			[&](size_t i) noexcept																					\
 			{																										\
 				FMA_BLOCK																							\
@@ -165,18 +162,19 @@ MUU_PRAGMA_MSVC(float_control(precise, off))
 #define COMPONENTWISE_ASSIGN_WITH_TRANSFORM(func, xform)															\
 	if constexpr (Dimensions <= 4)																					\
 	{																												\
-		FMA_BLOCK																									\
-										base::x = xform(func(x));													\
-		if constexpr (Dimensions >= 2)	base::y = xform(func(y));													\
-		if constexpr (Dimensions >= 3)	base::z = xform(func(z));													\
-		if constexpr (Dimensions == 4)	base::w = xform(func(w));													\
+										{ FMA_BLOCK base::x = xform(func(x)); }										\
+		if constexpr (Dimensions >= 2)	{ FMA_BLOCK base::y = xform(func(y)); }										\
+		if constexpr (Dimensions >= 3)	{ FMA_BLOCK base::z = xform(func(z)); }										\
+		if constexpr (Dimensions == 4)	{ FMA_BLOCK base::w = xform(func(w)); }										\
 	}																												\
 	else																											\
 	{																												\
-		FMA_BLOCK																									\
 		MUU_PRAGMA_MSVC(omp simd)																					\
 		for (size_t i = 0; i < Dimensions; i++)																		\
+		{																											\
+			FMA_BLOCK																								\
 			base::values[i] = xform(func(values[i]));																\
+		}																											\
 	}																												\
 	return *this
 
@@ -197,6 +195,9 @@ MUU_PRAGMA_MSVC(float_control(precise, off))
 #define	REQUIRES_FLOATING_POINT	\
 	template <typename SFINAE = Scalar MUU_SFINAE(muu::is_floating_point<SFINAE> && std::is_same_v<SFINAE, Scalar>)>
 
+#define	REQUIRES_INTEGRAL	\
+	template <typename SFINAE = Scalar MUU_SFINAE(muu::is_integral<SFINAE> && std::is_same_v<SFINAE, Scalar>)>
+
 #define	REQUIRES_SIGNED	\
 	template <typename SFINAE = Scalar MUU_SFINAE(muu::is_signed<SFINAE> && std::is_same_v<SFINAE, Scalar>)>
 
@@ -210,7 +211,7 @@ MUU_IMPL_NAMESPACE_START
 	struct array_cast_tag {};
 	struct tuple_copy_tag {};
 	struct tuple_cast_tag {};
-	struct elementwise_func_tag {};
+	struct componentwise_func_tag {};
 	struct tuple_concat_tag{};
 
 	template <typename Scalar, size_t Dimensions>
@@ -277,7 +278,7 @@ MUU_IMPL_NAMESPACE_START
 		}
 
 		template <typename Func, size_t... Indices>
-		explicit constexpr vector_base(elementwise_func_tag, std::index_sequence<Indices...>, Func&& func) noexcept
+		explicit constexpr vector_base(componentwise_func_tag, std::index_sequence<Indices...>, Func&& func) noexcept
 			: values{ func(Indices)... }
 		{
 			static_assert(sizeof...(Indices) <= Dimensions);
@@ -706,6 +707,7 @@ MUU_IMPL_NAMESPACE_END
 #define	REQUIRES_AT_LEAST_DIMENSIONS(...)
 #define	REQUIRES_EXACTLY_DIMENSIONS(...)
 #define	REQUIRES_FLOATING_POINT
+#define	REQUIRES_INTEGRAL
 #define REQUIRES_SIGNED
 
 #endif // DOXYGEN
@@ -744,7 +746,7 @@ MUU_NAMESPACE_START
 		/// \brief The type of each scalar component stored in this vector.
 		using scalar_type = Scalar;
 
-		/// \brief The type used to return scalar products (length/distance dot, etc.)
+		/// \brief The type used for floating-point products (length/distance dot, etc.)
 		using product_type = std::conditional_t<is_integral<scalar_type>, double, scalar_type>;
 
 		/// \brief The number of scalar components stored in this vector.
@@ -823,15 +825,18 @@ MUU_NAMESPACE_START
 
 		template <typename T>
 		[[nodiscard]]
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_ATTR_NDEBUG(pure)
 		static constexpr auto& do_array_operator(T& vec, size_t idx) noexcept
 		{
+			MUU_CONSTEXPR_SAFE_ASSERT(
+				idx < Dimensions
+				&& "Element index out of range"
+			);
 			MUU_ASSUME(idx < Dimensions);
 
 			if constexpr (Dimensions <= 4)
 			{
-				if (!build::supports_is_constant_evaluated || is_constant_evaluated())
+				if (/*!build::supports_is_constant_evaluated ||*/ is_constant_evaluated())
 				{
 					switch (idx)
 					{
@@ -886,11 +891,8 @@ MUU_NAMESPACE_START
 		/// \param idx  The index of the scalar component to retrieve, where x == 0, y == 1, etc.
 		///
 		/// \return  A reference to the selected scalar component.
-		/// 
-		/// \warning No bounds-checking is done!
 		[[nodiscard]]
-		MUU_ATTR(pure)
-		MUU_ATTR(flatten)
+		MUU_ATTR_NDEBUG(pure)
 		constexpr const scalar_type& operator [](size_t idx) const noexcept
 		{
 			return do_array_operator(*this, idx);
@@ -901,11 +903,8 @@ MUU_NAMESPACE_START
 		/// \param idx  The index of the scalar component to retrieve, where x == 0, y == 1, etc. 
 		///
 		/// \return  A reference to the selected scalar component.
-		/// 
-		/// \warning No bounds-checking is done!
 		[[nodiscard]]
-		MUU_ATTR(pure)
-		MUU_ATTR(flatten)
+		MUU_ATTR_NDEBUG(pure)
 		constexpr scalar_type& operator [](size_t idx) noexcept
 		{
 			return do_array_operator(*this, idx);
@@ -918,11 +917,11 @@ MUU_NAMESPACE_START
 	private:
 
 		template <typename Func>
-		explicit constexpr vector(impl::elementwise_func_tag, Func&& func) noexcept
+		explicit constexpr vector(impl::componentwise_func_tag, Func&& func) noexcept
 			: base{
-				impl::elementwise_func_tag{},
+				impl::componentwise_func_tag{},
 				std::make_index_sequence<Dimensions>{},
-				std::forward<Func>(func)
+				static_cast<Func&&>(func)
 			}
 		{}
 
@@ -951,7 +950,7 @@ MUU_NAMESPACE_START
 		/// \param	x	Initial value for the vector's x scalar component.
 		/// \param	y	Initial value for the vector's y scalar component.
 		/// 
-		/// \attention This constructor is only available when the vector has &gt;= 2 dimensions.
+		/// \note		This constructor is only available when the vector has &gt;= 2 dimensions.
 		REQUIRES_AT_LEAST_DIMENSIONS(2)
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y) noexcept
@@ -965,7 +964,7 @@ MUU_NAMESPACE_START
 		/// \param	y	Initial value for the vector's y scalar component.
 		/// \param	z	Initial value for the vector's z scalar component.
 		/// 
-		/// \attention This constructor is only available when the vector has &gt;= 3 dimensions.
+		/// \note		This constructor is only available when the vector has &gt;= 3 dimensions.
 		REQUIRES_AT_LEAST_DIMENSIONS(3)
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y, scalar_type z) noexcept
@@ -980,7 +979,7 @@ MUU_NAMESPACE_START
 		/// \param	z		Initial value for the vector's z scalar component.
 		/// \param	w		Initial value for the vector's w scalar component.
 		/// 
-		/// \attention This constructor is only available when the vector has &gt;= 4 dimensions.
+		/// \note			This constructor is only available when the vector has &gt;= 4 dimensions.
 		REQUIRES_AT_LEAST_DIMENSIONS(4)
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y, scalar_type z, scalar_type w) noexcept
@@ -997,7 +996,7 @@ MUU_NAMESPACE_START
 		/// \param	w		Initial value for the vector's w scalar component.
 		/// \param	vals	Initial values for the vector's remaining scalar components.
 		/// 
-		/// \attention This constructor is only available when the vector has &gt;= 5 dimensions.
+		/// \note			This constructor is only available when the vector has &gt;= 5 dimensions.
 		template <typename... T ENABLE_IF_AT_LEAST_DIMENSIONS_AND(5, all_convertible_to<scalar_type, T...>)>
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y, scalar_type z, scalar_type w, T... vals) noexcept
@@ -1075,7 +1074,7 @@ MUU_NAMESPACE_START
 		/// \param 	vec2	Vector 2.
 		template <typename S1, size_t D1, typename S2, size_t D2 ENABLE_IF_AT_LEAST_DIMENSIONS(D1 + D2)>
 		MUU_NODISCARD_CTOR
-			explicit constexpr vector(const vector<S1, D1>& vec1, const vector<S2, D2>& vec2) noexcept
+		constexpr vector(const vector<S1, D1>& vec1, const vector<S2, D2>& vec2) noexcept
 			: base{
 				impl::tuple_concat_tag{},
 				std::make_index_sequence<D1>{}, vec1,
@@ -1098,13 +1097,37 @@ MUU_NAMESPACE_START
 		/// \param 	vals	Scalar values.
 		template <typename S, size_t D, typename... T ENABLE_IF_AT_LEAST_DIMENSIONS_AND(D + sizeof...(T), all_convertible_to<scalar_type, T...>)>
 		MUU_NODISCARD_CTOR
-			explicit constexpr vector(const vector<S, D>& vec, T... vals) noexcept
+		constexpr vector(const vector<S, D>& vec, T... vals) noexcept
 			: base{
 				impl::tuple_concat_tag{},
 				std::make_index_sequence<D>{}, vec,
 				vals...
 			}
 		{}
+
+		/// \brief Constructs a vector from a pointer to scalars. 
+		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
+		/// 
+		/// \tparam T			Types convertible to scalar_type.
+		/// \param	vals		Pointer to values to copy.
+		/// \param	num			Number of values to copy.
+		template <typename T MUU_SFINAE(all_convertible_to<scalar_type, T>)>
+		MUU_NODISCARD_CTOR
+		vector(const T* vals, size_t num) noexcept
+		{
+			num = (muu::min)(num, Dimensions);
+			
+			if constexpr (std::is_same_v<scalar_type, remove_cv<T>>)
+				memcpy(&get<0>(), vals, sizeof(T) * num);
+			else
+			{
+				for (size_t i = 0; i < num; i++)
+					operator[](i) = static_cast<scalar_type>(vals[i]);
+			}
+
+			if (num < Dimensions)
+				memset(&operator[](num), 0, (Dimensions - num) * sizeof(scalar_type));
+		}
 
 
 		#if !defined(DOXYGEN) && !MUU_INTELLISENSE
@@ -1139,9 +1162,20 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL equal(vector_param a, const vector<T, dimensions>& b) noexcept
 		{
-			#define VEC_FUNC(member)	a.member == b.member
-			COMPONENTWISE_AND(VEC_FUNC);
-			#undef VEC_FUNC
+			if constexpr (is_signed<scalar_type> != is_signed<T>)
+			{
+				using common_type = impl::highest_ranked<scalar_type, T>;
+
+				#define VEC_FUNC(member)	static_cast<common_type>(a.member) == static_cast<common_type>(b.member)
+				COMPONENTWISE_AND(VEC_FUNC);
+				#undef VEC_FUNC
+			}
+			else
+			{
+				#define VEC_FUNC(member)	a.member == b.member
+				COMPONENTWISE_AND(VEC_FUNC);
+				#undef VEC_FUNC
+			}
 		}
 
 		/// \brief	Returns true if the vector is exactly equal to another.
@@ -1178,9 +1212,20 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL equal(vector_param a, vector<T, dimensions> b) noexcept
 		{
-			#define VEC_FUNC(member)	a.member == b.member
-			COMPONENTWISE_AND(VEC_FUNC);
-			#undef VEC_FUNC
+			if constexpr (is_signed<scalar_type> != is_signed<T>)
+			{
+				using common_type = impl::highest_ranked<scalar_type, T>;
+
+				#define VEC_FUNC(member)	static_cast<common_type>(a.member) == static_cast<common_type>(b.member)
+				COMPONENTWISE_AND(VEC_FUNC);
+				#undef VEC_FUNC
+			}
+			else
+			{
+				#define VEC_FUNC(member)	a.member == b.member
+				COMPONENTWISE_AND(VEC_FUNC);
+				#undef VEC_FUNC
+			}
 		}
 
 		template <typename T MUU_SFINAE_2(impl::pass_vector_by_value<T, dimensions>)>
@@ -1512,7 +1557,9 @@ MUU_NAMESPACE_START
 			return dot(*this, v);
 		}
 
-		/// \brief	Returns the cross product of two three-dimensional vectors.
+		/// \brief	Returns the cross product of two vectors.
+		/// 
+		/// \note		This function is only available when the vector has 3 dimensions.
 		REQUIRES_EXACTLY_DIMENSIONS(3)
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -1537,7 +1584,9 @@ MUU_NAMESPACE_START
 			};
 		}
 
-		/// \brief	Returns the cross product of this and another three-dimensional vector.
+		/// \brief	Returns the cross product of this vector and another.
+		/// 
+		/// \note		This function is only available when the vector has 3 dimensions.
 		REQUIRES_EXACTLY_DIMENSIONS(3)
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -1808,6 +1857,70 @@ MUU_NAMESPACE_START
 
 	#endif // modulo
 
+	#if 1 // bitwise shifts ----------------------------------------------------------------------------------------
+
+		/// \brief Returns a vector with each scalar component left-shifted the given number of bits.
+		/// 
+		/// \note		This function is only available when scalar_type is an integral type.
+		REQUIRES_INTEGRAL
+		[[nodiscard]]
+		MUU_ATTR_NDEBUG(pure)
+		friend constexpr vector MUU_VECTORCALL operator << (vector_param lhs, int rhs) noexcept
+		{
+			MUU_CONSTEXPR_SAFE_ASSERT(rhs >= 0 && "Bitwise left-shifting by negative values is illegal");
+			MUU_ASSUME(rhs >= 0);
+
+			#define VEC_FUNC(member)	lhs.member << rhs
+			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
+			#undef VEC_FUNC
+		}
+
+		/// \brief Componentwise left-shifts each scalar component in the vector by the given number of bits.
+		/// 
+		/// \note		This function is only available when scalar_type is an integral type.
+		REQUIRES_INTEGRAL
+		constexpr vector& MUU_VECTORCALL operator <<= (int rhs) noexcept
+		{
+			MUU_CONSTEXPR_SAFE_ASSERT(rhs >= 0 && "Bitwise left-shifting by negative values is illegal");
+			MUU_ASSUME(rhs >= 0);
+
+			#define VEC_FUNC(member)	base::member << rhs
+			COMPONENTWISE_ASSIGN(VEC_FUNC);
+			#undef VEC_FUNC
+		}
+
+		/// \brief Returns a vector with each scalar component right-shifted the given number of bits.
+		/// 
+		/// \note		This function is only available when scalar_type is an integral type.
+		REQUIRES_INTEGRAL
+		[[nodiscard]]
+		MUU_ATTR_NDEBUG(pure)
+		friend constexpr vector MUU_VECTORCALL operator >> (vector_param lhs, int rhs) noexcept
+		{
+			MUU_CONSTEXPR_SAFE_ASSERT(rhs >= 0 && "Bitwise right-shifting by negative values is illegal");
+			MUU_ASSUME(rhs >= 0);
+
+			#define VEC_FUNC(member)	lhs.member >> rhs
+			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
+			#undef VEC_FUNC
+		}
+
+		/// \brief Componentwise right-shifts each scalar component in the vector by the given number of bits.
+		/// 
+		/// \note		This function is only available when scalar_type is an integral type.
+		REQUIRES_INTEGRAL
+		constexpr vector& MUU_VECTORCALL operator >>= (int rhs) noexcept
+		{
+			MUU_CONSTEXPR_SAFE_ASSERT(rhs >= 0 && "Bitwise right-shifting by negative values is illegal");
+			MUU_ASSUME(rhs >= 0);
+
+			#define VEC_FUNC(member)	base::member >> rhs
+			COMPONENTWISE_ASSIGN(VEC_FUNC);
+			#undef VEC_FUNC
+		}
+
+	#endif // bitwise shifts
+
 	#if 1 // normalization --------------------------------------------------------------------------------------------
 
 		/// \brief	Normalizes a vector.
@@ -1817,7 +1930,7 @@ MUU_NAMESPACE_START
 		/// 
 		/// \return		A normalized copy of the input vector.
 		/// 
-		/// \remarks This function is only available when the scalar type is a float type.
+		/// \note This function is only available when scalar_type is a float-point type.
 		REQUIRES_FLOATING_POINT
 		[[nodiscard]]
 		static constexpr vector MUU_VECTORCALL normalize(vector_param v, scalar_type& length_out) noexcept
@@ -1833,7 +1946,7 @@ MUU_NAMESPACE_START
 		/// 
 		/// \return		A normalized copy of the input vector.
 		/// 
-		/// \remarks This function is only available when the scalar type is a float type.
+		/// \note This function is only available when scalar_type is a float-point type.
 		REQUIRES_FLOATING_POINT
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -1848,7 +1961,7 @@ MUU_NAMESPACE_START
 		/// 
 		/// \return	A reference to the vector.
 		/// 
-		/// \remarks This function is only available when the scalar type is a float type.
+		/// \note This function is only available when scalar_type is a float-point type.
 		REQUIRES_FLOATING_POINT
 		constexpr vector& normalize(scalar_type& length_out) noexcept
 		{
@@ -1861,7 +1974,7 @@ MUU_NAMESPACE_START
 		///
 		/// \return	A reference to the vector.
 		/// 
-		/// \remarks This function is only available when the scalar type is a float type.
+		/// \note This function is only available when scalar_type is a float-point type.
 		REQUIRES_FLOATING_POINT
 		constexpr vector& normalize() noexcept
 		{
@@ -1922,12 +2035,171 @@ MUU_NAMESPACE_START
 
 	#endif // streams
 
-	#if 1 // ________________ -----------------------------------------------------------------------------------------
-	#endif // ________________
+	#if 1 // min, max and clamp ---------------------------------------------------------------------------------------
 
-	#if 1 // ________________ -----------------------------------------------------------------------------------------
-	#endif // ________________
+		/// \brief	Returns the componentwise minimum of two vectors.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr vector MUU_VECTORCALL min(vector_param v1, vector_param v2) noexcept
+		{
+			#define VEC_FUNC(member)	(muu::min)(v1.member, v2.member)
+			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
+			#undef VEC_FUNC
+		}
 
+		/// \brief	Returns the componentwise maximum of two vectors.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr vector MUU_VECTORCALL max(vector_param v1, vector_param v2) noexcept
+		{
+			#define VEC_FUNC(member)	(muu::max)(v1.member, v2.member)
+			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
+			#undef VEC_FUNC
+		}
+
+		/// \brief	Componentwise clamps each scalar component of a vector between the values bounded by two others.
+		/// 
+		/// \param v		The vector being clamped.
+		/// \param min_		The minimum bound of the clamp operation.
+		/// \param max_		The maximum bound of the clamp operation.
+		/// 
+		/// \return	A vector containing the scalar components from `v` clamped inside the given bounds.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr vector MUU_VECTORCALL clamp(vector_param v, vector_param min_, vector_param max_) noexcept
+		{
+			#define VEC_FUNC(member)	muu::clamp(v.member, min_.member, max_.member)
+			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
+			#undef VEC_FUNC
+		}
+
+		/// \brief	Clamps this vector between to bounds (in-place).
+		/// 
+		/// \param min_		The minimum bound of the clamp operation.
+		/// \param min_		The maximum bound of the clamp operation.
+		/// 
+		/// \return	A reference to the vector.
+		constexpr vector& MUU_VECTORCALL clamp(vector_param min_, vector_param max_) noexcept
+		{
+			#define VEC_FUNC(member)	muu::clamp(base::member, min_.member, max_.member)
+			COMPONENTWISE_ASSIGN(VEC_FUNC);
+			#undef VEC_FUNC
+		}
+
+	#endif // min, max and clamp
+
+	#if 1 // misc -----------------------------------------------------------------------------------------------------
+
+
+		/// \brief	Performs a linear interpolation towards another vector (in-place).
+		///
+		/// \param	start	The value at the start of the interpolation range.
+		/// \param	finish	The value at the end of the interpolation range.
+		/// \param	alpha 	The blend factor.
+		///
+		/// \returns	A vector with values derived from a linear interpolation from `start` to `finish`.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr vector MUU_VECTORCALL lerp(vector_param start, vector_param finish, product_type alpha) noexcept
+		{
+			#define VEC_FUNC(member)	muu::lerp(start.member, finish.member, alpha)
+			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
+			#undef VEC_FUNC
+		}
+
+		/// \brief	Linearly interpolates this vector towards another (in-place).
+		///
+		/// \param	target	The 'target' values for the linear interpolation.
+		/// \param	alpha 	The blend factor.
+		///
+		/// \return	A reference to the vector.
+		constexpr vector& MUU_VECTORCALL lerp(vector target, product_type alpha) noexcept
+		{
+			#define VEC_FUNC(member)	muu::lerp(base::member, target.member, alpha)
+			COMPONENTWISE_ASSIGN(VEC_FUNC);
+			#undef VEC_FUNC
+		}
+
+		/// \brief Creates a vector by selecting and re-packing scalar components from another vector in an abitrary order.
+		/// 
+		/// \tparam	Indices		Indices of the scalar components from the source vector in the order they're to be re-packed.
+		/// \param v			The source vector.
+		/// 				
+		/// \detail \cpp
+		///
+		/// auto v = vector{ 10, 7, 5, 9 };
+		/// //                ^  ^  ^  ^
+		/// // indices:       0  1  2  3
+		/// 
+		/// using vec = decltype(v);
+		/// 
+		///	std::cout << "         <0>: " <<          vec::swizzle<0>(v) << "\n";
+		///	std::cout << "      <1, 0>: " <<       vec::swizzle<1, 0>(v) << "\n";
+		///	std::cout << "   <3, 2, 3>: " <<    vec::swizzle<3, 2, 3>(v) << "\n";
+		///	std::cout << "<0, 1, 0, 1>: " << vec::swizzle<0, 1, 0, 1>(v) << "\n";
+		/// \ecpp
+		/// 
+		/// \out
+		///          <0>: { 10 }
+		///       <1, 0>: { 7, 10 }
+		///    <3, 2, 3>: { 9, 5, 9 }
+		/// <0, 1, 0, 1>: { 10, 7, 10, 7 }
+		/// \eout
+		/// 
+		/// \return  A vector composed from the desired 'swizzle' of the source vector.
+		template <size_t... Indices>
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr vector<scalar_type, sizeof...(Indices)> MUU_VECTORCALL swizzle(vector_param v) noexcept
+		{
+			static_assert(
+				sizeof...(Indices) > 0_sz,
+				"At least one scalar index must be specified."
+			);
+			static_assert(
+				(true && ... && (Indices < Dimensions)),
+				"One or more of the scalar indices was out-of-range"
+			);
+
+			return vector<scalar_type, sizeof...(Indices)>{ v.template get<Indices>()... };
+		}
+
+		/// \brief Creates a vector by selecting and re-packing the scalar components from this one in an abitrary order.
+		/// 
+		/// \tparam	Indices		Indices of the scalar components in the order they're to be re-packed.
+		/// 				
+		/// \detail \cpp
+		///
+		/// auto v = vector{ 10, 7, 5, 9 };
+		/// //                ^  ^  ^  ^
+		/// // indices:       0  1  2  3
+		/// 
+		/// using vec = decltype(v);
+		/// 
+		///	std::cout << "         <0>: " <<          v.swizzle<0>() << "\n";
+		///	std::cout << "      <1, 0>: " <<       v.swizzle<1, 0>() << "\n";
+		///	std::cout << "   <3, 2, 3>: " <<    v.swizzle<3, 2, 3>() << "\n";
+		///	std::cout << "<0, 1, 0, 1>: " << v.swizzle<0, 1, 0, 1>() << "\n";
+		/// \ecpp
+		/// 
+		/// \out
+		///          <0>: { 10 }
+		///       <1, 0>: { 7, 10 }
+		///    <3, 2, 3>: { 9, 5, 9 }
+		/// <0, 1, 0, 1>: { 10, 7, 10, 7 }
+		/// \eout
+		/// 
+		/// \return  A vector composed from the desired 'swizzle' of this one.
+		template <size_t... Indices>
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr vector<scalar_type, sizeof...(Indices)> swizzle() const noexcept
+		{
+			return swizzle<Indices...>(*this);
+		}
+
+
+	#endif // misc
 	};
 	
 	#ifndef DOXYGEN // deduction guides -------------------------------------------------------------------------------
@@ -1984,6 +2256,7 @@ namespace std
 #undef REQUIRES_AT_LEAST_DIMENSIONS
 #undef REQUIRES_EXACTLY_DIMENSIONS
 #undef REQUIRES_FLOATING_POINT
+#undef REQUIRES_INTEGRAL
 #undef REQUIRES_SIGNED
 #undef COMPONENTWISE_AND
 #undef COMPONENTWISE_OR

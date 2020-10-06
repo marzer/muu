@@ -348,12 +348,12 @@ MUU_NAMESPACE_START
 				if (reverse)
 				{
 					for (size_t i = str.length(); i --> data_start && !stop;)
-						stop = stop_after_invoking(std::forward<Func>(func), static_cast<char32_t>(get(i)), i, 1);
+						stop = stop_after_invoking(static_cast<Func&&>(func), static_cast<char32_t>(get(i)), i, 1);
 				}
 				else
 				{
 					for (size_t i = data_start, e = str.length(); i < e && !stop; i++)
-						stop = stop_after_invoking(std::forward<Func>(func), static_cast<char32_t>(get(i)), i, 1);
+						stop = stop_after_invoking(static_cast<Func&&>(func), static_cast<char32_t>(get(i)), i, 1);
 				}
 			}
 
@@ -400,12 +400,12 @@ MUU_NAMESPACE_START
 							}
 
 							if (decoder.has_value())
-								stop = stop_after_invoking(std::forward<Func>(func), decoder.value(), cp_start, cu_count);
+								stop = stop_after_invoking(static_cast<Func&&>(func), decoder.value(), cp_start, cu_count);
 							else if (decoder.error())
 							{
 								decoder.clear_error();
 								for (size_t i = cp_start + cu_count; i --> cp_start && !stop;)
-									stop = stop_after_invoking(std::forward<Func>(func), static_cast<char32_t>(get(i)), i, 1);
+									stop = stop_after_invoking(static_cast<Func&&>(func), static_cast<char32_t>(get(i)), i, 1);
 							}
 							cu_count = {};
 						}
@@ -419,7 +419,7 @@ MUU_NAMESPACE_START
 						decoder(get(i));
 						if (decoder.has_value())
 						{
-							stop = stop_after_invoking(std::forward<Func>(func), decoder.value(), cp_start, cu_count);
+							stop = stop_after_invoking(static_cast<Func&&>(func), decoder.value(), cp_start, cu_count);
 							cp_start = i + 1u;
 							cu_count = {};
 						}
@@ -427,7 +427,7 @@ MUU_NAMESPACE_START
 						{
 							decoder.clear_error();
 							for (size_t j = cp_start, je = cp_start + cu_count; j < je && !stop; j++)
-								stop = stop_after_invoking(std::forward<Func>(func), static_cast<char32_t>(get(j)), j, 1);
+								stop = stop_after_invoking(static_cast<Func&&>(func), static_cast<char32_t>(get(j)), j, 1);
 							cp_start = i + 1u;
 							cu_count = {};
 						}
@@ -439,7 +439,7 @@ MUU_NAMESPACE_START
 		template <typename T, typename Func>
 		constexpr void utf_decode(std::basic_string_view<T> str, Func&& func) noexcept
 		{
-			utf_decode(str, false, std::forward<Func>(func));
+			utf_decode(str, false, static_cast<Func&&>(func));
 		}
 
 		struct utf_find_result
@@ -470,7 +470,7 @@ MUU_NAMESPACE_START
 			{
 				utf_decode(str, reverse, [&](char32_t cp, size_t starts_at, size_t goes_for) noexcept
 				{
-					if (std::forward<Func>(predicate)(cp))
+					if (static_cast<Func&&>(predicate)(cp))
 					{
 						result = { starts_at, goes_for };
 						return false;
@@ -660,11 +660,11 @@ MUU_NAMESPACE_START
 			if (str.empty())
 				return view{};
 
-			auto first = utf_find(str, false, std::forward<Func>(predicate));
+			auto first = utf_find(str, false, static_cast<Func&&>(predicate));
 			if (!first)
 				return view{};
 
-			auto last = utf_find(str, true, std::forward<Func>(predicate));
+			auto last = utf_find(str, true, static_cast<Func&&>(predicate));
 
 			return str.substr(first.index, last.end() - first.index);
 		}
@@ -735,7 +735,7 @@ MUU_NAMESPACE_START
 			if (str.empty())
 				return view{};
 
-			auto first = utf_find(str, false, std::forward<Func>(predicate));
+			auto first = utf_find(str, false, static_cast<Func&&>(predicate));
 			if (!first)
 				return view{};
 
@@ -808,7 +808,7 @@ MUU_NAMESPACE_START
 			if (str.empty())
 				return view{};
 
-			auto last = utf_find(str, true, std::forward<Func>(predicate));
+			auto last = utf_find(str, true, static_cast<Func&&>(predicate));
 			if (!last)
 				return view{};
 

@@ -30,6 +30,9 @@ namespace std
 	template <typename, size_t>		class	array;
 	template <typename>				class	optional;
 	template <typename...>			class	tuple;
+	#ifdef __cpp_lib_span
+	template <typename, size_t>		class	span;
+	#endif
 }
 
 #if MUU_WINDOWS
@@ -195,14 +198,14 @@ namespace muu // non-abi namespace; this is not an error
 	/// \brief	A 128-bit signed integer.
 	/// \ingroup building_blocks
 	/// 
-	/// \attention This typedef is only present when 128-bit integers are supported by your target platform.
+	/// \note This typedef is only present when 128-bit integers are supported by your target platform.
 	/// 		 You can check support using #MUU_HAS_INT128.
 	using int128_t = __int128_t;
 
 	/// \brief	A 128-bit unsigned integer.
 	/// \ingroup building_blocks
 	/// 
-	/// \attention This typedef is only present when 128-bit integers are supported by your target platform.
+	/// \note This typedef is only present when 128-bit integers are supported by your target platform.
 	/// 		 You can check support using #MUU_HAS_INT128.
 	using uint128_t = __uint128_t;
 	#endif
@@ -211,7 +214,7 @@ namespace muu // non-abi namespace; this is not an error
 	/// \brief	A 128-bit quad-precision float.
 	/// \ingroup building_blocks
 	/// 
-	/// \attention This typedef is only present when 128-bit floats are supported by your target platform.
+	/// \note This typedef is only present when 128-bit floats are supported by your target platform.
 	/// 		 You can check support using #MUU_HAS_FLOAT128.
 	using quad = __float128;
 	#endif

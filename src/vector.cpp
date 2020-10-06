@@ -39,16 +39,8 @@ namespace
 			}
 
 			os << std::right;
-
 			os.width(saver.width);
-			if constexpr (is_integral<T> && sizeof(T) == 1)
-				os << static_cast<std::conditional_t<is_signed<T>, signed int, unsigned int>>(x[i]);
-			else if constexpr (is_integral<T> && sizeof(T) > sizeof(long long))
-				os << static_cast<std::conditional_t<is_signed<T>, signed long long, unsigned long long>>(x[i]);
-			else
-				os << x[i];
-
-			os.width(0);
+			print_number(os, x[i]);
 		}
 
 		os.put(chars::space);

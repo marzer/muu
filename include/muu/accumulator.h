@@ -141,7 +141,9 @@ MUU_NAMESPACE_START
 				noexcept(noexcept(std::declval<Impl>().start(sample)) && noexcept(std::declval<Impl>().add(sample)))
 			{
 				if constexpr (is_floating_point<value_type>)
+				{
 					MUU_ASSERT(!infinity_or_nan(sample));
+				}
 
 				if MUU_UNLIKELY(!impl_and_count.second()++)
 					impl_and_count.first().start(sample);

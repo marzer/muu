@@ -83,7 +83,7 @@ MUU_NAMESPACE_START
 			template <typename U>
 			MUU_NODISCARD_CTOR
 			explicit constexpr scope_guard(U&& func) noexcept
-				: func_and_active{ std::forward<U>(func), true }
+				: func_and_active{ static_cast<U&&>(func), true }
 			{
 				static_assert(
 					!build::has_exceptions

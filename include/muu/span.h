@@ -11,9 +11,10 @@
 #include "../muu/compressed_pair.h"
 MUU_DISABLE_WARNINGS
 #include <iterator>
+#ifdef __cpp_lib_span
+#include <span>
+#endif
 MUU_ENABLE_WARNINGS
-
-#define MUU_SPAN_ASSERT(...)	do { if (::muu::is_constant_evaluated()) MUU_ASSERT(__VA_ARGS__); } while(false)
 
 MUU_NAMESPACE_START
 {
@@ -105,7 +106,7 @@ MUU_NAMESPACE_START
 			#if defined(DOXYGEN) || MUU_CONCEPTS
 
 			/// \brief Default constructor.
-			/// \attention This constructor is not available for statically-sized spans.
+			/// \note This constructor is not available for statically-sized spans.
 			MUU_NODISCARD_CTOR
 			constexpr span() noexcept
 				MUU_REQUIRES(Extent == 0 || Extent == dynamic_extent)
@@ -113,7 +114,7 @@ MUU_NAMESPACE_START
 
 			#else
 
-			template <size_t Ex = Extent MUU_SFINAE(Ex == 0 || Ex == dynamic_extent)>
+			template <size_t E = Extent MUU_SFINAE(E == 0 || E == dynamic_extent)>
 			MUU_NODISCARD_CTOR
 			constexpr span() noexcept {}
 
@@ -133,9 +134,9 @@ MUU_NAMESPACE_START
 				: ptr_and_size{ pointer_cast<pointer>(muu::to_address(first)), count }
 			{
 				if constexpr (Extent != dynamic_extent)
-					MUU_SPAN_ASSERT(count == Extent && "count must be equal to span extent for statically-sized spans");
+					MUU_CONSTEXPR_SAFE_ASSERT(count == Extent && "count must be equal to span extent for statically-sized spans");
 				if constexpr (Extent > 0)
-					MUU_SPAN_ASSERT(ptr_and_size.first() != nullptr && "a nullptr span is undefined behaviour");
+					MUU_CONSTEXPR_SAFE_ASSERT(ptr_and_size.first() != nullptr && "a nullptr span is undefined behaviour");
 			}
 
 			/// \brief Constructs a span from a pair of contiguous iterators.
@@ -156,11 +157,11 @@ MUU_NAMESPACE_START
 				: ptr_and_size{ pointer_cast<pointer>(muu::to_address(first)), static_cast<size_t>(last - first) }
 			{
 				if constexpr (Extent != dynamic_extent)
-					MUU_SPAN_ASSERT(static_cast<size_t>(last - first) == size()
+					MUU_CONSTEXPR_SAFE_ASSERT(static_cast<size_t>(last - first) == size()
 						&& "(last - first) must be equal to span extent for statically-sized spans"
 					);
 				if constexpr (Extent > 0)
-					MUU_SPAN_ASSERT(ptr_and_size.first() != nullptr && "a nullptr span is undefined behaviour");
+					MUU_CONSTEXPR_SAFE_ASSERT(ptr_and_size.first() != nullptr && "a nullptr span is undefined behaviour");
 			}
 
 			/// \brief Constructs a span from an array.
@@ -200,18 +201,20 @@ MUU_NAMESPACE_START
 			{}
 
 			/// \brief Constructs a span from another span.
-			template <typename U, size_t N MUU_SFINAE_NO_CONCEPTS(
+			template <typename U, size_t E MUU_SFINAE_NO_CONCEPTS(
 				impl::is_qualifier_conversion_only<U, element_type>
-				&& (Extent == dynamic_extent || N == dynamic_extent || N == Extent)
+				&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
 			)>
-			MUU_EXPLICIT(Extent != dynamic_extent && N == dynamic_extent)
-			constexpr span(const span<U, N>& s) noexcept
+			MUU_NODISCARD_CTOR
+			MUU_EXPLICIT(Extent != dynamic_extent && E == dynamic_extent)
+			constexpr span(const span<U, E>& s) noexcept
 				MUU_REQUIRES(
 					impl::is_qualifier_conversion_only<U, element_type>
-					&& (Extent == dynamic_extent || N == dynamic_extent || N == Extent)
+					&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
 				)
 				: ptr_and_size{ pointer_cast<pointer>(s.data()), s.size() }
 			{}
+
 
 			/// \brief Copy constructor.
 			constexpr span(const span&) noexcept = default;
@@ -219,8 +222,44 @@ MUU_NAMESPACE_START
 			/// \brief Copy-assignment operator.
 			constexpr span& operator=(const span&) noexcept = default;
 
+			#ifdef __cpp_lib_span
+
+			/// \brief Constructs a muu::span from a C++20 std::span (if available).
+			template <typename U, size_t E MUU_SFINAE_NO_CONCEPTS(
+				impl::is_qualifier_conversion_only<U, element_type>
+				&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
+			)>
+			MUU_NODISCARD_CTOR
+			explicit
+			constexpr span(const std::span<U, E>& s) noexcept
+				MUU_REQUIRES(
+					impl::is_qualifier_conversion_only<U, element_type>
+					&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
+				)
+				: ptr_and_size{ pointer_cast<pointer>(s.data()), s.size() }
+			{}
+
+			/// \brief Constructs a C++20 std::span from a muu::span (if std::span is available).
+			template <typename U, size_t E MUU_SFINAE_NO_CONCEPTS(
+				impl::is_qualifier_conversion_only<U, element_type>
+				&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
+			)>
+			[[nodiscard]]
+			/* implicit */
+			constexpr operator std::span<U, E>() const noexcept
+				MUU_REQUIRES(
+					impl::is_qualifier_conversion_only<U, element_type>
+					&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
+				)
+			{
+				return std::span<U, E>{ data(), size() };
+			}
+
+			#endif // __cpp_lib_span
+
 			/// \brief Returns the number of elements covered by the span.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			constexpr size_t size() const noexcept
 			{
 				if constexpr (Extent == dynamic_extent)
@@ -231,6 +270,7 @@ MUU_NAMESPACE_START
 
 			/// \brief Returns the total size of the elements covered by the span in bytes.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			constexpr size_t size_bytes() const noexcept
 			{
 				if constexpr (Extent == dynamic_extent)
@@ -241,6 +281,7 @@ MUU_NAMESPACE_START
 
 			/// \brief Returns true if the span is empty (i.e. covers zero elements).
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			constexpr bool empty() const noexcept
 			{
 				return !size();
@@ -248,6 +289,7 @@ MUU_NAMESPACE_START
 
 			/// \brief Returns an iterator to the beginning of the span.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			constexpr iterator begin() const noexcept
 			{
 				return ptr_and_size.first();
@@ -255,6 +297,7 @@ MUU_NAMESPACE_START
 
 			/// \brief Returns an iterator to end of the span.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			constexpr iterator end() const noexcept
 			{
 				return ptr_and_size.first() + size();
@@ -262,6 +305,7 @@ MUU_NAMESPACE_START
 
 			/// \brief Returns a reverse iterator to the beginning of the span.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			constexpr reverse_iterator rbegin() const noexcept
 			{
 				return reverse_iterator{ end() };
@@ -269,6 +313,7 @@ MUU_NAMESPACE_START
 
 			/// \brief Returns a reverse iterator to the end of the span.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			constexpr reverse_iterator rend() const noexcept
 			{
 				return reverse_iterator{ begin() };
@@ -276,6 +321,7 @@ MUU_NAMESPACE_START
 
 			/// \brief Returns a reference to the first element in the span.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			constexpr reference front() const noexcept
 			{
 				return *ptr_and_size.first();
@@ -283,6 +329,7 @@ MUU_NAMESPACE_START
 
 			/// \brief Returns a reference to the last element in the span.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			constexpr reference back() const noexcept
 			{
 				return ptr_and_size.first()[size() - 1u];
@@ -290,6 +337,7 @@ MUU_NAMESPACE_START
 
 			/// \brief Returns a reference to an arbitrary element in the span.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			constexpr reference operator[](size_t idx) const noexcept
 			{
 				return ptr_and_size.first()[idx];
@@ -297,6 +345,7 @@ MUU_NAMESPACE_START
 
 			/// \brief Returns a pointer to the first element in the span.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			constexpr pointer data() const noexcept
 			{
 				return ptr_and_size.first();
@@ -305,48 +354,53 @@ MUU_NAMESPACE_START
 			/// \brief Returns a subspan representing the first N elements of this span.
 			template <size_t Count>
 			[[nodiscard]]
+			MUU_ATTR_NDEBUG(pure)
 			constexpr span<element_type, Count> first() const noexcept
 			{
 				static_assert(
 					Count <= Extent,
 					"span::first() count cannot exceed the size of the source span"
 				);
-				MUU_SPAN_ASSERT(Count <= size());
+				MUU_CONSTEXPR_SAFE_ASSERT(Count <= size());
 				return span<element_type, Count>{ ptr_and_size.first(), Count };
 			}
 
 			/// \brief Returns a subspan representing the first N elements of this span.
 			[[nodiscard]]
+			MUU_ATTR_NDEBUG(pure)
 			constexpr span<element_type> first(size_t count) const noexcept
 			{
-				MUU_SPAN_ASSERT(count <= size());
+				MUU_CONSTEXPR_SAFE_ASSERT(count <= size());
 				return span<element_type>{ ptr_and_size.first(), count };
 			}
 
 			/// \brief Returns a subspan representing the last N elements of this span.
 			template <size_t Count>
 			[[nodiscard]]
+			MUU_ATTR_NDEBUG(pure)
 			constexpr span<element_type, Count> last() const noexcept
 			{
 				static_assert(
 					Count <= Extent,
 					"span::last() count cannot exceed the size of the source span"
 				);
-				MUU_SPAN_ASSERT(Count <= size());
+				MUU_CONSTEXPR_SAFE_ASSERT(Count <= size());
 				return span<element_type, Count>{ ptr_and_size.first() + (size() - Count), Count };
 			}
 
 			/// \brief Returns a subspan representing the last N elements of this span.
 			[[nodiscard]]
+			MUU_ATTR_NDEBUG(pure)
 			constexpr span<element_type> last(size_t count) const noexcept
 			{
-				MUU_SPAN_ASSERT(count <= size());
+				MUU_CONSTEXPR_SAFE_ASSERT(count <= size());
 				return span<element_type>{ ptr_and_size.first() + (size() - count), count };
 			}
 
 			/// \brief Returns an arbitrary subspan.
 			template <size_t Offset, size_t Count = dynamic_extent>
 			[[nodiscard]]
+			MUU_ATTR_NDEBUG(pure)
 			constexpr auto subspan() const noexcept
 			{
 				static_assert(
@@ -359,7 +413,7 @@ MUU_NAMESPACE_START
 					"span::subspan() Count cannot exceed the size of the source span"
 				);
 
-				MUU_SPAN_ASSERT(Offset < size());
+				MUU_CONSTEXPR_SAFE_ASSERT(Offset < size());
 
 				if constexpr (Count == dynamic_extent)
 				{
@@ -367,16 +421,17 @@ MUU_NAMESPACE_START
 				}
 				else
 				{
-					MUU_SPAN_ASSERT(Count <= (size() - Offset));
+					MUU_CONSTEXPR_SAFE_ASSERT(Count <= (size() - Offset));
 					return span<element_type, Count>{ ptr_and_size.first() + Offset, Count };
 				}
 			}
 
 			/// \brief Returns an arbitrary subspan.
 			[[nodiscard]]
+			MUU_ATTR_NDEBUG(pure)
 			constexpr span<element_type> subspan(size_t offset, size_t count = dynamic_extent) const noexcept
 			{
-				MUU_SPAN_ASSERT(offset < size());
+				MUU_CONSTEXPR_SAFE_ASSERT(offset < size());
 
 				if (count == dynamic_extent)
 				{
@@ -384,7 +439,7 @@ MUU_NAMESPACE_START
 				}
 				else
 				{
-					MUU_SPAN_ASSERT(count <= (size() - offset));
+					MUU_CONSTEXPR_SAFE_ASSERT(count <= (size() - offset));
 					return span<element_type>{ ptr_and_size.first() + offset, count };
 				}
 			}
@@ -453,5 +508,3 @@ MUU_NAMESPACE_START
 	}
 }
 MUU_NAMESPACE_END
-
-#undef MUU_SPAN_ASSERT

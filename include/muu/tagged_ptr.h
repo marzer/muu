@@ -9,14 +9,6 @@
 #pragma once
 #include "../muu/core.h"
 
-#ifndef NDEBUG
-	#define MUU_TPTR_ATTR(attr)		MUU_ATTR(attr)
-	#define MUU_TPTR_ASSERT(...)	(void)0
-#else
-	#define MUU_TPTR_ATTR(attr)
-	#define MUU_TPTR_ASSERT(...)	do { if (::muu::is_constant_evaluated()) MUU_ASSERT(__VA_ARGS__); } while(false)
-#endif
-
 MUU_PRAGMA_MSVC(inline_recursion(on))
 
 MUU_IMPL_NAMESPACE_START
@@ -36,10 +28,10 @@ MUU_IMPL_NAMESPACE_START
 		static_assert(sizeof(tag_type) <= sizeof(uintptr_t));
 
 		[[nodiscard]]
-		MUU_TPTR_ATTR(const)
+		MUU_ATTR_NDEBUG(const)
 		static constexpr uintptr_t pack_ptr(void* ptr) noexcept
 		{
-			MUU_TPTR_ASSERT(
+			MUU_CONSTEXPR_SAFE_ASSERT(
 				(!ptr || bit_floor(reinterpret_cast<uintptr_t>(ptr)) >= MinAlign)
 				&& "The pointer's address is more strictly aligned than MinAlign"
 			);
@@ -52,7 +44,7 @@ MUU_IMPL_NAMESPACE_START
 
 		template <typename T>
 		[[nodiscard]]
-		MUU_TPTR_ATTR(pure)
+		MUU_ATTR_NDEBUG(pure)
 		static constexpr uintptr_t pack_both(void* ptr, const T& tag) noexcept
 		{
 			static_assert(
@@ -64,7 +56,7 @@ MUU_IMPL_NAMESPACE_START
 				return pack_both(ptr, unwrap(tag));
 			else
 			{
-				MUU_TPTR_ASSERT(
+				MUU_CONSTEXPR_SAFE_ASSERT(
 					(!ptr || bit_floor(reinterpret_cast<uintptr_t>(ptr)) >= MinAlign)
 					&& "The pointer's address is more strictly aligned than MinAlign"
 				);
@@ -90,7 +82,7 @@ MUU_IMPL_NAMESPACE_START
 		}
 
 		[[nodiscard]]
-		MUU_TPTR_ATTR(const)
+		MUU_ATTR_NDEBUG(const)
 		static constexpr uintptr_t set_ptr(uintptr_t bits, void* ptr) noexcept
 		{
 			return pack_ptr(ptr) | (bits & tag_mask);
@@ -136,18 +128,18 @@ MUU_IMPL_NAMESPACE_START
 		}
 
 		[[nodiscard]]
-		MUU_TPTR_ATTR(const)
+		MUU_ATTR_NDEBUG(const)
 		static constexpr bool get_tag_bit(uintptr_t bits, size_t index) noexcept
 		{
-			MUU_TPTR_ASSERT(index < tag_bits && "Tag bit index out-of-bounds");
+			MUU_CONSTEXPR_SAFE_ASSERT(index < tag_bits && "Tag bit index out-of-bounds");
 			return bits & (uintptr_t{1} << index);
 		}
 
 		[[nodiscard]]
-		MUU_TPTR_ATTR(const)
+		MUU_ATTR_NDEBUG(const)
 		static constexpr uintptr_t set_tag_bit(uintptr_t bits, size_t index, bool state) noexcept
 		{
-			MUU_TPTR_ASSERT(index < tag_bits && "Tag bit index out-of-bounds");
+			MUU_CONSTEXPR_SAFE_ASSERT(index < tag_bits && "Tag bit index out-of-bounds");
 			if (state)
 				return bits | (uintptr_t{ 1 } << index);
 			else
@@ -523,7 +515,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns a reference the pointed object.
 			/// 
-			/// \remarks This operator is not available for pointers to `void` or functions.
+			/// \note This operator is not available for pointers to `void` or functions.
 			template <typename U = element_type MUU_SFINAE(
 				!std::is_void_v<U>
 				&& !std::is_function_v<U>
@@ -537,7 +529,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns the target pointer value.
 			/// 
-			/// \remarks This operator is not available for pointers to `void` or functions.
+			/// \note This operator is not available for pointers to `void` or functions.
 			template <typename U = element_type MUU_SFINAE(
 				!std::is_void_v<U>
 				&& !std::is_function_v<U>
@@ -556,14 +548,14 @@ MUU_NAMESPACE_START
 			///
 			/// \returns	The return value of the function call.
 			/// 
-			/// \remarks This operator is only available when the pointed type is a function.
+			/// \note This operator is only available when the pointed type is a function.
 			template <typename... U, typename V = element_type MUU_SFINAE(std::is_function_v<V>)>
 			constexpr decltype(auto) operator () (U&&... args) const
 				noexcept(std::is_nothrow_invocable_v<V, U&&...>)
 			{
 				static_assert(std::is_invocable_v<V, U&&...>);
 
-				return ptr()(std::forward<U>(args)...);
+				return ptr()(static_cast<U&&>(args)...);
 			}
 
 			/// \brief	Returns true if a tagged_ptr and raw pointer refer to the same address.
@@ -656,6 +648,3 @@ namespace std
 }
 
 MUU_PRAGMA_MSVC(inline_recursion(off))
-
-#undef MUU_TPTR_ATTR
-#undef MUU_TPTR_ASSERT

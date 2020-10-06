@@ -307,7 +307,8 @@
 		#define MUU_DISABLE_SPAM_WARNINGS	__pragma(warning(disable: 4127)) /* conditional expr is constant */ \
 											__pragma(warning(disable: 4324)) /* structure was padded due to alignment specifier */
 		#define MUU_POP_WARNINGS			__pragma(warning(pop))
-		#define MUU_DISABLE_WARNINGS		__pragma(warning(push, 0))
+		#define MUU_DISABLE_WARNINGS		__pragma(warning(push, 0)) \
+											__pragma(warning(disable: 4348))
 		#define MUU_ENABLE_WARNINGS			MUU_POP_WARNINGS
 	#endif
 	#define MUU_DECLSPEC(attr)				__declspec(attr)
@@ -578,6 +579,11 @@
 #ifndef MUU_ATTR
 	#define MUU_ATTR(attr)
 #endif
+#ifdef NDEBUG
+	#define MUU_ATTR_NDEBUG(attr)	MUU_ATTR(attr)
+#else
+	#define MUU_ATTR_NDEBUG(attr)
+#endif
 #ifndef MUU_ATTR_CLANG
 	#define MUU_ATTR_CLANG(attr)
 #endif
@@ -727,7 +733,7 @@
 	TYPE& operator=(const TYPE&) = delete
 
 #ifndef MUU_TRACE // spam^H^H^H^H debugging hook
-	#define MUU_TRACE(...) (void)0;
+	#define MUU_TRACE(...) (void)0
 #endif
 
 #define MUU_MAKE_BITOPS_(type, op)											\
@@ -766,9 +772,10 @@
 #ifdef DOXYGEN
 	#define MUU_SFINAE(...)
 	#define MUU_SFINAE_2(...)
-	#define MUU_SFINAE_NO_CONCEPTS(...)
-	#define MUU_REQUIRES(...)
 	#define MUU_CONCEPTS 0
+	#define MUU_SFINAE_NO_CONCEPTS(...)
+	#define MUU_SFINAE_2_NO_CONCEPTS(...)
+	#define MUU_REQUIRES(...)
 #else
 	#define MUU_SFINAE(...)						, std::enable_if_t<(__VA_ARGS__), int> = 0
 	#define MUU_SFINAE_2(...)					, typename = std::enable_if_t<(__VA_ARGS__)>
@@ -776,10 +783,12 @@
 		#define MUU_CONCEPTS 1
 		#define MUU_REQUIRES(...)				requires(__VA_ARGS__)
 		#define MUU_SFINAE_NO_CONCEPTS(...)
+		#define MUU_SFINAE_2_NO_CONCEPTS(...)
 	#else
 		#define MUU_CONCEPTS 0
 		#define MUU_REQUIRES(...)
 		#define MUU_SFINAE_NO_CONCEPTS(...)		MUU_SFINAE(__VA_ARGS__)
+		#define MUU_SFINAE_2_NO_CONCEPTS(...)	MUU_SFINAE_2(__VA_ARGS__)
 	#endif
 #endif
 
@@ -889,31 +898,51 @@
 // ASSERT
 //=====================================================================================================================
 
-MUU_DISABLE_WARNINGS
 #ifndef MUU_ASSERT
 	#ifdef NDEBUG
 		#define MUU_ASSERT(expr)	(void)0
 	#else
 		#ifndef assert
+			MUU_DISABLE_WARNINGS
 			#include <cassert>
+			MUU_ENABLE_WARNINGS
 		#endif
-		#define MUU_ASSERT(expr)	assert(expr)
+		#define MUU_ASSERT(expr) assert(expr)
 	#endif
 #endif
-MUU_ENABLE_WARNINGS
+#ifdef NDEBUG
+	// ensure any overrides respect NDEBUG
+	#undef MUU_ASSERT
+	#define MUU_ASSERT(expr)					(void)0
+	#define MUU_CONSTEXPR_SAFE_ASSERT(expr)		(void)0
+#else
+	#define MUU_CONSTEXPR_SAFE_ASSERT(expr)									\
+		do																	\
+		{																	\
+			if constexpr (::muu::build::supports_is_constant_evaluated)		\
+			{																\
+				if (!::muu::is_constant_evaluated())						\
+				{															\
+					MUU_ASSERT(expr);										\
+				}															\
+			}																\
+		}																	\
+		while(false)
+#endif
+
 
 //=====================================================================================================================
 // OFFSETOF
 //=====================================================================================================================
 
-MUU_DISABLE_WARNINGS
 #ifndef MUU_OFFSETOF
 	#ifndef offsetof
+		MUU_DISABLE_WARNINGS
 		#include <cstddef>
+		MUU_ENABLE_WARNINGS
 	#endif
 	#define MUU_OFFSETOF(s, m) offsetof(s, m)
 #endif
-MUU_ENABLE_WARNINGS
 
 //=====================================================================================================================
 // DOXYGEN SPAM
@@ -1000,6 +1029,10 @@ MUU_ENABLE_WARNINGS
 /// 
 /// \def MUU_ATTR(attr)
 /// \brief Expands to `__attribute__(( attr ))` when compiling with a compiler that supports GNU-style attributes.
+/// 
+/// \def MUU_ATTR_NDEBUG(attr)
+/// \brief Expands to `__attribute__(( attr ))` when compiling with a compiler that supports GNU-style attributes
+/// 	   and NDEBUG is defined.
 /// 
 /// \def MUU_ATTR_CLANG(attr)
 /// \brief Expands to `__attribute__(( attr ))` when compiling with Clang.

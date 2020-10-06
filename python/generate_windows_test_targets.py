@@ -190,7 +190,8 @@ def main():
 		<ClInclude Include="..\..\tests\settings.h" />
 		<ClInclude Include="..\..\tests\tests.h" />
 		<ClInclude Include="..\..\tests\unicode.h" />
-		<ClInclude Include="..\..\tests\vector_template.h" />
+		<ClInclude Include="..\..\tests\vector_test_templates.h" />
+		<ClInclude Include="..\..\tests\vector_test_instantiations.h" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="..\..\tests\meson.build" />

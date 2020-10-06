@@ -226,18 +226,18 @@ MUU_NAMESPACE_START
 			{
 				#ifdef __cpp_lib_char8_t
 				if constexpr (std::is_convertible_v<T&&, std::u8string_view>)
-					return std::u8string_view{ std::forward<T&&>(string_viewable) };
+					return std::u8string_view{ static_cast<T&&>(string_viewable) };
 				else
 				#endif
 
 				if constexpr (std::is_convertible_v<T&&, std::u32string_view>)
-					return std::u32string_view{ std::forward<T&&>(string_viewable) };
+					return std::u32string_view{ static_cast<T&&>(string_viewable) };
 				else if constexpr (std::is_convertible_v<T&&, std::u16string_view>)
-					return std::u16string_view{ std::forward<T&&>(string_viewable) };
+					return std::u16string_view{ static_cast<T&&>(string_viewable) };
 				else if constexpr (std::is_convertible_v<T&&, std::wstring_view>)
-					return std::wstring_view{ std::forward<T&&>(string_viewable) };
+					return std::wstring_view{ static_cast<T&&>(string_viewable) };
 				else if constexpr (std::is_convertible_v<T&&, std::string_view>)
-					return std::string_view{ std::forward<T&&>(string_viewable) };
+					return std::string_view{ static_cast<T&&>(string_viewable) };
 				else
 					static_assert(dependent_false<T>, "Evaluated unreachable branch");
 			}
@@ -248,7 +248,7 @@ MUU_NAMESPACE_START
 			template <typename T MUU_SFINAE(impl::is_string_view_ish<T&&>)>
 			MUU_NODISCARD_CTOR
 			string_param(T&& string_viewable) noexcept
-				: string_param{ make_string_view(std::forward<T>(string_viewable)) }
+				: string_param{ make_string_view(static_cast<T&&>(string_viewable)) }
 			{}
 
 

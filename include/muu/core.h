@@ -236,7 +236,7 @@ MUU_IMPL_NAMESPACE_START
 	template <> struct unsigned_integer_<128> { using type = uint128_t; };
 	#endif
 
-	template <typename T> struct make_signed_;
+	template <typename T> struct make_signed_ { using type = void; };
 	template <typename T> struct make_signed_<const volatile T> { using type = const volatile typename make_signed_<T>::type; };
 	template <typename T> struct make_signed_<volatile T> { using type = volatile typename make_signed_<T>::type; };
 	template <typename T> struct make_signed_<const T> { using type = const typename make_signed_<T>::type; };
@@ -276,7 +276,7 @@ MUU_IMPL_NAMESPACE_START
 		using type = std::conditional_t<std::is_signed_v<wchar_t>, wchar_t, signed_integer_<sizeof(wchar_t)* CHAR_BIT>::type>;
 	};
 
-	template <typename T> struct make_unsigned_;
+	template <typename T> struct make_unsigned_ { using type = void; };
 	template <typename T> struct make_unsigned_<const volatile T> { using type = const volatile typename make_unsigned_<T>::type; };
 	template <typename T> struct make_unsigned_<volatile T> { using type = volatile typename make_unsigned_<T>::type; };
 	template <typename T> struct make_unsigned_<const T> { using type = const typename make_unsigned_<T>::type; };
@@ -422,12 +422,12 @@ MUU_IMPL_NAMESPACE_START
 	{
 		if constexpr (is_detected<has_tuple_get_member_, T&&>)
 		{
-			return std::forward<T>(tuple_like).template get<I>();
+			return static_cast<T&&>(tuple_like).template get<I>();
 		}
 		else // adl
 		{
 			using std::get;
-			return get<I>(std::forward<T>(tuple_like));
+			return get<I>(static_cast<T&&>(tuple_like));
 		}
 	}
 }
@@ -629,27 +629,35 @@ MUU_NAMESPACE_START
 	template <typename T, typename... U>
 	inline constexpr bool all_floating_point = is_floating_point<T> && (true && ... && is_floating_point<U>);
 
+	/// \brief Is a type one of the standard c++ arithmetic types, or a reference to one?
+	template <typename T>
+	inline constexpr bool is_standard_arithmetic = std::is_arithmetic_v<std::remove_reference_t<T>>;
+
+	/// \brief Is a type a nonstandard 'extended' arithmetic type, or a reference to one?
+	/// \remarks Returns true for muu::half.
+	/// \remarks Returns true for #int128_t, #uint128_t, __fp16, _Float16 and #quad (where supported).
+	template <typename T>
+	inline constexpr bool is_extended_arithmetic = is_same_as_any<remove_cvref<T>,
+		half
+		#if MUU_HAS_INT128
+			, int128_t, uint128_t
+		#endif
+		#if MUU_HAS_FLOAT128
+			, quad
+		#endif
+		#if MUU_HAS_FLOAT16
+			, _Float16
+		#endif
+		#if MUU_HAS_FP16
+			, __fp16
+		#endif
+	>;
+
 	/// \brief Is a type arithmetic or reference-to-arithmetic?
 	/// \remarks Returns true for muu::half.
 	/// \remarks Returns true for #int128_t, #uint128_t, __fp16, _Float16 and #quad (where supported).
 	template <typename T>
-	inline constexpr bool is_arithmetic = std::is_arithmetic_v<std::remove_reference_t<T>>
-		|| is_same_as_any<remove_cvref<T>,
-			half
-			#if MUU_HAS_INT128
-				, int128_t, uint128_t
-			#endif
-			#if MUU_HAS_FLOAT128
-				, quad
-			#endif
-			#if MUU_HAS_FLOAT16
-				, _Float16
-			#endif
-			#if MUU_HAS_FP16
-				, __fp16
-			#endif
-		>
-	;
+	inline constexpr bool is_arithmetic = is_standard_arithmetic<T> || is_extended_arithmetic<T>;
 
 	/// \brief Are any of the named types arithmetic or reference-to-arithmetic?
 	/// \remarks Returns true for muu::half.
@@ -760,6 +768,14 @@ MUU_NAMESPACE_START
 	/// \remarks CV qualifiers and reference categories are preserved.
 	template <typename T>
 	using make_unsigned = typename impl::make_unsigned_<T>::type;
+
+	/// \brief Sets the signed-ness of a numeric type or reference according to a boolean.
+	template <typename T, bool Signed>
+	using set_signed = std::conditional_t<Signed, make_signed<T>, make_unsigned<T>>;
+
+	/// \brief Sets the unsigned-ness of a numeric type or reference according to a boolean.
+	template <typename T, bool Unsigned>
+	using set_unsigned = std::conditional_t<Unsigned, make_unsigned<T>, make_signed<T>>;
 
 	/// \brief	Evaluates to false but with delayed, type-dependent evaluation.
 	/// \details Allows you to do this:
@@ -952,22 +968,22 @@ MUU_IMPL_NAMESPACE_START
 				return std::false_type{};
 			else if constexpr (is_detected<is_aggregate_4_args_, T>) // four
 			{
-				auto&& [a, b, c, d] = std::forward<T>(obj);
+				auto&& [a, b, c, d] = static_cast<T&&>(obj);
 				return std::bool_constant<is_valid_hva_<T, decltype(a), decltype(b), decltype(c), decltype(d)>::value>{};
 			}
 			else if constexpr (is_detected<is_aggregate_3_args_, T>) // three
 			{
-				auto&& [a, b, c] = std::forward<T>(obj);
+				auto&& [a, b, c] = static_cast<T&&>(obj);
 				return std::bool_constant<is_valid_hva_<T, decltype(a), decltype(b), decltype(c)>::value>{};
 			}
 			else if constexpr (is_detected<is_aggregate_2_args_, T>) // two
 			{
-				auto&& [a, b] = std::forward<T>(obj);
+				auto&& [a, b] = static_cast<T&&>(obj);
 				return std::bool_constant<is_valid_hva_<T, decltype(a), decltype(b)>::value>{};
 			}
 			else if constexpr (is_detected<is_aggregate_1_arg_, T>) // one
 			{
-				auto&& [a] = std::forward<T>(obj);
+				auto&& [a] = static_cast<T&&>(obj);
 				return std::bool_constant<is_valid_hva_<T, decltype(a)>::value>{};
 			}
 			else
@@ -1698,7 +1714,7 @@ MUU_NAMESPACE_START
 	/// 		   You can check for support by examining build::supports_is_constant_evaluated.
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
-	MUU_ATTR(flatten)
+	MUU_ATTR(const)
 	constexpr bool is_constant_evaluated() noexcept
 	{
 		#if MUU_CLANG >= 9			\
@@ -1731,6 +1747,7 @@ MUU_NAMESPACE_START
 	template <class T>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
+	MUU_ATTR(pure)
 	MUU_ATTR(flatten)
 	constexpr T* launder(T* ptr) noexcept
 	{
@@ -1776,7 +1793,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(flatten)
 	constexpr decltype(auto) unwrap(T&& val) noexcept
 	{
-		return std::forward<T>(val);
+		return static_cast<T&&>(val);
 	}
 
 	namespace impl
@@ -2870,8 +2887,13 @@ MUU_NAMESPACE_START
 		using alpha_type = remove_cv<std::conditional_t<is_floating_point<V>, V, double>>;
 		static_assert(all_floating_point<start_type, finish_type, alpha_type>);
 
-		using type = impl::highest_ranked<start_type, finish_type, alpha_type>;
-		return static_cast<type(MUU_VECTORCALL*)(type,type,type)noexcept>(lerp)(start, finish, alpha);
+		using return_type = impl::highest_ranked<start_type, finish_type, alpha_type>;
+		using intermediate_type = impl::promote_if_small_float<return_type>;
+		return static_cast<return_type>(lerp(
+			static_cast<intermediate_type>(start),
+			static_cast<intermediate_type>(finish),
+			static_cast<intermediate_type>(alpha))
+		);
 	}
 
 	/** @} */	// intrinsics::lerp
@@ -3484,10 +3506,10 @@ MUU_NAMESPACE_START
 	/// //                ^ ^ ^ ^
 	/// // byte indices:  3 2 1 0
 	/// 
-	/// std::cout << std::hex << std::setfill('0') << std::setw(8);
-	///	std::cout << "      <0>: " << swizzle<0>(i) << "\n";
-	///	std::cout << "   <1, 0>: " << swizzle<1, 0>(i) << "\n";
-	///	std::cout << "<3, 2, 3>: " << swizzle<3, 2, 3>(i) << "\n";
+	/// std::cout << std::hex << std::setfill('0');
+	///	std::cout << "      <0>: " << std::setw(8) <<       swizzle<0>(i) << "\n";
+	///	std::cout << "   <1, 0>: " << std::setw(8) <<    swizzle<1, 0>(i) << "\n";
+	///	std::cout << "<3, 2, 3>: " << std::setw(8) << swizzle<3, 2, 3>(i) << "\n";
 	/// \ecpp
 	/// 
 	/// \out
@@ -3497,8 +3519,9 @@ MUU_NAMESPACE_START
 	/// (on a little-endian system)
 	/// \eout
 	/// 
-	/// \tparam	ByteIndices		Indices of the bytes from the source integer, in the order they're to be packed.
+	/// \tparam	ByteIndices		Indices of the bytes from the source integer in the (little-endian) order they're to be packed.
 	/// \tparam	T				An integer or enum type.
+	/// \param	val				An integer or enum value.
 	/// 
 	/// \remark The indexation order of bytes is the _memory_ order, not their
 	/// 		 numeric significance (i.e. byte 0 is always the first byte in the integer's
