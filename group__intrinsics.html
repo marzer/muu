@@ -78,7 +78,7 @@ C++</span></a>
           <h2><a href="#groups">Modules</a></h2>
           <dl class="m-doc">
             <dt>module <a class="m-doc" href="group__sqrt.html">sqrt()</a></dt>
-            <dd>Constexpr-friendly alternatives to <a class="m-doc" href="group__sqrt.html#ga539d1077c692a4ca013f1f5c912bcc95">std::<wbr/>sqrt()</a>.</dd>
+            <dd>Constexpr-friendly alternatives to <a class="m-doc" href="group__sqrt.html#ga8a878c67d7ef62abdcf0a950114b5c51">std::<wbr/>sqrt()</a>.</dd>
             <dt>module <a class="m-doc" href="group__approx__equal.html">approx_equal()</a></dt>
             <dd>Floating-point approximate equality checks.</dd>
             <dt>module <a class="m-doc" href="group__lerp.html">lerp()</a></dt>
@@ -106,9 +106,9 @@ C++</span></a>
             <dd>Equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/memory/assume_aligned" target="_blank">std::assume_aligned</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga5b043c21509a069a2fc06ed8e0df2279">between</a>(</span><span class="m-doc-wrap">T val,
-              U min_,
-              U max_) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga108fd48e10e2c18acbaaf9f611b14d5b">between</a>(</span><span class="m-doc-wrap">T val,
+              U low,
+              U high) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a value is between two bounds (inclusive).</dd>
             <dt>
@@ -159,9 +159,9 @@ C++</span></a>
             <dd>Gets a specific byte from an integer.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga27b0469e7cb9c473ff666913e803dcf1">clamp</a>(</span><span class="m-doc-wrap">const T&amp; val,
-              const T&amp; min_,
-              const T&amp; max_) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga853b138ba34af796906a03cda9dbfabe">clamp</a>(</span><span class="m-doc-wrap">const T&amp; val,
+              const T&amp; low,
+              const T&amp; high) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a value clamped between two bounds (inclusive).</dd>
             <dt>
@@ -328,15 +328,15 @@ C++</span></a>
             <p>Equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/memory/assume_aligned" target="_blank">std::assume_aligned</a>.</p>
 <p>Compilers typically implement <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/memory/assume_aligned" target="_blank">std::assume_aligned</a> as an intrinsic which is available regardless of the C++ mode. Using this function on these compilers allows you to get the same behaviour even when you aren't targeting C++20.</p><aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1007r1.pdf" target="_blank">P1007R1: std::<wbr/>assume_aligned</a></p></aside>
           </div></section>
-          <section class="m-doc-details" id="ga5b043c21509a069a2fc06ed8e0df2279"><div>
+          <section class="m-doc-details" id="ga108fd48e10e2c18acbaaf9f611b14d5b"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T, typename U&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga5b043c21509a069a2fc06ed8e0df2279">between</a>(</span><span class="m-doc-wrap">T val,
-              U min_,
-              U max_) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga108fd48e10e2c18acbaaf9f611b14d5b">between</a>(</span><span class="m-doc-wrap">T val,
+              U low,
+              U high) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if a value is between two bounds (inclusive).</p>
           </div></section>
@@ -686,15 +686,15 @@ C++</span></a>
 <span class="go">3: AA</span>
 <span class="go">(on a little-endian system)</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>The indexation order of bytes is the <em>memory</em> order, not their numeric significance (i.e. byte 0 is always the first byte in the integer's memory allocation, regardless of the endianness of the platform).</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ga27b0469e7cb9c473ff666913e803dcf1"><div>
+          <section class="m-doc-details" id="ga853b138ba34af796906a03cda9dbfabe"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              <span class="m-doc-wrap-bumper">const T&amp; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga27b0469e7cb9c473ff666913e803dcf1">clamp</a>(</span><span class="m-doc-wrap">const T&amp; val,
-              const T&amp; min_,
-              const T&amp; max_) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">const T&amp; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga853b138ba34af796906a03cda9dbfabe">clamp</a>(</span><span class="m-doc-wrap">const T&amp; val,
+              const T&amp; low,
+              const T&amp; high) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns a value clamped between two bounds (inclusive).</p>
 <p>This is equivalent to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/algorithm/clamp" target="_blank">std::clamp</a> without requiring you to drag in the enormity of <code>&lt;algorithm&gt;</code>.</p>
@@ -1057,11 +1057,12 @@ C++</span></a>
                 </tr>
               </tfoot>
             </table>
-<pre class="m-code"><span class="k">const</span> <span class="k">auto</span> <span class="n">val</span> <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="mh">0xAABB</span><span class="n">_u16</span><span class="p">,</span> <span class="mh">0xCCDD</span><span class="n">_u16</span><span class="p">);</span>
-<span class="n">assert</span><span class="p">(</span><span class="n">val</span> <span class="o">==</span> <span class="mh">0xAABBCCDD</span><span class="n">_u32</span><span class="p">);</span>
-<span class="k">const</span> <span class="k">auto</span> <span class="n">val</span> <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="mh">0xAABB</span><span class="n">_u16</span><span class="p">,</span> <span class="mh">0xCCDD</span><span class="n">_u16</span><span class="p">,</span> <span class="mh">0xEEFF</span><span class="n">_u16</span><span class="p">);</span>
-<span class="n">assert</span><span class="p">(</span><span class="n">val</span> <span class="o">==</span> <span class="mh">0x0000AABBCCDDEEFF</span><span class="n">_u64</span><span class="p">);</span>
-             <span class="c1">// ^^^^ input was zero-padded on the left</span></pre>
+<pre class="m-code"><span class="k">auto</span>   <span class="n">val1</span>  <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="mh">0xAABB</span><span class="n">_u16</span><span class="p">,</span> <span class="mh">0xCCDD</span><span class="n">_u16</span><span class="p">);</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">val1</span> <span class="o">==</span> <span class="mh">0xAABBCCDD</span><span class="n">_u32</span><span class="p">);</span>
+
+<span class="k">auto</span>   <span class="n">val2</span>  <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="mh">0xAABB</span><span class="n">_u16</span><span class="p">,</span> <span class="mh">0xCCDD</span><span class="n">_u16</span><span class="p">,</span> <span class="mh">0xEEFF</span><span class="n">_u16</span><span class="p">);</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">val2</span> <span class="o">==</span> <span class="mh">0x0000AABBCCDDEEFF</span><span class="n">_u64</span><span class="p">);</span>
+              <span class="c1">// ^^^^ input was 48 bits, zero-padded to 64 on the left</span></pre>
           </div></section>
           <section class="m-doc-details" id="gab714a50e01b58e7d4117d5ef9d403d39"><div>
             <h3>

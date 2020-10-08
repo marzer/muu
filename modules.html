@@ -65,18 +65,63 @@ C++</span></a>
           <li class="m-doc-collapsible">
             <a href="#" onclick="return toggle(this)">module</a> <a class="m-doc" href="group__intrinsics.html">Intrinsics</a> <span class="m-doc">Small, generally-useful functions, many of which map to compiler built-ins.</span>
             <ul class="m-doc">
-              <li>module <a class="m-doc" href="group__sqrt.html">sqrt()</a> <span class="m-doc">Constexpr-friendly alternatives to <a class="m-doc" href="group__sqrt.html#ga539d1077c692a4ca013f1f5c912bcc95">std::<wbr/>sqrt()</a>.</span></li>
+              <li>module <a class="m-doc" href="group__sqrt.html">sqrt()</a> <span class="m-doc">Constexpr-friendly alternatives to <a class="m-doc" href="group__sqrt.html#ga8a878c67d7ef62abdcf0a950114b5c51">std::<wbr/>sqrt()</a>.</span></li>
               <li>module <a class="m-doc" href="group__approx__equal.html">approx_equal()</a> <span class="m-doc">Floating-point approximate equality checks.</span></li>
               <li>module <a class="m-doc" href="group__lerp.html">lerp()</a> <span class="m-doc">Linear interpolations al a C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/lerp" target="_blank">std::lerp</a>.</span></li>
             </ul>
           </li>
           <li>module <a class="m-doc" href="group__building__blocks.html">Building blocks</a> <span class="m-doc">Small, generally-useful classes and types.</span></li>
           <li>module <a class="m-doc" href="group__constants.html">Constants</a> <span class="m-doc">Compile-time constant values (Pi, et cetera.).</span></li>
-          <li>module <a class="m-doc" href="group__characters.html">Characters</a> <span class="m-doc">Utilities for manipulating individual characters (or 'code points').</span></li>
-          <li>module <a class="m-doc" href="group__strings.html">Strings</a> <span class="m-doc">Utilities to simplify working with strings.</span></li>
           <li>module <a class="m-doc" href="group__hashing.html">Hashing</a> <span class="m-doc">Utilities for generating (non-cryptographic) hashes.</span></li>
           <li>module <a class="m-doc" href="group__mem.html">Memory management</a> <span class="m-doc">Utilities for allocating, destroying and manipulating memory.</span></li>
           <li>module <a class="m-doc" href="group__preprocessor.html">Preprocessor magic</a> <span class="m-doc">Compiler feature detection, attributes, string-makers, etc.</span></li>
+          <li class="m-doc-collapsible">
+            <a href="#" onclick="return toggle(this)">module</a> <a class="m-doc" href="group__strings.html">Strings</a> <span class="m-doc">Utilities to simplify working with strings.</span>
+            <ul class="m-doc">
+              <li class="m-doc-collapsible">
+                <a href="#" onclick="return toggle(this)">module</a> <a class="m-doc" href="group__code__units.html">Code units</a> <span class="m-doc">Utilities for manipulating individual code units ('characters').</span>
+                <ul class="m-doc">
+                  <li>module <a class="m-doc" href="group__is__ascii__code__point.html">is_ascii_code_point()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__ascii__hyphen.html">is_ascii_hyphen()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__ascii__letter.html">is_ascii_letter()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__ascii__lowercase.html">is_ascii_lowercase()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__ascii__number.html">is_ascii_number()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__ascii__uppercase.html">is_ascii_uppercase()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__ascii__whitespace.html">is_ascii_whitespace()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__non__ascii__code__point.html">is_non_ascii_code_point()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__non__ascii__hyphen.html">is_non_ascii_hyphen()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__non__ascii__letter.html">is_non_ascii_letter()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__non__ascii__lowercase.html">is_non_ascii_lowercase()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__non__ascii__number.html">is_non_ascii_number()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__non__ascii__uppercase.html">is_non_ascii_uppercase()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__non__ascii__whitespace.html">is_non_ascii_whitespace()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__not__code__point.html">is_not_code_point()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__not__hyphen.html">is_not_hyphen()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__not__letter.html">is_not_letter()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__not__lowercase.html">is_not_lowercase()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__not__number.html">is_not_number()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__not__uppercase.html">is_not_uppercase()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__not__whitespace.html">is_not_whitespace()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__code__point.html">is_code_point()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__code__point__boundary.html">is_code_point_boundary()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__combining__mark.html">is_combining_mark()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__decimal__digit.html">is_decimal_digit()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__hexadecimal__digit.html">is_hexadecimal_digit()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__hyphen.html">is_hyphen()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__letter.html">is_letter()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__lowercase.html">is_lowercase()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__number.html">is_number()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__octal__digit.html">is_octal_digit()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__uppercase.html">is_uppercase()</a> <span class="m-doc"></span></li>
+                  <li>module <a class="m-doc" href="group__is__whitespace.html">is_whitespace()</a> <span class="m-doc"></span></li>
+                </ul>
+              </li>
+              <li>module <a class="m-doc" href="group__trim.html">trim()</a> <span class="m-doc">Trims whitespace from both ends of a UTF string.</span></li>
+              <li>module <a class="m-doc" href="group__trim__left.html">trim_left()</a> <span class="m-doc">Trims whitespace from the left end of a UTF string.</span></li>
+              <li>module <a class="m-doc" href="group__trim__right.html">trim_right()</a> <span class="m-doc">Trims whitespace from the right end of a UTF string.</span></li>
+              <li>module <a class="m-doc" href="group__transcode.html">transcode()</a> <span class="m-doc">Transcodes a UTF string into another UTF encoding.</span></li>
+            </ul>
+          </li>
         </ul>
         <script>
         function toggle(e) {

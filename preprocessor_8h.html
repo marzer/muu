@@ -118,19 +118,35 @@ C++</span></a>
             </dt>
             <dd>Optimizer hint for signalling various assumptions about state at specific points in code.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga0c3e63f652d15d08f8adcc98aa2e4535">MUU_ATTR</a>(</span><span class="m-doc-wrap">attr)</span>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga47316637bf87fd0d0e4bb179cb603226">MUU_ATTR</a>(</span><span class="m-doc-wrap">...)</span>
             </dt>
             <dd>Expands to <code>__attribute__(( attr ))</code> when compiling with a compiler that supports GNU-style attributes.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#gaaaa0745fbcae179c9ac1346877d017e5">MUU_ATTR_CLANG</a>(</span><span class="m-doc-wrap">attr)</span>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga7dd651503a9dc759413a92f29e1bae08">MUU_ATTR_CLANG</a>(</span><span class="m-doc-wrap">...)</span>
             </dt>
             <dd>Expands to <code>__attribute__(( attr ))</code> when compiling with Clang.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga947b435d6ca7cf66e9843a5175ce82c6">MUU_ATTR_GCC</a>(</span><span class="m-doc-wrap">attr)</span>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga1961d43c61130de5ddf2948777ebacf7">MUU_ATTR_CLANG_GE</a>(</span><span class="m-doc-wrap">...)</span>
+            </dt>
+            <dd>Expands to <code>__attribute__(( attr ))</code> when compiling with Clang and <code>__clang_major__</code> &gt;= <code>ver</code>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#gaadf99c7161121f6834a1efcb085c6364">MUU_ATTR_CLANG_LT</a>(</span><span class="m-doc-wrap">...)</span>
+            </dt>
+            <dd>Expands to <code>__attribute__(( attr ))</code> when compiling with Clang and <code>__clang_major__</code> &lt; <code>ver</code>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga36d8876b444701ec96c34f20026acd7a">MUU_ATTR_GCC</a>(</span><span class="m-doc-wrap">...)</span>
             </dt>
             <dd>Expands to <code>__attribute__(( attr ))</code> when compiling with GCC.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#gae696db3d02b10fffc40b2f07aa67fc00">MUU_ATTR_NDEBUG</a>(</span><span class="m-doc-wrap">attr)</span>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#gabf3d47a3791c444a9bafe9a986630af7">MUU_ATTR_GCC_GE</a>(</span><span class="m-doc-wrap">...)</span>
+            </dt>
+            <dd>Expands to <code>__attribute__(( attr ))</code> when compiling with GCC and <code>__GNUC__</code> &gt;= <code>ver</code>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#gab5a3cabb2ddcdb06a67b6de9d2c8a251">MUU_ATTR_GCC_LT</a>(</span><span class="m-doc-wrap">...)</span>
+            </dt>
+            <dd>Expands to <code>__attribute__(( attr ))</code> when compiling with GCC and <code>__GNUC__</code> &lt; <code>ver</code>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga202256eba435dbe97112a1e3751d31ad">MUU_ATTR_NDEBUG</a>(</span><span class="m-doc-wrap">...)</span>
             </dt>
             <dd>Expands to <code>__attribute__(( attr ))</code> when compiling with a compiler that supports GNU-style attributes and NDEBUG is defined.</dd>
             <dt>
@@ -281,19 +297,35 @@ C++</span></a>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga52152c34f89ec0ce1caeacd62c62c23d">MUU_PRAGMA_CLANG</a>(</span><span class="m-doc-wrap">...)</span>
             </dt>
-            <dd>Expands to a <code>_Pragma()</code> directive when compiling with Clang.</dd>
+            <dd>Expands to <code>_Pragma("pragma clang ...")</code> when compiling with Clang.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#gaca064409b39bc79396ebdf21dfccc84b">MUU_PRAGMA_CLANG_GE</a>(</span><span class="m-doc-wrap">...)</span>
+            </dt>
+            <dd>Expands to <code>_Pragma("pragma clang ...")</code> when compiling with Clang and <code>__clang_major__</code> &gt;= <code>ver</code>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga218170b5c124f04b09edf3d8ce27e73e">MUU_PRAGMA_CLANG_LT</a>(</span><span class="m-doc-wrap">...)</span>
+            </dt>
+            <dd>Expands to <code>_Pragma("pragma clang ...")</code> when compiling with Clang and <code>__clang_major__</code> &lt; <code>ver</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga6f80b008b889d869c7447aff2475dd4d">MUU_PRAGMA_GCC</a>(</span><span class="m-doc-wrap">...)</span>
             </dt>
-            <dd>Expands to a <code>_Pragma()</code> directive when compiling with GCC.</dd>
+            <dd>Expands to <code>_Pragma("pragma GCC ...")</code> directive when compiling with GCC.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga0aa34c8df2428a0464ee1371b33dfee4">MUU_PRAGMA_GCC_GE</a>(</span><span class="m-doc-wrap">...)</span>
+            </dt>
+            <dd>Expands to <code>_Pragma("pragma GCC ...")</code> when compiling with GCC and <code>__GNUC__</code> &gt;= <code>ver</code>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga1e0fcf330f32734c2c84d1a55f46aaa7">MUU_PRAGMA_GCC_LT</a>(</span><span class="m-doc-wrap">...)</span>
+            </dt>
+            <dd>Expands to <code>_Pragma("pragma GCC ...")</code> when compiling with GCC and <code>__GNUC__</code> &lt; <code>ver</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga5712bc0e086c593c40c8c4ed32caa46b">MUU_PRAGMA_ICC</a>(</span><span class="m-doc-wrap">...)</span>
             </dt>
-            <dd>Expands to a <code>_pragma()</code> directive when compiling with ICC.</dd>
+            <dd>Expands to <code>_pragma(...)</code> directive when compiling with ICC.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#gac6b8e4b75a00c89a3f1479feb81be8e8">MUU_PRAGMA_MSVC</a>(</span><span class="m-doc-wrap">...)</span>
             </dt>
-            <dd>Expands to a <code>_pragma()</code> directive when compiling with MSVC.</dd>
+            <dd>Expands to <code>_pragma(...)</code> directive when compiling with MSVC.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga0b9c2e2b602c21d5f58ddaeb74923019">MUU_PUSH_WARNINGS</a></span>
             </dt>

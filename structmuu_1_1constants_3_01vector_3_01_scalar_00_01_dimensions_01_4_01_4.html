@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu::constants&lt;half&gt; struct | muu Useful
+  <title>muu::constants&lt;vector&lt;Scalar, Dimensions&gt;&gt; struct | muu Useful
 utilities
 for
 modern
@@ -60,11 +60,11 @@ C++</span></a>
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="half_8h.html">&lt;muu/half.h&gt;</a></div>
-          <div class="m-doc-template">template&lt;&gt;</div>
-          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt; <span class="m-thin">struct</span>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="vector_8h.html">&lt;muu/vector.h&gt;</a></div>
+          <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;</div>
+          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt; <span class="m-thin">struct</span>
         </h1>
-        <p>16-bit <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float constants.</p>
+        <p>vector constants.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -360,6 +360,22 @@ C++</span></a>
             </dt>
             <dd><code>pi</code></dd>
             <dt>
+              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc" href="structmuu_1_1impl_1_1unit__length__4d__vector__constants.html#a71489135239e3ce686586905545381ee">w_axis</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>A unit-length vector representing the W axis.</dd>
+            <dt>
+              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc" href="structmuu_1_1impl_1_1unit__length__1d__vector__constants.html#aa71342cabb1674f9738b0fa468b50eab">x_axis</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>A unit-length vector representing the X axis.</dd>
+            <dt>
+              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc" href="structmuu_1_1impl_1_1unit__length__2d__vector__constants.html#ad2455ecb36308df5260c7db4b4d15641">y_axis</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>A unit-length vector representing the Y axis.</dd>
+            <dt>
+              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc" href="structmuu_1_1impl_1_1unit__length__3d__vector__constants.html#a1fc4590ee315627b7f491e1f3b3b3d45">z_axis</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>A unit-length vector representing the Z axis.</dd>
+            <dt>
               static T <a class="m-doc" href="structmuu_1_1impl_1_1integer__positive__constants.html#ab7ee6b21c3afe3e5b2b6f3904fc26fde">zero</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>0</code></dd>
@@ -370,709 +386,638 @@ C++</span></a>
           <section class="m-doc-details" id="a5abdf8243a907a6ddd7cd04b10f44bea"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a5abdf8243a907a6ddd7cd04b10f44bea">approx_equal_epsilon</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a5abdf8243a907a6ddd7cd04b10f44bea">approx_equal_epsilon</a> <span class="m-label m-primary">constexpr</span>
             </h3>
           </div></section>
           <section class="m-doc-details" id="ab614c9b68891ad4631a6e1f213fe1d8f"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#ab614c9b68891ad4631a6e1f213fe1d8f">e</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#ab614c9b68891ad4631a6e1f213fe1d8f">e</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>e</code></p>
           </div></section>
           <section class="m-doc-details" id="a56ad5c8894be4c11f519968d8dbbb760"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a56ad5c8894be4c11f519968d8dbbb760">e_over_five</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a56ad5c8894be4c11f519968d8dbbb760">e_over_five</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>e / 5</code></p>
           </div></section>
           <section class="m-doc-details" id="a6058d4b08521c0b272932dba0a64d0b1"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a6058d4b08521c0b272932dba0a64d0b1">e_over_four</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a6058d4b08521c0b272932dba0a64d0b1">e_over_four</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>e / 4</code></p>
           </div></section>
           <section class="m-doc-details" id="a2042500a121f282059a37317b6c68619"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a2042500a121f282059a37317b6c68619">e_over_six</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a2042500a121f282059a37317b6c68619">e_over_six</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>e / 6</code></p>
           </div></section>
           <section class="m-doc-details" id="adc8d4301233cc6932f4e471997257c47"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#adc8d4301233cc6932f4e471997257c47">e_over_three</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#adc8d4301233cc6932f4e471997257c47">e_over_three</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>e / 3</code></p>
           </div></section>
           <section class="m-doc-details" id="a56cabc429c685f548982605088a4f61a"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a56cabc429c685f548982605088a4f61a">e_over_two</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a56cabc429c685f548982605088a4f61a">e_over_two</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>e / 2</code></p>
           </div></section>
           <section class="m-doc-details" id="af2ba01db1bb98a9bb4e922e9ab251396"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#af2ba01db1bb98a9bb4e922e9ab251396">eight</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#af2ba01db1bb98a9bb4e922e9ab251396">eight</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>8</code></p>
           </div></section>
           <section class="m-doc-details" id="a051f1cbddd8b5767829c3ecd1cee7658"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a051f1cbddd8b5767829c3ecd1cee7658">five</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a051f1cbddd8b5767829c3ecd1cee7658">five</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>5</code></p>
           </div></section>
           <section class="m-doc-details" id="a9cf66c2834e82cb6a19ad13ae42d790e"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a9cf66c2834e82cb6a19ad13ae42d790e">four</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a9cf66c2834e82cb6a19ad13ae42d790e">four</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>4</code></p>
           </div></section>
           <section class="m-doc-details" id="a24317d3d0a6baac2b01c07f15088252b"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a24317d3d0a6baac2b01c07f15088252b">highest</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a24317d3d0a6baac2b01c07f15088252b">highest</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>The highest representable 'normal' value (equivalent to <a class="m-doc" href="group__intrinsics.html#ga0ed7737393aa2394099febe6bf265249">std::<wbr/>numeric_limits::<wbr/>max()</a>).</p>
           </div></section>
           <section class="m-doc-details" id="a6484cb7a237ef6dfc47f485ad7a3ff5b"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a6484cb7a237ef6dfc47f485ad7a3ff5b">infinity</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a6484cb7a237ef6dfc47f485ad7a3ff5b">infinity</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Positive infinity.</p>
           </div></section>
           <section class="m-doc-details" id="a72089a3ceead7e7dcd265ce5f6e8f13c"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a72089a3ceead7e7dcd265ce5f6e8f13c">lowest</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a72089a3ceead7e7dcd265ce5f6e8f13c">lowest</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>The lowest representable 'normal' value (equivalent to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/numeric_limits" target="_blank">std::numeric_limits</a>::lowest()).</p>
           </div></section>
           <section class="m-doc-details" id="afe735f56cea6301598639e2a8ebecbd4"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#afe735f56cea6301598639e2a8ebecbd4">minus_eight</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#afe735f56cea6301598639e2a8ebecbd4">minus_eight</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>-8</code></p>
           </div></section>
           <section class="m-doc-details" id="ad6230bf31c419448f0f98cca417bf423"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#ad6230bf31c419448f0f98cca417bf423">minus_five</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#ad6230bf31c419448f0f98cca417bf423">minus_five</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>-5</code></p>
           </div></section>
           <section class="m-doc-details" id="a668d017b7107fcb80f499f25fb3be48f"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a668d017b7107fcb80f499f25fb3be48f">minus_four</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a668d017b7107fcb80f499f25fb3be48f">minus_four</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>-4</code></p>
           </div></section>
           <section class="m-doc-details" id="a954c17b7ba1b5bbda3e8c5fd76c07754"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a954c17b7ba1b5bbda3e8c5fd76c07754">minus_nine</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a954c17b7ba1b5bbda3e8c5fd76c07754">minus_nine</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>-9</code></p>
           </div></section>
           <section class="m-doc-details" id="a2fd0947723fc6ca57b35b0ba4fe725eb"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a2fd0947723fc6ca57b35b0ba4fe725eb">minus_one</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a2fd0947723fc6ca57b35b0ba4fe725eb">minus_one</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>-1</code></p>
           </div></section>
           <section class="m-doc-details" id="a460cd6bc942516be423ec336905b00c9"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a460cd6bc942516be423ec336905b00c9">minus_seven</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a460cd6bc942516be423ec336905b00c9">minus_seven</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>-7</code></p>
           </div></section>
           <section class="m-doc-details" id="a2de4025d3efd2138530582c2a14d8c81"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a2de4025d3efd2138530582c2a14d8c81">minus_six</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a2de4025d3efd2138530582c2a14d8c81">minus_six</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>-6</code></p>
           </div></section>
           <section class="m-doc-details" id="a14ea5b6b4c5f090646d1b84f1335e7fb"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a14ea5b6b4c5f090646d1b84f1335e7fb">minus_ten</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a14ea5b6b4c5f090646d1b84f1335e7fb">minus_ten</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>-10</code></p>
           </div></section>
           <section class="m-doc-details" id="ad77d841a49d20982fe49c98e4753bd31"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#ad77d841a49d20982fe49c98e4753bd31">minus_three</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#ad77d841a49d20982fe49c98e4753bd31">minus_three</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>-3</code></p>
           </div></section>
           <section class="m-doc-details" id="a88611fa8f9cec5bcf43ca15ad7e853ed"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a88611fa8f9cec5bcf43ca15ad7e853ed">minus_two</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a88611fa8f9cec5bcf43ca15ad7e853ed">minus_two</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>-2</code></p>
           </div></section>
           <section class="m-doc-details" id="a05434a3eddaf8c1940b985da300141e2"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a05434a3eddaf8c1940b985da300141e2">minus_zero</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a05434a3eddaf8c1940b985da300141e2">minus_zero</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>-0.0</code></p>
           </div></section>
           <section class="m-doc-details" id="a4aa8a5adb80a44aacd5b32568501be01"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a4aa8a5adb80a44aacd5b32568501be01">nan</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a4aa8a5adb80a44aacd5b32568501be01">nan</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Not-A-Number (quiet)</p>
           </div></section>
           <section class="m-doc-details" id="aaa9a24c9fcb3a5e801ab0f90be0b3ee2"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#aaa9a24c9fcb3a5e801ab0f90be0b3ee2">negative_infinity</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#aaa9a24c9fcb3a5e801ab0f90be0b3ee2">negative_infinity</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Negative infinity.</p>
           </div></section>
           <section class="m-doc-details" id="af40cf490a010287c89e833e4e338242a"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#af40cf490a010287c89e833e4e338242a">nine</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#af40cf490a010287c89e833e4e338242a">nine</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>9</code></p>
           </div></section>
           <section class="m-doc-details" id="ad17ac5996bb051d6721cd167dd4d4100"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#ad17ac5996bb051d6721cd167dd4d4100">one</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#ad17ac5996bb051d6721cd167dd4d4100">one</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1</code></p>
           </div></section>
           <section class="m-doc-details" id="a8170cf60b16d93b31f2c5a0b68beec45"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a8170cf60b16d93b31f2c5a0b68beec45">one_over_e</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a8170cf60b16d93b31f2c5a0b68beec45">one_over_e</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1 / e</code></p>
           </div></section>
           <section class="m-doc-details" id="a89f535a9c930387a90debf8d00d3e688"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a89f535a9c930387a90debf8d00d3e688">one_over_phi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a89f535a9c930387a90debf8d00d3e688">one_over_phi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1 / phi</code></p>
           </div></section>
           <section class="m-doc-details" id="a2f2ab3baa6197d03e695c994ac8bba3d"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a2f2ab3baa6197d03e695c994ac8bba3d">one_over_pi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a2f2ab3baa6197d03e695c994ac8bba3d">one_over_pi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1 / pi</code></p>
           </div></section>
           <section class="m-doc-details" id="abb157cd9eeba7b765ee96e5a99243fb2"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#abb157cd9eeba7b765ee96e5a99243fb2">one_over_sqrt_e</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#abb157cd9eeba7b765ee96e5a99243fb2">one_over_sqrt_e</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1 / sqrt(e)</code></p>
           </div></section>
           <section class="m-doc-details" id="a48504c114fe78e361594f13aee63d7f3"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a48504c114fe78e361594f13aee63d7f3">one_over_sqrt_phi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a48504c114fe78e361594f13aee63d7f3">one_over_sqrt_phi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1 / sqrt(phi)</code></p>
           </div></section>
           <section class="m-doc-details" id="a2da20ada04dc7d1013930e317f771fcd"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a2da20ada04dc7d1013930e317f771fcd">one_over_sqrt_pi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a2da20ada04dc7d1013930e317f771fcd">one_over_sqrt_pi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1 / sqrt(pi)</code></p>
           </div></section>
           <section class="m-doc-details" id="a464252f773c9de90ce909390acb78e83"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a464252f773c9de90ce909390acb78e83">one_over_sqrt_three</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a464252f773c9de90ce909390acb78e83">one_over_sqrt_three</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1 / sqrt(3)</code></p>
           </div></section>
           <section class="m-doc-details" id="abb5ab2c71232991a422af60f645a91c3"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#abb5ab2c71232991a422af60f645a91c3">one_over_sqrt_two</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#abb5ab2c71232991a422af60f645a91c3">one_over_sqrt_two</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1 / sqrt(2)</code></p>
           </div></section>
           <section class="m-doc-details" id="af07728740f2b6eff2f12701501d05ef9"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#af07728740f2b6eff2f12701501d05ef9">one_over_sqrt_two_pi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#af07728740f2b6eff2f12701501d05ef9">one_over_sqrt_two_pi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1 / sqrt(2 * pi)</code></p>
           </div></section>
           <section class="m-doc-details" id="a3856d9961c6e98c939110e6d936c5197"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a3856d9961c6e98c939110e6d936c5197">one_over_three</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a3856d9961c6e98c939110e6d936c5197">one_over_three</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1 / 3</code></p>
           </div></section>
           <section class="m-doc-details" id="a97b704174f0d835c2e67d66aa08f87dc"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a97b704174f0d835c2e67d66aa08f87dc">one_over_two</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a97b704174f0d835c2e67d66aa08f87dc">one_over_two</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1 / 2</code></p>
           </div></section>
           <section class="m-doc-details" id="a9f4d73938ab4e513bb05753a372a02e5"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a9f4d73938ab4e513bb05753a372a02e5">phi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a9f4d73938ab4e513bb05753a372a02e5">phi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>phi</code></p>
           </div></section>
           <section class="m-doc-details" id="a8e70ac6ef5130f7e5243a8b72779cb36"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a8e70ac6ef5130f7e5243a8b72779cb36">phi_over_five</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a8e70ac6ef5130f7e5243a8b72779cb36">phi_over_five</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>phi / 5</code></p>
           </div></section>
           <section class="m-doc-details" id="a94541fcbb9c39c989e951ef426e1f498"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a94541fcbb9c39c989e951ef426e1f498">phi_over_four</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a94541fcbb9c39c989e951ef426e1f498">phi_over_four</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>phi / 4</code></p>
           </div></section>
           <section class="m-doc-details" id="a536cfa37af3221c9d2c8dcad51d896fb"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a536cfa37af3221c9d2c8dcad51d896fb">phi_over_six</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a536cfa37af3221c9d2c8dcad51d896fb">phi_over_six</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>phi / 6</code></p>
           </div></section>
           <section class="m-doc-details" id="a7a02d0c7bd256d21f9dcfdeca2dd7c79"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a7a02d0c7bd256d21f9dcfdeca2dd7c79">phi_over_three</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a7a02d0c7bd256d21f9dcfdeca2dd7c79">phi_over_three</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>phi / 3</code></p>
           </div></section>
           <section class="m-doc-details" id="a441419c166680b23dd9a4522aa26f196"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a441419c166680b23dd9a4522aa26f196">phi_over_two</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a441419c166680b23dd9a4522aa26f196">phi_over_two</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>phi / 2</code></p>
           </div></section>
           <section class="m-doc-details" id="a0b5c78e8c9564ba7f230bde4b99dd8cb"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a0b5c78e8c9564ba7f230bde4b99dd8cb">pi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a0b5c78e8c9564ba7f230bde4b99dd8cb">pi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>pi</code></p>
           </div></section>
           <section class="m-doc-details" id="a820f24f00a7939d22cf611082e115cc0"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a820f24f00a7939d22cf611082e115cc0">pi_over_five</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a820f24f00a7939d22cf611082e115cc0">pi_over_five</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>pi / 5</code></p>
           </div></section>
           <section class="m-doc-details" id="a1b7ed13ae6a33a313b8b7b0d20ac4542"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a1b7ed13ae6a33a313b8b7b0d20ac4542">pi_over_four</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a1b7ed13ae6a33a313b8b7b0d20ac4542">pi_over_four</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>pi / 4</code></p>
           </div></section>
           <section class="m-doc-details" id="a69ee3d0e266fd6ed5ab5955101c33738"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a69ee3d0e266fd6ed5ab5955101c33738">pi_over_six</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a69ee3d0e266fd6ed5ab5955101c33738">pi_over_six</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>pi / 6</code></p>
           </div></section>
           <section class="m-doc-details" id="adf2b0f007f4bb6fb8b510d7d945f30a4"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#adf2b0f007f4bb6fb8b510d7d945f30a4">pi_over_three</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#adf2b0f007f4bb6fb8b510d7d945f30a4">pi_over_three</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>pi / 3</code></p>
           </div></section>
           <section class="m-doc-details" id="ad0025373b19f3711fadbf07913520799"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#ad0025373b19f3711fadbf07913520799">pi_over_two</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#ad0025373b19f3711fadbf07913520799">pi_over_two</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>pi / 2</code></p>
           </div></section>
           <section class="m-doc-details" id="a6630425419bc354dfbb292c590dac436"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a6630425419bc354dfbb292c590dac436">seven</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a6630425419bc354dfbb292c590dac436">seven</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>7</code></p>
           </div></section>
           <section class="m-doc-details" id="a18d881c8722a05c012bced9795a67af1"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a18d881c8722a05c012bced9795a67af1">signaling_nan</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a18d881c8722a05c012bced9795a67af1">signaling_nan</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Not-A-Number (signalling)</p>
           </div></section>
           <section class="m-doc-details" id="a8fa354c14b8a6407617136dad70cfc70"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static int muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a8fa354c14b8a6407617136dad70cfc70">significand_digits</a> <span class="m-label m-primary">constexpr</span>
+              static int muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a8fa354c14b8a6407617136dad70cfc70">significand_digits</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>The number of significand (mantissa) digits.</p>
           </div></section>
           <section class="m-doc-details" id="a7fe173161cd3b9add56e813abd2a6751"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a7fe173161cd3b9add56e813abd2a6751">six</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a7fe173161cd3b9add56e813abd2a6751">six</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>6</code></p>
           </div></section>
           <section class="m-doc-details" id="a75ea66a589f47b8db0f641df39bb6289"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a75ea66a589f47b8db0f641df39bb6289">sqrt_e</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a75ea66a589f47b8db0f641df39bb6289">sqrt_e</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>sqrt(e)</code></p>
           </div></section>
           <section class="m-doc-details" id="ab01a9e9ea6161a75b6ac2085e64d612d"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#ab01a9e9ea6161a75b6ac2085e64d612d">sqrt_phi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#ab01a9e9ea6161a75b6ac2085e64d612d">sqrt_phi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>sqrt(phi)</code></p>
           </div></section>
           <section class="m-doc-details" id="aba46fe74abcb1dc1cf6d913dce2e12a4"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#aba46fe74abcb1dc1cf6d913dce2e12a4">sqrt_pi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#aba46fe74abcb1dc1cf6d913dce2e12a4">sqrt_pi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>sqrt(pi)</code></p>
           </div></section>
           <section class="m-doc-details" id="a4127bcba0f19db731a6585d5300c43aa"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a4127bcba0f19db731a6585d5300c43aa">sqrt_three</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a4127bcba0f19db731a6585d5300c43aa">sqrt_three</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>sqrt(3)</code></p>
           </div></section>
           <section class="m-doc-details" id="aa2ff8e551daff356a3614f440ca1130a"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#aa2ff8e551daff356a3614f440ca1130a">sqrt_two</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#aa2ff8e551daff356a3614f440ca1130a">sqrt_two</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>sqrt(2)</code></p>
           </div></section>
           <section class="m-doc-details" id="aacf57290e1b19b1d9cce730ed28d0732"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#aacf57290e1b19b1d9cce730ed28d0732">sqrt_two_pi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#aacf57290e1b19b1d9cce730ed28d0732">sqrt_two_pi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>sqrt(2 * pi)</code></p>
           </div></section>
           <section class="m-doc-details" id="a8eef5030a0dcacf4f3e4e15ba6808501"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a8eef5030a0dcacf4f3e4e15ba6808501">ten</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a8eef5030a0dcacf4f3e4e15ba6808501">ten</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>10</code></p>
           </div></section>
           <section class="m-doc-details" id="a5918b6cab7f5a7cc6a4db54e164b8ecd"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a5918b6cab7f5a7cc6a4db54e164b8ecd">three</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a5918b6cab7f5a7cc6a4db54e164b8ecd">three</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>3</code></p>
           </div></section>
           <section class="m-doc-details" id="ace37b244a8fcd46233c790440694e45d"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#ace37b244a8fcd46233c790440694e45d">three_over_five</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#ace37b244a8fcd46233c790440694e45d">three_over_five</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>3 / 5</code></p>
           </div></section>
           <section class="m-doc-details" id="abc68f787a590a5dcd8d3fd6d8485354f"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#abc68f787a590a5dcd8d3fd6d8485354f">three_over_four</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#abc68f787a590a5dcd8d3fd6d8485354f">three_over_four</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>3 / 4</code></p>
           </div></section>
           <section class="m-doc-details" id="a3e4ecadc854e50a548a3557aea143499"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a3e4ecadc854e50a548a3557aea143499">three_over_two</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a3e4ecadc854e50a548a3557aea143499">three_over_two</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>3 / 2</code></p>
           </div></section>
           <section class="m-doc-details" id="a2c524a28fddba7e9f7e5fe2c2377835a"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a2c524a28fddba7e9f7e5fe2c2377835a">two</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a2c524a28fddba7e9f7e5fe2c2377835a">two</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>2</code></p>
           </div></section>
           <section class="m-doc-details" id="a7ec49dda0ba31099cafbb2341ccead62"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a7ec49dda0ba31099cafbb2341ccead62">two_over_five</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a7ec49dda0ba31099cafbb2341ccead62">two_over_five</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>2 / 5</code></p>
           </div></section>
           <section class="m-doc-details" id="ae4bc44456ff052b46644e3a9224ad4db"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#ae4bc44456ff052b46644e3a9224ad4db">two_over_three</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#ae4bc44456ff052b46644e3a9224ad4db">two_over_three</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>2 / 3</code></p>
           </div></section>
           <section class="m-doc-details" id="a83b56ce54362ebbf9d0800b4ba222b66"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#a83b56ce54362ebbf9d0800b4ba222b66">two_pi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#a83b56ce54362ebbf9d0800b4ba222b66">two_pi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>pi</code></p>
           </div></section>
           <section class="m-doc-details" id="ab7ee6b21c3afe3e5b2b6f3904fc26fde"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::<wbr/><a class="m-doc-self" href="#ab7ee6b21c3afe3e5b2b6f3904fc26fde">zero</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;&lt;Scalar, Dimensions&gt;::<wbr/><a class="m-doc-self" href="#ab7ee6b21c3afe3e5b2b6f3904fc26fde">zero</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>0</code></p>
           </div></section>

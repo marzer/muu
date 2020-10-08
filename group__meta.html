@@ -278,6 +278,11 @@ C++</span></a>
             </dt>
             <dd>Are all of the named types unsigned or reference-to-unsigned?</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="#gaa4c92e65e153e9a6c9ac01ba3bd653e5">always_false</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Evaluates to false but with delayed, type-dependent evaluation.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="#gad067ec94bd319f3cd1b8406d5d208701">any_arithmetic</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
@@ -307,11 +312,6 @@ C++</span></a>
               bool <a class="m-doc" href="#ga3bb31ded23944badda78774761206c09">any_unsigned</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are any of the named types unsigned or reference-to-unsigned?</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              bool <a class="m-doc" href="#gaeb2da559efbc44792993d44b57e1b48d">dependent_false</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>Evaluates to false but with delayed, type-dependent evaluation.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="#gafc3c409c2d08bc8913db5ad46a84e0b9">has_arrow_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -847,6 +847,20 @@ C++</span></a>
             <p>Are all of the named types unsigned or reference-to-unsigned?</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums backed by unsigned integers.</p></aside>
           </div></section>
+          <section class="m-doc-details" id="gaa4c92e65e153e9a6c9ac01ba3bd653e5"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#gaa4c92e65e153e9a6c9ac01ba3bd653e5">always_false</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Evaluates to false but with delayed, type-dependent evaluation.</p>
+<p>Allows you to do things like this:</p><pre class="m-code"><span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_some_fancy_type</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">)</span>
+    <span class="c1">// ...</span>
+<span class="k">else</span>
+    <span class="k">static_assert</span><span class="p">(</span><span class="n">always_false</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">,</span> <span class="s">"Oh no, T was bad!"</span><span class="p">);</span></pre>
+          </div></section>
           <section class="m-doc-details" id="gad067ec94bd319f3cd1b8406d5d208701"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
@@ -911,20 +925,6 @@ C++</span></a>
             </h3>
             <p>Are any of the named types unsigned or reference-to-unsigned?</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums backed by unsigned integers.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="gaeb2da559efbc44792993d44b57e1b48d"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-              bool <a class="m-doc-self" href="#gaeb2da559efbc44792993d44b57e1b48d">dependent_false</a> <span class="m-label m-primary">constexpr</span>
-            </h3>
-            <p>Evaluates to false but with delayed, type-dependent evaluation.</p>
-<p>Allows you to do this:</p><pre class="m-code"><span class="k">static_assert</span><span class="p">(</span>
-    <span class="n">dependent_false</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">,</span>
-    <span class="s">"Oh no, T is the wrong type for some reason"</span>
-<span class="p">);</span></pre>
           </div></section>
           <section class="m-doc-details" id="gafc3c409c2d08bc8913db5ad46a84e0b9"><div>
             <h3>
