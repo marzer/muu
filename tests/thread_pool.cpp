@@ -79,8 +79,7 @@ namespace
 
 TEST_CASE("thread_pool - enqueue")
 {
-	thread_pool threads;
-	CHECK(threads.size() == std::thread::hardware_concurrency());
+	thread_pool threads{ min(std::thread::hardware_concurrency(), 16u) };
 
 	//tasks with no state at all
 	{
@@ -178,8 +177,7 @@ TEST_CASE("thread_pool - enqueue")
 
 TEST_CASE("thread_pool - for_range")
 {
-	thread_pool threads;
-	CHECK(threads.size() == std::thread::hardware_concurrency());
+	thread_pool threads{ min(std::thread::hardware_concurrency(), 16u) };
 
 	std::array<int, 1000> values;
 	std::vector<int> thread_values(threads.size(), 0);
@@ -201,11 +199,11 @@ TEST_CASE("thread_pool - for_range")
 	for (auto& v : values)
 		CHECK(v == 1);
 	{
-		size_t used_threads{};
+		double used_threads{};
 		for (auto& v : thread_values)
 			if (v > 0)
 				used_threads++;
-		CHECK(used_threads >= 2u * threads.size() / 3u);
+		CHECK(used_threads >= static_cast<double>(threads.size()) * 0.66);
 	}
 
 	//[A, B)
@@ -239,8 +237,7 @@ TEST_CASE("thread_pool - for_range")
 
 TEST_CASE("thread_pool - for_each")
 {
-	thread_pool threads;
-	CHECK(threads.size() == std::thread::hardware_concurrency());
+	thread_pool threads{ min(std::thread::hardware_concurrency(), 16u) };
 
 	std::array<int, 1000> values;
 	std::vector<int> thread_values(threads.size(), 0);
@@ -278,11 +275,11 @@ TEST_CASE("thread_pool - for_each")
 	for (auto& v : values)
 		CHECK(v == 1);
 	{
-		size_t used_threads{};
+		double used_threads{};
 		for (auto& v : thread_values)
 			if (v > 0)
 				used_threads++;
-		CHECK(used_threads >= 2u * threads.size() / 3u);
+		CHECK(used_threads >= static_cast<double>(threads.size()) * 0.66);
 	}
 }
 

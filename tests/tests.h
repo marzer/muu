@@ -27,13 +27,13 @@
 	#error MUU_EXCEPTIONS was not deduced correctly
 #endif
 
-MUU_PRAGMA_CLANG("clang diagnostic ignored \"-Wc++2a-compat\"")
-MUU_PRAGMA_CLANG("clang diagnostic ignored \"-Wfloat-equal\"")
-MUU_PRAGMA_CLANG("clang diagnostic ignored \"-Wunused-template\"")
-MUU_PRAGMA_CLANG("clang diagnostic ignored \"-Wpadded\"")
-MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wfloat-equal\"")
-MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wpedantic\"")
-MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wpadded\"")
+MUU_PRAGMA_CLANG(diagnostic ignored "-Wc++2a-compat")
+MUU_PRAGMA_CLANG(diagnostic ignored "-Wfloat-equal")
+MUU_PRAGMA_CLANG(diagnostic ignored "-Wunused-template")
+MUU_PRAGMA_CLANG(diagnostic ignored "-Wpadded")
+MUU_PRAGMA_GCC(diagnostic ignored "-Wfloat-equal")
+MUU_PRAGMA_GCC(diagnostic ignored "-Wpedantic")
+MUU_PRAGMA_GCC(diagnostic ignored "-Wpadded")
 
 MUU_DISABLE_WARNINGS
 #include "catch2.h"

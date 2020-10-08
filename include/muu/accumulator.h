@@ -92,6 +92,7 @@ MUU_NAMESPACE_START
 			/// \brief	Returns the number of samples added to the accumulator.
 			[[nodiscard]]
 			MUU_ALWAYS_INLINE
+			MUU_ATTR(pure)
 			constexpr size_t sample_count() const noexcept
 			{
 				return impl_and_count.second();
@@ -100,6 +101,7 @@ MUU_NAMESPACE_START
 			/// \brief	Returns true if no samples have been added to the accumulator.
 			[[nodiscard]]
 			MUU_ALWAYS_INLINE
+			MUU_ATTR(pure)
 			constexpr bool empty() const noexcept
 			{
 				return impl_and_count.second() == size_t{};
@@ -108,6 +110,7 @@ MUU_NAMESPACE_START
 			/// \brief	Returns the minimum value added to the accumulator.
 			[[nodiscard]]
 			MUU_ALWAYS_INLINE
+			MUU_ATTR(pure)
 			constexpr decltype(auto) (min)() const
 				noexcept(noexcept(std::declval<Impl>().min()))
 			{
@@ -117,6 +120,7 @@ MUU_NAMESPACE_START
 			/// \brief	Returns the maximum value added to the accumulator.
 			[[nodiscard]]
 			MUU_ALWAYS_INLINE
+			MUU_ATTR(pure)
 			constexpr decltype(auto) (max)() const
 				noexcept(noexcept(std::declval<Impl>().max()))
 			{
@@ -126,6 +130,7 @@ MUU_NAMESPACE_START
 			/// \brief	Returns the sum of all values added to the accumulator.
 			[[nodiscard]]
 			MUU_ALWAYS_INLINE
+			MUU_ATTR(pure)
 			constexpr decltype(auto) sum() const
 				noexcept(noexcept(std::declval<Impl>().sum()))
 			{
@@ -262,6 +267,7 @@ MUU_NAMESPACE_START
 
 			[[nodiscard]]
 			MUU_ALWAYS_INLINE
+			MUU_ATTR(pure)
 			constexpr value_type(min)() const noexcept
 			{
 				return min_;
@@ -269,6 +275,7 @@ MUU_NAMESPACE_START
 
 			[[nodiscard]]
 			MUU_ALWAYS_INLINE
+			MUU_ATTR(pure)
 			constexpr value_type(max)() const noexcept
 			{
 				return max_;
@@ -276,16 +283,14 @@ MUU_NAMESPACE_START
 
 			[[nodiscard]]
 			MUU_ALWAYS_INLINE
+			MUU_ATTR(pure)
 			constexpr sum_type sum() const noexcept
 			{
 				return sum_;
 			}
 		};
 
-		MUU_PRAGMA_MSVC(float_control(precise, on, push))
-		MUU_PRAGMA_CLANG_GE(11, "float_control(precise, on, push)")
-		MUU_PRAGMA_GCC("GCC push_options")
-		MUU_PRAGMA_GCC("GCC optimize (\"-fno-fast-math\")")
+		MUU_PUSH_PRECISE_MATH
 
 		template <typename ValueType>
 		struct kahan_accumulator // https://en.wikipedia.org/wiki/Kahan_summation_algorithm#Further_enhancements
@@ -293,6 +298,7 @@ MUU_NAMESPACE_START
 			using value_type = ValueType;
 			using value_param = impl::maybe_pass_readonly_by_value<ValueType>;
 			using sum_type = impl::highest_ranked<ValueType, float>;
+			using sum_param = impl::maybe_pass_readonly_by_value<sum_type>;
 
 			static_assert(
 				is_floating_point<value_type>,
@@ -307,12 +313,12 @@ MUU_NAMESPACE_START
 				sum_ = static_cast<sum_type>(sample);
 			}
 
-			MUU_PRAGMA_CLANG_LT(11, "clang optimize off")
+			MUU_PRAGMA_CLANG_LT(11, optimize off)
 
-			constexpr void MUU_VECTORCALL kahan_add(impl::maybe_pass_readonly_by_value<sum_type> sample) noexcept
+			constexpr void MUU_VECTORCALL kahan_add(sum_param sample) noexcept
 			{
-				MUU_PRAGMA_CLANG_GE(11, "clang fp reassociate(off)")
-				MUU_PRAGMA_CLANG_LT(11, "clang fp contract(on)")
+				MUU_PRAGMA_CLANG_GE(11, fp reassociate(off))
+				MUU_PRAGMA_CLANG_LT(11, fp contract(on))
 
 				const auto t = sum_ + sample;
 				if (muu::abs(sum_) >= muu::abs(sample))
@@ -322,7 +328,7 @@ MUU_NAMESPACE_START
 				sum_ = t;
 			}
 
-			MUU_PRAGMA_CLANG_LT(11, "clang optimize on")
+			MUU_PRAGMA_CLANG_LT(11, optimize on)
 
 			constexpr void MUU_VECTORCALL add(value_param sample) noexcept
 			{
@@ -340,6 +346,7 @@ MUU_NAMESPACE_START
 
 			[[nodiscard]]
 			MUU_ALWAYS_INLINE
+			MUU_ATTR(pure)
 			constexpr value_type(min)() const noexcept
 			{
 				return min_;
@@ -347,6 +354,7 @@ MUU_NAMESPACE_START
 
 			[[nodiscard]]
 			MUU_ALWAYS_INLINE
+			MUU_ATTR(pure)
 			constexpr value_type(max)() const noexcept
 			{
 				return max_;
@@ -354,15 +362,14 @@ MUU_NAMESPACE_START
 
 			[[nodiscard]]
 			MUU_ALWAYS_INLINE
+			MUU_ATTR(pure)
 			constexpr value_type sum() const noexcept
 			{
 				return static_cast<value_type>(sum_ + correction_);
 			}
 		};
 
-		MUU_PRAGMA_GCC("GCC pop_options")
-		MUU_PRAGMA_CLANG_GE(11, "float_control(pop)")
-		MUU_PRAGMA_MSVC(float_control(pop))
+		MUU_POP_PRECISE_MATH
 	}
 }
 MUU_NAMESPACE_END

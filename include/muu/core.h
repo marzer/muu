@@ -275,6 +275,21 @@ MUU_IMPL_NAMESPACE_START
 	{
 		using type = std::conditional_t<std::is_signed_v<wchar_t>, wchar_t, signed_integer_<sizeof(wchar_t)* CHAR_BIT>::type>;
 	};
+	template <typename Scalar, size_t Dimensions>
+	struct make_signed_<vector<Scalar, Dimensions>>
+	{
+		using type = vector<typename make_signed_<Scalar>::type, Dimensions>;
+	};
+	template <typename Scalar>
+	struct make_signed_<quaternion<Scalar>>
+	{
+		using type = quaternion<Scalar>; // unsigned quaternions are illegal, no logic required here
+	};
+	template <typename Scalar, size_t Rows, size_t Columns>
+	struct make_signed_<matrix<Scalar, Rows, Columns>>
+	{
+		using type = matrix<typename make_signed_<Scalar>::type, Rows, Columns>;
+	};
 
 	template <typename T> struct make_unsigned_ { using type = void; };
 	template <typename T> struct make_unsigned_<const volatile T> { using type = const volatile typename make_unsigned_<T>::type; };
@@ -306,6 +321,16 @@ MUU_IMPL_NAMESPACE_START
 	struct make_unsigned_<wchar_t>
 	{
 		using type = std::conditional_t<std::is_unsigned_v<wchar_t>, wchar_t, unsigned_integer_<sizeof(wchar_t)* CHAR_BIT>::type>;
+	};
+	template <typename Scalar, size_t Dimensions>
+	struct make_unsigned_<vector<Scalar, Dimensions>>
+	{
+		using type = vector<typename make_unsigned_<Scalar>::type, Dimensions>;
+	};
+	template <typename Scalar, size_t Rows, size_t Columns>
+	struct make_unsigned_<matrix<Scalar, Rows, Columns>>
+	{
+		using type = matrix<typename make_unsigned_<Scalar>::type, Rows, Columns>;
 	};
 
 	template <typename...>				struct highest_ranked_;
@@ -354,18 +379,7 @@ MUU_IMPL_NAMESPACE_START
 	#endif
 	#undef MUU_HR_SPECIALIZATION
 	template <typename... T>
-	using highest_ranked = typename highest_ranked_<T...>::type;
-
-	template <size_t Bits> struct code_unit_;
-	#ifdef __cpp_char8_t
-		template <> struct code_unit_<8> { using type = char8_t; };
-	#else
-		template <> struct code_unit_<8> { using type = unsigned char; };
-	#endif
-	template <> struct code_unit_<16> { using type = char16_t; };
-	template <> struct code_unit_<32> { using type = char32_t; };
-	using char_unicode_t = typename code_unit_<CHAR_BIT>::type;
-	using wchar_unicode_t = typename code_unit_<sizeof(wchar_t) * CHAR_BIT>::type;
+	using highest_ranked = typename highest_ranked_<std::remove_cv_t<std::remove_reference_t<T>>...>::type;
 
 	template <typename T>
 	using iter_reference_t = decltype(*std::declval<T&>());
@@ -417,7 +431,6 @@ MUU_IMPL_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(pure)
-	MUU_ATTR(flatten)
 	constexpr decltype(auto) get_from_tuple_like(T&& tuple_like) noexcept
 	{
 		if constexpr (is_detected<has_tuple_get_member_, T&&>)
@@ -778,15 +791,15 @@ MUU_NAMESPACE_START
 	using set_unsigned = std::conditional_t<Unsigned, make_unsigned<T>, make_signed<T>>;
 
 	/// \brief	Evaluates to false but with delayed, type-dependent evaluation.
-	/// \details Allows you to do this:
+	/// \details Allows you to do things like this:
 	/// \cpp
-	///	static_assert(
-	///		dependent_false<T>,
-	///		"Oh no, T is the wrong type for some reason"
-	///	);
+	/// if constexpr (is_some_fancy_type<T>)
+	///		// ...
+	/// else
+	///		static_assert(always_false<T>, "Oh no, T was bad!");
 	/// \ecpp
 	template <typename T>
-	inline constexpr bool dependent_false = false;
+	inline constexpr bool always_false = false;
 
 	/// \brief	Gets the unsigned integer type with a specific number of bits for the target platform.
 	template <size_t Bits>
@@ -876,6 +889,12 @@ MUU_IMPL_NAMESPACE_START
 {
 	template <typename T>
 	using promote_if_small_float = std::conditional_t<(is_floating_point<T> && sizeof(T) < sizeof(float)), float, T>;
+
+	// promotes ints to doubles, keeps floats as-is, as per the behaviour of std::sqrt, std::lerp, etc.
+	template <typename... T>
+	using std_math_common_type = highest_ranked<
+		std::conditional_t<is_floating_point<T>, T, double>...
+	>;
 
 	struct any_type
 	{
@@ -996,7 +1015,7 @@ MUU_IMPL_NAMESPACE_START
 	template <typename T>			inline constexpr bool is_hva = decltype(is_hva_(std::declval<T>()))::value;
 	template <>						inline constexpr bool is_hva<half> = false;
 
-	#endif
+	#endif // MUU_HAS_VECTORCALL
 
 	template <typename T>
 	struct maybe_pass_readonly_by_value_
@@ -1031,6 +1050,8 @@ MUU_IMPL_NAMESPACE_END
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_ARITHMETIC_WARNINGS
+
+MUU_PUSH_PRECISE_MATH
 
 MUU_NAMESPACE_START
 {
@@ -1069,6 +1090,7 @@ MUU_NAMESPACE_START
 			static constexpr T highest = (std::numeric_limits<T>::max)();
 		};
 
+		#ifndef DOXYGEN
 		#if MUU_HAS_INT128
 		template <>
 		struct integer_limits<int128_t>
@@ -1085,6 +1107,7 @@ MUU_NAMESPACE_START
 			static constexpr uint128_t highest = (2u * static_cast<uint128_t>(integer_limits<int128_t>::highest)) + 1u;
 		};
 		#endif // MUU_HAS_INT128
+		#endif // !DOXYGEN
 
 		template <typename T>
 		struct integer_positive_constants
@@ -1125,6 +1148,8 @@ MUU_NAMESPACE_START
 
 			static constexpr T approx_equal_epsilon = T{ 1 } * power<T, 10, -std::numeric_limits<T>::digits10>::value;
 		};
+
+		#ifndef DOXYGEN
 		#if MUU_HAS_FP16
 		template <>
 		struct floating_point_limits<__fp16>
@@ -1149,16 +1174,16 @@ MUU_NAMESPACE_START
 			static constexpr quad approx_equal_epsilon = quad{ 1 } * power<quad, 10, -__FLT128_DIG__>::value;
 		};
 		#endif
+		#endif // !DOXYGEN
 
 		template <typename T>
 		struct floating_point_special_constants
 		{
 			static constexpr T nan = std::numeric_limits<T>::quiet_NaN();		///< Not-A-Number (quiet)
-			static constexpr T snan = std::numeric_limits<T>::signaling_NaN();	///< Not-A-Number (signalling)
+			static constexpr T signaling_nan = std::numeric_limits<T>::signaling_NaN();	///< Not-A-Number (signalling)
 			static constexpr T infinity = std::numeric_limits<T>::infinity();	///< Positive infinity
 			static constexpr T negative_infinity = -infinity;					///< Negative infinity
 			static constexpr T minus_zero = T(-0.0L);							///< `-0.0`
-			//
 		};
 
 		template <typename T>
@@ -1207,7 +1232,7 @@ MUU_NAMESPACE_START
 			static constexpr T one_over_sqrt_phi     = T( 0.786151377757423286L ); ///< `1 / sqrt(phi)`
 		};
 
-		#if MUU_HAS_FLOAT128 && MUU_EXTENDED_LITERALS
+		#if !defined(DOXYGEN) && MUU_HAS_FLOAT128 && MUU_EXTENDED_LITERALS
 		template <>
 		struct floating_point_named_constants<quad>
 		{
@@ -1485,6 +1510,8 @@ MUU_NAMESPACE_START
 }
 MUU_NAMESPACE_END
 
+MUU_POP_PRECISE_MATH
+
 //=====================================================================================================================
 // LITERALS, BUILD CONSTANTS AND 'INTRINSICS'
 //=====================================================================================================================
@@ -1748,7 +1775,6 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(pure)
-	MUU_ATTR(flatten)
 	constexpr T* launder(T* ptr) noexcept
 	{
 		static_assert(
@@ -1790,7 +1816,6 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
-	MUU_ATTR(flatten)
 	constexpr decltype(auto) unwrap(T&& val) noexcept
 	{
 		return static_cast<T&&>(val);
@@ -1839,7 +1864,7 @@ MUU_NAMESPACE_START
 				else if constexpr (sizeof(T) < sizeof(unsigned int))
 					return __builtin_clz(val) - static_cast<int>((sizeof(unsigned int) - sizeof(T)) * CHAR_BIT);
 				else
-					static_assert(dependent_false<T>, "Evaluated unreachable branch!");
+					static_assert(always_false<T>, "Evaluated unreachable branch!");
 			}
 			#elif MUU_MSVC || MUU_ICC_CL
 			{
@@ -1870,13 +1895,13 @@ MUU_NAMESPACE_START
 				else if constexpr (sizeof(T) < sizeof(unsigned long))
 					return countl_zero_intrinsic(static_cast<unsigned long>(val)) - static_cast<int>((sizeof(unsigned long) - sizeof(T)) * CHAR_BIT);
 				else
-					static_assert(dependent_false<T>, "Evaluated unreachable branch!");
+					static_assert(always_false<T>, "Evaluated unreachable branch!");
 			}
 			#else
 			{
 				#define MUU_HAS_INTRINSIC_COUNTL_ZERO 0
 
-				static_assert(dependent_false<T>, "countl_zero not implemented on this compiler");
+				static_assert(always_false<T>, "countl_zero not implemented on this compiler");
 			}
 			#endif
 		}
@@ -1970,7 +1995,7 @@ MUU_NAMESPACE_START
 				else if constexpr (std::is_same_v<T, unsigned int> || sizeof(T) <= sizeof(unsigned int))
 					return __builtin_ctz(val);
 				else
-					static_assert(dependent_false<T>, "Evaluated unreachable branch!");
+					static_assert(always_false<T>, "Evaluated unreachable branch!");
 			}
 			#elif MUU_MSVC || MUU_ICC_CL
 			{
@@ -2001,13 +2026,13 @@ MUU_NAMESPACE_START
 				else if constexpr (sizeof(T) < sizeof(unsigned long))
 					return countr_zero_intrinsic(static_cast<unsigned long>(val));
 				else
-					static_assert(dependent_false<T>, "Evaluated unreachable branch!");
+					static_assert(always_false<T>, "Evaluated unreachable branch!");
 			}
 			#else
 			{
 				#define MUU_HAS_INTRINSIC_COUNTR_ZERO 0
 
-				static_assert(dependent_false<T>, "countr_zero not implemented on this compiler");
+				static_assert(always_false<T>, "countr_zero not implemented on this compiler");
 			}
 			#endif
 		}
@@ -2125,11 +2150,12 @@ MUU_NAMESPACE_START
 	/// \brief	Bitwise-packs integers left-to-right into a larger integer.
 	///
 	/// \detail \cpp
-	/// const auto val = pack(0xAABB_u16, 0xCCDD_u16);
-	/// assert(val == 0xAABBCCDD_u32);
-	/// const auto val = pack(0xAABB_u16, 0xCCDD_u16, 0xEEFF_u16);
-	/// assert(val == 0x0000AABBCCDDEEFF_u64);
-	///              // ^^^^ input was zero-padded on the left
+	/// auto   val1  = pack(0xAABB_u16, 0xCCDD_u16);
+	/// assert(val1 == 0xAABBCCDD_u32);
+	/// 
+	/// auto   val2  = pack(0xAABB_u16, 0xCCDD_u16, 0xEEFF_u16);
+	/// assert(val2 == 0x0000AABBCCDDEEFF_u64);
+	///               // ^^^^ input was 48 bits, zero-padded to 64 on the left
 	/// \ecpp
 	/// 
 	/// \tparam	Return	An integer or enum type, or leave as `void` to choose an unsigned type based on the total size of the inputs.
@@ -2242,7 +2268,6 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(pure)
-	MUU_ATTR(flatten)
 	constexpr To bit_cast(const From& from) noexcept
 	{
 		static_assert(
@@ -2518,7 +2543,7 @@ MUU_NAMESPACE_START
 
 					to_base* to = {};
 					if (from->QueryInterface(__uuidof(to_base), reinterpret_cast<void**>(&to)) == 0)
-						to->Release();
+						to->Release(); // QueryInterface adds 1 to ref count on success
 					return to;
 				}
 			}
@@ -2646,31 +2671,44 @@ MUU_NAMESPACE_START
 	/// \detail This is equivalent to std::clamp without requiring you to drag in the enormity of `<algorithm>`.
 	template <typename T>
 	[[nodiscard]]
-	constexpr const T& clamp(const T& val, const T& min_, const T& max_) noexcept
+	constexpr const T& clamp(const T& val, const T& low, const T& high) noexcept
 	{
-		return (muu::max)((muu::min)(val, max_), min_);
+		return val < low
+			? low
+			: ((high < val) ? high : val);
 	}
 
-	/// \defgroup		sqrt	sqrt()
+	/// \addtogroup		sqrt	sqrt()
 	/// \brief Constexpr-friendly alternatives to std::sqrt().
-	/// 
-	/// \addtogroup 	sqrt
 	/// @{
 	
 	#ifndef DOXYGEN
 	namespace impl
 	{
+		MUU_PUSH_PRECISE_MATH
+
+		// this is an implementation of the Newton-Raphson method:
+		// https://en.wikipedia.org/wiki/Newton%27s_method
+
 		template <typename T>
 		[[nodiscard]]
 		MUU_CONSTEVAL T MUU_VECTORCALL newton_raphson_sqrt(T x, T curr, T prev) noexcept
 		{
-			//this is function an implementation of the Newton-Raphson method:
-			//https://en.wikipedia.org/wiki/Newton%27s_method
-
+			static_assert(is_floating_point<T>);
 			return curr == prev
 				? curr
 				: newton_raphson_sqrt(x, constants<T>::one_over_two * (curr + x / curr), curr);
 		}
+
+		template <typename T>
+		[[nodiscard]]
+		MUU_CONSTEVAL T MUU_VECTORCALL newton_raphson_sqrt(T val) noexcept
+		{
+			using type = highest_ranked<T, long double>;
+			return static_cast<T>(newton_raphson_sqrt<type>(val, val, type{}));
+		}
+
+		MUU_POP_PRECISE_MATH
 
 		template <typename T>
 		MUU_ALWAYS_INLINE
@@ -2682,10 +2720,7 @@ MUU_NAMESPACE_START
 			else
 			{
 				if (is_constant_evaluated())
-				{
-					using type = highest_ranked<T, long double>;
-					return static_cast<T>(newton_raphson_sqrt<type>(val, val, type{}));
-				}
+					return newton_raphson_sqrt(val);
 				else
 					return std::sqrt(val);
 			}
@@ -2747,12 +2782,19 @@ MUU_NAMESPACE_START
 	}
 	#endif
 
+	/// \brief	Returns the square-root of an integral value.
+	template <typename T MUU_SFINAE(is_integral<T>)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr double MUU_VECTORCALL sqrt(T val) noexcept
+	{
+		return impl::sqrt_(static_cast<double>(val));
+	}
+
 	/** @} */	// intrinsics::sqrt
 
-	/// \defgroup		approx_equal	approx_equal()
+	/// \addtogroup		approx_equal	approx_equal()
 	/// \brief Floating-point approximate equality checks.
-	/// 
-	/// \addtogroup 	approx_equal
 	/// @{
 
 	/// \brief	Returns true if two floats are approximately equal.
@@ -2811,14 +2853,11 @@ MUU_NAMESPACE_START
 
 	/** @} */	// intrinsics::approx_equal
 
-	/// \defgroup		lerp	lerp()
+	/// \addtogroup		lerp	lerp()
 	/// \brief Linear interpolations al a C++20's std::lerp.
-	/// 
-	/// \addtogroup 	lerp
-	/// @{
-	/// 
 	/// \remark	Despite being stand-ins for C++20's std::lerp, these functions do _not_ make the same
 	/// 		guarantees about infinities and NaN's. Garbage-in, garbage-out.
+	/// @{
 
 	/// \brief	Returns a linear interpolation between two floats.
 	[[nodiscard]]
@@ -2882,12 +2921,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr auto MUU_VECTORCALL lerp(T start, U finish, V alpha) noexcept
 	{
-		using start_type = remove_cv<std::conditional_t<is_floating_point<T>, T, double>>;
-		using finish_type = remove_cv<std::conditional_t<is_floating_point<U>, U, double>>;
-		using alpha_type = remove_cv<std::conditional_t<is_floating_point<V>, V, double>>;
-		static_assert(all_floating_point<start_type, finish_type, alpha_type>);
-
-		using return_type = impl::highest_ranked<start_type, finish_type, alpha_type>;
+		using return_type = impl::std_math_common_type<T, U, V>;
 		using intermediate_type = impl::promote_if_small_float<return_type>;
 		return static_cast<return_type>(lerp(
 			static_cast<intermediate_type>(start),
@@ -2902,12 +2936,12 @@ MUU_NAMESPACE_START
 	template <typename T, typename U>
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool MUU_VECTORCALL between(T val, U min_, U max_) noexcept
+	constexpr bool MUU_VECTORCALL between(T val, U low, U high) noexcept
 	{
 		if constexpr ((is_arithmetic<T> || is_enum<U>) || (is_arithmetic<T> || is_enum<U>))
 		{
 			if constexpr (is_enum<T> || is_enum<U>)
-				return between(unwrap(val), unwrap(min_), unwrap(max_));
+				return between(unwrap(val), unwrap(low), unwrap(high));
 			else
 			{
 				using lhs = remove_cvref<T>;
@@ -2919,7 +2953,7 @@ MUU_NAMESPACE_START
 				}
 				else if constexpr (is_unsigned<lhs> && is_signed<rhs>)
 				{
-					if (max_ < rhs{})
+					if (high < rhs{})
 						return false;
 				}
 				if constexpr (!std::is_same_v<lhs, rhs>)
@@ -2927,16 +2961,16 @@ MUU_NAMESPACE_START
 					using common_type = std::common_type_t<lhs, rhs>;
 					return between(
 						static_cast<common_type>(val),
-						static_cast<common_type>(min_),
-						static_cast<common_type>(max_)
+						static_cast<common_type>(low),
+						static_cast<common_type>(high)
 					);
 				}
 				else
-					return min_ <= val && val <= max_;
+					return low <= val && val <= high;
 			}
 		}
 		else
-			return min_ <= val && val <= max_; // user-defined <= operator, ideally
+			return low <= val && val <= high; // user-defined <= operator, ideally
 	}
 
 	#ifndef DOXYGEN
@@ -3033,7 +3067,7 @@ MUU_NAMESPACE_START
 						+ __builtin_popcountll(static_cast<unsigned long long>(val));
 				#endif
 				else
-					static_assert(dependent_false<T>, "Unsupported integer type");
+					static_assert(always_false<T>, "Unsupported integer type");
 			}
 			#elif MUU_ICC
 			{
@@ -3044,7 +3078,7 @@ MUU_NAMESPACE_START
 				else if constexpr (sizeof(T) == sizeof(__int64))
 					return _popcnt64(static_cast<__int64>(val));
 				else
-					static_assert(dependent_false<T>, "Unsupported integer type");
+					static_assert(always_false<T>, "Unsupported integer type");
 			}
 			#elif MUU_MSVC
 			{
@@ -3070,13 +3104,13 @@ MUU_NAMESPACE_START
 					#endif
 				}
 				else
-					static_assert(dependent_false<T>, "Unsupported integer type");
+					static_assert(always_false<T>, "Unsupported integer type");
 			}
 			#else
 			{
 				#define MUU_HAS_INTRINSIC_POPCOUNT 0
 
-				static_assert(dependent_false<T>, "popcount_intrinsic not implemented for this compiler");
+				static_assert(always_false<T>, "popcount_intrinsic not implemented for this compiler");
 			}
 			#endif
 		}
@@ -3390,7 +3424,7 @@ MUU_NAMESPACE_START
 				}
 				#endif
 				else
-					static_assert(dependent_false<T>, "Unsupported integer type");
+					static_assert(always_false<T>, "Unsupported integer type");
 			}
 			#elif MUU_MSVC || MUU_ICC_CL
 			{
@@ -3403,13 +3437,13 @@ MUU_NAMESPACE_START
 				else if constexpr (sizeof(T) == sizeof(unsigned long long))
 					return static_cast<T>(_byteswap_uint64(static_cast<unsigned long long>(val)));
 				else
-					static_assert(dependent_false<T>, "Unsupported integer type");
+					static_assert(always_false<T>, "Unsupported integer type");
 			}
 			#else
 			{
 				#define MUU_HAS_INTRINSIC_BYTE_REVERSE 0
 
-				static_assert(dependent_false<T>, "byte_reverse_intrinsic not implemented for this compiler");
+				static_assert(always_false<T>, "byte_reverse_intrinsic not implemented for this compiler");
 			}
 			#endif
 		}
@@ -3454,7 +3488,7 @@ MUU_NAMESPACE_START
 			}
 			#endif
 			else
-				static_assert(dependent_false<T>, "Unsupported integer type");
+				static_assert(always_false<T>, "Unsupported integer type");
 		}
 	}
 	#endif // !DOXYGEN
@@ -3567,8 +3601,8 @@ MUU_NAMESPACE_START
 			return pack<return_type>(byte_select<ByteIndices>(val)...);
 	}
 
-	MUU_PRAGMA_GCC("GCC push_options")
-	MUU_PRAGMA_GCC("GCC optimize (\"-fno-finite-math-only\")")
+	MUU_PRAGMA_GCC(push_options)
+	MUU_PRAGMA_GCC(optimize("-fno-finite-math-only"))
 
 	#ifndef DOXYGEN
 	namespace impl
@@ -3671,7 +3705,6 @@ MUU_NAMESPACE_START
 	template <typename T MUU_SFINAE(is_arithmetic<T>)>
 	[[nodiscard]]
 	MUU_ATTR(const)
-	MUU_ATTR(flatten)
 	constexpr bool MUU_VECTORCALL infinity_or_nan(T val) noexcept
 	{
 		// Q: "what about fpclassify, isnan, isinf??"
@@ -3725,7 +3758,7 @@ MUU_NAMESPACE_START
 	/// \addtogroup	intrinsics
 	/// @{
 
-	MUU_PRAGMA_GCC("GCC pop_options") // -fno-finite-math-only
+	MUU_PRAGMA_GCC(pop_options) // -fno-finite-math-only
 
 	#ifndef DOXYGEN
 	namespace impl
@@ -3773,7 +3806,6 @@ MUU_NAMESPACE_START
 	template <size_t N, typename T>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
-	MUU_ATTR(flatten)
 	MUU_ATTR(assume_aligned(N))
 	constexpr T* assume_aligned(T* ptr) noexcept
 	{

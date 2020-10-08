@@ -44,7 +44,7 @@ MUU_NAMESPACE_START
 			>;
 	}
 
-	/// \brief		A move-only transport type capable of representing any UTF string.
+	/// \brief		A move-only string type-eraser capable of representing any UTF string.
 	/// \ingroup strings
 	class string_param
 	{
@@ -239,7 +239,7 @@ MUU_NAMESPACE_START
 				else if constexpr (std::is_convertible_v<T&&, std::string_view>)
 					return std::string_view{ static_cast<T&&>(string_viewable) };
 				else
-					static_assert(dependent_false<T>, "Evaluated unreachable branch");
+					static_assert(always_false<T>, "Evaluated unreachable branch");
 			}
 
 		public:

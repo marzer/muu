@@ -45,7 +45,7 @@ namespace
 			{
 				std::unique_lock lock{ mutex };
 				while (busy)
-					cv.wait(lock);
+					cv.wait_for(lock, 250ms);
 			}
 
 			void increment(size_t i = 1) noexcept
@@ -80,7 +80,7 @@ namespace
 			size_t capacity, front = {}, back = {};
 			size_t enqueues = {};
 			mutable std::mutex mutex;
-			mutable std::condition_variable wait;
+			mutable std::condition_variable cv;
 			std::atomic_bool terminated_ = false;
 
 			using task = impl::thread_pool_task;
@@ -158,7 +158,7 @@ namespace
 			{
 				bool expected = false;
 				if (terminated_.compare_exchange_strong(expected, true))
-					wait.notify_all();
+					cv.notify_all();
 			}
 
 			[[nodiscard]]
@@ -224,9 +224,9 @@ namespace
 				mutex.unlock();
 
 				if (enq == 1)
-					wait.notify_one();
+					cv.notify_one();
 				else if (enq > 1)
-					wait.notify_all();
+					cv.notify_all();
 			}
 
 			[[nodiscard]]
@@ -248,7 +248,7 @@ namespace
 			{
 				std::unique_lock lock{ mutex };
 				while (empty() && !terminated())
-					wait.wait(lock);
+					cv.wait_for(lock, 250ms);
 
 				if (terminated())
 					return nullptr;
@@ -328,20 +328,19 @@ namespace
 
 	static size_t calc_thread_pool_workers(size_t worker_count) noexcept
 	{
-		static constexpr unsigned max_workers = 512;
+		constexpr auto absolute_max_workers = 1024_sz;
+		static const auto concurrency = (max)(static_cast<size_t>(std::thread::hardware_concurrency()), 1_sz);
+		static const auto effective_max_workers = (min)(concurrency * 64_sz, absolute_max_workers);
 
-		const auto concurrency = (max)(std::thread::hardware_concurrency(), 1u);
-		if (!worker_count)
-			return concurrency;
-		return (min)(worker_count, static_cast<size_t>((min)(concurrency * 100, max_workers)));
+		return (min)(worker_count ? worker_count : concurrency, effective_max_workers);
 	}
 
 	static size_t calc_thread_pool_worker_queue_size(size_t worker_count, size_t task_queue_size) noexcept
 	{
-		static constexpr size_t max_buffer_size = 256 * 1024 * 1024; // 256 MB (4M tasks on x64)
-		static constexpr size_t default_buffer_size = 64 * 1024;	 // 64 KB (1024 tasks on x64)
-		static constexpr size_t max_task_queue_size = max_buffer_size / impl::thread_pool_task_granularity;
-		static constexpr size_t default_task_queue_size = default_buffer_size / impl::thread_pool_task_granularity;
+		constexpr size_t max_buffer_size = 256 * 1024 * 1024; // 256 MB (4M tasks on x64)
+		constexpr size_t default_buffer_size = 64 * 1024;	 // 64 KB (1024 tasks on x64)
+		constexpr size_t max_task_queue_size = max_buffer_size / impl::thread_pool_task_granularity;
+		constexpr size_t default_task_queue_size = default_buffer_size / impl::thread_pool_task_granularity;
 		static_assert(max_task_queue_size > 0);
 		static_assert(default_task_queue_size > 0);
 		MUU_ASSUME(worker_count > 0);

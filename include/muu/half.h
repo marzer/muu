@@ -743,7 +743,7 @@ MUU_NAMESPACE_START
 		struct floating_point_special_constants<half>
 		{
 			static constexpr half nan				= half::from_bits(0b1'11111'1000000001_u16);
-			static constexpr half snan				= half::from_bits(0b1'11111'0000000001_u16);
+			static constexpr half signaling_nan		= half::from_bits(0b1'11111'0000000001_u16);
 			static constexpr half infinity			= half::from_bits(0b0'11111'0000000000_u16);
 			static constexpr half negative_infinity	= half::from_bits(0b1'11111'0000000000_u16);
 			static constexpr half minus_zero		= half::from_bits(0b1'00000'0000000000_u16);
@@ -858,7 +858,7 @@ MUU_IMPL_NAMESPACE_START
 
 	MUU_PUSH_WARNINGS
 	MUU_PRAGMA_MSVC(warning(disable: 4556)) // value of intrinsic immediate argument '8' is out of range '0 - 7'
-	MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wold-style-cast\"") // false positive with _mm_load_ss
+	MUU_PRAGMA_GCC(diagnostic ignored "-Wold-style-cast") // false positive with _mm_load_ss
 
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
@@ -1136,7 +1136,7 @@ namespace std
 		MUU_ATTR(const)
 		static MUU_CONSTEVAL half signaling_NaN() noexcept
 		{
-			return half::constants::snan;
+			return half::constants::signaling_nan;
 		}
 
 		[[nodiscard]]

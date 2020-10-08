@@ -169,7 +169,6 @@ def main():
 		<ClCompile Include="..\..\tests\unicode_char32_t.cpp" />
 		<ClCompile Include="..\..\tests\unicode_char8_t.cpp" />
 		<ClCompile Include="..\..\tests\unicode_unsigned_char.cpp" />
-		<ClCompile Include="..\..\tests\unicode_wchar_t.cpp" />
 		<ClCompile Include="..\..\tests\uuid.cpp" />
 		<ClCompile Include="..\..\tests\vector_char.cpp" />
 		<ClCompile Include="..\..\tests\vector_double.cpp" />

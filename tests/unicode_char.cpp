@@ -9,10 +9,9 @@
 #include "unicode.h"
 #include "../include/muu/strings.h"
 
-TEST_CASE("unicode - is_ascii (char)")
+TEST_CASE("unicode - is_ascii_code_point (char)")
 {
-	using namespace impl;
-	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_ascii);
+	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_ascii_code_point);
  
 	// values which should return true
 	static constexpr code_unit_range<uint32_t> true_ranges[] = 
@@ -29,202 +28,6 @@ TEST_CASE("unicode - is_ascii (char)")
 	static constexpr code_unit_range<uint32_t> false_ranges[] = 
 	{
 		{ 0x80u, 0xFFu },
-	};
-	for (const auto& r : false_ranges)
-		REQUIRE(not_in(fn, r));
-}
-
-TEST_CASE("unicode - is_unicode (char)")
-{
-	using namespace impl;
-	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_unicode);
- 
-	// values which should return true
-	static constexpr code_unit_range<uint32_t> true_ranges[] = 
-	{
-		{ 0x80u, 0xFFu },
-	};
-	for (const auto& r : true_ranges)
-	{
-		REQUIRE(in(fn, r));
-		REQUIRE(in_only<1>(fn, r));
-	}
- 
-	// values which should return false
-	static constexpr code_unit_range<uint32_t> false_ranges[] = 
-	{
-		{ '\0', '\x7F' },
-	};
-	for (const auto& r : false_ranges)
-		REQUIRE(not_in(fn, r));
-}
-
-TEST_CASE("unicode - is_ascii_whitespace (char)")
-{
-	using namespace impl;
-	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_ascii_whitespace);
- 
-	// values which should return true
-	static constexpr code_unit_range<uint32_t> true_ranges[] = 
-	{
-		{ '\t', '\r' },
-	};
-	for (const auto& r : true_ranges)
-	{
-		REQUIRE(in(fn, r));
-		REQUIRE(in_only<2>(fn, r));
-		REQUIRE(in_only<7>(fn, r));
-	}
-	static constexpr char true_values[] = 
-	{
-		' ',
-	};
-	for (auto v : true_values)
-	{
-		REQUIRE(fn(v));
-		REQUIRE(in_only<2>(fn, v));
-		REQUIRE(in_only<7>(fn, v));
-	}
- 
-	// values which should return false
-	static constexpr code_unit_range<uint32_t> false_ranges[] = 
-	{
-		{ '\0', '\b' }, { '\x0E', '\x1F' }, { '!', 0xFFu },
-	};
-	for (const auto& r : false_ranges)
-		REQUIRE(not_in(fn, r));
-}
-
-TEST_CASE("unicode - is_unicode_whitespace (char)")
-{
-	using namespace impl;
-	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_unicode_whitespace);
- 
-	// values which should return true
-	static constexpr char true_values[] = 
-	{
-		0x85u, 0xA0u,
-	};
-	for (auto v : true_values)
-	{
-		REQUIRE(fn(v));
-		REQUIRE(in_only<2>(fn, v));
-		REQUIRE(in_only<7>(fn, v));
-	}
- 
-	// values which should return false
-	static constexpr code_unit_range<uint32_t> false_ranges[] = 
-	{
-		{ '\0', 0x84u }, { 0x86u, 0x9Fu }, { 0xA1u, 0xFFu },
-	};
-	for (const auto& r : false_ranges)
-		REQUIRE(not_in(fn, r));
-}
-
-TEST_CASE("unicode - is_ascii_letter (char)")
-{
-	using namespace impl;
-	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_ascii_letter);
- 
-	// values which should return true
-	static constexpr code_unit_range<uint32_t> true_ranges[] = 
-	{
-		{ 'A', 'Z' }, { 'a', 'z' },
-	};
-	for (const auto& r : true_ranges)
-	{
-		REQUIRE(in(fn, r));
-		REQUIRE(in_only<3>(fn, r));
-		REQUIRE(in_only<7>(fn, r));
-	}
- 
-	// values which should return false
-	static constexpr code_unit_range<uint32_t> false_ranges[] = 
-	{
-		{ '\0', '@' }, { '[', '`' }, { '{', 0xFFu },
-	};
-	for (const auto& r : false_ranges)
-		REQUIRE(not_in(fn, r));
-}
-
-TEST_CASE("unicode - is_unicode_letter (char)")
-{
-	using namespace impl;
-	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_unicode_letter);
- 
-	// values which should return true
-	static constexpr code_unit_range<uint32_t> true_ranges[] = 
-	{
-		{ 0xC0u, 0xD6u }, { 0xD8u, 0xF6u }, { 0xF8u, 0xFFu },
-	};
-	for (const auto& r : true_ranges)
-	{
-		REQUIRE(in(fn, r));
-		REQUIRE(in_only<3>(fn, r));
-		REQUIRE(in_only<7>(fn, r));
-	}
-	static constexpr char true_values[] = 
-	{
-		0xAAu, 0xB5u, 0xBAu,
-	};
-	for (auto v : true_values)
-	{
-		REQUIRE(fn(v));
-		REQUIRE(in_only<3>(fn, v));
-		REQUIRE(in_only<7>(fn, v));
-	}
- 
-	// values which should return false
-	static constexpr code_unit_range<uint32_t> false_ranges[] = 
-	{
-		{ '\0', 0xA9u }, { 0xABu, 0xB4u }, { 0xB6u, 0xB9u },
-		{ 0xBBu, 0xBFu },
-	};
-	for (const auto& r : false_ranges)
-		REQUIRE(not_in(fn, r));
-	static constexpr char false_values[] = 
-	{
-		0xD7u, 0xF7u,
-	};
-	for (auto v : false_values)
-		REQUIRE(!fn(v));
-}
-
-TEST_CASE("unicode - is_ascii_number (char)")
-{
-	using namespace impl;
-	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_ascii_number);
- 
-	// values which should return true
-	static constexpr code_unit_range<uint32_t> true_ranges[] = 
-	{
-		{ '0', '9' },
-	};
-	for (const auto& r : true_ranges)
-	{
-		REQUIRE(in(fn, r));
-		REQUIRE(in_only<4>(fn, r));
-		REQUIRE(in_only<7>(fn, r));
-	}
- 
-	// values which should return false
-	static constexpr code_unit_range<uint32_t> false_ranges[] = 
-	{
-		{ '\0', '/' }, { ':', 0xFFu },
-	};
-	for (const auto& r : false_ranges)
-		REQUIRE(not_in(fn, r));
-}
-
-TEST_CASE("unicode - is_unicode_number (char)")
-{
-	using namespace impl;
-	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_unicode_number);
- 
-	// values which should return false
-	static constexpr code_unit_range<uint32_t> false_ranges[] = 
-	{
-		{ '\0', 0xFFu },
 	};
 	for (const auto& r : false_ranges)
 		REQUIRE(not_in(fn, r));
@@ -232,7 +35,6 @@ TEST_CASE("unicode - is_unicode_number (char)")
 
 TEST_CASE("unicode - is_ascii_hyphen (char)")
 {
-	using namespace impl;
 	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_ascii_hyphen);
  
 	// values which should return true
@@ -243,8 +45,7 @@ TEST_CASE("unicode - is_ascii_hyphen (char)")
 	for (auto v : true_values)
 	{
 		REQUIRE(fn(v));
-		REQUIRE(in_only<5>(fn, v));
-		REQUIRE(in_only<7>(fn, v));
+		REQUIRE(in_only<2>(fn, v));
 	}
  
 	// values which should return false
@@ -256,27 +57,242 @@ TEST_CASE("unicode - is_ascii_hyphen (char)")
 		REQUIRE(not_in(fn, r));
 }
 
-TEST_CASE("unicode - is_unicode_hyphen (char)")
+TEST_CASE("unicode - is_ascii_letter (char)")
 {
-	using namespace impl;
-	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_unicode_hyphen);
+	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_ascii_letter);
  
 	// values which should return true
-	static constexpr char true_values[] = 
+	static constexpr code_unit_range<uint32_t> true_ranges[] = 
 	{
-		0xADu,
+		{ 'A', 'Z' }, { 'a', 'z' },
 	};
-	for (auto v : true_values)
+	for (const auto& r : true_ranges)
 	{
-		REQUIRE(fn(v));
-		REQUIRE(in_only<5>(fn, v));
-		REQUIRE(in_only<7>(fn, v));
+		REQUIRE(in(fn, r));
+		REQUIRE(in_only<3>(fn, r));
 	}
  
 	// values which should return false
 	static constexpr code_unit_range<uint32_t> false_ranges[] = 
 	{
-		{ '\0', 0xACu }, { 0xAEu, 0xFFu },
+		{ '\0', '@' }, { '[', '`' }, { '{', 0xFFu },
+	};
+	for (const auto& r : false_ranges)
+		REQUIRE(not_in(fn, r));
+}
+
+TEST_CASE("unicode - is_ascii_lowercase (char)")
+{
+	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_ascii_lowercase);
+ 
+	// values which should return true
+	static constexpr code_unit_range<uint32_t> true_ranges[] = 
+	{
+		{ 'a', 'z' },
+	};
+	for (const auto& r : true_ranges)
+	{
+		REQUIRE(in(fn, r));
+		REQUIRE(in_only<6>(fn, r));
+	}
+ 
+	// values which should return false
+	static constexpr code_unit_range<uint32_t> false_ranges[] = 
+	{
+		{ '\0', '`' }, { '{', 0xFFu },
+	};
+	for (const auto& r : false_ranges)
+		REQUIRE(not_in(fn, r));
+}
+
+TEST_CASE("unicode - is_ascii_number (char)")
+{
+	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_ascii_number);
+ 
+	// values which should return true
+	static constexpr code_unit_range<uint32_t> true_ranges[] = 
+	{
+		{ '0', '9' },
+	};
+	for (const auto& r : true_ranges)
+	{
+		REQUIRE(in(fn, r));
+		REQUIRE(in_only<4>(fn, r));
+	}
+ 
+	// values which should return false
+	static constexpr code_unit_range<uint32_t> false_ranges[] = 
+	{
+		{ '\0', '/' }, { ':', 0xFFu },
+	};
+	for (const auto& r : false_ranges)
+		REQUIRE(not_in(fn, r));
+}
+
+TEST_CASE("unicode - is_ascii_uppercase (char)")
+{
+	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_ascii_uppercase);
+ 
+	// values which should return true
+	static constexpr code_unit_range<uint32_t> true_ranges[] = 
+	{
+		{ 'A', 'Z' },
+	};
+	for (const auto& r : true_ranges)
+	{
+		REQUIRE(in(fn, r));
+		REQUIRE(in_only<7>(fn, r));
+	}
+ 
+	// values which should return false
+	static constexpr code_unit_range<uint32_t> false_ranges[] = 
+	{
+		{ '\0', '@' }, { '[', 0xFFu },
+	};
+	for (const auto& r : false_ranges)
+		REQUIRE(not_in(fn, r));
+}
+
+TEST_CASE("unicode - is_ascii_whitespace (char)")
+{
+	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_ascii_whitespace);
+ 
+	// values which should return true
+	static constexpr code_unit_range<uint32_t> true_ranges[] = 
+	{
+		{ '\t', '\r' },
+	};
+	for (const auto& r : true_ranges)
+	{
+		REQUIRE(in(fn, r));
+		REQUIRE(in_only<5>(fn, r));
+	}
+	static constexpr char true_values[] = 
+	{
+		' ',
+	};
+	for (auto v : true_values)
+	{
+		REQUIRE(fn(v));
+		REQUIRE(in_only<5>(fn, v));
+	}
+ 
+	// values which should return false
+	static constexpr code_unit_range<uint32_t> false_ranges[] = 
+	{
+		{ '\0', '\b' }, { '\x0E', '\x1F' }, { '!', 0xFFu },
+	};
+	for (const auto& r : false_ranges)
+		REQUIRE(not_in(fn, r));
+}
+
+TEST_CASE("unicode - is_non_ascii_code_point (char)")
+{
+	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_non_ascii_code_point);
+ 
+	// values which should return false
+	static constexpr code_unit_range<uint32_t> false_ranges[] = 
+	{
+		{ '\0', 0xFFu },
+	};
+	for (const auto& r : false_ranges)
+		REQUIRE(not_in(fn, r));
+}
+
+TEST_CASE("unicode - is_non_ascii_hyphen (char)")
+{
+	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_non_ascii_hyphen);
+ 
+	// values which should return false
+	static constexpr code_unit_range<uint32_t> false_ranges[] = 
+	{
+		{ '\0', 0xFFu },
+	};
+	for (const auto& r : false_ranges)
+		REQUIRE(not_in(fn, r));
+}
+
+TEST_CASE("unicode - is_non_ascii_letter (char)")
+{
+	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_non_ascii_letter);
+ 
+	// values which should return false
+	static constexpr code_unit_range<uint32_t> false_ranges[] = 
+	{
+		{ '\0', 0xFFu },
+	};
+	for (const auto& r : false_ranges)
+		REQUIRE(not_in(fn, r));
+}
+
+TEST_CASE("unicode - is_non_ascii_lowercase (char)")
+{
+	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_non_ascii_lowercase);
+ 
+	// values which should return false
+	static constexpr code_unit_range<uint32_t> false_ranges[] = 
+	{
+		{ '\0', 0xFFu },
+	};
+	for (const auto& r : false_ranges)
+		REQUIRE(not_in(fn, r));
+}
+
+TEST_CASE("unicode - is_non_ascii_number (char)")
+{
+	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_non_ascii_number);
+ 
+	// values which should return false
+	static constexpr code_unit_range<uint32_t> false_ranges[] = 
+	{
+		{ '\0', 0xFFu },
+	};
+	for (const auto& r : false_ranges)
+		REQUIRE(not_in(fn, r));
+}
+
+TEST_CASE("unicode - is_non_ascii_uppercase (char)")
+{
+	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_non_ascii_uppercase);
+ 
+	// values which should return false
+	static constexpr code_unit_range<uint32_t> false_ranges[] = 
+	{
+		{ '\0', 0xFFu },
+	};
+	for (const auto& r : false_ranges)
+		REQUIRE(not_in(fn, r));
+}
+
+TEST_CASE("unicode - is_non_ascii_whitespace (char)")
+{
+	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_non_ascii_whitespace);
+ 
+	// values which should return false
+	static constexpr code_unit_range<uint32_t> false_ranges[] = 
+	{
+		{ '\0', 0xFFu },
+	};
+	for (const auto& r : false_ranges)
+		REQUIRE(not_in(fn, r));
+}
+
+TEST_CASE("unicode - is_code_point (char)")
+{
+	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_code_point);
+ 
+	// values which should return true
+	static constexpr code_unit_range<uint32_t> true_ranges[] = 
+	{
+		{ '\0', '\x7F' },
+	};
+	for (const auto& r : true_ranges)
+		REQUIRE(in(fn, r));
+ 
+	// values which should return false
+	static constexpr code_unit_range<uint32_t> false_ranges[] = 
+	{
+		{ 0x80u, 0xFFu },
 	};
 	for (const auto& r : false_ranges)
 		REQUIRE(not_in(fn, r));
@@ -284,7 +300,6 @@ TEST_CASE("unicode - is_unicode_hyphen (char)")
 
 TEST_CASE("unicode - is_combining_mark (char)")
 {
-	using namespace impl;
 	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_combining_mark);
  
 	// values which should return false
@@ -296,31 +311,8 @@ TEST_CASE("unicode - is_combining_mark (char)")
 		REQUIRE(not_in(fn, r));
 }
 
-TEST_CASE("unicode - is_octal_digit (char)")
-{
-	using namespace impl;
-	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_octal_digit);
- 
-	// values which should return true
-	static constexpr code_unit_range<uint32_t> true_ranges[] = 
-	{
-		{ '0', '7' },
-	};
-	for (const auto& r : true_ranges)
-		REQUIRE(in(fn, r));
- 
-	// values which should return false
-	static constexpr code_unit_range<uint32_t> false_ranges[] = 
-	{
-		{ '\0', '/' }, { '8', 0xFFu },
-	};
-	for (const auto& r : false_ranges)
-		REQUIRE(not_in(fn, r));
-}
-
 TEST_CASE("unicode - is_decimal_digit (char)")
 {
-	using namespace impl;
 	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_decimal_digit);
  
 	// values which should return true
@@ -342,7 +334,6 @@ TEST_CASE("unicode - is_decimal_digit (char)")
 
 TEST_CASE("unicode - is_hexadecimal_digit (char)")
 {
-	using namespace impl;
 	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_hexadecimal_digit);
  
 	// values which should return true
@@ -363,76 +354,25 @@ TEST_CASE("unicode - is_hexadecimal_digit (char)")
 		REQUIRE(not_in(fn, r));
 }
 
-TEST_CASE("unicode - is_uppercase (char)")
+TEST_CASE("unicode - is_octal_digit (char)")
 {
-	using namespace impl;
-	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_uppercase);
+	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_octal_digit);
  
 	// values which should return true
 	static constexpr code_unit_range<uint32_t> true_ranges[] = 
 	{
-		{ 'A', 'Z' }, { 0xC0u, 0xD6u }, { 0xD8u, 0xDEu },
+		{ '0', '7' },
 	};
 	for (const auto& r : true_ranges)
-	{
 		REQUIRE(in(fn, r));
-		REQUIRE(in_only<6>(fn, r));
-	}
  
 	// values which should return false
 	static constexpr code_unit_range<uint32_t> false_ranges[] = 
 	{
-		{ '\0', '@' }, { '[', 0xBFu }, { 0xDFu, 0xFFu },
+		{ '\0', '/' }, { '8', 0xFFu },
 	};
 	for (const auto& r : false_ranges)
 		REQUIRE(not_in(fn, r));
-	static constexpr char false_values[] = 
-	{
-		0xD7u,
-	};
-	for (auto v : false_values)
-		REQUIRE(!fn(v));
-}
-
-TEST_CASE("unicode - is_lowercase (char)")
-{
-	using namespace impl;
-	static constexpr auto fn = static_cast<code_unit_func<char>*>(is_lowercase);
- 
-	// values which should return true
-	static constexpr code_unit_range<uint32_t> true_ranges[] = 
-	{
-		{ 'a', 'z' }, { 0xDFu, 0xF6u }, { 0xF8u, 0xFFu },
-	};
-	for (const auto& r : true_ranges)
-	{
-		REQUIRE(in(fn, r));
-		REQUIRE(in_only<6>(fn, r));
-	}
-	static constexpr char true_values[] = 
-	{
-		0xAAu, 0xB5u, 0xBAu,
-	};
-	for (auto v : true_values)
-	{
-		REQUIRE(fn(v));
-		REQUIRE(in_only<6>(fn, v));
-	}
- 
-	// values which should return false
-	static constexpr code_unit_range<uint32_t> false_ranges[] = 
-	{
-		{ '\0', '`' }, { '{', 0xA9u }, { 0xABu, 0xB4u },
-		{ 0xB6u, 0xB9u }, { 0xBBu, 0xDEu },
-	};
-	for (const auto& r : false_ranges)
-		REQUIRE(not_in(fn, r));
-	static constexpr char false_values[] = 
-	{
-		0xF7u,
-	};
-	for (auto v : false_values)
-		REQUIRE(!fn(v));
 }
 
 template <>
@@ -440,8 +380,9 @@ struct code_unit_func_group<char, 1>
 {
 	static constexpr code_unit_func<char>* functions[] =
 	{
-		is_ascii,
-		is_unicode,
+		is_ascii_code_point,
+		is_non_ascii_code_point,
+		is_not_code_point,
 	};
 };
 
@@ -450,25 +391,9 @@ struct code_unit_func_group<char, 2>
 {
 	static constexpr code_unit_func<char>* functions[] =
 	{
-		is_ascii_whitespace,
-		is_unicode_whitespace,
-	};
-};
-
-template <>
-struct code_unit_func_group<char, 7>
-{
-	static constexpr code_unit_func<char>* functions[] =
-	{
 		is_ascii_hyphen,
-		is_ascii_letter,
-		is_ascii_number,
-		is_ascii_whitespace,
-		is_combining_mark,
-		is_unicode_hyphen,
-		is_unicode_letter,
-		is_unicode_number,
-		is_unicode_whitespace,
+		is_non_ascii_hyphen,
+		is_not_hyphen,
 	};
 };
 
@@ -478,7 +403,8 @@ struct code_unit_func_group<char, 3>
 	static constexpr code_unit_func<char>* functions[] =
 	{
 		is_ascii_letter,
-		is_unicode_letter,
+		is_non_ascii_letter,
+		is_not_letter,
 	};
 };
 
@@ -488,7 +414,8 @@ struct code_unit_func_group<char, 4>
 	static constexpr code_unit_func<char>* functions[] =
 	{
 		is_ascii_number,
-		is_unicode_number,
+		is_non_ascii_number,
+		is_not_number,
 	};
 };
 
@@ -497,8 +424,9 @@ struct code_unit_func_group<char, 5>
 {
 	static constexpr code_unit_func<char>* functions[] =
 	{
-		is_ascii_hyphen,
-		is_unicode_hyphen,
+		is_ascii_whitespace,
+		is_non_ascii_whitespace,
+		is_not_whitespace,
 	};
 };
 
@@ -507,8 +435,20 @@ struct code_unit_func_group<char, 6>
 {
 	static constexpr code_unit_func<char>* functions[] =
 	{
-		is_lowercase,
-		is_uppercase,
+		is_ascii_lowercase,
+		is_non_ascii_lowercase,
+		is_not_lowercase,
+	};
+};
+
+template <>
+struct code_unit_func_group<char, 7>
+{
+	static constexpr code_unit_func<char>* functions[] =
+	{
+		is_ascii_uppercase,
+		is_non_ascii_uppercase,
+		is_not_uppercase,
 	};
 };
 

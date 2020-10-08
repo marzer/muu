@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: MIT
 
 /// \file
-/// \brief Functions and types for working with strings.
+/// \attention These are not the droids you are looking for. Try \ref strings instead.
 
 #pragma once
 #include "../muu/core.h"
@@ -39,10 +39,16 @@ namespace muu
 
 MUU_NAMESPACE_START
 {
-	//=================================================================================================================
-	// unicode/boilerplate
-	//=================================================================================================================
+	/// \addtogroup		strings			Strings
+	/// \brief			Utilities to simplify working with strings.
+	/// @{
 
+	/// \defgroup		code_units		Code units
+	/// \brief			Utilities for manipulating individual code units ('characters').
+
+	#if 1 // unicode/boilerplate --------------------------------------------------------------------------------------
+
+	#ifndef DOXYGEN
 	namespace impl
 	{
 		class MUU_TRIVIAL_ABI utf8_decoder final
@@ -387,8 +393,6 @@ MUU_NAMESPACE_START
 					constexpr size_t max_cu_count = 4_sz / sizeof(T);
 					while (cp_start--> data_start && !stop)
 					{
-						using muu::is_code_point_boundary;
-
 						cu_count++;
 						if (cu_count == max_cu_count || is_code_point_boundary(get(cp_start)))
 						{
@@ -643,11 +647,16 @@ MUU_NAMESPACE_START
 			return byte_to_hex(unwrap(byte), a);
 		}
 	}
+	#endif // !DOXYGEN
 
-	//=================================================================================================================
-	// trim
-	//=================================================================================================================
+	#endif // unicode/boilerplate
 
+	#if 1 // trim -----------------------------------------------------------------------------------------------------
+	/// \addtogroup 	trim	trim()
+	/// \brief Trims whitespace from both ends of a UTF string.
+	/// @{
+
+	#ifndef DOXYGEN
 	namespace impl
 	{
 		template <typename T, typename Func>
@@ -669,9 +678,9 @@ MUU_NAMESPACE_START
 			return str.substr(first.index, last.end() - first.index);
 		}
 	}
+	#endif // !DOXYGEN
 
 	/// \brief		Trims whitespace from both ends of a UTF-8 string.
-	/// \ingroup	strings
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	constexpr std::string_view trim(std::string_view str) noexcept
@@ -680,7 +689,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief		Trims whitespace from both ends of a UTF wide string.
-	/// \ingroup	strings
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	constexpr std::wstring_view trim(std::wstring_view str) noexcept
@@ -689,7 +697,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief		Trims whitespace from both ends of a UTF-16 string.
-	/// \ingroup	strings
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	constexpr std::u16string_view trim(std::u16string_view str) noexcept
@@ -698,7 +705,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief		Trims whitespace from both ends of a UTF-32 string.
-	/// \ingroup	strings
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	constexpr std::u32string_view trim(std::u32string_view str) noexcept
@@ -707,22 +713,24 @@ MUU_NAMESPACE_START
 	}
 
 	#ifdef __cpp_lib_char8_t
-
 	/// \brief		Trims whitespace from both ends of a UTF-8 string.
-	/// \ingroup	strings
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	constexpr std::u8string_view trim(std::u8string_view str) noexcept
 	{
 		return impl::predicated_trim(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
 	}
-
 	#endif // __cpp_lib_char8_t
 
-	//=================================================================================================================
-	// trim_left
-	//=================================================================================================================
+	/** @} */	// strings::trim
+	#endif // trim
 
+	#if 1 // trim_left ------------------------------------------------------------------------------------------------
+	/// \addtogroup 	trim_left	trim_left()
+	/// \brief Trims whitespace from the left end of a UTF string.
+	/// @{
+
+	#ifndef DOXYGEN
 	namespace impl
 	{
 		template <typename T, typename Func>
@@ -742,9 +750,9 @@ MUU_NAMESPACE_START
 			return str.substr(first.index);
 		}
 	}
+	#endif // !DOXYGEN
 
 	/// \brief		Trims whitespace from the left end of a UTF-8 string.
-	/// \ingroup	strings
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	constexpr std::string_view trim_left(std::string_view str) noexcept
@@ -753,7 +761,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief		Trims whitespace from the left end of a UTF wide string.
-	/// \ingroup	strings
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	constexpr std::wstring_view trim_left(std::wstring_view str) noexcept
@@ -762,7 +769,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief		Trims whitespace from the left end of a UTF-16 string.
-	/// \ingroup	strings
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	constexpr std::u16string_view trim_left(std::u16string_view str) noexcept
@@ -771,7 +777,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief		Trims whitespace from the left end of a UTF-32 string.
-	/// \ingroup	strings
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	constexpr std::u32string_view trim_left(std::u32string_view str) noexcept
@@ -780,22 +785,24 @@ MUU_NAMESPACE_START
 	}
 
 	#ifdef __cpp_lib_char8_t
-
 	/// \brief		Trims whitespace from the left end of a UTF-8 string.
-	/// \ingroup	strings
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	constexpr std::u8string_view trim_left(std::u8string_view str) noexcept
 	{
 		return impl::predicated_trim_left(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
 	}
-
 	#endif // __cpp_lib_char8_t
 
-	//=================================================================================================================
-	// trim_right
-	//=================================================================================================================
+	/** @} */	// strings::trim_left
+	#endif // trim_left
 
+	#if 1 // trim_right -----------------------------------------------------------------------------------------------
+	/// \addtogroup 	trim_right	trim_right()
+	/// \brief Trims whitespace from the right end of a UTF string.
+	/// @{
+
+	#ifndef DOXYGEN
 	namespace impl
 	{
 		template <typename T, typename Func>
@@ -815,9 +822,9 @@ MUU_NAMESPACE_START
 			return str.substr(0, last.end());
 		}
 	}
+	#endif // !DOXYGEN
 
 	/// \brief		Trims whitespace from the right end of a UTF-8 string.
-	/// \ingroup	strings
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	constexpr std::string_view trim_right(std::string_view str) noexcept
@@ -826,7 +833,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief		Trims whitespace from the right end of a UTF wide string.
-	/// \ingroup	strings
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	constexpr std::wstring_view trim_right(std::wstring_view str) noexcept
@@ -835,7 +841,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief		Trims whitespace from the right end of a UTF-16 string.
-	/// \ingroup	strings
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	constexpr std::u16string_view trim_right(std::u16string_view str) noexcept
@@ -844,7 +849,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief		Trims whitespace from the right end of a UTF-32 string.
-	/// \ingroup	strings
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	constexpr std::u32string_view trim_right(std::u32string_view str) noexcept
@@ -853,22 +857,24 @@ MUU_NAMESPACE_START
 	}
 
 	#ifdef __cpp_lib_char8_t
-
 	/// \brief		Trims whitespace from the right end of a UTF-8 string.
-	/// \ingroup	strings
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	constexpr std::u8string_view trim_right(std::u8string_view str) noexcept
 	{
 		return impl::predicated_trim_right(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
 	}
-
 	#endif // __cpp_lib_char8_t
 
-	//=================================================================================================================
-	// transcode
-	//=================================================================================================================
+	/** @} */	// strings::trim_right
+	#endif // trim_right
 
+	#if 1 // transcode ------------------------------------------------------------------------------------------------
+	/// \addtogroup 	transcode	transcode()
+	/// \brief Transcodes a UTF string into another UTF encoding.
+	/// @{
+
+	#ifndef DOXYGEN
 	namespace impl
 	{
 		template <typename To, typename From>
@@ -919,9 +925,9 @@ MUU_NAMESPACE_START
 		}
 
 	}
+	#endif // !DOXYGEN
 
 	/// \brief		Transcodes a UTF-8 string into another UTF encoding.
-	/// \ingroup	strings
 	template <typename Char>
 	[[nodiscard]]
 	MUU_CONSTEXPR_STRING
@@ -931,7 +937,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief		Transcodes a UTF wide string into another UTF encoding.
-	/// \ingroup	strings
 	template <typename Char>
 	[[nodiscard]]
 	MUU_CONSTEXPR_STRING
@@ -941,7 +946,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief		Transcodes a UTF-16 string into another UTF encoding.
-	/// \ingroup	strings
 	template <typename Char>
 	[[nodiscard]]
 	MUU_CONSTEXPR_STRING
@@ -951,7 +955,6 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief		Transcodes a UTF-32 string into another UTF encoding.
-	/// \ingroup	strings
 	template <typename Char>
 	[[nodiscard]]
 	MUU_CONSTEXPR_STRING
@@ -961,9 +964,7 @@ MUU_NAMESPACE_START
 	}
 
 	#ifdef __cpp_lib_char8_t
-
 	/// \brief		Transcodes a UTF-8 string into another UTF encoding.
-	/// \ingroup	strings
 	template <typename Char>
 	[[nodiscard]]
 	MUU_CONSTEXPR_STRING
@@ -971,17 +972,20 @@ MUU_NAMESPACE_START
 	{
 		return impl::utf_transcode<Char>(str);
 	}
-
 	#endif // __cpp_lib_char8_t
 
-	//=================================================================================================================
-	// misc
-	//=================================================================================================================
+	/** @} */	// strings::transcode
+	#endif // transcode
+
+	#if 1 // misc functions -------------------------------------------------------------------------------------------
 
 	/// \brief		Sets the name of the current thread for debuggers.
-	/// \ingroup	strings
 	MUU_API
 	void set_thread_name(string_param name) noexcept;
+
+	#endif // misc functions
+
+	/** @} */	// strings
 }
 MUU_NAMESPACE_END
 

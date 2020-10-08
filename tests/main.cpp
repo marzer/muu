@@ -6,7 +6,7 @@
 #include "settings.h"
 #include "../include/muu/preprocessor.h"
 
-MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wpadded\"")
+MUU_PRAGMA_GCC(diagnostic ignored "-Wpadded")
 
 #define CATCH_CONFIG_RUNNER
 #include "catch2.h"

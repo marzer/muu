@@ -11,8 +11,8 @@
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_SPAM_WARNINGS
-MUU_PRAGMA_CLANG("clang diagnostic ignored \"-Wreorder\"")
-MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wreorder\"")
+MUU_PRAGMA_CLANG(diagnostic ignored "-Wreorder")
+MUU_PRAGMA_GCC(diagnostic ignored "-Wreorder")
 
 #ifndef DOXYGEN
 MUU_IMPL_NAMESPACE_START

@@ -11,85 +11,50 @@
 #pragma once
 #include "../../muu/fwd.h"
 
+MUU_PUSH_WARNINGS
+MUU_PRAGMA_GCC_LT(9, diagnostic ignored "-Wattributes")
+
+MUU_PRAGMA_GCC_LT(9, push_options)
+MUU_PRAGMA_GCC_LT(9, optimize("O1"))
+
 MUU_NAMESPACE_START
 {
-	/// \brief		Returns true if a UTF-32 code unit is within the ASCII range.
-	/// \ingroup	characters
+	/// \addtogroup strings
+	/// @{
+
+	/// \addtogroup code_units
+	/// @{
+
+	/// \addtogroup	is_ascii_code_point	is_ascii_code_point()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is a valid code point from the ASCII range.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool is_ascii(char32_t c) noexcept
+	constexpr bool is_ascii_code_point(char32_t c) noexcept
 	{
 		return c <= U'\x7F';
 	}
 
-	/// \brief		Returns true if a UTF-32 code unit is not within the ASCII range (i.e. it is a part greater Unicode).
-	/// \ingroup	characters
+	/// @}
+
+	/// \addtogroup	is_ascii_hyphen	is_ascii_hyphen()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is a hyphen code point from the ASCII range.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool is_unicode(char32_t c) noexcept
+	constexpr bool is_ascii_hyphen(char32_t c) noexcept
 	{
-		return c <= U'\U0010FFFF' && U'\x80' <= c;
+		return c == U'-';
 	}
 
-	/// \brief		Returns true if a UTF-32 code unit is a whitespace code point from the ASCII range.
-	/// \ingroup	characters
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr bool is_ascii_whitespace(char32_t c) noexcept
-	{
-		return (U'\t' <= c && c <= U'\r') || c == U' ';
-	}
+	/// @}
 
-	/// \brief		Returns true if a UTF-32 code unit is a whitespace code point from outside the ASCII range.
-	/// \ingroup	characters
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr bool is_unicode_whitespace(char32_t c) noexcept
-	{
-		if (U'\x85' > c || c > U'\u3000')
-			return false;
-		
-		const auto child_index_0 = (static_cast<uint_least64_t>(c) - 0x85ull) / 0xBEull;
-		if ((1ull << child_index_0) & 0x7FFFFBFFDFFFFFFEull)
-			return false;
-		if (c == U'\u1680' || c == U'\u3000')
-			return true;
-		switch (child_index_0)
-		{
-			case 0x00: return c == U'\x85' || c == U'\xA0';
-			case 0x2A: // [42] 1FB1 - 206E
-			{
-				if (U'\u2000' > c || c > U'\u205F')
-					return false;
-				
-				return c == U'\u205F'
-					|| (c <= U'\u202F' && (1ull << (static_cast<uint_least64_t>(c) - 0x2000u)) & 0x8300000007FFull);
-			}
-			MUU_NO_DEFAULT_CASE;
-		}
-		// 19 codepoints from 8 ranges (spanning a search area of 12156)
-	}
-
-	/// \brief		Returns true if a UTF-32 code unit is a whitespace code point.
-	/// \ingroup	characters
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr bool is_whitespace(char32_t c) noexcept
-	{
-		return is_ascii_whitespace(c) || is_unicode_whitespace(c);
-	}
-
-	/// \brief		Returns true if a UTF-32 code unit is not a whitespace code point.
-	/// \ingroup	characters
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr bool is_not_whitespace(char32_t c) noexcept
-	{
-		return !is_whitespace(c);
-	}
+	/// \addtogroup	is_ascii_letter	is_ascii_letter()
+	/// @{
 
 	/// \brief		Returns true if a UTF-32 code unit is a letter code point from the ASCII range.
-	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool is_ascii_letter(char32_t c) noexcept
@@ -97,11 +62,108 @@ MUU_NAMESPACE_START
 		return (U'A' <= c && c <= U'Z') || (U'a' <= c && c <= U'z');
 	}
 
-	/// \brief		Returns true if a UTF-32 code unit is a letter code point from outside the ASCII range.
-	/// \ingroup	characters
+	/// @}
+
+	/// \addtogroup	is_ascii_lowercase	is_ascii_lowercase()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is a lowercase code point from the ASCII range.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool is_unicode_letter(char32_t c) noexcept
+	constexpr bool is_ascii_lowercase(char32_t c) noexcept
+	{
+		return U'a' <= c && c <= U'z';
+	}
+
+	/// @}
+
+	/// \addtogroup	is_ascii_number	is_ascii_number()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is a number code point from the ASCII range.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_ascii_number(char32_t c) noexcept
+	{
+		return U'0' <= c && c <= U'9';
+	}
+
+	/// @}
+
+	/// \addtogroup	is_ascii_uppercase	is_ascii_uppercase()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is an uppercase code point from the ASCII range.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_ascii_uppercase(char32_t c) noexcept
+	{
+		return U'A' <= c && c <= U'Z';
+	}
+
+	/// @}
+
+	/// \addtogroup	is_ascii_whitespace	is_ascii_whitespace()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is a whitespace code point from the ASCII range.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_ascii_whitespace(char32_t c) noexcept
+	{
+		return (U'\t' <= c && c <= U'\r') || c == U' ';
+	}
+
+	/// @}
+
+	/// \addtogroup	is_non_ascii_code_point	is_non_ascii_code_point()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is a valid code point from outside the ASCII range.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_non_ascii_code_point(char32_t c) noexcept
+	{
+		return c <= U'\U0010FFFF' && U'\x80' <= c;
+	}
+
+	/// @}
+
+	/// \addtogroup	is_non_ascii_hyphen	is_non_ascii_hyphen()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is a hyphen code point from outside the ASCII range.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_non_ascii_hyphen(char32_t c) noexcept
+	{
+		if (U'\xAD' > c || c > U'\uFF65')
+			return false;
+		
+		const auto child_index_0 = (static_cast<uint_least64_t>(c) - 0xADull) / 0x3FBull;
+		if ((1ull << child_index_0) & 0x7FFFFFFFFFFFE75Cull)
+			return false;
+		if (c == U'\xAD' || c == U'\u058A' || c == U'\u1806' || c == U'\u2E17' || c == U'\u30FB')
+			return true;
+		switch (child_index_0)
+		{
+			case 0x07: return U'\u2010' <= c && c <= U'\u2011';
+			case 0x3F: return c == U'\uFE63' || c == U'\uFF0D' || c == U'\uFF65';
+			MUU_NO_DEFAULT_CASE;
+		}
+		// 10 code units from 9 ranges (spanning a search area of 65209)
+		MUU_UNREACHABLE;
+	}
+
+	/// @}
+
+	/// \addtogroup	is_non_ascii_letter	is_non_ascii_letter()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is a letter code point from outside the ASCII range.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_non_ascii_letter(char32_t c) noexcept
 	{
 		if (U'\xAA' > c || c > U'\U0003134A')
 			return false;
@@ -137,7 +199,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xAAull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xAAull) % 0x40ull));
-				// 1922 codepoints from 124 ranges (spanning a search area of 3145)
+				// 1922 code units from 124 ranges (spanning a search area of 3145)
 			}
 			case 0x01: // [1] 0CF5 - 193F
 			{
@@ -162,7 +224,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xD04ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xD04ull) % 0x40ull));
-				// 2239 codepoints from 83 ranges (spanning a search area of 3099)
+				// 2239 code units from 83 ranges (spanning a search area of 3099)
 			}
 			case 0x02: // [2] 1940 - 258A
 			{
@@ -183,7 +245,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x1950ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x1950ull) % 0x40ull));
-				// 1184 codepoints from 59 ranges (spanning a search area of 2101)
+				// 1184 code units from 59 ranges (spanning a search area of 2101)
 			}
 			case 0x03: // [3] 258B - 31D5
 			{
@@ -201,7 +263,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x2C00ull) / 0x40ull]
 					& (0x1ull << (static_cast<uint_least64_t>(c) % 0x40ull));
-				// 771 codepoints from 30 ranges (spanning a search area of 1472)
+				// 771 code units from 30 ranges (spanning a search area of 1472)
 			}
 			case 0x04: return (U'\u31F0' <= c && c <= U'\u31FF') || U'\u3400' <= c;
 			case 0x06: return c <= U'\u4DBF' || U'\u4E00' <= c;
@@ -228,7 +290,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA079ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xA079ull) % 0x40ull));
-				// 2554 codepoints from 52 ranges (spanning a search area of 3147)
+				// 2554 code units from 52 ranges (spanning a search area of 3147)
 			}
 			case 0x11: return c <= U'\uD7A3' || (U'\uD7B0' <= c && c <= U'\uD7C6') || (U'\uD7CB' <= c && c <= U'\uD7FB');
 			case 0x14: // [20] F686 - 102D0
@@ -252,7 +314,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xF900ull) / 0x40ull]
 					& (0x1ull << (static_cast<uint_least64_t>(c) % 0x40ull));
-				// 1710 codepoints from 34 ranges (spanning a search area of 2513)
+				// 1710 code units from 34 ranges (spanning a search area of 2513)
 			}
 			case 0x15: // [21] 102D1 - 10F1B
 			{
@@ -278,7 +340,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x10300ull) / 0x40ull]
 					& (0x1ull << (static_cast<uint_least64_t>(c) % 0x40ull));
-				// 1620 codepoints from 48 ranges (spanning a search area of 3100)
+				// 1620 code units from 48 ranges (spanning a search area of 3100)
 			}
 			case 0x16: // [22] 10F1C - 11B66
 			{
@@ -303,7 +365,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x10F1Cull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x10F1Cull) % 0x40ull));
-				// 1130 codepoints from 67 ranges (spanning a search area of 3037)
+				// 1130 code units from 67 ranges (spanning a search area of 3037)
 			}
 			case 0x17: // [23] 11B67 - 127B1
 			{
@@ -325,7 +387,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x11C00ull) / 0x40ull]
 					& (0x1ull << (static_cast<uint_least64_t>(c) % 0x40ull));
-				// 1304 codepoints from 16 ranges (spanning a search area of 2372)
+				// 1304 code units from 16 ranges (spanning a search area of 2372)
 			}
 			case 0x18: return U'\U00013000' <= c;
 			case 0x19: return c <= U'\U0001342E';
@@ -351,7 +413,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x16800ull) / 0x40ull]
 					& (0x1ull << (static_cast<uint_least64_t>(c) % 0x40ull));
-				// 1250 codepoints from 14 ranges (spanning a search area of 2420)
+				// 1250 code units from 14 ranges (spanning a search area of 2420)
 			}
 			case 0x1F: return c <= U'\U000187F7' || U'\U00018800' <= c;
 			case 0x20: return c <= U'\U00018CD5' || (U'\U00018D00' <= c && c <= U'\U00018D08');
@@ -368,7 +430,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x1B000ull) / 0x40ull]
 					& (0x1ull << (static_cast<uint_least64_t>(c) % 0x40ull));
-				// 690 codepoints from 4 ranges (spanning a search area of 764)
+				// 690 code units from 4 ranges (spanning a search area of 764)
 			}
 			case 0x24: // [36] 1BB36 - 1C780
 			{
@@ -381,7 +443,8 @@ MUU_NAMESPACE_START
 					case 0x02: return (1u << (static_cast<uint_least32_t>(c) - 0x1BC80u)) & 0x3FF01FFu;
 					default: return true;
 				}
-				// 139 codepoints from 4 ranges (spanning a search area of 154)
+				// 139 code units from 4 ranges (spanning a search area of 154)
+				MUU_UNREACHABLE;
 			}
 			case 0x26: // [38] 1D3CC - 1E016
 			{
@@ -397,7 +460,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x1D400ull) / 0x40ull]
 					& (0x1ull << (static_cast<uint_least64_t>(c) % 0x40ull));
-				// 936 codepoints from 30 ranges (spanning a search area of 972)
+				// 936 code units from 30 ranges (spanning a search area of 972)
 			}
 			case 0x27: // [39] 1E017 - 1EC61
 			{
@@ -418,7 +481,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x1E100ull) / 0x40ull]
 					& (0x1ull << (static_cast<uint_least64_t>(c) % 0x40ull));
-				// 363 codepoints from 7 ranges (spanning a search area of 2124)
+				// 363 code units from 7 ranges (spanning a search area of 2124)
 			}
 			case 0x28: // [40] 1EC62 - 1F8AC
 			{
@@ -433,7 +496,8 @@ MUU_NAMESPACE_START
 					case 0x02: return (1ull << (static_cast<uint_least64_t>(c) - 0x1EE80u)) & 0xFFFFBEE0FFFFBFFull;
 					MUU_NO_DEFAULT_CASE;
 				}
-				// 141 codepoints from 33 ranges (spanning a search area of 188)
+				// 141 code units from 33 ranges (spanning a search area of 188)
+				MUU_UNREACHABLE;
 			}
 			case 0x29: return U'\U00020000' <= c;
 			case 0x37: return c <= U'\U0002A6DD' || U'\U0002A700' <= c;
@@ -444,32 +508,169 @@ MUU_NAMESPACE_START
 			case 0x3E: return U'\U00030000' <= c;
 			MUU_NO_DEFAULT_CASE;
 		}
-		// 131189 codepoints from 620 ranges (spanning a search area of 201377)
+		// 131189 code units from 620 ranges (spanning a search area of 201377)
+		MUU_UNREACHABLE;
 	}
 
-	/// \brief		Returns true if a UTF-32 code unit is a letter code point.
-	/// \ingroup	characters
+	/// @}
+
+	/// \addtogroup	is_non_ascii_lowercase	is_non_ascii_lowercase()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is a lowercase code point from outside the ASCII range.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool is_letter(char32_t c) noexcept
+	constexpr bool is_non_ascii_lowercase(char32_t c) noexcept
 	{
-		return is_ascii_letter(c) || is_unicode_letter(c);
+		if (U'\xAA' > c || c > U'\uFF5A')
+			return false;
+		
+		const auto child_index_0 = (static_cast<uint_least64_t>(c) - 0xAAull) / 0x3FBull;
+		if ((1ull << child_index_0) & 0x3FFFF9FFFFFFF02Cull)
+			return false;
+		switch (child_index_0)
+		{
+			case 0x00: // [0] 00AA - 04A4
+			{
+				if (c > U'\u04A3')
+					return false;
+				MUU_ASSUME(U'\xAA' <= c);
+				
+				constexpr uint_least64_t bitmask_table_1[] = 
+				{
+					0xFFE0000000010801u,	0xAAAAAAAAAABFDFFFu,	0xAAAAAAAAD5556AAAu,	0x4A93890C4A752AAAu,
+					0xAAAD55549039944Bu,	0xAAAAAAAAAAAA8A6Au,	0xFFFFFFEAA164FEAAu,	0xFFFFFBFFFFFFFFFFu,
+					0x07C0000000C07FFFu,	0x0000000000000000u,	0x0000000008000000u,	0x00000040000F2280u,
+					0xAAAAB8DFFFFFFFFCu,	0x0000000000064BEAu,	0xAABFFFFFFFFFFFC0u,	0x02AAAAAA00AAAAAAu,
+				};
+				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xAAull) / 0x40ull]
+					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xAAull) % 0x40ull));
+				// 454 code units from 204 ranges (spanning a search area of 1018)
+			}
+			case 0x01: // [1] 04A5 - 089F
+			{
+				if (c > U'\u0588')
+					return false;
+				MUU_ASSUME(U'\u04A5' <= c);
+				
+				switch ((static_cast<uint_least64_t>(c) - 0x4A5ull) / 0x40ull)
+				{
+					case 0x00: return c <= U'\u04E3' && (1ull << (static_cast<uint_least64_t>(c) - 0x4A5u)) & 0x555556AAA5555555ull;
+					case 0x01: return c <= U'\u0523' && ((static_cast<uint_least32_t>(c) + 1u) % 2u) == 0u;
+					case 0x02: return (1ull << (static_cast<uint_least64_t>(c) - 0x525u)) & 0xF800000000000555ull;
+					default: return true;
+				}
+				// 111 code units from 70 ranges (spanning a search area of 228)
+				MUU_UNREACHABLE;
+			}
+			case 0x04: return (U'\u10D0' <= c && c <= U'\u10FA') || (U'\u10FD' <= c && c <= U'\u10FF') || (U'\u13F8' <= c && c <= U'\u13FD');
+			case 0x06: return U'\u1C80' <= c;
+			case 0x07: // [7] 1C87 - 2081
+			{
+				if (c > U'\u207F')
+					return false;
+				MUU_ASSUME(U'\u1C87' <= c);
+				
+				constexpr uint_least64_t bitmask_table_1[] = 
+				{
+					0x0000000000000003u,	0xFE00000000000000u,	0xFFFFFFFFFFFFFFFFu,	0xFFFFFFFFFFFFFFFFu,
+					0x01FFFFFFFFFFFFFFu,	0x5400000000000000u,	0x5555555555555555u,	0x5555555555555555u,
+					0x55555555557FD555u,	0xFF55555555555555u,	0x7E01FE01FE007E01u,	0xFE7FFE01FE01FE00u,
+					0xB881BE01FE01FE01u,	0x0001B801FE019E01u,	0x0000000000000000u,	0x0100040000000000u,
+				};
+				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x1C87ull) / 0x40ull]
+					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x1C87ull) % 0x40ull));
+				// 450 code units from 148 ranges (spanning a search area of 1017)
+			}
+			case 0x08: // [8] 2082 - 247C
+			{
+				if (U'\u2090' > c || c > U'\u2184')
+					return false;
+				
+				switch ((static_cast<uint_least64_t>(c) - 0x2090ull) / 0x40ull)
+				{
+					case 0x00: return c <= U'\u209C';
+					case 0x01: return U'\u210A' <= c && (1u << (static_cast<uint_least32_t>(c) - 0x210Au)) & 0x31u;
+					case 0x02: return U'\u2113' <= c && c <= U'\u214E'
+						&& (1ull << (static_cast<uint_least64_t>(c) - 0x2113u)) & 0x878064210000001ull;
+					case 0x03: return (U'\u2170' <= c && c <= U'\u217F') || c == U'\u2184';
+					MUU_NO_DEFAULT_CASE;
+				}
+				// 44 code units from 12 ranges (spanning a search area of 245)
+				MUU_UNREACHABLE;
+			}
+			case 0x09: return U'\u24D0' <= c && c <= U'\u24E9';
+			case 0x0A: // [10] 2878 - 2C72
+			{
+				if (U'\u2C30' > c || c > U'\u2C71')
+					return false;
+				
+				return c == U'\u2C71'
+					|| (c <= U'\u2C6C' && (1ull << (static_cast<uint_least64_t>(c) - 0x2C30u)) & 0x15627FFFFFFFFFFFull);
+			}
+			case 0x0B: // [11] 2C73 - 306D
+			{
+				if (c > U'\u2D2D')
+					return false;
+				MUU_ASSUME(U'\u2C73' <= c);
+				
+				switch ((static_cast<uint_least64_t>(c) - 0x2C73ull) / 0x40ull)
+				{
+					case 0x00: return c <= U'\u2CB1' && (1ull << (static_cast<uint_least64_t>(c) - 0x2C73u)) & 0x55555555555547FBull;
+					case 0x01: return c <= U'\u2CEE' && (1ull << (static_cast<uint_least64_t>(c) - 0x2CB3u)) & 0xA03555555555555ull;
+					case 0x02: return (U'\u2D00' <= c && c <= U'\u2D25') || c == U'\u2CF3' || c == U'\u2D27' || c == U'\u2D2D';
+					MUU_NO_DEFAULT_CASE;
+				}
+				// 104 code units from 58 ranges (spanning a search area of 187)
+				MUU_UNREACHABLE;
+			}
+			case 0x29: // [41] A3DD - A7D7
+			{
+				if (U'\uA641' > c || c > U'\uA7CA')
+					return false;
+				
+				constexpr uint_least64_t bitmask_table_1[] = 
+				{
+					0x0000155555555555u,	0x000000001D555555u,	0x0000000000000000u,	0x5555D55400000000u,
+					0x4AFFD55555555555u,	0x55504155555D2855u,	0x0000000000000284u,
+				};
+				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA641ull) / 0x40ull]
+					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xA641ull) % 0x40ull));
+				// 121 code units from 106 ranges (spanning a search area of 394)
+			}
+			case 0x2A: // [42] A7D8 - ABD2
+			{
+				if (U'\uA7F6' > c || c > U'\uABBF')
+					return false;
+				
+				constexpr uint_least64_t bitmask_table_1[] = 
+				{
+					0x000000000000001Du,	0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,
+					0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,
+					0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,
+					0xFC00000000000000u,	0xFC07FFDFFFFFFFFFu,	0xFFFFFFFFFFFFFFFFu,	0x00000000000003FFu,
+				};
+				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA7F6ull) / 0x40ull]
+					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xA7F6ull) % 0x40ull));
+				// 140 code units from 5 ranges (spanning a search area of 970)
+			}
+			case 0x3E: return U'\uFB00' <= c && c <= U'\uFB17' && (1u << (static_cast<uint_least32_t>(c) - 0xFB00u)) & 0xF8007Fu;
+			case 0x3F: return U'\uFF41' <= c;
+			MUU_NO_DEFAULT_CASE;
+		}
+		// 1601 code units from 617 ranges (spanning a search area of 65201)
+		MUU_UNREACHABLE;
 	}
 
-	/// \brief		Returns true if a UTF-32 code unit is a number code point from the ASCII range.
-	/// \ingroup	characters
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr bool is_ascii_number(char32_t c) noexcept
-	{
-		return U'0' <= c && c <= U'9';
-	}
+	/// @}
+
+	/// \addtogroup	is_non_ascii_number	is_non_ascii_number()
+	/// @{
 
 	/// \brief		Returns true if a UTF-32 code unit is a number code point from outside the ASCII range.
-	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool is_unicode_number(char32_t c) noexcept
+	constexpr bool is_non_ascii_number(char32_t c) noexcept
 	{
 		if (U'\u0660' > c || c > U'\U0001FBF9')
 			return false;
@@ -498,7 +699,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x660ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x660ull) % 0x40ull));
-				// 130 codepoints from 13 ranges (spanning a search area of 1936)
+				// 130 code units from 13 ranges (spanning a search area of 1936)
 			}
 			case 0x01: // [1] 0E37 - 160D
 			{
@@ -513,7 +714,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xE50ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xE50ull) % 0x40ull));
-				// 50 codepoints from 5 ranges (spanning a search area of 586)
+				// 50 code units from 5 ranges (spanning a search area of 586)
 			}
 			case 0x02: // [2] 160E - 1DE4
 			{
@@ -531,7 +732,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x16EEull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x16EEull) % 0x40ull));
-				// 103 codepoints from 11 ranges (spanning a search area of 1388)
+				// 103 code units from 11 ranges (spanning a search area of 1388)
 			}
 			case 0x03: return U'\u2160' <= c && c <= U'\u2188' && (1ull << (static_cast<uint_least64_t>(c) - 0x2160u)) & 0x1E7FFFFFFFFull;
 			case 0x05: return U'\u3007' <= c && c <= U'\u303A' && (1ull << (static_cast<uint_least64_t>(c) - 0x3007u)) & 0xE0007FC000001ull;
@@ -550,7 +751,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA620ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xA620ull) % 0x40ull));
-				// 70 codepoints from 7 ranges (spanning a search area of 1082)
+				// 70 code units from 7 ranges (spanning a search area of 1082)
 			}
 			case 0x15: return U'\uABF0' <= c && c <= U'\uABF9';
 			case 0x1F: return U'\uFF10' <= c && c <= U'\uFF19';
@@ -569,7 +770,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x10140ull) / 0x40ull]
 					& (0x1ull << (static_cast<uint_least64_t>(c) % 0x40ull));
-				// 70 codepoints from 5 ranges (spanning a search area of 874)
+				// 70 code units from 5 ranges (spanning a search area of 874)
 			}
 			case 0x21: return (U'\U00010D30' <= c && c <= U'\U00010D39') || (U'\U00011066' <= c && c <= U'\U0001106F');
 			case 0x22: // [34] 110EE - 118C4
@@ -589,7 +790,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x110F0ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x110F0ull) % 0x40ull));
-				// 90 codepoints from 9 ranges (spanning a search area of 1610)
+				// 90 code units from 9 ranges (spanning a search area of 1610)
 			}
 			case 0x23: // [35] 118C5 - 1209B
 			{
@@ -606,7 +807,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x118E0ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x118E0ull) % 0x40ull));
-				// 50 codepoints from 5 ranges (spanning a search area of 1226)
+				// 50 code units from 5 ranges (spanning a search area of 1226)
 			}
 			case 0x24: return U'\U00012400' <= c && c <= U'\U0001246E';
 			case 0x2D: return (U'\U00016A60' <= c && c <= U'\U00016A69') || (U'\U00016B50' <= c && c <= U'\U00016B59');
@@ -616,61 +817,323 @@ MUU_NAMESPACE_START
 			case 0x3F: return U'\U0001FBF0' <= c;
 			MUU_NO_DEFAULT_CASE;
 		}
-		// 876 codepoints from 72 ranges (spanning a search area of 128410)
+		// 876 code units from 72 ranges (spanning a search area of 128410)
+		MUU_UNREACHABLE;
 	}
 
-	/// \brief		Returns true if a UTF-32 code unit is a number code point.
-	/// \ingroup	characters
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr bool is_number(char32_t c) noexcept
-	{
-		return is_ascii_number(c) || is_unicode_number(c);
-	}
+	/// @}
 
-	/// \brief		Returns true if a UTF-32 code unit is a hyphen code point from the ASCII range.
-	/// \ingroup	characters
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr bool is_ascii_hyphen(char32_t c) noexcept
-	{
-		return c == U'-';
-	}
+	/// \addtogroup	is_non_ascii_uppercase	is_non_ascii_uppercase()
+	/// @{
 
-	/// \brief		Returns true if a UTF-32 code unit is a hyphen code point from outside the ASCII range.
-	/// \ingroup	characters
+	/// \brief		Returns true if a UTF-32 code unit is an uppercase code point from outside the ASCII range.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool is_unicode_hyphen(char32_t c) noexcept
+	constexpr bool is_non_ascii_uppercase(char32_t c) noexcept
 	{
-		if (U'\xAD' > c || c > U'\uFF65')
+		if (U'\xC0' > c || c > U'\uFF3A')
 			return false;
 		
-		const auto child_index_0 = (static_cast<uint_least64_t>(c) - 0xADull) / 0x3FBull;
-		if ((1ull << child_index_0) & 0x7FFFFFFFFFFFE75Cull)
+		const auto child_index_0 = (static_cast<uint_least64_t>(c) - 0xC0ull) / 0x3FAull;
+		if ((1ull << child_index_0) & 0x7FFFF9FFFFFFF024ull)
 			return false;
-		if (c == U'\xAD' || c == U'\u058A' || c == U'\u1806' || c == U'\u2E17' || c == U'\u30FB')
+		switch (child_index_0)
+		{
+			case 0x00: // [0] 00C0 - 04B9
+			{
+				if (c > U'\u04B8')
+					return false;
+				MUU_ASSUME(U'\xC0' <= c);
+				
+				constexpr uint_least64_t bitmask_table_1[] = 
+				{
+					0x000000007F7FFFFFu,	0xAA55555555555555u,	0x2B555555555554AAu,	0x11AED2D5B1DBCED6u,
+					0x55D255554AAAA490u,	0x6C05555555555555u,	0x000000000000557Au,	0x0000000000000000u,
+					0x0000000000000000u,	0x0000000000000000u,	0x8045000000000000u,	0x00000FFBFFFED740u,
+					0xE6905555551C8000u,	0x0000FFFFFFFFFFFFu,	0x5555555500000000u,	0x0155555555555401u,
+				};
+				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xC0ull) / 0x40ull]
+					& (0x1ull << (static_cast<uint_least64_t>(c) % 0x40ull));
+				// 345 code units from 212 ranges (spanning a search area of 1017)
+			}
+			case 0x01: // [1] 04BA - 08B3
+			{
+				if (c > U'\u0556')
+					return false;
+				MUU_ASSUME(U'\u04BA' <= c);
+				
+				switch ((static_cast<uint_least64_t>(c) - 0x4BAull) / 0x40ull)
+				{
+					case 0x00: return c <= U'\u04F8' && (1ull << (static_cast<uint_least64_t>(c) - 0x4BAu)) & 0x55555555554AAAD5ull;
+					case 0x01: return (1ull << (static_cast<uint_least64_t>(c) - 0x4FAu)) & 0xFF95555555555555ull;
+					default: return true;
+				}
+				// 97 code units from 59 ranges (spanning a search area of 157)
+				MUU_UNREACHABLE;
+			}
+			case 0x03: return U'\u10A0' <= c;
+			case 0x04: // [4] 10A8 - 14A1
+			{
+				if (c > U'\u13F5')
+					return false;
+				MUU_ASSUME(U'\u10A8' <= c);
+				
+				constexpr uint_least64_t bitmask_table_1[] = 
+				{
+					0x00000020BFFFFFFFu,	0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,
+					0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,
+					0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,	0xFF00000000000000u,
+					0xFFFFFFFFFFFFFFFFu,	0x0000000000003FFFu,
+				};
+				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x10A8ull) / 0x40ull]
+					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x10A8ull) % 0x40ull));
+				// 118 code units from 4 ranges (spanning a search area of 846)
+			}
+			case 0x06: return U'\u1C90' <= c;
+			case 0x07: // [7] 1C96 - 208F
+			{
+				if (c > U'\u1FFB')
+					return false;
+				MUU_ASSUME(U'\u1C96' <= c);
+				
+				constexpr uint_least64_t bitmask_table_1[] = 
+				{
+					0x0000039FFFFFFFFFu,	0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,
+					0x0000000000000000u,	0x5555540000000000u,	0x5555555555555555u,	0x5555555555555555u,
+					0x5555555555555500u,	0x03FC015555555555u,	0x00FC03FC03FC00FCu,	0x0000000003FC02A8u,
+					0x003C003C00000000u,	0x0000003C007C003Cu,
+				};
+				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x1C96ull) / 0x40ull]
+					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x1C96ull) % 0x40ull));
+				// 233 code units from 141 ranges (spanning a search area of 870)
+			}
+			case 0x08: // [8] 2090 - 2489
+			{
+				if (U'\u2102' > c || c > U'\u2183')
+					return false;
+				
+				if (c == U'\u2183')
+					return true;
+				switch ((static_cast<uint_least64_t>(c) - 0x2102ull) / 0x40ull)
+				{
+					case 0x00: return c <= U'\u213F' && (1ull << (static_cast<uint_least64_t>(c) - 0x2102u)) & 0x3003CF540F89CE21ull;
+					case 0x01: return U'\u2145' <= c && c <= U'\u216F'
+						&& (1ull << (static_cast<uint_least64_t>(c) - 0x2145u)) & 0x7FFF8000001ull;
+					MUU_NO_DEFAULT_CASE;
+				}
+				// 45 code units from 15 ranges (spanning a search area of 130)
+				MUU_UNREACHABLE;
+			}
+			case 0x09: return U'\u24B6' <= c && c <= U'\u24CF';
+			case 0x0A: // [10] 2884 - 2C7D
+			{
+				if (U'\u2C00' > c || c > U'\u2C75')
+					return false;
+				
+				switch ((static_cast<uint_least64_t>(c) - 0x2C00ull) / 0x40ull)
+				{
+					case 0x00: return c <= U'\u2C2E';
+					case 0x01: return U'\u2C60' <= c && (1u << (static_cast<uint_least32_t>(c) - 0x2C60u)) & 0x25EA9Du;
+					MUU_NO_DEFAULT_CASE;
+				}
+				// 60 code units from 9 ranges (spanning a search area of 118)
+				MUU_UNREACHABLE;
+			}
+			case 0x0B: // [11] 2C7E - 3077
+			{
+				if (c > U'\u2CF2')
+					return false;
+				MUU_ASSUME(U'\u2C7E' <= c);
+				
+				switch ((static_cast<uint_least64_t>(c) - 0x2C7Eull) / 0x40ull)
+				{
+					case 0x00: return c <= U'\u2CBC' && (1ull << (static_cast<uint_least64_t>(c) - 0x2C7Eu)) & 0x5555555555555557ull;
+					case 0x01: return (1ull << (static_cast<uint_least64_t>(c) - 0x2CBEu)) & 0x10A01555555555ull;
+					MUU_NO_DEFAULT_CASE;
+				}
+				// 55 code units from 53 ranges (spanning a search area of 117)
+				MUU_UNREACHABLE;
+			}
+			case 0x29: // [41] A3CA - A7C3
+			{
+				if (U'\uA640' > c || c > U'\uA7C2')
+					return false;
+				
+				constexpr uint_least64_t bitmask_table_1[] = 
+				{
+					0x0000155555555555u,	0x0000000005555555u,	0x0000000000000000u,	0x5554555400000000u,
+					0x6A00555555555555u,	0x555F7D5555452855u,	0x0000000000000004u,
+				};
+				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA640ull) / 0x40ull]
+					& (0x1ull << (static_cast<uint_least64_t>(c) % 0x40ull));
+				// 113 code units from 104 ranges (spanning a search area of 387)
+			}
+			case 0x2A: return c <= U'\uA7F5' && (1ull << (static_cast<uint_least64_t>(c) - 0xA7C4u)) & 0x200000000002Full;
+			case 0x3F: return U'\uFF21' <= c;
+			MUU_NO_DEFAULT_CASE;
+		}
+		// 1138 code units from 602 ranges (spanning a search area of 65147)
+		MUU_UNREACHABLE;
+	}
+
+	/// @}
+
+	/// \addtogroup	is_non_ascii_whitespace	is_non_ascii_whitespace()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is a whitespace code point from outside the ASCII range.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_non_ascii_whitespace(char32_t c) noexcept
+	{
+		if (U'\x85' > c || c > U'\u3000')
+			return false;
+		
+		const auto child_index_0 = (static_cast<uint_least64_t>(c) - 0x85ull) / 0xBEull;
+		if ((1ull << child_index_0) & 0x7FFFFBFFDFFFFFFEull)
+			return false;
+		if (c == U'\u1680' || c == U'\u3000')
 			return true;
 		switch (child_index_0)
 		{
-			case 0x07: return U'\u2010' <= c && c <= U'\u2011';
-			case 0x3F: return c == U'\uFE63' || c == U'\uFF0D' || c == U'\uFF65';
+			case 0x00: return c == U'\x85' || c == U'\xA0';
+			case 0x2A: // [42] 1FB1 - 206E
+			{
+				if (U'\u2000' > c || c > U'\u205F')
+					return false;
+				
+				return c == U'\u205F'
+					|| (c <= U'\u202F' && (1ull << (static_cast<uint_least64_t>(c) - 0x2000u)) & 0x8300000007FFull);
+			}
 			MUU_NO_DEFAULT_CASE;
 		}
-		// 10 codepoints from 9 ranges (spanning a search area of 65209)
+		// 19 code units from 8 ranges (spanning a search area of 12156)
+		MUU_UNREACHABLE;
 	}
 
-	/// \brief		Returns true if a UTF-32 code unit is a hyphen code point.
-	/// \ingroup	characters
+	/// @}
+
+	/// \addtogroup	is_not_code_point	is_not_code_point()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is not a valid code point.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool is_hyphen(char32_t c) noexcept
+	constexpr bool is_not_code_point(char32_t c) noexcept
 	{
-		return is_ascii_hyphen(c) || is_unicode_hyphen(c);
+		return U'\U0010FFFF' < c;
 	}
 
+	/// @}
+
+	/// \addtogroup	is_not_hyphen	is_not_hyphen()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is not a hyphen code point.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_not_hyphen(char32_t c) noexcept
+	{
+		return !is_ascii_hyphen(c) && !is_non_ascii_hyphen(c);
+	}
+
+	/// @}
+
+	/// \addtogroup	is_not_letter	is_not_letter()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is not a letter code point.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_not_letter(char32_t c) noexcept
+	{
+		return !is_ascii_letter(c) && !is_non_ascii_letter(c);
+	}
+
+	/// @}
+
+	/// \addtogroup	is_not_lowercase	is_not_lowercase()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is not a lowercase code point.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_not_lowercase(char32_t c) noexcept
+	{
+		return !is_ascii_lowercase(c) && !is_non_ascii_lowercase(c);
+	}
+
+	/// @}
+
+	/// \addtogroup	is_not_number	is_not_number()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is not a number code point.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_not_number(char32_t c) noexcept
+	{
+		return !is_ascii_number(c) && !is_non_ascii_number(c);
+	}
+
+	/// @}
+
+	/// \addtogroup	is_not_uppercase	is_not_uppercase()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is not an uppercase code point.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_not_uppercase(char32_t c) noexcept
+	{
+		return !is_ascii_uppercase(c) && !is_non_ascii_uppercase(c);
+	}
+
+	/// @}
+
+	/// \addtogroup	is_not_whitespace	is_not_whitespace()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is not a whitespace code point.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_not_whitespace(char32_t c) noexcept
+	{
+		return !is_ascii_whitespace(c) && !is_non_ascii_whitespace(c);
+	}
+
+	/// @}
+
+	/// \addtogroup	is_code_point	is_code_point()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is a valid code point.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_code_point(char32_t c) noexcept
+	{
+		return c <= U'\U0010FFFF';
+	}
+
+	/// @}
+
+	/// \addtogroup	is_code_point_boundary	is_code_point_boundary()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is a code point boundary.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_code_point_boundary(char32_t c) noexcept
+	{
+		return c <= U'\U0010FFFF';
+	}
+
+	/// @}
+
+	/// \addtogroup	is_combining_mark	is_combining_mark()
+	/// @{
+
 	/// \brief		Returns true if a UTF-32 code unit is a combining mark code point.
-	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool is_combining_mark(char32_t c) noexcept
@@ -740,7 +1203,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x300ull) / 0x40ull]
 					& (0x1ull << (static_cast<uint_least64_t>(c) % 0x40ull));
-				// 1106 codepoints from 156 ranges (spanning a search area of 11675)
+				// 1106 code units from 156 ranges (spanning a search area of 11675)
 			}
 			case 0x02: // [2] 72F8 - AAF3
 			{
@@ -757,7 +1220,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA66Full) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xA66Full) % 0x40ull));
-				// 137 codepoints from 28 ranges (spanning a search area of 1153)
+				// 137 code units from 28 ranges (spanning a search area of 1153)
 			}
 			case 0x03: return (U'\uAAF5' <= c && c <= U'\uAAF6') || (U'\uABE3' <= c && c <= U'\uABEA') || (U'\uABEC' <= c && c <= U'\uABED');
 			case 0x04: // [4] E2F0 - 11AEB
@@ -802,7 +1265,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xFB1Eull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xFB1Eull) % 0x40ull));
-				// 402 codepoints from 63 ranges (spanning a search area of 8060)
+				// 402 code units from 63 ranges (spanning a search area of 8060)
 			}
 			case 0x05: // [5] 11AEC - 152E7
 			{
@@ -817,7 +1280,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x11C2Full) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x11C2Full) % 0x40ull));
-				// 85 codepoints from 13 ranges (spanning a search area of 712)
+				// 85 code units from 13 ranges (spanning a search area of 712)
 			}
 			case 0x06: // [6] 152E8 - 18AE3
 			{
@@ -835,7 +1298,7 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x16AF0ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x16AF0ull) % 0x40ull));
-				// 75 codepoints from 7 ranges (spanning a search area of 1282)
+				// 75 code units from 7 ranges (spanning a search area of 1282)
 			}
 			case 0x07: return U'\U0001BC9D' <= c && c <= U'\U0001BC9E';
 			case 0x08: // [8] 1C2E0 - 1FADB
@@ -872,25 +1335,21 @@ MUU_NAMESPACE_START
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x1D165ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x1D165ull) % 0x40ull));
-				// 223 codepoints from 21 ranges (spanning a search area of 6118)
+				// 223 code units from 21 ranges (spanning a search area of 6118)
 			}
 			case 0x3F: return U'\U000E0100' <= c;
 			MUU_NO_DEFAULT_CASE;
 		}
-		// 2282 codepoints from 293 ranges (spanning a search area of 917232)
+		// 2282 code units from 293 ranges (spanning a search area of 917232)
+		MUU_UNREACHABLE;
 	}
 
-	/// \brief		Returns true if a UTF-32 code unit is an octal digit code point.
-	/// \ingroup	characters
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr bool is_octal_digit(char32_t c) noexcept
-	{
-		return U'0' <= c && c <= U'7';
-	}
+	/// @}
+
+	/// \addtogroup	is_decimal_digit	is_decimal_digit()
+	/// @{
 
 	/// \brief		Returns true if a UTF-32 code unit is a decimal digit code point.
-	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool is_decimal_digit(char32_t c) noexcept
@@ -898,8 +1357,12 @@ MUU_NAMESPACE_START
 		return U'0' <= c && c <= U'9';
 	}
 
+	/// @}
+
+	/// \addtogroup	is_hexadecimal_digit	is_hexadecimal_digit()
+	/// @{
+
 	/// \brief		Returns true if a UTF-32 code unit is a hexadecimal digit code point.
-	/// \ingroup	characters
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool is_hexadecimal_digit(char32_t c) noexcept
@@ -907,297 +1370,104 @@ MUU_NAMESPACE_START
 		return U'0' <= c && c <= U'f' && (1ull << (static_cast<uint_least64_t>(c) - 0x30u)) & 0x7E0000007E03FFull;
 	}
 
-	/// \brief		Returns true if a UTF-32 code unit is an uppercase code point.
-	/// \ingroup	characters
+	/// @}
+
+	/// \addtogroup	is_hyphen	is_hyphen()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is a hyphen code point.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool is_uppercase(char32_t c) noexcept
+	constexpr bool is_hyphen(char32_t c) noexcept
 	{
-		if (U'A' > c || c > U'\uFF3A')
-			return false;
-		
-		const auto child_index_0 = (static_cast<uint_least64_t>(c) - 0x41ull) / 0x3FCull;
-		if ((1ull << child_index_0) & 0x7FFFF9FFFFFFF06Cull)
-			return false;
-		switch (child_index_0)
-		{
-			case 0x00: // [0] 0041 - 043C
-			{
-				if (c > U'\u042F')
-					return false;
-				MUU_ASSUME(U'A' <= c);
-				
-				constexpr uint_least64_t bitmask_table_1[] = 
-				{
-					0x0000000003FFFFFFu,	0x8000000000000000u,	0x800000003FBFFFFFu,	0x552AAAAAAAAAAAAAu,
-					0x15AAAAAAAAAAAA55u,	0x08D7696AD8EDE76Bu,	0xAAE92AAAA5555248u,	0x3602AAAAAAAAAAAAu,
-					0x0000000000002ABDu,	0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,
-					0x4022800000000000u,	0x000007FDFFFF6BA0u,	0xF3482AAAAA8E4000u,	0x00007FFFFFFFFFFFu,
-				};
-				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x41ull) / 0x40ull]
-					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x41ull) % 0x40ull));
-				// 330 codepoints from 172 ranges (spanning a search area of 1007)
-			}
-			case 0x01: // [1] 043D - 0838
-			{
-				if (U'\u0460' > c || c > U'\u0556')
-					return false;
-				
-				switch ((static_cast<uint_least64_t>(c) - 0x460ull) / 0x40ull)
-				{
-					case 0x00: return c <= U'\u049E' && (1ull << (static_cast<uint_least64_t>(c) - 0x460u)) & 0x5555540155555555ull;
-					case 0x01: return c <= U'\u04DE' && (1ull << (static_cast<uint_least64_t>(c) - 0x4A0u)) & 0x55552AAB55555555ull;
-					case 0x02: return c <= U'\u051E' && (static_cast<uint_least32_t>(c) % 2u) == 0u;
-					case 0x03: return (1ull << (static_cast<uint_least64_t>(c) - 0x520u)) & 0x7FFFFFFFFE5555ull;
-					MUU_NO_DEFAULT_CASE;
-				}
-				// 138 codepoints from 100 ranges (spanning a search area of 247)
-			}
-			case 0x04: // [4] 1031 - 142C
-			{
-				if (U'\u10A0' > c || c > U'\u13F5')
-					return false;
-				
-				constexpr uint_least64_t bitmask_table_1[] = 
-				{
-					0x000020BFFFFFFFFFu,	0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,
-					0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,
-					0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,
-					0xFFFFFFFFFFFFFFFFu,	0x00000000003FFFFFu,
-				};
-				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x10A0ull) / 0x40ull]
-					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x10A0ull) % 0x40ull));
-				// 126 codepoints from 4 ranges (spanning a search area of 854)
-			}
-			case 0x07: // [7] 1C25 - 2020
-			{
-				if (U'\u1C90' > c || c > U'\u1FFB')
-					return false;
-				
-				constexpr uint_least64_t bitmask_table_1[] = 
-				{
-					0x0000E7FFFFFFFFFFu,	0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,
-					0x0000000000000000u,	0x5555000000000000u,	0x5555555555555555u,	0x5555555555555555u,
-					0x5555555555554015u,	0xFF00555555555555u,	0x3F00FF00FF003F00u,	0x00000000FF00AA00u,
-					0x0F000F0000000000u,	0x00000F001F000F00u,
-				};
-				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x1C90ull) / 0x40ull]
-					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x1C90ull) % 0x40ull));
-				// 239 codepoints from 141 ranges (spanning a search area of 876)
-			}
-			case 0x08: // [8] 2021 - 241C
-			{
-				if (U'\u2102' > c || c > U'\u2183')
-					return false;
-				
-				if (c == U'\u2183')
-					return true;
-				switch ((static_cast<uint_least64_t>(c) - 0x2102ull) / 0x40ull)
-				{
-					case 0x00: return c <= U'\u213F' && (1ull << (static_cast<uint_least64_t>(c) - 0x2102u)) & 0x3003CF540F89CE21ull;
-					case 0x01: return U'\u2145' <= c && c <= U'\u216F'
-						&& (1ull << (static_cast<uint_least64_t>(c) - 0x2145u)) & 0x7FFF8000001ull;
-					MUU_NO_DEFAULT_CASE;
-				}
-				// 45 codepoints from 15 ranges (spanning a search area of 130)
-			}
-			case 0x09: return U'\u24B6' <= c && c <= U'\u24CF';
-			case 0x0A: return U'\u2C00' <= c;
-			case 0x0B: // [11] 2C15 - 3010
-			{
-				if (c > U'\u2CF2')
-					return false;
-				MUU_ASSUME(U'\u2C15' <= c);
-				
-				switch ((static_cast<uint_least64_t>(c) - 0x2C15ull) / 0x40ull)
-				{
-					case 0x00: return c <= U'\u2C2E';
-					case 0x01: return U'\u2C60' <= c && (1ull << (static_cast<uint_least64_t>(c) - 0x2C60u)) & 0x155555C025EA9Dull;
-					case 0x02: return U'\u2C96' <= c && (static_cast<uint_least32_t>(c) % 2u) == 0u;
-					case 0x03: return U'\u2CD6' <= c && (1u << (static_cast<uint_least32_t>(c) - 0x2CD6u)) & 0x10A01555u;
-					MUU_NO_DEFAULT_CASE;
-				}
-				// 94 codepoints from 62 ranges (spanning a search area of 222)
-			}
-			case 0x29: // [41] A39D - A798
-			{
-				if (U'\uA640' > c)
-					return false;
-				MUU_ASSUME(c <= U'\uA798');
-				
-				constexpr uint_least64_t bitmask_table_1[] = 
-				{
-					0x0000155555555555u,	0x0000000005555555u,	0x0000000000000000u,	0x5554555400000000u,
-					0x6A00555555555555u,	0x0000000001452855u,
-				};
-				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA640ull) / 0x40ull]
-					& (0x1ull << (static_cast<uint_least64_t>(c) % 0x40ull));
-				// 89 codepoints from 88 ranges (spanning a search area of 345)
-			}
-			case 0x2A: // [42] A799 - AB94
-			{
-				if (U'\uA79A' > c || c > U'\uA7F5')
-					return false;
-				
-				return c == U'\uA7F5'
-					|| (c <= U'\uA7C9' && (1ull << (static_cast<uint_least64_t>(c) - 0xA79Au)) & 0xBD1557DF5555ull);
-			}
-			case 0x3F: return U'\uFF21' <= c;
-			MUU_NO_DEFAULT_CASE;
-		}
-		// 1164 codepoints from 603 ranges (spanning a search area of 65274)
+		return is_ascii_hyphen(c) || is_non_ascii_hyphen(c);
 	}
 
-	/// \brief		Returns true if a UTF-32 code unit is an lowercase code point.
-	/// \ingroup	characters
+	/// @}
+
+	/// \addtogroup	is_letter	is_letter()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is a letter code point.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_letter(char32_t c) noexcept
+	{
+		return is_ascii_letter(c) || is_non_ascii_letter(c);
+	}
+
+	/// @}
+
+	/// \addtogroup	is_lowercase	is_lowercase()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is a lowercase code point.
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool is_lowercase(char32_t c) noexcept
 	{
-		if (U'a' > c || c > U'\uFF5A')
-			return false;
-		
-		const auto child_index_0 = (static_cast<uint_least64_t>(c) - 0x61ull) / 0x3FCull;
-		if ((1ull << child_index_0) & 0x3FFFF1FFFFFFF06Cull)
-			return false;
-		switch (child_index_0)
-		{
-			case 0x00: // [0] 0061 - 045C
-			{
-				MUU_ASSUME(U'a' <= c && c <= U'\u045C');
-				
-				constexpr uint_least64_t bitmask_table_1[] = 
-				{
-					0x0000000003FFFFFFu,	0xC000000002100200u,	0x555555557FBFFFFFu,	0x555555AAAAD55555u,
-					0x27121894EA555555u,	0x5AAAA92073289695u,	0x555555555514D555u,	0xFFFFD542C9FD5555u,
-					0xFFF7FFFFFFFFFFFFu,	0x8000000180FFFFFFu,	0x000000000000000Fu,	0x0000001000000000u,
-					0x000080001E450000u,	0x5571BFFFFFFFF800u,	0x000000000C97D555u,	0x0FFFFFFFFFFF8000u,
-				};
-				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x61ull) / 0x40ull]
-					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x61ull) % 0x40ull));
-				// 447 codepoints from 175 ranges (spanning a search area of 1020)
-			}
-			case 0x01: // [1] 045D - 0858
-			{
-				if (c > U'\u0588')
-					return false;
-				MUU_ASSUME(U'\u045D' <= c);
-				
-				constexpr uint_least64_t bitmask_table_1[] = 
-				{
-					0x5555401555555557u,	0x5556AAA555555555u,	0x5555555555555555u,	0x0000000000055555u,
-					0x00000FFFFFFFFFF8u,
-				};
-				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x45Dull) / 0x40ull]
-					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x45Dull) % 0x40ull));
-				// 144 codepoints from 101 ranges (spanning a search area of 300)
-			}
-			case 0x04: return (U'\u10D0' <= c && c <= U'\u10FA') || (U'\u10FD' <= c && c <= U'\u10FF') || (U'\u13F8' <= c && c <= U'\u13FD');
-			case 0x07: // [7] 1C45 - 2040
-			{
-				if (U'\u1C80' > c || c > U'\u1FF7')
-					return false;
-				
-				constexpr uint_least64_t bitmask_table_1[] = 
-				{
-					0x00000000000001FFu,	0x0000000000000000u,	0xFFFFFFFFFFFFFFFFu,	0xFFFFFFFFFFFFFFFFu,
-					0xFFFFFFFFFFFFFFFFu,	0x0000000000000000u,	0xAAAAAAAAAAAAAAAAu,	0xAAAAAAAAAAAAAAAAu,
-					0xAAAAAAAABFEAAAAAu,	0xAAAAAAAAAAAAAAAAu,	0x00FF00FF003F00FFu,	0x3FFF00FF00FF003Fu,
-					0x40DF00FF00FF00FFu,	0x00DC00FF00CF00DCu,
-				};
-				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x1C80ull) / 0x40ull]
-					& (0x1ull << (static_cast<uint_least64_t>(c) % 0x40ull));
-				// 455 codepoints from 146 ranges (spanning a search area of 888)
-			}
-			case 0x08: // [8] 2041 - 243C
-			{
-				if (U'\u2071' > c || c > U'\u2184')
-					return false;
-				
-				constexpr uint_least64_t bitmask_table_1[] = 
-				{
-					0x00000FFF80004001u,	0x0000000000000000u,	0x4000000462000000u,	0x8000000021E01908u,
-					0x0000000000087FFFu,
-				};
-				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x2071ull) / 0x40ull]
-					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x2071ull) % 0x40ull));
-				// 46 codepoints from 14 ranges (spanning a search area of 276)
-			}
-			case 0x09: return U'\u24D0' <= c && c <= U'\u24E9';
-			case 0x0A: return U'\u2C30' <= c;
-			case 0x0B: // [11] 2C35 - 3030
-			{
-				if (c > U'\u2D2D')
-					return false;
-				MUU_ASSUME(U'\u2C35' <= c);
-				
-				switch ((static_cast<uint_least64_t>(c) - 0x2C35ull) / 0x40ull)
-				{
-					case 0x00: return (1ull << (static_cast<uint_least64_t>(c) - 0x2C35u)) & 0xD0AB13FFFFFFFFFFull;
-					case 0x01: return U'\u2C76' <= c && c <= U'\u2CB3'
-						&& (1ull << (static_cast<uint_least64_t>(c) - 0x2C76u)) & 0x2AAAAAAAAAAAA8FFull;
-					case 0x02: return c <= U'\u2CF3' && (1ull << (static_cast<uint_least64_t>(c) - 0x2CB5u)) & 0x4280D55555555555ull;
-					case 0x03: return (U'\u2D00' <= c && c <= U'\u2D25') || c == U'\u2D27' || c == U'\u2D2D';
-					MUU_NO_DEFAULT_CASE;
-				}
-				// 153 codepoints from 65 ranges (spanning a search area of 249)
-			}
-			case 0x29: // [41] A3BD - A7B8
-			{
-				if (U'\uA641' > c || c > U'\uA7B7')
-					return false;
-				
-				constexpr uint_least64_t bitmask_table_1[] = 
-				{
-					0x0000155555555555u,	0x000000001D555555u,	0x0000000000000000u,	0x5555D55400000000u,
-					0x4AFFD55555555555u,	0x00504155555D2855u,
-				};
-				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA641ull) / 0x40ull]
-					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xA641ull) % 0x40ull));
-				// 114 codepoints from 99 ranges (spanning a search area of 375)
-			}
-			case 0x2A: // [42] A7B9 - ABB4
-			{
-				MUU_ASSUME(U'\uA7B9' <= c && c <= U'\uABB4');
-				
-				constexpr uint_least64_t bitmask_table_1[] = 
-				{
-					0xA000000000028455u,	0x0000000000000003u,	0x0000000000000000u,	0x0000000000000000u,
-					0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,
-					0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,
-					0x0000000000000000u,	0xFF80000000000000u,	0xFF80FFFBFFFFFFFFu,	0x0FFFFFFFFFFFFFFFu,
-				};
-				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA7B9ull) / 0x40ull]
-					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xA7B9ull) % 0x40ull));
-				// 136 codepoints from 12 ranges (spanning a search area of 1020)
-			}
-			case 0x2B: return c <= U'\uABBF';
-			case 0x3E: return U'\uFB00' <= c && c <= U'\uFB17' && (1u << (static_cast<uint_least32_t>(c) - 0xFB00u)) & 0xF8007Fu;
-			case 0x3F: return U'\uFF41' <= c;
-			MUU_NO_DEFAULT_CASE;
-		}
-		// 1627 codepoints from 618 ranges (spanning a search area of 65274)
+		return is_ascii_lowercase(c) || is_non_ascii_lowercase(c);
 	}
 
-	/// \brief		Returns true if a UTF-32 code unit is a code point boundary.
-	/// \ingroup	characters
+	/// @}
+
+	/// \addtogroup	is_number	is_number()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is a number code point.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool is_code_point_boundary(char32_t c) noexcept
+	constexpr bool is_number(char32_t c) noexcept
 	{
-		(void)c;
-		return true;
+		return is_ascii_number(c) || is_non_ascii_number(c);
 	}
 
-	/// \brief		Returns true if a UTF-32 code unit is in-and-of-itself a valid code point.
-	/// \ingroup	characters
+	/// @}
+
+	/// \addtogroup	is_octal_digit	is_octal_digit()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is an octal digit code point.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool is_code_point(char32_t c) noexcept
+	constexpr bool is_octal_digit(char32_t c) noexcept
 	{
-		(void)c;
-		return true;
+		return U'0' <= c && c <= U'7';
 	}
 
+	/// @}
+
+	/// \addtogroup	is_uppercase	is_uppercase()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is an uppercase code point.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_uppercase(char32_t c) noexcept
+	{
+		return is_ascii_uppercase(c) || is_non_ascii_uppercase(c);
+	}
+
+	/// @}
+
+	/// \addtogroup	is_whitespace	is_whitespace()
+	/// @{
+
+	/// \brief		Returns true if a UTF-32 code unit is a whitespace code point.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool is_whitespace(char32_t c) noexcept
+	{
+		return is_ascii_whitespace(c) || is_non_ascii_whitespace(c);
+	}
+
+	/// @}
+
+	/** @} */	// strings::code_units
+	/** @} */	// strings
 }
 MUU_NAMESPACE_END
+
+MUU_PRAGMA_GCC_LT(9, pop_options)
+
+MUU_POP_WARNINGS

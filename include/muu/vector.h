@@ -44,7 +44,7 @@ MUU_ENABLE_WARNINGS
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_SHADOW_WARNINGS
-MUU_PRAGMA_GCC("GCC diagnostic ignored \"-Wsign-conversion\"")
+MUU_PRAGMA_GCC(diagnostic ignored "-Wsign-conversion")
 
 MUU_PRAGMA_MSVC(inline_recursion(on))
 MUU_PRAGMA_MSVC(float_control(push))
@@ -59,7 +59,7 @@ MUU_PRAGMA_MSVC(float_control(precise, off))
 
 #if 1 // helper macros ------------------------------------------------------------------------------------------------
 
-#define FMA_BLOCK	MUU_PRAGMA_CLANG("clang fp contract(fast)")
+#define FMA_BLOCK	MUU_PRAGMA_CLANG(fp contract(fast))
 
 #define COMPONENTWISE_AND(func)																						\
 	if constexpr (Dimensions == 1) return func(x);																	\
@@ -180,17 +180,19 @@ MUU_PRAGMA_MSVC(float_control(precise, off))
 
 #define COMPONENTWISE_ASSIGN(func)		COMPONENTWISE_CASTING_OP(func, COMPONENTWISE_ASSIGN_WITH_TRANSFORM)
 
-#define	ENABLE_IF_AT_LEAST_DIMENSIONS(dim)	\
+#define	ENABLE_IF_DIMENSIONS_AT_LEAST(dim)	\
 		, size_t SFINAE = Dimensions MUU_SFINAE(SFINAE >= (dim) && SFINAE == Dimensions)
 
-#define	ENABLE_IF_AT_LEAST_DIMENSIONS_AND(dim,...)	\
+#define	ENABLE_IF_DIMENSIONS_AT_LEAST_AND(dim,...)	\
 	, size_t SFINAE = Dimensions MUU_SFINAE_2(SFINAE >= (dim) && SFINAE == Dimensions && (__VA_ARGS__))
 
-#define	REQUIRES_AT_LEAST_DIMENSIONS(dim) \
+#define	REQUIRES_DIMENSIONS_AT_LEAST(dim) \
 	template <size_t SFINAE = Dimensions MUU_SFINAE(SFINAE >= (dim) && SFINAE == Dimensions)>
 
-#define	REQUIRES_EXACTLY_DIMENSIONS(dim) \
-	template <size_t SFINAE = Dimensions MUU_SFINAE_2(SFINAE == (dim) && SFINAE == Dimensions)>
+#define	REQUIRES_DIMENSIONS_BETWEEN(min, max) \
+	template <size_t SFINAE = Dimensions MUU_SFINAE_2(SFINAE >= (min) && SFINAE <= (max) && SFINAE == Dimensions)>
+
+#define	REQUIRES_DIMENSIONS_EXACTLY(dim) REQUIRES_DIMENSIONS_BETWEEN(dim, dim)
 
 #define	REQUIRES_FLOATING_POINT	\
 	template <typename SFINAE = Scalar MUU_SFINAE(muu::is_floating_point<SFINAE> && std::is_same_v<SFINAE, Scalar>)>
@@ -702,10 +704,11 @@ MUU_IMPL_NAMESPACE_END
 
 #else // ^^^ !DOXYGEN / DOXYGEN vvv
 
-#define ENABLE_IF_AT_LEAST_DIMENSIONS(...)
-#define ENABLE_IF_AT_LEAST_DIMENSIONS_AND(...)
-#define	REQUIRES_AT_LEAST_DIMENSIONS(...)
-#define	REQUIRES_EXACTLY_DIMENSIONS(...)
+#define ENABLE_IF_DIMENSIONS_AT_LEAST(dim)
+#define ENABLE_IF_DIMENSIONS_AT_LEAST_AND(dim, ...)
+#define	REQUIRES_DIMENSIONS_AT_LEAST(dim)
+#define	REQUIRES_DIMENSIONS_BETWEEN(min, max)
+#define	REQUIRES_DIMENSIONS_EXACTLY(dim)
 #define	REQUIRES_FLOATING_POINT
 #define	REQUIRES_INTEGRAL
 #define REQUIRES_SIGNED
@@ -951,7 +954,7 @@ MUU_NAMESPACE_START
 		/// \param	y	Initial value for the vector's y scalar component (1).
 		/// 
 		/// \note		This constructor is only available when #dimensions &gt;= 2.
-		REQUIRES_AT_LEAST_DIMENSIONS(2)
+		REQUIRES_DIMENSIONS_AT_LEAST(2)
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y) noexcept
 			: base{ x, y }
@@ -965,7 +968,7 @@ MUU_NAMESPACE_START
 		/// \param	z	Initial value for the vector's z scalar component (2).
 		/// 
 		/// \note		This constructor is only available when #dimensions &gt;= 3.
-		REQUIRES_AT_LEAST_DIMENSIONS(3)
+		REQUIRES_DIMENSIONS_AT_LEAST(3)
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y, scalar_type z) noexcept
 			: base{ x, y, z }
@@ -980,7 +983,7 @@ MUU_NAMESPACE_START
 		/// \param	w		Initial value for the vector's w scalar component (3).
 		/// 
 		/// \note			This constructor is only available when #dimensions &gt;= 4.
-		REQUIRES_AT_LEAST_DIMENSIONS(4)
+		REQUIRES_DIMENSIONS_AT_LEAST(4)
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y, scalar_type z, scalar_type w) noexcept
 			: base{ x, y, z, w }
@@ -997,7 +1000,7 @@ MUU_NAMESPACE_START
 		/// \param	vals	Initial values for the vector's remaining scalar components.
 		/// 
 		/// \note			This constructor is only available when #dimensions &gt;= 5.
-		template <typename... T ENABLE_IF_AT_LEAST_DIMENSIONS_AND(5, all_convertible_to<scalar_type, T...>)>
+		template <typename... T ENABLE_IF_DIMENSIONS_AT_LEAST_AND(5, all_convertible_to<scalar_type, T...>)>
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y, scalar_type z, scalar_type w, T... vals) noexcept
 			: base{ x, y, z, w, vals... }
@@ -1009,7 +1012,7 @@ MUU_NAMESPACE_START
 		/// \tparam T			A type convertible to #scalar_type.
 		/// \tparam N			The number of elements in the array.
 		/// \param	arr			Array of values used to initialize the vector's scalar components.
-		template <typename T, size_t N ENABLE_IF_AT_LEAST_DIMENSIONS_AND(N, all_convertible_to<scalar_type, T>)>
+		template <typename T, size_t N ENABLE_IF_DIMENSIONS_AT_LEAST_AND(N, all_convertible_to<scalar_type, T>)>
 		MUU_NODISCARD_CTOR
 		explicit constexpr vector(const T(& arr)[N]) noexcept
 			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, arr }
@@ -1021,7 +1024,7 @@ MUU_NAMESPACE_START
 		/// \tparam T			A type convertible to #scalar_type.
 		/// \tparam N			The number of elements in the array.
 		/// \param	arr			Array of values used to initialize the vector's scalar components.
-		template <typename T, size_t N ENABLE_IF_AT_LEAST_DIMENSIONS_AND(N, all_convertible_to<scalar_type, T>)>
+		template <typename T, size_t N ENABLE_IF_DIMENSIONS_AT_LEAST_AND(N, all_convertible_to<scalar_type, T>)>
 		MUU_NODISCARD_CTOR
 		explicit constexpr vector(const std::array<T, N>& arr) noexcept
 			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, arr }
@@ -1032,7 +1035,7 @@ MUU_NAMESPACE_START
 		/// \tparam T			A tuple-like type.
 		/// 
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
-		template <typename T ENABLE_IF_AT_LEAST_DIMENSIONS_AND(tuple_size<T>, is_tuple_like<T>)>
+		template <typename T ENABLE_IF_DIMENSIONS_AT_LEAST_AND(tuple_size<T>, is_tuple_like<T>)>
 		MUU_NODISCARD_CTOR
 		explicit constexpr vector(const T& tuple) noexcept
 			: base{ impl::tuple_cast_tag{}, std::make_index_sequence<tuple_size<T>>{}, tuple }
@@ -1072,7 +1075,7 @@ MUU_NAMESPACE_START
 		/// \tparam	D2		Vector 2's dimensions.
 		/// \param 	vec1	Vector 1.
 		/// \param 	vec2	Vector 2.
-		template <typename S1, size_t D1, typename S2, size_t D2 ENABLE_IF_AT_LEAST_DIMENSIONS(D1 + D2)>
+		template <typename S1, size_t D1, typename S2, size_t D2 ENABLE_IF_DIMENSIONS_AT_LEAST(D1 + D2)>
 		MUU_NODISCARD_CTOR
 		constexpr vector(const vector<S1, D1>& vec1, const vector<S2, D2>& vec2) noexcept
 			: base{
@@ -1095,7 +1098,7 @@ MUU_NAMESPACE_START
 		/// \tparam T		Types convertible to #scalar_type.
 		/// \param 	vec		A vector.
 		/// \param 	vals	Scalar values.
-		template <typename S, size_t D, typename... T ENABLE_IF_AT_LEAST_DIMENSIONS_AND(D + sizeof...(T), all_convertible_to<scalar_type, T...>)>
+		template <typename S, size_t D, typename... T ENABLE_IF_DIMENSIONS_AT_LEAST_AND(D + sizeof...(T), all_convertible_to<scalar_type, T...>)>
 		MUU_NODISCARD_CTOR
 		constexpr vector(const vector<S, D>& vec, T... vals) noexcept
 			: base{
@@ -1132,13 +1135,13 @@ MUU_NAMESPACE_START
 
 		#if !defined(DOXYGEN) && !MUU_INTELLISENSE
 
-		template <size_t N ENABLE_IF_AT_LEAST_DIMENSIONS(N)>
+		template <size_t N ENABLE_IF_DIMENSIONS_AT_LEAST(N)>
 		MUU_NODISCARD_CTOR
 		explicit constexpr vector(const scalar_type(&arr)[N]) noexcept
 			: base{ impl::array_copy_tag{}, std::make_index_sequence<N>{}, arr }
 		{}
 
-		template <size_t N ENABLE_IF_AT_LEAST_DIMENSIONS(N)>
+		template <size_t N ENABLE_IF_DIMENSIONS_AT_LEAST(N)>
 		MUU_NODISCARD_CTOR
 		explicit constexpr vector(const std::array<scalar_type, N>& arr) noexcept
 			: base{ impl::array_copy_tag{}, std::make_index_sequence<N>{}, arr }
@@ -1284,9 +1287,10 @@ MUU_NAMESPACE_START
 	#if 1 // approx_equal ---------------------------------------------------------------------------------------------
 
 		/// \brief	Returns true if two vectors are approximately equal.
-		template <typename T
-			MUU_SFINAE(any_floating_point<Scalar, T> && (MUU_INTELLISENSE || impl::pass_vector_by_reference<T, dimensions>))
-		>
+		template <typename T MUU_SFINAE(
+			any_floating_point<Scalar, T>
+			&& (MUU_INTELLISENSE || impl::pass_vector_by_reference<T, dimensions>)
+		)>
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL approx_equal(
@@ -1296,25 +1300,18 @@ MUU_NAMESPACE_START
 				= muu::constants<impl::highest_ranked<scalar_type, T>>::approx_equal_epsilon
 		) noexcept
 		{
-			using type = impl::highest_ranked<
-				impl::promote_if_small_float<Scalar>,
-				impl::promote_if_small_float<T>
-			>;
+			using type = impl::promote_if_small_float<impl::highest_ranked<Scalar, T>>;
 
-			#define VEC_FUNC(member)															\
-				static_cast<bool(MUU_VECTORCALL *)(type,type,type)noexcept>(muu::approx_equal)(	\
-					v1.member,																	\
-					v2.member,																	\
-					epsilon																		\
-				)
+			#define VEC_FUNC(member)	muu::approx_equal(static_cast<type>(v1.member), static_cast<type>(v2.member), epsilon)
 			COMPONENTWISE_AND(VEC_FUNC);
 			#undef VEC_FUNC
 		}
 
 		/// \brief	Returns true if the vector is approximately equal to another.
-		template <typename T
-			MUU_SFINAE(any_floating_point<Scalar, T> && (MUU_INTELLISENSE || impl::pass_vector_by_reference<T, dimensions>))
-		>
+		template <typename T MUU_SFINAE(
+			any_floating_point<Scalar, T>
+			&& (MUU_INTELLISENSE || impl::pass_vector_by_reference<T, dimensions>)
+		)>
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_equal(
@@ -1338,17 +1335,9 @@ MUU_NAMESPACE_START
 				= muu::constants<impl::highest_ranked<scalar_type, T>>::approx_equal_epsilon
 		) noexcept
 		{
-			using type = impl::highest_ranked<
-				impl::promote_if_small_float<Scalar>,
-				impl::promote_if_small_float<T>
-			>;
+			using type = impl::promote_if_small_float<impl::highest_ranked<Scalar, T>>;
 
-			#define VEC_FUNC(member)															\
-				static_cast<bool(MUU_VECTORCALL *)(type,type,type)noexcept>(muu::approx_equal)(	\
-					v1.member,																	\
-					v2.member,																	\
-					epsilon																		\
-				)
+			#define VEC_FUNC(member)	muu::approx_equal(static_cast<type>(v1.member), static_cast<type>(v2.member), epsilon)
 			COMPONENTWISE_AND(VEC_FUNC);
 			#undef VEC_FUNC
 		}
@@ -1560,7 +1549,7 @@ MUU_NAMESPACE_START
 		/// \brief	Returns the cross product of two vectors.
 		/// 
 		/// \note		This function is only available when #dimensions == 3.
-		REQUIRES_EXACTLY_DIMENSIONS(3)
+		REQUIRES_DIMENSIONS_EXACTLY(3)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr vector<product_type, 3> MUU_VECTORCALL cross(vector_param lhs, vector_param rhs) noexcept
@@ -1587,7 +1576,7 @@ MUU_NAMESPACE_START
 		/// \brief	Returns the cross product of this vector and another.
 		/// 
 		/// \note		This function is only available when #dimensions == 3.
-		REQUIRES_EXACTLY_DIMENSIONS(3)
+		REQUIRES_DIMENSIONS_EXACTLY(3)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr vector<product_type, 3> MUU_VECTORCALL cross(vector_param v) const noexcept
@@ -1955,7 +1944,7 @@ MUU_NAMESPACE_START
 			return raw_divide_scalar(v, raw_length(v));
 		}
 
-		/// \brief	Normalizes the vector in-place.
+		/// \brief	Normalizes the vector (in-place).
 		///
 		/// \param length_out	An output param to receive the length of the vector pre-normalization.
 		/// 
@@ -1970,7 +1959,7 @@ MUU_NAMESPACE_START
 			return raw_divide_assign_scalar(len);
 		}
 
-		/// \brief	Normalizes the vector in-place.
+		/// \brief	Normalizes the vector (in-place).
 		///
 		/// \return	A reference to the vector.
 		/// 
@@ -2057,31 +2046,31 @@ MUU_NAMESPACE_START
 			#undef VEC_FUNC
 		}
 
-		/// \brief	Componentwise clamps each scalar component of a vector between the values bounded by two others.
+		/// \brief	Componentwise clamps a vector between two others.
 		/// 
 		/// \param v		The vector being clamped.
-		/// \param min_		The minimum bound of the clamp operation.
-		/// \param max_		The maximum bound of the clamp operation.
+		/// \param low		The low bound of the clamp operation.
+		/// \param high		The high bound of the clamp operation.
 		/// 
 		/// \return	A vector containing the scalar components from `v` clamped inside the given bounds.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr vector MUU_VECTORCALL clamp(vector_param v, vector_param min_, vector_param max_) noexcept
+		static constexpr vector MUU_VECTORCALL clamp(vector_param v, vector_param low, vector_param high) noexcept
 		{
-			#define VEC_FUNC(member)	muu::clamp(v.member, min_.member, max_.member)
+			#define VEC_FUNC(member)	muu::clamp(v.member, low.member, high.member)
 			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 			#undef VEC_FUNC
 		}
 
-		/// \brief	Clamps this vector between to bounds (in-place).
+		/// \brief	Componentwise clamps the vector between two others (in-place).
 		/// 
-		/// \param min_		The minimum bound of the clamp operation.
-		/// \param max_		The maximum bound of the clamp operation.
+		/// \param low		The low bound of the clamp operation.
+		/// \param high		The high bound of the clamp operation.
 		/// 
 		/// \return	A reference to the vector.
-		constexpr vector& MUU_VECTORCALL clamp(vector_param min_, vector_param max_) noexcept
+		constexpr vector& MUU_VECTORCALL clamp(vector_param low, vector_param high) noexcept
 		{
-			#define VEC_FUNC(member)	muu::clamp(base::member, min_.member, max_.member)
+			#define VEC_FUNC(member)	muu::clamp(base::member, low.member, high.member)
 			COMPONENTWISE_ASSIGN(VEC_FUNC);
 			#undef VEC_FUNC
 		}
@@ -2090,8 +2079,7 @@ MUU_NAMESPACE_START
 
 	#if 1 // misc -----------------------------------------------------------------------------------------------------
 
-
-		/// \brief	Performs a linear interpolation towards another vector (in-place).
+		/// \brief	Performs a linear interpolation towards another vector.
 		///
 		/// \param	start	The value at the start of the interpolation range.
 		/// \param	finish	The value at the end of the interpolation range.
@@ -2164,7 +2152,7 @@ MUU_NAMESPACE_START
 			return vector<scalar_type, sizeof...(Indices)>{ v.template get<Indices>()... };
 		}
 
-		/// \brief Creates a vector by selecting and re-packing the scalar components from this one in an abitrary order.
+		/// \brief Creates a vector by selecting and re-packing the scalar components from this vector in an abitrary order.
 		/// 
 		/// \tparam	Indices		Indices of the scalar components in the order they're to be re-packed.
 		/// 				
@@ -2196,6 +2184,73 @@ MUU_NAMESPACE_START
 			return swizzle<Indices...>(*this);
 		}
 
+		/// \brief	Calculates the angle between two normalized direction vectors.
+		///
+		/// \param	d1	A normalized direction vector.
+		/// \param	d2	A normalized direction vector.
+		///
+		/// \returns	The angle between the two vectors (in radians).
+		/// 
+		/// \note		This function is only available when #dimensions == 2 or 3.
+		REQUIRES_DIMENSIONS_BETWEEN(2, 3)
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr product_type MUU_VECTORCALL angle(vector_param d1, vector_param d2) noexcept
+		{
+			// law of cosines
+			// https://stackoverflow.com/questions/10507620/finding-the-angle-between-vectors
+
+			const auto divisor = raw_length(d1) * raw_length(d2);
+			if (divisor == intermediate_type{})
+				return product_type{};
+
+			const auto cos = raw_dot(d1, d2) / divisor;
+			return cos <= intermediate_type{ 1 }
+				? static_cast<product_type>(std::acos(cos))
+				: product_type{}
+			;
+		}
+
+		/// \brief	Calculates the angle between two normalized direction vectors.
+		///
+		/// \param	d	A normalized direction vector.
+		///
+		/// \returns	The angle between the two vectors (in radians).
+		/// 
+		/// \note		This function is only available when #dimensions == 2 or 3.
+		REQUIRES_DIMENSIONS_BETWEEN(2, 3)
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr product_type MUU_VECTORCALL angle(vector_param d) const noexcept
+		{
+			return angle(*this, d);
+		}
+
+		/// \brief	Returns a vector with all scalar components set to their absolute values.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr vector MUU_VECTORCALL absolute(vector v) noexcept
+		{
+			if constexpr (is_signed<scalar_type>)
+			{
+				#define VEC_FUNC(member)	muu::abs(v.member)
+				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
+				#undef VEC_FUNC
+			}
+			else
+				return v;
+		}
+
+		/// \brief	Returns a copy of this vector with all scalar components set to their absolute values.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr vector absolute() const noexcept
+		{
+			if constexpr (is_signed<scalar_type>)
+				return abs(*this);
+			else
+				return *this;
+		}
 
 	#endif // misc
 	};
@@ -2203,7 +2258,7 @@ MUU_NAMESPACE_START
 	#ifndef DOXYGEN // deduction guides -------------------------------------------------------------------------------
 
 	template <typename T, typename U, typename... V>
-	vector(T, U, V...) -> vector<impl::highest_ranked<std::remove_cv_t<T>, std::remove_cv_t<U>, std::remove_cv_t<V>...>, 2 + sizeof...(V)>;
+	vector(T, U, V...) -> vector<impl::highest_ranked<T, U, V...>, 2 + sizeof...(V)>;
 
 	template <typename T>
 	vector(T) -> vector<std::remove_cv_t<T>, 1>;
@@ -2215,16 +2270,16 @@ MUU_NAMESPACE_START
 	vector(const std::array<T, N>&) -> vector<std::remove_cv_t<T>, N>;
 
 	template <typename T, typename U>
-	vector(const std::pair<T, U>&) -> vector<impl::highest_ranked<std::remove_cv_t<T>, std::remove_cv_t<U>>, 2>;
+	vector(const std::pair<T, U>&) -> vector<impl::highest_ranked<T, U>, 2>;
 
 	template <typename... T>
-	vector(const std::tuple<T...>&) -> vector<impl::highest_ranked<std::remove_cv_t<T>...>, sizeof...(T)>;
+	vector(const std::tuple<T...>&) -> vector<impl::highest_ranked<T...>, sizeof...(T)>;
 
 	template <typename S1, size_t D1, typename S2, size_t D2>
 	vector(const vector<S1, D1>&, const vector<S2, D2>&) -> vector<impl::highest_ranked<S1, S2>, D1 + D2>;
 
 	template <typename S, size_t D, typename... T>
-	vector(const vector<S, D>&, T...) -> vector<impl::highest_ranked<S, std::remove_cv_t<T>...>, D + sizeof...(T)>;
+	vector(const vector<S, D>&, T...) -> vector<impl::highest_ranked<S, T...>, D + sizeof...(T)>;
 
 	#endif // deduction guides
 }
@@ -2247,12 +2302,11 @@ namespace std
 	};
 }
 
-#endif // =============================================================================================================
-
-#undef ENABLE_IF_AT_LEAST_DIMENSIONS
-#undef ENABLE_IF_AT_LEAST_DIMENSIONS_AND
-#undef REQUIRES_AT_LEAST_DIMENSIONS
-#undef REQUIRES_EXACTLY_DIMENSIONS
+#undef ENABLE_IF_DIMENSIONS_AT_LEAST
+#undef ENABLE_IF_DIMENSIONS_AT_LEAST_AND
+#undef REQUIRES_DIMENSIONS_AT_LEAST
+#undef REQUIRES_DIMENSIONS_BETWEEN
+#undef REQUIRES_DIMENSIONS_EXACTLY
 #undef REQUIRES_FLOATING_POINT
 #undef REQUIRES_INTEGRAL
 #undef REQUIRES_SIGNED
@@ -2269,7 +2323,245 @@ namespace std
 #undef NULL_TRANSFORM
 #undef FMA_BLOCK
 
-MUU_PRAGMA_MSVC(inline_recursion(off))
+#endif // =============================================================================================================
+
+//=====================================================================================================================
+// VECTOR CLASS CONSTANTS
+#if 1
+
+MUU_PUSH_PRECISE_MATH
+
+MUU_NAMESPACE_START
+{
+	namespace impl
+	{
+		#ifndef DOXYGEN
+
+		template <typename Scalar, size_t Dimensions>
+		struct integer_limits<vector<Scalar, Dimensions>>
+		{
+			using type = vector<Scalar, Dimensions>;
+			using scalars = integer_limits<Scalar>;
+			static constexpr type lowest				= type{ scalars::lowest };
+			static constexpr type highest				= type{ scalars::highest };
+		};
+
+		template <typename Scalar, size_t Dimensions>
+		struct integer_positive_constants<vector<Scalar, Dimensions>>
+		{
+			using type = vector<Scalar, Dimensions>;
+			using scalars = integer_positive_constants<Scalar>;
+			static constexpr type zero					= type{ scalars::zero  };
+			static constexpr type one					= type{ scalars::one   };
+			static constexpr type two					= type{ scalars::two   };
+			static constexpr type three					= type{ scalars::three };
+			static constexpr type four					= type{ scalars::four  };
+			static constexpr type five					= type{ scalars::five  };
+			static constexpr type six					= type{ scalars::six   };
+			static constexpr type seven					= type{ scalars::seven };
+			static constexpr type eight					= type{ scalars::eight };
+			static constexpr type nine					= type{ scalars::nine  };
+			static constexpr type ten					= type{ scalars::ten   };
+		};
+
+		template <typename Scalar, size_t Dimensions>
+		struct integer_negative_constants<vector<Scalar, Dimensions>>
+		{
+			using type = vector<Scalar, Dimensions>;
+			using scalars = integer_negative_constants<Scalar>;
+			static constexpr type minus_one				= type{ scalars::minus_one   };
+			static constexpr type minus_two				= type{ scalars::minus_two   };
+			static constexpr type minus_three			= type{ scalars::minus_three };
+			static constexpr type minus_four			= type{ scalars::minus_four  };
+			static constexpr type minus_five			= type{ scalars::minus_five  };
+			static constexpr type minus_six				= type{ scalars::minus_six   };
+			static constexpr type minus_seven			= type{ scalars::minus_seven };
+			static constexpr type minus_eight			= type{ scalars::minus_eight };
+			static constexpr type minus_nine			= type{ scalars::minus_nine  };
+			static constexpr type minus_ten				= type{ scalars::minus_ten   };
+		};
+
+		template <typename Scalar, size_t Dimensions>
+		struct floating_point_limits<vector<Scalar, Dimensions>>
+			: floating_point_limits<Scalar>
+		{};
+
+		template <typename Scalar, size_t Dimensions>
+		struct floating_point_special_constants<vector<Scalar, Dimensions>>
+		{
+			using type = vector<Scalar, Dimensions>;
+			using scalars = floating_point_special_constants<Scalar>;
+			static constexpr type nan					= type{ scalars::nan };
+			static constexpr type signaling_nan			= type{ scalars::signaling_nan };
+			static constexpr type infinity				= type{ scalars::infinity };
+			static constexpr type negative_infinity		= type{ scalars::negative_infinity };
+			static constexpr type minus_zero			= type{ scalars::minus_zero };
+		};
+
+		template <typename Scalar, size_t Dimensions>
+		struct floating_point_named_constants<vector<Scalar, Dimensions>>
+		{
+			using type = vector<Scalar, Dimensions>;
+			using scalars = floating_point_named_constants<Scalar>;
+			static constexpr type one_over_two			= type{ scalars::one_over_two         };
+			static constexpr type two_over_three		= type{ scalars::two_over_three       };
+			static constexpr type two_over_five			= type{ scalars::two_over_five        };
+			static constexpr type sqrt_two				= type{ scalars::sqrt_two             };
+			static constexpr type one_over_sqrt_two		= type{ scalars::one_over_sqrt_two    };
+			static constexpr type one_over_three		= type{ scalars::one_over_three       };
+			static constexpr type three_over_two		= type{ scalars::three_over_two       };
+			static constexpr type three_over_four		= type{ scalars::three_over_four      };
+			static constexpr type three_over_five		= type{ scalars::three_over_five      };
+			static constexpr type sqrt_three			= type{ scalars::sqrt_three           };
+			static constexpr type one_over_sqrt_three	= type{ scalars::one_over_sqrt_three  };
+			static constexpr type pi					= type{ scalars::pi                   };
+			static constexpr type one_over_pi			= type{ scalars::one_over_pi          };
+			static constexpr type pi_over_two			= type{ scalars::pi_over_two          };
+			static constexpr type pi_over_three			= type{ scalars::pi_over_three        };
+			static constexpr type pi_over_four			= type{ scalars::pi_over_four         };
+			static constexpr type pi_over_five			= type{ scalars::pi_over_five         };
+			static constexpr type pi_over_six			= type{ scalars::pi_over_six          };
+			static constexpr type sqrt_pi				= type{ scalars::sqrt_pi              };
+			static constexpr type one_over_sqrt_pi		= type{ scalars::one_over_sqrt_pi     };
+			static constexpr type two_pi				= type{ scalars::two_pi               };
+			static constexpr type sqrt_two_pi			= type{ scalars::sqrt_two_pi          };
+			static constexpr type one_over_sqrt_two_pi	= type{ scalars::one_over_sqrt_two_pi };
+			static constexpr type e						= type{ scalars::e                    };
+			static constexpr type one_over_e			= type{ scalars::one_over_e           };
+			static constexpr type e_over_two			= type{ scalars::e_over_two           };
+			static constexpr type e_over_three			= type{ scalars::e_over_three         };
+			static constexpr type e_over_four			= type{ scalars::e_over_four          };
+			static constexpr type e_over_five			= type{ scalars::e_over_five          };
+			static constexpr type e_over_six			= type{ scalars::e_over_six           };
+			static constexpr type sqrt_e				= type{ scalars::sqrt_e               };
+			static constexpr type one_over_sqrt_e		= type{ scalars::one_over_sqrt_e      };
+			static constexpr type phi					= type{ scalars::phi                  };
+			static constexpr type one_over_phi			= type{ scalars::one_over_phi         };
+			static constexpr type phi_over_two			= type{ scalars::phi_over_two         };
+			static constexpr type phi_over_three		= type{ scalars::phi_over_three       };
+			static constexpr type phi_over_four			= type{ scalars::phi_over_four        };
+			static constexpr type phi_over_five			= type{ scalars::phi_over_five        };
+			static constexpr type phi_over_six			= type{ scalars::phi_over_six         };
+			static constexpr type sqrt_phi				= type{ scalars::sqrt_phi             };
+			static constexpr type one_over_sqrt_phi		= type{ scalars::one_over_sqrt_phi    };
+		};
+
+		#endif // !DOXYGEN
+
+		template <typename Scalar, size_t Dimensions>
+		struct unit_length_1d_vector_constants
+		{
+			using scalars = muu::constants<Scalar>;
+
+			/// \brief	A unit-length vector representing the X axis.
+			static constexpr vector<Scalar, Dimensions> x_axis{ scalars::one, scalars::zero };
+		};
+
+		template <typename Scalar, size_t Dimensions
+			#ifndef DOXYGEN
+			, bool = (Dimensions >= 2)
+			#endif
+		>
+		struct unit_length_2d_vector_constants
+		{
+			using scalars = muu::constants<Scalar>;
+
+			/// \brief	A unit-length vector representing the Y axis.
+			static constexpr vector<Scalar, Dimensions> y_axis{ scalars::zero, scalars::one };
+		};
+
+		template <typename Scalar, size_t Dimensions
+			#ifndef DOXYGEN
+			, bool = (Dimensions >= 3)
+			#endif
+		>
+		struct unit_length_3d_vector_constants
+		{
+			using scalars = muu::constants<Scalar>;
+
+			/// \brief	A unit-length vector representing the Z axis.
+			static constexpr vector<Scalar, Dimensions> z_axis{ scalars::zero, scalars::zero, scalars::one };
+		};
+
+		template <typename Scalar, size_t Dimensions
+			#ifndef DOXYGEN
+			, bool = (Dimensions >= 4)
+			#endif
+		>
+		struct unit_length_4d_vector_constants
+		{
+			using scalars = muu::constants<Scalar>;
+
+			/// \brief	A unit-length vector representing the W axis.
+			static constexpr vector<Scalar, Dimensions> w_axis{ scalars::zero, scalars::zero, scalars::zero, scalars::one };
+		};
+
+		template <typename Scalar, size_t Dimensions>
+		struct unit_length_vector_constants
+			: unit_length_1d_vector_constants<Scalar, Dimensions>,
+			unit_length_2d_vector_constants<Scalar, Dimensions>,
+			unit_length_3d_vector_constants<Scalar, Dimensions>,
+			unit_length_4d_vector_constants<Scalar, Dimensions>
+		{ };
+
+		#ifndef DOXYGEN
+
+		template <typename Scalar, size_t Dimensions>
+		struct unit_length_2d_vector_constants<Scalar, Dimensions, false> { };
+
+		template <typename Scalar, size_t Dimensions>
+		struct unit_length_3d_vector_constants<Scalar, Dimensions, false> { };
+
+		template <typename Scalar, size_t Dimensions>
+		struct unit_length_4d_vector_constants<Scalar, Dimensions, false> { };
+
+		template <typename Scalar, size_t Dimensions, bool = is_floating_point<Scalar>, bool = is_signed<Scalar>>
+		struct vector_constants_base									: floating_point_constants<vector<Scalar, Dimensions>> {};
+		template <typename Scalar, size_t Dimensions>
+		struct vector_constants_base<Scalar, Dimensions, false, true>	: signed_integral_constants<vector<Scalar, Dimensions>> {};
+		template <typename Scalar, size_t Dimensions>
+		struct vector_constants_base<Scalar, Dimensions, false, false>	: unsigned_integral_constants<vector<Scalar, Dimensions>> {};
+
+		#endif // !DOXYGEN
+	}
+
+	#ifdef DOXYGEN
+	
+	// we just tell doxygen it inherits from everything regardless of template type
+	// because doxygen breaks if you mix template specialization and inheritance.
+
+	/// \brief	vector constants.
+	/// \ingroup		constants
+	template <typename Scalar, size_t Dimensions>
+	struct constants<vector<Scalar, Dimensions>>
+		: impl::integer_limits<vector<Scalar, Dimensions>>,
+		impl::integer_positive_constants<vector<Scalar, Dimensions>>,
+		impl::integer_negative_constants<vector<Scalar, Dimensions>>,
+		impl::floating_point_limits<vector<Scalar, Dimensions>>,
+		impl::floating_point_special_constants<vector<Scalar, Dimensions>>,
+		impl::floating_point_named_constants<vector<Scalar, Dimensions>>,
+		impl::unit_length_vector_constants<vector<Scalar, Dimensions>>
+	{};
+
+	#else
+
+	template <typename Scalar, size_t Dimensions>
+	struct constants<vector<Scalar, Dimensions>>
+		: impl::vector_constants_base<Scalar, Dimensions>,
+		impl::unit_length_vector_constants<Scalar, Dimensions>
+	{};
+
+	#endif
+}
+MUU_NAMESPACE_END
+
+
+
+MUU_POP_PRECISE_MATH
+
+#endif // =============================================================================================================
+
 MUU_PRAGMA_MSVC(float_control(pop))
+MUU_PRAGMA_MSVC(inline_recursion(off))
 
 MUU_POP_WARNINGS	// MUU_DISABLE_SHADOW_WARNINGS

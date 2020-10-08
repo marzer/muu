@@ -18,6 +18,20 @@ static_assert(std::is_trivially_move_constructible_v<half>);
 static_assert(std::is_trivially_move_assignable_v<half>);
 static_assert(std::is_trivially_destructible_v<half>);
 
+TEST_CASE("half - construction")
+{
+	constexpr auto zero_init_aggr_constexpr = half{};
+	CHECK(zero_init_aggr_constexpr == constants<half>::zero);
+
+	auto zero_init_aggr = half{};
+	CHECK(zero_init_aggr == constants<half>::zero);
+
+	// sanity check the constant
+	uint16_t val;
+	memcpy(&val, &zero_init_aggr, 2u);
+	CHECK(val == 0_u16);
+}
+
 TEST_CASE("half - negation")
 {
 	for (int i = -100; i <= 100; i++)

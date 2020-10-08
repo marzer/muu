@@ -177,8 +177,6 @@
 
 #if MUU_CLANG
 
-	#define MUU_PRAGMA_CLANG(...)					_Pragma(__VA_ARGS__)
-
 	#if MUU_CLANG >= 7
 		#define MUU_MACRO_DISPATCH_CLANG_GE_7(...)	__VA_ARGS__
 		#define MUU_MACRO_DISPATCH_CLANG_LT_7(...)
@@ -215,35 +213,39 @@
 		#define MUU_MACRO_DISPATCH_CLANG_LT_11(...)	__VA_ARGS__
 	#endif
 
-	#define MUU_PRAGMA_CLANG_GE(ver, ...)	MUU_CONCAT(MUU_MACRO_DISPATCH_CLANG_GE_, ver)(_Pragma(__VA_ARGS__))
-	#define MUU_PRAGMA_CLANG_LT(ver, ...)	MUU_CONCAT(MUU_MACRO_DISPATCH_CLANG_LT_, ver)(_Pragma(__VA_ARGS__))
+	#define MUU_PRAGMA_CLANG(decl)			_Pragma(MUU_MAKE_STRING(clang decl))
+	#define MUU_PRAGMA_CLANG_GE(ver, decl)	MUU_CONCAT(MUU_MACRO_DISPATCH_CLANG_GE_, ver)(MUU_PRAGMA_CLANG(decl))
+	#define MUU_PRAGMA_CLANG_LT(ver, decl)	MUU_CONCAT(MUU_MACRO_DISPATCH_CLANG_LT_, ver)(MUU_PRAGMA_CLANG(decl))
 
-	#define MUU_PUSH_WARNINGS				_Pragma("clang diagnostic push")
-	#define MUU_DISABLE_SWITCH_WARNINGS		_Pragma("clang diagnostic ignored \"-Wswitch\"")
-	#define MUU_DISABLE_LIFETIME_WARNINGS	_Pragma("clang diagnostic ignored \"-Wmissing-field-initializers\"")	\
-											_Pragma("clang diagnostic ignored \"-Wglobal-constructors\"")	\
-											_Pragma("clang diagnostic ignored \"-Wexit-time-destructors\"")
-	#define MUU_DISABLE_ARITHMETIC_WARNINGS	_Pragma("clang diagnostic ignored \"-Wfloat-equal\"") \
-											_Pragma("clang diagnostic ignored \"-Wdouble-promotion\"") \
-											_Pragma("clang diagnostic ignored \"-Wchar-subscripts\"") \
-											_Pragma("clang diagnostic ignored \"-Wshift-sign-overflow\"") \
-							MUU_PRAGMA_CLANG_GE(10, "clang diagnostic ignored \"-Wimplicit-int-float-conversion\"")
-	#define MUU_DISABLE_SHADOW_WARNINGS		_Pragma("clang diagnostic ignored \"-Wshadow\"")	\
-											_Pragma("clang diagnostic ignored \"-Wshadow-field\"")
-	#define MUU_DISABLE_SPAM_WARNINGS		_Pragma("clang diagnostic ignored \"-Wweak-vtables\"")			\
-											_Pragma("clang diagnostic ignored \"-Wweak-template-vtables\"")	\
-											_Pragma("clang diagnostic ignored \"-Wpadded\"") \
-							MUU_PRAGMA_CLANG_GE(9,  "clang diagnostic ignored \"-Wctad-maybe-unsupported\"") \
-											_Pragma("clang diagnostic ignored \"-Wc++2a-compat\"") \
-											_Pragma("clang diagnostic ignored \"-Wpacked\"")
-	#define MUU_POP_WARNINGS				_Pragma("clang diagnostic pop")
+	#define MUU_ATTR(...)					__attribute__((__VA_ARGS__))
+	#define MUU_ATTR_CLANG(...)				MUU_ATTR(__VA_ARGS__)
+	#define MUU_ATTR_CLANG_GE(ver, ...)		MUU_CONCAT(MUU_MACRO_DISPATCH_CLANG_GE_, ver)(MUU_ATTR(__VA_ARGS__))
+	#define MUU_ATTR_CLANG_LT(ver, ...)		MUU_CONCAT(MUU_MACRO_DISPATCH_CLANG_LT_, ver)(MUU_ATTR(__VA_ARGS__))
+
+	#define MUU_PUSH_WARNINGS				MUU_PRAGMA_CLANG(diagnostic push)
+	#define MUU_DISABLE_SWITCH_WARNINGS		MUU_PRAGMA_CLANG(diagnostic ignored "-Wswitch")
+	#define MUU_DISABLE_LIFETIME_WARNINGS	MUU_PRAGMA_CLANG(diagnostic ignored "-Wmissing-field-initializers")	\
+											MUU_PRAGMA_CLANG(diagnostic ignored "-Wglobal-constructors")	\
+											MUU_PRAGMA_CLANG(diagnostic ignored "-Wexit-time-destructors")
+	#define MUU_DISABLE_ARITHMETIC_WARNINGS	MUU_PRAGMA_CLANG(diagnostic ignored "-Wfloat-equal") \
+											MUU_PRAGMA_CLANG(diagnostic ignored "-Wdouble-promotion") \
+											MUU_PRAGMA_CLANG(diagnostic ignored "-Wchar-subscripts") \
+											MUU_PRAGMA_CLANG(diagnostic ignored "-Wshift-sign-overflow") \
+									 MUU_PRAGMA_CLANG_GE(10, diagnostic ignored "-Wimplicit-int-float-conversion")
+	#define MUU_DISABLE_SHADOW_WARNINGS		MUU_PRAGMA_CLANG(diagnostic ignored "-Wshadow")	\
+											MUU_PRAGMA_CLANG(diagnostic ignored "-Wshadow-field")
+	#define MUU_DISABLE_SPAM_WARNINGS		MUU_PRAGMA_CLANG(diagnostic ignored "-Wweak-vtables")			\
+											MUU_PRAGMA_CLANG(diagnostic ignored "-Wweak-template-vtables")	\
+											MUU_PRAGMA_CLANG(diagnostic ignored "-Wpadded") \
+									  MUU_PRAGMA_CLANG_GE(9, diagnostic ignored "-Wctad-maybe-unsupported") \
+											MUU_PRAGMA_CLANG(diagnostic ignored "-Wc++2a-compat") \
+											MUU_PRAGMA_CLANG(diagnostic ignored "-Wpacked")
+	#define MUU_POP_WARNINGS				MUU_PRAGMA_CLANG(diagnostic pop)
 	#define MUU_DISABLE_WARNINGS			MUU_PUSH_WARNINGS \
-											_Pragma("clang diagnostic ignored \"-Weverything\"")
+											MUU_PRAGMA_CLANG(diagnostic ignored "-Weverything")
 	#define MUU_ENABLE_WARNINGS				MUU_POP_WARNINGS
 	#define MUU_ASSUME(cond)				__builtin_assume(cond)
 	#define MUU_UNREACHABLE					__builtin_unreachable()
-	#define MUU_ATTR(attr)					__attribute__((attr))
-	#define MUU_ATTR_CLANG(attr)			MUU_ATTR(attr)
 	#define MUU_ALIGN(alignment)			MUU_ATTR(aligned(alignment))
 	#if defined(_MSC_VER) // msvc compat mode
 		#ifdef __has_declspec_attribute
@@ -367,8 +369,6 @@
 
 #if MUU_GCC
 
-	#define MUU_PRAGMA_GCC(...)				_Pragma(__VA_ARGS__)
-
 	#if MUU_GCC >= 7
 		#define MUU_MACRO_DISPATCH_GCC_GE_7(...)	__VA_ARGS__
 		#define MUU_MACRO_DISPATCH_GCC_LT_7(...)
@@ -405,33 +405,39 @@
 		#define MUU_MACRO_DISPATCH_GCC_LT_11(...)	__VA_ARGS__
 	#endif
 
-	#define MUU_PRAGMA_GCC_GE(ver, ...)		MUU_CONCAT(MUU_MACRO_DISPATCH_GCC_GE_, ver)(_Pragma(__VA_ARGS__))
-	#define MUU_PRAGMA_GCC_LT(ver, ...)		MUU_CONCAT(MUU_MACRO_DISPATCH_GCC_LT_, ver)(_Pragma(__VA_ARGS__))
+	#define MUU_PRAGMA_GCC(decl)			_Pragma(MUU_MAKE_STRING(GCC decl))
+	#define MUU_PRAGMA_GCC_GE(ver, decl)	MUU_CONCAT(MUU_MACRO_DISPATCH_GCC_GE_, ver)(MUU_PRAGMA_GCC(decl))
+	#define MUU_PRAGMA_GCC_LT(ver, decl)	MUU_CONCAT(MUU_MACRO_DISPATCH_GCC_LT_, ver)(MUU_PRAGMA_GCC(decl))
 
-	#define MUU_PUSH_WARNINGS				_Pragma("GCC diagnostic push")
-	#define MUU_DISABLE_SWITCH_WARNINGS		_Pragma("GCC diagnostic ignored \"-Wswitch\"")						\
-											_Pragma("GCC diagnostic ignored \"-Wswitch-enum\"")					\
-											_Pragma("GCC diagnostic ignored \"-Wswitch-default\"")
-	#define MUU_DISABLE_LIFETIME_WARNINGS	_Pragma("GCC diagnostic ignored \"-Wmissing-field-initializers\"")	\
-											_Pragma("GCC diagnostic ignored \"-Wmaybe-uninitialized\"")			\
-											_Pragma("GCC diagnostic ignored \"-Wuninitialized\"")				\
-							   MUU_PRAGMA_GCC_GE(8, "GCC diagnostic ignored \"-Wclass-memaccess\"")
-	#define MUU_DISABLE_ARITHMETIC_WARNINGS	_Pragma("GCC diagnostic ignored \"-Wfloat-equal\"")					\
-											_Pragma("GCC diagnostic ignored \"-Wsign-conversion\"")				\
-											_Pragma("GCC diagnostic ignored \"-Wchar-subscripts\"")
-	#define MUU_DISABLE_SHADOW_WARNINGS		_Pragma("GCC diagnostic ignored \"-Wshadow\"")
-	#define MUU_DISABLE_SUGGEST_WARNINGS	_Pragma("GCC diagnostic ignored \"-Wsuggest-attribute=const\"")		\
-											_Pragma("GCC diagnostic ignored \"-Wsuggest-attribute=pure\"")
-	#define MUU_DISABLE_SPAM_WARNINGS		_Pragma("GCC diagnostic ignored \"-Wpadded\"")						\
-											_Pragma("GCC diagnostic ignored \"-Wcast-align\"")					\
-											_Pragma("GCC diagnostic ignored \"-Wcomment\"")						\
-											_Pragma("GCC diagnostic ignored \"-Wsubobject-linkage\"")			\
-											_Pragma("GCC diagnostic ignored \"-Wtype-limits\"")
-	#define MUU_POP_WARNINGS				_Pragma("GCC diagnostic pop")
+	#define MUU_ATTR(...)					__attribute__((__VA_ARGS__))
+	#define MUU_ATTR_GCC(...)				MUU_ATTR(__VA_ARGS__)
+	#define MUU_ATTR_GCC_GE(ver, ...)		MUU_CONCAT(MUU_MACRO_DISPATCH_GCC_GE_, ver)(MUU_ATTR(__VA_ARGS__))
+	#define MUU_ATTR_GCC_LT(ver, ...)		MUU_CONCAT(MUU_MACRO_DISPATCH_GCC_LT_, ver)(MUU_ATTR(__VA_ARGS__))
+
+	#define MUU_PUSH_WARNINGS				MUU_PRAGMA_GCC(diagnostic push)
+	#define MUU_DISABLE_SWITCH_WARNINGS		MUU_PRAGMA_GCC(diagnostic ignored "-Wswitch")						\
+											MUU_PRAGMA_GCC(diagnostic ignored "-Wswitch-enum")					\
+											MUU_PRAGMA_GCC(diagnostic ignored "-Wswitch-default")
+	#define MUU_DISABLE_LIFETIME_WARNINGS	MUU_PRAGMA_GCC(diagnostic ignored "-Wmissing-field-initializers")	\
+											MUU_PRAGMA_GCC(diagnostic ignored "-Wmaybe-uninitialized")			\
+											MUU_PRAGMA_GCC(diagnostic ignored "-Wuninitialized")				\
+									  MUU_PRAGMA_GCC_GE(8, diagnostic ignored "-Wclass-memaccess")
+	#define MUU_DISABLE_ARITHMETIC_WARNINGS	MUU_PRAGMA_GCC(diagnostic ignored "-Wfloat-equal")					\
+											MUU_PRAGMA_GCC(diagnostic ignored "-Wsign-conversion")				\
+											MUU_PRAGMA_GCC(diagnostic ignored "-Wchar-subscripts")
+	#define MUU_DISABLE_SHADOW_WARNINGS		MUU_PRAGMA_GCC(diagnostic ignored "-Wshadow")
+	#define MUU_DISABLE_SUGGEST_WARNINGS	MUU_PRAGMA_GCC(diagnostic ignored "-Wsuggest-attribute=const")		\
+											MUU_PRAGMA_GCC(diagnostic ignored "-Wsuggest-attribute=pure")
+	#define MUU_DISABLE_SPAM_WARNINGS		MUU_PRAGMA_GCC(diagnostic ignored "-Wpadded")						\
+											MUU_PRAGMA_GCC(diagnostic ignored "-Wcast-align")					\
+											MUU_PRAGMA_GCC(diagnostic ignored "-Wcomment")						\
+											MUU_PRAGMA_GCC(diagnostic ignored "-Wsubobject-linkage")			\
+											MUU_PRAGMA_GCC(diagnostic ignored "-Wtype-limits")
+	#define MUU_POP_WARNINGS				MUU_PRAGMA_GCC(diagnostic pop)
 	#define MUU_DISABLE_WARNINGS			MUU_PUSH_WARNINGS \
-											_Pragma("GCC diagnostic ignored \"-Wall\"")							\
-											_Pragma("GCC diagnostic ignored \"-Wextra\"")						\
-											_Pragma("GCC diagnostic ignored \"-Wpedantic\"")					\
+											MUU_PRAGMA_GCC(diagnostic ignored "-Wall")							\
+											MUU_PRAGMA_GCC(diagnostic ignored "-Wextra")						\
+											MUU_PRAGMA_GCC(diagnostic ignored "-Wpedantic")						\
 											MUU_DISABLE_SWITCH_WARNINGS											\
 											MUU_DISABLE_LIFETIME_WARNINGS										\
 											MUU_DISABLE_ARITHMETIC_WARNINGS										\
@@ -439,8 +445,6 @@
 											MUU_DISABLE_SUGGEST_WARNINGS										\
 											MUU_DISABLE_SPAM_WARNINGS
 	#define MUU_ENABLE_WARNINGS				MUU_POP_WARNINGS
-		#define MUU_ATTR(attr)					__attribute__((attr))
-	#define MUU_ATTR_GCC(attr)				MUU_ATTR(attr)
 	#define MUU_ALIGN(alignment)			MUU_ATTR(aligned(alignment))
 	#define MUU_ALWAYS_INLINE				__attribute__((__always_inline__)) inline
 	#define MUU_NEVER_INLINE				__attribute__((__noinline__))
@@ -553,20 +557,12 @@
 
 #ifndef MUU_PRAGMA_CLANG
 	#define MUU_PRAGMA_CLANG(...)
-#endif
-#ifndef MUU_PRAGMA_CLANG_GE
 	#define MUU_PRAGMA_CLANG_GE(...)
-#endif
-#ifndef MUU_PRAGMA_CLANG_LT
 	#define MUU_PRAGMA_CLANG_LT(...)
 #endif
 #ifndef MUU_PRAGMA_GCC
 	#define MUU_PRAGMA_GCC(...)
-#endif
-#ifndef MUU_PRAGMA_GCC_GE
 	#define MUU_PRAGMA_GCC_GE(...)
-#endif
-#ifndef MUU_PRAGMA_GCC_LT
 	#define MUU_PRAGMA_GCC_LT(...)
 #endif
 #ifndef MUU_PRAGMA_ICC
@@ -577,18 +573,22 @@
 #endif
 
 #ifndef MUU_ATTR
-	#define MUU_ATTR(attr)
+	#define MUU_ATTR(...)
 #endif
 #ifdef NDEBUG
-	#define MUU_ATTR_NDEBUG(attr)	MUU_ATTR(attr)
+	#define MUU_ATTR_NDEBUG(...)	MUU_ATTR(__VA_ARGS__)
 #else
-	#define MUU_ATTR_NDEBUG(attr)
+	#define MUU_ATTR_NDEBUG(...)
 #endif
 #ifndef MUU_ATTR_CLANG
-	#define MUU_ATTR_CLANG(attr)
+	#define MUU_ATTR_CLANG(...)
+	#define MUU_ATTR_CLANG_GE(...)
+	#define MUU_ATTR_CLANG_LT(...)
 #endif
 #ifndef MUU_ATTR_GCC
-	#define MUU_ATTR_GCC(attr)
+	#define MUU_ATTR_GCC(...)
+	#define MUU_ATTR_GCC_GE(...)
+	#define MUU_ATTR_GCC_LT(...)
 #endif
 #ifndef MUU_DECLSPEC
 	#define MUU_DECLSPEC(attr)
@@ -764,6 +764,16 @@
 		return static_cast<type>(~::muu::unwrap(val));						\
 	}
 
+#define MUU_PUSH_PRECISE_MATH												\
+	MUU_PRAGMA_MSVC(float_control(precise, on, push))						\
+	MUU_PRAGMA_CLANG_GE(11, "float_control(precise, on, push)")				\
+	MUU_PRAGMA_GCC(push_options)											\
+	MUU_PRAGMA_GCC(optimize("-fno-fast-math"))
+
+#define MUU_POP_PRECISE_MATH												\
+	MUU_PRAGMA_GCC(pop_options)												\
+	MUU_PRAGMA_CLANG_GE(11, "float_control(pop)")							\
+	MUU_PRAGMA_MSVC(float_control(pop))
 
 //=====================================================================================================================
 // SFINAE AND CONCEPTS
@@ -1016,16 +1026,28 @@
 /// \brief The currently-targeted C++ standard. `17` for C++17, `20` for C++20, etc.
 /// 
 /// \def MUU_PRAGMA_CLANG(...)
-/// \brief Expands to a `_Pragma()` directive when compiling with Clang.
+/// \brief Expands to `_Pragma("pragma clang ...")` when compiling with Clang.
 /// 
+/// \def MUU_PRAGMA_CLANG_GE(ver, ...)
+/// \brief Expands to `_Pragma("pragma clang ...")` when compiling with Clang and `__clang_major__` >= `ver`.
+/// 
+/// \def MUU_PRAGMA_CLANG_LT(ver, ...)
+/// \brief Expands to `_Pragma("pragma clang ...")` when compiling with Clang and `__clang_major__` < `ver`.
+///
 /// \def MUU_PRAGMA_MSVC(...)
-/// \brief Expands to a `_pragma()` directive when compiling with MSVC.
+/// \brief Expands to `_pragma(...)` directive when compiling with MSVC.
 /// 
 /// \def MUU_PRAGMA_ICC(...)
-/// \brief Expands to a `_pragma()` directive when compiling with ICC.
+/// \brief Expands to `_pragma(...)` directive when compiling with ICC.
 /// 
 /// \def MUU_PRAGMA_GCC(...)
-/// \brief Expands to a `_Pragma()` directive when compiling with GCC.
+/// \brief Expands to `_Pragma("pragma GCC ...")` directive when compiling with GCC.
+///
+/// \def MUU_PRAGMA_GCC_GE(ver, ...)
+/// \brief Expands to `_Pragma("pragma GCC ...")` when compiling with GCC and `__GNUC__` >= `ver`.
+/// 
+/// \def MUU_PRAGMA_GCC_LT(ver, ...)
+/// \brief Expands to `_Pragma("pragma GCC ...")` when compiling with GCC and `__GNUC__` < `ver`.
 /// 
 /// \def MUU_ATTR(attr)
 /// \brief Expands to `__attribute__(( attr ))` when compiling with a compiler that supports GNU-style attributes.
@@ -1037,9 +1059,21 @@
 /// \def MUU_ATTR_CLANG(attr)
 /// \brief Expands to `__attribute__(( attr ))` when compiling with Clang.
 ///
+/// \def MUU_ATTR_CLANG_GE(ver, attr)
+/// \brief Expands to `__attribute__(( attr ))` when compiling with Clang and `__clang_major__` >= `ver`.
+/// 
+/// \def MUU_ATTR_CLANG_LT(ver, attr)
+/// \brief Expands to `__attribute__(( attr ))` when compiling with Clang and `__clang_major__` < `ver`.
+///
 /// \def MUU_ATTR_GCC(attr)
 /// \brief Expands to `__attribute__(( attr ))` when compiling with GCC.
+///
+/// \def MUU_ATTR_GCC_GE(ver, attr)
+/// \brief Expands to `__attribute__(( attr ))` when compiling with GCC and `__GNUC__` >= `ver`.
 /// 
+/// \def MUU_ATTR_GCC_LT(ver, attr)
+/// \brief Expands to `__attribute__(( attr ))` when compiling with GCC and `__GNUC__` < `ver`.
+///
 /// \def MUU_DECLSPEC(attr)
 /// \brief Expands to `__declspec( attr )` when compiling with MSVC (or another compiler in MSVC-mode).
 ///

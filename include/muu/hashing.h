@@ -30,7 +30,7 @@ MUU_NAMESPACE_START
 		struct hash_combiner
 		{
 			static_assert(
-				dependent_false<hash_combiner<Bits>>,
+				always_false<hash_combiner<Bits>>,
 				"Hash combining with hashes of given number of bits is not implemented on the target platform"
 			);
 		};
@@ -109,7 +109,7 @@ MUU_NAMESPACE_START
 		struct fnv1a
 		{
 			static_assert(
-				dependent_false<std::integral_constant<size_t, Bits>>,
+				always_false<std::integral_constant<size_t, Bits>>,
 				"FNV-1a hashing with integers of given number of bits is not implemented on the target platform"
 			);
 		};

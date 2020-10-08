@@ -650,7 +650,7 @@ MUU_NAMESPACE_START
 
 			constexpr bool operator() (char32_t c) noexcept
 			{
-				if (!muu::is_ascii(c))
+				if (!muu::is_ascii_code_point(c))
 				{
 					state = s_error;
 					return false;

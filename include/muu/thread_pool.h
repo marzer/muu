@@ -221,7 +221,7 @@ MUU_IMPL_NAMESPACE_START
 			else if constexpr (traits::storage_mode == callable_storage_modes::pointer_to_source)
 				memcpy(callable_buffer, &callable_, sizeof(callable_type*));
 			else
-				static_assert(dependent_false<T>, "Evaluated unreachable branch!");
+				static_assert(always_false<T>, "Evaluated unreachable branch!");
 
 			// create invoker/mover/deleter
 			action_invoker = [](thread_pool_task_action&& action) noexcept
@@ -308,7 +308,7 @@ MUU_IMPL_NAMESPACE_START
 								delete callable;
 							}
 							else
-								static_assert(dependent_false<T>, "Evaluated unreachable branch!");
+								static_assert(always_false<T>, "Evaluated unreachable branch!");
 
 							return;
 						}
@@ -436,7 +436,7 @@ MUU_NAMESPACE_START
 						else if constexpr (std::is_invocable_v<T>)
 							task();
 						else
-							static_assert(dependent_false<Arg>, "Evaluated unreachable branch!");
+							static_assert(always_false<Arg>, "Evaluated unreachable branch!");
 					}
 
 					MUU_ALWAYS_INLINE for_each_task& operator* () noexcept { return *this; }

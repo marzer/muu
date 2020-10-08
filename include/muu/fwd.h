@@ -117,22 +117,24 @@ namespace muu // non-abi namespace; this is not an error
 
 MUU_NAMESPACE_START // abi namespace
 {
-	struct									half;
-	struct									semver;
-	struct									uuid;
-	template <typename, size_t>		struct	vector;
+	struct										half;
+	struct										semver;
+	struct										uuid;
+	template <typename, size_t>			struct	vector;
+	template <typename>					struct	quaternion;
+	template <typename, size_t, size_t>	struct	matrix;
 
-	class									bitset;
-	class									blob;
-	class									sha1;
-	class									string_param;
-	class									thread_pool;
-	template <typename, typename>	class	compressed_pair;
-	template <typename>				class	emplacement_array;
-	template <size_t>				class	fnv1a;
-	template <size_t>				class	hash_combiner;
-	template <typename>				class	scope_guard;
-	template <typename, size_t>		class	tagged_ptr;
+	class										bitset;
+	class										blob;
+	class										sha1;
+	class										string_param;
+	class										thread_pool;
+	template <typename, typename>		class	compressed_pair;
+	template <typename>					class	emplacement_array;
+	template <size_t>					class	fnv1a;
+	template <size_t>					class	hash_combiner;
+	template <typename>					class	scope_guard;
+	template <typename, size_t>			class	tagged_ptr;
 
 	template <typename, size_t = static_cast<size_t>(-1)>
 	class span;
@@ -150,6 +152,14 @@ MUU_NAMESPACE_START // abi namespace
 		template <>				struct default_accumulator<double>		{ using type = kahan_accumulator<double>; };
 		template <>				struct default_accumulator<long double>	{ using type = kahan_accumulator<long double>; };
 		template <>				struct default_accumulator<half>		{ using type = kahan_accumulator<half>; };
+
+		#if MUU_WCHAR_BITS == 32
+		using wchar_code_unit = char32_t;
+		#elif MUU_WCHAR_BITS == 16
+		using wchar_code_unit = char16_t;
+		#elif MUU_WCHAR_BITS == 8
+		using wchar_code_unit = unsigned char;
+		#endif
 	}
 	template <typename T, typename = typename impl::default_accumulator<T>::type>
 	class accumulator;
@@ -176,12 +186,6 @@ MUU_NAMESPACE_END
 
 /// \defgroup		constants			Constants
 /// \brief Compile-time constant values (Pi, et cetera.).
-
-/// \defgroup		characters			Characters
-/// \brief Utilities for manipulating individual characters (or 'code points').
-
-/// \defgroup		strings				Strings
-/// \brief Utilities to simplify working with strings.
 
 /// \defgroup		hashing			Hashing
 /// \brief Utilities for generating (non-cryptographic) hashes.
