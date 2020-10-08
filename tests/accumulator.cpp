@@ -24,7 +24,7 @@ namespace
 			CHECK(accum.sum() == T{});
 			for (auto val : data::values)
 			{
-				raw_sum += static_cast<T>(val);
+				raw_sum = static_cast<T>(raw_sum + static_cast<T>(val));
 				accum.add(static_cast<T>(val));
 			}
 			CHECK(accum.sample_count() == std::size(data::values));

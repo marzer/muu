@@ -31,6 +31,7 @@ MUU_PRAGMA_CLANG(diagnostic ignored "-Wc++2a-compat")
 MUU_PRAGMA_CLANG(diagnostic ignored "-Wfloat-equal")
 MUU_PRAGMA_CLANG(diagnostic ignored "-Wunused-template")
 MUU_PRAGMA_CLANG(diagnostic ignored "-Wpadded")
+MUU_PRAGMA_CLANG(diagnostic ignored "-Wdouble-promotion")
 MUU_PRAGMA_GCC(diagnostic ignored "-Wfloat-equal")
 MUU_PRAGMA_GCC(diagnostic ignored "-Wpedantic")
 MUU_PRAGMA_GCC(diagnostic ignored "-Wpadded")
@@ -119,19 +120,25 @@ MUU_NAMESPACE_START
 	}
 
 	template <typename T MUU_SFINAE(is_floating_point<T>)>
-	auto approx(T val, T eps = std::numeric_limits<T>::epsilon() * 100) noexcept
+	inline Approx approx(T val, T eps) noexcept
 	{
-		static_assert(is_floating_point<T>);
-
 		Approx a(val);
 		a.epsilon(eps);
 		return a;
 	}
 
-	template <typename T MUU_SFINAE_2(!is_floating_point<T>)>
-	auto approx(T val) noexcept
+	template <typename T MUU_SFINAE(is_floating_point<T>)>
+	inline Approx approx(T val) noexcept
 	{
-		return val;
+		Approx a(val);
+		a.epsilon(std::numeric_limits<T>::epsilon() * 100); // catch2 default
+		return a;
+	}
+
+	template <typename T MUU_SFINAE_2(!is_floating_point<T>)>
+	inline T&& approx(T&& val) noexcept
+	{
+		return static_cast<T&&>(val);
 	}
 
 }

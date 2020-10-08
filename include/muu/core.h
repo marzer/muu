@@ -2778,7 +2778,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr __fp16 MUU_VECTORCALL sqrt(__fp16 val) noexcept
 	{
-		return static_cast<__fp16>(impl::sqrt_(static_cast<__fp16>(val)));
+		return static_cast<__fp16>(impl::sqrt_(static_cast<float>(val)));
 	}
 	#endif
 

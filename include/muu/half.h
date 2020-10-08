@@ -456,7 +456,7 @@ MUU_NAMESPACE_START
 			#if HALF_EMULATED
 				lhs.data_ = impl::f32_to_f16(static_cast<float>(lhs) + static_cast<float>(rhs));
 			#else
-				lhs.data_ += rhs.data_;
+				lhs.data_ = static_cast<data_type>(lhs.data_ + rhs.data_);
 			#endif
 			return lhs;
 		}
@@ -466,7 +466,7 @@ MUU_NAMESPACE_START
 			#if HALF_EMULATED
 				lhs.data_ = impl::f32_to_f16(static_cast<float>(lhs) - static_cast<float>(rhs));
 			#else
-				lhs.data_ -= rhs.data_;
+				lhs.data_ = static_cast<data_type>(lhs.data_ - rhs.data_);
 			#endif
 			return lhs;
 		}
@@ -476,7 +476,7 @@ MUU_NAMESPACE_START
 			#if HALF_EMULATED
 				lhs.data_ = impl::f32_to_f16(static_cast<float>(lhs) * static_cast<float>(rhs));
 			#else
-				lhs.data_ *= rhs.data_;
+				lhs.data_ = static_cast<data_type>(lhs.data_ * rhs.data_);
 			#endif
 			return lhs;
 		}
@@ -486,7 +486,7 @@ MUU_NAMESPACE_START
 			#if HALF_EMULATED
 				lhs.data_ = impl::f32_to_f16(static_cast<float>(lhs) / static_cast<float>(rhs));
 			#else
-				lhs.data_ /= rhs.data_;
+				lhs.data_ = static_cast<data_type>(lhs.data_ / rhs.data_);
 			#endif
 			return lhs;
 		}

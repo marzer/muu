@@ -45,6 +45,7 @@ MUU_ENABLE_WARNINGS
 MUU_PUSH_WARNINGS
 MUU_DISABLE_SHADOW_WARNINGS
 MUU_PRAGMA_GCC(diagnostic ignored "-Wsign-conversion")
+MUU_PRAGMA_CLANG(diagnostic ignored "-Wdouble-promotion")
 
 MUU_PRAGMA_MSVC(inline_recursion(on))
 MUU_PRAGMA_MSVC(float_control(push))
@@ -1302,7 +1303,7 @@ MUU_NAMESPACE_START
 		{
 			using type = impl::promote_if_small_float<impl::highest_ranked<Scalar, T>>;
 
-			#define VEC_FUNC(member)	muu::approx_equal(static_cast<type>(v1.member), static_cast<type>(v2.member), epsilon)
+			#define VEC_FUNC(member)	muu::approx_equal(static_cast<type>(v1.member), static_cast<type>(v2.member), static_cast<type>(epsilon))
 			COMPONENTWISE_AND(VEC_FUNC);
 			#undef VEC_FUNC
 		}
@@ -1337,7 +1338,7 @@ MUU_NAMESPACE_START
 		{
 			using type = impl::promote_if_small_float<impl::highest_ranked<Scalar, T>>;
 
-			#define VEC_FUNC(member)	muu::approx_equal(static_cast<type>(v1.member), static_cast<type>(v2.member), epsilon)
+			#define VEC_FUNC(member)	muu::approx_equal(static_cast<type>(v1.member), static_cast<type>(v2.member), static_cast<type>(epsilon))
 			COMPONENTWISE_AND(VEC_FUNC);
 			#undef VEC_FUNC
 		}

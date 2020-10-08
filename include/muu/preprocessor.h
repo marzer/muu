@@ -235,10 +235,11 @@
 	#define MUU_DISABLE_SHADOW_WARNINGS		MUU_PRAGMA_CLANG(diagnostic ignored "-Wshadow")	\
 											MUU_PRAGMA_CLANG(diagnostic ignored "-Wshadow-field")
 	#define MUU_DISABLE_SPAM_WARNINGS		MUU_PRAGMA_CLANG(diagnostic ignored "-Wweak-vtables")			\
+											MUU_PRAGMA_CLANG(diagnostic ignored "-Wdouble-promotion")		\
 											MUU_PRAGMA_CLANG(diagnostic ignored "-Wweak-template-vtables")	\
-											MUU_PRAGMA_CLANG(diagnostic ignored "-Wpadded") \
+											MUU_PRAGMA_CLANG(diagnostic ignored "-Wpadded")					\
 									  MUU_PRAGMA_CLANG_GE(9, diagnostic ignored "-Wctad-maybe-unsupported") \
-											MUU_PRAGMA_CLANG(diagnostic ignored "-Wc++2a-compat") \
+											MUU_PRAGMA_CLANG(diagnostic ignored "-Wc++2a-compat")			\
 											MUU_PRAGMA_CLANG(diagnostic ignored "-Wpacked")
 	#define MUU_POP_WARNINGS				MUU_PRAGMA_CLANG(diagnostic pop)
 	#define MUU_DISABLE_WARNINGS			MUU_PUSH_WARNINGS \

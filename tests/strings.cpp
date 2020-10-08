@@ -61,7 +61,7 @@ TEST_CASE("strings - utf_decode")
 		if (!file)
 			FAIL("Couldn't open stream");
 
-		std::streamsize size = file.tellg();
+		const auto size = file.tellg();
 		if (size <= 0)
 			FAIL("Couldn't determine file size");
 		if (static_cast<size_t>(size) % sizeof(code_unit) != 0u)
@@ -69,7 +69,7 @@ TEST_CASE("strings - utf_decode")
 
 		file.seekg(0, std::ios::beg);
 		std::vector<std::byte> input_buffer(static_cast<size_t>(size));
-		if (!file.read(pointer_cast<char*>(input_buffer.data()), size))
+		if (!file.read(pointer_cast<char*>(input_buffer.data()), static_cast<std::streamsize>(size)))
 			FAIL("Reading failed");
 		const auto input = string_view{ pointer_cast<const code_unit*>(input_buffer.data()), input_buffer.size() / sizeof(code_unit) };
 

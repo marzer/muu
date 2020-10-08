@@ -571,7 +571,7 @@ inline void addition_tests(std::string_view scalar_typename) noexcept
 
 		vector_t result = vector1 + vector2;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK((x1[i] + x2[i]) == approx(result[i]));
+			CHECK(static_cast<T>(x1[i] + x2[i]) == approx(result[i]));
 	}
 
 	{
@@ -580,7 +580,7 @@ inline void addition_tests(std::string_view scalar_typename) noexcept
 		vector_t result(vector1);
 		result += vector2;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK((x1[i] + x2[i]) == approx(result[i]));
+			CHECK(static_cast<T>(x1[i] + x2[i]) == approx(result[i]));
 	}
 }
 
@@ -601,7 +601,7 @@ inline void subtraction_tests(std::string_view scalar_typename) noexcept
 
 		const vector_t result = vector1 - vector2;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK((x1[i] - x2[i]) == approx(result[i]));
+			CHECK(static_cast<T>(x1[i] - x2[i]) == approx(result[i]));
 	}
 
 	{
@@ -610,7 +610,7 @@ inline void subtraction_tests(std::string_view scalar_typename) noexcept
 		vector_t result(vector1);
 		result -= vector2;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK((x1[i] - x2[i]) == approx(result[i]));
+			CHECK(static_cast<T>(x1[i] - x2[i]) == approx(result[i]));
 	}
 
 	if constexpr (is_signed<T>)
@@ -619,7 +619,7 @@ inline void subtraction_tests(std::string_view scalar_typename) noexcept
 
 		const vector_t result = -vector1;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(-x1[i] == approx(result[i]));
+			CHECK(static_cast<T>(-x1[i]) == approx(result[i]));
 	}
 }
 
@@ -639,7 +639,7 @@ inline void multiplication_tests(std::string_view scalar_typename) noexcept
 
 		vector_t result = vector1 * vector2;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(x1[i] * x2[i] == approx(result[i]));
+			CHECK(static_cast<T>(x1[i] * x2[i]) == approx(result[i]));
 	}
 
 	{
@@ -648,7 +648,7 @@ inline void multiplication_tests(std::string_view scalar_typename) noexcept
 		vector_t result(vector1);
 		result *= vector2;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(x1[i] * x2[i] == approx(result[i]));
+			CHECK(static_cast<T>(x1[i] * x2[i]) == approx(result[i]));
 	}
 
 	{
@@ -656,7 +656,7 @@ inline void multiplication_tests(std::string_view scalar_typename) noexcept
 
 		vector_t result = vector1 * scalar;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(x1[i] * scalar == approx(result[i]));
+			CHECK(static_cast<T>(x1[i] * scalar) == approx(result[i]));
 	}
 
 	{
@@ -664,7 +664,7 @@ inline void multiplication_tests(std::string_view scalar_typename) noexcept
 
 		vector_t result = scalar * vector2;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(x2[i] * scalar == approx(result[i]));
+			CHECK(static_cast<T>(x2[i] * scalar) == approx(result[i]));
 	}
 
 
@@ -674,7 +674,7 @@ inline void multiplication_tests(std::string_view scalar_typename) noexcept
 		vector_t result(vector1);
 		result *= scalar;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(x1[i] * scalar == approx(result[i]));
+			CHECK(static_cast<T>(x1[i] * scalar) == approx(result[i]));
 	}
 }
 
@@ -693,7 +693,7 @@ inline void division_tests(std::string_view scalar_typename) noexcept
 
 		vector_t result = vec1 / vec2;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(vec1[i] / vec2[i] == approx(result[i]));
+			CHECK(static_cast<T>(vec1[i] / vec2[i]) == approx(result[i]));
 	}
 
 	{
@@ -702,7 +702,7 @@ inline void division_tests(std::string_view scalar_typename) noexcept
 		vector_t result = vec1;
 		result /= vec2;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(vec1[i] / vec2[i] == approx(result[i]));
+			CHECK(static_cast<T>(vec1[i] / vec2[i]) == approx(result[i]));
 	}
 
 	{
@@ -710,7 +710,7 @@ inline void division_tests(std::string_view scalar_typename) noexcept
 
 		vector_t result = vec1 / scalar;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(vec1[i] / scalar == approx(result[i]));
+			CHECK(static_cast<T>(vec1[i] / scalar) == approx(result[i]));
 	}
 
 	{
@@ -719,7 +719,7 @@ inline void division_tests(std::string_view scalar_typename) noexcept
 		vector_t result = vec1;
 		result /= scalar;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(vec1[i] / scalar == approx(result[i]));
+			CHECK(static_cast<T>(vec1[i] / scalar) == approx(result[i]));
 	}
 }
 
@@ -738,7 +738,7 @@ inline void modulo_tests(std::string_view scalar_typename) noexcept
 
 		vector_t result = vec1 % vec2;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(impl::modulo(vec1[i], vec2[i]) == approx(result[i]));
+			CHECK(static_cast<T>(impl::modulo(vec1[i], vec2[i])) == approx(result[i]));
 	}
 
 	{
@@ -747,7 +747,7 @@ inline void modulo_tests(std::string_view scalar_typename) noexcept
 		vector_t result = vec1;
 		result %= vec2;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(impl::modulo(vec1[i], vec2[i]) == approx(result[i]));
+			CHECK(static_cast<T>(impl::modulo(vec1[i], vec2[i])) == approx(result[i]));
 	}
 
 	{
@@ -755,7 +755,7 @@ inline void modulo_tests(std::string_view scalar_typename) noexcept
 
 		vector_t result = vec1 % scalar;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(impl::modulo(vec1[i], scalar) == approx(result[i]));
+			CHECK(static_cast<T>(impl::modulo(vec1[i], scalar)) == approx(result[i]));
 	}
 
 	{
@@ -764,7 +764,7 @@ inline void modulo_tests(std::string_view scalar_typename) noexcept
 		vector_t result = vec1;
 		result %= scalar;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(impl::modulo(vec1[i], scalar) == approx(result[i]));
+			CHECK(static_cast<T>(impl::modulo(vec1[i], scalar)) == approx(result[i]));
 	}
 }
 
@@ -955,7 +955,7 @@ inline void min_max_tests(std::string_view scalar_typename) noexcept
 	{
 		sequential[i] = static_cast<T>(i+1u);
 		if constexpr (is_signed<T>)
-			sequential_negative[i] = -sequential[i];
+			sequential_negative[i] = static_cast<T>(-sequential[i]);
 		(*(i % 2u == 0 ? &interleaved1 : &interleaved2))[i] = sequential[i];
 	}
 
