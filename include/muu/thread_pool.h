@@ -488,7 +488,13 @@ MUU_NAMESPACE_START
 			[[nodiscard]]
 			MUU_API
 			MUU_ATTR(pure)
-			size_t size() const noexcept;
+			size_t workers() const noexcept;
+
+			/// \brief	The maximum tasks that may be enqueued without blocking.
+			[[nodiscard]]
+			MUU_API
+			MUU_ATTR(pure)
+			size_t capacity() const noexcept;
 
 			/// \brief	Waits for the thread pool to finish all of its current work.
 			/// 
@@ -507,7 +513,7 @@ MUU_NAMESPACE_START
 			///	});
 			/// pool.enqueue([](size_t worker_index) noexcept
 			/// {
-			///		// worker_index is in the range [0, pool.size())
+			///		// worker_index is in the range [0, pool.workers())
 			///	});
 			/// \ecpp
 			/// 
@@ -572,14 +578,14 @@ MUU_NAMESPACE_START
 				);
 
 				//determine batch count and distribute iterators
-				auto batch_generator = impl::batch_size_generator<size_t>{ job_count, this->size() };
+				auto batch_generator = impl::batch_size_generator<size_t>{ job_count, this->workers() };
 				size_t batch_size = batch_generator();
 				auto batch_start = begin;
 				auto batch_end = std::next(begin, static_cast<ptrdiff_t>(batch_size));
 
 				//dispatch tasks (trivial callables)
 				using for_each_task_type = for_each_task<remove_cvref<Task&&>>;
-				if (impl::is_trivial_task<Task&&> || this->size() == 1u)
+				if (impl::is_trivial_task<Task&&> || this->workers() == 1u)
 				{
 					while (batch_size)
 					{
@@ -623,7 +629,7 @@ MUU_NAMESPACE_START
 			/// pool.for_each(vals.begin(), vals.end(), [](int& i, size_t worker_index) noexcept
 			/// {
 			///		// i is one of the elements of vals
-			///		// worker_index is in the range [0, pool.size())
+			///		// worker_index is in the range [0, pool.workers())
 			///	});
 			/// \ecpp
 			/// 
@@ -664,7 +670,7 @@ MUU_NAMESPACE_START
 			/// pool.for_each(vals, [](int& i, size_t worker_index) noexcept
 			/// {
 			///		// i is one of the elements of vals
-			///		// worker_index is in the range [0, pool.size())
+			///		// worker_index is in the range [0, pool.workers())
 			///	});
 			/// pool.for_each(vals, [](int& i) noexcept
 			/// {
@@ -742,7 +748,7 @@ MUU_NAMESPACE_START
 			/// pool.for_range(0, 10, [](int i, size_t worker_index) noexcept
 			/// {
 			///		// i is in the range [0, 10)
-			///		// worker_index is in the range [0, pool.size())
+			///		// worker_index is in the range [0, pool.workers())
 			///	});
 			/// pool.for_range(0, 10, [](int i) noexcept
 			/// {
@@ -790,13 +796,13 @@ MUU_NAMESPACE_START
 				);
 				if (!job_count)
 					return *this;
-				auto batch_generator = impl::batch_size_generator<size_type>{ job_count, this->size() };
+				auto batch_generator = impl::batch_size_generator<size_type>{ job_count, this->workers() };
 				offset_type batch_start = unwrap(start);
 				size_type batch_size = batch_generator();
 
 				//dispatch tasks (trivial callables)
 				using for_each_task_type = for_each_task<remove_cvref<Task&&>>;
-				if (impl::is_trivial_task<Task&&> || this->size() == 1u)
+				if (impl::is_trivial_task<Task&&> || this->workers() == 1u)
 				{
 					while (batch_size)
 					{

@@ -520,9 +520,14 @@ void thread_pool::unlock(size_t qindex) noexcept
 	pimpl_->unlock(qindex);
 }
 
-size_t thread_pool::size() const noexcept
+size_t thread_pool::workers() const noexcept
 {
 	return pimpl_ ? pimpl_->worker_count : 0_sz;
+}
+
+size_t thread_pool::capacity() const noexcept
+{
+	return pimpl_ ? pimpl_->worker_count * pimpl_->worker_queue_size : 0_sz;
 }
 
 void thread_pool::wait() noexcept

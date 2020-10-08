@@ -699,59 +699,101 @@ MUU_NAMESPACE_START
 	#ifndef DOXYGEN
 	namespace impl
 	{
-		#if HALF_EMULATED
-
 		template <>
 		struct integer_limits<half>
 		{
-			static constexpr half lowest		= half::from_bits(0b1'11110'1111111111_u16);
-			static constexpr half highest		= half::from_bits(0b0'11110'1111111111_u16);
+			#if HALF_EMULATED
+			static constexpr half lowest				= half::from_bits(0b1'11110'1111111111_u16);
+			static constexpr half highest				= half::from_bits(0b0'11110'1111111111_u16);
+			#else
+			static constexpr half lowest				= half{ integer_limits<HALF_IMPL_TYPE>::lowest };
+			static constexpr half highest				= half{ integer_limits<HALF_IMPL_TYPE>::highest };
+			#endif
 		};
 
 		template <>
 		struct integer_positive_constants<half>
 		{
-			static constexpr half zero			= half::from_bits(0b0'00000'0000000000_u16);
-			static constexpr half one			= half::from_bits(0b0'01111'0000000000_u16);
-			static constexpr half two			= half::from_bits(0b0'10000'0000000000_u16);
-			static constexpr half three			= half::from_bits(0b0'10000'1000000000_u16);
-			static constexpr half four			= half::from_bits(0b0'10001'0000000000_u16);
-			static constexpr half five			= half::from_bits(0b0'10001'0100000000_u16);
-			static constexpr half six			= half::from_bits(0b0'10001'1000000000_u16);
-			static constexpr half seven			= half::from_bits(0b0'10001'1100000000_u16);
-			static constexpr half eight			= half::from_bits(0b0'10010'0000000000_u16);
-			static constexpr half nine			= half::from_bits(0b0'10010'0010000000_u16);
-			static constexpr half ten			= half::from_bits(0b0'10010'0100000000_u16);
+			#if HALF_EMULATED
+			static constexpr half zero					= half::from_bits(0b0'00000'0000000000_u16);
+			static constexpr half one					= half::from_bits(0b0'01111'0000000000_u16);
+			static constexpr half two					= half::from_bits(0b0'10000'0000000000_u16);
+			static constexpr half three					= half::from_bits(0b0'10000'1000000000_u16);
+			static constexpr half four					= half::from_bits(0b0'10001'0000000000_u16);
+			static constexpr half five					= half::from_bits(0b0'10001'0100000000_u16);
+			static constexpr half six					= half::from_bits(0b0'10001'1000000000_u16);
+			static constexpr half seven					= half::from_bits(0b0'10001'1100000000_u16);
+			static constexpr half eight					= half::from_bits(0b0'10010'0000000000_u16);
+			static constexpr half nine					= half::from_bits(0b0'10010'0010000000_u16);
+			static constexpr half ten					= half::from_bits(0b0'10010'0100000000_u16);
+			#else
+			using native_type = integer_positive_constants<HALF_IMPL_TYPE>;
+			static constexpr half zero					= half{ native_type::zero	};
+			static constexpr half one					= half{ native_type::one	};
+			static constexpr half two					= half{ native_type::two	};
+			static constexpr half three					= half{ native_type::three 	};
+			static constexpr half four					= half{ native_type::four	};
+			static constexpr half five					= half{ native_type::five	};
+			static constexpr half six					= half{ native_type::six	};
+			static constexpr half seven					= half{ native_type::seven 	};
+			static constexpr half eight					= half{ native_type::eight 	};
+			static constexpr half nine					= half{ native_type::nine	};
+			static constexpr half ten					= half{ native_type::ten	};
+			#endif
 		};
 
 		template <>
 		struct integer_negative_constants<half>
 		{
-			static constexpr half minus_one		= half::from_bits(0b1'01111'0000000000_u16);
-			static constexpr half minus_two		= half::from_bits(0b1'10000'0000000000_u16);
-			static constexpr half minus_three	= half::from_bits(0b1'10000'1000000000_u16);
-			static constexpr half minus_four	= half::from_bits(0b1'10001'0000000000_u16);
-			static constexpr half minus_five	= half::from_bits(0b1'10001'0100000000_u16);
-			static constexpr half minus_six		= half::from_bits(0b1'10001'1000000000_u16);
-			static constexpr half minus_seven	= half::from_bits(0b1'10001'1100000000_u16);
-			static constexpr half minus_eight	= half::from_bits(0b1'10010'0000000000_u16);
-			static constexpr half minus_nine	= half::from_bits(0b1'10010'0010000000_u16);
-			static constexpr half minus_ten		= half::from_bits(0b1'10010'0100000000_u16);
+			#if HALF_EMULATED
+			static constexpr half minus_one				= half::from_bits(0b1'01111'0000000000_u16);
+			static constexpr half minus_two				= half::from_bits(0b1'10000'0000000000_u16);
+			static constexpr half minus_three			= half::from_bits(0b1'10000'1000000000_u16);
+			static constexpr half minus_four			= half::from_bits(0b1'10001'0000000000_u16);
+			static constexpr half minus_five			= half::from_bits(0b1'10001'0100000000_u16);
+			static constexpr half minus_six				= half::from_bits(0b1'10001'1000000000_u16);
+			static constexpr half minus_seven			= half::from_bits(0b1'10001'1100000000_u16);
+			static constexpr half minus_eight			= half::from_bits(0b1'10010'0000000000_u16);
+			static constexpr half minus_nine			= half::from_bits(0b1'10010'0010000000_u16);
+			static constexpr half minus_ten				= half::from_bits(0b1'10010'0100000000_u16);
+			#else
+			using native_type = integer_negative_constants<HALF_IMPL_TYPE>;
+			static constexpr half minus_one				= half{ native_type::minus_one	 	};
+			static constexpr half minus_two				= half{ native_type::minus_two	 	};
+			static constexpr half minus_three			= half{ native_type::minus_three 	};
+			static constexpr half minus_four			= half{ native_type::minus_four	 	};
+			static constexpr half minus_five			= half{ native_type::minus_five	 	};
+			static constexpr half minus_six				= half{ native_type::minus_six	 	};
+			static constexpr half minus_seven			= half{ native_type::minus_seven 	};
+			static constexpr half minus_eight			= half{ native_type::minus_eight 	};
+			static constexpr half minus_nine			= half{ native_type::minus_nine	 	};
+			static constexpr half minus_ten				= half{ native_type::minus_ten	 	};
+			#endif
 		};
 
 		template <>
 		struct floating_point_special_constants<half>
 		{
-			static constexpr half nan				= half::from_bits(0b1'11111'1000000001_u16);
-			static constexpr half signaling_nan		= half::from_bits(0b1'11111'0000000001_u16);
-			static constexpr half infinity			= half::from_bits(0b0'11111'0000000000_u16);
-			static constexpr half negative_infinity	= half::from_bits(0b1'11111'0000000000_u16);
-			static constexpr half minus_zero		= half::from_bits(0b1'00000'0000000000_u16);
+			#if HALF_EMULATED
+			static constexpr half nan					= half::from_bits(0b1'11111'1000000001_u16);
+			static constexpr half signaling_nan			= half::from_bits(0b1'11111'0000000001_u16);
+			static constexpr half infinity				= half::from_bits(0b0'11111'0000000000_u16);
+			static constexpr half negative_infinity		= half::from_bits(0b1'11111'0000000000_u16);
+			static constexpr half minus_zero			= half::from_bits(0b1'00000'0000000000_u16);
+			#else
+			using native_type = floating_point_special_constants<HALF_IMPL_TYPE>;
+			static constexpr half nan					= half{ native_type::nan				};
+			static constexpr half signaling_nan			= half{ native_type::signaling_nan		};
+			static constexpr half infinity				= half{ native_type::infinity			};
+			static constexpr half negative_infinity		= half{ native_type::negative_infinity	};
+			static constexpr half minus_zero			= half{ native_type::minus_zero			};
+			#endif
 		};
 
 		template <>
 		struct floating_point_named_constants<half>
 		{
+			#if HALF_EMULATED
 			static constexpr half one_over_two          = half::from_bits( 0b0'01110'0000000000_u16 );
 			static constexpr half two_over_three        = half::from_bits( 0b0'01110'0101010110_u16 );
 			static constexpr half two_over_five         = half::from_bits( 0b0'01101'1001100111_u16 );
@@ -793,9 +835,51 @@ MUU_NAMESPACE_START
 			static constexpr half phi_over_six          = half::from_bits( 0b0'01101'0001010001_u16 );
 			static constexpr half sqrt_phi              = half::from_bits( 0b0'01111'0100010111_u16 );
 			static constexpr half one_over_sqrt_phi     = half::from_bits( 0b0'01110'1001001010_u16 );
+			#else
+			using native_type = floating_point_named_constants<HALF_IMPL_TYPE>;
+			static constexpr half one_over_two          = half{ native_type::one_over_two          };
+			static constexpr half two_over_three        = half{ native_type::two_over_three        };
+			static constexpr half two_over_five         = half{ native_type::two_over_five         };
+			static constexpr half sqrt_two              = half{ native_type::sqrt_two              };
+			static constexpr half one_over_sqrt_two     = half{ native_type::one_over_sqrt_two     };
+			static constexpr half one_over_three        = half{ native_type::one_over_three        };
+			static constexpr half three_over_two        = half{ native_type::three_over_two        };
+			static constexpr half three_over_four       = half{ native_type::three_over_four       };
+			static constexpr half three_over_five       = half{ native_type::three_over_five       };
+			static constexpr half sqrt_three            = half{ native_type::sqrt_three            };
+			static constexpr half one_over_sqrt_three   = half{ native_type::one_over_sqrt_three   };
+			static constexpr half pi                    = half{ native_type::pi                    };
+			static constexpr half one_over_pi           = half{ native_type::one_over_pi           };
+			static constexpr half pi_over_two           = half{ native_type::pi_over_two           };
+			static constexpr half pi_over_three         = half{ native_type::pi_over_three         };
+			static constexpr half pi_over_four          = half{ native_type::pi_over_four          };
+			static constexpr half pi_over_five          = half{ native_type::pi_over_five          };
+			static constexpr half pi_over_six           = half{ native_type::pi_over_six           };
+			static constexpr half sqrt_pi               = half{ native_type::sqrt_pi               };
+			static constexpr half one_over_sqrt_pi      = half{ native_type::one_over_sqrt_pi      };
+			static constexpr half two_pi                = half{ native_type::two_pi                };
+			static constexpr half sqrt_two_pi           = half{ native_type::sqrt_two_pi           };
+			static constexpr half one_over_sqrt_two_pi  = half{ native_type::one_over_sqrt_two_pi  };
+			static constexpr half e                     = half{ native_type::e                     };
+			static constexpr half one_over_e            = half{ native_type::one_over_e            };
+			static constexpr half e_over_two            = half{ native_type::e_over_two            };
+			static constexpr half e_over_three          = half{ native_type::e_over_three          };
+			static constexpr half e_over_four           = half{ native_type::e_over_four           };
+			static constexpr half e_over_five           = half{ native_type::e_over_five           };
+			static constexpr half e_over_six            = half{ native_type::e_over_six            };
+			static constexpr half sqrt_e                = half{ native_type::sqrt_e                };
+			static constexpr half one_over_sqrt_e       = half{ native_type::one_over_sqrt_e       };
+			static constexpr half phi                   = half{ native_type::phi                   };
+			static constexpr half one_over_phi          = half{ native_type::one_over_phi          };
+			static constexpr half phi_over_two          = half{ native_type::phi_over_two          };
+			static constexpr half phi_over_three        = half{ native_type::phi_over_three        };
+			static constexpr half phi_over_four         = half{ native_type::phi_over_four         };
+			static constexpr half phi_over_five         = half{ native_type::phi_over_five         };
+			static constexpr half phi_over_six          = half{ native_type::phi_over_six          };
+			static constexpr half sqrt_phi              = half{ native_type::sqrt_phi              };
+			static constexpr half one_over_sqrt_phi     = half{ native_type::one_over_sqrt_phi     };
+			#endif
 		};
-
-		#endif // HALF_EMULATED
 
 		template <>
 		struct floating_point_limits<half>
@@ -803,9 +887,10 @@ MUU_NAMESPACE_START
 			static constexpr int significand_digits = 11;
 			
 			#if HALF_EMULATED
-			static constexpr half approx_equal_epsilon = half::from_bits(0b0'00101'0000011001_u16); // 0.001
+			static constexpr half approx_equal_epsilon	= half::from_bits(0b0'00101'0000011001_u16); // 0.001
 			#else
-			static constexpr half approx_equal_epsilon = half{ floating_point_limits<HALF_IMPL_TYPE>::approx_equal_epsilon };
+			using native_type = floating_point_limits<HALF_IMPL_TYPE>;
+			static constexpr half approx_equal_epsilon	= half{ native_type::approx_equal_epsilon };
 			#endif
 		};
 	}
