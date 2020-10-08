@@ -36,8 +36,8 @@ MUU_DISABLE_WARNINGS
 #include <limits>
 #if MUU_MSVC || MUU_ICC_CL
 	#include <intrin.h>
-#elif MUU_GCC || MUU_CLANG
-	#include <x86intrin.h>
+#elif (MUU_GCC || MUU_CLANG) && (MUU_ARCH_AMD64 || MUU_ARCH_X86)
+	#include <immintrin.h>
 #endif
 MUU_ENABLE_WARNINGS
 

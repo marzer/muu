@@ -824,6 +824,12 @@
 // EXTENDED INT AND FLOAT TYPES
 //=====================================================================================================================
 
+#if defined(DOXYGEN) || (MUU_ARCH_ARM && (MUU_GCC || MUU_CLANG))
+	#define MUU_HAS_FP16	1
+#else
+	#define MUU_HAS_FP16	0
+#endif
+
 #ifdef __FLT16_MANT_DIG__
 	// #pragma message("__FLT_RADIX__        " MUU_MAKE_STRING(__FLT_RADIX__))
 	// #pragma message("__FLT16_MANT_DIG__   " MUU_MAKE_STRING(__FLT16_MANT_DIG__))
@@ -839,19 +845,9 @@
 			&& __FLT16_MIN_10_EXP__ == -4	\
 			&& __FLT16_MAX_EXP__ == 16		\
 			&& __FLT16_MAX_10_EXP__ == 4
-		#if (MUU_ARCH_ARM && MUU_GCC) || MUU_CLANG
-			#define MUU_HAS_FP16 1
-		#endif
 		#if MUU_ARCH_ARM && MUU_CLANG // not present in g++
 			#define MUU_HAS_FLOAT16 1
 		#endif
-	#endif
-#endif
-#ifndef MUU_HAS_FP16
-	#ifdef DOXYGEN
-		#define MUU_HAS_FP16 1
-	#else
-		#define MUU_HAS_FP16 0
 	#endif
 #endif
 #ifndef MUU_HAS_FLOAT16

@@ -18,7 +18,7 @@ MUU_ENABLE_WARNINGS
 #elif MUU_HAS_FP16
 	#define HALF_IMPL_TYPE		__fp16
 #endif
-#ifdef MUU_HALF_TYPE
+#ifdef HALF_IMPL_TYPE
 	#define HALF_EMULATED		0
 	#define HALF_USE_INTRINSICS	0
 #else
