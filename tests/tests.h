@@ -37,18 +37,25 @@ MUU_PRAGMA_GCC(diagnostic ignored "-Wpedantic")
 MUU_PRAGMA_GCC(diagnostic ignored "-Wpadded")
 
 MUU_DISABLE_WARNINGS
+#include <iosfwd>
+#if MUU_HAS_FLOAT16
+std::ostream& operator << (std::ostream&, _Float16);
+std::wostream& operator << (std::wostream&, _Float16);
+#endif
+#if MUU_HAS_FLOAT128
+std::ostream& operator << (std::ostream&, __float128);
+std::wostream& operator << (std::wostream&, __float128);
+#endif
 #include "catch2.h"
 #include <array>
 #include <string_view>
 #include <sstream>
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <tuple>
 MUU_NAMESPACE_START
 {
-	struct half;
-	std::ostream& operator << (std::ostream& os, const half& value);
-
 	template <typename T>
 	[[nodiscard]]
 	MUU_ATTR(const)
@@ -176,6 +183,50 @@ MUU_ENABLE_WARNINGS
 #ifndef CHECK_STRINGS_W
 	#define CHECK_STRINGS_W(...)		CHECK_AND_STATIC_ASSERT(__VA_ARGS__)
 #endif
+
+#define CHECK_APPROX_EQUAL_EPS(actual_, expected_, epsilon_)						\
+	do																				\
+	{																				\
+		const auto expected = expected_;											\
+		INFO("expected: "sv															\
+			<< std::fixed															\
+			<< std::setprecision(std::numeric_limits<decltype(expected)>::digits10)	\
+			<< expected << "    "sv << MUU_MAKE_STRING(expected_))					\
+																					\
+		const auto actual = actual_;												\
+		INFO("  actual: "sv															\
+			<< std::fixed															\
+			<< std::setprecision(std::numeric_limits<decltype(actual)>::digits10)	\
+			<< actual << "    "sv << MUU_MAKE_STRING(actual_))						\
+																					\
+		const auto epsilon = actual_;												\
+		INFO(" epsilon: "sv															\
+			<< std::fixed															\
+			<< std::setprecision(std::numeric_limits<decltype(epsilon)>::digits10)	\
+			<< epsilon << "    "sv << MUU_MAKE_STRING(epsilon_))					\
+																					\
+		CHECK(approx_equal(expected, actual, epsilon));								\
+	}																				\
+	while (false)
+
+#define CHECK_APPROX_EQUAL(actual_, expected_)										\
+	do																				\
+	{																				\
+		const auto expected = expected_;											\
+		INFO("expected: "sv															\
+			<< std::fixed															\
+			<< std::setprecision(std::numeric_limits<decltype(expected)>::digits10)	\
+			<< expected << "    "sv << MUU_MAKE_STRING(expected_))					\
+																					\
+		const auto actual = actual_;												\
+		INFO("  actual: "sv															\
+			<< std::fixed															\
+			<< std::setprecision(std::numeric_limits<decltype(actual)>::digits10)	\
+			<< actual << "    "sv << MUU_MAKE_STRING(actual_))						\
+																					\
+		CHECK(approx_equal(expected, actual));										\
+	}																				\
+	while (false)
 
 template <typename T>
 struct nameof_;

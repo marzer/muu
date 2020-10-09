@@ -660,7 +660,7 @@ MUU_IMPL_NAMESPACE_START
 	MUU_API void print_vector_to_stream(std::ostream& stream, const unsigned long*, size_t);
 	MUU_API void print_vector_to_stream(std::ostream& stream, const unsigned long long*, size_t);
 	#if MUU_HAS_FLOAT16
-	MUU_API void print_vector_to_stream(std::ostream& stream, const __Float16*, size_t);
+	MUU_API void print_vector_to_stream(std::ostream& stream, const _Float16*, size_t);
 	#endif
 	#if MUU_HAS_FP16
 	MUU_API void print_vector_to_stream(std::ostream& stream, const __fp16*, size_t);
@@ -688,7 +688,7 @@ MUU_IMPL_NAMESPACE_START
 	MUU_API void print_vector_to_stream(std::wostream& stream, const unsigned long*, size_t);
 	MUU_API void print_vector_to_stream(std::wostream& stream, const unsigned long long*, size_t);
 	#if MUU_HAS_FLOAT16
-	MUU_API void print_vector_to_stream(std::wostream& stream, const __Float16*, size_t);
+	MUU_API void print_vector_to_stream(std::wostream& stream, const _Float16*, size_t);
 	#endif
 	#if MUU_HAS_FP16
 	MUU_API void print_vector_to_stream(std::wostream& stream, const __fp16*, size_t);
@@ -1363,23 +1363,25 @@ MUU_NAMESPACE_START
 
 	private:
 
+		template <typename Return = intermediate_type>
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr intermediate_type MUU_VECTORCALL raw_length_squared(vector_param v) noexcept
+		static constexpr Return MUU_VECTORCALL raw_length_squared(vector_param v) noexcept
 		{
-			#define VEC_FUNC(member)	static_cast<intermediate_type>(v.member) * static_cast<intermediate_type>(v.member)
+			#define VEC_FUNC(member)	static_cast<Return>(v.member) * static_cast<Return>(v.member)
 			COMPONENTWISE_ACCUMULATE(VEC_FUNC);
 			#undef VEC_FUNC
 		}
 
+		template <typename Return = intermediate_type>
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr intermediate_type MUU_VECTORCALL raw_length(vector_param v) noexcept
+		static constexpr Return MUU_VECTORCALL raw_length(vector_param v) noexcept
 		{
 			if constexpr (Dimensions == 1)
-				return static_cast<intermediate_type>(v.x);
+				return static_cast<Return>(v.x);
 			else
-				return muu::sqrt(raw_length_squared(v));
+				return muu::sqrt(raw_length_squared<Return>(v));
 		}
 
 		[[nodiscard]]
@@ -1520,11 +1522,12 @@ MUU_NAMESPACE_START
 
 	private:
 
+		template <typename Return = intermediate_type>
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr intermediate_type MUU_VECTORCALL raw_dot(vector_param v1, vector_param v2) noexcept
+		static constexpr Return MUU_VECTORCALL raw_dot(vector_param v1, vector_param v2) noexcept
 		{
-			#define VEC_FUNC(member)	static_cast<intermediate_type>(v1.member) * static_cast<intermediate_type>(v2.member)
+			#define VEC_FUNC(member)	static_cast<Return>(v1.member) * static_cast<Return>(v2.member)
 			COMPONENTWISE_ACCUMULATE(VEC_FUNC);
 			#undef VEC_FUNC
 		}
@@ -2185,10 +2188,10 @@ MUU_NAMESPACE_START
 			return swizzle<Indices...>(*this);
 		}
 
-		/// \brief	Calculates the angle between two normalized direction vectors.
+		/// \brief	Calculates the angle between two vectors.
 		///
-		/// \param	d1	A normalized direction vector.
-		/// \param	d2	A normalized direction vector.
+		/// \param	d1	A vector.
+		/// \param	d2	A vector.
 		///
 		/// \returns	The angle between the two vectors (in radians).
 		/// 
@@ -2201,20 +2204,26 @@ MUU_NAMESPACE_START
 			// law of cosines
 			// https://stackoverflow.com/questions/10507620/finding-the-angle-between-vectors
 
-			const auto divisor = raw_length(d1) * raw_length(d2);
-			if (divisor == intermediate_type{})
+			// intermediate calcs are done using doubles because anything else is far too imprecise
+			using calc_type = impl::highest_ranked<intermediate_type, double>;
+			const calc_type divisor = raw_length<calc_type>(d1) * raw_length<calc_type>(d2);
+			if (divisor == calc_type{})
 				return product_type{};
 
-			const auto cos = raw_dot(d1, d2) / divisor;
-			return cos <= intermediate_type{ 1 }
-				? static_cast<product_type>(std::acos(cos))
+			const calc_type cos = raw_dot<calc_type>(d1, d2) / divisor;
+
+			// clamp cos to long double because std::acos likely won't have overloads for quad
+			using cos_type = std::conditional_t<is_extended_arithmetic<calc_type>, long double, calc_type>;
+
+			return cos <= calc_type{ 1 }
+				? static_cast<product_type>(std::acos(static_cast<cos_type>(cos)))
 				: product_type{}
 			;
 		}
 
-		/// \brief	Calculates the angle between two normalized direction vectors.
+		/// \brief	Calculates the angle between two vectors.
 		///
-		/// \param	d	A normalized direction vector.
+		/// \param	d	A vector.
 		///
 		/// \returns	The angle between the two vectors (in radians).
 		/// 
@@ -2427,6 +2436,10 @@ MUU_NAMESPACE_START
 			static constexpr type two_pi				= type{ scalars::two_pi               };
 			static constexpr type sqrt_two_pi			= type{ scalars::sqrt_two_pi          };
 			static constexpr type one_over_sqrt_two_pi	= type{ scalars::one_over_sqrt_two_pi };
+			static constexpr type one_over_three_pi		= type{ scalars::one_over_three_pi    };
+			static constexpr type three_pi_over_two		= type{ scalars::three_pi_over_two    };
+			static constexpr type three_pi_over_four	= type{ scalars::three_pi_over_four   };
+			static constexpr type three_pi_over_five	= type{ scalars::three_pi_over_five   };
 			static constexpr type e						= type{ scalars::e                    };
 			static constexpr type one_over_e			= type{ scalars::one_over_e           };
 			static constexpr type e_over_two			= type{ scalars::e_over_two           };

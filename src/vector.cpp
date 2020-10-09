@@ -122,7 +122,7 @@ MUU_IMPL_NAMESPACE_START
 	}
 
 	#if MUU_HAS_FLOAT16
-	void print_vector_to_stream(std::ostream& os, const __Float16* x, size_t dims)
+	void print_vector_to_stream(std::ostream& os, const _Float16* x, size_t dims)
 	{
 		::print(os, x, dims);
 	}
@@ -225,7 +225,7 @@ MUU_IMPL_NAMESPACE_START
 	}
 
 	#if MUU_HAS_FLOAT16
-	void print_vector_to_stream(std::wostream& os, const __Float16* x, size_t dims)
+	void print_vector_to_stream(std::wostream& os, const _Float16* x, size_t dims)
 	{
 		::print(os, x, dims);
 	}

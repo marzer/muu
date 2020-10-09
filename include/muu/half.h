@@ -817,6 +817,10 @@ MUU_NAMESPACE_START
 			static constexpr half two_pi                = half::from_bits( 0b0'10001'1001001001_u16 );
 			static constexpr half sqrt_two_pi           = half::from_bits( 0b0'10000'0100000100_u16 );
 			static constexpr half one_over_sqrt_two_pi  = half::from_bits( 0b0'01101'1001100010_u16 );
+			static constexpr half one_over_three_pi     = half::from_bits( 0b0'01011'1011001011_u16 );
+			static constexpr half three_pi_over_two     = half::from_bits( 0b0'10001'0010110111_u16 );
+			static constexpr half three_pi_over_four    = half::from_bits( 0b0'10000'0010110111_u16 );
+			static constexpr half three_pi_over_five    = half::from_bits( 0b0'01111'1110001010_u16 );
 			static constexpr half e                     = half::from_bits( 0b0'10000'0101110000_u16 );
 			static constexpr half one_over_e            = half::from_bits( 0b0'01101'0111100011_u16 );
 			static constexpr half e_over_two            = half::from_bits( 0b0'01111'0101110000_u16 );
@@ -860,6 +864,10 @@ MUU_NAMESPACE_START
 			static constexpr half two_pi                = half{ native_type::two_pi                };
 			static constexpr half sqrt_two_pi           = half{ native_type::sqrt_two_pi           };
 			static constexpr half one_over_sqrt_two_pi  = half{ native_type::one_over_sqrt_two_pi  };
+			static constexpr half one_over_three_pi     = half{ native_type::one_over_three_pi     };
+			static constexpr half three_pi_over_two     = half{ native_type::three_pi_over_two     };
+			static constexpr half three_pi_over_four    = half{ native_type::three_pi_over_four    };
+			static constexpr half three_pi_over_five    = half{ native_type::three_pi_over_five    };
 			static constexpr half e                     = half{ native_type::e                     };
 			static constexpr half one_over_e            = half{ native_type::one_over_e            };
 			static constexpr half e_over_two            = half{ native_type::e_over_two            };

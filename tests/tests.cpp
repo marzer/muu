@@ -4,13 +4,26 @@
 // SPDX-License-Identifier: MIT
 
 #include "tests.h"
-#include "../include/muu/half.h"
 
-MUU_NAMESPACE_START
+#if MUU_HAS_FLOAT16
+std::ostream& operator << (std::ostream& os, _Float16 flt)
 {
-	std::ostream& operator << (std::ostream& os, const half& value)
-	{
-		return os << static_cast<float>(value);
-	}
+	return os << static_cast<float>(flt);
 }
-MUU_NAMESPACE_END
+
+std::wostream& operator << (std::wostream& os, _Float16 flt)
+{
+	return os << static_cast<float>(flt);
+}
+#endif
+#if MUU_HAS_FLOAT128
+std::ostream& operator << (std::ostream& os, __float128 flt)
+{
+	return os << static_cast<long double>(flt);
+}
+
+std::wostream& operator << (std::wostream& os, __float128 flt)
+{
+	return os << static_cast<long double>(flt);
+}
+#endif

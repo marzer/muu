@@ -1212,6 +1212,10 @@ MUU_NAMESPACE_START
 			static constexpr T two_pi                = T( 6.283185307179586477L ); ///< `pi`
 			static constexpr T sqrt_two_pi           = T( 2.506628274631000502L ); ///< `sqrt(2 * pi)`
 			static constexpr T one_over_sqrt_two_pi  = T( 0.398942280401432678L ); ///< `1 / sqrt(2 * pi)`
+			static constexpr T one_over_three_pi     = T( 0.106103295394596891L ); ///< `1 / (3 * pi)`
+			static constexpr T three_pi_over_two     = T( 4.712388980384689858L ); ///< `3 * (pi / 2)`
+			static constexpr T three_pi_over_four    = T( 2.356194490192344929L ); ///< `3 * (pi / 4)`
+			static constexpr T three_pi_over_five    = T( 1.884955592153875943L ); ///< `3 * (pi / 5)`
 			static constexpr T e                     = T( 2.718281828459045535L ); ///< `e`
 			static constexpr T one_over_e            = T( 0.367879441171442281L ); ///< `1 / e`
 			static constexpr T e_over_two            = T( 1.359140914229522767L ); ///< `e / 2`
@@ -1259,6 +1263,10 @@ MUU_NAMESPACE_START
 			static constexpr quad two_pi                = 6.283185307179586476925286766559006q;
 			static constexpr quad sqrt_two_pi           = 2.506628274631000502415765284811045q;
 			static constexpr quad one_over_sqrt_two_pi  = 0.398942280401432677939946059934382q;
+			static constexpr quad one_over_three_pi     = 0.106103295394596890512589175581676q;
+			static constexpr quad three_pi_over_two     = 4.712388980384689857693965074919254q;
+			static constexpr quad three_pi_over_four    = 2.356194490192344928846982537459627q;
+			static constexpr quad three_pi_over_five    = 1.884955592153875943077586029967702q;
 			static constexpr quad e                     = 2.718281828459045534884808148490265q;
 			static constexpr quad one_over_e            = 0.367879441171442281059287928010393q;
 			static constexpr quad e_over_two            = 1.359140914229522767442404074245133q;

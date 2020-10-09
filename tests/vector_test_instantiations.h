@@ -152,4 +152,9 @@ VECTOR_TEST_CASE("min and max")
 	TEST_TYPE(min_max_tests);
 }
 
+VECTOR_TEST_CASE("angle")
+{
+	TEST_TYPE(angle_tests);
+}
+
 #undef SCALAR_TYPE

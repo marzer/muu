@@ -92,6 +92,10 @@ MUU_NAMESPACE_START
 		static constexpr long double two_pi                = 6.283L; // 0'10001'1001001001
 		static constexpr long double sqrt_two_pi           = 2.507L; // 0'10000'0100000100
 		static constexpr long double one_over_sqrt_two_pi  = 0.399L; // 0'01101'1001100010
+		static constexpr long double one_over_three_pi     = 0.106L; // 0'01011'1011001011
+		static constexpr long double three_pi_over_two     = 4.712L; // 0'10001'0010110111
+		static constexpr long double three_pi_over_four    = 2.356L; // 0'10000'0010110111
+		static constexpr long double three_pi_over_five    = 1.885L; // 0'01111'1110001010
 		static constexpr long double e                     = 2.718L; // 0'10000'0101110000
 		static constexpr long double one_over_e            = 0.368L; // 0'01101'0111100011
 		static constexpr long double e_over_two            = 1.359L; // 0'01111'0101110000
@@ -206,6 +210,10 @@ MUU_NAMESPACE_START
 		static constexpr long double two_pi                = 6.283185L;
 		static constexpr long double sqrt_two_pi           = 2.506628L;
 		static constexpr long double one_over_sqrt_two_pi  = 0.398942L;
+		static constexpr long double one_over_three_pi     = 0.106103L;
+		static constexpr long double three_pi_over_two     = 4.712389L;
+		static constexpr long double three_pi_over_four    = 2.356194L;
+		static constexpr long double three_pi_over_five    = 1.884956L;
 		static constexpr long double e                     = 2.718282L;
 		static constexpr long double one_over_e            = 0.367879L;
 		static constexpr long double e_over_two            = 1.359141L;
@@ -355,6 +363,10 @@ MUU_NAMESPACE_START
 		static constexpr long double two_pi                = 6.283185307179586L;
 		static constexpr long double sqrt_two_pi           = 2.506628274631001L;
 		static constexpr long double one_over_sqrt_two_pi  = 0.398942280401433L;
+		static constexpr long double one_over_three_pi     = 0.106103295394597L;
+		static constexpr long double three_pi_over_two     = 4.712388980384690L;
+		static constexpr long double three_pi_over_four    = 2.356194490192345L;
+		static constexpr long double three_pi_over_five    = 1.884955592153876L;
 		static constexpr long double e                     = 2.718281828459046L;
 		static constexpr long double one_over_e            = 0.367879441171442L;
 		static constexpr long double e_over_two            = 1.359140914229523L;
@@ -524,6 +536,10 @@ MUU_NAMESPACE_START
 		static constexpr long double two_pi                = 6.283185307179586477L;
 		static constexpr long double sqrt_two_pi           = 2.506628274631000502L;
 		static constexpr long double one_over_sqrt_two_pi  = 0.398942280401432678L;
+		static constexpr long double one_over_three_pi     = 0.106103295394596891L;
+		static constexpr long double three_pi_over_two     = 4.712388980384689858L;
+		static constexpr long double three_pi_over_four    = 2.356194490192344929L;
+		static constexpr long double three_pi_over_five    = 1.884955592153875943L;
 		static constexpr long double e                     = 2.718281828459045535L;
 		static constexpr long double one_over_e            = 0.367879441171442281L;
 		static constexpr long double e_over_two            = 1.359140914229522767L;
@@ -694,6 +710,10 @@ MUU_NAMESPACE_START
 		static constexpr long double two_pi                = 6.283185307179586477L;
 		static constexpr long double sqrt_two_pi           = 2.506628274631000502L;
 		static constexpr long double one_over_sqrt_two_pi  = 0.398942280401432678L;
+		static constexpr long double one_over_three_pi     = 0.106103295394596891L;
+		static constexpr long double three_pi_over_two     = 4.712388980384689858L;
+		static constexpr long double three_pi_over_four    = 2.356194490192344929L;
+		static constexpr long double three_pi_over_five    = 1.884955592153875943L;
 		static constexpr long double e                     = 2.718281828459045535L;
 		static constexpr long double one_over_e            = 0.367879441171442281L;
 		static constexpr long double e_over_two            = 1.359140914229522767L;
@@ -748,7 +768,7 @@ MUU_NAMESPACE_START
 	template <>
 	struct float_test_data_by_traits<128, 113>
 	{
-		static constexpr quad values[] =
+		static constexpr quad values[] = 
 		{
 			0.002868982899771494123398061350766q, 0.315930513574404234347196109724236q, 
 			0.051927582269544436601802442790809q, 0.036061017294617750754103977978470q, 
@@ -981,6 +1001,10 @@ MUU_NAMESPACE_START
 		static constexpr quad two_pi                = 6.283185307179586476925286766559006q;
 		static constexpr quad sqrt_two_pi           = 2.506628274631000502415765284811045q;
 		static constexpr quad one_over_sqrt_two_pi  = 0.398942280401432677939946059934382q;
+		static constexpr quad one_over_three_pi     = 0.106103295394596890512589175581676q;
+		static constexpr quad three_pi_over_two     = 4.712388980384689857693965074919254q;
+		static constexpr quad three_pi_over_four    = 2.356194490192344928846982537459627q;
+		static constexpr quad three_pi_over_five    = 1.884955592153875943077586029967702q;
 		static constexpr quad e                     = 2.718281828459045534884808148490265q;
 		static constexpr quad one_over_e            = 0.367879441171442281059287928010393q;
 		static constexpr quad e_over_two            = 1.359140914229522767442404074245133q;

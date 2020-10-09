@@ -1008,3 +1008,53 @@ inline void min_max_tests(std::string_view scalar_typename) noexcept
 	CHECK(vector_t::min(interleaved2, interleaved2) == interleaved2);
 	CHECK(vector_t::max(interleaved2, interleaved2) == interleaved2);
 }
+
+template <typename T, size_t Dimensions>
+inline void angle_tests(std::string_view scalar_typename) noexcept
+{
+	INFO("vector<"sv << scalar_typename << ", "sv << Dimensions << ">"sv)
+	using vector_t = vector<T, Dimensions>;
+	using product_type = typename vector_t::product_type;
+	using constant_type = impl::highest_ranked<product_type, float>;
+
+	[[maybe_unused]]
+	const auto eps = static_cast<product_type>((muu::max)(static_cast<long double>(constants<product_type>::approx_equal_epsilon), 0.000000001L));
+
+	if constexpr (Dimensions == 2)
+	{
+		{
+			const vector_t a{ T{}, T(1) };
+			const vector_t b{ T(1), T{} };
+			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<product_type>(constants<constant_type>::pi_over_two), eps);
+		}
+
+		if constexpr (is_signed<T>)
+		{
+			const vector_t a{ T(1), T(1) };
+			const vector_t b{ T{}, T(-1) };
+			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<product_type>(constants<constant_type>::three_pi_over_four), eps);
+		}
+	}
+	else if constexpr (Dimensions == 3)
+	{
+		{
+			const vector_t a{ T{}, T{}, T(1) };
+			const vector_t b{ T{}, T(1), T{} };
+			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<product_type>(constants<constant_type>::pi_over_two), eps);
+		}
+
+		if constexpr (is_signed<T>)
+		{
+			const vector_t a{ T(1), T(2), T(3) };
+			const vector_t b{ T(-10), T(3), T(-1) };
+			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<product_type>(1.75013258616261269118297150271L), eps);
+		}
+
+		if constexpr (is_signed<T>)
+		{
+			const vector_t a{ T(1), T(2), T(3) };
+			const vector_t b{ T(-1), T(-2), T(-3) };
+			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<product_type>(constants<constant_type>::pi), eps);
+		}
+	}
+}

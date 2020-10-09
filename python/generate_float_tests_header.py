@@ -17,10 +17,10 @@ def dprint(*args):
 	if __debugging:
 		print(*args)
 
-__pi_and_tau = dict()
-def pi_and_tau():
-	global __pi_and_tau
-	result = __pi_and_tau.get(decimal.getcontext().prec)
+__pi_multiples = dict()
+def pi_multiples():
+	global __pi_multiples
+	result = __pi_multiples.get(decimal.getcontext().prec)
 	if result is None:
 		decimal.getcontext().prec += 4
 		three = decimal.Decimal(3)
@@ -31,19 +31,25 @@ def pi_and_tau():
 			d, da = d+da, da+32
 			t = (t * n) / d
 			s += t
-		tau = s * decimal.Decimal(2)
+		twopi = s * decimal.Decimal(2)
+		threepi = s * decimal.Decimal(3)
+		fourpi = s * decimal.Decimal(3)
 		decimal.getcontext().prec -= 4
-		result = (decimal.Decimal(s), decimal.Decimal(tau))
-		__pi_and_tau[decimal.getcontext().prec] = result
+		result = (decimal.Decimal(s), decimal.Decimal(twopi), decimal.Decimal(threepi), decimal.Decimal(fourpi))
+		__pi_multiples[decimal.getcontext().prec] = result
 	return result
 
 
 def pi():
-	return pi_and_tau()[0]
+	return pi_multiples()[0]
 
 
-def tau():
-	return pi_and_tau()[1]
+def two_pi():
+	return pi_multiples()[1]
+
+
+def three_pi():
+	return pi_multiples()[2]
 
 
 __phi = dict()
@@ -331,19 +337,24 @@ def write_float_data(file, traits):
 		(D(2), 'two'),
 		(D(3), 'three'),
 		(pi(), 'pi'),
-		(tau(), 'two_pi'),
+		(two_pi(), 'two_pi'),
+		(three_pi(), 'three_pi'),
 		(e(1), 'e'),
 		(phi(), 'phi')
 	]
 	constants = dict()
-	constants_skip_list = ['one', 'two', 'three', 'four', 'five', 'six', 'one_over_two_pi']
+	constants_skip_list = [
+		'one', 'two', 'three', 'four', 'five', 'six',
+		'one_over_two_pi', 'three_pi', 'three_pi_over_three', 'three_pi_over_six',
+		'sqrt_three_pi', 'one_over_sqrt_three_pi'
+	]
 	print_constant_ = lambda name, value: \
 		write(f'\t\tstatic constexpr {type} {name}{" " * (22 - len(name))}= {rounded(value, traits.digits10)}{suffix};{" // "+traits.bit_representation(value) if traits.total_bits == 16 else ""}')
 	print_constant =  lambda n,v: (print_constant_(n, v), ) if n not in constants_skip_list else None
 	for val, name in constant_inputs:
 		print_constant(name, val)
 		print_constant(f'one_over_{name}', D(1) / val)
-		if val != tau():
+		if val != two_pi():
 			if val != D(2):
 				print_constant(f'{name}_over_two', val / D(2))
 			if val != D(3):
