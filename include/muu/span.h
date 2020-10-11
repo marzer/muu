@@ -136,7 +136,7 @@ MUU_NAMESPACE_START
 				if constexpr (Extent != dynamic_extent)
 					MUU_CONSTEXPR_SAFE_ASSERT(count == Extent && "count must be equal to span extent for statically-sized spans");
 				if constexpr (Extent > 0)
-					MUU_CONSTEXPR_SAFE_ASSERT(ptr_and_size.first() != nullptr && "a nullptr span is undefined behaviour");
+					MUU_CONSTEXPR_SAFE_ASSERT((count == 0_sz || ptr_and_size.first() != nullptr) && "a nullptr span is undefined behaviour");
 			}
 
 			/// \brief Constructs a span from a pair of contiguous iterators.
@@ -161,7 +161,7 @@ MUU_NAMESPACE_START
 						&& "(last - first) must be equal to span extent for statically-sized spans"
 					);
 				if constexpr (Extent > 0)
-					MUU_CONSTEXPR_SAFE_ASSERT(ptr_and_size.first() != nullptr && "a nullptr span is undefined behaviour");
+					MUU_CONSTEXPR_SAFE_ASSERT((ptr_and_size.second() == 0_sz || ptr_and_size.first() != nullptr) && "a nullptr span is undefined behaviour");
 			}
 
 			/// \brief Constructs a span from an array.
