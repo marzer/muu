@@ -46,7 +46,7 @@
 	<PropertyGroup>
 		<LocalDebuggerWorkingDirectory>..\..\tests\</LocalDebuggerWorkingDirectory>
 		<IntDir>$(SolutionDir)..\build\tests-CFBAF3E0-2F81-5178-964C-F419CD2F296D\</IntDir>
-		<OutDir>$(SolutionDir)..\\build\\</OutDir>
+		<OutDir>$(SolutionDir)..\build\</OutDir>
 	</PropertyGroup>
 	<ItemGroup>
 		<ClCompile Include="..\..\tests\accumulator.cpp" />

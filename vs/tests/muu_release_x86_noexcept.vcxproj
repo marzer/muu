@@ -25,6 +25,10 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Label="DllExport">
+    <StaticDllExport>false</StaticDllExport>
+    <CustomTargetSuffix Condition="'$(ConfigurationType)|$(StaticDllExport)'=='StaticLibrary|true'">DllExport</CustomTargetSuffix>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -43,9 +47,6 @@
 			<LanguageStandard>stdcpp17</LanguageStandard>
 		</ClCompile>
 	</ItemDefinitionGroup>
-  <PropertyGroup>
-    <StaticDllExport>false</StaticDllExport>
-  </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);MUU_BUILDING=1</PreprocessorDefinitions>

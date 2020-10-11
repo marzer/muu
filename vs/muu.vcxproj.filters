@@ -147,6 +147,7 @@
     <None Include="..\src\meson.build">
       <Filter>src</Filter>
     </None>
+    <None Include="muu.props" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">

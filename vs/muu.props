@@ -7,14 +7,12 @@
 
 	<!-- :: defaults -->
 	<PropertyGroup>
-		<OutDir>$(SolutionDir)..\bin\$(Platform)\$(Configuration)\</OutDir>
-		<IntDir>$(SolutionDir)..\build\$(ProjectName)-$(ConfigurationType)-$(PlatformTarget)-$(Configuration)-$(PlatformToolsetVersion)\</IntDir>
+		<OutDir>$(SolutionDir)..\bin\$(PlatformTarget)\$(Configuration)\</OutDir>
+		<IntDir>$(SolutionDir)..\build\$(ProjectName)_vc$(PlatformToolsetVersion)_$(PlatformTarget)_$(Configuration)_$(ConfigurationType)_$(CustomTargetSuffix)\</IntDir>
 		<IncludePath>$(SolutionDir)..\include;$(SolutionDir)..\extern;$(IncludePath)</IncludePath>
-		<DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>	
-		<LinkIncremental>false</LinkIncremental>	
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(ConfigurationType)'=='StaticLibrary'">
-		<OutDir>$(SolutionDir)..\lib\$(Platform)\$(Configuration)\</OutDir>
+		<DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+		<LinkIncremental>false</LinkIncremental>
+		<TargetName>$(ProjectName)</TargetName>
 	</PropertyGroup>
 	<ItemDefinitionGroup>
 		<ClCompile>
@@ -95,6 +93,17 @@
 			<EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet> <!-- /arch:AVX -->
 		</ClCompile>
 	</ItemDefinitionGroup>
+
+	<!-- :: static libraries -->
+	<PropertyGroup Condition="'$(ConfigurationType)'=='StaticLibrary'">
+		<OutDir>$(SolutionDir)..\lib\</OutDir>
+		<TargetName>$(ProjectName)_vc$(PlatformToolsetVersion)_$(PlatformTarget)_$(Configuration)</TargetName>
+	</PropertyGroup>
+
+	<!-- :: inject custom target name suffix-->
+	<PropertyGroup Condition="'$(CustomTargetSuffix)'!=''">
+		<TargetName>$(TargetName)_$(CustomTargetSuffix)</TargetName>
+	</PropertyGroup>
 	
 	<!-- Report how long each build took -->
 	<Target Name="BuildInfoReportDuration" AfterTargets="Build">
