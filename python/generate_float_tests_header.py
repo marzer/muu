@@ -33,7 +33,7 @@ def pi_multiples():
 			s += t
 		twopi = s * decimal.Decimal(2)
 		threepi = s * decimal.Decimal(3)
-		fourpi = s * decimal.Decimal(3)
+		fourpi = s * decimal.Decimal(4)
 		decimal.getcontext().prec -= 4
 		result = (decimal.Decimal(s), decimal.Decimal(twopi), decimal.Decimal(threepi), decimal.Decimal(fourpi))
 		__pi_multiples[decimal.getcontext().prec] = result

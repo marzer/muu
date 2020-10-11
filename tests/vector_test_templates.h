@@ -6,6 +6,7 @@
 #pragma once
 #include "tests.h"
 #include "../include/muu/vector.h"
+#include "../include/muu/accumulator.h"
 
 template <typename T>
 inline constexpr bool invoke_trait_tests = false;
@@ -1023,6 +1024,18 @@ inline void angle_tests(std::string_view scalar_typename) noexcept
 	if constexpr (Dimensions == 2)
 	{
 		{
+			// b
+			// |__ a
+
+			const vector_t a{ T(1), T{} };
+			const vector_t b{ T{}, T(1) };
+			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<product_type>(constants<constant_type>::pi_over_two), eps);
+		}
+
+		{
+			// a
+			// |__ b
+
 			const vector_t a{ T{}, T(1) };
 			const vector_t b{ T(1), T{} };
 			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<product_type>(constants<constant_type>::pi_over_two), eps);
@@ -1030,8 +1043,59 @@ inline void angle_tests(std::string_view scalar_typename) noexcept
 
 		if constexpr (is_signed<T>)
 		{
-			const vector_t a{ T(1), T(1) };
+			// b __ __ a
+
+			const vector_t a{ T(1), T{} };
+			const vector_t b{ T(-1), T{} };
+			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<product_type>(constants<constant_type>::pi), eps);
+		}
+
+		if constexpr (is_signed<T>)
+		{
+			// a __ __ b
+
+			const vector_t a{ T(-1), T{} };
+			const vector_t b{ T(1), T{} };
+			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<product_type>(constants<constant_type>::pi), eps);
+		}
+
+		if constexpr (is_signed<T>)
+		{
+			//  __ a
+			// |
+			// b
+
+			const vector_t a{ T(1), T{} };
 			const vector_t b{ T{}, T(-1) };
+			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<product_type>(constants<constant_type>::pi_over_two), eps);
+		}
+
+		if constexpr (is_signed<T>)
+		{
+			//  __ b
+			// |
+			// a
+
+			const vector_t a{ T{}, T(-1) };
+			const vector_t b{ T(1), T{} };
+			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<product_type>(constants<constant_type>::pi_over_two), eps);
+		}
+
+		if constexpr (is_signed<T>)
+		{
+			// b
+			//  \ __ a
+			const vector_t a{ T(1), T{} };
+			const vector_t b{ T(-1), T(1) };
+			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<product_type>(constants<constant_type>::three_pi_over_four), eps);
+		}
+
+		if constexpr (is_signed<T>)
+		{
+			// a
+			//  \ __ b
+			const vector_t a{ T(-1), T(1) };
+			const vector_t b{ T(1), T{} };
 			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<product_type>(constants<constant_type>::three_pi_over_four), eps);
 		}
 	}
@@ -1056,5 +1120,39 @@ inline void angle_tests(std::string_view scalar_typename) noexcept
 			const vector_t b{ T(-1), T(-2), T(-3) };
 			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<product_type>(constants<constant_type>::pi), eps);
 		}
+	}
+}
+
+template <typename T, size_t Dimensions>
+inline void accumulator_tests(std::string_view scalar_typename) noexcept
+{
+	INFO("vector<"sv << scalar_typename << ", "sv << Dimensions << ">"sv)
+	using vector_t = vector<T, Dimensions>;
+
+	static constexpr size_t vectors = 100;
+	const auto values = random_array<T, vectors * Dimensions>();
+	muu::accumulator<T> scalar_accumulators[Dimensions];
+	muu::accumulator<vector<T, Dimensions>> vector_accumulator;
+	for (size_t i = 0; i < values.size(); i += Dimensions)
+	{
+		vector_t v;
+		for (size_t d = 0; d < Dimensions; d++)
+		{
+			v[d] = values[i + d];
+			scalar_accumulators[d].add(values[i + d]);
+		}
+		vector_accumulator.add(v);
+	}
+
+	CHECK(vector_accumulator.sample_count() == vectors);
+
+	const auto vector_min = vector_accumulator.min();
+	const auto vector_max = vector_accumulator.max();
+	const auto vector_sum = vector_accumulator.sum();
+	for (size_t d = 0; d < Dimensions; d++)
+	{
+		CHECK(vector_min[d] == scalar_accumulators[d].min());
+		CHECK(vector_max[d] == scalar_accumulators[d].max());
+		CHECK(vector_sum[d] == scalar_accumulators[d].sum());
 	}
 }

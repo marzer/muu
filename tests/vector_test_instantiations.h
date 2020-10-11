@@ -157,4 +157,9 @@ VECTOR_TEST_CASE("angle")
 	TEST_TYPE(angle_tests);
 }
 
+VECTOR_TEST_CASE("accumulator")
+{
+	TEST_TYPE(accumulator_tests);
+}
+
 #undef SCALAR_TYPE

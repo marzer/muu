@@ -92,7 +92,7 @@ MUU_PRAGMA_MSVC(float_control(precise, off))
 	}																												\
 	(void)0
 
-#define COMPONENTWISE_ARITHMETIC_OPERATOR(func, op)																	\
+#define COMPONENTWISE_ACCUMULATE(func, op)																			\
 	if constexpr (Dimensions == 1) { FMA_BLOCK return func(x);											}			\
 	if constexpr (Dimensions == 2) { FMA_BLOCK return (func(x)) op (func(y));							}			\
 	if constexpr (Dimensions == 3) { FMA_BLOCK return (func(x)) op (func(y)) op (func(z));				}			\
@@ -110,8 +110,6 @@ MUU_PRAGMA_MSVC(float_control(precise, off))
 		return val;																									\
 	}																												\
 	(void)0
-
-#define COMPONENTWISE_ACCUMULATE(func)		COMPONENTWISE_ARITHMETIC_OPERATOR(func, +)
 
 #define NULL_TRANSFORM(x) x
 
@@ -1133,7 +1131,6 @@ MUU_NAMESPACE_START
 				memset(&operator[](num), 0, (Dimensions - num) * sizeof(scalar_type));
 		}
 
-
 		#if !defined(DOXYGEN) && !MUU_INTELLISENSE
 
 		template <size_t N ENABLE_IF_DIMENSIONS_AT_LEAST(N)>
@@ -1369,7 +1366,7 @@ MUU_NAMESPACE_START
 		static constexpr Return MUU_VECTORCALL raw_length_squared(vector_param v) noexcept
 		{
 			#define VEC_FUNC(member)	static_cast<Return>(v.member) * static_cast<Return>(v.member)
-			COMPONENTWISE_ACCUMULATE(VEC_FUNC);
+			COMPONENTWISE_ACCUMULATE(VEC_FUNC, +);
 			#undef VEC_FUNC
 		}
 
@@ -1384,31 +1381,33 @@ MUU_NAMESPACE_START
 				return muu::sqrt(raw_length_squared<Return>(v));
 		}
 
+		template <typename Return = intermediate_type>
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr intermediate_type MUU_VECTORCALL raw_distance_squared(vector_param p1, vector_param p2) noexcept
+		static constexpr Return MUU_VECTORCALL raw_distance_squared(vector_param p1, vector_param p2) noexcept
 		{
 			constexpr auto subtract_and_square = [](scalar_type lhs, scalar_type rhs) noexcept
 			{
 				FMA_BLOCK
 
-				const auto temp = static_cast<intermediate_type>(lhs) - static_cast<intermediate_type>(rhs);
+				const auto temp = static_cast<Return>(lhs) - static_cast<Return>(rhs);
 				return temp * temp;
 			};
 
 			#define VEC_FUNC(member)	subtract_and_square(p2.member, p1.member)
-			COMPONENTWISE_ACCUMULATE(VEC_FUNC);
+			COMPONENTWISE_ACCUMULATE(VEC_FUNC, +);
 			#undef VEC_FUNC
 		}
 
+		template <typename Return = intermediate_type>
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr intermediate_type MUU_VECTORCALL raw_distance(vector_param p1, vector_param p2) noexcept
+		static constexpr Return MUU_VECTORCALL raw_distance(vector_param p1, vector_param p2) noexcept
 		{
 			if constexpr (Dimensions == 1)
-				return static_cast<intermediate_type>(p2.x) - static_cast<intermediate_type>(p1.x);
+				return static_cast<Return>(p2.x) - static_cast<Return>(p1.x);
 			else
-				return muu::sqrt(raw_distance_squared(p1, p2));
+				return muu::sqrt(raw_distance_squared<Return>(p1, p2));
 		}
 
 	public:
@@ -1528,7 +1527,7 @@ MUU_NAMESPACE_START
 		static constexpr Return MUU_VECTORCALL raw_dot(vector_param v1, vector_param v2) noexcept
 		{
 			#define VEC_FUNC(member)	static_cast<Return>(v1.member) * static_cast<Return>(v2.member)
-			COMPONENTWISE_ACCUMULATE(VEC_FUNC);
+			COMPONENTWISE_ACCUMULATE(VEC_FUNC, +);
 			#undef VEC_FUNC
 		}
 
@@ -2190,50 +2189,58 @@ MUU_NAMESPACE_START
 
 		/// \brief	Calculates the angle between two vectors.
 		///
-		/// \param	d1	A vector.
-		/// \param	d2	A vector.
+		/// \param	v1		A vector.
+		/// \param	v2		A vector.
 		///
-		/// \returns	The angle between the two vectors (in radians).
+		/// \returns	The angle in radians between `v1` and `v2`.
+		/// 
+		/// \remarks	The angle returned is the unsigned angle between the two vectors;
+		/// 			the smaller of the two possible angles between the two vectors is used.
+		/// 			The result is never greater than `pi` radians (180 degrees).
 		/// 
 		/// \note		This function is only available when #dimensions == 2 or 3.
 		REQUIRES_DIMENSIONS_BETWEEN(2, 3)
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr product_type MUU_VECTORCALL angle(vector_param d1, vector_param d2) noexcept
+		static constexpr product_type MUU_VECTORCALL angle(vector_param v1, vector_param v2) noexcept
 		{
 			// law of cosines
 			// https://stackoverflow.com/questions/10507620/finding-the-angle-between-vectors
 
 			// intermediate calcs are done using doubles because anything else is far too imprecise
 			using calc_type = impl::highest_ranked<intermediate_type, double>;
-			const calc_type divisor = raw_length<calc_type>(d1) * raw_length<calc_type>(d2);
+			const calc_type divisor = raw_length<calc_type>(v1) * raw_length<calc_type>(v2);
 			if (divisor == calc_type{})
 				return product_type{};
 
-			const calc_type cos = raw_dot<calc_type>(d1, d2) / divisor;
-
 			// clamp cos to long double because std::acos likely won't have overloads for quad
 			using cos_type = std::conditional_t<is_extended_arithmetic<calc_type>, long double, calc_type>;
+			const cos_type cos = static_cast<cos_type>(muu::clamp(
+				raw_dot<calc_type>(v1, v2) / divisor,
+				muu::constants<calc_type>::minus_one,
+				muu::constants<calc_type>::one
+			));
 
-			return cos <= calc_type{ 1 }
-				? static_cast<product_type>(std::acos(static_cast<cos_type>(cos)))
-				: product_type{}
-			;
+			return static_cast<product_type>(std::acos(cos));
 		}
 
-		/// \brief	Calculates the angle between two vectors.
+		/// \brief	Calculates the angle between this vector and another.
 		///
-		/// \param	d	A vector.
+		/// \param	v	A vector.
 		///
-		/// \returns	The angle between the two vectors (in radians).
+		/// \returns	The angle in radians between this vector and `v`.
+		/// 
+		/// \remarks	The angle returned is the unsigned angle between the two vectors;
+		/// 			the smaller of the two possible angles between the two vectors is used.
+		/// 			The result is never greater than `pi` radians (180 degrees).
 		/// 
 		/// \note		This function is only available when #dimensions == 2 or 3.
 		REQUIRES_DIMENSIONS_BETWEEN(2, 3)
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		constexpr product_type MUU_VECTORCALL angle(vector_param d) const noexcept
+		constexpr product_type MUU_VECTORCALL angle(vector_param v) const noexcept
 		{
-			return angle(*this, d);
+			return angle(*this, v);
 		}
 
 		/// \brief	Returns a vector with all scalar components set to their absolute values.
@@ -2322,7 +2329,6 @@ namespace std
 #undef REQUIRES_SIGNED
 #undef COMPONENTWISE_AND
 #undef COMPONENTWISE_OR
-#undef COMPONENTWISE_ARITHMETIC_OPERATOR
 #undef COMPONENTWISE_ACCUMULATE
 #undef COMPONENTWISE_CASTING_OP_BRANCH
 #undef COMPONENTWISE_CASTING_OP
@@ -2336,7 +2342,7 @@ namespace std
 #endif // =============================================================================================================
 
 //=====================================================================================================================
-// VECTOR CLASS CONSTANTS
+// VECTOR CONSTANTS
 #if 1
 
 MUU_PUSH_PRECISE_MATH
@@ -2574,6 +2580,117 @@ MUU_NAMESPACE_END
 MUU_POP_PRECISE_MATH
 
 #endif // =============================================================================================================
+
+//=====================================================================================================================
+// VECTOR ACCUMULATOR
+#if 1
+
+MUU_IMPL_NAMESPACE_START
+{
+	template <typename Scalar, size_t Dimensions>
+	struct vector_accumulator
+	{
+		using value_type = muu::vector<Scalar, Dimensions>;
+		using value_param = typename value_type::vector_param;
+		using scalar_accumulator = typename default_accumulator<Scalar>::type;
+
+		scalar_accumulator accumulators[Dimensions];
+
+		constexpr void MUU_VECTORCALL start(value_param sample) noexcept
+		{
+										  accumulators[0].start(sample.template get<0>());
+			if constexpr (Dimensions > 1) accumulators[1].start(sample.template get<1>());
+			if constexpr (Dimensions > 2) accumulators[2].start(sample.template get<2>());
+			if constexpr (Dimensions > 3) accumulators[3].start(sample.template get<3>());
+			if constexpr (Dimensions > 4)
+			{
+				for (size_t i = 4; i < Dimensions; i++)
+					accumulators[i].start(sample[i]);
+			}
+		}
+
+		constexpr void MUU_VECTORCALL add(value_param sample) noexcept
+		{
+										  accumulators[0].add(sample.template get<0>());
+			if constexpr (Dimensions > 1) accumulators[1].add(sample.template get<1>());
+			if constexpr (Dimensions > 2) accumulators[2].add(sample.template get<2>());
+			if constexpr (Dimensions > 3) accumulators[3].add(sample.template get<3>());
+			if constexpr (Dimensions > 4)
+			{
+				for (size_t i = 4; i < Dimensions; i++)
+					accumulators[i].add(sample[i]);
+			}
+		}
+
+		constexpr void add(const vector_accumulator& other) noexcept
+		{
+			for (size_t i = 0; i < Dimensions; i++)
+				accumulators[i].add(other.accumulators[i]);
+		}
+
+	private:
+
+		template <size_t... Indices, typename Func>
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		auto componentwise(std::index_sequence<Indices...>, Func&& func) const noexcept
+		{
+			return vector{ func(accumulators[Indices])... };
+		}
+
+	public:
+
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr value_type (min)() const noexcept
+		{
+			return componentwise(
+				std::make_index_sequence<Dimensions>{},
+				[](auto& acc) noexcept
+				{
+					return acc.min();
+				}
+			);
+		}
+
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr value_type (max)() const noexcept
+		{
+			return componentwise(
+				std::make_index_sequence<Dimensions>{},
+				[](auto& acc) noexcept
+				{
+					return acc.max();
+				}
+			);
+		}
+
+		using sum_type = vector<decltype(std::declval<scalar_accumulator>().sum()), Dimensions>;
+
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr sum_type sum() const noexcept
+		{
+			return componentwise(
+				std::make_index_sequence<Dimensions>{},
+				[](auto& acc) noexcept
+				{
+					return acc.sum();
+				}
+			);
+		}
+	};
+
+	template <typename Scalar, size_t Dimensions>
+	struct default_accumulator<muu::vector<Scalar, Dimensions>>
+	{
+		using type = vector_accumulator<Scalar, Dimensions>;
+	};
+}
+MUU_IMPL_NAMESPACE_END
+
+#endif //==============================================================================================================
 
 MUU_PRAGMA_MSVC(float_control(pop))
 MUU_PRAGMA_MSVC(inline_recursion(off))

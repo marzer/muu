@@ -55,7 +55,7 @@ MUU_NAMESPACE_START
 			using value_type = ValueType;
 
 			/// \brief	`value_type` or `const value_type&`, depending on size, triviality, etc.
-			using value_param = impl::maybe_pass_readonly_by_value<ValueType>;
+			using value_param = typename Impl::value_param;
 
 		private:
 			compressed_pair<Impl, size_t> impl_and_count{};
@@ -232,8 +232,8 @@ MUU_NAMESPACE_START
 				is_integral<ValueType>,
 				std::conditional_t<
 					is_signed<ValueType>,
-					largest<ValueType, int32_t>,
-					largest<ValueType, uint32_t>
+					highest_ranked<ValueType, int32_t>,
+					highest_ranked<ValueType, uint32_t>
 				>,
 				ValueType
 			>;
@@ -268,7 +268,7 @@ MUU_NAMESPACE_START
 			[[nodiscard]]
 			MUU_ALWAYS_INLINE
 			MUU_ATTR(pure)
-			constexpr value_type(min)() const noexcept
+			constexpr value_type (min)() const noexcept
 			{
 				return min_;
 			}
@@ -276,7 +276,7 @@ MUU_NAMESPACE_START
 			[[nodiscard]]
 			MUU_ALWAYS_INLINE
 			MUU_ATTR(pure)
-			constexpr value_type(max)() const noexcept
+			constexpr value_type (max)() const noexcept
 			{
 				return max_;
 			}
@@ -347,7 +347,7 @@ MUU_NAMESPACE_START
 			[[nodiscard]]
 			MUU_ALWAYS_INLINE
 			MUU_ATTR(pure)
-			constexpr value_type(min)() const noexcept
+			constexpr value_type (min)() const noexcept
 			{
 				return min_;
 			}
@@ -355,7 +355,7 @@ MUU_NAMESPACE_START
 			[[nodiscard]]
 			MUU_ALWAYS_INLINE
 			MUU_ATTR(pure)
-			constexpr value_type(max)() const noexcept
+			constexpr value_type (max)() const noexcept
 			{
 				return max_;
 			}
