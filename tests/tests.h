@@ -228,6 +228,26 @@ MUU_ENABLE_WARNINGS
 	}																				\
 	while (false)
 
+#define CHECK_SYMMETRIC_EQUAL(lhs, rhs)		\
+	do										\
+	{										\
+		CHECK(lhs == rhs);					\
+		CHECK_FALSE(lhs != rhs);			\
+		CHECK(rhs == lhs);					\
+		CHECK_FALSE(rhs != lhs);			\
+	}										\
+	while (false)
+
+#define CHECK_SYMMETRIC_INEQUAL(lhs, rhs)	\
+	do										\
+	{										\
+		CHECK_FALSE(lhs == rhs);			\
+		CHECK(lhs != rhs);					\
+		CHECK_FALSE(rhs == lhs);			\
+		CHECK(rhs != lhs);					\
+	}										\
+	while (false)
+
 template <typename T>
 struct nameof_;
 template <typename T>

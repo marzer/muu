@@ -41,33 +41,33 @@ inline constexpr void trait_tests(std::string_view /*scalar_typename*/) noexcept
 template <typename Vector, size_t NUM>
 inline void construction_test_from_scalars() noexcept
 {
-	using scalar_type = typename Vector::scalar_type;
+	using scalar = typename Vector::scalar_type;
 	INFO("constructing from "sv << NUM << " scalars"sv)
 
-	const auto vals = random_array<scalar_type, NUM>();
+	const auto vals = random_array<scalar, NUM>();
 	Vector vec = std::apply([](auto&& ... v) noexcept { return Vector{ v... }; }, vals);
 	for (size_t i = 0; i < NUM; i++)
 		CHECK(vec[i] == vals[i]);
 	for (size_t i = NUM; i < Vector::dimensions; i++)
-		CHECK(vec[i] == scalar_type{});
+		CHECK(vec[i] == scalar{});
 }
 
 template <typename Vector, size_t NUM>
 inline void construction_test_from_array() noexcept
 {
-	using scalar_type = typename Vector::scalar_type;
+	using scalar = typename Vector::scalar_type;
 
-	const auto arr = random_array<scalar_type, NUM>();
+	const auto arr = random_array<scalar, NUM>();
 	{
 		auto vec = Vector{ arr };
 		INFO("constructing from std::array with "sv << NUM << " elements"sv)
 		for (size_t i = 0; i < NUM; i++)
 			CHECK(vec[i] == arr[i]);
 		for (size_t i = NUM; i < Vector::dimensions; i++)
-			CHECK(vec[i] == scalar_type{});
+			CHECK(vec[i] == scalar{});
 	}
 
-	scalar_type raw_arr[NUM];
+	scalar raw_arr[NUM];
 	memcpy(raw_arr, arr.data(), sizeof(raw_arr));
 	{
 		auto vec = Vector{ raw_arr };
@@ -75,7 +75,7 @@ inline void construction_test_from_array() noexcept
 		for (size_t i = 0; i < NUM; i++)
 			CHECK(vec[i] == raw_arr[i]);
 		for (size_t i = NUM; i < Vector::dimensions; i++)
-			CHECK(vec[i] == scalar_type{});
+			CHECK(vec[i] == scalar{});
 	}
 
 	{
@@ -84,33 +84,33 @@ inline void construction_test_from_array() noexcept
 		for (size_t i = 0; i < NUM; i++)
 			CHECK(vec[i] == arr[i]);
 		for (size_t i = NUM; i < Vector::dimensions; i++)
-			CHECK(vec[i] == scalar_type{});
+			CHECK(vec[i] == scalar{});
 	}
 }
 
 template <typename Vector, size_t NUM>
 inline void construction_test_from_smaller_vector() noexcept
 {
-	using scalar_type = typename Vector::scalar_type;
+	using scalar = typename Vector::scalar_type;
 	INFO("constructing from a smaller vector with "sv << NUM << " elements"sv)
 	static_assert(NUM < Vector::dimensions);
 
-	auto smaller = vector<scalar_type, NUM>{ random_array<scalar_type, NUM>() };
+	auto smaller = vector<scalar, NUM>{ random_array<scalar, NUM>() };
 	auto vec = Vector{ smaller };
 	for (size_t i = 0; i < NUM; i++)
 		CHECK(vec[i] == smaller[i]);
 	for (size_t i = NUM; i < Vector::dimensions; i++)
-		CHECK(vec[i] == scalar_type{});
+		CHECK(vec[i] == scalar{});
 }
 
 template <typename Vector, size_t NUM>
 inline void construction_test_from_larger_vector() noexcept
 {
-	using scalar_type = typename Vector::scalar_type;
+	using scalar = typename Vector::scalar_type;
 	INFO("constructing from a larger vector with "sv << NUM << " elements"sv)
 	static_assert(NUM > Vector::dimensions);
 
-	auto larger = vector<scalar_type, NUM>{ random_array<scalar_type, NUM>() };
+	auto larger = vector<scalar, NUM>{ random_array<scalar, NUM>() };
 	auto vec = Vector{ larger };
 	for (size_t i = 0; i < Vector::dimensions; i++)
 		CHECK(vec[i] == larger[i]);
@@ -354,22 +354,14 @@ inline void equality_tests(std::string_view scalar_typename) noexcept
 		INFO("same type"sv)
 		
 		vector_t same{ vec };
-		CHECK(vector_t::equal(vec, same));
-		CHECK(vec == same);
-		CHECK_FALSE(vec != same);
-		CHECK(same == vec);
-		CHECK_FALSE(same != vec);
+		CHECK_SYMMETRIC_EQUAL(vec, same);
 		if constexpr (is_floating_point<T>)
 			CHECK(vector_t::approx_equal(vec, same));
 
 		vector_t different{ vec };
 		for (size_t i = 0; i < Dimensions; i++)
 			different[i]++;
-		CHECK_FALSE(vector_t::equal(vec, different));
-		CHECK(vec != different);
-		CHECK_FALSE(vec == different);
-		CHECK(different != vec);
-		CHECK_FALSE(different == vec);
+		CHECK_SYMMETRIC_INEQUAL(vec, different);
 		if constexpr (is_floating_point<T>)
 			CHECK_FALSE(vector_t::approx_equal(vec, different));
 	}
@@ -384,20 +376,12 @@ inline void equality_tests(std::string_view scalar_typename) noexcept
 		>;
 
 		other_t same{ vec };
-		CHECK(vector_t::equal(vec, same));
-		CHECK(vec == same);
-		CHECK_FALSE(vec != same);
-		CHECK(vec == same);
-		CHECK_FALSE(vec != same);
+		CHECK_SYMMETRIC_EQUAL(vec, same);
 
 		other_t different{ vec };
 		for (size_t i = 0; i < Dimensions; i++)
 			different[i]++;
-		CHECK_FALSE(vector_t::equal(vec, different));
-		CHECK(vec != different);
-		CHECK_FALSE(vec == different);
-		CHECK(different != vec);
-		CHECK_FALSE(different == vec);
+		CHECK_SYMMETRIC_INEQUAL(vec, different);
 	}
 }
 
@@ -1015,11 +999,11 @@ inline void angle_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("vector<"sv << scalar_typename << ", "sv << Dimensions << ">"sv)
 	using vector_t = vector<T, Dimensions>;
-	using product_type = typename vector_t::product_type;
-	using constant_type = impl::highest_ranked<product_type, float>;
+	using scalar_product = typename vector_t::scalar_product;
+	using constant_type = impl::highest_ranked<scalar_product, float>;
 
 	[[maybe_unused]]
-	const auto eps = static_cast<product_type>((muu::max)(static_cast<long double>(constants<product_type>::approx_equal_epsilon), 0.000000001L));
+	const auto eps = static_cast<scalar_product>((muu::max)(static_cast<long double>(constants<scalar_product>::approx_equal_epsilon), 0.000000001L));
 
 	if constexpr (Dimensions == 2)
 	{
@@ -1029,7 +1013,7 @@ inline void angle_tests(std::string_view scalar_typename) noexcept
 
 			const vector_t a{ T(1), T{} };
 			const vector_t b{ T{}, T(1) };
-			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<product_type>(constants<constant_type>::pi_over_two), eps);
+			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<scalar_product>(constants<constant_type>::pi_over_two), eps);
 		}
 
 		{
@@ -1038,7 +1022,7 @@ inline void angle_tests(std::string_view scalar_typename) noexcept
 
 			const vector_t a{ T{}, T(1) };
 			const vector_t b{ T(1), T{} };
-			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<product_type>(constants<constant_type>::pi_over_two), eps);
+			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<scalar_product>(constants<constant_type>::pi_over_two), eps);
 		}
 
 		if constexpr (is_signed<T>)
@@ -1047,7 +1031,7 @@ inline void angle_tests(std::string_view scalar_typename) noexcept
 
 			const vector_t a{ T(1), T{} };
 			const vector_t b{ T(-1), T{} };
-			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<product_type>(constants<constant_type>::pi), eps);
+			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<scalar_product>(constants<constant_type>::pi), eps);
 		}
 
 		if constexpr (is_signed<T>)
@@ -1056,7 +1040,7 @@ inline void angle_tests(std::string_view scalar_typename) noexcept
 
 			const vector_t a{ T(-1), T{} };
 			const vector_t b{ T(1), T{} };
-			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<product_type>(constants<constant_type>::pi), eps);
+			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<scalar_product>(constants<constant_type>::pi), eps);
 		}
 
 		if constexpr (is_signed<T>)
@@ -1067,7 +1051,7 @@ inline void angle_tests(std::string_view scalar_typename) noexcept
 
 			const vector_t a{ T(1), T{} };
 			const vector_t b{ T{}, T(-1) };
-			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<product_type>(constants<constant_type>::pi_over_two), eps);
+			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<scalar_product>(constants<constant_type>::pi_over_two), eps);
 		}
 
 		if constexpr (is_signed<T>)
@@ -1078,7 +1062,7 @@ inline void angle_tests(std::string_view scalar_typename) noexcept
 
 			const vector_t a{ T{}, T(-1) };
 			const vector_t b{ T(1), T{} };
-			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<product_type>(constants<constant_type>::pi_over_two), eps);
+			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<scalar_product>(constants<constant_type>::pi_over_two), eps);
 		}
 
 		if constexpr (is_signed<T>)
@@ -1087,7 +1071,7 @@ inline void angle_tests(std::string_view scalar_typename) noexcept
 			//  \ __ a
 			const vector_t a{ T(1), T{} };
 			const vector_t b{ T(-1), T(1) };
-			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<product_type>(constants<constant_type>::three_pi_over_four), eps);
+			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<scalar_product>(constants<constant_type>::three_pi_over_four), eps);
 		}
 
 		if constexpr (is_signed<T>)
@@ -1096,7 +1080,7 @@ inline void angle_tests(std::string_view scalar_typename) noexcept
 			//  \ __ b
 			const vector_t a{ T(-1), T(1) };
 			const vector_t b{ T(1), T{} };
-			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<product_type>(constants<constant_type>::three_pi_over_four), eps);
+			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<scalar_product>(constants<constant_type>::three_pi_over_four), eps);
 		}
 	}
 	else if constexpr (Dimensions == 3)
@@ -1104,21 +1088,21 @@ inline void angle_tests(std::string_view scalar_typename) noexcept
 		{
 			const vector_t a{ T{}, T{}, T(1) };
 			const vector_t b{ T{}, T(1), T{} };
-			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<product_type>(constants<constant_type>::pi_over_two), eps);
+			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<scalar_product>(constants<constant_type>::pi_over_two), eps);
 		}
 
 		if constexpr (is_signed<T>)
 		{
 			const vector_t a{ T(1), T(2), T(3) };
 			const vector_t b{ T(-10), T(3), T(-1) };
-			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<product_type>(1.75013258616261269118297150271L), eps);
+			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<scalar_product>(1.75013258616261269118297150271L), eps);
 		}
 
 		if constexpr (is_signed<T>)
 		{
 			const vector_t a{ T(1), T(2), T(3) };
 			const vector_t b{ T(-1), T(-2), T(-3) };
-			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<product_type>(constants<constant_type>::pi), eps);
+			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<scalar_product>(constants<constant_type>::pi), eps);
 		}
 	}
 }

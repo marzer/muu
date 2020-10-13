@@ -893,7 +893,7 @@ MUU_IMPL_NAMESPACE_START
 	// promotes ints to doubles, keeps floats as-is, as per the behaviour of std::sqrt, std::lerp, etc.
 	template <typename... T>
 	using std_math_common_type = highest_ranked<
-		std::conditional_t<is_floating_point<T>, T, double>...
+		std::conditional_t<is_integral<T> && !is_enum<T>, double, T>...
 	>;
 
 	struct any_type
