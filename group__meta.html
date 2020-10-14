@@ -269,6 +269,11 @@ C++</span></a>
             <dd>Are all of the named types integral or reference-to-integral?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="#ga9c2b21ea2cf57533a5dcf264d0e906e8">all_same</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if all the types named by T and U are exactly the same.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="#gaa7a73625bc705a9021924a54729c192e">all_signed</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are all of the named types signed or reference-to-signed?</dd>
@@ -382,11 +387,6 @@ C++</span></a>
               bool <a class="m-doc" href="#ga0ad880900bc41c21a698d9114f333e3d">is_legacy_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Is a type a pre-C++11 unscoped enum, or reference to one?</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#ga069232745f2338b2ece00c80c5d438e3">is_same_as_all</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>True if T is exactly the same all of the types named by U.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="#ga526c58b5a438ba0c7746e465389e013d">is_same_as_any</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -825,6 +825,17 @@ C++</span></a>
             <p>Are all of the named types integral or reference-to-integral?</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums.</p><p>Returns true for <a class="m-doc" href="group__building__blocks.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a> and <a class="m-doc" href="group__building__blocks.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a> (where supported).</p></aside>
           </div></section>
+          <section class="m-doc-details" id="ga9c2b21ea2cf57533a5dcf264d0e906e8"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename... U&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga9c2b21ea2cf57533a5dcf264d0e906e8">all_same</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>True if all the types named by T and U are exactly the same.</p>
+<p>This equivalent to <code>(<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U1&gt; &amp;&amp; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U2&gt; &amp;&amp; ...)</code>.</p>
+          </div></section>
           <section class="m-doc-details" id="gaa7a73625bc705a9021924a54729c192e"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
@@ -1072,17 +1083,6 @@ C++</span></a>
               bool <a class="m-doc-self" href="#ga0ad880900bc41c21a698d9114f333e3d">is_legacy_enum</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Is a type a pre-C++11 unscoped enum, or reference to one?</p>
-          </div></section>
-          <section class="m-doc-details" id="ga069232745f2338b2ece00c80c5d438e3"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
-              </div>
-              bool <a class="m-doc-self" href="#ga069232745f2338b2ece00c80c5d438e3">is_same_as_all</a> <span class="m-label m-primary">constexpr</span>
-            </h3>
-            <p>True if T is exactly the same all of the types named by U.</p>
-<p>This equivalent to <code>(<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U1&gt; &amp;&amp; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U2&gt; &amp;&amp; ...)</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga526c58b5a438ba0c7746e465389e013d"><div>
             <h3>

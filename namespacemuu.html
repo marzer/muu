@@ -1556,6 +1556,10 @@ C++</span></a>
             </dt>
             <dd>Literal for creating a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a959c3b4731309348194df77cfdefa280">operator""_f16</a>(</span><span class="m-doc-wrap">unsigned long long val) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Literal for creating a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#aebdabb8a45196bbc6b42c4a1aba1da70">operator""_i16</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int16_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Creates an <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int16_t</a>.</dd>
@@ -1787,6 +1791,11 @@ C++</span></a>
             <dd>Are all of the named types integral or reference-to-integral?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga9c2b21ea2cf57533a5dcf264d0e906e8">all_same</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if all the types named by T and U are exactly the same.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gaa7a73625bc705a9021924a54729c192e">all_signed</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are all of the named types signed or reference-to-signed?</dd>
@@ -1903,11 +1912,6 @@ C++</span></a>
               bool <a class="m-doc" href="group__meta.html#ga0ad880900bc41c21a698d9114f333e3d">is_legacy_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Is a type a pre-C++11 unscoped enum, or reference to one?</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="group__meta.html#ga069232745f2338b2ece00c80c5d438e3">is_same_as_all</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>True if T is exactly the same all of the types named by U.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga526c58b5a438ba0c7746e465389e013d">is_same_as_any</a> <span class="m-label m-flat m-primary">constexpr</span>
