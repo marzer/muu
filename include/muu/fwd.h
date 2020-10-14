@@ -117,6 +117,8 @@ namespace muu // non-abi namespace; this is not an error
 
 MUU_NAMESPACE_START // abi namespace
 {
+	inline constexpr size_t dynamic_extent = static_cast<size_t>(-1);
+
 	struct										half;
 	struct										semver;
 	struct										uuid;
@@ -136,22 +138,26 @@ MUU_NAMESPACE_START // abi namespace
 	template <typename>					class	scope_guard;
 	template <typename, size_t>			class	tagged_ptr;
 
-	template <typename, size_t = static_cast<size_t>(-1)>
+	template <typename, size_t = dynamic_extent>
 	class span;
 
 	namespace impl
 	{
-		template <typename>
-		struct basic_accumulator;
-
-		template <typename T>
-		struct kahan_accumulator;
+		template <typename>				struct	basic_accumulator;
+		template <typename>				struct	kahan_accumulator;
+		template <typename, size_t>		struct	vector_accumulator;
 
 		template <typename T>	struct default_accumulator				{ using type = basic_accumulator<T>; };
 		template <>				struct default_accumulator<float>		{ using type = kahan_accumulator<float>; };
 		template <>				struct default_accumulator<double>		{ using type = kahan_accumulator<double>; };
 		template <>				struct default_accumulator<long double>	{ using type = kahan_accumulator<long double>; };
 		template <>				struct default_accumulator<half>		{ using type = kahan_accumulator<half>; };
+		
+		template <typename Scalar, size_t Dimensions>
+		struct default_accumulator<muu::vector<Scalar, Dimensions>>
+		{
+			using type = vector_accumulator<Scalar, Dimensions>;
+		};
 
 		#if MUU_WCHAR_BITS == 32
 		using wchar_code_unit = char32_t;
@@ -161,6 +167,7 @@ MUU_NAMESPACE_START // abi namespace
 		using wchar_code_unit = unsigned char;
 		#endif
 	}
+
 	template <typename T, typename = typename impl::default_accumulator<T>::type>
 	class accumulator;
 }

@@ -917,6 +917,14 @@ MUU_NAMESPACE_START
 		{
 			return half{ val };
 		}
+
+		/// \brief	Literal for creating a half-precision float.
+		[[nodiscard]]
+		MUU_ATTR(const)
+		MUU_CONSTEVAL half operator "" _f16(unsigned long long val) noexcept
+		{
+			return half{ val };
+		}
 	}
 
 	/// \addtogroup 	intrinsics

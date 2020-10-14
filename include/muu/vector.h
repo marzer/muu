@@ -51,6 +51,12 @@ MUU_PRAGMA_MSVC(inline_recursion(on))
 MUU_PRAGMA_MSVC(float_control(push))
 MUU_PRAGMA_MSVC(float_control(except, off))
 MUU_PRAGMA_MSVC(float_control(precise, off))
+MUU_PRAGMA_MSVC(push_macro("min"))
+MUU_PRAGMA_MSVC(push_macro("max"))
+#if MUU_MSVC
+	#undef min
+	#undef max
+#endif
 
 //=====================================================================================================================
 // IMPLEMENTATION DETAILS
@@ -1119,7 +1125,7 @@ MUU_NAMESPACE_START
 		/// \brief Constructs a vector from a pointer to scalars. 
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		/// 
-		/// \tparam T			Types convertible to #scalar_type.
+		/// \tparam T			Type convertible to #scalar_type.
 		/// \param	vals		Pointer to values to copy.
 		/// \param	num			Number of values to copy.
 		template <typename T MUU_SFINAE(all_convertible_to<scalar_type, T>)>
@@ -1139,6 +1145,56 @@ MUU_NAMESPACE_START
 			if (num < Dimensions)
 				memset(&operator[](num), 0, (Dimensions - num) * sizeof(scalar_type));
 		}
+
+		/// \brief Constructs a vector from a statically-sized muu::span.
+		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
+		/// 
+		/// \tparam T			Type convertible to #scalar_type.
+		/// \tparam N			The number of elements covered by the span.
+		/// \param	vals		A span representing the values to copy.
+		template <typename T, size_t N ENABLE_IF_DIMENSIONS_AT_LEAST_AND(N, all_convertible_to<scalar_type, T> && N != dynamic_extent)>
+		MUU_NODISCARD_CTOR
+		explicit constexpr vector(const muu::span<T, N>& vals) noexcept
+			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, vals }
+		{}
+
+		/// \brief Constructs a vector from a dynamically-sized muu::span.
+		/// \details			Any scalar components not covered by the constructor's parameters are initialized to zero.
+		/// 
+		/// \tparam T			Type convertible to #scalar_type.
+		/// \param	vals		A span representing the values to copy.
+		template <typename T MUU_SFINAE(all_convertible_to<scalar_type, T>)>
+		MUU_NODISCARD_CTOR
+		explicit constexpr vector(const muu::span<T>& vals) noexcept
+			: vector{ vals.data(), vals.size() }
+		{}
+
+		#ifdef __cpp_lib_span
+
+		/// \brief Constructs a vector from a statically-sized C++20 std::span (if available).
+		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
+		/// 
+		/// \tparam T			Type convertible to #scalar_type.
+		/// \tparam N			The number of elements covered by the span.
+		/// \param	vals		A span representing the values to copy.
+		template <typename T, size_t N ENABLE_IF_DIMENSIONS_AT_LEAST_AND(N, all_convertible_to<scalar_type, T> && N != dynamic_extent)>
+		MUU_NODISCARD_CTOR
+		explicit constexpr vector(const std::span<T, N>& vals) noexcept
+			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, vals }
+		{}
+
+		/// \brief Constructs a vector from a dynamically-sized C++20 std::span (if available).
+		/// \details			Any scalar components not covered by the constructor's parameters are initialized to zero.
+		/// 
+		/// \tparam T			Type convertible to #scalar_type.
+		/// \param	vals		A span representing the values to copy.
+		template <typename T MUU_SFINAE(all_convertible_to<scalar_type, T>)>
+		MUU_NODISCARD_CTOR
+		explicit constexpr vector(const std::span<T, dynamic_extent>& vals) noexcept
+			: vector{ vals.data(), vals.size() }
+		{}
+
+		#endif // __cpp_lib_span
 
 		#if !defined(DOXYGEN) && !MUU_INTELLISENSE
 
@@ -2003,10 +2059,27 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr vector_product MUU_VECTORCALL direction(vector_param from, vector_param to, scalar_product& distance_out) noexcept
 		{
-			if constexpr (!std::is_same_v<scalar_product, scalar_type>)
-				return vector_product::normalize(vector_product{ to - from }, distance_out);
-			else
+			// all are the same type - only happens with float, double, long double etc.
+			if constexpr (all_same<scalar_type, intermediate_type, scalar_product>)
+			{
 				return vector_product::normalize(to - from, distance_out);
+			}
+
+			// only intermediate type is different - half, _Float16, __fp16
+			else if constexpr (std::is_same_v<scalar_type, scalar_product>)
+			{
+				using ivec = vector<intermediate_type, dimensions>;
+				intermediate_type dist{};
+				vector_product result{ ivec::normalize(ivec{ to } - ivec{ from }, dist) };
+				distance_out = static_cast<scalar_product>(dist);
+				return result;
+			}
+
+			// only scalar_type is different - integers.
+			else if constexpr (std::is_same_v<scalar_product, intermediate_type>)
+			{
+				return vector_product::normalize(vector_product{ to } - vector_product{ from }, distance_out);
+			}
 		}
 
 		/// \brief		Returns the normalized direction vector from one position to another.
@@ -2020,10 +2093,24 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr vector_product MUU_VECTORCALL direction(vector_param from, vector_param to) noexcept
 		{
-			if constexpr (!std::is_same_v<scalar_product, scalar_type>)
-				return vector_product::normalize(vector_product{ to - from });
-			else
+			// all are the same type - only happens with float, double, long double etc.
+			if constexpr (all_same<scalar_type, intermediate_type, scalar_product>)
+			{
 				return vector_product::normalize(to - from);
+			}
+
+			// only intermediate type is different - half, _Float16, __fp16
+			else if constexpr (std::is_same_v<scalar_type, scalar_product>)
+			{
+				using ivec = vector<intermediate_type, dimensions>;
+				return vector_product{ ivec::normalize(ivec{ to } - ivec{ from }) };
+			}
+
+			// only scalar_type is different - integers.
+			else if constexpr (std::is_same_v<scalar_product, intermediate_type>)
+			{
+				return vector_product::normalize(vector_product{ to } - vector_product{ from });
+			}
 		}
 
 		/// \brief		Returns the normalized direction vector from this position to another.
@@ -2357,7 +2444,7 @@ MUU_NAMESPACE_START
 	template <typename T, typename U, typename... V>
 	vector(T, U, V...) -> vector<impl::highest_ranked<T, U, V...>, 2 + sizeof...(V)>;
 
-	template <typename T>
+	template <typename T MUU_SFINAE(is_arithmetic<T>)>
 	vector(T) -> vector<std::remove_cv_t<T>, 1>;
 
 	template <typename T, size_t N>
@@ -2377,6 +2464,14 @@ MUU_NAMESPACE_START
 
 	template <typename S, size_t D, typename... T>
 	vector(const vector<S, D>&, T...) -> vector<impl::highest_ranked<S, T...>, D + sizeof...(T)>;
+
+	template <typename T, size_t N MUU_SFINAE(N != dynamic_extent)>
+	vector(const muu::span<T, N>&) -> vector<T, N>;
+
+	#ifdef __cpp_lib_span
+	template <typename T, size_t N MUU_SFINAE(N != dynamic_extent)>
+	vector(const std::span<T, N>&) -> vector<T, N>;
+	#endif
 
 	#endif // deduction guides
 }
@@ -2739,12 +2834,6 @@ MUU_IMPL_NAMESPACE_START
 			);
 		}
 	};
-
-	template <typename Scalar, size_t Dimensions>
-	struct default_accumulator<muu::vector<Scalar, Dimensions>>
-	{
-		using type = vector_accumulator<Scalar, Dimensions>;
-	};
 }
 MUU_IMPL_NAMESPACE_END
 
@@ -2770,6 +2859,8 @@ MUU_IMPL_NAMESPACE_END
 #undef NULL_TRANSFORM
 #undef FMA_BLOCK
 
+MUU_PRAGMA_MSVC(pop_macro("min"))
+MUU_PRAGMA_MSVC(pop_macro("max"))
 MUU_PRAGMA_MSVC(float_control(pop))
 MUU_PRAGMA_MSVC(inline_recursion(off))
 

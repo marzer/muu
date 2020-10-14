@@ -18,9 +18,12 @@ MUU_ENABLE_WARNINGS
 
 MUU_NAMESPACE_START
 {
+	#ifdef DOXYGEN
 	/// \brief Indicates the number of elements covered by a span should be dynamically-determined at runtime.
 	/// \ingroup	mem
 	inline constexpr size_t dynamic_extent = static_cast<size_t>(-1);
+	//(actually defined in fwd.h)
+	#endif
 
 	namespace impl
 	{

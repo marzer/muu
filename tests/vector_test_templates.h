@@ -7,6 +7,7 @@
 #include "tests.h"
 #include "../include/muu/vector.h"
 #include "../include/muu/accumulator.h"
+#include "../include/muu/span.h"
 
 template <typename T>
 inline constexpr bool invoke_trait_tests = false;
@@ -81,6 +82,24 @@ inline void construction_test_from_array() noexcept
 	{
 		auto vec = Vector{ arr.data(), NUM };
 		INFO("constructing from pointer to scalars"sv)
+		for (size_t i = 0; i < NUM; i++)
+			CHECK(vec[i] == arr[i]);
+		for (size_t i = NUM; i < Vector::dimensions; i++)
+			CHECK(vec[i] == scalar{});
+	}
+
+	{
+		auto vec = Vector{ span<scalar, NUM>{ arr } };
+		INFO("constructing from a statically-sized span"sv)
+		for (size_t i = 0; i < NUM; i++)
+			CHECK(vec[i] == arr[i]);
+		for (size_t i = NUM; i < Vector::dimensions; i++)
+			CHECK(vec[i] == scalar{});
+	}
+
+	{
+		auto vec = Vector{ span<scalar>{ arr.data(), NUM } };
+		INFO("constructing from a dynamically-sized span"sv)
 		for (size_t i = 0; i < NUM; i++)
 			CHECK(vec[i] == arr[i]);
 		for (size_t i = NUM; i < Vector::dimensions; i++)
@@ -1005,33 +1024,19 @@ inline void angle_tests(std::string_view scalar_typename) noexcept
 	[[maybe_unused]]
 	const auto eps = static_cast<scalar_product>((muu::max)(static_cast<long double>(constants<scalar_product>::approx_equal_epsilon), 0.000000001L));
 
+	#define CHECK_ANGLE(val)														\
+		CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<scalar_product>(val), eps);	\
+		CHECK_APPROX_EQUAL_EPS(b.angle(a), static_cast<scalar_product>(val), eps)
+
 	if constexpr (Dimensions == 2)
 	{
-		{
-			// b
-			// |__ a
-
-			const vector_t a{ T(1), T{} };
-			const vector_t b{ T{}, T(1) };
-			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<scalar_product>(constants<constant_type>::pi_over_two), eps);
-		}
-
 		{
 			// a
 			// |__ b
 
 			const vector_t a{ T{}, T(1) };
 			const vector_t b{ T(1), T{} };
-			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<scalar_product>(constants<constant_type>::pi_over_two), eps);
-		}
-
-		if constexpr (is_signed<T>)
-		{
-			// b __ __ a
-
-			const vector_t a{ T(1), T{} };
-			const vector_t b{ T(-1), T{} };
-			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<scalar_product>(constants<constant_type>::pi), eps);
+			CHECK_ANGLE(constants<constant_type>::pi_over_two);
 		}
 
 		if constexpr (is_signed<T>)
@@ -1040,7 +1045,7 @@ inline void angle_tests(std::string_view scalar_typename) noexcept
 
 			const vector_t a{ T(-1), T{} };
 			const vector_t b{ T(1), T{} };
-			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<scalar_product>(constants<constant_type>::pi), eps);
+			CHECK_ANGLE(constants<constant_type>::pi);
 		}
 
 		if constexpr (is_signed<T>)
@@ -1051,27 +1056,7 @@ inline void angle_tests(std::string_view scalar_typename) noexcept
 
 			const vector_t a{ T(1), T{} };
 			const vector_t b{ T{}, T(-1) };
-			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<scalar_product>(constants<constant_type>::pi_over_two), eps);
-		}
-
-		if constexpr (is_signed<T>)
-		{
-			//  __ b
-			// |
-			// a
-
-			const vector_t a{ T{}, T(-1) };
-			const vector_t b{ T(1), T{} };
-			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<scalar_product>(constants<constant_type>::pi_over_two), eps);
-		}
-
-		if constexpr (is_signed<T>)
-		{
-			// b
-			//  \ __ a
-			const vector_t a{ T(1), T{} };
-			const vector_t b{ T(-1), T(1) };
-			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<scalar_product>(constants<constant_type>::three_pi_over_four), eps);
+			CHECK_ANGLE(constants<constant_type>::pi_over_two);
 		}
 
 		if constexpr (is_signed<T>)
@@ -1080,7 +1065,7 @@ inline void angle_tests(std::string_view scalar_typename) noexcept
 			//  \ __ b
 			const vector_t a{ T(-1), T(1) };
 			const vector_t b{ T(1), T{} };
-			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<scalar_product>(constants<constant_type>::three_pi_over_four), eps);
+			CHECK_ANGLE(constants<constant_type>::three_pi_over_four);
 		}
 	}
 	else if constexpr (Dimensions == 3)
@@ -1088,21 +1073,21 @@ inline void angle_tests(std::string_view scalar_typename) noexcept
 		{
 			const vector_t a{ T{}, T{}, T(1) };
 			const vector_t b{ T{}, T(1), T{} };
-			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<scalar_product>(constants<constant_type>::pi_over_two), eps);
+			CHECK_ANGLE(constants<constant_type>::pi_over_two);
 		}
 
 		if constexpr (is_signed<T>)
 		{
 			const vector_t a{ T(1), T(2), T(3) };
 			const vector_t b{ T(-10), T(3), T(-1) };
-			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<scalar_product>(1.75013258616261269118297150271L), eps);
+			CHECK_ANGLE(1.75013258616261269118297150271L);
 		}
 
 		if constexpr (is_signed<T>)
 		{
 			const vector_t a{ T(1), T(2), T(3) };
 			const vector_t b{ T(-1), T(-2), T(-3) };
-			CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<scalar_product>(constants<constant_type>::pi), eps);
+			CHECK_ANGLE(constants<constant_type>::pi);
 		}
 	}
 }

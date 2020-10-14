@@ -273,4 +273,53 @@
 		</Expand>
 	</Type>
 
+	<Type Name="muu::v0::vector&lt;*, 1&gt;">
+		<DisplayString>{{ {x} }}</DisplayString>
+		<Expand>
+			<Item Name="x" ExcludeView="simple">x</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="muu::v0::vector&lt;*, 2&gt;">
+		<DisplayString>{{ {x}, {y} }}</DisplayString>
+		<Expand>
+			<Item Name="x" ExcludeView="simple">x</Item>
+			<Item Name="y" ExcludeView="simple">y</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="muu::v0::vector&lt;*, 3&gt;">
+		<DisplayString>{{ {x}, {y}, {z} }}</DisplayString>
+		<Expand>
+			<Item Name="x" ExcludeView="simple">x</Item>
+			<Item Name="y" ExcludeView="simple">y</Item>
+			<Item Name="z" ExcludeView="simple">z</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="muu::v0::vector&lt;*, 4&gt;">
+		<DisplayString>{{ {x}, {y}, {z}, {w} }}</DisplayString>
+		<Expand>
+			<Item Name="x" ExcludeView="simple">x</Item>
+			<Item Name="y" ExcludeView="simple">y</Item>
+			<Item Name="z" ExcludeView="simple">z</Item>
+			<Item Name="w" ExcludeView="simple">w</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="muu::v0::vector&lt;*,*&gt;">
+		<Intrinsic Name="ptr" Expression="(($T1*)&amp;values)" />
+		<Intrinsic Name="hidden_elements" Expression="($T2 &gt; 5u ? $T2 - 5u : 0u)" />
+		<DisplayString Condition="hidden_elements() &gt; 0u">{{ {*ptr()}, {*(ptr() + 1)}, {*(ptr() + 2)}, {*(ptr() + 3)}, {*(ptr() + 4)}, ... }}</DisplayString>
+		<DisplayString Condition="hidden_elements() ==   0u">{{ {*ptr()}, {*(ptr() + 1)}, {*(ptr() + 2)}, {*(ptr() + 3)}, {*(ptr() + 4)} }}</DisplayString>
+		<DisplayString>NATVIS ERROR</DisplayString>
+		<Expand>
+			<ArrayItems ExcludeView="simple">
+				<Size>$T2</Size>
+				<ValuePointer>(($T1*)&amp;values)</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+
+
 </AutoVisualizer>

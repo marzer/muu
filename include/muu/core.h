@@ -8,9 +8,20 @@
 
 #pragma once
 #include "../muu/fwd.h"
-
 #if MUU_GCC && MUU_HAS_FLOAT128 && MUU_EXTENDED_LITERALS
 	#pragma GCC system_header
+#endif
+
+MUU_PUSH_WARNINGS
+MUU_DISABLE_SPAM_WARNINGS
+MUU_DISABLE_ARITHMETIC_WARNINGS
+
+MUU_PRAGMA_MSVC(inline_recursion(on))
+MUU_PRAGMA_MSVC(push_macro("min"))
+MUU_PRAGMA_MSVC(push_macro("max"))
+#if MUU_MSVC
+	#undef min
+	#undef max
 #endif
 
 //=====================================================================================================================
@@ -41,10 +52,6 @@ MUU_DISABLE_WARNINGS
 #endif
 MUU_ENABLE_WARNINGS
 
-MUU_PUSH_WARNINGS
-MUU_DISABLE_SPAM_WARNINGS
-MUU_PRAGMA_MSVC(inline_recursion(on))
-
 //=====================================================================================================================
 // ENVIRONMENT GROUND-TRUTHS
 //=====================================================================================================================
@@ -70,7 +77,7 @@ static_assert(std::numeric_limits<double>::is_iec559, MUU_ENV_MESSAGE);
 
 //=====================================================================================================================
 // TYPE TRAITS AND METAFUNCTIONS
-//=====================================================================================================================
+#if 1
 
 MUU_IMPL_NAMESPACE_START
 {
@@ -494,10 +501,10 @@ MUU_NAMESPACE_START
 	template <typename T, typename... U>
 	inline constexpr bool is_same_as_any = (false || ... || std::is_same_v<T, U>);
 
-	/// \brief	True if T is exactly the same all of the types named by U.
+	/// \brief	True if all the types named by T and U are exactly the same.
 	/// \detail This equivalent to `(std::is_same_v<T, U1> && std::is_same_v<T, U2> && ...)`.
 	template <typename T, typename... U>
-	inline constexpr bool is_same_as_all = (sizeof...(U) > 0) && (true && ... && std::is_same_v<T, U>);
+	inline constexpr bool all_same = (true && ... && std::is_same_v<T, U>);
 
 	/// \brief	True if From is convertible to one or more of the types named by To.
 	/// \detail This equivalent to `(std::is_convertible<From, To1> || std::is_convertible<From, To2> || ...)`.
@@ -960,7 +967,7 @@ MUU_IMPL_NAMESPACE_START
 			&& (0 + ... + hva_member_<Members>::arity) <= 4 
 
 			// all members the same type
-			&& (sizeof...(Members) == 1 || is_same_as_all<typename hva_member_<Members>::type...>) 
+			&& all_same<typename hva_member_<Members>::type...>
 
 			// no padding
 			&& sizeof(T) == (0u + ... + sizeof(Members))
@@ -1044,12 +1051,11 @@ MUU_IMPL_NAMESPACE_START
 }
 MUU_IMPL_NAMESPACE_END
 
+#endif //==============================================================================================================
+
 //=====================================================================================================================
 // CONSTANTS
-//=====================================================================================================================
-
-MUU_PUSH_WARNINGS
-MUU_DISABLE_ARITHMETIC_WARNINGS
+#if 1
 
 MUU_PUSH_PRECISE_MATH
 
@@ -1520,9 +1526,11 @@ MUU_NAMESPACE_END
 
 MUU_POP_PRECISE_MATH
 
+#endif //==============================================================================================================
+
 //=====================================================================================================================
 // LITERALS, BUILD CONSTANTS AND 'INTRINSICS'
-//=====================================================================================================================
+#if 1
 
 MUU_NAMESPACE_START
 {
@@ -3848,12 +3856,16 @@ MUU_NAMESPACE_START
 }
 MUU_NAMESPACE_END
 
-MUU_POP_WARNINGS // MUU_DISABLE_ARITHMETIC_WARNINGS
+#endif //==============================================================================================================
 
 #undef MUU_HAS_INTRINSIC_BIT_CAST
 #undef MUU_HAS_INTRINSIC_POPCOUNT
 #undef MUU_HAS_INTRINSIC_BYTE_REVERSE
 #undef MUU_HAS_INTRINSIC_COUNTL_ZERO
 #undef MUU_HAS_INTRINSIC_COUNTR_ZERO
+
+MUU_PRAGMA_MSVC(pop_macro("min"))
+MUU_PRAGMA_MSVC(pop_macro("max"))
 MUU_PRAGMA_MSVC(inline_recursion(off))
-MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS
+
+MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS, MUU_DISABLE_ARITHMETIC_WARNINGS
