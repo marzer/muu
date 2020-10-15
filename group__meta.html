@@ -109,6 +109,11 @@ C++</span></a>
             </dt>
             <dd>Shorthand for conditionally adding volatile to a type or reference.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="#ga584cfbfcb8f1dc2df7da8320885c76f0">dont_deduce</a> = typename impl::type_identity_&lt;T&gt;::type
+            </dt>
+            <dd>Provides an identity type transformation.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
               using <a class="m-doc" href="#ga7c930af45d2e06539c2a3dfcc908a854">largest</a> = typename impl::largest_&lt;T...&gt;::type
             </dt>
@@ -218,11 +223,6 @@ C++</span></a>
               using <a class="m-doc" href="#ga9cd7c756a0397747aa065ac54ddbf46b">smallest</a> = typename impl::smallest_&lt;T...&gt;::type
             </dt>
             <dd>The smallest type from a set of types.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="#ga8b8f215acad0e9f3d7aa52326155f030">type_identity</a> = typename impl::type_identity_&lt;T&gt;::type
-            </dt>
-            <dd>Provides an identity type transformation.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
               using <a class="m-doc" href="#ga47a90ed3608cf7b0bf562f4ad208cd21">unsigned_integer</a> = typename impl::unsigned_integer_&lt;Bits&gt;::type
@@ -503,6 +503,17 @@ C++</span></a>
             </h3>
             <p>Shorthand for conditionally adding volatile to a type or reference.</p>
           </div></section>
+          <section class="m-doc-details" id="ga584cfbfcb8f1dc2df7da8320885c76f0"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga584cfbfcb8f1dc2df7da8320885c76f0">dont_deduce</a> = typename impl::type_identity_&lt;T&gt;::type
+            </h3>
+            <p>Provides an identity type transformation.</p>
+<p>This is equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/type_identity" target="_blank">std::type_identity_t</a>.</p>
+          </div></section>
           <section class="m-doc-details" id="ga7c930af45d2e06539c2a3dfcc908a854"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
@@ -727,17 +738,6 @@ C++</span></a>
               using <a class="m-doc-self" href="#ga9cd7c756a0397747aa065ac54ddbf46b">smallest</a> = typename impl::smallest_&lt;T...&gt;::type
             </h3>
             <p>The smallest type from a set of types.</p>
-          </div></section>
-          <section class="m-doc-details" id="ga8b8f215acad0e9f3d7aa52326155f030"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-              using <a class="m-doc-self" href="#ga8b8f215acad0e9f3d7aa52326155f030">type_identity</a> = typename impl::type_identity_&lt;T&gt;::type
-            </h3>
-            <p>Provides an identity type transformation.</p>
-<p>This is equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/type_identity" target="_blank">std::type_identity_t</a>.</p>
           </div></section>
           <section class="m-doc-details" id="ga47a90ed3608cf7b0bf562f4ad208cd21"><div>
             <h3>

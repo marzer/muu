@@ -174,6 +174,11 @@ C++</span></a>
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ac3733914ed9e98ae0f15b8b86c0106b3">span</a>(</span><span class="m-doc-wrap">const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/span" target="_blank">std::span</a>&lt;U, E&gt;&amp; s) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span></span>
             </dt>
             <dd>Constructs a <a class="m-doc" href="classmuu_1_1span.html">muu::<wbr/>span</a> from a C++20 <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/span" target="_blank">std::span</a> (if available).</dd>
+            <dt id="afcc9efaa34cd0304df15baa2403b0370">
+              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#afcc9efaa34cd0304df15baa2403b0370">span</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__meta.html#ga584cfbfcb8f1dc2df7da8320885c76f0">dont_<wbr/>deduce</a>&lt;<a class="m-doc" href="classmuu_1_1span.html#ac92b58600d3f008c78cdddd953fdf62d">element_<wbr/>type</a>&gt;(&amp;arr)[N]) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a span from an array.</dd>
             <dt id="aba4ea951565d50e0d3aac8d1eee08e10">
               <div class="m-doc-template">template&lt;typename It, typename End&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aba4ea951565d50e0d3aac8d1eee08e10">span</a>(</span><span class="m-doc-wrap">It first,
@@ -189,11 +194,6 @@ C++</span></a>
             <dt id="ab7717ec44ac83720d663ee72671a4ca3">
               <div class="m-doc-template">template&lt;typename U, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ab7717ec44ac83720d663ee72671a4ca3">span</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a>&lt;U, N&gt;&amp; arr) <span class="m-label m-flat m-primary">constexpr</span></span>
-            </dt>
-            <dd>Constructs a span from an array.</dd>
-            <dt id="a8beb3772385f4cdba0e969d35162ab38">
-              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8beb3772385f4cdba0e969d35162ab38">span</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__meta.html#ga8b8f215acad0e9f3d7aa52326155f030">type_<wbr/>identity</a>&lt;<a class="m-doc" href="classmuu_1_1span.html#ac92b58600d3f008c78cdddd953fdf62d">element_<wbr/>type</a>&gt;(&amp;arr)[N]) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a span from an array.</dd>
             <dt id="ae6139043f34e9ebd7b3287cf4230e22a">

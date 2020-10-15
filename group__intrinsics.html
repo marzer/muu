@@ -83,6 +83,8 @@ C++</span></a>
             <dd>Floating-point approximate equality checks.</dd>
             <dt>module <a class="m-doc" href="group__lerp.html">lerp()</a></dt>
             <dd>Linear interpolations al a C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/lerp" target="_blank">std::lerp</a>.</dd>
+            <dt>module <a class="m-doc" href="group__infinity__or__nan.html">infinity_or_nan()</a></dt>
+            <dd>Checks for infinities and not-a-numbers (NaN).</dd>
           </dl>
         </section>
         <section id="func-members">
@@ -189,16 +191,6 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga309ac880015add971ee06b148191060f">has_single_bit</a>(</span><span class="m-doc-wrap">T val) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Checks if an integral value has only a single bit set.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga7165ec00307546834b2cfec5dcd18920">infinity_or_nan</a>(</span><span class="m-doc-wrap">const T&amp; obj) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Checks if an object is infinity or NaN.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga3d90a03fff8f593add263df879139162">infinity_or_nan</a>(</span><span class="m-doc-wrap">T val) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Checks if an arithmetic value is infinity or NaN.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga8a9b0aaf9860b30f93639333a5214d34">is_constant_evaluated</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -349,7 +341,7 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">To </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaadb4c6332c738c248f84f43ece303657">bit_cast</a>(</span><span class="m-doc-wrap">const From&amp; from) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/bit_cast" target="_blank">std::bit_cast</a>.</p>
-<p>Compilers implement this as an intrinsic which is typically available regardless of the C++ mode. Using this function on these compilers allows you to get the same behaviour even when you aren't targeting C++20.</p><aside class="m-note m-default"><h4>Remark</h4><p>On older compilers lacking support for <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/bit_cast" target="_blank">std::bit_cast</a> you won't be able to call this function in constexpr contexts (since it falls back to a memcpy-based implementation). You can check for constexpr support by examining <a class="m-doc" href="namespacemuu_1_1build.html#a5ee6b53a87bd46b2bf84f2bea9e2a0b5">build::<wbr/>supports_constexpr_bit_cast</a>.</p></aside>
+<p>Compilers implement this as an intrinsic which is typically available regardless of the C++ mode. Using this function on these compilers allows you to get the same behaviour even when you aren't targeting C++20.</p><aside class="m-note m-info"><h4>Note</h4><p>On older compilers lacking support for <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/bit_cast" target="_blank">std::bit_cast</a> you won't be able to call this function in constexpr contexts (since it falls back to a memcpy-based implementation). You can check for constexpr support by examining <a class="m-doc" href="namespacemuu_1_1build.html#a5ee6b53a87bd46b2bf84f2bea9e2a0b5">build::<wbr/>supports_constexpr_bit_cast</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="gae62fd9413cd433a4e15c0fdf89913a1b"><div>
             <h3>
@@ -884,86 +876,13 @@ C++</span></a>
             </table>
 <p>This is equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/has_single_bit" target="_blank">std::has_single_bit</a>, with the addition of also being extended to work with enum types.</p>
           </div></section>
-          <section class="m-doc-details" id="ga7165ec00307546834b2cfec5dcd18920"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga7165ec00307546834b2cfec5dcd18920">infinity_or_nan</a>(</span><span class="m-doc-wrap">const T&amp; obj) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Checks if an object is infinity or NaN.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Template parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">T</td>
-                  <td>The object type.</td>
-                </tr>
-              </tbody>
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>obj</td>
-                  <td>The object.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>The return value of <code><a class="m-doc" href="group__intrinsics.html#ga7165ec00307546834b2cfec5dcd18920">obj.infinity_<wbr/>or_<wbr/>nan()</a></code>.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="ga3d90a03fff8f593add263df879139162"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga3d90a03fff8f593add263df879139162">infinity_or_nan</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Checks if an arithmetic value is infinity or NaN.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Template parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">T</td>
-                  <td>The value type.</td>
-                </tr>
-              </tbody>
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>val</td>
-                  <td>The value to examine.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>True if the value is floating-point infinity or NaN. Always returns false if the value was not a floating-point type.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>Older compilers won't provide the necessary machinery for you to be able to call this function in constexpr contexts. You can check for constexpr support by examining <a class="m-doc" href="namespacemuu_1_1build.html#ac2ed8c664a3937f1d6beca3916098ebd">build::<wbr/>supports_constexpr_infinity_or_nan</a>.</p></aside>
-          </div></section>
           <section class="m-doc-details" id="ga8a9b0aaf9860b30f93639333a5214d34"><div>
             <h3>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga8a9b0aaf9860b30f93639333a5214d34">is_constant_evaluated</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
             </h3>
             <p>Equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a>.</p>
-<p>Compilers typically implement <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a> as an intrinsic which is available regardless of the C++ mode. Using this function on these compilers allows you to get the same behaviour even when you aren't targeting C++20.</p><aside class="m-note m-default"><h4>Remark</h4><p>On older compilers lacking support for <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a> this will always return <code>false</code>. You can check for support by examining <a class="m-doc" href="namespacemuu_1_1build.html#a8398d41dfdf02da1234b776f754bbb3d">build::<wbr/>supports_is_constant_evaluated</a>.</p></aside>
+<p>Compilers typically implement <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a> as an intrinsic which is available regardless of the C++ mode. Using this function on these compilers allows you to get the same behaviour even when you aren't targeting C++20.</p><aside class="m-note m-info"><h4>Note</h4><p>On older compilers lacking support for <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a> this will always return <code>false</code>. You can check for support by examining <a class="m-doc" href="namespacemuu_1_1build.html#a8398d41dfdf02da1234b776f754bbb3d">build::<wbr/>supports_is_constant_evaluated</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga279c303aaba76a43d1dc23834c35f857"><div>
             <h3>
