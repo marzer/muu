@@ -66,8 +66,6 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 
 #if 1 // helper macros ------------------------------------------------------------------------------------------------
 
-#define FMA_BLOCK	MUU_PRAGMA_CLANG(fp contract(fast))
-
 #define COMPONENTWISE_AND(func)																						\
 	if constexpr (Dimensions == 1) return func(x);																	\
 	if constexpr (Dimensions == 2) return (func(x)) && (func(y));													\
@@ -99,18 +97,18 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 	(void)0
 
 #define COMPONENTWISE_ACCUMULATE(func, op)																			\
-	if constexpr (Dimensions == 1) { FMA_BLOCK return func(x);											}			\
-	if constexpr (Dimensions == 2) { FMA_BLOCK return (func(x)) op (func(y));							}			\
-	if constexpr (Dimensions == 3) { FMA_BLOCK return (func(x)) op (func(y)) op (func(z));				}			\
-	if constexpr (Dimensions == 4) { FMA_BLOCK return (func(x)) op (func(y)) op (func(z)) op (func(w));	}			\
+	if constexpr (Dimensions == 1) { MUU_FMA_BLOCK return func(x);											}		\
+	if constexpr (Dimensions == 2) { MUU_FMA_BLOCK return (func(x)) op (func(y));							}		\
+	if constexpr (Dimensions == 3) { MUU_FMA_BLOCK return (func(x)) op (func(y)) op (func(z));				}		\
+	if constexpr (Dimensions == 4) { MUU_FMA_BLOCK return (func(x)) op (func(y)) op (func(z)) op (func(w));	}		\
 	if constexpr (Dimensions > 4)																					\
 	{																												\
-		FMA_BLOCK																									\
+		MUU_FMA_BLOCK																								\
 		auto val = func(values[0]);																					\
 		MUU_PRAGMA_MSVC(omp simd)																					\
 		for (size_t i = 1; i < Dimensions; i++)																		\
 		{																											\
-			FMA_BLOCK																								\
+			MUU_FMA_BLOCK																							\
 			val op##= func(values[i]);																				\
 		}																											\
 		return val;																									\
@@ -144,18 +142,18 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 	(void)0
 
 #define COMPONENTWISE_CONSTRUCT_WITH_TRANSFORM(func, xform)															\
-	if constexpr (Dimensions == 1) { FMA_BLOCK return vector{ xform(func(x)) };													} \
-	if constexpr (Dimensions == 2) { FMA_BLOCK return vector{ xform(func(x)), xform(func(y)) };									} \
-	if constexpr (Dimensions == 3) { FMA_BLOCK return vector{ xform(func(x)), xform(func(y)), xform(func(z)) };					} \
-	if constexpr (Dimensions == 4) { FMA_BLOCK return vector{ xform(func(x)), xform(func(y)), xform(func(z)), xform(func(w)) };	} \
+	if constexpr (Dimensions == 1) { MUU_FMA_BLOCK return vector{ xform(func(x)) };													} \
+	if constexpr (Dimensions == 2) { MUU_FMA_BLOCK return vector{ xform(func(x)), xform(func(y)) };									} \
+	if constexpr (Dimensions == 3) { MUU_FMA_BLOCK return vector{ xform(func(x)), xform(func(y)), xform(func(z)) };					} \
+	if constexpr (Dimensions == 4) { MUU_FMA_BLOCK return vector{ xform(func(x)), xform(func(y)), xform(func(z)), xform(func(w)) };	} \
 	if constexpr (Dimensions > 4)																					\
 	{																												\
-		FMA_BLOCK																									\
+		MUU_FMA_BLOCK																								\
 		return vector{																								\
 			impl::componentwise_func_tag{},																			\
 			[&](size_t i) noexcept																					\
 			{																										\
-				FMA_BLOCK																							\
+				MUU_FMA_BLOCK																						\
 				return xform(func(values[i]));																		\
 			}																										\
 		};																											\
@@ -167,17 +165,17 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 #define COMPONENTWISE_ASSIGN_WITH_TRANSFORM(func, xform)															\
 	if constexpr (Dimensions <= 4)																					\
 	{																												\
-										{ FMA_BLOCK base::x = xform(func(x)); }										\
-		if constexpr (Dimensions >= 2)	{ FMA_BLOCK base::y = xform(func(y)); }										\
-		if constexpr (Dimensions >= 3)	{ FMA_BLOCK base::z = xform(func(z)); }										\
-		if constexpr (Dimensions == 4)	{ FMA_BLOCK base::w = xform(func(w)); }										\
+										{ MUU_FMA_BLOCK base::x = xform(func(x)); }									\
+		if constexpr (Dimensions >= 2)	{ MUU_FMA_BLOCK base::y = xform(func(y)); }									\
+		if constexpr (Dimensions >= 3)	{ MUU_FMA_BLOCK base::z = xform(func(z)); }									\
+		if constexpr (Dimensions == 4)	{ MUU_FMA_BLOCK base::w = xform(func(w)); }									\
 	}																												\
 	else																											\
 	{																												\
 		MUU_PRAGMA_MSVC(omp simd)																					\
 		for (size_t i = 0; i < Dimensions; i++)																		\
 		{																											\
-			FMA_BLOCK																								\
+			MUU_FMA_BLOCK																							\
 			base::values[i] = xform(func(values[i]));																\
 		}																											\
 	}																												\
@@ -207,6 +205,14 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 
 #define	REQUIRES_SIGNED	\
 	template <typename SFINAE = Scalar MUU_SFINAE(muu::is_signed<SFINAE> && std::is_same_v<SFINAE, Scalar>)>
+
+#define ENABLE_PAIRED_FUNC_BY_REF(S, D, ...) \
+	MUU_SFINAE((MUU_INTELLISENSE || impl::pass_vector_by_reference<S, D>) && (__VA_ARGS__))
+
+#define ENABLE_PAIRED_FUNC_BY_VAL(S, D, ...) \
+	MUU_SFINAE_2(!MUU_INTELLISENSE && impl::pass_vector_by_value<S, D> && (__VA_ARGS__))
+
+#define ENABLE_PAIRED_FUNCS !MUU_INTELLISENSE
 
 #endif // helper macros
 
@@ -245,15 +251,22 @@ MUU_IMPL_NAMESPACE_START
 			: vector_base{ fill, std::make_index_sequence<Dimensions>{} }
 		{}
 
-		explicit constexpr vector_base(Scalar x_) noexcept
-			: values{ x_ }
+		explicit constexpr vector_base(Scalar x_, Scalar y_ = Scalar{}, Scalar z_ = Scalar{}, Scalar w_ = Scalar{}) noexcept
+			: values{ x_, y_, z_, w_ }
 		{}
 
-		template <typename... T>
-		explicit constexpr vector_base(Scalar x_, Scalar y_, T... vals) noexcept
-			: values{ x_, y_, static_cast<Scalar>(vals)... }
+		template <typename... T MUU_SFINAE(all_same<Scalar, remove_cv<T>...>)>
+		explicit constexpr vector_base(Scalar x_, Scalar y_, Scalar z_, Scalar w_, T... vals) noexcept
+			: values{ x_, y_, z_, w_, vals... }
 		{
-			static_assert(sizeof...(T) <= Dimensions - 2);
+			static_assert(sizeof...(T) <= Dimensions - 4);
+		}
+
+		template <typename... T MUU_SFINAE_2(!all_same<Scalar, remove_cv<T>...>)>
+		explicit constexpr vector_base(Scalar x_, Scalar y_, Scalar z_, Scalar w_, T... vals) noexcept
+			: values{ x_, y_, z_, w_, static_cast<Scalar>(vals)... }
+		{
+			static_assert(sizeof...(T) <= Dimensions - 4);
 		}
 
 		template <typename T, size_t... Indices>
@@ -711,12 +724,15 @@ MUU_IMPL_NAMESPACE_END
 
 #define ENABLE_IF_DIMENSIONS_AT_LEAST(dim)
 #define ENABLE_IF_DIMENSIONS_AT_LEAST_AND(dim, ...)
-#define	REQUIRES_DIMENSIONS_AT_LEAST(dim)
-#define	REQUIRES_DIMENSIONS_BETWEEN(min, max)
-#define	REQUIRES_DIMENSIONS_EXACTLY(dim)
-#define	REQUIRES_FLOATING_POINT
-#define	REQUIRES_INTEGRAL
+#define REQUIRES_DIMENSIONS_AT_LEAST(dim)
+#define REQUIRES_DIMENSIONS_BETWEEN(min, max)
+#define REQUIRES_DIMENSIONS_EXACTLY(dim)
+#define REQUIRES_FLOATING_POINT
+#define REQUIRES_INTEGRAL
 #define REQUIRES_SIGNED
+#define ENABLE_PAIRED_FUNC_BY_REF(...)
+#define ENABLE_PAIRED_FUNC_BY_VAL(...)
+#define ENABLE_PAIRED_FUNCS 0
 
 #endif // DOXYGEN
 
@@ -964,8 +980,8 @@ MUU_NAMESPACE_START
 		/// \brief		Constructs a vector from two scalar values.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		///
-		/// \param	x	Initial value for the vector's x scalar component (0).
-		/// \param	y	Initial value for the vector's y scalar component (1).
+		/// \param	x		Initial value for the vector's first scalar component.
+		/// \param	y		Initial value for the vector's second scalar component.
 		/// 
 		/// \note		This constructor is only available when #dimensions &gt;= 2.
 		REQUIRES_DIMENSIONS_AT_LEAST(2)
@@ -977,9 +993,9 @@ MUU_NAMESPACE_START
 		/// \brief		Constructs a vector from three scalar values.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		///
-		/// \param	x	Initial value for the vector's x scalar component (0).
-		/// \param	y	Initial value for the vector's y scalar component (1).
-		/// \param	z	Initial value for the vector's z scalar component (2).
+		/// \param	x		Initial value for the vector's first scalar component.
+		/// \param	y		Initial value for the vector's second scalar component.
+		/// \param	z		Initial value for the vector's third scalar component.
 		/// 
 		/// \note		This constructor is only available when #dimensions &gt;= 3.
 		REQUIRES_DIMENSIONS_AT_LEAST(3)
@@ -991,10 +1007,10 @@ MUU_NAMESPACE_START
 		/// \brief		Constructs a vector from four scalar values.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		///
-		/// \param	x		Initial value for the vector's x scalar component (0).
-		/// \param	y		Initial value for the vector's y scalar component (1).
-		/// \param	z		Initial value for the vector's z scalar component (2).
-		/// \param	w		Initial value for the vector's w scalar component (3).
+		/// \param	x		Initial value for the vector's first scalar component.
+		/// \param	y		Initial value for the vector's second scalar component.
+		/// \param	z		Initial value for the vector's third scalar component.
+		/// \param	w		Initial value for the vector's fourth scalar component.
 		/// 
 		/// \note			This constructor is only available when #dimensions &gt;= 4.
 		REQUIRES_DIMENSIONS_AT_LEAST(4)
@@ -1007,10 +1023,10 @@ MUU_NAMESPACE_START
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		///
 		/// \tparam T		Types convertible to #scalar_type.
-		/// \param	x		Initial value for the vector's x scalar component (0).
-		/// \param	y		Initial value for the vector's y scalar component (1).
-		/// \param	z		Initial value for the vector's z scalar component (2).
-		/// \param	w		Initial value for the vector's w scalar component (3).
+		/// \param	x		Initial value for the vector's first scalar component.
+		/// \param	y		Initial value for the vector's second scalar component.
+		/// \param	z		Initial value for the vector's third scalar component.
+		/// \param	w		Initial value for the vector's fourth scalar component.
 		/// \param	vals	Initial values for the vector's remaining scalar components.
 		/// 
 		/// \note			This constructor is only available when #dimensions &gt;= 5.
@@ -1132,7 +1148,7 @@ MUU_NAMESPACE_START
 		MUU_NODISCARD_CTOR
 		vector(const T* vals, size_t num) noexcept
 		{
-			num = (muu::min)(num, Dimensions);
+			num = muu::min(num, Dimensions);
 			
 			if constexpr (std::is_same_v<scalar_type, remove_cv<T>>)
 				memcpy(&get<0>(), vals, sizeof(T) * num);
@@ -1190,13 +1206,13 @@ MUU_NAMESPACE_START
 		/// \param	vals		A span representing the values to copy.
 		template <typename T MUU_SFINAE(all_convertible_to<scalar_type, T>)>
 		MUU_NODISCARD_CTOR
-		explicit constexpr vector(const std::span<T, dynamic_extent>& vals) noexcept
+		explicit vector(const std::span<T, dynamic_extent>& vals) noexcept
 			: vector{ vals.data(), vals.size() }
 		{}
 
 		#endif // __cpp_lib_span
 
-		#if !defined(DOXYGEN) && !MUU_INTELLISENSE
+		#if ENABLE_PAIRED_FUNCS
 
 		template <size_t N ENABLE_IF_DIMENSIONS_AT_LEAST(N)>
 		MUU_NODISCARD_CTOR
@@ -1216,7 +1232,7 @@ MUU_NAMESPACE_START
 			: base{ impl::tuple_copy_tag{}, std::make_index_sequence<(N < Dimensions ? N : Dimensions)>{}, vec }
 		{}
 
-		#endif // !DOXYGEN && !MUU_INTELLISENSE
+		#endif // ENABLE_PAIRED_FUNCS
 
 	#endif // constructors
 
@@ -1226,7 +1242,7 @@ MUU_NAMESPACE_START
 		/// 
 		/// \remarks	This is a componentwise exact equality check;
 		/// 			if you want an epsilon-based "near-enough" for floating-point vectors, use #approx_equal().
-		template <typename T MUU_SFINAE(MUU_INTELLISENSE || impl::pass_vector_by_reference<T, dimensions>)>
+		template <typename T ENABLE_PAIRED_FUNC_BY_REF(T, dimensions, true)>
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		friend constexpr bool MUU_VECTORCALL operator == (vector_param lhs, const vector<T, dimensions>& rhs) noexcept
@@ -1251,7 +1267,7 @@ MUU_NAMESPACE_START
 		/// 
 		/// \remarks	This is a componentwise exact inequality check;
 		/// 			if you want an epsilon-based "near-enough" for floating-point vectors, use #approx_equal().
-		template <typename T MUU_SFINAE(MUU_INTELLISENSE || impl::pass_vector_by_reference<T, dimensions>)>
+		template <typename T ENABLE_PAIRED_FUNC_BY_REF(T, dimensions, true)>
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		friend constexpr bool MUU_VECTORCALL operator != (vector_param lhs, const vector<T, dimensions>& rhs) noexcept
@@ -1259,9 +1275,9 @@ MUU_NAMESPACE_START
 			return !(lhs == rhs);
 		}
 
-		#if !defined(DOXYEN) && !MUU_INTELLISENSE
+		#if ENABLE_PAIRED_FUNCS
 
-		template <typename T MUU_SFINAE_2(impl::pass_vector_by_value<T, dimensions>)>
+		template <typename T ENABLE_PAIRED_FUNC_BY_VAL(T, dimensions, true)>
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		friend constexpr bool MUU_VECTORCALL operator == (vector_param lhs, vector<T, dimensions> rhs) noexcept
@@ -1282,7 +1298,7 @@ MUU_NAMESPACE_START
 			}
 		}
 
-		template <typename T MUU_SFINAE_2(impl::pass_vector_by_value<T, dimensions>)>
+		template <typename T ENABLE_PAIRED_FUNC_BY_VAL(T, dimensions, true)>
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		friend constexpr bool MUU_VECTORCALL operator != (vector_param lhs, vector<T, dimensions> rhs) noexcept
@@ -1290,7 +1306,7 @@ MUU_NAMESPACE_START
 			return !(lhs == rhs);
 		}
 
-		#endif // !DOXYEN && !MUU_INTELLISENSE
+		#endif // ENABLE_PAIRED_FUNCS
 
 		/// \brief	Returns true if all the scalar components of the vector are exactly zero.
 		/// 
@@ -1327,19 +1343,19 @@ MUU_NAMESPACE_START
 		/// \brief	Returns true if two vectors are approximately equal.
 		/// 
 		/// \note		This function is only available when at least one of #scalar_type and `T` is a floating-point type.
-		template <typename T MUU_SFINAE(
-			any_floating_point<scalar_type, T>
-			&& (MUU_INTELLISENSE || impl::pass_vector_by_reference<T, dimensions>)
-		)>
+		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T>
+			ENABLE_PAIRED_FUNC_BY_REF(T, dimensions, any_floating_point<scalar_type, T>)
+		>
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL approx_equal(
 			vector_param v1,
 			const vector<T, dimensions>& v2,
-			impl::highest_ranked<scalar_type, T> epsilon
-				= muu::constants<impl::highest_ranked<scalar_type, T>>::approx_equal_epsilon
+			Epsilon epsilon = muu::constants<Epsilon>::approx_equal_epsilon
 		) noexcept
 		{
+			static_assert(is_same_as_any<Epsilon, T, scalar_type>);
+
 			using type = impl::promote_if_small_float<impl::highest_ranked<scalar_type, T>>;
 
 			#define VEC_FUNC(member)	muu::approx_equal(static_cast<type>(v1.member), static_cast<type>(v2.member), static_cast<type>(epsilon))
@@ -1350,33 +1366,36 @@ MUU_NAMESPACE_START
 		/// \brief	Returns true if the vector is approximately equal to another.
 		/// 
 		/// \note		This function is only available when at least one of #scalar_type and `T` is a floating-point type.
-		template <typename T MUU_SFINAE(
-			any_floating_point<scalar_type, T>
-			&& (MUU_INTELLISENSE || impl::pass_vector_by_reference<T, dimensions>)
-		)>
+		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T>
+			ENABLE_PAIRED_FUNC_BY_REF(T, dimensions, any_floating_point<scalar_type, T>)
+		>
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_equal(
 			const vector<T, dimensions>& v,
-			impl::highest_ranked<scalar_type, T> epsilon
-				= muu::constants<impl::highest_ranked<scalar_type, T>>::approx_equal_epsilon
+			Epsilon epsilon = muu::constants<Epsilon>::approx_equal_epsilon
 		) const noexcept
 		{
+			static_assert(is_same_as_any<Epsilon, T, scalar_type>);
+
 			return approx_equal(*this, v, epsilon);
 		}
 
-		#if !defined(DOXYEN) && !MUU_INTELLISENSE
+		#if ENABLE_PAIRED_FUNCS
 
-		template <typename T MUU_SFINAE_2(any_floating_point<scalar_type, T> && impl::pass_vector_by_value<T, dimensions>)>
+		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T>
+			ENABLE_PAIRED_FUNC_BY_VAL(T, dimensions, any_floating_point<scalar_type, T>)
+		>
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL approx_equal(
 			vector_param v1,
 			vector<T, dimensions> v2,
-			impl::highest_ranked<scalar_type, T> epsilon
-				= muu::constants<impl::highest_ranked<scalar_type, T>>::approx_equal_epsilon
+			Epsilon epsilon = muu::constants<Epsilon>::approx_equal_epsilon
 		) noexcept
 		{
+			static_assert(is_same_as_any<Epsilon, T, scalar_type>);
+
 			using type = impl::promote_if_small_float<impl::highest_ranked<scalar_type, T>>;
 
 			#define VEC_FUNC(member)	muu::approx_equal(static_cast<type>(v1.member), static_cast<type>(v2.member), static_cast<type>(epsilon))
@@ -1384,19 +1403,22 @@ MUU_NAMESPACE_START
 			#undef VEC_FUNC
 		}
 
-		template <typename T MUU_SFINAE_2(any_floating_point<scalar_type, T> && impl::pass_vector_by_value<T, dimensions>)>
+		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T>
+			ENABLE_PAIRED_FUNC_BY_VAL(T, dimensions, any_floating_point<scalar_type, T>)
+		>
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_equal(
 			vector<T, dimensions> v,
-			impl::highest_ranked<scalar_type, T> epsilon
-				= muu::constants<impl::highest_ranked<scalar_type, T>>::approx_equal_epsilon
+			Epsilon epsilon = muu::constants<Epsilon>::approx_equal_epsilon
 		) const noexcept
 		{
+			static_assert(is_same_as_any<Epsilon, T, scalar_type>);
+
 			return approx_equal(*this, v, epsilon);
 		}
 
-		#endif // !DOXYEN && !MUU_INTELLISENSE
+		#endif // ENABLE_PAIRED_FUNCS
 
 		/// \brief	Returns true if all the scalar components in the vector are approximately equal to zero.
 		/// 
@@ -1445,7 +1467,7 @@ MUU_NAMESPACE_START
 		{
 			constexpr auto subtract_and_square = [](scalar_type lhs, scalar_type rhs) noexcept
 			{
-				FMA_BLOCK
+				MUU_FMA_BLOCK
 
 				const auto temp = static_cast<Return>(lhs) - static_cast<Return>(rhs);
 				return temp * temp;
@@ -1619,7 +1641,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr vector_product MUU_VECTORCALL cross(vector_param lhs, vector_param rhs) noexcept
 		{
-			FMA_BLOCK
+			MUU_FMA_BLOCK
 
 			return
 			{
@@ -1992,7 +2014,7 @@ MUU_NAMESPACE_START
 		/// 
 		/// \return		A normalized copy of the input vector.
 		/// 
-		/// \note This function is only available when #scalar_type is a float-point type.
+		/// \note This function is only available when #scalar_type is a floating-point type.
 		REQUIRES_FLOATING_POINT
 		[[nodiscard]]
 		static constexpr vector MUU_VECTORCALL normalize(vector_param v, scalar_product& length_out) noexcept
@@ -2008,7 +2030,7 @@ MUU_NAMESPACE_START
 		/// 
 		/// \return		A normalized copy of the input vector.
 		/// 
-		/// \note This function is only available when #scalar_type is a float-point type.
+		/// \note This function is only available when #scalar_type is a floating-point type.
 		REQUIRES_FLOATING_POINT
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -2023,7 +2045,7 @@ MUU_NAMESPACE_START
 		/// 
 		/// \return	A reference to the vector.
 		/// 
-		/// \note This function is only available when #scalar_type is a float-point type.
+		/// \note This function is only available when #scalar_type is a floating-point type.
 		REQUIRES_FLOATING_POINT
 		constexpr vector& normalize(scalar_product& length_out) noexcept
 		{
@@ -2036,7 +2058,7 @@ MUU_NAMESPACE_START
 		///
 		/// \return	A reference to the vector.
 		/// 
-		/// \note This function is only available when #scalar_type is a float-point type.
+		/// \note This function is only available when #scalar_type is a floating-point type.
 		REQUIRES_FLOATING_POINT
 		constexpr vector& normalize() noexcept
 		{
@@ -2052,6 +2074,8 @@ MUU_NAMESPACE_START
 		/// \param	from			The start position.
 		/// \param	to				The end position.
 		/// \param	distance_out	An output param to receive the distance between the two points.
+		/// 
+		/// \return		A normalized direction vector pointing from the start position to the end position.
 		/// 
 		/// \note		This function is only available when #dimensions == 2 or 3.
 		REQUIRES_DIMENSIONS_BETWEEN(2, 3)
@@ -2086,6 +2110,8 @@ MUU_NAMESPACE_START
 		/// 			
 		/// \param	from			The start position.
 		/// \param	to				The end position.
+		/// 
+		/// \return		A normalized direction vector pointing from the start position to the end position.
 		/// 
 		/// \note		This function is only available when #dimensions == 2 or 3.
 		REQUIRES_DIMENSIONS_BETWEEN(2, 3)
@@ -2201,7 +2227,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr vector MUU_VECTORCALL min(vector_param v1, vector_param v2) noexcept
 		{
-			#define VEC_FUNC(member)	(muu::min)(v1.member, v2.member)
+			#define VEC_FUNC(member)	muu::min(v1.member, v2.member)
 			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 			#undef VEC_FUNC
 		}
@@ -2211,7 +2237,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr vector MUU_VECTORCALL max(vector_param v1, vector_param v2) noexcept
 		{
-			#define VEC_FUNC(member)	(muu::max)(v1.member, v2.member)
+			#define VEC_FUNC(member)	muu::max(v1.member, v2.member)
 			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 			#undef VEC_FUNC
 		}
@@ -2249,7 +2275,7 @@ MUU_NAMESPACE_START
 
 	#if 1 // misc -----------------------------------------------------------------------------------------------------
 
-		/// \brief	Performs a linear interpolation towards another vector.
+		/// \brief	Performs a linear interpolation between two vectors.
 		///
 		/// \param	start	The value at the start of the interpolation range.
 		/// \param	finish	The value at the end of the interpolation range.
@@ -2681,6 +2707,14 @@ MUU_NAMESPACE_START
 
 		#ifndef DOXYGEN
 
+		template <typename Scalar>
+		struct unit_length_1d_vector_constants<Scalar, 1>
+		{
+			using scalars = muu::constants<Scalar>;
+
+			static constexpr vector<Scalar, 1> x_axis{ scalars::one };
+		};
+
 		template <typename Scalar, size_t Dimensions>
 		struct unit_length_2d_vector_constants<Scalar, Dimensions, false> { };
 
@@ -2690,12 +2724,14 @@ MUU_NAMESPACE_START
 		template <typename Scalar, size_t Dimensions>
 		struct unit_length_4d_vector_constants<Scalar, Dimensions, false> { };
 
-		template <typename Scalar, size_t Dimensions, bool = is_floating_point<Scalar>, bool = is_signed<Scalar>>
-		struct vector_constants_base									: floating_point_constants<vector<Scalar, Dimensions>> {};
+		template <typename Scalar, size_t Dimensions,
+			int = (is_floating_point<Scalar> ? 2 : (is_signed<Scalar> ? 1 : 0))
+		>
+		struct vector_constants_base						: unsigned_integral_constants<vector<Scalar, Dimensions>> {};
 		template <typename Scalar, size_t Dimensions>
-		struct vector_constants_base<Scalar, Dimensions, false, true>	: signed_integral_constants<vector<Scalar, Dimensions>> {};
+		struct vector_constants_base<Scalar, Dimensions, 1>	: signed_integral_constants<vector<Scalar, Dimensions>> {};
 		template <typename Scalar, size_t Dimensions>
-		struct vector_constants_base<Scalar, Dimensions, false, false>	: unsigned_integral_constants<vector<Scalar, Dimensions>> {};
+		struct vector_constants_base<Scalar, Dimensions, 2>	: floating_point_constants<vector<Scalar, Dimensions>> {};
 
 		#endif // !DOXYGEN
 	}
@@ -2795,7 +2831,7 @@ MUU_IMPL_NAMESPACE_START
 
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		constexpr value_type (min)() const noexcept
+		constexpr value_type min() const noexcept
 		{
 			return componentwise(
 				std::make_index_sequence<Dimensions>{},
@@ -2808,7 +2844,7 @@ MUU_IMPL_NAMESPACE_START
 
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		constexpr value_type (max)() const noexcept
+		constexpr value_type max() const noexcept
 		{
 			return componentwise(
 				std::make_index_sequence<Dimensions>{},
@@ -2839,6 +2875,561 @@ MUU_IMPL_NAMESPACE_END
 
 #endif //==============================================================================================================
 
+//=====================================================================================================================
+// FREE FUNCTIONS
+#if 1
+
+MUU_NAMESPACE_START
+{
+	/// \ingroup	infinity_or_nan
+	/// \related	muu::vector
+	///
+	/// \brief	Returns true if any of the scalar components of a vector are infinity or NaN.
+	template <typename S, size_t D>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr bool infinity_or_nan(const vector<S, D>& v) noexcept
+	{
+		if constexpr (is_floating_point<S>)
+			return v.infinity_or_nan();
+		else
+			return false;
+	}
+
+	/// \ingroup	approx_equal
+	/// \related	muu::vector
+	///
+	/// \brief		Returns true if two vectors are approximately equal.
+	///
+	/// \note		This function is only available when at least one of `S` and `T` is a floating-point type.
+	template <typename S, typename T, size_t D,
+		typename Epsilon = impl::highest_ranked<S, T>
+		ENABLE_PAIRED_FUNC_BY_REF(S, D, any_floating_point<S, T> && impl::pass_vector_by_reference<T, D>)
+	>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr bool approx_equal(
+		const vector<S, D>& v1,
+		const vector<T, D>& v2,
+		Epsilon epsilon = muu::constants<Epsilon>::approx_equal_epsilon
+	) noexcept
+	{
+		static_assert(is_same_as_any<Epsilon, S, T>);
+
+		return vector<S, D>::approx_equal(v1, v2, epsilon);
+	}
+
+	/// \related muu::vector
+	///
+	/// \brief	Returns the squared length of a vector.
+	template <typename S, size_t D,
+		typename scalar_product = typename vector<S, D>::scalar_product
+		ENABLE_PAIRED_FUNC_BY_REF(S, D, true)
+	>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr scalar_product length_squared(const vector<S, D>& v) noexcept
+	{
+		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+
+		return vector<S, D>::length_squared(v);
+	}
+
+	/// \related muu::vector
+	///
+	/// \brief	Returns the length (magnitude) of a vector.
+	template <typename S, size_t D,
+		typename scalar_product = typename vector<S, D>::scalar_product
+		ENABLE_PAIRED_FUNC_BY_REF(S, D, true)
+	>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr scalar_product length(const vector<S, D>& v) noexcept
+	{
+		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+
+		return vector<S, D>::length(v);
+	}
+
+	/// \related muu::vector
+	///
+	/// \brief	Returns the squared distance between two point vectors.
+	template <typename S, size_t D,
+		typename scalar_product = typename vector<S, D>::scalar_product
+		ENABLE_PAIRED_FUNC_BY_REF(S, D, true)
+	>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr scalar_product distance_squared(const vector<S, D>& p1, const vector<S, D>& p2) noexcept
+	{
+		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+
+		return vector<S, D>::distance_squared(p1, p2);
+	}
+
+	/// \related muu::vector
+	///
+	/// \brief	Returns the distance between two point vectors.
+	template <typename S, size_t D,
+		typename scalar_product = typename vector<S, D>::scalar_product
+		ENABLE_PAIRED_FUNC_BY_REF(S, D, true)
+	>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr scalar_product distance(const vector<S, D>& p1, const vector<S, D>& p2) noexcept
+	{
+		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+
+		return vector<S, D>::distance(p1, p2);
+	}
+
+	/// \related muu::vector
+	///
+	/// \brief	Returns the dot product of two vectors.
+	template <typename S, size_t D,
+		typename scalar_product = typename vector<S, D>::scalar_product
+		ENABLE_PAIRED_FUNC_BY_REF(S, D, true)
+	>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr scalar_product dot(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
+	{
+		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+
+		return vector<S, D>::dot(v1, v2);
+	}
+
+	/// \related muu::vector
+	///
+	/// \brief	Returns the cross product of two three-dimensional vectors.
+	template <typename S,
+		typename vector_product = typename vector<S, 3>::vector_product
+		ENABLE_PAIRED_FUNC_BY_REF(S, 3, true)
+	>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr vector_product cross(const vector<S, 3>& lhs, const vector<S, 3>& rhs) noexcept
+	{
+		static_assert(std::is_same_v<vector_product, typename vector<S, 3>::vector_product>);
+
+		return vector<S, 3>::cross(lhs, rhs);
+	}
+
+	/// \related muu::vector
+	///
+	/// \brief	Normalizes a vector.
+	///
+	/// \param v			The vector to normalize.
+	/// \param length_out	An output param to receive the length of the vector pre-normalization.
+	/// 
+	/// \return		A normalized copy of the input vector.
+	/// 
+	/// \note This function is only available when `S` is a floating-point type.
+	template <typename S, size_t D,
+		typename scalar_product = typename vector<S, D>::scalar_product
+		ENABLE_PAIRED_FUNC_BY_REF(S, D, is_floating_point<S>)
+	>
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	constexpr vector<S, D> normalize(const vector<S, D>& v, scalar_product& length_out) noexcept
+	{
+		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+
+		return vector<S, D>::normalize(v, length_out);
+	}
+
+	/// \related muu::vector
+	///
+	/// \brief	Normalizes a vector.
+	///
+	/// \param v	The vector to normalize.
+	/// 
+	/// \return		A normalized copy of the input vector.
+	/// 
+	/// \note This function is only available when `S` is a floating-point type.
+	template <typename S, size_t D ENABLE_PAIRED_FUNC_BY_REF(S, D, is_floating_point<S>)>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr vector<S, D> normalize(const vector<S, D>& v) noexcept
+	{
+		return vector<S, D>::normalize(v);
+	}
+
+	/// \brief		Returns the normalized direction vector from one position to another.
+	/// 
+	/// \param	from			The start position.
+	/// \param	to				The end position.
+	/// \param	distance_out	An output param to receive the distance between the two points.
+	/// 
+	/// \return		A normalized direction vector pointing from the start position to the end position.
+	/// 
+	/// \note		This function is only available when `D` == 2 or 3.
+	template <typename S, size_t D,
+		typename vector_product = typename vector<S, D>::vector_product,
+		typename scalar_product = typename vector<S, D>::scalar_product
+		ENABLE_PAIRED_FUNC_BY_REF(S, D, D == 2 || D == 3)
+	>
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	constexpr vector_product direction(const vector<S, D>& from, const vector<S, D>& to, scalar_product& distance_out) noexcept
+	{
+		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+		static_assert(std::is_same_v<vector_product, typename vector<S, D>::vector_product>);
+
+		return vector<S, D>::direction(from, to, distance_out);
+	}
+
+	/// \brief		Returns the normalized direction vector from one position to another.
+	/// 
+	/// \param	from			The start position.
+	/// \param	to				The end position.
+	/// 
+	/// \return		A normalized direction vector pointing from the start position to the end position.
+	/// 
+	/// \note		This function is only available when `D` == 2 or 3.
+	template <typename S, size_t D,
+		typename vector_product = typename vector<S, D>::vector_product
+		ENABLE_PAIRED_FUNC_BY_REF(S, D, D == 2 || D == 3)
+	>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr vector_product direction(const vector<S, D>& from, const vector<S, D>& to) noexcept
+	{
+		static_assert(std::is_same_v<vector_product, typename vector<S, D>::vector_product>);
+
+		return vector<S, D>::direction(from, to);
+	}
+
+	/// \related muu::vector
+	///
+	/// \brief	Returns the componentwise minimum of two vectors.
+	template <typename S, size_t D ENABLE_PAIRED_FUNC_BY_REF(S, D, true)>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr vector<S, D> min(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
+	{
+		return vector<S, D>::min(v1, v2);
+	}
+
+	/// \related muu::vector
+	///
+	/// \brief	Returns the componentwise maximum of two vectors.
+	template <typename S, size_t D ENABLE_PAIRED_FUNC_BY_REF(S, D, true)>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr vector<S, D> max(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
+	{
+		return vector<S, D>::max(v1, v2);
+	}
+
+	/// \related muu::vector
+	///
+	/// \brief	Componentwise clamps a vector between two others.
+	template <typename S, size_t D ENABLE_PAIRED_FUNC_BY_REF(S, D, true)>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr vector<S, D> clamp(const vector<S, D>& v, const vector<S, D>& low, const vector<S, D>& high) noexcept
+	{
+		return vector<S, D>::clamp(v, low, high);
+	}
+
+	/// \ingroup lerp
+	/// \related muu::vector
+	///
+	/// \brief	Performs a linear interpolation between two vectors.
+	template <typename S, size_t D,
+		typename scalar_product = typename vector<S, D>::scalar_product
+		ENABLE_PAIRED_FUNC_BY_REF(S, D, true)
+	>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr vector<S, D> lerp(const vector<S, D>& start, const vector<S, D>& finish, scalar_product alpha) noexcept
+	{
+		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+
+		return vector<S, D>::lerp(start, finish, alpha);
+	}
+
+	/// \related muu::vector
+	///
+	/// \brief	Calculates the angle between two vectors.
+	///
+	/// \param	v1		A vector.
+	/// \param	v2		A vector.
+	///
+	/// \returns	The angle in radians between `v1` and `v2`.
+	/// 
+	/// \remarks	The angle returned is the unsigned angle between the two vectors;
+	/// 			the smaller of the two possible angles between the two vectors is used.
+	/// 			The result is never greater than `pi` radians (180 degrees).
+	/// 
+	/// \note		This function is only available when `D` == 2 or 3.
+	template <typename S, size_t D,
+		typename scalar_product = typename vector<S, D>::scalar_product
+		ENABLE_PAIRED_FUNC_BY_REF(S, D, D == 2 || D == 3)
+	>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr scalar_product angle(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
+	{
+		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+
+		return vector<S, D>::angle(v1, v2);
+	}
+
+	/// \related muu::vector
+	///
+	/// \brief	Returns a copy of a vector with all scalar components set to their absolute values.
+	template <typename S, size_t D ENABLE_PAIRED_FUNC_BY_REF(S, D, true)>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr vector<S, D> abs(const vector<S, D>& v) noexcept
+	{
+		return vector<S, D>::abs(v);
+	}
+
+	#if ENABLE_PAIRED_FUNCS
+
+	template <typename S, typename T, size_t D,
+		typename Epsilon = impl::highest_ranked<S, T>
+		ENABLE_PAIRED_FUNC_BY_VAL(S, D, any_floating_point<S, T> && impl::pass_vector_by_value<T, D>)
+	>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr bool MUU_VECTORCALL approx_equal(
+		vector<S, D> v1,
+		vector<T, D> v2,
+		Epsilon epsilon = muu::constants<Epsilon>::approx_equal_epsilon
+	) noexcept
+	{
+		static_assert(is_same_as_any<Epsilon, S, T>);
+
+		return vector<S, D>::approx_equal(v1, v2, epsilon);
+	}
+
+	template <typename S, size_t D,
+		typename scalar_product = typename vector<S, D>::scalar_product
+		ENABLE_PAIRED_FUNC_BY_VAL(S, D, true)
+	>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr scalar_product MUU_VECTORCALL length_squared(vector<S, D> v) noexcept
+	{
+		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+
+		return vector<S, D>::length_squared(v);
+	}
+
+	template <typename S, size_t D,
+		typename scalar_product = typename vector<S, D>::scalar_product
+		ENABLE_PAIRED_FUNC_BY_VAL(S, D, true)
+	>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr scalar_product MUU_VECTORCALL length(vector<S, D> v) noexcept
+	{
+		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+
+		return vector<S, D>::length(v);
+	}
+
+	template <typename S, size_t D,
+		typename scalar_product = typename vector<S, D>::scalar_product
+		ENABLE_PAIRED_FUNC_BY_VAL(S, D, true)
+	>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr scalar_product MUU_VECTORCALL distance_squared(vector<S, D> p1, vector<S, D> p2) noexcept
+	{
+		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+
+		return vector<S, D>::distance_squared(p1, p2);
+	}
+
+	template <typename S, size_t D,
+		typename scalar_product = typename vector<S, D>::scalar_product
+		ENABLE_PAIRED_FUNC_BY_VAL(S, D, true)
+	>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr scalar_product MUU_VECTORCALL distance(vector<S, D> p1, vector<S, D> p2) noexcept
+	{
+		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+
+		return vector<S, D>::distance(p1, p2);
+	}
+
+	template <typename S, size_t D,
+		typename scalar_product = typename vector<S, D>::scalar_product
+		ENABLE_PAIRED_FUNC_BY_VAL(S, D, true)
+	>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr scalar_product MUU_VECTORCALL dot(vector<S, D> v1, vector<S, D> v2) noexcept
+	{
+		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+
+		return vector<S, D>::dot(v1, v2);
+	}
+
+	template <typename S,
+		typename vector_product = typename vector<S, 3>::vector_product
+		ENABLE_PAIRED_FUNC_BY_VAL(S, 3, true)
+	>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr vector_product MUU_VECTORCALL MUU_VECTORCALL cross(vector<S, 3> lhs, vector<S, 3> rhs) noexcept
+	{
+		static_assert(std::is_same_v<vector_product, typename vector<S, 3>::vector_product>);
+
+		return vector<S, 3>::cross(lhs, rhs);
+	}
+
+	template <typename S, size_t D,
+		typename scalar_product = typename vector<S, D>::scalar_product
+		ENABLE_PAIRED_FUNC_BY_VAL(S, D, is_floating_point<S>)
+	>
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	constexpr vector<S, D> MUU_VECTORCALL normalize(vector<S, D> v, scalar_product& length_out) noexcept
+	{
+		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+
+		return vector<S, D>::normalize(v, length_out);
+	}
+
+	template <typename S, size_t D ENABLE_PAIRED_FUNC_BY_VAL(S, D, is_floating_point<S>)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr vector<S, D> MUU_VECTORCALL normalize(vector<S, D> v) noexcept
+	{
+		return vector<S, D>::normalize(v);
+	}
+
+	template <typename S, size_t D,
+		typename vector_product = typename vector<S, D>::vector_product,
+		typename scalar_product = typename vector<S, D>::scalar_product
+		ENABLE_PAIRED_FUNC_BY_VAL(S, D, D == 2 || D == 3)
+	>
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	constexpr vector_product MUU_VECTORCALL direction(vector<S, D> from, vector<S, D> to, scalar_product& distance_out) noexcept
+	{
+		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+		static_assert(std::is_same_v<vector_product, typename vector<S, D>::vector_product>);
+
+		return vector<S, D>::direction(from, to, distance_out);
+	}
+
+	template <typename S, size_t D,
+		typename vector_product = typename vector<S, D>::vector_product
+		ENABLE_PAIRED_FUNC_BY_VAL(S, D, D == 2 || D == 3)
+	>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr vector_product MUU_VECTORCALL direction(vector<S, D> from, vector<S, D> to) noexcept
+	{
+		static_assert(std::is_same_v<vector_product, typename vector<S, D>::vector_product>);
+
+		return vector<S, D>::direction(from, to);
+	}
+
+	template <typename S, size_t D ENABLE_PAIRED_FUNC_BY_VAL(S, D, true)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr vector<S, D> MUU_VECTORCALL min(vector<S, D> v1, vector<S, D> v2) noexcept
+	{
+		return vector<S, D>::min(v1, v2);
+	}
+
+	template <typename S, size_t D ENABLE_PAIRED_FUNC_BY_VAL(S, D, true)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr vector<S, D> MUU_VECTORCALL max(vector<S, D> v1, vector<S, D> v2) noexcept
+	{
+		return vector<S, D>::max(v1, v2);
+	}
+
+	template <typename S, size_t D ENABLE_PAIRED_FUNC_BY_VAL(S, D, true)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr vector<S, D> MUU_VECTORCALL clamp(vector<S, D> v, vector<S, D> low, vector<S, D> high) noexcept
+	{
+		return vector<S, D>::clamp(v, low, high);
+	}
+
+	template <typename S, size_t D,
+		typename scalar_product = typename vector<S, D>::scalar_product
+		ENABLE_PAIRED_FUNC_BY_VAL(S, D, true)
+	>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr vector<S, D> MUU_VECTORCALL lerp(vector<S, D> start, vector<S, D> finish, scalar_product alpha) noexcept
+	{
+		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+
+		return vector<S, D>::lerp(start, finish, alpha);
+	}
+
+	template <typename S, size_t D,
+		typename scalar_product = typename vector<S, D>::scalar_product
+		ENABLE_PAIRED_FUNC_BY_VAL(S, D, D == 2 || D == 3)
+	>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr scalar_product MUU_VECTORCALL angle(vector<S, D> v1, vector<S, D> v2) noexcept
+	{
+		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+
+		return vector<S, D>::angle(v1, v2);
+	}
+
+	template <typename S, size_t D ENABLE_PAIRED_FUNC_BY_VAL(S, D, true)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr vector<S, D> MUU_VECTORCALL abs(vector<S, D> v) noexcept
+	{
+		return vector<S, D>::abs(v);
+	}
+
+	#endif // ENABLE_PAIRED_FUNCS
+
+}
+MUU_NAMESPACE_END
+
+#endif //==============================================================================================================
+
 #undef ENABLE_IF_DIMENSIONS_AT_LEAST
 #undef ENABLE_IF_DIMENSIONS_AT_LEAST_AND
 #undef REQUIRES_DIMENSIONS_AT_LEAST
@@ -2857,7 +3448,9 @@ MUU_IMPL_NAMESPACE_END
 #undef COMPONENTWISE_ASSIGN_WITH_TRANSFORM
 #undef COMPONENTWISE_ASSIGN
 #undef NULL_TRANSFORM
-#undef FMA_BLOCK
+#undef ENABLE_PAIRED_FUNC_BY_REF
+#undef ENABLE_PAIRED_FUNC_BY_VAL
+#undef ENABLE_PAIRED_FUNCS
 
 MUU_PRAGMA_MSVC(pop_macro("min"))
 MUU_PRAGMA_MSVC(pop_macro("max"))

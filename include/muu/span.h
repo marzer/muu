@@ -180,7 +180,7 @@ MUU_NAMESPACE_START
 			/// \brief Constructs a span from an array.
 			template <size_t N MUU_SFINAE_NO_CONCEPTS(Extent == dynamic_extent || N == Extent)>
 			MUU_NODISCARD_CTOR
-			constexpr span(type_identity<element_type>(&arr)[N]) noexcept
+			constexpr span(dont_deduce<element_type>(&arr)[N]) noexcept
 				MUU_REQUIRES(Extent == dynamic_extent || N == Extent)
 				: ptr_and_size{ arr, N }
 			{}

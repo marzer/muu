@@ -184,48 +184,53 @@ MUU_ENABLE_WARNINGS
 	#define CHECK_STRINGS_W(...)		CHECK_AND_STATIC_ASSERT(__VA_ARGS__)
 #endif
 
-#define CHECK_APPROX_EQUAL_EPS(actual_, expected_, epsilon_)						\
-	do																				\
-	{																				\
-		const auto expected = expected_;											\
-		INFO("expected: "sv															\
-			<< std::fixed															\
-			<< std::setprecision(std::numeric_limits<decltype(expected)>::digits10)	\
-			<< expected << "    "sv << MUU_MAKE_STRING(expected_))					\
-																					\
-		const auto actual = actual_;												\
-		INFO("  actual: "sv															\
-			<< std::fixed															\
-			<< std::setprecision(std::numeric_limits<decltype(actual)>::digits10)	\
-			<< actual << "    "sv << MUU_MAKE_STRING(actual_))						\
-																					\
-		const auto epsilon = actual_;												\
-		INFO(" epsilon: "sv															\
-			<< std::fixed															\
-			<< std::setprecision(std::numeric_limits<decltype(epsilon)>::digits10)	\
-			<< epsilon << "    "sv << MUU_MAKE_STRING(epsilon_))					\
-																					\
-		CHECK(approx_equal(expected, actual, epsilon));								\
-	}																				\
+#define CHECK_APPROX_EQUAL_EPS(actual_, expected_, epsilon_)								\
+	do																						\
+	{																						\
+		const auto cae_expected = expected_;												\
+		INFO("expected: "sv																	\
+			<< std::fixed																	\
+			<< std::setprecision(std::numeric_limits<decltype(cae_expected)>::digits10)		\
+			<< cae_expected << "    "sv << MUU_MAKE_STRING(expected_))						\
+																							\
+		const auto cae_actual = actual_;													\
+		INFO("  actual: "sv																	\
+			<< std::fixed																	\
+			<< std::setprecision(std::numeric_limits<decltype(cae_actual)>::digits10)		\
+			<< cae_actual << "    "sv << MUU_MAKE_STRING(actual_))							\
+																							\
+		const auto cae_epsilon = epsilon_;													\
+		INFO(" epsilon: "sv																	\
+			<< std::fixed																	\
+			<< std::setprecision(std::numeric_limits<decltype(cae_epsilon)>::digits10)		\
+			<< cae_epsilon << "    "sv << MUU_MAKE_STRING(epsilon_))						\
+																							\
+		CHECK(approx_equal(cae_expected, cae_actual, cae_epsilon));							\
+	}																						\
 	while (false)
 
-#define CHECK_APPROX_EQUAL(actual_, expected_)										\
-	do																				\
-	{																				\
-		const auto expected = expected_;											\
-		INFO("expected: "sv															\
-			<< std::fixed															\
-			<< std::setprecision(std::numeric_limits<decltype(expected)>::digits10)	\
-			<< expected << "    "sv << MUU_MAKE_STRING(expected_))					\
-																					\
-		const auto actual = actual_;												\
-		INFO("  actual: "sv															\
-			<< std::fixed															\
-			<< std::setprecision(std::numeric_limits<decltype(actual)>::digits10)	\
-			<< actual << "    "sv << MUU_MAKE_STRING(actual_))						\
-																					\
-		CHECK(approx_equal(expected, actual));										\
-	}																				\
+#define CHECK_APPROX_EQUAL(actual_, expected_)												\
+	do																						\
+	{																						\
+		if constexpr (is_floating_point<decltype(expected_)>)								\
+		{																					\
+			const auto cae_expected = expected_;											\
+			INFO("expected: "sv																\
+				<< std::fixed																\
+				<< std::setprecision(std::numeric_limits<decltype(cae_expected)>::digits10)	\
+				<< cae_expected << "    "sv << MUU_MAKE_STRING(expected_))					\
+																							\
+			const auto cae_actual = actual_;												\
+			INFO("  actual: "sv																\
+				<< std::fixed																\
+				<< std::setprecision(std::numeric_limits<decltype(cae_actual)>::digits10)	\
+				<< cae_actual << "    "sv << MUU_MAKE_STRING(actual_))						\
+																							\
+			CHECK(approx_equal(cae_expected, cae_actual));									\
+		}																					\
+		else																				\
+			CHECK((expected_) == (actual_));												\
+	}																						\
 	while (false)
 
 #define CHECK_SYMMETRIC_EQUAL(lhs, rhs)		\

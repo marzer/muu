@@ -808,6 +808,11 @@ MUU_NAMESPACE_START
 	template <typename T>
 	inline constexpr bool always_false = false;
 
+	/// \brief	Provides an identity type transformation.
+	/// \detail This is equivalent to C++20's std::type_identity_t.
+	template <typename T>
+	using dont_deduce = typename impl::type_identity_<T>::type;
+
 	/// \brief	Gets the unsigned integer type with a specific number of bits for the target platform.
 	template <size_t Bits>
 	using unsigned_integer = typename impl::unsigned_integer_<Bits>::type;
@@ -827,11 +832,6 @@ MUU_NAMESPACE_START
 		, char8_t
 		#endif
 	>;
-
-	/// \brief	Provides an identity type transformation.
-	/// \detail This is equivalent to C++20's std::type_identity_t.
-	template <typename T>
-	using type_identity = typename impl::type_identity_<T>::type;
 
 	/// \brief Returns the rank of a pointer.
 	/// \details Answers "how many stars does it have?".
@@ -1152,7 +1152,7 @@ MUU_NAMESPACE_START
 			/// \brief The number of significand (mantissa) digits.
 			static constexpr int significand_digits = std::numeric_limits<T>::digits;
 
-			static constexpr T approx_equal_epsilon = T{ 1 } * power<T, 10, -std::numeric_limits<T>::digits10>::value;
+			static constexpr T approx_equal_epsilon = T{ 10 } * power<T, 10, -std::numeric_limits<T>::digits10>::value;
 		};
 
 		#ifndef DOXYGEN
@@ -1177,7 +1177,7 @@ MUU_NAMESPACE_START
 		struct floating_point_limits<quad>
 		{
 			static constexpr int significand_digits = __FLT128_MANT_DIG__;
-			static constexpr quad approx_equal_epsilon = quad{ 1 } * power<quad, 10, -__FLT128_DIG__>::value;
+			static constexpr quad approx_equal_epsilon = quad{ 10 } * power<quad, 10, -__FLT128_DIG__>::value;
 		};
 		#endif
 		#endif // !DOXYGEN
@@ -1753,7 +1753,7 @@ MUU_NAMESPACE_START
 	/// 		 available regardless of the C++ mode. Using this function on these compilers allows
 	/// 		 you to get the same behaviour even when you aren't targeting C++20.
 	/// 
-	/// \remark On older compilers lacking support for std::is_constant_evaluated this will always return `false`.
+	/// \note On older compilers lacking support for std::is_constant_evaluated this will always return `false`.
 	/// 		   You can check for support by examining build::supports_is_constant_evaluated.
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
@@ -2277,7 +2277,7 @@ MUU_NAMESPACE_START
 	/// 		 on these compilers allows you to get the same behaviour
 	/// 		 even when you aren't targeting C++20.
 	/// 
-	/// \remark On older compilers lacking support for std::bit_cast you won't be able to call this function
+	/// \note On older compilers lacking support for std::bit_cast you won't be able to call this function
 	/// 		   in constexpr contexts (since it falls back to a memcpy-based implementation).
 	/// 		   You can check for constexpr support by examining build::supports_constexpr_bit_cast.
 	template <typename To, typename From>
@@ -2880,6 +2880,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr float MUU_VECTORCALL lerp(float start, float finish, float alpha) noexcept
 	{
+		MUU_FMA_BLOCK
 		return start * (1.0f - alpha) + finish * alpha;
 	}
 
@@ -2888,6 +2889,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr double MUU_VECTORCALL lerp(double start, double finish, double alpha) noexcept
 	{
+		MUU_FMA_BLOCK
 		return start * (1.0 - alpha) + finish * alpha;
 	}
 
@@ -2896,6 +2898,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr long double MUU_VECTORCALL lerp(long double start, long double finish, long double alpha) noexcept
 	{
+		MUU_FMA_BLOCK
 		return start * (1.0L - alpha) + finish * alpha;
 	}
 
@@ -2905,6 +2908,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr quad MUU_VECTORCALL lerp(quad start, quad finish, quad alpha) noexcept
 	{
+		MUU_FMA_BLOCK
 		return start * (quad{ 1 } - alpha) + finish * alpha;
 	}
 	#endif
@@ -3617,6 +3621,13 @@ MUU_NAMESPACE_START
 			return pack<return_type>(byte_select<ByteIndices>(val)...);
 	}
 
+	/// \addtogroup		infinity_or_nan		infinity_or_nan()
+	/// \brief Checks for infinities and not-a-numbers (NaN).
+	/// \note		Older compilers won't provide the necessary machinery for infinity and NaN checks to work in
+	/// 			constexpr contexts. You can check for constexpr support
+	/// 			by examining build::supports_constexpr_infinity_or_nan.
+	/// @{
+
 	MUU_PRAGMA_GCC(push_options)
 	MUU_PRAGMA_GCC(optimize("-fno-finite-math-only"))
 
@@ -3651,6 +3662,7 @@ MUU_NAMESPACE_START
 
 			template <typename T>
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			MUU_ALWAYS_INLINE
 			static constexpr bool MUU_VECTORCALL check(const T& val) noexcept
 			{
@@ -3669,6 +3681,7 @@ MUU_NAMESPACE_START
 
 			template <typename T>
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			MUU_ALWAYS_INLINE
 			static constexpr bool MUU_VECTORCALL check(const T& val) noexcept
 			{
@@ -3689,6 +3702,7 @@ MUU_NAMESPACE_START
 
 			template <typename T>
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			MUU_ALWAYS_INLINE
 			static constexpr bool MUU_VECTORCALL check(const T& val) noexcept
 			{
@@ -3714,13 +3728,9 @@ MUU_NAMESPACE_START
 	///
 	/// \returns	True if the value is floating-point infinity or NaN.
 	/// 			Always returns false if the value was not a floating-point type.
-	/// 
-	/// \remark	Older compilers won't provide the necessary machinery for you to be able to call this function in
-	/// 			constexpr contexts. You can check for constexpr support by examining
-	/// 			build::supports_constexpr_infinity_or_nan.
 	template <typename T MUU_SFINAE(is_arithmetic<T>)>
 	[[nodiscard]]
-	MUU_ATTR(const)
+	MUU_ATTR(pure)
 	constexpr bool MUU_VECTORCALL infinity_or_nan(T val) noexcept
 	{
 		// Q: "what about fpclassify, isnan, isinf??"
@@ -3757,11 +3767,12 @@ MUU_NAMESPACE_START
 	/// \returns	The return value of `obj.infinity_or_nan()`.
 	template <typename T MUU_SFINAE_2(!is_arithmetic<T> && impl::is_detected<impl::has_member_infinity_or_nan_, const T&>)>
 	[[nodiscard]]
-	MUU_ATTR(pure)
 	constexpr bool infinity_or_nan(const T& obj) noexcept
 	{
 		return obj.infinity_or_nan();
 	}
+
+	/** @} */	// intrinsics::infinity_or_nan
 
 	/** @} */	// intrinsics
 
@@ -3832,11 +3843,11 @@ MUU_NAMESPACE_START
 		MUU_ASSUME((reinterpret_cast<uintptr_t>(ptr) & (N - uintptr_t{ 1 })) == 0);
 
 		#if MUU_CLANG || MUU_GCC
-			return reinterpret_cast<T*>(__builtin_assume_aligned(pointer_cast<const void*>(ptr), N));
+			return pointer_cast<T*>(__builtin_assume_aligned(pointer_cast<const void*>(ptr), N));
 		#elif MUU_MSVC
 		{
 			if constexpr (N < 16384)
-				return reinterpret_cast<T*>(__builtin_assume_aligned(pointer_cast<const void*>(ptr), N));
+				return pointer_cast<T*>(__builtin_assume_aligned(pointer_cast<const void*>(ptr), N));
 			else
 				return ptr;
 		}

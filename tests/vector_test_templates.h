@@ -375,14 +375,20 @@ inline void equality_tests(std::string_view scalar_typename) noexcept
 		vector_t same{ vec };
 		CHECK_SYMMETRIC_EQUAL(vec, same);
 		if constexpr (is_floating_point<T>)
+		{
 			CHECK(vector_t::approx_equal(vec, same));
+			CHECK(muu::approx_equal(vec, same));
+		}
 
 		vector_t different{ vec };
 		for (size_t i = 0; i < Dimensions; i++)
 			different[i]++;
 		CHECK_SYMMETRIC_INEQUAL(vec, different);
 		if constexpr (is_floating_point<T>)
+		{
 			CHECK_FALSE(vector_t::approx_equal(vec, different));
+			CHECK_FALSE(muu::approx_equal(vec, different));
+		}
 	}
 
 	if constexpr (!is_floating_point<T>)
@@ -454,6 +460,7 @@ inline void infinity_or_nan_tests(std::string_view scalar_typename) noexcept
 		for (size_t i = 0; i < Dimensions; i++)
 			vector1[i] = static_cast<T>(i);
 		CHECK_FALSE(vector1.infinity_or_nan());
+		CHECK_FALSE(muu::infinity_or_nan(vector1));
 	}
 
 
@@ -466,6 +473,7 @@ inline void infinity_or_nan_tests(std::string_view scalar_typename) noexcept
 				vector_t vector2{ vector1 };
 				vector2[i] = make_nan<T>();
 				CHECK(vector2.infinity_or_nan());
+				CHECK(muu::infinity_or_nan(vector2));
 			}
 		}
 
@@ -476,6 +484,7 @@ inline void infinity_or_nan_tests(std::string_view scalar_typename) noexcept
 				vector_t vector2{ vector1 };
 				vector2[i] = make_infinity<T>();
 				CHECK(vector2.infinity_or_nan());
+				CHECK(muu::infinity_or_nan(vector2));
 			}
 		}
 	}
@@ -487,9 +496,9 @@ inline void dot_tests(std::string_view scalar_typename) noexcept
 	INFO("vector<"sv << scalar_typename << ", "sv << Dimensions << ">"sv)
 	using vector_t = vector<T, Dimensions>;
 
-	const auto x1 = random_array<T, Dimensions>();
-	const auto x2 = random_array<T, Dimensions>();
-	vector_t vector1(x1), vector2(x2);
+	const auto x1 = random_array<T, Dimensions>(0, 5);
+	const auto x2 = random_array<T, Dimensions>(0, 5);
+	const vector_t vector1{ x1 }, vector2{ x2 };
 		
 	using dot_type = decltype(vector1.dot(vector2));
 	static_assert(is_floating_point<dot_type>);
@@ -500,12 +509,15 @@ inline void dot_tests(std::string_view scalar_typename) noexcept
 	using intermediate_type = impl::promote_if_small_float<dot_type>;
 	auto expected_sum = intermediate_type{};
 	for (size_t i = 0; i < Dimensions; i++)
+	{
+		MUU_FMA_BLOCK
 		expected_sum += static_cast<intermediate_type>(x1[i]) * static_cast<intermediate_type>(x2[i]);
+	}
 	const auto expected = static_cast<dot_type>(expected_sum);
 
-	CHECK(vector1.dot(vector2) == approx(expected));
-	CHECK(vector_t::dot(vector1, vector2) == approx(expected));
-	//CHECK(muu::dot(vector1, vector2) == approx(expected));
+	CHECK_APPROX_EQUAL(vector1.dot(vector2), expected);
+	CHECK_APPROX_EQUAL(vector_t::dot(vector1, vector2), expected);
+	CHECK_APPROX_EQUAL(muu::dot(vector1, vector2), expected);
 }
 
 template <typename T, size_t Dimensions>
@@ -529,14 +541,16 @@ inline void cross_tests([[maybe_unused]] std::string_view scalar_typename) noexc
 	CHECK(vec1.unit_length());
 	CHECK(vec2.unit_length());
 
+	static const auto eps = static_cast<promoted>(constants<T>::approx_equal_epsilon);
+
 	{
 		INFO("vector.cross(vector)"sv)
 
 		const auto cross_vector = vec3d{ vector_t{ vec1 }.cross(vector_t{ vec2 }) };
 		const auto vec1_dot = cross_vector.dot(vec3d{ vec1 });
 		const auto vec2_dot = cross_vector.dot(vec3d{ vec2 });
-		CHECK(approx_equal(vec1_dot, promoted{}, static_cast<promoted>(constants<T>::approx_equal_epsilon)));
-		CHECK(approx_equal(vec2_dot, promoted{}, static_cast<promoted>(constants<T>::approx_equal_epsilon)));
+		CHECK_APPROX_EQUAL_EPS(vec1_dot, promoted{}, eps);
+		CHECK_APPROX_EQUAL_EPS(vec2_dot, promoted{}, eps);
 	}
 
 	{
@@ -545,19 +559,19 @@ inline void cross_tests([[maybe_unused]] std::string_view scalar_typename) noexc
 		const auto cross_vector = vec3d{ vector_t::cross(vector_t{ vec1 }, vector_t{ vec2 }) };
 		const auto vec1_dot = cross_vector.dot(vec3d{ vec1 });
 		const auto vec2_dot = cross_vector.dot(vec3d{ vec2 });
-		CHECK(approx_equal(vec1_dot, promoted{}, static_cast<promoted>(constants<T>::approx_equal_epsilon)));
-		CHECK(approx_equal(vec2_dot, promoted{}, static_cast<promoted>(constants<T>::approx_equal_epsilon)));
+		CHECK_APPROX_EQUAL_EPS(vec1_dot, promoted{}, eps);
+		CHECK_APPROX_EQUAL_EPS(vec2_dot, promoted{}, eps);
 	}
 
-	//{
-	//	INFO("cross(vector, vector)"sv)
-	//
-	//	const auto cross_vector = cross(vec1, vec2);
-	//	const auto vec1_dot = fcross_vector.dot(vec1);
-	//	const auto vec2_dot = fcross_vector.dot(vec2);
-	//	CHECK(vec1_dot == approx(T{}));
-	//	CHECK(vec2_dot == approx(T{}));
-	//}
+	{
+		INFO("muu::cross(vector, vector)"sv)
+	
+		const auto cross_vector = muu::cross(vec1, vec2);
+		const auto vec1_dot = cross_vector.dot(vec3d{ vec1 });
+		const auto vec2_dot = cross_vector.dot(vec3d{ vec2 });
+		CHECK_APPROX_EQUAL_EPS(vec1_dot, promoted{}, eps);
+		CHECK_APPROX_EQUAL_EPS(vec2_dot, promoted{}, eps);
+	}
 }
 
 template <typename T, size_t Dimensions>
@@ -575,7 +589,7 @@ inline void addition_tests(std::string_view scalar_typename) noexcept
 
 		vector_t result = vector1 + vector2;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(static_cast<T>(x1[i] + x2[i]) == approx(result[i]));
+			CHECK_APPROX_EQUAL(static_cast<T>(x1[i] + x2[i]), result[i]);
 	}
 
 	{
@@ -584,7 +598,7 @@ inline void addition_tests(std::string_view scalar_typename) noexcept
 		vector_t result(vector1);
 		result += vector2;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(static_cast<T>(x1[i] + x2[i]) == approx(result[i]));
+			CHECK_APPROX_EQUAL(static_cast<T>(x1[i] + x2[i]), result[i]);
 	}
 }
 
@@ -605,7 +619,7 @@ inline void subtraction_tests(std::string_view scalar_typename) noexcept
 
 		const vector_t result = vector1 - vector2;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(static_cast<T>(x1[i] - x2[i]) == approx(result[i]));
+			CHECK_APPROX_EQUAL(static_cast<T>(x1[i] - x2[i]), result[i]);
 	}
 
 	{
@@ -614,7 +628,7 @@ inline void subtraction_tests(std::string_view scalar_typename) noexcept
 		vector_t result(vector1);
 		result -= vector2;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(static_cast<T>(x1[i] - x2[i]) == approx(result[i]));
+			CHECK_APPROX_EQUAL(static_cast<T>(x1[i] - x2[i]), result[i]);
 	}
 
 	if constexpr (is_signed<T>)
@@ -623,7 +637,7 @@ inline void subtraction_tests(std::string_view scalar_typename) noexcept
 
 		const vector_t result = -vector1;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(static_cast<T>(-x1[i]) == approx(result[i]));
+			CHECK_APPROX_EQUAL(static_cast<T>(-x1[i]), result[i]);
 	}
 }
 
@@ -643,7 +657,7 @@ inline void multiplication_tests(std::string_view scalar_typename) noexcept
 
 		vector_t result = vector1 * vector2;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(static_cast<T>(x1[i] * x2[i]) == approx(result[i]));
+			CHECK_APPROX_EQUAL(static_cast<T>(x1[i] * x2[i]), result[i]);
 	}
 
 	{
@@ -652,7 +666,7 @@ inline void multiplication_tests(std::string_view scalar_typename) noexcept
 		vector_t result(vector1);
 		result *= vector2;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(static_cast<T>(x1[i] * x2[i]) == approx(result[i]));
+			CHECK_APPROX_EQUAL(static_cast<T>(x1[i] * x2[i]), result[i]);
 	}
 
 	{
@@ -660,7 +674,7 @@ inline void multiplication_tests(std::string_view scalar_typename) noexcept
 
 		vector_t result = vector1 * scalar;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(static_cast<T>(x1[i] * scalar) == approx(result[i]));
+			CHECK_APPROX_EQUAL(static_cast<T>(x1[i] * scalar), result[i]);
 	}
 
 	{
@@ -668,7 +682,7 @@ inline void multiplication_tests(std::string_view scalar_typename) noexcept
 
 		vector_t result = scalar * vector2;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(static_cast<T>(x2[i] * scalar) == approx(result[i]));
+			CHECK_APPROX_EQUAL(static_cast<T>(x2[i] * scalar), result[i]);
 	}
 
 
@@ -678,7 +692,7 @@ inline void multiplication_tests(std::string_view scalar_typename) noexcept
 		vector_t result(vector1);
 		result *= scalar;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(static_cast<T>(x1[i] * scalar) == approx(result[i]));
+			CHECK_APPROX_EQUAL(static_cast<T>(x1[i] * scalar), result[i]);
 	}
 }
 
@@ -697,7 +711,7 @@ inline void division_tests(std::string_view scalar_typename) noexcept
 
 		vector_t result = vec1 / vec2;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(static_cast<T>(vec1[i] / vec2[i]) == approx(result[i]));
+			CHECK_APPROX_EQUAL(static_cast<T>(vec1[i] / vec2[i]), result[i]);
 	}
 
 	{
@@ -706,7 +720,7 @@ inline void division_tests(std::string_view scalar_typename) noexcept
 		vector_t result = vec1;
 		result /= vec2;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(static_cast<T>(vec1[i] / vec2[i]) == approx(result[i]));
+			CHECK_APPROX_EQUAL(static_cast<T>(vec1[i] / vec2[i]), result[i]);
 	}
 
 	{
@@ -714,7 +728,7 @@ inline void division_tests(std::string_view scalar_typename) noexcept
 
 		vector_t result = vec1 / scalar;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(static_cast<T>(vec1[i] / scalar) == approx(result[i]));
+			CHECK_APPROX_EQUAL(static_cast<T>(vec1[i] / scalar), result[i]);
 	}
 
 	{
@@ -723,7 +737,7 @@ inline void division_tests(std::string_view scalar_typename) noexcept
 		vector_t result = vec1;
 		result /= scalar;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(static_cast<T>(vec1[i] / scalar) == approx(result[i]));
+			CHECK_APPROX_EQUAL(static_cast<T>(vec1[i] / scalar), result[i]);
 	}
 }
 
@@ -742,7 +756,7 @@ inline void modulo_tests(std::string_view scalar_typename) noexcept
 
 		vector_t result = vec1 % vec2;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(static_cast<T>(impl::modulo(vec1[i], vec2[i])) == approx(result[i]));
+			CHECK_APPROX_EQUAL(static_cast<T>(impl::modulo(vec1[i], vec2[i])), result[i]);
 	}
 
 	{
@@ -751,7 +765,7 @@ inline void modulo_tests(std::string_view scalar_typename) noexcept
 		vector_t result = vec1;
 		result %= vec2;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(static_cast<T>(impl::modulo(vec1[i], vec2[i])) == approx(result[i]));
+			CHECK_APPROX_EQUAL(static_cast<T>(impl::modulo(vec1[i], vec2[i])), result[i]);
 	}
 
 	{
@@ -759,7 +773,7 @@ inline void modulo_tests(std::string_view scalar_typename) noexcept
 
 		vector_t result = vec1 % scalar;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(static_cast<T>(impl::modulo(vec1[i], scalar)) == approx(result[i]));
+			CHECK_APPROX_EQUAL(static_cast<T>(impl::modulo(vec1[i], scalar)), result[i]);
 	}
 
 	{
@@ -768,7 +782,7 @@ inline void modulo_tests(std::string_view scalar_typename) noexcept
 		vector_t result = vec1;
 		result %= scalar;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK(static_cast<T>(impl::modulo(vec1[i], scalar)) == approx(result[i]));
+			CHECK_APPROX_EQUAL(static_cast<T>(impl::modulo(vec1[i], scalar)), result[i]);
 	}
 }
 
@@ -839,6 +853,16 @@ inline void normalization_tests(std::string_view scalar_typename) noexcept
 
 		vector_t vec{ x };
 		vec = vector_t::normalize(vec);
+		CHECK(vec.unit_length());
+		CHECK(vec.length() == approx(T{ 1 }));
+	}
+
+	{
+		INFO("muu::normalize(vector)"sv)
+
+		vector_t vec{ x };
+		vec = muu::normalize(vec);
+		CHECK(vec.unit_length());
 		CHECK(vec.length() == approx(T{ 1 }));
 	}
 }
@@ -925,6 +949,12 @@ inline void lerp_specific_tests() noexcept
 			INFO("vector.lerp(target, expected)")
 			auto vec = vector_t{ case_.start };
 			vec.lerp(vector_t{ case_.finish }, case_.alpha);
+			CHECK(vec == vector_t{ case_.expected });
+		}
+
+		{
+			INFO("muu::lerp(start, finish, expected)")
+			const auto vec = muu::lerp(vector_t{ case_.start }, vector_t{ case_.finish }, case_.alpha);
 			CHECK(vec == vector_t{ case_.expected });
 		}
 	}
@@ -1022,7 +1052,7 @@ inline void angle_tests(std::string_view scalar_typename) noexcept
 	using constant_type = impl::highest_ranked<scalar_product, float>;
 
 	[[maybe_unused]]
-	const auto eps = static_cast<scalar_product>((muu::max)(static_cast<long double>(constants<scalar_product>::approx_equal_epsilon), 0.000000001L));
+	static const auto eps = static_cast<scalar_product>((muu::max)(static_cast<long double>(constants<scalar_product>::approx_equal_epsilon), 0.000000001L));
 
 	#define CHECK_ANGLE(val)														\
 		CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<scalar_product>(val), eps);	\
