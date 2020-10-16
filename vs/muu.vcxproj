@@ -87,6 +87,8 @@
     <ClInclude Include="..\include\muu\impl\unicode_char8_t.h" />
     <ClInclude Include="..\include\muu\impl\unicode_unsigned_char.h" />
     <ClInclude Include="..\include\muu\impl\unicode_wchar_t.h" />
+    <ClInclude Include="..\include\muu\matrix.h" />
+    <ClInclude Include="..\include\muu\quaternion.h" />
     <ClInclude Include="..\include\muu\rolling_average.h" />
     <ClInclude Include="..\include\muu\numeric_range.h" />
     <ClInclude Include="..\include\muu\preprocessor.h" />

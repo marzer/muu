@@ -25,7 +25,7 @@
 		advantage of __vectorcall on windows, and only apply to float, double and long double vectors of <= dimensions
 		since the're considered "Homogeneous Vector Aggreggates" and must be passed by value to be properly vectorized.
 		- __vectorcall: https://docs.microsoft.com/en-us/cpp/cpp/vectorcall?view=vs-2019
-		- vectorizer sandbox: https://godbolt.org/z/7Wq45T
+		- vectorizer sandbox: https://godbolt.org/z/8b9fe6
 
 	-	You'll see intermediate_type used instead of scalar_type in a few places. It's a 'better' type used for
 		intermediate floating-point values where precision loss or unnecessary cast round-tripping is to be avoided.
@@ -641,11 +641,11 @@ MUU_IMPL_NAMESPACE_START
 	#endif // MUU_HAS_VECTORCALL
 
 	template <typename Scalar, size_t Dimensions>
-	inline constexpr bool pass_vector_by_value
-		= !std::is_reference_v<maybe_pass_readonly_by_value<vector_base<Scalar, Dimensions>>>;
+	inline constexpr bool pass_vector_by_reference = 
+		std::is_reference_v<maybe_pass_readonly_by_value<vector_base<Scalar, Dimensions>>>;
 
 	template <typename Scalar, size_t Dimensions>
-	inline constexpr bool pass_vector_by_reference = !pass_vector_by_value<Scalar, Dimensions>;
+	inline constexpr bool pass_vector_by_value = !pass_vector_by_reference<Scalar, Dimensions>;
 
 	template <typename T>
 	[[nodiscard]]
@@ -739,7 +739,7 @@ MUU_IMPL_NAMESPACE_END
 #endif // =============================================================================================================
 
 //=====================================================================================================================
-// VECTOR CLASS
+// CLASS
 #if 1
 
 MUU_NAMESPACE_START
@@ -756,17 +756,17 @@ MUU_NAMESPACE_START
 	{
 		static_assert(
 			!std::is_reference_v<Scalar>,
-			"Scalar type cannot be a reference"
+			"Vector scalar type cannot be a reference"
 		);
 		static_assert(
 			!std::is_const_v<Scalar> && !std::is_volatile_v<Scalar>,
-			"Scalar type cannot be const- or volatile-qualified"
+			"Vector scalar type cannot be const- or volatile-qualified"
 		);
 		static_assert(
 			std::is_trivially_constructible_v<Scalar>
 			&& std::is_trivially_copyable_v<Scalar>
 			&& std::is_trivially_destructible_v<Scalar>,
-			"Scalar type must be trivially constructible, copyable and destructible"
+			"Vector scalar type must be trivially constructible, copyable and destructible"
 		);
 		static_assert(
 			Dimensions >= 1,
@@ -785,10 +785,7 @@ MUU_NAMESPACE_START
 		/// \brief Compile-time constants for this vector's scalar type.
 		using scalar_constants = muu::constants<scalar_type>;
 
-		/// \brief Compile-time constants for this vector type.
-		using constants = muu::constants<vector>;
-
-		/// \brief A vector with #scalar_type == #scalar_product and with the same number of #dimensions as this one.
+		/// \brief The vector type with #scalar_type == #scalar_product and the same number of #dimensions as this one.
 		using vector_product = vector<scalar_product, dimensions>;
 
 		/// \brief `vector` or `const vector&`, depending on depending on size, triviality, simd-friendliness, etc.
@@ -798,6 +795,9 @@ MUU_NAMESPACE_START
 			const vector&
 		>;
 
+		/// \brief Compile-time constants for this vector type.
+		using constants = muu::constants<vector>;
+
 		/// \brief A LegacyRandomAccessIterator for the scalar components in the vector.
 		using iterator = scalar_type*;
 
@@ -805,9 +805,10 @@ MUU_NAMESPACE_START
 		using const_iterator = const scalar_type*;
 
 	private:
+		
+		template <typename T>
+		friend struct quaternion;
 
-		template <typename T, size_t N>
-		friend struct vector;
 		using base = impl::vector_base<scalar_type, Dimensions>;
 		static_assert(
 			sizeof(base) == (sizeof(scalar_type) * Dimensions),
@@ -964,6 +965,7 @@ MUU_NAMESPACE_START
 		vector() noexcept = default;
 
 		/// \brief Copy constructor.
+		MUU_NODISCARD_CTOR
 		constexpr vector(const vector&) noexcept = default;
 
 		/// \brief Copy-assigment operator.
@@ -2467,7 +2469,7 @@ MUU_NAMESPACE_START
 	
 	#ifndef DOXYGEN // deduction guides -------------------------------------------------------------------------------
 
-	template <typename T, typename U, typename... V>
+	template <typename T, typename U, typename... V MUU_SFINAE(all_arithmetic<T, U, V...>)>
 	vector(T, U, V...) -> vector<impl::highest_ranked<T, U, V...>, 2 + sizeof...(V)>;
 
 	template <typename T MUU_SFINAE(is_arithmetic<T>)>

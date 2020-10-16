@@ -61,6 +61,10 @@
 		<ClCompile Include="..\..\tests\main.cpp">
 			<PrecompiledHeader>NotUsing</PrecompiledHeader>
 		</ClCompile>
+		<ClCompile Include="..\..\tests\quaternion_double.cpp" />
+		<ClCompile Include="..\..\tests\quaternion_float.cpp" />
+		<ClCompile Include="..\..\tests\quaternion_half.cpp" />
+		<ClCompile Include="..\..\tests\quaternion_long_double.cpp" />
 		<ClCompile Include="..\..\tests\scope_guard.cpp" />
 		<ClCompile Include="..\..\tests\span.cpp" />
 		<ClCompile Include="..\..\tests\string_param.cpp" />
@@ -94,6 +98,8 @@
 		<ClInclude Include="..\..\tests\float_test_data.h" />
 		<ClInclude Include="..\..\tests\settings.h" />
 		<ClInclude Include="..\..\tests\tests.h" />
+		<ClInclude Include="..\..\tests\quaternion_test_templates.h" />
+		<ClInclude Include="..\..\tests\quaternion_test_instantiations.h" />
 		<ClInclude Include="..\..\tests\unicode.h" />
 		<ClInclude Include="..\..\tests\vector_test_templates.h" />
 		<ClInclude Include="..\..\tests\vector_test_instantiations.h" />

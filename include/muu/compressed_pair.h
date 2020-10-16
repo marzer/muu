@@ -43,7 +43,7 @@ MUU_IMPL_NAMESPACE_START
 		MUU_NODISCARD_CTOR																							\
 		constexpr compressed_pair_base(F&& first_init, S&& second_init)												\
 			noexcept(std::is_nothrow_constructible_v<First, F&&>&& std::is_nothrow_constructible_v<Second, S&&>)	\
-			: first_initializer{ static_cast<F&&>(first_init) },														\
+			: first_initializer{ static_cast<F&&>(first_init) },													\
 			second_initializer{ static_cast<S&&>(second_init) }														\
 		{}																											\
 																													\
@@ -134,6 +134,11 @@ MUU_NAMESPACE_START
 		#ifndef DOXYGEN
 		using base = impl::compressed_pair_base<First, Second>;
 		#endif
+
+		private:
+
+			// mode hook for debuggers etc.
+			static constexpr impl::compressed_pair_flags flags_ = impl::get_compressed_pair_flags_for<First, Second>();
 
 		public:
 
@@ -279,6 +284,13 @@ MUU_NAMESPACE_START
 				return impl::compressed_pair_get<I>(std::move(*this));
 			}
 	};
+
+	#ifndef DOXYGEN // deduction guides -------------------------------------------------------------------------------
+
+	template <typename F, typename S>
+	compressed_pair(const F&, const S&) -> compressed_pair<F, S>;
+
+	#endif // deduction guides
 }
 MUU_NAMESPACE_END
 

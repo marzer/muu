@@ -175,39 +175,24 @@
 		</Expand>
 	</Type>
 
-	<Type Name="muu::v0::compressed_pair&lt;*, *, 0&gt;">
-		<DisplayString IncludeView="noparens">{first_}, {second_}</DisplayString>
-		<DisplayString ExcludeView="noparens">({first_}, {second_})</DisplayString>
-		<Expand>
-			<Item Name="first">first_</Item>
-			<Item Name="second">second_</Item>
-		</Expand>
-	</Type>
+	<Type Name="muu::v0::compressed_pair&lt;*, *&gt;">
+		<Intrinsic Name="mode" Expression="(unsigned)flags_" />
+		
+		<DisplayString IncludeView="noparens" Condition="mode() == 0" Optional="true">{first_}, {second_}</DisplayString>
+		<DisplayString IncludeView="noparens" Condition="mode() == 1" Optional="true">{*($T1 *)this}, {second_}</DisplayString>
+		<DisplayString IncludeView="noparens" Condition="mode() == 2" Optional="true">{first_}, {*($T2 *)this}</DisplayString>
+		<DisplayString IncludeView="noparens" Condition="mode() == 3" Optional="true">{*($T1 *)this}, {*($T2 *)this}</DisplayString>
 
-	<Type Name="muu::v0::compressed_pair&lt;*, *, 1&gt;">
-		<DisplayString IncludeView="noparens">{*($T1 *)this}, {second_}</DisplayString>
-		<DisplayString ExcludeView="noparens">({*($T1 *)this}, {second_})</DisplayString>
-		<Expand>
-			<Item Name="first">*($T1 *)this</Item>
-			<Item Name="second">second_</Item>
-		</Expand>
-	</Type>
+		<DisplayString ExcludeView="noparens" Condition="mode() == 0" Optional="true">({first_}, {second_})</DisplayString>
+		<DisplayString ExcludeView="noparens" Condition="mode() == 1" Optional="true">({*($T1 *)this}, {second_})</DisplayString>
+		<DisplayString ExcludeView="noparens" Condition="mode() == 2" Optional="true">({first_}, {*($T2 *)this})</DisplayString>
+		<DisplayString ExcludeView="noparens" Condition="mode() == 3" Optional="true">({*($T1 *)this}, {*($T2 *)this})</DisplayString>
 
-	<Type Name="muu::v0::compressed_pair&lt;*, *, 2&gt;">
-		<DisplayString IncludeView="noparens">{first_}, {*($T2 *)this}</DisplayString>
-		<DisplayString ExcludeView="noparens">({first_}, {*($T2 *)this})</DisplayString>
 		<Expand>
-			<Item Name="first">first_</Item>
-			<Item Name="second">*($T2 *)this</Item>
-		</Expand>
-	</Type>
-
-	<Type Name="muu::v0::compressed_pair&lt;*, *, 3&gt;">
-		<DisplayString IncludeView="noparens">{*($T1 *)this}, {*($T2 *)this}</DisplayString>
-		<DisplayString ExcludeView="noparens">({*($T1 *)this}, {*($T2 *)this})</DisplayString>
-		<Expand>
-			<Item Name="first">*($T1 *)this</Item>
-			<Item Name="second">*($T2 *)this</Item>
+			<Item Name="first"  Condition="mode() == 0 || mode() == 2" Optional="true">first_</Item>
+			<Item Name="first"  Condition="mode() == 1 || mode() == 3" Optional="true">*($T1 *)this</Item>
+			<Item Name="second" Condition="mode() == 0 || mode() == 1" Optional="true">second_</Item>
+			<Item Name="second" Condition="mode() == 2 || mode() == 3" Optional="true">*($T2 *)this</Item>
 		</Expand>
 	</Type>
 
@@ -318,6 +303,14 @@
 				<Size>$T2</Size>
 				<ValuePointer>(($T1*)&amp;values)</ValuePointer>
 			</ArrayItems>
+		</Expand>
+	</Type>
+
+	<Type Name="muu::v0::quaternion&lt;*&gt;">
+		<DisplayString>{{ {r}, {i} }}</DisplayString>
+		<Expand>
+			<Item Name="r" ExcludeView="simple">r</Item>
+			<Item Name="i" ExcludeView="simple">i</Item>
 		</Expand>
 	</Type>
 

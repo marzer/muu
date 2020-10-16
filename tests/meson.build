@@ -9,6 +9,10 @@ test_sources = [
 	'half.cpp',
 	'hashing.cpp',
 	'main.cpp',
+	'quaternion_double.cpp',
+	'quaternion_float.cpp',
+	'quaternion_half.cpp',
+	'quaternion_long_double.cpp',
 	'scope_guard.cpp',
 	'span.cpp',
 	'string_param.cpp',
@@ -33,15 +37,18 @@ test_sources = [
 	'vector_short.cpp',
 ]
 if compiler_supports_fp16
+	test_sources += 'quaternion_fp16.cpp'
 	test_sources += 'vector_fp16.cpp'
 endif
 if compiler_supports_float16
+	test_sources += 'quaternion_Float16.cpp'
 	test_sources += 'vector_Float16.cpp'
 endif
 if compiler_supports_int128
 	test_sources += 'vector_int128.cpp'
 endif
 if compiler_supports_float128
+	test_sources += 'quaternion_quad.cpp'
 	test_sources += 'vector_quad.cpp'
 endif
 

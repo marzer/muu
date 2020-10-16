@@ -52,6 +52,7 @@ def main():
 		lib_project = re.sub(r'<PropertyGroup\s+Condition="[^"]+?[|]Win32.+?</PropertyGroup>', '', lib_project, flags=re.I | re.S)
 		lib_project = re.sub(r'<ProjectConfiguration\s+Include="[^"]+?[|]Win32.+?</ProjectConfiguration>', '', lib_project, flags=re.I | re.S)
 		lib_project = re.sub(r'<ProjectGuid>.+?</ProjectGuid>', f'<ProjectGuid>{{{lib_project_uuid}}}</ProjectGuid>', lib_project, flags=re.I)
+		lib_project = re.sub(r'<StaticDllExport>.+?</StaticDllExport>', f'<StaticDllExport>false</StaticDllExport>', lib_project, flags=re.I)
 		lib_project = re.sub(
 			r'<ItemDefinitionGroup\s+Label="Magic"\s*>.*?</ItemDefinitionGroup>',
 			fr'''<PropertyGroup>
@@ -155,6 +156,10 @@ def main():
 		<ClCompile Include="..\..\tests\main.cpp">
 			<PrecompiledHeader>NotUsing</PrecompiledHeader>
 		</ClCompile>
+		<ClCompile Include="..\..\tests\quaternion_double.cpp" />
+		<ClCompile Include="..\..\tests\quaternion_float.cpp" />
+		<ClCompile Include="..\..\tests\quaternion_half.cpp" />
+		<ClCompile Include="..\..\tests\quaternion_long_double.cpp" />
 		<ClCompile Include="..\..\tests\scope_guard.cpp" />
 		<ClCompile Include="..\..\tests\span.cpp" />
 		<ClCompile Include="..\..\tests\string_param.cpp" />
@@ -188,6 +193,8 @@ def main():
 		<ClInclude Include="..\..\tests\float_test_data.h" />
 		<ClInclude Include="..\..\tests\settings.h" />
 		<ClInclude Include="..\..\tests\tests.h" />
+		<ClInclude Include="..\..\tests\quaternion_test_templates.h" />
+		<ClInclude Include="..\..\tests\quaternion_test_instantiations.h" />
 		<ClInclude Include="..\..\tests\unicode.h" />
 		<ClInclude Include="..\..\tests\vector_test_templates.h" />
 		<ClInclude Include="..\..\tests\vector_test_instantiations.h" />

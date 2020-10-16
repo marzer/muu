@@ -86,24 +86,24 @@ MUU_NAMESPACE_START
 			return static_cast<T>(static_cast<T>(::rand()) % constants<T>::highest); // 0 - min(RAND_MAX, limit)
 	}
 
-	template <typename T>
+	template <typename T, typename Max>
 	[[nodiscard]]
-	inline T random(T max_) noexcept
+	inline T random(Max max_) noexcept
 	{
 		if constexpr (is_floating_point<T>)
 		{
 			using fp = impl::highest_ranked<T, double>;
-			return static_cast<T>(random<fp>() * max_);
+			return static_cast<T>(random<fp>() * static_cast<T>(max_));
 		}
 		else
-			return static_cast<T>(random<double>() * max_);
+			return static_cast<T>(random<double>() * static_cast<T>(max_));
 	}
 
-	template <typename T>
+	template <typename T, typename Min, typename Max>
 	[[nodiscard]]
-	inline T random(T min_, T max_) noexcept
+	inline T random(Min min_, Max max_) noexcept
 	{
-		return static_cast<T>(min_ + random<T>(max_ - min_));
+		return static_cast<T>(static_cast<T>(min_) + random<T>(static_cast<T>(max_) - static_cast<T>(min_)));
 	}
 
 	template <typename T, size_t Num, typename Min, typename Max>

@@ -425,7 +425,7 @@ inline void zero_tests(std::string_view scalar_typename) noexcept
 	{
 		INFO("no zeroes"sv)
 		for (size_t i = 0; i < Dimensions; i++)
-			vec[i] = random(T{ 1 }, T{ 10 });
+			vec[i] = random<T>(1, 10);
 		CHECK_FALSE(vec.zero());
 	}
 
@@ -442,7 +442,7 @@ inline void zero_tests(std::string_view scalar_typename) noexcept
 		for (size_t i = 0; i < Dimensions; i++)
 		{
 			vector_t vec2{ T{} };
-			vec2[i] = random(T{ 1 }, T{ 10 });
+			vec2[i] = random<T>(1, 10);
 			CHECK_FALSE(vec.zero());
 		}
 	}
@@ -851,8 +851,7 @@ inline void normalization_tests(std::string_view scalar_typename) noexcept
 	{
 		INFO("vector::normalize(vector)"sv)
 
-		vector_t vec{ x };
-		vec = vector_t::normalize(vec);
+		const auto vec = vector_t::normalize(x);
 		CHECK(vec.unit_length());
 		CHECK(vec.length() == approx(T{ 1 }));
 	}
@@ -860,8 +859,7 @@ inline void normalization_tests(std::string_view scalar_typename) noexcept
 	{
 		INFO("muu::normalize(vector)"sv)
 
-		vector_t vec{ x };
-		vec = muu::normalize(vec);
+		const auto vec = muu::normalize(x);
 		CHECK(vec.unit_length());
 		CHECK(vec.length() == approx(T{ 1 }));
 	}
