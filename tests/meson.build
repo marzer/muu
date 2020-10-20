@@ -3,9 +3,10 @@ test_sources = [
 	'aligned_alloc.cpp',
 	'blob.cpp',
 	'compressed_pair.cpp',
-	'core_intrinsics_bit.cpp',
-	'core_intrinsics_other.cpp',
+	'core_bit.cpp',
+	'core_math.cpp',
 	'core_meta.cpp',
+	'core_other.cpp',
 	'half.cpp',
 	'hashing.cpp',
 	'main.cpp',
@@ -36,6 +37,7 @@ test_sources = [
 	'vector_long_long.cpp',
 	'vector_short.cpp',
 ]
+test_dependencies = []
 if compiler_supports_fp16
 	test_sources += 'quaternion_fp16.cpp'
 	test_sources += 'vector_fp16.cpp'
@@ -48,8 +50,9 @@ if compiler_supports_int128
 	test_sources += 'vector_int128.cpp'
 endif
 if compiler_supports_float128
-	test_sources += 'quaternion_quad.cpp'
-	test_sources += 'vector_quad.cpp'
+	test_sources += 'quaternion_float128.cpp'
+	test_sources += 'vector_float128.cpp'
+	test_dependencies += compiler.find_library('quadmath')
 endif
 
 #######################################################################################################################
@@ -154,7 +157,8 @@ foreach cpp20 : cpp20_modes
 					include_directories: include_dirs,
 					cpp_args: test_args,
 					override_options: test_overrides,
-					link_with: [ muu_lib ]
+					link_with: [ muu_lib ],
+					dependencies: test_dependencies,
 				)
 			]]
 

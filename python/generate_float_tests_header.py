@@ -11,11 +11,14 @@ import math
 import random
 import decimal
 
+
+
 __debugging = False
 def dprint(*args):
 	global __debugging
 	if __debugging:
 		print(*args)
+
 
 __pi_multiples = dict()
 def pi_multiples():
@@ -40,16 +43,20 @@ def pi_multiples():
 	return result
 
 
+
 def pi():
 	return pi_multiples()[0]
+
 
 
 def two_pi():
 	return pi_multiples()[1]
 
 
+
 def three_pi():
 	return pi_multiples()[2]
+
 
 
 __phi = dict()
@@ -63,6 +70,7 @@ def phi():
 		result = +result
 		__phi[decimal.getcontext().prec] = result
 	return result
+
 
 
 __e = dict()
@@ -84,6 +92,62 @@ def e(power):
 		__e[h] = result
 	return result
 
+
+
+def cos(x):
+	decimal.getcontext().prec += 2
+	i, lasts, s, fact, num, sign = 0, 0, 1, 1, 1, 1
+	while s != lasts:
+		lasts = s
+		i += 2
+		fact *= i * (i-1)
+		num *= x * x
+		sign *= -1
+		s += num / fact * sign
+	decimal.getcontext().prec -= 2
+	return decimal.Decimal(s)
+
+
+
+def sin(x):
+	decimal.getcontext().prec += 2
+	i, lasts, s, fact, num, sign = 1, 0, x, 1, x, 1
+	while s != lasts:
+		lasts = s
+		i += 2
+		fact *= i * (i-1)
+		num *= x * x
+		sign *= -1
+		s += num / fact * sign
+	decimal.getcontext().prec -= 2
+	return decimal.Decimal(s)
+
+
+
+def tan(x):
+	decimal.getcontext().prec += 2
+	s = sin(x) / cos(x);
+	decimal.getcontext().prec -= 2
+	return decimal.Decimal(s)
+
+
+
+def __try_quantize(d, exp, rounding=None):
+	try:
+		return d.quantize(exp, rounding=rounding)
+	except decimal.InvalidOperation:
+		return None
+
+def try_quantize(d, exp, rounding=None):
+	prec = decimal.getcontext().prec
+	val = __try_quantize(d,exp,rounding=rounding)
+	while val is None and decimal.getcontext().prec > 1:
+		decimal.getcontext().prec = decimal.getcontext().prec - 1
+		val = __try_quantize(d,exp,rounding=rounding)
+	decimal.getcontext().prec = prec
+	if val is None:
+		val = d
+	return val
 
 
 def int_literal(val, bits, always_hex = False):
@@ -182,7 +246,7 @@ class FloatTraits(object):
 
 	def bit_representation(self,dec):
 		D = decimal.Decimal
-		#rounded = lambda d,p=self.max_digits10+10: d.quantize(D(10) ** -p)
+		#rounded = lambda d,p=self.max_digits10+10: try_quantize(d, D(10) ** -p)
 		#dec = rounded(dec).normalize()
 		dec = dec.normalize()
 		if dec.is_zero():
@@ -282,11 +346,13 @@ class FloatTraits(object):
 
 
 
-
 def write_float_data(file, traits):
 	write = lambda txt,end='\n': print(txt, file=file, end=end)
+
+	decimal.getcontext().prec = 256
+	decimal.getcontext().rounding = decimal.ROUND_HALF_EVEN
 	D = decimal.Decimal
-	rounded = lambda d,p=traits.digits10: d.quantize(D(10) ** -p)
+	rounded = lambda d,p=traits.max_digits10: try_quantize(d, D(10) ** -p)
 
 	write('\ttemplate <>')
 	write('\tstruct float_test_data_by_traits<{}, {}>'.format(traits.total_bits, traits.digits))
@@ -295,14 +361,15 @@ def write_float_data(file, traits):
 	type = 'long double'
 	suffix = 'L'
 	if traits.total_bits == 128 and traits.significand_bits == 112:
-		type = 'quad'
+		type = 'float128_t'
 		suffix = 'q'
 
+	####
+	#### accumulator data table ###############################
+	####
 	write(f'\t\tstatic constexpr {type} values[] = ')
 	write('\t\t{',end='')
 	per_line = max(int(108 / (traits.digits10 + 5)), 1)
-	decimal.getcontext().prec = 256
-	decimal.getcontext().rounding = decimal.ROUND_HALF_EVEN
 	sum = D(0)
 	min_ = D(10000000000000)
 	max_ = D(-10000000000000)
@@ -310,7 +377,7 @@ def write_float_data(file, traits):
 	denom = 10 ** traits.digits10
 	denom = (denom, D(denom * 2))
 	for i in range(0, 400):
-		val = rounded(D(random.randrange(1, denom[0])) / denom[1])
+		val = rounded(D(random.randrange(1, denom[0])) / denom[1], p=traits.digits10)
 		sum = sum + val
 		min_ = min(min_, val)
 		max_ = max(max_, val)
@@ -321,17 +388,19 @@ def write_float_data(file, traits):
 		write('{}{}'.format(val, suffix), end='')
 	write('\n\t\t};')
 	write('')
-
 	delta = (D(10) ** -(max(int(round(3.0*traits.digits10/4.0))+1,2)))
 	# write('\t\t// {}'.format(D(1) - delta))
 	# write('\t\t// {}'.format(D(1) + delta))
-	write(f'\t\tstatic constexpr {type} values_sum_low      = {rounded(sum * (D(1) - delta))}{suffix};')
-	write(f'\t\tstatic constexpr {type} values_sum          = {rounded(sum)}{suffix};')
-	write(f'\t\tstatic constexpr {type} values_sum_high     = {rounded(sum * (D(1) + delta))}{suffix};')
-	write(f'\t\tstatic constexpr {type} values_min          = {rounded(min_)}{suffix};')
-	write(f'\t\tstatic constexpr {type} values_max          = {rounded(max_)}{suffix};')
-	write('')
+	write(f'\t\tstatic constexpr {type} values_sum_low         = {rounded(sum * (D(1) - delta), p=traits.digits10)}{suffix};')
+	write(f'\t\tstatic constexpr {type} values_sum             = {rounded(sum, p=traits.digits10)}{suffix};')
+	write(f'\t\tstatic constexpr {type} values_sum_high        = {rounded(sum * (D(1) + delta), p=traits.digits10)}{suffix};')
+	write(f'\t\tstatic constexpr {type} values_min             = {rounded(min_, p=traits.digits10)}{suffix};')
+	write(f'\t\tstatic constexpr {type} values_max             = {rounded(max_, p=traits.digits10)}{suffix};')
 
+	####
+	#### constants ###############################
+	####
+	write('')
 	constant_inputs = [
 		#(D(1), 'one'),
 		(D(2), 'two'),
@@ -345,11 +414,10 @@ def write_float_data(file, traits):
 	constants = dict()
 	constants_skip_list = [
 		'one', 'two', 'three', 'four', 'five', 'six',
-		'one_over_two_pi', 'three_pi', 'three_pi_over_three', 'three_pi_over_six',
-		'sqrt_three_pi', 'one_over_sqrt_three_pi'
+		'three_pi_over_three', 'three_pi_over_six'
 	]
 	print_constant_ = lambda name, value: \
-		write(f'\t\tstatic constexpr {type} {name}{" " * (22 - len(name))}= {rounded(value, traits.digits10)}{suffix};{" // "+traits.bit_representation(value) if traits.total_bits == 16 else ""}')
+		write(f'\t\tstatic constexpr {type} {name}{" " * (23 - len(name))}= {rounded(value)}{suffix};{" // "+traits.bit_representation(value) if traits.total_bits == 16 else ""}')
 	print_constant =  lambda n,v: (print_constant_(n, v), ) if n not in constants_skip_list else None
 	for val, name in constant_inputs:
 		print_constant(name, val)
@@ -369,11 +437,13 @@ def write_float_data(file, traits):
 		if val != D(1):
 			print_constant(f'sqrt_{name}', val.sqrt())
 			print_constant(f'one_over_sqrt_{name}', D(1) / val.sqrt())
-	write('')
 
+	####
+	#### limits ###############################
+	####
+	write('')
 	if traits.total_bits > 64 and traits.int_blittable:
 		write('\t\t#if MUU_HAS_INT{}'.format(traits.total_bits))
-
 	blit = traits.int_blittable
 	sca = 'static constexpr auto'
 	for i in range(0,2):
@@ -391,14 +461,37 @@ def write_float_data(file, traits):
 		write('\t\t{} bits_neg_nan_max = {};'.format(sca, traits.constant(traits.inf_nan_mask | traits.significand_mask | traits.sign_mask, blit)))
 		write('\t\t{} bits_snan        = {};'.format(sca, traits.constant(traits.signalling_nan_mask, blit)))
 		write('\t\t{} bits_qnan        = {};'.format(sca, traits.constant(traits.quiet_nan_mask, blit)))
-
 		if traits.total_bits <= 64 or not blit:
 			break
 		write('\t\t#else')
 		blit = not blit
-
 	if traits.total_bits > 64 and traits.int_blittable:
 		write('\t\t#endif // MUU_HAS_INT{}'.format(traits.total_bits))
+
+	####
+	#### tangent table ###############################
+	####
+	if traits.total_bits >= 64 and type in ('long double', 'float128_t'):
+		write('')
+		decimal.getcontext().rounding = decimal.ROUND_FLOOR
+		tangent_table_max = 16;
+		write(f'\t\tstatic constexpr std::pair<{type}, {type}> tangents[] =');
+		write('\t\t{\n\t\t\t', end='')
+		for i in range(0,tangent_table_max+1):
+			in_val = -pi() + two_pi() * (D(i) / D(tangent_table_max))
+			if (in_val.is_infinite()):
+				continue
+			if i > 0:
+				write(',\n\t\t\t', end='')
+			out_val = tan(in_val)
+			write(f'{{ {rounded(in_val)}{suffix}, ', end='')
+			if (out_val >= D(10000000000000000000000)):
+				write(f'{"1.18973149535723176508575932662800702e+4932q" if type == "float128_t" else "LDBL_MAX"}', end='')
+			else:
+				write(f'{rounded(out_val)}{suffix}', end='')
+			write(' }', end='')
+		write('\n\t\t};')
+		decimal.getcontext().rounding = decimal.ROUND_HALF_EVEN
 
 	write('\t};')
 

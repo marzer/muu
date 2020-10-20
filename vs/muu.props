@@ -13,6 +13,7 @@
 		<DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
 		<LinkIncremental>false</LinkIncremental>
 		<TargetName>$(ProjectName)</TargetName>
+		<PreferredToolArchitecture>x64</PreferredToolArchitecture>
 	</PropertyGroup>
 	<ItemDefinitionGroup>
 		<ClCompile>
@@ -34,7 +35,9 @@
 			<LanguageStandard>stdcpplatest</LanguageStandard>
 			<DiagnosticsFormat>Caret</DiagnosticsFormat>
 			<ProgramDataBaseFileName>$(OutDir)$(TargetName).pdb</ProgramDataBaseFileName>
-			<AdditionalOptions>%(AdditionalOptions) /utf-8 /volatile:iso /Zc:__cplusplus /bigobj /Zc:inline /Zc:throwingNew</AdditionalOptions>
+			<AdditionalOptions>
+				%(AdditionalOptions) /utf-8 /volatile:iso /Zc:__cplusplus /bigobj /Zc:inline /Zc:throwingNew
+			</AdditionalOptions>
 			<PreprocessorDefinitions>%(PreprocessorDefinitions);_CONSOLE</PreprocessorDefinitions>
 			<PreprocessorDefinitions>%(PreprocessorDefinitions);_ITERATOR_DEBUG_LEVEL=0</PreprocessorDefinitions>
 			<PreprocessorDefinitions>%(PreprocessorDefinitions);_WINSOCK_DEPRECATED_NO_WARNINGS</PreprocessorDefinitions>

@@ -21,15 +21,8 @@ MUU_DISABLE_WARNINGS
 
 namespace std
 {
-	template <typename>				struct	hash;
 	template <typename>				struct	pointer_traits;
-	template <typename>				struct	tuple_size;
-	template <size_t, typename>		struct	tuple_element;
-	template <typename, typename>	struct	pair;
-
 	template <typename, size_t>		class	array;
-	template <typename>				class	optional;
-	template <typename...>			class	tuple;
 	#ifdef __cpp_lib_span
 	template <typename, size_t>		class	span;
 	#endif
@@ -228,7 +221,7 @@ namespace muu // non-abi namespace; this is not an error
 	/// 
 	/// \note This typedef is only present when 128-bit floats are supported by your target platform.
 	/// 		 You can check support using #MUU_HAS_FLOAT128.
-	using quad = __float128;
+	using float128_t = __float128;
 	#endif
 }
 
@@ -268,7 +261,7 @@ MUU_IMPL_NAMESPACE_START
 	template <> struct default_accumulator<_Float16>	{ using type = kahan_accumulator<_Float16>; };
 	#endif
 	#if MUU_HAS_FLOAT128
-	template <> struct default_accumulator<quad>		{ using type = kahan_accumulator<quad>; };
+	template <> struct default_accumulator<float128_t>	{ using type = kahan_accumulator<float128_t>; };
 	#endif
 }
 MUU_IMPL_NAMESPACE_END

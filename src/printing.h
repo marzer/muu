@@ -71,7 +71,7 @@ MUU_NAMESPACE_START
 		template <> struct stream_output_cast_type_<_Float16> { using type = float; };
 		#endif
 		#if MUU_HAS_FLOAT128
-		template <> struct stream_output_cast_type_<quad> { using type = long double; };
+		template <> struct stream_output_cast_type_<float128_t> { using type = long double; };
 		#endif
 		#if MUU_HAS_INT128
 		template <> struct stream_output_cast_type_<int128_t> { using type = signed long long; };

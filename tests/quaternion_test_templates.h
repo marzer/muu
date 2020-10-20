@@ -10,19 +10,19 @@
 template <typename T, typename Func>
 inline void for_each(T& q, Func&& func) noexcept
 {
-	static_cast<Func&&>(func)(q.r,   0_sz);
-	static_cast<Func&&>(func)(q.i.x, 1_sz);
-	static_cast<Func&&>(func)(q.i.y, 2_sz);
-	static_cast<Func&&>(func)(q.i.z, 3_sz);
+	static_cast<Func&&>(func)(q.s,   0_sz);
+	static_cast<Func&&>(func)(q.v.x, 1_sz);
+	static_cast<Func&&>(func)(q.v.y, 2_sz);
+	static_cast<Func&&>(func)(q.v.z, 3_sz);
 }
 
 template <typename T, typename U, typename Func>
 inline void for_each(T& q1, U& q2, Func&& func) noexcept
 {
-	static_cast<Func&&>(func)(q1.r,   q2.r,   0_sz);
-	static_cast<Func&&>(func)(q1.i.x, q2.i.x, 1_sz);
-	static_cast<Func&&>(func)(q1.i.y, q2.i.y, 2_sz);
-	static_cast<Func&&>(func)(q1.i.z, q2.i.z, 3_sz);
+	static_cast<Func&&>(func)(q1.s,   q2.s,   0_sz);
+	static_cast<Func&&>(func)(q1.v.x, q2.v.x, 1_sz);
+	static_cast<Func&&>(func)(q1.v.y, q2.v.y, 2_sz);
+	static_cast<Func&&>(func)(q1.v.z, q2.v.z, 3_sz);
 }
 
 template <typename T>
@@ -60,10 +60,10 @@ inline void construction_tests(std::string_view scalar_typename) noexcept
 
 		const auto vals = random_array<T, 4>();
 		const auto q = quat_t{ vals[0], vals[1], vals[2], vals[3] };
-		CHECK(q.r == vals[0]);
-		CHECK(q.i[0] == vals[1]);
-		CHECK(q.i[1] == vals[2]);
-		CHECK(q.i[2] == vals[3]);
+		CHECK(q.s == vals[0]);
+		CHECK(q.v[0] == vals[1]);
+		CHECK(q.v[1] == vals[2]);
+		CHECK(q.v[2] == vals[3]);
 	}
 
 	{
@@ -72,10 +72,10 @@ inline void construction_tests(std::string_view scalar_typename) noexcept
 		const auto r = random<T>();
 		const auto i = random_array<T, 3>();
 		const auto q = quat_t{ r, vector{ i } };
-		CHECK(q.r == r);
-		CHECK(q.i[0] == i[0]);
-		CHECK(q.i[1] == i[1]);
-		CHECK(q.i[2] == i[2]);
+		CHECK(q.s == r);
+		CHECK(q.v[0] == i[0]);
+		CHECK(q.v[1] == i[1]);
+		CHECK(q.v[2] == i[2]);
 	}
 
 	{
@@ -83,10 +83,10 @@ inline void construction_tests(std::string_view scalar_typename) noexcept
 
 		quat_t q1{ random<T>(), random<T>(), random<T>(), random<T>() };
 		quat_t q2{ q1 };
-		CHECK(q1.r == q2.r);
-		CHECK(q1.i[0] == q2.i[0]);
-		CHECK(q1.i[1] == q2.i[1]);
-		CHECK(q1.i[2] == q2.i[2]);
+		CHECK(q1.s == q2.s);
+		CHECK(q1.v[0] == q2.v[0]);
+		CHECK(q1.v[1] == q2.v[1]);
+		CHECK(q1.v[2] == q2.v[2]);
 	}
 }
 
@@ -277,7 +277,8 @@ inline void normalization_tests(std::string_view scalar_typename) noexcept
 
 		quat_t q2{ q };
 		q2.normalize();
-		const vector<T, 4> v{ q2.r, q2.i.x, q2.i.y, q2.i.z };
+		CHECK(q2.unit_length());
+		const vector<T, 4> v{ q2.s, q2.v.x, q2.v.y, q2.v.z };
 		CHECK(v.unit_length());
 		CHECK(v.length() == approx(T{ 1 }));
 	}
@@ -286,7 +287,8 @@ inline void normalization_tests(std::string_view scalar_typename) noexcept
 		INFO("quaternion::normalize(quaternion)"sv)
 
 		const auto q2 = quat_t::normalize(q);
-		const vector<T, 4> v{ q2.r, q2.i.x, q2.i.y, q2.i.z };
+		CHECK(q2.unit_length());
+		const vector<T, 4> v{ q2.s, q2.v.x, q2.v.y, q2.v.z };
 		CHECK(v.unit_length());
 		CHECK(v.length() == approx(T{ 1 }));
 	}
@@ -295,7 +297,8 @@ inline void normalization_tests(std::string_view scalar_typename) noexcept
 	//	INFO("muu::normalize(quaternion)"sv)
 	//
 	//	const auto q2 = muu::normalize(q);
-	//	const vector<T, 4> v{ q2.r, q2.i.x, q2.i.y, q2.i.z };
+	//	CHECK(q2.unit_length());
+	//	const vector<T, 4> v{ q2.s, q2.v.x, q2.v.y, q2.v.z };
 	//	CHECK(v.unit_length());
 	//	CHECK(v.length() == approx(T{ 1 }));
 	//}

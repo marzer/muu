@@ -43,12 +43,19 @@ MUU_DISABLE_WARNINGS
 #include <cmath>
 #include <cfloat>
 #include <type_traits>
+#include <typeindex> // std::hash on-the-cheap
 #include <utility>
 #include <limits>
 #if MUU_MSVC || MUU_ICC_CL
 	#include <intrin.h>
 #elif (MUU_GCC || MUU_CLANG) && (MUU_ARCH_AMD64 || MUU_ARCH_X86)
 	#include <immintrin.h>
+#endif
+#if MUU_HAS_QUADMATH
+extern "C"
+{
+	#include <quadmath.h>
+}
 #endif
 MUU_ENABLE_WARNINGS
 
@@ -269,7 +276,7 @@ MUU_IMPL_NAMESPACE_START
 	template <> struct make_signed_<uint128_t> { using type = int128_t; };
 	#endif
 	#if MUU_HAS_FLOAT128
-	template <> struct make_signed_<quad> { using type = quad; };
+	template <> struct make_signed_<float128_t> { using type = float128_t; };
 	#endif
 	#if MUU_HAS_FLOAT16
 	template <> struct make_signed_<_Float16> { using type = _Float16; };
@@ -373,16 +380,16 @@ MUU_IMPL_NAMESPACE_START
 		MUU_HR_SPECIALIZATION(_Float16, long double);
 	#endif
 	#if MUU_HAS_FLOAT128
-		MUU_HR_SPECIALIZATION(half, quad);
+		MUU_HR_SPECIALIZATION(half, float128_t);
 	#endif
 	#if MUU_HAS_FP16 && MUU_HAS_FLOAT16
 		MUU_HR_SPECIALIZATION(__fp16, _Float16);
 	#endif
 	#if MUU_HAS_FP16 && MUU_HAS_FLOAT128
-		MUU_HR_SPECIALIZATION(__fp16, quad);
+		MUU_HR_SPECIALIZATION(__fp16, float128_t);
 	#endif
 	#if MUU_HAS_FLOAT16 && MUU_HAS_FLOAT128
-		MUU_HR_SPECIALIZATION(_Float16, quad);
+		MUU_HR_SPECIALIZATION(_Float16, float128_t);
 	#endif
 	#undef MUU_HR_SPECIALIZATION
 	template <typename... T>
@@ -566,7 +573,7 @@ MUU_NAMESPACE_START
 	/// \brief Is a type signed or reference-to-signed?
 	/// \remarks Returns true for enums backed by signed integers.
 	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for #int128_t, __fp16, _Float16 and #quad (where supported).
+	/// \remarks Returns true for #int128_t, __fp16, _Float16 and #float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_signed = std::is_signed_v<remove_enum<remove_cvref<T>>>
 		|| is_same_as_any<remove_enum<remove_cvref<T>>,
@@ -575,7 +582,7 @@ MUU_NAMESPACE_START
 				, int128_t
 			#endif
 			#if MUU_HAS_FLOAT128
-				, quad
+				, float128_t
 			#endif
 			#if MUU_HAS_FLOAT16
 				, _Float16
@@ -620,13 +627,13 @@ MUU_NAMESPACE_START
 
 	/// \brief Is a type a floating-point or reference-to-floating-point?
 	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for __fp16, _Float16 and #quad (where supported).
+	/// \remarks Returns true for __fp16, _Float16 and #float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_floating_point = std::is_floating_point_v<std::remove_reference_t<T>>
 		|| is_same_as_any<remove_cvref<T>,
 			half
 			#if MUU_HAS_FLOAT128
-				, quad
+				, float128_t
 			#endif
 			#if MUU_HAS_FLOAT16
 				, _Float16
@@ -639,13 +646,13 @@ MUU_NAMESPACE_START
 
 	/// \brief Are any of the named types floating-point or reference-to-floating-point?
 	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for _Float16 and #quad (where supported).
+	/// \remarks Returns true for _Float16 and #float128_t (where supported).
 	template <typename T, typename... U>
 	inline constexpr bool any_floating_point = is_floating_point<T> || (false || ... || is_floating_point<U>);
 
 	/// \brief Are all of the named types floating-point or reference-to-floating-point?
 	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for _Float16 and #quad (where supported).
+	/// \remarks Returns true for _Float16 and #float128_t (where supported).
 	template <typename T, typename... U>
 	inline constexpr bool all_floating_point = is_floating_point<T> && (true && ... && is_floating_point<U>);
 
@@ -655,7 +662,7 @@ MUU_NAMESPACE_START
 
 	/// \brief Is a type a nonstandard 'extended' arithmetic type, or a reference to one?
 	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for #int128_t, #uint128_t, __fp16, _Float16 and #quad (where supported).
+	/// \remarks Returns true for #int128_t, #uint128_t, __fp16, _Float16 and #float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_extended_arithmetic = is_same_as_any<remove_cvref<T>,
 		half
@@ -663,7 +670,7 @@ MUU_NAMESPACE_START
 			, int128_t, uint128_t
 		#endif
 		#if MUU_HAS_FLOAT128
-			, quad
+			, float128_t
 		#endif
 		#if MUU_HAS_FLOAT16
 			, _Float16
@@ -675,19 +682,19 @@ MUU_NAMESPACE_START
 
 	/// \brief Is a type arithmetic or reference-to-arithmetic?
 	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for #int128_t, #uint128_t, __fp16, _Float16 and #quad (where supported).
+	/// \remarks Returns true for #int128_t, #uint128_t, __fp16, _Float16 and #float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_arithmetic = is_standard_arithmetic<T> || is_extended_arithmetic<T>;
 
 	/// \brief Are any of the named types arithmetic or reference-to-arithmetic?
 	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for #int128_t, #uint128_t, _Float16 and #quad (where supported).
+	/// \remarks Returns true for #int128_t, #uint128_t, _Float16 and #float128_t (where supported).
 	template <typename T, typename... U>
 	inline constexpr bool any_arithmetic = is_arithmetic<T> || (false || ... || is_arithmetic<U>);
 
 	/// \brief Are all of the named types arithmetic or reference-to-arithmetic?
 	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for #int128_t, #uint128_t, _Float16 and #quad (where supported).
+	/// \remarks Returns true for #int128_t, #uint128_t, _Float16 and #float128_t (where supported).
 	template <typename T, typename... U>
 	inline constexpr bool all_arithmetic = is_arithmetic<T> && (true && ... && is_arithmetic<U>);
 
@@ -895,7 +902,16 @@ MUU_NAMESPACE_END
 MUU_IMPL_NAMESPACE_START
 {
 	template <typename T>
-	using promote_if_small_float = std::conditional_t<(is_floating_point<T> && sizeof(T) < sizeof(float)), float, T>;
+	inline constexpr bool is_small_float = is_floating_point<T> && sizeof(T) < sizeof(float) && is_extended_arithmetic<T>;
+	template <typename T>
+	inline constexpr bool is_large_float = is_floating_point<T> && sizeof(T) >= sizeof(long double) && is_extended_arithmetic<T>;
+
+	template <typename T>
+	using promote_if_small_float = std::conditional_t<is_small_float<T>, float, T>;
+	template <typename T>
+	using demote_if_large_float = std::conditional_t<is_large_float<T>, long double, T>;
+	template <typename T>
+	using clamp_to_standard_float = demote_if_large_float<promote_if_small_float<T>>;
 
 	// promotes ints to doubles, keeps floats as-is, as per the behaviour of std::sqrt, std::lerp, etc.
 	template <typename... T>
@@ -1065,20 +1081,20 @@ MUU_NAMESPACE_START
 	{
 		//------------- helpers
 
-		template <typename T, int64_t Base, int64_t Power>
+		template <typename T, intmax_t Base, intmax_t Power>
 		struct power_helper
 		{
 			static constexpr T value = T{ Base } * power_helper<T, Base, Power - 1>::value;
 		};
-		template <typename T, int64_t Base>
+		template <typename T, intmax_t Base>
 		struct power_helper<T, Base, 0>
 		{
 			static constexpr T value = T{ 1 };
 		};
-		template <typename T, int64_t Base, int64_t Power>
+		template <typename T, intmax_t Base, intmax_t Power>
 		struct power
 		{
-			static constexpr int64_t exponent = Power < 0 ? -Power : Power;
+			static constexpr intmax_t exponent = Power < 0 ? -Power : Power;
 			static constexpr T value = Power < 0
 				? T{ 1 } / T{ power_helper<T, Base, exponent>::value }
 				: T{ power_helper<T, Base, exponent>::value };
@@ -1093,7 +1109,7 @@ MUU_NAMESPACE_START
 			static constexpr T lowest = std::numeric_limits<T>::lowest();
 
 			/// \brief The highest representable 'normal' value (equivalent to std::numeric_limits::max()).
-			static constexpr T highest = (std::numeric_limits<T>::max)();
+			static constexpr T highest = std::numeric_limits<T>::max();
 		};
 
 		#ifndef DOXYGEN
@@ -1113,6 +1129,14 @@ MUU_NAMESPACE_START
 			static constexpr uint128_t highest = (2u * static_cast<uint128_t>(integer_limits<int128_t>::highest)) + 1u;
 		};
 		#endif // MUU_HAS_INT128
+		#if MUU_HAS_FLOAT128 && MUU_EXTENDED_LITERALS
+		template <>
+		struct integer_limits<float128_t>
+		{
+			static constexpr float128_t highest = 1.18973149535723176508575932662800702e4932q;
+			static constexpr float128_t lowest  = -highest;
+		};
+		#endif
 		#endif // !DOXYGEN
 
 		template <typename T>
@@ -1152,6 +1176,10 @@ MUU_NAMESPACE_START
 			/// \brief The number of significand (mantissa) digits.
 			static constexpr int significand_digits = std::numeric_limits<T>::digits;
 
+			/// \brief The number of significant decimal digits that can be exactly represented.
+			static constexpr int decimal_digits = std::numeric_limits<T>::digits10;
+
+			/// \brief The default epsilon used by #approx_equal().
 			static constexpr T approx_equal_epsilon = T{ 10 } * power<T, 10, -std::numeric_limits<T>::digits10>::value;
 		};
 
@@ -1161,6 +1189,7 @@ MUU_NAMESPACE_START
 		struct floating_point_limits<__fp16>
 		{
 			static constexpr int significand_digits = 11;
+			static constexpr int decimal_digits = 3;
 			static constexpr __fp16 approx_equal_epsilon = static_cast<__fp16>(0.001);
 		};
 		#endif
@@ -1169,15 +1198,17 @@ MUU_NAMESPACE_START
 		struct floating_point_limits<_Float16>
 		{
 			static constexpr int significand_digits = 11;
+			static constexpr int decimal_digits = 3;
 			static constexpr _Float16 approx_equal_epsilon = static_cast<_Float16>(0.001);
 		};
 		#endif
 		#if MUU_HAS_FLOAT128
 		template <>
-		struct floating_point_limits<quad>
+		struct floating_point_limits<float128_t>
 		{
 			static constexpr int significand_digits = __FLT128_MANT_DIG__;
-			static constexpr quad approx_equal_epsilon = quad{ 10 } * power<quad, 10, -__FLT128_DIG__>::value;
+			static constexpr int decimal_digits = __FLT128_DIG__;
+			static constexpr float128_t approx_equal_epsilon = float128_t{ 10 } * power<float128_t, 10, -__FLT128_DIG__>::value;
 		};
 		#endif
 		#endif // !DOXYGEN
@@ -1195,102 +1226,110 @@ MUU_NAMESPACE_START
 		template <typename T>
 		struct floating_point_named_constants
 		{
-			static constexpr T one_over_two          = T( 0.500000000000000000L ); ///< `1 / 2`
-			static constexpr T two_over_three        = T( 0.666666666666666667L ); ///< `2 / 3`
-			static constexpr T two_over_five         = T( 0.400000000000000000L ); ///< `2 / 5`
-			static constexpr T sqrt_two              = T( 1.414213562373095049L ); ///< `sqrt(2)`
-			static constexpr T one_over_sqrt_two     = T( 0.707106781186547524L ); ///< `1 / sqrt(2)`
-			static constexpr T one_over_three        = T( 0.333333333333333333L ); ///< `1 / 3`
-			static constexpr T three_over_two        = T( 1.500000000000000000L ); ///< `3 / 2`
-			static constexpr T three_over_four       = T( 0.750000000000000000L ); ///< `3 / 4`
-			static constexpr T three_over_five       = T( 0.600000000000000000L ); ///< `3 / 5`
-			static constexpr T sqrt_three            = T( 1.732050807568877294L ); ///< `sqrt(3)`
-			static constexpr T one_over_sqrt_three   = T( 0.577350269189625765L ); ///< `1 / sqrt(3)`
-			static constexpr T pi                    = T( 3.141592653589793238L ); ///< `pi`
-			static constexpr T one_over_pi           = T( 0.318309886183790672L ); ///< `1 / pi`
-			static constexpr T pi_over_two           = T( 1.570796326794896619L ); ///< `pi / 2`
-			static constexpr T pi_over_three         = T( 1.047197551196597746L ); ///< `pi / 3`
-			static constexpr T pi_over_four          = T( 0.785398163397448310L ); ///< `pi / 4`
-			static constexpr T pi_over_five          = T( 0.628318530717958648L ); ///< `pi / 5`
-			static constexpr T pi_over_six           = T( 0.523598775598298873L ); ///< `pi / 6`
-			static constexpr T sqrt_pi               = T( 1.772453850905516027L ); ///< `sqrt(pi)`
-			static constexpr T one_over_sqrt_pi      = T( 0.564189583547756287L ); ///< `1 / sqrt(pi)`
-			static constexpr T two_pi                = T( 6.283185307179586477L ); ///< `pi`
-			static constexpr T sqrt_two_pi           = T( 2.506628274631000502L ); ///< `sqrt(2 * pi)`
-			static constexpr T one_over_sqrt_two_pi  = T( 0.398942280401432678L ); ///< `1 / sqrt(2 * pi)`
-			static constexpr T one_over_three_pi     = T( 0.106103295394596891L ); ///< `1 / (3 * pi)`
-			static constexpr T three_pi_over_two     = T( 4.712388980384689858L ); ///< `3 * (pi / 2)`
-			static constexpr T three_pi_over_four    = T( 2.356194490192344929L ); ///< `3 * (pi / 4)`
-			static constexpr T three_pi_over_five    = T( 1.884955592153875943L ); ///< `3 * (pi / 5)`
-			static constexpr T e                     = T( 2.718281828459045535L ); ///< `e`
-			static constexpr T one_over_e            = T( 0.367879441171442281L ); ///< `1 / e`
-			static constexpr T e_over_two            = T( 1.359140914229522767L ); ///< `e / 2`
-			static constexpr T e_over_three          = T( 0.906093942819681845L ); ///< `e / 3`
-			static constexpr T e_over_four           = T( 0.679570457114761384L ); ///< `e / 4`
-			static constexpr T e_over_five           = T( 0.543656365691809107L ); ///< `e / 5`
-			static constexpr T e_over_six            = T( 0.453046971409840922L ); ///< `e / 6`
-			static constexpr T sqrt_e                = T( 1.648721270700128238L ); ///< `sqrt(e)`
-			static constexpr T one_over_sqrt_e       = T( 0.606530659712633390L ); ///< `1 / sqrt(e)`
-			static constexpr T phi                   = T( 1.618033988749894848L ); ///< `phi`
-			static constexpr T one_over_phi          = T( 0.618033988749894848L ); ///< `1 / phi`
-			static constexpr T phi_over_two          = T( 0.809016994374947424L ); ///< `phi / 2`
-			static constexpr T phi_over_three        = T( 0.539344662916631616L ); ///< `phi / 3`
-			static constexpr T phi_over_four         = T( 0.404508497187473712L ); ///< `phi / 4`
-			static constexpr T phi_over_five         = T( 0.323606797749978970L ); ///< `phi / 5`
-			static constexpr T phi_over_six          = T( 0.269672331458315808L ); ///< `phi / 6`
-			static constexpr T sqrt_phi              = T( 1.272019649514068964L ); ///< `sqrt(phi)`
-			static constexpr T one_over_sqrt_phi     = T( 0.786151377757423286L ); ///< `1 / sqrt(phi)`
+			static constexpr T one_over_two           = T( 0.500000000000000000000L ); ///< `1 / 2`
+			static constexpr T two_over_three         = T( 0.666666666666666666667L ); ///< `2 / 3`
+			static constexpr T two_over_five          = T( 0.400000000000000000000L ); ///< `2 / 5`
+			static constexpr T sqrt_two               = T( 1.414213562373095048802L ); ///< `sqrt(2)`
+			static constexpr T one_over_sqrt_two      = T( 0.707106781186547524401L ); ///< `1 / sqrt(2)`
+			static constexpr T one_over_three         = T( 0.333333333333333333333L ); ///< `1 / 3`
+			static constexpr T three_over_two         = T( 1.500000000000000000000L ); ///< `3 / 2`
+			static constexpr T three_over_four        = T( 0.750000000000000000000L ); ///< `3 / 4`
+			static constexpr T three_over_five        = T( 0.600000000000000000000L ); ///< `3 / 5`
+			static constexpr T sqrt_three             = T( 1.732050807568877293527L ); ///< `sqrt(3)`
+			static constexpr T one_over_sqrt_three    = T( 0.577350269189625764509L ); ///< `1 / sqrt(3)`
+			static constexpr T pi                     = T( 3.141592653589793238463L ); ///< `pi`
+			static constexpr T one_over_pi            = T( 0.318309886183790671538L ); ///< `1 / pi`
+			static constexpr T pi_over_two            = T( 1.570796326794896619231L ); ///< `pi / 2`
+			static constexpr T pi_over_three          = T( 1.047197551196597746154L ); ///< `pi / 3`
+			static constexpr T pi_over_four           = T( 0.785398163397448309616L ); ///< `pi / 4`
+			static constexpr T pi_over_five           = T( 0.628318530717958647693L ); ///< `pi / 5`
+			static constexpr T pi_over_six            = T( 0.523598775598298873077L ); ///< `pi / 6`
+			static constexpr T sqrt_pi                = T( 1.772453850905516027298L ); ///< `sqrt(pi)`
+			static constexpr T one_over_sqrt_pi       = T( 0.564189583547756286948L ); ///< `1 / sqrt(pi)`
+			static constexpr T two_pi                 = T( 6.283185307179586476925L ); ///< `2 * pi`
+			static constexpr T one_over_two_pi        = T( 0.159154943091895335769L ); ///< `1 / (2 * pi)`
+			static constexpr T sqrt_two_pi            = T( 2.506628274631000502416L ); ///< `sqrt(2 * pi)`
+			static constexpr T one_over_sqrt_two_pi   = T( 0.398942280401432677940L ); ///< `1 / sqrt(2 * pi)`
+			static constexpr T three_pi               = T( 9.424777960769379715388L ); ///< `3 * pi`
+			static constexpr T one_over_three_pi      = T( 0.106103295394596890513L ); ///< `1 / (3 * pi)`
+			static constexpr T three_pi_over_two      = T( 4.712388980384689857694L ); ///< `3 * (pi / 2)`
+			static constexpr T three_pi_over_four     = T( 2.356194490192344928847L ); ///< `3 * (pi / 4)`
+			static constexpr T three_pi_over_five     = T( 1.884955592153875943078L ); ///< `3 * (pi / 5)`
+			static constexpr T sqrt_three_pi          = T( 3.069980123839465465439L ); ///< `sqrt(3 * pi)`
+			static constexpr T one_over_sqrt_three_pi = T( 0.325735007935279947724L ); ///< `1 / sqrt(3 * pi)`
+			static constexpr T e                      = T( 2.718281828459045534885L ); ///< `e`
+			static constexpr T one_over_e             = T( 0.367879441171442281059L ); ///< `1 / e`
+			static constexpr T e_over_two             = T( 1.359140914229522767442L ); ///< `e / 2`
+			static constexpr T e_over_three           = T( 0.906093942819681844962L ); ///< `e / 3`
+			static constexpr T e_over_four            = T( 0.679570457114761383721L ); ///< `e / 4`
+			static constexpr T e_over_five            = T( 0.543656365691809106977L ); ///< `e / 5`
+			static constexpr T e_over_six             = T( 0.453046971409840922481L ); ///< `e / 6`
+			static constexpr T sqrt_e                 = T( 1.648721270700128237684L ); ///< `sqrt(e)`
+			static constexpr T one_over_sqrt_e        = T( 0.606530659712633390187L ); ///< `1 / sqrt(e)`
+			static constexpr T phi                    = T( 1.618033988749894848205L ); ///< `phi`
+			static constexpr T one_over_phi           = T( 0.618033988749894848205L ); ///< `1 / phi`
+			static constexpr T phi_over_two           = T( 0.809016994374947424102L ); ///< `phi / 2`
+			static constexpr T phi_over_three         = T( 0.539344662916631616068L ); ///< `phi / 3`
+			static constexpr T phi_over_four          = T( 0.404508497187473712051L ); ///< `phi / 4`
+			static constexpr T phi_over_five          = T( 0.323606797749978969641L ); ///< `phi / 5`
+			static constexpr T phi_over_six           = T( 0.269672331458315808034L ); ///< `phi / 6`
+			static constexpr T sqrt_phi               = T( 1.272019649514068964252L ); ///< `sqrt(phi)`
+			static constexpr T one_over_sqrt_phi      = T( 0.786151377757423286070L ); ///< `1 / sqrt(phi)`
 		};
 
 		#if !defined(DOXYGEN) && MUU_HAS_FLOAT128 && MUU_EXTENDED_LITERALS
 		template <>
-		struct floating_point_named_constants<quad>
+		struct floating_point_named_constants<float128_t>
 		{
-			static constexpr quad one_over_two          = 0.500000000000000000000000000000000q;
-			static constexpr quad two_over_three        = 0.666666666666666666666666666666667q;
-			static constexpr quad two_over_five         = 0.400000000000000000000000000000000q;
-			static constexpr quad sqrt_two              = 1.414213562373095048801688724209698q;
-			static constexpr quad one_over_sqrt_two     = 0.707106781186547524400844362104849q;
-			static constexpr quad one_over_three        = 0.333333333333333333333333333333333q;
-			static constexpr quad three_over_two        = 1.500000000000000000000000000000000q;
-			static constexpr quad three_over_four       = 0.750000000000000000000000000000000q;
-			static constexpr quad three_over_five       = 0.600000000000000000000000000000000q;
-			static constexpr quad sqrt_three            = 1.732050807568877293527446341505872q;
-			static constexpr quad one_over_sqrt_three   = 0.577350269189625764509148780501957q;
-			static constexpr quad pi                    = 3.141592653589793238462643383279503q;
-			static constexpr quad one_over_pi           = 0.318309886183790671537767526745029q;
-			static constexpr quad pi_over_two           = 1.570796326794896619231321691639751q;
-			static constexpr quad pi_over_three         = 1.047197551196597746154214461093168q;
-			static constexpr quad pi_over_four          = 0.785398163397448309615660845819876q;
-			static constexpr quad pi_over_five          = 0.628318530717958647692528676655901q;
-			static constexpr quad pi_over_six           = 0.523598775598298873077107230546584q;
-			static constexpr quad sqrt_pi               = 1.772453850905516027298167483341145q;
-			static constexpr quad one_over_sqrt_pi      = 0.564189583547756286948079451560773q;
-			static constexpr quad two_pi                = 6.283185307179586476925286766559006q;
-			static constexpr quad sqrt_two_pi           = 2.506628274631000502415765284811045q;
-			static constexpr quad one_over_sqrt_two_pi  = 0.398942280401432677939946059934382q;
-			static constexpr quad one_over_three_pi     = 0.106103295394596890512589175581676q;
-			static constexpr quad three_pi_over_two     = 4.712388980384689857693965074919254q;
-			static constexpr quad three_pi_over_four    = 2.356194490192344928846982537459627q;
-			static constexpr quad three_pi_over_five    = 1.884955592153875943077586029967702q;
-			static constexpr quad e                     = 2.718281828459045534884808148490265q;
-			static constexpr quad one_over_e            = 0.367879441171442281059287928010393q;
-			static constexpr quad e_over_two            = 1.359140914229522767442404074245133q;
-			static constexpr quad e_over_three          = 0.906093942819681844961602716163422q;
-			static constexpr quad e_over_four           = 0.679570457114761383721202037122566q;
-			static constexpr quad e_over_five           = 0.543656365691809106976961629698053q;
-			static constexpr quad e_over_six            = 0.453046971409840922480801358081711q;
-			static constexpr quad sqrt_e                = 1.648721270700128237684053351021452q;
-			static constexpr quad one_over_sqrt_e       = 0.606530659712633390187322401455486q;
-			static constexpr quad phi                   = 1.618033988749894848204586834365638q;
-			static constexpr quad one_over_phi          = 0.618033988749894848204586834365638q;
-			static constexpr quad phi_over_two          = 0.809016994374947424102293417182819q;
-			static constexpr quad phi_over_three        = 0.539344662916631616068195611455213q;
-			static constexpr quad phi_over_four         = 0.404508497187473712051146708591410q;
-			static constexpr quad phi_over_five         = 0.323606797749978969640917366873128q;
-			static constexpr quad phi_over_six          = 0.269672331458315808034097805727606q;
-			static constexpr quad sqrt_phi              = 1.272019649514068964252422461737491q;
-			static constexpr quad one_over_sqrt_phi     = 0.786151377757423286069558585842959q;
+			static constexpr float128_t one_over_two          = 0.500000000000000000000000000000000000q;
+			static constexpr float128_t two_over_three        = 0.666666666666666666666666666666666667q;
+			static constexpr float128_t two_over_five         = 0.400000000000000000000000000000000000q;
+			static constexpr float128_t sqrt_two              = 1.414213562373095048801688724209698079q;
+			static constexpr float128_t one_over_sqrt_two     = 0.707106781186547524400844362104849039q;
+			static constexpr float128_t one_over_three        = 0.333333333333333333333333333333333333q;
+			static constexpr float128_t three_over_two        = 1.500000000000000000000000000000000000q;
+			static constexpr float128_t three_over_four       = 0.750000000000000000000000000000000000q;
+			static constexpr float128_t three_over_five       = 0.600000000000000000000000000000000000q;
+			static constexpr float128_t sqrt_three            = 1.732050807568877293527446341505872367q;
+			static constexpr float128_t one_over_sqrt_three   = 0.577350269189625764509148780501957456q;
+			static constexpr float128_t pi                    = 3.141592653589793238462643383279502884q;
+			static constexpr float128_t one_over_pi           = 0.318309886183790671537767526745028724q;
+			static constexpr float128_t pi_over_two           = 1.570796326794896619231321691639751442q;
+			static constexpr float128_t pi_over_three         = 1.047197551196597746154214461093167628q;
+			static constexpr float128_t pi_over_four          = 0.785398163397448309615660845819875721q;
+			static constexpr float128_t pi_over_five          = 0.628318530717958647692528676655900577q;
+			static constexpr float128_t pi_over_six           = 0.523598775598298873077107230546583814q;
+			static constexpr float128_t sqrt_pi               = 1.772453850905516027298167483341145183q;
+			static constexpr float128_t one_over_sqrt_pi      = 0.564189583547756286948079451560772586q;
+			static constexpr float128_t two_pi                = 6.283185307179586476925286766559005768q;
+			static constexpr float128_t one_over_two_pi       = 0.159154943091895335768883763372514362q;
+			static constexpr float128_t sqrt_two_pi           = 2.506628274631000502415765284811045253q;
+			static constexpr float128_t one_over_sqrt_two_pi  = 0.398942280401432677939946059934381868q;
+			static constexpr float128_t three_pi              = 9.424777960769379715387930149838508653q;
+			static constexpr float128_t one_over_three_pi     = 0.106103295394596890512589175581676241q;
+			static constexpr float128_t three_pi_over_two     = 4.712388980384689857693965074919254326q;
+			static constexpr float128_t three_pi_over_four    = 2.356194490192344928846982537459627163q;
+			static constexpr float128_t three_pi_over_five    = 1.884955592153875943077586029967701731q;
+			static constexpr float128_t sqrt_three_pi         = 3.069980123839465465438654874667794582q;
+			static constexpr float128_t one_over_sqrt_three_pi= 0.325735007935279947724256415225564670q;
+			static constexpr float128_t e                     = 2.718281828459045534884808148490265012q;
+			static constexpr float128_t one_over_e            = 0.367879441171442281059287928010393142q;
+			static constexpr float128_t e_over_two            = 1.359140914229522767442404074245132506q;
+			static constexpr float128_t e_over_three          = 0.906093942819681844961602716163421671q;
+			static constexpr float128_t e_over_four           = 0.679570457114761383721202037122566253q;
+			static constexpr float128_t e_over_five           = 0.543656365691809106976961629698053002q;
+			static constexpr float128_t e_over_six            = 0.453046971409840922480801358081710835q;
+			static constexpr float128_t sqrt_e                = 1.648721270700128237684053351021451524q;
+			static constexpr float128_t one_over_sqrt_e       = 0.606530659712633390187322401455485737q;
+			static constexpr float128_t phi                   = 1.618033988749894848204586834365638118q;
+			static constexpr float128_t one_over_phi          = 0.618033988749894848204586834365638118q;
+			static constexpr float128_t phi_over_two          = 0.809016994374947424102293417182819059q;
+			static constexpr float128_t phi_over_three        = 0.539344662916631616068195611455212706q;
+			static constexpr float128_t phi_over_four         = 0.404508497187473712051146708591409529q;
+			static constexpr float128_t phi_over_five         = 0.323606797749978969640917366873127624q;
+			static constexpr float128_t phi_over_six          = 0.269672331458315808034097805727606353q;
+			static constexpr float128_t sqrt_phi              = 1.272019649514068964252422461737491492q;
+			static constexpr float128_t one_over_sqrt_phi     = 0.786151377757423286069558585842958930q;
 		};
 		#endif
 
@@ -1461,8 +1500,8 @@ MUU_NAMESPACE_START
 	#endif
 
 	#if MUU_HAS_FLOAT128
-	/// \brief	#quad constants.
-	template <> struct constants<quad> : impl::floating_point_constants<quad> {};
+	/// \brief	`float128_t` constants.
+	template <> struct constants<float128_t> : impl::floating_point_constants<float128_t> {};
 	#endif
 
 	/// \brief	`char` constants.
@@ -1529,7 +1568,7 @@ MUU_POP_PRECISE_MATH
 #endif //==============================================================================================================
 
 //=====================================================================================================================
-// LITERALS, BUILD CONSTANTS AND 'INTRINSICS'
+// LITERALS, BUILD CONSTANTS AND FUNCTIONS
 #if 1
 
 MUU_NAMESPACE_START
@@ -1821,7 +1860,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
-	constexpr auto MUU_VECTORCALL unwrap(T val) noexcept
+	constexpr std::underlying_type_t<T> MUU_VECTORCALL unwrap(T val) noexcept
 	{
 		return static_cast<std::underlying_type_t<T>>(val);
 	}
@@ -1832,7 +1871,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
-	constexpr decltype(auto) unwrap(T&& val) noexcept
+	constexpr T&& unwrap(T&& val) noexcept
 	{
 		return static_cast<T&&>(val);
 	}
@@ -2651,7 +2690,7 @@ MUU_NAMESPACE_START
 	template <typename T>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
-	constexpr const T& (min)(const T& val1, const T& val2) noexcept
+	constexpr const T& min(const T& val1, const T& val2) noexcept
 	{
 		return val1 < val2 ? val1 : val2;
 	}
@@ -2662,7 +2701,7 @@ MUU_NAMESPACE_START
 	template <typename T>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
-	constexpr const T& (max)(const T& val1, const T& val2) noexcept
+	constexpr const T& max(const T& val1, const T& val2) noexcept
 	{
 		return val1 < val2 ? val2 : val1;
 	}
@@ -2693,264 +2732,6 @@ MUU_NAMESPACE_START
 			? low
 			: ((high < val) ? high : val);
 	}
-
-	/// \addtogroup		sqrt	sqrt()
-	/// \brief Constexpr-friendly alternatives to std::sqrt().
-	/// @{
-	
-	#ifndef DOXYGEN
-	namespace impl
-	{
-		MUU_PUSH_PRECISE_MATH
-
-		// this is an implementation of the Newton-Raphson method:
-		// https://en.wikipedia.org/wiki/Newton%27s_method
-
-		template <typename T>
-		[[nodiscard]]
-		MUU_CONSTEVAL T MUU_VECTORCALL newton_raphson_sqrt(T x, T curr, T prev) noexcept
-		{
-			static_assert(is_floating_point<T>);
-			return curr == prev
-				? curr
-				: newton_raphson_sqrt(x, constants<T>::one_over_two * (curr + x / curr), curr);
-		}
-
-		template <typename T>
-		[[nodiscard]]
-		MUU_CONSTEVAL T MUU_VECTORCALL newton_raphson_sqrt(T val) noexcept
-		{
-			using type = highest_ranked<T, long double>;
-			return static_cast<T>(newton_raphson_sqrt<type>(val, val, type{}));
-		}
-
-		MUU_POP_PRECISE_MATH
-
-		template <typename T>
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
-		constexpr T MUU_VECTORCALL sqrt_(T val) noexcept
-		{
-			if constexpr (!build::supports_is_constant_evaluated)
-				return std::sqrt(val);
-			else
-			{
-				if (is_constant_evaluated())
-					return newton_raphson_sqrt(val);
-				else
-					return std::sqrt(val);
-			}
-		}
-	}
-	#endif // !DOXYGEN
-
-	/// \brief	Returns the square-root of a float.
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr float MUU_VECTORCALL sqrt(float val) noexcept
-	{
-		return impl::sqrt_(val);
-	}
-
-	/// \brief	Returns the square-root of a double.
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr double MUU_VECTORCALL sqrt(double val) noexcept
-	{
-		return impl::sqrt_(val);
-	}
-
-	/// \brief	Returns the square-root of a long double.
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr long double MUU_VECTORCALL sqrt(long double val) noexcept
-	{
-		return impl::sqrt_(val);
-	}
-
-	#if MUU_HAS_FLOAT128
-	/// \brief	Returns the square-root of a quad.
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr quad MUU_VECTORCALL sqrt(quad val) noexcept
-	{
-		return static_cast<quad>(impl::sqrt_(static_cast<long double>(val)));
-	}
-	#endif
-
-	#if MUU_HAS_FLOAT16
-	/// \brief	Returns the square-root of a _Float16.
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr _Float16 MUU_VECTORCALL sqrt(_Float16 val) noexcept
-	{
-		return static_cast<_Float16>(impl::sqrt_(static_cast<float>(val)));
-	}
-	#endif
-
-	#if MUU_HAS_FP16
-	/// \brief	Returns the square-root of a __fp16.
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr __fp16 MUU_VECTORCALL sqrt(__fp16 val) noexcept
-	{
-		return static_cast<__fp16>(impl::sqrt_(static_cast<float>(val)));
-	}
-	#endif
-
-	/// \brief	Returns the square-root of an integral value.
-	template <typename T MUU_SFINAE(is_integral<T>)>
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr double MUU_VECTORCALL sqrt(T val) noexcept
-	{
-		return impl::sqrt_(static_cast<double>(val));
-	}
-
-	/** @} */	// intrinsics::sqrt
-
-	/// \addtogroup		approx_equal	approx_equal()
-	/// \brief Floating-point approximate equality checks.
-	/// @{
-
-	/// \brief	Returns true if two floats are approximately equal.
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr bool MUU_VECTORCALL approx_equal(float a, float b, float epsilon = constants<float>::approx_equal_epsilon) noexcept
-	{
-		return abs(b - a) < epsilon;
-	}
-
-	/// \brief	Returns true if two doubles are approximately equal.
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr bool MUU_VECTORCALL approx_equal(double a, double b, double epsilon = constants<double>::approx_equal_epsilon) noexcept
-	{
-		return abs(b - a) < epsilon;
-	}
-
-	/// \brief	Returns true if two long doubles are approximately equal.
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr bool MUU_VECTORCALL approx_equal(long double a, long double b, long double epsilon = constants<long double>::approx_equal_epsilon) noexcept
-	{
-		return abs(b - a) < epsilon;
-	}
-
-	#if MUU_HAS_FLOAT128
-	/// \brief	Returns true if two quads are approximately equal.
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr bool MUU_VECTORCALL approx_equal(quad a, quad b, quad epsilon = constants<quad>::approx_equal_epsilon) noexcept
-	{
-		return abs(b - a) < epsilon;
-	}
-	#endif
-
-	#if MUU_HAS_FLOAT16
-	/// \brief	Returns true if two _Float16s are approximately equal.
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr bool MUU_VECTORCALL approx_equal(_Float16 a, _Float16 b, _Float16 epsilon = constants<_Float16>::approx_equal_epsilon) noexcept
-	{
-		return abs(b - a) < epsilon;
-	}
-	#endif
-
-	#if MUU_HAS_FP16
-	/// \brief	Returns true if two __fp16 are approximately equal.
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr bool MUU_VECTORCALL approx_equal(__fp16 a, __fp16 b, __fp16 epsilon = constants<__fp16>::approx_equal_epsilon) noexcept
-	{
-		return abs(b - a) < epsilon;
-	}
-	#endif
-
-	/** @} */	// intrinsics::approx_equal
-
-	/// \addtogroup		lerp	lerp()
-	/// \brief Linear interpolations al a C++20's std::lerp.
-	/// \remark	Despite being stand-ins for C++20's std::lerp, these functions do _not_ make the same
-	/// 		guarantees about infinities and NaN's. Garbage-in, garbage-out.
-	/// @{
-
-	/// \brief	Returns a linear interpolation between two floats.
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr float MUU_VECTORCALL lerp(float start, float finish, float alpha) noexcept
-	{
-		MUU_FMA_BLOCK
-		return start * (1.0f - alpha) + finish * alpha;
-	}
-
-	/// \brief	Returns a linear interpolation between two doubles.
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr double MUU_VECTORCALL lerp(double start, double finish, double alpha) noexcept
-	{
-		MUU_FMA_BLOCK
-		return start * (1.0 - alpha) + finish * alpha;
-	}
-
-	/// \brief	Returns a linear interpolation between two long doubles.
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr long double MUU_VECTORCALL lerp(long double start, long double finish, long double alpha) noexcept
-	{
-		MUU_FMA_BLOCK
-		return start * (1.0L - alpha) + finish * alpha;
-	}
-
-	#if MUU_HAS_FLOAT128
-	/// \brief	Returns a linear interpolation between two quads.
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr quad MUU_VECTORCALL lerp(quad start, quad finish, quad alpha) noexcept
-	{
-		MUU_FMA_BLOCK
-		return start * (quad{ 1 } - alpha) + finish * alpha;
-	}
-	#endif
-
-	#if MUU_HAS_FLOAT16
-	/// \brief	Returns a linear interpolation between two _Float16s.
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr _Float16 MUU_VECTORCALL lerp(_Float16 start, _Float16 finish, _Float16 alpha) noexcept
-	{
-		return static_cast<_Float16>(lerp(static_cast<float>(start), static_cast<float>(finish), static_cast<float>(alpha)));
-	}
-	#endif
-
-	#if MUU_HAS_FP16
-	/// \brief	Returns a linear interpolation between two __fp16s.
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr __fp16 MUU_VECTORCALL lerp(__fp16 start, __fp16 finish, __fp16 alpha) noexcept
-	{
-		return static_cast<__fp16>(lerp(static_cast<float>(start), static_cast<float>(finish), static_cast<float>(alpha)));
-	}
-	#endif
-
-	/// \brief	Returns a linear interpolation between two arithmetic values.
-	///
-	/// \detail Integer arguments are promoted to double.
-	template <typename T, typename U, typename V MUU_SFINAE(all_arithmetic<T, U, V>)>
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr auto MUU_VECTORCALL lerp(T start, U finish, V alpha) noexcept
-	{
-		using return_type = impl::std_math_common_type<T, U, V>;
-		using intermediate_type = impl::promote_if_small_float<return_type>;
-		return static_cast<return_type>(lerp(
-			static_cast<intermediate_type>(start),
-			static_cast<intermediate_type>(finish),
-			static_cast<intermediate_type>(alpha))
-		);
-	}
-
-	/** @} */	// intrinsics::lerp
 
 	/// \brief	Returns true if a value is between two bounds (inclusive).
 	template <typename T, typename U>
@@ -2993,6 +2774,941 @@ MUU_NAMESPACE_START
 			return low <= val && val <= high; // user-defined <= operator, ideally
 	}
 
+	/** @} */	// intrinsics
+
+	namespace build
+	{
+		/// \brief	True if some math functions (sin, cos, sqrt etc.) can be used in constexpr contexts
+		/// 		on this compiler.
+		inline constexpr bool supports_constexpr_math = build::supports_is_constant_evaluated;
+	}
+
+	/// \addtogroup	intrinsics
+	/// @{
+	
+	#if 1 // approx_equal ---------------------------------------------------------------------------------------------
+	/// \addtogroup		approx_equal	approx_equal()
+	/// \brief Floating-point approximate equality checks.
+	/// @{
+
+	/// \brief	Returns true if two floats are approximately equal.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool MUU_VECTORCALL approx_equal(float a, float b, float epsilon = constants<float>::approx_equal_epsilon) noexcept
+	{
+		return abs(b - a) < epsilon;
+	}
+
+	/// \brief	Returns true if two doubles are approximately equal.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool MUU_VECTORCALL approx_equal(double a, double b, double epsilon = constants<double>::approx_equal_epsilon) noexcept
+	{
+		return abs(b - a) < epsilon;
+	}
+
+	/// \brief	Returns true if two long doubles are approximately equal.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool MUU_VECTORCALL approx_equal(long double a, long double b, long double epsilon = constants<long double>::approx_equal_epsilon) noexcept
+	{
+		return abs(b - a) < epsilon;
+	}
+
+	#if MUU_HAS_FLOAT128
+	/// \brief	Returns true if two float128_ts are approximately equal.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool MUU_VECTORCALL approx_equal(float128_t a, float128_t b, float128_t epsilon = constants<float128_t>::approx_equal_epsilon) noexcept
+	{
+		return abs(b - a) < epsilon;
+	}
+	#endif
+
+	#if MUU_HAS_FLOAT16
+	/// \brief	Returns true if two _Float16s are approximately equal.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool MUU_VECTORCALL approx_equal(_Float16 a, _Float16 b, _Float16 epsilon = constants<_Float16>::approx_equal_epsilon) noexcept
+	{
+		return abs(b - a) < epsilon;
+	}
+	#endif
+
+	#if MUU_HAS_FP16
+	/// \brief	Returns true if two __fp16 are approximately equal.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool MUU_VECTORCALL approx_equal(__fp16 a, __fp16 b, __fp16 epsilon = constants<__fp16>::approx_equal_epsilon) noexcept
+	{
+		return abs(b - a) < epsilon;
+	}
+	#endif
+
+	/** @} */	// intrinsics::approx_equal
+	#endif // approx_equal
+	
+	#if 1 // floor ----------------------------------------------------------------------------------------------------
+	/// \addtogroup		floor		floor()
+	/// \brief		Constexpr-friendly alternatives to std::floor().
+	/// @{
+
+	#ifndef DOXYGEN
+	namespace impl
+	{ 
+		template <typename T>
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
+		constexpr T MUU_VECTORCALL floor_(T val) noexcept
+		{
+			static_assert(is_floating_point<T>);
+
+			return static_cast<T>(static_cast<intmax_t>(val) - static_cast<intmax_t>(val < static_cast<intmax_t>(val)));
+		}
+	}
+	#endif // DOXYGEN
+
+	/// \brief	Returns the floor of a float value value.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR(flatten)
+	constexpr float MUU_VECTORCALL floor(float val) noexcept
+	{
+		return impl::floor_(val);
+	}
+
+	/// \brief	Returns the floor of a double value.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR(flatten)
+	constexpr double MUU_VECTORCALL floor(double val) noexcept
+	{
+		return impl::floor_(val);
+	}
+
+	/// \brief	Returns the floor of a long double value.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR(flatten)
+	constexpr long double MUU_VECTORCALL floor(long double val) noexcept
+	{
+		return impl::floor_(val);
+	}
+
+	#if MUU_HAS_FLOAT128
+	/// \brief	Returns the floor of a float128_t value.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR(flatten)
+	constexpr float128_t MUU_VECTORCALL floor(float128_t val) noexcept
+	{
+		return impl::floor_(val);
+	}
+	#endif
+
+	#if MUU_HAS_FLOAT16
+	/// \brief	Returns the floor of a _Float16 value.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR(flatten)
+	constexpr _Float16 MUU_VECTORCALL floor(_Float16 val) noexcept
+	{
+		return impl::floor_(val);
+	}
+	#endif
+
+	#if MUU_HAS_FP16
+	/// \brief	Returns the floor of a __fp16 value.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR(flatten)
+	constexpr __fp16 MUU_VECTORCALL floor(__fp16 val) noexcept
+	{
+		return impl::floor_(val);
+	}
+	#endif
+
+	/// \brief	Returns the floor of an integral value.
+	template <typename T MUU_SFINAE(is_integral<T>)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR(flatten)
+	constexpr double MUU_VECTORCALL floor(T val) noexcept
+	{
+		return impl::floor_(static_cast<double>(val));
+	}
+
+	/** @} */	// intrinsics::floor
+	#endif // floor
+
+	#if 1 // ceil ----------------------------------------------------------------------------------------------------
+	/// \addtogroup		ceil		ceil()
+	/// \brief		Constexpr-friendly alternatives to std::ceil().
+	/// @{
+
+	#ifndef DOXYGEN
+	namespace impl
+	{ 
+		template <typename T>
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
+		constexpr T MUU_VECTORCALL ceil_(T val) noexcept
+		{
+			static_assert(is_floating_point<T>);
+
+			return static_cast<T>(static_cast<intmax_t>(val) + static_cast<intmax_t>(val > static_cast<intmax_t>(val)));
+		}
+	}
+	#endif // DOXYGEN
+
+	/// \brief	Returns the ceiling of a float value value.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR(flatten)
+	constexpr float MUU_VECTORCALL ceil(float val) noexcept
+	{
+		return impl::ceil_(val);
+	}
+
+	/// \brief	Returns the ceiling of a double value.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR(flatten)
+	constexpr double MUU_VECTORCALL ceil(double val) noexcept
+	{
+		return impl::ceil_(val);
+	}
+
+	/// \brief	Returns the ceiling of a long double value.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR(flatten)
+	constexpr long double MUU_VECTORCALL ceil(long double val) noexcept
+	{
+		return impl::ceil_(val);
+	}
+
+	#if MUU_HAS_FLOAT128
+	/// \brief	Returns the ceiling of a float128_t value.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR(flatten)
+	constexpr float128_t MUU_VECTORCALL ceil(float128_t val) noexcept
+	{
+		return impl::ceil_(val);
+	}
+	#endif
+
+	#if MUU_HAS_FLOAT16
+	/// \brief	Returns the ceiling of a _Float16 value.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR(flatten)
+	constexpr _Float16 MUU_VECTORCALL ceil(_Float16 val) noexcept
+	{
+		return impl::ceil_(val);
+	}
+	#endif
+
+	#if MUU_HAS_FP16
+	/// \brief	Returns the ceiling of a __fp16 value.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR(flatten)
+	constexpr __fp16 MUU_VECTORCALL ceil(__fp16 val) noexcept
+	{
+		return impl::ceil_(val);
+	}
+	#endif
+
+	/// \brief	Returns the ceiling of an integral value.
+	template <typename T MUU_SFINAE(is_integral<T>)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR(flatten)
+	constexpr double MUU_VECTORCALL ceil(T val) noexcept
+	{
+		return impl::ceil_(static_cast<double>(val));
+	}
+
+	/** @} */	// intrinsics::ceil
+	#endif // ceil
+
+	#if 1 // cos ------------------------------------------------------------------------------------------------------
+	/// \addtogroup		cos		cos()
+	/// \brief Constexpr-friendly alternatives to std::cos().
+	/// \note		Older compilers won't provide the necessary machinery for trig functions to work in constexpr contexts.
+	/// 			You can check for constexpr support by examining build::supports_constexpr_math.
+	/// @{
+
+	#ifndef DOXYGEN
+	namespace impl
+	{
+		MUU_PUSH_PRECISE_MATH
+
+		template <typename T>
+		[[nodiscard]]
+		MUU_ATTR(const)
+		constexpr T normalize_angle(T val) noexcept
+		{
+			if (val < -constants<T>::pi || val > constants<T>::pi)
+			{
+				val += constants<T>::pi;
+				val -= constants<T>::two_pi * floor_(val * constants<T>::one_over_two_pi);
+				val -= constants<T>::pi;
+			}
+			return val;
+		}
+
+		// this is way too high on purpose- the algorithms early-out
+		inline constexpr int max_taylor_iterations = 100; 
+
+		template <typename T>
+		[[nodiscard]]
+		MUU_ATTR(const)
+		MUU_CONSTEVAL T consteval_cos(T val) noexcept
+		{
+			// taylor series: https://en.wikipedia.org/wiki/Taylor_series#Trigonometric_functions
+
+			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
+
+			val = normalize_angle(val);
+			if (val == T{})
+				return constants<T>::one;
+			T term = -val * val / T{ 2 };
+			T sum = T{ 1 } + term;
+			for (int i = 2; i < max_taylor_iterations; i++)
+			{
+				const auto prev = sum;
+				term *= -val * val / (T{ 2 } * i * (T{ 2 } * i - T{ 1 }));
+				sum += term;
+				if (sum == prev)
+					break;
+			}
+			return sum;
+		}
+
+		MUU_POP_PRECISE_MATH
+
+		template <typename T>
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
+		constexpr T MUU_VECTORCALL cos_(T val) noexcept
+		{
+			static_assert(is_floating_point<T>);
+
+			if (MUU_INTELLISENSE || (build::supports_is_constant_evaluated && is_constant_evaluated()))
+			{
+				using type = highest_ranked<T, long double>;
+				return static_cast<T>(consteval_cos(static_cast<type>(val)));
+			}
+			else
+			{
+				if constexpr (is_standard_arithmetic<T>)
+					return std::cos(val);
+				#if MUU_HAS_QUADMATH
+				else if constexpr (std::is_same_v<float128_t, T>)
+					return ::cosq(val);
+				#endif
+				else
+					return static_cast<T>(std::cos(static_cast<clamp_to_standard_float<T>>(val)));
+			}
+		}
+	}
+	#endif // DOXYGEN
+
+	/// \brief	Returns the cosine of a float.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr float MUU_VECTORCALL cos(float val) noexcept
+	{
+		return impl::cos_(val);
+	}
+
+	/// \brief	Returns the cosine of a double.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr double MUU_VECTORCALL cos(double val) noexcept
+	{
+		return impl::cos_(val);
+	}
+
+	/// \brief	Returns the cosine of a long double.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr long double MUU_VECTORCALL cos(long double val) noexcept
+	{
+		return impl::cos_(val);
+	}
+
+	#if MUU_HAS_FLOAT128
+	/// \brief	Returns the cosine of a float128_t.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr float128_t MUU_VECTORCALL cos(float128_t val) noexcept
+	{
+		return impl::cos_(val);
+	}
+	#endif
+
+	#if MUU_HAS_FLOAT16
+	/// \brief	Returns the cosine of a _Float16.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr _Float16 MUU_VECTORCALL cos(_Float16 val) noexcept
+	{
+		return impl::cos_(val);
+	}
+	#endif
+
+	#if MUU_HAS_FP16
+	/// \brief	Returns the cosine of a __fp16.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr __fp16 MUU_VECTORCALL cos(__fp16 val) noexcept
+	{
+		return impl::cos_(val);
+	}
+	#endif
+
+	/// \brief	Returns the cosine of an integral value.
+	template <typename T MUU_SFINAE(is_integral<T>)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr double MUU_VECTORCALL cos(T val) noexcept
+	{
+		return impl::cos_(static_cast<double>(val));
+	}
+
+	/** @} */	// intrinsics::cos
+	#endif // cos
+
+	#if 1 // sin ------------------------------------------------------------------------------------------------------
+	/// \addtogroup		sin		sin()
+	/// \brief Constexpr-friendly alternatives to std::sin().
+	/// \note		Older compilers won't provide the necessary machinery for trig functions to work in constexpr contexts.
+	/// 			You can check for constexpr support by examining build::supports_constexpr_math.
+	/// @{
+
+	#ifndef DOXYGEN
+	namespace impl
+	{
+		MUU_PUSH_PRECISE_MATH
+
+		template <typename T>
+		[[nodiscard]]
+		MUU_ATTR(const)
+		MUU_CONSTEVAL T consteval_sin(T val) noexcept
+		{
+			// taylor series: https://en.wikipedia.org/wiki/Taylor_series#Trigonometric_functions
+
+			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
+
+			val = normalize_angle(val);
+			if (val == T{})
+				return T{};
+			T term = val;
+			T sum = val;
+			int sign = -1;
+			for (int i = 3; i < max_taylor_iterations*2; i += 2, sign = -sign)
+			{
+				const auto prev = sum;
+				term = -term * val * val / (i * (i - T{ 1 }));
+				sum += term;
+				if (sum == prev)
+					break;
+			}
+			return sum;
+		}
+
+		MUU_POP_PRECISE_MATH
+
+		template <typename T>
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
+		constexpr T MUU_VECTORCALL sin_(T val) noexcept
+		{
+			static_assert(is_floating_point<T>);
+
+			if (MUU_INTELLISENSE || (build::supports_is_constant_evaluated && is_constant_evaluated()))
+			{
+				using type = highest_ranked<T, long double>;
+				return static_cast<T>(consteval_sin(static_cast<type>(val)));
+			}
+			else
+			{
+				if constexpr (is_standard_arithmetic<T>)
+					return std::sin(val);
+				#if MUU_HAS_QUADMATH
+				else if constexpr (std::is_same_v<float128_t, T>)
+					return ::sinq(val);
+				#endif
+				else
+					return static_cast<T>(std::sin(static_cast<clamp_to_standard_float<T>>(val)));
+			}
+		}
+	}
+	#endif // DOXYGEN
+
+	/// \brief	Returns the sine of a float.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr float MUU_VECTORCALL sin(float val) noexcept
+	{
+		return impl::sin_(val);
+	}
+
+	/// \brief	Returns the sine of a double.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr double MUU_VECTORCALL sin(double val) noexcept
+	{
+		return impl::sin_(val);
+	}
+
+	/// \brief	Returns the sine of a long double.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr long double MUU_VECTORCALL sin(long double val) noexcept
+	{
+		return impl::sin_(val);
+	}
+
+	#if MUU_HAS_FLOAT128
+	/// \brief	Returns the sine of a float128_t.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr float128_t MUU_VECTORCALL sin(float128_t val) noexcept
+	{
+		return impl::sin_(val);
+	}
+	#endif
+
+	#if MUU_HAS_FLOAT16
+	/// \brief	Returns the sine of a _Float16.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr _Float16 MUU_VECTORCALL sin(_Float16 val) noexcept
+	{
+		return impl::sin_(val);
+	}
+	#endif
+
+	#if MUU_HAS_FP16
+	/// \brief	Returns the sine of a __fp16.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr __fp16 MUU_VECTORCALL sin(__fp16 val) noexcept
+	{
+		return impl::sin_(val);
+	}
+	#endif
+
+	/// \brief	Returns the sine of an integral value.
+	template <typename T MUU_SFINAE(is_integral<T>)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr double MUU_VECTORCALL sin(T val) noexcept
+	{
+		return impl::sin_(static_cast<double>(val));
+	}
+
+	/** @} */	// intrinsics::sin
+	#endif // sin
+
+	#if 1 // tan ------------------------------------------------------------------------------------------------------
+	/// \addtogroup		tan		tan()
+	/// \brief Constexpr-friendly alternatives to std::tan().
+	/// \note		Older compilers won't provide the necessary machinery for trig functions to work in constexpr contexts.
+	/// 			You can check for constexpr support by examining build::supports_constexpr_math.
+	/// @{
+
+	#ifndef DOXYGEN
+	namespace impl
+	{
+		MUU_PUSH_PRECISE_MATH
+
+		template <typename T>
+		struct tan_precomputed;
+
+		// to avoid having to unroll another taylor series, tan is calcuated as (sin / cos) (trig identities)
+		// this incurs a small loss of precision and doesn't handle poles properly, so instead tangents
+		// are precomputed for some key input values.
+		// (see generate_float_tests_header.py)
+
+		template <>
+		struct tan_precomputed<long double>
+		{
+			static constexpr std::pair<long double, long double> tangents[] =
+			{
+				{ -3.141592653589793238463L, -1E-21L },
+				{ -2.748893571891069083655L, 0.414213562373095048801L },
+				{ -2.356194490192344928847L, 0.999999999999999999999L },
+				{ -1.963495408493620774040L, 2.414213562373095048801L },
+				{ -1.570796326794896619232L, 16331239353195370.0L },
+				{ -1.178097245096172464424L, -2.414213562373095048802L },
+				{ -0.785398163397448309616L, -1.000000000000000000001L },
+				{ -0.392699081698724154808L, -0.414213562373095048802L },
+				{ 0.392699081698724154807L, 0.414213562373095048801L },
+				{ 0.785398163397448309615L, 0.999999999999999999999L },
+				{ 1.178097245096172464423L, 2.414213562373095048801L },
+				{ 1.570796326794896619231L, 16331239353195370.0L },
+				{ 1.963495408493620774039L, -2.414213562373095048802L },
+				{ 2.356194490192344928846L, -1.000000000000000000001L },
+				{ 2.748893571891069083654L, -0.414213562373095048802L },
+				{ 3.141592653589793238462L, -1E-21L }
+			};
+		};
+
+		#if MUU_HAS_FLOAT128 && MUU_EXTENDED_LITERALS
+		template <>
+		struct tan_precomputed<float128_t>
+		{
+			static constexpr std::pair<float128_t, float128_t> tangents[] =
+			{
+				{ -3.141592653589793238462643383279502885q, -1E-36q },
+				{ -2.748893571891069083654812960369565024q, 0.414213562373095048801688724209698078q },
+				{ -2.356194490192344928846982537459627164q, 0.999999999999999999999999999999999999q },
+				{ -1.963495408493620774039152114549689303q, 2.414213562373095048801688724209698078q },
+				{ -1.570796326794896619231321691639751443q, 16331239353195370.0q },
+				{ -1.178097245096172464423491268729813582q, -2.414213562373095048801688724209698079q },
+				{ -0.785398163397448309615660845819875722q, -1.000000000000000000000000000000000001q },
+				{ -0.392699081698724154807830422909937861q, -0.414213562373095048801688724209698079q },
+				{ 0.392699081698724154807830422909937860q, 0.414213562373095048801688724209698078q },
+				{ 0.785398163397448309615660845819875721q, 0.999999999999999999999999999999999999q },
+				{ 1.178097245096172464423491268729813581q, 2.414213562373095048801688724209698078q },
+				{ 1.570796326794896619231321691639751442q, 16331239353195370.0q },
+				{ 1.963495408493620774039152114549689302q, -2.414213562373095048801688724209698079q },
+				{ 2.356194490192344928846982537459627163q, -1.000000000000000000000000000000000001q },
+				{ 2.748893571891069083654812960369565023q, -0.414213562373095048801688724209698079q },
+				{ 3.141592653589793238462643383279502884q, -1E-36q }
+			};
+		};
+		#endif
+
+		template <typename T>
+		[[nodiscard]]
+		MUU_ATTR(const)
+		MUU_CONSTEVAL T consteval_tan(T val) noexcept
+		{
+			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
+			
+			val = normalize_angle(val);
+			if (val == T{})
+				return T{};
+			if constexpr (1)
+			{
+				for (auto [in, out] : tan_precomputed<T>::tangents)
+					if (approx_equal(val, in))
+						return out;
+			}
+			return consteval_sin(val) / consteval_cos(val);
+		}
+
+		MUU_POP_PRECISE_MATH
+
+		template <typename T>
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
+		constexpr T MUU_VECTORCALL tan_(T val) noexcept
+		{
+			static_assert(is_floating_point<T>);
+
+			if (MUU_INTELLISENSE || (build::supports_is_constant_evaluated && is_constant_evaluated()))
+			{
+				using type = highest_ranked<T, long double>;
+				return static_cast<T>(consteval_tan(static_cast<type>(val)));
+			}
+			else
+			{
+				if constexpr (is_standard_arithmetic<T>)
+					return std::tan(val);
+				#if MUU_HAS_QUADMATH
+				else if constexpr (std::is_same_v<float128_t, T>)
+					return ::tanq(val);
+				#endif
+				else
+					return static_cast<T>(std::tan(static_cast<clamp_to_standard_float<T>>(val)));
+			}
+		}
+	}
+	#endif // DOXYGEN
+
+	/// \brief	Returns the tangent of a float.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr float MUU_VECTORCALL tan(float val) noexcept
+	{
+		return impl::tan_(val);
+	}
+
+	/// \brief	Returns the tangent of a double.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr double MUU_VECTORCALL tan(double val) noexcept
+	{
+		return impl::tan_(val);
+	}
+
+	/// \brief	Returns the tangent of a long double.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr long double MUU_VECTORCALL tan(long double val) noexcept
+	{
+		return impl::tan_(val);
+	}
+
+	#if MUU_HAS_FLOAT128
+	/// \brief	Returns the tangent of a float128_t.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr float128_t MUU_VECTORCALL tan(float128_t val) noexcept
+	{
+		return impl::tan_(val);
+	}
+	#endif
+
+	#if MUU_HAS_FLOAT16
+	/// \brief	Returns the tangent of a _Float16.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr _Float16 MUU_VECTORCALL tan(_Float16 val) noexcept
+	{
+		return impl::tan_(val);
+	}
+	#endif
+
+	#if MUU_HAS_FP16
+	/// \brief	Returns the tangent of a __fp16.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr __fp16 MUU_VECTORCALL tan(__fp16 val) noexcept
+	{
+		return impl::tan_(val);
+	}
+	#endif
+
+	/// \brief	Returns the tangent of an integral value.
+	template <typename T MUU_SFINAE(is_integral<T>)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr double MUU_VECTORCALL tan(T val) noexcept
+	{
+		return impl::tan_(static_cast<double>(val));
+	}
+
+	/** @} */	// intrinsics::tan
+	#endif // tan
+
+	#if 1 // sqrt -----------------------------------------------------------------------------------------------------
+	/// \addtogroup		sqrt	sqrt()
+	/// \brief Constexpr-friendly alternatives to std::sqrt().
+	/// \note		Older compilers won't provide the necessary machinery for sqrt functions to work in constexpr contexts.
+	/// 			You can check for constexpr support by examining build::supports_constexpr_math.
+	/// @{
+	
+	#ifndef DOXYGEN
+	namespace impl
+	{
+		MUU_PUSH_PRECISE_MATH
+
+		template <typename T>
+		[[nodiscard]]
+		MUU_ATTR(const)
+		MUU_CONSTEVAL T consteval_sqrt(T val, T curr, T prev) noexcept
+		{
+			// Newton-Raphson method: https://en.wikipedia.org/wiki/Newton%27s_method
+
+			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
+
+			return curr == prev
+				? curr
+				: consteval_sqrt(val, constants<T>::one_over_two * (curr + val / curr), curr);
+		}
+
+		MUU_POP_PRECISE_MATH
+
+		template <typename T>
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
+		constexpr T MUU_VECTORCALL sqrt_(T val) noexcept
+		{
+			static_assert(is_floating_point<T>);
+
+			if (MUU_INTELLISENSE || (build::supports_is_constant_evaluated && is_constant_evaluated()))
+			{
+				using type = highest_ranked<T, long double>;
+				return static_cast<T>(consteval_sqrt<type>(val, val, type{}));
+			}
+			else
+			{
+				if constexpr (is_standard_arithmetic<T>)
+					return std::sqrt(val);
+				#if MUU_HAS_QUADMATH
+				else if constexpr (std::is_same_v<float128_t, T>)
+					return ::sqrtq(val);
+				#endif
+				else
+					return static_cast<T>(std::sqrt(static_cast<clamp_to_standard_float<T>>(val)));
+			}
+		}
+	}
+	#endif // !DOXYGEN
+
+	/// \brief	Returns the square-root of a float.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr float MUU_VECTORCALL sqrt(float val) noexcept
+	{
+		return impl::sqrt_(val);
+	}
+
+	/// \brief	Returns the square-root of a double.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr double MUU_VECTORCALL sqrt(double val) noexcept
+	{
+		return impl::sqrt_(val);
+	}
+
+	/// \brief	Returns the square-root of a long double.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr long double MUU_VECTORCALL sqrt(long double val) noexcept
+	{
+		return impl::sqrt_(val);
+	}
+
+	#if MUU_HAS_FLOAT128
+	/// \brief	Returns the square-root of a float128_t.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr float128_t MUU_VECTORCALL sqrt(float128_t val) noexcept
+	{
+		return impl::sqrt_(val);
+	}
+	#endif
+
+	#if MUU_HAS_FLOAT16
+	/// \brief	Returns the square-root of a _Float16.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr _Float16 MUU_VECTORCALL sqrt(_Float16 val) noexcept
+	{
+		return impl::sqrt_(val);
+	}
+	#endif
+
+	#if MUU_HAS_FP16
+	/// \brief	Returns the square-root of a __fp16.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr __fp16 MUU_VECTORCALL sqrt(__fp16 val) noexcept
+	{
+		return impl::sqrt_(val);
+	}
+	#endif
+
+	/// \brief	Returns the square-root of an integral value.
+	template <typename T MUU_SFINAE(is_integral<T>)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr double MUU_VECTORCALL sqrt(T val) noexcept
+	{
+		return impl::sqrt_(static_cast<double>(val));
+	}
+
+	/** @} */	// intrinsics::sqrt
+	#endif // sqrt
+
+	#if 1 // lerp -----------------------------------------------------------------------------------------------------
+	/// \addtogroup		lerp	lerp()
+	/// \brief Linear interpolations al a C++20's std::lerp.
+	/// \remark	Despite being stand-ins for C++20's std::lerp, these functions do _not_ make the same
+	/// 		guarantees about infinities and NaN's. Garbage-in, garbage-out.
+	/// @{
+
+	/// \brief	Returns a linear interpolation between two floats.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr float MUU_VECTORCALL lerp(float start, float finish, float alpha) noexcept
+	{
+		MUU_FMA_BLOCK
+		return start * (1.0f - alpha) + finish * alpha;
+	}
+
+	/// \brief	Returns a linear interpolation between two doubles.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr double MUU_VECTORCALL lerp(double start, double finish, double alpha) noexcept
+	{
+		MUU_FMA_BLOCK
+		return start * (1.0 - alpha) + finish * alpha;
+	}
+
+	/// \brief	Returns a linear interpolation between two long doubles.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr long double MUU_VECTORCALL lerp(long double start, long double finish, long double alpha) noexcept
+	{
+		MUU_FMA_BLOCK
+		return start * (1.0L - alpha) + finish * alpha;
+	}
+
+	#if MUU_HAS_FLOAT128
+	/// \brief	Returns a linear interpolation between two float128_ts.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr float128_t MUU_VECTORCALL lerp(float128_t start, float128_t finish, float128_t alpha) noexcept
+	{
+		MUU_FMA_BLOCK
+		return start * (float128_t{ 1 } - alpha) + finish * alpha;
+	}
+	#endif
+
+	#if MUU_HAS_FLOAT16
+	/// \brief	Returns a linear interpolation between two _Float16s.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr _Float16 MUU_VECTORCALL lerp(_Float16 start, _Float16 finish, _Float16 alpha) noexcept
+	{
+		return static_cast<_Float16>(lerp(static_cast<float>(start), static_cast<float>(finish), static_cast<float>(alpha)));
+	}
+	#endif
+
+	#if MUU_HAS_FP16
+	/// \brief	Returns a linear interpolation between two __fp16s.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr __fp16 MUU_VECTORCALL lerp(__fp16 start, __fp16 finish, __fp16 alpha) noexcept
+	{
+		return static_cast<__fp16>(lerp(static_cast<float>(start), static_cast<float>(finish), static_cast<float>(alpha)));
+	}
+	#endif
+
+	/// \brief	Returns a linear interpolation between two arithmetic values.
+	///
+	/// \detail Integer arguments are promoted to double.
+	template <typename T, typename U, typename V MUU_SFINAE(all_arithmetic<T, U, V>)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr auto MUU_VECTORCALL lerp(T start, U finish, V alpha) noexcept
+	{
+		using return_type = impl::std_math_common_type<T, U, V>;
+		using intermediate_type = impl::promote_if_small_float<return_type>;
+		return static_cast<return_type>(lerp(
+			static_cast<intermediate_type>(start),
+			static_cast<intermediate_type>(finish),
+			static_cast<intermediate_type>(alpha))
+		);
+	}
+
+	/** @} */	// intrinsics::lerp
+	#endif // lerp
+
+	#if 1 // popcount -------------------------------------------------------------------------------------------------
 	#ifndef DOXYGEN
 	namespace impl
 	{
@@ -3169,6 +3885,8 @@ MUU_NAMESPACE_START
 			}
 		}
 	}
+
+	#endif // popcount
 
 	/// \brief	Checks if an integral value has only a single bit set.
 	/// 
@@ -3413,6 +4131,7 @@ MUU_NAMESPACE_START
 			return static_cast<uint8_t>(static_cast<T>(val >> (index * CHAR_BIT)) & static_cast<T>(0xFFu));
 	}
 
+	#if 1 // byte_reverse ---------------------------------------------------------------------------------------------
 	#ifndef DOXYGEN
 	namespace impl
 	{
@@ -3552,6 +4271,8 @@ MUU_NAMESPACE_START
 		}
 	}
 
+	#endif // byte_reverse
+
 	/// \brief	Select and re-pack arbitrary bytes from an integer.
 	///
 	/// \detail \cpp
@@ -3621,11 +4342,11 @@ MUU_NAMESPACE_START
 			return pack<return_type>(byte_select<ByteIndices>(val)...);
 	}
 
+	#if 1 // infinity_or_nan ------------------------------------------------------------------------------------------
 	/// \addtogroup		infinity_or_nan		infinity_or_nan()
 	/// \brief Checks for infinities and not-a-numbers (NaN).
 	/// \note		Older compilers won't provide the necessary machinery for infinity and NaN checks to work in
-	/// 			constexpr contexts. You can check for constexpr support
-	/// 			by examining build::supports_constexpr_infinity_or_nan.
+	//				constexpr contexts. You can check for constexpr support by examining build::supports_constexpr_infinity_or_nan.
 	/// @{
 
 	MUU_PRAGMA_GCC(push_options)
@@ -3773,6 +4494,7 @@ MUU_NAMESPACE_START
 	}
 
 	/** @} */	// intrinsics::infinity_or_nan
+	#endif // infinity_or_nan
 
 	/** @} */	// intrinsics
 

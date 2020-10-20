@@ -30,8 +30,11 @@ inline_namespace_explainer = 'All members of this namespace are automatically me
 	+ 'It does not require an explicit \'using\' statement.'
 type_names = [
 	#------ standard/built-in types
+	'_Float128',
 	'_Float16',
+	'_Float80',
 	'__float128',
+	'__float80',
 	'__fp16',
 	'__int128_t',
 	'__m128',
@@ -52,6 +55,7 @@ type_names = [
 	'double',
 	'exception',
 	'float',
+	'float128_t',
 	'fstream',
 	'ifstream',
 	'int',
@@ -97,7 +101,6 @@ type_names = [
 	'emplacement_array',
 	'half',
 	'matrix',
-	'quad',
 	'quaternion',
 	'numeric_range',
 	'rolling_average',
@@ -253,6 +256,7 @@ external_links = [
 		'https://en.cppreference.com/w/cpp/preprocessor/replace'
 	),
 	(r'(?:_Float|__fp)16s?','https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html'),
+	(r'(?:_Float|__float)(128|80)s?','https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html'),
 	# muu-specific
 	(r'(?:muu::)?halfs?', 'structmuu_1_1half.html'),
 	(r'(?:muu::)?string_params?', 'classmuu_1_1string__param.html'),

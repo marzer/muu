@@ -37,6 +37,9 @@ muu_dependencies = []
 if not is_windows
 	muu_dependencies += dependency('threads')
 endif
+if compiler_supports_float128
+	muu_dependencies += compiler.find_library('quadmath')
+endif
 
 muu_lib = library(
 	'muu',

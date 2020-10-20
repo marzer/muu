@@ -110,7 +110,7 @@ TEST_CASE("accumulator")
 	CHECK_ACCUMULATOR(double);
 	CHECK_ACCUMULATOR(long double);
 	#if MUU_HAS_FLOAT128
-	CHECK_ACCUMULATOR(quad);
+	CHECK_ACCUMULATOR(float128_t);
 	#endif
 
 	CHECK_ACCUMULATOR(signed char);

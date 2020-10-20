@@ -53,9 +53,6 @@ MUU_NAMESPACE_END
 
 #if 1 // helper macros ------------------------------------------------------------------------------------------------
 
-#define	REQUIRES_FLOATING_POINT	\
-	template <typename SFINAE = Scalar MUU_SFINAE(muu::is_floating_point<SFINAE> && std::is_same_v<SFINAE, Scalar>)>
-
 #define ENABLE_PAIRED_FUNC_BY_REF(S, ...) \
 	MUU_SFINAE((MUU_INTELLISENSE || impl::pass_quaternion_by_reference<S>) && (__VA_ARGS__))
 
@@ -71,8 +68,8 @@ MUU_IMPL_NAMESPACE_START
 	template <typename Scalar>
 	struct MUU_TRIVIAL_ABI quaternion_base
 	{
-		Scalar r;
-		vector<Scalar, 3> i;
+		Scalar s;
+		vector<Scalar, 3> v;
 	};
 
 	#if MUU_HAS_VECTORCALL
@@ -116,16 +113,14 @@ MUU_IMPL_NAMESPACE_END
 #endif // =============================================================================================================
 
 //=====================================================================================================================
-// CLASS
+// QUATERNION CLASS
 #if 1
 
 MUU_NAMESPACE_START
 {
-
-
 	/// \brief A quaternion.
 	///
-	/// \tparam	Scalar      The type of the quaternion's scalar components.
+	/// \tparam	Scalar      The type of the quaternion's scalar components. Must be a floating-point type.
 	template <typename Scalar>
 	struct MUU_TRIVIAL_ABI quaternion
 		#ifndef DOXYGEN
@@ -146,24 +141,31 @@ MUU_NAMESPACE_START
 			&& std::is_trivially_destructible_v<Scalar>,
 			"Quaternion scalar type must be trivially constructible, copyable and destructible"
 		);
+		static_assert(
+			is_floating_point<Scalar>,
+			"Quaternion scalar type must be a floating-point type"
+		);
 
 		/// \brief The type of each scalar component stored in this quaternion.
 		using scalar_type = Scalar;
 
-		/// \brief The scalar type used for products (length/distance dot, etc.)
-		using scalar_product = std::conditional_t<is_integral<scalar_type>, double, scalar_type>;
-
-		/// \brief Compile-time constants for this quaternion's scalar type.
+		/// \brief Compile-time constants for this quaternion's #scalar_type.
 		using scalar_constants = muu::constants<scalar_type>;
 
-		/// \brief The three-dimensional vector type with the same scalar_type as this quaternion.
+		/// \brief The three-dimensional vector type with the same #scalar_type as this quaternion.
 		using vector_type = vector<scalar_type, 3>;
 
-		/// \brief The three-dimensional vector type with #scalar_type == #scalar_product.
-		using vector_product = vector<scalar_product, 3>;
+		/// \brief `vector_type` or `const vector_type&`, depending on depending on size, triviality, simd-friendliness, etc.
+		using vector_param = typename vector_type::vector_param;
 
-		/// \brief Compile-time constants for this quaternion's vector type.
+		/// \brief Compile-time constants for this quaternion's #vector_type.
 		using vector_constants = muu::constants<vector_type>;
+
+		/// \brief The axis-angle rotation with the same #scalar_type as this quaternion.
+		using axis_angle_type = axis_angle_rotation<scalar_type>;
+
+		/// \brief The quaternion type with #scalar_type == #scalar_product.
+		using quaternion_product = quaternion<scalar_type>;
 
 		/// \brief `quaternion` or `const quaternion&`, depending on depending on size, triviality, simd-friendliness, etc.
 		using quaternion_param = std::conditional_t<
@@ -182,17 +184,55 @@ MUU_NAMESPACE_START
 			sizeof(base) == (sizeof(scalar_type) * 4),
 			"Quaternions should not have padding"
 		);
-		using intermediate_type = impl::promote_if_small_float<scalar_product>;
+		using intermediate_type = impl::promote_if_small_float<scalar_type>;
 
 	public:
 
 		#ifdef DOXYGEN
 		/// \brief The quaternion's scalar (real) part.
-		scalar_type r;
+		scalar_type s;
 		/// \brief The quaternion's vector (imaginary) part.
-		vector_type i;
+		vector_type v;
 		#endif
 
+	#if 1 // constructors ---------------------------------------------------------------------------------------------
+	
+		/// \brief Default constructor. Values are not initialized.
+		quaternion() noexcept = default;
+
+		/// \brief Copy constructor.
+		MUU_NODISCARD_CTOR
+		constexpr quaternion(const quaternion&) noexcept = default;
+
+		/// \brief Copy-assigment operator.
+		constexpr quaternion& operator = (const quaternion&) noexcept = default;
+
+		/// \brief	Constructs a quaternion from raw scalar values.
+		///
+		/// \param	s	Initial value for the scalar (real) part.
+		/// \param	vx	Initial value for the vector (imaginary) part's X component.
+		/// \param	vy	Initial value for the vector (imaginary) part's Y component.
+		/// \param	vz	Initial value for the vector (imaginary) part's Z component.
+		constexpr quaternion(scalar_type s, scalar_type vx, scalar_type vy, scalar_type vz) noexcept
+			: base{ s, vector_type{ vx, vy, vz }  }
+		{}
+
+		/// \brief	Constructs a quaternion from a scalar and a vector.
+		///
+		/// \param	s	Initial value for the scalar (real) part.
+		/// \param	v	Initial value for the vector (imaginary) part.
+		constexpr quaternion(scalar_type s, const vector_type& v) noexcept
+			: base{ s, v }
+		{}
+
+		/// \brief Converting constructor.
+		template <typename T>
+		explicit constexpr quaternion(const quaternion<T>& quat) noexcept
+			: base{ static_cast<scalar_type>(quat.s), vector_type{ quat.v } }
+		{}
+
+
+	#endif // constructors
 
 	#if 1 // value accessors ------------------------------------------------------------------------------------------
 
@@ -209,8 +249,8 @@ MUU_NAMESPACE_START
 				"Element index out of range"
 			);
 
-			if constexpr (Index == 0) return quat.r;
-			if constexpr (Index == 1) return quat.i;
+			if constexpr (Index == 0) return quat.s;
+			if constexpr (Index == 1) return quat.v;
 		}
 
 	public:
@@ -247,45 +287,6 @@ MUU_NAMESPACE_START
 
 	#endif // value accessors
 
-	#if 1 // constructors ---------------------------------------------------------------------------------------------
-	
-		/// \brief Default constructor. Values are not initialized.
-		quaternion() noexcept = default;
-
-		/// \brief Copy constructor.
-		MUU_NODISCARD_CTOR
-		constexpr quaternion(const quaternion&) noexcept = default;
-
-		/// \brief Copy-assigment operator.
-		constexpr quaternion& operator = (const quaternion&) noexcept = default;
-
-		/// \brief	Constructs a quaternion from raw scalar values.
-		///
-		/// \param	r	Initial value for the real part.
-		/// \param	ix	Initial value for the imaginary part's X component.
-		/// \param	iy	Initial value for the imaginary part's Y component.
-		/// \param	iz	Initial value for the imaginary part's Z component.
-		constexpr quaternion(scalar_type r, scalar_type ix, scalar_type iy, scalar_type iz) noexcept
-			: base{ r, vector_type{ ix, iy, iz }  }
-		{}
-
-		/// \brief	Constructs a quaternion from a scalar and a vector.
-		///
-		/// \param	r	Initial value for the real part.
-		/// \param	i	Initial value for the imaginary part.
-		constexpr quaternion(scalar_type r, const vector_type& i) noexcept
-			: base{ r, i }
-		{}
-
-		/// \brief Converting constructor.
-		template <typename T>
-		explicit constexpr quaternion(const quaternion<T>& quat) noexcept
-			: base{ static_cast<scalar_type>(quat.r), vector_type{ quat.i } }
-		{}
-
-
-	#endif // constructors
-
 	#if 1 // equality -------------------------------------------------------------------------------------------------
 
 		/// \brief		Returns true if two quaternions are exactly equal.
@@ -297,18 +298,8 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		friend constexpr bool MUU_VECTORCALL operator == (quaternion_param lhs, const quaternion<T>& rhs) noexcept
 		{
-			if constexpr (is_signed<scalar_type> != is_signed<T>)
-			{
-				using type = impl::highest_ranked<scalar_type, T>;
-
-				return static_cast<type>(lhs.r) == static_cast<type>(rhs.r)
-					&& lhs.i == rhs.i;
-			}
-			else
-			{
-				return lhs.r == rhs.r
-					&& lhs.i == rhs.i;
-			}
+			return lhs.s == rhs.s
+				&& lhs.v == rhs.v;
 		}
 
 		/// \brief	Returns true if two quaternions are not exactly equal.
@@ -330,18 +321,8 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		friend constexpr bool MUU_VECTORCALL operator == (quaternion_param lhs, quaternion<T> rhs) noexcept
 		{
-			if constexpr (is_signed<scalar_type> != is_signed<T>)
-			{
-				using type = impl::highest_ranked<scalar_type, T>;
-
-				return static_cast<type>(lhs.r) == static_cast<type>(rhs.r)
-					&& lhs.i == rhs.i;
-			}
-			else
-			{
-				return lhs.r == rhs.r
-					&& lhs.i == rhs.i;
-			}
+			return lhs.s == rhs.s
+				&& lhs.v == rhs.v;
 		}
 
 		template <typename T ENABLE_PAIRED_FUNC_BY_VAL(T, true)>
@@ -362,8 +343,8 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		constexpr bool zero() const noexcept
 		{
-			return base::r == scalar_constants::zero
-				&& base::i == vector_constants::zero;
+			return base::s == scalar_constants::zero
+				&& base::v == vector_constants::zero;
 		}
 
 		/// \brief	Returns true if any of the scalar components of the quaternion are infinity or NaN.
@@ -373,11 +354,29 @@ MUU_NAMESPACE_START
 		{
 			if constexpr (is_floating_point<scalar_type>)
 			{
-				return muu::infinity_or_nan(base::r)
-					|| base::i.infinity_or_nan();
+				return muu::infinity_or_nan(base::s)
+					|| base::v.infinity_or_nan();
 			}
 			else
 				return false;
+		}
+
+		/// \brief Returns true if the quaternion is unit-length (i.e. has a length of 1).
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr bool unit_length() const noexcept
+		{
+			constexpr auto epsilon = intermediate_type{ 1 } / (
+				100ull
+				* (sizeof(scalar_type) >= sizeof(float) ? 10000ull : 1ull)
+				* (sizeof(scalar_type) >= sizeof(double) ? 10000ull : 1ull)
+			);
+
+			return muu::approx_equal(
+				raw_dot(*this, *this),
+				intermediate_type{ 1 },
+				epsilon
+			);
 		}
 
 	#endif // equality
@@ -385,11 +384,7 @@ MUU_NAMESPACE_START
 	#if 1 // approx_equal ---------------------------------------------------------------------------------------------
 
 		/// \brief	Returns true if two quaternions are approximately equal.
-		/// 
-		/// \note		This function is only available when at least one of #scalar_type and `T` is a floating-point type.
-		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T>
-			ENABLE_PAIRED_FUNC_BY_REF(T, any_floating_point<scalar_type, T>)
-		>
+		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T> ENABLE_PAIRED_FUNC_BY_REF(T, true)>
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL approx_equal(
@@ -402,18 +397,14 @@ MUU_NAMESPACE_START
 
 			using type = impl::promote_if_small_float<impl::highest_ranked<scalar_type, T>>;
 
-			return muu::approx_equal(static_cast<type>(q1.r), static_cast<type>(q2.r), static_cast<type>(epsilon))
-				&& muu::approx_equal(static_cast<type>(q1.i.x), static_cast<type>(q2.i.x), static_cast<type>(epsilon))
-				&& muu::approx_equal(static_cast<type>(q1.i.y), static_cast<type>(q2.i.y), static_cast<type>(epsilon))
-				&& muu::approx_equal(static_cast<type>(q1.i.z), static_cast<type>(q2.i.z), static_cast<type>(epsilon));
+			return muu::approx_equal(static_cast<type>(q1.s), static_cast<type>(q2.s), static_cast<type>(epsilon))
+				&& muu::approx_equal(static_cast<type>(q1.v.x), static_cast<type>(q2.v.x), static_cast<type>(epsilon))
+				&& muu::approx_equal(static_cast<type>(q1.v.y), static_cast<type>(q2.v.y), static_cast<type>(epsilon))
+				&& muu::approx_equal(static_cast<type>(q1.v.z), static_cast<type>(q2.v.z), static_cast<type>(epsilon));
 		}
 
 		/// \brief	Returns true if the quaternion is approximately equal to another.
-		/// 
-		/// \note		This function is only available when at least one of #scalar_type and `T` is a floating-point type.
-		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T>
-			ENABLE_PAIRED_FUNC_BY_REF(T, any_floating_point<scalar_type, T>)
-		>
+		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T> ENABLE_PAIRED_FUNC_BY_REF(T, true)>
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_equal(
@@ -428,9 +419,7 @@ MUU_NAMESPACE_START
 
 		#if ENABLE_PAIRED_FUNCS
 
-		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T>
-			ENABLE_PAIRED_FUNC_BY_VAL(T, any_floating_point<scalar_type, T>)
-		>
+		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T> ENABLE_PAIRED_FUNC_BY_VAL(T, true)>
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL approx_equal(
@@ -443,15 +432,13 @@ MUU_NAMESPACE_START
 
 			using type = impl::promote_if_small_float<impl::highest_ranked<scalar_type, T>>;
 
-			return muu::approx_equal(static_cast<type>(q1.r), static_cast<type>(q2.r), static_cast<type>(epsilon))
-				&& muu::approx_equal(static_cast<type>(q1.i.x), static_cast<type>(q2.i.x), static_cast<type>(epsilon))
-				&& muu::approx_equal(static_cast<type>(q1.i.y), static_cast<type>(q2.i.y), static_cast<type>(epsilon))
-				&& muu::approx_equal(static_cast<type>(q1.i.z), static_cast<type>(q2.i.z), static_cast<type>(epsilon));
+			return muu::approx_equal(static_cast<type>(q1.s), static_cast<type>(q2.s), static_cast<type>(epsilon))
+				&& muu::approx_equal(static_cast<type>(q1.v.x), static_cast<type>(q2.v.x), static_cast<type>(epsilon))
+				&& muu::approx_equal(static_cast<type>(q1.v.y), static_cast<type>(q2.v.y), static_cast<type>(epsilon))
+				&& muu::approx_equal(static_cast<type>(q1.v.z), static_cast<type>(q2.v.z), static_cast<type>(epsilon));
 		}
 
-		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T>
-			ENABLE_PAIRED_FUNC_BY_VAL(T, any_floating_point<scalar_type, T>)
-		>
+		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T> ENABLE_PAIRED_FUNC_BY_VAL(T, true)>
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_equal(
@@ -467,9 +454,6 @@ MUU_NAMESPACE_START
 		#endif // ENABLE_PAIRED_FUNCS
 
 		/// \brief	Returns true if all the scalar components in the quaternion are approximately equal to zero.
-		/// 
-		/// \note		This function is only available when #scalar_type is a floating-point type.
-		REQUIRES_FLOATING_POINT
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_zero(
@@ -481,19 +465,21 @@ MUU_NAMESPACE_START
 
 	#endif // approx_equal
 
-	#if 1 // dot product -----------------------------------------------------------------------------------
+	#if 1 // dot product ----------------------------------------------------------------------------------------------
 
 	private:
 
-		template <typename Return = intermediate_type>
+		template <typename T = intermediate_type>
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr Return MUU_VECTORCALL raw_dot(quaternion_param q1, quaternion_param q2) noexcept
+		static constexpr T MUU_VECTORCALL raw_dot(quaternion_param q1, quaternion_param q2) noexcept
 		{
 			MUU_FMA_BLOCK
 
-			return static_cast<Return>(q1.r) * static_cast<Return>(q2.r)
-				+ vector_type::template raw_dot<Return>(q1.i, q2.i);
+			static_assert(std::is_same_v<impl::highest_ranked<T, intermediate_type>, T>); // non-truncating
+
+			return static_cast<T>(q1.s) * static_cast<T>(q2.s)
+				+ vector_type::template raw_dot<T>(q1.v, q2.v);
 		}
 
 	public:
@@ -501,15 +487,15 @@ MUU_NAMESPACE_START
 		/// \brief	Returns the dot product of two quaternions.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr scalar_product MUU_VECTORCALL dot(quaternion_param q1, quaternion_param q2) noexcept
+		static constexpr scalar_type MUU_VECTORCALL dot(quaternion_param q1, quaternion_param q2) noexcept
 		{
-			return static_cast<scalar_product>(raw_dot(q1, q2));
+			return static_cast<scalar_type>(raw_dot(q1, q2));
 		}
 
 		/// \brief	Returns the dot product of this and another quaternion.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		constexpr scalar_product MUU_VECTORCALL dot(quaternion_param q) const noexcept
+		constexpr scalar_type MUU_VECTORCALL dot(quaternion_param q) const noexcept
 		{
 			return dot(*this, q);
 		}
@@ -523,32 +509,218 @@ MUU_NAMESPACE_START
 		/// \param v	The quaternion to normalize.
 		/// 
 		/// \return		A normalized copy of the input quaternion.
-		/// 
-		/// \note This function is only available when #scalar_type is a floating-point type.
-		REQUIRES_FLOATING_POINT
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr quaternion MUU_VECTORCALL normalize(quaternion_param v) noexcept
 		{
-			const intermediate_type inv_length = intermediate_type{1} / muu::sqrt(raw_dot(v, v));
+			const intermediate_type inv_length = intermediate_type{ 1 } / muu::sqrt(raw_dot(v, v));
 			return quaternion{
-				static_cast<scalar_type>(v.r * inv_length),
-				vector_type::raw_multiply_scalar(v.i, inv_length)
+				static_cast<scalar_type>(v.s * inv_length),
+				vector_type::raw_multiply_scalar(v.v, inv_length)
 			};
 		}
 
 		/// \brief		Normalizes the quaternion (in-place).
 		///
 		/// \return		A reference to the quaternion.
-		/// 
-		/// \note		This function is only available when #scalar_type is a floating-point type.
-		REQUIRES_FLOATING_POINT
 		constexpr quaternion& normalize() noexcept
 		{
 			return (*this = normalize(*this));
 		}
 
 	#endif // normalization
+	
+	#if 1 // inversion ------------------------------------------------------------------------------------------------
+
+		/// \brief		Inverts a quaternion.
+		///
+		/// \param q	The quaternion to invert.
+		/// 
+		/// \return		An inverted copy of the input quaternion.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr quaternion MUU_VECTORCALL invert(quaternion_param q) noexcept
+		{
+			return { q.s, -q.v };
+		}
+
+		/// \brief		Inverts the quaternion (in-place).
+		///
+		/// \return		A reference to the quaternion.
+		constexpr quaternion& invert() noexcept
+		{
+			base::v = -base::v;
+			return *this;
+		}
+
+	#endif // inversion
+
+	#if 1 // axis-angle conversions -----------------------------------------------------------------------------------
+
+		/// \brief Creates a quaternion from an angle and axis.
+		/// 
+		/// \param axis		Axis to rotate around. Must be unit-length.
+		/// \param angle	Angle in radians to rotate by.
+		/// 
+		/// \return A quaternion encoding the given angle-axis rotation.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr quaternion MUU_VECTORCALL from_axis_angle(vector_param axis, scalar_type angle) noexcept
+		{
+			if constexpr (impl::is_small_float<scalar_type>)
+			{
+				const auto angle_ = static_cast<intermediate_type>(angle) * muu::constants<intermediate_type>::one_over_two;
+				return quaternion
+				{
+					static_cast<intermediate_type>(muu::cos(angle_)),	//scalar
+					vector_type{ muu::sin(angle_) * axis }				//vector
+				};
+			}
+			else
+			{
+				angle *= scalar_constants::one_over_two;
+				return quaternion
+				{
+					muu::cos(angle),		//scalar
+					muu::sin(angle) * axis	//vector
+				};
+			}
+		}
+
+		/// \brief	Extracts an angle and axis rotation from a quaternion.
+		///
+		/// \param	quat			The quaternion to convert.
+		/// \param	shortest_path	Should the returned values be derived from the shortest path?
+		/// 						`true` is more intuitive but means that the returned values may not convert back
+		/// 						to the original quaternion if used with #from_axis_angle().
+		///
+		/// \returns	An axis and angle representing the rotation stored in the given quaternion.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static axis_angle_type MUU_VECTORCALL to_axis_angle(quaternion quat, bool shortest_path = true) noexcept
+		{
+			if (shortest_path && quat.s < scalar_constants::zero)
+			{
+				quat.s = -quat.s;
+				quat.v *= scalar_constants::minus_one;
+			}
+
+			// intermediate calcs are done using doubles because anything else is far too imprecise
+			using calc_type = impl::highest_ranked<intermediate_type, double>;
+
+			const calc_type length = vector_type::template raw_length<calc_type>(quat.v);
+			if (length == calc_type{})
+			{
+				// This happens at angle = 0 and 360. All axes are correct, so any will do.
+				return
+				{
+					vector_constants::x_axis,
+					static_cast<scalar_type>(calc_type{ 2 } * std::atan2(length, static_cast<calc_type>(quat.s))),
+				};
+			}
+			else
+			{
+				return
+				{
+
+					quat.i.raw_divide_assign_scalar(length),
+					static_cast<scalar_type>(calc_type{ 2 } * std::atan2(length, static_cast<calc_type>(quat.s))),
+				};
+			}
+		}
+
+	#endif // axis-angle conversions
+
+	#if 1 // multiplication -------------------------------------------------------------------------------------------
+
+		/// \brief Multiplies two quaternions.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		friend constexpr quaternion_product MUU_VECTORCALL operator * (quaternion_param lhs, quaternion_param rhs) noexcept
+		{
+			using mult_type = decltype(scalar_type{} * scalar_type{});
+
+			if constexpr (all_same<scalar_type, mult_type, intermediate_type>)
+			{
+				return
+				{
+					lhs.s * rhs.s - vector_type::template raw_dot<intermediate_type>(lhs.v, rhs.v),
+					lhs.s * rhs.v + rhs.s * lhs.v + vector_type::template raw_cross<intermediate_type>(lhs.v, rhs.v)
+				};
+
+			}
+			else
+			{
+				return
+				{
+					static_cast<scalar_type>(
+						static_cast<intermediate_type>(lhs.s) * static_cast<intermediate_type>(rhs.s)
+							- vector_type::template raw_dot<intermediate_type>(lhs.v, rhs.v)
+					),
+
+					vector_type{
+						static_cast<intermediate_type>(lhs.s) * static_cast<intermediate_type>(rhs.v)
+							+ static_cast<intermediate_type>(rhs.s) * static_cast<intermediate_type>(lhs.v)
+							+ vector_type::template raw_cross<intermediate_type>(lhs.v, rhs.v)
+					}
+				};
+			}
+		}
+
+		/// \brief Multiplies this quaternion with another.
+		constexpr quaternion& MUU_VECTORCALL operator *= (quaternion_param rhs) noexcept
+		{
+			if constexpr (std::is_same_v<quaternion_product, quaternion>)
+			{
+				return (*this = *this * rhs);
+			}
+			else
+			{
+				*this = quaternion{ *this * rhs };
+			}
+		}
+
+		/// \brief Rotates a three-dimensional vector by the rotation encoded in a quaternion.
+		[[nodiscard]]
+		friend constexpr vector_type MUU_VECTORCALL operator * (quaternion_param lhs, vector_param rhs) noexcept
+		{
+			using mult_type = decltype(scalar_type{} * scalar_type{});
+
+			if constexpr (all_same<scalar_type, mult_type, intermediate_type>)
+			{
+				const auto two_s = lhs.s + lhs.s;
+				return two_s * vector_type::template raw_cross<intermediate_type>(lhs.v, rhs)
+					+ (two_s * lhs.s - intermediate_type{ 1 }) * rhs
+					+ intermediate_type{ 2 } * vector_type::template raw_cross<intermediate_type>(lhs.v, rhs) * lhs.v;
+			}
+			else
+			{
+				const auto two_s = static_cast<intermediate_type>(lhs.s) * intermediate_type{ 2 };
+
+				return two_s * vector_type::template raw_cross<intermediate_type>(lhs.v, rhs)
+					+ (two_s * static_cast<intermediate_type>(lhs.s) - intermediate_type{ 1 }) * rhs
+					+ intermediate_type{ 2 } * vector_type::template raw_dot<intermediate_type>(lhs.v, rhs) * lhs.v;
+			}
+
+
+		}
+
+		///// \brief Scales the shortest-path rotation equivalent of a quaternion by a scalar.
+		//[[nodiscard]]
+		//MUU_ATTR(pure)
+		//friend constexpr quaternion_product MUU_VECTORCALL operator * (quaternion_param lhs, scalar_type rhs) noexcept
+		//{
+		//	auto axisAngle = ToAxisAngle(lhs);
+		//	axisAngle.Angle *= static_cast<scalar_t>(rhs) * scalar_t { 0.5 };
+		//	axisAngle.Axis.normalize(); //todo: unnecessary?
+		//	return
+		//	{
+		//		Cos(axisAngle.Angle),
+		//		Sin(axisAngle.Angle) * axisAngle.Axis
+		//	};
+		//}
+
+	#endif // multiplication
 	};
 
 	#ifndef DOXYGEN // deduction guides -------------------------------------------------------------------------------
@@ -595,7 +767,6 @@ namespace std
 
 #endif // =============================================================================================================
 
-#undef REQUIRES_FLOATING_POINT
 #undef ENABLE_PAIRED_FUNC_BY_REF
 #undef ENABLE_PAIRED_FUNC_BY_VAL
 #undef ENABLE_PAIRED_FUNCS

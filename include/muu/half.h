@@ -86,6 +86,10 @@ MUU_NAMESPACE_START
 	/// auto b3 = 4.0_f16 <= 5;
 	/// \ecpp
 	/// 
+	/// \note		Older compilers won't provide the necessary machinery for arithmetic and conversions to/from muu::half
+	/// 			to work in constexpr contexts. You can check for constexpr support by examining
+	/// 			build::supports_constexpr_half.
+	/// 
 	/// \attention Despite the arithmetic operations being implemented as you'd expect, 16-bit floating-point
 	/// 		 arithmetic is _very_ lossy and should be avoided for all but the most trivial cases.
 	/// 		 In general it's better to do your arithmetic in a higher-precision type (e.g. float) and convert
@@ -153,7 +157,7 @@ MUU_NAMESPACE_START
 		HALF_EXPLICIT_CONSTRUCTOR(double)
 		HALF_EXPLICIT_CONSTRUCTOR(long double)
 		#if MUU_HAS_FLOAT128
-		HALF_EXPLICIT_CONSTRUCTOR(quad)
+		HALF_EXPLICIT_CONSTRUCTOR(float128_t)
 		#endif
 		HALF_EXPLICIT_CONSTRUCTOR(char)
 		HALF_EXPLICIT_CONSTRUCTOR(signed char)
@@ -247,7 +251,7 @@ MUU_NAMESPACE_START
 		HALF_CAST_CONVERSION(double,						)
 		HALF_CAST_CONVERSION(long double,					)
 		#if MUU_HAS_FLOAT128
-		HALF_CAST_CONVERSION(quad,							)
+		HALF_CAST_CONVERSION(float128_t,					)
 		#endif
 		HALF_CAST_CONVERSION(char,					explicit)
 		HALF_CAST_CONVERSION(signed char,			explicit)
@@ -359,7 +363,7 @@ MUU_NAMESPACE_START
 		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,  double)
 		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,  long double)
 		#if MUU_HAS_FLOAT128
-		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,  quad)
+		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,  float128_t)
 		#endif
 		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, char)
 		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, signed char)
@@ -426,7 +430,7 @@ MUU_NAMESPACE_START
 		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,	double,			double)
 		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,	long double,	long double)
 		#if MUU_HAS_FLOAT128
-		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,	quad,			quad)
+		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,	float128_t,		float128_t)
 		#endif
 		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			char)
 		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			signed char)
@@ -551,7 +555,7 @@ MUU_NAMESPACE_START
 		HALF_BINARY_OPS(HALF_DEMOTING_ASSIGN_OP,	double)
 		HALF_BINARY_OPS(HALF_DEMOTING_ASSIGN_OP,	long double)
 		#if MUU_HAS_FLOAT128
-		HALF_BINARY_OPS(HALF_DEMOTING_ASSIGN_OP,	quad)
+		HALF_BINARY_OPS(HALF_DEMOTING_ASSIGN_OP,	float128_t)
 		#endif
 		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	char)
 		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	signed char)
@@ -696,6 +700,12 @@ MUU_NAMESPACE_START
 		}
 	};
 
+	namespace build
+	{
+		/// \brief	True if using muu::half in constexpr contexts is fully supported on this compiler.
+		inline constexpr bool supports_constexpr_half = !HALF_EMULATED || supports_constexpr_bit_cast;
+	}
+
 	#ifndef DOXYGEN
 	namespace impl
 	{
@@ -794,98 +804,107 @@ MUU_NAMESPACE_START
 		struct floating_point_named_constants<half>
 		{
 			#if HALF_EMULATED
-			static constexpr half one_over_two          = half::from_bits( 0b0'01110'0000000000_u16 );
-			static constexpr half two_over_three        = half::from_bits( 0b0'01110'0101010110_u16 );
-			static constexpr half two_over_five         = half::from_bits( 0b0'01101'1001100111_u16 );
-			static constexpr half sqrt_two              = half::from_bits( 0b0'01111'0110101000_u16 );
-			static constexpr half one_over_sqrt_two     = half::from_bits( 0b0'01110'0110101000_u16 );
-			static constexpr half one_over_three        = half::from_bits( 0b0'01101'0101010110_u16 );
-			static constexpr half three_over_two        = half::from_bits( 0b0'01111'1000000000_u16 );
-			static constexpr half three_over_four       = half::from_bits( 0b0'01110'1000000000_u16 );
-			static constexpr half three_over_five       = half::from_bits( 0b0'01110'0011001101_u16 );
-			static constexpr half sqrt_three            = half::from_bits( 0b0'01111'1011101110_u16 );
-			static constexpr half one_over_sqrt_three   = half::from_bits( 0b0'01110'0010011111_u16 );
-			static constexpr half pi                    = half::from_bits( 0b0'10000'1001001001_u16 );
-			static constexpr half one_over_pi           = half::from_bits( 0b0'01101'0100011000_u16 );
-			static constexpr half pi_over_two           = half::from_bits( 0b0'01111'1001001001_u16 );
-			static constexpr half pi_over_three         = half::from_bits( 0b0'01111'0000110001_u16 );
-			static constexpr half pi_over_four          = half::from_bits( 0b0'01110'1001001001_u16 );
-			static constexpr half pi_over_five          = half::from_bits( 0b0'01110'0100000111_u16 );
-			static constexpr half pi_over_six           = half::from_bits( 0b0'01110'0000110001_u16 );
-			static constexpr half sqrt_pi               = half::from_bits( 0b0'01111'1100010111_u16 );
-			static constexpr half one_over_sqrt_pi      = half::from_bits( 0b0'01110'0010000100_u16 );
-			static constexpr half two_pi                = half::from_bits( 0b0'10001'1001001001_u16 );
-			static constexpr half sqrt_two_pi           = half::from_bits( 0b0'10000'0100000100_u16 );
-			static constexpr half one_over_sqrt_two_pi  = half::from_bits( 0b0'01101'1001100010_u16 );
-			static constexpr half one_over_three_pi     = half::from_bits( 0b0'01011'1011001011_u16 );
-			static constexpr half three_pi_over_two     = half::from_bits( 0b0'10001'0010110111_u16 );
-			static constexpr half three_pi_over_four    = half::from_bits( 0b0'10000'0010110111_u16 );
-			static constexpr half three_pi_over_five    = half::from_bits( 0b0'01111'1110001010_u16 );
-			static constexpr half e                     = half::from_bits( 0b0'10000'0101110000_u16 );
-			static constexpr half one_over_e            = half::from_bits( 0b0'01101'0111100011_u16 );
-			static constexpr half e_over_two            = half::from_bits( 0b0'01111'0101110000_u16 );
-			static constexpr half e_over_three          = half::from_bits( 0b0'01110'1101000000_u16 );
-			static constexpr half e_over_four           = half::from_bits( 0b0'01110'0101110000_u16 );
-			static constexpr half e_over_five           = half::from_bits( 0b0'01110'0001011010_u16 );
-			static constexpr half e_over_six            = half::from_bits( 0b0'01101'1101000000_u16 );
-			static constexpr half sqrt_e                = half::from_bits( 0b0'01111'1010011001_u16 );
-			static constexpr half one_over_sqrt_e       = half::from_bits( 0b0'01110'0011011010_u16 );
-			static constexpr half phi                   = half::from_bits( 0b0'01111'1001111001_u16 );
-			static constexpr half one_over_phi          = half::from_bits( 0b0'01110'0011110010_u16 );
-			static constexpr half phi_over_two          = half::from_bits( 0b0'01110'1001111001_u16 );
-			static constexpr half phi_over_three        = half::from_bits( 0b0'01110'0001010001_u16 );
-			static constexpr half phi_over_four         = half::from_bits( 0b0'01101'1001111001_u16 );
-			static constexpr half phi_over_five         = half::from_bits( 0b0'01101'0100101110_u16 );
-			static constexpr half phi_over_six          = half::from_bits( 0b0'01101'0001010001_u16 );
-			static constexpr half sqrt_phi              = half::from_bits( 0b0'01111'0100010111_u16 );
-			static constexpr half one_over_sqrt_phi     = half::from_bits( 0b0'01110'1001001010_u16 );
+			static constexpr half one_over_two           = half::from_bits( 0b0'01110'0000000000_u16 );
+			static constexpr half two_over_three         = half::from_bits( 0b0'01110'0101010110_u16 );
+			static constexpr half two_over_five          = half::from_bits( 0b0'01101'1001100111_u16 );
+			static constexpr half sqrt_two               = half::from_bits( 0b0'01111'0110101000_u16 );
+			static constexpr half one_over_sqrt_two      = half::from_bits( 0b0'01110'0110101000_u16 );
+			static constexpr half one_over_three         = half::from_bits( 0b0'01101'0101010110_u16 );
+			static constexpr half three_over_two         = half::from_bits( 0b0'01111'1000000000_u16 );
+			static constexpr half three_over_four        = half::from_bits( 0b0'01110'1000000000_u16 );
+			static constexpr half three_over_five        = half::from_bits( 0b0'01110'0011001101_u16 );
+			static constexpr half sqrt_three             = half::from_bits( 0b0'01111'1011101110_u16 );
+			static constexpr half one_over_sqrt_three    = half::from_bits( 0b0'01110'0010011111_u16 );
+			static constexpr half pi                     = half::from_bits( 0b0'10000'1001001001_u16 );
+			static constexpr half one_over_pi            = half::from_bits( 0b0'01101'0100011000_u16 );
+			static constexpr half pi_over_two            = half::from_bits( 0b0'01111'1001001001_u16 );
+			static constexpr half pi_over_three          = half::from_bits( 0b0'01111'0000110001_u16 );
+			static constexpr half pi_over_four           = half::from_bits( 0b0'01110'1001001001_u16 );
+			static constexpr half pi_over_five           = half::from_bits( 0b0'01110'0100000111_u16 );
+			static constexpr half pi_over_six            = half::from_bits( 0b0'01110'0000110001_u16 );
+			static constexpr half sqrt_pi                = half::from_bits( 0b0'01111'1100010111_u16 );
+			static constexpr half one_over_sqrt_pi       = half::from_bits( 0b0'01110'0010000100_u16 );
+			static constexpr half two_pi                 = half::from_bits( 0b0'10001'1001001001_u16 );
+			static constexpr half one_over_two_pi        = half::from_bits( 0b0'01100'0100011000_u16 );
+			static constexpr half sqrt_two_pi            = half::from_bits( 0b0'10000'0100000100_u16 );
+			static constexpr half one_over_sqrt_two_pi   = half::from_bits( 0b0'01101'1001100010_u16 );
+			static constexpr half three_pi               = half::from_bits( 0b0'10010'0010110111_u16 );
+			static constexpr half one_over_three_pi      = half::from_bits( 0b0'01011'1011001011_u16 );
+			static constexpr half three_pi_over_two      = half::from_bits( 0b0'10001'0010110111_u16 );
+			static constexpr half three_pi_over_four     = half::from_bits( 0b0'10000'0010110111_u16 );
+			static constexpr half three_pi_over_five     = half::from_bits( 0b0'01111'1110001010_u16 );
+			static constexpr half sqrt_three_pi          = half::from_bits( 0b0'10000'1000100100_u16 );
+			static constexpr half one_over_sqrt_three_pi = half::from_bits( 0b0'01101'0100110110_u16 );
+			static constexpr half e                      = half::from_bits( 0b0'10000'0101110000_u16 );
+			static constexpr half one_over_e             = half::from_bits( 0b0'01101'0111100011_u16 );
+			static constexpr half e_over_two             = half::from_bits( 0b0'01111'0101110000_u16 );
+			static constexpr half e_over_three           = half::from_bits( 0b0'01110'1101000000_u16 );
+			static constexpr half e_over_four            = half::from_bits( 0b0'01110'0101110000_u16 );
+			static constexpr half e_over_five            = half::from_bits( 0b0'01110'0001011010_u16 );
+			static constexpr half e_over_six             = half::from_bits( 0b0'01101'1101000000_u16 );
+			static constexpr half sqrt_e                 = half::from_bits( 0b0'01111'1010011001_u16 );
+			static constexpr half one_over_sqrt_e        = half::from_bits( 0b0'01110'0011011010_u16 );
+			static constexpr half phi                    = half::from_bits( 0b0'01111'1001111001_u16 );
+			static constexpr half one_over_phi           = half::from_bits( 0b0'01110'0011110010_u16 );
+			static constexpr half phi_over_two           = half::from_bits( 0b0'01110'1001111001_u16 );
+			static constexpr half phi_over_three         = half::from_bits( 0b0'01110'0001010001_u16 );
+			static constexpr half phi_over_four          = half::from_bits( 0b0'01101'1001111001_u16 );
+			static constexpr half phi_over_five          = half::from_bits( 0b0'01101'0100101110_u16 );
+			static constexpr half phi_over_six           = half::from_bits( 0b0'01101'0001010001_u16 );
+			static constexpr half sqrt_phi               = half::from_bits( 0b0'01111'0100010111_u16 );
+			static constexpr half one_over_sqrt_phi      = half::from_bits( 0b0'01110'1001001010_u16 );
 			#else
 			using impl_type = floating_point_named_constants<HALF_IMPL_TYPE>;
-			static constexpr half one_over_two          = half{ impl_type::one_over_two             };
-			static constexpr half two_over_three        = half{ impl_type::two_over_three           };
-			static constexpr half two_over_five         = half{ impl_type::two_over_five            };
-			static constexpr half sqrt_two              = half{ impl_type::sqrt_two                 };
-			static constexpr half one_over_sqrt_two     = half{ impl_type::one_over_sqrt_two        };
-			static constexpr half one_over_three        = half{ impl_type::one_over_three           };
-			static constexpr half three_over_two        = half{ impl_type::three_over_two           };
-			static constexpr half three_over_four       = half{ impl_type::three_over_four          };
-			static constexpr half three_over_five       = half{ impl_type::three_over_five          };
-			static constexpr half sqrt_three            = half{ impl_type::sqrt_three               };
-			static constexpr half one_over_sqrt_three   = half{ impl_type::one_over_sqrt_three      };
-			static constexpr half pi                    = half{ impl_type::pi                       };
-			static constexpr half one_over_pi           = half{ impl_type::one_over_pi              };
-			static constexpr half pi_over_two           = half{ impl_type::pi_over_two              };
-			static constexpr half pi_over_three         = half{ impl_type::pi_over_three            };
-			static constexpr half pi_over_four          = half{ impl_type::pi_over_four             };
-			static constexpr half pi_over_five          = half{ impl_type::pi_over_five             };
-			static constexpr half pi_over_six           = half{ impl_type::pi_over_six              };
-			static constexpr half sqrt_pi               = half{ impl_type::sqrt_pi                  };
-			static constexpr half one_over_sqrt_pi      = half{ impl_type::one_over_sqrt_pi         };
-			static constexpr half two_pi                = half{ impl_type::two_pi                   };
-			static constexpr half sqrt_two_pi           = half{ impl_type::sqrt_two_pi              };
-			static constexpr half one_over_sqrt_two_pi  = half{ impl_type::one_over_sqrt_two_pi     };
-			static constexpr half one_over_three_pi     = half{ impl_type::one_over_three_pi        };
-			static constexpr half three_pi_over_two     = half{ impl_type::three_pi_over_two        };
-			static constexpr half three_pi_over_four    = half{ impl_type::three_pi_over_four       };
-			static constexpr half three_pi_over_five    = half{ impl_type::three_pi_over_five       };
-			static constexpr half e                     = half{ impl_type::e                        };
-			static constexpr half one_over_e            = half{ impl_type::one_over_e               };
-			static constexpr half e_over_two            = half{ impl_type::e_over_two               };
-			static constexpr half e_over_three          = half{ impl_type::e_over_three             };
-			static constexpr half e_over_four           = half{ impl_type::e_over_four              };
-			static constexpr half e_over_five           = half{ impl_type::e_over_five              };
-			static constexpr half e_over_six            = half{ impl_type::e_over_six               };
-			static constexpr half sqrt_e                = half{ impl_type::sqrt_e                   };
-			static constexpr half one_over_sqrt_e       = half{ impl_type::one_over_sqrt_e          };
-			static constexpr half phi                   = half{ impl_type::phi                      };
-			static constexpr half one_over_phi          = half{ impl_type::one_over_phi             };
-			static constexpr half phi_over_two          = half{ impl_type::phi_over_two             };
-			static constexpr half phi_over_three        = half{ impl_type::phi_over_three           };
-			static constexpr half phi_over_four         = half{ impl_type::phi_over_four            };
-			static constexpr half phi_over_five         = half{ impl_type::phi_over_five            };
-			static constexpr half phi_over_six          = half{ impl_type::phi_over_six             };
-			static constexpr half sqrt_phi              = half{ impl_type::sqrt_phi                 };
-			static constexpr half one_over_sqrt_phi     = half{ impl_type::one_over_sqrt_phi        };
+			static constexpr half one_over_two           = half{ impl_type::one_over_two           };
+			static constexpr half two_over_three         = half{ impl_type::two_over_three         };
+			static constexpr half two_over_five          = half{ impl_type::two_over_five          };
+			static constexpr half sqrt_two               = half{ impl_type::sqrt_two               };
+			static constexpr half one_over_sqrt_two      = half{ impl_type::one_over_sqrt_two      };
+			static constexpr half one_over_three         = half{ impl_type::one_over_three         };
+			static constexpr half three_over_two         = half{ impl_type::three_over_two         };
+			static constexpr half three_over_four        = half{ impl_type::three_over_four        };
+			static constexpr half three_over_five        = half{ impl_type::three_over_five        };
+			static constexpr half sqrt_three             = half{ impl_type::sqrt_three             };
+			static constexpr half one_over_sqrt_three    = half{ impl_type::one_over_sqrt_three    };
+			static constexpr half pi                     = half{ impl_type::pi                     };
+			static constexpr half one_over_pi            = half{ impl_type::one_over_pi            };
+			static constexpr half pi_over_two            = half{ impl_type::pi_over_two            };
+			static constexpr half pi_over_three          = half{ impl_type::pi_over_three          };
+			static constexpr half pi_over_four           = half{ impl_type::pi_over_four           };
+			static constexpr half pi_over_five           = half{ impl_type::pi_over_five           };
+			static constexpr half pi_over_six            = half{ impl_type::pi_over_six            };
+			static constexpr half sqrt_pi                = half{ impl_type::sqrt_pi                };
+			static constexpr half one_over_sqrt_pi       = half{ impl_type::one_over_sqrt_pi       };
+			static constexpr half two_pi                 = half{ impl_type::two_pi                 };
+			static constexpr half one_over_two_pi        = half{ impl_type::one_over_two_pi        };
+			static constexpr half sqrt_two_pi            = half{ impl_type::sqrt_two_pi            };
+			static constexpr half one_over_sqrt_two_pi   = half{ impl_type::one_over_sqrt_two_pi   };
+			static constexpr half three_pi               = half{ impl_type::three_pi               };
+			static constexpr half one_over_three_pi      = half{ impl_type::one_over_three_pi      };
+			static constexpr half three_pi_over_two      = half{ impl_type::three_pi_over_two      };
+			static constexpr half three_pi_over_four     = half{ impl_type::three_pi_over_four     };
+			static constexpr half three_pi_over_five     = half{ impl_type::three_pi_over_five     };
+			static constexpr half sqrt_three_pi          = half{ impl_type::sqrt_three_pi          };
+			static constexpr half one_over_sqrt_three_pi = half{ impl_type::one_over_sqrt_three_pi };
+			static constexpr half e                      = half{ impl_type::e                      };
+			static constexpr half one_over_e             = half{ impl_type::one_over_e             };
+			static constexpr half e_over_two             = half{ impl_type::e_over_two             };
+			static constexpr half e_over_three           = half{ impl_type::e_over_three           };
+			static constexpr half e_over_four            = half{ impl_type::e_over_four            };
+			static constexpr half e_over_five            = half{ impl_type::e_over_five            };
+			static constexpr half e_over_six             = half{ impl_type::e_over_six             };
+			static constexpr half sqrt_e                 = half{ impl_type::sqrt_e                 };
+			static constexpr half one_over_sqrt_e        = half{ impl_type::one_over_sqrt_e        };
+			static constexpr half phi                    = half{ impl_type::phi                    };
+			static constexpr half one_over_phi           = half{ impl_type::one_over_phi           };
+			static constexpr half phi_over_two           = half{ impl_type::phi_over_two           };
+			static constexpr half phi_over_three         = half{ impl_type::phi_over_three         };
+			static constexpr half phi_over_four          = half{ impl_type::phi_over_four          };
+			static constexpr half phi_over_five          = half{ impl_type::phi_over_five          };
+			static constexpr half phi_over_six           = half{ impl_type::phi_over_six           };
+			static constexpr half sqrt_phi               = half{ impl_type::sqrt_phi               };
+			static constexpr half one_over_sqrt_phi      = half{ impl_type::one_over_sqrt_phi      };
+
 			#endif
 		};
 
@@ -893,6 +912,7 @@ MUU_NAMESPACE_START
 		struct floating_point_limits<half>
 		{
 			static constexpr int significand_digits = 11;
+			static constexpr int decimal_digits = 3;
 			
 			#if HALF_EMULATED
 			static constexpr half approx_equal_epsilon	= half::from_bits(0b0'00101'0000011001_u16); // 0.001
@@ -929,8 +949,64 @@ MUU_NAMESPACE_START
 
 	/// \addtogroup 	intrinsics
 	/// @{
+	
+	/// \brief	Returns the float of a half-precision float.
+	/// \ingroup	floor
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR(flatten)
+	constexpr half MUU_VECTORCALL floor(half val) noexcept
+	{
+		return impl::floor_(val);
+	}
 
-	/// \brief	Returns a linear interpolation between two halfs.
+	/// \brief	Returns the ceiling of a half-precision float.
+	/// \ingroup	ceil
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR(flatten)
+	constexpr half MUU_VECTORCALL ceil(half val) noexcept
+	{
+		return impl::ceil_(val);
+	}
+
+	/// \brief	Returns the cosine of a half-precision float.
+	/// \ingroup	cos
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr half MUU_VECTORCALL cos(half val) noexcept
+	{
+		return impl::cos_(val);
+	}
+
+	/// \brief	Returns the sine of a half-precision float.
+	/// \ingroup	sin
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr half MUU_VECTORCALL sin(half val) noexcept
+	{
+		return impl::sin_(val);
+	}
+
+	/// \brief	Returns the tangent of a half-precision float.
+	/// \ingroup	tan
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr half MUU_VECTORCALL tan(half val) noexcept
+	{
+		return impl::tan_(val);
+	}
+
+	/// \brief	Returns the square-root of a half-precision float.
+	/// \ingroup	sqrt
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr half MUU_VECTORCALL sqrt(half val) noexcept
+	{
+		return impl::sqrt_(val);
+	}
+
+	/// \brief	Returns a linear interpolation between two half-precision floats.
 	/// \ingroup	lerp
 	[[nodiscard]]
 	MUU_ATTR(const)
@@ -939,7 +1015,7 @@ MUU_NAMESPACE_START
 		return static_cast<half>(lerp(static_cast<float>(start), static_cast<float>(finish), static_cast<float>(alpha)));
 	}
 
-	/// \brief	Returns true if two halfs are approximately equal.
+	/// \brief	Returns true if two half-precision floats are approximately equal.
 	/// \ingroup	approx_equal
 	[[nodiscard]]
 	MUU_ATTR(const)
@@ -948,7 +1024,7 @@ MUU_NAMESPACE_START
 		return abs(rhs - lhs) < epsilon;
 	}
 
-	/// @}
+	/** @} */	// intrinsics
 }
 MUU_NAMESPACE_END
 
@@ -1107,11 +1183,8 @@ MUU_IMPL_NAMESPACE_START
 	constexpr uint16_t MUU_VECTORCALL f32_to_f16(float val) noexcept
 	{
 		#if HALF_USE_INTRINSICS
-		if constexpr (build::supports_is_constant_evaluated)
-		{
-			if (!is_constant_evaluated())
-				return f32_to_f16_intrinsic(val);
-		}
+		if constexpr (build::supports_is_constant_evaluated && !is_constant_evaluated())
+			return f32_to_f16_intrinsic(val);
 		#endif
 
 		return f32_to_f16_emulated(val);
@@ -1123,11 +1196,8 @@ MUU_IMPL_NAMESPACE_START
 	constexpr float MUU_VECTORCALL f16_to_f32(uint16_t val) noexcept
 	{
 		#if HALF_USE_INTRINSICS
-		if constexpr (build::supports_is_constant_evaluated)
-		{
-			if (!is_constant_evaluated())
-				return f16_to_f32_intrinsic(val);
-		}
+		if constexpr (build::supports_is_constant_evaluated && !is_constant_evaluated())
+			return f16_to_f32_intrinsic(val);
 		#endif
 
 		return f16_to_f32_emulated(val);

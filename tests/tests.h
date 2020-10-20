@@ -30,21 +30,21 @@
 MUU_PRAGMA_CLANG(diagnostic ignored "-Wc++2a-compat")
 MUU_PRAGMA_CLANG(diagnostic ignored "-Wfloat-equal")
 MUU_PRAGMA_CLANG(diagnostic ignored "-Wunused-template")
+MUU_PRAGMA_CLANG(diagnostic ignored "-Wunused-macros")
 MUU_PRAGMA_CLANG(diagnostic ignored "-Wpadded")
 MUU_PRAGMA_CLANG(diagnostic ignored "-Wdouble-promotion")
 MUU_PRAGMA_GCC(diagnostic ignored "-Wfloat-equal")
 MUU_PRAGMA_GCC(diagnostic ignored "-Wpedantic")
 MUU_PRAGMA_GCC(diagnostic ignored "-Wpadded")
+MUU_PRAGMA_MSVC(warning(disable: 4127)) // conditional expression is constant
 
 MUU_DISABLE_WARNINGS
 #include <iosfwd>
 #if MUU_HAS_FLOAT16
 std::ostream& operator << (std::ostream&, _Float16);
-std::wostream& operator << (std::wostream&, _Float16);
 #endif
 #if MUU_HAS_FLOAT128
 std::ostream& operator << (std::ostream&, __float128);
-std::wostream& operator << (std::wostream&, __float128);
 #endif
 #include "catch2.h"
 #include <array>
@@ -148,6 +148,36 @@ MUU_NAMESPACE_START
 		return static_cast<T&&>(val);
 	}
 
+	template <typename T>
+	struct print_aligned
+	{
+		T value;
+
+		template <typename Char>
+		friend std::basic_ostream<Char>& operator << (std::basic_ostream<Char>& lhs, const print_aligned& rhs)
+		{
+			if constexpr (is_floating_point<T>)
+			{
+				auto left = 1 + (muu::max)(0, static_cast<int>(muu::floor(std::log10(static_cast<impl::clamp_to_standard_float<T>>(muu::abs(rhs.value))))));
+				left += rhs.value < T{} ? 1 : 0;
+				left = 4 - left;
+				while (left-- > 0)
+					lhs.put(constants<Char>::space);
+
+				lhs << std::fixed
+					<< std::setprecision(constants<T>::decimal_digits)
+					<< rhs.value;
+			}
+			else
+			{
+				lhs << rhs.value;
+			}
+			return lhs;
+		}
+	};
+
+	template <typename T>
+	print_aligned(T) -> print_aligned<T>;
 }
 MUU_NAMESPACE_END
 using namespace Catch::literals;
@@ -184,53 +214,38 @@ MUU_ENABLE_WARNINGS
 	#define CHECK_STRINGS_W(...)		CHECK_AND_STATIC_ASSERT(__VA_ARGS__)
 #endif
 
-#define CHECK_APPROX_EQUAL_EPS(actual_, expected_, epsilon_)								\
-	do																						\
-	{																						\
-		const auto cae_expected = expected_;												\
-		INFO("expected: "sv																	\
-			<< std::fixed																	\
-			<< std::setprecision(std::numeric_limits<decltype(cae_expected)>::digits10)		\
-			<< cae_expected << "    "sv << MUU_MAKE_STRING(expected_))						\
-																							\
-		const auto cae_actual = actual_;													\
-		INFO("  actual: "sv																	\
-			<< std::fixed																	\
-			<< std::setprecision(std::numeric_limits<decltype(cae_actual)>::digits10)		\
-			<< cae_actual << "    "sv << MUU_MAKE_STRING(actual_))							\
-																							\
-		const auto cae_epsilon = epsilon_;													\
-		INFO(" epsilon: "sv																	\
-			<< std::fixed																	\
-			<< std::setprecision(std::numeric_limits<decltype(cae_epsilon)>::digits10)		\
-			<< cae_epsilon << "    "sv << MUU_MAKE_STRING(epsilon_))						\
-																							\
-		CHECK(approx_equal(cae_expected, cae_actual, cae_epsilon));							\
-	}																						\
+#define CHECK_APPROX_EQUAL_EPS(actual_, expected_, epsilon_)														\
+	do																												\
+	{																												\
+		const auto cae_expected = expected_;																		\
+		INFO("expected: "sv << print_aligned{ cae_expected } << "    "sv << MUU_MAKE_STRING(expected_))				\
+																													\
+		const auto cae_actual = actual_;																			\
+		INFO("  actual: "sv << print_aligned{ cae_actual } << "    "sv << MUU_MAKE_STRING(actual_))					\
+																													\
+		const auto cae_epsilon = epsilon_;																			\
+		INFO(" epsilon: "sv << print_aligned{ cae_epsilon } << "    "sv << MUU_MAKE_STRING(epsilon_))				\
+																													\
+		CHECK(approx_equal(cae_expected, cae_actual, cae_epsilon));													\
+	}																												\
 	while (false)
 
-#define CHECK_APPROX_EQUAL(actual_, expected_)												\
-	do																						\
-	{																						\
-		if constexpr (is_floating_point<decltype(expected_)>)								\
-		{																					\
-			const auto cae_expected = expected_;											\
-			INFO("expected: "sv																\
-				<< std::fixed																\
-				<< std::setprecision(std::numeric_limits<decltype(cae_expected)>::digits10)	\
-				<< cae_expected << "    "sv << MUU_MAKE_STRING(expected_))					\
-																							\
-			const auto cae_actual = actual_;												\
-			INFO("  actual: "sv																\
-				<< std::fixed																\
-				<< std::setprecision(std::numeric_limits<decltype(cae_actual)>::digits10)	\
-				<< cae_actual << "    "sv << MUU_MAKE_STRING(actual_))						\
-																							\
-			CHECK(approx_equal(cae_expected, cae_actual));									\
-		}																					\
-		else																				\
-			CHECK((expected_) == (actual_));												\
-	}																						\
+#define CHECK_APPROX_EQUAL(actual_, expected_)																		\
+	do																												\
+	{																												\
+		if constexpr (is_floating_point<decltype(expected_)>)														\
+		{																											\
+			const auto cae_expected = expected_;																	\
+			INFO("expected: "sv << print_aligned{ cae_expected } << "    "sv << MUU_MAKE_STRING(expected_))			\
+																													\
+			const auto cae_actual = actual_;																		\
+			INFO("  actual: "sv << print_aligned{ cae_actual } << "    "sv << MUU_MAKE_STRING(actual_))				\
+																													\
+			CHECK(approx_equal(cae_expected, cae_actual));															\
+		}																											\
+		else																										\
+			CHECK((expected_) == (actual_));																		\
+	}																												\
 	while (false)
 
 #define CHECK_SYMMETRIC_EQUAL(lhs, rhs)		\
@@ -269,3 +284,44 @@ MAKE_NAME_OF(char32_t);
 MAKE_NAME_OF(char8_t);
 #endif
 
+#define MSVC_UNFUCK(x) x // without this msvc treats forwarded __VA_ARGS__ as a single token
+
+#if MUU_HAS_FP16
+	#define FOREACH_FLOAT_1(func)				func(__fp16)
+	#define FOREACH_FLOAT_VARARGS_1(func, ...)	func(__fp16, __VA_ARGS__)
+#else
+	#define FOREACH_FLOAT_1(func)
+	#define FOREACH_FLOAT_VARARGS_1(func, ...)
+#endif
+#if MUU_HAS_FLOAT16
+	#define FOREACH_FLOAT_2(func)				func(_Float16)
+	#define FOREACH_FLOAT_VARARGS_2(func, ...)	func(_Float16, __VA_ARGS__)
+#else
+	#define FOREACH_FLOAT_2(func)
+	#define FOREACH_FLOAT_VARARGS_2(func, ...)
+#endif
+#if MUU_HAS_FLOAT128
+	#define FOREACH_FLOAT_3(func)				func(float128_t)
+	#define FOREACH_FLOAT_VARARGS_3(func, ...)	func(float128_t, __VA_ARGS__)
+#else
+	#define FOREACH_FLOAT_3(func)
+	#define FOREACH_FLOAT_VARARGS_3(func, ...)
+#endif
+
+#define FOREACH_FLOAT(func)	\
+	FOREACH_FLOAT_1(func)	\
+	FOREACH_FLOAT_2(func)	\
+	FOREACH_FLOAT_3(func)	\
+	func(half)				\
+	func(float)				\
+	func(double)			\
+	func(long double)
+
+#define FOREACH_FLOAT_VARARGS(func, ...)						\
+	MSVC_UNFUCK(FOREACH_FLOAT_VARARGS_1(func,	__VA_ARGS__))	\
+	MSVC_UNFUCK(FOREACH_FLOAT_VARARGS_2(func,	__VA_ARGS__))	\
+	MSVC_UNFUCK(FOREACH_FLOAT_VARARGS_3(func,	__VA_ARGS__))	\
+	MSVC_UNFUCK(func(half,						__VA_ARGS__))	\
+	MSVC_UNFUCK(func(float,						__VA_ARGS__))	\
+	MSVC_UNFUCK(func(double,					__VA_ARGS__))	\
+	MSVC_UNFUCK(func(long double,				__VA_ARGS__))

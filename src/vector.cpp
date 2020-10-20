@@ -136,7 +136,7 @@ MUU_IMPL_NAMESPACE_START
 	#endif
 
 	#if MUU_HAS_FLOAT128
-	void print_vector_to_stream(std::ostream& os, const quad* x, size_t dims)
+	void print_vector_to_stream(std::ostream& os, const float128_t* x, size_t dims)
 	{
 		::print(os, x, dims);
 	}
@@ -239,7 +239,7 @@ MUU_IMPL_NAMESPACE_START
 	#endif
 
 	#if MUU_HAS_FLOAT128
-	void print_vector_to_stream(std::wostream& os, const quad* x, size_t dims)
+	void print_vector_to_stream(std::wostream& os, const float128_t* x, size_t dims)
 	{
 		::print(os, x, dims);
 	}

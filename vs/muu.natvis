@@ -2,9 +2,9 @@
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
 
 	<Type Name="muu::v0::half">
-		<Intrinsic Name="sign" Expression="(((unsigned)bits &amp; 0x8000u) &gt;&gt; 15)" />
-		<Intrinsic Name="exponent" Expression="(((unsigned)bits &amp; 0x7C00u) &gt;&gt; 10)" />
-		<Intrinsic Name="mantissa" Expression="((unsigned)bits &amp; 0x03FFu)" />
+		<Intrinsic Name="sign" Expression="(((unsigned)impl_ &amp; 0x8000u) &gt;&gt; 15)" />
+		<Intrinsic Name="exponent" Expression="(((unsigned)impl_ &amp; 0x7C00u) &gt;&gt; 10)" />
+		<Intrinsic Name="mantissa" Expression="((unsigned)impl_ &amp; 0x03FFu)" />
 		<Intrinsic Name="infinity" Expression="exponent() == 0b11111u &amp;&amp; mantissa() == 0u" />
 		<Intrinsic Name="nan" Expression="exponent() == 0b11111u &amp;&amp; mantissa() != 0u" />
 		<DisplayString Condition="nan()">nan</DisplayString>
@@ -16,7 +16,7 @@
 		<DisplayString Condition="exponent() == 0u">   { (1.0f / (1 &lt;&lt; 14)) * (-2 * sign() + 1.0f) * (mantissa() / 1024.0f) }</DisplayString>
 		<DisplayString Condition="exponent() &lt; 15u">{ (1.0f / (1 &lt;&lt; (15u - exponent()))) * (-2 * (signed)sign() + 1.0f) * (1.0f + mantissa() / 1024.0f) }</DisplayString>
 		<DisplayString Condition="exponent() &gt;= 15u">{ (1 &lt;&lt; (exponent() - 15u)) * (-2 * (signed)sign() + 1.0f) * (1.0f + mantissa() / 1024.0f) }</DisplayString>
-		<DisplayString>Raw bits: {bits,bb}</DisplayString>
+		<DisplayString>Raw bits: {impl_,bb}</DisplayString>
 		<Expand>
 			<Synthetic Name="[sign]" ExcludeView="simple">
 				<DisplayString>{(unsigned short)sign(),bb} ({sign(),d})</DisplayString>

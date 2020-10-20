@@ -63,57 +63,61 @@ MUU_NAMESPACE_START
 			0.432L, 0.056L, 0.102L, 0.078L, 0.186L, 0.286L, 0.055L, 0.302L, 0.443L, 0.165L
 		};
 
-		static constexpr long double values_sum_low      = 102.974L;
-		static constexpr long double values_sum          = 103.077L;
-		static constexpr long double values_sum_high     = 103.180L;
-		static constexpr long double values_min          = 0.002L;
-		static constexpr long double values_max          = 0.500L;
+		static constexpr long double values_sum_low         = 102.974L;
+		static constexpr long double values_sum             = 103.077L;
+		static constexpr long double values_sum_high        = 103.180L;
+		static constexpr long double values_min             = 0.002L;
+		static constexpr long double values_max             = 0.500L;
 
-		static constexpr long double one_over_two          = 0.500L; // 0'01110'0000000000
-		static constexpr long double two_over_three        = 0.667L; // 0'01110'0101010110
-		static constexpr long double two_over_five         = 0.400L; // 0'01101'1001100111
-		static constexpr long double sqrt_two              = 1.414L; // 0'01111'0110101000
-		static constexpr long double one_over_sqrt_two     = 0.707L; // 0'01110'0110101000
-		static constexpr long double one_over_three        = 0.333L; // 0'01101'0101010110
-		static constexpr long double three_over_two        = 1.500L; // 0'01111'1000000000
-		static constexpr long double three_over_four       = 0.750L; // 0'01110'1000000000
-		static constexpr long double three_over_five       = 0.600L; // 0'01110'0011001101
-		static constexpr long double sqrt_three            = 1.732L; // 0'01111'1011101110
-		static constexpr long double one_over_sqrt_three   = 0.577L; // 0'01110'0010011111
-		static constexpr long double pi                    = 3.142L; // 0'10000'1001001001
-		static constexpr long double one_over_pi           = 0.318L; // 0'01101'0100011000
-		static constexpr long double pi_over_two           = 1.571L; // 0'01111'1001001001
-		static constexpr long double pi_over_three         = 1.047L; // 0'01111'0000110001
-		static constexpr long double pi_over_four          = 0.785L; // 0'01110'1001001001
-		static constexpr long double pi_over_five          = 0.628L; // 0'01110'0100000111
-		static constexpr long double pi_over_six           = 0.524L; // 0'01110'0000110001
-		static constexpr long double sqrt_pi               = 1.772L; // 0'01111'1100010111
-		static constexpr long double one_over_sqrt_pi      = 0.564L; // 0'01110'0010000100
-		static constexpr long double two_pi                = 6.283L; // 0'10001'1001001001
-		static constexpr long double sqrt_two_pi           = 2.507L; // 0'10000'0100000100
-		static constexpr long double one_over_sqrt_two_pi  = 0.399L; // 0'01101'1001100010
-		static constexpr long double one_over_three_pi     = 0.106L; // 0'01011'1011001011
-		static constexpr long double three_pi_over_two     = 4.712L; // 0'10001'0010110111
-		static constexpr long double three_pi_over_four    = 2.356L; // 0'10000'0010110111
-		static constexpr long double three_pi_over_five    = 1.885L; // 0'01111'1110001010
-		static constexpr long double e                     = 2.718L; // 0'10000'0101110000
-		static constexpr long double one_over_e            = 0.368L; // 0'01101'0111100011
-		static constexpr long double e_over_two            = 1.359L; // 0'01111'0101110000
-		static constexpr long double e_over_three          = 0.906L; // 0'01110'1101000000
-		static constexpr long double e_over_four           = 0.680L; // 0'01110'0101110000
-		static constexpr long double e_over_five           = 0.544L; // 0'01110'0001011010
-		static constexpr long double e_over_six            = 0.453L; // 0'01101'1101000000
-		static constexpr long double sqrt_e                = 1.649L; // 0'01111'1010011001
-		static constexpr long double one_over_sqrt_e       = 0.607L; // 0'01110'0011011010
-		static constexpr long double phi                   = 1.618L; // 0'01111'1001111001
-		static constexpr long double one_over_phi          = 0.618L; // 0'01110'0011110010
-		static constexpr long double phi_over_two          = 0.809L; // 0'01110'1001111001
-		static constexpr long double phi_over_three        = 0.539L; // 0'01110'0001010001
-		static constexpr long double phi_over_four         = 0.405L; // 0'01101'1001111001
-		static constexpr long double phi_over_five         = 0.324L; // 0'01101'0100101110
-		static constexpr long double phi_over_six          = 0.270L; // 0'01101'0001010001
-		static constexpr long double sqrt_phi              = 1.272L; // 0'01111'0100010111
-		static constexpr long double one_over_sqrt_phi     = 0.786L; // 0'01110'1001001010
+		static constexpr long double one_over_two           = 0.50000L; // 0'01110'0000000000
+		static constexpr long double two_over_three         = 0.66667L; // 0'01110'0101010110
+		static constexpr long double two_over_five          = 0.40000L; // 0'01101'1001100111
+		static constexpr long double sqrt_two               = 1.41421L; // 0'01111'0110101000
+		static constexpr long double one_over_sqrt_two      = 0.70711L; // 0'01110'0110101000
+		static constexpr long double one_over_three         = 0.33333L; // 0'01101'0101010110
+		static constexpr long double three_over_two         = 1.50000L; // 0'01111'1000000000
+		static constexpr long double three_over_four        = 0.75000L; // 0'01110'1000000000
+		static constexpr long double three_over_five        = 0.60000L; // 0'01110'0011001101
+		static constexpr long double sqrt_three             = 1.73205L; // 0'01111'1011101110
+		static constexpr long double one_over_sqrt_three    = 0.57735L; // 0'01110'0010011111
+		static constexpr long double pi                     = 3.14159L; // 0'10000'1001001001
+		static constexpr long double one_over_pi            = 0.31831L; // 0'01101'0100011000
+		static constexpr long double pi_over_two            = 1.57080L; // 0'01111'1001001001
+		static constexpr long double pi_over_three          = 1.04720L; // 0'01111'0000110001
+		static constexpr long double pi_over_four           = 0.78540L; // 0'01110'1001001001
+		static constexpr long double pi_over_five           = 0.62832L; // 0'01110'0100000111
+		static constexpr long double pi_over_six            = 0.52360L; // 0'01110'0000110001
+		static constexpr long double sqrt_pi                = 1.77245L; // 0'01111'1100010111
+		static constexpr long double one_over_sqrt_pi       = 0.56419L; // 0'01110'0010000100
+		static constexpr long double two_pi                 = 6.28319L; // 0'10001'1001001001
+		static constexpr long double one_over_two_pi        = 0.15915L; // 0'01100'0100011000
+		static constexpr long double sqrt_two_pi            = 2.50663L; // 0'10000'0100000100
+		static constexpr long double one_over_sqrt_two_pi   = 0.39894L; // 0'01101'1001100010
+		static constexpr long double three_pi               = 9.42478L; // 0'10010'0010110111
+		static constexpr long double one_over_three_pi      = 0.10610L; // 0'01011'1011001011
+		static constexpr long double three_pi_over_two      = 4.71239L; // 0'10001'0010110111
+		static constexpr long double three_pi_over_four     = 2.35619L; // 0'10000'0010110111
+		static constexpr long double three_pi_over_five     = 1.88496L; // 0'01111'1110001010
+		static constexpr long double sqrt_three_pi          = 3.06998L; // 0'10000'1000100100
+		static constexpr long double one_over_sqrt_three_pi = 0.32574L; // 0'01101'0100110110
+		static constexpr long double e                      = 2.71828L; // 0'10000'0101110000
+		static constexpr long double one_over_e             = 0.36788L; // 0'01101'0111100011
+		static constexpr long double e_over_two             = 1.35914L; // 0'01111'0101110000
+		static constexpr long double e_over_three           = 0.90609L; // 0'01110'1101000000
+		static constexpr long double e_over_four            = 0.67957L; // 0'01110'0101110000
+		static constexpr long double e_over_five            = 0.54366L; // 0'01110'0001011010
+		static constexpr long double e_over_six             = 0.45305L; // 0'01101'1101000000
+		static constexpr long double sqrt_e                 = 1.64872L; // 0'01111'1010011001
+		static constexpr long double one_over_sqrt_e        = 0.60653L; // 0'01110'0011011010
+		static constexpr long double phi                    = 1.61803L; // 0'01111'1001111001
+		static constexpr long double one_over_phi           = 0.61803L; // 0'01110'0011110010
+		static constexpr long double phi_over_two           = 0.80902L; // 0'01110'1001111001
+		static constexpr long double phi_over_three         = 0.53934L; // 0'01110'0001010001
+		static constexpr long double phi_over_four          = 0.40451L; // 0'01101'1001111001
+		static constexpr long double phi_over_five          = 0.32361L; // 0'01101'0100101110
+		static constexpr long double phi_over_six           = 0.26967L; // 0'01101'0001010001
+		static constexpr long double sqrt_phi               = 1.27202L; // 0'01111'0100010111
+		static constexpr long double one_over_sqrt_phi      = 0.78615L; // 0'01110'1001001010
 
 		static constexpr auto int_blittable    = true;
 		static constexpr auto bits_sign        = 0b1000000000000000_u16;
@@ -181,57 +185,61 @@ MUU_NAMESPACE_START
 			0.389432L, 0.258322L, 0.192975L, 0.380270L
 		};
 
-		static constexpr long double values_sum_low      = 101.661622L;
-		static constexpr long double values_sum          = 101.662639L;
-		static constexpr long double values_sum_high     = 101.663656L;
-		static constexpr long double values_min          = 0.001286L;
-		static constexpr long double values_max          = 0.494187L;
+		static constexpr long double values_sum_low         = 101.661622L;
+		static constexpr long double values_sum             = 101.662639L;
+		static constexpr long double values_sum_high        = 101.663656L;
+		static constexpr long double values_min             = 0.001286L;
+		static constexpr long double values_max             = 0.494187L;
 
-		static constexpr long double one_over_two          = 0.500000L;
-		static constexpr long double two_over_three        = 0.666667L;
-		static constexpr long double two_over_five         = 0.400000L;
-		static constexpr long double sqrt_two              = 1.414214L;
-		static constexpr long double one_over_sqrt_two     = 0.707107L;
-		static constexpr long double one_over_three        = 0.333333L;
-		static constexpr long double three_over_two        = 1.500000L;
-		static constexpr long double three_over_four       = 0.750000L;
-		static constexpr long double three_over_five       = 0.600000L;
-		static constexpr long double sqrt_three            = 1.732051L;
-		static constexpr long double one_over_sqrt_three   = 0.577350L;
-		static constexpr long double pi                    = 3.141593L;
-		static constexpr long double one_over_pi           = 0.318310L;
-		static constexpr long double pi_over_two           = 1.570796L;
-		static constexpr long double pi_over_three         = 1.047198L;
-		static constexpr long double pi_over_four          = 0.785398L;
-		static constexpr long double pi_over_five          = 0.628319L;
-		static constexpr long double pi_over_six           = 0.523599L;
-		static constexpr long double sqrt_pi               = 1.772454L;
-		static constexpr long double one_over_sqrt_pi      = 0.564190L;
-		static constexpr long double two_pi                = 6.283185L;
-		static constexpr long double sqrt_two_pi           = 2.506628L;
-		static constexpr long double one_over_sqrt_two_pi  = 0.398942L;
-		static constexpr long double one_over_three_pi     = 0.106103L;
-		static constexpr long double three_pi_over_two     = 4.712389L;
-		static constexpr long double three_pi_over_four    = 2.356194L;
-		static constexpr long double three_pi_over_five    = 1.884956L;
-		static constexpr long double e                     = 2.718282L;
-		static constexpr long double one_over_e            = 0.367879L;
-		static constexpr long double e_over_two            = 1.359141L;
-		static constexpr long double e_over_three          = 0.906094L;
-		static constexpr long double e_over_four           = 0.679570L;
-		static constexpr long double e_over_five           = 0.543656L;
-		static constexpr long double e_over_six            = 0.453047L;
-		static constexpr long double sqrt_e                = 1.648721L;
-		static constexpr long double one_over_sqrt_e       = 0.606531L;
-		static constexpr long double phi                   = 1.618034L;
-		static constexpr long double one_over_phi          = 0.618034L;
-		static constexpr long double phi_over_two          = 0.809017L;
-		static constexpr long double phi_over_three        = 0.539345L;
-		static constexpr long double phi_over_four         = 0.404508L;
-		static constexpr long double phi_over_five         = 0.323607L;
-		static constexpr long double phi_over_six          = 0.269672L;
-		static constexpr long double sqrt_phi              = 1.272020L;
-		static constexpr long double one_over_sqrt_phi     = 0.786151L;
+		static constexpr long double one_over_two           = 0.500000000L;
+		static constexpr long double two_over_three         = 0.666666667L;
+		static constexpr long double two_over_five          = 0.400000000L;
+		static constexpr long double sqrt_two               = 1.414213562L;
+		static constexpr long double one_over_sqrt_two      = 0.707106781L;
+		static constexpr long double one_over_three         = 0.333333333L;
+		static constexpr long double three_over_two         = 1.500000000L;
+		static constexpr long double three_over_four        = 0.750000000L;
+		static constexpr long double three_over_five        = 0.600000000L;
+		static constexpr long double sqrt_three             = 1.732050808L;
+		static constexpr long double one_over_sqrt_three    = 0.577350269L;
+		static constexpr long double pi                     = 3.141592654L;
+		static constexpr long double one_over_pi            = 0.318309886L;
+		static constexpr long double pi_over_two            = 1.570796327L;
+		static constexpr long double pi_over_three          = 1.047197551L;
+		static constexpr long double pi_over_four           = 0.785398163L;
+		static constexpr long double pi_over_five           = 0.628318531L;
+		static constexpr long double pi_over_six            = 0.523598776L;
+		static constexpr long double sqrt_pi                = 1.772453851L;
+		static constexpr long double one_over_sqrt_pi       = 0.564189584L;
+		static constexpr long double two_pi                 = 6.283185307L;
+		static constexpr long double one_over_two_pi        = 0.159154943L;
+		static constexpr long double sqrt_two_pi            = 2.506628275L;
+		static constexpr long double one_over_sqrt_two_pi   = 0.398942280L;
+		static constexpr long double three_pi               = 9.424777961L;
+		static constexpr long double one_over_three_pi      = 0.106103295L;
+		static constexpr long double three_pi_over_two      = 4.712388980L;
+		static constexpr long double three_pi_over_four     = 2.356194490L;
+		static constexpr long double three_pi_over_five     = 1.884955592L;
+		static constexpr long double sqrt_three_pi          = 3.069980124L;
+		static constexpr long double one_over_sqrt_three_pi = 0.325735008L;
+		static constexpr long double e                      = 2.718281828L;
+		static constexpr long double one_over_e             = 0.367879441L;
+		static constexpr long double e_over_two             = 1.359140914L;
+		static constexpr long double e_over_three           = 0.906093943L;
+		static constexpr long double e_over_four            = 0.679570457L;
+		static constexpr long double e_over_five            = 0.543656366L;
+		static constexpr long double e_over_six             = 0.453046971L;
+		static constexpr long double sqrt_e                 = 1.648721271L;
+		static constexpr long double one_over_sqrt_e        = 0.606530660L;
+		static constexpr long double phi                    = 1.618033989L;
+		static constexpr long double one_over_phi           = 0.618033989L;
+		static constexpr long double phi_over_two           = 0.809016994L;
+		static constexpr long double phi_over_three         = 0.539344663L;
+		static constexpr long double phi_over_four          = 0.404508497L;
+		static constexpr long double phi_over_five          = 0.323606798L;
+		static constexpr long double phi_over_six           = 0.269672331L;
+		static constexpr long double sqrt_phi               = 1.272019650L;
+		static constexpr long double one_over_sqrt_phi      = 0.786151378L;
 
 		static constexpr auto int_blittable    = true;
 		static constexpr auto bits_sign        = 0b10000000000000000000000000000000_u32;
@@ -334,57 +342,61 @@ MUU_NAMESPACE_START
 			0.105660004498838L, 0.224665618110878L, 0.210310878177036L, 0.026468150761085L, 0.313686673002255L
 		};
 
-		static constexpr long double values_sum_low      = 102.528340980158395L;
-		static constexpr long double values_sum          = 102.528340980260923L;
-		static constexpr long double values_sum_high     = 102.528340980363451L;
-		static constexpr long double values_min          = 0.001380676677544L;
-		static constexpr long double values_max          = 0.499264978083978L;
+		static constexpr long double values_sum_low         = 102.528340980158395L;
+		static constexpr long double values_sum             = 102.528340980260923L;
+		static constexpr long double values_sum_high        = 102.528340980363451L;
+		static constexpr long double values_min             = 0.001380676677544L;
+		static constexpr long double values_max             = 0.499264978083978L;
 
-		static constexpr long double one_over_two          = 0.500000000000000L;
-		static constexpr long double two_over_three        = 0.666666666666667L;
-		static constexpr long double two_over_five         = 0.400000000000000L;
-		static constexpr long double sqrt_two              = 1.414213562373095L;
-		static constexpr long double one_over_sqrt_two     = 0.707106781186548L;
-		static constexpr long double one_over_three        = 0.333333333333333L;
-		static constexpr long double three_over_two        = 1.500000000000000L;
-		static constexpr long double three_over_four       = 0.750000000000000L;
-		static constexpr long double three_over_five       = 0.600000000000000L;
-		static constexpr long double sqrt_three            = 1.732050807568877L;
-		static constexpr long double one_over_sqrt_three   = 0.577350269189626L;
-		static constexpr long double pi                    = 3.141592653589793L;
-		static constexpr long double one_over_pi           = 0.318309886183791L;
-		static constexpr long double pi_over_two           = 1.570796326794897L;
-		static constexpr long double pi_over_three         = 1.047197551196598L;
-		static constexpr long double pi_over_four          = 0.785398163397448L;
-		static constexpr long double pi_over_five          = 0.628318530717959L;
-		static constexpr long double pi_over_six           = 0.523598775598299L;
-		static constexpr long double sqrt_pi               = 1.772453850905516L;
-		static constexpr long double one_over_sqrt_pi      = 0.564189583547756L;
-		static constexpr long double two_pi                = 6.283185307179586L;
-		static constexpr long double sqrt_two_pi           = 2.506628274631001L;
-		static constexpr long double one_over_sqrt_two_pi  = 0.398942280401433L;
-		static constexpr long double one_over_three_pi     = 0.106103295394597L;
-		static constexpr long double three_pi_over_two     = 4.712388980384690L;
-		static constexpr long double three_pi_over_four    = 2.356194490192345L;
-		static constexpr long double three_pi_over_five    = 1.884955592153876L;
-		static constexpr long double e                     = 2.718281828459046L;
-		static constexpr long double one_over_e            = 0.367879441171442L;
-		static constexpr long double e_over_two            = 1.359140914229523L;
-		static constexpr long double e_over_three          = 0.906093942819682L;
-		static constexpr long double e_over_four           = 0.679570457114761L;
-		static constexpr long double e_over_five           = 0.543656365691809L;
-		static constexpr long double e_over_six            = 0.453046971409841L;
-		static constexpr long double sqrt_e                = 1.648721270700128L;
-		static constexpr long double one_over_sqrt_e       = 0.606530659712633L;
-		static constexpr long double phi                   = 1.618033988749895L;
-		static constexpr long double one_over_phi          = 0.618033988749895L;
-		static constexpr long double phi_over_two          = 0.809016994374947L;
-		static constexpr long double phi_over_three        = 0.539344662916632L;
-		static constexpr long double phi_over_four         = 0.404508497187474L;
-		static constexpr long double phi_over_five         = 0.323606797749979L;
-		static constexpr long double phi_over_six          = 0.269672331458316L;
-		static constexpr long double sqrt_phi              = 1.272019649514069L;
-		static constexpr long double one_over_sqrt_phi     = 0.786151377757423L;
+		static constexpr long double one_over_two           = 0.50000000000000000L;
+		static constexpr long double two_over_three         = 0.66666666666666667L;
+		static constexpr long double two_over_five          = 0.40000000000000000L;
+		static constexpr long double sqrt_two               = 1.41421356237309505L;
+		static constexpr long double one_over_sqrt_two      = 0.70710678118654752L;
+		static constexpr long double one_over_three         = 0.33333333333333333L;
+		static constexpr long double three_over_two         = 1.50000000000000000L;
+		static constexpr long double three_over_four        = 0.75000000000000000L;
+		static constexpr long double three_over_five        = 0.60000000000000000L;
+		static constexpr long double sqrt_three             = 1.73205080756887729L;
+		static constexpr long double one_over_sqrt_three    = 0.57735026918962576L;
+		static constexpr long double pi                     = 3.14159265358979324L;
+		static constexpr long double one_over_pi            = 0.31830988618379067L;
+		static constexpr long double pi_over_two            = 1.57079632679489662L;
+		static constexpr long double pi_over_three          = 1.04719755119659775L;
+		static constexpr long double pi_over_four           = 0.78539816339744831L;
+		static constexpr long double pi_over_five           = 0.62831853071795865L;
+		static constexpr long double pi_over_six            = 0.52359877559829887L;
+		static constexpr long double sqrt_pi                = 1.77245385090551603L;
+		static constexpr long double one_over_sqrt_pi       = 0.56418958354775629L;
+		static constexpr long double two_pi                 = 6.28318530717958648L;
+		static constexpr long double one_over_two_pi        = 0.15915494309189534L;
+		static constexpr long double sqrt_two_pi            = 2.50662827463100050L;
+		static constexpr long double one_over_sqrt_two_pi   = 0.39894228040143268L;
+		static constexpr long double three_pi               = 9.42477796076937972L;
+		static constexpr long double one_over_three_pi      = 0.10610329539459689L;
+		static constexpr long double three_pi_over_two      = 4.71238898038468986L;
+		static constexpr long double three_pi_over_four     = 2.35619449019234493L;
+		static constexpr long double three_pi_over_five     = 1.88495559215387594L;
+		static constexpr long double sqrt_three_pi          = 3.06998012383946547L;
+		static constexpr long double one_over_sqrt_three_pi = 0.32573500793527995L;
+		static constexpr long double e                      = 2.71828182845904553L;
+		static constexpr long double one_over_e             = 0.36787944117144228L;
+		static constexpr long double e_over_two             = 1.35914091422952277L;
+		static constexpr long double e_over_three           = 0.90609394281968184L;
+		static constexpr long double e_over_four            = 0.67957045711476138L;
+		static constexpr long double e_over_five            = 0.54365636569180911L;
+		static constexpr long double e_over_six             = 0.45304697140984092L;
+		static constexpr long double sqrt_e                 = 1.64872127070012824L;
+		static constexpr long double one_over_sqrt_e        = 0.60653065971263339L;
+		static constexpr long double phi                    = 1.61803398874989485L;
+		static constexpr long double one_over_phi           = 0.61803398874989485L;
+		static constexpr long double phi_over_two           = 0.80901699437494742L;
+		static constexpr long double phi_over_three         = 0.53934466291663162L;
+		static constexpr long double phi_over_four          = 0.40450849718747371L;
+		static constexpr long double phi_over_five          = 0.32360679774997897L;
+		static constexpr long double phi_over_six           = 0.26967233145831581L;
+		static constexpr long double sqrt_phi               = 1.27201964951406896L;
+		static constexpr long double one_over_sqrt_phi      = 0.78615137775742329L;
 
 		static constexpr auto int_blittable    = true;
 		static constexpr auto bits_sign        = 0x8000000000000000_u64;
@@ -398,6 +410,27 @@ MUU_NAMESPACE_START
 		static constexpr auto bits_neg_nan_max = 0xFFFFFFFFFFFFFFFF_u64;
 		static constexpr auto bits_snan        = 0xFFF0000000000001_u64;
 		static constexpr auto bits_qnan        = 0xFFF8000000000001_u64;
+
+		static constexpr std::pair<long double, long double> tangents[] =
+		{
+			{ -3.14159265358979324L, -1E-17L },
+			{ -2.74889357189106909L, 0.41421356237309504L },
+			{ -2.35619449019234493L, 0.99999999999999999L },
+			{ -1.96349540849362078L, 2.41421356237309504L },
+			{ -1.57079632679489662L, LDBL_MAX },
+			{ -1.17809724509617247L, -2.41421356237309505L },
+			{ -0.78539816339744831L, -1.00000000000000001L },
+			{ -0.39269908169872416L, -0.41421356237309505L },
+			{ -1E-17L, -1E-17L },
+			{ 0.39269908169872415L, 0.41421356237309504L },
+			{ 0.78539816339744830L, 0.99999999999999999L },
+			{ 1.17809724509617246L, 2.41421356237309504L },
+			{ 1.57079632679489661L, LDBL_MAX },
+			{ 1.96349540849362077L, -2.41421356237309505L },
+			{ 2.35619449019234492L, -1.00000000000000001L },
+			{ 2.74889357189106908L, -0.41421356237309505L },
+			{ 3.14159265358979323L, -1E-17L }
+		};
 	};
 
 	template <>
@@ -507,57 +540,61 @@ MUU_NAMESPACE_START
 			0.263515120672372558L, 0.495056287061314730L, 0.005064072566462712L, 0.450359383209413976L
 		};
 
-		static constexpr long double values_sum_low      = 102.739434643000955904L;
-		static constexpr long double values_sum          = 102.739434643001058643L;
-		static constexpr long double values_sum_high     = 102.739434643001161382L;
-		static constexpr long double values_min          = 0.001413969650528168L;
-		static constexpr long double values_max          = 0.499697610001779184L;
+		static constexpr long double values_sum_low         = 102.739434643000955904L;
+		static constexpr long double values_sum             = 102.739434643001058643L;
+		static constexpr long double values_sum_high        = 102.739434643001161382L;
+		static constexpr long double values_min             = 0.001413969650528168L;
+		static constexpr long double values_max             = 0.499697610001779184L;
 
-		static constexpr long double one_over_two          = 0.500000000000000000L;
-		static constexpr long double two_over_three        = 0.666666666666666667L;
-		static constexpr long double two_over_five         = 0.400000000000000000L;
-		static constexpr long double sqrt_two              = 1.414213562373095049L;
-		static constexpr long double one_over_sqrt_two     = 0.707106781186547524L;
-		static constexpr long double one_over_three        = 0.333333333333333333L;
-		static constexpr long double three_over_two        = 1.500000000000000000L;
-		static constexpr long double three_over_four       = 0.750000000000000000L;
-		static constexpr long double three_over_five       = 0.600000000000000000L;
-		static constexpr long double sqrt_three            = 1.732050807568877294L;
-		static constexpr long double one_over_sqrt_three   = 0.577350269189625765L;
-		static constexpr long double pi                    = 3.141592653589793238L;
-		static constexpr long double one_over_pi           = 0.318309886183790672L;
-		static constexpr long double pi_over_two           = 1.570796326794896619L;
-		static constexpr long double pi_over_three         = 1.047197551196597746L;
-		static constexpr long double pi_over_four          = 0.785398163397448310L;
-		static constexpr long double pi_over_five          = 0.628318530717958648L;
-		static constexpr long double pi_over_six           = 0.523598775598298873L;
-		static constexpr long double sqrt_pi               = 1.772453850905516027L;
-		static constexpr long double one_over_sqrt_pi      = 0.564189583547756287L;
-		static constexpr long double two_pi                = 6.283185307179586477L;
-		static constexpr long double sqrt_two_pi           = 2.506628274631000502L;
-		static constexpr long double one_over_sqrt_two_pi  = 0.398942280401432678L;
-		static constexpr long double one_over_three_pi     = 0.106103295394596891L;
-		static constexpr long double three_pi_over_two     = 4.712388980384689858L;
-		static constexpr long double three_pi_over_four    = 2.356194490192344929L;
-		static constexpr long double three_pi_over_five    = 1.884955592153875943L;
-		static constexpr long double e                     = 2.718281828459045535L;
-		static constexpr long double one_over_e            = 0.367879441171442281L;
-		static constexpr long double e_over_two            = 1.359140914229522767L;
-		static constexpr long double e_over_three          = 0.906093942819681845L;
-		static constexpr long double e_over_four           = 0.679570457114761384L;
-		static constexpr long double e_over_five           = 0.543656365691809107L;
-		static constexpr long double e_over_six            = 0.453046971409840922L;
-		static constexpr long double sqrt_e                = 1.648721270700128238L;
-		static constexpr long double one_over_sqrt_e       = 0.606530659712633390L;
-		static constexpr long double phi                   = 1.618033988749894848L;
-		static constexpr long double one_over_phi          = 0.618033988749894848L;
-		static constexpr long double phi_over_two          = 0.809016994374947424L;
-		static constexpr long double phi_over_three        = 0.539344662916631616L;
-		static constexpr long double phi_over_four         = 0.404508497187473712L;
-		static constexpr long double phi_over_five         = 0.323606797749978970L;
-		static constexpr long double phi_over_six          = 0.269672331458315808L;
-		static constexpr long double sqrt_phi              = 1.272019649514068964L;
-		static constexpr long double one_over_sqrt_phi     = 0.786151377757423286L;
+		static constexpr long double one_over_two           = 0.500000000000000000000L;
+		static constexpr long double two_over_three         = 0.666666666666666666667L;
+		static constexpr long double two_over_five          = 0.400000000000000000000L;
+		static constexpr long double sqrt_two               = 1.414213562373095048802L;
+		static constexpr long double one_over_sqrt_two      = 0.707106781186547524401L;
+		static constexpr long double one_over_three         = 0.333333333333333333333L;
+		static constexpr long double three_over_two         = 1.500000000000000000000L;
+		static constexpr long double three_over_four        = 0.750000000000000000000L;
+		static constexpr long double three_over_five        = 0.600000000000000000000L;
+		static constexpr long double sqrt_three             = 1.732050807568877293527L;
+		static constexpr long double one_over_sqrt_three    = 0.577350269189625764509L;
+		static constexpr long double pi                     = 3.141592653589793238463L;
+		static constexpr long double one_over_pi            = 0.318309886183790671538L;
+		static constexpr long double pi_over_two            = 1.570796326794896619231L;
+		static constexpr long double pi_over_three          = 1.047197551196597746154L;
+		static constexpr long double pi_over_four           = 0.785398163397448309616L;
+		static constexpr long double pi_over_five           = 0.628318530717958647693L;
+		static constexpr long double pi_over_six            = 0.523598775598298873077L;
+		static constexpr long double sqrt_pi                = 1.772453850905516027298L;
+		static constexpr long double one_over_sqrt_pi       = 0.564189583547756286948L;
+		static constexpr long double two_pi                 = 6.283185307179586476925L;
+		static constexpr long double one_over_two_pi        = 0.159154943091895335769L;
+		static constexpr long double sqrt_two_pi            = 2.506628274631000502416L;
+		static constexpr long double one_over_sqrt_two_pi   = 0.398942280401432677940L;
+		static constexpr long double three_pi               = 9.424777960769379715388L;
+		static constexpr long double one_over_three_pi      = 0.106103295394596890513L;
+		static constexpr long double three_pi_over_two      = 4.712388980384689857694L;
+		static constexpr long double three_pi_over_four     = 2.356194490192344928847L;
+		static constexpr long double three_pi_over_five     = 1.884955592153875943078L;
+		static constexpr long double sqrt_three_pi          = 3.069980123839465465439L;
+		static constexpr long double one_over_sqrt_three_pi = 0.325735007935279947724L;
+		static constexpr long double e                      = 2.718281828459045534885L;
+		static constexpr long double one_over_e             = 0.367879441171442281059L;
+		static constexpr long double e_over_two             = 1.359140914229522767442L;
+		static constexpr long double e_over_three           = 0.906093942819681844962L;
+		static constexpr long double e_over_four            = 0.679570457114761383721L;
+		static constexpr long double e_over_five            = 0.543656365691809106977L;
+		static constexpr long double e_over_six             = 0.453046971409840922481L;
+		static constexpr long double sqrt_e                 = 1.648721270700128237684L;
+		static constexpr long double one_over_sqrt_e        = 0.606530659712633390187L;
+		static constexpr long double phi                    = 1.618033988749894848205L;
+		static constexpr long double one_over_phi           = 0.618033988749894848205L;
+		static constexpr long double phi_over_two           = 0.809016994374947424102L;
+		static constexpr long double phi_over_three         = 0.539344662916631616068L;
+		static constexpr long double phi_over_four          = 0.404508497187473712051L;
+		static constexpr long double phi_over_five          = 0.323606797749978969641L;
+		static constexpr long double phi_over_six           = 0.269672331458315808034L;
+		static constexpr long double sqrt_phi               = 1.272019649514068964252L;
+		static constexpr long double one_over_sqrt_phi      = 0.786151377757423286070L;
 
 		static constexpr auto int_blittable    = false;
 		static constexpr auto bits_sign        = std::array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16 };
@@ -572,6 +609,27 @@ MUU_NAMESPACE_START
 		static constexpr auto bits_neg_nan_max = std::array{ 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16 };
 		static constexpr auto bits_snan        = std::array{ 0x0001_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0xFFFF_u16 };
 		static constexpr auto bits_qnan        = std::array{ 0x0001_u16, 0x0000_u16, 0x0000_u16, 0xC000_u16, 0xFFFF_u16 };
+
+		static constexpr std::pair<long double, long double> tangents[] =
+		{
+			{ -3.141592653589793238463L, -1E-21L },
+			{ -2.748893571891069083655L, 0.414213562373095048801L },
+			{ -2.356194490192344928847L, 0.999999999999999999999L },
+			{ -1.963495408493620774040L, 2.414213562373095048801L },
+			{ -1.570796326794896619232L, LDBL_MAX },
+			{ -1.178097245096172464424L, -2.414213562373095048802L },
+			{ -0.785398163397448309616L, -1.000000000000000000001L },
+			{ -0.392699081698724154808L, -0.414213562373095048802L },
+			{ -1E-21L, -1E-21L },
+			{ 0.392699081698724154807L, 0.414213562373095048801L },
+			{ 0.785398163397448309615L, 0.999999999999999999999L },
+			{ 1.178097245096172464423L, 2.414213562373095048801L },
+			{ 1.570796326794896619231L, LDBL_MAX },
+			{ 1.963495408493620774039L, -2.414213562373095048802L },
+			{ 2.356194490192344928846L, -1.000000000000000000001L },
+			{ 2.748893571891069083654L, -0.414213562373095048802L },
+			{ 3.141592653589793238462L, -1E-21L }
+		};
 	};
 
 	template <>
@@ -681,57 +739,61 @@ MUU_NAMESPACE_START
 			0.263515120672372558L, 0.495056287061314730L, 0.005064072566462712L, 0.450359383209413976L
 		};
 
-		static constexpr long double values_sum_low      = 102.739434643000955904L;
-		static constexpr long double values_sum          = 102.739434643001058643L;
-		static constexpr long double values_sum_high     = 102.739434643001161382L;
-		static constexpr long double values_min          = 0.001413969650528168L;
-		static constexpr long double values_max          = 0.499697610001779184L;
+		static constexpr long double values_sum_low         = 102.739434643000955904L;
+		static constexpr long double values_sum             = 102.739434643001058643L;
+		static constexpr long double values_sum_high        = 102.739434643001161382L;
+		static constexpr long double values_min             = 0.001413969650528168L;
+		static constexpr long double values_max             = 0.499697610001779184L;
 
-		static constexpr long double one_over_two          = 0.500000000000000000L;
-		static constexpr long double two_over_three        = 0.666666666666666667L;
-		static constexpr long double two_over_five         = 0.400000000000000000L;
-		static constexpr long double sqrt_two              = 1.414213562373095049L;
-		static constexpr long double one_over_sqrt_two     = 0.707106781186547524L;
-		static constexpr long double one_over_three        = 0.333333333333333333L;
-		static constexpr long double three_over_two        = 1.500000000000000000L;
-		static constexpr long double three_over_four       = 0.750000000000000000L;
-		static constexpr long double three_over_five       = 0.600000000000000000L;
-		static constexpr long double sqrt_three            = 1.732050807568877294L;
-		static constexpr long double one_over_sqrt_three   = 0.577350269189625765L;
-		static constexpr long double pi                    = 3.141592653589793238L;
-		static constexpr long double one_over_pi           = 0.318309886183790672L;
-		static constexpr long double pi_over_two           = 1.570796326794896619L;
-		static constexpr long double pi_over_three         = 1.047197551196597746L;
-		static constexpr long double pi_over_four          = 0.785398163397448310L;
-		static constexpr long double pi_over_five          = 0.628318530717958648L;
-		static constexpr long double pi_over_six           = 0.523598775598298873L;
-		static constexpr long double sqrt_pi               = 1.772453850905516027L;
-		static constexpr long double one_over_sqrt_pi      = 0.564189583547756287L;
-		static constexpr long double two_pi                = 6.283185307179586477L;
-		static constexpr long double sqrt_two_pi           = 2.506628274631000502L;
-		static constexpr long double one_over_sqrt_two_pi  = 0.398942280401432678L;
-		static constexpr long double one_over_three_pi     = 0.106103295394596891L;
-		static constexpr long double three_pi_over_two     = 4.712388980384689858L;
-		static constexpr long double three_pi_over_four    = 2.356194490192344929L;
-		static constexpr long double three_pi_over_five    = 1.884955592153875943L;
-		static constexpr long double e                     = 2.718281828459045535L;
-		static constexpr long double one_over_e            = 0.367879441171442281L;
-		static constexpr long double e_over_two            = 1.359140914229522767L;
-		static constexpr long double e_over_three          = 0.906093942819681845L;
-		static constexpr long double e_over_four           = 0.679570457114761384L;
-		static constexpr long double e_over_five           = 0.543656365691809107L;
-		static constexpr long double e_over_six            = 0.453046971409840922L;
-		static constexpr long double sqrt_e                = 1.648721270700128238L;
-		static constexpr long double one_over_sqrt_e       = 0.606530659712633390L;
-		static constexpr long double phi                   = 1.618033988749894848L;
-		static constexpr long double one_over_phi          = 0.618033988749894848L;
-		static constexpr long double phi_over_two          = 0.809016994374947424L;
-		static constexpr long double phi_over_three        = 0.539344662916631616L;
-		static constexpr long double phi_over_four         = 0.404508497187473712L;
-		static constexpr long double phi_over_five         = 0.323606797749978970L;
-		static constexpr long double phi_over_six          = 0.269672331458315808L;
-		static constexpr long double sqrt_phi              = 1.272019649514068964L;
-		static constexpr long double one_over_sqrt_phi     = 0.786151377757423286L;
+		static constexpr long double one_over_two           = 0.500000000000000000000L;
+		static constexpr long double two_over_three         = 0.666666666666666666667L;
+		static constexpr long double two_over_five          = 0.400000000000000000000L;
+		static constexpr long double sqrt_two               = 1.414213562373095048802L;
+		static constexpr long double one_over_sqrt_two      = 0.707106781186547524401L;
+		static constexpr long double one_over_three         = 0.333333333333333333333L;
+		static constexpr long double three_over_two         = 1.500000000000000000000L;
+		static constexpr long double three_over_four        = 0.750000000000000000000L;
+		static constexpr long double three_over_five        = 0.600000000000000000000L;
+		static constexpr long double sqrt_three             = 1.732050807568877293527L;
+		static constexpr long double one_over_sqrt_three    = 0.577350269189625764509L;
+		static constexpr long double pi                     = 3.141592653589793238463L;
+		static constexpr long double one_over_pi            = 0.318309886183790671538L;
+		static constexpr long double pi_over_two            = 1.570796326794896619231L;
+		static constexpr long double pi_over_three          = 1.047197551196597746154L;
+		static constexpr long double pi_over_four           = 0.785398163397448309616L;
+		static constexpr long double pi_over_five           = 0.628318530717958647693L;
+		static constexpr long double pi_over_six            = 0.523598775598298873077L;
+		static constexpr long double sqrt_pi                = 1.772453850905516027298L;
+		static constexpr long double one_over_sqrt_pi       = 0.564189583547756286948L;
+		static constexpr long double two_pi                 = 6.283185307179586476925L;
+		static constexpr long double one_over_two_pi        = 0.159154943091895335769L;
+		static constexpr long double sqrt_two_pi            = 2.506628274631000502416L;
+		static constexpr long double one_over_sqrt_two_pi   = 0.398942280401432677940L;
+		static constexpr long double three_pi               = 9.424777960769379715388L;
+		static constexpr long double one_over_three_pi      = 0.106103295394596890513L;
+		static constexpr long double three_pi_over_two      = 4.712388980384689857694L;
+		static constexpr long double three_pi_over_four     = 2.356194490192344928847L;
+		static constexpr long double three_pi_over_five     = 1.884955592153875943078L;
+		static constexpr long double sqrt_three_pi          = 3.069980123839465465439L;
+		static constexpr long double one_over_sqrt_three_pi = 0.325735007935279947724L;
+		static constexpr long double e                      = 2.718281828459045534885L;
+		static constexpr long double one_over_e             = 0.367879441171442281059L;
+		static constexpr long double e_over_two             = 1.359140914229522767442L;
+		static constexpr long double e_over_three           = 0.906093942819681844962L;
+		static constexpr long double e_over_four            = 0.679570457114761383721L;
+		static constexpr long double e_over_five            = 0.543656365691809106977L;
+		static constexpr long double e_over_six             = 0.453046971409840922481L;
+		static constexpr long double sqrt_e                 = 1.648721270700128237684L;
+		static constexpr long double one_over_sqrt_e        = 0.606530659712633390187L;
+		static constexpr long double phi                    = 1.618033988749894848205L;
+		static constexpr long double one_over_phi           = 0.618033988749894848205L;
+		static constexpr long double phi_over_two           = 0.809016994374947424102L;
+		static constexpr long double phi_over_three         = 0.539344662916631616068L;
+		static constexpr long double phi_over_four          = 0.404508497187473712051L;
+		static constexpr long double phi_over_five          = 0.323606797749978969641L;
+		static constexpr long double phi_over_six           = 0.269672331458315808034L;
+		static constexpr long double sqrt_phi               = 1.272019649514068964252L;
+		static constexpr long double one_over_sqrt_phi      = 0.786151377757423286070L;
 
 		#if MUU_HAS_INT128
 		static constexpr auto int_blittable    = true;
@@ -762,13 +824,34 @@ MUU_NAMESPACE_START
 		static constexpr auto bits_snan        = std::array{ 0x8000000000000001_u64, 0x000000000000FFFF_u64 };
 		static constexpr auto bits_qnan        = std::array{ 0xC000000000000001_u64, 0x000000000000FFFF_u64 };
 		#endif // MUU_HAS_INT128
+
+		static constexpr std::pair<long double, long double> tangents[] =
+		{
+			{ -3.141592653589793238463L, -1E-21L },
+			{ -2.748893571891069083655L, 0.414213562373095048801L },
+			{ -2.356194490192344928847L, 0.999999999999999999999L },
+			{ -1.963495408493620774040L, 2.414213562373095048801L },
+			{ -1.570796326794896619232L, LDBL_MAX },
+			{ -1.178097245096172464424L, -2.414213562373095048802L },
+			{ -0.785398163397448309616L, -1.000000000000000000001L },
+			{ -0.392699081698724154808L, -0.414213562373095048802L },
+			{ -1E-21L, -1E-21L },
+			{ 0.392699081698724154807L, 0.414213562373095048801L },
+			{ 0.785398163397448309615L, 0.999999999999999999999L },
+			{ 1.178097245096172464423L, 2.414213562373095048801L },
+			{ 1.570796326794896619231L, LDBL_MAX },
+			{ 1.963495408493620774039L, -2.414213562373095048802L },
+			{ 2.356194490192344928846L, -1.000000000000000000001L },
+			{ 2.748893571891069083654L, -0.414213562373095048802L },
+			{ 3.141592653589793238462L, -1E-21L }
+		};
 	};
 
 	#if MUU_HAS_FLOAT128
 	template <>
 	struct float_test_data_by_traits<128, 113>
 	{
-		static constexpr quad values[] = 
+		static constexpr float128_t values[] = 
 		{
 			0.002868982899771494123398061350766q, 0.315930513574404234347196109724236q, 
 			0.051927582269544436601802442790809q, 0.036061017294617750754103977978470q, 
@@ -972,57 +1055,61 @@ MUU_NAMESPACE_START
 			0.189821416449709648068042637079742q, 0.123725492039382793718015687371694q
 		};
 
-		static constexpr quad values_sum_low      = 97.927944306207317800749240923218632q;
-		static constexpr quad values_sum          = 97.927944306207317800749241902498075q;
-		static constexpr quad values_sum_high     = 97.927944306207317800749242881777518q;
-		static constexpr quad values_min          = 0.002496900356267794781598768971298q;
-		static constexpr quad values_max          = 0.497975465838713925854335787179168q;
+		static constexpr float128_t values_sum_low         = 97.927944306207317800749240923218632q;
+		static constexpr float128_t values_sum             = 97.927944306207317800749241902498075q;
+		static constexpr float128_t values_sum_high        = 97.927944306207317800749242881777518q;
+		static constexpr float128_t values_min             = 0.002496900356267794781598768971298q;
+		static constexpr float128_t values_max             = 0.497975465838713925854335787179168q;
 
-		static constexpr quad one_over_two          = 0.500000000000000000000000000000000q;
-		static constexpr quad two_over_three        = 0.666666666666666666666666666666667q;
-		static constexpr quad two_over_five         = 0.400000000000000000000000000000000q;
-		static constexpr quad sqrt_two              = 1.414213562373095048801688724209698q;
-		static constexpr quad one_over_sqrt_two     = 0.707106781186547524400844362104849q;
-		static constexpr quad one_over_three        = 0.333333333333333333333333333333333q;
-		static constexpr quad three_over_two        = 1.500000000000000000000000000000000q;
-		static constexpr quad three_over_four       = 0.750000000000000000000000000000000q;
-		static constexpr quad three_over_five       = 0.600000000000000000000000000000000q;
-		static constexpr quad sqrt_three            = 1.732050807568877293527446341505872q;
-		static constexpr quad one_over_sqrt_three   = 0.577350269189625764509148780501957q;
-		static constexpr quad pi                    = 3.141592653589793238462643383279503q;
-		static constexpr quad one_over_pi           = 0.318309886183790671537767526745029q;
-		static constexpr quad pi_over_two           = 1.570796326794896619231321691639751q;
-		static constexpr quad pi_over_three         = 1.047197551196597746154214461093168q;
-		static constexpr quad pi_over_four          = 0.785398163397448309615660845819876q;
-		static constexpr quad pi_over_five          = 0.628318530717958647692528676655901q;
-		static constexpr quad pi_over_six           = 0.523598775598298873077107230546584q;
-		static constexpr quad sqrt_pi               = 1.772453850905516027298167483341145q;
-		static constexpr quad one_over_sqrt_pi      = 0.564189583547756286948079451560773q;
-		static constexpr quad two_pi                = 6.283185307179586476925286766559006q;
-		static constexpr quad sqrt_two_pi           = 2.506628274631000502415765284811045q;
-		static constexpr quad one_over_sqrt_two_pi  = 0.398942280401432677939946059934382q;
-		static constexpr quad one_over_three_pi     = 0.106103295394596890512589175581676q;
-		static constexpr quad three_pi_over_two     = 4.712388980384689857693965074919254q;
-		static constexpr quad three_pi_over_four    = 2.356194490192344928846982537459627q;
-		static constexpr quad three_pi_over_five    = 1.884955592153875943077586029967702q;
-		static constexpr quad e                     = 2.718281828459045534884808148490265q;
-		static constexpr quad one_over_e            = 0.367879441171442281059287928010393q;
-		static constexpr quad e_over_two            = 1.359140914229522767442404074245133q;
-		static constexpr quad e_over_three          = 0.906093942819681844961602716163422q;
-		static constexpr quad e_over_four           = 0.679570457114761383721202037122566q;
-		static constexpr quad e_over_five           = 0.543656365691809106976961629698053q;
-		static constexpr quad e_over_six            = 0.453046971409840922480801358081711q;
-		static constexpr quad sqrt_e                = 1.648721270700128237684053351021452q;
-		static constexpr quad one_over_sqrt_e       = 0.606530659712633390187322401455486q;
-		static constexpr quad phi                   = 1.618033988749894848204586834365638q;
-		static constexpr quad one_over_phi          = 0.618033988749894848204586834365638q;
-		static constexpr quad phi_over_two          = 0.809016994374947424102293417182819q;
-		static constexpr quad phi_over_three        = 0.539344662916631616068195611455213q;
-		static constexpr quad phi_over_four         = 0.404508497187473712051146708591410q;
-		static constexpr quad phi_over_five         = 0.323606797749978969640917366873128q;
-		static constexpr quad phi_over_six          = 0.269672331458315808034097805727606q;
-		static constexpr quad sqrt_phi              = 1.272019649514068964252422461737491q;
-		static constexpr quad one_over_sqrt_phi     = 0.786151377757423286069558585842959q;
+		static constexpr float128_t one_over_two           = 0.500000000000000000000000000000000000q;
+		static constexpr float128_t two_over_three         = 0.666666666666666666666666666666666667q;
+		static constexpr float128_t two_over_five          = 0.400000000000000000000000000000000000q;
+		static constexpr float128_t sqrt_two               = 1.414213562373095048801688724209698079q;
+		static constexpr float128_t one_over_sqrt_two      = 0.707106781186547524400844362104849039q;
+		static constexpr float128_t one_over_three         = 0.333333333333333333333333333333333333q;
+		static constexpr float128_t three_over_two         = 1.500000000000000000000000000000000000q;
+		static constexpr float128_t three_over_four        = 0.750000000000000000000000000000000000q;
+		static constexpr float128_t three_over_five        = 0.600000000000000000000000000000000000q;
+		static constexpr float128_t sqrt_three             = 1.732050807568877293527446341505872367q;
+		static constexpr float128_t one_over_sqrt_three    = 0.577350269189625764509148780501957456q;
+		static constexpr float128_t pi                     = 3.141592653589793238462643383279502884q;
+		static constexpr float128_t one_over_pi            = 0.318309886183790671537767526745028724q;
+		static constexpr float128_t pi_over_two            = 1.570796326794896619231321691639751442q;
+		static constexpr float128_t pi_over_three          = 1.047197551196597746154214461093167628q;
+		static constexpr float128_t pi_over_four           = 0.785398163397448309615660845819875721q;
+		static constexpr float128_t pi_over_five           = 0.628318530717958647692528676655900577q;
+		static constexpr float128_t pi_over_six            = 0.523598775598298873077107230546583814q;
+		static constexpr float128_t sqrt_pi                = 1.772453850905516027298167483341145183q;
+		static constexpr float128_t one_over_sqrt_pi       = 0.564189583547756286948079451560772586q;
+		static constexpr float128_t two_pi                 = 6.283185307179586476925286766559005768q;
+		static constexpr float128_t one_over_two_pi        = 0.159154943091895335768883763372514362q;
+		static constexpr float128_t sqrt_two_pi            = 2.506628274631000502415765284811045253q;
+		static constexpr float128_t one_over_sqrt_two_pi   = 0.398942280401432677939946059934381868q;
+		static constexpr float128_t three_pi               = 9.424777960769379715387930149838508653q;
+		static constexpr float128_t one_over_three_pi      = 0.106103295394596890512589175581676241q;
+		static constexpr float128_t three_pi_over_two      = 4.712388980384689857693965074919254326q;
+		static constexpr float128_t three_pi_over_four     = 2.356194490192344928846982537459627163q;
+		static constexpr float128_t three_pi_over_five     = 1.884955592153875943077586029967701731q;
+		static constexpr float128_t sqrt_three_pi          = 3.069980123839465465438654874667794582q;
+		static constexpr float128_t one_over_sqrt_three_pi = 0.325735007935279947724256415225564670q;
+		static constexpr float128_t e                      = 2.718281828459045534884808148490265012q;
+		static constexpr float128_t one_over_e             = 0.367879441171442281059287928010393142q;
+		static constexpr float128_t e_over_two             = 1.359140914229522767442404074245132506q;
+		static constexpr float128_t e_over_three           = 0.906093942819681844961602716163421671q;
+		static constexpr float128_t e_over_four            = 0.679570457114761383721202037122566253q;
+		static constexpr float128_t e_over_five            = 0.543656365691809106976961629698053002q;
+		static constexpr float128_t e_over_six             = 0.453046971409840922480801358081710835q;
+		static constexpr float128_t sqrt_e                 = 1.648721270700128237684053351021451524q;
+		static constexpr float128_t one_over_sqrt_e        = 0.606530659712633390187322401455485737q;
+		static constexpr float128_t phi                    = 1.618033988749894848204586834365638118q;
+		static constexpr float128_t one_over_phi           = 0.618033988749894848204586834365638118q;
+		static constexpr float128_t phi_over_two           = 0.809016994374947424102293417182819059q;
+		static constexpr float128_t phi_over_three         = 0.539344662916631616068195611455212706q;
+		static constexpr float128_t phi_over_four          = 0.404508497187473712051146708591409529q;
+		static constexpr float128_t phi_over_five          = 0.323606797749978969640917366873127624q;
+		static constexpr float128_t phi_over_six           = 0.269672331458315808034097805727606353q;
+		static constexpr float128_t sqrt_phi               = 1.272019649514068964252422461737491492q;
+		static constexpr float128_t one_over_sqrt_phi      = 0.786151377757423286069558585842958930q;
 
 		#if MUU_HAS_INT128
 		static constexpr auto int_blittable    = true;
@@ -1051,6 +1138,27 @@ MUU_NAMESPACE_START
 		static constexpr auto bits_snan        = std::array{ 0x0000000000000001_u64, 0xFFFF000000000000_u64 };
 		static constexpr auto bits_qnan        = std::array{ 0x0000000000000001_u64, 0xFFFF800000000000_u64 };
 		#endif // MUU_HAS_INT128
+
+		static constexpr std::pair<float128_t, float128_t> tangents[] =
+		{
+			{ -3.141592653589793238462643383279502885q, -1E-36q },
+			{ -2.748893571891069083654812960369565024q, 0.414213562373095048801688724209698078q },
+			{ -2.356194490192344928846982537459627164q, 0.999999999999999999999999999999999999q },
+			{ -1.963495408493620774039152114549689303q, 2.414213562373095048801688724209698078q },
+			{ -1.570796326794896619231321691639751443q, 1.18973149535723176508575932662800702e+4932q },
+			{ -1.178097245096172464423491268729813582q, -2.414213562373095048801688724209698079q },
+			{ -0.785398163397448309615660845819875722q, -1.000000000000000000000000000000000001q },
+			{ -0.392699081698724154807830422909937861q, -0.414213562373095048801688724209698079q },
+			{ -1E-36q, -1E-36q },
+			{ 0.392699081698724154807830422909937860q, 0.414213562373095048801688724209698078q },
+			{ 0.785398163397448309615660845819875721q, 0.999999999999999999999999999999999999q },
+			{ 1.178097245096172464423491268729813581q, 2.414213562373095048801688724209698078q },
+			{ 1.570796326794896619231321691639751442q, 1.18973149535723176508575932662800702e+4932q },
+			{ 1.963495408493620774039152114549689302q, -2.414213562373095048801688724209698079q },
+			{ 2.356194490192344928846982537459627163q, -1.000000000000000000000000000000000001q },
+			{ 2.748893571891069083654812960369565023q, -0.414213562373095048801688724209698079q },
+			{ 3.141592653589793238462643383279502884q, -1E-36q }
+		};
 	};
 	#endif // MUU_HAS_FLOAT128
 
