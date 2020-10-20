@@ -80,6 +80,14 @@ C++</span></a>
           <h2><a href="#pub-static-attribs">Public static variables</a></h2>
           <dl class="m-doc">
             <dt>
+              static T <a class="m-doc" href="structmuu_1_1impl_1_1floating__point__limits.html#a5abdf8243a907a6ddd7cd04b10f44bea">approx_equal_epsilon</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>The default epsilon used by <a class="m-doc" href="group__approx__equal.html#gac82dcde48c487938747a8baafec6bb54">approx_<wbr/>equal()</a>.</dd>
+            <dt>
+              static int <a class="m-doc" href="structmuu_1_1impl_1_1floating__point__limits.html#aa16c558afa17ea0cb7d4012301c2b6d8">decimal_digits</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>The number of significant decimal digits that can be exactly represented.</dd>
+            <dt>
               static T <a class="m-doc" href="structmuu_1_1impl_1_1floating__point__named__constants.html#ab614c9b68891ad4631a6e1f213fe1d8f">e</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>e</code></dd>
@@ -118,7 +126,7 @@ C++</span></a>
             <dt>
               static T <a class="m-doc" href="structmuu_1_1impl_1_1integer__limits.html#a24317d3d0a6baac2b01c07f15088252b">highest</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>The highest representable 'normal' value (equivalent to <a class="m-doc" href="group__intrinsics.html#ga0ed7737393aa2394099febe6bf265249">std::<wbr/>numeric_limits::<wbr/>max()</a>).</dd>
+            <dd>The highest representable 'normal' value (equivalent to <a class="m-doc" href="group__intrinsics.html#ga67052cab1c45673f85ee326e91aafbde">std::<wbr/>numeric_limits::<wbr/>max()</a>).</dd>
             <dt>
               static T <a class="m-doc" href="structmuu_1_1impl_1_1floating__point__special__constants.html#a6484cb7a237ef6dfc47f485ad7a3ff5b">infinity</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
@@ -216,6 +224,10 @@ C++</span></a>
             </dt>
             <dd><code>1 / sqrt(3)</code></dd>
             <dt>
+              static T <a class="m-doc" href="structmuu_1_1impl_1_1floating__point__named__constants.html#a516af8ee5d8e6c4b85b6db8534decfad">one_over_sqrt_three_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd><code>1 / sqrt(3 * pi)</code></dd>
+            <dt>
               static T <a class="m-doc" href="structmuu_1_1impl_1_1floating__point__named__constants.html#abb5ab2c71232991a422af60f645a91c3">one_over_sqrt_two</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>1 / sqrt(2)</code></dd>
@@ -235,6 +247,10 @@ C++</span></a>
               static T <a class="m-doc" href="structmuu_1_1impl_1_1floating__point__named__constants.html#a97b704174f0d835c2e67d66aa08f87dc">one_over_two</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>1 / 2</code></dd>
+            <dt>
+              static T <a class="m-doc" href="structmuu_1_1impl_1_1floating__point__named__constants.html#a5c3f5d44a6a913421354724dec86bce5">one_over_two_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd><code>1 / (2 * pi)</code></dd>
             <dt>
               static T <a class="m-doc" href="structmuu_1_1impl_1_1floating__point__named__constants.html#a9f4d73938ab4e513bb05753a372a02e5">phi</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
@@ -316,6 +332,10 @@ C++</span></a>
             </dt>
             <dd><code>sqrt(3)</code></dd>
             <dt>
+              static T <a class="m-doc" href="structmuu_1_1impl_1_1floating__point__named__constants.html#ad2c6df93a48cab2bdb8587f9c6b01e96">sqrt_three_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd><code>sqrt(3 * pi)</code></dd>
+            <dt>
               static T <a class="m-doc" href="structmuu_1_1impl_1_1floating__point__named__constants.html#aa2ff8e551daff356a3614f440ca1130a">sqrt_two</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>sqrt(2)</code></dd>
@@ -344,6 +364,10 @@ C++</span></a>
             </dt>
             <dd><code>3 / 2</code></dd>
             <dt>
+              static T <a class="m-doc" href="structmuu_1_1impl_1_1floating__point__named__constants.html#aa5bfd8d8176b47a3af4c7e7d59e8594a">three_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd><code>3 * pi</code></dd>
+            <dt>
               static T <a class="m-doc" href="structmuu_1_1impl_1_1floating__point__named__constants.html#a893ec726c99cdc65cbd816de3fd26cee">three_pi_over_five</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>3 * (pi / 5)</code></dd>
@@ -370,7 +394,7 @@ C++</span></a>
             <dt>
               static T <a class="m-doc" href="structmuu_1_1impl_1_1floating__point__named__constants.html#a83b56ce54362ebbf9d0800b4ba222b66">two_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd><code>pi</code></dd>
+            <dd><code>2 * pi</code></dd>
             <dt>
               static T <a class="m-doc" href="structmuu_1_1impl_1_1integer__positive__constants.html#ab7ee6b21c3afe3e5b2b6f3904fc26fde">zero</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>

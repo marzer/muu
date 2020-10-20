@@ -109,23 +109,23 @@ C++</span></a>
             </dt>
             <dd>Returns true if two floats are approximately equal.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga62400f811bf59a4e92f5e8c3172d9ecb">approx_equal</a>(</span><span class="m-doc-wrap">float128_t a,
+              float128_t b,
+              float128_t epsilon = constants&lt;float128_t&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two float128_ts are approximately equal.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gafa07e9f7df24ef7ccfc6ff96b8b585fe">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> lhs,
               <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> rhs,
               <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> epsilon = constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if two <a class="m-doc muu-injected" href="structmuu_1_1half.html">halfs</a> are approximately equal.</dd>
+            <dd>Returns true if two <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision floats are approximately equal.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gafde7b2a6ac13119386ed20c50ac68f70">approx_equal</a>(</span><span class="m-doc-wrap">long double a,
               long double b,
               long double epsilon = constants&lt;long double&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two long doubles are approximately equal.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaf0aee9cb6a6d5b13483f68161ed0d5b0">approx_equal</a>(</span><span class="m-doc-wrap">quad a,
-              quad b,
-              quad epsilon = constants&lt;quad&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if two quads are approximately equal.</dd>
           </dl>
         </section>
         <section>
@@ -178,6 +178,15 @@ C++</span></a>
             </h3>
             <p>Returns true if two floats are approximately equal.</p>
           </div></section>
+          <section class="m-doc-details" id="ga62400f811bf59a4e92f5e8c3172d9ecb"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga62400f811bf59a4e92f5e8c3172d9ecb">approx_equal</a>(</span><span class="m-doc-wrap">float128_t a,
+              float128_t b,
+              float128_t epsilon = constants&lt;float128_t&gt;::approx_equal_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>Returns true if two float128_ts are approximately equal.</p>
+          </div></section>
           <section class="m-doc-details" id="gafa07e9f7df24ef7ccfc6ff96b8b585fe"><div>
             <h3>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gafa07e9f7df24ef7ccfc6ff96b8b585fe">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> lhs,
@@ -185,7 +194,7 @@ C++</span></a>
               <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> epsilon = constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::approx_equal_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="half_8h.html">&lt;muu/half.h&gt;</a></div>
             </h3>
-            <p>Returns true if two <a class="m-doc muu-injected" href="structmuu_1_1half.html">halfs</a> are approximately equal.</p>
+            <p>Returns true if two <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision floats are approximately equal.</p>
           </div></section>
           <section class="m-doc-details" id="gafde7b2a6ac13119386ed20c50ac68f70"><div>
             <h3>
@@ -195,15 +204,6 @@ C++</span></a>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
             </h3>
             <p>Returns true if two long doubles are approximately equal.</p>
-          </div></section>
-          <section class="m-doc-details" id="gaf0aee9cb6a6d5b13483f68161ed0d5b0"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaf0aee9cb6a6d5b13483f68161ed0d5b0">approx_equal</a>(</span><span class="m-doc-wrap">quad a,
-              quad b,
-              quad epsilon = constants&lt;quad&gt;::approx_equal_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-            </h3>
-            <p>Returns true if two quads are approximately equal.</p>
           </div></section>
         </section>
       </div>

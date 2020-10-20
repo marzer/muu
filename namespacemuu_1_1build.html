@@ -61,7 +61,6 @@ C++</span></a>
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>build <span class="m-thin">namespace</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
         </h1>
         <p>Build environment information (compiler, date/time, support for various things...)</p>
         <div class="m-block m-default">
@@ -78,65 +77,199 @@ C++</span></a>
         <section id="var-members">
           <h2><a href="#var-members">Variables</a></h2>
           <dl class="m-doc">
-            <dt id="a059f47a1fea406df07928d18ba89e7c7"> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#a059f47a1fea406df07928d18ba89e7c7">bitness</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#a059f47a1fea406df07928d18ba89e7c7">bitness</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The bitness of the current architecture.</dd>
-            <dt id="ac1422aad32070ebc2bdba6500e87bc6c"> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#ac1422aad32070ebc2bdba6500e87bc6c">bits_per_byte</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#ac1422aad32070ebc2bdba6500e87bc6c">bits_per_byte</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The number of bits in a byte (aka CHAR_BIT).</dd>
-            <dt id="ab15a2e5c61489ea57d76304612871b2c"> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc-self" href="#ab15a2e5c61489ea57d76304612871b2c">cpp_version</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="#ab15a2e5c61489ea57d76304612871b2c">cpp_version</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The current C++ language version (17, 20...)</dd>
-            <dt id="a8d9bd9685ff101794faacdc43206d662"> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc-self" href="#a8d9bd9685ff101794faacdc43206d662">day</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="#a8d9bd9685ff101794faacdc43206d662">day</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The current day of the month (1-31).</dd>
-            <dt id="a94df782020722e17c9d359931c92134e">
-              bool <a class="m-doc-self" href="#a94df782020722e17c9d359931c92134e">has_exceptions</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt>
+              bool <a class="m-doc" href="#a94df782020722e17c9d359931c92134e">has_exceptions</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>True if exceptions are enabled.</dd>
-            <dt id="ae2ac1a89ce5084508f06a8fc3046dfb6">
-              bool <a class="m-doc-self" href="#ae2ac1a89ce5084508f06a8fc3046dfb6">has_rtti</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt>
+              bool <a class="m-doc" href="#ae2ac1a89ce5084508f06a8fc3046dfb6">has_rtti</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>True if run-time type identification (RTTI) is enabled.</dd>
-            <dt id="a3a236f2f2246b352c3d0fddb6f898307"> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc-self" href="#a3a236f2f2246b352c3d0fddb6f898307">hour</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="#a3a236f2f2246b352c3d0fddb6f898307">hour</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The current hour of the day (0-23).</dd>
-            <dt id="a4d2e05f091c6116d15b6de7ec51c213c">
-              bool <a class="m-doc-self" href="#a4d2e05f091c6116d15b6de7ec51c213c">is_big_endian</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt>
+              bool <a class="m-doc" href="#a4d2e05f091c6116d15b6de7ec51c213c">is_big_endian</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>True if the target environment is big-endian.</dd>
-            <dt id="af693226bafb2cf34c54e24b92be66c25">
-              bool <a class="m-doc-self" href="#af693226bafb2cf34c54e24b92be66c25">is_little_endian</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt>
+              bool <a class="m-doc" href="#af693226bafb2cf34c54e24b92be66c25">is_little_endian</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>True if the target environment is little-endian.</dd>
-            <dt id="af7c47c598d8d8be8f43083f593a89f6e"> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc-self" href="#af7c47c598d8d8be8f43083f593a89f6e">minute</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="#af7c47c598d8d8be8f43083f593a89f6e">minute</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The current minute (0-59).</dd>
-            <dt id="a1b206904913622e2851364180dffa147"> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc-self" href="#a1b206904913622e2851364180dffa147">month</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="#a1b206904913622e2851364180dffa147">month</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The current month of the year (1-12).</dd>
-            <dt id="ae50337fa6f6a72d069a0a0898e36dd08"> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#ae50337fa6f6a72d069a0a0898e36dd08">pointer_size</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#ae50337fa6f6a72d069a0a0898e36dd08">pointer_size</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The number of bytes required to store a pointer.</dd>
-            <dt id="a0a58816aa6112236ab15e6f83ef7ccb5"> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc-self" href="#a0a58816aa6112236ab15e6f83ef7ccb5">second</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="#a0a58816aa6112236ab15e6f83ef7ccb5">second</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The current second (0-59).</dd>
-            <dt id="a5ee6b53a87bd46b2bf84f2bea9e2a0b5">
-              bool <a class="m-doc-self" href="#a5ee6b53a87bd46b2bf84f2bea9e2a0b5">supports_constexpr_bit_cast</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt>
+              bool <a class="m-doc" href="#a5ee6b53a87bd46b2bf84f2bea9e2a0b5">supports_constexpr_bit_cast</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>True if using <a class="m-doc" href="group__intrinsics.html#gaadb4c6332c738c248f84f43ece303657">bit_<wbr/>cast()</a> in constexpr contexts is supported on this compiler.</dd>
-            <dt id="ac2ed8c664a3937f1d6beca3916098ebd">
-              bool <a class="m-doc-self" href="#ac2ed8c664a3937f1d6beca3916098ebd">supports_constexpr_infinity_or_nan</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt>
+              bool <a class="m-doc" href="#ae33023a7463b68374575d0cb9f42af43">supports_constexpr_half</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if using <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a> in constexpr contexts is fully supported on this compiler.</dd>
+            <dt>
+              bool <a class="m-doc" href="#ac2ed8c664a3937f1d6beca3916098ebd">supports_constexpr_infinity_or_nan</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>True if using <a class="m-doc" href="group__infinity__or__nan.html#ga3d90a03fff8f593add263df879139162">infinity_<wbr/>or_<wbr/>nan()</a> in constexpr contexts is supported on this compiler.</dd>
-            <dt id="a8398d41dfdf02da1234b776f754bbb3d">
-              bool <a class="m-doc-self" href="#a8398d41dfdf02da1234b776f754bbb3d">supports_is_constant_evaluated</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt>
+              bool <a class="m-doc" href="#ae1f632796abc91c58e0667c38ecc384e">supports_constexpr_math</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if some math functions (sin, cos, sqrt etc.) can be used in constexpr contexts on this compiler.</dd>
+            <dt>
+              bool <a class="m-doc" href="#a8398d41dfdf02da1234b776f754bbb3d">supports_is_constant_evaluated</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>True if <a class="m-doc" href="group__intrinsics.html#ga8a9b0aaf9860b30f93639333a5214d34">is_<wbr/>constant_<wbr/>evaluated()</a> is properly supported on this compiler.</dd>
-            <dt id="a60ed708127e16b82cccf0db04f219969"> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc-self" href="#a60ed708127e16b82cccf0db04f219969">year</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="#a60ed708127e16b82cccf0db04f219969">year</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The current year.</dd>
           </dl>
+        </section>
+        <section>
+          <h2>Variable documentation</h2>
+          <section class="m-doc-details" id="a059f47a1fea406df07928d18ba89e7c7"><div>
+            <h3> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a059f47a1fea406df07928d18ba89e7c7">bitness</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>The bitness of the current architecture.</p>
+          </div></section>
+          <section class="m-doc-details" id="ac1422aad32070ebc2bdba6500e87bc6c"><div>
+            <h3> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#ac1422aad32070ebc2bdba6500e87bc6c">bits_per_byte</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>The number of bits in a byte (aka CHAR_BIT).</p>
+          </div></section>
+          <section class="m-doc-details" id="ab15a2e5c61489ea57d76304612871b2c"><div>
+            <h3> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#ab15a2e5c61489ea57d76304612871b2c">cpp_version</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>The current C++ language version (17, 20...)</p>
+          </div></section>
+          <section class="m-doc-details" id="a8d9bd9685ff101794faacdc43206d662"><div>
+            <h3> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a8d9bd9685ff101794faacdc43206d662">day</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>The current day of the month (1-31).</p>
+          </div></section>
+          <section class="m-doc-details" id="a94df782020722e17c9d359931c92134e"><div>
+            <h3>
+              bool muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a94df782020722e17c9d359931c92134e">has_exceptions</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>True if exceptions are enabled.</p>
+          </div></section>
+          <section class="m-doc-details" id="ae2ac1a89ce5084508f06a8fc3046dfb6"><div>
+            <h3>
+              bool muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#ae2ac1a89ce5084508f06a8fc3046dfb6">has_rtti</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>True if run-time type identification (RTTI) is enabled.</p>
+          </div></section>
+          <section class="m-doc-details" id="a3a236f2f2246b352c3d0fddb6f898307"><div>
+            <h3> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a3a236f2f2246b352c3d0fddb6f898307">hour</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>The current hour of the day (0-23).</p>
+          </div></section>
+          <section class="m-doc-details" id="a4d2e05f091c6116d15b6de7ec51c213c"><div>
+            <h3>
+              bool muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a4d2e05f091c6116d15b6de7ec51c213c">is_big_endian</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>True if the target environment is big-endian.</p>
+          </div></section>
+          <section class="m-doc-details" id="af693226bafb2cf34c54e24b92be66c25"><div>
+            <h3>
+              bool muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#af693226bafb2cf34c54e24b92be66c25">is_little_endian</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>True if the target environment is little-endian.</p>
+          </div></section>
+          <section class="m-doc-details" id="af7c47c598d8d8be8f43083f593a89f6e"><div>
+            <h3> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#af7c47c598d8d8be8f43083f593a89f6e">minute</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>The current minute (0-59).</p>
+          </div></section>
+          <section class="m-doc-details" id="a1b206904913622e2851364180dffa147"><div>
+            <h3> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a1b206904913622e2851364180dffa147">month</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>The current month of the year (1-12).</p>
+          </div></section>
+          <section class="m-doc-details" id="ae50337fa6f6a72d069a0a0898e36dd08"><div>
+            <h3> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#ae50337fa6f6a72d069a0a0898e36dd08">pointer_size</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>The number of bytes required to store a pointer.</p>
+          </div></section>
+          <section class="m-doc-details" id="a0a58816aa6112236ab15e6f83ef7ccb5"><div>
+            <h3> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a0a58816aa6112236ab15e6f83ef7ccb5">second</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>The current second (0-59).</p>
+          </div></section>
+          <section class="m-doc-details" id="a5ee6b53a87bd46b2bf84f2bea9e2a0b5"><div>
+            <h3>
+              bool muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a5ee6b53a87bd46b2bf84f2bea9e2a0b5">supports_constexpr_bit_cast</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>True if using <a class="m-doc" href="group__intrinsics.html#gaadb4c6332c738c248f84f43ece303657">bit_<wbr/>cast()</a> in constexpr contexts is supported on this compiler.</p>
+          </div></section>
+          <section class="m-doc-details" id="ae33023a7463b68374575d0cb9f42af43"><div>
+            <h3>
+              bool muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#ae33023a7463b68374575d0cb9f42af43">supports_constexpr_half</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="half_8h.html">&lt;muu/half.h&gt;</a></div>
+            </h3>
+            <p>True if using <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a> in constexpr contexts is fully supported on this compiler.</p>
+          </div></section>
+          <section class="m-doc-details" id="ac2ed8c664a3937f1d6beca3916098ebd"><div>
+            <h3>
+              bool muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#ac2ed8c664a3937f1d6beca3916098ebd">supports_constexpr_infinity_or_nan</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>True if using <a class="m-doc" href="group__infinity__or__nan.html#ga3d90a03fff8f593add263df879139162">infinity_<wbr/>or_<wbr/>nan()</a> in constexpr contexts is supported on this compiler.</p>
+          </div></section>
+          <section class="m-doc-details" id="ae1f632796abc91c58e0667c38ecc384e"><div>
+            <h3>
+              bool muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#ae1f632796abc91c58e0667c38ecc384e">supports_constexpr_math</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>True if some math functions (sin, cos, sqrt etc.) can be used in constexpr contexts on this compiler.</p>
+          </div></section>
+          <section class="m-doc-details" id="a8398d41dfdf02da1234b776f754bbb3d"><div>
+            <h3>
+              bool muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a8398d41dfdf02da1234b776f754bbb3d">supports_is_constant_evaluated</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>True if <a class="m-doc" href="group__intrinsics.html#ga8a9b0aaf9860b30f93639333a5214d34">is_<wbr/>constant_<wbr/>evaluated()</a> is properly supported on this compiler.</p>
+          </div></section>
+          <section class="m-doc-details" id="a60ed708127e16b82cccf0db04f219969"><div>
+            <h3> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a60ed708127e16b82cccf0db04f219969">year</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>The current year.</p>
+          </div></section>
         </section>
       </div>
     </div>

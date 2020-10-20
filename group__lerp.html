@@ -110,23 +110,23 @@ C++</span></a>
             </dt>
             <dd>Returns a linear interpolation between two floats.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga614ccb878d52686237995f87013cfae5">lerp</a>(</span><span class="m-doc-wrap">float128_t start,
+              float128_t finish,
+              float128_t alpha) -&gt; float128_t <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a linear interpolation between two float128_ts.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga52c3f4f3e75c69a2775cd2d5fc92a0fd">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> start,
               <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> finish,
               <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> alpha) -&gt; <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a linear interpolation between two <a class="m-doc muu-injected" href="structmuu_1_1half.html">halfs</a>.</dd>
+            <dd>Returns a linear interpolation between two <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision floats.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga44b514d356d6673cc0595cf0390dd8de">lerp</a>(</span><span class="m-doc-wrap">long double start,
               long double finish,
               long double alpha) -&gt; long double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a linear interpolation between two long doubles.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gac867cd15b6eb62930e77908984cc6e3b">lerp</a>(</span><span class="m-doc-wrap">quad start,
-              quad finish,
-              quad alpha) -&gt; quad <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a linear interpolation between two quads.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U, typename V&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga348d51a08675a8a83b04e59b7705c29e">lerp</a>(</span><span class="m-doc-wrap">T start,
@@ -185,6 +185,15 @@ C++</span></a>
             </h3>
             <p>Returns a linear interpolation between two floats.</p>
           </div></section>
+          <section class="m-doc-details" id="ga614ccb878d52686237995f87013cfae5"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">float128_t </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga614ccb878d52686237995f87013cfae5">lerp</a>(</span><span class="m-doc-wrap">float128_t start,
+              float128_t finish,
+              float128_t alpha) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>Returns a linear interpolation between two float128_ts.</p>
+          </div></section>
           <section class="m-doc-details" id="ga52c3f4f3e75c69a2775cd2d5fc92a0fd"><div>
             <h3>
               <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga52c3f4f3e75c69a2775cd2d5fc92a0fd">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> start,
@@ -192,7 +201,7 @@ C++</span></a>
               <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> alpha) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="half_8h.html">&lt;muu/half.h&gt;</a></div>
             </h3>
-            <p>Returns a linear interpolation between two <a class="m-doc muu-injected" href="structmuu_1_1half.html">halfs</a>.</p>
+            <p>Returns a linear interpolation between two <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision floats.</p>
           </div></section>
           <section class="m-doc-details" id="ga44b514d356d6673cc0595cf0390dd8de"><div>
             <h3>
@@ -202,15 +211,6 @@ C++</span></a>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
             </h3>
             <p>Returns a linear interpolation between two long doubles.</p>
-          </div></section>
-          <section class="m-doc-details" id="gac867cd15b6eb62930e77908984cc6e3b"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">quad </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gac867cd15b6eb62930e77908984cc6e3b">lerp</a>(</span><span class="m-doc-wrap">quad start,
-              quad finish,
-              quad alpha) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-            </h3>
-            <p>Returns a linear interpolation between two quads.</p>
           </div></section>
           <section class="m-doc-details" id="ga348d51a08675a8a83b04e59b7705c29e"><div>
             <h3>

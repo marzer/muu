@@ -120,7 +120,7 @@ C++</span></a>
             <dt id="a0f80f653085b08d9c99b6cdaa7039582">
               using <a class="m-doc-self" href="#a0f80f653085b08d9c99b6cdaa7039582">scalar_product</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;<a class="m-doc" href="group__meta.html#ga6283839d5536a4ee096adccee42b88c5">is_<wbr/>integral</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&gt;, double, <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&gt;
             </dt>
-            <dd>The scalar type used for products (length/distance dot, etc.)</dd>
+            <dd>The scalar type used for products (length/distance, dot, multiplication, etc.)</dd>
             <dt id="ad9d2b50a3d332271a3e7301e68bb356e">
               using <a class="m-doc-self" href="#ad9d2b50a3d332271a3e7301e68bb356e">scalar_type</a> = Scalar
             </dt>
@@ -511,7 +511,7 @@ C++</span></a>
             <dt id="a2fbb1a0e7898551fd58369c05baa3ab4">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2fbb1a0e7898551fd58369c05baa3ab4">unit_length</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if the vector has a length of 1.</dd>
+            <dd>Returns true if the vector is unit-length (i.e. has a length of 1).</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a600a005f13c53d4b8fb0c1defc5ccf04">zero</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>

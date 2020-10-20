@@ -74,6 +74,7 @@ C++</span></a>
             </li>
           </ul>
         </div>
+<aside class="m-note m-info"><h4>Note</h4><p>Older compilers won't provide the necessary machinery for sqrt functions to work in constexpr contexts. You can check for constexpr support by examining <a class="m-doc" href="namespacemuu_1_1build.html#ae1f632796abc91c58e0667c38ecc384e">build::<wbr/>supports_constexpr_math</a>.</p></aside>
         <section id="func-members">
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
@@ -94,13 +95,17 @@ C++</span></a>
             </dt>
             <dd>Returns the square-root of a float.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaceac97ba356dc54894d5c890690f5d58">sqrt</a>(</span><span class="m-doc-wrap">float128_t val) -&gt; float128_t <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the square-root of a float128_t.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga52c37838b048bb44a299d882a28ee412">sqrt</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> val) -&gt; <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the square-root of a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga8d996d68324a9977b7ce4b1c8e497e4d">sqrt</a>(</span><span class="m-doc-wrap">long double val) -&gt; long double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the square-root of a long double.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaa63a5132725ddab46055e9b52ea8b975">sqrt</a>(</span><span class="m-doc-wrap">quad val) -&gt; quad <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns the square-root of a quad.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga8a878c67d7ef62abdcf0a950114b5c51">sqrt</a>(</span><span class="m-doc-wrap">T val) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -138,19 +143,26 @@ C++</span></a>
             </h3>
             <p>Returns the square-root of a float.</p>
           </div></section>
+          <section class="m-doc-details" id="gaceac97ba356dc54894d5c890690f5d58"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">float128_t </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaceac97ba356dc54894d5c890690f5d58">sqrt</a>(</span><span class="m-doc-wrap">float128_t val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>Returns the square-root of a float128_t.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga52c37838b048bb44a299d882a28ee412"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga52c37838b048bb44a299d882a28ee412">sqrt</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="half_8h.html">&lt;muu/half.h&gt;</a></div>
+            </h3>
+            <p>Returns the square-root of a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float.</p>
+          </div></section>
           <section class="m-doc-details" id="ga8d996d68324a9977b7ce4b1c8e497e4d"><div>
             <h3>
               <span class="m-doc-wrap-bumper">long double </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga8d996d68324a9977b7ce4b1c8e497e4d">sqrt</a>(</span><span class="m-doc-wrap">long double val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
             </h3>
             <p>Returns the square-root of a long double.</p>
-          </div></section>
-          <section class="m-doc-details" id="gaa63a5132725ddab46055e9b52ea8b975"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">quad </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaa63a5132725ddab46055e9b52ea8b975">sqrt</a>(</span><span class="m-doc-wrap">quad val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-            </h3>
-            <p>Returns the square-root of a quad.</p>
           </div></section>
           <section class="m-doc-details" id="ga8a878c67d7ef62abdcf0a950114b5c51"><div>
             <h3>

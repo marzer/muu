@@ -77,10 +77,20 @@ C++</span></a>
         <section id="groups">
           <h2><a href="#groups">Modules</a></h2>
           <dl class="m-doc">
-            <dt>module <a class="m-doc" href="group__sqrt.html">sqrt()</a></dt>
-            <dd>Constexpr-friendly alternatives to <a class="m-doc" href="group__sqrt.html#ga8a878c67d7ef62abdcf0a950114b5c51">std::<wbr/>sqrt()</a>.</dd>
             <dt>module <a class="m-doc" href="group__approx__equal.html">approx_equal()</a></dt>
             <dd>Floating-point approximate equality checks.</dd>
+            <dt>module <a class="m-doc" href="group__floor.html">floor()</a></dt>
+            <dd>Constexpr-friendly alternatives to <a class="m-doc" href="group__floor.html#gae261d3ed5eb350463a67bb0905279e72">std::<wbr/>floor()</a>.</dd>
+            <dt>module <a class="m-doc" href="group__ceil.html">ceil()</a></dt>
+            <dd>Constexpr-friendly alternatives to <a class="m-doc" href="group__ceil.html#gac1d2aec3e4a241129f6363fb27c06dcc">std::<wbr/>ceil()</a>.</dd>
+            <dt>module <a class="m-doc" href="group__cos.html">cos()</a></dt>
+            <dd>Constexpr-friendly alternatives to <a class="m-doc" href="group__cos.html#ga4a2782ff989ea8a4c04371e6a2ed2ba5">std::<wbr/>cos()</a>.</dd>
+            <dt>module <a class="m-doc" href="group__sin.html">sin()</a></dt>
+            <dd>Constexpr-friendly alternatives to <a class="m-doc" href="group__sin.html#gae091f749c93ddecd1cf8befd68c7b53b">std::<wbr/>sin()</a>.</dd>
+            <dt>module <a class="m-doc" href="group__tan.html">tan()</a></dt>
+            <dd>Constexpr-friendly alternatives to <a class="m-doc" href="group__tan.html#gafc8e8f6a25fa0b650f3a3717846225be">std::<wbr/>tan()</a>.</dd>
+            <dt>module <a class="m-doc" href="group__sqrt.html">sqrt()</a></dt>
+            <dd>Constexpr-friendly alternatives to <a class="m-doc" href="group__sqrt.html#ga8a878c67d7ef62abdcf0a950114b5c51">std::<wbr/>sqrt()</a>.</dd>
             <dt>module <a class="m-doc" href="group__lerp.html">lerp()</a></dt>
             <dd>Linear interpolations al a C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/lerp" target="_blank">std::lerp</a>.</dd>
             <dt>module <a class="m-doc" href="group__infinity__or__nan.html">infinity_or_nan()</a></dt>
@@ -202,14 +212,14 @@ C++</span></a>
             <dd>Equivalent to C++17's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/launder" target="_blank">std::launder</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga0ed7737393aa2394099febe6bf265249">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
-              const T&amp; val2) -&gt; const T&amp;() <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga67052cab1c45673f85ee326e91aafbde">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              const T&amp; val2) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the maximum of two values.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga444cfa020e30e49e983080d65c38aaf7">min</a>(</span><span class="m-doc-wrap">const T&amp; val1,
-              const T&amp; val2) -&gt; const T&amp;() <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gacc52016e295ef88268bd5835a23b69d8">min</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              const T&amp; val2) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the minimum of two values.</dd>
             <dt>
@@ -246,7 +256,7 @@ C++</span></a>
             <dd>Obtain the address represented by p without forming a reference to the pointee.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gafd71d476cdcc1dd56ae884cd947600fe">unwrap</a>(</span><span class="m-doc-wrap">T val) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga81642f54291cc4a1287ef141b3f4d34f">unwrap</a>(</span><span class="m-doc-wrap">T val) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/underlying_type" target="_blank">std::underlying_type_t</a>&lt;T&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Unwraps an enum to it's raw integer equivalent.</dd>
           </dl>
@@ -895,25 +905,25 @@ C++</span></a>
             <p>Equivalent to C++17's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/launder" target="_blank">std::launder</a>.</p>
 <p>Older implementations don't provide this as an intrinsic or have a placeholder for it in their standard library. Using this version allows you to get around that by writing code 'as if' it were there and have it compile just the same.</p>
           </div></section>
-          <section class="m-doc-details" id="ga0ed7737393aa2394099febe6bf265249"><div>
+          <section class="m-doc-details" id="ga67052cab1c45673f85ee326e91aafbde"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              <span class="m-doc-wrap-bumper">const T&amp;() </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga0ed7737393aa2394099febe6bf265249">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              <span class="m-doc-wrap-bumper">const T&amp; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga67052cab1c45673f85ee326e91aafbde">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
               const T&amp; val2) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns the maximum of two values.</p>
 <p>This is equivalent to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/algorithm/max" target="_blank">std::max</a> without requiring you to drag in the enormity of <code>&lt;algorithm&gt;</code>.</p>
           </div></section>
-          <section class="m-doc-details" id="ga444cfa020e30e49e983080d65c38aaf7"><div>
+          <section class="m-doc-details" id="gacc52016e295ef88268bd5835a23b69d8"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              <span class="m-doc-wrap-bumper">const T&amp;() </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga444cfa020e30e49e983080d65c38aaf7">min</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              <span class="m-doc-wrap-bumper">const T&amp; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gacc52016e295ef88268bd5835a23b69d8">min</a>(</span><span class="m-doc-wrap">const T&amp; val1,
               const T&amp; val2) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns the minimum of two values.</p>
@@ -1133,13 +1143,13 @@ C++</span></a>
             <p>Obtain the address represented by p without forming a reference to the pointee.</p>
 <p>This is equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/memory/to_address" target="_blank">std::to_address</a>.</p>
           </div></section>
-          <section class="m-doc-details" id="gafd71d476cdcc1dd56ae884cd947600fe"><div>
+          <section class="m-doc-details" id="ga81642f54291cc4a1287ef141b3f4d34f"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              <span class="m-doc-wrap-bumper">auto </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gafd71d476cdcc1dd56ae884cd947600fe">unwrap</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/underlying_type" target="_blank">std::underlying_type_t</a>&lt;T&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga81642f54291cc4a1287ef141b3f4d34f">unwrap</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Unwraps an enum to it's raw integer equivalent.</p>
             <table class="m-table m-fullwidth m-flat">
