@@ -8,9 +8,6 @@
 
 #pragma once
 #include "../muu/core.h"
-MUU_DISABLE_WARNINGS
-#include <iosfwd>
-MUU_ENABLE_WARNINGS
 
 // see if we can just wrap a 'real' fp16 type (better codegen while still being binary-compatible)
 #if MUU_HAS_FLOAT16
@@ -38,8 +35,13 @@ MUU_ENABLE_WARNINGS
 	#ifndef HALF_USE_INTRINSICS
 		#define HALF_USE_INTRINSICS 0
 	#endif
-
 #endif
+MUU_DISABLE_WARNINGS
+#include <iosfwd>
+#if HALF_USE_INTRINSICS && !MUU_MSVC
+	#include <immintrin.h>
+#endif
+MUU_ENABLE_WARNINGS
 
 MUU_PUSH_WARNINGS
 MUU_DISABLE_ARITHMETIC_WARNINGS
@@ -86,14 +88,14 @@ MUU_NAMESPACE_START
 	/// auto b3 = 4.0_f16 <= 5;
 	/// \ecpp
 	/// 
-	/// \note		Older compilers won't provide the necessary machinery for arithmetic and conversions to/from muu::half
-	/// 			to work in constexpr contexts. You can check for constexpr support by examining
-	/// 			build::supports_constexpr_half.
+	/// \note	Older compilers won't provide the necessary machinery for arithmetic and conversions to/from muu::half
+	/// 		to work in constexpr contexts. You can check for constexpr support by examining
+	/// 		build::supports_constexpr_half.
 	/// 
-	/// \attention Despite the arithmetic operations being implemented as you'd expect, 16-bit floating-point
-	/// 		 arithmetic is _very_ lossy and should be avoided for all but the most trivial cases.
-	/// 		 In general it's better to do your arithmetic in a higher-precision type (e.g. float) and convert
-	/// 		 back to half when you're finished.
+	/// \attention	Despite the arithmetic operations being implemented as you'd expect, 16-bit floating-point
+	/// 			arithmetic is _very_ lossy and should be avoided for all but the most trivial cases.
+	/// 			In general it's better to do your arithmetic in a higher-precision type (e.g. float) and convert
+	/// 			back to half when you're finished.
 	/// 
 	/// \see [Half-precision floating-point (wikipedia)](https://en.wikipedia.org/wiki/Half-precision_floating-point_format)
 	struct MUU_TRIVIAL_ABI half

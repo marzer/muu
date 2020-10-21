@@ -164,9 +164,6 @@ MUU_NAMESPACE_START
 		/// \brief The axis-angle rotation with the same #scalar_type as this quaternion.
 		using axis_angle_type = axis_angle_rotation<scalar_type>;
 
-		/// \brief The quaternion type with #scalar_type == #scalar_product.
-		using quaternion_product = quaternion<scalar_type>;
-
 		/// \brief `quaternion` or `const quaternion&`, depending on depending on size, triviality, simd-friendliness, etc.
 		using quaternion_param = std::conditional_t<
 			impl::pass_quaternion_by_value<scalar_type>,
@@ -398,9 +395,7 @@ MUU_NAMESPACE_START
 			using type = impl::promote_if_small_float<impl::highest_ranked<scalar_type, T>>;
 
 			return muu::approx_equal(static_cast<type>(q1.s), static_cast<type>(q2.s), static_cast<type>(epsilon))
-				&& muu::approx_equal(static_cast<type>(q1.v.x), static_cast<type>(q2.v.x), static_cast<type>(epsilon))
-				&& muu::approx_equal(static_cast<type>(q1.v.y), static_cast<type>(q2.v.y), static_cast<type>(epsilon))
-				&& muu::approx_equal(static_cast<type>(q1.v.z), static_cast<type>(q2.v.z), static_cast<type>(epsilon));
+				&& vector_type::approx_equal(q1.v, q2.v, epsilon);
 		}
 
 		/// \brief	Returns true if the quaternion is approximately equal to another.
@@ -636,7 +631,7 @@ MUU_NAMESPACE_START
 		/// \brief Multiplies two quaternions.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr quaternion_product MUU_VECTORCALL operator * (quaternion_param lhs, quaternion_param rhs) noexcept
+		friend constexpr quaternion MUU_VECTORCALL operator * (quaternion_param lhs, quaternion_param rhs) noexcept
 		{
 			using mult_type = decltype(scalar_type{} * scalar_type{});
 
@@ -670,14 +665,7 @@ MUU_NAMESPACE_START
 		/// \brief Multiplies this quaternion with another.
 		constexpr quaternion& MUU_VECTORCALL operator *= (quaternion_param rhs) noexcept
 		{
-			if constexpr (std::is_same_v<quaternion_product, quaternion>)
-			{
-				return (*this = *this * rhs);
-			}
-			else
-			{
-				*this = quaternion{ *this * rhs };
-			}
+			return (*this = *this * rhs);
 		}
 
 		/// \brief Rotates a three-dimensional vector by the rotation encoded in a quaternion.
@@ -705,20 +693,20 @@ MUU_NAMESPACE_START
 
 		}
 
-		///// \brief Scales the shortest-path rotation equivalent of a quaternion by a scalar.
-		//[[nodiscard]]
-		//MUU_ATTR(pure)
-		//friend constexpr quaternion_product MUU_VECTORCALL operator * (quaternion_param lhs, scalar_type rhs) noexcept
-		//{
-		//	auto axisAngle = ToAxisAngle(lhs);
-		//	axisAngle.Angle *= static_cast<scalar_t>(rhs) * scalar_t { 0.5 };
-		//	axisAngle.Axis.normalize(); //todo: unnecessary?
-		//	return
-		//	{
-		//		Cos(axisAngle.Angle),
-		//		Sin(axisAngle.Angle) * axisAngle.Axis
-		//	};
-		//}
+		/// \brief Scales the shortest-path rotation equivalent of a quaternion by a scalar.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		friend constexpr quaternion MUU_VECTORCALL operator * (quaternion_param lhs, scalar_type rhs) noexcept
+		{
+			auto aa = to_axis_angle(lhs);
+			aa.angle *= rhs * scalar_constants::one_over_two;
+			aa.axis.normalize(); //todo: unnecessary?
+			return
+			{
+				muu::cos(aa.angle),
+				muu::sin(aa.angle) * aa.axis
+			};
+		}
 
 	#endif // multiplication
 	};

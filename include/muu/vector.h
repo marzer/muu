@@ -656,7 +656,7 @@ MUU_IMPL_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
-	static constexpr auto MUU_VECTORCALL modulo(T lhs, T rhs) noexcept
+	static constexpr auto MUU_VECTORCALL modulo(T lhs, T rhs) noexcept // todo: constexpr fmod
 	{
 		if constexpr (is_floating_point<T>)
 		{
@@ -2174,9 +2174,17 @@ MUU_NAMESPACE_START
 		[[nodiscard]]
 		static constexpr vector MUU_VECTORCALL normalize(vector_param v, scalar_product& length_out) noexcept
 		{
-			const auto len = raw_length(v);
-			length_out = static_cast<scalar_product>(len);
-			return raw_divide_scalar(v, len);
+			if constexpr (Dimensions == 1)
+			{
+				length_out = static_cast<scalar_product>(v.x);
+				return vector{ scalar_constants::one };
+			}
+			else
+			{
+				const auto len = raw_length(v);
+				length_out = static_cast<scalar_product>(len);
+				return raw_divide_scalar(v, len);
+			}
 		}
 
 		/// \brief	Normalizes a vector.
@@ -2191,7 +2199,13 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr vector MUU_VECTORCALL normalize(vector_param v) noexcept
 		{
-			return raw_divide_scalar(v, raw_length(v));
+			if constexpr (Dimensions == 1)
+			{
+				(void)v;
+				return vector{ scalar_constants::one };
+			}
+			else
+				return raw_divide_scalar(v, raw_length(v));
 		}
 
 		/// \brief	Normalizes the vector (in-place).
@@ -2204,9 +2218,18 @@ MUU_NAMESPACE_START
 		REQUIRES_FLOATING_POINT
 		constexpr vector& normalize(scalar_product& length_out) noexcept
 		{
-			const auto len = raw_length(*this);
-			length_out = static_cast<scalar_product>(len);
-			return raw_divide_assign_scalar(len);
+			if constexpr (Dimensions == 1)
+			{
+				length_out = static_cast<scalar_product>(base::x);
+				base::x = scalar_constants::one;
+				return *this;
+			}
+			else
+			{
+				const auto len = raw_length(*this);
+				length_out = static_cast<scalar_product>(len);
+				return raw_divide_assign_scalar(len);
+			}
 		}
 
 		/// \brief	Normalizes the vector (in-place).
@@ -2217,7 +2240,13 @@ MUU_NAMESPACE_START
 		REQUIRES_FLOATING_POINT
 		constexpr vector& normalize() noexcept
 		{
-			return raw_divide_assign_scalar(raw_length(*this));
+			if constexpr (Dimensions == 1)
+			{
+				base::x = scalar_constants::one;
+				return *this;
+			}
+			else
+				return raw_divide_assign_scalar(raw_length(*this));
 		}
 
 	#endif // normalization

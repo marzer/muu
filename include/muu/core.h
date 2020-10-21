@@ -8,7 +8,7 @@
 
 #pragma once
 #include "../muu/fwd.h"
-#if MUU_GCC && MUU_HAS_FLOAT128 && MUU_EXTENDED_LITERALS
+#if MUU_GCC && MUU_HAS_FLOAT128
 	#pragma GCC system_header
 #endif
 
@@ -46,10 +46,9 @@ MUU_DISABLE_WARNINGS
 #include <typeindex> // std::hash on-the-cheap
 #include <utility>
 #include <limits>
-#if MUU_MSVC || MUU_ICC_CL
+#if MUU_HAS_VECTORCALL
 	#include <intrin.h>
-#elif (MUU_GCC || MUU_CLANG) && (MUU_ARCH_AMD64 || MUU_ARCH_X86)
-	#include <immintrin.h>
+	//#include <immintrin.h>
 #endif
 #if MUU_HAS_QUADMATH
 extern "C"
@@ -870,31 +869,6 @@ MUU_NAMESPACE_START
 	template <typename T>
 	inline constexpr size_t tuple_size = impl::tuple_size_<T>::value;
 
-	/// \brief Returns true if a type is a simd compiler intrinsic type (__m64, __m128, etc.).
-	template <typename T>
-	inline constexpr bool is_simd_intrinsic = is_same_as_any<remove_cvref<T>
-		#if MUU_ISET_MMX
-			, __m64
-		#endif
-		#if MUU_ISET_SSE
-			, __m128
-		#endif
-		#if MUU_ISET_SSE2
-			, __m128i
-			, __m128d
-		#endif
-		#if MUU_ISET_AVX
-			, __m256
-			, __m256d
-			, __m256i
-		#endif
-		#if MUU_ISET_AVX512
-			, __m512
-			, __m512d
-			, __m512i
-		#endif
-	>;
-
 	/** @} */	// meta
 }
 MUU_NAMESPACE_END
@@ -926,6 +900,30 @@ MUU_IMPL_NAMESPACE_START
 	};
 
 	#if MUU_HAS_VECTORCALL
+
+	template <typename T>
+	inline constexpr bool is_simd_intrinsic = is_same_as_any<remove_cvref<T>
+		#if MUU_ISET_MMX
+			, __m64
+		#endif
+		#if MUU_ISET_SSE
+			, __m128
+		#endif
+		#if MUU_ISET_SSE2
+			, __m128i
+			, __m128d
+		#endif
+		#if MUU_ISET_AVX
+			, __m256
+			, __m256d
+			, __m256i
+		#endif
+		#if MUU_ISET_AVX512
+			, __m512
+			, __m512d
+			, __m512i
+		#endif
+	>;
 
 	template <typename T>
 	using is_aggregate_5_args_ = decltype(T{ { any_type{} },{ any_type{} }, { any_type{} }, { any_type{} }, { any_type{} } });
@@ -1046,9 +1044,9 @@ MUU_IMPL_NAMESPACE_START
 		using type = std::conditional_t<
 			is_floating_point<T>
 			|| is_integral<T>
-			|| is_simd_intrinsic<T>
 			|| std::is_scalar_v<T>
 			#if MUU_HAS_VECTORCALL
+			|| is_simd_intrinsic<T>
 			|| is_hva<T>
 			#endif
 			|| ((std::is_class_v<T> || std::is_union_v<T>)
@@ -1129,7 +1127,7 @@ MUU_NAMESPACE_START
 			static constexpr uint128_t highest = (2u * static_cast<uint128_t>(integer_limits<int128_t>::highest)) + 1u;
 		};
 		#endif // MUU_HAS_INT128
-		#if MUU_HAS_FLOAT128 && MUU_EXTENDED_LITERALS
+		#if MUU_HAS_FLOAT128
 		template <>
 		struct integer_limits<float128_t>
 		{
@@ -1277,7 +1275,7 @@ MUU_NAMESPACE_START
 			static constexpr T one_over_sqrt_phi      = T( 0.786151377757423286070L ); ///< `1 / sqrt(phi)`
 		};
 
-		#if !defined(DOXYGEN) && MUU_HAS_FLOAT128 && MUU_EXTENDED_LITERALS
+		#if !defined(DOXYGEN) && MUU_HAS_FLOAT128
 		template <>
 		struct floating_point_named_constants<float128_t>
 		{
@@ -1866,7 +1864,6 @@ MUU_NAMESPACE_START
 	}
 
 	#ifndef DOXYGEN
-
 	template <typename T MUU_SFINAE_2(!is_enum<T>)>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
@@ -1875,7 +1872,10 @@ MUU_NAMESPACE_START
 	{
 		return static_cast<T&&>(val);
 	}
+	#endif // !DOXYGEN
 
+	#if 1 // countl_zero ----------------------------------------------------------------------------------------------
+	#ifndef DOXYGEN
 	namespace impl
 	{
 		template <typename T>
@@ -1961,7 +1961,6 @@ MUU_NAMESPACE_START
 			#endif
 		}
 	}
-
 	#endif // !DOXYGEN
 
 	/// \brief	Counts the number of consecutive 0 bits, starting from the left.
@@ -2007,7 +2006,9 @@ MUU_NAMESPACE_START
 			}
 		}
 	}
+	#endif // countl_zero
 
+	#if 1 // countr_zero ----------------------------------------------------------------------------------------------
 	#ifndef DOXYGEN
 	namespace impl
 	{
@@ -2137,6 +2138,7 @@ MUU_NAMESPACE_START
 			}
 		}
 	}
+	#endif // countr_zero
 
 	/// \brief	Counts the number of consecutive 1 bits, starting from the left.
 	///
@@ -2278,6 +2280,7 @@ MUU_NAMESPACE_START
 		}
 	}
 
+	#if 1 // bit_cast -------------------------------------------------------------------------------------------------
 	#ifndef DOXYGEN
 	namespace impl
 	{
@@ -2360,6 +2363,9 @@ MUU_NAMESPACE_START
 	/// \addtogroup	intrinsics
 	/// @{
 
+	#endif // bit_cast
+
+	#if 1 // pointer_cast ---------------------------------------------------------------------------------------------
 	MUU_PUSH_WARNINGS
 	MUU_PRAGMA_MSVC(warning(disable: 4191)) // unsafe pointer conversion (that's the whole point)
 
@@ -2638,7 +2644,6 @@ MUU_NAMESPACE_START
 	}
 
 	#ifndef DOXYGEN
-
 	template <typename To, typename From, size_t N>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
@@ -2656,10 +2661,10 @@ MUU_NAMESPACE_START
 	{
 		return pointer_cast<To, From*>(arr);
 	}
-
 	#endif // !DOXYGEN
 
 	MUU_POP_WARNINGS // MUU_PRAGMA_MSVC(warning(disable: 4191))
+	#endif // pointer_cast
 
 	/// \brief	Applies a byte offset to a pointer.
 	///
@@ -3362,7 +3367,7 @@ MUU_NAMESPACE_START
 			};
 		};
 
-		#if MUU_HAS_FLOAT128 && MUU_EXTENDED_LITERALS
+		#if MUU_HAS_FLOAT128
 		template <>
 		struct tan_precomputed<float128_t>
 		{

@@ -25,7 +25,7 @@
 			<StringPooling>true</StringPooling>  <!-- /GF -->
 			<OpenMPSupport>false</OpenMPSupport> <!-- /openmp- -->
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat> <!-- /Zi -->
-			<SDLCheck>false</SDLCheck> <!-- /sdl- -->
+			<!--<SDLCheck>false</SDLCheck> --><!-- /sdl- -->
 			<MultiProcessorCompilation>true</MultiProcessorCompilation> <!-- /MP -->
 			<SupportJustMyCode>false</SupportJustMyCode> <!-- /jmc- -->
 			<IntrinsicFunctions>true</IntrinsicFunctions>

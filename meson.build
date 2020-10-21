@@ -472,11 +472,8 @@ compiler_supports_float128 = compiler.links('''
 	name : 'supports __float128'
 )
 
-if compiler_supports_float16 or compiler_supports_int128 or compiler_supports_float128
-	if is_gcc
-		additional_arguments += '-fext-numeric-literals'
-	endif
-	additional_arguments += '-DMUU_EXTENDED_LITERALS=1'
+if compiler_supports_float128 and is_gcc
+	add_global_arguments('-fext-numeric-literals', language : 'cpp')
 endif
 
 #######################################################################################################################
