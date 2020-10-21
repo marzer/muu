@@ -107,10 +107,6 @@ C++</span></a>
               using <a class="m-doc-self" href="#ad207aade5028e87b62dc252b8ff88cbd">quaternion_param</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;impl::pass_quaternion_by_value&lt;<a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a>&gt;, <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>, const <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&amp;&gt;
             </dt>
             <dd><code>quaternion</code> or <code>const quaternion&amp;</code>, depending on depending on size, triviality, simd-friendliness, etc.</dd>
-            <dt id="a7e4759d82c117832d46c4880f2f88bca">
-              using <a class="m-doc-self" href="#a7e4759d82c117832d46c4880f2f88bca">quaternion_product</a> = <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&lt;<a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a>&gt;
-            </dt>
-            <dd>The quaternion type with <a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a> == #scalar_product.</dd>
             <dt id="a2f2110f3051bc97dc7f2823c1ea10983">
               using <a class="m-doc-self" href="#a2f2110f3051bc97dc7f2823c1ea10983">scalar_constants</a> = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;<a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a>&gt;
             </dt>
@@ -277,11 +273,16 @@ C++</span></a>
               const <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&lt;T&gt;&amp; rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two quaternions are not exactly equal.</dd>
-            <dt id="abeb96dd4c848a2d27e9ee1acdcec2813">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#abeb96dd4c848a2d27e9ee1acdcec2813">operator*</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1quaternion.html#ad207aade5028e87b62dc252b8ff88cbd">quaternion_<wbr/>param</a> lhs,
-              <a class="m-doc" href="structmuu_1_1quaternion.html#ad207aade5028e87b62dc252b8ff88cbd">quaternion_<wbr/>param</a> rhs) -&gt; friend <a class="m-doc" href="structmuu_1_1quaternion.html#a7e4759d82c117832d46c4880f2f88bca">quaternion_<wbr/>product</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="ae1fd60744e28a55d52f46f17ecdc4d7c">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ae1fd60744e28a55d52f46f17ecdc4d7c">operator*</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1quaternion.html#ad207aade5028e87b62dc252b8ff88cbd">quaternion_<wbr/>param</a> lhs,
+              <a class="m-doc" href="structmuu_1_1quaternion.html#ad207aade5028e87b62dc252b8ff88cbd">quaternion_<wbr/>param</a> rhs) -&gt; friend <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Multiplies two quaternions.</dd>
+            <dt id="a5b74544aef875c9378c1aa38f492b1d7">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a5b74544aef875c9378c1aa38f492b1d7">operator*</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1quaternion.html#ad207aade5028e87b62dc252b8ff88cbd">quaternion_<wbr/>param</a> lhs,
+              <a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a> rhs) -&gt; friend <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Scales the shortest-path rotation equivalent of a quaternion by a scalar.</dd>
             <dt id="a0378575fe72deae9018a61ecff334768">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0378575fe72deae9018a61ecff334768">operator*</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1quaternion.html#ad207aade5028e87b62dc252b8ff88cbd">quaternion_<wbr/>param</a> lhs,
               <a class="m-doc" href="structmuu_1_1quaternion.html#a104e75829f4a8d676644e073164417e7">vector_<wbr/>param</a> rhs) -&gt; friend <a class="m-doc" href="structmuu_1_1quaternion.html#a6f37d9dfd591c57a0e51174a983adbc9">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
