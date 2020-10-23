@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu/quaternion.h file | muu Useful
+  <title>muu::euler_rotation struct | muu Useful
 utilities
 for
 modern
@@ -60,58 +60,49 @@ C++</span></a>
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span>quaternion.h <span class="m-thin">file</span>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="quaternion_8h.html">&lt;muu/quaternion.h&gt;</a></div>
+          <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
+          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>euler_rotation <span class="m-thin">struct</span>
         </h1>
-        <p>Contains the definition of <a class="m-doc" href="structmuu_1_1quaternion.html">muu::<wbr/>quaternion</a>.</p>
+        <p>A set of euler angles used for rotation.</p>
+        <table class="m-table m-fullwidth m-flat">
+          <thead>
+            <tr><th colspan="2">Template parameters</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="width: 1%">Scalar</td>
+              <td>The scalar component type of the data members.</td>
+            </tr>
+          </tbody>
+        </table>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#namespaces">Namespaces</a></li>
-                <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#pub-attribs">Public variables</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="namespaces">
-          <h2><a href="#namespaces">Namespaces</a></h2>
+<p>Strictly speaking this type models a specific form of Euler angles relating to the Aircraft Principal Axes, and by that convention the rotations contained within are always applied in the member order: Yaw, then Pitch, then Roll.</p><aside class="m-note m-default"><h4>See also</h4><p>- <a class="muu-external" href="https://en.wikipedia.org/wiki/Euler_angles" target="_blank">Euler Angles</a></p><ul><li><a class="muu-external" href="https://en.wikipedia.org/wiki/Aircraft_principal_axes" target="_blank">Aircraft Principal Axes</a></li><li><a class="muu-external" href="https://www.euclideanspace.com/maths/geometry/rotations/euler/index.htm" target="_blank">Euler Angles (math)</a></li></ul></aside>
+        <section id="pub-attribs">
+          <h2><a href="#pub-attribs">Public variables</a></h2>
           <dl class="m-doc">
-            <dt>namespace <a class="m-doc" href="namespacemuu.html">muu</a></dt>
-            <dd>The root namespace for all muu functions and types.</dd>
-            <dt>namespace <a class="m-doc" href="namespacestd.html">std</a></dt>
-            <dd>STL namespace.</dd>
-          </dl>
-        </section>
-        <section id="nested-classes">
-          <h2><a href="#nested-classes">Classes</a></h2>
-          <dl class="m-doc">
-            <dt>
-              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1axis__angle__rotation.html">muu::axis_angle_rotation</a>
+            <dt id="a42f74c6e4b2afc7251c2851906e86528">
+              Scalar <a class="m-doc-self" href="#a42f74c6e4b2afc7251c2851906e86528">pitch</a>
             </dt>
-            <dd>An axis+angle rotation.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1euler__rotation.html">muu::euler_rotation</a>
+            <dd>The rotation around the local right axis (X), in radians.</dd>
+            <dt id="a48ff7db849c60bfcdecdc22acdc5099e">
+              Scalar <a class="m-doc-self" href="#a48ff7db849c60bfcdecdc22acdc5099e">roll</a>
             </dt>
-            <dd>A set of euler angles used for rotation.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1quaternion.html">muu::quaternion</a>
+            <dd>The rotation around the local forward axis (-Z), in radians.</dd>
+            <dt id="a25bc6bec92c1dff3b2b4900bbe250c27">
+              Scalar <a class="m-doc-self" href="#a25bc6bec92c1dff3b2b4900bbe250c27">yaw</a>
             </dt>
-            <dd>A quaternion.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> I, typename Scalar&gt;</div>
-              struct <a class="m-doc" href="structstd_1_1tuple__element_3_01_i_00_01muu_1_1quaternion_3_01_scalar_01_4_01_4.html">std::tuple_element&lt;I, muu::quaternion&lt;Scalar&gt;&gt;</a>
-            </dt>
-            <dd>Specialization of <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_element" target="_blank">std::tuple_element</a> for <a class="m-doc" href="structmuu_1_1quaternion.html">muu::<wbr/>quaternion</a>.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
-              struct <a class="m-doc" href="structstd_1_1tuple__size_3_01muu_1_1quaternion_3_01_scalar_01_4_01_4.html">std::tuple_size&lt;muu::quaternion&lt;Scalar&gt;&gt;</a>
-            </dt>
-            <dd>Specialization of <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a> for <a class="m-doc" href="structmuu_1_1quaternion.html">muu::<wbr/>quaternion</a>.</dd>
+            <dd>The rotation around the local up axis (Y), in radians.</dd>
           </dl>
         </section>
       </div>

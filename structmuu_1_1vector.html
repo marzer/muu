@@ -128,7 +128,7 @@ C++</span></a>
             <dt id="a47ce9818563813bc586ef0b62d6bf78b">
               using <a class="m-doc-self" href="#a47ce9818563813bc586ef0b62d6bf78b">vector_param</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;impl::pass_vector_by_value&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a>&gt;, <a class="m-doc" href="structmuu_1_1vector.html">vector</a>, const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp;&gt;
             </dt>
-            <dd><code>vector</code> or <code>const vector&amp;</code>, depending on depending on size, triviality, simd-friendliness, etc.</dd>
+            <dd><code>vector</code> or <code>const vector&amp;</code>, depending on size, triviality, simd-friendliness, etc.</dd>
             <dt id="a9fbcff4761305247ad8ab526877ce063">
               using <a class="m-doc-self" href="#a9fbcff4761305247ad8ab526877ce063">vector_product</a> = <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a0f80f653085b08d9c99b6cdaa7039582">scalar_<wbr/>product</a>, <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a>&gt;
             </dt>
@@ -157,11 +157,16 @@ C++</span></a>
             <dd>Calculates the angle between two vectors.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename Epsilon = impl::highest_ranked&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, T&gt;&gt;</div>
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a93c698af36e50f32d0d0541cea41ac8a">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a47ce9818563813bc586ef0b62d6bf78b">vector_<wbr/>param</a> v1,
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#ab344a13fcceee3b54749dfc12ef9f7b9">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a47ce9818563813bc586ef0b62d6bf78b">vector_<wbr/>param</a> v1,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;T, <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a>&gt;&amp; v2,
-              Epsilon epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;Epsilon&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <a class="m-doc" href="group__meta.html#ga584cfbfcb8f1dc2df7da8320885c76f0">dont_<wbr/>deduce</a>&lt;Epsilon&gt; epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;Epsilon&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two vectors are approximately equal.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a9cb67b888bc4e0c8a6b949e132185740">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a47ce9818563813bc586ef0b62d6bf78b">vector_<wbr/>param</a> v,
+              <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if all the scalar components in a vector are approximately equal to zero.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a43b53a43b3fae4157f28f4390e619e46">clamp</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a47ce9818563813bc586ef0b62d6bf78b">vector_<wbr/>param</a> v,
               <a class="m-doc" href="structmuu_1_1vector.html#a47ce9818563813bc586ef0b62d6bf78b">vector_<wbr/>param</a> low,
@@ -199,6 +204,10 @@ C++</span></a>
               <a class="m-doc" href="structmuu_1_1vector.html#a47ce9818563813bc586ef0b62d6bf78b">vector_<wbr/>param</a> v2) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#a0f80f653085b08d9c99b6cdaa7039582">scalar_<wbr/>product</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the dot product of two vectors.</dd>
+            <dt id="a0ac122eb48e3fbb3074d12cc99cf4bfb">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a0ac122eb48e3fbb3074d12cc99cf4bfb">infinity_or_nan</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a47ce9818563813bc586ef0b62d6bf78b">vector_<wbr/>param</a> v) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the scalar components of a vector are infinity or NaN.</dd>
             <dt id="aa1042597fd7b76310b92f27948fa1bae">
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#aa1042597fd7b76310b92f27948fa1bae">length</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a47ce9818563813bc586ef0b62d6bf78b">vector_<wbr/>param</a> v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#a0f80f653085b08d9c99b6cdaa7039582">scalar_<wbr/>product</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -237,6 +246,14 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#ac471650283f8d49c063b987afb2e6abc">swizzle</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a47ce9818563813bc586ef0b62d6bf78b">vector_<wbr/>param</a> v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, sizeof...(Indices)&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Creates a vector by selecting and re-packing scalar components from another vector in an abitrary order.</dd>
+            <dt id="a1e6384ddbaa0cde00a54eca3e2648eec">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a1e6384ddbaa0cde00a54eca3e2648eec">unit_length</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a47ce9818563813bc586ef0b62d6bf78b">vector_<wbr/>param</a> v) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a vector is unit-length (i.e. has a length of 1).</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#ab8c34323b3bbd778e12efe38e409865b">zero</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a47ce9818563813bc586ef0b62d6bf78b">vector_<wbr/>param</a> v) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if all the scalar components of a vector are exactly zero.</dd>
           </dl>
         </section>
         <section id="typeless-methods">
@@ -354,8 +371,8 @@ C++</span></a>
             <dd>Calculates the angle between this vector and another.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename Epsilon = impl::highest_ranked&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, T&gt;&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aba37fadd12925bc6367147b703472156">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;T, <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a>&gt;&amp; v,
-              Epsilon epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;Epsilon&gt;::approx_equal_epsilon) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a6b72b9f764dde3eeaa11bbc53c8e9051">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;T, <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a>&gt;&amp; v,
+              <a class="m-doc" href="group__meta.html#ga584cfbfcb8f1dc2df7da8320885c76f0">dont_<wbr/>deduce</a>&lt;Epsilon&gt; epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;Epsilon&gt;::approx_equal_epsilon) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if the vector is approximately equal to another.</dd>
             <dt>
@@ -637,9 +654,9 @@ C++</span></a>
             <dd>Calculates the angle between two vectors.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D, typename Epsilon = impl::highest_ranked&lt;S, T&gt;&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga6925b84db7168754788f02dc1f5f9255">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v1,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga55b0709ca874de264c11e5393913a7d1">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v1,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;T, D&gt;&amp; v2,
-              Epsilon epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;Epsilon&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <a class="m-doc" href="group__meta.html#ga584cfbfcb8f1dc2df7da8320885c76f0">dont_<wbr/>deduce</a>&lt;Epsilon&gt; epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;Epsilon&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two vectors are approximately equal.</dd>
             <dt id="a13427afa8abc10b68dec66a3e6d30c94">
@@ -753,17 +770,27 @@ C++</span></a>
             </table>
 <aside class="m-note m-default"><h4>Remark</h4><p>The angle returned is the unsigned angle between the two vectors; the smaller of the two possible angles between the two vectors is used. The result is never greater than <code>pi</code> radians (180 degrees).</p></aside><aside class="m-note m-info"><h4>Note</h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a> == 2 or 3.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a93c698af36e50f32d0d0541cea41ac8a"><div>
+          <section class="m-doc-details" id="ab344a13fcceee3b54749dfc12ef9f7b9"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
                 template&lt;typename T, typename Epsilon = impl::highest_ranked&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, T&gt;&gt;
               </div>
-              <span class="m-doc-wrap-bumper">static bool muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a93c698af36e50f32d0d0541cea41ac8a">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a47ce9818563813bc586ef0b62d6bf78b">vector_<wbr/>param</a> v1,
+              <span class="m-doc-wrap-bumper">static bool muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ab344a13fcceee3b54749dfc12ef9f7b9">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a47ce9818563813bc586ef0b62d6bf78b">vector_<wbr/>param</a> v1,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;T, <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a>&gt;&amp; v2,
-              Epsilon epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;Epsilon&gt;::approx_equal_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <a class="m-doc" href="group__meta.html#ga584cfbfcb8f1dc2df7da8320885c76f0">dont_<wbr/>deduce</a>&lt;Epsilon&gt; epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;Epsilon&gt;::approx_equal_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if two vectors are approximately equal.</p>
 <aside class="m-note m-info"><h4>Note</h4><p>This function is only available when at least one of <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> and <code>T</code> is a floating-point type.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a9cb67b888bc4e0c8a6b949e132185740"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static bool muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a9cb67b888bc4e0c8a6b949e132185740">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a47ce9818563813bc586ef0b62d6bf78b">vector_<wbr/>param</a> v,
+              <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&gt;::approx_equal_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if all the scalar components in a vector are approximately equal to zero.</p>
+<aside class="m-note m-info"><h4>Note</h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> is a floating-point type.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a43b53a43b3fae4157f28f4390e619e46"><div>
             <h3>
@@ -1016,6 +1043,15 @@ C++</span></a>
 <span class="go">&lt;1, 0&gt;:       { 7, 10 }</span>
 <span class="go">&lt;3, 2, 3&gt;:    { 9, 5, 9 }</span>
 <span class="go">&lt;0, 1, 0, 1&gt;: { 10, 7, 10, 7 }</span></pre>
+          </div></section>
+          <section class="m-doc-details" id="ab8c34323b3bbd778e12efe38e409865b"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static bool muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ab8c34323b3bbd778e12efe38e409865b">zero</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a47ce9818563813bc586ef0b62d6bf78b">vector_<wbr/>param</a> v) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if all the scalar components of a vector are exactly zero.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is a componentwise exact equality check; if you want an epsilon-based "near-enough" for floating-point vectors, use <a class="m-doc" href="structmuu_1_1vector.html#a9cb67b888bc4e0c8a6b949e132185740">approx_<wbr/>zero()</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ae9e5f1a81b891f045778c02650af9a7f"><div>
             <h3>
@@ -1584,13 +1620,13 @@ C++</span></a>
             </table>
 <aside class="m-note m-default"><h4>Remark</h4><p>The angle returned is the unsigned angle between the two vectors; the smaller of the two possible angles between the two vectors is used. The result is never greater than <code>pi</code> radians (180 degrees).</p></aside><aside class="m-note m-info"><h4>Note</h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a> == 2 or 3.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="aba37fadd12925bc6367147b703472156"><div>
+          <section class="m-doc-details" id="a6b72b9f764dde3eeaa11bbc53c8e9051"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
                 template&lt;typename T, typename Epsilon = impl::highest_ranked&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, T&gt;&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aba37fadd12925bc6367147b703472156">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;T, <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a>&gt;&amp; v,
-              Epsilon epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;Epsilon&gt;::approx_equal_epsilon) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a6b72b9f764dde3eeaa11bbc53c8e9051">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;T, <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a>&gt;&amp; v,
+              <a class="m-doc" href="group__meta.html#ga584cfbfcb8f1dc2df7da8320885c76f0">dont_<wbr/>deduce</a>&lt;Epsilon&gt; epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;Epsilon&gt;::approx_equal_epsilon) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if the vector is approximately equal to another.</p>
 <aside class="m-note m-info"><h4>Note</h4><p>This function is only available when at least one of <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> and <code>T</code> is a floating-point type.</p></aside>
@@ -1925,7 +1961,7 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">bool muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a600a005f13c53d4b8fb0c1defc5ccf04">zero</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if all the scalar components of the vector are exactly zero.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is a componentwise exact equality check; if you want an epsilon-based "near-enough" for floating-point vectors, use <a class="m-doc" href="structmuu_1_1vector.html#ad6ab5aa9026018cfd6949ad95e8b7a8a">approx_<wbr/>zero()</a>.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is a componentwise exact equality check; if you want an epsilon-based "near-enough" for floating-point vectors, use <a class="m-doc" href="structmuu_1_1vector.html#a9cb67b888bc4e0c8a6b949e132185740">approx_<wbr/>zero()</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a20a7589481c8e564987d7877f589dabf"><div>
             <h3>
@@ -1936,7 +1972,7 @@ C++</span></a>
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;T, <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a>&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if two vectors are not exactly equal.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is a componentwise exact inequality check; if you want an epsilon-based "near-enough" for floating-point vectors, use <a class="m-doc" href="structmuu_1_1vector.html#a93c698af36e50f32d0d0541cea41ac8a">approx_<wbr/>equal()</a>.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is a componentwise exact inequality check; if you want an epsilon-based "near-enough" for floating-point vectors, use <a class="m-doc" href="structmuu_1_1vector.html#ab344a13fcceee3b54749dfc12ef9f7b9">approx_<wbr/>equal()</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ad3c3d01c8274da44c7c7b0dfeee1d881"><div>
             <h3>
@@ -1957,7 +1993,7 @@ C++</span></a>
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;T, <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a>&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if two vectors are exactly equal.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is a componentwise exact equality check; if you want an epsilon-based "near-enough" for floating-point vectors, use <a class="m-doc" href="structmuu_1_1vector.html#a93c698af36e50f32d0d0541cea41ac8a">approx_<wbr/>equal()</a>.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is a componentwise exact equality check; if you want an epsilon-based "near-enough" for floating-point vectors, use <a class="m-doc" href="structmuu_1_1vector.html#ab344a13fcceee3b54749dfc12ef9f7b9">approx_<wbr/>equal()</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a6fdb19c856f4de59329f6823fb06cc4f"><div>
             <h3>
