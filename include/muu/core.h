@@ -47,14 +47,10 @@ MUU_DISABLE_WARNINGS
 #include <utility>
 #include <limits>
 #if MUU_HAS_VECTORCALL
-	#include <intrin.h>
-	//#include <immintrin.h>
+#include <intrin.h>
 #endif
 #if MUU_HAS_QUADMATH
-extern "C"
-{
-	#include <quadmath.h>
-}
+#include <quadmath.h>
 #endif
 MUU_ENABLE_WARNINGS
 
@@ -3056,7 +3052,7 @@ MUU_NAMESPACE_START
 		template <typename T>
 		[[nodiscard]]
 		MUU_ATTR(const)
-		constexpr T normalize_angle(T val) noexcept
+		constexpr T MUU_VECTORCALL normalize_angle(T val) noexcept
 		{
 			if (val < -constants<T>::pi || val > constants<T>::pi)
 			{
@@ -3338,10 +3334,9 @@ MUU_NAMESPACE_START
 		template <typename T>
 		struct tan_precomputed;
 
-		// to avoid having to unroll another taylor series, tan is calcuated as (sin / cos) (trig identities)
-		// this incurs a small loss of precision and doesn't handle poles properly, so instead tangents
-		// are precomputed for some key input values.
-		// (see generate_float_tests_header.py)
+		// to avoid having to unroll another taylor series tan() is calcuated as sin() / cos() (trig identities).
+		// this incurs a small loss of precision and doesn't handle poles properly, so instead tangents are precomputed
+		// for some key input values. (see generate_float_tests_header.py)
 
 		template <>
 		struct tan_precomputed<long double>
@@ -4464,12 +4459,7 @@ MUU_NAMESPACE_START
 		// A2: They don't work reliably with -ffast-math
 		// A3: https://godbolt.org/z/P9GGdK
 
-		if constexpr (!is_floating_point<T>)
-		{
-			(void)val;
-			return false;
-		}
-		else
+		if constexpr (is_floating_point<T>)
 		{
 			using traits = impl::infinity_or_nan_traits_typed<T>;
 			using blit_type = std::remove_const_t<decltype(traits::mask)>;
@@ -4482,6 +4472,11 @@ MUU_NAMESPACE_START
 			{
 				return traits::check(bit_cast<blit_type>(val));
 			}
+		}
+		else
+		{
+			(void)val;
+			return false;
 		}
 	}
 
@@ -4499,8 +4494,6 @@ MUU_NAMESPACE_START
 	}
 
 	/** @} */	// intrinsics::infinity_or_nan
-	#endif // infinity_or_nan
-
 	/** @} */	// intrinsics
 
 	namespace build
@@ -4511,9 +4504,10 @@ MUU_NAMESPACE_START
 
 	/// \addtogroup	intrinsics
 	/// @{
-
 	MUU_PRAGMA_GCC(pop_options) // -fno-finite-math-only
+	#endif // infinity_or_nan
 
+	#if 1 // to_address -----------------------------------------------------------------------------------------------
 	#ifndef DOXYGEN
 	namespace impl
 	{
@@ -4549,6 +4543,7 @@ MUU_NAMESPACE_START
 			return to_address(p.operator->());
 		}
 	}
+	#endif // to_address
 
 	/// \brief	Equivalent to C++20's std::assume_aligned.
 	///

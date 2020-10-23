@@ -746,7 +746,7 @@
 	MUU_ATTR(flatten)														\
 	constexpr type& operator op= (type& lhs, const type& rhs) noexcept		\
 	{																		\
-		return lhs op (lhs & rhs);											\
+		return lhs = (lhs op rhs);											\
 	}
 
 #define MUU_MAKE_BITOPS(type)												\

@@ -189,7 +189,7 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 #define COMPONENTWISE_ASSIGN(func)		COMPONENTWISE_CASTING_OP(func, COMPONENTWISE_ASSIGN_WITH_TRANSFORM)
 
 #define	ENABLE_IF_DIMENSIONS_AT_LEAST(dim)	\
-		, size_t SFINAE = Dimensions MUU_SFINAE(SFINAE >= (dim) && SFINAE == Dimensions)
+	, size_t SFINAE = Dimensions MUU_SFINAE(SFINAE >= (dim) && SFINAE == Dimensions)
 
 #define	ENABLE_IF_DIMENSIONS_AT_LEAST_AND(dim,...)	\
 	, size_t SFINAE = Dimensions MUU_SFINAE_2(SFINAE >= (dim) && SFINAE == Dimensions && (__VA_ARGS__))
@@ -218,6 +218,8 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 	MUU_SFINAE_2(!MUU_INTELLISENSE && impl::pass_vector_by_value<S, D> && (__VA_ARGS__))
 
 #define ENABLE_PAIRED_FUNCS !MUU_INTELLISENSE
+
+#define SPECIALIZED_IF(cond)		, bool = (cond)
 
 #endif // helper macros
 
@@ -747,6 +749,7 @@ MUU_IMPL_NAMESPACE_END
 #define ENABLE_PAIRED_FUNC_BY_REF(...)
 #define ENABLE_PAIRED_FUNC_BY_VAL(...)
 #define ENABLE_PAIRED_FUNCS 0
+#define SPECIALIZED_IF(cond)
 
 #endif // DOXYGEN
 
@@ -755,6 +758,17 @@ MUU_IMPL_NAMESPACE_END
 //=====================================================================================================================
 // VECTOR CLASS
 #if 1
+
+namespace Achilles
+{
+	inline namespace Math
+	{
+		template <typename T>
+		struct Quaternion;
+		template <typename T, size_t R, size_t C>
+		struct Matrix;
+	}
+}
 
 MUU_NAMESPACE_START
 {
@@ -802,7 +816,7 @@ MUU_NAMESPACE_START
 		/// \brief The vector type with #scalar_type == #scalar_product and the same number of #dimensions as this one.
 		using vector_product = vector<scalar_product, dimensions>;
 
-		/// \brief `vector` or `const vector&`, depending on depending on size, triviality, simd-friendliness, etc.
+		/// \brief `vector` or `const vector&`, depending on size, triviality, simd-friendliness, etc.
 		using vector_param = std::conditional_t<
 			impl::pass_vector_by_value<scalar_type, dimensions>,
 			vector,
@@ -822,6 +836,10 @@ MUU_NAMESPACE_START
 		
 		template <typename T>
 		friend struct quaternion;
+		template <typename T>
+		friend struct Achilles::Math::Quaternion;
+		template <typename T, size_t R, size_t C>
+		friend struct Achilles::Math::Matrix;
 
 		using base = impl::vector_base<scalar_type, Dimensions>;
 		static_assert(
@@ -1331,6 +1349,19 @@ MUU_NAMESPACE_START
 
 		#endif // ENABLE_PAIRED_FUNCS
 
+		/// \brief	Returns true if all the scalar components of a vector are exactly zero.
+		/// 
+		/// \remarks	This is a componentwise exact equality check;
+		/// 			if you want an epsilon-based "near-enough" for floating-point vectors, use #approx_zero().
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr bool MUU_VECTORCALL zero(vector_param v) noexcept
+		{
+			#define VEC_FUNC(member)	v.member == scalar_constants::zero
+			COMPONENTWISE_AND(VEC_FUNC);
+			#undef VEC_FUNC
+		}
+
 		/// \brief	Returns true if all the scalar components of the vector are exactly zero.
 		/// 
 		/// \remarks	This is a componentwise exact equality check;
@@ -1339,9 +1370,25 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		constexpr bool zero() const noexcept
 		{
-			#define VEC_FUNC(member)	base::member == scalar_constants::zero
-			COMPONENTWISE_AND(VEC_FUNC);
-			#undef VEC_FUNC
+			return zero(*this);
+		}
+
+		/// \brief	Returns true if any of the scalar components of a vector are infinity or NaN.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr bool MUU_VECTORCALL infinity_or_nan(vector_param v) noexcept
+		{
+			if constexpr (is_floating_point<scalar_type>)
+			{
+				#define VEC_FUNC(member)	muu::infinity_or_nan(v.member)
+				COMPONENTWISE_OR(VEC_FUNC);
+				#undef VEC_FUNC
+			}
+			else
+			{
+				(void)v;
+				return false;
+			}
 		}
 
 		/// \brief	Returns true if any of the scalar components of the vector are infinity or NaN.
@@ -1350,11 +1397,7 @@ MUU_NAMESPACE_START
 		constexpr bool infinity_or_nan() const noexcept
 		{
 			if constexpr (is_floating_point<scalar_type>)
-			{
-				#define VEC_FUNC(member)	muu::infinity_or_nan(base::member)
-				COMPONENTWISE_OR(VEC_FUNC);
-				#undef VEC_FUNC
-			}
+				return infinity_or_nan(*this);
 			else
 				return false;
 		}
@@ -1374,11 +1417,9 @@ MUU_NAMESPACE_START
 		static constexpr bool MUU_VECTORCALL approx_equal(
 			vector_param v1,
 			const vector<T, dimensions>& v2,
-			Epsilon epsilon = muu::constants<Epsilon>::approx_equal_epsilon
+			dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
 		) noexcept
 		{
-			static_assert(is_same_as_any<Epsilon, T, scalar_type>);
-
 			using type = impl::promote_if_small_float<impl::highest_ranked<scalar_type, T>>;
 
 			#define VEC_FUNC(member)	muu::approx_equal(static_cast<type>(v1.member), static_cast<type>(v2.member), static_cast<type>(epsilon))
@@ -1396,11 +1437,9 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_equal(
 			const vector<T, dimensions>& v,
-			Epsilon epsilon = muu::constants<Epsilon>::approx_equal_epsilon
+			dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
 		) const noexcept
 		{
-			static_assert(is_same_as_any<Epsilon, T, scalar_type>);
-
 			return approx_equal(*this, v, epsilon);
 		}
 
@@ -1414,11 +1453,9 @@ MUU_NAMESPACE_START
 		static constexpr bool MUU_VECTORCALL approx_equal(
 			vector_param v1,
 			vector<T, dimensions> v2,
-			Epsilon epsilon = muu::constants<Epsilon>::approx_equal_epsilon
+			dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
 		) noexcept
 		{
-			static_assert(is_same_as_any<Epsilon, T, scalar_type>);
-
 			using type = impl::promote_if_small_float<impl::highest_ranked<scalar_type, T>>;
 
 			#define VEC_FUNC(member)	muu::approx_equal(static_cast<type>(v1.member), static_cast<type>(v2.member), static_cast<type>(epsilon))
@@ -1433,15 +1470,27 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_equal(
 			vector<T, dimensions> v,
-			Epsilon epsilon = muu::constants<Epsilon>::approx_equal_epsilon
+			dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
 		) const noexcept
 		{
-			static_assert(is_same_as_any<Epsilon, T, scalar_type>);
-
 			return approx_equal(*this, v, epsilon);
 		}
 
 		#endif // ENABLE_PAIRED_FUNCS
+
+		/// \brief	Returns true if all the scalar components in a vector are approximately equal to zero.
+		/// 
+		/// \note		This function is only available when #scalar_type is a floating-point type.
+		REQUIRES_FLOATING_POINT
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr bool MUU_VECTORCALL approx_zero(
+			vector_param v,
+			scalar_type epsilon = muu::constants<scalar_type>::approx_equal_epsilon
+		) noexcept
+		{
+			return approx_equal(v, constants::zero, epsilon);
+		}
 
 		/// \brief	Returns true if all the scalar components in the vector are approximately equal to zero.
 		/// 
@@ -1587,15 +1636,15 @@ MUU_NAMESPACE_START
 			return static_cast<scalar_product>(raw_distance(*this, p));
 		}
 
-		/// \brief Returns true if the vector is unit-length (i.e. has a length of 1).
+		/// \brief Returns true if a vector is unit-length (i.e. has a length of 1).
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		constexpr bool unit_length() const noexcept
+		static constexpr bool MUU_VECTORCALL unit_length(vector_param v) noexcept
 		{
 			if constexpr (is_integral<scalar_type>)
 			{
 				if constexpr (Dimensions == 1)
-					return base::x == scalar_type{ 1 };
+					return v.x == scalar_type{ 1 };
 				else
 				{
 					using sum_type = decltype(scalar_type{} + scalar_type{});
@@ -1603,9 +1652,9 @@ MUU_NAMESPACE_START
 					for (size_t i = 0u; i < dimensions && sum > sum_type{ 1 }; i++)
 					{
 						if constexpr (muu::is_signed<scalar_type>)
-							sum += muu::abs((*this)[i]);
+							sum += muu::abs(v[i]);
 						else
-							sum += (*this)[i];
+							sum += v[i];
 					}
 					return sum == sum_type{ 1 };
 				}
@@ -1613,7 +1662,7 @@ MUU_NAMESPACE_START
 			else
 			{
 				if constexpr (Dimensions == 1)
-					return muu::approx_equal(static_cast<intermediate_type>(base::x), intermediate_type{ 1 });
+					return muu::approx_equal(static_cast<intermediate_type>(v.x), intermediate_type{ 1 });
 				else 
 				{
 					constexpr auto epsilon = intermediate_type{ 1 } / (
@@ -1623,12 +1672,20 @@ MUU_NAMESPACE_START
 					);
 
 					return muu::approx_equal(
-						raw_length_squared(*this),
+						raw_length_squared(v),
 						intermediate_type{ 1 },
 						epsilon
 					);
 				}
 			}
+		}
+
+		/// \brief Returns true if the vector is unit-length (i.e. has a length of 1).
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr bool unit_length() const noexcept
+		{
+			return unit_length(*this);
 		}
 
 	#endif // length and distance
@@ -2837,7 +2894,7 @@ MUU_NAMESPACE_START
 		#endif // !DOXYGEN
 
 		template <typename Scalar, size_t Dimensions>
-		struct unit_length_1d_vector_constants
+		struct unit_length_ge_1d_vector_constants
 		{
 			using scalars = muu::constants<Scalar>;
 
@@ -2845,12 +2902,8 @@ MUU_NAMESPACE_START
 			static constexpr vector<Scalar, Dimensions> x_axis{ scalars::one, scalars::zero };
 		};
 
-		template <typename Scalar, size_t Dimensions
-			#ifndef DOXYGEN
-			, bool = (Dimensions >= 2)
-			#endif
-		>
-		struct unit_length_2d_vector_constants
+		template <typename Scalar, size_t Dimensions SPECIALIZED_IF(Dimensions >= 2)>
+		struct unit_length_ge_2d_vector_constants
 		{
 			using scalars = muu::constants<Scalar>;
 
@@ -2858,12 +2911,8 @@ MUU_NAMESPACE_START
 			static constexpr vector<Scalar, Dimensions> y_axis{ scalars::zero, scalars::one };
 		};
 
-		template <typename Scalar, size_t Dimensions
-			#ifndef DOXYGEN
-			, bool = (Dimensions >= 3)
-			#endif
-		>
-		struct unit_length_3d_vector_constants
+		template <typename Scalar, size_t Dimensions SPECIALIZED_IF(Dimensions >= 3)>
+		struct unit_length_ge_3d_vector_constants
 		{
 			using scalars = muu::constants<Scalar>;
 
@@ -2871,12 +2920,8 @@ MUU_NAMESPACE_START
 			static constexpr vector<Scalar, Dimensions> z_axis{ scalars::zero, scalars::zero, scalars::one };
 		};
 
-		template <typename Scalar, size_t Dimensions
-			#ifndef DOXYGEN
-			, bool = (Dimensions >= 4)
-			#endif
-		>
-		struct unit_length_4d_vector_constants
+		template <typename Scalar, size_t Dimensions SPECIALIZED_IF(Dimensions >= 4)>
+		struct unit_length_ge_4d_vector_constants
 		{
 			using scalars = muu::constants<Scalar>;
 
@@ -2884,18 +2929,90 @@ MUU_NAMESPACE_START
 			static constexpr vector<Scalar, Dimensions> w_axis{ scalars::zero, scalars::zero, scalars::zero, scalars::one };
 		};
 
+		template <typename Scalar, size_t Dimensions SPECIALIZED_IF(Dimensions == 2)>
+		struct unit_length_2d_vector_constants
+		{
+			using scalars = muu::constants<Scalar>;
+
+			/// \brief	Right direction (in a top-down screen coordinate system).
+			static constexpr vector<Scalar, Dimensions> screen_right{ scalars::one, scalars::zero };
+
+			/// \brief	Down direction (in a top-down screen coordinate system).
+			static constexpr vector<Scalar, Dimensions> screen_down{ scalars::zero, scalars::one };
+		};
+
+		template <typename Scalar, size_t Dimensions SPECIALIZED_IF(Dimensions == 2 && is_signed<Scalar>)>
+		struct unit_length_2d_signed_vector_constants
+		{
+			using scalars = muu::constants<Scalar>;
+
+			/// \brief	Left direction (in a top-down screen coordinate system).
+			static constexpr vector<Scalar, Dimensions> screen_left{ scalars::minus_one, scalars::zero };
+
+			/// \brief	Up direction (in a top-down screen coordinate system).
+			static constexpr vector<Scalar, Dimensions> screen_up{ scalars::zero, scalars::minus_one };
+		};
+
+		template <typename Scalar, size_t Dimensions SPECIALIZED_IF(Dimensions == 3)>
+		struct unit_length_3d_vector_constants
+		{
+			using scalars = muu::constants<Scalar>;
+
+			/// \brief	Backward direction (in a right-handed coordinate system).
+			static constexpr vector<Scalar, Dimensions> backward{ scalars::zero, scalars::zero, scalars::one };
+		};
+
+		template <typename Scalar, size_t Dimensions SPECIALIZED_IF(Dimensions == 3 && is_signed<Scalar>)>
+		struct unit_length_3d_signed_vector_constants
+		{
+			using scalars = muu::constants<Scalar>;
+
+			/// \brief	Forward direction (in a right-handed coordinate system).
+			static constexpr vector<Scalar, Dimensions> forward{ scalars::zero, scalars::zero, scalars::minus_one };
+		};
+
+		template <typename Scalar, size_t Dimensions SPECIALIZED_IF(Dimensions == 2 || Dimensions == 3)>
+		struct unit_length_2d_or_3d_vector_constants
+		{
+			using scalars = muu::constants<Scalar>;
+
+			/// \brief	Right direction (in a right-handed coordinate system).
+			static constexpr vector<Scalar, Dimensions> right{ scalars::one, scalars::zero };
+
+			/// \brief	Up direction (in a right-handed coordinate system).
+			static constexpr vector<Scalar, Dimensions> up{ scalars::zero, scalars::one };
+		};
+
+		template <typename Scalar, size_t Dimensions SPECIALIZED_IF((Dimensions == 2 || Dimensions == 3) && is_signed<Scalar>)>
+		struct unit_length_2d_or_3d_signed_vector_constants
+		{
+			using scalars = muu::constants<Scalar>;
+
+			/// \brief	Left direction (in a right-handed coordinate system).
+			static constexpr vector<Scalar, Dimensions> left{ scalars::minus_one, scalars::zero };
+
+			/// \brief	Down direction (in a right-handed coordinate system).
+			static constexpr vector<Scalar, Dimensions> down{ scalars::zero, scalars::minus_one };
+		};
+
 		template <typename Scalar, size_t Dimensions>
 		struct unit_length_vector_constants
-			: unit_length_1d_vector_constants<Scalar, Dimensions>,
-			unit_length_2d_vector_constants<Scalar, Dimensions>,
-			unit_length_3d_vector_constants<Scalar, Dimensions>,
-			unit_length_4d_vector_constants<Scalar, Dimensions>
+			: unit_length_ge_1d_vector_constants<Scalar, Dimensions>,
+			  unit_length_ge_2d_vector_constants<Scalar, Dimensions>,
+			  unit_length_ge_3d_vector_constants<Scalar, Dimensions>,
+			  unit_length_ge_4d_vector_constants<Scalar, Dimensions>,
+			  unit_length_2d_vector_constants<Scalar, Dimensions>,
+			  unit_length_2d_signed_vector_constants<Scalar, Dimensions>,
+			  unit_length_3d_vector_constants<Scalar, Dimensions>,
+			  unit_length_3d_signed_vector_constants<Scalar, Dimensions>,
+			  unit_length_2d_or_3d_vector_constants<Scalar, Dimensions>,
+			  unit_length_2d_or_3d_signed_vector_constants<Scalar, Dimensions>
 		{ };
 
 		#ifndef DOXYGEN
 
 		template <typename Scalar>
-		struct unit_length_1d_vector_constants<Scalar, 1>
+		struct unit_length_ge_1d_vector_constants<Scalar, 1>
 		{
 			using scalars = muu::constants<Scalar>;
 
@@ -2903,13 +3020,31 @@ MUU_NAMESPACE_START
 		};
 
 		template <typename Scalar, size_t Dimensions>
+		struct unit_length_ge_2d_vector_constants<Scalar, Dimensions, false> { };
+
+		template <typename Scalar, size_t Dimensions>
+		struct unit_length_ge_3d_vector_constants<Scalar, Dimensions, false> { };
+
+		template <typename Scalar, size_t Dimensions>
+		struct unit_length_ge_4d_vector_constants<Scalar, Dimensions, false> { };
+
+		template <typename Scalar, size_t Dimensions>
 		struct unit_length_2d_vector_constants<Scalar, Dimensions, false> { };
+
+		template <typename Scalar, size_t Dimensions>
+		struct unit_length_2d_signed_vector_constants<Scalar, Dimensions, false> { };
 
 		template <typename Scalar, size_t Dimensions>
 		struct unit_length_3d_vector_constants<Scalar, Dimensions, false> { };
 
 		template <typename Scalar, size_t Dimensions>
-		struct unit_length_4d_vector_constants<Scalar, Dimensions, false> { };
+		struct unit_length_3d_signed_vector_constants<Scalar, Dimensions, false> { };
+
+		template <typename Scalar, size_t Dimensions>
+		struct unit_length_2d_or_3d_vector_constants<Scalar, Dimensions, false> { };
+
+		template <typename Scalar, size_t Dimensions>
+		struct unit_length_2d_or_3d_signed_vector_constants<Scalar, Dimensions, false> { };
 
 		template <typename Scalar, size_t Dimensions,
 			int = (is_floating_point<Scalar> ? 2 : (is_signed<Scalar> ? 1 : 0))
@@ -3079,9 +3214,12 @@ MUU_NAMESPACE_START
 	constexpr bool infinity_or_nan(const vector<S, D>& v) noexcept
 	{
 		if constexpr (is_floating_point<S>)
-			return v.infinity_or_nan();
+			return vector<S, D>::infinity_or_nan(v);
 		else
+		{
+			(void)v;
 			return false;
+		}
 	}
 
 	/// \ingroup	approx_equal
@@ -3100,7 +3238,7 @@ MUU_NAMESPACE_START
 	constexpr bool approx_equal(
 		const vector<S, D>& v1,
 		const vector<T, D>& v2,
-		Epsilon epsilon = muu::constants<Epsilon>::approx_equal_epsilon
+		dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
 	) noexcept
 	{
 		static_assert(is_same_as_any<Epsilon, S, T>);
@@ -3403,7 +3541,7 @@ MUU_NAMESPACE_START
 	constexpr bool MUU_VECTORCALL approx_equal(
 		vector<S, D> v1,
 		vector<T, D> v2,
-		Epsilon epsilon = muu::constants<Epsilon>::approx_equal_epsilon
+		dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
 	) noexcept
 	{
 		static_assert(is_same_as_any<Epsilon, S, T>);
@@ -3638,6 +3776,7 @@ MUU_NAMESPACE_END
 #undef ENABLE_PAIRED_FUNC_BY_REF
 #undef ENABLE_PAIRED_FUNC_BY_VAL
 #undef ENABLE_PAIRED_FUNCS
+#undef SPECIALIZED_IF
 
 MUU_PRAGMA_MSVC(pop_macro("min"))
 MUU_PRAGMA_MSVC(pop_macro("max"))

@@ -139,6 +139,7 @@
     <ClCompile Include="..\src\aligned_alloc.cpp" />
     <ClCompile Include="..\src\blob.cpp" />
     <ClCompile Include="..\src\hashing.cpp" />
+    <ClCompile Include="..\src\quaternion.cpp" />
     <ClCompile Include="..\src\string_param.cpp" />
     <ClCompile Include="..\src\thread_name.cpp" />
     <ClCompile Include="..\src\thread_pool.cpp" />

@@ -88,6 +88,8 @@ MUU_NAMESPACE_START
 	template <typename Char, typename T>
 	inline void print_number(std::basic_ostream<Char>& os, T value) noexcept
 	{
+		//todo: use quadmath sprintf for float128
+
 		// print chars as ints so they don't get interpreted as text;
 		// non-standard ints and floats can just get casted if they don't have an operator<< overload
 		if constexpr ((is_integral<T> && sizeof(T) == 1) || !has_stream_output_operator<T, Char>)
