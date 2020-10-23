@@ -1136,32 +1136,18 @@ MUU_NAMESPACE_START
 		template <typename T>
 		struct integer_positive_constants
 		{
-			static constexpr T zero = T{ 0 };	///< `0`
-			static constexpr T one = T{ 1 };	///< `1`
-			static constexpr T two = T{ 2 };	///< `2`
-			static constexpr T three = T{ 3 };	///< `3`
-			static constexpr T four = T{ 4 };	///< `4`
-			static constexpr T five = T{ 5 };	///< `5`
-			static constexpr T six = T{ 6 };	///< `6`
-			static constexpr T seven = T{ 7 };	///< `7`
-			static constexpr T eight = T{ 8 };	///< `8`
-			static constexpr T nine = T{ 9 };	///< `9`
-			static constexpr T ten = T{ 10 };	///< `10`
-		};
-
-		template <typename T>
-		struct integer_negative_constants
-		{
-			static constexpr T minus_one = T{ -1 };		///< `-1`
-			static constexpr T minus_two = T{ -2 };		///< `-2`
-			static constexpr T minus_three = T{ -3 };	///< `-3`
-			static constexpr T minus_four = T{ -4 };	///< `-4`
-			static constexpr T minus_five = T{ -5 };	///< `-5`
-			static constexpr T minus_six = T{ -6 };		///< `-6`
-			static constexpr T minus_seven = T{ -7 };	///< `-7`
-			static constexpr T minus_eight = T{ -8 };	///< `-8`
-			static constexpr T minus_nine = T{ -9 };	///< `-9`
-			static constexpr T minus_ten = T{ -10 };	///< `-10`
+			static constexpr T zero = T{ 0 };				///< `0`
+			static constexpr T one = T{ 1 };				///< `1`
+			static constexpr T two = T{ 2 };				///< `2`
+			static constexpr T three = T{ 3 };				///< `3`
+			static constexpr T four = T{ 4 };				///< `4`
+			static constexpr T five = T{ 5 };				///< `5`
+			static constexpr T six = T{ 6 };				///< `6`
+			static constexpr T seven = T{ 7 };				///< `7`
+			static constexpr T eight = T{ 8 };				///< `8`
+			static constexpr T nine = T{ 9 };				///< `9`
+			static constexpr T ten = T{ 10 };				///< `10`
+			static constexpr T one_hundred = T{ 100 };		///< `100`
 		};
 
 		template <typename T>
@@ -1214,7 +1200,7 @@ MUU_NAMESPACE_START
 			static constexpr T signaling_nan = std::numeric_limits<T>::signaling_NaN();	///< Not-A-Number (signalling)
 			static constexpr T infinity = std::numeric_limits<T>::infinity();	///< Positive infinity
 			static constexpr T negative_infinity = -infinity;					///< Negative infinity
-			static constexpr T minus_zero = T(-0.0L);							///< `-0.0`
+			static constexpr T negative_zero =		-T{};						///< `-0.0`
 		};
 
 		template <typename T>
@@ -1238,6 +1224,8 @@ MUU_NAMESPACE_START
 			static constexpr T pi_over_four           = T( 0.785398163397448309616L ); ///< `pi / 4`
 			static constexpr T pi_over_five           = T( 0.628318530717958647693L ); ///< `pi / 5`
 			static constexpr T pi_over_six            = T( 0.523598775598298873077L ); ///< `pi / 6`
+			static constexpr T pi_over_seven          = T( 0.448798950512827605495L ); ///< `pi / 7`
+			static constexpr T pi_over_eight          = T( 0.392699081698724154808L ); ///< `pi / 8`
 			static constexpr T sqrt_pi                = T( 1.772453850905516027298L ); ///< `sqrt(pi)`
 			static constexpr T one_over_sqrt_pi       = T( 0.564189583547756286948L ); ///< `1 / sqrt(pi)`
 			static constexpr T two_pi                 = T( 6.283185307179586476925L ); ///< `2 * pi`
@@ -1293,6 +1281,8 @@ MUU_NAMESPACE_START
 			static constexpr float128_t pi_over_four          = 0.785398163397448309615660845819875721q;
 			static constexpr float128_t pi_over_five          = 0.628318530717958647692528676655900577q;
 			static constexpr float128_t pi_over_six           = 0.523598775598298873077107230546583814q;
+			static constexpr float128_t pi_over_seven         = 0.448798950512827605494663340468500412q;
+			static constexpr float128_t pi_over_eight         = 0.392699081698724154807830422909937861q;
 			static constexpr float128_t sqrt_pi               = 1.772453850905516027298167483341145183q;
 			static constexpr float128_t one_over_sqrt_pi      = 0.564189583547756286948079451560772586q;
 			static constexpr float128_t two_pi                = 6.283185307179586476925286766559005768q;
@@ -1451,7 +1441,6 @@ MUU_NAMESPACE_START
 		struct floating_point_constants
 			: integer_limits<T>,
 			integer_positive_constants<T>,
-			integer_negative_constants<T>,
 			floating_point_limits<T>,
 			floating_point_special_constants<T>,
 			floating_point_named_constants<T>
@@ -1466,8 +1455,7 @@ MUU_NAMESPACE_START
 		template <typename T>
 		struct signed_integral_constants
 			: integer_limits<T>,
-			integer_positive_constants<T>,
-			integer_negative_constants<T>
+			integer_positive_constants<T>
 		{};
 	}
 
@@ -2373,13 +2361,14 @@ MUU_NAMESPACE_START
 	/// 		since it will do 'the right thing' via some combination of:
 	///	| From                    | To                      | Cast              | Note                  |
 	///	|-------------------------|-------------------------|-------------------|-----------------------|
-	///	| void\*                  | T\*                     | static_cast       |                       |
 	///	| T\*                     | void\*                  | static_cast       |                       |
+	///	| void\*                  | T\*                     | static_cast       |                       |
 	///	| T\*                     | const T\*               | static_cast       |                       |
-	///	| const T\*               | T\*                     | const_cast        |                       |
 	///	| T\*                     | volatile T\*            | static_cast       |                       |
+	///	| T\*                     | const volatile T\*      | static_cast       |                       |
+	///	| const T\*               | T\*                     | const_cast        |                       |
 	///	| volatile T\*            | T\*                     | const_cast        |                       |
-	///	| IUnknown\*              | IUnknown\*              | QueryInterface    | Windows only          |
+	///	| const volatile T\*      | T\*                     | const_cast        |                       |
 	///	| Derived\*               | Base\*                  | static_cast       |                       |
 	///	| Base\*                  | Derived\*               | dynamic_cast      | Polymorphic bases     |
 	///	| Base\*                  | Derived\*               | reinterpret_cast  | Non-polymorphic bases |
@@ -2389,6 +2378,7 @@ MUU_NAMESPACE_START
 	///	| T(\*func_ptr)()         | void\*                  | reinterpret_cast  | Where supported       |
 	///	| T(\*func_ptr)()         | T(\*func_ptr)()noexcept | reinterpret_cast  |                       |
 	///	| T(\*func_ptr)()noexcept | T(\*func_ptr)()         | static_cast       |                       |
+	///	| IUnknown\*              | IUnknown\*              | QueryInterface    | Windows only          |
 	///
 	///  \warning There are lots of static checks to make sure you don't do something completely insane,
 	/// 		 but ultimately the fallback behaviour for casting between unrelated types is to use a
@@ -2787,6 +2777,171 @@ MUU_NAMESPACE_START
 	/// \addtogroup	intrinsics
 	/// @{
 	
+	#if 1 // infinity_or_nan ------------------------------------------------------------------------------------------
+	/// \addtogroup		infinity_or_nan		infinity_or_nan()
+	/// \brief Checks for infinities and not-a-numbers (NaN).
+	/// \note		Older compilers won't provide the necessary machinery for infinity and NaN checks to work in
+	///				constexpr contexts. You can check for constexpr support by examining build::supports_constexpr_infinity_or_nan.
+	/// @{
+
+	MUU_PRAGMA_GCC(push_options)
+	MUU_PRAGMA_GCC(optimize("-fno-finite-math-only"))
+
+	#ifndef DOXYGEN
+	namespace impl
+	{
+		template <size_t TotalBits, size_t SignificandBits>
+		struct infinity_or_nan_traits;
+
+		template <>
+		struct infinity_or_nan_traits<16, 11>
+		{
+			static constexpr auto mask = 0b0111110000000000_u16;
+		};
+
+		template <>
+		struct infinity_or_nan_traits<32, 24>
+		{
+			static constexpr auto mask = 0b01111111100000000000000000000000_u32;
+		};
+
+		template <>
+		struct infinity_or_nan_traits<64, 53>
+		{
+			static constexpr auto mask = 0b0111111111110000000000000000000000000000000000000000000000000000_u64;
+		};
+
+		template <>
+		struct infinity_or_nan_traits<80, 64>
+		{
+			static constexpr uint16_t mask[] { 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x7FFF_u16 };
+
+			template <typename T>
+			[[nodiscard]]
+			MUU_ATTR(pure)
+			MUU_ALWAYS_INLINE
+			static constexpr bool MUU_VECTORCALL check(const T& val) noexcept
+			{
+				return (val[3] & mask[3]) == mask[3]
+					&& (val[4] & mask[4]) == mask[4];
+			}
+		};
+
+		template <>
+		struct infinity_or_nan_traits<128, 64>
+		{
+			#if MUU_HAS_INT128
+			static constexpr auto mask = pack(0x0000000000007FFF_u64, 0x8000000000000000_u64);
+			#else
+			static constexpr uint64_t mask[]{ 0x8000000000000000_u64, 0x0000000000007FFF_u64 };
+
+			template <typename T>
+			[[nodiscard]]
+			MUU_ATTR(pure)
+			MUU_ALWAYS_INLINE
+			static constexpr bool MUU_VECTORCALL check(const T& val) noexcept
+			{
+				return (val[0] & mask[0]) == mask[0]
+					&& (val[1] & mask[1]) == mask[1];
+			}
+
+			#endif
+		};
+
+		template <>
+		struct infinity_or_nan_traits<128, 113>
+		{
+			#if MUU_HAS_INT128
+			static constexpr auto mask = pack(0x7FFF000000000000_u64, 0x0000000000000000_u64);
+			#else
+			static constexpr uint64_t mask[]{ 0x0000000000000000_u64, 0x7FFF000000000000_u64 };
+
+			template <typename T>
+			[[nodiscard]]
+			MUU_ATTR(pure)
+			MUU_ALWAYS_INLINE
+			static constexpr bool MUU_VECTORCALL check(const T& val) noexcept
+			{
+				return (val[1] & mask[1]) == mask[1];
+			}
+			#endif
+		};
+
+		template <typename T>
+		struct infinity_or_nan_traits_typed
+			: infinity_or_nan_traits<sizeof(T) * CHAR_BIT, constants<T>::significand_digits>
+		{};	
+
+		template <typename T>
+		using has_member_infinity_or_nan_ = decltype(std::declval<T>().infinity_or_nan());
+	}
+	#endif // !DOXYGEN
+
+	/// \brief	Checks if an arithmetic value is infinity or NaN.
+	///
+	/// \tparam	T	The value type.
+	/// \param 	val	The value to examine.
+	///
+	/// \returns	True if the value is floating-point infinity or NaN.
+	/// 			Always returns false if the value was not a floating-point type.
+	template <typename T MUU_SFINAE(is_arithmetic<T>)>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr bool MUU_VECTORCALL infinity_or_nan(T val) noexcept
+	{
+		// Q: "what about fpclassify, isnan, isinf??"
+		// A1: They're not constexpr
+		// A2: They don't work reliably with -ffast-math
+		// A3: https://godbolt.org/z/P9GGdK
+
+		if constexpr (is_floating_point<T>)
+		{
+			using traits = impl::infinity_or_nan_traits_typed<T>;
+			using blit_type = std::remove_const_t<decltype(traits::mask)>;
+
+			if constexpr (is_integral<blit_type>)
+			{
+				return (bit_cast<blit_type>(val) & traits::mask) == traits::mask;
+			}
+			else
+			{
+				return traits::check(bit_cast<blit_type>(val));
+			}
+		}
+		else
+		{
+			(void)val;
+			return false;
+		}
+	}
+
+	/// \brief	Checks if an object is infinity or NaN.
+	///
+	/// \tparam	T		The object type.
+	/// \param 	obj		The object.
+	///
+	/// \returns	The return value of `obj.infinity_or_nan()`.
+	template <typename T MUU_SFINAE_2(!is_arithmetic<T> && impl::is_detected<impl::has_member_infinity_or_nan_, const T&>)>
+	[[nodiscard]]
+	constexpr bool infinity_or_nan(const T& obj) noexcept
+	{
+		return obj.infinity_or_nan();
+	}
+
+	/** @} */	// intrinsics::infinity_or_nan
+	/** @} */	// intrinsics
+
+	namespace build
+	{
+		/// \brief	True if using infinity_or_nan() in constexpr contexts is supported on this compiler.
+		inline constexpr bool supports_constexpr_infinity_or_nan = build::supports_constexpr_bit_cast;
+	}
+
+	/// \addtogroup	intrinsics
+	/// @{
+	MUU_PRAGMA_GCC(pop_options) // -fno-finite-math-only
+	#endif // infinity_or_nan
+	
 	#if 1 // approx_equal ---------------------------------------------------------------------------------------------
 	/// \addtogroup		approx_equal	approx_equal()
 	/// \brief Floating-point approximate equality checks.
@@ -3037,6 +3192,150 @@ MUU_NAMESPACE_START
 	/** @} */	// intrinsics::ceil
 	#endif // ceil
 
+	#if 1 // sqrt -----------------------------------------------------------------------------------------------------
+	/// \addtogroup		sqrt	sqrt()
+	/// \brief Constexpr-friendly alternatives to std::sqrt().
+	/// \note		Older compilers won't provide the necessary machinery for sqrt functions to work in constexpr contexts.
+	/// 			You can check for constexpr support by examining build::supports_constexpr_math.
+	/// @{
+	
+	#ifndef DOXYGEN
+	namespace impl
+	{
+		// this is way too high on purpose- the algorithms early-out
+		inline constexpr intmax_t max_constexpr_math_iterations = 100;
+
+		MUU_PUSH_PRECISE_MATH
+
+		template <typename T>
+		[[nodiscard]]
+		MUU_ATTR(const)
+		MUU_CONSTEVAL T consteval_sqrt(T val)
+		{
+			// Newton-Raphson method: https://en.wikipedia.org/wiki/Newton%27s_method
+
+			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
+
+			if (val < T{})
+			{
+				#if MUU_EXCEPTIONS
+					throw "consteval_sqrt() input out-of-range"; //force compilation failure
+				#else
+					return constants<T>::nan;
+				#endif
+			}
+			if (val == T{})
+				return T{};
+			if (val == -T{})
+				return -T{};
+			if (val == T{ 1 })
+				return T{ 1 };
+
+			T curr = val;
+			T prev = T{};
+			for (intmax_t i = 0; i < max_constexpr_math_iterations && curr != prev; i++)
+			{
+				prev = curr;
+				curr = constants<T>::one_over_two * (curr + val / curr);
+			}
+			return curr;
+		}
+
+		MUU_POP_PRECISE_MATH
+
+		template <typename T>
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
+		constexpr T MUU_VECTORCALL sqrt_(T val) noexcept
+		{
+			static_assert(is_floating_point<T>);
+
+			if (MUU_INTELLISENSE || (build::supports_is_constant_evaluated && is_constant_evaluated()))
+			{
+				using type = highest_ranked<T, long double>;
+				return static_cast<T>(consteval_sqrt<type>(val));
+			}
+			else
+			{
+				if constexpr (is_standard_arithmetic<T>)
+					return std::sqrt(val);
+				#if MUU_HAS_QUADMATH
+				else if constexpr (std::is_same_v<float128_t, T>)
+					return ::sqrtq(val);
+				#endif
+				else
+					return static_cast<T>(std::sqrt(static_cast<clamp_to_standard_float<T>>(val)));
+			}
+		}
+	}
+	#endif // !DOXYGEN
+
+	/// \brief	Returns the square-root of a float.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr float MUU_VECTORCALL sqrt(float x) noexcept
+	{
+		return impl::sqrt_(x);
+	}
+
+	/// \brief	Returns the square-root of a double.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr double MUU_VECTORCALL sqrt(double x) noexcept
+	{
+		return impl::sqrt_(x);
+	}
+
+	/// \brief	Returns the square-root of a long double.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr long double MUU_VECTORCALL sqrt(long double x) noexcept
+	{
+		return impl::sqrt_(x);
+	}
+
+	#if MUU_HAS_FLOAT128
+	/// \brief	Returns the square-root of a float128_t.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr float128_t MUU_VECTORCALL sqrt(float128_t x) noexcept
+	{
+		return impl::sqrt_(x);
+	}
+	#endif
+
+	#if MUU_HAS_FLOAT16
+	/// \brief	Returns the square-root of a _Float16.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr _Float16 MUU_VECTORCALL sqrt(_Float16 x) noexcept
+	{
+		return impl::sqrt_(x);
+	}
+	#endif
+
+	#if MUU_HAS_FP16
+	/// \brief	Returns the square-root of a __fp16.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr __fp16 MUU_VECTORCALL sqrt(__fp16 x) noexcept
+	{
+		return impl::sqrt_(x);
+	}
+	#endif
+
+	/// \brief	Returns the square-root of an integral value.
+	template <typename T MUU_SFINAE(is_integral<T>)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr double MUU_VECTORCALL sqrt(T x) noexcept
+	{
+		return impl::sqrt_(static_cast<double>(x));
+	}
+
+	/** @} */	// intrinsics::sqrt
+	#endif // sqrt
+
 	#if 1 // cos ------------------------------------------------------------------------------------------------------
 	/// \addtogroup		cos		cos()
 	/// \brief Constexpr-friendly alternatives to std::cos().
@@ -3049,38 +3348,62 @@ MUU_NAMESPACE_START
 	{
 		MUU_PUSH_PRECISE_MATH
 
+		//template <typename T>
+		//[[nodiscard]]
+		//MUU_ATTR(const)
+		//constexpr T MUU_VECTORCALL normalize_angle(T val) noexcept
+		//{
+		//	if (val < T{} || val > constants<T>::two_pi)
+		//		val -= constants<T>::two_pi * floor_(val * constants<T>::one_over_two_pi);
+		//	return val;
+		//}
+
+		//template <typename T>
+		//[[nodiscard]]
+		//MUU_ATTR(const)
+		//constexpr T MUU_VECTORCALL normalize_angle_signed(T val) noexcept
+		//{
+		//	if (val < -constants<T>::pi || val > constants<T>::pi)
+		//		val = normalize_angle(val + constants<T>::pi) - constants<T>::pi;
+		//	return val;
+		//}
+
 		template <typename T>
 		[[nodiscard]]
 		MUU_ATTR(const)
-		constexpr T MUU_VECTORCALL normalize_angle(T val) noexcept
-		{
-			if (val < -constants<T>::pi || val > constants<T>::pi)
-			{
-				val += constants<T>::pi;
-				val -= constants<T>::two_pi * floor_(val * constants<T>::one_over_two_pi);
-				val -= constants<T>::pi;
-			}
-			return val;
-		}
-
-		// this is way too high on purpose- the algorithms early-out
-		inline constexpr int max_taylor_iterations = 100; 
+		MUU_CONSTEVAL T consteval_sin(T) noexcept;
 
 		template <typename T>
 		[[nodiscard]]
 		MUU_ATTR(const)
 		MUU_CONSTEVAL T consteval_cos(T val) noexcept
 		{
-			// taylor series: https://en.wikipedia.org/wiki/Taylor_series#Trigonometric_functions
-
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
 
-			val = normalize_angle(val);
-			if (val == T{})
-				return constants<T>::one;
+			if (val < T{} || val > constants<T>::two_pi)
+				val -= constants<T>::two_pi * floor_(val * constants<T>::one_over_two_pi);
+			if (val == T{} || val == -T{} || val == constants<T>::two_pi)
+				return T{ 1 };
+			if (val == constants<T>::pi_over_two || val == constants<T>::three_pi_over_two)
+				return T{};
+			if (val == constants<T>::pi)
+				return T{ -1 };
+
+			// reduce input range for faster convergence
+			// (see http://mathonweb.com/help_ebook/html/algorithms.htm)
+			if (val > constants<T>::pi_over_two && val < constants<T>::pi) // quadrant 2
+				return -consteval_cos(constants<T>::pi - val);
+			if (val > constants<T>::pi && val < constants<T>::three_pi_over_two) // quadrant 3
+				return -consteval_cos(val - constants<T>::pi);
+			if (val > constants<T>::three_pi_over_two && val < constants<T>::two_pi) // quadrant 4
+				return consteval_cos(constants<T>::two_pi - val);
+			if (val > constants<T>::pi_over_four && val < constants<T>::pi_over_two)
+				return consteval_sin(constants<T>::pi_over_two - val);
+
+			// taylor series: https://en.wikipedia.org/wiki/Taylor_series#Trigonometric_functions
 			T term = -val * val / T{ 2 };
 			T sum = T{ 1 } + term;
-			for (int i = 2; i < max_taylor_iterations; i++)
+			for (intmax_t i = 2; i < max_constexpr_math_iterations; i++)
 			{
 				const auto prev = sum;
 				term *= -val * val / (T{ 2 } * i * (T{ 2 } * i - T{ 1 }));
@@ -3123,34 +3446,34 @@ MUU_NAMESPACE_START
 	/// \brief	Returns the cosine of a float.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr float MUU_VECTORCALL cos(float val) noexcept
+	constexpr float MUU_VECTORCALL cos(float x) noexcept
 	{
-		return impl::cos_(val);
+		return impl::cos_(x);
 	}
 
 	/// \brief	Returns the cosine of a double.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr double MUU_VECTORCALL cos(double val) noexcept
+	constexpr double MUU_VECTORCALL cos(double x) noexcept
 	{
-		return impl::cos_(val);
+		return impl::cos_(x);
 	}
 
 	/// \brief	Returns the cosine of a long double.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr long double MUU_VECTORCALL cos(long double val) noexcept
+	constexpr long double MUU_VECTORCALL cos(long double x) noexcept
 	{
-		return impl::cos_(val);
+		return impl::cos_(x);
 	}
 
 	#if MUU_HAS_FLOAT128
 	/// \brief	Returns the cosine of a float128_t.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr float128_t MUU_VECTORCALL cos(float128_t val) noexcept
+	constexpr float128_t MUU_VECTORCALL cos(float128_t x) noexcept
 	{
-		return impl::cos_(val);
+		return impl::cos_(x);
 	}
 	#endif
 
@@ -3158,9 +3481,9 @@ MUU_NAMESPACE_START
 	/// \brief	Returns the cosine of a _Float16.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr _Float16 MUU_VECTORCALL cos(_Float16 val) noexcept
+	constexpr _Float16 MUU_VECTORCALL cos(_Float16 x) noexcept
 	{
-		return impl::cos_(val);
+		return impl::cos_(x);
 	}
 	#endif
 
@@ -3168,9 +3491,9 @@ MUU_NAMESPACE_START
 	/// \brief	Returns the cosine of a __fp16.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr __fp16 MUU_VECTORCALL cos(__fp16 val) noexcept
+	constexpr __fp16 MUU_VECTORCALL cos(__fp16 x) noexcept
 	{
-		return impl::cos_(val);
+		return impl::cos_(x);
 	}
 	#endif
 
@@ -3178,9 +3501,9 @@ MUU_NAMESPACE_START
 	template <typename T MUU_SFINAE(is_integral<T>)>
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr double MUU_VECTORCALL cos(T val) noexcept
+	constexpr double MUU_VECTORCALL cos(T x) noexcept
 	{
-		return impl::cos_(static_cast<double>(val));
+		return impl::cos_(static_cast<double>(x));
 	}
 
 	/** @} */	// intrinsics::cos
@@ -3203,17 +3526,35 @@ MUU_NAMESPACE_START
 		MUU_ATTR(const)
 		MUU_CONSTEVAL T consteval_sin(T val) noexcept
 		{
-			// taylor series: https://en.wikipedia.org/wiki/Taylor_series#Trigonometric_functions
-
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
 
-			val = normalize_angle(val);
-			if (val == T{})
+			if (val == -T{})
+				return -T{};
+			if (val < T{} || val > constants<T>::two_pi)
+				val -= constants<T>::two_pi * floor_(val * constants<T>::one_over_two_pi);
+			if (val == T{} || val == constants<T>::pi)
 				return T{};
+			if (val == constants<T>::pi_over_two)
+				return T{ 1 };
+			if (val == constants<T>::three_pi_over_two)
+				return T{ -1 };
+
+			// reduce input range for faster convergence
+			// (see http://mathonweb.com/help_ebook/html/algorithms.htm)
+			if (val > constants<T>::pi_over_two && val < constants<T>::pi) // quadrant 2
+				return consteval_sin(constants<T>::pi - val);
+			if (val > constants<T>::pi && val < constants<T>::three_pi_over_two) // quadrant 3
+				return -consteval_sin(val - constants<T>::pi);
+			if (val > constants<T>::three_pi_over_two && val < constants<T>::two_pi) // quadrant 4
+				return -consteval_sin(constants<T>::two_pi - val);
+			if (val > constants<T>::pi_over_four && val < constants<T>::pi_over_two)
+				return consteval_cos(constants<T>::pi_over_two - val);
+
+			// taylor series: https://en.wikipedia.org/wiki/Taylor_series#Trigonometric_functions
 			T term = val;
 			T sum = val;
 			int sign = -1;
-			for (int i = 3; i < max_taylor_iterations*2; i += 2, sign = -sign)
+			for (intmax_t i = 3; i < max_constexpr_math_iterations * 2; i += 2, sign = -sign)
 			{
 				const auto prev = sum;
 				term = -term * val * val / (i * (i - T{ 1 }));
@@ -3256,34 +3597,34 @@ MUU_NAMESPACE_START
 	/// \brief	Returns the sine of a float.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr float MUU_VECTORCALL sin(float val) noexcept
+	constexpr float MUU_VECTORCALL sin(float x) noexcept
 	{
-		return impl::sin_(val);
+		return impl::sin_(x);
 	}
 
 	/// \brief	Returns the sine of a double.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr double MUU_VECTORCALL sin(double val) noexcept
+	constexpr double MUU_VECTORCALL sin(double x) noexcept
 	{
-		return impl::sin_(val);
+		return impl::sin_(x);
 	}
 
 	/// \brief	Returns the sine of a long double.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr long double MUU_VECTORCALL sin(long double val) noexcept
+	constexpr long double MUU_VECTORCALL sin(long double x) noexcept
 	{
-		return impl::sin_(val);
+		return impl::sin_(x);
 	}
 
 	#if MUU_HAS_FLOAT128
 	/// \brief	Returns the sine of a float128_t.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr float128_t MUU_VECTORCALL sin(float128_t val) noexcept
+	constexpr float128_t MUU_VECTORCALL sin(float128_t x) noexcept
 	{
-		return impl::sin_(val);
+		return impl::sin_(x);
 	}
 	#endif
 
@@ -3291,9 +3632,9 @@ MUU_NAMESPACE_START
 	/// \brief	Returns the sine of a _Float16.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr _Float16 MUU_VECTORCALL sin(_Float16 val) noexcept
+	constexpr _Float16 MUU_VECTORCALL sin(_Float16 x) noexcept
 	{
-		return impl::sin_(val);
+		return impl::sin_(x);
 	}
 	#endif
 
@@ -3301,9 +3642,9 @@ MUU_NAMESPACE_START
 	/// \brief	Returns the sine of a __fp16.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr __fp16 MUU_VECTORCALL sin(__fp16 val) noexcept
+	constexpr __fp16 MUU_VECTORCALL sin(__fp16 x) noexcept
 	{
-		return impl::sin_(val);
+		return impl::sin_(x);
 	}
 	#endif
 
@@ -3311,9 +3652,9 @@ MUU_NAMESPACE_START
 	template <typename T MUU_SFINAE(is_integral<T>)>
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr double MUU_VECTORCALL sin(T val) noexcept
+	constexpr double MUU_VECTORCALL sin(T x) noexcept
 	{
-		return impl::sin_(static_cast<double>(val));
+		return impl::sin_(static_cast<double>(x));
 	}
 
 	/** @} */	// intrinsics::sin
@@ -3332,78 +3673,38 @@ MUU_NAMESPACE_START
 		MUU_PUSH_PRECISE_MATH
 
 		template <typename T>
-		struct tan_precomputed;
-
-		// to avoid having to unroll another taylor series tan() is calcuated as sin() / cos() (trig identities).
-		// this incurs a small loss of precision and doesn't handle poles properly, so instead tangents are precomputed
-		// for some key input values. (see generate_float_tests_header.py)
-
-		template <>
-		struct tan_precomputed<long double>
-		{
-			static constexpr std::pair<long double, long double> tangents[] =
-			{
-				{ -3.141592653589793238463L, -1E-21L },
-				{ -2.748893571891069083655L, 0.414213562373095048801L },
-				{ -2.356194490192344928847L, 0.999999999999999999999L },
-				{ -1.963495408493620774040L, 2.414213562373095048801L },
-				{ -1.570796326794896619232L, 16331239353195370.0L },
-				{ -1.178097245096172464424L, -2.414213562373095048802L },
-				{ -0.785398163397448309616L, -1.000000000000000000001L },
-				{ -0.392699081698724154808L, -0.414213562373095048802L },
-				{ 0.392699081698724154807L, 0.414213562373095048801L },
-				{ 0.785398163397448309615L, 0.999999999999999999999L },
-				{ 1.178097245096172464423L, 2.414213562373095048801L },
-				{ 1.570796326794896619231L, 16331239353195370.0L },
-				{ 1.963495408493620774039L, -2.414213562373095048802L },
-				{ 2.356194490192344928846L, -1.000000000000000000001L },
-				{ 2.748893571891069083654L, -0.414213562373095048802L },
-				{ 3.141592653589793238462L, -1E-21L }
-			};
-		};
-
-		#if MUU_HAS_FLOAT128
-		template <>
-		struct tan_precomputed<float128_t>
-		{
-			static constexpr std::pair<float128_t, float128_t> tangents[] =
-			{
-				{ -3.141592653589793238462643383279502885q, -1E-36q },
-				{ -2.748893571891069083654812960369565024q, 0.414213562373095048801688724209698078q },
-				{ -2.356194490192344928846982537459627164q, 0.999999999999999999999999999999999999q },
-				{ -1.963495408493620774039152114549689303q, 2.414213562373095048801688724209698078q },
-				{ -1.570796326794896619231321691639751443q, 16331239353195370.0q },
-				{ -1.178097245096172464423491268729813582q, -2.414213562373095048801688724209698079q },
-				{ -0.785398163397448309615660845819875722q, -1.000000000000000000000000000000000001q },
-				{ -0.392699081698724154807830422909937861q, -0.414213562373095048801688724209698079q },
-				{ 0.392699081698724154807830422909937860q, 0.414213562373095048801688724209698078q },
-				{ 0.785398163397448309615660845819875721q, 0.999999999999999999999999999999999999q },
-				{ 1.178097245096172464423491268729813581q, 2.414213562373095048801688724209698078q },
-				{ 1.570796326794896619231321691639751442q, 16331239353195370.0q },
-				{ 1.963495408493620774039152114549689302q, -2.414213562373095048801688724209698079q },
-				{ 2.356194490192344928846982537459627163q, -1.000000000000000000000000000000000001q },
-				{ 2.748893571891069083654812960369565023q, -0.414213562373095048801688724209698079q },
-				{ 3.141592653589793238462643383279502884q, -1E-36q }
-			};
-		};
-		#endif
-
-		template <typename T>
 		[[nodiscard]]
 		MUU_ATTR(const)
 		MUU_CONSTEVAL T consteval_tan(T val) noexcept
 		{
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
 			
-			val = normalize_angle(val);
-			if (val == T{})
+			if (val == -T{})
+				return -T{};
+			if (val < T{} || val > constants<T>::pi)
+				val -= constants<T>::pi * floor_(val * constants<T>::one_over_pi);
+			if (val == T{} || val == constants<T>::pi)
 				return T{};
-			if constexpr (1)
+			//if (val == constants<T>::pi_over_two)
+			//	return static_cast<T>(16331239353195370.0L);
+			if (val == constants<T>::pi_over_four)
+				return T{ 1 };
+			if (val == constants<T>::pi_over_eight)
+				return constants<T>::sqrt_two - T{ 1 };
+			
+
+			// reduce input range for faster convergence
+			// (see http://mathonweb.com/help_ebook/html/algorithms.htm)
+			if (val > constants<T>::pi_over_two && val < constants<T>::pi) // quadrant 2
+				return -consteval_tan(constants<T>::pi - val);
+			if (val > constants<T>::pi_over_four && val < constants<T>::pi_over_two)
+				return T{ 1 } / consteval_tan(constants<T>::pi_over_two - val);
+			if (val > constants<T>::pi_over_eight && val < constants<T>::pi_over_four)
 			{
-				for (auto [in, out] : tan_precomputed<T>::tangents)
-					if (approx_equal(val, in))
-						return out;
+				const auto x = consteval_tan(val / T{ 2 });
+				return (x + x) / (T{ 1 } - x * x);
 			}
+
 			return consteval_sin(val) / consteval_cos(val);
 		}
 
@@ -3439,34 +3740,34 @@ MUU_NAMESPACE_START
 	/// \brief	Returns the tangent of a float.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr float MUU_VECTORCALL tan(float val) noexcept
+	constexpr float MUU_VECTORCALL tan(float x) noexcept
 	{
-		return impl::tan_(val);
+		return impl::tan_(x);
 	}
 
 	/// \brief	Returns the tangent of a double.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr double MUU_VECTORCALL tan(double val) noexcept
+	constexpr double MUU_VECTORCALL tan(double x) noexcept
 	{
-		return impl::tan_(val);
+		return impl::tan_(x);
 	}
 
 	/// \brief	Returns the tangent of a long double.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr long double MUU_VECTORCALL tan(long double val) noexcept
+	constexpr long double MUU_VECTORCALL tan(long double x) noexcept
 	{
-		return impl::tan_(val);
+		return impl::tan_(x);
 	}
 
 	#if MUU_HAS_FLOAT128
 	/// \brief	Returns the tangent of a float128_t.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr float128_t MUU_VECTORCALL tan(float128_t val) noexcept
+	constexpr float128_t MUU_VECTORCALL tan(float128_t x) noexcept
 	{
-		return impl::tan_(val);
+		return impl::tan_(x);
 	}
 	#endif
 
@@ -3474,9 +3775,9 @@ MUU_NAMESPACE_START
 	/// \brief	Returns the tangent of a _Float16.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr _Float16 MUU_VECTORCALL tan(_Float16 val) noexcept
+	constexpr _Float16 MUU_VECTORCALL tan(_Float16 x) noexcept
 	{
-		return impl::tan_(val);
+		return impl::tan_(x);
 	}
 	#endif
 
@@ -3484,9 +3785,9 @@ MUU_NAMESPACE_START
 	/// \brief	Returns the tangent of a __fp16.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr __fp16 MUU_VECTORCALL tan(__fp16 val) noexcept
+	constexpr __fp16 MUU_VECTORCALL tan(__fp16 x) noexcept
 	{
-		return impl::tan_(val);
+		return impl::tan_(x);
 	}
 	#endif
 
@@ -3494,21 +3795,21 @@ MUU_NAMESPACE_START
 	template <typename T MUU_SFINAE(is_integral<T>)>
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr double MUU_VECTORCALL tan(T val) noexcept
+	constexpr double MUU_VECTORCALL tan(T x) noexcept
 	{
-		return impl::tan_(static_cast<double>(val));
+		return impl::tan_(static_cast<double>(x));
 	}
 
 	/** @} */	// intrinsics::tan
 	#endif // tan
 
-	#if 1 // sqrt -----------------------------------------------------------------------------------------------------
-	/// \addtogroup		sqrt	sqrt()
-	/// \brief Constexpr-friendly alternatives to std::sqrt().
-	/// \note		Older compilers won't provide the necessary machinery for sqrt functions to work in constexpr contexts.
+	#if 1 // asin ------------------------------------------------------------------------------------------------------
+	/// \addtogroup		asin		asin()
+	/// \brief Constexpr-friendly alternatives to std::asin().
+	/// \note		Older compilers won't provide the necessary machinery for trig functions to work in constexpr contexts.
 	/// 			You can check for constexpr support by examining build::supports_constexpr_math.
 	/// @{
-	
+
 	#ifndef DOXYGEN
 	namespace impl
 	{
@@ -3517,15 +3818,43 @@ MUU_NAMESPACE_START
 		template <typename T>
 		[[nodiscard]]
 		MUU_ATTR(const)
-		MUU_CONSTEVAL T consteval_sqrt(T val, T curr, T prev) noexcept
+		MUU_CONSTEVAL T consteval_asin(T val)
 		{
-			// Newton-Raphson method: https://en.wikipedia.org/wiki/Newton%27s_method
-
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
+			
+			if (!between(val, T{ -1 }, T{ 1 }))
+			{
+				#if MUU_EXCEPTIONS
+					throw "consteval_asin() input out-of-range"; //force compilation failure
+				#else
+					return constants<T>::nan;
+				#endif
+			}
+			if (val == T{ -1 })
+				return -constants<T>::pi_over_two;
+			if (val == T{ 1 })
+				return constants<T>::pi_over_two;
 
-			return curr == prev
-				? curr
-				: consteval_sqrt(val, constants<T>::one_over_two * (curr + val / curr), curr);
+			// use trig identities outside of [-1/sqrt(2), 1/sqrt(2)] for faster convergence
+			// (see: https://stackoverflow.com/a/20196782)
+			if (val > constants<T>::one_over_sqrt_two)
+				return constants<T>::pi_over_two - consteval_asin(consteval_sqrt(T{ 1 } - val * val));
+			if (val < -constants<T>::one_over_sqrt_two)
+				return -constants<T>::pi_over_two + consteval_asin(consteval_sqrt(T{ 1 } - val * val));
+
+			// taylor series: https://en.wikipedia.org/wiki/Taylor_series#Trigonometric_functions
+			T sum = val;
+			T term = val * val * val / T{ 2 };
+			for (intmax_t i = 1; i < max_constexpr_math_iterations * 2; i += 2)
+			{
+				MUU_FMA_BLOCK
+				const T prev = sum;
+				sum += term * static_cast<T>(i) / static_cast<T>(i + 2);
+				term *= val * val * static_cast<T>(i) / static_cast<T>(i + 3);
+				if (prev == sum)
+					break;
+			}
+			return sum;
 		}
 
 		MUU_POP_PRECISE_MATH
@@ -3533,95 +3862,523 @@ MUU_NAMESPACE_START
 		template <typename T>
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
-		constexpr T MUU_VECTORCALL sqrt_(T val) noexcept
+		constexpr T MUU_VECTORCALL asin_(T val) noexcept
 		{
 			static_assert(is_floating_point<T>);
 
 			if (MUU_INTELLISENSE || (build::supports_is_constant_evaluated && is_constant_evaluated()))
 			{
 				using type = highest_ranked<T, long double>;
-				return static_cast<T>(consteval_sqrt<type>(val, val, type{}));
+				return static_cast<T>(consteval_asin(static_cast<type>(val)));
 			}
 			else
 			{
 				if constexpr (is_standard_arithmetic<T>)
-					return std::sqrt(val);
+					return std::asin(val);
 				#if MUU_HAS_QUADMATH
 				else if constexpr (std::is_same_v<float128_t, T>)
-					return ::sqrtq(val);
+					return ::asinq(val);
 				#endif
 				else
-					return static_cast<T>(std::sqrt(static_cast<clamp_to_standard_float<T>>(val)));
+					return static_cast<T>(std::asin(static_cast<clamp_to_standard_float<T>>(val)));
 			}
 		}
 	}
-	#endif // !DOXYGEN
+	#endif // DOXYGEN
 
-	/// \brief	Returns the square-root of a float.
+	/// \brief	Returns the arc sine of a float.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr float MUU_VECTORCALL sqrt(float val) noexcept
+	constexpr float MUU_VECTORCALL asin(float x) noexcept
 	{
-		return impl::sqrt_(val);
+		return impl::asin_(x);
 	}
 
-	/// \brief	Returns the square-root of a double.
+	/// \brief	Returns the arc sine of a double.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr double MUU_VECTORCALL sqrt(double val) noexcept
+	constexpr double MUU_VECTORCALL asin(double x) noexcept
 	{
-		return impl::sqrt_(val);
+		return impl::asin_(x);
 	}
 
-	/// \brief	Returns the square-root of a long double.
+	/// \brief	Returns the arc sine of a long double.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr long double MUU_VECTORCALL sqrt(long double val) noexcept
+	constexpr long double MUU_VECTORCALL asin(long double x) noexcept
 	{
-		return impl::sqrt_(val);
+		return impl::asin_(x);
 	}
 
 	#if MUU_HAS_FLOAT128
-	/// \brief	Returns the square-root of a float128_t.
+	/// \brief	Returns the arc sine of a float128_t.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr float128_t MUU_VECTORCALL sqrt(float128_t val) noexcept
+	constexpr float128_t MUU_VECTORCALL asin(float128_t x) noexcept
 	{
-		return impl::sqrt_(val);
+		return impl::asin_(x);
 	}
 	#endif
 
 	#if MUU_HAS_FLOAT16
-	/// \brief	Returns the square-root of a _Float16.
+	/// \brief	Returns the arc sine of a _Float16.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr _Float16 MUU_VECTORCALL sqrt(_Float16 val) noexcept
+	constexpr _Float16 MUU_VECTORCALL asin(_Float16 x) noexcept
 	{
-		return impl::sqrt_(val);
+		return impl::asin_(x);
 	}
 	#endif
 
 	#if MUU_HAS_FP16
-	/// \brief	Returns the square-root of a __fp16.
+	/// \brief	Returns the arc sine of a __fp16.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr __fp16 MUU_VECTORCALL sqrt(__fp16 val) noexcept
+	constexpr __fp16 MUU_VECTORCALL asin(__fp16 x) noexcept
 	{
-		return impl::sqrt_(val);
+		return impl::asin_(x);
 	}
 	#endif
 
-	/// \brief	Returns the square-root of an integral value.
+	/// \brief	Returns the arc sine of an integral value.
 	template <typename T MUU_SFINAE(is_integral<T>)>
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr double MUU_VECTORCALL sqrt(T val) noexcept
+	constexpr double MUU_VECTORCALL asin(T x) noexcept
 	{
-		return impl::sqrt_(static_cast<double>(val));
+		return impl::asin_(static_cast<double>(x));
 	}
 
-	/** @} */	// intrinsics::sqrt
-	#endif // sqrt
+	/** @} */	// intrinsics::asin
+	#endif // asin
+
+	#if 1 // acos ------------------------------------------------------------------------------------------------------
+	/// \addtogroup		acos		acos()
+	/// \brief Constexpr-friendly alternatives to std::acos().
+	/// \note		Older compilers won't provide the necessary machinery for trig functions to work in constexpr contexts.
+	/// 			You can check for constexpr support by examining build::supports_constexpr_math.
+	/// @{
+
+	#ifndef DOXYGEN
+	namespace impl
+	{
+		MUU_PUSH_PRECISE_MATH
+
+		template <typename T>
+		[[nodiscard]]
+		MUU_ATTR(const)
+		MUU_CONSTEVAL T consteval_acos(T val)
+		{
+			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
+			
+			if (!between(val, T{ -1 }, T{ 1 }))
+			{
+				#if MUU_EXCEPTIONS
+					throw "consteval_acos() input out-of-range"; //force compilation failure
+				#else
+					return constants<T>::nan;
+				#endif
+			}
+			if (val == T{ -1 })
+				return constants<T>::pi;
+			if (val == T{ 1 })
+				return constants<T>::zero;
+
+			return constants<T>::pi_over_two - consteval_asin(val);
+		}
+
+		MUU_POP_PRECISE_MATH
+
+		template <typename T>
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
+		constexpr T MUU_VECTORCALL acos_(T val) noexcept
+		{
+			static_assert(is_floating_point<T>);
+
+			if (MUU_INTELLISENSE || (build::supports_is_constant_evaluated && is_constant_evaluated()))
+			{
+				using type = highest_ranked<T, long double>;
+				return static_cast<T>(consteval_acos(static_cast<type>(val)));
+			}
+			else
+			{
+				if constexpr (is_standard_arithmetic<T>)
+					return std::acos(val);
+				#if MUU_HAS_QUADMATH
+				else if constexpr (std::is_same_v<float128_t, T>)
+					return ::acosq(val);
+				#endif
+				else
+					return static_cast<T>(std::acos(static_cast<clamp_to_standard_float<T>>(val)));
+			}
+		}
+	}
+	#endif // DOXYGEN
+
+	/// \brief	Returns the arc cosine of a float.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr float MUU_VECTORCALL acos(float x) noexcept
+	{
+		return impl::acos_(x);
+	}
+
+	/// \brief	Returns the arc cosine of a double.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr double MUU_VECTORCALL acos(double x) noexcept
+	{
+		return impl::acos_(x);
+	}
+
+	/// \brief	Returns the arc cosine of a long double.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr long double MUU_VECTORCALL acos(long double x) noexcept
+	{
+		return impl::acos_(x);
+	}
+
+	#if MUU_HAS_FLOAT128
+	/// \brief	Returns the arc cosine of a float128_t.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr float128_t MUU_VECTORCALL acos(float128_t x) noexcept
+	{
+		return impl::acos_(x);
+	}
+	#endif
+
+	#if MUU_HAS_FLOAT16
+	/// \brief	Returns the arc cosine of a _Float16.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr _Float16 MUU_VECTORCALL acos(_Float16 x) noexcept
+	{
+		return impl::acos_(x);
+	}
+	#endif
+
+	#if MUU_HAS_FP16
+	/// \brief	Returns the arc cosine of a __fp16.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr __fp16 MUU_VECTORCALL acos(__fp16 x) noexcept
+	{
+		return impl::acos_(x);
+	}
+	#endif
+
+	/// \brief	Returns the arc cosine of an integral value.
+	template <typename T MUU_SFINAE(is_integral<T>)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr double MUU_VECTORCALL acos(T x) noexcept
+	{
+		return impl::acos_(static_cast<double>(x));
+	}
+
+	/** @} */	// intrinsics::acos
+	#endif // acos
+
+	#if 1 // atan ------------------------------------------------------------------------------------------------------
+	/// \addtogroup		atan		atan()
+	/// \brief Constexpr-friendly alternatives to std::atan().
+	/// \note		Older compilers won't provide the necessary machinery for trig functions to work in constexpr contexts.
+	/// 			You can check for constexpr support by examining build::supports_constexpr_math.
+	/// @{
+
+	#ifndef DOXYGEN
+	namespace impl
+	{
+		MUU_PUSH_PRECISE_MATH
+
+		template <typename T>
+		[[nodiscard]]
+		MUU_ATTR(const)
+		MUU_CONSTEVAL T consteval_atan(T val) noexcept
+		{
+			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
+
+			if (val == T{})
+				return T{};
+			if (val == -T{})
+				return -T{};
+			if (val == constants<T>::infinity)
+				return constants<T>::pi_over_two;
+			if (val == constants<T>::negative_infinity)
+				return -constants<T>::pi_over_two;
+			if (val != val) // nan
+				return val;
+			if (val == T{ 1 })
+				return constants<T>::pi_over_four;
+
+			// reduce the input value range for faster convergence
+			// (see http://mathonweb.com/help_ebook/html/algorithms.htm)
+			if (val < T{})
+				return -consteval_atan(-val);
+			if (val > T{ 1 })
+				return constants<T>::pi_over_two - consteval_atan(T{ 1 } / val);
+			if (val > (T{ 2 } - constants<T>::sqrt_three))
+				return constants<T>::pi_over_six + consteval_atan(
+					((constants<T>::sqrt_three * val) - T{ 1 }) / (constants<T>::sqrt_three + val)
+				);
+
+			// Euler's series: https://en.wikipedia.org/wiki/Inverse_trigonometric_functions#Infinite_series
+			const auto val_sq = val * val;
+			const auto mult = val / (T{ 1 } + val_sq);
+			constexpr auto calc_term = [](T val_sq_, intmax_t i) noexcept
+			{
+				return (T{ 2 } * static_cast<T>(i) * val_sq_)
+					/ ((T{ 2 } * static_cast<T>(i) + T{ 1 }) * (val_sq_ + T{ 1 }));
+			};
+			T prod = T{ 1 };
+			T sum = T{ 1 };
+			for (intmax_t i = 1; i <= max_constexpr_math_iterations; i++)
+			{
+				const T prev = sum;
+				prod *= calc_term(val_sq, i);
+				sum += prod;
+				if (sum == prev)
+					break;
+			}
+			return sum * mult;
+		}
+
+		MUU_POP_PRECISE_MATH
+
+		template <typename T>
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
+		constexpr T MUU_VECTORCALL atan_(T x) noexcept
+		{
+			static_assert(is_floating_point<T>);
+
+			if (MUU_INTELLISENSE || (build::supports_is_constant_evaluated && is_constant_evaluated()))
+			{
+				using type = highest_ranked<T, long double>;
+				return static_cast<T>(consteval_atan(static_cast<type>(x)));
+			}
+			else
+			{
+				if constexpr (is_standard_arithmetic<T>)
+					return std::atan(x);
+				#if MUU_HAS_QUADMATH
+				else if constexpr (std::is_same_v<float128_t, T>)
+					return ::atanq(x);
+				#endif
+				else
+					return static_cast<T>(std::atan(static_cast<clamp_to_standard_float<T>>(x)));
+			}
+		}
+	}
+	#endif // DOXYGEN
+
+	/// \brief	Returns the arc tangent of a float.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr float MUU_VECTORCALL atan(float x) noexcept
+	{
+		return impl::atan_(x);
+	}
+
+	/// \brief	Returns the arc tangent of a double.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr double MUU_VECTORCALL atan(double x) noexcept
+	{
+		return impl::atan_(x);
+	}
+
+	/// \brief	Returns the arc tangent of a long double.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr long double MUU_VECTORCALL atan(long double x) noexcept
+	{
+		return impl::atan_(x);
+	}
+
+	#if MUU_HAS_FLOAT128
+	/// \brief	Returns the arc tangent of a float128_t.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr float128_t MUU_VECTORCALL atan(float128_t x) noexcept
+	{
+		return impl::atan_(x);
+	}
+	#endif
+
+	#if MUU_HAS_FLOAT16
+	/// \brief	Returns the arc tangent of a _Float16.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr _Float16 MUU_VECTORCALL atan(_Float16 x) noexcept
+	{
+		return impl::atan_(x);
+	}
+	#endif
+
+	#if MUU_HAS_FP16
+	/// \brief	Returns the arc tangent of a __fp16.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr __fp16 MUU_VECTORCALL atan(__fp16 x) noexcept
+	{
+		return impl::atan_(x);
+	}
+	#endif
+
+	/// \brief	Returns the arc tangent of an integral value.
+	template <typename T MUU_SFINAE(is_integral<T>)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr double MUU_VECTORCALL atan(T x) noexcept
+	{
+		return impl::atan_(static_cast<double>(x));
+	}
+
+	/** @} */	// intrinsics::atan
+	#endif // atan
+
+	#if 1 // atan2 ------------------------------------------------------------------------------------------------------
+	/// \addtogroup		atan2		atan2()
+	/// \brief Constexpr-friendly alternatives to std::atan2().
+	/// \note		Older compilers won't provide the necessary machinery for trig functions to work in constexpr contexts.
+	/// 			You can check for constexpr support by examining build::supports_constexpr_math.
+	/// @{
+
+	#ifndef DOXYGEN
+	namespace impl
+	{
+		MUU_PUSH_PRECISE_MATH
+
+		template <typename T>
+		[[nodiscard]]
+		MUU_ATTR(const)
+		MUU_CONSTEVAL T consteval_atan2(T y, T x)
+		{
+			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
+
+			if (x != x) // nan
+				return x;
+			if (y != y) // nan
+				return y;
+
+			// https://en.wikipedia.org/wiki/Atan2
+			if (x > T{})			  return consteval_atan(y / x);
+			if (x < T{}  && y >= T{}) return consteval_atan(y / x) + constants<T>::pi;
+			if (x < T{}  && y < T{})  return consteval_atan(y / x) - constants<T>::pi;
+			if (x == T{} && y > T{})  return constants<T>::pi_over_two;
+			if (x == T{} && y < T{})  return -constants<T>::pi_over_two;
+
+			#if MUU_EXCEPTIONS
+				throw "consteval_atan2() input out-of-range"; //force compilation failure
+			#else
+				return constants<T>::nan;
+			#endif
+		}
+
+		MUU_POP_PRECISE_MATH
+
+		template <typename T>
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
+		constexpr T MUU_VECTORCALL atan2_(T y, T x) noexcept
+		{
+			static_assert(is_floating_point<T>);
+
+			if (MUU_INTELLISENSE || (build::supports_is_constant_evaluated && is_constant_evaluated()))
+			{
+				using type = highest_ranked<T, long double>;
+				return static_cast<T>(consteval_atan2(static_cast<type>(y), static_cast<type>(x)));
+			}
+			else
+			{
+				if constexpr (is_standard_arithmetic<T>)
+					return std::atan2(y, x);
+				#if MUU_HAS_QUADMATH
+				else if constexpr (std::is_same_v<float128_t, T>)
+					return ::atan2q(y, x);
+				#endif
+				else
+				{
+					using type = clamp_to_standard_float<T>;
+					return static_cast<T>(std::atan2(static_cast<type>(y), static_cast<type>(x)));
+				}
+			}
+		}
+	}
+	#endif // DOXYGEN
+
+	/// \brief	Returns the arc tangent of a float.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr float MUU_VECTORCALL atan2(float y, float x) noexcept
+	{
+		return impl::atan2_(y, x);
+	}
+
+	/// \brief	Returns the arc tangent of a double.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr double MUU_VECTORCALL atan2(double y, double x) noexcept
+	{
+		return impl::atan2_(y, x);
+	}
+
+	/// \brief	Returns the arc tangent of a long double.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr long double MUU_VECTORCALL atan2(long double y, long double x) noexcept
+	{
+		return impl::atan2_(y, x);
+	}
+
+	#if MUU_HAS_FLOAT128
+	/// \brief	Returns the arc tangent of a float128_t.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr float128_t MUU_VECTORCALL atan2(float128_t y, float128_t x) noexcept
+	{
+		return impl::atan2_(y, x);
+	}
+	#endif
+
+	#if MUU_HAS_FLOAT16
+	/// \brief	Returns the arc tangent of a _Float16.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr _Float16 MUU_VECTORCALL atan2(_Float16 y, _Float16 x) noexcept
+	{
+		return impl::atan2_(y, x);
+	}
+	#endif
+
+	#if MUU_HAS_FP16
+	/// \brief	Returns the arc tangent of a __fp16.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr __fp16 MUU_VECTORCALL atan2(__fp16 y, __fp16 x) noexcept
+	{
+		return impl::atan2_(y, x);
+	}
+	#endif
+
+	/// \brief	Returns the arc tangent of two arithmetic values.
+	///
+	/// \detail Integer arguments are promoted to double.
+	template <typename X, typename Y MUU_SFINAE(all_arithmetic<X, Y>)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr auto MUU_VECTORCALL atan2(Y y, X x) noexcept
+	{
+		using return_type = impl::std_math_common_type<X, Y>;
+		return impl::atan2_(static_cast<return_type>(y), static_cast<return_type>(x));
+	}
+
+	/** @} */	// intrinsics::atan2
+	#endif // atan2
 
 	#if 1 // lerp -----------------------------------------------------------------------------------------------------
 	/// \addtogroup		lerp	lerp()
@@ -4341,171 +5098,6 @@ MUU_NAMESPACE_START
 		else
 			return pack<return_type>(byte_select<ByteIndices>(val)...);
 	}
-
-	#if 1 // infinity_or_nan ------------------------------------------------------------------------------------------
-	/// \addtogroup		infinity_or_nan		infinity_or_nan()
-	/// \brief Checks for infinities and not-a-numbers (NaN).
-	/// \note		Older compilers won't provide the necessary machinery for infinity and NaN checks to work in
-	//				constexpr contexts. You can check for constexpr support by examining build::supports_constexpr_infinity_or_nan.
-	/// @{
-
-	MUU_PRAGMA_GCC(push_options)
-	MUU_PRAGMA_GCC(optimize("-fno-finite-math-only"))
-
-	#ifndef DOXYGEN
-	namespace impl
-	{
-		template <size_t TotalBits, size_t SignificandBits>
-		struct infinity_or_nan_traits;
-
-		template <>
-		struct infinity_or_nan_traits<16, 11>
-		{
-			static constexpr auto mask = 0b0111110000000000_u16;
-		};
-
-		template <>
-		struct infinity_or_nan_traits<32, 24>
-		{
-			static constexpr auto mask = 0b01111111100000000000000000000000_u32;
-		};
-
-		template <>
-		struct infinity_or_nan_traits<64, 53>
-		{
-			static constexpr auto mask = 0b0111111111110000000000000000000000000000000000000000000000000000_u64;
-		};
-
-		template <>
-		struct infinity_or_nan_traits<80, 64>
-		{
-			static constexpr uint16_t mask[] { 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x7FFF_u16 };
-
-			template <typename T>
-			[[nodiscard]]
-			MUU_ATTR(pure)
-			MUU_ALWAYS_INLINE
-			static constexpr bool MUU_VECTORCALL check(const T& val) noexcept
-			{
-				return (val[3] & mask[3]) == mask[3]
-					&& (val[4] & mask[4]) == mask[4];
-			}
-		};
-
-		template <>
-		struct infinity_or_nan_traits<128, 64>
-		{
-			#if MUU_HAS_INT128
-			static constexpr auto mask = pack(0x0000000000007FFF_u64, 0x8000000000000000_u64);
-			#else
-			static constexpr uint64_t mask[]{ 0x8000000000000000_u64, 0x0000000000007FFF_u64 };
-
-			template <typename T>
-			[[nodiscard]]
-			MUU_ATTR(pure)
-			MUU_ALWAYS_INLINE
-			static constexpr bool MUU_VECTORCALL check(const T& val) noexcept
-			{
-				return (val[0] & mask[0]) == mask[0]
-					&& (val[1] & mask[1]) == mask[1];
-			}
-
-			#endif
-		};
-
-		template <>
-		struct infinity_or_nan_traits<128, 113>
-		{
-			#if MUU_HAS_INT128
-			static constexpr auto mask = pack(0x7FFF000000000000_u64, 0x0000000000000000_u64);
-			#else
-			static constexpr uint64_t mask[]{ 0x0000000000000000_u64, 0x7FFF000000000000_u64 };
-
-			template <typename T>
-			[[nodiscard]]
-			MUU_ATTR(pure)
-			MUU_ALWAYS_INLINE
-			static constexpr bool MUU_VECTORCALL check(const T& val) noexcept
-			{
-				return (val[1] & mask[1]) == mask[1];
-			}
-			#endif
-		};
-
-		template <typename T>
-		struct infinity_or_nan_traits_typed
-			: infinity_or_nan_traits<sizeof(T) * CHAR_BIT, constants<T>::significand_digits>
-		{};	
-
-		template <typename T>
-		using has_member_infinity_or_nan_ = decltype(std::declval<T>().infinity_or_nan());
-	}
-	#endif // !DOXYGEN
-
-	/// \brief	Checks if an arithmetic value is infinity or NaN.
-	///
-	/// \tparam	T	The value type.
-	/// \param 	val	The value to examine.
-	///
-	/// \returns	True if the value is floating-point infinity or NaN.
-	/// 			Always returns false if the value was not a floating-point type.
-	template <typename T MUU_SFINAE(is_arithmetic<T>)>
-	[[nodiscard]]
-	MUU_ATTR(pure)
-	constexpr bool MUU_VECTORCALL infinity_or_nan(T val) noexcept
-	{
-		// Q: "what about fpclassify, isnan, isinf??"
-		// A1: They're not constexpr
-		// A2: They don't work reliably with -ffast-math
-		// A3: https://godbolt.org/z/P9GGdK
-
-		if constexpr (is_floating_point<T>)
-		{
-			using traits = impl::infinity_or_nan_traits_typed<T>;
-			using blit_type = std::remove_const_t<decltype(traits::mask)>;
-
-			if constexpr (is_integral<blit_type>)
-			{
-				return (bit_cast<blit_type>(val) & traits::mask) == traits::mask;
-			}
-			else
-			{
-				return traits::check(bit_cast<blit_type>(val));
-			}
-		}
-		else
-		{
-			(void)val;
-			return false;
-		}
-	}
-
-	/// \brief	Checks if an object is infinity or NaN.
-	///
-	/// \tparam	T		The object type.
-	/// \param 	obj		The object.
-	///
-	/// \returns	The return value of `obj.infinity_or_nan()`.
-	template <typename T MUU_SFINAE_2(!is_arithmetic<T> && impl::is_detected<impl::has_member_infinity_or_nan_, const T&>)>
-	[[nodiscard]]
-	constexpr bool infinity_or_nan(const T& obj) noexcept
-	{
-		return obj.infinity_or_nan();
-	}
-
-	/** @} */	// intrinsics::infinity_or_nan
-	/** @} */	// intrinsics
-
-	namespace build
-	{
-		/// \brief	True if using infinity_or_nan() in constexpr contexts is supported on this compiler.
-		inline constexpr bool supports_constexpr_infinity_or_nan = build::supports_constexpr_bit_cast;
-	}
-
-	/// \addtogroup	intrinsics
-	/// @{
-	MUU_PRAGMA_GCC(pop_options) // -fno-finite-math-only
-	#endif // infinity_or_nan
 
 	#if 1 // to_address -----------------------------------------------------------------------------------------------
 	#ifndef DOXYGEN

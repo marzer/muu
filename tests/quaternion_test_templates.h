@@ -107,7 +107,7 @@ inline void equality_tests(std::string_view scalar_typename) noexcept
 		if constexpr (is_floating_point<T>)
 		{
 			CHECK(quat_t::approx_equal(q, same));
-			//CHECK(muu::approx_equal(q, same));
+			CHECK(muu::approx_equal(q, same));
 		}
 
 		quat_t different{ q };
@@ -116,7 +116,7 @@ inline void equality_tests(std::string_view scalar_typename) noexcept
 		if constexpr (is_floating_point<T>)
 		{
 			CHECK_FALSE(quat_t::approx_equal(q, different));
-			//CHECK_FALSE(muu::approx_equal(q, different));
+			CHECK_FALSE(muu::approx_equal(q, different));
 		}
 	}
 
@@ -261,7 +261,7 @@ inline void dot_tests(std::string_view scalar_typename) noexcept
 
 	CHECK_APPROX_EQUAL(q1.dot(q2), expected);
 	CHECK_APPROX_EQUAL(quat_t::dot(q1, q2), expected);
-	//CHECK_APPROX_EQUAL(muu::dot(vector1, vector2), expected);
+	CHECK_APPROX_EQUAL(muu::dot(q1, q2), expected);
 }
 
 template <typename T>
@@ -293,15 +293,15 @@ inline void normalization_tests(std::string_view scalar_typename) noexcept
 		CHECK(v.length() == approx(T{ 1 }));
 	}
 
-	//{
-	//	INFO("muu::normalize(quaternion)"sv)
-	//
-	//	const auto q2 = muu::normalize(q);
-	//	CHECK(q2.unit_length());
-	//	const vector<T, 4> v{ q2.s, q2.v.x, q2.v.y, q2.v.z };
-	//	CHECK(v.unit_length());
-	//	CHECK(v.length() == approx(T{ 1 }));
-	//}
+	{
+		INFO("muu::normalize(quaternion)"sv)
+	
+		const auto q2 = muu::normalize(q);
+		CHECK(q2.unit_length());
+		const vector<T, 4> v{ q2.s, q2.v.x, q2.v.y, q2.v.z };
+		CHECK(v.unit_length());
+		CHECK(v.length() == approx(T{ 1 }));
+	}
 }
 
 

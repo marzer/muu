@@ -20,7 +20,6 @@
 
 namespace
 {
-
 	template <typename T>
 	using muu_func_ptr = T(MUU_VECTORCALL*)(T) noexcept;
 
@@ -33,7 +32,7 @@ namespace
 		using val_type = impl::highest_ranked<long double, T>;
 		for (size_t i = 0; i <= subdivs; i++) // +1 for inclusive end
 		{
-			const auto val = (static_cast<val_type>(end) - static_cast<val_type>(start)) * (static_cast<val_type>(i) / static_cast<val_type>(subdivs));
+			const auto val = muu::lerp(static_cast<val_type>(start), static_cast<val_type>(end), (static_cast<val_type>(i) / static_cast<val_type>(subdivs)));
 			const auto input = static_cast<T>(val);
 			const auto muu_output = muu_func(input);
 			const auto std_output = std_func(input);
@@ -67,7 +66,7 @@ namespace
 			using val_type = impl::highest_ranked<long double, T>;
 			for (size_t i = 0; i <= Subdivs; i++)
 			{
-				const auto val = (static_cast<val_type>(End::value) - static_cast<val_type>(Start::value)) * (static_cast<val_type>(i) / static_cast<val_type>(Subdivs));
+				const auto val = muu::lerp(static_cast<val_type>(Start::value), static_cast<val_type>(End::value), (static_cast<val_type>(i) / static_cast<val_type>(Subdivs)));
 				table[i] = { static_cast<T>(val), Func(static_cast<T>(val)) };
 			}
 			return table;
@@ -138,7 +137,7 @@ namespace
 		{																					\
 			math_test_constexpr<T, muu::func, start, end, subdivs>();						\
 		}																					\
-	}																				\
+	}
 
 #define MATH_STD_FUNC_SHIM(func)															\
 	template <typename T>																	\
@@ -167,8 +166,12 @@ namespace
 	}																			\
 	struct MUU_CONCAT(dummy_to_eat_a_semicolon_, __LINE__)
 
+// these are all named because muu::half literals arent constexpr-friendly on old compilers
 
-MATH_CHECKS(sin,	-constants<T>::two_pi,	constants<T>::two_pi,	100);
-MATH_CHECKS(cos,	-constants<T>::two_pi,	constants<T>::two_pi,	100);
-MATH_CHECKS(tan,	-constants<T>::two_pi,	constants<T>::two_pi,	100);
-MATH_CHECKS(sqrt,	constants<T>::zero,		constants<T>::ten,		1000);
+MATH_CHECKS(sqrt,	constants<T>::zero,			constants<T>::one_hundred,	500);
+MATH_CHECKS(sin,	-constants<T>::two_pi,		constants<T>::two_pi,		500);
+MATH_CHECKS(cos,	-constants<T>::two_pi,		constants<T>::two_pi,		500);
+MATH_CHECKS(tan,	-constants<T>::two_pi,		constants<T>::two_pi,		500);
+MATH_CHECKS(acos,	-constants<T>::one,			constants<T>::one,			500);
+MATH_CHECKS(asin,	-constants<T>::one,			constants<T>::one,			500);
+MATH_CHECKS(atan,	-constants<T>::one_hundred,	constants<T>::one_hundred,	500);

@@ -90,14 +90,14 @@ MUU_NAMESPACE_START
 	/// 
 	/// \note	Older compilers won't provide the necessary machinery for arithmetic and conversions to/from muu::half
 	/// 		to work in constexpr contexts. You can check for constexpr support by examining
-	/// 		build::supports_constexpr_half.
+	/// 		#build::supports_constexpr_half.
 	/// 
 	/// \attention	Despite the arithmetic operations being implemented as you'd expect, 16-bit floating-point
 	/// 			arithmetic is _very_ lossy and should be avoided for all but the most trivial cases.
 	/// 			In general it's better to do your arithmetic in a higher-precision type (e.g. float) and convert
 	/// 			back to half when you're finished.
 	/// 
-	/// \see [Half-precision floating-point (wikipedia)](https://en.wikipedia.org/wiki/Half-precision_floating-point_format)
+	/// \see [Half-precision floating-point](https://en.wikipedia.org/wiki/Half-precision_floating-point_format)
 	struct MUU_TRIVIAL_ABI half
 	{
 	private:
@@ -704,7 +704,7 @@ MUU_NAMESPACE_START
 
 	namespace build
 	{
-		/// \brief	True if using muu::half in constexpr contexts is fully supported on this compiler.
+		/// \brief	True if using #muu::half in constexpr contexts is fully supported on this compiler.
 		inline constexpr bool supports_constexpr_half = !HALF_EMULATED || supports_constexpr_bit_cast;
 	}
 
@@ -738,6 +738,7 @@ MUU_NAMESPACE_START
 			static constexpr half eight					= half::from_bits(0b0'10010'0000000000_u16);
 			static constexpr half nine					= half::from_bits(0b0'10010'0010000000_u16);
 			static constexpr half ten					= half::from_bits(0b0'10010'0100000000_u16);
+			static constexpr half one_hundred			= half::from_bits(0b0'10101'1001000000_u16);
 			#else
 			using impl_type = integer_positive_constants<HALF_IMPL_TYPE>;
 			static constexpr half zero					= half{ impl_type::zero					};
@@ -751,35 +752,7 @@ MUU_NAMESPACE_START
 			static constexpr half eight					= half{ impl_type::eight				};
 			static constexpr half nine					= half{ impl_type::nine					};
 			static constexpr half ten					= half{ impl_type::ten					};
-			#endif
-		};
-
-		template <>
-		struct integer_negative_constants<half>
-		{
-			#if HALF_EMULATED
-			static constexpr half minus_one				= half::from_bits(0b1'01111'0000000000_u16);
-			static constexpr half minus_two				= half::from_bits(0b1'10000'0000000000_u16);
-			static constexpr half minus_three			= half::from_bits(0b1'10000'1000000000_u16);
-			static constexpr half minus_four			= half::from_bits(0b1'10001'0000000000_u16);
-			static constexpr half minus_five			= half::from_bits(0b1'10001'0100000000_u16);
-			static constexpr half minus_six				= half::from_bits(0b1'10001'1000000000_u16);
-			static constexpr half minus_seven			= half::from_bits(0b1'10001'1100000000_u16);
-			static constexpr half minus_eight			= half::from_bits(0b1'10010'0000000000_u16);
-			static constexpr half minus_nine			= half::from_bits(0b1'10010'0010000000_u16);
-			static constexpr half minus_ten				= half::from_bits(0b1'10010'0100000000_u16);
-			#else
-			using impl_type = integer_negative_constants<HALF_IMPL_TYPE>;
-			static constexpr half minus_one				= half{ impl_type::minus_one			};
-			static constexpr half minus_two				= half{ impl_type::minus_two			};
-			static constexpr half minus_three			= half{ impl_type::minus_three			};
-			static constexpr half minus_four			= half{ impl_type::minus_four			};
-			static constexpr half minus_five			= half{ impl_type::minus_five			};
-			static constexpr half minus_six				= half{ impl_type::minus_six			};
-			static constexpr half minus_seven			= half{ impl_type::minus_seven			};
-			static constexpr half minus_eight			= half{ impl_type::minus_eight			};
-			static constexpr half minus_nine			= half{ impl_type::minus_nine			};
-			static constexpr half minus_ten				= half{ impl_type::minus_ten			};
+			static constexpr half one_hundred			= half{ impl_type::one_hundred			};
 			#endif
 		};
 
@@ -791,14 +764,14 @@ MUU_NAMESPACE_START
 			static constexpr half signaling_nan			= half::from_bits(0b1'11111'0000000001_u16);
 			static constexpr half infinity				= half::from_bits(0b0'11111'0000000000_u16);
 			static constexpr half negative_infinity		= half::from_bits(0b1'11111'0000000000_u16);
-			static constexpr half minus_zero			= half::from_bits(0b1'00000'0000000000_u16);
+			static constexpr half negative_zero			= half::from_bits(0b1'00000'0000000000_u16);
 			#else
 			using impl_type = floating_point_special_constants<HALF_IMPL_TYPE>;
 			static constexpr half nan					= half{ impl_type::nan					};
 			static constexpr half signaling_nan			= half{ impl_type::signaling_nan		};
 			static constexpr half infinity				= half{ impl_type::infinity				};
 			static constexpr half negative_infinity		= half{ impl_type::negative_infinity	};
-			static constexpr half minus_zero			= half{ impl_type::minus_zero			};
+			static constexpr half negative_zero			= half{ impl_type::negative_zero		};
 			#endif
 		};
 
@@ -824,6 +797,8 @@ MUU_NAMESPACE_START
 			static constexpr half pi_over_four           = half::from_bits( 0b0'01110'1001001001_u16 );
 			static constexpr half pi_over_five           = half::from_bits( 0b0'01110'0100000111_u16 );
 			static constexpr half pi_over_six            = half::from_bits( 0b0'01110'0000110001_u16 );
+			static constexpr half pi_over_seven          = half::from_bits( 0b0'01101'1100101111_u16 );
+			static constexpr half pi_over_eight          = half::from_bits( 0b0'01101'1001001001_u16 );
 			static constexpr half sqrt_pi                = half::from_bits( 0b0'01111'1100010111_u16 );
 			static constexpr half one_over_sqrt_pi       = half::from_bits( 0b0'01110'0010000100_u16 );
 			static constexpr half two_pi                 = half::from_bits( 0b0'10001'1001001001_u16 );
@@ -875,6 +850,8 @@ MUU_NAMESPACE_START
 			static constexpr half pi_over_four           = half{ impl_type::pi_over_four           };
 			static constexpr half pi_over_five           = half{ impl_type::pi_over_five           };
 			static constexpr half pi_over_six            = half{ impl_type::pi_over_six            };
+			static constexpr half pi_over_seven          = half{ impl_type::pi_over_seven          };
+			static constexpr half pi_over_eight          = half{ impl_type::pi_over_eight          };
 			static constexpr half sqrt_pi                = half{ impl_type::sqrt_pi                };
 			static constexpr half one_over_sqrt_pi       = half{ impl_type::one_over_sqrt_pi       };
 			static constexpr half two_pi                 = half{ impl_type::two_pi                 };
@@ -927,12 +904,16 @@ MUU_NAMESPACE_START
 	#endif // !DOXYGEN
 
 	/// \brief	16-bit half-precision float constants.
-	/// \ingroup		constants
+	/// 
+	/// \ingroup	constants
+	/// \related	muu::half
 	template <> struct constants<half> : impl::floating_point_constants<half> {};
 
 	inline namespace literals
 	{
 		/// \brief	Literal for creating a half-precision float.
+		///
+		/// \related	muu::half
 		[[nodiscard]]
 		MUU_ATTR(const)
 		MUU_CONSTEVAL half operator "" _f16(long double val) noexcept
@@ -941,6 +922,8 @@ MUU_NAMESPACE_START
 		}
 
 		/// \brief	Literal for creating a half-precision float.
+		///
+		/// \related	muu::half
 		[[nodiscard]]
 		MUU_ATTR(const)
 		MUU_CONSTEVAL half operator "" _f16(unsigned long long val) noexcept
@@ -953,7 +936,9 @@ MUU_NAMESPACE_START
 	/// @{
 	
 	/// \brief	Returns the float of a half-precision float.
+	/// 
 	/// \ingroup	floor
+	/// \related	muu::half
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ATTR(flatten)
@@ -963,7 +948,9 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Returns the ceiling of a half-precision float.
+	///
 	/// \ingroup	ceil
+	/// \related	muu::half
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ATTR(flatten)
@@ -972,35 +959,10 @@ MUU_NAMESPACE_START
 		return impl::ceil_(val);
 	}
 
-	/// \brief	Returns the cosine of a half-precision float.
-	/// \ingroup	cos
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr half MUU_VECTORCALL cos(half val) noexcept
-	{
-		return impl::cos_(val);
-	}
-
-	/// \brief	Returns the sine of a half-precision float.
-	/// \ingroup	sin
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr half MUU_VECTORCALL sin(half val) noexcept
-	{
-		return impl::sin_(val);
-	}
-
-	/// \brief	Returns the tangent of a half-precision float.
-	/// \ingroup	tan
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr half MUU_VECTORCALL tan(half val) noexcept
-	{
-		return impl::tan_(val);
-	}
-
 	/// \brief	Returns the square-root of a half-precision float.
+	///
 	/// \ingroup	sqrt
+	/// \related	muu::half
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL sqrt(half val) noexcept
@@ -1008,8 +970,87 @@ MUU_NAMESPACE_START
 		return impl::sqrt_(val);
 	}
 
+	/// \brief	Returns the cosine of a half-precision float.
+	///
+	/// \ingroup	cos
+	/// \related	muu::half
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr half MUU_VECTORCALL cos(half x) noexcept
+	{
+		return impl::cos_(x);
+	}
+
+	/// \brief	Returns the sine of a half-precision float.
+	///
+	/// \ingroup	sin
+	/// \related	muu::half
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr half MUU_VECTORCALL sin(half x) noexcept
+	{
+		return impl::sin_(x);
+	}
+
+	/// \brief	Returns the tangent of a half-precision float.
+	///
+	/// \ingroup	tan
+	/// \related	muu::half
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr half MUU_VECTORCALL tan(half x) noexcept
+	{
+		return impl::tan_(x);
+	}
+
+	/// \brief	Returns the arc cosine of a half-precision float.
+	///
+	/// \ingroup	acos
+	/// \related	muu::half
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr half MUU_VECTORCALL acos(half x) noexcept
+	{
+		return impl::acos_(x);
+	}
+
+	/// \brief	Returns the arc sine of a half-precision float.
+	///
+	/// \ingroup	asin
+	/// \related	muu::half
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr half MUU_VECTORCALL asin(half x) noexcept
+	{
+		return impl::asin_(x);
+	}
+
+	/// \brief	Returns the arc tangent of a half-precision float.
+	///
+	/// \ingroup	atan
+	/// \related	muu::half
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr half MUU_VECTORCALL atan(half x) noexcept
+	{
+		return impl::atan_(x);
+	}
+
+	/// \brief	Returns the arc tangent of a half-precision float.
+	///
+	/// \ingroup	atan2
+	/// \related	muu::half
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr half MUU_VECTORCALL atan2(half y, half x) noexcept
+	{
+		return impl::atan2_(y, x);
+	}
+
 	/// \brief	Returns a linear interpolation between two half-precision floats.
+	///
 	/// \ingroup	lerp
+	/// \related	muu::half
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL lerp(half start, half finish, half alpha) noexcept
@@ -1018,7 +1059,9 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Returns true if two half-precision floats are approximately equal.
+	///
 	/// \ingroup	approx_equal
+	/// \related	muu::half
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool MUU_VECTORCALL approx_equal(half lhs, half rhs, half epsilon = constants<half>::approx_equal_epsilon) noexcept
@@ -1211,7 +1254,9 @@ MUU_IMPL_NAMESPACE_END
 namespace std
 {
 	/// \brief	Specialization of std::numeric_limits for muu::half.
+	///
 	/// \ingroup constants
+	/// \related	muu::half
 	template<>
 	struct numeric_limits<muu::half>
 	{

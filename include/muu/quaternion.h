@@ -116,8 +116,10 @@ MUU_IMPL_NAMESPACE_END
 MUU_NAMESPACE_START
 {
 	/// \brief	An axis+angle rotation.
-	///
+	/// 
 	/// \tparam	Scalar	The scalar component type of the data members.
+	/// 
+	/// \see		muu::quaternion
 	template <typename Scalar>
 	struct MUU_TRIVIAL_ABI axis_angle_rotation
 	{
@@ -156,11 +158,13 @@ MUU_NAMESPACE_START
 	/// 		to the Aircraft Principal Axes, and by that convention the rotations contained within are always
 	/// 		applied in the member order: Yaw, then Pitch, then Roll.
 	/// 
-	/// \see - [Euler Angles](https://en.wikipedia.org/wiki/Euler_angles)
+	/// \tparam	Scalar	The scalar component type of the data members.
+	/// 
+	/// \see
+	/// 	 - muu::quaternion
+	/// 	 - [Euler Angles](https://en.wikipedia.org/wiki/Euler_angles)
 	/// 	 - [Aircraft Principal Axes](https://en.wikipedia.org/wiki/Aircraft_principal_axes)
 	/// 	 - [Euler Angles (math)](https://www.euclideanspace.com/maths/geometry/rotations/euler/index.htm)
-	/// 
-	/// \tparam	Scalar	The scalar component type of the data members.
 	template <typename Scalar>
 	struct MUU_TRIVIAL_ABI euler_rotation
 	{
@@ -205,6 +209,11 @@ MUU_NAMESPACE_START
 	/// \brief A quaternion.
 	///
 	/// \tparam	Scalar      The type of the quaternion's scalar components. Must be a floating-point type.
+	/// 
+	/// \see
+	/// 	 - muu::vector
+	/// 	 - muu::axis_angle_rotation
+	/// 	 - muu::euler_rotation
 	template <typename Scalar>
 	struct MUU_TRIVIAL_ABI quaternion
 		#ifndef DOXYGEN
@@ -236,7 +245,7 @@ MUU_NAMESPACE_START
 		/// \brief Compile-time constants for this quaternion's #scalar_type.
 		using scalar_constants = muu::constants<scalar_type>;
 
-		/// \brief The three-dimensional vector type with the same #scalar_type as this quaternion.
+		/// \brief The three-dimensional #muu::vector with the same #scalar_type as this quaternion.
 		using vector_type = vector<scalar_type, 3>;
 
 		/// \brief `vector_type` or `const vector_type&`, depending on size, triviality, simd-friendliness, etc.
@@ -245,13 +254,13 @@ MUU_NAMESPACE_START
 		/// \brief Compile-time constants for this quaternion's #vector_type.
 		using vector_constants = muu::constants<vector_type>;
 
-		/// \brief The axis-angle rotation with the same #scalar_type as this quaternion.
+		/// \brief The #muu::axis_angle_rotation with the same #scalar_type as this quaternion.
 		using axis_angle_type = axis_angle_rotation<scalar_type>;
 
 		/// \brief `axis_angle_type` or `const axis_angle_type&`, depending on size, triviality, simd-friendliness, etc.
 		using axis_angle_param = impl::maybe_pass_readonly_by_value<axis_angle_type>;
 
-		/// \brief The euler rotation with the same #scalar_type as this quaternion.
+		/// \brief The #muu::euler_rotation with the same #scalar_type as this quaternion.
 		using euler_type = euler_rotation<scalar_type>;
 
 		/// \brief `euler_type` or `const euler_type&`, depending on size, triviality, simd-friendliness, etc.
@@ -467,16 +476,8 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL infinity_or_nan(quaternion_param q) noexcept
 		{
-			if constexpr (is_floating_point<scalar_type>)
-			{
-				return muu::infinity_or_nan(q.s)
-					|| vector_type::infinity_or_nan(q.v);
-			}
-			else
-			{
-				(void)q;
-				return false;
-			}
+			return muu::infinity_or_nan(q.s)
+				|| vector_type::infinity_or_nan(q.v);
 		}
 
 		/// \brief	Returns true if any of the scalar components of the quaternion are infinity or NaN.
@@ -484,10 +485,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		constexpr bool infinity_or_nan() const noexcept
 		{
-			if constexpr (is_floating_point<scalar_type>)
-				return infinity_or_nan(*this);
-			else
-				return false;
+			return infinity_or_nan(*this);
 		}
 
 		/// \brief Returns true if a quaternion is unit-length (i.e. has a length of 1).
@@ -644,7 +642,7 @@ MUU_NAMESPACE_START
 
 		/// \brief		Normalizes a quaternion.
 		///
-		/// \param v	The quaternion to normalize.
+		/// \param q	The quaternion to normalize.
 		/// 
 		/// \return		A normalized copy of the input quaternion.
 		[[nodiscard]]
@@ -743,7 +741,7 @@ MUU_NAMESPACE_START
 		template <typename T = intermediate_type>
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static axis_angle_rotation<T> MUU_VECTORCALL raw_to_axis_angle(quaternion_param q, bool shortest_path = true) noexcept
+		static constexpr axis_angle_rotation<T> MUU_VECTORCALL raw_to_axis_angle(quaternion_param q, bool shortest_path = true) noexcept
 		{
 			MUU_CONSTEXPR_SAFE_ASSERT(
 				unit_length(q)
@@ -760,7 +758,7 @@ MUU_NAMESPACE_START
 				return
 				{
 					muu::vector<T, 3>::constants::x_axis,
-					static_cast<T>(calc_type{ 2 } * std::atan2(length, static_cast<calc_type>(q.s) * correction)),
+					static_cast<T>(calc_type{ 2 } * muu::atan2(length, static_cast<calc_type>(q.s) * correction)),
 				};
 			}
 			else
@@ -773,7 +771,7 @@ MUU_NAMESPACE_START
 						static_cast<T>((static_cast<calc_type>(q.i.y) * correction)  / length),
 						static_cast<T>((static_cast<calc_type>(q.i.z) * correction)  / length),
 					},
-					static_cast<T>(calc_type{ 2 } * std::atan2(length, static_cast<calc_type>(q.s) * correction)),
+					static_cast<T>(calc_type{ 2 } * muu::atan2(length, static_cast<calc_type>(q.s) * correction)),
 				};
 			}
 		}
@@ -790,7 +788,7 @@ MUU_NAMESPACE_START
 		/// \returns	An axis-angle rotation representing the rotation stored in the given quaternion.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static axis_angle_type MUU_VECTORCALL to_axis_angle(quaternion_param quat, bool shortest_path = true) noexcept
+		static constexpr axis_angle_type MUU_VECTORCALL to_axis_angle(quaternion_param quat, bool shortest_path = true) noexcept
 		{
 			return raw_to_axis_angle<scalar_type>(quat, shortest_path);
 		}
@@ -804,7 +802,7 @@ MUU_NAMESPACE_START
 		/// \returns	An axis-angle rotation representing the rotation stored in the quaternion.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		axis_angle_type MUU_VECTORCALL to_axis_angle(bool shortest_path = true) const noexcept
+		constexpr axis_angle_type MUU_VECTORCALL to_axis_angle(bool shortest_path = true) const noexcept
 		{
 			return raw_to_axis_angle<scalar_type>(*this, shortest_path);
 		}
@@ -856,12 +854,12 @@ MUU_NAMESPACE_START
 
 		/// \brief	Extracts a set of euler angles from a quaternion.
 		///
-		/// \param	quat	The quaternion to convert.
+		/// \param	q	The quaternion to convert.
 		///
 		/// \returns	A set of euler angles representing the rotation stored in the given quaternion.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static euler_type MUU_VECTORCALL to_euler(quaternion_param q) noexcept
+		static constexpr euler_type MUU_VECTORCALL to_euler(quaternion_param q) noexcept
 		{
 			// https://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/index.htm
 
@@ -881,7 +879,7 @@ MUU_NAMESPACE_START
 			{
 				return
 				{
-					static_cast<scalar_type>(itype{ 2 } * std::atan2(q.x, q.w)),
+					static_cast<scalar_type>(itype{ 2 } * muu::atan2(q.x, q.w)),
 					static_cast<scalar_type>(muu::constants<itype>::pi_over_two),
 					scalar_constants::zero
 				};
@@ -892,7 +890,7 @@ MUU_NAMESPACE_START
 			{ 
 				return
 				{
-					static_cast<scalar_type>(itype{ -2 } * std::atan2(q.x, q.w)),
+					static_cast<scalar_type>(itype{ -2 } * muu::atan2(q.x, q.w)),
 					static_cast<scalar_type>(-muu::constants<itype>::pi_over_two),
 					scalar_constants::zero
 				};
@@ -902,9 +900,9 @@ MUU_NAMESPACE_START
 			{
 				return
 				{
-					static_cast<scalar_type>(std::atan2(itype{ 2 } * q.y * q.w - 2 * q.x * q.z, sqx - sqy - sqz + sqw)),
-					static_cast<scalar_type>(std::asin( itype{ 2 } * test / correction)),
-					static_cast<scalar_type>(std::atan2(itype{ 2 } * q.x * q.w - 2 * q.y * q.z, -sqx + sqy - sqz + sqw))
+					static_cast<scalar_type>(muu::atan2(itype{ 2 } * q.y * q.w - 2 * q.x * q.z, sqx - sqy - sqz + sqw)),
+					static_cast<scalar_type>(muu::asin( itype{ 2 } * test / correction)),
+					static_cast<scalar_type>(muu::atan2(itype{ 2 } * q.x * q.w - 2 * q.y * q.z, -sqx + sqy - sqz + sqw))
 				};
 			}
 		}
@@ -912,7 +910,7 @@ MUU_NAMESPACE_START
 		/// \brief	Extracts a set of euler angles from this quaternion.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		euler_type MUU_VECTORCALL to_euler() const noexcept
+		constexpr euler_type MUU_VECTORCALL to_euler() const noexcept
 		{
 			return to_euler(*this);
 		}
@@ -931,6 +929,7 @@ MUU_NAMESPACE_START
 
 			if constexpr (all_same<scalar_type, mult_type, intermediate_type>)
 			{
+				MUU_FMA_BLOCK
 				return
 				{
 					lhs.s * rhs.s - vector_type::template raw_dot<intermediate_type>(lhs.v, rhs.v),
@@ -939,6 +938,7 @@ MUU_NAMESPACE_START
 			}
 			else
 			{
+				MUU_FMA_BLOCK
 				return
 				{
 					static_cast<scalar_type>(
@@ -963,6 +963,8 @@ MUU_NAMESPACE_START
 
 			if constexpr (all_same<scalar_type, mult_type, intermediate_type>)
 			{
+				MUU_FMA_BLOCK
+
 				const auto two_s = lhs.s + lhs.s;
 				return two_s * vector_type::template raw_cross<intermediate_type>(lhs.v, rhs)
 					+ (two_s * lhs.s - intermediate_type{ 1 }) * rhs
@@ -970,8 +972,9 @@ MUU_NAMESPACE_START
 			}
 			else
 			{
-				const auto two_s = static_cast<intermediate_type>(lhs.s) * intermediate_type { 2 };
+				MUU_FMA_BLOCK
 
+				const auto two_s = static_cast<intermediate_type>(lhs.s) * intermediate_type { 2 };
 				return two_s * vector_type::template raw_cross<intermediate_type>(lhs.v, rhs)
 					+ (two_s * static_cast<intermediate_type>(lhs.s) - intermediate_type{ 1 }) * rhs
 					+ intermediate_type{ 2 } *vector_type::template raw_dot<intermediate_type>(lhs.v, rhs) * lhs.v;
@@ -1006,6 +1009,8 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		friend constexpr quaternion MUU_VECTORCALL operator * (quaternion_param lhs, scalar_type rhs) noexcept
 		{
+			MUU_FMA_BLOCK
+
 			auto aa = raw_to_axis_angle<intermediate_type>(lhs);
 			aa.angle *= rhs * muu::constants<intermediate_type>::one_over_two;
 			aa.axis.normalize(); //todo: unnecessary?
@@ -1042,6 +1047,73 @@ MUU_NAMESPACE_START
 		}
 
 	#endif // streams
+
+	#if 1 // misc -----------------------------------------------------------------------------------------------------
+
+		/// \brief	Performs a spherical-linear interpolation between two quaternions.
+		///
+		/// \param	start	The value at the start of the interpolation range.
+		/// \param	finish	The value at the end of the interpolation range.
+		/// \param	alpha 	The blend factor.
+		///
+		/// \returns	A quaternion with values derived from a spherical-linear interpolation from `start` to `finish`.
+		/// 
+		/// \see [Slerp](https://en.wikipedia.org/wiki/Slerp)
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr quaternion MUU_VECTORCALL slerp(quaternion_param start, quaternion_param finish, scalar_type alpha) noexcept
+		{
+			MUU_FMA_BLOCK
+			auto dot = raw_dot(start, finish);
+
+			//map from { s, v } and { -s, -v } (they represent the same rotation)
+			auto correction = intermediate_type{ 1 };
+			if (dot < intermediate_type{})
+			{
+				correction = intermediate_type{ -1 };
+				dot = -dot;
+			}
+
+			//they're extremely close, do a normal lerp
+			if (dot >= static_cast<intermediate_type>(0.9995))
+			{
+				MUU_FMA_BLOCK
+				const auto inv_alpha = intermediate_type{ 1 } - static_cast<intermediate_type>(alpha);
+
+				return normalize(quaternion{
+					static_cast<scalar_type>(start.s * inv_alpha + finish.s * static_cast<intermediate_type>(alpha) * correction),
+					vector_type::raw_multiply_scalar(start.v, inv_alpha)
+						+ vector_type::raw_multiply_scalar(finish.v, static_cast<intermediate_type>(alpha) * correction)
+				});
+			}
+
+			const auto theta_0 = muu::acos(dot);
+			const auto theta = theta_0 * static_cast<intermediate_type>(alpha);
+			const auto sin_theta_div = muu::sin(theta) / muu::sin(theta_0);
+			const auto s0 = muu::cos(theta) - dot * sin_theta_div;
+			const auto s1 = sin_theta_div;
+			return
+			{
+				static_cast<scalar_type>(start.s * s0 + finish.s * s1 * correction),
+				vector_type::raw_multiply_scalar(start.v, s0)
+					+ vector_type::raw_multiply_scalar(finish.v, static_cast<intermediate_type>(s1) * correction)
+			};
+		}
+
+		/// \brief	Performs a spherical-linear interpolation on this quaternion (in-place).
+		///
+		/// \param	target	The 'target' value for the interpolation.
+		/// \param	alpha 	The blend factor.
+		///
+		/// \return	A reference to the quaternion.
+		/// 
+		/// \see [Slerp](https://en.wikipedia.org/wiki/Slerp)
+		constexpr quaternion& MUU_VECTORCALL slerp(quaternion_param target, scalar_type alpha) noexcept
+		{
+			return *this = slerp(*this, target, alpha);
+		}
+
+	#endif // misc
 	};
 
 	#ifndef DOXYGEN // deduction guides -------------------------------------------------------------------------------
@@ -1067,6 +1139,8 @@ MUU_NAMESPACE_END
 
 namespace std
 {
+	/// \related	muu::quaternion
+	///
 	/// \brief Specialization of std::tuple_size for muu::quaternion.
 	template <typename Scalar>
 	struct tuple_size<muu::quaternion<Scalar>>
@@ -1074,6 +1148,8 @@ namespace std
 		static constexpr size_t value = 2;
 	};
 
+	/// \related	muu::quaternion
+	///
 	/// \brief Specialization of std::tuple_element for muu::quaternion.
 	template <size_t I, typename Scalar>
 	struct tuple_element<I, muu::quaternion<Scalar>>
@@ -1089,11 +1165,165 @@ namespace std
 // CONSTANTS
 #if 1
 
+MUU_PUSH_PRECISE_MATH
+
+MUU_NAMESPACE_START
+{
+	/// \ingroup	constants
+	/// \related	muu::quaternion
+	/// \see		muu::quaternion
+	/// 
+	/// \brief		Quaternion constants.
+	template <typename Scalar>
+	struct constants<quaternion<Scalar>>
+	{
+		using scalars = constants<Scalar>;
+		using vectors = constants<vector<Scalar, 3>>;
+
+		/// \brief A quaternion with all members initialized to zero.
+		static constexpr auto zero     = quaternion<Scalar>{ scalars::zero, vectors::zero };
+		
+		/// \brief The identity quaternion.
+		static constexpr auto identity = quaternion<Scalar>{ scalars::one, vectors::zero };
+	};
+}
+MUU_NAMESPACE_END
+
+MUU_POP_PRECISE_MATH
+
 #endif // =============================================================================================================
 
 //=====================================================================================================================
 // FREE FUNCTIONS
 #if 1
+
+MUU_NAMESPACE_START
+{
+	/// \ingroup	infinity_or_nan
+	/// \related	muu::quaternion
+	///
+	/// \brief	Returns true if any of the scalar components of a #quaternion are infinity or NaN.
+	template <typename S>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr bool infinity_or_nan(const quaternion<S>& q) noexcept
+	{
+		return quaternion<S>::infinity_or_nan(q);
+	}
+
+	/// \ingroup	approx_equal
+	/// \related	muu::quaternion
+	///
+	/// \brief		Returns true if two quaternions are approximately equal.
+	template <typename S, typename T,
+		typename Epsilon = impl::highest_ranked<S, T>
+		ENABLE_PAIRED_FUNC_BY_REF(S, impl::pass_quaternion_by_reference<T>)
+	>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr bool approx_equal(
+		const quaternion<S>& q1,
+		const quaternion<T>& q2,
+		dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
+	) noexcept
+	{
+		static_assert(is_same_as_any<Epsilon, S, T>);
+
+		return quaternion<S>::approx_equal(q1, q2, epsilon);
+	}
+
+	/// \related muu::quaternion
+	///
+	/// \brief	Returns the dot product of two quaternions.
+	template <typename S ENABLE_PAIRED_FUNC_BY_REF(S, true)>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr S dot(const quaternion<S>& q1, const quaternion<S>& q2) noexcept
+	{
+		return quaternion<S>::dot(q1, q2);
+	}
+
+	/// \related muu::quaternion
+	///
+	/// \brief	Normalizes a #quaternion.
+	///
+	/// \param q	The quaternion to normalize.
+	/// 
+	/// \return		A normalized copy of the input quaternion.
+	template <typename S ENABLE_PAIRED_FUNC_BY_REF(S, true)>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr quaternion<S> normalize(const quaternion<S>& q) noexcept
+	{
+		return quaternion<S>::normalize(q);
+	}
+
+	/// \related	muu::quaternion
+	/// 			
+	/// \brief	Performs a spherical-linear interpolation between two quaternions.
+	template <typename S ENABLE_PAIRED_FUNC_BY_REF(S, true)>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr quaternion<S> slerp(const quaternion<S>& start, const quaternion<S>& finish, S alpha) noexcept
+	{
+		return quaternion<S>::slerp(start, finish, alpha);
+	}
+
+	#if ENABLE_PAIRED_FUNCS
+
+	template <typename S, typename T,
+		typename Epsilon = impl::highest_ranked<S, T>
+		ENABLE_PAIRED_FUNC_BY_VAL(S, impl::pass_quaternion_by_value<T>)
+	>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr bool MUU_VECTORCALL approx_equal(
+		quaternion<S> q1,
+		quaternion<T> q2,
+		dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
+	) noexcept
+	{
+		static_assert(is_same_as_any<Epsilon, S, T>);
+
+		return quaternion<S>::approx_equal(q1, q2, epsilon);
+	}
+
+	template <typename S ENABLE_PAIRED_FUNC_BY_VAL(S, true)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr S MUU_VECTORCALL dot(quaternion<S> q1, quaternion<S> q2) noexcept
+	{
+		return quaternion<S>::dot(q1, q2);
+	}
+
+	template <typename S ENABLE_PAIRED_FUNC_BY_VAL(S, true)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr quaternion<S> MUU_VECTORCALL normalize(quaternion<S> q) noexcept
+	{
+		return quaternion<S>::normalize(q);
+	}
+
+	template <typename S ENABLE_PAIRED_FUNC_BY_VAL(S, true)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr quaternion<S> MUU_VECTORCALL slerp(quaternion<S> start, quaternion<S> finish, S alpha) noexcept
+	{
+		return quaternion<S>::slerp(start, finish, alpha);
+	}
+
+	#endif // ENABLE_PAIRED_FUNCS
+}
+MUU_NAMESPACE_END
 
 #endif // =============================================================================================================
 

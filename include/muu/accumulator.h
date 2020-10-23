@@ -13,6 +13,13 @@
 MUU_PUSH_WARNINGS
 MUU_DISABLE_SPAM_WARNINGS
 
+MUU_PRAGMA_MSVC(push_macro("min"))
+MUU_PRAGMA_MSVC(push_macro("max"))
+#if MUU_MSVC
+	#undef min
+	#undef max
+#endif
+
 MUU_NAMESPACE_START
 {
 	/// \brief	Determines min, max and sum of an interderminate number of values.
@@ -24,7 +31,7 @@ MUU_NAMESPACE_START
 	/// \tparam	ValueType		Type being accumulated.
 	/// \tparam	Impl			Implementation type.
 	///
-	/// \see [Kahan summation algorithm (wikipedia)](https://en.wikipedia.org/wiki/Kahan_summation_algorithm)
+	/// \see [Kahan summation algorithm](https://en.wikipedia.org/wiki/Kahan_summation_algorithm)
 	template <typename ValueType, typename Impl
 		#ifdef DOXYGEN
 			= impl::default_accumulator<ValueType>::type
@@ -373,5 +380,8 @@ MUU_NAMESPACE_START
 	}
 }
 MUU_NAMESPACE_END
+
+MUU_PRAGMA_MSVC(pop_macro("min"))
+MUU_PRAGMA_MSVC(pop_macro("max"))
 
 MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS

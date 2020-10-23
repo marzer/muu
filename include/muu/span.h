@@ -20,7 +20,9 @@ MUU_NAMESPACE_START
 {
 	#ifdef DOXYGEN
 	/// \brief Indicates the number of elements covered by a span should be dynamically-determined at runtime.
+	/// 
 	/// \ingroup	mem
+	/// \related	muu::span
 	inline constexpr size_t dynamic_extent = static_cast<size_t>(-1);
 	//(actually defined in fwd.h)
 	#endif
@@ -64,6 +66,9 @@ MUU_NAMESPACE_START
 		inline constexpr bool is_qualifier_conversion_only =
 			std::is_same_v<remove_cvref<From>, remove_cvref<To>>
 			&& is_qualifier_compatible<std::remove_reference_t<From>, std::remove_reference_t<To>>::value;
+
+		template <typename T, size_t Extent>
+		inline constexpr size_t as_bytes_extent = Extent == dynamic_extent ? dynamic_extent : (sizeof(T) * Extent);
 	}
 
 	/// \brief	A non-owning view of contiguous elements.
@@ -127,13 +132,13 @@ MUU_NAMESPACE_START
 			template <typename It MUU_SFINAE_NO_CONCEPTS(
 				impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type>
 			)>
+			MUU_REQUIRES(
+				std::contiguous_iterator<It>
+				&& impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type>
+			)
 			MUU_NODISCARD_CTOR
 			MUU_EXPLICIT(Extent != dynamic_extent)
 			constexpr span(It first, size_t count) noexcept
-				MUU_REQUIRES(
-					std::contiguous_iterator<It>
-					&& impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type>
-				)
 				: ptr_and_size{ pointer_cast<pointer>(muu::to_address(first)), count }
 			{
 				if constexpr (Extent != dynamic_extent)
@@ -153,16 +158,16 @@ MUU_NAMESPACE_START
 				impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type>
 				&& !std::is_convertible_v<End, size_t>
 			)>
+			MUU_REQUIRES(
+				std::contiguous_iterator<It>
+				&& std::sized_sentinel_for<End, It>
+				&& impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type>
+				&& !std::is_convertible_v<End, size_t>
+			)
 			MUU_NODISCARD_CTOR
 			MUU_EXPLICIT(Extent != dynamic_extent)
 			constexpr span(It first, End last)
 				noexcept(noexcept(last - first))
-				MUU_REQUIRES(
-					std::contiguous_iterator<It>
-					&& std::sized_sentinel_for<End, It>
-					&& impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type>
-					&& !std::is_convertible_v<End, size_t>
-				)
 				: ptr_and_size{ pointer_cast<pointer>(muu::to_address(first)), static_cast<size_t>(last - first) }
 			{
 				if constexpr (Extent != dynamic_extent)
@@ -179,9 +184,9 @@ MUU_NAMESPACE_START
 
 			/// \brief Constructs a span from an array.
 			template <size_t N MUU_SFINAE_NO_CONCEPTS(Extent == dynamic_extent || N == Extent)>
+			MUU_REQUIRES(Extent == dynamic_extent || N == Extent)
 			MUU_NODISCARD_CTOR
 			constexpr span(dont_deduce<element_type>(&arr)[N]) noexcept
-				MUU_REQUIRES(Extent == dynamic_extent || N == Extent)
 				: ptr_and_size{ arr, N }
 			{}
 
@@ -190,12 +195,12 @@ MUU_NAMESPACE_START
 				impl::is_qualifier_conversion_only<U, element_type>
 				&& (Extent == dynamic_extent || N == Extent)
 			)>
+			MUU_REQUIRES(
+				impl::is_qualifier_conversion_only<U, element_type>
+				&& (Extent == dynamic_extent || N == Extent)
+			)
 			MUU_NODISCARD_CTOR
 			constexpr span(std::array<U, N>& arr) noexcept
-				MUU_REQUIRES(
-					impl::is_qualifier_conversion_only<U, element_type>
-					&& (Extent == dynamic_extent || N == Extent)
-				)
 				: ptr_and_size{ pointer_cast<pointer>(arr.data()), N }
 			{}
 
@@ -204,12 +209,12 @@ MUU_NAMESPACE_START
 				impl::is_qualifier_conversion_only<std::add_const_t<U>, element_type>
 				&& (Extent == dynamic_extent || N == Extent)
 			)>
+			MUU_REQUIRES(
+				impl::is_qualifier_conversion_only<std::add_const_t<U>, element_type>
+				&& (Extent == dynamic_extent || N == Extent)
+			)
 			MUU_NODISCARD_CTOR
 			constexpr span(const std::array<U, N>& arr) noexcept
-				MUU_REQUIRES(
-					impl::is_qualifier_conversion_only<std::add_const_t<U>, element_type>
-					&& (Extent == dynamic_extent || N == Extent)
-				)
 				: ptr_and_size{ pointer_cast<pointer>(arr.data()), N }
 			{}
 
@@ -218,13 +223,13 @@ MUU_NAMESPACE_START
 				impl::is_qualifier_conversion_only<U, element_type>
 				&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
 			)>
+			MUU_REQUIRES(
+				impl::is_qualifier_conversion_only<U, element_type>
+				&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
+			)
 			MUU_NODISCARD_CTOR
 			MUU_EXPLICIT(Extent != dynamic_extent && E == dynamic_extent)
 			constexpr span(const span<U, E>& s) noexcept
-				MUU_REQUIRES(
-					impl::is_qualifier_conversion_only<U, element_type>
-					&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
-				)
 				: ptr_and_size{ pointer_cast<pointer>(s.data()), s.size() }
 			{}
 
@@ -242,13 +247,13 @@ MUU_NAMESPACE_START
 				impl::is_qualifier_conversion_only<U, element_type>
 				&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
 			)>
+			MUU_REQUIRES(
+				impl::is_qualifier_conversion_only<U, element_type>
+				&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
+			)
 			MUU_NODISCARD_CTOR
 			explicit
 			constexpr span(const std::span<U, E>& s) noexcept
-				MUU_REQUIRES(
-					impl::is_qualifier_conversion_only<U, element_type>
-					&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
-				)
 				: ptr_and_size{ pointer_cast<pointer>(s.data()), s.size() }
 			{}
 
@@ -257,13 +262,13 @@ MUU_NAMESPACE_START
 				impl::is_qualifier_conversion_only<U, element_type>
 				&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
 			)>
+			MUU_REQUIRES(
+				impl::is_qualifier_conversion_only<U, element_type>
+				&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
+			)
 			[[nodiscard]]
 			/* implicit */
 			constexpr operator std::span<U, E>() const noexcept
-				MUU_REQUIRES(
-					impl::is_qualifier_conversion_only<U, element_type>
-					&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
-				)
 			{
 				return std::span<U, E>{ data(), size() };
 			}
@@ -473,50 +478,56 @@ MUU_NAMESPACE_START
 
 	/// \brief	Convenience alias for `span<const T>`.
 	/// \ingroup	mem
+	/// \related	muu::span
 	template <typename T>
 	using const_span = span<const T>;
 
 	/// \brief	Convenience alias for `span<std::byte>`.
 	/// \ingroup	mem
+	/// \related	muu::span
 	using byte_span = span<std::byte>;
 
 	/// \brief	Convenience alias for `span<const std::byte>`.
 	/// \ingroup	mem
+	/// \related	muu::span
 	using const_byte_span = span<const std::byte>;
 
 	/// \brief	Reinterprets a span as an immutable view of the underlying bytes.
 	/// \ingroup	mem
+	/// \related	muu::span
 	///
 	/// \details Equivalent to C++20's std::as_bytes.
 	template <typename T, size_t N>
 	[[nodiscard]]
-	auto as_bytes(span<T, N> s) noexcept
+	span<const std::byte, impl::as_bytes_extent<T, N>> as_bytes(span<T, N> s) noexcept
 	{
 		if constexpr (N == dynamic_extent)
 		{
-			return span<const std::byte*>{ pointer_cast<const std::byte*>(s.data()), s.size_bytes() };
+			return span<const std::byte>{ pointer_cast<const std::byte*>(s.data()), s.size_bytes() };
 		}
 		else
 		{
-			return span<const std::byte*, sizeof(T) * N>{ pointer_cast<const std::byte*>(s.data()), sizeof(T)* N };
+			return span<const std::byte, sizeof(T) * N>{ pointer_cast<const std::byte*>(s.data()), sizeof(T)* N };
 		}
 	}
 
 	/// \brief	Reinterprets a span as a view of the underlying bytes.
 	/// \ingroup	mem
-	///
+	/// \related	muu::span
+	/// 
 	/// \details Equivalent to C++20's std::as_writable_bytes.
-	template <typename T, size_t N>
+	template <typename T, size_t N MUU_SFINAE_NO_CONCEPTS(!std::is_const_v<T>)>
+	MUU_REQUIRES(!std::is_const_v<T>)
 	[[nodiscard]]
-	auto as_writable_bytes(span<T, N> s) noexcept
+	span<std::byte, impl::as_bytes_extent<T, N>> as_writable_bytes(span<T, N> s) noexcept
 	{
 		if constexpr (N == dynamic_extent)
 		{
-			return span<std::byte*>{ pointer_cast<std::byte*>(s.data()), s.size_bytes() };
+			return span<std::byte>{ pointer_cast<std::byte*>(s.data()), s.size_bytes() };
 		}
 		else
 		{
-			return span<std::byte*, sizeof(T)* N>{ pointer_cast<std::byte*>(s.data()), sizeof(T)* N };
+			return span<std::byte, sizeof(T)* N>{ pointer_cast<std::byte*>(s.data()), sizeof(T) * N };
 		}
 	}
 }

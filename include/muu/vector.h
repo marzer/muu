@@ -2527,20 +2527,26 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr vector MUU_VECTORCALL lerp(vector_param start, vector_param finish, scalar_product alpha) noexcept
 		{
-			#define VEC_FUNC(member)	muu::lerp(start.member, finish.member, alpha)
+			using itype = intermediate_type;
+			const auto inv_alpha = itype{ 1 } - static_cast<itype>(alpha);
+
+			#define VEC_FUNC(member) static_cast<itype>(start.member) * inv_alpha + static_cast<itype>(finish.member) * static_cast<itype>(alpha)
 			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 			#undef VEC_FUNC
 		}
 
 		/// \brief	Linearly interpolates this vector towards another (in-place).
 		///
-		/// \param	target	The 'target' values for the linear interpolation.
+		/// \param	target	The 'target' value for the interpolation.
 		/// \param	alpha 	The blend factor.
 		///
 		/// \return	A reference to the vector.
 		constexpr vector& MUU_VECTORCALL lerp(vector target, scalar_product alpha) noexcept
 		{
-			#define VEC_FUNC(member)	muu::lerp(base::member, target.member, alpha)
+			using itype = intermediate_type;
+			const auto inv_alpha = itype{ 1 } - static_cast<itype>(alpha);
+
+			#define VEC_FUNC(member) static_cast<itype>(base::member) * inv_alpha + static_cast<itype>(target.member) * static_cast<itype>(alpha)
 			COMPONENTWISE_ASSIGN(VEC_FUNC);
 			#undef VEC_FUNC
 		}
@@ -2650,15 +2656,11 @@ MUU_NAMESPACE_START
 			if (divisor == calc_type{})
 				return scalar_product{};
 
-			// clamp cos to long double because std::acos likely won't have overloads for quad
-			using cos_type = impl::demote_if_large_float<calc_type>;
-			const cos_type cos = static_cast<cos_type>(muu::clamp(
+			return static_cast<scalar_product>(muu::acos(muu::clamp(
 				raw_dot<calc_type>(v1, v2) / divisor,
-				muu::constants<calc_type>::minus_one,
+				-muu::constants<calc_type>::one,
 				muu::constants<calc_type>::one
-			));
-
-			return static_cast<scalar_product>(std::acos(cos));
+			)));
 		}
 
 		/// \brief	Calculates the angle between this vector and another.
@@ -2750,6 +2752,7 @@ MUU_NAMESPACE_END
 namespace std
 {
 	/// \brief Specialization of std::tuple_size for muu::vector.
+	/// \related	muu::vector
 	template <typename Scalar, size_t Dimensions>
 	struct tuple_size<muu::vector<Scalar, Dimensions>>
 	{
@@ -2757,6 +2760,7 @@ namespace std
 	};
 
 	/// \brief Specialization of std::tuple_element for muu::vector.
+	/// \related	muu::vector
 	template <size_t I, typename Scalar, size_t Dimensions>
 	struct tuple_element<I, muu::vector<Scalar, Dimensions>>
 	{
@@ -2803,23 +2807,7 @@ MUU_NAMESPACE_START
 			static constexpr type eight					= type{ scalars::eight };
 			static constexpr type nine					= type{ scalars::nine  };
 			static constexpr type ten					= type{ scalars::ten   };
-		};
-
-		template <typename Scalar, size_t Dimensions>
-		struct integer_negative_constants<vector<Scalar, Dimensions>>
-		{
-			using type = vector<Scalar, Dimensions>;
-			using scalars = integer_negative_constants<Scalar>;
-			static constexpr type minus_one				= type{ scalars::minus_one   };
-			static constexpr type minus_two				= type{ scalars::minus_two   };
-			static constexpr type minus_three			= type{ scalars::minus_three };
-			static constexpr type minus_four			= type{ scalars::minus_four  };
-			static constexpr type minus_five			= type{ scalars::minus_five  };
-			static constexpr type minus_six				= type{ scalars::minus_six   };
-			static constexpr type minus_seven			= type{ scalars::minus_seven };
-			static constexpr type minus_eight			= type{ scalars::minus_eight };
-			static constexpr type minus_nine			= type{ scalars::minus_nine  };
-			static constexpr type minus_ten				= type{ scalars::minus_ten   };
+			static constexpr type one_hundred			= type{ scalars::one_hundred };
 		};
 
 		template <typename Scalar, size_t Dimensions>
@@ -2836,7 +2824,7 @@ MUU_NAMESPACE_START
 			static constexpr type signaling_nan			= type{ scalars::signaling_nan };
 			static constexpr type infinity				= type{ scalars::infinity };
 			static constexpr type negative_infinity		= type{ scalars::negative_infinity };
-			static constexpr type minus_zero			= type{ scalars::minus_zero };
+			static constexpr type negative_zero			= type{ scalars::negative_zero };
 		};
 
 		template <typename Scalar, size_t Dimensions>
@@ -2862,6 +2850,8 @@ MUU_NAMESPACE_START
 			static constexpr type pi_over_four			= type{ scalars::pi_over_four         };
 			static constexpr type pi_over_five			= type{ scalars::pi_over_five         };
 			static constexpr type pi_over_six			= type{ scalars::pi_over_six          };
+			static constexpr type pi_over_seven			= type{ scalars::pi_over_seven        };
+			static constexpr type pi_over_eight			= type{ scalars::pi_over_eight        };
 			static constexpr type sqrt_pi				= type{ scalars::sqrt_pi              };
 			static constexpr type one_over_sqrt_pi		= type{ scalars::one_over_sqrt_pi     };
 			static constexpr type two_pi				= type{ scalars::two_pi               };
@@ -2947,10 +2937,10 @@ MUU_NAMESPACE_START
 			using scalars = muu::constants<Scalar>;
 
 			/// \brief	Left direction (in a top-down screen coordinate system).
-			static constexpr vector<Scalar, Dimensions> screen_left{ scalars::minus_one, scalars::zero };
+			static constexpr vector<Scalar, Dimensions> screen_left{ -scalars::one, scalars::zero };
 
 			/// \brief	Up direction (in a top-down screen coordinate system).
-			static constexpr vector<Scalar, Dimensions> screen_up{ scalars::zero, scalars::minus_one };
+			static constexpr vector<Scalar, Dimensions> screen_up{ scalars::zero, -scalars::one };
 		};
 
 		template <typename Scalar, size_t Dimensions SPECIALIZED_IF(Dimensions == 3)>
@@ -2968,7 +2958,7 @@ MUU_NAMESPACE_START
 			using scalars = muu::constants<Scalar>;
 
 			/// \brief	Forward direction (in a right-handed coordinate system).
-			static constexpr vector<Scalar, Dimensions> forward{ scalars::zero, scalars::zero, scalars::minus_one };
+			static constexpr vector<Scalar, Dimensions> forward{ scalars::zero, scalars::zero, -scalars::one };
 		};
 
 		template <typename Scalar, size_t Dimensions SPECIALIZED_IF(Dimensions == 2 || Dimensions == 3)>
@@ -2989,10 +2979,10 @@ MUU_NAMESPACE_START
 			using scalars = muu::constants<Scalar>;
 
 			/// \brief	Left direction (in a right-handed coordinate system).
-			static constexpr vector<Scalar, Dimensions> left{ scalars::minus_one, scalars::zero };
+			static constexpr vector<Scalar, Dimensions> left{ -scalars::one, scalars::zero };
 
 			/// \brief	Down direction (in a right-handed coordinate system).
-			static constexpr vector<Scalar, Dimensions> down{ scalars::zero, scalars::minus_one };
+			static constexpr vector<Scalar, Dimensions> down{ scalars::zero, -scalars::one };
 		};
 
 		template <typename Scalar, size_t Dimensions>
@@ -3063,13 +3053,13 @@ MUU_NAMESPACE_START
 	// we just tell doxygen it inherits from everything regardless of template type
 	// because doxygen breaks if you mix template specialization and inheritance.
 
-	/// \brief	vector constants.
-	/// \ingroup		constants
+	/// \brief		Vector constants.
+	/// \ingroup	constants
+	/// \related	muu::vector
 	template <typename Scalar, size_t Dimensions>
 	struct constants<vector<Scalar, Dimensions>>
 		: impl::integer_limits<vector<Scalar, Dimensions>>,
 		impl::integer_positive_constants<vector<Scalar, Dimensions>>,
-		impl::integer_negative_constants<vector<Scalar, Dimensions>>,
 		impl::floating_point_limits<vector<Scalar, Dimensions>>,
 		impl::floating_point_special_constants<vector<Scalar, Dimensions>>,
 		impl::floating_point_named_constants<vector<Scalar, Dimensions>>,

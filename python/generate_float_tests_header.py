@@ -414,7 +414,9 @@ def write_float_data(file, traits):
 	constants = dict()
 	constants_skip_list = [
 		'one', 'two', 'three', 'four', 'five', 'six',
-		'three_pi_over_three', 'three_pi_over_six'
+		'three_pi_over_three', 'three_pi_over_six', 'three_pi_over_seven', 'three_pi_over_eight',
+		'e_over_seven', 'e_over_eight',
+		'phi_over_seven', 'phi_over_eight'
 	]
 	print_constant_ = lambda name, value: \
 		write(f'\t\tstatic constexpr {type} {name}{" " * (23 - len(name))}= {rounded(value)}{suffix};{" // "+traits.bit_representation(value) if traits.total_bits == 16 else ""}')
@@ -433,6 +435,10 @@ def write_float_data(file, traits):
 				print_constant(f'{name}_over_five', val / D(5))
 			if val != D(6) and val != D(3) and val != D(2):
 				print_constant(f'{name}_over_six', val / D(6))
+			if val != D(7) and val != D(2) and val != D(3):
+				print_constant(f'{name}_over_seven', val / D(7))
+			if val != D(8) and val != D(2) and val != D(3):
+				print_constant(f'{name}_over_eight', val / D(8))
 
 		if val != D(1):
 			print_constant(f'sqrt_{name}', val.sqrt())
@@ -471,27 +477,27 @@ def write_float_data(file, traits):
 	####
 	#### tangent table ###############################
 	####
-	if traits.total_bits >= 64 and type in ('long double', 'float128_t'):
-		write('')
-		decimal.getcontext().rounding = decimal.ROUND_FLOOR
-		tangent_table_max = 16;
-		write(f'\t\tstatic constexpr std::pair<{type}, {type}> tangents[] =');
-		write('\t\t{\n\t\t\t', end='')
-		for i in range(0,tangent_table_max+1):
-			in_val = -pi() + two_pi() * (D(i) / D(tangent_table_max))
-			if (in_val.is_infinite()):
-				continue
-			if i > 0:
-				write(',\n\t\t\t', end='')
-			out_val = tan(in_val)
-			write(f'{{ {rounded(in_val)}{suffix}, ', end='')
-			if (out_val >= D(10000000000000000000000)):
-				write(f'{"1.18973149535723176508575932662800702e+4932q" if type == "float128_t" else "LDBL_MAX"}', end='')
-			else:
-				write(f'{rounded(out_val)}{suffix}', end='')
-			write(' }', end='')
-		write('\n\t\t};')
-		decimal.getcontext().rounding = decimal.ROUND_HALF_EVEN
+	#if traits.total_bits >= 64 and type in ('long double', 'float128_t'):
+	#	write('')
+	#	decimal.getcontext().rounding = decimal.ROUND_FLOOR
+	#	tangent_table_max = 16;
+	#	write(f'\t\tstatic constexpr std::pair<{type}, {type}> tangents[] =');
+	#	write('\t\t{\n\t\t\t', end='')
+	#	for i in range(0,tangent_table_max+1):
+	#		in_val = -pi() + two_pi() * (D(i) / D(tangent_table_max))
+	#		if (in_val.is_infinite()):
+	#			continue
+	#		if i > 0:
+	#			write(',\n\t\t\t', end='')
+	#		out_val = tan(in_val)
+	#		write(f'{{ {rounded(in_val)}{suffix}, ', end='')
+	#		if (out_val >= D(10000000000000000000000)):
+	#			write(f'{"1.18973149535723176508575932662800702e+4932q" if type == "float128_t" else "LDBL_MAX"}', end='')
+	#		else:
+	#			write(f'{rounded(out_val)}{suffix}', end='')
+	#		write(' }', end='')
+	#	write('\n\t\t};')
+	#	decimal.getcontext().rounding = decimal.ROUND_HALF_EVEN
 
 	write('\t};')
 

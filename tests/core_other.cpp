@@ -243,20 +243,20 @@ namespace
 
 		static constexpr test_case cases[]
 		{
-			/*  0 */ { c::minus_one,	c::one,			c::two,				c::three },
+			/*  0 */ { -c::one,			c::one,			c::two,				c::three },
 			/*  1 */ { c::zero,			c::one,			c::two,				c::two },
-			/*  2 */ { c::minus_one,	c::zero,		c::two,				c::one },
-			/*  3 */ { c::one,			c::minus_one,	c::two,				c::minus_three },
-			/*  4 */ { c::zero,			c::minus_one,	c::two,				c::minus_two },
-			/*  5 */ { c::one,			c::zero,		c::two,				c::minus_one },
+			/*  2 */ { -c::one,			c::zero,		c::two,				c::one },
+			/*  3 */ { c::one,			-c::one,		c::two,				-c::three },
+			/*  4 */ { c::zero,			-c::one,		c::two,				-c::two },
+			/*  5 */ { c::one,			c::zero,		c::two,				-c::one },
 			/*  6 */ { c::one,			c::two,			c::one,				c::two },
 			/*  7 */ { c::one,			c::two,			c::two,				c::three },
 			/*  8 */ { c::one,			c::two,			c::one_over_two,	c::three_over_two },
 			/*  9 */ { c::one,			c::two,			c::zero,			c::one },
 			/* 10 */ { c::one,			c::one,			c::two,				c::one },
-			/* 11 */ { c::minus_zero,	c::minus_zero,	c::one_over_two,	c::minus_zero },
-			/* 12 */ { c::zero,			c::zero,		c::one_over_two,	c::zero },
-			/* 13 */ { c::minus_five,	c::five,		c::one_over_two,	c::zero }
+			/* 11 */ { c::zero,			c::zero,		c::one_over_two,	c::zero },
+			/* 12 */ { -c::five,		c::five,		c::one_over_two,	c::zero },
+			/* 13 */ { c::negative_zero,	c::negative_zero,	c::one_over_two,	c::negative_zero }
 		};
 	};
 

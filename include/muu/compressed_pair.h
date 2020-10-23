@@ -131,14 +131,13 @@ MUU_NAMESPACE_START
 		: private impl::compressed_pair_base<First, Second>
 		#endif
 	{
-		#ifndef DOXYGEN
-		using base = impl::compressed_pair_base<First, Second>;
-		#endif
-
 		private:
+			#ifndef DOXYGEN
+			using base = impl::compressed_pair_base<First, Second>;
 
 			// mode hook for debuggers etc.
 			static constexpr impl::compressed_pair_flags flags_ = impl::get_compressed_pair_flags_for<First, Second>();
+			#endif
 
 		public:
 
@@ -297,6 +296,7 @@ MUU_NAMESPACE_END
 namespace std
 {
 	/// \brief Specialization of std::tuple_size for muu::compressed_pair.
+	/// \related	muu::compressed_pair
 	template <typename First, typename Second>
 	struct tuple_size<muu::compressed_pair<First, Second>>
 	{
@@ -304,6 +304,7 @@ namespace std
 	};
 
 	/// \brief Specialization of std::tuple_element for muu::compressed_pair.
+	/// \related	muu::compressed_pair
 	template <size_t I, typename First, typename Second>
 	struct tuple_element<I, muu::compressed_pair<First, Second>>
 	{

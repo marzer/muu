@@ -59,7 +59,7 @@ MUU_NAMESPACE_START
 			mutable uint8_t mode_ = {};
 
 			struct char8_tag {};
-			MUU_API static bool built_with_char8_support() noexcept;
+			MUU_ATTR(const) MUU_API static bool built_with_char8_support() noexcept;
 			MUU_API string_param(const void*, size_t, char8_tag) noexcept; // non-owning (const char8_t*, len)
 			MUU_API string_param(void*, const void*, size_t, char8_tag) noexcept; // owning (std::u8string*, const char8_t*, len)
 			MUU_API void get_char8_view(void*) const noexcept; // (std::u8string_view*)

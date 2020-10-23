@@ -902,11 +902,11 @@ struct lerp_signed_test_data
 	using a = muu::constants<alpha_type>;
 	static constexpr lerp_test_case<T> cases[]
 	{
-		/* 0 */ { c::minus_one,		c::one,			a::two,				c::three },
-		/* 1 */ { c::minus_one,		c::zero,		a::two,				c::one },
-		/* 2 */ { c::one,			c::minus_one,	a::two,				c::minus_three },
-		/* 3 */ { c::zero,			c::minus_one,	a::two,				c::minus_two },
-		/* 4 */ { c::one,			c::zero,		a::two,				c::minus_one },
+		/* 0 */ { -c::one,		c::one,		a::two,		c::three },
+		/* 1 */ { -c::one,		c::zero,	a::two,		c::one },
+		/* 2 */ { c::one,		-c::one,	a::two,		-c::three },
+		/* 3 */ { c::zero,		-c::one,	a::two,		-c::two },
+		/* 4 */ { c::one,		c::zero,	a::two,		-c::one },
 	};
 };
 
@@ -919,10 +919,10 @@ struct lerp_float_test_data
 	using a = muu::constants<alpha_type>;
 	static constexpr lerp_test_case<T> cases[]
 	{
-		/* 0 */ { c::minus_zero,	c::minus_zero,	a::one_over_two,	c::minus_zero },
-		/* 1 */ { c::minus_five,	c::five,		a::one_over_two,	c::zero },
-		/* 2 */ { c::one,			c::two,			a::one_over_two,	c::three_over_two },
-		/* 3 */ { c::zero,			c::zero,		a::one_over_two,	c::zero },
+		/* 0 */ { c::negative_zero,	c::negative_zero,	a::one_over_two,	c::negative_zero },
+		/* 1 */ { -c::five,			c::five,			a::one_over_two,	c::zero },
+		/* 2 */ { c::one,			c::two,				a::one_over_two,	c::three_over_two },
+		/* 3 */ { c::zero,			c::zero,			a::one_over_two,	c::zero },
 	};
 };
 

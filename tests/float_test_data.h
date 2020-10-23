@@ -87,6 +87,8 @@ MUU_NAMESPACE_START
 		static constexpr long double pi_over_four           = 0.78540L; // 0'01110'1001001001
 		static constexpr long double pi_over_five           = 0.62832L; // 0'01110'0100000111
 		static constexpr long double pi_over_six            = 0.52360L; // 0'01110'0000110001
+		static constexpr long double pi_over_seven          = 0.44880L; // 0'01101'1100101111
+		static constexpr long double pi_over_eight          = 0.39270L; // 0'01101'1001001001
 		static constexpr long double sqrt_pi                = 1.77245L; // 0'01111'1100010111
 		static constexpr long double one_over_sqrt_pi       = 0.56419L; // 0'01110'0010000100
 		static constexpr long double two_pi                 = 6.28319L; // 0'10001'1001001001
@@ -209,6 +211,8 @@ MUU_NAMESPACE_START
 		static constexpr long double pi_over_four           = 0.785398163L;
 		static constexpr long double pi_over_five           = 0.628318531L;
 		static constexpr long double pi_over_six            = 0.523598776L;
+		static constexpr long double pi_over_seven          = 0.448798951L;
+		static constexpr long double pi_over_eight          = 0.392699082L;
 		static constexpr long double sqrt_pi                = 1.772453851L;
 		static constexpr long double one_over_sqrt_pi       = 0.564189584L;
 		static constexpr long double two_pi                 = 6.283185307L;
@@ -366,6 +370,8 @@ MUU_NAMESPACE_START
 		static constexpr long double pi_over_four           = 0.78539816339744831L;
 		static constexpr long double pi_over_five           = 0.62831853071795865L;
 		static constexpr long double pi_over_six            = 0.52359877559829887L;
+		static constexpr long double pi_over_seven          = 0.44879895051282761L;
+		static constexpr long double pi_over_eight          = 0.39269908169872415L;
 		static constexpr long double sqrt_pi                = 1.77245385090551603L;
 		static constexpr long double one_over_sqrt_pi       = 0.56418958354775629L;
 		static constexpr long double two_pi                 = 6.28318530717958648L;
@@ -410,27 +416,6 @@ MUU_NAMESPACE_START
 		static constexpr auto bits_neg_nan_max = 0xFFFFFFFFFFFFFFFF_u64;
 		static constexpr auto bits_snan        = 0xFFF0000000000001_u64;
 		static constexpr auto bits_qnan        = 0xFFF8000000000001_u64;
-
-		static constexpr std::pair<long double, long double> tangents[] =
-		{
-			{ -3.14159265358979324L, -1E-17L },
-			{ -2.74889357189106909L, 0.41421356237309504L },
-			{ -2.35619449019234493L, 0.99999999999999999L },
-			{ -1.96349540849362078L, 2.41421356237309504L },
-			{ -1.57079632679489662L, LDBL_MAX },
-			{ -1.17809724509617247L, -2.41421356237309505L },
-			{ -0.78539816339744831L, -1.00000000000000001L },
-			{ -0.39269908169872416L, -0.41421356237309505L },
-			{ -1E-17L, -1E-17L },
-			{ 0.39269908169872415L, 0.41421356237309504L },
-			{ 0.78539816339744830L, 0.99999999999999999L },
-			{ 1.17809724509617246L, 2.41421356237309504L },
-			{ 1.57079632679489661L, LDBL_MAX },
-			{ 1.96349540849362077L, -2.41421356237309505L },
-			{ 2.35619449019234492L, -1.00000000000000001L },
-			{ 2.74889357189106908L, -0.41421356237309505L },
-			{ 3.14159265358979323L, -1E-17L }
-		};
 	};
 
 	template <>
@@ -564,6 +549,8 @@ MUU_NAMESPACE_START
 		static constexpr long double pi_over_four           = 0.785398163397448309616L;
 		static constexpr long double pi_over_five           = 0.628318530717958647693L;
 		static constexpr long double pi_over_six            = 0.523598775598298873077L;
+		static constexpr long double pi_over_seven          = 0.448798950512827605495L;
+		static constexpr long double pi_over_eight          = 0.392699081698724154808L;
 		static constexpr long double sqrt_pi                = 1.772453850905516027298L;
 		static constexpr long double one_over_sqrt_pi       = 0.564189583547756286948L;
 		static constexpr long double two_pi                 = 6.283185307179586476925L;
@@ -609,27 +596,6 @@ MUU_NAMESPACE_START
 		static constexpr auto bits_neg_nan_max = std::array{ 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16 };
 		static constexpr auto bits_snan        = std::array{ 0x0001_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0xFFFF_u16 };
 		static constexpr auto bits_qnan        = std::array{ 0x0001_u16, 0x0000_u16, 0x0000_u16, 0xC000_u16, 0xFFFF_u16 };
-
-		static constexpr std::pair<long double, long double> tangents[] =
-		{
-			{ -3.141592653589793238463L, -1E-21L },
-			{ -2.748893571891069083655L, 0.414213562373095048801L },
-			{ -2.356194490192344928847L, 0.999999999999999999999L },
-			{ -1.963495408493620774040L, 2.414213562373095048801L },
-			{ -1.570796326794896619232L, LDBL_MAX },
-			{ -1.178097245096172464424L, -2.414213562373095048802L },
-			{ -0.785398163397448309616L, -1.000000000000000000001L },
-			{ -0.392699081698724154808L, -0.414213562373095048802L },
-			{ -1E-21L, -1E-21L },
-			{ 0.392699081698724154807L, 0.414213562373095048801L },
-			{ 0.785398163397448309615L, 0.999999999999999999999L },
-			{ 1.178097245096172464423L, 2.414213562373095048801L },
-			{ 1.570796326794896619231L, LDBL_MAX },
-			{ 1.963495408493620774039L, -2.414213562373095048802L },
-			{ 2.356194490192344928846L, -1.000000000000000000001L },
-			{ 2.748893571891069083654L, -0.414213562373095048802L },
-			{ 3.141592653589793238462L, -1E-21L }
-		};
 	};
 
 	template <>
@@ -763,6 +729,8 @@ MUU_NAMESPACE_START
 		static constexpr long double pi_over_four           = 0.785398163397448309616L;
 		static constexpr long double pi_over_five           = 0.628318530717958647693L;
 		static constexpr long double pi_over_six            = 0.523598775598298873077L;
+		static constexpr long double pi_over_seven          = 0.448798950512827605495L;
+		static constexpr long double pi_over_eight          = 0.392699081698724154808L;
 		static constexpr long double sqrt_pi                = 1.772453850905516027298L;
 		static constexpr long double one_over_sqrt_pi       = 0.564189583547756286948L;
 		static constexpr long double two_pi                 = 6.283185307179586476925L;
@@ -824,27 +792,6 @@ MUU_NAMESPACE_START
 		static constexpr auto bits_snan        = std::array{ 0x8000000000000001_u64, 0x000000000000FFFF_u64 };
 		static constexpr auto bits_qnan        = std::array{ 0xC000000000000001_u64, 0x000000000000FFFF_u64 };
 		#endif // MUU_HAS_INT128
-
-		static constexpr std::pair<long double, long double> tangents[] =
-		{
-			{ -3.141592653589793238463L, -1E-21L },
-			{ -2.748893571891069083655L, 0.414213562373095048801L },
-			{ -2.356194490192344928847L, 0.999999999999999999999L },
-			{ -1.963495408493620774040L, 2.414213562373095048801L },
-			{ -1.570796326794896619232L, LDBL_MAX },
-			{ -1.178097245096172464424L, -2.414213562373095048802L },
-			{ -0.785398163397448309616L, -1.000000000000000000001L },
-			{ -0.392699081698724154808L, -0.414213562373095048802L },
-			{ -1E-21L, -1E-21L },
-			{ 0.392699081698724154807L, 0.414213562373095048801L },
-			{ 0.785398163397448309615L, 0.999999999999999999999L },
-			{ 1.178097245096172464423L, 2.414213562373095048801L },
-			{ 1.570796326794896619231L, LDBL_MAX },
-			{ 1.963495408493620774039L, -2.414213562373095048802L },
-			{ 2.356194490192344928846L, -1.000000000000000000001L },
-			{ 2.748893571891069083654L, -0.414213562373095048802L },
-			{ 3.141592653589793238462L, -1E-21L }
-		};
 	};
 
 	#if MUU_HAS_FLOAT128
@@ -1079,6 +1026,8 @@ MUU_NAMESPACE_START
 		static constexpr float128_t pi_over_four           = 0.785398163397448309615660845819875721q;
 		static constexpr float128_t pi_over_five           = 0.628318530717958647692528676655900577q;
 		static constexpr float128_t pi_over_six            = 0.523598775598298873077107230546583814q;
+		static constexpr float128_t pi_over_seven          = 0.448798950512827605494663340468500412q;
+		static constexpr float128_t pi_over_eight          = 0.392699081698724154807830422909937861q;
 		static constexpr float128_t sqrt_pi                = 1.772453850905516027298167483341145183q;
 		static constexpr float128_t one_over_sqrt_pi       = 0.564189583547756286948079451560772586q;
 		static constexpr float128_t two_pi                 = 6.283185307179586476925286766559005768q;
@@ -1138,27 +1087,6 @@ MUU_NAMESPACE_START
 		static constexpr auto bits_snan        = std::array{ 0x0000000000000001_u64, 0xFFFF000000000000_u64 };
 		static constexpr auto bits_qnan        = std::array{ 0x0000000000000001_u64, 0xFFFF800000000000_u64 };
 		#endif // MUU_HAS_INT128
-
-		static constexpr std::pair<float128_t, float128_t> tangents[] =
-		{
-			{ -3.141592653589793238462643383279502885q, -1E-36q },
-			{ -2.748893571891069083654812960369565024q, 0.414213562373095048801688724209698078q },
-			{ -2.356194490192344928846982537459627164q, 0.999999999999999999999999999999999999q },
-			{ -1.963495408493620774039152114549689303q, 2.414213562373095048801688724209698078q },
-			{ -1.570796326794896619231321691639751443q, 1.18973149535723176508575932662800702e+4932q },
-			{ -1.178097245096172464423491268729813582q, -2.414213562373095048801688724209698079q },
-			{ -0.785398163397448309615660845819875722q, -1.000000000000000000000000000000000001q },
-			{ -0.392699081698724154807830422909937861q, -0.414213562373095048801688724209698079q },
-			{ -1E-36q, -1E-36q },
-			{ 0.392699081698724154807830422909937860q, 0.414213562373095048801688724209698078q },
-			{ 0.785398163397448309615660845819875721q, 0.999999999999999999999999999999999999q },
-			{ 1.178097245096172464423491268729813581q, 2.414213562373095048801688724209698078q },
-			{ 1.570796326794896619231321691639751442q, 1.18973149535723176508575932662800702e+4932q },
-			{ 1.963495408493620774039152114549689302q, -2.414213562373095048801688724209698079q },
-			{ 2.356194490192344928846982537459627163q, -1.000000000000000000000000000000000001q },
-			{ 2.748893571891069083654812960369565023q, -0.414213562373095048801688724209698079q },
-			{ 3.141592653589793238462643383279502884q, -1E-36q }
-		};
 	};
 	#endif // MUU_HAS_FLOAT128
 
