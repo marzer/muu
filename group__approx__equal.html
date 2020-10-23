@@ -90,6 +90,13 @@ C++</span></a>
             </dt>
             <dd>Returns true if two <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16s</a> are approximately equal.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename S, typename T, typename Epsilon = impl::highest_ranked&lt;S, T&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga700a53c3a4c709cd4edb4d13f9285821">approx_equal</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q1,
+              const quaternion&lt;T&gt;&amp; q2,
+              dont_deduce&lt;Epsilon&gt; epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;Epsilon&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two quaternions are approximately equal.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename S, typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D, typename Epsilon = impl::highest_ranked&lt;S, T&gt;&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga55b0709ca874de264c11e5393913a7d1">approx_equal</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v1,
               const vector&lt;T, D&gt;&amp; v2,
@@ -115,7 +122,7 @@ C++</span></a>
             </dt>
             <dd>Returns true if two float128_ts are approximately equal.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gafa07e9f7df24ef7ccfc6ff96b8b585fe">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> lhs,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga18d5f10a3c2282165ae31d4a4068cf60">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> lhs,
               <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> rhs,
               <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> epsilon = constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -147,6 +154,18 @@ C++</span></a>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
             </h3>
             <p>Returns true if two <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16s</a> are approximately equal.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga700a53c3a4c709cd4edb4d13f9285821"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="quaternion_8h.html">&lt;muu/quaternion.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename S, typename T, typename Epsilon = impl::highest_ranked&lt;S, T&gt;&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga700a53c3a4c709cd4edb4d13f9285821">approx_equal</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q1,
+              const quaternion&lt;T&gt;&amp; q2,
+              dont_deduce&lt;Epsilon&gt; epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;Epsilon&gt;::approx_equal_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if two quaternions are approximately equal.</p>
           </div></section>
           <section class="m-doc-details" id="ga55b0709ca874de264c11e5393913a7d1"><div>
             <h3>
@@ -187,9 +206,9 @@ C++</span></a>
             </h3>
             <p>Returns true if two float128_ts are approximately equal.</p>
           </div></section>
-          <section class="m-doc-details" id="gafa07e9f7df24ef7ccfc6ff96b8b585fe"><div>
+          <section class="m-doc-details" id="ga18d5f10a3c2282165ae31d4a4068cf60"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gafa07e9f7df24ef7ccfc6ff96b8b585fe">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> lhs,
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga18d5f10a3c2282165ae31d4a4068cf60">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> lhs,
               <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> rhs,
               <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> epsilon = constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::approx_equal_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="half_8h.html">&lt;muu/half.h&gt;</a></div>

@@ -280,7 +280,7 @@ C++</span></a>
             <dd>Constructs a vector from a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a1d454f74f8e69ac8e5c6a071597c933c">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/span" target="_blank">std::span</a>&lt;T, <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>&gt;&amp; vals) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a1d454f74f8e69ac8e5c6a071597c933c">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/span" target="_blank">std::span</a>&lt;T, dynamic_extent&gt;&amp; vals) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a vector from a dynamically-sized C++20 <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/span" target="_blank">std::span</a> (if available).</dd>
             <dt>
@@ -1156,7 +1156,7 @@ C++</span></a>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
                 template&lt;typename T&gt;
               </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a1d454f74f8e69ac8e5c6a071597c933c">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/span" target="_blank">std::span</a>&lt;T, <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>&gt;&amp; vals) <span class="m-label m-info">explicit</span>  <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a1d454f74f8e69ac8e5c6a071597c933c">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/span" target="_blank">std::span</a>&lt;T, dynamic_extent&gt;&amp; vals) <span class="m-label m-info">explicit</span>  <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Constructs a vector from a dynamically-sized C++20 <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/span" target="_blank">std::span</a> (if available).</p>
             <table class="m-table m-fullwidth m-flat">
@@ -1791,7 +1791,7 @@ C++</span></a>
               <tbody>
                 <tr>
                   <td style="width: 1%">target</td>
-                  <td>The 'target' values for the linear interpolation.</td>
+                  <td>The 'target' value for the interpolation.</td>
                 </tr>
                 <tr>
                   <td>alpha</td>

@@ -61,7 +61,7 @@ C++</span></a>
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="span_8h.html">&lt;muu/span.h&gt;</a></div>
-          <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Extent = <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>&gt;</div>
+          <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Extent = <a class="m-doc" href="group__mem.html#gae948792a33f05cf1eb8bfed242c38056">dynamic_<wbr/>extent</a>&gt;</div>
           <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>span <span class="m-thin">class</span>
         </h1>
         <p>A non-owning view of contiguous elements.</p>
@@ -76,7 +76,7 @@ C++</span></a>
             </tr>
             <tr>
               <td>Extent</td>
-              <td>The number of elements represented by the span. Use <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">muu::<wbr/>dynamic_extent</a> for dynamically-sized spans.</td>
+              <td>The number of elements represented by the span. Use muu::dynamic_extent for dynamically-sized spans.</td>
             </tr>
           </tbody>
         </table>
@@ -90,6 +90,7 @@ C++</span></a>
                 <li><a href="#pub-static-attribs">Public static variables</a></li>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#related">Related</a></li>
               </ul>
             </li>
           </ul>
@@ -145,7 +146,7 @@ C++</span></a>
           <dl class="m-doc">
             <dt id="a98e1fe87f955719f40e1f20cc1b42e1a"> static <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#a98e1fe87f955719f40e1f20cc1b42e1a">extent</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>The number of elements in the span, or <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">muu::<wbr/>dynamic_extent</a>.</dd>
+            <dd>The number of elements in the span, or muu::dynamic_extent.</dd>
           </dl>
         </section>
         <section id="typeless-methods">
@@ -159,19 +160,19 @@ C++</span></a>
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a191e5406eec3ef665f7cba40e8af9925">span</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1span.html">span</a>&amp;) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Copy constructor.</dd>
-            <dt id="acbe0fc64613268d55996d34017f890a1">
+            <dt id="a734ebde437bf4f428d31ed4480e13b03">
               <div class="m-doc-template">template&lt;typename U, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> E&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#acbe0fc64613268d55996d34017f890a1">span</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;U, E&gt;&amp; s) <span class="m-label m-flat m-primary">constexpr</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a734ebde437bf4f428d31ed4480e13b03">span</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;U, E&gt;&amp; s) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a span from another span.</dd>
-            <dt id="ac7fe46df441b15ac6d77341823a1c6c5">
+            <dt id="a3507165435a2f4a0dc4bac59cb0a8fa4">
               <div class="m-doc-template">template&lt;typename U, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ac7fe46df441b15ac6d77341823a1c6c5">span</a>(</span><span class="m-doc-wrap">const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a>&lt;U, N&gt;&amp; arr) <span class="m-label m-flat m-primary">constexpr</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3507165435a2f4a0dc4bac59cb0a8fa4">span</a>(</span><span class="m-doc-wrap">const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a>&lt;U, N&gt;&amp; arr) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a span from an array.</dd>
-            <dt id="ac3733914ed9e98ae0f15b8b86c0106b3">
+            <dt id="afde0fe81c2a5fd28926ea267be0a6f55">
               <div class="m-doc-template">template&lt;typename U, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> E&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ac3733914ed9e98ae0f15b8b86c0106b3">span</a>(</span><span class="m-doc-wrap">const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/span" target="_blank">std::span</a>&lt;U, E&gt;&amp; s) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#afde0fe81c2a5fd28926ea267be0a6f55">span</a>(</span><span class="m-doc-wrap">const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/span" target="_blank">std::span</a>&lt;U, E&gt;&amp; s) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a <a class="m-doc" href="classmuu_1_1span.html">muu::<wbr/>span</a> from a C++20 <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/span" target="_blank">std::span</a> (if available).</dd>
             <dt id="afcc9efaa34cd0304df15baa2403b0370">
@@ -191,14 +192,14 @@ C++</span></a>
               <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a span from a contiguous iterator and an element count.</dd>
-            <dt id="ab7717ec44ac83720d663ee72671a4ca3">
+            <dt id="a833777c44fb3c2e8f193006f43724b25">
               <div class="m-doc-template">template&lt;typename U, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ab7717ec44ac83720d663ee72671a4ca3">span</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a>&lt;U, N&gt;&amp; arr) <span class="m-label m-flat m-primary">constexpr</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a833777c44fb3c2e8f193006f43724b25">span</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a>&lt;U, N&gt;&amp; arr) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a span from an array.</dd>
-            <dt id="ae6139043f34e9ebd7b3287cf4230e22a">
+            <dt id="a5ad2487dcbf2b505b8c9eb199d34e470">
               <div class="m-doc-template">template&lt;typename U, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> E&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae6139043f34e9ebd7b3287cf4230e22a">operator std::span&lt;U, E&gt;</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-primary">constexpr</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a5ad2487dcbf2b505b8c9eb199d34e470">operator std::span&lt;U, E&gt;</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a C++20 <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/span" target="_blank">std::span</a> from a <a class="m-doc" href="classmuu_1_1span.html">muu::<wbr/>span</a> (if <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/span" target="_blank">std::span</a> is available).</dd>
           </dl>
@@ -273,15 +274,46 @@ C++</span></a>
             </dt>
             <dd>Returns the total size of the elements covered by the span in bytes.</dd>
             <dt id="a262d1958d13b5e64ad99dabdd3769f2d">
-              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Offset, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Count = <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>&gt;</div>
+              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Offset, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Count = <a class="m-doc" href="group__mem.html#gae948792a33f05cf1eb8bfed242c38056">dynamic_<wbr/>extent</a>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a262d1958d13b5e64ad99dabdd3769f2d">subspan</a>(</span><span class="m-doc-wrap">) const -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns an arbitrary subspan.</dd>
             <dt id="ae56bfb76dd7b371035d0f18a6c357121">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ae56bfb76dd7b371035d0f18a6c357121">subspan</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> offset,
-              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count = <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>) const -&gt; <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc" href="classmuu_1_1span.html#ac92b58600d3f008c78cdddd953fdf62d">element_<wbr/>type</a>&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count = <a class="m-doc" href="group__mem.html#gae948792a33f05cf1eb8bfed242c38056">dynamic_<wbr/>extent</a>) const -&gt; <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc" href="classmuu_1_1span.html#ac92b58600d3f008c78cdddd953fdf62d">element_<wbr/>type</a>&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns an arbitrary subspan.</dd>
+          </dl>
+        </section>
+        <section id="related">
+          <h2><a href="#related">Related</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__mem.html#gacaa08dc6422b5847e58a7c4ab9557362">as_bytes</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;T, N&gt; s) -&gt; <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>, impl::as_bytes_extent&lt;T, N&gt;&gt; <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Reinterprets a span as an immutable view of the underlying bytes.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__mem.html#gab6812fcab12e2e24abb7261d0f895fcb">as_writable_bytes</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;T, N&gt; s) -&gt; <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>, impl::as_bytes_extent&lt;T, N&gt;&gt; <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Reinterprets a span as a view of the underlying bytes.</dd>
+            <dt>
+              using <a class="m-doc" href="group__mem.html#ga2578ff850b1b1ec6bd831b5a8aea7a94">byte_span</a> = <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>&gt;
+            </dt>
+            <dd>Convenience alias for <code>span&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>&gt;</code>.</dd>
+            <dt>
+              using <a class="m-doc" href="group__mem.html#ga6e5d2ea1cdad0e5e330a0e1b8b640982">const_byte_span</a> = <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>&gt;
+            </dt>
+            <dd>Convenience alias for <code>span&lt;const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>&gt;</code>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="group__mem.html#ga4abc7e991d6797a2a643a7a403ca05ab">const_span</a> = <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;const T&gt;
+            </dt>
+            <dd>Convenience alias for <code>span&lt;const T&gt;</code>.</dd>
+            <dt> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="group__mem.html#gae948792a33f05cf1eb8bfed242c38056">dynamic_extent</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Indicates the number of elements covered by a span should be dynamically-determined at runtime.</dd>
           </dl>
         </section>
         <section>

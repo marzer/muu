@@ -84,7 +84,7 @@ C++</span></a>
             </dt>
             <dd>Interface for managing chunks of memory.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Extent = <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>&gt;</div>
+              <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Extent = <a class="m-doc" href="group__mem.html#gae948792a33f05cf1eb8bfed242c38056">dynamic_<wbr/>extent</a>&gt;</div>
               class <a class="m-doc" href="classmuu_1_1span.html">muu::span</a>
             </dt>
             <dd>A non-owning view of contiguous elements.</dd>
@@ -94,16 +94,16 @@ C++</span></a>
           <h2><a href="#typedef-members">Typedefs</a></h2>
           <dl class="m-doc">
             <dt>
-              using <a class="m-doc" href="#gae6d7d07e5320ddbc969461099bd00db0">byte_span</a> = span&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>&gt;
+              using <a class="m-doc" href="#ga2578ff850b1b1ec6bd831b5a8aea7a94">byte_span</a> = span&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>&gt;
             </dt>
             <dd>Convenience alias for <code>span&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>&gt;</code>.</dd>
             <dt>
-              using <a class="m-doc" href="#gaefedbd706a97f094756e86befffcf178">const_byte_span</a> = span&lt;const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>&gt;
+              using <a class="m-doc" href="#ga6e5d2ea1cdad0e5e330a0e1b8b640982">const_byte_span</a> = span&lt;const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>&gt;
             </dt>
             <dd>Convenience alias for <code>span&lt;const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>&gt;</code>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="#ga9e0fc89cb7b1f651110f32365aba1790">const_span</a> = span&lt;const T&gt;
+              using <a class="m-doc" href="#ga4abc7e991d6797a2a643a7a403ca05ab">const_span</a> = span&lt;const T&gt;
             </dt>
             <dd>Convenience alias for <code>span&lt;const T&gt;</code>.</dd>
           </dl>
@@ -127,12 +127,12 @@ C++</span></a>
             <dd>Resizes memory previously allocated with a specific alignment boundary.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga7809e878e8e7c2d0377b3c7089e9c452">as_bytes</a>(</span><span class="m-doc-wrap">span&lt;T, N&gt; s) -&gt; auto <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gacaa08dc6422b5847e58a7c4ab9557362">as_bytes</a>(</span><span class="m-doc-wrap">span&lt;T, N&gt; s) -&gt; span&lt;const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>, impl::as_bytes_extent&lt;T, N&gt;&gt; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Reinterprets a span as an immutable view of the underlying bytes.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga114d47f342c4d20827ca4e5b39551d11">as_writable_bytes</a>(</span><span class="m-doc-wrap">span&lt;T, N&gt; s) -&gt; auto <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gab6812fcab12e2e24abb7261d0f895fcb">as_writable_bytes</a>(</span><span class="m-doc-wrap">span&lt;T, N&gt; s) -&gt; span&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>, impl::as_bytes_extent&lt;T, N&gt;&gt; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Reinterprets a span as a view of the underlying bytes.</dd>
           </dl>
@@ -140,34 +140,34 @@ C++</span></a>
         <section id="var-members">
           <h2><a href="#var-members">Variables</a></h2>
           <dl class="m-doc">
-            <dt> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#ga3cc0f4ca005186681123b33b6a754a36">dynamic_extent</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#gae948792a33f05cf1eb8bfed242c38056">dynamic_extent</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Indicates the number of elements covered by a span should be dynamically-determined at runtime.</dd>
           </dl>
         </section>
         <section>
           <h2>Typedef documentation</h2>
-          <section class="m-doc-details" id="gae6d7d07e5320ddbc969461099bd00db0"><div>
+          <section class="m-doc-details" id="ga2578ff850b1b1ec6bd831b5a8aea7a94"><div>
             <h3>
-              using <a class="m-doc-self" href="#gae6d7d07e5320ddbc969461099bd00db0">byte_span</a> = span&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>&gt;
+              using <a class="m-doc-self" href="#ga2578ff850b1b1ec6bd831b5a8aea7a94">byte_span</a> = span&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>&gt;
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="span_8h.html">&lt;muu/span.h&gt;</a></div>
             </h3>
             <p>Convenience alias for <code>span&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>&gt;</code>.</p>
           </div></section>
-          <section class="m-doc-details" id="gaefedbd706a97f094756e86befffcf178"><div>
+          <section class="m-doc-details" id="ga6e5d2ea1cdad0e5e330a0e1b8b640982"><div>
             <h3>
-              using <a class="m-doc-self" href="#gaefedbd706a97f094756e86befffcf178">const_byte_span</a> = span&lt;const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>&gt;
+              using <a class="m-doc-self" href="#ga6e5d2ea1cdad0e5e330a0e1b8b640982">const_byte_span</a> = span&lt;const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>&gt;
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="span_8h.html">&lt;muu/span.h&gt;</a></div>
             </h3>
             <p>Convenience alias for <code>span&lt;const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>&gt;</code>.</p>
           </div></section>
-          <section class="m-doc-details" id="ga9e0fc89cb7b1f651110f32365aba1790"><div>
+          <section class="m-doc-details" id="ga4abc7e991d6797a2a643a7a403ca05ab"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="span_8h.html">&lt;muu/span.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              using <a class="m-doc-self" href="#ga9e0fc89cb7b1f651110f32365aba1790">const_span</a> = span&lt;const T&gt;
+              using <a class="m-doc-self" href="#ga4abc7e991d6797a2a643a7a403ca05ab">const_span</a> = span&lt;const T&gt;
             </h3>
             <p>Convenience alias for <code>span&lt;const T&gt;</code>.</p>
           </div></section>
@@ -252,22 +252,22 @@ C++</span></a>
             </table>
 <p>Allocations returned by <a class="m-doc" href="group__mem.html#ga28d3ce6d2657711ad053aa74410f61d5">muu::<wbr/>aligned_realloc</a> will have the same alignment as was initially requested by <a class="m-doc" href="group__mem.html#gaa9c8bea0bc7d56f3f2693dd23f3c5865">muu::<wbr/>aligned_alloc</a>.</p><p>Calling <a class="m-doc" href="group__mem.html#ga28d3ce6d2657711ad053aa74410f61d5">muu::<wbr/>aligned_realloc</a> with <code>nullptr</code> for <code>ptr</code> is equivalent to calling <a class="m-doc" href="group__mem.html#gaa9c8bea0bc7d56f3f2693dd23f3c5865">muu::<wbr/>aligned_alloc</a> with an alignment of <code><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/preprocessor/replace" target="_blank">__STDCPP_DEFAULT_NEW_ALIGNMENT__</a></code>.</p><aside class="m-note m-danger"><h4>Warning</h4><p>Do not use this to reallocate memory allocated from any source, not even your implementation's <code>std::aligned_alloc</code>!</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ga7809e878e8e7c2d0377b3c7089e9c452"><div>
+          <section class="m-doc-details" id="gacaa08dc6422b5847e58a7c4ab9557362"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="span_8h.html">&lt;muu/span.h&gt;</a></div>
               <div class="m-doc-template"> template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;
               </div>
-              <span class="m-doc-wrap-bumper">auto </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga7809e878e8e7c2d0377b3c7089e9c452">as_bytes</a>(</span><span class="m-doc-wrap">span&lt;T, N&gt; s) <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">span&lt;const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>, impl::as_bytes_extent&lt;T, N&gt;&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gacaa08dc6422b5847e58a7c4ab9557362">as_bytes</a>(</span><span class="m-doc-wrap">span&lt;T, N&gt; s) <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Reinterprets a span as an immutable view of the underlying bytes.</p>
 <p>Equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/span/as_bytes" target="_blank">std::as_bytes</a>.</p>
           </div></section>
-          <section class="m-doc-details" id="ga114d47f342c4d20827ca4e5b39551d11"><div>
+          <section class="m-doc-details" id="gab6812fcab12e2e24abb7261d0f895fcb"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="span_8h.html">&lt;muu/span.h&gt;</a></div>
               <div class="m-doc-template"> template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;
               </div>
-              <span class="m-doc-wrap-bumper">auto </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga114d47f342c4d20827ca4e5b39551d11">as_writable_bytes</a>(</span><span class="m-doc-wrap">span&lt;T, N&gt; s) <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">span&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>, impl::as_bytes_extent&lt;T, N&gt;&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gab6812fcab12e2e24abb7261d0f895fcb">as_writable_bytes</a>(</span><span class="m-doc-wrap">span&lt;T, N&gt; s) <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Reinterprets a span as a view of the underlying bytes.</p>
 <p>Equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/span/as_bytes" target="_blank">std::as_writable_bytes</a>.</p>
@@ -275,8 +275,8 @@ C++</span></a>
         </section>
         <section>
           <h2>Variable documentation</h2>
-          <section class="m-doc-details" id="ga3cc0f4ca005186681123b33b6a754a36"><div>
-            <h3> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#ga3cc0f4ca005186681123b33b6a754a36">dynamic_extent</a> <span class="m-label m-primary">constexpr</span>
+          <section class="m-doc-details" id="gae948792a33f05cf1eb8bfed242c38056"><div>
+            <h3> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#gae948792a33f05cf1eb8bfed242c38056">dynamic_extent</a> <span class="m-label m-primary">constexpr</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="span_8h.html">&lt;muu/span.h&gt;</a></div>
             </h3>
             <p>Indicates the number of elements covered by a span should be dynamically-determined at runtime.</p>
