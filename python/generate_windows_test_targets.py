@@ -150,13 +150,13 @@ def main():
 		<ClCompile Include="..\..\tests\compressed_pair.cpp" />
 		<ClCompile Include="..\..\tests\core_bit.cpp" />
 		<ClCompile Include="..\..\tests\core_other.cpp" />
-		<ClCompile Include="..\..\tests\core_math.cpp" />
 		<ClCompile Include="..\..\tests\core_meta.cpp" />
 		<ClCompile Include="..\..\tests\half.cpp" />
 		<ClCompile Include="..\..\tests\hashing.cpp" />
 		<ClCompile Include="..\..\tests\main.cpp">
 			<PrecompiledHeader>NotUsing</PrecompiledHeader>
 		</ClCompile>
+		<ClCompile Include="..\..\tests\math.cpp" />
 		<ClCompile Include="..\..\tests\quaternion_double.cpp" />
 		<ClCompile Include="..\..\tests\quaternion_float.cpp" />
 		<ClCompile Include="..\..\tests\quaternion_half.cpp" />

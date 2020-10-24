@@ -4,7 +4,6 @@
 // SPDX-License-Identifier: MIT
 
 #include "tests.h"
-#include "../include/muu/half.h"
 
 TEST_CASE("core - is_constant_evaluated")
 {

@@ -8,6 +8,7 @@
 
 #pragma once
 #include "../muu/vector.h"
+
 MUU_DISABLE_WARNINGS
 #include <iosfwd>
 MUU_ENABLE_WARNINGS

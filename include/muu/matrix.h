@@ -8,6 +8,7 @@
 
 #pragma once
 #include "../muu/quaternion.h"
+
 MUU_DISABLE_WARNINGS
 #include <iosfwd>
 MUU_ENABLE_WARNINGS

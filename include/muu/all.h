@@ -17,6 +17,7 @@
 #include "../muu/emplacement_array.h"
 #include "../muu/half.h"
 #include "../muu/hashing.h"
+#include "../muu/math.h"
 #include "../muu/matrix.h"
 //#include "../muu/numeric_range.h"
 #include "../muu/quaternion.h"

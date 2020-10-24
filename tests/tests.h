@@ -5,6 +5,8 @@
 
 #pragma once
 #include "float_test_data.h"
+#include "../include/muu/math.h"
+#include "../include/muu/half.h"
 
 #if MUU_ICC
 	#define UNICODE_LITERALS_OK 0

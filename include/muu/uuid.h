@@ -8,6 +8,7 @@
 
 #pragma once
 #include "../muu/hashing.h"
+
 MUU_DISABLE_WARNINGS
 #include <optional>
 #include <iosfwd>

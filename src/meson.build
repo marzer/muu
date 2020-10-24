@@ -1,6 +1,7 @@
 muu_lib_sources = [
 	'aligned_alloc.cpp',
 	'blob.cpp',
+	'half.cpp',
 	'hashing.cpp',
 	'quaternion.cpp',
 	'string_param.cpp',

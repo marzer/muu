@@ -9,10 +9,11 @@
 #pragma once
 #include "../muu/core.h"
 #include "../muu/compressed_pair.h"
+
 MUU_DISABLE_WARNINGS
 #include <iterator>
 #ifdef __cpp_lib_span
-#include <span>
+	#include <span>
 #endif
 MUU_ENABLE_WARNINGS
 

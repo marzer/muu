@@ -43,6 +43,8 @@
 
 #pragma once
 #include "../muu/core.h"
+#include "../muu/math.h"
+
 MUU_DISABLE_WARNINGS
 #include <iosfwd>
 MUU_ENABLE_WARNINGS

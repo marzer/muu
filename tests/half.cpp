@@ -1,5 +1,4 @@
 #include "tests.h"
-#include "../include/muu/half.h"
 
 MUU_DISABLE_ARITHMETIC_WARNINGS
 

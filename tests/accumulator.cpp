@@ -5,7 +5,6 @@
 
 #include "tests.h"
 #include "../include/muu/accumulator.h"
-#include "../include/muu/half.h"
 
 namespace
 {
@@ -29,8 +28,8 @@ namespace
 			}
 			CHECK(accum.sample_count() == std::size(data::values));
 			CHECK(static_cast<big>(raw_sum) != data::values_sum);
-			CHECK((abs(static_cast<big>(data::values_sum) - static_cast<big>(accum.sum())))
-				<= (abs(static_cast<big>(data::values_sum) - static_cast<big>(raw_sum))));
+			CHECK((muu::abs(static_cast<big>(data::values_sum) - static_cast<big>(accum.sum())))
+				<= (muu::abs(static_cast<big>(data::values_sum) - static_cast<big>(raw_sum))));
 			CHECK(static_cast<big>(accum.sum()) >= static_cast<big>(data::values_sum_low));
 			CHECK(static_cast<big>(accum.sum()) <= static_cast<big>(data::values_sum_high));
 			if constexpr (sizeof(T) > 2u)

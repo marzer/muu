@@ -8,6 +8,7 @@
 
 #pragma once
 #include "../muu/core.h"
+
 MUU_DISABLE_WARNINGS
 #include <string>
 #include <string_view>

@@ -106,6 +106,9 @@
     <ClInclude Include="..\include\muu\matrix.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\muu\math.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />
@@ -213,6 +216,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\src\quaternion.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\half.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

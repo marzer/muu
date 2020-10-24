@@ -10,6 +10,7 @@
 #include "../muu/core.h"
 #include "../muu/tagged_ptr.h"
 #include "../muu/string_param.h"
+
 MUU_DISABLE_WARNINGS
 #ifdef __cpp_lib_hardware_interference_size
 	#include <new>

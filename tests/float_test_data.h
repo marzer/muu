@@ -8,6 +8,7 @@
 #pragma once
 #include "settings.h"
 #include "../include/muu/core.h"
+
 MUU_DISABLE_WARNINGS
 #include <array>
 MUU_ENABLE_WARNINGS
