@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu/ directory | muu Useful
+  <title>Math module | muu Useful
 utilities
 for
 modern
@@ -60,67 +60,50 @@ C++</span></a>
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          muu<span class="m-breadcrumb">/</span> <span class="m-thin">directory</span>
-        </h1>
-        <p>Root for all public muu headers.</p>
+          Math <span class="m-thin">module</span></h1>
+        <p>Math.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#files">Files</a></li>
+                <li><a href="#groups">Modules</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="files">
-          <h2><a href="#files">Files</a></h2>
+        <section id="groups">
+          <h2><a href="#groups">Modules</a></h2>
           <dl class="m-doc">
-            <dt>file <a class="m-doc" href="accumulator_8h.html">accumulator.h</a></dt>
-            <dd>Contains the definition of <a class="m-doc" href="classmuu_1_1accumulator.html">muu::<wbr/>accumulator</a>.</dd>
-            <dt>file <a class="m-doc" href="aligned__alloc_8h.html">aligned_alloc.h</a></dt>
-            <dd>Contains the definitions of functions for performing (re)allocations on specific alignment boundaries.</dd>
-            <dt>file <a class="m-doc" href="all_8h.html">all.h</a></dt>
-            <dd>Convenience header for including <em>all</em> other muu headers.</dd>
-            <dt>file <a class="m-doc" href="blob_8h.html">blob.h</a></dt>
-            <dd>Contains the definition of <a class="m-doc" href="classmuu_1_1blob.html">muu::<wbr/>blob</a>.</dd>
-            <dt>file <a class="m-doc" href="compressed__pair_8h.html">compressed_pair.h</a></dt>
-            <dd>Contains the definition of <a class="m-doc" href="classmuu_1_1compressed__pair.html">muu::<wbr/>compressed_pair</a>.</dd>
-            <dt>file <a class="m-doc" href="core_8h.html">core.h</a></dt>
-            <dd>Typedefs, intrinsics and core components.</dd>
-            <dt>file <a class="m-doc" href="emplacement__array_8h.html">emplacement_array.h</a></dt>
-            <dd>Contains the definition of <a class="m-doc" href="classmuu_1_1emplacement__array.html">muu::<wbr/>emplacement_array</a>.</dd>
-            <dt>file <a class="m-doc" href="fwd_8h.html">fwd.h</a></dt>
-            <dd>The bare-minimum include for forward declarations of muu functions and types.</dd>
-            <dt>file <a class="m-doc" href="half_8h.html">half.h</a></dt>
-            <dd>Contains the definition of <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</dd>
-            <dt>file <a class="m-doc" href="hashing_8h.html">hashing.h</a></dt>
-            <dd>Contains the definitions of functions and types related to the generation of hashes.</dd>
-            <dt>file <a class="m-doc" href="math_8h.html">math.h</a></dt>
-            <dd>Math functions, mostly constexpr-friendly alternatives to functions from <code>&lt;cmath&gt;</code>.</dd>
-            <dt>file <a class="m-doc" href="matrix_8h.html">matrix.h</a></dt>
-            <dd>Contains the definition of muu::matrix.</dd>
-            <dt>file <a class="m-doc" href="preprocessor_8h.html">preprocessor.h</a></dt>
-            <dd>Compiler feature detection, attributes, string-makers, etc.</dd>
-            <dt>file <a class="m-doc" href="quaternion_8h.html">quaternion.h</a></dt>
-            <dd>Contains the definition of <a class="m-doc" href="structmuu_1_1quaternion.html">muu::<wbr/>quaternion</a>.</dd>
-            <dt>file <a class="m-doc" href="scope__guard_8h.html">scope_guard.h</a></dt>
-            <dd>Contains the definition of <a class="m-doc" href="classmuu_1_1scope__guard.html">muu::<wbr/>scope_guard</a>.</dd>
-            <dt>file <a class="m-doc" href="span_8h.html">span.h</a></dt>
-            <dd>Contains the definition of <a class="m-doc" href="classmuu_1_1span.html">muu::<wbr/>span</a>.</dd>
-            <dt>file <a class="m-doc" href="string__param_8h.html">string_param.h</a></dt>
-            <dd>Contains the definition of <a class="m-doc" href="classmuu_1_1string__param.html">muu::<wbr/>string_param</a>.</dd>
-            <dt>file <a class="m-doc" href="strings_8h.html">strings.h</a></dt>
-            <dd></dd>
-            <dt>file <a class="m-doc" href="tagged__ptr_8h.html">tagged_ptr.h</a></dt>
-            <dd>Contains the definition of <a class="m-doc" href="classmuu_1_1tagged__ptr.html">muu::<wbr/>tagged_ptr</a>.</dd>
-            <dt>file <a class="m-doc" href="thread__pool_8h.html">thread_pool.h</a></dt>
-            <dd>Contains the definition of <a class="m-doc" href="classmuu_1_1thread__pool.html">muu::<wbr/>thread_pool</a>.</dd>
-            <dt>file <a class="m-doc" href="uuid_8h.html">uuid.h</a></dt>
-            <dd>Contains the definition of <a class="m-doc" href="structmuu_1_1uuid.html">muu::<wbr/>uuid</a>.</dd>
-            <dt>file <a class="m-doc" href="vector_8h.html">vector.h</a></dt>
-            <dd>Contains the definition of <a class="m-doc" href="structmuu_1_1vector.html">muu::<wbr/>vector</a>.</dd>
+            <dt>module <a class="m-doc" href="group__infinity__or__nan.html">infinity_or_nan()</a></dt>
+            <dd>Checks for infinities and not-a-numbers (NaN).</dd>
+            <dt>module <a class="m-doc" href="group__abs.html">abs()</a></dt>
+            <dd>Constexpr-friendly alternatives to std::abs.</dd>
+            <dt>module <a class="m-doc" href="group__approx__equal.html">approx_equal()</a></dt>
+            <dd>Floating-point approximate equality checks.</dd>
+            <dt>module <a class="m-doc" href="group__floor.html">floor()</a></dt>
+            <dd>Constexpr-friendly alternatives to std::floor.</dd>
+            <dt>module <a class="m-doc" href="group__ceil.html">ceil()</a></dt>
+            <dd>Constexpr-friendly alternatives to std::ceil.</dd>
+            <dt>module <a class="m-doc" href="group__sqrt.html">sqrt()</a></dt>
+            <dd>Constexpr-friendly alternatives to std::sqrt.</dd>
+            <dt>module <a class="m-doc" href="group__cos.html">cos()</a></dt>
+            <dd>Constexpr-friendly alternatives to std::cos.</dd>
+            <dt>module <a class="m-doc" href="group__sin.html">sin()</a></dt>
+            <dd>Constexpr-friendly alternatives to std::sin.</dd>
+            <dt>module <a class="m-doc" href="group__tan.html">tan()</a></dt>
+            <dd>Constexpr-friendly alternatives to std::tan.</dd>
+            <dt>module <a class="m-doc" href="group__acos.html">acos()</a></dt>
+            <dd>Constexpr-friendly alternatives to std::acos.</dd>
+            <dt>module <a class="m-doc" href="group__asin.html">asin()</a></dt>
+            <dd>Constexpr-friendly alternatives to std::asin.</dd>
+            <dt>module <a class="m-doc" href="group__atan.html">atan()</a></dt>
+            <dd>Constexpr-friendly alternatives to std::atan.</dd>
+            <dt>module <a class="m-doc" href="group__atan2.html">atan2()</a></dt>
+            <dd>Constexpr-friendly alternatives to std::atan2.</dd>
+            <dt>module <a class="m-doc" href="group__lerp.html">lerp()</a></dt>
+            <dd>Linear interpolations al a C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/lerp" target="_blank">std::lerp</a>.</dd>
           </dl>
         </section>
       </div>

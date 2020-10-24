@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>Intrinsics » sqrt() module | muu Useful
+  <title>Math » sqrt() module | muu Useful
 utilities
 for
 modern
@@ -60,9 +60,9 @@ C++</span></a>
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="group__intrinsics.html">Intrinsics</a> »</span>
+          <span class="m-breadcrumb"><a href="group__math.html">Math</a> »</span>
           sqrt() <span class="m-thin">module</span></h1>
-        <p>Constexpr-friendly alternatives to <a class="m-doc" href="group__sqrt.html#ga0049c8d9a89e3cb79523681de737e744">std::<wbr/>sqrt()</a>.</p>
+        <p>Constexpr-friendly alternatives to std::sqrt.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -74,7 +74,7 @@ C++</span></a>
             </li>
           </ul>
         </div>
-<aside class="m-note m-info"><h4>Note</h4><p>Older compilers won't provide the necessary machinery for sqrt functions to work in constexpr contexts. You can check for constexpr support by examining <a class="m-doc" href="namespacemuu_1_1build.html#ae1f632796abc91c58e0667c38ecc384e">build::<wbr/>supports_constexpr_math</a>.</p></aside>
+<aside class="m-note m-info"><h4>Note</h4><p>Older compilers won't provide the necessary machinery for sqrt to work in constexpr contexts. You can check for constexpr support by examining <a class="m-doc" href="namespacemuu_1_1build.html#ae1f632796abc91c58e0667c38ecc384e">build::<wbr/>supports_constexpr_math</a>.</p></aside>
         <section id="func-members">
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
@@ -99,7 +99,7 @@ C++</span></a>
             </dt>
             <dd>Returns the square-root of a float128_t.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga25b7d26e0609dc58d36de6b61393410b">sqrt</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> val) -&gt; <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gae9514bab097b1d4944394221097d5449">sqrt</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the square-root of a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
             <dt>
@@ -118,41 +118,41 @@ C++</span></a>
           <section class="m-doc-details" id="gabf84b6eab050b7d991fe2cbd38a307db"><div>
             <h3>
               <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gabf84b6eab050b7d991fe2cbd38a307db">sqrt</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> x) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
             </h3>
             <p>Returns the square-root of a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>.</p>
           </div></section>
           <section class="m-doc-details" id="gafb9b963d32e3298aa442292557578715"><div>
             <h3>
               <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gafb9b963d32e3298aa442292557578715">sqrt</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> x) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
             </h3>
             <p>Returns the square-root of a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>.</p>
           </div></section>
           <section class="m-doc-details" id="ga3a3a9c69cbc81f27d3263cb91ba226ef"><div>
             <h3>
               <span class="m-doc-wrap-bumper">double </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga3a3a9c69cbc81f27d3263cb91ba226ef">sqrt</a>(</span><span class="m-doc-wrap">double x) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
             </h3>
             <p>Returns the square-root of a double.</p>
           </div></section>
           <section class="m-doc-details" id="gaffcbf014cc8896089708ff930c4aa988"><div>
             <h3>
               <span class="m-doc-wrap-bumper">float </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaffcbf014cc8896089708ff930c4aa988">sqrt</a>(</span><span class="m-doc-wrap">float x) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
             </h3>
             <p>Returns the square-root of a float.</p>
           </div></section>
           <section class="m-doc-details" id="gae6fe268bd38f8fd1eb4cf94d16e10002"><div>
             <h3>
               <span class="m-doc-wrap-bumper">float128_t </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gae6fe268bd38f8fd1eb4cf94d16e10002">sqrt</a>(</span><span class="m-doc-wrap">float128_t x) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
             </h3>
             <p>Returns the square-root of a float128_t.</p>
           </div></section>
-          <section class="m-doc-details" id="ga25b7d26e0609dc58d36de6b61393410b"><div>
+          <section class="m-doc-details" id="gae9514bab097b1d4944394221097d5449"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga25b7d26e0609dc58d36de6b61393410b">sqrt</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gae9514bab097b1d4944394221097d5449">sqrt</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> x) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="half_8h.html">&lt;muu/half.h&gt;</a></div>
             </h3>
             <p>Returns the square-root of a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float.</p>
@@ -160,13 +160,13 @@ C++</span></a>
           <section class="m-doc-details" id="gacbaec835db4344520dfb7a296d05bed6"><div>
             <h3>
               <span class="m-doc-wrap-bumper">long double </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gacbaec835db4344520dfb7a296d05bed6">sqrt</a>(</span><span class="m-doc-wrap">long double x) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
             </h3>
             <p>Returns the square-root of a long double.</p>
           </div></section>
           <section class="m-doc-details" id="ga0049c8d9a89e3cb79523681de737e744"><div>
             <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>

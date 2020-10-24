@@ -68,51 +68,14 @@ C++</span></a>
             <li>
               Reference
               <ul>
-                <li><a href="#groups">Modules</a></li>
                 <li><a href="#func-members">Functions</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="groups">
-          <h2><a href="#groups">Modules</a></h2>
-          <dl class="m-doc">
-            <dt>module <a class="m-doc" href="group__infinity__or__nan.html">infinity_or_nan()</a></dt>
-            <dd>Checks for infinities and not-a-numbers (NaN).</dd>
-            <dt>module <a class="m-doc" href="group__approx__equal.html">approx_equal()</a></dt>
-            <dd>Floating-point approximate equality checks.</dd>
-            <dt>module <a class="m-doc" href="group__floor.html">floor()</a></dt>
-            <dd>Constexpr-friendly alternatives to <a class="m-doc" href="group__floor.html#gae261d3ed5eb350463a67bb0905279e72">std::<wbr/>floor()</a>.</dd>
-            <dt>module <a class="m-doc" href="group__ceil.html">ceil()</a></dt>
-            <dd>Constexpr-friendly alternatives to <a class="m-doc" href="group__ceil.html#gac1d2aec3e4a241129f6363fb27c06dcc">std::<wbr/>ceil()</a>.</dd>
-            <dt>module <a class="m-doc" href="group__sqrt.html">sqrt()</a></dt>
-            <dd>Constexpr-friendly alternatives to <a class="m-doc" href="group__sqrt.html#ga0049c8d9a89e3cb79523681de737e744">std::<wbr/>sqrt()</a>.</dd>
-            <dt>module <a class="m-doc" href="group__cos.html">cos()</a></dt>
-            <dd>Constexpr-friendly alternatives to <a class="m-doc" href="group__cos.html#gaad6641ec7b924bb662a329f42f1f1423">std::<wbr/>cos()</a>.</dd>
-            <dt>module <a class="m-doc" href="group__sin.html">sin()</a></dt>
-            <dd>Constexpr-friendly alternatives to <a class="m-doc" href="group__sin.html#ga3ea18db1b6602dbb58f54ff998953c05">std::<wbr/>sin()</a>.</dd>
-            <dt>module <a class="m-doc" href="group__tan.html">tan()</a></dt>
-            <dd>Constexpr-friendly alternatives to <a class="m-doc" href="group__tan.html#ga1a8ef0810e060c707c554fa995a989fc">std::<wbr/>tan()</a>.</dd>
-            <dt>module <a class="m-doc" href="group__asin.html">asin()</a></dt>
-            <dd>Constexpr-friendly alternatives to <a class="m-doc" href="group__asin.html#ga05267e8f5abd22ac560bd3564bb7607f">std::<wbr/>asin()</a>.</dd>
-            <dt>module <a class="m-doc" href="group__acos.html">acos()</a></dt>
-            <dd>Constexpr-friendly alternatives to <a class="m-doc" href="group__acos.html#ga7b9d06979da170a3200f6b675f0a682e">std::<wbr/>acos()</a>.</dd>
-            <dt>module <a class="m-doc" href="group__atan.html">atan()</a></dt>
-            <dd>Constexpr-friendly alternatives to <a class="m-doc" href="group__atan.html#gaf0779f07b81c81d2ec64131dcc54bcfd">std::<wbr/>atan()</a>.</dd>
-            <dt>module <a class="m-doc" href="group__atan2.html">atan2()</a></dt>
-            <dd>Constexpr-friendly alternatives to <a class="m-doc" href="group__atan2.html#gabcd89688add70b87668b772617a3cc11">std::<wbr/>atan2()</a>.</dd>
-            <dt>module <a class="m-doc" href="group__lerp.html">lerp()</a></dt>
-            <dd>Linear interpolations al a C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/lerp" target="_blank">std::lerp</a>.</dd>
-          </dl>
-        </section>
         <section id="func-members">
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gafe8c55f6110c1c525ac83f9aab8e497e">abs</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns the absolute value of an arithmetic value.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename Offset&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga95da5073b863161a6542266f4a6c5961">apply_offset</a>(</span><span class="m-doc-wrap">T* ptr,
@@ -271,17 +234,6 @@ C++</span></a>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="gafe8c55f6110c1c525ac83f9aab8e497e"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gafe8c55f6110c1c525ac83f9aab8e497e">abs</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Returns the absolute value of an arithmetic value.</p>
-<p>This is similar to std::abs but is <code>constexpr</code> and doesn't coerce or promote the input types.</p>
-          </div></section>
           <section class="m-doc-details" id="ga95da5073b863161a6542266f4a6c5961"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
