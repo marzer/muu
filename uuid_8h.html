@@ -40,10 +40,11 @@ C++</span></a>
       <div class="m-col-t-12 m-show-m m-col-m-none m-right-m" id="m-navbar-collapse">
         <div class="m-row">
           <ol class="m-col-t-6 m-col-m-none">
+            <li><a href="files.html">Files</a></li>
             <li><a href="modules.html">Modules</a></li>
-            <li><a href="namespaces.html">Namespaces</a></li>
           </ol>
           <ol class="m-col-t-6 m-col-m-none" start="3">
+            <li><a href="namespaces.html">Namespaces</a></li>
             <li><a href="annotated.html">Classes</a></li>
             <li><a class="github muu-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
             <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
@@ -71,6 +72,8 @@ C++</span></a>
               <ul>
                 <li><a href="#namespaces">Namespaces</a></li>
                 <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#enum-members">Enums</a></li>
+                <li><a href="#func-members">Functions</a></li>
               </ul>
             </li>
           </ul>
@@ -103,6 +106,39 @@ C++</span></a>
               struct <a class="m-doc" href="structmuu_1_1uuid.html">muu::uuid</a>
             </dt>
             <dd>A 128-bit universally-unique identifier (UUID).</dd>
+          </dl>
+        </section>
+        <section id="enum-members">
+          <h2><a href="#enum-members">Enums</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">enum class <a class="m-doc" href="namespacemuu.html#a0af5ea664875aa7ce96e0105152bc59c">uuid_variant</a>: <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> { </span><span class="m-doc-wrap"><a class="m-doc" href="#a0af5ea664875aa7ce96e0105152bc59ca334c4a4c42fdb79d7ebc3e73b517e6f8">none</a>,
+              <a class="m-doc" href="#a0af5ea664875aa7ce96e0105152bc59cac00f0c4675b91fb8b918e4079a0b1bac">standard</a>,
+              <a class="m-doc" href="#a0af5ea664875aa7ce96e0105152bc59cae966b89dbea9cb554e901f2978c329b6">reserved_ncs</a>,
+              <a class="m-doc" href="#a0af5ea664875aa7ce96e0105152bc59cac7cee24c14e39b1f43ae8fbbe515c8d9">reserved_microsoft</a>,
+              <a class="m-doc" href="#a0af5ea664875aa7ce96e0105152bc59cac28fc2abb01622a9e2696124c3693086">reserved_future</a> }</span>
+            </dt>
+            <dd>A UUID variant as per RFC 4122.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">enum class <a class="m-doc" href="namespacemuu.html#ab0531af99b7f9b575c98ea05d8b76bc8">uuid_version</a>: <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> { </span><span class="m-doc-wrap"><a class="m-doc" href="#ab0531af99b7f9b575c98ea05d8b76bc8a334c4a4c42fdb79d7ebc3e73b517e6f8">none</a>,
+              <a class="m-doc" href="#ab0531af99b7f9b575c98ea05d8b76bc8a07cc694b9b3fc636710fa08b6922c42b">time</a>,
+              <a class="m-doc" href="#ab0531af99b7f9b575c98ea05d8b76bc8a3a5aed6b06fcfed497ba6585ae456878">dce</a>,
+              <a class="m-doc" href="#ab0531af99b7f9b575c98ea05d8b76bc8a4723a0fd093feaf03788fea4e81de56a">name_md5</a>,
+              <a class="m-doc" href="#ab0531af99b7f9b575c98ea05d8b76bc8a7ddf32e17a6ac5ce04a8ecbf782ca509">random</a>,
+              <a class="m-doc" href="#ab0531af99b7f9b575c98ea05d8b76bc8a79998e27ea91ebec2647c8cb2c145285">name_sha1</a>,
+              <a class="m-doc" href="#ab0531af99b7f9b575c98ea05d8b76bc8aad921d60486366258809553a3db49a4a">unknown</a> = 0b1111 }</span>
+            </dt>
+            <dd>A UUID version as per RFC 4122.</dd>
+          </dl>
+        </section>
+        <section id="func-members">
+          <h2><a href="#func-members">Functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a08fdf739d41219352a4e0d7e73e971ea">operator""_uuid</a>(</span><span class="m-doc-wrap">const char* str,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> len) -&gt; uuid <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a uuid from a string literal using <a class="m-doc" href="structmuu_1_1uuid.html#ad6beda74aec99774e4b10d615aacacd5">uuid::<wbr/>parse</a>.</dd>
           </dl>
         </section>
       </div>

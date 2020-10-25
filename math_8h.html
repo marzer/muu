@@ -40,10 +40,11 @@ C++</span></a>
       <div class="m-col-t-12 m-show-m m-col-m-none m-right-m" id="m-navbar-collapse">
         <div class="m-row">
           <ol class="m-col-t-6 m-col-m-none">
+            <li><a href="files.html">Files</a></li>
             <li><a href="modules.html">Modules</a></li>
-            <li><a href="namespaces.html">Namespaces</a></li>
           </ol>
           <ol class="m-col-t-6 m-col-m-none" start="3">
+            <li><a href="namespaces.html">Namespaces</a></li>
             <li><a href="annotated.html">Classes</a></li>
             <li><a class="github muu-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
             <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
@@ -70,6 +71,8 @@ C++</span></a>
               Reference
               <ul>
                 <li><a href="#namespaces">Namespaces</a></li>
+                <li><a href="#func-members">Functions</a></li>
+                <li><a href="#var-members">Variables</a></li>
               </ul>
             </li>
           </ul>
@@ -81,6 +84,483 @@ C++</span></a>
             <dd>The root namespace for all muu functions and types.</dd>
             <dt>namespace <a class="m-doc" href="namespacemuu_1_1build.html">muu::build</a></dt>
             <dd>Build environment information (compiler, date/time, support for various things...)</dd>
+          </dl>
+        </section>
+        <section id="func-members">
+          <h2><a href="#func-members">Functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__abs.html#ga97fef737f56413a711ba50907cea741d">abs</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> x) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the absolute value of an <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__abs.html#ga381bc8195a18ac0c461fb994bfdab418">abs</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> x) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the absolute value of a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__abs.html#ga8721fd9fd4f1431a5f9dd1a22cdf3d3e">abs</a>(</span><span class="m-doc-wrap">double x) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the absolute value of a double.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__abs.html#ga89d1dcc8041ac8452317eae1d21493b2">abs</a>(</span><span class="m-doc-wrap">float x) -&gt; float <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the absolute value of a float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__abs.html#ga6627ff562c64be1de075e0039502adf5">abs</a>(</span><span class="m-doc-wrap">float128_t x) -&gt; float128_t <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the absolute value of a float128_t.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__abs.html#ga6d0020d25e08aef7b2f3a927fd75e128">abs</a>(</span><span class="m-doc-wrap">int x) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the absolute value of an int.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__abs.html#gaeeeae9c211e65058c12d8c29e67c9157">abs</a>(</span><span class="m-doc-wrap">long double x) -&gt; long double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the absolute value of a long double.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__abs.html#gaabdbc172d4985254b63025116f687c7e">abs</a>(</span><span class="m-doc-wrap">long long x) -&gt; long long <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the absolute value of a long long.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__abs.html#ga86ac6e3fe0a4a6168c32a44aa9b3def6">abs</a>(</span><span class="m-doc-wrap">long x) -&gt; long <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the absolute value of a long.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__abs.html#ga5bc7d2857695d07a4f93f0d9b79603bd">abs</a>(</span><span class="m-doc-wrap">short x) -&gt; short <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the absolute value of a short.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__abs.html#gaef9c6f1c1301cdb38630e96475188561">abs</a>(</span><span class="m-doc-wrap">signed char x) -&gt; signed char <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the absolute value of a signed char.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__abs.html#gafbffb9903578ee8c8b87337ec83d5c1f">abs</a>(</span><span class="m-doc-wrap">T x) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the absolute value of an integral type.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__acos.html#ga189bbc017d8f1f7c9885f68b7fb36bb0">acos</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> x) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc cosine of a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__acos.html#ga06579a5e3c5e853163f611c25b2b7b79">acos</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> x) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc cosine of a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__acos.html#ga2abfdb52a5d3b98ab3119da1155eb960">acos</a>(</span><span class="m-doc-wrap">double x) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc cosine of a double.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__acos.html#ga69b28eed21b5f99faf7076f3349455dc">acos</a>(</span><span class="m-doc-wrap">float x) -&gt; float <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc cosine of a float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__acos.html#gaeb05383011594d02f233899de601bfda">acos</a>(</span><span class="m-doc-wrap">float128_t x) -&gt; float128_t <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc cosine of a float128_t.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__acos.html#ga9803e5bf3be9b110ddd704dafc891b2d">acos</a>(</span><span class="m-doc-wrap">long double x) -&gt; long double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc cosine of a long double.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__acos.html#ga7b9d06979da170a3200f6b675f0a682e">acos</a>(</span><span class="m-doc-wrap">T x) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc cosine of an integral value.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga10846eb664ad1f4a723d73a5f3e1ad6f">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> a,
+              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> b,
+              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> epsilon = constants&lt;<a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> are approximately equal.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#gad608fa80ae0f972c29864d7465ec8473">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> a,
+              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> b,
+              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> epsilon = constants&lt;<a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16s</a> are approximately equal.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#gabfe9ea2afb006528b1387e6b2d7a50d8">approx_equal</a>(</span><span class="m-doc-wrap">double a,
+              double b,
+              double epsilon = constants&lt;double&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two doubles are approximately equal.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#gac82dcde48c487938747a8baafec6bb54">approx_equal</a>(</span><span class="m-doc-wrap">float a,
+              float b,
+              float epsilon = constants&lt;float&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two floats are approximately equal.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga62400f811bf59a4e92f5e8c3172d9ecb">approx_equal</a>(</span><span class="m-doc-wrap">float128_t a,
+              float128_t b,
+              float128_t epsilon = constants&lt;float128_t&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two float128_ts are approximately equal.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#gafde7b2a6ac13119386ed20c50ac68f70">approx_equal</a>(</span><span class="m-doc-wrap">long double a,
+              long double b,
+              long double epsilon = constants&lt;long double&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two long doubles are approximately equal.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__asin.html#ga38d3272314ef4433f29ac56ea51762a8">asin</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> x) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc sine of a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__asin.html#ga22633d8890da645ac8e10a13a785c3e4">asin</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> x) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc sine of a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__asin.html#ga1754f8044c13e5db0546b85a7d9db66e">asin</a>(</span><span class="m-doc-wrap">double x) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc sine of a double.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__asin.html#ga14329b7d2af039a939b5b03a643dbd0f">asin</a>(</span><span class="m-doc-wrap">float x) -&gt; float <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc sine of a float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__asin.html#ga971a48168d347e790c546b65fcd0689a">asin</a>(</span><span class="m-doc-wrap">float128_t x) -&gt; float128_t <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc sine of a float128_t.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__asin.html#ga380b08f5141db6f53cee3c2ab2eb4231">asin</a>(</span><span class="m-doc-wrap">long double x) -&gt; long double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc sine of a long double.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__asin.html#ga05267e8f5abd22ac560bd3564bb7607f">asin</a>(</span><span class="m-doc-wrap">T x) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc sine of an integral value.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__atan.html#ga8e1d8ec2569793e50d9a21d02b61b5ba">atan</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> x) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc tangent of a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__atan.html#ga28990b3c84d9b9a7fde19401b936339a">atan</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> x) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc tangent of a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__atan.html#ga6aaf46f37bb83640e45b37e0aea858b8">atan</a>(</span><span class="m-doc-wrap">double x) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc tangent of a double.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__atan.html#gad38e7dc443023ed27f26058455c30b30">atan</a>(</span><span class="m-doc-wrap">float x) -&gt; float <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc tangent of a float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__atan.html#ga0ecacb3f5d6607739ebcb5b6cc612a64">atan</a>(</span><span class="m-doc-wrap">float128_t x) -&gt; float128_t <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc tangent of a float128_t.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__atan.html#ga0d93faf1621f38f7e0ed7cfaf37076f4">atan</a>(</span><span class="m-doc-wrap">long double x) -&gt; long double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc tangent of a long double.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__atan.html#gaf0779f07b81c81d2ec64131dcc54bcfd">atan</a>(</span><span class="m-doc-wrap">T x) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc tangent of an integral value.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__atan2.html#ga19204446bd2c384f0bf47d779035c414">atan2</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> y,
+              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> x) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc tangent of a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__atan2.html#gabab1e3ea2e16d7346043f57b57a18d49">atan2</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> y,
+              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> x) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc tangent of a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__atan2.html#ga5a5edbb63697e0d3895ecee9d3639123">atan2</a>(</span><span class="m-doc-wrap">double y,
+              double x) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc tangent of a double.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__atan2.html#ga68e17f23ef350ccc6e6bd8c20611da12">atan2</a>(</span><span class="m-doc-wrap">float y,
+              float x) -&gt; float <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc tangent of a float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__atan2.html#ga25d67472f15352ffe17f9bd14446ce56">atan2</a>(</span><span class="m-doc-wrap">float128_t y,
+              float128_t x) -&gt; float128_t <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc tangent of a float128_t.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__atan2.html#ga1766c7359209816b8bd4317b9c587f79">atan2</a>(</span><span class="m-doc-wrap">long double y,
+              long double x) -&gt; long double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc tangent of a long double.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename X, typename Y&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__atan2.html#gabcd89688add70b87668b772617a3cc11">atan2</a>(</span><span class="m-doc-wrap">Y y,
+              X x) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc tangent of two arithmetic values.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__ceil.html#gadf94b04b23c51e89aaf98d5d9eeef9b8">ceil</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> x) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the ceiling of a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> value.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__ceil.html#gace09eecb7e26047a4d4be5f822022134">ceil</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> x) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the ceiling of a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> value.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__ceil.html#gabc53ad88d9c76a9b0ed2b42c81d2ea9d">ceil</a>(</span><span class="m-doc-wrap">double x) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the ceiling of a double value.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__ceil.html#ga15a26c9fb021ca5f9ac27fb0f4636060">ceil</a>(</span><span class="m-doc-wrap">float x) -&gt; float <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the ceiling of a float value.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__ceil.html#ga121a468fa346aedba09c1dfd59430269">ceil</a>(</span><span class="m-doc-wrap">float128_t x) -&gt; float128_t <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the ceiling of a float128_t value.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__ceil.html#ga1c484df90484d3f74112cfbe0208c602">ceil</a>(</span><span class="m-doc-wrap">long double x) -&gt; long double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the ceiling of a long double value.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__ceil.html#gaa15d5ffe910a00ffbeb36c5fc16e2a97">ceil</a>(</span><span class="m-doc-wrap">T x) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the ceiling of an integral value.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__cos.html#ga79827b43adcd7eef2612c45b91eda40c">cos</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> x) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the cosine of a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__cos.html#ga6eab0abb46d5296fc69b951458aae6c9">cos</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> x) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the cosine of a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__cos.html#ga0648930ad64bdc3816542f336b88e92d">cos</a>(</span><span class="m-doc-wrap">double x) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the cosine of a double.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__cos.html#gafc968973dde0c97322c9c6669f954e2d">cos</a>(</span><span class="m-doc-wrap">float x) -&gt; float <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the cosine of a float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__cos.html#gae466125efc53b0afbe2f48c3a3c7fa95">cos</a>(</span><span class="m-doc-wrap">float128_t x) -&gt; float128_t <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the cosine of a float128_t.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__cos.html#ga56a1b3ab18e271f42aa180990868261b">cos</a>(</span><span class="m-doc-wrap">long double x) -&gt; long double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the cosine of a long double.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__cos.html#gaad6641ec7b924bb662a329f42f1f1423">cos</a>(</span><span class="m-doc-wrap">T x) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the cosine of an integral value.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__floor.html#gae46f187d01b8118d5f2a778c59674c88">floor</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> x) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the floor of a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> value.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__floor.html#gac9a12e90b0fa7067a096e068e764cabf">floor</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> x) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the floor of a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> value.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__floor.html#ga67232bb43da7a03d03e2b2f40356a76b">floor</a>(</span><span class="m-doc-wrap">double x) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the floor of a double value.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__floor.html#ga789b6da21314c806db7da27d11e112c6">floor</a>(</span><span class="m-doc-wrap">float x) -&gt; float <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the floor of a float value.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__floor.html#ga26d3f4cb15a587f4d825cbdca7f031ae">floor</a>(</span><span class="m-doc-wrap">float128_t x) -&gt; float128_t <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the floor of a float128_t value.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__floor.html#gaf0492a080471ae79fe3e4e31832c514f">floor</a>(</span><span class="m-doc-wrap">long double x) -&gt; long double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the floor of a long double value.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__floor.html#ga630c2ae425d1019e5a06101111c299f1">floor</a>(</span><span class="m-doc-wrap">T x) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the floor of an integral value.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga01537de80625dd04856c091786a51c21">infinity_or_nan</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> x) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> is infinity or NaN.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga5a34372404d7751b9b764754b94d3b30">infinity_or_nan</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> x) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> is infinity or NaN.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga7165ec00307546834b2cfec5dcd18920">infinity_or_nan</a>(</span><span class="m-doc-wrap">const T&amp; obj) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Checks if an object is infinity or NaN.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga251c6b64050eadcb5c29cd852e89381f">infinity_or_nan</a>(</span><span class="m-doc-wrap">double x) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a double is infinity or NaN.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga244d41fcb34e53c950eddd916a6d5396">infinity_or_nan</a>(</span><span class="m-doc-wrap">float x) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a float is infinity or NaN.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga7fd6b8649626ba472b2b465f42de1d7b">infinity_or_nan</a>(</span><span class="m-doc-wrap">float128_t x) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a float128_t is infinity or NaN.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gaaefff82330e72babbf53ba1d2fc970d5">infinity_or_nan</a>(</span><span class="m-doc-wrap">long double x) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a long double is infinity or NaN.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gae0e73f57dfe538bfb813978525d029b4">infinity_or_nan</a>(</span><span class="m-doc-wrap">T x) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if an arithmetic value is infinity or NaN.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__lerp.html#ga18ab33f3d13ed00aaabb060162e64a07">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> start,
+              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> finish,
+              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> alpha) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a linear interpolation between two <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16s</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__lerp.html#ga2ef795b3516004d50fdb7003c388e15d">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> start,
+              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> finish,
+              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> alpha) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a linear interpolation between two <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16s</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__lerp.html#ga47e41d7626365fcf881152c286833b5a">lerp</a>(</span><span class="m-doc-wrap">double start,
+              double finish,
+              double alpha) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a linear interpolation between two doubles.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__lerp.html#ga86b8aacc099deefdf6284d9bab7f2dad">lerp</a>(</span><span class="m-doc-wrap">float start,
+              float finish,
+              float alpha) -&gt; float <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a linear interpolation between two floats.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__lerp.html#ga614ccb878d52686237995f87013cfae5">lerp</a>(</span><span class="m-doc-wrap">float128_t start,
+              float128_t finish,
+              float128_t alpha) -&gt; float128_t <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a linear interpolation between two float128_ts.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__lerp.html#ga44b514d356d6673cc0595cf0390dd8de">lerp</a>(</span><span class="m-doc-wrap">long double start,
+              long double finish,
+              long double alpha) -&gt; long double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a linear interpolation between two long doubles.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename U, typename V&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__lerp.html#ga348d51a08675a8a83b04e59b7705c29e">lerp</a>(</span><span class="m-doc-wrap">T start,
+              U finish,
+              V alpha) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a linear interpolation between two arithmetic values.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sin.html#ga3b1f6ef1c2bbad4f86a34de5f8ee7124">sin</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> x) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the sine of a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sin.html#ga8334763ec29d37322967387ad8096695">sin</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> x) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the sine of a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sin.html#gada49fd50fe8b4101cdd948cdc43ac8c0">sin</a>(</span><span class="m-doc-wrap">double x) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the sine of a double.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sin.html#ga929628806abc68d22dc9224af0578dd2">sin</a>(</span><span class="m-doc-wrap">float x) -&gt; float <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the sine of a float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sin.html#ga976c36817620570e8dc2f9903f6f8d9f">sin</a>(</span><span class="m-doc-wrap">float128_t x) -&gt; float128_t <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the sine of a float128_t.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sin.html#ga956da7e0f0a5e6e3b8ffeb84c5327e18">sin</a>(</span><span class="m-doc-wrap">long double x) -&gt; long double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the sine of a long double.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sin.html#ga3ea18db1b6602dbb58f54ff998953c05">sin</a>(</span><span class="m-doc-wrap">T x) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the sine of an integral value.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sqrt.html#gabf84b6eab050b7d991fe2cbd38a307db">sqrt</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> x) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the square-root of a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sqrt.html#gafb9b963d32e3298aa442292557578715">sqrt</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> x) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the square-root of a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sqrt.html#ga3a3a9c69cbc81f27d3263cb91ba226ef">sqrt</a>(</span><span class="m-doc-wrap">double x) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the square-root of a double.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sqrt.html#gaffcbf014cc8896089708ff930c4aa988">sqrt</a>(</span><span class="m-doc-wrap">float x) -&gt; float <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the square-root of a float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sqrt.html#gae6fe268bd38f8fd1eb4cf94d16e10002">sqrt</a>(</span><span class="m-doc-wrap">float128_t x) -&gt; float128_t <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the square-root of a float128_t.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sqrt.html#gacbaec835db4344520dfb7a296d05bed6">sqrt</a>(</span><span class="m-doc-wrap">long double x) -&gt; long double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the square-root of a long double.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sqrt.html#ga0049c8d9a89e3cb79523681de737e744">sqrt</a>(</span><span class="m-doc-wrap">T x) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the square-root of an integral value.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__tan.html#ga3583e5518d781304a7be684fc009bdbd">tan</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> x) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the tangent of a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__tan.html#gaee469cec74af5f1d1e84544a7b26e69d">tan</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> x) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the tangent of a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__tan.html#gad882d4b32f9b5fc1d2030b174aa6ef5f">tan</a>(</span><span class="m-doc-wrap">double x) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the tangent of a double.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__tan.html#ga7aa14fc0444bf0176a1e46e66e3ad747">tan</a>(</span><span class="m-doc-wrap">float x) -&gt; float <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the tangent of a float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__tan.html#gac1e4f5cd1d0b9edebc1ff8ec5046ebcd">tan</a>(</span><span class="m-doc-wrap">float128_t x) -&gt; float128_t <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the tangent of a float128_t.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__tan.html#gaae78f62d62005d88dc86b9b6cc59f50c">tan</a>(</span><span class="m-doc-wrap">long double x) -&gt; long double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the tangent of a long double.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__tan.html#ga1a8ef0810e060c707c554fa995a989fc">tan</a>(</span><span class="m-doc-wrap">T x) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the tangent of an integral value.</dd>
+          </dl>
+        </section>
+        <section id="var-members">
+          <h2><a href="#var-members">Variables</a></h2>
+          <dl class="m-doc">
+            <dt>
+              bool <a class="m-doc" href="namespacemuu_1_1build.html#ac2ed8c664a3937f1d6beca3916098ebd">supports_constexpr_infinity_or_nan</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if using <a class="m-doc" href="group__infinity__or__nan.html#ga244d41fcb34e53c950eddd916a6d5396">infinity_<wbr/>or_<wbr/>nan()</a> in constexpr contexts is supported on this compiler.</dd>
+            <dt>
+              bool <a class="m-doc" href="namespacemuu_1_1build.html#ae1f632796abc91c58e0667c38ecc384e">supports_constexpr_math</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if some math functions (sin, cos, sqrt etc.) can be used in constexpr contexts on this compiler.</dd>
           </dl>
         </section>
       </div>

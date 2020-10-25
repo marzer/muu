@@ -40,10 +40,11 @@ C++</span></a>
       <div class="m-col-t-12 m-show-m m-col-m-none m-right-m" id="m-navbar-collapse">
         <div class="m-row">
           <ol class="m-col-t-6 m-col-m-none">
+            <li><a href="files.html">Files</a></li>
             <li><a href="modules.html">Modules</a></li>
-            <li><a href="namespaces.html">Namespaces</a></li>
           </ol>
           <ol class="m-col-t-6 m-col-m-none" start="3">
+            <li><a href="namespaces.html">Namespaces</a></li>
             <li><a href="annotated.html">Classes</a></li>
             <li><a class="github muu-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
             <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
@@ -886,19 +887,6 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gab5b51a3c121984cfddb8d5da4e9bf070">countr_zero</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Counts the number of consecutive 0 bits, starting from the right.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename S, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D, typename vector_product = typename vector&lt;S, D&gt;::vector_product&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a87f70a76314f6f6004ec30ef69a76af6">direction</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; from,
-              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; to) -&gt; vector_product <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns the normalized direction vector from one position to another.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename S, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D, typename vector_product = typename vector&lt;S, D&gt;::vector_product, typename scalar_product = typename vector&lt;S, D&gt;::scalar_product&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a07b9a021fe991573e0bc6eb6381c6919">direction</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; from,
-              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; to,
-              scalar_product&amp; distance_out) -&gt; vector_product <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns the normalized direction vector from one position to another.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__floor.html#gae46f187d01b8118d5f2a778c59674c88">floor</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> x) -&gt; <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -2383,78 +2371,6 @@ C++</span></a>
                 </tr>
               </tbody>
             </table>
-          </div></section>
-        </section>
-        <section>
-          <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a87f70a76314f6f6004ec30ef69a76af6"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="vector_8h.html">&lt;muu/vector.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename S, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D, typename vector_product = typename vector&lt;S, D&gt;::vector_product&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">vector_product muu::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a87f70a76314f6f6004ec30ef69a76af6">direction</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; from,
-              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; to) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Returns the normalized direction vector from one position to another.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">from</td>
-                  <td>The start position.</td>
-                </tr>
-                <tr>
-                  <td>to</td>
-                  <td>The end position.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>A normalized direction vector pointing from the start position to the end position.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-info"><h4>Note</h4><p>This function is only available when <code>D</code> == 2 or 3.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="a07b9a021fe991573e0bc6eb6381c6919"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="vector_8h.html">&lt;muu/vector.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename S, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D, typename vector_product = typename vector&lt;S, D&gt;::vector_product, typename scalar_product = typename vector&lt;S, D&gt;::scalar_product&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">vector_product muu::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a07b9a021fe991573e0bc6eb6381c6919">direction</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; from,
-              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; to,
-              scalar_product&amp; distance_out) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Returns the normalized direction vector from one position to another.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">from</td>
-                  <td>The start position.</td>
-                </tr>
-                <tr>
-                  <td>to</td>
-                  <td>The end position.</td>
-                </tr>
-                <tr>
-                  <td>distance_out</td>
-                  <td>An output param to receive the distance between the two points.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>A normalized direction vector pointing from the start position to the end position.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-info"><h4>Note</h4><p>This function is only available when <code>D</code> == 2 or 3.</p></aside>
           </div></section>
         </section>
       </div>

@@ -40,10 +40,11 @@ C++</span></a>
       <div class="m-col-t-12 m-show-m m-col-m-none m-right-m" id="m-navbar-collapse">
         <div class="m-row">
           <ol class="m-col-t-6 m-col-m-none">
+            <li><a href="files.html">Files</a></li>
             <li><a href="modules.html">Modules</a></li>
-            <li><a href="namespaces.html">Namespaces</a></li>
           </ol>
           <ol class="m-col-t-6 m-col-m-none" start="3">
+            <li><a href="namespaces.html">Namespaces</a></li>
             <li><a href="annotated.html">Classes</a></li>
             <li><a class="github muu-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
             <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
@@ -70,6 +71,7 @@ C++</span></a>
               Reference
               <ul>
                 <li><a href="#namespaces">Namespaces</a></li>
+                <li><a href="#func-members">Functions</a></li>
               </ul>
             </li>
           </ul>
@@ -79,6 +81,25 @@ C++</span></a>
           <dl class="m-doc">
             <dt>namespace <a class="m-doc" href="namespacemuu.html">muu</a></dt>
             <dd>The root namespace for all muu functions and types.</dd>
+          </dl>
+        </section>
+        <section id="func-members">
+          <h2><a href="#func-members">Functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__mem.html#gaa9c8bea0bc7d56f3f2693dd23f3c5865">aligned_alloc</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size) -&gt; void* <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Allocates memory with a specific alignment boundary.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">void <a class="m-doc" href="group__mem.html#ga980d079c5d73e2b8bf65a4130f3793b0">aligned_free</a>(</span><span class="m-doc-wrap">void* ptr) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Frees memory previously allocated with <a class="m-doc" href="group__mem.html#gaa9c8bea0bc7d56f3f2693dd23f3c5865">muu::<wbr/>aligned_alloc</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__mem.html#ga28d3ce6d2657711ad053aa74410f61d5">aligned_realloc</a>(</span><span class="m-doc-wrap">void* ptr,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> new_size) -&gt; void* <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Resizes memory previously allocated with a specific alignment boundary.</dd>
           </dl>
         </section>
       </div>
