@@ -28,6 +28,7 @@ MUU_NAMESPACE_START
 	//(actually defined in fwd.h)
 	#endif
 
+	#ifndef DOXYGEN
 	namespace impl
 	{
 		struct span_empty_size
@@ -71,6 +72,7 @@ MUU_NAMESPACE_START
 		template <typename T, size_t Extent>
 		inline constexpr size_t as_bytes_extent = Extent == dynamic_extent ? dynamic_extent : (sizeof(T) * Extent);
 	}
+	#endif // !DOXYGEN
 
 	/// \brief	A non-owning view of contiguous elements.
 	/// \ingroup	building_blocks mem

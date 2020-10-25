@@ -144,7 +144,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(const)
 		constexpr bool MUU_VECTORCALL infinity_or_nan_(T val) noexcept
 		{
-			static_assert(is_floating_point<T>);
+			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
 
 			// Q: "what about fpclassify, isnan, isinf??"
 			// A1: They're not constexpr
@@ -285,7 +285,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(const)
 		constexpr T MUU_VECTORCALL abs_(T x) noexcept
 		{
-			static_assert(is_signed<T>);
+			static_assert(is_signed<T> && !std::is_same_v<T, half>);
 
 			if constexpr (is_floating_point<T>)
 			{
@@ -494,7 +494,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(const)
 		constexpr T MUU_VECTORCALL floor_(T x) noexcept
 		{
-			static_assert(is_floating_point<T>);
+			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
 
 			if (x == T{} || x != x) // accounts for -0.0 and NaN
 				return x;
@@ -591,7 +591,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(const)
 		constexpr T MUU_VECTORCALL ceil_(T x) noexcept
 		{
-			static_assert(is_floating_point<T>);
+			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
 
 			if (x == T{} || x != x) // accounts for -0.0 and NaN
 				return x;
@@ -694,8 +694,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(const)
 		MUU_CONSTEVAL T consteval_sqrt(T x)
 		{
-			// Newton-Raphson method: https://en.wikipedia.org/wiki/Newton%27s_method
-
+			MUU_FMA_BLOCK
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
 
 			if (x == T{} || x != x) // accounts for -0.0 and NaN
@@ -711,10 +710,12 @@ MUU_NAMESPACE_START
 			if (x == T{ 1 })
 				return T{ 1 };
 
+			// Newton-Raphson method: https://en.wikipedia.org/wiki/Newton%27s_method
 			T curr = x;
 			T prev = T{};
 			for (intmax_t i = 0; i < max_constexpr_math_iterations && curr != prev; i++)
 			{
+				MUU_FMA_BLOCK
 				prev = curr;
 				curr = constants<T>::one_over_two * (curr + x / curr);
 			}
@@ -728,7 +729,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(const)
 		constexpr T MUU_VECTORCALL sqrt_(T x) noexcept
 		{
-			static_assert(is_floating_point<T>);
+			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
 
 			if (MUU_INTELLISENSE || (build::supports_is_constant_evaluated && is_constant_evaluated()))
 			{
@@ -863,9 +864,10 @@ MUU_NAMESPACE_START
 		MUU_ATTR(const)
 		MUU_CONSTEVAL T consteval_cos(T x)
 		{
+			MUU_FMA_BLOCK
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
 
-			if (x < T{} || x > constants<T>::two_pi)
+			if (x < T{} || x > constants<T>::two_pi) // normalize to [0, 2 pi]
 				x -= constants<T>::two_pi * floor_(x * constants<T>::one_over_two_pi);
 			if (x == T{} || x == constants<T>::two_pi)
 				return T{ 1 };
@@ -890,6 +892,7 @@ MUU_NAMESPACE_START
 			T sum = T{ 1 } + term;
 			for (intmax_t i = 2; i < max_constexpr_math_iterations; i++)
 			{
+				MUU_FMA_BLOCK
 				const auto prev = sum;
 				term *= -x * x / (T{ 2 } * i * (T{ 2 } * i - T{ 1 }));
 				sum += term;
@@ -906,7 +909,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(const)
 		constexpr T MUU_VECTORCALL cos_(T x) noexcept
 		{
-			static_assert(is_floating_point<T>);
+			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
 
 			if (MUU_INTELLISENSE || (build::supports_is_constant_evaluated && is_constant_evaluated()))
 			{
@@ -1011,11 +1014,12 @@ MUU_NAMESPACE_START
 		MUU_ATTR(const)
 		MUU_CONSTEVAL T consteval_sin(T x)
 		{
+			MUU_FMA_BLOCK
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
 
 			if (x == T{} || x != x) // accounts for -0.0 and NaN
 				return x;
-			if (x < T{} || x > constants<T>::two_pi)
+			if (x < T{} || x > constants<T>::two_pi) // normalize to [0, 2 pi]
 				x -= constants<T>::two_pi * floor_(x * constants<T>::one_over_two_pi);
 			if (x == constants<T>::pi)
 				return T{};
@@ -1041,6 +1045,7 @@ MUU_NAMESPACE_START
 			int sign = -1;
 			for (intmax_t i = 3; i < max_constexpr_math_iterations * 2; i += 2, sign = -sign)
 			{
+				MUU_FMA_BLOCK
 				const auto prev = sum;
 				term = -term * x * x / (i * (i - T{ 1 }));
 				sum += term;
@@ -1057,7 +1062,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(const)
 		constexpr T MUU_VECTORCALL sin_(T x) noexcept
 		{
-			static_assert(is_floating_point<T>);
+			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
 
 			if (MUU_INTELLISENSE || (build::supports_is_constant_evaluated && is_constant_evaluated()))
 			{
@@ -1162,11 +1167,12 @@ MUU_NAMESPACE_START
 		MUU_ATTR(const)
 		MUU_CONSTEVAL T consteval_tan(T x)
 		{
+			MUU_FMA_BLOCK
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
 			
 			if (x == T{} || x != x) // accounts for -0.0 and NaN
 				return x;
-			if (x < T{} || x > constants<T>::pi)
+			if (x < T{} || x > constants<T>::pi) // normalize to [0, pi]
 				x -= constants<T>::pi * floor_(x * constants<T>::one_over_pi);
 			if (x == constants<T>::pi)
 				return T{};
@@ -1185,6 +1191,7 @@ MUU_NAMESPACE_START
 				return T{ 1 } / consteval_tan(constants<T>::pi_over_two - x);
 			if (x > constants<T>::pi_over_eight && x < constants<T>::pi_over_four)
 			{
+				MUU_FMA_BLOCK
 				const auto x_ = consteval_tan(x / T{ 2 });
 				return (x_ + x_) / (T{ 1 } - x_ * x_);
 			}
@@ -1199,7 +1206,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(const)
 		constexpr T MUU_VECTORCALL tan_(T x) noexcept
 		{
-			static_assert(is_floating_point<T>);
+			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
 
 			if (MUU_INTELLISENSE || (build::supports_is_constant_evaluated && is_constant_evaluated()))
 			{
@@ -1339,7 +1346,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(const)
 		constexpr T MUU_VECTORCALL acos_(T x) noexcept
 		{
-			static_assert(is_floating_point<T>);
+			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
 
 			if (MUU_INTELLISENSE || (build::supports_is_constant_evaluated && is_constant_evaluated()))
 			{
@@ -1444,6 +1451,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(const)
 		MUU_CONSTEVAL T consteval_asin(T x)
 		{
+			MUU_FMA_BLOCK
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
 			
 			if (x == T{} || x != x) // accounts for -0.0 and NaN
@@ -1490,7 +1498,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(const)
 		constexpr T MUU_VECTORCALL asin_(T x) noexcept
 		{
-			static_assert(is_floating_point<T>);
+			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
 
 			if (MUU_INTELLISENSE || (build::supports_is_constant_evaluated && is_constant_evaluated()))
 			{
@@ -1595,6 +1603,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(const)
 		MUU_CONSTEVAL T consteval_atan(T x)
 		{
+			MUU_FMA_BLOCK
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
 
 			if (x == T{} || x != x) // accounts for -0.0 and NaN
@@ -1624,6 +1633,7 @@ MUU_NAMESPACE_START
 			T sum = T{ 1 };
 			for (intmax_t i = 1; i <= max_constexpr_math_iterations; i++)
 			{
+				MUU_FMA_BLOCK
 				const T prev = sum;
 				prod *= (T{ 2 } * static_cast<T>(i) * x_sq) / ((T{ 2 } * static_cast<T>(i) + T{ 1 }) * (x_sq + T{ 1 }));
 				sum += prod;
@@ -1640,7 +1650,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(const)
 		constexpr T MUU_VECTORCALL atan_(T x) noexcept
 		{
-			static_assert(is_floating_point<T>);
+			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
 
 			if (MUU_INTELLISENSE || (build::supports_is_constant_evaluated && is_constant_evaluated()))
 			{
@@ -1773,7 +1783,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(const)
 		constexpr T MUU_VECTORCALL atan2_(T y, T x) noexcept
 		{
-			static_assert(is_floating_point<T>);
+			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
 
 			if (MUU_INTELLISENSE || (build::supports_is_constant_evaluated && is_constant_evaluated()))
 			{

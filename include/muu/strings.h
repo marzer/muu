@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: MIT
 
 /// \file
-/// \attention These are not the droids you are looking for. Try \ref strings instead.
+/// \brief Functions to simplify working with strings and code units ('characters').
 
 #pragma once
 #include "../muu/core.h"

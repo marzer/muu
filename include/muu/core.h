@@ -77,6 +77,7 @@ static_assert(std::numeric_limits<double>::is_iec559, MUU_ENV_MESSAGE);
 // TYPE TRAITS AND METAFUNCTIONS
 #if 1
 
+#ifndef DOXYGEN
 MUU_IMPL_NAMESPACE_START
 {
 	// note that all the structs with nested types end in underscores;
@@ -450,6 +451,7 @@ MUU_IMPL_NAMESPACE_START
 	}
 }
 MUU_IMPL_NAMESPACE_END
+#endif // !DOXYGEN
 
 MUU_NAMESPACE_START
 {
@@ -865,6 +867,7 @@ MUU_NAMESPACE_START
 }
 MUU_NAMESPACE_END
 
+#ifndef DOXYGEN
 MUU_IMPL_NAMESPACE_START
 {
 	template <typename T>
@@ -1056,6 +1059,7 @@ MUU_IMPL_NAMESPACE_START
 	using maybe_pass_readonly_by_value = typename maybe_pass_readonly_by_value_<T>::type;
 }
 MUU_IMPL_NAMESPACE_END
+#endif // !DOXYGEN
 
 #endif //==============================================================================================================
 

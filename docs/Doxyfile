@@ -168,7 +168,9 @@ SOURCE_TOOLTIPS        = YES
 USE_HTAGS              = NO
 VERBATIM_HEADERS       = NO
 CLANG_ASSISTED_PARSING = NO
-CLANG_OPTIONS          = 
+CLANG_OPTIONS          =	\
+	-std=c++17				\
+	-Wno-everything
 CLANG_DATABASE_PATH    =
 #---------------------------------------------------------------------------
 # Configuration options related to the alphabetical class index
@@ -282,7 +284,7 @@ MAN_LINKS              = NO
 GENERATE_XML           = YES
 XML_OUTPUT             = xml
 XML_PROGRAMLISTING     = NO
-XML_NS_MEMB_FILE_SCOPE = NO
+XML_NS_MEMB_FILE_SCOPE = YES
 #---------------------------------------------------------------------------
 # Configuration options related to the DOCBOOK output
 #---------------------------------------------------------------------------

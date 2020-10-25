@@ -3381,6 +3381,8 @@ MUU_NAMESPACE_START
 		return vector<S, D>::normalize(v);
 	}
 
+	/// \related muu::vector
+	///
 	/// \brief		Returns the normalized direction vector from one position to another.
 	/// 
 	/// \param	from			The start position.
@@ -3405,6 +3407,8 @@ MUU_NAMESPACE_START
 		return vector<S, D>::direction(from, to, distance_out);
 	}
 
+	/// \related muu::vector
+	///
 	/// \brief		Returns the normalized direction vector from one position to another.
 	/// 
 	/// \param	from			The start position.
@@ -3509,6 +3513,7 @@ MUU_NAMESPACE_START
 		return vector<S, D>::angle(v1, v2);
 	}
 
+	/// \ingroup abs
 	/// \related muu::vector
 	///
 	/// \brief	Returns a copy of a vector with all scalar components set to their absolute values.
@@ -3516,7 +3521,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr vector<S, D> abs(const vector<S, D>& v) noexcept
+	constexpr muu::vector<S, D> abs(const vector<S, D>& v) noexcept
 	{
 		return vector<S, D>::abs(v);
 	}

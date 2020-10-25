@@ -21,6 +21,7 @@ MUU_NAMESPACE_START
 	/// \addtogroup		hashing
 	/// @{
 	
+	#ifndef DOXYGEN
 	namespace impl
 	{
 		// these constants are based on the 'golden ratio', as seen in boost::hash_combine
@@ -28,16 +29,16 @@ MUU_NAMESPACE_START
 		// see: https://stackoverflow.com/questions/35985960/c-why-is-boosthash-combine-the-best-way-to-combine-hash-values/50978188#50978188
 
 		template <size_t Bits>
-		struct hash_combiner
+		struct hash_combiner_traits
 		{
 			static_assert(
-				always_false<hash_combiner<Bits>>,
+				always_false<hash_combiner_traits<Bits>>,
 				"Hash combining with hashes of given number of bits is not implemented on the target platform"
 			);
 		};
 
 		template <>
-		struct hash_combiner<16>
+		struct hash_combiner_traits<16>
 		{
 			static constexpr uint16_t offset = 0x9E37_u16;
 			static constexpr int left_shift = 3;
@@ -45,7 +46,7 @@ MUU_NAMESPACE_START
 		};
 
 		template <>
-		struct hash_combiner<32>
+		struct hash_combiner_traits<32>
 		{
 			static constexpr uint32_t offset = 0x9E3779B9_u32;
 			static constexpr int left_shift = 6;
@@ -53,7 +54,7 @@ MUU_NAMESPACE_START
 		};
 
 		template <>
-		struct hash_combiner<64>
+		struct hash_combiner_traits<64>
 		{
 			static constexpr uint64_t offset = 0x9E3779B97F4A7C15_u64;
 			static constexpr int left_shift = 12;
@@ -63,7 +64,7 @@ MUU_NAMESPACE_START
 		#if MUU_HAS_INT128
 
 		template <>
-		struct hash_combiner<128>
+		struct hash_combiner_traits<128>
 		{
 			static constexpr uint128_t offset = pack(0x9E3779B97F4A7C15_u64, 0xF39CC0605D396154_u64);
 			static constexpr int left_shift = 24;
@@ -72,6 +73,7 @@ MUU_NAMESPACE_START
 
 		#endif
 	}
+	#endif // !DOXYGEN
 
 	/// \brief	A hash combiner for integral hashes.
 	///
@@ -92,8 +94,8 @@ MUU_NAMESPACE_START
 
 			constexpr hash_combiner& operator() (hash_type new_hash) noexcept
 			{
-				using constants = impl::hash_combiner<Bits>;
-				value_ ^= (new_hash + constants::offset + (value_ << constants::left_shift) + (value_ >> constants::right_shift));
+				using traits = impl::hash_combiner_traits<Bits>;
+				value_ ^= (new_hash + traits::offset + (value_ << traits::left_shift) + (value_ >> traits::right_shift));
 				return *this;
 			}
 
@@ -104,10 +106,11 @@ MUU_NAMESPACE_START
 			}
 	};
 
+	#ifndef DOXYGEN
 	namespace impl
 	{
 		template <size_t Bits>
-		struct fnv1a
+		struct fnv1a_traits
 		{
 			static_assert(
 				always_false<std::integral_constant<size_t, Bits>>,
@@ -116,14 +119,14 @@ MUU_NAMESPACE_START
 		};
 
 		template <>
-		struct fnv1a<32>
+		struct fnv1a_traits<32>
 		{
 			static constexpr uint32_t prime = 0x01000193_u32;
 			static constexpr uint32_t offset_basis = 0x811C9DC5_u32;
 		};
 
 		template <>
-		struct fnv1a<64>
+		struct fnv1a_traits<64>
 		{
 			static constexpr uint64_t prime = 0x00000100000001B3_u64;
 			static constexpr uint64_t offset_basis = 0xCBF29CE484222325_u64;
@@ -132,7 +135,7 @@ MUU_NAMESPACE_START
 		#if MUU_HAS_INT128
 
 		template <>
-		struct fnv1a<128>
+		struct fnv1a_traits<128>
 		{
 			static constexpr uint128_t prime =        pack(0x0000000001000000_u64, 0x000000000000013B_u64);
 			static constexpr uint128_t offset_basis = pack(0x6C62272E07BB0142_u64, 0x62B821756295C58D_u64);
@@ -161,6 +164,7 @@ MUU_NAMESPACE_START
 			});
 		}
 	}
+	#endif // !DOXYGEN
 
 	/// \brief	FNV-1a hasher.
 	///
@@ -174,7 +178,7 @@ MUU_NAMESPACE_START
 			using hash_type = unsigned_integer<Bits>;
 		
 		private:
-			hash_type value_ = impl::fnv1a<Bits>::offset_basis;
+			hash_type value_ = impl::fnv1a_traits<Bits>::offset_basis;
 
 		public:
 
@@ -185,7 +189,7 @@ MUU_NAMESPACE_START
 			constexpr fnv1a& operator() (uint8_t byte) noexcept
 			{
 				value_ ^= static_cast<hash_type>(byte);
-				value_ *= impl::fnv1a<Bits>::prime;
+				value_ *= impl::fnv1a_traits<Bits>::prime;
 				return *this;
 			}
 

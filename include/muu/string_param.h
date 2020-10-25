@@ -20,6 +20,7 @@ MUU_DISABLE_SPAM_WARNINGS
 
 MUU_NAMESPACE_START
 {
+	#ifndef DOXYGEN
 	namespace impl
 	{
 		template <typename>
@@ -44,6 +45,7 @@ MUU_NAMESPACE_START
 				#endif
 			>;
 	}
+	#endif // !DOXYGEN
 
 	/// \brief		A move-only string type-eraser capable of representing any UTF string.
 	/// \ingroup strings

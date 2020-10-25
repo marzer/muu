@@ -16,6 +16,7 @@ import concurrent.futures as futures
 import html
 import bs4 as soup
 import json
+import xml.etree.ElementTree as ET
 
 
 #=== CONFIG ============================================================================================================
@@ -264,8 +265,14 @@ external_links = [
 	# ...
 	# ...
 ]
-header_overrides = [
-	(r'muu/impl/unicode_.*?\.h', 'muu/strings.h', 'strings_8h.html')
+implementation_headers = [
+	(
+		'muu/strings.h',
+		(
+			'muu/impl/unicode_char.h',		'muu/impl/unicode_char16_t.h',		'muu/impl/unicode_char32_t.h',
+			'muu/impl/unicode_char8_t.h',	'muu/impl/unicode_unsigned_char.h', 'muu/impl/unicode_wchar_t.h'
+		),
+	),
 ]
 badges = [
 	(
@@ -465,7 +472,7 @@ class RegexReplacer(object):
 
 	def __substitute(self, m):
 		self.__result = True
-		self.__groups = [str(m.group(0))]
+		self.__groups = [m[0]]
 		self.__groups += [str(g) for g in m.groups()]
 		return self.__handler(m)
 
@@ -505,16 +512,16 @@ class CustomTagsFix(object):
 	@classmethod
 	def __double_tags_substitute(cls, m):
 		return '<{}{}>{}</{}>'.format(
-			m.group(1),
-			html.unescape(m.group(2)),
-			m.group(3),
-			m.group(1)
+			m[1],
+			html.unescape(m[2]),
+			m[3],
+			m[1]
 		)
 
 	@classmethod
 	def __single_tags_substitute(cls, m):
-		if (str(m.group(1)).lower() == 'emoji'):
-			emoji = str(m.group(2)).strip().lower()
+		if (str(m[1]).lower() == 'emoji'):
+			emoji = str(m[2]).strip().lower()
 			if emoji == '':
 				return ''
 			if cls.__emojis is None:
@@ -525,7 +532,7 @@ class CustomTagsFix(object):
 					for key, uri in cls.__emojis.items():
 						m2 = cls.__emoji_uri.fullmatch(uri)
 						if m2:
-							emojis[key] = [ str(m2.group(1)).upper(), uri ]
+							emojis[key] = [ str(m2[1]).upper(), uri ]
 					aliases = [('sundae', 'ice_cream')]
 					for alias, key in aliases:
 						emojis[alias] = emojis[key]
@@ -539,8 +546,8 @@ class CustomTagsFix(object):
 
 		else:
 			return '<{}{}>'.format(
-				m.group(1),
-				(' ' + str(m.group(2)).strip()) if m.group(2) else ''
+				m[1],
+				(' ' + str(m[2]).strip()) if m[2] else ''
 			)
 
 	def __call__(self, file, doc):
@@ -564,33 +571,6 @@ class CustomTagsFix(object):
 					continue
 
 		return changed
-
-
-
-#=======================================================================================================================
-
-
-
-# adds custom links to the navbar.
-class NavBarFix(object):
-
-	def __call__(self, file, doc):
-		global repository
-		__links = [
-			('Report an issue', f'https://github.com/{repository}/issues'),
-			('Github', f'https://github.com/{repository}/')
-		]
-		list = doc.body.header.nav.div.div.select_one('#m-navbar-collapse').div.ol
-		if (list.select_one('.muu-injected') is None):
-			for label, url in self.__links:
-				doc.new_tag('a',
-					parent=doc.new_tag('li', parent=list, class_='muu-injected muu-external-navbar', index=0),
-					string=label,
-					href=url,
-					target='_blank'
-				)
-			return True
-		return False
 
 
 
@@ -629,10 +609,10 @@ class ModifiersFix1(ModifiersFixBase):
 	@classmethod
 	def __substitute(cls, m):
 		return '{}<span class="muu-injected m-label m-flat {}">{}</span>{}'.format(
-			m.group(1),
-			cls._modifierClasses[m.group(2)],
-			m.group(2),
-			m.group(3)
+			m[1],
+			cls._modifierClasses[m[2]],
+			m[2],
+			m[3]
 		)
 
 	def __call__(self, file, doc):
@@ -659,7 +639,7 @@ class ModifiersFix2(ModifiersFixBase):
 
 	@classmethod
 	def __substitute(cls, m, matches):
-		matches.append(m.group(1))
+		matches.append(m[1])
 		return ' '
 
 	def __call__(self, file, doc):
@@ -720,107 +700,7 @@ class IndexPageFix(object):
 
 
 
-#=======================================================================================================================
-
-
-
-# base type for applying inline namespace annotations.
-class InlineNamespaceFixBase(object):
-	_namespaceFiles = ['namespace{}.html'.format(ns.lower().replace('::','_1_1')) for ns in inline_namespaces]
-
-
-
-#=======================================================================================================================
-
-
-
-# adds inline namespace annotations in class and namespace trees.
-class InlineNamespaceFix1(InlineNamespaceFixBase):
-	__allowedFiles = ['annotated.html', 'namespaces.html']
-
-	def __call__(self, file, doc):
-		global inline_namespace_explainer
-		changed = False
-		if (file in self.__allowedFiles):
-			anchors = []
-			for f in self._namespaceFiles:
-				anchors += doc.body.find_all("a", href=f)
-			for anchor in anchors:
-				next = anchor.next_sibling
-				while (next is not None and isinstance(next, soup.NavigableString)):
-					next = next.next_sibling
-				if (next is not None and next.get('class') is not None and 'muu-injected' in next.get('class')):
-					continue
-				doc.new_tag('span',
-					after=anchor,
-					string='inline',
-					title=inline_namespace_explainer,
-					class_='m-label m-info m-flat muu-injected muu-inline-namespace'
-				)
-				anchor.insert_after(' ')
-				changed = True
-		return changed
-
-
-
-#=======================================================================================================================
-
-
-
-# adds inline namespace annotations to the h1 element of inline namespace pages.
-class InlineNamespaceFix2(InlineNamespaceFixBase):
-
-	def __call__(self, file, doc):
-		global inline_namespace_explainer
-		changed = False
-		if (file in self._namespaceFiles):
-			h1 = doc.body.find('h1')
-			tag = h1.select_one('span.muu-injected')
-			if (tag is None):
-				tag = doc.new_tag('span',
-					parent=h1,
-					string='inline',
-					title=inline_namespace_explainer,
-					class_='m-label m-info muu-injected muu-inline-namespace'
-				)
-				tag.insert_before(' ')
-				changed = True
-		return changed
-
-
-
-#=======================================================================================================================
-
-
-
-# adds inline namespace annotations to sections with id=namespaces.
-class InlineNamespaceFix3(InlineNamespaceFixBase):
-
-	def __call__(self, file, doc):
-		global inline_namespace_explainer
-		anchors = doc.find_all_from_sections('a', section='namespaces')
-		changed = False
-		for anchor in anchors:
-			if (anchor.get('href') not in self._namespaceFiles):
-				continue
-			next = anchor.next_sibling
-			while (next is not None and isinstance(next, soup.NavigableString)):
-				next = next.next_sibling
-			if (next is not None and next.get('class') is not None and 'muu-injected' in next.get('class')):
-				continue
-			doc.new_tag('span',
-				after=anchor,
-				string='inline',
-				title=inline_namespace_explainer,
-				class_='m-label m-info m-flat muu-injected muu-inline-namespace'
-			)
-			anchor.insert_after(' ')
-			changed = True
-		return changed
-
-
-
-#=======================================================================================================================
+##=======================================================================================================================
 
 
 
@@ -920,7 +800,7 @@ class ExtDocLinksFix(object):
 			uri,
 			' muu-external' if external else '',
 			' target="_blank"' if external else '',
-			m.group(0),
+			m[0],
 		)
 
 	def __call__(self, file, doc):
@@ -968,9 +848,9 @@ class EnableIfFix(object):
 	@classmethod
 	def __substitute(cls, m):
 		return r'{}<span class="muu-injected muu-enable-if"><a href="#" onclick="ToggleEnableIf(this);return false;">...</a><span>{}</span></span>{}'.format(
-			m.group(1),
-			m.group(2),
-			m.group(3)
+			m[1],
+			m[2],
+			m[3]
 		)
 
 	def __call__(self, file, doc):
@@ -1034,47 +914,19 @@ class ExternalLinksFix(object):
 
 
 
-# overrides <path/to/header.h> links
-class HeaderOverridesFix(object):
-
-	def __init__(self):
-		global header_overrides
-		self.__expressions = []
-		for header, repl, html_file in header_overrides:
-			self.__expressions.append((
-				re.compile('(?:<|")'+header+'(?:>|")'),
-				'<' + repl + '>',
-				html_file
-			))
-
-	@classmethod
-	def __substitute(cls, m, repl):
-		return repl
-
-	def __call__(self, file, doc):
-		changed = False
-		root = doc.body.main.article.div.div
-		tags = root.find_all('a', string=True)
-		for tag in tags:
-			skip = False
-			for expr, repl, html_file in self.__expressions:
-				replacer = RegexReplacer(expr, lambda m: self.__substitute(m, repl), tag.string)
-				if replacer:
-					tag.string = str(replacer)
-					tag["href"] = html_file
-					changed = True
-					skip = True
-				if skip:
-					continue
-		return changed
-
-
-
-#=======================================================================================================================
-
-
-
 _threadError = False
+
+
+
+def print_exception(exc):
+	print(
+		'Error: [{}] {}'.format(
+			type(exc).__name__,
+			str(exc)
+		),
+		file=sys.stderr
+	)
+	traceback.print_exc(file=sys.stderr)
 
 
 
@@ -1096,22 +948,209 @@ def postprocess_file(dir, file, fixes):
 			doc.flush()
 
 	except Exception as err:
-		print(
-			'Error: [{}] {}'.format(
-				type(err).__name__,
-				str(err)
-			),
-			file=sys.stderr
-		)
-		traceback.print_exc(file=sys.stderr)
+		print_exception(err)
 		_threadError = True
 
 	return changed
 
 
 
-def preprocess_xml(xml_dir):
-	pass
+# this is a lightweight version of doxygen's escapeCharsInString()
+# (see https://github.com/doxygen/doxygen/blob/master/src/util.cpp)
+def doxygen_mangle_name(name):
+	assert name is not None
+
+	name = name.replace('_', '__')
+	name = name.replace(':', '_1')
+	name = name.replace('/', '_2')
+	name = name.replace('<', '_3')
+	name = name.replace('>', '_4')
+	name = name.replace('*', '_5')
+	name = name.replace('&', '_6')
+	name = name.replace('|', '_7')
+	name = name.replace('.', '_8')
+	name = name.replace('!', '_9')
+	name = name.replace(',', '_00')
+	name = name.replace(' ', '_01')
+	name = name.replace('{', '_02')
+	name = name.replace('}', '_03')
+	name = name.replace('?', '_04')
+	name = name.replace('^', '_05')
+	name = name.replace('%', '_06')
+	name = name.replace('(', '_07')
+	name = name.replace(')', '_08')
+	name = name.replace('+', '_09')
+	name = name.replace('=', '_0a')
+	name = name.replace('$', '_0b')
+	name = name.replace('\\','_0c')
+	name = name.replace('@', '_0d')
+	name = name.replace(']', '_0e')
+	name = name.replace('[', '_0f')
+	name = name.replace('#', '_0g')
+	name = re.sub(r'[A-Z]', lambda m: '_' + m[0].lower(), name)
+	return name
+
+
+
+def preprocess_xml(dir):
+	global inline_namespaces
+	global implementation_headers
+
+	write_xml_to_file = lambda x, f: x.write(f, encoding='utf-8', xml_declaration=True)
+	inline_namespace_ids = [f'namespace{doxygen_mangle_name(ns)}' for ns in inline_namespaces]
+	implementation_header_data = [
+		(
+			hp,
+			path.basename(hp),
+			doxygen_mangle_name(path.basename(hp)),
+			[(i, path.basename(i), doxygen_mangle_name(path.basename(i))) for i in impl]
+		)
+		for hp, impl in implementation_headers
+	]
+	implementation_header_mappings = dict()
+	implementation_header_innernamespaces = dict()
+	implementation_header_sectiondefs = dict()
+	for hdata in implementation_header_data:
+		implementation_header_innernamespaces[hdata[2]] = []
+		implementation_header_sectiondefs[hdata[2]] = []
+		for (ip, ifn, iid) in hdata[3]:
+			implementation_header_mappings[iid] = hdata
+
+	if 1:
+		extracted_implementation = False
+		xml_files = utils.get_all_files(dir, any=('*.xml'))
+		for xml_file in xml_files:
+			print(f'Pre-processing {xml_file}')
+			xml = ET.parse(xml_file)
+			
+			root = xml.getroot().find('compounddef')
+			if root is None:
+				continue
+
+			changed = False
+
+			# namespaces
+			if root.get("kind") == "namespace":
+				for nsid in inline_namespace_ids:
+					if root.get("id") == nsid:
+						root.set("inline", "yes")
+						changed = True
+						break
+
+			# dirs
+			if root.get("kind") == "dir":
+				innerfiles = root.findall('innerfile')
+				for innerfile in innerfiles:
+					if innerfile.get('refid') in implementation_header_mappings:
+						root.remove(innerfile)
+						changed = True
+
+			# header files
+			if root.get("kind") == "file":
+				# remove junk not required by m.css
+				for tag in ('includes', 'includedby', 'incdepgraph', 'invincdepgraph'):
+					tags = root.findall(tag)
+					if tags:
+						for t in tags:
+							root.remove(t)
+							changed = True
+
+				# rip the good bits out of implementation headers
+				if root.get("id") in implementation_header_mappings:
+					hid = implementation_header_mappings[root.get("id")][2]
+					innernamespaces = root.findall('innernamespace')
+					if innernamespaces:
+						implementation_header_innernamespaces[hid] = implementation_header_innernamespaces[hid] + innernamespaces
+						extracted_implementation = True
+						for tag in innernamespaces:
+							root.remove(tag)
+							changed = True
+					sectiondefs = root.findall('sectiondef')
+					if sectiondefs:
+						implementation_header_sectiondefs[hid] = implementation_header_sectiondefs[hid] + sectiondefs
+						extracted_implementation = True
+						for tag in sectiondefs:
+							root.remove(tag)
+							changed = True
+
+			if changed:
+				write_xml_to_file(xml, xml_file)
+
+		# merge extracted implementations
+		if extracted_implementation:
+			for (hp, hfn, hid, impl) in implementation_header_data:
+				xml_file = path.join(dir, f'{hid}.xml')
+				print(f'Merging implementation nodes into {xml_file}')
+				xml = ET.parse(xml_file)
+				root = xml.getroot().find('compounddef')
+				changed = False
+
+				innernamespaces = root.findall('innernamespace')
+				for new_tag in implementation_header_innernamespaces[hid]:
+					matched = False
+					for existing_tag in innernamespaces:
+						if existing_tag.get('refid') == new_tag.get('refid'):
+							matched = True
+							break
+					if not matched:
+						root.append(new_tag)
+						innernamespaces.append(new_tag)
+						changed = True
+
+				sectiondefs = root.findall('sectiondef')
+				for new_section in implementation_header_sectiondefs[hid]:
+					matched_section = False
+					for existing_section in sectiondefs:
+						if existing_section.get('kind') == new_section.get('kind'):
+							matched_section = True
+
+							memberdefs = existing_section.findall('memberdef')
+							new_memberdefs = new_section.findall('memberdef')
+							for new_memberdef in new_memberdefs:
+								matched = False
+								for existing_memberdef in memberdefs:
+									if existing_memberdef.get('id') == new_memberdef.get('id'):
+										matched = True
+										break
+
+								if not matched:
+									new_section.remove(new_memberdef)
+									existing_section.append(new_memberdef)
+									memberdefs.append(new_memberdef)
+									changed = True
+							break
+
+					if not matched_section:
+						root.append(new_section)
+						sectiondefs.append(new_section)
+						changed = True
+
+				if changed:
+					write_xml_to_file(xml, xml_file)
+
+	# delete the impl header xml files
+	if 1:
+		for hdata in implementation_header_data:
+			for (ip, ifn, iid) in hdata[3]:
+				xml_file = path.join(dir, f'{iid}.xml')
+				if (path.exists(xml_file)):
+					print(f'Deleting {xml_file}')
+					os.remove(xml_file)
+
+
+	# scan through the files and substitute impl header ids and paths as appropriate
+	if 1:
+		xml_files = utils.get_all_files(dir, any=('*.xml'))
+		for xml_file in xml_files:
+			print(f'Re-linking implementation headers in {xml_file}')
+			xml = utils.read_all_text_from_file(xml_file)
+			for (hp, hfn, hid, impl) in implementation_header_data:
+				for (ip, ifn, iid) in impl:
+					#xml = xml.replace(f'refid="{iid}"',f'refid="{hid}"')
+					xml = xml.replace(f'compoundref="{iid}"',f'compoundref="{hid}"')
+					xml = xml.replace(ip,hp)
+			with open(xml_file, 'w', encoding='utf-8', newline='\n') as f:
+				f.write(xml)
 
 
 
@@ -1126,51 +1165,48 @@ def main():
 	mcss_dir = path.join(root_dir, 'extern', 'mcss')
 	doxygen = path.join(mcss_dir, 'documentation', 'doxygen.py')
 
-	# delete any previously generated html and xml
-	utils.delete_directory(xml_dir)
-	utils.delete_directory(html_dir)
-
-	# run doxygen
-	subprocess.check_call( ['doxygen', 'Doxyfile'], shell=True, cwd=docs_dir )
+	# run doxygen to generate the xml
+	if 1:
+		utils.delete_directory(xml_dir)
+		subprocess.check_call( ['doxygen', 'Doxyfile'], shell=True, cwd=docs_dir )
 
 	# fix some shit that's broken in the xml
 	preprocess_xml(xml_dir)
 
-	# run doxygen.py (m.css)
-	utils.run_python_script(doxygen, path.join(docs_dir, 'Doxyfile-mcss'), '--no-doxygen')
+	# run doxygen.py (m.css) to generate the html
+	if 1:
+		utils.delete_directory(html_dir)
+		utils.run_python_script(doxygen, path.join(docs_dir, 'Doxyfile-mcss'), '--no-doxygen')
 
 	# delete xml
-	utils.delete_directory(xml_dir)
+	if 1:
+		utils.delete_directory(xml_dir)
 
 	# post-process html files
-	fixes = [
-		CustomTagsFix()
-		, SyntaxHighlightingFix()
-		#, NavBarFix()
-		, IndexPageFix()
-		, ModifiersFix1()
-		, ModifiersFix2()
-		# , InlineNamespaceFix1()
-		# , InlineNamespaceFix2()
-		# , InlineNamespaceFix3()
-		, ExtDocLinksFix()
-		, EnableIfFix()
-		, ExternalLinksFix()
-		, HeaderOverridesFix()
-	]
-	files = [path.split(f) for f in utils.get_all_files(html_dir, any=('*.html', '*.htm'))]
-	if files:
-		with futures.ThreadPoolExecutor(max_workers=min(len(files), num_threads)) as executor:
-			jobs = { executor.submit(postprocess_file, dir, file, fixes) : file for dir, file in files }
-			for job in futures.as_completed(jobs):
-				if _threadError:
-					executor.shutdown(False)
-					break
-				else:
-					file = jobs[job]
-					print('Finished processing {}.'.format(file))
-		if _threadError:
-			return 1
+	if 1:
+		fixes = [
+			CustomTagsFix()
+			, SyntaxHighlightingFix()
+			, IndexPageFix()
+			, ModifiersFix1()
+			, ModifiersFix2()
+			, ExtDocLinksFix()
+			, EnableIfFix()
+			, ExternalLinksFix()
+		]
+		files = [path.split(f) for f in utils.get_all_files(html_dir, any=('*.html', '*.htm'))]
+		if files:
+			with futures.ThreadPoolExecutor(max_workers=min(len(files), num_threads)) as executor:
+				jobs = { executor.submit(postprocess_file, dir, file, fixes) : file for dir, file in files }
+				for job in futures.as_completed(jobs):
+					if _threadError:
+						executor.shutdown(False)
+						break
+					else:
+						file = jobs[job]
+						print('Finished processing {}.'.format(file))
+			if _threadError:
+				return 1
 
 
 if __name__ == '__main__':

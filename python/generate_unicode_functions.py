@@ -1640,10 +1640,6 @@ def write_header(folders, code_unit):
 		both('')
 
 		# header preamble
-		if G.doxygen:
-			h('/// \\file')
-			h(f'/// \\attention These are not the droids you are looking for. Try \\ref strings instead.')
-			h('')
 		h('#pragma once')
 		if code_unit.typename == 'char':
 			h('#include "../../muu/impl/unicode_unsigned_char.h"')
@@ -1697,7 +1693,6 @@ def write_header(folders, code_unit):
 
 		files = (header_file, tests_file)
 		mutex_groups = dict()
-
 
 
 		######### is_ascii_XXXXXXX

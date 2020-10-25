@@ -19,6 +19,10 @@
 
 namespace
 {
+	#if MUU_HAS_QUADMATH
+	float128_t absq(float128_t x) noexcept { return ::fabsq(x); }
+	#endif
+
 	template <typename T, typename Return = T>
 	using muu_func_ptr = Return(MUU_VECTORCALL*)(T) noexcept;
 
@@ -186,9 +190,12 @@ namespace
 
 // these are all named because muu::half literals arent constexpr-friendly on old compilers
 
+MATH_CHECKS(abs,		-constants<T>::one_hundred, constants<T>::one_hundred,	500);
+MATH_CHECKS(floor,		-constants<T>::one_hundred, constants<T>::one_hundred,	500);
+MATH_CHECKS(ceil,		-constants<T>::one_hundred, constants<T>::one_hundred,	500);
 MATH_CHECKS(sqrt,		constants<T>::zero,			constants<T>::one_hundred,	500);
-MATH_CHECKS(sin,		-constants<T>::two_pi,		constants<T>::two_pi,		500);
 MATH_CHECKS(cos,		-constants<T>::two_pi,		constants<T>::two_pi,		500);
+MATH_CHECKS(sin,		-constants<T>::two_pi,		constants<T>::two_pi,		500);
 MATH_CHECKS(tan,		-constants<T>::two_pi,		constants<T>::two_pi,		500);
 MATH_CHECKS(acos,		-constants<T>::one,			constants<T>::one,			500);
 MATH_CHECKS(asin,		-constants<T>::one,			constants<T>::one,			500);

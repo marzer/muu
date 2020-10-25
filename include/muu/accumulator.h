@@ -228,6 +228,7 @@ MUU_NAMESPACE_START
 			}
 	};
 
+	#ifndef DOXYGEN
 	namespace impl
 	{
 		template <typename ValueType>
@@ -378,6 +379,7 @@ MUU_NAMESPACE_START
 
 		MUU_POP_PRECISE_MATH
 	}
+	#endif // !DOXYGEN
 }
 MUU_NAMESPACE_END
 
