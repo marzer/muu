@@ -507,6 +507,7 @@ MUU_NAMESPACE_START
 	/// \brief	Returns true if a float is approximately equal to zero.
 	[[nodiscard]]
 	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
 	constexpr bool MUU_VECTORCALL approx_zero(float x, float epsilon = constants<float>::approx_equal_epsilon) noexcept
 	{
 		return approx_equal(x, 0.0f, epsilon);
@@ -515,6 +516,7 @@ MUU_NAMESPACE_START
 	/// \brief	Returns true if a double is approximately equal to zero.
 	[[nodiscard]]
 	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
 	constexpr bool MUU_VECTORCALL approx_zero(double x, double epsilon = constants<double>::approx_equal_epsilon) noexcept
 	{
 		return approx_equal(x, 0.0, epsilon);
@@ -523,6 +525,7 @@ MUU_NAMESPACE_START
 	/// \brief	Returns true if a long double is approximately equal to zero.
 	[[nodiscard]]
 	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
 	constexpr bool MUU_VECTORCALL approx_zero(long double x, long double epsilon = constants<long double>::approx_equal_epsilon) noexcept
 	{
 		return approx_equal(x, 0.0L, epsilon);
@@ -532,6 +535,7 @@ MUU_NAMESPACE_START
 	/// \brief	Returns true if a float128_t is approximately equal to zero.
 	[[nodiscard]]
 	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
 	constexpr bool MUU_VECTORCALL approx_zero(float128_t x, float128_t epsilon = constants<float128_t>::approx_equal_epsilon) noexcept
 	{
 		return approx_equal(x, float128_t{}, epsilon);
@@ -542,6 +546,7 @@ MUU_NAMESPACE_START
 	/// \brief	Returns true if a _Float16 is approximately equal to zero.
 	[[nodiscard]]
 	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
 	constexpr bool MUU_VECTORCALL approx_zero(_Float16 x, _Float16 epsilon = constants<_Float16>::approx_equal_epsilon) noexcept
 	{
 		return approx_equal(x, _Float16{}, epsilon);
@@ -552,6 +557,7 @@ MUU_NAMESPACE_START
 	/// \brief	Returns true if a __fp16 is approximately equal to zero.
 	[[nodiscard]]
 	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
 	constexpr bool MUU_VECTORCALL approx_zero(__fp16 x, __fp16 epsilon = constants<__fp16>::approx_equal_epsilon) noexcept
 	{
 		return approx_equal(x, __fp16{}, epsilon);

@@ -727,6 +727,13 @@ MUU_IMPL_NAMESPACE_START
 	MUU_API void print_vector_to_stream(std::wostream& stream, const int128_t*, size_t);
 	MUU_API void print_vector_to_stream(std::wostream& stream, const uint128_t*, size_t);
 	#endif
+
+	template <typename T, typename U>
+	using equality_check_type = std::conditional_t<
+		is_signed<T> != is_signed<U> || is_floating_point<T> != is_floating_point<U>,
+		promote_if_small_float<highest_ranked<T, U>>,
+		highest_ranked<T, U>
+	>;
 }
 MUU_IMPL_NAMESPACE_END
 
@@ -1291,17 +1298,17 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		friend constexpr bool MUU_VECTORCALL operator == (vector_param lhs, const vector<T, dimensions>& rhs) noexcept
 		{
-			if constexpr (is_signed<scalar_type> != is_signed<T>)
+			if constexpr (std::is_same_v<scalar_type, T>)
 			{
-				using type = impl::highest_ranked<scalar_type, T>;
-
-				#define VEC_FUNC(member)	static_cast<type>(lhs.member) == static_cast<type>(rhs.member)
+				#define VEC_FUNC(member)	lhs.member == rhs.member
 				COMPONENTWISE_AND(VEC_FUNC);
 				#undef VEC_FUNC
 			}
 			else
 			{
-				#define VEC_FUNC(member)	lhs.member == rhs.member
+				using type = impl::equality_check_type<scalar_type, T>;
+
+				#define VEC_FUNC(member)	static_cast<type>(lhs.member) == static_cast<type>(rhs.member)
 				COMPONENTWISE_AND(VEC_FUNC);
 				#undef VEC_FUNC
 			}
@@ -1326,17 +1333,17 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		friend constexpr bool MUU_VECTORCALL operator == (vector_param lhs, vector<T, dimensions> rhs) noexcept
 		{
-			if constexpr (is_signed<scalar_type> != is_signed<T>)
+			if constexpr (std::is_same_v<scalar_type, T>)
 			{
-				using type = impl::highest_ranked<scalar_type, T>;
-
-				#define VEC_FUNC(member)	static_cast<type>(lhs.member) == static_cast<type>(rhs.member)
+				#define VEC_FUNC(member)	lhs.member == rhs.member
 				COMPONENTWISE_AND(VEC_FUNC);
 				#undef VEC_FUNC
 			}
 			else
 			{
-				#define VEC_FUNC(member)	lhs.member == rhs.member
+				using type = impl::equality_check_type<scalar_type, T>;
+
+				#define VEC_FUNC(member)	static_cast<type>(lhs.member) == static_cast<type>(rhs.member)
 				COMPONENTWISE_AND(VEC_FUNC);
 				#undef VEC_FUNC
 			}
@@ -1423,11 +1430,20 @@ MUU_NAMESPACE_START
 			dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
 		) noexcept
 		{
-			using type = impl::promote_if_small_float<impl::highest_ranked<scalar_type, T>>;
+			if constexpr (std::is_same_v<scalar_type, T>)
+			{
+				#define VEC_FUNC(member)	muu::approx_equal(v1.member, v2.member, epsilon)
+				COMPONENTWISE_AND(VEC_FUNC);
+				#undef VEC_FUNC
+			}
+			else
+			{
+				using type = impl::equality_check_type<scalar_type, T>;
 
-			#define VEC_FUNC(member)	muu::approx_equal(static_cast<type>(v1.member), static_cast<type>(v2.member), static_cast<type>(epsilon))
-			COMPONENTWISE_AND(VEC_FUNC);
-			#undef VEC_FUNC
+				#define VEC_FUNC(member)	muu::approx_equal(static_cast<type>(v1.member), static_cast<type>(v2.member), static_cast<type>(epsilon))
+				COMPONENTWISE_AND(VEC_FUNC);
+				#undef VEC_FUNC
+			}
 		}
 
 		/// \brief	Returns true if the vector is approximately equal to another.
@@ -1459,11 +1475,20 @@ MUU_NAMESPACE_START
 			dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
 		) noexcept
 		{
-			using type = impl::promote_if_small_float<impl::highest_ranked<scalar_type, T>>;
+			if constexpr (std::is_same_v<scalar_type, T>)
+			{
+				#define VEC_FUNC(member)	muu::approx_equal(v1.member, v2.member, epsilon)
+				COMPONENTWISE_AND(VEC_FUNC);
+				#undef VEC_FUNC
+			}
+			else
+			{
+				using type = impl::equality_check_type<scalar_type, T>;
 
-			#define VEC_FUNC(member)	muu::approx_equal(static_cast<type>(v1.member), static_cast<type>(v2.member), static_cast<type>(epsilon))
-			COMPONENTWISE_AND(VEC_FUNC);
-			#undef VEC_FUNC
+				#define VEC_FUNC(member)	muu::approx_equal(static_cast<type>(v1.member), static_cast<type>(v2.member), static_cast<type>(epsilon))
+				COMPONENTWISE_AND(VEC_FUNC);
+				#undef VEC_FUNC
+			}
 		}
 
 		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T>
@@ -1492,7 +1517,9 @@ MUU_NAMESPACE_START
 			scalar_type epsilon = muu::constants<scalar_type>::approx_equal_epsilon
 		) noexcept
 		{
-			return approx_equal(v, constants::zero, epsilon);
+			#define VEC_FUNC(member)	muu::approx_zero(v.member, epsilon)
+			COMPONENTWISE_AND(VEC_FUNC);
+			#undef VEC_FUNC
 		}
 
 		/// \brief	Returns true if all the scalar components in the vector are approximately equal to zero.
@@ -1505,7 +1532,7 @@ MUU_NAMESPACE_START
 			scalar_type epsilon = muu::constants<scalar_type>::approx_equal_epsilon
 		) const noexcept
 		{
-			return approx_equal(*this, constants::zero, epsilon);
+			return approx_zero(*this, epsilon);
 		}
 
 	#endif // approx_equal
@@ -3200,7 +3227,7 @@ MUU_NAMESPACE_START
 	/// \related	muu::vector
 	///
 	/// \brief	Returns true if any of the scalar components of a vector are infinity or NaN.
-	template <typename S, size_t D>
+	template <typename S, size_t D ENABLE_PAIRED_FUNC_BY_REF(S, D, true)>
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
@@ -3258,6 +3285,29 @@ MUU_NAMESPACE_START
 	{
 		return vector<S, D>::approx_zero(v, epsilon);
 	}
+
+	/// \addtogroup		math
+	/// @{
+	
+	/// \addtogroup	unit_length		unit_length()
+	/// \brief		Unit length checks for vector types.
+	/// @{
+	
+	/// \related	muu::vector
+	///
+	/// \brief Returns true if a vector is unit-length (i.e. has a length of 1).
+	template <typename S, size_t D ENABLE_PAIRED_FUNC_BY_REF(S, D, true)>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr bool MUU_VECTORCALL unit_length(const vector<S, D>& v) noexcept
+	{
+		return vector<S, D>::unit_length(v);
+	}
+
+	/** @} */	// unit_length
+
+	/** @} */	// math
 
 	/// \related muu::vector
 	///
@@ -3549,6 +3599,21 @@ MUU_NAMESPACE_START
 
 	#if ENABLE_PAIRED_FUNCS
 
+	template <typename S, size_t D ENABLE_PAIRED_FUNC_BY_VAL(S, D, true)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr bool infinity_or_nan(vector<S, D> v) noexcept
+	{
+		if constexpr (is_floating_point<S>)
+			return vector<S, D>::infinity_or_nan(v);
+		else
+		{
+			(void)v;
+			return false;
+		}
+	}
+
 	template <typename S, typename T, size_t D,
 		typename Epsilon = impl::highest_ranked<S, T>
 		ENABLE_PAIRED_FUNC_BY_VAL(S, D, any_floating_point<S, T> && impl::pass_vector_by_value<T, D>)
@@ -3579,6 +3644,15 @@ MUU_NAMESPACE_START
 	) noexcept
 	{
 		return vector<S, D>::approx_zero(v, epsilon);
+	}
+
+	template <typename S, size_t D ENABLE_PAIRED_FUNC_BY_VAL(S, D, true)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr bool MUU_VECTORCALL unit_length(vector<S, D> v) noexcept
+	{
+		return vector<S, D>::unit_length(v);
 	}
 
 	template <typename S, size_t D,

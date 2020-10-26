@@ -992,6 +992,7 @@ MUU_NAMESPACE_START
 	/// \related	muu::half
 	[[nodiscard]]
 	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
 	constexpr bool MUU_VECTORCALL approx_zero(half x, half epsilon = constants<half>::approx_equal_epsilon) noexcept
 	{
 		#if MUU_HALF_EMULATED

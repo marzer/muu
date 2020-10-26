@@ -377,6 +377,7 @@ inline void equality_tests(std::string_view scalar_typename) noexcept
 		if constexpr (is_floating_point<T>)
 		{
 			CHECK(vector_t::approx_equal(vec, same));
+			CHECK(vec.approx_equal(same));
 			CHECK(muu::approx_equal(vec, same));
 		}
 
@@ -387,6 +388,7 @@ inline void equality_tests(std::string_view scalar_typename) noexcept
 		if constexpr (is_floating_point<T>)
 		{
 			CHECK_FALSE(vector_t::approx_equal(vec, different));
+			CHECK_FALSE(vec.approx_equal(different));
 			CHECK_FALSE(muu::approx_equal(vec, different));
 		}
 	}
@@ -416,34 +418,67 @@ inline void zero_tests(std::string_view scalar_typename) noexcept
 	INFO("vector<"sv << scalar_typename << ", "sv << Dimensions << ">"sv)
 	using vector_t = vector<T, Dimensions>;
 
-	vector_t vec{ T{} };
 	{
 		INFO("all zeroes"sv)
+
+		vector_t vec{ T{} };
+
 		CHECK(vec.zero());
+		if constexpr (is_floating_point<T>)
+		{
+			CHECK(vector_t::approx_zero(vec));
+			CHECK(vec.approx_zero());
+			CHECK(muu::approx_zero(vec));
+		}
 	}
 
 	{
 		INFO("no zeroes"sv)
+
+		vector_t vec;
 		for (size_t i = 0; i < Dimensions; i++)
 			vec[i] = random<T>(1, 10);
+
 		CHECK_FALSE(vec.zero());
+		if constexpr (is_floating_point<T>)
+		{
+			CHECK_FALSE(vector_t::approx_zero(vec));
+			CHECK_FALSE(vec.approx_zero());
+			CHECK_FALSE(muu::approx_zero(vec));
+		}
 	}
 
 	if constexpr (Dimensions > 1)
 	{
 		INFO("some zeroes"sv)
+
+		vector_t vec{ T{1} };
 		for (size_t i = 0; i < Dimensions; i += 2)
 			vec[i] = T{};
+
 		CHECK_FALSE(vec.zero());
+		if constexpr (is_floating_point<T>)
+		{
+			CHECK_FALSE(vector_t::approx_zero(vec));
+			CHECK_FALSE(vec.approx_zero());
+			CHECK_FALSE(muu::approx_zero(vec));
+		}
 	}
 
 	{
 		INFO("one zero"sv)
 		for (size_t i = 0; i < Dimensions; i++)
 		{
-			vector_t vec2{ T{} };
-			vec2[i] = random<T>(1, 10);
+			vector_t vec{ T{} };
+			vec[i] = random<T>(1, 10);
+
 			CHECK_FALSE(vec.zero());
+			if constexpr (is_floating_point<T>)
+			{
+				CHECK_FALSE(vector_t::approx_zero(vec));
+				CHECK_FALSE(vec.approx_zero());
+				CHECK_FALSE(muu::approx_zero(vec));
+			}
 		}
 	}
 }

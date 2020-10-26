@@ -421,8 +421,19 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		friend constexpr bool MUU_VECTORCALL operator == (quaternion_param lhs, const quaternion<T>& rhs) noexcept
 		{
-			return lhs.s == rhs.s
-				&& lhs.v == rhs.v;
+			if constexpr (std::is_same_v<scalar_type, T>)
+			{
+				return lhs.s == rhs.s
+					&& lhs.v == rhs.v;
+			}
+			else
+			{
+				using type = impl::equality_check_type<scalar_type, T>;
+
+				if (static_cast<type>(lhs.s) != static_cast<type>(rhs.s))
+					return false;
+				return lhs.v == rhs.v;
+			}
 		}
 
 		/// \brief	Returns true if two quaternions are not exactly equal.
@@ -444,8 +455,19 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		friend constexpr bool MUU_VECTORCALL operator == (quaternion_param lhs, quaternion<T> rhs) noexcept
 		{
-			return lhs.s == rhs.s
-				&& lhs.v == rhs.v;
+			if constexpr (std::is_same_v<scalar_type, T>)
+			{
+				return lhs.s == rhs.s
+					&& lhs.v == rhs.v;
+			}
+			else
+			{
+				using type = impl::equality_check_type<scalar_type, T>;
+
+				if (static_cast<type>(lhs.s) != static_cast<type>(rhs.s))
+					return false;
+				return lhs.v == rhs.v;
+			}
 		}
 
 		template <typename T ENABLE_PAIRED_FUNC_BY_VAL(T, true)>
@@ -538,10 +560,18 @@ MUU_NAMESPACE_START
 			dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
 		) noexcept
 		{
-			using type = impl::promote_if_small_float<impl::highest_ranked<scalar_type, T>>;
+			if constexpr (std::is_same_v<scalar_type, T>)
+			{
+				return muu::approx_equal(q1.s, q2.s, epsilon)
+					&& vector_type::approx_equal(q1.v, q2.v, epsilon);
+			}
+			else
+			{
+				using type = impl::equality_check_type<scalar_type, T>;
 
-			return muu::approx_equal(static_cast<type>(q1.s), static_cast<type>(q2.s), static_cast<type>(epsilon))
-				&& vector_type::approx_equal(q1.v, q2.v, epsilon);
+				return muu::approx_equal(static_cast<type>(q1.s), static_cast<type>(q2.s), static_cast<type>(epsilon))
+					&& vector_type::approx_equal(q1.v, q2.v, epsilon);
+			}
 		}
 
 		/// \brief	Returns true if the quaternion is approximately equal to another.
@@ -567,12 +597,18 @@ MUU_NAMESPACE_START
 			dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
 		) noexcept
 		{
-			using type = impl::promote_if_small_float<impl::highest_ranked<scalar_type, T>>;
+			if constexpr (std::is_same_v<scalar_type, T>)
+			{
+				return muu::approx_equal(q1.s, q2.s, epsilon)
+					&& vector_type::approx_equal(q1.v, q2.v, epsilon);
+			}
+			else
+			{
+				using type = impl::equality_check_type<scalar_type, T>;
 
-			return muu::approx_equal(static_cast<type>(q1.s), static_cast<type>(q2.s), static_cast<type>(epsilon))
-				&& muu::approx_equal(static_cast<type>(q1.v.x), static_cast<type>(q2.v.x), static_cast<type>(epsilon))
-				&& muu::approx_equal(static_cast<type>(q1.v.y), static_cast<type>(q2.v.y), static_cast<type>(epsilon))
-				&& muu::approx_equal(static_cast<type>(q1.v.z), static_cast<type>(q2.v.z), static_cast<type>(epsilon));
+				return muu::approx_equal(static_cast<type>(q1.s), static_cast<type>(q2.s), static_cast<type>(epsilon))
+					&& vector_type::approx_equal(q1.v, q2.v, epsilon);
+			}
 		}
 
 		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T> ENABLE_PAIRED_FUNC_BY_VAL(T, true)>
@@ -596,7 +632,7 @@ MUU_NAMESPACE_START
 			scalar_type epsilon = muu::constants<scalar_type>::approx_equal_epsilon
 		) noexcept
 		{
-			return approx_equal(q, constants::zero, epsilon);
+			return muu::approx_zero(q.s, epsilon) && vector_type::approx_zero(q.v, epsilon);
 		}
 
 		/// \brief	Returns true if all the scalar components in the quaternion are approximately equal to zero.
@@ -606,7 +642,7 @@ MUU_NAMESPACE_START
 			scalar_type epsilon = muu::constants<scalar_type>::approx_equal_epsilon
 		) const noexcept
 		{
-			return approx_equal(*this, constants::zero, epsilon);
+			return approx_zero(*this, epsilon);
 		}
 
 	#endif // approx_equal
@@ -833,6 +869,7 @@ MUU_NAMESPACE_START
 		static constexpr quaternion MUU_VECTORCALL from_euler(scalar_type yaw, scalar_type pitch, scalar_type roll) noexcept
 		{
 			// https://www.euclideanspace.com/maths/geometry/rotations/conversions/eulerToQuaternion/index.htm
+			// (note that they pitch around Z, not X; pitch and roll are swapped here)
 
 			MUU_FMA_BLOCK
 			using itype = intermediate_type;
@@ -847,10 +884,10 @@ MUU_NAMESPACE_START
 
 			return
 			{
-				static_cast<scalar_type>(cx * cy * cz - sx * sy * sz), // scalar (w)
-				static_cast<scalar_type>(cx * cy * sz + sx * sy * cz), // vector (x)
-				static_cast<scalar_type>(sy * cx * cz + cy * sx * sz), // vector (y)
-				static_cast<scalar_type>(cy * sx * cz - sy * cx * sz)  // vector (z)
+				static_cast<scalar_type>(cz * cy * cx - sz * sy * sx), // scalar (w)
+				static_cast<scalar_type>(cz * cy * sx + sz * sy * cx), // vector (x)
+				static_cast<scalar_type>(sy * cz * cx + cy * sz * sx), // vector (y)
+				static_cast<scalar_type>(cy * sz * cx - sy * cz * sx)  // vector (z)
 			};
 		}
 
@@ -876,12 +913,12 @@ MUU_NAMESPACE_START
 			MUU_FMA_BLOCK
 			using itype = intermediate_type;
 
-			const itype sqw  = static_cast<itype>(q.w * q.w);
-			const itype sqx  = static_cast<itype>(q.x * q.x);
-			const itype sqy  = static_cast<itype>(q.y * q.y);
-			const itype sqz  = static_cast<itype>(q.z * q.z);
+			const itype sqw  = static_cast<itype>(q.s * q.s);
+			const itype sqx  = static_cast<itype>(q.v.x * q.v.x);
+			const itype sqy  = static_cast<itype>(q.v.y * q.v.y);
+			const itype sqz  = static_cast<itype>(q.v.z * q.v.z);
 			const itype correction = sqx + sqy + sqz + sqw;
-			const itype test = static_cast<itype>(q.x * q.y + q.z * q.w);
+			const itype test = static_cast<itype>(q.v.x * q.v.y + q.v.z * q.s);
 			constexpr itype threshold = static_cast<itype>(0.499);
 
 			// singularity at north pole
@@ -889,7 +926,7 @@ MUU_NAMESPACE_START
 			{
 				return
 				{
-					static_cast<scalar_type>(itype{ 2 } * muu::atan2(q.x, q.w)),
+					static_cast<scalar_type>(itype{ 2 } * muu::atan2(q.v.x, q.s)),
 					static_cast<scalar_type>(muu::constants<itype>::pi_over_two),
 					scalar_constants::zero
 				};
@@ -900,7 +937,7 @@ MUU_NAMESPACE_START
 			{ 
 				return
 				{
-					static_cast<scalar_type>(itype{ -2 } * muu::atan2(q.x, q.w)),
+					static_cast<scalar_type>(itype{ -2 } * muu::atan2(q.v.x, q.s)),
 					static_cast<scalar_type>(-muu::constants<itype>::pi_over_two),
 					scalar_constants::zero
 				};
@@ -910,9 +947,9 @@ MUU_NAMESPACE_START
 			{
 				return
 				{
-					static_cast<scalar_type>(muu::atan2(itype{ 2 } * q.y * q.w - 2 * q.x * q.z, sqx - sqy - sqz + sqw)),
+					static_cast<scalar_type>(muu::atan2(itype{ 2 } * q.v.y * q.s - itype{ 2 } * q.v.x * q.v.z, sqx - sqy - sqz + sqw)),
 					static_cast<scalar_type>(muu::asin( itype{ 2 } * test / correction)),
-					static_cast<scalar_type>(muu::atan2(itype{ 2 } * q.x * q.w - 2 * q.y * q.z, -sqx + sqy - sqz + sqw))
+					static_cast<scalar_type>(muu::atan2(itype{ 2 } * q.v.x * q.s - itype{ 2 } * q.v.y * q.v.z, -sqx + sqy - sqz + sqw))
 				};
 			}
 		}
@@ -1213,7 +1250,7 @@ MUU_NAMESPACE_START
 	/// \related	muu::quaternion
 	///
 	/// \brief	Returns true if any of the scalar components of a #quaternion are infinity or NaN.
-	template <typename S>
+	template <typename S ENABLE_PAIRED_FUNC_BY_REF(S, true)>
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
@@ -1260,6 +1297,19 @@ MUU_NAMESPACE_START
 		return quaternion<S>::approx_zero(q, epsilon);
 	}
 
+	/// \ingroup	unit_length
+	/// \related	muu::quaternion
+	///
+	/// \brief Returns true if a #quaternion is unit-length (i.e. has a length of 1).
+	template <typename S ENABLE_PAIRED_FUNC_BY_REF(S, true)>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr bool MUU_VECTORCALL unit_length(const quaternion<S>& q) noexcept
+	{
+		return quaternion<S>::unit_length(q);
+	}
+
 	/// \related muu::quaternion
 	///
 	/// \brief	Returns the dot product of two quaternions.
@@ -1302,6 +1352,15 @@ MUU_NAMESPACE_START
 
 	#if ENABLE_PAIRED_FUNCS
 
+	template <typename S ENABLE_PAIRED_FUNC_BY_VAL(S, true)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr bool infinity_or_nan(quaternion<S> q) noexcept
+	{
+		return quaternion<S>::infinity_or_nan(q);
+	}
+
 	template <typename S, typename T,
 		typename Epsilon = impl::highest_ranked<S, T>
 		ENABLE_PAIRED_FUNC_BY_VAL(S, impl::pass_quaternion_by_value<T>)
@@ -1329,7 +1388,16 @@ MUU_NAMESPACE_START
 		S epsilon = muu::constants<S>::approx_equal_epsilon
 	) noexcept
 	{
-		return quaternion<S>::approx_equal(q, epsilon);
+		return quaternion<S>::approx_zero(q, epsilon);
+	}
+
+	template <typename S ENABLE_PAIRED_FUNC_BY_VAL(S, true)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr bool MUU_VECTORCALL unit_length(quaternion<S> q) noexcept
+	{
+		return quaternion<S>::unit_length(q);
 	}
 
 	template <typename S ENABLE_PAIRED_FUNC_BY_VAL(S, true)>
