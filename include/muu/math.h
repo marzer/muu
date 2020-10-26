@@ -420,7 +420,7 @@ MUU_NAMESPACE_START
 
 	#if 1 // approx_equal ---------------------------------------------------------------------------------------------
 	/// \addtogroup		approx_equal	approx_equal()
-	/// \brief Floating-point approximate equality checks.
+	/// \brief Checks if floating-point values are approximately equal.
 	/// @{
 
 	/// \brief	Returns true if two floats are approximately equal.
@@ -476,6 +476,103 @@ MUU_NAMESPACE_START
 		return abs(b - a) < epsilon;
 	}
 	#endif
+
+	/// \brief	Returns true if two scalar values are approximately equal.
+	/// \remark This reduces to `a == b` for non-float types.
+	template <typename T, typename U MUU_SFINAE(std::is_scalar_v<T> && std::is_scalar_v<U>)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr bool MUU_VECTORCALL approx_equal(T a, U b) noexcept
+	{
+		if constexpr (is_scoped_enum<T> || is_scoped_enum<U>)
+			return approx_equal(unwrap(a), unwrap(b));
+		else if constexpr (is_floating_point<T> || is_floating_point<U>)
+		{
+			using type = impl::highest_ranked<T, U>;
+			return approx_equal(static_cast<type>(a), static_cast<type>(b));
+		}	
+		else
+			return a == b;
+	}
+
+	/** @} */	// math::approx_equal
+	#endif // approx_equal
+
+	#if 1 // approx_zero ---------------------------------------------------------------------------------------------
+	/// \addtogroup		approx_zero	approx_zero()
+	/// \brief Checks if floating-point values are approximately equal to zero.
+	/// @{
+
+	/// \brief	Returns true if a float is approximately equal to zero.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool MUU_VECTORCALL approx_zero(float x, float epsilon = constants<float>::approx_equal_epsilon) noexcept
+	{
+		return approx_equal(x, 0.0f, epsilon);
+	}
+
+	/// \brief	Returns true if a double is approximately equal to zero.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool MUU_VECTORCALL approx_zero(double x, double epsilon = constants<double>::approx_equal_epsilon) noexcept
+	{
+		return approx_equal(x, 0.0, epsilon);
+	}
+
+	/// \brief	Returns true if a long double is approximately equal to zero.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool MUU_VECTORCALL approx_zero(long double x, long double epsilon = constants<long double>::approx_equal_epsilon) noexcept
+	{
+		return approx_equal(x, 0.0L, epsilon);
+	}
+
+	#if MUU_HAS_FLOAT128
+	/// \brief	Returns true if a float128_t is approximately equal to zero.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool MUU_VECTORCALL approx_zero(float128_t x, float128_t epsilon = constants<float128_t>::approx_equal_epsilon) noexcept
+	{
+		return approx_equal(x, float128_t{}, epsilon);
+	}
+	#endif
+
+	#if MUU_HAS_FLOAT16
+	/// \brief	Returns true if a _Float16 is approximately equal to zero.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool MUU_VECTORCALL approx_zero(_Float16 x, _Float16 epsilon = constants<_Float16>::approx_equal_epsilon) noexcept
+	{
+		return approx_equal(x, _Float16{}, epsilon);
+	}
+	#endif
+
+	#if MUU_HAS_FP16
+	/// \brief	Returns true if a __fp16 is approximately equal to zero.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool MUU_VECTORCALL approx_zero(__fp16 x, __fp16 epsilon = constants<__fp16>::approx_equal_epsilon) noexcept
+	{
+		return approx_equal(x, __fp16{}, epsilon);
+	}
+	#endif
+
+	/// \brief	Returns true if a scalar value is approximately equal to zero.
+	/// \remark This reduces to `a == 0` for non-float types.
+	template <typename T MUU_SFINAE(std::is_scalar_v<T>)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr bool MUU_VECTORCALL approx_zero(T x) noexcept
+	{
+		static_assert(!is_floating_point<T>); // should have selected a specific overload
+		
+		if constexpr (is_scoped_enum<T>)
+			return !unwrap(x);
+		else
+			return !x;
+	}
 
 	/** @} */	// math::approx_equal
 	#endif // approx_equal

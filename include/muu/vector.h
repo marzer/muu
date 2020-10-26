@@ -213,14 +213,6 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 #define	REQUIRES_SIGNED	\
 	template <typename SFINAE = Scalar MUU_SFINAE(muu::is_signed<SFINAE> && std::is_same_v<SFINAE, Scalar>)>
 
-#define ENABLE_PAIRED_FUNC_BY_REF(S, D, ...) \
-	MUU_SFINAE((MUU_INTELLISENSE || impl::pass_vector_by_reference<S, D>) && (__VA_ARGS__))
-
-#define ENABLE_PAIRED_FUNC_BY_VAL(S, D, ...) \
-	MUU_SFINAE_2(!MUU_INTELLISENSE && impl::pass_vector_by_value<S, D> && (__VA_ARGS__))
-
-#define ENABLE_PAIRED_FUNCS !MUU_INTELLISENSE
-
 #define SPECIALIZED_IF(cond)		, bool = (cond)
 
 #endif // helper macros
@@ -748,12 +740,25 @@ MUU_IMPL_NAMESPACE_END
 #define REQUIRES_FLOATING_POINT
 #define REQUIRES_INTEGRAL
 #define REQUIRES_SIGNED
-#define ENABLE_PAIRED_FUNC_BY_REF(...)
-#define ENABLE_PAIRED_FUNC_BY_VAL(...)
-#define ENABLE_PAIRED_FUNCS 0
 #define SPECIALIZED_IF(cond)
 
 #endif // DOXYGEN
+
+#if !defined(DOXYGEN) && !MUU_INTELLISENSE
+
+	#define ENABLE_PAIRED_FUNCS 1
+
+	#define ENABLE_PAIRED_FUNC_BY_REF(S, D, ...) \
+		MUU_SFINAE(impl::pass_vector_by_reference<S, D> && (__VA_ARGS__))
+
+	#define ENABLE_PAIRED_FUNC_BY_VAL(S, D, ...) \
+		MUU_SFINAE_2(impl::pass_vector_by_value<S, D> && (__VA_ARGS__))
+
+#else 
+	#define ENABLE_PAIRED_FUNCS 0
+	#define ENABLE_PAIRED_FUNC_BY_REF(...)
+	#define ENABLE_PAIRED_FUNC_BY_VAL(...)
+#endif
 
 #endif // =============================================================================================================
 
@@ -765,8 +770,6 @@ namespace Achilles
 {
 	inline namespace Math
 	{
-		template <typename T>
-		struct Quaternion;
 		template <typename T, size_t R, size_t C>
 		struct Matrix;
 	}
@@ -838,8 +841,6 @@ MUU_NAMESPACE_START
 		
 		template <typename T>
 		friend struct quaternion;
-		template <typename T>
-		friend struct Achilles::Math::Quaternion;
 		template <typename T, size_t R, size_t C>
 		friend struct Achilles::Math::Matrix;
 
@@ -3238,6 +3239,26 @@ MUU_NAMESPACE_START
 		return vector<S, D>::approx_equal(v1, v2, epsilon);
 	}
 
+	/// \ingroup	approx_zero
+	/// \related	muu::vector
+	///
+	/// \brief		Returns true if all the scalar components of a vector are approximately equal to zero.
+	///
+	/// \note		This function is only available when `S` is a floating-point type.
+	template <typename S, size_t D
+		ENABLE_PAIRED_FUNC_BY_REF(S, D, is_floating_point<S>)
+	>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr bool approx_zero(
+		const vector<S, D>& v,
+		S epsilon = muu::constants<S>::approx_equal_epsilon
+	) noexcept
+	{
+		return vector<S, D>::approx_zero(v, epsilon);
+	}
+
 	/// \related muu::vector
 	///
 	/// \brief	Returns the squared length of a vector.
@@ -3544,6 +3565,20 @@ MUU_NAMESPACE_START
 		static_assert(is_same_as_any<Epsilon, S, T>);
 
 		return vector<S, D>::approx_equal(v1, v2, epsilon);
+	}
+
+	template <typename S, size_t D
+		ENABLE_PAIRED_FUNC_BY_VAL(S, D, is_floating_point<S>)
+	>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr bool MUU_VECTORCALL approx_zero(
+		vector<S, D> v,
+		S epsilon = muu::constants<S>::approx_equal_epsilon
+	) noexcept
+	{
+		return vector<S, D>::approx_zero(v, epsilon);
 	}
 
 	template <typename S, size_t D,

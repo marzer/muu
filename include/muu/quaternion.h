@@ -34,14 +34,6 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 #if 1
 #ifndef DOXYGEN
 
-#define ENABLE_PAIRED_FUNC_BY_REF(S, ...) \
-	MUU_SFINAE((MUU_INTELLISENSE || impl::pass_quaternion_by_reference<S>) && (__VA_ARGS__))
-
-#define ENABLE_PAIRED_FUNC_BY_VAL(S, ...) \
-	MUU_SFINAE_2(!MUU_INTELLISENSE && impl::pass_quaternion_by_value<S> && (__VA_ARGS__))
-
-#define ENABLE_PAIRED_FUNCS !MUU_INTELLISENSE
-
 MUU_IMPL_NAMESPACE_START
 {
 	template <typename Scalar>
@@ -109,6 +101,23 @@ MUU_IMPL_NAMESPACE_END
 #define ENABLE_PAIRED_FUNCS 0
 
 #endif // DOXYGEN
+
+#if !defined(DOXYGEN) && !MUU_INTELLISENSE
+
+	#define ENABLE_PAIRED_FUNCS 1
+
+	#define ENABLE_PAIRED_FUNC_BY_REF(S, ...) \
+		MUU_SFINAE(impl::pass_quaternion_by_reference<S> && (__VA_ARGS__))
+
+	#define ENABLE_PAIRED_FUNC_BY_VAL(S, ...) \
+		MUU_SFINAE_2(impl::pass_quaternion_by_value<S> && (__VA_ARGS__))
+
+#else 
+	#define ENABLE_PAIRED_FUNCS 0
+	#define ENABLE_PAIRED_FUNC_BY_REF(...)
+	#define ENABLE_PAIRED_FUNC_BY_VAL(...)
+#endif
+
 #endif // =============================================================================================================
 
 //=====================================================================================================================
@@ -1235,6 +1244,22 @@ MUU_NAMESPACE_START
 		return quaternion<S>::approx_equal(q1, q2, epsilon);
 	}
 
+	/// \ingroup	approx_zero
+	/// \related	muu::quaternion
+	///
+	/// \brief		Returns true if all the scalar components of a #quaternion are approximately equal to zero.
+	template <typename S ENABLE_PAIRED_FUNC_BY_REF(S, true)>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr bool approx_zero(
+		const quaternion<S>& q,
+		S epsilon = muu::constants<S>::approx_equal_epsilon
+	) noexcept
+	{
+		return quaternion<S>::approx_zero(q, epsilon);
+	}
+
 	/// \related muu::quaternion
 	///
 	/// \brief	Returns the dot product of two quaternions.
@@ -1293,6 +1318,18 @@ MUU_NAMESPACE_START
 		static_assert(is_same_as_any<Epsilon, S, T>);
 
 		return quaternion<S>::approx_equal(q1, q2, epsilon);
+	}
+
+	template <typename S ENABLE_PAIRED_FUNC_BY_VAL(S, true)>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr bool MUU_VECTORCALL approx_zero(
+		quaternion<S> q,
+		S epsilon = muu::constants<S>::approx_equal_epsilon
+	) noexcept
+	{
+		return quaternion<S>::approx_equal(q, epsilon);
 	}
 
 	template <typename S ENABLE_PAIRED_FUNC_BY_VAL(S, true)>

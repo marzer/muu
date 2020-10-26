@@ -939,7 +939,7 @@ MUU_NAMESPACE_START
 	/// \ingroup	infinity_or_nan
 	/// \related	muu::half
 	[[nodiscard]]
-	MUU_ATTR(pure)
+	MUU_ATTR(const)
 	MUU_ATTR(flatten)
 	constexpr bool MUU_VECTORCALL infinity_or_nan(half x) noexcept
 	{
@@ -955,7 +955,7 @@ MUU_NAMESPACE_START
 	/// \ingroup	abs
 	/// \related	muu::half
 	[[nodiscard]]
-	MUU_ATTR(pure)
+	MUU_ATTR(const)
 	MUU_ATTR(flatten)
 	constexpr half MUU_VECTORCALL abs(half x) noexcept
 	{
@@ -976,13 +976,28 @@ MUU_NAMESPACE_START
 	/// \ingroup	approx_equal
 	/// \related	muu::half
 	[[nodiscard]]
-	MUU_ATTR(pure)
-	constexpr bool MUU_VECTORCALL approx_equal(half lhs, half rhs, half epsilon = constants<half>::approx_equal_epsilon) noexcept
+	MUU_ATTR(const)
+	constexpr bool MUU_VECTORCALL approx_equal(half a, half b, half epsilon = constants<half>::approx_equal_epsilon) noexcept
 	{
 		#if MUU_HALF_EMULATED
-			return muu::approx_equal(static_cast<float>(lhs), static_cast<float>(rhs), static_cast<float>(epsilon));
+			return muu::approx_equal(static_cast<float>(a), static_cast<float>(b), static_cast<float>(epsilon));
 		#else
-			return muu::approx_equal(lhs.impl_, rhs.impl_, epsilon.impl_);
+			return muu::approx_equal(a.impl_, b.impl_, epsilon.impl_);
+		#endif
+	}
+
+	/// \brief	Returns true a half-precision float is approximately equal to zero.
+	///
+	/// \ingroup	approx_zero
+	/// \related	muu::half
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr bool MUU_VECTORCALL approx_zero(half x, half epsilon = constants<half>::approx_equal_epsilon) noexcept
+	{
+		#if MUU_HALF_EMULATED
+			return muu::approx_equal(static_cast<float>(x), 0.0f, static_cast<float>(epsilon));
+		#else
+			return muu::approx_equal(x.impl_, MUU_HALF_IMPL_TYPE{}, epsilon.impl_);
 		#endif
 	}
 
@@ -991,7 +1006,7 @@ MUU_NAMESPACE_START
 	/// \ingroup	floor
 	/// \related	muu::half
 	[[nodiscard]]
-	MUU_ATTR(pure)
+	MUU_ATTR(const)
 	MUU_ATTR(flatten)
 	constexpr half MUU_VECTORCALL floor(half x) noexcept
 	{
@@ -1007,7 +1022,7 @@ MUU_NAMESPACE_START
 	/// \ingroup	ceil
 	/// \related	muu::half
 	[[nodiscard]]
-	MUU_ATTR(pure)
+	MUU_ATTR(const)
 	MUU_ATTR(flatten)
 	constexpr half MUU_VECTORCALL ceil(half x) noexcept
 	{
@@ -1023,7 +1038,7 @@ MUU_NAMESPACE_START
 	/// \ingroup	sqrt
 	/// \related	muu::half
 	[[nodiscard]]
-	MUU_ATTR(pure)
+	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL sqrt(half x) noexcept
 	{
 		#if MUU_HALF_EMULATED
@@ -1038,7 +1053,7 @@ MUU_NAMESPACE_START
 	/// \ingroup	cos
 	/// \related	muu::half
 	[[nodiscard]]
-	MUU_ATTR(pure)
+	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL cos(half x) noexcept
 	{
 		#if MUU_HALF_EMULATED
@@ -1053,7 +1068,7 @@ MUU_NAMESPACE_START
 	/// \ingroup	sin
 	/// \related	muu::half
 	[[nodiscard]]
-	MUU_ATTR(pure)
+	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL sin(half x) noexcept
 	{
 		#if MUU_HALF_EMULATED
@@ -1068,7 +1083,7 @@ MUU_NAMESPACE_START
 	/// \ingroup	tan
 	/// \related	muu::half
 	[[nodiscard]]
-	MUU_ATTR(pure)
+	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL tan(half x) noexcept
 	{
 		#if MUU_HALF_EMULATED
@@ -1083,7 +1098,7 @@ MUU_NAMESPACE_START
 	/// \ingroup	acos
 	/// \related	muu::half
 	[[nodiscard]]
-	MUU_ATTR(pure)
+	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL acos(half x) noexcept
 	{
 		#if MUU_HALF_EMULATED
@@ -1098,7 +1113,7 @@ MUU_NAMESPACE_START
 	/// \ingroup	asin
 	/// \related	muu::half
 	[[nodiscard]]
-	MUU_ATTR(pure)
+	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL asin(half x) noexcept
 	{
 		#if MUU_HALF_EMULATED
@@ -1113,7 +1128,7 @@ MUU_NAMESPACE_START
 	/// \ingroup	atan
 	/// \related	muu::half
 	[[nodiscard]]
-	MUU_ATTR(pure)
+	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL atan(half x) noexcept
 	{
 		#if MUU_HALF_EMULATED
@@ -1128,7 +1143,7 @@ MUU_NAMESPACE_START
 	/// \ingroup	atan2
 	/// \related	muu::half
 	[[nodiscard]]
-	MUU_ATTR(pure)
+	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL atan2(half y, half x) noexcept
 	{
 		#if MUU_HALF_EMULATED
@@ -1143,7 +1158,7 @@ MUU_NAMESPACE_START
 	/// \ingroup	lerp
 	/// \related	muu::half
 	[[nodiscard]]
-	MUU_ATTR(pure)
+	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL lerp(half start, half finish, half alpha) noexcept
 	{
 		#if MUU_HALF_EMULATED
