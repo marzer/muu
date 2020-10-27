@@ -146,10 +146,11 @@ pre.m-code + pre.m-console span
 }
 
 /* "Parameters", "Returns" etc */
-.m-doc-details div table.m-table.m-fullwidth.m-flat thead tr th,
-.m-doc-details div table.m-table.m-fullwidth.m-flat tfoot tr th,
-.m-doc-details div table.m-table.m-fullwidth.m-flat tfoot tr td strong em,
-.m-doc-details div table.m-table.m-fullwidth.m-flat tbody tr td strong em
+.m-doc-details div table.m-table th,
+.m-doc-details div table.m-table td strong em,
+.m-doc-details div table.m-table td strong em,
+body article p strong em,
+body article table strong em
 {
 	color: #a5c9ea;
 	font-style: normal;

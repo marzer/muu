@@ -83,28 +83,103 @@ C++</span></a>
             <li>
               Reference
               <ul>
+                <li><a href="#pub-types">Public types</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
                 <li><a href="#pub-attribs">Public variables</a></li>
+                <li><a href="#friends">Friends</a></li>
               </ul>
             </li>
           </ul>
         </div>
-<p>Strictly speaking this type models a specific form of Euler angles relating to the Aircraft Principal Axes, and by that convention the rotations contained within are always applied in the member order: Yaw, then Pitch, then Roll.</p><aside class="m-note m-default"><h4>See also</h4><ul><li><a class="m-doc" href="structmuu_1_1quaternion.html">muu::<wbr/>quaternion</a></li><li><a class="muu-external" href="https://en.wikipedia.org/wiki/Euler_angles" target="_blank">Euler Angles</a></li><li><a class="muu-external" href="https://en.wikipedia.org/wiki/Aircraft_principal_axes" target="_blank">Aircraft Principal Axes</a></li><li><a class="muu-external" href="https://www.euclideanspace.com/maths/geometry/rotations/euler/index.htm" target="_blank">Euler Angles (math)</a></li></ul></aside>
+<p>This type models a specific form of Euler angles relating to the Aircraft Principal Axes, and observes the following conventions:</p><table class="m-table"><tbody><tr><td><strong><em>Yaw</em></strong></td><td><ul><li>Applied <em>first</em></li><li>Corresponds to a rotation around the local up axis</li><li>A positive yaw means "turn the nose of the aircraft to the right"<br/></li></ul></td></tr><tr><td><strong><em>Pitch</em></strong></td><td><ul><li>Applied <em>second</em></li><li>Corresponds to a rotation around the local right axis</li><li>A positive pitch means "point the nose of the aircraft up toward the sky".</li></ul></td></tr><tr><td><strong><em>Roll</em></strong></td><td><ul><li>Applied <em>third</em></li><li>Corresponds to a rotation around the local forward axis</li><li>A positive roll means "tilt the right wing of the aircraft toward the ground".</li></ul></td></tr></tbody></table><p>The angles are always in radians.</p><aside class="m-note m-default"><h4>See also</h4><ul><li><a class="m-doc" href="structmuu_1_1quaternion.html">muu::<wbr/>quaternion</a></li><li><a class="muu-external" href="https://en.wikipedia.org/wiki/Euler_angles" target="_blank">Euler Angles</a></li><li><a class="muu-external" href="https://en.wikipedia.org/wiki/Aircraft_principal_axes" target="_blank">Aircraft Principal Axes</a></li><li><a class="muu-external" href="https://www.euclideanspace.com/maths/geometry/rotations/euler/index.htm" target="_blank">Euler Angles (math)</a></li></ul></aside>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
+          <dl class="m-doc">
+            <dt id="affbb106f98f36e599adfb649d5b57cb1">
+              using <a class="m-doc-self" href="#affbb106f98f36e599adfb649d5b57cb1">scalar_type</a> = Scalar
+            </dt>
+            <dd>The scalar type of the rotation's angles.</dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt id="ab8d64d5e1603a831c339840272968c9d">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab8d64d5e1603a831c339840272968c9d">operator*=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1euler__rotation.html#affbb106f98f36e599adfb649d5b57cb1">scalar_<wbr/>type</a> rhs) -&gt; <a class="m-doc" href="structmuu_1_1euler__rotation.html">euler_<wbr/>rotation</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Scales an euler rotation.</dd>
+          </dl>
+        </section>
         <section id="pub-attribs">
           <h2><a href="#pub-attribs">Public variables</a></h2>
           <dl class="m-doc">
-            <dt id="a42f74c6e4b2afc7251c2851906e86528">
-              Scalar <a class="m-doc-self" href="#a42f74c6e4b2afc7251c2851906e86528">pitch</a>
+            <dt>
+              <a class="m-doc" href="structmuu_1_1euler__rotation.html#affbb106f98f36e599adfb649d5b57cb1">scalar_<wbr/>type</a> <a class="m-doc" href="#ad2283863923506b0e8ecd64b5cabfa03">pitch</a>
             </dt>
-            <dd>The rotation around the local right axis (X), in radians.</dd>
-            <dt id="a48ff7db849c60bfcdecdc22acdc5099e">
-              Scalar <a class="m-doc-self" href="#a48ff7db849c60bfcdecdc22acdc5099e">roll</a>
+            <dd>The rotation around the local right axis (in radians).</dd>
+            <dt>
+              <a class="m-doc" href="structmuu_1_1euler__rotation.html#affbb106f98f36e599adfb649d5b57cb1">scalar_<wbr/>type</a> <a class="m-doc" href="#ad467aa815b6f8a719a771f3883231e60">roll</a>
             </dt>
-            <dd>The rotation around the local forward axis (-Z), in radians.</dd>
-            <dt id="a25bc6bec92c1dff3b2b4900bbe250c27">
-              Scalar <a class="m-doc-self" href="#a25bc6bec92c1dff3b2b4900bbe250c27">yaw</a>
+            <dd>The rotation around the local forward axis (in radians).</dd>
+            <dt>
+              <a class="m-doc" href="structmuu_1_1euler__rotation.html#affbb106f98f36e599adfb649d5b57cb1">scalar_<wbr/>type</a> <a class="m-doc" href="#a43df5a8cc14a4f521144452b46d86e9d">yaw</a>
             </dt>
-            <dd>The rotation around the local up axis (Y), in radians.</dd>
+            <dd>The rotation around the local up axis (in radians).</dd>
           </dl>
+        </section>
+        <section id="friends">
+          <h2><a href="#friends">Friends</a></h2>
+          <dl class="m-doc">
+            <dt id="ad7e4933dcd81483153b46a4813bc9d2f">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad7e4933dcd81483153b46a4813bc9d2f">operator*</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1euler__rotation.html">euler_<wbr/>rotation</a> lhs,
+              <a class="m-doc" href="structmuu_1_1euler__rotation.html#affbb106f98f36e599adfb649d5b57cb1">scalar_<wbr/>type</a> rhs) -&gt; friend <a class="m-doc" href="structmuu_1_1euler__rotation.html">euler_<wbr/>rotation</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Scales an euler rotation.</dd>
+            <dt id="a613721adbb613b88864698897fa68a6e">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a613721adbb613b88864698897fa68a6e">operator*</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1euler__rotation.html#affbb106f98f36e599adfb649d5b57cb1">scalar_<wbr/>type</a> lhs,
+              <a class="m-doc" href="structmuu_1_1euler__rotation.html">euler_<wbr/>rotation</a> rhs) -&gt; friend <a class="m-doc" href="structmuu_1_1euler__rotation.html">euler_<wbr/>rotation</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Scales an euler rotation.</dd>
+            <dt id="a4edf70c1013fccd2de298c0d69d1f8f6">
+              <div class="m-doc-template">template&lt;typename Char, typename Traits&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a4edf70c1013fccd2de298c0d69d1f8f6">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/io/basic_ostream" target="_blank">std::basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
+              const <a class="m-doc" href="structmuu_1_1euler__rotation.html">euler_<wbr/>rotation</a>&amp; rot) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/io/basic_ostream" target="_blank">std::basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
+            </dt>
+            <dd>Writes a euler rotation out to a text stream.</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Variable documentation</h2>
+          <section class="m-doc-details" id="ad2283863923506b0e8ecd64b5cabfa03"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <a class="m-doc" href="structmuu_1_1euler__rotation.html#affbb106f98f36e599adfb649d5b57cb1">scalar_<wbr/>type</a> muu::<wbr/>euler_rotation&lt;Scalar&gt;::<wbr/><a class="m-doc-self" href="#ad2283863923506b0e8ecd64b5cabfa03">pitch</a>
+            </h3>
+            <p>The rotation around the local right axis (in radians).</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>A positive pitch means "point the nose of the aircraft up toward the sky".</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ad467aa815b6f8a719a771f3883231e60"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <a class="m-doc" href="structmuu_1_1euler__rotation.html#affbb106f98f36e599adfb649d5b57cb1">scalar_<wbr/>type</a> muu::<wbr/>euler_rotation&lt;Scalar&gt;::<wbr/><a class="m-doc-self" href="#ad467aa815b6f8a719a771f3883231e60">roll</a>
+            </h3>
+            <p>The rotation around the local forward axis (in radians).</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>A positive roll means "tilt the aircraft so the right wing points toward the ground".</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a43df5a8cc14a4f521144452b46d86e9d"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <a class="m-doc" href="structmuu_1_1euler__rotation.html#affbb106f98f36e599adfb649d5b57cb1">scalar_<wbr/>type</a> muu::<wbr/>euler_rotation&lt;Scalar&gt;::<wbr/><a class="m-doc-self" href="#a43df5a8cc14a4f521144452b46d86e9d">yaw</a>
+            </h3>
+            <p>The rotation around the local up axis (in radians).</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>A positive yaw means "turn the nose of the aircraft to the right".</p></aside>
+          </div></section>
         </section>
       </div>
     </div>
