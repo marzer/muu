@@ -26,16 +26,17 @@
 		end up being much more debug performance-friendly.
 
 	-	Some functions use SFINAE to select overloads that take things either by reference or value, with the value
-		overloads being 'hidden' from doxygen and intellisense. These 'hidden' overloads are optimizations to take
-		advantage of __vectorcall on windows, and only apply to float, double and long double vectors of <= dimensions
+		overloads being 'hidden' from doxygen and intellisense. The value overloads are optimizations to take
+		advantage of __vectorcall on windows, and only apply to float, double and long double vectors of <= 4 dimensions
 		since the're considered "Homogeneous Vector Aggreggates" and must be passed by value to be properly vectorized.
 		- __vectorcall: https://docs.microsoft.com/en-us/cpp/cpp/vectorcall?view=vs-2019
 		- vectorizer sandbox: https://godbolt.org/z/8b9fe6
 
 	-	You'll see intermediate_type used instead of scalar_type in a few places. It's a 'better' type used for
 		intermediate floating-point values where precision loss or unnecessary cast round-tripping is to be avoided.
-		scalar_type is a float: intermediate_type == scalar_type, except for 16-bit floats which are promoted to float.
-		scalar_type is integral: intermediate_type == double.
+		when scalar_type is a float >= 32 bits: intermediate_type == scalar_type
+		when scalar_type is a float < 32 bits: intermediate_type == float
+		when scalar_type is integral: intermediate_type == double.
 
 	-	Some code is statically switched/branched according to whether a static_cast<> is necessary; this is to avoid
 		unnecessary codegen and improve debug build performance for non-trivial scalar_types (e.g. muu::half).
@@ -642,8 +643,7 @@ MUU_IMPL_NAMESPACE_START
 	#endif // MUU_HAS_VECTORCALL
 
 	template <typename Scalar, size_t Dimensions>
-	inline constexpr bool pass_vector_by_reference = 
-		std::is_reference_v<maybe_pass_readonly_by_value<vector_base<Scalar, Dimensions>>>;
+	inline constexpr bool pass_vector_by_reference = pass_object_by_reference<vector_base<Scalar, Dimensions>>;
 
 	template <typename Scalar, size_t Dimensions>
 	inline constexpr bool pass_vector_by_value = !pass_vector_by_reference<Scalar, Dimensions>;
@@ -734,6 +734,56 @@ MUU_IMPL_NAMESPACE_START
 		promote_if_small_float<highest_ranked<T, U>>,
 		highest_ranked<T, U>
 	>;
+
+	template <typename Return, typename T, typename U
+		MUU_SFINAE(pass_object_by_reference<T> || pass_object_by_reference<U>)
+	>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	static constexpr Return raw_cross(const T& lhs, const U& rhs) noexcept
+	{
+		MUU_FMA_BLOCK
+		using return_scalar_type = remove_cvref<decltype(std::declval<Return>().x)>;
+
+		using type = promote_if_small_float<highest_ranked<
+			decltype(lhs.x * rhs.x),
+			std::conditional_t<is_integral<decltype(lhs.x)>, double, decltype(lhs.x)>,
+			std::conditional_t<is_integral<decltype(rhs.x)>, double, decltype(rhs.x)>,
+			std::conditional_t<is_integral<return_scalar_type>, double, return_scalar_type>
+		>>;
+
+		return Return
+		{
+			static_cast<return_scalar_type>(static_cast<type>(lhs.y) * rhs.z - static_cast<type>(lhs.z) * rhs.y),
+			static_cast<return_scalar_type>(static_cast<type>(lhs.z) * rhs.x - static_cast<type>(lhs.x) * rhs.z),
+			static_cast<return_scalar_type>(static_cast<type>(lhs.x) * rhs.y - static_cast<type>(lhs.y) * rhs.x)
+		};
+	}
+
+	template <typename Return, typename T, typename U
+		MUU_SFINAE_2(pass_object_by_value<T> && pass_object_by_value<U>)
+	>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	static constexpr Return MUU_VECTORCALL raw_cross(T lhs, U rhs) noexcept
+	{
+		MUU_FMA_BLOCK
+		using return_scalar_type = remove_cvref<decltype(std::declval<Return>().x)>;
+
+		using type = promote_if_small_float<highest_ranked<
+			decltype(lhs.x * rhs.x),
+			std::conditional_t<is_integral<decltype(lhs.x)>, double, decltype(lhs.x)>,
+			std::conditional_t<is_integral<decltype(rhs.x)>, double, decltype(rhs.x)>,
+			std::conditional_t<is_integral<return_scalar_type>, double, return_scalar_type>
+		>>;
+
+		return Return
+		{
+			static_cast<return_scalar_type>(static_cast<type>(lhs.y) * rhs.z - static_cast<type>(lhs.z) * rhs.y),
+			static_cast<return_scalar_type>(static_cast<type>(lhs.z) * rhs.x - static_cast<type>(lhs.x) * rhs.z),
+			static_cast<return_scalar_type>(static_cast<type>(lhs.x) * rhs.y - static_cast<type>(lhs.y) * rhs.x)
+		};
+	}
 }
 MUU_IMPL_NAMESPACE_END
 
@@ -1747,46 +1797,6 @@ MUU_NAMESPACE_START
 			}
 		}
 
-		template <typename T = intermediate_type>
-		[[nodiscard]]
-		MUU_ATTR(pure)
-		static constexpr vector<T, 3> MUU_VECTORCALL raw_cross(vector_param lhs, vector_param rhs) noexcept
-		{
-			using mult_type = decltype(scalar_type{} * scalar_type{});
-
-			if constexpr (all_same<mult_type, intermediate_type, T>)
-			{
-				MUU_FMA_BLOCK
-
-				return
-				{
-					lhs.y * rhs.z - lhs.z * rhs.y,
-					lhs.z * rhs.x - lhs.x * rhs.z,
-					lhs.x * rhs.y - lhs.y * rhs.x
-				};
-			}
-			else
-			{
-				MUU_FMA_BLOCK
-
-				return
-				{
-					static_cast<T>(
-						static_cast<intermediate_type>(lhs.y) * static_cast<intermediate_type>(rhs.z)
-							- static_cast<intermediate_type>(lhs.z) * static_cast<intermediate_type>(rhs.y)
-					),
-					static_cast<T>(
-						static_cast<intermediate_type>(lhs.z) * static_cast<intermediate_type>(rhs.x)
-							- static_cast<intermediate_type>(lhs.x) * static_cast<intermediate_type>(rhs.z)
-					),
-					static_cast<T>(
-						static_cast<intermediate_type>(lhs.x) * static_cast<intermediate_type>(rhs.y)
-							- static_cast<intermediate_type>(lhs.y) * static_cast<intermediate_type>(rhs.x)
-					)
-				};
-			}
-		}
-
 	public:
 
 		/// \brief	Returns the dot product of two vectors.
@@ -1813,7 +1823,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr vector_product MUU_VECTORCALL cross(vector_param lhs, vector_param rhs) noexcept
 		{
-			return raw_cross<scalar_product>(lhs, rhs);
+			return impl::raw_cross<vector_product>(lhs, rhs);
 		}
 
 		/// \brief	Returns the cross product of this vector and another.
@@ -1824,7 +1834,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		constexpr vector_product MUU_VECTORCALL cross(vector_param v) const noexcept
 		{
-			return raw_cross<scalar_product>(*this, v);
+			return impl::raw_cross<vector_product>(*this, v);
 		}
 
 	#endif // dot and cross products
@@ -3408,7 +3418,7 @@ MUU_NAMESPACE_START
 	{
 		static_assert(std::is_same_v<vector_product, typename vector<S, 3>::vector_product>);
 
-		return vector<S, 3>::cross(lhs, rhs);
+		return impl::raw_cross<vector_product>(lhs, rhs);
 	}
 
 	/// \related muu::vector
@@ -3736,7 +3746,7 @@ MUU_NAMESPACE_START
 	{
 		static_assert(std::is_same_v<vector_product, typename vector<S, 3>::vector_product>);
 
-		return vector<S, 3>::cross(lhs, rhs);
+		return impl::raw_cross<vector_product>(lhs, rhs);
 	}
 
 	template <typename S, size_t D,

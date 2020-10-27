@@ -58,8 +58,7 @@ MUU_IMPL_NAMESPACE_START
 	#endif // MUU_HAS_VECTORCALL
 
 	template <typename Scalar>
-	inline constexpr bool pass_quaternion_by_reference =
-		std::is_reference_v<maybe_pass_readonly_by_value<quaternion_base<Scalar>>>;
+	inline constexpr bool pass_quaternion_by_reference = pass_object_by_reference<quaternion_base<Scalar>>;
 
 	template <typename Scalar>
 	inline constexpr bool pass_quaternion_by_value = !pass_quaternion_by_reference<Scalar>;
@@ -91,6 +90,30 @@ MUU_IMPL_NAMESPACE_START
 	#if MUU_HAS_FLOAT128
 	MUU_API void print_quaternion_to_stream(std::wostream& stream, const float128_t*);
 	#endif
+
+	template <typename T>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr T MUU_VECTORCALL normalize_angle(T val) noexcept
+	{
+		if (val < T{} || val > constants<T>::two_pi)
+			val -= constants<T>::two_pi * floor_(val * constants<T>::one_over_two_pi);
+		return val;
+	}
+
+	template <typename T>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr T MUU_VECTORCALL normalize_angle_signed(T val) noexcept
+	{
+		if (val < -constants<T>::pi || val > constants<T>::pi)
+		{
+			val += constants<T>::pi;
+			val -= constants<T>::two_pi * floor_(val * constants<T>::one_over_two_pi);
+			val -= constants<T>::pi;
+		}
+		return val;
+	}
 }
 MUU_IMPL_NAMESPACE_END
 
@@ -133,11 +156,23 @@ MUU_NAMESPACE_START
 	template <typename Scalar>
 	struct MUU_TRIVIAL_ABI axis_angle_rotation
 	{
-		/// \brief	The axis being rotated around.
-		vector<Scalar, 3> axis;
+		static_assert(
+			!std::is_reference_v<Scalar>,
+			"Axis-angle rotation scalar type cannot be a reference"
+		);
+		static_assert(
+			!std::is_const_v<Scalar> && !std::is_volatile_v<Scalar>,
+			"Axis-angle rotation scalar type cannot be const- or volatile-qualified"
+		);
 
-		/// \brief	The angle of rotation, in radians.
-		Scalar angle;
+		/// \brief The scalar type of the axis and angle.
+		using scalar_type = Scalar;
+
+		/// \brief	The axis being rotated around.
+		vector<scalar_type, 3> axis;
+
+		/// \brief	The angle of rotation (in radians).
+		scalar_type angle;
 	};
 	#ifndef DOXYGEN
 
@@ -164,9 +199,30 @@ MUU_NAMESPACE_START
 
 	/// \brief	A set of euler angles used for rotation.
 	/// 
-	/// \detail Strictly speaking this type models a specific form of Euler angles relating
-	/// 		to the Aircraft Principal Axes, and by that convention the rotations contained within are always
-	/// 		applied in the member order: Yaw, then Pitch, then Roll.
+	/// \detail This type models a specific form of Euler angles relating to the Aircraft Principal Axes,
+	/// 		and observes the following conventions:
+	/// 		<table>
+	/// 		<tr><td><strong><em>Yaw</em></strong></td>
+	/// 		<td><ul>
+	/// 		<li>Applied <em>first</em>
+	/// 		<li>Corresponds to a rotation around the local up axis
+	/// 		<li>A positive yaw means "turn the nose of the aircraft to the right"  
+	/// 		</ul></td></tr>
+	/// 		<tr><td><strong><em>Pitch</em></strong></td>
+	/// 		<td><ul>
+	/// 		<li>Applied <em>second</em>
+	/// 		<li>Corresponds to a rotation around the local right axis
+	/// 		<li>A positive pitch means "point the nose of the aircraft up toward the sky".
+	/// 		</ul></td></tr>
+	/// 		<tr><td><strong><em>Roll</em></strong></td>
+	/// 		<td><ul>
+	/// 		<li>Applied <em>third</em>
+	/// 		<li>Corresponds to a rotation around the local forward axis
+	/// 		<li>A positive roll means "tilt the right wing of the aircraft toward the ground".
+	/// 		</ul></td></tr>
+	/// 		</table>
+	/// 		
+	/// 		The angles are always in radians.
 	/// 
 	/// \tparam	Scalar	The scalar component type of the data members.
 	/// 
@@ -178,14 +234,60 @@ MUU_NAMESPACE_START
 	template <typename Scalar>
 	struct MUU_TRIVIAL_ABI euler_rotation
 	{
-		/// \brief The rotation around the local up axis (Y), in radians.
-		Scalar yaw;
+		static_assert(
+			!std::is_reference_v<Scalar>,
+			"Euler rotation scalar type cannot be a reference"
+		);
+		static_assert(
+			!std::is_const_v<Scalar> && !std::is_volatile_v<Scalar>,
+			"Euler rotation scalar type cannot be const- or volatile-qualified"
+		);
 
-		/// \brief The rotation around the local right axis (X), in radians.
-		Scalar pitch;
+		/// \brief The scalar type of the rotation's angles.
+		using scalar_type = Scalar;
 
-		/// \brief The rotation around the local forward axis (-Z), in radians.
-		Scalar roll;
+		/// \brief The rotation around the local up axis (in radians).
+		/// \remark A positive yaw means "turn the nose of the aircraft to the right".
+		scalar_type yaw;
+
+		/// \brief The rotation around the local right axis (in radians).
+		/// \remark A positive pitch means "point the nose of the aircraft up toward the sky".
+		scalar_type pitch;
+
+		/// \brief The rotation around the local forward axis (in radians).
+		/// \remark A positive roll means "tilt the aircraft so the right wing points toward the ground".
+		scalar_type roll;
+
+		/// \brief	Scales an euler rotation.
+		[[nodiscard]]
+		MUU_ATTR(const)
+		friend constexpr euler_rotation MUU_VECTORCALL operator * (euler_rotation lhs, scalar_type rhs) noexcept
+		{
+			return euler_rotation{ lhs.yaw * rhs, lhs.pitch * rhs, lhs.roll * rhs };
+		}
+
+		/// \brief	Scales an euler rotation.
+		[[nodiscard]]
+		MUU_ATTR(const)
+		friend constexpr euler_rotation MUU_VECTORCALL operator * (scalar_type lhs, euler_rotation rhs) noexcept
+		{
+			return rhs * lhs;
+		}
+
+		/// \brief	Scales an euler rotation.
+		constexpr euler_rotation& MUU_VECTORCALL operator *= (scalar_type rhs) noexcept
+		{
+			return *this = *this * rhs;
+		}
+
+		/// \brief Writes a euler rotation out to a text stream.
+		template <typename Char, typename Traits>
+		friend std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& os, const euler_rotation& rot)
+		{
+			static_assert(sizeof(euler_rotation) == sizeof(scalar_type) * 3);
+			impl::print_vector_to_stream(os, &rot.yaw, 3u);
+			return os;
+		}
 	};
 	#ifndef DOXYGEN
 
@@ -712,37 +814,32 @@ MUU_NAMESPACE_START
 
 	#endif // normalization
 	
-	#if 1 // inversion ------------------------------------------------------------------------------------------------
+	#if 1 // conjgate ------------------------------------------------------------------------------------------------
 
-		/// \brief		Inverts a quaternion.
-		///
-		/// \param q	The quaternion to invert.
-		/// 
-		/// \return		An inverted copy of the input quaternion.
+		/// \brief		Returns the conjugate of a quaternion.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr quaternion MUU_VECTORCALL invert(quaternion_param q) noexcept
+		static constexpr quaternion MUU_VECTORCALL conjugate(quaternion_param q) noexcept
 		{
 			return { q.s, -q.v };
 		}
 
-		/// \brief		Inverts the quaternion (in-place).
-		///
-		/// \return		A reference to the quaternion.
-		constexpr quaternion& invert() noexcept
+		/// \brief		Returns the conjugate of the quaternion.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr quaternion conjugate() const noexcept
 		{
-			base::v = -base::v;
-			return *this;
+			return { base::s, -base::v };
 		}
 
-	#endif // inversion
+	#endif // conjugate
 
 	#if 1 // axis-angle conversions -----------------------------------------------------------------------------------
 
 		/// \brief Creates a quaternion from an axis-angle rotation.
 		/// 
 		/// \param axis		Axis to rotate around. Must be unit-length.
-		/// \param angle	Angle in radians to rotate by, in radians.
+		/// \param angle	Angle to rotate by (in radians).
 		/// 
 		/// \return A quaternion encoding the given axis-angle rotation.
 		[[nodiscard]]
@@ -798,7 +895,7 @@ MUU_NAMESPACE_START
 			const auto length = vector_type::template raw_length<calc_type>(q.v);
 			const auto correction = calc_type{ shortest_path && q.s < scalar_constants::zero ? -1 : 1 };
 
-			if (length == calc_type{})
+			if MUU_UNLIKELY(length == calc_type{})
 			{
 				// This happens at angle = 0 and 360. All axes are correct, so any will do.
 				return
@@ -813,9 +910,9 @@ MUU_NAMESPACE_START
 				{
 					muu::vector<T, 3>
 					{
-						static_cast<T>((static_cast<calc_type>(q.i.x) * correction)  / length),
-						static_cast<T>((static_cast<calc_type>(q.i.y) * correction)  / length),
-						static_cast<T>((static_cast<calc_type>(q.i.z) * correction)  / length),
+						static_cast<T>((static_cast<calc_type>(q.v.x) * correction) / length),
+						static_cast<T>((static_cast<calc_type>(q.v.y) * correction) / length),
+						static_cast<T>((static_cast<calc_type>(q.v.z) * correction) / length),
 					},
 					static_cast<T>(calc_type{ 2 } * muu::atan2(length, static_cast<calc_type>(q.s) * correction)),
 				};
@@ -859,35 +956,40 @@ MUU_NAMESPACE_START
 
 		/// \brief Creates a quaternion from a set of euler angles.
 		/// 
-		/// \param yaw		The rotation around the local up axis, in radians.
-		/// \param pitch	The rotation around the local right axis, in radians.
-		/// \param roll		The rotation around the local forward axis, in radians.
+		/// \param yaw		The rotation around the local up axis (in radians).
+		/// \param pitch	The rotation around the local right axis (in radians).
+		/// \param roll		The rotation around the local forward axis (in radians).
 		/// 
 		/// \return A quaternion encoding the given axis-angle rotation.
 		[[nodiscard]]
 		MUU_ATTR(const)
 		static constexpr quaternion MUU_VECTORCALL from_euler(scalar_type yaw, scalar_type pitch, scalar_type roll) noexcept
 		{
-			// https://www.euclideanspace.com/maths/geometry/rotations/conversions/eulerToQuaternion/index.htm
-			// (note that they pitch around Z, not X; pitch and roll are swapped here)
-
 			MUU_FMA_BLOCK
 			using itype = intermediate_type;
 
-			const itype cy = muu::cos(static_cast<itype>(yaw)   * muu::constants<itype>::one_over_two);
-			const itype sy = muu::sin(static_cast<itype>(yaw)   * muu::constants<itype>::one_over_two);
-			const itype cx = muu::cos(static_cast<itype>(pitch) * muu::constants<itype>::one_over_two);
-			const itype sx = muu::sin(static_cast<itype>(pitch) * muu::constants<itype>::one_over_two);
-			const itype cz = muu::cos(static_cast<itype>(roll)  * muu::constants<itype>::one_over_two);
-			const itype sz = muu::sin(static_cast<itype>(roll)  * muu::constants<itype>::one_over_two);
+			// ensure rotation signs correspond with the aircraft principal axes:
+			//	yaw - positive turns toward the right (nose of the plane turns east)
+			//	pitch - positive pitches upward (nose of the plane points up away from ground)
+			//	roll - positive rolls to the right (right wing tilts down)
+			//	(see https://en.wikipedia.org/wiki/Flight_dynamics_(fixed-wing_aircraft)
+			// 
+			yaw = -yaw; 
+			roll = -roll; 
 
+			const itype c1 = muu::cos(static_cast<itype>(pitch) * muu::constants<itype>::one_over_two);
+			const itype s1 = muu::sin(static_cast<itype>(pitch) * muu::constants<itype>::one_over_two);
+			const itype c2 = muu::cos(static_cast<itype>(yaw)   * muu::constants<itype>::one_over_two);
+			const itype s2 = muu::sin(static_cast<itype>(yaw)   * muu::constants<itype>::one_over_two);
+			const itype c3 = muu::cos(static_cast<itype>(roll)  * muu::constants<itype>::one_over_two);
+			const itype s3 = muu::sin(static_cast<itype>(roll)  * muu::constants<itype>::one_over_two);
 
 			return
 			{
-				static_cast<scalar_type>(cz * cy * cx - sz * sy * sx), // scalar (w)
-				static_cast<scalar_type>(cz * cy * sx + sz * sy * cx), // vector (x)
-				static_cast<scalar_type>(sy * cz * cx + cy * sz * sx), // vector (y)
-				static_cast<scalar_type>(cy * sz * cx - sy * cz * sx)  // vector (z)
+				static_cast<scalar_type>(c1 * c2 * c3 - s1 * s2 * s3), // scalar (w)
+				static_cast<scalar_type>(s1 * c2 * c3 - c1 * s2 * s3), // vector (x)
+				static_cast<scalar_type>(c1 * s2 * c3 + s1 * c2 * s3), // vector (y)
+				static_cast<scalar_type>(c1 * c2 * s3 + s1 * s2 * c3)  // vector (z)
 			};
 		}
 
@@ -908,25 +1010,29 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr euler_type MUU_VECTORCALL to_euler(quaternion_param q) noexcept
 		{
-			// https://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/index.htm
-
 			MUU_FMA_BLOCK
 			using itype = intermediate_type;
 
-			const itype sqw  = static_cast<itype>(q.s * q.s);
-			const itype sqx  = static_cast<itype>(q.v.x * q.v.x);
-			const itype sqy  = static_cast<itype>(q.v.y * q.v.y);
-			const itype sqz  = static_cast<itype>(q.v.z * q.v.z);
-			const itype correction = sqx + sqy + sqz + sqw;
-			const itype test = static_cast<itype>(q.v.x * q.v.y + q.v.z * q.s);
-			constexpr itype threshold = static_cast<itype>(0.499);
+			const itype sqw  = static_cast<itype>(q.s)   * q.s;
+			const itype sqx  = static_cast<itype>(q.v.x) * q.v.x;
+			const itype sqy  = static_cast<itype>(q.v.y) * q.v.y;
+			const itype sqz  = static_cast<itype>(q.v.z) * q.v.z;
+			const itype test = static_cast<itype>(q.v.y) * q.v.z + static_cast<itype>(q.s) * q.v.x;
+			const itype correction = static_cast<itype>(sqx) + static_cast<itype>(sqy)
+				+ static_cast<itype>(sqz) + static_cast<itype>(sqw);
+
+			// https://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/index.htm
+			// (note that they pitch around Z, not X; pitch and roll are swapped here)
+			
+			constexpr itype threshold = static_cast<itype>(0.49995);
 
 			// singularity at north pole
 			if MUU_UNLIKELY(test > threshold * correction)
 			{
+				MUU_FMA_BLOCK
 				return
 				{
-					static_cast<scalar_type>(itype{ 2 } * muu::atan2(q.v.x, q.s)),
+					static_cast<scalar_type>(itype{ -2 } * muu::atan2(q.v.z, q.s)),
 					static_cast<scalar_type>(muu::constants<itype>::pi_over_two),
 					scalar_constants::zero
 				};
@@ -935,9 +1041,10 @@ MUU_NAMESPACE_START
 			// singularity at south pole
 			else if MUU_UNLIKELY(test < -threshold * correction)
 			{ 
+				MUU_FMA_BLOCK
 				return
 				{
-					static_cast<scalar_type>(itype{ -2 } * muu::atan2(q.v.x, q.s)),
+					static_cast<scalar_type>(itype{ 2 } * muu::atan2(q.v.z, q.s)),
 					static_cast<scalar_type>(-muu::constants<itype>::pi_over_two),
 					scalar_constants::zero
 				};
@@ -945,11 +1052,15 @@ MUU_NAMESPACE_START
 
 			else
 			{
+				MUU_FMA_BLOCK
+				// note the sign of yaw and roll are flipped;
+				// see from_euler() for an explanation
+
 				return
 				{
-					static_cast<scalar_type>(muu::atan2(itype{ 2 } * q.v.y * q.s - itype{ 2 } * q.v.x * q.v.z, sqx - sqy - sqz + sqw)),
-					static_cast<scalar_type>(muu::asin( itype{ 2 } * test / correction)),
-					static_cast<scalar_type>(muu::atan2(itype{ 2 } * q.v.x * q.s - itype{ 2 } * q.v.y * q.v.z, -sqx + sqy - sqz + sqw))
+					static_cast<scalar_type>(-muu::atan2(itype{ -2 } * (q.v.x * q.v.z - q.s * q.v.y), sqw - sqx - sqy + sqz)),
+					static_cast<scalar_type>(muu::asin(itype{ 2 } * test / correction)),
+					static_cast<scalar_type>(-muu::atan2(itype{ -2 } * (q.v.x * q.v.y - q.s * q.v.z), sqw - sqx + sqy - sqz))
 				};
 			}
 		}
@@ -972,15 +1083,15 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr quaternion MUU_VECTORCALL multiply(quaternion_param lhs, quaternion_param rhs) noexcept
 		{
-			using mult_type = decltype(scalar_type{} * scalar_type{});
+			using itype = intermediate_type;	
 
-			if constexpr (all_same<scalar_type, mult_type, intermediate_type>)
+			if constexpr (all_same<scalar_type, itype>)
 			{
 				MUU_FMA_BLOCK
 				return
 				{
-					lhs.s * rhs.s - vector_type::template raw_dot<intermediate_type>(lhs.v, rhs.v),
-					lhs.s * rhs.v + rhs.s * lhs.v + vector_type::template raw_cross<intermediate_type>(lhs.v, rhs.v)
+					lhs.s * rhs.s - vector_type::template raw_dot<itype>(lhs.v, rhs.v),
+					lhs.s * rhs.v + rhs.s * lhs.v + impl::raw_cross<vector<itype, 3>>(lhs.v, rhs.v)
 				};
 			}
 			else
@@ -989,14 +1100,13 @@ MUU_NAMESPACE_START
 				return
 				{
 					static_cast<scalar_type>(
-						static_cast<intermediate_type>(lhs.s) * static_cast<intermediate_type>(rhs.s)
-							- vector_type::template raw_dot<intermediate_type>(lhs.v, rhs.v)
+						static_cast<itype>(lhs.s) * rhs.s - vector_type::template raw_dot<itype>(lhs.v, rhs.v)
 					),
 
 					vector_type{
-						static_cast<intermediate_type>(lhs.s) * static_cast<intermediate_type>(rhs.v)
-							+ static_cast<intermediate_type>(rhs.s) * static_cast<intermediate_type>(lhs.v)
-							+ vector_type::template raw_cross<intermediate_type>(lhs.v, rhs.v)
+						static_cast<itype>(lhs.s) * static_cast<itype>(rhs.v)
+							+ static_cast<itype>(rhs.s) * static_cast<itype>(lhs.v)
+							+ impl::raw_cross<vector<itype, 3>>(lhs.v, rhs.v)
 					}
 				};
 			}
@@ -1004,28 +1114,20 @@ MUU_NAMESPACE_START
 
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr vector_type MUU_VECTORCALL multiply(quaternion_param lhs, vector_param rhs) noexcept
+		static constexpr vector_type MUU_VECTORCALL rotate_vector(quaternion_param lhs, vector_param rhs) noexcept
 		{
-			using mult_type = decltype(scalar_type{} *scalar_type{});
+			MUU_FMA_BLOCK
+			using itype = intermediate_type;
 
-			if constexpr (all_same<scalar_type, mult_type, intermediate_type>)
+			auto t = itype{ 2 } * impl::raw_cross<vector<itype, 3>>(lhs.v, rhs);
+			const auto u = impl::raw_cross<vector<itype, 3>>(lhs.v, t);
+			t *= static_cast<itype>(lhs.s);
+			return
 			{
-				MUU_FMA_BLOCK
-
-				const auto two_s = lhs.s + lhs.s;
-				return two_s * vector_type::template raw_cross<intermediate_type>(lhs.v, rhs)
-					+ (two_s * lhs.s - intermediate_type{ 1 }) * rhs
-					+ intermediate_type{ 2 } *vector_type::template raw_cross<intermediate_type>(lhs.v, rhs) * lhs.v;
-			}
-			else
-			{
-				MUU_FMA_BLOCK
-
-				const auto two_s = static_cast<intermediate_type>(lhs.s) * intermediate_type { 2 };
-				return two_s * vector_type::template raw_cross<intermediate_type>(lhs.v, rhs)
-					+ (two_s * static_cast<intermediate_type>(lhs.s) - intermediate_type{ 1 }) * rhs
-					+ intermediate_type{ 2 } *vector_type::template raw_dot<intermediate_type>(lhs.v, rhs) * lhs.v;
-			}
+				static_cast<scalar_type>(rhs.x + t.x + u.x),
+				static_cast<scalar_type>(rhs.y + t.y + u.y),
+				static_cast<scalar_type>(rhs.z + t.z + u.z)
+			};
 		}
 
 	public:
@@ -1048,7 +1150,14 @@ MUU_NAMESPACE_START
 		[[nodiscard]]
 		friend constexpr vector_type MUU_VECTORCALL operator * (quaternion_param lhs, vector_param rhs) noexcept
 		{
-			return multiply(lhs, rhs);
+			return rotate_vector(lhs, rhs);
+		}
+
+		/// \brief Rotates a three-dimensional vector by the rotation encoded in a quaternion.
+		[[nodiscard]]
+		friend constexpr vector_type MUU_VECTORCALL operator * (vector_param lhs, quaternion_param rhs) noexcept
+		{
+			return rotate_vector(rhs, lhs);
 		}
 
 		/// \brief Scales the shortest-path rotation equivalent of a quaternion by a scalar.
@@ -1111,31 +1220,32 @@ MUU_NAMESPACE_START
 		static constexpr quaternion MUU_VECTORCALL slerp(quaternion_param start, quaternion_param finish, scalar_type alpha) noexcept
 		{
 			MUU_FMA_BLOCK
+			using itype = intermediate_type;
 			auto dot = raw_dot(start, finish);
 
 			//map from { s, v } and { -s, -v } (they represent the same rotation)
-			auto correction = intermediate_type{ 1 };
-			if (dot < intermediate_type{})
+			auto correction = itype{ 1 };
+			if (dot < itype{})
 			{
-				correction = intermediate_type{ -1 };
+				correction = itype{ -1 };
 				dot = -dot;
 			}
 
 			//they're extremely close, do a normal lerp
-			if (dot >= static_cast<intermediate_type>(0.9995))
+			if (dot >= static_cast<itype>(0.9995))
 			{
 				MUU_FMA_BLOCK
-				const auto inv_alpha = intermediate_type{ 1 } - static_cast<intermediate_type>(alpha);
+				const auto inv_alpha = itype{ 1 } - static_cast<itype>(alpha);
 
 				return normalize(quaternion{
-					static_cast<scalar_type>(start.s * inv_alpha + finish.s * static_cast<intermediate_type>(alpha) * correction),
+					static_cast<scalar_type>(start.s * inv_alpha + finish.s * static_cast<itype>(alpha) * correction),
 					vector_type::raw_multiply_scalar(start.v, inv_alpha)
-						+ vector_type::raw_multiply_scalar(finish.v, static_cast<intermediate_type>(alpha) * correction)
+						+ vector_type::raw_multiply_scalar(finish.v, static_cast<itype>(alpha) * correction)
 				});
 			}
 
 			const auto theta_0 = muu::acos(dot);
-			const auto theta = theta_0 * static_cast<intermediate_type>(alpha);
+			const auto theta = theta_0 * static_cast<itype>(alpha);
 			const auto sin_theta_div = muu::sin(theta) / muu::sin(theta_0);
 			const auto s0 = muu::cos(theta) - dot * sin_theta_div;
 			const auto s1 = sin_theta_div;
@@ -1143,7 +1253,7 @@ MUU_NAMESPACE_START
 			{
 				static_cast<scalar_type>(start.s * s0 + finish.s * s1 * correction),
 				vector_type::raw_multiply_scalar(start.v, s0)
-					+ vector_type::raw_multiply_scalar(finish.v, static_cast<intermediate_type>(s1) * correction)
+					+ vector_type::raw_multiply_scalar(finish.v, static_cast<itype>(s1) * correction)
 			};
 		}
 

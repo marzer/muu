@@ -932,26 +932,6 @@ MUU_NAMESPACE_START
 	{
 		MUU_PUSH_PRECISE_MATH
 
-		//template <typename T>
-		//[[nodiscard]]
-		//MUU_ATTR(const)
-		//constexpr T MUU_VECTORCALL normalize_angle(T val) noexcept
-		//{
-		//	if (val < T{} || val > constants<T>::two_pi)
-		//		val -= constants<T>::two_pi * floor_(val * constants<T>::one_over_two_pi);
-		//	return val;
-		//}
-
-		//template <typename T>
-		//[[nodiscard]]
-		//MUU_ATTR(const)
-		//constexpr T MUU_VECTORCALL normalize_angle_signed(T val) noexcept
-		//{
-		//	if (val < -constants<T>::pi || val > constants<T>::pi)
-		//		val = normalize_angle(val + constants<T>::pi) - constants<T>::pi;
-		//	return val;
-		//}
-
 		template <typename T>
 		[[nodiscard]]
 		MUU_ATTR(const)

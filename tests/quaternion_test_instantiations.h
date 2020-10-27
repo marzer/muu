@@ -61,6 +61,11 @@ QUATERNION_TEST_CASE("normalization")
 	}
 }
 
+QUATERNION_TEST_CASE("euler")
+{
+	TEST_TYPE(euler_tests);
+}
+
 #if 0
 
 

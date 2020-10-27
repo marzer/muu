@@ -115,7 +115,8 @@ MUU_NAMESPACE_START // abi namespace
 	struct										half;
 	struct										semver;
 	struct										uuid;
-	template <typename T>				struct	axis_angle_rotation;
+	template <typename>					struct	axis_angle_rotation;
+	template <typename>					struct	euler_rotation;
 	template <typename, size_t>			struct	vector;
 	template <typename>					struct	quaternion;
 	template <typename, size_t, size_t>	struct	matrix;

@@ -1057,6 +1057,12 @@ MUU_IMPL_NAMESPACE_START
 	template <>				struct maybe_pass_readonly_by_value_<half>	{ using type = half; };
 	template <typename T>
 	using maybe_pass_readonly_by_value = typename maybe_pass_readonly_by_value_<T>::type;
+
+	template <typename T>
+	inline constexpr bool pass_object_by_reference = std::is_reference_v<maybe_pass_readonly_by_value<T>>;
+
+	template <typename T>
+	inline constexpr bool pass_object_by_value = !pass_object_by_reference<T>;
 }
 MUU_IMPL_NAMESPACE_END
 #endif // !DOXYGEN

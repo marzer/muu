@@ -1085,7 +1085,10 @@ inline void angle_tests(std::string_view scalar_typename) noexcept
 	using constant_type = impl::highest_ranked<scalar_product, float>;
 
 	[[maybe_unused]]
-	static const auto eps = static_cast<scalar_product>((muu::max)(static_cast<long double>(constants<scalar_product>::approx_equal_epsilon), 0.000000001L));
+	static const auto eps = static_cast<scalar_product>((muu::max)(
+		static_cast<long double>(constants<scalar_product>::approx_equal_epsilon),
+		0.000000001L
+	));
 
 	#define CHECK_ANGLE(val)														\
 		CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<scalar_product>(val), eps);	\

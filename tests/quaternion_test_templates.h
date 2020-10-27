@@ -304,4 +304,90 @@ inline void normalization_tests(std::string_view scalar_typename) noexcept
 	}
 }
 
+template <typename T>
+inline void euler_tests(std::string_view scalar_typename) noexcept
+{
+	INFO("quaternion<"sv << scalar_typename << ">"sv)
+	using quat_t = quaternion<T>;
+	using vec_t = vector<T, 3>;
+	using s = constants<T>;
+	using v = constants<vec_t>;
 
+	static const std::tuple<vec_t, euler_rotation<T>, vec_t> values[] =
+	{
+		{ v::forward, { T{}, T{}, T{} }, v::forward },
+
+		// positive yaws
+		{ v::forward, { s::pi_over_four, T{}, T{} }, normalize(v::forward + v::right) },
+		{ v::forward, { s::pi_over_two, T{}, T{} }, v::right },
+		{ v::forward, { s::three_pi_over_four, T{}, T{} }, normalize(v::backward + v::right) },
+		{ v::forward, { s::pi, T{}, T{} }, v::backward },
+		{ v::forward, { s::pi + s::pi_over_four, T{}, T{} }, normalize(v::backward + v::left) },
+		{ v::forward, { s::three_pi_over_two, T{}, T{} }, v::left },
+		{ v::forward, { s::three_pi_over_two + s::pi_over_four, T{}, T{} }, normalize(v::forward + v::left) },
+		{ v::forward, { s::two_pi, T{}, T{} }, v::forward },
+
+		// negative yaws
+		{ v::forward, { -s::pi_over_four, T{}, T{} }, normalize(v::forward + v::left) },
+		{ v::forward, { -s::pi_over_two, T{}, T{} }, v::left },
+		{ v::forward, { -s::three_pi_over_four, T{}, T{} }, normalize(v::backward + v::left) },
+		{ v::forward, { -s::pi, T{}, T{} }, v::backward },
+		{ v::forward, { -s::pi - s::pi_over_four, T{}, T{} }, normalize(v::backward + v::right) },
+		{ v::forward, { -s::three_pi_over_two, T{}, T{} }, v::right },
+		{ v::forward, { -s::three_pi_over_two - s::pi_over_four, T{}, T{} }, normalize(v::forward + v::right) },
+		{ v::forward, { -s::two_pi, T{}, T{} }, v::forward },
+
+		// positive pitches
+		{ v::forward, { T{}, s::pi_over_four, T{} }, normalize(v::forward + v::up) },
+		{ v::forward, { T{}, s::pi_over_two, T{} }, v::up },
+		{ v::forward, { T{}, s::three_pi_over_four, T{} }, normalize(v::backward + v::up) },
+		{ v::forward, { T{}, s::pi, T{} }, v::backward },
+		{ v::forward, { T{}, s::pi + s::pi_over_four, T{} }, normalize(v::backward + v::down) },
+		{ v::forward, { T{}, s::three_pi_over_two, T{} }, v::down },
+		{ v::forward, { T{}, s::three_pi_over_two + s::pi_over_four, T{} }, normalize(v::forward + v::down) },
+		{ v::forward, { T{}, s::two_pi, T{} }, v::forward },
+
+		// negative pitches
+		{ v::forward, { T{}, -s::pi_over_four, T{} }, normalize(v::forward + v::down) },
+		{ v::forward, { T{}, -s::pi_over_two, T{} }, v::down },
+		{ v::forward, { T{}, -s::three_pi_over_four, T{} }, normalize(v::backward + v::down) },
+		{ v::forward, { T{}, -s::pi, T{} }, v::backward },
+		{ v::forward, { T{}, -s::pi - s::pi_over_four, T{} }, normalize(v::backward + v::up) },
+		{ v::forward, { T{}, -s::three_pi_over_two, T{} }, v::up },
+		{ v::forward, { T{}, -s::three_pi_over_two - s::pi_over_four, T{} }, normalize(v::forward + v::up) },
+		{ v::forward, { T{}, -s::two_pi, T{} }, v::forward },
+
+		// positive rolls
+		{ v::right, { T{}, T{}, s::pi_over_four }, normalize(v::right + v::down) },
+		{ v::right, { T{}, T{}, s::pi_over_two }, v::down },
+		{ v::right, { T{}, T{}, s::three_pi_over_four }, normalize(v::left + v::down) },
+		{ v::right, { T{}, T{}, s::pi }, v::left },
+		{ v::right, { T{}, T{}, s::pi + s::pi_over_four }, normalize(v::left + v::up) },
+		{ v::right, { T{}, T{}, s::three_pi_over_two }, v::up },
+		{ v::right, { T{}, T{}, s::three_pi_over_two + s::pi_over_four }, normalize(v::right + v::up) },
+		{ v::right, { T{}, T{}, s::two_pi }, v::right },
+	};
+
+	for (const auto& [input_dir, rot, expected_dir] : values)
+	{
+		const auto quat = quat_t::from_euler(rot);
+		CHECK(!infinity_or_nan(quat));
+
+		const auto dir = normalize(input_dir * quat);
+		CHECK(!infinity_or_nan(dir));
+
+		if (!approx_equal(dir, expected_dir, static_cast<T>(s::approx_equal_epsilon * 4)))
+		{
+			INFO("   input direction: " << input_dir)
+			INFO("    input rotation: " << rot)
+			INFO("        quaternion: " << quat)
+			INFO("  output direction: " << dir)
+			INFO("expected direction: " << expected_dir)
+			FAIL_CHECK("output mismatch!");
+			break;
+		}
+		else
+			SUCCEED(); // increment assertion counter
+	}
+
+}
