@@ -181,18 +181,6 @@ C++</span></a>
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#afcc9efaa34cd0304df15baa2403b0370">span</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__meta.html#ga584cfbfcb8f1dc2df7da8320885c76f0">dont_<wbr/>deduce</a>&lt;<a class="m-doc" href="classmuu_1_1span.html#ac92b58600d3f008c78cdddd953fdf62d">element_<wbr/>type</a>&gt;(&amp;arr)[N]) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a span from an array.</dd>
-            <dt id="aba4ea951565d50e0d3aac8d1eee08e10">
-              <div class="m-doc-template">template&lt;typename It, typename End&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aba4ea951565d50e0d3aac8d1eee08e10">span</a>(</span><span class="m-doc-wrap">It first,
-              End last) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
-            </dt>
-            <dd>Constructs a span from a pair of contiguous iterators.</dd>
-            <dt id="a1c9b392a0e11f762151432fa40f20444">
-              <div class="m-doc-template">template&lt;typename It&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a1c9b392a0e11f762151432fa40f20444">span</a>(</span><span class="m-doc-wrap">It first,
-              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a span from a contiguous iterator and an element count.</dd>
             <dt id="a833777c44fb3c2e8f193006f43724b25">
               <div class="m-doc-template">template&lt;typename U, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a833777c44fb3c2e8f193006f43724b25">span</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a>&lt;U, N&gt;&amp; arr) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -208,6 +196,18 @@ C++</span></a>
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
+            <dt id="aa56a755de9e68e973afcc2cf69d73222">
+              <div class="m-doc-template">template&lt;typename It, typename End&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa56a755de9e68e973afcc2cf69d73222">span</a>(</span><span class="m-doc-wrap">It first,
+              End last) -&gt; &amp;&amp;true &amp;&amp; impl::is_qualifier_conversion_only&lt;impl::iter_reference_t&lt;It&gt;, <a class="m-doc" href="classmuu_1_1span.html#ac92b58600d3f008c78cdddd953fdf62d">element_<wbr/>type</a>&gt; &amp;&amp; !std <span class="muu-injected m-label m-flat m-primary">constexpr</span> ::is_convertible_v&lt;End, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>&gt; <span class="m-label m-flat m-success">noexcept(…)</span></span>
+            </dt>
+            <dd>Constructs a span from a pair of contiguous iterators.</dd>
+            <dt id="aa86482fdb7cfd8d7ba78f70b21ddd20b">
+              <div class="m-doc-template">template&lt;typename It&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa86482fdb7cfd8d7ba78f70b21ddd20b">span</a>(</span><span class="m-doc-wrap">It first,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) -&gt; &amp;&amp;constexpr impl::is_qualifier_conversion_only&lt;impl::iter_reference_t&lt;It&gt;, <a class="m-doc" href="classmuu_1_1span.html#ac92b58600d3f008c78cdddd953fdf62d">element_<wbr/>type</a>&gt; <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a span from a contiguous iterator and an element count.</dd>
             <dt id="a2712445129446fb432c02f82d6f5a993">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2712445129446fb432c02f82d6f5a993">back</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1span.html#a24e731f2ae120051119afabd76154bae">reference</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>

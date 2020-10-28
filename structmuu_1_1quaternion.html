@@ -98,8 +98,8 @@ C++</span></a>
         <section id="pub-types">
           <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
-            <dt id="ae22c806edb50f0bf2e73c0e70d4695a6">
-              using <a class="m-doc-self" href="#ae22c806edb50f0bf2e73c0e70d4695a6">axis_angle_param</a> = impl::maybe_pass_readonly_by_value&lt;<a class="m-doc" href="structmuu_1_1quaternion.html#a69454f8231ad308dc25d4a5449d26a01">axis_<wbr/>angle_<wbr/>type</a>&gt;
+            <dt id="a4ad906b82c9ac7059f74ac2241ea2bf2">
+              using <a class="m-doc-self" href="#a4ad906b82c9ac7059f74ac2241ea2bf2">axis_angle_param</a> = impl::readonly_param&lt;<a class="m-doc" href="structmuu_1_1quaternion.html#a69454f8231ad308dc25d4a5449d26a01">axis_<wbr/>angle_<wbr/>type</a>&gt;
             </dt>
             <dd><code>axis_angle_type</code> or <code>const axis_angle_type&amp;</code>, depending on size, triviality, simd-friendliness, etc.</dd>
             <dt id="a69454f8231ad308dc25d4a5449d26a01">
@@ -110,8 +110,8 @@ C++</span></a>
               using <a class="m-doc-self" href="#abb4291dbb6fcf83f5ef35478d490bc19">constants</a> = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;<a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&gt;
             </dt>
             <dd>Compile-time constants for this quaternion.</dd>
-            <dt id="a31582f234249f7e55f9387f717729165">
-              using <a class="m-doc-self" href="#a31582f234249f7e55f9387f717729165">euler_param</a> = impl::maybe_pass_readonly_by_value&lt;<a class="m-doc" href="structmuu_1_1quaternion.html#a7e5b7247fa45a3c77b400a2187417352">euler_<wbr/>type</a>&gt;
+            <dt id="a561a48450dc14e4c21d861ea45d1933a">
+              using <a class="m-doc-self" href="#a561a48450dc14e4c21d861ea45d1933a">euler_param</a> = impl::readonly_param&lt;<a class="m-doc" href="structmuu_1_1quaternion.html#a7e5b7247fa45a3c77b400a2187417352">euler_<wbr/>type</a>&gt;
             </dt>
             <dd><code>euler_type</code> or <code>const euler_type&amp;</code>, depending on size, triviality, simd-friendliness, etc.</dd>
             <dt id="a7e5b7247fa45a3c77b400a2187417352">
@@ -169,7 +169,7 @@ C++</span></a>
             </dt>
             <dd>Returns the dot product of two quaternions.</dd>
             <dt id="ab19e568ead19fe4c4272daa6156c6c82">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ab19e568ead19fe4c4272daa6156c6c82">from_axis_angle</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1quaternion.html#ae22c806edb50f0bf2e73c0e70d4695a6">axis_<wbr/>angle_<wbr/>param</a> aa) -&gt; <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ab19e568ead19fe4c4272daa6156c6c82">from_axis_angle</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1quaternion.html#a4ad906b82c9ac7059f74ac2241ea2bf2">axis_<wbr/>angle_<wbr/>param</a> aa) -&gt; <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Creates a quaternion from an axis-angle rotation.</dd>
             <dt>
@@ -178,7 +178,7 @@ C++</span></a>
             </dt>
             <dd>Creates a quaternion from an axis-angle rotation.</dd>
             <dt id="ab9ee417eaadf3c032a45de6f8c37858c">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ab9ee417eaadf3c032a45de6f8c37858c">from_euler</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1quaternion.html#a31582f234249f7e55f9387f717729165">euler_<wbr/>param</a> euler) -&gt; <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ab9ee417eaadf3c032a45de6f8c37858c">from_euler</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1quaternion.html#a561a48450dc14e4c21d861ea45d1933a">euler_<wbr/>param</a> euler) -&gt; <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Creates a quaternion from an axis-angle rotation.</dd>
             <dt>
@@ -700,8 +700,8 @@ C++</span></a>
           </div></section>
           <section class="m-doc-details" id="a8c727ea4e2ec6e391f0235ee35e7ef64"><div>
             <h3>
-              <div class="m-doc-template"> template&lt;typename Scalar&gt;
-                template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar&gt;<br/>
+template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index&gt;
               </div>
               <span class="m-doc-wrap-bumper">const auto&amp; muu::<wbr/>quaternion&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8c727ea4e2ec6e391f0235ee35e7ef64">get</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -726,8 +726,8 @@ C++</span></a>
           </div></section>
           <section class="m-doc-details" id="ae9f68c3086d34e6586d342d88b4fa5c5"><div>
             <h3>
-              <div class="m-doc-template"> template&lt;typename Scalar&gt;
-                template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar&gt;<br/>
+template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index&gt;
               </div>
               <span class="m-doc-wrap-bumper">auto&amp; muu::<wbr/>quaternion&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae9f68c3086d34e6586d342d88b4fa5c5">get</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -838,8 +838,8 @@ C++</span></a>
           <section class="m-doc-details" id="af6ecc07ab1cd65300aa3a89b99545cdf"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;typename Scalar&gt;
-                template&lt;typename T&gt;
+                template&lt;typename Scalar&gt;<br/>
+template&lt;typename T&gt;
               </div>
               <span class="m-doc-wrap-bumper">friend bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af6ecc07ab1cd65300aa3a89b99545cdf">operator!=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1quaternion.html#ad207aade5028e87b62dc252b8ff88cbd">quaternion_<wbr/>param</a> lhs,
               const <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&lt;T&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
@@ -850,8 +850,8 @@ C++</span></a>
           <section class="m-doc-details" id="a06f1c1d18482dafdf237a4ead442efad"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;typename Scalar&gt;
-                template&lt;typename T&gt;
+                template&lt;typename Scalar&gt;<br/>
+template&lt;typename T&gt;
               </div>
               <span class="m-doc-wrap-bumper">friend bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a06f1c1d18482dafdf237a4ead442efad">operator==</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1quaternion.html#ad207aade5028e87b62dc252b8ff88cbd">quaternion_<wbr/>param</a> lhs,
               const <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&lt;T&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
@@ -862,8 +862,8 @@ C++</span></a>
           <section class="m-doc-details" id="aa80b85fea6664e3d955f129f9eff4a41"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;typename Scalar&gt;
-                template&lt;typename S&gt;
+                template&lt;typename Scalar&gt;<br/>
+template&lt;typename S&gt;
               </div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&lt;S&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa80b85fea6664e3d955f129f9eff4a41">normalize</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&lt;S&gt;&amp; q) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>

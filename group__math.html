@@ -62,7 +62,7 @@ C++</span></a>
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           Math <span class="m-thin">module</span></h1>
-        <p>Math.</p>
+        <p>Math functions and types.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -70,6 +70,7 @@ C++</span></a>
               Reference
               <ul>
                 <li><a href="#groups">Modules</a></li>
+                <li><a href="#nested-classes">Classes</a></li>
               </ul>
             </li>
           </ul>
@@ -80,35 +81,65 @@ C++</span></a>
             <dt>module <a class="m-doc" href="group__infinity__or__nan.html">infinity_or_nan()</a></dt>
             <dd>Checks for infinities and not-a-numbers (NaN).</dd>
             <dt>module <a class="m-doc" href="group__abs.html">abs()</a></dt>
-            <dd>Constexpr-friendly alternatives to std::abs.</dd>
+            <dd>Constexpr-friendly alternatives to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/math/abs" target="_blank">std::abs</a>.</dd>
             <dt>module <a class="m-doc" href="group__approx__equal.html">approx_equal()</a></dt>
             <dd>Checks if floating-point values are approximately equal.</dd>
             <dt>module <a class="m-doc" href="group__approx__zero.html">approx_zero()</a></dt>
             <dd>Checks if floating-point values are approximately equal to zero.</dd>
             <dt>module <a class="m-doc" href="group__floor.html">floor()</a></dt>
-            <dd>Constexpr-friendly alternatives to std::floor.</dd>
+            <dd>Constexpr-friendly alternatives to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/math/floor" target="_blank">std::floor</a>.</dd>
             <dt>module <a class="m-doc" href="group__ceil.html">ceil()</a></dt>
-            <dd>Constexpr-friendly alternatives to std::ceil.</dd>
+            <dd>Constexpr-friendly alternatives to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/math/ceil" target="_blank">std::ceil</a>.</dd>
             <dt>module <a class="m-doc" href="group__sqrt.html">sqrt()</a></dt>
-            <dd>Constexpr-friendly alternatives to std::sqrt.</dd>
+            <dd>Constexpr-friendly alternatives to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/math/sqrt" target="_blank">std::sqrt</a>.</dd>
             <dt>module <a class="m-doc" href="group__cos.html">cos()</a></dt>
-            <dd>Constexpr-friendly alternatives to std::cos.</dd>
+            <dd>Constexpr-friendly alternatives to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/math/cos" target="_blank">std::cos</a>.</dd>
             <dt>module <a class="m-doc" href="group__sin.html">sin()</a></dt>
-            <dd>Constexpr-friendly alternatives to std::sin.</dd>
+            <dd>Constexpr-friendly alternatives to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/math/sin" target="_blank">std::sin</a>.</dd>
             <dt>module <a class="m-doc" href="group__tan.html">tan()</a></dt>
-            <dd>Constexpr-friendly alternatives to std::tan.</dd>
+            <dd>Constexpr-friendly alternatives to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/math/tan" target="_blank">std::tan</a>.</dd>
             <dt>module <a class="m-doc" href="group__acos.html">acos()</a></dt>
-            <dd>Constexpr-friendly alternatives to std::acos.</dd>
+            <dd>Constexpr-friendly alternatives to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/math/acos" target="_blank">std::acos</a>.</dd>
             <dt>module <a class="m-doc" href="group__asin.html">asin()</a></dt>
-            <dd>Constexpr-friendly alternatives to std::asin.</dd>
+            <dd>Constexpr-friendly alternatives to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/math/asin" target="_blank">std::asin</a>.</dd>
             <dt>module <a class="m-doc" href="group__atan.html">atan()</a></dt>
-            <dd>Constexpr-friendly alternatives to std::atan.</dd>
+            <dd>Constexpr-friendly alternatives to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/math/atan" target="_blank">std::atan</a>.</dd>
             <dt>module <a class="m-doc" href="group__atan2.html">atan2()</a></dt>
-            <dd>Constexpr-friendly alternatives to std::atan2.</dd>
+            <dd>Constexpr-friendly alternatives to <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/math/atan2" target="_blank">std::atan2</a>.</dd>
             <dt>module <a class="m-doc" href="group__lerp.html">lerp()</a></dt>
             <dd>Linear interpolations al a C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/lerp" target="_blank">std::lerp</a>.</dd>
             <dt>module <a class="m-doc" href="group__unit__length.html">unit_length()</a></dt>
             <dd>Unit length checks for vector types.</dd>
+          </dl>
+        </section>
+        <section id="nested-classes">
+          <h2><a href="#nested-classes">Classes</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;typename ValueType, typename Impl = impl::default_accumulator&lt;ValueType&gt;::type&gt;</div>
+              class <a class="m-doc" href="classmuu_1_1accumulator.html">muu::accumulator</a>
+            </dt>
+            <dd>Determines min, max and sum of an interderminate number of values.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1axis__angle__rotation.html">muu::axis_angle_rotation</a>
+            </dt>
+            <dd>An axis+angle rotation.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1euler__rotation.html">muu::euler_rotation</a>
+            </dt>
+            <dd>A set of euler angles used for rotation.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1quaternion.html">muu::quaternion</a>
+            </dt>
+            <dd>A quaternion.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1vector.html">muu::vector</a>
+            </dt>
+            <dd>An N-dimensional vector.</dd>
           </dl>
         </section>
       </div>
