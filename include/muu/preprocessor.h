@@ -779,27 +779,38 @@
 // SFINAE AND CONCEPTS
 //=====================================================================================================================
 
-#ifdef DOXYGEN
-	#define MUU_SFINAE(...)
-	#define MUU_SFINAE_2(...)
-	#define MUU_CONCEPTS 0
-	#define MUU_SFINAE_NO_CONCEPTS(...)
-	#define MUU_SFINAE_2_NO_CONCEPTS(...)
-	#define MUU_REQUIRES(...)
-#else
-	#define MUU_SFINAE(...)						, std::enable_if_t<(__VA_ARGS__), int> = 0
-	#define MUU_SFINAE_2(...)					, typename = std::enable_if_t<(__VA_ARGS__)>
-	#if defined(__cpp_concepts) && defined(__cpp_lib_concepts) && !MUU_INTELLISENSE
-		#define MUU_CONCEPTS 1
-		#define MUU_REQUIRES(...)				requires(__VA_ARGS__)
-		#define MUU_SFINAE_NO_CONCEPTS(...)
-		#define MUU_SFINAE_2_NO_CONCEPTS(...)
+// requires() clauses are always applicable in situations where SFINAE would have been, in addition to being much
+// faster to compile and more human-friendly, so muu uses requires() clauses instead of SFINAE constraints
+// unconditionally when the compiler supports it.
+// this requires using both MUU_ENABLE_IF and MUU_REQUIRES on constrained functions.
+
+#if !defined(DOXYGEN) && !defined(MUU_CONCEPTS) && defined(__cpp_concepts)
+	#define MUU_CONCEPTS				1
+#endif
+#ifndef MUU_CONCEPTS
+	#define MUU_CONCEPTS				0
+#endif
+#ifndef DOXYGEN
+	#if MUU_CONCEPTS
+		#define MUU_REQUIRES(...)		requires(__VA_ARGS__)
 	#else
-		#define MUU_CONCEPTS 0
-		#define MUU_REQUIRES(...)
-		#define MUU_SFINAE_NO_CONCEPTS(...)		MUU_SFINAE(__VA_ARGS__)
-		#define MUU_SFINAE_2_NO_CONCEPTS(...)	MUU_SFINAE_2(__VA_ARGS__)
+		#define MUU_ENABLE_IF(...)		, std::enable_if_t<(__VA_ARGS__), int> = 0
+		#define MUU_ENABLE_IF_2(...)	, typename = std::enable_if_t<(__VA_ARGS__)>
 	#endif
+#endif
+#ifndef MUU_ENABLE_IF
+	#define MUU_ENABLE_IF(...)
+#endif
+#ifndef MUU_ENABLE_IF_2
+	#define MUU_ENABLE_IF_2(...)
+#endif
+#ifndef MUU_REQUIRES
+	#define MUU_REQUIRES(...)
+#endif
+#if MUU_CONCEPTS && defined(__cpp_lib_concepts)
+	#define MUU_STD_CONCEPT(...)	__VA_ARGS__
+#else
+	#define MUU_STD_CONCEPT(...)	true
 #endif
 
 //=====================================================================================================================
@@ -1330,10 +1341,6 @@
 /// 
 /// \def MUU_OFFSETOF(type, member)
 /// \brief Constexpr-friendly alias of `offsetof()`.
-/// 
-/// \def MUU_CONCEPTS
-/// \brief `1` when both the compiler and standard library implementation support C++20 constraints and concepts, otherwise `0`.
-/// \see [Constraints and concepts](https://en.cppreference.com/w/cpp/language/constraints)
 /// 
 /// \def MUU_EXPLICIT(...)
 /// \brief Expands a C++20 conditional `explicit(...)` specifier if supported by the compiler, otherwise `explicit`.

@@ -791,7 +791,7 @@ inline void modulo_tests(std::string_view scalar_typename) noexcept
 
 		vector_t result = vec1 % vec2;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK_APPROX_EQUAL(static_cast<T>(impl::modulo(vec1[i], vec2[i])), result[i]);
+			CHECK_APPROX_EQUAL(static_cast<T>(impl::raw_modulo(vec1[i], vec2[i])), result[i]);
 	}
 
 	{
@@ -800,7 +800,7 @@ inline void modulo_tests(std::string_view scalar_typename) noexcept
 		vector_t result = vec1;
 		result %= vec2;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK_APPROX_EQUAL(static_cast<T>(impl::modulo(vec1[i], vec2[i])), result[i]);
+			CHECK_APPROX_EQUAL(static_cast<T>(impl::raw_modulo(vec1[i], vec2[i])), result[i]);
 	}
 
 	{
@@ -808,7 +808,7 @@ inline void modulo_tests(std::string_view scalar_typename) noexcept
 
 		vector_t result = vec1 % scalar;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK_APPROX_EQUAL(static_cast<T>(impl::modulo(vec1[i], scalar)), result[i]);
+			CHECK_APPROX_EQUAL(static_cast<T>(impl::raw_modulo(vec1[i], scalar)), result[i]);
 	}
 
 	{
@@ -817,7 +817,7 @@ inline void modulo_tests(std::string_view scalar_typename) noexcept
 		vector_t result = vec1;
 		result %= scalar;
 		for (size_t i = 0; i < Dimensions; i++)
-			CHECK_APPROX_EQUAL(static_cast<T>(impl::modulo(vec1[i], scalar)), result[i]);
+			CHECK_APPROX_EQUAL(static_cast<T>(impl::raw_modulo(vec1[i], scalar)), result[i]);
 	}
 }
 

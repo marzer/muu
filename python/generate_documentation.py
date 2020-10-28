@@ -130,12 +130,7 @@ string_literals = [
 	's',
 	'sv'
 ]
-
 external_links = [
-	(r'static_cast','https://en.cppreference.com/w/cpp/language/static_cast'),
-	(r'const_cast','https://en.cppreference.com/w/cpp/language/const_cast'),
-	(r'dynamic_cast','https://en.cppreference.com/w/cpp/language/dynamic_cast'),
-	(r'reinterpret_cast','https://en.cppreference.com/w/cpp/language/reinterpret_cast'),
 	('std::assume_aligned(?:\(\))?', 'https://en.cppreference.com/w/cpp/memory/assume_aligned'),
 	(r'(?:std::)?nullptr_t', 'https://en.cppreference.com/w/cpp/types/nullptr_t'),
 	(r'(?:std::)?size_t', 'https://en.cppreference.com/w/cpp/types/size_t'),
@@ -147,6 +142,10 @@ external_links = [
 	(r'\s(?:<|&lt;)sstream(?:>|&gt;)', 'https://en.cppreference.com/w/cpp/header/sstream'),
 	(r'\s(?:<|&lt;)string(?:>|&gt;)', 'https://en.cppreference.com/w/cpp/header/string'),
 	(r'\s(?:<|&lt;)string_view(?:>|&gt;)', 'https://en.cppreference.com/w/cpp/header/string_view'),
+	(r'const_cast','https://en.cppreference.com/w/cpp/language/const_cast'),
+	(r'dynamic_cast','https://en.cppreference.com/w/cpp/language/dynamic_cast'),
+	(r'reinterpret_cast','https://en.cppreference.com/w/cpp/language/reinterpret_cast'),
+	(r'static_cast','https://en.cppreference.com/w/cpp/language/static_cast'),
 	(r'std::(?:basic_|w)?fstreams?', 'https://en.cppreference.com/w/cpp/io/basic_fstream'),
 	(r'std::(?:basic_|w)?ifstreams?', 'https://en.cppreference.com/w/cpp/io/basic_ifstream'),
 	(r'std::(?:basic_|w)?iostreams?', 'https://en.cppreference.com/w/cpp/io/basic_iostream'),
@@ -158,25 +157,33 @@ external_links = [
 	(r'std::(?:basic_|w)?stringstreams?', 'https://en.cppreference.com/w/cpp/io/basic_stringstream'),
 	(r'std::(?:basic_|w|u(?:8|16|32))?string_views?', 'https://en.cppreference.com/w/cpp/string/basic_string_view'),
 	(r'std::(?:basic_|w|u(?:8|16|32))?strings?', 'https://en.cppreference.com/w/cpp/string/basic_string'),
+	(r'std::[fl]?abs[fl]?(?:\(\))?', 'https://en.cppreference.com/w/cpp/numeric/math/abs'),
+	(r'std::acos[fl]?(?:\(\))?', 'https://en.cppreference.com/w/cpp/numeric/math/acos'),
 	(r'std::add_[lr]value_reference(?:_t)?', 'https://en.cppreference.com/w/cpp/types/add_reference'),
 	(r'std::allocators?', 'https://en.cppreference.com/w/cpp/memory/allocator'),
 	(r'std::arrays?', 'https://en.cppreference.com/w/cpp/container/array'),
 	(r'std::as_(writable_)?bytes(?:\(\))?', 'https://en.cppreference.com/w/cpp/container/span/as_bytes'),
+	(r'std::asin[fl]?(?:\(\))?', 'https://en.cppreference.com/w/cpp/numeric/math/asin'),
+	(r'std::atan2[fl]?(?:\(\))?', 'https://en.cppreference.com/w/cpp/numeric/math/atan2'),
+	(r'std::atan[fl]?(?:\(\))?', 'https://en.cppreference.com/w/cpp/numeric/math/atan'),
 	(r'std::bit_cast(?:\(\))?', 'https://en.cppreference.com/w/cpp/numeric/bit_cast'),
 	(r'std::bit_ceil(?:\(\))?', 'https://en.cppreference.com/w/cpp/numeric/bit_ceil'),
 	(r'std::bit_floor(?:\(\))?', 'https://en.cppreference.com/w/cpp/numeric/bit_floor'),
 	(r'std::bit_width(?:\(\))?', 'https://en.cppreference.com/w/cpp/numeric/bit_width'),
 	(r'std::bytes?', 'https://en.cppreference.com/w/cpp/types/byte'),
+	(r'std::ceil[fl]?(?:\(\))?', 'https://en.cppreference.com/w/cpp/numeric/math/ceil'),
 	(r'std::char_traits', 'https://en.cppreference.com/w/cpp/string/char_traits'),
 	(r'std::chrono::durations?', 'https://en.cppreference.com/w/cpp/chrono/duration'),
 	(r'std::clamp(?:\(\))?', 'https://en.cppreference.com/w/cpp/algorithm/clamp'),
 	(r'std::conditional(?:_t)?', 'https://en.cppreference.com/w/cpp/types/conditional'),
+	(r'std::cos[fl]?(?:\(\))?', 'https://en.cppreference.com/w/cpp/numeric/math/cos'),
 	(r'std::countl_one(?:\(\))?', 'https://en.cppreference.com/w/cpp/numeric/countl_one'),
 	(r'std::countl_zero(?:\(\))?', 'https://en.cppreference.com/w/cpp/numeric/countl_zero'),
 	(r'std::countr_one(?:\(\))?', 'https://en.cppreference.com/w/cpp/numeric/countr_one'),
 	(r'std::countr_zero(?:\(\))?', 'https://en.cppreference.com/w/cpp/numeric/countr_zero'),
 	(r'std::enable_if(?:_t)?', 'https://en.cppreference.com/w/cpp/types/enable_if'),
 	(r'std::exceptions?', 'https://en.cppreference.com/w/cpp/error/exception'),
+	(r'std::floor[fl]?(?:\(\))?', 'https://en.cppreference.com/w/cpp/numeric/math/floor'),
 	(r'std::has_single_bit(?:\(\))?', 'https://en.cppreference.com/w/cpp/numeric/has_single_bit'),
 	(r'std::hash', 'https://en.cppreference.com/w/cpp/utility/hash'),
 	(r'std::initializer_lists?', 'https://en.cppreference.com/w/cpp/utility/initializer_list'),
@@ -209,11 +216,15 @@ external_links = [
 	(r'std::runtime_errors?', 'https://en.cppreference.com/w/cpp/error/runtime_error'),
 	(r'std::sets?', 'https://en.cppreference.com/w/cpp/container/set'),
 	(r'std::shared_ptrs?', 'https://en.cppreference.com/w/cpp/memory/shared_ptr'),
+	(r'std::sin[fl]?(?:\(\))?', 'https://en.cppreference.com/w/cpp/numeric/math/sin'),
 	(r'std::spans?', 'https://en.cppreference.com/w/cpp/container/span'),
+	(r'std::sqrt[fl]?(?:\(\))?', 'https://en.cppreference.com/w/cpp/numeric/math/sqrt'),
+	(r'std::tan[fl]?(?:\(\))?', 'https://en.cppreference.com/w/cpp/numeric/math/tan'),
 	(r'std::to_address(?:\(\))?', 'https://en.cppreference.com/w/cpp/memory/to_address'),
-	(r'std::tuples?', 'https://en.cppreference.com/w/cpp/utility/tuple'),
-	(r'std::tuple_size(?:_v)?', 'https://en.cppreference.com/w/cpp/utility/tuple/tuple_size'),
+	(r'std::trunc[fl]?(?:\(\))?', 'https://en.cppreference.com/w/cpp/numeric/math/trunc'),
 	(r'std::tuple_element(?:_t)?', 'https://en.cppreference.com/w/cpp/utility/tuple/tuple_element'),
+	(r'std::tuple_size(?:_v)?', 'https://en.cppreference.com/w/cpp/utility/tuple/tuple_size'),
+	(r'std::tuples?', 'https://en.cppreference.com/w/cpp/utility/tuple'),
 	(r'std::type_identity(?:_t)?', 'https://en.cppreference.com/w/cpp/types/type_identity'),
 	(r'std::underlying_type(?:_t)?', 'https://en.cppreference.com/w/cpp/types/underlying_type'),
 	(r'std::unique_ptrs?', 'https://en.cppreference.com/w/cpp/memory/unique_ptr'),
@@ -914,6 +925,30 @@ class ExternalLinksFix(object):
 
 
 
+# spreads consecutive template <> declarations out over multiple lines
+class TemplateTemplateFix(object):
+
+	__expression = re.compile(r'(template&lt;.+?&gt;)\s+(template&lt;)', re.S)
+
+	@classmethod
+	def __substitute(cls, m):
+		return f'{m[1]}<br>\n{m[2]}'
+
+	def __call__(self, file, doc):
+		changed = False
+		for template in doc.body('div', class_='m-doc-template'):
+			replacer = RegexReplacer(self.__expression, lambda m: self.__substitute(m), str(template))
+			if replacer:
+				html_replace_tag(template, str(replacer))
+				changed = True
+		return changed
+
+
+
+#=======================================================================================================================
+
+
+
 _threadError = False
 
 
@@ -1193,6 +1228,7 @@ def main():
 			, ExtDocLinksFix()
 			, EnableIfFix()
 			, ExternalLinksFix()
+			, TemplateTemplateFix()
 		]
 		files = [path.split(f) for f in utils.get_all_files(html_dir, any=('*.html', '*.htm'))]
 		if files:

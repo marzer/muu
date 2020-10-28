@@ -769,7 +769,7 @@ namespace std
 		MUU_ATTR(pure)
 		constexpr size_t operator()(const muu::uuid& id) const noexcept
 		{
-			using namespace MUU_NAMESPACE;
+			using namespace muu;
 
 			#define get_slice(idx)	\
 				impl::uuid_slice<sizeof(size_t)>(id.bytes.value, sizeof(size_t) * idx)

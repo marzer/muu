@@ -38,8 +38,9 @@ MUU_IMPL_NAMESPACE_START
 	#define COMPRESSED_PAIR_BASE_DEFAULTS(first_initializer, second_initializer)									\
 																													\
 		template <typename F, typename S																			\
-			MUU_SFINAE(std::is_constructible_v<First, F&&>&& std::is_constructible_v<Second, S&&>)					\
+			MUU_ENABLE_IF(std::is_constructible_v<First, F&&>&& std::is_constructible_v<Second, S&&>)				\
 		>																											\
+		MUU_REQUIRES(std::is_constructible_v<First, F&&>&& std::is_constructible_v<Second, S&&>)					\
 		MUU_NODISCARD_CTOR																							\
 		constexpr compressed_pair_base(F&& first_init, S&& second_init)												\
 			noexcept(std::is_nothrow_constructible_v<First, F&&>&& std::is_nothrow_constructible_v<Second, S&&>)	\
@@ -171,8 +172,9 @@ MUU_NAMESPACE_START
 			/// \param 	first_init 	First member initializer.
 			/// \param 	second_init	Second member initializer.
 			template <typename F, typename S
-				MUU_SFINAE(std::is_constructible_v<First, F&&>&& std::is_constructible_v<Second, S&&>)
+				MUU_ENABLE_IF(std::is_constructible_v<First, F&&> && std::is_constructible_v<Second, S&&>)
 			>
+			MUU_REQUIRES(std::is_constructible_v<First, F&&> && std::is_constructible_v<Second, S&&>)
 			MUU_NODISCARD_CTOR
 				constexpr compressed_pair(F&& first_init, S&& second_init)
 				noexcept(std::is_nothrow_constructible_v<First, F&&>&& std::is_nothrow_constructible_v<Second, S&&>)

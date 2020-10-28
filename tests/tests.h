@@ -128,7 +128,7 @@ MUU_NAMESPACE_START
 		return vals;
 	}
 
-	template <typename T MUU_SFINAE(is_floating_point<T>)>
+	template <typename T MUU_ENABLE_IF(is_floating_point<T>)> MUU_REQUIRES(is_floating_point<T>)
 	inline Approx approx(T val, T eps) noexcept
 	{
 		Approx a(val);
@@ -136,7 +136,7 @@ MUU_NAMESPACE_START
 		return a;
 	}
 
-	template <typename T MUU_SFINAE(is_floating_point<T>)>
+	template <typename T MUU_ENABLE_IF(is_floating_point<T>)> MUU_REQUIRES(is_floating_point<T>)
 	inline Approx approx(T val) noexcept
 	{
 		Approx a(val);
@@ -144,7 +144,7 @@ MUU_NAMESPACE_START
 		return a;
 	}
 
-	template <typename T MUU_SFINAE_2(!is_floating_point<T>)>
+	template <typename T MUU_ENABLE_IF_2(!is_floating_point<T>)> MUU_REQUIRES(!is_floating_point<T>)
 	inline T&& approx(T&& val) noexcept
 	{
 		return static_cast<T&&>(val);

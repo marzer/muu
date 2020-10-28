@@ -248,7 +248,10 @@ MUU_NAMESPACE_START
 		public:
 
 			/// \brief	Constructs a non-owning string_param from a string-viewable object.
-			template <typename T MUU_SFINAE(impl::is_string_view_ish<T&&>)>
+			template <typename T
+				MUU_ENABLE_IF(impl::is_string_view_ish<T&&>)
+			>
+			MUU_REQUIRES(impl::is_string_view_ish<T&&>)
 			MUU_NODISCARD_CTOR
 			string_param(T&& string_viewable) noexcept
 				: string_param{ make_string_view(static_cast<T&&>(string_viewable)) }

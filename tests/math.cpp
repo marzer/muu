@@ -35,7 +35,11 @@ namespace
 		using val_type = impl::highest_ranked<long double, T>;
 		for (size_t i = 0; i <= subdivs; i++) // +1 for inclusive end
 		{
-			const auto val = muu::lerp(static_cast<val_type>(start), static_cast<val_type>(end), (static_cast<val_type>(i) / static_cast<val_type>(subdivs)));
+			const auto val = muu::lerp(
+				static_cast<val_type>(start),
+				static_cast<val_type>(end),
+				(static_cast<val_type>(i) / static_cast<val_type>(subdivs))
+			);
 			const auto input = static_cast<T>(val);
 			const auto muu_output = muu_func(input);
 			const auto std_output = std_func(input);
@@ -62,18 +66,22 @@ namespace
 	template <typename T, typename Return, muu_func_ptr<T, Return> Func, typename Start, typename End, size_t Subdivs>
 	[[maybe_unused]]
 	inline constexpr std::array<table_value<T, Return>, Subdivs + 1u> lookup_table
-		= []() constexpr noexcept
+		= [](muu_func_ptr<T, Return> fn) constexpr noexcept
 		{
 			std::array<table_value<T, Return>, Subdivs + 1u> table{};  // +1 for inclusive end
 
 			using val_type = impl::highest_ranked<long double, T>;
 			for (size_t i = 0; i <= Subdivs; i++)
 			{
-				const auto val = muu::lerp(static_cast<val_type>(Start::value), static_cast<val_type>(End::value), (static_cast<val_type>(i) / static_cast<val_type>(Subdivs)));
-				table[i] = { static_cast<T>(val), Func(static_cast<T>(val)) };
+				const auto val = muu::lerp(
+					static_cast<val_type>(Start::value),
+					static_cast<val_type>(End::value),
+					(static_cast<val_type>(i) / static_cast<val_type>(Subdivs))
+				);
+				table[i] = { static_cast<T>(val), fn(static_cast<T>(val)) };
 			}
 			return table;
-		}();
+		}(Func);
 
 	template <typename T, typename Return, muu_func_ptr<T, Return> Func, typename Start, typename End, size_t Subdivs>
 	void math_test_constexpr() noexcept

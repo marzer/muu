@@ -125,18 +125,18 @@ MUU_NAMESPACE_START
 
 			#else
 
-			template <size_t E = Extent MUU_SFINAE(E == 0 || E == dynamic_extent)>
+			template <size_t E = Extent MUU_ENABLE_IF(E == 0 || E == dynamic_extent)>
 			MUU_NODISCARD_CTOR
 			constexpr span() noexcept {}
 
 			#endif
 
 			/// \brief Constructs a span from a contiguous iterator and an element count.
-			template <typename It MUU_SFINAE_NO_CONCEPTS(
-				impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type>
-			)>
+			template <typename It
+				MUU_ENABLE_IF(impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type>)
+			>
 			MUU_REQUIRES(
-				std::contiguous_iterator<It>
+				MUU_STD_CONCEPT(std::contiguous_iterator<It>)
 				&& impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type>
 			)
 			MUU_NODISCARD_CTOR
@@ -157,13 +157,15 @@ MUU_NAMESPACE_START
 			}
 
 			/// \brief Constructs a span from a pair of contiguous iterators.
-			template <typename It, typename End MUU_SFINAE_NO_CONCEPTS(
-				impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type>
-				&& !std::is_convertible_v<End, size_t>
-			)>
+			template <typename It, typename End
+				MUU_ENABLE_IF(
+					impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type>
+					&& !std::is_convertible_v<End, size_t>
+				)
+			>
 			MUU_REQUIRES(
-				std::contiguous_iterator<It>
-				&& std::sized_sentinel_for<End, It>
+				MUU_STD_CONCEPT(std::contiguous_iterator<It>)
+				&& MUU_STD_CONCEPT(std::sized_sentinel_for<End, It>)
 				&& impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type>
 				&& !std::is_convertible_v<End, size_t>
 			)
@@ -186,7 +188,9 @@ MUU_NAMESPACE_START
 			}
 
 			/// \brief Constructs a span from an array.
-			template <size_t N MUU_SFINAE_NO_CONCEPTS(Extent == dynamic_extent || N == Extent)>
+			template <size_t N
+				MUU_ENABLE_IF(Extent == dynamic_extent || N == Extent)
+			>
 			MUU_REQUIRES(Extent == dynamic_extent || N == Extent)
 			MUU_NODISCARD_CTOR
 			constexpr span(dont_deduce<element_type>(&arr)[N]) noexcept
@@ -194,10 +198,12 @@ MUU_NAMESPACE_START
 			{}
 
 			/// \brief Constructs a span from an array.
-			template <typename U, size_t N MUU_SFINAE_NO_CONCEPTS(
-				impl::is_qualifier_conversion_only<U, element_type>
-				&& (Extent == dynamic_extent || N == Extent)
-			)>
+			template <typename U, size_t N
+				MUU_ENABLE_IF(
+					impl::is_qualifier_conversion_only<U, element_type>
+					&& (Extent == dynamic_extent || N == Extent)
+				)
+			>
 			MUU_REQUIRES(
 				impl::is_qualifier_conversion_only<U, element_type>
 				&& (Extent == dynamic_extent || N == Extent)
@@ -208,10 +214,12 @@ MUU_NAMESPACE_START
 			{}
 
 			/// \brief Constructs a span from an array.
-			template <typename U, size_t N MUU_SFINAE_NO_CONCEPTS(
-				impl::is_qualifier_conversion_only<std::add_const_t<U>, element_type>
-				&& (Extent == dynamic_extent || N == Extent)
-			)>
+			template <typename U, size_t N
+				MUU_ENABLE_IF(
+					impl::is_qualifier_conversion_only<std::add_const_t<U>, element_type>
+					&& (Extent == dynamic_extent || N == Extent)
+				)
+			>
 			MUU_REQUIRES(
 				impl::is_qualifier_conversion_only<std::add_const_t<U>, element_type>
 				&& (Extent == dynamic_extent || N == Extent)
@@ -222,10 +230,12 @@ MUU_NAMESPACE_START
 			{}
 
 			/// \brief Constructs a span from another span.
-			template <typename U, size_t E MUU_SFINAE_NO_CONCEPTS(
-				impl::is_qualifier_conversion_only<U, element_type>
-				&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
-			)>
+			template <typename U, size_t E
+				MUU_ENABLE_IF(
+					impl::is_qualifier_conversion_only<U, element_type>
+					&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
+				)
+			>
 			MUU_REQUIRES(
 				impl::is_qualifier_conversion_only<U, element_type>
 				&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
@@ -246,10 +256,12 @@ MUU_NAMESPACE_START
 			#ifdef __cpp_lib_span
 
 			/// \brief Constructs a muu::span from a C++20 std::span (if available).
-			template <typename U, size_t E MUU_SFINAE_NO_CONCEPTS(
-				impl::is_qualifier_conversion_only<U, element_type>
-				&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
-			)>
+			template <typename U, size_t E
+				MUU_ENABLE_IF(
+					impl::is_qualifier_conversion_only<U, element_type>
+					&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
+				)
+			>
 			MUU_REQUIRES(
 				impl::is_qualifier_conversion_only<U, element_type>
 				&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
@@ -261,10 +273,12 @@ MUU_NAMESPACE_START
 			{}
 
 			/// \brief Constructs a C++20 std::span from a muu::span (if std::span is available).
-			template <typename U, size_t E MUU_SFINAE_NO_CONCEPTS(
-				impl::is_qualifier_conversion_only<U, element_type>
-				&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
-			)>
+			template <typename U, size_t E
+				MUU_ENABLE_IF(
+					impl::is_qualifier_conversion_only<U, element_type>
+					&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
+				)
+			>
 			MUU_REQUIRES(
 				impl::is_qualifier_conversion_only<U, element_type>
 				&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
@@ -519,8 +533,7 @@ MUU_NAMESPACE_START
 	/// \related	muu::span
 	/// 
 	/// \details Equivalent to C++20's std::as_writable_bytes.
-	template <typename T, size_t N MUU_SFINAE_NO_CONCEPTS(!std::is_const_v<T>)>
-	MUU_REQUIRES(!std::is_const_v<T>)
+	template <typename T, size_t N MUU_ENABLE_IF(!std::is_const_v<T>)> MUU_REQUIRES(!std::is_const_v<T>)
 	[[nodiscard]]
 	span<std::byte, impl::as_bytes_extent<T, N>> as_writable_bytes(span<T, N> s) noexcept
 	{

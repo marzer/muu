@@ -89,7 +89,7 @@ MUU_IMPL_NAMESPACE_START
 			return pack_ptr(ptr) | (bits & tag_mask);
 		}
 
-		template <typename T MUU_SFINAE(is_unsigned<T>)>
+		template <typename T MUU_ENABLE_IF(is_unsigned<T>)> MUU_REQUIRES(is_unsigned<T>)
 		[[nodiscard]]
 		MUU_ATTR(const)
 		static constexpr uintptr_t set_tag(uintptr_t bits, T tag) noexcept
@@ -518,10 +518,10 @@ MUU_NAMESPACE_START
 			/// \brief	Returns a reference the pointed object.
 			/// 
 			/// \note This operator is not available for pointers to `void` or functions.
-			template <typename U = element_type MUU_SFINAE(
-				!std::is_void_v<U>
-				&& !std::is_function_v<U>
-			)>
+			template <typename U = element_type
+				MUU_ENABLE_IF(!std::is_void_v<U> && !std::is_function_v<U>)
+			>
+			MUU_REQUIRES(!std::is_void_v<U> && !std::is_function_v<U>)
 			[[nodiscard]]
 			MUU_ALWAYS_INLINE
 			constexpr U& operator * () const noexcept
@@ -532,10 +532,10 @@ MUU_NAMESPACE_START
 			/// \brief	Returns the target pointer value.
 			/// 
 			/// \note This operator is not available for pointers to `void` or functions.
-			template <typename U = element_type MUU_SFINAE(
-				!std::is_void_v<U>
-				&& !std::is_function_v<U>
-			)>
+			template <typename U = element_type
+				MUU_ENABLE_IF(!std::is_void_v<U> && !std::is_function_v<U>)
+			>
+			MUU_REQUIRES(!std::is_void_v<U> && !std::is_function_v<U>)
 			[[nodiscard]]
 			MUU_ALWAYS_INLINE
 			constexpr pointer operator -> () const noexcept
@@ -551,7 +551,10 @@ MUU_NAMESPACE_START
 			/// \returns	The return value of the function call.
 			/// 
 			/// \note This operator is only available when the pointed type is a function.
-			template <typename... U, typename V = element_type MUU_SFINAE(std::is_function_v<V>)>
+			template <typename... U, typename V = element_type
+				MUU_ENABLE_IF(std::is_function_v<V>)
+			>
+			MUU_REQUIRES(std::is_function_v<V>)
 			constexpr decltype(auto) operator () (U&&... args) const
 				noexcept(std::is_nothrow_invocable_v<V, U&&...>)
 			{

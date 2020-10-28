@@ -23,7 +23,7 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 MUU_NAMESPACE_START
 {
 	/// \brief	Determines min, max and sum of an interderminate number of values.
-	/// \ingroup building_blocks
+	/// \ingroup math building_blocks
 	///
 	/// \detail For integral types the accumulator is a simple bookkeeping helper, but for floating-point
 	/// 		types the default implementation uses Kahan summation to reduce numerical error.
@@ -235,7 +235,7 @@ MUU_NAMESPACE_START
 		struct basic_accumulator
 		{
 			using value_type = ValueType;
-			using value_param = impl::maybe_pass_readonly_by_value<ValueType>;
+			using value_param = impl::readonly_param<ValueType>;
 			using sum_type = std::conditional_t<
 				is_integral<ValueType>,
 				std::conditional_t<
@@ -304,9 +304,9 @@ MUU_NAMESPACE_START
 		struct kahan_accumulator // https://en.wikipedia.org/wiki/Kahan_summation_algorithm#Further_enhancements
 		{
 			using value_type = ValueType;
-			using value_param = impl::maybe_pass_readonly_by_value<ValueType>;
+			using value_param = impl::readonly_param<ValueType>;
 			using sum_type = impl::highest_ranked<ValueType, float>;
-			using sum_param = impl::maybe_pass_readonly_by_value<sum_type>;
+			using sum_param = impl::readonly_param<sum_type>;
 
 			static_assert(
 				is_floating_point<value_type>,

@@ -58,7 +58,7 @@ MUU_IMPL_NAMESPACE_START
 	#endif // MUU_HAS_VECTORCALL
 
 	template <typename Scalar>
-	inline constexpr bool pass_quaternion_by_reference = pass_object_by_reference<quaternion_base<Scalar>>;
+	inline constexpr bool pass_quaternion_by_reference = pass_readonly_by_reference<quaternion_base<Scalar>>;
 
 	template <typename Scalar>
 	inline constexpr bool pass_quaternion_by_value = !pass_quaternion_by_reference<Scalar>;
@@ -117,28 +117,29 @@ MUU_IMPL_NAMESPACE_START
 }
 MUU_IMPL_NAMESPACE_END
 
-#else // ^^^ !DOXYGEN / DOXYGEN vvv
-
-#define ENABLE_PAIRED_FUNC_BY_REF(...)
-#define ENABLE_PAIRED_FUNC_BY_VAL(...)
-#define ENABLE_PAIRED_FUNCS 0
-
-#endif // DOXYGEN
+#endif // !DOXYGEN
 
 #if !defined(DOXYGEN) && !MUU_INTELLISENSE
-
 	#define ENABLE_PAIRED_FUNCS 1
 
 	#define ENABLE_PAIRED_FUNC_BY_REF(S, ...) \
-		MUU_SFINAE(impl::pass_quaternion_by_reference<S> && (__VA_ARGS__))
+		MUU_ENABLE_IF(impl::pass_quaternion_by_reference<S> && (__VA_ARGS__))
 
 	#define ENABLE_PAIRED_FUNC_BY_VAL(S, ...) \
-		MUU_SFINAE_2(impl::pass_quaternion_by_value<S> && (__VA_ARGS__))
+		MUU_ENABLE_IF_2(impl::pass_quaternion_by_value<S> && (__VA_ARGS__))
 
-#else 
+	#define REQUIRES_PAIRED_FUNC_BY_REF(S, ...) \
+		MUU_REQUIRES(impl::pass_quaternion_by_reference<S> && (__VA_ARGS__))
+
+	#define REQUIRES_PAIRED_FUNC_BY_VAL(S, ...) \
+		MUU_REQUIRES(impl::pass_quaternion_by_value<S> && (__VA_ARGS__))
+
+#else
 	#define ENABLE_PAIRED_FUNCS 0
-	#define ENABLE_PAIRED_FUNC_BY_REF(...)
-	#define ENABLE_PAIRED_FUNC_BY_VAL(...)
+	#define ENABLE_PAIRED_FUNC_BY_REF(S, ...)
+	#define ENABLE_PAIRED_FUNC_BY_VAL(S, ...)
+	#define REQUIRES_PAIRED_FUNC_BY_REF(S, ...)
+	#define REQUIRES_PAIRED_FUNC_BY_VAL(S, ...)
 #endif
 
 #endif // =============================================================================================================
@@ -149,6 +150,7 @@ MUU_IMPL_NAMESPACE_END
 MUU_NAMESPACE_START
 {
 	/// \brief	An axis+angle rotation.
+	/// \ingroup math
 	/// 
 	/// \tparam	Scalar	The scalar component type of the data members.
 	/// 
@@ -176,13 +178,19 @@ MUU_NAMESPACE_START
 	};
 	#ifndef DOXYGEN
 
-	template <typename S MUU_SFINAE(is_arithmetic<S>)>
+	template <typename S MUU_ENABLE_IF(is_arithmetic<S>)> MUU_REQUIRES(is_arithmetic<S>)
 	axis_angle_rotation(S, S, S, S) -> axis_angle_rotation<impl::std_math_common_type<S>>;
 
-	template <typename X, typename Y, typename Z, typename Angle MUU_SFINAE(all_arithmetic<X, Y, Z, Angle>)>
+	template <typename X, typename Y, typename Z, typename Angle
+		MUU_ENABLE_IF(all_arithmetic<X, Y, Z, Angle>)
+	>
+	MUU_REQUIRES(all_arithmetic<X, Y, Z, Angle>)
 	axis_angle_rotation(X, Y, Z, Angle) -> axis_angle_rotation<impl::std_math_common_type<impl::highest_ranked<X, Y, Z, Angle>>>;
 
-	template <typename Axis, typename Angle MUU_SFINAE(all_arithmetic<Axis, Angle>)>
+	template <typename Axis, typename Angle
+		MUU_ENABLE_IF(all_arithmetic<Axis, Angle>)
+	>
+	MUU_REQUIRES(all_arithmetic<Axis, Angle>)
 	axis_angle_rotation(vector<Axis, 3>, Angle) -> axis_angle_rotation<impl::std_math_common_type<impl::highest_ranked<Axis, Angle>>>;
 
 	#if MUU_HAS_VECTORCALL
@@ -198,6 +206,7 @@ MUU_NAMESPACE_START
 	#endif
 
 	/// \brief	A set of euler angles used for rotation.
+	/// \ingroup math
 	/// 
 	/// \detail This type models a specific form of Euler angles relating to the Aircraft Principal Axes,
 	/// 		and observes the following conventions:
@@ -291,10 +300,13 @@ MUU_NAMESPACE_START
 	};
 	#ifndef DOXYGEN
 
-	template <typename S MUU_SFINAE(is_arithmetic<S>)>
+	template <typename S MUU_ENABLE_IF(is_arithmetic<S>)> MUU_REQUIRES(is_arithmetic<S>)
 	euler_rotation(S, S, S) -> euler_rotation<impl::std_math_common_type<S>>;
 
-	template <typename Yaw, typename Pitch, typename Roll MUU_SFINAE(all_arithmetic<Yaw, Pitch, Roll>)>
+	template <typename Yaw, typename Pitch, typename Roll
+		MUU_ENABLE_IF(all_arithmetic<Yaw, Pitch, Roll>)
+	>
+	MUU_REQUIRES(all_arithmetic<Yaw, Pitch, Roll>)
 	euler_rotation(Yaw, Pitch, Roll) -> euler_rotation<impl::std_math_common_type<impl::highest_ranked<Yaw, Pitch, Roll>>>;
 
 	#if MUU_HAS_VECTORCALL
@@ -319,7 +331,8 @@ MUU_NAMESPACE_END
 MUU_NAMESPACE_START
 {
 	/// \brief A quaternion.
-	///
+	/// \ingroup math
+	/// 
 	/// \tparam	Scalar      The type of the quaternion's scalar components. Must be a floating-point type.
 	/// 
 	/// \see
@@ -370,13 +383,13 @@ MUU_NAMESPACE_START
 		using axis_angle_type = axis_angle_rotation<scalar_type>;
 
 		/// \brief `axis_angle_type` or `const axis_angle_type&`, depending on size, triviality, simd-friendliness, etc.
-		using axis_angle_param = impl::maybe_pass_readonly_by_value<axis_angle_type>;
+		using axis_angle_param = impl::readonly_param<axis_angle_type>;
 
 		/// \brief The #muu::euler_rotation with the same #scalar_type as this quaternion.
 		using euler_type = euler_rotation<scalar_type>;
 
 		/// \brief `euler_type` or `const euler_type&`, depending on size, triviality, simd-friendliness, etc.
-		using euler_param = impl::maybe_pass_readonly_by_value<euler_type>;
+		using euler_param = impl::readonly_param<euler_type>;
 
 		/// \brief `quaternion` or `const quaternion&`, depending on size, triviality, simd-friendliness, etc.
 		using quaternion_param = std::conditional_t<
@@ -518,7 +531,10 @@ MUU_NAMESPACE_START
 		/// 
 		/// \remarks	This is a componentwise exact equality check;
 		/// 			if you want an epsilon-based "near-enough" for floating-point quaternions, use #approx_equal().
-		template <typename T ENABLE_PAIRED_FUNC_BY_REF(T, true)>
+		template <typename T
+			ENABLE_PAIRED_FUNC_BY_REF(T, true)
+		>
+		REQUIRES_PAIRED_FUNC_BY_REF(T, true)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		friend constexpr bool MUU_VECTORCALL operator == (quaternion_param lhs, const quaternion<T>& rhs) noexcept
@@ -542,7 +558,10 @@ MUU_NAMESPACE_START
 		/// 
 		/// \remarks	This is a componentwise exact inequality check;
 		/// 			if you want an epsilon-based "near-enough" for floating-point quaternions, use #approx_equal().
-		template <typename T ENABLE_PAIRED_FUNC_BY_REF(T, true)>
+		template <typename T
+			ENABLE_PAIRED_FUNC_BY_REF(T, true)
+		>
+		REQUIRES_PAIRED_FUNC_BY_REF(T, true)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		friend constexpr bool MUU_VECTORCALL operator != (quaternion_param lhs, const quaternion<T>& rhs) noexcept
@@ -552,7 +571,10 @@ MUU_NAMESPACE_START
 
 		#if ENABLE_PAIRED_FUNCS
 
-		template <typename T ENABLE_PAIRED_FUNC_BY_VAL(T, true)>
+		template <typename T
+			ENABLE_PAIRED_FUNC_BY_VAL(T, true)
+		>
+		REQUIRES_PAIRED_FUNC_BY_VAL(T, true)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		friend constexpr bool MUU_VECTORCALL operator == (quaternion_param lhs, quaternion<T> rhs) noexcept
@@ -572,7 +594,10 @@ MUU_NAMESPACE_START
 			}
 		}
 
-		template <typename T ENABLE_PAIRED_FUNC_BY_VAL(T, true)>
+		template <typename T
+			ENABLE_PAIRED_FUNC_BY_VAL(T, true)
+		>
+		REQUIRES_PAIRED_FUNC_BY_VAL(T, true)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		friend constexpr bool MUU_VECTORCALL operator != (quaternion_param lhs, quaternion<T> rhs) noexcept
@@ -653,7 +678,10 @@ MUU_NAMESPACE_START
 	#if 1 // approx_equal ---------------------------------------------------------------------------------------------
 
 		/// \brief	Returns true if two quaternions are approximately equal.
-		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T> ENABLE_PAIRED_FUNC_BY_REF(T, true)>
+		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T>
+			ENABLE_PAIRED_FUNC_BY_REF(T, true)
+		>
+		REQUIRES_PAIRED_FUNC_BY_REF(T, true)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL approx_equal(
@@ -677,7 +705,10 @@ MUU_NAMESPACE_START
 		}
 
 		/// \brief	Returns true if the quaternion is approximately equal to another.
-		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T> ENABLE_PAIRED_FUNC_BY_REF(T, true)>
+		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T>
+			ENABLE_PAIRED_FUNC_BY_REF(T, true)
+		>
+		REQUIRES_PAIRED_FUNC_BY_REF(T, true)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_equal(
@@ -690,7 +721,10 @@ MUU_NAMESPACE_START
 
 		#if ENABLE_PAIRED_FUNCS
 
-		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T> ENABLE_PAIRED_FUNC_BY_VAL(T, true)>
+		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T>
+			ENABLE_PAIRED_FUNC_BY_VAL(T, true)
+		>
+		REQUIRES_PAIRED_FUNC_BY_VAL(T, true)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL approx_equal(
@@ -713,7 +747,10 @@ MUU_NAMESPACE_START
 			}
 		}
 
-		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T> ENABLE_PAIRED_FUNC_BY_VAL(T, true)>
+		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T>
+			ENABLE_PAIRED_FUNC_BY_VAL(T, true)
+		>
+		REQUIRES_PAIRED_FUNC_BY_VAL(T, true)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_equal(
@@ -1275,13 +1312,19 @@ MUU_NAMESPACE_START
 
 	#ifndef DOXYGEN // deduction guides -------------------------------------------------------------------------------
 
-	template <typename S MUU_SFINAE(is_arithmetic<S>)>
+	template <typename S MUU_ENABLE_IF(is_arithmetic<S>)> MUU_REQUIRES(is_arithmetic<S>)
 	quaternion(S, S, S, S) -> quaternion<impl::std_math_common_type<S>>;
 
-	template <typename S, typename VX, typename VY, typename VZ MUU_SFINAE(all_arithmetic<S, VX, VY, VZ>)>
+	template <typename S, typename VX, typename VY, typename VZ
+		MUU_ENABLE_IF(all_arithmetic<S, VX, VY, VZ>)
+	>
+	MUU_REQUIRES(all_arithmetic<S, VX, VY, VZ>)
 	quaternion(S, VX, VY, VZ) -> quaternion<impl::std_math_common_type<impl::highest_ranked<S, VX, VY, VZ>>>;
 
-	template <typename R, typename I MUU_SFINAE(all_arithmetic<R, I>)>
+	template <typename R, typename I
+		MUU_ENABLE_IF(all_arithmetic<R, I>)
+	>
+	MUU_REQUIRES(all_arithmetic<R, I>)
 	quaternion(R, vector<I, 3>) -> quaternion<impl::std_math_common_type<impl::highest_ranked<R, I>>>;
 
 	template <typename S>
@@ -1360,7 +1403,10 @@ MUU_NAMESPACE_START
 	/// \related	muu::quaternion
 	///
 	/// \brief	Returns true if any of the scalar components of a #quaternion are infinity or NaN.
-	template <typename S ENABLE_PAIRED_FUNC_BY_REF(S, true)>
+	template <typename S
+		ENABLE_PAIRED_FUNC_BY_REF(S, true)
+	>
+	REQUIRES_PAIRED_FUNC_BY_REF(S, true)
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
@@ -1377,6 +1423,7 @@ MUU_NAMESPACE_START
 		typename Epsilon = impl::highest_ranked<S, T>
 		ENABLE_PAIRED_FUNC_BY_REF(S, impl::pass_quaternion_by_reference<T>)
 	>
+	REQUIRES_PAIRED_FUNC_BY_REF(S, impl::pass_quaternion_by_reference<T>)
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
@@ -1395,7 +1442,10 @@ MUU_NAMESPACE_START
 	/// \related	muu::quaternion
 	///
 	/// \brief		Returns true if all the scalar components of a #quaternion are approximately equal to zero.
-	template <typename S ENABLE_PAIRED_FUNC_BY_REF(S, true)>
+	template <typename S
+		ENABLE_PAIRED_FUNC_BY_REF(S, true)
+	>
+	REQUIRES_PAIRED_FUNC_BY_REF(S, true)
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
@@ -1411,7 +1461,10 @@ MUU_NAMESPACE_START
 	/// \related	muu::quaternion
 	///
 	/// \brief Returns true if a #quaternion is unit-length (i.e. has a length of 1).
-	template <typename S ENABLE_PAIRED_FUNC_BY_REF(S, true)>
+	template <typename S
+		ENABLE_PAIRED_FUNC_BY_REF(S, true)
+	>
+	REQUIRES_PAIRED_FUNC_BY_REF(S, true)
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
@@ -1423,7 +1476,10 @@ MUU_NAMESPACE_START
 	/// \related muu::quaternion
 	///
 	/// \brief	Returns the dot product of two quaternions.
-	template <typename S ENABLE_PAIRED_FUNC_BY_REF(S, true)>
+	template <typename S
+		ENABLE_PAIRED_FUNC_BY_REF(S, true)
+	>
+	REQUIRES_PAIRED_FUNC_BY_REF(S, true)
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
@@ -1439,7 +1495,10 @@ MUU_NAMESPACE_START
 	/// \param q	The quaternion to normalize.
 	/// 
 	/// \return		A normalized copy of the input quaternion.
-	template <typename S ENABLE_PAIRED_FUNC_BY_REF(S, true)>
+	template <typename S
+		ENABLE_PAIRED_FUNC_BY_REF(S, true)
+	>
+	REQUIRES_PAIRED_FUNC_BY_REF(S, true)
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
@@ -1451,7 +1510,10 @@ MUU_NAMESPACE_START
 	/// \related	muu::quaternion
 	/// 			
 	/// \brief	Performs a spherical-linear interpolation between two quaternions.
-	template <typename S ENABLE_PAIRED_FUNC_BY_REF(S, true)>
+	template <typename S
+		ENABLE_PAIRED_FUNC_BY_REF(S, true)
+	>
+	REQUIRES_PAIRED_FUNC_BY_REF(S, true)
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
@@ -1462,7 +1524,10 @@ MUU_NAMESPACE_START
 
 	#if ENABLE_PAIRED_FUNCS
 
-	template <typename S ENABLE_PAIRED_FUNC_BY_VAL(S, true)>
+	template <typename S
+		ENABLE_PAIRED_FUNC_BY_VAL(S, true)
+	>
+	REQUIRES_PAIRED_FUNC_BY_VAL(S, true)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
@@ -1475,6 +1540,7 @@ MUU_NAMESPACE_START
 		typename Epsilon = impl::highest_ranked<S, T>
 		ENABLE_PAIRED_FUNC_BY_VAL(S, impl::pass_quaternion_by_value<T>)
 	>
+	REQUIRES_PAIRED_FUNC_BY_VAL(S, impl::pass_quaternion_by_value<T>)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
@@ -1489,7 +1555,10 @@ MUU_NAMESPACE_START
 		return quaternion<S>::approx_equal(q1, q2, epsilon);
 	}
 
-	template <typename S ENABLE_PAIRED_FUNC_BY_VAL(S, true)>
+	template <typename S
+		ENABLE_PAIRED_FUNC_BY_VAL(S, true)
+	>
+	REQUIRES_PAIRED_FUNC_BY_VAL(S, true)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
@@ -1501,7 +1570,10 @@ MUU_NAMESPACE_START
 		return quaternion<S>::approx_zero(q, epsilon);
 	}
 
-	template <typename S ENABLE_PAIRED_FUNC_BY_VAL(S, true)>
+	template <typename S
+		ENABLE_PAIRED_FUNC_BY_VAL(S, true)
+	>
+	REQUIRES_PAIRED_FUNC_BY_VAL(S, true)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
@@ -1510,7 +1582,10 @@ MUU_NAMESPACE_START
 		return quaternion<S>::unit_length(q);
 	}
 
-	template <typename S ENABLE_PAIRED_FUNC_BY_VAL(S, true)>
+	template <typename S
+		ENABLE_PAIRED_FUNC_BY_VAL(S, true)
+	>
+	REQUIRES_PAIRED_FUNC_BY_VAL(S, true)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
@@ -1519,7 +1594,10 @@ MUU_NAMESPACE_START
 		return quaternion<S>::dot(q1, q2);
 	}
 
-	template <typename S ENABLE_PAIRED_FUNC_BY_VAL(S, true)>
+	template <typename S
+		ENABLE_PAIRED_FUNC_BY_VAL(S, true)
+	>
+	REQUIRES_PAIRED_FUNC_BY_VAL(S, true)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
@@ -1528,7 +1606,10 @@ MUU_NAMESPACE_START
 		return quaternion<S>::normalize(q);
 	}
 
-	template <typename S ENABLE_PAIRED_FUNC_BY_VAL(S, true)>
+	template <typename S
+		ENABLE_PAIRED_FUNC_BY_VAL(S, true)
+	>
+	REQUIRES_PAIRED_FUNC_BY_VAL(S, true)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
@@ -1543,9 +1624,11 @@ MUU_NAMESPACE_END
 
 #endif // =============================================================================================================
 
+#undef ENABLE_PAIRED_FUNCS
 #undef ENABLE_PAIRED_FUNC_BY_REF
 #undef ENABLE_PAIRED_FUNC_BY_VAL
-#undef ENABLE_PAIRED_FUNCS
+#undef REQUIRES_PAIRED_FUNC_BY_REF
+#undef REQUIRES_PAIRED_FUNC_BY_VAL
 
 MUU_PRAGMA_MSVC(pop_macro("min"))
 MUU_PRAGMA_MSVC(pop_macro("max"))

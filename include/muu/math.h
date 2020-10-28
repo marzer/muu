@@ -37,7 +37,7 @@ MUU_NAMESPACE_START
 	}
 
 	/// \addtogroup		math			Math
-	/// \brief			Math.
+	/// \brief			Math functions and types.
 	/// @{
 	
 	#if 1 // infinity_or_nan ------------------------------------------------------------------------------------------
@@ -95,7 +95,7 @@ MUU_NAMESPACE_START
 		struct infinity_or_nan_traits<128, 64>
 		{
 			#if MUU_HAS_INT128
-			static constexpr auto mask = pack(0x0000000000007FFF_u64, 0x8000000000000000_u64);
+			static constexpr uint128_t mask = pack(0x0000000000007FFF_u64, 0x8000000000000000_u64);
 			#else
 			static constexpr uint64_t mask[]{ 0x8000000000000000_u64, 0x0000000000007FFF_u64 };
 
@@ -116,7 +116,7 @@ MUU_NAMESPACE_START
 		struct infinity_or_nan_traits<128, 113>
 		{
 			#if MUU_HAS_INT128
-			static constexpr auto mask = pack(0x7FFF000000000000_u64, 0x0000000000000000_u64);
+			static constexpr uint128_t mask = pack(0x7FFF000000000000_u64, 0x0000000000000000_u64);
 			#else
 			static constexpr uint64_t mask[]{ 0x0000000000000000_u64, 0x7FFF000000000000_u64 };
 
@@ -230,7 +230,7 @@ MUU_NAMESPACE_START
 	#endif
 
 	/// \brief	Returns true if an arithmetic value is infinity or NaN.
-	template <typename T MUU_SFINAE(is_arithmetic<T>)>
+	template <typename T MUU_ENABLE_IF(is_arithmetic<T>)> MUU_REQUIRES(is_arithmetic<T>)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool infinity_or_nan(T x) noexcept
@@ -250,7 +250,10 @@ MUU_NAMESPACE_START
 	/// \param 	obj		The object.
 	///
 	/// \returns	The return value of `obj.infinity_or_nan()`.
-	template <typename T MUU_SFINAE_2(!is_arithmetic<T> && impl::is_detected<impl::has_member_infinity_or_nan_, const T&>)>
+	template <typename T
+		MUU_ENABLE_IF(!is_arithmetic<T> && impl::is_detected<impl::has_member_infinity_or_nan_, const T&>)
+	>
+	MUU_REQUIRES(!is_arithmetic<T> && impl::is_detected<impl::has_member_infinity_or_nan_, const T&>)
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	constexpr bool infinity_or_nan(const T& obj) noexcept
@@ -403,7 +406,7 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Returns the absolute value of an integral type.
-	template <typename T MUU_SFINAE(is_integral<T>)>
+	template <typename T MUU_ENABLE_IF(is_integral<T>)> MUU_REQUIRES(is_integral<T>)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ATTR(flatten)
@@ -479,7 +482,10 @@ MUU_NAMESPACE_START
 
 	/// \brief	Returns true if two scalar values are approximately equal.
 	/// \remark This reduces to `a == b` for non-float types.
-	template <typename T, typename U MUU_SFINAE(std::is_scalar_v<T> && std::is_scalar_v<U>)>
+	template <typename T, typename U
+		MUU_ENABLE_IF(std::is_scalar_v<T> && std::is_scalar_v<U>)
+	>
+	MUU_REQUIRES(std::is_scalar_v<T> && std::is_scalar_v<U>)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
@@ -566,7 +572,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Returns true if a scalar value is approximately equal to zero.
 	/// \remark This reduces to `a == 0` for non-float types.
-	template <typename T MUU_SFINAE(std::is_scalar_v<T>)>
+	template <typename T MUU_ENABLE_IF(std::is_scalar_v<T>)> MUU_REQUIRES(std::is_scalar_v<T>)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
@@ -668,7 +674,7 @@ MUU_NAMESPACE_START
 	#endif
 
 	/// \brief	Returns the floor of an integral value.
-	template <typename T MUU_SFINAE(is_integral<T>)>
+	template <typename T MUU_ENABLE_IF(is_integral<T>)> MUU_REQUIRES(is_integral<T>)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ATTR(flatten)
@@ -765,7 +771,7 @@ MUU_NAMESPACE_START
 	#endif
 
 	/// \brief	Returns the ceiling of an integral value.
-	template <typename T MUU_SFINAE(is_integral<T>)>
+	template <typename T MUU_ENABLE_IF(is_integral<T>)> MUU_REQUIRES(is_integral<T>)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ATTR(flatten)
@@ -909,7 +915,7 @@ MUU_NAMESPACE_START
 	#endif
 
 	/// \brief	Returns the square-root of an integral value.
-	template <typename T MUU_SFINAE(is_integral<T>)>
+	template <typename T MUU_ENABLE_IF(is_integral<T>)> MUU_REQUIRES(is_integral<T>)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr double MUU_VECTORCALL sqrt(T x) noexcept
@@ -1069,7 +1075,7 @@ MUU_NAMESPACE_START
 	#endif
 
 	/// \brief	Returns the cosine of an integral value.
-	template <typename T MUU_SFINAE(is_integral<T>)>
+	template <typename T MUU_ENABLE_IF(is_integral<T>)> MUU_REQUIRES(is_integral<T>)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr double MUU_VECTORCALL cos(T x) noexcept
@@ -1222,7 +1228,7 @@ MUU_NAMESPACE_START
 	#endif
 
 	/// \brief	Returns the sine of an integral value.
-	template <typename T MUU_SFINAE(is_integral<T>)>
+	template <typename T MUU_ENABLE_IF(is_integral<T>)> MUU_REQUIRES(is_integral<T>)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr double MUU_VECTORCALL sin(T x) noexcept
@@ -1366,7 +1372,7 @@ MUU_NAMESPACE_START
 	#endif
 
 	/// \brief	Returns the tangent of an integral value.
-	template <typename T MUU_SFINAE(is_integral<T>)>
+	template <typename T MUU_ENABLE_IF(is_integral<T>)> MUU_REQUIRES(is_integral<T>)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr double MUU_VECTORCALL tan(T x) noexcept
@@ -1506,7 +1512,7 @@ MUU_NAMESPACE_START
 	#endif
 
 	/// \brief	Returns the arc cosine of an integral value.
-	template <typename T MUU_SFINAE(is_integral<T>)>
+	template <typename T MUU_ENABLE_IF(is_integral<T>)> MUU_REQUIRES(is_integral<T>)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr double MUU_VECTORCALL acos(T x) noexcept
@@ -1658,7 +1664,7 @@ MUU_NAMESPACE_START
 	#endif
 
 	/// \brief	Returns the arc sine of an integral value.
-	template <typename T MUU_SFINAE(is_integral<T>)>
+	template <typename T MUU_ENABLE_IF(is_integral<T>)> MUU_REQUIRES(is_integral<T>)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr double MUU_VECTORCALL asin(T x) noexcept
@@ -1810,7 +1816,7 @@ MUU_NAMESPACE_START
 	#endif
 
 	/// \brief	Returns the arc tangent of an integral value.
-	template <typename T MUU_SFINAE(is_integral<T>)>
+	template <typename T MUU_ENABLE_IF(is_integral<T>)> MUU_REQUIRES(is_integral<T>)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr double MUU_VECTORCALL atan(T x) noexcept
@@ -1948,7 +1954,10 @@ MUU_NAMESPACE_START
 	/// \brief	Returns the arc tangent of two arithmetic values.
 	///
 	/// \detail Integer arguments are promoted to double.
-	template <typename X, typename Y MUU_SFINAE(all_arithmetic<X, Y>)>
+	template <typename X, typename Y
+		MUU_ENABLE_IF(all_arithmetic<X, Y>)
+	>
+	MUU_REQUIRES(all_arithmetic<X, Y>)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr auto MUU_VECTORCALL atan2(Y y, X x) noexcept
@@ -2028,7 +2037,10 @@ MUU_NAMESPACE_START
 	/// \brief	Returns a linear interpolation between two arithmetic values.
 	///
 	/// \detail Integer arguments are promoted to double.
-	template <typename T, typename U, typename V MUU_SFINAE(all_arithmetic<T, U, V>)>
+	template <typename T, typename U, typename V
+		MUU_ENABLE_IF(all_arithmetic<T, U, V>)
+	>
+	MUU_REQUIRES(all_arithmetic<T, U, V>)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr auto MUU_VECTORCALL lerp(T start, U finish, V alpha) noexcept
