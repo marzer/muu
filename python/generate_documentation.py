@@ -57,42 +57,23 @@ type_names = [
 	'exception',
 	'float',
 	'float128_t',
-	'fstream',
-	'ifstream',
 	'int',
-	'int128_t',
-	'int16_t',
-	'int32_t',
-	'int64_t',
-	'int8_t',
-	'intptr_t',
-	'istream',
-	'istringstream',
 	'iterator',
 	'long',
-	'ofstream',
 	'optional',
-	'ostream',
-	'ostringstream',
 	'pair',
 	'ptrdiff_t',
 	'short',
 	'signed',
 	'size_t',
 	'span',
-	'string',
-	'string_view',
-	'stringstream',
+	'string(?:_view)?',
+	'i?o?f?(?:string)?stream',
 	'tuple',
-	'uint128_t',
-	'uint16_t',
-	'uint32_t',
-	'uint64_t',
-	'uint8_t',
-	'uintptr_t',
+	'u?int(?:8|16|32|64|128)_t',
+	'u?intptr_t',
 	'unsigned',
 	'vector',
-	'void',
 	'wchar_t',
 	#------ muu types
 	'bitset'
@@ -110,16 +91,23 @@ type_names = [
 	'tagged_ptr',
 	'thread_pool',
 	'uuid',
-	'vector1', # 'vector' unnecessary due to std::vector, just aliases here
-	'vector2',
-	'vector3',
-	'vector4',
-	'vec1',
-	'vec2',
-	'vec3',
-	'vec4',
+	#------ documentation-only types
+	'[T-V]',
+	'strong_typedef',
+	'[a-zA-Z_]+_type',
+	'my_enum',
+	'my_flags',
+	'virtual_base',
+	'empty_parent',
+	'nonempty_child',
+	'immovable',
+	'uncopyable',
+	'vector[1-4]',
+	'vec[1-4]',
 ]
-
+preprocessor_macros = [
+	'MUU_[A-Z0-9_]+?'
+]
 all_namespaces = [
 	'std',
 	'muu',
@@ -727,11 +715,13 @@ class SyntaxHighlightingFix(object):
 		'const',
 		'noexcept',
 		'template',
-		'typename'
+		'typename',
+		'void'
 	]
 
 	def __call__(self, file, doc):
 		global type_names
+		global preprocessor_macros
 		global all_namespaces
 		global string_literals
 
@@ -739,46 +729,69 @@ class SyntaxHighlightingFix(object):
 		changed = False
 		for code_block in code_blocks:
 
-			# namespaces
-			names = code_block('span', class_='n')
-			names_ = []
-			for name in names:
-				if (name.string is None or name.string not in all_namespaces):
-					names_.append(name)
-					continue
-				next = name.next_sibling
-				if (next is None or next.string is None or next.string != '::'):
-					names_.append(name)
-					continue
+			# collect all names
+			names = [n for n in code_block('span', class_='n') if n.string is not None]
 
+			# namespaces
+			for i in range(len(names)-1, -1, -1):
+				if (names[i].string not in all_namespaces):
+					continue
+				next = names[i].next_sibling
+				if (next is None or next.string is None or next.string != '::'):
+					continue
 				next.extract()
-				name.string.replace_with(name.string + '::')
-				name['class'] = 'ns'
+				names[i].string.replace_with(names[i].string + '::')
+				names[i]['class'] = 'ns'
+				del names[i]
 				changed = True
 
 			# string literals
-			names = names_
-			names_ = []
-			for name in names:
-				if (name.string is None or name.string not in string_literals):
-					names_.append(name)
+			for i in range(len(names)-1, -1, -1):
+				if (names[i].string not in string_literals):
 					continue
-				prev = name.previous_sibling
+				prev = names[i].previous_sibling
 				if (prev is None or prev['class'] is None or 's' not in prev['class']):
-					names_.append(name)
 					continue
-				name['class'] = 'sa'
+				names[i]['class'] = 'sa'
+				del names[i]
+				changed = True
+
+			# preprocessor macros
+			names = names + [n for n in code_block('span', class_='nc') if n.string is not None]
+			names = names + [n for n in code_block('span', class_='nf') if n.string is not None]
+			names = names + [n for n in code_block('span', class_='nl') if n.string is not None]
+			for i in range(len(names)-1, -1, -1):
+				matched = False
+				for macro in preprocessor_macros:
+					if re.fullmatch(macro, names[i].string) is not None:
+						matched = True
+						break
+				if not matched:
+					continue
+				names[i]['class'] = 'm'
+				del names[i]
 				changed = True
 
 			# types and typedefs
-			names = names_ + code_block('span', class_='kt')
-			for name in names:
-				if (name.string is not None and name.string in type_names):
-					name['class'] = 'ut'
-					changed = True
+			names = names + [n for n in code_block('span', class_='kt') if n.string is not None]
+			for i in range(len(names)-1, -1, -1):
+				if (names[i].previous_sibling is not None and names[i].previous_sibling.string.endswith('~')):
+					continue
+				if (names[i].next_sibling is not None and names[i].next_sibling.string.startswith('(')):
+					continue
+				matched = False
+				for type_name in type_names:
+					if re.fullmatch(type_name, names[i].string) is not None:
+						matched = True
+						break
+				if not matched:
+					continue
+				names[i]['class'] = 'ut'
+				del names[i]
+				changed = True
 
 			# misidentifed keywords
-			for keywordClass in ['nf', 'nb']:
+			for keywordClass in ['nf', 'nb', 'kt']:
 				kws = code_block('span', class_=keywordClass)
 				for kw in kws:
 					if (kw.string is not None and kw.string in self.__keywords):

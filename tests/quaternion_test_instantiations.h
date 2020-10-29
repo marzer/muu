@@ -55,10 +55,7 @@ QUATERNION_TEST_CASE("dot")
 
 QUATERNION_TEST_CASE("normalization")
 {
-	if constexpr (is_floating_point<SCALAR_TYPE>)
-	{
-		TEST_TYPE(normalization_tests);
-	}
+	TEST_TYPE(normalization_tests);
 }
 
 QUATERNION_TEST_CASE("euler")
@@ -66,15 +63,26 @@ QUATERNION_TEST_CASE("euler")
 	TEST_TYPE(euler_tests);
 }
 
+QUATERNION_TEST_CASE("conjugate")
+{
+	TEST_TYPE(conjugate_tests);
+}
+
+QUATERNION_TEST_CASE("slerp")
+{
+	TEST_TYPE(slerp_tests);
+}
+
+QUATERNION_TEST_CASE("multiplication")
+{
+	TEST_TYPE(multiplication_tests);
+}
+
 #if 0
 
 
 
 
-QUATERNION_TEST_CASE("lerp")
-{
-	TEST_TYPE(lerp_tests);
-}
 
 QUATERNION_TEST_CASE("min and max")
 {

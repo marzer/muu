@@ -25,12 +25,12 @@
 		actually run; debug builds still have a bunch of nested calls and lambda instantiations. Macros + 'if constexpr'
 		end up being much more debug performance-friendly.
 
-	-	Some functions use SFINAE to select overloads that take things either by reference or value, with the value
+	-	Some functions use constraints to select overloads that take things either by reference or value, with the value
 		overloads being 'hidden' from doxygen and intellisense. The value overloads are optimizations to take
 		advantage of __vectorcall on windows, and only apply to float, double and long double vectors of <= 4 dimensions
 		since the're considered "Homogeneous Vector Aggreggates" and must be passed by value to be properly vectorized.
 		- __vectorcall: https://docs.microsoft.com/en-us/cpp/cpp/vectorcall?view=vs-2019
-		- vectorizer sandbox: https://godbolt.org/z/8b9fe6
+		- vectorizer sandbox: https://godbolt.org/z/fbPPcr (change vector_param_mode to see the effect in the MSVC tab)
 
 	-	You'll see intermediate_type used instead of scalar_type in a few places. It's a 'better' type used for
 		intermediate floating-point values where precision loss or unnecessary cast round-tripping is to be avoided.
@@ -648,12 +648,7 @@ MUU_IMPL_NAMESPACE_START
 	#if MUU_HAS_VECTORCALL
 
 	template <typename Scalar, size_t Dimensions>
-	inline constexpr bool is_hva<vector_base<Scalar, Dimensions>> =
-		Dimensions <= 4
-		&& (is_same_as_any<Scalar, float, double, long double> || is_simd_intrinsic<Scalar>)
-		&& sizeof(vector_base<Scalar, Dimensions>) == sizeof(Scalar) * Dimensions
-		&& alignof(vector_base<Scalar, Dimensions>) == alignof(Scalar)
-	;
+	inline constexpr bool is_hva<vector_base<Scalar, Dimensions>> = can_be_hva_of<vector_base<Scalar, Dimensions>, Scalar>;
 
 	template <typename Scalar, size_t Dimensions>
 	inline constexpr bool is_hva<vector<Scalar, Dimensions>> = is_hva<vector_base<Scalar, Dimensions>>;
@@ -2092,19 +2087,22 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr vector MUU_VECTORCALL raw_multiply_scalar(vector_param lhs, T rhs) noexcept
 		{
-			static_assert(is_floating_point<scalar_type> == is_floating_point<T>);
+			using type = impl::highest_ranked<
+				decltype(scalar_type{} * T{}),
+				impl::promote_if_small_float<T>,
+				std::conditional_t<is_floating_point<scalar_type>, intermediate_type, scalar_type>
+			>;
 
-			if constexpr (impl::is_small_float<scalar_type> || impl::is_small_float<T>)
+			if constexpr (all_same<type, scalar_type, T>)
 			{
-				using type = impl::highest_ranked<intermediate_type, impl::promote_if_small_float<T>>;
-
-				#define VEC_FUNC(member)	static_cast<type>(lhs.member) * static_cast<type>(rhs)
+				#define VEC_FUNC(member)	lhs.member * rhs
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
 			else
 			{
-				#define VEC_FUNC(member)	lhs.member * rhs
+				const auto rhs_ = static_cast<type>(rhs);
+				#define VEC_FUNC(member)	static_cast<type>(lhs.member) * rhs_
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
@@ -2114,19 +2112,22 @@ MUU_NAMESPACE_START
 		[[nodiscard]]
 		constexpr vector& MUU_VECTORCALL raw_multiply_assign_scalar(T rhs) noexcept
 		{
-			static_assert(is_floating_point<scalar_type> == is_floating_point<T>);
+			using type = impl::highest_ranked<
+				decltype(scalar_type{} * T{}),
+				impl::promote_if_small_float<T>,
+				std::conditional_t<is_floating_point<scalar_type>, intermediate_type, scalar_type>
+			>;
 
-			if constexpr (impl::is_small_float<scalar_type> || impl::is_small_float<T>)
+			if constexpr (all_same<type, scalar_type, T>)
 			{
-				using type = impl::highest_ranked<intermediate_type, impl::promote_if_small_float<T>>;
-
-				#define VEC_FUNC(member)	static_cast<type>(base::member) * static_cast<type>(rhs)
+				#define VEC_FUNC(member)	base::member * rhs
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
 			}
 			else
 			{
-				#define VEC_FUNC(member)	base::member * rhs
+				const auto rhs_ = static_cast<type>(rhs);
+				#define VEC_FUNC(member)	static_cast<type>(base::member) * rhs_
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
 			}
@@ -2204,19 +2205,26 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr vector MUU_VECTORCALL raw_divide_scalar(vector_param lhs, T rhs) noexcept
 		{
-			static_assert(is_floating_point<scalar_type> == is_floating_point<T>);
+			using type = impl::highest_ranked<
+				decltype(scalar_type{} / T{}),
+				impl::promote_if_small_float<T>,
+				std::conditional_t<is_floating_point<scalar_type>, intermediate_type, scalar_type>
+			>;
 
-			if constexpr (impl::is_small_float<T>)
+			if constexpr (is_floating_point<type>)
 			{
-				return raw_multiply_scalar(lhs, intermediate_type{ 1 } / static_cast<intermediate_type>(rhs));
+				return raw_multiply_scalar(lhs, type{ 1 } / static_cast<type>(rhs));
 			}
-			else if constexpr (is_floating_point<T>)
+			else if constexpr (all_same<type, scalar_type, T>)
 			{
-				return raw_multiply_scalar(lhs, T{ 1 } / rhs);
+				#define VEC_FUNC(member)	lhs.member / rhs
+				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
+				#undef VEC_FUNC
 			}
 			else
 			{
-				#define VEC_FUNC(member)	lhs.member / rhs
+				const auto rhs_ = static_cast<type>(rhs);
+				#define VEC_FUNC(member)	static_cast<type>(lhs.member) / rhs_
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
@@ -2226,19 +2234,26 @@ MUU_NAMESPACE_START
 		[[nodiscard]]
 		constexpr vector& MUU_VECTORCALL raw_divide_assign_scalar(T rhs) noexcept
 		{
-			static_assert(is_floating_point<scalar_type> == is_floating_point<T>);
+			using type = impl::highest_ranked<
+				decltype(scalar_type{} / T{}),
+				impl::promote_if_small_float<T>,
+				std::conditional_t<is_floating_point<scalar_type>, intermediate_type, scalar_type>
+			>;
 
-			if constexpr (impl::is_small_float<T>)
+			if constexpr (is_floating_point<type>)
 			{
-				return raw_multiply_assign_scalar(intermediate_type{ 1 } / static_cast<intermediate_type>(rhs));
+				return raw_multiply_assign_scalar(type{ 1 } / static_cast<type>(rhs));
 			}
-			else if constexpr (is_floating_point<T>)
+			else if constexpr (all_same<type, scalar_type, T>)
 			{
-				return raw_multiply_assign_scalar(T{ 1 } / rhs);
+				#define VEC_FUNC(member)	base::member / rhs
+				COMPONENTWISE_ASSIGN(VEC_FUNC);
+				#undef VEC_FUNC
 			}
 			else
 			{
-				#define VEC_FUNC(member)	base::member / rhs
+				const auto rhs_ = static_cast<type>(rhs);
+				#define VEC_FUNC(member)	static_cast<type>(base::member) / rhs_
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
 			}
@@ -2688,10 +2703,10 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr vector MUU_VECTORCALL lerp(vector_param start, vector_param finish, scalar_product alpha) noexcept
 		{
-			using itype = intermediate_type;
-			const auto inv_alpha = itype{ 1 } - static_cast<itype>(alpha);
+			using type = intermediate_type;
+			const auto inv_alpha = type{ 1 } - static_cast<type>(alpha);
 
-			#define VEC_FUNC(member) static_cast<itype>(start.member) * inv_alpha + static_cast<itype>(finish.member) * static_cast<itype>(alpha)
+			#define VEC_FUNC(member) static_cast<type>(start.member) * inv_alpha + static_cast<type>(finish.member) * static_cast<type>(alpha)
 			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 			#undef VEC_FUNC
 		}
@@ -2704,10 +2719,10 @@ MUU_NAMESPACE_START
 		/// \return	A reference to the vector.
 		constexpr vector& MUU_VECTORCALL lerp(vector target, scalar_product alpha) noexcept
 		{
-			using itype = intermediate_type;
-			const auto inv_alpha = itype{ 1 } - static_cast<itype>(alpha);
+			using type = intermediate_type;
+			const auto inv_alpha = type{ 1 } - static_cast<type>(alpha);
 
-			#define VEC_FUNC(member) static_cast<itype>(base::member) * inv_alpha + static_cast<itype>(target.member) * static_cast<itype>(alpha)
+			#define VEC_FUNC(member) static_cast<type>(base::member) * inv_alpha + static_cast<type>(target.member) * static_cast<type>(alpha)
 			COMPONENTWISE_ASSIGN(VEC_FUNC);
 			#undef VEC_FUNC
 		}
@@ -2796,7 +2811,7 @@ MUU_NAMESPACE_START
 		/// \param	v1		A vector.
 		/// \param	v2		A vector.
 		///
-		/// \returns	The angle in radians between `v1` and `v2`.
+		/// \returns	The angle between `v1` and `v2` (in radians).
 		/// 
 		/// \remarks	The angle returned is the unsigned angle between the two vectors;
 		/// 			the smaller of the two possible angles between the two vectors is used.
@@ -2829,7 +2844,7 @@ MUU_NAMESPACE_START
 		///
 		/// \param	v	A vector.
 		///
-		/// \returns	The angle in radians between this vector and `v`.
+		/// \returns	The angle between this vector and `v` (in radians).
 		/// 
 		/// \remarks	The angle returned is the unsigned angle between the two vectors;
 		/// 			the smaller of the two possible angles between the two vectors is used.
@@ -3045,6 +3060,8 @@ MUU_NAMESPACE_START
 			static constexpr type phi_over_six			= type{ scalars::phi_over_six         };
 			static constexpr type sqrt_phi				= type{ scalars::sqrt_phi             };
 			static constexpr type one_over_sqrt_phi		= type{ scalars::one_over_sqrt_phi    };
+			static constexpr type degrees_to_radians	= type{ scalars::degrees_to_radians   };
+			static constexpr type radians_to_degrees	= type{ scalars::radians_to_degrees   };
 		};
 
 		#endif // !DOXYGEN
@@ -3729,7 +3746,7 @@ MUU_NAMESPACE_START
 	/// \param	v1		A vector.
 	/// \param	v2		A vector.
 	///
-	/// \returns	The angle in radians between `v1` and `v2`.
+	/// \returns	The angle between `v1` and `v2` (in radians).
 	/// 
 	/// \remarks	The angle returned is the unsigned angle between the two vectors;
 	/// 			the smaller of the two possible angles between the two vectors is used.

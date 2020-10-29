@@ -572,16 +572,16 @@ MUU_NAMESPACE_START
 		|| is_same_as_any<remove_enum<remove_cvref<T>>,
 			half
 			#if MUU_HAS_INT128
-				, int128_t
+			, int128_t
 			#endif
 			#if MUU_HAS_FLOAT128
-				, float128_t
+			, float128_t
 			#endif
 			#if MUU_HAS_FLOAT16
-				, _Float16
+			, _Float16
 			#endif
 			#if MUU_HAS_FP16
-				, __fp16
+			, __fp16
 			#endif
 		>
 	;
@@ -626,13 +626,13 @@ MUU_NAMESPACE_START
 		|| is_same_as_any<remove_cvref<T>,
 			half
 			#if MUU_HAS_FLOAT128
-				, float128_t
+			, float128_t
 			#endif
 			#if MUU_HAS_FLOAT16
-				, _Float16
+			, _Float16
 			#endif
 			#if MUU_HAS_FP16
-				, __fp16
+			, __fp16
 			#endif
 		>
 	;
@@ -660,16 +660,16 @@ MUU_NAMESPACE_START
 	inline constexpr bool is_extended_arithmetic = is_same_as_any<remove_cvref<T>,
 		half
 		#if MUU_HAS_INT128
-			, int128_t, uint128_t
+		, int128_t, uint128_t
 		#endif
 		#if MUU_HAS_FLOAT128
-			, float128_t
+		, float128_t
 		#endif
 		#if MUU_HAS_FLOAT16
-			, _Float16
+		, _Float16
 		#endif
 		#if MUU_HAS_FP16
-			, __fp16
+		, __fp16
 		#endif
 	>;
 
@@ -897,27 +897,11 @@ MUU_IMPL_NAMESPACE_START
 	#if MUU_HAS_VECTORCALL
 
 	template <typename T>
-	inline constexpr bool is_simd_intrinsic = is_same_as_any<remove_cvref<T>
-		#if MUU_ISET_MMX
-			, __m64
-		#endif
-		#if MUU_ISET_SSE
-			, __m128
-		#endif
-		#if MUU_ISET_SSE2
-			, __m128i
-			, __m128d
-		#endif
-		#if MUU_ISET_AVX
-			, __m256
-			, __m256d
-			, __m256i
-		#endif
-		#if MUU_ISET_AVX512
-			, __m512
-			, __m512d
-			, __m512i
-		#endif
+	inline constexpr bool is_simd_intrinsic = is_same_as_any<remove_cvref<T>,
+		__m64,
+		__m128, __m128i, __m128d,
+		__m256, __m256d, __m256i,
+		__m512, __m512d, __m512i
 	>;
 
 	template <typename T>
@@ -944,6 +928,42 @@ MUU_IMPL_NAMESPACE_START
 		static constexpr size_t arity = N;
 	};
 
+	template <typename T>
+	inline constexpr bool is_hva_scalar =
+		is_same_as_any<T, float, double, long double>
+		|| is_simd_intrinsic<T>;
+
+	template <typename T, typename Scalar>
+	inline constexpr bool can_be_hva_of =
+		std::is_class_v<T>
+		&& !std::is_empty_v<T>
+		&& std::is_standard_layout_v<T>
+		&& std::is_trivially_default_constructible_v<T>
+		&& std::is_trivially_copyable_v<T>
+		&& std::is_trivially_destructible_v<T>
+		&& is_hva_scalar<Scalar>
+		&& sizeof(T) >= sizeof(Scalar)
+		&& sizeof(T) <= sizeof(Scalar) * 4
+		&& sizeof(T) % sizeof(Scalar) == 0
+		&& alignof(T) == alignof(Scalar);
+
+	template <typename T>
+	inline constexpr bool can_be_hva =
+		can_be_hva_of<T, float>
+		|| can_be_hva_of<T, double>
+		|| can_be_hva_of<T, long double>
+		|| can_be_hva_of<T, __m64>
+		|| can_be_hva_of<T, __m128>
+		|| can_be_hva_of<T, __m128i>
+		|| can_be_hva_of<T, __m128d>
+		|| can_be_hva_of<T, __m256>
+		|| can_be_hva_of<T, __m256d>
+		|| can_be_hva_of<T, __m256i>
+		|| can_be_hva_of<T, __m512>
+		|| can_be_hva_of<T, __m512d>
+		|| can_be_hva_of<T, __m512i>
+	;
+
 	template <typename T, typename... Members>
 	struct is_valid_hva_
 	{
@@ -957,14 +977,13 @@ MUU_IMPL_NAMESPACE_START
 		// - have the same alignment as its member type (no padding/over-alignment)
 		//
 		// some of these points were ambiguous in the vectorcall doc, but i figured them out via experimentation
-		// on godbolt https://godbolt.org/z/8b9fe6
+		// on godbolt https://godbolt.org/z/fbPPcr
 
 		static constexpr bool value =
 
 			// all members are non-reference, non-volatile floats or simd intrinsics
 			(true && ... && (
-				(is_same_as_any<typename hva_member_<Members>::type, float, double, long double>
-					|| is_simd_intrinsic<typename hva_member_<Members>::type>)
+				is_hva_scalar<typename hva_member_<Members>::type>
 				&& !std::is_reference_v<Members>
 				&& !std::is_volatile_v<Members>
 			))
@@ -989,15 +1008,7 @@ MUU_IMPL_NAMESPACE_START
 	template <typename T>
 	constexpr auto is_hva_(T&& obj) noexcept
 	{
-		if constexpr (std::is_class_v<T>
-			&& !std::is_empty_v<T>
-			&& std::is_standard_layout_v<T>
-			&& std::is_trivially_default_constructible_v<T>
-			&& std::is_trivially_copyable_v<T>
-			&& std::is_trivially_destructible_v<T>
-			&& (sizeof(T) % sizeof(float) == 0) // smallest sub-member can be a float
-			&& alignof(T) >= alignof(float)
-			)
+		if constexpr (can_be_hva<T> && std::is_aggregate_v<T>)
 		{
 			if constexpr (is_detected<is_aggregate_5_args_, T>) // five or more
 				return std::false_type{};
@@ -1028,8 +1039,8 @@ MUU_IMPL_NAMESPACE_START
 			return std::false_type{};
 	}
 
-	template <typename T>			inline constexpr bool is_hva = decltype(is_hva_(std::declval<T>()))::value;
-	template <>						inline constexpr bool is_hva<half> = false;
+	template <typename T>
+	inline constexpr bool is_hva = decltype(is_hva_(std::declval<T>()))::value;
 
 	#endif // MUU_HAS_VECTORCALL
 
@@ -1263,6 +1274,11 @@ MUU_NAMESPACE_START
 			static constexpr T phi_over_six           = T( 0.269672331458315808034L ); ///< `phi / 6`
 			static constexpr T sqrt_phi               = T( 1.272019649514068964252L ); ///< `sqrt(phi)`
 			static constexpr T one_over_sqrt_phi      = T( 0.786151377757423286070L ); ///< `1 / sqrt(phi)`
+
+			/// \brief  Conversion factor for converting degrees into radians.
+			static constexpr T degrees_to_radians     = T( 0.017453292519943295769L );
+			/// \brief  Conversion factor for converting radians into degrees.
+			static constexpr T radians_to_degrees     = T( 57.295779513082320876798L);
 		};
 
 		#if !defined(DOXYGEN) && MUU_HAS_FLOAT128
@@ -1320,6 +1336,8 @@ MUU_NAMESPACE_START
 			static constexpr float128_t phi_over_six          = 0.269672331458315808034097805727606353q;
 			static constexpr float128_t sqrt_phi              = 1.272019649514068964252422461737491492q;
 			static constexpr float128_t one_over_sqrt_phi     = 0.786151377757423286069558585842958930q;
+			static constexpr float128_t degrees_to_radians    = 0.017453292519943295769236907684886127q;
+			static constexpr float128_t radians_to_degrees    = 57.295779513082320876798154814105170332q;
 		};
 		#endif
 

@@ -443,6 +443,8 @@ def write_float_data(file, traits):
 		if val != D(1):
 			print_constant(f'sqrt_{name}', val.sqrt())
 			print_constant(f'one_over_sqrt_{name}', D(1) / val.sqrt())
+	print_constant("degrees_to_radians", pi() / D(180))
+	print_constant("radians_to_degrees", D(180) / pi())
 
 	####
 	#### limits ###############################

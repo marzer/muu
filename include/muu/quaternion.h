@@ -46,11 +46,7 @@ MUU_IMPL_NAMESPACE_START
 	#if MUU_HAS_VECTORCALL
 
 	template <typename Scalar>
-	inline constexpr bool is_hva<quaternion_base<Scalar>> =
-		(is_same_as_any<Scalar, float, double, long double> || is_simd_intrinsic<Scalar>)
-		&& sizeof(quaternion_base<Scalar>) == sizeof(Scalar) * 4
-		&& alignof(quaternion_base<Scalar>) == alignof(Scalar)
-	;
+	inline constexpr bool is_hva<quaternion_base<Scalar>> = can_be_hva_of<quaternion_base<Scalar>, Scalar>;
 
 	template <typename Scalar>
 	inline constexpr bool is_hva<quaternion<Scalar>> = is_hva<quaternion_base<Scalar>>;
@@ -97,7 +93,7 @@ MUU_IMPL_NAMESPACE_START
 	constexpr T MUU_VECTORCALL normalize_angle(T val) noexcept
 	{
 		if (val < T{} || val > constants<T>::two_pi)
-			val -= constants<T>::two_pi * floor_(val * constants<T>::one_over_two_pi);
+			val -= constants<T>::two_pi * muu::floor(val * constants<T>::one_over_two_pi);
 		return val;
 	}
 
@@ -109,7 +105,7 @@ MUU_IMPL_NAMESPACE_START
 		if (val < -constants<T>::pi || val > constants<T>::pi)
 		{
 			val += constants<T>::pi;
-			val -= constants<T>::two_pi * floor_(val * constants<T>::one_over_two_pi);
+			val -= constants<T>::two_pi * muu::floor(val * constants<T>::one_over_two_pi);
 			val -= constants<T>::pi;
 		}
 		return val;
@@ -197,10 +193,7 @@ MUU_NAMESPACE_START
 	namespace impl
 	{
 		template <typename Scalar>
-		inline constexpr bool is_hva<axis_angle_rotation<Scalar>> =
-			(is_same_as_any<Scalar, float, double, long double> || is_simd_intrinsic<Scalar>)
-			&& sizeof(axis_angle_rotation<Scalar>) == sizeof(Scalar) * 4
-			&& alignof(axis_angle_rotation<Scalar>) == alignof(Scalar);
+		inline constexpr bool is_hva<axis_angle_rotation<Scalar>> = can_be_hva_of<axis_angle_rotation<Scalar>, Scalar>;
 	}
 	#endif // MUU_HAS_VECTORCALL
 	#endif
@@ -313,10 +306,7 @@ MUU_NAMESPACE_START
 	namespace impl
 	{
 		template <typename Scalar>
-		inline constexpr bool is_hva<euler_rotation<Scalar>> =
-			(is_same_as_any<Scalar, float, double, long double> || is_simd_intrinsic<Scalar>)
-			&& sizeof(euler_rotation<Scalar>) == sizeof(Scalar) * 3
-			&& alignof(euler_rotation<Scalar>) == alignof(Scalar);
+		inline constexpr bool is_hva<euler_rotation<Scalar>> = can_be_hva_of<euler_rotation<Scalar>, Scalar>;
 	}
 	#endif // MUU_HAS_VECTORCALL
 	#endif
@@ -893,8 +883,8 @@ MUU_NAMESPACE_START
 				const auto angle_ = static_cast<intermediate_type>(angle) * muu::constants<intermediate_type>::one_over_two;
 				return quaternion
 				{
-					static_cast<intermediate_type>(muu::cos(angle_)),	//scalar
-					vector_type{ muu::sin(angle_) * axis }				//vector
+					static_cast<scalar_type>(muu::cos(angle_)),	//scalar
+					vector_type::raw_multiply_scalar(axis, muu::sin(angle_)) //vector
 				};
 			}
 			else
@@ -928,17 +918,17 @@ MUU_NAMESPACE_START
 				&& "to_axis_angle() expects a normalized quaternion"
 			);
 
-			using calc_type = impl::highest_ranked<intermediate_type, T>;
-			const auto length = vector_type::template raw_length<calc_type>(q.v);
-			const auto correction = calc_type{ shortest_path && q.s < scalar_constants::zero ? -1 : 1 };
+			using type = impl::highest_ranked<intermediate_type, T>;
+			const auto len = vector_type::template raw_length<type>(q.v);
+			const auto correction = shortest_path && q.s < scalar_constants::zero ? type{ -1 } : type{ 1 };
 
-			if MUU_UNLIKELY(length == calc_type{})
+			if MUU_UNLIKELY(len == type{})
 			{
 				// This happens at angle = 0 and 360. All axes are correct, so any will do.
 				return
 				{
 					muu::vector<T, 3>::constants::x_axis,
-					static_cast<T>(calc_type{ 2 } * muu::atan2(length, static_cast<calc_type>(q.s) * correction)),
+					static_cast<T>(type{ 2 } * muu::atan2(len, static_cast<type>(q.s) * correction)),
 				};
 			}
 			else
@@ -947,11 +937,11 @@ MUU_NAMESPACE_START
 				{
 					muu::vector<T, 3>
 					{
-						static_cast<T>((static_cast<calc_type>(q.v.x) * correction) / length),
-						static_cast<T>((static_cast<calc_type>(q.v.y) * correction) / length),
-						static_cast<T>((static_cast<calc_type>(q.v.z) * correction) / length),
+						static_cast<T>((static_cast<type>(q.v.x) * correction) / len),
+						static_cast<T>((static_cast<type>(q.v.y) * correction) / len),
+						static_cast<T>((static_cast<type>(q.v.z) * correction) / len),
 					},
-					static_cast<T>(calc_type{ 2 } * muu::atan2(length, static_cast<calc_type>(q.s) * correction)),
+					static_cast<T>(type{ 2 } * muu::atan2(len, static_cast<type>(q.s) * correction)),
 				};
 			}
 		}
@@ -1003,7 +993,7 @@ MUU_NAMESPACE_START
 		static constexpr quaternion MUU_VECTORCALL from_euler(scalar_type yaw, scalar_type pitch, scalar_type roll) noexcept
 		{
 			MUU_FMA_BLOCK
-			using itype = intermediate_type;
+			using type = intermediate_type;
 
 			// ensure rotation signs correspond with the aircraft principal axes:
 			//	yaw - positive turns toward the right (nose of the plane turns east)
@@ -1014,12 +1004,12 @@ MUU_NAMESPACE_START
 			yaw = -yaw; 
 			roll = -roll; 
 
-			const itype c1 = muu::cos(static_cast<itype>(pitch) * muu::constants<itype>::one_over_two);
-			const itype s1 = muu::sin(static_cast<itype>(pitch) * muu::constants<itype>::one_over_two);
-			const itype c2 = muu::cos(static_cast<itype>(yaw)   * muu::constants<itype>::one_over_two);
-			const itype s2 = muu::sin(static_cast<itype>(yaw)   * muu::constants<itype>::one_over_two);
-			const itype c3 = muu::cos(static_cast<itype>(roll)  * muu::constants<itype>::one_over_two);
-			const itype s3 = muu::sin(static_cast<itype>(roll)  * muu::constants<itype>::one_over_two);
+			const type c1 = muu::cos(static_cast<type>(pitch) * muu::constants<type>::one_over_two);
+			const type s1 = muu::sin(static_cast<type>(pitch) * muu::constants<type>::one_over_two);
+			const type c2 = muu::cos(static_cast<type>(yaw)   * muu::constants<type>::one_over_two);
+			const type s2 = muu::sin(static_cast<type>(yaw)   * muu::constants<type>::one_over_two);
+			const type c3 = muu::cos(static_cast<type>(roll)  * muu::constants<type>::one_over_two);
+			const type s3 = muu::sin(static_cast<type>(roll)  * muu::constants<type>::one_over_two);
 
 			return
 			{
@@ -1048,20 +1038,20 @@ MUU_NAMESPACE_START
 		static constexpr euler_type MUU_VECTORCALL to_euler(quaternion_param q) noexcept
 		{
 			MUU_FMA_BLOCK
-			using itype = intermediate_type;
+			using type = intermediate_type;
 
-			const itype sqw  = static_cast<itype>(q.s)   * q.s;
-			const itype sqx  = static_cast<itype>(q.v.x) * q.v.x;
-			const itype sqy  = static_cast<itype>(q.v.y) * q.v.y;
-			const itype sqz  = static_cast<itype>(q.v.z) * q.v.z;
-			const itype test = static_cast<itype>(q.v.y) * q.v.z + static_cast<itype>(q.s) * q.v.x;
-			const itype correction = static_cast<itype>(sqx) + static_cast<itype>(sqy)
-				+ static_cast<itype>(sqz) + static_cast<itype>(sqw);
+			const type sqw  = static_cast<type>(q.s)   * q.s;
+			const type sqx  = static_cast<type>(q.v.x) * q.v.x;
+			const type sqy  = static_cast<type>(q.v.y) * q.v.y;
+			const type sqz  = static_cast<type>(q.v.z) * q.v.z;
+			const type test = static_cast<type>(q.v.y) * q.v.z + static_cast<type>(q.s) * q.v.x;
+			const type correction = static_cast<type>(sqx) + static_cast<type>(sqy)
+				+ static_cast<type>(sqz) + static_cast<type>(sqw);
 
 			// https://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/index.htm
 			// (note that they pitch around Z, not X; pitch and roll are swapped here)
 			
-			constexpr itype threshold = static_cast<itype>(0.49995);
+			constexpr type threshold = static_cast<type>(0.49995);
 
 			// singularity at north pole
 			if MUU_UNLIKELY(test > threshold * correction)
@@ -1069,8 +1059,8 @@ MUU_NAMESPACE_START
 				MUU_FMA_BLOCK
 				return
 				{
-					static_cast<scalar_type>(itype{ -2 } * muu::atan2(q.v.z, q.s)),
-					static_cast<scalar_type>(muu::constants<itype>::pi_over_two),
+					static_cast<scalar_type>(type{ -2 } * muu::atan2(q.v.z, q.s)),
+					static_cast<scalar_type>(muu::constants<type>::pi_over_two),
 					scalar_constants::zero
 				};
 			}
@@ -1081,8 +1071,8 @@ MUU_NAMESPACE_START
 				MUU_FMA_BLOCK
 				return
 				{
-					static_cast<scalar_type>(itype{ 2 } * muu::atan2(q.v.z, q.s)),
-					static_cast<scalar_type>(-muu::constants<itype>::pi_over_two),
+					static_cast<scalar_type>(type{ 2 } * muu::atan2(q.v.z, q.s)),
+					static_cast<scalar_type>(-muu::constants<type>::pi_over_two),
 					scalar_constants::zero
 				};
 			}
@@ -1095,9 +1085,9 @@ MUU_NAMESPACE_START
 
 				return
 				{
-					static_cast<scalar_type>(-muu::atan2(itype{ -2 } * (q.v.x * q.v.z - q.s * q.v.y), sqw - sqx - sqy + sqz)),
-					static_cast<scalar_type>(muu::asin(itype{ 2 } * test / correction)),
-					static_cast<scalar_type>(-muu::atan2(itype{ -2 } * (q.v.x * q.v.y - q.s * q.v.z), sqw - sqx + sqy - sqz))
+					static_cast<scalar_type>(-muu::atan2(type{ -2 } * (q.v.x * q.v.z - q.s * q.v.y), sqw - sqx - sqy + sqz)),
+					static_cast<scalar_type>(muu::asin(type{ 2 } * test / correction)),
+					static_cast<scalar_type>(-muu::atan2(type{ -2 } * (q.v.x * q.v.y - q.s * q.v.z), sqw - sqx + sqy - sqz))
 				};
 			}
 		}
@@ -1120,15 +1110,15 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr quaternion MUU_VECTORCALL multiply(quaternion_param lhs, quaternion_param rhs) noexcept
 		{
-			using itype = intermediate_type;	
+			using type = intermediate_type;
 
-			if constexpr (all_same<scalar_type, itype>)
+			if constexpr (all_same<scalar_type, type>)
 			{
 				MUU_FMA_BLOCK
 				return
 				{
-					lhs.s * rhs.s - vector_type::template raw_dot<itype>(lhs.v, rhs.v),
-					lhs.s * rhs.v + rhs.s * lhs.v + impl::raw_cross<vector<itype, 3>>(lhs.v, rhs.v)
+					lhs.s * rhs.s - vector_type::template raw_dot<type>(lhs.v, rhs.v),
+					lhs.s * rhs.v + rhs.s * lhs.v + impl::raw_cross<vector<type, 3>>(lhs.v, rhs.v)
 				};
 			}
 			else
@@ -1137,13 +1127,13 @@ MUU_NAMESPACE_START
 				return
 				{
 					static_cast<scalar_type>(
-						static_cast<itype>(lhs.s) * rhs.s - vector_type::template raw_dot<itype>(lhs.v, rhs.v)
+						static_cast<type>(lhs.s) * rhs.s - vector_type::template raw_dot<type>(lhs.v, rhs.v)
 					),
 
 					vector_type{
-						static_cast<itype>(lhs.s) * static_cast<itype>(rhs.v)
-							+ static_cast<itype>(rhs.s) * static_cast<itype>(lhs.v)
-							+ impl::raw_cross<vector<itype, 3>>(lhs.v, rhs.v)
+						static_cast<type>(lhs.s) * static_cast<vector<type, 3>>(rhs.v)
+							+ static_cast<type>(rhs.s) * static_cast<vector<type, 3>>(lhs.v)
+							+ impl::raw_cross<vector<type, 3>>(lhs.v, rhs.v)
 					}
 				};
 			}
@@ -1154,11 +1144,11 @@ MUU_NAMESPACE_START
 		static constexpr vector_type MUU_VECTORCALL rotate_vector(quaternion_param lhs, vector_param rhs) noexcept
 		{
 			MUU_FMA_BLOCK
-			using itype = intermediate_type;
+			using type = intermediate_type;
 
-			auto t = itype{ 2 } * impl::raw_cross<vector<itype, 3>>(lhs.v, rhs);
-			const auto u = impl::raw_cross<vector<itype, 3>>(lhs.v, t);
-			t *= static_cast<itype>(lhs.s);
+			auto t = type{ 2 } * impl::raw_cross<vector<type, 3>>(lhs.v, rhs);
+			const auto u = impl::raw_cross<vector<type, 3>>(lhs.v, t);
+			t *= static_cast<type>(lhs.s);
 			return
 			{
 				static_cast<scalar_type>(rhs.x + t.x + u.x),
@@ -1243,13 +1233,13 @@ MUU_NAMESPACE_START
 
 	#if 1 // misc -----------------------------------------------------------------------------------------------------
 
-		/// \brief	Performs a spherical-linear interpolation between two quaternions.
+		/// \brief	Performs a spherical-linear interpolation between two quaternion orientations.
 		///
-		/// \param	start	The value at the start of the interpolation range.
-		/// \param	finish	The value at the end of the interpolation range.
+		/// \param	start	The start orientation.
+		/// \param	finish	The finish orientation.
 		/// \param	alpha 	The blend factor.
 		///
-		/// \returns	A quaternion with values derived from a spherical-linear interpolation from `start` to `finish`.
+		/// \returns	A quaternion orientation derived from a spherical-linear interpolation between `start` and `finish`.
 		/// 
 		/// \see [Slerp](https://en.wikipedia.org/wiki/Slerp)
 		[[nodiscard]]
@@ -1257,32 +1247,33 @@ MUU_NAMESPACE_START
 		static constexpr quaternion MUU_VECTORCALL slerp(quaternion_param start, quaternion_param finish, scalar_type alpha) noexcept
 		{
 			MUU_FMA_BLOCK
-			using itype = intermediate_type;
-			auto dot = raw_dot(start, finish);
+
+			using type = intermediate_type;
+			auto dot = raw_dot<type>(start, finish);
 
 			//map from { s, v } and { -s, -v } (they represent the same rotation)
-			auto correction = itype{ 1 };
-			if (dot < itype{})
+			auto correction = type{ 1 };
+			if (dot < type{})
 			{
-				correction = itype{ -1 };
+				correction = type{ -1 };
 				dot = -dot;
 			}
 
 			//they're extremely close, do a normal lerp
-			if (dot >= static_cast<itype>(0.9995))
+			if (dot >= static_cast<type>(0.9995))
 			{
 				MUU_FMA_BLOCK
-				const auto inv_alpha = itype{ 1 } - static_cast<itype>(alpha);
+				const auto inv_alpha = type{ 1 } - static_cast<type>(alpha);
 
 				return normalize(quaternion{
-					static_cast<scalar_type>(start.s * inv_alpha + finish.s * static_cast<itype>(alpha) * correction),
+					static_cast<scalar_type>(start.s * inv_alpha + finish.s * static_cast<type>(alpha) * correction),
 					vector_type::raw_multiply_scalar(start.v, inv_alpha)
-						+ vector_type::raw_multiply_scalar(finish.v, static_cast<itype>(alpha) * correction)
+						+ vector_type::raw_multiply_scalar(finish.v, static_cast<type>(alpha) * correction)
 				});
 			}
 
 			const auto theta_0 = muu::acos(dot);
-			const auto theta = theta_0 * static_cast<itype>(alpha);
+			const auto theta = theta_0 * static_cast<type>(alpha);
 			const auto sin_theta_div = muu::sin(theta) / muu::sin(theta_0);
 			const auto s0 = muu::cos(theta) - dot * sin_theta_div;
 			const auto s1 = sin_theta_div;
@@ -1290,13 +1281,13 @@ MUU_NAMESPACE_START
 			{
 				static_cast<scalar_type>(start.s * s0 + finish.s * s1 * correction),
 				vector_type::raw_multiply_scalar(start.v, s0)
-					+ vector_type::raw_multiply_scalar(finish.v, static_cast<itype>(s1) * correction)
+					+ vector_type::raw_multiply_scalar(finish.v, static_cast<type>(s1) * correction)
 			};
 		}
 
 		/// \brief	Performs a spherical-linear interpolation on this quaternion (in-place).
 		///
-		/// \param	target	The 'target' value for the interpolation.
+		/// \param	target	The 'target' orientation.
 		/// \param	alpha 	The blend factor.
 		///
 		/// \return	A reference to the quaternion.

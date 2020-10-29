@@ -16,6 +16,9 @@ static_assert(std::is_trivially_copy_assignable_v<half>);
 static_assert(std::is_trivially_move_constructible_v<half>);
 static_assert(std::is_trivially_move_assignable_v<half>);
 static_assert(std::is_trivially_destructible_v<half>);
+#if MUU_HAS_VECTORCALL
+static_assert(!impl::is_hva<half>);
+#endif
 
 TEST_CASE("half - construction")
 {

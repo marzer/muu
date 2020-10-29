@@ -832,6 +832,8 @@ MUU_NAMESPACE_START
 			static constexpr half phi_over_six           = half::from_bits( 0b0'01101'0001010001_u16 );
 			static constexpr half sqrt_phi               = half::from_bits( 0b0'01111'0100010111_u16 );
 			static constexpr half one_over_sqrt_phi      = half::from_bits( 0b0'01110'1001001010_u16 );
+			static constexpr half degrees_to_radians     = half::from_bits( 0b0'01001'0001111000_u16 );
+			static constexpr half radians_to_degrees     = half::from_bits( 0b0'10100'1100101010_u16 );
 			#else
 			using impl_type = floating_point_named_constants<MUU_HALF_IMPL_TYPE>;
 			static constexpr half one_over_two           = half{ impl_type::one_over_two           };
@@ -885,7 +887,8 @@ MUU_NAMESPACE_START
 			static constexpr half phi_over_six           = half{ impl_type::phi_over_six           };
 			static constexpr half sqrt_phi               = half{ impl_type::sqrt_phi               };
 			static constexpr half one_over_sqrt_phi      = half{ impl_type::one_over_sqrt_phi      };
-
+			static constexpr half degrees_to_radians     = half{ impl_type::degrees_to_radians     };
+			static constexpr half radians_to_degrees     = half{ impl_type::radians_to_degrees     };
 			#endif
 		};
 

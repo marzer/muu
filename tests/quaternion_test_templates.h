@@ -7,6 +7,11 @@
 #include "tests.h"
 #include "../include/muu/quaternion.h"
 
+///////////////////////////////////////////////////////////////////////////////////
+// Some runtime tests in this file adapted from
+// 1) https://github.com/google/mathfu/blob/master/unit_tests/quaternion_test/quaternion_test.cpp
+///////////////////////////////////////////////////////////////////////////////////
+
 template <typename T, typename Func>
 inline void for_each(T& q, Func&& func) noexcept
 {
@@ -315,61 +320,75 @@ inline void euler_tests(std::string_view scalar_typename) noexcept
 
 	static const std::tuple<vec_t, euler_rotation<T>, vec_t> values[] =
 	{
-		{ v::forward, { T{}, T{}, T{} }, v::forward },
+		/*  0 */ { v::forward, { T{}, T{}, T{} }, v::forward },
 
 		// positive yaws
-		{ v::forward, { s::pi_over_four, T{}, T{} }, normalize(v::forward + v::right) },
-		{ v::forward, { s::pi_over_two, T{}, T{} }, v::right },
-		{ v::forward, { s::three_pi_over_four, T{}, T{} }, normalize(v::backward + v::right) },
-		{ v::forward, { s::pi, T{}, T{} }, v::backward },
-		{ v::forward, { s::pi + s::pi_over_four, T{}, T{} }, normalize(v::backward + v::left) },
-		{ v::forward, { s::three_pi_over_two, T{}, T{} }, v::left },
-		{ v::forward, { s::three_pi_over_two + s::pi_over_four, T{}, T{} }, normalize(v::forward + v::left) },
-		{ v::forward, { s::two_pi, T{}, T{} }, v::forward },
+		/*  1 */ { v::forward, { s::pi_over_four, T{}, T{} }, normalize(v::forward + v::right) },
+		/*  2 */ { v::forward, { s::pi_over_two, T{}, T{} }, v::right },
+		/*  3 */ { v::forward, { s::three_pi_over_four, T{}, T{} }, normalize(v::backward + v::right) },
+		/*  4 */ { v::forward, { s::pi, T{}, T{} }, v::backward },
+		/*  5 */ { v::forward, { s::pi + s::pi_over_four, T{}, T{} }, normalize(v::backward + v::left) },
+		/*  6 */ { v::forward, { s::three_pi_over_two, T{}, T{} }, v::left },
+		/*  7 */ { v::forward, { s::three_pi_over_two + s::pi_over_four, T{}, T{} }, normalize(v::forward + v::left) },
+		/*  8 */ { v::forward, { s::two_pi, T{}, T{} }, v::forward },
 
 		// negative yaws
-		{ v::forward, { -s::pi_over_four, T{}, T{} }, normalize(v::forward + v::left) },
-		{ v::forward, { -s::pi_over_two, T{}, T{} }, v::left },
-		{ v::forward, { -s::three_pi_over_four, T{}, T{} }, normalize(v::backward + v::left) },
-		{ v::forward, { -s::pi, T{}, T{} }, v::backward },
-		{ v::forward, { -s::pi - s::pi_over_four, T{}, T{} }, normalize(v::backward + v::right) },
-		{ v::forward, { -s::three_pi_over_two, T{}, T{} }, v::right },
-		{ v::forward, { -s::three_pi_over_two - s::pi_over_four, T{}, T{} }, normalize(v::forward + v::right) },
-		{ v::forward, { -s::two_pi, T{}, T{} }, v::forward },
+		/*  9 */ { v::forward, { -s::pi_over_four, T{}, T{} }, normalize(v::forward + v::left) },
+		/* 10 */ { v::forward, { -s::pi_over_two, T{}, T{} }, v::left },
+		/* 11 */ { v::forward, { -s::three_pi_over_four, T{}, T{} }, normalize(v::backward + v::left) },
+		/* 12 */ { v::forward, { -s::pi, T{}, T{} }, v::backward },
+		/* 13 */ { v::forward, { -s::pi - s::pi_over_four, T{}, T{} }, normalize(v::backward + v::right) },
+		/* 14 */ { v::forward, { -s::three_pi_over_two, T{}, T{} }, v::right },
+		/* 15 */ { v::forward, { -s::three_pi_over_two - s::pi_over_four, T{}, T{} }, normalize(v::forward + v::right) },
+		/* 16 */ { v::forward, { -s::two_pi, T{}, T{} }, v::forward },
 
 		// positive pitches
-		{ v::forward, { T{}, s::pi_over_four, T{} }, normalize(v::forward + v::up) },
-		{ v::forward, { T{}, s::pi_over_two, T{} }, v::up },
-		{ v::forward, { T{}, s::three_pi_over_four, T{} }, normalize(v::backward + v::up) },
-		{ v::forward, { T{}, s::pi, T{} }, v::backward },
-		{ v::forward, { T{}, s::pi + s::pi_over_four, T{} }, normalize(v::backward + v::down) },
-		{ v::forward, { T{}, s::three_pi_over_two, T{} }, v::down },
-		{ v::forward, { T{}, s::three_pi_over_two + s::pi_over_four, T{} }, normalize(v::forward + v::down) },
-		{ v::forward, { T{}, s::two_pi, T{} }, v::forward },
+		/* 17 */ { v::forward, { T{}, s::pi_over_four, T{} }, normalize(v::forward + v::up) },
+		/* 18 */ { v::forward, { T{}, s::pi_over_two, T{} }, v::up },
+		/* 19 */ { v::forward, { T{}, s::three_pi_over_four, T{} }, normalize(v::backward + v::up) },
+		/* 20 */ { v::forward, { T{}, s::pi, T{} }, v::backward },
+		/* 21 */ { v::forward, { T{}, s::pi + s::pi_over_four, T{} }, normalize(v::backward + v::down) },
+		/* 22 */ { v::forward, { T{}, s::three_pi_over_two, T{} }, v::down },
+		/* 23 */ { v::forward, { T{}, s::three_pi_over_two + s::pi_over_four, T{} }, normalize(v::forward + v::down) },
+		/* 24 */ { v::forward, { T{}, s::two_pi, T{} }, v::forward },
 
 		// negative pitches
-		{ v::forward, { T{}, -s::pi_over_four, T{} }, normalize(v::forward + v::down) },
-		{ v::forward, { T{}, -s::pi_over_two, T{} }, v::down },
-		{ v::forward, { T{}, -s::three_pi_over_four, T{} }, normalize(v::backward + v::down) },
-		{ v::forward, { T{}, -s::pi, T{} }, v::backward },
-		{ v::forward, { T{}, -s::pi - s::pi_over_four, T{} }, normalize(v::backward + v::up) },
-		{ v::forward, { T{}, -s::three_pi_over_two, T{} }, v::up },
-		{ v::forward, { T{}, -s::three_pi_over_two - s::pi_over_four, T{} }, normalize(v::forward + v::up) },
-		{ v::forward, { T{}, -s::two_pi, T{} }, v::forward },
+		/* 25 */ { v::forward, { T{}, -s::pi_over_four, T{} }, normalize(v::forward + v::down) },
+		/* 26 */ { v::forward, { T{}, -s::pi_over_two, T{} }, v::down },
+		/* 27 */ { v::forward, { T{}, -s::three_pi_over_four, T{} }, normalize(v::backward + v::down) },
+		/* 28 */ { v::forward, { T{}, -s::pi, T{} }, v::backward },
+		/* 29 */ { v::forward, { T{}, -s::pi - s::pi_over_four, T{} }, normalize(v::backward + v::up) },
+		/* 30 */ { v::forward, { T{}, -s::three_pi_over_two, T{} }, v::up },
+		/* 31 */ { v::forward, { T{}, -s::three_pi_over_two - s::pi_over_four, T{} }, normalize(v::forward + v::up) },
+		/* 32 */ { v::forward, { T{}, -s::two_pi, T{} }, v::forward },
 
 		// positive rolls
-		{ v::right, { T{}, T{}, s::pi_over_four }, normalize(v::right + v::down) },
-		{ v::right, { T{}, T{}, s::pi_over_two }, v::down },
-		{ v::right, { T{}, T{}, s::three_pi_over_four }, normalize(v::left + v::down) },
-		{ v::right, { T{}, T{}, s::pi }, v::left },
-		{ v::right, { T{}, T{}, s::pi + s::pi_over_four }, normalize(v::left + v::up) },
-		{ v::right, { T{}, T{}, s::three_pi_over_two }, v::up },
-		{ v::right, { T{}, T{}, s::three_pi_over_two + s::pi_over_four }, normalize(v::right + v::up) },
-		{ v::right, { T{}, T{}, s::two_pi }, v::right },
+		/* 33 */ { v::right, { T{}, T{}, s::pi_over_four }, normalize(v::right + v::down) },
+		/* 34 */ { v::right, { T{}, T{}, s::pi_over_two }, v::down },
+		/* 35 */ { v::right, { T{}, T{}, s::three_pi_over_four }, normalize(v::left + v::down) },
+		/* 36 */ { v::right, { T{}, T{}, s::pi }, v::left },
+		/* 37 */ { v::right, { T{}, T{}, s::pi + s::pi_over_four }, normalize(v::left + v::up) },
+		/* 38 */ { v::right, { T{}, T{}, s::three_pi_over_two }, v::up },
+		/* 39 */ { v::right, { T{}, T{}, s::three_pi_over_two + s::pi_over_four }, normalize(v::right + v::up) },
+		/* 40 */ { v::right, { T{}, T{}, s::two_pi }, v::right },
+
+		// negative rolls
+		/* 41 */ { v::right, { T{}, T{}, -s::pi_over_four }, normalize(v::right + v::up) },
+		/* 42 */ { v::right, { T{}, T{}, -s::pi_over_two }, v::up },
+		/* 43 */ { v::right, { T{}, T{}, -s::three_pi_over_four }, normalize(v::left + v::up) },
+		/* 44 */ { v::right, { T{}, T{}, -s::pi }, v::left },
+		/* 45 */ { v::right, { T{}, T{}, -s::pi - s::pi_over_four }, normalize(v::left + v::down) },
+		/* 46 */ { v::right, { T{}, T{}, -s::three_pi_over_two }, v::down },
+		/* 47 */ { v::right, { T{}, T{}, -s::three_pi_over_two - s::pi_over_four }, normalize(v::right + v::down) },
+		/* 48 */ { v::right, { T{}, T{}, -s::two_pi }, v::right },
 	};
 
+	size_t counter = 0;
 	for (const auto& [input_dir, rot, expected_dir] : values)
 	{
+		const auto i = counter++;
+		INFO("test case " << i)
+
 		const auto quat = quat_t::from_euler(rot);
 		CHECK(!infinity_or_nan(quat));
 
@@ -388,6 +407,196 @@ inline void euler_tests(std::string_view scalar_typename) noexcept
 		}
 		else
 			SUCCEED(); // increment assertion counter
-	}
 
+		// don't test round-trips at the pitch singularities because it makes no sense
+		if (i == 18u || i == 22u || i == 26u || i == 30u)
+			continue;
+
+		// round-trip
+		const auto rot2 = quat_t::to_euler(quat);
+		const auto quat2 = quat_t::from_euler(rot2);
+		CHECK(!infinity_or_nan(quat2));
+
+		const auto dir2 = normalize(input_dir * quat2);
+		CHECK(!infinity_or_nan(dir2));
+
+		if (!approx_equal(dir2, expected_dir, static_cast<T>(s::approx_equal_epsilon * 4)))
+		{
+			INFO("    input direction: " << input_dir)
+			INFO("     input rotation: " << rot)
+			INFO("output quaternion 1: " << quat)
+			INFO("  output rotation 1: " << rot2)
+			INFO("output quaternion 2: " << quat2)
+			INFO("   output direction: " << dir2)
+			INFO(" expected direction: " << expected_dir)
+			FAIL_CHECK("output mismatch! (round-tripped)");
+			break;
+		}
+		else
+			SUCCEED(); // increment assertion counter
+	}
+}
+
+template <typename T>
+inline void conjugate_tests(std::string_view scalar_typename) noexcept
+{
+	INFO("quaternion<"sv << scalar_typename << ">"sv)
+	using quat_t = quaternion<T>;
+
+	// a quaternion multiplied by it's conjugate should be equivalent to an euler rotation of {0,0,0}.
+	quat_t q{
+		static_cast<T>(1.4),
+		static_cast<T>(6.3),
+		static_cast<T>(8.5),
+		static_cast<T>(5.9)
+	};
+	q.normalize();
+
+	const auto conjugate = q.conjugate();
+	CHECK(conjugate.s == q.s);
+	CHECK(conjugate.v == -q.v);
+
+	const auto euler = (conjugate * q).to_euler();
+	CHECK_APPROX_EQUAL(euler.yaw, T{});
+	CHECK_APPROX_EQUAL(euler.pitch, T{});
+	CHECK_APPROX_EQUAL(euler.roll, T{});
+}
+
+#define CHECK_APPROX_EQUAL_ORIENTATIONS(q1_, q2_)								\
+	do																			\
+	{																			\
+		const auto caeo_q1 = q1_;												\
+		auto caeo_q2 = q2_;														\
+		if (caeo_q1.dot(caeo_q2) < 0)											\
+			caeo_q2 = decltype(caeo_q2){ -caeo_q2.s, -caeo_q2.v };				\
+																				\
+		using caeo_scalar = typename decltype(caeo_q1)::scalar_type;			\
+		const auto caeo_eps = constants<caeo_scalar>::approx_equal_epsilon * 10;\
+		CHECK_APPROX_EQUAL_EPS(caeo_q1.s,	caeo_q2.s,	 caeo_eps);				\
+		CHECK_APPROX_EQUAL_EPS(caeo_q1.v.x,	caeo_q2.v.x, caeo_eps);				\
+		CHECK_APPROX_EQUAL_EPS(caeo_q1.v.y,	caeo_q2.v.y, caeo_eps);				\
+		CHECK_APPROX_EQUAL_EPS(caeo_q1.v.z,	caeo_q2.v.z, caeo_eps);				\
+	}																			\
+	while (false)
+
+template <typename T>
+inline void slerp_test_case(intmax_t angle, T alpha, intmax_t expected_angle) noexcept
+{
+	// Checks equality of
+	// - quat(<some axis>, expected_angle) vs
+	// - slerp(identity, quat(<some axis>, angle), t) vs
+	// - slerp(quat(<some axis>, angle), identity, 1-t)
+	// Angles are in degrees just for the sake of being human-friendly.
+
+	using quat_t = quaternion<T>;
+	using vec_t = vector<T, 3>;
+	using angle_t = impl::promote_if_small_float<T>;
+
+	//const T epsilon = 1e-6f;
+	const vec_t up{ T{}, T{ 1 }, T{} };
+	const quat_t original = quat_t::from_axis_angle(
+		up,
+		static_cast<T>(static_cast<angle_t>(angle) * constants<angle_t>::degrees_to_radians
+	));
+	const quat_t expected = quat_t::from_axis_angle(
+		up,
+		static_cast<T>(static_cast<angle_t>(expected_angle) * constants<angle_t>::degrees_to_radians
+	));
+
+	const quat_t slerp_result = quat_t::slerp(quat_t::constants::identity, original, alpha);
+	CHECK_APPROX_EQUAL_ORIENTATIONS(expected, slerp_result);
+
+	// Apply the invariant that slerp(a, b, t) == slerp(b, a, 1-t).
+	const quat_t slerp_backwards_result = quat_t::slerp(original, quat_t::constants::identity, T{ 1 } - alpha);
+	CHECK_APPROX_EQUAL_ORIENTATIONS(expected, slerp_backwards_result);
+
+	const quat_t mul_result = original * alpha;
+	CHECK_APPROX_EQUAL_ORIENTATIONS(expected, mul_result);
+}
+
+template <typename T>
+inline void slerp_tests(std::string_view scalar_typename) noexcept
+{
+	INFO("quaternion<"sv << scalar_typename << ">"sv)
+
+	// Easy and unambiguous cases.
+	slerp_test_case(+160, static_cast<T>(0.375), +60);
+	slerp_test_case(-160, static_cast<T>(0.375), -60);
+
+	// Shortening a "long way around" (> 180 degree) rotation
+	// NOTE: These results are different from the mathematical quat slerp
+	slerp_test_case(+320, static_cast<T>(0.375), -15);  // Mathematically, should be +120
+	slerp_test_case(-320, static_cast<T>(0.375), +15);  // Mathematically, should be -120
+
+	// Lengthening a "long way around" rotation
+	slerp_test_case(320, static_cast<T>(1.5), -60);  // Mathematically, should be 480 (ie -240)
+
+	// Lengthening to a "long way around" (> 180 degree) rotation
+	slerp_test_case(+70, T{ 3 }, +210);
+	slerp_test_case(-70, T{ 3 }, -210);
+
+	// An edge case that often causes NaNs
+	slerp_test_case(0, static_cast<T>(0.5), 0);
+
+	// This edge case is ill-defined for "intuitive" slerp and can't be tested.
+	// slerp_test_case(180, static_cast<T>(0.25), 45);
+
+	// Conversely, this edge case is well-defined for "intuitive" slerp.
+	// For mathematical slerp, the axis is ill-defined and can take many values.
+	slerp_test_case(360, static_cast<T>(0.25), 0);
+}
+
+template <typename T>
+inline void multiplication_tests(std::string_view scalar_typename) noexcept
+{
+	INFO("quaternion<"sv << scalar_typename << ">"sv)
+	using quat_t = quaternion<T>;
+	using vec3_t = vector<T, 3>;
+	//using vec4_t = vector<T, 4>;
+	//using mat3_t = matrix<T, 3, 3>;
+	//using mat4_t = matrix<T, 4, 4>;
+
+	const auto axis = normalize(vec3_t{
+		static_cast<T>(4.3),
+		static_cast<T>(7.6),
+		static_cast<T>(1.2)
+	});
+	const T angle1 = static_cast<T>(1.2);
+	const T angle2 = static_cast<T>(0.7);
+	const T angle3 = static_cast<T>(angle2 + constants<T>::approx_equal_epsilon);
+	const auto qaa1 = quat_t::from_axis_angle(axis, angle1);
+	const auto qaa2 = quat_t::from_axis_angle(axis, angle2);
+	const auto qaa3 = quat_t::from_axis_angle(axis, angle3);
+
+	// verify that multiplying two quaternions corresponds to the sum of the rotations
+	auto axis_angle = (qaa1 * qaa2).to_axis_angle();
+	CHECK_APPROX_EQUAL(angle1 + angle2, axis_angle.angle);
+
+	// verify that multiplying a quaternion with a scalar corresponds to scaling the rotation
+	axis_angle = (qaa1 * T{ 2 }).to_axis_angle();
+	CHECK_APPROX_EQUAL(angle1 * T{ 2 }, axis_angle.angle);
+
+	//// verify that multiplying by a vector corresponds to applying the rotation to that vector
+	//vec3_t v(3.5f, 6.4f, 7.0f);
+	//vec4_t v4(3.5f, 6.4f, 7.0f, 0.0f);
+	//vec3_t quatRotatedV(qaa1 * v);
+	//vec3_t matRotatedV(mat3_t::FromRotation(qaa1) * v);
+	//vec4_t mat4RotatedV(mat4_t::FromRotation(qaa1) * v4);
+	//CHECK_APPROX_EQUAL(static_cast<double>(quatRotatedV[0]), static_cast<double>(matRotatedV[0]));
+	//CHECK_APPROX_EQUAL(static_cast<double>(quatRotatedV[1]), static_cast<double>(matRotatedV[1]));
+	//CHECK_APPROX_EQUAL(static_cast<double>(quatRotatedV[2]), static_cast<double>(matRotatedV[2]));
+	//CHECK_APPROX_EQUAL(static_cast<double>(quatRotatedV[0]), static_cast<double>(mat4RotatedV[0]));
+	//CHECK_APPROX_EQUAL(static_cast<double>(quatRotatedV[1]), static_cast<double>(mat4RotatedV[1]));
+	//CHECK_APPROX_EQUAL(static_cast<double>(quatRotatedV[2]), static_cast<double>(mat4RotatedV[2]));
+
+	// verify that interpolating two quaternions corresponds to interpolating the angle
+	const quat_t slerp1 = quat_t::slerp(qaa1, qaa2, static_cast<T>(0.5));
+	axis_angle = slerp1.to_axis_angle();
+	CHECK_APPROX_EQUAL(static_cast<T>(0.5) * (angle1 + angle2), axis_angle.angle);
+	const quat_t slerp2 = quat_t::slerp(qaa2, qaa3, static_cast<T>(0.5));
+	axis_angle = slerp2.to_axis_angle();
+	CHECK_APPROX_EQUAL(static_cast<T>(0.5) * (angle2 + angle3), axis_angle.angle);
+	const quat_t slerp3 = quat_t::slerp(qaa2, qaa2, static_cast<T>(0.5));
+	axis_angle = slerp3.to_axis_angle();
+	CHECK_APPROX_EQUAL(angle2, axis_angle.angle);
 }

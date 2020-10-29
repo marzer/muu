@@ -8,7 +8,6 @@
 #pragma once
 #include "settings.h"
 #include "../include/muu/core.h"
-
 MUU_DISABLE_WARNINGS
 #include <array>
 MUU_ENABLE_WARNINGS
@@ -121,6 +120,8 @@ MUU_NAMESPACE_START
 		static constexpr long double phi_over_six           = 0.26967L; // 0'01101'0001010001
 		static constexpr long double sqrt_phi               = 1.27202L; // 0'01111'0100010111
 		static constexpr long double one_over_sqrt_phi      = 0.78615L; // 0'01110'1001001010
+		static constexpr long double degrees_to_radians     = 0.01745L; // 0'01001'0001111000
+		static constexpr long double radians_to_degrees     = 57.29578L; // 0'10100'1100101010
 
 		static constexpr auto int_blittable    = true;
 		static constexpr auto bits_sign        = 0b1000000000000000_u16;
@@ -245,6 +246,8 @@ MUU_NAMESPACE_START
 		static constexpr long double phi_over_six           = 0.269672331L;
 		static constexpr long double sqrt_phi               = 1.272019650L;
 		static constexpr long double one_over_sqrt_phi      = 0.786151378L;
+		static constexpr long double degrees_to_radians     = 0.017453293L;
+		static constexpr long double radians_to_degrees     = 57.295779513L;
 
 		static constexpr auto int_blittable    = true;
 		static constexpr auto bits_sign        = 0b10000000000000000000000000000000_u32;
@@ -404,6 +407,8 @@ MUU_NAMESPACE_START
 		static constexpr long double phi_over_six           = 0.26967233145831581L;
 		static constexpr long double sqrt_phi               = 1.27201964951406896L;
 		static constexpr long double one_over_sqrt_phi      = 0.78615137775742329L;
+		static constexpr long double degrees_to_radians     = 0.01745329251994330L;
+		static constexpr long double radians_to_degrees     = 57.29577951308232088L;
 
 		static constexpr auto int_blittable    = true;
 		static constexpr auto bits_sign        = 0x8000000000000000_u64;
@@ -583,6 +588,8 @@ MUU_NAMESPACE_START
 		static constexpr long double phi_over_six           = 0.269672331458315808034L;
 		static constexpr long double sqrt_phi               = 1.272019649514068964252L;
 		static constexpr long double one_over_sqrt_phi      = 0.786151377757423286070L;
+		static constexpr long double degrees_to_radians     = 0.017453292519943295769L;
+		static constexpr long double radians_to_degrees     = 57.295779513082320876798L;
 
 		static constexpr auto int_blittable    = false;
 		static constexpr auto bits_sign        = std::array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16 };
@@ -763,6 +770,8 @@ MUU_NAMESPACE_START
 		static constexpr long double phi_over_six           = 0.269672331458315808034L;
 		static constexpr long double sqrt_phi               = 1.272019649514068964252L;
 		static constexpr long double one_over_sqrt_phi      = 0.786151377757423286070L;
+		static constexpr long double degrees_to_radians     = 0.017453292519943295769L;
+		static constexpr long double radians_to_degrees     = 57.295779513082320876798L;
 
 		#if MUU_HAS_INT128
 		static constexpr auto int_blittable    = true;
@@ -1060,6 +1069,8 @@ MUU_NAMESPACE_START
 		static constexpr float128_t phi_over_six           = 0.269672331458315808034097805727606353q;
 		static constexpr float128_t sqrt_phi               = 1.272019649514068964252422461737491492q;
 		static constexpr float128_t one_over_sqrt_phi      = 0.786151377757423286069558585842958930q;
+		static constexpr float128_t degrees_to_radians     = 0.017453292519943295769236907684886127q;
+		static constexpr float128_t radians_to_degrees     = 57.295779513082320876798154814105170332q;
 
 		#if MUU_HAS_INT128
 		static constexpr auto int_blittable    = true;

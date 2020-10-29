@@ -49,13 +49,13 @@
 	#define MUU_GCC			0
 #endif
 #if !MUU_CLANG && !MUU_ICC && !MUU_MSVC && !MUU_GCC
-	#error Unknown compiler.
+	#error Unknown compiler! Please file an issue at https://github.com/marzer/muu/issues to help add support.
 #endif
 #if (MUU_CLANG && (MUU_ICC || MUU_MSVC || MUU_GCC)) \
 	|| (MUU_ICC && (MUU_CLANG || MUU_MSVC || MUU_GCC)) \
 	|| (MUU_MSVC && (MUU_CLANG || MUU_ICC || MUU_GCC)) \
 	|| (MUU_GCC && (MUU_CLANG || MUU_ICC || MUU_MSVC))
-	#error Could not uniquely identify compiler.
+	#error Could not uniquely identify compiler. Please file an issue at https://github.com/marzer/muu/issues.
 #endif
 
 //=====================================================================================================================
@@ -250,7 +250,7 @@
 	#define MUU_ALIGN(alignment)			MUU_ATTR(aligned(alignment))
 	#if defined(_MSC_VER) // msvc compat mode
 		#ifdef __has_declspec_attribute
-			#define MUU_DECLSPEC(attr)		__declspec(attr)
+			#define MUU_DECLSPEC(...)		__declspec(__VA_ARGS__)
 			#if __has_declspec_attribute(novtable)
 				#define MUU_INTERFACE		__declspec(novtable)
 			#endif
@@ -291,7 +291,7 @@
 	#ifdef __has_builtin
 		#define MUU_HAS_BUILTIN(name)		__has_builtin(name)
 	#endif
-	#define MUU_OFFSETOF(s, m)				__builtin_offsetof(s,m)
+	#define MUU_OFFSETOF(type, member)		__builtin_offsetof(type, member)
 
 #endif // clang
 
@@ -314,7 +314,7 @@
 											__pragma(warning(disable: 4348))
 		#define MUU_ENABLE_WARNINGS			MUU_POP_WARNINGS
 	#endif
-	#define MUU_DECLSPEC(attr)				__declspec(attr)
+	#define MUU_DECLSPEC(...)				__declspec(__VA_ARGS__)
 	#define MUU_ALIGN(alignment)			MUU_DECLSPEC(align(alignment))
 	#define MUU_ALWAYS_INLINE				__forceinline
 	#define MUU_NEVER_INLINE				__declspec(noinline)
@@ -331,7 +331,7 @@
 	#endif
 	#define MUU_LITTLE_ENDIAN				1
 	#define MUU_BIG_ENDIAN					0
-	#define MUU_OFFSETOF(s, m)				__builtin_offsetof(s,m)
+	#define MUU_OFFSETOF(type, member)		__builtin_offsetof(type, member)
 
 #endif // msvc (and icc in msvc mode)
 
@@ -352,7 +352,7 @@
 	#define MUU_DISABLE_WARNINGS			__pragma(warning(push, 0)) MUU_DISABLE_SPAM_WARNINGS
 	#define MUU_ENABLE_WARNINGS				MUU_POP_WARNINGS
 	#ifndef MUU_OFFSETOF
-		#define MUU_OFFSETOF(s, m)			__builtin_offsetof(s,m) // ??
+		#define MUU_OFFSETOF(type, member)	__builtin_offsetof(type, member) // ??
 	#endif
 	#ifndef MUU_ASSUME
 		#define MUU_ASSUME(cond)			__builtin_assume(cond) // ??
@@ -464,7 +464,7 @@
 	#ifdef __has_builtin
 		#define MUU_HAS_BUILTIN(name)		__has_builtin(name)
 	#endif
-	#define MUU_OFFSETOF(s, m)				__builtin_offsetof(s,m)
+	#define MUU_OFFSETOF(type, member)		__builtin_offsetof(type, member)
 
 #endif // gcc
 
@@ -554,13 +554,13 @@
 
 #ifndef MUU_PRAGMA_CLANG
 	#define MUU_PRAGMA_CLANG(...)
-	#define MUU_PRAGMA_CLANG_GE(...)
-	#define MUU_PRAGMA_CLANG_LT(...)
+	#define MUU_PRAGMA_CLANG_GE(ver, ...)
+	#define MUU_PRAGMA_CLANG_LT(ver, ...)
 #endif
 #ifndef MUU_PRAGMA_GCC
 	#define MUU_PRAGMA_GCC(...)
-	#define MUU_PRAGMA_GCC_GE(...)
-	#define MUU_PRAGMA_GCC_LT(...)
+	#define MUU_PRAGMA_GCC_GE(ver, ...)
+	#define MUU_PRAGMA_GCC_LT(ver, ...)
 #endif
 #ifndef MUU_PRAGMA_ICC
 	#define MUU_PRAGMA_ICC(...)
@@ -579,16 +579,16 @@
 #endif
 #ifndef MUU_ATTR_CLANG
 	#define MUU_ATTR_CLANG(...)
-	#define MUU_ATTR_CLANG_GE(...)
-	#define MUU_ATTR_CLANG_LT(...)
+	#define MUU_ATTR_CLANG_GE(ver, ...)
+	#define MUU_ATTR_CLANG_LT(ver, ...)
 #endif
 #ifndef MUU_ATTR_GCC
 	#define MUU_ATTR_GCC(...)
-	#define MUU_ATTR_GCC_GE(...)
-	#define MUU_ATTR_GCC_LT(...)
+	#define MUU_ATTR_GCC_GE(ver, ...)
+	#define MUU_ATTR_GCC_LT(ver, ...)
 #endif
 #ifndef MUU_DECLSPEC
-	#define MUU_DECLSPEC(attr)
+	#define MUU_DECLSPEC(...)
 #endif
 #ifndef MUU_ALIGN
 	#define MUU_ALIGN(alignment)	alignas(alignment)
@@ -705,29 +705,29 @@
 	#define MUU_EXPLICIT(...)			explicit
 #endif
 
-#define MUU_PREPEND_R_1(S)				R##S
-#define MUU_PREPEND_R(S)				MUU_PREPEND_R_1(S)
-#define MUU_ADD_PARENTHESES_1(S)		(S)
-#define MUU_ADD_PARENTHESES(S)			MUU_ADD_PARENTHESES_1(S)
-#define MUU_MAKE_STRING_1(S)			#S
-#define MUU_MAKE_STRING(S)				MUU_MAKE_STRING_1(S)
-#define MUU_MAKE_RAW_STRING_1(S)		MUU_MAKE_STRING(MUU_ADD_PARENTHESES(S))
-#define MUU_MAKE_RAW_STRING(S)			MUU_PREPEND_R(MUU_MAKE_RAW_STRING_1(S))
-#define MUU_APPEND_SV_1(S)				S##sv
-#define MUU_APPEND_SV(S)				MUU_APPEND_SV_1(S)
-#define MUU_MAKE_STRING_VIEW(S)			MUU_APPEND_SV(MUU_MAKE_RAW_STRING(S))
+#define MUU_PREPEND_R_1(s)				R##s
+#define MUU_PREPEND_R(s)				MUU_PREPEND_R_1(s)
+#define MUU_ADD_PARENTHESES_1(s)		(s)
+#define MUU_ADD_PARENTHESES(s)			MUU_ADD_PARENTHESES_1(s)
+#define MUU_MAKE_STRING_1(s)			#s
+#define MUU_MAKE_STRING(s)				MUU_MAKE_STRING_1(s)
+#define MUU_MAKE_RAW_STRING_1(s)		MUU_MAKE_STRING(MUU_ADD_PARENTHESES(s))
+#define MUU_MAKE_RAW_STRING(s)			MUU_PREPEND_R(MUU_MAKE_RAW_STRING_1(s))
+#define MUU_APPEND_SV_1(s)				s##sv
+#define MUU_APPEND_SV(s)				MUU_APPEND_SV_1(s)
+#define MUU_MAKE_STRING_VIEW(s)			MUU_APPEND_SV(MUU_MAKE_RAW_STRING(s))
 
 #define MUU_EVAL_1(T, F)		T
 #define MUU_EVAL_0(T, F)		F
 #define MUU_EVAL(cond, T, F)	MUU_CONCAT(MUU_EVAL_, cond)(T, F)
 
-#define MUU_DELETE_MOVE(TYPE)				\
-	TYPE(TYPE&&) = delete;					\
-	TYPE& operator=(TYPE&&) = delete
+#define MUU_DELETE_MOVE(type)				\
+	type(type&&) = delete;					\
+	type& operator=(type&&) = delete
 
-#define MUU_DELETE_COPY(TYPE)				\
-	TYPE(const TYPE&) = delete;				\
-	TYPE& operator=(const TYPE&) = delete
+#define MUU_DELETE_COPY(type)				\
+	type(const type&) = delete;				\
+	type& operator=(const type&) = delete
 
 #ifndef MUU_TRACE // spam^H^H^H^H debugging hook
 	#define MUU_TRACE(...) (void)0
@@ -737,14 +737,14 @@
 	[[nodiscard]]															\
 	MUU_ALWAYS_INLINE														\
 	MUU_ATTR(flatten)														\
-	constexpr type operator op (const type& lhs, const type& rhs) noexcept	\
+	constexpr type operator op (type lhs, type rhs) noexcept				\
 	{																		\
 		return static_cast<type>(::muu::unwrap(lhs) op ::muu::unwrap(rhs));	\
 	}																		\
 	[[nodiscard]]															\
 	MUU_ALWAYS_INLINE														\
 	MUU_ATTR(flatten)														\
-	constexpr type& operator op= (type& lhs, const type& rhs) noexcept		\
+	constexpr type& operator op= (type& lhs, type rhs) noexcept				\
 	{																		\
 		return lhs = (lhs op rhs);											\
 	}
@@ -756,7 +756,7 @@
 	[[nodiscard]]															\
 	MUU_ALWAYS_INLINE														\
 	MUU_ATTR(flatten)														\
-	constexpr type operator ~ (const type& val) noexcept					\
+	constexpr type operator ~ (type val) noexcept							\
 	{																		\
 		return static_cast<type>(~::muu::unwrap(val));						\
 	}
@@ -964,7 +964,7 @@
 		#include <cstddef>
 		MUU_ENABLE_WARNINGS
 	#endif
-	#define MUU_OFFSETOF(s, m) offsetof(s, m)
+	#define MUU_OFFSETOF(type, member) offsetof(type, member)
 #endif
 
 //=====================================================================================================================
@@ -1000,6 +1000,24 @@
 /// 
 /// \def MUU_ARCH_X64
 /// \brief `1` when targeting any 64-bit architecture, otherwise `0`.
+/// 
+/// \def MUU_ISET_MMX
+/// \brief `1` when the target supports the MMX instruction set, otherwise `0`.
+/// 
+/// \def MUU_ISET_SSE
+/// \brief `1` when the target supports the SSE instruction set, otherwise `0`.
+/// 
+/// \def MUU_ISET_SSE2
+/// \brief `1` when the target supports the SSE2 instruction set, otherwise `0`.
+/// 
+/// \def MUU_ISET_AVX
+/// \brief `1` when the target supports the AVX instruction set, otherwise `0`.
+/// 
+/// \def MUU_ISET_AVX2
+/// \brief `1` when the target supports the AVX2 instruction set, otherwise `0`.
+/// 
+/// \def MUU_ISET_AVX512
+/// \brief `1` when the target supports any of the AVX512 instruction sets, otherwise `0`.
 /// 
 /// \def MUU_CLANG
 /// \brief The value of `__clang_major__` when the code is being compiled by LLVM/Clang, otherwise `0`.
@@ -1038,57 +1056,57 @@
 /// \def MUU_CPP
 /// \brief The currently-targeted C++ standard. `17` for C++17, `20` for C++20, etc.
 /// 
-/// \def MUU_PRAGMA_CLANG(...)
+/// \def MUU_PRAGMA_CLANG
 /// \brief Expands to `_Pragma("pragma clang ...")` when compiling with Clang.
 /// 
-/// \def MUU_PRAGMA_CLANG_GE(ver, ...)
+/// \def MUU_PRAGMA_CLANG_GE
 /// \brief Expands to `_Pragma("pragma clang ...")` when compiling with Clang and `__clang_major__` >= `ver`.
 /// 
-/// \def MUU_PRAGMA_CLANG_LT(ver, ...)
+/// \def MUU_PRAGMA_CLANG_LT
 /// \brief Expands to `_Pragma("pragma clang ...")` when compiling with Clang and `__clang_major__` < `ver`.
 ///
-/// \def MUU_PRAGMA_MSVC(...)
+/// \def MUU_PRAGMA_MSVC
 /// \brief Expands to `_pragma(...)` directive when compiling with MSVC.
 /// 
-/// \def MUU_PRAGMA_ICC(...)
+/// \def MUU_PRAGMA_ICC
 /// \brief Expands to `_pragma(...)` directive when compiling with ICC.
 /// 
-/// \def MUU_PRAGMA_GCC(...)
+/// \def MUU_PRAGMA_GCC
 /// \brief Expands to `_Pragma("pragma GCC ...")` directive when compiling with GCC.
 ///
-/// \def MUU_PRAGMA_GCC_GE(ver, ...)
+/// \def MUU_PRAGMA_GCC_GE
 /// \brief Expands to `_Pragma("pragma GCC ...")` when compiling with GCC and `__GNUC__` >= `ver`.
 /// 
-/// \def MUU_PRAGMA_GCC_LT(ver, ...)
+/// \def MUU_PRAGMA_GCC_LT
 /// \brief Expands to `_Pragma("pragma GCC ...")` when compiling with GCC and `__GNUC__` < `ver`.
 /// 
-/// \def MUU_ATTR(attr)
-/// \brief Expands to `__attribute__(( attr ))` when compiling with a compiler that supports GNU-style attributes.
+/// \def MUU_ATTR
+/// \brief Expands to `__attribute__(( ... ))` when compiling with a compiler that supports GNU-style attributes.
 /// 
-/// \def MUU_ATTR_NDEBUG(attr)
-/// \brief Expands to `__attribute__(( attr ))` when compiling with a compiler that supports GNU-style attributes
+/// \def MUU_ATTR_NDEBUG
+/// \brief Expands to `__attribute__(( ... ))` when compiling with a compiler that supports GNU-style attributes
 /// 	   and NDEBUG is defined.
 /// 
-/// \def MUU_ATTR_CLANG(attr)
-/// \brief Expands to `__attribute__(( attr ))` when compiling with Clang.
+/// \def MUU_ATTR_CLANG
+/// \brief Expands to `__attribute__(( ... ))` when compiling with Clang.
 ///
-/// \def MUU_ATTR_CLANG_GE(ver, attr)
-/// \brief Expands to `__attribute__(( attr ))` when compiling with Clang and `__clang_major__` >= `ver`.
+/// \def MUU_ATTR_CLANG_GE
+/// \brief Expands to `__attribute__(( ... ))` when compiling with Clang and `__clang_major__` >= `ver`.
 /// 
-/// \def MUU_ATTR_CLANG_LT(ver, attr)
-/// \brief Expands to `__attribute__(( attr ))` when compiling with Clang and `__clang_major__` < `ver`.
+/// \def MUU_ATTR_CLANG_LT
+/// \brief Expands to `__attribute__(( ... ))` when compiling with Clang and `__clang_major__` < `ver`.
 ///
-/// \def MUU_ATTR_GCC(attr)
-/// \brief Expands to `__attribute__(( attr ))` when compiling with GCC.
+/// \def MUU_ATTR_GCC
+/// \brief Expands to `__attribute__(( ... ))` when compiling with GCC.
 ///
-/// \def MUU_ATTR_GCC_GE(ver, attr)
-/// \brief Expands to `__attribute__(( attr ))` when compiling with GCC and `__GNUC__` >= `ver`.
+/// \def MUU_ATTR_GCC_GE
+/// \brief Expands to `__attribute__(( ... ))` when compiling with GCC and `__GNUC__` >= `ver`.
 /// 
-/// \def MUU_ATTR_GCC_LT(ver, attr)
-/// \brief Expands to `__attribute__(( attr ))` when compiling with GCC and `__GNUC__` < `ver`.
+/// \def MUU_ATTR_GCC_LT
+/// \brief Expands to `__attribute__(( ... ))` when compiling with GCC and `__GNUC__` < `ver`.
 ///
-/// \def MUU_DECLSPEC(attr)
-/// \brief Expands to `__declspec( attr )` when compiling with MSVC (or another compiler in MSVC-mode).
+/// \def MUU_DECLSPEC
+/// \brief Expands to `__declspec( ... )` when compiling with MSVC (or another compiler in MSVC-mode).
 ///
 /// \def MUU_PUSH_WARNINGS
 /// \brief Pushes the current compiler warning state onto the stack.
@@ -1130,8 +1148,15 @@
 /// \brief Pops the current compiler warning state off the stack.
 /// \see MUU_PUSH_WARNINGS
 ///
-/// \def MUU_ASSUME(cond)
+/// \def MUU_ASSUME
 /// \brief Optimizer hint for signalling various assumptions about state at specific points in code.
+/// \detail \cpp
+/// 	void do_the_thing(int flags) noexcept
+/// 	{
+/// 		MUU_ASSUME(flags > 0);
+///			// ... do some some performance-critical code stuff that assumes flags is > 0 here ...
+/// 	}
+/// \ecpp
 /// \warning Using this incorrectly can lead to seriously mis-compiled code!
 /// 
 /// \def MUU_UNREACHABLE
@@ -1140,13 +1165,12 @@
 /// 
 /// \def MUU_NO_DEFAULT_CASE
 /// \brief Marks a switch statement as not being in need of a default clause.
-/// \warning Using this incorrectly can lead to seriously mis-compiled code!
 /// \detail \cpp
 /// 	enum class my_enum
 /// 	{
 /// 		one,
 /// 		two,
-/// 		three
+/// 		some_invalid_sentinel // not a real, meaningful value
 /// 	};
 /// 	
 /// 	int do_the_thing(my_enum val) noexcept
@@ -1162,6 +1186,7 @@
 /// 	// obviously makes sense only if do_the_thing()
 /// 	// is never called with any other values
 /// \ecpp
+/// \warning Using this incorrectly can lead to seriously mis-compiled code!
 /// 
 /// \def MUU_INTERFACE
 /// \brief Marks a class being interface-only and not requiring a vtable.
@@ -1296,7 +1321,7 @@
 /// \brief Expands to `__vectorcall` on compilers that support it.
 /// \see [__vectorcall](https://docs.microsoft.com/en-us/cpp/cpp/vectorcall?view=vs-2019)
 /// 
-/// \def MUU_MAKE_STRING(str)
+/// \def MUU_MAKE_STRING
 /// \brief Stringifies the input, converting it into a string literal.
 /// \detail \cpp
 /// // these are equivalent:
@@ -1305,7 +1330,7 @@
 /// \ecpp
 /// \see [String literals in C++](https://en.cppreference.com/w/cpp/language/string_literal)
 /// 
-/// \def MUU_MAKE_RAW_STRING(str)
+/// \def MUU_MAKE_RAW_STRING
 /// \brief Stringifies the input, converting it verbatim into a raw string literal.
 /// \detail \cpp
 /// // these are equivalent:
@@ -1314,7 +1339,7 @@
 /// \ecpp
 /// \see [String literals in C++](https://en.cppreference.com/w/cpp/language/string_literal)
 /// 
-/// \def MUU_MAKE_STRING_VIEW(str)
+/// \def MUU_MAKE_STRING_VIEW
 /// \brief Stringifies the input, converting it verbatim into a raw string view literal.
 /// \detail \cpp
 /// // these are equivalent:
@@ -1325,54 +1350,99 @@
 ///
 /// \def MUU_HAS_INT128
 /// \brief `1` when the target environment has 128-bit integers, otherwise `0`.
+/// \see
+/// 	- #muu::int128_t
+/// 	- #muu::uint128_t
 /// 
 /// \def MUU_HAS_FLOAT128
-/// \brief `1` when the target environment has 128-bit floats ('quads'), otherwise `0`.
-/// 	   
+/// \brief `1` when the target environment has 128-bit floats, otherwise `0`.
+/// \see #muu::float128_t
+/// 
 /// \def MUU_HAS_FLOAT16
-/// \brief `1` when the target environment has native IEC559 16-bit floats ('halfs'), otherwise `0`.
+/// \brief `1` when the target environment has the 16-bit floating point type _Float16.
+/// \remarks This is completely unrelated to the class muu::half, which is always available.
+/// 
+/// \def MUU_HAS_FP16
+/// \brief `1` when the target environment has the 16-bit floating point 'interchange' type __fp16.
 /// \remarks This is completely unrelated to the class muu::half, which is always available.
 ///
-/// \def MUU_HAS_BUILTIN(name)
+/// \def MUU_HAS_BUILTIN
 /// \brief Expands to `__has_builtin(name)` when supported by the compiler, otherwise `0`.
 ///
-/// \def MUU_HAS_INCLUDE(header)
-/// \brief Expands to `__has_include(name)` when supported by the compiler, otherwise `0`.
+/// \def MUU_HAS_INCLUDE
+/// \brief Expands to `__has_include(header)` when supported by the compiler, otherwise `0`.
 /// 
-/// \def MUU_OFFSETOF(type, member)
+/// \def MUU_OFFSETOF
 /// \brief Constexpr-friendly alias of `offsetof()`.
 /// 
-/// \def MUU_EXPLICIT(...)
+/// \def MUU_EXPLICIT
 /// \brief Expands a C++20 conditional `explicit(...)` specifier if supported by the compiler, otherwise `explicit`.
 ///
-/// \def MUU_DELETE_MOVE(name)
+/// \def MUU_DELETE_MOVE
 /// \brief Explicitly deletes the move constructor and move-assignment operator of a class or struct.
 /// \detail \cpp
-/// class Foo
+/// class immovable
 /// {
-///		Foo() {}
-///		MUU_DELETE_MOVE(Foo);
+///		immovable() {}
+///
+///		MUU_DELETE_MOVE(immovable);
 ///	};
-///	//instances of Foo cannot be move-constructed or move-assigned.
+///	
+///	//equivalent to:
+/// class immovable
+/// {
+///		immovable() {}
+///
+///		immovable(immovable&&) = delete;
+///		immovable& operator=(immovable&&) = delete;
+///	};
 /// \ecpp
 /// \see https://cpppatterns.com/patterns/rule-of-five.html
 ///
-/// \def MUU_DELETE_COPY(name)
+/// \def MUU_DELETE_COPY
 /// \brief Explicitly deletes the copy constructor and copy-assignment operator of a class or struct.
 /// \detail \cpp
-/// class Foo
+/// class uncopyable
 /// {
-///		Foo() {}
-///		MUU_DELETE_COPY(Foo);
+///		uncopyable() {}
+///		MUU_DELETE_COPY(uncopyable);
 ///	};
-///	//instances of Foo cannot be copy-constructed or copy-assigned.
+///	
+///	//equivalent to:
+/// class uncopyable
+/// {
+///		uncopyable() {}
+///
+///		uncopyable(const uncopyable&) = delete;
+///		uncopyable& operator=(const uncopyable&) = delete;
+///	};
 /// \ecpp
 /// \see https://cpppatterns.com/patterns/rule-of-five.html
-///
 /// 
+/// \def MUU_MAKE_BITOPS
+/// \brief Stamps out bitwise operators for an enum type.
+/// \detail \cpp
+/// enum class my_flags : unsigned
+/// {
+///		none   = 0,
+///		alpha  = 1,
+///		beta   = 2,
+///		gamma  = 4
+///	};
+///	MUU_MAKE_BITOPS(my_flags)
+///	
+///	// emits these operators:
+/// constexpr my_flags  operator &  (my_flags,  my_flags) noexcept;
+/// constexpr my_flags  operator |  (my_flags,  my_flags) noexcept;
+/// constexpr my_flags  operator ^  (my_flags,  my_flags) noexcept;
+/// constexpr my_flags& operator &= (my_flags&, my_flags) noexcept;
+/// constexpr my_flags& operator |= (my_flags&, my_flags) noexcept;
+/// constexpr my_flags& operator ^= (my_flags&, my_flags) noexcept;
+/// constexpr my_flags  operator ~  (my_flags) noexcept;
+/// \ecpp
+///
 /// @}
 
 #endif // DOXYGEN
 
 // clang-format on
-
