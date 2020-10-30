@@ -200,7 +200,7 @@ C++</span></a>
               <a class="m-doc" href="structmuu_1_1quaternion.html#ad207aade5028e87b62dc252b8ff88cbd">quaternion_<wbr/>param</a> finish,
               <a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a> alpha) -&gt; <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Performs a spherical-linear interpolation between two quaternions.</dd>
+            <dd>Performs a spherical-linear interpolation between two quaternion orientations.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a1ea65732daad07b11253467396ed03dc">to_axis_angle</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1quaternion.html#ad207aade5028e87b62dc252b8ff88cbd">quaternion_<wbr/>param</a> quat,
               bool shortest_path = true) -&gt; <a class="m-doc" href="structmuu_1_1quaternion.html#a69454f8231ad308dc25d4a5449d26a01">axis_<wbr/>angle_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -543,7 +543,7 @@ C++</span></a>
               <a class="m-doc" href="structmuu_1_1quaternion.html#ad207aade5028e87b62dc252b8ff88cbd">quaternion_<wbr/>param</a> finish,
               <a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a> alpha) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Performs a spherical-linear interpolation between two quaternions.</p>
+            <p>Performs a spherical-linear interpolation between two quaternion orientations.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
@@ -551,11 +551,11 @@ C++</span></a>
               <tbody>
                 <tr>
                   <td style="width: 1%">start</td>
-                  <td>The value at the start of the interpolation range.</td>
+                  <td>The start orientation.</td>
                 </tr>
                 <tr>
                   <td>finish</td>
-                  <td>The value at the end of the interpolation range.</td>
+                  <td>The finish orientation.</td>
                 </tr>
                 <tr>
                   <td>alpha</td>
@@ -565,7 +565,7 @@ C++</span></a>
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>A quaternion with values derived from a spherical-linear interpolation from <code>start</code> to <code>finish</code>.</td>
+                  <td>A quaternion orientation derived from a spherical-linear interpolation between <code>start</code> and <code>finish</code>.</td>
                 </tr>
               </tfoot>
             </table>
@@ -783,7 +783,7 @@ template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cpprefer
               <tbody>
                 <tr>
                   <td style="width: 1%">target</td>
-                  <td>The 'target' value for the interpolation.</td>
+                  <td>The 'target' orientation.</td>
                 </tr>
                 <tr>
                   <td>alpha</td>

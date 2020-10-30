@@ -863,10 +863,10 @@ C++</span></a>
               bool <a class="m-doc-self" href="#gaa4c92e65e153e9a6c9ac01ba3bd653e5">always_false</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Evaluates to false but with delayed, type-dependent evaluation.</p>
-<p>Allows you to do things like this:</p><pre class="m-code"><span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_some_fancy_type</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">)</span>
+<p>Allows you to do things like this:</p><pre class="m-code"><span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="ut">is_some_fancy_type</span><span class="o">&lt;</span><span class="ut">T</span><span class="o">&gt;</span><span class="p">)</span>
     <span class="c1">// ...</span>
 <span class="k">else</span>
-    <span class="k">static_assert</span><span class="p">(</span><span class="n">always_false</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">,</span> <span class="s">"Oh no, T was bad!"</span><span class="p">);</span></pre>
+    <span class="k">static_assert</span><span class="p">(</span><span class="n">always_false</span><span class="o">&lt;</span><span class="ut">T</span><span class="o">&gt;</span><span class="p">,</span> <span class="s">"Oh no, T was bad!"</span><span class="p">);</span></pre>
           </div></section>
           <section class="m-doc-details" id="gad067ec94bd319f3cd1b8406d5d208701"><div>
             <h3>
