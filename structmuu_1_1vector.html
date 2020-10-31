@@ -511,7 +511,7 @@ C++</span></a>
             </dt>
             <dd>Componentwise divides this vector by another.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aaa310735ef03f45bed3f621fd5abf1dc">operator&lt;&lt;=</a>(</span><span class="m-doc-wrap">int rhs) <span class="muu-injected m-label m-flat m-success">noexcept</span> REQUIRES_INTEGRAL -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aeada9eae924942de30788d5167237329">operator&lt;&lt;=</a>(</span><span class="m-doc-wrap">int rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Componentwise left-shifts each scalar component in the vector by the given number of bits.</dd>
             <dt id="a110b0bad8da61328dc19cfdcfb4f3995">
@@ -519,7 +519,7 @@ C++</span></a>
             </dt>
             <dd>Copy-assigment operator.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a519eb7a494a561650b25badf78ae58b1">operator&gt;&gt;=</a>(</span><span class="m-doc-wrap">int rhs) <span class="muu-injected m-label m-flat m-success">noexcept</span> REQUIRES_INTEGRAL -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a8ae45fb5d45af71a7a53a360c95a4c5a">operator&gt;&gt;=</a>(</span><span class="m-doc-wrap">int rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Componentwise right-shifts each scalar component in the vector by the given number of bits.</dd>
             <dt>
@@ -631,8 +631,8 @@ C++</span></a>
             </dt>
             <dd>Writes a vector out to a text stream.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a73646e0c249942d66d9834e33c83765f">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a47ce9818563813bc586ef0b62d6bf78b">vector_<wbr/>param</a> lhs,
-              int rhs) <span class="muu-injected m-label m-flat m-success">noexcept</span> REQUIRES_INTEGRAL -&gt; friend <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ad3c3d01c8274da44c7c7b0dfeee1d881">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a47ce9818563813bc586ef0b62d6bf78b">vector_<wbr/>param</a> lhs,
+              int rhs) -&gt; friend <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a vector with each scalar component left-shifted the given number of bits.</dd>
             <dt>
@@ -642,8 +642,8 @@ C++</span></a>
             </dt>
             <dd>Returns true if two vectors are exactly equal.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a4bcfc2eba7dc712e47619212ad920d53">operator&gt;&gt;</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a47ce9818563813bc586ef0b62d6bf78b">vector_<wbr/>param</a> lhs,
-              int rhs) <span class="muu-injected m-label m-flat m-success">noexcept</span> REQUIRES_INTEGRAL -&gt; friend <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a6fdb19c856f4de59329f6823fb06cc4f">operator&gt;&gt;</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a47ce9818563813bc586ef0b62d6bf78b">vector_<wbr/>param</a> lhs,
+              int rhs) -&gt; friend <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a vector with each scalar component right-shifted the given number of bits.</dd>
           </dl>
@@ -1931,20 +1931,20 @@ template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cpprefer
             </table>
 <aside class="m-note m-info"><h4>Note</h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> is a floating-point type.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="aaa310735ef03f45bed3f621fd5abf1dc"><div>
+          <section class="m-doc-details" id="aeada9eae924942de30788d5167237329"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aaa310735ef03f45bed3f621fd5abf1dc">operator&lt;&lt;=</a>(</span><span class="m-doc-wrap">int rhs) noexcept REQUIRES_INTEGRAL <span class="m-label m-primary">constexpr</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aeada9eae924942de30788d5167237329">operator&lt;&lt;=</a>(</span><span class="m-doc-wrap">int rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Componentwise left-shifts each scalar component in the vector by the given number of bits.</p>
 <aside class="m-note m-info"><h4>Note</h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> is an integral type.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a519eb7a494a561650b25badf78ae58b1"><div>
+          <section class="m-doc-details" id="a8ae45fb5d45af71a7a53a360c95a4c5a"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a519eb7a494a561650b25badf78ae58b1">operator&gt;&gt;=</a>(</span><span class="m-doc-wrap">int rhs) noexcept REQUIRES_INTEGRAL <span class="m-label m-primary">constexpr</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8ae45fb5d45af71a7a53a360c95a4c5a">operator&gt;&gt;=</a>(</span><span class="m-doc-wrap">int rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Componentwise right-shifts each scalar component in the vector by the given number of bits.</p>
 <aside class="m-note m-info"><h4>Note</h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> is an integral type.</p></aside>
@@ -2056,12 +2056,12 @@ template&lt;typename T&gt;
             <p>Returns true if two vectors are not exactly equal.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is a componentwise exact inequality check; if you want an epsilon-based "near-enough" for floating-point vectors, use <a class="m-doc" href="structmuu_1_1vector.html#ab344a13fcceee3b54749dfc12ef9f7b9">approx_<wbr/>equal()</a>.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a73646e0c249942d66d9834e33c83765f"><div>
+          <section class="m-doc-details" id="ad3c3d01c8274da44c7c7b0dfeee1d881"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              <span class="m-doc-wrap-bumper">friend <a class="m-doc" href="structmuu_1_1vector.html">vector</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a73646e0c249942d66d9834e33c83765f">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a47ce9818563813bc586ef0b62d6bf78b">vector_<wbr/>param</a> lhs,
-              int rhs) noexcept REQUIRES_INTEGRAL <span class="m-label m-primary">constexpr</span></span></span>
+              <span class="m-doc-wrap-bumper">friend <a class="m-doc" href="structmuu_1_1vector.html">vector</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad3c3d01c8274da44c7c7b0dfeee1d881">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a47ce9818563813bc586ef0b62d6bf78b">vector_<wbr/>param</a> lhs,
+              int rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns a vector with each scalar component left-shifted the given number of bits.</p>
 <aside class="m-note m-info"><h4>Note</h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> is an integral type.</p></aside>
@@ -2077,12 +2077,12 @@ template&lt;typename T&gt;
             <p>Returns true if two vectors are exactly equal.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is a componentwise exact equality check; if you want an epsilon-based "near-enough" for floating-point vectors, use <a class="m-doc" href="structmuu_1_1vector.html#ab344a13fcceee3b54749dfc12ef9f7b9">approx_<wbr/>equal()</a>.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a4bcfc2eba7dc712e47619212ad920d53"><div>
+          <section class="m-doc-details" id="a6fdb19c856f4de59329f6823fb06cc4f"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              <span class="m-doc-wrap-bumper">friend <a class="m-doc" href="structmuu_1_1vector.html">vector</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4bcfc2eba7dc712e47619212ad920d53">operator&gt;&gt;</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a47ce9818563813bc586ef0b62d6bf78b">vector_<wbr/>param</a> lhs,
-              int rhs) noexcept REQUIRES_INTEGRAL <span class="m-label m-primary">constexpr</span></span></span>
+              <span class="m-doc-wrap-bumper">friend <a class="m-doc" href="structmuu_1_1vector.html">vector</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a6fdb19c856f4de59329f6823fb06cc4f">operator&gt;&gt;</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a47ce9818563813bc586ef0b62d6bf78b">vector_<wbr/>param</a> lhs,
+              int rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns a vector with each scalar component right-shifted the given number of bits.</p>
 <aside class="m-note m-info"><h4>Note</h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> is an integral type.</p></aside>
