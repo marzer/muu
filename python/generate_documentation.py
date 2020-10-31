@@ -27,8 +27,6 @@ repository = 'marzer/muu'
 inline_namespaces = [
 	"muu::literals",
 ]
-inline_namespace_explainer = 'All members of this namespace are automatically members of the parent namespace. '	\
-	+ 'It does not require an explicit \'using\' statement.'
 type_names = [
 	#------ standard/built-in types
 	'_Float128',
@@ -260,8 +258,7 @@ external_links = [
 	# muu-specific
 	(r'(?:muu::)?halfs?', 'structmuu_1_1half.html'),
 	(r'(?:muu::)?string_params?', 'classmuu_1_1string__param.html'),
-	# ...
-	# ...
+	# ...,
 	# ...
 ]
 implementation_headers = [
@@ -699,7 +696,7 @@ class IndexPageFix(object):
 
 
 
-##=======================================================================================================================
+#=======================================================================================================================
 
 
 
@@ -760,17 +757,18 @@ class SyntaxHighlightingFix(object):
 			names = names + [n for n in code_block('span', class_='nc') if n.string is not None]
 			names = names + [n for n in code_block('span', class_='nf') if n.string is not None]
 			names = names + [n for n in code_block('span', class_='nl') if n.string is not None]
-			for i in range(len(names)-1, -1, -1):
-				matched = False
-				for macro in preprocessor_macros:
-					if re.fullmatch(macro, names[i].string) is not None:
-						matched = True
-						break
-				if not matched:
-					continue
-				names[i]['class'] = 'm'
-				del names[i]
-				changed = True
+			if preprocessor_macros:
+				for i in range(len(names)-1, -1, -1):
+					matched = False
+					for macro in preprocessor_macros:
+						if re.fullmatch(macro, names[i].string) is not None:
+							matched = True
+							break
+					if not matched:
+						continue
+					names[i]['class'] = 'm'
+					del names[i]
+					changed = True
 
 			# types and typedefs
 			names = names + [n for n in code_block('span', class_='kt') if n.string is not None]
@@ -1043,6 +1041,9 @@ def doxygen_mangle_name(name):
 def preprocess_xml(dir):
 	global inline_namespaces
 	global implementation_headers
+	
+	if not inline_namespaces and not implementation_headers:
+		return
 
 	write_xml_to_file = lambda x, f: x.write(f, encoding='utf-8', xml_declaration=True)
 	inline_namespace_ids = [f'namespace{doxygen_mangle_name(ns)}' for ns in inline_namespaces]
@@ -1078,7 +1079,7 @@ def preprocess_xml(dir):
 			changed = False
 
 			# namespaces
-			if root.get("kind") == "namespace":
+			if root.get("kind") == "namespace" and inline_namespaces:
 				for nsid in inline_namespace_ids:
 					if root.get("id") == nsid:
 						root.set("inline", "yes")
@@ -1086,7 +1087,7 @@ def preprocess_xml(dir):
 						break
 
 			# dirs
-			if root.get("kind") == "dir":
+			if root.get("kind") == "dir" and implementation_headers:
 				innerfiles = root.findall('innerfile')
 				for innerfile in innerfiles:
 					if innerfile.get('refid') in implementation_header_mappings:
@@ -1094,7 +1095,7 @@ def preprocess_xml(dir):
 						changed = True
 
 			# header files
-			if root.get("kind") == "file":
+			if root.get("kind") == "file" and implementation_headers:
 				# remove junk not required by m.css
 				for tag in ('includes', 'includedby', 'incdepgraph', 'invincdepgraph'):
 					tags = root.findall(tag)
@@ -1177,7 +1178,7 @@ def preprocess_xml(dir):
 					write_xml_to_file(xml, xml_file)
 
 	# delete the impl header xml files
-	if 1:
+	if 1 and implementation_headers:
 		for hdata in implementation_header_data:
 			for (ip, ifn, iid) in hdata[3]:
 				xml_file = path.join(dir, f'{iid}.xml')
@@ -1187,7 +1188,7 @@ def preprocess_xml(dir):
 
 
 	# scan through the files and substitute impl header ids and paths as appropriate
-	if 1:
+	if 1 and implementation_headers:
 		xml_files = utils.get_all_files(dir, any=('*.xml'))
 		for xml_file in xml_files:
 			print(f'Re-linking implementation headers in {xml_file}')
@@ -1213,22 +1214,22 @@ def main():
 	mcss_dir = path.join(root_dir, 'extern', 'mcss')
 	doxygen = path.join(mcss_dir, 'documentation', 'doxygen.py')
 
-	# run doxygen to generate the xml
+	# delete any leftovers from the previous run
 	if 1:
 		utils.delete_directory(xml_dir)
+		utils.delete_directory(html_dir)
+
+	# run doxygen to generate the xml
+	if 1:
 		subprocess.check_call( ['doxygen', 'Doxyfile'], shell=True, cwd=docs_dir )
 
 	# fix some shit that's broken in the xml
-	preprocess_xml(xml_dir)
+	if 1:
+		preprocess_xml(xml_dir)
 
 	# run doxygen.py (m.css) to generate the html
 	if 1:
-		utils.delete_directory(html_dir)
 		utils.run_python_script(doxygen, path.join(docs_dir, 'Doxyfile-mcss'), '--no-doxygen')
-
-	# delete xml
-	if 1:
-		utils.delete_directory(xml_dir)
 
 	# post-process html files
 	if 1:

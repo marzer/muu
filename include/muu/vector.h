@@ -810,7 +810,7 @@ MUU_IMPL_NAMESPACE_END
 #define	REQUIRES_DIMENSIONS_BETWEEN(min, max)
 #define	REQUIRES_DIMENSIONS_EXACTLY(dim)
 #define	REQUIRES_FLOATING_POINT
-#define	REQUIRES_INTEGRA
+#define	REQUIRES_INTEGRAL
 #define	REQUIRES_SIGNED
 #define SPECIALIZED_IF(cond)
 
@@ -2476,6 +2476,36 @@ MUU_NAMESPACE_START
 			}
 			else
 				return raw_divide_assign_scalar(raw_length(*this));
+		}
+
+		/// \brief	Normalizes a vector using a pre-calculated squared-length.
+		///
+		/// \param v			The vector to normalize.
+		/// \param v_lensq		The pre-calculated squared-length of `v`.
+		/// 
+		/// \return		A normalized copy of the input vector.
+		/// 
+		/// \note This function is only available when #scalar_type is a floating-point type.
+		SFINAE_REQUIRES_FLOATING_POINT
+		[[nodiscard]]
+		static constexpr vector MUU_VECTORCALL normalize_lensq(vector_param v, scalar_product v_lensq) noexcept
+			REQUIRES_FLOATING_POINT
+		{
+			return raw_divide_scalar(v, muu::sqrt(static_cast<intermediate_type>(v_lensq)));
+		}
+
+		/// \brief	Normalizes the vector using a pre-calculated squared-length (in-place).
+		///
+		/// \param lensq		The pre-calculated squared-length of the vector.
+		/// 
+		/// \return	A reference to the vector.
+		/// 
+		/// \note This function is only available when #scalar_type is a floating-point type.
+		SFINAE_REQUIRES_FLOATING_POINT
+		constexpr vector& MUU_VECTORCALL normalize_lensq(scalar_product v_lensq) noexcept
+			REQUIRES_FLOATING_POINT
+		{
+			return raw_divide_assign_scalar(muu::sqrt(static_cast<intermediate_type>(v_lensq)));
 		}
 
 	#endif // normalization
