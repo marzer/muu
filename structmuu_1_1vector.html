@@ -243,6 +243,11 @@ C++</span></a>
             </dt>
             <dd>Normalizes a vector.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a826deb4a76682c764c12890fab7d3281">normalize_lensq</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a47ce9818563813bc586ef0b62d6bf78b">vector_<wbr/>param</a> v,
+              <a class="m-doc" href="structmuu_1_1vector.html#a0f80f653085b08d9c99b6cdaa7039582">scalar_<wbr/>product</a> v_lensq) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Normalizes a vector using a pre-calculated squared-length.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>... Indices&gt;</div>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#ac471650283f8d49c063b987afb2e6abc">swizzle</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a47ce9818563813bc586ef0b62d6bf78b">vector_<wbr/>param</a> v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, sizeof...(Indices)&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -461,6 +466,10 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a875e27474fcae737cba13bc1d1b98ebb">normalize</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a0f80f653085b08d9c99b6cdaa7039582">scalar_<wbr/>product</a>&amp; length_out) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Normalizes the vector (in-place).</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a39ba0057c9172417892c3b9b706e7bc5">normalize_lensq</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a0f80f653085b08d9c99b6cdaa7039582">scalar_<wbr/>product</a> v_lensq) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Normalizes the vector using a pre-calculated squared-length (in-place).</dd>
             <dt id="aacbb6000957c79a92264153310b244bd">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aacbb6000957c79a92264153310b244bd">operator%=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -1010,6 +1019,37 @@ template&lt;typename T, typename Epsilon = impl::highest_ranked&lt;<a class="m-d
                 <tr>
                   <td>length_out</td>
                   <td>An output param to receive the length of the vector pre-normalization.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A normalized copy of the input vector.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> is a floating-point type.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a826deb4a76682c764c12890fab7d3281"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1vector.html">vector</a> muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a826deb4a76682c764c12890fab7d3281">normalize_lensq</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a47ce9818563813bc586ef0b62d6bf78b">vector_<wbr/>param</a> v,
+              <a class="m-doc" href="structmuu_1_1vector.html#a0f80f653085b08d9c99b6cdaa7039582">scalar_<wbr/>product</a> v_lensq) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Normalizes a vector using a pre-calculated squared-length.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">v</td>
+                  <td>The vector to normalize.</td>
+                </tr>
+                <tr>
+                  <td>v_lensq</td>
+                  <td>The pre-calculated squared-length of <code>v</code>.</td>
                 </tr>
               </tbody>
               <tfoot>
@@ -1868,6 +1908,23 @@ template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cpprefer
               <tfoot>
                 <tr>
                   <th>Returns</th>
+                  <td>A reference to the vector.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> is a floating-point type.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a39ba0057c9172417892c3b9b706e7bc5"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a39ba0057c9172417892c3b9b706e7bc5">normalize_lensq</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a0f80f653085b08d9c99b6cdaa7039582">scalar_<wbr/>product</a> v_lensq) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Normalizes the vector using a pre-calculated squared-length (in-place).</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
                   <td>A reference to the vector.</td>
                 </tr>
               </tfoot>
