@@ -456,7 +456,7 @@ MUU_NAMESPACE_START
 
 		/// \brief	Constructs a quaternion from a set of euler angles.
 		MUU_NODISCARD_CTOR
-			explicit constexpr quaternion(const euler_type& euler) noexcept
+		explicit constexpr quaternion(const euler_type& euler) noexcept
 			: quaternion{ from_euler(euler) }
 		{}
 

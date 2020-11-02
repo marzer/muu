@@ -62,6 +62,15 @@
 			<PrecompiledHeader>NotUsing</PrecompiledHeader>
 		</ClCompile>
 		<ClCompile Include="..\..\tests\math.cpp" />
+		<ClCompile Include="..\..\tests\matrix_char.cpp" />
+		<ClCompile Include="..\..\tests\matrix_double.cpp" />
+		<ClCompile Include="..\..\tests\matrix_float.cpp" />
+		<ClCompile Include="..\..\tests\matrix_half.cpp" />
+		<ClCompile Include="..\..\tests\matrix_int.cpp" />
+		<ClCompile Include="..\..\tests\matrix_long.cpp" />
+		<ClCompile Include="..\..\tests\matrix_long_double.cpp" />
+		<ClCompile Include="..\..\tests\matrix_long_long.cpp" />
+		<ClCompile Include="..\..\tests\matrix_short.cpp" />
 		<ClCompile Include="..\..\tests\quaternion_double.cpp" />
 		<ClCompile Include="..\..\tests\quaternion_float.cpp" />
 		<ClCompile Include="..\..\tests\quaternion_half.cpp" />
@@ -97,6 +106,8 @@
 	<ItemGroup>
 		<ClInclude Include="..\..\tests\catch2.h" />
 		<ClInclude Include="..\..\tests\float_test_data.h" />
+		<ClInclude Include="..\..\tests\matrix_test_templates.h" />
+		<ClInclude Include="..\..\tests\matrix_test_instantiations.h" />
 		<ClInclude Include="..\..\tests\settings.h" />
 		<ClInclude Include="..\..\tests\tests.h" />
 		<ClInclude Include="..\..\tests\quaternion_test_templates.h" />

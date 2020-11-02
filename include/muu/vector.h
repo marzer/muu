@@ -30,7 +30,7 @@
 		advantage of __vectorcall on windows, and only apply to float, double and long double vectors of <= 4 dimensions
 		since the're considered "Homogeneous Vector Aggreggates" and must be passed by value to be properly vectorized.
 		- __vectorcall: https://docs.microsoft.com/en-us/cpp/cpp/vectorcall?view=vs-2019
-		- vectorizer sandbox: https://godbolt.org/z/fbPPcr (change vector_param_mode to see the effect in the MSVC tab)
+		- vectorizer sandbox: https://godbolt.org/z/vn8aKv (change vector_param_mode to see the effect in the MSVC tab)
 
 	-	You'll see intermediate_type used instead of scalar_type in a few places. It's a 'better' type used for
 		intermediate floating-point values where precision loss or unnecessary cast round-tripping is to be avoided.
@@ -943,8 +943,10 @@ MUU_NAMESPACE_START
 
 	private:
 		
-		template <typename T>
+		template <typename S>
 		friend struct quaternion;
+		template <typename S, size_t R, size_t C>
+		friend struct matrix;
 		template <typename T, size_t R, size_t C>
 		friend struct Achilles::Math::Matrix;
 

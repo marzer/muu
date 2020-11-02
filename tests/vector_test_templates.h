@@ -32,7 +32,7 @@ inline constexpr void trait_tests(std::string_view /*scalar_typename*/) noexcept
 	static_assert(Dimensions < 5 || std::is_nothrow_constructible_v<vector_t, T, T, T, T, T>);
 
 	#if MUU_HAS_VECTORCALL
-	static_assert(impl::is_hva<vector<T, Dimensions>> == (
+	static_assert(impl::is_hva<vector_t> == (
 		Dimensions <= 4
 		&& is_same_as_any<T, float, double, long double>
 	));

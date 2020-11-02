@@ -50,7 +50,7 @@ inline constexpr void trait_tests(std::string_view /*scalar_typename*/) noexcept
 	static_assert(std::is_nothrow_constructible_v<quat_t, T, vector<T, 3>>);
 
 	#if MUU_HAS_VECTORCALL
-	static_assert(impl::is_hva<quaternion<T>> == is_same_as_any<T, float, double, long double>);
+	static_assert(impl::is_hva<quat_t> == is_same_as_any<T, float, double, long double>);
 	#endif
 };
 

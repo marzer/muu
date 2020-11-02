@@ -10,6 +10,15 @@ test_sources = [
 	'hashing.cpp',
 	'main.cpp',
 	'math.cpp',
+	'matrix_char.cpp',
+	'matrix_double.cpp',
+	'matrix_float.cpp',
+	'matrix_half.cpp',
+	'matrix_int.cpp',
+	'matrix_long.cpp',
+	'matrix_long_double.cpp',
+	'matrix_long_long.cpp',
+	'matrix_short.cpp',
 	'quaternion_double.cpp',
 	'quaternion_float.cpp',
 	'quaternion_half.cpp',
@@ -22,9 +31,9 @@ test_sources = [
 	'tests.cpp',
 	'thread_pool.cpp',
 	'unicode_char.cpp',
-	'unicode_char8_t.cpp',
 	'unicode_char16_t.cpp',
 	'unicode_char32_t.cpp',
+	'unicode_char8_t.cpp',
 	'unicode_unsigned_char.cpp',
 	'uuid.cpp',
 	'vector_char.cpp',
@@ -39,17 +48,21 @@ test_sources = [
 ]
 test_dependencies = []
 if compiler_supports_fp16
+	test_sources += 'matrix_fp16.cpp'
 	test_sources += 'quaternion_fp16.cpp'
 	test_sources += 'vector_fp16.cpp'
 endif
 if compiler_supports_float16
+	test_sources += 'matrix_Float16.cpp'
 	test_sources += 'quaternion_Float16.cpp'
 	test_sources += 'vector_Float16.cpp'
 endif
 if compiler_supports_int128
+	test_sources += 'matrix_int128.cpp'
 	test_sources += 'vector_int128.cpp'
 endif
 if compiler_supports_float128
+	test_sources += 'matrix_float128.cpp'
 	test_sources += 'quaternion_float128.cpp'
 	test_sources += 'vector_float128.cpp'
 	test_dependencies += compiler.find_library('quadmath')
