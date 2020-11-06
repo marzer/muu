@@ -96,6 +96,7 @@ C++</span></a>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
                 <li><a href="#pub-attribs">Public variables</a></li>
+                <li><a href="#related">Related</a></li>
               </ul>
             </li>
           </ul>
@@ -103,10 +104,26 @@ C++</span></a>
         <section id="pub-types">
           <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
+            <dt id="a58afa02dd5888b308b1db7e578064d4c">
+              using <a class="m-doc-self" href="#a58afa02dd5888b308b1db7e578064d4c">column_type</a> = <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, <a class="m-doc" href="structmuu_1_1matrix.html#a228170eec0384c3a2f974a9defe4e628">rows</a>&gt;
+            </dt>
+            <dd>The type of one column of this matrix.</dd>
             <dt id="a39aa9cffee0c8df320aa62d7f0a5abc6">
               using <a class="m-doc-self" href="#a39aa9cffee0c8df320aa62d7f0a5abc6">constants</a> = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&gt;
             </dt>
             <dd>Compile-time constants for this matrix.</dd>
+            <dt id="a6a22eceb4c23106b5575f70785d3eca5">
+              using <a class="m-doc-self" href="#a6a22eceb4c23106b5575f70785d3eca5">matrix_param</a> = muu::matrix_param&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, <a class="m-doc" href="structmuu_1_1matrix.html#a228170eec0384c3a2f974a9defe4e628">rows</a>, <a class="m-doc" href="structmuu_1_1matrix.html#a9e484f8d23156004ee20bf7249105d01">columns</a>&gt;
+            </dt>
+            <dd>Alias of <code>matrix</code> or <code>const matrix&amp;</code>, depending on size, triviality, simd-friendliness, etc.</dd>
+            <dt id="a82625b8c9fe89c6fc5e201649760c0a6">
+              using <a class="m-doc-self" href="#a82625b8c9fe89c6fc5e201649760c0a6">row_type</a> = <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, <a class="m-doc" href="structmuu_1_1matrix.html#a9e484f8d23156004ee20bf7249105d01">columns</a>&gt;
+            </dt>
+            <dd>The type of one row of this matrix.</dd>
+            <dt id="afc5dd472071c02aab5a514eba07979a4">
+              using <a class="m-doc-self" href="#afc5dd472071c02aab5a514eba07979a4">scalar_constants</a> = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>&gt;
+            </dt>
+            <dd>Compile-time constants for this matrix's scalar type.</dd>
             <dt id="ac0c7c109a5cfe476070e466f0fef8f05">
               using <a class="m-doc-self" href="#ac0c7c109a5cfe476070e466f0fef8f05">scalar_type</a> = Scalar
             </dt>
@@ -153,10 +170,20 @@ C++</span></a>
         <section id="pub-attribs">
           <h2><a href="#pub-attribs">Public variables</a></h2>
           <dl class="m-doc">
-            <dt id="a954794a3e18815793f0b3eb8334aba93">
-              <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, <a class="m-doc" href="structmuu_1_1matrix.html#a228170eec0384c3a2f974a9defe4e628">rows</a>&gt; <a class="m-doc-self" href="#a954794a3e18815793f0b3eb8334aba93">c</a>
+            <dt id="aa9374ff95558bb843c99282aa7335224">
+              <a class="m-doc" href="structmuu_1_1matrix.html#a58afa02dd5888b308b1db7e578064d4c">column_<wbr/>type</a> <a class="m-doc-self" href="#aa9374ff95558bb843c99282aa7335224">m</a>
             </dt>
             <dd>The values in the matrix (stored column-major).</dd>
+          </dl>
+        </section>
+        <section id="related">
+          <h2><a href="#related">Related</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;</div>
+              using <a class="m-doc" href="group__math.html#ga99a5a5587a42a926e53bddccfc425f72">matrix_param</a> = impl::readonly_param&lt;<a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;
+            </dt>
+            <dd>Alias of <code>matrix</code> or <code>const matrix&amp;</code>, depending on size, triviality, simd-friendliness, etc.</dd>
           </dl>
         </section>
         <section>
@@ -179,6 +206,12 @@ C++</span></a>
                 </tr>
               </tbody>
             </table>
+<pre class="m-code"><span class="k">const</span> <span class="k">auto</span> <span class="n">mat</span> <span class="o">=</span> <span class="ut">matrix</span><span class="o">&lt;</span><span class="ut">int</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span><span class="p">{</span> <span class="mi">1</span> <span class="p">};</span>
+<span class="ns">std::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">mat</span><span class="p">;</span></pre><pre class="m-console"><span class="go">{</span>
+<span class="go">    1,  1,  1,</span>
+<span class="go">    1,  1,  1,</span>
+<span class="go">    1,  1,  1</span>
+<span class="go">}</span></pre>
           </div></section>
         </section>
       </div>
