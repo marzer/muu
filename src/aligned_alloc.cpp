@@ -5,8 +5,11 @@
 
 #include "muu/core.h"
 #include "muu/aligned_alloc.h"
+
 #if !(MUU_MSVC || MUU_ICC_CL)
+	MUU_DISABLE_WARNINGS
 	#include <cstdlib>
+	MUU_ENABLE_WARNINGS
 #endif
 
 MUU_DISABLE_SPAM_WARNINGS

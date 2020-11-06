@@ -243,7 +243,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	SHA-1 hasher.
 	///
-	/// \detail \cpp
+	/// \details \cpp
 	/// sha1 hasher;
 	/// hasher("The quick brown fox jumps over the lazy dog"sv);
 	/// hasher.finish();
@@ -320,7 +320,7 @@ MUU_NAMESPACE_START
 			}
 
 			/// \brief	Finishes calculating the hash.
-			/// \detail Appending to the hash function's input has no effect after finish() is called.
+			/// \details Appending to the hash function's input has no effect after finish() is called.
 			MUU_API
 			sha1& finish() noexcept;
 

@@ -221,5 +221,8 @@
     <ClCompile Include="..\src\half.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\matrix.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

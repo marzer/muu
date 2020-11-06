@@ -459,12 +459,12 @@ MUU_NAMESPACE_START
 	/// @{
 
 	/// \brief	Removes the topmost const, volatile and reference qualifiers from a type.
-	/// \detail This is equivalent to C++20's std::remove_cvref_t.
+	/// \details This is equivalent to C++20's std::remove_cvref_t.
 	template <typename T>
 	using remove_cvref = std::remove_cv_t<std::remove_reference_t<T>>;
 
 	/// \brief	Removes the outer enum wrapper from a type, converting it to the underlying integer equivalent.
-	/// \detail This is similar to std::underlying_type_t but preserves cv qualifiers and ref categories, as well as
+	/// \details This is similar to std::underlying_type_t but preserves cv qualifiers and ref categories, as well as
 	/// 		being safe to use in SFINAE contexts (non-enum types are simply returned as-is).
 	template <typename T>
 	using remove_enum = typename impl::remove_enum_<T>::type;
@@ -497,27 +497,27 @@ MUU_NAMESPACE_START
 	using least_aligned = typename impl::least_aligned_<T...>::type;
 
 	/// \brief	True if T is exactly the same as one or more of the types named by U.
-	/// \detail This equivalent to `(std::is_same_v<T, U1> || std::is_same_v<T, U2> || ...)`.
+	/// \details This equivalent to `(std::is_same_v<T, U1> || std::is_same_v<T, U2> || ...)`.
 	template <typename T, typename... U>
 	inline constexpr bool is_same_as_any = (false || ... || std::is_same_v<T, U>);
 
 	/// \brief	True if all the types named by T and U are exactly the same.
-	/// \detail This equivalent to `(std::is_same_v<T, U1> && std::is_same_v<T, U2> && ...)`.
+	/// \details This equivalent to `(std::is_same_v<T, U1> && std::is_same_v<T, U2> && ...)`.
 	template <typename T, typename... U>
 	inline constexpr bool all_same = (true && ... && std::is_same_v<T, U>);
 
 	/// \brief	True if From is convertible to one or more of the types named by To.
-	/// \detail This equivalent to `(std::is_convertible<From, To1> || std::is_convertible<From, To2> || ...)`.
+	/// \details This equivalent to `(std::is_convertible<From, To1> || std::is_convertible<From, To2> || ...)`.
 	template <typename From, typename... To>
 	inline constexpr bool is_convertible_to_any = (false || ... || std::is_convertible_v<From, To>);
 
 	/// \brief	True if From is convertible to all of the types named by To.
-	/// \detail This equivalent to `(std::is_convertible<From, To1> && std::is_convertible<From, To2> && ...)`.
+	/// \details This equivalent to `(std::is_convertible<From, To1> && std::is_convertible<From, To2> && ...)`.
 	template <typename From, typename... To>
 	inline constexpr bool is_convertible_to_all = (sizeof...(To) > 0) && (true && ... && std::is_convertible_v<From, To>);
 
 	/// \brief	True if all of the types named by From are convertible to To.
-	/// \detail This equivalent to `(std::is_convertible<From1, To> && std::is_convertible<From2, To> && ...)`.
+	/// \details This equivalent to `(std::is_convertible<From1, To> && std::is_convertible<From2, To> && ...)`.
 	template <typename To, typename... From>
 	inline constexpr bool all_convertible_to = (sizeof...(From) > 0) && (true && ... && std::is_convertible_v<From, To>);
 
@@ -809,7 +809,7 @@ MUU_NAMESPACE_START
 	inline constexpr bool always_false = false;
 
 	/// \brief	Provides an identity type transformation.
-	/// \detail This is equivalent to C++20's std::type_identity_t.
+	/// \details This is equivalent to C++20's std::type_identity_t.
 	template <typename T>
 	using dont_deduce = typename impl::type_identity_<T>::type;
 
@@ -859,7 +859,7 @@ MUU_NAMESPACE_START
 	;
 
 	/// \brief Equivalent to std::tuple_size_v, but safe to use in SFINAE contexts.
-	/// \detail Returns 0 for types that do not implement std::tuple_size.
+	/// \details Returns 0 for types that do not implement std::tuple_size.
 	template <typename T>
 	inline constexpr size_t tuple_size = impl::tuple_size_<T>::value;
 
@@ -1350,7 +1350,7 @@ MUU_NAMESPACE_START
 		{
 			static constexpr T backspace = T{ 8 };				///< The backspace character.
 			static constexpr T tab = T{ 9 };					///< `\t`
-			static constexpr T line_feed = T{ 10 };				///< `\n`
+			static constexpr T new_line = T{ 10 };				///< `\n`
 			static constexpr T vertical_tab = T{ 11 };			///< `\v`
 			static constexpr T form_feed = T{ 12 };				///< `\f`
 			static constexpr T carriage_return = T{ 13 };		///< `\r`
@@ -1794,7 +1794,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Equivalent to C++20's std::is_constant_evaluated.
 	///
-	/// \detail Compilers typically implement std::is_constant_evaluated as an intrinsic which is
+	/// \details Compilers typically implement std::is_constant_evaluated as an intrinsic which is
 	/// 		 available regardless of the C++ mode. Using this function on these compilers allows
 	/// 		 you to get the same behaviour even when you aren't targeting C++20.
 	/// 
@@ -1829,7 +1829,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Equivalent to C++17's std::launder
 	///
-	/// \detail Older implementations don't provide this as an intrinsic or have a placeholder
+	/// \details Older implementations don't provide this as an intrinsic or have a placeholder
 	/// 		 for it in their standard library. Using this version allows you to get around that 
 	/// 		 by writing code 'as if' it were there and have it compile just the same.
 	template <class T>
@@ -1974,7 +1974,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Counts the number of consecutive 0 bits, starting from the left.
 	///
-	/// \detail This is equivalent to C++20's std::countl_zero, with the addition of also being
+	/// \details This is equivalent to C++20's std::countl_zero, with the addition of also being
 	/// 		 extended to work with enum types.
 	/// 
 	/// \tparam	T		An unsigned integer or enum type.
@@ -2106,7 +2106,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Counts the number of consecutive 0 bits, starting from the right.
 	///
-	/// \detail This is equivalent to C++20's std::countr_zero, with the addition of also being
+	/// \details This is equivalent to C++20's std::countr_zero, with the addition of also being
 	/// 		 extended to work with enum types.
 	/// 		 
 	/// \tparam	T		An unsigned integer or enum type.
@@ -2151,7 +2151,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Counts the number of consecutive 1 bits, starting from the left.
 	///
-	/// \detail This is equivalent to C++20's std::countl_one, with the addition of also being
+	/// \details This is equivalent to C++20's std::countl_one, with the addition of also being
 	/// 		 extended to work with enum types.
 	/// 
 	/// \tparam	T		An unsigned integer or enum type.
@@ -2171,7 +2171,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Counts the number of consecutive 1 bits, starting from the right.
 	///
-	/// \detail This is equivalent to C++20's std::countr_one, with the addition of also being
+	/// \details This is equivalent to C++20's std::countr_one, with the addition of also being
 	/// 		 extended to work with enum types.
 	/// 
 	/// \tparam	T		An unsigned integer or enum type.
@@ -2191,7 +2191,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Finds the smallest integral power of two not less than the given value.
 	///
-	/// \detail This is equivalent to C++20's std::bit_ceil, with the addition of also being
+	/// \details This is equivalent to C++20's std::bit_ceil, with the addition of also being
 	/// 		 extended to work with enum types.
 	/// 
 	/// \tparam	T		An unsigned integer or enum type.
@@ -2215,7 +2215,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Bitwise-packs integers left-to-right into a larger integer.
 	///
-	/// \detail \cpp
+	/// \details \cpp
 	/// auto   val1  = pack(0xAABB_u16, 0xCCDD_u16);
 	/// assert(val1 == 0xAABBCCDD_u32);
 	/// 
@@ -2326,7 +2326,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Equivalent to C++20's std::bit_cast.
 	///
-	/// \detail Compilers implement this as an intrinsic which is typically
+	/// \details Compilers implement this as an intrinsic which is typically
 	/// 		 available regardless of the C++ mode. Using this function
 	/// 		 on these compilers allows you to get the same behaviour
 	/// 		 even when you aren't targeting C++20.
@@ -2383,7 +2383,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Casts between pointers, choosing the most appropriate conversion path.
 	///
-	/// \detail Doing low-level work with pointers often requires a lot of tedious boilerplate,
+	/// \details Doing low-level work with pointers often requires a lot of tedious boilerplate,
 	/// 		particularly when moving to/from raw byte representations or dealing with `const`.
 	/// 		By using `pointer_cast` instead you can eliminate a lot of that boilerplate,
 	/// 		since it will do 'the right thing' via some combination of:
@@ -2708,7 +2708,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Returns the minimum of two values.
 	///
-	/// \detail This is equivalent to std::min without requiring you to drag in the enormity of `<algorithm>`.
+	/// \details This is equivalent to std::min without requiring you to drag in the enormity of `<algorithm>`.
 	template <typename T>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
@@ -2719,7 +2719,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Returns the maximum of two values.
 	///
-	/// \detail This is equivalent to std::max without requiring you to drag in the enormity of `<algorithm>`.
+	/// \details This is equivalent to std::max without requiring you to drag in the enormity of `<algorithm>`.
 	template <typename T>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
@@ -2730,7 +2730,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Returns a value clamped between two bounds (inclusive).
 	///
-	/// \detail This is equivalent to std::clamp without requiring you to drag in the enormity of `<algorithm>`.
+	/// \details This is equivalent to std::clamp without requiring you to drag in the enormity of `<algorithm>`.
 	template <typename T>
 	[[nodiscard]]
 	constexpr const T& clamp(const T& val, const T& low, const T& high) noexcept
@@ -2933,7 +2933,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Counts the number of set bits (the 'population count') of an unsigned integer.
 	///
-	/// \detail This is equivalent to C++20's std::popcount, with the addition of also being
+	/// \details This is equivalent to C++20's std::popcount, with the addition of also being
 	/// 		 extended to work with enum types.
 	/// 
 	/// \tparam	T		An unsigned integer or enum type.
@@ -2968,7 +2968,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Checks if an integral value has only a single bit set.
 	/// 
-	/// \detail This is equivalent to C++20's std::has_single_bit, with the addition of also being
+	/// \details This is equivalent to C++20's std::has_single_bit, with the addition of also being
 	/// 		 extended to work with enum types.
 	///
 	/// \tparam	T		An unsigned integer or enum type.
@@ -2998,7 +2998,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Finds the largest integral power of two not greater than the given value.
 	/// 
-	/// \detail This is equivalent to C++20's std::bit_floor, with the addition of also being
+	/// \details This is equivalent to C++20's std::bit_floor, with the addition of also being
 	/// 		 extended to work with enum types.
 	///
 	/// \tparam	T		An unsigned integer or enum type.
@@ -3022,7 +3022,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Finds the smallest number of bits needed to represent the given value.
 	/// 
-	/// \detail This is equivalent to C++20's std::bit_width, with the addition of also being
+	/// \details This is equivalent to C++20's std::bit_width, with the addition of also being
 	/// 		 extended to work with enum types.
 	///
 	/// \tparam	T		An unsigned integer or enum type.
@@ -3044,7 +3044,7 @@ MUU_NAMESPACE_START
 	/// \brief	Returns an unsigned integer filled from the right
 	/// 		with the desired number of consecutive ones.
 	///
-	/// \detail \cpp
+	/// \details \cpp
 	/// const auto val1 = bit_fill_right<uint32_t>(5);
 	/// const auto val2 = 0b00000000000000000000000000011111u;
 	/// assert(val1 == val2);
@@ -3074,7 +3074,7 @@ MUU_NAMESPACE_START
 	/// \brief	Returns an unsigned integer filled from the left
 	/// 		with the desired number of consecutive ones.
 	///
-	/// \detail \cpp
+	/// \details \cpp
 	/// const auto val1 = bit_fill_left<uint32_t>(5);
 	/// const auto val2 = 0b11111000000000000000000000000000u;
 	/// assert(val1 == val2);
@@ -3103,7 +3103,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Gets a specific byte from an integer.
 	///
-	/// \detail \cpp
+	/// \details \cpp
 	/// const auto i = 0xAABBCCDDu;
 	/// //                ^ ^ ^ ^
 	/// // byte indices:  3 2 1 0
@@ -3161,7 +3161,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Gets a specific byte from an integer.
 	///
-	/// \detail \cpp
+	/// \details \cpp
 	/// const auto i = 0xAABBCCDDu;
 	/// //                ^ ^ ^ ^
 	/// // byte indices:  3 2 1 0
@@ -3312,7 +3312,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Reverses the byte order of an unsigned integral type.
 	///
-	/// \detail \cpp
+	/// \details \cpp
 	/// const auto i = 0xAABBCCDDu;
 	/// const auto j = byte_reverse(i);
 	/// std::cout << std::hex << i << "\n" << j;
@@ -3353,7 +3353,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Select and re-pack arbitrary bytes from an integer.
 	///
-	/// \detail \cpp
+	/// \details \cpp
 	///
 	/// const auto i = 0xAABBCCDDu;
 	/// //                ^ ^ ^ ^
@@ -3431,7 +3431,7 @@ MUU_NAMESPACE_START
 
 	/// \brief Obtain the address represented by p without forming a reference to the pointee.
 	///
-	/// \detail This is equivalent to C++20's std::to_address.
+	/// \details This is equivalent to C++20's std::to_address.
 	template <typename T>
 	[[nodiscard]]
 	constexpr T* to_address(T* p) noexcept
@@ -3442,7 +3442,7 @@ MUU_NAMESPACE_START
 
 	/// \brief Obtain the address represented by p without forming a reference to the pointee.
 	///
-	/// \detail This is equivalent to C++20's std::to_address.
+	/// \details This is equivalent to C++20's std::to_address.
 	template <typename Ptr>
 	[[nodiscard]]
 	constexpr auto to_address(const Ptr& p) noexcept
@@ -3460,7 +3460,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Equivalent to C++20's std::assume_aligned.
 	///
-	/// \detail Compilers typically implement std::assume_aligned as an intrinsic which is
+	/// \details Compilers typically implement std::assume_aligned as an intrinsic which is
 	/// 		 available regardless of the C++ mode. Using this function on these compilers allows
 	/// 		 you to get the same behaviour even when you aren't targeting C++20.
 	/// 

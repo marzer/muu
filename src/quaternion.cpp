@@ -4,7 +4,6 @@
 // SPDX-License-Identifier: MIT
 
 #include "muu/quaternion.h"
-#include "muu/half.h"
 #include "printing.h"
 
 using namespace muu;
@@ -14,10 +13,9 @@ namespace
 	template <typename Char, typename T>
 	static void print(std::basic_ostream<Char>& os, const T* q) noexcept
 	{
-		using chars = constants<Char>;
 		auto saver = stream_saver{ os }; // restores flags, precision, width and fill
-
 		os.width(0);
+
 		if constexpr (is_floating_point<T>)
 		{
 			constexpr std::streamsize precision = 3
@@ -28,20 +26,24 @@ namespace
 		}
 		os << std::dec;
 
-		os.put(chars::left_brace);
-		os.put(chars::space);
+		auto printer = ::printer{ os };
 
+		// "{ "
+		printer(object_open);
+
+		// "<scalar>"
 		os << std::right;
 		os.width(saver.width);
-		print_number(os, *q);
+		printer(*q);
 
-		os.put(chars::comma);
-		os.put(chars::space);
+		// ", <vector>"
+		printer(next_list_item);
 		os.width(saver.width);
 		impl::print_vector_to_stream(os, q + 1, 3_sz);
 
-		os.put(chars::space);
-		os.put(chars::right_brace);
+		// " }"
+		printer(object_close);
+
 		saver.width = 0; // operator<< consumes width
 	}
 }

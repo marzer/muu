@@ -64,7 +64,7 @@ MUU_NAMESPACE_START
 	/// \brief	A 16-bit "half-precision" floating point type.
 	/// \ingroup building_blocks
 	/// 
-	/// \detail This type is equipped with the full set of operators you'd expect from a float type,
+	/// \details This type is equipped with the full set of operators you'd expect from a float type,
 	/// 		and is capable of being converted to other floats and integers, as well as direct construction
 	/// 		using the `_f16` literal: \cpp
 	/// 
@@ -107,7 +107,8 @@ MUU_NAMESPACE_START
 		using impl_type = MUU_HALF_IMPL_TYPE;
 		impl_type impl_;
 
-		explicit constexpr half(impl::half_from_bits_tag, uint16_t bits) noexcept
+		explicit
+		constexpr half(impl::half_from_bits_tag, uint16_t bits) noexcept
 			#if MUU_HALF_EMULATED
 			: impl_{ bits }
 			#else
@@ -134,7 +135,8 @@ MUU_NAMESPACE_START
 		}
 
 		MUU_NODISCARD_CTOR
-		explicit constexpr half(bool val) noexcept
+		explicit
+		constexpr half(bool val) noexcept
 			#if MUU_HALF_EMULATED
 			: impl_{ val ? 0x3c00_u16 : 0_u16 }
 			#else
@@ -146,13 +148,15 @@ MUU_NAMESPACE_START
 		#if MUU_HALF_EMULATED
 			#define HALF_EXPLICIT_CONSTRUCTOR(type)							\
 				MUU_NODISCARD_CTOR											\
-				explicit constexpr half(type val) noexcept					\
+				explicit													\
+				constexpr half(type val) noexcept							\
 					: impl_{ impl::f32_to_f16(static_cast<float>(val)) }	\
 				{}
 		#else
 			#define HALF_EXPLICIT_CONSTRUCTOR(type)							\
 				MUU_NODISCARD_CTOR											\
-				explicit constexpr half(type val) noexcept					\
+				explicit													\
+				constexpr half(type val) noexcept							\
 					: impl_{ static_cast<impl_type>(val) }					\
 				{}
 		#endif
@@ -181,7 +185,8 @@ MUU_NAMESPACE_START
 		#undef HALF_EXPLICIT_CONSTRUCTOR
 
 		#if MUU_HAS_FP16
-		/*explicit*/ constexpr half(__fp16 val) noexcept
+		/*explicit*/
+		constexpr half(__fp16 val) noexcept
 			: impl_{ static_cast<impl_type>(val) }
 		{
 			static_assert(!std::is_same_v<impl_type, uint16_t>);
@@ -189,7 +194,8 @@ MUU_NAMESPACE_START
 		#endif
 
 		#if MUU_HAS_FLOAT16
-		explicit constexpr half(_Float16 val) noexcept
+		explicit
+		constexpr half(_Float16 val) noexcept
 			: impl_{ static_cast<impl_type>(val) }
 		{
 		
@@ -204,7 +210,8 @@ MUU_NAMESPACE_START
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		MUU_ALWAYS_INLINE
-		explicit constexpr operator bool() const noexcept
+		explicit
+		constexpr operator bool() const noexcept
 		{
 			#if MUU_HALF_EMULATED
 				return (impl_ & 0x7FFF) != 0u; // !(anything but sign bit)
@@ -217,7 +224,8 @@ MUU_NAMESPACE_START
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		MUU_ALWAYS_INLINE
-		explicit constexpr operator __fp16() const noexcept
+		explicit
+		constexpr operator __fp16() const noexcept
 		{
 			return static_cast<__fp16>(impl_);
 		}
@@ -247,7 +255,8 @@ MUU_NAMESPACE_START
 
 		#define HALF_CAST_CONVERSION(type, explicit)					\
 			[[nodiscard]]												\
-			explicit constexpr operator type() const noexcept			\
+			explicit													\
+			constexpr operator type() const noexcept					\
 			{															\
 				return static_cast<type>(static_cast<float>(*this));	\
 			}

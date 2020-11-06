@@ -114,7 +114,8 @@ MUU_NAMESPACE_START
 			///
 			/// \param	capacity	The maximum number of elements the array needs to be able to store.
 			MUU_NODISCARD_CTOR
-			explicit emplacement_array(size_t capacity = 0) noexcept
+			explicit
+			emplacement_array(size_t capacity = 0) noexcept
 				: capacity_{ capacity },
 				storage_{
 					capacity_

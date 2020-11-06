@@ -47,4 +47,9 @@ MATRIX_TEST_CASE("construction")
 	TEST_TYPE(construction_tests);
 }
 
+MATRIX_TEST_CASE("accessors")
+{
+	TEST_TYPE(accessor_tests);
+}
+
 #undef SCALAR_TYPE

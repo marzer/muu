@@ -100,6 +100,7 @@
     <ClCompile Include="..\..\src\blob.cpp" />
     <ClCompile Include="..\..\src\half.cpp" />
     <ClCompile Include="..\..\src\hashing.cpp" />
+    <ClCompile Include="..\..\src\matrix.cpp" />
     <ClCompile Include="..\..\src\quaternion.cpp" />
     <ClCompile Include="..\..\src\string_param.cpp" />
     <ClCompile Include="..\..\src\thread_name.cpp" />

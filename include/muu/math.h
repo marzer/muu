@@ -1953,7 +1953,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Returns the arc tangent of two arithmetic values.
 	///
-	/// \detail Integer arguments are promoted to double.
+	/// \details Integer arguments are promoted to double.
 	template <typename X, typename Y
 		MUU_ENABLE_IF(all_arithmetic<X, Y>)
 	>
@@ -2036,7 +2036,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Returns a linear interpolation between two arithmetic values.
 	///
-	/// \detail Integer arguments are promoted to double.
+	/// \details Integer arguments are promoted to double.
 	template <typename T, typename U, typename V
 		MUU_ENABLE_IF(all_arithmetic<T, U, V>)
 	>

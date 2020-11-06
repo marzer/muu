@@ -284,7 +284,8 @@ MUU_NAMESPACE_START
 			/// \brief	Returns true if the string_param contains a value of non-zero length.
 			[[nodiscard]]
 			MUU_API
-			explicit operator bool() const noexcept;
+			explicit
+			operator bool() const noexcept;
 
 			/// \brief	Returns true if the string_param is not empty and owns the payload string (rather than simply being a view).
 			[[nodiscard]]
@@ -351,28 +352,33 @@ MUU_NAMESPACE_START
 			/// \brief	Returns a std::string_view of the string_param's payload (rvalue overload).
 			[[nodiscard]]
 			MUU_API
-			explicit operator std::string_view() const&& noexcept;
+			explicit
+			operator std::string_view() const&& noexcept;
 			
 			/// \brief	Returns a std::wstring_view of the string_param's payload (rvalue overload).
 			[[nodiscard]]
 			MUU_API
-			explicit operator std::wstring_view() const&& noexcept;
+			explicit
+			operator std::wstring_view() const&& noexcept;
 
 			/// \brief	Returns a std::u16string_view of the string_param's payload (rvalue overload).
 			[[nodiscard]]
 			MUU_API
-			explicit operator std::u16string_view() const&& noexcept;
+			explicit
+			operator std::u16string_view() const&& noexcept;
 
 			/// \brief	Returns a std::u32string_view of the string_param's payload (rvalue overload).
 			[[nodiscard]]
 			MUU_API
-			explicit operator std::u32string_view() const&& noexcept;
+			explicit
+			operator std::u32string_view() const&& noexcept;
 
 			#ifdef __cpp_lib_char8_t
 
 			/// \brief	Returns a std::u8string_view of the string_param's payload (rvalue overload).
 			[[nodiscard]]
-			explicit operator std::u8string_view() const && noexcept
+			explicit
+			operator std::u8string_view() const && noexcept
 			{
 				return std::u8string_view{ *this }; // explicitly invoke lvalue overload
 			}

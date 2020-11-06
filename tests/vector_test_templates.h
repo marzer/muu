@@ -39,100 +39,111 @@ inline constexpr void trait_tests(std::string_view /*scalar_typename*/) noexcept
 	#endif
 };
 
-template <typename Vector, size_t NUM>
+template <typename T, size_t Dimensions, size_t NUM>
 inline void construction_test_from_scalars() noexcept
 {
-	using scalar = typename Vector::scalar_type;
-	INFO("constructing from "sv << NUM << " scalars"sv)
+	if constexpr (Dimensions >= NUM)
+	{
+		INFO("constructing from "sv << NUM << " scalars"sv)
+		using vector_t = vector<T, Dimensions>;
 
-	const auto vals = random_array<scalar, NUM>();
-	Vector vec = std::apply([](auto&& ... v) noexcept { return Vector{ v... }; }, vals);
-	for (size_t i = 0; i < NUM; i++)
-		CHECK(vec[i] == vals[i]);
-	for (size_t i = NUM; i < Vector::dimensions; i++)
-		CHECK(vec[i] == scalar{});
+		const auto vals = random_array<T, NUM>();
+		vector_t vec = std::apply([](auto&& ... s) noexcept { return vector_t{ s... }; }, vals);
+		for (size_t i = 0; i < NUM; i++)
+			CHECK(vec[i] == vals[i]);
+		for (size_t i = NUM; i < Dimensions; i++)
+			CHECK(vec[i] == T{});
+	}
 }
 
-template <typename Vector, size_t NUM>
+template <typename T, size_t Dimensions, size_t NUM>
 inline void construction_test_from_array() noexcept
 {
-	using scalar = typename Vector::scalar_type;
-
-	const auto arr = random_array<scalar, NUM>();
+	if constexpr (Dimensions >= NUM)
 	{
-		auto vec = Vector{ arr };
-		INFO("constructing from std::array with "sv << NUM << " elements"sv)
-		for (size_t i = 0; i < NUM; i++)
-			CHECK(vec[i] == arr[i]);
-		for (size_t i = NUM; i < Vector::dimensions; i++)
-			CHECK(vec[i] == scalar{});
-	}
+		using vector_t = vector<T, Dimensions>;
 
-	scalar raw_arr[NUM];
-	memcpy(raw_arr, arr.data(), sizeof(raw_arr));
-	{
-		auto vec = Vector{ raw_arr };
-		INFO("constructing from raw array with "sv << NUM << " elements"sv)
-		for (size_t i = 0; i < NUM; i++)
-			CHECK(vec[i] == raw_arr[i]);
-		for (size_t i = NUM; i < Vector::dimensions; i++)
-			CHECK(vec[i] == scalar{});
-	}
+		const auto arr = random_array<T, NUM>();
+		{
+			auto vec = vector_t{ arr };
+			INFO("constructing from std::array with "sv << NUM << " elements"sv)
+			for (size_t i = 0; i < NUM; i++)
+				CHECK(vec[i] == arr[i]);
+			for (size_t i = NUM; i < Dimensions; i++)
+				CHECK(vec[i] == T{});
+		}
 
-	{
-		auto vec = Vector{ arr.data(), NUM };
-		INFO("constructing from pointer to scalars"sv)
-		for (size_t i = 0; i < NUM; i++)
-			CHECK(vec[i] == arr[i]);
-		for (size_t i = NUM; i < Vector::dimensions; i++)
-			CHECK(vec[i] == scalar{});
-	}
+		T raw_arr[NUM];
+		memcpy(raw_arr, arr.data(), sizeof(raw_arr));
+		{
+			auto vec = vector_t{ raw_arr };
+			INFO("constructing from raw array with "sv << NUM << " elements"sv)
+			for (size_t i = 0; i < NUM; i++)
+				CHECK(vec[i] == raw_arr[i]);
+			for (size_t i = NUM; i < Dimensions; i++)
+				CHECK(vec[i] == T{});
+		}
 
-	{
-		auto vec = Vector{ span<scalar, NUM>{ arr } };
-		INFO("constructing from a statically-sized span"sv)
-		for (size_t i = 0; i < NUM; i++)
-			CHECK(vec[i] == arr[i]);
-		for (size_t i = NUM; i < Vector::dimensions; i++)
-			CHECK(vec[i] == scalar{});
-	}
+		{
+			auto vec = vector_t{ arr.data(), NUM };
+			INFO("constructing from pointer to scalars"sv)
+			for (size_t i = 0; i < NUM; i++)
+				CHECK(vec[i] == arr[i]);
+			for (size_t i = NUM; i < vector_t::dimensions; i++)
+				CHECK(vec[i] == T{});
+		}
 
-	{
-		auto vec = Vector{ span<scalar>{ arr.data(), NUM } };
-		INFO("constructing from a dynamically-sized span"sv)
-		for (size_t i = 0; i < NUM; i++)
-			CHECK(vec[i] == arr[i]);
-		for (size_t i = NUM; i < Vector::dimensions; i++)
-			CHECK(vec[i] == scalar{});
+		{
+			auto vec = vector_t{ span<T, NUM>{ arr } };
+			INFO("constructing from a statically-sized span"sv)
+			for (size_t i = 0; i < NUM; i++)
+				CHECK(vec[i] == arr[i]);
+			for (size_t i = NUM; i < Dimensions; i++)
+				CHECK(vec[i] == T{});
+		}
+
+		{
+			auto vec = vector_t{ span<T>{ arr.data(), NUM } };
+			INFO("constructing from a dynamically-sized span"sv)
+			for (size_t i = 0; i < NUM; i++)
+				CHECK(vec[i] == arr[i]);
+			for (size_t i = NUM; i < Dimensions; i++)
+				CHECK(vec[i] == T{});
+		}
 	}
 }
 
-template <typename Vector, size_t NUM>
+template <typename T, size_t Dimensions, size_t NUM>
 inline void construction_test_from_smaller_vector() noexcept
 {
-	using scalar = typename Vector::scalar_type;
-	INFO("constructing from a smaller vector with "sv << NUM << " elements"sv)
-	static_assert(NUM < Vector::dimensions);
+	if constexpr (Dimensions > NUM)
+	{
+		INFO("constructing from a smaller vector with "sv << NUM << " elements"sv)
+		using vector_t = vector<T, Dimensions>;
 
-	auto smaller = vector<scalar, NUM>{ random_array<scalar, NUM>() };
-	auto vec = Vector{ smaller };
-	for (size_t i = 0; i < NUM; i++)
-		CHECK(vec[i] == smaller[i]);
-	for (size_t i = NUM; i < Vector::dimensions; i++)
-		CHECK(vec[i] == scalar{});
+		auto smaller = vector<T, NUM>{ random_array<T, NUM>() };
+		auto vec = vector_t{ smaller };
+		for (size_t i = 0; i < NUM; i++)
+			CHECK(vec[i] == smaller[i]);
+		for (size_t i = NUM; i < Dimensions; i++)
+			CHECK(vec[i] == T{});
+	}
+
 }
 
-template <typename Vector, size_t NUM>
+template <typename T, size_t Dimensions, size_t NUM>
 inline void construction_test_from_larger_vector() noexcept
 {
-	using scalar = typename Vector::scalar_type;
-	INFO("constructing from a larger vector with "sv << NUM << " elements"sv)
-	static_assert(NUM > Vector::dimensions);
+	if constexpr (Dimensions < NUM)
+	{
+		INFO("constructing from a larger vector with "sv << NUM << " elements"sv)
+		using vector_t = vector<T, Dimensions>;
 
-	auto larger = vector<scalar, NUM>{ random_array<scalar, NUM>() };
-	auto vec = Vector{ larger };
-	for (size_t i = 0; i < Vector::dimensions; i++)
-		CHECK(vec[i] == larger[i]);
+		auto larger = vector<T, NUM>{ random_array<T, NUM>() };
+		auto vec = vector_t{ larger };
+		for (size_t i = 0; i < Dimensions; i++)
+			CHECK(vec[i] == larger[i]);
+	}
 }
 
 template <typename T, size_t Dimensions>
@@ -161,18 +172,18 @@ inline void construction_tests(std::string_view scalar_typename) noexcept
 	}
 
 	// scalar constructors
-	if constexpr (Dimensions >= 2) construction_test_from_scalars<vector_t, 2>();
-	if constexpr (Dimensions >= 3) construction_test_from_scalars<vector_t, 3>();
-	if constexpr (Dimensions >= 4) construction_test_from_scalars<vector_t, 4>();
-	if constexpr (Dimensions >= 5) construction_test_from_scalars<vector_t, 5>();
+	construction_test_from_scalars<T, Dimensions, 2>();
+	construction_test_from_scalars<T, Dimensions, 3>();
+	construction_test_from_scalars<T, Dimensions, 4>();
+	construction_test_from_scalars<T, Dimensions, 5>();
 	// no single-scalar test; it's the fill constructor.
 
 	// array constructor
-	construction_test_from_array<vector_t, 1>();
-	if constexpr (Dimensions >= 2) construction_test_from_array<vector_t, 2>();
-	if constexpr (Dimensions >= 3) construction_test_from_array<vector_t, 3>();
-	if constexpr (Dimensions >= 4) construction_test_from_array<vector_t, 4>();
-	if constexpr (Dimensions >= 5) construction_test_from_array<vector_t, 5>();
+	construction_test_from_array<T, Dimensions, 1>();
+	construction_test_from_array<T, Dimensions, 2>();
+	construction_test_from_array<T, Dimensions, 3>();
+	construction_test_from_array<T, Dimensions, 4>();
+	construction_test_from_array<T, Dimensions, 5>();
 
 	// coercing constructor
 	{
@@ -192,18 +203,18 @@ inline void construction_tests(std::string_view scalar_typename) noexcept
 	}
 
 	// enlarging constructor
-	if constexpr (Dimensions > 1) construction_test_from_smaller_vector<vector_t, 1>();
-	if constexpr (Dimensions > 2) construction_test_from_smaller_vector<vector_t, 2>();
-	if constexpr (Dimensions > 3) construction_test_from_smaller_vector<vector_t, 3>();
-	if constexpr (Dimensions > 4) construction_test_from_smaller_vector<vector_t, 4>();
-	if constexpr (Dimensions > 5) construction_test_from_smaller_vector<vector_t, 5>();
+	construction_test_from_smaller_vector<T, Dimensions, 1>();
+	construction_test_from_smaller_vector<T, Dimensions, 2>();
+	construction_test_from_smaller_vector<T, Dimensions, 3>();
+	construction_test_from_smaller_vector<T, Dimensions, 4>();
+	construction_test_from_smaller_vector<T, Dimensions, 5>();
 
 	// truncating constructor
-	if constexpr (Dimensions < 2) construction_test_from_larger_vector<vector_t, 2>();
-	if constexpr (Dimensions < 3) construction_test_from_larger_vector<vector_t, 3>();
-	if constexpr (Dimensions < 4) construction_test_from_larger_vector<vector_t, 4>();
-	if constexpr (Dimensions < 5) construction_test_from_larger_vector<vector_t, 5>();
-	if constexpr (Dimensions < 10) construction_test_from_larger_vector<vector_t, 10>();
+	construction_test_from_larger_vector<T, Dimensions, 2>();
+	construction_test_from_larger_vector<T, Dimensions, 3>();
+	construction_test_from_larger_vector<T, Dimensions, 4>();
+	construction_test_from_larger_vector<T, Dimensions, 5>();
+	construction_test_from_larger_vector<T, Dimensions, 10>();
 
 	// pair constructor
 	if constexpr (Dimensions >= 2)
@@ -738,8 +749,8 @@ inline void division_tests(std::string_view scalar_typename) noexcept
 	using vector_t = vector<T, Dimensions>;
 
 	const auto scalar = static_cast<T>(2.4);
-	const vector_t vec1{ random_array<T, Dimensions>(2, 10) };
-	const vector_t vec2{ random_array<T, Dimensions>(2, 10) };
+	const vector_t vec1{ random_array<T, Dimensions>(2, 5) };
+	const vector_t vec2{ random_array<T, Dimensions>(2, 5) };
 
 	{
 		INFO("vector / vector"sv)
@@ -783,8 +794,8 @@ inline void modulo_tests(std::string_view scalar_typename) noexcept
 	using vector_t = vector<T, Dimensions>;
 
 	const auto scalar = static_cast<T>(2.4);
-	const vector_t vec1{ random_array<T, Dimensions>(2, 10) };
-	const vector_t vec2{ random_array<T, Dimensions>(2, 10) };
+	const vector_t vec1{ random_array<T, Dimensions>(2, 5) };
+	const vector_t vec2{ random_array<T, Dimensions>(2, 5) };
 
 	{
 		INFO("vector % vector"sv)

@@ -14,7 +14,7 @@ MUU_NAMESPACE_START
 	/// \brief Interface for managing chunks of memory.
 	/// \ingroup mem building_blocks
 	/// 
-	/// \detail A blob is effectively an RAII wrapper around muu::aligned_alloc, muu::aligned_realloc and muu::aligned_free,
+	/// \details A blob is effectively an RAII wrapper around muu::aligned_alloc, muu::aligned_realloc and muu::aligned_free,
 	/// 		intended to be used anywhere you might previously have used something like std::vector<std::byte>.
 	/// 		
 	class blob
@@ -134,7 +134,8 @@ MUU_NAMESPACE_START
 			/// \brief Returns true if the blob contains data.
 			[[nodiscard]]
 			MUU_ATTR(pure)
-			explicit operator bool () const noexcept
+			explicit
+			operator bool () const noexcept
 			{
 				return data_ != nullptr;
 			}

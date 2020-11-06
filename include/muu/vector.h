@@ -250,22 +250,26 @@ MUU_IMPL_NAMESPACE_START
 
 		vector_base() noexcept = default;
 
-		explicit constexpr vector_base(zero_fill_tag) noexcept
+		explicit
+		constexpr vector_base(zero_fill_tag) noexcept
 			: values{}
 		{}
 
 		template <size_t... Indices>
-		explicit constexpr vector_base(Scalar fill, std::index_sequence<Indices...>) noexcept
+		explicit
+		constexpr vector_base(Scalar fill, std::index_sequence<Indices...>) noexcept
 			: values{ ((void)Indices, fill)... }
 		{
 			static_assert(sizeof...(Indices) <= Dimensions);
 		}
 
-		explicit constexpr vector_base(value_fill_tag, Scalar fill) noexcept
+		explicit
+		constexpr vector_base(value_fill_tag, Scalar fill) noexcept
 			: vector_base{ fill, std::make_index_sequence<Dimensions>{} }
 		{}
 
-		explicit constexpr vector_base(Scalar x_, Scalar y_ = Scalar{}, Scalar z_ = Scalar{}, Scalar w_ = Scalar{}) noexcept
+		explicit
+		constexpr vector_base(Scalar x_, Scalar y_ = Scalar{}, Scalar z_ = Scalar{}, Scalar w_ = Scalar{}) noexcept
 			: values{ x_, y_, z_, w_ }
 		{}
 
@@ -273,7 +277,8 @@ MUU_IMPL_NAMESPACE_START
 			MUU_ENABLE_IF(all_same<Scalar, remove_cv<T>...>)
 		>
 		MUU_REQUIRES(all_same<Scalar, remove_cv<T>...>)
-		explicit constexpr vector_base(Scalar x_, Scalar y_, Scalar z_, Scalar w_, T... vals) noexcept
+		explicit
+		constexpr vector_base(Scalar x_, Scalar y_, Scalar z_, Scalar w_, T... vals) noexcept
 			: values{ x_, y_, z_, w_, vals... }
 		{
 			static_assert(sizeof...(T) <= Dimensions - 4);
@@ -283,49 +288,56 @@ MUU_IMPL_NAMESPACE_START
 			MUU_ENABLE_IF_2(!all_same<Scalar, remove_cv<T>...>)
 		>
 		MUU_REQUIRES(!all_same<Scalar, remove_cv<T>...>)
-		explicit constexpr vector_base(Scalar x_, Scalar y_, Scalar z_, Scalar w_, T... vals) noexcept
+		explicit
+		constexpr vector_base(Scalar x_, Scalar y_, Scalar z_, Scalar w_, T... vals) noexcept
 			: values{ x_, y_, z_, w_, static_cast<Scalar>(vals)... }
 		{
 			static_assert(sizeof...(T) <= Dimensions - 4);
 		}
 
 		template <typename T, size_t... Indices>
-		explicit constexpr vector_base(array_copy_tag, std::index_sequence<Indices...>, const T& arr) noexcept
+		explicit
+		constexpr vector_base(array_copy_tag, std::index_sequence<Indices...>, const T& arr) noexcept
 			: values{ arr[Indices]... }
 		{
 			static_assert(sizeof...(Indices) <= Dimensions);
 		}
 
 		template <typename T, size_t... Indices>
-		explicit constexpr vector_base(array_cast_tag, std::index_sequence<Indices...>, const T& arr) noexcept
+		explicit
+		constexpr vector_base(array_cast_tag, std::index_sequence<Indices...>, const T& arr) noexcept
 			: values{ static_cast<Scalar>(arr[Indices])... }
 		{
 			static_assert(sizeof...(Indices) <= Dimensions);
 		}
 
 		template <typename T, size_t... Indices>
-		explicit constexpr vector_base(tuple_copy_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
+		explicit
+		constexpr vector_base(tuple_copy_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
 			: values{ get_from_tuple_like<Indices>(tpl)... }
 		{
 			static_assert(sizeof...(Indices) <= Dimensions);
 		}
 
 		template <typename T, size_t... Indices>
-		explicit constexpr vector_base(tuple_cast_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
+		explicit
+		constexpr vector_base(tuple_cast_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
 			: values{ static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))... }
 		{
 			static_assert(sizeof...(Indices) <= Dimensions);
 		}
 
 		template <typename Func, size_t... Indices>
-		explicit constexpr vector_base(componentwise_func_tag, std::index_sequence<Indices...>, Func&& func) noexcept
+		explicit
+		constexpr vector_base(componentwise_func_tag, std::index_sequence<Indices...>, Func&& func) noexcept
 			: values{ func(Indices)... }
 		{
 			static_assert(sizeof...(Indices) <= Dimensions);
 		}
 
 		template <typename T1, typename T2, size_t... Indices1, size_t... Indices2>
-		explicit constexpr vector_base(tuple_concat_tag,
+		explicit
+		constexpr vector_base(tuple_concat_tag,
 			std::index_sequence<Indices1...>, const T1& tpl1,
 			std::index_sequence<Indices2...>, const T2& tpl2
 		) noexcept
@@ -338,7 +350,8 @@ MUU_IMPL_NAMESPACE_START
 		}
 
 		template <typename T, size_t... Indices, typename... V>
-		explicit constexpr vector_base(tuple_concat_tag,
+		explicit
+		constexpr vector_base(tuple_concat_tag,
 			std::index_sequence<Indices...>, const T& tpl,
 			V... vals
 		) noexcept
@@ -358,41 +371,48 @@ MUU_IMPL_NAMESPACE_START
 
 		vector_base() noexcept = default;
 
-		explicit constexpr vector_base(zero_fill_tag) noexcept
+		explicit
+		constexpr vector_base(zero_fill_tag) noexcept
 			: x{}
 		{}
 
-		explicit constexpr vector_base(value_fill_tag, Scalar x_) noexcept
+		explicit
+		constexpr vector_base(value_fill_tag, Scalar x_) noexcept
 			: x{ x_ }
 		{}
 
-		explicit constexpr vector_base(Scalar x_) noexcept
+		explicit
+		constexpr vector_base(Scalar x_) noexcept
 			: x{ x_ }
 		{}
 
 		template <typename T, size_t... Indices>
-		explicit constexpr vector_base(array_copy_tag, std::index_sequence<Indices...>, const T& arr) noexcept
+		explicit
+		constexpr vector_base(array_copy_tag, std::index_sequence<Indices...>, const T& arr) noexcept
 			: vector_base{ arr[Indices]... }
 		{
 			static_assert(sizeof...(Indices) == 1);
 		}
 
 		template <typename T, size_t... Indices>
-		explicit constexpr vector_base(array_cast_tag, std::index_sequence<Indices...>, const T& arr) noexcept
+		explicit
+		constexpr vector_base(array_cast_tag, std::index_sequence<Indices...>, const T& arr) noexcept
 			: vector_base{ static_cast<Scalar>(arr[Indices])... }
 		{
 			static_assert(sizeof...(Indices) == 1);
 		}
 
 		template <typename T, size_t... Indices>
-		explicit constexpr vector_base(tuple_copy_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
+		explicit
+		constexpr vector_base(tuple_copy_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
 			: vector_base{ get_from_tuple_like<Indices>(tpl)... }
 		{
 			static_assert(sizeof...(Indices) == 1);
 		}
 
 		template <typename T, size_t... Indices>
-		explicit constexpr vector_base(tuple_cast_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
+		explicit
+		constexpr vector_base(tuple_cast_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
 			: vector_base{ static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))... }
 		{
 			static_assert(sizeof...(Indices) == 1);
@@ -407,51 +427,59 @@ MUU_IMPL_NAMESPACE_START
 
 		vector_base() noexcept = default;
 
-		explicit constexpr vector_base(zero_fill_tag) noexcept
+		explicit
+		constexpr vector_base(zero_fill_tag) noexcept
 			: x{},
 			y{}
 		{}
 
-		explicit constexpr vector_base(value_fill_tag, Scalar fill) noexcept
+		explicit
+		constexpr vector_base(value_fill_tag, Scalar fill) noexcept
 			: x{ fill },
 			y{ fill }
 		{}
 
-		explicit constexpr vector_base(Scalar x_, Scalar y_ = Scalar{}) noexcept
+		explicit
+		constexpr vector_base(Scalar x_, Scalar y_ = Scalar{}) noexcept
 			: x{ x_ },
 			y{ y_ }
 		{}
 
 		template <typename T, size_t... Indices>
-		explicit constexpr vector_base(array_copy_tag, std::index_sequence<Indices...>, const T& arr) noexcept
+		explicit
+		constexpr vector_base(array_copy_tag, std::index_sequence<Indices...>, const T& arr) noexcept
 			: vector_base{ arr[Indices]... }
 		{
 			static_assert(sizeof...(Indices) <= 2);
 		}
 
 		template <typename T, size_t... Indices>
-		explicit constexpr vector_base(array_cast_tag, std::index_sequence<Indices...>, const T& arr) noexcept
+		explicit
+		constexpr vector_base(array_cast_tag, std::index_sequence<Indices...>, const T& arr) noexcept
 			: vector_base{ static_cast<Scalar>(arr[Indices])... }
 		{
 			static_assert(sizeof...(Indices) <= 2);
 		}
 
 		template <typename T, size_t... Indices>
-		explicit constexpr vector_base(tuple_copy_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
+		explicit
+		constexpr vector_base(tuple_copy_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
 			: vector_base{ get_from_tuple_like<Indices>(tpl)... }
 		{
 			static_assert(sizeof...(Indices) <= 2);
 		}
 
 		template <typename T, size_t... Indices>
-		explicit constexpr vector_base(tuple_cast_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
+		explicit
+		constexpr vector_base(tuple_cast_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
 			: vector_base{ static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))... }
 		{
 			static_assert(sizeof...(Indices) <= 2);
 		}
 
 		template <typename T1, typename T2, size_t... Indices1, size_t... Indices2>
-		explicit constexpr vector_base(tuple_concat_tag,
+		explicit
+		constexpr vector_base(tuple_concat_tag,
 			std::index_sequence<Indices1...>, const T1& tpl1,
 			std::index_sequence<Indices2...>, const T2& tpl2
 		) noexcept
@@ -464,7 +492,8 @@ MUU_IMPL_NAMESPACE_START
 		}
 
 		template <typename T, size_t... Indices, typename... V>
-		explicit constexpr vector_base(tuple_concat_tag,
+		explicit
+		constexpr vector_base(tuple_concat_tag,
 			std::index_sequence<Indices...>, const T& tpl,
 			V... vals
 		) noexcept
@@ -486,54 +515,62 @@ MUU_IMPL_NAMESPACE_START
 
 		vector_base() noexcept = default;
 
-		explicit constexpr vector_base(zero_fill_tag) noexcept
+		explicit
+		constexpr vector_base(zero_fill_tag) noexcept
 			: x{},
 			y{},
 			z{}
 		{}
 
-		explicit constexpr vector_base(value_fill_tag, Scalar fill) noexcept
+		explicit
+		constexpr vector_base(value_fill_tag, Scalar fill) noexcept
 			: x{ fill },
 			y{ fill },
 			z{ fill }
 		{}
 
-		explicit constexpr vector_base(Scalar x_, Scalar y_ = Scalar{}, Scalar z_ = Scalar{}) noexcept
+		explicit
+		constexpr vector_base(Scalar x_, Scalar y_ = Scalar{}, Scalar z_ = Scalar{}) noexcept
 			: x{ x_ },
 			y{ y_ },
 			z{ z_ }
 		{}
 
 		template <typename T, size_t... Indices>
-		explicit constexpr vector_base(array_copy_tag, std::index_sequence<Indices...>, const T& arr) noexcept
+		explicit
+		constexpr vector_base(array_copy_tag, std::index_sequence<Indices...>, const T& arr) noexcept
 			: vector_base{ arr[Indices]... }
 		{
 			static_assert(sizeof...(Indices) <= 3);
 		}
 
 		template <typename T, size_t... Indices>
-		explicit constexpr vector_base(array_cast_tag, std::index_sequence<Indices...>, const T& arr) noexcept
+		explicit
+		constexpr vector_base(array_cast_tag, std::index_sequence<Indices...>, const T& arr) noexcept
 			: vector_base{ static_cast<Scalar>(arr[Indices])... }
 		{
 			static_assert(sizeof...(Indices) <= 3);
 		}
 
 		template <typename T, size_t... Indices>
-		explicit constexpr vector_base(tuple_copy_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
+		explicit
+		constexpr vector_base(tuple_copy_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
 			: vector_base{ get_from_tuple_like<Indices>(tpl)... }
 		{
 			static_assert(sizeof...(Indices) <= 3);
 		}
 
 		template <typename T, size_t... Indices>
-		explicit constexpr vector_base(tuple_cast_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
+		explicit
+		constexpr vector_base(tuple_cast_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
 			: vector_base{ static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))... }
 		{
 			static_assert(sizeof...(Indices) <= 3);
 		}
 
 		template <typename T1, typename T2, size_t... Indices1, size_t... Indices2>
-		explicit constexpr vector_base(tuple_concat_tag,
+		explicit
+		constexpr vector_base(tuple_concat_tag,
 			std::index_sequence<Indices1...>, const T1& tpl1,
 			std::index_sequence<Indices2...>, const T2& tpl2
 		) noexcept
@@ -546,7 +583,8 @@ MUU_IMPL_NAMESPACE_START
 		}
 
 		template <typename T, size_t... Indices, typename... V>
-		explicit constexpr vector_base(tuple_concat_tag,
+		explicit
+		constexpr vector_base(tuple_concat_tag,
 			std::index_sequence<Indices...>, const T& tpl,
 			V... vals
 		) noexcept
@@ -569,21 +607,24 @@ MUU_IMPL_NAMESPACE_START
 
 		vector_base() noexcept = default;
 
-		explicit constexpr vector_base(zero_fill_tag) noexcept
+		explicit
+		constexpr vector_base(zero_fill_tag) noexcept
 			: x{},
 			y{},
 			z{},
 			w{}
 		{}
 
-		explicit constexpr vector_base(value_fill_tag, Scalar fill) noexcept
+		explicit
+		constexpr vector_base(value_fill_tag, Scalar fill) noexcept
 			: x{ fill },
 			y{ fill },
 			z{ fill },
 			w{ fill }
 		{}
 
-		explicit constexpr vector_base(Scalar x_, Scalar y_ = Scalar{}, Scalar z_ = Scalar{}, Scalar w_ = Scalar{}) noexcept
+		explicit
+		constexpr vector_base(Scalar x_, Scalar y_ = Scalar{}, Scalar z_ = Scalar{}, Scalar w_ = Scalar{}) noexcept
 			: x{ x_ },
 			y{ y_ },
 			z{ z_ },
@@ -591,35 +632,40 @@ MUU_IMPL_NAMESPACE_START
 		{}
 
 		template <typename T, size_t... Indices>
-		explicit constexpr vector_base(array_copy_tag, std::index_sequence<Indices...>, const T& arr) noexcept
+		explicit
+		constexpr vector_base(array_copy_tag, std::index_sequence<Indices...>, const T& arr) noexcept
 			: vector_base{ arr[Indices]... }
 		{
 			static_assert(sizeof...(Indices) <= 4);
 		}
 
 		template <typename T, size_t... Indices>
-		explicit constexpr vector_base(array_cast_tag, std::index_sequence<Indices...>, const T& arr) noexcept
+		explicit
+		constexpr vector_base(array_cast_tag, std::index_sequence<Indices...>, const T& arr) noexcept
 			: vector_base{ static_cast<Scalar>(arr[Indices])... }
 		{
 			static_assert(sizeof...(Indices) <= 4);
 		}
 
 		template <typename T, size_t... Indices>
-		explicit constexpr vector_base(tuple_copy_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
+		explicit
+		constexpr vector_base(tuple_copy_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
 			: vector_base{ get_from_tuple_like<Indices>(tpl)... }
 		{
 			static_assert(sizeof...(Indices) <= 4);
 		}
 
 		template <typename T, size_t... Indices>
-		explicit constexpr vector_base(tuple_cast_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
+		explicit
+		constexpr vector_base(tuple_cast_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
 			: vector_base{ static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))... }
 		{
 			static_assert(sizeof...(Indices) <= 4);
 		}
 
 		template <typename T1, typename T2, size_t... Indices1, size_t... Indices2>
-		explicit constexpr vector_base(tuple_concat_tag,
+		explicit
+		constexpr vector_base(tuple_concat_tag,
 			std::index_sequence<Indices1...>, const T1& tpl1,
 			std::index_sequence<Indices2...>, const T2& tpl2
 		) noexcept
@@ -632,7 +678,8 @@ MUU_IMPL_NAMESPACE_START
 		}
 
 		template <typename T, size_t... Indices, typename... V>
-		explicit constexpr vector_base(tuple_concat_tag,
+		explicit
+		constexpr vector_base(tuple_concat_tag,
 			std::index_sequence<Indices...>, const T& tpl,
 			V... vals
 		) noexcept
@@ -656,10 +703,14 @@ MUU_IMPL_NAMESPACE_START
 	#endif // MUU_HAS_VECTORCALL
 
 	template <typename Scalar, size_t Dimensions>
-	inline constexpr bool pass_vector_by_reference = pass_readonly_by_reference<vector_base<Scalar, Dimensions>>;
-
-	template <typename Scalar, size_t Dimensions>
-	inline constexpr bool pass_vector_by_value = !pass_vector_by_reference<Scalar, Dimensions>;
+	struct readonly_param_<vector<Scalar, Dimensions>>
+	{
+		using type = std::conditional_t<
+			pass_readonly_by_value<vector_base<Scalar, Dimensions>>,
+			vector<Scalar, Dimensions>,
+			const vector<Scalar, Dimensions>&
+		>;
+	};
 
 	MUU_API void print_vector_to_stream(std::ostream& stream, const half*, size_t);
 	MUU_API void print_vector_to_stream(std::ostream& stream, const float*, size_t);
@@ -844,16 +895,16 @@ MUU_IMPL_NAMESPACE_END
 	#define ENABLE_PAIRED_FUNCS 1
 
 	#define ENABLE_PAIRED_FUNC_BY_REF(S, D, ...) \
-			MUU_ENABLE_IF(impl::pass_vector_by_reference<S, D> && (__VA_ARGS__))
+			MUU_ENABLE_IF(impl::pass_readonly_by_reference<vector<S, D>> && (__VA_ARGS__))
 
 	#define ENABLE_PAIRED_FUNC_BY_VAL(S, D, ...) \
-			MUU_ENABLE_IF_2(impl::pass_vector_by_value<S, D> && (__VA_ARGS__))
+			MUU_ENABLE_IF_2(impl::pass_readonly_by_value<vector<S, D>> && (__VA_ARGS__))
 
 	#define REQUIRES_PAIRED_FUNC_BY_REF(S, D, ...) \
-			MUU_REQUIRES(impl::pass_vector_by_reference<S, D> && (__VA_ARGS__))
+			MUU_REQUIRES(impl::pass_readonly_by_reference<vector<S, D>> && (__VA_ARGS__))
 
 	#define REQUIRES_PAIRED_FUNC_BY_VAL(S, D, ...) \
-			MUU_REQUIRES(impl::pass_vector_by_value<S, D> && (__VA_ARGS__))
+			MUU_REQUIRES(impl::pass_readonly_by_value<vector<S, D>> && (__VA_ARGS__))
 
 #else
 	#define ENABLE_PAIRED_FUNCS 0
@@ -880,6 +931,14 @@ namespace Achilles
 
 MUU_NAMESPACE_START
 {
+	/// \brief Alias of `vector` or `const vector&`, depending on size, triviality, simd-friendliness, etc.
+	/// \ingroup math
+	///
+	/// \related muu::vector
+	/// \see muu::vector
+	template <typename Scalar, size_t Dimensions>
+	using vector_param = impl::readonly_param<vector<Scalar, Dimensions>>;
+
 	/// \brief An N-dimensional vector.
 	/// \ingroup math
 	/// 
@@ -925,12 +984,8 @@ MUU_NAMESPACE_START
 		/// \brief The vector type with #scalar_type == #scalar_product and the same number of #dimensions as this one.
 		using vector_product = vector<scalar_product, dimensions>;
 
-		/// \brief `vector` or `const vector&`, depending on size, triviality, simd-friendliness, etc.
-		using vector_param = std::conditional_t<
-			impl::pass_vector_by_value<scalar_type, dimensions>,
-			vector,
-			const vector&
-		>;
+		/// \brief Alias of `vector` or `const vector&`, depending on size, triviality, simd-friendliness, etc.
+		using vector_param = muu::vector_param<scalar_type, dimensions>;
 
 		/// \brief Compile-time constants for this vector type.
 		using constants = muu::constants<vector>;
@@ -977,7 +1032,8 @@ MUU_NAMESPACE_START
 	private:
 
 		template <typename Func>
-		explicit constexpr vector(impl::componentwise_func_tag, Func&& func) noexcept
+		explicit
+		constexpr vector(impl::componentwise_func_tag, Func&& func) noexcept
 			: base{
 				impl::componentwise_func_tag{},
 				std::make_index_sequence<Dimensions>{},
@@ -1001,7 +1057,8 @@ MUU_NAMESPACE_START
 		///
 		/// \param	fill	The value used to initialize each of the vector's scalar components.
 		MUU_NODISCARD_CTOR
-		explicit constexpr vector(scalar_type fill) noexcept
+		explicit
+		constexpr vector(scalar_type fill) noexcept
 			: base{ impl::value_fill_tag{}, fill }
 		{}
 
@@ -1062,9 +1119,9 @@ MUU_NAMESPACE_START
 		/// 
 		/// \note			This constructor is only available when #dimensions &gt;= 5.
 		template <typename... T
-			ENABLE_IF_DIMENSIONS_AT_LEAST_AND(5, all_convertible_to<scalar_type, T...>)
+			ENABLE_IF_DIMENSIONS_AT_LEAST_AND(4 + sizeof...(T), all_convertible_to<scalar_type, T...>)
 		>
-		REQUIRES_DIMENSIONS_AT_LEAST_AND(5, all_convertible_to<scalar_type, T...>)
+		REQUIRES_DIMENSIONS_AT_LEAST_AND(4 + sizeof...(T), all_convertible_to<scalar_type, T...>)
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y, scalar_type z, scalar_type w, T... vals) noexcept
 			: base{ x, y, z, w, vals... }
@@ -1081,7 +1138,8 @@ MUU_NAMESPACE_START
 		>
 		REQUIRES_DIMENSIONS_AT_LEAST_AND(N, all_convertible_to<scalar_type, T>)
 		MUU_NODISCARD_CTOR
-		explicit constexpr vector(const T(& arr)[N]) noexcept
+		explicit
+		constexpr vector(const T(& arr)[N]) noexcept
 			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, arr }
 		{}
 
@@ -1096,7 +1154,8 @@ MUU_NAMESPACE_START
 		>
 		REQUIRES_DIMENSIONS_AT_LEAST_AND(N, all_convertible_to<scalar_type, T>)
 		MUU_NODISCARD_CTOR
-		explicit constexpr vector(const std::array<T, N>& arr) noexcept
+		explicit
+		constexpr vector(const std::array<T, N>& arr) noexcept
 			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, arr }
 		{}
 
@@ -1110,7 +1169,8 @@ MUU_NAMESPACE_START
 		>
 		REQUIRES_DIMENSIONS_AT_LEAST_AND(tuple_size<T>, is_tuple_like<T>)
 		MUU_NODISCARD_CTOR
-		explicit constexpr vector(const T& tuple) noexcept
+		explicit
+		constexpr vector(const T& tuple) noexcept
 			: base{ impl::tuple_cast_tag{}, std::make_index_sequence<tuple_size<T>>{}, tuple }
 		{}
 
@@ -1129,7 +1189,8 @@ MUU_NAMESPACE_START
 		/// \param 	vec		Source vector.
 		template <typename S, size_t D>
 		MUU_NODISCARD_CTOR
-		explicit constexpr vector(const vector<S, D>& vec) noexcept
+		explicit
+		constexpr vector(const vector<S, D>& vec) noexcept
 			: base{ impl::tuple_cast_tag{}, std::make_index_sequence<(D < Dimensions ? D : Dimensions)>{}, vec }
 		{}
 
@@ -1226,7 +1287,8 @@ MUU_NAMESPACE_START
 		>
 		REQUIRES_DIMENSIONS_AT_LEAST_AND(N, all_convertible_to<scalar_type, T>&& N != dynamic_extent)
 		MUU_NODISCARD_CTOR
-		explicit constexpr vector(const muu::span<T, N>& vals) noexcept
+		explicit
+		constexpr vector(const muu::span<T, N>& vals) noexcept
 			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, vals }
 		{}
 
@@ -1240,7 +1302,8 @@ MUU_NAMESPACE_START
 		>
 		MUU_REQUIRES(all_convertible_to<scalar_type, T>)
 		MUU_NODISCARD_CTOR
-		explicit constexpr vector(const muu::span<T>& vals) noexcept
+		explicit
+		constexpr vector(const muu::span<T>& vals) noexcept
 			: vector{ vals.data(), vals.size() }
 		{}
 
@@ -1257,7 +1320,8 @@ MUU_NAMESPACE_START
 		>
 		REQUIRES_DIMENSIONS_AT_LEAST_AND(N, all_convertible_to<scalar_type, T>&& N != dynamic_extent)
 		MUU_NODISCARD_CTOR
-		explicit constexpr vector(const std::span<T, N>& vals) noexcept
+		explicit
+		constexpr vector(const std::span<T, N>& vals) noexcept
 			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, vals }
 		{}
 
@@ -1271,7 +1335,8 @@ MUU_NAMESPACE_START
 		>
 		MUU_REQUIRES(all_convertible_to<scalar_type, T>)
 		MUU_NODISCARD_CTOR
-		explicit vector(const std::span<T, dynamic_extent>& vals) noexcept
+		explicit
+		vector(const std::span<T, dynamic_extent>& vals) noexcept
 			: vector{ vals.data(), vals.size() }
 		{}
 
@@ -1284,7 +1349,8 @@ MUU_NAMESPACE_START
 		>
 		REQUIRES_DIMENSIONS_AT_LEAST(N)
 		MUU_NODISCARD_CTOR
-		explicit constexpr vector(const scalar_type(&arr)[N]) noexcept
+		explicit
+		constexpr vector(const scalar_type(&arr)[N]) noexcept
 			: base{ impl::array_copy_tag{}, std::make_index_sequence<N>{}, arr }
 		{}
 
@@ -1293,13 +1359,15 @@ MUU_NAMESPACE_START
 		>
 		REQUIRES_DIMENSIONS_AT_LEAST(N)
 		MUU_NODISCARD_CTOR
-		explicit constexpr vector(const std::array<scalar_type, N>& arr) noexcept
+		explicit
+		constexpr vector(const std::array<scalar_type, N>& arr) noexcept
 			: base{ impl::array_copy_tag{}, std::make_index_sequence<N>{}, arr }
 		{}
 
 		template <size_t N>
 		MUU_NODISCARD_CTOR
-		explicit constexpr vector(const vector<scalar_type, N>& vec) noexcept
+		explicit
+		constexpr vector(const vector<scalar_type, N>& vec) noexcept
 			: base{ impl::tuple_copy_tag{}, std::make_index_sequence<(N < Dimensions ? N : Dimensions)>{}, vec }
 		{}
 
@@ -2504,10 +2572,10 @@ MUU_NAMESPACE_START
 		/// 
 		/// \note This function is only available when #scalar_type is a floating-point type.
 		SFINAE_REQUIRES_FLOATING_POINT
-		constexpr vector& MUU_VECTORCALL normalize_lensq(scalar_product v_lensq) noexcept
+		constexpr vector& MUU_VECTORCALL normalize_lensq(scalar_product lensq) noexcept
 			REQUIRES_FLOATING_POINT
 		{
-			return raw_divide_assign_scalar(muu::sqrt(static_cast<intermediate_type>(v_lensq)));
+			return raw_divide_assign_scalar(muu::sqrt(static_cast<intermediate_type>(lensq)));
 		}
 
 	#endif // normalization
@@ -2722,42 +2790,9 @@ MUU_NAMESPACE_START
 
 	#endif // min, max and clamp
 
-	#if 1 // misc -----------------------------------------------------------------------------------------------------
-
-		/// \brief	Performs a linear interpolation between two vectors.
-		///
-		/// \param	start	The value at the start of the interpolation range.
-		/// \param	finish	The value at the end of the interpolation range.
-		/// \param	alpha 	The blend factor.
-		///
-		/// \returns	A vector with values derived from a linear interpolation from `start` to `finish`.
-		[[nodiscard]]
-		MUU_ATTR(pure)
-		static constexpr vector MUU_VECTORCALL lerp(vector_param start, vector_param finish, scalar_product alpha) noexcept
-		{
-			using type = intermediate_type;
-			const auto inv_alpha = type{ 1 } - static_cast<type>(alpha);
-
-			#define VEC_FUNC(member) static_cast<type>(start.member) * inv_alpha + static_cast<type>(finish.member) * static_cast<type>(alpha)
-			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
-			#undef VEC_FUNC
-		}
-
-		/// \brief	Linearly interpolates this vector towards another (in-place).
-		///
-		/// \param	target	The 'target' value for the interpolation.
-		/// \param	alpha 	The blend factor.
-		///
-		/// \return	A reference to the vector.
-		constexpr vector& MUU_VECTORCALL lerp(vector target, scalar_product alpha) noexcept
-		{
-			using type = intermediate_type;
-			const auto inv_alpha = type{ 1 } - static_cast<type>(alpha);
-
-			#define VEC_FUNC(member) static_cast<type>(base::member) * inv_alpha + static_cast<type>(target.member) * static_cast<type>(alpha)
-			COMPONENTWISE_ASSIGN(VEC_FUNC);
-			#undef VEC_FUNC
-		}
+	#if 1 // swizzles -------------------------------------------------------------------------------------------------
+	/// \name Swizzles
+	///@{ 
 
 		/// \brief Creates a vector by selecting and re-packing scalar components from
 		/// 	   another vector in an abitrary order.
@@ -2766,7 +2801,7 @@ MUU_NAMESPACE_START
 		/// 					in the order they're to be re-packed.
 		/// \param v			The source vector.
 		/// 				
-		/// \detail \cpp
+		/// \details \cpp
 		///
 		/// auto v = vector{ 10, 7, 5, 9 };
 		/// //                ^  ^  ^  ^
@@ -2810,7 +2845,7 @@ MUU_NAMESPACE_START
 		/// 
 		/// \tparam	Indices		Indices of the scalar components in the order they're to be re-packed.
 		/// 				
-		/// \detail \cpp
+		/// \details \cpp
 		///
 		/// auto v = vector{ 10, 7, 5, 9 };
 		/// //                ^  ^  ^  ^
@@ -2836,6 +2871,106 @@ MUU_NAMESPACE_START
 		constexpr vector<scalar_type, sizeof...(Indices)> swizzle() const noexcept
 		{
 			return swizzle<Indices...>(*this);
+		}
+
+		/// \brief Returns a two-dimensional vector containing `{ x, y }`.
+		SFINAE_REQUIRES_DIMENSIONS_AT_LEAST(2)
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr vector<scalar_type, 2> xy() const noexcept
+			REQUIRES_DIMENSIONS_AT_LEAST(2)
+		{
+			return vector<scalar_type, 2>{ get<0>(), get<1>() };
+		}
+
+		/// \brief Returns a two-dimensional vector containing `{ x, z }`.
+		SFINAE_REQUIRES_DIMENSIONS_AT_LEAST(3)
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr vector<scalar_type, 2> xz() const noexcept
+			REQUIRES_DIMENSIONS_AT_LEAST(3)
+		{
+			return vector<scalar_type, 2>{ get<0>(), get<2>() };
+		}
+
+		/// \brief Returns a two-dimensional vector containing `{ y, x }`.
+		SFINAE_REQUIRES_DIMENSIONS_AT_LEAST(2)
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr vector<scalar_type, 2> yx() const noexcept
+			REQUIRES_DIMENSIONS_AT_LEAST(2)
+		{
+			return vector<scalar_type, 2>{ get<1>(), get<0>() };
+		}
+
+		/// \brief Returns a three-dimensional vector containing `{ x, y, z }`.
+		SFINAE_REQUIRES_DIMENSIONS_AT_LEAST(3)
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr vector<scalar_type, 3> xyz() const noexcept
+			REQUIRES_DIMENSIONS_AT_LEAST(3)
+		{
+			return vector<scalar_type, 3>{ get<0>(), get<1>(), get<2>() };
+		}
+
+		/// \brief Returns a four-dimensional vector containing `{ x, y, z, 1 }`.
+		SFINAE_REQUIRES_DIMENSIONS_AT_LEAST(3)
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr vector<scalar_type, 4> xyz1() const noexcept
+			REQUIRES_DIMENSIONS_AT_LEAST(3)
+		{
+			return vector<scalar_type, 4>{ get<0>(), get<1>(), get<2>(), scalar_constants::one };
+		}
+
+		/// \brief Returns a four-dimensional vector containing `{ x, y, z, 0 }`.
+		SFINAE_REQUIRES_DIMENSIONS_AT_LEAST(3)
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr vector<scalar_type, 4> xyz0() const noexcept
+			REQUIRES_DIMENSIONS_AT_LEAST(3)
+		{
+			return vector<scalar_type, 4>{ get<0>(), get<1>(), get<2>(), scalar_constants::zero };
+		}
+
+	///@}
+	#endif // swizzles
+
+	#if 1 // misc -----------------------------------------------------------------------------------------------------
+
+		/// \brief	Performs a linear interpolation between two vectors.
+		///
+		/// \param	start	The value at the start of the interpolation range.
+		/// \param	finish	The value at the end of the interpolation range.
+		/// \param	alpha 	The blend factor.
+		///
+		/// \returns	A vector with values derived from a linear interpolation from `start` to `finish`.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr vector MUU_VECTORCALL lerp(vector_param start, vector_param finish, scalar_product alpha) noexcept
+		{
+			using type = intermediate_type;
+			const auto inv_alpha = type{ 1 } - static_cast<type>(alpha);
+
+			#define VEC_FUNC(member) static_cast<type>(start.member) * inv_alpha + static_cast<type>(finish.member) * static_cast<type>(alpha)
+			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
+			#undef VEC_FUNC
+		}
+
+		/// \brief	Linearly interpolates this vector towards another (in-place).
+		///
+		/// \param	target	The 'target' value for the interpolation.
+		/// \param	alpha 	The blend factor.
+		///
+		/// \return	A reference to the vector.
+		constexpr vector& MUU_VECTORCALL lerp(vector target, scalar_product alpha) noexcept
+		{
+			using type = intermediate_type;
+			const auto inv_alpha = type{ 1 } - static_cast<type>(alpha);
+
+			#define VEC_FUNC(member) static_cast<type>(base::member) * inv_alpha + static_cast<type>(target.member) * static_cast<type>(alpha)
+			COMPONENTWISE_ASSIGN(VEC_FUNC);
+			#undef VEC_FUNC
 		}
 
 		/// \brief	Calculates the angle between two vectors.
@@ -3438,9 +3573,9 @@ MUU_NAMESPACE_START
 	/// \note		This function is only available when at least one of `S` and `T` is a floating-point type.
 	template <typename S, typename T, size_t D,
 		typename Epsilon = impl::highest_ranked<S, T>
-		ENABLE_PAIRED_FUNC_BY_REF(S, D, any_floating_point<S, T> && impl::pass_vector_by_reference<T, D>)
+		ENABLE_PAIRED_FUNC_BY_REF(S, D, any_floating_point<S, T> && impl::pass_readonly_by_reference<vector<T, D>>)
 	>
-	REQUIRES_PAIRED_FUNC_BY_REF(S, D, any_floating_point<S, T>&& impl::pass_vector_by_reference<T, D>)
+	REQUIRES_PAIRED_FUNC_BY_REF(S, D, any_floating_point<S, T>&& impl::pass_readonly_by_reference<vector<T, D>>)
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
@@ -3838,9 +3973,9 @@ MUU_NAMESPACE_START
 
 	template <typename S, typename T, size_t D,
 		typename Epsilon = impl::highest_ranked<S, T>
-		ENABLE_PAIRED_FUNC_BY_VAL(S, D, any_floating_point<S, T> && impl::pass_vector_by_value<T, D>)
+		ENABLE_PAIRED_FUNC_BY_VAL(S, D, any_floating_point<S, T> && impl::pass_readonly_by_value<vector<T, D>>)
 	>
-	REQUIRES_PAIRED_FUNC_BY_VAL(S, D, any_floating_point<S, T>&& impl::pass_vector_by_value<T, D>)
+	REQUIRES_PAIRED_FUNC_BY_VAL(S, D, any_floating_point<S, T>&& impl::pass_readonly_by_value<vector<T, D>>)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE

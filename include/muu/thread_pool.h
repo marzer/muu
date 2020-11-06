@@ -460,13 +460,15 @@ MUU_NAMESPACE_START
 			/// \param	name 	The name of your threadpool (for debugging purposes).
 			MUU_NODISCARD_CTOR
 			MUU_API
-			explicit thread_pool(size_t worker_count = 0, size_t task_queue_size = 0, string_param name = {}) noexcept;
+			explicit
+			thread_pool(size_t worker_count = 0, size_t task_queue_size = 0, string_param name = {}) noexcept;
 
 			/// \brief	Constructs a thread_pool.
 			///
 			/// \param	name 	The name of your thread pool (for debugging purposes).
 			MUU_NODISCARD_CTOR
-			explicit thread_pool(string_param name) noexcept
+			explicit
+			thread_pool(string_param name) noexcept
 				: thread_pool{ 0, 0, std::move(name) }
 			{}
 

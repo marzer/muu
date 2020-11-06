@@ -25,7 +25,7 @@ MUU_NAMESPACE_START
 	/// \brief	Determines min, max and sum of an interderminate number of values.
 	/// \ingroup math building_blocks
 	///
-	/// \detail For integral types the accumulator is a simple bookkeeping helper, but for floating-point
+	/// \details For integral types the accumulator is a simple bookkeeping helper, but for floating-point
 	/// 		types the default implementation uses Kahan summation to reduce numerical error.
 	///
 	/// \tparam	ValueType		Type being accumulated.

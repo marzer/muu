@@ -5,8 +5,9 @@
 
 #include "muu/uuid.h"
 #include "muu/hashing.h"
-#include "printing.h"
+
 MUU_DISABLE_WARNINGS
+#include <ostream>
 #if MUU_MSVC
 	#include <rpc.h>
 	MUU_PRAGMA_MSVC(comment(lib, "rpcrt4.lib"))

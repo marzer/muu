@@ -1110,7 +1110,7 @@
 ///
 /// \def MUU_PUSH_WARNINGS
 /// \brief Pushes the current compiler warning state onto the stack.
-/// \detail Use this in tandem with the other warning macros to demarcate regions of code
+/// \details Use this in tandem with the other warning macros to demarcate regions of code
 /// 	that should have different warning semantics, e.g.: \cpp
 /// 	MUU_PUSH_WARNINGS
 /// 	MUU_DISABLE_SWITCH_WARNINGS
@@ -1150,7 +1150,7 @@
 ///
 /// \def MUU_ASSUME
 /// \brief Optimizer hint for signalling various assumptions about state at specific points in code.
-/// \detail \cpp
+/// \details \cpp
 /// 	void do_the_thing(int flags) noexcept
 /// 	{
 /// 		MUU_ASSUME(flags > 0);
@@ -1165,7 +1165,7 @@
 /// 
 /// \def MUU_NO_DEFAULT_CASE
 /// \brief Marks a switch statement as not being in need of a default clause.
-/// \detail \cpp
+/// \details \cpp
 /// 	enum class my_enum
 /// 	{
 /// 		one,
@@ -1190,7 +1190,7 @@
 /// 
 /// \def MUU_INTERFACE
 /// \brief Marks a class being interface-only and not requiring a vtable.
-/// \detail Useful for abstract base classes:\cpp
+/// \details Useful for abstract base classes:\cpp
 /// 	class MUU_INTERFACE virtual_base
 /// 	{
 /// 		virtual void fooify() noexcept = 0;
@@ -1200,7 +1200,7 @@
 /// 
 /// \def MUU_EMPTY_BASES
 /// \brief Marks a class as having only empty base classes.
-/// \detail This is required for some compilers to use Empty Base Class Optimization:\cpp
+/// \details This is required for some compilers to use Empty Base Class Optimization:\cpp
 /// 	class empty_parent
 /// 	{
 /// 		using value_type = int;
@@ -1224,7 +1224,7 @@
 /// \def MUU_ALWAYS_INLINE
 /// \brief The same linkage semantics as the `inline` keyword, with an additional hint to
 /// 	   the optimizer that you'd really, _really_ like a function inlined.
-/// \detail \cpp
+/// \details \cpp
 /// 	MUU_ALWAYS_INLINE
 /// 	void always_inline_me() noexcept
 /// 	{
@@ -1234,7 +1234,7 @@
 ///
 /// \def MUU_NEVER_INLINE
 /// \brief A strong hint to the optimizer that you really, _really_ do not want a function inlined.
-/// \detail \cpp
+/// \details \cpp
 /// 	MUU_NEVER_INLINE
 /// 	int never_inline_me() noexcept
 /// 	{
@@ -1245,7 +1245,7 @@
 /// \def MUU_TRIVIAL_ABI
 /// \brief Marks a simple type which might otherwise be considered non-trivial
 /// 	   as being trivial over ABI boundaries.
-/// \detail This is useful for simple wrappers and 'strong typedef' types, e.g.:  \cpp
+/// \details This is useful for simple wrappers and 'strong typedef' types, e.g.:  \cpp
 /// 	template <typename T>
 /// 	struct MUU_TRIVIAL_ABI strong_typedef
 /// 	{
@@ -1261,7 +1261,7 @@
 /// \def MUU_LIKELY
 /// \brief Expands a conditional to include an optimizer intrinsic (or C++20's [[likely]], if available)
 /// 	   indicating that an if/else conditional is the likely path.
-/// \detail \cpp
+/// \details \cpp
 /// 	if MUU_LIKELY(condition_that_is_almost_always_true)
 /// 	{
 /// 		do_the_thing();
@@ -1274,7 +1274,7 @@
 /// \def MUU_UNLIKELY
 /// \brief Expands a conditional to include an optimizer intrinsic (or C++20's [[unlikely]], if available)
 /// 	   indicating that an if/else conditional is the unlikely path.
-/// \detail \cpp
+/// \details \cpp
 /// 	if MUU_UNLIKELY(condition_that_is_almost_always_false)
 /// 	{
 /// 		do_the_thing();
@@ -1289,7 +1289,7 @@
 /// 
 /// \def MUU_NODISCARD_CTOR
 /// \brief Expands to `[[nodiscard]]` if your compiler supports it on constructors.
-/// \detail This is useful for RAII helper types like locks:\cpp
+/// \details This is useful for RAII helper types like locks:\cpp
 /// 	class raii_lock
 /// 	{
 /// 		MUU_NODISCARD_CTOR
@@ -1323,7 +1323,7 @@
 /// 
 /// \def MUU_MAKE_STRING
 /// \brief Stringifies the input, converting it into a string literal.
-/// \detail \cpp
+/// \details \cpp
 /// // these are equivalent:
 ///	constexpr auto str1 = MUU_MAKE_STRING(Oh noes!);
 ///	constexpr auto str2 = "Oh noes!";
@@ -1332,7 +1332,7 @@
 /// 
 /// \def MUU_MAKE_RAW_STRING
 /// \brief Stringifies the input, converting it verbatim into a raw string literal.
-/// \detail \cpp
+/// \details \cpp
 /// // these are equivalent:
 /// constexpr auto str1 = MUU_MAKE_RAW_STRING("It's trap!" the admiral cried.);
 /// constexpr auto str2 = R"("It's trap!" the admiral cried.)";
@@ -1341,7 +1341,7 @@
 /// 
 /// \def MUU_MAKE_STRING_VIEW
 /// \brief Stringifies the input, converting it verbatim into a raw string view literal.
-/// \detail \cpp
+/// \details \cpp
 /// // these are equivalent:
 ///	constexpr std::string_view str1 = MUU_MAKE_STRING_VIEW("It's trap!" the admiral cried.);
 ///	constexpr std::string_view str2 = R"("It's trap!" the admiral cried.)"sv;
@@ -1380,7 +1380,7 @@
 ///
 /// \def MUU_DELETE_MOVE
 /// \brief Explicitly deletes the move constructor and move-assignment operator of a class or struct.
-/// \detail \cpp
+/// \details \cpp
 /// class immovable
 /// {
 ///		immovable() {}
@@ -1401,7 +1401,7 @@
 ///
 /// \def MUU_DELETE_COPY
 /// \brief Explicitly deletes the copy constructor and copy-assignment operator of a class or struct.
-/// \detail \cpp
+/// \details \cpp
 /// class uncopyable
 /// {
 ///		uncopyable() {}
@@ -1421,7 +1421,7 @@
 /// 
 /// \def MUU_MAKE_BITOPS
 /// \brief Stamps out bitwise operators for an enum type.
-/// \detail \cpp
+/// \details \cpp
 /// enum class my_flags : unsigned
 /// {
 ///		none   = 0,

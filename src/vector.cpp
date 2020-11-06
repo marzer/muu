@@ -4,7 +4,6 @@
 // SPDX-License-Identifier: MIT
 
 #include "muu/vector.h"
-#include "muu/half.h"
 #include "printing.h"
 
 using namespace muu;
@@ -14,10 +13,9 @@ namespace
 	template <typename Char, typename T>
 	static void print(std::basic_ostream<Char>& os, const T* x, size_t dims) noexcept
 	{
-		using chars = constants<Char>;
 		auto saver = stream_saver{ os }; // restores flags, precision, width and fill
-		
 		os.width(0);
+
 		if constexpr (is_floating_point<T>)
 		{
 			constexpr std::streamsize precision = 3
@@ -28,23 +26,25 @@ namespace
 		}
 		os << std::dec;
 
-		os.put(chars::left_brace);
-		os.put(chars::space);
+		auto printer = ::printer{ os };
+
+		// "{ "
+		printer(object_open);
+
+		// ", <scalar>"
 		for (size_t i = 0; i < dims; i++)
 		{
 			if (i > 0)
-			{
-				os.put(chars::comma);
-				os.put(chars::space);
-			}
+				printer(next_list_item);
 
 			os << std::right;
 			os.width(saver.width);
-			print_number(os, x[i]);
+			printer(x[i]);
 		}
 
-		os.put(chars::space);
-		os.put(chars::right_brace);
+		// " }"
+		printer(object_close);
+
 		saver.width = 0; // operator<< consumes width
 	}
 }

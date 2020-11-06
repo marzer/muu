@@ -54,10 +54,14 @@ MUU_IMPL_NAMESPACE_START
 	#endif // MUU_HAS_VECTORCALL
 
 	template <typename Scalar>
-	inline constexpr bool pass_quaternion_by_reference = pass_readonly_by_reference<quaternion_base<Scalar>>;
-
-	template <typename Scalar>
-	inline constexpr bool pass_quaternion_by_value = !pass_quaternion_by_reference<Scalar>;
+	struct readonly_param_<quaternion<Scalar>>
+	{
+		using type = std::conditional_t<
+			pass_readonly_by_value<quaternion_base<Scalar>>,
+			quaternion<Scalar>,
+			const quaternion<Scalar>&
+		>;
+	};
 
 	MUU_API void print_quaternion_to_stream(std::ostream& stream, const half*);
 	MUU_API void print_quaternion_to_stream(std::ostream& stream, const float*);
@@ -119,16 +123,16 @@ MUU_IMPL_NAMESPACE_END
 	#define ENABLE_PAIRED_FUNCS 1
 
 	#define ENABLE_PAIRED_FUNC_BY_REF(S, ...) \
-		MUU_ENABLE_IF(impl::pass_quaternion_by_reference<S> && (__VA_ARGS__))
+		MUU_ENABLE_IF(impl::pass_readonly_by_reference<quaternion<S>> && (__VA_ARGS__))
 
 	#define ENABLE_PAIRED_FUNC_BY_VAL(S, ...) \
-		MUU_ENABLE_IF_2(impl::pass_quaternion_by_value<S> && (__VA_ARGS__))
+		MUU_ENABLE_IF_2(impl::pass_readonly_by_value<quaternion<S>> && (__VA_ARGS__))
 
 	#define REQUIRES_PAIRED_FUNC_BY_REF(S, ...) \
-		MUU_REQUIRES(impl::pass_quaternion_by_reference<S> && (__VA_ARGS__))
+		MUU_REQUIRES(impl::pass_readonly_by_reference<quaternion<S>> && (__VA_ARGS__))
 
 	#define REQUIRES_PAIRED_FUNC_BY_VAL(S, ...) \
-		MUU_REQUIRES(impl::pass_quaternion_by_value<S> && (__VA_ARGS__))
+		MUU_REQUIRES(impl::pass_readonly_by_value<quaternion<S>> && (__VA_ARGS__))
 
 #else
 	#define ENABLE_PAIRED_FUNCS 0
@@ -172,6 +176,7 @@ MUU_NAMESPACE_START
 		/// \brief	The angle of rotation (in radians).
 		scalar_type angle;
 	};
+
 	#ifndef DOXYGEN
 
 	template <typename S MUU_ENABLE_IF(is_arithmetic<S>)> MUU_REQUIRES(is_arithmetic<S>)
@@ -201,7 +206,7 @@ MUU_NAMESPACE_START
 	/// \brief	A set of euler angles used for rotation.
 	/// \ingroup math
 	/// 
-	/// \detail This type models a specific form of Euler angles relating to the Aircraft Principal Axes,
+	/// \details This type models a specific form of Euler angles relating to the Aircraft Principal Axes,
 	/// 		and observes the following conventions:
 	/// 		<table>
 	/// 		<tr><td><strong><em>Yaw</em></strong></td>
@@ -291,6 +296,7 @@ MUU_NAMESPACE_START
 			return os;
 		}
 	};
+
 	#ifndef DOXYGEN
 
 	template <typename S MUU_ENABLE_IF(is_arithmetic<S>)> MUU_REQUIRES(is_arithmetic<S>)
@@ -320,6 +326,14 @@ MUU_NAMESPACE_END
 
 MUU_NAMESPACE_START
 {
+	/// \brief Alias of `quaternion` or `const quaternion&`, depending on size, triviality, simd-friendliness, etc.
+	/// \ingroup math
+	///
+	/// \related muu::quaternion
+	/// \see muu::quaternion
+	template <typename Scalar>
+	using quaternion_param = impl::readonly_param<quaternion<Scalar>>;
+
 	/// \brief A quaternion.
 	/// \ingroup math
 	/// 
@@ -363,7 +377,7 @@ MUU_NAMESPACE_START
 		/// \brief The three-dimensional #muu::vector with the same #scalar_type as this quaternion.
 		using vector_type = vector<scalar_type, 3>;
 
-		/// \brief `vector_type` or `const vector_type&`, depending on size, triviality, simd-friendliness, etc.
+		/// \brief Alias of `vector_type` or `const vector_type&`, depending on size, triviality, simd-friendliness, etc.
 		using vector_param = typename vector_type::vector_param;
 
 		/// \brief Compile-time constants for this quaternion's #vector_type.
@@ -372,21 +386,17 @@ MUU_NAMESPACE_START
 		/// \brief The #muu::axis_angle_rotation with the same #scalar_type as this quaternion.
 		using axis_angle_type = axis_angle_rotation<scalar_type>;
 
-		/// \brief `axis_angle_type` or `const axis_angle_type&`, depending on size, triviality, simd-friendliness, etc.
+		/// \brief Alias of `axis_angle_type` or `const axis_angle_type&`, depending on size, triviality, simd-friendliness, etc.
 		using axis_angle_param = impl::readonly_param<axis_angle_type>;
 
 		/// \brief The #muu::euler_rotation with the same #scalar_type as this quaternion.
 		using euler_type = euler_rotation<scalar_type>;
 
-		/// \brief `euler_type` or `const euler_type&`, depending on size, triviality, simd-friendliness, etc.
+		/// \brief Alias of `euler_type` or `const euler_type&`, depending on size, triviality, simd-friendliness, etc.
 		using euler_param = impl::readonly_param<euler_type>;
 
-		/// \brief `quaternion` or `const quaternion&`, depending on size, triviality, simd-friendliness, etc.
-		using quaternion_param = std::conditional_t<
-			impl::pass_quaternion_by_value<scalar_type>,
-			quaternion,
-			const quaternion&
-		>;
+		/// \brief Alias of `quaternion` or `const quaternion&`, depending on size, triviality, simd-friendliness, etc.
+		using quaternion_param = muu::quaternion_param<scalar_type>;
 
 		/// \brief Compile-time constants for this quaternion.
 		using constants = muu::constants<quaternion>;
@@ -444,19 +454,22 @@ MUU_NAMESPACE_START
 		/// \brief Converting constructor.
 		template <typename T>
 		MUU_NODISCARD_CTOR
-		explicit constexpr quaternion(const quaternion<T>& quat) noexcept
+		explicit
+		constexpr quaternion(const quaternion<T>& quat) noexcept
 			: base{ static_cast<scalar_type>(quat.s), vector_type{ quat.v } }
 		{}
 
 		/// \brief	Constructs a quaternion from an axis-angle rotation.
 		MUU_NODISCARD_CTOR
-		explicit constexpr quaternion(const axis_angle_type& aa) noexcept
+		explicit
+		constexpr quaternion(const axis_angle_type& aa) noexcept
 			: quaternion{ from_axis_angle(aa) }
 		{}
 
 		/// \brief	Constructs a quaternion from a set of euler angles.
 		MUU_NODISCARD_CTOR
-		explicit constexpr quaternion(const euler_type& euler) noexcept
+		explicit
+		constexpr quaternion(const euler_type& euler) noexcept
 			: quaternion{ from_euler(euler) }
 		{}
 
@@ -1412,9 +1425,9 @@ MUU_NAMESPACE_START
 	/// \brief		Returns true if two quaternions are approximately equal.
 	template <typename S, typename T,
 		typename Epsilon = impl::highest_ranked<S, T>
-		ENABLE_PAIRED_FUNC_BY_REF(S, impl::pass_quaternion_by_reference<T>)
+		ENABLE_PAIRED_FUNC_BY_REF(S, impl::pass_readonly_by_reference<quaternion<T>>)
 	>
-	REQUIRES_PAIRED_FUNC_BY_REF(S, impl::pass_quaternion_by_reference<T>)
+	REQUIRES_PAIRED_FUNC_BY_REF(S, impl::pass_readonly_by_reference<quaternion<T>>)
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
@@ -1529,9 +1542,9 @@ MUU_NAMESPACE_START
 
 	template <typename S, typename T,
 		typename Epsilon = impl::highest_ranked<S, T>
-		ENABLE_PAIRED_FUNC_BY_VAL(S, impl::pass_quaternion_by_value<T>)
+		ENABLE_PAIRED_FUNC_BY_VAL(S, impl::pass_readonly_by_value<quaternion<T>>)
 	>
-	REQUIRES_PAIRED_FUNC_BY_VAL(S, impl::pass_quaternion_by_value<T>)
+	REQUIRES_PAIRED_FUNC_BY_VAL(S, impl::pass_readonly_by_value<quaternion<T>>)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE

@@ -307,10 +307,10 @@
 	</Type>
 
 	<Type Name="muu::v0::quaternion&lt;*&gt;">
-		<DisplayString>{{ {r}, {i} }}</DisplayString>
+		<DisplayString>{{ {s}, {v} }}</DisplayString>
 		<Expand>
-			<Item Name="r" ExcludeView="simple">r</Item>
-			<Item Name="i" ExcludeView="simple">i</Item>
+			<Item Name="s" ExcludeView="simple">s</Item>
+			<Item Name="v" ExcludeView="simple">v</Item>
 		</Expand>
 	</Type>
 

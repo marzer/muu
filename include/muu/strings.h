@@ -454,7 +454,8 @@ MUU_NAMESPACE_START
 
 			[[nodiscard]]
 			MUU_ATTR(pure)
-			explicit constexpr operator bool() const noexcept
+			explicit
+			constexpr operator bool() const noexcept
 			{
 				return index != constants<size_t>::highest;
 			}

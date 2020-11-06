@@ -274,10 +274,11 @@ MUU_NAMESPACE_START
 			static constexpr tag_type max_tag = bit_fill_right<tag_type>(tag_bit_count);
 
 			/// \brief	Constructs a tagged pointer.
-			/// \detail Tag bits are initialized to zero.
+			/// \details Tag bits are initialized to zero.
 			///
 			/// \param	value	The inital address of the pointer's target.
-			explicit constexpr tagged_ptr(pointer value) noexcept
+			explicit
+			constexpr tagged_ptr(pointer value) noexcept
 				: bits{ tptr::pack_ptr(pointer_cast<void*>(value)) }
 			{}
 
@@ -502,7 +503,8 @@ MUU_NAMESPACE_START
 			/// \brief	Returns the target pointer value.
 			[[nodiscard]]
 			MUU_ALWAYS_INLINE
-			explicit constexpr operator pointer () const noexcept
+			explicit
+			constexpr operator pointer () const noexcept
 			{
 				return ptr();
 			}
@@ -510,7 +512,8 @@ MUU_NAMESPACE_START
 			/// \brief	Returns true if the target pointer value is not nullptr.
 			[[nodiscard]]
 			MUU_ALWAYS_INLINE
-			explicit constexpr operator bool() const noexcept
+			explicit
+			constexpr operator bool() const noexcept
 			{
 				return bits & tptr::ptr_mask;
 			}

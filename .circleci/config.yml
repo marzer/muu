@@ -45,7 +45,7 @@ jobs:
                 name: Building and testing with gcc
                 command: |
                     CXX_LD=lld CXX=g++ meson build --buildtype=debug -Dpedantic=true -Dbuild_tests=true -Db_lto=false
-                    cd build && ninja -j 4 && meson test --num-processes 1 --verbose
+                    cd build && ninja -j 2 && meson test --num-processes 1 --verbose
 
     release_gcc:
         docker:
@@ -60,7 +60,7 @@ jobs:
                 name: Building and testing with gcc
                 command: |
                     CXX_LD=lld CXX=g++ meson build --buildtype=release -Dpedantic=true -Dbuild_tests=true -Db_lto=false
-                    cd build && ninja -j 4 && meson test --num-processes 1 --verbose
+                    cd build && ninja -j 2 && meson test --num-processes 1 --verbose
 
     generate_dox:
         docker:

@@ -31,7 +31,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Resizes memory previously allocated with a specific alignment boundary.
 	/// 
-	/// \detail Allocations returned by muu::aligned_realloc will have the same alignment
+	/// \details Allocations returned by muu::aligned_realloc will have the same alignment
 	/// 		 as was initially requested by muu::aligned_alloc.
 	///	
 	///			Calling muu::aligned_realloc with `nullptr` for `ptr`

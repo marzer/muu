@@ -18,7 +18,7 @@ MUU_NAMESPACE_START
 		/// \brief	Performs actions when going out of scope.
 	/// \ingroup building_blocks
 	///
-	/// \detail Use a scope_guard to simplify cleanup routines
+	/// \details Use a scope_guard to simplify cleanup routines
 	/// 		or code that has acquire/release semantics, e.g. locking: \cpp
 	/// 
 	/// void do_something()
@@ -82,7 +82,8 @@ MUU_NAMESPACE_START
 			/// \param 	func	The callable to invoke when the scope_guard goes out of scope.
 			template <typename U>
 			MUU_NODISCARD_CTOR
-			explicit constexpr scope_guard(U&& func) noexcept
+			explicit
+			constexpr scope_guard(U&& func) noexcept
 				: func_and_active{ static_cast<U&&>(func), true }
 			{
 				static_assert(
