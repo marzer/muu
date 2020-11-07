@@ -10,10 +10,10 @@
 #include "../include/muu/span.h"
 
 template <typename T>
-inline constexpr bool invoke_trait_tests = false;
+inline constexpr bool vector_invoke_trait_tests = false;
 
 template <typename T, size_t Dimensions>
-inline constexpr void trait_tests(std::string_view /*scalar_typename*/) noexcept
+inline constexpr void vector_trait_tests(std::string_view /*scalar_typename*/) noexcept
 {
 	using vector_t = vector<T, Dimensions>;
 	static_assert(sizeof(vector_t) == sizeof(T) * Dimensions);
@@ -40,15 +40,28 @@ inline constexpr void trait_tests(std::string_view /*scalar_typename*/) noexcept
 };
 
 template <typename T, size_t Dimensions, size_t NUM>
-inline void construction_test_from_scalars() noexcept
+inline void vector_construction_test_from_scalars() noexcept
 {
+	static_assert(NUM != 1 || Dimensions == 1);
+
 	if constexpr (Dimensions >= NUM)
 	{
 		INFO("constructing from "sv << NUM << " scalars"sv)
 		using vector_t = vector<T, Dimensions>;
 
 		const auto vals = random_array<T, NUM>();
-		vector_t vec = std::apply([](auto&& ... s) noexcept { return vector_t{ s... }; }, vals);
+
+		// std::apply is super taxing for the compiler to instantiate on some implementations
+		// I'm simulating it for small value counts
+		vector_t vec;
+		if constexpr (NUM == 1) vec = vector_t{ vals[0] };
+		if constexpr (NUM == 2) vec = vector_t{ vals[0], vals[1] };
+		if constexpr (NUM == 3) vec = vector_t{ vals[0], vals[1], vals[2] };
+		if constexpr (NUM == 4) vec = vector_t{ vals[0], vals[1], vals[2], vals[3] };
+		if constexpr (NUM == 5) vec = vector_t{ vals[0], vals[1], vals[2], vals[3], vals[4] };
+		if constexpr (NUM > 5)  vec = std::apply([](auto&& ... s) noexcept { return vector_t{ s... }; }, vals);
+
+
 		for (size_t i = 0; i < NUM; i++)
 			CHECK(vec[i] == vals[i]);
 		for (size_t i = NUM; i < Dimensions; i++)
@@ -57,7 +70,7 @@ inline void construction_test_from_scalars() noexcept
 }
 
 template <typename T, size_t Dimensions, size_t NUM>
-inline void construction_test_from_array() noexcept
+inline void vector_construction_test_from_array() noexcept
 {
 	if constexpr (Dimensions >= NUM)
 	{
@@ -114,7 +127,7 @@ inline void construction_test_from_array() noexcept
 }
 
 template <typename T, size_t Dimensions, size_t NUM>
-inline void construction_test_from_smaller_vector() noexcept
+inline void vector_construction_test_from_smaller_vector() noexcept
 {
 	if constexpr (Dimensions > NUM)
 	{
@@ -132,7 +145,7 @@ inline void construction_test_from_smaller_vector() noexcept
 }
 
 template <typename T, size_t Dimensions, size_t NUM>
-inline void construction_test_from_larger_vector() noexcept
+inline void vector_construction_test_from_larger_vector() noexcept
 {
 	if constexpr (Dimensions < NUM)
 	{
@@ -147,7 +160,7 @@ inline void construction_test_from_larger_vector() noexcept
 }
 
 template <typename T, size_t Dimensions>
-inline void construction_tests(std::string_view scalar_typename) noexcept
+inline void vector_construction_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("vector<"sv << scalar_typename << ", "sv << Dimensions << ">"sv)
 	using vector_t = vector<T, Dimensions>;
@@ -172,18 +185,18 @@ inline void construction_tests(std::string_view scalar_typename) noexcept
 	}
 
 	// scalar constructors
-	construction_test_from_scalars<T, Dimensions, 2>();
-	construction_test_from_scalars<T, Dimensions, 3>();
-	construction_test_from_scalars<T, Dimensions, 4>();
-	construction_test_from_scalars<T, Dimensions, 5>();
+	vector_construction_test_from_scalars<T, Dimensions, 2>();
+	vector_construction_test_from_scalars<T, Dimensions, 3>();
+	vector_construction_test_from_scalars<T, Dimensions, 4>();
+	vector_construction_test_from_scalars<T, Dimensions, 5>();
 	// no single-scalar test; it's the fill constructor.
 
 	// array constructor
-	construction_test_from_array<T, Dimensions, 1>();
-	construction_test_from_array<T, Dimensions, 2>();
-	construction_test_from_array<T, Dimensions, 3>();
-	construction_test_from_array<T, Dimensions, 4>();
-	construction_test_from_array<T, Dimensions, 5>();
+	vector_construction_test_from_array<T, Dimensions, 1>();
+	vector_construction_test_from_array<T, Dimensions, 2>();
+	vector_construction_test_from_array<T, Dimensions, 3>();
+	vector_construction_test_from_array<T, Dimensions, 4>();
+	vector_construction_test_from_array<T, Dimensions, 5>();
 
 	// coercing constructor
 	{
@@ -203,18 +216,18 @@ inline void construction_tests(std::string_view scalar_typename) noexcept
 	}
 
 	// enlarging constructor
-	construction_test_from_smaller_vector<T, Dimensions, 1>();
-	construction_test_from_smaller_vector<T, Dimensions, 2>();
-	construction_test_from_smaller_vector<T, Dimensions, 3>();
-	construction_test_from_smaller_vector<T, Dimensions, 4>();
-	construction_test_from_smaller_vector<T, Dimensions, 5>();
+	vector_construction_test_from_smaller_vector<T, Dimensions, 1>();
+	vector_construction_test_from_smaller_vector<T, Dimensions, 2>();
+	vector_construction_test_from_smaller_vector<T, Dimensions, 3>();
+	vector_construction_test_from_smaller_vector<T, Dimensions, 4>();
+	vector_construction_test_from_smaller_vector<T, Dimensions, 5>();
 
 	// truncating constructor
-	construction_test_from_larger_vector<T, Dimensions, 2>();
-	construction_test_from_larger_vector<T, Dimensions, 3>();
-	construction_test_from_larger_vector<T, Dimensions, 4>();
-	construction_test_from_larger_vector<T, Dimensions, 5>();
-	construction_test_from_larger_vector<T, Dimensions, 10>();
+	vector_construction_test_from_larger_vector<T, Dimensions, 2>();
+	vector_construction_test_from_larger_vector<T, Dimensions, 3>();
+	vector_construction_test_from_larger_vector<T, Dimensions, 4>();
+	vector_construction_test_from_larger_vector<T, Dimensions, 5>();
+	vector_construction_test_from_larger_vector<T, Dimensions, 10>();
 
 	// pair constructor
 	if constexpr (Dimensions >= 2)
@@ -288,7 +301,7 @@ inline void construction_tests(std::string_view scalar_typename) noexcept
 }
 
 template <typename T, size_t Dimensions>
-inline void accessor_tests(std::string_view scalar_typename) noexcept
+inline void vector_accessor_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("vector<"sv << scalar_typename << ", "sv << Dimensions << ">"sv)
 	using vector_t = vector<T, Dimensions>;
@@ -371,7 +384,7 @@ inline void accessor_tests(std::string_view scalar_typename) noexcept
 }
 
 template <typename T, size_t Dimensions>
-inline void equality_tests(std::string_view scalar_typename) noexcept
+inline void vector_equality_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("vector<"sv << scalar_typename << ", "sv << Dimensions << ">"sv)
 	using vector_t = vector<T, Dimensions>;
@@ -424,7 +437,7 @@ inline void equality_tests(std::string_view scalar_typename) noexcept
 }
 
 template <typename T, size_t Dimensions>
-inline void zero_tests(std::string_view scalar_typename) noexcept
+inline void vector_zero_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("vector<"sv << scalar_typename << ", "sv << Dimensions << ">"sv)
 	using vector_t = vector<T, Dimensions>;
@@ -495,7 +508,7 @@ inline void zero_tests(std::string_view scalar_typename) noexcept
 }
 
 template <typename T, size_t Dimensions>
-inline void infinity_or_nan_tests(std::string_view scalar_typename) noexcept
+inline void vector_infinity_or_nan_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("vector<"sv << scalar_typename << ", "sv << Dimensions << ">"sv)
 	using vector_t = vector<T, Dimensions>;
@@ -537,7 +550,7 @@ inline void infinity_or_nan_tests(std::string_view scalar_typename) noexcept
 }
 
 template <typename T, size_t Dimensions>
-inline void dot_tests(std::string_view scalar_typename) noexcept
+inline void vector_dot_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("vector<"sv << scalar_typename << ", "sv << Dimensions << ">"sv)
 	using vector_t = vector<T, Dimensions>;
@@ -567,7 +580,7 @@ inline void dot_tests(std::string_view scalar_typename) noexcept
 }
 
 template <typename T, size_t Dimensions>
-inline void cross_tests([[maybe_unused]] std::string_view scalar_typename) noexcept
+inline void vector_cross_tests([[maybe_unused]] std::string_view scalar_typename) noexcept
 {
 	static_assert(Dimensions == 3);
 
@@ -621,7 +634,7 @@ inline void cross_tests([[maybe_unused]] std::string_view scalar_typename) noexc
 }
 
 template <typename T, size_t Dimensions>
-inline void addition_tests(std::string_view scalar_typename) noexcept
+inline void vector_addition_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("vector<"sv << scalar_typename << ", "sv << Dimensions << ">"sv)
 	using vector_t = vector<T, Dimensions>;
@@ -649,7 +662,7 @@ inline void addition_tests(std::string_view scalar_typename) noexcept
 }
 
 template <typename T, size_t Dimensions>
-inline void subtraction_tests(std::string_view scalar_typename) noexcept
+inline void vector_subtraction_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("vector<"sv << scalar_typename << ", "sv << Dimensions << ">"sv)
 	using vector_t = vector<T, Dimensions>;
@@ -688,7 +701,7 @@ inline void subtraction_tests(std::string_view scalar_typename) noexcept
 }
 
 template <typename T, size_t Dimensions>
-inline void multiplication_tests(std::string_view scalar_typename) noexcept
+inline void vector_multiplication_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("vector<"sv << scalar_typename << ", "sv << Dimensions << ">"sv)
 	using vector_t = vector<T, Dimensions>;
@@ -743,7 +756,7 @@ inline void multiplication_tests(std::string_view scalar_typename) noexcept
 }
 
 template <typename T, size_t Dimensions>
-inline void division_tests(std::string_view scalar_typename) noexcept
+inline void vector_division_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("vector<"sv << scalar_typename << ", "sv << Dimensions << ">"sv)
 	using vector_t = vector<T, Dimensions>;
@@ -788,7 +801,7 @@ inline void division_tests(std::string_view scalar_typename) noexcept
 }
 
 template <typename T, size_t Dimensions>
-inline void modulo_tests(std::string_view scalar_typename) noexcept
+inline void vector_modulo_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("vector<"sv << scalar_typename << ", "sv << Dimensions << ">"sv)
 	using vector_t = vector<T, Dimensions>;
@@ -833,7 +846,7 @@ inline void modulo_tests(std::string_view scalar_typename) noexcept
 }
 
 template <typename T, size_t Dimensions>
-inline void bitwise_shift_tests(std::string_view scalar_typename) noexcept
+inline void vector_bitwise_shift_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("vector<"sv << scalar_typename << ", "sv << Dimensions << ">"sv)
 	using vector_t = vector<T, Dimensions>;
@@ -878,7 +891,7 @@ inline void bitwise_shift_tests(std::string_view scalar_typename) noexcept
 }
 
 template <typename T, size_t Dimensions>
-inline void normalization_tests(std::string_view scalar_typename) noexcept
+inline void vector_normalization_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("vector<"sv << scalar_typename << ", "sv << Dimensions << ">"sv)
 	using vector_t = vector<T, Dimensions>;
@@ -973,7 +986,7 @@ struct lerp_float_test_data
 };
 
 template <typename T, size_t Dimensions, typename Dataset>
-inline void lerp_specific_tests() noexcept
+inline void vector_lerp_specific_tests() noexcept
 {
 	INFO("lerp test dataset: "sv << Dataset::name)
 	using vector_t = vector<T, Dimensions>;
@@ -1005,21 +1018,21 @@ inline void lerp_specific_tests() noexcept
 }
 
 template <typename T, size_t Dimensions>
-inline void lerp_tests(std::string_view scalar_typename) noexcept
+inline void vector_lerp_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("vector<"sv << scalar_typename << ", "sv << Dimensions << ">"sv)
 
-	lerp_specific_tests<T, Dimensions, lerp_test_data<T>>();
+	vector_lerp_specific_tests<T, Dimensions, lerp_test_data<T>>();
 
 	if constexpr (is_signed<T>)
-		lerp_specific_tests<T, Dimensions, lerp_signed_test_data<T>>();
+		vector_lerp_specific_tests<T, Dimensions, lerp_signed_test_data<T>>();
 
 	if constexpr (is_floating_point<T>)
-		lerp_specific_tests<T, Dimensions, lerp_float_test_data<T>>();
+		vector_lerp_specific_tests<T, Dimensions, lerp_float_test_data<T>>();
 }
 
 template <typename T, size_t Dimensions>
-inline void min_max_tests(std::string_view scalar_typename) noexcept
+inline void vector_min_max_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("vector<"sv << scalar_typename << ", "sv << Dimensions << ">"sv)
 	using vector_t = vector<T, Dimensions>;
@@ -1088,7 +1101,7 @@ inline void min_max_tests(std::string_view scalar_typename) noexcept
 }
 
 template <typename T, size_t Dimensions>
-inline void angle_tests(std::string_view scalar_typename) noexcept
+inline void vector_angle_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("vector<"sv << scalar_typename << ", "sv << Dimensions << ">"sv)
 	using vector_t = vector<T, Dimensions>;
@@ -1170,7 +1183,7 @@ inline void angle_tests(std::string_view scalar_typename) noexcept
 }
 
 template <typename T, size_t Dimensions>
-inline void accumulator_tests(std::string_view scalar_typename) noexcept
+inline void vector_accumulator_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("vector<"sv << scalar_typename << ", "sv << Dimensions << ">"sv)
 	using vector_t = vector<T, Dimensions>;

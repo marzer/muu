@@ -22,83 +22,60 @@
 #define QUATERNION_TEST_CASE(name)	TEST_CASE("quaternion<" MUU_MAKE_STRING(SCALAR_TYPE) "> - " name)
 
 template <>
-inline constexpr bool invoke_trait_tests<SCALAR_TYPE> = []() noexcept
+inline constexpr bool quat_invoke_trait_tests<SCALAR_TYPE> = []() noexcept
 {
-	TEST_TYPE(trait_tests);
+	TEST_TYPE(quat_trait_tests);
 	return true;
 }();
 
 QUATERNION_TEST_CASE("construction")
 {
-	TEST_TYPE(construction_tests);
+	TEST_TYPE(quat_construction_tests);
 }
 
 QUATERNION_TEST_CASE("equality")
 {
-	TEST_TYPE(equality_tests);
+	TEST_TYPE(quat_equality_tests);
 }
 
 QUATERNION_TEST_CASE("zero")
 {
-	TEST_TYPE(zero_tests);
+	TEST_TYPE(quat_zero_tests);
 }
 
 QUATERNION_TEST_CASE("infinity_or_nan")
 {
-	TEST_TYPE(infinity_or_nan_tests);
+	TEST_TYPE(quat_infinity_or_nan_tests);
 }
 
 QUATERNION_TEST_CASE("dot")
 {
-	TEST_TYPE(dot_tests);
+	TEST_TYPE(quat_dot_tests);
 }
 
 QUATERNION_TEST_CASE("normalization")
 {
-	TEST_TYPE(normalization_tests);
+	TEST_TYPE(quat_normalization_tests);
 }
 
 QUATERNION_TEST_CASE("euler")
 {
-	TEST_TYPE(euler_tests);
+	TEST_TYPE(quat_euler_tests);
 }
 
 QUATERNION_TEST_CASE("conjugate")
 {
-	TEST_TYPE(conjugate_tests);
+	TEST_TYPE(quat_conjugate_tests);
 }
 
 QUATERNION_TEST_CASE("slerp")
 {
-	TEST_TYPE(slerp_tests);
+	TEST_TYPE(quat_slerp_tests);
 }
 
 QUATERNION_TEST_CASE("multiplication")
 {
-	TEST_TYPE(multiplication_tests);
+	TEST_TYPE(quat_multiplication_tests);
 }
-
-#if 0
-
-
-
-
-
-QUATERNION_TEST_CASE("min and max")
-{
-	TEST_TYPE(min_max_tests);
-}
-
-QUATERNION_TEST_CASE("angle")
-{
-	TEST_TYPE(angle_tests);
-}
-
-QUATERNION_TEST_CASE("accumulator")
-{
-	TEST_TYPE(accumulator_tests);
-}
-
-#endif
 
 #undef SCALAR_TYPE

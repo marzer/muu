@@ -8,10 +8,10 @@
 #include "../include/muu/matrix.h"
 
 template <typename T>
-inline constexpr bool invoke_trait_tests = false;
+inline constexpr bool matrix_invoke_trait_tests = false;
 
 template <typename T, size_t Rows, size_t Columns>
-inline constexpr void trait_tests(std::string_view /*scalar_typename*/) noexcept
+inline constexpr void matrix_trait_tests(std::string_view /*scalar_typename*/) noexcept
 {
 	using matrix_t = matrix<T, Rows, Columns>;
 	static_assert(sizeof(matrix_t) == sizeof(T) * Rows * Columns);
@@ -33,16 +33,40 @@ inline constexpr void trait_tests(std::string_view /*scalar_typename*/) noexcept
 	#endif
 };
 
-template <typename T, size_t Rows, size_t Columns, size_t NUM>
-inline void construction_test_from_scalars() noexcept
+template <typename T, size_t Rows, size_t Columns, typename U, size_t NUM>
+inline matrix<T, Rows, Columns> construct_matrix_componentwise_from_array(const std::array<U, NUM>& vals) noexcept
 {
+	using matrix_t = matrix<T, Rows, Columns>;
+	static_assert(NUM != 1 || (Rows * Columns) == 1);
+
+	// std::apply is super taxing for the compiler to instantiate on some implementations
+	// I'm simulating it for small value counts
+	matrix_t mat;
+	if constexpr (NUM == 1) mat = matrix_t{ vals[0] };
+	if constexpr (NUM == 2) mat = matrix_t{ vals[0], vals[1] };
+	if constexpr (NUM == 3) mat = matrix_t{ vals[0], vals[1], vals[2] };
+	if constexpr (NUM == 4) mat = matrix_t{ vals[0], vals[1], vals[2], vals[3] };
+	if constexpr (NUM == 5) mat = matrix_t{ vals[0], vals[1], vals[2], vals[3], vals[4] };
+	if constexpr (NUM == 6) mat = matrix_t{ vals[0], vals[1], vals[2], vals[3], vals[4], vals[5] };
+	if constexpr (NUM == 7) mat = matrix_t{ vals[0], vals[1], vals[2], vals[3], vals[4], vals[5], vals[6] };
+	if constexpr (NUM == 8) mat = matrix_t{ vals[0], vals[1], vals[2], vals[3], vals[4], vals[5], vals[6], vals[7] };
+	if constexpr (NUM == 9) mat = matrix_t{ vals[0], vals[1], vals[2], vals[3], vals[4], vals[5], vals[6], vals[7], vals[8] };
+	if constexpr (NUM > 9)  mat = std::apply([](auto&& ... s) noexcept { return matrix_t{ s... }; }, vals);
+	return mat;
+}
+
+template <typename T, size_t Rows, size_t Columns, size_t NUM>
+inline void matrix_construction_test_from_scalars() noexcept
+{
+	static_assert(NUM != 1 || (Rows * Columns) == 1);
+
 	if constexpr (Rows * Columns >= NUM)
 	{
 		INFO("constructing from "sv << NUM << " scalars"sv)
 		using matrix_t = matrix<T, Rows, Columns>;
 
 		const auto vals = random_array<T, NUM>();
-		matrix_t mat = std::apply([](auto&& ... v) noexcept { return matrix_t{ std::forward<decltype(v)>(v)... }; }, vals);
+		matrix_t mat = construct_matrix_componentwise_from_array<T, Rows, Columns>(vals);
 
 		// scalar constructor is row-major, matrix value storage is column-major!
 		for (size_t r = 0, i = 0; r < Rows; r++)
@@ -59,7 +83,7 @@ inline void construction_test_from_scalars() noexcept
 }
 
 template <typename T, size_t Rows, size_t Columns>
-inline void construction_tests(std::string_view scalar_typename) noexcept
+inline void matrix_construction_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("matrix<"sv << scalar_typename << ", "sv << Rows << ", "sv << Columns << ">"sv)
 	using matrix_t = matrix<T, Rows, Columns>;
@@ -89,20 +113,20 @@ inline void construction_tests(std::string_view scalar_typename) noexcept
 
 	// scalar constructors
 	//construction_test_from_scalars<T, Rows, Columns, 2>();
-	construction_test_from_scalars<T, Rows, Columns, 3>();
-	construction_test_from_scalars<T, Rows, Columns, 4>();
-	construction_test_from_scalars<T, Rows, Columns, 5>();
-	construction_test_from_scalars<T, Rows, Columns, 7>();
-	construction_test_from_scalars<T, Rows, Columns, 10>();
-	construction_test_from_scalars<T, Rows, Columns, 12>();
-	construction_test_from_scalars<T, Rows, Columns, 16>();
-	construction_test_from_scalars<T, Rows, Columns, 20>();
+	matrix_construction_test_from_scalars<T, Rows, Columns, 3>();
+	matrix_construction_test_from_scalars<T, Rows, Columns, 4>();
+	matrix_construction_test_from_scalars<T, Rows, Columns, 5>();
+	matrix_construction_test_from_scalars<T, Rows, Columns, 7>();
+	matrix_construction_test_from_scalars<T, Rows, Columns, 10>();
+	matrix_construction_test_from_scalars<T, Rows, Columns, 12>();
+	matrix_construction_test_from_scalars<T, Rows, Columns, 16>();
+	matrix_construction_test_from_scalars<T, Rows, Columns, 20>();
 	// no single-scalar test; it's the fill constructor.
 
 }
 
 template <typename T, size_t Rows, size_t Columns>
-inline void accessor_tests(std::string_view scalar_typename) noexcept
+inline void matrix_accessor_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("matrix<"sv << scalar_typename << ", "sv << Rows << ", "sv << Columns << ">"sv)
 	using matrix_t = matrix<T, Rows, Columns>;
@@ -111,7 +135,7 @@ inline void accessor_tests(std::string_view scalar_typename) noexcept
 	std::array<const T*, Rows> rows;
 	for (size_t i = 0; i < Rows; i++)
 		rows[i] = vals.data() + i * Columns;
-	matrix_t mat = std::apply([](auto&& ... v) noexcept { return matrix_t{ v... }; }, vals);
+	matrix_t mat = construct_matrix_componentwise_from_array<T, Rows, Columns>(vals);
 	const matrix_t& mat_const = mat;
 
 	{

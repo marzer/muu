@@ -20,8 +20,7 @@
 		func<SCALAR_TYPE, R, 2>(MUU_MAKE_STRING_VIEW(SCALAR_TYPE));	\
 		func<SCALAR_TYPE, R, 3>(MUU_MAKE_STRING_VIEW(SCALAR_TYPE));	\
 		func<SCALAR_TYPE, R, 4>(MUU_MAKE_STRING_VIEW(SCALAR_TYPE));	\
-		func<SCALAR_TYPE, R, 5>(MUU_MAKE_STRING_VIEW(SCALAR_TYPE));	\
-		func<SCALAR_TYPE, R, 10>(MUU_MAKE_STRING_VIEW(SCALAR_TYPE))
+		func<SCALAR_TYPE, R, 5>(MUU_MAKE_STRING_VIEW(SCALAR_TYPE))
 
 #undef TEST_TYPE
 #define TEST_TYPE(func)			\
@@ -29,27 +28,26 @@
 		TEST_TYPE_R(func, 2);	\
 		TEST_TYPE_R(func, 3);	\
 		TEST_TYPE_R(func, 4);	\
-		TEST_TYPE_R(func, 5);	\
-		TEST_TYPE_R(func, 10)
+		TEST_TYPE_R(func, 5)
 
 #undef MATRIX_TEST_CASE
 #define MATRIX_TEST_CASE(name)	TEST_CASE("matrix<" MUU_MAKE_STRING(SCALAR_TYPE) ", *, *> - " name)
 
 template <>
-inline constexpr bool invoke_trait_tests<SCALAR_TYPE> = []() noexcept
+inline constexpr bool matrix_invoke_trait_tests<SCALAR_TYPE> = []() noexcept
 {
-	TEST_TYPE(trait_tests);
+	TEST_TYPE(matrix_trait_tests);
 	return true;
 }();
 
 MATRIX_TEST_CASE("construction")
 {
-	TEST_TYPE(construction_tests);
+	TEST_TYPE(matrix_construction_tests);
 }
 
 MATRIX_TEST_CASE("accessors")
 {
-	TEST_TYPE(accessor_tests);
+	TEST_TYPE(matrix_accessor_tests);
 }
 
 #undef SCALAR_TYPE

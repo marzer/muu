@@ -13,7 +13,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 template <typename T, typename Func>
-inline void for_each(T& q, Func&& func) noexcept
+inline void quat_for_each(T& q, Func&& func) noexcept
 {
 	static_cast<Func&&>(func)(q.s,   0_sz);
 	static_cast<Func&&>(func)(q.v.x, 1_sz);
@@ -22,7 +22,7 @@ inline void for_each(T& q, Func&& func) noexcept
 }
 
 template <typename T, typename U, typename Func>
-inline void for_each(T& q1, U& q2, Func&& func) noexcept
+inline void quat_for_each(T& q1, U& q2, Func&& func) noexcept
 {
 	static_cast<Func&&>(func)(q1.s,   q2.s,   0_sz);
 	static_cast<Func&&>(func)(q1.v.x, q2.v.x, 1_sz);
@@ -31,10 +31,10 @@ inline void for_each(T& q1, U& q2, Func&& func) noexcept
 }
 
 template <typename T>
-inline constexpr bool invoke_trait_tests = false;
+inline constexpr bool quat_invoke_trait_tests = false;
 
 template <typename T>
-inline constexpr void trait_tests(std::string_view /*scalar_typename*/) noexcept
+inline constexpr void quat_trait_tests(std::string_view /*scalar_typename*/) noexcept
 {
 	using quat_t = quaternion<T>;
 	static_assert(sizeof(quat_t) == sizeof(T) * 4);
@@ -55,7 +55,7 @@ inline constexpr void trait_tests(std::string_view /*scalar_typename*/) noexcept
 };
 
 template <typename T>
-inline void construction_tests(std::string_view scalar_typename) noexcept
+inline void quat_construction_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("quaternion<"sv << scalar_typename << ">"sv)
 	using quat_t = quaternion<T>;
@@ -96,13 +96,13 @@ inline void construction_tests(std::string_view scalar_typename) noexcept
 }
 
 template <typename T>
-inline void equality_tests(std::string_view scalar_typename) noexcept
+inline void quat_equality_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("quaternion<"sv << scalar_typename << ">"sv)
 	using quat_t = quaternion<T>;
 
 	quat_t q;
-	for_each(q, [](auto& s, size_t) noexcept { s = random<T>(); });
+	quat_for_each(q, [](auto& s, size_t) noexcept { s = random<T>(); });
 		
 	{
 		INFO("same type"sv)
@@ -116,7 +116,7 @@ inline void equality_tests(std::string_view scalar_typename) noexcept
 		}
 
 		quat_t different{ q };
-		for_each(different, [](auto& s, size_t) noexcept { s++; });
+		quat_for_each(different, [](auto& s, size_t) noexcept { s++; });
 		CHECK_SYMMETRIC_INEQUAL(q, different);
 		if constexpr (is_floating_point<T>)
 		{
@@ -137,13 +137,13 @@ inline void equality_tests(std::string_view scalar_typename) noexcept
 		CHECK_SYMMETRIC_EQUAL(q, same);
 
 		other_t different{ q };
-		for_each(different, [](auto& s, size_t) noexcept { s++; });
+		quat_for_each(different, [](auto& s, size_t) noexcept { s++; });
 		CHECK_SYMMETRIC_INEQUAL(q, different);
 	}
 }
 
 template <typename T>
-inline void zero_tests(std::string_view scalar_typename) noexcept
+inline void quat_zero_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("quaternion<"sv << scalar_typename << ">"sv)
 	using quat_t = quaternion<T>;
@@ -159,7 +159,7 @@ inline void zero_tests(std::string_view scalar_typename) noexcept
 		INFO("no zeroes"sv)
 
 		quat_t q { T{}, T{}, T{}, T{} };
-		for_each(q, [](auto& s, size_t) noexcept { s = random<T>(1, 10); });
+		quat_for_each(q, [](auto& s, size_t) noexcept { s = random<T>(1, 10); });
 		CHECK_FALSE(q.zero());
 	}
 
@@ -167,7 +167,7 @@ inline void zero_tests(std::string_view scalar_typename) noexcept
 		INFO("some zeroes"sv)
 
 		quat_t q { T{}, T{}, T{}, T{} };
-		for_each(q, [](auto& s, size_t i) noexcept
+		quat_for_each(q, [](auto& s, size_t i) noexcept
 		{
 			if ((i % 2u))
 				s = random<T>(1, 10);
@@ -180,7 +180,7 @@ inline void zero_tests(std::string_view scalar_typename) noexcept
 		for (size_t i = 0; i < 4; i++)
 		{
 			quat_t q{ T{}, T{}, T{}, T{} };
-			for_each(q, [=](auto& s, size_t j) noexcept
+			quat_for_each(q, [=](auto& s, size_t j) noexcept
 			{
 				if (i == j)
 					s = random<T>(1, 10);
@@ -191,7 +191,7 @@ inline void zero_tests(std::string_view scalar_typename) noexcept
 }
 
 template <typename T>
-inline void infinity_or_nan_tests(std::string_view scalar_typename) noexcept
+inline void quat_infinity_or_nan_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("quaternion<"sv << scalar_typename << ">"sv)
 	using quat_t = quaternion<T>;
@@ -200,7 +200,7 @@ inline void infinity_or_nan_tests(std::string_view scalar_typename) noexcept
 		INFO("all finite"sv)
 
 		quat_t q;
-		for_each(q, [](auto& s, size_t) noexcept { s = random<T>(1, 10); });
+		quat_for_each(q, [](auto& s, size_t) noexcept { s = random<T>(1, 10); });
 		CHECK_FALSE(q.infinity_or_nan());
 		CHECK_FALSE(muu::infinity_or_nan(q));
 	}
@@ -212,7 +212,7 @@ inline void infinity_or_nan_tests(std::string_view scalar_typename) noexcept
 		for (size_t i = 0; i < 4; i++)
 		{
 			quat_t q{ T{}, T{}, T{}, T{} };
-			for_each(q, [=](auto& s, size_t j) noexcept
+			quat_for_each(q, [=](auto& s, size_t j) noexcept
 			{
 				if (i == j)
 					s = make_nan<T>();
@@ -229,7 +229,7 @@ inline void infinity_or_nan_tests(std::string_view scalar_typename) noexcept
 		for (size_t i = 0; i < 4; i++)
 		{
 			quat_t q{ T{}, T{}, T{}, T{} };
-			for_each(q, [=](auto& s, size_t j) noexcept
+			quat_for_each(q, [=](auto& s, size_t j) noexcept
 			{
 				if (i == j)
 					s = make_infinity<T>();
@@ -241,7 +241,7 @@ inline void infinity_or_nan_tests(std::string_view scalar_typename) noexcept
 }
 
 template <typename T>
-inline void dot_tests(std::string_view scalar_typename) noexcept
+inline void quat_dot_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("quaternion<"sv << scalar_typename << ">"sv)
 	using quat_t = quaternion<T>;
@@ -257,7 +257,7 @@ inline void dot_tests(std::string_view scalar_typename) noexcept
 	// the quaternion class to minimize loss in float16, so that same behaviour is replicated here)
 	using intermediate_type = impl::promote_if_small_float<dot_type>;
 	auto expected_sum = intermediate_type{};
-	for_each(q1, q2, [&](auto s1, auto s2, size_t) noexcept
+	quat_for_each(q1, q2, [&](auto s1, auto s2, size_t) noexcept
 	{
 		MUU_FMA_BLOCK
 		expected_sum += static_cast<intermediate_type>(s1) * static_cast<intermediate_type>(s2);
@@ -270,7 +270,7 @@ inline void dot_tests(std::string_view scalar_typename) noexcept
 }
 
 template <typename T>
-inline void normalization_tests(std::string_view scalar_typename) noexcept
+inline void quat_normalization_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("quaternion<"sv << scalar_typename << ">"sv)
 	using quat_t = quaternion<T>;
@@ -310,7 +310,7 @@ inline void normalization_tests(std::string_view scalar_typename) noexcept
 }
 
 template <typename T>
-inline void euler_tests(std::string_view scalar_typename) noexcept
+inline void quat_euler_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("quaternion<"sv << scalar_typename << ">"sv)
 	using quat_t = quaternion<T>;
@@ -438,7 +438,7 @@ inline void euler_tests(std::string_view scalar_typename) noexcept
 }
 
 template <typename T>
-inline void conjugate_tests(std::string_view scalar_typename) noexcept
+inline void quat_conjugate_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("quaternion<"sv << scalar_typename << ">"sv)
 	using quat_t = quaternion<T>;
@@ -480,7 +480,7 @@ inline void conjugate_tests(std::string_view scalar_typename) noexcept
 	while (false)
 
 template <typename T>
-inline void slerp_test_case(intmax_t angle, T alpha, intmax_t expected_angle) noexcept
+inline void quat_slerp_test_case(intmax_t angle, T alpha, intmax_t expected_angle) noexcept
 {
 	// Checks equality of
 	// - quat(<some axis>, expected_angle) vs
@@ -515,39 +515,39 @@ inline void slerp_test_case(intmax_t angle, T alpha, intmax_t expected_angle) no
 }
 
 template <typename T>
-inline void slerp_tests(std::string_view scalar_typename) noexcept
+inline void quat_slerp_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("quaternion<"sv << scalar_typename << ">"sv)
 
 	// Easy and unambiguous cases.
-	slerp_test_case(+160, static_cast<T>(0.375), +60);
-	slerp_test_case(-160, static_cast<T>(0.375), -60);
+	quat_slerp_test_case(+160, static_cast<T>(0.375), +60);
+	quat_slerp_test_case(-160, static_cast<T>(0.375), -60);
 
 	// Shortening a "long way around" (> 180 degree) rotation
 	// NOTE: These results are different from the mathematical quat slerp
-	slerp_test_case(+320, static_cast<T>(0.375), -15);  // Mathematically, should be +120
-	slerp_test_case(-320, static_cast<T>(0.375), +15);  // Mathematically, should be -120
+	quat_slerp_test_case(+320, static_cast<T>(0.375), -15);  // Mathematically, should be +120
+	quat_slerp_test_case(-320, static_cast<T>(0.375), +15);  // Mathematically, should be -120
 
 	// Lengthening a "long way around" rotation
-	slerp_test_case(320, static_cast<T>(1.5), -60);  // Mathematically, should be 480 (ie -240)
+	quat_slerp_test_case(320, static_cast<T>(1.5), -60);  // Mathematically, should be 480 (ie -240)
 
 	// Lengthening to a "long way around" (> 180 degree) rotation
-	slerp_test_case(+70, T{ 3 }, +210);
-	slerp_test_case(-70, T{ 3 }, -210);
+	quat_slerp_test_case(+70, T{ 3 }, +210);
+	quat_slerp_test_case(-70, T{ 3 }, -210);
 
 	// An edge case that often causes NaNs
-	slerp_test_case(0, static_cast<T>(0.5), 0);
+	quat_slerp_test_case(0, static_cast<T>(0.5), 0);
 
 	// This edge case is ill-defined for "intuitive" slerp and can't be tested.
-	// slerp_test_case(180, static_cast<T>(0.25), 45);
+	// quat_slerp_test_case(180, static_cast<T>(0.25), 45);
 
 	// Conversely, this edge case is well-defined for "intuitive" slerp.
 	// For mathematical slerp, the axis is ill-defined and can take many values.
-	slerp_test_case(360, static_cast<T>(0.25), 0);
+	quat_slerp_test_case(360, static_cast<T>(0.25), 0);
 }
 
 template <typename T>
-inline void multiplication_tests(std::string_view scalar_typename) noexcept
+inline void quat_multiplication_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("quaternion<"sv << scalar_typename << ">"sv)
 	using quat_t = quaternion<T>;
