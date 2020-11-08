@@ -207,21 +207,21 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 	#define	ENABLE_IF_DIMENSIONS_AT_LEAST_AND(dim,...)	\
 		, size_t SFINAE = Dimensions MUU_ENABLE_IF_2(SFINAE >= (dim) && SFINAE == Dimensions && (__VA_ARGS__))
 
-	#define	SFINAE_REQUIRES_DIMENSIONS_AT_LEAST(dim) \
+	#define	LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(dim) \
 		template <size_t SFINAE = Dimensions MUU_ENABLE_IF(SFINAE >= (dim) && SFINAE == Dimensions)>
 
-	#define	SFINAE_REQUIRES_DIMENSIONS_BETWEEN(min, max) \
+	#define	LEGACY_REQUIRES_DIMENSIONS_BETWEEN(min, max) \
 		template <size_t SFINAE = Dimensions MUU_ENABLE_IF_2(SFINAE >= (min) && SFINAE <= (max) && SFINAE == Dimensions)>
 
-	#define	SFINAE_REQUIRES_DIMENSIONS_EXACTLY(dim) SFINAE_REQUIRES_DIMENSIONS_BETWEEN(dim, dim)
+	#define	LEGACY_REQUIRES_DIMENSIONS_EXACTLY(dim) LEGACY_REQUIRES_DIMENSIONS_BETWEEN(dim, dim)
 
-	#define	SFINAE_REQUIRES_FLOATING_POINT	\
+	#define	LEGACY_REQUIRES_FLOATING_POINT	\
 		template <typename SFINAE = Scalar MUU_ENABLE_IF(muu::is_floating_point<SFINAE> && std::is_same_v<SFINAE, Scalar>)>
 
-	#define	SFINAE_REQUIRES_INTEGRAL	\
+	#define	LEGACY_REQUIRES_INTEGRAL	\
 		template <typename SFINAE = Scalar MUU_ENABLE_IF(muu::is_integral<SFINAE> && std::is_same_v<SFINAE, Scalar>)>
 
-	#define	SFINAE_REQUIRES_SIGNED	\
+	#define	LEGACY_REQUIRES_SIGNED	\
 		template <typename SFINAE = Scalar MUU_ENABLE_IF(muu::is_signed<SFINAE> && std::is_same_v<SFINAE, Scalar>)>
 
 #endif // !MUU_CONCEPTS
@@ -873,23 +873,23 @@ MUU_IMPL_NAMESPACE_END
 #ifndef ENABLE_IF_DIMENSIONS_AT_LEAST_AND
 	#define ENABLE_IF_DIMENSIONS_AT_LEAST_AND(dim, ...)
 #endif
-#ifndef SFINAE_REQUIRES_DIMENSIONS_AT_LEAST
-	#define SFINAE_REQUIRES_DIMENSIONS_AT_LEAST(dim)
+#ifndef LEGACY_REQUIRES_DIMENSIONS_AT_LEAST
+	#define LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(dim)
 #endif
-#ifndef SFINAE_REQUIRES_DIMENSIONS_BETWEEN
-	#define SFINAE_REQUIRES_DIMENSIONS_BETWEEN(min, max)
+#ifndef LEGACY_REQUIRES_DIMENSIONS_BETWEEN
+	#define LEGACY_REQUIRES_DIMENSIONS_BETWEEN(min, max)
 #endif
-#ifndef SFINAE_REQUIRES_DIMENSIONS_EXACTLY
-	#define SFINAE_REQUIRES_DIMENSIONS_EXACTLY(dim)
+#ifndef LEGACY_REQUIRES_DIMENSIONS_EXACTLY
+	#define LEGACY_REQUIRES_DIMENSIONS_EXACTLY(dim)
 #endif
-#ifndef SFINAE_REQUIRES_FLOATING_POINT
-	#define SFINAE_REQUIRES_FLOATING_POINT
+#ifndef LEGACY_REQUIRES_FLOATING_POINT
+	#define LEGACY_REQUIRES_FLOATING_POINT
 #endif
-#ifndef SFINAE_REQUIRES_INTEGRAL
-	#define SFINAE_REQUIRES_INTEGRAL
+#ifndef LEGACY_REQUIRES_INTEGRAL
+	#define LEGACY_REQUIRES_INTEGRAL
 #endif
-#ifndef SFINAE_REQUIRES_SIGNED
-	#define SFINAE_REQUIRES_SIGNED
+#ifndef LEGACY_REQUIRES_SIGNED
+	#define LEGACY_REQUIRES_SIGNED
 #endif
 #if !defined(DOXYGEN) && !MUU_INTELLISENSE
 	#define ENABLE_PAIRED_FUNCS 1
@@ -1069,7 +1069,7 @@ MUU_NAMESPACE_START
 		/// \param	y		Initial value for the vector's second scalar component.
 		/// 
 		/// \note		This constructor is only available when #dimensions &gt;= 2.
-		SFINAE_REQUIRES_DIMENSIONS_AT_LEAST(2)
+		LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(2)
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y) noexcept
 			REQUIRES_DIMENSIONS_AT_LEAST(2)
@@ -1084,7 +1084,7 @@ MUU_NAMESPACE_START
 		/// \param	z		Initial value for the vector's third scalar component.
 		/// 
 		/// \note		This constructor is only available when #dimensions &gt;= 3.
-		SFINAE_REQUIRES_DIMENSIONS_AT_LEAST(3)
+		LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(3)
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y, scalar_type z) noexcept
 			REQUIRES_DIMENSIONS_AT_LEAST(3)
@@ -1100,7 +1100,7 @@ MUU_NAMESPACE_START
 		/// \param	w		Initial value for the vector's fourth scalar component.
 		/// 
 		/// \note			This constructor is only available when #dimensions &gt;= 4.
-		SFINAE_REQUIRES_DIMENSIONS_AT_LEAST(4)
+		LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(4)
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y, scalar_type z, scalar_type w) noexcept
 			REQUIRES_DIMENSIONS_AT_LEAST(4)
@@ -1728,7 +1728,7 @@ MUU_NAMESPACE_START
 		/// \brief	Returns true if all the scalar components in a vector are approximately equal to zero.
 		/// 
 		/// \note		This function is only available when #scalar_type is a floating-point type.
-		SFINAE_REQUIRES_FLOATING_POINT
+		LEGACY_REQUIRES_FLOATING_POINT
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL approx_zero(
@@ -1745,7 +1745,7 @@ MUU_NAMESPACE_START
 		/// \brief	Returns true if all the scalar components in the vector are approximately equal to zero.
 		/// 
 		/// \note		This function is only available when #scalar_type is a floating-point type.
-		SFINAE_REQUIRES_FLOATING_POINT
+		LEGACY_REQUIRES_FLOATING_POINT
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_zero(
@@ -1989,7 +1989,7 @@ MUU_NAMESPACE_START
 		/// \brief	Returns the cross product of two vectors.
 		/// 
 		/// \note		This function is only available when #dimensions == 3.
-		SFINAE_REQUIRES_DIMENSIONS_EXACTLY(3)
+		LEGACY_REQUIRES_DIMENSIONS_EXACTLY(3)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr vector_product MUU_VECTORCALL cross(vector_param lhs, vector_param rhs) noexcept
@@ -2001,7 +2001,7 @@ MUU_NAMESPACE_START
 		/// \brief	Returns the cross product of this vector and another.
 		/// 
 		/// \note		This function is only available when #dimensions == 3.
-		SFINAE_REQUIRES_DIMENSIONS_EXACTLY(3)
+		LEGACY_REQUIRES_DIMENSIONS_EXACTLY(3)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr vector_product MUU_VECTORCALL cross(vector_param v) const noexcept
@@ -2099,7 +2099,7 @@ MUU_NAMESPACE_START
 		}
 
 		/// \brief Returns the componentwise negation of a vector.
-		SFINAE_REQUIRES_SIGNED
+		LEGACY_REQUIRES_SIGNED
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr vector operator - () const noexcept
@@ -2392,7 +2392,7 @@ MUU_NAMESPACE_START
 		/// \brief Returns a vector with each scalar component left-shifted the given number of bits.
 		/// 
 		/// \note		This function is only available when #scalar_type is an integral type.
-		SFINAE_REQUIRES_INTEGRAL
+		LEGACY_REQUIRES_INTEGRAL
 		[[nodiscard]]
 		MUU_ATTR_NDEBUG(pure)
 		friend constexpr vector MUU_VECTORCALL operator << (vector_param lhs, int rhs) noexcept
@@ -2409,7 +2409,7 @@ MUU_NAMESPACE_START
 		/// \brief Componentwise left-shifts each scalar component in the vector by the given number of bits.
 		/// 
 		/// \note		This function is only available when #scalar_type is an integral type.
-		SFINAE_REQUIRES_INTEGRAL
+		LEGACY_REQUIRES_INTEGRAL
 		constexpr vector& MUU_VECTORCALL operator <<= (int rhs) noexcept
 			REQUIRES_INTEGRAL
 		{
@@ -2424,7 +2424,7 @@ MUU_NAMESPACE_START
 		/// \brief Returns a vector with each scalar component right-shifted the given number of bits.
 		/// 
 		/// \note		This function is only available when #scalar_type is an integral type.
-		SFINAE_REQUIRES_INTEGRAL
+		LEGACY_REQUIRES_INTEGRAL
 		[[nodiscard]]
 		MUU_ATTR_NDEBUG(pure)
 		friend constexpr vector MUU_VECTORCALL operator >> (vector_param lhs, int rhs) noexcept
@@ -2441,7 +2441,7 @@ MUU_NAMESPACE_START
 		/// \brief Componentwise right-shifts each scalar component in the vector by the given number of bits.
 		/// 
 		/// \note		This function is only available when #scalar_type is an integral type.
-		SFINAE_REQUIRES_INTEGRAL
+		LEGACY_REQUIRES_INTEGRAL
 		constexpr vector& MUU_VECTORCALL operator >>= (int rhs) noexcept
 			REQUIRES_INTEGRAL
 		{
@@ -2465,7 +2465,7 @@ MUU_NAMESPACE_START
 		/// \return		A normalized copy of the input vector.
 		/// 
 		/// \note This function is only available when #scalar_type is a floating-point type.
-		SFINAE_REQUIRES_FLOATING_POINT
+		LEGACY_REQUIRES_FLOATING_POINT
 		[[nodiscard]]
 		static constexpr vector MUU_VECTORCALL normalize(vector_param v, scalar_product& length_out) noexcept
 			REQUIRES_FLOATING_POINT
@@ -2490,7 +2490,7 @@ MUU_NAMESPACE_START
 		/// \return		A normalized copy of the input vector.
 		/// 
 		/// \note This function is only available when #scalar_type is a floating-point type.
-		SFINAE_REQUIRES_FLOATING_POINT
+		LEGACY_REQUIRES_FLOATING_POINT
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr vector MUU_VECTORCALL normalize(vector_param v) noexcept
@@ -2512,7 +2512,7 @@ MUU_NAMESPACE_START
 		/// \return	A reference to the vector.
 		/// 
 		/// \note This function is only available when #scalar_type is a floating-point type.
-		SFINAE_REQUIRES_FLOATING_POINT
+		LEGACY_REQUIRES_FLOATING_POINT
 		constexpr vector& normalize(scalar_product& length_out) noexcept
 			REQUIRES_FLOATING_POINT
 		{
@@ -2535,7 +2535,7 @@ MUU_NAMESPACE_START
 		/// \return	A reference to the vector.
 		/// 
 		/// \note This function is only available when #scalar_type is a floating-point type.
-		SFINAE_REQUIRES_FLOATING_POINT
+		LEGACY_REQUIRES_FLOATING_POINT
 		constexpr vector& normalize() noexcept
 			REQUIRES_FLOATING_POINT
 		{
@@ -2556,7 +2556,7 @@ MUU_NAMESPACE_START
 		/// \return		A normalized copy of the input vector.
 		/// 
 		/// \note This function is only available when #scalar_type is a floating-point type.
-		SFINAE_REQUIRES_FLOATING_POINT
+		LEGACY_REQUIRES_FLOATING_POINT
 		[[nodiscard]]
 		static constexpr vector MUU_VECTORCALL normalize_lensq(vector_param v, scalar_product v_lensq) noexcept
 			REQUIRES_FLOATING_POINT
@@ -2571,7 +2571,7 @@ MUU_NAMESPACE_START
 		/// \return	A reference to the vector.
 		/// 
 		/// \note This function is only available when #scalar_type is a floating-point type.
-		SFINAE_REQUIRES_FLOATING_POINT
+		LEGACY_REQUIRES_FLOATING_POINT
 		constexpr vector& MUU_VECTORCALL normalize_lensq(scalar_product lensq) noexcept
 			REQUIRES_FLOATING_POINT
 		{
@@ -2591,7 +2591,7 @@ MUU_NAMESPACE_START
 		/// \return		A normalized direction vector pointing from the start position to the end position.
 		/// 
 		/// \note		This function is only available when #dimensions == 2 or 3.
-		SFINAE_REQUIRES_DIMENSIONS_BETWEEN(2, 3)
+		LEGACY_REQUIRES_DIMENSIONS_BETWEEN(2, 3)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr vector_product MUU_VECTORCALL direction(vector_param from, vector_param to, scalar_product& distance_out) noexcept
@@ -2628,7 +2628,7 @@ MUU_NAMESPACE_START
 		/// \return		A normalized direction vector pointing from the start position to the end position.
 		/// 
 		/// \note		This function is only available when #dimensions == 2 or 3.
-		SFINAE_REQUIRES_DIMENSIONS_BETWEEN(2, 3)
+		LEGACY_REQUIRES_DIMENSIONS_BETWEEN(2, 3)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr vector_product MUU_VECTORCALL direction(vector_param from, vector_param to) noexcept
@@ -2660,7 +2660,7 @@ MUU_NAMESPACE_START
 		/// \param	distance_out	An output param to receive the distance between the two points.
 		/// 
 		/// \note		This function is only available when #dimensions == 2 or 3.
-		SFINAE_REQUIRES_DIMENSIONS_BETWEEN(2, 3)
+		LEGACY_REQUIRES_DIMENSIONS_BETWEEN(2, 3)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr vector_product MUU_VECTORCALL direction(vector_param to, scalar_product& distance_out) const noexcept
@@ -2674,7 +2674,7 @@ MUU_NAMESPACE_START
 		/// \param	to				The end position.
 		///
 		/// \note		This function is only available when #dimensions == 2 or 3.
-		SFINAE_REQUIRES_DIMENSIONS_BETWEEN(2, 3)
+		LEGACY_REQUIRES_DIMENSIONS_BETWEEN(2, 3)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr vector_product MUU_VECTORCALL direction(vector_param to) const noexcept
@@ -2874,7 +2874,7 @@ MUU_NAMESPACE_START
 		}
 
 		/// \brief Returns a two-dimensional vector containing `{ x, y }`.
-		SFINAE_REQUIRES_DIMENSIONS_AT_LEAST(2)
+		LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(2)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr vector<scalar_type, 2> xy() const noexcept
@@ -2884,7 +2884,7 @@ MUU_NAMESPACE_START
 		}
 
 		/// \brief Returns a two-dimensional vector containing `{ x, z }`.
-		SFINAE_REQUIRES_DIMENSIONS_AT_LEAST(3)
+		LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(3)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr vector<scalar_type, 2> xz() const noexcept
@@ -2894,7 +2894,7 @@ MUU_NAMESPACE_START
 		}
 
 		/// \brief Returns a two-dimensional vector containing `{ y, x }`.
-		SFINAE_REQUIRES_DIMENSIONS_AT_LEAST(2)
+		LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(2)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr vector<scalar_type, 2> yx() const noexcept
@@ -2904,7 +2904,7 @@ MUU_NAMESPACE_START
 		}
 
 		/// \brief Returns a three-dimensional vector containing `{ x, y, z }`.
-		SFINAE_REQUIRES_DIMENSIONS_AT_LEAST(3)
+		LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(3)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr vector<scalar_type, 3> xyz() const noexcept
@@ -2914,7 +2914,7 @@ MUU_NAMESPACE_START
 		}
 
 		/// \brief Returns a four-dimensional vector containing `{ x, y, z, 1 }`.
-		SFINAE_REQUIRES_DIMENSIONS_AT_LEAST(3)
+		LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(3)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr vector<scalar_type, 4> xyz1() const noexcept
@@ -2924,7 +2924,7 @@ MUU_NAMESPACE_START
 		}
 
 		/// \brief Returns a four-dimensional vector containing `{ x, y, z, 0 }`.
-		SFINAE_REQUIRES_DIMENSIONS_AT_LEAST(3)
+		LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(3)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr vector<scalar_type, 4> xyz0() const noexcept
@@ -2985,7 +2985,7 @@ MUU_NAMESPACE_START
 		/// 			The result is never greater than `pi` radians (180 degrees).
 		/// 
 		/// \note		This function is only available when #dimensions == 2 or 3.
-		SFINAE_REQUIRES_DIMENSIONS_BETWEEN(2, 3)
+		LEGACY_REQUIRES_DIMENSIONS_BETWEEN(2, 3)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr scalar_product MUU_VECTORCALL angle(vector_param v1, vector_param v2) noexcept
@@ -3018,7 +3018,7 @@ MUU_NAMESPACE_START
 		/// 			The result is never greater than `pi` radians (180 degrees).
 		/// 
 		/// \note		This function is only available when #dimensions == 2 or 3.
-		SFINAE_REQUIRES_DIMENSIONS_BETWEEN(2, 3)
+		LEGACY_REQUIRES_DIMENSIONS_BETWEEN(2, 3)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr scalar_product MUU_VECTORCALL angle(vector_param v) const noexcept
@@ -4265,12 +4265,12 @@ MUU_NAMESPACE_END
 #undef ENABLE_PAIRED_FUNCS
 #undef ENABLE_PAIRED_FUNC_BY_REF
 #undef ENABLE_PAIRED_FUNC_BY_VAL
-#undef SFINAE_REQUIRES_DIMENSIONS_AT_LEAST
-#undef SFINAE_REQUIRES_DIMENSIONS_BETWEEN
-#undef SFINAE_REQUIRES_DIMENSIONS_EXACTLY
-#undef SFINAE_REQUIRES_FLOATING_POINT
-#undef SFINAE_REQUIRES_INTEGRAL
-#undef SFINAE_REQUIRES_SIGNED
+#undef LEGACY_REQUIRES_DIMENSIONS_AT_LEAST
+#undef LEGACY_REQUIRES_DIMENSIONS_BETWEEN
+#undef LEGACY_REQUIRES_DIMENSIONS_EXACTLY
+#undef LEGACY_REQUIRES_FLOATING_POINT
+#undef LEGACY_REQUIRES_INTEGRAL
+#undef LEGACY_REQUIRES_SIGNED
 #undef REQUIRES_DIMENSIONS_AT_LEAST
 #undef REQUIRES_DIMENSIONS_AT_LEAST_AND
 #undef REQUIRES_DIMENSIONS_BETWEEN

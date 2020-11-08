@@ -53,50 +53,57 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 
 #if !MUU_CONCEPTS
 
-	#define	SFINAE_REQUIRES_SIZE_AT_LEAST(n)						\
+	#define	ENABLE_IF_SIZE_AT_LEAST_AND(n, ...)						\
+		, size_t SFINAE = (Rows * Columns) MUU_ENABLE_IF(			\
+			SFINAE >= (n)											\
+			&& SFINAE == (Rows * Columns)							\
+			&& (__VA_ARGS__)										\
+		)
+
+	#define	LEGACY_REQUIRES_SIZE_AT_LEAST(n)						\
 		template <size_t SFINAE = Rows * Columns MUU_ENABLE_IF(		\
 			SFINAE >= (n)											\
 			&& SFINAE == (Rows * Columns)							\
 		)>
 
-	#define	SFINAE_REQUIRES_SIZE_AT_LEAST_AND(n, ...)				\
+	#define	LEGACY_REQUIRES_SIZE_AT_LEAST_AND(n, ...)				\
 		template <size_t SFINAE = Rows * Columns MUU_ENABLE_IF(		\
 			SFINAE >= (n)											\
 			&& SFINAE == (Rows * Columns)							\
 			&& (__VA_ARGS__)										\
 		)>
 
-	#define	SFINAE_REQUIRES_SIZE_EXACTLY(n)							\
+	#define	LEGACY_REQUIRES_SIZE_EXACTLY(n)							\
 		template <size_t SFINAE = Rows * Columns MUU_ENABLE_IF_2(	\
 			SFINAE == (n)											\
 			&& SFINAE == (Rows * Columns)							\
 		)>
 
-	#define	SFINAE_REQUIRES_ROWS_AT_LEAST(n)						\
+	#define	LEGACY_REQUIRES_ROWS_AT_LEAST(n)						\
 		template <size_t SFINAE = Rows MUU_ENABLE_IF(				\
 			SFINAE >= (n)											\
 			&& SFINAE == Rows										\
 		)>
 
-	#define	SFINAE_REQUIRES_ROWS_EXACTLY(n)							\
+	#define	LEGACY_REQUIRES_ROWS_EXACTLY(n)							\
 		template <size_t SFINAE = Rows MUU_ENABLE_IF_2(				\
 			SFINAE == (n)											\
 			&& SFINAE == Rows										\
 		)>
 
-	#define	SFINAE_REQUIRES_COLUMNS_AT_LEAST(n)						\
+	#define	LEGACY_REQUIRES_COLUMNS_AT_LEAST(n)						\
 		template <size_t SFINAE = Columns MUU_ENABLE_IF(			\
 			SFINAE >= (n)											\
 			&& SFINAE == Columns									\
 		)>
 
-	#define	SFINAE_REQUIRES_COLUMNS_EXACTLY(n)						\
+	#define	LEGACY_REQUIRES_COLUMNS_EXACTLY(n)						\
 		template <size_t SFINAE = Columns MUU_ENABLE_IF_2(			\
 			SFINAE == (n)											\
 			&& SFINAE == Columns									\
 		)>
 
-	#define	SFINAE_REQUIRES_DIMENSIONS_AT_LEAST(r, c)								\
+	#define	LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(r, c)								\
 		template <size_t SFINAE_R = Rows, size_t SFINAE_C = Columns MUU_ENABLE_IF(	\
 			SFINAE_R >= (r)															\
 			&& SFINAE_C >= (c)														\
@@ -104,7 +111,7 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 			&& SFINAE_C == Columns													\
 		)>
 
-	#define	SFINAE_REQUIRES_DIMENSIONS_EXACTLY(r, c)								\
+	#define	LEGACY_REQUIRES_DIMENSIONS_EXACTLY(r, c)								\
 		template <size_t SFINAE_R = Rows, size_t SFINAE_C = Columns MUU_ENABLE_IF_2(\
 			SFINAE_R == (r)															\
 			&& SFINAE_C == (c)														\
@@ -112,19 +119,19 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 			&& SFINAE_C == Columns													\
 		)>
 
-	#define	SFINAE_REQUIRES_FLOATING_POINT							\
+	#define	LEGACY_REQUIRES_FLOATING_POINT							\
 		template <typename SFINAE = Scalar MUU_ENABLE_IF(			\
 			muu::is_floating_point<SFINAE>							\
 			&& std::is_same_v<SFINAE, Scalar>						\
 		)>
 
-	#define	SFINAE_REQUIRES_INTEGRAL								\
-		template <typename SFINAE = Scalar MUU_ENABLE_IF(			\
+	#define	LEGACY_REQUIRES_INTEGRAL								\
+		template <typename SFINAE = Scalar MUU_ENABLE_IF_2(			\
 			muu::is_integral<SFINAE>								\
 			&& std::is_same_v<SFINAE, Scalar>						\
 		)>
 
-	#define	SFINAE_REQUIRES_SIGNED									\
+	#define	LEGACY_REQUIRES_SIGNED									\
 		template <typename SFINAE = Scalar MUU_ENABLE_IF(			\
 			muu::is_signed<SFINAE>									\
 			&& std::is_same_v<SFINAE, Scalar>						\
@@ -314,42 +321,44 @@ MUU_IMPL_NAMESPACE_END
 #define	REQUIRES_SIGNED
 
 #endif // DOXYGEN
-
-#ifndef SFINAE_REQUIRES_SIZE_AT_LEAST
-	#define SFINAE_REQUIRES_SIZE_AT_LEAST(n)
+#ifndef ENABLE_IF_SIZE_AT_LEAST_AND
+	#define ENABLE_IF_SIZE_AT_LEAST_AND(n, ...)
 #endif
-#ifndef SFINAE_REQUIRES_SIZE_AT_LEAST_AND
-	#define SFINAE_REQUIRES_SIZE_AT_LEAST_AND(n, ...)
+#ifndef LEGACY_REQUIRES_SIZE_AT_LEAST
+	#define LEGACY_REQUIRES_SIZE_AT_LEAST(n)
 #endif
-#ifndef SFINAE_REQUIRES_SIZE_EXACTLY
-	#define SFINAE_REQUIRES_SIZE_EXACTLY(n)
+#ifndef LEGACY_REQUIRES_SIZE_AT_LEAST_AND
+	#define LEGACY_REQUIRES_SIZE_AT_LEAST_AND(n, ...)
 #endif
-#ifndef SFINAE_REQUIRES_ROWS_AT_LEAST
-	#define SFINAE_REQUIRES_ROWS_AT_LEAST(n)
+#ifndef LEGACY_REQUIRES_SIZE_EXACTLY
+	#define LEGACY_REQUIRES_SIZE_EXACTLY(n)
 #endif
-#ifndef SFINAE_REQUIRES_ROWS_EXACTLY
-	#define SFINAE_REQUIRES_ROWS_EXACTLY(n)
+#ifndef LEGACY_REQUIRES_ROWS_AT_LEAST
+	#define LEGACY_REQUIRES_ROWS_AT_LEAST(n)
 #endif
-#ifndef SFINAE_REQUIRES_COLUMNS_AT_LEAST
-	#define SFINAE_REQUIRES_COLUMNS_AT_LEAST(n)
+#ifndef LEGACY_REQUIRES_ROWS_EXACTLY
+	#define LEGACY_REQUIRES_ROWS_EXACTLY(n)
 #endif
-#ifndef SFINAE_REQUIRES_COLUMNS_EXACTLY
-	#define SFINAE_REQUIRES_COLUMNS_EXACTLY(n)
+#ifndef LEGACY_REQUIRES_COLUMNS_AT_LEAST
+	#define LEGACY_REQUIRES_COLUMNS_AT_LEAST(n)
 #endif
-#ifndef SFINAE_REQUIRES_DIMENSIONS_AT_LEAST
-	#define	SFINAE_REQUIRES_DIMENSIONS_AT_LEAST(r, c)
+#ifndef LEGACY_REQUIRES_COLUMNS_EXACTLY
+	#define LEGACY_REQUIRES_COLUMNS_EXACTLY(n)
 #endif
-#ifndef SFINAE_REQUIRES_DIMENSIONS_EXACTLY
-	#define	SFINAE_REQUIRES_DIMENSIONS_EXACTLY(r, c)
+#ifndef LEGACY_REQUIRES_DIMENSIONS_AT_LEAST
+	#define	LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(r, c)
 #endif
-#ifndef SFINAE_REQUIRES_FLOATING_POINT
-	#define SFINAE_REQUIRES_FLOATING_POINT
+#ifndef LEGACY_REQUIRES_DIMENSIONS_EXACTLY
+	#define	LEGACY_REQUIRES_DIMENSIONS_EXACTLY(r, c)
 #endif
-#ifndef SFINAE_REQUIRES_INTEGRAL
-	#define SFINAE_REQUIRES_INTEGRAL
+#ifndef LEGACY_REQUIRES_FLOATING_POINT
+	#define LEGACY_REQUIRES_FLOATING_POINT
 #endif
-#ifndef SFINAE_REQUIRES_SIGNED
-	#define SFINAE_REQUIRES_SIGNED
+#ifndef LEGACY_REQUIRES_INTEGRAL
+	#define LEGACY_REQUIRES_INTEGRAL
+#endif
+#ifndef LEGACY_REQUIRES_SIGNED
+	#define LEGACY_REQUIRES_SIGNED
 #endif
 #if !defined(DOXYGEN) && !MUU_INTELLISENSE
 	#define ENABLE_PAIRED_FUNCS 1
@@ -483,16 +492,13 @@ MUU_NAMESPACE_START
 		/// \brief	Constructs a matrix with all scalar components set to the same value.
 		/// 
 		/// \details \cpp
-		/// const auto mat = matrix<int, 3, 3>{ 1 };
-		/// std::cout << mat;
+		/// std::cout << matrix<int, 3, 3>{ 1 } << "\n";
 		/// \ecpp
 		/// 
 		/// \out
-		/// {
-		///		1,	1,	1,
-		///		1,	1,	1,
-		///		1,	1,	1
-		/// }
+		/// {    1,    1,    1,
+		///	     1,    1,    1,
+		///	     1,    1,    1 }
 		/// \eout
 		/// 
 		/// \param	fill	The value used to initialize each of the matrix's scalar components.
@@ -502,9 +508,56 @@ MUU_NAMESPACE_START
 			: base{ impl::value_fill_tag{}, fill }
 		{}
 
-		SFINAE_REQUIRES_DIMENSIONS_EXACTLY(2, 2)
+		/// \brief	Constructs a matrix from (row-major-ordered) scalars.
+		/// 
+		/// \details \cpp
+		/// // explicitly-sized matrices:
+		/// std::cout << matrix<int, 2, 3>{ 1, 2, 3, 4, 5, 6 } << "\n\n";
+		/// 
+		/// // 2x2, 3x3 and 4x4 matrices can be deduced automatically from 4, 9 and 16 inputs:
+		/// std::cout << matrix{ 1, 2, 3, 4 } << "\n\n";
+		/// std::cout << matrix{ 1, 2, 3, 4, 5, 6, 7, 8, 9 } << "\n\n";
+		/// std::cout << matrix{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 } << "\n\n";
+		/// \ecpp
+		/// 
+		/// \out
+		/// {    1,    2,    3,
+		///      4,    5,    6 }
+		/// 
+		/// {    1,    2,
+		///      3,    4 }
+		/// 
+		/// {    1,    2,    3,
+		///      4,    5,    6,
+		///      7,    8,    9 }
+		/// 
+		/// {    1,    2,    3,    4,
+		///      5,    6,    7,    8,
+		///      9,   10,   11,   12,
+		///     13,   14,   15,   16 }
+		/// \eout
+		/// 
+		/// \param	v0		Initial value for the matrix's first scalar component.
+		/// \param	v1		Initial value for the matrix's second scalar component.
+		/// \param	vals	Initial values for the matrix's remaining scalar components.
+		template <typename... T
+			ENABLE_IF_SIZE_AT_LEAST_AND(sizeof...(T) + 2, all_convertible_to<scalar_type, scalar_type, T...>)
+		>
+		REQUIRES_SIZE_AT_LEAST_AND(sizeof...(T) + 2, all_convertible_to<scalar_type, scalar_type, T...>)
 		MUU_NODISCARD_CTOR
-		explicit
+		constexpr matrix(scalar_type v0, scalar_type v1, const T&... vals) noexcept
+			: base{
+				impl::row_major_tuple_tag{},
+				std::tuple<scalar_type, scalar_type, const T&...>{ v0, v1, vals... }
+			}
+		{}
+
+		#if ENABLE_PAIRED_FUNCS
+
+		// optimizations for 2x2, 3x3 and 4x4 cases
+
+		LEGACY_REQUIRES_DIMENSIONS_EXACTLY(2, 2)
+		MUU_NODISCARD_CTOR
 		constexpr matrix(
 			scalar_type v00, scalar_type v01,
 			scalar_type v10, scalar_type v11
@@ -517,9 +570,8 @@ MUU_NAMESPACE_START
 			}
 		{}
 
-		SFINAE_REQUIRES_DIMENSIONS_EXACTLY(3, 3)
+		LEGACY_REQUIRES_DIMENSIONS_EXACTLY(3, 3)
 		MUU_NODISCARD_CTOR
-		explicit
 		constexpr matrix(
 			scalar_type v00, scalar_type v01, scalar_type v02,
 			scalar_type v10, scalar_type v11, scalar_type v12,
@@ -534,9 +586,8 @@ MUU_NAMESPACE_START
 			}
 		{}
 
-		SFINAE_REQUIRES_DIMENSIONS_EXACTLY(4, 4)
+		LEGACY_REQUIRES_DIMENSIONS_EXACTLY(4, 4)
 		MUU_NODISCARD_CTOR
-		explicit
 		constexpr matrix(
 			scalar_type v00, scalar_type v01, scalar_type v02, scalar_type v03,
 			scalar_type v10, scalar_type v11, scalar_type v12, scalar_type v13,
@@ -553,44 +604,8 @@ MUU_NAMESPACE_START
 			}
 		{}
 
-		/// \brief	Constructs a matrix from scalars in row-major order.
-		/// 
-		/// \details \cpp
-		/// const auto mat = matrix<int, 3, 3>{
-		///		1, 2, 3,
-		///		4, 5, 6,
-		///		7, 8, 9,
-		///	 };
-		/// std::cout << mat;
-		/// \ecpp
-		/// 
-		/// \out
-		/// {
-		///		1,	2,	3,
-		///		4,	5,	6,
-		///		7,	8,	9
-		/// }
-		/// \eout
-		/// 
-		/// \param	v0		Initial value for the matrix's first scalar component.
-		/// \param	v1		Initial value for the matrix's second scalar component.
-		/// \param	vals	Initial values for the matrix's remaining scalar components.
-		template <typename... T MUU_ENABLE_IF(
-			(sizeof...(T) + 2) <= (Rows * Columns)
-			&& (sizeof...(T) == 0 || all_convertible_to<scalar_type, T...>)
-		)>
-		MUU_REQUIRES(
-			(sizeof...(T) + 2) <= (Rows * Columns)
-			&& (sizeof...(T) == 0 || all_convertible_to<scalar_type, T...>)
-		)
-		MUU_NODISCARD_CTOR
-		explicit
-		constexpr matrix(scalar_type v0, scalar_type v1, const T&... vals) noexcept
-			: base{
-				impl::row_major_tuple_tag{},
-				std::tuple<scalar_type, scalar_type, const T&...>{ v0, v1, vals... }
-			}
-		{}
+		#endif // ENABLE_PAIRED_FUNCS
+
 
 	#endif // constructors
 
@@ -897,7 +912,7 @@ MUU_NAMESPACE_START
 		/// \brief	Returns true if all the scalar components in a matrix are approximately equal to zero.
 		/// 
 		/// \note		This function is only available when #scalar_type is a floating-point type.
-		SFINAE_REQUIRES_FLOATING_POINT
+		LEGACY_REQUIRES_FLOATING_POINT
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL approx_zero(
@@ -915,7 +930,7 @@ MUU_NAMESPACE_START
 		/// \brief	Returns true if all the scalar components in the matrix are approximately equal to zero.
 		/// 
 		/// \note		This function is only available when #scalar_type is a floating-point type.
-		SFINAE_REQUIRES_FLOATING_POINT
+		LEGACY_REQUIRES_FLOATING_POINT
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_zero(
@@ -985,6 +1000,38 @@ MUU_NAMESPACE_START
 	#if 1 // misc -----------------------------------------------------------------------------------------------------
 	#endif // misc
 	};
+
+	#ifndef DOXYGEN // deduction guides -------------------------------------------------------------------------------
+
+	template <
+		typename T1, typename T2,
+		typename T3, typename T4
+		MUU_ENABLE_IF(all_arithmetic<T1, T2, T3, T4>)
+	>
+	MUU_REQUIRES(all_arithmetic<T1, T2, T3, T4>)
+	matrix(T1, T2, T3, T4) -> matrix<impl::highest_ranked<T1, T2, T3, T4>, 2, 2>;
+
+	template <
+		typename T1, typename T2, typename T3,
+		typename T4, typename T5, typename T6,
+		typename T7, typename T8, typename T9
+		MUU_ENABLE_IF(all_arithmetic<T1, T2, T3, T4, T5, T6, T7, T8, T9>)
+	>
+	MUU_REQUIRES(all_arithmetic<T1, T2, T3, T4, T5, T6, T7, T8, T9>)
+	matrix(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> matrix<impl::highest_ranked<T1, T2, T3, T4, T5, T6, T7, T8, T9>, 3, 3>;
+
+	template <
+		typename T1, typename T2, typename T3, typename T4,
+		typename T5, typename T6, typename T7, typename T8,
+		typename T9, typename T10, typename T11, typename T12,
+		typename T13, typename T14, typename T15, typename T16
+		MUU_ENABLE_IF(all_arithmetic<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>)
+	>
+	MUU_REQUIRES(all_arithmetic<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>)
+	matrix(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)
+		-> matrix<impl::highest_ranked<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>, 4, 4>;
+
+	#endif // deduction guides
 }
 MUU_NAMESPACE_END
 
@@ -1014,18 +1061,19 @@ MUU_NAMESPACE_END
 #undef REQUIRES_FLOATING_POINT
 #undef REQUIRES_INTEGRAL
 #undef REQUIRES_SIGNED
-#undef SFINAE_REQUIRES_SIZE_AT_LEAST
-#undef SFINAE_REQUIRES_SIZE_AT_LEAST_AND
-#undef SFINAE_REQUIRES_SIZE_EXACTLY
-#undef SFINAE_REQUIRES_ROWS_AT_LEAST
-#undef SFINAE_REQUIRES_ROWS_EXACTLY
-#undef SFINAE_REQUIRES_COLUMNS_AT_LEAST
-#undef SFINAE_REQUIRES_COLUMNS_EXACTLY
-#undef SFINAE_REQUIRES_DIMENSIONS_AT_LEAST
-#undef SFINAE_REQUIRES_DIMENSIONS_EXACTLY
-#undef SFINAE_REQUIRES_FLOATING_POINT
-#undef SFINAE_REQUIRES_INTEGRAL
-#undef SFINAE_REQUIRES_SIGNED
+#undef ENABLE_IF_SIZE_AT_LEAST_AND
+#undef LEGACY_REQUIRES_SIZE_AT_LEAST
+#undef LEGACY_REQUIRES_SIZE_AT_LEAST_AND
+#undef LEGACY_REQUIRES_SIZE_EXACTLY
+#undef LEGACY_REQUIRES_ROWS_AT_LEAST
+#undef LEGACY_REQUIRES_ROWS_EXACTLY
+#undef LEGACY_REQUIRES_COLUMNS_AT_LEAST
+#undef LEGACY_REQUIRES_COLUMNS_EXACTLY
+#undef LEGACY_REQUIRES_DIMENSIONS_AT_LEAST
+#undef LEGACY_REQUIRES_DIMENSIONS_EXACTLY
+#undef LEGACY_REQUIRES_FLOATING_POINT
+#undef LEGACY_REQUIRES_INTEGRAL
+#undef LEGACY_REQUIRES_SIGNED
 #undef ENABLE_PAIRED_FUNCS
 #undef ENABLE_PAIRED_FUNC_BY_REF
 #undef ENABLE_PAIRED_FUNC_BY_VAL

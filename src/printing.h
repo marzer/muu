@@ -92,8 +92,6 @@ MUU_NAMESPACE_START
 	{
 		static constexpr auto object_open = "{ "sv;
 		static constexpr auto object_close = " }"sv;
-		static constexpr auto complex_object_open = "{\n"sv;
-		static constexpr auto complex_object_close = "\n}"sv;
 		static constexpr auto next_list_item = ", "sv;
 		static constexpr auto indent_buf = "                                                  "sv;
 		static constexpr auto indent_width = 2u;
@@ -105,8 +103,6 @@ MUU_NAMESPACE_START
 	{
 		static constexpr auto object_open = L"{ "sv;
 		static constexpr auto object_close = L" }"sv;
-		static constexpr auto complex_object_open = L"{\n"sv;
-		static constexpr auto complex_object_close = L"\n}"sv;
 		static constexpr auto next_list_item = L", "sv;
 		static constexpr auto indent_buf = L"                                                  "sv;
 		static constexpr auto indent_width = 2u;
@@ -118,8 +114,6 @@ MUU_NAMESPACE_START
 	MAKE_PRINTER_TAG(indent);
 	MAKE_PRINTER_TAG(object_open);
 	MAKE_PRINTER_TAG(object_close);
-	MAKE_PRINTER_TAG(complex_object_open);
-	MAKE_PRINTER_TAG(complex_object_close);
 	MAKE_PRINTER_TAG(next_list_item);
 
 	template <typename Char>
@@ -234,19 +228,6 @@ MUU_NAMESPACE_START
 				i -= pc::indent_max;
 			}
 			return *this;
-		}
-
-		printer& operator()(complex_object_open_tag) 
-		{
-			(*this)(print_constants<Char>::complex_object_open);
-			indent_count++;
-			return *this;
-		}
-
-		printer& operator()(complex_object_close_tag)
-		{
-			indent_count--;
-			return (*this)(print_constants<Char>::complex_object_close);
 		}
 
 		printer& operator()(new_line_tag)             { return (*this)(constants<Char>::new_line); }

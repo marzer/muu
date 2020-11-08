@@ -310,35 +310,5 @@ TEST_CASE("strings - transcode")
 	CHECK_TRANSCODE(R"(ወዳጅህ ማር ቢሆን ጨርስህ አትላሰው።)");
 	CHECK_TRANSCODE(R"(እግርህን በፍራሽህ ልክ ዘርጋ።)");
 	#endif // UNICODE_LITERALS_OK
-
-
-	/*
-	* char -> char8_t
-	* char -> char16_t
-	* char -> char32_t
-	* char -> wchar_t
-	* char8_t -> char
-	* char8_t -> char16_t
-	* char8_t -> char32_t
-	* char8_t -> wchar_t
-	* char16_t -> char
-	* char16_t -> char8_t
-	* char16_t -> char32_t
-	* char16_t -> wchar_t
-	* char32_t -> char
-	* char32_t -> char8_t
-	* char32_t -> char16_t
-	* char32_t -> wchar_t
-	* wchar_t -> char
-	* wchar_t -> char8_t
-	* wchar_t -> char16_t
-	* wchar_t -> char32_t
-	
-	
-	
-	
-	
-	
-	*/
 }
 

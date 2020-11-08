@@ -34,18 +34,19 @@ namespace
 
 		auto printer = ::printer{ os };
 
-		// "{\n"
-		printer(complex_object_open);
+		// "{ "
+		printer(object_open);
+		printer++;
 
 		for (size_t r = 0; r < rows; r++)
 		{
-			// ",\n"
+			// ",\n  "
 			if (r > 0)
 			{
-				printer(next_list_item);
+				printer(constants<Char>::comma);
 				printer(new_line);
+				printer(indent);
 			}
-			printer(indent);
 
 			for (size_t c = 0; c < cols; c++)
 			{
@@ -59,8 +60,9 @@ namespace
 			}
 		}
 
-		// "\n}"
-		printer(complex_object_close);
+		// " }"
+		printer--;
+		printer(object_close);
 
 		saver.width = 0; // operator<< consumes width
 	}
