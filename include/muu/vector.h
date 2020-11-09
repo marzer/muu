@@ -1177,10 +1177,10 @@ MUU_NAMESPACE_START
 		/// \brief Enlarging/truncating/converting constructor.
 		/// \details Copies source vector's scalar components, casting if necessary:
 		/// \cpp
-		/// const vector<float, 3> xyz  = { 1, 2, 3 };
-		/// const vector<float, 2> xy   = { xyz }; // { 1, 2 }
-		/// const vector<float, 4> xyzw = { xyz }; // { 1, 2, 3, 0 }
-		/// const auto rect   = vector{ point1, point2 }; // { 1, 2, 10, 15 }
+		/// vector<float, 3> xyz  = { 1, 2, 3 };
+		/// vector<float, 2> xy   = { xyz }; // { 1, 2 }
+		/// vector<float, 4> xyzw = { xyz }; // { 1, 2, 3, 0 }
+		/// auto rect   = vector{ point1, point2 }; // { 1, 2, 10, 15 }
 		/// \ecpp
 		/// Any scalar components not covered by the constructor's parameters are initialized to zero.
 		/// 
@@ -1197,9 +1197,9 @@ MUU_NAMESPACE_START
 		/// \brief	Concatenating constructor.
 		/// \details Copies the scalar components from vector 1 and then vector 2 contiguously into the new vector:
 		/// \cpp
-		/// const vector<float, 2> point1 = { 1, 2 };
-		/// const vector<float, 2> point2 = { 10, 15 };
-		/// const vector<float, 4> rect   = { point1, point2 }; // { 1, 2, 10, 15 }
+		/// vector<float, 2> point1 = { 1, 2 };
+		/// vector<float, 2> point2 = { 10, 15 };
+		/// vector<float, 4> rect   = { point1, point2 }; // { 1, 2, 10, 15 }
 		/// \ecpp
 		/// Any scalar components not covered by the constructor's parameters are initialized to zero.
 		///  
@@ -1226,8 +1226,8 @@ MUU_NAMESPACE_START
 		/// \details Copies the scalar components from the vector and then the
 		/// 		 list of scalars contiguously into the new vector:
 		/// \cpp
-		/// const vector<float, 2> point = { 1, 2 };
-		/// const vector<float, 4> rect  = { point, 10, 15 }; // { 1, 2, 10, 15 }
+		/// vector<float, 2> point = { 1, 2 };
+		/// vector<float, 4> rect  = { point, 10, 15 }; // { 1, 2, 10, 15 }
 		/// \ecpp
 		/// Any scalar components not covered by the constructor's parameters are initialized to zero.
 		///  

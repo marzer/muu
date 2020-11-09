@@ -50,4 +50,9 @@ MATRIX_TEST_CASE("accessors")
 	TEST_TYPE(matrix_accessor_tests);
 }
 
+MATRIX_TEST_CASE("equality")
+{
+	TEST_TYPE(matrix_equality_tests);
+}
+
 #undef SCALAR_TYPE

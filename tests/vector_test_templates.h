@@ -61,7 +61,6 @@ inline void vector_construction_test_from_scalars() noexcept
 		if constexpr (NUM == 5) vec = vector_t{ vals[0], vals[1], vals[2], vals[3], vals[4] };
 		if constexpr (NUM > 5)  vec = std::apply([](auto&& ... s) noexcept { return vector_t{ s... }; }, vals);
 
-
 		for (size_t i = 0; i < NUM; i++)
 			CHECK(vec[i] == vals[i]);
 		for (size_t i = NUM; i < Dimensions; i++)
@@ -141,7 +140,6 @@ inline void vector_construction_test_from_smaller_vector() noexcept
 		for (size_t i = NUM; i < Dimensions; i++)
 			CHECK(vec[i] == T{});
 	}
-
 }
 
 template <typename T, size_t Dimensions, size_t NUM>
@@ -208,7 +206,7 @@ inline void vector_construction_tests(std::string_view scalar_typename) noexcept
 
 		vector<other_type, Dimensions> other;
 		for (size_t i = 0; i < Dimensions; i++)
-			other[i] = static_cast<other_type>(i);
+			other[i] = random<other_type>(i);
 
 		vector_t coerced{ other };
 		for (size_t i = 0; i < Dimensions; i++)

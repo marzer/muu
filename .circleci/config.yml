@@ -69,7 +69,6 @@ jobs:
     generate_dox:
         docker:
             - image: marzer/misc_cpp17_dev:0.2.0
-        resource_class: small
         steps:
             - checkout
             - run:

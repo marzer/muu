@@ -144,6 +144,7 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 MUU_IMPL_NAMESPACE_START
 {
 	struct columnwise_init_tag {};
+	struct columnwise_copy_tag {};
 	struct row_major_tuple_tag {};
 
 	template <typename Scalar, size_t Rows, size_t Columns>
@@ -155,16 +156,11 @@ MUU_IMPL_NAMESPACE_START
 
 		template <size_t... ColumnIndices>
 		explicit
-		constexpr matrix_base(Scalar fill, std::index_sequence<ColumnIndices...>) noexcept
+		constexpr matrix_base(value_fill_tag, std::index_sequence<ColumnIndices...>, Scalar fill) noexcept
 			: m{ ((void)ColumnIndices, vector<Scalar, Rows>{ fill })... }
 		{
 			static_assert(sizeof...(ColumnIndices) <= Columns);
 		}
-
-		explicit
-		constexpr matrix_base(value_fill_tag, Scalar fill) noexcept
-			: matrix_base{ fill, std::make_index_sequence<Columns>{} }
-		{}
 
 		template <typename... T>
 		explicit
@@ -172,6 +168,14 @@ MUU_IMPL_NAMESPACE_START
 			: m{ cols... }
 		{
 			static_assert(sizeof...(T) <= Columns);
+		}
+
+		template <typename T, size_t... ColumnIndices>
+		explicit
+		constexpr matrix_base(columnwise_copy_tag, std::index_sequence<ColumnIndices...>, const T& cols) noexcept
+			: m{ vector<Scalar, Rows>{ cols[ColumnIndices] }... }
+		{
+			static_assert(sizeof...(ColumnIndices) <= Columns);
 		}
 
 	private:
@@ -505,7 +509,7 @@ MUU_NAMESPACE_START
 		MUU_NODISCARD_CTOR
 		explicit
 		constexpr matrix(scalar_type fill) noexcept
-			: base{ impl::value_fill_tag{}, fill }
+			: base{ impl::value_fill_tag{}, std::make_index_sequence<Columns>{}, fill }
 		{}
 
 		/// \brief	Constructs a matrix from (row-major-ordered) scalars.
@@ -537,6 +541,9 @@ MUU_NAMESPACE_START
 		///     13,   14,   15,   16 }
 		/// \eout
 		/// 
+		/// Any scalar components not covered by the constructor's parameters are initialized to zero.
+		///
+		/// \tparam T		Types convertible to #scalar_type.
 		/// \param	v0		Initial value for the matrix's first scalar component.
 		/// \param	v1		Initial value for the matrix's second scalar component.
 		/// \param	vals	Initial values for the matrix's remaining scalar components.
@@ -550,6 +557,46 @@ MUU_NAMESPACE_START
 				impl::row_major_tuple_tag{},
 				std::tuple<scalar_type, scalar_type, const T&...>{ v0, v1, vals... }
 			}
+		{}
+
+		/// \brief Enlarging/truncating/converting constructor.
+		/// \details Copies source matrix's scalar components, casting if necessary:
+		/// \cpp
+		/// matrix<int, 3, 3> m33 = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+		/// std::cout << m33 << "\n\n";
+		/// 
+		/// matrix<int, 2, 2> m22 = { m33 };
+		/// std::cout << m22 << "\n\n";
+		/// 
+		/// matrix<int, 4, 4> m44 = { m33 };
+		/// std::cout << m44 << "\n\n";
+		/// \ecpp
+		/// 
+		/// \out
+		/// {    1,    2,    3,
+		///      4,    5,    6,
+		///      7,    8,    9 }
+		/// 
+		/// {    1,    2,
+		///      4,    5 }
+		/// 
+		/// {    1,    2,    3,    0,
+		///      4,    5,    6,    0,
+		///      7,    8,    9,    0,
+		///      0,    0,    0,    0 }
+		/// \eout
+		/// 	 
+		/// Any scalar components not covered by the constructor's parameters are initialized to zero.
+		/// 
+		/// \tparam	S		Source matrix's #scalar_type.
+		/// \tparam	R		Source matrix's row count.
+		/// \tparam	C		Source matrix's column count.
+		/// \param 	mat		Source matrix.
+		template <typename S, size_t R, size_t C>
+		MUU_NODISCARD_CTOR
+		explicit
+		constexpr matrix(const matrix<S, R, C>& mat) noexcept
+			: base{ impl::columnwise_copy_tag{}, std::make_index_sequence<(C < Columns ? C : Columns)>{}, mat.m }
 		{}
 
 		#if ENABLE_PAIRED_FUNCS
@@ -1046,6 +1093,134 @@ MUU_NAMESPACE_END
 //=====================================================================================================================
 // FREE FUNCTIONS
 #if 1
+
+MUU_NAMESPACE_START
+{
+	/// \ingroup	infinity_or_nan
+	/// \related	muu::matrix
+	///
+	/// \brief	Returns true if any of the scalar components of a matrix are infinity or NaN.
+	template <typename S, size_t R, size_t C
+		ENABLE_PAIRED_FUNC_BY_REF(S, R, C, true)
+	>
+	REQUIRES_PAIRED_FUNC_BY_REF(S, R, C, true)
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr bool infinity_or_nan(const matrix<S, R, C>& m) noexcept
+	{
+		if constexpr (is_floating_point<S>)
+			return matrix<S, R, C>::infinity_or_nan(m);
+		else
+		{
+			(void)m;
+			return false;
+		}
+	}
+
+	/// \ingroup	approx_equal
+	/// \related	muu::matrix
+	///
+	/// \brief		Returns true if two matrices are approximately equal.
+	///
+	/// \note		This function is only available when at least one of `S` and `T` is a floating-point type.
+	template <typename S, typename T, size_t R, size_t C,
+		typename Epsilon = impl::highest_ranked<S, T>
+		ENABLE_PAIRED_FUNC_BY_REF(S, R, C, any_floating_point<S, T>&& impl::pass_readonly_by_reference<matrix<T, R, C>>)
+	>
+	REQUIRES_PAIRED_FUNC_BY_REF(S, R, C, any_floating_point<S, T> && impl::pass_readonly_by_reference<matrix<T, R, C>>)
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr bool approx_equal(
+		const matrix<S, R, C>& m1,
+		const matrix<T, R, C>& m2,
+		dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
+	) noexcept
+	{
+		static_assert(is_same_as_any<Epsilon, S, T>);
+
+		return matrix<S, R, C>::approx_equal(m1, m2, epsilon);
+	}
+
+	/// \ingroup	approx_zero
+	/// \related	muu::matrix
+	///
+	/// \brief		Returns true if all the scalar components of a matrix are approximately equal to zero.
+	///
+	/// \note		This function is only available when `S` is a floating-point type.
+	template <typename S, size_t R, size_t C
+		ENABLE_PAIRED_FUNC_BY_REF(S, R, C, is_floating_point<S>)
+	>
+	REQUIRES_PAIRED_FUNC_BY_REF(S, R, C, is_floating_point<S>)
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr bool approx_zero(
+		const matrix<S, R, C>& m,
+		S epsilon = muu::constants<S>::approx_equal_epsilon
+	) noexcept
+	{
+		return matrix<S, R, C>::approx_zero(m, epsilon);
+	}
+
+	#if ENABLE_PAIRED_FUNCS
+
+	template <typename S, size_t R, size_t C
+		ENABLE_PAIRED_FUNC_BY_VAL(S, R, C, true)
+	>
+	REQUIRES_PAIRED_FUNC_BY_VAL(S, R, C, true)
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr bool infinity_or_nan(matrix<S, R, C> m) noexcept
+	{
+		if constexpr (is_floating_point<S>)
+			return matrix<S, R, C>::infinity_or_nan(m);
+		else
+		{
+			(void)m;
+			return false;
+		}
+	}
+
+	template <typename S, typename T, size_t R, size_t C,
+		typename Epsilon = impl::highest_ranked<S, T>
+		ENABLE_PAIRED_FUNC_BY_VAL(S, R, C, any_floating_point<S, T>&& impl::pass_readonly_by_value<matrix<T, R, C>>)
+	>
+	REQUIRES_PAIRED_FUNC_BY_VAL(S, R, C, any_floating_point<S, T> && impl::pass_readonly_by_value<matrix<T, R, C>>)
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr bool approx_equal(
+		matrix<S, R, C> m1,
+		matrix<T, R, C> m2,
+		dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
+	) noexcept
+	{
+		static_assert(is_same_as_any<Epsilon, S, T>);
+
+		return matrix<S, R, C>::approx_equal(m1, m2, epsilon);
+	}
+
+	template <typename S, size_t R, size_t C
+		ENABLE_PAIRED_FUNC_BY_VAL(S, R, C, is_floating_point<S>)
+	>
+	REQUIRES_PAIRED_FUNC_BY_VAL(S, R, C, is_floating_point<S>)
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr bool approx_zero(
+		matrix<S, R, C> m,
+		S epsilon = muu::constants<S>::approx_equal_epsilon
+	) noexcept
+	{
+		return matrix<S, R, C>::approx_zero(m, epsilon);
+	}
+
+	#endif // ENABLE_PAIRED_FUNCS
+}
+MUU_NAMESPACE_END
 
 #endif // =============================================================================================================
 
