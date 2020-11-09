@@ -89,6 +89,12 @@ C++</span></a>
             </dt>
             <dd>Returns true if a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> is approximately equal to zero.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename S, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga4230d2f18ea734c1f3a2ea4a45a04626">approx_zero</a>(</span><span class="m-doc-wrap">const matrix&lt;S, R, C&gt;&amp; m,
+              S epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;S&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if all the scalar components of a matrix are approximately equal to zero.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga726767cb7113cce0b4be498d43c27c94">approx_zero</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q,
               S epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;S&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -149,6 +155,17 @@ C++</span></a>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
             </h3>
             <p>Returns true if a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> is approximately equal to zero.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga4230d2f18ea734c1f3a2ea4a45a04626"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="matrix_8h.html">&lt;muu/matrix.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;typename S, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga4230d2f18ea734c1f3a2ea4a45a04626">approx_zero</a>(</span><span class="m-doc-wrap">const matrix&lt;S, R, C&gt;&amp; m,
+              S epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;S&gt;::approx_equal_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if all the scalar components of a matrix are approximately equal to zero.</p>
+<aside class="m-note m-info"><h4>Note</h4><p>This function is only available when <code>S</code> is a floating-point type.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga726767cb7113cce0b4be498d43c27c94"><div>
             <h3>

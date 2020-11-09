@@ -180,6 +180,11 @@ C++</span></a>
             </dt>
             <dd>Copy constructor.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename S, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#abb3a11204c1d332eafade6f0615c4a59">matrix</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; mat) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Enlarging/truncating/converting constructor.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a7e6e3e611f1af0548d22bc555ba2d6e1">matrix</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> fill) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a matrix with all scalar components set to the same value.</dd>
@@ -288,6 +293,24 @@ C++</span></a>
           <h2><a href="#related">Related</a></h2>
           <dl class="m-doc">
             <dt>
+              <div class="m-doc-template">template&lt;typename S, typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C, typename Epsilon = impl::highest_ranked&lt;S, T&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga8d4b40478f7028fcf797af8621bef593">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m1,
+              const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;T, R, C&gt;&amp; m2,
+              <a class="m-doc" href="group__meta.html#ga584cfbfcb8f1dc2df7da8320885c76f0">dont_<wbr/>deduce</a>&lt;Epsilon&gt; epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;Epsilon&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two matrices are approximately equal.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename S, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga4230d2f18ea734c1f3a2ea4a45a04626">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m,
+              S epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;S&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if all the scalar components of a matrix are approximately equal to zero.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename S, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga1f57b7af70f0235ad644486a5943e582">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the scalar components of a matrix are infinity or NaN.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;</div>
               using <a class="m-doc" href="group__math.html#ga99a5a5587a42a926e53bddccfc425f72">matrix_param</a> = impl::readonly_param&lt;<a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;
             </dt>
@@ -327,6 +350,61 @@ template&lt;typename T, typename Epsilon = impl::highest_ranked&lt;<a class="m-d
             <p>Returns true if all the scalar components of a matrix are exactly zero.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is a componentwise exact equality check; if you want an epsilon-based "near-enough" for floating-point matrices, use <a class="m-doc" href="structmuu_1_1matrix.html#a1d0f911280dbcf1c7be5f7c2410a4cd2">approx_<wbr/>zero()</a>.</p></aside>
           </div></section>
+          <section class="m-doc-details" id="abb3a11204c1d332eafade6f0615c4a59"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;<br/>
+template&lt;typename S, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#abb3a11204c1d332eafade6f0615c4a59">matrix</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; mat) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Enlarging/truncating/converting constructor.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">S</td>
+                  <td>Source matrix's <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>.</td>
+                </tr>
+                <tr>
+                  <td>R</td>
+                  <td>Source matrix's row count.</td>
+                </tr>
+                <tr>
+                  <td>C</td>
+                  <td>Source matrix's column count.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>mat</td>
+                  <td>Source matrix.</td>
+                </tr>
+              </tbody>
+            </table>
+<p>Copies source matrix's scalar components, casting if necessary:</p><pre class="m-code"><span class="ut">matrix</span><span class="o">&lt;</span><span class="ut">int</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span> <span class="n">m33</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span> <span class="p">};</span>
+<span class="ns">std::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">m33</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">;</span>
+
+<span class="ut">matrix</span><span class="o">&lt;</span><span class="ut">int</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="n">m22</span> <span class="o">=</span> <span class="p">{</span> <span class="n">m33</span> <span class="p">};</span>
+<span class="ns">std::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">m22</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">;</span>
+
+<span class="ut">matrix</span><span class="o">&lt;</span><span class="ut">int</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="o">&gt;</span> <span class="n">m44</span> <span class="o">=</span> <span class="p">{</span> <span class="n">m33</span> <span class="p">};</span>
+<span class="ns">std::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">m44</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">;</span></pre><pre class="m-console"><span class="go">{    1,    2,    3,</span>
+<span class="go">     4,    5,    6,</span>
+<span class="go">     7,    8,    9 }</span>
+
+<span class="go">{    1,    2,</span>
+<span class="go">     4,    5 }</span>
+
+<span class="go">{    1,    2,    3,    0,</span>
+<span class="go">     4,    5,    6,    0,</span>
+<span class="go">     7,    8,    9,    0,</span>
+<span class="go">     0,    0,    0,    0 }</span></pre><p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p>
+          </div></section>
           <section class="m-doc-details" id="a7e6e3e611f1af0548d22bc555ba2d6e1"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
@@ -361,11 +439,20 @@ template&lt;typename... T&gt;
             <p>Constructs a matrix from (row-major-ordered) scalars.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>Types convertible to <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>.</td>
+                </tr>
+              </tbody>
+              <thead>
                 <tr><th colspan="2">Parameters</th></tr>
               </thead>
               <tbody>
                 <tr>
-                  <td style="width: 1%">v0</td>
+                  <td>v0</td>
                   <td>Initial value for the matrix's first scalar component.</td>
                 </tr>
                 <tr>
@@ -397,7 +484,7 @@ template&lt;typename... T&gt;
 <span class="go">{    1,    2,    3,    4,</span>
 <span class="go">     5,    6,    7,    8,</span>
 <span class="go">     9,   10,   11,   12,</span>
-<span class="go">    13,   14,   15,   16 }</span></pre>
+<span class="go">    13,   14,   15,   16 }</span></pre><p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p>
           </div></section>
           <section class="m-doc-details" id="ae7869aed21127e87a16b82c67bac94d6"><div>
             <h3>
