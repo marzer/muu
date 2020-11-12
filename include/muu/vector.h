@@ -32,11 +32,12 @@
 		- __vectorcall: https://docs.microsoft.com/en-us/cpp/cpp/vectorcall?view=vs-2019
 		- vectorizer sandbox: https://godbolt.org/z/vn8aKv (change vector_param_mode to see the effect in the MSVC tab)
 
-	-	You'll see intermediate_type used instead of scalar_type in a few places. It's a 'better' type used for
-		intermediate floating-point values where precision loss or unnecessary cast round-tripping is to be avoided.
-		when scalar_type is a float >= 32 bits: intermediate_type == scalar_type
-		when scalar_type is a float < 32 bits: intermediate_type == float
-		when scalar_type is integral: intermediate_type == double.
+	-	You'll see intermediate_float used instead of scalar_type or delta_type in a few places. It's a 'better' type
+		used for intermediate floating-point values where precision loss or unnecessary cast round-tripping is to be avoided.
+		generally:
+		  when scalar_type is a float >= 32 bits: intermediate_float == scalar_type
+		  when scalar_type is a float < 32 bits: intermediate_float == float
+		  when scalar_type is integral: intermediate_float == double.
 
 	-	Some code is statically switched/branched according to whether a static_cast<> is necessary; this is to avoid
 		unnecessary codegen and improve debug build performance for non-trivial scalar_types (e.g. muu::half).
@@ -808,20 +809,21 @@ MUU_IMPL_NAMESPACE_START
 	static constexpr Return raw_cross(const T& lhs, const U& rhs) noexcept
 	{
 		MUU_FMA_BLOCK
-		using return_scalar_type = remove_cvref<decltype(std::declval<Return>().x)>;
+		using lhs_scalar = decltype(lhs.x);
+		using rhs_scalar = decltype(rhs.x);
+		using return_scalar = remove_cvref<decltype(std::declval<Return>().x)>;
 
 		using type = promote_if_small_float<highest_ranked<
-			decltype(lhs.x * rhs.x),
-			std::conditional_t<is_integral<decltype(lhs.x)>, double, decltype(lhs.x)>,
-			std::conditional_t<is_integral<decltype(rhs.x)>, double, decltype(rhs.x)>,
-			std::conditional_t<is_integral<return_scalar_type>, double, return_scalar_type>
+			std::conditional_t<is_integral<lhs_scalar>,    highest_ranked<make_signed<lhs_scalar>,    int>, lhs_scalar>,
+			std::conditional_t<is_integral<rhs_scalar>,    highest_ranked<make_signed<rhs_scalar>,    int>, rhs_scalar>,
+			std::conditional_t<is_integral<return_scalar>, highest_ranked<make_signed<return_scalar>, int>, return_scalar>
 		>>;
 
 		return Return
 		{
-			static_cast<return_scalar_type>(static_cast<type>(lhs.y) * rhs.z - static_cast<type>(lhs.z) * rhs.y),
-			static_cast<return_scalar_type>(static_cast<type>(lhs.z) * rhs.x - static_cast<type>(lhs.x) * rhs.z),
-			static_cast<return_scalar_type>(static_cast<type>(lhs.x) * rhs.y - static_cast<type>(lhs.y) * rhs.x)
+			static_cast<return_scalar>(static_cast<type>(lhs.y) * static_cast<type>(rhs.z) - static_cast<type>(lhs.z) * static_cast<type>(rhs.y)),
+			static_cast<return_scalar>(static_cast<type>(lhs.z) * static_cast<type>(rhs.x) - static_cast<type>(lhs.x) * static_cast<type>(rhs.z)),
+			static_cast<return_scalar>(static_cast<type>(lhs.x) * static_cast<type>(rhs.y) - static_cast<type>(lhs.y) * static_cast<type>(rhs.x))
 		};
 	}
 
@@ -834,20 +836,21 @@ MUU_IMPL_NAMESPACE_START
 	static constexpr Return MUU_VECTORCALL raw_cross(T lhs, U rhs) noexcept
 	{
 		MUU_FMA_BLOCK
-		using return_scalar_type = remove_cvref<decltype(std::declval<Return>().x)>;
+		using lhs_scalar = decltype(lhs.x);
+		using rhs_scalar = decltype(rhs.x);
+		using return_scalar = remove_cvref<decltype(std::declval<Return>().x)>;
 
 		using type = promote_if_small_float<highest_ranked<
-			decltype(lhs.x * rhs.x),
-			std::conditional_t<is_integral<decltype(lhs.x)>, double, decltype(lhs.x)>,
-			std::conditional_t<is_integral<decltype(rhs.x)>, double, decltype(rhs.x)>,
-			std::conditional_t<is_integral<return_scalar_type>, double, return_scalar_type>
+			std::conditional_t<is_integral<lhs_scalar>,    highest_ranked<make_signed<lhs_scalar>,    int>, lhs_scalar>,
+			std::conditional_t<is_integral<rhs_scalar>,    highest_ranked<make_signed<rhs_scalar>,    int>, rhs_scalar>,
+			std::conditional_t<is_integral<return_scalar>, highest_ranked<make_signed<return_scalar>, int>, return_scalar>
 		>>;
 
 		return Return
 		{
-			static_cast<return_scalar_type>(static_cast<type>(lhs.y) * rhs.z - static_cast<type>(lhs.z) * rhs.y),
-			static_cast<return_scalar_type>(static_cast<type>(lhs.z) * rhs.x - static_cast<type>(lhs.x) * rhs.z),
-			static_cast<return_scalar_type>(static_cast<type>(lhs.x) * rhs.y - static_cast<type>(lhs.y) * rhs.x)
+			static_cast<return_scalar>(static_cast<type>(lhs.y) * static_cast<type>(rhs.z) - static_cast<type>(lhs.z) * static_cast<type>(rhs.y)),
+			static_cast<return_scalar>(static_cast<type>(lhs.z) * static_cast<type>(rhs.x) - static_cast<type>(lhs.x) * static_cast<type>(rhs.z)),
+			static_cast<return_scalar>(static_cast<type>(lhs.x) * static_cast<type>(rhs.y) - static_cast<type>(lhs.y) * static_cast<type>(rhs.x))
 		};
 	}
 }
@@ -975,14 +978,21 @@ MUU_NAMESPACE_START
 		/// \brief The type of each scalar component stored in this vector.
 		using scalar_type = Scalar;
 
-		/// \brief The scalar type used for products (length/distance, dot, multiplication, etc.)
-		using scalar_product = std::conditional_t<is_integral<scalar_type>, double, scalar_type>;
+		/// \brief The scalar type used for length, distance, blend factors, etc. Always floating-point.
+		using delta_type = std::conditional_t<is_integral<scalar_type>, double, scalar_type>;
+
+		/// \brief The scalar type used for products (dot, cross, etc.). Always signed.
+		using product_type = std::conditional_t<
+			is_integral<scalar_type>,
+			impl::highest_ranked<make_signed<scalar_type>, int>,
+			scalar_type
+		>;
 
 		/// \brief Compile-time constants for this vector's scalar type.
 		using scalar_constants = muu::constants<scalar_type>;
 
-		/// \brief The vector type with #scalar_type == #scalar_product and the same number of #dimensions as this one.
-		using vector_product = vector<scalar_product, dimensions>;
+		/// \brief The vector type with #scalar_type == #product_type and the same number of #dimensions as this one.
+		using vector_product = vector<product_type, dimensions>;
 
 		/// \brief Alias of `vector` or `const vector&`, depending on size, triviality, simd-friendliness, etc.
 		using vector_param = muu::vector_param<scalar_type, dimensions>;
@@ -998,6 +1008,8 @@ MUU_NAMESPACE_START
 
 	private:
 		
+		template <typename S, size_t D>
+		friend struct vector;
 		template <typename S>
 		friend struct quaternion;
 		template <typename S, size_t R, size_t C>
@@ -1010,7 +1022,13 @@ MUU_NAMESPACE_START
 			sizeof(base) == (sizeof(scalar_type) * Dimensions),
 			"Vectors should not have padding"
 		);
-		using intermediate_type = impl::promote_if_small_float<scalar_product>;
+
+		using intermediate_product = impl::promote_if_small_float<product_type>;
+		static_assert(is_floating_point<intermediate_product> == is_floating_point<scalar_type>);
+
+		using intermediate_float = impl::promote_if_small_float<delta_type>;
+		static_assert(is_floating_point<delta_type>);
+		static_assert(is_floating_point<intermediate_float>);
 
 	public:
 
@@ -1502,7 +1520,8 @@ MUU_NAMESPACE_START
 		REQUIRES_PAIRED_FUNC_BY_REF(T, dimensions, true)
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr bool MUU_VECTORCALL operator == (vector_param lhs, const vector<T, dimensions>& rhs) noexcept
+		friend
+		constexpr bool MUU_VECTORCALL operator == (vector_param lhs, const vector<T, dimensions>& rhs) noexcept
 		{
 			if constexpr (std::is_same_v<scalar_type, T>)
 			{
@@ -1530,7 +1549,8 @@ MUU_NAMESPACE_START
 		REQUIRES_PAIRED_FUNC_BY_REF(T, dimensions, true)
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr bool MUU_VECTORCALL operator != (vector_param lhs, const vector<T, dimensions>& rhs) noexcept
+		friend
+		constexpr bool MUU_VECTORCALL operator != (vector_param lhs, const vector<T, dimensions>& rhs) noexcept
 		{
 			return !(lhs == rhs);
 		}
@@ -1543,7 +1563,8 @@ MUU_NAMESPACE_START
 		REQUIRES_PAIRED_FUNC_BY_VAL(T, dimensions, true)
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr bool MUU_VECTORCALL operator == (vector_param lhs, vector<T, dimensions> rhs) noexcept
+		friend
+		constexpr bool MUU_VECTORCALL operator == (vector_param lhs, vector<T, dimensions> rhs) noexcept
 		{
 			if constexpr (std::is_same_v<scalar_type, T>)
 			{
@@ -1567,7 +1588,8 @@ MUU_NAMESPACE_START
 		REQUIRES_PAIRED_FUNC_BY_VAL(T, dimensions, true)
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr bool MUU_VECTORCALL operator != (vector_param lhs, vector<T, dimensions> rhs) noexcept
+		friend
+		constexpr bool MUU_VECTORCALL operator != (vector_param lhs, vector<T, dimensions> rhs) noexcept
 		{
 			return !(lhs == rhs);
 		}
@@ -1762,24 +1784,24 @@ MUU_NAMESPACE_START
 
 	private:
 
-		template <typename T = intermediate_type>
+		template <typename T = intermediate_float>
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr T MUU_VECTORCALL raw_length_squared(vector_param v) noexcept
 		{
-			static_assert(std::is_same_v<impl::highest_ranked<T, intermediate_type>, T>); // non-truncating
+			static_assert(std::is_same_v<impl::highest_ranked<T, intermediate_float>, T>); // non-truncating
 
 			#define VEC_FUNC(member)	static_cast<T>(v.member) * static_cast<T>(v.member)
 			COMPONENTWISE_ACCUMULATE(VEC_FUNC, +);
 			#undef VEC_FUNC
 		}
 
-		template <typename T = intermediate_type>
+		template <typename T = intermediate_float>
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr T MUU_VECTORCALL raw_length(vector_param v) noexcept
 		{
-			static_assert(std::is_same_v<impl::highest_ranked<T, intermediate_type>, T>); // non-truncating
+			static_assert(std::is_same_v<impl::highest_ranked<T, intermediate_float>, T>); // non-truncating
 
 			if constexpr (Dimensions == 1)
 				return static_cast<T>(v.x);
@@ -1787,12 +1809,12 @@ MUU_NAMESPACE_START
 				return muu::sqrt(raw_length_squared<T>(v));
 		}
 
-		template <typename T = intermediate_type>
+		template <typename T = intermediate_float>
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr T MUU_VECTORCALL raw_distance_squared(vector_param p1, vector_param p2) noexcept
 		{
-			static_assert(std::is_same_v<impl::highest_ranked<T, intermediate_type>, T>); // non-truncating
+			static_assert(std::is_same_v<impl::highest_ranked<T, intermediate_float>, T>); // non-truncating
 
 			constexpr auto subtract_and_square = [](scalar_type lhs, scalar_type rhs) noexcept
 				-> T
@@ -1808,12 +1830,12 @@ MUU_NAMESPACE_START
 			#undef VEC_FUNC
 		}
 
-		template <typename T = intermediate_type>
+		template <typename T = intermediate_float>
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr T MUU_VECTORCALL raw_distance(vector_param p1, vector_param p2) noexcept
 		{
-			static_assert(std::is_same_v<impl::highest_ranked<T, intermediate_type>, T>); // non-truncating
+			static_assert(std::is_same_v<impl::highest_ranked<T, intermediate_float>, T>); // non-truncating
 
 			if constexpr (Dimensions == 1)
 				return static_cast<T>(p2.x) - static_cast<T>(p1.x);
@@ -1826,65 +1848,65 @@ MUU_NAMESPACE_START
 		/// \brief	Returns the squared length (magnitude) of a vector.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr scalar_product MUU_VECTORCALL length_squared(vector_param v) noexcept
+		static constexpr delta_type MUU_VECTORCALL length_squared(vector_param v) noexcept
 		{
-			return static_cast<scalar_product>(raw_length_squared(v));
+			return static_cast<delta_type>(raw_length_squared(v));
 		}
 
 		/// \brief	Returns the squared length (magnitude) of the vector.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		constexpr scalar_product MUU_VECTORCALL length_squared() const noexcept
+		constexpr delta_type MUU_VECTORCALL length_squared() const noexcept
 		{
-			return static_cast<scalar_product>(raw_length_squared(*this));
+			return static_cast<delta_type>(raw_length_squared(*this));
 		}
 
 		/// \brief	Returns the length (magnitude) of a vector.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr scalar_product MUU_VECTORCALL length(vector_param v) noexcept
+		static constexpr delta_type MUU_VECTORCALL length(vector_param v) noexcept
 		{
-			return static_cast<scalar_product>(raw_length(v));
+			return static_cast<delta_type>(raw_length(v));
 		}
 
 		/// \brief	Returns the length (magnitude) of the vector.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		constexpr scalar_product length() const noexcept
+		constexpr delta_type length() const noexcept
 		{
-			return static_cast<scalar_product>(raw_length(*this));
+			return static_cast<delta_type>(raw_length(*this));
 		}
 
 		/// \brief	Returns the squared distance between two point vectors.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr scalar_product MUU_VECTORCALL distance_squared(vector_param p1, vector_param p2) noexcept
+		static constexpr delta_type MUU_VECTORCALL distance_squared(vector_param p1, vector_param p2) noexcept
 		{
-			return static_cast<scalar_product>(raw_distance_squared(p1, p2));
+			return static_cast<delta_type>(raw_distance_squared(p1, p2));
 		}
 
 		/// \brief	Returns the squared distance between this and another point vector.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		constexpr scalar_product MUU_VECTORCALL distance_squared(vector_param p) const noexcept
+		constexpr delta_type MUU_VECTORCALL distance_squared(vector_param p) const noexcept
 		{
-			return static_cast<scalar_product>(raw_distance_squared(*this, p));
+			return static_cast<delta_type>(raw_distance_squared(*this, p));
 		}
 
 		/// \brief	Returns the squared distance between two point vectors.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr scalar_product MUU_VECTORCALL distance(vector_param p1, vector_param p2) noexcept
+		static constexpr delta_type MUU_VECTORCALL distance(vector_param p1, vector_param p2) noexcept
 		{
-			return static_cast<scalar_product>(raw_distance(p1, p2));
+			return static_cast<delta_type>(raw_distance(p1, p2));
 		}
 
 		/// \brief	Returns the squared distance between this and another point vector.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		constexpr scalar_product MUU_VECTORCALL distance(vector_param p) const noexcept
+		constexpr delta_type MUU_VECTORCALL distance(vector_param p) const noexcept
 		{
-			return static_cast<scalar_product>(raw_distance(*this, p));
+			return static_cast<delta_type>(raw_distance(*this, p));
 		}
 
 		/// \brief Returns true if a vector is unit-length (i.e. has a length of 1).
@@ -1913,10 +1935,10 @@ MUU_NAMESPACE_START
 			else
 			{
 				if constexpr (Dimensions == 1)
-					return muu::approx_equal(static_cast<intermediate_type>(v.x), intermediate_type{ 1 });
+					return muu::approx_equal(static_cast<intermediate_float>(v.x), intermediate_float{ 1 });
 				else 
 				{
-					constexpr auto epsilon = intermediate_type{ 1 } / (
+					constexpr auto epsilon = intermediate_float{ 1 } / (
 						100ull
 						* (sizeof(scalar_type) >= sizeof(float)  ? 10000ull : 1ull)
 						* (sizeof(scalar_type) >= sizeof(double) ? 10000ull : 1ull)
@@ -1924,7 +1946,7 @@ MUU_NAMESPACE_START
 
 					return muu::approx_equal(
 						raw_length_squared(v),
-						intermediate_type{ 1 },
+						intermediate_float{ 1 },
 						epsilon
 					);
 				}
@@ -1945,12 +1967,12 @@ MUU_NAMESPACE_START
 
 	private:
 
-		template <typename T = intermediate_type>
+		template <typename T = intermediate_product>
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr T MUU_VECTORCALL raw_dot(vector_param v1, vector_param v2) noexcept
 		{
-			static_assert(std::is_same_v<impl::highest_ranked<T, intermediate_type>, T>); // non-truncating
+			static_assert(std::is_same_v<impl::highest_ranked<T, intermediate_product>, T>); // non-truncating
 
 			using mult_type = decltype(scalar_type{} * scalar_type{});
 
@@ -1973,17 +1995,17 @@ MUU_NAMESPACE_START
 		/// \brief	Returns the dot product of two vectors.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr scalar_product MUU_VECTORCALL dot(vector_param v1, vector_param v2) noexcept
+		static constexpr product_type MUU_VECTORCALL dot(vector_param v1, vector_param v2) noexcept
 		{
-			return static_cast<scalar_product>(raw_dot(v1, v2));
+			return static_cast<product_type>(raw_dot(v1, v2));
 		}
 
 		/// \brief	Returns the dot product of this and another vector.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		constexpr scalar_product MUU_VECTORCALL dot(vector_param v) const noexcept
+		constexpr product_type MUU_VECTORCALL dot(vector_param v) const noexcept
 		{
-			return static_cast<scalar_product>(raw_dot(*this, v));
+			return static_cast<product_type>(raw_dot(*this, v));
 		}
 
 		/// \brief	Returns the cross product of two vectors.
@@ -1992,10 +2014,10 @@ MUU_NAMESPACE_START
 		LEGACY_REQUIRES_DIMENSIONS_EXACTLY(3)
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr vector_product MUU_VECTORCALL cross(vector_param lhs, vector_param rhs) noexcept
+		static constexpr vector<product_type, 3> MUU_VECTORCALL cross(vector_param lhs, vector_param rhs) noexcept
 			REQUIRES_DIMENSIONS_EXACTLY(3)
 		{
-			return impl::raw_cross<vector_product>(lhs, rhs);
+			return impl::raw_cross<vector<product_type, 3>>(lhs, rhs);
 		}
 
 		/// \brief	Returns the cross product of this vector and another.
@@ -2004,10 +2026,10 @@ MUU_NAMESPACE_START
 		LEGACY_REQUIRES_DIMENSIONS_EXACTLY(3)
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		constexpr vector_product MUU_VECTORCALL cross(vector_param v) const noexcept
+		constexpr vector<product_type, 3> MUU_VECTORCALL cross(vector_param v) const noexcept
 			REQUIRES_DIMENSIONS_EXACTLY(3)
 		{
-			return impl::raw_cross<vector_product>(*this, v);
+			return impl::raw_cross<vector<product_type, 3>>(*this, v);
 		}
 
 	#endif // dot and cross products
@@ -2017,11 +2039,12 @@ MUU_NAMESPACE_START
 		/// \brief Returns the componentwise addition of two vectors.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr vector MUU_VECTORCALL operator + (vector_param lhs, vector_param rhs) noexcept
+		friend
+		constexpr vector MUU_VECTORCALL operator + (vector_param lhs, vector_param rhs) noexcept
 		{
 			if constexpr (impl::is_small_float<scalar_type>)
 			{
-				#define VEC_FUNC(member)	static_cast<intermediate_type>(lhs.member) + static_cast<intermediate_type>(rhs.member)
+				#define VEC_FUNC(member)	static_cast<float>(lhs.member) + static_cast<float>(rhs.member)
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
@@ -2038,7 +2061,7 @@ MUU_NAMESPACE_START
 		{
 			if constexpr (impl::is_small_float<scalar_type>)
 			{
-				#define VEC_FUNC(member)	static_cast<intermediate_type>(base::member) + static_cast<intermediate_type>(rhs.member)
+				#define VEC_FUNC(member)	static_cast<float>(base::member) + static_cast<float>(rhs.member)
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
 			}
@@ -2065,11 +2088,12 @@ MUU_NAMESPACE_START
 		/// \brief Returns the componentwise subtraction of one vector from another.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr vector MUU_VECTORCALL operator - (vector_param lhs, vector_param rhs) noexcept
+		friend
+		constexpr vector MUU_VECTORCALL operator - (vector_param lhs, vector_param rhs) noexcept
 		{
 			if constexpr (impl::is_small_float<scalar_type>)
 			{
-				#define VEC_FUNC(member)	static_cast<intermediate_type>(lhs.member) - static_cast<intermediate_type>(rhs.member)
+				#define VEC_FUNC(member)	static_cast<float>(lhs.member) - static_cast<float>(rhs.member)
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
@@ -2086,7 +2110,7 @@ MUU_NAMESPACE_START
 		{
 			if constexpr (impl::is_small_float<scalar_type>)
 			{
-				#define VEC_FUNC(member)	static_cast<intermediate_type>(base::member) - static_cast<intermediate_type>(rhs.member)
+				#define VEC_FUNC(member)	static_cast<float>(base::member) - static_cast<float>(rhs.member)
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
 			}
@@ -2117,11 +2141,12 @@ MUU_NAMESPACE_START
 		/// \brief Returns the componentwise multiplication of two vectors.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr vector MUU_VECTORCALL operator * (vector_param lhs, vector_param rhs) noexcept
+		friend
+		constexpr vector MUU_VECTORCALL operator * (vector_param lhs, vector_param rhs) noexcept
 		{
 			if constexpr (impl::is_small_float<scalar_type>)
 			{
-				#define VEC_FUNC(member)	static_cast<intermediate_type>(lhs.member) * static_cast<intermediate_type>(rhs.member)
+				#define VEC_FUNC(member)	static_cast<float>(lhs.member) * static_cast<float>(rhs.member)
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
@@ -2138,7 +2163,7 @@ MUU_NAMESPACE_START
 		{
 			if constexpr (impl::is_small_float<scalar_type>)
 			{
-				#define VEC_FUNC(member)	static_cast<intermediate_type>(base::member) * static_cast<intermediate_type>(rhs.member)
+				#define VEC_FUNC(member)	static_cast<float>(base::member) * static_cast<float>(rhs.member)
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
 			}
@@ -2157,10 +2182,12 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr vector MUU_VECTORCALL raw_multiply_scalar(vector_param lhs, T rhs) noexcept
 		{
-			using type = impl::highest_ranked<
-				decltype(scalar_type{} * T{}),
-				impl::promote_if_small_float<T>,
-				std::conditional_t<is_floating_point<scalar_type>, intermediate_type, scalar_type>
+			using type = set_signed<
+				impl::highest_ranked<
+					decltype(scalar_type{} * impl::promote_if_small_float<T>{}),
+					intermediate_product
+				>,
+				is_signed<scalar_type> || is_signed<T>
 			>;
 
 			if constexpr (all_same<type, scalar_type, T>)
@@ -2179,13 +2206,14 @@ MUU_NAMESPACE_START
 		}
 
 		template <typename T>
-		[[nodiscard]]
 		constexpr vector& MUU_VECTORCALL raw_multiply_assign_scalar(T rhs) noexcept
 		{
-			using type = impl::highest_ranked<
-				decltype(scalar_type{} * T{}),
-				impl::promote_if_small_float<T>,
-				std::conditional_t<is_floating_point<scalar_type>, intermediate_type, scalar_type>
+			using type = set_signed<
+				impl::highest_ranked<
+					decltype(scalar_type{} * impl::promote_if_small_float<T>{}),
+					intermediate_product
+				>,
+				is_signed<scalar_type> || is_signed<T>
 			>;
 
 			if constexpr (all_same<type, scalar_type, T>)
@@ -2208,7 +2236,8 @@ MUU_NAMESPACE_START
 		/// \brief Returns the componentwise multiplication of a vector and a scalar.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr vector MUU_VECTORCALL operator * (vector_param lhs, scalar_type rhs) noexcept
+		friend
+		constexpr vector MUU_VECTORCALL operator * (vector_param lhs, scalar_type rhs) noexcept
 		{
 			return raw_multiply_scalar(lhs, rhs);
 		}
@@ -2216,11 +2245,11 @@ MUU_NAMESPACE_START
 		/// \brief Returns the componentwise multiplication of a vector and a scalar.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr vector MUU_VECTORCALL operator * (scalar_type lhs, vector_param rhs) noexcept
+		friend
+		constexpr vector MUU_VECTORCALL operator * (scalar_type lhs, vector_param rhs) noexcept
 		{
 			return raw_multiply_scalar(rhs, lhs);
 		}
-
 
 		/// \brief Componentwise multiplies this vector by a scalar.
 		constexpr vector& MUU_VECTORCALL operator *= (scalar_type rhs) noexcept
@@ -2235,11 +2264,12 @@ MUU_NAMESPACE_START
 		/// \brief Returns the componentwise division of one vector by another.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr vector MUU_VECTORCALL operator / (vector_param lhs, vector_param rhs) noexcept
+		friend
+		constexpr vector MUU_VECTORCALL operator / (vector_param lhs, vector_param rhs) noexcept
 		{
 			if constexpr (impl::is_small_float<scalar_type>)
 			{
-				#define VEC_FUNC(member)	static_cast<intermediate_type>(lhs.member) / static_cast<intermediate_type>(rhs.member)
+				#define VEC_FUNC(member)	static_cast<float>(lhs.member) / static_cast<float>(rhs.member)
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
@@ -2256,7 +2286,7 @@ MUU_NAMESPACE_START
 		{
 			if constexpr (impl::is_small_float<scalar_type>)
 			{
-				#define VEC_FUNC(member)	static_cast<intermediate_type>(base::member) / static_cast<intermediate_type>(rhs.member)
+				#define VEC_FUNC(member)	static_cast<float>(base::member) / static_cast<float>(rhs.member)
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
 			}
@@ -2275,10 +2305,12 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr vector MUU_VECTORCALL raw_divide_scalar(vector_param lhs, T rhs) noexcept
 		{
-			using type = impl::highest_ranked<
-				decltype(scalar_type{} / T{}),
-				impl::promote_if_small_float<T>,
-				std::conditional_t<is_floating_point<scalar_type>, intermediate_type, scalar_type>
+			using type = set_signed<
+				impl::highest_ranked<
+					decltype(scalar_type{} / impl::promote_if_small_float<T>{}),
+					intermediate_product
+				>,
+				is_signed<scalar_type> || is_signed<T>
 			>;
 
 			if constexpr (is_floating_point<type>)
@@ -2301,13 +2333,14 @@ MUU_NAMESPACE_START
 		}
 
 		template <typename T>
-		[[nodiscard]]
 		constexpr vector& MUU_VECTORCALL raw_divide_assign_scalar(T rhs) noexcept
 		{
-			using type = impl::highest_ranked<
-				decltype(scalar_type{} / T{}),
-				impl::promote_if_small_float<T>,
-				std::conditional_t<is_floating_point<scalar_type>, intermediate_type, scalar_type>
+			using type = set_signed<
+				impl::highest_ranked<
+					decltype(scalar_type{} / impl::promote_if_small_float<T>{}),
+					intermediate_product
+				>,
+				is_signed<scalar_type> || is_signed<T>
 			>;
 
 			if constexpr (is_floating_point<type>)
@@ -2334,7 +2367,8 @@ MUU_NAMESPACE_START
 		/// \brief Returns the componentwise division of a vector and a scalar.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr vector MUU_VECTORCALL operator / (vector_param lhs, scalar_type rhs) noexcept
+		friend
+		constexpr vector MUU_VECTORCALL operator / (vector_param lhs, scalar_type rhs) noexcept
 		{
 			return raw_divide_scalar(lhs, rhs);
 		}
@@ -2352,7 +2386,8 @@ MUU_NAMESPACE_START
 		/// \brief Returns the remainder of componentwise dividing of one vector by another.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr vector MUU_VECTORCALL operator % (vector_param lhs, vector_param rhs) noexcept
+		friend
+		constexpr vector MUU_VECTORCALL operator % (vector_param lhs, vector_param rhs) noexcept
 		{
 			#define VEC_FUNC(member)	impl::raw_modulo(lhs.member, rhs.member)
 			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
@@ -2370,7 +2405,8 @@ MUU_NAMESPACE_START
 		/// \brief Returns the remainder of componentwise dividing vector by a scalar.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr vector MUU_VECTORCALL operator % (vector_param lhs, scalar_type rhs) noexcept
+		friend
+		constexpr vector MUU_VECTORCALL operator % (vector_param lhs, scalar_type rhs) noexcept
 		{
 			#define VEC_FUNC(member)	impl::raw_modulo(lhs.member, rhs)
 			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
@@ -2395,7 +2431,8 @@ MUU_NAMESPACE_START
 		LEGACY_REQUIRES_INTEGRAL
 		[[nodiscard]]
 		MUU_ATTR_NDEBUG(pure)
-		friend constexpr vector MUU_VECTORCALL operator << (vector_param lhs, int rhs) noexcept
+		friend
+		constexpr vector MUU_VECTORCALL operator << (vector_param lhs, product_type rhs) noexcept
 			REQUIRES_INTEGRAL
 		{
 			MUU_CONSTEXPR_SAFE_ASSERT(rhs >= 0 && "Bitwise left-shifting by negative values is illegal");
@@ -2410,7 +2447,7 @@ MUU_NAMESPACE_START
 		/// 
 		/// \note		This function is only available when #scalar_type is an integral type.
 		LEGACY_REQUIRES_INTEGRAL
-		constexpr vector& MUU_VECTORCALL operator <<= (int rhs) noexcept
+		constexpr vector& MUU_VECTORCALL operator <<= (product_type rhs) noexcept
 			REQUIRES_INTEGRAL
 		{
 			MUU_CONSTEXPR_SAFE_ASSERT(rhs >= 0 && "Bitwise left-shifting by negative values is illegal");
@@ -2427,7 +2464,8 @@ MUU_NAMESPACE_START
 		LEGACY_REQUIRES_INTEGRAL
 		[[nodiscard]]
 		MUU_ATTR_NDEBUG(pure)
-		friend constexpr vector MUU_VECTORCALL operator >> (vector_param lhs, int rhs) noexcept
+		friend
+		constexpr vector MUU_VECTORCALL operator >> (vector_param lhs, product_type rhs) noexcept
 			REQUIRES_INTEGRAL
 		{
 			MUU_CONSTEXPR_SAFE_ASSERT(rhs >= 0 && "Bitwise right-shifting by negative values is illegal");
@@ -2442,7 +2480,7 @@ MUU_NAMESPACE_START
 		/// 
 		/// \note		This function is only available when #scalar_type is an integral type.
 		LEGACY_REQUIRES_INTEGRAL
-		constexpr vector& MUU_VECTORCALL operator >>= (int rhs) noexcept
+		constexpr vector& MUU_VECTORCALL operator >>= (product_type rhs) noexcept
 			REQUIRES_INTEGRAL
 		{
 			MUU_CONSTEXPR_SAFE_ASSERT(rhs >= 0 && "Bitwise right-shifting by negative values is illegal");
@@ -2467,18 +2505,18 @@ MUU_NAMESPACE_START
 		/// \note This function is only available when #scalar_type is a floating-point type.
 		LEGACY_REQUIRES_FLOATING_POINT
 		[[nodiscard]]
-		static constexpr vector MUU_VECTORCALL normalize(vector_param v, scalar_product& length_out) noexcept
+		static constexpr vector MUU_VECTORCALL normalize(vector_param v, delta_type& length_out) noexcept
 			REQUIRES_FLOATING_POINT
 		{
 			if constexpr (Dimensions == 1)
 			{
-				length_out = static_cast<scalar_product>(v.x);
+				length_out = static_cast<delta_type>(v.x);
 				return vector{ scalar_constants::one };
 			}
 			else
 			{
 				const auto len = raw_length(v);
-				length_out = static_cast<scalar_product>(len);
+				length_out = static_cast<delta_type>(len);
 				return raw_divide_scalar(v, len);
 			}
 		}
@@ -2513,19 +2551,19 @@ MUU_NAMESPACE_START
 		/// 
 		/// \note This function is only available when #scalar_type is a floating-point type.
 		LEGACY_REQUIRES_FLOATING_POINT
-		constexpr vector& normalize(scalar_product& length_out) noexcept
+		constexpr vector& normalize(delta_type& length_out) noexcept
 			REQUIRES_FLOATING_POINT
 		{
 			if constexpr (Dimensions == 1)
 			{
-				length_out = static_cast<scalar_product>(base::x);
+				length_out = static_cast<delta_type>(base::x);
 				base::x = scalar_constants::one;
 				return *this;
 			}
 			else
 			{
 				const auto len = raw_length(*this);
-				length_out = static_cast<scalar_product>(len);
+				length_out = static_cast<delta_type>(len);
 				return raw_divide_assign_scalar(len);
 			}
 		}
@@ -2558,10 +2596,10 @@ MUU_NAMESPACE_START
 		/// \note This function is only available when #scalar_type is a floating-point type.
 		LEGACY_REQUIRES_FLOATING_POINT
 		[[nodiscard]]
-		static constexpr vector MUU_VECTORCALL normalize_lensq(vector_param v, scalar_product v_lensq) noexcept
+		static constexpr vector MUU_VECTORCALL normalize_lensq(vector_param v, delta_type v_lensq) noexcept
 			REQUIRES_FLOATING_POINT
 		{
-			return raw_divide_scalar(v, muu::sqrt(static_cast<intermediate_type>(v_lensq)));
+			return raw_divide_scalar(v, muu::sqrt(static_cast<intermediate_float>(v_lensq)));
 		}
 
 		/// \brief	Normalizes the vector using a pre-calculated squared-length (in-place).
@@ -2572,10 +2610,10 @@ MUU_NAMESPACE_START
 		/// 
 		/// \note This function is only available when #scalar_type is a floating-point type.
 		LEGACY_REQUIRES_FLOATING_POINT
-		constexpr vector& MUU_VECTORCALL normalize_lensq(scalar_product lensq) noexcept
+		constexpr vector& MUU_VECTORCALL normalize_lensq(delta_type lensq) noexcept
 			REQUIRES_FLOATING_POINT
 		{
-			return raw_divide_assign_scalar(muu::sqrt(static_cast<intermediate_type>(lensq)));
+			return raw_divide_assign_scalar(muu::sqrt(static_cast<intermediate_float>(lensq)));
 		}
 
 	#endif // normalization
@@ -2594,27 +2632,27 @@ MUU_NAMESPACE_START
 		LEGACY_REQUIRES_DIMENSIONS_BETWEEN(2, 3)
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr vector_product MUU_VECTORCALL direction(vector_param from, vector_param to, scalar_product& distance_out) noexcept
+		static constexpr vector_product MUU_VECTORCALL direction(vector_param from, vector_param to, delta_type& distance_out) noexcept
 			REQUIRES_DIMENSIONS_BETWEEN(2, 3)
 		{
 			// all are the same type - only happens with float, double, long double etc.
-			if constexpr (all_same<scalar_type, intermediate_type, scalar_product>)
+			if constexpr (all_same<scalar_type, intermediate_float, delta_type>)
 			{
 				return vector_product::normalize(to - from, distance_out);
 			}
 
 			// only intermediate type is different - half, _Float16, __fp16
-			else if constexpr (std::is_same_v<scalar_type, scalar_product>)
+			else if constexpr (std::is_same_v<scalar_type, delta_type>)
 			{
-				using ivec = vector<intermediate_type, dimensions>;
-				intermediate_type dist{};
+				using ivec = vector<intermediate_float, dimensions>;
+				intermediate_float dist{};
 				vector_product result{ ivec::normalize(ivec{ to } - ivec{ from }, dist) };
-				distance_out = static_cast<scalar_product>(dist);
+				distance_out = static_cast<delta_type>(dist);
 				return result;
 			}
 
 			// only scalar_type is different - integers.
-			else if constexpr (std::is_same_v<scalar_product, intermediate_type>)
+			else if constexpr (std::is_same_v<delta_type, intermediate_float>)
 			{
 				return vector_product::normalize(vector_product{ to } - vector_product{ from }, distance_out);
 			}
@@ -2635,20 +2673,20 @@ MUU_NAMESPACE_START
 			REQUIRES_DIMENSIONS_BETWEEN(2, 3)
 		{
 			// all are the same type - only happens with float, double, long double etc.
-			if constexpr (all_same<scalar_type, intermediate_type, scalar_product>)
+			if constexpr (all_same<scalar_type, intermediate_float, delta_type>)
 			{
 				return vector_product::normalize(to - from);
 			}
 
 			// only intermediate type is different - half, _Float16, __fp16
-			else if constexpr (std::is_same_v<scalar_type, scalar_product>)
+			else if constexpr (std::is_same_v<scalar_type, delta_type>)
 			{
-				using ivec = vector<intermediate_type, dimensions>;
+				using ivec = vector<intermediate_float, dimensions>;
 				return vector_product{ ivec::normalize(ivec{ to } - ivec{ from }) };
 			}
 
 			// only scalar_type is different - integers.
-			else if constexpr (std::is_same_v<scalar_product, intermediate_type>)
+			else if constexpr (std::is_same_v<delta_type, intermediate_float>)
 			{
 				return vector_product::normalize(vector_product{ to } - vector_product{ from });
 			}
@@ -2663,7 +2701,7 @@ MUU_NAMESPACE_START
 		LEGACY_REQUIRES_DIMENSIONS_BETWEEN(2, 3)
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		constexpr vector_product MUU_VECTORCALL direction(vector_param to, scalar_product& distance_out) const noexcept
+		constexpr vector_product MUU_VECTORCALL direction(vector_param to, delta_type& distance_out) const noexcept
 			REQUIRES_DIMENSIONS_BETWEEN(2, 3)
 		{
 			return direction(*this, to, distance_out);
@@ -2729,7 +2767,8 @@ MUU_NAMESPACE_START
 
 		/// \brief Writes a vector out to a text stream.
 		template <typename Char, typename Traits>
-		friend std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& os, const vector& v)
+		friend
+		std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& os, const vector& v)
 		{
 			impl::print_vector_to_stream(os, &v.get<0>(), Dimensions);
 			return os;
@@ -2809,17 +2848,17 @@ MUU_NAMESPACE_START
 		/// 
 		/// using vec4 = decltype(v);
 		/// 
-		///	std::cout << "<0>:          " << vec4::swizzle<0>(v)          << "\n";
-		///	std::cout << "<1, 0>:       " << vec4::swizzle<1, 0>(v)       << "\n";
-		///	std::cout << "<3, 2, 3>:    " << vec4::swizzle<3, 2, 3>(v)    << "\n";
-		///	std::cout << "<0, 1, 0, 1>: " << vec4::swizzle<0, 1, 0, 1>(v) << "\n";
+		///	std::cout << "swizzle<0>:          " << vec4::swizzle<0>(v)          << "\n";
+		///	std::cout << "swizzle<1, 0>:       " << vec4::swizzle<1, 0>(v)       << "\n";
+		///	std::cout << "swizzle<3, 2, 3>:    " << vec4::swizzle<3, 2, 3>(v)    << "\n";
+		///	std::cout << "swizzle<0, 1, 0, 1>: " << vec4::swizzle<0, 1, 0, 1>(v) << "\n";
 		/// \ecpp
 		/// 
 		/// \out
-		/// <0>:          { 10 }
-		/// <1, 0>:       { 7, 10 }
-		/// <3, 2, 3>:    { 9, 5, 9 }
-		/// <0, 1, 0, 1>: { 10, 7, 10, 7 }
+		/// swizzle<0>:          { 10 }
+		/// swizzle<1, 0>:       { 7, 10 }
+		/// swizzle<3, 2, 3>:    { 9, 5, 9 }
+		/// swizzle<0, 1, 0, 1>: { 10, 7, 10, 7 }
 		/// \eout
 		/// 
 		/// \return  A vector composed from the desired 'swizzle' of the source vector.
@@ -2851,17 +2890,17 @@ MUU_NAMESPACE_START
 		/// //                ^  ^  ^  ^
 		/// // indices:       0  1  2  3
 		/// 
-		///	std::cout << "<0>:          " << v.swizzle<0>(v)          << "\n";
-		///	std::cout << "<1, 0>:       " << v.swizzle<1, 0>(v)       << "\n";
-		///	std::cout << "<3, 2, 3>:    " << v.swizzle<3, 2, 3>(v)    << "\n";
-		///	std::cout << "<0, 1, 0, 1>: " << v.swizzle<0, 1, 0, 1>(v) << "\n";
+		///	std::cout << "swizzle<0>:          " << v.swizzle<0>(v)          << "\n";
+		///	std::cout << "swizzle<1, 0>:       " << v.swizzle<1, 0>(v)       << "\n";
+		///	std::cout << "swizzle<3, 2, 3>:    " << v.swizzle<3, 2, 3>(v)    << "\n";
+		///	std::cout << "swizzle<0, 1, 0, 1>: " << v.swizzle<0, 1, 0, 1>(v) << "\n";
 		/// \ecpp
 		/// 
 		/// \out
-		/// <0>:          { 10 }
-		/// <1, 0>:       { 7, 10 }
-		/// <3, 2, 3>:    { 9, 5, 9 }
-		/// <0, 1, 0, 1>: { 10, 7, 10, 7 }
+		/// swizzle<0>:          { 10 }
+		/// swizzle<1, 0>:       { 7, 10 }
+		/// swizzle<3, 2, 3>:    { 9, 5, 9 }
+		/// swizzle<0, 1, 0, 1>: { 10, 7, 10, 7 }
 		/// \eout
 		/// 
 		/// \return  A vector composed from the desired 'swizzle' of this one.
@@ -2947,9 +2986,9 @@ MUU_NAMESPACE_START
 		/// \returns	A vector with values derived from a linear interpolation from `start` to `finish`.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr vector MUU_VECTORCALL lerp(vector_param start, vector_param finish, scalar_product alpha) noexcept
+		static constexpr vector MUU_VECTORCALL lerp(vector_param start, vector_param finish, delta_type alpha) noexcept
 		{
-			using type = intermediate_type;
+			using type = intermediate_float;
 			const auto inv_alpha = type{ 1 } - static_cast<type>(alpha);
 
 			#define VEC_FUNC(member) static_cast<type>(start.member) * inv_alpha + static_cast<type>(finish.member) * static_cast<type>(alpha)
@@ -2963,9 +3002,9 @@ MUU_NAMESPACE_START
 		/// \param	alpha 	The blend factor.
 		///
 		/// \return	A reference to the vector.
-		constexpr vector& MUU_VECTORCALL lerp(vector target, scalar_product alpha) noexcept
+		constexpr vector& MUU_VECTORCALL lerp(vector target, delta_type alpha) noexcept
 		{
-			using type = intermediate_type;
+			using type = intermediate_float;
 			const auto inv_alpha = type{ 1 } - static_cast<type>(alpha);
 
 			#define VEC_FUNC(member) static_cast<type>(base::member) * inv_alpha + static_cast<type>(target.member) * static_cast<type>(alpha)
@@ -2988,19 +3027,19 @@ MUU_NAMESPACE_START
 		LEGACY_REQUIRES_DIMENSIONS_BETWEEN(2, 3)
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr scalar_product MUU_VECTORCALL angle(vector_param v1, vector_param v2) noexcept
+		static constexpr delta_type MUU_VECTORCALL angle(vector_param v1, vector_param v2) noexcept
 			REQUIRES_DIMENSIONS_BETWEEN(2, 3)
 		{
 			// law of cosines
 			// https://stackoverflow.com/questions/10507620/finding-the-angle-between-vectors
 
 			// intermediate calcs are done using doubles because anything else is far too imprecise
-			using calc_type = impl::highest_ranked<intermediate_type, double>;
+			using calc_type = impl::highest_ranked<intermediate_float, double>;
 			const calc_type divisor = raw_length<calc_type>(v1) * raw_length<calc_type>(v2);
 			if (divisor == calc_type{})
-				return scalar_product{};
+				return delta_type{};
 
-			return static_cast<scalar_product>(muu::acos(muu::clamp(
+			return static_cast<delta_type>(muu::acos(muu::clamp(
 				raw_dot<calc_type>(v1, v2) / divisor,
 				-muu::constants<calc_type>::one,
 				muu::constants<calc_type>::one
@@ -3021,7 +3060,7 @@ MUU_NAMESPACE_START
 		LEGACY_REQUIRES_DIMENSIONS_BETWEEN(2, 3)
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		constexpr scalar_product MUU_VECTORCALL angle(vector_param v) const noexcept
+		constexpr delta_type MUU_VECTORCALL angle(vector_param v) const noexcept
 			REQUIRES_DIMENSIONS_BETWEEN(2, 3)
 		{
 			return angle(*this, v);
@@ -3641,16 +3680,16 @@ MUU_NAMESPACE_START
 	///
 	/// \brief	Returns the squared length of a vector.
 	template <typename S, size_t D,
-		typename scalar_product = typename vector<S, D>::scalar_product
+		typename delta_type = typename vector<S, D>::delta_type
 		ENABLE_PAIRED_FUNC_BY_REF(S, D, true)
 	>
 	REQUIRES_PAIRED_FUNC_BY_REF(S, D, true)
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr scalar_product length_squared(const vector<S, D>& v) noexcept
+	constexpr delta_type length_squared(const vector<S, D>& v) noexcept
 	{
-		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+		static_assert(std::is_same_v<delta_type, typename vector<S, D>::delta_type>);
 
 		return vector<S, D>::length_squared(v);
 	}
@@ -3659,16 +3698,16 @@ MUU_NAMESPACE_START
 	///
 	/// \brief	Returns the length (magnitude) of a vector.
 	template <typename S, size_t D,
-		typename scalar_product = typename vector<S, D>::scalar_product
+		typename delta_type = typename vector<S, D>::delta_type
 		ENABLE_PAIRED_FUNC_BY_REF(S, D, true)
 	>
 	REQUIRES_PAIRED_FUNC_BY_REF(S, D, true)
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr scalar_product length(const vector<S, D>& v) noexcept
+	constexpr delta_type length(const vector<S, D>& v) noexcept
 	{
-		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+		static_assert(std::is_same_v<delta_type, typename vector<S, D>::delta_type>);
 
 		return vector<S, D>::length(v);
 	}
@@ -3677,16 +3716,16 @@ MUU_NAMESPACE_START
 	///
 	/// \brief	Returns the squared distance between two point vectors.
 	template <typename S, size_t D,
-		typename scalar_product = typename vector<S, D>::scalar_product
+		typename delta_type = typename vector<S, D>::delta_type
 		ENABLE_PAIRED_FUNC_BY_REF(S, D, true)
 	>
 	REQUIRES_PAIRED_FUNC_BY_REF(S, D, true)
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr scalar_product distance_squared(const vector<S, D>& p1, const vector<S, D>& p2) noexcept
+	constexpr delta_type distance_squared(const vector<S, D>& p1, const vector<S, D>& p2) noexcept
 	{
-		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+		static_assert(std::is_same_v<delta_type, typename vector<S, D>::delta_type>);
 
 		return vector<S, D>::distance_squared(p1, p2);
 	}
@@ -3695,16 +3734,16 @@ MUU_NAMESPACE_START
 	///
 	/// \brief	Returns the distance between two point vectors.
 	template <typename S, size_t D,
-		typename scalar_product = typename vector<S, D>::scalar_product
+		typename delta_type = typename vector<S, D>::delta_type
 		ENABLE_PAIRED_FUNC_BY_REF(S, D, true)
 	>
 	REQUIRES_PAIRED_FUNC_BY_REF(S, D, true)
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr scalar_product distance(const vector<S, D>& p1, const vector<S, D>& p2) noexcept
+	constexpr delta_type distance(const vector<S, D>& p1, const vector<S, D>& p2) noexcept
 	{
-		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+		static_assert(std::is_same_v<delta_type, typename vector<S, D>::delta_type>);
 
 		return vector<S, D>::distance(p1, p2);
 	}
@@ -3713,16 +3752,16 @@ MUU_NAMESPACE_START
 	///
 	/// \brief	Returns the dot product of two vectors.
 	template <typename S, size_t D,
-		typename scalar_product = typename vector<S, D>::scalar_product
+		typename product_type = typename vector<S, D>::product_type
 		ENABLE_PAIRED_FUNC_BY_REF(S, D, true)
 	>
 	REQUIRES_PAIRED_FUNC_BY_REF(S, D, true)
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr scalar_product dot(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
+	constexpr product_type dot(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
 	{
-		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+		static_assert(std::is_same_v<product_type, typename vector<S, D>::product_type>);
 
 		return vector<S, D>::dot(v1, v2);
 	}
@@ -3756,15 +3795,15 @@ MUU_NAMESPACE_START
 	/// 
 	/// \note This function is only available when `S` is a floating-point type.
 	template <typename S, size_t D,
-		typename scalar_product = typename vector<S, D>::scalar_product
+		typename delta_type = typename vector<S, D>::delta_type
 		ENABLE_PAIRED_FUNC_BY_REF(S, D, is_floating_point<S>)
 	>
 	REQUIRES_PAIRED_FUNC_BY_REF(S, D, is_floating_point<S>)
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
-	constexpr vector<S, D> normalize(const vector<S, D>& v, scalar_product& length_out) noexcept
+	constexpr vector<S, D> normalize(const vector<S, D>& v, delta_type& length_out) noexcept
 	{
-		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+		static_assert(std::is_same_v<delta_type, typename vector<S, D>::delta_type>);
 
 		return vector<S, D>::normalize(v, length_out);
 	}
@@ -3803,15 +3842,15 @@ MUU_NAMESPACE_START
 	/// \note		This function is only available when `D` == 2 or 3.
 	template <typename S, size_t D,
 		typename vector_product = typename vector<S, D>::vector_product,
-		typename scalar_product = typename vector<S, D>::scalar_product
+		typename delta_type = typename vector<S, D>::delta_type
 		ENABLE_PAIRED_FUNC_BY_REF(S, D, D == 2 || D == 3)
 	>
 	REQUIRES_PAIRED_FUNC_BY_REF(S, D, D == 2 || D == 3)
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
-	constexpr vector_product direction(const vector<S, D>& from, const vector<S, D>& to, scalar_product& distance_out) noexcept
+	constexpr vector_product direction(const vector<S, D>& from, const vector<S, D>& to, delta_type& distance_out) noexcept
 	{
-		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+		static_assert(std::is_same_v<delta_type, typename vector<S, D>::delta_type>);
 		static_assert(std::is_same_v<vector_product, typename vector<S, D>::vector_product>);
 
 		return vector<S, D>::direction(from, to, distance_out);
@@ -3892,16 +3931,16 @@ MUU_NAMESPACE_START
 	///
 	/// \brief	Performs a linear interpolation between two vectors.
 	template <typename S, size_t D,
-		typename scalar_product = typename vector<S, D>::scalar_product
+		typename delta_type = typename vector<S, D>::delta_type
 		ENABLE_PAIRED_FUNC_BY_REF(S, D, true)
 	>
 	REQUIRES_PAIRED_FUNC_BY_REF(S, D, true)
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr vector<S, D> lerp(const vector<S, D>& start, const vector<S, D>& finish, scalar_product alpha) noexcept
+	constexpr vector<S, D> lerp(const vector<S, D>& start, const vector<S, D>& finish, delta_type alpha) noexcept
 	{
-		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+		static_assert(std::is_same_v<delta_type, typename vector<S, D>::delta_type>);
 
 		return vector<S, D>::lerp(start, finish, alpha);
 	}
@@ -3921,16 +3960,16 @@ MUU_NAMESPACE_START
 	/// 
 	/// \note		This function is only available when `D` == 2 or 3.
 	template <typename S, size_t D,
-		typename scalar_product = typename vector<S, D>::scalar_product
+		typename delta_type = typename vector<S, D>::delta_type
 		ENABLE_PAIRED_FUNC_BY_REF(S, D, D == 2 || D == 3)
 	>
 	REQUIRES_PAIRED_FUNC_BY_REF(S, D, D == 2 || D == 3)
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr scalar_product angle(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
+	constexpr delta_type angle(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
 	{
-		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+		static_assert(std::is_same_v<delta_type, typename vector<S, D>::delta_type>);
 
 		return vector<S, D>::angle(v1, v2);
 	}
@@ -4018,76 +4057,76 @@ MUU_NAMESPACE_START
 	}
 
 	template <typename S, size_t D,
-		typename scalar_product = typename vector<S, D>::scalar_product
+		typename delta_type = typename vector<S, D>::delta_type
 		ENABLE_PAIRED_FUNC_BY_VAL(S, D, true)
 	>
 	REQUIRES_PAIRED_FUNC_BY_VAL(S, D, true)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
-	constexpr scalar_product MUU_VECTORCALL length_squared(vector<S, D> v) noexcept
+	constexpr delta_type MUU_VECTORCALL length_squared(vector<S, D> v) noexcept
 	{
-		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+		static_assert(std::is_same_v<delta_type, typename vector<S, D>::delta_type>);
 
 		return vector<S, D>::length_squared(v);
 	}
 
 	template <typename S, size_t D,
-		typename scalar_product = typename vector<S, D>::scalar_product
+		typename delta_type = typename vector<S, D>::delta_type
 		ENABLE_PAIRED_FUNC_BY_VAL(S, D, true)
 	>
 	REQUIRES_PAIRED_FUNC_BY_VAL(S, D, true)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
-	constexpr scalar_product MUU_VECTORCALL length(vector<S, D> v) noexcept
+	constexpr delta_type MUU_VECTORCALL length(vector<S, D> v) noexcept
 	{
-		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+		static_assert(std::is_same_v<delta_type, typename vector<S, D>::delta_type>);
 
 		return vector<S, D>::length(v);
 	}
 
 	template <typename S, size_t D,
-		typename scalar_product = typename vector<S, D>::scalar_product
+		typename delta_type = typename vector<S, D>::delta_type
 		ENABLE_PAIRED_FUNC_BY_VAL(S, D, true)
 	>
 	REQUIRES_PAIRED_FUNC_BY_VAL(S, D, true)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
-	constexpr scalar_product MUU_VECTORCALL distance_squared(vector<S, D> p1, vector<S, D> p2) noexcept
+	constexpr delta_type MUU_VECTORCALL distance_squared(vector<S, D> p1, vector<S, D> p2) noexcept
 	{
-		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+		static_assert(std::is_same_v<delta_type, typename vector<S, D>::delta_type>);
 
 		return vector<S, D>::distance_squared(p1, p2);
 	}
 
 	template <typename S, size_t D,
-		typename scalar_product = typename vector<S, D>::scalar_product
+		typename delta_type = typename vector<S, D>::delta_type
 		ENABLE_PAIRED_FUNC_BY_VAL(S, D, true)
 	>
 	REQUIRES_PAIRED_FUNC_BY_VAL(S, D, true)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
-	constexpr scalar_product MUU_VECTORCALL distance(vector<S, D> p1, vector<S, D> p2) noexcept
+	constexpr delta_type MUU_VECTORCALL distance(vector<S, D> p1, vector<S, D> p2) noexcept
 	{
-		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+		static_assert(std::is_same_v<delta_type, typename vector<S, D>::delta_type>);
 
 		return vector<S, D>::distance(p1, p2);
 	}
 
 	template <typename S, size_t D,
-		typename scalar_product = typename vector<S, D>::scalar_product
+		typename product_type = typename vector<S, D>::product_type
 		ENABLE_PAIRED_FUNC_BY_VAL(S, D, true)
 	>
 	REQUIRES_PAIRED_FUNC_BY_VAL(S, D, true)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
-	constexpr scalar_product MUU_VECTORCALL dot(vector<S, D> v1, vector<S, D> v2) noexcept
+	constexpr product_type MUU_VECTORCALL dot(vector<S, D> v1, vector<S, D> v2) noexcept
 	{
-		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+		static_assert(std::is_same_v<product_type, typename vector<S, D>::product_type>);
 
 		return vector<S, D>::dot(v1, v2);
 	}
@@ -4108,15 +4147,15 @@ MUU_NAMESPACE_START
 	}
 
 	template <typename S, size_t D,
-		typename scalar_product = typename vector<S, D>::scalar_product
+		typename delta_type = typename vector<S, D>::delta_type
 		ENABLE_PAIRED_FUNC_BY_VAL(S, D, is_floating_point<S>)
 	>
 	REQUIRES_PAIRED_FUNC_BY_VAL(S, D, is_floating_point<S>)
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
-	constexpr vector<S, D> MUU_VECTORCALL normalize(vector<S, D> v, scalar_product& length_out) noexcept
+	constexpr vector<S, D> MUU_VECTORCALL normalize(vector<S, D> v, delta_type& length_out) noexcept
 	{
-		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+		static_assert(std::is_same_v<delta_type, typename vector<S, D>::delta_type>);
 
 		return vector<S, D>::normalize(v, length_out);
 	}
@@ -4135,15 +4174,15 @@ MUU_NAMESPACE_START
 
 	template <typename S, size_t D,
 		typename vector_product = typename vector<S, D>::vector_product,
-		typename scalar_product = typename vector<S, D>::scalar_product
+		typename delta_type = typename vector<S, D>::delta_type
 		ENABLE_PAIRED_FUNC_BY_VAL(S, D, D == 2 || D == 3)
 	>
 	REQUIRES_PAIRED_FUNC_BY_VAL(S, D, D == 2 || D == 3)
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
-	constexpr vector_product MUU_VECTORCALL direction(vector<S, D> from, vector<S, D> to, scalar_product& distance_out) noexcept
+	constexpr vector_product MUU_VECTORCALL direction(vector<S, D> from, vector<S, D> to, delta_type& distance_out) noexcept
 	{
-		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+		static_assert(std::is_same_v<delta_type, typename vector<S, D>::delta_type>);
 		static_assert(std::is_same_v<vector_product, typename vector<S, D>::vector_product>);
 
 		return vector<S, D>::direction(from, to, distance_out);
@@ -4201,31 +4240,31 @@ MUU_NAMESPACE_START
 	}
 
 	template <typename S, size_t D,
-		typename scalar_product = typename vector<S, D>::scalar_product
+		typename delta_type = typename vector<S, D>::delta_type
 		ENABLE_PAIRED_FUNC_BY_VAL(S, D, true)
 	>
 	REQUIRES_PAIRED_FUNC_BY_VAL(S, D, true)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
-	constexpr vector<S, D> MUU_VECTORCALL lerp(vector<S, D> start, vector<S, D> finish, scalar_product alpha) noexcept
+	constexpr vector<S, D> MUU_VECTORCALL lerp(vector<S, D> start, vector<S, D> finish, delta_type alpha) noexcept
 	{
-		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+		static_assert(std::is_same_v<delta_type, typename vector<S, D>::delta_type>);
 
 		return vector<S, D>::lerp(start, finish, alpha);
 	}
 
 	template <typename S, size_t D,
-		typename scalar_product = typename vector<S, D>::scalar_product
+		typename delta_type = typename vector<S, D>::delta_type
 		ENABLE_PAIRED_FUNC_BY_VAL(S, D, D == 2 || D == 3)
 	>
 	REQUIRES_PAIRED_FUNC_BY_VAL(S, D, D == 2 || D == 3)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
-	constexpr scalar_product MUU_VECTORCALL angle(vector<S, D> v1, vector<S, D> v2) noexcept
+	constexpr delta_type MUU_VECTORCALL angle(vector<S, D> v1, vector<S, D> v2) noexcept
 	{
-		static_assert(std::is_same_v<scalar_product, typename vector<S, D>::scalar_product>);
+		static_assert(std::is_same_v<delta_type, typename vector<S, D>::delta_type>);
 
 		return vector<S, D>::angle(v1, v2);
 	}

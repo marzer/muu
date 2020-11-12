@@ -517,6 +517,7 @@ inline void vector_infinity_or_nan_tests(std::string_view scalar_typename) noexc
 		for (size_t i = 0; i < Dimensions; i++)
 			vector1[i] = static_cast<T>(i);
 		CHECK_FALSE(vector1.infinity_or_nan());
+		CHECK_FALSE(vector_t::infinity_or_nan(vector1));
 		CHECK_FALSE(muu::infinity_or_nan(vector1));
 	}
 
@@ -530,6 +531,7 @@ inline void vector_infinity_or_nan_tests(std::string_view scalar_typename) noexc
 				vector_t vector2{ vector1 };
 				vector2[i] = make_nan<T>();
 				CHECK(vector2.infinity_or_nan());
+				CHECK(vector_t::infinity_or_nan(vector2));
 				CHECK(muu::infinity_or_nan(vector2));
 			}
 		}
@@ -541,6 +543,7 @@ inline void vector_infinity_or_nan_tests(std::string_view scalar_typename) noexc
 				vector_t vector2{ vector1 };
 				vector2[i] = make_infinity<T>();
 				CHECK(vector2.infinity_or_nan());
+				CHECK(vector_t::infinity_or_nan(vector2));
 				CHECK(muu::infinity_or_nan(vector2));
 			}
 		}
@@ -558,7 +561,6 @@ inline void vector_dot_tests(std::string_view scalar_typename) noexcept
 	const vector_t vector1{ x1 }, vector2{ x2 };
 		
 	using dot_type = decltype(vector1.dot(vector2));
-	static_assert(is_floating_point<dot_type>);
 
 	// expected result
 	// (accumulating in a potentially more precise intermediate type then coverting the result is what happens in
@@ -1103,18 +1105,18 @@ inline void vector_angle_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("vector<"sv << scalar_typename << ", "sv << Dimensions << ">"sv)
 	using vector_t = vector<T, Dimensions>;
-	using scalar_product = typename vector_t::scalar_product;
-	using constant_type = impl::highest_ranked<scalar_product, float>;
+	using delta_type = typename vector_t::delta_type;
+	using constant_type = impl::highest_ranked<delta_type, float>;
 
 	[[maybe_unused]]
-	static const auto eps = static_cast<scalar_product>((muu::max)(
-		static_cast<long double>(constants<scalar_product>::approx_equal_epsilon),
+	static const auto eps = static_cast<delta_type>((muu::max)(
+		static_cast<long double>(constants<delta_type>::approx_equal_epsilon),
 		0.000000001L
 	));
 
-	#define CHECK_ANGLE(val)														\
-		CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<scalar_product>(val), eps);	\
-		CHECK_APPROX_EQUAL_EPS(b.angle(a), static_cast<scalar_product>(val), eps)
+	#define CHECK_ANGLE(val)													\
+		CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<delta_type>(val), eps);	\
+		CHECK_APPROX_EQUAL_EPS(b.angle(a), static_cast<delta_type>(val), eps)
 
 	if constexpr (Dimensions == 2)
 	{

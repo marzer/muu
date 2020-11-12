@@ -268,7 +268,8 @@ MUU_NAMESPACE_START
 		/// \brief	Scales an euler rotation.
 		[[nodiscard]]
 		MUU_ATTR(const)
-		friend constexpr euler_rotation MUU_VECTORCALL operator * (euler_rotation lhs, scalar_type rhs) noexcept
+		friend
+		constexpr euler_rotation MUU_VECTORCALL operator * (euler_rotation lhs, scalar_type rhs) noexcept
 		{
 			return euler_rotation{ lhs.yaw * rhs, lhs.pitch * rhs, lhs.roll * rhs };
 		}
@@ -276,7 +277,8 @@ MUU_NAMESPACE_START
 		/// \brief	Scales an euler rotation.
 		[[nodiscard]]
 		MUU_ATTR(const)
-		friend constexpr euler_rotation MUU_VECTORCALL operator * (scalar_type lhs, euler_rotation rhs) noexcept
+		friend
+		constexpr euler_rotation MUU_VECTORCALL operator * (scalar_type lhs, euler_rotation rhs) noexcept
 		{
 			return rhs * lhs;
 		}
@@ -289,7 +291,8 @@ MUU_NAMESPACE_START
 
 		/// \brief Writes a euler rotation out to a text stream.
 		template <typename Char, typename Traits>
-		friend std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& os, const euler_rotation& rot)
+		friend
+		std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& os, const euler_rotation& rot)
 		{
 			static_assert(sizeof(euler_rotation) == sizeof(scalar_type) * 3);
 			impl::print_vector_to_stream(os, &rot.yaw, 3u);
@@ -408,7 +411,9 @@ MUU_NAMESPACE_START
 			sizeof(base) == (sizeof(scalar_type) * 4),
 			"Quaternions should not have padding"
 		);
-		using intermediate_type = impl::promote_if_small_float<scalar_type>;
+
+		using intermediate_float = impl::promote_if_small_float<scalar_type>;
+		static_assert(is_floating_point<intermediate_float>);
 
 	public:
 
@@ -540,7 +545,8 @@ MUU_NAMESPACE_START
 		REQUIRES_PAIRED_FUNC_BY_REF(T, true)
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr bool MUU_VECTORCALL operator == (quaternion_param lhs, const quaternion<T>& rhs) noexcept
+		friend
+		constexpr bool MUU_VECTORCALL operator == (quaternion_param lhs, const quaternion<T>& rhs) noexcept
 		{
 			if constexpr (std::is_same_v<scalar_type, T>)
 			{
@@ -567,7 +573,8 @@ MUU_NAMESPACE_START
 		REQUIRES_PAIRED_FUNC_BY_REF(T, true)
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr bool MUU_VECTORCALL operator != (quaternion_param lhs, const quaternion<T>& rhs) noexcept
+		friend
+		constexpr bool MUU_VECTORCALL operator != (quaternion_param lhs, const quaternion<T>& rhs) noexcept
 		{
 			return !(lhs == rhs);
 		}
@@ -580,7 +587,8 @@ MUU_NAMESPACE_START
 		REQUIRES_PAIRED_FUNC_BY_VAL(T, true)
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr bool MUU_VECTORCALL operator == (quaternion_param lhs, quaternion<T> rhs) noexcept
+		friend
+		constexpr bool MUU_VECTORCALL operator == (quaternion_param lhs, quaternion<T> rhs) noexcept
 		{
 			if constexpr (std::is_same_v<scalar_type, T>)
 			{
@@ -603,7 +611,8 @@ MUU_NAMESPACE_START
 		REQUIRES_PAIRED_FUNC_BY_VAL(T, true)
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr bool MUU_VECTORCALL operator != (quaternion_param lhs, quaternion<T> rhs) noexcept
+		friend
+		constexpr bool MUU_VECTORCALL operator != (quaternion_param lhs, quaternion<T> rhs) noexcept
 		{
 			return !(lhs == rhs);
 		}
@@ -655,7 +664,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL unit_length(quaternion_param q) noexcept
 		{
-			constexpr auto epsilon = intermediate_type{ 1 } / (
+			constexpr auto epsilon = intermediate_float{ 1 } / (
 				100ull
 				* (sizeof(scalar_type) >= sizeof(float) ? 10000ull : 1ull)
 				* (sizeof(scalar_type) >= sizeof(double) ? 10000ull : 1ull)
@@ -663,7 +672,7 @@ MUU_NAMESPACE_START
 
 			return muu::approx_equal(
 				raw_dot(q, q),
-				intermediate_type{ 1 },
+				intermediate_float{ 1 },
 				epsilon
 			);
 		}
@@ -793,14 +802,14 @@ MUU_NAMESPACE_START
 
 	private:
 
-		template <typename T = intermediate_type>
+		template <typename T = intermediate_float>
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr T MUU_VECTORCALL raw_dot(quaternion_param q1, quaternion_param q2) noexcept
 		{
 			MUU_FMA_BLOCK
 
-			static_assert(std::is_same_v<impl::highest_ranked<T, intermediate_type>, T>); // non-truncating
+			static_assert(std::is_same_v<impl::highest_ranked<T, intermediate_float>, T>); // non-truncating
 
 			return static_cast<T>(q1.s) * static_cast<T>(q2.s)
 				+ vector_type::template raw_dot<T>(q1.v, q2.v);
@@ -837,7 +846,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr quaternion MUU_VECTORCALL normalize(quaternion_param q) noexcept
 		{
-			const intermediate_type inv_length = intermediate_type{ 1 } / muu::sqrt(raw_dot(q, q));
+			const intermediate_float inv_length = intermediate_float{ 1 } / muu::sqrt(raw_dot(q, q));
 			return quaternion{
 				static_cast<scalar_type>(q.s * inv_length),
 				vector_type::raw_multiply_scalar(q.v, inv_length)
@@ -893,7 +902,7 @@ MUU_NAMESPACE_START
 
 			if constexpr (impl::is_small_float<scalar_type>)
 			{
-				const auto angle_ = static_cast<intermediate_type>(angle) * muu::constants<intermediate_type>::one_over_two;
+				const auto angle_ = static_cast<intermediate_float>(angle) * muu::constants<intermediate_float>::one_over_two;
 				return quaternion
 				{
 					static_cast<scalar_type>(muu::cos(angle_)),	//scalar
@@ -921,7 +930,7 @@ MUU_NAMESPACE_START
 
 	private:
 
-		template <typename T = intermediate_type>
+		template <typename T = intermediate_float>
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr axis_angle_rotation<T> MUU_VECTORCALL raw_to_axis_angle(quaternion_param q, bool shortest_path = true) noexcept
@@ -931,7 +940,7 @@ MUU_NAMESPACE_START
 				&& "to_axis_angle() expects a normalized quaternion"
 			);
 
-			using type = impl::highest_ranked<intermediate_type, T>;
+			using type = impl::highest_ranked<intermediate_float, T>;
 			const auto len = vector_type::template raw_length<type>(q.v);
 			const auto correction = shortest_path && q.s < scalar_constants::zero ? type{ -1 } : type{ 1 };
 
@@ -1006,7 +1015,7 @@ MUU_NAMESPACE_START
 		static constexpr quaternion MUU_VECTORCALL from_euler(scalar_type yaw, scalar_type pitch, scalar_type roll) noexcept
 		{
 			MUU_FMA_BLOCK
-			using type = intermediate_type;
+			using type = intermediate_float;
 
 			// ensure rotation signs correspond with the aircraft principal axes:
 			//	yaw - positive turns toward the right (nose of the plane turns east)
@@ -1051,7 +1060,7 @@ MUU_NAMESPACE_START
 		static constexpr euler_type MUU_VECTORCALL to_euler(quaternion_param q) noexcept
 		{
 			MUU_FMA_BLOCK
-			using type = intermediate_type;
+			using type = intermediate_float;
 
 			const type sqw  = static_cast<type>(q.s)   * q.s;
 			const type sqx  = static_cast<type>(q.v.x) * q.v.x;
@@ -1123,7 +1132,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr quaternion MUU_VECTORCALL multiply(quaternion_param lhs, quaternion_param rhs) noexcept
 		{
-			using type = intermediate_type;
+			using type = intermediate_float;
 
 			if constexpr (all_same<scalar_type, type>)
 			{
@@ -1157,7 +1166,7 @@ MUU_NAMESPACE_START
 		static constexpr vector_type MUU_VECTORCALL rotate_vector(quaternion_param lhs, vector_param rhs) noexcept
 		{
 			MUU_FMA_BLOCK
-			using type = intermediate_type;
+			using type = intermediate_float;
 
 			auto t = type{ 2 } * impl::raw_cross<vector<type, 3>>(lhs.v, rhs);
 			const auto u = impl::raw_cross<vector<type, 3>>(lhs.v, t);
@@ -1175,7 +1184,8 @@ MUU_NAMESPACE_START
 		/// \brief Multiplies two quaternions.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr quaternion MUU_VECTORCALL operator * (quaternion_param lhs, quaternion_param rhs) noexcept
+		friend
+		constexpr quaternion MUU_VECTORCALL operator * (quaternion_param lhs, quaternion_param rhs) noexcept
 		{
 			return multiply(lhs, rhs);
 		}
@@ -1188,14 +1198,16 @@ MUU_NAMESPACE_START
 
 		/// \brief Rotates a three-dimensional vector by the rotation encoded in a quaternion.
 		[[nodiscard]]
-		friend constexpr vector_type MUU_VECTORCALL operator * (quaternion_param lhs, vector_param rhs) noexcept
+		friend
+		constexpr vector_type MUU_VECTORCALL operator * (quaternion_param lhs, vector_param rhs) noexcept
 		{
 			return rotate_vector(lhs, rhs);
 		}
 
 		/// \brief Rotates a three-dimensional vector by the rotation encoded in a quaternion.
 		[[nodiscard]]
-		friend constexpr vector_type MUU_VECTORCALL operator * (vector_param lhs, quaternion_param rhs) noexcept
+		friend
+		constexpr vector_type MUU_VECTORCALL operator * (vector_param lhs, quaternion_param rhs) noexcept
 		{
 			return rotate_vector(rhs, lhs);
 		}
@@ -1203,12 +1215,13 @@ MUU_NAMESPACE_START
 		/// \brief Scales the shortest-path rotation equivalent of a quaternion by a scalar.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr quaternion MUU_VECTORCALL operator * (quaternion_param lhs, scalar_type rhs) noexcept
+		friend
+		constexpr quaternion MUU_VECTORCALL operator * (quaternion_param lhs, scalar_type rhs) noexcept
 		{
 			MUU_FMA_BLOCK
 
-			auto aa = raw_to_axis_angle<intermediate_type>(lhs);
-			aa.angle *= rhs * muu::constants<intermediate_type>::one_over_two;
+			auto aa = raw_to_axis_angle<intermediate_float>(lhs);
+			aa.angle *= rhs * muu::constants<intermediate_float>::one_over_two;
 			aa.axis.normalize(); //todo: unnecessary?
 			return
 			{
@@ -1219,7 +1232,8 @@ MUU_NAMESPACE_START
 
 		/// \brief Scales the shortest-path rotation equivalent of a quaternion by a scalar.
 		[[nodiscard]]
-		friend constexpr quaternion MUU_VECTORCALL operator * (scalar_type lhs, quaternion_param rhs) noexcept
+		friend
+		constexpr quaternion MUU_VECTORCALL operator * (scalar_type lhs, quaternion_param rhs) noexcept
 		{
 			return rhs * lhs;
 		}
@@ -1236,7 +1250,8 @@ MUU_NAMESPACE_START
 
 		/// \brief Writes a quaternion out to a text stream.
 		template <typename Char, typename Traits>
-		friend std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& os, const quaternion& q)
+		friend
+		std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& os, const quaternion& q)
 		{
 			impl::print_quaternion_to_stream(os, &q.s);
 			return os;
@@ -1261,7 +1276,7 @@ MUU_NAMESPACE_START
 		{
 			MUU_FMA_BLOCK
 
-			using type = intermediate_type;
+			using type = intermediate_float;
 			auto dot = raw_dot<type>(start, finish);
 
 			//map from { s, v } and { -s, -v } (they represent the same rotation)

@@ -27,7 +27,7 @@
   </PropertyGroup>
   <PropertyGroup Label="DllExport">
     <StaticDllExport>false</StaticDllExport>
-    <CustomTargetSuffix Condition="'$(ConfigurationType)|$(StaticDllExport)'=='StaticLibrary|true'">DllExport</CustomTargetSuffix>
+    <CustomTargetTag Condition="'$(ConfigurationType)|$(StaticDllExport)'=='StaticLibrary|true'">DllExport</CustomTargetTag>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="PropertySheets">

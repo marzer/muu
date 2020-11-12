@@ -219,16 +219,21 @@ MUU_ENABLE_WARNINGS
 #define CHECK_APPROX_EQUAL_EPS(actual_, expected_, epsilon_)														\
 	do																												\
 	{																												\
-		const auto cae_expected = expected_;																		\
-		INFO("expected: "sv << print_aligned{ cae_expected } << "    "sv << MUU_MAKE_STRING(expected_))				\
+		if constexpr (is_floating_point<decltype(expected_)>)														\
+		{																											\
+			const auto cae_expected = expected_;																	\
+			INFO("expected: "sv << print_aligned{ cae_expected } << "    "sv << MUU_MAKE_STRING(expected_))			\
 																													\
-		const auto cae_actual = actual_;																			\
-		INFO("  actual: "sv << print_aligned{ cae_actual } << "    "sv << MUU_MAKE_STRING(actual_))					\
+			const auto cae_actual = actual_;																		\
+			INFO("  actual: "sv << print_aligned{ cae_actual } << "    "sv << MUU_MAKE_STRING(actual_))				\
 																													\
-		const auto cae_epsilon = epsilon_;																			\
-		INFO(" epsilon: "sv << print_aligned{ cae_epsilon } << "    "sv << MUU_MAKE_STRING(epsilon_))				\
+			const auto cae_epsilon = epsilon_;																		\
+			INFO(" epsilon: "sv << print_aligned{ cae_epsilon } << "    "sv << MUU_MAKE_STRING(epsilon_))			\
 																													\
-		CHECK(approx_equal(cae_expected, cae_actual, cae_epsilon));													\
+			CHECK(approx_equal(cae_expected, cae_actual, cae_epsilon));												\
+		}																											\
+		else																										\
+			CHECK((expected_) == (actual_));																		\
 	}																												\
 	while (false)
 

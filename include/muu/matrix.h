@@ -47,6 +47,7 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 #define	REQUIRES_COLUMNS_EXACTLY(n)			MUU_REQUIRES(Columns == (n))
 #define	REQUIRES_DIMENSIONS_AT_LEAST(r, c)	MUU_REQUIRES(Rows >= (r) && Columns >= (c))
 #define	REQUIRES_DIMENSIONS_EXACTLY(r, c)	MUU_REQUIRES(Rows == (r) && Columns == (c))
+#define	REQUIRES_SQUARE						MUU_REQUIRES(Rows == Columns)
 #define	REQUIRES_FLOATING_POINT				MUU_REQUIRES(muu::is_floating_point<Scalar>)
 #define	REQUIRES_INTEGRAL					MUU_REQUIRES(muu::is_integral<Scalar>)
 #define	REQUIRES_SIGNED						MUU_REQUIRES(muu::is_signed<Scalar>)
@@ -115,6 +116,13 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 		template <size_t SFINAE_R = Rows, size_t SFINAE_C = Columns MUU_ENABLE_IF_2(\
 			SFINAE_R == (r)															\
 			&& SFINAE_C == (c)														\
+			&& SFINAE_R == Rows														\
+			&& SFINAE_C == Columns													\
+		)>
+
+	#define	LEGACY_REQUIRES_SQUARE													\
+		template <size_t SFINAE_R = Rows, size_t SFINAE_C = Columns MUU_ENABLE_IF_2(\
+			SFINAE_R == SFINAE_C													\
 			&& SFINAE_R == Rows														\
 			&& SFINAE_C == Columns													\
 		)>
@@ -320,6 +328,7 @@ MUU_IMPL_NAMESPACE_END
 #define	REQUIRES_COLUMNS_EXACTLY(n)
 #define	REQUIRES_DIMENSIONS_AT_LEAST(r, c)
 #define	REQUIRES_DIMENSIONS_EXACTLY(r, c)
+#define	REQUIRES_SQUARE
 #define	REQUIRES_FLOATING_POINT
 #define	REQUIRES_INTEGRAL
 #define	REQUIRES_SIGNED
@@ -354,6 +363,9 @@ MUU_IMPL_NAMESPACE_END
 #endif
 #ifndef LEGACY_REQUIRES_DIMENSIONS_EXACTLY
 	#define	LEGACY_REQUIRES_DIMENSIONS_EXACTLY(r, c)
+#endif
+#ifndef LEGACY_REQUIRES_SQUARE
+	#define LEGACY_REQUIRES_SQUARE
 #endif
 #ifndef LEGACY_REQUIRES_FLOATING_POINT
 	#define LEGACY_REQUIRES_FLOATING_POINT
@@ -464,15 +476,26 @@ MUU_NAMESPACE_START
 
 	private:
 
+		template <typename S, size_t R, size_t C>
+		friend struct matrix;
+		template <typename T, size_t R, size_t C>
+		friend struct Achilles::Math::Matrix;
+
 		using base = impl::matrix_base<Scalar, Rows, Columns>;
 		static_assert(
 			sizeof(base) == (sizeof(scalar_type) * Rows * Columns),
 			"Matrices should not have padding"
 		);
-		using intermediate_type = impl::promote_if_small_float<scalar_type>;
 
 		using data_type = column_type;
 		static constexpr auto data_count = columns;
+
+		using intermediate_float = std::conditional_t<
+			is_integral<scalar_type>,
+			double,
+			impl::promote_if_small_float<scalar_type>
+		>;
+		static_assert(is_floating_point<intermediate_float>);
 
 	public:
 
@@ -613,7 +636,7 @@ MUU_NAMESPACE_START
 			: base{
 				impl::columnwise_init_tag{},
 				column_type{ v00, v10 },
-				column_type{ v01, v11 },
+				column_type{ v01, v11 }
 			}
 		{}
 
@@ -629,7 +652,7 @@ MUU_NAMESPACE_START
 				impl::columnwise_init_tag{},
 				column_type{ v00, v10, v20 },
 				column_type{ v01, v11, v21 },
-				column_type{ v02, v12, v22 },
+				column_type{ v02, v12, v22 }
 			}
 		{}
 
@@ -647,11 +670,21 @@ MUU_NAMESPACE_START
 				column_type{ v00, v10, v20, v30 },
 				column_type{ v01, v11, v21, v31 },
 				column_type{ v02, v12, v22, v32 },
-				column_type{ v03, v13, v23, v33 },
+				column_type{ v03, v13, v23, v33 }
 			}
 		{}
 
 		#endif // ENABLE_PAIRED_FUNCS
+
+	private:
+
+		template <typename... T>
+		MUU_NODISCARD_CTOR
+		constexpr matrix(impl::columnwise_init_tag, T... cols) noexcept
+			: base{ impl::columnwise_init_tag{}, cols... }
+		{}
+
+	public:
 
 
 	#endif // constructors
@@ -664,6 +697,7 @@ MUU_NAMESPACE_START
 		[[nodiscard]]
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(pure)
+		MUU_ATTR(flatten)
 		static constexpr auto& do_get(T& mat) noexcept
 		{
 			static_assert(
@@ -771,7 +805,8 @@ MUU_NAMESPACE_START
 		REQUIRES_PAIRED_FUNC_BY_REF(T, rows, columns, true)
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr bool MUU_VECTORCALL operator == (matrix_param lhs, const matrix<T, rows, columns>& rhs) noexcept
+		friend
+		constexpr bool MUU_VECTORCALL operator == (matrix_param lhs, const matrix<T, rows, columns>& rhs) noexcept
 		{
 			for (size_t i = 0; i < data_count; i++)
 				if (lhs.m[i] != rhs.m[i])
@@ -789,7 +824,8 @@ MUU_NAMESPACE_START
 		REQUIRES_PAIRED_FUNC_BY_REF(T, rows, columns, true)
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr bool MUU_VECTORCALL operator != (matrix_param lhs, const matrix<T, rows, columns>& rhs) noexcept
+		friend
+		constexpr bool MUU_VECTORCALL operator != (matrix_param lhs, const matrix<T, rows, columns>& rhs) noexcept
 		{
 			return !(lhs == rhs);
 		}
@@ -802,7 +838,8 @@ MUU_NAMESPACE_START
 		REQUIRES_PAIRED_FUNC_BY_VAL(T, rows, columns, true)
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr bool MUU_VECTORCALL operator == (matrix_param lhs, matrix<T, rows, columns> rhs) noexcept
+		friend
+		constexpr bool MUU_VECTORCALL operator == (matrix_param lhs, matrix<T, rows, columns> rhs) noexcept
 		{
 			for (size_t i = 0; i < data_count; i++)
 				if (lhs.m[i] != rhs.m[i])
@@ -816,7 +853,8 @@ MUU_NAMESPACE_START
 		REQUIRES_PAIRED_FUNC_BY_VAL(T, rows, columns, true)
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr bool MUU_VECTORCALL operator != (matrix_param lhs, matrix<T, rows, columns> rhs) noexcept
+		friend
+		constexpr bool MUU_VECTORCALL operator != (matrix_param lhs, matrix<T, rows, columns> rhs) noexcept
 		{
 			return !(lhs == rhs);
 		}
@@ -995,7 +1033,8 @@ MUU_NAMESPACE_START
 		/// \brief Returns the componentwise addition of two matrices.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		friend constexpr matrix MUU_VECTORCALL operator + (matrix_param lhs, matrix_param rhs) noexcept
+		friend
+		constexpr matrix MUU_VECTORCALL operator + (matrix_param lhs, matrix_param rhs) noexcept
 		{
 			matrix out{ lhs };
 			MUU_PRAGMA_MSVC(omp simd)
@@ -1004,7 +1043,7 @@ MUU_NAMESPACE_START
 			return out;
 		}
 
-		/// \brief Componentwise adds another atrix to this one.
+		/// \brief Componentwise adds another matrix to this one.
 		constexpr matrix& MUU_VECTORCALL operator += (matrix_param rhs) noexcept
 		{
 			MUU_PRAGMA_MSVC(omp simd)
@@ -1023,11 +1062,431 @@ MUU_NAMESPACE_START
 
 	#endif // addition
 
-	#if 1 // ___________ ----------------------------------------------------------------------------------------------
-	#endif // ___________
+	#if 1 // subtraction -------------------------------------------------------------------------------------------------
 
-	#if 1 // ___________ ----------------------------------------------------------------------------------------------
-	#endif // ___________
+		/// \brief Returns the componentwise subtraction of two matrices.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		friend
+		constexpr matrix MUU_VECTORCALL operator - (matrix_param lhs, matrix_param rhs) noexcept
+		{
+			matrix out{ lhs };
+			MUU_PRAGMA_MSVC(omp simd)
+			for (size_t i = 0; i < data_count; i++)
+				out.m[i] -= rhs.m[i];
+			return out;
+		}
+
+		/// \brief Componentwise subtracts another matrix from this one.
+		constexpr matrix& MUU_VECTORCALL operator -= (matrix_param rhs) noexcept
+		{
+			MUU_PRAGMA_MSVC(omp simd)
+			for (size_t i = 0; i < data_count; i++)
+				base::m[i] -= rhs.m[i];
+			return *this;
+		}
+
+		/// \brief Returns a componentwise negation of a matrix.
+		LEGACY_REQUIRES_SIGNED
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr matrix operator - () const noexcept
+			REQUIRES_SIGNED
+		{
+			matrix out{ *this };
+			MUU_PRAGMA_MSVC(omp simd)
+			for (size_t i = 0; i < data_count; i++)
+				out.m[i] = -out.m[i];
+			return out;
+		}
+
+	#endif // subtraction
+
+	#if 1 // multiplication -------------------------------------------------------------------------------------------
+
+		/// \brief Multiplies two matrices.
+		///
+		/// \tparam C The number of columns in the RHS matrix.
+		/// \param lhs  The LHS matrix.
+		/// \param rhs  The RHS matrix.
+		///
+		/// \return  The result of `LHS * RHS`.
+		template <size_t C>
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		friend
+		constexpr matrix<scalar_type, rows, C> MUU_VECTORCALL operator * (
+			matrix_param lhs,
+			const matrix<scalar_type, columns, C>& rhs
+		) noexcept
+		{
+			using result_type = matrix<scalar_type, Rows, C>;
+			using type = impl::highest_ranked<
+				typename data_type::product_type,
+				std::conditional_t<is_floating_point<scalar_type>, intermediate_float, scalar_type>
+			>;
+
+			#define MULT_DOT(row, col, idx)		\
+				static_cast<type>(lhs.template get<row, idx>()) * static_cast<type>(rhs.template get<idx, col>())
+
+			// common square cases are manually unrolled 
+			if constexpr (Rows == 2 && Columns == 2 && C == 2)
+			{
+				MUU_FMA_BLOCK
+
+				return result_type
+				{
+					impl::columnwise_init_tag{},
+
+					// column 0
+					column_type
+					{
+						// (0, 0)
+						static_cast<scalar_type>(
+							MULT_DOT(0, 0, 0) +
+							MULT_DOT(0, 0, 1)
+						),
+
+						// (1, 0)
+						static_cast<scalar_type>(
+							MULT_DOT(1, 0, 0) +
+							MULT_DOT(1, 0, 1)
+						)
+					},
+
+					// column 1
+					column_type
+					{
+						// (0, 1)
+						static_cast<scalar_type>(
+							MULT_DOT(0, 1, 0) +
+							MULT_DOT(0, 1, 1)
+						),
+
+						// (1, 1)
+						static_cast<scalar_type>(
+							MULT_DOT(1, 1, 0) +
+							MULT_DOT(1, 1, 1)
+						)
+					}
+				};
+			}
+			else if constexpr (Rows == 3 && Columns == 3 && C == 3)
+			{
+				MUU_FMA_BLOCK
+
+				return result_type
+				{
+					impl::columnwise_init_tag{},
+
+					// column 0
+					column_type
+					{
+						// (0, 0)
+						static_cast<scalar_type>(
+							MULT_DOT(0, 0, 0) +
+							MULT_DOT(0, 0, 1) +
+							MULT_DOT(0, 0, 2)
+						),
+
+						// (1, 0)
+						static_cast<scalar_type>(
+							MULT_DOT(1, 0, 0) +
+							MULT_DOT(1, 0, 1) +
+							MULT_DOT(1, 0, 2)
+						),
+
+						// (2, 0)
+						static_cast<scalar_type>(
+							MULT_DOT(2, 0, 0) +
+							MULT_DOT(2, 0, 1) +
+							MULT_DOT(2, 0, 2)
+						)
+					},
+
+					// column 1
+					column_type
+					{
+						// (0, 1)
+						static_cast<scalar_type>(
+							MULT_DOT(0, 1, 0) +
+							MULT_DOT(0, 1, 1) +
+							MULT_DOT(0, 1, 2)
+						),
+
+						// (1, 1)
+						static_cast<scalar_type>(
+							MULT_DOT(1, 1, 0) +
+							MULT_DOT(1, 1, 1) +
+							MULT_DOT(1, 1, 2)
+						),
+
+						// (2, 1)
+						static_cast<scalar_type>(
+							MULT_DOT(2, 1, 0) +
+							MULT_DOT(2, 1, 1) +
+							MULT_DOT(2, 1, 2)
+						)
+					},
+
+					// column 2
+					column_type
+					{
+						// (0, 2)
+						static_cast<scalar_type>(
+							MULT_DOT(0, 2, 0) +
+							MULT_DOT(0, 2, 1) +
+							MULT_DOT(0, 2, 2)
+						),
+
+						// (1, 2)
+						static_cast<scalar_type>(
+							MULT_DOT(1, 2, 0) +
+							MULT_DOT(1, 2, 1) +
+							MULT_DOT(1, 2, 2)
+						),
+
+						// (2, 2)
+						static_cast<scalar_type>(
+							MULT_DOT(2, 2, 0) +
+							MULT_DOT(2, 2, 1) +
+							MULT_DOT(2, 2, 2)
+						)
+					}
+
+				};
+			}
+			else if constexpr (Rows == 4 && Columns == 4 && C == 4)
+			{
+				MUU_FMA_BLOCK
+
+				return result_type
+				{
+					impl::columnwise_init_tag{},
+
+					// column 0
+					column_type
+					{
+						// (0, 0)
+						static_cast<scalar_type>(
+							MULT_DOT(0, 0, 0) +
+							MULT_DOT(0, 0, 1) +
+							MULT_DOT(0, 0, 2) +
+							MULT_DOT(0, 0, 3)
+						),
+
+						// (1, 0)
+						static_cast<scalar_type>(
+							MULT_DOT(1, 0, 0) +
+							MULT_DOT(1, 0, 1) +
+							MULT_DOT(1, 0, 2) +
+							MULT_DOT(1, 0, 3)
+						),
+
+						// (2, 0)
+						static_cast<scalar_type>(
+							MULT_DOT(2, 0, 0) +
+							MULT_DOT(2, 0, 1) +
+							MULT_DOT(2, 0, 2) +
+							MULT_DOT(2, 0, 3)
+						),
+
+						// (3, 0)
+						static_cast<scalar_type>(
+							MULT_DOT(3, 0, 0) +
+							MULT_DOT(3, 0, 1) +
+							MULT_DOT(3, 0, 2) +
+							MULT_DOT(3, 0, 3)
+						)
+					},
+
+					// column 1
+					column_type
+					{
+						// (0, 1)
+						static_cast<scalar_type>(
+							MULT_DOT(0, 1, 0) +
+							MULT_DOT(0, 1, 1) +
+							MULT_DOT(0, 1, 2) +
+							MULT_DOT(0, 1, 3)
+						),
+
+						// (1, 1)
+						static_cast<scalar_type>(
+							MULT_DOT(1, 1, 0) +
+							MULT_DOT(1, 1, 1) +
+							MULT_DOT(1, 1, 2) +
+							MULT_DOT(1, 1, 3)
+						),
+
+						// (2, 1)
+						static_cast<scalar_type>(
+							MULT_DOT(2, 1, 0) +
+							MULT_DOT(2, 1, 1) +
+							MULT_DOT(2, 1, 2) +
+							MULT_DOT(2, 1, 3)
+						),
+
+						// (3, 1)
+						static_cast<scalar_type>(
+							MULT_DOT(3, 1, 0) +
+							MULT_DOT(3, 1, 1) +
+							MULT_DOT(3, 1, 2) +
+							MULT_DOT(3, 1, 3)
+						)
+					},
+
+					// column 2
+					column_type
+					{
+						// (0, 2)
+						static_cast<scalar_type>(
+							MULT_DOT(0, 2, 0) +
+							MULT_DOT(0, 2, 1) +
+							MULT_DOT(0, 2, 2) +
+							MULT_DOT(0, 2, 3)
+						),
+
+						// (1, 2)
+						static_cast<scalar_type>(
+							MULT_DOT(1, 2, 0) +
+							MULT_DOT(1, 2, 1) +
+							MULT_DOT(1, 2, 2) +
+							MULT_DOT(1, 2, 3)
+						),
+
+						// (2, 2)
+						static_cast<scalar_type>(
+							MULT_DOT(2, 2, 0) +
+							MULT_DOT(2, 2, 1) +
+							MULT_DOT(2, 2, 2) +
+							MULT_DOT(2, 2, 3)
+						),
+
+						// (3, 2)
+						static_cast<scalar_type>(
+							MULT_DOT(3, 2, 0) +
+							MULT_DOT(3, 2, 1) +
+							MULT_DOT(3, 2, 2) +
+							MULT_DOT(3, 2, 3)
+						)
+					},
+
+					// column 3
+					column_type
+					{
+						// (0, 3)
+						static_cast<scalar_type>(
+							MULT_DOT(0, 3, 0) +
+							MULT_DOT(0, 3, 1) +
+							MULT_DOT(0, 3, 2) +
+							MULT_DOT(0, 3, 3)
+						),
+
+						// (1, 3)
+						static_cast<scalar_type>(
+							MULT_DOT(1, 3, 0) +
+							MULT_DOT(1, 3, 1) +
+							MULT_DOT(1, 3, 2) +
+							MULT_DOT(1, 3, 3)
+						),
+
+						// (2, 3)
+						static_cast<scalar_type>(
+							MULT_DOT(2, 3, 0) +
+							MULT_DOT(2, 3, 1) +
+							MULT_DOT(2, 3, 2) +
+							MULT_DOT(2, 3, 3)
+						),
+
+						// (3, 3)
+						static_cast<scalar_type>(
+							MULT_DOT(3, 3, 0) +
+							MULT_DOT(3, 3, 1) +
+							MULT_DOT(3, 3, 2) +
+							MULT_DOT(3, 3, 3)
+						)
+					}
+				};
+			}
+			else
+			{
+				result_type out;
+				for (size_t out_r = 0; out_r < Rows; out_r++)
+				{
+					for (size_t out_c = 0; out_c < C; out_c++)
+					{
+						MUU_FMA_BLOCK
+
+						auto val = static_cast<type>(lhs(out_r, 0)) * static_cast<type>(rhs(0, out_c));
+
+						MUU_PRAGMA_MSVC(omp simd)
+						for (size_t r = 1; r < Columns; r++)
+							val += static_cast<type>(lhs(out_r, r)) * static_cast<type>(rhs(r, out_c));
+
+						out(out_r, out_c) = static_cast<scalar_type>(val);
+					}
+				}
+				return out;
+			}
+
+			#undef MULT_DOT
+		}
+
+		/// \brief Multiplies this matrix with another and assigns the result.
+		/// 
+		/// \note This function is only available when the matrix is square.
+		LEGACY_REQUIRES_SQUARE
+		constexpr matrix& MUU_VECTORCALL operator *= (matrix_param rhs) noexcept
+			REQUIRES_SQUARE
+		{
+			return *this = *this * rhs;
+		}
+
+		/// \brief Returns the componentwise multiplication of a matrix and a scalar.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		friend
+		constexpr matrix MUU_VECTORCALL operator * (matrix_param lhs, scalar_type rhs) noexcept
+		{
+			matrix out{ lhs };
+			out *= rhs;
+			return out;
+		}
+
+		/// \brief Returns the componentwise multiplication of a matrix and a scalar.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		friend
+		constexpr matrix MUU_VECTORCALL operator * (scalar_type lhs, matrix_param rhs) noexcept
+		{
+			return rhs * lhs;
+		}
+
+		/// \brief Componentwise multiplies this matrix by a scalar.
+		constexpr matrix& MUU_VECTORCALL operator *= (scalar_type rhs) noexcept
+		{
+			using type = impl::highest_ranked<
+				typename data_type::product_type,
+				std::conditional_t<is_floating_point<scalar_type>, intermediate_float, scalar_type>
+			>;
+
+			if constexpr (std::is_same_v<type, scalar_type>)
+			{
+				for (auto& col : base::m)
+					col.raw_multiply_assign_scalar(rhs);
+			}
+			else
+			{
+				const auto rhs_ = static_cast<type>(rhs);
+				for (auto& col : base::m)
+					col.raw_multiply_assign_scalar(rhs_);
+			}
+
+			return *this;
+		}
+
+	#endif // addition
 
 	#if 1 // ___________ ----------------------------------------------------------------------------------------------
 	#endif // ___________
@@ -1036,7 +1495,8 @@ MUU_NAMESPACE_START
 
 		/// \brief Writes a matrix out to a text stream.
 		template <typename Char, typename Traits>
-		friend std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& os, const matrix& m)
+		friend
+		std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& os, const matrix& m)
 		{
 			impl::print_matrix_to_stream(os, &m.get<0, 0>(), Rows, Columns);
 			return os;
@@ -1233,6 +1693,7 @@ MUU_NAMESPACE_END
 #undef REQUIRES_COLUMNS_EXACTLY
 #undef REQUIRES_DIMENSIONS_AT_LEAST
 #undef REQUIRES_DIMENSIONS_EXACTLY
+#undef REQUIRES_SQUARE
 #undef REQUIRES_FLOATING_POINT
 #undef REQUIRES_INTEGRAL
 #undef REQUIRES_SIGNED

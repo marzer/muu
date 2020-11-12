@@ -322,3 +322,484 @@ inline void matrix_equality_tests(std::string_view scalar_typename) noexcept
 		CHECK_SYMMETRIC_INEQUAL(mat, different);
 	}
 }
+
+template <typename T, size_t Rows, size_t Columns>
+inline void matrix_zero_tests(std::string_view scalar_typename) noexcept
+{
+	INFO("matrix<"sv << scalar_typename << ", "sv << Rows << ", "sv << Columns << ">"sv)
+	using matrix_t = matrix<T, Rows, Columns>;
+
+	{
+		INFO("all zeroes"sv)
+
+		matrix_t mat{ T{} };
+
+		CHECK(mat.zero());
+		if constexpr (is_floating_point<T>)
+		{
+			CHECK(matrix_t::approx_zero(mat));
+			CHECK(mat.approx_zero());
+			CHECK(muu::approx_zero(mat));
+		}
+	}
+
+	{
+		INFO("no zeroes"sv)
+
+		matrix_t mat;
+		for (size_t r = 0; r < Rows; r++)
+			for (size_t c = 0; c < Columns; c++)
+				mat(r, c) = random<T>(1, 10);
+
+		CHECK_FALSE(mat.zero());
+		if constexpr (is_floating_point<T>)
+		{
+			CHECK_FALSE(matrix_t::approx_zero(mat));
+			CHECK_FALSE(mat.approx_zero());
+			CHECK_FALSE(muu::approx_zero(mat));
+		}
+	}
+
+	if constexpr (Rows * Columns > 1)
+	{
+		INFO("some zeroes"sv)
+
+		matrix_t mat { T{1} };
+		for (size_t r = 0, i = 0; r < Rows; r++)
+			for (size_t c = 0; c < Columns; c++, i++)
+				if ((i % 2_sz))
+					mat(r, c) = T{};
+
+		CHECK_FALSE(mat.zero());
+		if constexpr (is_floating_point<T>)
+		{
+			CHECK_FALSE(matrix_t::approx_zero(mat));
+			CHECK_FALSE(mat.approx_zero());
+			CHECK_FALSE(muu::approx_zero(mat));
+		}
+	}
+
+	{
+		INFO("one zero"sv)
+		for (size_t r = 0; r < Rows; r++)
+		{
+			for (size_t c = 0; c < Columns; c++)
+			{
+				matrix_t mat{ T{} };
+				mat(r, c) = random<T>(1, 10);
+
+				CHECK_FALSE(mat.zero());
+				if constexpr (is_floating_point<T>)
+				{
+					CHECK_FALSE(matrix_t::approx_zero(mat));
+					CHECK_FALSE(mat.approx_zero());
+					CHECK_FALSE(muu::approx_zero(mat));
+				}
+			}
+			}
+	}
+}
+
+template <typename T, size_t Rows, size_t Columns>
+inline void matrix_infinity_or_nan_tests(std::string_view scalar_typename) noexcept
+{
+	INFO("matrix<"sv << scalar_typename << ", "sv << Rows << ", "sv << Columns << ">"sv)
+	using matrix_t = matrix<T, Rows, Columns>;
+
+	matrix_t mat;
+	for (size_t r = 0; r < Rows; r++)
+		for (size_t c = 0; c < Columns; c++)
+			mat(r, c) = random<T>();
+
+	{
+		INFO("all finite"sv)
+		CHECK_FALSE(mat.infinity_or_nan());
+		CHECK_FALSE(matrix_t::infinity_or_nan(mat));
+		CHECK_FALSE(muu::infinity_or_nan(mat));
+	}
+
+
+	if constexpr (is_floating_point<T>)
+	{
+		{
+			INFO("contains one NaN"sv)
+			for (size_t r = 0; r < Rows; r++)
+			{
+				for (size_t c = 0; c < Columns; c++)
+				{
+					matrix_t mat2{ mat };
+					mat2(r, c) = make_nan<T>();
+					CHECK(mat2.infinity_or_nan());
+					CHECK(matrix_t::infinity_or_nan(mat2));
+					CHECK(muu::infinity_or_nan(mat2));
+				}
+			}
+		}
+
+		{
+			INFO("contains one infinity"sv)
+			for (size_t r = 0; r < Rows; r++)
+			{
+				for (size_t c = 0; c < Columns; c++)
+				{
+					matrix_t mat2{ mat };
+					mat2(r, c) = make_infinity<T>();
+					CHECK(mat2.infinity_or_nan());
+					CHECK(matrix_t::infinity_or_nan(mat2));
+					CHECK(muu::infinity_or_nan(mat2));
+				}
+			}
+		}
+	}
+}
+
+template <typename T, size_t Rows, size_t Columns>
+inline void matrix_addition_tests(std::string_view scalar_typename) noexcept
+{
+	INFO("matrix<"sv << scalar_typename << ", "sv << Rows << ", "sv << Columns << ">"sv)
+	using matrix_t = matrix<T, Rows, Columns>;
+
+	matrix_t mat1;
+	matrix_t mat2;
+	for (size_t r = 0; r < Rows; r++)
+	{
+		for (size_t c = 0; c < Columns; c++)
+		{
+			mat1(r, c) = random<T>(0, 5);
+			mat2(r, c) = random<T>(1, 5);
+		}
+	}
+
+	{
+		INFO("matrix + matrix"sv)
+
+		matrix_t result = mat1 + mat2;
+		for (size_t r = 0; r < Rows; r++)
+			for (size_t c = 0; c < Columns; c++)
+				CHECK_APPROX_EQUAL(static_cast<T>(mat1(r, c) + mat2(r, c)), result(r, c));
+	}
+
+	{
+		INFO("matrix += matrix"sv)
+
+		matrix_t result { mat1 };
+		result += mat2;
+		for (size_t r = 0; r < Rows; r++)
+			for (size_t c = 0; c < Columns; c++)
+				CHECK_APPROX_EQUAL(static_cast<T>(mat1(r, c) + mat2(r, c)), result(r, c));
+	}
+}
+
+template <typename T, size_t Rows, size_t Columns>
+inline void matrix_subtraction_tests(std::string_view scalar_typename) noexcept
+{
+	INFO("matrix<"sv << scalar_typename << ", "sv << Rows << ", "sv << Columns << ">"sv)
+	using matrix_t = matrix<T, Rows, Columns>;
+
+	matrix_t mat1;
+	matrix_t mat2;
+	for (size_t r = 0; r < Rows; r++)
+	{
+		for (size_t c = 0; c < Columns; c++)
+		{
+			if constexpr (is_signed<T>)
+				mat1(r, c) = random<T>(0, 10);
+			else
+				mat1(r, c) = random<T>(11, 20);
+			mat2(r, c) = random<T>(0, 10);
+		}
+	}
+
+	{
+		INFO("matrix - matrix"sv)
+
+		matrix_t result = mat1 - mat2;
+		for (size_t r = 0; r < Rows; r++)
+			for (size_t c = 0; c < Columns; c++)
+				CHECK_APPROX_EQUAL(static_cast<T>(mat1(r, c) - mat2(r, c)), result(r, c));
+	}
+
+	{
+		INFO("matrix -= matrix"sv)
+
+		matrix_t result { mat1 };
+		result -= mat2;
+		for (size_t r = 0; r < Rows; r++)
+			for (size_t c = 0; c < Columns; c++)
+				CHECK_APPROX_EQUAL(static_cast<T>(mat1(r, c) - mat2(r, c)), result(r, c));
+	}
+}
+
+template <typename T, size_t Rows, size_t Columns>
+inline void matrix_multiplication_tests(std::string_view scalar_typename) noexcept
+{
+	INFO("matrix<"sv << scalar_typename << ", "sv << Rows << ", "sv << Columns << ">"sv)
+	using matrix_t = matrix<T, Rows, Columns>;
+
+	const auto max_val = is_floating_point<T> ? T{ 1 } : T{ 5 };
+
+	matrix_t mat1;
+	for (size_t r = 0; r < Rows; r++)
+		for (size_t c = 0; c < Columns; c++)
+			mat1(r, c) = random<T>(T{}, max_val);
+
+	{
+		INFO("matrix * scalar"sv)
+
+		const auto val = random<T>(T{}, max_val);
+		const auto result = mat1 * val;
+		for (size_t r = 0; r < Rows; r++)
+			for (size_t c = 0; c < Columns; c++)
+				CHECK_APPROX_EQUAL(static_cast<T>(mat1(r, c) * val), result(r, c));
+	}
+
+	{
+		INFO("scalar * matrix"sv)
+
+		const auto val = random<T>(T{}, max_val);
+		const auto result = val * mat1;
+		for (size_t r = 0; r < Rows; r++)
+			for (size_t c = 0; c < Columns; c++)
+				CHECK_APPROX_EQUAL(static_cast<T>(mat1(r, c) * val), result(r, c));
+	}
+
+	{
+		INFO("matrix *= scalar"sv)
+
+		const auto val = random<T>(T{}, max_val);
+		auto result = mat1;
+		result *= val;
+		for (size_t r = 0; r < Rows; r++)
+			for (size_t c = 0; c < Columns; c++)
+				CHECK_APPROX_EQUAL(static_cast<T>(mat1(r, c) * val), result(r, c));
+	}
+
+	matrix<T, Columns, Rows> mat2;
+	for (size_t r = 0; r < Columns; r++)
+		for (size_t c = 0; c < Rows; c++)
+			mat2(r, c) = random<T>(T{}, max_val);
+
+	/*auto x2 = MakeArrayOfRows<T, COLS, ROWS>(T{}, maxVal);
+	auto matrix2 = std::apply([](auto&& ... r) noexcept { return Matrix<T, COLS, ROWS>::FromRows(r...); }, x2);*/
+
+	////matrix x (column) vector
+	//{
+	//	Vector<T, COLS> vec{ MakeArrayOfValues<T, COLS>(T{}, max_val) };
+	//	auto result = matrix1 * vec;
+	//	for (size_t r = 0; r < ROWS; r++)
+	//	{
+	//		auto lhsRow = matrix1.Row(r);
+	//		ASSERT_NEAR_EX(lhsRow.Dot(vec), result[r]);
+	//	}
+	//}
+
+	////(row) vector x matrix
+	//{
+	//	Vector<T, ROWS> vec{ MakeArrayOfValues<T, ROWS>(T{}, max_val) };
+	//	auto result = vec * matrix1;
+	//	for (size_t c = 0; c < COLS; c++)
+	//		ASSERT_NEAR_EX(matrix1.Columns[c].Dot(vec), result[c]);
+	//}
+
+	{
+		INFO("matrix * matrix"sv)
+
+		auto result = mat1 * mat2;
+		for (size_t r = 0; r < Rows; r++)
+		{
+			for (size_t c = 0; c < Rows; c++) //rhs COLS, but here rhs COLS == lhs ROWS
+			{
+				typename matrix_t::row_type lhs_row;
+				for (size_t i = 0; i < Columns; i++)
+					lhs_row[i] = mat1(r, i);
+				CHECK_APPROX_EQUAL(static_cast<T>(lhs_row.dot(mat2.m[c])), result(r, c));
+			}
+		}
+	}
+
+	if constexpr (Rows == 2 && Columns == 3 && (sizeof(T) > 1 || is_unsigned<T>))
+	{
+		INFO("matrix * matrix - hard-coded case #1"sv)
+
+		const auto lhs = matrix<T, 2, 3>{
+			T{1},	T{2},	T{3},
+			T{4},	T{5},	T{6}
+		};
+
+		const auto rhs = matrix<T, 3, 2>{
+			T{7},	T{8},
+			T{9},	T{10},
+			T{11},	T{12},
+		};
+
+		const auto expected = matrix<T, 2, 2>{
+			T{58},	T{64},
+			T{139},	T{154}
+		};
+
+		CHECK_APPROX_EQUAL(lhs * rhs, expected);
+	}
+
+	if constexpr (Rows == 1 && Columns == 3)
+	{
+		INFO("matrix * matrix - hard-coded case #2"sv)
+
+		const auto lhs = matrix<T, 1, 3>{
+			T{3},	T{4},	T{2}
+		};
+
+		const auto rhs = matrix<T, 3, 4>{
+			T{13},	T{9},	T{7},	T{15},
+			T{8},	T{7},	T{4},	T{6},
+			T{6},	T{4},	T{0},	T{3},
+		};
+
+		const auto expected = matrix<T, 1, 4>{
+			T{83},	T{63}, T{37},	T{75}
+		};
+
+		CHECK_APPROX_EQUAL(lhs* rhs, expected);
+	}
+
+	if constexpr (Rows == 1 && Columns == 3)
+	{
+		INFO("matrix * matrix - hard-coded case #3"sv)
+
+		const auto lhs = matrix<T, 1, 3>{
+			T{1},	T{2},	T{3}
+		};
+
+		const auto rhs = matrix<T, 3, 1>{
+			T{4},
+			T{5},
+			T{6}
+		};
+
+		const auto expected = matrix<T, 1, 1>{
+			T{32}
+		};
+
+		CHECK_APPROX_EQUAL(lhs * rhs, expected);
+	}
+
+	if constexpr (Rows == 3 && Columns == 1)
+	{
+		INFO("matrix * matrix - hard-coded case #4"sv)
+
+		const auto lhs = matrix<T, 3, 1>{
+			T{4},
+			T{5},
+			T{6}
+		};
+
+		const auto rhs = matrix<T, 1, 3>{
+			T{1},	T{2},	T{3}
+		};
+
+		const auto expected = matrix<T, 3, 3>{
+			T{4},	T{8},	T{12},
+			T{5},	T{10},	T{15},
+			T{6},	T{12},	T{18}
+		};
+
+		CHECK_APPROX_EQUAL(lhs* rhs, expected);
+	}
+
+	if constexpr (Rows == 2 && Columns == 2)
+	{
+		INFO("matrix * matrix - hard-coded case #5"sv)
+
+		const auto lhs = matrix<T, 2, 2>{
+			T{1},	T{2},
+			T{3},	T{4}
+		};
+
+		const auto rhs = matrix<T, 2, 2>{
+			T{2},	T{0},
+			T{1},	T{2}
+		};
+
+		const auto expected = matrix<T, 2, 2>{
+			T{4},	T{4},
+			T{10},	T{8}
+		};
+
+		CHECK_APPROX_EQUAL(lhs* rhs, expected);
+	}
+
+	if constexpr (Rows == 2 && Columns == 2)
+	{
+		INFO("matrix * matrix - hard-coded case #6"sv)
+
+		const auto lhs = matrix<T, 2, 2>{
+			T{2},	T{0},
+			T{1},	T{2}
+		};
+
+		const auto rhs = matrix<T, 2, 2>{
+			T{1},	T{2},
+			T{3},	T{4}
+		};
+
+		const auto expected = matrix<T, 2, 2>{
+			T{2},	T{4},
+			T{7},	T{10}
+		};
+
+		CHECK_APPROX_EQUAL(lhs* rhs, expected);
+	}
+
+	if constexpr (Rows == 3 && Columns == 3 && (sizeof(T) > 1 || is_unsigned<T>))
+	{
+		INFO("matrix * matrix - hard-coded case #7"sv)
+
+		const auto lhs = matrix<T, 3, 3>{
+			T{10},	T{20},	T{10},
+			T{4},	T{5},	T{6},
+			T{2},	T{3},	T{5}
+		};
+
+		const auto rhs = matrix<T, 3, 3>{
+			T{3},	T{2},	T{4},
+			T{3},	T{3},	T{9},
+			T{4},	T{4},	T{2}
+		};
+
+		const auto expected = matrix<T, 3, 3>{
+			T{130},	T{120},	T{240},
+			T{51},	T{47},	T{73},
+			T{35},	T{33},	T{45}
+		};
+
+		CHECK_APPROX_EQUAL(lhs* rhs, expected);
+	}
+
+	if constexpr (Rows == 4 && Columns == 4 && sizeof(T) > 1)
+	{
+		INFO("matrix * matrix - hard-coded case #8"sv)
+
+		const auto lhs = matrix<T, 4, 4>{
+			T{5},	T{7},	T{9},	T{10},
+			T{2},	T{3},	T{3},	T{8},
+			T{8},	T{10},	T{2},	T{3},
+			T{3},	T{3},	T{4},	T{8}
+		};
+
+		const auto rhs = matrix<T, 4, 4>{
+			T{3},	T{10},	T{12},	T{18},
+			T{12},	T{1},	T{4},	T{9},
+			T{9},	T{10},	T{12},	T{2},
+			T{3},	T{12},	T{4},	T{10}
+		};
+
+		const auto expected = matrix<T, 4, 4>{
+			T{210},	T{267},	T{236},	T{271},
+			T{93},	T{149},	T{104},	T{149},
+			T{171},	T{146},	T{172},	T{268},
+			T{105},	T{169},	T{128},	T{169}
+		};
+
+		CHECK_APPROX_EQUAL(lhs * rhs, expected);
+	}
+}
+

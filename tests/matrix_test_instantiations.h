@@ -55,4 +55,29 @@ MATRIX_TEST_CASE("equality")
 	TEST_TYPE(matrix_equality_tests);
 }
 
+MATRIX_TEST_CASE("zero")
+{
+	TEST_TYPE(matrix_zero_tests);
+}
+
+MATRIX_TEST_CASE("infinity_or_nan")
+{
+	TEST_TYPE(matrix_infinity_or_nan_tests);
+}
+
+MATRIX_TEST_CASE("addition")
+{
+	TEST_TYPE(matrix_addition_tests);
+}
+
+MATRIX_TEST_CASE("subtraction")
+{
+	TEST_TYPE(matrix_subtraction_tests);
+}
+
+MATRIX_TEST_CASE("multiplication")
+{
+	TEST_TYPE(matrix_multiplication_tests);
+}
+
 #undef SCALAR_TYPE
