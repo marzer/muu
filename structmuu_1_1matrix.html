@@ -234,6 +234,14 @@ C++</span></a>
               <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> c) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Gets a reference to the scalar component at a specific row and column.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a05d07bd77365a63a1d682330f3212e27">operator*=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__math.html#ga99a5a5587a42a926e53bddccfc425f72">matrix_<wbr/>param</a> rhs) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Multiplies this matrix with another and assigns the result.</dd>
+            <dt id="ae0b87400772f1d607fa451f9e9548c8d">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ae0b87400772f1d607fa451f9e9548c8d">operator*=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> rhs) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Componentwise multiplies this matrix by a scalar.</dd>
             <dt id="a4dd1836f1bf1e2353b4fc08e05c0e6f0">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a4dd1836f1bf1e2353b4fc08e05c0e6f0">operator+</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -241,7 +249,15 @@ C++</span></a>
             <dt id="a89e28036e4fa070c1395e045921d84fc">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a89e28036e4fa070c1395e045921d84fc">operator+=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__math.html#ga99a5a5587a42a926e53bddccfc425f72">matrix_<wbr/>param</a> rhs) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Componentwise adds another atrix to this one.</dd>
+            <dd>Componentwise adds another matrix to this one.</dd>
+            <dt id="a3460593457d7db05c0ad631047c45897">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a3460593457d7db05c0ad631047c45897">operator-</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a componentwise negation of a matrix.</dd>
+            <dt id="a8674967563604c910c49118f5fb9777a">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a8674967563604c910c49118f5fb9777a">operator-=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__math.html#ga99a5a5587a42a926e53bddccfc425f72">matrix_<wbr/>param</a> rhs) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Componentwise subtracts another matrix from this one.</dd>
             <dt id="af9f42bbf9167eec17bb9bc86bc4bdcf3">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af9f42bbf9167eec17bb9bc86bc4bdcf3">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp;) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -270,11 +286,32 @@ C++</span></a>
               const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;T, <a class="m-doc" href="structmuu_1_1matrix.html#a228170eec0384c3a2f974a9defe4e628">rows</a>, <a class="m-doc" href="structmuu_1_1matrix.html#a9e484f8d23156004ee20bf7249105d01">columns</a>&gt;&amp; rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two matrices are not exactly equal.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#af774f3d05393b8cd516eb48089f169bc">operator*</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__math.html#ga99a5a5587a42a926e53bddccfc425f72">matrix_<wbr/>param</a> lhs,
+              const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, <a class="m-doc" href="structmuu_1_1matrix.html#a9e484f8d23156004ee20bf7249105d01">columns</a>, C&gt;&amp; rhs) -&gt; friend <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, <a class="m-doc" href="structmuu_1_1matrix.html#a228170eec0384c3a2f974a9defe4e628">rows</a>, C&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Multiplies two matrices.</dd>
+            <dt id="a8a38c462b176175429bc0916c752a779">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a8a38c462b176175429bc0916c752a779">operator*</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__math.html#ga99a5a5587a42a926e53bddccfc425f72">matrix_<wbr/>param</a> lhs,
+              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> rhs) -&gt; friend <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the componentwise multiplication of a matrix and a scalar.</dd>
+            <dt id="aafd039999ccc6d700048b22137ba95d1">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aafd039999ccc6d700048b22137ba95d1">operator*</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> lhs,
+              <a class="m-doc" href="group__math.html#ga99a5a5587a42a926e53bddccfc425f72">matrix_<wbr/>param</a> rhs) -&gt; friend <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the componentwise multiplication of a matrix and a scalar.</dd>
             <dt id="a9a90279b953707a234823bc9060105d4">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a9a90279b953707a234823bc9060105d4">operator+</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__math.html#ga99a5a5587a42a926e53bddccfc425f72">matrix_<wbr/>param</a> lhs,
               <a class="m-doc" href="group__math.html#ga99a5a5587a42a926e53bddccfc425f72">matrix_<wbr/>param</a> rhs) -&gt; friend <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the componentwise addition of two matrices.</dd>
+            <dt id="ad8afd02b637d5968481a664d7daecbef">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad8afd02b637d5968481a664d7daecbef">operator-</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__math.html#ga99a5a5587a42a926e53bddccfc425f72">matrix_<wbr/>param</a> lhs,
+              <a class="m-doc" href="group__math.html#ga99a5a5587a42a926e53bddccfc425f72">matrix_<wbr/>param</a> rhs) -&gt; friend <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the componentwise subtraction of two matrices.</dd>
             <dt id="aa58692cee8066ae4618735b5fa13cd2f">
               <div class="m-doc-template">template&lt;typename Char, typename Traits&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa58692cee8066ae4618735b5fa13cd2f">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/io/basic_ostream" target="_blank">std::basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
@@ -626,6 +663,15 @@ template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cpprefer
               </tfoot>
             </table>
           </div></section>
+          <section class="m-doc-details" id="a05d07bd77365a63a1d682330f3212e27"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a05d07bd77365a63a1d682330f3212e27">operator*=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__math.html#ga99a5a5587a42a926e53bddccfc425f72">matrix_<wbr/>param</a> rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Multiplies this matrix with another and assigns the result.</p>
+<aside class="m-note m-info"><h4>Note</h4><p>This function is only available when the matrix is square.</p></aside>
+          </div></section>
           <section class="m-doc-details" id="a3d3394a8e617dc6a0875b9c9c87367f0"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
@@ -645,6 +691,46 @@ template&lt;typename T&gt;
             </h3>
             <p>Returns true if two matrices are not exactly equal.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is a componentwise exact inequality check; if you want an epsilon-based "near-enough" for floating-point matrices, use <a class="m-doc" href="structmuu_1_1matrix.html#a9df37aba427957b1c34b25dbd2b760aa">approx_<wbr/>equal()</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="af774f3d05393b8cd516eb48089f169bc"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;<br/>
+template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">friend <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, <a class="m-doc" href="structmuu_1_1matrix.html#a228170eec0384c3a2f974a9defe4e628">rows</a>, C&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af774f3d05393b8cd516eb48089f169bc">operator*</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__math.html#ga99a5a5587a42a926e53bddccfc425f72">matrix_<wbr/>param</a> lhs,
+              const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, <a class="m-doc" href="structmuu_1_1matrix.html#a9e484f8d23156004ee20bf7249105d01">columns</a>, C&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Multiplies two matrices.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">C</td>
+                  <td>The number of columns in the RHS matrix.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>lhs</td>
+                  <td>The LHS matrix.</td>
+                </tr>
+                <tr>
+                  <td>rhs</td>
+                  <td>The RHS matrix.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>The result of <code>LHS * RHS</code>.</td>
+                </tr>
+              </tfoot>
+            </table>
           </div></section>
           <section class="m-doc-details" id="a23ae23378529c7dede9a1e7310a5cba4"><div>
             <h3>
