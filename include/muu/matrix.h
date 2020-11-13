@@ -1486,10 +1486,49 @@ MUU_NAMESPACE_START
 			return *this;
 		}
 
-	#endif // addition
+	#endif // multiplication
 
-	#if 1 // ___________ ----------------------------------------------------------------------------------------------
-	#endif // ___________
+	#if 1 // division -------------------------------------------------------------------------------------------------
+
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		friend
+		constexpr matrix MUU_VECTORCALL operator / (matrix_param lhs, scalar_type rhs) noexcept
+		{
+			matrix out{ lhs };
+			out /= rhs;
+			return out;
+		}
+
+		/// \brief Componentwise multiplies this matrix by a scalar.
+		constexpr matrix& MUU_VECTORCALL operator /= (scalar_type rhs) noexcept
+		{
+			using type = impl::highest_ranked<
+				typename data_type::product_type,
+				std::conditional_t<is_floating_point<scalar_type>, intermediate_float, scalar_type>
+			>;
+
+			if constexpr (is_floating_point<type>)
+			{
+				const auto rhs_ = type{ 1 } / static_cast<type>(rhs);
+				for (auto& col : base::m)
+					col.raw_multiply_assign_scalar(rhs_);
+			}
+			else if constexpr (std::is_same_v<type, scalar_type>)
+			{
+				for (auto& col : base::m)
+					col.raw_divide_assign_scalar(rhs);
+			}
+			else
+			{
+				const auto rhs_ = static_cast<type>(rhs);
+				for (auto& col : base::m)
+					col.raw_divide_assign_scalar(rhs_);
+			}
+			return *this;
+		}
+
+	#endif // division
 
 	#if 1 // streams --------------------------------------------------------------------------------------------------
 

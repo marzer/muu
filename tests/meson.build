@@ -3,7 +3,7 @@ test_sources = [
 	'tests.cpp'
 ]
 test_set = get_option('test_set')
-if test_set == 0 or (test_set % 2) == 1 # test_set == 1
+if test_set == 0 or test_set == 1
 	test_sources += 'accumulator.cpp'
 	test_sources += 'aligned_alloc.cpp'
 	test_sources += 'blob.cpp'
@@ -22,7 +22,7 @@ if test_set == 0 or (test_set % 2) == 1 # test_set == 1
 		test_sources += 'vector_fp16.cpp'
 	endif
 endif
-if test_set == 0 or (test_set % 2) == 0 # test_set == 2
+if test_set == 0 or test_set == 2
 	test_sources += 'core_meta.cpp'
 	test_sources += 'core_other.cpp'
 	test_sources += 'half.cpp'
@@ -40,7 +40,7 @@ if test_set == 0 or (test_set % 2) == 0 # test_set == 2
 		test_sources += 'vector_Float16.cpp'
 	endif
 endif
-if test_set == 0 or (test_set % 2) == 1 # test_set == 3
+if test_set == 0 or test_set == 3
 	test_sources += 'math.cpp'
 	test_sources += 'matrix_int.cpp'
 	test_sources += 'matrix_long.cpp'
@@ -57,7 +57,7 @@ if test_set == 0 or (test_set % 2) == 1 # test_set == 3
 		test_sources += 'vector_int128.cpp'
 	endif
 endif
-if test_set == 0 or (test_set % 2) == 0 # test_set == 4
+if test_set == 0 or test_set == 4
 	test_sources += 'matrix_long_long.cpp'
 	test_sources += 'matrix_short.cpp'
 	test_sources += 'quaternion_long_double.cpp'

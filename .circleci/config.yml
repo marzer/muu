@@ -34,6 +34,38 @@ jobs:
                     CXX_LD=lld CXX=clang++ meson build --buildtype=debug -Dpedantic=true -Dbuild_tests=true -Db_lto=false -Dtest_set=2
                     cd build && meson compile -j 4 && meson test --num-processes 1 --verbose
 
+    debug_clang_3:
+        docker:
+            - image: marzer/misc_cpp17_dev:0.2.0
+        resource_class: large
+        steps:
+            - checkout
+            - run:
+                name: Pulling submodules
+                command: |
+                    git submodule update --init extern/Catch2
+            - run:
+                name: Building and testing with clang
+                command: |
+                    CXX_LD=lld CXX=clang++ meson build --buildtype=debug -Dpedantic=true -Dbuild_tests=true -Db_lto=false -Dtest_set=3
+                    cd build && meson compile -j 4 && meson test --num-processes 1 --verbose
+
+    debug_clang_4:
+        docker:
+            - image: marzer/misc_cpp17_dev:0.2.0
+        resource_class: large
+        steps:
+            - checkout
+            - run:
+                name: Pulling submodules
+                command: |
+                    git submodule update --init extern/Catch2
+            - run:
+                name: Building and testing with clang
+                command: |
+                    CXX_LD=lld CXX=clang++ meson build --buildtype=debug -Dpedantic=true -Dbuild_tests=true -Db_lto=false -Dtest_set=4
+                    cd build && meson compile -j 4 && meson test --num-processes 1 --verbose
+
     release_clang_1:
         docker:
             - image: marzer/misc_cpp17_dev:0.2.0
@@ -64,6 +96,38 @@ jobs:
                 name: Building and testing with clang
                 command: |
                     CXX_LD=lld CXX=clang++ meson build --buildtype=release -Dpedantic=true -Dbuild_tests=true -Db_lto=false -Dtest_set=2
+                    cd build && meson compile -j 4 && meson test --num-processes 1 --verbose
+
+    release_clang_3:
+        docker:
+            - image: marzer/misc_cpp17_dev:0.2.0
+        resource_class: large
+        steps:
+            - checkout
+            - run:
+                name: Pulling submodules
+                command: |
+                    git submodule update --init extern/Catch2
+            - run:
+                name: Building and testing with clang
+                command: |
+                    CXX_LD=lld CXX=clang++ meson build --buildtype=release -Dpedantic=true -Dbuild_tests=true -Db_lto=false -Dtest_set=3
+                    cd build && meson compile -j 4 && meson test --num-processes 1 --verbose
+
+    release_clang_4:
+        docker:
+            - image: marzer/misc_cpp17_dev:0.2.0
+        resource_class: large
+        steps:
+            - checkout
+            - run:
+                name: Pulling submodules
+                command: |
+                    git submodule update --init extern/Catch2
+            - run:
+                name: Building and testing with clang
+                command: |
+                    CXX_LD=lld CXX=clang++ meson build --buildtype=release -Dpedantic=true -Dbuild_tests=true -Db_lto=false -Dtest_set=4
                     cd build && meson compile -j 4 && meson test --num-processes 1 --verbose
 
     debug_gcc_1:
@@ -98,6 +162,38 @@ jobs:
                     CXX_LD=lld CXX=g++ meson build --buildtype=debug -Dpedantic=true -Dbuild_tests=true -Db_lto=false -Dtest_set=2
                     cd build && meson compile -j 4 && meson test --num-processes 1 --verbose
 
+    debug_gcc_3:
+        docker:
+            - image: marzer/misc_cpp17_dev:0.2.0
+        resource_class: large
+        steps:
+            - checkout
+            - run:
+                name: Pulling submodules
+                command: |
+                    git submodule update --init extern/Catch2
+            - run:
+                name: Building and testing with gcc
+                command: |
+                    CXX_LD=lld CXX=g++ meson build --buildtype=debug -Dpedantic=true -Dbuild_tests=true -Db_lto=false -Dtest_set=3
+                    cd build && meson compile -j 4 && meson test --num-processes 1 --verbose
+
+    debug_gcc_4:
+        docker:
+            - image: marzer/misc_cpp17_dev:0.2.0
+        resource_class: large
+        steps:
+            - checkout
+            - run:
+                name: Pulling submodules
+                command: |
+                    git submodule update --init extern/Catch2
+            - run:
+                name: Building and testing with gcc
+                command: |
+                    CXX_LD=lld CXX=g++ meson build --buildtype=debug -Dpedantic=true -Dbuild_tests=true -Db_lto=false -Dtest_set=4
+                    cd build && meson compile -j 4 && meson test --num-processes 1 --verbose
+
     release_gcc_1:
         docker:
             - image: marzer/misc_cpp17_dev:0.2.0
@@ -130,9 +226,42 @@ jobs:
                     CXX_LD=lld CXX=g++ meson build --buildtype=release -Dpedantic=true -Dbuild_tests=true -Db_lto=false -Dtest_set=2
                     cd build && meson compile -j 4 && meson test --num-processes 1 --verbose
 
+    release_gcc_3:
+        docker:
+            - image: marzer/misc_cpp17_dev:0.2.0
+        resource_class: large
+        steps:
+            - checkout
+            - run:
+                name: Pulling submodules
+                command: |
+                    git submodule update --init extern/Catch2
+            - run:
+                name: Building and testing with gcc
+                command: |
+                    CXX_LD=lld CXX=g++ meson build --buildtype=release -Dpedantic=true -Dbuild_tests=true -Db_lto=false -Dtest_set=3
+                    cd build && meson compile -j 4 && meson test --num-processes 1 --verbose
+
+    release_gcc_4:
+        docker:
+            - image: marzer/misc_cpp17_dev:0.2.0
+        resource_class: large
+        steps:
+            - checkout
+            - run:
+                name: Pulling submodules
+                command: |
+                    git submodule update --init extern/Catch2
+            - run:
+                name: Building and testing with gcc
+                command: |
+                    CXX_LD=lld CXX=g++ meson build --buildtype=release -Dpedantic=true -Dbuild_tests=true -Db_lto=false -Dtest_set=4
+                    cd build && meson compile -j 4 && meson test --num-processes 1 --verbose
+
     generate_dox:
         docker:
             - image: marzer/misc_cpp17_dev:0.2.0
+        resource_class: small
         steps:
             - checkout
             - run:
@@ -178,22 +307,38 @@ workflows:
         jobs:
             - debug_clang_1
             - debug_clang_2
+            - debug_clang_3
+            - debug_clang_4
             - debug_gcc_1
             - debug_gcc_2
+            - debug_gcc_3
+            - debug_gcc_4
             - release_clang_1
             - release_clang_2
+            - release_clang_3
+            - release_clang_4
             - release_gcc_1
             - release_gcc_2
+            - release_gcc_3
+            - release_gcc_4
             - generate_dox:
                 requires:
                     - debug_clang_1
                     - debug_clang_2
+                    - debug_clang_3
+                    - debug_clang_4
                     - debug_gcc_1
                     - debug_gcc_2
+                    - debug_gcc_3
+                    - debug_gcc_4
                     - release_clang_1
                     - release_clang_2
+                    - release_clang_3
+                    - release_clang_4
                     - release_gcc_1
                     - release_gcc_2
+                    - release_gcc_3
+                    - release_gcc_4
                 filters:
                     branches:
                         only: master

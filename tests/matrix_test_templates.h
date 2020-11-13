@@ -43,7 +43,7 @@ inline void matrix_construction_test_from_scalars() noexcept
 		INFO("constructing from "sv << NUM << " scalars"sv)
 		using matrix_t = matrix<T, Rows, Columns>;
 
-		const auto vals = random_array<T, NUM>(T{ 1 }, T{ 5 });
+		const auto vals = random_array<T, NUM>(1, 5);
 
 		// std::apply is super taxing for the compiler to instantiate on some implementations
 		// I'm simulating it for small value counts
@@ -84,7 +84,7 @@ inline void matrix_construction_test_from_smaller_matrix() noexcept
 		matrix<T, R, C> smaller;
 		for (size_t r = 0; r < R; r++)
 			for (size_t c = 0; c < C; c++)
-				smaller(r, c) = random<T>();
+				smaller(r, c) = random<T>(1, 5);
 
 		auto mat = matrix_t{ smaller };
 		for (size_t r = 0; r < Rows; r++)
@@ -111,7 +111,7 @@ inline void matrix_construction_test_from_larger_matrix() noexcept
 		matrix<T, R, C> larger;
 		for (size_t r = 0; r < Rows; r++)
 			for (size_t c = 0; c < Columns; c++)
-				larger(r, c) = random<T>();
+				larger(r, c) = random<T>(1, 5);
 
 		auto mat = matrix_t{ larger };
 		for (size_t r = 0; r < Rows; r++)
@@ -129,7 +129,7 @@ inline void matrix_construction_tests(std::string_view scalar_typename) noexcept
 	{
 		INFO("fill constructor")
 
-		const auto val = random<T>();
+		const auto val = random<T>(1, 5);
 		matrix_t m{ val };
 		for (size_t r = 0; r < Rows; r++)
 			for (size_t c = 0; c < Columns; c++)
@@ -141,7 +141,7 @@ inline void matrix_construction_tests(std::string_view scalar_typename) noexcept
 		matrix_t m1;
 		for (size_t r = 0; r < Rows; r++)
 			for (size_t c = 0; c < Columns; c++)
-				m1(r, c) = random<T>();
+				m1(r, c) = random<T>(1, 5);
 
 		matrix_t m2{ m1 };
 		for (size_t r = 0; r < Rows; r++)
@@ -172,7 +172,7 @@ inline void matrix_construction_tests(std::string_view scalar_typename) noexcept
 		matrix<other_type, Rows, Columns> other;
 		for (size_t r = 0; r < Rows; r++)
 			for (size_t c = 0; c < Columns; c++)
-				other(r, c) = random<other_type>();
+				other(r, c) = random<other_type>(0.5, 5);
 
 		matrix_t coerced{ other };
 		for (size_t r = 0; r < Rows; r++)
@@ -210,7 +210,7 @@ inline void matrix_accessor_tests(std::string_view scalar_typename) noexcept
 	INFO("matrix<"sv << scalar_typename << ", "sv << Rows << ", "sv << Columns << ">"sv)
 	using matrix_t = matrix<T, Rows, Columns>;
 
-	const auto vals = random_array<T, Rows * Columns>();
+	const auto vals = random_array<T, Rows * Columns>(1, 5);
 	std::array<const T*, Rows> rows;
 	for (size_t i = 0; i < Rows; i++)
 		rows[i] = vals.data() + i * Columns;
@@ -275,7 +275,7 @@ inline void matrix_equality_tests(std::string_view scalar_typename) noexcept
 	matrix_t mat;
 	for (size_t r = 0; r < Rows; r++)
 		for (size_t c = 0; c < Columns; c++)
-			mat(r, c) = random<T>();
+			mat(r, c) = random<T>(1, 5);
 		
 	{
 		INFO("same type"sv)
@@ -409,7 +409,7 @@ inline void matrix_infinity_or_nan_tests(std::string_view scalar_typename) noexc
 	matrix_t mat;
 	for (size_t r = 0; r < Rows; r++)
 		for (size_t c = 0; c < Columns; c++)
-			mat(r, c) = random<T>();
+			mat(r, c) = random<T>(1, 5);
 
 	{
 		INFO("all finite"sv)
@@ -800,6 +800,40 @@ inline void matrix_multiplication_tests(std::string_view scalar_typename) noexce
 		};
 
 		CHECK_APPROX_EQUAL(lhs * rhs, expected);
+	}
+}
+
+template <typename T, size_t Rows, size_t Columns>
+inline void matrix_division_tests(std::string_view scalar_typename) noexcept
+{
+	INFO("matrix<"sv << scalar_typename << ", "sv << Rows << ", "sv << Columns << ">"sv)
+	using matrix_t = matrix<T, Rows, Columns>;
+
+	const auto scalar = static_cast<T>(2.4);
+	matrix_t mat;
+	for (size_t r = 0; r < Rows; r++)
+		for (size_t c = 0; c < Columns; c++)
+			mat(r, c) = random<T>(2, 5);
+
+	using promoted = impl::promote_if_small_float<T>;
+
+	{
+		INFO("matrix / scalar"sv)
+
+		const auto result = mat / scalar;
+		for (size_t r = 0; r < Rows; r++)
+			for (size_t c = 0; c < Columns; c++)
+				CHECK_APPROX_EQUAL(static_cast<T>(static_cast<promoted>(mat(r, c)) / static_cast<promoted>(scalar)), result(r, c));
+	}
+
+	{
+		INFO("matrix /= scalar"sv)
+
+		auto result = mat;
+		result /= scalar;
+		for (size_t r = 0; r < Rows; r++)
+			for (size_t c = 0; c < Columns; c++)
+				CHECK_APPROX_EQUAL(static_cast<T>(static_cast<promoted>(mat(r, c)) / static_cast<promoted>(scalar)), result(r, c));
 	}
 }
 

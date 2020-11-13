@@ -80,4 +80,9 @@ MATRIX_TEST_CASE("multiplication")
 	TEST_TYPE(matrix_multiplication_tests);
 }
 
+MATRIX_TEST_CASE("division")
+{
+	TEST_TYPE(matrix_division_tests);
+}
+
 #undef SCALAR_TYPE
