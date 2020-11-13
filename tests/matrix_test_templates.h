@@ -43,7 +43,7 @@ inline void matrix_construction_test_from_scalars() noexcept
 		INFO("constructing from "sv << NUM << " scalars"sv)
 		using matrix_t = matrix<T, Rows, Columns>;
 
-		const auto vals = random_array<T, NUM>();
+		const auto vals = random_array<T, NUM>(T{ 1 }, T{ 5 });
 
 		// std::apply is super taxing for the compiler to instantiate on some implementations
 		// I'm simulating it for small value counts

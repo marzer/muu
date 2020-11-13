@@ -2,10 +2,10 @@ version: 2
 
 jobs:
 
-    debug_clang:
+    debug_clang_1:
         docker:
             - image: marzer/misc_cpp17_dev:0.2.0
-        resource_class: xlarge
+        resource_class: large
         steps:
             - checkout
             - run:
@@ -15,13 +15,13 @@ jobs:
             - run:
                 name: Building and testing with clang
                 command: |
-                    CXX_LD=lld CXX=clang++ meson build --buildtype=debug -Dpedantic=true -Dbuild_tests=true -Db_lto=false
-                    cd build && meson compile -j 8 && meson test --num-processes 1 --verbose
+                    CXX_LD=lld CXX=clang++ meson build --buildtype=debug -Dpedantic=true -Dbuild_tests=true -Db_lto=false -Dtest_set=1
+                    cd build && meson compile -j 4 && meson test --num-processes 1 --verbose
 
-    release_clang:
+    debug_clang_2:
         docker:
             - image: marzer/misc_cpp17_dev:0.2.0
-        resource_class: xlarge
+        resource_class: large
         steps:
             - checkout
             - run:
@@ -31,13 +31,45 @@ jobs:
             - run:
                 name: Building and testing with clang
                 command: |
-                    CXX_LD=lld CXX=clang++ meson build --buildtype=release -Dpedantic=true -Dbuild_tests=true -Db_lto=false
-                    cd build && meson compile -j 8 && meson test --num-processes 1 --verbose
+                    CXX_LD=lld CXX=clang++ meson build --buildtype=debug -Dpedantic=true -Dbuild_tests=true -Db_lto=false -Dtest_set=2
+                    cd build && meson compile -j 4 && meson test --num-processes 1 --verbose
 
-    debug_gcc:
+    release_clang_1:
         docker:
             - image: marzer/misc_cpp17_dev:0.2.0
-        resource_class: xlarge
+        resource_class: large
+        steps:
+            - checkout
+            - run:
+                name: Pulling submodules
+                command: |
+                    git submodule update --init extern/Catch2
+            - run:
+                name: Building and testing with clang
+                command: |
+                    CXX_LD=lld CXX=clang++ meson build --buildtype=release -Dpedantic=true -Dbuild_tests=true -Db_lto=false -Dtest_set=1
+                    cd build && meson compile -j 4 && meson test --num-processes 1 --verbose
+
+    release_clang_2:
+        docker:
+            - image: marzer/misc_cpp17_dev:0.2.0
+        resource_class: large
+        steps:
+            - checkout
+            - run:
+                name: Pulling submodules
+                command: |
+                    git submodule update --init extern/Catch2
+            - run:
+                name: Building and testing with clang
+                command: |
+                    CXX_LD=lld CXX=clang++ meson build --buildtype=release -Dpedantic=true -Dbuild_tests=true -Db_lto=false -Dtest_set=2
+                    cd build && meson compile -j 4 && meson test --num-processes 1 --verbose
+
+    debug_gcc_1:
+        docker:
+            - image: marzer/misc_cpp17_dev:0.2.0
+        resource_class: large
         steps:
             - checkout
             - run:
@@ -47,13 +79,13 @@ jobs:
             - run:
                 name: Building and testing with gcc
                 command: |
-                    CXX_LD=lld CXX=g++ meson build --buildtype=debug -Dpedantic=true -Dbuild_tests=true -Db_lto=false
-                    cd build && meson compile -j 8 && meson test --num-processes 1 --verbose
+                    CXX_LD=lld CXX=g++ meson build --buildtype=debug -Dpedantic=true -Dbuild_tests=true -Db_lto=false -Dtest_set=1
+                    cd build && meson compile -j 4 && meson test --num-processes 1 --verbose
 
-    release_gcc:
+    debug_gcc_2:
         docker:
             - image: marzer/misc_cpp17_dev:0.2.0
-        resource_class: xlarge
+        resource_class: large
         steps:
             - checkout
             - run:
@@ -63,8 +95,40 @@ jobs:
             - run:
                 name: Building and testing with gcc
                 command: |
-                    CXX_LD=lld CXX=g++ meson build --buildtype=release -Dpedantic=true -Dbuild_tests=true -Db_lto=false
-                    cd build && meson compile -j 8 && meson test --num-processes 1 --verbose
+                    CXX_LD=lld CXX=g++ meson build --buildtype=debug -Dpedantic=true -Dbuild_tests=true -Db_lto=false -Dtest_set=2
+                    cd build && meson compile -j 4 && meson test --num-processes 1 --verbose
+
+    release_gcc_1:
+        docker:
+            - image: marzer/misc_cpp17_dev:0.2.0
+        resource_class: large
+        steps:
+            - checkout
+            - run:
+                name: Pulling submodules
+                command: |
+                    git submodule update --init extern/Catch2
+            - run:
+                name: Building and testing with gcc
+                command: |
+                    CXX_LD=lld CXX=g++ meson build --buildtype=release -Dpedantic=true -Dbuild_tests=true -Db_lto=false -Dtest_set=1
+                    cd build && meson compile -j 4 && meson test --num-processes 1 --verbose
+
+    release_gcc_2:
+        docker:
+            - image: marzer/misc_cpp17_dev:0.2.0
+        resource_class: large
+        steps:
+            - checkout
+            - run:
+                name: Pulling submodules
+                command: |
+                    git submodule update --init extern/Catch2
+            - run:
+                name: Building and testing with gcc
+                command: |
+                    CXX_LD=lld CXX=g++ meson build --buildtype=release -Dpedantic=true -Dbuild_tests=true -Db_lto=false -Dtest_set=2
+                    cd build && meson compile -j 4 && meson test --num-processes 1 --verbose
 
     generate_dox:
         docker:
@@ -112,16 +176,24 @@ workflows:
     version: 2
     build:
         jobs:
-            - debug_clang
-            - release_clang
-            - debug_gcc
-            - release_gcc
+            - debug_clang_1
+            - debug_clang_2
+            - debug_gcc_1
+            - debug_gcc_2
+            - release_clang_1
+            - release_clang_2
+            - release_gcc_1
+            - release_gcc_2
             - generate_dox:
                 requires:
-                    - debug_clang
-                    - release_clang
-                    - debug_gcc
-                    - release_gcc
+                    - debug_clang_1
+                    - debug_clang_2
+                    - debug_gcc_1
+                    - debug_gcc_2
+                    - release_clang_1
+                    - release_clang_2
+                    - release_gcc_1
+                    - release_gcc_2
                 filters:
                     branches:
                         only: master

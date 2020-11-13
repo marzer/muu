@@ -81,8 +81,8 @@ MUU_NAMESPACE_START
 	{
 		if constexpr (is_floating_point<T>)
 		{
-			using fp = impl::highest_ranked<T, double>;
-			return static_cast<T>(static_cast<fp>(::rand()) / fp{ RAND_MAX }); // 0.0 - 1.0
+			using fp = impl::highest_ranked<T, float>;
+			return static_cast<T>(static_cast<fp>(::rand()) / static_cast<fp>(RAND_MAX)); // 0.0 - 1.0
 		}
 		else
 			return static_cast<T>(static_cast<T>(::rand()) % constants<T>::highest); // 0 - min(RAND_MAX, limit)
@@ -94,7 +94,7 @@ MUU_NAMESPACE_START
 	{
 		if constexpr (is_floating_point<T>)
 		{
-			using fp = impl::highest_ranked<T, double>;
+			using fp = impl::highest_ranked<T, float>;
 			return static_cast<T>(random<fp>() * static_cast<T>(max_));
 		}
 		else
