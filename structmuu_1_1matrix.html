@@ -114,6 +114,14 @@ C++</span></a>
               using <a class="m-doc-self" href="#a39aa9cffee0c8df320aa62d7f0a5abc6">constants</a> = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&gt;
             </dt>
             <dd>Compile-time constants for this matrix.</dd>
+            <dt id="aa89854e0c20fd0a6aa7d0068b4e31adf">
+              using <a class="m-doc-self" href="#aa89854e0c20fd0a6aa7d0068b4e31adf">determinant_type</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;<a class="m-doc" href="group__meta.html#ga6283839d5536a4ee096adccee42b88c5">is_<wbr/>integral</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>&gt;, impl::highest_ranked&lt;<a class="m-doc" href="group__meta.html#ga8723b987045c7b40be5ce133a46e899c">make_<wbr/>signed</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>&gt;, int&gt;, <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>&gt;
+            </dt>
+            <dd>The scalar type used for determinants. Always signed.</dd>
+            <dt id="aeabddc757780e20cf463701286206652">
+              using <a class="m-doc-self" href="#aeabddc757780e20cf463701286206652">inverse_type</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;<a class="m-doc" href="group__meta.html#ga6283839d5536a4ee096adccee42b88c5">is_<wbr/>integral</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>&gt;, double, <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>&gt;
+            </dt>
+            <dd>The scalar type used for matrix inversion. Always floating-point.</dd>
             <dt id="a6a22eceb4c23106b5575f70785d3eca5">
               using <a class="m-doc-self" href="#a6a22eceb4c23106b5575f70785d3eca5">matrix_param</a> = muu::matrix_param&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, <a class="m-doc" href="structmuu_1_1matrix.html#a228170eec0384c3a2f974a9defe4e628">rows</a>, <a class="m-doc" href="structmuu_1_1matrix.html#a9e484f8d23156004ee20bf7249105d01">columns</a>&gt;
             </dt>
@@ -158,10 +166,22 @@ C++</span></a>
               <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if all the scalar components in a matrix are approximately equal to zero.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#ac0803e25a076443a8511acc9e13cd6cb">determinant</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__math.html#ga99a5a5587a42a926e53bddccfc425f72">matrix_<wbr/>param</a> m) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html#aa89854e0c20fd0a6aa7d0068b4e31adf">determinant_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Calculates the determinant of a matrix.</dd>
             <dt id="a0723ad675e903be9e9732575bc807fdb">
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a0723ad675e903be9e9732575bc807fdb">infinity_or_nan</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__math.html#ga99a5a5587a42a926e53bddccfc425f72">matrix_<wbr/>param</a> m) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the scalar components of a matrix are infinity or NaN.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#ac0307ddd5a0434925ccdf1bdd810de7b">invert</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__math.html#ga99a5a5587a42a926e53bddccfc425f72">matrix_<wbr/>param</a> m) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#aeabddc757780e20cf463701286206652">inverse_<wbr/>type</a>, <a class="m-doc" href="structmuu_1_1matrix.html#a228170eec0384c3a2f974a9defe4e628">rows</a>, <a class="m-doc" href="structmuu_1_1matrix.html#a9e484f8d23156004ee20bf7249105d01">columns</a>&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the inverse of a matrix.</dd>
+            <dt id="a07458249d3031f760d0ddafb950e8b11">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a07458249d3031f760d0ddafb950e8b11">transpose</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__math.html#ga99a5a5587a42a926e53bddccfc425f72">matrix_<wbr/>param</a> m) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, <a class="m-doc" href="structmuu_1_1matrix.html#a9e484f8d23156004ee20bf7249105d01">columns</a>, <a class="m-doc" href="structmuu_1_1matrix.html#a228170eec0384c3a2f974a9defe4e628">rows</a>&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a transposed copy of a matrix.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a09d405a8307fed6bf9f933cc83589bc4">zero</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__math.html#ga99a5a5587a42a926e53bddccfc425f72">matrix_<wbr/>param</a> m) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -211,6 +231,10 @@ C++</span></a>
             </dt>
             <dd>Returns true if all the scalar components in the matrix are approximately equal to zero.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a219afb9f807add298f88ef241c19d3e1">determinant</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html#aa89854e0c20fd0a6aa7d0068b4e31adf">determinant_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Calculates the determinant of a matrix.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a71c4c90f6491573dfc1d5b9da35930c6">get</a>(</span><span class="m-doc-wrap">) const -&gt; const <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -224,6 +248,10 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac80d96a85e2d95f5bf7e4096b589f011">infinity_or_nan</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the scalar components of the matrix are infinity or NaN.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ae268a7221bf0ff6c24257b7638f337b9">invert</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Inverts the matrix (in-place).</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#afdeed69a22233f335853fc9b20e39375">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> r,
               <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> c) const -&gt; const <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -266,6 +294,10 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af9f42bbf9167eec17bb9bc86bc4bdcf3">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp;) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Copy-assigment operator.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#abdf68e567d61b72c9b2273bdaad7eb4d">transpose</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Transposes the matrix (in-place).</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a3d3394a8e617dc6a0875b9c9c87367f0">zero</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -381,6 +413,24 @@ template&lt;typename T, typename Epsilon = impl::highest_ranked&lt;<a class="m-d
             </h3>
             <p>Returns true if all the scalar components in a matrix are approximately equal to zero.</p>
 <aside class="m-note m-info"><h4>Note</h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> is a floating-point type.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ac0803e25a076443a8511acc9e13cd6cb"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1matrix.html#aa89854e0c20fd0a6aa7d0068b4e31adf">determinant_<wbr/>type</a> muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ac0803e25a076443a8511acc9e13cd6cb">determinant</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__math.html#ga99a5a5587a42a926e53bddccfc425f72">matrix_<wbr/>param</a> m) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Calculates the determinant of a matrix.</p>
+<aside class="m-note m-info"><h4>Note</h4><p>This function is only available when the matrix is square and has at most 4 rows and columns.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ac0307ddd5a0434925ccdf1bdd810de7b"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#aeabddc757780e20cf463701286206652">inverse_<wbr/>type</a>, <a class="m-doc" href="structmuu_1_1matrix.html#a228170eec0384c3a2f974a9defe4e628">rows</a>, <a class="m-doc" href="structmuu_1_1matrix.html#a9e484f8d23156004ee20bf7249105d01">columns</a>&gt; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ac0307ddd5a0434925ccdf1bdd810de7b">invert</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__math.html#ga99a5a5587a42a926e53bddccfc425f72">matrix_<wbr/>param</a> m) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns the inverse of a matrix.</p>
+<aside class="m-note m-info"><h4>Note</h4><p>This function is only available when the matrix is square and has at most 4 rows and columns.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a09d405a8307fed6bf9f933cc83589bc4"><div>
             <h3>
@@ -509,9 +559,10 @@ template&lt;typename... T&gt;
 <pre class="m-code"><span class="c1">// explicitly-sized matrices:</span>
 <span class="ns">std::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="ut">matrix</span><span class="o">&lt;</span><span class="ut">int</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span><span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span> <span class="p">}</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">;</span>
 
-<span class="c1">// 2x2, 3x3 and 4x4 matrices can be deduced automatically from 4, 9 and 16 inputs:</span>
+<span class="c1">// 2x2, 3x3, 3x4 and 4x4 matrices can be deduced automatically from 4, 9 12 and 16 inputs (respectively):</span>
 <span class="ns">std::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="ut">matrix</span><span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span> <span class="p">}</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">;</span>
 <span class="ns">std::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="ut">matrix</span><span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span> <span class="p">}</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">;</span>
+<span class="ns">std::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="ut">matrix</span><span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span> <span class="p">}</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">;</span>
 <span class="ns">std::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="ut">matrix</span><span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span> <span class="p">}</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">;</span></pre><pre class="m-console"><span class="go">{    1,    2,    3,</span>
 <span class="go">     4,    5,    6 }</span>
 
@@ -521,6 +572,10 @@ template&lt;typename... T&gt;
 <span class="go">{    1,    2,    3,</span>
 <span class="go">     4,    5,    6,</span>
 <span class="go">     7,    8,    9 }</span>
+
+<span class="go">{    1,    2,    3,    4,</span>
+<span class="go">     5,    6,    7,    8,</span>
+<span class="go">     9,   10,   11,   12 }</span>
 
 <span class="go">{    1,    2,    3,    4,</span>
 <span class="go">     5,    6,    7,    8,</span>
@@ -546,6 +601,15 @@ template&lt;typename T, typename Epsilon = impl::highest_ranked&lt;<a class="m-d
             </h3>
             <p>Returns true if all the scalar components in the matrix are approximately equal to zero.</p>
 <aside class="m-note m-info"><h4>Note</h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> is a floating-point type.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a219afb9f807add298f88ef241c19d3e1"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1matrix.html#aa89854e0c20fd0a6aa7d0068b4e31adf">determinant_<wbr/>type</a> muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a219afb9f807add298f88ef241c19d3e1">determinant</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Calculates the determinant of a matrix.</p>
+<aside class="m-note m-info"><h4>Note</h4><p>This function is only available when the matrix is square and has at most 4 rows and columns.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a71c4c90f6491573dfc1d5b9da35930c6"><div>
             <h3>
@@ -606,6 +670,15 @@ template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cpprefer
                 </tr>
               </tfoot>
             </table>
+          </div></section>
+          <section class="m-doc-details" id="ae268a7221bf0ff6c24257b7638f337b9"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae268a7221bf0ff6c24257b7638f337b9">invert</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Inverts the matrix (in-place).</p>
+<aside class="m-note m-info"><h4>Note</h4><p>This function is only available when the matrix is square, has at most 4 rows and columns, and has a floating-point <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="afdeed69a22233f335853fc9b20e39375"><div>
             <h3>
@@ -674,6 +747,15 @@ template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cpprefer
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a05d07bd77365a63a1d682330f3212e27">operator*=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__math.html#ga99a5a5587a42a926e53bddccfc425f72">matrix_<wbr/>param</a> rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Multiplies this matrix with another and assigns the result.</p>
+<aside class="m-note m-info"><h4>Note</h4><p>This function is only available when the matrix is square.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="abdf68e567d61b72c9b2273bdaad7eb4d"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#abdf68e567d61b72c9b2273bdaad7eb4d">transpose</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Transposes the matrix (in-place).</p>
 <aside class="m-note m-info"><h4>Note</h4><p>This function is only available when the matrix is square.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a3d3394a8e617dc6a0875b9c9c87367f0"><div>
