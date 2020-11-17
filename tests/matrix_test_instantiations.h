@@ -85,4 +85,19 @@ MATRIX_TEST_CASE("division")
 	TEST_TYPE(matrix_division_tests);
 }
 
+MATRIX_TEST_CASE("transpose")
+{
+	TEST_TYPE(matrix_transpose_tests);
+}
+
+MATRIX_TEST_CASE("determinant")
+{
+	TEST_TYPE(matrix_determinant_tests);
+}
+
+MATRIX_TEST_CASE("invert")
+{
+	TEST_TYPE(matrix_invert_tests);
+}
+
 #undef SCALAR_TYPE

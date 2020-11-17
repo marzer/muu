@@ -47,7 +47,7 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 #define	REQUIRES_COLUMNS_EXACTLY(n)			MUU_REQUIRES(Columns == (n))
 #define	REQUIRES_DIMENSIONS_AT_LEAST(r, c)	MUU_REQUIRES(Rows >= (r) && Columns >= (c))
 #define	REQUIRES_DIMENSIONS_EXACTLY(r, c)	MUU_REQUIRES(Rows == (r) && Columns == (c))
-#define	REQUIRES_SQUARE						MUU_REQUIRES(Rows == Columns)
+#define	REQUIRES_SQUARE_AND(...)			MUU_REQUIRES(Rows == Columns && (__VA_ARGS__))
 #define	REQUIRES_FLOATING_POINT				MUU_REQUIRES(muu::is_floating_point<Scalar>)
 #define	REQUIRES_INTEGRAL					MUU_REQUIRES(muu::is_integral<Scalar>)
 #define	REQUIRES_SIGNED						MUU_REQUIRES(muu::is_signed<Scalar>)
@@ -120,11 +120,12 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 			&& SFINAE_C == Columns													\
 		)>
 
-	#define	LEGACY_REQUIRES_SQUARE													\
+	#define	LEGACY_REQUIRES_SQUARE_AND(...)											\
 		template <size_t SFINAE_R = Rows, size_t SFINAE_C = Columns MUU_ENABLE_IF_2(\
 			SFINAE_R == SFINAE_C													\
 			&& SFINAE_R == Rows														\
 			&& SFINAE_C == Columns													\
+			&& (__VA_ARGS__)														\
 		)>
 
 	#define	LEGACY_REQUIRES_FLOATING_POINT							\
@@ -314,6 +315,70 @@ MUU_IMPL_NAMESPACE_START
 	MUU_API void print_matrix_to_stream(std::wostream& stream, const int128_t*, size_t, size_t);
 	MUU_API void print_matrix_to_stream(std::wostream& stream, const uint128_t*, size_t, size_t);
 	#endif
+
+	#define MAT_GET(r, c) static_cast<type>(m.m[c].template get<r>())
+
+	template<
+		size_t Row0 = 0, size_t Row1 = 1,
+		size_t Col0 = 0, size_t Col1 = 1,
+		typename T
+	>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	static constexpr
+	promote_if_small_float<typename T::determinant_type>
+	MUU_VECTORCALL
+	raw_determinant_2x2(const T& m) noexcept
+	{
+		MUU_FMA_BLOCK
+		using type = promote_if_small_float<typename T::determinant_type>;
+
+		return MAT_GET(Row0, Col0) * MAT_GET(Row1, Col1)
+			 - MAT_GET(Row0, Col1) * MAT_GET(Row1, Col0);
+	}
+
+	template<
+		size_t Row0 = 0, size_t Row1 = 1, size_t Row2 = 2,
+		size_t Col0 = 0, size_t Col1 = 1, size_t Col2 = 2,
+		typename T
+	>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	static constexpr
+	promote_if_small_float<typename T::determinant_type>
+	MUU_VECTORCALL
+	raw_determinant_3x3(const T& m) noexcept
+	{
+		MUU_FMA_BLOCK
+		using type = promote_if_small_float<typename T::determinant_type>;
+
+		return MAT_GET(Row0, Col0) * raw_determinant_2x2<Row1, Row2, Col1, Col2>(m)
+			 - MAT_GET(Row0, Col1) * raw_determinant_2x2<Row1, Row2, Col0, Col2>(m)
+			 + MAT_GET(Row0, Col2) * raw_determinant_2x2<Row1, Row2, Col0, Col1>(m);
+	}
+
+	template<
+		size_t Row0 = 0, size_t Row1 = 1, size_t Row2 = 2, size_t Row3 = 3,
+		size_t Col0 = 0, size_t Col1 = 1, size_t Col2 = 2, size_t Col3 = 3,
+		typename T
+	>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	static constexpr
+	promote_if_small_float<typename T::determinant_type>
+	MUU_VECTORCALL
+	raw_determinant_4x4(const T& m) noexcept
+	{
+		MUU_FMA_BLOCK
+		using type = promote_if_small_float<typename T::determinant_type>;
+
+		return MAT_GET(Row0, Col0) * raw_determinant_3x3<Row1, Row2, Row3, Col1, Col2, Col3>(m)
+			 - MAT_GET(Row0, Col1) * raw_determinant_3x3<Row1, Row2, Row3, Col0, Col2, Col3>(m)
+			 + MAT_GET(Row0, Col2) * raw_determinant_3x3<Row1, Row2, Row3, Col0, Col1, Col3>(m)
+			 - MAT_GET(Row0, Col3) * raw_determinant_3x3<Row1, Row2, Row3, Col0, Col1, Col2>(m);
+	}
+
+	#undef MAT_GET
 }
 MUU_IMPL_NAMESPACE_END
 
@@ -328,7 +393,7 @@ MUU_IMPL_NAMESPACE_END
 #define	REQUIRES_COLUMNS_EXACTLY(n)
 #define	REQUIRES_DIMENSIONS_AT_LEAST(r, c)
 #define	REQUIRES_DIMENSIONS_EXACTLY(r, c)
-#define	REQUIRES_SQUARE
+#define	REQUIRES_SQUARE_AND(...)
 #define	REQUIRES_FLOATING_POINT
 #define	REQUIRES_INTEGRAL
 #define	REQUIRES_SIGNED
@@ -364,8 +429,8 @@ MUU_IMPL_NAMESPACE_END
 #ifndef LEGACY_REQUIRES_DIMENSIONS_EXACTLY
 	#define	LEGACY_REQUIRES_DIMENSIONS_EXACTLY(r, c)
 #endif
-#ifndef LEGACY_REQUIRES_SQUARE
-	#define LEGACY_REQUIRES_SQUARE
+#ifndef LEGACY_REQUIRES_SQUARE_AND
+	#define LEGACY_REQUIRES_SQUARE_AND(...)
 #endif
 #ifndef LEGACY_REQUIRES_FLOATING_POINT
 	#define LEGACY_REQUIRES_FLOATING_POINT
@@ -474,6 +539,16 @@ MUU_NAMESPACE_START
 		/// \brief Compile-time constants for this matrix.
 		using constants = muu::constants<matrix>;
 
+		/// \brief The scalar type used for determinants. Always signed.
+		using determinant_type = std::conditional_t<
+			is_integral<scalar_type>,
+			impl::highest_ranked<make_signed<scalar_type>, int>,
+			scalar_type
+		>;
+
+		/// \brief The scalar type used for matrix inversion. Always floating-point.
+		using inverse_type = std::conditional_t<is_integral<scalar_type>, double, scalar_type>;
+
 	private:
 
 		template <typename S, size_t R, size_t C>
@@ -490,11 +565,8 @@ MUU_NAMESPACE_START
 		using data_type = column_type;
 		static constexpr auto data_count = columns;
 
-		using intermediate_float = std::conditional_t<
-			is_integral<scalar_type>,
-			double,
-			impl::promote_if_small_float<scalar_type>
-		>;
+		using intermediate_float = impl::promote_if_small_float<inverse_type>;
+		static_assert(is_floating_point<inverse_type>);
 		static_assert(is_floating_point<intermediate_float>);
 
 	public:
@@ -541,9 +613,10 @@ MUU_NAMESPACE_START
 		/// // explicitly-sized matrices:
 		/// std::cout << matrix<int, 2, 3>{ 1, 2, 3, 4, 5, 6 } << "\n\n";
 		/// 
-		/// // 2x2, 3x3 and 4x4 matrices can be deduced automatically from 4, 9 and 16 inputs:
+		/// // 2x2, 3x3, 3x4 and 4x4 matrices can be deduced automatically from 4, 9 12 and 16 inputs (respectively):
 		/// std::cout << matrix{ 1, 2, 3, 4 } << "\n\n";
 		/// std::cout << matrix{ 1, 2, 3, 4, 5, 6, 7, 8, 9 } << "\n\n";
+		/// std::cout << matrix{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 } << "\n\n";
 		/// std::cout << matrix{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 } << "\n\n";
 		/// \ecpp
 		/// 
@@ -557,6 +630,10 @@ MUU_NAMESPACE_START
 		/// {    1,    2,    3,
 		///      4,    5,    6,
 		///      7,    8,    9 }
+		/// 
+		/// {    1,    2,    3,    4,
+		///      5,    6,    7,    8,
+		///      9,   10,   11,   12 }
 		/// 
 		/// {    1,    2,    3,    4,
 		///      5,    6,    7,    8,
@@ -624,7 +701,7 @@ MUU_NAMESPACE_START
 
 		#if ENABLE_PAIRED_FUNCS
 
-		// optimizations for 2x2, 3x3 and 4x4 cases
+		// optimizations for 2x2, 3x3, 3x4 and 4x4 cases
 
 		LEGACY_REQUIRES_DIMENSIONS_EXACTLY(2, 2)
 		MUU_NODISCARD_CTOR
@@ -653,6 +730,23 @@ MUU_NAMESPACE_START
 				column_type{ v00, v10, v20 },
 				column_type{ v01, v11, v21 },
 				column_type{ v02, v12, v22 }
+			}
+		{}
+
+		LEGACY_REQUIRES_DIMENSIONS_EXACTLY(3, 4)
+		MUU_NODISCARD_CTOR
+		constexpr matrix(
+			scalar_type v00, scalar_type v01, scalar_type v02, scalar_type v03,
+			scalar_type v10, scalar_type v11, scalar_type v12, scalar_type v13,
+			scalar_type v20, scalar_type v21, scalar_type v22, scalar_type v23
+		) noexcept
+			REQUIRES_DIMENSIONS_EXACTLY(3, 4)
+			: base{
+				impl::columnwise_init_tag{},
+				column_type{ v00, v10, v20 },
+				column_type{ v01, v11, v21 },
+				column_type{ v02, v12, v22 },
+				column_type{ v03, v13, v23 },
 			}
 		{}
 
@@ -715,6 +809,7 @@ MUU_NAMESPACE_START
 		template <typename T>
 		[[nodiscard]]
 		MUU_ATTR_NDEBUG(pure)
+		MUU_ATTR_NDEBUG(flatten)
 		static constexpr auto& do_lookup_operator(T& mat, size_t r, size_t c) noexcept
 		{
 			MUU_CONSTEXPR_SAFE_ASSERT(
@@ -773,6 +868,7 @@ MUU_NAMESPACE_START
 		/// \return  A reference to the selected scalar component.
 		[[nodiscard]]
 		MUU_ATTR_NDEBUG(pure)
+		MUU_ATTR_NDEBUG(flatten)
 		constexpr const scalar_type& operator ()(size_t r, size_t c) const noexcept
 		{
 			return do_lookup_operator(*this, r, c);
@@ -786,6 +882,7 @@ MUU_NAMESPACE_START
 		/// \return  A reference to the selected scalar component.
 		[[nodiscard]]
 		MUU_ATTR_NDEBUG(pure)
+		MUU_ATTR_NDEBUG(flatten)
 		constexpr scalar_type& operator ()(size_t r, size_t c) noexcept
 		{
 			return do_lookup_operator(*this, r, c);
@@ -1127,7 +1224,7 @@ MUU_NAMESPACE_START
 			>;
 
 			#define MULT_DOT(row, col, idx)		\
-				static_cast<type>(lhs.template get<row, idx>()) * static_cast<type>(rhs.template get<idx, col>())
+				static_cast<type>(lhs.m[idx].template get<row>()) * static_cast<type>(rhs.m[col].template get<idx>())
 
 			// common square cases are manually unrolled 
 			if constexpr (Rows == 2 && Columns == 2 && C == 2)
@@ -1137,37 +1234,15 @@ MUU_NAMESPACE_START
 				return result_type
 				{
 					impl::columnwise_init_tag{},
-
-					// column 0
 					column_type
 					{
-						// (0, 0)
-						static_cast<scalar_type>(
-							MULT_DOT(0, 0, 0) +
-							MULT_DOT(0, 0, 1)
-						),
-
-						// (1, 0)
-						static_cast<scalar_type>(
-							MULT_DOT(1, 0, 0) +
-							MULT_DOT(1, 0, 1)
-						)
+						static_cast<scalar_type>(MULT_DOT(0, 0, 0) + MULT_DOT(0, 0, 1)),
+						static_cast<scalar_type>(MULT_DOT(1, 0, 0) + MULT_DOT(1, 0, 1))
 					},
-
-					// column 1
 					column_type
 					{
-						// (0, 1)
-						static_cast<scalar_type>(
-							MULT_DOT(0, 1, 0) +
-							MULT_DOT(0, 1, 1)
-						),
-
-						// (1, 1)
-						static_cast<scalar_type>(
-							MULT_DOT(1, 1, 0) +
-							MULT_DOT(1, 1, 1)
-						)
+						static_cast<scalar_type>(MULT_DOT(0, 1, 0) + MULT_DOT(0, 1, 1)),
+						static_cast<scalar_type>(MULT_DOT(1, 1, 0) + MULT_DOT(1, 1, 1))
 					}
 				};
 			}
@@ -1178,80 +1253,23 @@ MUU_NAMESPACE_START
 				return result_type
 				{
 					impl::columnwise_init_tag{},
-
-					// column 0
 					column_type
 					{
-						// (0, 0)
-						static_cast<scalar_type>(
-							MULT_DOT(0, 0, 0) +
-							MULT_DOT(0, 0, 1) +
-							MULT_DOT(0, 0, 2)
-						),
-
-						// (1, 0)
-						static_cast<scalar_type>(
-							MULT_DOT(1, 0, 0) +
-							MULT_DOT(1, 0, 1) +
-							MULT_DOT(1, 0, 2)
-						),
-
-						// (2, 0)
-						static_cast<scalar_type>(
-							MULT_DOT(2, 0, 0) +
-							MULT_DOT(2, 0, 1) +
-							MULT_DOT(2, 0, 2)
-						)
+						static_cast<scalar_type>(MULT_DOT(0, 0, 0) + MULT_DOT(0, 0, 1) + MULT_DOT(0, 0, 2)),
+						static_cast<scalar_type>(MULT_DOT(1, 0, 0) + MULT_DOT(1, 0, 1) + MULT_DOT(1, 0, 2)),
+						static_cast<scalar_type>(MULT_DOT(2, 0, 0) + MULT_DOT(2, 0, 1) + MULT_DOT(2, 0, 2))
 					},
-
-					// column 1
 					column_type
 					{
-						// (0, 1)
-						static_cast<scalar_type>(
-							MULT_DOT(0, 1, 0) +
-							MULT_DOT(0, 1, 1) +
-							MULT_DOT(0, 1, 2)
-						),
-
-						// (1, 1)
-						static_cast<scalar_type>(
-							MULT_DOT(1, 1, 0) +
-							MULT_DOT(1, 1, 1) +
-							MULT_DOT(1, 1, 2)
-						),
-
-						// (2, 1)
-						static_cast<scalar_type>(
-							MULT_DOT(2, 1, 0) +
-							MULT_DOT(2, 1, 1) +
-							MULT_DOT(2, 1, 2)
-						)
+						static_cast<scalar_type>(MULT_DOT(0, 1, 0) + MULT_DOT(0, 1, 1) + MULT_DOT(0, 1, 2)),
+						static_cast<scalar_type>(MULT_DOT(1, 1, 0) + MULT_DOT(1, 1, 1) + MULT_DOT(1, 1, 2)),
+						static_cast<scalar_type>(MULT_DOT(2, 1, 0) + MULT_DOT(2, 1, 1) + MULT_DOT(2, 1, 2))
 					},
-
-					// column 2
 					column_type
 					{
-						// (0, 2)
-						static_cast<scalar_type>(
-							MULT_DOT(0, 2, 0) +
-							MULT_DOT(0, 2, 1) +
-							MULT_DOT(0, 2, 2)
-						),
-
-						// (1, 2)
-						static_cast<scalar_type>(
-							MULT_DOT(1, 2, 0) +
-							MULT_DOT(1, 2, 1) +
-							MULT_DOT(1, 2, 2)
-						),
-
-						// (2, 2)
-						static_cast<scalar_type>(
-							MULT_DOT(2, 2, 0) +
-							MULT_DOT(2, 2, 1) +
-							MULT_DOT(2, 2, 2)
-						)
+						static_cast<scalar_type>(MULT_DOT(0, 2, 0) + MULT_DOT(0, 2, 1) + MULT_DOT(0, 2, 2)),
+						static_cast<scalar_type>(MULT_DOT(1, 2, 0) + MULT_DOT(1, 2, 1) + MULT_DOT(1, 2, 2)),
+						static_cast<scalar_type>(MULT_DOT(2, 2, 0) + MULT_DOT(2, 2, 1) + MULT_DOT(2, 2, 2))
 					}
 
 				};
@@ -1263,149 +1281,29 @@ MUU_NAMESPACE_START
 				return result_type
 				{
 					impl::columnwise_init_tag{},
-
-					// column 0
-					column_type
-					{
-						// (0, 0)
-						static_cast<scalar_type>(
-							MULT_DOT(0, 0, 0) +
-							MULT_DOT(0, 0, 1) +
-							MULT_DOT(0, 0, 2) +
-							MULT_DOT(0, 0, 3)
-						),
-
-						// (1, 0)
-						static_cast<scalar_type>(
-							MULT_DOT(1, 0, 0) +
-							MULT_DOT(1, 0, 1) +
-							MULT_DOT(1, 0, 2) +
-							MULT_DOT(1, 0, 3)
-						),
-
-						// (2, 0)
-						static_cast<scalar_type>(
-							MULT_DOT(2, 0, 0) +
-							MULT_DOT(2, 0, 1) +
-							MULT_DOT(2, 0, 2) +
-							MULT_DOT(2, 0, 3)
-						),
-
-						// (3, 0)
-						static_cast<scalar_type>(
-							MULT_DOT(3, 0, 0) +
-							MULT_DOT(3, 0, 1) +
-							MULT_DOT(3, 0, 2) +
-							MULT_DOT(3, 0, 3)
-						)
+					column_type{
+						static_cast<scalar_type>(MULT_DOT(0, 0, 0) + MULT_DOT(0, 0, 1) + MULT_DOT(0, 0, 2) + MULT_DOT(0, 0, 3)),
+						static_cast<scalar_type>(MULT_DOT(1, 0, 0) + MULT_DOT(1, 0, 1) + MULT_DOT(1, 0, 2) + MULT_DOT(1, 0, 3)),
+						static_cast<scalar_type>(MULT_DOT(2, 0, 0) + MULT_DOT(2, 0, 1) + MULT_DOT(2, 0, 2) + MULT_DOT(2, 0, 3)),
+						static_cast<scalar_type>(MULT_DOT(3, 0, 0) + MULT_DOT(3, 0, 1) + MULT_DOT(3, 0, 2) + MULT_DOT(3, 0, 3))
 					},
-
-					// column 1
-					column_type
-					{
-						// (0, 1)
-						static_cast<scalar_type>(
-							MULT_DOT(0, 1, 0) +
-							MULT_DOT(0, 1, 1) +
-							MULT_DOT(0, 1, 2) +
-							MULT_DOT(0, 1, 3)
-						),
-
-						// (1, 1)
-						static_cast<scalar_type>(
-							MULT_DOT(1, 1, 0) +
-							MULT_DOT(1, 1, 1) +
-							MULT_DOT(1, 1, 2) +
-							MULT_DOT(1, 1, 3)
-						),
-
-						// (2, 1)
-						static_cast<scalar_type>(
-							MULT_DOT(2, 1, 0) +
-							MULT_DOT(2, 1, 1) +
-							MULT_DOT(2, 1, 2) +
-							MULT_DOT(2, 1, 3)
-						),
-
-						// (3, 1)
-						static_cast<scalar_type>(
-							MULT_DOT(3, 1, 0) +
-							MULT_DOT(3, 1, 1) +
-							MULT_DOT(3, 1, 2) +
-							MULT_DOT(3, 1, 3)
-						)
+					column_type{
+						static_cast<scalar_type>(MULT_DOT(0, 1, 0) + MULT_DOT(0, 1, 1) + MULT_DOT(0, 1, 2) + MULT_DOT(0, 1, 3)),
+						static_cast<scalar_type>(MULT_DOT(1, 1, 0) + MULT_DOT(1, 1, 1) + MULT_DOT(1, 1, 2) + MULT_DOT(1, 1, 3)),
+						static_cast<scalar_type>(MULT_DOT(2, 1, 0) + MULT_DOT(2, 1, 1) + MULT_DOT(2, 1, 2) + MULT_DOT(2, 1, 3)),
+						static_cast<scalar_type>(MULT_DOT(3, 1, 0) + MULT_DOT(3, 1, 1) + MULT_DOT(3, 1, 2) + MULT_DOT(3, 1, 3))
 					},
-
-					// column 2
-					column_type
-					{
-						// (0, 2)
-						static_cast<scalar_type>(
-							MULT_DOT(0, 2, 0) +
-							MULT_DOT(0, 2, 1) +
-							MULT_DOT(0, 2, 2) +
-							MULT_DOT(0, 2, 3)
-						),
-
-						// (1, 2)
-						static_cast<scalar_type>(
-							MULT_DOT(1, 2, 0) +
-							MULT_DOT(1, 2, 1) +
-							MULT_DOT(1, 2, 2) +
-							MULT_DOT(1, 2, 3)
-						),
-
-						// (2, 2)
-						static_cast<scalar_type>(
-							MULT_DOT(2, 2, 0) +
-							MULT_DOT(2, 2, 1) +
-							MULT_DOT(2, 2, 2) +
-							MULT_DOT(2, 2, 3)
-						),
-
-						// (3, 2)
-						static_cast<scalar_type>(
-							MULT_DOT(3, 2, 0) +
-							MULT_DOT(3, 2, 1) +
-							MULT_DOT(3, 2, 2) +
-							MULT_DOT(3, 2, 3)
-						)
+					column_type{
+						static_cast<scalar_type>(MULT_DOT(0, 2, 0) + MULT_DOT(0, 2, 1) + MULT_DOT(0, 2, 2) + MULT_DOT(0, 2, 3)),
+						static_cast<scalar_type>(MULT_DOT(1, 2, 0) + MULT_DOT(1, 2, 1) + MULT_DOT(1, 2, 2) + MULT_DOT(1, 2, 3)),
+						static_cast<scalar_type>(MULT_DOT(2, 2, 0) + MULT_DOT(2, 2, 1) + MULT_DOT(2, 2, 2) + MULT_DOT(2, 2, 3)),
+						static_cast<scalar_type>(MULT_DOT(3, 2, 0) + MULT_DOT(3, 2, 1) + MULT_DOT(3, 2, 2) + MULT_DOT(3, 2, 3))
 					},
-
-					// column 3
-					column_type
-					{
-						// (0, 3)
-						static_cast<scalar_type>(
-							MULT_DOT(0, 3, 0) +
-							MULT_DOT(0, 3, 1) +
-							MULT_DOT(0, 3, 2) +
-							MULT_DOT(0, 3, 3)
-						),
-
-						// (1, 3)
-						static_cast<scalar_type>(
-							MULT_DOT(1, 3, 0) +
-							MULT_DOT(1, 3, 1) +
-							MULT_DOT(1, 3, 2) +
-							MULT_DOT(1, 3, 3)
-						),
-
-						// (2, 3)
-						static_cast<scalar_type>(
-							MULT_DOT(2, 3, 0) +
-							MULT_DOT(2, 3, 1) +
-							MULT_DOT(2, 3, 2) +
-							MULT_DOT(2, 3, 3)
-						),
-
-						// (3, 3)
-						static_cast<scalar_type>(
-							MULT_DOT(3, 3, 0) +
-							MULT_DOT(3, 3, 1) +
-							MULT_DOT(3, 3, 2) +
-							MULT_DOT(3, 3, 3)
-						)
+					column_type{
+						static_cast<scalar_type>(MULT_DOT(0, 3, 0) + MULT_DOT(0, 3, 1) + MULT_DOT(0, 3, 2) + MULT_DOT(0, 3, 3)),
+						static_cast<scalar_type>(MULT_DOT(1, 3, 0) + MULT_DOT(1, 3, 1) + MULT_DOT(1, 3, 2) + MULT_DOT(1, 3, 3)),
+						static_cast<scalar_type>(MULT_DOT(2, 3, 0) + MULT_DOT(2, 3, 1) + MULT_DOT(2, 3, 2) + MULT_DOT(2, 3, 3)),
+						static_cast<scalar_type>(MULT_DOT(3, 3, 0) + MULT_DOT(3, 3, 1) + MULT_DOT(3, 3, 2) + MULT_DOT(3, 3, 3))
 					}
 				};
 			}
@@ -1436,9 +1334,9 @@ MUU_NAMESPACE_START
 		/// \brief Multiplies this matrix with another and assigns the result.
 		/// 
 		/// \note This function is only available when the matrix is square.
-		LEGACY_REQUIRES_SQUARE
+		LEGACY_REQUIRES_SQUARE_AND(true)
 		constexpr matrix& MUU_VECTORCALL operator *= (matrix_param rhs) noexcept
-			REQUIRES_SQUARE
+			REQUIRES_SQUARE_AND(true)
 		{
 			return *this = *this * rhs;
 		}
@@ -1530,6 +1428,250 @@ MUU_NAMESPACE_START
 
 	#endif // division
 
+	#if 1 // transposition --------------------------------------------------------------------------------------------
+
+		/// \brief	Returns a transposed copy of a matrix.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr matrix<scalar_type, columns, rows> MUU_VECTORCALL transpose(matrix_param m) noexcept
+		{
+			using result_type = matrix<scalar_type, columns, rows>;
+			using result_column = vector<scalar_type, columns>;
+
+			#define MAT_GET(r, c) m.m[c].template get<r>()
+
+			// common square cases are manually unrolled 
+			if constexpr (Rows == 2 && Columns == 2)
+			{
+				return result_type
+				{
+					impl::columnwise_init_tag{},
+					result_column{ MAT_GET(0, 0), MAT_GET(0, 1) },
+					result_column{ MAT_GET(1, 0), MAT_GET(1, 1) },
+				};
+			}
+			else if constexpr (Rows == 3 && Columns == 3)
+			{
+				return result_type
+				{
+					impl::columnwise_init_tag{},
+					result_column{ MAT_GET(0, 0), MAT_GET(0, 1), MAT_GET(0, 2) },
+					result_column{ MAT_GET(1, 0), MAT_GET(1, 1), MAT_GET(1, 2) },
+					result_column{ MAT_GET(2, 0), MAT_GET(2, 1), MAT_GET(2, 2) },
+				};
+			}
+			else if constexpr (Rows == 4 && Columns == 4)
+			{
+				return result_type
+				{
+					impl::columnwise_init_tag{},
+					result_column{ MAT_GET(0, 0), MAT_GET(0, 1), MAT_GET(0, 2), MAT_GET(0, 3) },
+					result_column{ MAT_GET(1, 0), MAT_GET(1, 1), MAT_GET(1, 2), MAT_GET(1, 3) },
+					result_column{ MAT_GET(2, 0), MAT_GET(2, 1), MAT_GET(2, 2), MAT_GET(2, 3) },
+					result_column{ MAT_GET(3, 0), MAT_GET(3, 1), MAT_GET(3, 2), MAT_GET(3, 3) },
+				};
+			}
+			else
+			{
+				result_type out;
+				for (size_t c = 0; c < Columns; c++)
+				{
+					auto& col = m.m[c];
+					MUU_PRAGMA_MSVC(omp simd)
+					for (size_t r = 0; r < Rows; r++)
+						out.m[r][c] = col[r];
+				}
+				return out;
+			}
+
+			#undef MAT_GET
+		}
+
+		/// \brief	Transposes the matrix (in-place).
+		/// 
+		/// \note This function is only available when the matrix is square.
+		LEGACY_REQUIRES_SQUARE_AND(true)
+		constexpr matrix& MUU_VECTORCALL transpose() noexcept
+			REQUIRES_SQUARE_AND(true)
+		{
+			return *this = transpose(*this);
+		}
+
+	#endif // transposition
+
+	#if 1 // inverse & determinant ------------------------------------------------------------------------------------
+
+		/// \brief	Calculates the determinant of a matrix.
+		/// 
+		/// \note This function is only available when the matrix is square and has at most 4 rows and columns.
+		LEGACY_REQUIRES_SQUARE_AND(Columns <= 4)
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr determinant_type MUU_VECTORCALL determinant(matrix_param m) noexcept
+			REQUIRES_SQUARE_AND(Columns <= 4)
+		{
+			if constexpr (Columns == 1) return static_cast<determinant_type>(m.m[0].x);
+			if constexpr (Columns == 2) return static_cast<determinant_type>(impl::raw_determinant_2x2(m));
+			if constexpr (Columns == 3) return static_cast<determinant_type>(impl::raw_determinant_3x3(m));
+			if constexpr (Columns == 4) return static_cast<determinant_type>(impl::raw_determinant_4x4(m));
+		}
+
+		/// \brief	Calculates the determinant of a matrix.
+		/// 
+		/// \note This function is only available when the matrix is square and has at most 4 rows and columns.
+		LEGACY_REQUIRES_SQUARE_AND(Columns <= 4)
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr determinant_type MUU_VECTORCALL determinant() noexcept
+			REQUIRES_SQUARE_AND(Columns <= 4)
+		{
+			return determinant(*this);
+		}
+
+		/// \brief	Returns the inverse of a matrix.
+		/// 
+		/// \note This function is only available when the matrix is square and has at most 4 rows and columns.
+		LEGACY_REQUIRES_SQUARE_AND(Columns <= 4)
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr matrix<inverse_type, rows, columns> MUU_VECTORCALL invert(matrix_param m) noexcept
+			REQUIRES_SQUARE_AND(Columns <= 4)
+		{
+			using result_type = matrix<inverse_type, rows, columns>;
+			using result_column = vector<inverse_type, rows>;
+
+			#define MAT_GET(r, c) static_cast<intermediate_float>(m.m[c].template get<r>())
+
+			if constexpr (Columns == 1)
+			{
+				return result_type{
+					impl::columnwise_init_tag{},
+					result_column{
+						static_cast<inverse_type>(intermediate_float{ 1 } / static_cast<intermediate_float>(m.m[0].x))
+					}
+				};
+			}
+			if constexpr (Columns == 2)
+			{
+				MUU_FMA_BLOCK
+
+				const auto det = intermediate_float{ 1 } / static_cast<intermediate_float>(impl::raw_determinant_2x2(m));
+				return result_type
+				{
+					impl::columnwise_init_tag{},
+					result_column{
+						static_cast<inverse_type>(det * MAT_GET(1, 1)),
+						static_cast<inverse_type>(det * -MAT_GET(1, 0))
+					},
+					result_column{
+						static_cast<inverse_type>(det * -MAT_GET(0, 1)),
+						static_cast<inverse_type>(det * MAT_GET(0, 0))
+					}
+				};
+			}
+			if constexpr (Columns == 3)
+			{
+				MUU_FMA_BLOCK
+
+				const auto det = intermediate_float{ 1 } / static_cast<intermediate_float>(impl::raw_determinant_3x3(m));
+				return result_type
+				{
+					impl::columnwise_init_tag{},
+					result_column{
+						static_cast<inverse_type>(det *  (MAT_GET(1, 1) * MAT_GET(2, 2) - MAT_GET(1, 2) * MAT_GET(2, 1))),
+						static_cast<inverse_type>(det * -(MAT_GET(1, 0) * MAT_GET(2, 2) - MAT_GET(1, 2) * MAT_GET(2, 0))),
+						static_cast<inverse_type>(det *  (MAT_GET(1, 0) * MAT_GET(2, 1) - MAT_GET(1, 1) * MAT_GET(2, 0)))
+					},
+					result_column{
+						static_cast<inverse_type>(det * -(MAT_GET(0, 1) * MAT_GET(2, 2) - MAT_GET(0, 2) * MAT_GET(2, 1))),
+						static_cast<inverse_type>(det *  (MAT_GET(0, 0) * MAT_GET(2, 2) - MAT_GET(0, 2) * MAT_GET(2, 0))),
+						static_cast<inverse_type>(det * -(MAT_GET(0, 0) * MAT_GET(2, 1) - MAT_GET(0, 1) * MAT_GET(2, 0)))
+					},
+					result_column{
+						static_cast<inverse_type>(det *  (MAT_GET(0, 1) * MAT_GET(1, 2) - MAT_GET(0, 2) * MAT_GET(1, 1))),
+						static_cast<inverse_type>(det * -(MAT_GET(0, 0) * MAT_GET(1, 2) - MAT_GET(0, 2) * MAT_GET(1, 0))),
+						static_cast<inverse_type>(det *  (MAT_GET(0, 0) * MAT_GET(1, 1) - MAT_GET(0, 1) * MAT_GET(1, 0)))
+					}
+				};
+			}
+			if constexpr (Columns == 4)
+			{
+				// generated using https://github.com/willnode/N-Matrix-Programmer
+
+				MUU_FMA_BLOCK
+
+				const auto A2323 = MAT_GET(2, 2) * MAT_GET(3, 3) - MAT_GET(2, 3) * MAT_GET(3, 2);
+				const auto A1323 = MAT_GET(2, 1) * MAT_GET(3, 3) - MAT_GET(2, 3) * MAT_GET(3, 1);
+				const auto A1223 = MAT_GET(2, 1) * MAT_GET(3, 2) - MAT_GET(2, 2) * MAT_GET(3, 1);
+				const auto A0323 = MAT_GET(2, 0) * MAT_GET(3, 3) - MAT_GET(2, 3) * MAT_GET(3, 0);
+				const auto A0223 = MAT_GET(2, 0) * MAT_GET(3, 2) - MAT_GET(2, 2) * MAT_GET(3, 0);
+				const auto A0123 = MAT_GET(2, 0) * MAT_GET(3, 1) - MAT_GET(2, 1) * MAT_GET(3, 0);
+				const auto A2313 = MAT_GET(1, 2) * MAT_GET(3, 3) - MAT_GET(1, 3) * MAT_GET(3, 2);
+				const auto A1313 = MAT_GET(1, 1) * MAT_GET(3, 3) - MAT_GET(1, 3) * MAT_GET(3, 1);
+				const auto A1213 = MAT_GET(1, 1) * MAT_GET(3, 2) - MAT_GET(1, 2) * MAT_GET(3, 1);
+				const auto A2312 = MAT_GET(1, 2) * MAT_GET(2, 3) - MAT_GET(1, 3) * MAT_GET(2, 2);
+				const auto A1312 = MAT_GET(1, 1) * MAT_GET(2, 3) - MAT_GET(1, 3) * MAT_GET(2, 1);
+				const auto A1212 = MAT_GET(1, 1) * MAT_GET(2, 2) - MAT_GET(1, 2) * MAT_GET(2, 1);
+				const auto A0313 = MAT_GET(1, 0) * MAT_GET(3, 3) - MAT_GET(1, 3) * MAT_GET(3, 0);
+				const auto A0213 = MAT_GET(1, 0) * MAT_GET(3, 2) - MAT_GET(1, 2) * MAT_GET(3, 0);
+				const auto A0312 = MAT_GET(1, 0) * MAT_GET(2, 3) - MAT_GET(1, 3) * MAT_GET(2, 0);
+				const auto A0212 = MAT_GET(1, 0) * MAT_GET(2, 2) - MAT_GET(1, 2) * MAT_GET(2, 0);
+				const auto A0113 = MAT_GET(1, 0) * MAT_GET(3, 1) - MAT_GET(1, 1) * MAT_GET(3, 0);
+				const auto A0112 = MAT_GET(1, 0) * MAT_GET(2, 1) - MAT_GET(1, 1) * MAT_GET(2, 0);
+
+				const auto det = intermediate_float{ 1 } / (
+					  MAT_GET(0, 0) * (MAT_GET(1, 1) * A2323 - MAT_GET(1, 2) * A1323 + MAT_GET(1, 3) * A1223)
+					- MAT_GET(0, 1) * (MAT_GET(1, 0) * A2323 - MAT_GET(1, 2) * A0323 + MAT_GET(1, 3) * A0223)
+					+ MAT_GET(0, 2) * (MAT_GET(1, 0) * A1323 - MAT_GET(1, 1) * A0323 + MAT_GET(1, 3) * A0123)
+					- MAT_GET(0, 3) * (MAT_GET(1, 0) * A1223 - MAT_GET(1, 1) * A0223 + MAT_GET(1, 2) * A0123)
+				);
+
+				return result_type
+				{
+					impl::columnwise_init_tag{},
+					result_column{
+						static_cast<inverse_type>(det *  (MAT_GET(1, 1) * A2323 - MAT_GET(1, 2) * A1323 + MAT_GET(1, 3) * A1223)),
+						static_cast<inverse_type>(det * -(MAT_GET(1, 0) * A2323 - MAT_GET(1, 2) * A0323 + MAT_GET(1, 3) * A0223)),
+						static_cast<inverse_type>(det *  (MAT_GET(1, 0) * A1323 - MAT_GET(1, 1) * A0323 + MAT_GET(1, 3) * A0123)),
+						static_cast<inverse_type>(det * -(MAT_GET(1, 0) * A1223 - MAT_GET(1, 1) * A0223 + MAT_GET(1, 2) * A0123))
+					},
+					result_column{
+						static_cast<inverse_type>(det * -(MAT_GET(0, 1) * A2323 - MAT_GET(0, 2) * A1323 + MAT_GET(0, 3) * A1223)),
+						static_cast<inverse_type>(det *  (MAT_GET(0, 0) * A2323 - MAT_GET(0, 2) * A0323 + MAT_GET(0, 3) * A0223)),
+						static_cast<inverse_type>(det * -(MAT_GET(0, 0) * A1323 - MAT_GET(0, 1) * A0323 + MAT_GET(0, 3) * A0123)),
+						static_cast<inverse_type>(det *  (MAT_GET(0, 0) * A1223 - MAT_GET(0, 1) * A0223 + MAT_GET(0, 2) * A0123))
+					},
+					result_column{
+						static_cast<inverse_type>(det *  (MAT_GET(0, 1) * A2313 - MAT_GET(0, 2) * A1313 + MAT_GET(0, 3) * A1213)),
+						static_cast<inverse_type>(det * -(MAT_GET(0, 0) * A2313 - MAT_GET(0, 2) * A0313 + MAT_GET(0, 3) * A0213)),
+						static_cast<inverse_type>(det *  (MAT_GET(0, 0) * A1313 - MAT_GET(0, 1) * A0313 + MAT_GET(0, 3) * A0113)),
+						static_cast<inverse_type>(det * -(MAT_GET(0, 0) * A1213 - MAT_GET(0, 1) * A0213 + MAT_GET(0, 2) * A0113))
+					},
+					result_column{
+						static_cast<inverse_type>(det * -(MAT_GET(0, 1) * A2312 - MAT_GET(0, 2) * A1312 + MAT_GET(0, 3) * A1212)),
+						static_cast<inverse_type>(det *  (MAT_GET(0, 0) * A2312 - MAT_GET(0, 2) * A0312 + MAT_GET(0, 3) * A0212)),
+						static_cast<inverse_type>(det * -(MAT_GET(0, 0) * A1312 - MAT_GET(0, 1) * A0312 + MAT_GET(0, 3) * A0112)),
+						static_cast<inverse_type>(det *  (MAT_GET(0, 0) * A1212 - MAT_GET(0, 1) * A0212 + MAT_GET(0, 2) * A0112))
+					}
+				};
+			}
+			
+			#undef MAT_GET
+		}
+
+		/// \brief	Inverts the matrix (in-place).
+		/// 
+		/// \note This function is only available when the matrix is square, has at most 4 rows and columns,
+		/// 	  and has a floating-point #scalar_type.
+		LEGACY_REQUIRES_SQUARE_AND(Columns <= 4 && is_floating_point<Scalar>)
+		constexpr matrix& MUU_VECTORCALL invert() noexcept
+			REQUIRES_SQUARE_AND(Columns <= 4 && is_floating_point<Scalar>)
+		{
+			return *this = invert(*this);
+		}
+
+	#endif // inverse & determinant
+
 	#if 1 // streams --------------------------------------------------------------------------------------------------
 
 		/// \brief Writes a matrix out to a text stream.
@@ -1549,6 +1691,10 @@ MUU_NAMESPACE_START
 
 	#ifndef DOXYGEN // deduction guides -------------------------------------------------------------------------------
 
+	template <typename T MUU_ENABLE_IF(is_arithmetic<T>)>
+	MUU_REQUIRES(is_arithmetic<T>)
+	matrix(T) -> matrix<T, 1, 1>;
+
 	template <
 		typename T1, typename T2,
 		typename T3, typename T4
@@ -1565,6 +1711,16 @@ MUU_NAMESPACE_START
 	>
 	MUU_REQUIRES(all_arithmetic<T1, T2, T3, T4, T5, T6, T7, T8, T9>)
 	matrix(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> matrix<impl::highest_ranked<T1, T2, T3, T4, T5, T6, T7, T8, T9>, 3, 3>;
+
+	template <
+		typename T1, typename T2, typename T3, typename T4,
+		typename T5, typename T6, typename T7, typename T8,
+		typename T9, typename T10, typename T11, typename T12
+		MUU_ENABLE_IF(all_arithmetic<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>)
+	>
+	MUU_REQUIRES(all_arithmetic<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>)
+	matrix(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)
+		-> matrix<impl::highest_ranked<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>, 3, 4>;
 
 	template <
 		typename T1, typename T2, typename T3, typename T4,
@@ -1606,7 +1762,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr bool infinity_or_nan(const matrix<S, R, C>& m) noexcept
+	constexpr bool MUU_VECTORCALL infinity_or_nan(const matrix<S, R, C>& m) noexcept
 	{
 		if constexpr (is_floating_point<S>)
 			return matrix<S, R, C>::infinity_or_nan(m);
@@ -1631,7 +1787,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr bool approx_equal(
+	constexpr bool MUU_VECTORCALL approx_equal(
 		const matrix<S, R, C>& m1,
 		const matrix<T, R, C>& m2,
 		dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
@@ -1655,7 +1811,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr bool approx_zero(
+	constexpr bool MUU_VECTORCALL approx_zero(
 		const matrix<S, R, C>& m,
 		S epsilon = muu::constants<S>::approx_equal_epsilon
 	) noexcept
@@ -1672,7 +1828,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
-	constexpr bool infinity_or_nan(matrix<S, R, C> m) noexcept
+	constexpr bool MUU_VECTORCALL infinity_or_nan(matrix<S, R, C> m) noexcept
 	{
 		if constexpr (is_floating_point<S>)
 			return matrix<S, R, C>::infinity_or_nan(m);
@@ -1732,7 +1888,7 @@ MUU_NAMESPACE_END
 #undef REQUIRES_COLUMNS_EXACTLY
 #undef REQUIRES_DIMENSIONS_AT_LEAST
 #undef REQUIRES_DIMENSIONS_EXACTLY
-#undef REQUIRES_SQUARE
+#undef REQUIRES_SQUARE_AND
 #undef REQUIRES_FLOATING_POINT
 #undef REQUIRES_INTEGRAL
 #undef REQUIRES_SIGNED
@@ -1746,6 +1902,7 @@ MUU_NAMESPACE_END
 #undef LEGACY_REQUIRES_COLUMNS_EXACTLY
 #undef LEGACY_REQUIRES_DIMENSIONS_AT_LEAST
 #undef LEGACY_REQUIRES_DIMENSIONS_EXACTLY
+#undef LEGACY_REQUIRES_SQUARE_AND
 #undef LEGACY_REQUIRES_FLOATING_POINT
 #undef LEGACY_REQUIRES_INTEGRAL
 #undef LEGACY_REQUIRES_SIGNED

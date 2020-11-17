@@ -619,7 +619,7 @@ inline void matrix_multiplication_tests(std::string_view scalar_typename) noexce
 
 	if constexpr (Rows == 2 && Columns == 3 && (sizeof(T) > 1 || is_unsigned<T>))
 	{
-		INFO("matrix * matrix - hard-coded case #1"sv)
+		INFO("matrix * matrix - case #1"sv)
 
 		const auto lhs = matrix<T, 2, 3>{
 			T{1},	T{2},	T{3},
@@ -642,7 +642,7 @@ inline void matrix_multiplication_tests(std::string_view scalar_typename) noexce
 
 	if constexpr (Rows == 1 && Columns == 3)
 	{
-		INFO("matrix * matrix - hard-coded case #2"sv)
+		INFO("matrix * matrix - case #2"sv)
 
 		const auto lhs = matrix<T, 1, 3>{
 			T{3},	T{4},	T{2}
@@ -658,12 +658,12 @@ inline void matrix_multiplication_tests(std::string_view scalar_typename) noexce
 			T{83},	T{63}, T{37},	T{75}
 		};
 
-		CHECK_APPROX_EQUAL(lhs* rhs, expected);
+		CHECK_APPROX_EQUAL(lhs * rhs, expected);
 	}
 
 	if constexpr (Rows == 1 && Columns == 3)
 	{
-		INFO("matrix * matrix - hard-coded case #3"sv)
+		INFO("matrix * matrix - case #3"sv)
 
 		const auto lhs = matrix<T, 1, 3>{
 			T{1},	T{2},	T{3}
@@ -684,7 +684,7 @@ inline void matrix_multiplication_tests(std::string_view scalar_typename) noexce
 
 	if constexpr (Rows == 3 && Columns == 1)
 	{
-		INFO("matrix * matrix - hard-coded case #4"sv)
+		INFO("matrix * matrix - case #4"sv)
 
 		const auto lhs = matrix<T, 3, 1>{
 			T{4},
@@ -702,12 +702,12 @@ inline void matrix_multiplication_tests(std::string_view scalar_typename) noexce
 			T{6},	T{12},	T{18}
 		};
 
-		CHECK_APPROX_EQUAL(lhs* rhs, expected);
+		CHECK_APPROX_EQUAL(lhs * rhs, expected);
 	}
 
 	if constexpr (Rows == 2 && Columns == 2)
 	{
-		INFO("matrix * matrix - hard-coded case #5"sv)
+		INFO("matrix * matrix - case #5"sv)
 
 		const auto lhs = matrix<T, 2, 2>{
 			T{1},	T{2},
@@ -724,12 +724,12 @@ inline void matrix_multiplication_tests(std::string_view scalar_typename) noexce
 			T{10},	T{8}
 		};
 
-		CHECK_APPROX_EQUAL(lhs* rhs, expected);
+		CHECK_APPROX_EQUAL(lhs * rhs, expected);
 	}
 
 	if constexpr (Rows == 2 && Columns == 2)
 	{
-		INFO("matrix * matrix - hard-coded case #6"sv)
+		INFO("matrix * matrix - case #6"sv)
 
 		const auto lhs = matrix<T, 2, 2>{
 			T{2},	T{0},
@@ -746,12 +746,12 @@ inline void matrix_multiplication_tests(std::string_view scalar_typename) noexce
 			T{7},	T{10}
 		};
 
-		CHECK_APPROX_EQUAL(lhs* rhs, expected);
+		CHECK_APPROX_EQUAL(lhs * rhs, expected);
 	}
 
 	if constexpr (Rows == 3 && Columns == 3 && (sizeof(T) > 1 || is_unsigned<T>))
 	{
-		INFO("matrix * matrix - hard-coded case #7"sv)
+		INFO("matrix * matrix - case #7"sv)
 
 		const auto lhs = matrix<T, 3, 3>{
 			T{10},	T{20},	T{10},
@@ -776,7 +776,7 @@ inline void matrix_multiplication_tests(std::string_view scalar_typename) noexce
 
 	if constexpr (Rows == 4 && Columns == 4 && sizeof(T) > 1)
 	{
-		INFO("matrix * matrix - hard-coded case #8"sv)
+		INFO("matrix * matrix - case #8"sv)
 
 		const auto lhs = matrix<T, 4, 4>{
 			T{5},	T{7},	T{9},	T{10},
@@ -837,3 +837,217 @@ inline void matrix_division_tests(std::string_view scalar_typename) noexcept
 	}
 }
 
+template <typename T, size_t Rows, size_t Columns>
+inline void matrix_transpose_tests(std::string_view scalar_typename) noexcept
+{
+	INFO("matrix<"sv << scalar_typename << ", "sv << Rows << ", "sv << Columns << ">"sv)
+	using matrix_t = matrix<T, Rows, Columns>;
+
+	matrix_t mat;
+	for (size_t r = 0; r < Rows; r++)
+		for (size_t c = 0; c < Columns; c++)
+			mat(r, c) = random<T>(0, 10);
+
+	{
+		INFO("transpose(matrix)"sv)
+
+		matrix<T, Columns, Rows> transposed = matrix_t::transpose(mat);
+		for (size_t r = 0; r < Rows; r++)
+			for (size_t c = 0; c < Columns; c++)
+				CHECK(transposed(c, r) == mat(r, c));
+	}
+
+	if constexpr (Rows == Columns)
+	{
+		INFO("matrix.transpose()"sv)
+		matrix_t transposed{ mat };
+		transposed.transpose();
+		for (size_t r = 0; r < Rows; r++)
+			for (size_t c = 0; c < Columns; c++)
+				CHECK(transposed(c, r) == mat(r, c));
+	}
+}
+
+template <typename T, size_t Rows, size_t Columns>
+inline void matrix_determinant_tests(std::string_view scalar_typename) noexcept
+{
+	INFO("matrix<"sv << scalar_typename << ", "sv << Rows << ", "sv << Columns << ">"sv)
+	using matrix_t = matrix<T, Rows, Columns>;
+	using determinant_t = typename matrix_t::determinant_type;
+
+	#define CHECK_DETERMINANT(expected)												\
+		CHECK_APPROX_EQUAL(matrix_t::determinant(mat), determinant_t{ expected });	\
+		CHECK_APPROX_EQUAL(mat.determinant(), determinant_t{ expected })
+
+	if constexpr (Rows == 2 && Columns == 2)
+	{
+		matrix_t mat{
+			T{3},	T{8},
+			T{4},	T{6}
+		};
+		CHECK_DETERMINANT(-14);
+
+		mat = matrix_t{
+			T{2},	T{5},
+			T{3},	T{8}
+		};
+		CHECK_DETERMINANT(1);
+
+		if constexpr (is_signed<T>)
+		{
+			mat = matrix_t{
+				T{-4},	T{7},
+				T{-2},	T{9}
+			};
+			CHECK_DETERMINANT(-22);
+		}
+	}
+
+	if constexpr (Rows == 3 && Columns == 3)
+	{
+		matrix_t mat{
+			T{1},	T{2},	T{3},
+			T{4},	T{5},	T{6},
+			T{7},	T{8},	T{9}
+		};
+		CHECK_DETERMINANT(0);
+
+		mat = matrix_t{
+			T{3},	T{4},	T{4},
+			T{5},	T{9},	T{3},
+			T{2},	T{1},	T{5}
+		};
+		CHECK_DETERMINANT(-2);
+
+		if constexpr (is_signed<T>)
+		{
+			mat = matrix_t{
+				T{-2},	T{3},	T{-1},
+				T{5},	T{-1},	T{4},
+				T{4},	T{-8},	T{2}
+			};
+			CHECK_DETERMINANT(-6);
+
+			mat = matrix_t{
+				T{2},	T{-3},	T{1},
+				T{2},	T{0},	T{-1},
+				T{1},	T{4},	T{5}
+			};
+			CHECK_DETERMINANT(49);
+		}
+	}
+
+	if constexpr (Rows == 4 && Columns == 4)
+	{
+		matrix_t mat{
+			T{4},	T{7},	T{2},	T{3},
+			T{1},	T{3},	T{1},	T{2},
+			T{2},	T{5},	T{3},	T{4},
+			T{1},	T{4},	T{2},	T{3}
+		};
+		CHECK_DETERMINANT(-3);
+
+		mat = matrix_t{
+			T{2},	T{1},	T{3},	T{4},
+			T{1},	T{3},	T{4},	T{2},
+			T{3},	T{4},	T{2},	T{1},
+			T{4},	T{2},	T{1},	T{3}
+		};
+		CHECK_DETERMINANT(0);
+
+		if constexpr (is_signed<T>)
+		{
+			mat = matrix_t{
+				T{2},	T{5},	T{3},	T{5},
+				T{4},	T{6},	T{6},	T{3},
+				T{11},	T{3},	T{2},	T{-2},
+				T{4},	T{-7},	T{9},	T{3}
+			};
+			CHECK_DETERMINANT(2960);
+		}
+	}
+}
+
+
+template <typename T, size_t Rows, size_t Columns>
+inline void matrix_invert_tests(std::string_view scalar_typename) noexcept
+{
+	INFO("matrix<"sv << scalar_typename << ", "sv << Rows << ", "sv << Columns << ">"sv)
+	using matrix_t = matrix<T, Rows, Columns>;
+	using inverse_scalar = typename matrix_t::inverse_type;
+	using inverse_t = matrix<inverse_scalar, Rows, Columns>;
+
+	[[maybe_unused]]
+	static constexpr auto i = [](auto scalar) noexcept
+	{
+		return static_cast<inverse_scalar>(scalar);
+	};
+
+	using eps_common_type = impl::highest_ranked<inverse_scalar, double>;
+
+	[[maybe_unused]]
+	const inverse_scalar eps = static_cast<inverse_scalar>(muu::max(
+		static_cast<eps_common_type>(constants<inverse_scalar>::approx_equal_epsilon),
+		static_cast<eps_common_type>(constants<double>::approx_equal_epsilon)
+	));
+
+	#define CHECK_INVERSE(mat, expected)										\
+		do																		\
+		{																		\
+			const auto result = matrix_t::invert(mat);							\
+			for (size_t r = 0; r < Rows; r++)									\
+				for (size_t c = 0; c < Columns; c++)							\
+					CHECK_APPROX_EQUAL_EPS(result(r, c), expected(r, c), eps);	\
+		} while (false)
+
+	if constexpr (Rows == 2 && Columns == Rows)
+	{
+		const auto mat = matrix_t{
+			T{4},	T{7},
+			T{2},	T{6}
+		};
+
+		const auto expected = inverse_t{
+			i(0.6),		i(-0.7),
+			i(-0.2),	i(0.4)
+		};
+
+		CHECK_INVERSE(mat, expected);
+	}
+
+	if constexpr (Rows == 3 && Columns == Rows && is_signed<T>)
+	{
+		const auto mat = matrix_t{
+			T{3},	T{0},	T{2},
+			T{2},	T{0},	T{-2},
+			T{0},	T{1},	T{1}
+		};
+
+		const auto expected = inverse_t{
+			i(0.2),		i(0.2),		i(0),
+			i(-0.2),	i(0.3),		i(1),
+			i(0.2),		i(-0.3),	i(0)
+		};
+
+		CHECK_INVERSE(mat, expected);
+	}
+
+	if constexpr (Rows == 4 && Columns == Rows)
+	{
+		const auto mat = matrix_t{
+			T{3},	T{4},	T{3},	T{1},
+			T{1},	T{3},	T{5},	T{4},
+			T{1},	T{1},	T{2},	T{4},
+			T{1},	T{1},	T{1},	T{1}
+		};
+
+		const auto expected = inverse_t{
+			i(-1),		i(0),		i(-1),		i(5),
+			i(1.8),		i(-0.4),	i(1.6),		i(-6.6),
+			i(-1.2),	i(0.6),		i(-1.4),	i(4.4),
+			i(0.4),		i(-0.2),	i(0.8),		i(-1.8)
+		};
+
+		CHECK_INVERSE(mat, expected);
+	}
+}

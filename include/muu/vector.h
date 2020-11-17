@@ -806,7 +806,7 @@ MUU_IMPL_NAMESPACE_START
 	MUU_REQUIRES(pass_readonly_by_reference<T> || pass_readonly_by_reference<U>)
 	[[nodiscard]]
 	MUU_ATTR(pure)
-	static constexpr Return raw_cross(const T& lhs, const U& rhs) noexcept
+	static constexpr Return MUU_VECTORCALL raw_cross(const T& lhs, const U& rhs) noexcept
 	{
 		MUU_FMA_BLOCK
 		using lhs_scalar = decltype(lhs.x);
@@ -1489,6 +1489,7 @@ MUU_NAMESPACE_START
 		/// \return  A reference to the selected scalar component.
 		[[nodiscard]]
 		MUU_ATTR_NDEBUG(pure)
+		MUU_ATTR_NDEBUG(flatten)
 		constexpr const scalar_type& operator [](size_t idx) const noexcept
 		{
 			return do_array_operator(*this, idx);
@@ -1501,6 +1502,7 @@ MUU_NAMESPACE_START
 		/// \return  A reference to the selected scalar component.
 		[[nodiscard]]
 		MUU_ATTR_NDEBUG(pure)
+		MUU_ATTR_NDEBUG(flatten)
 		constexpr scalar_type& operator [](size_t idx) noexcept
 		{
 			return do_array_operator(*this, idx);
@@ -3593,7 +3595,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr bool infinity_or_nan(const vector<S, D>& v) noexcept
+	constexpr bool MUU_VECTORCALL infinity_or_nan(const vector<S, D>& v) noexcept
 	{
 		if constexpr (is_floating_point<S>)
 			return vector<S, D>::infinity_or_nan(v);
@@ -3618,7 +3620,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr bool approx_equal(
+	constexpr bool MUU_VECTORCALL approx_equal(
 		const vector<S, D>& v1,
 		const vector<T, D>& v2,
 		dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
@@ -3642,7 +3644,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr bool approx_zero(
+	constexpr bool MUU_VECTORCALL approx_zero(
 		const vector<S, D>& v,
 		S epsilon = muu::constants<S>::approx_equal_epsilon
 	) noexcept
@@ -3687,7 +3689,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr delta_type length_squared(const vector<S, D>& v) noexcept
+	constexpr delta_type MUU_VECTORCALL length_squared(const vector<S, D>& v) noexcept
 	{
 		static_assert(std::is_same_v<delta_type, typename vector<S, D>::delta_type>);
 
@@ -3705,7 +3707,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr delta_type length(const vector<S, D>& v) noexcept
+	constexpr delta_type MUU_VECTORCALL length(const vector<S, D>& v) noexcept
 	{
 		static_assert(std::is_same_v<delta_type, typename vector<S, D>::delta_type>);
 
@@ -3723,7 +3725,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr delta_type distance_squared(const vector<S, D>& p1, const vector<S, D>& p2) noexcept
+	constexpr delta_type MUU_VECTORCALL distance_squared(const vector<S, D>& p1, const vector<S, D>& p2) noexcept
 	{
 		static_assert(std::is_same_v<delta_type, typename vector<S, D>::delta_type>);
 
@@ -3741,7 +3743,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr delta_type distance(const vector<S, D>& p1, const vector<S, D>& p2) noexcept
+	constexpr delta_type MUU_VECTORCALL distance(const vector<S, D>& p1, const vector<S, D>& p2) noexcept
 	{
 		static_assert(std::is_same_v<delta_type, typename vector<S, D>::delta_type>);
 
@@ -3759,7 +3761,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr product_type dot(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
+	constexpr product_type MUU_VECTORCALL dot(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
 	{
 		static_assert(std::is_same_v<product_type, typename vector<S, D>::product_type>);
 
@@ -3777,7 +3779,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr vector_product cross(const vector<S, 3>& lhs, const vector<S, 3>& rhs) noexcept
+	constexpr vector_product MUU_VECTORCALL cross(const vector<S, 3>& lhs, const vector<S, 3>& rhs) noexcept
 	{
 		static_assert(std::is_same_v<vector_product, typename vector<S, 3>::vector_product>);
 
@@ -3801,7 +3803,7 @@ MUU_NAMESPACE_START
 	REQUIRES_PAIRED_FUNC_BY_REF(S, D, is_floating_point<S>)
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
-	constexpr vector<S, D> normalize(const vector<S, D>& v, delta_type& length_out) noexcept
+	constexpr vector<S, D> MUU_VECTORCALL normalize(const vector<S, D>& v, delta_type& length_out) noexcept
 	{
 		static_assert(std::is_same_v<delta_type, typename vector<S, D>::delta_type>);
 
@@ -3824,7 +3826,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr vector<S, D> normalize(const vector<S, D>& v) noexcept
+	constexpr vector<S, D> MUU_VECTORCALL normalize(const vector<S, D>& v) noexcept
 	{
 		return vector<S, D>::normalize(v);
 	}
@@ -3848,7 +3850,7 @@ MUU_NAMESPACE_START
 	REQUIRES_PAIRED_FUNC_BY_REF(S, D, D == 2 || D == 3)
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
-	constexpr vector_product direction(const vector<S, D>& from, const vector<S, D>& to, delta_type& distance_out) noexcept
+	constexpr vector_product MUU_VECTORCALL direction(const vector<S, D>& from, const vector<S, D>& to, delta_type& distance_out) noexcept
 	{
 		static_assert(std::is_same_v<delta_type, typename vector<S, D>::delta_type>);
 		static_assert(std::is_same_v<vector_product, typename vector<S, D>::vector_product>);
@@ -3874,7 +3876,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr vector_product direction(const vector<S, D>& from, const vector<S, D>& to) noexcept
+	constexpr vector_product MUU_VECTORCALL direction(const vector<S, D>& from, const vector<S, D>& to) noexcept
 	{
 		static_assert(std::is_same_v<vector_product, typename vector<S, D>::vector_product>);
 
@@ -3891,7 +3893,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr vector<S, D> min(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
+	constexpr vector<S, D> MUU_VECTORCALL min(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
 	{
 		return vector<S, D>::min(v1, v2);
 	}
@@ -3906,7 +3908,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr vector<S, D> max(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
+	constexpr vector<S, D> MUU_VECTORCALL max(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
 	{
 		return vector<S, D>::max(v1, v2);
 	}
@@ -3921,7 +3923,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr vector<S, D> clamp(const vector<S, D>& v, const vector<S, D>& low, const vector<S, D>& high) noexcept
+	constexpr vector<S, D> MUU_VECTORCALL clamp(const vector<S, D>& v, const vector<S, D>& low, const vector<S, D>& high) noexcept
 	{
 		return vector<S, D>::clamp(v, low, high);
 	}
@@ -3938,7 +3940,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr vector<S, D> lerp(const vector<S, D>& start, const vector<S, D>& finish, delta_type alpha) noexcept
+	constexpr vector<S, D> MUU_VECTORCALL lerp(const vector<S, D>& start, const vector<S, D>& finish, delta_type alpha) noexcept
 	{
 		static_assert(std::is_same_v<delta_type, typename vector<S, D>::delta_type>);
 
@@ -3967,7 +3969,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr delta_type angle(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
+	constexpr delta_type MUU_VECTORCALL angle(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
 	{
 		static_assert(std::is_same_v<delta_type, typename vector<S, D>::delta_type>);
 
@@ -3985,7 +3987,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr muu::vector<S, D> abs(const vector<S, D>& v) noexcept
+	constexpr muu::vector<S, D> MUU_VECTORCALL abs(const vector<S, D>& v) noexcept
 	{
 		return vector<S, D>::abs(v);
 	}
@@ -3999,7 +4001,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
-	constexpr bool infinity_or_nan(vector<S, D> v) noexcept
+	constexpr bool MUU_VECTORCALL infinity_or_nan(vector<S, D> v) noexcept
 	{
 		if constexpr (is_floating_point<S>)
 			return vector<S, D>::infinity_or_nan(v);

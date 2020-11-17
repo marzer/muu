@@ -8,6 +8,7 @@
 #include "utf8_console.h"
 
 #include <muu/hashing.h>
+#include <muu/matrix.h>
 
 using namespace std::string_view_literals;
 
@@ -53,6 +54,14 @@ int main(int /*argc*/, char** /*argv*/)
 		std::cout << "  actual: "sv << hasher << std::endl;
 	}
 	#endif
+
+	// explicitly-sized matrices:
+	std::cout << std::setw(4) << muu::matrix<int, 2, 3>{ 1, 2, 3, 4, 5, 6 } << "\n";
+
+	// 2x2, 3x3 and 4x4 matrices can be deduced automatically from 4, 9 and 16 inputs:
+	std::cout << std::setw(4) << muu::matrix{ 1, 2, 3, 4 } << "\n";
+	std::cout << std::setw(4) << muu::matrix{ 1, 2, 3, 4, 5, 6, 7, 8, 9 } << "\n";
+	std::cout << std::setw(4) << muu::matrix{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 } << "\n";
 
 	return 0;
 }

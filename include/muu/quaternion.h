@@ -1429,7 +1429,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr bool infinity_or_nan(const quaternion<S>& q) noexcept
+	constexpr bool MUU_VECTORCALL infinity_or_nan(const quaternion<S>& q) noexcept
 	{
 		return quaternion<S>::infinity_or_nan(q);
 	}
@@ -1446,7 +1446,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr bool approx_equal(
+	constexpr bool MUU_VECTORCALL approx_equal(
 		const quaternion<S>& q1,
 		const quaternion<T>& q2,
 		dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
@@ -1468,7 +1468,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr bool approx_zero(
+	constexpr bool MUU_VECTORCALL approx_zero(
 		const quaternion<S>& q,
 		S epsilon = muu::constants<S>::approx_equal_epsilon
 	) noexcept
@@ -1502,7 +1502,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr S dot(const quaternion<S>& q1, const quaternion<S>& q2) noexcept
+	constexpr S MUU_VECTORCALL dot(const quaternion<S>& q1, const quaternion<S>& q2) noexcept
 	{
 		return quaternion<S>::dot(q1, q2);
 	}
@@ -1521,7 +1521,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr quaternion<S> normalize(const quaternion<S>& q) noexcept
+	constexpr quaternion<S> MUU_VECTORCALL normalize(const quaternion<S>& q) noexcept
 	{
 		return quaternion<S>::normalize(q);
 	}
@@ -1536,7 +1536,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	MUU_ALWAYS_INLINE
-	constexpr quaternion<S> slerp(const quaternion<S>& start, const quaternion<S>& finish, S alpha) noexcept
+	constexpr quaternion<S> MUU_VECTORCALL slerp(const quaternion<S>& start, const quaternion<S>& finish, S alpha) noexcept
 	{
 		return quaternion<S>::slerp(start, finish, alpha);
 	}
@@ -1550,7 +1550,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
-	constexpr bool infinity_or_nan(quaternion<S> q) noexcept
+	constexpr bool MUU_VECTORCALL infinity_or_nan(quaternion<S> q) noexcept
 	{
 		return quaternion<S>::infinity_or_nan(q);
 	}

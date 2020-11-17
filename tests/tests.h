@@ -219,7 +219,7 @@ MUU_ENABLE_WARNINGS
 #define CHECK_APPROX_EQUAL_EPS(actual_, expected_, epsilon_)														\
 	do																												\
 	{																												\
-		if constexpr (is_floating_point<decltype(expected_)>)														\
+		if constexpr (any_floating_point<decltype(actual_), decltype(expected_)>)									\
 		{																											\
 			const auto cae_expected = expected_;																	\
 			INFO("expected: "sv << print_aligned{ cae_expected } << "    "sv << MUU_MAKE_STRING(expected_))			\
@@ -240,13 +240,16 @@ MUU_ENABLE_WARNINGS
 #define CHECK_APPROX_EQUAL(actual_, expected_)																		\
 	do																												\
 	{																												\
-		if constexpr (is_floating_point<decltype(expected_)>)														\
+		if constexpr (any_floating_point<decltype(actual_), decltype(expected_)>)									\
 		{																											\
 			const auto cae_expected = expected_;																	\
 			INFO("expected: "sv << print_aligned{ cae_expected } << "    "sv << MUU_MAKE_STRING(expected_))			\
 																													\
 			const auto cae_actual = actual_;																		\
 			INFO("  actual: "sv << print_aligned{ cae_actual } << "    "sv << MUU_MAKE_STRING(actual_))				\
+																													\
+			using cae_epsilon_type = impl::highest_ranked<decltype(actual_), decltype(expected_)>;					\
+			INFO(" epsilon: "sv<< print_aligned{ constants<cae_epsilon_type>::approx_equal_epsilon })				\
 																													\
 			CHECK(approx_equal(cae_expected, cae_actual));															\
 		}																											\
