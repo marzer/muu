@@ -38,89 +38,57 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 
 #if 1 // helper macros ------------------------------------------------------------------------------------------------
 
-#define	REQUIRES_SIZE_AT_LEAST(n)			MUU_REQUIRES(Rows * Columns >= (n))
-#define	REQUIRES_SIZE_AT_LEAST_AND(n, ...)	MUU_REQUIRES(Rows * Columns >= (n) && (__VA_ARGS__))
-#define	REQUIRES_SIZE_EXACTLY(n)			MUU_REQUIRES(Rows * Columns == (n))
-#define	REQUIRES_ROWS_AT_LEAST(n)			MUU_REQUIRES(Rows >= (n))
-#define	REQUIRES_ROWS_EXACTLY(n)			MUU_REQUIRES(Rows == (n))
-#define	REQUIRES_COLUMNS_AT_LEAST(n)		MUU_REQUIRES(Columns >= (n))
-#define	REQUIRES_COLUMNS_EXACTLY(n)			MUU_REQUIRES(Columns == (n))
-#define	REQUIRES_DIMENSIONS_AT_LEAST(r, c)	MUU_REQUIRES(Rows >= (r) && Columns >= (c))
-#define	REQUIRES_DIMENSIONS_EXACTLY(r, c)	MUU_REQUIRES(Rows == (r) && Columns == (c))
-#define	REQUIRES_SQUARE_AND(...)			MUU_REQUIRES(Rows == Columns && (__VA_ARGS__))
-#define	REQUIRES_FLOATING_POINT				MUU_REQUIRES(muu::is_floating_point<Scalar>)
-#define	REQUIRES_INTEGRAL					MUU_REQUIRES(muu::is_integral<Scalar>)
-#define	REQUIRES_SIGNED						MUU_REQUIRES(muu::is_signed<Scalar>)
+#define	REQUIRES_SIZE_AT_LEAST(n, ...)			MUU_REQUIRES(Rows * Columns >= (n) && (__VA_ARGS__))
+#define	REQUIRES_DIMENSIONS_BETWEEN(r1, c1, r2, c2, ...)	MUU_REQUIRES(	\
+		Rows >= (r1)														\
+		&& Columns >= (c1)													\
+		&& Rows <= (r2)														\
+		&& Columns <= (c2)													\
+		&& (__VA_ARGS__)													\
+)
+#define	REQUIRES_DIMENSIONS_EXACTLY(r, c, ...)	MUU_REQUIRES(Rows == (r) && Columns == (c) && (__VA_ARGS__))
+#define	REQUIRES_SQUARE(...)					MUU_REQUIRES(Rows == Columns && (__VA_ARGS__))
+#define	REQUIRES_FLOATING_POINT					MUU_REQUIRES(muu::is_floating_point<Scalar>)
+#define	REQUIRES_INTEGRAL						MUU_REQUIRES(muu::is_integral<Scalar>)
+#define	REQUIRES_SIGNED							MUU_REQUIRES(muu::is_signed<Scalar>)
 
 #if !MUU_CONCEPTS
 
-	#define	ENABLE_IF_SIZE_AT_LEAST_AND(n, ...)						\
+	#define	ENABLE_IF_SIZE_AT_LEAST(n, ...)							\
 		, size_t SFINAE = (Rows * Columns) MUU_ENABLE_IF(			\
 			SFINAE >= (n)											\
 			&& SFINAE == (Rows * Columns)							\
 			&& (__VA_ARGS__)										\
 		)
 
-	#define	LEGACY_REQUIRES_SIZE_AT_LEAST(n)						\
-		template <size_t SFINAE = Rows * Columns MUU_ENABLE_IF(		\
-			SFINAE >= (n)											\
-			&& SFINAE == (Rows * Columns)							\
-		)>
-
-	#define	LEGACY_REQUIRES_SIZE_AT_LEAST_AND(n, ...)				\
+	#define	LEGACY_REQUIRES_SIZE_AT_LEAST(n, ...)					\
 		template <size_t SFINAE = Rows * Columns MUU_ENABLE_IF(		\
 			SFINAE >= (n)											\
 			&& SFINAE == (Rows * Columns)							\
 			&& (__VA_ARGS__)										\
 		)>
 
-	#define	LEGACY_REQUIRES_SIZE_EXACTLY(n)							\
-		template <size_t SFINAE = Rows * Columns MUU_ENABLE_IF_2(	\
-			SFINAE == (n)											\
-			&& SFINAE == (Rows * Columns)							\
-		)>
-
-	#define	LEGACY_REQUIRES_ROWS_AT_LEAST(n)						\
-		template <size_t SFINAE = Rows MUU_ENABLE_IF(				\
-			SFINAE >= (n)											\
-			&& SFINAE == Rows										\
-		)>
-
-	#define	LEGACY_REQUIRES_ROWS_EXACTLY(n)							\
-		template <size_t SFINAE = Rows MUU_ENABLE_IF_2(				\
-			SFINAE == (n)											\
-			&& SFINAE == Rows										\
-		)>
-
-	#define	LEGACY_REQUIRES_COLUMNS_AT_LEAST(n)						\
-		template <size_t SFINAE = Columns MUU_ENABLE_IF(			\
-			SFINAE >= (n)											\
-			&& SFINAE == Columns									\
-		)>
-
-	#define	LEGACY_REQUIRES_COLUMNS_EXACTLY(n)						\
-		template <size_t SFINAE = Columns MUU_ENABLE_IF_2(			\
-			SFINAE == (n)											\
-			&& SFINAE == Columns									\
-		)>
-
-	#define	LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(r, c)								\
+	#define	LEGACY_REQUIRES_DIMENSIONS_BETWEEN(r1, c1, r2, c2, ...)					\
 		template <size_t SFINAE_R = Rows, size_t SFINAE_C = Columns MUU_ENABLE_IF(	\
-			SFINAE_R >= (r)															\
-			&& SFINAE_C >= (c)														\
+			SFINAE_R >= (r1)														\
+			&& SFINAE_C >= (c1)														\
+			&& SFINAE_R <= (r2)														\
+			&& SFINAE_C <= (c2)														\
 			&& SFINAE_R == Rows														\
 			&& SFINAE_C == Columns													\
+			&& (__VA_ARGS__)														\
 		)>
 
-	#define	LEGACY_REQUIRES_DIMENSIONS_EXACTLY(r, c)								\
+	#define	LEGACY_REQUIRES_DIMENSIONS_EXACTLY(r, c, ...)							\
 		template <size_t SFINAE_R = Rows, size_t SFINAE_C = Columns MUU_ENABLE_IF_2(\
 			SFINAE_R == (r)															\
 			&& SFINAE_C == (c)														\
 			&& SFINAE_R == Rows														\
 			&& SFINAE_C == Columns													\
+			&& (__VA_ARGS__)														\
 		)>
 
-	#define	LEGACY_REQUIRES_SQUARE_AND(...)											\
+	#define	LEGACY_REQUIRES_SQUARE(...)												\
 		template <size_t SFINAE_R = Rows, size_t SFINAE_C = Columns MUU_ENABLE_IF_2(\
 			SFINAE_R == SFINAE_C													\
 			&& SFINAE_R == Rows														\
@@ -384,53 +352,29 @@ MUU_IMPL_NAMESPACE_END
 
 #else // ^^^ !DOXYGEN / DOXYGEN vvv
 
-#define	REQUIRES_SIZE_AT_LEAST(n)
-#define	REQUIRES_SIZE_AT_LEAST_AND(n, ...)
-#define	REQUIRES_SIZE_EXACTLY(n)
-#define	REQUIRES_ROWS_AT_LEAST(n)
-#define	REQUIRES_ROWS_EXACTLY(n)
-#define	REQUIRES_COLUMNS_AT_LEAST(n)
-#define	REQUIRES_COLUMNS_EXACTLY(n)
-#define	REQUIRES_DIMENSIONS_AT_LEAST(r, c)
-#define	REQUIRES_DIMENSIONS_EXACTLY(r, c)
-#define	REQUIRES_SQUARE_AND(...)
+#define	REQUIRES_SIZE_AT_LEAST(n, ...)
+#define	REQUIRES_DIMENSIONS_BETWEEN(r1, c1, r2, c2, ...)
+#define	REQUIRES_DIMENSIONS_EXACTLY(r, c, ...)
+#define	REQUIRES_SQUARE(...)
 #define	REQUIRES_FLOATING_POINT
 #define	REQUIRES_INTEGRAL
 #define	REQUIRES_SIGNED
 
 #endif // DOXYGEN
-#ifndef ENABLE_IF_SIZE_AT_LEAST_AND
-	#define ENABLE_IF_SIZE_AT_LEAST_AND(n, ...)
+#ifndef ENABLE_IF_SIZE_AT_LEAST
+	#define ENABLE_IF_SIZE_AT_LEAST(n, ...)
 #endif
 #ifndef LEGACY_REQUIRES_SIZE_AT_LEAST
-	#define LEGACY_REQUIRES_SIZE_AT_LEAST(n)
+	#define LEGACY_REQUIRES_SIZE_AT_LEAST(n, ...)
 #endif
-#ifndef LEGACY_REQUIRES_SIZE_AT_LEAST_AND
-	#define LEGACY_REQUIRES_SIZE_AT_LEAST_AND(n, ...)
-#endif
-#ifndef LEGACY_REQUIRES_SIZE_EXACTLY
-	#define LEGACY_REQUIRES_SIZE_EXACTLY(n)
-#endif
-#ifndef LEGACY_REQUIRES_ROWS_AT_LEAST
-	#define LEGACY_REQUIRES_ROWS_AT_LEAST(n)
-#endif
-#ifndef LEGACY_REQUIRES_ROWS_EXACTLY
-	#define LEGACY_REQUIRES_ROWS_EXACTLY(n)
-#endif
-#ifndef LEGACY_REQUIRES_COLUMNS_AT_LEAST
-	#define LEGACY_REQUIRES_COLUMNS_AT_LEAST(n)
-#endif
-#ifndef LEGACY_REQUIRES_COLUMNS_EXACTLY
-	#define LEGACY_REQUIRES_COLUMNS_EXACTLY(n)
-#endif
-#ifndef LEGACY_REQUIRES_DIMENSIONS_AT_LEAST
-	#define	LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(r, c)
+#ifndef LEGACY_REQUIRES_DIMENSIONS_BETWEEN
+	#define	LEGACY_REQUIRES_DIMENSIONS_BETWEEN(r1, c1, r2, c2, ...)
 #endif
 #ifndef LEGACY_REQUIRES_DIMENSIONS_EXACTLY
-	#define	LEGACY_REQUIRES_DIMENSIONS_EXACTLY(r, c)
+	#define	LEGACY_REQUIRES_DIMENSIONS_EXACTLY(r, c, ...)
 #endif
-#ifndef LEGACY_REQUIRES_SQUARE_AND
-	#define LEGACY_REQUIRES_SQUARE_AND(...)
+#ifndef LEGACY_REQUIRES_SQUARE
+	#define LEGACY_REQUIRES_SQUARE(...)
 #endif
 #ifndef LEGACY_REQUIRES_FLOATING_POINT
 	#define LEGACY_REQUIRES_FLOATING_POINT
@@ -546,8 +490,12 @@ MUU_NAMESPACE_START
 			scalar_type
 		>;
 
-		/// \brief The scalar type used for matrix inversion. Always floating-point.
-		using inverse_type = std::conditional_t<is_integral<scalar_type>, double, scalar_type>;
+		/// \brief The matrix type returned by inversion operations. Always floating-point.
+		using inverse_type = matrix<
+			std::conditional_t<is_integral<scalar_type>, double, scalar_type>,
+			Rows,
+			Columns
+		>;
 
 	private:
 
@@ -565,8 +513,8 @@ MUU_NAMESPACE_START
 		using data_type = column_type;
 		static constexpr auto data_count = columns;
 
-		using intermediate_float = impl::promote_if_small_float<inverse_type>;
-		static_assert(is_floating_point<inverse_type>);
+		using intermediate_float = impl::promote_if_small_float<typename inverse_type::scalar_type>;
+		static_assert(is_floating_point<typename inverse_type::scalar_type>);
 		static_assert(is_floating_point<intermediate_float>);
 
 	public:
@@ -648,9 +596,9 @@ MUU_NAMESPACE_START
 		/// \param	v1		Initial value for the matrix's second scalar component.
 		/// \param	vals	Initial values for the matrix's remaining scalar components.
 		template <typename... T
-			ENABLE_IF_SIZE_AT_LEAST_AND(sizeof...(T) + 2, all_convertible_to<scalar_type, scalar_type, T...>)
+			ENABLE_IF_SIZE_AT_LEAST(sizeof...(T) + 2, all_convertible_to<scalar_type, scalar_type, T...>)
 		>
-		REQUIRES_SIZE_AT_LEAST_AND(sizeof...(T) + 2, all_convertible_to<scalar_type, scalar_type, T...>)
+		REQUIRES_SIZE_AT_LEAST(sizeof...(T) + 2, all_convertible_to<scalar_type, scalar_type, T...>)
 		MUU_NODISCARD_CTOR
 		constexpr matrix(scalar_type v0, scalar_type v1, const T&... vals) noexcept
 			: base{
@@ -703,13 +651,13 @@ MUU_NAMESPACE_START
 
 		// optimizations for 2x2, 3x3, 3x4 and 4x4 cases
 
-		LEGACY_REQUIRES_DIMENSIONS_EXACTLY(2, 2)
+		LEGACY_REQUIRES_DIMENSIONS_EXACTLY(2, 2, true)
 		MUU_NODISCARD_CTOR
 		constexpr matrix(
 			scalar_type v00, scalar_type v01,
 			scalar_type v10, scalar_type v11
 		) noexcept
-			REQUIRES_DIMENSIONS_EXACTLY(2, 2)
+			REQUIRES_DIMENSIONS_EXACTLY(2, 2, true)
 			: base{
 				impl::columnwise_init_tag{},
 				column_type{ v00, v10 },
@@ -717,14 +665,14 @@ MUU_NAMESPACE_START
 			}
 		{}
 
-		LEGACY_REQUIRES_DIMENSIONS_EXACTLY(3, 3)
+		LEGACY_REQUIRES_DIMENSIONS_EXACTLY(3, 3, true)
 		MUU_NODISCARD_CTOR
 		constexpr matrix(
 			scalar_type v00, scalar_type v01, scalar_type v02,
 			scalar_type v10, scalar_type v11, scalar_type v12,
 			scalar_type v20, scalar_type v21, scalar_type v22
 		) noexcept
-			REQUIRES_DIMENSIONS_EXACTLY(3, 3)
+			REQUIRES_DIMENSIONS_EXACTLY(3, 3, true)
 			: base{
 				impl::columnwise_init_tag{},
 				column_type{ v00, v10, v20 },
@@ -733,14 +681,14 @@ MUU_NAMESPACE_START
 			}
 		{}
 
-		LEGACY_REQUIRES_DIMENSIONS_EXACTLY(3, 4)
+		LEGACY_REQUIRES_DIMENSIONS_EXACTLY(3, 4, true)
 		MUU_NODISCARD_CTOR
 		constexpr matrix(
 			scalar_type v00, scalar_type v01, scalar_type v02, scalar_type v03,
 			scalar_type v10, scalar_type v11, scalar_type v12, scalar_type v13,
 			scalar_type v20, scalar_type v21, scalar_type v22, scalar_type v23
 		) noexcept
-			REQUIRES_DIMENSIONS_EXACTLY(3, 4)
+			REQUIRES_DIMENSIONS_EXACTLY(3, 4, true)
 			: base{
 				impl::columnwise_init_tag{},
 				column_type{ v00, v10, v20 },
@@ -750,7 +698,7 @@ MUU_NAMESPACE_START
 			}
 		{}
 
-		LEGACY_REQUIRES_DIMENSIONS_EXACTLY(4, 4)
+		LEGACY_REQUIRES_DIMENSIONS_EXACTLY(4, 4, true)
 		MUU_NODISCARD_CTOR
 		constexpr matrix(
 			scalar_type v00, scalar_type v01, scalar_type v02, scalar_type v03,
@@ -758,7 +706,7 @@ MUU_NAMESPACE_START
 			scalar_type v20, scalar_type v21, scalar_type v22, scalar_type v23,
 			scalar_type v30, scalar_type v31, scalar_type v32, scalar_type v33
 		) noexcept
-			REQUIRES_DIMENSIONS_EXACTLY(4, 4)
+			REQUIRES_DIMENSIONS_EXACTLY(4, 4, true)
 			: base{
 				impl::columnwise_init_tag{},
 				column_type{ v00, v10, v20, v30 },
@@ -1334,9 +1282,9 @@ MUU_NAMESPACE_START
 		/// \brief Multiplies this matrix with another and assigns the result.
 		/// 
 		/// \note This function is only available when the matrix is square.
-		LEGACY_REQUIRES_SQUARE_AND(true)
+		LEGACY_REQUIRES_SQUARE(true)
 		constexpr matrix& MUU_VECTORCALL operator *= (matrix_param rhs) noexcept
-			REQUIRES_SQUARE_AND(true)
+			REQUIRES_SQUARE(true)
 		{
 			return *this = *this * rhs;
 		}
@@ -1490,9 +1438,9 @@ MUU_NAMESPACE_START
 		/// \brief	Transposes the matrix (in-place).
 		/// 
 		/// \note This function is only available when the matrix is square.
-		LEGACY_REQUIRES_SQUARE_AND(true)
+		LEGACY_REQUIRES_SQUARE(true)
 		constexpr matrix& MUU_VECTORCALL transpose() noexcept
-			REQUIRES_SQUARE_AND(true)
+			REQUIRES_SQUARE(true)
 		{
 			return *this = transpose(*this);
 		}
@@ -1504,11 +1452,11 @@ MUU_NAMESPACE_START
 		/// \brief	Calculates the determinant of a matrix.
 		/// 
 		/// \note This function is only available when the matrix is square and has at most 4 rows and columns.
-		LEGACY_REQUIRES_SQUARE_AND(Columns <= 4)
+		LEGACY_REQUIRES_SQUARE(Columns <= 4)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr determinant_type MUU_VECTORCALL determinant(matrix_param m) noexcept
-			REQUIRES_SQUARE_AND(Columns <= 4)
+			REQUIRES_SQUARE(Columns <= 4)
 		{
 			if constexpr (Columns == 1) return static_cast<determinant_type>(m.m[0].x);
 			if constexpr (Columns == 2) return static_cast<determinant_type>(impl::raw_determinant_2x2(m));
@@ -1519,11 +1467,11 @@ MUU_NAMESPACE_START
 		/// \brief	Calculates the determinant of a matrix.
 		/// 
 		/// \note This function is only available when the matrix is square and has at most 4 rows and columns.
-		LEGACY_REQUIRES_SQUARE_AND(Columns <= 4)
+		LEGACY_REQUIRES_SQUARE(Columns <= 4)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr determinant_type MUU_VECTORCALL determinant() noexcept
-			REQUIRES_SQUARE_AND(Columns <= 4)
+			REQUIRES_SQUARE(Columns <= 4)
 		{
 			return determinant(*this);
 		}
@@ -1531,23 +1479,23 @@ MUU_NAMESPACE_START
 		/// \brief	Returns the inverse of a matrix.
 		/// 
 		/// \note This function is only available when the matrix is square and has at most 4 rows and columns.
-		LEGACY_REQUIRES_SQUARE_AND(Columns <= 4)
+		LEGACY_REQUIRES_SQUARE(Columns <= 4)
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr matrix<inverse_type, rows, columns> MUU_VECTORCALL invert(matrix_param m) noexcept
-			REQUIRES_SQUARE_AND(Columns <= 4)
+		static constexpr inverse_type MUU_VECTORCALL invert(matrix_param m) noexcept
+			REQUIRES_SQUARE(Columns <= 4)
 		{
-			using result_type = matrix<inverse_type, rows, columns>;
-			using result_column = vector<inverse_type, rows>;
+			using result_scalar = typename inverse_type::scalar_type;
+			using result_column = typename inverse_type::column_type;
 
 			#define MAT_GET(r, c) static_cast<intermediate_float>(m.m[c].template get<r>())
 
 			if constexpr (Columns == 1)
 			{
-				return result_type{
+				return inverse_type{
 					impl::columnwise_init_tag{},
 					result_column{
-						static_cast<inverse_type>(intermediate_float{ 1 } / static_cast<intermediate_float>(m.m[0].x))
+						static_cast<result_scalar>(intermediate_float{ 1 } / static_cast<intermediate_float>(m.m[0].x))
 					}
 				};
 			}
@@ -1556,16 +1504,16 @@ MUU_NAMESPACE_START
 				MUU_FMA_BLOCK
 
 				const auto det = intermediate_float{ 1 } / static_cast<intermediate_float>(impl::raw_determinant_2x2(m));
-				return result_type
+				return inverse_type
 				{
 					impl::columnwise_init_tag{},
 					result_column{
-						static_cast<inverse_type>(det * MAT_GET(1, 1)),
-						static_cast<inverse_type>(det * -MAT_GET(1, 0))
+						static_cast<result_scalar>(det * MAT_GET(1, 1)),
+						static_cast<result_scalar>(det * -MAT_GET(1, 0))
 					},
 					result_column{
-						static_cast<inverse_type>(det * -MAT_GET(0, 1)),
-						static_cast<inverse_type>(det * MAT_GET(0, 0))
+						static_cast<result_scalar>(det * -MAT_GET(0, 1)),
+						static_cast<result_scalar>(det * MAT_GET(0, 0))
 					}
 				};
 			}
@@ -1574,23 +1522,23 @@ MUU_NAMESPACE_START
 				MUU_FMA_BLOCK
 
 				const auto det = intermediate_float{ 1 } / static_cast<intermediate_float>(impl::raw_determinant_3x3(m));
-				return result_type
+				return inverse_type
 				{
 					impl::columnwise_init_tag{},
 					result_column{
-						static_cast<inverse_type>(det *  (MAT_GET(1, 1) * MAT_GET(2, 2) - MAT_GET(1, 2) * MAT_GET(2, 1))),
-						static_cast<inverse_type>(det * -(MAT_GET(1, 0) * MAT_GET(2, 2) - MAT_GET(1, 2) * MAT_GET(2, 0))),
-						static_cast<inverse_type>(det *  (MAT_GET(1, 0) * MAT_GET(2, 1) - MAT_GET(1, 1) * MAT_GET(2, 0)))
+						static_cast<result_scalar>(det *  (MAT_GET(1, 1) * MAT_GET(2, 2) - MAT_GET(1, 2) * MAT_GET(2, 1))),
+						static_cast<result_scalar>(det * -(MAT_GET(1, 0) * MAT_GET(2, 2) - MAT_GET(1, 2) * MAT_GET(2, 0))),
+						static_cast<result_scalar>(det *  (MAT_GET(1, 0) * MAT_GET(2, 1) - MAT_GET(1, 1) * MAT_GET(2, 0)))
 					},
 					result_column{
-						static_cast<inverse_type>(det * -(MAT_GET(0, 1) * MAT_GET(2, 2) - MAT_GET(0, 2) * MAT_GET(2, 1))),
-						static_cast<inverse_type>(det *  (MAT_GET(0, 0) * MAT_GET(2, 2) - MAT_GET(0, 2) * MAT_GET(2, 0))),
-						static_cast<inverse_type>(det * -(MAT_GET(0, 0) * MAT_GET(2, 1) - MAT_GET(0, 1) * MAT_GET(2, 0)))
+						static_cast<result_scalar>(det * -(MAT_GET(0, 1) * MAT_GET(2, 2) - MAT_GET(0, 2) * MAT_GET(2, 1))),
+						static_cast<result_scalar>(det *  (MAT_GET(0, 0) * MAT_GET(2, 2) - MAT_GET(0, 2) * MAT_GET(2, 0))),
+						static_cast<result_scalar>(det * -(MAT_GET(0, 0) * MAT_GET(2, 1) - MAT_GET(0, 1) * MAT_GET(2, 0)))
 					},
 					result_column{
-						static_cast<inverse_type>(det *  (MAT_GET(0, 1) * MAT_GET(1, 2) - MAT_GET(0, 2) * MAT_GET(1, 1))),
-						static_cast<inverse_type>(det * -(MAT_GET(0, 0) * MAT_GET(1, 2) - MAT_GET(0, 2) * MAT_GET(1, 0))),
-						static_cast<inverse_type>(det *  (MAT_GET(0, 0) * MAT_GET(1, 1) - MAT_GET(0, 1) * MAT_GET(1, 0)))
+						static_cast<result_scalar>(det *  (MAT_GET(0, 1) * MAT_GET(1, 2) - MAT_GET(0, 2) * MAT_GET(1, 1))),
+						static_cast<result_scalar>(det * -(MAT_GET(0, 0) * MAT_GET(1, 2) - MAT_GET(0, 2) * MAT_GET(1, 0))),
+						static_cast<result_scalar>(det *  (MAT_GET(0, 0) * MAT_GET(1, 1) - MAT_GET(0, 1) * MAT_GET(1, 0)))
 					}
 				};
 			}
@@ -1626,32 +1574,32 @@ MUU_NAMESPACE_START
 					- MAT_GET(0, 3) * (MAT_GET(1, 0) * A1223 - MAT_GET(1, 1) * A0223 + MAT_GET(1, 2) * A0123)
 				);
 
-				return result_type
+				return inverse_type
 				{
 					impl::columnwise_init_tag{},
 					result_column{
-						static_cast<inverse_type>(det *  (MAT_GET(1, 1) * A2323 - MAT_GET(1, 2) * A1323 + MAT_GET(1, 3) * A1223)),
-						static_cast<inverse_type>(det * -(MAT_GET(1, 0) * A2323 - MAT_GET(1, 2) * A0323 + MAT_GET(1, 3) * A0223)),
-						static_cast<inverse_type>(det *  (MAT_GET(1, 0) * A1323 - MAT_GET(1, 1) * A0323 + MAT_GET(1, 3) * A0123)),
-						static_cast<inverse_type>(det * -(MAT_GET(1, 0) * A1223 - MAT_GET(1, 1) * A0223 + MAT_GET(1, 2) * A0123))
+						static_cast<result_scalar>(det *  (MAT_GET(1, 1) * A2323 - MAT_GET(1, 2) * A1323 + MAT_GET(1, 3) * A1223)),
+						static_cast<result_scalar>(det * -(MAT_GET(1, 0) * A2323 - MAT_GET(1, 2) * A0323 + MAT_GET(1, 3) * A0223)),
+						static_cast<result_scalar>(det *  (MAT_GET(1, 0) * A1323 - MAT_GET(1, 1) * A0323 + MAT_GET(1, 3) * A0123)),
+						static_cast<result_scalar>(det * -(MAT_GET(1, 0) * A1223 - MAT_GET(1, 1) * A0223 + MAT_GET(1, 2) * A0123))
 					},
 					result_column{
-						static_cast<inverse_type>(det * -(MAT_GET(0, 1) * A2323 - MAT_GET(0, 2) * A1323 + MAT_GET(0, 3) * A1223)),
-						static_cast<inverse_type>(det *  (MAT_GET(0, 0) * A2323 - MAT_GET(0, 2) * A0323 + MAT_GET(0, 3) * A0223)),
-						static_cast<inverse_type>(det * -(MAT_GET(0, 0) * A1323 - MAT_GET(0, 1) * A0323 + MAT_GET(0, 3) * A0123)),
-						static_cast<inverse_type>(det *  (MAT_GET(0, 0) * A1223 - MAT_GET(0, 1) * A0223 + MAT_GET(0, 2) * A0123))
+						static_cast<result_scalar>(det * -(MAT_GET(0, 1) * A2323 - MAT_GET(0, 2) * A1323 + MAT_GET(0, 3) * A1223)),
+						static_cast<result_scalar>(det *  (MAT_GET(0, 0) * A2323 - MAT_GET(0, 2) * A0323 + MAT_GET(0, 3) * A0223)),
+						static_cast<result_scalar>(det * -(MAT_GET(0, 0) * A1323 - MAT_GET(0, 1) * A0323 + MAT_GET(0, 3) * A0123)),
+						static_cast<result_scalar>(det *  (MAT_GET(0, 0) * A1223 - MAT_GET(0, 1) * A0223 + MAT_GET(0, 2) * A0123))
 					},
 					result_column{
-						static_cast<inverse_type>(det *  (MAT_GET(0, 1) * A2313 - MAT_GET(0, 2) * A1313 + MAT_GET(0, 3) * A1213)),
-						static_cast<inverse_type>(det * -(MAT_GET(0, 0) * A2313 - MAT_GET(0, 2) * A0313 + MAT_GET(0, 3) * A0213)),
-						static_cast<inverse_type>(det *  (MAT_GET(0, 0) * A1313 - MAT_GET(0, 1) * A0313 + MAT_GET(0, 3) * A0113)),
-						static_cast<inverse_type>(det * -(MAT_GET(0, 0) * A1213 - MAT_GET(0, 1) * A0213 + MAT_GET(0, 2) * A0113))
+						static_cast<result_scalar>(det *  (MAT_GET(0, 1) * A2313 - MAT_GET(0, 2) * A1313 + MAT_GET(0, 3) * A1213)),
+						static_cast<result_scalar>(det * -(MAT_GET(0, 0) * A2313 - MAT_GET(0, 2) * A0313 + MAT_GET(0, 3) * A0213)),
+						static_cast<result_scalar>(det *  (MAT_GET(0, 0) * A1313 - MAT_GET(0, 1) * A0313 + MAT_GET(0, 3) * A0113)),
+						static_cast<result_scalar>(det * -(MAT_GET(0, 0) * A1213 - MAT_GET(0, 1) * A0213 + MAT_GET(0, 2) * A0113))
 					},
 					result_column{
-						static_cast<inverse_type>(det * -(MAT_GET(0, 1) * A2312 - MAT_GET(0, 2) * A1312 + MAT_GET(0, 3) * A1212)),
-						static_cast<inverse_type>(det *  (MAT_GET(0, 0) * A2312 - MAT_GET(0, 2) * A0312 + MAT_GET(0, 3) * A0212)),
-						static_cast<inverse_type>(det * -(MAT_GET(0, 0) * A1312 - MAT_GET(0, 1) * A0312 + MAT_GET(0, 3) * A0112)),
-						static_cast<inverse_type>(det *  (MAT_GET(0, 0) * A1212 - MAT_GET(0, 1) * A0212 + MAT_GET(0, 2) * A0112))
+						static_cast<result_scalar>(det * -(MAT_GET(0, 1) * A2312 - MAT_GET(0, 2) * A1312 + MAT_GET(0, 3) * A1212)),
+						static_cast<result_scalar>(det *  (MAT_GET(0, 0) * A2312 - MAT_GET(0, 2) * A0312 + MAT_GET(0, 3) * A0212)),
+						static_cast<result_scalar>(det * -(MAT_GET(0, 0) * A1312 - MAT_GET(0, 1) * A0312 + MAT_GET(0, 3) * A0112)),
+						static_cast<result_scalar>(det *  (MAT_GET(0, 0) * A1212 - MAT_GET(0, 1) * A0212 + MAT_GET(0, 2) * A0112))
 					}
 				};
 			}
@@ -1663,16 +1611,140 @@ MUU_NAMESPACE_START
 		/// 
 		/// \note This function is only available when the matrix is square, has at most 4 rows and columns,
 		/// 	  and has a floating-point #scalar_type.
-		LEGACY_REQUIRES_SQUARE_AND(Columns <= 4 && is_floating_point<Scalar>)
+		LEGACY_REQUIRES_SQUARE(Columns <= 4 && is_floating_point<Scalar>)
 		constexpr matrix& MUU_VECTORCALL invert() noexcept
-			REQUIRES_SQUARE_AND(Columns <= 4 && is_floating_point<Scalar>)
+			REQUIRES_SQUARE(Columns <= 4 && is_floating_point<Scalar>)
 		{
 			return *this = invert(*this);
 		}
 
 	#endif // inverse & determinant
 
-	#if 1 // streams --------------------------------------------------------------------------------------------------
+	#if 1 // orthonormalize -------------------------------------------------------------------------------------------
+
+	private:
+
+		using column_param = typename column_type::vector_param;
+
+		template <size_t Depth = Rows>
+		static constexpr intermediate_float MUU_VECTORCALL column_dot(column_param c1, column_param c2) noexcept
+		{
+			static_assert(Depth > 0);
+			static_assert(Depth <= Rows);
+
+			using type = intermediate_float;
+
+			if constexpr (Depth == Rows)
+				return column_type::template raw_dot<type>(c1, c2);
+			else
+			{
+				MUU_FMA_BLOCK
+
+				// avoid operator[] for vectors <= 4 elems (potentially slower and/or not-constexpr safe)
+				type dot = static_cast<type>(c1.template get<0>()) * static_cast<type>(c2.template get<0>());
+				if constexpr (Depth > 1)
+					dot += static_cast<type>(c1.template get<1>()) * static_cast<type>(c2.template get<1>());
+				if constexpr (Depth > 2)
+					dot += static_cast<type>(c1.template get<2>()) * static_cast<type>(c2.template get<2>());
+				if constexpr (Depth > 3)
+					dot += static_cast<type>(c1.template get<3>()) * static_cast<type>(c2.template get<3>());
+				if constexpr (Depth > 4)
+				{
+					MUU_PRAGMA_MSVC(omp simd)
+					for (size_t i = 4; i < Depth; i++)
+						dot += static_cast<type>(c1[i]) * static_cast<type>(c2[i]);
+				}
+				return dot;
+			}
+		}
+
+		template <size_t Depth = Rows>
+		static constexpr void MUU_VECTORCALL column_normalize(column_type& c) noexcept
+		{
+			static_assert(Depth > 0);
+			static_assert(Depth <= Rows);
+
+			if constexpr (Depth == Rows)
+				c.normalize();
+			else
+			{
+				MUU_FMA_BLOCK
+				using type = intermediate_float;
+
+				const type inv_len = type{ 1 } / muu::sqrt(column_dot<Depth>(c, c));
+
+				// avoid operator[] for vectors <= 4 elems (potentially slower and/or not-constexpr safe)
+				c.template get<0>() = static_cast<scalar_type>(static_cast<type>(c.template get<0>()) * inv_len);
+				if constexpr (Depth > 1)
+					c.template get<1>() = static_cast<scalar_type>(static_cast<type>(c.template get<1>()) * inv_len);
+				if constexpr (Depth > 2)
+					c.template get<2>() = static_cast<scalar_type>(static_cast<type>(c.template get<2>()) * inv_len);
+				if constexpr (Depth > 3)
+					c.template get<3>() = static_cast<scalar_type>(static_cast<type>(c.template get<3>()) * inv_len);
+				if constexpr (Depth > 4)
+				{
+					MUU_PRAGMA_MSVC(omp simd)
+					for (size_t i = 4; i < Depth; i++)
+						c[i] = static_cast<scalar_type>(static_cast<type>(c[i]) * inv_len);
+				}
+			}
+		}
+
+	public:
+
+		/// \brief	Orthonormalizes the 3x3 part of a rotation or transformation matrix.
+		/// 
+		/// \note This function is only available when the matrix has 3 or 4 rows and columns
+		/// 	  and has a floating-point #scalar_type.
+		/// 
+		/// \see [Orthonormal basis](https://en.wikipedia.org/wiki/Orthonormal_basis)
+		LEGACY_REQUIRES_DIMENSIONS_BETWEEN(3, 3, 4, 4, is_floating_point<Scalar>)
+		static constexpr matrix MUU_VECTORCALL orthonormalize(matrix_param m) noexcept
+			REQUIRES_DIMENSIONS_BETWEEN(3, 3, 4, 4, is_floating_point<Scalar>)
+		{
+			// 'modified' gram-schmidt: https://fgiesen.wordpress.com/2013/06/02/modified-gram-schmidt-orthogonalization/
+
+			matrix out{ m };
+
+			// x-axis
+			column_normalize<3>(out.m[0]);
+
+			constexpr auto subtract_dot_mult = [](auto& out_, auto& c1, auto& c2) noexcept
+			{
+				const auto dot = column_dot<3>(c1, c2);
+				out_.template get<0>() -= dot * c2.template get<0>();
+				out_.template get<1>() -= dot * c2.template get<1>();
+				out_.template get<2>() -= dot * c2.template get<2>();
+			};
+
+			// y-axis
+			subtract_dot_mult(out.m[1], m.m[1], out.m[0]);
+			column_normalize<3>(out.m[1]);
+
+			// z-axis
+			subtract_dot_mult(out.m[2], m.m[2], out.m[0]);
+			subtract_dot_mult(out.m[2], out.m[2], out.m[1]);
+			column_normalize<3>(out.m[2]);
+
+			return out;
+		}
+
+		/// \brief	Orthonormalizes the 3x3 part of the matrix.
+		/// 
+		/// \note This function is only available when the matrix has 3 or 4 rows and columns
+		/// 	  and has a floating-point #scalar_type.
+		/// 
+		/// \see [Orthonormal basis](https://en.wikipedia.org/wiki/Orthonormal_basis)
+		LEGACY_REQUIRES_DIMENSIONS_BETWEEN(3, 3, 4, 4, is_floating_point<Scalar>)
+		constexpr matrix& MUU_VECTORCALL orthonormalize() noexcept
+			REQUIRES_DIMENSIONS_BETWEEN(3, 3, 4, 4, is_floating_point<Scalar>)
+		{
+			return *this = orthonormalize(*this);
+		}
+
+	#endif // orthonormalize
+
+	#if 1 // misc -----------------------------------------------------------------------------------------------------
 
 		/// \brief Writes a matrix out to a text stream.
 		template <typename Char, typename Traits>
@@ -1683,9 +1755,6 @@ MUU_NAMESPACE_START
 			return os;
 		}
 
-	#endif // streams
-
-	#if 1 // misc -----------------------------------------------------------------------------------------------------
 	#endif // misc
 	};
 
@@ -1754,7 +1823,7 @@ MUU_NAMESPACE_START
 	/// \ingroup	infinity_or_nan
 	/// \related	muu::matrix
 	///
-	/// \brief	Returns true if any of the scalar components of a matrix are infinity or NaN.
+	/// \brief	Returns true if any of the scalar components of a #matrix are infinity or NaN.
 	template <typename S, size_t R, size_t C
 		ENABLE_PAIRED_FUNC_BY_REF(S, R, C, true)
 	>
@@ -1801,7 +1870,7 @@ MUU_NAMESPACE_START
 	/// \ingroup	approx_zero
 	/// \related	muu::matrix
 	///
-	/// \brief		Returns true if all the scalar components of a matrix are approximately equal to zero.
+	/// \brief		Returns true if all the scalar components of a #matrix are approximately equal to zero.
 	///
 	/// \note		This function is only available when `S` is a floating-point type.
 	template <typename S, size_t R, size_t C
@@ -1817,6 +1886,79 @@ MUU_NAMESPACE_START
 	) noexcept
 	{
 		return matrix<S, R, C>::approx_zero(m, epsilon);
+	}
+
+	/// \related	muu::matrix
+	///
+	/// \brief	Returns a transposed copy of a #matrix.
+	template <typename S, size_t R, size_t C
+		ENABLE_PAIRED_FUNC_BY_REF(S, R, C, true)
+	>
+	REQUIRES_PAIRED_FUNC_BY_REF(S, R, C, true)
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr matrix<S, C, R> MUU_VECTORCALL transpose(const matrix<S, R, C>& m) noexcept
+	{
+		return matrix<S, R, C>::transpose(m);
+	}
+
+	/// \related	muu::matrix
+	///
+	/// \brief	Calculates the determinant of a #matrix.
+	///
+	/// \note This function is only available for square matrices with at most 4 rows and columns.
+	template <typename S, size_t R, size_t C,
+		typename determinant_type = typename matrix<S, R, C>::determinant_type
+		ENABLE_PAIRED_FUNC_BY_REF(S, R, C, R == C && R <= 4)
+	>
+	REQUIRES_PAIRED_FUNC_BY_REF(S, R, C, R == C && R <= 4)
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr determinant_type MUU_VECTORCALL determinant(const matrix<S, R, C>& m) noexcept
+	{
+		static_assert(std::is_same_v<determinant_type, typename matrix<S, R, C>::determinant_type>);
+
+		return matrix<S, R, C>::determinant(m);
+	}
+
+	/// \related	muu::matrix
+	///
+	/// \brief	Returns the inverse of a #matrix.
+	///
+	/// \note This function is only available for square matrices with at most 4 rows and columns.
+	template <typename S, size_t R, size_t C,
+		typename inverse_type = typename matrix<S, R, C>::inverse_type
+		ENABLE_PAIRED_FUNC_BY_REF(S, R, C, R == C && R <= 4)
+	>
+	REQUIRES_PAIRED_FUNC_BY_REF(S, R, C, R == C && R <= 4)
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr inverse_type MUU_VECTORCALL invert(const matrix<S, R, C>& m) noexcept
+	{
+		static_assert(std::is_same_v<inverse_type, typename matrix<S, R, C>::inverse_type>);
+
+		return matrix<S, R, C>::invert(m);
+	}
+
+	/// \brief	Returns a copy of a #matrix with the 3x3 part orthonormalized.
+	/// 
+	/// \note This function is only available for matrices with 3 or 4 rows and columns
+	/// 	  and a floating-point #scalar_type.
+	/// 
+	/// \see [Orthonormal basis](https://en.wikipedia.org/wiki/Orthonormal_basis)
+	template <typename S, size_t R, size_t C
+		ENABLE_PAIRED_FUNC_BY_REF(S, R, C, is_floating_point<S>)
+	>
+	REQUIRES_PAIRED_FUNC_BY_REF(S, R, C, is_floating_point<S>)
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	MUU_ALWAYS_INLINE
+	constexpr matrix<S, R, C> MUU_VECTORCALL orthonormalize(const matrix<S, R, C>& m) noexcept
+	{
+		return matrix<S, R, C>::orthonormalize(m);
 	}
 
 	#if ENABLE_PAIRED_FUNCS
@@ -1873,6 +2015,60 @@ MUU_NAMESPACE_START
 		return matrix<S, R, C>::approx_zero(m, epsilon);
 	}
 
+	template <typename S, size_t R, size_t C
+		ENABLE_PAIRED_FUNC_BY_VAL(S, R, C, true)
+	>
+	REQUIRES_PAIRED_FUNC_BY_VAL(S, R, C, true)
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr matrix<S, C, R> MUU_VECTORCALL transpose(matrix<S, R, C> m) noexcept
+	{
+		return matrix<S, R, C>::transpose(m);
+	}
+
+	template <typename S, size_t R, size_t C,
+		typename determinant_type = typename matrix<S, R, C>::determinant_type
+		ENABLE_PAIRED_FUNC_BY_VAL(S, R, C, R == C && R <= 4)
+	>
+	REQUIRES_PAIRED_FUNC_BY_VAL(S, R, C, R == C && R <= 4)
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr determinant_type MUU_VECTORCALL determinant(matrix<S, R, C> m) noexcept
+	{
+		static_assert(std::is_same_v<determinant_type, typename matrix<S, R, C>::determinant_type>);
+
+		return matrix<S, R, C>::determinant(m);
+	}
+
+	template <typename S, size_t R, size_t C,
+		typename inverse_type = typename matrix<S, R, C>::inverse_type
+		ENABLE_PAIRED_FUNC_BY_VAL(S, R, C, R == C && R <= 4)
+	>
+	REQUIRES_PAIRED_FUNC_BY_VAL(S, R, C, R == C && R <= 4)
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr inverse_type MUU_VECTORCALL invert(matrix<S, R, C> m) noexcept
+	{
+		static_assert(std::is_same_v<inverse_type, typename matrix<S, R, C>::inverse_type>);
+
+		return matrix<S, R, C>::invert(m);
+	}
+
+	template <typename S, size_t R, size_t C
+		ENABLE_PAIRED_FUNC_BY_VAL(S, R, C, is_floating_point<S>)
+	>
+	REQUIRES_PAIRED_FUNC_BY_VAL(S, R, C, is_floating_point<S>)
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ALWAYS_INLINE
+	constexpr matrix<S, R, C> MUU_VECTORCALL orthonormalize(matrix<S, R, C> m) noexcept
+	{
+		return matrix<S, R, C>::orthonormalize(m);
+	}
+
 	#endif // ENABLE_PAIRED_FUNCS
 }
 MUU_NAMESPACE_END
@@ -1880,29 +2076,17 @@ MUU_NAMESPACE_END
 #endif // =============================================================================================================
 
 #undef REQUIRES_SIZE_AT_LEAST
-#undef REQUIRES_SIZE_AT_LEAST_AND
-#undef REQUIRES_SIZE_EXACTLY
-#undef REQUIRES_ROWS_AT_LEAST
-#undef REQUIRES_ROWS_EXACTLY
-#undef REQUIRES_COLUMNS_AT_LEAST
-#undef REQUIRES_COLUMNS_EXACTLY
-#undef REQUIRES_DIMENSIONS_AT_LEAST
+#undef REQUIRES_DIMENSIONS_BETWEEN
 #undef REQUIRES_DIMENSIONS_EXACTLY
-#undef REQUIRES_SQUARE_AND
+#undef REQUIRES_SQUARE
 #undef REQUIRES_FLOATING_POINT
 #undef REQUIRES_INTEGRAL
 #undef REQUIRES_SIGNED
-#undef ENABLE_IF_SIZE_AT_LEAST_AND
+#undef ENABLE_IF_SIZE_AT_LEAST
 #undef LEGACY_REQUIRES_SIZE_AT_LEAST
-#undef LEGACY_REQUIRES_SIZE_AT_LEAST_AND
-#undef LEGACY_REQUIRES_SIZE_EXACTLY
-#undef LEGACY_REQUIRES_ROWS_AT_LEAST
-#undef LEGACY_REQUIRES_ROWS_EXACTLY
-#undef LEGACY_REQUIRES_COLUMNS_AT_LEAST
-#undef LEGACY_REQUIRES_COLUMNS_EXACTLY
-#undef LEGACY_REQUIRES_DIMENSIONS_AT_LEAST
+#undef LEGACY_REQUIRES_DIMENSIONS_BETWEEN
 #undef LEGACY_REQUIRES_DIMENSIONS_EXACTLY
-#undef LEGACY_REQUIRES_SQUARE_AND
+#undef LEGACY_REQUIRES_SQUARE
 #undef LEGACY_REQUIRES_FLOATING_POINT
 #undef LEGACY_REQUIRES_INTEGRAL
 #undef LEGACY_REQUIRES_SIGNED

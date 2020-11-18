@@ -7,6 +7,22 @@
 #include "tests.h"
 #include "../include/muu/matrix.h"
 
+#define CHECK_MATRIX_APPROX_EQUAL(a, b)											\
+	do																			\
+	{																			\
+		for (size_t r = 0; r < Rows; r++)										\
+			for (size_t c = 0; c < Columns; c++)								\
+				CHECK_APPROX_EQUAL(result(r, c), expected(r, c));				\
+	} while (false)
+
+#define CHECK_MATRIX_APPROX_EQUAL_EPS(a, b, eps)								\
+	do																			\
+	{																			\
+		for (size_t r = 0; r < Rows; r++)										\
+			for (size_t c = 0; c < Columns; c++)								\
+				CHECK_APPROX_EQUAL_EPS(result(r, c), expected(r, c), eps);		\
+	} while (false)
+
 template <typename T>
 inline constexpr bool matrix_invoke_trait_tests = false;
 
@@ -536,17 +552,18 @@ inline void matrix_multiplication_tests(std::string_view scalar_typename) noexce
 	INFO("matrix<"sv << scalar_typename << ", "sv << Rows << ", "sv << Columns << ">"sv)
 	using matrix_t = matrix<T, Rows, Columns>;
 
+	const auto min_val = static_cast<T>(0.5);
 	const auto max_val = is_floating_point<T> ? T{ 1 } : T{ 5 };
 
 	matrix_t mat1;
 	for (size_t r = 0; r < Rows; r++)
 		for (size_t c = 0; c < Columns; c++)
-			mat1(r, c) = random<T>(T{}, max_val);
+			mat1(r, c) = random<T>(min_val, max_val);
 
 	{
 		INFO("matrix * scalar"sv)
 
-		const auto val = random<T>(T{}, max_val);
+		const auto val = random<T>(min_val, max_val);
 		const auto result = mat1 * val;
 		for (size_t r = 0; r < Rows; r++)
 			for (size_t c = 0; c < Columns; c++)
@@ -556,7 +573,7 @@ inline void matrix_multiplication_tests(std::string_view scalar_typename) noexce
 	{
 		INFO("scalar * matrix"sv)
 
-		const auto val = random<T>(T{}, max_val);
+		const auto val = random<T>(min_val, max_val);
 		const auto result = val * mat1;
 		for (size_t r = 0; r < Rows; r++)
 			for (size_t c = 0; c < Columns; c++)
@@ -566,7 +583,7 @@ inline void matrix_multiplication_tests(std::string_view scalar_typename) noexce
 	{
 		INFO("matrix *= scalar"sv)
 
-		const auto val = random<T>(T{}, max_val);
+		const auto val = random<T>(min_val, max_val);
 		auto result = mat1;
 		result *= val;
 		for (size_t r = 0; r < Rows; r++)
@@ -574,10 +591,6 @@ inline void matrix_multiplication_tests(std::string_view scalar_typename) noexce
 				CHECK_APPROX_EQUAL(static_cast<T>(mat1(r, c) * val), result(r, c));
 	}
 
-	matrix<T, Columns, Rows> mat2;
-	for (size_t r = 0; r < Columns; r++)
-		for (size_t c = 0; c < Rows; c++)
-			mat2(r, c) = random<T>(T{}, max_val);
 
 	/*auto x2 = MakeArrayOfRows<T, COLS, ROWS>(T{}, maxVal);
 	auto matrix2 = std::apply([](auto&& ... r) noexcept { return Matrix<T, COLS, ROWS>::FromRows(r...); }, x2);*/
@@ -603,6 +616,11 @@ inline void matrix_multiplication_tests(std::string_view scalar_typename) noexce
 
 	{
 		INFO("matrix * matrix"sv)
+
+		matrix<T, Columns, Rows> mat2;
+		for (size_t r = 0; r < Columns; r++)
+			for (size_t c = 0; c < Rows; c++)
+				mat2(r, c) = random<T>(min_val, max_val);
 
 		auto result = mat1 * mat2;
 		for (size_t r = 0; r < Rows; r++)
@@ -857,6 +875,15 @@ inline void matrix_transpose_tests(std::string_view scalar_typename) noexcept
 				CHECK(transposed(c, r) == mat(r, c));
 	}
 
+	{
+		INFO("muu::transpose(matrix)"sv)
+
+		matrix<T, Columns, Rows> transposed = muu::transpose(mat);
+		for (size_t r = 0; r < Rows; r++)
+			for (size_t c = 0; c < Columns; c++)
+				CHECK(transposed(c, r) == mat(r, c));
+	}
+
 	if constexpr (Rows == Columns)
 	{
 		INFO("matrix.transpose()"sv)
@@ -877,7 +904,8 @@ inline void matrix_determinant_tests(std::string_view scalar_typename) noexcept
 
 	#define CHECK_DETERMINANT(expected)												\
 		CHECK_APPROX_EQUAL(matrix_t::determinant(mat), determinant_t{ expected });	\
-		CHECK_APPROX_EQUAL(mat.determinant(), determinant_t{ expected })
+		CHECK_APPROX_EQUAL(mat.determinant(), determinant_t{ expected });			\
+		CHECK_APPROX_EQUAL(muu::determinant(mat), determinant_t{ expected })
 
 	if constexpr (Rows == 2 && Columns == 2)
 	{
@@ -968,14 +996,13 @@ inline void matrix_determinant_tests(std::string_view scalar_typename) noexcept
 	}
 }
 
-
 template <typename T, size_t Rows, size_t Columns>
 inline void matrix_invert_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("matrix<"sv << scalar_typename << ", "sv << Rows << ", "sv << Columns << ">"sv)
 	using matrix_t = matrix<T, Rows, Columns>;
-	using inverse_scalar = typename matrix_t::inverse_type;
-	using inverse_t = matrix<inverse_scalar, Rows, Columns>;
+	using inverse_t = typename matrix_t::inverse_type;
+	using inverse_scalar = typename inverse_t::scalar_type;
 
 	[[maybe_unused]]
 	static constexpr auto i = [](auto scalar) noexcept
@@ -991,13 +1018,14 @@ inline void matrix_invert_tests(std::string_view scalar_typename) noexcept
 		static_cast<eps_common_type>(constants<double>::approx_equal_epsilon)
 	));
 
-	#define CHECK_INVERSE(mat, expected)										\
-		do																		\
-		{																		\
-			const auto result = matrix_t::invert(mat);							\
-			for (size_t r = 0; r < Rows; r++)									\
-				for (size_t c = 0; c < Columns; c++)							\
-					CHECK_APPROX_EQUAL_EPS(result(r, c), expected(r, c), eps);	\
+	#define CHECK_INVERSE(mat, expected)						\
+		do														\
+		{														\
+			auto result = matrix_t::invert(mat);				\
+			CHECK_MATRIX_APPROX_EQUAL_EPS(mat, expected, eps);	\
+																\
+			result = muu::invert(mat);							\
+			CHECK_MATRIX_APPROX_EQUAL_EPS(mat, expected, eps);	\
 		} while (false)
 
 	if constexpr (Rows == 2 && Columns == Rows)
@@ -1051,3 +1079,40 @@ inline void matrix_invert_tests(std::string_view scalar_typename) noexcept
 		CHECK_INVERSE(mat, expected);
 	}
 }
+
+template <typename T, size_t Rows, size_t Columns>
+inline void matrix_orthonormalize_tests(std::string_view scalar_typename) noexcept
+{
+	INFO("matrix<"sv << scalar_typename << ", "sv << Rows << ", "sv << Columns << ">"sv)
+	using matrix_t = matrix<T, Rows, Columns>;
+	using vec3 = vector<T, 3>;
+	using column_t = vector<T, Rows>;
+
+	#define CHECK_ORTHONORMALIZE(mat, expected)				\
+		do													\
+		{													\
+			auto result = matrix_t::orthonormalize(mat);	\
+			CHECK_MATRIX_APPROX_EQUAL(mat, expected);		\
+															\
+			result = muu::orthonormalize(mat);				\
+			CHECK_MATRIX_APPROX_EQUAL(mat, expected);		\
+		} while (false)
+
+	if constexpr (Rows >= 3 && Rows <= 4
+		&& Columns >= 3 && Columns <= 4
+		&& is_floating_point<T>)
+	{
+		matrix_t mat{ T{} };
+		mat.m[0] = column_t{ vec3::constants::x_axis * random<T>(2, 5) };
+		mat.m[1] = column_t{ vec3::constants::y_axis * random<T>(2, 5) };
+		mat.m[2] = column_t{ vec3::constants::z_axis * random<T>(2, 5) };
+
+		matrix_t expected{ T{} };
+		expected.m[0] = column_t{ vec3::constants::x_axis };
+		expected.m[1] = column_t{ vec3::constants::y_axis };
+		expected.m[2] = column_t{ vec3::constants::z_axis };
+
+		CHECK_ORTHONORMALIZE(mat, expected);
+	}
+}
+

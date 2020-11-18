@@ -2765,19 +2765,6 @@ MUU_NAMESPACE_START
 
 	#endif // iterators
 
-	#if 1 // streams --------------------------------------------------------------------------------------------------
-
-		/// \brief Writes a vector out to a text stream.
-		template <typename Char, typename Traits>
-		friend
-		std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& os, const vector& v)
-		{
-			impl::print_vector_to_stream(os, &v.get<0>(), Dimensions);
-			return os;
-		}
-
-	#endif // streams
-
 	#if 1 // min, max and clamp ---------------------------------------------------------------------------------------
 
 		/// \brief	Returns the componentwise minimum of two vectors.
@@ -2978,6 +2965,15 @@ MUU_NAMESPACE_START
 	#endif // swizzles
 
 	#if 1 // misc -----------------------------------------------------------------------------------------------------
+
+		/// \brief Writes a vector out to a text stream.
+		template <typename Char, typename Traits>
+		friend
+		std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& os, const vector& v)
+		{
+			impl::print_vector_to_stream(os, &v.get<0>(), Dimensions);
+			return os;
+		}
 
 		/// \brief	Performs a linear interpolation between two vectors.
 		///

@@ -257,6 +257,7 @@ external_links = [
 	(r'(?:_Float|__float)(128|80)s?','https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html'),
 	# muu-specific
 	(r'(?:muu::)?halfs?', 'structmuu_1_1half.html'),
+	(r'(?:muu::)?matri(?:x|ces)?', 'structmuu_1_1matrix.html'),
 	(r'(?:muu::)?string_params?', 'classmuu_1_1string__param.html'),
 	# ...,
 	# ...

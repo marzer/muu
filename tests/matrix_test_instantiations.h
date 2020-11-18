@@ -100,4 +100,9 @@ MATRIX_TEST_CASE("invert")
 	TEST_TYPE(matrix_invert_tests);
 }
 
+MATRIX_TEST_CASE("orthonormalize")
+{
+	TEST_TYPE(matrix_orthonormalize_tests);
+}
+
 #undef SCALAR_TYPE

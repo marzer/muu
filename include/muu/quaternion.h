@@ -1246,7 +1246,7 @@ MUU_NAMESPACE_START
 
 	#endif // multiplication
 
-	#if 1 // streams --------------------------------------------------------------------------------------------------
+	#if 1 // misc -----------------------------------------------------------------------------------------------------
 
 		/// \brief Writes a quaternion out to a text stream.
 		template <typename Char, typename Traits>
@@ -1256,10 +1256,6 @@ MUU_NAMESPACE_START
 			impl::print_quaternion_to_stream(os, &q.s);
 			return os;
 		}
-
-	#endif // streams
-
-	#if 1 // misc -----------------------------------------------------------------------------------------------------
 
 		/// \brief	Performs a spherical-linear interpolation between two quaternion orientations.
 		///
