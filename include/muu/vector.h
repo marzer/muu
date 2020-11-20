@@ -3268,6 +3268,15 @@ MUU_NAMESPACE_START
 			static constexpr type radians_to_degrees	= type{ scalars::radians_to_degrees   };
 		};
 
+		template <typename Scalar, size_t Dimensions,
+			int = (is_floating_point<Scalar> ? 2 : (is_signed<Scalar> ? 1 : 0))
+		>
+		struct vector_constants_base						: unsigned_integral_constants<vector<Scalar, Dimensions>> {};
+		template <typename Scalar, size_t Dimensions>
+		struct vector_constants_base<Scalar, Dimensions, 1>	: signed_integral_constants<vector<Scalar, Dimensions>> {};
+		template <typename Scalar, size_t Dimensions>
+		struct vector_constants_base<Scalar, Dimensions, 2>	: floating_point_constants<vector<Scalar, Dimensions>> {};
+
 		#endif // !DOXYGEN
 
 		template <typename Scalar, size_t Dimensions>
@@ -3423,45 +3432,28 @@ MUU_NAMESPACE_START
 		template <typename Scalar, size_t Dimensions>
 		struct unit_length_2d_or_3d_signed_vector_constants<Scalar, Dimensions, false> { };
 
-		template <typename Scalar, size_t Dimensions,
-			int = (is_floating_point<Scalar> ? 2 : (is_signed<Scalar> ? 1 : 0))
-		>
-		struct vector_constants_base						: unsigned_integral_constants<vector<Scalar, Dimensions>> {};
-		template <typename Scalar, size_t Dimensions>
-		struct vector_constants_base<Scalar, Dimensions, 1>	: signed_integral_constants<vector<Scalar, Dimensions>> {};
-		template <typename Scalar, size_t Dimensions>
-		struct vector_constants_base<Scalar, Dimensions, 2>	: floating_point_constants<vector<Scalar, Dimensions>> {};
-
 		#endif // !DOXYGEN
 	}
 
-	#ifdef DOXYGEN
-	
-	// we just tell doxygen it inherits from everything regardless of template type
-	// because doxygen breaks if you mix template specialization and inheritance.
-
-	/// \brief		Vector constants.
 	/// \ingroup	constants
 	/// \related	muu::vector
+	/// \see		muu::vector
+	/// 
+	/// \brief		Vector constants.
 	template <typename Scalar, size_t Dimensions>
 	struct constants<vector<Scalar, Dimensions>>
-		: impl::integer_limits<vector<Scalar, Dimensions>>,
-		impl::integer_positive_constants<vector<Scalar, Dimensions>>,
-		impl::floating_point_limits<vector<Scalar, Dimensions>>,
-		impl::floating_point_special_constants<vector<Scalar, Dimensions>>,
-		impl::floating_point_named_constants<vector<Scalar, Dimensions>>,
-		impl::unit_length_vector_constants<vector<Scalar, Dimensions>>
+		: impl::unit_length_vector_constants<Scalar, Dimensions>,
+		#ifdef DOXYGEN
+			// doxygen breaks if you mix template specialization and inheritance
+			impl::integer_limits<vector<Scalar, Dimensions>>,
+			impl::integer_positive_constants<vector<Scalar, Dimensions>>,
+			impl::floating_point_limits<vector<Scalar, Dimensions>>,
+			impl::floating_point_special_constants<vector<Scalar, Dimensions>>,
+			impl::floating_point_named_constants<vector<Scalar, Dimensions>>
+		#else
+			impl::vector_constants_base<Scalar, Dimensions>
+		#endif
 	{};
-
-	#else
-
-	template <typename Scalar, size_t Dimensions>
-	struct constants<vector<Scalar, Dimensions>>
-		: impl::vector_constants_base<Scalar, Dimensions>,
-		impl::unit_length_vector_constants<Scalar, Dimensions>
-	{};
-
-	#endif
 }
 MUU_NAMESPACE_END
 

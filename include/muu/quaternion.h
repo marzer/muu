@@ -1396,10 +1396,10 @@ MUU_NAMESPACE_START
 		using vectors = constants<vector<Scalar, 3>>;
 
 		/// \brief A quaternion with all members initialized to zero.
-		static constexpr auto zero     = quaternion<Scalar>{ scalars::zero, vectors::zero };
+		static constexpr quaternion<Scalar> zero		{ scalars::zero, vectors::zero };
 		
 		/// \brief The identity quaternion.
-		static constexpr auto identity = quaternion<Scalar>{ scalars::one, vectors::zero };
+		static constexpr quaternion<Scalar> identity	{ scalars::one, vectors::zero };
 	};
 }
 MUU_NAMESPACE_END

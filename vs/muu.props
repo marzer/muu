@@ -13,7 +13,6 @@
 		<DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
 		<LinkIncremental>false</LinkIncremental>
 		<TargetName>$(ProjectName)</TargetName>
-		<PreferredToolArchitecture>x64</PreferredToolArchitecture>
 	</PropertyGroup>
 	<ItemDefinitionGroup>
 		<ClCompile>

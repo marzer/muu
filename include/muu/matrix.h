@@ -116,6 +116,8 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 
 #endif // !MUU_CONCEPTS
 
+#define SPECIALIZED_IF(cond)		, bool = (cond)
+
 #endif // helper macros
 
 MUU_IMPL_NAMESPACE_START
@@ -131,10 +133,33 @@ MUU_IMPL_NAMESPACE_START
 
 		matrix_base() noexcept = default;
 
+	private:
+
+		#if MUU_MSVC
+
+		template <size_t Index>
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
+		static constexpr vector<Scalar, Rows> fill_column_initializer_msvc(Scalar fill) noexcept
+		{
+			return vector<Scalar, Rows>{ fill };
+		}
+
+		#endif
+
+	public:
+
 		template <size_t... ColumnIndices>
 		explicit
 		constexpr matrix_base(value_fill_tag, std::index_sequence<ColumnIndices...>, Scalar fill) noexcept
-			: m{ ((void)ColumnIndices, vector<Scalar, Rows>{ fill })... }
+			#if MUU_MSVC
+				// internal compiler error:
+				// https://developercommunity2.visualstudio.com/t/C-Internal-Compiler-Error-in-constexpr/1264044
+				: m{ fill_column_initializer_msvc<ColumnIndices>(fill)... }
+			#else
+				: m{ ((void)ColumnIndices, vector<Scalar, Rows>{ fill })... }
+			#endif
 		{
 			static_assert(sizeof...(ColumnIndices) <= Columns);
 		}
@@ -211,7 +236,12 @@ MUU_IMPL_NAMESPACE_START
 	#if MUU_HAS_VECTORCALL
 
 	template <typename Scalar, size_t Rows, size_t Columns>
-	inline constexpr bool is_hva<matrix_base<Scalar, Rows, Columns>> = can_be_hva_of<matrix_base<Scalar, Rows, Columns>, Scalar>;
+	inline constexpr bool is_hva<matrix_base<Scalar, Rows, Columns>>
+		= can_be_hva_of<matrix_base<Scalar, Rows, Columns>, Scalar>
+		#if MUU_MSVC && MUU_ARCH_X86
+		 && Columns > 1  // otherwise weird codegen bugs on msvc x86 when the matrix just has one column =/
+		#endif
+	;
 
 	template <typename Scalar, size_t Rows, size_t Columns>
 	inline constexpr bool is_hva<matrix<Scalar, Rows, Columns>> = is_hva<matrix_base<Scalar, Rows, Columns>>;
@@ -352,13 +382,14 @@ MUU_IMPL_NAMESPACE_END
 
 #else // ^^^ !DOXYGEN / DOXYGEN vvv
 
-#define	REQUIRES_SIZE_AT_LEAST(n, ...)
-#define	REQUIRES_DIMENSIONS_BETWEEN(r1, c1, r2, c2, ...)
-#define	REQUIRES_DIMENSIONS_EXACTLY(r, c, ...)
-#define	REQUIRES_SQUARE(...)
-#define	REQUIRES_FLOATING_POINT
-#define	REQUIRES_INTEGRAL
-#define	REQUIRES_SIGNED
+#define REQUIRES_SIZE_AT_LEAST(n, ...)
+#define REQUIRES_DIMENSIONS_BETWEEN(r1, c1, r2, c2, ...)
+#define REQUIRES_DIMENSIONS_EXACTLY(r, c, ...)
+#define REQUIRES_SQUARE(...)
+#define REQUIRES_FLOATING_POINT
+#define REQUIRES_INTEGRAL
+#define REQUIRES_SIGNED
+#define SPECIALIZED_IF(cond)
 
 #endif // DOXYGEN
 #ifndef ENABLE_IF_SIZE_AT_LEAST
@@ -509,9 +540,6 @@ MUU_NAMESPACE_START
 			sizeof(base) == (sizeof(scalar_type) * Rows * Columns),
 			"Matrices should not have padding"
 		);
-
-		using data_type = column_type;
-		static constexpr auto data_count = columns;
 
 		using intermediate_float = impl::promote_if_small_float<typename inverse_type::scalar_type>;
 		static_assert(is_floating_point<typename inverse_type::scalar_type>);
@@ -853,7 +881,7 @@ MUU_NAMESPACE_START
 		friend
 		constexpr bool MUU_VECTORCALL operator == (matrix_param lhs, const matrix<T, rows, columns>& rhs) noexcept
 		{
-			for (size_t i = 0; i < data_count; i++)
+			for (size_t i = 0; i < columns; i++)
 				if (lhs.m[i] != rhs.m[i])
 					return false;
 			return true;
@@ -886,7 +914,7 @@ MUU_NAMESPACE_START
 		friend
 		constexpr bool MUU_VECTORCALL operator == (matrix_param lhs, matrix<T, rows, columns> rhs) noexcept
 		{
-			for (size_t i = 0; i < data_count; i++)
+			for (size_t i = 0; i < columns; i++)
 				if (lhs.m[i] != rhs.m[i])
 					return false;
 			return true;
@@ -914,8 +942,8 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL zero(matrix_param m) noexcept
 		{
-			for (size_t i = 0; i < data_count; i++)
-				if (!data_type::zero(m.m[i]))
+			for (size_t i = 0; i < columns; i++)
+				if (!column_type::zero(m.m[i]))
 					return false;
 			return true;
 		}
@@ -938,8 +966,8 @@ MUU_NAMESPACE_START
 		{
 			if constexpr (is_floating_point<scalar_type>)
 			{
-				for (size_t i = 0; i < data_count; i++)
-					if (data_type::infinity_or_nan(m.m[i]))
+				for (size_t i = 0; i < columns; i++)
+					if (column_type::infinity_or_nan(m.m[i]))
 						return true;
 				return false;
 			}
@@ -980,8 +1008,8 @@ MUU_NAMESPACE_START
 			dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
 		) noexcept
 		{
-			for (size_t i = 0; i < data_count; i++)
-				if (!data_type::approx_equal(m1.m[i], m2.m[i], epsilon))
+			for (size_t i = 0; i < columns; i++)
+				if (!column_type::approx_equal(m1.m[i], m2.m[i], epsilon))
 					return false;
 			return true;
 		}
@@ -1017,8 +1045,8 @@ MUU_NAMESPACE_START
 			dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
 		) noexcept
 		{
-			for (size_t i = 0; i < data_count; i++)
-				if (!data_type::approx_equal(m1.m[i], m2.m[i], epsilon))
+			for (size_t i = 0; i < columns; i++)
+				if (!column_type::approx_equal(m1.m[i], m2.m[i], epsilon))
 					return false;
 			return true;
 		}
@@ -1051,8 +1079,8 @@ MUU_NAMESPACE_START
 		) noexcept
 			REQUIRES_FLOATING_POINT
 		{
-			for (size_t i = 0; i < data_count; i++)
-				if (!data_type::approx_zero(m.m[i], epsilon))
+			for (size_t i = 0; i < columns; i++)
+				if (!column_type::approx_zero(m.m[i], epsilon))
 					return false;
 			return true;
 		}
@@ -1083,7 +1111,7 @@ MUU_NAMESPACE_START
 		{
 			matrix out{ lhs };
 			MUU_PRAGMA_MSVC(omp simd)
-			for (size_t i = 0; i < data_count; i++)
+			for (size_t i = 0; i < columns; i++)
 				out.m[i] += rhs.m[i];
 			return out;
 		}
@@ -1092,7 +1120,7 @@ MUU_NAMESPACE_START
 		constexpr matrix& MUU_VECTORCALL operator += (matrix_param rhs) noexcept
 		{
 			MUU_PRAGMA_MSVC(omp simd)
-			for (size_t i = 0; i < data_count; i++)
+			for (size_t i = 0; i < columns; i++)
 				base::m[i] += rhs.m[i];
 			return *this;
 		}
@@ -1117,7 +1145,7 @@ MUU_NAMESPACE_START
 		{
 			matrix out{ lhs };
 			MUU_PRAGMA_MSVC(omp simd)
-			for (size_t i = 0; i < data_count; i++)
+			for (size_t i = 0; i < columns; i++)
 				out.m[i] -= rhs.m[i];
 			return out;
 		}
@@ -1126,7 +1154,7 @@ MUU_NAMESPACE_START
 		constexpr matrix& MUU_VECTORCALL operator -= (matrix_param rhs) noexcept
 		{
 			MUU_PRAGMA_MSVC(omp simd)
-			for (size_t i = 0; i < data_count; i++)
+			for (size_t i = 0; i < columns; i++)
 				base::m[i] -= rhs.m[i];
 			return *this;
 		}
@@ -1140,7 +1168,7 @@ MUU_NAMESPACE_START
 		{
 			matrix out{ *this };
 			MUU_PRAGMA_MSVC(omp simd)
-			for (size_t i = 0; i < data_count; i++)
+			for (size_t i = 0; i < columns; i++)
 				out.m[i] = -out.m[i];
 			return out;
 		}
@@ -1167,7 +1195,7 @@ MUU_NAMESPACE_START
 		{
 			using result_type = matrix<scalar_type, Rows, C>;
 			using type = impl::highest_ranked<
-				typename data_type::product_type,
+				typename column_type::product_type,
 				std::conditional_t<is_floating_point<scalar_type>, intermediate_float, scalar_type>
 			>;
 
@@ -1313,7 +1341,7 @@ MUU_NAMESPACE_START
 		constexpr matrix& MUU_VECTORCALL operator *= (scalar_type rhs) noexcept
 		{
 			using type = impl::highest_ranked<
-				typename data_type::product_type,
+				typename column_type::product_type,
 				std::conditional_t<is_floating_point<scalar_type>, intermediate_float, scalar_type>
 			>;
 
@@ -1350,7 +1378,7 @@ MUU_NAMESPACE_START
 		constexpr matrix& MUU_VECTORCALL operator /= (scalar_type rhs) noexcept
 		{
 			using type = impl::highest_ranked<
-				typename data_type::product_type,
+				typename column_type::product_type,
 				std::conditional_t<is_floating_point<scalar_type>, intermediate_float, scalar_type>
 			>;
 
@@ -1812,6 +1840,243 @@ MUU_NAMESPACE_END
 // CONSTANTS
 #if 1
 
+MUU_PUSH_PRECISE_MATH
+
+MUU_NAMESPACE_START
+{
+	namespace impl
+	{
+		#ifndef DOXYGEN
+
+		template <typename Scalar, size_t Rows, size_t Columns>
+		[[nodiscard]]
+		MUU_CONSTEVAL matrix<Scalar, Rows, Columns> make_identity_matrix() noexcept
+		{
+			using scalars = constants<Scalar>;
+			matrix<Scalar, Rows, Columns> m{ scalars::zero };
+			m.template get<0, 0>() = scalars::one;
+			if constexpr (Rows > 1 && Columns > 1) m.template get<1, 1>() = scalars::one;
+			if constexpr (Rows > 2 && Columns > 2) m.template get<2, 2>() = scalars::one;
+			if constexpr (Rows > 3 && Columns > 3) m.template get<3, 3>() = scalars::one;
+			if constexpr (Rows > 4 && Columns > 4)
+			{
+				for (size_t i = 4; i < muu::min(Rows, Columns); i++)
+					m(i, i) = scalars::one;
+			}
+			return m;
+		}
+
+		template <typename Scalar, size_t Rows, size_t Columns>
+		[[nodiscard]]
+		MUU_CONSTEVAL matrix<Scalar, Rows, Columns> make_rotation_matrix(
+			Scalar xx, Scalar yx, Scalar zx,
+			Scalar xy, Scalar yy, Scalar zy,
+			Scalar xz, Scalar yz, Scalar zz
+		) noexcept
+		{
+			auto m = make_identity_matrix<Scalar, Rows, Columns>();
+			m.template get<0, 0>() = xx;
+			m.template get<1, 0>() = xy;
+			m.template get<2, 0>() = xz;
+			m.template get<0, 1>() = yx;
+			m.template get<1, 1>() = yy;
+			m.template get<2, 1>() = yz;
+			m.template get<0, 2>() = zx;
+			m.template get<1, 2>() = zy;
+			m.template get<2, 2>() = zz;
+			return m;
+		}
+
+		template <typename Scalar, size_t Rows, size_t Columns>
+		struct integer_limits<matrix<Scalar, Rows, Columns>>
+		{
+			using type = matrix<Scalar, Rows, Columns>;
+			using scalars = integer_limits<Scalar>;
+			static constexpr type lowest				{ scalars::lowest };
+			static constexpr type highest				{ scalars::highest };
+		};
+
+		template <typename Scalar, size_t Rows, size_t Columns>
+		struct integer_positive_constants<matrix<Scalar, Rows, Columns>>
+		{
+			using type = matrix<Scalar, Rows, Columns>;
+			using scalars = integer_positive_constants<Scalar>;
+			static constexpr type zero					{ scalars::zero  };
+			static constexpr type one					{ scalars::one   };
+			static constexpr type two					{ scalars::two   };
+			static constexpr type three					{ scalars::three };
+			static constexpr type four					{ scalars::four  };
+			static constexpr type five					{ scalars::five  };
+			static constexpr type six					{ scalars::six   };
+			static constexpr type seven					{ scalars::seven };
+			static constexpr type eight					{ scalars::eight };
+			static constexpr type nine					{ scalars::nine  };
+			static constexpr type ten					{ scalars::ten   };
+			static constexpr type one_hundred			{ scalars::one_hundred };
+		};
+
+		template <typename Scalar, size_t Rows, size_t Columns>
+		struct floating_point_limits<matrix<Scalar, Rows, Columns>>
+			: floating_point_limits<Scalar>
+		{};
+
+		template <typename Scalar, size_t Rows, size_t Columns>
+		struct floating_point_special_constants<matrix<Scalar, Rows, Columns>>
+		{
+			using type = matrix<Scalar, Rows, Columns>;
+			using scalars = floating_point_special_constants<Scalar>;
+			static constexpr type nan					{ scalars::nan };
+			static constexpr type signaling_nan			{ scalars::signaling_nan };
+			static constexpr type infinity				{ scalars::infinity };
+			static constexpr type negative_infinity		{ scalars::negative_infinity };
+			static constexpr type negative_zero			{ scalars::negative_zero };
+		};
+
+		template <typename Scalar, size_t Rows, size_t Columns>
+		struct floating_point_named_constants<matrix<Scalar, Rows, Columns>>
+		{
+			using type = matrix<Scalar, Rows, Columns>;
+			using scalars = floating_point_named_constants<Scalar>;
+			static constexpr type one_over_two			{ scalars::one_over_two         };
+			static constexpr type two_over_three		{ scalars::two_over_three       };
+			static constexpr type two_over_five			{ scalars::two_over_five        };
+			static constexpr type sqrt_two				{ scalars::sqrt_two             };
+			static constexpr type one_over_sqrt_two		{ scalars::one_over_sqrt_two    };
+			static constexpr type one_over_three		{ scalars::one_over_three       };
+			static constexpr type three_over_two		{ scalars::three_over_two       };
+			static constexpr type three_over_four		{ scalars::three_over_four      };
+			static constexpr type three_over_five		{ scalars::three_over_five      };
+			static constexpr type sqrt_three			{ scalars::sqrt_three           };
+			static constexpr type one_over_sqrt_three	{ scalars::one_over_sqrt_three  };
+			static constexpr type pi					{ scalars::pi                   };
+			static constexpr type one_over_pi			{ scalars::one_over_pi          };
+			static constexpr type pi_over_two			{ scalars::pi_over_two          };
+			static constexpr type pi_over_three			{ scalars::pi_over_three        };
+			static constexpr type pi_over_four			{ scalars::pi_over_four         };
+			static constexpr type pi_over_five			{ scalars::pi_over_five         };
+			static constexpr type pi_over_six			{ scalars::pi_over_six          };
+			static constexpr type pi_over_seven			{ scalars::pi_over_seven        };
+			static constexpr type pi_over_eight			{ scalars::pi_over_eight        };
+			static constexpr type sqrt_pi				{ scalars::sqrt_pi              };
+			static constexpr type one_over_sqrt_pi		{ scalars::one_over_sqrt_pi     };
+			static constexpr type two_pi				{ scalars::two_pi               };
+			static constexpr type sqrt_two_pi			{ scalars::sqrt_two_pi          };
+			static constexpr type one_over_sqrt_two_pi	{ scalars::one_over_sqrt_two_pi };
+			static constexpr type one_over_three_pi		{ scalars::one_over_three_pi    };
+			static constexpr type three_pi_over_two		{ scalars::three_pi_over_two    };
+			static constexpr type three_pi_over_four	{ scalars::three_pi_over_four   };
+			static constexpr type three_pi_over_five	{ scalars::three_pi_over_five   };
+			static constexpr type e						{ scalars::e                    };
+			static constexpr type one_over_e			{ scalars::one_over_e           };
+			static constexpr type e_over_two			{ scalars::e_over_two           };
+			static constexpr type e_over_three			{ scalars::e_over_three         };
+			static constexpr type e_over_four			{ scalars::e_over_four          };
+			static constexpr type e_over_five			{ scalars::e_over_five          };
+			static constexpr type e_over_six			{ scalars::e_over_six           };
+			static constexpr type sqrt_e				{ scalars::sqrt_e               };
+			static constexpr type one_over_sqrt_e		{ scalars::one_over_sqrt_e      };
+			static constexpr type phi					{ scalars::phi                  };
+			static constexpr type one_over_phi			{ scalars::one_over_phi         };
+			static constexpr type phi_over_two			{ scalars::phi_over_two         };
+			static constexpr type phi_over_three		{ scalars::phi_over_three       };
+			static constexpr type phi_over_four			{ scalars::phi_over_four        };
+			static constexpr type phi_over_five			{ scalars::phi_over_five        };
+			static constexpr type phi_over_six			{ scalars::phi_over_six         };
+			static constexpr type sqrt_phi				{ scalars::sqrt_phi             };
+			static constexpr type one_over_sqrt_phi		{ scalars::one_over_sqrt_phi    };
+			static constexpr type degrees_to_radians	{ scalars::degrees_to_radians   };
+			static constexpr type radians_to_degrees	{ scalars::radians_to_degrees   };
+		};
+
+		template <typename Scalar, size_t Rows, size_t Columns,
+			int = (is_floating_point<Scalar> ? 2 : (is_signed<Scalar> ? 1 : 0))
+		>
+		struct matrix_constants_base							: unsigned_integral_constants<matrix<Scalar, Rows, Columns>> {};
+		template <typename Scalar, size_t Rows, size_t Columns>
+		struct matrix_constants_base<Scalar, Rows, Columns, 1>	: signed_integral_constants<matrix<Scalar, Rows, Columns>> {};
+		template <typename Scalar, size_t Rows, size_t Columns>
+		struct matrix_constants_base<Scalar, Rows, Columns, 2>	: floating_point_constants<matrix<Scalar, Rows, Columns>> {};
+
+		#endif // !DOXYGEN
+
+		template <typename Scalar, size_t Rows, size_t Columns
+			SPECIALIZED_IF(Rows >= 3 && Rows <= 4 && Columns >= 3 && Columns <= 4 && is_signed<Scalar>)
+		>
+		struct rotation_matrix_constants
+		{
+			using scalars = muu::constants<Scalar>;
+
+			/// \brief A matrix encoding a rotation 90 degrees to the right.
+			static constexpr matrix<Scalar, Rows, Columns> right = impl::make_rotation_matrix<Scalar, Rows, Columns>(
+				scalars::zero,		scalars::zero,		-scalars::one,
+				scalars::zero,		scalars::one,		scalars::zero,
+				scalars::one,		scalars::zero,		scalars::zero
+			);
+
+			/// \brief A matrix encoding a rotation 90 degrees upward.
+			static constexpr matrix<Scalar, Rows, Columns> up = impl::make_rotation_matrix<Scalar, Rows, Columns>(
+				scalars::one,		scalars::zero,		scalars::zero,
+				scalars::zero,		scalars::zero,		-scalars::one,
+				scalars::zero,		scalars::one,		scalars::zero
+			);
+
+			/// \brief A matrix encoding a rotation 180 degrees backward.
+			static constexpr matrix<Scalar, Rows, Columns> backward = impl::make_rotation_matrix<Scalar, Rows, Columns>(
+				-scalars::one,		scalars::zero,		scalars::zero,
+				scalars::zero,		scalars::one,		scalars::zero,
+				scalars::zero,		scalars::zero,		-scalars::one
+			);
+
+			/// \brief A matrix encoding a rotation 90 degrees to the left.
+			static constexpr matrix<Scalar, Rows, Columns> left = impl::make_rotation_matrix<Scalar, Rows, Columns>(
+				scalars::zero,		scalars::zero,		scalars::one,
+				scalars::zero,		scalars::one,		scalars::zero,
+				-scalars::one,		scalars::zero,		scalars::zero
+			);
+
+			/// \brief A matrix encoding a rotation 90 degrees downward.
+			static constexpr matrix<Scalar, Rows, Columns> down = impl::make_rotation_matrix<Scalar, Rows, Columns>(
+				scalars::one,		scalars::zero,		scalars::zero,
+				scalars::zero,		scalars::zero,		scalars::one,
+				scalars::zero,		-scalars::one,		scalars::zero
+			);
+		};
+
+		#ifndef DOXYGEN
+
+		template <typename Scalar, size_t Rows, size_t Columns>
+		struct rotation_matrix_constants<Scalar, Rows, Columns, false> { };
+
+		#endif // !DOXYGEN
+	}
+
+	/// \ingroup	constants
+	/// \related	muu::matrix
+	/// \see		muu::matrix
+	/// 
+	/// \brief		Matrix constants.
+	template <typename Scalar, size_t Rows, size_t Columns>
+	struct constants<matrix<Scalar, Rows, Columns>>
+		: impl::rotation_matrix_constants<Scalar, Rows, Columns>,
+		#ifdef DOXYGEN
+			// doxygen breaks if you mix template specialization and inheritance
+			impl::integer_limits<matrix<Scalar, Rows, Columns>>,
+			impl::integer_positive_constants<matrix<Scalar, Rows, Columns>>,
+			impl::floating_point_limits<matrix<Scalar, Rows, Columns>>,
+			impl::floating_point_special_constants<matrix<Scalar, Rows, Columns>>,
+			impl::floating_point_named_constants<matrix<Scalar, Rows, Columns>>
+		#else
+			impl::matrix_constants_base<Scalar, Rows, Columns>
+		#endif
+	{
+		/// \brief The identity matrix.
+		static constexpr matrix<Scalar, Rows, Columns> identity = impl::make_identity_matrix<Scalar, Rows, Columns>();
+	};
+}
+MUU_NAMESPACE_END
+
+MUU_POP_PRECISE_MATH
+
 #endif // =============================================================================================================
 
 //=====================================================================================================================
@@ -1823,7 +2088,7 @@ MUU_NAMESPACE_START
 	/// \ingroup	infinity_or_nan
 	/// \related	muu::matrix
 	///
-	/// \brief	Returns true if any of the scalar components of a #matrix are infinity or NaN.
+	/// \brief	Returns true if any of the scalar components of a matrix are infinity or NaN.
 	template <typename S, size_t R, size_t C
 		ENABLE_PAIRED_FUNC_BY_REF(S, R, C, true)
 	>
@@ -1870,7 +2135,7 @@ MUU_NAMESPACE_START
 	/// \ingroup	approx_zero
 	/// \related	muu::matrix
 	///
-	/// \brief		Returns true if all the scalar components of a #matrix are approximately equal to zero.
+	/// \brief		Returns true if all the scalar components of a matrix are approximately equal to zero.
 	///
 	/// \note		This function is only available when `S` is a floating-point type.
 	template <typename S, size_t R, size_t C
@@ -1890,7 +2155,7 @@ MUU_NAMESPACE_START
 
 	/// \related	muu::matrix
 	///
-	/// \brief	Returns a transposed copy of a #matrix.
+	/// \brief	Returns a transposed copy of a matrix.
 	template <typename S, size_t R, size_t C
 		ENABLE_PAIRED_FUNC_BY_REF(S, R, C, true)
 	>
@@ -1905,7 +2170,7 @@ MUU_NAMESPACE_START
 
 	/// \related	muu::matrix
 	///
-	/// \brief	Calculates the determinant of a #matrix.
+	/// \brief	Calculates the determinant of a matrix.
 	///
 	/// \note This function is only available for square matrices with at most 4 rows and columns.
 	template <typename S, size_t R, size_t C,
@@ -1925,7 +2190,7 @@ MUU_NAMESPACE_START
 
 	/// \related	muu::matrix
 	///
-	/// \brief	Returns the inverse of a #matrix.
+	/// \brief	Returns the inverse of a matrix.
 	///
 	/// \note This function is only available for square matrices with at most 4 rows and columns.
 	template <typename S, size_t R, size_t C,
@@ -1943,10 +2208,10 @@ MUU_NAMESPACE_START
 		return matrix<S, R, C>::invert(m);
 	}
 
-	/// \brief	Returns a copy of a #matrix with the 3x3 part orthonormalized.
+	/// \brief	Returns a copy of a matrix with the 3x3 part orthonormalized.
 	/// 
 	/// \note This function is only available for matrices with 3 or 4 rows and columns
-	/// 	  and a floating-point #scalar_type.
+	/// 	  and a floating-point scalar_type.
 	/// 
 	/// \see [Orthonormal basis](https://en.wikipedia.org/wiki/Orthonormal_basis)
 	template <typename S, size_t R, size_t C
@@ -2095,6 +2360,7 @@ MUU_NAMESPACE_END
 #undef ENABLE_PAIRED_FUNC_BY_VAL
 #undef REQUIRES_PAIRED_FUNC_BY_REF
 #undef REQUIRES_PAIRED_FUNC_BY_VAL
+#undef SPECIALIZED_IF
 
 MUU_PRAGMA_MSVC(pop_macro("min"))
 MUU_PRAGMA_MSVC(pop_macro("max"))

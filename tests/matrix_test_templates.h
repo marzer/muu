@@ -45,6 +45,7 @@ inline constexpr void matrix_trait_tests(std::string_view /*scalar_typename*/) n
 	static_assert(impl::is_hva<matrix_t> == (
 		(Rows * Columns) <= 4
 		&& is_same_as_any<T, float, double, long double>
+		&& (!MUU_MSVC || !MUU_ARCH_X86 || Columns > 1) // codegen bug
 	));
 	#endif
 };
