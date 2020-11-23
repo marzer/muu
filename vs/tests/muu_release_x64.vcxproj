@@ -23,7 +23,7 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Label="DllExport">
@@ -36,19 +36,25 @@
     <Import Project="..\muu.props" />
   </ImportGroup>
   <PropertyGroup>
-		<IntDir>$(SolutionDir)..\build\muu-17A846AF-EAF5-5097-AB65-5CCE5F2D480B\</IntDir>
-		<OutDir>$(SolutionDir)..\build\</OutDir>
-	</PropertyGroup>
-	<ItemDefinitionGroup>
-		<ClCompile>
-			<ExceptionHandling>Sync</ExceptionHandling>
-			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">_HAS_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">SHOULD_HAVE_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'!='false'">SHOULD_HAVE_EXCEPTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			<LanguageStandard>stdcpp17</LanguageStandard>
-			<MultiProcessorCompilation>false</MultiProcessorCompilation>
-		</ClCompile>
-	</ItemDefinitionGroup>
+    <IntDir>$(SolutionDir)..\build\muu-17A846AF-EAF5-5097-AB65-5CCE5F2D480B\</IntDir>
+    <OutDir>$(SolutionDir)..\build\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">_HAS_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">SHOULD_HAVE_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'%(ExceptionHandling)'!='false'">SHOULD_HAVE_EXCEPTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <!-- <AdditionalOptions>
+        %(AdditionalOptions) /MP4
+      </AdditionalOptions> -->
+      <AdditionalOptions>
+        %(AdditionalOptions) /cgthreads$([System.Math]::Min($([System.Environment]::ProcessorCount),8))
+      </AdditionalOptions>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);MUU_BUILDING=1</PreprocessorDefinitions>

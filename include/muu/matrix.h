@@ -236,12 +236,7 @@ MUU_IMPL_NAMESPACE_START
 	#if MUU_HAS_VECTORCALL
 
 	template <typename Scalar, size_t Rows, size_t Columns>
-	inline constexpr bool is_hva<matrix_base<Scalar, Rows, Columns>>
-		= can_be_hva_of<matrix_base<Scalar, Rows, Columns>, Scalar>
-		#if MUU_MSVC && MUU_ARCH_X86
-		 && Columns > 1  // otherwise weird codegen bugs on msvc x86 when the matrix just has one column =/
-		#endif
-	;
+	inline constexpr bool is_hva<matrix_base<Scalar, Rows, Columns>> = can_be_hva_of<Scalar, matrix_base<Scalar, Rows, Columns>>;
 
 	template <typename Scalar, size_t Rows, size_t Columns>
 	inline constexpr bool is_hva<matrix<Scalar, Rows, Columns>> = is_hva<matrix_base<Scalar, Rows, Columns>>;

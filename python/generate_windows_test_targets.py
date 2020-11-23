@@ -54,6 +54,7 @@ def main():
 		lib_project = re.sub(r'<ProjectGuid>.+?</ProjectGuid>', f'<ProjectGuid>{{{lib_project_uuid}}}</ProjectGuid>', lib_project, flags=re.I)
 		lib_project = re.sub(r'<ConfigurationType>.+?</ConfigurationType>', '<ConfigurationType>StaticLibrary</ConfigurationType>', lib_project, flags=re.I)
 		lib_project = re.sub(r'<StaticDllExport>.+?</StaticDllExport>', '<StaticDllExport>false</StaticDllExport>', lib_project, flags=re.I)
+		lib_project = re.sub(r'<WholeProgramOptimization>.+?</WholeProgramOptimization>', '<WholeProgramOptimization>false</WholeProgramOptimization>', lib_project, flags=re.I)
 		lib_project = re.sub(
 			r'<ItemDefinitionGroup\s+Label="Magic"\s*>.*?</ItemDefinitionGroup>',
 			fr'''<PropertyGroup>
@@ -68,8 +69,14 @@ def main():
 			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'!='false'">SHOULD_HAVE_EXCEPTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<LanguageStandard>std{standard}</LanguageStandard>
 			<MultiProcessorCompilation>false</MultiProcessorCompilation>
+			<!-- <AdditionalOptions>
+				%(AdditionalOptions) /MP4
+			</AdditionalOptions> -->
+			<AdditionalOptions>
+				%(AdditionalOptions) /cgthreads$([System.Math]::Min($([System.Environment]::ProcessorCount),8))
+			</AdditionalOptions>
 		</ClCompile>
-	</ItemDefinitionGroup>''',
+	</ItemDefinitionGroup>'''.replace('\t', '  '),
 			lib_project, flags=re.I | re.S
 		)
 		lib_project = re.sub(r'<\s*(?:None|Text)\s+.+?/>', '', lib_project)
@@ -120,7 +127,7 @@ def main():
 		<ConfigurationType>Application</ConfigurationType>
 		<UseDebugLibraries>false</UseDebugLibraries>
 		<PlatformToolset>v142</PlatformToolset>
-		<WholeProgramOptimization>true</WholeProgramOptimization>
+		<WholeProgramOptimization>false</WholeProgramOptimization>
 		<CharacterSet>MultiByte</CharacterSet>
 	</PropertyGroup>
 	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -139,13 +146,22 @@ def main():
 			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">SHOULD_HAVE_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'!='false'">SHOULD_HAVE_EXCEPTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<LanguageStandard>std{standard}</LanguageStandard>
+			<DebugInformationFormat>None</DebugInformationFormat>
 			<MultiProcessorCompilation>false</MultiProcessorCompilation>
+			<AdditionalOptions>
+				%(AdditionalOptions) /MP4
+			</AdditionalOptions>
 		</ClCompile>
+		<Link>
+			<GenerateDebugInformation>false</GenerateDebugInformation>
+			<LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
+		</Link>
 	</ItemDefinitionGroup>
 	<PropertyGroup>
 		<LocalDebuggerWorkingDirectory>..\..\tests\</LocalDebuggerWorkingDirectory>
 		<IntDir>$(SolutionDir)..\build\tests-{test_project_uuid}\</IntDir>
 		<OutDir>$(SolutionDir)..\build\</OutDir>
+		<LinkIncremental>false</LinkIncremental>
 	</PropertyGroup>
 	<ItemGroup>
 		<ClCompile Include="..\..\tests\accumulator.cpp" />

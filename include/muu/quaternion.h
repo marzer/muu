@@ -46,7 +46,7 @@ MUU_IMPL_NAMESPACE_START
 	#if MUU_HAS_VECTORCALL
 
 	template <typename Scalar>
-	inline constexpr bool is_hva<quaternion_base<Scalar>> = can_be_hva_of<quaternion_base<Scalar>, Scalar>;
+	inline constexpr bool is_hva<quaternion_base<Scalar>> = can_be_hva_of<Scalar, quaternion_base<Scalar>>;
 
 	template <typename Scalar>
 	inline constexpr bool is_hva<quaternion<Scalar>> = is_hva<quaternion_base<Scalar>>;
@@ -198,7 +198,7 @@ MUU_NAMESPACE_START
 	namespace impl
 	{
 		template <typename Scalar>
-		inline constexpr bool is_hva<axis_angle_rotation<Scalar>> = can_be_hva_of<axis_angle_rotation<Scalar>, Scalar>;
+		inline constexpr bool is_hva<axis_angle_rotation<Scalar>> = can_be_hva_of<Scalar, axis_angle_rotation<Scalar>>;
 	}
 	#endif // MUU_HAS_VECTORCALL
 	#endif
@@ -315,7 +315,7 @@ MUU_NAMESPACE_START
 	namespace impl
 	{
 		template <typename Scalar>
-		inline constexpr bool is_hva<euler_rotation<Scalar>> = can_be_hva_of<euler_rotation<Scalar>, Scalar>;
+		inline constexpr bool is_hva<euler_rotation<Scalar>> = can_be_hva_of<Scalar, euler_rotation<Scalar>>;
 	}
 	#endif // MUU_HAS_VECTORCALL
 	#endif

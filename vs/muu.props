@@ -73,8 +73,7 @@
 			<Optimization>MaxSpeed</Optimization>  <!-- /O2 -->
 			<OmitFramePointers>true</OmitFramePointers> <!-- /Oy -->
 			<PreprocessorDefinitions>%(PreprocessorDefinitions);NDEBUG</PreprocessorDefinitions>
-			<InlineFunctionExpansion Condition="$(PlatformToolsetVersion) &lt;= 141">AnySuitable</InlineFunctionExpansion> <!-- /Ob2 -->
-			<AdditionalOptions Condition="$(PlatformToolsetVersion) &gt;= 142">%(AdditionalOptions) /Ob3</AdditionalOptions> <!-- /Ob3 -->
+			<InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion> <!-- /Ob2 -->
 		</ClCompile>
 		<Link>
 			<EnableCOMDATFolding>true</EnableCOMDATFolding>

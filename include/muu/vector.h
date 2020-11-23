@@ -696,7 +696,7 @@ MUU_IMPL_NAMESPACE_START
 	#if MUU_HAS_VECTORCALL
 
 	template <typename Scalar, size_t Dimensions>
-	inline constexpr bool is_hva<vector_base<Scalar, Dimensions>> = can_be_hva_of<vector_base<Scalar, Dimensions>, Scalar>;
+	inline constexpr bool is_hva<vector_base<Scalar, Dimensions>> = can_be_hva_of<Scalar, vector_base<Scalar, Dimensions>>;
 
 	template <typename Scalar, size_t Dimensions>
 	inline constexpr bool is_hva<vector<Scalar, Dimensions>> = is_hva<vector_base<Scalar, Dimensions>>;

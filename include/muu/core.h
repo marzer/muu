@@ -933,7 +933,7 @@ MUU_IMPL_NAMESPACE_START
 		is_same_as_any<T, float, double, long double>
 		|| is_simd_intrinsic<T>;
 
-	template <typename T, typename Scalar>
+	template <typename Scalar, typename T>
 	inline constexpr bool can_be_hva_of =
 		std::is_class_v<T>
 		&& !std::is_empty_v<T>
@@ -949,19 +949,19 @@ MUU_IMPL_NAMESPACE_START
 
 	template <typename T>
 	inline constexpr bool can_be_hva =
-		can_be_hva_of<T, float>
-		|| can_be_hva_of<T, double>
-		|| can_be_hva_of<T, long double>
-		|| can_be_hva_of<T, __m64>
-		|| can_be_hva_of<T, __m128>
-		|| can_be_hva_of<T, __m128i>
-		|| can_be_hva_of<T, __m128d>
-		|| can_be_hva_of<T, __m256>
-		|| can_be_hva_of<T, __m256d>
-		|| can_be_hva_of<T, __m256i>
-		|| can_be_hva_of<T, __m512>
-		|| can_be_hva_of<T, __m512d>
-		|| can_be_hva_of<T, __m512i>
+		can_be_hva_of<float, T>
+		|| can_be_hva_of<double, T>
+		|| can_be_hva_of<long double, T>
+		|| can_be_hva_of<__m64, T>
+		|| can_be_hva_of<__m128, T>
+		|| can_be_hva_of<__m128i, T>
+		|| can_be_hva_of<__m128d, T>
+		|| can_be_hva_of<__m256, T>
+		|| can_be_hva_of<__m256d, T>
+		|| can_be_hva_of<__m256i, T>
+		|| can_be_hva_of<__m512, T>
+		|| can_be_hva_of<__m512d, T>
+		|| can_be_hva_of<__m512i, T>
 	;
 
 	template <typename T, typename... Members>
@@ -1053,7 +1053,9 @@ MUU_IMPL_NAMESPACE_START
 			|| std::is_scalar_v<T>
 			#if MUU_HAS_VECTORCALL
 			|| is_simd_intrinsic<T>
+			#if !MUU_ARCH_X86 // HVAs cause a bunch of codegen bugs when passed by value with vectorcall on x86
 			|| is_hva<T>
+			#endif
 			#endif
 			|| ((std::is_class_v<T> || std::is_union_v<T>)
 				&& (std::is_trivially_copyable_v<T> || std::is_nothrow_copy_constructible_v<T>)
