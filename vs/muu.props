@@ -25,7 +25,6 @@
 			<OpenMPSupport>false</OpenMPSupport> <!-- /openmp- -->
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat> <!-- /Zi -->
 			<!--<SDLCheck>false</SDLCheck> --><!-- /sdl- -->
-			<MultiProcessorCompilation>true</MultiProcessorCompilation> <!-- /MP -->
 			<SupportJustMyCode>false</SupportJustMyCode> <!-- /jmc- -->
 			<IntrinsicFunctions>true</IntrinsicFunctions>
 			<FunctionLevelLinking>true</FunctionLevelLinking>
@@ -60,6 +59,7 @@
 			<Optimization>Disabled</Optimization> <!-- /Od -->
 			<OmitFramePointers>false</OmitFramePointers> <!-- /Oy- -->
 			<PreprocessorDefinitions>%(PreprocessorDefinitions);_DEBUG</PreprocessorDefinitions>
+			<AdditionalOptions>%(AdditionalOptions) /MP</AdditionalOptions>
 		</ClCompile>
 		<Link>
 			<OptimizeReferences>false</OptimizeReferences> <!-- /OPT:NOREF -->
@@ -74,6 +74,16 @@
 			<OmitFramePointers>true</OmitFramePointers> <!-- /Oy -->
 			<PreprocessorDefinitions>%(PreprocessorDefinitions);NDEBUG</PreprocessorDefinitions>
 			<InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion> <!-- /Ob2 -->
+			<AdditionalOptions Condition="$([System.Environment]::ProcessorCount) &gt; 8">
+				%(AdditionalOptions)
+				/MP2
+				/cgthreads8
+			</AdditionalOptions>
+			<AdditionalOptions Condition="$([System.Environment]::ProcessorCount) &lt;= 8">
+				%(AdditionalOptions)
+				/MP1
+				/cgthreads$([System.Math]::Min($([System.Environment]::ProcessorCount),8))
+			</AdditionalOptions>
 		</ClCompile>
 		<Link>
 			<EnableCOMDATFolding>true</EnableCOMDATFolding>

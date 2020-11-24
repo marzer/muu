@@ -10,7 +10,6 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{2FFE44DE-F9AB-56D7-9E47-B402722487DB}</ProjectGuid>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -46,13 +45,6 @@
       <PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">SHOULD_HAVE_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'%(ExceptionHandling)'!='false'">SHOULD_HAVE_EXCEPTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <MultiProcessorCompilation>false</MultiProcessorCompilation>
-      <!-- <AdditionalOptions>
-        %(AdditionalOptions) /MP4
-      </AdditionalOptions> -->
-      <AdditionalOptions>
-        %(AdditionalOptions) /cgthreads$([System.Math]::Min($([System.Environment]::ProcessorCount),8))
-      </AdditionalOptions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup>

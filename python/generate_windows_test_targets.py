@@ -5,6 +5,7 @@
 # SPDX-License-Identifier: MIT
 
 import sys
+import os
 import os.path as path
 import utils
 import re
@@ -15,11 +16,10 @@ from uuid import UUID, uuid5
 def main():
 
 	mode_keys = [ '!!debug', '!x86', 'cpplatest', 'noexcept' ]
-	modes = [ [] ]
+	modes = [ [], [k for k in mode_keys] ]
 	for n in range(1, len(mode_keys)):
 		for combo in itertools.combinations(mode_keys, n):
 			modes.append([i for i in combo])
-	modes.append(mode_keys)
 	for mode in modes:
 		if '!x86' not in mode:
 			mode.insert(0, '!x64')
@@ -30,12 +30,14 @@ def main():
 			while mode[i].startswith('!'):
 				mode[i] = mode[i][1:]
 	modes.sort()
+	modes = [m for m in modes if not ('cpplatest' in m and 'noexcept' in m)]
 
 	uuid_namespace = UUID('{51C7001B-048C-4AF0-B598-D75E78FF31F0}')
 	configuration_name = lambda x: 'Debug' if x.lower() == 'debug' else 'Release'
 	platform_name = lambda x: 'Win32' if x == 'x86' else x
 	vs_root = path.join(utils.get_script_folder(), '..', 'vs')
 	test_root = path.join(vs_root, 'tests')
+	os.makedirs(test_root, exist_ok = True)
 
 	for mode in modes:
 		configuration = next(configuration_name(x) for x in mode if x in ('debug', 'release'))
@@ -55,6 +57,7 @@ def main():
 		lib_project = re.sub(r'<ConfigurationType>.+?</ConfigurationType>', '<ConfigurationType>StaticLibrary</ConfigurationType>', lib_project, flags=re.I)
 		lib_project = re.sub(r'<StaticDllExport>.+?</StaticDllExport>', '<StaticDllExport>false</StaticDllExport>', lib_project, flags=re.I)
 		lib_project = re.sub(r'<WholeProgramOptimization>.+?</WholeProgramOptimization>', '<WholeProgramOptimization>false</WholeProgramOptimization>', lib_project, flags=re.I)
+		lib_project = re.sub(r'<PreferredToolArchitecture>.+?</PreferredToolArchitecture>', '', lib_project, flags=re.I)
 		lib_project = re.sub(
 			r'<ItemDefinitionGroup\s+Label="Magic"\s*>.*?</ItemDefinitionGroup>',
 			fr'''<PropertyGroup>
@@ -68,13 +71,6 @@ def main():
 			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">SHOULD_HAVE_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'!='false'">SHOULD_HAVE_EXCEPTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<LanguageStandard>std{standard}</LanguageStandard>
-			<MultiProcessorCompilation>false</MultiProcessorCompilation>
-			<!-- <AdditionalOptions>
-				%(AdditionalOptions) /MP4
-			</AdditionalOptions> -->
-			<AdditionalOptions>
-				%(AdditionalOptions) /cgthreads$([System.Math]::Min($([System.Environment]::ProcessorCount),8))
-			</AdditionalOptions>
 		</ClCompile>
 	</ItemDefinitionGroup>'''.replace('\t', '  '),
 			lib_project, flags=re.I | re.S
@@ -114,7 +110,7 @@ def main():
 		<VCProjectVersion>16.0</VCProjectVersion>
 		<ProjectGuid>{{{test_project_uuid}}}</ProjectGuid>
 		<WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-		<PreferredToolArchitecture>x64</PreferredToolArchitecture>
+		<!-- <PreferredToolArchitecture>x64</PreferredToolArchitecture> -->
 	</PropertyGroup>
 	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|{platform}'" Label="Configuration">
@@ -147,10 +143,6 @@ def main():
 			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'!='false'">SHOULD_HAVE_EXCEPTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<LanguageStandard>std{standard}</LanguageStandard>
 			<DebugInformationFormat>None</DebugInformationFormat>
-			<MultiProcessorCompilation>false</MultiProcessorCompilation>
-			<AdditionalOptions>
-				%(AdditionalOptions) /MP4
-			</AdditionalOptions>
 		</ClCompile>
 		<Link>
 			<GenerateDebugInformation>false</GenerateDebugInformation>
@@ -183,13 +175,13 @@ def main():
 		<ClCompile Include="..\..\tests\matrix_half.cpp" />
 		<ClCompile Include="..\..\tests\matrix_int.cpp" />
 		<ClCompile Include="..\..\tests\matrix_long.cpp" />
-		<ClCompile Include="..\..\tests\matrix_long_double.cpp" />
+		<!-- <ClCompile Include="..\..\tests\matrix_long_double.cpp" /> -->
 		<ClCompile Include="..\..\tests\matrix_long_long.cpp" />
 		<ClCompile Include="..\..\tests\matrix_short.cpp" />
 		<ClCompile Include="..\..\tests\quaternion_double.cpp" />
 		<ClCompile Include="..\..\tests\quaternion_float.cpp" />
 		<ClCompile Include="..\..\tests\quaternion_half.cpp" />
-		<ClCompile Include="..\..\tests\quaternion_long_double.cpp" />
+		<!-- <ClCompile Include="..\..\tests\quaternion_long_double.cpp" /> -->
 		<ClCompile Include="..\..\tests\scope_guard.cpp" />
 		<ClCompile Include="..\..\tests\span.cpp" />
 		<ClCompile Include="..\..\tests\string_param.cpp" />
@@ -211,7 +203,7 @@ def main():
 		<ClCompile Include="..\..\tests\vector_half.cpp" />
 		<ClCompile Include="..\..\tests\vector_int.cpp" />
 		<ClCompile Include="..\..\tests\vector_long.cpp" />
-		<ClCompile Include="..\..\tests\vector_long_double.cpp" />
+		<!-- <ClCompile Include="..\..\tests\vector_long_double.cpp" /> -->
 		<ClCompile Include="..\..\tests\vector_long_long.cpp" />
 		<ClCompile Include="..\..\tests\vector_short.cpp" />
 	</ItemGroup>
