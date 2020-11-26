@@ -923,15 +923,6 @@ MUU_IMPL_NAMESPACE_END
 // VECTOR CLASS
 #if 1
 
-namespace Achilles
-{
-	inline namespace Math
-	{
-		template <typename T, size_t R, size_t C>
-		struct Matrix;
-	}
-}
-
 MUU_NAMESPACE_START
 {
 	/// \brief Alias of `vector` or `const vector&`, depending on size, triviality, simd-friendliness, etc.
@@ -1014,8 +1005,6 @@ MUU_NAMESPACE_START
 		friend struct quaternion;
 		template <typename S, size_t R, size_t C>
 		friend struct matrix;
-		template <typename T, size_t R, size_t C>
-		friend struct Achilles::Math::Matrix;
 
 		using base = impl::vector_base<scalar_type, Dimensions>;
 		static_assert(

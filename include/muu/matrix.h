@@ -527,8 +527,6 @@ MUU_NAMESPACE_START
 
 		template <typename S, size_t R, size_t C>
 		friend struct matrix;
-		template <typename T, size_t R, size_t C>
-		friend struct Achilles::Math::Matrix;
 
 		using base = impl::matrix_base<Scalar, Rows, Columns>;
 		static_assert(
@@ -1178,7 +1176,7 @@ MUU_NAMESPACE_START
 		/// \param lhs  The LHS matrix.
 		/// \param rhs  The RHS matrix.
 		///
-		/// \return  The result of `LHS * RHS`.
+		/// \return  The result of `lhs * rhs`.
 		template <size_t C>
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -1312,6 +1310,148 @@ MUU_NAMESPACE_START
 			return *this = *this * rhs;
 		}
 
+		/// \brief Multiplies a matrix and a column vector.
+		///
+		/// \param lhs  The LHS matrix.
+		/// \param rhs  The RHS column vector. 
+		///
+		/// \return  The result of `lhs * rhs`.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		friend
+		constexpr column_type MUU_VECTORCALL operator * (matrix_param lhs, vector_param<scalar_type, columns> rhs) noexcept
+		{
+			using type = impl::highest_ranked<
+				typename column_type::product_type,
+				std::conditional_t<is_floating_point<scalar_type>, intermediate_float, scalar_type>
+			>;
+
+			#define MULT_COL(row, col, vec_elem)		\
+				static_cast<type>(lhs.m[col].template get<row>()) * static_cast<type>(rhs.vec_elem)
+
+			// common square cases are manually unrolled 
+			if constexpr (Rows == 2 && Columns == 2)
+			{
+				MUU_FMA_BLOCK
+
+				return column_type
+				{
+					static_cast<scalar_type>(MULT_COL(0, 0, x) + MULT_COL(0, 1, y)),
+					static_cast<scalar_type>(MULT_COL(1, 0, x) + MULT_COL(1, 1, y))
+				};
+			}
+			else if constexpr (Rows == 3 && Columns == 3)
+			{
+				MUU_FMA_BLOCK
+
+				return column_type
+				{
+					static_cast<scalar_type>(MULT_COL(0, 0, x) + MULT_COL(0, 1, y) + MULT_COL(0, 2, z)),
+					static_cast<scalar_type>(MULT_COL(1, 0, x) + MULT_COL(1, 1, y) + MULT_COL(1, 2, z)),
+					static_cast<scalar_type>(MULT_COL(2, 0, x) + MULT_COL(2, 1, y) + MULT_COL(2, 2, z))
+				};
+			}
+			else if constexpr (Rows == 4 && Columns == 4)
+			{
+				MUU_FMA_BLOCK
+
+				return column_type
+				{
+					static_cast<scalar_type>(MULT_COL(0, 0, x) + MULT_COL(0, 1, y) + MULT_COL(0, 2, z) + MULT_COL(0, 3, w)),
+					static_cast<scalar_type>(MULT_COL(1, 0, x) + MULT_COL(1, 1, y) + MULT_COL(1, 2, z) + MULT_COL(1, 3, w)),
+					static_cast<scalar_type>(MULT_COL(2, 0, x) + MULT_COL(2, 1, y) + MULT_COL(2, 2, z) + MULT_COL(2, 3, w)),
+					static_cast<scalar_type>(MULT_COL(3, 0, x) + MULT_COL(3, 1, y) + MULT_COL(3, 2, z) + MULT_COL(3, 3, w))
+				};
+			}
+			else
+			{
+				column_type out;
+				for (size_t out_r = 0; out_r < Rows; out_r++)
+				{
+					MUU_FMA_BLOCK
+
+					auto val = static_cast<type>(lhs(out_r, 0)) * static_cast<type>(rhs.template get<0>());
+
+					MUU_PRAGMA_MSVC(omp simd)
+					for (size_t c = 1; c < Columns; c++)
+						val += static_cast<type>(lhs(out_r, c)) * static_cast<type>(rhs[c]);
+
+					out[out_r] = static_cast<scalar_type>(val);
+				}
+				return out;
+			}
+
+			#undef MULT_COL
+		}
+
+		/// \brief Multiplies a row vector and a matrix.
+		///
+		/// \param lhs  The LHS row vector.
+		/// \param rhs  The RHS matrix. 
+		///
+		/// \return  The result of `lhs * rhs`.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		friend
+		constexpr row_type MUU_VECTORCALL operator * (vector_param<scalar_type, rows> lhs, matrix_param rhs) noexcept
+		{
+			using type = impl::highest_ranked<
+				typename column_type::product_type,
+				std::conditional_t<is_floating_point<scalar_type>, intermediate_float, scalar_type>
+			>;
+
+			#define MULT_ROW(row, col, vec_elem)		\
+				static_cast<type>(lhs.vec_elem) * static_cast<type>(rhs.template get<row, col>())
+
+			//unroll the common square cases
+			if constexpr (Rows == 2 && Columns == 2)
+			{
+				return row_type
+				{
+					static_cast<scalar_type>(MULT_ROW(0, 0, x) + MULT_ROW(1, 0, y)),
+					static_cast<scalar_type>(MULT_ROW(0, 1, x) + MULT_ROW(1, 1, y))
+				};
+			}
+			else if constexpr (Rows == 3 && Columns == 3)
+			{
+				return row_type
+				{
+					static_cast<scalar_type>(MULT_ROW(0, 0, x) + MULT_ROW(1, 0, y) + MULT_ROW(2, 0, z)),
+					static_cast<scalar_type>(MULT_ROW(0, 1, x) + MULT_ROW(1, 1, y) + MULT_ROW(2, 1, z)),
+					static_cast<scalar_type>(MULT_ROW(0, 2, x) + MULT_ROW(1, 2, y) + MULT_ROW(2, 2, z))
+				};
+			}
+			else if constexpr (Rows == 4 && Columns == 4)
+			{
+				return row_type
+				{
+					static_cast<scalar_type>(MULT_ROW(0, 0, x) + MULT_ROW(1, 0, y) + MULT_ROW(2, 0, z) + MULT_ROW(3, 0, w)),
+					static_cast<scalar_type>(MULT_ROW(0, 1, x) + MULT_ROW(1, 1, y) + MULT_ROW(2, 1, z) + MULT_ROW(3, 1, w)),
+					static_cast<scalar_type>(MULT_ROW(0, 2, x) + MULT_ROW(1, 2, y) + MULT_ROW(2, 2, z) + MULT_ROW(3, 2, w)),
+					static_cast<scalar_type>(MULT_ROW(0, 3, x) + MULT_ROW(1, 3, y) + MULT_ROW(2, 3, z) + MULT_ROW(3, 3, w))
+				};
+			}
+			else
+			{
+				row_type out;
+				for (size_t out_col = 0; out_col < Columns; out_col++)
+				{
+					MUU_FMA_BLOCK
+
+					auto val = static_cast<type>(lhs.template get<0>()) * static_cast<type>(rhs(0, out_col));
+
+					MUU_PRAGMA_MSVC(omp simd)
+					for (size_t r = 1; r < Rows; r++)
+						val += static_cast<type>(lhs[r]) * static_cast<type>(rhs(r, out_col));
+
+					out[out_col] = static_cast<scalar_type>(val);
+				}
+				return out;
+			}
+
+			#undef MULT_ROW
+		}
+
 		/// \brief Returns the componentwise multiplication of a matrix and a scalar.
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -1359,6 +1499,7 @@ MUU_NAMESPACE_START
 
 	#if 1 // division -------------------------------------------------------------------------------------------------
 
+		/// \brief Returns the componentwise multiplication of a matrix by a scalar.
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		friend

@@ -552,8 +552,8 @@ inline void matrix_multiplication_tests(std::string_view scalar_typename) noexce
 	INFO("matrix<"sv << scalar_typename << ", "sv << Rows << ", "sv << Columns << ">"sv)
 	using matrix_t = matrix<T, Rows, Columns>;
 
-	const auto min_val = static_cast<T>(0.5);
-	const auto max_val = is_floating_point<T> ? T{ 1 } : T{ 5 };
+	const auto min_val = T{ 1 }; //static_cast<T>(0.5);
+	const auto max_val = T{ 5 };//is_floating_point<T> ? T{ 1 } : T{ 5 };
 
 	matrix_t mat1;
 	for (size_t r = 0; r < Rows; r++)
@@ -591,28 +591,27 @@ inline void matrix_multiplication_tests(std::string_view scalar_typename) noexce
 				CHECK_APPROX_EQUAL(static_cast<T>(mat1(r, c) * val), result(r, c));
 	}
 
+	{
+		INFO("matrix * column vector"sv)
 
-	/*auto x2 = MakeArrayOfRows<T, COLS, ROWS>(T{}, maxVal);
-	auto matrix2 = std::apply([](auto&& ... r) noexcept { return Matrix<T, COLS, ROWS>::FromRows(r...); }, x2);*/
+		const auto col_vec = vector<T, Columns>{ random_array<T, Columns>(min_val, max_val) };
+		const auto result = mat1 * col_vec;
+		for (size_t r = 0; r < Rows; r++)
+		{
+			typename matrix_t::row_type lhs_row;
+			for (size_t i = 0; i < Columns; i++)
+				lhs_row[i] = mat1(r, i);
+			CHECK_APPROX_EQUAL(static_cast<T>(lhs_row.dot(col_vec)), result[r]);
+		}
+	}
 
-	////matrix x (column) vector
-	//{
-	//	Vector<T, COLS> vec{ MakeArrayOfValues<T, COLS>(T{}, max_val) };
-	//	auto result = matrix1 * vec;
-	//	for (size_t r = 0; r < ROWS; r++)
-	//	{
-	//		auto lhsRow = matrix1.Row(r);
-	//		ASSERT_NEAR_EX(lhsRow.Dot(vec), result[r]);
-	//	}
-	//}
-
-	////(row) vector x matrix
-	//{
-	//	Vector<T, ROWS> vec{ MakeArrayOfValues<T, ROWS>(T{}, max_val) };
-	//	auto result = vec * matrix1;
-	//	for (size_t c = 0; c < COLS; c++)
-	//		ASSERT_NEAR_EX(matrix1.Columns[c].Dot(vec), result[c]);
-	//}
+	{
+		INFO("row vector * matrix"sv)
+		const auto row_vec = vector<T, Rows>{ random_array<T, Rows>(min_val, max_val) };
+		const auto result = row_vec * mat1;
+		for (size_t c = 0; c < Columns; c++)
+			CHECK_APPROX_EQUAL(static_cast<T>(mat1.m[c].dot(row_vec)), result[c]);
+	}
 
 	{
 		INFO("matrix * matrix"sv)
