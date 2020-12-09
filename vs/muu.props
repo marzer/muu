@@ -1,19 +1,54 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
 		<BuildInfoJobStartTicks>$([System.DateTime]::Now.Ticks)</BuildInfoJobStartTicks>
 	</PropertyGroup>
 
-	<!-- :: defaults -->
+	<!-- :: muu paths -->
 	<PropertyGroup>
-		<OutDir>$(SolutionDir)..\bin\$(PlatformTarget)\$(Configuration)\</OutDir>
-		<IntDir>$(SolutionDir)..\build\$(ProjectName)_vc$(PlatformToolsetVersion)_$(PlatformTarget)_$(Configuration)_$(ConfigurationType)_$(CustomTargetTag)\</IntDir>
-		<IncludePath>$(SolutionDir)..\include;$(SolutionDir)..\extern;$(IncludePath)</IncludePath>
+		<MuuRepoRoot>$(MSBuildThisFileDirectory)\..\</MuuRepoRoot>
+	</PropertyGroup>
+	<Choose>
+		<When Condition="'$(SolutionName.ToLower())'=='muu'">
+			<PropertyGroup>
+				<MuuOutRoot>$(MuuRepoRoot)</MuuOutRoot>
+			</PropertyGroup>
+		</When>
+		<Otherwise>
+			<PropertyGroup>
+				<MuuOutRoot>$(ProjectDir)</MuuOutRoot>
+			</PropertyGroup>
+		</Otherwise>
+	</Choose>
+
+	<!-- :: project paths and defaults -->
+	<PropertyGroup>
+		<IntDir>$(MuuOutRoot)build\$(ProjectName)_vc$(PlatformToolsetVersion)_$(PlatformTarget)_$(Configuration)_$(ConfigurationType)\</IntDir>
+		<IncludePath>$(MuuRepoRoot)include;$(MuuRepoRoot)extern;$(IncludePath)</IncludePath>
 		<DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
 		<LinkIncremental>false</LinkIncremental>
 		<TargetName>$(ProjectName)</TargetName>
 	</PropertyGroup>
+	<Choose>
+		<When Condition="'$(ConfigurationType)'=='StaticLibrary'">
+			<PropertyGroup>
+				<OutDir>$(MuuOutRoot)lib\vc$(PlatformToolsetVersion)_$(PlatformTarget)_$(Configuration)_$(ConfigurationType)\</OutDir>
+			</PropertyGroup>
+		</When>
+		<When Condition="'$(ConfigurationType)'=='DynamicLibrary'">
+			<PropertyGroup>
+				<OutDir>$(MuuOutRoot)lib\vc$(PlatformToolsetVersion)_$(PlatformTarget)_$(Configuration)_$(ConfigurationType)\</OutDir>
+			</PropertyGroup>
+		</When>
+		<Otherwise>
+			<PropertyGroup>
+				<OutDir>$(MuuOutRoot)bin\$(PlatformTarget)_vc$(PlatformToolsetVersion)_$(Configuration)\</OutDir>
+			</PropertyGroup>
+		</Otherwise>
+	</Choose>
+
+	<!-- :: compiler settings -->
 	<ItemDefinitionGroup>
 		<ClCompile>
 			<BufferSecurityCheck>false</BufferSecurityCheck>
@@ -105,28 +140,6 @@
 		</ClCompile>
 	</ItemDefinitionGroup>
 
-	<!-- :: static libraries -->
-	<PropertyGroup Condition="'$(ConfigurationType)'=='StaticLibrary'">
-		<OutDir>$(SolutionDir)..\lib\Static\</OutDir>
-		<TargetName>$(ProjectName)_vc$(PlatformToolsetVersion)_$(PlatformTarget)</TargetName>
-	</PropertyGroup>
-
-	<!-- :: dynamic libraries -->
-	<PropertyGroup Condition="'$(ConfigurationType)'=='DynamicLibrary'">
-		<OutDir>$(SolutionDir)..\lib\Dynamic\</OutDir>
-		<TargetName>$(ProjectName)_vc$(PlatformToolsetVersion)_$(PlatformTarget)</TargetName>
-	</PropertyGroup>
-
-	<!-- :: inject custom target name tag -->
-	<PropertyGroup Condition="'$(CustomTargetTag)'!=''">
-		<TargetName>$(TargetName)_$(CustomTargetTag)</TargetName>
-	</PropertyGroup>
-
-	<!-- :: debug suffix-->
-	<PropertyGroup Condition="$(Configuration.ToLower().Contains('debug'))">
-		<TargetName>$(TargetName)_$(Configuration)</TargetName>
-	</PropertyGroup>
-	
 	<!-- Report how long each build took -->
 	<Target Name="BuildInfoReportDuration" AfterTargets="Build">
 		<Message	

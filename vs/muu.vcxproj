@@ -51,10 +51,6 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Label="DllExport">
-    <StaticDllExport>false</StaticDllExport>
-    <CustomTargetTag Condition="'$(ConfigurationType)|$(StaticDllExport)'=='StaticLibrary|true'">DllExport</CustomTargetTag>
-  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -66,7 +62,6 @@
     <ClCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);MUU_BUILDING=1</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(ConfigurationType)'=='DynamicLibrary'">%(PreprocessorDefinitions);MUU_DLL=1</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(ConfigurationType)|$(StaticDllExport)'=='StaticLibrary|true'">%(PreprocessorDefinitions);MUU_API=__declspec(dllexport)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
