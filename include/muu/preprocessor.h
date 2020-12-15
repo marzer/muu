@@ -433,6 +433,7 @@
 											MUU_PRAGMA_GCC(diagnostic ignored "-Wcast-align")					\
 											MUU_PRAGMA_GCC(diagnostic ignored "-Wcomment")						\
 											MUU_PRAGMA_GCC(diagnostic ignored "-Wsubobject-linkage")			\
+											MUU_PRAGMA_GCC(diagnostic ignored "-Wuseless-cast")					\
 											MUU_PRAGMA_GCC(diagnostic ignored "-Wtype-limits")
 	#define MUU_POP_WARNINGS				MUU_PRAGMA_GCC(diagnostic pop)
 	#define MUU_DISABLE_WARNINGS			MUU_PUSH_WARNINGS \

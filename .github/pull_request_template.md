@@ -1,7 +1,5 @@
 <!--
     Please replace the HTML comments below with the requested information.
-    Or leave them there and put your answers above/below them; you do you!
-
     Thanks for contributing!
 -->
 
@@ -24,7 +22,7 @@
 **Pre-merge checklist**
 <!--
     Not all of these will necessarily apply, particularly if you're not making a code change (e.g. fixing documentation).
-    That's OK.
+    That's OK. Tick the ones that do by placing an x in them, e.g. [x]
 --->
 - [ ] I've read [CONTRIBUTING.md]
 - [ ] I've added new test cases to verify my change
@@ -33,16 +31,7 @@
     - [ ] Clang 6 or higher
     - [ ] GCC 7 or higher
     - [ ] Visual Studio 2019
-- [ ] I've forever enshrined myself in glory by adding myself to the list of contributors in [README.md](https://github.com/marzer/muu/blob/master/README.md)
-
-
-
-**Anything else?**
-<!--
-    According to all known laws of aviation, there is no way a bee should be able to fly.
-    Its wings are too small to get its fat little body off the ground.
-    The bee, of course, flies anyway, because bees don't care what humans think is impossible.
---->
+- [ ] I've added myself to the list of contributors in [README.md](https://github.com/marzer/muu/blob/master/README.md)
 
 
 

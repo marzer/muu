@@ -13,6 +13,7 @@
 #endif
 
 MUU_PUSH_WARNINGS
+MUU_DISABLE_SPAM_WARNINGS
 MUU_PRAGMA_MSVC(warning(disable: 4556)) // value of intrinsic immediate argument '8' is out of range '0 - 7'
 MUU_PRAGMA_GCC(diagnostic ignored "-Wold-style-cast") // false positive with _mm_load_ss
 

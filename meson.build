@@ -118,6 +118,7 @@ if is_gcc
 			'-Wunreachable-code',
 			'-Wunused',
 			'-Wunused-parameter',
+			'-Wuseless-cast',
 			'-Wvariadic-macros',
 			'-Wwrite-strings',
 			'-Wmissing-noreturn',
@@ -472,7 +473,7 @@ compiler_supports_float128 = compiler.links('''
 	name : 'supports __float128'
 )
 
-if compiler_supports_float128 and is_gcc
+if compiler_supports_float128 and is_gcc and not is_subproject
 	add_global_arguments('-fext-numeric-literals', language : 'cpp')
 endif
 

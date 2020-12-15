@@ -8,8 +8,8 @@ assignees: marzer
 ---
 
 <!--
-    Please replace the HTML comments below with the requested information.
-    Or leave them there and put your answers above/below them; you do you!
+    Replace the HTML comments below with the requested information.
+    DO NOT delete this template and roll your own!
 
     Thanks for contributing!
 -->

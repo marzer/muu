@@ -38,6 +38,7 @@ MUU_PRAGMA_CLANG(diagnostic ignored "-Wdouble-promotion")
 MUU_PRAGMA_GCC(diagnostic ignored "-Wfloat-equal")
 MUU_PRAGMA_GCC(diagnostic ignored "-Wpedantic")
 MUU_PRAGMA_GCC(diagnostic ignored "-Wpadded")
+MUU_PRAGMA_GCC(diagnostic ignored "-Wuseless-cast")
 MUU_PRAGMA_MSVC(warning(disable: 4127)) // conditional expression is constant
 
 MUU_DISABLE_WARNINGS
