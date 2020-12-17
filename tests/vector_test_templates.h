@@ -158,6 +158,18 @@ inline void vector_construction_test_from_larger_vector() noexcept
 }
 
 template <typename T, size_t Dimensions>
+struct blittable
+{
+	T values[Dimensions];
+};
+
+namespace muu
+{
+	template <typename T, size_t Dimensions>
+	inline constexpr bool can_blit<blittable<T, Dimensions>, vector<T, Dimensions>> = true;
+}
+
+template <typename T, size_t Dimensions>
 inline void vector_construction_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("vector<"sv << scalar_typename << ", "sv << Dimensions << ">"sv)
@@ -180,6 +192,16 @@ inline void vector_construction_tests(std::string_view scalar_typename) noexcept
 		vector_t v2{ v1 };
 		for (size_t i = 0; i < vector_t::dimensions; i++)
 			CHECK(v1[i] == v2[i]);
+	}
+
+	{
+		INFO("blitting constructor"sv)
+		blittable<T, Dimensions> v1;
+		for (size_t i = 0; i < vector_t::dimensions; i++)
+			v1.values[i] = random<T>();
+		vector_t v2{ v1 };
+		for (size_t i = 0; i < vector_t::dimensions; i++)
+			CHECK(v1.values[i] == v2[i]);
 	}
 
 	// scalar constructors

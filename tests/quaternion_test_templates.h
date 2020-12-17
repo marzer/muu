@@ -55,6 +55,19 @@ inline constexpr void quat_trait_tests(std::string_view /*scalar_typename*/) noe
 };
 
 template <typename T>
+struct blittable
+{
+	T s;
+	vector<T, 3> v;
+};
+
+namespace muu
+{
+	template <typename T>
+	inline constexpr bool can_blit<blittable<T>, quaternion<T>> = true;
+}
+
+template <typename T>
 inline void quat_construction_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("quaternion<"sv << scalar_typename << ">"sv)
@@ -87,6 +100,17 @@ inline void quat_construction_tests(std::string_view scalar_typename) noexcept
 		INFO("copy constructor")
 
 		quat_t q1{ random<T>(), random<T>(), random<T>(), random<T>() };
+		quat_t q2{ q1 };
+		CHECK(q1.s == q2.s);
+		CHECK(q1.v[0] == q2.v[0]);
+		CHECK(q1.v[1] == q2.v[1]);
+		CHECK(q1.v[2] == q2.v[2]);
+	}
+
+	{
+		INFO("blitting constructor")
+
+		blittable<T> q1{ random<T>(), { random<T>(), random<T>(), random<T>() } };
 		quat_t q2{ q1 };
 		CHECK(q1.s == q2.s);
 		CHECK(q1.v[0] == q2.v[0]);

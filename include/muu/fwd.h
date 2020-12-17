@@ -224,6 +224,40 @@ namespace muu // non-abi namespace; this is not an error
 	/// 		 You can check support using #MUU_HAS_FLOAT128.
 	using float128_t = __float128;
 	#endif
+
+	/// \brief	Tells the library it is permitted to explicitly 'blit' a type to another (via memcpy or similar).
+	/// \ingroup meta 
+	/// 
+	/// \tparam From	The source type.
+	/// \tparam To		The destination type.
+	/// 			 
+	/// \detail \cpp
+	/// 
+	/// struct Foo
+	/// {
+	///		int a, b, c;
+	/// };
+	/// 
+	/// struct Bar
+	/// {
+	///		int values[3];
+	/// };
+	/// 
+	/// namespace muu
+	/// {
+	/// 	template <> inline constexpr bool can_blit<Foo, Bar> = true;
+	/// 	template <> inline constexpr bool can_blit<Bar, Foo> = true;
+	/// };
+	/// 
+	/// \ecpp
+	/// 
+	/// \note You do not need to pepper your codebase with this.
+	/// 	  It is only used in a few highly-specialized situations:
+	/// 	  - muu::vector constructor  
+	/// 	  - muu::quaternion constructor  
+	/// 	  - muu::matrix constructor
+	template <typename From, typename To>
+	inline constexpr bool can_blit = false;
 }
 
 MUU_NAMESPACE_START // abi namespace

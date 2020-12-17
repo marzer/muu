@@ -137,6 +137,18 @@ inline void matrix_construction_test_from_larger_matrix() noexcept
 }
 
 template <typename T, size_t Rows, size_t Columns>
+struct blittable
+{
+	vector<T, Rows> m[Columns];
+};
+
+namespace muu
+{
+	template <typename T, size_t Rows, size_t Columns>
+	inline constexpr bool can_blit<blittable<T, Rows, Columns>, matrix<T, Rows, Columns>> = true;
+}
+
+template <typename T, size_t Rows, size_t Columns>
 inline void matrix_construction_tests(std::string_view scalar_typename) noexcept
 {
 	INFO("matrix<"sv << scalar_typename << ", "sv << Rows << ", "sv << Columns << ">"sv)
@@ -163,6 +175,19 @@ inline void matrix_construction_tests(std::string_view scalar_typename) noexcept
 		for (size_t r = 0; r < Rows; r++)
 			for (size_t c = 0; c < Columns; c++)
 				CHECK(m1(r, c) == m2(r, c));
+	}
+
+	{
+		INFO("blitting constructor"sv)
+		blittable<T, Rows, Columns> m1;
+		for (size_t r = 0; r < Rows; r++)
+			for (size_t c = 0; c < Columns; c++)
+				m1.m[c][r] = random<T>(1, 5);
+
+		matrix_t m2{ m1 };
+		for (size_t r = 0; r < Rows; r++)
+			for (size_t c = 0; c < Columns; c++)
+				CHECK(m1.m[c][r] == m2(r, c));
 	}
 
 	// scalar constructors

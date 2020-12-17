@@ -117,6 +117,13 @@ MUU_IMPL_NAMESPACE_START
 }
 MUU_IMPL_NAMESPACE_END
 
+namespace muu
+{
+	template <typename From, typename Scalar>
+	inline constexpr bool can_blit<From, impl::quaternion_base<Scalar>>
+		= can_blit<From, quaternion<Scalar>>;
+}
+
 #endif // !DOXYGEN
 
 #if !defined(DOXYGEN) && !MUU_INTELLISENSE
@@ -477,6 +484,30 @@ MUU_NAMESPACE_START
 		constexpr quaternion(const euler_type& euler) noexcept
 			: quaternion{ from_euler(euler) }
 		{}
+
+		/// \brief Constructs a quaternion from an explicitly-blittable type.
+		/// 
+		/// \tparam T	A blittable type.
+		/// 
+		/// \see muu::can_blit
+		template <typename T
+			MUU_ENABLE_IF(can_blit<T, quaternion>)
+		>
+		MUU_REQUIRES(can_blit<T, quaternion>)
+		MUU_NODISCARD_CTOR
+		explicit
+		constexpr quaternion(const T& blittable) noexcept
+			: base{ bit_cast<base>(blittable) }
+		{
+			static_assert(
+				sizeof(T) == sizeof(base),
+				"Blittable types must be the same size as the quaternion"
+			);
+			static_assert(
+				std::is_trivially_copyable_v<T>,
+				"Blittable types must be trivially-copyable"
+			);
+		}
 
 	#endif // constructors
 

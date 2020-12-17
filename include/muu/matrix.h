@@ -132,6 +132,7 @@ MUU_IMPL_NAMESPACE_START
 		vector<Scalar, Rows> m[Columns];
 
 		matrix_base() noexcept = default;
+		constexpr matrix_base(const matrix_base&) noexcept = default;
 
 	private:
 
@@ -374,6 +375,13 @@ MUU_IMPL_NAMESPACE_START
 	#undef MAT_GET
 }
 MUU_IMPL_NAMESPACE_END
+
+namespace muu
+{
+	template <typename From, typename Scalar, size_t Rows, size_t Columns>
+	inline constexpr bool can_blit<From, impl::matrix_base<Scalar, Rows, Columns>>
+		= can_blit<From, matrix<Scalar, Rows, Columns>>;
+}
 
 #else // ^^^ !DOXYGEN / DOXYGEN vvv
 
@@ -667,6 +675,30 @@ MUU_NAMESPACE_START
 		constexpr matrix(const matrix<S, R, C>& mat) noexcept
 			: base{ impl::columnwise_copy_tag{}, std::make_index_sequence<(C < Columns ? C : Columns)>{}, mat.m }
 		{}
+
+		/// \brief Constructs a matrix from an explicitly-blittable type.
+		/// 
+		/// \tparam T	A blittable type.
+		/// 
+		/// \see muu::can_blit
+		template <typename T
+		MUU_ENABLE_IF(can_blit<T, matrix>)
+		>
+		MUU_REQUIRES(can_blit<T, matrix>)
+		MUU_NODISCARD_CTOR
+		explicit
+		constexpr matrix(const T& blittable) noexcept
+			: base{ bit_cast<base>(blittable) }
+		{
+			static_assert(
+				sizeof(T) == sizeof(base),
+				"Blittable types must be the same size as the matrix"
+			);
+			static_assert(
+				std::is_trivially_copyable_v<T>,
+				"Blittable types must be trivially-copyable"
+			);
+		}
 
 		#if ENABLE_PAIRED_FUNCS
 

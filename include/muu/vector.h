@@ -250,6 +250,7 @@ MUU_IMPL_NAMESPACE_START
 		Scalar values[Dimensions];
 
 		vector_base() noexcept = default;
+		constexpr vector_base(const vector_base&) noexcept = default;
 
 		explicit
 		constexpr vector_base(zero_fill_tag) noexcept
@@ -371,6 +372,7 @@ MUU_IMPL_NAMESPACE_START
 		Scalar x;
 
 		vector_base() noexcept = default;
+		constexpr vector_base(const vector_base&) noexcept = default;
 
 		explicit
 		constexpr vector_base(zero_fill_tag) noexcept
@@ -427,6 +429,7 @@ MUU_IMPL_NAMESPACE_START
 		Scalar y;
 
 		vector_base() noexcept = default;
+		constexpr vector_base(const vector_base&) noexcept = default;
 
 		explicit
 		constexpr vector_base(zero_fill_tag) noexcept
@@ -515,6 +518,7 @@ MUU_IMPL_NAMESPACE_START
 		Scalar z;
 
 		vector_base() noexcept = default;
+		constexpr vector_base(const vector_base&) noexcept = default;
 
 		explicit
 		constexpr vector_base(zero_fill_tag) noexcept
@@ -607,6 +611,7 @@ MUU_IMPL_NAMESPACE_START
 		Scalar w;
 
 		vector_base() noexcept = default;
+		constexpr vector_base(const vector_base&) noexcept = default;
 
 		explicit
 		constexpr vector_base(zero_fill_tag) noexcept
@@ -856,6 +861,12 @@ MUU_IMPL_NAMESPACE_START
 }
 MUU_IMPL_NAMESPACE_END
 
+namespace muu
+{
+	template <typename From, typename Scalar, size_t Dimensions>
+	inline constexpr bool can_blit<From, impl::vector_base<Scalar, Dimensions>>
+		= can_blit<From, vector<Scalar, Dimensions>>;
+}
 
 #else // ^^^ !DOXYGEN / DOXYGEN vvv
 
@@ -1166,20 +1177,57 @@ MUU_NAMESPACE_START
 			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, arr }
 		{}
 
-		/// \brief Constructs a vector from any tuple-like type.
+		/// \brief Constructs a vector from any tuple-like or explicitly-blittable type.
 		/// 
-		/// \tparam T			A tuple-like type.
+		/// \tparam T	A tuple-like or explicitly-blittable type.
 		/// 
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
+		/// 
+		/// \see muu::can_blit
 		template <typename T
-			ENABLE_IF_DIMENSIONS_AT_LEAST_AND(tuple_size<T>, is_tuple_like<T>)
+			ENABLE_IF_DIMENSIONS_AT_LEAST_AND(
+				tuple_size<T>,
+				(is_tuple_like<T> && (!can_blit<T, vector> || !build::supports_constexpr_bit_cast))
+			)
 		>
-		REQUIRES_DIMENSIONS_AT_LEAST_AND(tuple_size<T>, is_tuple_like<T>)
+		REQUIRES_DIMENSIONS_AT_LEAST_AND(
+			tuple_size<T>,
+			(is_tuple_like<T> && (!can_blit<T, vector> || !build::supports_constexpr_bit_cast))
+		)
 		MUU_NODISCARD_CTOR
 		explicit
 		constexpr vector(const T& tuple) noexcept
 			: base{ impl::tuple_cast_tag{}, std::make_index_sequence<tuple_size<T>>{}, tuple }
 		{}
+
+		#ifndef DOXYGEN
+
+		template <typename T
+			MUU_ENABLE_IF(
+				can_blit<T, vector>
+				&& (!is_tuple_like<T> || (tuple_size<T> > Dimensions) || build::supports_constexpr_bit_cast)
+			)
+		>
+		MUU_REQUIRES(
+			can_blit<T, vector>
+			&& (!is_tuple_like<T> || (tuple_size<T> > Dimensions) || build::supports_constexpr_bit_cast)
+		)
+		MUU_NODISCARD_CTOR
+		explicit
+		constexpr vector(const T& blittable) noexcept
+			: base{ bit_cast<base>(blittable) }
+		{
+			static_assert(
+				sizeof(T) == sizeof(base),
+				"Blittable types must be the same size as the vector"
+			);
+			static_assert(
+				std::is_trivially_copyable_v<T>,
+				"Blittable types must be trivially-copyable"
+			);
+		}
+
+		#endif // DOXYGEN
 
 		/// \brief Enlarging/truncating/converting constructor.
 		/// \details Copies source vector's scalar components, casting if necessary:
