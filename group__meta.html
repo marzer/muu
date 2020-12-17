@@ -319,6 +319,11 @@ C++</span></a>
             </dt>
             <dd>Are any of the named types unsigned or reference-to-unsigned?</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename From, typename To&gt;</div>
+              bool <a class="m-doc" href="#ga3504b74625d918b08482aa3d1cc6741b">can_blit</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Tells the library it is permitted to explicitly 'blit' a type to another (via memcpy or similar).</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="#gafc3c409c2d08bc8913db5ad46a84e0b9">has_arrow_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
@@ -932,6 +937,46 @@ C++</span></a>
             </h3>
             <p>Are any of the named types unsigned or reference-to-unsigned?</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums backed by unsigned integers.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga3504b74625d918b08482aa3d1cc6741b"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="fwd_8h.html">&lt;muu/fwd.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename From, typename To&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga3504b74625d918b08482aa3d1cc6741b">can_blit</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Tells the library it is permitted to explicitly 'blit' a type to another (via memcpy or similar).</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">From</td>
+                  <td>The source type.</td>
+                </tr>
+                <tr>
+                  <td>To</td>
+                  <td>The destination type.</td>
+                </tr>
+              </tbody>
+            </table>
+<pre class="m-code"><span class="k">struct</span> <span class="n">Foo</span>
+<span class="p">{</span>
+    <span class="ut">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">Bar</span>
+<span class="p">{</span>
+    <span class="ut">int</span> <span class="n">values</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+<span class="p">};</span>
+
+<span class="k">namespace</span> <span class="n">muu</span>
+<span class="p">{</span>
+    <span class="k">template</span> <span class="o">&lt;&gt;</span> <span class="kr">inline</span> <span class="k">constexpr</span> <span class="ut">bool</span> <span class="n">can_blit</span><span class="o">&lt;</span><span class="n">Foo</span><span class="p">,</span> <span class="n">Bar</span><span class="o">&gt;</span> <span class="o">=</span> <span class="k">true</span><span class="p">;</span>
+    <span class="k">template</span> <span class="o">&lt;&gt;</span> <span class="kr">inline</span> <span class="k">constexpr</span> <span class="ut">bool</span> <span class="n">can_blit</span><span class="o">&lt;</span><span class="n">Bar</span><span class="p">,</span> <span class="n">Foo</span><span class="o">&gt;</span> <span class="o">=</span> <span class="k">true</span><span class="p">;</span>
+<span class="p">};</span></pre><aside class="m-note m-info"><h4>Note</h4><p>You do not need to pepper your codebase with this. It is only used in a few highly-specialized situations:</p><ul><li><a class="m-doc" href="structmuu_1_1vector.html">muu::<wbr/>vector</a> constructor<br/></li><li><a class="m-doc" href="structmuu_1_1quaternion.html">muu::<wbr/>quaternion</a> constructor<br/></li><li><a class="m-doc" href="structmuu_1_1matrix.html">muu::<wbr/>matrix</a> constructor</li></ul></aside>
           </div></section>
           <section class="m-doc-details" id="gafc3c409c2d08bc8913db5ad46a84e0b9"><div>
             <h3>
