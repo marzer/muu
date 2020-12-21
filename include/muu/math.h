@@ -137,9 +137,6 @@ MUU_NAMESPACE_START
 		{};	
 
 		template <typename T>
-		using has_member_infinity_or_nan_ = decltype(std::declval<T>().infinity_or_nan());
-
-		template <typename T>
 		[[nodiscard]]
 		MUU_ATTR(const)
 		constexpr bool MUU_VECTORCALL infinity_or_nan_(T val) noexcept
@@ -164,6 +161,28 @@ MUU_NAMESPACE_START
 			}
 
 		}
+
+		template <typename T>
+		using has_static_infinity_or_nan_ = decltype(static_cast<bool>(T::infinity_or_nan(std::declval<const T&>())));
+
+		template <typename T>
+		using has_member_infinity_or_nan_ = decltype(static_cast<bool>(std::declval<const T&>().infinity_or_nan()));
+
+		template <typename T>
+		inline constexpr bool has_builtin_infinity_or_nan = false;
+		template <typename T, size_t D>
+		inline constexpr bool has_builtin_infinity_or_nan<vector<T, D>> = true;
+		template <typename T>
+		inline constexpr bool has_builtin_infinity_or_nan<quaternion<T>> = true;
+		template <typename T, size_t R, size_t C>
+		inline constexpr bool has_builtin_infinity_or_nan<matrix<T, R, C>> = true;
+
+		template <typename T>
+		inline constexpr bool has_specialized_infinity_or_nan =
+			(std::is_class_v<T> || std::is_union_v<T>)
+			&& !has_builtin_infinity_or_nan<remove_cvref<T>>
+			&& (impl::is_detected<impl::has_static_infinity_or_nan_, T>
+				|| impl::is_detected<impl::has_member_infinity_or_nan_, T>);
 
 		MUU_PRAGMA_GCC(pop_options) // -fno-finite-math-only
 	}
@@ -249,16 +268,19 @@ MUU_NAMESPACE_START
 	/// \tparam	T		The object type.
 	/// \param 	obj		The object.
 	///
-	/// \returns	The return value of `obj.infinity_or_nan()`.
+	/// \returns	The result `T::infinity_or_nan(obj)` or `obj.infinity_or_nan()` (coerced to bool).
 	template <typename T
-		MUU_ENABLE_IF(!is_arithmetic<T> && impl::is_detected<impl::has_member_infinity_or_nan_, const T&>)
+		MUU_ENABLE_IF_2(impl::has_specialized_infinity_or_nan<T>)
 	>
-	MUU_REQUIRES(!is_arithmetic<T> && impl::is_detected<impl::has_member_infinity_or_nan_, const T&>)
+	MUU_REQUIRES(impl::has_specialized_infinity_or_nan<T>)
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	constexpr bool infinity_or_nan(const T& obj) noexcept
 	{
-		return obj.infinity_or_nan();
+		if constexpr (impl::is_detected<impl::has_static_infinity_or_nan_, T>)
+			return static_cast<bool>(T::infinity_or_nan(obj));
+		else
+			return static_cast<bool>(obj.infinity_or_nan());
 	}
 
 	/** @} */	// math::infinity_or_nan
