@@ -286,16 +286,6 @@ C++</span></a>
             <dd>Constructs a vector from a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a1d454f74f8e69ac8e5c6a071597c933c">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/span" target="_blank">std::span</a>&lt;T, dynamic_extent&gt;&amp; vals) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a vector from a dynamically-sized C++20 <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/span" target="_blank">std::span</a> (if available).</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a6e4a649d4dc28a6dbd60575219770e34">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/span" target="_blank">std::span</a>&lt;T, N&gt;&amp; vals) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a vector from a statically-sized C++20 <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/span" target="_blank">std::span</a> (if available).</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="#ae2d83b72097aa70dd74a627506ab26c6">vector</a>(</span><span class="m-doc-wrap">const T&amp; tuple) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a vector from any tuple-like or explicitly-blittable type.</dd>
@@ -1203,70 +1193,6 @@ template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https:/
                 <tr>
                   <td>arr</td>
                   <td>Array of values used to initialize the vector's scalar components.</td>
-                </tr>
-              </tbody>
-            </table>
-<p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p>
-          </div></section>
-          <section class="m-doc-details" id="a1d454f74f8e69ac8e5c6a071597c933c"><div>
-            <h3>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;<br/>
-template&lt;typename T&gt;
-              </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a1d454f74f8e69ac8e5c6a071597c933c">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/span" target="_blank">std::span</a>&lt;T, dynamic_extent&gt;&amp; vals) <span class="m-label m-info">explicit</span>  <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Constructs a vector from a dynamically-sized C++20 <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/span" target="_blank">std::span</a> (if available).</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Template parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">T</td>
-                  <td>Type convertible to <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>.</td>
-                </tr>
-              </tbody>
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>vals</td>
-                  <td>A span representing the values to copy.</td>
-                </tr>
-              </tbody>
-            </table>
-<p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p>
-          </div></section>
-          <section class="m-doc-details" id="a6e4a649d4dc28a6dbd60575219770e34"><div>
-            <h3>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;<br/>
-template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;
-              </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a6e4a649d4dc28a6dbd60575219770e34">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/span" target="_blank">std::span</a>&lt;T, N&gt;&amp; vals) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Constructs a vector from a statically-sized C++20 <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/span" target="_blank">std::span</a> (if available).</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Template parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">T</td>
-                  <td>Type convertible to <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>.</td>
-                </tr>
-                <tr>
-                  <td>N</td>
-                  <td>The number of elements covered by the span.</td>
-                </tr>
-              </tbody>
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>vals</td>
-                  <td>A span representing the values to copy.</td>
                 </tr>
               </tbody>
             </table>
