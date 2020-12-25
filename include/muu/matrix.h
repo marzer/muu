@@ -132,7 +132,6 @@ MUU_IMPL_NAMESPACE_START
 		vector<Scalar, Rows> m[Columns];
 
 		matrix_base() noexcept = default;
-		constexpr matrix_base(const matrix_base&) noexcept = default;
 
 	private:
 

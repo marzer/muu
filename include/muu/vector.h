@@ -250,7 +250,6 @@ MUU_IMPL_NAMESPACE_START
 		Scalar values[Dimensions];
 
 		vector_base() noexcept = default;
-		constexpr vector_base(const vector_base&) noexcept = default;
 
 		explicit
 		constexpr vector_base(zero_fill_tag) noexcept
@@ -372,7 +371,6 @@ MUU_IMPL_NAMESPACE_START
 		Scalar x;
 
 		vector_base() noexcept = default;
-		constexpr vector_base(const vector_base&) noexcept = default;
 
 		explicit
 		constexpr vector_base(zero_fill_tag) noexcept
@@ -429,7 +427,6 @@ MUU_IMPL_NAMESPACE_START
 		Scalar y;
 
 		vector_base() noexcept = default;
-		constexpr vector_base(const vector_base&) noexcept = default;
 
 		explicit
 		constexpr vector_base(zero_fill_tag) noexcept
@@ -518,7 +515,6 @@ MUU_IMPL_NAMESPACE_START
 		Scalar z;
 
 		vector_base() noexcept = default;
-		constexpr vector_base(const vector_base&) noexcept = default;
 
 		explicit
 		constexpr vector_base(zero_fill_tag) noexcept
@@ -611,7 +607,6 @@ MUU_IMPL_NAMESPACE_START
 		Scalar w;
 
 		vector_base() noexcept = default;
-		constexpr vector_base(const vector_base&) noexcept = default;
 
 		explicit
 		constexpr vector_base(zero_fill_tag) noexcept
@@ -1361,41 +1356,6 @@ MUU_NAMESPACE_START
 		constexpr vector(const muu::span<T>& vals) noexcept
 			: vector{ vals.data(), vals.size() }
 		{}
-
-		#ifdef __cpp_lib_span
-
-		/// \brief Constructs a vector from a statically-sized C++20 std::span (if available).
-		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
-		/// 
-		/// \tparam T			Type convertible to #scalar_type.
-		/// \tparam N			The number of elements covered by the span.
-		/// \param	vals		A span representing the values to copy.
-		template <typename T, size_t N
-			ENABLE_IF_DIMENSIONS_AT_LEAST_AND(N, all_convertible_to<scalar_type, T> && N != dynamic_extent)
-		>
-		REQUIRES_DIMENSIONS_AT_LEAST_AND(N, all_convertible_to<scalar_type, T>&& N != dynamic_extent)
-		MUU_NODISCARD_CTOR
-		explicit
-		constexpr vector(const std::span<T, N>& vals) noexcept
-			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, vals }
-		{}
-
-		/// \brief Constructs a vector from a dynamically-sized C++20 std::span (if available).
-		/// \details			Any scalar components not covered by the constructor's parameters are initialized to zero.
-		/// 
-		/// \tparam T			Type convertible to #scalar_type.
-		/// \param	vals		A span representing the values to copy.
-		template <typename T
-			MUU_ENABLE_IF(all_convertible_to<scalar_type, T>)
-		>
-		MUU_REQUIRES(all_convertible_to<scalar_type, T>)
-		MUU_NODISCARD_CTOR
-		explicit
-		vector(const std::span<T, dynamic_extent>& vals) noexcept
-			: vector{ vals.data(), vals.size() }
-		{}
-
-		#endif // __cpp_lib_span
 
 		#if ENABLE_PAIRED_FUNCS
 
@@ -3161,11 +3121,6 @@ MUU_NAMESPACE_START
 
 	template <typename T, size_t N MUU_ENABLE_IF(N != dynamic_extent)> MUU_REQUIRES(N != dynamic_extent)
 	vector(const muu::span<T, N>&) -> vector<T, N>;
-
-	#ifdef __cpp_lib_span
-	template <typename T, size_t N MUU_ENABLE_IF(N != dynamic_extent)> MUU_REQUIRES(N != dynamic_extent)
-	vector(const std::span<T, N>&) -> vector<T, N>;
-	#endif
 
 	#endif // deduction guides
 }

@@ -301,7 +301,7 @@
 
 #if MUU_MSVC || MUU_ICC_CL
 
-	#define MUU_CPP_VERSION					_MSVC_LANG
+	#define MUU_CPP							_MSVC_LANG
 	#if MUU_MSVC // !intel-cl
 		#define MUU_PRAGMA_MSVC(...)		__pragma(__VA_ARGS__)
 		#define MUU_PUSH_WARNINGS			__pragma(warning(push))
@@ -315,12 +315,12 @@
 		#define MUU_ENABLE_WARNINGS			MUU_POP_WARNINGS
 	#endif
 	#define MUU_DECLSPEC(...)				__declspec(__VA_ARGS__)
-	#define MUU_ALIGN(alignment)			MUU_DECLSPEC(align(alignment))
+	#define MUU_ALIGN(alignment)			__declspec(align(alignment))
 	#define MUU_ALWAYS_INLINE				__forceinline
 	#define MUU_NEVER_INLINE				__declspec(noinline)
 	#define MUU_ASSUME(cond)				__assume(cond)
 	#define MUU_UNREACHABLE					__assume(0)
-	#if !MUU_INTELLISENSE
+	#if 1 // !MUU_INTELLISENSE
 		#define MUU_INTERFACE				__declspec(novtable)
 		#define MUU_EMPTY_BASES				__declspec(empty_bases)
 	#endif
@@ -500,21 +500,24 @@
 // ATTRIBUTES, UTILITY MACROS ETC
 //=====================================================================================================================
 
-#ifndef MUU_CPP_VERSION
-	#define MUU_CPP_VERSION __cplusplus
+#ifndef MUU_CPP
+	#define MUU_CPP __cplusplus
 #endif
-#if MUU_CPP_VERSION >= 202600L
+#if MUU_CPP >= 202600L
+	#undef MUU_CPP
 	#define MUU_CPP 26
-#elif MUU_CPP_VERSION >= 202300L
+#elif MUU_CPP >= 202300L
+	#undef MUU_CPP
 	#define MUU_CPP 23
-#elif MUU_CPP_VERSION >= 202002L
+#elif MUU_CPP >= 202002L
+	#undef MUU_CPP
 	#define MUU_CPP 20
-#elif MUU_CPP_VERSION >= 201703L
+#elif MUU_CPP >= 201703L
+	#undef MUU_CPP
 	#define MUU_CPP 17
 #else
 	#error muu requires C++17 or higher.
 #endif
-#undef MUU_CPP_VERSION
 
 #ifdef __has_include
 	#define MUU_HAS_INCLUDE(header)		__has_include(header)
@@ -653,7 +656,7 @@
 
 #define MUU_NO_DEFAULT_CASE				default: MUU_UNREACHABLE
 
-#if !defined(DOXYGEN) && !MUU_INTELLISENSE
+#if !defined(DOXYGEN) // && !MUU_INTELLISENSE
 	#if !defined(MUU_LIKELY) && __has_cpp_attribute(likely)
 		#define MUU_LIKELY(...)	(__VA_ARGS__) [[likely]]
 	#endif
@@ -694,7 +697,7 @@
 	#define MUU_VECTORCALL
 #endif
 
-#if defined(__cpp_consteval) && !MUU_INTELLISENSE
+#if defined(__cpp_consteval) // && !MUU_INTELLISENSE
 	#define MUU_CONSTEVAL				consteval
 #else
 	#define MUU_CONSTEVAL				constexpr

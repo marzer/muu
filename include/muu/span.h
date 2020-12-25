@@ -12,9 +12,6 @@
 
 MUU_DISABLE_WARNINGS
 #include <iterator>
-#ifdef __cpp_lib_span
-	#include <span>
-#endif
 MUU_ENABLE_WARNINGS
 
 MUU_NAMESPACE_START
@@ -252,45 +249,6 @@ MUU_NAMESPACE_START
 
 			/// \brief Copy-assignment operator.
 			constexpr span& operator=(const span&) noexcept = default;
-
-			#ifdef __cpp_lib_span
-
-			/// \brief Constructs a muu::span from a C++20 std::span (if available).
-			template <typename U, size_t E
-				MUU_ENABLE_IF(
-					impl::is_qualifier_conversion_only<U, element_type>
-					&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
-				)
-			>
-			MUU_REQUIRES(
-				impl::is_qualifier_conversion_only<U, element_type>
-				&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
-			)
-			MUU_NODISCARD_CTOR
-			explicit
-			constexpr span(const std::span<U, E>& s) noexcept
-				: ptr_and_size{ pointer_cast<pointer>(s.data()), s.size() }
-			{}
-
-			/// \brief Constructs a C++20 std::span from a muu::span (if std::span is available).
-			template <typename U, size_t E
-				MUU_ENABLE_IF(
-					impl::is_qualifier_conversion_only<U, element_type>
-					&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
-				)
-			>
-			MUU_REQUIRES(
-				impl::is_qualifier_conversion_only<U, element_type>
-				&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
-			)
-			[[nodiscard]]
-			/* implicit */
-			constexpr operator std::span<U, E>() const noexcept
-			{
-				return std::span<U, E>{ data(), size() };
-			}
-
-			#endif // __cpp_lib_span
 
 			/// \brief Returns the number of elements covered by the span.
 			[[nodiscard]]

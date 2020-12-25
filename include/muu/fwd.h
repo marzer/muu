@@ -23,9 +23,6 @@ namespace std
 {
 	template <typename>				struct	pointer_traits;
 	template <typename, size_t>		class	array;
-	#ifdef __cpp_lib_span
-	template <typename, size_t>		class	span;
-	#endif
 }
 
 #if MUU_WINDOWS
