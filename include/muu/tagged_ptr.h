@@ -102,7 +102,7 @@ MUU_IMPL_NAMESPACE_START
 				return (bits & ptr_mask) | static_cast<uintptr_t>(tag);
 		}
 
-		template <typename T, std::enable_if_t<!is_unsigned<T>>* = nullptr>
+		template <typename T MUU_ENABLE_IF_2(!is_unsigned<T>)> MUU_REQUIRES(!is_unsigned<T>)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static uintptr_t set_tag(uintptr_t bits, const T& tag) noexcept
