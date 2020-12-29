@@ -369,6 +369,11 @@ C++</span></a>
             </dt>
             <dd>Is a type const, volatile, or a reference?</dd>
             <dt>
+              <div class="m-doc-template">template&lt;template&lt;typename...&gt; typename Trait, typename... Args&gt;</div>
+              auto <a class="m-doc" href="#gab4f017e4e9376c59602a97b3e725389c">is_detected</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Detects if a type supports an interface.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="#gaf1d5da5278f527b501cecffdd38e2e7d">is_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
@@ -1071,6 +1076,17 @@ C++</span></a>
               bool <a class="m-doc-self" href="#ga21f392701d987b745866ab36fa3c6242">is_cvref</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Is a type const, volatile, or a reference?</p>
+          </div></section>
+          <section class="m-doc-details" id="gab4f017e4e9376c59602a97b3e725389c"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;template&lt;typename...&gt; typename Trait, typename... Args&gt;
+              </div>
+              auto <a class="m-doc-self" href="#gab4f017e4e9376c59602a97b3e725389c">is_detected</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Detects if a type supports an interface.</p>
+<aside class="m-note m-default"><h4>See also</h4><ul><li><a class="muu-external" href="https://blog.tartanllama.xyz/detection-idiom/" target="_blank">Detection Idiom</a></li><li><a class="muu-external" href="https://en.cppreference.com/w/cpp/experimental/is_detected" target="_blank">std::<wbr/>experimental::<wbr/>is_detected</a></li></ul></aside>
           </div></section>
           <section class="m-doc-details" id="gaf1d5da5278f527b501cecffdd38e2e7d"><div>
             <h3>
