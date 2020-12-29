@@ -214,7 +214,7 @@ MUU_IMPL_NAMESPACE_START
 
 			// store callable
 			if constexpr (traits::storage_mode == callable_storage_modes::stored_directly)
-				new (callable_buffer) callable_type{ static_cast<T&&>(callable_) };
+				::new (static_cast<void*>(callable_buffer)) callable_type{ static_cast<T&&>(callable_) };
 			else if constexpr (traits::storage_mode == callable_storage_modes::pointer_to_heap)
 			{
 				auto ptr = new callable_type{ static_cast<T&&>(callable_) };
@@ -274,13 +274,13 @@ MUU_IMPL_NAMESPACE_START
 								memcpy(&action.task.callable_buffer, action.data.source->callable_buffer, sizeof(callable_type));
 							else if constexpr (std::is_move_constructible_v<callable_type>)
 							{
-								new (action.task.callable_buffer) callable_type{ std::move(
+								::new (static_cast<void*>(action.task.callable_buffer)) callable_type{ std::move(
 									*launder(reinterpret_cast<callable_type*>(action.data.source->callable_buffer))
 								) };
 							}
 							else
 							{
-								new (action.task.callable_buffer) callable_type{
+								::new (static_cast<void*>(action.task.callable_buffer)) callable_type{
 									*launder(reinterpret_cast<callable_type*>(action.data.source->callable_buffer))
 								};
 							}
@@ -415,7 +415,7 @@ MUU_NAMESPACE_START
 			template <typename T>
 			void enqueue(size_t queue_index, T&& task) noexcept
 			{
-				new (assume_aligned<impl::thread_pool_task_granularity>(acquire(queue_index))) impl::thread_pool_task{ static_cast<T&&>(task) };
+				::new (assume_aligned<impl::thread_pool_task_granularity>(acquire(queue_index))) impl::thread_pool_task{ static_cast<T&&>(task) };
 			}
 
 			MUU_API

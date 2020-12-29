@@ -407,11 +407,11 @@ MUU_IMPL_NAMESPACE_START
 	};
 
 	template <template <typename...> typename Trait, typename Enabler, typename... Args>
-	struct is_detected_ : std::false_type {};
+	struct is_detected_impl : std::false_type {};
 	template <template <typename...> typename Trait, typename... Args>
-	struct is_detected_<Trait, std::void_t<Trait<Args...>>, Args...> : std::true_type {};
+	struct is_detected_impl<Trait, std::void_t<Trait<Args...>>, Args...> : std::true_type {};
 	template <template <typename...> typename Trait, typename... Args>
-	inline constexpr auto is_detected = is_detected_<Trait, void, Args...>::value;
+	inline constexpr auto is_detected_ = is_detected_impl<Trait, void, Args...>::value;
 
 	template <typename T>
 	using has_arrow_operator_ = decltype(std::declval<T>().operator->());
@@ -425,7 +425,7 @@ MUU_IMPL_NAMESPACE_START
 	template <typename T>
 	using has_tuple_get_member_ = decltype(std::declval<T>().template get<0>());
 
-	template <typename T, bool = is_detected<has_tuple_size_, T>>
+	template <typename T, bool = is_detected_<has_tuple_size_, T>>
 	struct tuple_size_ : std::tuple_size<T>{};
 	template <typename T>
 	struct tuple_size_<T, false>
@@ -439,7 +439,7 @@ MUU_IMPL_NAMESPACE_START
 	MUU_ATTR(pure)
 	constexpr decltype(auto) get_from_tuple_like(T&& tuple_like) noexcept
 	{
-		if constexpr (is_detected<has_tuple_get_member_, T&&>)
+		if constexpr (is_detected_<has_tuple_get_member_, T&&>)
 		{
 			return static_cast<T&&>(tuple_like).template get<I>();
 		}
@@ -838,14 +838,21 @@ MUU_NAMESPACE_START
 	template <typename T>
 	inline constexpr size_t pointer_rank = impl::pointer_rank_<T>::value;
 
+	/// \brief Detects if a type supports an interface.
+	/// \see 
+	///		- [Detection Idiom](https://blog.tartanllama.xyz/detection-idiom/)
+	///		- [std::experimental::is_detected](https://en.cppreference.com/w/cpp/experimental/is_detected)
+	template <template <typename...> typename Trait, typename... Args>
+	inline constexpr auto is_detected = impl::is_detected_<Trait, Args...>;
+
 	/// \brief Returns true if the type has an arrow operator.
 	template <typename T>
-	inline constexpr bool has_arrow_operator = impl::is_detected<impl::has_arrow_operator_, T>
+	inline constexpr bool has_arrow_operator = is_detected<impl::has_arrow_operator_, T>
 		|| (std::is_pointer_v<T> && (std::is_class_v<std::remove_pointer_t<T>> || std::is_union_v<std::remove_pointer_t<T>>));
 
 	/// \brief Returns true if the type has a unary plus operator.
 	template <typename T>
-	inline constexpr bool has_unary_plus_operator = impl::is_detected<impl::has_unary_plus_operator_, T>;
+	inline constexpr bool has_unary_plus_operator = is_detected<impl::has_unary_plus_operator_, T>;
 
 	/// \brief Aliases a std::aligned_storage_t with a size and alignment capable of representing all the named types.
 	template <typename... T>
@@ -853,9 +860,9 @@ MUU_NAMESPACE_START
 
 	/// \brief Returns true if the type implements std::tuple_size and std::tuple_element.
 	template <typename T>
-	inline constexpr bool is_tuple_like = impl::is_detected<impl::has_tuple_size_, T>
-		&& impl::is_detected<impl::has_tuple_element_, T>
-		//&& impl::is_detected<impl::has_tuple_get_member_, T>
+	inline constexpr bool is_tuple_like = is_detected<impl::has_tuple_size_, T>
+		&& is_detected<impl::has_tuple_element_, T>
+		//&& is_detected<impl::has_tuple_get_member_, T>
 	;
 
 	/// \brief Equivalent to std::tuple_size_v, but safe to use in SFINAE contexts.
@@ -3449,7 +3456,7 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	constexpr auto to_address(const Ptr& p) noexcept
 	{
-		if constexpr (impl::is_detected<impl::has_pointer_traits_to_address_, Ptr>)
+		if constexpr (is_detected<impl::has_pointer_traits_to_address_, Ptr>)
 		{
 			return std::pointer_traits<Ptr>::to_address(p);
 		}

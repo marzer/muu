@@ -71,7 +71,7 @@ namespace
 
 		using type = std::basic_string_view<Char>;
 		mode_ = unwrap(mode_of<type>);
-		new (&storage) type{ str };
+		::new (static_cast<void*>(&storage)) type{ str };
 	}
 
 	template <typename T, typename Char>
@@ -82,7 +82,7 @@ namespace
 
 		using type = std::basic_string_view<Char>;
 		mode_ = unwrap(mode_of<type>);
-		new (&storage) type{ str };
+		::new (static_cast<void*>(&storage)) type{ str };
 	}
 
 	template <typename T, typename Char>
@@ -93,7 +93,7 @@ namespace
 
 		using type = std::basic_string_view<Char>;
 		mode_ = unwrap(mode_of<type>);
-		new (&storage) type{ str, len };
+		::new (static_cast<void*>(&storage)) type{ str, len };
 	}
 
 	template <typename T, typename Char>
@@ -108,7 +108,7 @@ namespace
 
 		using type = std::basic_string_view<Char>;
 		mode_ = unwrap(mode_of<type>);
-		new (&storage) type{ str, len };
+		::new (static_cast<void*>(&storage)) type{ str, len };
 	}
 
 	template <typename T, typename Char>
@@ -119,7 +119,7 @@ namespace
 			return nullptr;
 
 		mode_ = unwrap(mode_of<type>);
-		return new (&storage) type( std::move(str) );
+		return ::new (static_cast<void*>(&storage)) type( std::move(str) );
 	}
 
 	template <mode Mode, typename T>

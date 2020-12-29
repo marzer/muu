@@ -82,7 +82,7 @@ MUU_NAMESPACE_START
 	}
 
 	template <typename T, typename Char>
-	inline constexpr bool has_stream_output_operator = impl::is_detected<impl::has_stream_output_operator_, T, Char>;
+	inline constexpr bool has_stream_output_operator = is_detected<impl::has_stream_output_operator_, T, Char>;
 
 	template <typename T>
 	using stream_output_cast_type = typename impl::stream_output_cast_type_<T>::type;

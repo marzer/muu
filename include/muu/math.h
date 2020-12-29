@@ -181,8 +181,8 @@ MUU_NAMESPACE_START
 		inline constexpr bool has_specialized_infinity_or_nan =
 			(std::is_class_v<T> || std::is_union_v<T>)
 			&& !has_builtin_infinity_or_nan<remove_cvref<T>>
-			&& (impl::is_detected<impl::has_static_infinity_or_nan_, T>
-				|| impl::is_detected<impl::has_member_infinity_or_nan_, T>);
+			&& (is_detected<impl::has_static_infinity_or_nan_, T>
+				|| is_detected<impl::has_member_infinity_or_nan_, T>);
 
 		MUU_PRAGMA_GCC(pop_options) // -fno-finite-math-only
 	}
@@ -277,7 +277,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(pure)
 	constexpr bool infinity_or_nan(const T& obj) noexcept
 	{
-		if constexpr (impl::is_detected<impl::has_static_infinity_or_nan_, T>)
+		if constexpr (is_detected<impl::has_static_infinity_or_nan_, T>)
 			return static_cast<bool>(T::infinity_or_nan(obj));
 		else
 			return static_cast<bool>(obj.infinity_or_nan());

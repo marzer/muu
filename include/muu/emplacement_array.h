@@ -171,11 +171,11 @@ MUU_NAMESPACE_START
 
 				if constexpr (std::is_nothrow_constructible_v<T, Args&&...>)
 				{
-					return *(new (storage_ + (sizeof(T) * count_++)) T{ static_cast<Args&&>(args)... });
+					return *(::new (static_cast<void*>(storage_ + (sizeof(T) * count_++))) T{ static_cast<Args&&>(args)... });
 				}
 				else
 				{
-					auto& newVal = *(new (storage_ + (sizeof(T) * count_)) T{ static_cast<Args&&>(args)... });
+					auto& newVal = *(::new (static_cast<void*>(storage_ + (sizeof(T) * count_))) T{ static_cast<Args&&>(args)... });
 					count_++;
 					return newVal;
 				}
