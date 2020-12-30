@@ -406,6 +406,16 @@ MUU_IMPL_NAMESPACE_START
 		static constexpr size_t value = 1 + pointer_rank_<std::remove_pointer_t<T>>::value;
 	};
 
+	template <typename T>
+	struct remove_all_pointers_
+	{
+		using type = T;
+	};
+	template <typename T> struct remove_all_pointers_<T*> : remove_all_pointers_<T> {};
+	template <typename T> struct remove_all_pointers_<T*const> : remove_all_pointers_<T> {};
+	template <typename T> struct remove_all_pointers_<T*volatile> : remove_all_pointers_<T> {};
+	template <typename T> struct remove_all_pointers_<T*const volatile> : remove_all_pointers_<T> {};
+
 	template <template <typename...> typename Trait, typename Enabler, typename... Args>
 	struct is_detected_impl : std::false_type {};
 	template <template <typename...> typename Trait, typename... Args>
@@ -837,6 +847,10 @@ MUU_NAMESPACE_START
 	/// \details Answers "how many stars does it have?".
 	template <typename T>
 	inline constexpr size_t pointer_rank = impl::pointer_rank_<T>::value;
+
+	/// \brief Strips every level of pointer from a type.
+	template <typename T>
+	using remove_all_pointers = typename impl::remove_all_pointers_<T>::type;
 
 	/// \brief Detects if a type supports an interface.
 	/// \see 
