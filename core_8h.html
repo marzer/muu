@@ -295,6 +295,11 @@ C++</span></a>
             <dd>Rebases a pointer, preserving the const and volatile qualification of the pointed type.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="group__meta.html#gaff6410affb3cb93013482639fcaea000">remove_all_pointers</a> = typename impl::remove_all_pointers_&lt;T&gt;::type
+            </dt>
+            <dd>Strips every level of pointer from a type.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga6d7666d41f4b1baa5e5b030e85d145c1">remove_const</a> = typename impl::rebase_ref_&lt;T, std::remove_const_t&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
             </dt>
             <dd>Removes the topmost const qualifier from a type or reference.</dd>

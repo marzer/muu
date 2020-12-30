@@ -161,6 +161,11 @@ C++</span></a>
             <dd>Rebases a pointer, preserving the const and volatile qualification of the pointed type.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="#gaff6410affb3cb93013482639fcaea000">remove_all_pointers</a> = typename impl::remove_all_pointers_&lt;T&gt;::type
+            </dt>
+            <dd>Strips every level of pointer from a type.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
               using <a class="m-doc" href="#ga6d7666d41f4b1baa5e5b030e85d145c1">remove_const</a> = typename impl::rebase_ref_&lt;T, std::remove_const_t&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
             </dt>
             <dd>Removes the topmost const qualifier from a type or reference.</dd>
@@ -613,6 +618,16 @@ C++</span></a>
               using <a class="m-doc-self" href="#ga29769609b73728e3b7814d36a7e0c335">rebase_pointer</a> = typename impl::rebase_pointer_&lt;Ptr, NewBase&gt;::type
             </h3>
             <p>Rebases a pointer, preserving the const and volatile qualification of the pointed type.</p>
+          </div></section>
+          <section class="m-doc-details" id="gaff6410affb3cb93013482639fcaea000"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using <a class="m-doc-self" href="#gaff6410affb3cb93013482639fcaea000">remove_all_pointers</a> = typename impl::remove_all_pointers_&lt;T&gt;::type
+            </h3>
+            <p>Strips every level of pointer from a type.</p>
           </div></section>
           <section class="m-doc-details" id="ga6d7666d41f4b1baa5e5b030e85d145c1"><div>
             <h3>
