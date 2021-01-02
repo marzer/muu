@@ -1,6 +1,5 @@
 // This file is a part of muu and is subject to the the terms of the MIT license.
-// Copyright (c) 2020 Mark Gillard <mark.gillard@outlook.com.au>
-// Copyright (c) 2008-2020 Bjoern Hoehrmann <bjoern@hoehrmann.de> (utf8 decoder)
+// Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 
@@ -55,7 +54,7 @@ MUU_NAMESPACE_START
 		class MUU_TRIVIAL_ABI utf8_decoder final
 		{
 			// utf8_decoder based on this: https://bjoern.hoehrmann.de/utf-8/decoder/dfa/
-			// Copyright (c) 2008-2020 Bjoern Hoehrmann <bjoern@hoehrmann.de>
+			// Copyright (c) Bjoern Hoehrmann <bjoern@hoehrmann.de>
 
 			private:
 				uint_least32_t state{};
