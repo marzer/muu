@@ -287,7 +287,7 @@ C++</span></a>
               <div class="m-doc-template">template&lt;typename From, typename To&gt;</div>
               bool <a class="m-doc" href="#ga824ac2b58e006d4be8d4b0d6a0f7180d">allow_implicit_bit_cast</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Tells the library it is permitted to implicitly bit_cast from a type (via memcpy or similar).</dd>
+            <dd>Allows the to implicitly bit_cast from a type (via memcpy or similar) in some situations.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="#gaa4c92e65e153e9a6c9ac01ba3bd653e5">always_false</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -872,7 +872,7 @@ C++</span></a>
               </div>
               bool <a class="m-doc-self" href="#ga824ac2b58e006d4be8d4b0d6a0f7180d">allow_implicit_bit_cast</a> <span class="m-label m-primary">constexpr</span>
             </h3>
-            <p>Tells the library it is permitted to implicitly bit_cast from a type (via memcpy or similar).</p>
+            <p>Allows the to implicitly bit_cast from a type (via memcpy or similar) in some situations.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Template parameters</th></tr>
@@ -892,17 +892,17 @@ C++</span></a>
 
 <span class="k">using</span> <span class="ut">vec3i</span> <span class="o">=</span> <span class="ns">muu::</span><span class="ut">vector</span><span class="o">&lt;</span><span class="ut">int</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span><span class="p">;</span>
 
-<span class="k">struct</span> <span class="n">Foo</span>
+<span class="k">struct</span> <span class="ut">Foo</span>
 <span class="p">{</span>
     <span class="ut">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">;</span>
 <span class="p">};</span>
 
 <span class="k">namespace</span> <span class="n">muu</span>
 <span class="p">{</span>
-    <span class="k">template</span> <span class="o">&lt;&gt;</span> <span class="kr">inline</span> <span class="k">constexpr</span> <span class="ut">bool</span> <span class="n">allow_implicit_bit_cast</span><span class="o">&lt;</span><span class="n">Foo</span><span class="p">,</span> <span class="ut">vec3i</span><span class="o">&gt;</span> <span class="o">=</span> <span class="k">true</span><span class="p">;</span>
+    <span class="k">template</span> <span class="o">&lt;&gt;</span> <span class="kr">inline</span> <span class="k">constexpr</span> <span class="ut">bool</span> <span class="n">allow_implicit_bit_cast</span><span class="o">&lt;</span><span class="ut">Foo</span><span class="p">,</span> <span class="ut">vec3i</span><span class="o">&gt;</span> <span class="o">=</span> <span class="k">true</span><span class="p">;</span>
 <span class="p">};</span>
 
-<span class="n">Foo</span> <span class="n">foo</span><span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span> <span class="p">};</span>
+<span class="ut">Foo</span> <span class="n">foo</span><span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span> <span class="p">};</span>
 <span class="ut">vec3i</span> <span class="n">bar</span><span class="p">{</span> <span class="n">foo</span> <span class="p">};</span></pre><aside class="m-note m-info"><h4>Note</h4><p>You do not need to pepper your codebase with this. It is only used in a few highly-specialized situations:</p><ul><li><a class="m-doc" href="structmuu_1_1vector.html">muu::<wbr/>vector</a> constructor<br/></li><li><a class="m-doc" href="structmuu_1_1quaternion.html">muu::<wbr/>quaternion</a> constructor<br/></li><li><a class="m-doc" href="structmuu_1_1matrix.html">muu::<wbr/>matrix</a> constructor</li></ul></aside>
           </div></section>
           <section class="m-doc-details" id="gaa4c92e65e153e9a6c9ac01ba3bd653e5"><div>

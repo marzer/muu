@@ -410,7 +410,7 @@ C++</span></a>
             <p>Marks a class being interface-only and not requiring a vtable.</p>
 <p>Useful for abstract base classes:</p><pre class="m-code"><span class="k">class</span> <span class="m">MUU_ABSTRACT_INTERFACE</span> <span class="ut">virtual_base</span>
 <span class="p">{</span>
-    <span class="k">virtual</span> <span class="k">void</span> <span class="n">fooify</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">fooify</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
     <span class="k">virtual</span> <span class="o">~</span><span class="n">virtual_base</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
 <span class="p">};</span></pre>
           </div></section>
@@ -421,7 +421,7 @@ C++</span></a>
             </h3>
             <p>The same linkage semantics as the <code>inline</code> keyword, with an additional hint to the optimizer that you'd really, <em>really</em> like a function inlined.</p>
 <pre class="m-code"><span class="m">MUU_ALWAYS_INLINE</span>
-<span class="k">void</span> <span class="nf">always_inline_me</span><span class="p">()</span> <span class="k">noexcept</span>
+<span class="kt">void</span> <span class="nf">always_inline_me</span><span class="p">()</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="c1">// ...</span>
 <span class="p">}</span></pre>
@@ -488,7 +488,7 @@ C++</span></a>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Optimizer hint for signalling various assumptions about state at specific points in code.</p>
-<pre class="m-code"><span class="k">void</span> <span class="nf">do_the_thing</span><span class="p">(</span><span class="ut">int</span> <span class="n">flags</span><span class="p">)</span> <span class="k">noexcept</span>
+<pre class="m-code"><span class="kt">void</span> <span class="nf">do_the_thing</span><span class="p">(</span><span class="ut">int</span> <span class="n">flags</span><span class="p">)</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="m">MUU_ASSUME</span><span class="p">(</span><span class="n">flags</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">);</span>
     <span class="c1">// ... do some some performance-critical code stuff that assumes flags is &gt; 0 here ...</span>
