@@ -145,7 +145,7 @@ struct blittable
 namespace muu
 {
 	template <typename T, size_t Rows, size_t Columns>
-	inline constexpr bool can_blit<blittable<T, Rows, Columns>, matrix<T, Rows, Columns>> = true;
+	inline constexpr bool allow_implicit_bit_cast<blittable<T, Rows, Columns>, matrix<T, Rows, Columns>> = true;
 }
 
 template <typename T, size_t Rows, size_t Columns>

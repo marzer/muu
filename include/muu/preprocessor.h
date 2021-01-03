@@ -250,21 +250,21 @@
 	#define MUU_ALIGN(alignment)			MUU_ATTR(aligned(alignment))
 	#if defined(_MSC_VER) // msvc compat mode
 		#ifdef __has_declspec_attribute
-			#define MUU_DECLSPEC(...)		__declspec(__VA_ARGS__)
+			#define MUU_DECLSPEC(...)			__declspec(__VA_ARGS__)
 			#if __has_declspec_attribute(novtable)
-				#define MUU_INTERFACE		__declspec(novtable)
+				#define MUU_ABSTRACT_INTERFACE	__declspec(novtable)
 			#endif
 			#if __has_declspec_attribute(empty_bases)
-				#define MUU_EMPTY_BASES		__declspec(empty_bases)
+				#define MUU_EMPTY_BASES			__declspec(empty_bases)
 			#endif
 			#if __has_declspec_attribute(restrict)
-				#define MUU_UNALIASED_ALLOC	__declspec(restrict)
+				#define MUU_UNALIASED_ALLOC		__declspec(restrict)
 			#endif
-			#define MUU_ALWAYS_INLINE		__forceinline
+			#define MUU_ALWAYS_INLINE			__forceinline
 			#if __has_declspec_attribute(noinline)
-				#define MUU_NEVER_INLINE	__declspec(noinline)
+				#define MUU_NEVER_INLINE		__declspec(noinline)
 			#endif
-			#define MUU_VECTORCALL			__vectorcall
+			#define MUU_VECTORCALL				__vectorcall
 		#endif
 	#endif
 	#ifdef __has_attribute
@@ -320,8 +320,8 @@
 	#define MUU_NEVER_INLINE				__declspec(noinline)
 	#define MUU_ASSUME(cond)				__assume(cond)
 	#define MUU_UNREACHABLE					__assume(0)
-	#if 1 // !MUU_INTELLISENSE
-		#define MUU_INTERFACE				__declspec(novtable)
+	#if !MUU_INTELLISENSE
+		#define MUU_ABSTRACT_INTERFACE		__declspec(novtable)
 		#define MUU_EMPTY_BASES				__declspec(empty_bases)
 	#endif
 	#define MUU_UNALIASED_ALLOC				__declspec(restrict)
@@ -629,8 +629,8 @@
 	#define MUU_POP_WARNINGS
 #endif
 
-#ifndef MUU_INTERFACE
-	#define MUU_INTERFACE
+#ifndef MUU_ABSTRACT_INTERFACE
+	#define MUU_ABSTRACT_INTERFACE
 #endif
 #ifndef MUU_EMPTY_BASES
 	#define MUU_EMPTY_BASES
@@ -656,7 +656,7 @@
 
 #define MUU_NO_DEFAULT_CASE				default: MUU_UNREACHABLE
 
-#if !defined(DOXYGEN) // && !MUU_INTELLISENSE
+#if !defined(DOXYGEN) && !MUU_INTELLISENSE
 	#if !defined(MUU_LIKELY) && __has_cpp_attribute(likely)
 		#define MUU_LIKELY(...)	(__VA_ARGS__) [[likely]]
 	#endif
@@ -823,16 +823,26 @@
 
 #if MUU_WINDOWS
 	#define MUU_WCHAR_BYTES			2
-	#define MUU_WCHAR_BITS			16
 #elif defined(__SIZEOF_WCHAR_T__)
 	#define MUU_WCHAR_BYTES			__SIZEOF_WCHAR_T__
-	#if __SIZEOF_WCHAR_T__ == 4
-		#define MUU_WCHAR_BITS		32
-	#elif __SIZEOF_WCHAR_T__ == 2
-		#define MUU_WCHAR_BITS		16
-	#elif __SIZEOF_WCHAR_T__ == 1
-		#define MUU_WCHAR_BITS		8
-	#endif
+#else
+	#error Could not determine MUU_WCHAR_BYTES!
+#endif
+
+// Q: "why not #define MUU_WCHAR_BITS (MUU_WCHAR_BYTES * 8)?
+// A: Because it's converted to a string literal by the preprocessor in a few places
+//    so needs to simply be a single integer. Meh.
+
+#if MUU_WCHAR_BYTES == 8
+	#define MUU_WCHAR_BITS		64
+#elif MUU_WCHAR_BYTES == 4
+	#define MUU_WCHAR_BITS		32
+#elif MUU_WCHAR_BYTES == 2
+	#define MUU_WCHAR_BITS		16
+#elif MUU_WCHAR_BYTES == 1
+	#define MUU_WCHAR_BITS		8
+#else
+	#error Could not determine MUU_WCHAR_BITS!
 #endif
 
 //=====================================================================================================================
@@ -1192,10 +1202,10 @@
 /// \ecpp
 /// \warning Using this incorrectly can lead to seriously mis-compiled code!
 /// 
-/// \def MUU_INTERFACE
+/// \def MUU_ABSTRACT_INTERFACE
 /// \brief Marks a class being interface-only and not requiring a vtable.
 /// \details Useful for abstract base classes:\cpp
-/// 	class MUU_INTERFACE virtual_base
+/// 	class MUU_ABSTRACT_INTERFACE virtual_base
 /// 	{
 /// 		virtual void fooify() noexcept = 0;
 /// 		virtual ~virtual_base() noexcept = default;

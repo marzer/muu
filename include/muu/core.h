@@ -66,6 +66,8 @@ MUU_ENABLE_WARNINGS
 static_assert(CHAR_BIT == 8, MUU_ENV_MESSAGE);
 static_assert(FLT_RADIX == 2, MUU_ENV_MESSAGE);
 static_assert('A' == 65, MUU_ENV_MESSAGE);
+static_assert(sizeof(wchar_t) == MUU_WCHAR_BYTES, MUU_ENV_MESSAGE);
+static_assert(sizeof(wchar_t) * CHAR_BIT == MUU_WCHAR_BITS, MUU_ENV_MESSAGE);
 static_assert(std::numeric_limits<float>::is_iec559, MUU_ENV_MESSAGE);
 static_assert(std::numeric_limits<double>::is_iec559, MUU_ENV_MESSAGE);
 
@@ -867,10 +869,6 @@ MUU_NAMESPACE_START
 	/// \brief Returns true if the type has a unary plus operator.
 	template <typename T>
 	inline constexpr bool has_unary_plus_operator = is_detected<impl::has_unary_plus_operator_, T>;
-
-	/// \brief Aliases a std::aligned_storage_t with a size and alignment capable of representing all the named types.
-	template <typename... T>
-	using variant_storage = std::aligned_storage_t<sizeof(largest<T...>), alignof(most_aligned<T...>)>;
 
 	/// \brief Returns true if the type implements std::tuple_size and std::tuple_element.
 	template <typename T>

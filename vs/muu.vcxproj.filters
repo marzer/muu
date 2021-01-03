@@ -109,6 +109,9 @@
     <ClInclude Include="..\include\muu\math.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\muu\chars.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />

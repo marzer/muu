@@ -339,7 +339,7 @@ PREDEFINED             =                                            \
 #   "MUU_ATTR_GCC(...)="                                            \
 #   "MUU_DECLSPEC(...)="                                            \
 #   "MUU_EMPTY_BASES="                                              \
-#   "MUU_INTERFACE"                                                 \
+#   "MUU_ABSTRACT_INTERFACE"                                        \
 #   "MUU_NODISCARD_CTOR="                                           \
 #   "MUU_PRAGMA(...)="                                              \
 #   "MUU_PRAGMA_CLANG(...)="                                        \

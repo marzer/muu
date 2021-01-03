@@ -70,6 +70,7 @@
     <ClInclude Include="..\include\muu\all.h" />
     <ClInclude Include="..\include\muu\bitset.h" />
     <ClInclude Include="..\include\muu\blob.h" />
+    <ClInclude Include="..\include\muu\chars.h" />
     <ClInclude Include="..\include\muu\compressed_pair.h" />
     <ClInclude Include="..\include\muu\core.h" />
     <ClInclude Include="..\include\muu\concatenate.h" />

@@ -120,8 +120,8 @@ MUU_IMPL_NAMESPACE_END
 namespace muu
 {
 	template <typename From, typename Scalar>
-	inline constexpr bool can_blit<From, impl::quaternion_base<Scalar>>
-		= can_blit<From, quaternion<Scalar>>;
+	inline constexpr bool allow_implicit_bit_cast<From, impl::quaternion_base<Scalar>>
+		= allow_implicit_bit_cast<From, quaternion<Scalar>>;
 }
 
 #endif // !DOXYGEN
@@ -485,27 +485,27 @@ MUU_NAMESPACE_START
 			: quaternion{ from_euler(euler) }
 		{}
 
-		/// \brief Constructs a quaternion from an explicitly-blittable type.
+		/// \brief Constructs a quaternion from an implicitly bit-castable type.
 		/// 
-		/// \tparam T	A blittable type.
+		/// \tparam T	A bit-castable type.
 		/// 
-		/// \see muu::can_blit
+		/// \see muu::allow_implicit_bit_cast
 		template <typename T
-			MUU_ENABLE_IF(can_blit<T, quaternion>)
+			MUU_ENABLE_IF(allow_implicit_bit_cast<T, quaternion>)
 		>
-		MUU_REQUIRES(can_blit<T, quaternion>)
+		MUU_REQUIRES(allow_implicit_bit_cast<T, quaternion>)
 		MUU_NODISCARD_CTOR
-		explicit
+		/*implicit*/
 		constexpr quaternion(const T& blittable) noexcept
 			: base{ bit_cast<base>(blittable) }
 		{
 			static_assert(
 				sizeof(T) == sizeof(base),
-				"Blittable types must be the same size as the quaternion"
+				"Bit-castable types must be the same size as the quaternion"
 			);
 			static_assert(
 				std::is_trivially_copyable_v<T>,
-				"Blittable types must be trivially-copyable"
+				"Bit-castable types must be trivially-copyable"
 			);
 		}
 

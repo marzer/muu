@@ -11,6 +11,11 @@
 
 MUU_NAMESPACE_START
 {
+	namespace impl
+	{
+		inline constexpr size_t aligned_alloc_max_alignment = 32768;
+	}
+
 	/// \addtogroup		mem
 	/// @{
 
@@ -28,6 +33,28 @@ MUU_NAMESPACE_START
 	MUU_API
 	MUU_UNALIASED_ALLOC
 	void* aligned_alloc(size_t alignment, size_t size) noexcept;
+
+	/// \brief	Allocates memory with a specific alignment boundary.
+	///
+	/// \tparam Alignment	The desired alignment. Must be a power of 2.
+	/// \param 	size	 	The desired allocation size.
+	///
+	/// \returns	A pointer to the beginning of the allocated memory, or `nullptr` if:
+	/// 			- `size` was `0`  
+	/// 			- `alignment` was too high  
+	/// 			- The system could not provide the requested allocation
+	template <size_t Alignment>
+	[[nodiscard]]
+	MUU_API
+	MUU_UNALIASED_ALLOC
+	MUU_ATTR(assume_aligned(Alignment))
+	void* aligned_alloc(size_t size) noexcept
+	{
+		static_assert(has_single_bit(Alignment), "Alignments must be power-of-two");
+		static_assert(Alignment <= impl::aligned_alloc_max_alignment);
+
+		return assume_aligned<Alignment>(aligned_alloc(Alignment, size));
+	}
 
 	/// \brief	Resizes memory previously allocated with a specific alignment boundary.
 	/// 
@@ -62,10 +89,5 @@ MUU_NAMESPACE_START
 	void aligned_free(void* ptr) noexcept;
 
 	/// @}
-
-	namespace impl
-	{
-		inline constexpr size_t aligned_alloc_max_alignment = 32768;
-	}
 }
 MUU_NAMESPACE_END

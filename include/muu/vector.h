@@ -859,8 +859,8 @@ MUU_IMPL_NAMESPACE_END
 namespace muu
 {
 	template <typename From, typename Scalar, size_t Dimensions>
-	inline constexpr bool can_blit<From, impl::vector_base<Scalar, Dimensions>>
-		= can_blit<From, vector<Scalar, Dimensions>>;
+	inline constexpr bool allow_implicit_bit_cast<From, impl::vector_base<Scalar, Dimensions>>
+		= allow_implicit_bit_cast<From, vector<Scalar, Dimensions>>;
 }
 
 #else // ^^^ !DOXYGEN / DOXYGEN vvv
@@ -1172,22 +1172,24 @@ MUU_NAMESPACE_START
 			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, arr }
 		{}
 
-		/// \brief Constructs a vector from any tuple-like or explicitly-blittable type.
+		/// \brief Constructs a vector from any tuple-like or implicitly bit-castable type.
 		/// 
-		/// \tparam T	A tuple-like or explicitly-blittable type.
+		/// \tparam T	A tuple-like or bit-castable type.
 		/// 
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		/// 
-		/// \see muu::can_blit
+		/// \note		This constructor is implicit when given an implicitly bit-castable type, `explicit` otherwise.
+		/// 
+		/// \see muu::allow_implicit_bit_cast
 		template <typename T
 			ENABLE_IF_DIMENSIONS_AT_LEAST_AND(
 				tuple_size<T>,
-				(is_tuple_like<T> && (!can_blit<T, vector> || !build::supports_constexpr_bit_cast))
+				(is_tuple_like<T> && (!allow_implicit_bit_cast<T, vector> || !build::supports_constexpr_bit_cast))
 			)
 		>
 		REQUIRES_DIMENSIONS_AT_LEAST_AND(
 			tuple_size<T>,
-			(is_tuple_like<T> && (!can_blit<T, vector> || !build::supports_constexpr_bit_cast))
+			(is_tuple_like<T> && (!allow_implicit_bit_cast<T, vector> || !build::supports_constexpr_bit_cast))
 		)
 		MUU_NODISCARD_CTOR
 		explicit
@@ -1199,26 +1201,26 @@ MUU_NAMESPACE_START
 
 		template <typename T
 			MUU_ENABLE_IF(
-				can_blit<T, vector>
+				allow_implicit_bit_cast<T, vector>
 				&& (!is_tuple_like<T> || (tuple_size<T> > Dimensions) || build::supports_constexpr_bit_cast)
 			)
 		>
 		MUU_REQUIRES(
-			can_blit<T, vector>
+			allow_implicit_bit_cast<T, vector>
 			&& (!is_tuple_like<T> || (tuple_size<T> > Dimensions) || build::supports_constexpr_bit_cast)
 		)
 		MUU_NODISCARD_CTOR
-		explicit
+		/*implicit*/
 		constexpr vector(const T& blittable) noexcept
 			: base{ bit_cast<base>(blittable) }
 		{
 			static_assert(
 				sizeof(T) == sizeof(base),
-				"Blittable types must be the same size as the vector"
+				"Bit-castable types must be the same size as the vector"
 			);
 			static_assert(
 				std::is_trivially_copyable_v<T>,
-				"Blittable types must be trivially-copyable"
+				"Bit-castable types must be trivially-copyable"
 			);
 		}
 

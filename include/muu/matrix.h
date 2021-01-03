@@ -378,8 +378,8 @@ MUU_IMPL_NAMESPACE_END
 namespace muu
 {
 	template <typename From, typename Scalar, size_t Rows, size_t Columns>
-	inline constexpr bool can_blit<From, impl::matrix_base<Scalar, Rows, Columns>>
-		= can_blit<From, matrix<Scalar, Rows, Columns>>;
+	inline constexpr bool allow_implicit_bit_cast<From, impl::matrix_base<Scalar, Rows, Columns>>
+		= allow_implicit_bit_cast<From, matrix<Scalar, Rows, Columns>>;
 }
 
 #else // ^^^ !DOXYGEN / DOXYGEN vvv
@@ -675,27 +675,27 @@ MUU_NAMESPACE_START
 			: base{ impl::columnwise_copy_tag{}, std::make_index_sequence<(C < Columns ? C : Columns)>{}, mat.m }
 		{}
 
-		/// \brief Constructs a matrix from an explicitly-blittable type.
+		/// \brief Constructs a matrix from an implicitly bit-castable type.
 		/// 
-		/// \tparam T	A blittable type.
+		/// \tparam T	A bit-castable type.
 		/// 
-		/// \see muu::can_blit
+		/// \see muu::allow_implicit_bit_cast
 		template <typename T
-		MUU_ENABLE_IF(can_blit<T, matrix>)
+			MUU_ENABLE_IF(allow_implicit_bit_cast<T, matrix>)
 		>
-		MUU_REQUIRES(can_blit<T, matrix>)
+		MUU_REQUIRES(allow_implicit_bit_cast<T, matrix>)
 		MUU_NODISCARD_CTOR
-		explicit
+		/*implicit*/
 		constexpr matrix(const T& blittable) noexcept
 			: base{ bit_cast<base>(blittable) }
 		{
 			static_assert(
 				sizeof(T) == sizeof(base),
-				"Blittable types must be the same size as the matrix"
+				"Bit-castable types must be the same size as the matrix"
 			);
 			static_assert(
 				std::is_trivially_copyable_v<T>,
-				"Blittable types must be trivially-copyable"
+				"Bit-castable types must be trivially-copyable"
 			);
 		}
 

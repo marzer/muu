@@ -166,7 +166,7 @@ struct blittable
 namespace muu
 {
 	template <typename T, size_t Dimensions>
-	inline constexpr bool can_blit<blittable<T, Dimensions>, vector<T, Dimensions>> = true;
+	inline constexpr bool allow_implicit_bit_cast<blittable<T, Dimensions>, vector<T, Dimensions>> = true;
 }
 
 template <typename T, size_t Dimensions>

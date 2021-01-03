@@ -129,8 +129,11 @@ MUU_IMPL_NAMESPACE_START
 			destroyed = 2
 		};
 
+		MUU_ALIGN(thread_pool_task_granularity)
 		callable_buffer_type callable_buffer;
+
 		action_invoker_type action_invoker;
+
 		#if !MUU_COMPRESSED_THREAD_POOL_TASK
 		states state_ = states::none;
 		#endif

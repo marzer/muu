@@ -205,111 +205,111 @@ string_param::string_param() noexcept = default;
 
 string_param::string_param(std::string_view str) noexcept
 {
-	initialize(storage, mode_, str);
+	initialize(storage_, mode_, str);
 }
 
 string_param::string_param(const std::string& str) noexcept
 {
-	initialize(storage, mode_, str);
+	initialize(storage_, mode_, str);
 }
 
 string_param::string_param(const char* str, size_t len) noexcept
 {
-	initialize(storage, mode_, str, len);
+	initialize(storage_, mode_, str, len);
 }
 
 string_param::string_param(const char* str) noexcept
 {
-	initialize(storage, mode_, str);
+	initialize(storage_, mode_, str);
 }
 
 string_param::string_param(std::string&& str) noexcept
 {
-	initialize(storage, mode_, std::move(str));
+	initialize(storage_, mode_, std::move(str));
 }
 
 string_param::string_param(std::wstring_view str) noexcept
 {
-	initialize(storage, mode_, str);
+	initialize(storage_, mode_, str);
 }
 
 string_param::string_param(const std::wstring& str) noexcept
 {
-	initialize(storage, mode_, str);
+	initialize(storage_, mode_, str);
 }
 
 string_param::string_param(const wchar_t* str, size_t len) noexcept
 {
-	initialize(storage, mode_, str, len);
+	initialize(storage_, mode_, str, len);
 }
 
 string_param::string_param(const wchar_t* str) noexcept
 {
-	initialize(storage, mode_, str);
+	initialize(storage_, mode_, str);
 }
 
 string_param::string_param(std::wstring&& str) noexcept
 {
-	initialize(storage, mode_, std::move(str));
+	initialize(storage_, mode_, std::move(str));
 }
 
 string_param::string_param(std::u16string_view str) noexcept
 {
-	initialize(storage, mode_, str);
+	initialize(storage_, mode_, str);
 }
 
 string_param::string_param(const std::u16string& str) noexcept
 {
-	initialize(storage, mode_, str);
+	initialize(storage_, mode_, str);
 }
 
 string_param::string_param(const char16_t* str, size_t len) noexcept
 {
-	initialize(storage, mode_, str, len);
+	initialize(storage_, mode_, str, len);
 }
 
 string_param::string_param(const char16_t* str) noexcept
 {
-	initialize(storage, mode_, str);
+	initialize(storage_, mode_, str);
 }
 
 string_param::string_param(std::u16string&& str) noexcept
 {
-	initialize(storage, mode_, std::move(str));
+	initialize(storage_, mode_, std::move(str));
 }
 
 string_param::string_param(std::u32string_view str) noexcept
 {
-	initialize(storage, mode_, str);
+	initialize(storage_, mode_, str);
 }
 
 string_param::string_param(const std::u32string& str) noexcept
 {
-	initialize(storage, mode_, str);
+	initialize(storage_, mode_, str);
 }
 
 string_param::string_param(const char32_t* str, size_t len) noexcept
 {
-	initialize(storage, mode_, str, len);
+	initialize(storage_, mode_, str, len);
 }
 
 string_param::string_param(const char32_t* str) noexcept
 {
-	initialize(storage, mode_, str);
+	initialize(storage_, mode_, str);
 }
 
 string_param::string_param(std::u32string&& str) noexcept
 {
-	initialize(storage, mode_, std::move(str));
+	initialize(storage_, mode_, std::move(str));
 }
 
 
 string_param::string_param(const void* str, size_t len, char8_tag) noexcept
 {
 	#ifdef __cpp_lib_char8_t
-	initialize(storage, mode_, static_cast<const char8_t*>(str), len);
+	initialize(storage_, mode_, static_cast<const char8_t*>(str), len);
 	#else
-	initialize(storage, mode_, static_cast<const char*>(str), len);
+	initialize(storage_, mode_, static_cast<const char*>(str), len);
 	#endif
 }
 
@@ -319,13 +319,13 @@ string_param::string_param(void* str_obj, const void* str, size_t len, char8_tag
 
 	(void)str;
 	(void)len;
-	initialize(storage, mode_, std::move(*static_cast<std::u8string*>(str_obj)));
+	initialize(storage_, mode_, std::move(*static_cast<std::u8string*>(str_obj)));
 
 	#else
 
 	(void)str_obj;
 	if (str && len)
-		initialize(storage, mode_, std::string(static_cast<const char*>(str), len));
+		initialize(storage_, mode_, std::string(static_cast<const char*>(str), len));
 
 	#endif
 }
@@ -338,7 +338,7 @@ string_param& string_param::operator= (string_param&& rhs_) noexcept
 	// if they're the same we can just move (don't need to destroy our value)
 	if (mode_ == rhs_.mode_)
 	{
-		visit(storage, rhs_.storage, mode_, [](auto& lhs, auto& rhs) noexcept
+		visit(storage_, rhs_.storage_, mode_, [](auto& lhs, auto& rhs) noexcept
 		{
 			lhs = std::move(rhs);
 			call_destructor(rhs);
@@ -346,10 +346,10 @@ string_param& string_param::operator= (string_param&& rhs_) noexcept
 	}
 	else // otherwise we're changing mode
 	{
-		destroy(storage, mode_);
-		visit(rhs_.storage, rhs_.mode_, [this](auto& rhs) noexcept
+		destroy(storage_, mode_);
+		visit(rhs_.storage_, rhs_.mode_, [this](auto& rhs) noexcept
 		{
-			initialize(storage, mode_, std::move(rhs));
+			initialize(storage_, mode_, std::move(rhs));
 		});
 	}
 	rhs_.mode_ = {};
@@ -363,7 +363,7 @@ string_param::string_param(string_param&& other) noexcept
 
 string_param::~string_param() noexcept
 {
-	destroy(storage, mode_);
+	destroy(storage_, mode_);
 }
 
 bool string_param::empty() const noexcept
@@ -372,7 +372,7 @@ bool string_param::empty() const noexcept
 		return true;
 
 	bool empty_;
-	visit(storage, mode_, [&](auto& str) noexcept { empty_ = str.empty(); });
+	visit(storage_, mode_, [&](auto& str) noexcept { empty_ = str.empty(); });
 	return empty_;
 }
 
@@ -389,12 +389,12 @@ bool string_param::owning() const noexcept
 namespace
 {
 	template <typename Char, typename T>
-	static std::basic_string_view<Char> get_view(T& storage, uint8_t& mode_) noexcept
+	static std::basic_string_view<Char> get_view(T& storage_, uint8_t& mode_) noexcept
 	{
 		MUU_ASSUME(mode_ > uint8_t{});
 
 		std::basic_string_view<Char> out;
-		visit(storage, mode_, [&](auto& str) noexcept
+		visit(storage_, mode_, [&](auto& str) noexcept
 		{
 			using type = remove_cvref<decltype(str)>;
 			if constexpr (is_same_as_any<type, std::basic_string<Char>, std::basic_string_view<Char>>)
@@ -405,7 +405,7 @@ namespace
 			{
 				auto new_str = transcode<Char>(str);
 				call_destructor(str);
-				out = *initialize(storage, mode_, std::move(new_str));
+				out = *initialize(storage_, mode_, std::move(new_str));
 			}
 		});
 		return out;
@@ -417,7 +417,7 @@ string_param::operator std::string_view() const & noexcept
 	if (empty())
 		return {};
 
-	return get_view<char>(storage, mode_);
+	return get_view<char>(storage_, mode_);
 }
 
 string_param::operator std::wstring_view() const & noexcept
@@ -425,7 +425,7 @@ string_param::operator std::wstring_view() const & noexcept
 	if (empty())
 		return {};
 
-	return get_view<wchar_t>(storage, mode_);
+	return get_view<wchar_t>(storage_, mode_);
 }
 
 string_param::operator std::u16string_view() const & noexcept
@@ -433,7 +433,7 @@ string_param::operator std::u16string_view() const & noexcept
 	if (empty())
 		return {};
 
-	return get_view<char16_t>(storage, mode_);
+	return get_view<char16_t>(storage_, mode_);
 }
 
 string_param::operator std::u32string_view() const & noexcept
@@ -441,13 +441,13 @@ string_param::operator std::u32string_view() const & noexcept
 	if (empty())
 		return {};
 
-	return get_view<char32_t>(storage, mode_);
+	return get_view<char32_t>(storage_, mode_);
 }
 
 void string_param::get_char8_view(void* str) const noexcept
 {
 	#ifdef __cpp_lib_char8_t
-	*static_cast<std::u8string_view*>(str) = get_view<char8_t>(storage, mode_);
+	*static_cast<std::u8string_view*>(str) = get_view<char8_t>(storage_, mode_);
 	#else
 	(void)str;
 	#endif
@@ -456,12 +456,12 @@ void string_param::get_char8_view(void* str) const noexcept
 namespace
 {
 	template <typename Char, typename T>
-	static std::basic_string<Char> move_into_string(T& storage, uint8_t& mode_) noexcept
+	static std::basic_string<Char> move_into_string(T& storage_, uint8_t& mode_) noexcept
 	{
 		MUU_ASSUME(mode_ > uint8_t{});
 
 		std::basic_string<Char> out;
-		visit(storage, mode_, [&](auto& str) noexcept
+		visit(storage_, mode_, [&](auto& str) noexcept
 		{
 			using type = remove_cvref<decltype(str)>;
 			if constexpr (std::is_same_v<type, std::basic_string<Char>>)
@@ -508,7 +508,7 @@ string_param::operator std::string() && noexcept
 	if (empty())
 		return {};
 
-	return move_into_string<char>(storage, mode_);
+	return move_into_string<char>(storage_, mode_);
 }
 
 string_param::operator std::wstring() && noexcept
@@ -516,7 +516,7 @@ string_param::operator std::wstring() && noexcept
 	if (empty())
 		return {};
 
-	return move_into_string<wchar_t>(storage, mode_);
+	return move_into_string<wchar_t>(storage_, mode_);
 }
 
 string_param::operator std::u16string() && noexcept
@@ -524,7 +524,7 @@ string_param::operator std::u16string() && noexcept
 	if (empty())
 		return {};
 
-	return move_into_string<char16_t>(storage, mode_);
+	return move_into_string<char16_t>(storage_, mode_);
 }
 
 string_param::operator std::u32string() && noexcept
@@ -532,13 +532,13 @@ string_param::operator std::u32string() && noexcept
 	if (empty())
 		return {};
 
-	return move_into_string<char32_t>(storage, mode_);
+	return move_into_string<char32_t>(storage_, mode_);
 }
 
 void string_param::move_into_char8_string(void* str) noexcept
 {
 	#ifdef __cpp_lib_char8_t
-	*static_cast<std::u8string*>(str) = move_into_string<char8_t>(storage, mode_);
+	*static_cast<std::u8string*>(str) = move_into_string<char8_t>(storage_, mode_);
 	#else
 	(void)str;
 	#endif
@@ -546,7 +546,7 @@ void string_param::move_into_char8_string(void* str) noexcept
 
 string_param& string_param::trim() & noexcept
 {
-	visit(storage, mode_, [&](auto& str) noexcept
+	visit(storage_, mode_, [&](auto& str) noexcept
 	{
 		using type = remove_cvref<decltype(str)>;
 

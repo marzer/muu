@@ -53,12 +53,20 @@ MUU_NAMESPACE_START
 	{
 		private:
 
-			mutable variant_storage<
+			static constexpr size_t align_ = alignof(most_aligned<
 				std::string, std::string_view,
 				std::wstring, std::wstring_view,
 				std::u16string, std::u16string_view,
 				std::u32string, std::u32string_view
-			> storage;
+			>);
+			static constexpr size_t size_ = sizeof(largest<
+				std::string, std::string_view,
+				std::wstring, std::wstring_view,
+				std::u16string, std::u16string_view,
+				std::u32string, std::u32string_view
+			>);
+
+			alignas(align_) mutable std::byte storage_[size_];
 			mutable uint8_t mode_ = {};
 
 			struct char8_tag {};
@@ -441,6 +449,9 @@ MUU_NAMESPACE_START
 				return lhs;
 			}
 	};
+
+	inline constexpr auto sizeof_thing = sizeof(string_param);
+	inline constexpr auto alignof_thing = alignof(string_param);
 
 }
 MUU_NAMESPACE_END

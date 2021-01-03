@@ -4,18 +4,11 @@
 // SPDX-License-Identifier: MIT
 
 /// \file
-/// \brief Functions to simplify working with strings and code units ('characters').
+/// \brief Functions to simplify working with strings.
 
 #pragma once
-#include "../muu/core.h"
-#include "../muu/impl/unicode_char.h"
-#include "../muu/impl/unicode_wchar_t.h"
-#include "../muu/impl/unicode_char16_t.h"
-#include "../muu/impl/unicode_char32_t.h"
+#include "../muu/chars.h"
 #include "../muu/string_param.h"
-#ifdef __cpp_char8_t
-#include "../muu/impl/unicode_char8_t.h"
-#endif
 
 MUU_DISABLE_WARNINGS
 #include <string>

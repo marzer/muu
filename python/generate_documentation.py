@@ -91,17 +91,18 @@ type_names = [
 	'uuid',
 	#------ documentation-only types
 	'[T-V]',
+	'Foo',
+	'Bar',
 	'strong_typedef',
 	'[a-zA-Z_]+_type',
-	'my_enum',
-	'my_flags',
+	'[Mm]y_[a-zA-Z_]+',
 	'virtual_base',
 	'empty_parent',
 	'nonempty_child',
 	'immovable',
 	'uncopyable',
-	'vector[1-4]',
-	'vec[1-4]',
+	'[Vv]ec(?:tor)?[1-4][hifd]?',
+	'[Mm]at(?:rix)?[1-4](?:[xX][1-4])?[hifd]?',
 ]
 preprocessor_macros = [
 	'MUU_[A-Z0-9_]+?'
@@ -264,7 +265,7 @@ external_links = [
 ]
 implementation_headers = [
 	(
-		'muu/strings.h',
+		'muu/chars.h',
 		(
 			'muu/impl/unicode_char.h',		'muu/impl/unicode_char16_t.h',		'muu/impl/unicode_char32_t.h',
 			'muu/impl/unicode_char8_t.h',	'muu/impl/unicode_unsigned_char.h', 'muu/impl/unicode_wchar_t.h'
@@ -705,16 +706,28 @@ class IndexPageFix(object):
 class SyntaxHighlightingFix(object):
 
 	__keywords = [
-		'constexpr',
-		'if',
-		'else',
-		'true',
-		'false',
+		'alignas',
+		'alignof',
+		'class',
 		'const',
+		'consteval',
+		'constexpr',
+		'constinit',
+		'do',
+		'else',
+		'explicit',
+		'false',
+		'if',
+		'inline',
+		'mutable',
 		'noexcept',
+		'sizeof',
+		'struct',
 		'template',
+		'true',
 		'typename',
 		'void'
+		'while',
 	]
 
 	def __call__(self, file, doc):

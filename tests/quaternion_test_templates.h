@@ -64,7 +64,7 @@ struct blittable
 namespace muu
 {
 	template <typename T>
-	inline constexpr bool can_blit<blittable<T>, quaternion<T>> = true;
+	inline constexpr bool allow_implicit_bit_cast<blittable<T>, quaternion<T>> = true;
 }
 
 template <typename T>

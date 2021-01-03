@@ -222,7 +222,7 @@ namespace muu // non-abi namespace; this is not an error
 	using float128_t = __float128;
 	#endif
 
-	/// \brief	Tells the library it is permitted to explicitly 'blit' a type to another (via memcpy or similar).
+	/// \brief	Allows the to implicitly bit_cast from a type (via memcpy or similar) in some situations.
 	/// \ingroup meta 
 	/// 
 	/// \tparam From	The source type.
@@ -230,21 +230,22 @@ namespace muu // non-abi namespace; this is not an error
 	/// 			 
 	/// \detail \cpp
 	/// 
+	/// #include <muu/vector.h>
+	/// 
+	/// using vec3i = muu::vector<int, 3>;
+	/// 
 	/// struct Foo
 	/// {
 	///		int a, b, c;
 	/// };
 	/// 
-	/// struct Bar
-	/// {
-	///		int values[3];
-	/// };
-	/// 
 	/// namespace muu
 	/// {
-	/// 	template <> inline constexpr bool can_blit<Foo, Bar> = true;
-	/// 	template <> inline constexpr bool can_blit<Bar, Foo> = true;
+	/// 	template <> inline constexpr bool allow_implicit_bit_cast<Foo, vec3i> = true;
 	/// };
+	/// 
+	/// Foo foo{ 1, 2, 3 };
+	/// vec3i bar{ foo };
 	/// 
 	/// \ecpp
 	/// 
@@ -254,7 +255,7 @@ namespace muu // non-abi namespace; this is not an error
 	/// 	  - muu::quaternion constructor  
 	/// 	  - muu::matrix constructor
 	template <typename From, typename To>
-	inline constexpr bool can_blit = false;
+	inline constexpr bool allow_implicit_bit_cast = false;
 }
 
 MUU_NAMESPACE_START // abi namespace
