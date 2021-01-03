@@ -521,11 +521,6 @@ C++</span></a>
               using <a class="m-doc" href="group__meta.html#ga47a90ed3608cf7b0bf562f4ad208cd21">unsigned_integer</a> = typename impl::unsigned_integer_&lt;Bits&gt;::type
             </dt>
             <dd>Gets the unsigned integer type with a specific number of bits for the target platform.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename... T&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga7e8799a37a5ce8c4eefe8f584afd2647">variant_storage</a> = std::aligned_storage_t&lt;sizeof(<a class="m-doc" href="group__meta.html#ga7c930af45d2e06539c2a3dfcc908a854">largest</a>&lt;T...&gt;), alignof(<a class="m-doc" href="group__meta.html#ga62680f064b38d875edbcb08604a2736d">most_<wbr/>aligned</a>&lt;T...&gt;)&gt;
-            </dt>
-            <dd>Aliases a std::aligned_storage_t with a size and alignment capable of representing all the named types.</dd>
           </dl>
         </section>
         <section id="func-members">
@@ -612,6 +607,11 @@ C++</span></a>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__mem.html#gaa9c8bea0bc7d56f3f2693dd23f3c5865">aligned_alloc</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment,
               <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size) -&gt; void* <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Allocates memory with a specific alignment boundary.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__mem.html#ga49e2ce8a12866972079e5e927333fe9a">aligned_alloc</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size) -&gt; void* <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Allocates memory with a specific alignment boundary.</dd>
             <dt>
@@ -2180,6 +2180,11 @@ C++</span></a>
             </dt>
             <dd>Are all of the named types unsigned or reference-to-unsigned?</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename From, typename To&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga824ac2b58e006d4be8d4b0d6a0f7180d">allow_implicit_bit_cast</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Tells the library it is permitted to implicitly bit_cast from a type (via memcpy or similar).</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gaa4c92e65e153e9a6c9ac01ba3bd653e5">always_false</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
@@ -2214,11 +2219,6 @@ C++</span></a>
               bool <a class="m-doc" href="group__meta.html#ga3bb31ded23944badda78774761206c09">any_unsigned</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are any of the named types unsigned or reference-to-unsigned?</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename From, typename To&gt;</div>
-              bool <a class="m-doc" href="group__meta.html#ga3504b74625d918b08482aa3d1cc6741b">can_blit</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>Tells the library it is permitted to explicitly 'blit' a type to another (via memcpy or similar).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gafc3c409c2d08bc8913db5ad46a84e0b9">has_arrow_operator</a> <span class="m-label m-flat m-primary">constexpr</span>

@@ -118,6 +118,11 @@ C++</span></a>
             </dt>
             <dd>Allocates memory with a specific alignment boundary.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga49e2ce8a12866972079e5e927333fe9a">aligned_alloc</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size) -&gt; void* <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Allocates memory with a specific alignment boundary.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">void <a class="m-doc" href="#ga980d079c5d73e2b8bf65a4130f3793b0">aligned_free</a>(</span><span class="m-doc-wrap">void* ptr) <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Frees memory previously allocated with <a class="m-doc" href="group__mem.html#gaa9c8bea0bc7d56f3f2693dd23f3c5865">muu::<wbr/>aligned_alloc</a>.</dd>
@@ -200,6 +205,41 @@ C++</span></a>
                 <tr>
                   <th>Returns</th>
                   <td><p>A pointer to the beginning of the allocated memory, or <code>nullptr</code> if:</p><ul><li><code>alignment</code> or <code>size</code> were <code>0</code><br/></li><li><code>alignment</code> was not a power of 2<br/></li><li><code>alignment</code> was too high<br/></li><li>The system could not provide the requested allocation</li></ul></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="ga49e2ce8a12866972079e5e927333fe9a"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="aligned__alloc_8h.html">&lt;muu/aligned_alloc.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">void* </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga49e2ce8a12866972079e5e927333fe9a">aligned_alloc</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size) <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Allocates memory with a specific alignment boundary.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">Alignment</td>
+                  <td>The desired alignment. Must be a power of 2.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>size</td>
+                  <td>The desired allocation size.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td><p>A pointer to the beginning of the allocated memory, or <code>nullptr</code> if:</p><ul><li><code>size</code> was <code>0</code><br/></li><li><code>alignment</code> was too high<br/></li><li>The system could not provide the requested allocation</li></ul></td>
                 </tr>
               </tfoot>
             </table>

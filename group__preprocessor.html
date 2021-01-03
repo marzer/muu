@@ -78,6 +78,10 @@ C++</span></a>
           <h2><a href="#define-members">Defines</a></h2>
           <dl class="m-doc">
             <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gafab84de7e09a93180841a788f0123c4a">MUU_ABSTRACT_INTERFACE</a></span>
+            </dt>
+            <dd>Marks a class being interface-only and not requiring a vtable.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga364a90dd5bcbbbc7b58bbaae2b0ed904">MUU_ALWAYS_INLINE</a></span>
             </dt>
             <dd>The same linkage semantics as the <code>inline</code> keyword, with an additional hint to the optimizer that you'd really, <em>really</em> like a function inlined.</dd>
@@ -250,10 +254,6 @@ C++</span></a>
             </dt>
             <dd><code>1</code> when the code being compiled by an IDE's 'intellisense' compiler, otherwise <code>0</code>.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga829a1da3c00348065ab81819a5754243">MUU_INTERFACE</a></span>
-            </dt>
-            <dd>Marks a class being interface-only and not requiring a vtable.</dd>
-            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gadee8a66ce0dce28aa817259e818945aa">MUU_ISET_AVX</a></span>
             </dt>
             <dd><code>1</code> when the target supports the AVX instruction set, otherwise <code>0</code>.</dd>
@@ -402,6 +402,18 @@ C++</span></a>
         </section>
         <section>
           <h2>Define documentation</h2>
+          <section class="m-doc-details" id="gafab84de7e09a93180841a788f0123c4a"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gafab84de7e09a93180841a788f0123c4a">MUU_ABSTRACT_INTERFACE</a></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>Marks a class being interface-only and not requiring a vtable.</p>
+<p>Useful for abstract base classes:</p><pre class="m-code"><span class="k">class</span> <span class="m">MUU_ABSTRACT_INTERFACE</span> <span class="ut">virtual_base</span>
+<span class="p">{</span>
+    <span class="k">virtual</span> <span class="k">void</span> <span class="n">fooify</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">virtual</span> <span class="o">~</span><span class="n">virtual_base</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+<span class="p">};</span></pre>
+          </div></section>
           <section class="m-doc-details" id="ga364a90dd5bcbbbc7b58bbaae2b0ed904"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga364a90dd5bcbbbc7b58bbaae2b0ed904">MUU_ALWAYS_INLINE</a></span>
@@ -761,18 +773,6 @@ C++</span></a>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p><code>1</code> when the code being compiled by an IDE's 'intellisense' compiler, otherwise <code>0</code>.</p>
-          </div></section>
-          <section class="m-doc-details" id="ga829a1da3c00348065ab81819a5754243"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga829a1da3c00348065ab81819a5754243">MUU_INTERFACE</a></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
-            </h3>
-            <p>Marks a class being interface-only and not requiring a vtable.</p>
-<p>Useful for abstract base classes:</p><pre class="m-code"><span class="k">class</span> <span class="m">MUU_INTERFACE</span> <span class="ut">virtual_base</span>
-<span class="p">{</span>
-    <span class="k">virtual</span> <span class="k">void</span> <span class="n">fooify</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="k">virtual</span> <span class="o">~</span><span class="n">virtual_base</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
-<span class="p">};</span></pre>
           </div></section>
           <section class="m-doc-details" id="gadee8a66ce0dce28aa817259e818945aa"><div>
             <h3>

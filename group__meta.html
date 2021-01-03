@@ -234,11 +234,6 @@ C++</span></a>
               using <a class="m-doc" href="#ga47a90ed3608cf7b0bf562f4ad208cd21">unsigned_integer</a> = typename impl::unsigned_integer_&lt;Bits&gt;::type
             </dt>
             <dd>Gets the unsigned integer type with a specific number of bits for the target platform.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename... T&gt;</div>
-              using <a class="m-doc" href="#ga7e8799a37a5ce8c4eefe8f584afd2647">variant_storage</a> = std::aligned_storage_t&lt;sizeof(largest&lt;T...&gt;), alignof(most_aligned&lt;T...&gt;)&gt;
-            </dt>
-            <dd>Aliases a std::aligned_storage_t with a size and alignment capable of representing all the named types.</dd>
           </dl>
         </section>
         <section id="var-members">
@@ -289,6 +284,11 @@ C++</span></a>
             </dt>
             <dd>Are all of the named types unsigned or reference-to-unsigned?</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename From, typename To&gt;</div>
+              bool <a class="m-doc" href="#ga824ac2b58e006d4be8d4b0d6a0f7180d">allow_implicit_bit_cast</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Tells the library it is permitted to implicitly bit_cast from a type (via memcpy or similar).</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="#gaa4c92e65e153e9a6c9ac01ba3bd653e5">always_false</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
@@ -323,11 +323,6 @@ C++</span></a>
               bool <a class="m-doc" href="#ga3bb31ded23944badda78774761206c09">any_unsigned</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are any of the named types unsigned or reference-to-unsigned?</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename From, typename To&gt;</div>
-              bool <a class="m-doc" href="#ga3504b74625d918b08482aa3d1cc6741b">can_blit</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>Tells the library it is permitted to explicitly 'blit' a type to another (via memcpy or similar).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="#gafc3c409c2d08bc8913db5ad46a84e0b9">has_arrow_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -769,16 +764,6 @@ C++</span></a>
             </h3>
             <p>Gets the unsigned integer type with a specific number of bits for the target platform.</p>
           </div></section>
-          <section class="m-doc-details" id="ga7e8799a37a5ce8c4eefe8f584afd2647"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename... T&gt;
-              </div>
-              using <a class="m-doc-self" href="#ga7e8799a37a5ce8c4eefe8f584afd2647">variant_storage</a> = std::aligned_storage_t&lt;sizeof(largest&lt;T...&gt;), alignof(most_aligned&lt;T...&gt;)&gt;
-            </h3>
-            <p>Aliases a std::aligned_storage_t with a size and alignment capable of representing all the named types.</p>
-          </div></section>
         </section>
         <section>
           <h2>Variable documentation</h2>
@@ -879,6 +864,47 @@ C++</span></a>
             <p>Are all of the named types unsigned or reference-to-unsigned?</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums backed by unsigned integers.</p></aside>
           </div></section>
+          <section class="m-doc-details" id="ga824ac2b58e006d4be8d4b0d6a0f7180d"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="fwd_8h.html">&lt;muu/fwd.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename From, typename To&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga824ac2b58e006d4be8d4b0d6a0f7180d">allow_implicit_bit_cast</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Tells the library it is permitted to implicitly bit_cast from a type (via memcpy or similar).</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">From</td>
+                  <td>The source type.</td>
+                </tr>
+                <tr>
+                  <td>To</td>
+                  <td>The destination type.</td>
+                </tr>
+              </tbody>
+            </table>
+<pre class="m-code"><span class="cp">#include</span> <span class="cpf">&lt;muu/vector.h&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="ut">vec3i</span> <span class="o">=</span> <span class="ns">muu::</span><span class="ut">vector</span><span class="o">&lt;</span><span class="ut">int</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="n">Foo</span>
+<span class="p">{</span>
+    <span class="ut">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">namespace</span> <span class="n">muu</span>
+<span class="p">{</span>
+    <span class="k">template</span> <span class="o">&lt;&gt;</span> <span class="kr">inline</span> <span class="k">constexpr</span> <span class="ut">bool</span> <span class="n">allow_implicit_bit_cast</span><span class="o">&lt;</span><span class="n">Foo</span><span class="p">,</span> <span class="ut">vec3i</span><span class="o">&gt;</span> <span class="o">=</span> <span class="k">true</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="n">Foo</span> <span class="n">foo</span><span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span> <span class="p">};</span>
+<span class="ut">vec3i</span> <span class="n">bar</span><span class="p">{</span> <span class="n">foo</span> <span class="p">};</span></pre><aside class="m-note m-info"><h4>Note</h4><p>You do not need to pepper your codebase with this. It is only used in a few highly-specialized situations:</p><ul><li><a class="m-doc" href="structmuu_1_1vector.html">muu::<wbr/>vector</a> constructor<br/></li><li><a class="m-doc" href="structmuu_1_1quaternion.html">muu::<wbr/>quaternion</a> constructor<br/></li><li><a class="m-doc" href="structmuu_1_1matrix.html">muu::<wbr/>matrix</a> constructor</li></ul></aside>
+          </div></section>
           <section class="m-doc-details" id="gaa4c92e65e153e9a6c9ac01ba3bd653e5"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
@@ -957,46 +983,6 @@ C++</span></a>
             </h3>
             <p>Are any of the named types unsigned or reference-to-unsigned?</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums backed by unsigned integers.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="ga3504b74625d918b08482aa3d1cc6741b"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="fwd_8h.html">&lt;muu/fwd.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename From, typename To&gt;
-              </div>
-              bool <a class="m-doc-self" href="#ga3504b74625d918b08482aa3d1cc6741b">can_blit</a> <span class="m-label m-primary">constexpr</span>
-            </h3>
-            <p>Tells the library it is permitted to explicitly 'blit' a type to another (via memcpy or similar).</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Template parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">From</td>
-                  <td>The source type.</td>
-                </tr>
-                <tr>
-                  <td>To</td>
-                  <td>The destination type.</td>
-                </tr>
-              </tbody>
-            </table>
-<pre class="m-code"><span class="k">struct</span> <span class="n">Foo</span>
-<span class="p">{</span>
-    <span class="ut">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">;</span>
-<span class="p">};</span>
-
-<span class="k">struct</span> <span class="n">Bar</span>
-<span class="p">{</span>
-    <span class="ut">int</span> <span class="n">values</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
-<span class="p">};</span>
-
-<span class="k">namespace</span> <span class="n">muu</span>
-<span class="p">{</span>
-    <span class="k">template</span> <span class="o">&lt;&gt;</span> <span class="kr">inline</span> <span class="k">constexpr</span> <span class="ut">bool</span> <span class="n">can_blit</span><span class="o">&lt;</span><span class="n">Foo</span><span class="p">,</span> <span class="n">Bar</span><span class="o">&gt;</span> <span class="o">=</span> <span class="k">true</span><span class="p">;</span>
-    <span class="k">template</span> <span class="o">&lt;&gt;</span> <span class="kr">inline</span> <span class="k">constexpr</span> <span class="ut">bool</span> <span class="n">can_blit</span><span class="o">&lt;</span><span class="n">Bar</span><span class="p">,</span> <span class="n">Foo</span><span class="o">&gt;</span> <span class="o">=</span> <span class="k">true</span><span class="p">;</span>
-<span class="p">};</span></pre><aside class="m-note m-info"><h4>Note</h4><p>You do not need to pepper your codebase with this. It is only used in a few highly-specialized situations:</p><ul><li><a class="m-doc" href="structmuu_1_1vector.html">muu::<wbr/>vector</a> constructor<br/></li><li><a class="m-doc" href="structmuu_1_1quaternion.html">muu::<wbr/>quaternion</a> constructor<br/></li><li><a class="m-doc" href="structmuu_1_1matrix.html">muu::<wbr/>matrix</a> constructor</li></ul></aside>
           </div></section>
           <section class="m-doc-details" id="gafc3c409c2d08bc8913db5ad46a84e0b9"><div>
             <h3>

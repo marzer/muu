@@ -288,7 +288,7 @@ C++</span></a>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="#ae2d83b72097aa70dd74a627506ab26c6">vector</a>(</span><span class="m-doc-wrap">const T&amp; tuple) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Constructs a vector from any tuple-like or explicitly-blittable type.</dd>
+            <dd>Constructs a vector from any tuple-like or implicitly bit-castable type.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a88801e28c816d55516cb880cc094997a">vector</a>(</span><span class="m-doc-wrap">const T* vals,
@@ -1205,7 +1205,7 @@ template&lt;typename T&gt;
               </div>
               <span class="m-doc-wrap-bumper"> muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae2d83b72097aa70dd74a627506ab26c6">vector</a>(</span><span class="m-doc-wrap">const T&amp; tuple) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Constructs a vector from any tuple-like or explicitly-blittable type.</p>
+            <p>Constructs a vector from any tuple-like or implicitly bit-castable type.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Template parameters</th></tr>
@@ -1213,11 +1213,11 @@ template&lt;typename T&gt;
               <tbody>
                 <tr>
                   <td style="width: 1%">T</td>
-                  <td>A tuple-like or explicitly-blittable type.</td>
+                  <td>A tuple-like or bit-castable type.</td>
                 </tr>
               </tbody>
             </table>
-<p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p><aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__meta.html#ga3504b74625d918b08482aa3d1cc6741b">muu::<wbr/>can_blit</a></p></aside>
+<p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p><aside class="m-note m-info"><h4>Note</h4><p>This constructor is implicit when given an implicitly bit-castable type, <code>explicit</code> otherwise.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__meta.html#ga824ac2b58e006d4be8d4b0d6a0f7180d">muu::<wbr/>allow_implicit_bit_cast</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="a88801e28c816d55516cb880cc094997a"><div>
             <h3>
