@@ -324,7 +324,7 @@
 		#define MUU_ABSTRACT_INTERFACE		__declspec(novtable)
 		#define MUU_EMPTY_BASES				__declspec(empty_bases)
 	#endif
-	#define MUU_UNALIASED_ALLOC				__declspec(restrict)
+	#define MUU_UNALIASED_ALLOC				__declspec(restrict) __declspec(noalias)
 	#define MUU_VECTORCALL					__vectorcall
 	#ifndef _CPPRTTI
 		#define MUU_RTTI 0
