@@ -3455,6 +3455,7 @@ MUU_NAMESPACE_START
 	/// \details This is equivalent to C++20's std::to_address.
 	template <typename T>
 	[[nodiscard]]
+	MUU_ATTR(const)
 	constexpr T* to_address(T* p) noexcept
 	{
 		static_assert(!std::is_function_v<T>, "to_address may not be used on functions.");
@@ -3490,33 +3491,49 @@ MUU_NAMESPACE_START
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(assume_aligned(N))
+	MUU_ATTR(flatten)
+	MUU_ATTR(const)
 	constexpr T* assume_aligned(T* ptr) noexcept
 	{
 		static_assert(
 			N > 0 && has_single_bit(N),
 			"assume_aligned() requires a power-of-two alignment value."
 		);
+		static_assert(
+			!std::is_function_v<T>,
+			"assume_aligned may not be used on functions."
+		);
+
 		MUU_ASSUME((reinterpret_cast<uintptr_t>(ptr) & (N - uintptr_t{ 1 })) == 0);
 
-		#if MUU_CLANG || MUU_GCC
-			return pointer_cast<T*>(__builtin_assume_aligned(pointer_cast<const void*>(ptr), N));
-		#elif MUU_MSVC
+		if constexpr (std::is_volatile_v<T>)
 		{
-			if constexpr (N < 16384)
-				return pointer_cast<T*>(__builtin_assume_aligned(pointer_cast<const void*>(ptr), N));
-			else
+			return static_cast<T*>(assume_aligned<N>(const_cast<remove_volatile<T>*>(ptr)));
+		}
+		else
+		{
+			#if MUU_CLANG || MUU_GCC
+			{
+				return static_cast<T*>(__builtin_assume_aligned(ptr, N));
+			}
+			#elif MUU_MSVC
+			{
+				if constexpr (N < 16384)
+					return static_cast<T*>(__builtin_assume_aligned(ptr, N));
+				else
+					return ptr;
+			}
+			#elif MUU_ICC
+			{
+				__assume_aligned(ptr, N);
 				return ptr;
+			}
+			#elif defined(__cpp_lib_assume_aligned)
+				return std::assume_aligned<N>(ptr);
+			#else
+				return ptr;
+			#endif
 		}
-		#elif MUU_ICC
-		{
-			__assume_aligned(ptr, N);
-			return ptr;
-		}
-		#elif defined(__cpp_lib_assume_aligned)
-			return std::assume_aligned<N>(ptr);
-		#else
-			return ptr;
-		#endif
 	}
 
 	/** @} */	// intrinsics

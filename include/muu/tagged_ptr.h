@@ -277,6 +277,7 @@ MUU_NAMESPACE_START
 			/// \details Tag bits are initialized to zero.
 			///
 			/// \param	value	The inital address of the pointer's target.
+			MUU_NODISCARD_CTOR
 			explicit
 			constexpr tagged_ptr(pointer value) noexcept
 				: bits{ tptr::pack_ptr(pointer_cast<void*>(value)) }
@@ -291,6 +292,7 @@ MUU_NAMESPACE_START
 			/// \warning If the tag parameter is an integer larger than the available tag bits,
 			/// 		 any overflow will be masked out and ignored.
 			template <typename U>
+			MUU_NODISCARD_CTOR
 			constexpr tagged_ptr(pointer value, const U& tag_) noexcept
 				: bits{ tptr::pack_both(pointer_cast<void*>(value), tag_) }
 			{
@@ -303,13 +305,16 @@ MUU_NAMESPACE_START
 			}
 
 			/// \brief	Constructs zero-initialized tagged pointer.
+			MUU_NODISCARD_CTOR
 			constexpr tagged_ptr(nullptr_t) noexcept
 			{}
 
 			/// \brief	Constructs zero-initialized tagged pointer.
+			MUU_NODISCARD_CTOR
 			tagged_ptr() noexcept = default;
 
 			/// \brief	Copy constructor.
+			MUU_NODISCARD_CTOR
 			tagged_ptr(const tagged_ptr&) noexcept = default;
 
 			/// \brief	Copy-assignment operator.
@@ -321,7 +326,6 @@ MUU_NAMESPACE_START
 			/// \brief	Sets the target pointer value and all tag bits to zero.
 			///
 			/// \returns	A reference to the tagged_ptr.
-			MUU_ALWAYS_INLINE
 			constexpr tagged_ptr& reset() noexcept
 			{
 				bits = {};
@@ -365,9 +369,13 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns the target pointer value.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			constexpr pointer ptr() const noexcept
 			{
-				return assume_aligned<MinAlign>(reinterpret_cast<pointer>(tptr::get_ptr(bits)));
+				if constexpr (std::is_function_v<T>)
+					return reinterpret_cast<pointer>(tptr::get_ptr(bits));
+				else
+					return assume_aligned<MinAlign>(reinterpret_cast<pointer>(tptr::get_ptr(bits)));
 			}
 
 			/// \brief	Sets the target pointer value, leaving the tag bits unchanged.
@@ -394,7 +402,6 @@ MUU_NAMESPACE_START
 			/// \brief	Sets the target pointer value to nullptr, leaving the tag bits unchanged.
 			///
 			/// \returns	A reference to the tagged_ptr.
-			MUU_ALWAYS_INLINE
 			constexpr tagged_ptr& clear_ptr() noexcept
 			{
 				bits &= tptr::tag_mask;
@@ -405,7 +412,7 @@ MUU_NAMESPACE_START
 			/// 
 			/// \remarks This is an alias for ptr(); it exists to keep the interface consistent with std::unique_ptr.
 			[[nodiscard]]
-			MUU_ALWAYS_INLINE
+			MUU_ATTR(pure)
 			constexpr pointer get() const noexcept
 			{
 				return ptr();
@@ -414,6 +421,7 @@ MUU_NAMESPACE_START
 			/// \brief	Returns the tag bits as an unsigned integer or trivially-copyable type.
 			template <typename U = tag_type>
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			constexpr U tag() const noexcept
 			{
 				static_assert(
@@ -469,6 +477,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns the value of one of the tag bits.
 			[[nodiscard]]
+			MUU_ATTR(pure)
 			constexpr bool tag_bit(size_t tag_bit_index) const noexcept
 			{
 				return tptr::get_tag_bit(bits, tag_bit_index);
@@ -493,7 +502,6 @@ MUU_NAMESPACE_START
 			/// \brief	Sets the tag bits to zero, leaving the target pointer value unchanged.
 			///
 			/// \returns	A reference to the tagged_ptr.
-			MUU_ALWAYS_INLINE
 			constexpr tagged_ptr& clear_tag() noexcept
 			{
 				bits &= tptr::ptr_mask;
@@ -502,7 +510,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns the target pointer value.
 			[[nodiscard]]
-			MUU_ALWAYS_INLINE
+			MUU_ATTR(pure)
 			explicit
 			constexpr operator pointer () const noexcept
 			{
@@ -511,7 +519,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns true if the target pointer value is not nullptr.
 			[[nodiscard]]
-			MUU_ALWAYS_INLINE
+			MUU_ATTR(pure)
 			explicit
 			constexpr operator bool() const noexcept
 			{
@@ -524,9 +532,9 @@ MUU_NAMESPACE_START
 			template <typename U = element_type
 				MUU_ENABLE_IF(!std::is_void_v<U> && !std::is_function_v<U>)
 			>
-			MUU_REQUIRES(!std::is_void_v<U> && !std::is_function_v<U>)
+			MUU_REQUIRES(!std::is_void_v<T> && !std::is_function_v<T>)
 			[[nodiscard]]
-			MUU_ALWAYS_INLINE
+			MUU_ATTR(pure)
 			constexpr U& operator * () const noexcept
 			{
 				return *ptr();
@@ -538,9 +546,9 @@ MUU_NAMESPACE_START
 			template <typename U = element_type
 				MUU_ENABLE_IF(!std::is_void_v<U> && !std::is_function_v<U>)
 			>
-			MUU_REQUIRES(!std::is_void_v<U> && !std::is_function_v<U>)
+			MUU_REQUIRES(!std::is_void_v<T> && !std::is_function_v<T>)
 			[[nodiscard]]
-			MUU_ALWAYS_INLINE
+			MUU_ATTR(pure)
 			constexpr pointer operator -> () const noexcept
 			{
 				return ptr();
@@ -557,7 +565,7 @@ MUU_NAMESPACE_START
 			template <typename... U, typename V = element_type
 				MUU_ENABLE_IF(std::is_function_v<V>)
 			>
-			MUU_REQUIRES(std::is_function_v<V>)
+			MUU_REQUIRES(std::is_function_v<T>)
 			constexpr decltype(auto) operator () (U&&... args) const
 				noexcept(std::is_nothrow_invocable_v<V, U&&...>)
 			{
@@ -568,6 +576,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns true if a tagged_ptr and raw pointer refer to the same address.
 			[[nodiscard]]
+			MUU_ATTR(const)
 			friend constexpr bool operator == (tagged_ptr lhs, const_pointer rhs) noexcept
 			{
 				return lhs.ptr() == rhs;
@@ -575,6 +584,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns true if a tagged_ptr and raw pointer do not refer to the same address.
 			[[nodiscard]]
+			MUU_ATTR(const)
 			friend constexpr bool operator != (tagged_ptr lhs, const_pointer rhs) noexcept
 			{
 				return lhs.ptr() != rhs;
@@ -582,6 +592,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns true if a tagged_ptr and raw pointer refer to the same address.
 			[[nodiscard]]
+			MUU_ATTR(const)
 			friend constexpr bool operator == (const_pointer lhs, tagged_ptr rhs) noexcept
 			{
 				return lhs == rhs.ptr();
@@ -589,6 +600,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns true if a tagged_ptr and raw pointer do not refer to the same address.
 			[[nodiscard]]
+			MUU_ATTR(const)
 			friend constexpr bool operator != (const_pointer lhs, tagged_ptr rhs) noexcept
 			{
 				return lhs != rhs.ptr();
@@ -596,7 +608,7 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns true if two tagged_ptrs are equal (including their tag bits).
 			[[nodiscard]]
-			MUU_ALWAYS_INLINE
+			MUU_ATTR(const)
 			friend constexpr bool operator == (tagged_ptr lhs, tagged_ptr rhs) noexcept
 			{
 				return lhs.bits == rhs.bits;
@@ -604,15 +616,15 @@ MUU_NAMESPACE_START
 
 			/// \brief	Returns true if two tagged_ptrs are not equal (including their tag bits).
 			[[nodiscard]]
-			MUU_ALWAYS_INLINE
+			MUU_ATTR(const)
 			friend constexpr bool operator != (tagged_ptr lhs, tagged_ptr rhs) noexcept
 			{
 				return lhs.bits != rhs.bits;
 			}
 	};
 	#ifndef DOXYGEN
-	tagged_ptr(nullptr_t)							-> tagged_ptr<impl::tptr_nullptr_deduced_tag, 1_sz>;
-	template <typename T> tagged_ptr(nullptr_t, T)	-> tagged_ptr<impl::tptr_nullptr_deduced_tag, 1_sz>;
+	tagged_ptr(nullptr_t)									-> tagged_ptr<impl::tptr_nullptr_deduced_tag, 1_sz>;
+	template <typename T> tagged_ptr(nullptr_t, T)			-> tagged_ptr<impl::tptr_nullptr_deduced_tag, 1_sz>;
 	template <typename T, typename U>	tagged_ptr(T*, U)	-> tagged_ptr<T>;
 	template <typename T>				tagged_ptr(T*)		-> tagged_ptr<T>;
 	#endif
@@ -628,6 +640,8 @@ MUU_NAMESPACE_START
 			template <typename U>
 			using rebind = tagged_ptr<U, MinAlign>;
 
+			[[nodiscard]]
+			MUU_ATTR(pure)
 			constexpr static element_type* to_address(const pointer& p) noexcept
 			{
 				return p.ptr();
@@ -640,6 +654,7 @@ MUU_NAMESPACE_START
 			using pointer = tagged_ptr<T, MinAlign>;
 			using element_type = T;
 
+			[[nodiscard]]
 			constexpr static pointer pointer_to(element_type& r) noexcept
 			{
 				return pointer{ &r };
