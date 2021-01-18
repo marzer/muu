@@ -240,6 +240,8 @@
 											MUU_PRAGMA_CLANG(diagnostic ignored "-Wpadded")					\
 									  MUU_PRAGMA_CLANG_GE(9, diagnostic ignored "-Wctad-maybe-unsupported") \
 											MUU_PRAGMA_CLANG(diagnostic ignored "-Wc++2a-compat")			\
+											MUU_PRAGMA_CLANG(diagnostic ignored "-Wtautological-pointer-compare") \
+											MUU_PRAGMA_CLANG(diagnostic ignored "-Wmissing-field-initializers")	\
 											MUU_PRAGMA_CLANG(diagnostic ignored "-Wpacked")
 	#define MUU_POP_WARNINGS				MUU_PRAGMA_CLANG(diagnostic pop)
 	#define MUU_DISABLE_WARNINGS			MUU_PUSH_WARNINGS \
