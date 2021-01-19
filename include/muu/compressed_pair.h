@@ -43,7 +43,7 @@ MUU_IMPL_NAMESPACE_START
 		MUU_REQUIRES(std::is_constructible_v<First, F&&>&& std::is_constructible_v<Second, S&&>)					\
 		MUU_NODISCARD_CTOR																							\
 		constexpr compressed_pair_base(F&& first_init, S&& second_init)												\
-			noexcept(std::is_nothrow_constructible_v<First, F&&>&& std::is_nothrow_constructible_v<Second, S&&>)	\
+			noexcept(std::is_nothrow_constructible_v<First, F&&> && std::is_nothrow_constructible_v<Second, S&&>)	\
 			: first_initializer{ static_cast<F&&>(first_init) },													\
 			second_initializer{ static_cast<S&&>(second_init) }														\
 		{}																											\
@@ -177,7 +177,7 @@ MUU_NAMESPACE_START
 			MUU_REQUIRES(std::is_constructible_v<First, F&&> && std::is_constructible_v<Second, S&&>)
 			MUU_NODISCARD_CTOR
 				constexpr compressed_pair(F&& first_init, S&& second_init)
-				noexcept(std::is_nothrow_constructible_v<First, F&&>&& std::is_nothrow_constructible_v<Second, S&&>)
+				noexcept(std::is_nothrow_constructible_v<First, F&&> && std::is_nothrow_constructible_v<Second, S&&>)
 				#ifndef DOXYGEN
 				: base{ static_cast<F&&>(first_init), static_cast<S&&>(second_init) }
 				#endif

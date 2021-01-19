@@ -65,7 +65,6 @@ MUU_NAMESPACE_START
 		);
 		static_assert(
 			!build::has_exceptions
-			|| std::is_trivially_destructible_v<std::remove_reference_t<T>>
 			|| std::is_nothrow_destructible_v<std::remove_reference_t<T>>,
 			"Callables wrapped by a scope guard must be nothrow-destructible"
 		);

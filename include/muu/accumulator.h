@@ -52,7 +52,7 @@ MUU_NAMESPACE_START
 			"Implementation type must be default-constructible"
 		);
 		static_assert(
-			!build::has_exceptions || std::is_trivially_destructible_v<Impl> || std::is_nothrow_destructible_v<Impl>,
+			!build::has_exceptions || std::is_nothrow_destructible_v<Impl>,
 			"Implementation type must be nothrow-destructible"
 		);
 

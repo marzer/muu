@@ -351,7 +351,8 @@
 											__pragma(warning(disable: 1011)) /* missing return (false-positive) */ \
 											__pragma(warning(disable: 2261)) /* assume expr side-effects discarded */
 	#define MUU_POP_WARNINGS				__pragma(warning(pop))
-	#define MUU_DISABLE_WARNINGS			__pragma(warning(push, 0)) MUU_DISABLE_SPAM_WARNINGS
+	#define MUU_DISABLE_WARNINGS			__pragma(warning(push, 0))	\
+											MUU_DISABLE_SPAM_WARNINGS
 	#define MUU_ENABLE_WARNINGS				MUU_POP_WARNINGS
 	#ifndef MUU_OFFSETOF
 		#define MUU_OFFSETOF(type, member)	__builtin_offsetof(type, member) // ??
