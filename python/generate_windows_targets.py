@@ -10,11 +10,37 @@ import os.path as path
 import utils
 import re
 import itertools
+import shutil
 from uuid import UUID, uuid5
 
 
 def main():
 
+
+	uuid_namespace = UUID('{51C7001B-048C-4AF0-B598-D75E78FF31F0}')
+	vs_root = path.join(utils.get_script_folder(), '..', 'vs')
+
+	# read in muu.vcxproj and emit the static version
+	lib_project_static = utils.read_all_text_from_file(path.join(vs_root, 'muu.vcxproj'))
+	lib_project_static = re.sub(r'<StaticDllExport>.+?</StaticDllExport>', '<StaticDllExport>false</StaticDllExport>', lib_project_static, flags=re.I)
+	lib_project_static = re.sub(r'<ConfigurationType>.+?</ConfigurationType>', '<ConfigurationType>StaticLibrary</ConfigurationType>', lib_project_static, flags=re.I)
+	lib_project_static_uuid = str(uuid5(uuid_namespace, 'muu_lib_static')).upper()
+	lib_project_static = re.sub(r'<ProjectGuid>.+?</ProjectGuid>', f'<ProjectGuid>{{{lib_project_static_uuid}}}</ProjectGuid>', lib_project_static, flags=re.I)
+	lib_project_static_temp = re.sub(
+		r'<ItemDefinitionGroup\s+Label="Magic"\s*>.*?</ItemDefinitionGroup>',
+		'<PropertyGroup>\n    <TargetName>muu</TargetName>\n  </PropertyGroup>',
+		lib_project_static, flags=re.I | re.S
+	)
+	lib_project_static_path = path.join(vs_root, 'muu_static.vcxproj')
+	print(f'Writing to {lib_project_static_path}')
+	with open(lib_project_static_path, 'w', encoding='utf-8-sig', newline='\r\n') as file:
+		print(lib_project_static_temp, file=file)
+	shutil.copyfile(
+		path.join(vs_root, 'muu.vcxproj.filters'),
+		path.join(vs_root, 'muu_static.vcxproj.filters')
+	)
+
+	# generate test permutations
 	mode_keys = [ '!!debug', '!x86', 'cpplatest', 'noexcept' ]
 	modes = [ [], [k for k in mode_keys] ]
 	for n in range(1, len(mode_keys)):
@@ -31,14 +57,10 @@ def main():
 				mode[i] = mode[i][1:]
 	modes.sort()
 	modes = [m for m in modes if not ('cpplatest' in m and 'noexcept' in m)]
-
-	uuid_namespace = UUID('{51C7001B-048C-4AF0-B598-D75E78FF31F0}')
 	configuration_name = lambda x: 'Debug' if x.lower() == 'debug' else 'Release'
 	platform_name = lambda x: 'Win32' if x == 'x86' else x
-	vs_root = path.join(utils.get_script_folder(), '..', 'vs')
 	test_root = path.join(vs_root, 'tests')
 	os.makedirs(test_root, exist_ok = True)
-
 	for mode in modes:
 		configuration = next(configuration_name(x) for x in mode if x in ('debug', 'release'))
 		platform = next(platform_name(x) for x in mode if x in ('x64', 'x86'))
@@ -46,16 +68,14 @@ def main():
 		standard ='cpplatest' if 'cpplatest' in mode else 'cpp17'
 		mode_string = '_'.join(mode)
 
-		# read in muu.vcxproj and modify configuration
-		lib_project = utils.read_all_text_from_file(path.join(vs_root, 'muu.vcxproj'))
+		# copy muu.vcxproj and modify configuration
+		lib_project = lib_project_static
 		lib_project_file_name = f'muu_{mode_string}.vcxproj'
 		lib_project_path = path.join(test_root, lib_project_file_name)
 		lib_project_uuid = str(uuid5(uuid_namespace, 'lib_' + mode_string)).upper()
 		lib_project = re.sub(r'<PropertyGroup\s+Condition="[^"]+?[|]Win32.+?</PropertyGroup>', '', lib_project, flags=re.I | re.S)
 		lib_project = re.sub(r'<ProjectConfiguration\s+Include="[^"]+?[|]Win32.+?</ProjectConfiguration>', '', lib_project, flags=re.I | re.S)
 		lib_project = re.sub(r'<ProjectGuid>.+?</ProjectGuid>', f'<ProjectGuid>{{{lib_project_uuid}}}</ProjectGuid>', lib_project, flags=re.I)
-		lib_project = re.sub(r'<ConfigurationType>.+?</ConfigurationType>', '<ConfigurationType>StaticLibrary</ConfigurationType>', lib_project, flags=re.I)
-		lib_project = re.sub(r'<StaticDllExport>.+?</StaticDllExport>', '<StaticDllExport>false</StaticDllExport>', lib_project, flags=re.I)
 		lib_project = re.sub(r'<WholeProgramOptimization>.+?</WholeProgramOptimization>', '<WholeProgramOptimization>false</WholeProgramOptimization>', lib_project, flags=re.I)
 		lib_project = re.sub(r'<PreferredToolArchitecture>.+?</PreferredToolArchitecture>', '', lib_project, flags=re.I)
 		lib_project = re.sub(
@@ -96,9 +116,7 @@ def main():
 		test_project_uuid = str(uuid5(uuid_namespace, mode_string)).upper()
 		print(f'Writing to {test_project_path}')
 		with open(test_project_path, 'w', encoding='utf-8-sig', newline='\r\n') as file:
-			write = lambda txt: print(txt, file=file)
-			write(fr'''
-<?xml version="1.0" encoding="utf-8"?>
+			print(fr'''<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<ItemGroup Label="ProjectConfigurations">
 		<ProjectConfiguration Include="{configuration}|{platform}">
@@ -235,7 +253,8 @@ def main():
 	</ItemGroup>
 	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
-			'''.strip()
+''',
+			file=file
 		)
 
 if __name__ == '__main__':
