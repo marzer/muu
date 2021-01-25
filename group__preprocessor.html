@@ -318,6 +318,10 @@ C++</span></a>
             </dt>
             <dd>Expands to <code>[[nodiscard]]</code> if your compiler supports it on constructors.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga208185e62d9dd3604e348e153ffc976b">MUU_NOOP</a></span>
+            </dt>
+            <dd>Expands to a no-op expression, e.g. <code><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a>&lt;void&gt;(0)</code>.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gafa04ab1dd3ac1da5ddbd3df2bbadf4a1">MUU_OFFSETOF</a>(</span><span class="m-doc-wrap">type,
               member)</span>
             </dt>
@@ -386,6 +390,10 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga5180303025bb345be8bf831f1e84abed">MUU_UNREACHABLE</a></span>
             </dt>
             <dd>Marks a position in the code as being unreachable.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga8cedd12c784d70975c8a289e4013c995">MUU_UNUSED</a>(</span><span class="m-doc-wrap">expr)</span>
+            </dt>
+            <dd>Explicitly denotes the result of an expression as being explicitly unused.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga4eea4cd448c2f1324dc6fcfac8587688">MUU_VECTORCALL</a></span>
             </dt>
@@ -836,7 +844,7 @@ C++</span></a>
     <span class="n">beta</span>   <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
     <span class="n">gamma</span>  <span class="o">=</span> <span class="mi">4</span>
 <span class="p">};</span>
-<span class="m">MUU_MAKE_FLAGS</span><span class="p">(</span><span class="ut">my_flags</span><span class="p">)</span>
+<span class="m">MUU_MAKE_FLAGS</span><span class="p">(</span><span class="ut">my_flags</span><span class="p">);</span>
 
 <span class="c1">// emits these operators:</span>
 <span class="k">constexpr</span> <span class="ut">my_flags</span>  <span class="k">operator</span> <span class="o">&amp;</span>  <span class="p">(</span><span class="ut">my_flags</span><span class="p">,</span>  <span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
@@ -958,6 +966,13 @@ C++</span></a>
 
     <span class="n">something_that_requires_the_lock</span><span class="p">();</span>
 <span class="p">}</span></pre>
+          </div></section>
+          <section class="m-doc-details" id="ga208185e62d9dd3604e348e153ffc976b"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga208185e62d9dd3604e348e153ffc976b">MUU_NOOP</a></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>Expands to a no-op expression, e.g. <code><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a>&lt;void&gt;(0)</code>.</p>
           </div></section>
           <section class="m-doc-details" id="gafa04ab1dd3ac1da5ddbd3df2bbadf4a1"><div>
             <h3>
@@ -1106,6 +1121,13 @@ C++</span></a>
             </h3>
             <p>Marks a position in the code as being unreachable.</p>
 <aside class="m-note m-danger"><h4>Warning</h4><p>Using this incorrectly can lead to seriously mis-compiled code!</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga8cedd12c784d70975c8a289e4013c995"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga8cedd12c784d70975c8a289e4013c995">MUU_UNUSED</a>(</span><span class="m-doc-wrap">expr)</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>Explicitly denotes the result of an expression as being explicitly unused.</p>
           </div></section>
           <section class="m-doc-details" id="ga4eea4cd448c2f1324dc6fcfac8587688"><div>
             <h3>
