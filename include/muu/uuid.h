@@ -9,16 +9,17 @@
 #pragma once
 #include "../muu/hashing.h"
 
-MUU_DISABLE_WARNINGS
+MUU_DISABLE_WARNINGS;
 #include <optional>
 #include <iosfwd>
-MUU_ENABLE_WARNINGS
+MUU_ENABLE_WARNINGS;
 
-MUU_PUSH_WARNINGS
-MUU_DISABLE_SWITCH_WARNINGS
-MUU_DISABLE_SPAM_WARNINGS
+MUU_PUSH_WARNINGS;
+MUU_DISABLE_SWITCH_WARNINGS;
+MUU_DISABLE_SPAM_WARNINGS;
+MUU_PRAGMA_MSVC(warning(disable: 26812))
 
-#ifndef DOXYGEN // MUU_EVAL fucks it up
+/// \cond
 MUU_IMPL_NAMESPACE_START
 {
 	using uuid_raw_bytes = std::byte[16];
@@ -29,7 +30,7 @@ MUU_IMPL_NAMESPACE_START
 	};
 	static_assert(sizeof(uuid_bytes) == 16);
 
-	namespace MUU_EVAL(MUU_BIG_ENDIAN, be, le)
+	namespace MUU_ENDIANNESS_NAMESPACE
 	{
 		template <unsigned>
 		struct uuid_slicer;
@@ -92,7 +93,7 @@ MUU_IMPL_NAMESPACE_START
 	MUU_ATTR(flatten)
 	constexpr auto uuid_slice(const uuid_raw_bytes& byte_arr, unsigned first) noexcept
 	{
-		using slicer = MUU_EVAL(MUU_BIG_ENDIAN, be, le)::uuid_slicer<N>;
+		using slicer = MUU_ENDIANNESS_NAMESPACE::uuid_slicer<N>;
 		return slicer::slice(byte_arr, first);
 	}
 
@@ -100,7 +101,7 @@ MUU_IMPL_NAMESPACE_START
 	MUU_API void print_to_stream(std::wostream& stream, const uuid&);
 }
 MUU_IMPL_NAMESPACE_END
-#endif // !DOXYGEN
+/// \endcond
 
 MUU_NAMESPACE_START
 {
@@ -131,7 +132,7 @@ MUU_NAMESPACE_START
 	};
 
 	/// \brief A 128-bit universally-unique identifier (UUID).
-	/// \ingroup building_blocks
+	/// \ingroup core
 	///
 	/// \see RFC 4122: https://tools.ietf.org/html/rfc4122
 	struct uuid
@@ -721,7 +722,7 @@ MUU_NAMESPACE_START
 		};
 	}
 
-	#ifndef DOXYGEN
+	/// \cond
 
 	template <typename T>
 	MUU_ATTR(pure)
@@ -745,7 +746,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(pure) constexpr std::optional<uuid> uuid::parse(std::u32string_view str) noexcept { return parse_impl(str); }
 	MUU_ATTR(pure) constexpr std::optional<uuid> uuid::parse(std::wstring_view str) noexcept { return parse_impl(str); }
 	
-	#endif //DOXYGEN
+	/// \endcond
 
 	inline namespace literals
 	{
@@ -799,4 +800,4 @@ namespace std
 	};
 }
 
-MUU_POP_WARNINGS // MUU_DISABLE_SWITCH_WARNINGS, MUU_DISABLE_SPAM_WARNINGS
+MUU_POP_WARNINGS; // MUU_DISABLE_SWITCH_WARNINGS, MUU_DISABLE_SPAM_WARNINGS

@@ -5,11 +5,11 @@
 
 #include "tests.h"
 #include "../include/muu/thread_pool.h"
-MUU_DISABLE_WARNINGS
+MUU_DISABLE_WARNINGS;
 #include <thread>
 #include <atomic>
-MUU_ENABLE_WARNINGS
-MUU_DISABLE_SPAM_WARNINGS
+MUU_ENABLE_WARNINGS;
+MUU_DISABLE_SPAM_WARNINGS;
 
 TEST_CASE("thread_pool - initialization")
 {

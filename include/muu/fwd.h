@@ -9,13 +9,13 @@
 #pragma once
 #include "../muu/preprocessor.h"
 
-#ifndef DOXYGEN // undocumented forward declarations are hidden from doxygen because they fuck it up =/
-
 //=====================================================================================================================
 // NON-MUU TYPEDEFS AND FORWARD DECLARATIONS
 //=====================================================================================================================
+/// \cond
+// undocumented forward declarations are hidden from doxygen because they fuck it up =/
+MUU_DISABLE_WARNINGS;
 
-MUU_DISABLE_WARNINGS
 #include <cstdint>
 #include <cstddef>
 
@@ -64,11 +64,13 @@ struct IUnknown;
 #endif
 #endif // MUU_WINDOWS
 
-MUU_ENABLE_WARNINGS
+MUU_ENABLE_WARNINGS;
+/// \endcond
 
 //=====================================================================================================================
 // TYPEDEFS AND FORWARD DECLARATIONS - UNDOCUMENTED
 //=====================================================================================================================
+/// \cond
 
 namespace muu // non-abi namespace; this is not an error
 {
@@ -165,7 +167,7 @@ MUU_NAMESPACE_START // abi namespace
 }
 MUU_NAMESPACE_END
 
-#endif // !DOXYGEN
+/// \endcond
 
 //=====================================================================================================================
 // TYPEDEFS AND FORWARD DECLARATIONS
@@ -177,11 +179,8 @@ MUU_NAMESPACE_END
 ///				`<type_traits>`, but with simpler/saner default behaviour (e.g. most of the `is_X` metafunctions do
 ///				not make a distinction between T and T&).
 
-/// \defgroup		intrinsics			Intrinsics
-/// \brief Small, generally-useful functions, many of which map to compiler built-ins.
-
-/// \defgroup		building_blocks		Building blocks
-/// \brief Small, generally-useful classes and types.
+/// \defgroup		core			Core
+/// \brief Small, generally-useful functions and types.
 
 /// \defgroup		constants			Constants
 /// \brief Compile-time constant values (Pi, et cetera.).
@@ -199,14 +198,14 @@ namespace muu // non-abi namespace; this is not an error
 {
 	#if MUU_HAS_INT128
 	/// \brief	A 128-bit signed integer.
-	/// \ingroup building_blocks
+	/// \ingroup core
 	/// 
 	/// \note This typedef is only present when 128-bit integers are supported by your target platform.
 	/// 		 You can check support using #MUU_HAS_INT128.
 	using int128_t = __int128_t;
 
 	/// \brief	A 128-bit unsigned integer.
-	/// \ingroup building_blocks
+	/// \ingroup core
 	/// 
 	/// \note This typedef is only present when 128-bit integers are supported by your target platform.
 	/// 		 You can check support using #MUU_HAS_INT128.
@@ -215,7 +214,7 @@ namespace muu // non-abi namespace; this is not an error
 
 	#if MUU_HAS_FLOAT128
 	/// \brief	A 128-bit quad-precision float.
-	/// \ingroup building_blocks
+	/// \ingroup core
 	/// 
 	/// \note This typedef is only present when 128-bit floats are supported by your target platform.
 	/// 		 You can check support using #MUU_HAS_FLOAT128.
@@ -282,8 +281,7 @@ MUU_NAMESPACE_END
 //=====================================================================================================================
 // TYPEDEFS AND FORWARD DECLARATIONS - UNDOCUMENTED (redux)
 //=====================================================================================================================
-
-#ifndef DOXYGEN
+/// \cond
 
 MUU_IMPL_NAMESPACE_START
 {
@@ -299,4 +297,4 @@ MUU_IMPL_NAMESPACE_START
 }
 MUU_IMPL_NAMESPACE_END
 
-#endif // !DOXYGEN
+/// \endcond

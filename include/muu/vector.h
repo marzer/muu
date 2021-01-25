@@ -47,15 +47,14 @@
 #include "../muu/core.h"
 #include "../muu/math.h"
 
-MUU_DISABLE_WARNINGS
+MUU_DISABLE_WARNINGS;
 #include <iosfwd>
-MUU_ENABLE_WARNINGS
+MUU_ENABLE_WARNINGS;
 
-MUU_PUSH_WARNINGS
-MUU_DISABLE_SHADOW_WARNINGS
+MUU_PUSH_WARNINGS;
+MUU_DISABLE_SHADOW_WARNINGS;
 MUU_PRAGMA_GCC(diagnostic ignored "-Wsign-conversion")
 MUU_PRAGMA_CLANG(diagnostic ignored "-Wdouble-promotion")
-
 MUU_PRAGMA_MSVC(inline_recursion(on))
 MUU_PRAGMA_MSVC(float_control(push))
 MUU_PRAGMA_MSVC(float_control(except, off))
@@ -71,7 +70,7 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 // IMPLEMENTATION DETAILS
 #if 1
 
-#ifndef DOXYGEN // Template Specialization cast Confusion on Doxygen! It's super effective!
+/// \cond
 
 #if 1 // helper macros ------------------------------------------------------------------------------------------------
 
@@ -88,7 +87,7 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 				return false;																						\
 		return true;																								\
 	}																												\
-	(void)0
+	static_assert(true)
 
 #define COMPONENTWISE_OR(func)																						\
 	if constexpr (Dimensions == 1) return func(x);																	\
@@ -103,26 +102,26 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 				return true;																						\
 		return false;																								\
 	}																												\
-	(void)0
+	static_assert(true)
 
 #define COMPONENTWISE_ACCUMULATE(func, op)																			\
-	if constexpr (Dimensions == 1) { MUU_FMA_BLOCK return func(x);											}		\
-	if constexpr (Dimensions == 2) { MUU_FMA_BLOCK return (func(x)) op (func(y));							}		\
-	if constexpr (Dimensions == 3) { MUU_FMA_BLOCK return (func(x)) op (func(y)) op (func(z));				}		\
-	if constexpr (Dimensions == 4) { MUU_FMA_BLOCK return (func(x)) op (func(y)) op (func(z)) op (func(w));	}		\
+	if constexpr (Dimensions == 1) { MUU_FMA_BLOCK; return func(x);												}	\
+	if constexpr (Dimensions == 2) { MUU_FMA_BLOCK; return (func(x)) op (func(y));								}	\
+	if constexpr (Dimensions == 3) { MUU_FMA_BLOCK; return (func(x)) op (func(y)) op (func(z));					}	\
+	if constexpr (Dimensions == 4) { MUU_FMA_BLOCK; return (func(x)) op (func(y)) op (func(z)) op (func(w));	}	\
 	if constexpr (Dimensions > 4)																					\
 	{																												\
-		MUU_FMA_BLOCK																								\
+		MUU_FMA_BLOCK;																								\
 		auto val = func(values[0]);																					\
 		MUU_PRAGMA_MSVC(omp simd)																					\
 		for (size_t i = 1; i < Dimensions; i++)																		\
 		{																											\
-			MUU_FMA_BLOCK																							\
+			MUU_FMA_BLOCK;																							\
 			val op##= func(values[i]);																				\
 		}																											\
 		return val;																									\
 	}																												\
-	(void)0
+	static_assert(true)
 
 #define NULL_TRANSFORM(x) x
 
@@ -136,7 +135,7 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 	{																												\
 		transformer(func, NULL_TRANSFORM);																			\
 	}																												\
-	(void)0
+	static_assert(true)
 
 
 #define COMPONENTWISE_CASTING_OP(func, transformer)																	\
@@ -148,43 +147,43 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 	{																												\
 		COMPONENTWISE_CASTING_OP_BRANCH(func, transformer, values[0]);												\
 	}																												\
-	(void)0
+	static_assert(true)
 
 #define COMPONENTWISE_CONSTRUCT_WITH_TRANSFORM(func, xform)															\
-	if constexpr (Dimensions == 1) { MUU_FMA_BLOCK return vector{ xform(func(x)) };													} \
-	if constexpr (Dimensions == 2) { MUU_FMA_BLOCK return vector{ xform(func(x)), xform(func(y)) };									} \
-	if constexpr (Dimensions == 3) { MUU_FMA_BLOCK return vector{ xform(func(x)), xform(func(y)), xform(func(z)) };					} \
-	if constexpr (Dimensions == 4) { MUU_FMA_BLOCK return vector{ xform(func(x)), xform(func(y)), xform(func(z)), xform(func(w)) };	} \
+	if constexpr (Dimensions == 1) { MUU_FMA_BLOCK; return vector{ xform(func(x)) };													} \
+	if constexpr (Dimensions == 2) { MUU_FMA_BLOCK; return vector{ xform(func(x)), xform(func(y)) };									} \
+	if constexpr (Dimensions == 3) { MUU_FMA_BLOCK; return vector{ xform(func(x)), xform(func(y)), xform(func(z)) };					} \
+	if constexpr (Dimensions == 4) { MUU_FMA_BLOCK; return vector{ xform(func(x)), xform(func(y)), xform(func(z)), xform(func(w)) };	} \
 	if constexpr (Dimensions > 4)																					\
 	{																												\
-		MUU_FMA_BLOCK																								\
+		MUU_FMA_BLOCK;																								\
 		return vector{																								\
 			impl::componentwise_func_tag{},																			\
 			[&](size_t i) noexcept																					\
 			{																										\
-				MUU_FMA_BLOCK																						\
+				MUU_FMA_BLOCK;																						\
 				return xform(func(values[i]));																		\
 			}																										\
 		};																											\
 	}																												\
-	(void)0
+	static_assert(true)
 
 #define COMPONENTWISE_CONSTRUCT(func)	COMPONENTWISE_CASTING_OP(func, COMPONENTWISE_CONSTRUCT_WITH_TRANSFORM)
 
 #define COMPONENTWISE_ASSIGN_WITH_TRANSFORM(func, xform)															\
 	if constexpr (Dimensions <= 4)																					\
 	{																												\
-										{ MUU_FMA_BLOCK base::x = xform(func(x)); }									\
-		if constexpr (Dimensions >= 2)	{ MUU_FMA_BLOCK base::y = xform(func(y)); }									\
-		if constexpr (Dimensions >= 3)	{ MUU_FMA_BLOCK base::z = xform(func(z)); }									\
-		if constexpr (Dimensions == 4)	{ MUU_FMA_BLOCK base::w = xform(func(w)); }									\
+										{ MUU_FMA_BLOCK; base::x = xform(func(x)); }								\
+		if constexpr (Dimensions >= 2)	{ MUU_FMA_BLOCK; base::y = xform(func(y)); }								\
+		if constexpr (Dimensions >= 3)	{ MUU_FMA_BLOCK; base::z = xform(func(z)); }								\
+		if constexpr (Dimensions == 4)	{ MUU_FMA_BLOCK; base::w = xform(func(w)); }								\
 	}																												\
 	else																											\
 	{																												\
 		MUU_PRAGMA_MSVC(omp simd)																					\
 		for (size_t i = 0; i < Dimensions; i++)																		\
 		{																											\
-			MUU_FMA_BLOCK																							\
+			MUU_FMA_BLOCK;																							\
 			base::values[i] = xform(func(values[i]));																\
 		}																											\
 	}																												\
@@ -259,7 +258,7 @@ MUU_IMPL_NAMESPACE_START
 		template <size_t... Indices>
 		explicit
 		constexpr vector_base(Scalar fill, std::index_sequence<Indices...>) noexcept
-			: values{ ((void)Indices, fill)... }
+			: values{ (MUU_UNUSED(Indices), fill)... }
 		{
 			static_assert(sizeof...(Indices) <= Dimensions);
 		}
@@ -331,7 +330,7 @@ MUU_IMPL_NAMESPACE_START
 		template <typename Func, size_t... Indices>
 		explicit
 		constexpr vector_base(componentwise_func_tag, std::index_sequence<Indices...>, Func&& func) noexcept
-			: values{ func(Indices)... }
+			: values{ func(std::integral_constant<size_t, Indices>{})... }
 		{
 			static_assert(sizeof...(Indices) <= Dimensions);
 		}
@@ -693,15 +692,11 @@ MUU_IMPL_NAMESPACE_START
 		}
 	};
 
-	#if MUU_HAS_VECTORCALL
-
 	template <typename Scalar, size_t Dimensions>
 	inline constexpr bool is_hva<vector_base<Scalar, Dimensions>> = can_be_hva_of<Scalar, vector_base<Scalar, Dimensions>>;
 
 	template <typename Scalar, size_t Dimensions>
 	inline constexpr bool is_hva<vector<Scalar, Dimensions>> = is_hva<vector_base<Scalar, Dimensions>>;
-
-	#endif // MUU_HAS_VECTORCALL
 
 	template <typename Scalar, size_t Dimensions>
 	struct readonly_param_<vector<Scalar, Dimensions>>
@@ -800,15 +795,17 @@ MUU_IMPL_NAMESPACE_START
 			return lhs % rhs;
 	}
 
-	template <typename Return, typename T, typename U
-		MUU_ENABLE_IF(pass_readonly_by_reference<T> || pass_readonly_by_reference<U>)
-	>
-	MUU_REQUIRES(pass_readonly_by_reference<T> || pass_readonly_by_reference<U>)
+	MUU_CONSTRAINED_TEMPLATE(
+		(pass_readonly_by_reference<T> || pass_readonly_by_reference<U>),
+		typename Return,
+		typename T,
+		typename U
+	)
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	static constexpr Return MUU_VECTORCALL raw_cross(const T& lhs, const U& rhs) noexcept
 	{
-		MUU_FMA_BLOCK
+		MUU_FMA_BLOCK;
 		using lhs_scalar = decltype(lhs.x);
 		using rhs_scalar = decltype(rhs.x);
 		using return_scalar = remove_cvref<decltype(std::declval<Return>().x)>;
@@ -827,15 +824,17 @@ MUU_IMPL_NAMESPACE_START
 		};
 	}
 
-	template <typename Return, typename T, typename U
-		MUU_ENABLE_IF_2(pass_readonly_by_value<T> && pass_readonly_by_value<U>)
-	>
-	MUU_REQUIRES(pass_readonly_by_value<T> && pass_readonly_by_value<U>)
+	MUU_CONSTRAINED_TEMPLATE_2(
+		(pass_readonly_by_value<T> && pass_readonly_by_value<U>),
+		typename Return,
+		typename T,
+		typename U
+	)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	static constexpr Return MUU_VECTORCALL raw_cross(T lhs, U rhs) noexcept
 	{
-		MUU_FMA_BLOCK
+		MUU_FMA_BLOCK;
 		using lhs_scalar = decltype(lhs.x);
 		using rhs_scalar = decltype(rhs.x);
 		using return_scalar = remove_cvref<decltype(std::declval<Return>().x)>;
@@ -863,63 +862,107 @@ namespace muu
 		= allow_implicit_bit_cast<From, vector<Scalar, Dimensions>>;
 }
 
-#else // ^^^ !DOXYGEN / DOXYGEN vvv
+#if !MUU_INTELLISENSE
 
-#define	REQUIRES_DIMENSIONS_AT_LEAST(dim)
-#define	REQUIRES_DIMENSIONS_AT_LEAST_AND(dim, ...)
-#define	REQUIRES_DIMENSIONS_BETWEEN(min, max)
-#define	REQUIRES_DIMENSIONS_EXACTLY(dim)
-#define	REQUIRES_FLOATING_POINT
-#define	REQUIRES_INTEGRAL
-#define	REQUIRES_SIGNED
-#define SPECIALIZED_IF(cond)
+	#define ENABLE_PAIRED_FUNCS 1
 
-#endif // DOXYGEN
+	#define ENABLE_PAIRED_FUNC_BY_REF(S, D, ...) \
+				MUU_ENABLE_IF(impl::pass_readonly_by_reference<vector<S, D>> && (__VA_ARGS__))
+
+	#define ENABLE_PAIRED_FUNC_BY_VAL(S, D, ...) \
+				MUU_ENABLE_IF_2(impl::pass_readonly_by_value<vector<S, D>> && (__VA_ARGS__))
+
+	#define REQUIRES_PAIRED_FUNC_BY_REF(S, D, ...) \
+				MUU_REQUIRES(impl::pass_readonly_by_reference<vector<S, D>> && (__VA_ARGS__))
+
+	#define REQUIRES_PAIRED_FUNC_BY_VAL(S, D, ...) \
+				MUU_REQUIRES(impl::pass_readonly_by_value<vector<S, D>> && (__VA_ARGS__))
+
+#endif // !MUU_INTELLISENSE
+
+/// \endcond
+
+#ifndef REQUIRES_DIMENSIONS_AT_LEAST
+	#define	REQUIRES_DIMENSIONS_AT_LEAST(dim)
+#endif
+
+#ifndef REQUIRES_DIMENSIONS_AT_LEAST_AND
+	#define	REQUIRES_DIMENSIONS_AT_LEAST_AND(dim, ...)
+#endif
+
+#ifndef REQUIRES_DIMENSIONS_BETWEEN
+	#define	REQUIRES_DIMENSIONS_BETWEEN(min, max)
+#endif
+
+#ifndef REQUIRES_DIMENSIONS_EXACTLY
+	#define	REQUIRES_DIMENSIONS_EXACTLY(dim)
+#endif
+
+#ifndef REQUIRES_FLOATING_POINT
+	#define	REQUIRES_FLOATING_POINT
+#endif
+
+#ifndef REQUIRES_INTEGRAL
+	#define	REQUIRES_INTEGRAL
+#endif
+
+#ifndef REQUIRES_SIGNED
+	#define	REQUIRES_SIGNED
+#endif
+
+#ifndef SPECIALIZED_IF
+	#define SPECIALIZED_IF(cond)
+#endif
 
 #ifndef ENABLE_IF_DIMENSIONS_AT_LEAST
 	#define ENABLE_IF_DIMENSIONS_AT_LEAST(dim)
 #endif
+
 #ifndef ENABLE_IF_DIMENSIONS_AT_LEAST_AND
 	#define ENABLE_IF_DIMENSIONS_AT_LEAST_AND(dim, ...)
 #endif
+
 #ifndef LEGACY_REQUIRES_DIMENSIONS_AT_LEAST
 	#define LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(dim)
 #endif
+
 #ifndef LEGACY_REQUIRES_DIMENSIONS_BETWEEN
 	#define LEGACY_REQUIRES_DIMENSIONS_BETWEEN(min, max)
 #endif
+
 #ifndef LEGACY_REQUIRES_DIMENSIONS_EXACTLY
 	#define LEGACY_REQUIRES_DIMENSIONS_EXACTLY(dim)
 #endif
+
 #ifndef LEGACY_REQUIRES_FLOATING_POINT
 	#define LEGACY_REQUIRES_FLOATING_POINT
 #endif
+
 #ifndef LEGACY_REQUIRES_INTEGRAL
 	#define LEGACY_REQUIRES_INTEGRAL
 #endif
+
 #ifndef LEGACY_REQUIRES_SIGNED
 	#define LEGACY_REQUIRES_SIGNED
 #endif
-#if !defined(DOXYGEN) && !MUU_INTELLISENSE
-	#define ENABLE_PAIRED_FUNCS 1
 
-	#define ENABLE_PAIRED_FUNC_BY_REF(S, D, ...) \
-			MUU_ENABLE_IF(impl::pass_readonly_by_reference<vector<S, D>> && (__VA_ARGS__))
-
-	#define ENABLE_PAIRED_FUNC_BY_VAL(S, D, ...) \
-			MUU_ENABLE_IF_2(impl::pass_readonly_by_value<vector<S, D>> && (__VA_ARGS__))
-
-	#define REQUIRES_PAIRED_FUNC_BY_REF(S, D, ...) \
-			MUU_REQUIRES(impl::pass_readonly_by_reference<vector<S, D>> && (__VA_ARGS__))
-
-	#define REQUIRES_PAIRED_FUNC_BY_VAL(S, D, ...) \
-			MUU_REQUIRES(impl::pass_readonly_by_value<vector<S, D>> && (__VA_ARGS__))
-
-#else
+#ifndef ENABLE_PAIRED_FUNCS
 	#define ENABLE_PAIRED_FUNCS 0
+#endif
+
+#ifndef ENABLE_PAIRED_FUNC_BY_REF
 	#define ENABLE_PAIRED_FUNC_BY_REF(S, D, ...)
+#endif
+
+#ifndef ENABLE_PAIRED_FUNC_BY_VAL
 	#define ENABLE_PAIRED_FUNC_BY_VAL(S, D, ...)
+#endif
+
+#ifndef REQUIRES_PAIRED_FUNC_BY_REF
 	#define REQUIRES_PAIRED_FUNC_BY_REF(S, D, ...)
+#endif
+
+#ifndef REQUIRES_PAIRED_FUNC_BY_VAL
 	#define REQUIRES_PAIRED_FUNC_BY_VAL(S, D, ...)
 #endif
 
@@ -1028,6 +1071,7 @@ MUU_NAMESPACE_START
 	public:
 
 		#ifdef DOXYGEN
+
 		/// \brief The vector's 0th scalar component (when #dimensions &lt;= 4).
 		scalar_type x;
 		/// \brief The vector's 1st scalar component (when #dimensions == 2, 3 or 4).
@@ -1038,7 +1082,8 @@ MUU_NAMESPACE_START
 		scalar_type w;
 		/// \brief The vector's scalar component array (when #dimensions &gt;= 5).
 		scalar_type values[dimensions];
-		#endif
+
+		#endif // DOXYGEN
 
 	#if 1 // constructors ---------------------------------------------------------------------------------------------
 
@@ -1197,7 +1242,7 @@ MUU_NAMESPACE_START
 			: base{ impl::tuple_cast_tag{}, std::make_index_sequence<tuple_size<T>>{}, tuple }
 		{}
 
-		#ifndef DOXYGEN
+		/// \cond
 
 		template <typename T
 			MUU_ENABLE_IF(
@@ -1224,7 +1269,7 @@ MUU_NAMESPACE_START
 			);
 		}
 
-		#endif // DOXYGEN
+		/// \endcond
 
 		/// \brief Enlarging/truncating/converting constructor.
 		/// \details Copies source vector's scalar components, casting if necessary:
@@ -1634,7 +1679,7 @@ MUU_NAMESPACE_START
 			}
 			else
 			{
-				(void)v;
+				MUU_UNUSED(v);
 				return false;
 			}
 		}
@@ -1820,7 +1865,7 @@ MUU_NAMESPACE_START
 			constexpr auto subtract_and_square = [](scalar_type lhs, scalar_type rhs) noexcept
 				-> T
 			{
-				MUU_FMA_BLOCK
+				MUU_FMA_BLOCK;
 
 				const T temp = static_cast<T>(lhs) - static_cast<T>(rhs);
 				return temp * temp;
@@ -2537,7 +2582,7 @@ MUU_NAMESPACE_START
 		{
 			if constexpr (Dimensions == 1)
 			{
-				(void)v;
+				MUU_UNUSED(v);
 				return vector{ scalar_constants::one };
 			}
 			else
@@ -3092,7 +3137,7 @@ MUU_NAMESPACE_START
 	#endif // misc
 	};
 	
-	#ifndef DOXYGEN // deduction guides -------------------------------------------------------------------------------
+	/// \cond deduction_guides
 
 	template <typename T, typename U, typename... V
 		MUU_ENABLE_IF(all_arithmetic<T, U, V...>)
@@ -3124,7 +3169,7 @@ MUU_NAMESPACE_START
 	template <typename T, size_t N MUU_ENABLE_IF(N != dynamic_extent)> MUU_REQUIRES(N != dynamic_extent)
 	vector(const muu::span<T, N>&) -> vector<T, N>;
 
-	#endif // deduction guides
+	/// \endcond
 }
 MUU_NAMESPACE_END
 
@@ -3153,13 +3198,13 @@ namespace std
 // CONSTANTS
 #if 1
 
-MUU_PUSH_PRECISE_MATH
+MUU_PUSH_PRECISE_MATH;
 
 MUU_NAMESPACE_START
 {
 	namespace impl
 	{
-		#ifndef DOXYGEN
+		/// \cond
 
 		template <typename Scalar, size_t Dimensions>
 		struct integer_limits<vector<Scalar, Dimensions>>
@@ -3271,7 +3316,7 @@ MUU_NAMESPACE_START
 		template <typename Scalar, size_t Dimensions>
 		struct vector_constants_base<Scalar, Dimensions, 2>	: floating_point_constants<vector<Scalar, Dimensions>> {};
 
-		#endif // !DOXYGEN
+		/// \endcond
 
 		template <typename Scalar, size_t Dimensions>
 		struct unit_length_ge_1d_vector_constants
@@ -3389,7 +3434,7 @@ MUU_NAMESPACE_START
 			  unit_length_2d_or_3d_signed_vector_constants<Scalar, Dimensions>
 		{ };
 
-		#ifndef DOXYGEN
+		/// \cond
 
 		template <typename Scalar>
 		struct unit_length_ge_1d_vector_constants<Scalar, 1>
@@ -3426,8 +3471,22 @@ MUU_NAMESPACE_START
 		template <typename Scalar, size_t Dimensions>
 		struct unit_length_2d_or_3d_signed_vector_constants<Scalar, Dimensions, false> { };
 
-		#endif // !DOXYGEN
+		/// \endcond
 	}
+
+	#ifdef DOXYGEN
+		#define VECTOR_CONSTANTS_BASES													\
+			impl::unit_length_vector_constants<Scalar, Dimensions>,						\
+			impl::integer_limits<vector<Scalar, Dimensions>>,							\
+			impl::integer_positive_constants<vector<Scalar, Dimensions>>,				\
+			impl::floating_point_limits<vector<Scalar, Dimensions>>,					\
+			impl::floating_point_special_constants<vector<Scalar, Dimensions>>,			\
+			impl::floating_point_named_constants<vector<Scalar, Dimensions>>
+	#else
+		#define VECTOR_CONSTANTS_BASES													\
+			impl::unit_length_vector_constants<Scalar, Dimensions>,						\
+			impl::vector_constants_base<Scalar, Dimensions>
+	#endif
 
 	/// \ingroup	constants
 	/// \related	muu::vector
@@ -3436,22 +3495,14 @@ MUU_NAMESPACE_START
 	/// \brief		Vector constants.
 	template <typename Scalar, size_t Dimensions>
 	struct constants<vector<Scalar, Dimensions>>
-		: impl::unit_length_vector_constants<Scalar, Dimensions>,
-		#ifdef DOXYGEN
-			// doxygen breaks if you mix template specialization and inheritance
-			impl::integer_limits<vector<Scalar, Dimensions>>,
-			impl::integer_positive_constants<vector<Scalar, Dimensions>>,
-			impl::floating_point_limits<vector<Scalar, Dimensions>>,
-			impl::floating_point_special_constants<vector<Scalar, Dimensions>>,
-			impl::floating_point_named_constants<vector<Scalar, Dimensions>>
-		#else
-			impl::vector_constants_base<Scalar, Dimensions>
-		#endif
+		: VECTOR_CONSTANTS_BASES
 	{};
+
+	#undef VECTOR_CONSTANTS_BASES
 }
 MUU_NAMESPACE_END
 
-MUU_POP_PRECISE_MATH
+MUU_POP_PRECISE_MATH;
 
 #endif // =============================================================================================================
 
@@ -3583,7 +3634,7 @@ MUU_NAMESPACE_START
 			return vector<S, D>::infinity_or_nan(v);
 		else
 		{
-			(void)v;
+			MUU_UNUSED(v);
 			return false;
 		}
 	}
@@ -3989,7 +4040,7 @@ MUU_NAMESPACE_START
 			return vector<S, D>::infinity_or_nan(v);
 		else
 		{
-			(void)v;
+			MUU_UNUSED(v);
 			return false;
 		}
 	}
@@ -4308,5 +4359,4 @@ MUU_PRAGMA_MSVC(pop_macro("min"))
 MUU_PRAGMA_MSVC(pop_macro("max"))
 MUU_PRAGMA_MSVC(float_control(pop))
 MUU_PRAGMA_MSVC(inline_recursion(off))
-
-MUU_POP_WARNINGS	// MUU_DISABLE_SHADOW_WARNINGS
+MUU_POP_WARNINGS;	// MUU_DISABLE_SHADOW_WARNINGS

@@ -8,9 +8,9 @@
 #pragma once
 #include "../../muu/fwd.h"
 
-MUU_PUSH_WARNINGS
+MUU_PUSH_WARNINGS;
 MUU_PRAGMA_GCC_LT(9, diagnostic ignored "-Wattributes")
-
+MUU_PRAGMA_MSVC(warning(disable: 26819))
 MUU_PRAGMA_GCC_LT(9, push_options)
 MUU_PRAGMA_GCC_LT(9, optimize("O1"))
 
@@ -121,7 +121,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_non_ascii_code_point(char8_t c) noexcept
 	{
-		(void)c;
+		MUU_UNUSED(c);
 		return false;
 	}
 
@@ -135,7 +135,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_non_ascii_hyphen(char8_t c) noexcept
 	{
-		(void)c;
+		MUU_UNUSED(c);
 		return false;
 	}
 
@@ -149,7 +149,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_non_ascii_letter(char8_t c) noexcept
 	{
-		(void)c;
+		MUU_UNUSED(c);
 		return false;
 	}
 
@@ -163,7 +163,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_non_ascii_lowercase(char8_t c) noexcept
 	{
-		(void)c;
+		MUU_UNUSED(c);
 		return false;
 	}
 
@@ -177,7 +177,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_non_ascii_number(char8_t c) noexcept
 	{
-		(void)c;
+		MUU_UNUSED(c);
 		return false;
 	}
 
@@ -191,7 +191,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_non_ascii_uppercase(char8_t c) noexcept
 	{
-		(void)c;
+		MUU_UNUSED(c);
 		return false;
 	}
 
@@ -205,7 +205,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_non_ascii_whitespace(char8_t c) noexcept
 	{
-		(void)c;
+		MUU_UNUSED(c);
 		return false;
 	}
 
@@ -336,7 +336,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_combining_mark(char8_t c) noexcept
 	{
-		(void)c;
+		MUU_UNUSED(c);
 		return false;
 	}
 
@@ -465,5 +465,4 @@ MUU_NAMESPACE_START
 MUU_NAMESPACE_END
 
 MUU_PRAGMA_GCC_LT(9, pop_options)
-
-MUU_POP_WARNINGS
+MUU_POP_WARNINGS;

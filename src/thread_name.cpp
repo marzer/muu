@@ -6,8 +6,8 @@
 #include "muu/strings.h"
 #include "os_internal.h"
 
-MUU_DISABLE_SPAM_WARNINGS
-MUU_DISABLE_SUGGEST_WARNINGS
+MUU_DISABLE_SPAM_WARNINGS;
+MUU_DISABLE_SUGGEST_WARNINGS;
 using namespace muu;
 
 //=====================================================================================================================
@@ -15,9 +15,9 @@ using namespace muu;
 //=====================================================================================================================
 
 #if MUU_WIN10_SDK >= 1607
-	MUU_DISABLE_WARNINGS
+	MUU_DISABLE_WARNINGS;
 	#include <processthreadsapi.h> // SetThreadDescription()
-	MUU_ENABLE_WARNINGS
+	MUU_ENABLE_WARNINGS;
 #endif
 
 namespace

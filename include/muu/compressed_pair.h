@@ -9,12 +9,12 @@
 #pragma once
 #include "../muu/core.h"
 
-MUU_PUSH_WARNINGS
-MUU_DISABLE_SPAM_WARNINGS
+MUU_PUSH_WARNINGS;
+MUU_DISABLE_SPAM_WARNINGS;
 MUU_PRAGMA_CLANG(diagnostic ignored "-Wreorder")
 MUU_PRAGMA_GCC(diagnostic ignored "-Wreorder")
 
-#ifndef DOXYGEN
+/// \cond
 MUU_IMPL_NAMESPACE_START
 {
 	enum class compressed_pair_flags : unsigned
@@ -24,23 +24,23 @@ MUU_IMPL_NAMESPACE_START
 		second_empty = 2,
 		both_empty = first_empty | second_empty
 	};
+	MUU_MAKE_FLAGS(compressed_pair_flags);
 
 	template <typename First, typename Second>
 	[[nodiscard]]
 	MUU_CONSTEVAL compressed_pair_flags get_compressed_pair_flags_for() noexcept
 	{
-		return static_cast<compressed_pair_flags>(
-			unwrap(std::is_empty_v<First> && !std::is_final_v<First> ? compressed_pair_flags::first_empty : compressed_pair_flags::none)
-			| unwrap(std::is_empty_v<Second> && !std::is_final_v<Second> ? compressed_pair_flags::second_empty : compressed_pair_flags::none)
-		);
+		return (std::is_empty_v<First> && !std::is_final_v<First> ? compressed_pair_flags::first_empty : compressed_pair_flags::none)
+			| (std::is_empty_v<Second> && !std::is_final_v<Second> ? compressed_pair_flags::second_empty : compressed_pair_flags::none);
 	}
 
 	#define COMPRESSED_PAIR_BASE_DEFAULTS(first_initializer, second_initializer)									\
 																													\
-		template <typename F, typename S																			\
-			MUU_ENABLE_IF(std::is_constructible_v<First, F&&>&& std::is_constructible_v<Second, S&&>)				\
-		>																											\
-		MUU_REQUIRES(std::is_constructible_v<First, F&&>&& std::is_constructible_v<Second, S&&>)					\
+		MUU_CONSTRAINED_TEMPLATE(																					\
+			(std::is_constructible_v<First, F&&> && std::is_constructible_v<Second, S&&>),							\
+			typename F,																								\
+			typename S																								\
+		)																											\
 		MUU_NODISCARD_CTOR																							\
 		constexpr compressed_pair_base(F&& first_init, S&& second_init)												\
 			noexcept(std::is_nothrow_constructible_v<First, F&&> && std::is_nothrow_constructible_v<Second, S&&>)	\
@@ -100,7 +100,7 @@ MUU_IMPL_NAMESPACE_START
 	};
 
 	#undef COMPRESSED_PAIR_BASE_DEFAULTS
-	#undef COMPRESSED_PAIR_BASE_CONVERSIONS
+	#undef COMPRESSED_PAIR_BASE_GETTERS
 
 	template <size_t I, typename T>
 	[[nodiscard]]
@@ -117,12 +117,12 @@ MUU_IMPL_NAMESPACE_START
 	}
 }
 MUU_IMPL_NAMESPACE_END
-#endif // !DOXYGEN
+/// \endcond
 
 MUU_NAMESPACE_START
 {
 	/// \brief	A pair that uses Empty Base Class Optimization to elide storage for one or both of its members where possible.
-	/// \ingroup building_blocks
+	/// \ingroup core
 	/// 
 	/// \tparam	First		First member type.
 	/// \tparam	Second		Second member type.
@@ -133,12 +133,14 @@ MUU_NAMESPACE_START
 		#endif
 	{
 		private:
-			#ifndef DOXYGEN
+			/// \cond
+
 			using base = impl::compressed_pair_base<First, Second>;
 
 			// mode hook for debuggers etc.
 			static constexpr impl::compressed_pair_flags flags_ = impl::get_compressed_pair_flags_for<First, Second>();
-			#endif
+
+			/// \endcond
 
 		public:
 
@@ -171,10 +173,11 @@ MUU_NAMESPACE_START
 			/// \tparam	S	Second member initializer type.
 			/// \param 	first_init 	First member initializer.
 			/// \param 	second_init	Second member initializer.
-			template <typename F, typename S
-				MUU_ENABLE_IF(std::is_constructible_v<First, F&&> && std::is_constructible_v<Second, S&&>)
-			>
-			MUU_REQUIRES(std::is_constructible_v<First, F&&> && std::is_constructible_v<Second, S&&>)
+			MUU_CONSTRAINED_TEMPLATE(
+				(std::is_constructible_v<First, F&&> && std::is_constructible_v<Second, S&&>),
+				typename F,
+				typename S
+			)
 			MUU_NODISCARD_CTOR
 				constexpr compressed_pair(F&& first_init, S&& second_init)
 				noexcept(std::is_nothrow_constructible_v<First, F&&> && std::is_nothrow_constructible_v<Second, S&&>)
@@ -286,12 +289,12 @@ MUU_NAMESPACE_START
 			}
 	};
 
-	#ifndef DOXYGEN // deduction guides -------------------------------------------------------------------------------
+	/// \cond deduction_guides
 
 	template <typename F, typename S>
 	compressed_pair(const F&, const S&) -> compressed_pair<F, S>;
 
-	#endif // deduction guides
+	/// \endcond
 }
 MUU_NAMESPACE_END
 
@@ -315,4 +318,4 @@ namespace std
 	};
 }
 
-MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS, -Wreorder
+MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS, -Wreorder

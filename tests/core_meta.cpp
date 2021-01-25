@@ -6,7 +6,7 @@
 #include "tests.h"
 #include "../include/muu/core.h"
 
-MUU_DISABLE_SPAM_WARNINGS
+MUU_DISABLE_SPAM_WARNINGS;
 
 //=====================================================================================================================
 // these are all the public metafunctions and type traits in core.h (ideally in the order they appear)

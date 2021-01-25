@@ -6,8 +6,8 @@
 	#pragma warning(disable: 2960)
 #endif
 
-MUU_DISABLE_LIFETIME_WARNINGS
-MUU_DISABLE_SPAM_WARNINGS
+MUU_DISABLE_LIFETIME_WARNINGS;
+MUU_DISABLE_SPAM_WARNINGS;
 
 // check all static invariants
 template <typename T, size_t min_align>

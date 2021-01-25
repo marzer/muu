@@ -6,6 +6,7 @@
 *.cxx              text         eol=lf      encoding=UTF-8
 *.dox              text         eol=lf      encoding=UTF-8
 *.h                text         eol=lf      encoding=UTF-8
+*.hint             text         eol=lf      encoding=UTF-8
 *.hlsl             text         eol=crlf    encoding=UTF-8
 *.hpp              text         eol=lf      encoding=UTF-8
 *.htm              text         eol=lf      encoding=UTF-8

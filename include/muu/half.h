@@ -38,31 +38,39 @@
 	#endif
 #endif
 
-MUU_DISABLE_WARNINGS
+MUU_DISABLE_WARNINGS;
 #include <iosfwd>
 #if MUU_HALF_USE_INTRINSICS && !MUU_MSVC
 	#include <immintrin.h>
 #endif
-MUU_ENABLE_WARNINGS
+MUU_ENABLE_WARNINGS;
 
-MUU_PUSH_WARNINGS
-MUU_DISABLE_ARITHMETIC_WARNINGS
-MUU_DISABLE_SPAM_WARNINGS
+MUU_PUSH_WARNINGS;
+MUU_DISABLE_ARITHMETIC_WARNINGS;
+MUU_DISABLE_SPAM_WARNINGS;
+MUU_PRAGMA_MSVC(push_macro("min"))
+MUU_PRAGMA_MSVC(push_macro("max"))
+#if MUU_MSVC
+	#undef min
+	#undef max
+#endif
 
 MUU_NAMESPACE_START
 {
+	/// \cond
 	namespace impl
 	{
-		#if !defined(DOXYGEN) && MUU_HALF_EMULATED
+		#if MUU_HALF_EMULATED
 		[[nodiscard]] MUU_ATTR(const) constexpr uint16_t MUU_VECTORCALL f32_to_f16(float) noexcept;
 		[[nodiscard]] MUU_ATTR(const) constexpr float MUU_VECTORCALL f16_to_f32(uint16_t) noexcept;
 		#endif
 
 		struct half_from_bits_tag {};
 	}
+	/// \endcond
 
 	/// \brief	A 16-bit "half-precision" floating point type.
-	/// \ingroup building_blocks
+	/// \ingroup core
 	/// 
 	/// \details This type is equipped with the full set of operators you'd expect from a float type,
 	/// 		and is capable of being converted to other floats and integers, as well as direct construction
@@ -134,16 +142,23 @@ MUU_NAMESPACE_START
 			return half{ impl::half_from_bits_tag{}, val };
 		}
 
+		#if MUU_HALF_EMULATED
+
 		MUU_NODISCARD_CTOR
 		explicit
 		constexpr half(bool val) noexcept
-			#if MUU_HALF_EMULATED
 			: impl_{ val ? 0x3c00_u16 : 0_u16 }
-			#else
-			: impl_{ static_cast<impl_type>(val ? 1.0f : 0.0f) }
-			#endif
-			
 		{ }
+
+		#else
+
+		MUU_NODISCARD_CTOR
+		explicit
+		constexpr half(bool val) noexcept
+			: impl_{ static_cast<impl_type>(val ? 1.0f : 0.0f) }	
+		{ }
+
+		#endif
 
 		#if MUU_HALF_EMULATED
 			#define HALF_EXPLICIT_CONSTRUCTOR(type)							\
@@ -151,36 +166,38 @@ MUU_NAMESPACE_START
 				explicit													\
 				constexpr half(type val) noexcept							\
 					: impl_{ impl::f32_to_f16(static_cast<float>(val)) }	\
-				{}
+				{}															\
+				static_assert(true)
 		#else
 			#define HALF_EXPLICIT_CONSTRUCTOR(type)							\
 				MUU_NODISCARD_CTOR											\
 				explicit													\
 				constexpr half(type val) noexcept							\
 					: impl_{ static_cast<impl_type>(val) }					\
-				{}
+				{}															\
+				static_assert(true)
 		#endif
 
-		HALF_EXPLICIT_CONSTRUCTOR(float)
-		HALF_EXPLICIT_CONSTRUCTOR(double)
-		HALF_EXPLICIT_CONSTRUCTOR(long double)
+		HALF_EXPLICIT_CONSTRUCTOR(float);
+		HALF_EXPLICIT_CONSTRUCTOR(double);
+		HALF_EXPLICIT_CONSTRUCTOR(long double);
 		#if MUU_HAS_FLOAT128
-		HALF_EXPLICIT_CONSTRUCTOR(float128_t)
+			HALF_EXPLICIT_CONSTRUCTOR(float128_t);
 		#endif
-		HALF_EXPLICIT_CONSTRUCTOR(char)
-		HALF_EXPLICIT_CONSTRUCTOR(signed char)
-		HALF_EXPLICIT_CONSTRUCTOR(unsigned char)
-		HALF_EXPLICIT_CONSTRUCTOR(signed short)
-		HALF_EXPLICIT_CONSTRUCTOR(unsigned short)
-		HALF_EXPLICIT_CONSTRUCTOR(signed int)
-		HALF_EXPLICIT_CONSTRUCTOR(unsigned int)
-		HALF_EXPLICIT_CONSTRUCTOR(signed long)
-		HALF_EXPLICIT_CONSTRUCTOR(unsigned long)
-		HALF_EXPLICIT_CONSTRUCTOR(signed long long)
-		HALF_EXPLICIT_CONSTRUCTOR(unsigned long long)
+		HALF_EXPLICIT_CONSTRUCTOR(char);
+		HALF_EXPLICIT_CONSTRUCTOR(signed char);
+		HALF_EXPLICIT_CONSTRUCTOR(unsigned char);
+		HALF_EXPLICIT_CONSTRUCTOR(signed short);
+		HALF_EXPLICIT_CONSTRUCTOR(unsigned short);
+		HALF_EXPLICIT_CONSTRUCTOR(signed int);
+		HALF_EXPLICIT_CONSTRUCTOR(unsigned int);
+		HALF_EXPLICIT_CONSTRUCTOR(signed long);
+		HALF_EXPLICIT_CONSTRUCTOR(unsigned long);
+		HALF_EXPLICIT_CONSTRUCTOR(signed long long);
+		HALF_EXPLICIT_CONSTRUCTOR(unsigned long long);
 		#if MUU_HAS_INT128
-		HALF_EXPLICIT_CONSTRUCTOR(int128_t)
-		HALF_EXPLICIT_CONSTRUCTOR(uint128_t)
+			HALF_EXPLICIT_CONSTRUCTOR(int128_t);
+			HALF_EXPLICIT_CONSTRUCTOR(uint128_t);
 		#endif
 		#undef HALF_EXPLICIT_CONSTRUCTOR
 
@@ -259,27 +276,28 @@ MUU_NAMESPACE_START
 			constexpr operator type() const noexcept					\
 			{															\
 				return static_cast<type>(static_cast<float>(*this));	\
-			}
+			}															\
+			static_assert(true)
 
-		HALF_CAST_CONVERSION(double,						)
-		HALF_CAST_CONVERSION(long double,					)
+		HALF_CAST_CONVERSION(double,						);
+		HALF_CAST_CONVERSION(long double,					);
 		#if MUU_HAS_FLOAT128
-		HALF_CAST_CONVERSION(float128_t,					)
+			HALF_CAST_CONVERSION(float128_t,				);
 		#endif
-		HALF_CAST_CONVERSION(char,					explicit)
-		HALF_CAST_CONVERSION(signed char,			explicit)
-		HALF_CAST_CONVERSION(unsigned char,			explicit)
-		HALF_CAST_CONVERSION(signed short,			explicit)
-		HALF_CAST_CONVERSION(unsigned short,		explicit)
-		HALF_CAST_CONVERSION(signed int,			explicit)
-		HALF_CAST_CONVERSION(unsigned int,			explicit)
-		HALF_CAST_CONVERSION(signed long,			explicit)
-		HALF_CAST_CONVERSION(unsigned long,			explicit)
-		HALF_CAST_CONVERSION(signed long long,		explicit)
-		HALF_CAST_CONVERSION(unsigned long long,	explicit)
+		HALF_CAST_CONVERSION(char,					explicit);
+		HALF_CAST_CONVERSION(signed char,			explicit);
+		HALF_CAST_CONVERSION(unsigned char,			explicit);
+		HALF_CAST_CONVERSION(signed short,			explicit);
+		HALF_CAST_CONVERSION(unsigned short,		explicit);
+		HALF_CAST_CONVERSION(signed int,			explicit);
+		HALF_CAST_CONVERSION(unsigned int,			explicit);
+		HALF_CAST_CONVERSION(signed long,			explicit);
+		HALF_CAST_CONVERSION(unsigned long,			explicit);
+		HALF_CAST_CONVERSION(signed long long,		explicit);
+		HALF_CAST_CONVERSION(unsigned long long,	explicit);
 		#if MUU_HAS_INT128
-		HALF_CAST_CONVERSION(int128_t,				explicit)
-		HALF_CAST_CONVERSION(uint128_t,				explicit)
+			HALF_CAST_CONVERSION(int128_t,			explicit);
+			HALF_CAST_CONVERSION(uint128_t,			explicit);
 		#endif
 
 		#undef HALF_CAST_CONVERSION
@@ -366,7 +384,8 @@ MUU_NAMESPACE_START
 			friend constexpr return_type MUU_VECTORCALL operator op(input_type lhs, half rhs) noexcept	\
 			{																							\
 				return lhs op static_cast<input_type>(rhs);												\
-			}
+			}																							\
+			static_assert(true)
 
 		#define HALF_CONVERTING_BINARY_OP(return_type, input_type, op)									\
 			[[nodiscard]]																				\
@@ -380,42 +399,43 @@ MUU_NAMESPACE_START
 			friend constexpr return_type MUU_VECTORCALL operator op (input_type lhs, half rhs) noexcept	\
 			{																							\
 				return static_cast<return_type>( static_cast<float>(lhs) op static_cast<float>(rhs) );	\
-			}
+			}																							\
+			static_assert(true)
 
 		#define HALF_BINARY_OPS(func, input_type)	\
-			func(bool, input_type, ==)				\
-			func(bool, input_type, !=)				\
-			func(bool, input_type, < )				\
-			func(bool, input_type, <=)				\
-			func(bool, input_type, > )				\
+			func(bool, input_type, ==);				\
+			func(bool, input_type, !=);				\
+			func(bool, input_type, < );				\
+			func(bool, input_type, <=);				\
+			func(bool, input_type, > );				\
 			func(bool, input_type, >=)
 
 		#if MUU_HAS_FP16
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, __fp16)
+			HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, __fp16);
 		#endif
 		#if MUU_HAS_FLOAT16
-		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP, _Float16)
+			HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP, _Float16);
 		#endif
-		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,  float)
-		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,  double)
-		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,  long double)
+		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP, float);
+		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP, double);
+		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP, long double);
 		#if MUU_HAS_FLOAT128
-		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,  float128_t)
+			HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP, float128_t);
 		#endif
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, char)
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, signed char)
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, unsigned char)
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, signed short)
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, unsigned short)
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, signed int)
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, unsigned int)
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, signed long)
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, unsigned long)
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, signed long long)
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, unsigned long long)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, char);
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, signed char);
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, unsigned char);
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, signed short);
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, unsigned short);
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, signed int);
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, unsigned int);
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, signed long);
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, unsigned long);
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, signed long long);
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, unsigned long long);
 		#if MUU_HAS_INT128
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, int128_t)
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, uint128_t)
+			HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, int128_t);
+			HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, uint128_t);
 		#endif
 		#undef HALF_BINARY_OPS
 
@@ -452,37 +472,37 @@ MUU_NAMESPACE_START
 		}
 
 		#define HALF_BINARY_OPS(func, return_type, input_type)	\
-			func(return_type, input_type, +)					\
-			func(return_type, input_type, -)					\
-			func(return_type, input_type, *)					\
+			func(return_type, input_type, +);					\
+			func(return_type, input_type, -);					\
+			func(return_type, input_type, *);					\
 			func(return_type, input_type, /)
 
 		#if MUU_HAS_FP16
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			__fp16)
+			HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,		__fp16);
 		#endif
 		#if MUU_HAS_FLOAT16
-		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,	_Float16,		_Float16)
+			HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,	_Float16,	_Float16);
 		#endif
-		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,	float,			float)
-		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,	double,			double)
-		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,	long double,	long double)
+		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,	float,			float);
+		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,	double,			double);
+		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,	long double,	long double);
 		#if MUU_HAS_FLOAT128
-		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,	float128_t,		float128_t)
+			HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP,	float128_t,	float128_t);
 		#endif
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			char)
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			signed char)
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			unsigned char)
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			signed short)
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			unsigned short)
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			signed int)
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			unsigned int)
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			signed long)
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			unsigned long)
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			signed long long)
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			unsigned long long)
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			char);
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			signed char);
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			unsigned char);
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			signed short);
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			unsigned short);
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			signed int);
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			unsigned int);
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			signed long);
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			unsigned long);
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			signed long long);
+		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			unsigned long long);
 		#if MUU_HAS_INT128
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			int128_t)
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,			uint128_t)
+			HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,		int128_t);
+			HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP,	half,		uint128_t);
 		#endif
 		#undef HALF_BINARY_OPS
 		#undef HALF_PROMOTING_BINARY_OP
@@ -538,76 +558,82 @@ MUU_NAMESPACE_START
 				{																			\
 					lhs.impl_ = impl::f32_to_f16(static_cast<float>(lhs op rhs));			\
 					return lhs;																\
-				}
+				}																			\
+				static_assert(true)
 
 			#define HALF_CONVERTING_ASSIGN_OP(input_type, op)								\
 				friend constexpr half& operator op##= (half& lhs, input_type rhs) noexcept	\
 				{																			\
 					lhs.impl_ = impl::f32_to_f16(static_cast<float>(lhs) op rhs);			\
 					return lhs;																\
-				}
+				}																			\
+				static_assert(true)
 
 			#define HALF_CASTING_ASSIGN_OP(input_type, op)									\
 				friend constexpr half& operator op##= (half& lhs, input_type rhs) noexcept	\
 				{																			\
 					lhs.impl_ = bit_cast<impl_type>(lhs op rhs);							\
 					return lhs;																\
-				}
+				}																			\
+				static_assert(true)
 		#else
 			#define HALF_DEMOTING_ASSIGN_OP(input_type, op)									\
 				friend constexpr half& operator op##= (half& lhs, input_type rhs) noexcept	\
 				{																			\
 					lhs.impl_ = static_cast<impl_type>(lhs op rhs);							\
 					return lhs;																\
-				}
+				}																			\
+				static_assert(true)
 
 			#define HALF_CONVERTING_ASSIGN_OP(input_type, op)								\
 				friend constexpr half& operator op##= (half& lhs, input_type rhs) noexcept	\
 				{																			\
 					lhs.impl_ = static_cast<impl_type>(static_cast<float>(lhs) op rhs);		\
 					return lhs;																\
-				}
+				}																			\
+				static_assert(true)
 
 			#define HALF_CASTING_ASSIGN_OP(input_type, op)									\
 				friend constexpr half& operator op##= (half& lhs, input_type rhs) noexcept	\
 				{																			\
 					lhs.impl_ = static_cast<impl_type>(lhs op rhs);							\
 					return lhs;																\
-				}
+				}																			\
+				static_assert(true)
 		#endif
 
 		#define HALF_BINARY_OPS(func, input_type)	\
-			func(input_type, +)						\
-			func(input_type, -)						\
-			func(input_type, *)						\
+			func(input_type, +);					\
+			func(input_type, -);					\
+			func(input_type, *);					\
 			func(input_type, /)
 
 		#if MUU_HAS_FP16
-		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	__fp16)
+			HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	__fp16);
 		#endif
 		#if MUU_HAS_FLOAT16
-		HALF_BINARY_OPS(HALF_CASTING_ASSIGN_OP,		_Float16)
+			HALF_BINARY_OPS(HALF_CASTING_ASSIGN_OP,		_Float16);
 		#endif
-		HALF_BINARY_OPS(HALF_DEMOTING_ASSIGN_OP,	float)
-		HALF_BINARY_OPS(HALF_DEMOTING_ASSIGN_OP,	double)
-		HALF_BINARY_OPS(HALF_DEMOTING_ASSIGN_OP,	long double)
+		HALF_BINARY_OPS(HALF_DEMOTING_ASSIGN_OP,		float);
+		HALF_BINARY_OPS(HALF_DEMOTING_ASSIGN_OP,		double);
+		HALF_BINARY_OPS(HALF_DEMOTING_ASSIGN_OP,		long double);
 		#if MUU_HAS_FLOAT128
-		HALF_BINARY_OPS(HALF_DEMOTING_ASSIGN_OP,	float128_t)
+			HALF_BINARY_OPS(HALF_DEMOTING_ASSIGN_OP,	float128_t);
 		#endif
-		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	char)
-		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	signed char)
-		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	unsigned char)
-		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	signed short)
-		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	unsigned short)
-		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	signed int)
-		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	unsigned int)
-		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	signed long)
-		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	unsigned long)
-		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	signed long long)
-		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	unsigned long long)
+		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,		char);
+		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,		signed char);
+		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,		unsigned char);
+		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,		signed short);
+		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,		unsigned short);
+		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,		signed int);
+		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,		unsigned int);
+		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,		signed long);
+		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,		unsigned long);
+		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,		signed long long);
+		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,		unsigned long long);
 		#if MUU_HAS_INT128
-		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	int128_t)
-		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	uint128_t)
+			HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	int128_t);
+			HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP,	uint128_t);
 		#endif
 		#undef HALF_BINARY_OPS
 		#undef HALF_DEMOTING_ASSIGN_OP
@@ -719,7 +745,7 @@ MUU_NAMESPACE_START
 		inline constexpr bool supports_constexpr_half = !MUU_HALF_EMULATED || supports_constexpr_bit_cast;
 	}
 
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
 		template <>
@@ -915,7 +941,7 @@ MUU_NAMESPACE_START
 			#endif
 		};
 	}
-	#endif // !DOXYGEN
+	/// \endcond
 
 	/// \brief	16-bit half-precision float constants.
 	/// 
@@ -979,7 +1005,7 @@ MUU_NAMESPACE_START
 			return half::from_bits(x.impl_ & 0b0111111111111111_u16);
 		}
 		#else
-			return impl::abs_(x.impl_);
+			return half{ impl::abs_(x.impl_) };
 		#endif
 	}
 
@@ -991,11 +1017,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool MUU_VECTORCALL approx_equal(half a, half b, half epsilon = constants<half>::approx_equal_epsilon) noexcept
 	{
-		#if MUU_HALF_EMULATED
-			return muu::approx_equal(static_cast<float>(a), static_cast<float>(b), static_cast<float>(epsilon));
-		#else
-			return muu::approx_equal(a.impl_, b.impl_, epsilon.impl_);
-		#endif
+		return muu::approx_equal(static_cast<float>(a), static_cast<float>(b), static_cast<float>(epsilon));
 	}
 
 	/// \brief	Returns true a half-precision float is approximately equal to zero.
@@ -1007,11 +1029,7 @@ MUU_NAMESPACE_START
 	MUU_ALWAYS_INLINE
 	constexpr bool MUU_VECTORCALL approx_zero(half x, half epsilon = constants<half>::approx_equal_epsilon) noexcept
 	{
-		#if MUU_HALF_EMULATED
-			return muu::approx_equal(static_cast<float>(x), 0.0f, static_cast<float>(epsilon));
-		#else
-			return muu::approx_equal(x.impl_, MUU_HALF_IMPL_TYPE{}, epsilon.impl_);
-		#endif
+		return muu::approx_equal(static_cast<float>(x), 0.0f, static_cast<float>(epsilon));
 	}
 
 	/// \brief	Returns the floor of a half-precision float.
@@ -1023,11 +1041,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(flatten)
 	constexpr half MUU_VECTORCALL floor(half x) noexcept
 	{
-		#if MUU_HALF_EMULATED
-			return half{ impl::floor_(static_cast<float>(x)) };
-		#else
-			return impl::floor_(x.impl_);
-		#endif
+		return half{ impl::floor_(static_cast<float>(x)) };
 	}
 
 	/// \brief	Returns the ceiling of a half-precision float.
@@ -1039,11 +1053,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(flatten)
 	constexpr half MUU_VECTORCALL ceil(half x) noexcept
 	{
-		#if MUU_HALF_EMULATED
-			return half{ impl::ceil_(static_cast<float>(x)) };
-		#else
-			return impl::ceil_(x.impl_);
-		#endif
+		return half{ impl::ceil_(static_cast<float>(x)) };
 	}
 
 	/// \brief	Returns the square-root of a half-precision float.
@@ -1054,11 +1064,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL sqrt(half x) noexcept
 	{
-		#if MUU_HALF_EMULATED
-			return half{ impl::sqrt_(static_cast<float>(x)) };
-		#else
-			return impl::sqrt_(x.impl_);
-		#endif
+		return half{ impl::sqrt_(static_cast<float>(x)) };
 	}
 
 	/// \brief	Returns the cosine of a half-precision float.
@@ -1069,11 +1075,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL cos(half x) noexcept
 	{
-		#if MUU_HALF_EMULATED
-			return half{ impl::cos_(static_cast<float>(x)) };
-		#else
-			return impl::cos_(x.impl_);
-		#endif
+		return half{ impl::cos_(static_cast<float>(x)) };
 	}
 
 	/// \brief	Returns the sine of a half-precision float.
@@ -1084,11 +1086,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL sin(half x) noexcept
 	{
-		#if MUU_HALF_EMULATED
-			return half{ impl::sin_(static_cast<float>(x)) };
-		#else
-			return impl::sin_(x.impl_);
-		#endif
+		return half{ impl::sin_(static_cast<float>(x)) };
 	}
 
 	/// \brief	Returns the tangent of a half-precision float.
@@ -1099,11 +1097,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL tan(half x) noexcept
 	{
-		#if MUU_HALF_EMULATED
-			return half{ impl::tan_(static_cast<float>(x)) };
-		#else
-			return impl::tan_(x.impl_);
-		#endif
+		return half{ impl::tan_(static_cast<float>(x)) };
 	}
 
 	/// \brief	Returns the arc cosine of a half-precision float.
@@ -1114,11 +1108,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL acos(half x) noexcept
 	{
-		#if MUU_HALF_EMULATED
-			return half{ impl::acos_(static_cast<float>(x)) };
-		#else
-			return impl::acos_(x.impl_);
-		#endif
+		return half{ impl::acos_(static_cast<float>(x)) };
 	}
 
 	/// \brief	Returns the arc sine of a half-precision float.
@@ -1129,11 +1119,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL asin(half x) noexcept
 	{
-		#if MUU_HALF_EMULATED
-			return half{ impl::asin_(static_cast<float>(x)) };
-		#else
-			return impl::asin_(x.impl_);
-		#endif
+		return half{ impl::asin_(static_cast<float>(x)) };
 	}
 
 	/// \brief	Returns the arc tangent of a half-precision float.
@@ -1144,11 +1130,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL atan(half x) noexcept
 	{
-		#if MUU_HALF_EMULATED
-			return half{ impl::atan_(static_cast<float>(x)) };
-		#else
-			return impl::atan_(x.impl_);
-		#endif
+		return half{ impl::atan_(static_cast<float>(x)) };
 	}
 
 	/// \brief	Returns the arc tangent of a half-precision float.
@@ -1159,11 +1141,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL atan2(half y, half x) noexcept
 	{
-		#if MUU_HALF_EMULATED
-			return half{ impl::atan2_(static_cast<float>(x), static_cast<float>(y)) };
-		#else
-			return impl::atan2_(x.impl_, y.impl_);
-		#endif
+		return half{ impl::atan2_(static_cast<float>(x), static_cast<float>(y)) };
 	}
 
 	/// \brief	Returns a linear interpolation between two half-precision floats.
@@ -1174,17 +1152,35 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL lerp(half start, half finish, half alpha) noexcept
 	{
-		#if MUU_HALF_EMULATED
-			return half{ muu::lerp(static_cast<float>(start), static_cast<float>(finish), static_cast<float>(alpha)) };
-		#else
-			return muu::lerp(start.impl_, finish.impl_, alpha.impl_);
-		#endif
+		return half{ muu::lerp(static_cast<float>(start), static_cast<float>(finish), static_cast<float>(alpha)) };
 	}
 
+	/// \brief	Normalizes the angle value of a half-precision float.
+	///
+	/// \ingroup	normalize_angle
+	/// \related	muu::half
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr half MUU_VECTORCALL normalize_angle(half x) noexcept
+	{
+		return half{ impl::normalize_angle_(static_cast<float>(x)) };
+	}
+
+	/// \brief	Normalizes the angle value of a half-precision float.
+	///
+	/// \ingroup	normalize_angle_signed
+	/// \related	muu::half
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr half MUU_VECTORCALL normalize_angle_signed(half x) noexcept
+	{
+		return half{ impl::normalize_angle_signed_(static_cast<float>(x)) };
+	}
 }
 MUU_NAMESPACE_END
 
-#if !defined(DOXYGEN) && MUU_HALF_EMULATED
+/// \cond
+#if MUU_HALF_EMULATED
 MUU_IMPL_NAMESPACE_START
 {
 	inline constexpr int8_t f16_single_exp_bias = 127;
@@ -1327,7 +1323,8 @@ MUU_IMPL_NAMESPACE_START
 	}
 }
 MUU_IMPL_NAMESPACE_END
-#endif // !defined(DOXYGEN) && MUU_HALF_EMULATED
+#endif // MUU_HALF_EMULATED
+/// \endcond
 
 namespace std
 {
@@ -1366,7 +1363,7 @@ namespace std
 		
 		[[nodiscard]]
 		MUU_ATTR(const)
-		static MUU_CONSTEVAL half(min)() noexcept
+		static MUU_CONSTEVAL half min() noexcept
 		{
 			#if MUU_HALF_EMULATED
 				using namespace muu::literals;
@@ -1385,7 +1382,7 @@ namespace std
 
 		[[nodiscard]]
 		MUU_ATTR(const)
-		static MUU_CONSTEVAL half(max)() noexcept
+		static MUU_CONSTEVAL half max() noexcept
 		{
 			return half::constants::highest;
 		}
@@ -1453,7 +1450,9 @@ namespace std
 	template <> struct numeric_limits<const volatile muu::half>	: numeric_limits<muu::half> {};
 }
 
-MUU_POP_WARNINGS // MUU_DISABLE_ARITHMETIC_WARNINGS, MUU_DISABLE_SPAM_WARNINGS
+MUU_PRAGMA_MSVC(pop_macro("min"))
+MUU_PRAGMA_MSVC(pop_macro("max"))
+MUU_POP_WARNINGS; // MUU_DISABLE_ARITHMETIC_WARNINGS, MUU_DISABLE_SPAM_WARNINGS
 
 #undef MUU_HALF_IMPL_TYPE
 #undef MUU_HALF_EMULATED

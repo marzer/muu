@@ -10,22 +10,24 @@
 #include "../muu/core.h"
 #include "../muu/compressed_pair.h"
 
-MUU_DISABLE_WARNINGS
+MUU_DISABLE_WARNINGS;
 #include <iterator>
-MUU_ENABLE_WARNINGS
+MUU_ENABLE_WARNINGS;
 
 MUU_NAMESPACE_START
 {
 	#ifdef DOXYGEN
+
 	/// \brief Indicates the number of elements covered by a span should be dynamically-determined at runtime.
 	/// 
 	/// \ingroup	mem
 	/// \related	muu::span
 	inline constexpr size_t dynamic_extent = static_cast<size_t>(-1);
-	//(actually defined in fwd.h)
-	#endif
+	//(here just for doxygen; actually defined in fwd.h)
 
-	#ifndef DOXYGEN
+	#endif // DOXYGEN
+
+	/// \cond
 	namespace impl
 	{
 		struct span_empty_size
@@ -69,10 +71,10 @@ MUU_NAMESPACE_START
 		template <typename T, size_t Extent>
 		inline constexpr size_t as_bytes_extent = Extent == dynamic_extent ? dynamic_extent : (sizeof(T) * Extent);
 	}
-	#endif // !DOXYGEN
+	/// \endcond
 
 	/// \brief	A non-owning view of contiguous elements.
-	/// \ingroup	building_blocks mem
+	/// \ingroup	core mem
 	/// 
 	/// \remarks This is equivalent to C++20's std::span.
 	///
@@ -122,30 +124,35 @@ MUU_NAMESPACE_START
 
 			#else
 
-			template <size_t E = Extent MUU_ENABLE_IF(E == 0 || E == dynamic_extent)>
+			MUU_LEGACY_REQUIRES(
+				(Extent_ == 0 || Extent_ == dynamic_extent),
+				size_t Extent_ = Extent
+			)
 			MUU_NODISCARD_CTOR
 			constexpr span() noexcept {}
 
 			#endif
 
 			/// \brief Constructs a span from a contiguous iterator and an element count.
-			template <typename It
-				MUU_ENABLE_IF(impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type>)
-			>
-			MUU_REQUIRES(
-				MUU_STD_CONCEPT(std::contiguous_iterator<It>)
-				&& impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type>
+			/// \note This constructor is `explicit` when #extent != #dynamic_extent.
+			MUU_CONSTRAINED_TEMPLATE(
+				(
+					Extent_ != dynamic_extent // explicit
+					&& impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type>
+					&& MUU_STD_CONCEPT(std::contiguous_iterator<It>)
+				),
+				typename It
+				MUU_HIDDEN_PARAM(size_t Extent_ = Extent)
 			)
 			MUU_NODISCARD_CTOR
-			MUU_EXPLICIT(Extent != dynamic_extent)
+			explicit // when Extent != dynamic_extent
 			constexpr span(It first, size_t count) noexcept
 				: ptr_and_size{ pointer_cast<pointer>(muu::to_address(first)), count }
 			{
-				if constexpr (Extent != dynamic_extent)
-					MUU_CONSTEXPR_SAFE_ASSERT(
-						count == Extent
-						&& "count must be equal to span extent for statically-sized spans"
-					);
+				MUU_CONSTEXPR_SAFE_ASSERT(
+					count == Extent
+					&& "count must be equal to span extent for statically-sized spans"
+				);
 				if constexpr (Extent > 0)
 					MUU_CONSTEXPR_SAFE_ASSERT(
 						(count == 0_sz || ptr_and_size.first() != nullptr)
@@ -153,30 +160,54 @@ MUU_NAMESPACE_START
 					);
 			}
 
-			/// \brief Constructs a span from a pair of contiguous iterators.
-			template <typename It, typename End
-				MUU_ENABLE_IF(
-					impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type>
-					&& !std::is_convertible_v<End, size_t>
-				)
-			>
-			MUU_REQUIRES(
-				MUU_STD_CONCEPT(std::contiguous_iterator<It>)
-				&& MUU_STD_CONCEPT(std::sized_sentinel_for<End, It>)
-				&& impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type>
-				&& !std::is_convertible_v<End, size_t>
+			/// \cond
+
+			MUU_CONSTRAINED_TEMPLATE_2(
+				(
+					Extent_ == dynamic_extent // implicit
+					&& impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type>
+					&& MUU_STD_CONCEPT(std::contiguous_iterator<It>)
+				),
+				typename It,
+				size_t Extent_ = Extent
 			)
 			MUU_NODISCARD_CTOR
-			MUU_EXPLICIT(Extent != dynamic_extent)
+			/* implicit */
+			constexpr span(It first, size_t count) noexcept
+				: ptr_and_size{ pointer_cast<pointer>(muu::to_address(first)), count }
+			{
+				MUU_CONSTEXPR_SAFE_ASSERT(
+					(count == 0_sz || ptr_and_size.first() != nullptr)
+					&& "a nullptr span is undefined behaviour"
+				);
+			}
+
+			/// \endcond
+
+			/// \brief Constructs a span from a pair of contiguous iterators.
+			/// \note This constructor is `explicit` when #extent != #dynamic_extent.
+			MUU_CONSTRAINED_TEMPLATE(
+				(
+					Extent_ != dynamic_extent // explicit
+					&& impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type>
+					&& !std::is_convertible_v<End, size_t>
+					&& MUU_STD_CONCEPT(std::contiguous_iterator<It>)
+					&& MUU_STD_CONCEPT(std::sized_sentinel_for<End, It>)
+				),
+				typename It,
+				typename End
+				MUU_HIDDEN_PARAM(size_t Extent_ = Extent)
+			)
+			MUU_NODISCARD_CTOR
+			explicit //when Extent != dynamic_extent
 			constexpr span(It first, End last)
 				noexcept(noexcept(last - first))
 				: ptr_and_size{ pointer_cast<pointer>(muu::to_address(first)), static_cast<size_t>(last - first) }
 			{
-				if constexpr (Extent != dynamic_extent)
-					MUU_CONSTEXPR_SAFE_ASSERT(
-						static_cast<size_t>(last - first) == size()
-						&& "(last - first) must be equal to span extent for statically-sized spans"
-					);
+				MUU_CONSTEXPR_SAFE_ASSERT(
+					static_cast<size_t>(last - first) == size()
+					&& "(last - first) must be equal to span extent for statically-sized spans"
+				);
 				if constexpr (Extent > 0)
 					MUU_CONSTEXPR_SAFE_ASSERT(
 						(ptr_and_size.second() == 0_sz || ptr_and_size.first() != nullptr)
@@ -184,26 +215,52 @@ MUU_NAMESPACE_START
 					);
 			}
 
+			/// \cond
+
+			MUU_CONSTRAINED_TEMPLATE_2(
+				(
+					Extent_ == dynamic_extent // implicit
+					&& impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type>
+					&& !std::is_convertible_v<End, size_t>
+					&& MUU_STD_CONCEPT(std::contiguous_iterator<It>)
+					&& MUU_STD_CONCEPT(std::sized_sentinel_for<End, It>)
+				),
+				typename It,
+				typename End,
+				size_t Extent_ = Extent
+			)
+			MUU_NODISCARD_CTOR
+			/* implicit */
+			constexpr span(It first, End last)
+				noexcept(noexcept(last - first))
+				: ptr_and_size{ pointer_cast<pointer>(muu::to_address(first)), static_cast<size_t>(last - first) }
+			{
+				MUU_CONSTEXPR_SAFE_ASSERT(
+					(ptr_and_size.second() == 0_sz || ptr_and_size.first() != nullptr)
+					&& "a nullptr span is undefined behaviour"
+				);
+			}
+
+			/// \endcond
+
 			/// \brief Constructs a span from an array.
-			template <size_t N
-				MUU_ENABLE_IF(Extent == dynamic_extent || N == Extent)
-			>
-			MUU_REQUIRES(Extent == dynamic_extent || N == Extent)
+			MUU_CONSTRAINED_TEMPLATE(
+				(Extent == dynamic_extent || N == Extent),
+				size_t N
+			)
 			MUU_NODISCARD_CTOR
 			constexpr span(dont_deduce<element_type>(&arr)[N]) noexcept
 				: ptr_and_size{ arr, N }
 			{}
 
 			/// \brief Constructs a span from an array.
-			template <typename U, size_t N
-				MUU_ENABLE_IF(
+			MUU_CONSTRAINED_TEMPLATE(
+				(
 					impl::is_qualifier_conversion_only<U, element_type>
 					&& (Extent == dynamic_extent || N == Extent)
-				)
-			>
-			MUU_REQUIRES(
-				impl::is_qualifier_conversion_only<U, element_type>
-				&& (Extent == dynamic_extent || N == Extent)
+				),
+				typename U,
+				size_t N
 			)
 			MUU_NODISCARD_CTOR
 			constexpr span(std::array<U, N>& arr) noexcept
@@ -211,15 +268,13 @@ MUU_NAMESPACE_START
 			{}
 
 			/// \brief Constructs a span from an array.
-			template <typename U, size_t N
-				MUU_ENABLE_IF(
+			MUU_CONSTRAINED_TEMPLATE(
+				(
 					impl::is_qualifier_conversion_only<std::add_const_t<U>, element_type>
 					&& (Extent == dynamic_extent || N == Extent)
-				)
-			>
-			MUU_REQUIRES(
-				impl::is_qualifier_conversion_only<std::add_const_t<U>, element_type>
-				&& (Extent == dynamic_extent || N == Extent)
+				),
+				typename U,
+				size_t N
 			)
 			MUU_NODISCARD_CTOR
 			constexpr span(const std::array<U, N>& arr) noexcept
@@ -227,22 +282,42 @@ MUU_NAMESPACE_START
 			{}
 
 			/// \brief Constructs a span from another span.
-			template <typename U, size_t E
-				MUU_ENABLE_IF(
-					impl::is_qualifier_conversion_only<U, element_type>
-					&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
-				)
-			>
-			MUU_REQUIRES(
-				impl::is_qualifier_conversion_only<U, element_type>
-				&& (Extent == dynamic_extent || E == dynamic_extent || E == Extent)
+			/// \note This constructor is `explicit` when #extent != #dynamic_extent && E == #dynamic_extent.
+			MUU_CONSTRAINED_TEMPLATE(
+				(
+					Extent_ != dynamic_extent && E == dynamic_extent // explicit
+					&& impl::is_qualifier_conversion_only<U, element_type>
+					&& (Extent_ == dynamic_extent || E == dynamic_extent || E == Extent_)
+				),
+				typename U,
+				size_t E
+				MUU_HIDDEN_PARAM(size_t Extent_ = Extent)
 			)
 			MUU_NODISCARD_CTOR
-			MUU_EXPLICIT(Extent != dynamic_extent && E == dynamic_extent)
+			explicit // when Extent != dynamic_extent && E == dynamic_extent
 			constexpr span(const span<U, E>& s) noexcept
 				: ptr_and_size{ pointer_cast<pointer>(s.data()), s.size() }
 			{}
 
+			/// \cond
+
+			MUU_CONSTRAINED_TEMPLATE_2(
+				(
+					!(Extent_ != dynamic_extent && E == dynamic_extent) // implicit
+					&& impl::is_qualifier_conversion_only<U, element_type>
+					&& (Extent_ == dynamic_extent || E == dynamic_extent || E == Extent_)
+				),
+				typename U,
+				size_t E,
+				size_t Extent_ = Extent
+			)
+			MUU_NODISCARD_CTOR
+			/* implicit */
+			constexpr span(const span<U, E>& s) noexcept
+				: ptr_and_size{ pointer_cast<pointer>(s.data()), s.size() }
+			{}
+
+			/// \endcond
 
 			/// \brief Copy constructor.
 			constexpr span(const span&) noexcept = default;
@@ -437,19 +512,23 @@ MUU_NAMESPACE_START
 				}
 			}
 	};
-	#ifndef DOXYGEN
+
+	/// \cond deduction_guides
+
 	template <typename T>				span(T*, size_t)				-> span<T>;
 	template <typename T, size_t N>		span(T(&)[N])					-> span<T, N>;
 	template <typename T, size_t N>		span(T(&&)[N])					-> span<T, N>;
 	template <typename T, size_t N>		span(std::array<T, N>&)			-> span<T, N>;
 	template <typename T, size_t N>		span(const std::array<T, N>&)	-> span<const T, N>;
+
 	#if MUU_CONCEPTS
 	template <std::contiguous_iterator It, typename E> span(It, E)		-> span<impl::iter_value_t<It>>;
 	#else
 	template <typename It, typename E>	span(It, E)						->	span<impl::iter_value_t<It>>;
 	template <typename It>				span(It, It)					->	span<impl::iter_value_t<It>>;
 	#endif
-	#endif // !DOXYGEN
+
+	/// \endcond
 
 	/// \brief	Convenience alias for `span<const T>`.
 	/// \ingroup	mem
@@ -491,7 +570,11 @@ MUU_NAMESPACE_START
 	/// \related	muu::span
 	/// 
 	/// \details Equivalent to C++20's std::as_writable_bytes.
-	template <typename T, size_t N MUU_ENABLE_IF(!std::is_const_v<T>)> MUU_REQUIRES(!std::is_const_v<T>)
+	MUU_CONSTRAINED_TEMPLATE(
+		!std::is_const_v<T>,
+		typename T,
+		size_t N
+	)
 	[[nodiscard]]
 	span<std::byte, impl::as_bytes_extent<T, N>> as_writable_bytes(span<T, N> s) noexcept
 	{

@@ -6,7 +6,10 @@
 #pragma once
 #include "../muu/core.h"
 
-#if !defined(DOXYGEN) && !MUU_INTELLISENSE && (!defined(MUU_DEV) || !MUU_DEV)
+/// \cond
+#if !MUU_INTELLISENSE && (!defined(MUU_DEV) || !MUU_DEV)
 	#error Including muu/numeric_range.h is currently prohibited - muu::numeric_range is not fully implemented
 #endif
+/// \endcond
+
 

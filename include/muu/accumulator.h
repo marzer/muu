@@ -10,9 +10,8 @@
 #include "../muu/core.h"
 #include "../muu/compressed_pair.h"
 
-MUU_PUSH_WARNINGS
-MUU_DISABLE_SPAM_WARNINGS
-
+MUU_PUSH_WARNINGS;
+MUU_DISABLE_SPAM_WARNINGS;
 MUU_PRAGMA_MSVC(push_macro("min"))
 MUU_PRAGMA_MSVC(push_macro("max"))
 #if MUU_MSVC
@@ -23,7 +22,7 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 MUU_NAMESPACE_START
 {
 	/// \brief	Determines min, max and sum of an interderminate number of values.
-	/// \ingroup math building_blocks
+	/// \ingroup math
 	///
 	/// \details For integral types the accumulator is a simple bookkeeping helper, but for floating-point
 	/// 		types the default implementation uses Kahan summation to reduce numerical error.
@@ -118,7 +117,7 @@ MUU_NAMESPACE_START
 			[[nodiscard]]
 			MUU_ALWAYS_INLINE
 			MUU_ATTR(pure)
-			constexpr decltype(auto) (min)() const
+			constexpr decltype(auto) min() const
 				noexcept(noexcept(std::declval<Impl>().min()))
 			{
 				return impl_and_count.first().min();
@@ -128,7 +127,7 @@ MUU_NAMESPACE_START
 			[[nodiscard]]
 			MUU_ALWAYS_INLINE
 			MUU_ATTR(pure)
-			constexpr decltype(auto) (max)() const
+			constexpr decltype(auto) max() const
 				noexcept(noexcept(std::declval<Impl>().max()))
 			{
 				return impl_and_count.first().max();
@@ -228,7 +227,7 @@ MUU_NAMESPACE_START
 			}
 	};
 
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
 		template <typename ValueType>
@@ -259,8 +258,8 @@ MUU_NAMESPACE_START
 			{
 				using muu::min;
 				using muu::max;
-				min_ = (min)(sample, min_);
-				max_ = (max)(sample, max_);
+				min_ = min(sample, min_);
+				max_ = max(sample, max_);
 				sum_ += static_cast<sum_type>(sample);
 			}
 
@@ -268,15 +267,15 @@ MUU_NAMESPACE_START
 			{
 				using muu::min;
 				using muu::max;
-				min_ = (min)(other.min_, min_);
-				max_ = (max)(other.max_, max_);
+				min_ = min(other.min_, min_);
+				max_ = max(other.max_, max_);
 				sum_ += other.sum_;
 			}
 
 			[[nodiscard]]
 			MUU_ALWAYS_INLINE
 			MUU_ATTR(pure)
-			constexpr value_type (min)() const noexcept
+			constexpr value_type min() const noexcept
 			{
 				return min_;
 			}
@@ -284,7 +283,7 @@ MUU_NAMESPACE_START
 			[[nodiscard]]
 			MUU_ALWAYS_INLINE
 			MUU_ATTR(pure)
-			constexpr value_type (max)() const noexcept
+			constexpr value_type max() const noexcept
 			{
 				return max_;
 			}
@@ -298,7 +297,7 @@ MUU_NAMESPACE_START
 			}
 		};
 
-		MUU_PUSH_PRECISE_MATH
+		MUU_PUSH_PRECISE_MATH;
 
 		template <typename ValueType>
 		struct kahan_accumulator // https://en.wikipedia.org/wiki/Kahan_summation_algorithm#Further_enhancements
@@ -340,22 +339,26 @@ MUU_NAMESPACE_START
 
 			constexpr void MUU_VECTORCALL add(value_param sample) noexcept
 			{
-				min_ = (muu::min)(sample, min_);
-				max_ = (muu::max)(sample, max_);
+				using muu::min;
+				using muu::max;
+				min_ = min(sample, min_);
+				max_ = max(sample, max_);
 				kahan_add(static_cast<sum_type>(sample));
 			}
 
 			constexpr void add(const kahan_accumulator& other) noexcept
 			{
-				min_ = (muu::min)(other.min_, min_);
-				max_ = (muu::max)(other.max_, max_);
+				using muu::min;
+				using muu::max;
+				min_ = min(other.min_, min_);
+				max_ = max(other.max_, max_);
 				kahan_add(other.sum);
 			}
 
 			[[nodiscard]]
 			MUU_ALWAYS_INLINE
 			MUU_ATTR(pure)
-			constexpr value_type (min)() const noexcept
+			constexpr value_type min() const noexcept
 			{
 				return min_;
 			}
@@ -363,7 +366,7 @@ MUU_NAMESPACE_START
 			[[nodiscard]]
 			MUU_ALWAYS_INLINE
 			MUU_ATTR(pure)
-			constexpr value_type (max)() const noexcept
+			constexpr value_type max() const noexcept
 			{
 				return max_;
 			}
@@ -377,13 +380,12 @@ MUU_NAMESPACE_START
 			}
 		};
 
-		MUU_POP_PRECISE_MATH
+		MUU_POP_PRECISE_MATH;
 	}
-	#endif // !DOXYGEN
+	/// \endcond
 }
 MUU_NAMESPACE_END
 
 MUU_PRAGMA_MSVC(pop_macro("min"))
 MUU_PRAGMA_MSVC(pop_macro("max"))
-
-MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS
+MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS

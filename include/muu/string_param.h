@@ -9,18 +9,18 @@
 #pragma once
 #include "../muu/core.h"
 
-MUU_DISABLE_WARNINGS
+MUU_DISABLE_WARNINGS;
 #include <string>
 #include <string_view>
 #include <iosfwd>
-MUU_ENABLE_WARNINGS
+MUU_ENABLE_WARNINGS;
 
-MUU_PUSH_WARNINGS
-MUU_DISABLE_SPAM_WARNINGS
+MUU_PUSH_WARNINGS;
+MUU_DISABLE_SPAM_WARNINGS;
 
 MUU_NAMESPACE_START
 {
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
 		template <typename>
@@ -45,7 +45,7 @@ MUU_NAMESPACE_START
 				#endif
 			>;
 	}
-	#endif // !DOXYGEN
+	/// \endcond
 
 	/// \brief		A move-only string type-eraser capable of representing any UTF string.
 	/// \ingroup strings
@@ -456,4 +456,4 @@ MUU_NAMESPACE_START
 }
 MUU_NAMESPACE_END
 
-MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS
+MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS

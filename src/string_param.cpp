@@ -6,7 +6,7 @@
 #include "muu/string_param.h"
 #include "muu/strings.h"
 
-MUU_DISABLE_SUGGEST_WARNINGS
+MUU_DISABLE_SUGGEST_WARNINGS;
 using namespace muu;
 
 namespace
@@ -303,7 +303,6 @@ string_param::string_param(std::u32string&& str) noexcept
 	initialize(storage_, mode_, std::move(str));
 }
 
-
 string_param::string_param(const void* str, size_t len, char8_tag) noexcept
 {
 	#ifdef __cpp_lib_char8_t
@@ -317,13 +316,13 @@ string_param::string_param(void* str_obj, const void* str, size_t len, char8_tag
 {
 	#ifdef __cpp_lib_char8_t
 
-	(void)str;
-	(void)len;
+	MUU_UNUSED(str);
+	MUU_UNUSED(len);
 	initialize(storage_, mode_, std::move(*static_cast<std::u8string*>(str_obj)));
 
 	#else
 
-	(void)str_obj;
+	MUU_UNUSED(str_obj);
 	if (str && len)
 		initialize(storage_, mode_, std::string(static_cast<const char*>(str), len));
 
@@ -449,7 +448,7 @@ void string_param::get_char8_view(void* str) const noexcept
 	#ifdef __cpp_lib_char8_t
 	*static_cast<std::u8string_view*>(str) = get_view<char8_t>(storage_, mode_);
 	#else
-	(void)str;
+	MUU_UNUSED(str);
 	#endif
 }
 
@@ -540,7 +539,7 @@ void string_param::move_into_char8_string(void* str) noexcept
 	#ifdef __cpp_lib_char8_t
 	*static_cast<std::u8string*>(str) = move_into_string<char8_t>(storage_, mode_);
 	#else
-	(void)str;
+	MUU_UNUSED(str);
 	#endif
 }
 

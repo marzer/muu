@@ -11,12 +11,12 @@
 #include "../muu/tagged_ptr.h"
 #include "../muu/string_param.h"
 
-MUU_DISABLE_WARNINGS
+MUU_DISABLE_WARNINGS;
 #ifdef __cpp_lib_hardware_interference_size
 	#include <new>
 #endif
 #include <memory>
-MUU_ENABLE_WARNINGS
+MUU_ENABLE_WARNINGS;
 
 #define MUU_MOVE_CHECK	MUU_ASSERT(pimpl_ != nullptr && "The thread_pool has been moved from!")
 #if MUU_ARCH_AMD64
@@ -25,10 +25,16 @@ MUU_ENABLE_WARNINGS
 	#define	MUU_COMPRESSED_THREAD_POOL_TASK 0
 #endif
 
-MUU_PUSH_WARNINGS
-MUU_DISABLE_SPAM_WARNINGS
+MUU_PUSH_WARNINGS;
+MUU_DISABLE_SPAM_WARNINGS;
+MUU_PRAGMA_MSVC(push_macro("min"))
+MUU_PRAGMA_MSVC(push_macro("max"))
+#if MUU_MSVC
+	#undef min
+	#undef max
+#endif
 
-#ifndef DOXYGEN
+/// \cond
 MUU_IMPL_NAMESPACE_START
 {
 	template <typename Func, typename Arg>
@@ -44,7 +50,7 @@ MUU_IMPL_NAMESPACE_START
 		|| std::is_trivially_copyable_v<remove_cvref<T>>;
 
 	#ifdef __cpp_lib_hardware_interference_size
-		inline constexpr size_t thread_pool_task_granularity = bit_ceil((max)(std::hardware_destructive_interference_size, 64_sz));
+		inline constexpr size_t thread_pool_task_granularity = bit_ceil(max(std::hardware_destructive_interference_size, 64_sz));
 	#else
 		inline constexpr size_t thread_pool_task_granularity = 64;
 	#endif
@@ -112,6 +118,7 @@ MUU_IMPL_NAMESPACE_START
 	thread_pool_task final
 	{
 		using action_invoker_func = void(thread_pool_task_action&&)noexcept;
+
 		#if MUU_COMPRESSED_THREAD_POOL_TASK
 		using action_invoker_type = tagged_ptr<action_invoker_func>;
 		using states_int_type = action_invoker_type::tag_type;
@@ -394,7 +401,7 @@ MUU_IMPL_NAMESPACE_START
 	};
 }
 MUU_IMPL_NAMESPACE_END
-#endif // !DOXYGEN
+/// \endcond
 
 MUU_NAMESPACE_START
 {
@@ -799,8 +806,8 @@ MUU_NAMESPACE_START
 				>;
 				using size_type = largest<make_unsigned<offset_type>, size_t>;
 				const auto job_count = static_cast<size_type>(
-					static_cast<offset_type>((max)(unwrap(start), unwrap(end)))
-					- static_cast<offset_type>((min)(unwrap(start), unwrap(end)))
+					static_cast<offset_type>(max(unwrap(start), unwrap(end)))
+					- static_cast<offset_type>(min(unwrap(start), unwrap(end)))
 				);
 				if (!job_count)
 					return *this;
@@ -844,6 +851,8 @@ MUU_NAMESPACE_START
 }
 MUU_NAMESPACE_END
 
-MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS
+MUU_PRAGMA_MSVC(pop_macro("min"))
+MUU_PRAGMA_MSVC(pop_macro("max"))
+MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS
 
 #undef MUU_MOVE_CHECK

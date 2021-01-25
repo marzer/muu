@@ -8,9 +8,9 @@
 #pragma once
 #include "settings.h"
 #include "../include/muu/core.h"
-MUU_DISABLE_WARNINGS
+MUU_DISABLE_WARNINGS;
 #include <array>
-MUU_ENABLE_WARNINGS
+MUU_ENABLE_WARNINGS;
 
 #if MUU_GCC && MUU_HAS_FLOAT128
 	#pragma GCC system_header

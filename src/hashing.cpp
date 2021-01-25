@@ -5,7 +5,12 @@
 
 #include "muu/hashing.h"
 
-MUU_DISABLE_SPAM_WARNINGS
+MUU_DISABLE_SPAM_WARNINGS;
+#if MUU_MSVC
+	#undef min
+	#undef max
+#endif
+
 using namespace muu;
 
 namespace { namespace sha1_utils
@@ -236,13 +241,13 @@ sha1& sha1::operator() (const void* data, size_t size) noexcept
 		auto ptr = reinterpret_cast<const uint8_t*>(data);
 		if (current_block_length)
 		{
-			const auto delta = (min)(64_sz - current_block_length, size);
+			const auto delta = min(64_sz - current_block_length, size);
 			add(ptr, delta);
 			ptr += delta;
 		}
 		while (ptr < end)
 		{
-			const auto delta = (min)(64_sz, static_cast<size_t>(end - ptr));
+			const auto delta = min(64_sz, static_cast<size_t>(end - ptr));
 			add(ptr, delta);
 			ptr += delta;
 		}

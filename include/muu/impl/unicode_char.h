@@ -115,7 +115,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_non_ascii_code_point(char c) noexcept
 	{
-		(void)c;
+		MUU_UNUSED(c);
 		return false;
 	}
 
@@ -129,7 +129,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_non_ascii_hyphen(char c) noexcept
 	{
-		(void)c;
+		MUU_UNUSED(c);
 		return false;
 	}
 
@@ -143,7 +143,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_non_ascii_letter(char c) noexcept
 	{
-		(void)c;
+		MUU_UNUSED(c);
 		return false;
 	}
 
@@ -157,7 +157,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_non_ascii_lowercase(char c) noexcept
 	{
-		(void)c;
+		MUU_UNUSED(c);
 		return false;
 	}
 
@@ -171,7 +171,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_non_ascii_number(char c) noexcept
 	{
-		(void)c;
+		MUU_UNUSED(c);
 		return false;
 	}
 
@@ -185,7 +185,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_non_ascii_uppercase(char c) noexcept
 	{
-		(void)c;
+		MUU_UNUSED(c);
 		return false;
 	}
 
@@ -199,7 +199,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_non_ascii_whitespace(char c) noexcept
 	{
-		(void)c;
+		MUU_UNUSED(c);
 		return false;
 	}
 
@@ -330,7 +330,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr bool is_combining_mark(char c) noexcept
 	{
-		(void)c;
+		MUU_UNUSED(c);
 		return false;
 	}
 

@@ -10,16 +10,15 @@
 #include "../muu/vector.h"
 #include "../muu/quaternion.h"
 
-MUU_DISABLE_WARNINGS
+MUU_DISABLE_WARNINGS;
 #include <iosfwd>
 #include <tuple>
-MUU_ENABLE_WARNINGS
+MUU_ENABLE_WARNINGS;
 
-MUU_PUSH_WARNINGS
-MUU_DISABLE_SHADOW_WARNINGS
+MUU_PUSH_WARNINGS;
+MUU_DISABLE_SHADOW_WARNINGS;
 MUU_PRAGMA_GCC(diagnostic ignored "-Wsign-conversion")
 MUU_PRAGMA_CLANG(diagnostic ignored "-Wdouble-promotion")
-
 MUU_PRAGMA_MSVC(inline_recursion(on))
 MUU_PRAGMA_MSVC(float_control(push))
 MUU_PRAGMA_MSVC(float_control(except, off))
@@ -34,7 +33,8 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 //=====================================================================================================================
 // IMPLEMENTATION DETAILS
 #if 1
-#ifndef DOXYGEN
+
+/// \cond
 
 #if 1 // helper macros ------------------------------------------------------------------------------------------------
 
@@ -150,19 +150,30 @@ MUU_IMPL_NAMESPACE_START
 
 	public:
 
+		#if MUU_MSVC
+
+		// internal compiler error:
+		// https://developercommunity2.visualstudio.com/t/C-Internal-Compiler-Error-in-constexpr/1264044
+
 		template <size_t... ColumnIndices>
 		explicit
 		constexpr matrix_base(value_fill_tag, std::index_sequence<ColumnIndices...>, Scalar fill) noexcept
-			#if MUU_MSVC
-				// internal compiler error:
-				// https://developercommunity2.visualstudio.com/t/C-Internal-Compiler-Error-in-constexpr/1264044
 				: m{ fill_column_initializer_msvc<ColumnIndices>(fill)... }
-			#else
-				: m{ ((void)ColumnIndices, vector<Scalar, Rows>{ fill })... }
-			#endif
 		{
 			static_assert(sizeof...(ColumnIndices) <= Columns);
 		}
+
+		#else
+
+		template <size_t... ColumnIndices>
+		explicit
+		constexpr matrix_base(value_fill_tag, std::index_sequence<ColumnIndices...>, Scalar fill) noexcept
+			: m{ (MUU_UNUSED(ColumnIndices), vector<Scalar, Rows>{ fill })... }
+		{
+			static_assert(sizeof...(ColumnIndices) <= Columns);
+		}
+
+		#endif
 
 		template <typename... T>
 		explicit
@@ -194,7 +205,7 @@ MUU_IMPL_NAMESPACE_START
 			}
 			else
 			{
-				(void)tpl;
+				MUU_UNUSED(tpl);
 				return Scalar{};
 			}
 		}
@@ -233,15 +244,11 @@ MUU_IMPL_NAMESPACE_START
 		}
 	};
 
-	#if MUU_HAS_VECTORCALL
-
 	template <typename Scalar, size_t Rows, size_t Columns>
 	inline constexpr bool is_hva<matrix_base<Scalar, Rows, Columns>> = can_be_hva_of<Scalar, matrix_base<Scalar, Rows, Columns>>;
 
 	template <typename Scalar, size_t Rows, size_t Columns>
 	inline constexpr bool is_hva<matrix<Scalar, Rows, Columns>> = is_hva<matrix_base<Scalar, Rows, Columns>>;
-
-	#endif // MUU_HAS_VECTORCALL
 
 	template <typename Scalar, size_t Rows, size_t Columns>
 	struct readonly_param_<matrix<Scalar, Rows, Columns>>
@@ -323,7 +330,7 @@ MUU_IMPL_NAMESPACE_START
 	MUU_VECTORCALL
 	raw_determinant_2x2(const T& m) noexcept
 	{
-		MUU_FMA_BLOCK
+		MUU_FMA_BLOCK;
 		using type = promote_if_small_float<typename T::determinant_type>;
 
 		return MAT_GET(Row0, Col0) * MAT_GET(Row1, Col1)
@@ -342,7 +349,7 @@ MUU_IMPL_NAMESPACE_START
 	MUU_VECTORCALL
 	raw_determinant_3x3(const T& m) noexcept
 	{
-		MUU_FMA_BLOCK
+		MUU_FMA_BLOCK;
 		using type = promote_if_small_float<typename T::determinant_type>;
 
 		return MAT_GET(Row0, Col0) * raw_determinant_2x2<Row1, Row2, Col1, Col2>(m)
@@ -362,7 +369,7 @@ MUU_IMPL_NAMESPACE_START
 	MUU_VECTORCALL
 	raw_determinant_4x4(const T& m) noexcept
 	{
-		MUU_FMA_BLOCK
+		MUU_FMA_BLOCK;
 		using type = promote_if_small_float<typename T::determinant_type>;
 
 		return MAT_GET(Row0, Col0) * raw_determinant_3x3<Row1, Row2, Row3, Col1, Col2, Col3>(m)
@@ -382,62 +389,107 @@ namespace muu
 		= allow_implicit_bit_cast<From, matrix<Scalar, Rows, Columns>>;
 }
 
-#else // ^^^ !DOXYGEN / DOXYGEN vvv
+#if !MUU_INTELLISENSE
 
-#define REQUIRES_SIZE_AT_LEAST(n, ...)
-#define REQUIRES_DIMENSIONS_BETWEEN(r1, c1, r2, c2, ...)
-#define REQUIRES_DIMENSIONS_EXACTLY(r, c, ...)
-#define REQUIRES_SQUARE(...)
-#define REQUIRES_FLOATING_POINT
-#define REQUIRES_INTEGRAL
-#define REQUIRES_SIGNED
-#define SPECIALIZED_IF(cond)
-
-#endif // DOXYGEN
-#ifndef ENABLE_IF_SIZE_AT_LEAST
-	#define ENABLE_IF_SIZE_AT_LEAST(n, ...)
-#endif
-#ifndef LEGACY_REQUIRES_SIZE_AT_LEAST
-	#define LEGACY_REQUIRES_SIZE_AT_LEAST(n, ...)
-#endif
-#ifndef LEGACY_REQUIRES_DIMENSIONS_BETWEEN
-	#define	LEGACY_REQUIRES_DIMENSIONS_BETWEEN(r1, c1, r2, c2, ...)
-#endif
-#ifndef LEGACY_REQUIRES_DIMENSIONS_EXACTLY
-	#define	LEGACY_REQUIRES_DIMENSIONS_EXACTLY(r, c, ...)
-#endif
-#ifndef LEGACY_REQUIRES_SQUARE
-	#define LEGACY_REQUIRES_SQUARE(...)
-#endif
-#ifndef LEGACY_REQUIRES_FLOATING_POINT
-	#define LEGACY_REQUIRES_FLOATING_POINT
-#endif
-#ifndef LEGACY_REQUIRES_INTEGRAL
-	#define LEGACY_REQUIRES_INTEGRAL
-#endif
-#ifndef LEGACY_REQUIRES_SIGNED
-	#define LEGACY_REQUIRES_SIGNED
-#endif
-#if !defined(DOXYGEN) && !MUU_INTELLISENSE
 	#define ENABLE_PAIRED_FUNCS 1
 
 	#define ENABLE_PAIRED_FUNC_BY_REF(S, R, C, ...) \
-			MUU_ENABLE_IF(impl::pass_readonly_by_reference<matrix<S, R, C>> && (__VA_ARGS__))
+				MUU_ENABLE_IF(impl::pass_readonly_by_reference<matrix<S, R, C>> && (__VA_ARGS__))
 
 	#define ENABLE_PAIRED_FUNC_BY_VAL(S, R, C, ...) \
-			MUU_ENABLE_IF_2(impl::pass_readonly_by_value<matrix<S, R, C>> && (__VA_ARGS__))
+				MUU_ENABLE_IF_2(impl::pass_readonly_by_value<matrix<S, R, C>> && (__VA_ARGS__))
 
 	#define REQUIRES_PAIRED_FUNC_BY_REF(S, R, C, ...) \
-			MUU_REQUIRES(impl::pass_readonly_by_reference<matrix<S, R, C>> && (__VA_ARGS__))
+				MUU_REQUIRES(impl::pass_readonly_by_reference<matrix<S, R, C>> && (__VA_ARGS__))
 
 	#define REQUIRES_PAIRED_FUNC_BY_VAL(S, R, C, ...) \
-			MUU_REQUIRES(impl::pass_readonly_by_value<matrix<S, R, C>> && (__VA_ARGS__))
+				MUU_REQUIRES(impl::pass_readonly_by_value<matrix<S, R, C>> && (__VA_ARGS__))
 
-#else
+#endif // !MUU_INTELLISENSE
+
+/// \endcond
+
+#ifndef REQUIRES_SIZE_AT_LEAST
+	#define REQUIRES_SIZE_AT_LEAST(n, ...)
+#endif
+
+#ifndef REQUIRES_DIMENSIONS_BETWEEN
+	#define REQUIRES_DIMENSIONS_BETWEEN(r1, c1, r2, c2, ...)
+#endif
+
+#ifndef REQUIRES_DIMENSIONS_EXACTLY
+	#define REQUIRES_DIMENSIONS_EXACTLY(r, c, ...)
+#endif
+
+#ifndef REQUIRES_SQUARE
+	#define REQUIRES_SQUARE(...)
+#endif
+
+#ifndef REQUIRES_FLOATING_POINT
+	#define REQUIRES_FLOATING_POINT
+#endif
+
+#ifndef REQUIRES_INTEGRAL
+	#define REQUIRES_INTEGRAL
+#endif
+
+#ifndef REQUIRES_SIGNED
+	#define REQUIRES_SIGNED
+#endif
+
+#ifndef SPECIALIZED_IF
+	#define SPECIALIZED_IF(cond)
+#endif
+
+#ifndef ENABLE_IF_SIZE_AT_LEAST
+	#define ENABLE_IF_SIZE_AT_LEAST(n, ...)
+#endif
+
+#ifndef LEGACY_REQUIRES_SIZE_AT_LEAST
+	#define LEGACY_REQUIRES_SIZE_AT_LEAST(n, ...)
+#endif
+
+#ifndef LEGACY_REQUIRES_DIMENSIONS_BETWEEN
+	#define	LEGACY_REQUIRES_DIMENSIONS_BETWEEN(r1, c1, r2, c2, ...)
+#endif
+
+#ifndef LEGACY_REQUIRES_DIMENSIONS_EXACTLY
+	#define	LEGACY_REQUIRES_DIMENSIONS_EXACTLY(r, c, ...)
+#endif
+
+#ifndef LEGACY_REQUIRES_SQUARE
+	#define LEGACY_REQUIRES_SQUARE(...)
+#endif
+
+#ifndef LEGACY_REQUIRES_FLOATING_POINT
+	#define LEGACY_REQUIRES_FLOATING_POINT
+#endif
+
+#ifndef LEGACY_REQUIRES_INTEGRAL
+	#define LEGACY_REQUIRES_INTEGRAL
+#endif
+
+#ifndef LEGACY_REQUIRES_SIGNED
+	#define LEGACY_REQUIRES_SIGNED
+#endif
+
+#ifndef ENABLE_PAIRED_FUNCS
 	#define ENABLE_PAIRED_FUNCS 0
+#endif
+
+#ifndef ENABLE_PAIRED_FUNC_BY_REF
 	#define ENABLE_PAIRED_FUNC_BY_REF(S, R, C, ...)
+#endif
+
+#ifndef ENABLE_PAIRED_FUNC_BY_VAL
 	#define ENABLE_PAIRED_FUNC_BY_VAL(S, R, C, ...)
+#endif
+
+#ifndef REQUIRES_PAIRED_FUNC_BY_REF
 	#define REQUIRES_PAIRED_FUNC_BY_REF(S, R, C, ...)
+#endif
+
+#ifndef REQUIRES_PAIRED_FUNC_BY_VAL
 	#define REQUIRES_PAIRED_FUNC_BY_VAL(S, R, C, ...)
 #endif
 
@@ -548,9 +600,11 @@ MUU_NAMESPACE_START
 	public:
 
 		#ifdef DOXYGEN
+
 		/// \brief The values in the matrix (stored column-major).
 		column_type m[columns];
-		#endif
+
+		#endif // DOXYGEN
 
 	#if 1 // constructors ---------------------------------------------------------------------------------------------
 
@@ -997,7 +1051,7 @@ MUU_NAMESPACE_START
 			}
 			else
 			{
-				(void)m;
+				MUU_UNUSED(m);
 				return false;
 			}
 		}
@@ -1229,7 +1283,7 @@ MUU_NAMESPACE_START
 			// common square cases are manually unrolled 
 			if constexpr (Rows == 2 && Columns == 2 && C == 2)
 			{
-				MUU_FMA_BLOCK
+				MUU_FMA_BLOCK;
 
 				return result_type
 				{
@@ -1248,7 +1302,7 @@ MUU_NAMESPACE_START
 			}
 			else if constexpr (Rows == 3 && Columns == 3 && C == 3)
 			{
-				MUU_FMA_BLOCK
+				MUU_FMA_BLOCK;
 
 				return result_type
 				{
@@ -1276,7 +1330,7 @@ MUU_NAMESPACE_START
 			}
 			else if constexpr (Rows == 4 && Columns == 4 && C == 4)
 			{
-				MUU_FMA_BLOCK
+				MUU_FMA_BLOCK;
 
 				return result_type
 				{
@@ -1314,7 +1368,7 @@ MUU_NAMESPACE_START
 				{
 					for (size_t out_c = 0; out_c < C; out_c++)
 					{
-						MUU_FMA_BLOCK
+						MUU_FMA_BLOCK;
 
 						auto val = static_cast<type>(lhs(out_r, 0)) * static_cast<type>(rhs(0, out_c));
 
@@ -1363,7 +1417,7 @@ MUU_NAMESPACE_START
 			// common square cases are manually unrolled 
 			if constexpr (Rows == 2 && Columns == 2)
 			{
-				MUU_FMA_BLOCK
+				MUU_FMA_BLOCK;
 
 				return column_type
 				{
@@ -1373,7 +1427,7 @@ MUU_NAMESPACE_START
 			}
 			else if constexpr (Rows == 3 && Columns == 3)
 			{
-				MUU_FMA_BLOCK
+				MUU_FMA_BLOCK;
 
 				return column_type
 				{
@@ -1384,7 +1438,7 @@ MUU_NAMESPACE_START
 			}
 			else if constexpr (Rows == 4 && Columns == 4)
 			{
-				MUU_FMA_BLOCK
+				MUU_FMA_BLOCK;
 
 				return column_type
 				{
@@ -1399,7 +1453,7 @@ MUU_NAMESPACE_START
 				column_type out;
 				for (size_t out_r = 0; out_r < Rows; out_r++)
 				{
-					MUU_FMA_BLOCK
+					MUU_FMA_BLOCK;
 
 					auto val = static_cast<type>(lhs(out_r, 0)) * static_cast<type>(rhs.template get<0>());
 
@@ -1467,7 +1521,7 @@ MUU_NAMESPACE_START
 				row_type out;
 				for (size_t out_col = 0; out_col < Columns; out_col++)
 				{
-					MUU_FMA_BLOCK
+					MUU_FMA_BLOCK;
 
 					auto val = static_cast<type>(lhs.template get<0>()) * static_cast<type>(rhs(0, out_col));
 
@@ -1696,7 +1750,7 @@ MUU_NAMESPACE_START
 			}
 			if constexpr (Columns == 2)
 			{
-				MUU_FMA_BLOCK
+				MUU_FMA_BLOCK;
 
 				const auto det = intermediate_float{ 1 } / static_cast<intermediate_float>(impl::raw_determinant_2x2(m));
 				return inverse_type
@@ -1714,7 +1768,7 @@ MUU_NAMESPACE_START
 			}
 			if constexpr (Columns == 3)
 			{
-				MUU_FMA_BLOCK
+				MUU_FMA_BLOCK;
 
 				const auto det = intermediate_float{ 1 } / static_cast<intermediate_float>(impl::raw_determinant_3x3(m));
 				return inverse_type
@@ -1741,7 +1795,7 @@ MUU_NAMESPACE_START
 			{
 				// generated using https://github.com/willnode/N-Matrix-Programmer
 
-				MUU_FMA_BLOCK
+				MUU_FMA_BLOCK;
 
 				const auto A2323 = MAT_GET(2, 2) * MAT_GET(3, 3) - MAT_GET(2, 3) * MAT_GET(3, 2);
 				const auto A1323 = MAT_GET(2, 1) * MAT_GET(3, 3) - MAT_GET(2, 3) * MAT_GET(3, 1);
@@ -1833,7 +1887,7 @@ MUU_NAMESPACE_START
 				return column_type::template raw_dot<type>(c1, c2);
 			else
 			{
-				MUU_FMA_BLOCK
+				MUU_FMA_BLOCK;
 
 				// avoid operator[] for vectors <= 4 elems (potentially slower and/or not-constexpr safe)
 				type dot = static_cast<type>(c1.template get<0>()) * static_cast<type>(c2.template get<0>());
@@ -1863,7 +1917,7 @@ MUU_NAMESPACE_START
 				c.normalize();
 			else
 			{
-				MUU_FMA_BLOCK
+				MUU_FMA_BLOCK;
 				using type = intermediate_float;
 
 				const type inv_len = type{ 1 } / muu::sqrt(column_dot<Depth>(c, c));
@@ -1953,7 +2007,7 @@ MUU_NAMESPACE_START
 	#endif // misc
 	};
 
-	#ifndef DOXYGEN // deduction guides -------------------------------------------------------------------------------
+	/// \cond deduction_guides
 
 	template <typename T MUU_ENABLE_IF(is_arithmetic<T>)>
 	MUU_REQUIRES(is_arithmetic<T>)
@@ -1997,7 +2051,7 @@ MUU_NAMESPACE_START
 	matrix(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)
 		-> matrix<impl::highest_ranked<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>, 4, 4>;
 
-	#endif // deduction guides
+	/// \endcond
 }
 MUU_NAMESPACE_END
 
@@ -2007,13 +2061,13 @@ MUU_NAMESPACE_END
 // CONSTANTS
 #if 1
 
-MUU_PUSH_PRECISE_MATH
+MUU_PUSH_PRECISE_MATH;
 
 MUU_NAMESPACE_START
 {
 	namespace impl
 	{
-		#ifndef DOXYGEN
+		/// \cond
 
 		template <typename Scalar, size_t Rows, size_t Columns>
 		[[nodiscard]]
@@ -2164,7 +2218,7 @@ MUU_NAMESPACE_START
 		template <typename Scalar, size_t Rows, size_t Columns>
 		struct matrix_constants_base<Scalar, Rows, Columns, 2>	: floating_point_constants<matrix<Scalar, Rows, Columns>> {};
 
-		#endif // !DOXYGEN
+		/// \endcond
 
 		template <typename Scalar, size_t Rows, size_t Columns
 			SPECIALIZED_IF(Rows >= 3 && Rows <= 4 && Columns >= 3 && Columns <= 4 && is_signed<Scalar>)
@@ -2209,13 +2263,27 @@ MUU_NAMESPACE_START
 			);
 		};
 
-		#ifndef DOXYGEN
+		/// \cond
 
 		template <typename Scalar, size_t Rows, size_t Columns>
 		struct rotation_matrix_constants<Scalar, Rows, Columns, false> { };
 
-		#endif // !DOXYGEN
+		/// \endcond
 	}
+
+	#ifdef DOXYGEN
+		#define MATRIX_CONSTANTS_BASES													\
+			impl::rotation_matrix_constants<Scalar, Rows, Columns>,						\
+			impl::integer_limits<matrix<Scalar, Rows, Columns>>,						\
+			impl::integer_positive_constants<matrix<Scalar, Rows, Columns>>,			\
+			impl::floating_point_limits<matrix<Scalar, Rows, Columns>>,					\
+			impl::floating_point_special_constants<matrix<Scalar, Rows, Columns>>,		\
+			impl::floating_point_named_constants<matrix<Scalar, Rows, Columns>>
+	#else
+		#define MATRIX_CONSTANTS_BASES													\
+			impl::rotation_matrix_constants<Scalar, Rows, Columns>,						\
+			impl::matrix_constants_base<Scalar, Rows, Columns>
+	#endif
 
 	/// \ingroup	constants
 	/// \related	muu::matrix
@@ -2224,25 +2292,17 @@ MUU_NAMESPACE_START
 	/// \brief		Matrix constants.
 	template <typename Scalar, size_t Rows, size_t Columns>
 	struct constants<matrix<Scalar, Rows, Columns>>
-		: impl::rotation_matrix_constants<Scalar, Rows, Columns>,
-		#ifdef DOXYGEN
-			// doxygen breaks if you mix template specialization and inheritance
-			impl::integer_limits<matrix<Scalar, Rows, Columns>>,
-			impl::integer_positive_constants<matrix<Scalar, Rows, Columns>>,
-			impl::floating_point_limits<matrix<Scalar, Rows, Columns>>,
-			impl::floating_point_special_constants<matrix<Scalar, Rows, Columns>>,
-			impl::floating_point_named_constants<matrix<Scalar, Rows, Columns>>
-		#else
-			impl::matrix_constants_base<Scalar, Rows, Columns>
-		#endif
+		: MATRIX_CONSTANTS_BASES
 	{
 		/// \brief The identity matrix.
 		static constexpr matrix<Scalar, Rows, Columns> identity = impl::make_identity_matrix<Scalar, Rows, Columns>();
 	};
+
+	#undef MATRIX_CONSTANTS_BASES
 }
 MUU_NAMESPACE_END
 
-MUU_POP_PRECISE_MATH
+MUU_POP_PRECISE_MATH;
 
 #endif // =============================================================================================================
 
@@ -2269,7 +2329,7 @@ MUU_NAMESPACE_START
 			return matrix<S, R, C>::infinity_or_nan(m);
 		else
 		{
-			(void)m;
+			MUU_UNUSED(m);
 			return false;
 		}
 	}
@@ -2408,7 +2468,7 @@ MUU_NAMESPACE_START
 			return matrix<S, R, C>::infinity_or_nan(m);
 		else
 		{
-			(void)m;
+			MUU_UNUSED(m);
 			return false;
 		}
 	}
@@ -2533,5 +2593,4 @@ MUU_PRAGMA_MSVC(pop_macro("min"))
 MUU_PRAGMA_MSVC(pop_macro("max"))
 MUU_PRAGMA_MSVC(float_control(pop))
 MUU_PRAGMA_MSVC(inline_recursion(off))
-
-MUU_POP_WARNINGS	// MUU_DISABLE_SHADOW_WARNINGS
+MUU_POP_WARNINGS;	// MUU_DISABLE_SHADOW_WARNINGS;

@@ -591,7 +591,7 @@ inline void vector_dot_tests(std::string_view scalar_typename) noexcept
 	auto expected_sum = intermediate_type{};
 	for (size_t i = 0; i < Dimensions; i++)
 	{
-		MUU_FMA_BLOCK
+		MUU_FMA_BLOCK;
 		expected_sum += static_cast<intermediate_type>(x1[i]) * static_cast<intermediate_type>(x2[i]);
 	}
 	const auto expected = static_cast<dot_type>(expected_sum);

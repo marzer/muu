@@ -9,16 +9,15 @@
 #pragma once
 #include "../muu/core.h"
 
-MUU_DISABLE_WARNINGS
+MUU_DISABLE_WARNINGS;
 #include <cmath>
 #if MUU_HAS_QUADMATH
 	#include <quadmath.h>
 #endif
-MUU_ENABLE_WARNINGS
+MUU_ENABLE_WARNINGS;
 
-MUU_PUSH_WARNINGS
-MUU_DISABLE_ARITHMETIC_WARNINGS
-
+MUU_PUSH_WARNINGS;
+MUU_DISABLE_ARITHMETIC_WARNINGS;
 MUU_PRAGMA_MSVC(inline_recursion(on))
 MUU_PRAGMA_MSVC(push_macro("min"))
 MUU_PRAGMA_MSVC(push_macro("max"))
@@ -48,7 +47,7 @@ MUU_NAMESPACE_START
 	/// 				build::supports_constexpr_infinity_or_nan.
 	/// @{
 
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
 		MUU_PRAGMA_GCC(push_options)
@@ -78,7 +77,7 @@ MUU_NAMESPACE_START
 		template <>
 		struct infinity_or_nan_traits<80, 64>
 		{
-			static constexpr uint16_t mask[] { 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x7FFF_u16 };
+			static constexpr uint16_t mask[] = { 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x7FFF_u16 };
 
 			template <typename T>
 			[[nodiscard]]
@@ -97,7 +96,7 @@ MUU_NAMESPACE_START
 			#if MUU_HAS_INT128
 			static constexpr uint128_t mask = pack(0x0000000000007FFF_u64, 0x8000000000000000_u64);
 			#else
-			static constexpr uint64_t mask[]{ 0x8000000000000000_u64, 0x0000000000007FFF_u64 };
+			static constexpr uint64_t mask[] = { 0x8000000000000000_u64, 0x0000000000007FFF_u64 };
 
 			template <typename T>
 			[[nodiscard]]
@@ -118,7 +117,7 @@ MUU_NAMESPACE_START
 			#if MUU_HAS_INT128
 			static constexpr uint128_t mask = pack(0x7FFF000000000000_u64, 0x0000000000000000_u64);
 			#else
-			static constexpr uint64_t mask[]{ 0x0000000000000000_u64, 0x7FFF000000000000_u64 };
+			static constexpr uint64_t mask[] = { 0x0000000000000000_u64, 0x7FFF000000000000_u64 };
 
 			template <typename T>
 			[[nodiscard]]
@@ -186,7 +185,7 @@ MUU_NAMESPACE_START
 
 		MUU_PRAGMA_GCC(pop_options) // -fno-finite-math-only
 	}
-	#endif // !DOXYGEN
+	/// \endcond
 
 	/// \brief	Returns true if a float is infinity or NaN.
 	[[nodiscard]]
@@ -249,7 +248,7 @@ MUU_NAMESPACE_START
 	#endif
 
 	/// \brief	Returns true if an arithmetic value is infinity or NaN.
-	template <typename T MUU_ENABLE_IF(is_arithmetic<T>)> MUU_REQUIRES(is_arithmetic<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_arithmetic<T>, typename T)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool infinity_or_nan(T x) noexcept
@@ -258,7 +257,7 @@ MUU_NAMESPACE_START
 			return impl::infinity_or_nan_(x);
 		else
 		{
-			(void)x;
+			MUU_UNUSED(x);
 			return false;
 		}
 	}
@@ -269,10 +268,7 @@ MUU_NAMESPACE_START
 	/// \param 	obj		The object.
 	///
 	/// \returns	The result `T::infinity_or_nan(obj)` or `obj.infinity_or_nan()` (coerced to bool).
-	template <typename T
-		MUU_ENABLE_IF_2(impl::has_specialized_infinity_or_nan<T>)
-	>
-	MUU_REQUIRES(impl::has_specialized_infinity_or_nan<T>)
+	MUU_CONSTRAINED_TEMPLATE_2(impl::has_specialized_infinity_or_nan<T>, typename T)
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	constexpr bool infinity_or_nan(const T& obj) noexcept
@@ -301,7 +297,7 @@ MUU_NAMESPACE_START
 	/// \brief			Constexpr-friendly alternatives to std::abs.
 	/// @{
 
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
 		template <typename T>
@@ -320,7 +316,7 @@ MUU_NAMESPACE_START
 			return x < T{} ? -x : x;
 		}
 	}
-	#endif // DOXYGEN
+	/// \endcond
 
 	/// \brief	Returns the absolute value of a float.
 	[[nodiscard]]
@@ -428,7 +424,7 @@ MUU_NAMESPACE_START
 	}
 
 	/// \brief	Returns the absolute value of an integral type.
-	template <typename T MUU_ENABLE_IF(is_integral<T>)> MUU_REQUIRES(is_integral<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ATTR(flatten)
@@ -504,10 +500,11 @@ MUU_NAMESPACE_START
 
 	/// \brief	Returns true if two scalar values are approximately equal.
 	/// \remark This reduces to `a == b` for non-float types.
-	template <typename T, typename U
-		MUU_ENABLE_IF(std::is_scalar_v<T> && std::is_scalar_v<U>)
-	>
-	MUU_REQUIRES(std::is_scalar_v<T> && std::is_scalar_v<U>)
+	MUU_CONSTRAINED_TEMPLATE(
+		(std::is_scalar_v<T> && std::is_scalar_v<U>),
+		typename T,
+		typename U
+	)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
@@ -594,7 +591,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Returns true if a scalar value is approximately equal to zero.
 	/// \remark This reduces to `a == 0` for non-float types.
-	template <typename T MUU_ENABLE_IF(std::is_scalar_v<T>)> MUU_REQUIRES(std::is_scalar_v<T>)
+	MUU_CONSTRAINED_TEMPLATE(std::is_scalar_v<T>, typename T)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
@@ -616,7 +613,7 @@ MUU_NAMESPACE_START
 	/// \brief			Constexpr-friendly alternatives to std::floor.
 	/// @{
 
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
 		template <typename T>
@@ -633,7 +630,7 @@ MUU_NAMESPACE_START
 			return static_cast<T>(static_cast<intmax_t>(x) - static_cast<intmax_t>(x < static_cast<intmax_t>(x)));
 		}
 	}
-	#endif // DOXYGEN
+	/// \endcond
 
 	/// \brief	Returns the floor of a float value.
 	[[nodiscard]]
@@ -696,7 +693,7 @@ MUU_NAMESPACE_START
 	#endif
 
 	/// \brief	Returns the floor of an integral value.
-	template <typename T MUU_ENABLE_IF(is_integral<T>)> MUU_REQUIRES(is_integral<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ATTR(flatten)
@@ -713,7 +710,7 @@ MUU_NAMESPACE_START
 	/// \brief			Constexpr-friendly alternatives to std::ceil.
 	/// @{
 
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{ 
 		template <typename T>
@@ -730,7 +727,7 @@ MUU_NAMESPACE_START
 			return static_cast<T>(static_cast<intmax_t>(x) + static_cast<intmax_t>(x > static_cast<intmax_t>(x)));
 		}
 	}
-	#endif // DOXYGEN
+	/// \endcond
 
 	/// \brief	Returns the ceiling of a float value.
 	[[nodiscard]]
@@ -793,7 +790,7 @@ MUU_NAMESPACE_START
 	#endif
 
 	/// \brief	Returns the ceiling of an integral value.
-	template <typename T MUU_ENABLE_IF(is_integral<T>)> MUU_REQUIRES(is_integral<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ATTR(flatten)
@@ -812,20 +809,20 @@ MUU_NAMESPACE_START
 	/// 				You can check for constexpr support by examining build::supports_constexpr_math.
 	/// @{
 	
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
 		// this is way too high on purpose- the algorithms early-out
 		inline constexpr intmax_t max_constexpr_math_iterations = 100;
 
-		MUU_PUSH_PRECISE_MATH
+		MUU_PUSH_PRECISE_MATH;
 
 		template <typename T>
 		[[nodiscard]]
 		MUU_ATTR(const)
 		MUU_CONSTEVAL T consteval_sqrt(T x)
 		{
-			MUU_FMA_BLOCK
+			MUU_FMA_BLOCK;
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
 
 			if (x == T{} || x != x) // accounts for -0.0 and NaN
@@ -846,14 +843,14 @@ MUU_NAMESPACE_START
 			T prev = T{};
 			for (intmax_t i = 0; i < max_constexpr_math_iterations && curr != prev; i++)
 			{
-				MUU_FMA_BLOCK
+				MUU_FMA_BLOCK;
 				prev = curr;
 				curr = constants<T>::one_over_two * (curr + x / curr);
 			}
 			return curr;
 		}
 
-		MUU_POP_PRECISE_MATH
+		MUU_POP_PRECISE_MATH;
 
 		template <typename T>
 		MUU_ALWAYS_INLINE
@@ -880,7 +877,7 @@ MUU_NAMESPACE_START
 			}
 		}
 	}
-	#endif // !DOXYGEN
+	/// \endcond
 
 	/// \brief	Returns the square-root of a float.
 	[[nodiscard]]
@@ -937,7 +934,7 @@ MUU_NAMESPACE_START
 	#endif
 
 	/// \brief	Returns the square-root of an integral value.
-	template <typename T MUU_ENABLE_IF(is_integral<T>)> MUU_REQUIRES(is_integral<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr double MUU_VECTORCALL sqrt(T x) noexcept
@@ -955,10 +952,10 @@ MUU_NAMESPACE_START
 	/// 				contexts. You can check for constexpr support by examining build::supports_constexpr_math.
 	/// @{
 
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
-		MUU_PUSH_PRECISE_MATH
+		MUU_PUSH_PRECISE_MATH;
 
 		template <typename T>
 		[[nodiscard]]
@@ -975,7 +972,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(const)
 		MUU_CONSTEVAL T consteval_cos(T x)
 		{
-			MUU_FMA_BLOCK
+			MUU_FMA_BLOCK;
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
 
 			if (x < T{} || x > constants<T>::two_pi) // normalize to [0, 2 pi]
@@ -1003,7 +1000,7 @@ MUU_NAMESPACE_START
 			T sum = T{ 1 } + term;
 			for (intmax_t i = 2; i < max_constexpr_math_iterations; i++)
 			{
-				MUU_FMA_BLOCK
+				MUU_FMA_BLOCK;
 				const auto prev = sum;
 				term *= -x * x / (T{ 2 } * i * (T{ 2 } * i - T{ 1 }));
 				sum += term;
@@ -1013,7 +1010,7 @@ MUU_NAMESPACE_START
 			return sum;
 		}
 
-		MUU_POP_PRECISE_MATH
+		MUU_POP_PRECISE_MATH;
 
 		template <typename T>
 		MUU_ALWAYS_INLINE
@@ -1040,7 +1037,7 @@ MUU_NAMESPACE_START
 			}
 		}
 	}
-	#endif // DOXYGEN
+	/// \endcond
 
 	/// \brief	Returns the cosine of a float.
 	[[nodiscard]]
@@ -1097,7 +1094,7 @@ MUU_NAMESPACE_START
 	#endif
 
 	/// \brief	Returns the cosine of an integral value.
-	template <typename T MUU_ENABLE_IF(is_integral<T>)> MUU_REQUIRES(is_integral<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr double MUU_VECTORCALL cos(T x) noexcept
@@ -1115,17 +1112,17 @@ MUU_NAMESPACE_START
 	/// 				contexts. You can check for constexpr support by examining build::supports_constexpr_math.
 	/// @{
 
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
-		MUU_PUSH_PRECISE_MATH
+		MUU_PUSH_PRECISE_MATH;
 
 		template <typename T>
 		[[nodiscard]]
 		MUU_ATTR(const)
 		MUU_CONSTEVAL T consteval_sin(T x)
 		{
-			MUU_FMA_BLOCK
+			MUU_FMA_BLOCK;
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
 
 			if (x == T{} || x != x) // accounts for -0.0 and NaN
@@ -1156,7 +1153,7 @@ MUU_NAMESPACE_START
 			int sign = -1;
 			for (intmax_t i = 3; i < max_constexpr_math_iterations * 2; i += 2, sign = -sign)
 			{
-				MUU_FMA_BLOCK
+				MUU_FMA_BLOCK;
 				const auto prev = sum;
 				term = -term * x * x / (i * (i - T{ 1 }));
 				sum += term;
@@ -1166,7 +1163,7 @@ MUU_NAMESPACE_START
 			return sum;
 		}
 
-		MUU_POP_PRECISE_MATH
+		MUU_POP_PRECISE_MATH;
 
 		template <typename T>
 		MUU_ALWAYS_INLINE
@@ -1193,7 +1190,7 @@ MUU_NAMESPACE_START
 			}
 		}
 	}
-	#endif // DOXYGEN
+	/// \endcond
 
 	/// \brief	Returns the sine of a float.
 	[[nodiscard]]
@@ -1250,7 +1247,7 @@ MUU_NAMESPACE_START
 	#endif
 
 	/// \brief	Returns the sine of an integral value.
-	template <typename T MUU_ENABLE_IF(is_integral<T>)> MUU_REQUIRES(is_integral<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr double MUU_VECTORCALL sin(T x) noexcept
@@ -1268,17 +1265,17 @@ MUU_NAMESPACE_START
 	/// 				contexts. You can check for constexpr support by examining build::supports_constexpr_math.
 	/// @{
 
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
-		MUU_PUSH_PRECISE_MATH
+		MUU_PUSH_PRECISE_MATH;
 
 		template <typename T>
 		[[nodiscard]]
 		MUU_ATTR(const)
 		MUU_CONSTEVAL T consteval_tan(T x)
 		{
-			MUU_FMA_BLOCK
+			MUU_FMA_BLOCK;
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
 			
 			if (x == T{} || x != x) // accounts for -0.0 and NaN
@@ -1302,7 +1299,7 @@ MUU_NAMESPACE_START
 				return T{ 1 } / consteval_tan(constants<T>::pi_over_two - x);
 			if (x > constants<T>::pi_over_eight && x < constants<T>::pi_over_four)
 			{
-				MUU_FMA_BLOCK
+				MUU_FMA_BLOCK;
 				const auto x_ = consteval_tan(x / T{ 2 });
 				return (x_ + x_) / (T{ 1 } - x_ * x_);
 			}
@@ -1310,7 +1307,7 @@ MUU_NAMESPACE_START
 			return consteval_sin(x) / consteval_cos(x);
 		}
 
-		MUU_POP_PRECISE_MATH
+		MUU_POP_PRECISE_MATH;
 
 		template <typename T>
 		MUU_ALWAYS_INLINE
@@ -1337,7 +1334,7 @@ MUU_NAMESPACE_START
 			}
 		}
 	}
-	#endif // DOXYGEN
+	/// \endcond
 
 	/// \brief	Returns the tangent of a float.
 	[[nodiscard]]
@@ -1394,7 +1391,7 @@ MUU_NAMESPACE_START
 	#endif
 
 	/// \brief	Returns the tangent of an integral value.
-	template <typename T MUU_ENABLE_IF(is_integral<T>)> MUU_REQUIRES(is_integral<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr double MUU_VECTORCALL tan(T x) noexcept
@@ -1412,10 +1409,10 @@ MUU_NAMESPACE_START
 	/// 				contexts. You can check for constexpr support by examining build::supports_constexpr_math.
 	/// @{
 
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
-		MUU_PUSH_PRECISE_MATH
+		MUU_PUSH_PRECISE_MATH;
 
 		template <typename T>
 		[[nodiscard]]
@@ -1450,7 +1447,7 @@ MUU_NAMESPACE_START
 			return constants<T>::pi_over_two - consteval_asin(x);
 		}
 
-		MUU_POP_PRECISE_MATH
+		MUU_POP_PRECISE_MATH;
 
 		template <typename T>
 		MUU_ALWAYS_INLINE
@@ -1477,7 +1474,7 @@ MUU_NAMESPACE_START
 			}
 		}
 	}
-	#endif // DOXYGEN
+	/// \endcond
 
 	/// \brief	Returns the arc cosine of a float.
 	[[nodiscard]]
@@ -1534,7 +1531,7 @@ MUU_NAMESPACE_START
 	#endif
 
 	/// \brief	Returns the arc cosine of an integral value.
-	template <typename T MUU_ENABLE_IF(is_integral<T>)> MUU_REQUIRES(is_integral<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr double MUU_VECTORCALL acos(T x) noexcept
@@ -1552,17 +1549,17 @@ MUU_NAMESPACE_START
 	/// 				contexts. You can check for constexpr support by examining build::supports_constexpr_math.
 	/// @{
 
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
-		MUU_PUSH_PRECISE_MATH
+		MUU_PUSH_PRECISE_MATH;
 
 		template <typename T>
 		[[nodiscard]]
 		MUU_ATTR(const)
 		MUU_CONSTEVAL T consteval_asin(T x)
 		{
-			MUU_FMA_BLOCK
+			MUU_FMA_BLOCK;
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
 			
 			if (x == T{} || x != x) // accounts for -0.0 and NaN
@@ -1592,7 +1589,7 @@ MUU_NAMESPACE_START
 			T term = x * x * x / T{ 2 };
 			for (intmax_t i = 1; i < max_constexpr_math_iterations * 2; i += 2)
 			{
-				MUU_FMA_BLOCK
+				MUU_FMA_BLOCK;
 				const T prev = sum;
 				sum += term * static_cast<T>(i) / static_cast<T>(i + 2);
 				term *= x * x * static_cast<T>(i) / static_cast<T>(i + 3);
@@ -1602,7 +1599,7 @@ MUU_NAMESPACE_START
 			return sum;
 		}
 
-		MUU_POP_PRECISE_MATH
+		MUU_POP_PRECISE_MATH;
 
 		template <typename T>
 		MUU_ALWAYS_INLINE
@@ -1629,7 +1626,7 @@ MUU_NAMESPACE_START
 			}
 		}
 	}
-	#endif // DOXYGEN
+	/// \endcond
 
 	/// \brief	Returns the arc sine of a float.
 	[[nodiscard]]
@@ -1686,7 +1683,7 @@ MUU_NAMESPACE_START
 	#endif
 
 	/// \brief	Returns the arc sine of an integral value.
-	template <typename T MUU_ENABLE_IF(is_integral<T>)> MUU_REQUIRES(is_integral<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr double MUU_VECTORCALL asin(T x) noexcept
@@ -1704,17 +1701,17 @@ MUU_NAMESPACE_START
 	/// 				contexts. You can check for constexpr support by examining build::supports_constexpr_math.
 	/// @{
 
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
-		MUU_PUSH_PRECISE_MATH
+		MUU_PUSH_PRECISE_MATH;
 
 		template <typename T>
 		[[nodiscard]]
 		MUU_ATTR(const)
 		MUU_CONSTEVAL T consteval_atan(T x)
 		{
-			MUU_FMA_BLOCK
+			MUU_FMA_BLOCK;
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
 
 			if (x == T{} || x != x) // accounts for -0.0 and NaN
@@ -1744,7 +1741,7 @@ MUU_NAMESPACE_START
 			T sum = T{ 1 };
 			for (intmax_t i = 1; i <= max_constexpr_math_iterations; i++)
 			{
-				MUU_FMA_BLOCK
+				MUU_FMA_BLOCK;
 				const T prev = sum;
 				prod *= (T{ 2 } * static_cast<T>(i) * x_sq) / ((T{ 2 } * static_cast<T>(i) + T{ 1 }) * (x_sq + T{ 1 }));
 				sum += prod;
@@ -1754,7 +1751,7 @@ MUU_NAMESPACE_START
 			return sum * mult;
 		}
 
-		MUU_POP_PRECISE_MATH
+		MUU_POP_PRECISE_MATH;
 
 		template <typename T>
 		MUU_ALWAYS_INLINE
@@ -1781,7 +1778,7 @@ MUU_NAMESPACE_START
 			}
 		}
 	}
-	#endif // DOXYGEN
+	/// \endcond
 
 	/// \brief	Returns the arc tangent of a float.
 	[[nodiscard]]
@@ -1838,7 +1835,7 @@ MUU_NAMESPACE_START
 	#endif
 
 	/// \brief	Returns the arc tangent of an integral value.
-	template <typename T MUU_ENABLE_IF(is_integral<T>)> MUU_REQUIRES(is_integral<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr double MUU_VECTORCALL atan(T x) noexcept
@@ -1856,10 +1853,10 @@ MUU_NAMESPACE_START
 	/// 				contexts. You can check for constexpr support by examining build::supports_constexpr_math.
 	/// @{
 
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
-		MUU_PUSH_PRECISE_MATH
+		MUU_PUSH_PRECISE_MATH;
 
 		template <typename T>
 		[[nodiscard]]
@@ -1887,7 +1884,7 @@ MUU_NAMESPACE_START
 			#endif
 		}
 
-		MUU_POP_PRECISE_MATH
+		MUU_POP_PRECISE_MATH;
 
 		template <typename T>
 		MUU_ALWAYS_INLINE
@@ -1917,7 +1914,7 @@ MUU_NAMESPACE_START
 			}
 		}
 	}
-	#endif // DOXYGEN
+	/// \endcond
 
 	/// \brief	Returns the arc tangent of a float.
 	[[nodiscard]]
@@ -1976,10 +1973,11 @@ MUU_NAMESPACE_START
 	/// \brief	Returns the arc tangent of two arithmetic values.
 	///
 	/// \details Integer arguments are promoted to double.
-	template <typename X, typename Y
-		MUU_ENABLE_IF(all_arithmetic<X, Y>)
-	>
-	MUU_REQUIRES(all_arithmetic<X, Y>)
+	MUU_CONSTRAINED_TEMPLATE(
+		(all_arithmetic<X, Y>),
+		typename X,
+		typename Y
+	)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr auto MUU_VECTORCALL atan2(Y y, X x) noexcept
@@ -2003,7 +2001,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr float MUU_VECTORCALL lerp(float start, float finish, float alpha) noexcept
 	{
-		MUU_FMA_BLOCK
+		MUU_FMA_BLOCK;
 		return start * (1.0f - alpha) + finish * alpha;
 	}
 
@@ -2012,7 +2010,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr double MUU_VECTORCALL lerp(double start, double finish, double alpha) noexcept
 	{
-		MUU_FMA_BLOCK
+		MUU_FMA_BLOCK;
 		return start * (1.0 - alpha) + finish * alpha;
 	}
 
@@ -2021,7 +2019,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr long double MUU_VECTORCALL lerp(long double start, long double finish, long double alpha) noexcept
 	{
-		MUU_FMA_BLOCK
+		MUU_FMA_BLOCK;
 		return start * (1.0L - alpha) + finish * alpha;
 	}
 
@@ -2031,7 +2029,7 @@ MUU_NAMESPACE_START
 	MUU_ATTR(const)
 	constexpr float128_t MUU_VECTORCALL lerp(float128_t start, float128_t finish, float128_t alpha) noexcept
 	{
-		MUU_FMA_BLOCK
+		MUU_FMA_BLOCK;
 		return start * (float128_t{ 1 } - alpha) + finish * alpha;
 	}
 	#endif
@@ -2059,10 +2057,12 @@ MUU_NAMESPACE_START
 	/// \brief	Returns a linear interpolation between two arithmetic values.
 	///
 	/// \details Integer arguments are promoted to double.
-	template <typename T, typename U, typename V
-		MUU_ENABLE_IF(all_arithmetic<T, U, V>)
-	>
-	MUU_REQUIRES(all_arithmetic<T, U, V>)
+	MUU_CONSTRAINED_TEMPLATE(
+		(all_arithmetic<T, U, V>),
+		typename T,
+		typename U,
+		typename V
+	)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr auto MUU_VECTORCALL lerp(T start, U finish, V alpha) noexcept
@@ -2079,6 +2079,188 @@ MUU_NAMESPACE_START
 	/** @} */	// math::lerp
 	#endif // lerp
 
+	#if 1 // normalize_angle -------------------------------------------------------------------------------------------
+	/// \addtogroup		normalize_angle		normalize_angle()
+	/// \brief			Normalizes angles, wrapping their values to the range `[0.0, 2 * pi)`.
+	/// @{
+
+	/// \cond
+	namespace impl
+	{
+		template <typename T>
+		[[nodiscard]]
+		MUU_ATTR(const)
+		constexpr T MUU_VECTORCALL normalize_angle_(T val) noexcept
+		{
+			static_assert(muu::is_floating_point<T>);
+			static_assert(std::is_same_v<impl::highest_ranked<T, float>, T>);
+
+			if (val < T{} || val >= constants<T>::two_pi)
+				val -= constants<T>::two_pi * muu::floor(val * constants<T>::one_over_two_pi);
+			return val;
+		}
+	}
+	/// \endcond
+
+	/// \brief	Normalizes the angle value of a float.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr float MUU_VECTORCALL normalize_angle(float x) noexcept
+	{
+		return impl::normalize_angle_(x);
+	}
+
+	/// \brief	Normalizes the angle value of a double.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr double MUU_VECTORCALL normalize_angle(double x) noexcept
+	{
+		return impl::normalize_angle_(x);
+	}
+
+	/// \brief	Normalizes the angle value of a long double.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr long double MUU_VECTORCALL normalize_angle(long double x) noexcept
+	{
+		return impl::normalize_angle_(x);
+	}
+
+	#if MUU_HAS_FLOAT128
+	/// \brief	Normalizes the angle value of a float128_t.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr float128_t MUU_VECTORCALL normalize_angle(float128_t x) noexcept
+	{
+		return impl::normalize_angle_(x);
+	}
+	#endif
+
+	#if MUU_HAS_FLOAT16
+	/// \brief	Normalizes the angle value of a _Float16.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr _Float16 MUU_VECTORCALL normalize_angle(_Float16 x) noexcept
+	{
+		return static_cast<_Float16>(impl::normalize_angle_(static_cast<float>(x)));
+	}
+	#endif
+
+	#if MUU_HAS_FP16
+	/// \brief	Normalizes the angle value of a __fp16.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr __fp16 MUU_VECTORCALL normalize_angle(__fp16 x) noexcept
+	{
+		return static_cast<__fp16>(impl::normalize_angle_(static_cast<float>(x)));
+	}
+	#endif
+
+	/// \brief	Normalizes the angle of an integral value.
+	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr double MUU_VECTORCALL normalize_angle(T x) noexcept
+	{
+		return impl::normalize_angle_(static_cast<double>(x));
+	}
+
+	/** @} */	// math::normalize_angle
+	#endif // normalize_angle
+
+	#if 1 // normalize_angle_signed -------------------------------------------------------------------------------------------
+	/// \addtogroup		normalize_angle_signed		normalize_angle_signed()
+	/// \brief			Normalizes angles, wrapping their values to the range `[-pi, pi)`.
+	/// @{
+
+	/// \cond
+	namespace impl
+	{
+		template <typename T>
+		[[nodiscard]]
+		MUU_ATTR(const)
+		constexpr T MUU_VECTORCALL normalize_angle_signed_(T val) noexcept
+		{
+			static_assert(muu::is_floating_point<T>);
+			static_assert(std::is_same_v<impl::highest_ranked<T, float>, T>);
+
+			if (val < -constants<T>::pi || val >= constants<T>::pi)
+			{
+				val += constants<T>::pi;
+				val -= constants<T>::two_pi * muu::floor(val * constants<T>::one_over_two_pi);
+				val -= constants<T>::pi;
+			}
+			return val;
+		}
+	}
+	/// \endcond
+
+	/// \brief	Normalizes the angle value of a float.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr float MUU_VECTORCALL normalize_angle_signed(float x) noexcept
+	{
+		return impl::normalize_angle_signed_(x);
+	}
+
+	/// \brief	Normalizes the angle value of a double.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr double MUU_VECTORCALL normalize_angle_signed(double x) noexcept
+	{
+		return impl::normalize_angle_signed_(x);
+	}
+
+	/// \brief	Normalizes the angle value of a long double.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr long double MUU_VECTORCALL normalize_angle_signed(long double x) noexcept
+	{
+		return impl::normalize_angle_signed_(x);
+	}
+
+	#if MUU_HAS_FLOAT128
+	/// \brief	Normalizes the angle value of a float128_t.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr float128_t MUU_VECTORCALL normalize_angle_signed(float128_t x) noexcept
+	{
+		return impl::normalize_angle_signed_(x);
+	}
+	#endif
+
+	#if MUU_HAS_FLOAT16
+	/// \brief	Normalizes the angle value of a _Float16.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr _Float16 MUU_VECTORCALL normalize_angle_signed(_Float16 x) noexcept
+	{
+		return static_cast<_Float16>(impl::normalize_angle_signed_(static_cast<float>(x)));
+	}
+	#endif
+
+	#if MUU_HAS_FP16
+	/// \brief	Normalizes the angle value of a __fp16.
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr __fp16 MUU_VECTORCALL normalize_angle_signed(__fp16 x) noexcept
+	{
+		return static_cast<__fp16>(impl::normalize_angle_signed_(static_cast<float>(x)));
+	}
+	#endif
+
+	/// \brief	Normalizes the angle of an integral value.
+	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr double MUU_VECTORCALL normalize_angle_signed(T x) noexcept
+	{
+		return impl::normalize_angle_signed_(static_cast<double>(x));
+	}
+
+	/** @} */	// math::normalize_angle_signed
+	#endif // normalize_angle_signed
+
 	/** @} */	// math
 }
 MUU_NAMESPACE_END
@@ -2086,5 +2268,4 @@ MUU_NAMESPACE_END
 MUU_PRAGMA_MSVC(pop_macro("min"))
 MUU_PRAGMA_MSVC(pop_macro("max"))
 MUU_PRAGMA_MSVC(inline_recursion(off))
-
-MUU_POP_WARNINGS // MUU_DISABLE_ARITHMETIC_WARNINGS
+MUU_POP_WARNINGS; // MUU_DISABLE_ARITHMETIC_WARNINGS

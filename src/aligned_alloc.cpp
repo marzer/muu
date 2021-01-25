@@ -7,12 +7,17 @@
 #include "muu/aligned_alloc.h"
 
 #if !(MUU_MSVC || MUU_ICC_CL)
-	MUU_DISABLE_WARNINGS
+	MUU_DISABLE_WARNINGS;
 	#include <cstdlib>
-	MUU_ENABLE_WARNINGS
+	MUU_ENABLE_WARNINGS;
 #endif
 
-MUU_DISABLE_SPAM_WARNINGS
+MUU_DISABLE_SPAM_WARNINGS;
+#if MUU_MSVC
+	#undef min
+	#undef max
+#endif
+
 using namespace muu;
 
 namespace
@@ -24,7 +29,7 @@ namespace
 		size_t requested_size;
 		size_t actual_size; //as passed to malloc etc.
 	};
-	inline constexpr size_t aligned_alloc_data_footprint = (muu::max)(
+	inline constexpr size_t aligned_alloc_data_footprint = max(
 		muu::bit_ceil(sizeof(aligned_alloc_data)),
 		alignof(aligned_alloc_data)
 	);
@@ -39,7 +44,7 @@ MUU_NAMESPACE_START
 		if (!alignment || !size || !has_single_bit(alignment) || alignment > impl::aligned_alloc_max_alignment)
 			return nullptr;
 
-		const auto actual_alignment = (max)(alignment, aligned_alloc_data_footprint);
+		const auto actual_alignment = max(alignment, aligned_alloc_data_footprint);
 		aligned_alloc_data data{
 			alignment,
 			actual_alignment,

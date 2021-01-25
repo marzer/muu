@@ -9,15 +9,14 @@
 #pragma once
 #include "../muu/vector.h"
 
-MUU_DISABLE_WARNINGS
+MUU_DISABLE_WARNINGS;
 #include <iosfwd>
-MUU_ENABLE_WARNINGS
+MUU_ENABLE_WARNINGS;
 
-MUU_PUSH_WARNINGS
-MUU_DISABLE_SHADOW_WARNINGS
+MUU_PUSH_WARNINGS;
+MUU_DISABLE_SHADOW_WARNINGS;
 MUU_PRAGMA_GCC(diagnostic ignored "-Wsign-conversion")
 MUU_PRAGMA_CLANG(diagnostic ignored "-Wdouble-promotion")
-
 MUU_PRAGMA_MSVC(inline_recursion(on))
 MUU_PRAGMA_MSVC(float_control(push))
 MUU_PRAGMA_MSVC(float_control(except, off))
@@ -32,7 +31,8 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 //=====================================================================================================================
 // IMPLEMENTATION DETAILS
 #if 1
-#ifndef DOXYGEN
+
+/// \cond
 
 MUU_IMPL_NAMESPACE_START
 {
@@ -43,15 +43,11 @@ MUU_IMPL_NAMESPACE_START
 		vector<Scalar, 3> v;
 	};
 
-	#if MUU_HAS_VECTORCALL
-
 	template <typename Scalar>
 	inline constexpr bool is_hva<quaternion_base<Scalar>> = can_be_hva_of<Scalar, quaternion_base<Scalar>>;
 
 	template <typename Scalar>
 	inline constexpr bool is_hva<quaternion<Scalar>> = is_hva<quaternion_base<Scalar>>;
-
-	#endif // MUU_HAS_VECTORCALL
 
 	template <typename Scalar>
 	struct readonly_param_<quaternion<Scalar>>
@@ -90,30 +86,6 @@ MUU_IMPL_NAMESPACE_START
 	#if MUU_HAS_FLOAT128
 	MUU_API void print_quaternion_to_stream(std::wostream& stream, const float128_t*);
 	#endif
-
-	template <typename T>
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr T MUU_VECTORCALL normalize_angle(T val) noexcept
-	{
-		if (val < T{} || val > constants<T>::two_pi)
-			val -= constants<T>::two_pi * muu::floor(val * constants<T>::one_over_two_pi);
-		return val;
-	}
-
-	template <typename T>
-	[[nodiscard]]
-	MUU_ATTR(const)
-	constexpr T MUU_VECTORCALL normalize_angle_signed(T val) noexcept
-	{
-		if (val < -constants<T>::pi || val > constants<T>::pi)
-		{
-			val += constants<T>::pi;
-			val -= constants<T>::two_pi * muu::floor(val * constants<T>::one_over_two_pi);
-			val -= constants<T>::pi;
-		}
-		return val;
-	}
 }
 MUU_IMPL_NAMESPACE_END
 
@@ -124,28 +96,43 @@ namespace muu
 		= allow_implicit_bit_cast<From, quaternion<Scalar>>;
 }
 
-#endif // !DOXYGEN
+#if !MUU_INTELLISENSE
 
-#if !defined(DOXYGEN) && !MUU_INTELLISENSE
 	#define ENABLE_PAIRED_FUNCS 1
 
 	#define ENABLE_PAIRED_FUNC_BY_REF(S, ...) \
-		MUU_ENABLE_IF(impl::pass_readonly_by_reference<quaternion<S>> && (__VA_ARGS__))
+			MUU_ENABLE_IF(impl::pass_readonly_by_reference<quaternion<S>> && (__VA_ARGS__))
 
 	#define ENABLE_PAIRED_FUNC_BY_VAL(S, ...) \
-		MUU_ENABLE_IF_2(impl::pass_readonly_by_value<quaternion<S>> && (__VA_ARGS__))
+			MUU_ENABLE_IF_2(impl::pass_readonly_by_value<quaternion<S>> && (__VA_ARGS__))
 
 	#define REQUIRES_PAIRED_FUNC_BY_REF(S, ...) \
-		MUU_REQUIRES(impl::pass_readonly_by_reference<quaternion<S>> && (__VA_ARGS__))
+			MUU_REQUIRES(impl::pass_readonly_by_reference<quaternion<S>> && (__VA_ARGS__))
 
 	#define REQUIRES_PAIRED_FUNC_BY_VAL(S, ...) \
-		MUU_REQUIRES(impl::pass_readonly_by_value<quaternion<S>> && (__VA_ARGS__))
+			MUU_REQUIRES(impl::pass_readonly_by_value<quaternion<S>> && (__VA_ARGS__))
 
-#else
+#endif // !MUU_INTELLISENSE
+
+/// \endcond
+
+#ifndef ENABLE_PAIRED_FUNCS
 	#define ENABLE_PAIRED_FUNCS 0
+#endif
+
+#ifndef ENABLE_PAIRED_FUNC_BY_REF
 	#define ENABLE_PAIRED_FUNC_BY_REF(S, ...)
+#endif
+
+#ifndef ENABLE_PAIRED_FUNC_BY_VAL
 	#define ENABLE_PAIRED_FUNC_BY_VAL(S, ...)
+#endif
+
+#ifndef REQUIRES_PAIRED_FUNC_BY_REF
 	#define REQUIRES_PAIRED_FUNC_BY_REF(S, ...)
+#endif
+
+#ifndef REQUIRES_PAIRED_FUNC_BY_VAL
 	#define REQUIRES_PAIRED_FUNC_BY_VAL(S, ...)
 #endif
 
@@ -184,7 +171,7 @@ MUU_NAMESPACE_START
 		scalar_type angle;
 	};
 
-	#ifndef DOXYGEN
+	/// \cond deduction_guides
 
 	template <typename S MUU_ENABLE_IF(is_arithmetic<S>)> MUU_REQUIRES(is_arithmetic<S>)
 	axis_angle_rotation(S, S, S, S) -> axis_angle_rotation<impl::std_math_common_type<S>>;
@@ -201,14 +188,15 @@ MUU_NAMESPACE_START
 	MUU_REQUIRES(all_arithmetic<Axis, Angle>)
 	axis_angle_rotation(vector<Axis, 3>, Angle) -> axis_angle_rotation<impl::std_math_common_type<impl::highest_ranked<Axis, Angle>>>;
 
-	#if MUU_HAS_VECTORCALL
+	/// \endcond
+
+	/// \cond
 	namespace impl
 	{
 		template <typename Scalar>
 		inline constexpr bool is_hva<axis_angle_rotation<Scalar>> = can_be_hva_of<Scalar, axis_angle_rotation<Scalar>>;
 	}
-	#endif // MUU_HAS_VECTORCALL
-	#endif
+	/// \endcond
 
 	/// \brief	A set of euler angles used for rotation.
 	/// \ingroup math
@@ -307,7 +295,7 @@ MUU_NAMESPACE_START
 		}
 	};
 
-	#ifndef DOXYGEN
+	/// \cond deduction_guides
 
 	template <typename S MUU_ENABLE_IF(is_arithmetic<S>)> MUU_REQUIRES(is_arithmetic<S>)
 	euler_rotation(S, S, S) -> euler_rotation<impl::std_math_common_type<S>>;
@@ -318,14 +306,15 @@ MUU_NAMESPACE_START
 	MUU_REQUIRES(all_arithmetic<Yaw, Pitch, Roll>)
 	euler_rotation(Yaw, Pitch, Roll) -> euler_rotation<impl::std_math_common_type<impl::highest_ranked<Yaw, Pitch, Roll>>>;
 
-	#if MUU_HAS_VECTORCALL
+	/// \endcond
+
+	/// \cond
 	namespace impl
 	{
 		template <typename Scalar>
 		inline constexpr bool is_hva<euler_rotation<Scalar>> = can_be_hva_of<Scalar, euler_rotation<Scalar>>;
 	}
-	#endif // MUU_HAS_VECTORCALL
-	#endif
+	/// \endcond
 }
 MUU_NAMESPACE_END
 #endif // =============================================================================================================
@@ -425,11 +414,13 @@ MUU_NAMESPACE_START
 	public:
 
 		#ifdef DOXYGEN
+
 		/// \brief The quaternion's scalar (real) part.
 		scalar_type s;
 		/// \brief The quaternion's vector (imaginary) part.
 		vector_type v;
-		#endif
+
+		#endif //DOXYGEN
 
 	#if 1 // constructors ---------------------------------------------------------------------------------------------
 	
@@ -838,7 +829,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr T MUU_VECTORCALL raw_dot(quaternion_param q1, quaternion_param q2) noexcept
 		{
-			MUU_FMA_BLOCK
+			MUU_FMA_BLOCK;
 
 			static_assert(std::is_same_v<impl::highest_ranked<T, intermediate_float>, T>); // non-truncating
 
@@ -1045,7 +1036,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(const)
 		static constexpr quaternion MUU_VECTORCALL from_euler(scalar_type yaw, scalar_type pitch, scalar_type roll) noexcept
 		{
-			MUU_FMA_BLOCK
+			MUU_FMA_BLOCK;
 			using type = intermediate_float;
 
 			// ensure rotation signs correspond with the aircraft principal axes:
@@ -1090,7 +1081,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr euler_type MUU_VECTORCALL to_euler(quaternion_param q) noexcept
 		{
-			MUU_FMA_BLOCK
+			MUU_FMA_BLOCK;
 			using type = intermediate_float;
 
 			const type sqw  = static_cast<type>(q.s)   * q.s;
@@ -1109,7 +1100,7 @@ MUU_NAMESPACE_START
 			// singularity at north pole
 			if MUU_UNLIKELY(test > threshold * correction)
 			{
-				MUU_FMA_BLOCK
+				MUU_FMA_BLOCK;
 				return
 				{
 					static_cast<scalar_type>(type{ -2 } * muu::atan2(q.v.z, q.s)),
@@ -1121,7 +1112,7 @@ MUU_NAMESPACE_START
 			// singularity at south pole
 			else if MUU_UNLIKELY(test < -threshold * correction)
 			{ 
-				MUU_FMA_BLOCK
+				MUU_FMA_BLOCK;
 				return
 				{
 					static_cast<scalar_type>(type{ 2 } * muu::atan2(q.v.z, q.s)),
@@ -1132,7 +1123,7 @@ MUU_NAMESPACE_START
 
 			else
 			{
-				MUU_FMA_BLOCK
+				MUU_FMA_BLOCK;
 				// note the sign of yaw and roll are flipped;
 				// see from_euler() for an explanation
 
@@ -1167,7 +1158,7 @@ MUU_NAMESPACE_START
 
 			if constexpr (all_same<scalar_type, type>)
 			{
-				MUU_FMA_BLOCK
+				MUU_FMA_BLOCK;
 				return
 				{
 					lhs.s * rhs.s - vector_type::template raw_dot<type>(lhs.v, rhs.v),
@@ -1176,7 +1167,7 @@ MUU_NAMESPACE_START
 			}
 			else
 			{
-				MUU_FMA_BLOCK
+				MUU_FMA_BLOCK;
 				return
 				{
 					static_cast<scalar_type>(
@@ -1196,7 +1187,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr vector_type MUU_VECTORCALL rotate_vector(quaternion_param lhs, vector_param rhs) noexcept
 		{
-			MUU_FMA_BLOCK
+			MUU_FMA_BLOCK;
 			using type = intermediate_float;
 
 			auto t = type{ 2 } * impl::raw_cross<vector<type, 3>>(lhs.v, rhs);
@@ -1249,7 +1240,7 @@ MUU_NAMESPACE_START
 		friend
 		constexpr quaternion MUU_VECTORCALL operator * (quaternion_param lhs, scalar_type rhs) noexcept
 		{
-			MUU_FMA_BLOCK
+			MUU_FMA_BLOCK;
 
 			auto aa = raw_to_axis_angle<intermediate_float>(lhs);
 			aa.angle *= rhs * muu::constants<intermediate_float>::one_over_two;
@@ -1301,7 +1292,7 @@ MUU_NAMESPACE_START
 		MUU_ATTR(pure)
 		static constexpr quaternion MUU_VECTORCALL slerp(quaternion_param start, quaternion_param finish, scalar_type alpha) noexcept
 		{
-			MUU_FMA_BLOCK
+			MUU_FMA_BLOCK;
 
 			using type = intermediate_float;
 			auto dot = raw_dot<type>(start, finish);
@@ -1317,7 +1308,7 @@ MUU_NAMESPACE_START
 			//they're extremely close, do a normal lerp
 			if (dot >= static_cast<type>(0.9995))
 			{
-				MUU_FMA_BLOCK
+				MUU_FMA_BLOCK;
 				const auto inv_alpha = type{ 1 } - static_cast<type>(alpha);
 
 				return normalize(quaternion{
@@ -1356,7 +1347,7 @@ MUU_NAMESPACE_START
 	#endif // misc
 	};
 
-	#ifndef DOXYGEN // deduction guides -------------------------------------------------------------------------------
+	/// \cond deduction_guides
 
 	template <typename S MUU_ENABLE_IF(is_arithmetic<S>)> MUU_REQUIRES(is_arithmetic<S>)
 	quaternion(S, S, S, S) -> quaternion<impl::std_math_common_type<S>>;
@@ -1379,7 +1370,7 @@ MUU_NAMESPACE_START
 	template <typename S>
 	quaternion(const euler_rotation<S>&) -> quaternion<S>;
 
-	#endif // deduction guides
+	/// \endcond
 }
 MUU_NAMESPACE_END
 
@@ -1411,7 +1402,7 @@ namespace std
 // CONSTANTS
 #if 1
 
-MUU_PUSH_PRECISE_MATH
+MUU_PUSH_PRECISE_MATH;
 
 MUU_NAMESPACE_START
 {
@@ -1435,7 +1426,7 @@ MUU_NAMESPACE_START
 }
 MUU_NAMESPACE_END
 
-MUU_POP_PRECISE_MATH
+MUU_POP_PRECISE_MATH;
 
 #endif // =============================================================================================================
 
@@ -1680,5 +1671,4 @@ MUU_PRAGMA_MSVC(pop_macro("min"))
 MUU_PRAGMA_MSVC(pop_macro("max"))
 MUU_PRAGMA_MSVC(float_control(pop))
 MUU_PRAGMA_MSVC(inline_recursion(off))
-
-MUU_POP_WARNINGS	// MUU_DISABLE_SHADOW_WARNINGS
+MUU_POP_WARNINGS;	// MUU_DISABLE_SHADOW_WARNINGS;

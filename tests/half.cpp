@@ -1,6 +1,6 @@
 #include "tests.h"
 
-MUU_DISABLE_ARITHMETIC_WARNINGS
+MUU_DISABLE_ARITHMETIC_WARNINGS;
 
 ///////////////////////////////////////////////////////////////////////////////////
 // Some runtime tests in this file adapted from

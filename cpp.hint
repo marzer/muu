@@ -1,0 +1,115 @@
+#define DOXYGEN
+#define LEGACY_REQUIRES_DIMENSIONS_BETWEEN(...)
+#define REQUIRES_DIMENSIONS_AT_LEAST(...)
+#define REQUIRES_DIMENSIONS_AT_LEAST_AND(...)
+#define REQUIRES_DIMENSIONS_BETWEEN(...)
+#define REQUIRES_DIMENSIONS_EXACTLY(...)
+#define REQUIRES_FLOATING_POINT
+#define REQUIRES_INTEGRAL
+#define REQUIRES_SIGNED
+#define COMPRESSED_PAIR_BASE_DEFAULTS(...)
+#define COMPRESSED_PAIR_BASE_GETTERS(...)
+#define ENABLE_IF_DIMENSIONS_AT_LEAST(...)
+#define ENABLE_IF_DIMENSIONS_AT_LEAST_AND(...)
+#define ENABLE_IF_SIZE_AT_LEAST(...)
+#define ENABLE_PAIRED_FUNC_BY_REF(...)
+#define ENABLE_PAIRED_FUNC_BY_VAL(...)
+#define LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(...)
+#define LEGACY_REQUIRES_DIMENSIONS_BETWEEN(...)
+#define LEGACY_REQUIRES_DIMENSIONS_EXACTLY(...)
+#define LEGACY_REQUIRES_FLOATING_POINT
+#define LEGACY_REQUIRES_INTEGRAL
+#define LEGACY_REQUIRES_SIGNED
+#define LEGACY_REQUIRES_SIZE_AT_LEAST(...)
+#define LEGACY_REQUIRES_SQUARE(...)
+#define MUU_ABSTRACT_INTERFACE
+#define MUU_ALIGN(...)
+#define MUU_ALWAYS_INLINE
+#define MUU_API
+#define MUU_ATTR(...)
+#define MUU_ATTR_CLANG(...)
+#define MUU_ATTR_CLANG_GE(...)
+#define MUU_ATTR_CLANG_LT(...)
+#define MUU_ATTR_GCC(...)
+#define MUU_ATTR_GCC_GE(...)
+#define MUU_ATTR_GCC_LT(...)
+#define MUU_ATTR_NDEBUG(...)
+#define MUU_CONSTEVAL
+#define MUU_CONSTEXPR_STRING
+#define MUU_CONSTRAINED_TEMPLATE(...)
+#define MUU_CONSTRAINED_TEMPLATE_2(...)
+#define MUU_DECLSPEC(...)
+#define MUU_EMPTY_BASES
+#define MUU_ENABLE_IF(...)
+#define MUU_ENABLE_IF_2(...)
+#define MUU_HIDDEN_PARAM(...)
+#define MUU_LEGACY_REQUIRES(...)
+#define MUU_NEVER_INLINE
+#define MUU_NODISCARD_CTOR
+#define MUU_NODOX(...)
+#define MUU_PRAGMA_CLANG(...)
+#define MUU_PRAGMA_CLANG_GE(...)
+#define MUU_PRAGMA_CLANG_LT(...)
+#define MUU_PRAGMA_GCC(...)
+#define MUU_PRAGMA_GCC_GE(...)
+#define MUU_PRAGMA_GCC_LT(...)
+#define MUU_PRAGMA_ICC(...)
+#define MUU_PRAGMA_MSVC(...)
+#define MUU_REQUIRES(...)
+#define MUU_STD_CONCEPT(...)
+#define MUU_TRIVIAL_ABI
+#define MUU_UNALIASED_ALLOC
+#define MUU_VECTORCALL
+#define REQUIRES_DIMENSIONS_BETWEEN(...)
+#define REQUIRES_DIMENSIONS_EXACTLY(...)
+#define REQUIRES_FLOATING_POINT
+#define REQUIRES_INTEGRAL
+#define REQUIRES_PAIRED_FUNC_BY_REF(...)
+#define REQUIRES_PAIRED_FUNC_BY_VAL(...)
+#define REQUIRES_SIGNED
+#define REQUIRES_SIZE_AT_LEAST(...)
+#define REQUIRES_SQUARE(...)
+#define SPECIALIZED_IF(...)
+
+#define HALF_BINARY_OPS(...)				static_assert(true)
+#define HALF_CASTING_ASSIGN_OP(...)			static_assert(true)
+#define HALF_CAST_CONVERSION(...)			static_assert(true)
+#define HALF_CONVERTING_ASSIGN_OP(...)		static_assert(true)
+#define HALF_CONVERTING_BINARY_OP(...)		static_assert(true)
+#define HALF_DEMOTING_ASSIGN_OP(...)		static_assert(true)
+#define HALF_EXPLICIT_CONSTRUCTOR(...)		static_assert(true)
+#define HALF_PROMOTING_BINARY_OP(...)		static_assert(true)
+#define MUU_DISABLE_LIFETIME_WARNINGS		static_assert(true)
+#define MUU_DISABLE_SWITCH_WARNINGS			static_assert(true)
+#define MUU_DELETE_COPY(...)				static_assert(true)
+#define MUU_DELETE_MOVE(...)				static_assert(true)
+#define MUU_DISABLE_ARITHMETIC_WARNINGS		static_assert(true)
+#define MUU_DISABLE_SHADOW_WARNINGS			static_assert(true)
+#define MUU_DISABLE_SPAM_WARNINGS			static_assert(true)
+#define MUU_DISABLE_SUGGEST_WARNINGS		static_assert(true)
+#define MUU_DISABLE_WARNINGS				static_assert(true)
+#define MUU_ENABLE_WARNINGS					static_assert(true)
+#define MUU_FMA_BLOCK						static_assert(true)
+#define MUU_MAKE_FLAGS(...)					static_assert(true)
+#define MUU_POP_PRECISE_MATH				static_assert(true)
+#define MUU_POP_WARNINGS					static_assert(true)
+#define MUU_PUSH_PRECISE_MATH				static_assert(true)
+#define MUU_PUSH_WARNINGS					static_assert(true)
+#define MUU_UNUSED(...)						static_assert(true)
+
+#define MUU_NAMESPACE_START					namespace muu
+#define MUU_NAMESPACE_END
+#define MUU_NAMESPACE						muu
+#define MUU_IMPL_NAMESPACE_START			namespace muu::impl
+#define MUU_IMPL_NAMESPACE_END
+
+#define ENABLE_PAIRED_FUNCS					0
+#define MUU_BIG_ENDIAN						0
+#define MUU_COMPRESSED_THREAD_POOL_TASK		1
+#define MUU_HALF_EMULATED					1
+#define MUU_HAS_FLOAT16						0
+#define MUU_HAS_FLOAT128					0
+#define MUU_HAS_FP16						0
+#define MUU_HAS_INT128						0
+#define MUU_LITTLE_ENDIAN					1
+#define MUU_MSVC							1928

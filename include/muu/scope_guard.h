@@ -10,13 +10,13 @@
 #include "../muu/core.h"
 #include "../muu/compressed_pair.h"
 
-MUU_PUSH_WARNINGS
-MUU_DISABLE_SPAM_WARNINGS
+MUU_PUSH_WARNINGS;
+MUU_DISABLE_SPAM_WARNINGS;
 
 MUU_NAMESPACE_START
 {
-		/// \brief	Performs actions when going out of scope.
-	/// \ingroup building_blocks
+	/// \brief	Performs actions when going out of scope.
+	/// \ingroup core
 	///
 	/// \details Use a scope_guard to simplify cleanup routines
 	/// 		or code that has acquire/release semantics, e.g. locking: \cpp
@@ -110,6 +110,8 @@ MUU_NAMESPACE_START
 			}
 	};
 
+	/// \cond deduction_guides
+
 	template <typename R, typename ...P>
 	scope_guard(R(P...)noexcept) -> scope_guard<R(*)(P...)noexcept>;
 	template <typename R, typename ...P>
@@ -118,7 +120,9 @@ MUU_NAMESPACE_START
 	scope_guard(T&&) -> scope_guard<T>;
 	template <typename T>
 	scope_guard(T&) -> scope_guard<T&>;
+
+	/// \endcond
 }
 MUU_NAMESPACE_END
 
-MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS
+MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS

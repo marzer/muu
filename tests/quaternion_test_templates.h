@@ -283,7 +283,7 @@ inline void quat_dot_tests(std::string_view scalar_typename) noexcept
 	auto expected_sum = intermediate_type{};
 	quat_for_each(q1, q2, [&](auto s1, auto s2, size_t) noexcept
 	{
-		MUU_FMA_BLOCK
+		MUU_FMA_BLOCK;
 		expected_sum += static_cast<intermediate_type>(s1) * static_cast<intermediate_type>(s2);
 	});
 	const auto expected = static_cast<dot_type>(expected_sum);

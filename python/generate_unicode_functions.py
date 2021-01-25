@@ -1513,7 +1513,7 @@ def write_identification_function(files, code_unit, name, description, categorie
 	# write function
 	write_function_header(files, code_unit, name, 'bool', description)
 	if not code_points:
-		write_function_body(files, f'(void)c;')
+		write_function_body(files, f'MUU_UNUSED(c);')
 		write_function_body(files, f'return false{exid(69)};')
 	elif code_unit.proxy:
 		write_function_body(files, f'return {name}(static_cast<{code_unit.proxy_typename}>(c));')
@@ -1528,7 +1528,7 @@ def write_identification_function(files, code_unit, name, description, categorie
 		if chunk is not None:
 			write_function_body(files, str(chunk))
 		else:
-			write_function_body(files, '(void)c;\nreturn false;')
+			write_function_body(files, 'MUU_UNUSED(c);\nreturn false;')
 	write_function_footer(files, code_unit)
 
 	# write tests
@@ -1656,9 +1656,9 @@ def write_header(folders, code_unit):
 			h('#include "../../muu/fwd.h"')
 		h('')
 		if not code_unit.proxy:
-			h('MUU_PUSH_WARNINGS')
+			h('MUU_PUSH_WARNINGS;')
 			h('MUU_PRAGMA_GCC_LT(9, diagnostic ignored "-Wattributes")')
-			h('')
+			h('MUU_PRAGMA_MSVC(warning(disable: 26819))')
 			h('MUU_PRAGMA_GCC_LT(9, push_options)')
 			h('MUU_PRAGMA_GCC_LT(9, optimize("O1"))')
 			h('')
@@ -1960,8 +1960,7 @@ def write_header(folders, code_unit):
 		if not code_unit.proxy:
 			h('')
 			h('MUU_PRAGMA_GCC_LT(9, pop_options)')
-			h('')
-			h('MUU_POP_WARNINGS')
+			h('MUU_POP_WARNINGS;')
 
 		# finish up tests
 		if t is not None:

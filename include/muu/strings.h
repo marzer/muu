@@ -10,14 +10,21 @@
 #include "../muu/chars.h"
 #include "../muu/string_param.h"
 
-MUU_DISABLE_WARNINGS
+MUU_DISABLE_WARNINGS;
 #include <string>
 #include <string_view>
 #include <iosfwd>
-MUU_ENABLE_WARNINGS
+MUU_ENABLE_WARNINGS;
 
-MUU_PUSH_WARNINGS
-MUU_DISABLE_SPAM_WARNINGS
+MUU_PUSH_WARNINGS;
+MUU_DISABLE_SPAM_WARNINGS;
+MUU_PRAGMA_MSVC(warning(disable: 26812))
+MUU_PRAGMA_MSVC(push_macro("min"))
+MUU_PRAGMA_MSVC(push_macro("max"))
+#if MUU_MSVC
+	#undef min
+	#undef max
+#endif
 
 #ifdef __cpp_lib_constexpr_string
 	#define MUU_CONSTEXPR_STRING	constexpr
@@ -41,7 +48,7 @@ MUU_NAMESPACE_START
 
 	#if 1 // unicode/boilerplate --------------------------------------------------------------------------------------
 
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
 		class MUU_TRIVIAL_ABI utf8_decoder final
@@ -51,7 +58,7 @@ MUU_NAMESPACE_START
 
 			private:
 				uint_least32_t state{};
-				static constexpr uint8_t state_table[]
+				static constexpr uint8_t state_table[] =
 				{
 					0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 					0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -292,8 +299,8 @@ MUU_NAMESPACE_START
 			using func_return_type = typename utf_decode_func_traits<T, Func>::return_type;
 			constexpr auto stop_after_invoking = [](auto&& f, char32_t cp, size_t cu_start, size_t cu_count) noexcept -> bool
 			{
-				(void)cu_start;
-				(void)cu_count;
+				MUU_UNUSED(cu_start);
+				MUU_UNUSED(cu_count);
 				if constexpr (std::is_convertible_v<func_return_type, bool>)
 				{
 					if constexpr (std::is_nothrow_invocable_v<Func&&, T, size_t, size_t>)
@@ -342,7 +349,7 @@ MUU_NAMESPACE_START
 				else if (static_cast<uint32_t>(str[0]) == 0x0000FEFFu)
 					data_start = 1u;
 				else
-					requires_bswap = !utf_detect_platform_endian(str.data(), str.data() + (min)(str.length(), 16_sz));
+					requires_bswap = !utf_detect_platform_endian(str.data(), str.data() + min(str.length(), 16_sz));
 
 				if (reverse)
 				{
@@ -375,7 +382,7 @@ MUU_NAMESPACE_START
 					else if (static_cast<uint16_t>(str[0]) == 0xFEFFu)
 						data_start = 1u;
 					else
-						requires_bswap = !utf_detect_platform_endian(str.data(), str.data() + (min)(str.length(), 16_sz));
+						requires_bswap = !utf_detect_platform_endian(str.data(), str.data() + min(str.length(), 16_sz));
 				}
 
 				utf_decoder<T> decoder;
@@ -641,7 +648,7 @@ MUU_NAMESPACE_START
 			return byte_to_hex(unwrap(byte), a);
 		}
 	}
-	#endif // !DOXYGEN
+	/// \endcond
 
 	#endif // unicode/boilerplate
 
@@ -650,7 +657,7 @@ MUU_NAMESPACE_START
 	/// \brief Trims whitespace from both ends of a UTF string.
 	/// @{
 
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
 		template <typename T, typename Func>
@@ -672,7 +679,7 @@ MUU_NAMESPACE_START
 			return str.substr(first.index, last.end() - first.index);
 		}
 	}
-	#endif // !DOXYGEN
+	/// \endcond
 
 	/// \brief		Trims whitespace from both ends of a UTF-8 string.
 	[[nodiscard]]
@@ -724,7 +731,7 @@ MUU_NAMESPACE_START
 	/// \brief Trims whitespace from the left end of a UTF string.
 	/// @{
 
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
 		template <typename T, typename Func>
@@ -744,7 +751,7 @@ MUU_NAMESPACE_START
 			return str.substr(first.index);
 		}
 	}
-	#endif // !DOXYGEN
+	/// \endcond
 
 	/// \brief		Trims whitespace from the left end of a UTF-8 string.
 	[[nodiscard]]
@@ -796,7 +803,7 @@ MUU_NAMESPACE_START
 	/// \brief Trims whitespace from the right end of a UTF string.
 	/// @{
 
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
 		template <typename T, typename Func>
@@ -816,7 +823,7 @@ MUU_NAMESPACE_START
 			return str.substr(0, last.end());
 		}
 	}
-	#endif // !DOXYGEN
+	/// \endcond
 
 	/// \brief		Trims whitespace from the right end of a UTF-8 string.
 	[[nodiscard]]
@@ -868,7 +875,7 @@ MUU_NAMESPACE_START
 	/// \brief Transcodes a UTF string into another UTF encoding.
 	/// @{
 
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
 		template <typename To, typename From>
@@ -919,7 +926,7 @@ MUU_NAMESPACE_START
 		}
 
 	}
-	#endif // !DOXYGEN
+	/// \endcond
 
 	/// \brief		Transcodes a UTF-8 string into another UTF encoding.
 	template <typename Char>
@@ -983,4 +990,6 @@ MUU_NAMESPACE_START
 }
 MUU_NAMESPACE_END
 
-MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS
+MUU_PRAGMA_MSVC(pop_macro("min"))
+MUU_PRAGMA_MSVC(pop_macro("max"))
+MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS

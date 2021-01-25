@@ -41,7 +41,7 @@ MUU_PRAGMA_GCC(diagnostic ignored "-Wpadded")
 MUU_PRAGMA_GCC(diagnostic ignored "-Wuseless-cast")
 MUU_PRAGMA_MSVC(warning(disable: 4127)) // conditional expression is constant
 
-MUU_DISABLE_WARNINGS
+MUU_DISABLE_WARNINGS;
 #include <iosfwd>
 #if MUU_HAS_FLOAT16
 std::ostream& operator << (std::ostream&, _Float16);
@@ -187,18 +187,15 @@ using namespace Catch::literals;
 using namespace muu;
 using namespace std::string_view_literals;
 using namespace std::chrono_literals;
-MUU_ENABLE_WARNINGS
+MUU_ENABLE_WARNINGS;
 
 // Q: why is this CHECK_AND_STATIC_ASSERT thing?
 // A: because std::is_constant_evaluated().
 
 #if MUU_INTELLISENSE
-	#define CHECK_AND_STATIC_ASSERT(...)	\
-		CHECK(__VA_ARGS__)
+	#define CHECK_AND_STATIC_ASSERT(...)	CHECK(__VA_ARGS__)
 #else
-	#define CHECK_AND_STATIC_ASSERT(...)	\
-		static_assert(__VA_ARGS__);			\
-		CHECK(__VA_ARGS__)
+	#define CHECK_AND_STATIC_ASSERT(...)	do { static_assert(__VA_ARGS__); CHECK(__VA_ARGS__); }  while (false)
 #endif
 
 // CHECK asserts for string-related code
@@ -208,7 +205,7 @@ MUU_ENABLE_WARNINGS
 	#define CHECK_STRINGS_W(...)	CHECK(__VA_ARGS__)
 #elif MUU_ICC_CL
 	#define CHECK_STRINGS(...)		CHECK(__VA_ARGS__)
-	#define CHECK_STRINGS_W(...)	(void)0
+	#define CHECK_STRINGS_W(...)	MUU_NOOP
 #endif
 #ifndef CHECK_STRINGS
 	#define CHECK_STRINGS(...)			CHECK_AND_STATIC_ASSERT(__VA_ARGS__)

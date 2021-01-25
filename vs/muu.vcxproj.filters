@@ -160,6 +160,7 @@
     <None Include="..\python\generate_windows_targets.py">
       <Filter>python</Filter>
     </None>
+    <None Include="..\cpp.hint" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">

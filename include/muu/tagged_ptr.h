@@ -10,8 +10,14 @@
 #include "../muu/core.h"
 
 MUU_PRAGMA_MSVC(inline_recursion(on))
+MUU_PRAGMA_MSVC(push_macro("min"))
+MUU_PRAGMA_MSVC(push_macro("max"))
+#if MUU_MSVC
+	#undef min
+	#undef max
+#endif
 
-#ifndef DOXYGEN
+/// \cond
 MUU_IMPL_NAMESPACE_START
 {
 	inline constexpr size_t tptr_addr_highest_used_bit = MUU_ARCH_AMD64 ? 47 : build::bitness - 1;
@@ -21,7 +27,7 @@ MUU_IMPL_NAMESPACE_START
 	template <size_t MinAlign>
 	struct tptr final
 	{
-		static constexpr size_t tag_bits = ((muu::max)(bit_width(MinAlign), 1_sz) - 1_sz) + impl::tptr_addr_free_bits;
+		static constexpr size_t tag_bits = (max(bit_width(MinAlign), 1_sz) - 1_sz) + impl::tptr_addr_free_bits;
 		static constexpr uintptr_t tag_mask = bit_fill_right<uintptr_t>(tag_bits);
 		static constexpr uintptr_t ptr_mask = ~tag_mask;
 
@@ -89,7 +95,7 @@ MUU_IMPL_NAMESPACE_START
 			return pack_ptr(ptr) | (bits & tag_mask);
 		}
 
-		template <typename T MUU_ENABLE_IF(is_unsigned<T>)> MUU_REQUIRES(is_unsigned<T>)
+		MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
 		[[nodiscard]]
 		MUU_ATTR(const)
 		static constexpr uintptr_t set_tag(uintptr_t bits, T tag) noexcept
@@ -102,7 +108,7 @@ MUU_IMPL_NAMESPACE_START
 				return (bits & ptr_mask) | static_cast<uintptr_t>(tag);
 		}
 
-		template <typename T MUU_ENABLE_IF_2(!is_unsigned<T>)> MUU_REQUIRES(!is_unsigned<T>)
+		MUU_CONSTRAINED_TEMPLATE_2(!is_unsigned<T>, typename T)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static uintptr_t set_tag(uintptr_t bits, const T& tag) noexcept
@@ -208,12 +214,12 @@ MUU_IMPL_NAMESPACE_START
 	struct tptr_nullptr_deduced_tag {};
 }
 MUU_IMPL_NAMESPACE_END
-#endif // !DOXYGEN
+/// \endcond
 
 MUU_NAMESPACE_START
 {
 	/// \brief	Specialized pointer capable of storing data in the unused bits of a pointer's value.
-	/// \ingroup building_blocks
+	/// \ingroup core
 	/// 
 	/// \tparam	T			The type being pointed to.
 	/// \tparam	MinAlign	Minimum alignment of values stored in the tagged_ptr.
@@ -287,14 +293,14 @@ MUU_NAMESPACE_START
 			///
 			/// \tparam	U			An unsigned integral type, or a trivially-copyable type small enough to fit.
 			/// \param	value		The inital address of the pointer's target.
-			/// \param	tag_		The initial value of the pointer's tag bits.
+			/// \param	tag_value	The initial value of the pointer's tag bits.
 			///
 			/// \warning If the tag parameter is an integer larger than the available tag bits,
 			/// 		 any overflow will be masked out and ignored.
 			template <typename U>
 			MUU_NODISCARD_CTOR
-			constexpr tagged_ptr(pointer value, const U& tag_) noexcept
-				: bits{ tptr::pack_both(pointer_cast<void*>(value), tag_) }
+			constexpr tagged_ptr(pointer value, const U& tag_value) noexcept
+				: bits{ tptr::pack_both(pointer_cast<void*>(value), tag_value) }
 			{
 				static_assert(
 					is_unsigned<U>
@@ -345,16 +351,16 @@ MUU_NAMESPACE_START
 
 			/// \brief	Resets the target pointer value and tag.
 			///
-			/// \tparam	U		An unsigned integral type, or a trivially-copyable type small enough to fit.
-			/// \param	value	The new target pointer value.
-			/// \param	tag_	The new tag.
+			/// \tparam	U			An unsigned integral type, or a trivially-copyable type small enough to fit.
+			/// \param	value		The new target pointer value.
+			/// \param	tag_value	The new tag.
 			///
 			/// \warning If the tag parameter is an integer larger than the available tag bits,
 			/// 		 any overflow will be masked out and ignored.
 			/// 
 			/// \returns	A reference to the tagged_ptr.
 			template <typename U>
-			constexpr tagged_ptr& reset(pointer value, const U& tag_) noexcept
+			constexpr tagged_ptr& reset(pointer value, const U& tag_value) noexcept
 			{
 				static_assert(
 					is_unsigned<U>
@@ -363,7 +369,7 @@ MUU_NAMESPACE_START
 					" and small enough to fit in the available tag bits"
 				);
 
-				bits = tptr::pack_both(pointer_cast<void*>(value), tag_);
+				bits = tptr::pack_both(pointer_cast<void*>(value), tag_value);
 				return *this;
 			}
 
@@ -454,15 +460,15 @@ MUU_NAMESPACE_START
 
 			/// \brief	Sets the tag bits, leaving the target pointer value unchanged.
 			///
-			/// \tparam	U		An unsigned integral type, or a trivially-copyable type small enough to fit.
-			/// \param	tag_	The new value to set for the pointer's tag bits.
+			/// \tparam	U			An unsigned integral type, or a trivially-copyable type small enough to fit.
+			/// \param	tag_value	The new value to set for the pointer's tag bits.
 			///
 			/// \warning If the tag parameter is an integer larger than the available tag bits,
 			/// 		 any overflow will be masked out and ignored.
 			/// 
 			/// \returns	A reference to the tagged_ptr.
 			template <typename U>
-			constexpr tagged_ptr& tag(const U& tag_) noexcept
+			constexpr tagged_ptr& tag(const U& tag_value) noexcept
 			{
 				static_assert(
 					is_unsigned<U>
@@ -471,7 +477,7 @@ MUU_NAMESPACE_START
 					" and small enough to fit in the available tag bits"
 				);
 
-				bits = tptr::set_tag(bits, tag_);
+				bits = tptr::set_tag(bits, tag_value);
 				return *this;
 			}
 
@@ -526,13 +532,20 @@ MUU_NAMESPACE_START
 				return bits & tptr::ptr_mask;
 			}
 
-			/// \brief	Returns a reference the pointed object.
+			#ifdef DOXYGEN
+
+			/// \brief	Returns a reference to the pointed object.
 			/// 
 			/// \note This operator is not available for pointers to `void` or functions.
-			template <typename U = element_type
-				MUU_ENABLE_IF(!std::is_void_v<U> && !std::is_function_v<U>)
-			>
-			MUU_REQUIRES(!std::is_void_v<T> && !std::is_function_v<T>)
+			[[nodiscard]]
+			constexpr element_type& operator * () const noexcept;
+
+			#else
+
+			MUU_CONSTRAINED_TEMPLATE(
+				(!std::is_void_v<U> && !std::is_function_v<U>),
+				typename U = element_type
+			)
 			[[nodiscard]]
 			MUU_ATTR(pure)
 			constexpr U& operator * () const noexcept
@@ -540,16 +553,19 @@ MUU_NAMESPACE_START
 				return *ptr();
 			}
 
+			#endif
+
 			/// \brief	Returns the target pointer value.
 			/// 
 			/// \note This operator is not available for pointers to `void` or functions.
-			template <typename U = element_type
-				MUU_ENABLE_IF(!std::is_void_v<U> && !std::is_function_v<U>)
-			>
-			MUU_REQUIRES(!std::is_void_v<T> && !std::is_function_v<T>)
+			MUU_LEGACY_REQUIRES(
+				(!std::is_void_v<U> && !std::is_function_v<U>),
+				typename U = element_type
+			)
 			[[nodiscard]]
 			MUU_ATTR(pure)
 			constexpr pointer operator -> () const noexcept
+				MUU_REQUIRES(!std::is_void_v<T> && !std::is_function_v<T>)
 			{
 				return ptr();
 			}
@@ -562,14 +578,15 @@ MUU_NAMESPACE_START
 			/// \returns	The return value of the function call.
 			/// 
 			/// \note This operator is only available when the pointed type is a function.
-			template <typename... U, typename V = element_type
-				MUU_ENABLE_IF(std::is_function_v<V>)
-			>
-			MUU_REQUIRES(std::is_function_v<T>)
+			MUU_CONSTRAINED_TEMPLATE(
+				std::is_function_v<V>,
+				typename... U
+				MUU_HIDDEN_PARAM(typename V = element_type)
+			)
 			constexpr decltype(auto) operator () (U&&... args) const
-				noexcept(std::is_nothrow_invocable_v<V, U&&...>)
+				noexcept(std::is_nothrow_invocable_v<element_type, U&&...>)
 			{
-				static_assert(std::is_invocable_v<V, U&&...>);
+				static_assert(std::is_invocable_v<element_type, U&&...>);
 
 				return ptr()(static_cast<U&&>(args)...);
 			}
@@ -622,12 +639,15 @@ MUU_NAMESPACE_START
 				return lhs.bits != rhs.bits;
 			}
 	};
-	#ifndef DOXYGEN
+
+	/// \cond deduction_guides
+
 	tagged_ptr(nullptr_t)									-> tagged_ptr<impl::tptr_nullptr_deduced_tag, 1_sz>;
 	template <typename T> tagged_ptr(nullptr_t, T)			-> tagged_ptr<impl::tptr_nullptr_deduced_tag, 1_sz>;
 	template <typename T, typename U>	tagged_ptr(T*, U)	-> tagged_ptr<T>;
 	template <typename T>				tagged_ptr(T*)		-> tagged_ptr<T>;
-	#endif
+
+	/// \endcond
 
 	namespace impl
 	{
@@ -670,4 +690,6 @@ namespace std
 	struct pointer_traits<muu::tagged_ptr<T, MinAlign>> : muu::impl::tagged_pointer_traits<T, MinAlign> {};
 }
 
+MUU_PRAGMA_MSVC(pop_macro("min"))
+MUU_PRAGMA_MSVC(pop_macro("max"))
 MUU_PRAGMA_MSVC(inline_recursion(off))

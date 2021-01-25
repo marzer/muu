@@ -110,18 +110,21 @@
 	#define MUU_ARCH_X64 0
 #endif
 
-#ifndef DOXYGEN
-	#define MUU_ARCH_SUM (MUU_ARCH_ITANIUM + MUU_ARCH_AMD64 + MUU_ARCH_X86 + MUU_ARCH_ARM32 + MUU_ARCH_ARM64)
-	#if MUU_ARCH_SUM > 1
-		#error Could not uniquely identify target architecture.
-	#elif MUU_ARCH_SUM == 0
-		#error Unknown target architecture.
-	#endif
-	#undef MUU_ARCH_SUM
-	#ifndef MUU_ARCH_BITNESS
-		#error Unknown target architecture bitness.
-	#endif
+/// \cond
+#ifndef MUU_DISABLE_ENVIRONMENT_CHECKS
+#define MUU_ARCH_SUM (MUU_ARCH_ITANIUM + MUU_ARCH_AMD64 + MUU_ARCH_X86 + MUU_ARCH_ARM32 + MUU_ARCH_ARM64)
+#if MUU_ARCH_SUM != 1 || !defined(MUU_ARCH_BITNESS)
+
+#error If you are seeing this error it is because you are building muu for an architecture that could not be uniquely \
+identified by the preprocessor machinery. You can try disabling the checks by defining MUU_DISABLE_ENVIRONMENT_CHECKS, \
+but libary functionality mileage may vary. Please consider filing an issue at github.com/marzer/muu/issues to \
+help me improve support for your target architecture. Thanks!
+
 #endif
+#undef MUU_ARCH_SUM
+#endif //MUU_DISABLE_ENVIRONMENT_CHECKS
+/// \endcond
+
 #ifdef _WIN32
 	#define MUU_WINDOWS 1
 #else
@@ -131,8 +134,10 @@
 	#define MUU_BUILDING 0
 #endif
 
-#define MUU_CONCAT_1(x, y) x##y
-#define MUU_CONCAT(x, y) MUU_CONCAT_1(x, y)
+#define MUU_CONCAT_1(x, y)		x##y
+#define MUU_CONCAT(x, y)		MUU_CONCAT_1(x, y)
+#define MUU_MAKE_STRING_1(s)	#s
+#define MUU_MAKE_STRING(s)		MUU_MAKE_STRING_1(s)
 
 #if defined(__MMX__) || MUU_MSVC
 	#define MUU_ISET_MMX 1
@@ -222,18 +227,28 @@
 	#define MUU_ATTR_CLANG_GE(ver, ...)		MUU_CONCAT(MUU_MACRO_DISPATCH_CLANG_GE_, ver)(MUU_ATTR(__VA_ARGS__))
 	#define MUU_ATTR_CLANG_LT(ver, ...)		MUU_CONCAT(MUU_MACRO_DISPATCH_CLANG_LT_, ver)(MUU_ATTR(__VA_ARGS__))
 
-	#define MUU_PUSH_WARNINGS				MUU_PRAGMA_CLANG(diagnostic push)
-	#define MUU_DISABLE_SWITCH_WARNINGS		MUU_PRAGMA_CLANG(diagnostic ignored "-Wswitch")
+	#define MUU_PUSH_WARNINGS				MUU_PRAGMA_CLANG(diagnostic push)	\
+											static_assert(true)
+
+	#define MUU_DISABLE_SWITCH_WARNINGS		MUU_PRAGMA_CLANG(diagnostic ignored "-Wswitch")	\
+											static_assert(true)
+
 	#define MUU_DISABLE_LIFETIME_WARNINGS	MUU_PRAGMA_CLANG(diagnostic ignored "-Wmissing-field-initializers")	\
 											MUU_PRAGMA_CLANG(diagnostic ignored "-Wglobal-constructors")	\
-											MUU_PRAGMA_CLANG(diagnostic ignored "-Wexit-time-destructors")
+											MUU_PRAGMA_CLANG(diagnostic ignored "-Wexit-time-destructors")	\
+											static_assert(true)
+
 	#define MUU_DISABLE_ARITHMETIC_WARNINGS	MUU_PRAGMA_CLANG(diagnostic ignored "-Wfloat-equal") \
 											MUU_PRAGMA_CLANG(diagnostic ignored "-Wdouble-promotion") \
 											MUU_PRAGMA_CLANG(diagnostic ignored "-Wchar-subscripts") \
 											MUU_PRAGMA_CLANG(diagnostic ignored "-Wshift-sign-overflow") \
-									 MUU_PRAGMA_CLANG_GE(10, diagnostic ignored "-Wimplicit-int-float-conversion")
+									 MUU_PRAGMA_CLANG_GE(10, diagnostic ignored "-Wimplicit-int-float-conversion")	\
+											static_assert(true)
+
 	#define MUU_DISABLE_SHADOW_WARNINGS		MUU_PRAGMA_CLANG(diagnostic ignored "-Wshadow")	\
-											MUU_PRAGMA_CLANG(diagnostic ignored "-Wshadow-field")
+											MUU_PRAGMA_CLANG(diagnostic ignored "-Wshadow-field")	\
+											static_assert(true)
+
 	#define MUU_DISABLE_SPAM_WARNINGS		MUU_PRAGMA_CLANG(diagnostic ignored "-Wweak-vtables")			\
 											MUU_PRAGMA_CLANG(diagnostic ignored "-Wdouble-promotion")		\
 											MUU_PRAGMA_CLANG(diagnostic ignored "-Wweak-template-vtables")	\
@@ -242,11 +257,19 @@
 											MUU_PRAGMA_CLANG(diagnostic ignored "-Wc++2a-compat")			\
 											MUU_PRAGMA_CLANG(diagnostic ignored "-Wtautological-pointer-compare") \
 											MUU_PRAGMA_CLANG(diagnostic ignored "-Wmissing-field-initializers")	\
-											MUU_PRAGMA_CLANG(diagnostic ignored "-Wpacked")
-	#define MUU_POP_WARNINGS				MUU_PRAGMA_CLANG(diagnostic pop)
-	#define MUU_DISABLE_WARNINGS			MUU_PUSH_WARNINGS \
-											MUU_PRAGMA_CLANG(diagnostic ignored "-Weverything")
-	#define MUU_ENABLE_WARNINGS				MUU_POP_WARNINGS
+											MUU_PRAGMA_CLANG(diagnostic ignored "-Wpacked")	\
+											static_assert(true)
+
+	#define MUU_POP_WARNINGS				MUU_PRAGMA_CLANG(diagnostic pop) \
+											static_assert(true)
+
+	#define MUU_DISABLE_WARNINGS			MUU_PRAGMA_CLANG(diagnostic push) \
+											MUU_PRAGMA_CLANG(diagnostic ignored "-Weverything")	\
+											static_assert(true,"")
+
+	#define MUU_ENABLE_WARNINGS				MUU_PRAGMA_CLANG(diagnostic pop) \
+											static_assert(true)
+
 	#define MUU_ASSUME(cond)				__builtin_assume(cond)
 	#define MUU_UNREACHABLE					__builtin_unreachable()
 	#define MUU_ALIGN(alignment)			MUU_ATTR(aligned(alignment))
@@ -259,8 +282,8 @@
 			#if __has_declspec_attribute(empty_bases)
 				#define MUU_EMPTY_BASES			__declspec(empty_bases)
 			#endif
-			#if __has_declspec_attribute(restrict)
-				#define MUU_UNALIASED_ALLOC		__declspec(restrict)
+			#if __has_declspec_attribute(restrict) && __has_declspec_attribute(noalias)
+				#define MUU_UNALIASED_ALLOC		__declspec(restrict) __declspec(noalias)
 			#endif
 			#define MUU_ALWAYS_INLINE			__forceinline
 			#if __has_declspec_attribute(noinline)
@@ -270,14 +293,17 @@
 		#endif
 	#endif
 	#ifdef __has_attribute
-		#if !defined(MUU_ALWAYS_INLINE) && __has_attribute(always_inline)
+		#if !defined(MUU_ALWAYS_INLINE) && __has_attribute(__always_inline__)
 			#define MUU_ALWAYS_INLINE		__attribute__((__always_inline__)) inline
 		#endif
-		#if !defined(MUU_NEVER_INLINE) && __has_attribute(noinline)
+		#if !defined(MUU_NEVER_INLINE) && __has_attribute(__noinline__)
 			#define MUU_NEVER_INLINE		__attribute__((__noinline__))
 		#endif
-		#if !defined(MUU_TRIVIAL_ABI) && __has_attribute(trivial_abi)
+		#if !defined(MUU_TRIVIAL_ABI) && __has_attribute(__trivial_abi__)
 			#define MUU_TRIVIAL_ABI			__attribute__((__trivial_abi__))
+		#endif
+		#if !defined(MUU_UNALIASED_ALLOC) && __has_attribute(__malloc__)
+			#define MUU_UNALIASED_ALLOC		__attribute__((__malloc__))
 		#endif
 	#endif
 	#if !__has_feature(cxx_rtti)
@@ -305,16 +331,33 @@
 
 	#define MUU_CPP							_MSVC_LANG
 	#if MUU_MSVC // !intel-cl
+
 		#define MUU_PRAGMA_MSVC(...)		__pragma(__VA_ARGS__)
-		#define MUU_PUSH_WARNINGS			__pragma(warning(push))
-		#define MUU_DISABLE_SWITCH_WARNINGS	__pragma(warning(disable: 4063))
-		#define MUU_DISABLE_SHADOW_WARNINGS	__pragma(warning(disable: 4458))
+
+		#define MUU_PUSH_WARNINGS			__pragma(warning(push)) \
+											static_assert(true)
+
+		#define MUU_DISABLE_SWITCH_WARNINGS	__pragma(warning(disable: 4063)) \
+											static_assert(true)
+
+		#define MUU_DISABLE_SHADOW_WARNINGS	__pragma(warning(disable: 4458)) \
+											static_assert(true)
+
 		#define MUU_DISABLE_SPAM_WARNINGS	__pragma(warning(disable: 4127)) /* conditional expr is constant */ \
-											__pragma(warning(disable: 4324)) /* structure was padded due to alignment specifier */
-		#define MUU_POP_WARNINGS			__pragma(warning(pop))
+											__pragma(warning(disable: 4324)) /* structure was padded due to alignment specifier */  \
+											__pragma(warning(disable: 4348)) \
+											static_assert(true)
+
+		#define MUU_POP_WARNINGS			__pragma(warning(pop)) \
+											static_assert(true)
+
 		#define MUU_DISABLE_WARNINGS		__pragma(warning(push, 0)) \
-											__pragma(warning(disable: 4348))
-		#define MUU_ENABLE_WARNINGS			MUU_POP_WARNINGS
+											__pragma(warning(disable: 4348)) \
+											static_assert(true)
+
+		#define MUU_ENABLE_WARNINGS			__pragma(warning(pop)) \
+											static_assert(true)
+
 	#endif
 	#define MUU_DECLSPEC(...)				__declspec(__VA_ARGS__)
 	#define MUU_ALIGN(alignment)			__declspec(align(alignment))
@@ -322,10 +365,8 @@
 	#define MUU_NEVER_INLINE				__declspec(noinline)
 	#define MUU_ASSUME(cond)				__assume(cond)
 	#define MUU_UNREACHABLE					__assume(0)
-	#if !MUU_INTELLISENSE
-		#define MUU_ABSTRACT_INTERFACE		__declspec(novtable)
-		#define MUU_EMPTY_BASES				__declspec(empty_bases)
-	#endif
+	#define MUU_ABSTRACT_INTERFACE			__declspec(novtable)
+	#define MUU_EMPTY_BASES					__declspec(empty_bases)
 	#define MUU_UNALIASED_ALLOC				__declspec(restrict) __declspec(noalias)
 	#define MUU_VECTORCALL					__vectorcall
 	#ifndef _CPPRTTI
@@ -344,16 +385,26 @@
 #if MUU_ICC
 	
 	#define MUU_PRAGMA_ICC(...)				__pragma(__VA_ARGS__)
-	#define MUU_PUSH_WARNINGS				__pragma(warning(push))
+
+	#define MUU_PUSH_WARNINGS				__pragma(warning(push)) \
+											static_assert(true)
+
 	#define MUU_DISABLE_SPAM_WARNINGS		__pragma(warning(disable: 82))	/* storage class is not first */ \
 											__pragma(warning(disable: 111))	/* statement unreachable (false-positive) */ \
 											__pragma(warning(disable: 869)) /* unreferenced parameter */ \
 											__pragma(warning(disable: 1011)) /* missing return (false-positive) */ \
-											__pragma(warning(disable: 2261)) /* assume expr side-effects discarded */
-	#define MUU_POP_WARNINGS				__pragma(warning(pop))
+											__pragma(warning(disable: 2261)) /* assume expr side-effects discarded */  \
+											static_assert(true)
+
+	#define MUU_POP_WARNINGS				__pragma(warning(pop))  \
+											static_assert(true)
+
 	#define MUU_DISABLE_WARNINGS			__pragma(warning(push, 0))	\
 											MUU_DISABLE_SPAM_WARNINGS
-	#define MUU_ENABLE_WARNINGS				MUU_POP_WARNINGS
+
+	#define MUU_ENABLE_WARNINGS				__pragma(warning(pop))  \
+											static_assert(true)
+
 	#ifndef MUU_OFFSETOF
 		#define MUU_OFFSETOF(type, member)	__builtin_offsetof(type, member) // ??
 	#endif
@@ -363,7 +414,6 @@
 	#ifndef MUU_UNREACHABLE
 		#define MUU_UNREACHABLE				__builtin_unreachable() // ??
 	#endif
-	#define MUU_UNREACHABLE_RETURN(r)		MUU_UNREACHABLE; return r
 
 #endif // icc
 
@@ -418,39 +468,59 @@
 	#define MUU_ATTR_GCC_GE(ver, ...)		MUU_CONCAT(MUU_MACRO_DISPATCH_GCC_GE_, ver)(MUU_ATTR(__VA_ARGS__))
 	#define MUU_ATTR_GCC_LT(ver, ...)		MUU_CONCAT(MUU_MACRO_DISPATCH_GCC_LT_, ver)(MUU_ATTR(__VA_ARGS__))
 
-	#define MUU_PUSH_WARNINGS				MUU_PRAGMA_GCC(diagnostic push)
+	#define MUU_PUSH_WARNINGS				MUU_PRAGMA_GCC(diagnostic push) \
+											static_assert(true)
+
 	#define MUU_DISABLE_SWITCH_WARNINGS		MUU_PRAGMA_GCC(diagnostic ignored "-Wswitch")						\
 											MUU_PRAGMA_GCC(diagnostic ignored "-Wswitch-enum")					\
-											MUU_PRAGMA_GCC(diagnostic ignored "-Wswitch-default")
+											MUU_PRAGMA_GCC(diagnostic ignored "-Wswitch-default") \
+											static_assert(true)
+
 	#define MUU_DISABLE_LIFETIME_WARNINGS	MUU_PRAGMA_GCC(diagnostic ignored "-Wmissing-field-initializers")	\
 											MUU_PRAGMA_GCC(diagnostic ignored "-Wmaybe-uninitialized")			\
 											MUU_PRAGMA_GCC(diagnostic ignored "-Wuninitialized")				\
-									  MUU_PRAGMA_GCC_GE(8, diagnostic ignored "-Wclass-memaccess")
+									  MUU_PRAGMA_GCC_GE(8, diagnostic ignored "-Wclass-memaccess") \
+											static_assert(true)
+
 	#define MUU_DISABLE_ARITHMETIC_WARNINGS	MUU_PRAGMA_GCC(diagnostic ignored "-Wfloat-equal")					\
 											MUU_PRAGMA_GCC(diagnostic ignored "-Wsign-conversion")				\
-											MUU_PRAGMA_GCC(diagnostic ignored "-Wchar-subscripts")
-	#define MUU_DISABLE_SHADOW_WARNINGS		MUU_PRAGMA_GCC(diagnostic ignored "-Wshadow")
+											MUU_PRAGMA_GCC(diagnostic ignored "-Wchar-subscripts") \
+											static_assert(true)
+
+	#define MUU_DISABLE_SHADOW_WARNINGS		MUU_PRAGMA_GCC(diagnostic ignored "-Wshadow") \
+											static_assert(true)
+
 	#define MUU_DISABLE_SUGGEST_WARNINGS	MUU_PRAGMA_GCC(diagnostic ignored "-Wsuggest-attribute=const")		\
-											MUU_PRAGMA_GCC(diagnostic ignored "-Wsuggest-attribute=pure")
+											MUU_PRAGMA_GCC(diagnostic ignored "-Wsuggest-attribute=pure") \
+											static_assert(true)
+
 	#define MUU_DISABLE_SPAM_WARNINGS		MUU_PRAGMA_GCC(diagnostic ignored "-Wpadded")						\
 											MUU_PRAGMA_GCC(diagnostic ignored "-Wcast-align")					\
 											MUU_PRAGMA_GCC(diagnostic ignored "-Wcomment")						\
 											MUU_PRAGMA_GCC(diagnostic ignored "-Wsubobject-linkage")			\
 											MUU_PRAGMA_GCC(diagnostic ignored "-Wuseless-cast")					\
 											MUU_PRAGMA_GCC(diagnostic ignored "-Wmissing-field-initializers")	\
-											MUU_PRAGMA_GCC(diagnostic ignored "-Wtype-limits")
-	#define MUU_POP_WARNINGS				MUU_PRAGMA_GCC(diagnostic pop)
-	#define MUU_DISABLE_WARNINGS			MUU_PUSH_WARNINGS \
+											MUU_PRAGMA_GCC(diagnostic ignored "-Wtype-limits") \
+											static_assert(true)
+
+	#define MUU_POP_WARNINGS				MUU_PRAGMA_GCC(diagnostic pop) \
+											static_assert(true)
+
+	#define MUU_DISABLE_WARNINGS			MUU_PRAGMA_GCC(diagnostic push)										\
 											MUU_PRAGMA_GCC(diagnostic ignored "-Wall")							\
 											MUU_PRAGMA_GCC(diagnostic ignored "-Wextra")						\
 											MUU_PRAGMA_GCC(diagnostic ignored "-Wpedantic")						\
-											MUU_DISABLE_SWITCH_WARNINGS											\
-											MUU_DISABLE_LIFETIME_WARNINGS										\
-											MUU_DISABLE_ARITHMETIC_WARNINGS										\
-											MUU_DISABLE_SHADOW_WARNINGS											\
-											MUU_DISABLE_SUGGEST_WARNINGS										\
-											MUU_DISABLE_SPAM_WARNINGS
-	#define MUU_ENABLE_WARNINGS				MUU_POP_WARNINGS
+											MUU_DISABLE_SWITCH_WARNINGS;										\
+											MUU_DISABLE_LIFETIME_WARNINGS;										\
+											MUU_DISABLE_ARITHMETIC_WARNINGS;									\
+											MUU_DISABLE_SHADOW_WARNINGS;										\
+											MUU_DISABLE_SUGGEST_WARNINGS;										\
+											MUU_DISABLE_SPAM_WARNINGS;											\
+											static_assert(true)
+
+	#define MUU_ENABLE_WARNINGS				MUU_PRAGMA_GCC(diagnostic pop) \
+											static_assert(true)
+
 	#define MUU_ALIGN(alignment)			MUU_ATTR(aligned(alignment))
 	#define MUU_ALWAYS_INLINE				__attribute__((__always_inline__)) inline
 	#define MUU_NEVER_INLINE				__attribute__((__noinline__))
@@ -523,13 +593,46 @@
 	#error muu requires C++17 or higher.
 #endif
 
+#ifndef MUU_PUSH_WARNINGS
+	#define MUU_PUSH_WARNINGS				static_assert(true)
+#endif
+#ifndef MUU_DISABLE_SWITCH_WARNINGS
+	#define	MUU_DISABLE_SWITCH_WARNINGS		static_assert(true)
+#endif
+#ifndef MUU_DISABLE_LIFETIME_WARNINGS
+	#define	MUU_DISABLE_LIFETIME_WARNINGS	static_assert(true)
+#endif
+#ifndef MUU_DISABLE_SPAM_WARNINGS
+	#define MUU_DISABLE_SPAM_WARNINGS		static_assert(true)
+#endif
+#ifndef MUU_DISABLE_ARITHMETIC_WARNINGS
+	#define MUU_DISABLE_ARITHMETIC_WARNINGS	static_assert(true)
+#endif
+#ifndef MUU_DISABLE_SHADOW_WARNINGS
+	#define MUU_DISABLE_SHADOW_WARNINGS		static_assert(true)
+#endif
+#ifndef MUU_DISABLE_SUGGEST_WARNINGS
+	#define MUU_DISABLE_SUGGEST_WARNINGS	static_assert(true)
+#endif
+#ifndef MUU_DISABLE_WARNINGS
+	#define MUU_DISABLE_WARNINGS			static_assert(true)
+#endif
+#ifndef MUU_ENABLE_WARNINGS
+	#define MUU_ENABLE_WARNINGS				static_assert(true)
+#endif
+#ifndef MUU_POP_WARNINGS
+	#define MUU_POP_WARNINGS				static_assert(true)
+#endif
+
 #ifdef __has_include
 	#define MUU_HAS_INCLUDE(header)		__has_include(header)
 #else
 	#define MUU_HAS_INCLUDE(header)		0
 #endif
 #if MUU_HAS_INCLUDE(<version>)
+	MUU_DISABLE_WARNINGS;
 	#include <version>
+	MUU_ENABLE_WARNINGS;
 #endif
 
 #ifndef MUU_HAS_BUILTIN
@@ -546,18 +649,25 @@
 	#define MUU_RTTI 1
 #endif
 
+#if defined(MUU_LITTLE_ENDIAN) && !defined(MUU_BIG_ENDIAN)
+	#define MUU_BIG_ENDIAN !(MUU_LITTLE_ENDIAN)
+#endif
+#if !defined(MUU_LITTLE_ENDIAN) && defined(MUU_BIG_ENDIAN)
+	#define MUU_LITTLE_ENDIAN !(MUU_BIG_ENDIAN)
+#endif
 #ifndef MUU_LITTLE_ENDIAN
-	#ifdef DOXYGEN
-		#define MUU_LITTLE_ENDIAN 1
-	#else
-		#define MUU_LITTLE_ENDIAN 0
-	#endif
+	#define MUU_LITTLE_ENDIAN 1
 #endif
 #ifndef MUU_BIG_ENDIAN
 	#define MUU_BIG_ENDIAN 0
 #endif
-#if MUU_BIG_ENDIAN == MUU_LITTLE_ENDIAN
+#if !(MUU_BIG_ENDIAN) == !(MUU_LITTLE_ENDIAN)
 	#error Unknown platform endianness.
+#endif
+#if MUU_BIG_ENDIAN
+	#define MUU_ENDIANNESS_NAMESPACE be
+#else
+	#define MUU_ENDIANNESS_NAMESPACE le
 #endif
 
 #ifndef MUU_PRAGMA_CLANG
@@ -602,37 +712,6 @@
 	#define MUU_ALIGN(alignment)	alignas(alignment)
 #endif
 
-#ifndef MUU_PUSH_WARNINGS
-	#define MUU_PUSH_WARNINGS
-#endif
-#ifndef MUU_DISABLE_SWITCH_WARNINGS
-	#define	MUU_DISABLE_SWITCH_WARNINGS
-#endif
-#ifndef MUU_DISABLE_LIFETIME_WARNINGS
-	#define	MUU_DISABLE_LIFETIME_WARNINGS
-#endif
-#ifndef MUU_DISABLE_SPAM_WARNINGS
-	#define MUU_DISABLE_SPAM_WARNINGS
-#endif
-#ifndef MUU_DISABLE_ARITHMETIC_WARNINGS
-	#define MUU_DISABLE_ARITHMETIC_WARNINGS
-#endif
-#ifndef MUU_DISABLE_SHADOW_WARNINGS
-	#define MUU_DISABLE_SHADOW_WARNINGS
-#endif
-#ifndef MUU_DISABLE_SUGGEST_WARNINGS
-	#define MUU_DISABLE_SUGGEST_WARNINGS
-#endif
-#ifndef MUU_DISABLE_WARNINGS
-	#define MUU_DISABLE_WARNINGS
-#endif
-#ifndef MUU_ENABLE_WARNINGS
-	#define MUU_ENABLE_WARNINGS
-#endif
-#ifndef MUU_POP_WARNINGS
-	#define MUU_POP_WARNINGS
-#endif
-
 #ifndef MUU_ABSTRACT_INTERFACE
 	#define MUU_ABSTRACT_INTERFACE
 #endif
@@ -648,19 +727,21 @@
 #ifndef MUU_UNALIASED_ALLOC
 	#define MUU_UNALIASED_ALLOC
 #endif
+
+#define MUU_UNUSED(expr)				static_cast<void>(expr)
+#define MUU_NOOP						MUU_UNUSED(0)
+
 #ifndef MUU_ASSUME
-	#define MUU_ASSUME(cond)			(void)0
+	#define MUU_ASSUME(cond)			MUU_NOOP
 #endif
 #ifndef MUU_UNREACHABLE
-	#define MUU_UNREACHABLE				(void)0
-#endif
-#ifndef MUU_UNREACHABLE_RETURN
-	#define MUU_UNREACHABLE_RETURN(r)	MUU_UNREACHABLE
+	#define MUU_UNREACHABLE				MUU_NOOP
 #endif
 
 #define MUU_NO_DEFAULT_CASE				default: MUU_UNREACHABLE
 
-#if !defined(DOXYGEN) && !MUU_INTELLISENSE
+/// \cond
+#if !MUU_INTELLISENSE
 	#if !defined(MUU_LIKELY) && __has_cpp_attribute(likely)
 		#define MUU_LIKELY(...)	(__VA_ARGS__) [[likely]]
 	#endif
@@ -670,10 +751,12 @@
 	#if !defined(MUU_NO_UNIQUE_ADDRESS) && __has_cpp_attribute(no_unique_address)
 		#define MUU_NO_UNIQUE_ADDRESS	[[no_unique_address]]
 	#endif
-	#if __has_cpp_attribute(nodiscard) >= 201907L
-		#define MUU_NODISCARD_CTOR		[[nodiscard]]
-	#endif
 #endif
+#if __has_cpp_attribute(nodiscard) >= 201907L
+	#define MUU_NODISCARD_CTOR		[[nodiscard]]
+#endif
+/// \endcond
+
 #ifndef MUU_LIKELY
 	#define MUU_LIKELY(...)	(__VA_ARGS__)
 #endif
@@ -707,27 +790,15 @@
 	#define MUU_CONSTEVAL				constexpr
 #endif
 
-#if !defined(DOXYGEN) && defined(__cpp_conditional_explicit)
-	#define MUU_EXPLICIT(...)			explicit(__VA_ARGS__)
-#else
-	#define MUU_EXPLICIT(...)			explicit
-#endif
-
 #define MUU_PREPEND_R_1(s)				R##s
 #define MUU_PREPEND_R(s)				MUU_PREPEND_R_1(s)
 #define MUU_ADD_PARENTHESES_1(s)		(s)
 #define MUU_ADD_PARENTHESES(s)			MUU_ADD_PARENTHESES_1(s)
-#define MUU_MAKE_STRING_1(s)			#s
-#define MUU_MAKE_STRING(s)				MUU_MAKE_STRING_1(s)
 #define MUU_MAKE_RAW_STRING_1(s)		MUU_MAKE_STRING(MUU_ADD_PARENTHESES(s))
 #define MUU_MAKE_RAW_STRING(s)			MUU_PREPEND_R(MUU_MAKE_RAW_STRING_1(s))
 #define MUU_APPEND_SV_1(s)				s##sv
 #define MUU_APPEND_SV(s)				MUU_APPEND_SV_1(s)
 #define MUU_MAKE_STRING_VIEW(s)			MUU_APPEND_SV(MUU_MAKE_RAW_STRING(s))
-
-#define MUU_EVAL_1(T, F)		T
-#define MUU_EVAL_0(T, F)		F
-#define MUU_EVAL(cond, T, F)	MUU_CONCAT(MUU_EVAL_, cond)(T, F)
 
 #define MUU_DELETE_MOVE(type)				\
 	type(type&&) = delete;					\
@@ -738,50 +809,70 @@
 	type& operator=(const type&) = delete
 
 #ifndef MUU_TRACE // spam^H^H^H^H debugging hook
-	#define MUU_TRACE(...) (void)0
+	#define MUU_TRACE(...) MUU_NOOP
 #endif
 
-#define MUU_MAKE_BITOPS_(type, op)											\
-	[[nodiscard]]															\
-	MUU_ALWAYS_INLINE														\
-	MUU_ATTR(flatten)														\
-	constexpr type operator op (type lhs, type rhs) noexcept				\
-	{																		\
-		return static_cast<type>(::muu::unwrap(lhs) op ::muu::unwrap(rhs));	\
-	}																		\
-	[[nodiscard]]															\
-	MUU_ALWAYS_INLINE														\
-	MUU_ATTR(flatten)														\
-	constexpr type& operator op= (type& lhs, type rhs) noexcept				\
-	{																		\
-		return lhs = (lhs op rhs);											\
+#define MUU_MAKE_FLAGS_(name, op)														\
+	[[nodiscard]]																		\
+	MUU_ATTR(const)																		\
+	constexpr name operator op(name lhs, name rhs) noexcept								\
+	{																					\
+		using under = typename std::underlying_type_t<name>;							\
+		return static_cast<name>(static_cast<under>(lhs) op static_cast<under>(rhs));	\
+	}																					\
+	[[nodiscard]]																		\
+	constexpr name& operator MUU_CONCAT(op, =)(name& lhs, name rhs) noexcept			\
+	{																					\
+		return lhs = (lhs op rhs);														\
 	}
 
-#define MUU_MAKE_BITOPS(type)												\
-	MUU_MAKE_BITOPS_(type, &)												\
-	MUU_MAKE_BITOPS_(type, |)												\
-	MUU_MAKE_BITOPS_(type, ^)												\
-	[[nodiscard]]															\
-	MUU_ALWAYS_INLINE														\
-	MUU_ATTR(flatten)														\
-	constexpr type operator ~ (type val) noexcept							\
-	{																		\
-		return static_cast<type>(~::muu::unwrap(val));						\
-	}
+#define MUU_MAKE_FLAGS(name)															\
+	MUU_MAKE_FLAGS_(name, &)															\
+	MUU_MAKE_FLAGS_(name, |)															\
+	MUU_MAKE_FLAGS_(name, ^)															\
+	[[nodiscard]]																		\
+	MUU_ATTR(const)																		\
+	constexpr name operator~(name val) noexcept											\
+	{																					\
+		using under = typename std::underlying_type_t<name>;							\
+		return static_cast<name>(~static_cast<under>(val));								\
+	}																					\
+	[[nodiscard]]																		\
+	MUU_ATTR(const)																		\
+	constexpr bool operator!(name val) noexcept											\
+	{																					\
+		using under = typename std::underlying_type_t<name>;							\
+		return !static_cast<under>(val);												\
+	}																					\
+	static_assert(true)
+
+#define MUU_MAKE_BITOPS(name)	MUU_MAKE_FLAGS(name)
 
 #define MUU_PUSH_PRECISE_MATH												\
 	MUU_PRAGMA_MSVC(float_control(precise, on, push))						\
 	MUU_PRAGMA_CLANG_GE(11, "float_control(precise, on, push)")				\
 	MUU_PRAGMA_GCC(push_options)											\
-	MUU_PRAGMA_GCC(optimize("-fno-fast-math"))
+	MUU_PRAGMA_GCC(optimize("-fno-fast-math"))								\
+	static_assert(true)
 
 #define MUU_POP_PRECISE_MATH												\
 	MUU_PRAGMA_GCC(pop_options)												\
 	MUU_PRAGMA_CLANG_GE(11, "float_control(pop)")							\
-	MUU_PRAGMA_MSVC(float_control(pop))
+	MUU_PRAGMA_MSVC(float_control(pop))										\
+	static_assert(true)
 
-#define MUU_FMA_BLOCK	\
-	MUU_PRAGMA_CLANG(fp contract(fast))
+#define MUU_FMA_BLOCK														\
+	MUU_PRAGMA_CLANG(fp contract(fast))										\
+	static_assert(true)
+
+/// \cond
+#ifndef DOXYGEN
+	#define MUU_NODOX(...) __VA_ARGS__
+#endif // DOXYGEN
+/// \endcond
+#ifndef MUU_NODOX
+	#define MUU_NODOX(...) // doxygen
+#endif
 
 //=====================================================================================================================
 // SFINAE AND CONCEPTS
@@ -792,20 +883,26 @@
 // unconditionally when the compiler supports it.
 // this requires using both MUU_ENABLE_IF and MUU_REQUIRES on constrained functions.
 
-#if !defined(DOXYGEN) && !defined(MUU_CONCEPTS) && defined(__cpp_concepts)
+#if !defined(MUU_CONCEPTS) && defined(__cpp_concepts)
 	#define MUU_CONCEPTS				1
-#endif
-#ifndef MUU_CONCEPTS
+#else
 	#define MUU_CONCEPTS				0
 #endif
-#ifndef DOXYGEN
-	#if MUU_CONCEPTS
-		#define MUU_REQUIRES(...)		requires(__VA_ARGS__)
-	#else
-		#define MUU_ENABLE_IF(...)		, std::enable_if_t<(__VA_ARGS__), int> = 0
-		#define MUU_ENABLE_IF_2(...)	, typename = std::enable_if_t<(__VA_ARGS__)>
-	#endif
+
+/// \cond
+#if MUU_CONCEPTS
+	#define MUU_REQUIRES(...)							requires(__VA_ARGS__)
+	#define MUU_CONSTRAINED_TEMPLATE(condition, ...)	template <__VA_ARGS__> requires(condition)
+	#define MUU_CONSTRAINED_TEMPLATE_2(condition, ...)	template <__VA_ARGS__> requires(condition)
+#else
+	#define MUU_ENABLE_IF(...)							, std::enable_if_t<(__VA_ARGS__), int> = 0
+	#define MUU_ENABLE_IF_2(...)						, typename = std::enable_if_t<(__VA_ARGS__)>
+	#define MUU_CONSTRAINED_TEMPLATE(condition, ...)	template <__VA_ARGS__ MUU_ENABLE_IF(condition)>
+	#define MUU_CONSTRAINED_TEMPLATE_2(condition, ...)	template <__VA_ARGS__ MUU_ENABLE_IF_2(condition)>
+	#define MUU_LEGACY_REQUIRES(condition, ...)			MUU_CONSTRAINED_TEMPLATE(condition, __VA_ARGS__)
 #endif
+/// \endcond
+
 #ifndef MUU_ENABLE_IF
 	#define MUU_ENABLE_IF(...)
 #endif
@@ -815,11 +912,21 @@
 #ifndef MUU_REQUIRES
 	#define MUU_REQUIRES(...)
 #endif
+#ifndef MUU_LEGACY_REQUIRES
+	#define MUU_LEGACY_REQUIRES(condition, ...)
+#endif
+#ifndef MUU_CONSTRAINED_TEMPLATE
+	#define MUU_CONSTRAINED_TEMPLATE(condition, ...)	template <__VA_ARGS__>
+#endif
+#ifndef MUU_CONSTRAINED_TEMPLATE_2
+	#define MUU_CONSTRAINED_TEMPLATE_2(condition, ...)	template <__VA_ARGS__>
+#endif
 #if MUU_CONCEPTS && defined(__cpp_lib_concepts)
 	#define MUU_STD_CONCEPT(...)	__VA_ARGS__
 #else
 	#define MUU_STD_CONCEPT(...)	true
 #endif
+#define MUU_HIDDEN_PARAM(...)	MUU_NODOX(, __VA_ARGS__)
 
 //=====================================================================================================================
 // WHAT THE HELL IS WCHAR_T?
@@ -853,13 +960,22 @@
 // EXTENDED INT AND FLOAT TYPES
 //=====================================================================================================================
 
-#if defined(DOXYGEN) || (MUU_ARCH_ARM && (MUU_GCC || MUU_CLANG))
-	#define MUU_HAS_FP16	1
-#else
-	#define MUU_HAS_FP16	0
+#ifdef DOXYGEN
+	#define MUU_HAS_FP16		1
+	#define MUU_HAS_FLOAT16		1
+	#define MUU_HAS_FLOAT128	1
+	#define MUU_HAS_INT128		1
 #endif
 
-#ifdef __FLT16_MANT_DIG__
+#ifndef MUU_HAS_FP16
+	#if MUU_ARCH_ARM && (MUU_GCC || MUU_CLANG)
+		#define MUU_HAS_FP16	1
+	#else
+		#define MUU_HAS_FP16	0
+	#endif
+#endif
+
+#if defined(__FLT16_MANT_DIG__) && !defined(MUU_HAS_FLOAT16)
 	// #pragma message("__FLT_RADIX__        " MUU_MAKE_STRING(__FLT_RADIX__))
 	// #pragma message("__FLT16_MANT_DIG__   " MUU_MAKE_STRING(__FLT16_MANT_DIG__))
 	// #pragma message("__FLT16_DIG__        " MUU_MAKE_STRING(__FLT16_DIG__))
@@ -880,26 +996,26 @@
 	#endif
 #endif
 #ifndef MUU_HAS_FLOAT16
-	#ifdef DOXYGEN
-		#define MUU_HAS_FLOAT16 1
+	#define MUU_HAS_FLOAT16	0
+#endif
+
+#ifndef MUU_HAS_FLOAT128
+	#if defined(__SIZEOF_FLOAT128__)						\
+		&& defined(__FLT128_MANT_DIG__)						\
+		&& defined(__LDBL_MANT_DIG__)						\
+		&& __FLT128_MANT_DIG__ > __LDBL_MANT_DIG__
+		#define MUU_HAS_FLOAT128 1
 	#else
-		#define MUU_HAS_FLOAT16 0
+		#define MUU_HAS_FLOAT128 0
 	#endif
 #endif
 
-#if defined(DOXYGEN) || (defined(__SIZEOF_FLOAT128__)	\
-	&& defined(__FLT128_MANT_DIG__)						\
-	&& defined(__LDBL_MANT_DIG__)						\
-	&& __FLT128_MANT_DIG__ > __LDBL_MANT_DIG__)
-	#define MUU_HAS_FLOAT128 1
-#else
-	#define MUU_HAS_FLOAT128 0
-#endif
-
-#if defined(DOXYGEN) || defined(__SIZEOF_INT128__)
-	#define MUU_HAS_INT128 1
-#else
-	#define MUU_HAS_INT128 0
+#ifndef MUU_HAS_INT128
+	#ifdef __SIZEOF_INT128__
+		#define MUU_HAS_INT128 1
+	#else
+		#define MUU_HAS_INT128 0
+	#endif
 #endif
 
 #if MUU_HAS_FLOAT128 && MUU_HAS_INCLUDE(<quadmath.h>)
@@ -916,12 +1032,13 @@
 #define MUU_VERSION_MINOR				1
 #define MUU_VERSION_PATCH				0
 
+/// \cond
 #ifndef MUU_ABI_NAMESPACES
-	#ifdef DOXYGEN
-		#define MUU_ABI_NAMESPACES 0
-	#else
-		#define MUU_ABI_NAMESPACES 1
-	#endif
+	#define MUU_ABI_NAMESPACES 1
+#endif
+/// \endcond
+#ifndef MUU_ABI_NAMESPACES
+	#define MUU_ABI_NAMESPACES 0 // doxygen
 #endif
 #if MUU_ABI_NAMESPACES
 	#define MUU_NAMESPACE_START			namespace muu { inline namespace MUU_CONCAT(v, MUU_VERSION_MAJOR)
@@ -941,12 +1058,12 @@
 
 #ifndef MUU_ASSERT
 	#ifdef NDEBUG
-		#define MUU_ASSERT(expr)	(void)0
+		#define MUU_ASSERT(expr)		MUU_NOOP
 	#else
 		#ifndef assert
-			MUU_DISABLE_WARNINGS
+			MUU_DISABLE_WARNINGS;
 			#include <cassert>
-			MUU_ENABLE_WARNINGS
+			MUU_ENABLE_WARNINGS;
 		#endif
 		#define MUU_ASSERT(expr) assert(expr)
 	#endif
@@ -954,8 +1071,8 @@
 #ifdef NDEBUG
 	// ensure any overrides respect NDEBUG
 	#undef MUU_ASSERT
-	#define MUU_ASSERT(expr)					(void)0
-	#define MUU_CONSTEXPR_SAFE_ASSERT(expr)		(void)0
+	#define MUU_ASSERT(expr)					MUU_NOOP
+	#define MUU_CONSTEXPR_SAFE_ASSERT(expr)		MUU_NOOP
 #else
 	#define MUU_CONSTEXPR_SAFE_ASSERT(expr)									\
 		do																	\
@@ -978,9 +1095,9 @@
 
 #ifndef MUU_OFFSETOF
 	#ifndef offsetof
-		MUU_DISABLE_WARNINGS
+		MUU_DISABLE_WARNINGS;
 		#include <cstddef>
-		MUU_ENABLE_WARNINGS
+		MUU_ENABLE_WARNINGS;
 	#endif
 	#define MUU_OFFSETOF(type, member) offsetof(type, member)
 #endif
@@ -988,8 +1105,6 @@
 //=====================================================================================================================
 // DOXYGEN SPAM
 //=====================================================================================================================
-
-#if defined(DOXYGEN)
 
 /// \defgroup	preprocessor		Preprocessor magic
 /// \brief		Compiler feature detection, attributes, string-makers, etc.
@@ -1086,6 +1201,12 @@
 /// \def MUU_PRAGMA_MSVC
 /// \brief Expands to `_pragma(...)` directive when compiling with MSVC.
 /// 
+/// \def MUU_NOOP
+/// \brief Expands to a no-op expression, e.g. `static_cast<void>(0)`.
+/// 
+/// \def MUU_UNUSED(expr)
+/// \brief Explicitly denotes the result of an expression as being explicitly unused.
+/// 
 /// \def MUU_PRAGMA_ICC
 /// \brief Expands to `_pragma(...)` directive when compiling with ICC.
 /// 
@@ -1130,8 +1251,8 @@
 /// \brief Pushes the current compiler warning state onto the stack.
 /// \details Use this in tandem with the other warning macros to demarcate regions of code
 /// 	that should have different warning semantics, e.g.: \cpp
-/// 	MUU_PUSH_WARNINGS
-/// 	MUU_DISABLE_SWITCH_WARNINGS
+/// 	MUU_PUSH_WARNINGS;
+/// 	MUU_DISABLE_SWITCH_WARNINGS;
 /// 	
 /// 	int do_the_thing(my_enum val) noexcept
 /// 	{
@@ -1144,7 +1265,7 @@
 /// 		return 0;
 /// 	}
 /// 	
-/// 	MUU_POP_WARNINGS
+/// 	MUU_POP_WARNINGS;
 /// \ecpp
 ///
 /// \def MUU_DISABLE_SWITCH_WARNINGS
@@ -1157,7 +1278,7 @@
 /// \see MUU_PUSH_WARNINGS
 ///
 /// \def MUU_DISABLE_WARNINGS
-/// \brief Disables ALL compiler warnings.
+/// \brief Pushes the current compiler warning state onto the stack then disables ALL compiler warnings.
 ///
 /// \def MUU_ENABLE_WARNINGS
 /// \brief Re-enables compiler warnings again after using #MUU_DISABLE_WARNINGS.
@@ -1393,9 +1514,6 @@
 /// \def MUU_OFFSETOF
 /// \brief Constexpr-friendly alias of `offsetof()`.
 /// 
-/// \def MUU_EXPLICIT
-/// \brief Expands a C++20 conditional `explicit(...)` specifier if supported by the compiler, otherwise `explicit`.
-///
 /// \def MUU_DELETE_MOVE
 /// \brief Explicitly deletes the move constructor and move-assignment operator of a class or struct.
 /// \details \cpp
@@ -1437,8 +1555,8 @@
 /// \ecpp
 /// \see https://cpppatterns.com/patterns/rule-of-five.html
 /// 
-/// \def MUU_MAKE_BITOPS
-/// \brief Stamps out bitwise operators for an enum type.
+/// \def MUU_MAKE_FLAGS
+/// \brief Stamps out operators for enum 'flags' types.
 /// \details \cpp
 /// enum class my_flags : unsigned
 /// {
@@ -1447,20 +1565,19 @@
 ///		beta   = 2,
 ///		gamma  = 4
 ///	};
-///	MUU_MAKE_BITOPS(my_flags)
+///	MUU_MAKE_FLAGS(my_flags);
 ///	
 ///	// emits these operators:
 /// constexpr my_flags  operator &  (my_flags,  my_flags) noexcept;
 /// constexpr my_flags  operator |  (my_flags,  my_flags) noexcept;
 /// constexpr my_flags  operator ^  (my_flags,  my_flags) noexcept;
+/// constexpr my_flags  operator ~  (my_flags) noexcept;
+/// constexpr bool      operator !  (my_flags) noexcept;
 /// constexpr my_flags& operator &= (my_flags&, my_flags) noexcept;
 /// constexpr my_flags& operator |= (my_flags&, my_flags) noexcept;
 /// constexpr my_flags& operator ^= (my_flags&, my_flags) noexcept;
-/// constexpr my_flags  operator ~  (my_flags) noexcept;
 /// \ecpp
 ///
 /// @}
-
-#endif // DOXYGEN
 
 // clang-format on

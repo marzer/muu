@@ -194,7 +194,7 @@ namespace
 	{																			\
 		FOREACH_FLOAT_VARARGS(MATH_CHECK_TYPE, func, subdivs)					\
 	}																			\
-	struct MUU_CONCAT(dummy_to_eat_a_semicolon_, __LINE__)
+	static_assert(true)
 
 // these are all named because muu::half literals arent constexpr-friendly on old compilers
 
@@ -208,3 +208,56 @@ MATH_CHECKS(tan,		-constants<T>::two_pi,		constants<T>::two_pi,		500);
 MATH_CHECKS(acos,		-constants<T>::one,			constants<T>::one,			500);
 MATH_CHECKS(asin,		-constants<T>::one,			constants<T>::one,			500);
 MATH_CHECKS(atan,		-constants<T>::one_hundred,	constants<T>::one_hundred,	500);
+
+TEST_CASE("math - normalize_angle")
+{
+	#define CHECK_NORMALIZE_ANGLE(value, expected) \
+		CHECK_AND_STATIC_ASSERT(muu::approx_equal(normalize_angle(value), expected))
+
+	// "Normalizes angles, wrapping their values to the range [0.0, 2 * pi)."
+
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * -4.0, 0.0);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * -3.5, constants<double>::pi * 0.5);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * -3.0, constants<double>::pi);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * -2.5, constants<double>::pi * 1.5);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * -2.0, 0.0);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * -1.5, constants<double>::pi * 0.5);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * -1.0, constants<double>::pi);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * -0.5, constants<double>::pi * 1.5);
+	CHECK_NORMALIZE_ANGLE(0.0, 0.0);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * 0.5, constants<double>::pi * 0.5);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * 1.0, constants<double>::pi);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * 1.5, constants<double>::pi * 1.5);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * 2.0, 0.0);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * 2.5, constants<double>::pi * 0.5);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * 3.0, constants<double>::pi);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * 3.5, constants<double>::pi * 1.5);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * 4.0, 0.0);
+}
+
+TEST_CASE("math - normalize_angle_signed")
+{
+	#undef CHECK_NORMALIZE_ANGLE
+	#define CHECK_NORMALIZE_ANGLE(value, expected) \
+			CHECK_AND_STATIC_ASSERT(muu::approx_equal(normalize_angle_signed(value), expected))
+
+	// "Normalizes angles, wrapping their values to the range [-pi, pi)."
+
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * -4.0, 0.0);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * -3.5, constants<double>::pi * 0.5);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * -3.0, -constants<double>::pi);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * -2.5, -constants<double>::pi * 0.5);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * -2.0, 0.0);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * -1.5, constants<double>::pi * 0.5);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * -1.0, -constants<double>::pi);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * -0.5, -constants<double>::pi * 0.5);
+	CHECK_NORMALIZE_ANGLE(0.0, 0.0);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * 0.5, constants<double>::pi * 0.5);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * 1.0, -constants<double>::pi);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * 1.5, -constants<double>::pi * 0.5);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * 2.0, 0.0);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * 2.5, constants<double>::pi * 0.5);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * 3.0, -constants<double>::pi);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * 3.5, -constants<double>::pi * 0.5);
+	CHECK_NORMALIZE_ANGLE(constants<double>::pi * 4.0, 0.0);
+}

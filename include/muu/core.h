@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: MIT
 
 /// \file
-/// \brief Typedefs, intrinsics and core components.
+/// \brief Core functions and typedefs.
 
 #pragma once
 #include "../muu/fwd.h"
@@ -12,10 +12,9 @@
 	#pragma GCC system_header // float128 literals cause a warning in GCC that can't be silenced otherwise :(
 #endif
 
-MUU_PUSH_WARNINGS
-MUU_DISABLE_SPAM_WARNINGS
-MUU_DISABLE_ARITHMETIC_WARNINGS
-
+MUU_PUSH_WARNINGS;
+MUU_DISABLE_SPAM_WARNINGS;
+MUU_DISABLE_ARITHMETIC_WARNINGS;
 MUU_PRAGMA_MSVC(inline_recursion(on))
 MUU_PRAGMA_MSVC(push_macro("min"))
 MUU_PRAGMA_MSVC(push_macro("max"))
@@ -28,7 +27,7 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 // INCLUDES
 //=====================================================================================================================
 
-MUU_DISABLE_WARNINGS
+MUU_DISABLE_WARNINGS;
 // core.h include file rationale:
 // - If it's small and simple it can go in (c headers are generally OK)
 // - If it drags in half the standard library or is itself a behemoth it stays out (<algorithm>...)
@@ -48,13 +47,13 @@ MUU_DISABLE_WARNINGS
 #if MUU_HAS_VECTORCALL
 	#include <intrin.h>
 #endif
-MUU_ENABLE_WARNINGS
+MUU_ENABLE_WARNINGS;
 
 //=====================================================================================================================
 // ENVIRONMENT GROUND-TRUTHS
 //=====================================================================================================================
 
-#ifndef DOXYGEN
+/// \cond
 #ifndef MUU_DISABLE_ENVIRONMENT_CHECKS
 #define MUU_ENV_MESSAGE																								\
 	"If you're seeing this error it's because you're building muu for an environment that doesn't conform to "		\
@@ -73,13 +72,13 @@ static_assert(std::numeric_limits<double>::is_iec559, MUU_ENV_MESSAGE);
 
 #undef MUU_ENV_MESSAGE
 #endif // !MUU_DISABLE_ENVIRONMENT_CHECKS
-#endif // !DOXYGEN
+/// \endcond
 
 //=====================================================================================================================
 // TYPE TRAITS AND METAFUNCTIONS
 #if 1
 
-#ifndef DOXYGEN
+/// \cond
 MUU_IMPL_NAMESPACE_START
 {
 	// note that all the structs with nested types end in underscores;
@@ -463,7 +462,7 @@ MUU_IMPL_NAMESPACE_START
 	}
 }
 MUU_IMPL_NAMESPACE_END
-#endif // !DOXYGEN
+/// \endcond
 
 MUU_NAMESPACE_START
 {
@@ -886,7 +885,7 @@ MUU_NAMESPACE_START
 }
 MUU_NAMESPACE_END
 
-#ifndef DOXYGEN
+/// \cond
 MUU_IMPL_NAMESPACE_START
 {
 	template <typename T>
@@ -1061,7 +1060,21 @@ MUU_IMPL_NAMESPACE_START
 	template <typename T>
 	inline constexpr bool is_hva = decltype(is_hva_(std::declval<T>()))::value;
 
-	#endif // MUU_HAS_VECTORCALL
+	#else // ^^^ MUU_HAS_VECTORCALL / vvv !MUU_HAS_VECTORCALL
+
+	template <typename T>
+	inline constexpr bool is_hva_scalar = false;
+
+	template <typename Scalar, typename T>
+	inline constexpr bool can_be_hva_of = false;
+
+	template <typename T>
+	inline constexpr bool can_be_hva = false;
+
+	template <typename T>
+	inline constexpr bool is_hva = false;
+
+	#endif // !MUU_HAS_VECTORCALL
 
 	template <typename T>
 	struct readonly_param_
@@ -1097,7 +1110,7 @@ MUU_IMPL_NAMESPACE_START
 	inline constexpr bool pass_readonly_by_value = !pass_readonly_by_reference<T>;
 }
 MUU_IMPL_NAMESPACE_END
-#endif // !DOXYGEN
+/// \endcond
 
 #endif //==============================================================================================================
 
@@ -1105,7 +1118,7 @@ MUU_IMPL_NAMESPACE_END
 // CONSTANTS
 #if 1
 
-MUU_PUSH_PRECISE_MATH
+MUU_PUSH_PRECISE_MATH;
 
 MUU_NAMESPACE_START
 {
@@ -1144,7 +1157,8 @@ MUU_NAMESPACE_START
 			static constexpr T highest = std::numeric_limits<T>::max();
 		};
 
-		#ifndef DOXYGEN
+		/// \cond
+
 		#if MUU_HAS_INT128
 		template <>
 		struct integer_limits<int128_t>
@@ -1161,6 +1175,7 @@ MUU_NAMESPACE_START
 			static constexpr uint128_t highest = (2u * static_cast<uint128_t>(integer_limits<int128_t>::highest)) + 1u;
 		};
 		#endif // MUU_HAS_INT128
+
 		#if MUU_HAS_FLOAT128
 		template <>
 		struct integer_limits<float128_t>
@@ -1169,7 +1184,8 @@ MUU_NAMESPACE_START
 			static constexpr float128_t lowest  = -highest;
 		};
 		#endif
-		#endif // !DOXYGEN
+
+		/// \endcond
 
 		template <typename T>
 		struct integer_positive_constants
@@ -1201,7 +1217,8 @@ MUU_NAMESPACE_START
 			static constexpr T approx_equal_epsilon = T{ 10 } * power<T, 10, -std::numeric_limits<T>::digits10>::value;
 		};
 
-		#ifndef DOXYGEN
+		/// \cond
+
 		#if MUU_HAS_FP16
 		template <>
 		struct floating_point_limits<__fp16>
@@ -1211,6 +1228,7 @@ MUU_NAMESPACE_START
 			static constexpr __fp16 approx_equal_epsilon = static_cast<__fp16>(0.001);
 		};
 		#endif
+
 		#if MUU_HAS_FLOAT16
 		template <>
 		struct floating_point_limits<_Float16>
@@ -1220,6 +1238,7 @@ MUU_NAMESPACE_START
 			static constexpr _Float16 approx_equal_epsilon = static_cast<_Float16>(0.001);
 		};
 		#endif
+
 		#if MUU_HAS_FLOAT128
 		template <>
 		struct floating_point_limits<float128_t>
@@ -1229,7 +1248,8 @@ MUU_NAMESPACE_START
 			static constexpr float128_t approx_equal_epsilon = float128_t{ 10 } * power<float128_t, 10, -__FLT128_DIG__>::value;
 		};
 		#endif
-		#endif // !DOXYGEN
+
+		/// \endcond
 
 		template <typename T>
 		struct floating_point_special_constants
@@ -1302,7 +1322,8 @@ MUU_NAMESPACE_START
 			static constexpr T radians_to_degrees     = T( 57.295779513082320876798L);
 		};
 
-		#if !defined(DOXYGEN) && MUU_HAS_FLOAT128
+		/// \cond
+		#if MUU_HAS_FLOAT128
 		template <>
 		struct floating_point_named_constants<float128_t>
 		{
@@ -1361,6 +1382,7 @@ MUU_NAMESPACE_START
 			static constexpr float128_t radians_to_degrees    = 57.295779513082320876798154814105170332q;
 		};
 		#endif
+		/// \endcond
 
 		//-------------  constant class aggregates
 
@@ -1590,7 +1612,7 @@ MUU_NAMESPACE_START
 }
 MUU_NAMESPACE_END
 
-MUU_POP_PRECISE_MATH
+MUU_POP_PRECISE_MATH;
 
 #endif //==============================================================================================================
 
@@ -1715,13 +1737,13 @@ MUU_NAMESPACE_START
 
 	namespace impl
 	{
-		MUU_DISABLE_WARNINGS // non-determinisitic build
+		MUU_DISABLE_WARNINGS; // non-determinisitic build
 
 		inline constexpr auto build_date_str = __DATE__;
 		inline constexpr auto build_date_month_hash = build_date_str[0] + build_date_str[1] + build_date_str[2];
 		inline constexpr auto build_time_str = __TIME__;
 
-		MUU_ENABLE_WARNINGS
+		MUU_ENABLE_WARNINGS;
 	}
 
 	namespace build
@@ -1810,7 +1832,7 @@ MUU_NAMESPACE_START
 	
 	} //::build
 
-	/// \addtogroup	intrinsics
+	/// \addtogroup	core
 	/// @{
 
 	/// \brief	Equivalent to C++20's std::is_constant_evaluated.
@@ -1837,7 +1859,7 @@ MUU_NAMESPACE_START
 		#endif
 	}
 
-	/** @} */	// intrinsics
+	/** @} */	// core
 
 	namespace build
 	{
@@ -1845,7 +1867,7 @@ MUU_NAMESPACE_START
 		inline constexpr bool supports_is_constant_evaluated = is_constant_evaluated();
 	}
 
-	/// \addtogroup	intrinsics
+	/// \addtogroup	core
 	/// @{
 
 	/// \brief	Equivalent to C++17's std::launder
@@ -1882,7 +1904,7 @@ MUU_NAMESPACE_START
 	///
 	/// \returns	<strong><em>Enum inputs:</em></strong> `static_cast<std::underlying_type_t<T>>(val)` <br>
 	/// 			<strong><em>Everything else:</em></strong> A straight pass-through of the input (a no-op).
-	template <typename T MUU_ENABLE_IF(is_enum<T>)> MUU_REQUIRES(is_enum<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_enum<T>, typename T)
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
@@ -1891,9 +1913,9 @@ MUU_NAMESPACE_START
 		return static_cast<std::underlying_type_t<T>>(val);
 	}
 
-	#ifndef DOXYGEN
+	/// \cond
 
-	template <typename T MUU_ENABLE_IF_2(!is_enum<T>)> MUU_REQUIRES(!is_enum<T>)
+	MUU_CONSTRAINED_TEMPLATE_2(!is_enum<T>, typename T)
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
@@ -1902,10 +1924,10 @@ MUU_NAMESPACE_START
 		return static_cast<T&&>(val);
 	}
 
-	#endif // !DOXYGEN
+	/// \endcond
 
 	#if 1 // countl_zero ----------------------------------------------------------------------------------------------
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
 		template <typename T>
@@ -1991,7 +2013,7 @@ MUU_NAMESPACE_START
 			#endif
 		}
 	}
-	#endif // !DOXYGEN
+	/// \endcond
 
 	/// \brief	Counts the number of consecutive 0 bits, starting from the left.
 	///
@@ -2002,7 +2024,7 @@ MUU_NAMESPACE_START
 	/// \param 	val		The value to test.
 	///
 	/// \returns	The number of consecutive zeros from the left end of an integer's bits.
-	template <typename T MUU_ENABLE_IF(is_unsigned<T>)> MUU_REQUIRES(is_unsigned<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr int MUU_VECTORCALL countl_zero(T val) noexcept
@@ -2039,7 +2061,7 @@ MUU_NAMESPACE_START
 	#endif // countl_zero
 
 	#if 1 // countr_zero ----------------------------------------------------------------------------------------------
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
 		template <typename T>
@@ -2123,7 +2145,7 @@ MUU_NAMESPACE_START
 			#endif
 		}
 	}
-	#endif // !DOXYGEN
+	/// \endcond
 
 	/// \brief	Counts the number of consecutive 0 bits, starting from the right.
 	///
@@ -2134,7 +2156,7 @@ MUU_NAMESPACE_START
 	/// \param 	val		The input value.
 	///
 	/// \returns	The number of consecutive zeros from the right end of an integer's bits.
-	template <typename T MUU_ENABLE_IF(is_unsigned<T>)> MUU_REQUIRES(is_unsigned<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr int MUU_VECTORCALL countr_zero(T val) noexcept
@@ -2179,7 +2201,7 @@ MUU_NAMESPACE_START
 	/// \param 	val		The value to test.
 	///
 	/// \returns	The number of consecutive ones from the left end of an integer's bits.
-	template <typename T MUU_ENABLE_IF(is_unsigned<T>)> MUU_REQUIRES(is_unsigned<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr int MUU_VECTORCALL countl_one(T val) noexcept
@@ -2199,7 +2221,7 @@ MUU_NAMESPACE_START
 	/// \param 	val		The value to test.
 	///
 	/// \returns	The number of consecutive ones from the right end of an integer's bits.
-	template <typename T MUU_ENABLE_IF(is_unsigned<T>)> MUU_REQUIRES(is_unsigned<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr int MUU_VECTORCALL countr_one(T val) noexcept
@@ -2219,7 +2241,7 @@ MUU_NAMESPACE_START
 	/// \param 	val		The input value.
 	///
 	/// \returns	The smallest integral power of two that is not smaller than `val`.
-	template <typename T MUU_ENABLE_IF(is_unsigned<T>)> MUU_REQUIRES(is_unsigned<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr T MUU_VECTORCALL bit_ceil(T val) noexcept
@@ -2255,10 +2277,13 @@ MUU_NAMESPACE_START
 	///
 	/// \returns	An integral value containing the input values packed bitwise left-to-right. If the total size of the
 	/// 			inputs was less than the return type, the output will be zero-padded on the left.
-	template <typename Return = void, typename T, typename U, typename... V
-		MUU_ENABLE_IF(all_integral<T, U, V...>)
-	>
-	MUU_REQUIRES(all_integral<T, U, V...>)
+	MUU_CONSTRAINED_TEMPLATE(
+		(all_integral<T, U, V...>),
+		typename Return = void,
+		typename T,
+		typename U,
+		typename... V
+	)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr auto MUU_VECTORCALL pack(T val1, U val2, V... vals) noexcept
@@ -2314,11 +2339,11 @@ MUU_NAMESPACE_START
 	}
 
 	#if 1 // bit_cast -------------------------------------------------------------------------------------------------
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
-		MUU_PUSH_WARNINGS
-		MUU_DISABLE_LIFETIME_WARNINGS
+		MUU_PUSH_WARNINGS;
+		MUU_DISABLE_LIFETIME_WARNINGS;
 
 		template <typename To, typename From>
 		[[nodiscard]]
@@ -2341,9 +2366,9 @@ MUU_NAMESPACE_START
 			}
 		}
 
-		MUU_POP_WARNINGS
+		MUU_POP_WARNINGS;
 	}
-	#endif // !DOXYGEN
+	/// \endcond
 
 	/// \brief	Equivalent to C++20's std::bit_cast.
 	///
@@ -2385,7 +2410,7 @@ MUU_NAMESPACE_START
 		#endif
 	}
 
-	/** @} */	// intrinsics
+	/** @} */	// core
 
 	namespace build
 	{
@@ -2393,13 +2418,13 @@ MUU_NAMESPACE_START
 		inline constexpr bool supports_constexpr_bit_cast = !!MUU_HAS_INTRINSIC_BIT_CAST;
 	}
 
-	/// \addtogroup	intrinsics
+	/// \addtogroup	core
 	/// @{
 
 	#endif // bit_cast
 
 	#if 1 // pointer_cast ---------------------------------------------------------------------------------------------
-	MUU_PUSH_WARNINGS
+	MUU_PUSH_WARNINGS;
 	MUU_PRAGMA_MSVC(warning(disable: 4191)) // unsafe pointer conversion (that's the whole point)
 
 	/// \brief	Casts between pointers, choosing the most appropriate conversion path.
@@ -2491,7 +2516,7 @@ MUU_NAMESPACE_START
 		// nullptr_t -> *
 		else if constexpr (std::is_same_v<From, nullptr_t>)
 		{
-			(void)from;
+			MUU_UNUSED(from);
 			return {};
 		}
 
@@ -2678,7 +2703,8 @@ MUU_NAMESPACE_START
 		}
 	}
 
-	#ifndef DOXYGEN
+	/// \cond
+
 	template <typename To, typename From, size_t N>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
@@ -2696,9 +2722,10 @@ MUU_NAMESPACE_START
 	{
 		return pointer_cast<To, From*>(arr);
 	}
-	#endif // !DOXYGEN
 
-	MUU_POP_WARNINGS // MUU_PRAGMA_MSVC(warning(disable: 4191))
+	/// \endcond
+
+	MUU_POP_WARNINGS; // MUU_PRAGMA_MSVC(warning(disable: 4191))
 	#endif // pointer_cast
 
 	/// \brief	Applies a byte offset to a pointer.
@@ -2714,10 +2741,11 @@ MUU_NAMESPACE_START
 	/// 		 is given to the alignment of the pointed type. If you need to dereference pointers
 	/// 		 returned by apply_offset the onus is on you to ensure that the offset made sense
 	/// 		 before doing so!
-	template <typename T, typename Offset
-		MUU_ENABLE_IF(is_integral<Offset> && is_arithmetic<Offset>)
-	>
-	MUU_REQUIRES(is_integral<Offset> && is_arithmetic<Offset>)
+	MUU_CONSTRAINED_TEMPLATE(
+		(is_integral<Offset> && is_arithmetic<Offset>),
+		typename T,
+		typename Offset
+	)
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
@@ -2729,7 +2757,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Returns the minimum of two values.
 	///
-	/// \details This is equivalent to std::min without requiring you to drag in the enormity of `<algorithm>`.
+	/// \details This is equivalent to std::min without requiring you to drag in the enormity of &lt;algorithm&gt;.
 	template <typename T>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
@@ -2740,7 +2768,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Returns the maximum of two values.
 	///
-	/// \details This is equivalent to std::max without requiring you to drag in the enormity of `<algorithm>`.
+	/// \details This is equivalent to std::max without requiring you to drag in the enormity of &lt;algorithm&gt;.
 	template <typename T>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
@@ -2751,7 +2779,7 @@ MUU_NAMESPACE_START
 
 	/// \brief	Returns a value clamped between two bounds (inclusive).
 	///
-	/// \details This is equivalent to std::clamp without requiring you to drag in the enormity of `<algorithm>`.
+	/// \details This is equivalent to std::clamp without requiring you to drag in the enormity of &lt;algorithm&gt;.
 	template <typename T>
 	[[nodiscard]]
 	constexpr const T& clamp(const T& val, const T& low, const T& high) noexcept
@@ -2802,13 +2830,13 @@ MUU_NAMESPACE_START
 			return low <= val && val <= high; // user-defined <= operator, ideally
 	}
 
-	/** @} */	// intrinsics
+	/** @} */	// core
 
-	/// \addtogroup	intrinsics
+	/// \addtogroup	core
 	/// @{
 	
 	#if 1 // popcount -------------------------------------------------------------------------------------------------
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
 		template <size_t> struct popcount_traits;
@@ -2950,7 +2978,7 @@ MUU_NAMESPACE_START
 			#endif
 		}
 	}
-	#endif // !DOXYGEN
+	/// \endcond
 
 	/// \brief	Counts the number of set bits (the 'population count') of an unsigned integer.
 	///
@@ -2961,7 +2989,7 @@ MUU_NAMESPACE_START
 	/// \param 	val		The input value.
 	///
 	/// \returns	The number of bits that were set to `1` in `val`.
-	template <typename T MUU_ENABLE_IF(is_unsigned<T>)> MUU_REQUIRES(is_unsigned<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr int MUU_VECTORCALL popcount(T val) noexcept
@@ -2996,7 +3024,7 @@ MUU_NAMESPACE_START
 	/// \param 	val		The value to test.
 	///
 	/// \returns	True if the input value had only a single bit set (and thus was a power of two).
-	template <typename T MUU_ENABLE_IF(is_unsigned<T>)> MUU_REQUIRES(is_unsigned<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool MUU_VECTORCALL has_single_bit(T val) noexcept
@@ -3026,7 +3054,7 @@ MUU_NAMESPACE_START
 	/// \param 	val		The input value.
 	///
 	/// \returns	Zero if `val` is zero; otherwise, the largest integral power of two that is not greater than `val`.
-	template <typename T MUU_ENABLE_IF(is_unsigned<T>)> MUU_REQUIRES(is_unsigned<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr T MUU_VECTORCALL bit_floor(T val) noexcept
@@ -3051,7 +3079,7 @@ MUU_NAMESPACE_START
 	///
 	/// \returns	If `val` is not zero, calculates the number of bits needed to store `val` (i.e. `1 + log2(x)`).
 	/// 			Returns `0` if `val` is zero.
-	template <typename T MUU_ENABLE_IF(is_unsigned<T>)> MUU_REQUIRES(is_unsigned<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr T MUU_VECTORCALL bit_width(T val) noexcept
@@ -3075,7 +3103,7 @@ MUU_NAMESPACE_START
 	/// \param 	count	Number of consecutive ones.
 	///
 	/// \returns	An instance of T right-filled with the desired number of ones.
-	template <typename T MUU_ENABLE_IF(is_unsigned<T>)> MUU_REQUIRES(is_unsigned<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr T MUU_VECTORCALL bit_fill_right(size_t count) noexcept
@@ -3105,7 +3133,7 @@ MUU_NAMESPACE_START
 	/// \param 	count	Number of consecutive ones.
 	///
 	/// \returns	An instance of T left-filled with the desired number of ones.
-	template <typename T MUU_ENABLE_IF(is_unsigned<T>)> MUU_REQUIRES(is_unsigned<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr T MUU_VECTORCALL bit_fill_left(size_t count) noexcept
@@ -3153,7 +3181,7 @@ MUU_NAMESPACE_START
 	/// 		 memory allocation, regardless of the endianness of the platform).
 	/// 
 	/// \returns	The value of the selected byte.
-	template <size_t Index, typename T MUU_ENABLE_IF(is_integral<T>)> MUU_REQUIRES(is_integral<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, size_t Index, typename T)
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
@@ -3211,7 +3239,7 @@ MUU_NAMESPACE_START
 	/// 		 memory allocation, regardless of the endianness of the platform).
 	/// 
 	/// \returns	The value of the selected byte, or 0 if the index was out-of-range.
-	template <typename T MUU_ENABLE_IF(is_integral<T>)> MUU_REQUIRES(is_integral<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
@@ -3231,7 +3259,7 @@ MUU_NAMESPACE_START
 	}
 
 	#if 1 // byte_reverse ---------------------------------------------------------------------------------------------
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
 		template <typename T>
@@ -3329,7 +3357,7 @@ MUU_NAMESPACE_START
 				static_assert(always_false<T>, "Unsupported integer type");
 		}
 	}
-	#endif // !DOXYGEN
+	/// \endcond
 
 	/// \brief	Reverses the byte order of an unsigned integral type.
 	///
@@ -3348,7 +3376,7 @@ MUU_NAMESPACE_START
 	/// \param 	val	An unsigned integer or enum value.
 	///
 	/// \returns	A copy of the input value with the byte order reversed.
-	template <typename T MUU_ENABLE_IF(is_unsigned<T>)> MUU_REQUIRES(is_unsigned<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
@@ -3403,7 +3431,7 @@ MUU_NAMESPACE_START
 	/// 
 	/// \returns	An integral value containing the selected bytes packed bitwise left-to-right. If the total size of the
 	/// 			inputs was less than the return type, the output will be zero-padded on the left.
-	template <size_t... ByteIndices, typename T MUU_ENABLE_IF(is_integral<T>)> MUU_REQUIRES(is_integral<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, size_t... ByteIndices, typename T)
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr auto MUU_VECTORCALL swizzle(T val) noexcept
@@ -3442,13 +3470,13 @@ MUU_NAMESPACE_START
 	}
 
 	#if 1 // to_address -----------------------------------------------------------------------------------------------
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
 		template <typename T>
 		using has_pointer_traits_to_address_ = decltype(std::pointer_traits<remove_cvref<T>>::to_address(std::declval<remove_cvref<T>>()));
 	}
-	#endif // !DOXYGEN
+	/// \endcond
 
 	/// \brief Obtain the address represented by p without forming a reference to the pointee.
 	///
@@ -3536,7 +3564,54 @@ MUU_NAMESPACE_START
 		}
 	}
 
-	/** @} */	// intrinsics
+	/// \cond 
+	namespace impl
+	{
+		template <typename Func, typename T, T... I>
+		inline constexpr bool for_sequence_impl_noexcept_ = sizeof...(I) == 0 || (
+			(noexcept(std::declval<Func>()(std::integral_constant<T, I>{})) && ...)
+		);
+
+		template <typename Func, typename T, T... I>
+		constexpr void for_sequence_impl(std::integer_sequence<T, I...>, Func&& func)
+			noexcept(for_sequence_impl_noexcept_<Func&&, T, I...>)
+		{
+			(static_cast<void>(static_cast<Func&&>(func)(std::integral_constant<T, I>{})), ...);
+		}
+
+		template <auto N, typename Func>
+		inline constexpr bool for_sequence_noexcept_ =
+			noexcept(for_sequence_impl(std::make_integer_sequence<decltype(N), N>{}, std::declval<Func>()));
+	}
+	/// \endcond 
+
+	/// \brief	Generates a series of sequential function calls by pack expansion.
+	/// 
+	/// \details Generates a sequence of std::integral_constants from 0 to N which are passed into the functor: \cpp
+	/// 
+	/// auto vals = std::tuple{ 0, "1"sv, 2.3f };
+	/// for_sequence<3_sz>([&](auto i)
+	/// {
+	///		std::cout << std::get<i>(vals) << "\n";
+	/// });
+	/// \ecpp
+	/// 
+	/// \out
+	/// 0
+	/// 1
+	/// 2.3
+	/// \eout
+	/// 
+	/// \tparam N		The length of the sequence (the number of calls).
+	/// \tparam Func	A callable type with the signature `void(auto)`.
+	template <auto N, typename Func>
+	constexpr void for_sequence(Func && func)
+		noexcept(impl::for_sequence_noexcept_<N, Func>)
+	{
+		impl::for_sequence_impl(std::make_integer_sequence<decltype(N), N>{}, static_cast<Func&&>(func));
+	}
+
+	/** @} */	// core
 }
 MUU_NAMESPACE_END
 
@@ -3551,5 +3626,4 @@ MUU_NAMESPACE_END
 MUU_PRAGMA_MSVC(pop_macro("min"))
 MUU_PRAGMA_MSVC(pop_macro("max"))
 MUU_PRAGMA_MSVC(inline_recursion(off))
-
-MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS, MUU_DISABLE_ARITHMETIC_WARNINGS
+MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS, MUU_DISABLE_ARITHMETIC_WARNINGS

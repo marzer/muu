@@ -260,7 +260,7 @@ namespace
 	};
 
 	template <typename T>
-	void lerp_tests(std::string_view type_name)
+	static void lerp_tests(std::string_view type_name)
 	{
 		INFO(type_name)
 
@@ -497,88 +497,131 @@ namespace
 	static_assert(MUU_INTELLISENSE || !build::supports_constexpr_infinity_or_nan || (expr));	\
 	CHECK(expr)
 
-#if MUU_HAS_FP16
-
-TEST_CASE("infinity_or_nan - __fp16")
+TEST_CASE("core - infinity_or_nan")
 {
-	INF_OR_NAN_CHECK(!infinity_or_nan(__fp16{}));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_nan<__fp16>()));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<__fp16>(-1)));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<__fp16>()));
+	#if MUU_HAS_FP16
+	SECTION("__fp16")
+	{
+		INF_OR_NAN_CHECK(!infinity_or_nan(__fp16{}));
+		INF_OR_NAN_CHECK(infinity_or_nan(make_nan<__fp16>()));
+		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<__fp16>(-1)));
+		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<__fp16>()));
 
-	CHECK((test_infinity_or_nan_ranges<__fp16, -1>()));
-	CHECK((test_infinity_or_nan_ranges<__fp16, 1>()));
+		CHECK((test_infinity_or_nan_ranges<__fp16, -1>()));
+		CHECK((test_infinity_or_nan_ranges<__fp16, 1>()));
+	}
+	#endif // MUU_HAS_FP16
+
+	#if MUU_HAS_FLOAT16
+	SECTION("_Float16")
+	{
+		INF_OR_NAN_CHECK(!infinity_or_nan(_Float16{}));
+		INF_OR_NAN_CHECK(infinity_or_nan(make_nan<_Float16>()));
+		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<_Float16>(-1)));
+		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<_Float16>()));
+
+		CHECK((test_infinity_or_nan_ranges<_Float16, -1>()));
+		CHECK((test_infinity_or_nan_ranges<_Float16, 1>()));
+	}
+	#endif // MUU_HAS_FLOAT16
+
+	SECTION("half")
+	{
+		INF_OR_NAN_CHECK(!infinity_or_nan(half::from_bits(0x0000_u16)));
+		INF_OR_NAN_CHECK(infinity_or_nan(make_nan<half>()));
+		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<half>(-1)));
+		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<half>()));
+
+		#if !MUU_INTELLISENSE
+		CHECK((test_infinity_or_nan_ranges<half, -1>()));
+		CHECK((test_infinity_or_nan_ranges<half, 1>()));
+		#endif
+	}
+
+	SECTION("float")
+	{
+		INF_OR_NAN_CHECK(!infinity_or_nan(float{}));
+		INF_OR_NAN_CHECK(infinity_or_nan(make_nan<float>()));
+		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float>(-1)));
+		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float>()));
+
+		#if !MUU_INTELLISENSE
+		CHECK((test_infinity_or_nan_ranges<float, -1>()));
+		CHECK((test_infinity_or_nan_ranges<float, 1>()));
+		#endif
+	}
+
+	SECTION("double")
+	{
+		INF_OR_NAN_CHECK(!infinity_or_nan(0.0));
+		INF_OR_NAN_CHECK(infinity_or_nan(make_nan<double>()));
+		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<double>(-1)));
+		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<double>()));
+
+		#if !MUU_INTELLISENSE
+		CHECK((test_infinity_or_nan_ranges<double, -1>()));
+		CHECK((test_infinity_or_nan_ranges<double, 1>()));
+		#endif
+	}
+
+	SECTION("long double")
+	{
+		INF_OR_NAN_CHECK(!infinity_or_nan(0.0L));
+		INF_OR_NAN_CHECK(infinity_or_nan(make_nan<long double>()));
+		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<long double>(-1)));
+		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<long double>()));
+
+		#if !MUU_INTELLISENSE
+		CHECK((test_infinity_or_nan_ranges<long double, -1>()));
+		CHECK((test_infinity_or_nan_ranges<long double, 1>()));
+		#endif
+	}
+
+	#if MUU_HAS_FLOAT128
+	SECTION("float128_t")
+	{
+		INF_OR_NAN_CHECK(!infinity_or_nan(float128_t{}));
+		INF_OR_NAN_CHECK(infinity_or_nan(make_nan<float128_t>()));
+		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float128_t>(-1)));
+		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float128_t>()));
+	}
+	#endif // MUU_HAS_FLOAT128
 }
 
-#endif // MUU_HAS_FP16
-
-#if MUU_HAS_FLOAT16
-
-TEST_CASE("infinity_or_nan - _Float16")
+TEST_CASE("core - for_sequence")
 {
-	INF_OR_NAN_CHECK(!infinity_or_nan(_Float16{}));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_nan<_Float16>()));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<_Float16>(-1)));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<_Float16>()));
+	SECTION("rvalue func")
+	{
+		int nums[10];
+		for_sequence<10>([&](auto i) { nums[i] = i; });
+		for (int i = 0; i < 10; i++)
+			CHECK(nums[i] == i);
+	}
 
-	CHECK((test_infinity_or_nan_ranges<_Float16, -1>()));
-	CHECK((test_infinity_or_nan_ranges<_Float16, 1>()));
+	SECTION("lvalue func")
+	{
+		int nums[10];
+		const auto func = [&](auto i) { nums[i] = i; };
+		for_sequence<10>(func);
+		for (int i = 0; i < 10; i++)
+			CHECK(nums[i] == i);
+	}
+
+	SECTION("rvalue nothrow func")
+	{
+		int nums[10];
+		for_sequence<10>([&](auto i) noexcept { nums[i] = i; });
+		for (int i = 0; i < 10; i++)
+			CHECK(nums[i] == i);
+	}
+
+	SECTION("lvalue nothrow func")
+	{
+		int nums[10];
+		const auto func = [&](auto i) noexcept { nums[i] = i; };
+		for_sequence<10>(func);
+		for (int i = 0; i < 10; i++)
+			CHECK(nums[i] == i);
+
+	}
 }
-
-#endif // MUU_HAS_FLOAT16
-
-TEST_CASE("core - infinity_or_nan - half")
-{
-	INF_OR_NAN_CHECK(!infinity_or_nan(half::from_bits(0x0000_u16)));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_nan<half>()));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<half>(-1)));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<half>()));
-
-	CHECK((test_infinity_or_nan_ranges<half, -1>()));
-	CHECK((test_infinity_or_nan_ranges<half, 1>()));
-}
-
-TEST_CASE("core - infinity_or_nan - float")
-{
-	INF_OR_NAN_CHECK(!infinity_or_nan(float{}));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_nan<float>()));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float>(-1)));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float>()));
-
-	CHECK((test_infinity_or_nan_ranges<float, -1>()));
-	CHECK((test_infinity_or_nan_ranges<float, 1>()));
-}
-
-TEST_CASE("core - infinity_or_nan - double")
-{
-	INF_OR_NAN_CHECK(!infinity_or_nan(0.0));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_nan<double>()));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<double>(-1)));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<double>()));
-
-	CHECK((test_infinity_or_nan_ranges<double, -1>()));
-	CHECK((test_infinity_or_nan_ranges<double, 1>()));
-}
-
-TEST_CASE("core - infinity_or_nan - long double")
-{
-	INF_OR_NAN_CHECK(!infinity_or_nan(0.0L));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_nan<long double>()));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<long double>(-1)));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<long double>()));
-
-	CHECK((test_infinity_or_nan_ranges<long double, -1>()));
-	CHECK((test_infinity_or_nan_ranges<long double, 1>()));
-}
-
-#if MUU_HAS_FLOAT128
-
-TEST_CASE("core - infinity_or_nan - float128_t")
-{
-	INF_OR_NAN_CHECK(!infinity_or_nan(float128_t{}));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_nan<float128_t>()));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float128_t>(-1)));
-	INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float128_t>()));
-}
-
-#endif // MUU_HAS_FLOAT128

@@ -9,19 +9,19 @@
 #pragma once
 #include "../muu/strings.h"
 
-MUU_DISABLE_WARNINGS
+MUU_DISABLE_WARNINGS;
 #include <iosfwd>
-MUU_ENABLE_WARNINGS
+MUU_ENABLE_WARNINGS;
 
-MUU_PUSH_WARNINGS
-MUU_DISABLE_SPAM_WARNINGS
+MUU_PUSH_WARNINGS;
+MUU_DISABLE_SPAM_WARNINGS;
 
 MUU_NAMESPACE_START
 {
 	/// \addtogroup		hashing
 	/// @{
 
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
 		// these constants are based on the 'golden ratio', as seen in boost::hash_combine
@@ -73,7 +73,7 @@ MUU_NAMESPACE_START
 
 		#endif
 	}
-	#endif // !DOXYGEN
+	/// \endcond
 
 	/// \brief	A hash combiner for integral hashes.
 	///
@@ -106,7 +106,7 @@ MUU_NAMESPACE_START
 			}
 	};
 
-	#ifndef DOXYGEN
+	/// \cond
 	namespace impl
 	{
 		template <size_t Bits>
@@ -164,7 +164,7 @@ MUU_NAMESPACE_START
 			});
 		}
 	}
-	#endif // !DOXYGEN
+	/// \endcond
 
 	/// \brief	FNV-1a hasher.
 	///
@@ -417,4 +417,4 @@ MUU_NAMESPACE_START
 }
 MUU_NAMESPACE_END
 
-MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS
+MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS

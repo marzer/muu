@@ -6,7 +6,7 @@
 #include "muu/uuid.h"
 #include "muu/hashing.h"
 
-MUU_DISABLE_WARNINGS
+MUU_DISABLE_WARNINGS;
 #include <ostream>
 #if MUU_MSVC
 	#include <rpc.h>
@@ -30,7 +30,7 @@ MUU_DISABLE_WARNINGS
 		return engine;
 	}
 #endif
-MUU_ENABLE_WARNINGS
+MUU_ENABLE_WARNINGS;
 
 using namespace muu;
 

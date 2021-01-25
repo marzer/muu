@@ -8,9 +8,9 @@
 #pragma once
 #include "../../muu/fwd.h"
 
-MUU_PUSH_WARNINGS
+MUU_PUSH_WARNINGS;
 MUU_PRAGMA_GCC_LT(9, diagnostic ignored "-Wattributes")
-
+MUU_PRAGMA_MSVC(warning(disable: 26819))
 MUU_PRAGMA_GCC_LT(9, push_options)
 MUU_PRAGMA_GCC_LT(9, optimize("O1"))
 
@@ -1288,5 +1288,4 @@ MUU_NAMESPACE_START
 MUU_NAMESPACE_END
 
 MUU_PRAGMA_GCC_LT(9, pop_options)
-
-MUU_POP_WARNINGS
+MUU_POP_WARNINGS;

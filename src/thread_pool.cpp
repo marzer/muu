@@ -12,7 +12,7 @@
 #include "muu/math.h"
 #include "os_internal.h"
 
-MUU_DISABLE_WARNINGS
+MUU_DISABLE_WARNINGS;
 #include <atomic>
 #include <string>
 #include <mutex>
@@ -22,9 +22,15 @@ MUU_DISABLE_WARNINGS
 #if MUU_WINDOWS
 #include <objbase.h> // CoInitializeEx, CoUninitialize
 #endif
-MUU_ENABLE_WARNINGS
+MUU_ENABLE_WARNINGS;
 
-MUU_DISABLE_SPAM_WARNINGS
+MUU_DISABLE_SPAM_WARNINGS;
+MUU_PRAGMA_MSVC(warning(disable: 26110))
+#if MUU_MSVC
+	#undef min
+	#undef max
+#endif
+
 using namespace muu;
 using namespace std::chrono_literals;
 using namespace std::string_literals;
@@ -290,7 +296,7 @@ namespace
 						MUU_ASSUME(monitor != nullptr);
 
 						#if MUU_WINDOWS
-						CoInitializeEx(nullptr, COINIT_MULTITHREADED);
+						MUU_UNUSED(CoInitializeEx(nullptr, COINIT_MULTITHREADED));
 						auto at_exit = scope_guard{ []() noexcept { CoUninitialize(); } };
 						#endif
 
@@ -330,19 +336,19 @@ namespace
 
 	static size_t calc_thread_pool_workers(size_t worker_count) noexcept
 	{
-		constexpr auto absolute_max_workers = 1024_sz;
-		static const auto concurrency = (max)(static_cast<size_t>(std::thread::hardware_concurrency()), 1_sz);
-		static const auto effective_max_workers = (min)(concurrency * 64_sz, absolute_max_workers);
+		static constexpr auto absolute_max_workers = 1024_sz;
+		static const auto concurrency = max(static_cast<size_t>(std::thread::hardware_concurrency()), 1_sz);
+		static const auto effective_max_workers = min(concurrency * 64_sz, absolute_max_workers);
 
-		return (min)(worker_count ? worker_count : concurrency, effective_max_workers);
+		return min(worker_count ? worker_count : concurrency, effective_max_workers);
 	}
 
 	static size_t calc_thread_pool_worker_queue_size(size_t worker_count, size_t task_queue_size) noexcept
 	{
-		constexpr size_t max_buffer_size = 256 * 1024 * 1024; // 256 MB (4M tasks on x64)
-		constexpr size_t default_buffer_size = 64 * 1024;	 // 64 KB (1024 tasks on x64)
-		constexpr size_t max_task_queue_size = max_buffer_size / impl::thread_pool_task_granularity;
-		constexpr size_t default_task_queue_size = default_buffer_size / impl::thread_pool_task_granularity;
+		static constexpr size_t max_buffer_size = 256 * 1024 * 1024; // 256 MB (4M tasks on x64)
+		static constexpr size_t default_buffer_size = 64 * 1024;	 // 64 KB (1024 tasks on x64)
+		static constexpr size_t max_task_queue_size = max_buffer_size / impl::thread_pool_task_granularity;
+		static constexpr size_t default_task_queue_size = default_buffer_size / impl::thread_pool_task_granularity;
 		static_assert(max_task_queue_size > 0);
 		static_assert(default_task_queue_size > 0);
 		MUU_ASSUME(worker_count > 0);
@@ -350,7 +356,7 @@ namespace
 		if (!task_queue_size)
 			task_queue_size = default_task_queue_size;
 
-		return (muu::min)(
+		return min(
 			static_cast<size_t>(std::ceil(static_cast<double>(task_queue_size) / static_cast<double>(worker_count))),
 			max_task_queue_size / worker_count
 		);

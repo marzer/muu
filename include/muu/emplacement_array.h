@@ -10,8 +10,14 @@
 #include "../muu/core.h"
 #include "../muu/aligned_alloc.h"
 
-MUU_PUSH_WARNINGS
-MUU_DISABLE_SPAM_WARNINGS
+MUU_PUSH_WARNINGS;
+MUU_DISABLE_SPAM_WARNINGS;
+MUU_PRAGMA_MSVC(push_macro("min"))
+MUU_PRAGMA_MSVC(push_macro("max"))
+#if MUU_MSVC
+	#undef min
+	#undef max
+#endif
 
 MUU_NAMESPACE_START
 {
@@ -119,7 +125,7 @@ MUU_NAMESPACE_START
 				: capacity_{ capacity },
 				storage_{
 					capacity_
-					? reinterpret_cast<std::byte*>(aligned_alloc((max)(alignof(T), size_t{ __STDCPP_DEFAULT_NEW_ALIGNMENT__ }), sizeof(T) * capacity_))
+					? reinterpret_cast<std::byte*>(aligned_alloc(max(alignof(T), size_t{ __STDCPP_DEFAULT_NEW_ALIGNMENT__ }), sizeof(T) * capacity_))
 					: nullptr
 				}
 			{}
@@ -351,4 +357,6 @@ MUU_NAMESPACE_START
 }
 MUU_NAMESPACE_END
 
-MUU_POP_WARNINGS // MUU_DISABLE_SPAM_WARNINGS
+MUU_PRAGMA_MSVC(pop_macro("min"))
+MUU_PRAGMA_MSVC(pop_macro("max"))
+MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS
