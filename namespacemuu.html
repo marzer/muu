@@ -390,11 +390,11 @@ C++</span></a>
             </dt>
             <dd>Provides an identity type transformation.</dd>
             <dt>
-              using <a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> = <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html" target="_blank">__float128</a>
+              using <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> = <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html" target="_blank">__float128</a>
             </dt>
             <dd>A 128-bit quad-precision float.</dd>
             <dt>
-              using <a class="m-doc" href="group__building__blocks.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_t</a> = __int128_t
+              using <a class="m-doc" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_t</a> = __int128_t
             </dt>
             <dd>A 128-bit signed integer.</dd>
             <dt>
@@ -513,7 +513,7 @@ C++</span></a>
             </dt>
             <dd>The smallest type from a set of types.</dd>
             <dt>
-              using <a class="m-doc" href="group__building__blocks.html#gaa82164a62949a1b029695dff5441d577">uint128_t</a> = __uint128_t
+              using <a class="m-doc" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_t</a> = __uint128_t
             </dt>
             <dd>A 128-bit unsigned integer.</dd>
             <dt>
@@ -543,7 +543,7 @@ C++</span></a>
             </dt>
             <dd>Returns the absolute value of a float.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__abs.html#ga6627ff562c64be1de075e0039502adf5">abs</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x) -&gt; <a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__abs.html#ga6627ff562c64be1de075e0039502adf5">abs</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x) -&gt; <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the absolute value of a float128_t.</dd>
             <dt>
@@ -592,7 +592,7 @@ C++</span></a>
             </dt>
             <dd>Returns the arc cosine of a float.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__acos.html#gaeb05383011594d02f233899de601bfda">acos</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x) -&gt; <a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__acos.html#gaeb05383011594d02f233899de601bfda">acos</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x) -&gt; <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the arc cosine of a float128_t.</dd>
             <dt>
@@ -625,7 +625,7 @@ C++</span></a>
             <dd>Resizes memory previously allocated with a specific alignment boundary.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename Offset&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga95da5073b863161a6542266f4a6c5961">apply_offset</a>(</span><span class="m-doc-wrap">T* ptr,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga95da5073b863161a6542266f4a6c5961">apply_offset</a>(</span><span class="m-doc-wrap">T* ptr,
               Offset offset) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Applies a byte offset to a pointer.</dd>
@@ -654,9 +654,9 @@ C++</span></a>
             </dt>
             <dd>Returns true if two floats are approximately equal.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga62400f811bf59a4e92f5e8c3172d9ecb">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> a,
-              <a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> b,
-              <a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;<a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga62400f811bf59a4e92f5e8c3172d9ecb">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> a,
+              <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> b,
+              <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;<a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two float128_ts are approximately equal.</dd>
             <dt>
@@ -692,8 +692,8 @@ C++</span></a>
             </dt>
             <dd>Returns true if a float is approximately equal to zero.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga88ec068300fbaee48a14c34d3d291bb2">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x,
-              <a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;<a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga88ec068300fbaee48a14c34d3d291bb2">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x,
+              <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;<a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a float128_t is approximately equal to zero.</dd>
             <dt>
@@ -723,7 +723,7 @@ C++</span></a>
             </dt>
             <dd>Returns the arc sine of a float.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__asin.html#ga971a48168d347e790c546b65fcd0689a">asin</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x) -&gt; <a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__asin.html#ga971a48168d347e790c546b65fcd0689a">asin</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x) -&gt; <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the arc sine of a float128_t.</dd>
             <dt>
@@ -737,7 +737,7 @@ C++</span></a>
             <dd>Returns the arc sine of an integral value.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N, typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gaf58f3326aea89653ec725ccbc5ff29d2">assume_aligned</a>(</span><span class="m-doc-wrap">T* ptr) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gaf58f3326aea89653ec725ccbc5ff29d2">assume_aligned</a>(</span><span class="m-doc-wrap">T* ptr) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/memory/assume_aligned" target="_blank">std::assume_aligned</a>.</dd>
             <dt>
@@ -757,7 +757,7 @@ C++</span></a>
             </dt>
             <dd>Returns the arc tangent of a float.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__atan.html#ga0ecacb3f5d6607739ebcb5b6cc612a64">atan</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x) -&gt; <a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__atan.html#ga0ecacb3f5d6607739ebcb5b6cc612a64">atan</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x) -&gt; <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the arc tangent of a float128_t.</dd>
             <dt>
@@ -790,8 +790,8 @@ C++</span></a>
             </dt>
             <dd>Returns the arc tangent of a float.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__atan2.html#ga25d67472f15352ffe17f9bd14446ce56">atan2</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> y,
-              <a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x) -&gt; <a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__atan2.html#ga25d67472f15352ffe17f9bd14446ce56">atan2</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> y,
+              <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x) -&gt; <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the arc tangent of a float128_t.</dd>
             <dt>
@@ -807,54 +807,54 @@ C++</span></a>
             <dd>Returns the arc tangent of two arithmetic values.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga108fd48e10e2c18acbaaf9f611b14d5b">between</a>(</span><span class="m-doc-wrap">T val,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga108fd48e10e2c18acbaaf9f611b14d5b">between</a>(</span><span class="m-doc-wrap">T val,
               U low,
               U high) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a value is between two bounds (inclusive).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename To, typename From&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gaadb4c6332c738c248f84f43ece303657">bit_cast</a>(</span><span class="m-doc-wrap">const From&amp; from) -&gt; To <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gaadb4c6332c738c248f84f43ece303657">bit_cast</a>(</span><span class="m-doc-wrap">const From&amp; from) -&gt; To <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/numeric/bit_cast" target="_blank">std::bit_cast</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gae62fd9413cd433a4e15c0fdf89913a1b">bit_ceil</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gae62fd9413cd433a4e15c0fdf89913a1b">bit_ceil</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Finds the smallest integral power of two not less than the given value.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gaf41f6cc12b0e9ac1de1bdf63e2a28fdf">bit_fill_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gaf41f6cc12b0e9ac1de1bdf63e2a28fdf">bit_fill_left</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns an unsigned integer filled from the left with the desired number of consecutive ones.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gab5cb8d563f61573ca1e2827ddd085d3d">bit_fill_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gab5cb8d563f61573ca1e2827ddd085d3d">bit_fill_right</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns an unsigned integer filled from the right with the desired number of consecutive ones.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga0ef1d5961e901e2d52b3d6be07efe201">bit_floor</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga0ef1d5961e901e2d52b3d6be07efe201">bit_floor</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Finds the largest integral power of two not greater than the given value.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga1a764507fe486799f60eac32c622e63e">bit_width</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga1a764507fe486799f60eac32c622e63e">bit_width</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Finds the smallest number of bits needed to represent the given value.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gab3e8f4f75d417dc6880311de6c9306e9">byte_reverse</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gab3e8f4f75d417dc6880311de6c9306e9">byte_reverse</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Reverses the byte order of an unsigned integral type.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index, typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gae644160cd7d978d95922af233afc5ddd">byte_select</a>(</span><span class="m-doc-wrap">T val) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gae644160cd7d978d95922af233afc5ddd">byte_select</a>(</span><span class="m-doc-wrap">T val) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Gets a specific byte from an integer.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga18d1da41b1d53329c0d0605596494010">byte_select</a>(</span><span class="m-doc-wrap">T val,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga18d1da41b1d53329c0d0605596494010">byte_select</a>(</span><span class="m-doc-wrap">T val,
               <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> index) -&gt; uint8_t <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Gets a specific byte from an integer.</dd>
@@ -875,7 +875,7 @@ C++</span></a>
             </dt>
             <dd>Returns the ceiling of a float value.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__ceil.html#ga121a468fa346aedba09c1dfd59430269">ceil</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x) -&gt; <a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__ceil.html#ga121a468fa346aedba09c1dfd59430269">ceil</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x) -&gt; <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the ceiling of a float128_t value.</dd>
             <dt>
@@ -889,7 +889,7 @@ C++</span></a>
             <dd>Returns the ceiling of an integral value.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga853b138ba34af796906a03cda9dbfabe">clamp</a>(</span><span class="m-doc-wrap">const T&amp; val,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga853b138ba34af796906a03cda9dbfabe">clamp</a>(</span><span class="m-doc-wrap">const T&amp; val,
               const T&amp; low,
               const T&amp; high) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -911,7 +911,7 @@ C++</span></a>
             </dt>
             <dd>Returns the cosine of a float.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__cos.html#gae466125efc53b0afbe2f48c3a3c7fa95">cos</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x) -&gt; <a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__cos.html#gae466125efc53b0afbe2f48c3a3c7fa95">cos</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x) -&gt; <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the cosine of a float128_t.</dd>
             <dt>
@@ -925,22 +925,22 @@ C++</span></a>
             <dd>Returns the cosine of an integral value.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gadf75326611fa43dbacc1ff601e9e969b">countl_one</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gadf75326611fa43dbacc1ff601e9e969b">countl_one</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Counts the number of consecutive 1 bits, starting from the left.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga12cd318fdcf736ca99f5bf66aa615fd1">countl_zero</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga12cd318fdcf736ca99f5bf66aa615fd1">countl_zero</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Counts the number of consecutive 0 bits, starting from the left.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga84963e1a7bf75ec7464cda53b26dec8a">countr_one</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga84963e1a7bf75ec7464cda53b26dec8a">countr_one</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Counts the number of consecutive 1 bits, starting from the right.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gab5b51a3c121984cfddb8d5da4e9bf070">countr_zero</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gab5b51a3c121984cfddb8d5da4e9bf070">countr_zero</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Counts the number of consecutive 0 bits, starting from the right.</dd>
             <dt>
@@ -960,7 +960,7 @@ C++</span></a>
             </dt>
             <dd>Returns the floor of a float value.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__floor.html#ga26d3f4cb15a587f4d825cbdca7f031ae">floor</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x) -&gt; <a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__floor.html#ga26d3f4cb15a587f4d825cbdca7f031ae">floor</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x) -&gt; <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the floor of a float128_t value.</dd>
             <dt>
@@ -973,8 +973,13 @@ C++</span></a>
             </dt>
             <dd>Returns the floor of an integral value.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;auto N, typename Func&gt;</div>
+              <span class="m-doc-wrap-bumper">void <a class="m-doc" href="group__core.html#gab64801b0b03f54c51a21000e8bb95ea1">for_sequence</a>(</span><span class="m-doc-wrap">Func&amp;&amp; func) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
+            </dt>
+            <dd>Generates a series of sequential function calls by pack expansion.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga309ac880015add971ee06b148191060f">has_single_bit</a>(</span><span class="m-doc-wrap">T val) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga309ac880015add971ee06b148191060f">has_single_bit</a>(</span><span class="m-doc-wrap">T val) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Checks if an integral value has only a single bit set.</dd>
             <dt>
@@ -999,7 +1004,7 @@ C++</span></a>
             </dt>
             <dd>Returns true if a float is infinity or NaN.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga7fd6b8649626ba472b2b465f42de1d7b">infinity_or_nan</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga7fd6b8649626ba472b2b465f42de1d7b">infinity_or_nan</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a float128_t is infinity or NaN.</dd>
             <dt>
@@ -1252,7 +1257,7 @@ C++</span></a>
             </dt>
             <dd>Returns true if a wide character is a combining mark code point.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga8a9b0aaf9860b30f93639333a5214d34">is_constant_evaluated</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga8a9b0aaf9860b30f93639333a5214d34">is_constant_evaluated</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Equivalent to C++20's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a>.</dd>
             <dt>
@@ -1809,7 +1814,7 @@ C++</span></a>
             <dd>Returns true if a wide character is a whitespace code point.</dd>
             <dt>
               <div class="m-doc-template">template&lt;class T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga279c303aaba76a43d1dc23834c35f857">launder</a>(</span><span class="m-doc-wrap">T* ptr) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga279c303aaba76a43d1dc23834c35f857">launder</a>(</span><span class="m-doc-wrap">T* ptr) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Equivalent to C++17's <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/launder" target="_blank">std::launder</a>.</dd>
             <dt>
@@ -1837,9 +1842,9 @@ C++</span></a>
             </dt>
             <dd>Returns a linear interpolation between two floats.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__lerp.html#ga614ccb878d52686237995f87013cfae5">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> start,
-              <a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> finish,
-              <a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> alpha) -&gt; <a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__lerp.html#ga614ccb878d52686237995f87013cfae5">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> start,
+              <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> finish,
+              <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> alpha) -&gt; <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a linear interpolation between two float128_ts.</dd>
             <dt>
@@ -1857,13 +1862,13 @@ C++</span></a>
             <dd>Returns a linear interpolation between two arithmetic values.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga67052cab1c45673f85ee326e91aafbde">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga67052cab1c45673f85ee326e91aafbde">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
               const T&amp; val2) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the maximum of two values.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gacc52016e295ef88268bd5835a23b69d8">min</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gacc52016e295ef88268bd5835a23b69d8">min</a>(</span><span class="m-doc-wrap">const T&amp; val1,
               const T&amp; val2) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the minimum of two values.</dd>
@@ -1919,19 +1924,19 @@ C++</span></a>
             <dd>Returns a copy of a <a class="m-doc muu-injected" href="structmuu_1_1matrix.html">matrix</a> with the 3x3 part orthonormalized.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Return = void, typename T, typename U, typename... V&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gafd5ebb4cf00dd4b93188521f0a2196e2">pack</a>(</span><span class="m-doc-wrap">T val1,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gafd5ebb4cf00dd4b93188521f0a2196e2">pack</a>(</span><span class="m-doc-wrap">T val1,
               U val2,
               V... vals) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Bitwise-packs integers left-to-right into a larger integer.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename To, typename From&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gab714a50e01b58e7d4117d5ef9d403d39">pointer_cast</a>(</span><span class="m-doc-wrap">From from) -&gt; To <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gab714a50e01b58e7d4117d5ef9d403d39">pointer_cast</a>(</span><span class="m-doc-wrap">From from) -&gt; To <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Casts between pointers, choosing the most appropriate conversion path.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#gab392bc74729da41c4d226f8d45e58599">popcount</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gab392bc74729da41c4d226f8d45e58599">popcount</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Counts the number of set bits (the 'population count') of an unsigned integer.</dd>
             <dt>
@@ -1955,7 +1960,7 @@ C++</span></a>
             </dt>
             <dd>Returns the sine of a float.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sin.html#ga976c36817620570e8dc2f9903f6f8d9f">sin</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x) -&gt; <a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sin.html#ga976c36817620570e8dc2f9903f6f8d9f">sin</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x) -&gt; <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the sine of a float128_t.</dd>
             <dt>
@@ -1984,7 +1989,7 @@ C++</span></a>
             </dt>
             <dd>Returns the square-root of a float.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sqrt.html#gae6fe268bd38f8fd1eb4cf94d16e10002">sqrt</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x) -&gt; <a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sqrt.html#gae6fe268bd38f8fd1eb4cf94d16e10002">sqrt</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x) -&gt; <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the square-root of a float128_t.</dd>
             <dt>
@@ -1998,7 +2003,7 @@ C++</span></a>
             <dd>Returns the square-root of an integral value.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>... ByteIndices, typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga1aaa24bb10d08ad78c86695baabc1857">swizzle</a>(</span><span class="m-doc-wrap">T val) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga1aaa24bb10d08ad78c86695baabc1857">swizzle</a>(</span><span class="m-doc-wrap">T val) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Select and re-pack arbitrary bytes from an integer.</dd>
             <dt>
@@ -2018,7 +2023,7 @@ C++</span></a>
             </dt>
             <dd>Returns the tangent of a float.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__tan.html#gac1e4f5cd1d0b9edebc1ff8ec5046ebcd">tan</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x) -&gt; <a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__tan.html#gac1e4f5cd1d0b9edebc1ff8ec5046ebcd">tan</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x) -&gt; <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the tangent of a float128_t.</dd>
             <dt>
@@ -2032,12 +2037,12 @@ C++</span></a>
             <dd>Returns the tangent of an integral value.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Ptr&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga4ba4d37d254803b31a71fca161a46420">to_address</a>(</span><span class="m-doc-wrap">const Ptr&amp; p) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga4ba4d37d254803b31a71fca161a46420">to_address</a>(</span><span class="m-doc-wrap">const Ptr&amp; p) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Obtain the address represented by p without forming a reference to the pointee.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga79246c66d2df39fe825be13e654d8c52">to_address</a>(</span><span class="m-doc-wrap">T* p) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga79246c66d2df39fe825be13e654d8c52">to_address</a>(</span><span class="m-doc-wrap">T* p) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Obtain the address represented by p without forming a reference to the pointee.</dd>
             <dt>
@@ -2127,7 +2132,7 @@ C++</span></a>
             <dd>Trims whitespace from the right end of a UTF wide string.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__intrinsics.html#ga81642f54291cc4a1287ef141b3f4d34f">unwrap</a>(</span><span class="m-doc-wrap">T val) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/underlying_type" target="_blank">std::underlying_type_t</a>&lt;T&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga81642f54291cc4a1287ef141b3f4d34f">unwrap</a>(</span><span class="m-doc-wrap">T val) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/underlying_type" target="_blank">std::underlying_type_t</a>&lt;T&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Unwraps an enum to it's raw integer equivalent.</dd>
           </dl>

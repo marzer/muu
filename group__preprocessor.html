@@ -214,10 +214,6 @@ C++</span></a>
             </dt>
             <dd><code>1</code> when support for C++ exceptions is enabled, otherwise <code>0</code>.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga24ff28b8474a961dda8c107ed6303187">MUU_EXPLICIT</a>(</span><span class="m-doc-wrap">...)</span>
-            </dt>
-            <dd>Expands a C++20 conditional <code>explicit(...)</code> specifier if supported by the compiler, otherwise <code>explicit</code>.</dd>
-            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga4e615ca6ddf99207d0d46055db0a9aaa">MUU_GCC</a></span>
             </dt>
             <dd>The value of <code>__GNUC__</code> when the code is being compiled by GCC, otherwise <code>0</code>.</dd>
@@ -286,9 +282,9 @@ C++</span></a>
             </dt>
             <dd><code>1</code> when the target environment is little-endian, otherwise <code>0</code>.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga0bfbf7f3ff259c34d135193f523bda6d">MUU_MAKE_BITOPS</a>(</span><span class="m-doc-wrap">type)</span>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga3cca9489f1fe09c125d86fa2c67948b3">MUU_MAKE_FLAGS</a>(</span><span class="m-doc-wrap">name)</span>
             </dt>
-            <dd>Stamps out bitwise operators for an enum type.</dd>
+            <dd>Stamps out operators for enum 'flags' types.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gadd45b899bf7c8cc6e64f6d7c02b1c4f3">MUU_MAKE_RAW_STRING</a>(</span><span class="m-doc-wrap">s)</span>
             </dt>
@@ -698,13 +694,6 @@ C++</span></a>
             </h3>
             <p><code>1</code> when support for C++ exceptions is enabled, otherwise <code>0</code>.</p>
           </div></section>
-          <section class="m-doc-details" id="ga24ff28b8474a961dda8c107ed6303187"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga24ff28b8474a961dda8c107ed6303187">MUU_EXPLICIT</a>(</span><span class="m-doc-wrap">...)</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
-            </h3>
-            <p>Expands a C++20 conditional <code>explicit(...)</code> specifier if supported by the compiler, otherwise <code>explicit</code>.</p>
-          </div></section>
           <section class="m-doc-details" id="ga4e615ca6ddf99207d0d46055db0a9aaa"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga4e615ca6ddf99207d0d46055db0a9aaa">MUU_GCC</a></span>
@@ -726,7 +715,7 @@ C++</span></a>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p><code>1</code> when the target environment has 128-bit floats, otherwise <code>0</code>.</p>
-<aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__building__blocks.html#ga74a70ec9e3331f37ebbc3e875e183861">muu::<wbr/>float128_t</a></p></aside>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">muu::<wbr/>float128_t</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga27290363c4626a953e97d39dd042af66"><div>
             <h3>
@@ -757,7 +746,7 @@ C++</span></a>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p><code>1</code> when the target environment has 128-bit integers, otherwise <code>0</code>.</p>
-<aside class="m-note m-default"><h4>See also</h4><ul><li><a class="m-doc" href="group__building__blocks.html#gaf8e0aa5a37ec05e07c7b69077de9303c">muu::<wbr/>int128_t</a></li><li><a class="m-doc" href="group__building__blocks.html#gaa82164a62949a1b029695dff5441d577">muu::<wbr/>uint128_t</a></li></ul></aside>
+<aside class="m-note m-default"><h4>See also</h4><ul><li><a class="m-doc" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">muu::<wbr/>int128_t</a></li><li><a class="m-doc" href="group__core.html#gaa82164a62949a1b029695dff5441d577">muu::<wbr/>uint128_t</a></li></ul></aside>
           </div></section>
           <section class="m-doc-details" id="ga909a6807c9b69a3b6e146a709c2a248d"><div>
             <h3>
@@ -834,12 +823,12 @@ C++</span></a>
             </h3>
             <p><code>1</code> when the target environment is little-endian, otherwise <code>0</code>.</p>
           </div></section>
-          <section class="m-doc-details" id="ga0bfbf7f3ff259c34d135193f523bda6d"><div>
+          <section class="m-doc-details" id="ga3cca9489f1fe09c125d86fa2c67948b3"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga0bfbf7f3ff259c34d135193f523bda6d">MUU_MAKE_BITOPS</a>(</span><span class="m-doc-wrap">type)</span>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga3cca9489f1fe09c125d86fa2c67948b3">MUU_MAKE_FLAGS</a>(</span><span class="m-doc-wrap">name)</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>Stamps out bitwise operators for an enum type.</p>
+            <p>Stamps out operators for enum 'flags' types.</p>
 <pre class="m-code"><span class="k">enum</span> <span class="k">class</span> <span class="ut">my_flags</span> <span class="o">:</span> <span class="ut">unsigned</span>
 <span class="p">{</span>
     <span class="n">none</span>   <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
@@ -847,16 +836,17 @@ C++</span></a>
     <span class="n">beta</span>   <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
     <span class="n">gamma</span>  <span class="o">=</span> <span class="mi">4</span>
 <span class="p">};</span>
-<span class="m">MUU_MAKE_BITOPS</span><span class="p">(</span><span class="ut">my_flags</span><span class="p">)</span>
+<span class="m">MUU_MAKE_FLAGS</span><span class="p">(</span><span class="ut">my_flags</span><span class="p">)</span>
 
 <span class="c1">// emits these operators:</span>
 <span class="k">constexpr</span> <span class="ut">my_flags</span>  <span class="k">operator</span> <span class="o">&amp;</span>  <span class="p">(</span><span class="ut">my_flags</span><span class="p">,</span>  <span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
 <span class="k">constexpr</span> <span class="ut">my_flags</span>  <span class="k">operator</span> <span class="o">|</span>  <span class="p">(</span><span class="ut">my_flags</span><span class="p">,</span>  <span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
 <span class="k">constexpr</span> <span class="ut">my_flags</span>  <span class="k">operator</span> <span class="o">^</span>  <span class="p">(</span><span class="ut">my_flags</span><span class="p">,</span>  <span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="k">constexpr</span> <span class="ut">my_flags</span>  <span class="k">operator</span> <span class="o">~</span>  <span class="p">(</span><span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="k">constexpr</span> <span class="ut">bool</span>      <span class="k">operator</span> <span class="o">!</span>  <span class="p">(</span><span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
 <span class="k">constexpr</span> <span class="ut">my_flags</span><span class="o">&amp;</span> <span class="k">operator</span> <span class="o">&amp;=</span> <span class="p">(</span><span class="ut">my_flags</span><span class="o">&amp;</span><span class="p">,</span> <span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
 <span class="k">constexpr</span> <span class="ut">my_flags</span><span class="o">&amp;</span> <span class="k">operator</span> <span class="o">|=</span> <span class="p">(</span><span class="ut">my_flags</span><span class="o">&amp;</span><span class="p">,</span> <span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
-<span class="k">constexpr</span> <span class="ut">my_flags</span><span class="o">&amp;</span> <span class="k">operator</span> <span class="o">^=</span> <span class="p">(</span><span class="ut">my_flags</span><span class="o">&amp;</span><span class="p">,</span> <span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
-<span class="k">constexpr</span> <span class="ut">my_flags</span>  <span class="k">operator</span> <span class="o">~</span>  <span class="p">(</span><span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span></pre>
+<span class="k">constexpr</span> <span class="ut">my_flags</span><span class="o">&amp;</span> <span class="k">operator</span> <span class="o">^=</span> <span class="p">(</span><span class="ut">my_flags</span><span class="o">&amp;</span><span class="p">,</span> <span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span></pre>
           </div></section>
           <section class="m-doc-details" id="gadd45b899bf7c8cc6e64f6d7c02b1c4f3"><div>
             <h3>
