@@ -200,7 +200,7 @@ C++</span></a>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga0367e17e69206f2f4718f421c4f4f5bf">MUU_DISABLE_WARNINGS</a></span>
             </dt>
-            <dd>Disables ALL compiler warnings.</dd>
+            <dd>Pushes the current compiler warning state onto the stack then disables ALL compiler warnings.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga877f0e4eacd4875af9244d38c6547277">MUU_EMPTY_BASES</a></span>
             </dt>
@@ -666,7 +666,7 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga0367e17e69206f2f4718f421c4f4f5bf">MUU_DISABLE_WARNINGS</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>Disables ALL compiler warnings.</p>
+            <p>Pushes the current compiler warning state onto the stack then disables ALL compiler warnings.</p>
           </div></section>
           <section class="m-doc-details" id="ga877f0e4eacd4875af9244d38c6547277"><div>
             <h3>
@@ -1056,8 +1056,8 @@ C++</span></a>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Pushes the current compiler warning state onto the stack.</p>
-<p>Use this in tandem with the other warning macros to demarcate regions of code that should have different warning semantics, e.g.:</p><pre class="m-code"><span class="m">MUU_PUSH_WARNINGS</span>
-<span class="m">MUU_DISABLE_SWITCH_WARNINGS</span>
+<p>Use this in tandem with the other warning macros to demarcate regions of code that should have different warning semantics, e.g.:</p><pre class="m-code"><span class="m">MUU_PUSH_WARNINGS</span><span class="p">;</span>
+<span class="m">MUU_DISABLE_SWITCH_WARNINGS</span><span class="p">;</span>
 
 <span class="ut">int</span> <span class="nf">do_the_thing</span><span class="p">(</span><span class="ut">my_enum</span> <span class="n">val</span><span class="p">)</span> <span class="k">noexcept</span>
 <span class="p">{</span>
@@ -1070,7 +1070,7 @@ C++</span></a>
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="m">MUU_POP_WARNINGS</span></pre>
+<span class="m">MUU_POP_WARNINGS</span><span class="p">;</span></pre>
           </div></section>
           <section class="m-doc-details" id="gae29a01d73beb23c20515ba3ba8b8f830"><div>
             <h3>
