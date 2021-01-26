@@ -130,8 +130,6 @@ MUU_NAMESPACE_START
 		using constants = muu::constants<half>;
 
 		half() noexcept = default;
-		constexpr half(const half&) noexcept = default;
-		constexpr half& operator = (const half&) noexcept = default;
 
 		/// \brief	Creates a half-precision float from its raw bit equivalent.
 		[[nodiscard]]

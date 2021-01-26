@@ -138,6 +138,11 @@ help me improve support for your target architecture. Thanks!
 #define MUU_CONCAT(x, y)		MUU_CONCAT_1(x, y)
 #define MUU_MAKE_STRING_1(s)	#s
 #define MUU_MAKE_STRING(s)		MUU_MAKE_STRING_1(s)
+#ifdef __has_include
+	#define MUU_HAS_INCLUDE(header)		__has_include(header)
+#else
+	#define MUU_HAS_INCLUDE(header)		0
+#endif
 
 #if defined(__MMX__) || MUU_MSVC
 	#define MUU_ISET_MMX 1
@@ -332,6 +337,16 @@ help me improve support for your target architecture. Thanks!
 	#define MUU_CPP							_MSVC_LANG
 	#if MUU_MSVC // !intel-cl
 
+		#if MUU_HAS_INCLUDE(<CodeAnalysis\Warnings.h>)
+			#pragma warning(push, 0)
+			#include <CodeAnalysis\Warnings.h>
+			#pragma warning(pop)
+			#define MUU_DISABLE_CODE_ANALYSIS_WARNINGS	__pragma(warning(disable: ALL_CODE_ANALYSIS_WARNINGS)) \
+														static_assert(true)
+		#else
+			#define MUU_DISABLE_CODE_ANALYSIS_WARNINGS	static_assert(true)
+		#endif
+
 		#define MUU_PRAGMA_MSVC(...)		__pragma(__VA_ARGS__)
 
 		#define MUU_PUSH_WARNINGS			__pragma(warning(push)) \
@@ -346,13 +361,15 @@ help me improve support for your target architecture. Thanks!
 		#define MUU_DISABLE_SPAM_WARNINGS	__pragma(warning(disable: 4127)) /* conditional expr is constant */ \
 											__pragma(warning(disable: 4324)) /* structure was padded due to alignment specifier */  \
 											__pragma(warning(disable: 4348)) \
+											__pragma(warning(disable: 26490)) /* cg: dont use reinterpret_cast */ \
 											static_assert(true)
 
 		#define MUU_POP_WARNINGS			__pragma(warning(pop)) \
 											static_assert(true)
 
-		#define MUU_DISABLE_WARNINGS		__pragma(warning(push, 0)) \
-											__pragma(warning(disable: 4348)) \
+		#define MUU_DISABLE_WARNINGS		__pragma(warning(push, 0))			\
+											__pragma(warning(disable: 4348))	\
+											MUU_DISABLE_CODE_ANALYSIS_WARNINGS;	\
 											static_assert(true)
 
 		#define MUU_ENABLE_WARNINGS			__pragma(warning(pop)) \
@@ -594,41 +611,39 @@ help me improve support for your target architecture. Thanks!
 #endif
 
 #ifndef MUU_PUSH_WARNINGS
-	#define MUU_PUSH_WARNINGS				static_assert(true)
+	#define MUU_PUSH_WARNINGS					static_assert(true)
 #endif
 #ifndef MUU_DISABLE_SWITCH_WARNINGS
-	#define	MUU_DISABLE_SWITCH_WARNINGS		static_assert(true)
+	#define	MUU_DISABLE_SWITCH_WARNINGS			static_assert(true)
 #endif
 #ifndef MUU_DISABLE_LIFETIME_WARNINGS
-	#define	MUU_DISABLE_LIFETIME_WARNINGS	static_assert(true)
+	#define	MUU_DISABLE_LIFETIME_WARNINGS		static_assert(true)
 #endif
 #ifndef MUU_DISABLE_SPAM_WARNINGS
-	#define MUU_DISABLE_SPAM_WARNINGS		static_assert(true)
+	#define MUU_DISABLE_SPAM_WARNINGS			static_assert(true)
 #endif
 #ifndef MUU_DISABLE_ARITHMETIC_WARNINGS
-	#define MUU_DISABLE_ARITHMETIC_WARNINGS	static_assert(true)
+	#define MUU_DISABLE_ARITHMETIC_WARNINGS		static_assert(true)
 #endif
 #ifndef MUU_DISABLE_SHADOW_WARNINGS
-	#define MUU_DISABLE_SHADOW_WARNINGS		static_assert(true)
+	#define MUU_DISABLE_SHADOW_WARNINGS			static_assert(true)
 #endif
 #ifndef MUU_DISABLE_SUGGEST_WARNINGS
-	#define MUU_DISABLE_SUGGEST_WARNINGS	static_assert(true)
+	#define MUU_DISABLE_SUGGEST_WARNINGS		static_assert(true)
+#endif
+#ifndef MUU_DISABLE_CODE_ANALYSIS_WARNINGS
+	#define MUU_DISABLE_CODE_ANALYSIS_WARNINGS	static_assert(true)
 #endif
 #ifndef MUU_DISABLE_WARNINGS
-	#define MUU_DISABLE_WARNINGS			static_assert(true)
+	#define MUU_DISABLE_WARNINGS				static_assert(true)
 #endif
 #ifndef MUU_ENABLE_WARNINGS
-	#define MUU_ENABLE_WARNINGS				static_assert(true)
+	#define MUU_ENABLE_WARNINGS					static_assert(true)
 #endif
 #ifndef MUU_POP_WARNINGS
-	#define MUU_POP_WARNINGS				static_assert(true)
+	#define MUU_POP_WARNINGS					static_assert(true)
 #endif
 
-#ifdef __has_include
-	#define MUU_HAS_INCLUDE(header)		__has_include(header)
-#else
-	#define MUU_HAS_INCLUDE(header)		0
-#endif
 #if MUU_HAS_INCLUDE(<version>)
 	MUU_DISABLE_WARNINGS;
 	#include <version>
@@ -1273,8 +1288,29 @@ help me improve support for your target architecture. Thanks!
 /// \see MUU_PUSH_WARNINGS
 ///
 /// \def MUU_DISABLE_LIFETIME_WARNINGS
-/// \brief Disables compiler warnings relating to object lifetime
-/// 	   (initialization, destruction, magic statics, et cetera).
+/// \brief Disables compiler warnings relating to object lifetime (initialization, destruction,
+/// 	   magic statics, et cetera).
+/// \see MUU_PUSH_WARNINGS
+///
+/// \def MUU_DISABLE_SPAM_WARNINGS
+/// \brief Disables compiler warnings that are generally spammy/superfluous (padding, double promotion,
+/// 	   cast alignment, etc.)
+/// \see MUU_PUSH_WARNINGS
+///
+/// \def MUU_DISABLE_ARITHMETIC_WARNINGS
+/// \brief Disables compiler warnings relating to integer and floating-point arithmetic.
+/// \see MUU_PUSH_WARNINGS
+///
+/// \def MUU_DISABLE_SHADOW_WARNINGS
+/// \brief Disables compiler warnings relating to variable, class and function name shadowing.
+/// \see MUU_PUSH_WARNINGS
+///
+/// \def MUU_DISABLE_SUGGEST_WARNINGS
+/// \brief Disables compiler warnings resulting from `-Wsuggest=...` and friends.
+/// \see MUU_PUSH_WARNINGS
+///
+/// \def MUU_DISABLE_CODE_ANALYSIS_WARNINGS
+/// \brief Disables interactive code analysis warnings (e.g. Visual Studio's background analysis engine).
 /// \see MUU_PUSH_WARNINGS
 ///
 /// \def MUU_DISABLE_WARNINGS

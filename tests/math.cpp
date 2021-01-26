@@ -106,7 +106,7 @@ namespace
 						eps_mult *= 30;
 					if (abs_output >= T{ 100 })
 						eps_mult *= 2;
-					if (impl::is_small_float<T> && eps_mult == 1)
+					if (impl::is_small_float_<T> && eps_mult == 1)
 						eps_mult *= 2;
 					eps *= static_cast<T>(eps_mult);
 				}

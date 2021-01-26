@@ -734,10 +734,10 @@ MUU_NAMESPACE_START
 		/// \tparam T	A bit-castable type.
 		/// 
 		/// \see muu::allow_implicit_bit_cast
-		template <typename T
-			MUU_ENABLE_IF(allow_implicit_bit_cast<T, matrix>)
-		>
-		MUU_REQUIRES(allow_implicit_bit_cast<T, matrix>)
+		MUU_CONSTRAINED_TEMPLATE(
+			(allow_implicit_bit_cast<T, matrix> && !impl::is_matrix_<T>),
+			typename T
+		)
 		MUU_NODISCARD_CTOR
 		/*implicit*/
 		constexpr matrix(const T& blittable) noexcept

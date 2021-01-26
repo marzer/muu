@@ -150,7 +150,7 @@ MUU_NAMESPACE_START
 				hasher(uint8_t{});
 			else
 			{
-				auto utf8 = utf8_code_point<char>{ cp };
+				const auto utf8 = utf8_code_point<char>{ cp };
 				hasher(utf8.view());
 			}
 		}

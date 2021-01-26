@@ -1229,12 +1229,16 @@ MUU_NAMESPACE_START
 		template <typename T
 			ENABLE_IF_DIMENSIONS_AT_LEAST_AND(
 				tuple_size<T>,
-				(is_tuple_like<T> && (!allow_implicit_bit_cast<T, vector> || !build::supports_constexpr_bit_cast))
+				is_tuple_like<T>
+				&& !impl::is_vector_<T>
+				&& (!allow_implicit_bit_cast<T, vector> || !build::supports_constexpr_bit_cast)
 			)
 		>
 		REQUIRES_DIMENSIONS_AT_LEAST_AND(
 			tuple_size<T>,
-			(is_tuple_like<T> && (!allow_implicit_bit_cast<T, vector> || !build::supports_constexpr_bit_cast))
+			is_tuple_like<T>
+			&& !impl::is_vector_<T>
+			&& (!allow_implicit_bit_cast<T, vector> || !build::supports_constexpr_bit_cast)
 		)
 		MUU_NODISCARD_CTOR
 		explicit
@@ -1247,11 +1251,13 @@ MUU_NAMESPACE_START
 		template <typename T
 			MUU_ENABLE_IF(
 				allow_implicit_bit_cast<T, vector>
+				&& !impl::is_vector_<T>
 				&& (!is_tuple_like<T> || (tuple_size<T> > Dimensions) || build::supports_constexpr_bit_cast)
 			)
 		>
 		MUU_REQUIRES(
 			allow_implicit_bit_cast<T, vector>
+			&& !impl::is_vector_<T>
 			&& (!is_tuple_like<T> || (tuple_size<T> > Dimensions) || build::supports_constexpr_bit_cast)
 		)
 		MUU_NODISCARD_CTOR
@@ -2088,7 +2094,7 @@ MUU_NAMESPACE_START
 		friend
 		constexpr vector MUU_VECTORCALL operator + (vector_param lhs, vector_param rhs) noexcept
 		{
-			if constexpr (impl::is_small_float<scalar_type>)
+			if constexpr (impl::is_small_float_<scalar_type>)
 			{
 				#define VEC_FUNC(member)	static_cast<float>(lhs.member) + static_cast<float>(rhs.member)
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
@@ -2105,7 +2111,7 @@ MUU_NAMESPACE_START
 		/// \brief Componentwise adds another vector to this one.
 		constexpr vector& MUU_VECTORCALL operator += (vector_param rhs) noexcept
 		{
-			if constexpr (impl::is_small_float<scalar_type>)
+			if constexpr (impl::is_small_float_<scalar_type>)
 			{
 				#define VEC_FUNC(member)	static_cast<float>(base::member) + static_cast<float>(rhs.member)
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
@@ -2137,7 +2143,7 @@ MUU_NAMESPACE_START
 		friend
 		constexpr vector MUU_VECTORCALL operator - (vector_param lhs, vector_param rhs) noexcept
 		{
-			if constexpr (impl::is_small_float<scalar_type>)
+			if constexpr (impl::is_small_float_<scalar_type>)
 			{
 				#define VEC_FUNC(member)	static_cast<float>(lhs.member) - static_cast<float>(rhs.member)
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
@@ -2154,7 +2160,7 @@ MUU_NAMESPACE_START
 		/// \brief Componentwise subtracts another vector from this one.
 		constexpr vector& MUU_VECTORCALL operator -= (vector_param rhs) noexcept
 		{
-			if constexpr (impl::is_small_float<scalar_type>)
+			if constexpr (impl::is_small_float_<scalar_type>)
 			{
 				#define VEC_FUNC(member)	static_cast<float>(base::member) - static_cast<float>(rhs.member)
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
@@ -2190,7 +2196,7 @@ MUU_NAMESPACE_START
 		friend
 		constexpr vector MUU_VECTORCALL operator * (vector_param lhs, vector_param rhs) noexcept
 		{
-			if constexpr (impl::is_small_float<scalar_type>)
+			if constexpr (impl::is_small_float_<scalar_type>)
 			{
 				#define VEC_FUNC(member)	static_cast<float>(lhs.member) * static_cast<float>(rhs.member)
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
@@ -2207,7 +2213,7 @@ MUU_NAMESPACE_START
 		/// \brief Componentwise multiplies this vector by another.
 		constexpr vector& MUU_VECTORCALL operator *= (vector_param rhs) noexcept
 		{
-			if constexpr (impl::is_small_float<scalar_type>)
+			if constexpr (impl::is_small_float_<scalar_type>)
 			{
 				#define VEC_FUNC(member)	static_cast<float>(base::member) * static_cast<float>(rhs.member)
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
@@ -2313,7 +2319,7 @@ MUU_NAMESPACE_START
 		friend
 		constexpr vector MUU_VECTORCALL operator / (vector_param lhs, vector_param rhs) noexcept
 		{
-			if constexpr (impl::is_small_float<scalar_type>)
+			if constexpr (impl::is_small_float_<scalar_type>)
 			{
 				#define VEC_FUNC(member)	static_cast<float>(lhs.member) / static_cast<float>(rhs.member)
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
@@ -2330,7 +2336,7 @@ MUU_NAMESPACE_START
 		/// \brief Componentwise divides this vector by another.
 		constexpr vector& MUU_VECTORCALL operator /= (vector_param rhs) noexcept
 		{
-			if constexpr (impl::is_small_float<scalar_type>)
+			if constexpr (impl::is_small_float_<scalar_type>)
 			{
 				#define VEC_FUNC(member)	static_cast<float>(base::member) / static_cast<float>(rhs.member)
 				COMPONENTWISE_ASSIGN(VEC_FUNC);

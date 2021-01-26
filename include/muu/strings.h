@@ -670,11 +670,11 @@ MUU_NAMESPACE_START
 			if (str.empty())
 				return view{};
 
-			auto first = utf_find(str, false, static_cast<Func&&>(predicate));
+			const auto first = utf_find(str, false, static_cast<Func&&>(predicate));
 			if (!first)
 				return view{};
 
-			auto last = utf_find(str, true, static_cast<Func&&>(predicate));
+			const auto last = utf_find(str, true, static_cast<Func&&>(predicate));
 
 			return str.substr(first.index, last.end() - first.index);
 		}
@@ -744,7 +744,7 @@ MUU_NAMESPACE_START
 			if (str.empty())
 				return view{};
 
-			auto first = utf_find(str, false, static_cast<Func&&>(predicate));
+			const auto first = utf_find(str, false, static_cast<Func&&>(predicate));
 			if (!first)
 				return view{};
 
@@ -816,7 +816,7 @@ MUU_NAMESPACE_START
 			if (str.empty())
 				return view{};
 
-			auto last = utf_find(str, true, static_cast<Func&&>(predicate));
+			const auto last = utf_find(str, true, static_cast<Func&&>(predicate));
 			if (!last)
 				return view{};
 

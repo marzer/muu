@@ -15,6 +15,8 @@
 MUU_PUSH_WARNINGS;
 MUU_DISABLE_SPAM_WARNINGS;
 MUU_DISABLE_ARITHMETIC_WARNINGS;
+MUU_PRAGMA_MSVC(warning(disable: 26475)) // core guidelines: do not use function style C-casts
+
 MUU_PRAGMA_MSVC(inline_recursion(on))
 MUU_PRAGMA_MSVC(push_macro("min"))
 MUU_PRAGMA_MSVC(push_macro("max"))
@@ -889,14 +891,29 @@ MUU_NAMESPACE_END
 MUU_IMPL_NAMESPACE_START
 {
 	template <typename T>
-	inline constexpr bool is_small_float = is_floating_point<T> && sizeof(T) < sizeof(float) && is_extended_arithmetic<T>;
+	inline constexpr bool is_small_float_ = is_floating_point<T> && sizeof(T) < sizeof(float) && is_extended_arithmetic<T>;
 	template <typename T>
-	inline constexpr bool is_large_float = is_floating_point<T> && sizeof(T) >= sizeof(long double) && is_extended_arithmetic<T>;
+	inline constexpr bool is_large_float_ = is_floating_point<T> && sizeof(T) >= sizeof(long double) && is_extended_arithmetic<T>;
 
 	template <typename T>
-	using promote_if_small_float = std::conditional_t<is_small_float<T>, float, T>;
+	inline constexpr bool is_vector_ = false;
+	template <typename S, size_t D>
+	inline constexpr bool is_vector_<::muu::vector<S, D>> = true;
+
 	template <typename T>
-	using demote_if_large_float = std::conditional_t<is_large_float<T>, long double, T>;
+	inline constexpr bool is_quaternion_ = false;
+	template <typename S>
+	inline constexpr bool is_quaternion_<::muu::quaternion<S>> = true;
+
+	template <typename T>
+	inline constexpr bool is_matrix_ = false;
+	template <typename S, size_t R, size_t C>
+	inline constexpr bool is_matrix_<::muu::matrix<S, R, C>> = true;
+
+	template <typename T>
+	using promote_if_small_float = std::conditional_t<is_small_float_<T>, float, T>;
+	template <typename T>
+	using demote_if_large_float = std::conditional_t<is_large_float_<T>, long double, T>;
 	template <typename T>
 	using clamp_to_standard_float = demote_if_large_float<promote_if_small_float<T>>;
 

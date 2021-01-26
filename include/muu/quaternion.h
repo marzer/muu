@@ -481,10 +481,10 @@ MUU_NAMESPACE_START
 		/// \tparam T	A bit-castable type.
 		/// 
 		/// \see muu::allow_implicit_bit_cast
-		template <typename T
-			MUU_ENABLE_IF(allow_implicit_bit_cast<T, quaternion>)
-		>
-		MUU_REQUIRES(allow_implicit_bit_cast<T, quaternion>)
+		MUU_CONSTRAINED_TEMPLATE(
+			(allow_implicit_bit_cast<T, quaternion> && !impl::is_quaternion_<T>),
+			typename T
+		)
 		MUU_NODISCARD_CTOR
 		/*implicit*/
 		constexpr quaternion(const T& blittable) noexcept
@@ -922,7 +922,7 @@ MUU_NAMESPACE_START
 				&& "from_axis_angle() expects axis inputs to be unit-length"
 			);
 
-			if constexpr (impl::is_small_float<scalar_type>)
+			if constexpr (impl::is_small_float_<scalar_type>)
 			{
 				const auto angle_ = static_cast<intermediate_float>(angle) * muu::constants<intermediate_float>::one_over_two;
 				return quaternion
