@@ -190,9 +190,29 @@ C++</span></a>
             </dt>
             <dd>Explicitly deletes the move constructor and move-assignment operator of a class or struct.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga02a7d4cbc36ab3a02d1c9e153af196be">MUU_DISABLE_ARITHMETIC_WARNINGS</a></span>
+            </dt>
+            <dd>Disables compiler warnings relating to integer and floating-point arithmetic.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga62008d0276e83e6fc683d9084c6e9af9">MUU_DISABLE_CODE_ANALYSIS_WARNINGS</a></span>
+            </dt>
+            <dd>Disables interactive code analysis warnings (e.g. Visual Studio's background analysis engine).</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga94a89890f03584dd7d3fda2bb9d80013">MUU_DISABLE_LIFETIME_WARNINGS</a></span>
             </dt>
             <dd>Disables compiler warnings relating to object lifetime (initialization, destruction, magic statics, et cetera).</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gabf94a669fabe4f2614f7f1f6876e7c50">MUU_DISABLE_SHADOW_WARNINGS</a></span>
+            </dt>
+            <dd>Disables compiler warnings relating to variable, class and function name shadowing.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gaf39b595a94654ba4666ffbbd25735c59">MUU_DISABLE_SPAM_WARNINGS</a></span>
+            </dt>
+            <dd>Disables compiler warnings that are generally spammy/superfluous (padding, double promotion, cast alignment, etc.)</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga305e4c6d20217201e79a601d7ec46572">MUU_DISABLE_SUGGEST_WARNINGS</a></span>
+            </dt>
+            <dd>Disables compiler warnings resulting from <code>-Wsuggest=...</code> and friends.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gac70b9a17a5df0f9790896ac3bdd66269">MUU_DISABLE_SWITCH_WARNINGS</a></span>
             </dt>
@@ -645,12 +665,52 @@ C++</span></a>
     <span class="ut">immovable</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="ut">immovable</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
 <span class="p">};</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="https://cpppatterns.com/patterns/rule-of-five.html" target="_blank">https:/<wbr/>/<wbr/>cpppatterns.com/<wbr/>patterns/<wbr/>rule-of-five.html</a></p></aside>
           </div></section>
+          <section class="m-doc-details" id="ga02a7d4cbc36ab3a02d1c9e153af196be"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga02a7d4cbc36ab3a02d1c9e153af196be">MUU_DISABLE_ARITHMETIC_WARNINGS</a></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>Disables compiler warnings relating to integer and floating-point arithmetic.</p>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__preprocessor.html#ga0b9c2e2b602c21d5f58ddaeb74923019">MUU_<wbr/>PUSH_<wbr/>WARNINGS</a></p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga62008d0276e83e6fc683d9084c6e9af9"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga62008d0276e83e6fc683d9084c6e9af9">MUU_DISABLE_CODE_ANALYSIS_WARNINGS</a></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>Disables interactive code analysis warnings (e.g. Visual Studio's background analysis engine).</p>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__preprocessor.html#ga0b9c2e2b602c21d5f58ddaeb74923019">MUU_<wbr/>PUSH_<wbr/>WARNINGS</a></p></aside>
+          </div></section>
           <section class="m-doc-details" id="ga94a89890f03584dd7d3fda2bb9d80013"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga94a89890f03584dd7d3fda2bb9d80013">MUU_DISABLE_LIFETIME_WARNINGS</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Disables compiler warnings relating to object lifetime (initialization, destruction, magic statics, et cetera).</p>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__preprocessor.html#ga0b9c2e2b602c21d5f58ddaeb74923019">MUU_<wbr/>PUSH_<wbr/>WARNINGS</a></p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gabf94a669fabe4f2614f7f1f6876e7c50"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gabf94a669fabe4f2614f7f1f6876e7c50">MUU_DISABLE_SHADOW_WARNINGS</a></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>Disables compiler warnings relating to variable, class and function name shadowing.</p>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__preprocessor.html#ga0b9c2e2b602c21d5f58ddaeb74923019">MUU_<wbr/>PUSH_<wbr/>WARNINGS</a></p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gaf39b595a94654ba4666ffbbd25735c59"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gaf39b595a94654ba4666ffbbd25735c59">MUU_DISABLE_SPAM_WARNINGS</a></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>Disables compiler warnings that are generally spammy/superfluous (padding, double promotion, cast alignment, etc.)</p>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__preprocessor.html#ga0b9c2e2b602c21d5f58ddaeb74923019">MUU_<wbr/>PUSH_<wbr/>WARNINGS</a></p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga305e4c6d20217201e79a601d7ec46572"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga305e4c6d20217201e79a601d7ec46572">MUU_DISABLE_SUGGEST_WARNINGS</a></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>Disables compiler warnings resulting from <code>-Wsuggest=...</code> and friends.</p>
 <aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__preprocessor.html#ga0b9c2e2b602c21d5f58ddaeb74923019">MUU_<wbr/>PUSH_<wbr/>WARNINGS</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="gac70b9a17a5df0f9790896ac3bdd66269"><div>
