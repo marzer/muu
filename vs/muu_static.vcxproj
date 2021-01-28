@@ -71,6 +71,7 @@
     <ClInclude Include="..\include\muu\all.h" />
     <ClInclude Include="..\include\muu\bitset.h" />
     <ClInclude Include="..\include\muu\blob.h" />
+    <ClInclude Include="..\include\muu\bounding_box.h" />
     <ClInclude Include="..\include\muu\chars.h" />
     <ClInclude Include="..\include\muu\compressed_pair.h" />
     <ClInclude Include="..\include\muu\core.h" />
@@ -110,6 +111,7 @@
     <None Include="..\.gitignore" />
     <None Include="..\CODE_OF_CONDUCT.md" />
     <None Include="..\CONTRIBUTING.md" />
+    <None Include="..\cpp.hint" />
     <None Include="..\docs\Doxyfile" />
     <None Include="..\docs\Doxyfile-mcss" />
     <None Include="..\docs\muu.css" />
@@ -118,13 +120,13 @@
     <None Include="..\examples\meson.build" />
     <None Include="..\LICENSE" />
     <None Include="..\meson.build" />
-    <None Include="..\python\generate_documentation.py" />
-    <None Include="..\python\generate_float_tests_header.py" />
-    <None Include="..\python\generate_unicode_functions.py" />
-    <None Include="..\python\generate_windows_targets.py" />
-    <None Include="..\python\utils.py" />
     <None Include="..\README.md" />
     <None Include="..\src\meson.build" />
+    <None Include="..\tools\generate_documentation.py" />
+    <None Include="..\tools\generate_float_tests_header.py" />
+    <None Include="..\tools\generate_unicode_functions.py" />
+    <None Include="..\tools\generate_windows_targets.py" />
+    <None Include="..\tools\utils.py" />
     <None Include=".runsettings" />
     <None Include="muu.props" />
   </ItemGroup>
@@ -133,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\meson_options.txt" />
+    <Text Include="..\tools\requirements.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\aligned_alloc.cpp" />

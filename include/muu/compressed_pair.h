@@ -15,8 +15,10 @@ MUU_PRAGMA_CLANG(diagnostic ignored "-Wreorder")
 MUU_PRAGMA_GCC(diagnostic ignored "-Wreorder")
 
 /// \cond
-MUU_IMPL_NAMESPACE_START
+namespace muu::impl
 {
+	MUU_ABI_VERSION_START(0);
+
 	enum class compressed_pair_flags : unsigned
 	{
 		none,
@@ -115,12 +117,15 @@ MUU_IMPL_NAMESPACE_START
 		else
 			return static_cast<T&&>(cp).second();
 	}
+
+	MUU_ABI_VERSION_END;
 }
-MUU_IMPL_NAMESPACE_END
 /// \endcond
 
-MUU_NAMESPACE_START
+namespace muu
 {
+	MUU_ABI_VERSION_START(0);
+
 	/// \brief	A pair that uses Empty Base Class Optimization to elide storage for one or both of its members where possible.
 	/// \ingroup core
 	/// 
@@ -295,8 +300,9 @@ MUU_NAMESPACE_START
 	compressed_pair(const F&, const S&) -> compressed_pair<F, S>;
 
 	/// \endcond
+
+	MUU_ABI_VERSION_END;
 }
-MUU_NAMESPACE_END
 
 namespace std
 {

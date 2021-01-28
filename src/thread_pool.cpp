@@ -471,7 +471,7 @@ struct thread_pool::pimpl final
 
 	[[nodiscard]]
 	MUU_ATTR(returns_nonnull)
-	MUU_ATTR(assume_aligned(MUU_NAMESPACE::impl::thread_pool_task_granularity))
+	MUU_ATTR(assume_aligned(muu::impl::thread_pool_task_granularity))
 	void* acquire(size_t qindex) noexcept
 	{
 		return queues[qindex].acquire();

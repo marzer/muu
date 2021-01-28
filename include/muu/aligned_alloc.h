@@ -9,12 +9,18 @@
 #pragma once
 #include "../muu/fwd.h"
 
-MUU_NAMESPACE_START
+namespace muu
 {
 	namespace impl
 	{
+		MUU_ABI_VERSION_START(0);
+
 		inline constexpr size_t aligned_alloc_max_alignment = 32768;
+
+		MUU_ABI_VERSION_END;
 	}
+
+	MUU_ABI_VERSION_START(0);
 
 	/// \addtogroup		mem
 	/// @{
@@ -78,7 +84,6 @@ MUU_NAMESPACE_START
 	MUU_UNALIASED_ALLOC
 	void* aligned_realloc(void* ptr, size_t new_size) noexcept;
 
-
 	/// \brief	Frees memory previously allocated with muu::aligned_alloc.
 	///
 	/// \warning Do not use this to free memory allocated from any other source,
@@ -89,5 +94,6 @@ MUU_NAMESPACE_START
 	void aligned_free(void* ptr) noexcept;
 
 	/// @}
+
+	MUU_ABI_VERSION_END;
 }
-MUU_NAMESPACE_END

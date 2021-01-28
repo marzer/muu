@@ -6,6 +6,12 @@
 #include "muu/matrix.h"
 #include "printing.h"
 
+MUU_DISABLE_SPAM_WARNINGS;
+#if MUU_MSVC
+	#undef min
+	#undef max
+#endif
+
 using namespace muu;
 
 namespace
@@ -68,8 +74,7 @@ namespace
 	}
 }
 
-
-MUU_IMPL_NAMESPACE_START
+namespace muu::impl
 {
 	void print_matrix_to_stream(std::ostream& os, const half* m, size_t rows, size_t cols)
 	{
@@ -277,4 +282,3 @@ MUU_IMPL_NAMESPACE_START
 	}
 	#endif
 }
-MUU_IMPL_NAMESPACE_END

@@ -20,7 +20,7 @@ MUU_ENABLE_WARNINGS;
 	#define MUU_HAS_INT256 0
 #endif
 
-MUU_NAMESPACE_START
+namespace muu
 {
 	template <size_t TotalBits, size_t SignificandBits>
 	struct float_test_data_by_traits;
@@ -1105,4 +1105,3 @@ MUU_NAMESPACE_START
 	template <typename T>
 	struct float_test_data : float_test_data_by_traits<sizeof(T) * CHAR_BIT, constants<T>::significand_digits> {};
 }
-MUU_NAMESPACE_END

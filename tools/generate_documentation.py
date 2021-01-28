@@ -1225,7 +1225,7 @@ def main():
 	docs_dir = path.join(root_dir, 'docs')
 	xml_dir = path.join(docs_dir, 'xml')
 	html_dir = path.join(docs_dir, 'html')
-	mcss_dir = path.join(root_dir, 'extern', 'mcss')
+	mcss_dir = path.join(root_dir, 'external', 'mcss')
 	doxygen = path.join(mcss_dir, 'documentation', 'doxygen.py')
 
 	# delete any leftovers from the previous run
@@ -1244,6 +1244,10 @@ def main():
 	# run doxygen.py (m.css) to generate the html
 	if 1:
 		utils.run_python_script(doxygen, path.join(docs_dir, 'Doxyfile-mcss'), '--no-doxygen')
+
+	# delete the xml
+	if 1:
+		utils.delete_directory(xml_dir)
 
 	# post-process html files
 	if 1:

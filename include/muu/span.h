@@ -14,7 +14,7 @@ MUU_DISABLE_WARNINGS;
 #include <iterator>
 MUU_ENABLE_WARNINGS;
 
-MUU_NAMESPACE_START
+namespace muu
 {
 	#ifdef DOXYGEN
 
@@ -72,6 +72,8 @@ MUU_NAMESPACE_START
 		inline constexpr size_t as_bytes_extent = Extent == dynamic_extent ? dynamic_extent : (sizeof(T) * Extent);
 	}
 	/// \endcond
+
+	MUU_ABI_VERSION_START(0);
 
 	/// \brief	A non-owning view of contiguous elements.
 	/// \ingroup	core mem
@@ -530,6 +532,8 @@ MUU_NAMESPACE_START
 
 	/// \endcond
 
+	MUU_ABI_VERSION_END;
+
 	/// \brief	Convenience alias for `span<const T>`.
 	/// \ingroup	mem
 	/// \related	muu::span
@@ -588,4 +592,3 @@ MUU_NAMESPACE_START
 		}
 	}
 }
-MUU_NAMESPACE_END

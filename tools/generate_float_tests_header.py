@@ -535,7 +535,7 @@ def main():
 		write('\t#define MUU_HAS_INT256 0')
 		write('#endif')
 		write('')
-		write('MUU_NAMESPACE_START')
+		write('namespace muu')
 		write('{')
 		indent = indent + 1 
 
@@ -568,7 +568,6 @@ def main():
 
 		indent = indent - 1 
 		write('}')
-		write('MUU_NAMESPACE_END')
 		
 
 if __name__ == '__main__':

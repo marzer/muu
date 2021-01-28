@@ -230,7 +230,7 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 
 #endif // helper macros
 
-MUU_IMPL_NAMESPACE_START
+namespace muu::impl
 {
 	struct value_fill_tag {};
 	struct zero_fill_tag {};
@@ -240,6 +240,8 @@ MUU_IMPL_NAMESPACE_START
 	struct tuple_cast_tag {};
 	struct componentwise_func_tag {};
 	struct tuple_concat_tag{};
+
+	MUU_ABI_VERSION_START(0);
 
 	template <typename Scalar, size_t Dimensions>
 	struct MUU_TRIVIAL_ABI vector_base
@@ -692,6 +694,8 @@ MUU_IMPL_NAMESPACE_START
 		}
 	};
 
+	MUU_ABI_VERSION_END;
+
 	template <typename Scalar, size_t Dimensions>
 	inline constexpr bool is_hva<vector_base<Scalar, Dimensions>> = can_be_hva_of<Scalar, vector_base<Scalar, Dimensions>>;
 
@@ -853,7 +857,6 @@ MUU_IMPL_NAMESPACE_START
 		};
 	}
 }
-MUU_IMPL_NAMESPACE_END
 
 namespace muu
 {
@@ -972,7 +975,7 @@ namespace muu
 // VECTOR CLASS
 #if 1
 
-MUU_NAMESPACE_START
+namespace muu
 {
 	/// \brief Alias of `vector` or `const vector&`, depending on size, triviality, simd-friendliness, etc.
 	/// \ingroup math
@@ -981,6 +984,8 @@ MUU_NAMESPACE_START
 	/// \see muu::vector
 	template <typename Scalar, size_t Dimensions>
 	using vector_param = impl::readonly_param<vector<Scalar, Dimensions>>;
+
+	MUU_ABI_VERSION_START(0);
 
 	/// \brief An N-dimensional vector.
 	/// \ingroup math
@@ -3176,8 +3181,9 @@ MUU_NAMESPACE_START
 	vector(const muu::span<T, N>&) -> vector<T, N>;
 
 	/// \endcond
+
+	MUU_ABI_VERSION_END;
 }
-MUU_NAMESPACE_END
 
 namespace std
 {
@@ -3206,7 +3212,7 @@ namespace std
 
 MUU_PUSH_PRECISE_MATH;
 
-MUU_NAMESPACE_START
+namespace muu
 {
 	namespace impl
 	{
@@ -3506,7 +3512,6 @@ MUU_NAMESPACE_START
 
 	#undef VECTOR_CONSTANTS_BASES
 }
-MUU_NAMESPACE_END
 
 MUU_POP_PRECISE_MATH;
 
@@ -3516,8 +3521,10 @@ MUU_POP_PRECISE_MATH;
 // ACCUMULATOR
 #if 1
 
-MUU_IMPL_NAMESPACE_START
+namespace muu::impl
 {
+	MUU_ABI_VERSION_START(0);
+
 	template <typename Scalar, size_t Dimensions>
 	struct vector_accumulator
 	{
@@ -3612,8 +3619,9 @@ MUU_IMPL_NAMESPACE_START
 			);
 		}
 	};
+
+	MUU_ABI_VERSION_END;
 }
-MUU_IMPL_NAMESPACE_END
 
 #endif //==============================================================================================================
 
@@ -3621,7 +3629,7 @@ MUU_IMPL_NAMESPACE_END
 // FREE FUNCTIONS
 #if 1
 
-MUU_NAMESPACE_START
+namespace muu
 {
 	/// \ingroup	infinity_or_nan
 	/// \related	muu::vector
@@ -4325,7 +4333,6 @@ MUU_NAMESPACE_START
 	#endif // ENABLE_PAIRED_FUNCS
 
 }
-MUU_NAMESPACE_END
 
 #endif //==============================================================================================================
 

@@ -34,14 +34,18 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 
 /// \cond
 
-MUU_IMPL_NAMESPACE_START
+namespace muu::impl
 {
+	MUU_ABI_VERSION_START(0);
+
 	template <typename Scalar>
 	struct MUU_TRIVIAL_ABI quaternion_base
 	{
 		Scalar s;
 		vector<Scalar, 3> v;
 	};
+
+	MUU_ABI_VERSION_END;
 
 	template <typename Scalar>
 	inline constexpr bool is_hva<quaternion_base<Scalar>> = can_be_hva_of<Scalar, quaternion_base<Scalar>>;
@@ -87,7 +91,6 @@ MUU_IMPL_NAMESPACE_START
 	MUU_API void print_quaternion_to_stream(std::wostream& stream, const float128_t*);
 	#endif
 }
-MUU_IMPL_NAMESPACE_END
 
 namespace muu
 {
@@ -141,8 +144,10 @@ namespace muu
 //=====================================================================================================================
 // HELPER CLASSES
 #if 1
-MUU_NAMESPACE_START
+namespace muu
 {
+	MUU_ABI_VERSION_START(0);
+
 	/// \brief	An axis+angle rotation.
 	/// \ingroup math
 	/// 
@@ -188,14 +193,6 @@ MUU_NAMESPACE_START
 	MUU_REQUIRES(all_arithmetic<Axis, Angle>)
 	axis_angle_rotation(vector<Axis, 3>, Angle) -> axis_angle_rotation<impl::std_math_common_type<impl::highest_ranked<Axis, Angle>>>;
 
-	/// \endcond
-
-	/// \cond
-	namespace impl
-	{
-		template <typename Scalar>
-		inline constexpr bool is_hva<axis_angle_rotation<Scalar>> = can_be_hva_of<Scalar, axis_angle_rotation<Scalar>>;
-	}
 	/// \endcond
 
 	/// \brief	A set of euler angles used for rotation.
@@ -308,22 +305,26 @@ MUU_NAMESPACE_START
 
 	/// \endcond
 
+	MUU_ABI_VERSION_END;
+
 	/// \cond
 	namespace impl
 	{
+		template <typename Scalar>
+		inline constexpr bool is_hva<axis_angle_rotation<Scalar>> = can_be_hva_of<Scalar, axis_angle_rotation<Scalar>>;
+
 		template <typename Scalar>
 		inline constexpr bool is_hva<euler_rotation<Scalar>> = can_be_hva_of<Scalar, euler_rotation<Scalar>>;
 	}
 	/// \endcond
 }
-MUU_NAMESPACE_END
 #endif // =============================================================================================================
 
 //=====================================================================================================================
 // QUATERNION CLASS
 #if 1
 
-MUU_NAMESPACE_START
+namespace muu
 {
 	/// \brief Alias of `quaternion` or `const quaternion&`, depending on size, triviality, simd-friendliness, etc.
 	/// \ingroup math
@@ -332,6 +333,8 @@ MUU_NAMESPACE_START
 	/// \see muu::quaternion
 	template <typename Scalar>
 	using quaternion_param = impl::readonly_param<quaternion<Scalar>>;
+
+	MUU_ABI_VERSION_START(0);
 
 	/// \brief A quaternion.
 	/// \ingroup math
@@ -1371,8 +1374,9 @@ MUU_NAMESPACE_START
 	quaternion(const euler_rotation<S>&) -> quaternion<S>;
 
 	/// \endcond
+
+	MUU_ABI_VERSION_END;
 }
-MUU_NAMESPACE_END
 
 namespace std
 {
@@ -1404,7 +1408,7 @@ namespace std
 
 MUU_PUSH_PRECISE_MATH;
 
-MUU_NAMESPACE_START
+namespace muu
 {
 	/// \ingroup	constants
 	/// \related	muu::quaternion
@@ -1424,7 +1428,6 @@ MUU_NAMESPACE_START
 		static constexpr quaternion<Scalar> identity	{ scalars::one, vectors::zero };
 	};
 }
-MUU_NAMESPACE_END
 
 MUU_POP_PRECISE_MATH;
 
@@ -1434,7 +1437,7 @@ MUU_POP_PRECISE_MATH;
 // FREE FUNCTIONS
 #if 1
 
-MUU_NAMESPACE_START
+namespace muu
 {
 	/// \ingroup	infinity_or_nan
 	/// \related	muu::quaternion
@@ -1657,7 +1660,6 @@ MUU_NAMESPACE_START
 
 	#endif // ENABLE_PAIRED_FUNCS
 }
-MUU_NAMESPACE_END
 
 #endif // =============================================================================================================
 

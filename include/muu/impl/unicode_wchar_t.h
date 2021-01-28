@@ -15,7 +15,7 @@
 	#include "unicode_unsigned char.h"
 #endif
 
-MUU_NAMESPACE_START
+namespace muu
 {
 	/// \addtogroup strings
 	/// @{
@@ -455,4 +455,3 @@ MUU_NAMESPACE_START
 	/** @} */	// strings::code_units
 	/** @} */	// strings
 }
-MUU_NAMESPACE_END

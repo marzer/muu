@@ -6,8 +6,13 @@
 #include "muu/strings.h"
 #include "os_internal.h"
 
-MUU_DISABLE_SPAM_WARNINGS;
 MUU_DISABLE_SUGGEST_WARNINGS;
+MUU_DISABLE_SPAM_WARNINGS;
+#if MUU_MSVC
+	#undef min
+	#undef max
+#endif
+
 using namespace muu;
 
 //=====================================================================================================================
@@ -78,7 +83,7 @@ namespace
 // PUBLIC INTERFACE
 //=====================================================================================================================
 
-MUU_NAMESPACE_START
+namespace muu
 {
 	void set_thread_name(string_param name) noexcept
 	{
@@ -92,4 +97,3 @@ MUU_NAMESPACE_START
 	//}
 
 }
-MUU_NAMESPACE_END

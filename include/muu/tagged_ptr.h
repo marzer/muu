@@ -18,8 +18,10 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 #endif
 
 /// \cond
-MUU_IMPL_NAMESPACE_START
+namespace muu::impl
 {
+	MUU_ABI_VERSION_START(0);
+
 	inline constexpr size_t tptr_addr_highest_used_bit = MUU_ARCH_AMD64 ? 47 : build::bitness - 1;
 	inline constexpr size_t tptr_addr_used_bits = tptr_addr_highest_used_bit + 1;
 	inline constexpr size_t tptr_addr_free_bits = build::bitness - tptr_addr_used_bits;
@@ -211,13 +213,16 @@ MUU_IMPL_NAMESPACE_START
 		}
 	};
 
+	MUU_ABI_VERSION_END;
+
 	struct tptr_nullptr_deduced_tag {};
 }
-MUU_IMPL_NAMESPACE_END
 /// \endcond
 
-MUU_NAMESPACE_START
+namespace muu
 {
+	MUU_ABI_VERSION_START(0);
+
 	/// \brief	Specialized pointer capable of storing data in the unused bits of a pointer's value.
 	/// \ingroup core
 	/// 
@@ -649,16 +654,23 @@ MUU_NAMESPACE_START
 
 	/// \endcond
 
+	MUU_ABI_VERSION_END;
+
 	namespace impl
 	{
-		template <typename T, size_t MinAlign, bool = !std::is_void_v<T>>
-		struct tagged_pointer_traits
+		template <typename T>
+		struct tagged_pointer_traits_base {};
+		template <typename T, bool IsVoid>
+		struct tagged_pointer_traits {};
+
+		template <template <typename, size_t> typename TaggedPointer, typename T, size_t MinAlign>
+		struct tagged_pointer_traits_base<TaggedPointer<T, MinAlign>>
 		{
-			using pointer = tagged_ptr<T, MinAlign>;
+			using pointer = TaggedPointer<T, MinAlign>;
 			using element_type = T;
 			using difference_type = ptrdiff_t;
 			template <typename U>
-			using rebind = tagged_ptr<U, MinAlign>;
+			using rebind = TaggedPointer<U, MinAlign>;
 
 			[[nodiscard]]
 			MUU_ATTR(pure)
@@ -668,10 +680,15 @@ MUU_NAMESPACE_START
 			}
 		};
 
-		template <typename T, size_t MinAlign>
-		struct tagged_pointer_traits<T, MinAlign, true> : tagged_pointer_traits<T, MinAlign, false>
+		template <template <typename, size_t> typename TaggedPointer, typename T, size_t MinAlign>
+		struct tagged_pointer_traits<TaggedPointer<T, MinAlign>, true>
+			: tagged_pointer_traits_base<TaggedPointer<T, MinAlign>> {};
+
+		template <template <typename, size_t> typename TaggedPointer, typename T, size_t MinAlign>
+		struct tagged_pointer_traits<TaggedPointer<T, MinAlign>, false>
+			: tagged_pointer_traits_base<TaggedPointer<T, MinAlign>>
 		{
-			using pointer = tagged_ptr<T, MinAlign>;
+			using pointer = TaggedPointer<T, MinAlign>;
 			using element_type = T;
 
 			[[nodiscard]]
@@ -682,12 +699,12 @@ MUU_NAMESPACE_START
 		};
 	}
 }
-MUU_NAMESPACE_END
 
 namespace std
 {
 	template <typename T, size_t MinAlign>
-	struct pointer_traits<muu::tagged_ptr<T, MinAlign>> : muu::impl::tagged_pointer_traits<T, MinAlign> {};
+	struct pointer_traits<muu::tagged_ptr<T, MinAlign>>
+		: muu::impl::tagged_pointer_traits<muu::tagged_ptr<T, MinAlign>, std::is_void_v<T>> {};
 }
 
 MUU_PRAGMA_MSVC(pop_macro("min"))

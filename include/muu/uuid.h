@@ -20,7 +20,7 @@ MUU_DISABLE_SPAM_WARNINGS;
 MUU_PRAGMA_MSVC(warning(disable: 26812))
 
 /// \cond
-MUU_IMPL_NAMESPACE_START
+namespace muu::impl
 {
 	using uuid_raw_bytes = std::byte[16];
 
@@ -32,6 +32,8 @@ MUU_IMPL_NAMESPACE_START
 
 	namespace MUU_ENDIANNESS_NAMESPACE
 	{
+		MUU_ABI_VERSION_START(0);
+
 		template <unsigned>
 		struct uuid_slicer;
 
@@ -86,6 +88,7 @@ MUU_IMPL_NAMESPACE_START
 			}
 		};
 
+		MUU_ABI_VERSION_END;
 	} // be/le
 
 	template <unsigned N>
@@ -100,10 +103,9 @@ MUU_IMPL_NAMESPACE_START
 	MUU_API void print_to_stream(std::ostream& stream, const uuid&);
 	MUU_API void print_to_stream(std::wostream& stream, const uuid&);
 }
-MUU_IMPL_NAMESPACE_END
 /// \endcond
 
-MUU_NAMESPACE_START
+namespace muu
 {
 	/// \brief	A UUID variant as per RFC 4122.
 	///
@@ -130,6 +132,8 @@ MUU_NAMESPACE_START
 		name_sha1,	///< Version 5: Name-based UUID generated using SHA-1 hashing.
 		unknown	= 0b1111	///< Unknown or non-standard version.
 	};
+
+	MUU_ABI_VERSION_START(0);
 
 	/// \brief A 128-bit universally-unique identifier (UUID).
 	/// \ingroup core
@@ -606,6 +610,8 @@ MUU_NAMESPACE_START
 		}
 	};
 
+	MUU_ABI_VERSION_END;
+
 	/// \brief	UUID constants.
 	/// \ingroup		constants
 	template <>
@@ -629,6 +635,8 @@ MUU_NAMESPACE_START
 
 	namespace impl
 	{
+		MUU_ABI_VERSION_START(0);
+
 		struct uuid_parser
 		{
 			uuid value{ nullptr };
@@ -720,6 +728,8 @@ MUU_NAMESPACE_START
 				return state != s_error;
 			}
 		};
+
+		MUU_ABI_VERSION_END;
 	}
 
 	/// \cond
@@ -750,6 +760,8 @@ MUU_NAMESPACE_START
 
 	inline namespace literals
 	{
+		MUU_ABI_VERSION_START(0);
+
 		/// \brief	Constructs a uuid from a string literal using uuid::parse.
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -758,9 +770,10 @@ MUU_NAMESPACE_START
 			auto id = uuid::parse(std::string_view{ str, len });
 			return id ? *id : uuid{};
 		}
+
+		MUU_ABI_VERSION_END;
 	}
 }
-MUU_NAMESPACE_END
 
 namespace std
 {

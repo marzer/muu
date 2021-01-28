@@ -19,8 +19,10 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 	#undef max
 #endif
 
-MUU_NAMESPACE_START
+namespace muu
 {
+	MUU_ABI_VERSION_START(0);
+
 	/// \brief	Determines min, max and sum of an interderminate number of values.
 	/// \ingroup math
 	///
@@ -227,9 +229,13 @@ MUU_NAMESPACE_START
 			}
 	};
 
+	MUU_ABI_VERSION_END;
+
 	/// \cond
 	namespace impl
 	{
+		MUU_ABI_VERSION_START(0);
+
 		template <typename ValueType>
 		struct basic_accumulator
 		{
@@ -381,10 +387,11 @@ MUU_NAMESPACE_START
 		};
 
 		MUU_POP_PRECISE_MATH;
+
+		MUU_ABI_VERSION_END;
 	}
 	/// \endcond
 }
-MUU_NAMESPACE_END
 
 MUU_PRAGMA_MSVC(pop_macro("min"))
 MUU_PRAGMA_MSVC(pop_macro("max"))

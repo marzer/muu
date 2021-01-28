@@ -8,7 +8,7 @@
 #pragma once
 #include "../../muu/impl/unicode_unsigned_char.h"
 
-MUU_NAMESPACE_START
+namespace muu
 {
 	/// \addtogroup strings
 	/// @{
@@ -456,4 +456,3 @@ MUU_NAMESPACE_START
 	/** @} */	// strings::code_units
 	/** @} */	// strings
 }
-MUU_NAMESPACE_END

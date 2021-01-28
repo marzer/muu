@@ -18,7 +18,7 @@ namespace
 
 		if constexpr (is_floating_point<T>)
 		{
-			constexpr std::streamsize precision = 3
+			constexpr std::streamsize precision = std::streamsize{ 3 }
 				+ (sizeof(T) >= sizeof(float) ? 3 : 0)
 				+ (sizeof(T) >= sizeof(double) ? 3 : 0)
 				+ (sizeof(T) > sizeof(double) ? 3 : 0);
@@ -49,7 +49,7 @@ namespace
 	}
 }
 
-MUU_IMPL_NAMESPACE_START
+namespace muu::impl
 {
 	void print_vector_to_stream(std::ostream& os, const half* x, size_t dims)
 	{
@@ -257,4 +257,3 @@ MUU_IMPL_NAMESPACE_START
 	}
 	#endif
 }
-MUU_IMPL_NAMESPACE_END

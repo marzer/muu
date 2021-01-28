@@ -1,0 +1,15 @@
+#define CHECK(...)						static_assert(true)
+#define CHECK_ACCUMULATOR(...)			static_assert(true)
+#define CHECK_AND_STATIC_ASSERT(...)	static_assert(true)
+#define CHECK_APPROX_EQUAL_EPS(...)		static_assert(true)
+#define CHECK_APPROX_EQUAL(...)			static_assert(true)
+#define CHECK_SYMMETRIC_EQUAL(...)		static_assert(true)
+#define CHECK_SYMMETRIC_INEQUAL(...)	static_assert(true)
+#define TEST_TYPE(...)					static_assert(true)
+#define MAKE_NAME_OF(...)				static_assert(true)
+
+#define TEST_CASE(...)					void func()
+#define SCALAR_TYPE						float
+#define MATRIX_TEST_CASE(...)			void func()
+#define QUATERNION_TEST_CASE(...)		void func()
+#define VECTOR_TEST_CASE(...)			void func()

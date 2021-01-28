@@ -7,16 +7,24 @@
 #include "muu/blob.h"
 #include "muu/aligned_alloc.h"
 
+MUU_DISABLE_SPAM_WARNINGS;
+#if MUU_MSVC
+	#undef min
+	#undef max
+#endif
+
 using namespace muu;
 
 namespace
 {
+	static constexpr size_t default_blob_alignment = size_t{ __STDCPP_DEFAULT_NEW_ALIGNMENT__ };
+
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	constexpr size_t blob_check_alignment(size_t align) noexcept
 	{
 		if (!align)
-			return blob::default_alignment;
+			return default_blob_alignment;
 		return bit_ceil(muu::min(align, impl::aligned_alloc_max_alignment));
 	}
 
@@ -35,7 +43,7 @@ namespace
 }
 
 blob::blob() noexcept
-	: alignment_{ default_alignment }
+	: alignment_{ default_blob_alignment }
 {}
 
 blob::blob(size_t sz, const void* src, size_t align) noexcept
@@ -60,7 +68,7 @@ blob::blob(blob&& other) noexcept
 	size_{ other.size_ },
 	data_{ other.data_ }
 {
-	other.alignment_ = default_alignment;
+	other.alignment_ = default_blob_alignment;
 	other.size_ = 0;
 	other.data_ = nullptr;
 }
@@ -82,7 +90,7 @@ blob& blob::operator=(blob&& rhs) noexcept
 		size_ = rhs.size_;
 		alignment_ = rhs.alignment_;
 
-		rhs.alignment_ = default_alignment;
+		rhs.alignment_ = default_blob_alignment;
 		rhs.size_ = 0;
 		rhs.data_ = nullptr;
 	}

@@ -68,133 +68,29 @@ MUU_ENABLE_WARNINGS;
 /// \endcond
 
 //=====================================================================================================================
-// TYPEDEFS AND FORWARD DECLARATIONS - UNDOCUMENTED
-//=====================================================================================================================
-/// \cond
-
-namespace muu // non-abi namespace; this is not an error
-{
-	using ::std::size_t;
-	using ::std::intptr_t;
-	using ::std::uintptr_t;
-	using ::std::ptrdiff_t;
-	using ::std::nullptr_t;
-	using ::std::int8_t;
-	using ::std::int16_t;
-	using ::std::int32_t;
-	using ::std::int64_t;
-	using ::std::uint8_t;
-	using ::std::uint16_t;
-	using ::std::uint32_t;
-	using ::std::uint64_t;
-	using ::std::int_least8_t;
-	using ::std::int_least16_t;
-	using ::std::int_least32_t;
-	using ::std::int_least64_t;
-	using ::std::uint_least8_t;
-	using ::std::uint_least16_t;
-	using ::std::uint_least32_t;
-	using ::std::uint_least64_t;
-	using ::std::int_fast8_t;
-	using ::std::int_fast16_t;
-	using ::std::int_fast32_t;
-	using ::std::int_fast64_t;
-	using ::std::uint_fast8_t;
-	using ::std::uint_fast16_t;
-	using ::std::uint_fast32_t;
-	using ::std::uint_fast64_t;
-	using ::std::intmax_t;
-	using ::std::uintmax_t;
-}
-
-MUU_NAMESPACE_START // abi namespace
-{
-	inline constexpr size_t dynamic_extent = static_cast<size_t>(-1);
-
-	struct										half;
-	struct										semver;
-	struct										uuid;
-	template <typename>					struct	axis_angle_rotation;
-	template <typename>					struct	euler_rotation;
-	template <typename, size_t>			struct	vector;
-	template <typename>					struct	quaternion;
-	template <typename, size_t, size_t>	struct	matrix;
-
-	class										bitset;
-	class										blob;
-	class										sha1;
-	class										string_param;
-	class										thread_pool;
-	template <typename, typename>		class	compressed_pair;
-	template <typename>					class	emplacement_array;
-	template <size_t>					class	fnv1a;
-	template <size_t>					class	hash_combiner;
-	template <typename>					class	scope_guard;
-	template <typename, size_t>			class	tagged_ptr;
-
-	template <typename, size_t = dynamic_extent>
-	class span;
-
-	namespace impl
-	{
-		template <typename>				struct	basic_accumulator;
-		template <typename>				struct	kahan_accumulator;
-		template <typename, size_t>		struct	vector_accumulator;
-
-		template <typename T>	struct default_accumulator				{ using type = basic_accumulator<T>; };
-		template <>				struct default_accumulator<float>		{ using type = kahan_accumulator<float>; };
-		template <>				struct default_accumulator<double>		{ using type = kahan_accumulator<double>; };
-		template <>				struct default_accumulator<long double>	{ using type = kahan_accumulator<long double>; };
-		template <>				struct default_accumulator<half>		{ using type = kahan_accumulator<half>; };
-		
-		template <typename Scalar, size_t Dimensions>
-		struct default_accumulator<muu::vector<Scalar, Dimensions>>
-		{
-			using type = vector_accumulator<Scalar, Dimensions>;
-		};
-
-		#if MUU_WCHAR_BITS == 32
-		using wchar_code_unit = char32_t;
-		#elif MUU_WCHAR_BITS == 16
-		using wchar_code_unit = char16_t;
-		#elif MUU_WCHAR_BITS == 8
-		using wchar_code_unit = unsigned char;
-		#endif
-	}
-
-	template <typename T, typename = typename impl::default_accumulator<T>::type>
-	class accumulator;
-}
-MUU_NAMESPACE_END
-
-/// \endcond
-
-//=====================================================================================================================
 // TYPEDEFS AND FORWARD DECLARATIONS
 //=====================================================================================================================
 
-/// \defgroup		meta			Metafunctions and type traits
-/// \brief			Type traits and metaprogramming utilities.
+/// \defgroup	meta			Metafunctions and type traits
+/// \brief		Type traits and metaprogramming utilities.
 /// \remarks	Many of these are mirrors of (or supplementary to) traits found in the standard library's
 ///				`<type_traits>`, but with simpler/saner default behaviour (e.g. most of the `is_X` metafunctions do
 ///				not make a distinction between T and T&).
 
-/// \defgroup		core			Core
-/// \brief Small, generally-useful functions and types.
+/// \defgroup	core			Core
+/// \brief		Small, generally-useful functions and types.
 
-/// \defgroup		constants			Constants
-/// \brief Compile-time constant values (Pi, et cetera.).
+/// \defgroup	constants		Constants
+/// \brief		Compile-time constant values (Pi, et cetera.).
 
-/// \defgroup		hashing			Hashing
-/// \brief Utilities for generating (non-cryptographic) hashes.
+/// \defgroup	hashing			Hashing
+/// \brief		Utilities for generating (non-cryptographic) hashes.
 
-/// \defgroup		mem				Memory management
-/// \brief Utilities for allocating, destroying and manipulating memory.
+/// \defgroup	mem				Memory management
+/// \brief		Utilities for allocating, destroying and manipulating memory.
 
 /// \brief	The root namespace for all muu functions and types.
-namespace muu { }
-
-namespace muu // non-abi namespace; this is not an error
+namespace muu
 {
 	#if MUU_HAS_INT128
 	/// \brief	A 128-bit signed integer.
@@ -255,10 +151,7 @@ namespace muu // non-abi namespace; this is not an error
 	/// 	  - muu::matrix constructor
 	template <typename From, typename To>
 	inline constexpr bool allow_implicit_bit_cast = false;
-}
 
-MUU_NAMESPACE_START // abi namespace
-{
 	/// \brief Literal operators.
 	inline namespace literals {}
 
@@ -276,25 +169,126 @@ MUU_NAMESPACE_START // abi namespace
 	template <typename T> struct constants<volatile T> : constants<T> {};
 	template <typename T> struct constants<const volatile T> : constants<T> {};
 }
-MUU_NAMESPACE_END
 
 //=====================================================================================================================
-// TYPEDEFS AND FORWARD DECLARATIONS - UNDOCUMENTED (redux)
+// TYPEDEFS AND FORWARD DECLARATIONS - UNDOCUMENTED
 //=====================================================================================================================
 /// \cond
 
-MUU_IMPL_NAMESPACE_START
+namespace muu
 {
-	#if MUU_HAS_FP16
-	template <> struct default_accumulator<__fp16>		{ using type = kahan_accumulator<__fp16>; };
-	#endif
-	#if MUU_HAS_FLOAT16
-	template <> struct default_accumulator<_Float16>	{ using type = kahan_accumulator<_Float16>; };
-	#endif
-	#if MUU_HAS_FLOAT128
-	template <> struct default_accumulator<float128_t>	{ using type = kahan_accumulator<float128_t>; };
-	#endif
+	using ::std::size_t;
+	using ::std::intptr_t;
+	using ::std::uintptr_t;
+	using ::std::ptrdiff_t;
+	using ::std::nullptr_t;
+	using ::std::int8_t;
+	using ::std::int16_t;
+	using ::std::int32_t;
+	using ::std::int64_t;
+	using ::std::uint8_t;
+	using ::std::uint16_t;
+	using ::std::uint32_t;
+	using ::std::uint64_t;
+	using ::std::int_least8_t;
+	using ::std::int_least16_t;
+	using ::std::int_least32_t;
+	using ::std::int_least64_t;
+	using ::std::uint_least8_t;
+	using ::std::uint_least16_t;
+	using ::std::uint_least32_t;
+	using ::std::uint_least64_t;
+	using ::std::int_fast8_t;
+	using ::std::int_fast16_t;
+	using ::std::int_fast32_t;
+	using ::std::int_fast64_t;
+	using ::std::uint_fast8_t;
+	using ::std::uint_fast16_t;
+	using ::std::uint_fast32_t;
+	using ::std::uint_fast64_t;
+	using ::std::intmax_t;
+	using ::std::uintmax_t;
+
+	inline constexpr size_t dynamic_extent = static_cast<size_t>(-1);
+
+	namespace impl
+	{
+		template <size_t = sizeof(wchar_t)>
+		struct wchar_code_unit_;
+		template <> struct wchar_code_unit_<sizeof(char32_t)>		{ using type = char32_t; };
+		template <> struct wchar_code_unit_<sizeof(char16_t)>		{ using type = char16_t; };
+		template <> struct wchar_code_unit_<sizeof(unsigned char)>	{ using type = unsigned char; };
+		using wchar_code_unit = typename wchar_code_unit_<>::type;
+	}
+
+	MUU_ABI_VERSION_START(0);
+
+	struct										half;
+	struct										semver;
+	struct										uuid;
+	template <typename>					struct	axis_angle_rotation;
+	template <typename>					struct	euler_rotation;
+	template <typename, size_t>			struct	vector;
+	template <typename>					struct	quaternion;
+	template <typename, size_t, size_t>	struct	matrix;
+	template <typename>					struct	bounding_box;
+
+	class										bitset;
+	class										blob;
+	class										sha1;
+	class										string_param;
+	class										thread_pool;
+	template <typename, typename>		class	compressed_pair;
+	template <typename>					class	emplacement_array;
+	template <size_t>					class	fnv1a;
+	template <size_t>					class	hash_combiner;
+	template <typename>					class	scope_guard;
+	template <typename, size_t>			class	tagged_ptr;
+
+	template <typename, size_t = dynamic_extent>
+	class span;
+
+	MUU_ABI_VERSION_END;
+
+	namespace impl
+	{
+		MUU_ABI_VERSION_START(0);
+
+		template <typename>				struct	basic_accumulator;
+		template <typename>				struct	kahan_accumulator;
+		template <typename, size_t>		struct	vector_accumulator;
+
+		MUU_ABI_VERSION_END;
+
+		template <typename T>	struct default_accumulator				{ using type = basic_accumulator<T>; };
+		template <>				struct default_accumulator<float>		{ using type = kahan_accumulator<float>; };
+		template <>				struct default_accumulator<double>		{ using type = kahan_accumulator<double>; };
+		template <>				struct default_accumulator<long double>	{ using type = kahan_accumulator<long double>; };
+		template <>				struct default_accumulator<half>		{ using type = kahan_accumulator<half>; };
+		#if MUU_HAS_FP16
+		template <>				struct default_accumulator<__fp16>		{ using type = kahan_accumulator<__fp16>; };
+		#endif
+		#if MUU_HAS_FLOAT16
+		template <>				struct default_accumulator<_Float16>	{ using type = kahan_accumulator<_Float16>; };
+		#endif
+		#if MUU_HAS_FLOAT128
+		template <>				struct default_accumulator<float128_t>	{ using type = kahan_accumulator<float128_t>; };
+		#endif
+		
+		template <typename Scalar, size_t Dimensions>
+		struct default_accumulator<muu::vector<Scalar, Dimensions>>
+		{
+			using type = vector_accumulator<Scalar, Dimensions>;
+		};
+	}
+
+	MUU_ABI_VERSION_START(0);
+
+	template <typename T, typename = typename impl::default_accumulator<T>::type>
+	class accumulator;
+
+	MUU_ABI_VERSION_END;
 }
-MUU_IMPL_NAMESPACE_END
 
 /// \endcond
+

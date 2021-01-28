@@ -18,7 +18,7 @@ MUU_ENABLE_WARNINGS;
 MUU_PUSH_WARNINGS;
 MUU_DISABLE_SPAM_WARNINGS;
 
-MUU_NAMESPACE_START
+namespace muu
 {
 	/// \cond
 	namespace impl
@@ -46,6 +46,8 @@ MUU_NAMESPACE_START
 			>;
 	}
 	/// \endcond
+
+	MUU_ABI_VERSION_START(0);
 
 	/// \brief		A move-only string type-eraser capable of representing any UTF string.
 	/// \ingroup strings
@@ -450,10 +452,7 @@ MUU_NAMESPACE_START
 			}
 	};
 
-	inline constexpr auto sizeof_thing = sizeof(string_param);
-	inline constexpr auto alignof_thing = alignof(string_param);
-
+	MUU_ABI_VERSION_END;
 }
-MUU_NAMESPACE_END
 
 MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS

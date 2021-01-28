@@ -9,8 +9,10 @@
 #pragma once
 #include "../muu/fwd.h"
 
-MUU_NAMESPACE_START
+namespace muu
 {
+	MUU_ABI_VERSION_START(0);
+
 	/// \brief Interface for managing chunks of memory.
 	/// \ingroup mem
 	/// 
@@ -25,9 +27,6 @@ MUU_NAMESPACE_START
 
 		public:
 
-			/// \brief	The default alignment of a blob's allocated memory if no value is provided.
-			static constexpr size_t default_alignment = __STDCPP_DEFAULT_NEW_ALIGNMENT__;
-
 			/// \brief Creates an empty blob.
 			MUU_NODISCARD_CTOR
 			MUU_API
@@ -37,7 +36,7 @@ MUU_NAMESPACE_START
 			/// 
 			/// \param	size	The size of the blob's data, in bytes.
 			/// \param	src	 	The source data to copy, if any.
-			/// \param	align	The alignment of the blob's data.
+			/// \param	align	The alignment of the blob's data. Set to `0` to use `__STDCPP_DEFAULT_NEW_ALIGNMENT__`.
 			MUU_NODISCARD_CTOR
 			MUU_API
 			blob(size_t size, const void* src = nullptr, size_t align = {}) noexcept;
@@ -68,7 +67,7 @@ MUU_NAMESPACE_START
 			/// 
 			/// \param	src	 	The data to copy.
 			/// \param	size 	The size of the data.
-			/// \param	align	The alignment to use.
+			/// \param	align	The alignment to use. Set to `0` to use `__STDCPP_DEFAULT_NEW_ALIGNMENT__`.
 			/// 
 			/// \return	A reference to the input blob.
 			MUU_API
@@ -140,5 +139,6 @@ MUU_NAMESPACE_START
 				return data_ != nullptr;
 			}
 	};
+
+	MUU_ABI_VERSION_END;
 }
-MUU_NAMESPACE_END

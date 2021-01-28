@@ -57,7 +57,7 @@ std::ostream& operator << (std::ostream&, __float128);
 #include <iomanip>
 #include <fstream>
 #include <tuple>
-MUU_NAMESPACE_START
+namespace muu
 {
 	template <typename T>
 	[[nodiscard]]
@@ -182,7 +182,6 @@ MUU_NAMESPACE_START
 	template <typename T>
 	print_aligned(T) -> print_aligned<T>;
 }
-MUU_NAMESPACE_END
 using namespace Catch::literals;
 using namespace muu;
 using namespace std::string_view_literals;

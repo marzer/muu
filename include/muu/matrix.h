@@ -120,11 +120,13 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 
 #endif // helper macros
 
-MUU_IMPL_NAMESPACE_START
+namespace muu::impl
 {
 	struct columnwise_init_tag {};
 	struct columnwise_copy_tag {};
 	struct row_major_tuple_tag {};
+
+	MUU_ABI_VERSION_START(0);
 
 	template <typename Scalar, size_t Rows, size_t Columns>
 	struct MUU_TRIVIAL_ABI matrix_base
@@ -243,6 +245,8 @@ MUU_IMPL_NAMESPACE_START
 			static_assert(tuple_size<T> <= Rows * Columns);
 		}
 	};
+
+	MUU_ABI_VERSION_END;
 
 	template <typename Scalar, size_t Rows, size_t Columns>
 	inline constexpr bool is_hva<matrix_base<Scalar, Rows, Columns>> = can_be_hva_of<Scalar, matrix_base<Scalar, Rows, Columns>>;
@@ -380,7 +384,6 @@ MUU_IMPL_NAMESPACE_START
 
 	#undef MAT_GET
 }
-MUU_IMPL_NAMESPACE_END
 
 namespace muu
 {
@@ -499,7 +502,7 @@ namespace muu
 // MATRIX CLASS
 #if 1
 
-MUU_NAMESPACE_START
+namespace muu
 {
 	/// \brief Alias of `matrix` or `const matrix&`, depending on size, triviality, simd-friendliness, etc.
 	/// \ingroup math
@@ -508,6 +511,8 @@ MUU_NAMESPACE_START
 	/// \see muu::matrix
 	template <typename Scalar, size_t Rows, size_t Columns>
 	using matrix_param = impl::readonly_param<matrix<Scalar, Rows, Columns>>;
+
+	MUU_ABI_VERSION_START(0);
 
 	/// \brief A matrix.
 	/// \ingroup math
@@ -2052,8 +2057,9 @@ MUU_NAMESPACE_START
 		-> matrix<impl::highest_ranked<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>, 4, 4>;
 
 	/// \endcond
+
+	MUU_ABI_VERSION_END;
 }
-MUU_NAMESPACE_END
 
 #endif // =============================================================================================================
 
@@ -2063,18 +2069,18 @@ MUU_NAMESPACE_END
 
 MUU_PUSH_PRECISE_MATH;
 
-MUU_NAMESPACE_START
+namespace muu
 {
 	namespace impl
 	{
 		/// \cond
 
-		template <typename Scalar, size_t Rows, size_t Columns>
+		template <template <typename, size_t, size_t> typename Matrix, typename Scalar, size_t Rows, size_t Columns>
 		[[nodiscard]]
-		MUU_CONSTEVAL matrix<Scalar, Rows, Columns> make_identity_matrix() noexcept
+		MUU_CONSTEVAL Matrix<Scalar, Rows, Columns> make_identity_matrix() noexcept
 		{
 			using scalars = constants<Scalar>;
-			matrix<Scalar, Rows, Columns> m{ scalars::zero };
+			Matrix<Scalar, Rows, Columns> m{ scalars::zero };
 			m.template get<0, 0>() = scalars::one;
 			if constexpr (Rows > 1 && Columns > 1) m.template get<1, 1>() = scalars::one;
 			if constexpr (Rows > 2 && Columns > 2) m.template get<2, 2>() = scalars::one;
@@ -2087,15 +2093,15 @@ MUU_NAMESPACE_START
 			return m;
 		}
 
-		template <typename Scalar, size_t Rows, size_t Columns>
+		template <template <typename, size_t, size_t> typename Matrix, typename Scalar, size_t Rows, size_t Columns>
 		[[nodiscard]]
-		MUU_CONSTEVAL matrix<Scalar, Rows, Columns> make_rotation_matrix(
+		MUU_CONSTEVAL Matrix<Scalar, Rows, Columns> make_rotation_matrix(
 			Scalar xx, Scalar yx, Scalar zx,
 			Scalar xy, Scalar yy, Scalar zy,
 			Scalar xz, Scalar yz, Scalar zz
 		) noexcept
 		{
-			auto m = make_identity_matrix<Scalar, Rows, Columns>();
+			auto m = make_identity_matrix<Matrix, Scalar, Rows, Columns>();
 			m.template get<0, 0>() = xx;
 			m.template get<1, 0>() = xy;
 			m.template get<2, 0>() = xz;
@@ -2228,35 +2234,35 @@ MUU_NAMESPACE_START
 			using scalars = muu::constants<Scalar>;
 
 			/// \brief A matrix encoding a rotation 90 degrees to the right.
-			static constexpr matrix<Scalar, Rows, Columns> right = impl::make_rotation_matrix<Scalar, Rows, Columns>(
+			static constexpr matrix<Scalar, Rows, Columns> right = make_rotation_matrix<matrix, Scalar, Rows, Columns>(
 				scalars::zero,		scalars::zero,		-scalars::one,
 				scalars::zero,		scalars::one,		scalars::zero,
 				scalars::one,		scalars::zero,		scalars::zero
 			);
 
 			/// \brief A matrix encoding a rotation 90 degrees upward.
-			static constexpr matrix<Scalar, Rows, Columns> up = impl::make_rotation_matrix<Scalar, Rows, Columns>(
+			static constexpr matrix<Scalar, Rows, Columns> up = make_rotation_matrix<matrix, Scalar, Rows, Columns>(
 				scalars::one,		scalars::zero,		scalars::zero,
 				scalars::zero,		scalars::zero,		-scalars::one,
 				scalars::zero,		scalars::one,		scalars::zero
 			);
 
 			/// \brief A matrix encoding a rotation 180 degrees backward.
-			static constexpr matrix<Scalar, Rows, Columns> backward = impl::make_rotation_matrix<Scalar, Rows, Columns>(
+			static constexpr matrix<Scalar, Rows, Columns> backward = make_rotation_matrix<matrix, Scalar, Rows, Columns>(
 				-scalars::one,		scalars::zero,		scalars::zero,
 				scalars::zero,		scalars::one,		scalars::zero,
 				scalars::zero,		scalars::zero,		-scalars::one
 			);
 
 			/// \brief A matrix encoding a rotation 90 degrees to the left.
-			static constexpr matrix<Scalar, Rows, Columns> left = impl::make_rotation_matrix<Scalar, Rows, Columns>(
+			static constexpr matrix<Scalar, Rows, Columns> left = make_rotation_matrix<matrix, Scalar, Rows, Columns>(
 				scalars::zero,		scalars::zero,		scalars::one,
 				scalars::zero,		scalars::one,		scalars::zero,
 				-scalars::one,		scalars::zero,		scalars::zero
 			);
 
 			/// \brief A matrix encoding a rotation 90 degrees downward.
-			static constexpr matrix<Scalar, Rows, Columns> down = impl::make_rotation_matrix<Scalar, Rows, Columns>(
+			static constexpr matrix<Scalar, Rows, Columns> down = make_rotation_matrix<matrix, Scalar, Rows, Columns>(
 				scalars::one,		scalars::zero,		scalars::zero,
 				scalars::zero,		scalars::zero,		scalars::one,
 				scalars::zero,		-scalars::one,		scalars::zero
@@ -2295,12 +2301,11 @@ MUU_NAMESPACE_START
 		: MATRIX_CONSTANTS_BASES
 	{
 		/// \brief The identity matrix.
-		static constexpr matrix<Scalar, Rows, Columns> identity = impl::make_identity_matrix<Scalar, Rows, Columns>();
+		static constexpr matrix<Scalar, Rows, Columns> identity = impl::make_identity_matrix<matrix, Scalar, Rows, Columns>();
 	};
 
 	#undef MATRIX_CONSTANTS_BASES
 }
-MUU_NAMESPACE_END
 
 MUU_POP_PRECISE_MATH;
 
@@ -2310,7 +2315,7 @@ MUU_POP_PRECISE_MATH;
 // FREE FUNCTIONS
 #if 1
 
-MUU_NAMESPACE_START
+namespace muu
 {
 	/// \ingroup	infinity_or_nan
 	/// \related	muu::matrix
@@ -2563,7 +2568,6 @@ MUU_NAMESPACE_START
 
 	#endif // ENABLE_PAIRED_FUNCS
 }
-MUU_NAMESPACE_END
 
 #endif // =============================================================================================================
 

@@ -16,7 +16,7 @@ MUU_ENABLE_WARNINGS;
 MUU_PUSH_WARNINGS;
 MUU_DISABLE_SPAM_WARNINGS;
 
-MUU_NAMESPACE_START
+namespace muu
 {
 	template <typename Char>
 	struct stream_saver final
@@ -239,6 +239,5 @@ MUU_NAMESPACE_START
 	template <typename Char>
 	printer(std::basic_ostream<Char>&) -> printer<Char>;
 }
-MUU_NAMESPACE_END
 
 MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS

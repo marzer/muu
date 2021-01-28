@@ -26,7 +26,7 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 	#undef max
 #endif
 
-MUU_NAMESPACE_START
+namespace muu
 {
 	namespace build
 	{
@@ -2263,7 +2263,6 @@ MUU_NAMESPACE_START
 
 	/** @} */	// math
 }
-MUU_NAMESPACE_END
 
 MUU_PRAGMA_MSVC(pop_macro("min"))
 MUU_PRAGMA_MSVC(pop_macro("max"))

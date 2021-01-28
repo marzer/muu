@@ -16,7 +16,7 @@ MUU_ENABLE_WARNINGS;
 MUU_PUSH_WARNINGS;
 MUU_DISABLE_SPAM_WARNINGS;
 
-MUU_NAMESPACE_START
+namespace muu
 {
 	/// \addtogroup		hashing
 	/// @{
@@ -24,6 +24,8 @@ MUU_NAMESPACE_START
 	/// \cond
 	namespace impl
 	{
+		MUU_ABI_VERSION_START(0);
+
 		// these constants are based on the 'golden ratio', as seen in boost::hash_combine
 		// and about a million other places. It probably *should* be something better, but I'm no hashing expert.
 		// see: https://stackoverflow.com/questions/35985960/c-why-is-boosthash-combine-the-best-way-to-combine-hash-values/50978188#50978188
@@ -72,8 +74,12 @@ MUU_NAMESPACE_START
 		};
 
 		#endif
+
+		MUU_ABI_VERSION_END;
 	}
 	/// \endcond
+
+	MUU_ABI_VERSION_START(0);
 
 	/// \brief	A hash combiner for integral hashes.
 	///
@@ -105,6 +111,8 @@ MUU_NAMESPACE_START
 				return value_;
 			}
 	};
+
+	MUU_ABI_VERSION_END;
 
 	/// \cond
 	namespace impl
@@ -165,6 +173,8 @@ MUU_NAMESPACE_START
 		}
 	}
 	/// \endcond
+
+	MUU_ABI_VERSION_START(0);
 
 	/// \brief	FNV-1a hasher.
 	///
@@ -413,8 +423,9 @@ MUU_NAMESPACE_START
 			}
 	};
 
+	MUU_ABI_VERSION_END;
+
 	/// @}
 }
-MUU_NAMESPACE_END
 
 MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS

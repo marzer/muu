@@ -240,7 +240,7 @@ namespace
 
 		using c = muu::constants<T>;
 
-		static constexpr test_case cases[]
+		static constexpr test_case cases[] =
 		{
 			/*  0 */ { -c::one,			c::one,			c::two,				c::three },
 			/*  1 */ { c::zero,			c::one,			c::two,				c::two },
@@ -463,7 +463,8 @@ namespace
 				else
 				{
 					auto bits = first;
-					const uint64_t step = bit_fill_right<uint64_t>(constants<T>::significand_digits - 1) / (bit_fill_right<uint64_t>(23)-1_u64);
+					constexpr uint64_t step = bit_fill_right<uint64_t>(constants<T>::significand_digits - 1)
+						/ (bit_fill_right<uint64_t>(23) - 1_u64);
 					for (auto iters = bit_fill_right<uint64_t>(23) - 1_u64; iters --> uint64_t{};)
 					{
 						const auto v = bit_cast<T>(bits);
@@ -533,21 +534,21 @@ TEST_CASE("core - infinity_or_nan")
 		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<half>()));
 
 		#if !MUU_INTELLISENSE
-		CHECK((test_infinity_or_nan_ranges<half, -1>()));
-		CHECK((test_infinity_or_nan_ranges<half, 1>()));
+		CHECK(test_infinity_or_nan_ranges<half, -1>());
+		CHECK(test_infinity_or_nan_ranges<half, 1>());
 		#endif
 	}
 
 	SECTION("float")
 	{
-		INF_OR_NAN_CHECK(!infinity_or_nan(float{}));
+		INF_OR_NAN_CHECK(!infinity_or_nan(0.0f));
 		INF_OR_NAN_CHECK(infinity_or_nan(make_nan<float>()));
 		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float>(-1)));
 		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float>()));
 
 		#if !MUU_INTELLISENSE
-		CHECK((test_infinity_or_nan_ranges<float, -1>()));
-		CHECK((test_infinity_or_nan_ranges<float, 1>()));
+		CHECK(test_infinity_or_nan_ranges<float, -1>());
+		CHECK(test_infinity_or_nan_ranges<float, 1>());
 		#endif
 	}
 
@@ -559,8 +560,8 @@ TEST_CASE("core - infinity_or_nan")
 		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<double>()));
 
 		#if !MUU_INTELLISENSE
-		CHECK((test_infinity_or_nan_ranges<double, -1>()));
-		CHECK((test_infinity_or_nan_ranges<double, 1>()));
+		CHECK(test_infinity_or_nan_ranges<double, -1>());
+		CHECK(test_infinity_or_nan_ranges<double, 1>());
 		#endif
 	}
 
@@ -572,8 +573,8 @@ TEST_CASE("core - infinity_or_nan")
 		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<long double>()));
 
 		#if !MUU_INTELLISENSE
-		CHECK((test_infinity_or_nan_ranges<long double, -1>()));
-		CHECK((test_infinity_or_nan_ranges<long double, 1>()));
+		CHECK(test_infinity_or_nan_ranges<long double, -1>());
+		CHECK(test_infinity_or_nan_ranges<long double, 1>());
 		#endif
 	}
 

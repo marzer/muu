@@ -1056,16 +1056,12 @@ help me improve support for your target architecture. Thanks!
 	#define MUU_ABI_NAMESPACES 0 // doxygen
 #endif
 #if MUU_ABI_NAMESPACES
-	#define MUU_NAMESPACE_START			namespace muu { inline namespace MUU_CONCAT(v, MUU_VERSION_MAJOR)
-	#define MUU_NAMESPACE_END			}
-	#define MUU_NAMESPACE				::muu::MUU_CONCAT(v, MUU_VERSION_MAJOR)
+	#define MUU_ABI_VERSION_START(version)	inline namespace MUU_CONCAT(v, version) { static_assert(true)
+	#define MUU_ABI_VERSION_END				} static_assert(true)
 #else
-	#define MUU_NAMESPACE_START			namespace muu
-	#define MUU_NAMESPACE_END
-	#define MUU_NAMESPACE				muu
+	#define MUU_ABI_VERSION_START(version)	static_assert(true)
+	#define MUU_ABI_VERSION_END				static_assert(true)
 #endif
-#define MUU_IMPL_NAMESPACE_START		MUU_NAMESPACE_START { namespace impl
-#define MUU_IMPL_NAMESPACE_END			} MUU_NAMESPACE_END
 
 //=====================================================================================================================
 // ASSERT

@@ -43,7 +43,7 @@ is_windows = host_machine.system() == 'windows'
 is_x64 = host_machine.cpu_family() == 'x86_64'
 is_subproject = meson.is_subproject()
 has_exceptions = get_option('cpp_eh') != 'none'
-include_dirs = include_directories('include', 'extern')
+include_dirs = include_directories('include', 'external')
 overrides = []
 additional_arguments = []
 
@@ -485,7 +485,7 @@ subdir('src')
 
 build_tests = get_option('build_tests') and not is_subproject
 if build_tests
-	run_command('git', 'submodule', 'update', '--init', 'extern/Catch2')
+	run_command('git', 'submodule', 'update', '--init', 'external/Catch2')
 	subdir('tests')
 endif
 

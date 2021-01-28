@@ -36,8 +36,10 @@ namespace
 	static_assert(muu::has_single_bit(aligned_alloc_data_footprint));
 }
 
-MUU_NAMESPACE_START
+namespace muu
 {
+	MUU_ABI_VERSION_START(0);
+
 	MUU_UNALIASED_ALLOC
 	void* aligned_alloc(size_t alignment, size_t size) noexcept
 	{
@@ -128,5 +130,6 @@ MUU_NAMESPACE_START
 			std::free(pointer_cast<std::byte*>(ptr) - data.actual_alignment);
 		#endif
 	}
+
+	MUU_ABI_VERSION_END;
 }
-MUU_NAMESPACE_END

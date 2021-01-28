@@ -37,7 +37,7 @@ namespace muu
 	using namespace std::string_view_literals;
 }
 
-MUU_NAMESPACE_START
+namespace muu
 {
 	/// \addtogroup		strings			Strings
 	/// \brief			Utilities to simplify working with strings.
@@ -51,6 +51,8 @@ MUU_NAMESPACE_START
 	/// \cond
 	namespace impl
 	{
+		MUU_ABI_VERSION_START(0);
+
 		class MUU_TRIVIAL_ABI utf8_decoder final
 		{
 			// utf8_decoder based on this: https://bjoern.hoehrmann.de/utf-8/decoder/dfa/
@@ -226,6 +228,8 @@ MUU_NAMESPACE_START
 				}
 				#endif
 		};
+
+		MUU_ABI_VERSION_END;
 
 		template <typename T>
 		using utf_decoder = std::conditional_t<sizeof(T) == 2, utf16_decoder,
@@ -446,6 +450,8 @@ MUU_NAMESPACE_START
 			utf_decode(str, false, static_cast<Func&&>(func));
 		}
 
+		MUU_ABI_VERSION_START(0);
+
 		struct utf_find_result
 		{
 			size_t index;
@@ -585,6 +591,8 @@ MUU_NAMESPACE_START
 					return view();
 				}
 		};
+
+		MUU_ABI_VERSION_END;
 
 		template <typename T, size_t S = sizeof(T)> struct utf_code_point_selector;
 		template <typename T> struct utf_code_point_selector<T, 1> { using type = utf8_code_point<T>; };
@@ -988,7 +996,6 @@ MUU_NAMESPACE_START
 
 	/** @} */	// strings
 }
-MUU_NAMESPACE_END
 
 MUU_PRAGMA_MSVC(pop_macro("min"))
 MUU_PRAGMA_MSVC(pop_macro("max"))

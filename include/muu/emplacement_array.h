@@ -19,8 +19,10 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 	#undef max
 #endif
 
-MUU_NAMESPACE_START
+namespace muu
 {
+	MUU_ABI_VERSION_START(0);
+
 	/// \brief	Simple std::vector-like array type for immovable or move-only types.
 	///
 	/// \tparam	T	Element type stored in the array.
@@ -354,8 +356,9 @@ MUU_NAMESPACE_START
 				destroy_all_elements();
 			}
 	};
+
+	MUU_ABI_VERSION_END;
 }
-MUU_NAMESPACE_END
 
 MUU_PRAGMA_MSVC(pop_macro("min"))
 MUU_PRAGMA_MSVC(pop_macro("max"))

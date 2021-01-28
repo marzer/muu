@@ -138,7 +138,7 @@ namespace
 	}
 }
 
-MUU_IMPL_NAMESPACE_START
+namespace muu::impl
 {
 	void print_to_stream(std::ostream& os, const uuid& id)
 	{
@@ -150,4 +150,3 @@ MUU_IMPL_NAMESPACE_START
 		::print(os, id);
 	}
 }
-MUU_IMPL_NAMESPACE_END

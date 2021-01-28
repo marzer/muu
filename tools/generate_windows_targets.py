@@ -242,6 +242,7 @@ def main():
 		<ClInclude Include="..\..\tests\vector_test_instantiations.h" />
 	</ItemGroup>
 	<ItemGroup>
+		<None Include="..\..\tests\cpp.hint" />
 		<None Include="..\..\tests\meson.build" />
 		<None Include="..\.runsettings" />
 		<None Include="..\muu.props" />

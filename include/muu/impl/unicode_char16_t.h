@@ -14,7 +14,7 @@ MUU_PRAGMA_MSVC(warning(disable: 26819))
 MUU_PRAGMA_GCC_LT(9, push_options)
 MUU_PRAGMA_GCC_LT(9, optimize("O1"))
 
-MUU_NAMESPACE_START
+namespace muu
 {
 	/// \addtogroup strings
 	/// @{
@@ -1285,7 +1285,6 @@ MUU_NAMESPACE_START
 	/** @} */	// strings::code_units
 	/** @} */	// strings
 }
-MUU_NAMESPACE_END
 
 MUU_PRAGMA_GCC_LT(9, pop_options)
 MUU_POP_WARNINGS;

@@ -25,7 +25,7 @@
 	<!-- :: project paths and defaults -->
 	<PropertyGroup>
 		<IntDir>$(MuuOutRoot)build\$(ProjectName)_vc$(PlatformToolsetVersion)_$(PlatformTarget)_$(Configuration)_$(ConfigurationType)\</IntDir>
-		<IncludePath>$(MuuRepoRoot)include;$(MuuRepoRoot)extern;$(IncludePath)</IncludePath>
+		<IncludePath>$(MuuRepoRoot)include;$(MuuRepoRoot)external;$(IncludePath)</IncludePath>
 		<DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
 		<LinkIncremental>false</LinkIncremental>
 		<TargetName>$(ProjectName)</TargetName>

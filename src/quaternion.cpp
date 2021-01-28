@@ -6,6 +6,12 @@
 #include "muu/quaternion.h"
 #include "printing.h"
 
+MUU_DISABLE_SPAM_WARNINGS;
+#if MUU_MSVC
+	#undef min
+	#undef max
+#endif
+
 using namespace muu;
 
 namespace
@@ -48,7 +54,7 @@ namespace
 	}
 }
 
-MUU_IMPL_NAMESPACE_START
+namespace muu::impl
 {
 	void print_quaternion_to_stream(std::ostream& os, const half* q)
 	{
@@ -132,4 +138,3 @@ MUU_IMPL_NAMESPACE_START
 	}
 	#endif
 }
-MUU_IMPL_NAMESPACE_END

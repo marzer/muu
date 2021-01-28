@@ -55,19 +55,44 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 	#undef max
 #endif
 
-MUU_NAMESPACE_START
+namespace muu
 {
 	/// \cond
+
 	namespace impl
 	{
+		struct half_from_bits_tag {};
+
 		#if MUU_HALF_EMULATED
+
+		MUU_ABI_VERSION_START(0);
+
 		[[nodiscard]] MUU_ATTR(const) constexpr uint16_t MUU_VECTORCALL f32_to_f16(float) noexcept;
 		[[nodiscard]] MUU_ATTR(const) constexpr float MUU_VECTORCALL f16_to_f32(uint16_t) noexcept;
-		#endif
 
-		struct half_from_bits_tag {};
+		MUU_ABI_VERSION_END;
+
+		#endif
 	}
+
+	constexpr bool MUU_VECTORCALL infinity_or_nan(half) noexcept;
+	constexpr half MUU_VECTORCALL abs(half) noexcept;
+	constexpr bool MUU_VECTORCALL approx_equal(half, half, half) noexcept;
+	constexpr half MUU_VECTORCALL floor(half) noexcept;
+	constexpr half MUU_VECTORCALL ceil(half) noexcept;
+	constexpr half MUU_VECTORCALL sqrt(half) noexcept;
+	constexpr half MUU_VECTORCALL cos(half) noexcept;
+	constexpr half MUU_VECTORCALL sin(half) noexcept;
+	constexpr half MUU_VECTORCALL tan(half) noexcept;
+	constexpr half MUU_VECTORCALL acos(half) noexcept;
+	constexpr half MUU_VECTORCALL asin(half) noexcept;
+	constexpr half MUU_VECTORCALL atan(half) noexcept;
+	constexpr half MUU_VECTORCALL atan2(half, half) noexcept;
+	constexpr half MUU_VECTORCALL lerp(half, half, half) noexcept;
+
 	/// \endcond
+
+	MUU_ABI_VERSION_START(0);
 
 	/// \brief	A 16-bit "half-precision" floating point type.
 	/// \ingroup core
@@ -721,21 +746,23 @@ MUU_NAMESPACE_START
 			return lhs;
 		}
 
-		friend constexpr bool MUU_VECTORCALL infinity_or_nan(half) noexcept;
-		friend constexpr half MUU_VECTORCALL abs(half) noexcept;
-		friend constexpr bool MUU_VECTORCALL approx_equal(half, half, half) noexcept;
-		friend constexpr half MUU_VECTORCALL floor(half) noexcept;
-		friend constexpr half MUU_VECTORCALL ceil(half) noexcept;
-		friend constexpr half MUU_VECTORCALL sqrt(half) noexcept;
-		friend constexpr half MUU_VECTORCALL cos(half) noexcept;
-		friend constexpr half MUU_VECTORCALL sin(half) noexcept;
-		friend constexpr half MUU_VECTORCALL tan(half) noexcept;
-		friend constexpr half MUU_VECTORCALL acos(half) noexcept;
-		friend constexpr half MUU_VECTORCALL asin(half) noexcept;
-		friend constexpr half MUU_VECTORCALL atan(half) noexcept;
-		friend constexpr half MUU_VECTORCALL atan2(half, half) noexcept;
-		friend constexpr half MUU_VECTORCALL lerp(half, half, half) noexcept;
+		friend constexpr bool MUU_VECTORCALL muu::infinity_or_nan(half) noexcept;
+		friend constexpr half MUU_VECTORCALL muu::abs(half) noexcept;
+		friend constexpr bool MUU_VECTORCALL muu::approx_equal(half, half, half) noexcept;
+		friend constexpr half MUU_VECTORCALL muu::floor(half) noexcept;
+		friend constexpr half MUU_VECTORCALL muu::ceil(half) noexcept;
+		friend constexpr half MUU_VECTORCALL muu::sqrt(half) noexcept;
+		friend constexpr half MUU_VECTORCALL muu::cos(half) noexcept;
+		friend constexpr half MUU_VECTORCALL muu::sin(half) noexcept;
+		friend constexpr half MUU_VECTORCALL muu::tan(half) noexcept;
+		friend constexpr half MUU_VECTORCALL muu::acos(half) noexcept;
+		friend constexpr half MUU_VECTORCALL muu::asin(half) noexcept;
+		friend constexpr half MUU_VECTORCALL muu::atan(half) noexcept;
+		friend constexpr half MUU_VECTORCALL muu::atan2(half, half) noexcept;
+		friend constexpr half MUU_VECTORCALL muu::lerp(half, half, half) noexcept;
 	};
+
+	MUU_ABI_VERSION_END;
 
 	namespace build
 	{
@@ -1175,12 +1202,13 @@ MUU_NAMESPACE_START
 		return half{ impl::normalize_angle_signed_(static_cast<float>(x)) };
 	}
 }
-MUU_NAMESPACE_END
 
 /// \cond
 #if MUU_HALF_EMULATED
-MUU_IMPL_NAMESPACE_START
+namespace muu::impl
 {
+	MUU_ABI_VERSION_START(0);
+
 	inline constexpr int8_t f16_single_exp_bias = 127;
 	inline constexpr int8_t f16_half_exp_bias = 15;
 
@@ -1319,8 +1347,9 @@ MUU_IMPL_NAMESPACE_START
 
 		return f16_to_f32_emulated(val);
 	}
+
+	MUU_ABI_VERSION_END;
 }
-MUU_IMPL_NAMESPACE_END
 #endif // MUU_HALF_EMULATED
 /// \endcond
 

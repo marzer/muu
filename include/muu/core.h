@@ -81,7 +81,7 @@ static_assert(std::numeric_limits<double>::is_iec559, MUU_ENV_MESSAGE);
 #if 1
 
 /// \cond
-MUU_IMPL_NAMESPACE_START
+namespace muu::impl
 {
 	// note that all the structs with nested types end in underscores;
 	// this is a disambiguation mechanism for code in the impl namespace.
@@ -463,10 +463,9 @@ MUU_IMPL_NAMESPACE_START
 		}
 	}
 }
-MUU_IMPL_NAMESPACE_END
 /// \endcond
 
-MUU_NAMESPACE_START
+namespace muu
 {
 	/// \addtogroup		meta
 	/// @{
@@ -885,10 +884,9 @@ MUU_NAMESPACE_START
 
 	/** @} */	// meta
 }
-MUU_NAMESPACE_END
 
 /// \cond
-MUU_IMPL_NAMESPACE_START
+namespace muu::impl
 {
 	template <typename T>
 	inline constexpr bool is_small_float_ = is_floating_point<T> && sizeof(T) < sizeof(float) && is_extended_arithmetic<T>;
@@ -1126,7 +1124,6 @@ MUU_IMPL_NAMESPACE_START
 	template <typename T>
 	inline constexpr bool pass_readonly_by_value = !pass_readonly_by_reference<T>;
 }
-MUU_IMPL_NAMESPACE_END
 /// \endcond
 
 #endif //==============================================================================================================
@@ -1137,7 +1134,7 @@ MUU_IMPL_NAMESPACE_END
 
 MUU_PUSH_PRECISE_MATH;
 
-MUU_NAMESPACE_START
+namespace muu
 {
 	namespace impl
 	{
@@ -1627,7 +1624,6 @@ MUU_NAMESPACE_START
 
 	/** @} */	// constants
 }
-MUU_NAMESPACE_END
 
 MUU_POP_PRECISE_MATH;
 
@@ -1637,7 +1633,7 @@ MUU_POP_PRECISE_MATH;
 // LITERALS, BUILD CONSTANTS AND FUNCTIONS
 #if 1
 
-MUU_NAMESPACE_START
+namespace muu
 {
 	inline namespace literals
 	{
@@ -1752,6 +1748,7 @@ MUU_NAMESPACE_START
 		#endif
 	}
 
+	/// \cond
 	namespace impl
 	{
 		MUU_DISABLE_WARNINGS; // non-determinisitic build
@@ -1762,6 +1759,7 @@ MUU_NAMESPACE_START
 
 		MUU_ENABLE_WARNINGS;
 	}
+	/// \endcond
 
 	namespace build
 	{
@@ -3630,7 +3628,6 @@ MUU_NAMESPACE_START
 
 	/** @} */	// core
 }
-MUU_NAMESPACE_END
 
 #endif //==============================================================================================================
 

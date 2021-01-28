@@ -35,8 +35,10 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 #endif
 
 /// \cond
-MUU_IMPL_NAMESPACE_START
+namespace muu::impl
 {
+	MUU_ABI_VERSION_START(0);
+
 	template <typename Func, typename Arg>
 	inline constexpr bool is_thread_pool_task = 
 		std::is_nothrow_invocable_v<Func, Arg, size_t>
@@ -67,6 +69,7 @@ MUU_IMPL_NAMESPACE_START
 									invoke/move/delete function
 	
 	*/
+
 
 	struct thread_pool_task;
 
@@ -399,12 +402,15 @@ MUU_IMPL_NAMESPACE_START
 				return i;
 			}
 	};
+
+	MUU_ABI_VERSION_END;
 }
-MUU_IMPL_NAMESPACE_END
 /// \endcond
 
-MUU_NAMESPACE_START
+namespace muu
 {
+	MUU_ABI_VERSION_START(0);
+
 	/// \brief A thread pool.
 	class thread_pool
 	{
@@ -848,8 +854,9 @@ MUU_NAMESPACE_START
 				return *this;
 			}
 	};
+
+	MUU_ABI_VERSION_END;
 }
-MUU_NAMESPACE_END
 
 MUU_PRAGMA_MSVC(pop_macro("min"))
 MUU_PRAGMA_MSVC(pop_macro("max"))

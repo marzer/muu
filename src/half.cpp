@@ -17,9 +17,10 @@ MUU_DISABLE_SPAM_WARNINGS;
 MUU_PRAGMA_MSVC(warning(disable: 4556)) // value of intrinsic immediate argument '8' is out of range '0 - 7'
 MUU_PRAGMA_GCC(diagnostic ignored "-Wold-style-cast") // false positive with _mm_load_ss
 
-MUU_IMPL_NAMESPACE_START
+namespace muu::impl
 {
-	MUU_ATTR(const)
+	MUU_ABI_VERSION_START(0);
+
 	uint16_t MUU_VECTORCALL f32_to_f16_intrinsic(float val) noexcept
 	{
 		//_mm_load_ss			load a single float into a m128 (sse)
@@ -31,7 +32,6 @@ MUU_IMPL_NAMESPACE_START
 		));
 	}
 
-	MUU_ATTR(const)
 	float MUU_VECTORCALL f16_to_f32_intrinsic(uint16_t val) noexcept
 	{
 		//_mm_cvtsi32_si128		store a single int in an m128i (sse2)
@@ -42,8 +42,9 @@ MUU_IMPL_NAMESPACE_START
 			_mm_cvtsi32_si128(static_cast<int>(val))
 		));
 	}
+
+	MUU_ABI_VERSION_END;
 }
-MUU_IMPL_NAMESPACE_END
 
 MUU_POP_WARNINGS;
 

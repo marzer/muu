@@ -112,6 +112,9 @@
     <ClInclude Include="..\include\muu\chars.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\muu\bounding_box.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />
@@ -131,12 +134,6 @@
       <Filter>docs</Filter>
     </None>
     <None Include=".runsettings" />
-    <None Include="..\python\generate_documentation.py">
-      <Filter>python</Filter>
-    </None>
-    <None Include="..\python\utils.py">
-      <Filter>python</Filter>
-    </None>
     <None Include="..\examples\meson.build">
       <Filter>examples</Filter>
     </None>
@@ -145,35 +142,35 @@
     </None>
     <None Include="..\.gitattributes" />
     <None Include="..\.gitignore" />
-    <None Include="..\python\generate_float_tests_header.py">
-      <Filter>python</Filter>
-    </None>
-    <None Include="..\python\generate_unicode_functions.py">
-      <Filter>python</Filter>
-    </None>
     <None Include="..\CODE_OF_CONDUCT.md" />
     <None Include="..\LICENSE" />
     <None Include="..\src\meson.build">
       <Filter>src</Filter>
     </None>
     <None Include="muu.props" />
-    <None Include="..\python\generate_windows_targets.py">
-      <Filter>python</Filter>
-    </None>
     <None Include="..\cpp.hint" />
+    <None Include="..\tools\generate_documentation.py">
+      <Filter>tools</Filter>
+    </None>
+    <None Include="..\tools\generate_float_tests_header.py">
+      <Filter>tools</Filter>
+    </None>
+    <None Include="..\tools\generate_unicode_functions.py">
+      <Filter>tools</Filter>
+    </None>
+    <None Include="..\tools\generate_windows_targets.py">
+      <Filter>tools</Filter>
+    </None>
+    <None Include="..\tools\utils.py">
+      <Filter>tools</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
       <UniqueIdentifier>{71fc6b00-e942-4c1d-947c-ae9e8427ac49}</UniqueIdentifier>
     </Filter>
-    <Filter Include="extern">
-      <UniqueIdentifier>{9f8abdc5-e45e-496b-9bc1-f7b758c1c3a3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="docs">
       <UniqueIdentifier>{20e0e0c1-be5a-4c5b-9dba-9c351a948a81}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="python">
-      <UniqueIdentifier>{1e1ceca0-47ee-4874-8437-0f412136d9ee}</UniqueIdentifier>
     </Filter>
     <Filter Include="include\impl">
       <UniqueIdentifier>{efae82c9-47b7-4e90-9d28-2fe43e325020}</UniqueIdentifier>
@@ -187,12 +184,18 @@
     <Filter Include="src">
       <UniqueIdentifier>{e6706e08-07d9-4fe5-8cf6-d3ac7c413219}</UniqueIdentifier>
     </Filter>
+    <Filter Include="tools">
+      <UniqueIdentifier>{040c1d6c-588e-4f98-978b-8d5934ad901c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="muu.natvis" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\meson_options.txt" />
+    <Text Include="..\tools\requirements.txt">
+      <Filter>tools</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\aligned_alloc.cpp">

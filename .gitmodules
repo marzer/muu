@@ -1,6 +1,7 @@
-[submodule "extern/mcss"]
-	path = extern/mcss
+[submodule "external/mcss"]
+	path = external/mcss
 	url = https://github.com/mosra/m.css.git
-[submodule "extern/Catch2"]
-	path = extern/Catch2
+[submodule "external/Catch2"]
+	path = external/Catch2
 	url = https://github.com/catchorg/Catch2.git
+	branch = v2.x

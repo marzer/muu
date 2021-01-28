@@ -1662,7 +1662,7 @@ def write_header(folders, code_unit):
 			h('MUU_PRAGMA_GCC_LT(9, push_options)')
 			h('MUU_PRAGMA_GCC_LT(9, optimize("O1"))')
 			h('')
-		h('MUU_NAMESPACE_START')
+		h('namespace muu')
 		h('{')
 		if G.doxygen:
 			h('\t/// \\addtogroup strings')
@@ -1956,7 +1956,6 @@ def write_header(folders, code_unit):
 			h('\t/** @} */	// strings::code_units')
 			h('\t/** @} */	// strings')
 		h('}')
-		h('MUU_NAMESPACE_END')
 		if not code_unit.proxy:
 			h('')
 			h('MUU_PRAGMA_GCC_LT(9, pop_options)')

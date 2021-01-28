@@ -13,8 +13,10 @@
 MUU_PUSH_WARNINGS;
 MUU_DISABLE_SPAM_WARNINGS;
 
-MUU_NAMESPACE_START
+namespace muu
 {
+	MUU_ABI_VERSION_START(0);
+
 	/// \brief	Performs actions when going out of scope.
 	/// \ingroup core
 	///
@@ -122,7 +124,8 @@ MUU_NAMESPACE_START
 	scope_guard(T&) -> scope_guard<T&>;
 
 	/// \endcond
+
+	MUU_ABI_VERSION_END;
 }
-MUU_NAMESPACE_END
 
 MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS
