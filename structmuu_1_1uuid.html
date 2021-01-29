@@ -77,6 +77,7 @@ C++</span></a>
                 <li><a href="#pub-methods">Public functions</a></li>
                 <li><a href="#pub-attribs">Public variables</a></li>
                 <li><a href="#friends">Friends</a></li>
+                <li><a href="#related">Related</a></li>
               </ul>
             </li>
           </ul>
@@ -270,6 +271,16 @@ C++</span></a>
             <dd>Returns true if the LHS UUID is ordered higher than or equal to the RHS UUID.</dd>
           </dl>
         </section>
+        <section id="related">
+          <h2><a href="#related">Related</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aa47ba1752e387734c3a2b0539a4dc252">operator""_uuid</a>(</span><span class="m-doc-wrap">const char* str,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> len) -&gt; <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a uuid from a string literal using <a class="m-doc" href="structmuu_1_1uuid.html#ad6beda74aec99774e4b10d615aacacd5">uuid::<wbr/>parse</a>.</dd>
+          </dl>
+        </section>
         <section>
           <h2>Function documentation</h2>
           <section class="m-doc-details" id="aeffec1e0d86eba26298f34d0103c6228"><div>
@@ -449,6 +460,14 @@ C++</span></a>
             <p>Returns the value of the 'node' field.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>The two most significant bytes of the return value will always be zero (the 'node' field of a UUID is a 48-bit unsigned int).</p></aside>
           </div></section>
+          <section class="m-doc-details" id="aa47ba1752e387734c3a2b0539a4dc252"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1uuid.html">uuid</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa47ba1752e387734c3a2b0539a4dc252">operator""_uuid</a>(</span><span class="m-doc-wrap">const char* str,
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> len) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Constructs a uuid from a string literal using <a class="m-doc" href="structmuu_1_1uuid.html#ad6beda74aec99774e4b10d615aacacd5">uuid::<wbr/>parse</a>.</p>
+<pre class="m-code"><span class="k">const</span> <span class="ut">uuid</span> <span class="n">id</span> <span class="o">=</span> <span class="s">"{06B35EFD-A532-4410-ADD1-C8C536C31A84}"</span><span class="n">_uuid</span><span class="p">;</span></pre>
+          </div></section>
         </section>
         <section>
           <h2>Variable documentation</h2>
@@ -457,7 +476,7 @@ C++</span></a>
               impl::uuid_bytes muu::<wbr/>uuid::<wbr/><a class="m-doc-self" href="#a6f04e89c59ce24cb6d2f19bc149f2277">bytes</a>
             </h3>
             <p>The raw bytes in the UUID.</p>
-<p>The byte layout of the UUID is big-endian, regardless of the target platform:<br/><br/><code>[ 0]</code>   time_low - most significant byte<br/><code>[ 1]</code>   ...<br/><code>[ 2]</code>   ...<br/><code>[ 3]</code>   time_low - least significant byte<br/><code>[ 4]</code>   time_mid - most significante byte<br/><code>[ 5]</code>   time_mid - least significante byte<br/><code>[ 6]</code>   time_high_and_version - most significante byte<br/><code>[ 7]</code>   time_high_and_version - least significante byte<br/><code>[ 8]</code>   clock_seq_high_and_reserved<br/><code>[ 9]</code>   clock_seq_low<br/><code>[10]</code>   node - most significant byte<br/><code>[11]</code>   ...<br/><code>[12]</code>   ...<br/><code>[13]</code>   ...<br/><code>[14]</code>   ...<br/><code>[15]</code>   node - least significant byte<br/><br/>Relevant excerpt from the UUID rfc:</p><pre class="m-console"><span class="go">In the absence of explicit application or presentation protocol</span>
+<p>The byte layout of the UUID is always the same regardless of the target platform:<br/><br/><code>[ 0]</code>   time_low - most significant byte<br/><code>[ 1]</code>   ...<br/><code>[ 2]</code>   ...<br/><code>[ 3]</code>   time_low - least significant byte<br/><code>[ 4]</code>   time_mid - most significante byte<br/><code>[ 5]</code>   time_mid - least significante byte<br/><code>[ 6]</code>   time_high_and_version - most significante byte<br/><code>[ 7]</code>   time_high_and_version - least significante byte<br/><code>[ 8]</code>   clock_seq_high_and_reserved<br/><code>[ 9]</code>   clock_seq_low<br/><code>[10]</code>   node - most significant byte<br/><code>[11]</code>   ...<br/><code>[12]</code>   ...<br/><code>[13]</code>   ...<br/><code>[14]</code>   ...<br/><code>[15]</code>   node - least significant byte<br/><br/>Relevant excerpt from the UUID RFC:</p><pre class="m-console"><span class="go">In the absence of explicit application or presentation protocol</span>
 <span class="go">specification to the contrary, a UUID is encoded as a 128-bit object,</span>
 <span class="go">as follows:</span>
 

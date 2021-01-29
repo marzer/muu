@@ -79,56 +79,56 @@ C++</span></a>
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gadbdbc225e09ccaad58493315495fcab2">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> x,
-              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> epsilon = constants&lt;<a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga7376c26dbf846ee7e5eebbe68e431042">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> x,
+              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> epsilon = default_epsilon&lt;<a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> is approximately equal to zero.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga6689072bdd909b0c9ccb8af4d232b092">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> x,
-              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> epsilon = constants&lt;<a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga6f7edf9230c38096dead05a99bf5be4b">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> x,
+              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> epsilon = default_epsilon&lt;<a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> is approximately equal to zero.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga4230d2f18ea734c1f3a2ea4a45a04626">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc muu-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m,
-              S epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;S&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gae6774c12326004b4e421e554a35afe8b">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc muu-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m,
+              S epsilon = default_epsilon&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if all the scalar components of a <a class="m-doc muu-injected" href="structmuu_1_1matrix.html">matrix</a> are approximately equal to zero.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga726767cb7113cce0b4be498d43c27c94">approx_zero</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q,
-              S epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;S&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga04dec66856dc79915e9130ef3693e9f2">approx_zero</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q,
+              S epsilon = default_epsilon&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if all the scalar components of a <a class="m-doc" href="structmuu_1_1quaternion.html#a5e662b4b9fd295ecd30de5fdb13befab">quaternion</a> are approximately equal to zero.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga494809831a42321985e56c836b6d5b8c">approx_zero</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v,
-              S epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;S&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaa7e15ecff78c10af4eaa5b463eee9ca6">approx_zero</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v,
+              S epsilon = default_epsilon&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if all the scalar components of a vector are approximately equal to zero.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaa18e9e56b551b408ece72853e3b4c610">approx_zero</a>(</span><span class="m-doc-wrap">double x,
-              double epsilon = constants&lt;double&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaa419296539b7bda59ef0f8bf62ac330c">approx_zero</a>(</span><span class="m-doc-wrap">double x,
+              double epsilon = default_epsilon&lt;double&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a double is approximately equal to zero.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga8b96639aa0c12a1918f646fca5cba869">approx_zero</a>(</span><span class="m-doc-wrap">float x,
-              float epsilon = constants&lt;float&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga3156cd82de6c0da5a9054c544ee99725">approx_zero</a>(</span><span class="m-doc-wrap">float x,
+              float epsilon = default_epsilon&lt;float&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a float is approximately equal to zero.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga88ec068300fbaee48a14c34d3d291bb2">approx_zero</a>(</span><span class="m-doc-wrap">float128_t x,
-              float128_t epsilon = constants&lt;float128_t&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga2e4ec0adf720b9c8fcd10344c1bf81eb">approx_zero</a>(</span><span class="m-doc-wrap">float128_t x,
+              float128_t epsilon = default_epsilon&lt;float128_t&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a float128_t is approximately equal to zero.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gab1b725b501baf3194120f47ee3fbef8f">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> x,
-              <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> epsilon = constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga5df3be4319d056f5a12b082177b1f8dd">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> x,
+              <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> epsilon = constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::default_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float is approximately equal to zero.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gac44821c8bef0859a16a3306f32038ead">approx_zero</a>(</span><span class="m-doc-wrap">long double x,
-              long double epsilon = constants&lt;long double&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gafe3ff928bf4edd7f2b341ee9f8480789">approx_zero</a>(</span><span class="m-doc-wrap">long double x,
+              long double epsilon = default_epsilon&lt;long double&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a long double is approximately equal to zero.</dd>
             <dt>
@@ -140,91 +140,91 @@ C++</span></a>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="gadbdbc225e09ccaad58493315495fcab2"><div>
+          <section class="m-doc-details" id="ga7376c26dbf846ee7e5eebbe68e431042"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gadbdbc225e09ccaad58493315495fcab2">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> x,
-              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> epsilon = constants&lt;<a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>&gt;::approx_equal_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga7376c26dbf846ee7e5eebbe68e431042">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> x,
+              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> epsilon = default_epsilon&lt;<a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
             </h3>
             <p>Returns true if a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> is approximately equal to zero.</p>
           </div></section>
-          <section class="m-doc-details" id="ga6689072bdd909b0c9ccb8af4d232b092"><div>
+          <section class="m-doc-details" id="ga6f7edf9230c38096dead05a99bf5be4b"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga6689072bdd909b0c9ccb8af4d232b092">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> x,
-              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> epsilon = constants&lt;<a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>&gt;::approx_equal_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga6f7edf9230c38096dead05a99bf5be4b">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> x,
+              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> epsilon = default_epsilon&lt;<a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
             </h3>
             <p>Returns true if a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> is approximately equal to zero.</p>
           </div></section>
-          <section class="m-doc-details" id="ga4230d2f18ea734c1f3a2ea4a45a04626"><div>
+          <section class="m-doc-details" id="gae6774c12326004b4e421e554a35afe8b"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="matrix_8h.html">&lt;muu/matrix.h&gt;</a></div>
               <div class="m-doc-template"> template&lt;typename S, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga4230d2f18ea734c1f3a2ea4a45a04626">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc muu-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m,
-              S epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;S&gt;::approx_equal_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gae6774c12326004b4e421e554a35afe8b">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc muu-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m,
+              S epsilon = default_epsilon&lt;S&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if all the scalar components of a <a class="m-doc muu-injected" href="structmuu_1_1matrix.html">matrix</a> are approximately equal to zero.</p>
 <aside class="m-note m-info"><h4>Note</h4><p>This function is only available when <code>S</code> is a floating-point type.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ga726767cb7113cce0b4be498d43c27c94"><div>
+          <section class="m-doc-details" id="ga04dec66856dc79915e9130ef3693e9f2"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="quaternion_8h.html">&lt;muu/quaternion.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename S&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga726767cb7113cce0b4be498d43c27c94">approx_zero</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q,
-              S epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;S&gt;::approx_equal_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga04dec66856dc79915e9130ef3693e9f2">approx_zero</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q,
+              S epsilon = default_epsilon&lt;S&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if all the scalar components of a <a class="m-doc" href="structmuu_1_1quaternion.html#a5e662b4b9fd295ecd30de5fdb13befab">quaternion</a> are approximately equal to zero.</p>
           </div></section>
-          <section class="m-doc-details" id="ga494809831a42321985e56c836b6d5b8c"><div>
+          <section class="m-doc-details" id="gaa7e15ecff78c10af4eaa5b463eee9ca6"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="vector_8h.html">&lt;muu/vector.h&gt;</a></div>
               <div class="m-doc-template"> template&lt;typename S, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga494809831a42321985e56c836b6d5b8c">approx_zero</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v,
-              S epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;S&gt;::approx_equal_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaa7e15ecff78c10af4eaa5b463eee9ca6">approx_zero</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v,
+              S epsilon = default_epsilon&lt;S&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if all the scalar components of a vector are approximately equal to zero.</p>
 <aside class="m-note m-info"><h4>Note</h4><p>This function is only available when <code>S</code> is a floating-point type.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="gaa18e9e56b551b408ece72853e3b4c610"><div>
+          <section class="m-doc-details" id="gaa419296539b7bda59ef0f8bf62ac330c"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaa18e9e56b551b408ece72853e3b4c610">approx_zero</a>(</span><span class="m-doc-wrap">double x,
-              double epsilon = constants&lt;double&gt;::approx_equal_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaa419296539b7bda59ef0f8bf62ac330c">approx_zero</a>(</span><span class="m-doc-wrap">double x,
+              double epsilon = default_epsilon&lt;double&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
             </h3>
             <p>Returns true if a double is approximately equal to zero.</p>
           </div></section>
-          <section class="m-doc-details" id="ga8b96639aa0c12a1918f646fca5cba869"><div>
+          <section class="m-doc-details" id="ga3156cd82de6c0da5a9054c544ee99725"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga8b96639aa0c12a1918f646fca5cba869">approx_zero</a>(</span><span class="m-doc-wrap">float x,
-              float epsilon = constants&lt;float&gt;::approx_equal_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga3156cd82de6c0da5a9054c544ee99725">approx_zero</a>(</span><span class="m-doc-wrap">float x,
+              float epsilon = default_epsilon&lt;float&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
             </h3>
             <p>Returns true if a float is approximately equal to zero.</p>
           </div></section>
-          <section class="m-doc-details" id="ga88ec068300fbaee48a14c34d3d291bb2"><div>
+          <section class="m-doc-details" id="ga2e4ec0adf720b9c8fcd10344c1bf81eb"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga88ec068300fbaee48a14c34d3d291bb2">approx_zero</a>(</span><span class="m-doc-wrap">float128_t x,
-              float128_t epsilon = constants&lt;float128_t&gt;::approx_equal_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga2e4ec0adf720b9c8fcd10344c1bf81eb">approx_zero</a>(</span><span class="m-doc-wrap">float128_t x,
+              float128_t epsilon = default_epsilon&lt;float128_t&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
             </h3>
             <p>Returns true if a float128_t is approximately equal to zero.</p>
           </div></section>
-          <section class="m-doc-details" id="gab1b725b501baf3194120f47ee3fbef8f"><div>
+          <section class="m-doc-details" id="ga5df3be4319d056f5a12b082177b1f8dd"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gab1b725b501baf3194120f47ee3fbef8f">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> x,
-              <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> epsilon = constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::approx_equal_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga5df3be4319d056f5a12b082177b1f8dd">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> x,
+              <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> epsilon = constants&lt;<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>&gt;::default_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="half_8h.html">&lt;muu/half.h&gt;</a></div>
             </h3>
             <p>Returns true a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float is approximately equal to zero.</p>
           </div></section>
-          <section class="m-doc-details" id="gac44821c8bef0859a16a3306f32038ead"><div>
+          <section class="m-doc-details" id="gafe3ff928bf4edd7f2b341ee9f8480789"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gac44821c8bef0859a16a3306f32038ead">approx_zero</a>(</span><span class="m-doc-wrap">long double x,
-              long double epsilon = constants&lt;long double&gt;::approx_equal_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gafe3ff928bf4edd7f2b341ee9f8480789">approx_zero</a>(</span><span class="m-doc-wrap">long double x,
+              long double epsilon = default_epsilon&lt;long double&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
             </h3>
             <p>Returns true if a long double is approximately equal to zero.</p>

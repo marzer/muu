@@ -101,7 +101,7 @@ C++</span></a>
               <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1axis__angle__rotation.html">axis_angle_rotation</a>
             </dt>
-            <dd>An axis+angle rotation.</dd>
+            <dd>An axis-angle rotation.</dd>
             <dt>
               class <a class="m-doc" href="classmuu_1_1blob.html">blob</a>
             </dt>
@@ -125,12 +125,12 @@ C++</span></a>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01____fp16_01_4.html">constants&lt;__fp16&gt;</a>
             </dt>
-            <dd><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> constants.</dd>
+            <dd><code><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a></code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01___float16_01_4.html">constants&lt;_Float16&gt;</a>
             </dt>
-            <dd><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> constants.</dd>
+            <dd><code><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a></code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01char_01_4.html">constants&lt;char&gt;</a>
@@ -395,6 +395,11 @@ C++</span></a>
             </dt>
             <dd>Provides an identity type transformation.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              using <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_type</a> = impl::std_math_common_type&lt;<a class="m-doc" href="group__meta.html#ga3cac44d2af43c4fd98e835ff5b28988a">remove_<wbr/>cvref</a>&lt;T&gt;...&gt;
+            </dt>
+            <dd>A common epsilon type when comparing floating-point types named by T.</dd>
+            <dt>
               using <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> = <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html" target="_blank">__float128</a>
             </dt>
             <dd>A 128-bit quad-precision float.</dd>
@@ -635,39 +640,39 @@ C++</span></a>
             </dt>
             <dd>Applies a byte offset to a pointer.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga10846eb664ad1f4a723d73a5f3e1ad6f">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> a,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#gafeb998d47625b367c261d8bc59c7a282">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> a,
               <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> b,
-              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;<a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> are approximately equal.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#gad608fa80ae0f972c29864d7465ec8473">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> a,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#gaac1ff3710f8b52479141460b908e0019">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> a,
               <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> b,
-              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;<a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16s</a> are approximately equal.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#gabfe9ea2afb006528b1387e6b2d7a50d8">approx_equal</a>(</span><span class="m-doc-wrap">double a,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#gab93e074083f9da2915b8a5236f1cf7cf">approx_equal</a>(</span><span class="m-doc-wrap">double a,
               double b,
-              double epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;double&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              double epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;double&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two doubles are approximately equal.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#gac82dcde48c487938747a8baafec6bb54">approx_equal</a>(</span><span class="m-doc-wrap">float a,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#gaec4759ac5b40da6afc50eb0b3585f0fe">approx_equal</a>(</span><span class="m-doc-wrap">float a,
               float b,
-              float epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;float&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              float epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;float&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two floats are approximately equal.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga62400f811bf59a4e92f5e8c3172d9ecb">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> a,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga9b1e5da7e9ef7782a93da63b886ae258">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> a,
               <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> b,
-              <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;<a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two float128_ts are approximately equal.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#gafde7b2a6ac13119386ed20c50ac68f70">approx_equal</a>(</span><span class="m-doc-wrap">long double a,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga943da06224480e3230fc1420a245f98c">approx_equal</a>(</span><span class="m-doc-wrap">long double a,
               long double b,
-              long double epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;long double&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              long double epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;long double&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two long doubles are approximately equal.</dd>
             <dt>
@@ -677,33 +682,33 @@ C++</span></a>
             </dt>
             <dd>Returns true if two scalar values are approximately equal.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#gadbdbc225e09ccaad58493315495fcab2">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> x,
-              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;<a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga7376c26dbf846ee7e5eebbe68e431042">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> x,
+              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> is approximately equal to zero.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga6689072bdd909b0c9ccb8af4d232b092">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> x,
-              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;<a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga6f7edf9230c38096dead05a99bf5be4b">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> x,
+              <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> is approximately equal to zero.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#gaa18e9e56b551b408ece72853e3b4c610">approx_zero</a>(</span><span class="m-doc-wrap">double x,
-              double epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;double&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#gaa419296539b7bda59ef0f8bf62ac330c">approx_zero</a>(</span><span class="m-doc-wrap">double x,
+              double epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;double&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a double is approximately equal to zero.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga8b96639aa0c12a1918f646fca5cba869">approx_zero</a>(</span><span class="m-doc-wrap">float x,
-              float epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;float&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga3156cd82de6c0da5a9054c544ee99725">approx_zero</a>(</span><span class="m-doc-wrap">float x,
+              float epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;float&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a float is approximately equal to zero.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga88ec068300fbaee48a14c34d3d291bb2">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x,
-              <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;<a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga2e4ec0adf720b9c8fcd10344c1bf81eb">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x,
+              <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a float128_t is approximately equal to zero.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#gac44821c8bef0859a16a3306f32038ead">approx_zero</a>(</span><span class="m-doc-wrap">long double x,
-              long double epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;long double&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#gafe3ff928bf4edd7f2b341ee9f8480789">approx_zero</a>(</span><span class="m-doc-wrap">long double x,
+              long double epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;long double&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a long double is approximately equal to zero.</dd>
             <dt>
@@ -1940,6 +1945,10 @@ C++</span></a>
             </dt>
             <dd>Creates a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#aa0b0811f9ce6527d86c69109a89f7fcc">operator""_i128</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Creates an int128_t.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#aebdabb8a45196bbc6b42c4a1aba1da70">operator""_i16</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int16_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Creates an <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int16_t</a>.</dd>
@@ -1960,6 +1969,10 @@ C++</span></a>
             </dt>
             <dd>Creates a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a9e8a35fefddabd1aa96c32f7d22061ea">operator""_u128</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Creates a uint128_t.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#af54dddb5b8960951e398306feae40eb0">operator""_u16</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Creates a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a>.</dd>
@@ -1975,16 +1988,6 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a36dc4280bf55a78f92503fc6a2216ef5">operator""_u8</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Creates a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a>.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a08fdf739d41219352a4e0d7e73e971ea">operator""_uuid</a>(</span><span class="m-doc-wrap">const char* str,
-              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> len) -&gt; <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a uuid from a string literal using <a class="m-doc" href="structmuu_1_1uuid.html#ad6beda74aec99774e4b10d615aacacd5">uuid::<wbr/>parse</a>.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename S, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aa2efbff7dd229f25f26ce3b04d1244f6">orthonormalize</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a copy of a <a class="m-doc muu-injected" href="structmuu_1_1matrix.html">matrix</a> with the 3x3 part orthonormalized.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Return = void, typename T, typename U, typename... V&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gafd5ebb4cf00dd4b93188521f0a2196e2">pack</a>(</span><span class="m-doc-wrap">T val1,
@@ -2288,6 +2291,11 @@ C++</span></a>
             </dt>
             <dd>Are any of the named types unsigned or reference-to-unsigned?</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;T...&gt; <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_epsilon</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>The default floating-point epsilon value used when comparing floating-point types named by T.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gafc3c409c2d08bc8913db5ad46a84e0b9">has_arrow_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
@@ -2510,19 +2518,6 @@ C++</span></a>
                 </tr>
               </tbody>
             </table>
-          </div></section>
-        </section>
-        <section>
-          <h2>Function documentation</h2>
-          <section class="m-doc-details" id="aa2efbff7dd229f25f26ce3b04d1244f6"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="matrix_8h.html">&lt;muu/matrix.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename S, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;
-              </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt; muu::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa2efbff7dd229f25f26ce3b04d1244f6">orthonormalize</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Returns a copy of a <a class="m-doc muu-injected" href="structmuu_1_1matrix.html">matrix</a> with the 3x3 part orthonormalized.</p>
-<aside class="m-note m-info"><h4>Note</h4><p>This function is only available for <a class="m-doc muu-injected" href="structmuu_1_1matrix.html">matrices</a> with 3 or 4 rows and columns and a floating-point scalar_type.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="https://en.wikipedia.org/wiki/Orthonormal_basis" target="_blank">Orthonormal basis</a></p></aside>
           </div></section>
         </section>
       </div>

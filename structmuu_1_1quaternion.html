@@ -147,16 +147,16 @@ C++</span></a>
         <section id="pub-static-methods">
           <h2><a href="#pub-static-methods">Public static functions</a></h2>
           <dl class="m-doc">
-            <dt id="a5a4d2809aed90ec18870de39635948e0">
-              <div class="m-doc-template">template&lt;typename T, typename Epsilon = impl::highest_ranked&lt;<a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a>, T&gt;&gt;</div>
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a5a4d2809aed90ec18870de39635948e0">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__math.html#ga805ca7487ac67da08008fc6734452243">quaternion_<wbr/>param</a> q1,
+            <dt id="ae9b17652b1991ea81e015fb119d7f680">
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ae9b17652b1991ea81e015fb119d7f680">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__math.html#ga805ca7487ac67da08008fc6734452243">quaternion_<wbr/>param</a> q1,
               const <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&lt;T&gt;&amp; q2,
-              <a class="m-doc" href="group__meta.html#ga584cfbfcb8f1dc2df7da8320885c76f0">dont_<wbr/>deduce</a>&lt;Epsilon&gt; epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;Epsilon&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;<a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a>, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a>, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two quaternions are approximately equal.</dd>
-            <dt id="ae2feb021328253f68f58cdc1dd9f37c3">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ae2feb021328253f68f58cdc1dd9f37c3">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__math.html#ga805ca7487ac67da08008fc6734452243">quaternion_<wbr/>param</a> q,
-              <a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;<a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a>&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a11821ac1a40072fb8d9587f0a61a8223">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a11821ac1a40072fb8d9587f0a61a8223">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__math.html#ga805ca7487ac67da08008fc6734452243">quaternion_<wbr/>param</a> q,
+              <a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if all the scalar components in a quaternion are approximately equal to zero.</dd>
             <dt id="a85196c85cfa6ceb8d9b7731bcf244581">
@@ -266,14 +266,14 @@ C++</span></a>
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="a032ac37bbeea7258ca4f0027071e2020">
-              <div class="m-doc-template">template&lt;typename T, typename Epsilon = impl::highest_ranked&lt;<a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a>, T&gt;&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a032ac37bbeea7258ca4f0027071e2020">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&lt;T&gt;&amp; q,
-              <a class="m-doc" href="group__meta.html#ga584cfbfcb8f1dc2df7da8320885c76f0">dont_<wbr/>deduce</a>&lt;Epsilon&gt; epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;Epsilon&gt;::approx_equal_epsilon) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a6ee8ed2fdcf2fd017677cf99d4acc525">
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a6ee8ed2fdcf2fd017677cf99d4acc525">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&lt;T&gt;&amp; q,
+              <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;<a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a>, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a>, T&gt;) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if the quaternion is approximately equal to another.</dd>
-            <dt id="aebccb66d8bac67497725f36430338fc7">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aebccb66d8bac67497725f36430338fc7">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;<a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a>&gt;::approx_equal_epsilon) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a28c8b69d105ad42118beafef659da195">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a28c8b69d105ad42118beafef659da195">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a>&gt;) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if all the scalar components in the quaternion are approximately equal to zero.</dd>
             <dt id="a87a9219ff001bff34a40651cdb04da0c">
@@ -402,16 +402,16 @@ C++</span></a>
           <h2><a href="#related">Related</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;typename S, typename T, typename Epsilon = impl::highest_ranked&lt;S, T&gt;&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga700a53c3a4c709cd4edb4d13f9285821">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&lt;S&gt;&amp; q1,
+              <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga6b8d6921c4f39c5881a7ea6f95f33392">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&lt;S&gt;&amp; q1,
               const <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&lt;T&gt;&amp; q2,
-              <a class="m-doc" href="group__meta.html#ga584cfbfcb8f1dc2df7da8320885c76f0">dont_<wbr/>deduce</a>&lt;Epsilon&gt; epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;Epsilon&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;S, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two quaternions are approximately equal.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga726767cb7113cce0b4be498d43c27c94">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&lt;S&gt;&amp; q,
-              S epsilon = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;S&gt;::approx_equal_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga04dec66856dc79915e9130ef3693e9f2">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&lt;S&gt;&amp; q,
+              S epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if all the scalar components of a <a class="m-doc" href="structmuu_1_1quaternion.html#a5e662b4b9fd295ecd30de5fdb13befab">quaternion</a> are approximately equal to zero.</dd>
             <dt id="ae3e92df79fe85ed96266ca70d660de8d">
@@ -646,7 +646,7 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">static bool muu::<wbr/>quaternion&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8c49f622a7d5e373c88aeb8f443818a6">zero</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__math.html#ga805ca7487ac67da08008fc6734452243">quaternion_<wbr/>param</a> q) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if all the scalar components of a quaternion are exactly zero.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is a componentwise exact equality check; if you want an epsilon-based "near-enough" for floating-point quaternions, use <a class="m-doc" href="structmuu_1_1quaternion.html#ae2feb021328253f68f58cdc1dd9f37c3">approx_<wbr/>zero()</a>.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is a componentwise exact equality check; if you want an epsilon-based "near-enough" for floating-point quaternions, use <a class="m-doc" href="structmuu_1_1quaternion.html#a11821ac1a40072fb8d9587f0a61a8223">approx_<wbr/>zero()</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="af3526894b4d0dc8924b9ca19522a84bf"><div>
             <h3>
@@ -865,7 +865,7 @@ template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cpprefer
               <span class="m-doc-wrap-bumper">bool muu::<wbr/>quaternion&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a5de37390d2a3192015c3718c1188c06c">zero</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if all the scalar components of the quaternion are exactly zero.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is a componentwise exact equality check; if you want an epsilon-based "near-enough" for floating-point quaternions, use <a class="m-doc" href="structmuu_1_1quaternion.html#ae2feb021328253f68f58cdc1dd9f37c3">approx_<wbr/>zero()</a>.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is a componentwise exact equality check; if you want an epsilon-based "near-enough" for floating-point quaternions, use <a class="m-doc" href="structmuu_1_1quaternion.html#a11821ac1a40072fb8d9587f0a61a8223">approx_<wbr/>zero()</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="af6ecc07ab1cd65300aa3a89b99545cdf"><div>
             <h3>
@@ -877,7 +877,7 @@ template&lt;typename T&gt;
               const <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&lt;T&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if two quaternions are not exactly equal.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is a componentwise exact inequality check; if you want an epsilon-based "near-enough" for floating-point quaternions, use <a class="m-doc" href="structmuu_1_1quaternion.html#a5a4d2809aed90ec18870de39635948e0">approx_<wbr/>equal()</a>.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is a componentwise exact inequality check; if you want an epsilon-based "near-enough" for floating-point quaternions, use <a class="m-doc" href="structmuu_1_1quaternion.html#ae9b17652b1991ea81e015fb119d7f680">approx_<wbr/>equal()</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a06f1c1d18482dafdf237a4ead442efad"><div>
             <h3>
@@ -889,7 +889,7 @@ template&lt;typename T&gt;
               const <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&lt;T&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if two quaternions are exactly equal.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is a componentwise exact equality check; if you want an epsilon-based "near-enough" for floating-point quaternions, use <a class="m-doc" href="structmuu_1_1quaternion.html#a5a4d2809aed90ec18870de39635948e0">approx_<wbr/>equal()</a>.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is a componentwise exact equality check; if you want an epsilon-based "near-enough" for floating-point quaternions, use <a class="m-doc" href="structmuu_1_1quaternion.html#ae9b17652b1991ea81e015fb119d7f680">approx_<wbr/>equal()</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="aa80b85fea6664e3d955f129f9eff4a41"><div>
             <h3>

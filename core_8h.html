@@ -97,12 +97,12 @@ C++</span></a>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01____fp16_01_4.html">muu::constants&lt;__fp16&gt;</a>
             </dt>
-            <dd><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> constants.</dd>
+            <dd><code><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a></code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01___float16_01_4.html">muu::constants&lt;_Float16&gt;</a>
             </dt>
-            <dd><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> constants.</dd>
+            <dd><code><a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a></code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01char_01_4.html">muu::constants&lt;char&gt;</a>
@@ -248,6 +248,11 @@ C++</span></a>
               using <a class="m-doc" href="group__meta.html#ga584cfbfcb8f1dc2df7da8320885c76f0">dont_deduce</a> = typename impl::type_identity_&lt;T&gt;::type
             </dt>
             <dd>Provides an identity type transformation.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              using <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_type</a> = impl::std_math_common_type&lt;remove_cvref&lt;T&gt;...&gt;
+            </dt>
+            <dd>A common epsilon type when comparing floating-point types named by T.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga7c930af45d2e06539c2a3dfcc908a854">largest</a> = typename impl::largest_&lt;T...&gt;::type
@@ -500,6 +505,10 @@ C++</span></a>
             </dt>
             <dd>Creates a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#aa0b0811f9ce6527d86c69109a89f7fcc">operator""_i128</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; int128_t <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Creates an int128_t.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#aebdabb8a45196bbc6b42c4a1aba1da70">operator""_i16</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int16_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Creates an <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int16_t</a>.</dd>
@@ -519,6 +528,10 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#ac7cce4c07975fb4f279efb145f138f46">operator""_sz</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Creates a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a9e8a35fefddabd1aa96c32f7d22061ea">operator""_u128</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; uint128_t <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Creates a uint128_t.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#af54dddb5b8960951e398306feae40eb0">operator""_u16</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -668,6 +681,11 @@ C++</span></a>
             <dt> <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="namespacemuu_1_1build.html#a8d9bd9685ff101794faacdc43206d662">day</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The current day of the month (1-31).</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              epsilon_type&lt;T...&gt; <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_epsilon</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>The default floating-point epsilon value used when comparing floating-point types named by T.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gafc3c409c2d08bc8913db5ad46a84e0b9">has_arrow_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
