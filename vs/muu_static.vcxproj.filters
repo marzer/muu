@@ -97,9 +97,6 @@
     <ClInclude Include="..\include\muu\scope_guard.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\printing.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\muu\quaternion.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -114,6 +111,12 @@
     </ClInclude>
     <ClInclude Include="..\include\muu\bounding_box.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\stream_printer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\impl\print_math_types.h">
+      <Filter>include\impl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -219,16 +222,10 @@
     <ClCompile Include="..\src\string_param.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\vector.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\quaternion.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\half.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\matrix.cpp">
+    <ClCompile Include="..\src\print_math_types.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

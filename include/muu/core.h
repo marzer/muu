@@ -25,9 +25,9 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 	#undef max
 #endif
 
-//=====================================================================================================================
+//======================================================================================================================
 // INCLUDES
-//=====================================================================================================================
+//======================================================================================================================
 
 MUU_DISABLE_WARNINGS;
 // core.h include file rationale:
@@ -51,9 +51,9 @@ MUU_DISABLE_WARNINGS;
 #endif
 MUU_ENABLE_WARNINGS;
 
-//=====================================================================================================================
+//======================================================================================================================
 // ENVIRONMENT GROUND-TRUTHS
-//=====================================================================================================================
+//======================================================================================================================
 
 /// \cond
 #ifndef MUU_DISABLE_ENVIRONMENT_CHECKS
@@ -76,7 +76,7 @@ static_assert(std::numeric_limits<double>::is_iec559, MUU_ENV_MESSAGE);
 #endif // !MUU_DISABLE_ENVIRONMENT_CHECKS
 /// \endcond
 
-//=====================================================================================================================
+//======================================================================================================================
 // TYPE TRAITS AND METAFUNCTIONS
 #if 1
 
@@ -1126,9 +1126,25 @@ namespace muu::impl
 }
 /// \endcond
 
-#endif //==============================================================================================================
+namespace muu
+{
+	/// \addtogroup		meta
+	/// @{
 
-//=====================================================================================================================
+	/// \brief  A common epsilon type when comparing floating-point types named by T.
+	template <typename... T>
+	using epsilon_type = impl::std_math_common_type<remove_cvref<T>...>;
+
+	/// \brief  The default floating-point epsilon value used when comparing floating-point types named by T.
+	template <typename... T>
+	inline constexpr epsilon_type<T...> default_epsilon = constants<epsilon_type<T...>>::default_epsilon;
+
+	/** @} */	// meta
+}
+
+#endif //===============================================================================================================
+
+//======================================================================================================================
 // CONSTANTS
 #if 1
 
@@ -1164,11 +1180,16 @@ namespace muu
 		template <typename T>
 		struct integer_limits
 		{
+			/// \name Limits
+			/// @{ 
+
 			/// \brief The lowest representable 'normal' value (equivalent to std::numeric_limits::lowest()).
 			static constexpr T lowest = std::numeric_limits<T>::lowest();
 
 			/// \brief The highest representable 'normal' value (equivalent to std::numeric_limits::max()).
 			static constexpr T highest = std::numeric_limits<T>::max();
+
+			/// @}
 		};
 
 		/// \cond
@@ -1204,6 +1225,9 @@ namespace muu
 		template <typename T>
 		struct integer_positive_constants
 		{
+			/// \name Integers
+			/// @{ 
+
 			static constexpr T zero = T{ 0 };				///< `0`
 			static constexpr T one = T{ 1 };				///< `1`
 			static constexpr T two = T{ 2 };				///< `2`
@@ -1216,11 +1240,16 @@ namespace muu
 			static constexpr T nine = T{ 9 };				///< `9`
 			static constexpr T ten = T{ 10 };				///< `10`
 			static constexpr T one_hundred = T{ 100 };		///< `100`
+
+			/// @} 
 		};
 
 		template <typename T>
-		struct floating_point_limits
+		struct floating_point_traits
 		{
+			/// \name Floating-point
+			/// @{ 
+
 			/// \brief The number of significand (mantissa) digits.
 			static constexpr int significand_digits = std::numeric_limits<T>::digits;
 
@@ -1228,38 +1257,40 @@ namespace muu
 			static constexpr int decimal_digits = std::numeric_limits<T>::digits10;
 
 			/// \brief The default epsilon used by #approx_equal().
-			static constexpr T approx_equal_epsilon = T{ 10 } * power<T, 10, -std::numeric_limits<T>::digits10>::value;
+			static constexpr T default_epsilon = T{ 10 } * power<T, 10, -std::numeric_limits<T>::digits10>::value;
+
+			/// @} 
 		};
 
 		/// \cond
 
 		#if MUU_HAS_FP16
 		template <>
-		struct floating_point_limits<__fp16>
+		struct floating_point_traits<__fp16>
 		{
 			static constexpr int significand_digits = 11;
 			static constexpr int decimal_digits = 3;
-			static constexpr __fp16 approx_equal_epsilon = static_cast<__fp16>(0.001);
+			static constexpr __fp16 default_epsilon = static_cast<__fp16>(0.001);
 		};
 		#endif
 
 		#if MUU_HAS_FLOAT16
 		template <>
-		struct floating_point_limits<_Float16>
+		struct floating_point_traits<_Float16>
 		{
 			static constexpr int significand_digits = 11;
 			static constexpr int decimal_digits = 3;
-			static constexpr _Float16 approx_equal_epsilon = static_cast<_Float16>(0.001);
+			static constexpr _Float16 default_epsilon = static_cast<_Float16>(0.001);
 		};
 		#endif
 
 		#if MUU_HAS_FLOAT128
 		template <>
-		struct floating_point_limits<float128_t>
+		struct floating_point_traits<float128_t>
 		{
 			static constexpr int significand_digits = __FLT128_MANT_DIG__;
 			static constexpr int decimal_digits = __FLT128_DIG__;
-			static constexpr float128_t approx_equal_epsilon = float128_t{ 10 } * power<float128_t, 10, -__FLT128_DIG__>::value;
+			static constexpr float128_t default_epsilon = float128_t{ 10 } * power<float128_t, 10, -__FLT128_DIG__>::value;
 		};
 		#endif
 
@@ -1268,16 +1299,24 @@ namespace muu
 		template <typename T>
 		struct floating_point_special_constants
 		{
+			/// \name Floating-point
+			/// @{ 
+
 			static constexpr T nan = std::numeric_limits<T>::quiet_NaN();		///< Not-A-Number (quiet)
 			static constexpr T signaling_nan = std::numeric_limits<T>::signaling_NaN();	///< Not-A-Number (signalling)
 			static constexpr T infinity = std::numeric_limits<T>::infinity();	///< Positive infinity
 			static constexpr T negative_infinity = -infinity;					///< Negative infinity
 			static constexpr T negative_zero =		-T{};						///< `-0.0`
+
+			/// @} 
 		};
 
 		template <typename T>
 		struct floating_point_named_constants
 		{
+			/// \name Irrational numbers
+			/// @{ 
+
 			static constexpr T one_over_two           = T( 0.500000000000000000000L ); ///< `1 / 2`
 			static constexpr T two_over_three         = T( 0.666666666666666666667L ); ///< `2 / 3`
 			static constexpr T two_over_five          = T( 0.400000000000000000000L ); ///< `2 / 5`
@@ -1330,10 +1369,17 @@ namespace muu
 			static constexpr T sqrt_phi               = T( 1.272019649514068964252L ); ///< `sqrt(phi)`
 			static constexpr T one_over_sqrt_phi      = T( 0.786151377757423286070L ); ///< `1 / sqrt(phi)`
 
+			/// @} 
+
+			/// \name Conversions
+			/// @{ 
+
 			/// \brief  Conversion factor for converting degrees into radians.
 			static constexpr T degrees_to_radians     = T( 0.017453292519943295769L );
 			/// \brief  Conversion factor for converting radians into degrees.
 			static constexpr T radians_to_degrees     = T( 57.295779513082320876798L);
+
+			/// @} 
 		};
 
 		/// \cond
@@ -1405,15 +1451,30 @@ namespace muu
 			: integer_limits<T>,
 			integer_positive_constants<T>
 		{
+			/// \name Control characters
+			/// @{ 
+
 			static constexpr T backspace = T{ 8 };				///< The backspace character.
+			static constexpr T escape = T{ 27 };				///< `ESC`
+			static constexpr T del = T{ 127 };					///< `DEL`
+
+			/// @} 
+
+			/// \name Whitespace
+			/// @{ 
+
 			static constexpr T tab = T{ 9 };					///< `\t`
 			static constexpr T new_line = T{ 10 };				///< `\n`
 			static constexpr T vertical_tab = T{ 11 };			///< `\v`
 			static constexpr T form_feed = T{ 12 };				///< `\f`
 			static constexpr T carriage_return = T{ 13 };		///< `\r`
-			static constexpr T escape = T{ 27 };				///< `ESC`
-
 			static constexpr T space = T{ 32 };					///< `&nbsp;` (space)
+
+			/// @}
+
+			/// \name Punctuation
+			/// @{ 
+
 			static constexpr T exclamation_mark = T{ 33 };		///< `!`
 			static constexpr T quote = T{ 34 };					///< `"`
 			static constexpr T number_sign = T{ 35 };			///< `#`
@@ -1421,7 +1482,6 @@ namespace muu
 			static constexpr T percent = T{ 37 };				///< `%`
 			static constexpr T ampersand = T{ 38 };				///< `&amp;`
 			static constexpr T apostrophe = T{ 39 };			///< `&apos;`
-
 			static constexpr T left_parenthesis = T{ 40 };		///< `(`
 			static constexpr T right_parenthesis = T{ 41 };		///< `)`
 			static constexpr T asterisk = T{ 42 };				///< `*`
@@ -1430,6 +1490,17 @@ namespace muu
 			static constexpr T hyphen = T{ 45 };				///< `-`
 			static constexpr T period = T{ 46 };				///< `.`
 			static constexpr T forward_slash = T{ 47 };			///< `/`
+
+			static constexpr T colon = T{ 58 };					///< `:`
+			static constexpr T semi_colon = T{ 59 };			///< `;`
+			static constexpr T less_than = T{ 60 };				///< `&lt;`
+			static constexpr T equal = T{ 61 };					///< `=`
+			static constexpr T greater_than = T{ 62 };			///< `&gt;`
+			static constexpr T question_mark = T{ 63 };			///< `?`
+			static constexpr T at = T{ 64 };					///< `@`
+
+			/// \name Digits
+			/// @{ 
 
 			static constexpr T digit_0 = T{ 48 };				///< `0`
 			static constexpr T digit_1 = T{ 49 };				///< `1`
@@ -1442,13 +1513,10 @@ namespace muu
 			static constexpr T digit_8 = T{ 56 };				///< `8`
 			static constexpr T digit_9 = T{ 57 };				///< `9`
 
-			static constexpr T colon = T{ 58 };					///< `:`
-			static constexpr T semi_colon = T{ 59 };			///< `;`
-			static constexpr T less_than = T{ 60 };				///< `&lt;`
-			static constexpr T equal = T{ 61 };					///< `=`
-			static constexpr T greater_than = T{ 62 };			///< `&gt;`
-			static constexpr T question_mark = T{ 63 };			///< `?`
-			static constexpr T at = T{ 64 };					///< `@`
+			/// @} 
+
+			/// \name Letters
+			/// @{ 
 
 			static constexpr T letter_A = T{ 65 };				///< `A`
 			static constexpr T letter_B = T{ 66 };				///< `B`
@@ -1477,13 +1545,6 @@ namespace muu
 			static constexpr T letter_Y = T{ 89 };				///< `Y`
 			static constexpr T letter_Z = T{ 90 };				///< `Z`
 
-			static constexpr T left_square_bracket = T{ 91 };	///< `[`
-			static constexpr T back_slash = T{ 92 };			///< `\\`
-			static constexpr T right_square_bracket = T{ 93 };	///< `]`
-			static constexpr T hat = T{ 94 };					///< `^`
-			static constexpr T underscore = T{ 95 };			///<  `_`
-			static constexpr T backtick = T{ 96 };				///<  `&#96;` (backtick)
-
 			static constexpr T letter_a = T{ 97 };				///< `a`
 			static constexpr T letter_b = T{ 98 };				///< `b`
 			static constexpr T letter_c = T{ 99 };				///< `c`
@@ -1511,18 +1572,31 @@ namespace muu
 			static constexpr T letter_y = T{ 121 };				///< `y`
 			static constexpr T letter_z = T{ 122 };				///< `z`
 
+			/// @} 
+
+			/// \name Punctuation
+			/// @{ 
+
+			static constexpr T left_square_bracket = T{ 91 };	///< `[`
+			static constexpr T back_slash = T{ 92 };			///< `\\`
+			static constexpr T right_square_bracket = T{ 93 };	///< `]`
+			static constexpr T hat = T{ 94 };					///< `^`
+			static constexpr T underscore = T{ 95 };			///< `_`
+			static constexpr T backtick = T{ 96 };				///< `[htmlentity #96]`
+
 			static constexpr T left_brace = T{ 123 };			///< `{`
 			static constexpr T bar = T{ 124 };					///< `|`
 			static constexpr T right_brace = T{ 125 };			///< `}`
 			static constexpr T tilde = T{ 126 };				///< `~`
-			static constexpr T del = T{ 127 };					///< `DEL`
+
+			/// @} 
 		};
 
 		template <typename T>
 		struct floating_point_constants
 			: integer_limits<T>,
 			integer_positive_constants<T>,
-			floating_point_limits<T>,
+			floating_point_traits<T>,
 			floating_point_special_constants<T>,
 			floating_point_named_constants<T>
 		{};
@@ -1553,12 +1627,12 @@ namespace muu
 	template <> struct constants<long double> : impl::floating_point_constants<long double> {};
 
 	#if MUU_HAS_FP16
-	/// \brief	__fp16 constants.
+	/// \brief	`__fp16` constants.
 	template <> struct constants<__fp16> : impl::floating_point_constants<__fp16> {};
 	#endif
 
 	#if MUU_HAS_FLOAT16
-	/// \brief	_Float16 constants.
+	/// \brief	`_Float16` constants.
 	template <> struct constants<_Float16> : impl::floating_point_constants<_Float16> {};
 	#endif
 
@@ -1627,9 +1701,9 @@ namespace muu
 
 MUU_POP_PRECISE_MATH;
 
-#endif //==============================================================================================================
+#endif //===============================================================================================================
 
-//=====================================================================================================================
+//======================================================================================================================
 // LITERALS, BUILD CONSTANTS AND FUNCTIONS
 #if 1
 
@@ -1638,6 +1712,9 @@ namespace muu
 	inline namespace literals
 	{
 		/// \brief	Creates a size_t.
+		/// \detail \cpp
+		/// const size_t val = 42_sz;
+		/// \ecpp
 		[[nodiscard]]
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
@@ -1647,6 +1724,9 @@ namespace muu
 		}
 
 		/// \brief	Creates a uint8_t.
+		/// \detail \cpp
+		/// const uint8_t val = 42_u8;
+		/// \ecpp
 		[[nodiscard]]
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
@@ -1656,6 +1736,9 @@ namespace muu
 		}
 
 		/// \brief	Creates a uint16_t.
+		/// \detail \cpp
+		/// const uint16_t val = 42_u16;
+		/// \ecpp
 		[[nodiscard]]
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
@@ -1665,6 +1748,9 @@ namespace muu
 		}
 
 		/// \brief	Creates a uint32_t.
+		/// \detail \cpp
+		/// const uint32_t val = 42_u32;
+		/// \ecpp
 		[[nodiscard]]
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
@@ -1674,6 +1760,9 @@ namespace muu
 		}
 
 		/// \brief	Creates a uint64_t.
+		/// \detail \cpp
+		/// const uint64_t val = 42_u64;
+		/// \ecpp
 		[[nodiscard]]
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
@@ -1683,6 +1772,9 @@ namespace muu
 		}
 
 		/// \brief	Creates an int8_t.
+		/// \detail \cpp
+		/// const int8_t val = 42_i8;
+		/// \ecpp
 		[[nodiscard]]
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
@@ -1692,6 +1784,9 @@ namespace muu
 		}
 
 		/// \brief	Creates an int16_t.
+		/// \detail \cpp
+		/// const int16_t val = 42_i16;
+		/// \ecpp
 		[[nodiscard]]
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
@@ -1701,6 +1796,9 @@ namespace muu
 		}
 
 		/// \brief	Creates an int32_t.
+		/// \detail \cpp
+		/// const int32_t val = 42_i32;
+		/// \ecpp
 		[[nodiscard]]
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
@@ -1710,6 +1808,9 @@ namespace muu
 		}
 
 		/// \brief	Creates an int64_t.
+		/// \detail \cpp
+		/// const int64_t val = 42_i64;
+		/// \ecpp
 		[[nodiscard]]
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
@@ -1719,6 +1820,9 @@ namespace muu
 		}
 
 		/// \brief	Creates a std::byte.
+		/// \detail \cpp
+		/// const std::byte val = 42_byte;
+		/// \ecpp
 		[[nodiscard]]
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
@@ -1729,6 +1833,10 @@ namespace muu
 
 		#if MUU_HAS_INT128
 
+		/// \brief	Creates an int128_t.
+		/// \detail \cpp
+		/// const int128_t val = 42_i128;
+		/// \ecpp
 		[[nodiscard]]
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
@@ -1737,6 +1845,10 @@ namespace muu
 			return static_cast<int128_t>(n);
 		}
 
+		/// \brief	Creates a uint128_t.
+		/// \detail \cpp
+		/// const uint128_t val = 42_u128;
+		/// \ecpp
 		[[nodiscard]]
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
@@ -3629,7 +3741,7 @@ namespace muu
 	/** @} */	// core
 }
 
-#endif //==============================================================================================================
+#endif //===============================================================================================================
 
 #undef MUU_HAS_INTRINSIC_BIT_CAST
 #undef MUU_HAS_INTRINSIC_POPCOUNT

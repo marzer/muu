@@ -68,8 +68,8 @@
     <Natvis Include="muu.natvis" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="muu.vcxproj">
-      <Project>{0e287b5a-1168-43fd-b067-f6be8e182a57}</Project>
+    <ProjectReference Include="muu_static.vcxproj">
+      <Project>{692ca01d-9ce3-5fa9-aa00-10e8f1372ef9}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

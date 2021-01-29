@@ -80,6 +80,7 @@
     <ClInclude Include="..\include\muu\fwd.h" />
     <ClInclude Include="..\include\muu\half.h" />
     <ClInclude Include="..\include\muu\hashing.h" />
+    <ClInclude Include="..\include\muu\impl\print_math_types.h" />
     <ClInclude Include="..\include\muu\impl\unicode_char.h" />
     <ClInclude Include="..\include\muu\impl\unicode_char16_t.h" />
     <ClInclude Include="..\include\muu\impl\unicode_char32_t.h" />
@@ -103,7 +104,7 @@
     <ClInclude Include="..\include\muu\vector.h" />
     <ClInclude Include="..\src\os_internal.h" />
     <ClInclude Include="..\src\os_internal_windows.h" />
-    <ClInclude Include="..\src\printing.h" />
+    <ClInclude Include="..\src\stream_printer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />
@@ -142,13 +143,11 @@
     <ClCompile Include="..\src\blob.cpp" />
     <ClCompile Include="..\src\half.cpp" />
     <ClCompile Include="..\src\hashing.cpp" />
-    <ClCompile Include="..\src\matrix.cpp" />
-    <ClCompile Include="..\src\quaternion.cpp" />
     <ClCompile Include="..\src\string_param.cpp" />
     <ClCompile Include="..\src\thread_name.cpp" />
     <ClCompile Include="..\src\thread_pool.cpp" />
     <ClCompile Include="..\src\uuid.cpp" />
-    <ClCompile Include="..\src\vector.cpp" />
+    <ClCompile Include="..\src\print_math_types.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

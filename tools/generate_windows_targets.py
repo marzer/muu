@@ -177,6 +177,7 @@ def main():
 		<ClCompile Include="..\..\tests\accumulator.cpp" />
 		<ClCompile Include="..\..\tests\aligned_alloc.cpp" />
 		<ClCompile Include="..\..\tests\blob.cpp" />
+		<ClCompile Include="..\..\tests\bounding_box.cpp" />
 		<ClCompile Include="..\..\tests\compressed_pair.cpp" />
 		<ClCompile Include="..\..\tests\core_bit.cpp" />
 		<ClCompile Include="..\..\tests\core_other.cpp" />

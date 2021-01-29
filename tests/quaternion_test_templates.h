@@ -419,7 +419,7 @@ inline void quat_euler_tests(std::string_view scalar_typename) noexcept
 		const auto dir = normalize(input_dir * quat);
 		CHECK(!infinity_or_nan(dir));
 
-		if (!approx_equal(dir, expected_dir, static_cast<T>(s::approx_equal_epsilon * 4)))
+		if (!approx_equal(dir, expected_dir, static_cast<T>(s::default_epsilon * 4)))
 		{
 			INFO("   input direction: " << input_dir)
 			INFO("    input rotation: " << rot)
@@ -444,7 +444,7 @@ inline void quat_euler_tests(std::string_view scalar_typename) noexcept
 		const auto dir2 = normalize(input_dir * quat2);
 		CHECK(!infinity_or_nan(dir2));
 
-		if (!approx_equal(dir2, expected_dir, static_cast<T>(s::approx_equal_epsilon * 4)))
+		if (!approx_equal(dir2, expected_dir, static_cast<T>(s::default_epsilon * 4)))
 		{
 			INFO("    input direction: " << input_dir)
 			INFO("     input rotation: " << rot)
@@ -495,7 +495,7 @@ inline void quat_conjugate_tests(std::string_view scalar_typename) noexcept
 			caeo_q2 = decltype(caeo_q2){ -caeo_q2.s, -caeo_q2.v };				\
 																				\
 		using caeo_scalar = typename decltype(caeo_q1)::scalar_type;			\
-		const auto caeo_eps = constants<caeo_scalar>::approx_equal_epsilon * 10;\
+		const auto caeo_eps = constants<caeo_scalar>::default_epsilon * 10;\
 		CHECK_APPROX_EQUAL_EPS(caeo_q1.s,	caeo_q2.s,	 caeo_eps);				\
 		CHECK_APPROX_EQUAL_EPS(caeo_q1.v.x,	caeo_q2.v.x, caeo_eps);				\
 		CHECK_APPROX_EQUAL_EPS(caeo_q1.v.y,	caeo_q2.v.y, caeo_eps);				\
@@ -587,7 +587,7 @@ inline void quat_multiplication_tests(std::string_view scalar_typename) noexcept
 	});
 	const T angle1 = static_cast<T>(1.2);
 	const T angle2 = static_cast<T>(0.7);
-	const T angle3 = static_cast<T>(angle2 + constants<T>::approx_equal_epsilon);
+	const T angle3 = static_cast<T>(angle2 + constants<T>::default_epsilon);
 	const auto qaa1 = quat_t::from_axis_angle(axis, angle1);
 	const auto qaa2 = quat_t::from_axis_angle(axis, angle2);
 	const auto qaa3 = quat_t::from_axis_angle(axis, angle3);

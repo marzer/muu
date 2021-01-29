@@ -819,6 +819,20 @@ namespace muu
 		};
 
 		template <>
+		struct floating_point_traits<half>
+		{
+			static constexpr int significand_digits = 11;
+			static constexpr int decimal_digits = 3;
+			
+			#if MUU_HALF_EMULATED
+			static constexpr half default_epsilon	= half::from_bits(0b0'00101'0000011001_u16); // 0.001
+			#else
+			using impl_type = floating_point_traits<MUU_HALF_IMPL_TYPE>;
+			static constexpr half default_epsilon	= half{ impl_type::default_epsilon };
+			#endif
+		};
+
+		template <>
 		struct floating_point_special_constants<half>
 		{
 			#if MUU_HALF_EMULATED
@@ -951,20 +965,6 @@ namespace muu
 			static constexpr half radians_to_degrees     = half{ impl_type::radians_to_degrees     };
 			#endif
 		};
-
-		template <>
-		struct floating_point_limits<half>
-		{
-			static constexpr int significand_digits = 11;
-			static constexpr int decimal_digits = 3;
-			
-			#if MUU_HALF_EMULATED
-			static constexpr half approx_equal_epsilon	= half::from_bits(0b0'00101'0000011001_u16); // 0.001
-			#else
-			using impl_type = floating_point_limits<MUU_HALF_IMPL_TYPE>;
-			static constexpr half approx_equal_epsilon	= half{ impl_type::approx_equal_epsilon };
-			#endif
-		};
 	}
 	/// \endcond
 
@@ -977,7 +977,10 @@ namespace muu
 	inline namespace literals
 	{
 		/// \brief	Literal for creating a half-precision float.
-		///
+		/// \detail \cpp
+		/// const half val = 42.5_f16;
+		/// \ecpp
+		/// 
 		/// \related	muu::half
 		[[nodiscard]]
 		MUU_ATTR(const)
@@ -987,7 +990,10 @@ namespace muu
 		}
 
 		/// \brief	Literal for creating a half-precision float.
-		///
+		/// \detail \cpp
+		/// const half val = 42_f16;
+		/// \ecpp
+		/// 
 		/// \related	muu::half
 		[[nodiscard]]
 		MUU_ATTR(const)
@@ -1040,7 +1046,7 @@ namespace muu
 	/// \related	muu::half
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool MUU_VECTORCALL approx_equal(half a, half b, half epsilon = constants<half>::approx_equal_epsilon) noexcept
+	constexpr bool MUU_VECTORCALL approx_equal(half a, half b, half epsilon = constants<half>::default_epsilon) noexcept
 	{
 		return muu::approx_equal(static_cast<float>(a), static_cast<float>(b), static_cast<float>(epsilon));
 	}
@@ -1052,7 +1058,7 @@ namespace muu
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
-	constexpr bool MUU_VECTORCALL approx_zero(half x, half epsilon = constants<half>::approx_equal_epsilon) noexcept
+	constexpr bool MUU_VECTORCALL approx_zero(half x, half epsilon = constants<half>::default_epsilon) noexcept
 	{
 		return muu::approx_equal(static_cast<float>(x), 0.0f, static_cast<float>(epsilon));
 	}

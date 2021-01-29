@@ -5,3 +5,4 @@ python-dateutil
 jinja2
 pygments
 html5lib
+lxml

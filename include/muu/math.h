@@ -447,7 +447,7 @@ namespace muu
 	/// \brief	Returns true if two floats are approximately equal.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool MUU_VECTORCALL approx_equal(float a, float b, float epsilon = constants<float>::approx_equal_epsilon) noexcept
+	constexpr bool MUU_VECTORCALL approx_equal(float a, float b, float epsilon = default_epsilon<float>) noexcept
 	{
 		return abs(b - a) < epsilon;
 	}
@@ -455,7 +455,7 @@ namespace muu
 	/// \brief	Returns true if two doubles are approximately equal.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool MUU_VECTORCALL approx_equal(double a, double b, double epsilon = constants<double>::approx_equal_epsilon) noexcept
+	constexpr bool MUU_VECTORCALL approx_equal(double a, double b, double epsilon = default_epsilon<double>) noexcept
 	{
 		return abs(b - a) < epsilon;
 	}
@@ -463,7 +463,7 @@ namespace muu
 	/// \brief	Returns true if two long doubles are approximately equal.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool MUU_VECTORCALL approx_equal(long double a, long double b, long double epsilon = constants<long double>::approx_equal_epsilon) noexcept
+	constexpr bool MUU_VECTORCALL approx_equal(long double a, long double b, long double epsilon = default_epsilon<long double>) noexcept
 	{
 		return abs(b - a) < epsilon;
 	}
@@ -472,7 +472,7 @@ namespace muu
 	/// \brief	Returns true if two float128_ts are approximately equal.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool MUU_VECTORCALL approx_equal(float128_t a, float128_t b, float128_t epsilon = constants<float128_t>::approx_equal_epsilon) noexcept
+	constexpr bool MUU_VECTORCALL approx_equal(float128_t a, float128_t b, float128_t epsilon = default_epsilon<float128_t>) noexcept
 	{
 		return abs(b - a) < epsilon;
 	}
@@ -482,7 +482,7 @@ namespace muu
 	/// \brief	Returns true if two _Float16s are approximately equal.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool MUU_VECTORCALL approx_equal(_Float16 a, _Float16 b, _Float16 epsilon = constants<_Float16>::approx_equal_epsilon) noexcept
+	constexpr bool MUU_VECTORCALL approx_equal(_Float16 a, _Float16 b, _Float16 epsilon = default_epsilon<_Float16>) noexcept
 	{
 		return abs(b - a) < epsilon;
 	}
@@ -492,7 +492,7 @@ namespace muu
 	/// \brief	Returns true if two __fp16 are approximately equal.
 	[[nodiscard]]
 	MUU_ATTR(const)
-	constexpr bool MUU_VECTORCALL approx_equal(__fp16 a, __fp16 b, __fp16 epsilon = constants<__fp16>::approx_equal_epsilon) noexcept
+	constexpr bool MUU_VECTORCALL approx_equal(__fp16 a, __fp16 b, __fp16 epsilon = default_epsilon<__fp16>) noexcept
 	{
 		return abs(b - a) < epsilon;
 	}
@@ -533,7 +533,7 @@ namespace muu
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
-	constexpr bool MUU_VECTORCALL approx_zero(float x, float epsilon = constants<float>::approx_equal_epsilon) noexcept
+	constexpr bool MUU_VECTORCALL approx_zero(float x, float epsilon = default_epsilon<float>) noexcept
 	{
 		return approx_equal(x, 0.0f, epsilon);
 	}
@@ -542,7 +542,7 @@ namespace muu
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
-	constexpr bool MUU_VECTORCALL approx_zero(double x, double epsilon = constants<double>::approx_equal_epsilon) noexcept
+	constexpr bool MUU_VECTORCALL approx_zero(double x, double epsilon = default_epsilon<double>) noexcept
 	{
 		return approx_equal(x, 0.0, epsilon);
 	}
@@ -551,7 +551,7 @@ namespace muu
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
-	constexpr bool MUU_VECTORCALL approx_zero(long double x, long double epsilon = constants<long double>::approx_equal_epsilon) noexcept
+	constexpr bool MUU_VECTORCALL approx_zero(long double x, long double epsilon = default_epsilon<long double>) noexcept
 	{
 		return approx_equal(x, 0.0L, epsilon);
 	}
@@ -561,7 +561,7 @@ namespace muu
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
-	constexpr bool MUU_VECTORCALL approx_zero(float128_t x, float128_t epsilon = constants<float128_t>::approx_equal_epsilon) noexcept
+	constexpr bool MUU_VECTORCALL approx_zero(float128_t x, float128_t epsilon = default_epsilon<float128_t>) noexcept
 	{
 		return approx_equal(x, float128_t{}, epsilon);
 	}
@@ -572,7 +572,7 @@ namespace muu
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
-	constexpr bool MUU_VECTORCALL approx_zero(_Float16 x, _Float16 epsilon = constants<_Float16>::approx_equal_epsilon) noexcept
+	constexpr bool MUU_VECTORCALL approx_zero(_Float16 x, _Float16 epsilon = default_epsilon<_Float16>) noexcept
 	{
 		return approx_equal(x, _Float16{}, epsilon);
 	}
@@ -583,7 +583,7 @@ namespace muu
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
-	constexpr bool MUU_VECTORCALL approx_zero(__fp16 x, __fp16 epsilon = constants<__fp16>::approx_equal_epsilon) noexcept
+	constexpr bool MUU_VECTORCALL approx_zero(__fp16 x, __fp16 epsilon = default_epsilon<__fp16>) noexcept
 	{
 		return approx_equal(x, __fp16{}, epsilon);
 	}

@@ -11,7 +11,6 @@
 #include "../muu/quaternion.h"
 
 MUU_DISABLE_WARNINGS;
-#include <iosfwd>
 #include <tuple>
 MUU_ENABLE_WARNINGS;
 
@@ -30,7 +29,7 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 	#undef max
 #endif
 
-//=====================================================================================================================
+//======================================================================================================================
 // IMPLEMENTATION DETAILS
 #if 1
 
@@ -129,11 +128,11 @@ namespace muu::impl
 	MUU_ABI_VERSION_START(0);
 
 	template <typename Scalar, size_t Rows, size_t Columns>
-	struct MUU_TRIVIAL_ABI matrix_base
+	struct MUU_TRIVIAL_ABI matrix_
 	{
 		vector<Scalar, Rows> m[Columns];
 
-		matrix_base() noexcept = default;
+		matrix_() noexcept = default;
 
 	private:
 
@@ -159,7 +158,7 @@ namespace muu::impl
 
 		template <size_t... ColumnIndices>
 		explicit
-		constexpr matrix_base(value_fill_tag, std::index_sequence<ColumnIndices...>, Scalar fill) noexcept
+		constexpr matrix_(value_fill_tag, std::index_sequence<ColumnIndices...>, Scalar fill) noexcept
 				: m{ fill_column_initializer_msvc<ColumnIndices>(fill)... }
 		{
 			static_assert(sizeof...(ColumnIndices) <= Columns);
@@ -169,7 +168,7 @@ namespace muu::impl
 
 		template <size_t... ColumnIndices>
 		explicit
-		constexpr matrix_base(value_fill_tag, std::index_sequence<ColumnIndices...>, Scalar fill) noexcept
+		constexpr matrix_(value_fill_tag, std::index_sequence<ColumnIndices...>, Scalar fill) noexcept
 			: m{ (MUU_UNUSED(ColumnIndices), vector<Scalar, Rows>{ fill })... }
 		{
 			static_assert(sizeof...(ColumnIndices) <= Columns);
@@ -179,7 +178,7 @@ namespace muu::impl
 
 		template <typename... T>
 		explicit
-		constexpr matrix_base(columnwise_init_tag, T... cols) noexcept
+		constexpr matrix_(columnwise_init_tag, T... cols) noexcept
 			: m{ cols... }
 		{
 			static_assert(sizeof...(T) <= Columns);
@@ -187,7 +186,7 @@ namespace muu::impl
 
 		template <typename T, size_t... ColumnIndices>
 		explicit
-		constexpr matrix_base(columnwise_copy_tag, std::index_sequence<ColumnIndices...>, const T& cols) noexcept
+		constexpr matrix_(columnwise_copy_tag, std::index_sequence<ColumnIndices...>, const T& cols) noexcept
 			: m{ vector<Scalar, Rows>{ cols[ColumnIndices] }... }
 		{
 			static_assert(sizeof...(ColumnIndices) <= Columns);
@@ -230,7 +229,7 @@ namespace muu::impl
 
 		template <typename T, size_t... ColumnIndices>
 		explicit
-		constexpr matrix_base(const T& tpl, std::index_sequence<ColumnIndices...>) noexcept
+		constexpr matrix_(const T& tpl, std::index_sequence<ColumnIndices...>) noexcept
 			: m{ column_from_row_major_tuple<ColumnIndices>(tpl, std::make_index_sequence<Rows>{})... }
 		{
 			static_assert(tuple_size<T> <= Rows * Columns);
@@ -239,8 +238,8 @@ namespace muu::impl
 
 		template <typename T>
 		explicit
-		constexpr matrix_base(row_major_tuple_tag, const T& tpl) noexcept
-			: matrix_base{ tpl, std::make_index_sequence<Columns>{} }
+		constexpr matrix_(row_major_tuple_tag, const T& tpl) noexcept
+			: matrix_{ tpl, std::make_index_sequence<Columns>{} }
 		{
 			static_assert(tuple_size<T> <= Rows * Columns);
 		}
@@ -249,76 +248,20 @@ namespace muu::impl
 	MUU_ABI_VERSION_END;
 
 	template <typename Scalar, size_t Rows, size_t Columns>
-	inline constexpr bool is_hva<matrix_base<Scalar, Rows, Columns>> = can_be_hva_of<Scalar, matrix_base<Scalar, Rows, Columns>>;
+	inline constexpr bool is_hva<matrix_<Scalar, Rows, Columns>> = can_be_hva_of<Scalar, matrix_<Scalar, Rows, Columns>>;
 
 	template <typename Scalar, size_t Rows, size_t Columns>
-	inline constexpr bool is_hva<matrix<Scalar, Rows, Columns>> = is_hva<matrix_base<Scalar, Rows, Columns>>;
+	inline constexpr bool is_hva<matrix<Scalar, Rows, Columns>> = is_hva<matrix_<Scalar, Rows, Columns>>;
 
 	template <typename Scalar, size_t Rows, size_t Columns>
 	struct readonly_param_<matrix<Scalar, Rows, Columns>>
 	{
 		using type = std::conditional_t<
-			pass_readonly_by_value<matrix_base<Scalar, Rows, Columns>>,
+			pass_readonly_by_value<matrix_<Scalar, Rows, Columns>>,
 			matrix<Scalar, Rows, Columns>,
 			const matrix<Scalar, Rows, Columns>&
 		>;
 	};
-
-	MUU_API void print_matrix_to_stream(std::ostream& stream, const half*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::ostream& stream, const float*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::ostream& stream, const double*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::ostream& stream, const long double*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::ostream& stream, const signed char*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::ostream& stream, const signed short*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::ostream& stream, const signed int*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::ostream& stream, const signed long*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::ostream& stream, const signed long long*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::ostream& stream, const unsigned char*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::ostream& stream, const unsigned short*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::ostream& stream, const unsigned int*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::ostream& stream, const unsigned long*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::ostream& stream, const unsigned long long*, size_t, size_t);
-	#if MUU_HAS_FLOAT16
-	MUU_API void print_matrix_to_stream(std::ostream& stream, const _Float16*, size_t, size_t);
-	#endif
-	#if MUU_HAS_FP16
-	MUU_API void print_matrix_to_stream(std::ostream& stream, const __fp16*, size_t, size_t);
-	#endif
-	#if MUU_HAS_FLOAT128
-	MUU_API void print_matrix_to_stream(std::ostream& stream, const float128_t*, size_t, size_t);
-	#endif
-	#if MUU_HAS_INT128
-	MUU_API void print_matrix_to_stream(std::ostream& stream, const int128_t*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::ostream& stream, const uint128_t*, size_t, size_t);
-	#endif
-
-	MUU_API void print_matrix_to_stream(std::wostream& stream, const half*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::wostream& stream, const float*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::wostream& stream, const double*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::wostream& stream, const long double*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::wostream& stream, const signed char*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::wostream& stream, const signed short*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::wostream& stream, const signed int*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::wostream& stream, const signed long*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::wostream& stream, const signed long long*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::wostream& stream, const unsigned char*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::wostream& stream, const unsigned short*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::wostream& stream, const unsigned int*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::wostream& stream, const unsigned long*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::wostream& stream, const unsigned long long*, size_t, size_t);
-	#if MUU_HAS_FLOAT16
-	MUU_API void print_matrix_to_stream(std::wostream& stream, const _Float16*, size_t, size_t);
-	#endif
-	#if MUU_HAS_FP16
-	MUU_API void print_matrix_to_stream(std::wostream& stream, const __fp16*, size_t, size_t);
-	#endif
-	#if MUU_HAS_FLOAT128
-	MUU_API void print_matrix_to_stream(std::wostream& stream, const float128_t*, size_t, size_t);
-	#endif
-	#if MUU_HAS_INT128
-	MUU_API void print_matrix_to_stream(std::wostream& stream, const int128_t*, size_t, size_t);
-	MUU_API void print_matrix_to_stream(std::wostream& stream, const uint128_t*, size_t, size_t);
-	#endif
 
 	#define MAT_GET(r, c) static_cast<type>(m.m[c].template get<r>())
 
@@ -388,7 +331,7 @@ namespace muu::impl
 namespace muu
 {
 	template <typename From, typename Scalar, size_t Rows, size_t Columns>
-	inline constexpr bool allow_implicit_bit_cast<From, impl::matrix_base<Scalar, Rows, Columns>>
+	inline constexpr bool allow_implicit_bit_cast<From, impl::matrix_<Scalar, Rows, Columns>>
 		= allow_implicit_bit_cast<From, matrix<Scalar, Rows, Columns>>;
 }
 
@@ -496,9 +439,9 @@ namespace muu
 	#define REQUIRES_PAIRED_FUNC_BY_VAL(S, R, C, ...)
 #endif
 
-#endif // =============================================================================================================
+#endif //===============================================================================================================
 
-//=====================================================================================================================
+//======================================================================================================================
 // MATRIX CLASS
 #if 1
 
@@ -523,7 +466,7 @@ namespace muu
 	template <typename Scalar, size_t Rows, size_t Columns>
 	struct MUU_TRIVIAL_ABI matrix
 		#ifndef DOXYGEN
-		: impl::matrix_base<Scalar, Rows, Columns>
+		: impl::matrix_<Scalar, Rows, Columns>
 		#endif
 	{
 		static_assert(
@@ -592,7 +535,7 @@ namespace muu
 		template <typename S, size_t R, size_t C>
 		friend struct matrix;
 
-		using base = impl::matrix_base<Scalar, Rows, Columns>;
+		using base = impl::matrix_<Scalar, Rows, Columns>;
 		static_assert(
 			sizeof(base) == (sizeof(scalar_type) * Rows * Columns),
 			"Matrices should not have padding"
@@ -1079,7 +1022,7 @@ namespace muu
 		/// \brief	Returns true if two matrices are approximately equal.
 		/// 
 		/// \note		This function is only available when at least one of #scalar_type and `T` is a floating-point type.
-		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T>
+		template <typename T
 			ENABLE_PAIRED_FUNC_BY_REF(T, rows, columns, any_floating_point<scalar_type, T>)
 		>
 		REQUIRES_PAIRED_FUNC_BY_REF(T, rows, columns, any_floating_point<scalar_type, T>)
@@ -1088,7 +1031,7 @@ namespace muu
 		static constexpr bool MUU_VECTORCALL approx_equal(
 			matrix_param m1,
 			const matrix<T, rows, columns>& m2,
-			dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
+			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>
 		) noexcept
 		{
 			for (size_t i = 0; i < columns; i++)
@@ -1100,7 +1043,7 @@ namespace muu
 		/// \brief	Returns true if the matrix is approximately equal to another.
 		/// 
 		/// \note		This function is only available when at least one of #scalar_type and `T` is a floating-point type.
-		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T>
+		template <typename T
 			ENABLE_PAIRED_FUNC_BY_REF(T, rows, columns, any_floating_point<scalar_type, T>)
 		>
 		REQUIRES_PAIRED_FUNC_BY_REF(T, rows, columns, any_floating_point<scalar_type, T>)
@@ -1108,7 +1051,7 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_equal(
 			const matrix<T, rows, columns>& m,
-			dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
+			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>
 		) const noexcept
 		{
 			return approx_equal(*this, m, epsilon);
@@ -1116,7 +1059,7 @@ namespace muu
 
 		#if ENABLE_PAIRED_FUNCS
 
-		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T>
+		template <typename T
 			ENABLE_PAIRED_FUNC_BY_VAL(T, rows, columns, any_floating_point<scalar_type, T>)
 		>
 		REQUIRES_PAIRED_FUNC_BY_VAL(T, rows, columns, any_floating_point<scalar_type, T>)
@@ -1125,7 +1068,7 @@ namespace muu
 		static constexpr bool MUU_VECTORCALL approx_equal(
 			matrix_param m1,
 			matrix<T, rows, columns> m2,
-			dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
+			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>
 		) noexcept
 		{
 			for (size_t i = 0; i < columns; i++)
@@ -1134,7 +1077,7 @@ namespace muu
 			return true;
 		}
 
-		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T>
+		template <typename T
 			ENABLE_PAIRED_FUNC_BY_VAL(T, rows, columns, any_floating_point<scalar_type, T>)
 		>
 		REQUIRES_PAIRED_FUNC_BY_VAL(T, rows, columns, any_floating_point<scalar_type, T>)
@@ -1142,7 +1085,7 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_equal(
 			matrix<T, rows, columns> m,
-			dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
+			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>
 		) const noexcept
 		{
 			return approx_equal(*this, m, epsilon);
@@ -1158,7 +1101,7 @@ namespace muu
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL approx_zero(
 			matrix_param m,
-			scalar_type epsilon = muu::constants<scalar_type>::approx_equal_epsilon
+			scalar_type epsilon = default_epsilon<scalar_type>
 		) noexcept
 			REQUIRES_FLOATING_POINT
 		{
@@ -1175,7 +1118,7 @@ namespace muu
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_zero(
-			scalar_type epsilon = muu::constants<scalar_type>::approx_equal_epsilon
+			scalar_type epsilon = default_epsilon<scalar_type>
 		) const noexcept
 			REQUIRES_FLOATING_POINT
 		{
@@ -2005,7 +1948,7 @@ namespace muu
 		friend
 		std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& os, const matrix& m)
 		{
-			impl::print_matrix_to_stream(os, &m.get<0, 0>(), Rows, Columns);
+			impl::print_matrix(os, &m.get<0, 0>(), Rows, Columns);
 			return os;
 		}
 
@@ -2014,45 +1957,40 @@ namespace muu
 
 	/// \cond deduction_guides
 
-	template <typename T MUU_ENABLE_IF(is_arithmetic<T>)>
-	MUU_REQUIRES(is_arithmetic<T>)
-	matrix(T) -> matrix<T, 1, 1>;
+	MUU_CONSTRAINED_TEMPLATE(is_arithmetic<T>, typename T)
+	matrix(T) -> matrix<std::remove_cv_t<T>, 1, 1>;
 
-	template <
+	MUU_CONSTRAINED_TEMPLATE(
+		(all_arithmetic<T1, T2, T3, T4>),
 		typename T1, typename T2,
 		typename T3, typename T4
-		MUU_ENABLE_IF(all_arithmetic<T1, T2, T3, T4>)
-	>
-	MUU_REQUIRES(all_arithmetic<T1, T2, T3, T4>)
+	)
 	matrix(T1, T2, T3, T4) -> matrix<impl::highest_ranked<T1, T2, T3, T4>, 2, 2>;
 
-	template <
+	MUU_CONSTRAINED_TEMPLATE(
+		(all_arithmetic<T1, T2, T3, T4, T5, T6, T7, T8, T9>),
 		typename T1, typename T2, typename T3,
 		typename T4, typename T5, typename T6,
 		typename T7, typename T8, typename T9
-		MUU_ENABLE_IF(all_arithmetic<T1, T2, T3, T4, T5, T6, T7, T8, T9>)
-	>
-	MUU_REQUIRES(all_arithmetic<T1, T2, T3, T4, T5, T6, T7, T8, T9>)
+	)
 	matrix(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> matrix<impl::highest_ranked<T1, T2, T3, T4, T5, T6, T7, T8, T9>, 3, 3>;
 
-	template <
+	MUU_CONSTRAINED_TEMPLATE(
+		(all_arithmetic<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>),
 		typename T1, typename T2, typename T3, typename T4,
 		typename T5, typename T6, typename T7, typename T8,
 		typename T9, typename T10, typename T11, typename T12
-		MUU_ENABLE_IF(all_arithmetic<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>)
-	>
-	MUU_REQUIRES(all_arithmetic<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>)
+	)
 	matrix(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)
 		-> matrix<impl::highest_ranked<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>, 3, 4>;
 
-	template <
+	MUU_CONSTRAINED_TEMPLATE(
+		(all_arithmetic<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>),
 		typename T1, typename T2, typename T3, typename T4,
 		typename T5, typename T6, typename T7, typename T8,
 		typename T9, typename T10, typename T11, typename T12,
 		typename T13, typename T14, typename T15, typename T16
-		MUU_ENABLE_IF(all_arithmetic<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>)
-	>
-	MUU_REQUIRES(all_arithmetic<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>)
+	)
 	matrix(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)
 		-> matrix<impl::highest_ranked<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>, 4, 4>;
 
@@ -2061,9 +1999,9 @@ namespace muu
 	MUU_ABI_VERSION_END;
 }
 
-#endif // =============================================================================================================
+#endif //===============================================================================================================
 
-//=====================================================================================================================
+//======================================================================================================================
 // CONSTANTS
 #if 1
 
@@ -2143,8 +2081,8 @@ namespace muu
 		};
 
 		template <typename Scalar, size_t Rows, size_t Columns>
-		struct floating_point_limits<matrix<Scalar, Rows, Columns>>
-			: floating_point_limits<Scalar>
+		struct floating_point_traits<matrix<Scalar, Rows, Columns>>
+			: floating_point_traits<Scalar>
 		{};
 
 		template <typename Scalar, size_t Rows, size_t Columns>
@@ -2233,6 +2171,9 @@ namespace muu
 		{
 			using scalars = muu::constants<Scalar>;
 
+			/// \name Rotations
+			/// @{ 
+
 			/// \brief A matrix encoding a rotation 90 degrees to the right.
 			static constexpr matrix<Scalar, Rows, Columns> right = make_rotation_matrix<matrix, Scalar, Rows, Columns>(
 				scalars::zero,		scalars::zero,		-scalars::one,
@@ -2267,6 +2208,8 @@ namespace muu
 				scalars::zero,		scalars::zero,		scalars::one,
 				scalars::zero,		-scalars::one,		scalars::zero
 			);
+
+			/// @}
 		};
 
 		/// \cond
@@ -2282,7 +2225,7 @@ namespace muu
 			impl::rotation_matrix_constants<Scalar, Rows, Columns>,						\
 			impl::integer_limits<matrix<Scalar, Rows, Columns>>,						\
 			impl::integer_positive_constants<matrix<Scalar, Rows, Columns>>,			\
-			impl::floating_point_limits<matrix<Scalar, Rows, Columns>>,					\
+			impl::floating_point_traits<matrix<Scalar, Rows, Columns>>,					\
 			impl::floating_point_special_constants<matrix<Scalar, Rows, Columns>>,		\
 			impl::floating_point_named_constants<matrix<Scalar, Rows, Columns>>
 	#else
@@ -2291,11 +2234,11 @@ namespace muu
 			impl::matrix_constants_base<Scalar, Rows, Columns>
 	#endif
 
+	/// \brief		Matrix constants.
+	///
 	/// \ingroup	constants
 	/// \related	muu::matrix
 	/// \see		muu::matrix
-	/// 
-	/// \brief		Matrix constants.
 	template <typename Scalar, size_t Rows, size_t Columns>
 	struct constants<matrix<Scalar, Rows, Columns>>
 		: MATRIX_CONSTANTS_BASES
@@ -2309,9 +2252,9 @@ namespace muu
 
 MUU_POP_PRECISE_MATH;
 
-#endif // =============================================================================================================
+#endif //===============================================================================================================
 
-//=====================================================================================================================
+//======================================================================================================================
 // FREE FUNCTIONS
 #if 1
 
@@ -2339,14 +2282,13 @@ namespace muu
 		}
 	}
 
+	/// \brief		Returns true if two matrices are approximately equal.
+	/// 
 	/// \ingroup	approx_equal
 	/// \related	muu::matrix
 	///
-	/// \brief		Returns true if two matrices are approximately equal.
-	///
 	/// \note		This function is only available when at least one of `S` and `T` is a floating-point type.
-	template <typename S, typename T, size_t R, size_t C,
-		typename Epsilon = impl::highest_ranked<S, T>
+	template <typename S, typename T, size_t R, size_t C
 		ENABLE_PAIRED_FUNC_BY_REF(S, R, C, any_floating_point<S, T>&& impl::pass_readonly_by_reference<matrix<T, R, C>>)
 	>
 	REQUIRES_PAIRED_FUNC_BY_REF(S, R, C, any_floating_point<S, T> && impl::pass_readonly_by_reference<matrix<T, R, C>>)
@@ -2356,18 +2298,16 @@ namespace muu
 	constexpr bool MUU_VECTORCALL approx_equal(
 		const matrix<S, R, C>& m1,
 		const matrix<T, R, C>& m2,
-		dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
+		epsilon_type<S, T> epsilon = default_epsilon<S, T>
 	) noexcept
 	{
-		static_assert(is_same_as_any<Epsilon, S, T>);
-
 		return matrix<S, R, C>::approx_equal(m1, m2, epsilon);
 	}
 
+	/// \brief		Returns true if all the scalar components of a matrix are approximately equal to zero.
+	/// 
 	/// \ingroup	approx_zero
 	/// \related	muu::matrix
-	///
-	/// \brief		Returns true if all the scalar components of a matrix are approximately equal to zero.
 	///
 	/// \note		This function is only available when `S` is a floating-point type.
 	template <typename S, size_t R, size_t C
@@ -2379,15 +2319,15 @@ namespace muu
 	MUU_ALWAYS_INLINE
 	constexpr bool MUU_VECTORCALL approx_zero(
 		const matrix<S, R, C>& m,
-		S epsilon = muu::constants<S>::approx_equal_epsilon
+		S epsilon = default_epsilon<S>
 	) noexcept
 	{
 		return matrix<S, R, C>::approx_zero(m, epsilon);
 	}
 
-	/// \related	muu::matrix
-	///
 	/// \brief	Returns a transposed copy of a matrix.
+	///
+	/// \related	muu::matrix
 	template <typename S, size_t R, size_t C
 		ENABLE_PAIRED_FUNC_BY_REF(S, R, C, true)
 	>
@@ -2400,9 +2340,9 @@ namespace muu
 		return matrix<S, R, C>::transpose(m);
 	}
 
-	/// \related	muu::matrix
-	///
 	/// \brief	Calculates the determinant of a matrix.
+	/// 
+	/// \related	muu::matrix
 	///
 	/// \note This function is only available for square matrices with at most 4 rows and columns.
 	template <typename S, size_t R, size_t C,
@@ -2420,9 +2360,9 @@ namespace muu
 		return matrix<S, R, C>::determinant(m);
 	}
 
-	/// \related	muu::matrix
-	///
 	/// \brief	Returns the inverse of a matrix.
+	/// 
+	/// \related	muu::matrix
 	///
 	/// \note This function is only available for square matrices with at most 4 rows and columns.
 	template <typename S, size_t R, size_t C,
@@ -2442,6 +2382,8 @@ namespace muu
 
 	/// \brief	Returns a copy of a matrix with the 3x3 part orthonormalized.
 	/// 
+	/// \related	muu::matrix
+	///
 	/// \note This function is only available for matrices with 3 or 4 rows and columns
 	/// 	  and a floating-point scalar_type.
 	/// 
@@ -2478,8 +2420,7 @@ namespace muu
 		}
 	}
 
-	template <typename S, typename T, size_t R, size_t C,
-		typename Epsilon = impl::highest_ranked<S, T>
+	template <typename S, typename T, size_t R, size_t C
 		ENABLE_PAIRED_FUNC_BY_VAL(S, R, C, any_floating_point<S, T>&& impl::pass_readonly_by_value<matrix<T, R, C>>)
 	>
 	REQUIRES_PAIRED_FUNC_BY_VAL(S, R, C, any_floating_point<S, T> && impl::pass_readonly_by_value<matrix<T, R, C>>)
@@ -2489,11 +2430,9 @@ namespace muu
 	constexpr bool approx_equal(
 		matrix<S, R, C> m1,
 		matrix<T, R, C> m2,
-		dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
+		epsilon_type<S, T> epsilon = default_epsilon<S, T>
 	) noexcept
 	{
-		static_assert(is_same_as_any<Epsilon, S, T>);
-
 		return matrix<S, R, C>::approx_equal(m1, m2, epsilon);
 	}
 
@@ -2506,7 +2445,7 @@ namespace muu
 	MUU_ALWAYS_INLINE
 	constexpr bool approx_zero(
 		matrix<S, R, C> m,
-		S epsilon = muu::constants<S>::approx_equal_epsilon
+		S epsilon = default_epsilon<S>
 	) noexcept
 	{
 		return matrix<S, R, C>::approx_zero(m, epsilon);
@@ -2569,7 +2508,7 @@ namespace muu
 	#endif // ENABLE_PAIRED_FUNCS
 }
 
-#endif // =============================================================================================================
+#endif //===============================================================================================================
 
 #undef REQUIRES_SIZE_AT_LEAST
 #undef REQUIRES_DIMENSIONS_BETWEEN

@@ -246,7 +246,7 @@ MUU_ENABLE_WARNINGS;
 			INFO("  actual: "sv << print_aligned{ cae_actual } << "    "sv << MUU_MAKE_STRING(actual_))				\
 																													\
 			using cae_epsilon_type = impl::highest_ranked<decltype(actual_), decltype(expected_)>;					\
-			INFO(" epsilon: "sv<< print_aligned{ constants<cae_epsilon_type>::approx_equal_epsilon })				\
+			INFO(" epsilon: "sv<< print_aligned{ constants<cae_epsilon_type>::default_epsilon })				\
 																													\
 			CHECK(approx_equal(cae_expected, cae_actual));															\
 		}																											\

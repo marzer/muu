@@ -16,7 +16,8 @@ import concurrent.futures as futures
 import html
 import bs4 as soup
 import json
-import xml.etree.ElementTree as ET
+from lxml import etree
+from io import BytesIO
 
 
 #=== CONFIG ============================================================================================================
@@ -193,6 +194,7 @@ external_links = [
 	(r'std::maps?', 'https://en.cppreference.com/w/cpp/container/map'),
 	(r'std::max(?:\(\))?', 'https://en.cppreference.com/w/cpp/algorithm/max'),
 	(r'std::min(?:\(\))?', 'https://en.cppreference.com/w/cpp/algorithm/min'),
+	(r'std::numeric_limits::lowest(?:\(\))?', 'https://en.cppreference.com/w/cpp/types/numeric_limits/lowest'),
 	(r'std::numeric_limits', 'https://en.cppreference.com/w/cpp/types/numeric_limits'),
 	(r'std::optionals?', 'https://en.cppreference.com/w/cpp/utility/optional'),
 	(r'std::pairs?', 'https://en.cppreference.com/w/cpp/utility/pair'),
@@ -452,7 +454,7 @@ def html_string_descendants(starting_tag, filter = None):
 
 
 
-def html_append_class(tag, classes):
+def html_add_class(tag, classes):
 	appended = False
 	if 'class' not in tag.attrs:
 		tag['class'] = []
@@ -463,6 +465,19 @@ def html_append_class(tag, classes):
 			tag['class'].append(class_)
 			appended = True
 	return appended
+
+
+
+def html_remove_class(tag, classes):
+	removed = False
+	if 'class' in tag.attrs:
+		if not utils.is_collection(classes):
+			classes = (classes,)
+		for class_ in classes:
+			if class_ in tag['class']:
+				tag['class'].remove(class_)
+				removed = True
+	return removed
 
 
 
@@ -502,7 +517,7 @@ class RegexReplacer(object):
 # allows the injection of custom tags using square-bracketed proxies.
 class CustomTagsFix(object):
 	__double_tags = re.compile(r"\[\s*(span|div|code|pre|h1|h2|h3|h4|h5|h6)(.*?)\s*\](.*?)\[\s*/\s*\1\s*\]", re.I)
-	__single_tags = re.compile(r"\[\s*(/?(?:span|div|code|pre|emoji|br|li|ul|ol))(\s.*?)?\s*\]", re.I)
+	__single_tags = re.compile(r"\[\s*(/?(?:span|div|code|pre|emoji|br|li|ul|ol|htmlentity))(\s.*?)?\s*\]", re.I)
 	__allowed_parents = ['dd', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li']
 	__emojis = None
 	__emoji_uri = re.compile(r".+unicode/([0-9a-fA-F]+)[.]png.*", re.I)
@@ -518,9 +533,15 @@ class CustomTagsFix(object):
 
 	@classmethod
 	def __single_tags_substitute(cls, m):
-		if (str(m[1]).lower() == 'emoji'):
-			emoji = str(m[2]).strip().lower()
-			if emoji == '':
+		tag_name = m[1].lower();
+		if tag_name == 'htmlentity':
+			entity = m[2].strip()
+			if not entity:
+				return ''
+			return f'&{entity};'
+		elif tag_name == 'emoji':
+			emoji = m[2].strip().lower()
+			if not emoji:
 				return ''
 			if cls.__emojis is None:
 				file_path = path.join(utils.get_script_folder(), 'emojis.json')
@@ -545,10 +566,10 @@ class CustomTagsFix(object):
 		else:
 			return '<{}{}>'.format(
 				m[1],
-				(' ' + str(m[2]).strip()) if m[2] else ''
+				(' ' + m[2].strip()) if m[2] else ''
 			)
 
-	def __call__(self, file, doc):
+	def __call__(self, dir, file, doc):
 		changed = False
 		for name in self.__allowed_parents:
 			tags = doc.find_all_from_sections(name, include_toc=True)
@@ -613,7 +634,7 @@ class ModifiersFix1(ModifiersFixBase):
 			m[3]
 		)
 
-	def __call__(self, file, doc):
+	def __call__(self, dir, file, doc):
 		changed = False
 		for sect in self.__sections:
 			tags = doc.find_all_from_sections('dt', select='span.m-doc-wrap', section=sect)
@@ -640,7 +661,7 @@ class ModifiersFix2(ModifiersFixBase):
 		matches.append(m[1])
 		return ' '
 
-	def __call__(self, file, doc):
+	def __call__(self, dir, file, doc):
 		changed = False
 		sections = doc.find_all_from_sections(section=False) # all sections without an id
 		section = None
@@ -680,7 +701,7 @@ class ModifiersFix2(ModifiersFixBase):
 # applies some basic fixes to index.html
 class IndexPageFix(object):
 
-	def __call__(self, file, doc):
+	def __call__(self, dir, file, doc):
 		global badges
 		if file != 'index.html':
 			return False
@@ -730,7 +751,7 @@ class SyntaxHighlightingFix(object):
 		'while',
 	]
 
-	def __call__(self, file, doc):
+	def __call__(self, dir, file, doc):
 		global type_names
 		global preprocessor_macros
 		global all_namespaces
@@ -761,7 +782,7 @@ class SyntaxHighlightingFix(object):
 				if (names[i].string not in string_literals):
 					continue
 				prev = names[i].previous_sibling
-				if (prev is None or prev['class'] is None or 's' not in prev['class']):
+				if (prev is None or 'class' not in prev or 's' not in prev['class']):
 					continue
 				names[i]['class'] = 'sa'
 				del names[i]
@@ -839,7 +860,7 @@ class ExtDocLinksFix(object):
 			m[0],
 		)
 
-	def __call__(self, file, doc):
+	def __call__(self, dir, file, doc):
 		changed = False
 		root = doc.body.main.article.div.div
 		tags = html_shallow_search(root, self.__allowedNames, lambda t: html_find_parent(t, 'a', root) is None)
@@ -889,7 +910,7 @@ class EnableIfFix(object):
 			m[3]
 		)
 
-	def __call__(self, file, doc):
+	def __call__(self, dir, file, doc):
 		changed = False
 		for template in doc.body('div', class_='m-doc-template'):
 			replacer = RegexReplacer(self.__expression, lambda m: self.__substitute(m), str(template))
@@ -922,20 +943,20 @@ class ExternalLinksFix(object):
 	__href = re.compile(r'^\s*(?:https?|s?ftp|mailto)[:]', re.I)
 	__godbolt = re.compile(r'^\s*https[:]//godbolt.org/z/.+?$', re.I)
 
-	def __call__(self, file, doc):
+	def __call__(self, dir, file, doc):
 		changed = False
 		for anchor in doc.body('a', recursive=True):
 			if self.__href.search(anchor['href']):
 				if 'target' not in anchor.attrs or anchor['target'] != '_blank':
 					anchor['target'] = '_blank'
 					changed = True
-				changed = html_append_class(anchor, 'muu-external') or changed
+				changed = html_add_class(anchor, 'muu-external') or changed
 
 				# do magic with godbolt.org links
 				if self.__godbolt.fullmatch(anchor['href']):
-					changed = html_append_class(anchor, 'godbolt') or changed
+					changed = html_add_class(anchor, 'godbolt') or changed
 					if anchor.parent.name == 'p' and len(anchor.parent.contents) == 1:
-						changed = html_append_class(anchor.parent, ('m-note', 'm-success', 'godbolt')) or changed
+						changed = html_add_class(anchor.parent, ('m-note', 'm-success', 'godbolt')) or changed
 						if anchor.parent.next_sibling is not None and anchor.parent.next_sibling.name == 'pre':
 							code_block = anchor.parent.next_sibling
 							code_block.insert(0, anchor.parent.extract())
@@ -959,12 +980,43 @@ class TemplateTemplateFix(object):
 	def __substitute(cls, m):
 		return f'{m[1]}<br>\n{m[2]}'
 
-	def __call__(self, file, doc):
+	def __call__(self, dir, file, doc):
 		changed = False
 		for template in doc.body('div', class_='m-doc-template'):
 			replacer = RegexReplacer(self.__expression, lambda m: self.__substitute(m), str(template))
 			if replacer:
 				html_replace_tag(template, str(replacer))
+				changed = True
+		return changed
+
+
+
+#=======================================================================================================================
+
+
+
+# fix dead links to non-existent local files.
+class DeadLinksFix(object):
+
+	__href = re.compile(r'^([-_a-zA-Z0-9]+\.html?)(?:#(.*))?$')
+
+	def __call__(self, dir, file, doc):
+		changed = False
+		for anchor in doc.body('a', recursive=True):
+			match = self.__href.fullmatch(anchor['href'])
+			if match and not path.exists(path.join(dir, match[1])):
+				html_remove_class(anchor, 'm-doc')
+				if anchor.parent is not None and anchor.parent.name in ('dt', 'div'):
+					html_add_class(anchor, 'm-doc-self')
+					id = None
+					if 'id' in anchor.parent.attrs:
+						id = anchor.parent['id']
+					else:
+						id = match[2]
+						if not id:
+							id = f'{utils.multi_sha256(match[1], anchor.string)}'
+						anchor.parent['id'] = id
+					anchor['href'] = f'#{id}'
 				changed = True
 		return changed
 
@@ -1002,7 +1054,7 @@ def postprocess_file(dir, file, fixes):
 		doc = HTMLDocument(path.join(dir, file))
 		file = file.lower()
 		for fix in fixes:
-			if (fix(file, doc)):
+			if fix(dir, file, doc):
 				changed = True
 		if (changed):
 			doc.flush()
@@ -1055,42 +1107,77 @@ def doxygen_mangle_name(name):
 def preprocess_xml(dir):
 	global inline_namespaces
 	global implementation_headers
-	
-	if not inline_namespaces and not implementation_headers:
-		return
 
-	write_xml_to_file = lambda x, f: x.write(f, encoding='utf-8', xml_declaration=True)
-	inline_namespace_ids = [f'namespace{doxygen_mangle_name(ns)}' for ns in inline_namespaces]
-	implementation_header_data = [
-		(
-			hp,
-			path.basename(hp),
-			doxygen_mangle_name(path.basename(hp)),
-			[(i, path.basename(i), doxygen_mangle_name(path.basename(i))) for i in impl]
-		)
-		for hp, impl in implementation_headers
-	]
-	implementation_header_mappings = dict()
-	implementation_header_innernamespaces = dict()
-	implementation_header_sectiondefs = dict()
-	for hdata in implementation_header_data:
-		implementation_header_innernamespaces[hdata[2]] = []
-		implementation_header_sectiondefs[hdata[2]] = []
-		for (ip, ifn, iid) in hdata[3]:
-			implementation_header_mappings[iid] = hdata
+	pretty_print_xml = False
+
+	xml_parser = etree.XMLParser(
+		encoding='utf-8',
+		remove_blank_text=pretty_print_xml,
+		recover=True,
+		remove_comments=True,
+		ns_clean=True
+	)
+	write_xml_to_file = lambda x, f: x.write(f, encoding='utf-8', xml_declaration=True, pretty_print=pretty_print_xml)
+
+	inline_namespace_ids = None
+	if inline_namespaces:
+		inline_namespace_ids = [f'namespace{doxygen_mangle_name(ns)}' for ns in inline_namespaces]
+
+	implementation_header_data = None
+	implementation_header_mappings = None
+	implementation_header_innernamespaces = None
+	implementation_header_sectiondefs = None
+	if implementation_headers:
+		implementation_header_data = [
+			(
+				hp,
+				path.basename(hp),
+				doxygen_mangle_name(path.basename(hp)),
+				[(i, path.basename(i), doxygen_mangle_name(path.basename(i))) for i in impl]
+			)
+			for hp, impl in implementation_headers
+		]
+		implementation_header_mappings = dict()
+		implementation_header_innernamespaces = dict()
+		implementation_header_sectiondefs = dict()
+		for hdata in implementation_header_data:
+			implementation_header_innernamespaces[hdata[2]] = []
+			implementation_header_sectiondefs[hdata[2]] = []
+			for (ip, ifn, iid) in hdata[3]:
+				implementation_header_mappings[iid] = hdata
 
 	if 1:
 		extracted_implementation = False
 		xml_files = utils.get_all_files(dir, any=('*.xml'))
 		for xml_file in xml_files:
 			print(f'Pre-processing {xml_file}')
-			xml = ET.parse(xml_file)
+			xml = etree.parse(xml_file, parser=xml_parser)
 			
 			root = xml.getroot().find('compounddef')
 			if root is None:
 				continue
 
 			changed = False
+
+			# merge user-defined sections with the same name
+			if root.get("kind") in ("namespace", "class", "struct", "enum", "file"):
+				sectiondefs = [s for s in root.findall('sectiondef') if s.get("kind") == "user-defined"]
+				sections = dict()
+				for section in sectiondefs:
+					header = section.find('header')
+					if header is not None and header.text:
+						if header.text not in sections:
+							sections[header.text] = []
+					sections[header.text].append(section)
+				for key, vals in sections.items():
+					if len(vals) > 1:
+						first_section = vals.pop(0)
+						for section in vals:
+							for member in section.findall('memberdef'):
+								section.remove(member)
+								first_section.append(member)
+							root.remove(section)
+							changed = True
 
 			# namespaces
 			if root.get("kind") == "namespace" and inline_namespaces:
@@ -1144,7 +1231,7 @@ def preprocess_xml(dir):
 			for (hp, hfn, hid, impl) in implementation_header_data:
 				xml_file = path.join(dir, f'{hid}.xml')
 				print(f'Merging implementation nodes into {xml_file}')
-				xml = ET.parse(xml_file)
+				xml = etree.parse(xml_file, parser=xml_parser)
 				root = xml.getroot().find('compounddef')
 				changed = False
 
@@ -1200,27 +1287,27 @@ def preprocess_xml(dir):
 					print(f'Deleting {xml_file}')
 					os.remove(xml_file)
 
-
 	# scan through the files and substitute impl header ids and paths as appropriate
 	if 1 and implementation_headers:
 		xml_files = utils.get_all_files(dir, any=('*.xml'))
 		for xml_file in xml_files:
 			print(f'Re-linking implementation headers in {xml_file}')
-			xml = utils.read_all_text_from_file(xml_file)
+			xml_text = utils.read_all_text_from_file(xml_file)
 			for (hp, hfn, hid, impl) in implementation_header_data:
 				for (ip, ifn, iid) in impl:
-					#xml = xml.replace(f'refid="{iid}"',f'refid="{hid}"')
-					xml = xml.replace(f'compoundref="{iid}"',f'compoundref="{hid}"')
-					xml = xml.replace(ip,hp)
-			with open(xml_file, 'w', encoding='utf-8', newline='\n') as f:
-				f.write(xml)
+					#xml_text = xml_text.replace(f'refid="{iid}"',f'refid="{hid}"')
+					xml_text = xml_text.replace(f'compoundref="{iid}"',f'compoundref="{hid}"')
+					xml_text = xml_text.replace(ip,hp)
+			with BytesIO(bytes(xml_text, 'utf-8')) as b:
+				xml = etree.parse(b, parser=xml_parser)
+				write_xml_to_file(xml, xml_file)
 
 
 
 def main():
 	global _threadError
 
-	num_threads = os.cpu_count() * 2
+	num_threads = os.cpu_count()
 	root_dir = path.join(utils.get_script_folder(), '..')
 	docs_dir = path.join(root_dir, 'docs')
 	xml_dir = path.join(docs_dir, 'xml')
@@ -1252,7 +1339,8 @@ def main():
 	# post-process html files
 	if 1:
 		fixes = [
-			CustomTagsFix()
+			DeadLinksFix()
+			, CustomTagsFix()
 			, SyntaxHighlightingFix()
 			, IndexPageFix()
 			, ModifiersFix1()

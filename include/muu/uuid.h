@@ -146,7 +146,7 @@ namespace muu
 
 		/// \brief The raw bytes in the UUID.
 		/// 
-		/// \details The byte layout of the UUID is big-endian, regardless of the target platform:
+		/// \details The byte layout of the UUID is always the same regardless of the target platform:
 		/// <br>
 		/// <br>`[ 0]`&nbsp;&nbsp; time_low - most significant byte
 		/// <br>`[ 1]`&nbsp;&nbsp; ...
@@ -164,7 +164,7 @@ namespace muu
 		/// <br>`[13]`&nbsp;&nbsp; ...
 		/// <br>`[14]`&nbsp;&nbsp; ...
 		/// <br>`[15]`&nbsp;&nbsp; node - least significant byte
-		/// <br><br>Relevant excerpt from the UUID rfc:
+		/// <br><br>Relevant excerpt from the UUID RFC:
 		/// \out
 		/// In the absence of explicit application or presentation protocol
 		/// specification to the contrary, a UUID is encoded as a 128-bit object,
@@ -613,12 +613,17 @@ namespace muu
 	MUU_ABI_VERSION_END;
 
 	/// \brief	UUID constants.
+	/// \related muu::uuid
+	/// 
 	/// \ingroup		constants
 	template <>
 	struct constants<uuid>
 	{
 		/// \brief	The nil UUID (all bytes are zero).
 		static constexpr uuid nil = uuid{ nullptr };
+
+		/// \name Namespaces
+		/// @{ 
 
 		/// \brief	The UUID namespace for domain names (6BA7B810-9DAD-11D1-80B4-00C04FD430C8).
 		static constexpr uuid namespace_dns = uuid{ 0x6BA7B810u, 0x9DAD_u16, 0x11D1_u16, 0x80B4_u16, 0x00C04FD430C8_u64 };
@@ -631,6 +636,8 @@ namespace muu
 
 		/// \brief	The UUID namespace for X.500 DNs (6BA7B814-9DAD-11D1-80B4-00C04FD430C8).
 		static constexpr uuid namespace_x500 = uuid{ 0x6BA7B814u, 0x9DAD_u16, 0x11D1_u16, 0x80B4_u16, 0x00C04FD430C8_u64 };
+
+		/// @}
 	};
 
 	namespace impl
@@ -763,6 +770,11 @@ namespace muu
 		MUU_ABI_VERSION_START(0);
 
 		/// \brief	Constructs a uuid from a string literal using uuid::parse.
+		/// \detail \cpp
+		/// const uuid id = "{06B35EFD-A532-4410-ADD1-C8C536C31A84}"_uuid;
+		/// \ecpp
+		/// 
+		/// \related muu::uuid
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		MUU_CONSTEVAL uuid operator"" _uuid(const char* str, size_t len) noexcept

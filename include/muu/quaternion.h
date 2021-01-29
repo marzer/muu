@@ -28,7 +28,7 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 	#undef max
 #endif
 
-//=====================================================================================================================
+//======================================================================================================================
 // IMPLEMENTATION DETAILS
 #if 1
 
@@ -39,7 +39,7 @@ namespace muu::impl
 	MUU_ABI_VERSION_START(0);
 
 	template <typename Scalar>
-	struct MUU_TRIVIAL_ABI quaternion_base
+	struct MUU_TRIVIAL_ABI quaternion_
 	{
 		Scalar s;
 		vector<Scalar, 3> v;
@@ -48,54 +48,26 @@ namespace muu::impl
 	MUU_ABI_VERSION_END;
 
 	template <typename Scalar>
-	inline constexpr bool is_hva<quaternion_base<Scalar>> = can_be_hva_of<Scalar, quaternion_base<Scalar>>;
+	inline constexpr bool is_hva<quaternion_<Scalar>> = can_be_hva_of<Scalar, quaternion_<Scalar>>;
 
 	template <typename Scalar>
-	inline constexpr bool is_hva<quaternion<Scalar>> = is_hva<quaternion_base<Scalar>>;
+	inline constexpr bool is_hva<quaternion<Scalar>> = is_hva<quaternion_<Scalar>>;
 
 	template <typename Scalar>
 	struct readonly_param_<quaternion<Scalar>>
 	{
 		using type = std::conditional_t<
-			pass_readonly_by_value<quaternion_base<Scalar>>,
+			pass_readonly_by_value<quaternion_<Scalar>>,
 			quaternion<Scalar>,
 			const quaternion<Scalar>&
 		>;
 	};
-
-	MUU_API void print_quaternion_to_stream(std::ostream& stream, const half*);
-	MUU_API void print_quaternion_to_stream(std::ostream& stream, const float*);
-	MUU_API void print_quaternion_to_stream(std::ostream& stream, const double*);
-	MUU_API void print_quaternion_to_stream(std::ostream& stream, const long double*);
-	#if MUU_HAS_FLOAT16
-	MUU_API void print_quaternion_to_stream(std::ostream& stream, const _Float16*);
-	#endif
-	#if MUU_HAS_FP16
-	MUU_API void print_quaternion_to_stream(std::ostream& stream, const __fp16*);
-	#endif
-	#if MUU_HAS_FLOAT128
-	MUU_API void print_quaternion_to_stream(std::ostream& stream, const float128_t*);
-	#endif
-
-	MUU_API void print_quaternion_to_stream(std::wostream& stream, const half*);
-	MUU_API void print_quaternion_to_stream(std::wostream& stream, const float*);
-	MUU_API void print_quaternion_to_stream(std::wostream& stream, const double*);
-	MUU_API void print_quaternion_to_stream(std::wostream& stream, const long double*);
-	#if MUU_HAS_FLOAT16
-	MUU_API void print_quaternion_to_stream(std::wostream& stream, const _Float16*);
-	#endif
-	#if MUU_HAS_FP16
-	MUU_API void print_quaternion_to_stream(std::wostream& stream, const __fp16*);
-	#endif
-	#if MUU_HAS_FLOAT128
-	MUU_API void print_quaternion_to_stream(std::wostream& stream, const float128_t*);
-	#endif
 }
 
 namespace muu
 {
 	template <typename From, typename Scalar>
-	inline constexpr bool allow_implicit_bit_cast<From, impl::quaternion_base<Scalar>>
+	inline constexpr bool allow_implicit_bit_cast<From, impl::quaternion_<Scalar>>
 		= allow_implicit_bit_cast<From, quaternion<Scalar>>;
 }
 
@@ -139,16 +111,16 @@ namespace muu
 	#define REQUIRES_PAIRED_FUNC_BY_VAL(S, ...)
 #endif
 
-#endif // =============================================================================================================
+#endif //===============================================================================================================
 
-//=====================================================================================================================
+//======================================================================================================================
 // HELPER CLASSES
 #if 1
 namespace muu
 {
 	MUU_ABI_VERSION_START(0);
 
-	/// \brief	An axis+angle rotation.
+	/// \brief	An axis-angle rotation.
 	/// \ingroup math
 	/// 
 	/// \tparam	Scalar	The scalar component type of the data members.
@@ -174,24 +146,27 @@ namespace muu
 
 		/// \brief	The angle of rotation (in radians).
 		scalar_type angle;
+
+		/// \brief Writes an axis-angle rotation out to a text stream.
+		template <typename Char, typename Traits>
+		friend
+		std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& os, const axis_angle_rotation& rot)
+		{
+			impl::print_compound_vector(os,
+				&rot.axis.x, 3_sz, true,
+				&rot.angle, 1_sz, false
+			);
+			return os;
+		}
 	};
 
 	/// \cond deduction_guides
 
-	template <typename S MUU_ENABLE_IF(is_arithmetic<S>)> MUU_REQUIRES(is_arithmetic<S>)
-	axis_angle_rotation(S, S, S, S) -> axis_angle_rotation<impl::std_math_common_type<S>>;
-
-	template <typename X, typename Y, typename Z, typename Angle
-		MUU_ENABLE_IF(all_arithmetic<X, Y, Z, Angle>)
-	>
-	MUU_REQUIRES(all_arithmetic<X, Y, Z, Angle>)
-	axis_angle_rotation(X, Y, Z, Angle) -> axis_angle_rotation<impl::std_math_common_type<impl::highest_ranked<X, Y, Z, Angle>>>;
-
-	template <typename Axis, typename Angle
-		MUU_ENABLE_IF(all_arithmetic<Axis, Angle>)
-	>
-	MUU_REQUIRES(all_arithmetic<Axis, Angle>)
+	template <typename Axis, typename Angle>
 	axis_angle_rotation(vector<Axis, 3>, Angle) -> axis_angle_rotation<impl::std_math_common_type<impl::highest_ranked<Axis, Angle>>>;
+
+	template <typename Axis, typename Angle>
+	axis_angle_rotation(std::initializer_list<Axis>, Angle) -> axis_angle_rotation<impl::std_math_common_type<impl::highest_ranked<Axis, Angle>>>;
 
 	/// \endcond
 
@@ -287,20 +262,14 @@ namespace muu
 		std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& os, const euler_rotation& rot)
 		{
 			static_assert(sizeof(euler_rotation) == sizeof(scalar_type) * 3);
-			impl::print_vector_to_stream(os, &rot.yaw, 3u);
+			impl::print_vector(os, &rot.yaw, 3u);
 			return os;
 		}
 	};
 
 	/// \cond deduction_guides
 
-	template <typename S MUU_ENABLE_IF(is_arithmetic<S>)> MUU_REQUIRES(is_arithmetic<S>)
-	euler_rotation(S, S, S) -> euler_rotation<impl::std_math_common_type<S>>;
-
-	template <typename Yaw, typename Pitch, typename Roll
-		MUU_ENABLE_IF(all_arithmetic<Yaw, Pitch, Roll>)
-	>
-	MUU_REQUIRES(all_arithmetic<Yaw, Pitch, Roll>)
+	template <typename Yaw, typename Pitch, typename Roll>
 	euler_rotation(Yaw, Pitch, Roll) -> euler_rotation<impl::std_math_common_type<impl::highest_ranked<Yaw, Pitch, Roll>>>;
 
 	/// \endcond
@@ -318,9 +287,9 @@ namespace muu
 	}
 	/// \endcond
 }
-#endif // =============================================================================================================
+#endif //===============================================================================================================
 
-//=====================================================================================================================
+//======================================================================================================================
 // QUATERNION CLASS
 #if 1
 
@@ -348,7 +317,7 @@ namespace muu
 	template <typename Scalar>
 	struct MUU_TRIVIAL_ABI quaternion
 		#ifndef DOXYGEN
-		: impl::quaternion_base<Scalar>
+		: impl::quaternion_<Scalar>
 		#endif
 	{
 		static_assert(
@@ -405,7 +374,7 @@ namespace muu
 
 	private:
 
-		using base = impl::quaternion_base<Scalar>;
+		using base = impl::quaternion_<Scalar>;
 		static_assert(
 			sizeof(base) == (sizeof(scalar_type) * 4),
 			"Quaternions should not have padding"
@@ -715,7 +684,7 @@ namespace muu
 	#if 1 // approx_equal ---------------------------------------------------------------------------------------------
 
 		/// \brief	Returns true if two quaternions are approximately equal.
-		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T>
+		template <typename T
 			ENABLE_PAIRED_FUNC_BY_REF(T, true)
 		>
 		REQUIRES_PAIRED_FUNC_BY_REF(T, true)
@@ -724,7 +693,7 @@ namespace muu
 		static constexpr bool MUU_VECTORCALL approx_equal(
 			quaternion_param q1,
 			const quaternion<T>& q2,
-			dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
+			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>
 		) noexcept
 		{
 			if constexpr (std::is_same_v<scalar_type, T>)
@@ -742,7 +711,7 @@ namespace muu
 		}
 
 		/// \brief	Returns true if the quaternion is approximately equal to another.
-		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T>
+		template <typename T
 			ENABLE_PAIRED_FUNC_BY_REF(T, true)
 		>
 		REQUIRES_PAIRED_FUNC_BY_REF(T, true)
@@ -750,7 +719,7 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_equal(
 			const quaternion<T>& q,
-			dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
+			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>
 		) const noexcept
 		{
 			return approx_equal(*this, q, epsilon);
@@ -758,7 +727,7 @@ namespace muu
 
 		#if ENABLE_PAIRED_FUNCS
 
-		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T>
+		template <typename T
 			ENABLE_PAIRED_FUNC_BY_VAL(T, true)
 		>
 		REQUIRES_PAIRED_FUNC_BY_VAL(T, true)
@@ -767,7 +736,7 @@ namespace muu
 		static constexpr bool MUU_VECTORCALL approx_equal(
 			quaternion_param q1,
 			quaternion<T> q2,
-			dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
+			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>
 		) noexcept
 		{
 			if constexpr (std::is_same_v<scalar_type, T>)
@@ -784,7 +753,7 @@ namespace muu
 			}
 		}
 
-		template <typename T, typename Epsilon = impl::highest_ranked<scalar_type, T>
+		template <typename T
 			ENABLE_PAIRED_FUNC_BY_VAL(T, true)
 		>
 		REQUIRES_PAIRED_FUNC_BY_VAL(T, true)
@@ -792,7 +761,7 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_equal(
 			quaternion<T> q,
-			dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
+			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>
 		) const noexcept
 		{
 			return approx_equal(*this, q, epsilon);
@@ -805,7 +774,7 @@ namespace muu
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL approx_zero(
 			quaternion_param q,
-			scalar_type epsilon = muu::constants<scalar_type>::approx_equal_epsilon
+			scalar_type epsilon = default_epsilon<scalar_type>
 		) noexcept
 		{
 			return muu::approx_zero(q.s, epsilon) && vector_type::approx_zero(q.v, epsilon);
@@ -815,7 +784,7 @@ namespace muu
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_zero(
-			scalar_type epsilon = muu::constants<scalar_type>::approx_equal_epsilon
+			scalar_type epsilon = default_epsilon<scalar_type>
 		) const noexcept
 		{
 			return approx_zero(*this, epsilon);
@@ -1278,7 +1247,10 @@ namespace muu
 		friend
 		std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& os, const quaternion& q)
 		{
-			impl::print_quaternion_to_stream(os, &q.s);
+			impl::print_compound_vector(os,
+				&q.s, 1_sz, false,
+				&q.v.x, 3_sz, true
+			);
 			return os;
 		}
 
@@ -1352,19 +1324,13 @@ namespace muu
 
 	/// \cond deduction_guides
 
-	template <typename S MUU_ENABLE_IF(is_arithmetic<S>)> MUU_REQUIRES(is_arithmetic<S>)
+	template <typename S, typename X, typename Y, typename Z>
+	quaternion(S, X, Y, Z) -> quaternion<impl::std_math_common_type<impl::highest_ranked<S, X, Y, Z>>>;
+
+	template <typename S>
 	quaternion(S, S, S, S) -> quaternion<impl::std_math_common_type<S>>;
 
-	template <typename S, typename VX, typename VY, typename VZ
-		MUU_ENABLE_IF(all_arithmetic<S, VX, VY, VZ>)
-	>
-	MUU_REQUIRES(all_arithmetic<S, VX, VY, VZ>)
-	quaternion(S, VX, VY, VZ) -> quaternion<impl::std_math_common_type<impl::highest_ranked<S, VX, VY, VZ>>>;
-
-	template <typename R, typename I
-		MUU_ENABLE_IF(all_arithmetic<R, I>)
-	>
-	MUU_REQUIRES(all_arithmetic<R, I>)
+	template <typename R, typename I>
 	quaternion(R, vector<I, 3>) -> quaternion<impl::std_math_common_type<impl::highest_ranked<R, I>>>;
 
 	template <typename S>
@@ -1400,9 +1366,9 @@ namespace std
 	};
 }
 
-#endif // =============================================================================================================
+#endif //===============================================================================================================
 
-//=====================================================================================================================
+//======================================================================================================================
 // CONSTANTS
 #if 1
 
@@ -1431,9 +1397,9 @@ namespace muu
 
 MUU_POP_PRECISE_MATH;
 
-#endif // =============================================================================================================
+#endif //===============================================================================================================
 
-//=====================================================================================================================
+//======================================================================================================================
 // FREE FUNCTIONS
 #if 1
 
@@ -1459,8 +1425,7 @@ namespace muu
 	/// \related	muu::quaternion
 	///
 	/// \brief		Returns true if two quaternions are approximately equal.
-	template <typename S, typename T,
-		typename Epsilon = impl::highest_ranked<S, T>
+	template <typename S, typename T
 		ENABLE_PAIRED_FUNC_BY_REF(S, impl::pass_readonly_by_reference<quaternion<T>>)
 	>
 	REQUIRES_PAIRED_FUNC_BY_REF(S, impl::pass_readonly_by_reference<quaternion<T>>)
@@ -1470,11 +1435,9 @@ namespace muu
 	constexpr bool MUU_VECTORCALL approx_equal(
 		const quaternion<S>& q1,
 		const quaternion<T>& q2,
-		dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
+		epsilon_type<S, T> epsilon = default_epsilon<S, T>
 	) noexcept
 	{
-		static_assert(is_same_as_any<Epsilon, S, T>);
-
 		return quaternion<S>::approx_equal(q1, q2, epsilon);
 	}
 
@@ -1491,7 +1454,7 @@ namespace muu
 	MUU_ALWAYS_INLINE
 	constexpr bool MUU_VECTORCALL approx_zero(
 		const quaternion<S>& q,
-		S epsilon = muu::constants<S>::approx_equal_epsilon
+		S epsilon = default_epsilon<S>
 	) noexcept
 	{
 		return quaternion<S>::approx_zero(q, epsilon);
@@ -1576,8 +1539,7 @@ namespace muu
 		return quaternion<S>::infinity_or_nan(q);
 	}
 
-	template <typename S, typename T,
-		typename Epsilon = impl::highest_ranked<S, T>
+	template <typename S, typename T
 		ENABLE_PAIRED_FUNC_BY_VAL(S, impl::pass_readonly_by_value<quaternion<T>>)
 	>
 	REQUIRES_PAIRED_FUNC_BY_VAL(S, impl::pass_readonly_by_value<quaternion<T>>)
@@ -1587,11 +1549,9 @@ namespace muu
 	constexpr bool MUU_VECTORCALL approx_equal(
 		quaternion<S> q1,
 		quaternion<T> q2,
-		dont_deduce<Epsilon> epsilon = muu::constants<Epsilon>::approx_equal_epsilon
+		epsilon_type<S, T> epsilon = default_epsilon<S, T>
 	) noexcept
 	{
-		static_assert(is_same_as_any<Epsilon, S, T>);
-
 		return quaternion<S>::approx_equal(q1, q2, epsilon);
 	}
 
@@ -1604,7 +1564,7 @@ namespace muu
 	MUU_ALWAYS_INLINE
 	constexpr bool MUU_VECTORCALL approx_zero(
 		quaternion<S> q,
-		S epsilon = muu::constants<S>::approx_equal_epsilon
+		S epsilon = default_epsilon<S>
 	) noexcept
 	{
 		return quaternion<S>::approx_zero(q, epsilon);
@@ -1661,7 +1621,7 @@ namespace muu
 	#endif // ENABLE_PAIRED_FUNCS
 }
 
-#endif // =============================================================================================================
+#endif //===============================================================================================================
 
 #undef ENABLE_PAIRED_FUNCS
 #undef ENABLE_PAIRED_FUNC_BY_REF

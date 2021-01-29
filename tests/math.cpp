@@ -89,7 +89,7 @@ namespace
 		static constexpr auto& table = lookup_table<T, Return, Func, Start, End, Subdivs>;
 
 		const auto epsilon = static_cast<T>(
-			muu::constants<std::conditional_t<MUU_HAS_QUADMATH, T, impl::demote_if_large_float<T>>>::approx_equal_epsilon
+			muu::constants<std::conditional_t<MUU_HAS_QUADMATH, T, impl::demote_if_large_float<T>>>::default_epsilon
 			* 10ull
 		);
 

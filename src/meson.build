@@ -3,13 +3,11 @@ muu_lib_sources = [
 	'blob.cpp',
 	'half.cpp',
 	'hashing.cpp',
-	'matrix.cpp',
-	'quaternion.cpp',
+	'print_math_types.cpp',
 	'string_param.cpp',
 	'thread_name.cpp',
 	'thread_pool.cpp',
 	'uuid.cpp',
-	'vector.cpp',
 ]
 
 muu_lib_args = [ '-DMUU_BUILDING=1' ]

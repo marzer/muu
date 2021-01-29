@@ -41,6 +41,7 @@ if test_set == 0 or test_set == 2
 	endif
 endif
 if test_set == 0 or test_set == 3
+	test_sources += 'bounding_box.cpp'
 	test_sources += 'math.cpp'
 	test_sources += 'matrix_int.cpp'
 	test_sources += 'matrix_long.cpp'

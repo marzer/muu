@@ -656,7 +656,7 @@ inline void matrix_multiplication_tests(std::string_view scalar_typename) noexce
 					lhs_row[i] = mat1(r, i);
 				if constexpr (is_floating_point<T> && sizeof(T) >= sizeof(double))
 				{
-					static constexpr T eps = constants<T>::approx_equal_epsilon * T{ 10 };
+					static constexpr T eps = constants<T>::default_epsilon * T{ 10 };
 					CHECK_APPROX_EQUAL_EPS(static_cast<T>(lhs_row.dot(mat2.m[c])), result(r, c), eps);
 				}
 				else
@@ -1044,8 +1044,8 @@ inline void matrix_invert_tests(std::string_view scalar_typename) noexcept
 
 	[[maybe_unused]]
 	const inverse_scalar eps = static_cast<inverse_scalar>(muu::max(
-		static_cast<eps_common_type>(constants<inverse_scalar>::approx_equal_epsilon),
-		static_cast<eps_common_type>(constants<double>::approx_equal_epsilon)
+		static_cast<eps_common_type>(constants<inverse_scalar>::default_epsilon),
+		static_cast<eps_common_type>(constants<double>::default_epsilon)
 	));
 
 	#define CHECK_INVERSE(mat, expected)						\

@@ -35,11 +35,6 @@ namespace muu
 			fill{ stream.fill() }
 		{}
 
-		stream_saver(const stream_saver&) = delete;
-		stream_saver(stream_saver&&) = delete;
-		stream_saver& operator = (const stream_saver&) = delete;
-		stream_saver& operator = (stream_saver&&) = delete;
-
 		~stream_saver() noexcept
 		{
 			stream.flags(flags);
@@ -47,10 +42,37 @@ namespace muu
 			stream.width(width);
 			stream.fill(fill);
 		}
+
+		MUU_DELETE_MOVE(stream_saver);
+		MUU_DELETE_COPY(stream_saver);
 	};
 
 	template <typename Char>
 	stream_saver(std::basic_ios<Char>&) -> stream_saver<Char>;
+
+	template <typename Char>
+	struct stream_width_saver final
+	{
+		std::basic_ios<Char>& stream;
+		std::streamsize width;
+
+		stream_width_saver(std::basic_ios<Char>& ios) noexcept
+			: stream{ ios },
+			width{ stream.width() }
+		{
+		}
+
+		~stream_width_saver() noexcept
+		{
+			stream.width(width);
+		}
+
+		MUU_DELETE_MOVE(stream_width_saver);
+		MUU_DELETE_COPY(stream_width_saver);
+	};
+
+	template <typename Char>
+	stream_width_saver(std::basic_ios<Char>&) -> stream_width_saver<Char>;
 
 	namespace impl
 	{
@@ -93,6 +115,7 @@ namespace muu
 		static constexpr auto object_open = "{ "sv;
 		static constexpr auto object_close = " }"sv;
 		static constexpr auto next_list_item = ", "sv;
+		static constexpr auto breaking_list_item = ",\n"sv;
 		static constexpr auto indent_buf = "                                                  "sv;
 		static constexpr auto indent_width = 2u;
 		static constexpr auto indent_max = static_cast<int>(indent_buf.length() / indent_width);
@@ -104,6 +127,7 @@ namespace muu
 		static constexpr auto object_open = L"{ "sv;
 		static constexpr auto object_close = L" }"sv;
 		static constexpr auto next_list_item = L", "sv;
+		static constexpr auto breaking_list_item = L",\n"sv;
 		static constexpr auto indent_buf = L"                                                  "sv;
 		static constexpr auto indent_width = 2u;
 		static constexpr auto indent_max = static_cast<int>(indent_buf.length() / indent_width);
@@ -115,14 +139,16 @@ namespace muu
 	MAKE_PRINTER_TAG(object_open);
 	MAKE_PRINTER_TAG(object_close);
 	MAKE_PRINTER_TAG(next_list_item);
+	MAKE_PRINTER_TAG(breaking_list_item);
+	MAKE_PRINTER_TAG(list);
 
 	template <typename Char>
-	struct printer // a wrapper around ostreams to make them less stupid
+	struct stream_printer // a wrapper around ostreams to make them less stupid
 	{
 		std::basic_ostream<Char>& stream;
 		int indent_count = 0;
 
-		printer(std::basic_ostream<Char>& os) noexcept
+		stream_printer(std::basic_ostream<Char>& os) noexcept
 			: stream{ os }
 		{}
 
@@ -130,6 +156,9 @@ namespace muu
 		static void print_number(std::basic_ostream<Char>& os, T value)
 		{
 			//todo: use quadmath sprintf for float128
+
+			stream_width_saver w{ os };
+			os << std::right;
 
 			// print chars as ints so they don't get interpreted as text;
 			// non-standard ints and floats can just get casted if they don't have an operator<< overload
@@ -141,32 +170,32 @@ namespace muu
 				os << value;
 		}
 
-		printer& operator() (  signed char      val) { print_number(stream, val); return *this; }
-		printer& operator() (  signed short     val) { print_number(stream, val); return *this; }
-		printer& operator() (  signed int       val) { print_number(stream, val); return *this; }
-		printer& operator() (  signed long      val) { print_number(stream, val); return *this; }
-		printer& operator() (  signed long long val) { print_number(stream, val); return *this; }
-		printer& operator() (unsigned char      val) { print_number(stream, val); return *this; }
-		printer& operator() (unsigned short     val) { print_number(stream, val); return *this; }
-		printer& operator() (unsigned int       val) { print_number(stream, val); return *this; }
-		printer& operator() (unsigned long      val) { print_number(stream, val); return *this; }
-		printer& operator() (unsigned long long val) { print_number(stream, val); return *this; }
-		printer& operator() (half               val) { print_number(stream, val); return *this; }
-		printer& operator() (float              val) { print_number(stream, val); return *this; }
-		printer& operator() (double             val) { print_number(stream, val); return *this; }
-		printer& operator() (long double        val) { print_number(stream, val); return *this; }
+		stream_printer& operator() (  signed char      val) { print_number(stream, val); return *this; }
+		stream_printer& operator() (  signed short     val) { print_number(stream, val); return *this; }
+		stream_printer& operator() (  signed int       val) { print_number(stream, val); return *this; }
+		stream_printer& operator() (  signed long      val) { print_number(stream, val); return *this; }
+		stream_printer& operator() (  signed long long val) { print_number(stream, val); return *this; }
+		stream_printer& operator() (unsigned char      val) { print_number(stream, val); return *this; }
+		stream_printer& operator() (unsigned short     val) { print_number(stream, val); return *this; }
+		stream_printer& operator() (unsigned int       val) { print_number(stream, val); return *this; }
+		stream_printer& operator() (unsigned long      val) { print_number(stream, val); return *this; }
+		stream_printer& operator() (unsigned long long val) { print_number(stream, val); return *this; }
+		stream_printer& operator() (half               val) { print_number(stream, val); return *this; }
+		stream_printer& operator() (float              val) { print_number(stream, val); return *this; }
+		stream_printer& operator() (double             val) { print_number(stream, val); return *this; }
+		stream_printer& operator() (long double        val) { print_number(stream, val); return *this; }
 		#if MUU_HAS_FP16
-		printer& operator() (__fp16 val)             { print_number(stream, val); return *this; }
+		stream_printer& operator() (__fp16 val)             { print_number(stream, val); return *this; }
 		#endif
 		#if MUU_HAS_FLOAT16
-		printer& operator() (_Float16 val)           { print_number(stream, val); return *this; }
+		stream_printer& operator() (_Float16 val)           { print_number(stream, val); return *this; }
 		#endif
 		#if MUU_HAS_FLOAT128
-		printer& operator() (float128_t val)         { print_number(stream, val); return *this; }
+		stream_printer& operator() (float128_t val)         { print_number(stream, val); return *this; }
 		#endif
 		#if MUU_HAS_INT128
-		printer& operator() (int128_t val)           { print_number(stream, val); return *this; }
-		printer& operator() (uint128_t val)          { print_number(stream, val); return *this; }
+		stream_printer& operator() (int128_t val)           { print_number(stream, val); return *this; }
+		stream_printer& operator() (uint128_t val)          { print_number(stream, val); return *this; }
 		#endif
 
 		static void print_string(std::basic_ostream<Char>& os, const Char* start, size_t len)
@@ -174,51 +203,51 @@ namespace muu
 			os.write(start, static_cast<std::streamsize>(len));
 		}
 
-		printer& operator() (Char c)
+		stream_printer& operator() (Char c)
 		{
 			stream.put(c);
 			return *this;
 		}
 
-		printer& operator() (const std::basic_string_view<Char>& s)
+		stream_printer& operator() (const std::basic_string_view<Char>& s)
 		{
 			if (!s.empty())
 				print_string(stream, s.data(), s.length());
 			return *this;
 		}
 
-		printer& operator() (const std::basic_string<Char>& s)
+		stream_printer& operator() (const std::basic_string<Char>& s)
 		{
 			if (!s.empty())
 				print_string(stream, s.c_str(), s.length());
 			return *this;
 		}
 
-		printer& operator() (const Char* s)
+		stream_printer& operator() (const Char* s)
 		{
 			if (s)
 				print_string(stream, s, std::char_traits<Char>::length(s));
 		}
 
 		template <size_t N>
-		printer& operator()(const Char(&s)[N])
+		stream_printer& operator()(const Char(&s)[N])
 		{
 			print_string(stream, &s, N);
 		}
 
-		printer& operator++(int) noexcept
+		stream_printer& operator++(int) noexcept
 		{
 			indent_count++;
 			return *this;
 		}
 
-		printer& operator--(int) noexcept
+		stream_printer& operator--(int) noexcept
 		{
 			indent_count--;
 			return *this;
 		}
 
-		printer& operator()(indent_tag)
+		stream_printer& operator()(indent_tag)
 		{
 			using pc = print_constants<Char>;
 			auto i = muu::max(indent_count, 0);
@@ -230,14 +259,31 @@ namespace muu
 			return *this;
 		}
 
-		printer& operator()(new_line_tag)             { return (*this)(constants<Char>::new_line); }
-		printer& operator()(object_open_tag)          { return (*this)(print_constants<Char>::object_open); }
-		printer& operator()(object_close_tag)         { return (*this)(print_constants<Char>::object_close); }
-		printer& operator()(next_list_item_tag)       { return (*this)(print_constants<Char>::next_list_item); }
+		stream_printer& operator()(new_line_tag)			{ return (*this)(constants<Char>::new_line); }
+		stream_printer& operator()(object_open_tag)			{ return (*this)(print_constants<Char>::object_open); }
+		stream_printer& operator()(object_close_tag)		{ return (*this)(print_constants<Char>::object_close); }
+		stream_printer& operator()(next_list_item_tag)		{ return (*this)(print_constants<Char>::next_list_item); }
+		stream_printer& operator()(breaking_list_item_tag)
+		{
+			(*this)(print_constants<Char>::breaking_list_item);
+			return (*this)(indent);
+		}
+
+		template <typename T>
+		stream_printer& operator() (list_tag, const T* x, size_t num)
+		{
+			for (size_t i = 0; i < num; i++)
+			{
+				if (i > 0)
+					(*this)(next_list_item);
+				(*this)(x[i]);
+			}
+			return *this;
+		}
 	};
 
 	template <typename Char>
-	printer(std::basic_ostream<Char>&) -> printer<Char>;
+	stream_printer(std::basic_ostream<Char>&) -> stream_printer<Char>;
 }
 
 MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS

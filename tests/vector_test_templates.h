@@ -622,7 +622,7 @@ inline void vector_cross_tests([[maybe_unused]] std::string_view scalar_typename
 	CHECK(vec1.unit_length());
 	CHECK(vec2.unit_length());
 
-	static const auto eps = static_cast<promoted>(constants<T>::approx_equal_epsilon);
+	static const auto eps = static_cast<promoted>(constants<T>::default_epsilon);
 
 	{
 		INFO("vector.cross(vector)"sv)
@@ -1132,7 +1132,7 @@ inline void vector_angle_tests(std::string_view scalar_typename) noexcept
 
 	[[maybe_unused]]
 	static const auto eps = static_cast<delta_type>((muu::max)(
-		static_cast<long double>(constants<delta_type>::approx_equal_epsilon),
+		static_cast<long double>(constants<delta_type>::default_epsilon),
 		0.000000001L
 	));
 
