@@ -1118,11 +1118,11 @@ namespace muu::impl
 	template <typename T>
 	using readonly_param = typename readonly_param_<T>::type;
 
-	template <typename T>
-	inline constexpr bool pass_readonly_by_reference = std::is_reference_v<readonly_param<T>>;
+	template <typename... T>
+	inline constexpr bool pass_readonly_by_reference = sizeof...(T) == 0 || (std::is_reference_v<readonly_param<T>> || ...);
 
-	template <typename T>
-	inline constexpr bool pass_readonly_by_value = !pass_readonly_by_reference<T>;
+	template <typename... T>
+	inline constexpr bool pass_readonly_by_value = !pass_readonly_by_reference<T...>;
 }
 /// \endcond
 

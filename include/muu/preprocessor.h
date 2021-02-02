@@ -915,20 +915,24 @@ help me improve support for your target architecture. Thanks!
 	#define MUU_CONSTRAINED_TEMPLATE(condition, ...)	template <__VA_ARGS__ MUU_ENABLE_IF(condition)>
 	#define MUU_CONSTRAINED_TEMPLATE_2(condition, ...)	template <__VA_ARGS__ MUU_ENABLE_IF_2(condition)>
 	#define MUU_LEGACY_REQUIRES(condition, ...)			MUU_CONSTRAINED_TEMPLATE(condition, __VA_ARGS__)
+	#define MUU_LEGACY_REQUIRES_2(condition, ...)		MUU_CONSTRAINED_TEMPLATE_2(condition, __VA_ARGS__)
 #endif
 /// \endcond
 
+#ifndef MUU_REQUIRES
+	#define MUU_REQUIRES(...)
+#endif
 #ifndef MUU_ENABLE_IF
 	#define MUU_ENABLE_IF(...)
 #endif
 #ifndef MUU_ENABLE_IF_2
 	#define MUU_ENABLE_IF_2(...)
 #endif
-#ifndef MUU_REQUIRES
-	#define MUU_REQUIRES(...)
-#endif
 #ifndef MUU_LEGACY_REQUIRES
 	#define MUU_LEGACY_REQUIRES(condition, ...)
+#endif
+#ifndef MUU_LEGACY_REQUIRES_2
+	#define MUU_LEGACY_REQUIRES_2(condition, ...)
 #endif
 #ifndef MUU_CONSTRAINED_TEMPLATE
 	#define MUU_CONSTRAINED_TEMPLATE(condition, ...)	template <__VA_ARGS__>
@@ -943,6 +947,15 @@ help me improve support for your target architecture. Thanks!
 #endif
 #define MUU_COMMA				,
 #define MUU_HIDDEN_PARAM(...)	MUU_HIDDEN(MUU_COMMA __VA_ARGS__)
+
+/// \cond
+#if !defined(DOXYGEN) && !MUU_INTELLISENSE
+	#define MUU_ENABLE_PAIRED_FUNCS 1
+#endif // DOXYGEN / intellisense
+/// \endcond
+#ifndef MUU_ENABLE_PAIRED_FUNCS
+	#define MUU_ENABLE_PAIRED_FUNCS 0
+#endif
 
 //======================================================================================================================
 // WHAT THE HELL IS WCHAR_T?
