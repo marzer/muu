@@ -251,7 +251,7 @@ namespace muu
 				size_t N
 			)
 			MUU_NODISCARD_CTOR
-			constexpr span(dont_deduce<element_type>(&arr)[N]) noexcept
+			constexpr span(type_identity<element_type>(&arr)[N]) noexcept
 				: ptr_and_size{ arr, N }
 			{}
 

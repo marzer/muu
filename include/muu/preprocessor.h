@@ -882,11 +882,11 @@ help me improve support for your target architecture. Thanks!
 
 /// \cond
 #ifndef DOXYGEN
-	#define MUU_NODOX(...) __VA_ARGS__
+	#define MUU_HIDDEN(...) __VA_ARGS__
 #endif // DOXYGEN
 /// \endcond
-#ifndef MUU_NODOX
-	#define MUU_NODOX(...) // doxygen
+#ifndef MUU_HIDDEN
+	#define MUU_HIDDEN(...) // doxygen
 #endif
 
 //======================================================================================================================
@@ -941,7 +941,8 @@ help me improve support for your target architecture. Thanks!
 #else
 	#define MUU_STD_CONCEPT(...)	true
 #endif
-#define MUU_HIDDEN_PARAM(...)	MUU_NODOX(, __VA_ARGS__)
+#define MUU_COMMA				,
+#define MUU_HIDDEN_PARAM(...)	MUU_HIDDEN(MUU_COMMA __VA_ARGS__)
 
 //======================================================================================================================
 // WHAT THE HELL IS WCHAR_T?

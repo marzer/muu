@@ -65,6 +65,7 @@
 #define MUU_HAS_FLOAT16						0
 #define MUU_HAS_FP16						0
 #define MUU_HAS_INT128						0
+#define MUU_HIDDEN(...)
 #define MUU_HIDDEN_PARAM(...)
 #define MUU_LEGACY_REQUIRES(...)
 #define MUU_LITTLE_ENDIAN					1
@@ -75,7 +76,6 @@
 #define MUU_MSVC							1928
 #define MUU_NEVER_INLINE
 #define MUU_NODISCARD_CTOR
-#define MUU_NODOX(...)
 #define MUU_POP_PRECISE_MATH				static_assert(true)
 #define MUU_POP_WARNINGS					static_assert(true)
 #define MUU_PRAGMA_CLANG(...)

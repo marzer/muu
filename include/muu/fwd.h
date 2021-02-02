@@ -117,7 +117,7 @@ namespace muu
 	using float128_t = __float128;
 	#endif
 
-	/// \brief	Allows the to implicitly bit_cast from a type (via memcpy or similar) in some situations.
+	/// \brief	Allows the library to implicitly convert via bit casting in some situations.
 	/// \ingroup meta 
 	/// 
 	/// \tparam From	The source type.
@@ -140,7 +140,7 @@ namespace muu
 	/// };
 	/// 
 	/// Foo foo{ 1, 2, 3 };
-	/// vec3i bar{ foo };
+	/// vec3i bar = foo;
 	/// 
 	/// \ecpp
 	/// 

@@ -98,6 +98,16 @@ inline void vector_construction_test_from_array() noexcept
 
 		{
 			auto vec = vector_t{ arr.data(), NUM };
+			INFO("constructing from pointer to scalars + count"sv)
+			for (size_t i = 0; i < NUM; i++)
+				CHECK(vec[i] == arr[i]);
+			for (size_t i = NUM; i < vector_t::dimensions; i++)
+				CHECK(vec[i] == T{});
+		}
+
+		if constexpr (Dimensions == NUM)
+		{
+			auto vec = vector_t{ arr.data() };
 			INFO("constructing from pointer to scalars"sv)
 			for (size_t i = 0; i < NUM; i++)
 				CHECK(vec[i] == arr[i]);

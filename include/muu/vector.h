@@ -50,6 +50,7 @@
 
 MUU_PUSH_WARNINGS;
 MUU_DISABLE_SHADOW_WARNINGS;
+MUU_DISABLE_SPAM_WARNINGS;
 MUU_PRAGMA_GCC(diagnostic ignored "-Wsign-conversion")
 MUU_PRAGMA_CLANG(diagnostic ignored "-Wdouble-promotion")
 MUU_PRAGMA_MSVC(inline_recursion(on))
@@ -188,41 +189,6 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 
 #define COMPONENTWISE_ASSIGN(func)		COMPONENTWISE_CASTING_OP(func, COMPONENTWISE_ASSIGN_WITH_TRANSFORM)
 
-#define	REQUIRES_DIMENSIONS_AT_LEAST(dim)			MUU_REQUIRES(Dimensions >= (dim))
-#define	REQUIRES_DIMENSIONS_AT_LEAST_AND(dim, ...)	MUU_REQUIRES(Dimensions >= (dim) && (__VA_ARGS__))
-#define	REQUIRES_DIMENSIONS_BETWEEN(min, max)		MUU_REQUIRES(Dimensions >= (min) && Dimensions <= (max))
-#define	REQUIRES_DIMENSIONS_EXACTLY(dim)			MUU_REQUIRES(Dimensions == (dim))
-#define	REQUIRES_FLOATING_POINT						MUU_REQUIRES(muu::is_floating_point<Scalar>)
-#define	REQUIRES_INTEGRAL							MUU_REQUIRES(muu::is_integral<Scalar>)
-#define	REQUIRES_SIGNED								MUU_REQUIRES(muu::is_signed<Scalar>)
-
-#if !MUU_CONCEPTS
-
-	#define	ENABLE_IF_DIMENSIONS_AT_LEAST(dim)	\
-		, size_t SFINAE = Dimensions MUU_ENABLE_IF(SFINAE >= (dim) && SFINAE == Dimensions)
-
-	#define	ENABLE_IF_DIMENSIONS_AT_LEAST_AND(dim,...)	\
-		, size_t SFINAE = Dimensions MUU_ENABLE_IF_2(SFINAE >= (dim) && SFINAE == Dimensions && (__VA_ARGS__))
-
-	#define	LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(dim) \
-		template <size_t SFINAE = Dimensions MUU_ENABLE_IF(SFINAE >= (dim) && SFINAE == Dimensions)>
-
-	#define	LEGACY_REQUIRES_DIMENSIONS_BETWEEN(min, max) \
-		template <size_t SFINAE = Dimensions MUU_ENABLE_IF_2(SFINAE >= (min) && SFINAE <= (max) && SFINAE == Dimensions)>
-
-	#define	LEGACY_REQUIRES_DIMENSIONS_EXACTLY(dim) LEGACY_REQUIRES_DIMENSIONS_BETWEEN(dim, dim)
-
-	#define	LEGACY_REQUIRES_FLOATING_POINT	\
-		template <typename SFINAE = Scalar MUU_ENABLE_IF(muu::is_floating_point<SFINAE> && std::is_same_v<SFINAE, Scalar>)>
-
-	#define	LEGACY_REQUIRES_INTEGRAL	\
-		template <typename SFINAE = Scalar MUU_ENABLE_IF(muu::is_integral<SFINAE> && std::is_same_v<SFINAE, Scalar>)>
-
-	#define	LEGACY_REQUIRES_SIGNED	\
-		template <typename SFINAE = Scalar MUU_ENABLE_IF(muu::is_signed<SFINAE> && std::is_same_v<SFINAE, Scalar>)>
-
-#endif // !MUU_CONCEPTS
-
 #define SPECIALIZED_IF(cond)		, bool = (cond)
 
 #endif // helper macros
@@ -231,9 +197,7 @@ namespace muu::impl
 {
 	struct value_fill_tag {};
 	struct zero_fill_tag {};
-	struct array_copy_tag {};
 	struct array_cast_tag {};
-	struct tuple_copy_tag {};
 	struct tuple_cast_tag {};
 	struct componentwise_func_tag {};
 	struct tuple_concat_tag{};
@@ -272,10 +236,7 @@ namespace muu::impl
 			: values{ x_, y_, z_, w_ }
 		{}
 
-		template <typename... T
-			MUU_ENABLE_IF(all_same<Scalar, remove_cv<T>...>)
-		>
-		MUU_REQUIRES(all_same<Scalar, remove_cv<T>...>)
+		MUU_CONSTRAINED_TEMPLATE((all_same<Scalar, remove_cvref<T>...>), typename... T)
 		explicit
 		constexpr vector_(Scalar x_, Scalar y_, Scalar z_, Scalar w_, T... vals) noexcept
 			: values{ x_, y_, z_, w_, vals... }
@@ -283,12 +244,9 @@ namespace muu::impl
 			static_assert(sizeof...(T) <= Dimensions - 4);
 		}
 
-		template <typename... T
-			MUU_ENABLE_IF_2(!all_same<Scalar, remove_cv<T>...>)
-		>
-		MUU_REQUIRES(!all_same<Scalar, remove_cv<T>...>)
+		MUU_CONSTRAINED_TEMPLATE_2((!all_same<Scalar, remove_cvref<T>...>), typename... T)
 		explicit
-		constexpr vector_(Scalar x_, Scalar y_, Scalar z_, Scalar w_, T... vals) noexcept
+		constexpr vector_(Scalar x_, Scalar y_, Scalar z_, Scalar w_, const T&... vals) noexcept
 			: values{ x_, y_, z_, w_, static_cast<Scalar>(vals)... }
 		{
 			static_assert(sizeof...(T) <= Dimensions - 4);
@@ -296,24 +254,8 @@ namespace muu::impl
 
 		template <typename T, size_t... Indices>
 		explicit
-		constexpr vector_(array_copy_tag, std::index_sequence<Indices...>, const T& arr) noexcept
-			: values{ arr[Indices]... }
-		{
-			static_assert(sizeof...(Indices) <= Dimensions);
-		}
-
-		template <typename T, size_t... Indices>
-		explicit
 		constexpr vector_(array_cast_tag, std::index_sequence<Indices...>, const T& arr) noexcept
 			: values{ static_cast<Scalar>(arr[Indices])... }
-		{
-			static_assert(sizeof...(Indices) <= Dimensions);
-		}
-
-		template <typename T, size_t... Indices>
-		explicit
-		constexpr vector_(tuple_copy_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
-			: values{ get_from_tuple_like<Indices>(tpl)... }
 		{
 			static_assert(sizeof...(Indices) <= Dimensions);
 		}
@@ -348,12 +290,30 @@ namespace muu::impl
 			static_assert((sizeof...(Indices1) + sizeof...(Indices2)) <= Dimensions);
 		}
 
-		template <typename T, size_t... Indices, typename... V>
+		MUU_CONSTRAINED_TEMPLATE(
+			(all_same<Scalar, remove_cvref<V>...>),
+			typename T,
+			size_t... Indices,
+			typename... V
+		)
 		explicit
-		constexpr vector_(tuple_concat_tag,
-			std::index_sequence<Indices...>, const T& tpl,
-			V... vals
-		) noexcept
+		constexpr vector_(tuple_concat_tag, std::index_sequence<Indices...>, const T& tpl, V... vals) noexcept
+			: values{
+				static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))...,
+				vals...
+			}
+		{
+			static_assert((sizeof...(Indices) + sizeof...(V)) <= Dimensions);
+		}
+
+		MUU_CONSTRAINED_TEMPLATE_2(
+			(!all_same<Scalar, remove_cvref<V>...>),
+			typename T,
+			size_t... Indices,
+			typename... V
+		)
+		explicit
+		constexpr vector_(tuple_concat_tag, std::index_sequence<Indices...>, const T& tpl, const V&... vals) noexcept
 			: values{
 				static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))...,
 				static_cast<Scalar>(vals)...
@@ -387,24 +347,8 @@ namespace muu::impl
 
 		template <typename T, size_t... Indices>
 		explicit
-		constexpr vector_(array_copy_tag, std::index_sequence<Indices...>, const T& arr) noexcept
-			: vector_{ arr[Indices]... }
-		{
-			static_assert(sizeof...(Indices) == 1);
-		}
-
-		template <typename T, size_t... Indices>
-		explicit
 		constexpr vector_(array_cast_tag, std::index_sequence<Indices...>, const T& arr) noexcept
 			: vector_{ static_cast<Scalar>(arr[Indices])... }
-		{
-			static_assert(sizeof...(Indices) == 1);
-		}
-
-		template <typename T, size_t... Indices>
-		explicit
-		constexpr vector_(tuple_copy_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
-			: vector_{ get_from_tuple_like<Indices>(tpl)... }
 		{
 			static_assert(sizeof...(Indices) == 1);
 		}
@@ -446,24 +390,8 @@ namespace muu::impl
 
 		template <typename T, size_t... Indices>
 		explicit
-		constexpr vector_(array_copy_tag, std::index_sequence<Indices...>, const T& arr) noexcept
-			: vector_{ arr[Indices]... }
-		{
-			static_assert(sizeof...(Indices) <= 2);
-		}
-
-		template <typename T, size_t... Indices>
-		explicit
 		constexpr vector_(array_cast_tag, std::index_sequence<Indices...>, const T& arr) noexcept
 			: vector_{ static_cast<Scalar>(arr[Indices])... }
-		{
-			static_assert(sizeof...(Indices) <= 2);
-		}
-
-		template <typename T, size_t... Indices>
-		explicit
-		constexpr vector_(tuple_copy_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
-			: vector_{ get_from_tuple_like<Indices>(tpl)... }
 		{
 			static_assert(sizeof...(Indices) <= 2);
 		}
@@ -490,12 +418,30 @@ namespace muu::impl
 			static_assert((sizeof...(Indices1) + sizeof...(Indices2)) <= 2);
 		}
 
-		template <typename T, size_t... Indices, typename... V>
+		MUU_CONSTRAINED_TEMPLATE(
+			(all_same<Scalar, remove_cvref<V>...>),
+			typename T,
+			size_t... Indices,
+			typename... V
+		)
 		explicit
-		constexpr vector_(tuple_concat_tag,
-			std::index_sequence<Indices...>, const T& tpl,
-			V... vals
-		) noexcept
+		constexpr vector_(tuple_concat_tag, std::index_sequence<Indices...>, const T& tpl, V... vals) noexcept
+			: vector_{
+				static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))...,
+				vals...
+			}
+		{
+			static_assert((sizeof...(Indices) + sizeof...(V)) <= 2);
+		}
+
+		MUU_CONSTRAINED_TEMPLATE_2(
+			(!all_same<Scalar, remove_cvref<V>...>),
+			typename T,
+			size_t... Indices,
+			typename... V
+		)
+		explicit
+		constexpr vector_(tuple_concat_tag, std::index_sequence<Indices...>, const T& tpl, const V&... vals) noexcept
 			: vector_{
 				static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))...,
 				static_cast<Scalar>(vals)...
@@ -537,24 +483,8 @@ namespace muu::impl
 
 		template <typename T, size_t... Indices>
 		explicit
-		constexpr vector_(array_copy_tag, std::index_sequence<Indices...>, const T& arr) noexcept
-			: vector_{ arr[Indices]... }
-		{
-			static_assert(sizeof...(Indices) <= 3);
-		}
-
-		template <typename T, size_t... Indices>
-		explicit
 		constexpr vector_(array_cast_tag, std::index_sequence<Indices...>, const T& arr) noexcept
 			: vector_{ static_cast<Scalar>(arr[Indices])... }
-		{
-			static_assert(sizeof...(Indices) <= 3);
-		}
-
-		template <typename T, size_t... Indices>
-		explicit
-		constexpr vector_(tuple_copy_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
-			: vector_{ get_from_tuple_like<Indices>(tpl)... }
 		{
 			static_assert(sizeof...(Indices) <= 3);
 		}
@@ -581,12 +511,30 @@ namespace muu::impl
 			static_assert((sizeof...(Indices1) + sizeof...(Indices2)) <= 3);
 		}
 
-		template <typename T, size_t... Indices, typename... V>
+		MUU_CONSTRAINED_TEMPLATE(
+			(all_same<Scalar, remove_cvref<V>...>),
+			typename T,
+			size_t... Indices,
+			typename... V
+		)
 		explicit
-		constexpr vector_(tuple_concat_tag,
-			std::index_sequence<Indices...>, const T& tpl,
-			V... vals
-		) noexcept
+		constexpr vector_(tuple_concat_tag, std::index_sequence<Indices...>, const T& tpl, V... vals) noexcept
+			: vector_{
+				static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))...,
+				vals...
+			}
+		{
+			static_assert((sizeof...(Indices) + sizeof...(V)) <= 3);
+		}
+
+		MUU_CONSTRAINED_TEMPLATE_2(
+			(!all_same<Scalar, remove_cvref<V>...>),
+			typename T,
+			size_t... Indices,
+			typename... V
+		)
+		explicit
+		constexpr vector_(tuple_concat_tag, std::index_sequence<Indices...>, const T& tpl, const V&... vals) noexcept
 			: vector_{
 				static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))...,
 				static_cast<Scalar>(vals)...
@@ -632,24 +580,8 @@ namespace muu::impl
 
 		template <typename T, size_t... Indices>
 		explicit
-		constexpr vector_(array_copy_tag, std::index_sequence<Indices...>, const T& arr) noexcept
-			: vector_{ arr[Indices]... }
-		{
-			static_assert(sizeof...(Indices) <= 4);
-		}
-
-		template <typename T, size_t... Indices>
-		explicit
 		constexpr vector_(array_cast_tag, std::index_sequence<Indices...>, const T& arr) noexcept
 			: vector_{ static_cast<Scalar>(arr[Indices])... }
-		{
-			static_assert(sizeof...(Indices) <= 4);
-		}
-
-		template <typename T, size_t... Indices>
-		explicit
-		constexpr vector_(tuple_copy_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
-			: vector_{ get_from_tuple_like<Indices>(tpl)... }
 		{
 			static_assert(sizeof...(Indices) <= 4);
 		}
@@ -676,12 +608,30 @@ namespace muu::impl
 			static_assert((sizeof...(Indices1) + sizeof...(Indices2)) <= 4);
 		}
 
-		template <typename T, size_t... Indices, typename... V>
+		MUU_CONSTRAINED_TEMPLATE(
+			(all_same<Scalar, remove_cvref<V>...>),
+			typename T,
+			size_t... Indices,
+			typename... V
+		)
 		explicit
-		constexpr vector_(tuple_concat_tag,
-			std::index_sequence<Indices...>, const T& tpl,
-			V... vals
-		) noexcept
+		constexpr vector_(tuple_concat_tag, std::index_sequence<Indices...>, const T& tpl, V... vals) noexcept
+			: vector_{
+				static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))...,
+				vals...
+			}
+		{
+			static_assert((sizeof...(Indices) + sizeof...(V)) <= 4);
+		}
+
+		MUU_CONSTRAINED_TEMPLATE_2(
+			(!all_same<Scalar, remove_cvref<V>...>),
+			typename T,
+			size_t... Indices,
+			typename... V
+		)
+		explicit
+		constexpr vector_(tuple_concat_tag, std::index_sequence<Indices...>, const T& tpl, const V&... vals) noexcept
 			: vector_{
 				static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))...,
 				static_cast<Scalar>(vals)...
@@ -720,7 +670,7 @@ namespace muu::impl
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
-	static constexpr auto MUU_VECTORCALL raw_modulo(T lhs, T rhs) noexcept // todo: constexpr fmod
+	constexpr auto MUU_VECTORCALL raw_modulo(T lhs, T rhs) noexcept // todo: constexpr fmod
 	{
 		if constexpr (is_floating_point<T>)
 		{
@@ -748,7 +698,7 @@ namespace muu::impl
 	)
 	[[nodiscard]]
 	MUU_ATTR(pure)
-	static constexpr Return MUU_VECTORCALL raw_cross(const T& lhs, const U& rhs) noexcept
+	inline constexpr Return MUU_VECTORCALL raw_cross(const T& lhs, const U& rhs) noexcept
 	{
 		MUU_FMA_BLOCK;
 		using lhs_scalar = decltype(lhs.x);
@@ -777,7 +727,7 @@ namespace muu::impl
 	)
 	[[nodiscard]]
 	MUU_ATTR(const)
-	static constexpr Return MUU_VECTORCALL raw_cross(T lhs, U rhs) noexcept
+	inline constexpr Return MUU_VECTORCALL raw_cross(T lhs, U rhs) noexcept
 	{
 		MUU_FMA_BLOCK;
 		using lhs_scalar = decltype(lhs.x);
@@ -796,6 +746,27 @@ namespace muu::impl
 			static_cast<return_scalar>(static_cast<type>(lhs.z) * static_cast<type>(rhs.x) - static_cast<type>(lhs.x) * static_cast<type>(rhs.z)),
 			static_cast<return_scalar>(static_cast<type>(lhs.x) * static_cast<type>(rhs.y) - static_cast<type>(lhs.y) * static_cast<type>(rhs.x))
 		};
+	}
+
+	template <typename T>
+	[[nodiscard]]
+	MUU_ATTR_NDEBUG(pure)
+	MUU_ATTR(nonnull)
+	inline T initialize_trivial_by_memcpy(const void* ptr) noexcept
+	{
+		static_assert(!std::is_reference_v<T>);
+		static_assert(std::is_trivially_default_constructible_v<T>);
+		static_assert(std::is_trivially_copyable_v<T>);
+
+		MUU_CONSTEXPR_SAFE_ASSERT(
+			ptr != nullptr
+			&& "ptr cannot be nullptr"
+		);
+		MUU_ASSUME(ptr != nullptr);
+
+		T val;
+		memcpy(&val, ptr, sizeof(T));
+		return val;
 	}
 }
 
@@ -826,68 +797,8 @@ namespace muu
 
 /// \endcond
 
-#ifndef REQUIRES_DIMENSIONS_AT_LEAST
-	#define	REQUIRES_DIMENSIONS_AT_LEAST(dim)
-#endif
-
-#ifndef REQUIRES_DIMENSIONS_AT_LEAST_AND
-	#define	REQUIRES_DIMENSIONS_AT_LEAST_AND(dim, ...)
-#endif
-
-#ifndef REQUIRES_DIMENSIONS_BETWEEN
-	#define	REQUIRES_DIMENSIONS_BETWEEN(min, max)
-#endif
-
-#ifndef REQUIRES_DIMENSIONS_EXACTLY
-	#define	REQUIRES_DIMENSIONS_EXACTLY(dim)
-#endif
-
-#ifndef REQUIRES_FLOATING_POINT
-	#define	REQUIRES_FLOATING_POINT
-#endif
-
-#ifndef REQUIRES_INTEGRAL
-	#define	REQUIRES_INTEGRAL
-#endif
-
-#ifndef REQUIRES_SIGNED
-	#define	REQUIRES_SIGNED
-#endif
-
 #ifndef SPECIALIZED_IF
 	#define SPECIALIZED_IF(cond)
-#endif
-
-#ifndef ENABLE_IF_DIMENSIONS_AT_LEAST
-	#define ENABLE_IF_DIMENSIONS_AT_LEAST(dim)
-#endif
-
-#ifndef ENABLE_IF_DIMENSIONS_AT_LEAST_AND
-	#define ENABLE_IF_DIMENSIONS_AT_LEAST_AND(dim, ...)
-#endif
-
-#ifndef LEGACY_REQUIRES_DIMENSIONS_AT_LEAST
-	#define LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(dim)
-#endif
-
-#ifndef LEGACY_REQUIRES_DIMENSIONS_BETWEEN
-	#define LEGACY_REQUIRES_DIMENSIONS_BETWEEN(min, max)
-#endif
-
-#ifndef LEGACY_REQUIRES_DIMENSIONS_EXACTLY
-	#define LEGACY_REQUIRES_DIMENSIONS_EXACTLY(dim)
-#endif
-
-#ifndef LEGACY_REQUIRES_FLOATING_POINT
-	#define LEGACY_REQUIRES_FLOATING_POINT
-#endif
-
-#ifndef LEGACY_REQUIRES_INTEGRAL
-	#define LEGACY_REQUIRES_INTEGRAL
-#endif
-
-#ifndef LEGACY_REQUIRES_SIGNED
-	#define LEGACY_REQUIRES_SIGNED
 #endif
 
 #ifndef ENABLE_PAIRED_FUNCS
@@ -1079,10 +990,10 @@ namespace muu
 		/// \param	y		Initial value for the vector's second scalar component.
 		/// 
 		/// \note		This constructor is only available when #dimensions &gt;= 2.
-		LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(2)
+		MUU_LEGACY_REQUIRES(Dims >= 2, size_t Dims = Dimensions)
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y) noexcept
-			REQUIRES_DIMENSIONS_AT_LEAST(2)
+			MUU_REQUIRES(Dimensions >= 2)
 			: base{ x, y }
 		{}
 
@@ -1094,10 +1005,10 @@ namespace muu
 		/// \param	z		Initial value for the vector's third scalar component.
 		/// 
 		/// \note		This constructor is only available when #dimensions &gt;= 3.
-		LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(3)
+		MUU_LEGACY_REQUIRES(Dims >= 3, size_t Dims = Dimensions)
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y, scalar_type z) noexcept
-			REQUIRES_DIMENSIONS_AT_LEAST(3)
+			MUU_REQUIRES(Dimensions >= 3)
 			: base{ x, y, z }
 		{}
 
@@ -1110,10 +1021,10 @@ namespace muu
 		/// \param	w		Initial value for the vector's fourth scalar component.
 		/// 
 		/// \note			This constructor is only available when #dimensions &gt;= 4.
-		LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(4)
+		MUU_LEGACY_REQUIRES(Dims >= 4, size_t Dims = Dimensions)
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y, scalar_type z, scalar_type w) noexcept
-			REQUIRES_DIMENSIONS_AT_LEAST(4)
+			MUU_REQUIRES(Dimensions >= 4)
 			: base{ x, y, z, w }
 		{}
 
@@ -1128,12 +1039,13 @@ namespace muu
 		/// \param	vals	Initial values for the vector's remaining scalar components.
 		/// 
 		/// \note			This constructor is only available when #dimensions &gt;= 5.
-		template <typename... T
-			ENABLE_IF_DIMENSIONS_AT_LEAST_AND(4 + sizeof...(T), all_convertible_to<scalar_type, T...>)
-		>
-		REQUIRES_DIMENSIONS_AT_LEAST_AND(4 + sizeof...(T), all_convertible_to<scalar_type, T...>)
+		MUU_CONSTRAINED_TEMPLATE(
+			(Dims >= (4 + sizeof...(T)) && all_convertible_to<Scalar, T...>),
+			typename... T
+			MUU_HIDDEN_PARAM(size_t Dims = Dimensions)
+		)
 		MUU_NODISCARD_CTOR
-		constexpr vector(scalar_type x, scalar_type y, scalar_type z, scalar_type w, T... vals) noexcept
+		constexpr vector(scalar_type x, scalar_type y, scalar_type z, scalar_type w, const T&... vals) noexcept
 			: base{ x, y, z, w, vals... }
 		{}
 
@@ -1143,15 +1055,33 @@ namespace muu
 		/// \tparam T			A type convertible to #scalar_type.
 		/// \tparam N			The number of elements in the array.
 		/// \param	arr			Array of values used to initialize the vector's scalar components.
-		template <typename T, size_t N
-			ENABLE_IF_DIMENSIONS_AT_LEAST_AND(N, all_convertible_to<scalar_type, T>)
-		>
-		REQUIRES_DIMENSIONS_AT_LEAST_AND(N, all_convertible_to<scalar_type, T>)
+		MUU_CONSTRAINED_TEMPLATE(
+			(
+				Dimensions >= N
+				&& std::is_convertible_v<T, Scalar>
+				&& (!std::is_same_v<remove_cv<T>, Scalar> || Dimensions != N || !build::supports_constexpr_bit_cast)
+			),
+			typename T, size_t N
+		)
 		MUU_NODISCARD_CTOR
 		explicit
 		constexpr vector(const T(& arr)[N]) noexcept
 			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, arr }
 		{}
+
+		/// \cond
+
+		MUU_CONSTRAINED_TEMPLATE_2(
+			(std::is_same_v<remove_cv<T>, Scalar> && build::supports_constexpr_bit_cast),
+			typename T
+		)
+		MUU_NODISCARD_CTOR
+		explicit
+		constexpr vector(const T(& arr)[Dimensions]) noexcept
+			: base{ bit_cast<base>(arr) }
+		{}
+
+		/// \endcond
 
 		/// \brief Constructs a vector from a std::array.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
@@ -1159,15 +1089,34 @@ namespace muu
 		/// \tparam T			A type convertible to #scalar_type.
 		/// \tparam N			The number of elements in the array.
 		/// \param	arr			Array of values used to initialize the vector's scalar components.
-		template <typename T, size_t N
-			ENABLE_IF_DIMENSIONS_AT_LEAST_AND(N, all_convertible_to<scalar_type, T>)
-		>
-		REQUIRES_DIMENSIONS_AT_LEAST_AND(N, all_convertible_to<scalar_type, T>)
+		MUU_CONSTRAINED_TEMPLATE(
+			(
+				Dimensions >= N
+				&& std::is_convertible_v<T, Scalar>
+				&& (!std::is_same_v<remove_cv<T>, Scalar> || Dimensions != N || !build::supports_constexpr_bit_cast)
+			),
+			typename T,
+			size_t N
+		)
 		MUU_NODISCARD_CTOR
 		explicit
 		constexpr vector(const std::array<T, N>& arr) noexcept
 			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, arr }
 		{}
+
+		/// \cond
+
+		MUU_CONSTRAINED_TEMPLATE_2(
+			(std::is_same_v<remove_cv<T>, Scalar> && build::supports_constexpr_bit_cast),
+			typename T
+		)
+		MUU_NODISCARD_CTOR
+		explicit
+		constexpr vector(const std::array<T, Dimensions>& arr) noexcept
+			: base{ bit_cast<base>(arr) }
+		{}
+
+		/// \endcond
 
 		/// \brief Constructs a vector from any tuple-like or implicitly bit-castable type.
 		/// 
@@ -1178,44 +1127,36 @@ namespace muu
 		/// \note		This constructor is implicit when given an implicitly bit-castable type, `explicit` otherwise.
 		/// 
 		/// \see muu::allow_implicit_bit_cast
-		template <typename T
-			ENABLE_IF_DIMENSIONS_AT_LEAST_AND(
-				tuple_size<T>,
-				is_tuple_like<T>
-				&& !impl::is_vector_<T>
-				&& (!allow_implicit_bit_cast<T, vector> || !build::supports_constexpr_bit_cast)
-			)
-		>
-		REQUIRES_DIMENSIONS_AT_LEAST_AND(
-			tuple_size<T>,
-			is_tuple_like<T>
-			&& !impl::is_vector_<T>
-			&& (!allow_implicit_bit_cast<T, vector> || !build::supports_constexpr_bit_cast)
+		MUU_CONSTRAINED_TEMPLATE(
+			(
+				!impl::is_vector_<T>
+				&& is_tuple_like<T>
+				&& Dimensions >= tuple_size<T>
+				&& !allow_implicit_bit_cast<T, vector>// || !build::supports_constexpr_bit_cast)
+			),
+			typename T
 		)
 		MUU_NODISCARD_CTOR
 		explicit
-		constexpr vector(const T& tuple) noexcept
-			: base{ impl::tuple_cast_tag{}, std::make_index_sequence<tuple_size<T>>{}, tuple }
+		constexpr vector(const T& tuple_or_bitcastable) noexcept
+			: base{ impl::tuple_cast_tag{}, std::make_index_sequence<tuple_size<T>>{}, tuple_or_bitcastable }
 		{}
 
 		/// \cond
 
-		template <typename T
-			MUU_ENABLE_IF(
-				allow_implicit_bit_cast<T, vector>
-				&& !impl::is_vector_<T>
-				&& (!is_tuple_like<T> || (tuple_size<T> > Dimensions) || build::supports_constexpr_bit_cast)
-			)
-		>
-		MUU_REQUIRES(
-			allow_implicit_bit_cast<T, vector>
-			&& !impl::is_vector_<T>
-			&& (!is_tuple_like<T> || (tuple_size<T> > Dimensions) || build::supports_constexpr_bit_cast)
+		MUU_CONSTRAINED_TEMPLATE_2(
+			(
+				!impl::is_vector_<T>
+				&& allow_implicit_bit_cast<T, vector>
+				&& (!is_tuple_like<T> || (tuple_size<T> > Dimensions))
+				//&& build::supports_constexpr_bit_cast
+			),
+			typename T
 		)
 		MUU_NODISCARD_CTOR
 		/*implicit*/
-		constexpr vector(const T& blittable) noexcept
-			: base{ bit_cast<base>(blittable) }
+		constexpr vector(const T& bitcastable) noexcept
+			: base{ bit_cast<base>(bitcastable) }
 		{
 			static_assert(
 				sizeof(T) == sizeof(base),
@@ -1264,10 +1205,11 @@ namespace muu
 		/// \tparam	D2		Vector 2's #dimensions.
 		/// \param 	vec1	Vector 1.
 		/// \param 	vec2	Vector 2.
-		template <typename S1, size_t D1, typename S2, size_t D2
-			ENABLE_IF_DIMENSIONS_AT_LEAST(D1 + D2)
-		>
-		REQUIRES_DIMENSIONS_AT_LEAST(D1 + D2)
+		MUU_CONSTRAINED_TEMPLATE(
+			Dimensions >= D1 + D2,
+			typename S1, size_t D1,
+			typename S2, size_t D2
+		)
 		MUU_NODISCARD_CTOR
 		constexpr vector(const vector<S1, D1>& vec1, const vector<S2, D2>& vec2) noexcept
 			: base{
@@ -1291,12 +1233,13 @@ namespace muu
 		/// \tparam T		Types convertible to #scalar_type.
 		/// \param 	vec		A vector.
 		/// \param 	vals	Scalar values.
-		template <typename S, size_t D, typename... T
-			ENABLE_IF_DIMENSIONS_AT_LEAST_AND(D + sizeof...(T), all_convertible_to<scalar_type, T...>)
-		>
-		REQUIRES_DIMENSIONS_AT_LEAST_AND(D + sizeof...(T), all_convertible_to<scalar_type, T...>)
+		MUU_CONSTRAINED_TEMPLATE(
+			(Dimensions >= D + sizeof...(T) && all_convertible_to<Scalar, T...>),
+			typename S, size_t D,
+			typename... T
+		)
 		MUU_NODISCARD_CTOR
-		constexpr vector(const vector<S, D>& vec, T... vals) noexcept
+		constexpr vector(const vector<S, D>& vec, const T&... vals) noexcept
 			: base{
 				impl::tuple_concat_tag{},
 				std::make_index_sequence<D>{}, vec,
@@ -1310,17 +1253,21 @@ namespace muu
 		/// \tparam T			Type convertible to #scalar_type.
 		/// \param	vals		Pointer to values to copy.
 		/// \param	num			Number of values to copy.
-		template <typename T
-			MUU_ENABLE_IF(all_convertible_to<scalar_type, T>)
-		>
-		MUU_REQUIRES(all_convertible_to<scalar_type, T>)
+		MUU_CONSTRAINED_TEMPLATE((std::is_convertible_v<T, Scalar>), typename T)
 		MUU_NODISCARD_CTOR
+		MUU_ATTR(nonnull)
 		vector(const T* vals, size_t num) noexcept
 		{
+			MUU_CONSTEXPR_SAFE_ASSERT(
+				vals != nullptr
+				&& "vals cannot be nullptr"
+			);
+			MUU_ASSUME(vals != nullptr);
+
 			num = muu::min(num, Dimensions);
 			
-			if constexpr (std::is_same_v<scalar_type, remove_cv<T>>)
-				memcpy(&get<0>(), vals, sizeof(T) * num);
+			if constexpr (std::is_same_v<remove_cv<T>, Scalar>)
+				memcpy(this, vals, sizeof(T) * num);
 			else
 			{
 				for (size_t i = 0; i < num; i++)
@@ -1328,8 +1275,51 @@ namespace muu
 			}
 
 			if (num < Dimensions)
-				memset(&operator[](num), 0, (Dimensions - num) * sizeof(scalar_type));
+				memset(pointer_cast<std::byte*>(this) + num * sizeof(scalar_type), 0, (Dimensions - num) * sizeof(scalar_type));
 		}
+
+		/// \brief Constructs a vector from a pointer to scalars.
+		/// 
+		/// \tparam T			Type convertible to #scalar_type.
+		/// \param	vals		Pointer to values to copy.
+		MUU_CONSTRAINED_TEMPLATE(
+			(!std::is_same_v<remove_cv<T>, Scalar> && std::is_convertible_v<T, Scalar>),
+			typename T
+		)
+		MUU_NODISCARD_CTOR
+		MUU_ATTR(nonnull)
+		explicit
+		vector(const T* MUU_HIDDEN(const&) vals) noexcept
+		{
+			MUU_CONSTEXPR_SAFE_ASSERT(
+				vals != nullptr
+				&& "vals cannot be nullptr"
+			);
+			MUU_ASSUME(vals != nullptr);
+
+			                              get<0>() = static_cast<scalar_type>(vals[0]);
+			if constexpr (Dimensions > 1) get<1>() = static_cast<scalar_type>(vals[1]);
+			if constexpr (Dimensions > 2) get<2>() = static_cast<scalar_type>(vals[2]);
+			if constexpr (Dimensions > 3) get<3>() = static_cast<scalar_type>(vals[3]);
+			if constexpr (Dimensions > 4)
+			{
+				for (size_t i = 4; i < Dimensions; i++)
+					operator[](i) = static_cast<scalar_type>(vals[i]);
+			}
+		}
+
+		/// \cond
+
+		MUU_CONSTRAINED_TEMPLATE_2((std::is_same_v<remove_cv<T>, Scalar>), typename T)
+		MUU_NODISCARD_CTOR
+		MUU_ATTR(nonnull)
+		explicit
+		vector(const T* const& vals) noexcept
+			: base{ impl::initialize_trivial_by_memcpy<base>(vals) }
+		{
+		}
+
+		/// \endcond
 
 		/// \brief Constructs a vector from a statically-sized muu::span.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
@@ -1337,10 +1327,14 @@ namespace muu
 		/// \tparam T			Type convertible to #scalar_type.
 		/// \tparam N			The number of elements covered by the span.
 		/// \param	vals		A span representing the values to copy.
-		template <typename T, size_t N
-			ENABLE_IF_DIMENSIONS_AT_LEAST_AND(N, all_convertible_to<scalar_type, T> && N != dynamic_extent)
-		>
-		REQUIRES_DIMENSIONS_AT_LEAST_AND(N, all_convertible_to<scalar_type, T>&& N != dynamic_extent)
+		MUU_CONSTRAINED_TEMPLATE(
+			(
+				Dimensions >= N
+				&& std::is_convertible_v<T, Scalar>
+				&& N != dynamic_extent
+			),
+			typename T, size_t N
+		)
 		MUU_NODISCARD_CTOR
 		explicit
 		constexpr vector(const muu::span<T, N>& vals) noexcept
@@ -1352,46 +1346,12 @@ namespace muu
 		/// 
 		/// \tparam T			Type convertible to #scalar_type.
 		/// \param	vals		A span representing the values to copy.
-		template <typename T
-			MUU_ENABLE_IF(all_convertible_to<scalar_type, T>)
-		>
-		MUU_REQUIRES(all_convertible_to<scalar_type, T>)
+		MUU_CONSTRAINED_TEMPLATE((std::is_convertible_v<T, Scalar>), typename T)
 		MUU_NODISCARD_CTOR
 		explicit
 		constexpr vector(const muu::span<T>& vals) noexcept
 			: vector{ vals.data(), vals.size() }
 		{}
-
-		#if ENABLE_PAIRED_FUNCS
-
-		template <size_t N
-			ENABLE_IF_DIMENSIONS_AT_LEAST(N)
-		>
-		REQUIRES_DIMENSIONS_AT_LEAST(N)
-		MUU_NODISCARD_CTOR
-		explicit
-		constexpr vector(const scalar_type(&arr)[N]) noexcept
-			: base{ impl::array_copy_tag{}, std::make_index_sequence<N>{}, arr }
-		{}
-
-		template <size_t N
-			ENABLE_IF_DIMENSIONS_AT_LEAST(N)
-		>
-		REQUIRES_DIMENSIONS_AT_LEAST(N)
-		MUU_NODISCARD_CTOR
-		explicit
-		constexpr vector(const std::array<scalar_type, N>& arr) noexcept
-			: base{ impl::array_copy_tag{}, std::make_index_sequence<N>{}, arr }
-		{}
-
-		template <size_t N>
-		MUU_NODISCARD_CTOR
-		explicit
-		constexpr vector(const vector<scalar_type, N>& vec) noexcept
-			: base{ impl::tuple_copy_tag{}, std::make_index_sequence<(N < Dimensions ? N : Dimensions)>{}, vec }
-		{}
-
-		#endif // ENABLE_PAIRED_FUNCS
 
 	#endif // constructors
 
@@ -1754,14 +1714,14 @@ namespace muu
 		/// \brief	Returns true if all the scalar components in a vector are approximately equal to zero.
 		/// 
 		/// \note		This function is only available when #scalar_type is a floating-point type.
-		LEGACY_REQUIRES_FLOATING_POINT
+		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL approx_zero(
 			vector_param v,
 			scalar_type epsilon = default_epsilon<scalar_type>
 		) noexcept
-			REQUIRES_FLOATING_POINT
+			MUU_REQUIRES(is_floating_point<Scalar>)
 		{
 			#define VEC_FUNC(member)	muu::approx_zero(v.member, epsilon)
 			COMPONENTWISE_AND(VEC_FUNC);
@@ -1771,13 +1731,11 @@ namespace muu
 		/// \brief	Returns true if all the scalar components in the vector are approximately equal to zero.
 		/// 
 		/// \note		This function is only available when #scalar_type is a floating-point type.
-		LEGACY_REQUIRES_FLOATING_POINT
+		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		constexpr bool MUU_VECTORCALL approx_zero(
-			scalar_type epsilon = default_epsilon<scalar_type>
-		) const noexcept
-			REQUIRES_FLOATING_POINT
+		constexpr bool MUU_VECTORCALL approx_zero(scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
+			MUU_REQUIRES(is_floating_point<Scalar>)
 		{
 			return approx_zero(*this, epsilon);
 		}
@@ -2015,11 +1973,11 @@ namespace muu
 		/// \brief	Returns the cross product of two vectors.
 		/// 
 		/// \note		This function is only available when #dimensions == 3.
-		LEGACY_REQUIRES_DIMENSIONS_EXACTLY(3)
+		MUU_LEGACY_REQUIRES(Dim == 3, size_t Dim = Dimensions)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr vector<product_type, 3> MUU_VECTORCALL cross(vector_param lhs, vector_param rhs) noexcept
-			REQUIRES_DIMENSIONS_EXACTLY(3)
+			MUU_REQUIRES(Dimensions == 3)
 		{
 			return impl::raw_cross<vector<product_type, 3>>(lhs, rhs);
 		}
@@ -2027,11 +1985,11 @@ namespace muu
 		/// \brief	Returns the cross product of this vector and another.
 		/// 
 		/// \note		This function is only available when #dimensions == 3.
-		LEGACY_REQUIRES_DIMENSIONS_EXACTLY(3)
+		MUU_LEGACY_REQUIRES(Dim == 3, size_t Dim = Dimensions)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr vector<product_type, 3> MUU_VECTORCALL cross(vector_param v) const noexcept
-			REQUIRES_DIMENSIONS_EXACTLY(3)
+			MUU_REQUIRES(Dimensions == 3)
 		{
 			return impl::raw_cross<vector<product_type, 3>>(*this, v);
 		}
@@ -2127,11 +2085,11 @@ namespace muu
 		}
 
 		/// \brief Returns the componentwise negation of a vector.
-		LEGACY_REQUIRES_SIGNED
+		MUU_LEGACY_REQUIRES(is_signed<T>, typename T = Scalar)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr vector operator - () const noexcept
-			REQUIRES_SIGNED
+			MUU_REQUIRES(is_signed<Scalar>)
 		{
 			#define VEC_FUNC(member)	-base::member
 			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
@@ -2432,12 +2390,12 @@ namespace muu
 		/// \brief Returns a vector with each scalar component left-shifted the given number of bits.
 		/// 
 		/// \note		This function is only available when #scalar_type is an integral type.
-		LEGACY_REQUIRES_INTEGRAL
+		MUU_LEGACY_REQUIRES(is_integral<T>, typename T = Scalar)
 		[[nodiscard]]
 		MUU_ATTR_NDEBUG(pure)
 		friend
 		constexpr vector MUU_VECTORCALL operator << (vector_param lhs, product_type rhs) noexcept
-			REQUIRES_INTEGRAL
+			MUU_REQUIRES(is_integral<Scalar>)
 		{
 			MUU_CONSTEXPR_SAFE_ASSERT(rhs >= 0 && "Bitwise left-shifting by negative values is illegal");
 			MUU_ASSUME(rhs >= 0);
@@ -2450,9 +2408,9 @@ namespace muu
 		/// \brief Componentwise left-shifts each scalar component in the vector by the given number of bits.
 		/// 
 		/// \note		This function is only available when #scalar_type is an integral type.
-		LEGACY_REQUIRES_INTEGRAL
+		MUU_LEGACY_REQUIRES(is_integral<T>, typename T = Scalar)
 		constexpr vector& MUU_VECTORCALL operator <<= (product_type rhs) noexcept
-			REQUIRES_INTEGRAL
+			MUU_REQUIRES(is_integral<Scalar>)
 		{
 			MUU_CONSTEXPR_SAFE_ASSERT(rhs >= 0 && "Bitwise left-shifting by negative values is illegal");
 			MUU_ASSUME(rhs >= 0);
@@ -2465,12 +2423,12 @@ namespace muu
 		/// \brief Returns a vector with each scalar component right-shifted the given number of bits.
 		/// 
 		/// \note		This function is only available when #scalar_type is an integral type.
-		LEGACY_REQUIRES_INTEGRAL
+		MUU_LEGACY_REQUIRES(is_integral<T>, typename T = Scalar)
 		[[nodiscard]]
 		MUU_ATTR_NDEBUG(pure)
 		friend
 		constexpr vector MUU_VECTORCALL operator >> (vector_param lhs, product_type rhs) noexcept
-			REQUIRES_INTEGRAL
+			MUU_REQUIRES(is_integral<Scalar>)
 		{
 			MUU_CONSTEXPR_SAFE_ASSERT(rhs >= 0 && "Bitwise right-shifting by negative values is illegal");
 			MUU_ASSUME(rhs >= 0);
@@ -2483,9 +2441,9 @@ namespace muu
 		/// \brief Componentwise right-shifts each scalar component in the vector by the given number of bits.
 		/// 
 		/// \note		This function is only available when #scalar_type is an integral type.
-		LEGACY_REQUIRES_INTEGRAL
+		MUU_LEGACY_REQUIRES(is_integral<T>, typename T = Scalar)
 		constexpr vector& MUU_VECTORCALL operator >>= (product_type rhs) noexcept
-			REQUIRES_INTEGRAL
+			MUU_REQUIRES(is_integral<Scalar>)
 		{
 			MUU_CONSTEXPR_SAFE_ASSERT(rhs >= 0 && "Bitwise right-shifting by negative values is illegal");
 			MUU_ASSUME(rhs >= 0);
@@ -2507,10 +2465,10 @@ namespace muu
 		/// \return		A normalized copy of the input vector.
 		/// 
 		/// \note This function is only available when #scalar_type is a floating-point type.
-		LEGACY_REQUIRES_FLOATING_POINT
+		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
 		[[nodiscard]]
 		static constexpr vector MUU_VECTORCALL normalize(vector_param v, delta_type& length_out) noexcept
-			REQUIRES_FLOATING_POINT
+			MUU_REQUIRES(is_floating_point<Scalar>)
 		{
 			if constexpr (Dimensions == 1)
 			{
@@ -2532,11 +2490,11 @@ namespace muu
 		/// \return		A normalized copy of the input vector.
 		/// 
 		/// \note This function is only available when #scalar_type is a floating-point type.
-		LEGACY_REQUIRES_FLOATING_POINT
+		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr vector MUU_VECTORCALL normalize(vector_param v) noexcept
-			REQUIRES_FLOATING_POINT
+			MUU_REQUIRES(is_floating_point<Scalar>)
 		{
 			if constexpr (Dimensions == 1)
 			{
@@ -2554,9 +2512,9 @@ namespace muu
 		/// \return	A reference to the vector.
 		/// 
 		/// \note This function is only available when #scalar_type is a floating-point type.
-		LEGACY_REQUIRES_FLOATING_POINT
+		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
 		constexpr vector& normalize(delta_type& length_out) noexcept
-			REQUIRES_FLOATING_POINT
+			MUU_REQUIRES(is_floating_point<Scalar>)
 		{
 			if constexpr (Dimensions == 1)
 			{
@@ -2577,9 +2535,9 @@ namespace muu
 		/// \return	A reference to the vector.
 		/// 
 		/// \note This function is only available when #scalar_type is a floating-point type.
-		LEGACY_REQUIRES_FLOATING_POINT
+		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
 		constexpr vector& normalize() noexcept
-			REQUIRES_FLOATING_POINT
+			MUU_REQUIRES(is_floating_point<Scalar>)
 		{
 			if constexpr (Dimensions == 1)
 			{
@@ -2598,10 +2556,10 @@ namespace muu
 		/// \return		A normalized copy of the input vector.
 		/// 
 		/// \note This function is only available when #scalar_type is a floating-point type.
-		LEGACY_REQUIRES_FLOATING_POINT
+		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
 		[[nodiscard]]
 		static constexpr vector MUU_VECTORCALL normalize_lensq(vector_param v, delta_type v_lensq) noexcept
-			REQUIRES_FLOATING_POINT
+			MUU_REQUIRES(is_floating_point<Scalar>)
 		{
 			return raw_divide_scalar(v, muu::sqrt(static_cast<intermediate_float>(v_lensq)));
 		}
@@ -2613,9 +2571,9 @@ namespace muu
 		/// \return	A reference to the vector.
 		/// 
 		/// \note This function is only available when #scalar_type is a floating-point type.
-		LEGACY_REQUIRES_FLOATING_POINT
+		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
 		constexpr vector& MUU_VECTORCALL normalize_lensq(delta_type lensq) noexcept
-			REQUIRES_FLOATING_POINT
+			MUU_REQUIRES(is_floating_point<Scalar>)
 		{
 			return raw_divide_assign_scalar(muu::sqrt(static_cast<intermediate_float>(lensq)));
 		}
@@ -2633,11 +2591,11 @@ namespace muu
 		/// \return		A normalized direction vector pointing from the start position to the end position.
 		/// 
 		/// \note		This function is only available when #dimensions == 2 or 3.
-		LEGACY_REQUIRES_DIMENSIONS_BETWEEN(2, 3)
+		MUU_LEGACY_REQUIRES((Dim == 2 || Dim == 3), size_t Dim = Dimensions)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr vector_product MUU_VECTORCALL direction(vector_param from, vector_param to, delta_type& distance_out) noexcept
-			REQUIRES_DIMENSIONS_BETWEEN(2, 3)
+			MUU_REQUIRES(Dimensions == 2 || Dimensions == 3)
 		{
 			// all are the same type - only happens with float, double, long double etc.
 			if constexpr (all_same<scalar_type, intermediate_float, delta_type>)
@@ -2670,11 +2628,11 @@ namespace muu
 		/// \return		A normalized direction vector pointing from the start position to the end position.
 		/// 
 		/// \note		This function is only available when #dimensions == 2 or 3.
-		LEGACY_REQUIRES_DIMENSIONS_BETWEEN(2, 3)
+		MUU_LEGACY_REQUIRES((Dim == 2 || Dim == 3), size_t Dim = Dimensions)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr vector_product MUU_VECTORCALL direction(vector_param from, vector_param to) noexcept
-			REQUIRES_DIMENSIONS_BETWEEN(2, 3)
+			MUU_REQUIRES(Dimensions == 2 || Dimensions == 3)
 		{
 			// all are the same type - only happens with float, double, long double etc.
 			if constexpr (all_same<scalar_type, intermediate_float, delta_type>)
@@ -2702,11 +2660,11 @@ namespace muu
 		/// \param	distance_out	An output param to receive the distance between the two points.
 		/// 
 		/// \note		This function is only available when #dimensions == 2 or 3.
-		LEGACY_REQUIRES_DIMENSIONS_BETWEEN(2, 3)
+		MUU_LEGACY_REQUIRES((Dim == 2 || Dim == 3), size_t Dim = Dimensions)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr vector_product MUU_VECTORCALL direction(vector_param to, delta_type& distance_out) const noexcept
-			REQUIRES_DIMENSIONS_BETWEEN(2, 3)
+			MUU_REQUIRES(Dimensions == 2 || Dimensions == 3)
 		{
 			return direction(*this, to, distance_out);
 		}
@@ -2716,11 +2674,11 @@ namespace muu
 		/// \param	to				The end position.
 		///
 		/// \note		This function is only available when #dimensions == 2 or 3.
-		LEGACY_REQUIRES_DIMENSIONS_BETWEEN(2, 3)
+		MUU_LEGACY_REQUIRES((Dim == 2 || Dim == 3), size_t Dim = Dimensions)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr vector_product MUU_VECTORCALL direction(vector_param to) const noexcept
-			REQUIRES_DIMENSIONS_BETWEEN(2, 3)
+			MUU_REQUIRES(Dimensions == 2 || Dimensions == 3)
 		{
 			return direction(*this, to);
 		}
@@ -2904,61 +2862,61 @@ namespace muu
 		}
 
 		/// \brief Returns a two-dimensional vector containing `{ x, y }`.
-		LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(2)
+		MUU_LEGACY_REQUIRES(Dims >= 2, size_t Dims = Dimensions)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr vector<scalar_type, 2> xy() const noexcept
-			REQUIRES_DIMENSIONS_AT_LEAST(2)
+			MUU_REQUIRES(Dimensions >= 2)
 		{
 			return vector<scalar_type, 2>{ get<0>(), get<1>() };
 		}
 
 		/// \brief Returns a two-dimensional vector containing `{ x, z }`.
-		LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(3)
+		MUU_LEGACY_REQUIRES(Dims >= 3, size_t Dims = Dimensions)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr vector<scalar_type, 2> xz() const noexcept
-			REQUIRES_DIMENSIONS_AT_LEAST(3)
+			MUU_REQUIRES(Dimensions >= 3)
 		{
 			return vector<scalar_type, 2>{ get<0>(), get<2>() };
 		}
 
 		/// \brief Returns a two-dimensional vector containing `{ y, x }`.
-		LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(2)
+		MUU_LEGACY_REQUIRES(Dims >= 2, size_t Dims = Dimensions)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr vector<scalar_type, 2> yx() const noexcept
-			REQUIRES_DIMENSIONS_AT_LEAST(2)
+			MUU_REQUIRES(Dimensions >= 2)
 		{
 			return vector<scalar_type, 2>{ get<1>(), get<0>() };
 		}
 
 		/// \brief Returns a three-dimensional vector containing `{ x, y, z }`.
-		LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(3)
+		MUU_LEGACY_REQUIRES(Dims >= 3, size_t Dims = Dimensions)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr vector<scalar_type, 3> xyz() const noexcept
-			REQUIRES_DIMENSIONS_AT_LEAST(3)
+			MUU_REQUIRES(Dimensions >= 3)
 		{
 			return vector<scalar_type, 3>{ get<0>(), get<1>(), get<2>() };
 		}
 
 		/// \brief Returns a four-dimensional vector containing `{ x, y, z, 1 }`.
-		LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(3)
+		MUU_LEGACY_REQUIRES(Dims >= 3, size_t Dims = Dimensions)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr vector<scalar_type, 4> xyz1() const noexcept
-			REQUIRES_DIMENSIONS_AT_LEAST(3)
+			MUU_REQUIRES(Dimensions >= 3)
 		{
 			return vector<scalar_type, 4>{ get<0>(), get<1>(), get<2>(), scalar_constants::one };
 		}
 
 		/// \brief Returns a four-dimensional vector containing `{ x, y, z, 0 }`.
-		LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(3)
+		MUU_LEGACY_REQUIRES(Dims >= 3, size_t Dims = Dimensions)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr vector<scalar_type, 4> xyz0() const noexcept
-			REQUIRES_DIMENSIONS_AT_LEAST(3)
+			MUU_REQUIRES(Dimensions >= 3)
 		{
 			return vector<scalar_type, 4>{ get<0>(), get<1>(), get<2>(), scalar_constants::zero };
 		}
@@ -3024,11 +2982,11 @@ namespace muu
 		/// 			The result is never greater than `pi` radians (180 degrees).
 		/// 
 		/// \note		This function is only available when #dimensions == 2 or 3.
-		LEGACY_REQUIRES_DIMENSIONS_BETWEEN(2, 3)
+		MUU_LEGACY_REQUIRES((Dim == 2 || Dim == 3), size_t Dim = Dimensions)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr delta_type MUU_VECTORCALL angle(vector_param v1, vector_param v2) noexcept
-			REQUIRES_DIMENSIONS_BETWEEN(2, 3)
+			MUU_REQUIRES(Dimensions == 2 || Dimensions == 3)
 		{
 			// law of cosines
 			// https://stackoverflow.com/questions/10507620/finding-the-angle-between-vectors
@@ -3057,11 +3015,11 @@ namespace muu
 		/// 			The result is never greater than `pi` radians (180 degrees).
 		/// 
 		/// \note		This function is only available when #dimensions == 2 or 3.
-		LEGACY_REQUIRES_DIMENSIONS_BETWEEN(2, 3)
+		MUU_LEGACY_REQUIRES((Dim == 2 || Dim == 3), size_t Dim = Dimensions)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr delta_type MUU_VECTORCALL angle(vector_param v) const noexcept
-			REQUIRES_DIMENSIONS_BETWEEN(2, 3)
+			MUU_REQUIRES(Dimensions == 2 || Dimensions == 3)
 		{
 			return angle(*this, v);
 		}
@@ -3097,10 +3055,7 @@ namespace muu
 	
 	/// \cond deduction_guides
 
-	MUU_CONSTRAINED_TEMPLATE(
-		(all_arithmetic<T, U, V...>),
-		typename T, typename U, typename... V
-	)
+	MUU_CONSTRAINED_TEMPLATE((all_arithmetic<T, U, V...>), typename T, typename U, typename... V)
 	vector(T, U, V...) -> vector<impl::highest_ranked<T, U, V...>, 2 + sizeof...(V)>;
 
 	MUU_CONSTRAINED_TEMPLATE(is_arithmetic<T>, typename T)
@@ -4339,24 +4294,9 @@ namespace muu
 #undef COMPONENTWISE_ASSIGN
 #undef NULL_TRANSFORM
 #undef SPECIALIZED_IF
-#undef ENABLE_IF_DIMENSIONS_AT_LEAST
-#undef ENABLE_IF_DIMENSIONS_AT_LEAST_AND
 #undef ENABLE_PAIRED_FUNCS
 #undef ENABLE_PAIRED_FUNC_BY_REF
 #undef ENABLE_PAIRED_FUNC_BY_VAL
-#undef LEGACY_REQUIRES_DIMENSIONS_AT_LEAST
-#undef LEGACY_REQUIRES_DIMENSIONS_BETWEEN
-#undef LEGACY_REQUIRES_DIMENSIONS_EXACTLY
-#undef LEGACY_REQUIRES_FLOATING_POINT
-#undef LEGACY_REQUIRES_INTEGRAL
-#undef LEGACY_REQUIRES_SIGNED
-#undef REQUIRES_DIMENSIONS_AT_LEAST
-#undef REQUIRES_DIMENSIONS_AT_LEAST_AND
-#undef REQUIRES_DIMENSIONS_BETWEEN
-#undef REQUIRES_DIMENSIONS_EXACTLY
-#undef REQUIRES_FLOATING_POINT
-#undef REQUIRES_INTEGRAL
-#undef REQUIRES_SIGNED
 #undef REQUIRES_PAIRED_FUNC_BY_REF
 #undef REQUIRES_PAIRED_FUNC_BY_VAL
 
@@ -4364,4 +4304,4 @@ MUU_PRAGMA_MSVC(pop_macro("min"))
 MUU_PRAGMA_MSVC(pop_macro("max"))
 MUU_PRAGMA_MSVC(float_control(pop))
 MUU_PRAGMA_MSVC(inline_recursion(off))
-MUU_POP_WARNINGS;	// MUU_DISABLE_SHADOW_WARNINGS
+MUU_POP_WARNINGS;	// MUU_DISABLE_SHADOW_WARNINGS, MUU_DISABLE_SPAM_WARNINGS

@@ -823,7 +823,7 @@ namespace muu
 	/// \brief	Provides an identity type transformation.
 	/// \details This is equivalent to C++20's std::type_identity_t.
 	template <typename T>
-	using dont_deduce = typename impl::type_identity_<T>::type;
+	using type_identity = typename impl::type_identity_<T>::type;
 
 	/// \brief	Gets the unsigned integer type with a specific number of bits for the target platform.
 	template <size_t Bits>
