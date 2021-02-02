@@ -390,11 +390,6 @@ C++</span></a>
             </dt>
             <dd>Shorthand for conditionally adding volatile to a type or reference.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga584cfbfcb8f1dc2df7da8320885c76f0">dont_deduce</a> = typename impl::type_identity_&lt;T&gt;::type
-            </dt>
-            <dd>Provides an identity type transformation.</dd>
-            <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_type</a> = impl::std_math_common_type&lt;<a class="m-doc" href="group__meta.html#ga3cac44d2af43c4fd98e835ff5b28988a">remove_<wbr/>cvref</a>&lt;T&gt;...&gt;
             </dt>
@@ -522,6 +517,11 @@ C++</span></a>
               using <a class="m-doc" href="group__meta.html#ga9cd7c756a0397747aa065ac54ddbf46b">smallest</a> = typename impl::smallest_&lt;T...&gt;::type
             </dt>
             <dd>The smallest type from a set of types.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="group__meta.html#ga8b8f215acad0e9f3d7aa52326155f030">type_identity</a> = typename impl::type_identity_&lt;T&gt;::type
+            </dt>
+            <dd>Provides an identity type transformation.</dd>
             <dt>
               using <a class="m-doc" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_t</a> = __uint128_t
             </dt>
@@ -2254,7 +2254,7 @@ C++</span></a>
               <div class="m-doc-template">template&lt;typename From, typename To&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga824ac2b58e006d4be8d4b0d6a0f7180d">allow_implicit_bit_cast</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Allows the to implicitly bit_cast from a type (via memcpy or similar) in some situations.</dd>
+            <dd>Allows the library to implicitly convert via bit casting in some situations.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gaa4c92e65e153e9a6c9ac01ba3bd653e5">always_false</a> <span class="m-label m-flat m-primary">constexpr</span>
