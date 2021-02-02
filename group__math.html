@@ -71,7 +71,6 @@ C++</span></a>
               <ul>
                 <li><a href="#groups">Modules</a></li>
                 <li><a href="#nested-classes">Classes</a></li>
-                <li><a href="#typedef-members">Typedefs</a></li>
               </ul>
             </li>
           </ul>
@@ -156,60 +155,6 @@ C++</span></a>
             </dt>
             <dd>An N-dimensional vector.</dd>
           </dl>
-        </section>
-        <section id="typedef-members">
-          <h2><a href="#typedef-members">Typedefs</a></h2>
-          <dl class="m-doc">
-            <dt>
-              <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;</div>
-              using <a class="m-doc" href="#ga99a5a5587a42a926e53bddccfc425f72">matrix_param</a> = impl::readonly_param&lt;<a class="m-doc muu-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;
-            </dt>
-            <dd>Alias of <code><a class="m-doc muu-injected" href="structmuu_1_1matrix.html">matrix</a></code> or <code>const <a class="m-doc muu-injected" href="structmuu_1_1matrix.html">matrix</a>&amp;</code>, depending on size, triviality, simd-friendliness, etc.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
-              using <a class="m-doc" href="#ga805ca7487ac67da08008fc6734452243">quaternion_param</a> = impl::readonly_param&lt;quaternion&lt;Scalar&gt;&gt;
-            </dt>
-            <dd>Alias of <code>quaternion</code> or <code>const quaternion&amp;</code>, depending on size, triviality, simd-friendliness, etc.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;</div>
-              using <a class="m-doc" href="#gabdb4facb748c4580a0396e4588478994">vector_param</a> = impl::readonly_param&lt;vector&lt;Scalar, Dimensions&gt;&gt;
-            </dt>
-            <dd>Alias of <code>vector</code> or <code>const vector&amp;</code>, depending on size, triviality, simd-friendliness, etc.</dd>
-          </dl>
-        </section>
-        <section>
-          <h2>Typedef documentation</h2>
-          <section class="m-doc-details" id="ga99a5a5587a42a926e53bddccfc425f72"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="matrix_8h.html">&lt;muu/matrix.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
-              </div>
-              using <a class="m-doc-self" href="#ga99a5a5587a42a926e53bddccfc425f72">matrix_param</a> = impl::readonly_param&lt;<a class="m-doc muu-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;
-            </h3>
-            <p>Alias of <code><a class="m-doc muu-injected" href="structmuu_1_1matrix.html">matrix</a></code> or <code>const <a class="m-doc muu-injected" href="structmuu_1_1matrix.html">matrix</a>&amp;</code>, depending on size, triviality, simd-friendliness, etc.</p>
-<aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="structmuu_1_1matrix.html">muu::<wbr/>matrix</a></p></aside>
-          </div></section>
-          <section class="m-doc-details" id="ga805ca7487ac67da08008fc6734452243"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="quaternion_8h.html">&lt;muu/quaternion.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename Scalar&gt;
-              </div>
-              using <a class="m-doc-self" href="#ga805ca7487ac67da08008fc6734452243">quaternion_param</a> = impl::readonly_param&lt;quaternion&lt;Scalar&gt;&gt;
-            </h3>
-            <p>Alias of <code>quaternion</code> or <code>const quaternion&amp;</code>, depending on size, triviality, simd-friendliness, etc.</p>
-<aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="structmuu_1_1quaternion.html">muu::<wbr/>quaternion</a></p></aside>
-          </div></section>
-          <section class="m-doc-details" id="gabdb4facb748c4580a0396e4588478994"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="vector_8h.html">&lt;muu/vector.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
-              </div>
-              using <a class="m-doc-self" href="#gabdb4facb748c4580a0396e4588478994">vector_param</a> = impl::readonly_param&lt;vector&lt;Scalar, Dimensions&gt;&gt;
-            </h3>
-            <p>Alias of <code>vector</code> or <code>const vector&amp;</code>, depending on size, triviality, simd-friendliness, etc.</p>
-<aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="structmuu_1_1vector.html">muu::<wbr/>vector</a></p></aside>
-          </div></section>
         </section>
       </div>
     </div>
