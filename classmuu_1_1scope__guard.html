@@ -89,12 +89,12 @@ C++</span></a>
             </li>
           </ul>
         </div>
-<p>Use a <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_<wbr/>guard</a> to simplify cleanup routines or code that has acquire/release semantics, e.g. locking:</p><pre class="m-code"><span class="kt">void</span> <span class="nf">do_something</span><span class="p">()</span>
+<p>Use a <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_<wbr/>guard</a> to simplify cleanup routines or code that has acquire/release semantics, e.g. locking:</p><pre class="m-code"><span class="k">void</span> <span class="nf">do_something</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="n">acquire_magic_lock</span><span class="p">();</span>
     <span class="ut">scope_guard</span> <span class="n">sg</span><span class="p">{</span> <span class="n">release_magic_lock</span> <span class="p">};</span>
     <span class="n">something_that_throws</span><span class="p">();</span>
-<span class="p">}</span></pre><p>For comparison's sake, here's the same function without a <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_<wbr/>guard</a>:</p><pre class="m-code"><span class="kt">void</span> <span class="nf">do_something</span><span class="p">()</span>
+<span class="p">}</span></pre><p>For comparison's sake, here's the same function without a <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_<wbr/>guard</a>:</p><pre class="m-code"><span class="k">void</span> <span class="nf">do_something</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="n">acquire_magic_lock</span><span class="p">();</span>
     <span class="k">try</span>

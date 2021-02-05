@@ -101,17 +101,17 @@ C++</span></a>
           <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
             <dt id="ac49c7cf65564e7a9730a26a423c8e92a">
-              using <a class="m-doc-self" href="#ac49c7cf65564e7a9730a26a423c8e92a">const_pointer</a> = std::add_pointer_t&lt;std::add_const_t&lt;T&gt;&gt;
+              using <a class="m-doc-self" href="#ac49c7cf65564e7a9730a26a423c8e92a">const_pointer</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/add_pointer" target="_blank">std::add_pointer_t</a>&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/add_cv" target="_blank">std::add_const_t</a>&lt;T&gt;&gt;
             </dt>
             <dd>A const pointer to the span's element type.</dd>
             <dt id="ab15436b2672ae1ee241a02c44610da0c">
-              using <a class="m-doc-self" href="#ab15436b2672ae1ee241a02c44610da0c">const_reference</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/add_reference" target="_blank">std::add_lvalue_reference_t</a>&lt;std::add_const_t&lt;T&gt;&gt;
+              using <a class="m-doc-self" href="#ab15436b2672ae1ee241a02c44610da0c">const_reference</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/add_reference" target="_blank">std::add_lvalue_reference_t</a>&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/add_cv" target="_blank">std::add_const_t</a>&lt;T&gt;&gt;
             </dt>
             <dd>A const reference to the span's element type.</dd>
             <dt id="ac14cfafd07a93294fcc337f53dd344bf">
-              using <a class="m-doc-self" href="#ac14cfafd07a93294fcc337f53dd344bf">difference_type</a> = ptrdiff_t
+              using <a class="m-doc-self" href="#ac14cfafd07a93294fcc337f53dd344bf">difference_type</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/ptrdiff_t" target="_blank">ptrdiff_t</a>
             </dt>
-            <dd>std::ptrdiff_t</dd>
+            <dd><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/ptrdiff_t" target="_blank">std::ptrdiff_t</a></dd>
             <dt id="ac92b58600d3f008c78cdddd953fdf62d">
               using <a class="m-doc-self" href="#ac92b58600d3f008c78cdddd953fdf62d">element_type</a> = T
             </dt>
@@ -121,7 +121,7 @@ C++</span></a>
             </dt>
             <dd>A <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator" target="_blank">LegacyRandomAccessIterator</a> for the elements in the span.</dd>
             <dt id="a2ecf9ad0b0fe4ac9e97b6085d8899459">
-              using <a class="m-doc-self" href="#a2ecf9ad0b0fe4ac9e97b6085d8899459">pointer</a> = std::add_pointer_t&lt;T&gt;
+              using <a class="m-doc-self" href="#a2ecf9ad0b0fe4ac9e97b6085d8899459">pointer</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/add_pointer" target="_blank">std::add_pointer_t</a>&lt;T&gt;
             </dt>
             <dd>A pointer to the span's element type.</dd>
             <dt id="a24e731f2ae120051119afabd76154bae">
@@ -171,6 +171,11 @@ C++</span></a>
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3507165435a2f4a0dc4bac59cb0a8fa4">span</a>(</span><span class="m-doc-wrap">const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a>&lt;U, N&gt;&amp; arr) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a span from an array.</dd>
+            <dt id="a4e8db51e6442462ecc50ff5c7e9228fd">
+              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4e8db51e6442462ecc50ff5c7e9228fd">span</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1span.html#ac92b58600d3f008c78cdddd953fdf62d">element_<wbr/>type</a>(&amp;arr)[N]) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a span from an array.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename It, typename End&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="#aba4ea951565d50e0d3aac8d1eee08e10">span</a>(</span><span class="m-doc-wrap">It first,
@@ -186,11 +191,6 @@ C++</span></a>
             <dt id="a833777c44fb3c2e8f193006f43724b25">
               <div class="m-doc-template">template&lt;typename U, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a833777c44fb3c2e8f193006f43724b25">span</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a>&lt;U, N&gt;&amp; arr) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a span from an array.</dd>
-            <dt id="a8beb3772385f4cdba0e969d35162ab38">
-              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8beb3772385f4cdba0e969d35162ab38">span</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__meta.html#ga8b8f215acad0e9f3d7aa52326155f030">type_<wbr/>identity</a>&lt;<a class="m-doc" href="classmuu_1_1span.html#ac92b58600d3f008c78cdddd953fdf62d">element_<wbr/>type</a>&gt;(&amp;arr)[N]) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a span from an array.</dd>
           </dl>

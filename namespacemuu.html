@@ -361,17 +361,17 @@ C++</span></a>
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga6c121fbd44449d05f6a34f26d51d923f">add_const</a> = typename impl::rebase_ref_&lt;T, std::add_const_t&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
+              using <a class="m-doc" href="group__meta.html#ga6c121fbd44449d05f6a34f26d51d923f">add_const</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/add_cv" target="_blank">std::add_const_t</a>&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
             </dt>
             <dd>Adds a const qualifier to a type or reference.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga946998d98f22705d1e955cc213187310">add_cv</a> = typename impl::rebase_ref_&lt;T, std::add_volatile_t&lt;std::add_const_t&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;&gt;&gt;::type
+              using <a class="m-doc" href="group__meta.html#ga946998d98f22705d1e955cc213187310">add_cv</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/add_cv" target="_blank">std::add_volatile_t</a>&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/add_cv" target="_blank">std::add_const_t</a>&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;&gt;&gt;::type
             </dt>
             <dd>Adds const and volatile qualifiers to a type or reference.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="group__meta.html#gaf658a920120d44cf78a83198479de23c">add_volatile</a> = typename impl::rebase_ref_&lt;T, std::add_volatile_t&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
+              using <a class="m-doc" href="group__meta.html#gaf658a920120d44cf78a83198479de23c">add_volatile</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/add_cv" target="_blank">std::add_volatile_t</a>&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
             </dt>
             <dd>Adds a volatile qualifier to a type or reference.</dd>
             <dt>
@@ -464,7 +464,7 @@ C++</span></a>
             <dd>Removes the topmost const and volatile qualifiers from a type or reference.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga3cac44d2af43c4fd98e835ff5b28988a">remove_cvref</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/remove_cv" target="_blank">std::remove_cv_t</a>&lt;std::remove_reference_t&lt;T&gt;&gt;
+              using <a class="m-doc" href="group__meta.html#ga3cac44d2af43c4fd98e835ff5b28988a">remove_cvref</a> = <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/remove_cv" target="_blank">std::remove_cv_t</a>&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;
             </dt>
             <dd>Removes the topmost const, volatile and reference qualifiers from a type.</dd>
             <dt>
@@ -865,7 +865,7 @@ C++</span></a>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga18d1da41b1d53329c0d0605596494010">byte_select</a>(</span><span class="m-doc-wrap">T val,
-              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> index) -&gt; uint8_t <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> index) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Gets a specific byte from an integer.</dd>
             <dt>
@@ -2113,27 +2113,27 @@ C++</span></a>
             <dd>Obtain the address represented by p without forming a reference to the pointee.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Char&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__transcode.html#ga410a285aafea5eff602d2b95626b7b3d">transcode</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> str) -&gt; std::basic_string&lt;Char&gt; <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__transcode.html#ga410a285aafea5eff602d2b95626b7b3d">transcode</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string" target="_blank">std::basic_string</a>&lt;Char&gt; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Transcodes a UTF-8 string into another UTF encoding.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Char&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__transcode.html#gaf51112f9bc5c2f25bcdfe34f6b902e7e">transcode</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> str) -&gt; std::basic_string&lt;Char&gt; <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__transcode.html#gaf51112f9bc5c2f25bcdfe34f6b902e7e">transcode</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u16string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string" target="_blank">std::basic_string</a>&lt;Char&gt; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Transcodes a UTF-16 string into another UTF encoding.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Char&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__transcode.html#ga08c5dabffb22594f3b2589551b5875e4">transcode</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> str) -&gt; std::basic_string&lt;Char&gt; <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__transcode.html#ga08c5dabffb22594f3b2589551b5875e4">transcode</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u32string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string" target="_blank">std::basic_string</a>&lt;Char&gt; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Transcodes a UTF-32 string into another UTF encoding.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Char&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__transcode.html#ga6de085cbec631f5bb8c79c432749185a">transcode</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> str) -&gt; std::basic_string&lt;Char&gt; <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__transcode.html#ga6de085cbec631f5bb8c79c432749185a">transcode</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::u8string_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string" target="_blank">std::basic_string</a>&lt;Char&gt; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Transcodes a UTF-8 string into another UTF encoding.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Char&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__transcode.html#ga4b033339ba2cec62aba96a5ec7f3261c">transcode</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> str) -&gt; std::basic_string&lt;Char&gt; <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__transcode.html#ga4b033339ba2cec62aba96a5ec7f3261c">transcode</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string_view" target="_blank">std::wstring_view</a> str) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/string/basic_string" target="_blank">std::basic_string</a>&lt;Char&gt; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Transcodes a UTF wide string into another UTF encoding.</dd>
             <dt>
@@ -2219,17 +2219,27 @@ C++</span></a>
               <div class="m-doc-template">template&lt;typename To, typename... From&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga20d0844251aba1af5b372c44803999eb">all_convertible_to</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>True if all of the types named by From are convertible to To.</dd>
+            <dd>True if all of the types named by <code>From</code> are implicitly <em>or</em> explicitly convertible to <code>To</code>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gafaa3803206e27df19fde422d3b1eb540">all_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are all of the named types enums or reference-to-enum?</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename To, typename... From&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga3034c2e89b1b9fb97c2afc24f285c175">all_explicitly_convertible_to</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if all of the types named by <code>From</code> are explicitly convertible to <code>To</code>.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gad2165666bd79caf59277b9c4488a1bde">all_floating_point</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are all of the named types floating-point or reference-to-floating-point?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename To, typename... From&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga02add24d1eebc3839d917c0691cd6e0d">all_implicitly_convertible_to</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if all of the types named by <code>From</code> are implicitly convertible to <code>To</code>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga02060371498ff52c8d225e379fe00975">all_integral</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -2326,15 +2336,20 @@ C++</span></a>
             </dt>
             <dd>Is a type const or reference-to-const?</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename From, typename To&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga525ce1f7e17d4abf8fae0c6aa5fd26cc">is_convertible</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if <code>From</code> is implicitly <em>or</em> explicitly convertible to <code>To</code>.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename From, typename... To&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga622faeced84d6fc02ccadcecd020e78a">is_convertible_to_all</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>True if From is convertible to all of the types named by To.</dd>
+            <dd>True if <code>From</code> is implicitly <em>or</em> explicitly convertible to all of the types named by <code>To</code>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename From, typename... To&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gaec35a37d461e7b8b6b6a92296c75c5fd">is_convertible_to_any</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>True if From is convertible to one or more of the types named by To.</dd>
+            <dd>True if <code>From</code> is implicitly <em>or</em> explicitly convertible to any of the types named by <code>To</code>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga21f392701d987b745866ab36fa3c6242">is_cvref</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -2351,6 +2366,21 @@ C++</span></a>
             </dt>
             <dd>Is a type an enum or reference-to-enum?</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename From, typename To&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga67e98114af69303c9e5f65e56056cd06">is_explicitly_convertible</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if <code>From</code> is explicitly convertible to <code>To</code>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename From, typename... To&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gabc0a354ed72c2bc9b631b10cd9c4f451">is_explicitly_convertible_to_all</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if <code>From</code> is explicitly convertible to all of the types named by <code>To</code>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename From, typename... To&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gafd769d61abf0eea21cb8c95ab32ebc0a">is_explicitly_convertible_to_any</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if <code>From</code> is explicitly convertible to any of the types named by <code>To</code>.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga92c7057e770b054e9d54bb28d60badea">is_extended_arithmetic</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
@@ -2360,6 +2390,21 @@ C++</span></a>
               bool <a class="m-doc" href="group__meta.html#gae74155e0cf085141e1923124718915a4">is_floating_point</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Is a type a floating-point or reference-to-floating-point?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename From, typename To&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga05ccb72a3320555db5a5115cd85d6691">is_implicitly_convertible</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if <code>From</code> is implicitly convertible to <code>To</code>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename From, typename... To&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga3958a07eb93e42c5e6b1f65366d58968">is_implicitly_convertible_to_all</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if <code>From</code> is implicitly convertible to all of the types named by <code>To</code>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename From, typename... To&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga022ab99547d2892239187f83bd0644f0">is_implicitly_convertible_to_any</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if <code>From</code> is implicitly convertible to any of the types named by <code>To</code>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga6283839d5536a4ee096adccee42b88c5">is_integral</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -2394,7 +2439,7 @@ C++</span></a>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga07b1449019c885977279ee3afedb3b4f">is_tuple_like</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if the type implements std::tuple_size and <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_element" target="_blank">std::tuple_element</a>.</dd>
+            <dd>Returns true if the type implements <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a> and <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_element" target="_blank">std::tuple_element</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga9e9c5b2e65e4f784d2a6b52b6a33a34f">is_unsigned</a> <span class="m-label m-flat m-primary">constexpr</span>

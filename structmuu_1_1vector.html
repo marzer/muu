@@ -148,8 +148,8 @@ C++</span></a>
         <section id="pub-static-methods">
           <h2><a href="#pub-static-methods">Public static functions</a></h2>
           <dl class="m-doc">
-            <dt id="a9e955ac68d8135f82bcaf5ea60365110">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a9e955ac68d8135f82bcaf5ea60365110">abs</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html">vector</a> v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a935a9bc44bb2bef21b75b1f914a1de8d">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a935a9bc44bb2bef21b75b1f914a1de8d">abs</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a vector with all scalar components set to their absolute values.</dd>
             <dt>
@@ -276,10 +276,20 @@ C++</span></a>
             </dt>
             <dd>Constructs a vector from a statically-sized <a class="m-doc" href="classmuu_1_1span.html">muu::<wbr/>span</a>.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#af1b7d1818bcca46bdca2881451f25ab4">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>(&amp;arr)[N]) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a vector from a raw array of scalars.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a406ddd92df734f4b5fb5012a4571f91f">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, N&gt;&amp; arr) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a vector from a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a> of scalars.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="#ae0170699052e7287ac2d618b3f2168cb">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a>&lt;T, N&gt;&amp; arr) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Constructs a vector from a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a>.</dd>
+            <dd>Constructs a vector from a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a> of scalars.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="#aa8ac1519ddfb8ae28ef7dc4ce23e8085">vector</a>(</span><span class="m-doc-wrap">const T&amp; tuple_or_bitcastable) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -300,7 +310,7 @@ C++</span></a>
               <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="#aba94ad73fe20b986aa96e6eb23944cbe">vector</a>(</span><span class="m-doc-wrap">const T(&amp;arr)[N]) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Constructs a vector from a raw array.</dd>
+            <dd>Constructs a vector from a raw array of scalars.</dd>
             <dt id="a7bc4befd275281134a09944414ab5b8b">
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a7bc4befd275281134a09944414ab5b8b">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp;) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -1160,6 +1170,66 @@ template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https:/
             </table>
 <p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p>
           </div></section>
+          <section class="m-doc-details" id="af1b7d1818bcca46bdca2881451f25ab4"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;<br/>
+template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af1b7d1818bcca46bdca2881451f25ab4">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>(&amp;arr)[N]) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Constructs a vector from a raw array of scalars.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">N</td>
+                  <td>The number of elements in the array.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>arr</td>
+                  <td>Array of values used to initialize the vector's scalar components.</td>
+                </tr>
+              </tbody>
+            </table>
+<p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p>
+          </div></section>
+          <section class="m-doc-details" id="a406ddd92df734f4b5fb5012a4571f91f"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;<br/>
+template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a406ddd92df734f4b5fb5012a4571f91f">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, N&gt;&amp; arr) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Constructs a vector from a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a> of scalars.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">N</td>
+                  <td>The number of elements in the array.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>arr</td>
+                  <td>Array of values used to initialize the vector's scalar components.</td>
+                </tr>
+              </tbody>
+            </table>
+<p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p>
+          </div></section>
           <section class="m-doc-details" id="ae0170699052e7287ac2d618b3f2168cb"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;<br/>
@@ -1167,7 +1237,7 @@ template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https:/
               </div>
               <span class="m-doc-wrap-bumper"> muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae0170699052e7287ac2d618b3f2168cb">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a>&lt;T, N&gt;&amp; arr) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Constructs a vector from a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a>.</p>
+            <p>Constructs a vector from a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/container/array" target="_blank">std::array</a> of scalars.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Template parameters</th></tr>
@@ -1286,7 +1356,7 @@ template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https:/
               </div>
               <span class="m-doc-wrap-bumper"> muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aba94ad73fe20b986aa96e6eb23944cbe">vector</a>(</span><span class="m-doc-wrap">const T(&amp;arr)[N]) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Constructs a vector from a raw array.</p>
+            <p>Constructs a vector from a raw array of scalars.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Template parameters</th></tr>
@@ -1345,9 +1415,9 @@ template&lt;typename S, <a class="m-doc muu-injected muu-external" href="https:/
                 </tr>
               </tbody>
             </table>
-<p>Copies source vector's scalar components, casting if necessary:</p><pre class="m-code"><span class="ut">vector</span><span class="o">&lt;</span><span class="ut">float</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span> <span class="n">xyz</span>  <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span> <span class="p">};</span>
-<span class="ut">vector</span><span class="o">&lt;</span><span class="ut">float</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="n">xy</span>   <span class="o">=</span> <span class="p">{</span> <span class="n">xyz</span> <span class="p">};</span> <span class="c1">// { 1, 2 }</span>
-<span class="ut">vector</span><span class="o">&lt;</span><span class="ut">float</span><span class="p">,</span> <span class="mi">4</span><span class="o">&gt;</span> <span class="n">xyzw</span> <span class="o">=</span> <span class="p">{</span> <span class="n">xyz</span> <span class="p">};</span> <span class="c1">// { 1, 2, 3, 0 }</span>
+<p>Copies source vector's scalar components, casting if necessary:</p><pre class="m-code"><span class="ut">vector</span><span class="o">&lt;</span><span class="k">float</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span> <span class="n">xyz</span>  <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span> <span class="p">};</span>
+<span class="ut">vector</span><span class="o">&lt;</span><span class="k">float</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="n">xy</span>   <span class="o">=</span> <span class="p">{</span> <span class="n">xyz</span> <span class="p">};</span> <span class="c1">// { 1, 2 }</span>
+<span class="ut">vector</span><span class="o">&lt;</span><span class="k">float</span><span class="p">,</span> <span class="mi">4</span><span class="o">&gt;</span> <span class="n">xyzw</span> <span class="o">=</span> <span class="p">{</span> <span class="n">xyz</span> <span class="p">};</span> <span class="c1">// { 1, 2, 3, 0 }</span>
 <span class="k">auto</span> <span class="n">rect</span>   <span class="o">=</span> <span class="ut">vector</span><span class="p">{</span> <span class="n">point1</span><span class="p">,</span> <span class="n">point2</span> <span class="p">};</span> <span class="c1">// { 1, 2, 10, 15 }</span></pre><p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p>
           </div></section>
           <section class="m-doc-details" id="ab95403dc8fdf56329da3f669a48b7988"><div>
@@ -1391,8 +1461,8 @@ template&lt;typename S, <a class="m-doc muu-injected muu-external" href="https:/
                 </tr>
               </tbody>
             </table>
-<p>Copies the scalar components from the vector and then the list of scalars contiguously into the new vector:</p><pre class="m-code"><span class="ut">vector</span><span class="o">&lt;</span><span class="ut">float</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="n">point</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="p">};</span>
-<span class="ut">vector</span><span class="o">&lt;</span><span class="ut">float</span><span class="p">,</span> <span class="mi">4</span><span class="o">&gt;</span> <span class="n">rect</span>  <span class="o">=</span> <span class="p">{</span> <span class="n">point</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span> <span class="p">};</span> <span class="c1">// { 1, 2, 10, 15 }</span></pre><p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p>
+<p>Copies the scalar components from the vector and then the list of scalars contiguously into the new vector:</p><pre class="m-code"><span class="ut">vector</span><span class="o">&lt;</span><span class="k">float</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="n">point</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="p">};</span>
+<span class="ut">vector</span><span class="o">&lt;</span><span class="k">float</span><span class="p">,</span> <span class="mi">4</span><span class="o">&gt;</span> <span class="n">rect</span>  <span class="o">=</span> <span class="p">{</span> <span class="n">point</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span> <span class="p">};</span> <span class="c1">// { 1, 2, 10, 15 }</span></pre><p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p>
           </div></section>
           <section class="m-doc-details" id="a5daf0c0082c5fd76435808d7517ef7a3"><div>
             <h3>
@@ -1439,9 +1509,9 @@ template&lt;typename S1, <a class="m-doc muu-injected muu-external" href="https:
                 </tr>
               </tbody>
             </table>
-<p>Copies the scalar components from vector 1 and then vector 2 contiguously into the new vector:</p><pre class="m-code"><span class="ut">vector</span><span class="o">&lt;</span><span class="ut">float</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="n">point1</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="p">};</span>
-<span class="ut">vector</span><span class="o">&lt;</span><span class="ut">float</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="n">point2</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span> <span class="p">};</span>
-<span class="ut">vector</span><span class="o">&lt;</span><span class="ut">float</span><span class="p">,</span> <span class="mi">4</span><span class="o">&gt;</span> <span class="n">rect</span>   <span class="o">=</span> <span class="p">{</span> <span class="n">point1</span><span class="p">,</span> <span class="n">point2</span> <span class="p">};</span> <span class="c1">// { 1, 2, 10, 15 }</span></pre><p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p>
+<p>Copies the scalar components from vector 1 and then vector 2 contiguously into the new vector:</p><pre class="m-code"><span class="ut">vector</span><span class="o">&lt;</span><span class="k">float</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="n">point1</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="p">};</span>
+<span class="ut">vector</span><span class="o">&lt;</span><span class="k">float</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="n">point2</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span> <span class="p">};</span>
+<span class="ut">vector</span><span class="o">&lt;</span><span class="k">float</span><span class="p">,</span> <span class="mi">4</span><span class="o">&gt;</span> <span class="n">rect</span>   <span class="o">=</span> <span class="p">{</span> <span class="n">point1</span><span class="p">,</span> <span class="n">point2</span> <span class="p">};</span> <span class="c1">// { 1, 2, 10, 15 }</span></pre><p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p>
           </div></section>
           <section class="m-doc-details" id="a0f9026824be861f778dadb15a091a8dc"><div>
             <h3>
