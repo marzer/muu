@@ -263,6 +263,8 @@ help me improve support for your target architecture. Thanks!
 											MUU_PRAGMA_CLANG(diagnostic ignored "-Wtautological-pointer-compare") \
 											MUU_PRAGMA_CLANG(diagnostic ignored "-Wmissing-field-initializers")	\
 											MUU_PRAGMA_CLANG(diagnostic ignored "-Wpacked")	\
+											MUU_PRAGMA_CLANG(diagnostic ignored "-Wdisabled-macro-expansion")	\
+											MUU_PRAGMA_CLANG(diagnostic ignored "-Wused-but-marked-unused")	\
 											static_assert(true)
 
 	#define MUU_POP_WARNINGS				MUU_PRAGMA_CLANG(diagnostic pop) \
@@ -835,7 +837,6 @@ help me improve support for your target architecture. Thanks!
 		using under = typename std::underlying_type_t<name>;							\
 		return static_cast<name>(static_cast<under>(lhs) op static_cast<under>(rhs));	\
 	}																					\
-	[[nodiscard]]																		\
 	constexpr name& operator MUU_CONCAT(op, =)(name& lhs, name rhs) noexcept			\
 	{																					\
 		return lhs = (lhs op rhs);														\

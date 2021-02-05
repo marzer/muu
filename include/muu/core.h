@@ -518,20 +518,61 @@ namespace muu
 	template <typename T, typename... U>
 	inline constexpr bool all_same = (true && ... && std::is_same_v<T, U>);
 
-	/// \brief	True if From is convertible to one or more of the types named by To.
-	/// \details This equivalent to `(std::is_convertible<From, To1> || std::is_convertible<From, To2> || ...)`.
-	template <typename From, typename... To>
-	inline constexpr bool is_convertible_to_any = (false || ... || std::is_convertible_v<From, To>);
+	/// \brief	True if `From` is implicitly convertible to `To`.
+	template <typename From, typename To>
+	inline constexpr bool is_implicitly_convertible = std::is_convertible_v<From, To>;
 
-	/// \brief	True if From is convertible to all of the types named by To.
-	/// \details This equivalent to `(std::is_convertible<From, To1> && std::is_convertible<From, To2> && ...)`.
+	/// \brief	True if `From` is implicitly convertible to any of the types named by `To`.
 	template <typename From, typename... To>
-	inline constexpr bool is_convertible_to_all = (sizeof...(To) > 0) && (true && ... && std::is_convertible_v<From, To>);
+	inline constexpr bool is_implicitly_convertible_to_any = (false || ... || is_implicitly_convertible<From, To>);
 
-	/// \brief	True if all of the types named by From are convertible to To.
-	/// \details This equivalent to `(std::is_convertible<From1, To> && std::is_convertible<From2, To> && ...)`.
+	/// \brief	True if `From` is implicitly convertible to all of the types named by `To`.
+	template <typename From, typename... To>
+	inline constexpr bool is_implicitly_convertible_to_all = (sizeof...(To) > 0)
+		&& (true && ... && is_implicitly_convertible<From, To>);
+
+	/// \brief	True if all of the types named by `From` are implicitly convertible to `To`.
 	template <typename To, typename... From>
-	inline constexpr bool all_convertible_to = (sizeof...(From) > 0) && (true && ... && std::is_convertible_v<From, To>);
+	inline constexpr bool all_implicitly_convertible_to = (sizeof...(From) > 0)
+		&& (true && ... && is_implicitly_convertible<From, To>);
+
+	/// \brief	True if `From` is explicitly convertible to `To`.
+	template <typename From, typename To>
+	inline constexpr bool is_explicitly_convertible =
+		!std::is_convertible_v<From, To> && std::is_constructible_v<To, From>;
+
+	/// \brief	True if `From` is explicitly convertible to any of the types named by `To`.
+	template <typename From, typename... To>
+	inline constexpr bool is_explicitly_convertible_to_any = (false || ... || is_explicitly_convertible<From, To>);
+
+	/// \brief	True if `From` is explicitly convertible to all of the types named by `To`.
+	template <typename From, typename... To>
+	inline constexpr bool is_explicitly_convertible_to_all =
+		(sizeof...(To) > 0) && (true && ... && is_explicitly_convertible<From, To>);
+
+	/// \brief	True if all of the types named by `From` are explicitly convertible to `To`.
+	template <typename To, typename... From>
+	inline constexpr bool all_explicitly_convertible_to = (sizeof...(From) > 0)
+		&& (true && ... && is_explicitly_convertible<From, To>);
+
+	/// \brief	True if `From` is implicitly _or_ explicitly convertible to `To`.
+	template <typename From, typename To>
+	inline constexpr bool is_convertible =
+		std::is_convertible_v<From, To> || std::is_constructible_v<To, From>;
+
+	/// \brief	True if `From` is implicitly _or_ explicitly convertible to any of the types named by `To`.
+	template <typename From, typename... To>
+	inline constexpr bool is_convertible_to_any = (false || ... || is_convertible<From, To>);
+
+	/// \brief	True if `From` is implicitly _or_ explicitly convertible to all of the types named by `To`.
+	template <typename From, typename... To>
+	inline constexpr bool is_convertible_to_all =
+		(sizeof...(To) > 0) && (true && ... && is_convertible<From, To>);
+
+	/// \brief	True if all of the types named by `From` are implicitly _or_ explicitly convertible to `To`.
+	template <typename To, typename... From>
+	inline constexpr bool all_convertible_to = (sizeof...(From) > 0)
+		&& (true && ... && is_convertible<From, To>);
 
 	/// \brief Is a type an enum or reference-to-enum?
 	template <typename T>
@@ -2575,10 +2616,10 @@ namespace muu
 	///	| Base\*                  | Derived\*               | reinterpret_cast  | Non-polymorphic bases |
 	///	| T\*                     | (u)intptr_t             | reinterpret_cast  |                       |
 	///	| (u)intptr_t             | T\*                     | reinterpret_cast  |                       |
-	///	| void\*                  | T(\*func_ptr)()         | reinterpret_cast  | Where supported       |
-	///	| T(\*func_ptr)()         | void\*                  | reinterpret_cast  | Where supported       |
-	///	| T(\*func_ptr)()         | T(\*func_ptr)()noexcept | reinterpret_cast  |                       |
-	///	| T(\*func_ptr)()noexcept | T(\*func_ptr)()         | static_cast       |                       |
+	///	| void\*                  | T(\*)()                 | reinterpret_cast  | Where supported       |
+	///	| T(\*)()                 | void\*                  | reinterpret_cast  | Where supported       |
+	///	| T(\*)()                 | T(\*)()noexcept         | reinterpret_cast  |                       |
+	///	| T(\*)()noexcept         | T(\*)()                 | static_cast       |                       |
 	///	| IUnknown\*              | IUnknown\*              | QueryInterface    | Windows only          |
 	///
 	///  \warning There are lots of static checks to make sure you don't do something completely insane,
@@ -2876,10 +2917,13 @@ namespace muu
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
-	MUU_ATTR(flatten)
 	constexpr T* apply_offset(T* ptr, Offset offset) noexcept
 	{
-		return pointer_cast<T*>(pointer_cast<rebase_pointer<T*, std::byte>>(ptr) + offset);
+		using char_ptr = rebase_pointer<T*, unsigned char>;
+		if constexpr (std::is_void_v<T>)
+			return static_cast<T*>(static_cast<char_ptr>(ptr) + offset);
+		else
+			return reinterpret_cast<T*>(reinterpret_cast<char_ptr>(ptr) + offset);
 	}
 
 	/// \brief	Returns the minimum of two values.

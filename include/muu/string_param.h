@@ -238,18 +238,18 @@ namespace muu
 			static auto make_string_view(T&& string_viewable) noexcept
 			{
 				#ifdef __cpp_lib_char8_t
-				if constexpr (std::is_convertible_v<T&&, std::u8string_view>)
+				if constexpr (is_convertible_to_any<T&&, std::u8string_view>)
 					return std::u8string_view{ static_cast<T&&>(string_viewable) };
 				else
 				#endif
 
-				if constexpr (std::is_convertible_v<T&&, std::u32string_view>)
+				if constexpr (is_convertible_to_any<T&&, std::u32string_view>)
 					return std::u32string_view{ static_cast<T&&>(string_viewable) };
-				else if constexpr (std::is_convertible_v<T&&, std::u16string_view>)
+				else if constexpr (is_convertible_to_any<T&&, std::u16string_view>)
 					return std::u16string_view{ static_cast<T&&>(string_viewable) };
-				else if constexpr (std::is_convertible_v<T&&, std::wstring_view>)
+				else if constexpr (is_convertible_to_any<T&&, std::wstring_view>)
 					return std::wstring_view{ static_cast<T&&>(string_viewable) };
-				else if constexpr (std::is_convertible_v<T&&, std::string_view>)
+				else if constexpr (is_convertible_to_any<T&&, std::string_view>)
 					return std::string_view{ static_cast<T&&>(string_viewable) };
 				else
 					static_assert(always_false<T>, "Evaluated unreachable branch");

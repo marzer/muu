@@ -14,6 +14,12 @@ MUU_DISABLE_WARNINGS;
 #include <iterator>
 MUU_ENABLE_WARNINGS;
 
+#ifdef DOXYGEN
+	#define MUU_IDENTITY(...)		__VA_ARGS__
+#else
+	#define MUU_IDENTITY(...)		muu::type_identity<__VA_ARGS__>
+#endif
+
 namespace muu
 {
 	#ifdef DOXYGEN
@@ -192,7 +198,7 @@ namespace muu
 				(
 					Extent_ != dynamic_extent // explicit
 					&& impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type>
-					&& !std::is_convertible_v<End, size_t>
+					&& !is_implicitly_convertible<End, size_t>
 					&& MUU_STD_CONCEPT(std::contiguous_iterator<It>)
 					&& MUU_STD_CONCEPT(std::sized_sentinel_for<End, It>)
 				),
@@ -223,7 +229,7 @@ namespace muu
 				(
 					Extent_ == dynamic_extent // implicit
 					&& impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type>
-					&& !std::is_convertible_v<End, size_t>
+					&& !is_implicitly_convertible<End, size_t>
 					&& MUU_STD_CONCEPT(std::contiguous_iterator<It>)
 					&& MUU_STD_CONCEPT(std::sized_sentinel_for<End, It>)
 				),
@@ -251,7 +257,7 @@ namespace muu
 				size_t N
 			)
 			MUU_NODISCARD_CTOR
-			constexpr span(type_identity<element_type>(&arr)[N]) noexcept
+			constexpr span(MUU_IDENTITY(element_type)(&arr)[N]) noexcept
 				: ptr_and_size{ arr, N }
 			{}
 
@@ -592,3 +598,5 @@ namespace muu
 		}
 	}
 }
+
+#undef MUU_IDENTITY

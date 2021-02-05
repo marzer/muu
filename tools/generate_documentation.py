@@ -48,6 +48,7 @@ type_names = [
 	'__m512i',
 	'__m64',
 	'__uint128_t',
+	'array',
 	'bool',
 	'byte',
 	'char',
@@ -121,6 +122,7 @@ string_literals = [
 external_links = [
 	('std::assume_aligned(?:\(\))?', 'https://en.cppreference.com/w/cpp/memory/assume_aligned'),
 	(r'(?:std::)?nullptr_t', 'https://en.cppreference.com/w/cpp/types/nullptr_t'),
+	(r'(?:std::)?ptrdiff_t', 'https://en.cppreference.com/w/cpp/types/ptrdiff_t'),
 	(r'(?:std::)?size_t', 'https://en.cppreference.com/w/cpp/types/size_t'),
 	(r'(?:std::)?u?int(_fast|_least)?(?:8|16|32|64)_ts?', 'https://en.cppreference.com/w/cpp/types/integer'),
 	(r'(?:wchar|char(?:8|16|32))_ts?', 'https://en.cppreference.com/w/cpp/language/types#Character_types'),
@@ -148,6 +150,8 @@ external_links = [
 	(r'std::[fl]?abs[fl]?(?:\(\))?', 'https://en.cppreference.com/w/cpp/numeric/math/abs'),
 	(r'std::acos[fl]?(?:\(\))?', 'https://en.cppreference.com/w/cpp/numeric/math/acos'),
 	(r'std::add_[lr]value_reference(?:_t)?', 'https://en.cppreference.com/w/cpp/types/add_reference'),
+	(r'std::add_(?:cv|const|volatile)(?:_t)?', 'https://en.cppreference.com/w/cpp/types/add_cv'),
+	(r'std::add_pointer(?:_t)?', 'https://en.cppreference.com/w/cpp/types/add_pointer'),
 	(r'std::allocators?', 'https://en.cppreference.com/w/cpp/memory/allocator'),
 	(r'std::arrays?', 'https://en.cppreference.com/w/cpp/container/array'),
 	(r'std::as_(writable_)?bytes(?:\(\))?', 'https://en.cppreference.com/w/cpp/container/span/as_bytes'),
@@ -729,25 +733,38 @@ class SyntaxHighlightingFix(object):
 	__keywords = [
 		'alignas',
 		'alignof',
+		'bool',
+		'char',
+		'char16_t',
+		'char32_t',
+		'char8_t',
 		'class',
 		'const',
 		'consteval',
 		'constexpr',
 		'constinit',
 		'do',
+		'double',
 		'else',
 		'explicit',
 		'false',
+		'float',
 		'if',
 		'inline',
+		'int',
+		'long',
 		'mutable',
 		'noexcept',
+		'short',
+		'signed',
 		'sizeof',
 		'struct',
 		'template',
 		'true',
 		'typename',
-		'void'
+		'unsigned',
+		'void',
+		'wchar_t',
 		'while',
 	]
 
@@ -824,7 +841,7 @@ class SyntaxHighlightingFix(object):
 				changed = True
 
 			# misidentifed keywords
-			for keywordClass in ['nf', 'nb', 'kt']:
+			for keywordClass in ['nf', 'nb', 'kt', 'ut', 'kr']:
 				kws = code_block('span', class_=keywordClass)
 				for kw in kws:
 					if (kw.string is not None and kw.string in self.__keywords):
@@ -868,17 +885,23 @@ class ExtDocLinksFix(object):
 		for tag in tags:
 			strings = strings + html_string_descendants(tag, lambda t: html_find_parent(t, 'a', tag) is None)
 		for expr, uri in self.__expressions:
-			for string in strings:
-				if string.parent is None:
-					continue
+			i = 0
+			while i < len(strings):
+				string = strings[i]
+				parent = string.parent
 				replacer = RegexReplacer(expr, lambda m: self.__substitute(m, uri), html.escape(str(string), quote=False))
 				if replacer:
 					repl_str = str(replacer)
 					begins_with_ws = len(repl_str) > 0 and repl_str[:1].isspace()
-					new_tag = html_replace_tag(string, repl_str)[0]
-					if (begins_with_ws and new_tag.string is not None and not new_tag.string[:1].isspace()):
-						new_tag.insert_before(' ')
+					new_tags = html_replace_tag(string, repl_str)
+					if (begins_with_ws and new_tags[0].string is not None and not new_tags[0].string[:1].isspace()):
+						new_tags[0].insert_before(' ')
 					changed = True
+					del strings[i]
+					for tag in new_tags:
+						strings = strings + html_string_descendants(tag, lambda t: html_find_parent(t, 'a', parent) is None)
+					continue
+				i = i + 1
 		return changed
 
 

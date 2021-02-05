@@ -2246,10 +2246,11 @@ namespace muu
 	MUU_CONSTRAINED_TEMPLATE(
 		(R == C && R <= 4),
 		typename S, size_t R, size_t C
+		MUU_HIDDEN_PARAM(typename determinant_type = typename matrix<S, R, C>::determinant_type)
 	)
 	[[nodiscard]]
 	MUU_ATTR(pure)
-	constexpr MUU_HIDDEN(typename matrix<S, R, C>::)determinant_type determinant(const matrix<S, R, C>& m) noexcept
+	constexpr determinant_type determinant(const matrix<S, R, C>& m) noexcept
 	{
 		return matrix<S, R, C>::determinant(m);
 	}
@@ -2262,10 +2263,11 @@ namespace muu
 	MUU_CONSTRAINED_TEMPLATE(
 		(R == C && R <= 4),
 		typename S, size_t R, size_t C
+		MUU_HIDDEN_PARAM(typename inverse_type = typename matrix<S, R, C>::inverse_type)
 	)
 	[[nodiscard]]
 	MUU_ATTR(pure)
-	constexpr MUU_HIDDEN(typename matrix<S, R, C>::)inverse_type invert(const matrix<S, R, C>& m) noexcept
+	constexpr inverse_type invert(const matrix<S, R, C>& m) noexcept
 	{
 		return matrix<S, R, C>::invert(m);
 	}

@@ -1001,7 +1001,10 @@ namespace muu
 		/// 
 		/// \note			This constructor is only available when #dimensions &gt;= 5.
 		MUU_CONSTRAINED_TEMPLATE(
-			(Dims >= (4 + sizeof...(T)) && all_convertible_to<Scalar, T...>),
+			(
+				Dims >= (4 + sizeof...(T))
+				&& all_convertible_to<Scalar, const T...>
+			),
 			typename... T
 			MUU_HIDDEN_PARAM(size_t Dims = Dimensions)
 		)
@@ -1010,17 +1013,52 @@ namespace muu
 			: base{ x, y, z, w, vals... }
 		{}
 
-		/// \brief Constructs a vector from a raw array.
+		/// \brief Constructs a vector from a raw array of scalars.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		/// 
-		/// \tparam T			A type convertible to #scalar_type.
-		/// \tparam N			The number of elements in the array.
-		/// \param	arr			Array of values used to initialize the vector's scalar components.
+		/// \tparam N		The number of elements in the array.
+		/// \param	arr		Array of values used to initialize the vector's scalar components.
+		MUU_CONSTRAINED_TEMPLATE(
+			(
+				Dimensions > N
+				|| (Dimensions == N && !build::supports_constexpr_bit_cast)
+			),
+			size_t N
+		)
+		MUU_NODISCARD_CTOR
+		explicit
+		constexpr vector(const scalar_type(&arr)[N]) noexcept
+			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, arr }
+		{}
+
+		/// \cond
+
+		MUU_CONSTRAINED_TEMPLATE_2(
+			(
+				Dimensions == N
+				&& build::supports_constexpr_bit_cast
+			),
+			size_t N
+		)
+		MUU_NODISCARD_CTOR
+		explicit
+		constexpr vector(const scalar_type(&arr)[N]) noexcept
+			: base{ bit_cast<base>(arr) }
+		{}
+
+		/// \endcond
+
+		/// \brief Constructs a vector from a raw array of scalars.
+		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
+		/// 
+		/// \tparam T		A type convertible to #scalar_type.
+		/// \tparam N		The number of elements in the array.
+		/// \param	arr		Array of values used to initialize the vector's scalar components.
 		MUU_CONSTRAINED_TEMPLATE(
 			(
 				Dimensions >= N
-				&& std::is_convertible_v<T, Scalar>
-				&& (!std::is_same_v<remove_cv<T>, Scalar> || Dimensions != N || !build::supports_constexpr_bit_cast)
+				&& all_convertible_to<Scalar, const T>
+				&& !std::is_same_v<remove_cv<T>, Scalar>
 			),
 			typename T, size_t N
 		)
@@ -1030,54 +1068,60 @@ namespace muu
 			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, arr }
 		{}
 
-		/// \cond
-
-		MUU_CONSTRAINED_TEMPLATE_2(
-			(std::is_same_v<remove_cv<T>, Scalar> && build::supports_constexpr_bit_cast),
-			typename T
-		)
-		MUU_NODISCARD_CTOR
-		explicit
-		constexpr vector(const T(& arr)[Dimensions]) noexcept
-			: base{ bit_cast<base>(arr) }
-		{}
-
-		/// \endcond
-
-		/// \brief Constructs a vector from a std::array.
+		/// \brief Constructs a vector from a std::array of scalars.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		/// 
-		/// \tparam T			A type convertible to #scalar_type.
-		/// \tparam N			The number of elements in the array.
-		/// \param	arr			Array of values used to initialize the vector's scalar components.
+		/// \tparam N		The number of elements in the array.
+		/// \param	arr		Array of values used to initialize the vector's scalar components.
 		MUU_CONSTRAINED_TEMPLATE(
 			(
-				Dimensions >= N
-				&& std::is_convertible_v<T, Scalar>
-				&& (!std::is_same_v<remove_cv<T>, Scalar> || Dimensions != N || !build::supports_constexpr_bit_cast)
+				Dimensions > N
+				|| (Dimensions == N && !build::supports_constexpr_bit_cast)
 			),
-			typename T,
 			size_t N
 		)
 		MUU_NODISCARD_CTOR
 		explicit
-		constexpr vector(const std::array<T, N>& arr) noexcept
+		constexpr vector(const std::array<scalar_type, N>& arr) noexcept
 			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, arr }
 		{}
 
 		/// \cond
 
 		MUU_CONSTRAINED_TEMPLATE_2(
-			(std::is_same_v<remove_cv<T>, Scalar> && build::supports_constexpr_bit_cast),
-			typename T
+			(
+				Dimensions == N
+				&& build::supports_constexpr_bit_cast
+			),
+			size_t N
 		)
 		MUU_NODISCARD_CTOR
 		explicit
-		constexpr vector(const std::array<T, Dimensions>& arr) noexcept
+		constexpr vector(const std::array<scalar_type, N>& arr) noexcept
 			: base{ bit_cast<base>(arr) }
 		{}
 
 		/// \endcond
+
+		/// \brief Constructs a vector from a std::array of scalars.
+		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
+		/// 
+		/// \tparam T		A type convertible to #scalar_type.
+		/// \tparam N		The number of elements in the array.
+		/// \param	arr		Array of values used to initialize the vector's scalar components.
+		MUU_CONSTRAINED_TEMPLATE(
+			(
+				Dimensions >= N
+				&& all_convertible_to<Scalar, const T>
+				&& !std::is_same_v<remove_cv<T>, Scalar>
+			),
+			typename T, size_t N
+		)
+		MUU_NODISCARD_CTOR
+		explicit
+		constexpr vector(const std::array<T, N>& arr) noexcept
+			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, arr }
+		{}
 
 		/// \brief Constructs a vector from any tuple-like or implicitly bit-castable type.
 		/// 
@@ -1091,9 +1135,10 @@ namespace muu
 		MUU_CONSTRAINED_TEMPLATE(
 			(
 				!impl::is_vector_<T>
+				&& (std::is_class_v<T> || std::is_union_v<T>)
 				&& is_tuple_like<T>
 				&& Dimensions >= tuple_size<T>
-				&& !allow_implicit_bit_cast<T, vector>// || !build::supports_constexpr_bit_cast)
+				&& !allow_implicit_bit_cast<T, vector>
 			),
 			typename T
 		)
@@ -1108,9 +1153,9 @@ namespace muu
 		MUU_CONSTRAINED_TEMPLATE_2(
 			(
 				!impl::is_vector_<T>
+				&& (std::is_class_v<T> || std::is_union_v<T>)
 				&& allow_implicit_bit_cast<T, vector>
 				&& (!is_tuple_like<T> || (tuple_size<T> > Dimensions))
-				//&& build::supports_constexpr_bit_cast
 			),
 			typename T
 		)
@@ -1195,7 +1240,7 @@ namespace muu
 		/// \param 	vec		A vector.
 		/// \param 	vals	Scalar values.
 		MUU_CONSTRAINED_TEMPLATE(
-			(Dimensions >= D + sizeof...(T) && all_convertible_to<Scalar, T...>),
+			(Dimensions >= D + sizeof...(T) && all_convertible_to<Scalar, const T...>),
 			typename S, size_t D,
 			typename... T
 		)
@@ -1214,7 +1259,10 @@ namespace muu
 		/// \tparam T			Type convertible to #scalar_type.
 		/// \param	vals		Pointer to values to copy.
 		/// \param	num			Number of values to copy.
-		MUU_CONSTRAINED_TEMPLATE((std::is_convertible_v<T, Scalar>), typename T)
+		MUU_CONSTRAINED_TEMPLATE(
+			(all_convertible_to<Scalar, const T>),
+			typename T
+		)
 		MUU_NODISCARD_CTOR
 		MUU_ATTR(nonnull)
 		vector(const T* vals, size_t num) noexcept
@@ -1223,12 +1271,15 @@ namespace muu
 				vals != nullptr
 				&& "vals cannot be nullptr"
 			);
+			MUU_CONSTEXPR_SAFE_ASSERT(
+				num <= Dimensions
+				&& "num cannot exceed the number of dimensions"
+			);
 			MUU_ASSUME(vals != nullptr);
+			MUU_ASSUME(num <= Dimensions);
 
-			num = muu::min(num, Dimensions);
-			
 			if constexpr (std::is_same_v<remove_cv<T>, Scalar>)
-				memcpy(this, vals, sizeof(T) * num);
+				memcpy(this, vals, sizeof(scalar_type) * num);
 			else
 			{
 				for (size_t i = 0; i < num; i++)
@@ -1244,7 +1295,10 @@ namespace muu
 		/// \tparam T			Type convertible to #scalar_type.
 		/// \param	vals		Pointer to values to copy.
 		MUU_CONSTRAINED_TEMPLATE(
-			(!std::is_same_v<remove_cv<T>, Scalar> && std::is_convertible_v<T, Scalar>),
+			(
+				!std::is_same_v<remove_cv<T>, Scalar>
+				&& all_convertible_to<Scalar, const T>
+			),
 			typename T
 		)
 		MUU_NODISCARD_CTOR
@@ -1271,14 +1325,16 @@ namespace muu
 
 		/// \cond
 
-		MUU_CONSTRAINED_TEMPLATE_2((std::is_same_v<remove_cv<T>, Scalar>), typename T)
+		MUU_CONSTRAINED_TEMPLATE_2(
+			(std::is_same_v<remove_cv<T>, Scalar>),
+			typename T
+		)
 		MUU_NODISCARD_CTOR
 		MUU_ATTR(nonnull)
 		explicit
-		vector(const T* const& vals) noexcept
+		vector(const T* MUU_HIDDEN(const&) vals) noexcept
 			: base{ impl::initialize_trivial_by_memcpy<base>(vals) }
-		{
-		}
+		{}
 
 		/// \endcond
 
@@ -1291,7 +1347,7 @@ namespace muu
 		MUU_CONSTRAINED_TEMPLATE(
 			(
 				Dimensions >= N
-				&& std::is_convertible_v<T, Scalar>
+				&& all_convertible_to<Scalar, const T>
 				&& N != dynamic_extent
 			),
 			typename T, size_t N
@@ -1307,7 +1363,10 @@ namespace muu
 		/// 
 		/// \tparam T			Type convertible to #scalar_type.
 		/// \param	vals		A span representing the values to copy.
-		MUU_CONSTRAINED_TEMPLATE((std::is_convertible_v<T, Scalar>), typename T)
+		MUU_CONSTRAINED_TEMPLATE(
+			(all_convertible_to<Scalar, const T>),
+			typename T
+		)
 		MUU_NODISCARD_CTOR
 		explicit
 		constexpr vector(const muu::span<T>& vals) noexcept
@@ -2997,7 +3056,7 @@ namespace muu
 		/// \brief	Returns a vector with all scalar components set to their absolute values.
 		[[nodiscard]]
 		MUU_ATTR(pure)
-		static constexpr vector MUU_VECTORCALL abs(vector v) noexcept
+		static constexpr vector MUU_VECTORCALL abs(MUU_RO_VEC v) noexcept
 		{
 			if constexpr (is_signed<scalar_type>)
 			{
@@ -3635,10 +3694,10 @@ namespace muu
 	/// \related muu::vector
 	///
 	/// \brief	Returns the squared length of a vector.
-	template <typename S, size_t D>
+	template <typename S, size_t D MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)>
 	[[nodiscard]]
 	MUU_ATTR(pure)
-	constexpr MUU_HIDDEN(typename vector<S, D>::) delta_type length_squared(const vector<S, D>& v) noexcept
+	constexpr delta_type length_squared(const vector<S, D>& v) noexcept
 	{
 		return vector<S, D>::length_squared(v);
 	}
@@ -3646,10 +3705,10 @@ namespace muu
 	/// \related muu::vector
 	///
 	/// \brief	Returns the length (magnitude) of a vector.
-	template <typename S, size_t D>
+	template <typename S, size_t D MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)>
 	[[nodiscard]]
 	MUU_ATTR(pure)
-	constexpr MUU_HIDDEN(typename vector<S, D>::) delta_type length(const vector<S, D>& v) noexcept
+	constexpr delta_type length(const vector<S, D>& v) noexcept
 	{
 		return vector<S, D>::length(v);
 	}
@@ -3657,10 +3716,10 @@ namespace muu
 	/// \related muu::vector
 	///
 	/// \brief	Returns the squared distance between two point vectors.
-	template <typename S, size_t D>
+	template <typename S, size_t D MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)>
 	[[nodiscard]]
 	MUU_ATTR(pure)
-	constexpr MUU_HIDDEN(typename vector<S, D>::) delta_type distance_squared(const vector<S, D>& p1, const vector<S, D>& p2) noexcept
+	constexpr delta_type distance_squared(const vector<S, D>& p1, const vector<S, D>& p2) noexcept
 	{
 		return vector<S, D>::distance_squared(p1, p2);
 	}
@@ -3668,10 +3727,10 @@ namespace muu
 	/// \related muu::vector
 	///
 	/// \brief	Returns the distance between two point vectors.
-	template <typename S, size_t D>
+	template <typename S, size_t D MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)>
 	[[nodiscard]]
 	MUU_ATTR(pure)
-	constexpr MUU_HIDDEN(typename vector<S, D>::) delta_type distance(const vector<S, D>& p1, const vector<S, D>& p2) noexcept
+	constexpr delta_type distance(const vector<S, D>& p1, const vector<S, D>& p2) noexcept
 	{
 		return vector<S, D>::distance(p1, p2);
 	}
@@ -3679,10 +3738,10 @@ namespace muu
 	/// \related muu::vector
 	///
 	/// \brief	Returns the dot product of two vectors.
-	template <typename S, size_t D>
+	template <typename S, size_t D MUU_HIDDEN_PARAM(typename product_type = typename vector<S, D>::product_type)>
 	[[nodiscard]]
 	MUU_ATTR(pure)
-	constexpr MUU_HIDDEN(typename vector<S, D>::) product_type dot(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
+	constexpr product_type dot(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
 	{
 		return vector<S, D>::dot(v1, v2);
 	}
@@ -3690,10 +3749,10 @@ namespace muu
 	/// \related muu::vector
 	///
 	/// \brief	Returns the cross product of two three-dimensional vectors.
-	template <typename S>
+	template <typename S MUU_HIDDEN_PARAM(typename vector_product = typename vector<S, 3>::vector_product)>
 	[[nodiscard]]
 	MUU_ATTR(pure)
-	constexpr MUU_HIDDEN(typename vector<S, 3>::) vector_product cross(const vector<S, 3>& lhs, const vector<S, 3>& rhs) noexcept
+	constexpr vector_product cross(const vector<S, 3>& lhs, const vector<S, 3>& rhs) noexcept
 	{
 		return impl::raw_cross<typename vector<S, 3>::vector_product>(lhs, rhs);
 	}
@@ -3711,9 +3770,10 @@ namespace muu
 	MUU_CONSTRAINED_TEMPLATE(
 		is_floating_point<S>,
 		typename S, size_t D
+		MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)
 	)
 	[[nodiscard]]
-	constexpr vector<S, D> normalize(const vector<S, D>& v, MUU_HIDDEN(typename vector<S, D>::)delta_type& length_out) noexcept
+	constexpr vector<S, D> normalize(const vector<S, D>& v, delta_type& length_out) noexcept
 	{
 		return vector<S, D>::normalize(v, length_out);
 	}
@@ -3752,12 +3812,14 @@ namespace muu
 	MUU_CONSTRAINED_TEMPLATE(
 		(D == 2 || D == 3),
 		typename S, size_t D
+		MUU_HIDDEN_PARAM(typename vector_product = typename vector<S, D>::vector_product)
+		MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)
 	)
 	[[nodiscard]]
-	constexpr MUU_HIDDEN(typename vector<S, D>::)vector_product direction(
+	constexpr vector_product direction(
 		const vector<S, D>& from,
 		const vector<S, D>& to,
-		MUU_HIDDEN(typename vector<S, D>::)delta_type& distance_out
+		delta_type& distance_out
 	) noexcept
 	{
 		return vector<S, D>::direction(from, to, distance_out);
@@ -3776,10 +3838,11 @@ namespace muu
 	MUU_CONSTRAINED_TEMPLATE(
 		(D == 2 || D == 3),
 		typename S, size_t D
+		MUU_HIDDEN_PARAM(typename vector_product = typename vector<S, D>::vector_product)
 	)
 	[[nodiscard]]
 	MUU_ATTR(pure)
-	constexpr MUU_HIDDEN(typename vector<S, D>::)vector_product direction(
+	constexpr vector_product direction(
 		const vector<S, D>& from,
 		const vector<S, D>& to
 	) noexcept
@@ -3824,13 +3887,13 @@ namespace muu
 	/// \related muu::vector
 	///
 	/// \brief	Performs a linear interpolation between two vectors.
-	template <typename S, size_t D>
+	template <typename S, size_t D MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)>
 	[[nodiscard]]
 	MUU_ATTR(pure)
 	constexpr vector<S, D> MUU_VECTORCALL lerp(
 		const vector<S, D>& start,
 		const vector<S, D>& finish,
-		MUU_HIDDEN(typename vector<S, D>::)delta_type alpha
+		delta_type alpha
 	) noexcept
 	{
 		return vector<S, D>::lerp(start, finish, alpha);
@@ -3853,10 +3916,11 @@ namespace muu
 	MUU_CONSTRAINED_TEMPLATE(
 		(D == 2 || D == 3),
 		typename S, size_t D
+		MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)
 	)
 	[[nodiscard]]
 	MUU_ATTR(pure)
-	constexpr MUU_HIDDEN(typename vector<S, D>::)delta_type angle(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
+	constexpr delta_type angle(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
 	{
 		return vector<S, D>::angle(v1, v2);
 	}
