@@ -1,12 +1,6 @@
 #define COMPRESSED_PAIR_BASE_DEFAULTS(...)
 #define COMPRESSED_PAIR_BASE_GETTERS(...)
 #define DOXYGEN
-#define ENABLE_IF_DIMENSIONS_AT_LEAST(...)
-#define ENABLE_IF_DIMENSIONS_AT_LEAST_AND(...)
-#define ENABLE_IF_SIZE_AT_LEAST(...)
-#define ENABLE_PAIRED_FUNCS					0
-#define ENABLE_PAIRED_FUNC_BY_REF(...)
-#define ENABLE_PAIRED_FUNC_BY_VAL(...)
 #define HALF_BINARY_OPS(...)				static_assert(true)
 #define HALF_CASTING_ASSIGN_OP(...)			static_assert(true)
 #define HALF_CAST_CONVERSION(...)			static_assert(true)
@@ -15,15 +9,6 @@
 #define HALF_DEMOTING_ASSIGN_OP(...)		static_assert(true)
 #define HALF_EXPLICIT_CONSTRUCTOR(...)		static_assert(true)
 #define HALF_PROMOTING_BINARY_OP(...)		static_assert(true)
-#define LEGACY_REQUIRES_DIMENSIONS_AT_LEAST(...)
-#define LEGACY_REQUIRES_DIMENSIONS_BETWEEN(...)
-#define LEGACY_REQUIRES_DIMENSIONS_BETWEEN(...)
-#define LEGACY_REQUIRES_DIMENSIONS_EXACTLY(...)
-#define LEGACY_REQUIRES_FLOATING_POINT
-#define LEGACY_REQUIRES_INTEGRAL
-#define LEGACY_REQUIRES_SIGNED
-#define LEGACY_REQUIRES_SIZE_AT_LEAST(...)
-#define LEGACY_REQUIRES_SQUARE(...)
 
 #define MUU_ABI_VERSION_END					static_assert(true)
 #define MUU_ABI_VERSION_START(version)		static_assert(true)
@@ -56,6 +41,7 @@
 #define MUU_DISABLE_SWITCH_WARNINGS			static_assert(true)
 #define MUU_DISABLE_WARNINGS				static_assert(true)
 #define MUU_EMPTY_BASES
+#define MUU_ENABLE_PAIRED_FUNCS				0
 #define MUU_ENABLE_IF(...)
 #define MUU_ENABLE_IF_2(...)
 #define MUU_ENABLE_WARNINGS					static_assert(true)
@@ -68,6 +54,7 @@
 #define MUU_HIDDEN(...)
 #define MUU_HIDDEN_PARAM(...)
 #define MUU_LEGACY_REQUIRES(...)
+#define MUU_LEGACY_REQUIRES_2(...)
 #define MUU_LITTLE_ENDIAN					1
 #define MUU_MAKE_FLAGS(...)					static_assert(true)
 #define MUU_MAKE_RAW_STRING(...)			""

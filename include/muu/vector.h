@@ -23,7 +23,7 @@
 	-	"Macros??"
 		Yes. I could have gone all FP and used a bunch of lambdas but they only get optimized out when the optimizer is
 		actually run; debug builds still have a bunch of nested calls and lambda instantiations. Macros + 'if constexpr'
-		end up being much more debug performance-friendly.
+		end up being much more debug friendly.
 
 	-	Some functions use constraints to select overloads that take things either by reference or value, with the value
 		overloads being 'hidden' from doxygen and intellisense. The value overloads are optimizations to take
@@ -44,9 +44,7 @@
 */
 
 #pragma once
-#include "../muu/core.h"
-#include "../muu/math.h"
-#include "../muu/impl/print_math_types.h"
+#include "../muu/impl/vector_types_common.h"
 
 MUU_PUSH_WARNINGS;
 MUU_DISABLE_SHADOW_WARNINGS;
@@ -658,120 +656,6 @@ namespace muu::impl
 			const vector<Scalar, Dimensions>&
 		>;
 	};
-
-	template <typename T, typename U>
-	using equality_check_type = std::conditional_t<
-		is_signed<T> != is_signed<U> || is_floating_point<T> != is_floating_point<U>,
-		promote_if_small_float<highest_ranked<T, U>>,
-		highest_ranked<T, U>
-	>;
-
-	template <typename T>
-	[[nodiscard]]
-	MUU_ALWAYS_INLINE
-	MUU_ATTR(const)
-	constexpr auto MUU_VECTORCALL raw_modulo(T lhs, T rhs) noexcept // todo: constexpr fmod
-	{
-		if constexpr (is_floating_point<T>)
-		{
-			if constexpr (is_standard_arithmetic<T>)
-				return std::fmod(lhs, rhs);
-			#if MUU_HAS_QUADMATH
-			else if constexpr (std::is_same_v<float128_t, T>)
-				return ::fmodq(lhs, rhs);
-			#endif
-			else
-				return static_cast<T>(std::fmod(
-					static_cast<clamp_to_standard_float<T>>(lhs),
-					static_cast<clamp_to_standard_float<T>>(rhs)
-				));
-		}
-		else
-			return lhs % rhs;
-	}
-
-	MUU_CONSTRAINED_TEMPLATE(
-		(pass_readonly_by_reference<T, U> || !MUU_ENABLE_PAIRED_FUNCS),
-		typename Return,
-		typename T,
-		typename U
-	)
-	[[nodiscard]]
-	MUU_ATTR(pure)
-	inline constexpr Return raw_cross(const T& lhs, const U& rhs) noexcept
-	{
-		MUU_FMA_BLOCK;
-		using lhs_scalar = decltype(lhs.x);
-		using rhs_scalar = decltype(rhs.x);
-		using return_scalar = remove_cvref<decltype(std::declval<Return>().x)>;
-
-		using type = promote_if_small_float<highest_ranked<
-			std::conditional_t<is_integral<lhs_scalar>,    highest_ranked<make_signed<lhs_scalar>,    int>, lhs_scalar>,
-			std::conditional_t<is_integral<rhs_scalar>,    highest_ranked<make_signed<rhs_scalar>,    int>, rhs_scalar>,
-			std::conditional_t<is_integral<return_scalar>, highest_ranked<make_signed<return_scalar>, int>, return_scalar>
-		>>;
-
-		return Return
-		{
-			static_cast<return_scalar>(static_cast<type>(lhs.y) * static_cast<type>(rhs.z) - static_cast<type>(lhs.z) * static_cast<type>(rhs.y)),
-			static_cast<return_scalar>(static_cast<type>(lhs.z) * static_cast<type>(rhs.x) - static_cast<type>(lhs.x) * static_cast<type>(rhs.z)),
-			static_cast<return_scalar>(static_cast<type>(lhs.x) * static_cast<type>(rhs.y) - static_cast<type>(lhs.y) * static_cast<type>(rhs.x))
-		};
-	}
-
-	#if MUU_ENABLE_PAIRED_FUNCS
-
-	MUU_CONSTRAINED_TEMPLATE_2(
-		(pass_readonly_by_value<T, U>),
-		typename Return,
-		typename T,
-		typename U
-	)
-	[[nodiscard]]
-	MUU_ATTR(const)
-	inline constexpr Return MUU_VECTORCALL raw_cross(T lhs, U rhs) noexcept
-	{
-		MUU_FMA_BLOCK;
-		using lhs_scalar = decltype(lhs.x);
-		using rhs_scalar = decltype(rhs.x);
-		using return_scalar = remove_cvref<decltype(std::declval<Return>().x)>;
-
-		using type = promote_if_small_float<highest_ranked<
-			std::conditional_t<is_integral<lhs_scalar>,    highest_ranked<make_signed<lhs_scalar>,    int>, lhs_scalar>,
-			std::conditional_t<is_integral<rhs_scalar>,    highest_ranked<make_signed<rhs_scalar>,    int>, rhs_scalar>,
-			std::conditional_t<is_integral<return_scalar>, highest_ranked<make_signed<return_scalar>, int>, return_scalar>
-		>>;
-
-		return Return
-		{
-			static_cast<return_scalar>(static_cast<type>(lhs.y) * static_cast<type>(rhs.z) - static_cast<type>(lhs.z) * static_cast<type>(rhs.y)),
-			static_cast<return_scalar>(static_cast<type>(lhs.z) * static_cast<type>(rhs.x) - static_cast<type>(lhs.x) * static_cast<type>(rhs.z)),
-			static_cast<return_scalar>(static_cast<type>(lhs.x) * static_cast<type>(rhs.y) - static_cast<type>(lhs.y) * static_cast<type>(rhs.x))
-		};
-	}
-
-	#endif // MUU_ENABLE_PAIRED_FUNCS
-
-	template <typename T>
-	[[nodiscard]]
-	MUU_ATTR_NDEBUG(pure)
-	MUU_ATTR(nonnull)
-	inline T initialize_trivial_by_memcpy(const void* ptr) noexcept
-	{
-		static_assert(!std::is_reference_v<T>);
-		static_assert(std::is_trivially_default_constructible_v<T>);
-		static_assert(std::is_trivially_copyable_v<T>);
-
-		MUU_CONSTEXPR_SAFE_ASSERT(
-			ptr != nullptr
-			&& "ptr cannot be nullptr"
-		);
-		MUU_ASSUME(ptr != nullptr);
-
-		T val;
-		memcpy(&val, ptr, sizeof(T));
-		return val;
-	}
 }
 
 namespace muu
@@ -877,7 +761,7 @@ namespace muu
 		template <typename S, size_t R, size_t C>
 		friend struct matrix;
 		template <typename S>
-		friend struct bounding_box;
+		friend struct impl::bounding_boxes_common;
 
 		using base = impl::vector_<scalar_type, Dimensions>;
 		static_assert(
@@ -1486,6 +1370,26 @@ namespace muu
 		constexpr scalar_type& operator [](size_t idx) noexcept
 		{
 			return do_array_operator(*this, idx);
+		}
+
+		/// \brief Returns a pointer to the first scalar component in the vector.
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(pure)
+		MUU_ATTR(flatten)
+		constexpr const scalar_type* data() const noexcept
+		{
+			return &do_get<0>(*this);
+		}
+
+		/// \brief Returns a pointer to the first scalar component in the vector.
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(pure)
+		MUU_ATTR(flatten)
+		constexpr scalar_type* data() noexcept
+		{
+			return &do_get<0>(*this);
 		}
 
 	#endif // scalar component accessors
@@ -2722,7 +2626,7 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr iterator begin() noexcept
 		{
-			return &get<0>();
+			return data();
 		}
 
 		/// \brief Returns an iterator to the one-past-the-last scalar component in the vector.
@@ -2740,7 +2644,7 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr const_iterator begin() const noexcept
 		{
-			return &get<0>();
+			return data();
 		}
 
 		/// \brief Returns a const iterator to the one-past-the-last scalar component in the vector.
@@ -2960,7 +2864,7 @@ namespace muu
 		friend
 		std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& os, const vector& v)
 		{
-			impl::print_vector(os, &v.get<0>(), Dimensions);
+			impl::print_vector(os, v.data(), Dimensions);
 			return os;
 		}
 

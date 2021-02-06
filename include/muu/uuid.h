@@ -109,7 +109,9 @@ namespace muu
 {
 	/// \brief	A UUID variant as per RFC 4122.
 	///
-	/// \see RFC 4122: https://tools.ietf.org/html/rfc4122
+	/// \see
+	/// 	 - muu::uuid  
+	/// 	 - RFC 4122: https://tools.ietf.org/html/rfc4122
 	enum class uuid_variant : uint8_t
 	{
 		none,				///< No variant specified.
@@ -121,7 +123,9 @@ namespace muu
 
 	/// \brief	A UUID version as per RFC 4122.
 	///
-	/// \see RFC 4122: https://tools.ietf.org/html/rfc4122
+	/// \see
+	/// 	 - muu::uuid  
+	/// 	 - RFC 4122: https://tools.ietf.org/html/rfc4122
 	enum class uuid_version : uint8_t
 	{
 		none,		///< No version specified.

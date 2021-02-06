@@ -3,7 +3,7 @@ muu_lib_sources = [
 	'blob.cpp',
 	'half.cpp',
 	'hashing.cpp',
-	'print_math_types.cpp',
+	'vector_types_common.cpp',
 	'string_param.cpp',
 	'thread_name.cpp',
 	'thread_pool.cpp',

@@ -35,51 +35,6 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 
 /// \cond
 
-#if 1 // helper macros ------------------------------------------------------------------------------------------------
-
-#define	REQUIRES_SIZE_AT_LEAST(n, ...)			MUU_REQUIRES(Rows * Columns >= (n) && (__VA_ARGS__))
-#define	REQUIRES_DIMENSIONS_EXACTLY(r, c, ...)	MUU_REQUIRES(Rows == (r) && Columns == (c) && (__VA_ARGS__))
-#define	REQUIRES_SQUARE(...)					MUU_REQUIRES(Rows == Columns && (__VA_ARGS__))
-
-#if !MUU_CONCEPTS
-
-	#define	ENABLE_IF_SIZE_AT_LEAST(n, ...)							\
-		, size_t SFINAE = (Rows * Columns) MUU_ENABLE_IF(			\
-			SFINAE >= (n)											\
-			&& SFINAE == (Rows * Columns)							\
-			&& (__VA_ARGS__)										\
-		)
-
-	#define	LEGACY_REQUIRES_SIZE_AT_LEAST(n, ...)					\
-		template <size_t SFINAE = Rows * Columns MUU_ENABLE_IF(		\
-			SFINAE >= (n)											\
-			&& SFINAE == (Rows * Columns)							\
-			&& (__VA_ARGS__)										\
-		)>
-
-	#define	LEGACY_REQUIRES_DIMENSIONS_EXACTLY(r, c, ...)							\
-		template <size_t SFINAE_R = Rows, size_t SFINAE_C = Columns MUU_ENABLE_IF_2(\
-			SFINAE_R == (r)															\
-			&& SFINAE_C == (c)														\
-			&& SFINAE_R == Rows														\
-			&& SFINAE_C == Columns													\
-			&& (__VA_ARGS__)														\
-		)>
-
-	#define	LEGACY_REQUIRES_SQUARE(...)												\
-		template <size_t SFINAE_R = Rows, size_t SFINAE_C = Columns MUU_ENABLE_IF_2(\
-			SFINAE_R == SFINAE_C													\
-			&& SFINAE_R == Rows														\
-			&& SFINAE_C == Columns													\
-			&& (__VA_ARGS__)														\
-		)>
-
-#endif // !MUU_CONCEPTS
-
-#define SPECIALIZED_IF(cond)		, bool = (cond)
-
-#endif // helper macros
-
 namespace muu::impl
 {
 	struct columnwise_init_tag {};
@@ -293,7 +248,13 @@ namespace muu
 		= allow_implicit_bit_cast<From, matrix<Scalar, Rows, Columns>>;
 }
 
+#define SPECIALIZED_IF(cond)		, bool = (cond)
+
 /// \endcond
+
+#ifndef SPECIALIZED_IF
+	#define SPECIALIZED_IF(cond)
+#endif
 
 #if MUU_ENABLE_PAIRED_FUNCS
 	#define MUU_RO_ARG(...)		muu::impl::readonly_param<__VA_ARGS__>
@@ -304,37 +265,6 @@ namespace muu
 #define MUU_RO_QUAT		MUU_RO_ARG(quaternion_type)
 #define MUU_RO_MAT		MUU_RO_ARG(matrix)
 
-#ifndef REQUIRES_SIZE_AT_LEAST
-	#define REQUIRES_SIZE_AT_LEAST(n, ...)
-#endif
-
-#ifndef REQUIRES_DIMENSIONS_EXACTLY
-	#define REQUIRES_DIMENSIONS_EXACTLY(r, c, ...)
-#endif
-
-#ifndef REQUIRES_SQUARE
-	#define REQUIRES_SQUARE(...)
-#endif
-
-#ifndef SPECIALIZED_IF
-	#define SPECIALIZED_IF(cond)
-#endif
-
-#ifndef ENABLE_IF_SIZE_AT_LEAST
-	#define ENABLE_IF_SIZE_AT_LEAST(n, ...)
-#endif
-
-#ifndef LEGACY_REQUIRES_SIZE_AT_LEAST
-	#define LEGACY_REQUIRES_SIZE_AT_LEAST(n, ...)
-#endif
-
-#ifndef LEGACY_REQUIRES_DIMENSIONS_EXACTLY
-	#define	LEGACY_REQUIRES_DIMENSIONS_EXACTLY(r, c, ...)
-#endif
-
-#ifndef LEGACY_REQUIRES_SQUARE
-	#define LEGACY_REQUIRES_SQUARE(...)
-#endif
 
 #endif //===============================================================================================================
 
@@ -511,10 +441,13 @@ namespace muu
 		/// \param	v0		Initial value for the matrix's first scalar component.
 		/// \param	v1		Initial value for the matrix's second scalar component.
 		/// \param	vals	Initial values for the matrix's remaining scalar components.
-		template <typename... T
-			ENABLE_IF_SIZE_AT_LEAST(sizeof...(T) + 2, all_convertible_to<scalar_type, scalar_type, T...>)
-		>
-		REQUIRES_SIZE_AT_LEAST(sizeof...(T) + 2, all_convertible_to<scalar_type, scalar_type, T...>)
+		MUU_CONSTRAINED_TEMPLATE(
+			(
+				(Rows * Columns) >= sizeof...(T) + 2
+				&& all_convertible_to<scalar_type, scalar_type, T...>
+			),
+			typename... T
+		)
 		MUU_NODISCARD_CTOR
 		constexpr matrix(scalar_type v0, scalar_type v1, const T&... vals) noexcept
 			: base{
@@ -591,13 +524,13 @@ namespace muu
 
 		// optimizations for 2x2, 3x3, 3x4 and 4x4 cases
 
-		LEGACY_REQUIRES_DIMENSIONS_EXACTLY(2, 2, true)
+		MUU_LEGACY_REQUIRES((R == 2 && C == 2), size_t R = Rows, size_t C = Columns)
 		MUU_NODISCARD_CTOR
 		constexpr matrix(
 			scalar_type v00, scalar_type v01,
 			scalar_type v10, scalar_type v11
 		) noexcept
-			REQUIRES_DIMENSIONS_EXACTLY(2, 2, true)
+			MUU_REQUIRES(Rows == 2 && Columns == 2)
 			: base{
 				impl::columnwise_init_tag{},
 				column_type{ v00, v10 },
@@ -605,14 +538,14 @@ namespace muu
 			}
 		{}
 
-		LEGACY_REQUIRES_DIMENSIONS_EXACTLY(3, 3, true)
+		MUU_LEGACY_REQUIRES((R == 3 && C == 3), size_t R = Rows, size_t C = Columns)
 		MUU_NODISCARD_CTOR
 		constexpr matrix(
 			scalar_type v00, scalar_type v01, scalar_type v02,
 			scalar_type v10, scalar_type v11, scalar_type v12,
 			scalar_type v20, scalar_type v21, scalar_type v22
 		) noexcept
-			REQUIRES_DIMENSIONS_EXACTLY(3, 3, true)
+			MUU_REQUIRES(Rows == 3 && Columns == 3)
 			: base{
 				impl::columnwise_init_tag{},
 				column_type{ v00, v10, v20 },
@@ -621,14 +554,14 @@ namespace muu
 			}
 		{}
 
-		LEGACY_REQUIRES_DIMENSIONS_EXACTLY(3, 4, true)
+		MUU_LEGACY_REQUIRES((R == 3 && C == 4), size_t R = Rows, size_t C = Columns)
 		MUU_NODISCARD_CTOR
 		constexpr matrix(
 			scalar_type v00, scalar_type v01, scalar_type v02, scalar_type v03,
 			scalar_type v10, scalar_type v11, scalar_type v12, scalar_type v13,
 			scalar_type v20, scalar_type v21, scalar_type v22, scalar_type v23
 		) noexcept
-			REQUIRES_DIMENSIONS_EXACTLY(3, 4, true)
+			MUU_REQUIRES(Rows == 3 && Columns == 4)
 			: base{
 				impl::columnwise_init_tag{},
 				column_type{ v00, v10, v20 },
@@ -638,7 +571,7 @@ namespace muu
 			}
 		{}
 
-		LEGACY_REQUIRES_DIMENSIONS_EXACTLY(4, 4, true)
+		MUU_LEGACY_REQUIRES((R == 4 && C == 4), size_t R = Rows, size_t C = Columns)
 		MUU_NODISCARD_CTOR
 		constexpr matrix(
 			scalar_type v00, scalar_type v01, scalar_type v02, scalar_type v03,
@@ -646,7 +579,7 @@ namespace muu
 			scalar_type v20, scalar_type v21, scalar_type v22, scalar_type v23,
 			scalar_type v30, scalar_type v31, scalar_type v32, scalar_type v33
 		) noexcept
-			REQUIRES_DIMENSIONS_EXACTLY(4, 4, true)
+			MUU_REQUIRES(Rows == 4 && Columns == 4)
 			: base{
 				impl::columnwise_init_tag{},
 				column_type{ v00, v10, v20, v30 },
@@ -1237,9 +1170,9 @@ namespace muu
 		/// \brief Multiplies this matrix with another and assigns the result.
 		/// 
 		/// \note This function is only available when the matrix is square.
-		LEGACY_REQUIRES_SQUARE(true)
+		MUU_LEGACY_REQUIRES(R == C, size_t R = Rows, size_t C = Columns)
 		constexpr matrix& MUU_VECTORCALL operator *= (MUU_RO_MAT rhs) noexcept
-			REQUIRES_SQUARE(true)
+			MUU_REQUIRES(Rows == Columns)
 		{
 			return *this = *this * rhs;
 		}
@@ -1536,9 +1469,9 @@ namespace muu
 		/// \brief	Transposes the matrix (in-place).
 		/// 
 		/// \note This function is only available when the matrix is square.
-		LEGACY_REQUIRES_SQUARE(true)
+		MUU_LEGACY_REQUIRES(R == C, size_t R = Rows, size_t C = Columns)
 		constexpr matrix& transpose() noexcept
-			REQUIRES_SQUARE(true)
+			MUU_REQUIRES(Rows == Columns)
 		{
 			return *this = transpose(*this);
 		}
@@ -1550,11 +1483,11 @@ namespace muu
 		/// \brief	Calculates the determinant of a matrix.
 		/// 
 		/// \note This function is only available when the matrix is square and has at most 4 rows and columns.
-		LEGACY_REQUIRES_SQUARE(Columns <= 4)
+		MUU_LEGACY_REQUIRES(R == C && C <= 4, size_t R = Rows, size_t C = Columns)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr determinant_type MUU_VECTORCALL determinant(MUU_RO_MAT m) noexcept
-			REQUIRES_SQUARE(Columns <= 4)
+			MUU_REQUIRES(Rows == Columns && Columns <= 4)
 		{
 			if constexpr (Columns == 1) return static_cast<determinant_type>(m.m[0].x);
 			if constexpr (Columns == 2) return static_cast<determinant_type>(impl::raw_determinant_2x2(m));
@@ -1565,11 +1498,11 @@ namespace muu
 		/// \brief	Calculates the determinant of a matrix.
 		/// 
 		/// \note This function is only available when the matrix is square and has at most 4 rows and columns.
-		LEGACY_REQUIRES_SQUARE(Columns <= 4)
+		MUU_LEGACY_REQUIRES(R == C && C <= 4, size_t R = Rows, size_t C = Columns)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr determinant_type determinant() noexcept
-			REQUIRES_SQUARE(Columns <= 4)
+			MUU_REQUIRES(Rows == Columns && Columns <= 4)
 		{
 			return determinant(*this);
 		}
@@ -1577,11 +1510,11 @@ namespace muu
 		/// \brief	Returns the inverse of a matrix.
 		/// 
 		/// \note This function is only available when the matrix is square and has at most 4 rows and columns.
-		LEGACY_REQUIRES_SQUARE(Columns <= 4)
+		MUU_LEGACY_REQUIRES(R == C && C <= 4, size_t R = Rows, size_t C = Columns)
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		static constexpr inverse_type MUU_VECTORCALL invert(MUU_RO_MAT m) noexcept
-			REQUIRES_SQUARE(Columns <= 4)
+			MUU_REQUIRES(Rows == Columns && Columns <= 4)
 		{
 			using result_scalar = typename inverse_type::scalar_type;
 			using result_column = typename inverse_type::column_type;
@@ -1709,9 +1642,9 @@ namespace muu
 		/// 
 		/// \note This function is only available when the matrix is square, has at most 4 rows and columns,
 		/// 	  and has a floating-point #scalar_type.
-		LEGACY_REQUIRES_SQUARE(Columns <= 4 && is_floating_point<Scalar>)
+		MUU_LEGACY_REQUIRES(R == C && C <= 4 && is_floating_point<Scalar>, size_t R = Rows, size_t C = Columns)
 		constexpr matrix& invert() noexcept
-			REQUIRES_SQUARE(Columns <= 4 && is_floating_point<Scalar>)
+			MUU_REQUIRES(Rows == Columns && Columns <= 4 && is_floating_point<Scalar>)
 		{
 			return *this = invert(*this);
 		}
@@ -2294,13 +2227,6 @@ namespace muu
 
 #endif //===============================================================================================================
 
-#undef REQUIRES_SIZE_AT_LEAST
-#undef REQUIRES_DIMENSIONS_EXACTLY
-#undef REQUIRES_SQUARE
-#undef ENABLE_IF_SIZE_AT_LEAST
-#undef LEGACY_REQUIRES_SIZE_AT_LEAST
-#undef LEGACY_REQUIRES_DIMENSIONS_EXACTLY
-#undef LEGACY_REQUIRES_SQUARE
 #undef SPECIALIZED_IF
 
 #undef MUU_RO_ARG

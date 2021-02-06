@@ -3,7 +3,7 @@
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 
-#include "muu/impl/print_math_types.h"
+#include "muu/impl/vector_types_common.h"
 #include "stream_printer.h"
 
 MUU_DISABLE_SPAM_WARNINGS;
@@ -278,7 +278,7 @@ namespace
 
 		if constexpr (is_floating_point<T>)
 		{
-			constexpr std::streamsize precision = 3
+			constexpr std::streamsize precision = std::streamsize{ 3 }
 				+ (sizeof(T) >= sizeof(float) ? 3 : 0)
 				+ (sizeof(T) >= sizeof(double) ? 3 : 0)
 				+ (sizeof(T) > sizeof(double) ? 3 : 0);
@@ -538,7 +538,7 @@ namespace
 
 		if constexpr (is_floating_point<T>)
 		{
-			constexpr std::streamsize precision = 3
+			constexpr std::streamsize precision = std::streamsize{ 3 }
 				+ (sizeof(T) >= sizeof(float) ? 3 : 0)
 				+ (sizeof(T) >= sizeof(double) ? 3 : 0)
 				+ (sizeof(T) > sizeof(double) ? 3 : 0);

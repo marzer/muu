@@ -719,6 +719,7 @@ class IndexPageFix(object):
 			else:
 				anchor = doc.new_tag('a', parent=parent, href=href, target='_blank')
 				doc.new_tag('img', parent=anchor, src=src, alt=alt)
+		html_add_class(banner, 'main_page_banner')
 		return True
 
 

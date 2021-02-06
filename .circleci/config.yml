@@ -258,53 +258,6 @@ jobs:
                     CXX_LD=lld CXX=g++ meson build --buildtype=release -Dpedantic=true -Dbuild_tests=true -Db_lto=false -Dtest_set=4
                     cd build && meson compile -j 4 && meson test --num-processes 1 --verbose
 
-    generate_dox_after_building:
-        docker:
-            - image: marzer/misc_cpp17_dev:0.2.0
-        resource_class: small
-        steps:
-            - checkout
-            - run:
-                name: Pulling submodules
-                command: |
-                    git submodule update --init external/mcss
-            - run:
-                name: Installing dependencies
-                command: |
-                    pip3 install lxml
-            - run:
-                name: Generating documentation
-                command: |
-                    cd tools && python3 generate_documentation.py
-            - persist_to_workspace:
-                root: docs
-                paths: html
-
-    deploy_dox_after_building:
-        docker:
-            - image: node:14.4.0
-        resource_class: small
-        steps:
-            - checkout
-            - attach_workspace:
-                at: docs
-            - run:
-                name: Disable jekyll builds
-                command: |
-                    touch docs/html/.nojekyll
-            - run:
-                name: Installing dependencies
-                command: |
-                    npm install -g --silent gh-pages@3.0.0
-                    git config user.email "ci-build@muu.com"
-                    git config user.name "ci-build"
-            - add_ssh_keys:
-                fingerprints:
-                    - "7d:0c:c6:80:21:69:dd:e7:6c:c4:07:5b:f6:8f:e0:30"
-            - run:
-                name: Deploy docs to gh-pages branch
-                command: gh-pages --dotfiles --message "[skip ci] Updates" --dist docs/html
-
     generate_dox:
         docker:
             - image: marzer/misc_cpp17_dev:0.2.0
@@ -420,7 +373,7 @@ workflows:
                 filters:
                     branches:
                         ignore: doxygen
-            - generate_dox_after_building:
+            - generate_dox:
                 requires:
                     - debug_clang_1
                     - debug_clang_2
@@ -441,13 +394,6 @@ workflows:
                 filters:
                     branches:
                         only: master
-            - deploy_dox_after_building:
-                requires:
-                    - generate_dox_after_building
-            - generate_dox:
-                filters:
-                    branches:
-                        only: doxygen
             - deploy_dox:
                 requires:
                     - generate_dox

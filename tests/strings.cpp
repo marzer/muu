@@ -266,11 +266,13 @@ TEST_CASE("strings - trim_right")
 TEST_CASE("strings - transcode")
 {
 	#define CHECK_TRANSCODE_CASE(input, prefix)														\
-		CHECK(transcode<char>(MUU_CONCAT(prefix, SV(input))) == SV(input));							\
-		CHECK(transcode<char8_t>(MUU_CONCAT(prefix, SV(input))) == MUU_CONCAT(u8, SV(input)));	\
-		CHECK(transcode<char16_t>(MUU_CONCAT(prefix, SV(input))) == MUU_CONCAT(u,  SV(input)));	\
-		CHECK(transcode<char32_t>(MUU_CONCAT(prefix, SV(input))) == MUU_CONCAT(U,  SV(input)));	\
-		CHECK(transcode<wchar_t>(MUU_CONCAT(prefix, SV(input))) == MUU_CONCAT(L, SV(input)))
+		do { 																						\
+			CHECK(transcode<char>(MUU_CONCAT(prefix, SV(input))) == SV(input));						\
+			CHECK(transcode<char8_t>(MUU_CONCAT(prefix, SV(input))) == MUU_CONCAT(u8, SV(input)));	\
+			CHECK(transcode<char16_t>(MUU_CONCAT(prefix, SV(input))) == MUU_CONCAT(u,  SV(input)));	\
+			CHECK(transcode<char32_t>(MUU_CONCAT(prefix, SV(input))) == MUU_CONCAT(U,  SV(input)));	\
+			CHECK(transcode<wchar_t>(MUU_CONCAT(prefix, SV(input))) == MUU_CONCAT(L, SV(input)));	\
+		} while (false)
 	
 	#if !MUU_CLANG || MUU_CLANG > 8
 		#define CHECK_TRANSCODE_CASE_W(input, prefix)	CHECK_TRANSCODE_CASE(input, prefix)
@@ -278,12 +280,14 @@ TEST_CASE("strings - transcode")
 		#define CHECK_TRANSCODE_CASE_W(input, prefix)	(void)0
 	#endif
 
-	#define CHECK_TRANSCODE(input)			\
-		CHECK_TRANSCODE_CASE(input, );		\
-		CHECK_TRANSCODE_CASE(input, u8);	\
-		CHECK_TRANSCODE_CASE(input, u);		\
-		CHECK_TRANSCODE_CASE(input, U);		\
-		CHECK_TRANSCODE_CASE_W(input, L)
+	#define CHECK_TRANSCODE(input)				\
+		do{ 									\
+			CHECK_TRANSCODE_CASE(input, );		\
+			CHECK_TRANSCODE_CASE(input, u8);	\
+			CHECK_TRANSCODE_CASE(input, u);		\
+			CHECK_TRANSCODE_CASE(input, U);		\
+			CHECK_TRANSCODE_CASE_W(input, L);	\
+		} while (false)
 
 	CHECK_TRANSCODE("");
 	CHECK_TRANSCODE("test");

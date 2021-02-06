@@ -7,7 +7,7 @@
 /// \brief  Contains the definition of muu::bounding_box.
 
 #pragma once
-#include "../muu/vector.h"
+#include "../muu/impl/bounding_boxes_common.h"
 
 MUU_PUSH_WARNINGS;
 MUU_PRAGMA_MSVC(inline_recursion(on))
@@ -21,51 +21,15 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 	#undef max
 #endif
 
+#if MUU_ENABLE_PAIRED_FUNCS
+	#define MUU_RO_VEC		muu::impl::readonly_param<vector_type>
+#else
+	#define MUU_RO_VEC		const vector_type&
+#endif
+
 //======================================================================================================================
-// IMPLEMENTATION DETAILS
+// BOUNDING BOX CLASS
 #if 1
-
-/// \cond
-namespace muu::impl
-{
-	MUU_ABI_VERSION_START(0);
-
-	template <typename Scalar>
-	struct MUU_TRIVIAL_ABI bounding_box_
-	{
-		vector<Scalar, 3> center;
-		vector<Scalar, 3> extents;
-	};
-
-	MUU_ABI_VERSION_END;
-
-	template <typename Scalar>
-	inline constexpr bool is_hva<bounding_box_<Scalar>> = can_be_hva_of<Scalar, bounding_box_<Scalar>>;
-
-	template <typename Scalar>
-	inline constexpr bool is_hva<bounding_box<Scalar>> = is_hva<bounding_box_<Scalar>>;
-
-	template <typename Scalar>
-	struct readonly_param_<bounding_box<Scalar>>
-	{
-		using type = std::conditional_t<
-			pass_readonly_by_value<bounding_box_<Scalar>>,
-			bounding_box<Scalar>,
-			const bounding_box<Scalar>&
-		>;
-	};
-}
-
-namespace muu
-{
-	template <typename From, typename Scalar>
-	inline constexpr bool allow_implicit_bit_cast<From, impl::bounding_box_<Scalar>>
-		= allow_implicit_bit_cast<From, bounding_box<Scalar>>;
-}
-
-/// \endcond
-
-#endif //===============================================================================================================
 
 namespace muu
 {
@@ -74,9 +38,11 @@ namespace muu
 	/// \brief An axis-aligned bounding box.
 	/// \ingroup math
 	/// 
+	/// \image html diag_bounding_box.svg
+	/// 
 	/// \tparam	Scalar      The type of the bounding box's scalar components.
 	/// 
-	/// \see [Axis-aligned bounding box](https://en.wikipedia.org/w/index.php?title=Axis-aligned_bounding_box)
+	/// \see [Aligned Bounding Box](https://www.sciencedirect.com/topics/computer-science/aligned-bounding-box)
 	template <typename Scalar>
 	struct MUU_TRIVIAL_ABI bounding_box
 		#ifndef DOXYGEN
@@ -97,6 +63,10 @@ namespace muu
 			&& std::is_trivially_destructible_v<Scalar>,
 			"Bounding box scalar type must be trivially constructible, copyable and destructible"
 		);
+		static_assert(
+			is_signed<Scalar>,
+			"Bounding box scalar type must be signed"
+		);
 
 		/// \brief The bounding box's scalar type.
 		using scalar_type = Scalar;
@@ -116,10 +86,16 @@ namespace muu
 	private:
 
 		using base = impl::bounding_box_<Scalar>;
+		static_assert(
+			sizeof(base) == (sizeof(vector_type) * 2),
+			"Bounding boxes should not have padding"
+		);
 
+		using boxes = impl::bounding_boxes_common<Scalar>;
 		using intermediate_float = impl::promote_if_small_float<delta_type>;
 		static_assert(is_floating_point<delta_type>);
 		static_assert(is_floating_point<intermediate_float>);
+
 
 	public:
 
@@ -147,6 +123,55 @@ namespace muu
 
 		/// \brief	Constructs a bounding box from center and extent values.
 		///
+		/// \param	cen		The center point.
+		/// \param	ext		The extents.
+		MUU_NODISCARD_CTOR
+		constexpr bounding_box(const vector_type& cen, const vector_type& ext) noexcept
+			: base{ cen, ext }
+		{ }
+
+		/// \brief	Constructs a bounding box from center and extent values.
+		///
+		/// \param	cen		The center point.
+		/// \param	ext_x	The length of the X extent.
+		/// \param	ext_y	The length of the Y extent.
+		/// \param	ext_z	The length of the Z extent.
+		MUU_NODISCARD_CTOR
+		constexpr bounding_box(const vector_type& cen, scalar_type ext_x, scalar_type ext_y, scalar_type ext_z) noexcept
+			: base{ cen, { ext_x, ext_y, ext_z } }
+		{ }
+
+		/// \brief	Constructs a uniformly-sized bounding box.
+		///
+		/// \param	cen		The center point.
+		/// \param	ext		The length of all three extents.
+		MUU_NODISCARD_CTOR
+		constexpr bounding_box(const vector_type& cen, scalar_type ext) noexcept
+			: base{ cen, { ext, ext, ext } }
+		{ }
+
+		/// \brief	Constructs a bounding box at the origin.
+		///
+		/// \param	ext		The extents.
+		MUU_NODISCARD_CTOR
+		explicit
+		constexpr bounding_box(const vector_type& ext) noexcept
+			: base{ vector_constants::zero, ext }
+		{ }
+
+		/// \brief	Constructs a bounding box from center and extent values.
+		///
+		/// \param	cen_x	The X component of the center point.
+		/// \param	cen_y	The Y component of the center point.
+		/// \param	cen_z	The Z component of the center point.
+		/// \param	ext		The extents.
+		MUU_NODISCARD_CTOR
+		constexpr bounding_box(scalar_type cen_x, scalar_type cen_y, scalar_type cen_z, const vector_type& ext) noexcept
+			: base { { cen_x, cen_y, cen_z }, ext }
+		{ }
+
+		/// \brief	Constructs a bounding box from center and extent values.
+		///
 		/// \param	cen_x	The X component of the center point.
 		/// \param	cen_y	The Y component of the center point.
 		/// \param	cen_z	The Z component of the center point.
@@ -161,53 +186,13 @@ namespace muu
 			: base{ { cen_x, cen_y, cen_z }, { ext_x, ext_y, ext_z } }
 		{ }
 
-		/// \brief	Constructs a bounding box from center and extent values.
-		///
-		/// \param	cen		The center point.
-		/// \param	ext_x	The length of the X extent.
-		/// \param	ext_y	The length of the Y extent.
-		/// \param	ext_z	The length of the Z extent.
-		MUU_NODISCARD_CTOR
-		constexpr bounding_box(const vector_type& cen, scalar_type ext_x, scalar_type ext_y, scalar_type ext_z) noexcept
-			: base{ { cen }, { ext_x, ext_y, ext_z } }
-		{ }
-
-		/// \brief	Constructs a bounding box from center and extent values.
-		///
-		/// \param	cen_x	The X component of the center point.
-		/// \param	cen_y	The Y component of the center point.
-		/// \param	cen_z	The Z component of the center point.
-		/// \param	ext		The extents.
-		MUU_NODISCARD_CTOR
-		constexpr bounding_box(scalar_type cen_x, scalar_type cen_y, scalar_type cen_z, const vector_type& ext) noexcept
-			: base { { cen_x, cen_y, cen_z }, ext }
-		{ }
-
-		/// \brief	Constructs a uniformly-sized bounding box.
-		///
-		/// \param	cen		The center point.
-		/// \param	ext		The length of all three extents.
-		MUU_NODISCARD_CTOR
-		constexpr bounding_box(const vector_type& cen, scalar_type ext) noexcept
-			: base{ { cen }, { ext, ext, ext } }
-		{ }
-
 		/// \brief	Constructs a uniformly-sized bounding box at the origin.
 		///
 		/// \param	ext		The length of all three extents.
 		MUU_NODISCARD_CTOR
 		explicit
 		constexpr bounding_box(scalar_type ext) noexcept
-			: base{ { vector_constants::zero }, { ext, ext, ext } }
-		{ }
-
-		/// \brief	Constructs a bounding box from center and extent values.
-		///
-		/// \param	cen		The center point.
-		/// \param	ext		The extents.
-		MUU_NODISCARD_CTOR
-		constexpr bounding_box(const vector_type& cen, const vector_type& ext) noexcept
-			: base{ cen, ext }
+			: base{ vector_constants::zero, { ext, ext, ext } }
 		{ }
 
 		/// \brief Constructs a bounding box from an implicitly bit-castable type.
@@ -243,7 +228,7 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr delta_type width() const noexcept
 		{
-			return static_cast<delta_type>(base::extents.x * intermediate_float{ 2 });
+			return boxes::width(base::extents);
 		}
 
 		/// \brief	Returns the height of the box (y-axis).
@@ -251,7 +236,7 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr delta_type height() const noexcept
 		{
-			return static_cast<delta_type>(base::extents.y * intermediate_float{ 2 });
+			return boxes::height(base::extents);
 		}
 
 		/// \brief	Returns the depth of the box (z-axis).
@@ -259,7 +244,7 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr delta_type depth() const noexcept
 		{
-			return static_cast<delta_type>(base::extents.z * intermediate_float{ 2 });
+			return boxes::depth(base::extents);
 		}
 
 		/// \brief	Calculates the length of the line connecting the min and max points.
@@ -267,7 +252,7 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr delta_type diagonal() const noexcept
 		{
-			return static_cast<delta_type>(vector_type::raw_length(base::extents) * intermediate_float{ 2 });
+			return boxes::diagonal(base::extents);
 		}
 
 		/// \brief	Returns the shortest of the box's three extents.
@@ -275,7 +260,7 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr scalar_type& shortest_extent() noexcept
 		{
-			return min(base::extents.x, min(base::extents.y, base::extents.z));
+			return boxes::shortest_extent(base::extents);
 		}
 
 		/// \brief	Returns the longest of the box's three extents.
@@ -283,7 +268,7 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr scalar_type& longest_extent() noexcept
 		{
-			return max(base::extents.x, max(base::extents.y, base::extents.z));
+			return boxes::longest_extent(base::extents);
 		}
 
 		/// \brief	Returns the shortest of the box's three extents (const overload).
@@ -291,7 +276,7 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr const scalar_type& shortest_extent() const noexcept
 		{
-			return min(base::extents.x, min(base::extents.y, base::extents.z));
+			return boxes::shortest_extent(base::extents);
 		}
 
 		/// \brief	Returns the longest of the box's three extents (const overload).
@@ -299,7 +284,7 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr const scalar_type& longest_extent() const noexcept
 		{
-			return max(base::extents.x, max(base::extents.y, base::extents.z));
+			return boxes::longest_extent(base::extents);
 		}
 
 		/// \brief	Returns the length of the shortest of the box's three sides.
@@ -307,7 +292,7 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr delta_type shortest_side() const noexcept
 		{
-			return static_cast<delta_type>(shortest_extent() * intermediate_float{ 2 });
+			return boxes::longest_side(base::extents);
 		}
 
 		/// \brief	Returns the length of the longest of the box's three sides.
@@ -315,30 +300,15 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr delta_type longest_side() const noexcept
 		{
-			return static_cast<delta_type>(longest_extent() * intermediate_float{ 2 });
+			return boxes::longest_side(base::extents);
 		}
-
-	private:
-
-		template <typename T = intermediate_float>
-		[[nodiscard]]
-		MUU_ATTR(pure)
-		constexpr T raw_volume() const noexcept
-		{
-			return static_cast<T>(base::extents.x)
-				* static_cast<T>(base::extents.y)
-				* static_cast<T>(base::extents.z)
-				* T { 8 };
-		}
-
-	public:
 
 		/// \brief	Calculates the volume of this bounding box.
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		constexpr delta_type volume() const noexcept
 		{
-			return static_cast<delta_type>(raw_volume());
+			return boxes::volume(base::extents);
 		}
 
 		/// \brief	Calculates the mass of this box if it had a given density.
@@ -346,7 +316,7 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr delta_type MUU_VECTORCALL mass(delta_type density) const noexcept
 		{
-			return static_cast<delta_type>(density * raw_volume());
+			return boxes::mass(base::extents, density);
 		}
 
 		/// \brief	Calculates the density of this box if it had a given mass.
@@ -354,7 +324,7 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr delta_type MUU_VECTORCALL density(delta_type mass) const noexcept
 		{
-			return static_cast<delta_type>(mass / raw_volume());
+			return boxes::density(base::extents, mass);
 		}
 
 
@@ -410,6 +380,28 @@ namespace muu
 		constexpr bool zero() const noexcept
 		{
 			return zero(*this);
+		}
+
+		/// \brief	Returns true if a bounding box has exactly zero volume.
+		/// 
+		/// \remarks	This is a componentwise exact empty check;
+		/// 			if you want an epsilon-based "near-enough" for floating-point bounding boxes, use #approx_empty().
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr bool empty(const bounding_box& bb) noexcept
+		{
+			return vector_type::zero(bb.extents);
+		}
+
+		/// \brief	Returns true if the bounding box has exactly zero volume.
+		/// 
+		/// \remarks	This is a componentwise exact equality check;
+		/// 			if you want an epsilon-based "near-enough" for floating-point bounding boxes, use #approx_empty().
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr bool empty() const noexcept
+		{
+			return vector_type::zero(base::extents);
 		}
 
 		/// \brief	Returns true if any of the scalar components of a bounding box are infinity or NaN.
@@ -500,7 +492,157 @@ namespace muu
 			return approx_zero(*this, epsilon);
 		}
 
+		/// \brief	Returns true if a bounding box has approximately zero volume.
+		/// 
+		/// \note		This function is only available when #scalar_type is a floating-point type.
+		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = scalar_type)
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr bool approx_empty(const bounding_box& bb, scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+			MUU_REQUIRES(is_floating_point<scalar_type>)
+		{
+			return vector_type::approx_zero(bb.extents, epsilon);
+		}
+
+		/// \brief	Returns true if the bounding box has approximately zero volume.
+		/// 
+		/// \note		This function is only available when #scalar_type is a floating-point type.
+		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = scalar_type)
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr bool MUU_VECTORCALL approx_empty(scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
+			MUU_REQUIRES(is_floating_point<scalar_type>)
+		{
+			return vector_type::approx_zero(base::extents, epsilon);
+		}
+
 	#endif // approx_equal
+
+	#if 1 // corners ---------------------------------------------------------------------------------------------------
+
+		/// \brief	Returns a specific corner of a bounding box.
+		template <box_corners Corner>
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr vector_type corner(const bounding_box& bb) noexcept
+		{
+			return boxes::corner<Corner>(bb.center, bb.extents);
+		}
+
+		/// \brief	Returns a specific corner of the bounding box.
+		template <box_corners Corner>
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr vector_type corner() const noexcept
+		{
+			return boxes::corner<Corner>(base::center, base::extents);
+		}
+
+		/// \brief	Returns a specific corner of a bounding box.
+		[[nodiscard]]
+		MUU_ATTR_NDEBUG(pure)
+		static constexpr vector_type corner(const bounding_box& bb, box_corners which) noexcept
+		{
+			return boxes::corner(bb.center, bb.extents, which);
+		}
+
+		/// \brief	Returns a specific corner of the bounding box.
+		[[nodiscard]]
+		MUU_ATTR_NDEBUG(pure)
+		constexpr vector_type corner(box_corners which) const noexcept
+		{
+			return boxes::corner(base::center, base::extents, which);
+		}
+
+		/// \brief	Returns the 'min' corner of a bounding box.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr vector_type min_corner(const bounding_box& bb) noexcept
+		{
+			return boxes::corner<box_corners::min>(bb.center, bb.extents);
+		}
+
+		/// \brief	Returns the 'min' corner of the bounding box.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr vector_type min_corner() const noexcept
+		{
+			return boxes::corner<box_corners::min>(base::center, base::extents);
+		}
+
+		/// \brief	Returns the 'max' corner of a bounding box.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr vector_type max_corner(const bounding_box& bb) noexcept
+		{
+			return boxes::corner<box_corners::max>(bb.center, bb.extents);
+		}
+
+		/// \brief	Returns the 'max' corner of the bounding box.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr vector_type max_corner() const noexcept
+		{
+			return boxes::corner<box_corners::max>(base::center, base::extents);
+		}
+
+	#endif // corners
+
+	#if 1 // translation -----------------------------------------------------------------------------------------------
+
+		/// \brief	Translates a bounding box.
+		///
+		/// \param	bb		The bounding box to translate.
+		/// \param	offset	An offset to add to the box's center position.
+		///
+		/// \returns	A copy of the input box translated by the given offset.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr bounding_box MUU_VECTORCALL translate(const bounding_box& bb, MUU_RO_VEC offset) noexcept
+		{
+			return bounding_box{ bb.center + offset, bb.extents };
+		}
+
+		/// \brief	Translates the bounding box (in-place).
+		///
+		/// \param	offset	An offset to add to the box's center position.
+		///
+		/// \return	A reference to the box_.
+		constexpr bounding_box& MUU_VECTORCALL translate(MUU_RO_VEC offset) noexcept
+		{
+			base::center += offset;
+			return *this;
+		}
+
+	#endif // translation
+
+	#if 1 // scaling -----------------------------------------------------------------------------------------------
+
+		/// \brief	Scales a bounding box.
+		///
+		/// \param	bb		The bounding box to scale.
+		/// \param	scale_	The amount to scale the box extents by on each axis.
+		///
+		/// \returns	A copy of the input box scaled by the given amounts.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr bounding_box MUU_VECTORCALL scale(const bounding_box& bb, MUU_RO_VEC scale_) noexcept
+		{
+			return bounding_box{ bb.center, bb.extents * scale_ };
+		}
+
+		/// \brief	Scales the bounding box (in-place).
+		///
+		/// \param	scale_	The amount to scale the box extents by on each axis.
+		///
+		/// \return	A reference to the box_.
+		constexpr bounding_box& MUU_VECTORCALL scale(MUU_RO_VEC scale_) noexcept
+		{
+			base::extents *= scale_;
+			return *this;
+		}
+
+	#endif // scaling
 
 	#if 1 // misc -----------------------------------------------------------------------------------------------------
 
@@ -549,6 +691,9 @@ namespace muu
 	)
 	bounding_box(vector<C, 3>, E) -> bounding_box<impl::highest_ranked<C, E>>;
 
+	template <typename E>
+	bounding_box(vector<E, 3>) -> bounding_box<E>;
+
 	MUU_CONSTRAINED_TEMPLATE(
 		is_arithmetic<E>,
 		typename E
@@ -580,6 +725,8 @@ namespace std
 	};
 }
 
+#endif //===============================================================================================================
+
 //======================================================================================================================
 // CONSTANTS
 #if 1
@@ -605,6 +752,8 @@ namespace muu
 }
 
 #endif //===============================================================================================================
+
+#undef MUU_RO_VEC
 
 MUU_PRAGMA_MSVC(pop_macro("min"))
 MUU_PRAGMA_MSVC(pop_macro("max"))

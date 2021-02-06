@@ -115,8 +115,17 @@
     <ClInclude Include="..\src\stream_printer.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\muu\impl\print_math_types.h">
+    <ClInclude Include="..\include\muu\impl\bounding_boxes_common.h">
       <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\impl\geometric_types_common.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\impl\vector_types_common.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\muu\oriented_bounding_box.h">
+      <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -225,7 +234,7 @@
     <ClCompile Include="..\src\half.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\print_math_types.cpp">
+    <ClCompile Include="..\src\vector_types_common.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

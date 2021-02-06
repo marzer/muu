@@ -64,7 +64,9 @@
     <ClInclude Include="..\..\include\muu\fwd.h" />
     <ClInclude Include="..\..\include\muu\half.h" />
     <ClInclude Include="..\..\include\muu\hashing.h" />
-    <ClInclude Include="..\..\include\muu\impl\print_math_types.h" />
+    <ClInclude Include="..\..\include\muu\impl\bounding_boxes_common.h" />
+    <ClInclude Include="..\..\include\muu\impl\geometric_types_common.h" />
+    <ClInclude Include="..\..\include\muu\impl\vector_types_common.h" />
     <ClInclude Include="..\..\include\muu\impl\unicode_char.h" />
     <ClInclude Include="..\..\include\muu\impl\unicode_char16_t.h" />
     <ClInclude Include="..\..\include\muu\impl\unicode_char32_t.h" />
@@ -73,6 +75,7 @@
     <ClInclude Include="..\..\include\muu\impl\unicode_wchar_t.h" />
     <ClInclude Include="..\..\include\muu\math.h" />
     <ClInclude Include="..\..\include\muu\matrix.h" />
+    <ClInclude Include="..\..\include\muu\oriented_bounding_box.h" />
     <ClInclude Include="..\..\include\muu\quaternion.h" />
     <ClInclude Include="..\..\include\muu\rolling_average.h" />
     <ClInclude Include="..\..\include\muu\numeric_range.h" />
@@ -102,7 +105,7 @@
     <ClCompile Include="..\..\src\thread_name.cpp" />
     <ClCompile Include="..\..\src\thread_pool.cpp" />
     <ClCompile Include="..\..\src\uuid.cpp" />
-    <ClCompile Include="..\..\src\print_math_types.cpp" />
+    <ClCompile Include="..\..\src\vector_types_common.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
