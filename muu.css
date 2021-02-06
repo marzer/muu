@@ -271,15 +271,15 @@ h1 span.m-thin
 }
 
 /* banner on index page */
-main > article > .m-container.m-container-inflatable > .m-row > div.m-col-l-10.m-push-l-1 > img.m-image
+.main_page_banner
 {
-	border-color: #405363;
-	border-style: solid;
-	border-width: 0.1rem;
-	margin-left: -1rem;
-	margin-right: -1rem;
-	margin-top: -1.75rem;
-	max-width: calc(100% + 2rem);
+	border-color: #405363 !important;
+	border-style: solid !important;
+	border-width: 0.1rem !important;
+	margin-left: -1rem !important;
+	margin-right: -1rem !important;
+	margin-top: -1.75rem !important;
+	max-width: calc(100% + 2rem) !important;
 }
 
 /* include <blah.h> */

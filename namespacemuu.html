@@ -292,6 +292,11 @@ C++</span></a>
             <dd>A <a class="m-doc muu-injected" href="structmuu_1_1matrix.html">matrix</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>
+            </dt>
+            <dd>An oriented bounding box.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>
             </dt>
             <dd>A quaternion.</dd>
@@ -336,6 +341,17 @@ C++</span></a>
         <section id="enum-members">
           <h2><a href="#enum-members">Enums</a></h2>
           <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">enum class <a class="m-doc" href="group__math.html#ga149b29e987e85245995f74a9efec7a9c">box_corners</a>: <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> { </span><span class="m-doc-wrap"><a class="m-doc" href="#gga149b29e987e85245995f74a9efec7a9cad8bd79cc131920d5de426f914d17405a">min</a> = 0,
+              <a class="m-doc" href="#gga149b29e987e85245995f74a9efec7a9ca9dd4e461268c8034f5c8564e155c67a6">x</a> = 1,
+              <a class="m-doc" href="#gga149b29e987e85245995f74a9efec7a9ca415290769594460e2e485922904f345d">y</a> = 2,
+              <a class="m-doc" href="#gga149b29e987e85245995f74a9efec7a9ca3e44107170a520582ade522fa73c1d15">xy</a> = x | y,
+              <a class="m-doc" href="#gga149b29e987e85245995f74a9efec7a9cafbade9e36a3f36d3d676c1b808451dd7">z</a> = 4,
+              <a class="m-doc" href="#gga149b29e987e85245995f74a9efec7a9cadbd69ee9ae289a85ea34dbef8435d7c1">xz</a> = x | z,
+              <a class="m-doc" href="#gga149b29e987e85245995f74a9efec7a9ca2151a2bc77807b81113febbf50c4bc95">yz</a> = y | z,
+              <a class="m-doc" href="#gga149b29e987e85245995f74a9efec7a9ca2ffe4e77325d9a7152f7086ea7aa5114">max</a> = x | y | z }</span>
+            </dt>
+            <dd>Corner masks/indices for three-dimensional bounding-boxes.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">enum class <a class="m-doc" href="#a0af5ea664875aa7ce96e0105152bc59c">uuid_variant</a>: <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> { </span><span class="m-doc-wrap"><a class="m-doc" href="#a0af5ea664875aa7ce96e0105152bc59ca334c4a4c42fdb79d7ebc3e73b517e6f8">none</a>,
               <a class="m-doc" href="#a0af5ea664875aa7ce96e0105152bc59cac00f0c4675b91fb8b918e4079a0b1bac">standard</a>,
@@ -2472,7 +2488,7 @@ C++</span></a>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="uuid_8h.html">&lt;muu/uuid.h&gt;</a></div>
             </h3>
             <p>A UUID variant as per RFC 4122.</p>
-<aside class="m-note m-default"><h4>See also</h4><p>RFC 4122: <a class="muu-external" href="https://tools.ietf.org/html/rfc4122" target="_blank">https:/<wbr/>/<wbr/>tools.ietf.org/<wbr/>html/<wbr/>rfc4122</a></p></aside>
+<aside class="m-note m-default"><h4>See also</h4><ul><li><a class="m-doc" href="structmuu_1_1uuid.html">muu::<wbr/>uuid</a><br/></li><li>RFC 4122: <a class="muu-external" href="https://tools.ietf.org/html/rfc4122" target="_blank">https:/<wbr/>/<wbr/>tools.ietf.org/<wbr/>html/<wbr/>rfc4122</a></li></ul></aside>
             <table class="m-table m-fullwidth m-flat m-doc">
               <thead><tr><th style="width: 1%">Enumerators</th><th></th></tr></thead>
               <tbody>
@@ -2515,7 +2531,7 @@ C++</span></a>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="uuid_8h.html">&lt;muu/uuid.h&gt;</a></div>
             </h3>
             <p>A UUID version as per RFC 4122.</p>
-<aside class="m-note m-default"><h4>See also</h4><p>RFC 4122: <a class="muu-external" href="https://tools.ietf.org/html/rfc4122" target="_blank">https:/<wbr/>/<wbr/>tools.ietf.org/<wbr/>html/<wbr/>rfc4122</a></p></aside>
+<aside class="m-note m-default"><h4>See also</h4><ul><li><a class="m-doc" href="structmuu_1_1uuid.html">muu::<wbr/>uuid</a><br/></li><li>RFC 4122: <a class="muu-external" href="https://tools.ietf.org/html/rfc4122" target="_blank">https:/<wbr/>/<wbr/>tools.ietf.org/<wbr/>html/<wbr/>rfc4122</a></li></ul></aside>
             <table class="m-table m-fullwidth m-flat m-doc">
               <thead><tr><th style="width: 1%">Enumerators</th><th></th></tr></thead>
               <tbody>

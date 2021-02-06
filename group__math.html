@@ -71,6 +71,7 @@ C++</span></a>
               <ul>
                 <li><a href="#groups">Modules</a></li>
                 <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#enum-members">Enums</a></li>
               </ul>
             </li>
           </ul>
@@ -146,6 +147,11 @@ C++</span></a>
             <dd>A <a class="m-doc muu-injected" href="structmuu_1_1matrix.html">matrix</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">muu::oriented_bounding_box</a>
+            </dt>
+            <dd>An oriented bounding box.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1quaternion.html">muu::quaternion</a>
             </dt>
             <dd>A quaternion.</dd>
@@ -155,6 +161,85 @@ C++</span></a>
             </dt>
             <dd>An N-dimensional vector.</dd>
           </dl>
+        </section>
+        <section id="enum-members">
+          <h2><a href="#enum-members">Enums</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">enum class <a class="m-doc" href="#ga149b29e987e85245995f74a9efec7a9c">box_corners</a>: <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> { </span><span class="m-doc-wrap"><a class="m-doc" href="#gga149b29e987e85245995f74a9efec7a9cad8bd79cc131920d5de426f914d17405a">min</a> = 0,
+              <a class="m-doc" href="#gga149b29e987e85245995f74a9efec7a9ca9dd4e461268c8034f5c8564e155c67a6">x</a> = 1,
+              <a class="m-doc" href="#gga149b29e987e85245995f74a9efec7a9ca415290769594460e2e485922904f345d">y</a> = 2,
+              <a class="m-doc" href="#gga149b29e987e85245995f74a9efec7a9ca3e44107170a520582ade522fa73c1d15">xy</a> = x | y,
+              <a class="m-doc" href="#gga149b29e987e85245995f74a9efec7a9cafbade9e36a3f36d3d676c1b808451dd7">z</a> = 4,
+              <a class="m-doc" href="#gga149b29e987e85245995f74a9efec7a9cadbd69ee9ae289a85ea34dbef8435d7c1">xz</a> = x | z,
+              <a class="m-doc" href="#gga149b29e987e85245995f74a9efec7a9ca2151a2bc77807b81113febbf50c4bc95">yz</a> = y | z,
+              <a class="m-doc" href="#gga149b29e987e85245995f74a9efec7a9ca2ffe4e77325d9a7152f7086ea7aa5114">max</a> = x | y | z }</span>
+            </dt>
+            <dd>Corner masks/indices for three-dimensional bounding-boxes.</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Enum documentation</h2>
+          <section class="m-doc-details" id="ga149b29e987e85245995f74a9efec7a9c"><div>
+            <h3>
+              enum class <a class="m-doc-self" href="#ga149b29e987e85245995f74a9efec7a9c">box_corners</a>: <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a>
+            </h3>
+            <p>Corner masks/indices for three-dimensional bounding-boxes.</p>
+<aside class="m-note m-default"><h4>See also</h4><ul><li><a class="m-doc" href="structmuu_1_1bounding__box.html">muu::<wbr/>bounding_box</a><br/></li><li><a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">muu::<wbr/>oriented_bounding_box</a></li></ul></aside>
+            <table class="m-table m-fullwidth m-flat m-doc">
+              <thead><tr><th style="width: 1%">Enumerators</th><th></th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><a class="m-doc-self" href="#gga149b29e987e85245995f74a9efec7a9cad8bd79cc131920d5de426f914d17405a" id="gga149b29e987e85245995f74a9efec7a9cad8bd79cc131920d5de426f914d17405a">min</a></td>
+                  <td>
+                  <p>The 'min' corner (negative offset on all axes).</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a class="m-doc-self" href="#gga149b29e987e85245995f74a9efec7a9ca9dd4e461268c8034f5c8564e155c67a6" id="gga149b29e987e85245995f74a9efec7a9ca9dd4e461268c8034f5c8564e155c67a6">x</a></td>
+                  <td>
+                  <p>The corner with a positive offset on the X axis, negative on Y and Z.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a class="m-doc-self" href="#gga149b29e987e85245995f74a9efec7a9ca415290769594460e2e485922904f345d" id="gga149b29e987e85245995f74a9efec7a9ca415290769594460e2e485922904f345d">y</a></td>
+                  <td>
+                  <p>The corner with a positive offset on the Y axis, negative on X and Z.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a class="m-doc-self" href="#gga149b29e987e85245995f74a9efec7a9ca3e44107170a520582ade522fa73c1d15" id="gga149b29e987e85245995f74a9efec7a9ca3e44107170a520582ade522fa73c1d15">xy</a></td>
+                  <td>
+                  <p>The corner with a positive offset on the X and Y axes, negative on Z.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a class="m-doc-self" href="#gga149b29e987e85245995f74a9efec7a9cafbade9e36a3f36d3d676c1b808451dd7" id="gga149b29e987e85245995f74a9efec7a9cafbade9e36a3f36d3d676c1b808451dd7">z</a></td>
+                  <td>
+                  <p>The corner with a positive offset on the Z axis, negative on X and Y.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a class="m-doc-self" href="#gga149b29e987e85245995f74a9efec7a9cadbd69ee9ae289a85ea34dbef8435d7c1" id="gga149b29e987e85245995f74a9efec7a9cadbd69ee9ae289a85ea34dbef8435d7c1">xz</a></td>
+                  <td>
+                  <p>The corner with a positive offset on the X and Z axes, negative on Y.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a class="m-doc-self" href="#gga149b29e987e85245995f74a9efec7a9ca2151a2bc77807b81113febbf50c4bc95" id="gga149b29e987e85245995f74a9efec7a9ca2151a2bc77807b81113febbf50c4bc95">yz</a></td>
+                  <td>
+                  <p>The corner with a positive offset on the Y and Z axes, negative on X.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a class="m-doc-self" href="#gga149b29e987e85245995f74a9efec7a9ca2ffe4e77325d9a7152f7086ea7aa5114" id="gga149b29e987e85245995f74a9efec7a9ca2ffe4e77325d9a7152f7086ea7aa5114">max</a></td>
+                  <td>
+                  <p>The 'max' corner (positive offset on all axes).</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
         </section>
       </div>
     </div>
