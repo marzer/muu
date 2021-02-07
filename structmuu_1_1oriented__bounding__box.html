@@ -89,6 +89,7 @@ C++</span></a>
                 <li><a href="#pub-methods">Public functions</a></li>
                 <li><a href="#pub-attribs">Public variables</a></li>
                 <li><a href="#friends">Friends</a></li>
+                <li><a href="#related">Related</a></li>
               </ul>
             </li>
           </ul>
@@ -105,8 +106,8 @@ C++</span></a>
               using <a class="m-doc-self" href="#abf37942d5f32f6dcf31336990fca9fd2">axes_type</a> = <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;<a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>, 3, 3&gt;
             </dt>
             <dd>The 3x3 <a class="m-doc" href="structmuu_1_1matrix.html">muu::<wbr/>matrix</a> with the same <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> as the oriented bounding box.</dd>
-            <dt id="ab13a3aef5320aeb1ac9e112d201d4c72">
-              using <a class="m-doc-self" href="#ab13a3aef5320aeb1ac9e112d201d4c72">constants</a> = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&gt;
+            <dt id="a2fc9b68af2ad45481eade55cf33d8f37">
+              using <a class="m-doc-self" href="#a2fc9b68af2ad45481eade55cf33d8f37">constants</a> = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;<a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&gt;
             </dt>
             <dd>Compile-time bounding box constants.</dd>
             <dt id="a43b9d7e8fb1c7e79b89314624bbab9b8">
@@ -392,6 +393,29 @@ C++</span></a>
               const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&lt;T&gt;&amp; rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two oriented bounding boxes are exactly equal.</dd>
+          </dl>
+        </section>
+        <section id="related">
+          <h2><a href="#related">Related</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga44033f904b7ed733949dab5e6acccd16">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&lt;S&gt;&amp; q1,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&lt;T&gt;&amp; q2,
+              <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;S, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two oriented bounding boxes are approximately equal.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename S&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga4c274a76495695493647b4e0b7af1299">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&lt;S&gt;&amp; q,
+              S epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if all the scalar components of an <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#ab6acfa161bf45756bba4b47ed6c3ee8f">oriented_<wbr/>bounding_<wbr/>box</a> are approximately equal to zero.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename S&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gade7f3e7d056853c9e542ec453394a9c4">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the scalar components of an <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#ab6acfa161bf45756bba4b47ed6c3ee8f">oriented_<wbr/>bounding_<wbr/>box</a> are infinity or NaN.</dd>
           </dl>
         </section>
         <section>

@@ -88,10 +88,20 @@ C++</span></a>
             </dt>
             <dd>Returns true if a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> is infinity or NaN.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename S&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga4bac8a8324b2e1ef33cec0f7a8f718ce">infinity_or_nan</a>(</span><span class="m-doc-wrap">const bounding_box&lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the scalar components of a <a class="m-doc" href="structmuu_1_1bounding__box.html#aaebb7ed75f7945247523c936edd6baa8">bounding_<wbr/>box</a> are infinity or NaN.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga1f57b7af70f0235ad644486a5943e582">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc muu-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the scalar components of a <a class="m-doc muu-injected" href="structmuu_1_1matrix.html">matrix</a> are infinity or NaN.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename S&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gade7f3e7d056853c9e542ec453394a9c4">infinity_or_nan</a>(</span><span class="m-doc-wrap">const oriented_bounding_box&lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the scalar components of an <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#ab6acfa161bf45756bba4b47ed6c3ee8f">oriented_<wbr/>bounding_<wbr/>box</a> are infinity or NaN.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaffcaea7f39fc17894285d8221923387e">infinity_or_nan</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -150,6 +160,16 @@ C++</span></a>
             </h3>
             <p>Returns true if a <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> is infinity or NaN.</p>
           </div></section>
+          <section class="m-doc-details" id="ga4bac8a8324b2e1ef33cec0f7a8f718ce"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="bounding__box_8h.html">&lt;muu/bounding_box.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename S&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga4bac8a8324b2e1ef33cec0f7a8f718ce">infinity_or_nan</a>(</span><span class="m-doc-wrap">const bounding_box&lt;S&gt;&amp; q) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if any of the scalar components of a <a class="m-doc" href="structmuu_1_1bounding__box.html#aaebb7ed75f7945247523c936edd6baa8">bounding_<wbr/>box</a> are infinity or NaN.</p>
+          </div></section>
           <section class="m-doc-details" id="ga1f57b7af70f0235ad644486a5943e582"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="matrix_8h.html">&lt;muu/matrix.h&gt;</a></div>
@@ -158,6 +178,16 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga1f57b7af70f0235ad644486a5943e582">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc muu-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if any of the scalar components of a <a class="m-doc muu-injected" href="structmuu_1_1matrix.html">matrix</a> are infinity or NaN.</p>
+          </div></section>
+          <section class="m-doc-details" id="gade7f3e7d056853c9e542ec453394a9c4"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="oriented__bounding__box_8h.html">&lt;muu/oriented_bounding_box.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename S&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gade7f3e7d056853c9e542ec453394a9c4">infinity_or_nan</a>(</span><span class="m-doc-wrap">const oriented_bounding_box&lt;S&gt;&amp; q) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if any of the scalar components of an <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#ab6acfa161bf45756bba4b47ed6c3ee8f">oriented_<wbr/>bounding_<wbr/>box</a> are infinity or NaN.</p>
           </div></section>
           <section class="m-doc-details" id="gaffcaea7f39fc17894285d8221923387e"><div>
             <h3>

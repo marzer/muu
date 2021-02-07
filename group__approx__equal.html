@@ -91,12 +91,26 @@ C++</span></a>
             </dt>
             <dd>Returns true if two <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16s</a> are approximately equal.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga0535df1acd603649ac9f793d96062112">approx_equal</a>(</span><span class="m-doc-wrap">const bounding_box&lt;S&gt;&amp; q1,
+              const bounding_box&lt;T&gt;&amp; q2,
+              epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two bounding_boxes are approximately equal.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename S, typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gac9148a5c5b63c63d14ca506aee43484e">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc muu-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m1,
               const <a class="m-doc muu-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;T, R, C&gt;&amp; m2,
               epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two <a class="m-doc muu-injected" href="structmuu_1_1matrix.html">matrices</a> are approximately equal.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga44033f904b7ed733949dab5e6acccd16">approx_equal</a>(</span><span class="m-doc-wrap">const oriented_bounding_box&lt;S&gt;&amp; q1,
+              const oriented_bounding_box&lt;T&gt;&amp; q2,
+              epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two oriented bounding boxes are approximately equal.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga6b8d6921c4f39c5881a7ea6f95f33392">approx_equal</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q1,
@@ -169,6 +183,18 @@ C++</span></a>
             </h3>
             <p>Returns true if two <a class="m-doc muu-injected muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16s</a> are approximately equal.</p>
           </div></section>
+          <section class="m-doc-details" id="ga0535df1acd603649ac9f793d96062112"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="bounding__box_8h.html">&lt;muu/bounding_box.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename S, typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga0535df1acd603649ac9f793d96062112">approx_equal</a>(</span><span class="m-doc-wrap">const bounding_box&lt;S&gt;&amp; q1,
+              const bounding_box&lt;T&gt;&amp; q2,
+              epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if two bounding_boxes are approximately equal.</p>
+          </div></section>
           <section class="m-doc-details" id="gac9148a5c5b63c63d14ca506aee43484e"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="matrix_8h.html">&lt;muu/matrix.h&gt;</a></div>
@@ -180,6 +206,18 @@ C++</span></a>
             </h3>
             <p>Returns true if two <a class="m-doc muu-injected" href="structmuu_1_1matrix.html">matrices</a> are approximately equal.</p>
 <aside class="m-note m-info"><h4>Note</h4><p>This function is only available when at least one of <code>S</code> and <code>T</code> is a floating-point type.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga44033f904b7ed733949dab5e6acccd16"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="oriented__bounding__box_8h.html">&lt;muu/oriented_bounding_box.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename S, typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga44033f904b7ed733949dab5e6acccd16">approx_equal</a>(</span><span class="m-doc-wrap">const oriented_bounding_box&lt;S&gt;&amp; q1,
+              const oriented_bounding_box&lt;T&gt;&amp; q2,
+              epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if two oriented bounding boxes are approximately equal.</p>
           </div></section>
           <section class="m-doc-details" id="ga6b8d6921c4f39c5881a7ea6f95f33392"><div>
             <h3>
