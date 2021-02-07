@@ -5,7 +5,7 @@
 
 //#pragma once /* no! explicitly allowed to be re-included */
 
-#include "bounding_box_test_templates.h"
+#include "oriented_bounding_box_test_templates.h"
 
 #if !defined(SCALAR_TYPE) && MUU_INTELLISENSE
 	#define SCALAR_TYPE float
@@ -18,34 +18,34 @@
 #define TEST_TYPE(func)											\
 		func<SCALAR_TYPE>(MUU_MAKE_STRING_VIEW(SCALAR_TYPE))
 
-#undef AABB_TEST_CASE
-#define AABB_TEST_CASE(name)	TEST_CASE("bounding_box<" MUU_MAKE_STRING(SCALAR_TYPE) "> - " name)
+#undef OBB_TEST_CASE
+#define OBB_TEST_CASE(name)	TEST_CASE("oriented_bounding_box<" MUU_MAKE_STRING(SCALAR_TYPE) "> - " name)
 
 template <>
-inline constexpr bool aabb_invoke_trait_tests<SCALAR_TYPE> = []() noexcept
+inline constexpr bool obb_invoke_trait_tests<SCALAR_TYPE> = []() noexcept
 {
-	TEST_TYPE(aabb_trait_tests);
+	TEST_TYPE(obb_trait_tests);
 	return true;
 }();
 
-AABB_TEST_CASE("construction")
+OBB_TEST_CASE("construction")
 {
-	TEST_TYPE(aabb_construction_tests);
+	TEST_TYPE(obb_construction_tests);
 }
 
-AABB_TEST_CASE("equality")
+OBB_TEST_CASE("equality")
 {
-	TEST_TYPE(aabb_equality_tests);
+	TEST_TYPE(obb_equality_tests);
 }
 
-AABB_TEST_CASE("zero")
+OBB_TEST_CASE("zero")
 {
-	TEST_TYPE(aabb_zero_tests);
+	TEST_TYPE(obb_zero_tests);
 }
 
-AABB_TEST_CASE("infinity_or_nan")
+OBB_TEST_CASE("infinity_or_nan")
 {
-	TEST_TYPE(aabb_infinity_or_nan_tests);
+	TEST_TYPE(obb_infinity_or_nan_tests);
 }
 
 #undef SCALAR_TYPE

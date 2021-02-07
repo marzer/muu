@@ -203,6 +203,9 @@ def main():
 		<ClCompile Include="..\..\tests\matrix_long.cpp" />
 		<ClCompile Include="..\..\tests\matrix_long_long.cpp" />
 		<ClCompile Include="..\..\tests\matrix_short.cpp" />
+		<ClCompile Include="..\..\tests\oriented_bounding_box_double.cpp" />
+		<ClCompile Include="..\..\tests\oriented_bounding_box_float.cpp" />
+		<ClCompile Include="..\..\tests\oriented_bounding_box_half.cpp" />
 		<ClCompile Include="..\..\tests\quaternion_double.cpp" />
 		<ClCompile Include="..\..\tests\quaternion_float.cpp" />
 		<ClCompile Include="..\..\tests\quaternion_half.cpp" />
@@ -240,6 +243,8 @@ def main():
 		<ClInclude Include="..\..\tests\float_test_data.h" />
 		<ClInclude Include="..\..\tests\matrix_test_templates.h" />
 		<ClInclude Include="..\..\tests\matrix_test_instantiations.h" />
+		<ClInclude Include="..\..\tests\oriented_bounding_box_test_instantiations.h" />
+		<ClInclude Include="..\..\tests\oriented_bounding_box_test_templates.h" />
 		<ClInclude Include="..\..\tests\settings.h" />
 		<ClInclude Include="..\..\tests\tests.h" />
 		<ClInclude Include="..\..\tests\quaternion_test_templates.h" />
@@ -384,14 +389,20 @@ def main():
     <ClCompile Include="..\..\tests\bounding_box_long.cpp">
       <Filter>bounding_box</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\tests\bounding_box_long_double.cpp">
-      <Filter>bounding_box</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\tests\bounding_box_long_long.cpp">
       <Filter>bounding_box</Filter>
     </ClCompile>
     <ClCompile Include="..\..\tests\bounding_box_short.cpp">
       <Filter>bounding_box</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tests\oriented_bounding_box_double.cpp">
+      <Filter>oriented_bounding_box</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tests\oriented_bounding_box_float.cpp">
+      <Filter>oriented_bounding_box</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tests\oriented_bounding_box_half.cpp">
+      <Filter>oriented_bounding_box</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -426,6 +437,12 @@ def main():
     <ClInclude Include="..\..\tests\bounding_box_test_templates.h">
       <Filter>bounding_box</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\tests\oriented_bounding_box_test_instantiations.h">
+      <Filter>oriented_bounding_box</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tests\oriented_bounding_box_test_templates.h">
+      <Filter>oriented_bounding_box</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\tests\cpp.hint" />
@@ -448,6 +465,9 @@ def main():
     </Filter>
     <Filter Include="bounding_box">
       <UniqueIdentifier>{0a2a2658-7365-4d92-8c47-5b16284af689}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="oriented_bounding_box">
+      <UniqueIdentifier>{9bcc9a26-b87b-46d7-b42f-b94780ef9f40}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

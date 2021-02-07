@@ -89,7 +89,7 @@ namespace muu
 		using axes_constants = muu::constants<axes_type>;
 
 		/// \brief Compile-time bounding box constants.
-		using constants = muu::constants<bounding_box>;
+		using constants = muu::constants<oriented_bounding_box>;
 
 	private:
 
@@ -747,7 +747,45 @@ MUU_POP_PRECISE_MATH;
 
 namespace muu
 {
+	/// \ingroup	infinity_or_nan
+	/// \related	muu::oriented_bounding_box
+	///
+	/// \brief	Returns true if any of the scalar components of an #oriented_bounding_box are infinity or NaN.
+	template <typename S>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr bool infinity_or_nan(const oriented_bounding_box<S>& q) noexcept
+	{
+		return oriented_bounding_box<S>::infinity_or_nan(q);
+	}
 
+	/// \ingroup	approx_equal
+	/// \related	muu::oriented_bounding_box
+	///
+	/// \brief		Returns true if two oriented bounding boxes are approximately equal.
+	template <typename S, typename T>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr bool MUU_VECTORCALL approx_equal(
+		const oriented_bounding_box<S>& q1,
+		const oriented_bounding_box<T>& q2,
+		epsilon_type<S, T> epsilon = default_epsilon<S, T>
+	) noexcept
+	{
+		return oriented_bounding_box<S>::approx_equal(q1, q2, epsilon);
+	}
+
+	/// \ingroup	approx_zero
+	/// \related	muu::oriented_bounding_box
+	///
+	/// \brief		Returns true if all the scalar components of an #oriented_bounding_box are approximately equal to zero.
+	template <typename S>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr bool MUU_VECTORCALL approx_zero(const oriented_bounding_box<S>& q, S epsilon = default_epsilon<S>) noexcept
+	{
+		return oriented_bounding_box<S>::approx_zero(q, epsilon);
+	}
 }
 
 #endif //===============================================================================================================

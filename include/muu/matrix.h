@@ -1273,6 +1273,8 @@ namespace muu
 			//unroll the common square cases
 			if constexpr (Rows == 2 && Columns == 2)
 			{
+				MUU_FMA_BLOCK;
+
 				return row_type
 				{
 					static_cast<scalar_type>(MULT_ROW(0, 0, x) + MULT_ROW(1, 0, y)),
@@ -1281,6 +1283,8 @@ namespace muu
 			}
 			else if constexpr (Rows == 3 && Columns == 3)
 			{
+				MUU_FMA_BLOCK;
+
 				return row_type
 				{
 					static_cast<scalar_type>(MULT_ROW(0, 0, x) + MULT_ROW(1, 0, y) + MULT_ROW(2, 0, z)),
@@ -1290,6 +1294,8 @@ namespace muu
 			}
 			else if constexpr (Rows == 4 && Columns == 4)
 			{
+				MUU_FMA_BLOCK;
+
 				return row_type
 				{
 					static_cast<scalar_type>(MULT_ROW(0, 0, x) + MULT_ROW(1, 0, y) + MULT_ROW(2, 0, z) + MULT_ROW(3, 0, w)),
@@ -1746,6 +1752,8 @@ namespace muu
 
 			constexpr auto subtract_dot_mult = [](auto& out_, auto& c1, auto& c2) noexcept
 			{
+				MUU_FMA_BLOCK;
+
 				const auto dot = column_dot<3>(c1, c2);
 				out_.template get<0>() -= dot * c2.template get<0>();
 				out_.template get<1>() -= dot * c2.template get<1>();

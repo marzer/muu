@@ -23,7 +23,7 @@
 		func<SCALAR_TYPE, 5>(MUU_MAKE_STRING_VIEW(SCALAR_TYPE))
 
 #undef VECTOR_TEST_CASE
-#define VECTOR_TEST_CASE(name)	TEST_CASE("vector<" MUU_MAKE_STRING(SCALAR_TYPE) ", *> - " name)
+#define VECTOR_TEST_CASE(name)	TEST_CASE("vector<" MUU_MAKE_STRING(SCALAR_TYPE) "> - " name)
 
 template <>
 inline constexpr bool vector_invoke_trait_tests<SCALAR_TYPE> = []() noexcept

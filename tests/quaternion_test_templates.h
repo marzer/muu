@@ -74,6 +74,16 @@ inline void quat_construction_tests(std::string_view scalar_typename) noexcept
 	using quat_t = quaternion<T>;
 
 	{
+		INFO("zero-initialization")
+
+		const auto q = quat_t{};
+		quat_for_each(q, [](auto s, size_t)
+		{
+			CHECK(s == T{});
+		});
+	}
+
+	{
 		INFO("scalar constructor")
 
 		const auto vals = random_array<T, 4>();

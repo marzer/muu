@@ -31,7 +31,7 @@
 		TEST_TYPE_R(func, 5)
 
 #undef MATRIX_TEST_CASE
-#define MATRIX_TEST_CASE(name)	TEST_CASE("matrix<" MUU_MAKE_STRING(SCALAR_TYPE) ", *, *> - " name)
+#define MATRIX_TEST_CASE(name)	TEST_CASE("matrix<" MUU_MAKE_STRING(SCALAR_TYPE) "> - " name)
 
 template <>
 inline constexpr bool matrix_invoke_trait_tests<SCALAR_TYPE> = []() noexcept

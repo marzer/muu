@@ -155,6 +155,15 @@ inline void matrix_construction_tests(std::string_view scalar_typename) noexcept
 	using matrix_t = matrix<T, Rows, Columns>;
 
 	{
+		INFO("zero-initialization")
+
+		const auto m = matrix_t{};
+		for (size_t r = 0; r < Rows; r++)
+			for (size_t c = 0; c < Columns; c++)
+				CHECK(m(r, c) == T{});
+	}
+
+	{
 		INFO("fill constructor")
 
 		const auto val = random<T>(1, 5);

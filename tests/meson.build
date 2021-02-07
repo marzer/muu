@@ -13,6 +13,7 @@ if test_set == 0 or test_set == 1
 	test_sources += 'core_bit.cpp'
 	test_sources += 'matrix_char.cpp'
 	test_sources += 'matrix_double.cpp'
+	test_sources += 'oriented_bounding_box_double.cpp'
 	test_sources += 'quaternion_double.cpp'
 	test_sources += 'unicode_char.cpp'
 	test_sources += 'unicode_char8_t.cpp'
@@ -21,6 +22,7 @@ if test_set == 0 or test_set == 1
 	if compiler_supports_fp16
 		test_sources += 'bounding_box_fp16.cpp'
 		test_sources += 'matrix_fp16.cpp'
+		test_sources += 'oriented_bounding_box_fp16.cpp'
 		test_sources += 'quaternion_fp16.cpp'
 		test_sources += 'vector_fp16.cpp'
 	endif
@@ -34,6 +36,7 @@ if test_set == 0 or test_set == 2
 	test_sources += 'hashing.cpp'
 	test_sources += 'matrix_float.cpp'
 	test_sources += 'matrix_half.cpp'
+	test_sources += 'oriented_bounding_box_float.cpp'
 	test_sources += 'quaternion_float.cpp'
 	test_sources += 'unicode_char16_t.cpp'
 	test_sources += 'vector_float.cpp'
@@ -42,6 +45,7 @@ if test_set == 0 or test_set == 2
 	if compiler_supports_float16
 		test_sources += 'bounding_box_Float16.cpp'
 		test_sources += 'matrix_Float16.cpp'
+		test_sources += 'oriented_bounding_box_Float16.cpp'
 		test_sources += 'quaternion_Float16.cpp'
 		test_sources += 'vector_Float16.cpp'
 	endif
@@ -53,6 +57,7 @@ if test_set == 0 or test_set == 3
 	test_sources += 'matrix_int.cpp'
 	test_sources += 'matrix_long.cpp'
 	test_sources += 'matrix_long_double.cpp'
+	test_sources += 'oriented_bounding_box_half.cpp'
 	test_sources += 'quaternion_half.cpp'
 	test_sources += 'scope_guard.cpp'
 	test_sources += 'span.cpp'
@@ -72,6 +77,7 @@ if test_set == 0 or test_set == 4
 	test_sources += 'bounding_box_short.cpp'
 	test_sources += 'matrix_long_long.cpp'
 	test_sources += 'matrix_short.cpp'
+	test_sources += 'oriented_bounding_box_long_double.cpp'
 	test_sources += 'quaternion_long_double.cpp'
 	test_sources += 'strings.cpp'
 	test_sources += 'tagged_ptr.cpp'
@@ -83,6 +89,7 @@ if test_set == 0 or test_set == 4
 	if compiler_supports_float128
 		test_sources += 'bounding_box_float128.cpp'
 		test_sources += 'matrix_float128.cpp'
+		test_sources += 'oriented_bounding_box_float128.cpp'
 		test_sources += 'quaternion_float128.cpp'
 		test_sources += 'vector_float128.cpp'
 	endif

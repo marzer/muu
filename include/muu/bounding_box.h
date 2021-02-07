@@ -37,7 +37,6 @@ namespace muu
 
 	/// \brief An axis-aligned bounding box.
 	/// \ingroup math
-	/// 
 	/// \image html diag_bounding_box.svg
 	/// 
 	/// \tparam	Scalar      The type of the bounding box's scalar components.
@@ -748,7 +747,45 @@ MUU_POP_PRECISE_MATH;
 
 namespace muu
 {
+	/// \ingroup	infinity_or_nan
+	/// \related	muu::bounding_box
+	///
+	/// \brief	Returns true if any of the scalar components of a #bounding_box are infinity or NaN.
+	template <typename S>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr bool infinity_or_nan(const bounding_box<S>& q) noexcept
+	{
+		return bounding_box<S>::infinity_or_nan(q);
+	}
 
+	/// \ingroup	approx_equal
+	/// \related	muu::bounding_box
+	///
+	/// \brief		Returns true if two bounding_boxes are approximately equal.
+	template <typename S, typename T>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr bool MUU_VECTORCALL approx_equal(
+		const bounding_box<S>& q1,
+		const bounding_box<T>& q2,
+		epsilon_type<S, T> epsilon = default_epsilon<S, T>
+	) noexcept
+	{
+		return bounding_box<S>::approx_equal(q1, q2, epsilon);
+	}
+
+	/// \ingroup	approx_zero
+	/// \related	muu::bounding_box
+	///
+	/// \brief		Returns true if all the scalar components of a #bounding_box are approximately equal to zero.
+	template <typename S>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr bool MUU_VECTORCALL approx_zero(const bounding_box<S>& q, S epsilon = default_epsilon<S>) noexcept
+	{
+		return bounding_box<S>::approx_zero(q, epsilon);
+	}
 }
 
 #endif //===============================================================================================================

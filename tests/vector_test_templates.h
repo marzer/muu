@@ -186,6 +186,14 @@ inline void vector_construction_tests(std::string_view scalar_typename) noexcept
 	using vector_t = vector<T, Dimensions>;
 
 	{
+		INFO("zero-initialization")
+
+		const auto v = vector_t{};
+		for (size_t i = 0; i < Dimensions; i++)
+			CHECK(v[i] == T{});
+	}
+
+	{
 		INFO("fill constructor")
 
 		const auto val = random<T>();
