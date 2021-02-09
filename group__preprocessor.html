@@ -230,10 +230,6 @@ C++</span></a>
             </dt>
             <dd>Re-enables compiler warnings again after using <a class="m-doc" href="group__preprocessor.html#ga0367e17e69206f2f4718f421c4f4f5bf">MUU_<wbr/>DISABLE_<wbr/>WARNINGS</a>.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga967eb97bf52ae15db445b4564c2ee789">MUU_EXCEPTIONS</a></span>
-            </dt>
-            <dd><code>1</code> when support for C++ exceptions is enabled, otherwise <code>0</code>.</dd>
-            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga4e615ca6ddf99207d0d46055db0a9aaa">MUU_GCC</a></span>
             </dt>
             <dd>The value of <code>__GNUC__</code> when the code is being compiled by GCC, otherwise <code>0</code>.</dd>
@@ -241,6 +237,10 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga555a63af817046f3efcdf5e5df32924b">MUU_HAS_BUILTIN</a>(</span><span class="m-doc-wrap">name)</span>
             </dt>
             <dd>Expands to <code>__has_builtin(name)</code> when supported by the compiler, otherwise <code>0</code>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga9ec0bf0abed9f6d63e8ff1d061fd7fa8">MUU_HAS_EXCEPTIONS</a></span>
+            </dt>
+            <dd><code>1</code> when support for C++ exceptions is enabled, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gad6cf2ebac5d966916c61f46e79f035b2">MUU_HAS_FLOAT128</a></span>
             </dt>
@@ -261,6 +261,10 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga61a9c9471317fa76fa46bd87d8f671b6">MUU_HAS_INT128</a></span>
             </dt>
             <dd><code>1</code> when the target environment has 128-bit integers, otherwise <code>0</code>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga3a719188641393747cd874964992274e">MUU_HAS_RTTI</a></span>
+            </dt>
+            <dd><code>1</code> when support for C++ run-time type identification (RTTI) is enabled, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga909a6807c9b69a3b6e146a709c2a248d">MUU_ICC</a></span>
             </dt>
@@ -297,6 +301,10 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga96965362141a0033ee6aae1a68d8b30f">MUU_LIKELY</a>(</span><span class="m-doc-wrap">...)</span>
             </dt>
             <dd>Expands a conditional to include an optimizer intrinsic (or C++20's [[likely]], if available) indicating that an if/else conditional is the likely path.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga1e4e923ae71486fc6d9ac2bb0448231f">MUU_LINUX</a></span>
+            </dt>
+            <dd><code>1</code> when building for a Linux distro, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga94d4f95aab666decfb7e1aac26d82f45">MUU_LITTLE_ENDIAN</a></span>
             </dt>
@@ -391,10 +399,6 @@ C++</span></a>
             </dt>
             <dd>Pushes the current compiler warning state onto the stack.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gae29a01d73beb23c20515ba3ba8b8f830">MUU_RTTI</a></span>
-            </dt>
-            <dd><code>1</code> when support for C++ run-time type identification (RTTI) is enabled, otherwise <code>0</code>.</dd>
-            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gaff60752ea9802d5cb7f09835672bd801">MUU_TRIVIAL_ABI</a></span>
             </dt>
             <dd>Marks a simple type which might otherwise be considered non-trivial as being trivial over ABI boundaries.</dd>
@@ -402,6 +406,10 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga66999b3d433c69989cc6243448a6e450">MUU_UNALIASED_ALLOC</a></span>
             </dt>
             <dd>Optimizer hint that marks an allocating function's pointer return value as being free from aliasing.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gada1974043df8aaa452400fe53a603219">MUU_UNIX</a></span>
+            </dt>
+            <dd><code>1</code> when building for a GNU/Unix variant, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga69620e1889e6b7ff936d34210ecf9bf5">MUU_UNLIKELY</a>(</span><span class="m-doc-wrap">...)</span>
             </dt>
@@ -755,13 +763,6 @@ C++</span></a>
             </h3>
             <p>Re-enables compiler warnings again after using <a class="m-doc" href="group__preprocessor.html#ga0367e17e69206f2f4718f421c4f4f5bf">MUU_<wbr/>DISABLE_<wbr/>WARNINGS</a>.</p>
           </div></section>
-          <section class="m-doc-details" id="ga967eb97bf52ae15db445b4564c2ee789"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga967eb97bf52ae15db445b4564c2ee789">MUU_EXCEPTIONS</a></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
-            </h3>
-            <p><code>1</code> when support for C++ exceptions is enabled, otherwise <code>0</code>.</p>
-          </div></section>
           <section class="m-doc-details" id="ga4e615ca6ddf99207d0d46055db0a9aaa"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga4e615ca6ddf99207d0d46055db0a9aaa">MUU_GCC</a></span>
@@ -776,6 +777,13 @@ C++</span></a>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Expands to <code>__has_builtin(name)</code> when supported by the compiler, otherwise <code>0</code>.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga9ec0bf0abed9f6d63e8ff1d061fd7fa8"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga9ec0bf0abed9f6d63e8ff1d061fd7fa8">MUU_HAS_EXCEPTIONS</a></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p><code>1</code> when support for C++ exceptions is enabled, otherwise <code>0</code>.</p>
           </div></section>
           <section class="m-doc-details" id="gad6cf2ebac5d966916c61f46e79f035b2"><div>
             <h3>
@@ -815,6 +823,13 @@ C++</span></a>
             </h3>
             <p><code>1</code> when the target environment has 128-bit integers, otherwise <code>0</code>.</p>
 <aside class="m-note m-default"><h4>See also</h4><ul><li><a class="m-doc" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">muu::<wbr/>int128_t</a></li><li><a class="m-doc" href="group__core.html#gaa82164a62949a1b029695dff5441d577">muu::<wbr/>uint128_t</a></li></ul></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga3a719188641393747cd874964992274e"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga3a719188641393747cd874964992274e">MUU_HAS_RTTI</a></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p><code>1</code> when support for C++ run-time type identification (RTTI) is enabled, otherwise <code>0</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga909a6807c9b69a3b6e146a709c2a248d"><div>
             <h3>
@@ -883,6 +898,13 @@ C++</span></a>
 <span class="p">{</span>
     <span class="n">do_the_thing</span><span class="p">();</span>
 <span class="p">}</span></pre><aside class="m-note m-default"><h4>See also</h4><ul><li><a class="muu-external" href="https://en.cppreference.com/w/cpp/language/attributes/likely" target="_blank">[[likely]]</a></li><li><a class="muu-external" href="https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html" target="_blank">_<wbr/>_<wbr/>builtin_<wbr/>expect()</a></li></ul></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga1e4e923ae71486fc6d9ac2bb0448231f"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga1e4e923ae71486fc6d9ac2bb0448231f">MUU_LINUX</a></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p><code>1</code> when building for a Linux distro, otherwise <code>0</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga94d4f95aab666decfb7e1aac26d82f45"><div>
             <h3>
@@ -1132,13 +1154,6 @@ C++</span></a>
 
 <span class="m">MUU_POP_WARNINGS</span><span class="p">;</span></pre>
           </div></section>
-          <section class="m-doc-details" id="gae29a01d73beb23c20515ba3ba8b8f830"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gae29a01d73beb23c20515ba3ba8b8f830">MUU_RTTI</a></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
-            </h3>
-            <p><code>1</code> when support for C++ run-time type identification (RTTI) is enabled, otherwise <code>0</code>.</p>
-          </div></section>
           <section class="m-doc-details" id="gaff60752ea9802d5cb7f09835672bd801"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gaff60752ea9802d5cb7f09835672bd801">MUU_TRIVIAL_ABI</a></span>
@@ -1162,6 +1177,13 @@ C++</span></a>
             </h3>
             <p>Optimizer hint that marks an allocating function's pointer return value as being free from aliasing.</p>
 <aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="https://docs.microsoft.com/en-us/cpp/cpp/restrict?view=vs-2019" target="_blank">_<wbr/>_<wbr/>declspec(restrict)</a></p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gada1974043df8aaa452400fe53a603219"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gada1974043df8aaa452400fe53a603219">MUU_UNIX</a></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p><code>1</code> when building for a GNU/Unix variant, otherwise <code>0</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga69620e1889e6b7ff936d34210ecf9bf5"><div>
             <h3>

@@ -85,6 +85,10 @@ C++</span></a>
             </dt>
             <dd>Interface for managing chunks of memory.</dd>
             <dt>
+              struct <a class="m-doc" href="structmuu_1_1generic__allocator.html">muu::generic_allocator</a>
+            </dt>
+            <dd>An interface for encapsulating generic allocators.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Extent = <a class="m-doc" href="group__mem.html#gae948792a33f05cf1eb8bfed242c38056">dynamic_<wbr/>extent</a>&gt;</div>
               class <a class="m-doc" href="classmuu_1_1span.html">muu::span</a>
             </dt>
@@ -112,25 +116,6 @@ C++</span></a>
         <section id="func-members">
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaa9c8bea0bc7d56f3f2693dd23f3c5865">aligned_alloc</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment,
-              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size) -&gt; void* <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Allocates memory with a specific alignment boundary.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga49e2ce8a12866972079e5e927333fe9a">aligned_alloc</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size) -&gt; void* <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Allocates memory with a specific alignment boundary.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">void <a class="m-doc" href="#ga980d079c5d73e2b8bf65a4130f3793b0">aligned_free</a>(</span><span class="m-doc-wrap">void* ptr) <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Frees memory previously allocated with <a class="m-doc" href="group__mem.html#gaa9c8bea0bc7d56f3f2693dd23f3c5865">muu::<wbr/>aligned_alloc</a>.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga28d3ce6d2657711ad053aa74410f61d5">aligned_realloc</a>(</span><span class="m-doc-wrap">void* ptr,
-              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> new_size) -&gt; void* <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Resizes memory previously allocated with a specific alignment boundary.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gacaa08dc6422b5847e58a7c4ab9557362">as_bytes</a>(</span><span class="m-doc-wrap">span&lt;T, N&gt; s) -&gt; span&lt;const <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>, impl::as_bytes_extent&lt;T, N&gt;&gt; <span class="m-label m-flat m-success">noexcept</span></span>
@@ -180,119 +165,6 @@ C++</span></a>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="gaa9c8bea0bc7d56f3f2693dd23f3c5865"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">void* </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaa9c8bea0bc7d56f3f2693dd23f3c5865">aligned_alloc</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment,
-              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size) <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="aligned__alloc_8h.html">&lt;muu/aligned_alloc.h&gt;</a></div>
-            </h3>
-            <p>Allocates memory with a specific alignment boundary.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">alignment</td>
-                  <td>The desired alignment. Must be a power of 2.</td>
-                </tr>
-                <tr>
-                  <td>size</td>
-                  <td>The desired allocation size.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td><p>A pointer to the beginning of the allocated memory, or <code>nullptr</code> if:</p><ul><li><code>alignment</code> or <code>size</code> were <code>0</code><br/></li><li><code>alignment</code> was not a power of 2<br/></li><li><code>alignment</code> was too high<br/></li><li>The system could not provide the requested allocation</li></ul></td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="ga49e2ce8a12866972079e5e927333fe9a"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="aligned__alloc_8h.html">&lt;muu/aligned_alloc.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">void* </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga49e2ce8a12866972079e5e927333fe9a">aligned_alloc</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size) <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Allocates memory with a specific alignment boundary.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Template parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">Alignment</td>
-                  <td>The desired alignment. Must be a power of 2.</td>
-                </tr>
-              </tbody>
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>size</td>
-                  <td>The desired allocation size.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td><p>A pointer to the beginning of the allocated memory, or <code>nullptr</code> if:</p><ul><li><code>size</code> was <code>0</code><br/></li><li><code>alignment</code> was too high<br/></li><li>The system could not provide the requested allocation</li></ul></td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="ga980d079c5d73e2b8bf65a4130f3793b0"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">void </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga980d079c5d73e2b8bf65a4130f3793b0">aligned_free</a>(</span><span class="m-doc-wrap">void* ptr) <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="aligned__alloc_8h.html">&lt;muu/aligned_alloc.h&gt;</a></div>
-            </h3>
-            <p>Frees memory previously allocated with <a class="m-doc" href="group__mem.html#gaa9c8bea0bc7d56f3f2693dd23f3c5865">muu::<wbr/>aligned_alloc</a>.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">ptr</td>
-                  <td>The pointer to the allocation being freed.</td>
-                </tr>
-              </tbody>
-            </table>
-<aside class="m-note m-danger"><h4>Warning</h4><p>Do not use this to free memory allocated from any other source, not even your implementation's <code>std::aligned_alloc</code>!</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="ga28d3ce6d2657711ad053aa74410f61d5"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">void* </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga28d3ce6d2657711ad053aa74410f61d5">aligned_realloc</a>(</span><span class="m-doc-wrap">void* ptr,
-              <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> new_size) <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="aligned__alloc_8h.html">&lt;muu/aligned_alloc.h&gt;</a></div>
-            </h3>
-            <p>Resizes memory previously allocated with a specific alignment boundary.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">ptr</td>
-                  <td>An allocation previously returned from <a class="m-doc" href="group__mem.html#gaa9c8bea0bc7d56f3f2693dd23f3c5865">muu::<wbr/>aligned_alloc</a> or <a class="m-doc" href="group__mem.html#ga28d3ce6d2657711ad053aa74410f61d5">muu::<wbr/>aligned_realloc</a>.</td>
-                </tr>
-                <tr>
-                  <td>new_size</td>
-                  <td>The new desired size of the allocation.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>A (possibly-relocated) pointer to the beginning of the reallocated memory, or <code>nullptr</code> if <code>new_size</code> was <code>0</code> or the system could not provide the requested allocation. Null return values leave the original input allocation unchanged.</td>
-                </tr>
-              </tfoot>
-            </table>
-<p>Allocations returned by <a class="m-doc" href="group__mem.html#ga28d3ce6d2657711ad053aa74410f61d5">muu::<wbr/>aligned_realloc</a> will have the same alignment as was initially requested by <a class="m-doc" href="group__mem.html#gaa9c8bea0bc7d56f3f2693dd23f3c5865">muu::<wbr/>aligned_alloc</a>.</p><p>Calling <a class="m-doc" href="group__mem.html#ga28d3ce6d2657711ad053aa74410f61d5">muu::<wbr/>aligned_realloc</a> with <code>nullptr</code> for <code>ptr</code> is equivalent to calling <a class="m-doc" href="group__mem.html#gaa9c8bea0bc7d56f3f2693dd23f3c5865">muu::<wbr/>aligned_alloc</a> with an alignment of <code><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/preprocessor/replace" target="_blank">__STDCPP_DEFAULT_NEW_ALIGNMENT__</a></code>.</p><aside class="m-note m-danger"><h4>Warning</h4><p>Do not use this to reallocate memory allocated from any source, not even your implementation's <code>std::aligned_alloc</code>!</p></aside>
-          </div></section>
           <section class="m-doc-details" id="gacaa08dc6422b5847e58a7c4ab9557362"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="span_8h.html">&lt;muu/span.h&gt;</a></div>
