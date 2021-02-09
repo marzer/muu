@@ -51,7 +51,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\muu\accumulator.h" />
-    <ClInclude Include="..\..\include\muu\aligned_alloc.h" />
     <ClInclude Include="..\..\include\muu\all.h" />
     <ClInclude Include="..\..\include\muu\bitset.h" />
     <ClInclude Include="..\..\include\muu\blob.h" />
@@ -90,6 +89,7 @@
     <ClInclude Include="..\..\include\muu\uuid.h" />
     <ClInclude Include="..\..\include\muu\vector.h" />
     <ClInclude Include="..\..\src\os_internal.h" />
+    <ClInclude Include="..\..\src\os_internal_unix.h" />
     <ClInclude Include="..\..\src\os_internal_windows.h" />
     <ClInclude Include="..\..\src\stream_printer.h" />
   </ItemGroup>
@@ -97,8 +97,8 @@
     <Natvis Include="..\muu.natvis" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\aligned_alloc.cpp" />
     <ClCompile Include="..\..\src\blob.cpp" />
+    <ClCompile Include="..\..\src\default_allocator.cpp" />
     <ClCompile Include="..\..\src\half.cpp" />
     <ClCompile Include="..\..\src\hashing.cpp" />
     <ClCompile Include="..\..\src\string_param.cpp" />

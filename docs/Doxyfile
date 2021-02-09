@@ -47,6 +47,7 @@ ALIASES =												\
     "bash=@code{.sh}"									\
     "ebash=@endcode"									\
     "detail=@details"									\
+    "conditional_return{1}=<strong><em>\1:</em></strong>" \
     "gh{1}=<a href=\"https://github.com/\1\"  target=\"_blank\">\1</a>"	\
     "gh2{2}=<a href=\"https://github.com/\1\" target=\"_blank\">\2</a>"	\
     "godbolt{1}=<a href=\"https://godbolt.org/z/\1\" target=\"_blank\">Try this code on Compiler Explorer</a>"		\

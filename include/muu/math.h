@@ -829,7 +829,7 @@ namespace muu
 				return x;
 			if (x < T{})
 			{
-				#if MUU_EXCEPTIONS
+				#if MUU_HAS_EXCEPTIONS
 					throw "consteval_sqrt() input out-of-range"; //force compilation failure
 				#else
 					return constants<T>::nan;
@@ -1433,7 +1433,7 @@ namespace muu
 			
 			if (!between(x, T{ -1 }, T{ 1 }))
 			{
-				#if MUU_EXCEPTIONS
+				#if MUU_HAS_EXCEPTIONS
 					throw "consteval_acos() input out-of-range"; //force compilation failure
 				#else
 					return constants<T>::nan;
@@ -1566,7 +1566,7 @@ namespace muu
 				return x;
 			if (!between(x, T{ -1 }, T{ 1 }))
 			{
-				#if MUU_EXCEPTIONS
+				#if MUU_HAS_EXCEPTIONS
 					throw "consteval_asin() input out-of-range"; //force compilation failure
 				#else
 					return constants<T>::nan;
@@ -1877,7 +1877,7 @@ namespace muu
 			if (x == T{} && y > T{})  return constants<T>::pi_over_two;
 			if (x == T{} && y < T{})  return -constants<T>::pi_over_two;
 
-			#if MUU_EXCEPTIONS
+			#if MUU_HAS_EXCEPTIONS
 				throw "consteval_atan2() input out-of-range"; //force compilation failure
 			#else
 				return constants<T>::nan;

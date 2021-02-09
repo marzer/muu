@@ -25,9 +25,6 @@
     <ClInclude Include="..\include\muu\semver.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\muu\aligned_alloc.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\muu\preprocessor.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -127,6 +124,9 @@
     <ClInclude Include="..\include\muu\oriented_bounding_box.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\os_internal_unix.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />
@@ -210,9 +210,6 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\aligned_alloc.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\blob.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -235,6 +232,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\src\vector_types_common.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\default_allocator.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

@@ -6,8 +6,10 @@
 #pragma once
 #include "muu/preprocessor.h"
 
-#if MUU_WINDOWS
-	#include "os_internal_windows.h"
-#elif MUU_UNIX
-	#include "os_internal_unix.h"
-#endif
+MUU_DISABLE_WARNINGS;
+
+#include <cstdlib>
+#include <unistd.h>
+#include <sys/syscall.h>
+
+MUU_ENABLE_WARNINGS;

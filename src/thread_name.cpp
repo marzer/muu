@@ -8,10 +8,6 @@
 
 MUU_DISABLE_SUGGEST_WARNINGS;
 MUU_DISABLE_SPAM_WARNINGS;
-#if MUU_MSVC
-	#undef min
-	#undef max
-#endif
 
 using namespace muu;
 

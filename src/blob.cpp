@@ -5,7 +5,6 @@
 
 #include "muu/core.h"
 #include "muu/blob.h"
-#include "muu/aligned_alloc.h"
 
 MUU_DISABLE_SPAM_WARNINGS;
 #if MUU_MSVC
@@ -25,46 +24,65 @@ namespace
 	{
 		if (!align)
 			return default_blob_alignment;
-		return bit_ceil(muu::min(align, impl::aligned_alloc_max_alignment));
+		return bit_ceil(align);
 	}
 
 	[[nodiscard]]
 	MUU_UNALIASED_ALLOC
-	static void* blob_allocate(size_t align, size_t size) noexcept
+	static void* blob_allocate(generic_allocator& alloc, size_t size, size_t align)
+		noexcept(!build::has_exceptions)
 	{
 		MUU_ASSERT(align);
 		MUU_ASSERT(has_single_bit(align));
-		MUU_ASSERT(align <= impl::aligned_alloc_max_alignment);
 
-		return size
-			? muu::aligned_alloc(align, size)
-			: nullptr;
+		if (size)
+		{
+			auto ptr = alloc.allocate(size, max(size_t{ __STDCPP_DEFAULT_NEW_ALIGNMENT__ }, align));
+			MUU_ASSERT(ptr && "allocate() failed!");
+			#if !MUU_HAS_EXCEPTIONS
+			{
+				if (!ptr)
+					std::terminate();
+			}
+			#endif
+			return ptr;
+		}
+		else
+			return nullptr;
 	}
 }
 
-blob::blob() noexcept
-	: alignment_{ default_blob_alignment }
+blob::blob(generic_allocator* alloc) noexcept
+	: allocator_{ alloc ? alloc : &impl::get_default_allocator() },
+	alignment_{ default_blob_alignment }
 {}
 
-blob::blob(size_t sz, const void* src, size_t align) noexcept
-	: alignment_{ blob_check_alignment(align) },
+blob::blob(size_t sz, const void* src, size_t align, generic_allocator* alloc)
+	: allocator_{ alloc ? alloc : &impl::get_default_allocator() },
+	alignment_{ blob_check_alignment(align) },
 	size_{ sz },
-	data_{ blob_allocate(alignment_, size_) }
+	data_{ blob_allocate(*allocator_, size_, alignment_) }
 {
 	if (data_ && src)
 		memcpy(data_, src, size_);
 }
 
-blob::blob(const blob& other, size_t align) noexcept
-	: blob{ other.size_, other.data_, align ? align : other.alignment_ }
+blob::blob(const blob& other, size_t align, generic_allocator* alloc)
+	: blob{
+		other.size_,
+		other.data_,
+		align ? align : other.alignment_,
+		alloc ? alloc : other.allocator_
+	}
 { }
 
-blob::blob(const blob& other) noexcept
-	: blob{ other.size_, other.data_, other.alignment_ }
+blob::blob(const blob& other)
+	: blob{ other.size_, other.data_, other.alignment_, other.allocator_ }
 { }
 
 blob::blob(blob&& other) noexcept
-	: alignment_{ other.alignment_ },
+	: allocator_{ other.allocator_ },
+	alignment_{ other.alignment_ },
 	size_{ other.size_ },
 	data_{ other.data_ }
 {
@@ -76,7 +94,7 @@ blob::blob(blob&& other) noexcept
 blob::~blob() noexcept
 {
 	if (data_)
-		muu::aligned_free(data_);
+		allocator_->deallocate(data_, size_, alignment_);
 }
 
 blob& blob::operator=(blob&& rhs) noexcept
@@ -84,8 +102,9 @@ blob& blob::operator=(blob&& rhs) noexcept
 	if (&rhs != this)
 	{
 		if (data_)
-			muu::aligned_free(data_);
+			allocator_->deallocate(data_, size_, alignment_);
 
+		allocator_ = rhs.allocator_;
 		data_ = rhs.data_;
 		size_ = rhs.size_;
 		alignment_ = rhs.alignment_;
@@ -97,12 +116,14 @@ blob& blob::operator=(blob&& rhs) noexcept
 	return *this;
 }
 
-blob& blob::assign(size_t sz, const void* src, size_t align) noexcept
+blob& blob::assign(size_t sz, const void* src, size_t align, generic_allocator* alloc)
 {
 	align = blob_check_alignment(align);
+	if (!alloc)
+		alloc = allocator_;
 
 	//check if this is effectively a resize with a copy or move
-	if (alignment_ == align)
+	if (align == alignment_ && alloc == allocator_)
 	{
 		size(sz); //no-op if the same as current
 		MUU_ASSERT(size_ == sz);
@@ -111,44 +132,44 @@ blob& blob::assign(size_t sz, const void* src, size_t align) noexcept
 		return *this;
 	}
 
-	//changing alignment, must deallocate and reallocate
+	//changing alignment or allocator; must deallocate and reallocate
 	if (data_)
-		muu::aligned_free(data_);
+		allocator_->deallocate(data_, size_, alignment_);
+	allocator_ = alloc;
 	alignment_ = align;
 	size_ = sz;
-	data_ = blob_allocate(alignment_, size_);
+	data_ = blob_allocate(*allocator_, size_, alignment_);
 	if (src && data_)
 		memcpy(data_, src, size_);
 	return *this;
 }
 
-blob& blob::size(size_t sz) noexcept
+blob& blob::size(size_t sz)
 {
 	if (size_ == sz)
 		return *this;
-
-	size_ = sz;
 
 	//something -> nothing
 	if (!size_)
 	{
 		MUU_ASSERT(data_);
-		muu::aligned_free(data_);
+		allocator_->deallocate(data_, size_, alignment_);
 		data_ = nullptr;
-		return *this;
 	}
 
 	//something -> something
-	if (data_)
+	else if (data_)
 	{
-		data_ = muu::aligned_realloc(data_, size_);
-		MUU_ASSERT(data_);
-
-		return *this;
+		auto new_data = blob_allocate(*allocator_, sz, alignment_);
+		memcpy(new_data, data_, min(sz, size_));
+		allocator_->deallocate(data_, size_, alignment_);
+		data_ = new_data;
 	}
 
 	//nothing -> something
-	MUU_ASSERT(!data_);
-	data_ = blob_allocate(alignment_, size_);
+	else
+		data_ = blob_allocate(*allocator_, sz, alignment_);
+
+	size_ = sz;
 	return *this;
 }

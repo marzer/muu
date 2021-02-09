@@ -282,19 +282,26 @@ namespace muu
 
 		#if MUU_HAS_INT128
 
+		#if MUU_LITTLE_ENDIAN
+
 		/// \brief	Constructs a UUID directly from a 128-bit integer.
 		/// 
 		/// \param 	val	The value to convert into a UUID.
 		MUU_NODISCARD_CTOR
-		constexpr uuid(uint128_t val) noexcept
-			#if MUU_BIG_ENDIAN
-				: bytes{ bit_cast<decltype(bytes)>(val) }
-			#else
-				: bytes{ bit_cast<decltype(bytes)>(byte_reverse(val)) }
-			#endif
+			constexpr uuid(uint128_t val) noexcept
+			: bytes{ bit_cast<decltype(bytes)>(byte_reverse(val)) }
 		{}
 
-		#endif
+		#else // ^^^ MUU_LITTLE_ENDIAN / MUU_BIG_ENDIAN vvv
+
+		MUU_NODISCARD_CTOR
+			constexpr uuid(uint128_t val) noexcept
+			: bytes{ bit_cast<decltype(bytes)>(val) }
+		{}
+
+		#endif // MUU_BIG_ENDIAN
+
+		#endif // MUU_HAS_INT128
 
 		/// \brief	Constructs a version-5 named UUID by hashing some binary data.
 		/// 

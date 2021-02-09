@@ -19,24 +19,17 @@ MUU_DISABLE_WARNINGS;
 #include <condition_variable>
 #include <thread>
 #include <optional>
-#if MUU_WINDOWS
-#include <objbase.h> // CoInitializeEx, CoUninitialize
-#endif
 MUU_ENABLE_WARNINGS;
 
 MUU_DISABLE_SPAM_WARNINGS;
 MUU_PRAGMA_MSVC(warning(disable: 26110))
-#if MUU_MSVC
-	#undef min
-	#undef max
-#endif
 
 using namespace muu;
 using namespace std::chrono_literals;
 using namespace std::string_literals;
 using namespace std::string_view_literals;
 
-#define MUU_MOVE_CHECK	MUU_ASSERT(pimpl_ != nullptr && "The thread_pool has been moved from!")
+#define MUU_MOVE_CHECK	MUU_ASSERT(storage_ != nullptr && "The thread_pool has been moved from!")
 
 namespace
 {
@@ -288,7 +281,7 @@ namespace
 			}
 
 			MUU_NODISCARD_CTOR
-			thread_pool_worker(size_t worker_index, std::string&& worker_name, span<thread_pool_queue> queues, thread_pool_monitor& monitor_) noexcept
+			thread_pool_worker(size_t worker_index, std::string&& worker_name, span<thread_pool_queue> queues, thread_pool_monitor& monitor_)
 			{
 				thread = std::thread{
 					[this, worker_index, name = std::move(worker_name), queues, monitor = &monitor_]() noexcept
@@ -302,7 +295,7 @@ namespace
 
 						set_thread_name(name);
 
-						MUU_ALIGN(impl::thread_pool_task_granularity) std::byte pop_buffer[impl::thread_pool_task_granularity];
+						alignas(impl::thread_pool_task_granularity) std::byte pop_buffer[impl::thread_pool_task_granularity];
 
 						while (!terminated())
 						{
@@ -334,6 +327,7 @@ namespace
 			MUU_DELETE_MOVE(thread_pool_worker);
 	};
 
+	[[nodiscard]]
 	static size_t calc_thread_pool_workers(size_t worker_count) noexcept
 	{
 		static constexpr auto absolute_max_workers = 1024_sz;
@@ -343,6 +337,7 @@ namespace
 		return min(worker_count ? worker_count : concurrency, effective_max_workers);
 	}
 
+	[[nodiscard]]
 	static size_t calc_thread_pool_worker_queue_size(size_t worker_count, size_t task_queue_size) noexcept
 	{
 		static constexpr size_t max_buffer_size = 256 * 1024 * 1024; // 256 MB (4M tasks on x64)
@@ -361,185 +356,311 @@ namespace
 			max_task_queue_size / worker_count
 		);
 	}
+
+	struct thread_pool_impl final
+	{
+		byte_span	queue_buffer;
+		byte_span	worker_buffer;
+		byte_span	task_buffer;
+		size_t		worker_count{};
+		size_t		worker_queue_size{};
+		std::atomic<size_t> next_queue = 0_sz;
+		mutable thread_pool_monitor monitor;
+
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		MUU_ATTR(nonnull)
+		thread_pool_queue& queue(size_t idx) noexcept
+		{
+			MUU_ASSERT(idx < worker_count);
+			return *muu::launder(reinterpret_cast<thread_pool_queue*>(queue_buffer.data() + sizeof(thread_pool_queue) * idx));
+		}
+
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		MUU_ATTR(nonnull)
+		thread_pool_worker& worker(size_t idx) noexcept
+		{
+			MUU_ASSERT(idx < worker_count);
+			return *muu::launder(reinterpret_cast<thread_pool_worker*>(worker_buffer.data() + sizeof(thread_pool_worker) * idx));
+		}
+
+		MUU_NODISCARD_CTOR
+		thread_pool_impl(string_param&& name, byte_span queue_buffer_, byte_span worker_buffer_, byte_span task_buffer_)
+			: queue_buffer{ queue_buffer_ },
+			worker_buffer{ worker_buffer_ },
+			task_buffer{ task_buffer_ }
+		{
+			MUU_ASSERT(!queue_buffer_.empty());
+			MUU_ASSERT(!worker_buffer_.empty());
+			MUU_ASSERT(!task_buffer_.empty());
+			MUU_ASSERT(queue_buffer_.size() % sizeof(thread_pool_queue) == 0_sz);
+			MUU_ASSERT(worker_buffer_.size() % sizeof(thread_pool_worker) == 0_sz);
+			MUU_ASSERT(task_buffer_.size() % impl::thread_pool_task_granularity == 0_sz);
+			MUU_ASSERT(reinterpret_cast<uintptr_t>(task_buffer_.data()) % impl::thread_pool_task_granularity == 0_sz);
+
+			worker_count = worker_buffer_.size() / sizeof(thread_pool_worker);
+			worker_queue_size = task_buffer.size() / impl::thread_pool_task_granularity / worker_count;
+			MUU_ASSERT(queue_buffer_.size() / sizeof(thread_pool_queue) == worker_count);
+
+			for (size_t i = 0; i < worker_count; i++)
+			{
+				byte_span pool{
+					task_buffer.data() + impl::thread_pool_task_granularity * worker_queue_size * i,
+					impl::thread_pool_task_granularity * worker_queue_size
+				};
+				::new (static_cast<void*>(queue_buffer.data() + sizeof(thread_pool_queue) * i)) thread_pool_queue{ pool, monitor };
+			}
+			auto unwind_queues = scope_guard{ [&]() noexcept
+			{
+				for (size_t i = worker_count; i --> 0_sz;)
+					queue(i).~thread_pool_queue();
+			}};
+
+			std::string_view worker_name = name ? std::string_view{ name } : "muu::thread_pool"sv;
+			size_t constructed_workers = {};
+			auto unwind_workers = scope_guard{ [&]() noexcept
+			{
+				for (size_t i = constructed_workers; i --> 0_sz;)
+					worker(i).~thread_pool_worker();
+			}};
+			for (size_t i = 0; i < worker_count; i++)
+			{
+				std::string n;
+				n.reserve(worker_name.length() + 5u);
+				n.append(worker_name);
+				n.append(" ["sv);
+				n.append(std::to_string(i));
+				n += ']';
+
+				::new (static_cast<void*>(worker_buffer.data() + sizeof(thread_pool_worker) * i)) thread_pool_worker{
+					i, // worker_index
+					std::move(n),
+					span<thread_pool_queue>{ &queue(0), worker_count }, // queues
+					monitor
+				};
+				constructed_workers++;
+			}
+
+			unwind_queues.dismiss();
+			unwind_workers.dismiss();
+		}
+
+		~thread_pool_impl() noexcept
+		{
+			for (size_t i = worker_count; i --> 0_sz;)
+				queue(i).terminate();
+			for (size_t i = worker_count; i-- > 0_sz;)
+			{
+				worker(i).terminate();
+				worker(i).~thread_pool_worker();
+			}
+			for (size_t i = worker_count; i-- > 0_sz;)
+				queue(i).~thread_pool_queue();
+		}
+
+		[[nodiscard]]
+		size_t lock() noexcept
+		{
+			const auto starting_queue = next_queue++;
+			const auto iterations = worker_count * thread_pool_wait_free_iterations;
+
+			const auto find_queue = [&]() noexcept
+				-> std::optional<size_t>
+			{
+				for (size_t i = 0; i < iterations; i++)
+				{
+					const auto qindex = (starting_queue + i) % worker_count;
+					auto& q = queue(qindex);
+					if (q.try_lock())
+					{
+						if (!q.full())
+							return qindex;
+						q.unlock();
+					}
+				}
+				return std::nullopt;
+			};
+
+
+			const auto find_queue_with_delay = [&](std::chrono::milliseconds delay, size_t max_attempts) noexcept
+				-> std::optional<size_t>
+			{
+				for (size_t i = 0; i < max_attempts; i++)
+				{
+					std::this_thread::sleep_for(delay);
+					auto q = find_queue();
+					if (q)
+						return q;
+				}
+				return std::nullopt;
+			};
+
+
+			auto qindex = find_queue();
+			if (!qindex)
+				qindex = find_queue_with_delay(10ms, 10);
+			if (!qindex)
+				qindex = find_queue_with_delay(50ms, 4);
+			if (!qindex)
+				qindex = find_queue_with_delay(100ms, 2);
+			if (!qindex)
+				qindex = find_queue_with_delay(250ms, constants<size_t>::highest);
+
+			MUU_ASSERT(qindex);
+			return *qindex;
+		}
+
+		[[nodiscard]]
+		MUU_ATTR(returns_nonnull)
+		MUU_ATTR(assume_aligned(muu::impl::thread_pool_task_granularity))
+		void* acquire(size_t qindex) noexcept
+		{
+			return queue(qindex).acquire();
+		}
+
+		void unlock(size_t qindex) noexcept
+		{
+			return queue(qindex).unlock();
+		}
+	
+		void wait() const noexcept
+		{
+			monitor.wait();
+		}
+	};
+
+	struct thread_pool_storage
+	{
+		generic_allocator* allocator;
+		byte_span buffer;
+		thread_pool_impl impl;
+	};
+
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	MUU_ATTR(const)
+	MUU_ATTR(nonnull)
+	static thread_pool_storage& storage_cast(void* ptr) noexcept
+	{
+		MUU_ASSUME(ptr != nullptr);
+
+		return *static_cast<thread_pool_storage*>(ptr);
+	}
 }
 
-struct thread_pool::pimpl final
+thread_pool::thread_pool(size_t worker_count, size_t task_queue_size, string_param name, generic_allocator* allocator)
 {
-	size_t	worker_count;
-	size_t	worker_queue_size;
-	blob	task_buffer;
-	emplacement_array<thread_pool_queue> queues;
-	emplacement_array<thread_pool_worker> workers;
-	std::atomic<size_t> next_queue = 0_sz;
-	mutable thread_pool_monitor monitor;
+	if (!allocator)
+		allocator = &impl::get_default_allocator();
 
-	pimpl(size_t workers_, size_t task_queue_size, string_param&& name) noexcept
-		: worker_count{ calc_thread_pool_workers(workers_) },
-		worker_queue_size{ calc_thread_pool_worker_queue_size(worker_count, task_queue_size) },
-		task_buffer{ impl::thread_pool_task_granularity * worker_count * worker_queue_size, nullptr, impl::thread_pool_task_granularity }
+	worker_count = calc_thread_pool_workers(worker_count);
+	const auto worker_queue_size = calc_thread_pool_worker_queue_size(worker_count, task_queue_size);
+	task_queue_size = worker_count * worker_queue_size;
+
+	static_assert(impl::thread_pool_task_granularity >= sizeof(impl::thread_pool_task));
+
+	const auto storage_start = 0_sz;
+	const auto queues_start = apply_alignment<impl::thread_pool_task_granularity>(storage_start + sizeof(thread_pool_storage));
+	const auto queues_end = queues_start + sizeof(thread_pool_queue) * worker_count;
+	const auto workers_start = apply_alignment<impl::thread_pool_task_granularity>(queues_end);
+	const auto workers_end = workers_start + sizeof(thread_pool_worker) * worker_count;
+	const auto tasks_start = apply_alignment<impl::thread_pool_task_granularity>(workers_end);
+	const auto tasks_end = tasks_start + impl::thread_pool_task_granularity * task_queue_size;
+	const auto total_allocation = tasks_end - storage_start;
+
+	auto buffer_ptr = allocator->allocate(
+		total_allocation,
+		max(alignof(thread_pool_storage), impl::thread_pool_task_granularity)
+	);
+	MUU_ASSERT(buffer_ptr && "allocate() failed!");
+	#if !MUU_HAS_EXCEPTIONS
 	{
-		queues = emplacement_array<thread_pool_queue>{ worker_count };
-		for (size_t i = 0; i < worker_count; i++)
-		{
-			byte_span pool{
-				task_buffer.data() + impl::thread_pool_task_granularity * worker_queue_size * i,
-				impl::thread_pool_task_granularity * worker_queue_size
-			};
-			queues.emplace_back(pool, monitor);
-		}
-
-		workers = emplacement_array<thread_pool_worker>{ worker_count };
-		std::string_view worker_name = name ? std::string_view{ name } : "muu::thread_pool"sv;
-		for (size_t i = 0; i < worker_count; i++)
-		{
-			std::string n;
-			n.reserve(worker_name.length() + 5u);
-			n.append(worker_name);
-			n.append(" ["sv);
-			n.append(std::to_string(i));
-			n += ']';
-
-			workers.emplace_back(
-				i, // worker_index
-				std::move(n),
-				span{ queues.data(), queues.size() }, // queues
-				monitor
-			);
-		}
+		if (!buffer_ptr)
+			std::terminate();
 	}
-
-	~pimpl() noexcept
+	#endif
+	auto unwind = scope_guard{ [=]()noexcept
 	{
-		for (auto& q : queues)
-			q.terminate();
-		for (auto& w : workers)
-			w.terminate();
-		workers.clear(); // each one calls join()
-	}
+		allocator->deallocate(
+			buffer_ptr,
+			total_allocation,
+			max(alignof(thread_pool_storage), impl::thread_pool_task_granularity)
+		);
+	}};
 
-	[[nodiscard]]
-	size_t lock() noexcept
-	{
-		const auto starting_queue = next_queue++;
-		const auto iterations = queues.size() * thread_pool_wait_free_iterations;
+	byte_span buffer{ static_cast<std::byte*>(buffer_ptr), total_allocation };
+	byte_span queue_buffer{buffer.data() + queues_start, queues_end  - queues_start };
+	byte_span worker_buffer{ buffer.data() + workers_start, workers_end - workers_start };
+	byte_span task_buffer{ buffer.data() + tasks_start, tasks_end - tasks_start };
 
-		const auto find_queue = [&]() noexcept
-			-> std::optional<size_t>
-		{
-			for (size_t i = 0; i < iterations; i++)
-			{
-				const auto qindex = (starting_queue + i) % queues.size();
-				auto& q = queues[qindex];
-				if (q.try_lock())
-				{
-					if (!q.full())
-						return qindex;
-					q.unlock();
-				}
-			}
-			return std::nullopt;
-		};
+	storage_ = ::new (buffer_ptr) thread_pool_storage{
+		allocator,
+		buffer,
+		thread_pool_impl{ std::move(name), queue_buffer, worker_buffer, task_buffer }
+	};
 
-
-		const auto find_queue_with_delay = [&](std::chrono::milliseconds delay, size_t max_attempts) noexcept
-			-> std::optional<size_t>
-		{
-			for (size_t i = 0; i < max_attempts; i++)
-			{
-				std::this_thread::sleep_for(delay);
-				auto q = find_queue();
-				if (q)
-					return q;
-			}
-			return std::nullopt;
-		};
-
-
-		auto qindex = find_queue();
-		if (!qindex)
-			qindex = find_queue_with_delay(10ms, 10);
-		if (!qindex)
-			qindex = find_queue_with_delay(50ms, 4);
-		if (!qindex)
-			qindex = find_queue_with_delay(100ms, 2);
-		if (!qindex)
-			qindex = find_queue_with_delay(250ms, constants<size_t>::highest);
-
-		MUU_ASSERT(qindex);
-		return *qindex;
-	}
-
-	[[nodiscard]]
-	MUU_ATTR(returns_nonnull)
-	MUU_ATTR(assume_aligned(muu::impl::thread_pool_task_granularity))
-	void* acquire(size_t qindex) noexcept
-	{
-		return queues[qindex].acquire();
-	}
-
-	void unlock(size_t qindex) noexcept
-	{
-		return queues[qindex].unlock();
-	}
-	
-	void wait() const noexcept
-	{
-		monitor.wait();
-	}
-};
-
-thread_pool::thread_pool(size_t worker_count, size_t task_queue_size, string_param name) noexcept
-	: pimpl_{ new pimpl{ worker_count, task_queue_size, std::move(name) }}
-{ }
+	unwind.dismiss();
+}
 
 thread_pool::thread_pool(thread_pool&& other) noexcept
-	: pimpl_{ other.pimpl_ }
+	: storage_{ other.storage_ }
 {
-	other.pimpl_ = nullptr;
+	other.storage_ = nullptr;
 }
 
 thread_pool& thread_pool::operator= (thread_pool&& rhs) noexcept
 {
-	pimpl_ = rhs.pimpl_;
-	rhs.pimpl_ = nullptr;
+	storage_ = std::exchange(rhs.storage_, nullptr);
 	return *this;
 }
 
 thread_pool::~thread_pool() noexcept
 {
-	delete pimpl_;
+	if (storage_)
+	{
+		auto& storage = storage_cast(storage_);
+		auto buffer = storage.buffer;
+		auto allocator = storage.allocator;
+		storage.~thread_pool_storage();
+		allocator->deallocate(
+			buffer.data(),
+			buffer.size(),
+			max(alignof(thread_pool_storage), impl::thread_pool_task_granularity)
+		);
+	}
 }
 
 size_t thread_pool::lock() noexcept
 {
 	MUU_MOVE_CHECK;
-	return pimpl_->lock();
+	return storage_cast(storage_).impl.lock();
 }
 
 void* thread_pool::acquire(size_t qindex) noexcept
 {
 	MUU_MOVE_CHECK;
-	return pimpl_->acquire(qindex);
+	return storage_cast(storage_).impl.acquire(qindex);
 }
 
 void thread_pool::unlock(size_t qindex) noexcept
 {
 	MUU_MOVE_CHECK;
-	pimpl_->unlock(qindex);
+	storage_cast(storage_).impl.unlock(qindex);
 }
 
 size_t thread_pool::workers() const noexcept
 {
-	return pimpl_ ? pimpl_->worker_count : 0_sz;
+	return storage_ ? storage_cast(storage_).impl.worker_count : 0_sz;
 }
 
 size_t thread_pool::capacity() const noexcept
 {
-	return pimpl_ ? pimpl_->worker_count * pimpl_->worker_queue_size : 0_sz;
+	return storage_ ? storage_cast(storage_).impl.worker_count * storage_cast(storage_).impl.worker_queue_size : 0_sz;
 }
 
 void thread_pool::wait() noexcept
 {
 	MUU_MOVE_CHECK;
-	pimpl_->wait();
+	storage_cast(storage_).impl.wait();
 }

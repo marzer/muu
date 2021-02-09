@@ -130,6 +130,19 @@ help me improve support for your target architecture. Thanks!
 #else
 	#define MUU_WINDOWS 0
 #endif
+
+#ifdef __unix__
+	#define MUU_UNIX 1
+#else
+	#define MUU_UNIX 0
+#endif
+
+#ifdef __linux__
+	#define MUU_LINUX 1
+#else
+	#define MUU_LINUX 0
+#endif
+
 #ifndef MUU_BUILDING
 	#define MUU_BUILDING 0
 #endif
@@ -279,7 +292,6 @@ help me improve support for your target architecture. Thanks!
 
 	#define MUU_ASSUME(cond)				__builtin_assume(cond)
 	#define MUU_UNREACHABLE					__builtin_unreachable()
-	#define MUU_ALIGN(alignment)			MUU_ATTR(aligned(alignment))
 	#if defined(_MSC_VER) // msvc compat mode
 		#ifdef __has_declspec_attribute
 			#define MUU_DECLSPEC(...)			__declspec(__VA_ARGS__)
@@ -314,7 +326,7 @@ help me improve support for your target architecture. Thanks!
 		#endif
 	#endif
 	#if !__has_feature(cxx_rtti)
-		#define MUU_RTTI 0
+		#define MUU_HAS_RTTI 0
 	#endif
 	#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
 		#define MUU_LITTLE_ENDIAN 1
@@ -379,7 +391,6 @@ help me improve support for your target architecture. Thanks!
 
 	#endif
 	#define MUU_DECLSPEC(...)				__declspec(__VA_ARGS__)
-	#define MUU_ALIGN(alignment)			__declspec(align(alignment))
 	#define MUU_ALWAYS_INLINE				__forceinline
 	#define MUU_NEVER_INLINE				__declspec(noinline)
 	#define MUU_ASSUME(cond)				__assume(cond)
@@ -389,7 +400,7 @@ help me improve support for your target architecture. Thanks!
 	#define MUU_UNALIASED_ALLOC				__declspec(restrict) __declspec(noalias)
 	#define MUU_VECTORCALL					__vectorcall
 	#ifndef _CPPRTTI
-		#define MUU_RTTI 0
+		#define MUU_HAS_RTTI 0
 	#endif
 	#define MUU_LITTLE_ENDIAN				1
 	#define MUU_BIG_ENDIAN					0
@@ -540,13 +551,12 @@ help me improve support for your target architecture. Thanks!
 	#define MUU_ENABLE_WARNINGS				MUU_PRAGMA_GCC(diagnostic pop) \
 											static_assert(true)
 
-	#define MUU_ALIGN(alignment)			MUU_ATTR(aligned(alignment))
 	#define MUU_ALWAYS_INLINE				__attribute__((__always_inline__)) inline
 	#define MUU_NEVER_INLINE				__attribute__((__noinline__))
 	#define MUU_UNREACHABLE					__builtin_unreachable()
 	#define MUU_UNALIASED_ALLOC				__attribute__((__malloc__))
 	#ifndef __GXX_RTTI
-		#define MUU_RTTI 0
+		#define MUU_HAS_RTTI 0
 	#endif
 	#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
 		#define MUU_LITTLE_ENDIAN 1
@@ -657,13 +667,13 @@ help me improve support for your target architecture. Thanks!
 #endif
 
 #if defined(__EXCEPTIONS) || defined(_CPPUNWIND) || defined(__cpp_exceptions)
-	#define MUU_EXCEPTIONS 1
+	#define MUU_HAS_EXCEPTIONS 1
 #else
-	#define MUU_EXCEPTIONS 0
+	#define MUU_HAS_EXCEPTIONS 0
 #endif
 
-#ifndef MUU_RTTI
-	#define MUU_RTTI 1
+#ifndef MUU_HAS_RTTI
+	#define MUU_HAS_RTTI 1
 #endif
 
 #if defined(MUU_LITTLE_ENDIAN) && !defined(MUU_BIG_ENDIAN)
@@ -724,9 +734,6 @@ help me improve support for your target architecture. Thanks!
 #endif
 #ifndef MUU_DECLSPEC
 	#define MUU_DECLSPEC(...)
-#endif
-#ifndef MUU_ALIGN
-	#define MUU_ALIGN(alignment)	alignas(alignment)
 #endif
 
 #ifndef MUU_ABSTRACT_INTERFACE
@@ -1197,13 +1204,19 @@ help me improve support for your target architecture. Thanks!
 /// \def MUU_WINDOWS
 /// \brief `1` when building for the Windows operating system, otherwise `0`.
 /// 
+/// \def MUU_UNIX
+/// \brief `1` when building for a GNU/Unix variant, otherwise `0`.
+/// 
+/// \def MUU_LINUX
+/// \brief `1` when building for a Linux distro, otherwise `0`.
+/// 
 /// \def MUU_INTELLISENSE
 /// \brief `1` when the code being compiled by an IDE's 'intellisense' compiler, otherwise `0`.
 /// 
-/// \def MUU_EXCEPTIONS
+/// \def MUU_HAS_EXCEPTIONS
 /// \brief `1` when support for C++ exceptions is enabled, otherwise `0`.
 /// 
-/// \def MUU_RTTI
+/// \def MUU_HAS_RTTI
 /// \brief `1` when support for C++ run-time type identification (RTTI) is enabled, otherwise `0`.
 /// 
 /// \def MUU_LITTLE_ENDIAN

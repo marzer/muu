@@ -8,7 +8,6 @@
 
 #pragma once
 #include "../muu/core.h"
-#include "../muu/aligned_alloc.h"
 
 MUU_PUSH_WARNINGS;
 MUU_DISABLE_SPAM_WARNINGS;
@@ -43,6 +42,7 @@ namespace muu
 		);
 
 		private:
+			generic_allocator* allocator_;
 			size_t count_ = {}, capacity_;
 			std::byte* storage_ = nullptr;
 
@@ -84,9 +84,12 @@ namespace muu
 			void release()
 				noexcept(std::is_nothrow_destructible_v<T>)
 			{
-				destroy_all_elements();
-				aligned_free(storage_);
-				storage_ = nullptr;
+				if (storage_)
+				{
+					destroy_all_elements();
+					allocator_->deallocate(storage_, sizeof(T) * capacity_, alignof(T));
+					storage_ = nullptr;
+				}
 			}
 
 		public:
@@ -121,21 +124,31 @@ namespace muu
 			/// \brief	Constructor.
 			///
 			/// \param	capacity	The maximum number of elements the array needs to be able to store.
+			/// \param	allocator 	The #muu::generic_allocator used for allocations. Set to `nullptr` to use the default global allocator.
 			MUU_NODISCARD_CTOR
 			explicit
-			emplacement_array(size_t capacity = 0) noexcept
-				: capacity_{ capacity },
-				storage_{
-					capacity_
-					? reinterpret_cast<std::byte*>(aligned_alloc(max(alignof(T), size_t{ __STDCPP_DEFAULT_NEW_ALIGNMENT__ }), sizeof(T) * capacity_))
-					: nullptr
+			emplacement_array(size_t capacity = 0, generic_allocator* allocator = nullptr)
+				: allocator_{ allocator ? allocator : &impl::get_default_allocator() },
+				capacity_{ capacity }
+			{
+				if (capacity_)
+				{
+					storage_ = static_cast<std::byte*>(allocator_->allocate(sizeof(T) * capacity_, alignof(T)));
+					MUU_ASSERT(storage_ && "allocate() failed!");
+					#if !MUU_HAS_EXCEPTIONS
+					{
+						if (!storage_)
+							std::terminate();
+					}
+					#endif
 				}
-			{}
+			}
 
 			/// \brief	Move constructor.
 			MUU_NODISCARD_CTOR
 			emplacement_array(emplacement_array&& other) noexcept
-				: count_{ other.count_ },
+				: allocator_{ other.allocator_ },
+				count_{ other.count_ },
 				capacity_{ other.capacity_ },
 				storage_{ other.storage_ }
 			{
@@ -148,6 +161,7 @@ namespace muu
 			emplacement_array& operator= (emplacement_array&& rhs) noexcept
 			{
 				release();
+				allocator_ = rhs.allocator_;
 				count_ = rhs.count_;
 				capacity_ = rhs.capacity_;
 				storage_ = rhs.storage_;

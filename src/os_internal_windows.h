@@ -7,6 +7,7 @@
 #include "muu/preprocessor.h"
 
 MUU_DISABLE_WARNINGS;
+
 #define WIN32_LEAN_AND_MEAN
 #define VC_EXTRALEAN
 #define OEMRESOURCE
@@ -50,7 +51,10 @@ MUU_DISABLE_WARNINGS;
 #define NOWINMESSAGES //     - WM_*, EM_*, LB_*, CB_*
 #define NOWINOFFSETS //      - GWL_*, GCL_*, associated routines
 #define NOWINSTYLES //       - WS_*, CS_*, ES_*, LBS_*, SBS_*, CBS_*
+
 #include <Windows.h>
+#include <objbase.h> // CoInitializeEx, CoUninitialize
+
 MUU_ENABLE_WARNINGS;
 
 // these mappings assembled from:

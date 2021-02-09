@@ -175,7 +175,6 @@ def main():
 	</PropertyGroup>
 	<ItemGroup>
 		<ClCompile Include="..\..\tests\accumulator.cpp" />
-		<ClCompile Include="..\..\tests\aligned_alloc.cpp" />
 		<ClCompile Include="..\..\tests\blob.cpp" />
 		<ClCompile Include="..\..\tests\bounding_box_char.cpp" />
 		<ClCompile Include="..\..\tests\bounding_box_double.cpp" />
@@ -281,7 +280,6 @@ def main():
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\tests\accumulator.cpp" />
-    <ClCompile Include="..\..\tests\aligned_alloc.cpp" />
     <ClCompile Include="..\..\tests\blob.cpp" />
     <ClCompile Include="..\..\tests\compressed_pair.cpp" />
     <ClCompile Include="..\..\tests\core_bit.cpp" />

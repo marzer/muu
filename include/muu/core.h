@@ -49,6 +49,9 @@ MUU_DISABLE_WARNINGS;
 #if MUU_HAS_VECTORCALL
 	#include <intrin.h>
 #endif
+#if !MUU_HAS_EXCEPTIONS
+	#include <exception> // std::terminate()
+#endif
 MUU_ENABLE_WARNINGS;
 
 //======================================================================================================================
@@ -1984,10 +1987,10 @@ namespace muu
 		inline constexpr size_t pointer_size = sizeof(void*);
 
 		/// \brief True if exceptions are enabled.
-		inline constexpr bool has_exceptions = !!MUU_EXCEPTIONS;
+		inline constexpr bool has_exceptions = !!MUU_HAS_EXCEPTIONS;
 
 		/// \brief True if run-time type identification (RTTI) is enabled.
-		inline constexpr bool has_rtti = !!MUU_RTTI;
+		inline constexpr bool has_rtti = !!MUU_HAS_RTTI;
 
 		/// \brief True if the target environment is little-endian.
 		inline constexpr bool is_little_endian = !!MUU_LITTLE_ENDIAN;
@@ -2070,8 +2073,9 @@ namespace muu
 	/// \tparam	T		An enum type.
 	/// \param 	val		The value to unwrap.
 	///
-	/// \returns	<strong><em>Enum inputs:</em></strong> `static_cast<std::underlying_type_t<T>>(val)` <br>
-	/// 			<strong><em>Everything else:</em></strong> A straight pass-through of the input (a no-op).
+	/// \returns	\conditional_return{Enum inputs} `static_cast<std::underlying_type_t<T>>(val)`
+	/// 			 <br>
+	/// 			\conditional_return{Everything else} A straight pass-through of the input (a no-op).
 	MUU_CONSTRAINED_TEMPLATE(is_enum<T>, typename T)
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
@@ -3782,11 +3786,190 @@ namespace muu
 		impl::for_sequence_impl(std::make_integer_sequence<decltype(N), N>{}, static_cast<Func&&>(func));
 	}
 
+	#if 1 // apply_alignment -------------------------------------------------------------------------------------------
+	/// \addtogroup		apply_alignment	apply_alignment()
+	/// \brief			Rounds pointers or unsigned integers up to an alignment.
+	/// @{
+
+	/// \brief	Rounds an unsigned value up to the next multiple of the given alignment.
+	///
+	/// \tparam 	Alignment	The alignment to round up to. Must be a power of two.
+	/// \tparam	T	An unsigned integer or enum type.
+	/// \param 	val	The unsigned value being aligned.
+	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, size_t Alignment, typename T)
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr T apply_alignment(T val) noexcept
+	{
+		if constexpr (is_enum<T>)
+		{
+			return static_cast<T>(apply_alignment(unwrap(val)));
+		}
+		else
+		{
+			static_assert(has_single_bit(Alignment), "alignment must be a power of two");
+			MUU_ASSUME((Alignment & (Alignment - 1_sz)) == 0_sz);
+
+			using uint = impl::highest_ranked<T, size_t>;
+			return static_cast<T>((val + Alignment - uint{ 1 }) & ~(Alignment - uint{ 1 }));
+		}
+	}
+
+	/// \brief	Rounds a pointer up to the byte offset that is the next multiple of the given alignment.
+	///
+	/// \tparam 		Alignment	The alignment to round up to. Must be a power of two.
+	/// \tparam	T		An object type (or void).
+	/// \param 	ptr		The pointer being aligned.
+	template <size_t Alignment, typename T>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	MUU_ATTR(nonnull)
+	MUU_ATTR(returns_nonnull)
+	MUU_ATTR(assume_aligned(Alignment))
+	constexpr T* apply_alignment(T* ptr) noexcept
+	{
+		static_assert(!std::is_function_v<T>, "apply_alignment() may not be used on pointers to functions.");
+		static_assert(has_single_bit(Alignment), "alignment must be a power of two");
+		static_assert(Alignment >= alignment_of<std::remove_pointer_t<T>>, "cannot under-align types.");
+
+		return assume_aligned<Alignment>(
+			reinterpret_cast<T*>(apply_alignment<Alignment>(reinterpret_cast<uintptr_t>(ptr)))
+		);
+	}
+
+	/// \brief	Rounds an unsigned value up to the next multiple of the given alignment.
+	///
+	/// \tparam	T			An unsigned integer or enum type.
+	/// \param 	val			The unsigned value being aligned.
+	/// \param 	alignment	The alignment to round up to. Must be a power of two.
+	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
+	[[nodiscard]]
+	MUU_ATTR_NDEBUG(const)
+	constexpr T apply_alignment(T val, size_t alignment) noexcept
+	{
+		if constexpr (is_enum<T>)
+		{
+			return static_cast<T>(apply_alignment(unwrap(val), alignment));
+		}
+		else
+		{
+			MUU_CONSTEXPR_SAFE_ASSERT(has_single_bit(alignment) && "alignment must be a power of two");
+			MUU_ASSUME((alignment & (alignment - 1_sz)) == 0_sz);
+
+			using uint = impl::highest_ranked<T, size_t>;
+			return static_cast<T>((val + alignment - uint{ 1 }) & ~(alignment - uint{ 1 }));
+		}
+	}
+
+	/// \brief	Rounds a pointer up to the byte offset that is the next multiple of the given alignment.
+	///
+	/// \tparam	T			An object type (or void).
+	/// \param 	ptr			The pointer being aligned.
+	/// \param 	alignment	The alignment to round up to. Must be a power of two.
+	template <typename T>
+	MUU_ATTR_NDEBUG(const)
+	MUU_ATTR(nonnull)
+	MUU_ATTR(returns_nonnull)
+	constexpr T* apply_alignment(T* ptr, size_t alignment) noexcept
+	{
+		static_assert(!std::is_function_v<T>, "apply_alignment() may not be used on pointers to functions.");
+		MUU_CONSTEXPR_SAFE_ASSERT(has_single_bit(alignment) && "alignment must be a power of two");
+		MUU_CONSTEXPR_SAFE_ASSERT(alignment >= alignment_of<std::remove_pointer_t<T>> && "cannot under-align types.");
+
+		return reinterpret_cast<T*>(apply_alignment(reinterpret_cast<uintptr_t>(ptr), alignment));
+	}
+
+	/** @} */	// apply_alignment
+	#endif // apply_alignment
+
 	/** @} */	// core
 }
 
 #endif //===============================================================================================================
 
+//======================================================================================================================
+// INTERFACES
+#if 1
+
+#if MUU_HAS_EXCEPTIONS
+	#define MUU_GENERIC_ALLOCATOR_ATTRS	[[nodiscard]] MUU_UNALIASED_ALLOC MUU_ATTR(returns_nonnull)
+#else
+	#define MUU_GENERIC_ALLOCATOR_ATTRS	[[nodiscard]]
+#endif
+
+namespace muu
+{
+	/// \brief An interface for encapsulating generic allocators.
+	/// \ingroup mem
+	struct MUU_ABSTRACT_INTERFACE generic_allocator
+	{
+		/// \brief The default alignment used if alignment is unspecified when requesting allocations.
+		static constexpr size_t default_alignment = size_t{ __STDCPP_DEFAULT_NEW_ALIGNMENT__ };
+
+		/// \brief	Requests a memory allocation.
+		///
+		/// \param 	size	 	The size of the requested allocation.
+		/// \param 	alignment	The required alignment. Must be a power of two.
+		///
+		/// \returns	\conditional_return{When exceptions are enabled} A pointer to the new allocation, or throws std::bad_alloc.
+		/// 			<br>
+		/// 			\conditional_return{When exceptions are disabled} A pointer to the new allocation, or `nullptr`.
+		MUU_GENERIC_ALLOCATOR_ATTRS
+		virtual void* allocate(size_t size, size_t alignment) = 0;
+
+		/// \brief	Deallocates a memory allocation previously acquired by #allocate().
+		/// 
+		/// \param 	ptr	 		The pointer returned by #allocate().
+		/// \param 	size	 	The size of the requested allocation passed to #allocate().
+		/// \param 	alignment	The required alignment passed to #allocate().
+		MUU_ATTR(nonnull)
+		virtual void deallocate(void* ptr, size_t size, size_t alignment = default_alignment) noexcept = 0;
+
+		virtual ~generic_allocator() noexcept = default;
+
+		/// \brief	Requests a memory allocation.
+		/// \details Allocations returned by this overload will have an alignment of #default_alignment.
+		/// 
+		/// \param 	size	 	The size of the requested allocation.
+		///
+		/// \returns	\conditional_return{When exceptions are enabled} A pointer to the new allocation, or throws std::bad_alloc.
+		/// 			<br>
+		/// 			\conditional_return{When exceptions are disabled} A pointer to the new allocation, or `nullptr`.
+		MUU_GENERIC_ALLOCATOR_ATTRS
+		MUU_ATTR(assume_aligned(default_alignment))
+		void* allocate(size_t size)
+		{
+			return this->allocate(size, default_alignment);
+		}
+
+		/// \brief	Requests a memory allocation.
+		///
+		/// \tparam 	Alignment	The required alignment. Must be a power of two.
+		/// \param 		size	 	The size of the requested allocation.
+		///
+		/// \returns	\conditional_return{When exceptions are enabled} A pointer to the new allocation, or throws std::bad_alloc.
+		/// 			<br>
+		/// 			\conditional_return{When exceptions are disabled} A pointer to the new allocation, or `nullptr`.
+		template <size_t Alignment>
+		MUU_GENERIC_ALLOCATOR_ATTRS
+		MUU_ATTR(assume_aligned(Alignment))
+		void* allocate(size_t size)
+		{
+			static_assert(has_single_bit(Alignment), "alignments must be a power-of-two.");
+			return assume_aligned<Alignment>(this->allocate(size, Alignment));
+		}
+	};
+
+	namespace impl
+	{
+		MUU_API
+		generic_allocator& get_default_allocator() noexcept;
+	}
+}
+
+#endif //===============================================================================================================
+
+#undef MUU_GENERIC_ALLOCATOR_ATTRS
 #undef MUU_HAS_INTRINSIC_BIT_CAST
 #undef MUU_HAS_INTRINSIC_POPCOUNT
 #undef MUU_HAS_INTRINSIC_BYTE_REVERSE

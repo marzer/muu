@@ -5,7 +5,6 @@ test_sources = [
 test_set = get_option('test_set')
 if test_set == 0 or test_set == 1
 	test_sources += 'accumulator.cpp'
-	test_sources += 'aligned_alloc.cpp'
 	test_sources += 'blob.cpp'
 	test_sources += 'bounding_box_char.cpp'
 	test_sources += 'bounding_box_double.cpp'

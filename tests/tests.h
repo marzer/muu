@@ -25,8 +25,8 @@
 #if MUU_HAS_INT128 != SHOULD_HAVE_INT128
 	#error MUU_HAS_INT128 was not deduced correctly
 #endif
-#if MUU_EXCEPTIONS != SHOULD_HAVE_EXCEPTIONS
-	#error MUU_EXCEPTIONS was not deduced correctly
+#if MUU_HAS_EXCEPTIONS != SHOULD_HAVE_EXCEPTIONS
+	#error MUU_HAS_EXCEPTIONS was not deduced correctly
 #endif
 
 MUU_PRAGMA_CLANG(diagnostic ignored "-Wc++2a-compat")

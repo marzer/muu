@@ -16,43 +16,50 @@ namespace muu
 	/// \brief Interface for managing chunks of memory.
 	/// \ingroup mem
 	/// 
-	/// \details A blob is effectively an RAII wrapper around muu::aligned_alloc, muu::aligned_realloc and muu::aligned_free,
-	/// 		intended to be used anywhere you might previously have used something like std::vector<std::byte>.
+	/// \details A blob is an RAII wrapper around a memory allocation intended to be used anywhere
+	/// 		 you might previously have used something like std::vector<std::byte> or std::unique_ptr<std::byte[]>.
 	/// 		
 	class blob
 	{
 		private:
+			generic_allocator* allocator_;
 			size_t alignment_, size_ = 0;
 			void* data_ = nullptr;
 
 		public:
 
 			/// \brief Creates an empty blob.
+			/// 
+			/// \param	allocator 	The #muu::generic_allocator used for allocations. Leave as `nullptr` to use the default global allocator.
 			MUU_NODISCARD_CTOR
 			MUU_API
-			blob() noexcept;
+			explicit
+			blob(generic_allocator* allocator = nullptr) noexcept;
 
 			/// \brief Creates a blob of a fixed size and alignment.
 			/// 
-			/// \param	size	The size of the blob's data, in bytes.
-			/// \param	src	 	The source data to copy, if any.
-			/// \param	align	The alignment of the blob's data. Set to `0` to use `__STDCPP_DEFAULT_NEW_ALIGNMENT__`.
+			/// \param	size		The size of the blob's data, in bytes.
+			/// \param	src	 		The source data to copy, if any.
+			/// \param	align		The alignment of the blob's data. Leave as `0` to use `__STDCPP_DEFAULT_NEW_ALIGNMENT__`.
+			/// \param	allocator 	The #muu::generic_allocator used for allocations. Leave as `nullptr` to use the default global allocator.
 			MUU_NODISCARD_CTOR
 			MUU_API
-			blob(size_t size, const void* src = nullptr, size_t align = {}) noexcept;
+			explicit
+			blob(size_t size, const void* src = nullptr, size_t align = {}, generic_allocator* allocator = nullptr);
 
 			/// \brief Copy constructor.
 			MUU_NODISCARD_CTOR
 			MUU_API
-			blob(const blob& other) noexcept;
+			blob(const blob& other);
 
 			/// \brief Copy constructor.
 			/// 
 			/// \param	other		The blob to copy.
-			/// \param	align		The alignment of the blob's data. Set to `0` to copy the source alignment.
+			/// \param	align		The alignment of the blob's data. Leave as `0` to copy the source alignment.
+			/// \param	allocator 	The #muu::generic_allocator used for allocations. Leave as `nullptr` to copy the source allocator.
 			MUU_NODISCARD_CTOR
 			MUU_API
-			blob(const blob& other, size_t align) noexcept;
+			blob(const blob& other, size_t align, generic_allocator* allocator = nullptr);
 
 			/// \brief Move constructor.
 			MUU_NODISCARD_CTOR
@@ -65,13 +72,14 @@ namespace muu
 
 			/// Replaces the contents of the blob with the given data.
 			/// 
-			/// \param	src	 	The data to copy.
-			/// \param	size 	The size of the data.
-			/// \param	align	The alignment to use. Set to `0` to use `__STDCPP_DEFAULT_NEW_ALIGNMENT__`.
+			/// \param	src	 		The data to copy.
+			/// \param	size 		The size of the data.
+			/// \param	align		The alignment to use. Leave as `0` to use `__STDCPP_DEFAULT_NEW_ALIGNMENT__`.
+			/// \param	allocator 	The #muu::generic_allocator used for allocations. Leave as `nullptr` to keep using the current allocator.
 			/// 
 			/// \return	A reference to the input blob.
 			MUU_API
-			blob& assign(size_t size, const void* src, size_t align = {}) noexcept;
+			blob& assign(size_t size, const void* src, size_t align = {}, generic_allocator* allocator = nullptr);
 
 			/// \brief Replaces the contents of the blob by copying from another.
 			/// 
@@ -104,7 +112,7 @@ namespace muu
 			/// 
 			/// \return	A reference to the blob.
 			MUU_API
-			blob& size(size_t size) noexcept;
+			blob& size(size_t size);
 
 			/// \brief Returns the alignment of the blob's data, in bytes.
 			[[nodiscard]]

@@ -13,9 +13,10 @@
 #define MUU_ABI_VERSION_END					static_assert(true)
 #define MUU_ABI_VERSION_START(version)		static_assert(true)
 #define MUU_ABSTRACT_INTERFACE
-#define MUU_ALIGN(...)
 #define MUU_ALWAYS_INLINE
 #define MUU_API
+#define MUU_ASSERT(...)						static_assert(true)
+#define MUU_ASSUME(...)						static_assert(true)
 #define MUU_ATTR(...)
 #define MUU_ATTR_CLANG(...)
 #define MUU_ATTR_CLANG_GE(...)
@@ -46,11 +47,14 @@
 #define MUU_ENABLE_IF_2(...)
 #define MUU_ENABLE_WARNINGS					static_assert(true)
 #define MUU_FMA_BLOCK						static_assert(true)
+#define MUU_GENERIC_ALLOCATOR_ATTRS
 #define MUU_HALF_EMULATED					1
+#define MUU_HAS_EXCEPTIONS					1
 #define MUU_HAS_FLOAT128					0
 #define MUU_HAS_FLOAT16						0
 #define MUU_HAS_FP16						0
 #define MUU_HAS_INT128						0
+#define MUU_HAS_RTTI						1
 #define MUU_HIDDEN(...)
 #define MUU_HIDDEN_PARAM(...)
 #define MUU_LEGACY_REQUIRES(...)

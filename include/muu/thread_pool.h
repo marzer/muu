@@ -18,7 +18,7 @@ MUU_DISABLE_WARNINGS;
 #include <memory>
 MUU_ENABLE_WARNINGS;
 
-#define MUU_MOVE_CHECK	MUU_ASSERT(pimpl_ != nullptr && "The thread_pool has been moved from!")
+#define MUU_MOVE_CHECK	MUU_ASSERT(storage_ != nullptr && "The thread_pool has been moved from!")
 #if MUU_ARCH_AMD64
 	#define	MUU_COMPRESSED_THREAD_POOL_TASK 1
 #else
@@ -117,8 +117,7 @@ namespace muu::impl
 	struct
 	MUU_TRIVIAL_ABI
 	MUU_ATTR(packed)
-	MUU_ALIGN(thread_pool_task_granularity)
-	thread_pool_task final
+	thread_pool_task
 	{
 		using action_invoker_func = void(thread_pool_task_action&&)noexcept;
 
@@ -139,7 +138,6 @@ namespace muu::impl
 			destroyed = 2
 		};
 
-		MUU_ALIGN(thread_pool_task_granularity)
 		callable_buffer_type callable_buffer;
 
 		action_invoker_type action_invoker;
@@ -367,7 +365,7 @@ namespace muu::impl
 	MUU_PRAGMA_MSVC(pack(pop))
 
 	static_assert(sizeof(thread_pool_task) <= thread_pool_task_granularity);
-	static_assert(alignof(thread_pool_task) == thread_pool_task_granularity);
+	static_assert(alignof(thread_pool_task) <= thread_pool_task_granularity);
 	static_assert(MUU_OFFSETOF(thread_pool_task, callable_buffer) == 0);
 	static_assert(std::is_standard_layout_v<thread_pool_task>);
 
@@ -415,8 +413,7 @@ namespace muu
 	class thread_pool
 	{
 		private:
-			struct pimpl;
-			pimpl* pimpl_ = nullptr;
+			void* storage_ = nullptr;
 
 			[[nodiscard]]
 			MUU_API
@@ -473,19 +470,21 @@ namespace muu
 			///
 			/// \param	worker_count		The number of worker threads in the pool. Use `0` for 'automatic'.
 			/// \param	task_queue_size		Max tasks that can be stored in the internal queue without blocking. Use `0` for 'automatic'.
-			/// \param	name 	The name of your threadpool (for debugging purposes).
+			/// \param	name 				The name of your threadpool (for debugging purposes).
+			/// \param	allocator 			The #muu::generic_allocator used for allocations. Set to `nullptr` to use the default global allocator.
 			MUU_NODISCARD_CTOR
 			MUU_API
 			explicit
-			thread_pool(size_t worker_count = 0, size_t task_queue_size = 0, string_param name = {}) noexcept;
+			thread_pool(size_t worker_count = 0, size_t task_queue_size = 0, string_param name = {}, generic_allocator* allocator = nullptr);
 
 			/// \brief	Constructs a thread_pool.
 			///
-			/// \param	name 	The name of your thread pool (for debugging purposes).
+			/// \param	name 		The name of your thread pool (for debugging purposes).
+			/// \param	allocator 	The #muu::generic_allocator used for allocations. Set to `nullptr` to use the default global allocator.
 			MUU_NODISCARD_CTOR
 			explicit
-			thread_pool(string_param name) noexcept
-				: thread_pool{ 0, 0, std::move(name) }
+			thread_pool(string_param name, generic_allocator* allocator = nullptr)
+				: thread_pool{ 0, 0, std::move(name), allocator }
 			{}
 
 			/// \brief	Move constructor.

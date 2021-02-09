@@ -81,38 +81,44 @@ TEST_CASE("thread_pool - enqueue")
 {
 	thread_pool pool{ min(std::thread::hardware_concurrency(), 16u) };
 
-	//tasks with no state at all
 	{
-		test_value = {};
+		INFO("tasks with no state at all")
+		{
+			INFO("# 1")
+			test_value = {};
 
-		pool.enqueue([]() noexcept { test_value++; });
-		pool.wait();
+			pool.enqueue([]() noexcept { test_value++; });
+			pool.wait();
 
-		CHECK(test_value == 1);
+			CHECK(test_value == 1);
+		}
+		{
+			INFO("# 2")
+			test_value = {};
+			test_worker_index = 0xFFFFFFFFu;
+
+			pool.enqueue([](auto workerIndex) noexcept { test_value++; test_worker_index = workerIndex; });
+			pool.wait();
+
+			CHECK(test_value == 1);
+			CHECK(test_worker_index < pool.workers());
+		}
+		{
+			INFO("# 3")
+			test_value = {};
+			test_worker_index = 0xFFFFFFFFu;
+
+			pool.enqueue(test_func);
+			pool.wait();
+
+			CHECK(test_value == 1);
+			CHECK(test_worker_index < pool.workers());
+		}
 	}
+
 	{
-		test_value = {};
-		test_worker_index = 0xFFFFFFFFu;
+		INFO("a task with state but still small enough to not require the heap")
 
-		pool.enqueue([](auto workerIndex) noexcept { test_value++; test_worker_index = workerIndex; });
-		pool.wait();
-
-		CHECK(test_value == 1);
-		CHECK(test_worker_index < pool.workers());
-	}
-	{
-		test_value = {};
-		test_worker_index = 0xFFFFFFFFu;
-
-		pool.enqueue(test_func);
-		pool.wait();
-
-		CHECK(test_value == 1);
-		CHECK(test_worker_index < pool.workers());
-	}
-
-	//a task with state but still small enough to not require the heap
-	{
 		std::atomic_int i = 0;
 		auto task = [&]() noexcept { i++; };
 		static_assert(sizeof(task) < heap_free_threshold);
@@ -123,8 +129,9 @@ TEST_CASE("thread_pool - enqueue")
 		CHECK(i == 1);
 	}
 
-	//a task with state large enough to require the heap
 	{
+		INFO("a task with state large enough to require the heap")
+
 		std::atomic_int i = 0;
 		struct Kek
 		{
@@ -142,8 +149,9 @@ TEST_CASE("thread_pool - enqueue")
 		CHECK(i == 69);
 	}
 
-	//a small task that has alignment requirements high enough to require the heap
 	{
+		INFO("a small task that has alignment requirements high enough to require the heap")
+
 		std::atomic_int i = 0;
 		struct Kek
 		{
@@ -159,8 +167,9 @@ TEST_CASE("thread_pool - enqueue")
 		CHECK(i == 42);
 	}
 
-	//a bunch of tasks all at once
 	{
+		INFO("a bunch of tasks all at once")
+
 		std::atomic_int i = 0;
 		for (int j = 0; j < 200; j++)
 		{
@@ -182,49 +191,57 @@ TEST_CASE("thread_pool - for_range")
 	std::array<int, 1000> values;
 	std::vector<int> thread_values(pool.workers(), 0);
 
-	//[A, B)
-	memset(&values, 0, sizeof(values));
-	pool.for_range(0_sz, values.size(), [&](auto i) noexcept { values[i]++; });
-	pool.wait();
-	for (auto& v : values)
-		CHECK(v == 1);
-	memset(&values, 0, sizeof(values));
-	pool.for_range(0_sz, values.size(), [&](auto i, auto workerIndex) noexcept
 	{
-		values[i]++;
-		thread_values[workerIndex]++;
-	});
-	pool.wait();
-	for (auto& v : values)
-		CHECK(v == 1);
+		INFO("[A, B)")
+			memset(&values, 0, sizeof(values));
+		pool.for_range(0_sz, values.size(), [&](auto i) noexcept { values[i]++; });
+		pool.wait();
+		for (auto& v : values)
+			CHECK(v == 1);
+		memset(&values, 0, sizeof(values));
+		pool.for_range(0_sz, values.size(), [&](auto i, auto workerIndex) noexcept
+			{
+				values[i]++;
+				thread_values[workerIndex]++;
+			});
+		pool.wait();
+		for (auto& v : values)
+			CHECK(v == 1);
+	}
 
-	//[A, B)
-	pool.for_range(10u, 100u, [&](auto i) noexcept { values[i]--; });
-	pool.wait();
-	for (size_t i = 0; i < 10; i++)
-		CHECK(values[i] == 1);
-	for (size_t i = 10; i < 100; i++)
-		CHECK(values[i] == 0);
-	for (size_t i = 100; i < values.size(); i++)
-		CHECK(values[i] == 1);
+	{
+		INFO("[A, B)")
+			pool.for_range(10u, 100u, [&](auto i) noexcept { values[i]--; });
+		pool.wait();
+		for (size_t i = 0; i < 10; i++)
+			CHECK(values[i] == 1);
+		for (size_t i = 10; i < 100; i++)
+			CHECK(values[i] == 0);
+		for (size_t i = 100; i < values.size(); i++)
+			CHECK(values[i] == 1);
+	}
 
-	//[A, B) where A > B
-	memset(&values, 0, sizeof(values));
-	pool.for_range(500u, 300u, [&](auto i) noexcept { values[i] = 69; });
-	pool.wait();
-	for (size_t i = 0; i <= 300; i++)
-		CHECK(values[i] == 0);
-	for (size_t i = 301; i <= 500; i++)
-		CHECK(values[i] == 69);
-	for (size_t i = 501; i < values.size(); i++)
-		CHECK(values[i] == 0);
+	{
+		INFO("[A, B) where A > B")
+			memset(&values, 0, sizeof(values));
+		pool.for_range(500u, 300u, [&](auto i) noexcept { values[i] = 69; });
+		pool.wait();
+		for (size_t i = 0; i <= 300; i++)
+			CHECK(values[i] == 0);
+		for (size_t i = 301; i <= 500; i++)
+			CHECK(values[i] == 69);
+		for (size_t i = 501; i < values.size(); i++)
+			CHECK(values[i] == 0);
+	}
 
-	//[A, A)
-	memset(&values, 0, sizeof(values));
-	pool.for_range(100u, 100u, [&](auto i) noexcept { values[i] = 100; });
-	pool.wait();
-	for (auto& v : values)
-		CHECK(v == 0);
+	{
+		INFO("[A, A)")
+			memset(&values, 0, sizeof(values));
+		pool.for_range(100u, 100u, [&](auto i) noexcept { values[i] = 100; });
+		pool.wait();
+		for (auto& v : values)
+			CHECK(v == 0);
+	}
 }
 
 TEST_CASE("thread_pool - for_each")
@@ -234,36 +251,46 @@ TEST_CASE("thread_pool - for_each")
 	std::array<int, 1000> values;
 	std::vector<int> thread_values(pool.workers(), 0);
 
-	// collection
-	memset(&values, 0, sizeof(values));
-	pool.for_each(values, [&](auto& v) noexcept { v++; });
-	pool.wait();
-	for (auto& v : values)
-		CHECK(v == 1);
-
-	// [begin, end)
-	memset(&values, 0, sizeof(values));
-	pool.for_each(values.begin(), values.end(), [&](auto& v) noexcept { v++; });
-	pool.wait();
-	for (auto& v : values)
-		CHECK(v == 1);
-
-	// [end, begin) (should be no-op)
-	memset(&values, 0, sizeof(values));
-	pool.for_each(values.end(), values.begin(), [&](auto& v) noexcept { v++; });
-	pool.wait();
-	for (auto& v : values)
-		CHECK(v == 0);
-
-	// collection with thread_index reader
-	memset(&values, 0, sizeof(values));
-	pool.for_each(values, [&](auto& v, auto workerIndex) noexcept
 	{
-		v++;
-		thread_values[workerIndex]++;
-	});
-	pool.wait();
-	for (auto& v : values)
-		CHECK(v == 1);
+		INFO("collection")
+		memset(&values, 0, sizeof(values));
+		pool.for_each(values, [&](auto& v) noexcept { v++; });
+		pool.wait();
+		for (auto& v : values)
+			CHECK(v == 1);
+	}
+
+	{
+		INFO("collection with thread_index reader")
+
+		memset(&values, 0, sizeof(values));
+		pool.for_each(values, [&](auto& v, auto workerIndex) noexcept
+			{
+				v++;
+				thread_values[workerIndex]++;
+			});
+		pool.wait();
+		for (auto& v : values)
+			CHECK(v == 1);
+	}
+
+	{
+		INFO("[begin, end)")
+		memset(&values, 0, sizeof(values));
+		pool.for_each(values.begin(), values.end(), [&](auto& v) noexcept { v++; });
+		pool.wait();
+		for (auto& v : values)
+			CHECK(v == 1);
+	}
+
+	{
+		INFO("[end, begin)")
+		memset(&values, 0, sizeof(values));
+		pool.for_each(values.end(), values.begin(), [&](auto& v) noexcept { v++; });
+		pool.wait();
+		for (auto& v : values)
+			CHECK(v == 0);
+	}
+
 }
 
