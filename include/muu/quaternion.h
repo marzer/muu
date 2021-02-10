@@ -447,7 +447,7 @@ namespace muu
 
 		/// \brief Gets a reference to the value at a specific index.
 		/// 
-		/// \tparam Index  The index of the value to retrieve, where r == 0, i == 1.
+		/// \tparam Index  The index of the value to retrieve, where s == 0, v == 1.
 		///
 		/// \return  A reference to the selected value.
 		template <size_t Index>
@@ -462,7 +462,7 @@ namespace muu
 
 		/// \brief Gets a reference to the value at a specific index.
 		/// 
-		/// \tparam Index  The index of the value to retrieve, where r == 0, i == 1.
+		/// \tparam Index  The index of the value to retrieve, where s == 0, v == 1.
 		///
 		/// \return  A reference to the selected value.
 		template <size_t Index>
@@ -473,6 +473,26 @@ namespace muu
 		constexpr auto& get() noexcept
 		{
 			return do_get<Index>(*this);
+		}
+
+		/// \brief Returns a pointer to the first scalar component in the quaternion.
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(pure)
+		MUU_ATTR(flatten)
+		constexpr const scalar_type* data() const noexcept
+		{
+			return &do_get<0>(*this);
+		}
+
+		/// \brief Returns a pointer to the first scalar component in the quaternion.
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(pure)
+		MUU_ATTR(flatten)
+		constexpr scalar_type* data() noexcept
+		{
+			return &do_get<0>(*this);
 		}
 
 	#endif // value accessors

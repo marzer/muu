@@ -709,6 +709,26 @@ namespace muu
 			return do_lookup_operator(*this, r, c);
 		}
 
+		/// \brief Returns a pointer to the first scalar component in the matrix.
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(pure)
+		MUU_ATTR(flatten)
+		constexpr const scalar_type* data() const noexcept
+		{
+			return &do_get<0, 0>(*this);
+		}
+
+		/// \brief Returns a pointer to the first scalar component in the matrix.
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(pure)
+		MUU_ATTR(flatten)
+		constexpr scalar_type* data() noexcept
+		{
+			return &do_get<0, 0>(*this);
+		}
+
 	#endif // scalar component accessors
 
 	#if 1 // equality -------------------------------------------------------------------------------------------------
