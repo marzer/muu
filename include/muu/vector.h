@@ -2983,6 +2983,58 @@ namespace muu
 				return *this;
 		}
 
+		/// \brief	Returns a vector with all scalar components set to the lowest integer not less than their original values.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr vector MUU_VECTORCALL ceil(MUU_RO_VEC v) noexcept
+		{
+			if constexpr (is_floating_point<scalar_type>)
+			{
+				#define VEC_FUNC(member)	muu::ceil(v.member)
+				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
+				#undef VEC_FUNC
+			}
+			else
+				return v;
+		}
+
+		/// \brief	Returns a copy of the vector with all scalar components set to the lowest integer not less than their original values.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr vector ceil() const noexcept
+		{
+			if constexpr (is_floating_point<scalar_type>)
+				return ceil(*this);
+			else
+				return *this;
+		}
+
+		/// \brief	Returns a vector with all scalar components set to the highest integer not greater than their original values.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr vector MUU_VECTORCALL floor(MUU_RO_VEC v) noexcept
+		{
+			if constexpr (is_floating_point<scalar_type>)
+			{
+				#define VEC_FUNC(member)	muu::floor(v.member)
+				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
+				#undef VEC_FUNC
+			}
+			else
+				return v;
+		}
+
+		/// \brief	Returns a copy of the vector with all scalar components set to the highest integer not greater than their original values.
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr vector floor() const noexcept
+		{
+			if constexpr (is_floating_point<scalar_type>)
+				return floor(*this);
+			else
+				return *this;
+		}
+
 	#endif // misc
 	};
 	
@@ -3839,6 +3891,30 @@ namespace muu
 	constexpr vector<S, D> abs(const vector<S, D>& v) noexcept
 	{
 		return vector<S, D>::abs(v);
+	}
+
+	/// \ingroup ceil
+	/// \related muu::vector
+	///
+	/// \brief	Returns a copy of a vector with all scalar components set to the lowest integer not less than their original values.
+	template <typename S, size_t D>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr vector<S, D> ceil(const vector<S, D>& v) noexcept
+	{
+		return vector<S, D>::ceil(v);
+	}
+
+	/// \ingroup floor
+	/// \related muu::vector
+	///
+	/// \brief	Returns a copy of a vector with all scalar components set to the highest integer not greater than their original values.
+	template <typename S, size_t D>
+	[[nodiscard]]
+	MUU_ATTR(pure)
+	constexpr vector<S, D> floor(const vector<S, D>& v) noexcept
+	{
+		return vector<S, D>::floor(v);
 	}
 }
 

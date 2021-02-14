@@ -133,6 +133,15 @@ namespace muu::impl
 			return static_cast<delta_type>(mass / raw_volume(extents));
 		}
 
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		static constexpr bool MUU_VECTORCALL degenerate(vector_param extents) noexcept
+		{
+			return extents.x <= scalar_type{}
+				|| extents.y <= scalar_type{}
+				|| extents.z <= scalar_type{};
+		}
+
 		template <box_corners Corner>
 		[[nodiscard]]
 		MUU_ATTR(pure)

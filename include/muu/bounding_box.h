@@ -326,6 +326,13 @@ namespace muu
 			return boxes::density(base::extents, mass);
 		}
 
+		/// \brief	Returns true if the box is degenerate (i.e. any of its extents are less than or equal to zero).
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr bool degenerate() const noexcept
+		{
+			return boxes::degenerate(base::extents);
+		}
 
 	#endif // geometric properties
 

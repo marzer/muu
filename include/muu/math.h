@@ -175,6 +175,10 @@ namespace muu
 		inline constexpr bool has_builtin_infinity_or_nan<quaternion<T>> = true;
 		template <typename T, size_t R, size_t C>
 		inline constexpr bool has_builtin_infinity_or_nan<matrix<T, R, C>> = true;
+		template <typename T>
+		inline constexpr bool has_builtin_infinity_or_nan<bounding_box<T>> = true;
+		template <typename T>
+		inline constexpr bool has_builtin_infinity_or_nan<oriented_bounding_box<T>> = true;
 
 		template <typename T>
 		inline constexpr bool has_specialized_infinity_or_nan =

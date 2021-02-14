@@ -752,7 +752,7 @@ help me improve support for your target architecture. Thanks!
 	#define MUU_UNALIASED_ALLOC
 #endif
 
-#define MUU_UNUSED(expr)				static_cast<void>(expr)
+#define MUU_UNUSED(...)					static_cast<void>(__VA_ARGS__)
 #define MUU_NOOP						MUU_UNUSED(0)
 
 #ifndef MUU_ASSUME
@@ -1091,30 +1091,30 @@ help me improve support for your target architecture. Thanks!
 
 #ifndef MUU_ASSERT
 	#ifdef NDEBUG
-		#define MUU_ASSERT(expr)		MUU_NOOP
+		#define MUU_ASSERT(cond)		MUU_NOOP
 	#else
 		#ifndef assert
 			MUU_DISABLE_WARNINGS;
 			#include <cassert>
 			MUU_ENABLE_WARNINGS;
 		#endif
-		#define MUU_ASSERT(expr) assert(expr)
+		#define MUU_ASSERT(cond) assert(cond)
 	#endif
 #endif
 #ifdef NDEBUG
 	// ensure any overrides respect NDEBUG
 	#undef MUU_ASSERT
-	#define MUU_ASSERT(expr)					MUU_NOOP
-	#define MUU_CONSTEXPR_SAFE_ASSERT(expr)		MUU_NOOP
+	#define MUU_ASSERT(cond)				MUU_NOOP
+	#define MUU_CONSTEXPR_SAFE_ASSERT(cond)	MUU_NOOP
 #else
-	#define MUU_CONSTEXPR_SAFE_ASSERT(expr)									\
+	#define MUU_CONSTEXPR_SAFE_ASSERT(cond)									\
 		do																	\
 		{																	\
 			if constexpr (::muu::build::supports_is_constant_evaluated)		\
 			{																\
 				if (!::muu::is_constant_evaluated())						\
 				{															\
-					MUU_ASSERT(expr);										\
+					MUU_ASSERT(cond);										\
 				}															\
 			}																\
 		}																	\
