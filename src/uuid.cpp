@@ -32,6 +32,8 @@ MUU_DISABLE_WARNINGS;
 #endif
 MUU_ENABLE_WARNINGS;
 
+MUU_FORCE_NDEBUG_OPTIMIZATIONS;
+
 using namespace muu;
 
 uuid uuid::generate() noexcept
@@ -62,11 +64,11 @@ uuid uuid::generate() noexcept
 
 		// "Set the four most significant bits (bits 12 through 15) of the
 		// time_hi_and_version field to the 4-bit version number."
-		val.bytes.value[6] = (val.bytes.value[6] & 0b00001111_byte) | 0b01000000_byte; //version 4 (random)
+		val.bytes.value[6] = (val.bytes.value[6] & std::byte{ 0b00001111_u8 }) | std::byte{ 0b01000000_u8 }; //version 4 (random)
 
 		// "Set the two most significant bits (bits 6 and 7) of the
 		// clock_seq_hi_and_reserved to zero and one, respectively."
-		val.bytes.value[8] = (val.bytes.value[8] & 0b00111111_byte) | 0b10000000_byte; //variant (standard)
+		val.bytes.value[8] = (val.bytes.value[8] & std::byte{ 0b00111111_u8 }) | std::byte{ 0b10000000_u8 }; //variant (standard)
 
 	}
 	#endif
@@ -87,11 +89,11 @@ uuid::uuid(const uuid& name_space, const void* name_data, size_t name_size) noex
 
 	// "Set the four most significant bits (bits 12 through 15) of the
 	// time_hi_and_version field to the 4-bit version number."
-	bytes.value[6] = (bytes.value[6] & 0b00001111_byte) | 0b01010000_byte; //version 5 (SHA1)
+	bytes.value[6] = (bytes.value[6] & std::byte{ 0b00001111_u8 }) | std::byte{ 0b01010000_u8 }; //version 5 (SHA1)
 
 	// "Set the two most significant bits (bits 6 and 7) of the
 	// clock_seq_hi_and_reserved to zero and one, respectively."
-	bytes.value[8] = (bytes.value[8] & 0b00111111_byte) | 0b10000000_byte; //variant (standard)
+	bytes.value[8] = (bytes.value[8] & std::byte{ 0b00111111_u8 }) | std::byte{ 0b10000000_u8 }; //variant (standard)
 }
 
 namespace

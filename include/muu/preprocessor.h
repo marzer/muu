@@ -888,6 +888,21 @@ help me improve support for your target architecture. Thanks!
 	MUU_PRAGMA_CLANG(fp contract(fast))										\
 	static_assert(true)
 
+#define MUU_FORCE_NDEBUG_OPTIMIZATIONS										\
+	MUU_PRAGMA_GCC(push_options)											\
+	MUU_PRAGMA_GCC(optimize("O3"))											\
+	MUU_PRAGMA_MSVC(optimize("gt", on))										\
+	MUU_PRAGMA_MSVC(runtime_checks("", off))								\
+	MUU_PRAGMA_MSVC(strict_gs_check(push, off))								\
+	static_assert(true)
+
+#define MUU_RESET_NDEBUG_OPTIMIZATIONS										\
+	MUU_PRAGMA_MSVC(strict_gs_check(pop))									\
+	MUU_PRAGMA_MSVC(runtime_checks("", restore))							\
+	MUU_PRAGMA_MSVC(optimize("", on))										\
+	MUU_PRAGMA_GCC(pop_options)												\
+	static_assert(true)
+
 /// \cond
 #ifndef DOXYGEN
 	#define MUU_HIDDEN(...) __VA_ARGS__

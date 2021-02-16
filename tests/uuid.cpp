@@ -17,6 +17,17 @@ static_assert(std::is_trivially_move_constructible_v<uuid>);
 static_assert(std::is_trivially_move_assignable_v<uuid>);
 static_assert(std::is_trivially_destructible_v<uuid>);
 
+namespace
+{
+	[[nodiscard]]
+	MUU_ALWAYS_INLINE
+	MUU_ATTR(const)
+	static MUU_CONSTEVAL std::byte operator"" _byte(unsigned long long n) noexcept
+	{
+		return static_cast<std::byte>(n);
+	}
+}
+
 TEST_CASE("uuid - initialization")
 {
 	//null uuids

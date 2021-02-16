@@ -55,6 +55,8 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 	#undef max
 #endif
 
+MUU_FORCE_NDEBUG_OPTIMIZATIONS;
+
 namespace muu
 {
 	/// \cond
@@ -1482,6 +1484,8 @@ namespace std
 	template <> struct numeric_limits<volatile muu::half>		: numeric_limits<muu::half> {};
 	template <> struct numeric_limits<const volatile muu::half>	: numeric_limits<muu::half> {};
 }
+
+MUU_RESET_NDEBUG_OPTIMIZATIONS;
 
 MUU_PRAGMA_MSVC(pop_macro("min"))
 MUU_PRAGMA_MSVC(pop_macro("max"))

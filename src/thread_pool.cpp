@@ -24,6 +24,8 @@ MUU_ENABLE_WARNINGS;
 MUU_DISABLE_SPAM_WARNINGS;
 MUU_PRAGMA_MSVC(warning(disable: 26110))
 
+MUU_FORCE_NDEBUG_OPTIMIZATIONS;
+
 using namespace muu;
 using namespace std::chrono_literals;
 using namespace std::string_literals;
@@ -560,7 +562,7 @@ thread_pool::thread_pool(size_t worker_count, size_t task_queue_size, string_par
 
 	static_assert(impl::thread_pool_task_granularity >= sizeof(impl::thread_pool_task));
 
-	const auto storage_start = 0_sz;
+	constexpr auto storage_start = 0_sz;
 	const auto queues_start = apply_alignment<impl::thread_pool_task_granularity>(storage_start + sizeof(thread_pool_storage));
 	const auto queues_end = queues_start + sizeof(thread_pool_queue) * worker_count;
 	const auto workers_start = apply_alignment<impl::thread_pool_task_granularity>(queues_end);

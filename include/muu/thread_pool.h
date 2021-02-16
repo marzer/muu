@@ -34,6 +34,8 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 	#undef max
 #endif
 
+MUU_FORCE_NDEBUG_OPTIMIZATIONS;
+
 /// \cond
 namespace muu::impl
 {
@@ -856,6 +858,8 @@ namespace muu
 
 	MUU_ABI_VERSION_END;
 }
+
+MUU_RESET_NDEBUG_OPTIMIZATIONS;
 
 MUU_PRAGMA_MSVC(pop_macro("min"))
 MUU_PRAGMA_MSVC(pop_macro("max"))

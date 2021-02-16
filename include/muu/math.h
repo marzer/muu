@@ -26,6 +26,8 @@ MUU_PRAGMA_MSVC(push_macro("max"))
 	#undef max
 #endif
 
+MUU_FORCE_NDEBUG_OPTIMIZATIONS;
+
 namespace muu
 {
 	namespace build
@@ -2267,6 +2269,8 @@ namespace muu
 
 	/** @} */	// math
 }
+
+MUU_RESET_NDEBUG_OPTIMIZATIONS;
 
 MUU_PRAGMA_MSVC(pop_macro("min"))
 MUU_PRAGMA_MSVC(pop_macro("max"))

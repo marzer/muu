@@ -46,6 +46,8 @@
 #define MUU_ENABLE_IF(...)
 #define MUU_ENABLE_IF_2(...)
 #define MUU_ENABLE_WARNINGS					static_assert(true)
+#define MUU_FORCE_NDEBUG_OPTIMIZATIONS		static_assert(true)
+#define MUU_RESET_NDEBUG_OPTIMIZATIONS		static_assert(true)
 #define MUU_FMA_BLOCK						static_assert(true)
 #define MUU_GENERIC_ALLOCATOR_ATTRS
 #define MUU_HALF_EMULATED					1
@@ -86,20 +88,4 @@
 #define MUU_UNUSED(...)						static_assert(true)
 #define MUU_VECTORCALL
 
-#define REQUIRES_DIMENSIONS_AT_LEAST(...)
-#define REQUIRES_DIMENSIONS_AT_LEAST_AND(...)
-#define REQUIRES_DIMENSIONS_BETWEEN(...)
-#define REQUIRES_DIMENSIONS_BETWEEN(...)
-#define REQUIRES_DIMENSIONS_EXACTLY(...)
-#define REQUIRES_DIMENSIONS_EXACTLY(...)
-#define REQUIRES_FLOATING_POINT
-#define REQUIRES_FLOATING_POINT
-#define REQUIRES_INTEGRAL
-#define REQUIRES_INTEGRAL
-#define REQUIRES_PAIRED_FUNC_BY_REF(...)
-#define REQUIRES_PAIRED_FUNC_BY_VAL(...)
-#define REQUIRES_SIGNED
-#define REQUIRES_SIGNED
-#define REQUIRES_SIZE_AT_LEAST(...)
-#define REQUIRES_SQUARE(...)
 #define SPECIALIZED_IF(...)

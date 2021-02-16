@@ -1751,6 +1751,8 @@ MUU_POP_PRECISE_MATH;
 // LITERALS, BUILD CONSTANTS AND FUNCTIONS
 #if 1
 
+MUU_FORCE_NDEBUG_OPTIMIZATIONS; // these are "intrinsics"
+
 namespace muu
 {
 	inline namespace literals
@@ -1765,6 +1767,54 @@ namespace muu
 		MUU_CONSTEVAL size_t operator"" _sz(unsigned long long n) noexcept
 		{
 			return static_cast<size_t>(n);
+		}
+
+		/// \brief	Creates a size_t for a given number of bytes.
+		/// \detail \cpp
+		/// const size_t val = 42_b; // 42
+		/// \ecpp
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
+		MUU_CONSTEVAL size_t operator"" _b(unsigned long long b) noexcept
+		{
+			return static_cast<size_t>(b);
+		}
+
+		/// \brief	Creates a size_t for a given number of kilobytes.
+		/// \detail \cpp
+		/// const size_t val = 42_kb; // 42 * 1024
+		/// \ecpp
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
+		MUU_CONSTEVAL size_t operator"" _kb(unsigned long long kb) noexcept
+		{
+			return static_cast<size_t>(kb * 1024ull);
+		}
+
+		/// \brief	Creates a size_t for a given number of megabytes.
+		/// \detail \cpp
+		/// const size_t val = 42_mb; // 42 * 1024 * 1024
+		/// \ecpp
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
+		MUU_CONSTEVAL size_t operator"" _mb(unsigned long long mb) noexcept
+		{
+			return static_cast<size_t>(mb * 1024ull * 1024ull);
+		}
+
+		/// \brief	Creates a size_t for a given number of gigabytes.
+		/// \detail \cpp
+		/// const size_t val = 42_gb; // 42 * 1024 * 1024 * 1024
+		/// \ecpp
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
+		MUU_CONSTEVAL size_t operator"" _gb(unsigned long long gb) noexcept
+		{
+			return static_cast<size_t>(gb * 1024ull * 1024ull * 1024ull);
 		}
 
 		/// \brief	Creates a uint8_t.
@@ -1861,18 +1911,6 @@ namespace muu
 		MUU_CONSTEVAL int64_t operator"" _i64(unsigned long long n) noexcept
 		{
 			return static_cast<int64_t>(n);
-		}
-
-		/// \brief	Creates a std::byte.
-		/// \detail \cpp
-		/// const std::byte val = 42_byte;
-		/// \ecpp
-		[[nodiscard]]
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
-		MUU_CONSTEVAL std::byte operator"" _byte(unsigned long long n) noexcept
-		{
-			return static_cast<std::byte>(n);
 		}
 
 		#if MUU_HAS_INT128
@@ -2017,6 +2055,7 @@ namespace muu
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
+	MUU_ATTR(flatten)
 	constexpr bool is_constant_evaluated() noexcept
 	{
 		#if MUU_CLANG >= 9			\
@@ -2049,6 +2088,7 @@ namespace muu
 	template <class T>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
+	MUU_ATTR(flatten)
 	constexpr T* launder(T* ptr) noexcept
 	{
 		static_assert(
@@ -2075,7 +2115,7 @@ namespace muu
 	///
 	/// \returns	\conditional_return{Enum inputs} `static_cast<std::underlying_type_t<T>>(val)`
 	/// 			 <br>
-	/// 			\conditional_return{Everything else} A straight pass-through of the input (a no-op).
+	/// 			\conditional_return{Everything else} `T&&` (a no-op).
 	MUU_CONSTRAINED_TEMPLATE(is_enum<T>, typename T)
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
@@ -2592,7 +2632,6 @@ namespace muu
 
 	/// \addtogroup	core
 	/// @{
-
 	#endif // bit_cast
 
 	#if 1 // pointer_cast ---------------------------------------------------------------------------------------------
@@ -3884,6 +3923,8 @@ namespace muu
 
 	/** @} */	// core
 }
+
+MUU_RESET_NDEBUG_OPTIMIZATIONS;
 
 #endif //===============================================================================================================
 

@@ -11,6 +11,8 @@ MUU_DISABLE_SPAM_WARNINGS;
 	#undef max
 #endif
 
+MUU_FORCE_NDEBUG_OPTIMIZATIONS;
+
 using namespace muu;
 
 namespace { namespace sha1_utils

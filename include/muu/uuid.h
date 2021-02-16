@@ -352,7 +352,7 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr uuid_variant variant() const noexcept
 		{
-			const auto v = static_cast<unsigned>(unwrap((bytes.value[8] & 0b11100000_byte) >> 5));
+			const auto v = static_cast<unsigned>(unwrap((bytes.value[8] & std::byte{ 0b11100000_u8 }) >> 5));
 			MUU_ASSUME(v <= 0b111u);
 
 			if (!v)
@@ -377,7 +377,7 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr uuid_version version() const noexcept
 		{
-			const auto v = static_cast<unsigned>(unwrap((bytes.value[6] & 0b11110000_byte) >> 4));
+			const auto v = static_cast<unsigned>(unwrap((bytes.value[6] & std::byte{ 0b11110000_u8 }) >> 4));
 			MUU_ASSUME(v <= 0b1111u);
 
 			return v > 5u ? uuid_version::unknown : static_cast<uuid_version>(v);
