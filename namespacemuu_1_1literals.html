@@ -80,9 +80,13 @@ C++</span></a>
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a066bbbb8dee980979e0845cb02cfce2b">operator""_byte</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a0610560ecd34fdfbd35dc1ad13878e82">operator""_b</a>(</span><span class="m-doc-wrap">unsigned long long b) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Creates a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>.</dd>
+            <dd>Creates a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> for a given number of bytes.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a2c22317398887c0a4a105b13fc55de35">operator""_gb</a>(</span><span class="m-doc-wrap">unsigned long long gb) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Creates a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> for a given number of gigabytes.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aa0b0811f9ce6527d86c69109a89f7fcc">operator""_i128</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -103,6 +107,14 @@ C++</span></a>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a43a15b4448799e0e02621d9bf08104a1">operator""_i8</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int8_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Creates an <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int8_t</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a48ff3748178e59016dea7b5dd3ddaa0a">operator""_kb</a>(</span><span class="m-doc-wrap">unsigned long long kb) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Creates a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> for a given number of kilobytes.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a91f862c0a9d1903914be0aca0ae38593">operator""_mb</a>(</span><span class="m-doc-wrap">unsigned long long mb) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Creates a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> for a given number of megabytes.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ac7cce4c07975fb4f279efb145f138f46">operator""_sz</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -131,12 +143,19 @@ C++</span></a>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a066bbbb8dee980979e0845cb02cfce2b"><div>
+          <section class="m-doc-details" id="a0610560ecd34fdfbd35dc1ad13878e82"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a> muu::<wbr/>literals::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a066bbbb8dee980979e0845cb02cfce2b">operator""_byte</a>(</span><span class="m-doc-wrap">unsigned long long n) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> muu::<wbr/>literals::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0610560ecd34fdfbd35dc1ad13878e82">operator""_b</a>(</span><span class="m-doc-wrap">unsigned long long b) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Creates a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/byte" target="_blank">std::byte</a>.</p>
-<pre class="m-code"><span class="k">const</span> <span class="ns">std::</span><span class="ut">byte</span> <span class="n">val</span> <span class="o">=</span> <span class="mi">42</span><span class="n">_byte</span><span class="p">;</span></pre>
+            <p>Creates a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> for a given number of bytes.</p>
+<pre class="m-code"><span class="k">const</span> <span class="ut"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">val</span> <span class="o">=</span> <span class="mi">42</span><span class="n">_b</span><span class="p">;</span> <span class="c1">// 42</span></pre>
+          </div></section>
+          <section class="m-doc-details" id="a2c22317398887c0a4a105b13fc55de35"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> muu::<wbr/>literals::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a2c22317398887c0a4a105b13fc55de35">operator""_gb</a>(</span><span class="m-doc-wrap">unsigned long long gb) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Creates a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> for a given number of gigabytes.</p>
+<pre class="m-code"><span class="k">const</span> <span class="ut"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">val</span> <span class="o">=</span> <span class="mi">42</span><span class="n">_gb</span><span class="p">;</span> <span class="c1">// 42 * 1024 * 1024 * 1024</span></pre>
           </div></section>
           <section class="m-doc-details" id="aa0b0811f9ce6527d86c69109a89f7fcc"><div>
             <h3>
@@ -172,6 +191,20 @@ C++</span></a>
             </h3>
             <p>Creates an <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int8_t</a>.</p>
 <pre class="m-code"><span class="k">const</span> <span class="ut"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int8_t</a></span> <span class="n">val</span> <span class="o">=</span> <span class="mi">42</span><span class="n">_i8</span><span class="p">;</span></pre>
+          </div></section>
+          <section class="m-doc-details" id="a48ff3748178e59016dea7b5dd3ddaa0a"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> muu::<wbr/>literals::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a48ff3748178e59016dea7b5dd3ddaa0a">operator""_kb</a>(</span><span class="m-doc-wrap">unsigned long long kb) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Creates a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> for a given number of kilobytes.</p>
+<pre class="m-code"><span class="k">const</span> <span class="ut"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">val</span> <span class="o">=</span> <span class="mi">42</span><span class="n">_kb</span><span class="p">;</span> <span class="c1">// 42 * 1024</span></pre>
+          </div></section>
+          <section class="m-doc-details" id="a91f862c0a9d1903914be0aca0ae38593"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> muu::<wbr/>literals::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a91f862c0a9d1903914be0aca0ae38593">operator""_mb</a>(</span><span class="m-doc-wrap">unsigned long long mb) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Creates a <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> for a given number of megabytes.</p>
+<pre class="m-code"><span class="k">const</span> <span class="ut"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">val</span> <span class="o">=</span> <span class="mi">42</span><span class="n">_mb</span><span class="p">;</span> <span class="c1">// 42 * 1024 * 1024</span></pre>
           </div></section>
           <section class="m-doc-details" id="ac7cce4c07975fb4f279efb145f138f46"><div>
             <h3>
