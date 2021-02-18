@@ -1336,8 +1336,11 @@ namespace muu::impl
 	constexpr uint16_t MUU_VECTORCALL f32_to_f16(float val) noexcept
 	{
 		#if MUU_HALF_USE_INTRINSICS
-		if constexpr (build::supports_is_constant_evaluated && !is_constant_evaluated())
-			return f32_to_f16_intrinsic(val);
+		if constexpr (build::supports_is_constant_evaluated)
+		{
+			if (!is_constant_evaluated())
+				return f32_to_f16_intrinsic(val);
+		}
 		#endif
 
 		return f32_to_f16_emulated(val);
@@ -1349,8 +1352,11 @@ namespace muu::impl
 	constexpr float MUU_VECTORCALL f16_to_f32(uint16_t val) noexcept
 	{
 		#if MUU_HALF_USE_INTRINSICS
-		if constexpr (build::supports_is_constant_evaluated && !is_constant_evaluated())
-			return f16_to_f32_intrinsic(val);
+		if constexpr (build::supports_is_constant_evaluated)
+		{
+			if (!is_constant_evaluated())
+				return f16_to_f32_intrinsic(val);
+		}
 		#endif
 
 		return f16_to_f32_emulated(val);
