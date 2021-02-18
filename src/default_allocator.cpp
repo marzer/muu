@@ -5,9 +5,8 @@
 
 #include "muu/core.h"
 #include "os_internal.h"
-MUU_DISABLE_WARNINGS;
-#include <new>
-MUU_ENABLE_WARNINGS;
+
+MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 
 using namespace muu;
 

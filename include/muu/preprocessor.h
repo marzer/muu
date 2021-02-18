@@ -375,6 +375,7 @@ help me improve support for your target architecture. Thanks!
 		#define MUU_DISABLE_SPAM_WARNINGS	__pragma(warning(disable: 4127)) /* conditional expr is constant */ \
 											__pragma(warning(disable: 4324)) /* structure was padded due to alignment specifier */  \
 											__pragma(warning(disable: 4348)) \
+											__pragma(warning(disable: 4505))/* unreferenced local function removed */  \
 											__pragma(warning(disable: 26490)) /* cg: dont use reinterpret_cast */ \
 											static_assert(true)
 
@@ -530,6 +531,7 @@ help me improve support for your target architecture. Thanks!
 											MUU_PRAGMA_GCC(diagnostic ignored "-Wsubobject-linkage")			\
 											MUU_PRAGMA_GCC(diagnostic ignored "-Wuseless-cast")					\
 											MUU_PRAGMA_GCC(diagnostic ignored "-Wmissing-field-initializers")	\
+											MUU_PRAGMA_GCC(diagnostic ignored "-Wmaybe-uninitialized")			\
 											MUU_PRAGMA_GCC(diagnostic ignored "-Wtype-limits") \
 											static_assert(true)
 
@@ -836,40 +838,40 @@ help me improve support for your target architecture. Thanks!
 	#define MUU_TRACE(...) MUU_NOOP
 #endif
 
-#define MUU_MAKE_FLAGS_(name, op)														\
+#define MUU_MAKE_FLAGS_2(name, op, linkage)												\
 	[[nodiscard]]																		\
 	MUU_ATTR(const)																		\
-	constexpr name operator op(name lhs, name rhs) noexcept								\
+	linkage constexpr name operator op(name lhs, name rhs) noexcept						\
 	{																					\
 		using under = typename std::underlying_type_t<name>;							\
 		return static_cast<name>(static_cast<under>(lhs) op static_cast<under>(rhs));	\
 	}																					\
-	constexpr name& operator MUU_CONCAT(op, =)(name& lhs, name rhs) noexcept			\
+	linkage constexpr name& operator MUU_CONCAT(op, =)(name& lhs, name rhs) noexcept	\
 	{																					\
 		return lhs = (lhs op rhs);														\
 	}
 
-#define MUU_MAKE_FLAGS(name)															\
-	MUU_MAKE_FLAGS_(name, &)															\
-	MUU_MAKE_FLAGS_(name, |)															\
-	MUU_MAKE_FLAGS_(name, ^)															\
+#define MUU_MAKE_FLAGS_1(name, linkage)													\
+	MUU_MAKE_FLAGS_2(name, &, linkage)													\
+	MUU_MAKE_FLAGS_2(name, |, linkage)													\
+	MUU_MAKE_FLAGS_2(name, ^, linkage)													\
 	[[nodiscard]]																		\
 	MUU_ATTR(const)																		\
-	constexpr name operator~(name val) noexcept											\
+	linkage constexpr name operator~(name val) noexcept									\
 	{																					\
 		using under = typename std::underlying_type_t<name>;							\
 		return static_cast<name>(~static_cast<under>(val));								\
 	}																					\
 	[[nodiscard]]																		\
 	MUU_ATTR(const)																		\
-	constexpr bool operator!(name val) noexcept											\
+	linkage constexpr bool operator!(name val) noexcept									\
 	{																					\
 		using under = typename std::underlying_type_t<name>;							\
 		return !static_cast<under>(val);												\
 	}																					\
 	static_assert(true)
 
-#define MUU_MAKE_BITOPS(name)	MUU_MAKE_FLAGS(name)
+#define MUU_MAKE_FLAGS(name)	MUU_MAKE_FLAGS_1(name, )
 
 #define MUU_PUSH_PRECISE_MATH												\
 	MUU_PRAGMA_MSVC(float_control(precise, on, push))						\
@@ -905,12 +907,17 @@ help me improve support for your target architecture. Thanks!
 
 /// \cond
 #ifndef DOXYGEN
-	#define MUU_HIDDEN(...) __VA_ARGS__
+	#define MUU_HIDDEN(...)			__VA_ARGS__
+	#define MUU_DOXYEN_ONLY(...)
 #endif // DOXYGEN
 /// \endcond
 #ifndef MUU_HIDDEN
 	#define MUU_HIDDEN(...) // doxygen
 #endif
+#ifndef MUU_DOXYEN_ONLY
+	#define MUU_DOXYEN_ONLY(...)	__VA_ARGS__
+#endif
+	
 
 //======================================================================================================================
 // SFINAE AND CONCEPTS

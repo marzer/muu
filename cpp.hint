@@ -66,6 +66,7 @@
 #define MUU_MAKE_RAW_STRING(...)			""
 #define MUU_MAKE_STRING(...)				""
 #define MUU_MAKE_STRING_VIEW(...)			""sv
+#define MUU_MOVE_CHECK						static_assert(true)
 #define MUU_MSVC							1928
 #define MUU_NEVER_INLINE
 #define MUU_NODISCARD_CTOR

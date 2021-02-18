@@ -74,7 +74,57 @@ namespace
 		test_worker_index  = worker;
 	}
 
-	static constexpr auto heap_free_threshold = sizeof(impl::thread_pool_task::callable_buffer_type);
+	static constexpr auto storage_threshold = impl::thread_pool_task::buffer_capacity;
+
+	template <typename T>
+	struct callable_counter
+	{
+		std::atomic<T>* value_;
+
+		callable_counter(std::atomic<T>& value) noexcept
+			: value_{ &value }
+		{}
+
+		callable_counter(const callable_counter& other) noexcept
+			: value_{ other.value_ }
+		{}
+
+		callable_counter(callable_counter&& other) noexcept
+			: value_{ std::exchange(other.value_, nullptr) }
+		{}
+
+		callable_counter& operator = (const callable_counter& other) noexcept
+		{
+			value_ = other.value_;
+			return *this;
+		}
+
+		callable_counter& operator = (callable_counter&& other) noexcept
+		{
+			value_ = std::exchange(other.value_, nullptr);
+			return *this;
+		}
+
+		template <typename... Args>
+		void operator() (Args&&...) & noexcept
+		{
+			if (value_)
+				(*value_)++;
+		}
+
+		template <typename... Args>
+		void operator() (Args&&...) && noexcept
+		{
+			if (value_)
+			{
+				(*value_)++;
+				value_ = nullptr;
+			}
+		}
+	};
+
+	template <typename T>
+	callable_counter(std::atomic<T>&) -> callable_counter<T>;
 }
 
 TEST_CASE("thread_pool - enqueue")
@@ -117,40 +167,63 @@ TEST_CASE("thread_pool - enqueue")
 	}
 
 	{
-		INFO("a task with state but still small enough to not require the heap")
+		INFO("a task with state but still small enough to fit in storage")
+		{
+			INFO("# 1")
+			std::atomic_int i = 0;
+			auto task = [&]() noexcept { i++; };
+			static_assert(sizeof(task) <= storage_threshold);
 
-		std::atomic_int i = 0;
-		auto task = [&]() noexcept { i++; };
-		static_assert(sizeof(task) < heap_free_threshold);
+			pool.enqueue(std::move(task));
+			pool.wait();
 
-		pool.enqueue(std::move(task));
-		pool.wait();
+			CHECK(i == 1);
+		}
+		{
+			INFO("# 2")
+			std::atomic_size_t val = 0_sz;
+			static_assert(sizeof(callable_counter<size_t>) <= storage_threshold);
 
-		CHECK(i == 1);
+			pool.enqueue(callable_counter{ val });
+			pool.wait();
+
+			CHECK(val == 1_sz);
+		}
+		{
+			INFO("# 3")
+			std::atomic_size_t val = 0_sz;
+			static_assert(sizeof(callable_counter<size_t>) <= storage_threshold);
+
+			auto counter = callable_counter{ val };
+			pool.enqueue(counter);
+			pool.wait();
+
+			CHECK(val == 1_sz);
+		}
 	}
 
 	{
-		INFO("a task with state large enough to require the heap")
+		INFO("a task with state large enough to require pointer indirection")
 
 		std::atomic_int i = 0;
 		struct Kek
 		{
 			int i;
-			std::byte junk[heap_free_threshold];
+			std::byte junk[storage_threshold];
 		};
 
 		Kek kek{ 68, {} };
 		auto task = [&, kek]() mutable noexcept { kek.i++; i = kek.i; };
-		static_assert(sizeof(task) > heap_free_threshold);
+		static_assert(sizeof(task) > storage_threshold);
 
-		pool.enqueue(std::move(task));
+		pool.enqueue(task);
 		pool.wait();
 
 		CHECK(i == 69);
 	}
 
 	{
-		INFO("a small task that has alignment requirements high enough to require the heap")
+		INFO("a small task that has alignment requirements high enough to require pointer indirection")
 
 		std::atomic_int i = 0;
 		struct Kek
@@ -162,7 +235,7 @@ TEST_CASE("thread_pool - enqueue")
 		Kek kek{ 41 };
 		auto task = [&, kek]() mutable noexcept { kek.i++; i = kek.i; };
 
-		pool.enqueue(std::move(task));
+		pool.enqueue(task);
 		pool.wait();
 		CHECK(i == 42);
 	}
@@ -189,29 +262,38 @@ TEST_CASE("thread_pool - for_range")
 	thread_pool pool{ min(std::thread::hardware_concurrency(), 16u) };
 
 	std::array<int, 1000> values;
-	std::vector<int> thread_values(pool.workers(), 0);
+	std::vector<int> batches(pool.workers(), 0);
+
+	const auto reset = [&]()noexcept
+	{
+		memset(&values, 0, sizeof(values));
+		memset(batches.data(), 0, sizeof(typename remove_cvref<decltype(batches)>::value_type) * batches.size());
+	};
 
 	{
 		INFO("[A, B)")
-			memset(&values, 0, sizeof(values));
+		reset();
 		pool.for_range(0_sz, values.size(), [&](auto i) noexcept { values[i]++; });
 		pool.wait();
 		for (auto& v : values)
 			CHECK(v == 1);
-		memset(&values, 0, sizeof(values));
-		pool.for_range(0_sz, values.size(), [&](auto i, auto workerIndex) noexcept
-			{
-				values[i]++;
-				thread_values[workerIndex]++;
-			});
+
+		reset();
+		pool.for_range(0_sz, values.size(), [&](auto i, auto batch) noexcept
+		{
+			values[i]++;
+			batches[batch]++;
+		});
 		pool.wait();
 		for (auto& v : values)
 			CHECK(v == 1);
+		for (auto& b : batches)
+			CHECK(b > 0);
 	}
 
 	{
 		INFO("[A, B)")
-			pool.for_range(10u, 100u, [&](auto i) noexcept { values[i]--; });
+		pool.for_range(10u, 100u, [&](auto i) noexcept { values[i]--; });
 		pool.wait();
 		for (size_t i = 0; i < 10; i++)
 			CHECK(values[i] == 1);
@@ -223,7 +305,7 @@ TEST_CASE("thread_pool - for_range")
 
 	{
 		INFO("[A, B) where A > B")
-			memset(&values, 0, sizeof(values));
+		reset();
 		pool.for_range(500u, 300u, [&](auto i) noexcept { values[i] = 69; });
 		pool.wait();
 		for (size_t i = 0; i <= 300; i++)
@@ -236,11 +318,27 @@ TEST_CASE("thread_pool - for_range")
 
 	{
 		INFO("[A, A)")
-			memset(&values, 0, sizeof(values));
+		reset();
 		pool.for_range(100u, 100u, [&](auto i) noexcept { values[i] = 100; });
 		pool.wait();
 		for (auto& v : values)
 			CHECK(v == 0);
+	}
+
+	{
+		INFO("copy semantics")
+		std::atomic_size_t val = 0_sz;
+		auto callable = callable_counter{ val };
+		pool.for_range(0_sz, values.size(), callable);
+		pool.wait();
+		CHECK(val == values.size());
+	}
+	{
+		INFO("move semantics")
+		std::atomic_size_t val = 0_sz;
+		pool.for_range(0_sz, values.size(), callable_counter{ val });
+		pool.wait();
+		CHECK(val == values.size());
 	}
 }
 
@@ -249,11 +347,17 @@ TEST_CASE("thread_pool - for_each")
 	thread_pool pool{ min(std::thread::hardware_concurrency(), 16u) };
 
 	std::array<int, 1000> values;
-	std::vector<int> thread_values(pool.workers(), 0);
+	std::vector<int> batches(pool.workers(), 0);
+
+	const auto reset = [&]()noexcept
+	{
+		memset(&values, 0, sizeof(values));
+		memset(batches.data(), 0, sizeof(typename remove_cvref<decltype(batches)>::value_type) * batches.size());
+	};
 
 	{
 		INFO("collection")
-		memset(&values, 0, sizeof(values));
+		reset();
 		pool.for_each(values, [&](auto& v) noexcept { v++; });
 		pool.wait();
 		for (auto& v : values)
@@ -261,22 +365,23 @@ TEST_CASE("thread_pool - for_each")
 	}
 
 	{
-		INFO("collection with thread_index reader")
-
-		memset(&values, 0, sizeof(values));
-		pool.for_each(values, [&](auto& v, auto workerIndex) noexcept
-			{
-				v++;
-				thread_values[workerIndex]++;
-			});
+		INFO("collection with batch index")
+		reset();
+		pool.for_each(values, [&](auto& v, auto batch) noexcept
+		{
+			v++;
+			batches[batch]++;
+		});
 		pool.wait();
 		for (auto& v : values)
 			CHECK(v == 1);
+		for (auto& b : batches)
+			CHECK(b > 0);
 	}
 
 	{
 		INFO("[begin, end)")
-		memset(&values, 0, sizeof(values));
+		reset();
 		pool.for_each(values.begin(), values.end(), [&](auto& v) noexcept { v++; });
 		pool.wait();
 		for (auto& v : values)
@@ -285,12 +390,27 @@ TEST_CASE("thread_pool - for_each")
 
 	{
 		INFO("[end, begin)")
-		memset(&values, 0, sizeof(values));
+		reset();
 		pool.for_each(values.end(), values.begin(), [&](auto& v) noexcept { v++; });
 		pool.wait();
 		for (auto& v : values)
 			CHECK(v == 0);
 	}
 
-}
+	{
+		INFO("copy semantics")
+			std::atomic_size_t val = 0_sz;
+		auto callable = callable_counter{ val };
+		pool.for_each(values, callable);
+		pool.wait();
+		CHECK(val == values.size());
+	}
+	{
+		INFO("move semantics")
+			std::atomic_size_t val = 0_sz;
+		pool.for_each(values, callable_counter{ val });
+		pool.wait();
+		CHECK(val == values.size());
+	}
 
+}

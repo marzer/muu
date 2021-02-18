@@ -13,6 +13,8 @@ MUU_DISABLE_SPAM_WARNINGS;
 	#undef max
 #endif
 
+MUU_FORCE_NDEBUG_OPTIMIZATIONS;
+
 using namespace muu;
 
 namespace
@@ -351,7 +353,9 @@ string_param& string_param::operator= (string_param&& rhs_) noexcept
 	}
 	else // otherwise we're changing mode
 	{
-		destroy(storage_, mode_);
+		if (mode_)
+			destroy(storage_, mode_);
+
 		visit(rhs_.storage_, rhs_.mode_, [this](auto& rhs) noexcept
 		{
 			initialize(storage_, mode_, std::move(rhs));
@@ -368,7 +372,8 @@ string_param::string_param(string_param&& other) noexcept
 
 string_param::~string_param() noexcept
 {
-	destroy(storage_, mode_);
+	if (mode_)
+		destroy(storage_, mode_);
 }
 
 bool string_param::empty() const noexcept

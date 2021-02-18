@@ -19,10 +19,19 @@ MUU_DISABLE_WARNINGS;
 #include <condition_variable>
 #include <thread>
 #include <optional>
+#if MUU_ISET_SSE2
+	#if MUU_LINUX
+		#include <emmintrin.h>
+	#endif
+	#define spin_wait_iteration() _mm_pause()
+#else
+	#define spin_wait_iteration() MUU_NOOP
+#endif
 MUU_ENABLE_WARNINGS;
 
 MUU_DISABLE_SPAM_WARNINGS;
-MUU_PRAGMA_MSVC(warning(disable: 26110))
+MUU_PRAGMA_MSVC(warning(disable: 26110)) // core guidelines: Caller failing to hold lock (false-positive)
+MUU_PRAGMA_MSVC(warning(disable: 26495)) // core guidelines: uninitialized member
 
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 
@@ -32,6 +41,10 @@ using namespace std::string_literals;
 using namespace std::string_view_literals;
 
 #define MUU_MOVE_CHECK	MUU_ASSERT(storage_ != nullptr && "The thread_pool has been moved from!")
+
+//----------------------------------------------------------------------------------------------------------------------
+// thread_pool internal implementation
+//----------------------------------------------------------------------------------------------------------------------
 
 namespace
 {
@@ -260,7 +273,7 @@ namespace
 			}
 	};
 
-	inline constexpr size_t thread_pool_wait_free_iterations = 20;
+	inline constexpr size_t thread_pool_spin_wait_iterations = 20;
 
 	class thread_pool_worker final
 	{
@@ -301,11 +314,14 @@ namespace
 
 						while (!terminated())
 						{
-							const size_t tries = queues.size() * thread_pool_wait_free_iterations;
+							const size_t tries = queues.size() * thread_pool_spin_wait_iterations;
 
 							task* t = nullptr;
 							for (size_t i = 0; i < tries && !t; i++)
+							{
+								spin_wait_iteration();
 								t = queues[(worker_index + i) % queues.size()].try_pop(pop_buffer);
+							}
 							if (!t)
 								t = queues[worker_index].pop(pop_buffer); // blocks
 							if (t)
@@ -464,50 +480,53 @@ namespace
 		[[nodiscard]]
 		size_t lock() noexcept
 		{
-			const auto starting_queue = next_queue++;
-			const auto iterations = worker_count * thread_pool_wait_free_iterations;
+			// exponential falloff based on
+			// https://software.intel.com/content/www/us/en/develop/articles/benefitting-power-and-performance-sleep-loops.html
 
-			const auto find_queue = [&]() noexcept
-				-> std::optional<size_t>
-			{
-				for (size_t i = 0; i < iterations; i++)
+			const auto find_queue =
+				[
+					workers = worker_count,
+					start = next_queue++,
+					iterations = worker_count * thread_pool_spin_wait_iterations,
+					this
+				]() noexcept
 				{
-					const auto qindex = (starting_queue + i) % worker_count;
-					auto& q = queue(qindex);
-					if (q.try_lock())
+					for (size_t i = 0; i < iterations; i++)
 					{
-						if (!q.full())
-							return qindex;
-						q.unlock();
+						spin_wait_iteration();
+						const auto qindex = (start + i) % workers;
+						auto& q = queue(qindex);
+						if (q.try_lock())
+						{
+							if (!q.full())
+								return std::optional<size_t>{ qindex };
+							q.unlock();
+						}
 					}
-				}
-				return std::nullopt;
-			};
+					return std::optional<size_t>{};
+				};
 
 
-			const auto find_queue_with_delay = [&](std::chrono::milliseconds delay, size_t max_attempts) noexcept
-				-> std::optional<size_t>
-			{
-				for (size_t i = 0; i < max_attempts; i++)
+			static constexpr auto repeat_with_delay =
+				[](auto&& action, std::chrono::milliseconds delay, size_t max_attempts) noexcept
 				{
-					std::this_thread::sleep_for(delay);
-					auto q = find_queue();
-					if (q)
-						return q;
-				}
-				return std::nullopt;
-			};
-
+					using result_type = decltype(std::forward<decltype(action)>(action)());
+					for (size_t i = 0; i < max_attempts; i++)
+					{
+						std::this_thread::sleep_for(delay);
+						if (auto q = std::forward<decltype(action)>(action)())
+							return q;
+					}
+					return result_type{};
+				};
 
 			auto qindex = find_queue();
 			if (!qindex)
-				qindex = find_queue_with_delay(10ms, 10);
+				qindex = repeat_with_delay(find_queue, 0ms, 100);
 			if (!qindex)
-				qindex = find_queue_with_delay(50ms, 4);
+				qindex = repeat_with_delay(find_queue, 10ms, 10);
 			if (!qindex)
-				qindex = find_queue_with_delay(100ms, 2);
-			if (!qindex)
-				qindex = find_queue_with_delay(250ms, constants<size_t>::highest);
+				qindex = repeat_with_delay(find_queue, 100ms, constants<size_t>::highest);
 
 			MUU_ASSERT(qindex);
 			return *qindex;
@@ -550,6 +569,10 @@ namespace
 		return *static_cast<thread_pool_storage*>(ptr);
 	}
 }
+
+//----------------------------------------------------------------------------------------------------------------------
+// thread_pool
+//----------------------------------------------------------------------------------------------------------------------
 
 thread_pool::thread_pool(size_t worker_count, size_t task_queue_size, string_param name, generic_allocator* allocator)
 {

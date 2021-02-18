@@ -635,7 +635,14 @@ inline void matrix_multiplication_tests(std::string_view scalar_typename) noexce
 			typename matrix_t::row_type lhs_row;
 			for (size_t i = 0; i < Columns; i++)
 				lhs_row[i] = mat1(r, i);
-			CHECK_APPROX_EQUAL(static_cast<T>(lhs_row.dot(col_vec)), result[r]);
+
+			if constexpr (is_floating_point<T> && sizeof(T) >= sizeof(double))
+			{
+				static constexpr T eps = constants<T>::default_epsilon * T{ 10 };
+				CHECK_APPROX_EQUAL_EPS(static_cast<T>(lhs_row.dot(col_vec)), result[r], eps);
+			}
+			else
+				CHECK_APPROX_EQUAL(static_cast<T>(lhs_row.dot(col_vec)), result[r]);
 		}
 	}
 

@@ -46,6 +46,7 @@ MUU_DISABLE_WARNINGS;
 #include <typeindex> // std::hash on-the-cheap
 #include <utility>
 #include <limits>
+#include <new>
 #if MUU_HAS_VECTORCALL
 	#include <intrin.h>
 #endif
@@ -184,7 +185,7 @@ namespace muu::impl
 	template <typename T, typename U>
 	struct smallest_<T, U>
 	{
-		using type = std::conditional_t<(sizeof(T) < sizeof(U)), T, U>;
+		using type = std::conditional_t<(sizeof(U) < sizeof(T)), U, T>;
 	};
 	template <typename T, typename U, typename... V>
 	struct smallest_<T, U, V...>

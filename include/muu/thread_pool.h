@@ -8,25 +8,12 @@
 
 #pragma once
 #include "../muu/core.h"
-#include "../muu/tagged_ptr.h"
 #include "../muu/string_param.h"
-
-MUU_DISABLE_WARNINGS;
-#ifdef __cpp_lib_hardware_interference_size
-	#include <new>
-#endif
-#include <memory>
-MUU_ENABLE_WARNINGS;
-
-#define MUU_MOVE_CHECK	MUU_ASSERT(storage_ != nullptr && "The thread_pool has been moved from!")
-#if MUU_ARCH_AMD64
-	#define	MUU_COMPRESSED_THREAD_POOL_TASK 1
-#else
-	#define	MUU_COMPRESSED_THREAD_POOL_TASK 0
-#endif
 
 MUU_PUSH_WARNINGS;
 MUU_DISABLE_SPAM_WARNINGS;
+MUU_PRAGMA_CLANG(diagnostic ignored "-Wignored-attributes")
+MUU_PRAGMA_MSVC(warning(disable: 26495)) // core guidelines: uninitialized member
 MUU_PRAGMA_MSVC(push_macro("min"))
 MUU_PRAGMA_MSVC(push_macro("max"))
 #if MUU_MSVC
@@ -41,20 +28,8 @@ namespace muu::impl
 {
 	MUU_ABI_VERSION_START(0);
 
-	template <typename Func, typename Arg>
-	inline constexpr bool is_thread_pool_task = 
-		std::is_nothrow_invocable_v<Func, Arg, size_t>
-		|| std::is_nothrow_invocable_v<Func, Arg>;
-
-	template <typename T>
-	inline constexpr bool is_trivial_task
-		= std::is_function_v<std::remove_pointer_t<std::remove_reference_t<T>>>
-		|| std::is_empty_v<remove_cvref<T>>
-		|| (std::is_class_v<remove_cvref<T>> && sizeof(T) == 1_sz && has_unary_plus_operator<T>)
-		|| std::is_trivially_copyable_v<remove_cvref<T>>;
-
 	#ifdef __cpp_lib_hardware_interference_size
-		inline constexpr size_t thread_pool_task_granularity = bit_ceil(max(std::hardware_destructive_interference_size, 64_sz));
+		inline constexpr size_t thread_pool_task_granularity = max(std::hardware_destructive_interference_size, 64_sz);
 	#else
 		inline constexpr size_t thread_pool_task_granularity = 64;
 	#endif
@@ -72,12 +47,12 @@ namespace muu::impl
 	
 	*/
 
-
 	struct thread_pool_task;
 
 	struct thread_pool_task_action final
 	{
 		thread_pool_task& task;
+
 		enum class types : uint8_t
 		{
 			move,
@@ -85,6 +60,7 @@ namespace muu::impl
 			destroy
 		}
 		type;
+
 		union data_type
 		{
 			size_t thread_index;
@@ -114,262 +90,368 @@ namespace muu::impl
 		{}
 	};
 
-	MUU_PRAGMA_MSVC(pack(push, 1))
-
-	struct
-	MUU_TRIVIAL_ABI
-	MUU_ATTR(packed)
-	thread_pool_task
+	struct thread_pool_task
 	{
-		using action_invoker_func = void(thread_pool_task_action&&)noexcept;
+		using action_invoker_type = void(*)(thread_pool_task_action&&)noexcept;
 
-		#if MUU_COMPRESSED_THREAD_POOL_TASK
-		using action_invoker_type = tagged_ptr<action_invoker_func>;
-		using states_int_type = action_invoker_type::tag_type;
-		using callable_buffer_type = std::byte[thread_pool_task_granularity - sizeof(action_invoker_type)];
-		#else
-		using action_invoker_type = action_invoker_func*;
-		using states_int_type = uint8_t;
-		using callable_buffer_type = std::byte[thread_pool_task_granularity - sizeof(action_invoker_type) - sizeof(states_int_type)];
-		#endif
+		alignas(thread_pool_task_granularity)
+		std::byte buffer[thread_pool_task_granularity - sizeof(action_invoker_type)];
 
-		enum class states : states_int_type
-		{
-			none = 0,
-			requires_explicit_destruction = 1,
-			destroyed = 2
-		};
-
-		callable_buffer_type callable_buffer;
+		static constexpr size_t buffer_capacity = sizeof(buffer);
 
 		action_invoker_type action_invoker;
 
-		#if !MUU_COMPRESSED_THREAD_POOL_TASK
-		states state_ = states::none;
-		#endif
-
-		[[nodiscard]]
-		MUU_ALWAYS_INLINE
-		states state() const noexcept
-		{
-			#if MUU_COMPRESSED_THREAD_POOL_TASK
-			return states{ action_invoker.tag() };
-			#else
-			return state_;
-			#endif
-		}
-
-		[[nodiscard]]
-		MUU_ALWAYS_INLINE
-		bool has_state(states s) const noexcept
-		{
-			return !!(unwrap(state()) & unwrap(s));
-		}
-
-		void set_state(states s) noexcept
-		{
-			#if MUU_COMPRESSED_THREAD_POOL_TASK
-			action_invoker.tag(s);
-			#else
-			state_ = s;
-			#endif
-		}
-
-		void add_state(states s) noexcept
-		{
-			set_state(static_cast<states>( unwrap(state()) | unwrap(s) ));
-		}
-
-		enum class callable_storage_modes : uint8_t
-		{
-			stored_directly = 0,
-			pointer_to_heap = 1,
-			pointer_to_source = 2
-		};
-
-		template <typename T>
-		struct callable_traits
-		{
-			using base_type = std::conditional_t<
-				std::is_function_v<remove_cvref<T>>,
-				std::add_pointer_t<remove_cvref<T>>,
-				remove_cvref<T>
-			>;
-			static_assert(
-				std::is_invocable_v<base_type, size_t>
-				|| std::is_invocable_v<base_type>
-			);
-
-			static constexpr bool small_size = sizeof(base_type) <= sizeof(callable_buffer_type);
-			static constexpr bool small_alignment = alignof(base_type) <= thread_pool_task_granularity;
-			static constexpr bool constructible = std::is_constructible_v<base_type, T>; //move or copy
-			static constexpr callable_storage_modes storage_mode =
-				callable_traits::constructible
-					? (callable_traits::small_size && callable_traits::small_alignment
-						? callable_storage_modes::stored_directly
-						: callable_storage_modes::pointer_to_heap)
-					: callable_storage_modes::pointer_to_source;
-			static constexpr bool requires_explicit_destruction = storage_mode == callable_storage_modes::pointer_to_heap
-				|| (storage_mode == callable_storage_modes::stored_directly && !std::is_trivially_destructible_v<base_type>);
-			using callable_type = std::conditional_t<
-				storage_mode == callable_storage_modes::pointer_to_source,
-				std::remove_reference_t<T>, // preserve cv qualifiers
-				base_type
-			>;
-		};
-
 		template <typename T>
 		MUU_NODISCARD_CTOR
-		thread_pool_task(T && callable_) noexcept
-		{
-			using traits = callable_traits<T&&>;
-			using callable_type = typename traits::callable_type;
+		thread_pool_task(T&& callable_) noexcept;
 
-			// store callable
-			if constexpr (traits::storage_mode == callable_storage_modes::stored_directly)
-				::new (static_cast<void*>(callable_buffer)) callable_type{ static_cast<T&&>(callable_) };
-			else if constexpr (traits::storage_mode == callable_storage_modes::pointer_to_heap)
-			{
-				auto ptr = new callable_type{ static_cast<T&&>(callable_) };
-				memcpy(callable_buffer, &ptr, sizeof(ptr));
-			}
-			else if constexpr (traits::storage_mode == callable_storage_modes::pointer_to_source)
-				memcpy(callable_buffer, &callable_, sizeof(callable_type*));
-			else
-				static_assert(always_false<T>, "Evaluated unreachable branch!");
-
-			// create invoker/mover/deleter
-			action_invoker = [](thread_pool_task_action&& action) noexcept
-			{
-				switch (action.type)
-				{
-					case thread_pool_task_action::types::invoke:
-					{
-						if constexpr (traits::requires_explicit_destruction)
-						{
-							MUU_ASSERT(!action.task.has_state(states::destroyed));
-						}
-
-						// fetch callable
-						callable_type* callable;
-						if constexpr (traits::storage_mode == callable_storage_modes::stored_directly)
-							callable = launder(reinterpret_cast<callable_type*>(action.task.callable_buffer));
-						else
-							memcpy(&callable, action.task.callable_buffer, sizeof(callable));
-						MUU_ASSERT(callable);
-
-						//invoke callable
-						if constexpr (std::is_invocable_v<callable_type, size_t>)
-							(*callable)(action.data.thread_index);
-						else
-							(*callable)();
-
-						return;
-					}
-
-					case thread_pool_task_action::types::move:
-					{
-						if constexpr (traits::requires_explicit_destruction)
-						{
-							MUU_ASSERT(!action.task.has_state(states::destroyed));
-						}
-
-						// copy invoker/mover/deleter and flags
-						action.task.action_invoker = action.data.source->action_invoker;
-						#if !MUU_COMPRESSED_THREAD_POOL_TASK
-						action.task.set_state(action.data.source->state());
-						#endif
-
-						// move/copy callable
-						if constexpr (traits::storage_mode == callable_storage_modes::stored_directly)
-						{
-							if constexpr (std::is_trivially_copyable_v<callable_type>)
-								memcpy(&action.task.callable_buffer, action.data.source->callable_buffer, sizeof(callable_type));
-							else if constexpr (std::is_move_constructible_v<callable_type>)
-							{
-								::new (static_cast<void*>(action.task.callable_buffer)) callable_type{ std::move(
-									*launder(reinterpret_cast<callable_type*>(action.data.source->callable_buffer))
-								) };
-							}
-							else
-							{
-								::new (static_cast<void*>(action.task.callable_buffer)) callable_type{
-									*launder(reinterpret_cast<callable_type*>(action.data.source->callable_buffer))
-								};
-							}
-						}
-						else
-							memcpy(&action.task.callable_buffer, action.data.source->callable_buffer, sizeof(callable_type*));
-
-						if constexpr (traits::storage_mode == callable_storage_modes::pointer_to_heap)
-							action.data.source->add_state(states::destroyed);
-
-						return;
-					}
-
-					case thread_pool_task_action::types::destroy:
-					{
-						if constexpr (traits::requires_explicit_destruction)
-						{
-							MUU_ASSERT(action.type == thread_pool_task_action::types::destroy);
-							MUU_ASSERT(!action.task.has_state(states::destroyed));
-
-							if constexpr (traits::storage_mode == callable_storage_modes::stored_directly)
-								launder(reinterpret_cast<callable_type*>(action.task.callable_buffer))->~callable_type();
-							else if constexpr (traits::storage_mode == callable_storage_modes::pointer_to_heap)
-							{
-								callable_type* callable;
-								memcpy(&callable, action.task.callable_buffer, sizeof(callable));
-								delete callable;
-							}
-							else
-								static_assert(always_false<T>, "Evaluated unreachable branch!");
-
-							return;
-						}
-						else
-							MUU_UNREACHABLE;
-					}
-
-					MUU_NO_DEFAULT_CASE;
-				}
-
-				MUU_UNREACHABLE;
-			};
-			MUU_ASSERT(action_invoker);
-
-			if constexpr (traits::requires_explicit_destruction)
-				set_state(states::requires_explicit_destruction);
-		}
-
+		MUU_NODISCARD_CTOR
 		thread_pool_task(thread_pool_task&& task) noexcept
 		{
-			MUU_ASSERT(task.action_invoker);
-			task.action_invoker(thread_pool_task_action{ *this, std::move(task) });
+			task.action_invoker(thread_pool_task_action{ *this, static_cast<thread_pool_task&&>(task) });
 		}
 
 		~thread_pool_task() noexcept
 		{
-			if (has_state(states::requires_explicit_destruction) && !has_state(states::destroyed))
-			{
-				action_invoker(thread_pool_task_action{ *this });
-				add_state(states::destroyed);
-			}
+			action_invoker(thread_pool_task_action{ *this });
 		}
 
 		void operator()(size_t worker_index) noexcept
 		{
-			MUU_ASSERT(action_invoker);
 			action_invoker(thread_pool_task_action{ *this, worker_index });
 		}
 	};
-	
-	MUU_PRAGMA_MSVC(pack(pop))
 
-	static_assert(sizeof(thread_pool_task) <= thread_pool_task_granularity);
-	static_assert(alignof(thread_pool_task) <= thread_pool_task_granularity);
-	static_assert(MUU_OFFSETOF(thread_pool_task, callable_buffer) == 0);
+	static_assert(sizeof(thread_pool_task) == thread_pool_task_granularity);
+	static_assert(alignof(thread_pool_task) == thread_pool_task_granularity);
+	static_assert(MUU_OFFSETOF(thread_pool_task, buffer) == 0);
 	static_assert(std::is_standard_layout_v<thread_pool_task>);
+
+	template <typename T, bool = has_unary_plus_operator<T>>
+	inline constexpr bool decays_to_function_pointer_by_unary_plus_ = false;
+	template <typename T>
+	inline constexpr bool decays_to_function_pointer_by_unary_plus_<T, true> =
+		std::is_pointer_v<std::remove_reference_t<decltype(+std::declval<T>())>>
+		&& std::is_function_v<std::remove_pointer_t<std::remove_reference_t<decltype(+std::declval<T>())>>>
+	;
+
+	template <typename T>
+	struct thread_pool_task_traits_pointer_to_callable
+	{
+		using storage_type = remove_cvref<T>;
+		using callable_type = std::remove_pointer_t<storage_type>;
+
+		static_assert(std::is_pointer_v<storage_type>);
+		static_assert(std::is_function_v<callable_type> || std::is_class_v<callable_type> || std::is_union_v<callable_type>);
+
+		static constexpr bool requires_destruction = false;
+		static constexpr bool is_function_pointer = std::is_function_v<callable_type>;
+		static constexpr bool is_referential = !is_function_pointer;
+
+		template <typename U>
+		MUU_ATTR(returns_nonnull)
+		static storage_type select(U&& callable) noexcept
+		{
+			if constexpr (std::is_function_v<std::remove_reference_t<U>>)
+				return callable;
+			else if constexpr (decays_to_function_pointer_by_unary_plus_<U&&>)
+			{
+				using decay_type = std::remove_reference_t<decltype(+std::declval<U&&>())>;
+				if constexpr (is_convertible<decay_type, storage_type>)
+					return static_cast<storage_type>(+static_cast<U&&>(callable));
+				else
+					return &callable;
+			}
+			else
+				return &callable;
+		}
+
+		template <typename U>
+		MUU_ATTR(nonnull)
+		static void store(void* buffer, U&& callable) noexcept
+		{
+			MUU_ASSUME(buffer);
+
+			storage_type ptr = select(static_cast<U&&>(callable));
+			memcpy(buffer, &ptr, sizeof(storage_type));
+		}
+
+		MUU_ATTR(nonnull)
+		static void move(void* from, void* to) noexcept
+		{
+			MUU_ASSUME(from);
+			MUU_ASSUME(to);
+
+			memcpy(to, from, sizeof(storage_type));
+		}
+
+		template <typename... Args>
+		static void invoke(storage_type callable, size_t index, Args&&... args) noexcept
+		{
+			MUU_ASSUME(callable);
+
+			if constexpr (std::is_nothrow_invocable_v<callable_type&, Args&&..., size_t>)
+				(*callable)(static_cast<Args&&>(args)..., index);
+			else if constexpr (std::is_nothrow_invocable_v<callable_type&, Args&&...>)
+			{
+				MUU_UNUSED(index);
+				(*callable)(static_cast<Args&&>(args)...);
+			}
+			else if constexpr (std::is_nothrow_invocable_v<callable_type&>)
+			{
+				MUU_UNUSED(index);
+				(MUU_UNUSED(args), ...);
+				(*callable)();
+			}
+			else
+				static_assert(always_false<T>, "Evaluated unreachable branch!");
+		}
+
+		template <typename... Args>
+		static void invoke(void* buffer, size_t index, Args&&... args) noexcept
+		{
+			MUU_ASSUME(buffer);
+
+			storage_type callable;
+			memcpy(&callable, buffer, sizeof(storage_type));
+			invoke(callable, index, static_cast<Args&&>(args)...);
+		}
+	};
+
+	template <typename T>
+	struct thread_pool_task_traits_stored_callable
+	{
+		using storage_type = T;
+		using callable_type = T;
+
+		static_assert(std::is_class_v<callable_type> || std::is_union_v<callable_type>);
+		static_assert(!std::is_const_v<callable_type> && !std::is_volatile_v<callable_type>);
+		static_assert(sizeof(callable_type) <= thread_pool_task::buffer_capacity);
+		static_assert(alignof(callable_type) <= thread_pool_task_granularity);
+
+		static constexpr bool requires_destruction = !std::is_trivially_destructible_v<callable_type>;
+		static constexpr bool is_function_pointer = false;
+		static constexpr bool is_referential = false;
+
+		template <typename U>
+		static decltype(auto) select(U&& callable) noexcept
+		{
+			return static_cast<U&&>(callable);
+		}
+
+		template <typename U>
+		MUU_ATTR(nonnull)
+		static void store(void* buffer, U&& callable) noexcept
+		{
+			static_assert(std::is_same_v<callable_type, remove_cvref<U>>);
+			MUU_ASSUME(buffer);
+
+			if constexpr (std::is_trivially_copyable_v<callable_type>)
+				memcpy(buffer, &callable, sizeof(callable_type));
+			else
+			{
+				if constexpr (std::is_aggregate_v<callable_type>)
+					::new (buffer) callable_type{ static_cast<U&&>(callable) };
+				else
+					::new (buffer) callable_type( static_cast<U&&>(callable) );
+			}
+		}
+
+		MUU_ATTR(nonnull)
+		static void move(void* from, void* to) noexcept
+		{
+			MUU_ASSUME(from);
+			MUU_ASSUME(to);
+
+			if constexpr (std::is_trivially_copyable_v<callable_type>)
+				memcpy(to, from, sizeof(callable_type));
+			else if constexpr (std::is_nothrow_move_constructible_v<callable_type>)
+			{
+				::new (to) callable_type{ std::move( *launder( reinterpret_cast<callable_type*>(from) )) };
+			}
+			else if constexpr (std::is_nothrow_default_constructible_v<callable_type>
+				&& std::is_nothrow_move_assignable_v<callable_type>)
+			{
+				auto val = ::new (to) callable_type;
+				*val = std::move( *launder( reinterpret_cast<callable_type*>(from) ));
+			}
+			else if constexpr (std::is_nothrow_copy_constructible_v<callable_type>)
+			{
+				::new (to) callable_type{ *launder(reinterpret_cast<callable_type*>(from)) };
+			}
+			else if constexpr (std::is_nothrow_default_constructible_v<callable_type>
+				&& std::is_nothrow_copy_assignable_v<callable_type>)
+			{
+				auto val = ::new (to) callable_type;
+				*val = *launder( reinterpret_cast<callable_type*>(from) );
+			}
+			else
+				static_assert(always_false<T>, "Evaluated unreachable branch!");
+		}
+
+		template <typename... Args>
+		static void invoke(storage_type& callable, size_t index, Args&&... args) noexcept
+		{
+			if constexpr (std::is_nothrow_invocable_v<callable_type&, Args&&..., size_t>)
+				callable(static_cast<Args&&>(args)..., index);
+			else if constexpr (std::is_nothrow_invocable_v<callable_type&, Args&&...>)
+			{
+				MUU_UNUSED(index);
+				callable(static_cast<Args&&>(args)...);
+			}
+			else if constexpr (std::is_nothrow_invocable_v<callable_type&>)
+			{
+				MUU_UNUSED(index);
+				(MUU_UNUSED(args), ...);
+				callable();
+			}
+			else
+				static_assert(always_false<T>, "Evaluated unreachable branch!");
+
+		}
+
+		template <typename... Args>
+		static void invoke(void* buffer, size_t index, Args&&... args) noexcept
+		{
+			MUU_ASSUME(buffer);
+
+			storage_type* callable;
+			if constexpr (std::is_trivially_copyable_v<callable_type>)
+				callable = reinterpret_cast<storage_type*>(buffer);
+			else
+				callable = launder(reinterpret_cast<storage_type*>(buffer));
+			MUU_ASSUME(callable != nullptr);
+
+			invoke(*callable, index, static_cast<Args&&>(args)...);
+		}
+
+		MUU_LEGACY_REQUIRES(sfinae, bool sfinae = requires_destruction)
+		MUU_ATTR(nonnull)
+		static void destroy(void* buffer) noexcept
+			MUU_REQUIRES(requires_destruction)
+		{
+			MUU_ASSUME(buffer);
+
+			launder(reinterpret_cast<callable_type*>(buffer))->~callable_type();
+		}
+	};
+
+	template <typename T>
+	[[nodiscard]]
+	MUU_ATTR(const)
+	constexpr auto thread_pool_task_traits_selector() noexcept
+	{
+		using bare_type = remove_cvref<T>;
+
+		// function references
+		if constexpr (std::is_function_v<bare_type>)
+			return thread_pool_task_traits_pointer_to_callable<std::add_pointer_t<bare_type>>{};
+
+		// function pointers
+		else if constexpr (std::is_function_v<std::remove_pointer_t<bare_type>>)
+			return thread_pool_task_traits_pointer_to_callable<bare_type>{};
+
+		// lambdas that can decay to function pointers
+		else if constexpr (std::is_class_v<bare_type> && std::is_empty_v<bare_type> && decays_to_function_pointer_by_unary_plus_<T>)
+		{
+			return thread_pool_task_traits_pointer_to_callable<std::remove_reference_t<decltype(+std::declval<T>())>>{};
+		}
+
+		// callable objects
+		else if constexpr (std::is_class_v<bare_type> || std::is_union_v<bare_type>)
+		{
+			if constexpr (std::is_rvalue_reference_v<T>)
+			{
+				constexpr auto size_ok = sizeof(bare_type) <= thread_pool_task::buffer_capacity;
+				constexpr auto alignment_ok = alignof(bare_type) <= thread_pool_task_granularity;
+				constexpr auto dtor_ok = std::is_nothrow_destructible_v<bare_type>;
+
+				static_assert(size_ok, "Rvalue-referenced tasks must be small enough to stored internally.");
+				static_assert(alignment_ok, "Rvalue-referenced tasks must have small enough alignment to stored internally.");
+				static_assert(dtor_ok, "Rvalue-referenced tasks must be nothrow-destructible.");
+
+				if constexpr (!std::is_trivially_copyable_v<bare_type>) // not memcpy-able
+				{
+					constexpr auto ctor_ok = std::is_nothrow_constructible_v<bare_type, T>; // copy or move constructor
+					constexpr auto move_ok = std::is_nothrow_move_constructible_v<bare_type>
+						|| (std::is_nothrow_default_constructible_v<bare_type>
+							&& std::is_nothrow_copy_assignable_v<bare_type>);
+					constexpr auto copy_ok = std::is_nothrow_copy_constructible_v<bare_type>
+						|| (std::is_nothrow_default_constructible_v<bare_type>
+							&& std::is_nothrow_copy_assignable_v<bare_type>);
+
+					static_assert(ctor_ok, "Rvalue-referenced tasks must be trivially-copyable or nothrow-constructible.");
+					static_assert(move_ok || copy_ok, "Rvalue-referenced tasks must be trivially-copyable, nothrow-movable or nothrow-copyable.");
+				}
+
+				return thread_pool_task_traits_stored_callable<bare_type>{};
+			}
+			else
+			{
+				return thread_pool_task_traits_pointer_to_callable<
+					std::add_pointer_t<std::remove_reference_t<T>>
+				>{};
+			}
+		}
+
+		// ??? 
+		else
+			static_assert(always_false<T>, "Evaluated unreachable branch!");
+	}
+
+	template <typename T>
+	using thread_pool_task_traits_base = decltype(thread_pool_task_traits_selector<T>());
+
+	template <typename T>
+	struct thread_pool_task_traits : thread_pool_task_traits_base<T> {};
+
+	template <typename T>
+	inline thread_pool_task::thread_pool_task(T && callable) noexcept
+	{
+		using traits = thread_pool_task_traits<T&&>;
+		using callable_type = typename traits::callable_type;
+
+		static_assert(
+			std::is_nothrow_invocable_v<callable_type, size_t>
+			|| std::is_nothrow_invocable_v<callable_type>
+		);
+
+		// store callable
+		traits::store(buffer, static_cast<T&&>(callable));
+
+		// create invoker/mover/deleter
+		action_invoker = [](thread_pool_task_action&& action) noexcept
+		{
+			switch (action.type)
+			{
+				case thread_pool_task_action::types::move:
+				{
+					action.task.action_invoker = action.data.source->action_invoker;
+					traits::move(action.data.source->buffer, action.task.buffer);
+					break;
+				}
+
+				case thread_pool_task_action::types::invoke:
+				{
+					traits::invoke(action.task.buffer, action.data.thread_index);
+					break;
+				}
+
+				case thread_pool_task_action::types::destroy:
+				{
+					if constexpr (traits::requires_destruction)
+					{
+						traits::destroy(action.task.buffer);
+						return;
+					}
+					break;
+				}
+
+				default: MUU_UNREACHABLE;
+			}
+		};
+		MUU_ASSERT(action_invoker);
+	}
 
 	template <typename T>
 	class batch_size_generator final
@@ -405,6 +487,9 @@ namespace muu::impl
 
 	MUU_ABI_VERSION_END;
 }
+
+#define MUU_MOVE_CHECK	MUU_ASSERT(storage_ != nullptr && "The thread_pool has been moved from!")
+
 /// \endcond
 
 namespace muu
@@ -436,57 +521,86 @@ namespace muu
 			MUU_API
 			void unlock(size_t) noexcept;
 
-			template <typename T>
+			template <typename Task>
 			class for_each_task final
 			{
+				public:
+					using traits = impl::thread_pool_task_traits<Task>;
+					using storage_type = typename traits::storage_type;
+
 				private:
-					mutable T task;
+					storage_type task_;
 
 				public:
 
 					template <typename Arg>
-					void operator()([[maybe_unused]] Arg&& arg, [[maybe_unused]] size_t tidx) const noexcept
+					void operator()(Arg&& arg, size_t batch_index) noexcept
 					{
-						if constexpr (std::is_invocable_v<T, Arg&&, size_t>)
-							task(static_cast<Arg&&>(arg), tidx);
-						else if constexpr (std::is_invocable_v<T, Arg&&>)
-							task(static_cast<Arg&&>(arg));
-						else if constexpr (std::is_invocable_v<T>)
-							task();
-						else
-							static_assert(always_false<Arg>, "Evaluated unreachable branch!");
+						traits::invoke(task_, batch_index, static_cast<Arg&&>(arg));
 					}
 
-					MUU_ALWAYS_INLINE for_each_task& operator* () noexcept { return *this; }
-					MUU_ALWAYS_INLINE const for_each_task& operator* () const noexcept { return *this; }
+					template <typename Arg>
+					void operator()(Arg&& arg) noexcept
+					{
+						traits::invoke(task_, 0_sz, static_cast<Arg&&>(arg));
+					}
 
 					template <typename U>
-					for_each_task(U&& t) noexcept
-						: task{ static_cast<U&&>(t) }
-					{}
+					MUU_NODISCARD_CTOR
+					for_each_task(U&& task) noexcept
+						: task_{ traits::select( static_cast<U&&>(task)) }
+					{
+					}
 			};
+
+			template <typename OriginalTask, typename Task>
+			[[nodiscard]]
+			static auto curry_for_each_task(Task&& task) noexcept
+			{
+				static_assert(std::is_reference_v<OriginalTask>);
+				static_assert(std::is_same_v<remove_cvref<OriginalTask>, remove_cvref<Task>>);
+
+				if constexpr (std::is_lvalue_reference_v<OriginalTask>)
+				{
+					static_assert(std::is_same_v<OriginalTask, Task&&>);
+					return for_each_task<OriginalTask>{ task };
+
+				}
+				else
+				{
+					if constexpr (std::is_rvalue_reference_v<Task&&>)
+						return for_each_task<Task&&>{ static_cast<Task&&>(task) };
+					else
+						return for_each_task<remove_cvref<Task>&&>{ remove_cvref<Task>{ task } };
+				}
+			}
 
 		public:
 
 			/// \brief	Constructs a thread pool.
 			///
-			/// \param	worker_count		The number of worker threads in the pool. Use `0` for 'automatic'.
-			/// \param	task_queue_size		Max tasks that can be stored in the internal queue without blocking. Use `0` for 'automatic'.
+			/// \param	worker_count		The number of worker threads in the pool. Leave as `0` for 'automatic'.
+			/// \param	task_queue_size		Max tasks that can be stored in the internal queue without blocking. Leave as `0` for 'automatic'.
 			/// \param	name 				The name of your threadpool (for debugging purposes).
-			/// \param	allocator 			The #muu::generic_allocator used for allocations. Set to `nullptr` to use the default global allocator.
+			/// \param	allocator 			The #muu::generic_allocator used for allocations. Leave as `nullptr` to use the default global allocator.
 			MUU_NODISCARD_CTOR
 			MUU_API
 			explicit
-			thread_pool(size_t worker_count = 0, size_t task_queue_size = 0, string_param name = {}, generic_allocator* allocator = nullptr);
+			thread_pool(
+				size_t worker_count = 0,
+				size_t task_queue_size = 0,
+				string_param name = {},
+				generic_allocator* allocator = nullptr
+			);
 
-			/// \brief	Constructs a thread_pool.
+			/// \brief	Constructs a thread pool.
 			///
 			/// \param	name 		The name of your thread pool (for debugging purposes).
-			/// \param	allocator 	The #muu::generic_allocator used for allocations. Set to `nullptr` to use the default global allocator.
+			/// \param	allocator 	The #muu::generic_allocator used for allocations. Leave as `nullptr` to use the default global allocator.
 			MUU_NODISCARD_CTOR
 			explicit
 			thread_pool(string_param name, generic_allocator* allocator = nullptr)
-				: thread_pool{ 0, 0, std::move(name), allocator }
+				: thread_pool{ 0, 0, static_cast<string_param&&>(name), allocator }
 			{}
 
 			/// \brief	Move constructor.
@@ -529,13 +643,13 @@ namespace muu
 			/// \details Tasks must be callables with no parameters, or one parameter to recieve
 			/// 		 the index of the worker invoking the task:
 			/// \cpp
+			/// pool.enqueue([](size_t worker_index) noexcept
+			/// {
+			///		// worker_index is in the range [0, pool.workers() - 1]
+			///	});
 			/// pool.enqueue([]() noexcept
 			/// {
 			///		//...
-			///	});
-			/// pool.enqueue([](size_t worker_index) noexcept
-			/// {
-			///		// worker_index is in the range [0, pool.workers())
 			///	});
 			/// \ecpp
 			/// 
@@ -566,26 +680,35 @@ namespace muu
 
 		private:
 
-			template <typename Iter, typename Task>
-			void enqueue_for_each_batch(Iter batch_start, Iter batch_end, Task&& task) noexcept
+			template <typename OriginalTask, bool Indexed, typename Iter, typename Task>
+			void enqueue_for_each_batch(Iter batch_start, Iter batch_end, size_t batch_index, Task&& task) noexcept
 			{
+				if constexpr (Indexed)
+					MUU_ASSERT(batch_index < workers());
+				else
+					MUU_UNUSED(batch_index);
+
 				const auto qindex = lock();
+
 				enqueue(
 					qindex,
 					[
-						i = batch_start,
-						e = batch_end,
-						t = static_cast<Task&&>(task)
+						=,
+						curried_task = curry_for_each_task<OriginalTask>( static_cast<Task&&>(task) )
 					]
-					(size_t worker_index) mutable noexcept
+					() mutable noexcept
 					{
-						while (i != e)
+						while (batch_start != batch_end)
 						{
-							(*t)(*i, worker_index);
-							std::advance(i, 1);
+							if constexpr (Indexed)
+								curried_task(*batch_start, batch_index);
+							else
+								curried_task(*batch_start);
+							std::advance(batch_start, 1);
 						}
 					}
 				);
+
 				unlock(qindex);
 			}
 
@@ -595,43 +718,35 @@ namespace muu
 				using elem_reference = impl::iter_reference_t<Begin>;
 				static_assert(
 					std::is_nothrow_invocable_v<Task&&, elem_reference, size_t>
-					|| std::is_nothrow_invocable_v<Task&&, elem_reference>,
-					"Tasks passed to thread_pool::for_each() must be callable as void(elem) noexcept or void(elem, size_t) noexcept"
+					|| std::is_nothrow_invocable_v<Task&&, elem_reference>
+					|| std::is_nothrow_invocable_v<Task&&>,
+					"Tasks passed to thread_pool::for_each() must be callable as void() noexcept, void(T) noexcept or void(T, size_t) noexcept"
 				);
 
 				//determine batch count and distribute iterators
 				auto batch_generator = impl::batch_size_generator<size_t>{ job_count, this->workers() };
-				size_t batch_size = batch_generator();
+				size_t next_batch_size = batch_generator();
 				auto batch_start = begin;
-				auto batch_end = std::next(begin, static_cast<ptrdiff_t>(batch_size));
+				auto batch_end = std::next(begin, static_cast<ptrdiff_t>(next_batch_size));
+				auto batch_index = 0_sz;
 
-				//dispatch tasks (trivial callables)
-				using for_each_task_type = for_each_task<remove_cvref<Task&&>>;
-				if (impl::is_trivial_task<Task&&> || this->workers() == 1u)
+				//dispatch tasks
+				static constexpr auto indexed = std::is_nothrow_invocable_v<Task&&, elem_reference, size_t>;
+				while (true)
 				{
-					while (batch_size)
+					next_batch_size = batch_generator();
+					if (next_batch_size)
 					{
-						enqueue_for_each_batch(batch_start, batch_end, for_each_task_type{ static_cast<Task&&>(task) });
+						enqueue_for_each_batch<Task&&, indexed>(batch_start, batch_end, batch_index, task);
 						batch_start = batch_end;
-						batch_size = batch_generator();
-						if (batch_size)
-							std::advance(batch_end, static_cast<ptrdiff_t>(batch_size));
+						std::advance(batch_end, static_cast<ptrdiff_t>(next_batch_size));
 					}
-					return *this;
-				}
-
-				//dispatch tasks (nontrivial callables)
-				if constexpr (!impl::is_trivial_task<Task&&>)
-				{
-					auto task_ptr = std::make_shared<for_each_task_type>(static_cast<Task&&>(task));
-					while (batch_size)
+					else
 					{
-						enqueue_for_each_batch(batch_start, batch_end, task_ptr);
-						batch_start = batch_end;
-						batch_size = batch_generator();
-						if (batch_size)
-							std::advance(batch_end, static_cast<ptrdiff_t>(batch_size));
+						enqueue_for_each_batch<Task&&, indexed>(batch_start, batch_end, batch_index, static_cast<Task&&>(task) );
+						break;
 					}
+					batch_index++;
 				}
 				return *this;
 			}
@@ -640,18 +755,23 @@ namespace muu
 
 			/// \brief	Enqueues a task to execute on every element in a collection.
 			/// 
-			/// \details Tasks must be callables with one parameter matching the elements in your collection,
-			/// 		 and optionally a second `size_t` parameter to recieve the index of the worker invoking the task:
+			/// \details	Tasks must be callables which accept at most two arguments: <br>
+			/// 			Argument 0: The current element from the collection <br>
+			/// 			Argument 1: The task's batch (in the range `[0, pool.workers() - 1]`) <br>
 			/// \cpp
 			/// std::array<int, 10> vals;
+			/// pool.for_each(vals.begin(), vals.end(), [](int& i, size_t batch_index) noexcept
+			/// {
+			///		// i is one of the elements of vals
+			///		// batch_index is in the range [0, pool.workers() - 1]
+			///	});
 			/// pool.for_each(vals.begin(), vals.end(), [](int& i) noexcept
 			/// {
 			///		// i is one of the elements of vals
 			///	});
-			/// pool.for_each(vals.begin(), vals.end(), [](int& i, size_t worker_index) noexcept
+			/// pool.for_range(0, 10, []() noexcept
 			/// {
-			///		// i is one of the elements of vals
-			///		// worker_index is in the range [0, pool.workers())
+			///		// no args is OK too (though unusual)
 			///	});
 			/// \ecpp
 			/// 
@@ -685,18 +805,23 @@ namespace muu
 
 			/// \brief	Enqueues a task to execute on every element in a collection.
 			/// 
-			/// \details Tasks must be callables with one parameter matching the elements in your collection,
-			/// 		 and optionally a second `size_t` parameter to recieve the index of the worker invoking the task:
+			/// \details	Tasks must be callables which accept at most two arguments: <br>
+			/// 			Argument 0: The current element from the collection <br>
+			/// 			Argument 1: The task's batch (in the range `[0, pool.workers() - 1]`) <br>
 			/// \cpp
 			/// std::array<int, 10> vals;
-			/// pool.for_each(vals, [](int& i, size_t worker_index) noexcept
+			/// pool.for_each(vals, [](int& i, size_t batch_index) noexcept
 			/// {
 			///		// i is one of the elements of vals
-			///		// worker_index is in the range [0, pool.workers())
+			///		// batch_index is in the range [0, pool.workers() - 1]
 			///	});
 			/// pool.for_each(vals, [](int& i) noexcept
 			/// {
 			///		// i is one of the elements of vals
+			///	});
+			/// pool.for_range(0, 10, []() noexcept
+			/// {
+			///		// no args is OK too (though unusual)
 			///	});
 			/// \ecpp
 			/// 
@@ -731,31 +856,47 @@ namespace muu
 
 		private:
 
-			template <typename ValueType, typename T, typename Task>
-			void enqueue_for_range_batch(T batch_start, T batch_end, Task&& task) noexcept
+			template <typename OriginalTask, typename ValueType, bool Indexed, typename T, typename Task>
+			void enqueue_for_range_batch(T batch_start, T batch_end, size_t batch_index, Task&& task) noexcept
 			{
+				if constexpr (Indexed)
+					MUU_ASSERT(batch_index < workers());
+				else
+					MUU_UNUSED(batch_index);
+
 				const auto qindex = lock();
+
 				enqueue(
 					qindex,
 					[
-						i = batch_start,
-						e = batch_end,
-						t = static_cast<Task&&>(task)
+						=,
+						curried_task = curry_for_each_task<OriginalTask>( static_cast<Task&&>(task) )
 					]
-					(size_t worker_index) mutable noexcept
+					() mutable noexcept
 					{
-						if (i < e)
+						if (batch_start < batch_end)
 						{
-							for (; i < e; i++)
-								(*t)(static_cast<ValueType>(i), worker_index);
+							for (; batch_start < batch_end; batch_start++)
+							{
+								if constexpr (Indexed)
+									curried_task(static_cast<ValueType>(batch_start), batch_index);
+								else
+									curried_task(static_cast<ValueType>(batch_start));
+							}
 						}
 						else
 						{
-							for (; i > e; i--)
-								(*t)(static_cast<ValueType>(i), worker_index);
+							for (; batch_start > batch_end; batch_start--)
+							{
+								if constexpr (Indexed)
+									curried_task(static_cast<ValueType>(batch_start), batch_index);
+								else
+									curried_task(static_cast<ValueType>(batch_start));
+							}
 						}
 					}
 				);
+
 				unlock(qindex);
 			}
 
@@ -763,18 +904,18 @@ namespace muu
 	
 			/// \brief	Enqueues a task to execute once for every value in a range.
 			/// 
-			/// \details	Tasks must be callables that take 0-2 argument, with the first argument being the range's
-			///				integer type, and the second beign a `size_t` corresponding to the index of
-			///				the worker invoking the task:
+			/// \details	Tasks must be callables which accept at most two arguments: <br>
+			/// 			Argument 0: The current value from the range <br>
+			/// 			Argument 1: The task's batch (in the range `[0, pool.workers() - 1]`) <br>
 			/// \cpp
-			/// pool.for_range(0, 10, [](int i, size_t worker_index) noexcept
+			/// pool.for_range(0, 10, [](int i, size_t batch_index) noexcept
 			/// {
-			///		// i is in the range [0, 10)
-			///		// worker_index is in the range [0, pool.workers())
+			///		// i is in the range [0, 9]
+			///		// batch_index is in the range [0, pool.workers() - 1]
 			///	});
 			/// pool.for_range(0, 10, [](int i) noexcept
 			/// {
-			///		// i is in the range [0, 10)
+			///		// i is in the range [0, 9]
 			///	});
 			/// pool.for_range(0, 10, []() noexcept
 			/// {
@@ -819,38 +960,28 @@ namespace muu
 				if (!job_count)
 					return *this;
 				auto batch_generator = impl::batch_size_generator<size_type>{ job_count, this->workers() };
-				offset_type batch_start = unwrap(start);
-				size_type batch_size = batch_generator();
+				offset_type next_batch_start = unwrap(start);
+				size_type next_batch_size = batch_generator();
+				auto batch_index = 0_sz;
 
-				//dispatch tasks (trivial callables)
-				using for_each_task_type = for_each_task<remove_cvref<Task&&>>;
-				if (impl::is_trivial_task<Task&&> || this->workers() == 1u)
+				//dispatch tasks
+				static constexpr auto indexed = std::is_nothrow_invocable_v<Task&&, T, size_t>;
+				while (true)
 				{
-					while (batch_size)
-					{
-						offset_type batch_end = start < end
-							? static_cast<offset_type>(batch_start + batch_size)
-							: static_cast<offset_type>(batch_start - batch_size);
-						enqueue_for_range_batch<value_type>(batch_start, batch_end, for_each_task_type{ static_cast<Task&&>(task) });
-						batch_start = batch_end;
-						batch_size = batch_generator();
-					}
-					return *this;
-				}
+					const auto batch_start = next_batch_start;
+					next_batch_start = start < end
+						? static_cast<offset_type>(batch_start + next_batch_size)
+						: static_cast<offset_type>(batch_start - next_batch_size);
+					next_batch_size = batch_generator();
 
-				//dispatch tasks (nontrivial callables)
-				if constexpr (!impl::is_trivial_task<Task&&>)
-				{
-					auto task_ptr = std::make_shared<for_each_task_type>(static_cast<Task&&>(task));
-					while (batch_size)
+					if (next_batch_size)
+						enqueue_for_range_batch<Task&&, value_type, indexed>(batch_start, next_batch_start, batch_index, task);
+					else
 					{
-						offset_type batch_end = start < end
-							? static_cast<offset_type>(batch_start + batch_size)
-							: static_cast<offset_type>(batch_start - batch_size);
-						enqueue_for_range_batch<value_type>(batch_start, batch_end, task_ptr);
-						batch_start = batch_end;
-						batch_size = batch_generator();
+						enqueue_for_range_batch<Task&&, value_type, indexed>(batch_start, next_batch_start, batch_index, static_cast<Task&&>(task));
+						break;
 					}
+					batch_index++;
 				}
 				return *this;
 			}
