@@ -228,9 +228,6 @@
     <ClCompile Include="..\src\string_param.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\half.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\vector_types_common.cpp">
       <Filter>src</Filter>
     </ClCompile>

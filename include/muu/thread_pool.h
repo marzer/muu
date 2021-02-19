@@ -267,23 +267,23 @@ namespace muu::impl
 				memcpy(to, from, sizeof(callable_type));
 			else if constexpr (std::is_nothrow_move_constructible_v<callable_type>)
 			{
-				::new (to) callable_type{ std::move( *launder( reinterpret_cast<callable_type*>(from) )) };
+				::new (to) callable_type{ std::move( *launder( static_cast<callable_type*>(from) )) };
 			}
 			else if constexpr (std::is_nothrow_default_constructible_v<callable_type>
 				&& std::is_nothrow_move_assignable_v<callable_type>)
 			{
 				auto val = ::new (to) callable_type;
-				*val = std::move( *launder( reinterpret_cast<callable_type*>(from) ));
+				*val = std::move( *launder(static_cast<callable_type*>(from) ));
 			}
 			else if constexpr (std::is_nothrow_copy_constructible_v<callable_type>)
 			{
-				::new (to) callable_type{ *launder(reinterpret_cast<callable_type*>(from)) };
+				::new (to) callable_type{ *launder(static_cast<callable_type*>(from)) };
 			}
 			else if constexpr (std::is_nothrow_default_constructible_v<callable_type>
 				&& std::is_nothrow_copy_assignable_v<callable_type>)
 			{
 				auto val = ::new (to) callable_type;
-				*val = *launder( reinterpret_cast<callable_type*>(from) );
+				*val = *launder(static_cast<callable_type*>(from) );
 			}
 			else
 				static_assert(always_false<T>, "Evaluated unreachable branch!");
@@ -317,9 +317,9 @@ namespace muu::impl
 
 			storage_type* callable;
 			if constexpr (std::is_trivially_copyable_v<callable_type>)
-				callable = reinterpret_cast<storage_type*>(buffer);
+				callable = static_cast<storage_type*>(buffer);
 			else
-				callable = launder(reinterpret_cast<storage_type*>(buffer));
+				callable = launder(static_cast<storage_type*>(buffer));
 			MUU_ASSUME(callable != nullptr);
 
 			invoke(*callable, index, static_cast<Args&&>(args)...);
@@ -332,7 +332,7 @@ namespace muu::impl
 		{
 			MUU_ASSUME(buffer);
 
-			launder(reinterpret_cast<callable_type*>(buffer))->~callable_type();
+			launder(static_cast<callable_type*>(buffer))->~callable_type();
 		}
 	};
 

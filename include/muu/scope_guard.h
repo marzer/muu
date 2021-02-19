@@ -57,17 +57,18 @@ namespace muu
 	class scope_guard
 	{
 		static_assert(
-			std::is_invocable_v<std::remove_reference_t<T>>,
+			std::is_invocable_v<T>,
 			"Types wrapped by a scope guard must be callable (functions, lambdas, etc.)"
 		);
 		static_assert(
 			!build::has_exceptions
-			|| std::is_nothrow_invocable_v<std::remove_reference_t<T>>,
+			|| std::is_nothrow_invocable_v<T>,
 			"Callables wrapped by a scope guard must be marked noexcept"
 		);
 		static_assert(
 			!build::has_exceptions
-			|| std::is_nothrow_destructible_v<std::remove_reference_t<T>>,
+			|| std::is_reference_v<T>
+			|| std::is_nothrow_destructible_v<T>,
 			"Callables wrapped by a scope guard must be nothrow-destructible"
 		);
 
@@ -89,7 +90,7 @@ namespace muu
 			{
 				static_assert(
 					!build::has_exceptions
-					|| std::is_nothrow_constructible_v<std::remove_reference_t<T>, U&&>,
+					|| muu::is_nothrow_convertible<U&&, T>,
 					"A scope_guard's callable must be nothrow-constructible from its initializer"
 				);
 			}

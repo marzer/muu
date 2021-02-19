@@ -466,6 +466,26 @@ namespace muu::impl
 			return get<I>(static_cast<T&&>(tuple_like));
 		}
 	}
+
+	#ifdef __cpp_lib_is_nothrow_convertible
+
+	template <typename From, typename To>
+	inline constexpr bool is_implicitly_nothrow_convertible_ = std::is_nothrow_convertible_v<From, To>;
+
+	#else
+
+	template <typename From, typename To, int =
+		(std::is_void_v<From> && std::is_void_v<To> ? 2 : (std::is_convertible_v<From, To> ? 1 : 0))
+	>
+	inline constexpr bool is_implicitly_nothrow_convertible_ = false;
+
+	template <typename From, typename To>
+	inline constexpr bool is_implicitly_nothrow_convertible_<From, To, 1> = noexcept(static_cast<To>(std::declval<From>()));
+
+	template <typename From, typename To>
+	inline constexpr bool is_implicitly_nothrow_convertible_<From, To, 2> = true; // both void
+
+	#endif
 }
 /// \endcond
 
@@ -577,6 +597,62 @@ namespace muu
 	template <typename To, typename... From>
 	inline constexpr bool all_convertible_to = (sizeof...(From) > 0)
 		&& (true && ... && is_convertible<From, To>);
+
+	/// \brief	True if `From` is implicitly nothrow-convertible to `To`.
+	template <typename From, typename To>
+	inline constexpr bool is_implicitly_nothrow_convertible = impl::is_implicitly_nothrow_convertible_<From, To>;
+
+	/// \brief	True if `From` is implicitly nothrow-convertible to any of the types named by `To`.
+	template <typename From, typename... To>
+	inline constexpr bool is_implicitly_nothrow_convertible_to_any = (false || ... || is_implicitly_nothrow_convertible<From, To>);
+
+	/// \brief	True if `From` is implicitly nothrow-convertible to all of the types named by `To`.
+	template <typename From, typename... To>
+	inline constexpr bool is_implicitly_nothrow_convertible_to_all = (sizeof...(To) > 0)
+		&& (true && ... && is_implicitly_nothrow_convertible<From, To>);
+
+	/// \brief	True if all of the types named by `From` are implicitly nothrow-convertible to `To`.
+	template <typename To, typename... From>
+	inline constexpr bool all_implicitly_nothrow_convertible_to = (sizeof...(From) > 0)
+		&& (true && ... && is_implicitly_nothrow_convertible<From, To>);
+
+	/// \brief	True if `From` is explicitly nothrow-convertible to `To`.
+	template <typename From, typename To>
+	inline constexpr bool is_explicitly_nothrow_convertible =
+		!is_implicitly_nothrow_convertible<From, To> && std::is_nothrow_constructible_v<To, From>;
+
+	/// \brief	True if `From` is explicitly nothrow-convertible to any of the types named by `To`.
+	template <typename From, typename... To>
+	inline constexpr bool is_explicitly_nothrow_convertible_to_any = (false || ... || is_explicitly_nothrow_convertible<From, To>);
+
+	/// \brief	True if `From` is explicitly nothrow-convertible to all of the types named by `To`.
+	template <typename From, typename... To>
+	inline constexpr bool is_explicitly_nothrow_convertible_to_all =
+		(sizeof...(To) > 0) && (true && ... && is_explicitly_nothrow_convertible<From, To>);
+
+	/// \brief	True if all of the types named by `From` are explicitly nothrow-convertible to `To`.
+	template <typename To, typename... From>
+	inline constexpr bool all_explicitly_nothrow_convertible_to = (sizeof...(From) > 0)
+		&& (true && ... && is_explicitly_nothrow_convertible<From, To>);
+
+	/// \brief	True if `From` is implicitly _or_ explicitly nothrow-convertible to `To`.
+	template <typename From, typename To>
+	inline constexpr bool is_nothrow_convertible =
+		is_implicitly_nothrow_convertible<From, To> || std::is_nothrow_constructible_v<To, From>;
+
+	/// \brief	True if `From` is implicitly _or_ explicitly nothrow-convertible to any of the types named by `To`.
+	template <typename From, typename... To>
+	inline constexpr bool is_nothrow_convertible_to_any = (false || ... || is_nothrow_convertible<From, To>);
+
+	/// \brief	True if `From` is implicitly _or_ explicitly nothrow-convertible to all of the types named by `To`.
+	template <typename From, typename... To>
+	inline constexpr bool is_nothrow_convertible_to_all =
+		(sizeof...(To) > 0) && (true && ... && is_nothrow_convertible<From, To>);
+
+	/// \brief	True if all of the types named by `From` are implicitly _or_ explicitly nothrow-convertible to `To`.
+	template <typename To, typename... From>
+	inline constexpr bool all_nothrow_convertible_to = (sizeof...(From) > 0)
+		&& (true && ... && is_nothrow_convertible<From, To>);
 
 	/// \brief Is a type an enum or reference-to-enum?
 	template <typename T>

@@ -358,8 +358,8 @@ namespace
 	[[nodiscard]]
 	static size_t calc_thread_pool_worker_queue_size(size_t worker_count, size_t task_queue_size) noexcept
 	{
-		static constexpr size_t max_buffer_size = 256 * 1024 * 1024; // 256 MB (4M tasks on x64)
-		static constexpr size_t default_buffer_size = 64 * 1024;	 // 64 KB (1024 tasks on x64)
+		static constexpr size_t max_buffer_size = 256_mb;	// 4M tasks on x64
+		static constexpr size_t default_buffer_size = 64_kb;// 1024 tasks on x64
 		static constexpr size_t max_task_queue_size = max_buffer_size / impl::thread_pool_task_granularity;
 		static constexpr size_t default_task_queue_size = default_buffer_size / impl::thread_pool_task_granularity;
 		static_assert(max_task_queue_size > 0);
@@ -598,9 +598,9 @@ thread_pool::thread_pool(size_t worker_count, size_t task_queue_size, string_par
 		total_allocation,
 		max(alignof(thread_pool_storage), impl::thread_pool_task_granularity)
 	);
-	MUU_ASSERT(buffer_ptr && "allocate() failed!");
 	#if !MUU_HAS_EXCEPTIONS
 	{
+		MUU_ASSERT(buffer_ptr && "allocate() failed!");
 		if (!buffer_ptr)
 			std::terminate();
 	}
