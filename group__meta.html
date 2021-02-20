@@ -269,6 +269,11 @@ C++</span></a>
             </dt>
             <dd>True if all of the types named by <code>From</code> are explicitly convertible to <code>To</code>.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename To, typename... From&gt;</div>
+              bool <a class="m-doc" href="#ga6d0bc59b0f1a3247d4e42c39d2f00dd1">all_explicitly_nothrow_convertible_to</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if all of the types named by <code>From</code> are explicitly nothrow-convertible to <code>To</code>.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="#gad2165666bd79caf59277b9c4488a1bde">all_floating_point</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
@@ -279,10 +284,20 @@ C++</span></a>
             </dt>
             <dd>True if all of the types named by <code>From</code> are implicitly convertible to <code>To</code>.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename To, typename... From&gt;</div>
+              bool <a class="m-doc" href="#ga5acc7a33b8fd21e0b8805f26d9ac992d">all_implicitly_nothrow_convertible_to</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if all of the types named by <code>From</code> are implicitly nothrow-convertible to <code>To</code>.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="#ga02060371498ff52c8d225e379fe00975">all_integral</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are all of the named types integral or reference-to-integral?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename To, typename... From&gt;</div>
+              bool <a class="m-doc" href="#ga465e6a6c912b71ca29cf4abf4575bf4f">all_nothrow_convertible_to</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if all of the types named by <code>From</code> are implicitly <em>or</em> explicitly nothrow-convertible to <code>To</code>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="#ga9c2b21ea2cf57533a5dcf264d0e906e8">all_same</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -419,6 +434,21 @@ C++</span></a>
             </dt>
             <dd>True if <code>From</code> is explicitly convertible to any of the types named by <code>To</code>.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename From, typename To&gt;</div>
+              bool <a class="m-doc" href="#gab20c2a24d63c89812c535f0a986b958d">is_explicitly_nothrow_convertible</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if <code>From</code> is explicitly nothrow-convertible to <code>To</code>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename From, typename... To&gt;</div>
+              bool <a class="m-doc" href="#gadbb31fed4f56fa8869ea860a4b330f7f">is_explicitly_nothrow_convertible_to_all</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if <code>From</code> is explicitly nothrow-convertible to all of the types named by <code>To</code>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename From, typename... To&gt;</div>
+              bool <a class="m-doc" href="#ga3f32761c6e60e709f4e6e4b6874230a8">is_explicitly_nothrow_convertible_to_any</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if <code>From</code> is explicitly nothrow-convertible to any of the types named by <code>To</code>.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="#ga92c7057e770b054e9d54bb28d60badea">is_extended_arithmetic</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
@@ -444,6 +474,21 @@ C++</span></a>
             </dt>
             <dd>True if <code>From</code> is implicitly convertible to any of the types named by <code>To</code>.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename From, typename To&gt;</div>
+              bool <a class="m-doc" href="#ga756aec06547ff6bd69c7f51bb4d01e46">is_implicitly_nothrow_convertible</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if <code>From</code> is implicitly nothrow-convertible to <code>To</code>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename From, typename... To&gt;</div>
+              bool <a class="m-doc" href="#gaf0de9802b973764be7848a020088f961">is_implicitly_nothrow_convertible_to_all</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if <code>From</code> is implicitly nothrow-convertible to all of the types named by <code>To</code>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename From, typename... To&gt;</div>
+              bool <a class="m-doc" href="#ga2559c7587af80489da97126e645da89d">is_implicitly_nothrow_convertible_to_any</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if <code>From</code> is implicitly nothrow-convertible to any of the types named by <code>To</code>.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="#ga6283839d5536a4ee096adccee42b88c5">is_integral</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
@@ -453,6 +498,21 @@ C++</span></a>
               bool <a class="m-doc" href="#ga0ad880900bc41c21a698d9114f333e3d">is_legacy_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Is a type a pre-C++11 unscoped enum, or reference to one?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename From, typename To&gt;</div>
+              bool <a class="m-doc" href="#ga090993f769edb7c30da887d3b6f71f23">is_nothrow_convertible</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if <code>From</code> is implicitly <em>or</em> explicitly nothrow-convertible to <code>To</code>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename From, typename... To&gt;</div>
+              bool <a class="m-doc" href="#ga0ada082fe05220bf0aaca76cba7f9e83">is_nothrow_convertible_to_all</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if <code>From</code> is implicitly <em>or</em> explicitly nothrow-convertible to all of the types named by <code>To</code>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename From, typename... To&gt;</div>
+              bool <a class="m-doc" href="#ga324c6e94dfe58e068c531e55c15ea9a4">is_nothrow_convertible_to_any</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if <code>From</code> is implicitly <em>or</em> explicitly nothrow-convertible to any of the types named by <code>To</code>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="#ga526c58b5a438ba0c7746e465389e013d">is_same_as_any</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -883,6 +943,16 @@ C++</span></a>
             </h3>
             <p>True if all of the types named by <code>From</code> are explicitly convertible to <code>To</code>.</p>
           </div></section>
+          <section class="m-doc-details" id="ga6d0bc59b0f1a3247d4e42c39d2f00dd1"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename To, typename... From&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga6d0bc59b0f1a3247d4e42c39d2f00dd1">all_explicitly_nothrow_convertible_to</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>True if all of the types named by <code>From</code> are explicitly nothrow-convertible to <code>To</code>.</p>
+          </div></section>
           <section class="m-doc-details" id="gad2165666bd79caf59277b9c4488a1bde"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
@@ -904,6 +974,16 @@ C++</span></a>
             </h3>
             <p>True if all of the types named by <code>From</code> are implicitly convertible to <code>To</code>.</p>
           </div></section>
+          <section class="m-doc-details" id="ga5acc7a33b8fd21e0b8805f26d9ac992d"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename To, typename... From&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga5acc7a33b8fd21e0b8805f26d9ac992d">all_implicitly_nothrow_convertible_to</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>True if all of the types named by <code>From</code> are implicitly nothrow-convertible to <code>To</code>.</p>
+          </div></section>
           <section class="m-doc-details" id="ga02060371498ff52c8d225e379fe00975"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
@@ -914,6 +994,16 @@ C++</span></a>
             </h3>
             <p>Are all of the named types integral or reference-to-integral?</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>Returns true for enums.</p><p>Returns true for <a class="m-doc" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a> and <a class="m-doc" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a> (where supported).</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga465e6a6c912b71ca29cf4abf4575bf4f"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename To, typename... From&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga465e6a6c912b71ca29cf4abf4575bf4f">all_nothrow_convertible_to</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>True if all of the types named by <code>From</code> are implicitly <em>or</em> explicitly nothrow-convertible to <code>To</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga9c2b21ea2cf57533a5dcf264d0e906e8"><div>
             <h3>
@@ -1231,6 +1321,36 @@ C++</span></a>
             </h3>
             <p>True if <code>From</code> is explicitly convertible to any of the types named by <code>To</code>.</p>
           </div></section>
+          <section class="m-doc-details" id="gab20c2a24d63c89812c535f0a986b958d"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename From, typename To&gt;
+              </div>
+              bool <a class="m-doc-self" href="#gab20c2a24d63c89812c535f0a986b958d">is_explicitly_nothrow_convertible</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>True if <code>From</code> is explicitly nothrow-convertible to <code>To</code>.</p>
+          </div></section>
+          <section class="m-doc-details" id="gadbb31fed4f56fa8869ea860a4b330f7f"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename From, typename... To&gt;
+              </div>
+              bool <a class="m-doc-self" href="#gadbb31fed4f56fa8869ea860a4b330f7f">is_explicitly_nothrow_convertible_to_all</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>True if <code>From</code> is explicitly nothrow-convertible to all of the types named by <code>To</code>.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga3f32761c6e60e709f4e6e4b6874230a8"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename From, typename... To&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga3f32761c6e60e709f4e6e4b6874230a8">is_explicitly_nothrow_convertible_to_any</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>True if <code>From</code> is explicitly nothrow-convertible to any of the types named by <code>To</code>.</p>
+          </div></section>
           <section class="m-doc-details" id="ga92c7057e770b054e9d54bb28d60badea"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
@@ -1283,6 +1403,36 @@ C++</span></a>
             </h3>
             <p>True if <code>From</code> is implicitly convertible to any of the types named by <code>To</code>.</p>
           </div></section>
+          <section class="m-doc-details" id="ga756aec06547ff6bd69c7f51bb4d01e46"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename From, typename To&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga756aec06547ff6bd69c7f51bb4d01e46">is_implicitly_nothrow_convertible</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>True if <code>From</code> is implicitly nothrow-convertible to <code>To</code>.</p>
+          </div></section>
+          <section class="m-doc-details" id="gaf0de9802b973764be7848a020088f961"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename From, typename... To&gt;
+              </div>
+              bool <a class="m-doc-self" href="#gaf0de9802b973764be7848a020088f961">is_implicitly_nothrow_convertible_to_all</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>True if <code>From</code> is implicitly nothrow-convertible to all of the types named by <code>To</code>.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga2559c7587af80489da97126e645da89d"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename From, typename... To&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga2559c7587af80489da97126e645da89d">is_implicitly_nothrow_convertible_to_any</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>True if <code>From</code> is implicitly nothrow-convertible to any of the types named by <code>To</code>.</p>
+          </div></section>
           <section class="m-doc-details" id="ga6283839d5536a4ee096adccee42b88c5"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
@@ -1303,6 +1453,36 @@ C++</span></a>
               bool <a class="m-doc-self" href="#ga0ad880900bc41c21a698d9114f333e3d">is_legacy_enum</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Is a type a pre-C++11 unscoped enum, or reference to one?</p>
+          </div></section>
+          <section class="m-doc-details" id="ga090993f769edb7c30da887d3b6f71f23"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename From, typename To&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga090993f769edb7c30da887d3b6f71f23">is_nothrow_convertible</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>True if <code>From</code> is implicitly <em>or</em> explicitly nothrow-convertible to <code>To</code>.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga0ada082fe05220bf0aaca76cba7f9e83"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename From, typename... To&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga0ada082fe05220bf0aaca76cba7f9e83">is_nothrow_convertible_to_all</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>True if <code>From</code> is implicitly <em>or</em> explicitly nothrow-convertible to all of the types named by <code>To</code>.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga324c6e94dfe58e068c531e55c15ea9a4"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename From, typename... To&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga324c6e94dfe58e068c531e55c15ea9a4">is_nothrow_convertible_to_any</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>True if <code>From</code> is implicitly <em>or</em> explicitly nothrow-convertible to any of the types named by <code>To</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga526c58b5a438ba0c7746e465389e013d"><div>
             <h3>
