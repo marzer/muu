@@ -87,6 +87,8 @@ type_names = [
 	'numeric_range',
 	'rolling_average',
 	'scope_guard',
+	'scope_fail',
+	'scope_success',
 	'string_param',
 	'tagged_ptr',
 	'thread_pool',

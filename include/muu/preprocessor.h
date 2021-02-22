@@ -834,6 +834,14 @@ help me improve support for your target architecture. Thanks!
 	type(const type&) = delete;				\
 	type& operator=(const type&) = delete
 
+#define MUU_DEFAULT_MOVE(type)				\
+	type(type&&) = default;					\
+	type& operator=(type&&) = default
+
+#define MUU_DEFAULT_COPY(type)				\
+	type(const type&) = default;			\
+	type& operator=(const type&) = default
+
 #ifndef MUU_TRACE // spam^H^H^H^H debugging hook
 	#define MUU_TRACE(...) MUU_NOOP
 #endif
@@ -1601,19 +1609,19 @@ help me improve support for your target architecture. Thanks!
 /// \details \cpp
 /// class immovable
 /// {
-///		immovable() {}
-///
-///		MUU_DELETE_MOVE(immovable);
-///	};
-///	
-///	//equivalent to:
+/// 	immovable() {}
+/// 
+/// 	MUU_DELETE_MOVE(immovable);
+/// };
+/// 
+/// //equivalent to:
 /// class immovable
 /// {
-///		immovable() {}
-///
-///		immovable(immovable&&) = delete;
-///		immovable& operator=(immovable&&) = delete;
-///	};
+/// 	immovable() {}
+/// 
+/// 	immovable(immovable&&) = delete;
+/// 	immovable& operator=(immovable&&) = delete;
+/// };
 /// \ecpp
 /// \see https://cpppatterns.com/patterns/rule-of-five.html
 ///
@@ -1622,34 +1630,75 @@ help me improve support for your target architecture. Thanks!
 /// \details \cpp
 /// class uncopyable
 /// {
-///		uncopyable() {}
-///		MUU_DELETE_COPY(uncopyable);
-///	};
-///	
-///	//equivalent to:
+/// 	uncopyable() {}
+/// 	MUU_DELETE_COPY(uncopyable);
+/// };
+/// 
+/// //equivalent to:
 /// class uncopyable
 /// {
-///		uncopyable() {}
-///
-///		uncopyable(const uncopyable&) = delete;
-///		uncopyable& operator=(const uncopyable&) = delete;
-///	};
+/// 	uncopyable() {}
+/// 
+/// 	uncopyable(const uncopyable&) = delete;
+/// 	uncopyable& operator=(const uncopyable&) = delete;
+/// };
 /// \ecpp
 /// \see https://cpppatterns.com/patterns/rule-of-five.html
+///
+/// \def MUU_DEFAULT_MOVE
+/// \brief Explicitly defaults the move constructor and move-assignment operator of a class or struct.
+/// \details \cpp
+/// class movable
+/// {
+/// 	movable() {}
 /// 
+/// 	MUU_DEFAULT_MOVE(movable);
+/// };
+/// 
+/// //equivalent to:
+/// class movable
+/// {
+/// 	movable() {}
+/// 
+/// 	movable(movable&&) = default;
+/// 	movable& operator=(movable&&) = default;
+/// };
+/// \ecpp
+/// \see https://cpppatterns.com/patterns/rule-of-five.html
+///
+/// \def MUU_DEFAULT_COPY
+/// \brief Explicitly defaults the copy constructor and copy-assignment operator of a class or struct.
+/// \details \cpp
+/// class copyable
+/// {
+/// 	copyable() {}
+/// 	MUU_DEFAULT_COPY(copyable);
+/// };
+/// 
+/// //equivalent to:
+/// class copyable
+/// {
+/// 	copyable() {}
+/// 
+/// 	copyable(const copyable&) = default;
+/// 	copyable& operator=(const copyable&) = default;
+/// };
+/// \ecpp
+/// \see https://cpppatterns.com/patterns/rule-of-five.html
+///
 /// \def MUU_MAKE_FLAGS
 /// \brief Stamps out operators for enum 'flags' types.
 /// \details \cpp
 /// enum class my_flags : unsigned
 /// {
-///		none   = 0,
-///		alpha  = 1,
-///		beta   = 2,
-///		gamma  = 4
-///	};
-///	MUU_MAKE_FLAGS(my_flags);
-///	
-///	// emits these operators:
+/// 	none   = 0,
+/// 	alpha  = 1,
+/// 	beta   = 2,
+/// 	gamma  = 4
+/// };
+/// MUU_MAKE_FLAGS(my_flags);
+/// 
+/// // emits these operators:
 /// constexpr my_flags  operator &  (my_flags,  my_flags) noexcept;
 /// constexpr my_flags  operator |  (my_flags,  my_flags) noexcept;
 /// constexpr my_flags  operator ^  (my_flags,  my_flags) noexcept;

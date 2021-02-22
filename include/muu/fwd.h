@@ -253,6 +253,8 @@ namespace muu
 	template <size_t>					class	fnv1a;
 	template <size_t>					class	hash_combiner;
 	template <typename>					class	scope_guard;
+	template <typename>					class	scope_fail;
+	template <typename>					class	scope_success;
 	template <typename, size_t>			class	tagged_ptr;
 
 	template <typename, size_t = dynamic_extent>
