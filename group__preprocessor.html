@@ -182,6 +182,14 @@ C++</span></a>
             </dt>
             <dd>Expands to <code>__declspec( ... )</code> when compiling with MSVC (or another compiler in MSVC-mode).</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga529288be7d1336b6df45a2630d0dec59">MUU_DEFAULT_COPY</a>(</span><span class="m-doc-wrap">type)</span>
+            </dt>
+            <dd>Explicitly defaults the copy constructor and copy-assignment operator of a class or struct.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gab782b4fd93bce160098d855704eb27c0">MUU_DEFAULT_MOVE</a>(</span><span class="m-doc-wrap">type)</span>
+            </dt>
+            <dd>Explicitly defaults the move constructor and move-assignment operator of a class or struct.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gad1db2d7508ee13eae3ba5ba57df6048c">MUU_DELETE_COPY</a>(</span><span class="m-doc-wrap">type)</span>
             </dt>
             <dd>Explicitly deletes the copy constructor and copy-assignment operator of a class or struct.</dd>
@@ -629,6 +637,49 @@ C++</span></a>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Expands to <code>__declspec( ... )</code> when compiling with MSVC (or another compiler in MSVC-mode).</p>
+          </div></section>
+          <section class="m-doc-details" id="ga529288be7d1336b6df45a2630d0dec59"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga529288be7d1336b6df45a2630d0dec59">MUU_DEFAULT_COPY</a>(</span><span class="m-doc-wrap">type)</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>Explicitly defaults the copy constructor and copy-assignment operator of a class or struct.</p>
+<pre class="m-code"><span class="k">class</span> <span class="nc">copyable</span>
+<span class="p">{</span>
+    <span class="n">copyable</span><span class="p">()</span> <span class="p">{}</span>
+    <span class="m">MUU_DEFAULT_COPY</span><span class="p">(</span><span class="n">copyable</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="c1">//equivalent to:</span>
+<span class="k">class</span> <span class="nc">copyable</span>
+<span class="p">{</span>
+    <span class="n">copyable</span><span class="p">()</span> <span class="p">{}</span>
+
+    <span class="n">copyable</span><span class="p">(</span><span class="k">const</span> <span class="n">copyable</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+    <span class="n">copyable</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="n">copyable</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+<span class="p">};</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="https://cpppatterns.com/patterns/rule-of-five.html" target="_blank">https:/<wbr/>/<wbr/>cpppatterns.com/<wbr/>patterns/<wbr/>rule-of-five.html</a></p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gab782b4fd93bce160098d855704eb27c0"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gab782b4fd93bce160098d855704eb27c0">MUU_DEFAULT_MOVE</a>(</span><span class="m-doc-wrap">type)</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>Explicitly defaults the move constructor and move-assignment operator of a class or struct.</p>
+<pre class="m-code"><span class="k">class</span> <span class="nc">movable</span>
+<span class="p">{</span>
+    <span class="n">movable</span><span class="p">()</span> <span class="p">{}</span>
+
+    <span class="m">MUU_DEFAULT_MOVE</span><span class="p">(</span><span class="n">movable</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="c1">//equivalent to:</span>
+<span class="k">class</span> <span class="nc">movable</span>
+<span class="p">{</span>
+    <span class="n">movable</span><span class="p">()</span> <span class="p">{}</span>
+
+    <span class="n">movable</span><span class="p">(</span><span class="n">movable</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+    <span class="n">movable</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">movable</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+<span class="p">};</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="https://cpppatterns.com/patterns/rule-of-five.html" target="_blank">https:/<wbr/>/<wbr/>cpppatterns.com/<wbr/>patterns/<wbr/>rule-of-five.html</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="gad1db2d7508ee13eae3ba5ba57df6048c"><div>
             <h3>

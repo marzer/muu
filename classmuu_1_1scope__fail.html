@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu::scope_guard class | muu Useful
+  <title>muu::scope_fail class | muu Useful
 utilities
 for
 modern
@@ -63,9 +63,9 @@ C++</span></a>
         <h1>
           <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="scope__guard_8h.html">&lt;muu/scope_guard.h&gt;</a></div>
           <div class="m-doc-template">template&lt;typename T&gt;</div>
-          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>scope_guard <span class="m-thin">class</span>
+          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>scope_fail <span class="m-thin">class</span>
         </h1>
-        <p>Performs actions when going out of scope.</p>
+        <p>Performs actions when going out of scope due to an exception being thrown.</p>
         <table class="m-table m-fullwidth m-flat">
           <thead>
             <tr><th colspan="2">Template parameters</th></tr>
@@ -89,55 +89,60 @@ C++</span></a>
             </li>
           </ul>
         </div>
-<p>Use a <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_<wbr/>guard</a> to simplify cleanup routines or code that has acquire/release semantics, e.g. locking:</p><pre class="m-code"><span class="k">void</span> <span class="nf">do_work</span><span class="p">()</span>
+<p>Use a <a class="m-doc" href="classmuu_1_1scope__fail.html">scope_<wbr/>fail</a> to simplify cleanup routines or code that has acquire/release semantics:</p><pre class="m-code"><span class="k">void</span><span class="o">*</span> <span class="nf">get_initialized_buffer</span><span class="p">()</span>
 <span class="p">{</span>
-    <span class="n">acquire_magic_lock</span><span class="p">();</span>
-    <span class="ut">scope_guard</span> <span class="n">sg</span><span class="p">{</span> <span class="n">release_magic_lock</span> <span class="p">};</span>
-    <span class="n">something_that_throws</span><span class="p">();</span>
-<span class="p">}</span></pre><p>For comparison's sake, here's the same function without a <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_<wbr/>guard</a>:</p><pre class="m-code"><span class="k">void</span> <span class="nf">do_work</span><span class="p">()</span>
+    <span class="k">void</span><span class="o">*</span> <span class="n">buffer</span> <span class="o">=</span> <span class="n">acquire</span><span class="p">(</span><span class="mi">1024</span><span class="p">);</span>
+    <span class="ut">scope_fail</span> <span class="n">err</span><span class="p">{</span> <span class="p">[</span><span class="o">=</span><span class="p">]()</span> <span class="k">noexcept</span> <span class="p">{</span> <span class="n">release</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span> <span class="p">}};</span>
+    <span class="c1">//</span>
+    <span class="c1">// ...a bunch of initialization code that might throw...</span>
+    <span class="c1">//</span>
+    <span class="k">return</span> <span class="n">buffer</span><span class="p">;</span>
+<span class="p">}</span></pre><p>For comparison's sake, here's the same function without a <a class="m-doc" href="classmuu_1_1scope__fail.html">scope_<wbr/>fail</a>:</p><pre class="m-code"><span class="k">void</span><span class="o">*</span> <span class="nf">get_initialized_buffer</span><span class="p">()</span>
 <span class="p">{</span>
-    <span class="n">acquire_magic_lock</span><span class="p">();</span>
+    <span class="k">void</span><span class="o">*</span> <span class="n">buffer</span> <span class="o">=</span> <span class="n">acquire</span><span class="p">(</span><span class="mi">1024</span><span class="p">);</span>
     <span class="k">try</span>
     <span class="p">{</span>
-        <span class="n">something_that_throws</span><span class="p">();</span>
+        <span class="c1">//</span>
+        <span class="c1">// ...a bunch of initialization code that might throw...</span>
+        <span class="c1">//</span>
     <span class="p">}</span>
     <span class="k">catch</span> <span class="p">(...)</span>
     <span class="p">{</span>
-        <span class="n">release_magic_lock</span><span class="p">();</span>
+        <span class="n">release</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
         <span class="k">throw</span><span class="p">;</span>
     <span class="p">}</span>
-    <span class="n">release_magic_lock</span><span class="p">();</span>
-<span class="p">}</span></pre><aside class="m-note m-default"><h4>See also</h4><ul><li><a class="m-doc" href="classmuu_1_1scope__fail.html">scope_<wbr/>fail</a><br/></li><li><a class="m-doc" href="classmuu_1_1scope__success.html">scope_<wbr/>success</a></li></ul></aside>
+    <span class="k">return</span> <span class="n">buffer</span><span class="p">;</span>
+<span class="p">}</span></pre><aside class="m-note m-default"><h4>See also</h4><ul><li><a class="m-doc" href="classmuu_1_1scope__guard.html">scope_<wbr/>guard</a><br/></li><li><a class="m-doc" href="classmuu_1_1scope__success.html">scope_<wbr/>success</a></li></ul></aside>
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;typename U&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a4e8e12e25f054486d8b3428de65a037c">scope_guard</a>(</span><span class="m-doc-wrap">U&amp;&amp; func) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept(…)</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#af92c54aec156f11a324d787b880ad83a">scope_fail</a>(</span><span class="m-doc-wrap">U&amp;&amp; func) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept(…)</span></span>
             </dt>
-            <dd>Constructs a <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_<wbr/>guard</a> by wrapping a callable.</dd>
+            <dd>Constructs a <a class="m-doc" href="classmuu_1_1scope__fail.html">scope_<wbr/>fail</a> by wrapping a callable.</dd>
           </dl>
         </section>
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="a44879b040554411653acd5b47b57de96">
-              <span class="m-doc-wrap-bumper">void <a class="m-doc-self" href="#a44879b040554411653acd5b47b57de96">dismiss</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a4247d44d5ad613d6fb362532b83161e5">
+              <span class="m-doc-wrap-bumper">void <a class="m-doc-self" href="#a4247d44d5ad613d6fb362532b83161e5">dismiss</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Dismisses the scope guard, cancelling invocation of the wrapped callable.</dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a4e8e12e25f054486d8b3428de65a037c"><div>
+          <section class="m-doc-details" id="af92c54aec156f11a324d787b880ad83a"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename T&gt;<br/>
 template&lt;typename U&gt;
               </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>scope_guard&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4e8e12e25f054486d8b3428de65a037c">scope_guard</a>(</span><span class="m-doc-wrap">U&amp;&amp; func) <span class="m-label m-info">explicit</span>  <span class="m-label m-success">noexcept(…)</span></span></span>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>scope_fail&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af92c54aec156f11a324d787b880ad83a">scope_fail</a>(</span><span class="m-doc-wrap">U&amp;&amp; func) <span class="m-label m-info">explicit</span>  <span class="m-label m-success">noexcept(…)</span></span></span>
             </h3>
-            <p>Constructs a <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_<wbr/>guard</a> by wrapping a callable.</p>
+            <p>Constructs a <a class="m-doc" href="classmuu_1_1scope__fail.html">scope_<wbr/>fail</a> by wrapping a callable.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Template parameters</th></tr>
@@ -154,7 +159,7 @@ template&lt;typename U&gt;
               <tbody>
                 <tr>
                   <td>func</td>
-                  <td>The callable to invoke when the <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_<wbr/>guard</a> goes out of scope.</td>
+                  <td>The callable to invoke when the scope guard goes out of scope.</td>
                 </tr>
               </tbody>
             </table>
