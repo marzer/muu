@@ -4,12 +4,10 @@
 // SPDX-License-Identifier: MIT
 
 #include "muu/strings.h"
-#include "os_internal.h"
+#include "os.h"
 
+#include "source_start.h"
 MUU_DISABLE_SUGGEST_WARNINGS;
-MUU_DISABLE_SPAM_WARNINGS;
-
-using namespace muu;
 
 //======================================================================================================================
 #if MUU_WINDOWS

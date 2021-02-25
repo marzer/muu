@@ -7,8 +7,8 @@
 /// \brief Contains the definition of muu::half.
 
 #pragma once
-#include "../muu/core.h"
-#include "../muu/math.h"
+#include "core.h"
+#include "math.h"
 
 // see if we can just wrap a 'real' fp16 type (better codegen while still being binary-compatible)
 #if MUU_HAS_FLOAT16
@@ -45,18 +45,10 @@ MUU_DISABLE_WARNINGS;
 #endif
 MUU_ENABLE_WARNINGS;
 
-MUU_PUSH_WARNINGS;
+#include "impl/header_start.h"
 MUU_DISABLE_ARITHMETIC_WARNINGS;
-MUU_DISABLE_SPAM_WARNINGS;
 MUU_PRAGMA_MSVC(warning(disable: 4556)) // value of intrinsic immediate argument '8' is out of range '0 - 7'
 MUU_PRAGMA_GCC(diagnostic ignored "-Wold-style-cast") // false positive with _mm_load_ss
-MUU_PRAGMA_MSVC(push_macro("min"))
-MUU_PRAGMA_MSVC(push_macro("max"))
-#if MUU_MSVC
-	#undef min
-	#undef max
-#endif
-
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 
 namespace muu
@@ -1520,11 +1512,8 @@ namespace std
 	template <> struct numeric_limits<const volatile muu::half>	: numeric_limits<muu::half> {};
 }
 
-MUU_RESET_NDEBUG_OPTIMIZATIONS;
-
-MUU_PRAGMA_MSVC(pop_macro("min"))
-MUU_PRAGMA_MSVC(pop_macro("max"))
-MUU_POP_WARNINGS; // MUU_DISABLE_ARITHMETIC_WARNINGS, MUU_DISABLE_SPAM_WARNINGS
-
 #undef MUU_HALF_IMPL_TYPE
 #undef MUU_HALF_EMULATED
+
+MUU_RESET_NDEBUG_OPTIMIZATIONS;
+#include "impl/header_end.h"

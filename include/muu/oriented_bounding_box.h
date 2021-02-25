@@ -7,19 +7,11 @@
 /// \brief  Contains the definition of muu::oriented_bounding_box.
 
 #pragma once
-#include "../muu/impl/bounding_boxes_common.h"
+#include "impl/bounding_boxes_common.h"
 
-MUU_PUSH_WARNINGS;
-MUU_PRAGMA_MSVC(inline_recursion(on))
-MUU_PRAGMA_MSVC(float_control(push))
+#include "impl/header_start.h"
 MUU_PRAGMA_MSVC(float_control(except, off))
 MUU_PRAGMA_MSVC(float_control(precise, off))
-MUU_PRAGMA_MSVC(push_macro("min"))
-MUU_PRAGMA_MSVC(push_macro("max"))
-#if MUU_MSVC
-	#undef min
-	#undef max
-#endif
 
 #if MUU_ENABLE_PAIRED_FUNCS
 	#define MUU_RO_VEC		muu::impl::readonly_param<vector_type>
@@ -799,8 +791,4 @@ namespace muu
 
 #undef MUU_RO_VEC
 
-MUU_PRAGMA_MSVC(pop_macro("min"))
-MUU_PRAGMA_MSVC(pop_macro("max"))
-MUU_PRAGMA_MSVC(float_control(pop))
-MUU_PRAGMA_MSVC(inline_recursion(off))
-MUU_POP_WARNINGS;
+#include "impl/header_end.h"

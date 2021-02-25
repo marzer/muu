@@ -7,16 +7,8 @@
 /// \brief Contains the definition of muu::emplacement_array.
 
 #pragma once
-#include "../muu/core.h"
-
-MUU_PUSH_WARNINGS;
-MUU_DISABLE_SPAM_WARNINGS;
-MUU_PRAGMA_MSVC(push_macro("min"))
-MUU_PRAGMA_MSVC(push_macro("max"))
-#if MUU_MSVC
-	#undef min
-	#undef max
-#endif
+#include "core.h"
+#include "impl/header_start.h"
 
 namespace muu
 {
@@ -374,6 +366,4 @@ namespace muu
 	MUU_ABI_VERSION_END;
 }
 
-MUU_PRAGMA_MSVC(pop_macro("min"))
-MUU_PRAGMA_MSVC(pop_macro("max"))
-MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS
+#include "impl/header_end.h"

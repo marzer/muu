@@ -4,11 +4,10 @@
 // SPDX-License-Identifier: MIT
 
 #include "muu/core.h"
-#include "os_internal.h"
+#include "os.h"
 
+#include "source_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
-
-using namespace muu;
 
 namespace
 {

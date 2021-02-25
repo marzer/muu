@@ -7,22 +7,9 @@
 /// \brief Core functions and typedefs.
 
 #pragma once
-#include "../muu/fwd.h"
+#include "fwd.h"
 #if MUU_GCC && MUU_HAS_FLOAT128
 	#pragma GCC system_header // float128 literals cause a warning in GCC that can't be silenced otherwise :(
-#endif
-
-MUU_PUSH_WARNINGS;
-MUU_DISABLE_SPAM_WARNINGS;
-MUU_DISABLE_ARITHMETIC_WARNINGS;
-MUU_PRAGMA_MSVC(warning(disable: 26475)) // core guidelines: do not use function style C-casts
-
-MUU_PRAGMA_MSVC(inline_recursion(on))
-MUU_PRAGMA_MSVC(push_macro("min"))
-MUU_PRAGMA_MSVC(push_macro("max"))
-#if MUU_MSVC
-	#undef min
-	#undef max
 #endif
 
 //======================================================================================================================
@@ -54,6 +41,10 @@ MUU_DISABLE_WARNINGS;
 	#include <exception> // std::terminate()
 #endif
 MUU_ENABLE_WARNINGS;
+
+#include "impl/header_start.h" // must always be last in this list of headers
+MUU_DISABLE_ARITHMETIC_WARNINGS;
+MUU_PRAGMA_MSVC(warning(disable: 26475)) // core guidelines: do not use function style C-casts
 
 //======================================================================================================================
 // ENVIRONMENT GROUND-TRUTHS
@@ -1827,7 +1818,6 @@ MUU_POP_PRECISE_MATH;
 //======================================================================================================================
 // LITERALS, BUILD CONSTANTS AND FUNCTIONS
 #if 1
-
 MUU_FORCE_NDEBUG_OPTIMIZATIONS; // these are "intrinsics"
 
 namespace muu
@@ -4002,7 +3992,6 @@ namespace muu
 }
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
-
 #endif //===============================================================================================================
 
 //======================================================================================================================
@@ -4094,7 +4083,4 @@ namespace muu
 #undef MUU_HAS_INTRINSIC_COUNTL_ZERO
 #undef MUU_HAS_INTRINSIC_COUNTR_ZERO
 
-MUU_PRAGMA_MSVC(pop_macro("min"))
-MUU_PRAGMA_MSVC(pop_macro("max"))
-MUU_PRAGMA_MSVC(inline_recursion(off))
-MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS, MUU_DISABLE_ARITHMETIC_WARNINGS
+#include "impl/header_end.h"

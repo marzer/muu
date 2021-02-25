@@ -7,7 +7,7 @@
 /// \brief  Contains the definition of muu::string_param.
 
 #pragma once
-#include "../muu/core.h"
+#include "core.h"
 
 MUU_DISABLE_WARNINGS;
 #include <string>
@@ -15,8 +15,7 @@ MUU_DISABLE_WARNINGS;
 #include <iosfwd>
 MUU_ENABLE_WARNINGS;
 
-MUU_PUSH_WARNINGS;
-MUU_DISABLE_SPAM_WARNINGS;
+#include "impl/header_start.h"
 
 namespace muu
 {
@@ -455,4 +454,4 @@ namespace muu
 	MUU_ABI_VERSION_END;
 }
 
-MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS
+#include "impl/header_end.h"

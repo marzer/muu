@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: MIT
 
 #pragma once
-#include "../muu/core.h"
+#include "core.h"
 
 /// \cond
 #if !MUU_INTELLISENSE && (!defined(MUU_DEV) || !MUU_DEV)

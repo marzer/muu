@@ -7,10 +7,10 @@
 /// \brief Functions to simplify working with characters (code units).
 
 #pragma once
-#include "../muu/impl/unicode_char.h"
-#include "../muu/impl/unicode_wchar_t.h"
-#include "../muu/impl/unicode_char16_t.h"
-#include "../muu/impl/unicode_char32_t.h"
+#include "impl/unicode_char.h"
+#include "impl/unicode_wchar_t.h"
+#include "impl/unicode_char16_t.h"
+#include "impl/unicode_char32_t.h"
 #ifdef __cpp_char8_t
-#include "../muu/impl/unicode_char8_t.h"
+#include "impl/unicode_char8_t.h"
 #endif

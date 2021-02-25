@@ -7,15 +7,13 @@
 /// \brief Contains the definitions of functions and types related to the generation of hashes.
 
 #pragma once
-#include "../muu/strings.h"
+#include "strings.h"
 
 MUU_DISABLE_WARNINGS;
 #include <iosfwd>
 MUU_ENABLE_WARNINGS;
 
-MUU_PUSH_WARNINGS;
-MUU_DISABLE_SPAM_WARNINGS;
-
+#include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 
 namespace muu
@@ -431,5 +429,4 @@ namespace muu
 }
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
-
-MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS
+#include "impl/header_end.h"

@@ -4,21 +4,18 @@
 // SPDX-License-Identifier: MIT
 
 #pragma once
-#include "../../muu/impl/geometric_types_common.h"
+#include "geometric_types_common.h"
+#include "header_start.h"
 
 /// \cond
 
 MUU_PUSH_WARNINGS;
+MUU_DISABLE_SPAM_WARNINGS;
+
 MUU_PRAGMA_MSVC(inline_recursion(on))
 MUU_PRAGMA_MSVC(float_control(push))
 MUU_PRAGMA_MSVC(float_control(except, off))
 MUU_PRAGMA_MSVC(float_control(precise, off))
-MUU_PRAGMA_MSVC(push_macro("min"))
-MUU_PRAGMA_MSVC(push_macro("max"))
-#if MUU_MSVC
-	#undef min
-	#undef max
-#endif
 
 namespace muu::impl
 {
@@ -227,10 +224,11 @@ namespace muu::impl
 	};
 }
 
-MUU_PRAGMA_MSVC(pop_macro("min"))
-MUU_PRAGMA_MSVC(pop_macro("max"))
 MUU_PRAGMA_MSVC(float_control(pop))
 MUU_PRAGMA_MSVC(inline_recursion(off))
-MUU_POP_WARNINGS;
+
+MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS
 
 /// \endcond
+
+#include "header_end.h"

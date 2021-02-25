@@ -7,7 +7,8 @@
 /// \brief Contains the definition of muu::blob.
 
 #pragma once
-#include "../muu/fwd.h"
+#include "fwd.h"
+#include "impl/header_start.h"
 
 namespace muu
 {
@@ -150,3 +151,5 @@ namespace muu
 
 	MUU_ABI_VERSION_END;
 }
+
+#include "impl/header_end.h"

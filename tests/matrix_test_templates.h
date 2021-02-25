@@ -651,7 +651,15 @@ inline void matrix_multiplication_tests(std::string_view scalar_typename) noexce
 		const auto row_vec = vector<T, Rows>{ random_array<T, Rows>(min_val, max_val) };
 		const auto result = row_vec * mat1;
 		for (size_t c = 0; c < Columns; c++)
-			CHECK_APPROX_EQUAL(static_cast<T>(mat1.m[c].dot(row_vec)), result[c]);
+		{
+			if constexpr (is_floating_point<T> && sizeof(T) >= sizeof(double))
+			{
+				static constexpr T eps = constants<T>::default_epsilon * T{ 10 };
+				CHECK_APPROX_EQUAL_EPS(static_cast<T>(mat1.m[c].dot(row_vec)), result[c], eps);
+			}
+			else
+				CHECK_APPROX_EQUAL(static_cast<T>(mat1.m[c].dot(row_vec)), result[c]);
+		}
 	}
 
 	{

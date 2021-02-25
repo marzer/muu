@@ -7,7 +7,7 @@
 /// \brief Math functions, mostly constexpr-friendly alternatives to functions from `<cmath>`.
 
 #pragma once
-#include "../muu/core.h"
+#include "core.h"
 
 MUU_DISABLE_WARNINGS;
 #include <cmath>
@@ -16,16 +16,8 @@ MUU_DISABLE_WARNINGS;
 #endif
 MUU_ENABLE_WARNINGS;
 
-MUU_PUSH_WARNINGS;
+#include "impl/header_start.h"
 MUU_DISABLE_ARITHMETIC_WARNINGS;
-MUU_PRAGMA_MSVC(inline_recursion(on))
-MUU_PRAGMA_MSVC(push_macro("min"))
-MUU_PRAGMA_MSVC(push_macro("max"))
-#if MUU_MSVC
-	#undef min
-	#undef max
-#endif
-
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 
 namespace muu
@@ -2271,8 +2263,4 @@ namespace muu
 }
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
-
-MUU_PRAGMA_MSVC(pop_macro("min"))
-MUU_PRAGMA_MSVC(pop_macro("max"))
-MUU_PRAGMA_MSVC(inline_recursion(off))
-MUU_POP_WARNINGS; // MUU_DISABLE_ARITHMETIC_WARNINGS
+#include "impl/header_end.h"

@@ -80,6 +80,8 @@
     <ClInclude Include="..\include\muu\hashing.h" />
     <ClInclude Include="..\include\muu\impl\bounding_boxes_common.h" />
     <ClInclude Include="..\include\muu\impl\geometric_types_common.h" />
+    <ClInclude Include="..\include\muu\impl\header_end.h" />
+    <ClInclude Include="..\include\muu\impl\header_start.h" />
     <ClInclude Include="..\include\muu\impl\vector_types_common.h" />
     <ClInclude Include="..\include\muu\impl\unicode_char.h" />
     <ClInclude Include="..\include\muu\impl\unicode_char16_t.h" />
@@ -103,9 +105,10 @@
     <ClInclude Include="..\include\muu\thread_pool.h" />
     <ClInclude Include="..\include\muu\uuid.h" />
     <ClInclude Include="..\include\muu\vector.h" />
-    <ClInclude Include="..\src\os_internal.h" />
-    <ClInclude Include="..\src\os_internal_unix.h" />
-    <ClInclude Include="..\src\os_internal_windows.h" />
+    <ClInclude Include="..\src\os.h" />
+    <ClInclude Include="..\src\os_unix.h" />
+    <ClInclude Include="..\src\os_windows.h" />
+    <ClInclude Include="..\src\source_start.h" />
     <ClInclude Include="..\src\stream_printer.h" />
   </ItemGroup>
   <ItemGroup>

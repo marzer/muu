@@ -4,8 +4,9 @@
 // SPDX-License-Identifier: MIT
 
 #pragma once
-#include "../../muu/vector.h"
-#include "../../muu/matrix.h"
+#include "../vector.h"
+#include "../matrix.h"
+#include "header_start.h"
 
 namespace muu
 {
@@ -32,16 +33,12 @@ namespace muu
 /// \cond
 
 MUU_PUSH_WARNINGS;
+MUU_DISABLE_SPAM_WARNINGS;
+
 MUU_PRAGMA_MSVC(inline_recursion(on))
 MUU_PRAGMA_MSVC(float_control(push))
 MUU_PRAGMA_MSVC(float_control(except, off))
 MUU_PRAGMA_MSVC(float_control(precise, off))
-MUU_PRAGMA_MSVC(push_macro("min"))
-MUU_PRAGMA_MSVC(push_macro("max"))
-#if MUU_MSVC
-	#undef min
-	#undef max
-#endif
 
 namespace muu::impl
 {
@@ -188,10 +185,11 @@ namespace muu
 		= allow_implicit_bit_cast<From, oriented_bounding_box<Scalar>>;
 }
 
-MUU_PRAGMA_MSVC(pop_macro("min"))
-MUU_PRAGMA_MSVC(pop_macro("max"))
 MUU_PRAGMA_MSVC(float_control(pop))
 MUU_PRAGMA_MSVC(inline_recursion(off))
-MUU_POP_WARNINGS;
+
+MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS
 
 /// \endcond
+
+#include "header_end.h"

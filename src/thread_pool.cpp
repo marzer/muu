@@ -10,7 +10,7 @@
 #include "muu/strings.h"
 #include "muu/scope_guard.h"
 #include "muu/math.h"
-#include "os_internal.h"
+#include "os.h"
 
 MUU_DISABLE_WARNINGS;
 #include <atomic>
@@ -29,13 +29,11 @@ MUU_DISABLE_WARNINGS;
 #endif
 MUU_ENABLE_WARNINGS;
 
-MUU_DISABLE_SPAM_WARNINGS;
+#include "source_start.h"
+MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_PRAGMA_MSVC(warning(disable: 26110)) // core guidelines: Caller failing to hold lock (false-positive)
 MUU_PRAGMA_MSVC(warning(disable: 26495)) // core guidelines: uninitialized member
 
-MUU_FORCE_NDEBUG_OPTIMIZATIONS;
-
-using namespace muu;
 using namespace std::chrono_literals;
 using namespace std::string_literals;
 using namespace std::string_view_literals;

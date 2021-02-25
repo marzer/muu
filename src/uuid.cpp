@@ -32,9 +32,8 @@ MUU_DISABLE_WARNINGS;
 #endif
 MUU_ENABLE_WARNINGS;
 
+#include "source_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
-
-using namespace muu;
 
 uuid uuid::generate() noexcept
 {

@@ -44,23 +44,15 @@
 */
 
 #pragma once
-#include "../muu/impl/vector_types_common.h"
+#include "impl/vector_types_common.h"
 
-MUU_PUSH_WARNINGS;
+#include "impl/header_start.h"
+MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_DISABLE_SHADOW_WARNINGS;
-MUU_DISABLE_SPAM_WARNINGS;
+MUU_DISABLE_SUGGEST_WARNINGS;
 MUU_PRAGMA_GCC(diagnostic ignored "-Wsign-conversion")
-MUU_PRAGMA_CLANG(diagnostic ignored "-Wdouble-promotion")
-MUU_PRAGMA_MSVC(inline_recursion(on))
-MUU_PRAGMA_MSVC(float_control(push))
 MUU_PRAGMA_MSVC(float_control(except, off))
 MUU_PRAGMA_MSVC(float_control(precise, off))
-MUU_PRAGMA_MSVC(push_macro("min"))
-MUU_PRAGMA_MSVC(push_macro("max"))
-#if MUU_MSVC
-	#undef min
-	#undef max
-#endif
 
 //======================================================================================================================
 // IMPLEMENTATION DETAILS
@@ -234,15 +226,7 @@ namespace muu::impl
 			: values{ x_, y_, z_, w_ }
 		{}
 
-		MUU_CONSTRAINED_TEMPLATE((all_same<Scalar, remove_cvref<T>...>), typename... T)
-		explicit
-		constexpr vector_(Scalar x_, Scalar y_, Scalar z_, Scalar w_, T... vals) noexcept
-			: values{ x_, y_, z_, w_, vals... }
-		{
-			static_assert(sizeof...(T) <= Dimensions - 4);
-		}
-
-		MUU_CONSTRAINED_TEMPLATE_2((!all_same<Scalar, remove_cvref<T>...>), typename... T)
+		template <typename... T>
 		explicit
 		constexpr vector_(Scalar x_, Scalar y_, Scalar z_, Scalar w_, const T&... vals) noexcept
 			: values{ x_, y_, z_, w_, static_cast<Scalar>(vals)... }
@@ -288,28 +272,7 @@ namespace muu::impl
 			static_assert((sizeof...(Indices1) + sizeof...(Indices2)) <= Dimensions);
 		}
 
-		MUU_CONSTRAINED_TEMPLATE(
-			(all_same<Scalar, remove_cvref<V>...>),
-			typename T,
-			size_t... Indices,
-			typename... V
-		)
-		explicit
-		constexpr vector_(tuple_concat_tag, std::index_sequence<Indices...>, const T& tpl, V... vals) noexcept
-			: values{
-				static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))...,
-				vals...
-			}
-		{
-			static_assert((sizeof...(Indices) + sizeof...(V)) <= Dimensions);
-		}
-
-		MUU_CONSTRAINED_TEMPLATE_2(
-			(!all_same<Scalar, remove_cvref<V>...>),
-			typename T,
-			size_t... Indices,
-			typename... V
-		)
+		template <typename T, size_t... Indices, typename... V>
 		explicit
 		constexpr vector_(tuple_concat_tag, std::index_sequence<Indices...>, const T& tpl, const V&... vals) noexcept
 			: values{
@@ -416,28 +379,7 @@ namespace muu::impl
 			static_assert((sizeof...(Indices1) + sizeof...(Indices2)) <= 2);
 		}
 
-		MUU_CONSTRAINED_TEMPLATE(
-			(all_same<Scalar, remove_cvref<V>...>),
-			typename T,
-			size_t... Indices,
-			typename... V
-		)
-		explicit
-		constexpr vector_(tuple_concat_tag, std::index_sequence<Indices...>, const T& tpl, V... vals) noexcept
-			: vector_{
-				static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))...,
-				vals...
-			}
-		{
-			static_assert((sizeof...(Indices) + sizeof...(V)) <= 2);
-		}
-
-		MUU_CONSTRAINED_TEMPLATE_2(
-			(!all_same<Scalar, remove_cvref<V>...>),
-			typename T,
-			size_t... Indices,
-			typename... V
-		)
+		template <typename T, size_t... Indices, typename... V>
 		explicit
 		constexpr vector_(tuple_concat_tag, std::index_sequence<Indices...>, const T& tpl, const V&... vals) noexcept
 			: vector_{
@@ -509,28 +451,7 @@ namespace muu::impl
 			static_assert((sizeof...(Indices1) + sizeof...(Indices2)) <= 3);
 		}
 
-		MUU_CONSTRAINED_TEMPLATE(
-			(all_same<Scalar, remove_cvref<V>...>),
-			typename T,
-			size_t... Indices,
-			typename... V
-		)
-		explicit
-		constexpr vector_(tuple_concat_tag, std::index_sequence<Indices...>, const T& tpl, V... vals) noexcept
-			: vector_{
-				static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))...,
-				vals...
-			}
-		{
-			static_assert((sizeof...(Indices) + sizeof...(V)) <= 3);
-		}
-
-		MUU_CONSTRAINED_TEMPLATE_2(
-			(!all_same<Scalar, remove_cvref<V>...>),
-			typename T,
-			size_t... Indices,
-			typename... V
-		)
+		template <typename T, size_t... Indices, typename... V>
 		explicit
 		constexpr vector_(tuple_concat_tag, std::index_sequence<Indices...>, const T& tpl, const V&... vals) noexcept
 			: vector_{
@@ -606,28 +527,7 @@ namespace muu::impl
 			static_assert((sizeof...(Indices1) + sizeof...(Indices2)) <= 4);
 		}
 
-		MUU_CONSTRAINED_TEMPLATE(
-			(all_same<Scalar, remove_cvref<V>...>),
-			typename T,
-			size_t... Indices,
-			typename... V
-		)
-		explicit
-		constexpr vector_(tuple_concat_tag, std::index_sequence<Indices...>, const T& tpl, V... vals) noexcept
-			: vector_{
-				static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))...,
-				vals...
-			}
-		{
-			static_assert((sizeof...(Indices) + sizeof...(V)) <= 4);
-		}
-
-		MUU_CONSTRAINED_TEMPLATE_2(
-			(!all_same<Scalar, remove_cvref<V>...>),
-			typename T,
-			size_t... Indices,
-			typename... V
-		)
+		template <typename T, size_t... Indices, typename... V>
 		explicit
 		constexpr vector_(tuple_concat_tag, std::index_sequence<Indices...>, const T& tpl, const V&... vals) noexcept
 			: vector_{
@@ -1161,6 +1061,7 @@ namespace muu
 			);
 			MUU_ASSUME(vals != nullptr);
 			MUU_ASSUME(num <= Dimensions);
+			MUU_ASSUME(reinterpret_cast<uintptr_t>(vals) % alignof(T) == 0_sz);
 
 			if constexpr (std::is_same_v<remove_cv<T>, Scalar>)
 				memcpy(this, vals, sizeof(scalar_type) * num);
@@ -1179,48 +1080,15 @@ namespace muu
 		/// \tparam T			Type convertible to #scalar_type.
 		/// \param	vals		Pointer to values to copy.
 		MUU_CONSTRAINED_TEMPLATE(
-			(
-				!std::is_same_v<remove_cv<T>, Scalar>
-				&& all_convertible_to<Scalar, const T>
-			),
+			(all_convertible_to<Scalar, const T>),
 			typename T
 		)
 		MUU_NODISCARD_CTOR
 		MUU_ATTR(nonnull)
 		explicit
-		vector(const T* MUU_HIDDEN(const&) vals) noexcept
-		{
-			MUU_CONSTEXPR_SAFE_ASSERT(
-				vals != nullptr
-				&& "vals cannot be nullptr"
-			);
-			MUU_ASSUME(vals != nullptr);
-
-			                              get<0>() = static_cast<scalar_type>(vals[0]);
-			if constexpr (Dimensions > 1) get<1>() = static_cast<scalar_type>(vals[1]);
-			if constexpr (Dimensions > 2) get<2>() = static_cast<scalar_type>(vals[2]);
-			if constexpr (Dimensions > 3) get<3>() = static_cast<scalar_type>(vals[3]);
-			if constexpr (Dimensions > 4)
-			{
-				for (size_t i = 4; i < Dimensions; i++)
-					operator[](i) = static_cast<scalar_type>(vals[i]);
-			}
-		}
-
-		/// \cond
-
-		MUU_CONSTRAINED_TEMPLATE_2(
-			(std::is_same_v<remove_cv<T>, Scalar>),
-			typename T
-		)
-		MUU_NODISCARD_CTOR
-		MUU_ATTR(nonnull)
-		explicit
-		vector(const T* MUU_HIDDEN(const&) vals) noexcept
-			: base{ impl::initialize_trivial_by_memcpy<base>(vals) }
+		constexpr vector(const T* MUU_HIDDEN(const&) vals) noexcept
+			: base{ impl::array_cast_tag{}, std::make_index_sequence<Dimensions>{}, vals }
 		{}
-
-		/// \endcond
 
 		/// \brief Constructs a vector from a statically-sized muu::span.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
@@ -3933,8 +3801,5 @@ namespace muu
 #undef SPECIALIZED_IF
 #undef MUU_RO_VEC
 
-MUU_PRAGMA_MSVC(pop_macro("min"))
-MUU_PRAGMA_MSVC(pop_macro("max"))
-MUU_PRAGMA_MSVC(float_control(pop))
-MUU_PRAGMA_MSVC(inline_recursion(off))
-MUU_POP_WARNINGS;	// MUU_DISABLE_SHADOW_WARNINGS, MUU_DISABLE_SPAM_WARNINGS
+MUU_RESET_NDEBUG_OPTIMIZATIONS;
+#include "impl/header_end.h"

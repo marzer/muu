@@ -532,7 +532,8 @@ help me improve support for your target architecture. Thanks!
 											MUU_PRAGMA_GCC(diagnostic ignored "-Wuseless-cast")					\
 											MUU_PRAGMA_GCC(diagnostic ignored "-Wmissing-field-initializers")	\
 											MUU_PRAGMA_GCC(diagnostic ignored "-Wmaybe-uninitialized")			\
-											MUU_PRAGMA_GCC(diagnostic ignored "-Wtype-limits") \
+											MUU_PRAGMA_GCC(diagnostic ignored "-Wtype-limits")					\
+											MUU_PRAGMA_GCC_LT(9, diagnostic ignored "-Wattributes")				\
 											static_assert(true)
 
 	#define MUU_POP_WARNINGS				MUU_PRAGMA_GCC(diagnostic pop) \
@@ -883,14 +884,14 @@ help me improve support for your target architecture. Thanks!
 
 #define MUU_PUSH_PRECISE_MATH												\
 	MUU_PRAGMA_MSVC(float_control(precise, on, push))						\
-	MUU_PRAGMA_CLANG_GE(11, "float_control(precise, on, push)")				\
+	MUU_PRAGMA_CLANG_GE(11, float_control(precise, on, push))				\
 	MUU_PRAGMA_GCC(push_options)											\
 	MUU_PRAGMA_GCC(optimize("-fno-fast-math"))								\
 	static_assert(true)
 
 #define MUU_POP_PRECISE_MATH												\
 	MUU_PRAGMA_GCC(pop_options)												\
-	MUU_PRAGMA_CLANG_GE(11, "float_control(pop)")							\
+	MUU_PRAGMA_CLANG_GE(11, float_control(pop))							\
 	MUU_PRAGMA_MSVC(float_control(pop))										\
 	static_assert(true)
 

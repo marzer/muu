@@ -7,12 +7,14 @@
 /// \brief  Contains the definition of muu::span.
 
 #pragma once
-#include "../muu/core.h"
-#include "../muu/compressed_pair.h"
+#include "core.h"
+#include "compressed_pair.h"
 
 MUU_DISABLE_WARNINGS;
 #include <iterator>
 MUU_ENABLE_WARNINGS;
+
+#include "impl/header_start.h"
 
 #ifdef DOXYGEN
 	#define MUU_IDENTITY(...)		__VA_ARGS__
@@ -600,3 +602,5 @@ namespace muu
 }
 
 #undef MUU_IDENTITY
+
+#include "impl/header_end.h"

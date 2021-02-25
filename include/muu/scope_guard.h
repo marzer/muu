@@ -7,14 +7,14 @@
 /// \brief  Contains the definition of muu::scope_guard.
 
 #pragma once
-#include "../muu/core.h"
-#include "../muu/compressed_pair.h"
+#include "core.h"
+#include "compressed_pair.h"
+
 MUU_DISABLE_WARNINGS;
 #include <exception>
 MUU_ENABLE_WARNINGS;
 
-MUU_PUSH_WARNINGS;
-MUU_DISABLE_SPAM_WARNINGS;
+#include "impl/header_start.h"
 
 namespace muu
 {
@@ -417,4 +417,4 @@ namespace muu
 	MUU_ABI_VERSION_END;
 }
 
-MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS
+#include "impl/header_end.h"

@@ -7,20 +7,12 @@
 /// \brief  Contains the definition of muu::thread_pool.
 
 #pragma once
-#include "../muu/core.h"
-#include "../muu/string_param.h"
+#include "core.h"
+#include "string_param.h"
 
-MUU_PUSH_WARNINGS;
-MUU_DISABLE_SPAM_WARNINGS;
+#include "impl/header_start.h"
 MUU_PRAGMA_CLANG(diagnostic ignored "-Wignored-attributes")
 MUU_PRAGMA_MSVC(warning(disable: 26495)) // core guidelines: uninitialized member
-MUU_PRAGMA_MSVC(push_macro("min"))
-MUU_PRAGMA_MSVC(push_macro("max"))
-#if MUU_MSVC
-	#undef min
-	#undef max
-#endif
-
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 
 /// \cond
@@ -990,10 +982,7 @@ namespace muu
 	MUU_ABI_VERSION_END;
 }
 
-MUU_RESET_NDEBUG_OPTIMIZATIONS;
-
-MUU_PRAGMA_MSVC(pop_macro("min"))
-MUU_PRAGMA_MSVC(pop_macro("max"))
-MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS
-
 #undef MUU_MOVE_CHECK
+
+MUU_RESET_NDEBUG_OPTIMIZATIONS;
+#include "impl/header_end.h"

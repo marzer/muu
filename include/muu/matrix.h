@@ -7,27 +7,20 @@
 /// \brief  Contains the definition of muu::matrix.
 
 #pragma once
-#include "../muu/vector.h"
-#include "../muu/quaternion.h"
+#include "vector.h"
+#include "quaternion.h"
 
 MUU_DISABLE_WARNINGS;
 #include <tuple>
 MUU_ENABLE_WARNINGS;
 
-MUU_PUSH_WARNINGS;
+#include "impl/header_start.h"
+MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_DISABLE_SHADOW_WARNINGS;
+MUU_DISABLE_SUGGEST_WARNINGS;
 MUU_PRAGMA_GCC(diagnostic ignored "-Wsign-conversion")
-MUU_PRAGMA_CLANG(diagnostic ignored "-Wdouble-promotion")
-MUU_PRAGMA_MSVC(inline_recursion(on))
-MUU_PRAGMA_MSVC(float_control(push))
 MUU_PRAGMA_MSVC(float_control(except, off))
 MUU_PRAGMA_MSVC(float_control(precise, off))
-MUU_PRAGMA_MSVC(push_macro("min"))
-MUU_PRAGMA_MSVC(push_macro("max"))
-#if MUU_MSVC
-	#undef min
-	#undef max
-#endif
 
 //======================================================================================================================
 // IMPLEMENTATION DETAILS
@@ -2256,14 +2249,10 @@ namespace muu
 #endif //===============================================================================================================
 
 #undef SPECIALIZED_IF
-
 #undef MUU_RO_ARG
 #undef MUU_RO_VEC
 #undef MUU_RO_QUAT
 #undef MUU_RO_MAT
 
-MUU_PRAGMA_MSVC(pop_macro("min"))
-MUU_PRAGMA_MSVC(pop_macro("max"))
-MUU_PRAGMA_MSVC(float_control(pop))
-MUU_PRAGMA_MSVC(inline_recursion(off))
-MUU_POP_WARNINGS;	// MUU_DISABLE_SHADOW_WARNINGS;
+MUU_RESET_NDEBUG_OPTIMIZATIONS;
+#include "impl/header_end.h"

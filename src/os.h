@@ -7,7 +7,7 @@
 #include "muu/preprocessor.h"
 
 #if MUU_WINDOWS
-	#include "os_internal_windows.h"
+	#include "os_windows.h"
 #elif MUU_UNIX
-	#include "os_internal_unix.h"
+	#include "os_unix.h"
 #endif

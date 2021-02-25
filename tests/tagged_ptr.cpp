@@ -18,6 +18,7 @@ struct tagged_ptr_static_checks final
 	static_assert(sizeof(tptr) == sizeof(T*));
 	static_assert(std::is_trivially_copyable_v<tptr>);
 	static_assert(std::is_trivially_destructible_v<tptr>);
+	static_assert(std::is_standard_layout_v<tptr>);
 
 	// static members and typedefs
 	static_assert(std::is_same_v<typename tptr::element_type, T>);

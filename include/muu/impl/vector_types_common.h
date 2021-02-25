@@ -4,15 +4,14 @@
 // SPDX-License-Identifier: MIT
 
 #pragma once
-#include "../../muu/core.h"
-#include "../../muu/math.h"
+#include "../core.h"
+#include "../math.h"
 
 MUU_DISABLE_WARNINGS;
 #include <iosfwd>
 MUU_ENABLE_WARNINGS;
 
-MUU_PUSH_WARNINGS;
-MUU_DISABLE_SPAM_WARNINGS;
+#include "header_start.h"
 
 /// \cond
 namespace muu::impl
@@ -110,7 +109,7 @@ namespace muu::impl
 
 	#endif // MUU_ENABLE_PAIRED_FUNCS
 
-	template <typename T>
+	template <typename T, size_t AssumeAlignment = 1_sz>
 	[[nodiscard]]
 	MUU_ATTR_NDEBUG(pure)
 	MUU_ATTR(nonnull)
@@ -125,9 +124,10 @@ namespace muu::impl
 			&& "ptr cannot be nullptr"
 		);
 		MUU_ASSUME(ptr != nullptr);
+		MUU_ASSUME(reinterpret_cast<uintptr_t>(ptr) % AssumeAlignment == 0_sz);
 
 		T val;
-		memcpy(&val, ptr, sizeof(T));
+		memcpy(&val, muu::assume_aligned<AssumeAlignment>(ptr), sizeof(T));
 		return val;
 	}
 
@@ -305,4 +305,4 @@ namespace muu::impl
 }
 /// \endcond
 
-MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS
+#include "header_end.h"

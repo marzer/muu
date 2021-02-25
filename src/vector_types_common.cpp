@@ -6,15 +6,8 @@
 #include "muu/impl/vector_types_common.h"
 #include "stream_printer.h"
 
-MUU_DISABLE_SPAM_WARNINGS;
-#if MUU_MSVC
-	#undef min
-	#undef max
-#endif
-
+#include "source_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
-
-using namespace muu;
 
 //======================================================================================================================
 // vectors

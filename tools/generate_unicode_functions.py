@@ -1642,9 +1642,9 @@ def write_header(folders, code_unit):
 		# header preamble
 		h('#pragma once')
 		if code_unit.typename == 'char':
-			h('#include "../../muu/impl/unicode_unsigned_char.h"')
+			h('#include "unicode_unsigned_char.h"')
 		elif code_unit.typename == 'wchar_t':
-			h('#include "../../muu/preprocessor.h"')
+			h('#include "../preprocessor.h"')
 			h('#if MUU_WCHAR_BITS == 32')
 			h('\t#include "unicode_char32_t.h"')
 			h('#elif MUU_WCHAR_BITS == 16')
@@ -1653,15 +1653,13 @@ def write_header(folders, code_unit):
 			h('\t#include "unicode_unsigned char.h"')
 			h('#endif')
 		else:
-			h('#include "../../muu/fwd.h"')
+			h('#include "../fwd.h"')
 		h('')
+		h('#include "header_start.h"')
 		if not code_unit.proxy:
-			h('MUU_PUSH_WARNINGS;')
-			h('MUU_PRAGMA_GCC_LT(9, diagnostic ignored "-Wattributes")')
-			h('MUU_PRAGMA_MSVC(warning(disable: 26819))')
-			h('MUU_PRAGMA_GCC_LT(9, push_options)')
+			h('MUU_PRAGMA_MSVC(warning(disable: 26819)) // core guidelines: Unannotated fallthrough between switch labels')
 			h('MUU_PRAGMA_GCC_LT(9, optimize("O1"))')
-			h('')
+		h('')
 		h('namespace muu')
 		h('{')
 		if G.doxygen:
@@ -1956,10 +1954,8 @@ def write_header(folders, code_unit):
 			h('\t/** @} */	// strings::code_units')
 			h('\t/** @} */	// strings')
 		h('}')
-		if not code_unit.proxy:
-			h('')
-			h('MUU_PRAGMA_GCC_LT(9, pop_options)')
-			h('MUU_POP_WARNINGS;')
+		h('')
+		h('#include "header_end.h"')
 
 		# finish up tests
 		if t is not None:

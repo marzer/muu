@@ -7,8 +7,8 @@
 /// \brief Functions to simplify working with strings.
 
 #pragma once
-#include "../muu/chars.h"
-#include "../muu/string_param.h"
+#include "chars.h"
+#include "string_param.h"
 
 MUU_DISABLE_WARNINGS;
 #include <string>
@@ -16,15 +16,8 @@ MUU_DISABLE_WARNINGS;
 #include <iosfwd>
 MUU_ENABLE_WARNINGS;
 
-MUU_PUSH_WARNINGS;
-MUU_DISABLE_SPAM_WARNINGS;
-MUU_PRAGMA_MSVC(warning(disable: 26812))
-MUU_PRAGMA_MSVC(push_macro("min"))
-MUU_PRAGMA_MSVC(push_macro("max"))
-#if MUU_MSVC
-	#undef min
-	#undef max
-#endif
+#include "impl/header_start.h"
+MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 
 #ifdef __cpp_lib_constexpr_string
 	#define MUU_CONSTEXPR_STRING	constexpr
@@ -997,6 +990,5 @@ namespace muu
 	/** @} */	// strings
 }
 
-MUU_PRAGMA_MSVC(pop_macro("min"))
-MUU_PRAGMA_MSVC(pop_macro("max"))
-MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS
+MUU_RESET_NDEBUG_OPTIMIZATIONS;
+#include "impl/header_end.h"

@@ -13,8 +13,7 @@ MUU_DISABLE_WARNINGS;
 #include <iomanip>
 MUU_ENABLE_WARNINGS;
 
-MUU_PUSH_WARNINGS;
-MUU_DISABLE_SPAM_WARNINGS;
+#include "muu/impl/header_start.h"
 
 namespace muu
 {
@@ -286,4 +285,4 @@ namespace muu
 	stream_printer(std::basic_ostream<Char>&) -> stream_printer<Char>;
 }
 
-MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS
+#include "muu/impl/header_end.h"

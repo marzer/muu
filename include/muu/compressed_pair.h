@@ -7,10 +7,9 @@
 /// \brief  Contains the definition of muu::compressed_pair.
 
 #pragma once
-#include "../muu/core.h"
+#include "core.h"
 
-MUU_PUSH_WARNINGS;
-MUU_DISABLE_SPAM_WARNINGS;
+#include "impl/header_start.h"
 MUU_PRAGMA_CLANG(diagnostic ignored "-Wreorder")
 MUU_PRAGMA_GCC(diagnostic ignored "-Wreorder")
 
@@ -318,4 +317,4 @@ namespace std
 	};
 }
 
-MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS, -Wreorder
+#include "impl/header_end.h"

@@ -7,15 +7,11 @@
 /// \brief  Contains the definition of muu::tagged_ptr.
 
 #pragma once
-#include "../muu/core.h"
+#include "core.h"
 
-MUU_PRAGMA_MSVC(inline_recursion(on))
-MUU_PRAGMA_MSVC(push_macro("min"))
-MUU_PRAGMA_MSVC(push_macro("max"))
-#if MUU_MSVC
-	#undef min
-	#undef max
-#endif
+#include "impl/header_start.h"
+MUU_DISABLE_SUGGEST_WARNINGS;
+MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 
 /// \cond
 namespace muu::impl
@@ -213,6 +209,142 @@ namespace muu::impl
 		}
 	};
 
+	struct MUU_TRIVIAL_ABI tagged_ptr_storage
+	{
+		uintptr_t bits_;
+
+		constexpr tagged_ptr_storage(uintptr_t bits) noexcept
+			: bits_{ bits }
+		{}
+	};
+
+	template <typename T, size_t MinAlign, bool = std::is_function_v<T>>
+	struct MUU_TRIVIAL_ABI tagged_ptr_to_function : protected tagged_ptr_storage
+	{
+	protected:
+		using base = tagged_ptr_storage;
+		using base::bits_;
+		using base::base;
+
+	public:
+
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr T* ptr() const noexcept
+		{
+			using tptr = impl::tptr<MinAlign>;
+
+			return reinterpret_cast<T*>(tptr::get_ptr(bits_));
+		}
+
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr T* get() const noexcept
+		{
+			return ptr();
+		}
+
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		explicit
+		constexpr operator T* () const noexcept
+		{
+			return ptr();
+		}
+
+		template <typename... U>
+		constexpr decltype(auto) operator () (U&&... args) const
+			noexcept(std::is_nothrow_invocable_v<T, U&&...>)
+		{
+			static_assert(std::is_invocable_v<T, U&&...>);
+
+			return ptr()(static_cast<U&&>(args)...);
+		}
+	};
+
+	template <typename T, size_t MinAlign>
+	struct MUU_TRIVIAL_ABI tagged_ptr_to_function<T, MinAlign, false> : protected tagged_ptr_storage
+	{
+	protected:
+		using base = tagged_ptr_storage;
+		using base::bits_;
+		using base::base;
+
+	public:
+
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		MUU_ATTR(assume_aligned(MinAlign))
+		constexpr T* ptr() const noexcept
+		{
+			using tptr = impl::tptr<MinAlign>;
+
+			return assume_aligned<MinAlign>(reinterpret_cast<T*>(tptr::get_ptr(bits_)));
+		}
+
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		MUU_ATTR(assume_aligned(MinAlign))
+		constexpr T* get() const noexcept
+		{
+			return ptr();
+		}
+
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		MUU_ATTR(assume_aligned(MinAlign))
+		explicit
+		constexpr operator T* () const noexcept
+		{
+			return ptr();
+		}
+
+	};
+
+	template <typename T, size_t MinAlign, bool = (!std::is_function_v<T> && !std::is_void_v<T>)>
+	struct MUU_TRIVIAL_ABI tagged_ptr_to_object : public tagged_ptr_to_function<T, MinAlign>
+	{
+	protected:
+		using base = tagged_ptr_to_function<T, MinAlign>;
+		using base::bits_;
+
+		constexpr tagged_ptr_to_object(uintptr_t bits = {}) noexcept
+			: base{ bits }
+		{}
+
+	public:
+		using base::ptr;
+
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr T& operator* () const noexcept
+		{
+			return *ptr();
+		}
+
+		[[nodiscard]]
+		MUU_ATTR(pure)
+		constexpr T* operator -> () const noexcept
+		{
+			return ptr();
+		}
+	};
+
+	template <typename T, size_t MinAlign>
+	struct MUU_TRIVIAL_ABI tagged_ptr_to_object<T, MinAlign, false> : public tagged_ptr_to_function<T, MinAlign>
+	{
+	protected:
+		using base = tagged_ptr_to_function<T, MinAlign>;
+		using base::bits_;
+
+		constexpr tagged_ptr_to_object(uintptr_t bits = {}) noexcept
+			: base{ bits }
+		{}
+
+	public:
+		using base::ptr;
+	};
+
 	MUU_ABI_VERSION_END;
 
 	struct tptr_nullptr_deduced_tag {};
@@ -233,10 +365,10 @@ namespace muu
 	/// 
 	/// \see [Tagged pointer](https://en.wikipedia.org/wiki/Tagged_pointer)
 	template <typename T, size_t MinAlign = alignment_of<T>>
-	class
-	MUU_TRIVIAL_ABI
-	MUU_ATTR(packed)
-	tagged_ptr
+	class MUU_TRIVIAL_ABI tagged_ptr
+		#ifndef DOXYGEN
+		: public impl::tagged_ptr_to_object<T, MinAlign>
+		#endif
 	{
 		static_assert(
 			!std::is_same_v<T, impl::tptr_nullptr_deduced_tag>,
@@ -262,9 +394,9 @@ namespace muu
 		);
 
 		private:
-			uintptr_t bits = {};
-
 			using tptr = impl::tptr<MinAlign>;
+			using base = impl::tagged_ptr_to_object<T, MinAlign>;
+			using base::bits_;
 
 		public:
 
@@ -291,7 +423,7 @@ namespace muu
 			MUU_NODISCARD_CTOR
 			explicit
 			constexpr tagged_ptr(pointer value) noexcept
-				: bits{ tptr::pack_ptr(pointer_cast<void*>(value)) }
+				: base{ tptr::pack_ptr(pointer_cast<void*>(value)) }
 			{}
 
 			/// \brief	Constructs a tagged pointer.
@@ -305,7 +437,7 @@ namespace muu
 			template <typename U>
 			MUU_NODISCARD_CTOR
 			constexpr tagged_ptr(pointer value, const U& tag_value) noexcept
-				: bits{ tptr::pack_both(pointer_cast<void*>(value), tag_value) }
+				: base{ tptr::pack_both(pointer_cast<void*>(value), tag_value) }
 			{
 				static_assert(
 					is_unsigned<U>
@@ -339,7 +471,7 @@ namespace muu
 			/// \returns	A reference to the tagged_ptr.
 			constexpr tagged_ptr& reset() noexcept
 			{
-				bits = {};
+				bits_ = {};
 				return *this;
 			}
 
@@ -350,7 +482,7 @@ namespace muu
 			/// \returns	A reference to the tagged_ptr.
 			constexpr tagged_ptr& reset(pointer value) noexcept
 			{
-				bits = tptr::pack_ptr(pointer_cast<void*>(value));
+				bits_ = tptr::pack_ptr(pointer_cast<void*>(value));
 				return *this;
 			}
 
@@ -374,20 +506,56 @@ namespace muu
 					" and small enough to fit in the available tag bits"
 				);
 
-				bits = tptr::pack_both(pointer_cast<void*>(value), tag_value);
+				bits_ = tptr::pack_both(pointer_cast<void*>(value), tag_value);
 				return *this;
 			}
 
+			#ifndef DOXYGEN
+
+			using base::ptr; // prevent the setter from hiding the getter in the base
+
+			#else
+
 			/// \brief	Returns the target pointer value.
 			[[nodiscard]]
-			MUU_ATTR(pure)
-			constexpr pointer ptr() const noexcept
-			{
-				if constexpr (std::is_function_v<T>)
-					return reinterpret_cast<pointer>(tptr::get_ptr(bits));
-				else
-					return assume_aligned<MinAlign>(reinterpret_cast<pointer>(tptr::get_ptr(bits)));
-			}
+			constexpr pointer ptr() const noexcept;
+
+			/// \brief	Returns the target pointer value.
+			/// 
+			/// \remarks This is an alias for ptr(); it exists to keep the interface consistent with std::unique_ptr.
+			[[nodiscard]]
+			constexpr pointer get() const noexcept;
+
+			/// \brief	Returns the target pointer value.
+			[[nodiscard]]
+			explicit
+			constexpr operator pointer () const noexcept;
+
+			/// \brief	Invokes the function call operator on the pointed function.
+			///
+			/// \tparam U		Argument types.
+			/// \param	args	The arguments to pass to the pointed function.
+			///
+			/// \returns	The return value of the function call.
+			/// 
+			/// \note This operator is only available when the pointed type is a function.
+			template <typename... U>
+			constexpr decltype(auto) operator () (U&&... args) const
+				noexcept(std::is_nothrow_invocable_v<element_type, U&&...>);
+
+			/// \brief	Returns a reference to the pointed object.
+			/// 
+			/// \note This operator is not available for pointers to `void` or functions.
+			[[nodiscard]]
+			constexpr element_type& operator * () const noexcept;
+
+			/// \brief	Returns the target pointer value.
+			/// 
+			/// \note This operator is not available for pointers to `void` or functions.
+			[[nodiscard]]
+			constexpr pointer operator -> () const noexcept;
+
+			#endif // DOXYGEN
 
 			/// \brief	Sets the target pointer value, leaving the tag bits unchanged.
 			///
@@ -396,7 +564,7 @@ namespace muu
 			/// \returns	A reference to a tagged_ptr.
 			constexpr tagged_ptr& ptr(pointer value) noexcept
 			{
-				bits = tptr::set_ptr(bits, pointer_cast<void*>(value));
+				bits_ = tptr::set_ptr(bits_, pointer_cast<void*>(value));
 				return *this;
 			}
 
@@ -415,18 +583,8 @@ namespace muu
 			/// \returns	A reference to the tagged_ptr.
 			constexpr tagged_ptr& clear_ptr() noexcept
 			{
-				bits &= tptr::tag_mask;
+				bits_ &= tptr::tag_mask;
 				return *this;
-			}
-
-			/// \brief	Returns the target pointer value.
-			/// 
-			/// \remarks This is an alias for ptr(); it exists to keep the interface consistent with std::unique_ptr.
-			[[nodiscard]]
-			MUU_ATTR(pure)
-			constexpr pointer get() const noexcept
-			{
-				return ptr();
 			}
 
 			/// \brief	Returns the tag bits as an unsigned integer or trivially-copyable type.
@@ -450,7 +608,7 @@ namespace muu
 						sizeof(U) >= sizeof(tag_type),
 						"The destination integer type is not large enough to store the tag without a loss of data"
 					);
-					return static_cast<U>(tptr::get_tag(bits));
+					return static_cast<U>(tptr::get_tag(bits_));
 				}
 				else
 				{
@@ -459,7 +617,7 @@ namespace muu
 						"Tag types must fit in the available tag bits"
 					);
 
-					return tptr::template get_tag_as<U>(bits);
+					return tptr::template get_tag_as<U>(bits_);
 				}
 			}
 
@@ -482,7 +640,7 @@ namespace muu
 					" and small enough to fit in the available tag bits"
 				);
 
-				bits = tptr::set_tag(bits, tag_value);
+				bits_ = tptr::set_tag(bits_, tag_value);
 				return *this;
 			}
 
@@ -491,7 +649,7 @@ namespace muu
 			MUU_ATTR(pure)
 			constexpr bool tag_bit(size_t tag_bit_index) const noexcept
 			{
-				return tptr::get_tag_bit(bits, tag_bit_index);
+				return tptr::get_tag_bit(bits_, tag_bit_index);
 			}
 
 			/// \brief	Sets the value of one of the tag bits.
@@ -506,7 +664,7 @@ namespace muu
 			/// 		 caution!
 			constexpr tagged_ptr& tag_bit(size_t tag_bit_index, bool val) noexcept
 			{
-				bits = tptr::set_tag_bit(bits, tag_bit_index, val);
+				bits_ = tptr::set_tag_bit(bits_, tag_bit_index, val);
 				return *this;
 			}
 
@@ -515,17 +673,8 @@ namespace muu
 			/// \returns	A reference to the tagged_ptr.
 			constexpr tagged_ptr& clear_tag() noexcept
 			{
-				bits &= tptr::ptr_mask;
+				bits_ &= tptr::ptr_mask;
 				return *this;
-			}
-
-			/// \brief	Returns the target pointer value.
-			[[nodiscard]]
-			MUU_ATTR(pure)
-			explicit
-			constexpr operator pointer () const noexcept
-			{
-				return ptr();
 			}
 
 			/// \brief	Returns true if the target pointer value is not nullptr.
@@ -534,66 +683,7 @@ namespace muu
 			explicit
 			constexpr operator bool() const noexcept
 			{
-				return bits & tptr::ptr_mask;
-			}
-
-			#ifdef DOXYGEN
-
-			/// \brief	Returns a reference to the pointed object.
-			/// 
-			/// \note This operator is not available for pointers to `void` or functions.
-			[[nodiscard]]
-			constexpr element_type& operator * () const noexcept;
-
-			#else
-
-			MUU_CONSTRAINED_TEMPLATE(
-				(!std::is_void_v<U> && !std::is_function_v<U>),
-				typename U = element_type
-			)
-			[[nodiscard]]
-			MUU_ATTR(pure)
-			constexpr U& operator * () const noexcept
-			{
-				return *ptr();
-			}
-
-			#endif
-
-			/// \brief	Returns the target pointer value.
-			/// 
-			/// \note This operator is not available for pointers to `void` or functions.
-			MUU_LEGACY_REQUIRES(
-				(!std::is_void_v<U> && !std::is_function_v<U>),
-				typename U = element_type
-			)
-			[[nodiscard]]
-			MUU_ATTR(pure)
-			constexpr pointer operator -> () const noexcept
-				MUU_REQUIRES(!std::is_void_v<T> && !std::is_function_v<T>)
-			{
-				return ptr();
-			}
-
-			/// \brief	Invokes the function call operator on the pointed function.
-			///
-			/// \tparam U		Argument types.
-			/// \param	args	The arguments to pass to the pointed function.
-			///
-			/// \returns	The return value of the function call.
-			/// 
-			/// \note This operator is only available when the pointed type is a function.
-			MUU_CONSTRAINED_TEMPLATE(
-				std::is_function_v<V>,
-				typename... U
-				MUU_HIDDEN_PARAM(typename V = element_type)
-			)
-			constexpr decltype(auto) operator () (U&&... args) const
-				noexcept(std::is_nothrow_invocable_v<element_type, U&&...>)
-			{
-				static_assert(std::is_invocable_v<element_type, U&&...>);
-
-				return ptr()(static_cast<U&&>(args)...);
+				return bits_ & tptr::ptr_mask;
 			}
 
 			/// \brief	Returns true if a tagged_ptr and raw pointer refer to the same address.
@@ -633,7 +723,7 @@ namespace muu
 			MUU_ATTR(const)
 			friend constexpr bool operator == (tagged_ptr lhs, tagged_ptr rhs) noexcept
 			{
-				return lhs.bits == rhs.bits;
+				return lhs.bits_ == rhs.bits_;
 			}
 
 			/// \brief	Returns true if two tagged_ptrs are not equal (including their tag bits).
@@ -641,7 +731,7 @@ namespace muu
 			MUU_ATTR(const)
 			friend constexpr bool operator != (tagged_ptr lhs, tagged_ptr rhs) noexcept
 			{
-				return lhs.bits != rhs.bits;
+				return lhs.bits_ != rhs.bits_;
 			}
 	};
 
@@ -707,6 +797,5 @@ namespace std
 		: muu::impl::tagged_pointer_traits<muu::tagged_ptr<T, MinAlign>, std::is_void_v<T>> {};
 }
 
-MUU_PRAGMA_MSVC(pop_macro("min"))
-MUU_PRAGMA_MSVC(pop_macro("max"))
-MUU_PRAGMA_MSVC(inline_recursion(off))
+MUU_RESET_NDEBUG_OPTIMIZATIONS;
+#include "impl/header_end.h"

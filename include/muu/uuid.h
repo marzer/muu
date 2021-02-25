@@ -7,17 +7,16 @@
 /// \brief  Contains the definition of muu::uuid.
 
 #pragma once
-#include "../muu/hashing.h"
+#include "hashing.h"
 
 MUU_DISABLE_WARNINGS;
 #include <optional>
 #include <iosfwd>
 MUU_ENABLE_WARNINGS;
 
-MUU_PUSH_WARNINGS;
+#include "impl/header_start.h"
 MUU_DISABLE_SWITCH_WARNINGS;
-MUU_DISABLE_SPAM_WARNINGS;
-MUU_PRAGMA_MSVC(warning(disable: 26812))
+MUU_PRAGMA_MSVC(warning(disable: 26812)) // core guidelines: Prefer 'enum class' over 'enum'
 
 /// \cond
 namespace muu::impl
@@ -836,4 +835,4 @@ namespace std
 	};
 }
 
-MUU_POP_WARNINGS; // MUU_DISABLE_SWITCH_WARNINGS, MUU_DISABLE_SPAM_WARNINGS
+#include "impl/header_end.h"
