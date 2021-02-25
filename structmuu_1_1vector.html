@@ -305,7 +305,7 @@ C++</span></a>
             <dd>Constructs a vector from any tuple-like or implicitly bit-castable type.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a0407b4cfe5e257a8a3308d34bfd498c9">vector</a>(</span><span class="m-doc-wrap">const T* vals) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a943cab78806fe1e13f8ebaf974cb34b2">vector</a>(</span><span class="m-doc-wrap">const T* vals) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a vector from a pointer to scalars.</dd>
             <dt>
@@ -1319,12 +1319,12 @@ template&lt;typename T&gt;
             </table>
 <p>Any scalar components not covered by the constructor's parameters are initialized to zero.</p><aside class="m-note m-info"><h4>Note</h4><p>This constructor is implicit when given an implicitly bit-castable type, <code>explicit</code> otherwise.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__meta.html#ga824ac2b58e006d4be8d4b0d6a0f7180d">muu::<wbr/>allow_implicit_bit_cast</a></p></aside>
           </div></section>
-          <section class="m-doc-details" id="a0407b4cfe5e257a8a3308d34bfd498c9"><div>
+          <section class="m-doc-details" id="a943cab78806fe1e13f8ebaf974cb34b2"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;<br/>
 template&lt;typename T&gt;
               </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0407b4cfe5e257a8a3308d34bfd498c9">vector</a>(</span><span class="m-doc-wrap">const T* vals) <span class="m-label m-info">explicit</span>  <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a943cab78806fe1e13f8ebaf974cb34b2">vector</a>(</span><span class="m-doc-wrap">const T* vals) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Constructs a vector from a pointer to scalars.</p>
             <table class="m-table m-fullwidth m-flat">
