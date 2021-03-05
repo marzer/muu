@@ -135,7 +135,7 @@ namespace
 				auto t = pop_front_task();
 				MUU_ASSERT(t->action_invoker);
 
-				auto result = ::new (assume_aligned<impl::thread_pool_task_granularity>(buf)) task{ std::move(*t) };
+				auto result = ::new (muu::assume_aligned<impl::thread_pool_task_granularity>(buf)) task{ std::move(*t) };
 				MUU_ASSERT(result->action_invoker);
 
 				t->~task();
@@ -267,7 +267,7 @@ namespace
 				if (terminated())
 					return nullptr;
 
-				return pop_front_task(assume_aligned<impl::thread_pool_task_granularity>(buf));
+				return pop_front_task(muu::assume_aligned<impl::thread_pool_task_granularity>(buf));
 			}
 	};
 

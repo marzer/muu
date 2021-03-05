@@ -65,7 +65,7 @@ namespace muu::impl
 			: task{ task_ },
 			type{ types::move }
 		{
-			data.source = assume_aligned<thread_pool_task_granularity>(&source_);
+			data.source = muu::assume_aligned<thread_pool_task_granularity>(&source_);
 		}
 
 		MUU_NODISCARD_CTOR
@@ -507,7 +507,7 @@ namespace muu
 			template <typename T>
 			void enqueue(size_t queue_index, T&& task) noexcept
 			{
-				::new (assume_aligned<impl::thread_pool_task_granularity>(acquire(queue_index))) impl::thread_pool_task{ static_cast<T&&>(task) };
+				::new (muu::assume_aligned<impl::thread_pool_task_granularity>(acquire(queue_index))) impl::thread_pool_task{ static_cast<T&&>(task) };
 			}
 
 			MUU_API

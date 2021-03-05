@@ -288,14 +288,14 @@ namespace muu
 		/// \param 	val	The value to convert into a UUID.
 		MUU_NODISCARD_CTOR
 			constexpr uuid(uint128_t val) noexcept
-			: bytes{ bit_cast<decltype(bytes)>(byte_reverse(val)) }
+			: bytes{ muu::bit_cast<decltype(bytes)>(byte_reverse(val)) }
 		{}
 
 		#else // ^^^ MUU_LITTLE_ENDIAN / MUU_BIG_ENDIAN vvv
 
 		MUU_NODISCARD_CTOR
 			constexpr uuid(uint128_t val) noexcept
-			: bytes{ bit_cast<decltype(bytes)>(val) }
+			: bytes{ muu::bit_cast<decltype(bytes)>(val) }
 		{}
 
 		#endif // MUU_BIG_ENDIAN
@@ -443,9 +443,9 @@ namespace muu
 			if constexpr (build::supports_constexpr_bit_cast)
 			{
 				if constexpr (build::is_little_endian)
-					return byte_reverse(bit_cast<uint128_t>(bytes));
+					return byte_reverse(muu::bit_cast<uint128_t>(bytes));
 				else
-					return bit_cast<uint128_t>(bytes);
+					return muu::bit_cast<uint128_t>(bytes);
 			}
 			else
 			{
@@ -475,7 +475,7 @@ namespace muu
 		{
 			#if MUU_HAS_INT128
 			if constexpr (build::supports_constexpr_bit_cast)
-				return bit_cast<uint128_t>(bytes) != uint128_t{};
+				return muu::bit_cast<uint128_t>(bytes) != uint128_t{};
 			else
 			#endif
 			{
@@ -498,7 +498,7 @@ namespace muu
 
 			#if MUU_HAS_INT128
 			if constexpr (build::supports_constexpr_bit_cast)
-				return bit_cast<uint128_t>(lhs) == bit_cast<uint128_t>(rhs);
+				return muu::bit_cast<uint128_t>(lhs) == muu::bit_cast<uint128_t>(rhs);
 			else
 			#endif
 			{

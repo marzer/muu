@@ -402,7 +402,7 @@ namespace muu
 		MUU_NODISCARD_CTOR
 		/*implicit*/
 		constexpr quaternion(const T& blittable) noexcept
-			: base{ bit_cast<base>(blittable) }
+			: base{ muu::bit_cast<base>(blittable) }
 		{
 			static_assert(
 				sizeof(T) == sizeof(base),

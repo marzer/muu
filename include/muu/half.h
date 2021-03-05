@@ -141,7 +141,7 @@ namespace muu
 			#if MUU_HALF_EMULATED
 			: impl_{ bits }
 			#else
-			: impl_{ bit_cast<impl_type>(bits) }
+			: impl_{ muu::bit_cast<impl_type>(bits) }
 			#endif
 		{}
 
@@ -591,7 +591,7 @@ namespace muu
 			#define HALF_CASTING_ASSIGN_OP(input_type, op)									\
 				friend constexpr half& operator op##= (half& lhs, input_type rhs) noexcept	\
 				{																			\
-					lhs.impl_ = bit_cast<impl_type>(lhs op rhs);							\
+					lhs.impl_ = muu::bit_cast<impl_type>(lhs op rhs);						\
 					return lhs;																\
 				}																			\
 				static_assert(true)
@@ -1218,7 +1218,7 @@ namespace muu::impl
 	MUU_ATTR(const)
 	constexpr uint16_t MUU_VECTORCALL f32_to_f16_emulated(float val) noexcept
 	{
-		const uint32_t bits32 = bit_cast<uint32_t>(val);
+		const uint32_t bits32 = muu::bit_cast<uint32_t>(val);
 		const uint16_t s16 = static_cast<uint16_t>((bits32 & 0x80000000u) >> 16);
 
 		// 0000 0000 0111 1111 1111 1111 1111 1111
@@ -1316,7 +1316,7 @@ namespace muu::impl
 
 		exp32 = exp32 << 23;
 		frac32 = frac32 << 13;
-		return bit_cast<float>(s32 | exp32 | frac32);
+		return muu::bit_cast<float>(s32 | exp32 | frac32);
 	}
 
 	#if MUU_HALF_USE_INTRINSICS

@@ -827,7 +827,7 @@ namespace muu
 		MUU_NODISCARD_CTOR
 		explicit
 		constexpr vector(const scalar_type(&arr)[N]) noexcept
-			: base{ bit_cast<base>(arr) }
+			: base{ muu::bit_cast<base>(arr) }
 		{}
 
 		/// \endcond
@@ -882,7 +882,7 @@ namespace muu
 		MUU_NODISCARD_CTOR
 		explicit
 		constexpr vector(const std::array<scalar_type, N>& arr) noexcept
-			: base{ bit_cast<base>(arr) }
+			: base{ muu::bit_cast<base>(arr) }
 		{}
 
 		/// \endcond
@@ -946,7 +946,7 @@ namespace muu
 		MUU_NODISCARD_CTOR
 		/*implicit*/
 		constexpr vector(const T& bitcastable) noexcept
-			: base{ bit_cast<base>(bitcastable) }
+			: base{ muu::bit_cast<base>(bitcastable) }
 		{
 			static_assert(
 				sizeof(T) == sizeof(base),

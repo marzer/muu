@@ -457,7 +457,7 @@ namespace
 				if constexpr (constants<T>::significand_digits <= 24)
 				{
 					for (auto bits = first; bits < last; bits++)
-						if (!infinity_or_nan(bit_cast<T>(bits)))
+						if (!infinity_or_nan(muu::bit_cast<T>(bits)))
 							return false;
 				}
 				else
@@ -467,14 +467,14 @@ namespace
 						/ (bit_fill_right<uint64_t>(23) - 1_u64);
 					for (auto iters = bit_fill_right<uint64_t>(23) - 1_u64; iters --> uint64_t{};)
 					{
-						const auto v = bit_cast<T>(bits);
+						const auto v = muu::bit_cast<T>(bits);
 						if (!infinity_or_nan(v))
 							return false;
 						bits += static_cast<blit_type>(step);
 					}
 				}
 
-				if (!infinity_or_nan(bit_cast<T>(last)))
+				if (!infinity_or_nan(muu::bit_cast<T>(last)))
 					return false;
 
 				return true;

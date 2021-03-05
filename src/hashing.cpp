@@ -282,7 +282,7 @@ sha1& sha1::finish() noexcept
 	}
 
 	// convert the digest to bytes
-	state.hash = bit_cast<hash_type>(state.digest);
+	state.hash = muu::bit_cast<hash_type>(state.digest);
 
 	return *this;
 }

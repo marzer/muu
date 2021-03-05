@@ -3817,7 +3817,7 @@ namespace muu
 
 		if constexpr (std::is_volatile_v<T>)
 		{
-			return static_cast<T*>(assume_aligned<N>(const_cast<remove_volatile<T>*>(ptr)));
+			return static_cast<T*>(muu::assume_aligned<N>(const_cast<remove_volatile<T>*>(ptr)));
 		}
 		else
 		{
@@ -3938,7 +3938,7 @@ namespace muu
 		static_assert(has_single_bit(Alignment), "alignment must be a power of two");
 		static_assert(Alignment >= alignment_of<std::remove_pointer_t<T>>, "cannot under-align types.");
 
-		return assume_aligned<Alignment>(
+		return muu::assume_aligned<Alignment>(
 			reinterpret_cast<T*>(apply_alignment<Alignment>(reinterpret_cast<uintptr_t>(ptr)))
 		);
 	}
@@ -4063,7 +4063,7 @@ namespace muu
 		void* allocate(size_t size)
 		{
 			static_assert(has_single_bit(Alignment), "alignments must be a power-of-two.");
-			return assume_aligned<Alignment>(this->allocate(size, Alignment));
+			return muu::assume_aligned<Alignment>(this->allocate(size, Alignment));
 		}
 	};
 

@@ -170,7 +170,7 @@ namespace muu::impl
 			static_assert(sizeof(intermediate_type) <= sizeof(tag_type));
 
 			if constexpr (sizeof(T) == sizeof(intermediate_type))
-				return bit_cast<T>(static_cast<intermediate_type>(get_tag(bits)));
+				return muu::bit_cast<T>(static_cast<intermediate_type>(get_tag(bits)));
 			else
 			{
 				uint8_t bytes[sizeof(T)];
@@ -180,7 +180,7 @@ namespace muu::impl
 					bytes[i] = static_cast<uint8_t>(intermediate_bits & bit_fill_right<intermediate_type>(8));
 					intermediate_bits >>= 8;
 				}
-				return bit_cast<T>(bytes);
+				return muu::bit_cast<T>(bytes);
 			}
 		}
 
@@ -279,7 +279,7 @@ namespace muu::impl
 		{
 			using tptr = impl::tptr<MinAlign>;
 
-			return assume_aligned<MinAlign>(reinterpret_cast<T*>(tptr::get_ptr(bits_)));
+			return muu::assume_aligned<MinAlign>(reinterpret_cast<T*>(tptr::get_ptr(bits_)));
 		}
 
 		[[nodiscard]]

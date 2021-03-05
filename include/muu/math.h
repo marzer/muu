@@ -146,11 +146,11 @@ namespace muu
 
 			if constexpr (is_integral<blit_type>)
 			{
-				return (bit_cast<blit_type>(val) & traits::mask) == traits::mask;
+				return (muu::bit_cast<blit_type>(val) & traits::mask) == traits::mask;
 			}
 			else
 			{
-				return traits::check(bit_cast<blit_type>(val));
+				return traits::check(muu::bit_cast<blit_type>(val));
 			}
 
 		}
