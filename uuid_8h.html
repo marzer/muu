@@ -1,14 +1,9 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu/uuid.h file | muu Useful
-utilities
-for
-modern
-C++</title>
+  <title>muu/uuid.h file | muu Useful utilities for modern C++</title>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
   <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
-  <link href="muu.css" rel="stylesheet"/>
   <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <meta content="#22272e" name="theme-color"/>
@@ -19,17 +14,14 @@ C++</title>
   for
   modern
   C++." name="description"/>
-  <script src="muu.js"></script>
+
+  <link href="dox.css" rel="stylesheet"/>
 </head>
 <body>
 <header><nav id="navigation">
   <div class="m-container">
     <div class="m-row">
-      <a class="m-col-t-8 m-col-m-none m-left-m" href="index.html" id="m-navbar-brand"><img alt="" src="logo.png"/>muu <span class="m-thin">Useful
-utilities
-for
-modern
-C++</span></a>
+      <a class="m-col-t-8 m-col-m-none m-left-m" href="index.html" id="m-navbar-brand"><img alt="" src="logo.png"/>muu <span class="m-thin">Useful utilities for modern C++</span></a>
       <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
         <a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
           <path d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z" id="m-doc-search-icon-path"></path>
@@ -46,7 +38,7 @@ C++</span></a>
           <ol class="m-col-t-6 m-col-m-none" start="3">
             <li><a href="namespaces.html">Namespaces</a></li>
             <li><a href="annotated.html">Classes</a></li>
-            <li><a class="github muu-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
+            <li><a class="github dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
             <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
               <use href="#m-doc-search-icon-path"></use>
             </svg></a></li>
@@ -73,6 +65,7 @@ C++</span></a>
                 <li><a href="#namespaces">Namespaces</a></li>
                 <li><a href="#nested-classes">Classes</a></li>
                 <li><a href="#enum-members">Enums</a></li>
+                <li><a href="#func-members">Functions</a></li>
               </ul>
             </li>
           </ul>
@@ -92,6 +85,10 @@ C++</span></a>
           <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
             <dt>
+              struct <a class="m-doc" href="structmuu_1_1uuid.html">muu::uuid</a>
+            </dt>
+            <dd>A 128-bit universally-unique identifier (UUID).</dd>
+            <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01uuid_01_4.html">muu::constants&lt;uuid&gt;</a>
             </dt>
@@ -100,34 +97,40 @@ C++</span></a>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structstd_1_1hash_3_01muu_1_1uuid_01_4.html">std::hash&lt;muu::uuid&gt;</a>
             </dt>
-            <dd>Specialization of <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/utility/hash" target="_blank">std::hash</a> for <a class="m-doc" href="structmuu_1_1uuid.html">muu::<wbr/>uuid</a>.</dd>
-            <dt>
-              struct <a class="m-doc" href="structmuu_1_1uuid.html">muu::uuid</a>
-            </dt>
-            <dd>A 128-bit universally-unique identifier (UUID).</dd>
+            <dd>Specialization of <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/utility/hash" target="_blank">std::hash</a> for <a class="m-doc" href="structmuu_1_1uuid.html">muu::<wbr/>uuid</a>.</dd>
           </dl>
         </section>
         <section id="enum-members">
           <h2><a href="#enum-members">Enums</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">enum class <a class="m-doc" href="namespacemuu.html#a0af5ea664875aa7ce96e0105152bc59c">uuid_variant</a>: <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> { </span><span class="m-doc-wrap"><a class="m-doc" href="#a0af5ea664875aa7ce96e0105152bc59ca334c4a4c42fdb79d7ebc3e73b517e6f8">none</a>,
-              <a class="m-doc" href="#a0af5ea664875aa7ce96e0105152bc59cac00f0c4675b91fb8b918e4079a0b1bac">standard</a>,
-              <a class="m-doc" href="#a0af5ea664875aa7ce96e0105152bc59cae966b89dbea9cb554e901f2978c329b6">reserved_ncs</a>,
-              <a class="m-doc" href="#a0af5ea664875aa7ce96e0105152bc59cac7cee24c14e39b1f43ae8fbbe515c8d9">reserved_microsoft</a>,
-              <a class="m-doc" href="#a0af5ea664875aa7ce96e0105152bc59cac28fc2abb01622a9e2696124c3693086">reserved_future</a> }</span>
+              <span class="m-doc-wrap-bumper">enum class <a class="m-doc" href="namespacemuu.html#a0af5ea664875aa7ce96e0105152bc59c">uuid_variant</a>: <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> { </span><span class="m-doc-wrap"><a class="m-doc-self" href="#">none</a>,
+              <a class="m-doc-self" href="#">standard</a>,
+              <a class="m-doc-self" href="#">reserved_ncs</a>,
+              <a class="m-doc-self" href="#">reserved_microsoft</a>,
+              <a class="m-doc-self" href="#">reserved_future</a> }</span>
             </dt>
             <dd>A UUID variant as per RFC 4122.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">enum class <a class="m-doc" href="namespacemuu.html#ab0531af99b7f9b575c98ea05d8b76bc8">uuid_version</a>: <a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> { </span><span class="m-doc-wrap"><a class="m-doc" href="#ab0531af99b7f9b575c98ea05d8b76bc8a334c4a4c42fdb79d7ebc3e73b517e6f8">none</a>,
-              <a class="m-doc" href="#ab0531af99b7f9b575c98ea05d8b76bc8a07cc694b9b3fc636710fa08b6922c42b">time</a>,
-              <a class="m-doc" href="#ab0531af99b7f9b575c98ea05d8b76bc8a3a5aed6b06fcfed497ba6585ae456878">dce</a>,
-              <a class="m-doc" href="#ab0531af99b7f9b575c98ea05d8b76bc8a4723a0fd093feaf03788fea4e81de56a">name_md5</a>,
-              <a class="m-doc" href="#ab0531af99b7f9b575c98ea05d8b76bc8a7ddf32e17a6ac5ce04a8ecbf782ca509">random</a>,
-              <a class="m-doc" href="#ab0531af99b7f9b575c98ea05d8b76bc8a79998e27ea91ebec2647c8cb2c145285">name_sha1</a>,
-              <a class="m-doc" href="#ab0531af99b7f9b575c98ea05d8b76bc8aad921d60486366258809553a3db49a4a">unknown</a> = 0b1111 }</span>
+              <span class="m-doc-wrap-bumper">enum class <a class="m-doc" href="namespacemuu.html#ab0531af99b7f9b575c98ea05d8b76bc8">uuid_version</a>: <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> { </span><span class="m-doc-wrap"><a class="m-doc-self" href="#">none</a>,
+              <a class="m-doc-self" href="#">time</a>,
+              <a class="m-doc-self" href="#">dce</a>,
+              <a class="m-doc-self" href="#">name_md5</a>,
+              <a class="m-doc-self" href="#">random</a>,
+              <a class="m-doc-self" href="#">name_sha1</a>,
+              <a class="m-doc-self" href="#">unknown</a> = 0b1111 }</span>
             </dt>
             <dd>A UUID version as per RFC 4122.</dd>
+          </dl>
+        </section>
+        <section id="func-members">
+          <h2><a href="#func-members">Functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#aa47ba1752e387734c3a2b0539a4dc252">operator""_uuid</a>(</span><span class="m-doc-wrap">const char* str,
+              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> len) -&gt; uuid <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a uuid from a string literal using <a class="m-doc" href="structmuu_1_1uuid.html#ad6beda74aec99774e4b10d615aacacd5">uuid::<wbr/>parse</a>.</dd>
           </dl>
         </section>
       </div>
@@ -174,17 +177,26 @@ C++</span></a>
   <div class="m-container">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <a class="muu-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
+        <a class="dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
 •
 
-<a class="muu-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
+<a class="dox-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
 an
 issue</a>
 
-<br/><br/>Documentation
-generated
+<br/><br/>
+
+Documentation
+created
 using
-<a class="muu-external" href="https://mcss.mosra.cz/" target="_blank">m.css</a>
+
+<a class="dox-external" href="https://www.doxygen.nl/index.html" target="_blank">Doxygen</a>
+
++
+<a class="dox-external" href="https://mcss.mosra.cz/documentation/doxygen/" target="_blank">mosra/m.css</a>
+
++
+<a class="dox-external" href="https://github.com/marzer/dox/" target="_blank">marzer/dox</a>
       </div>
     </div>
   </div>

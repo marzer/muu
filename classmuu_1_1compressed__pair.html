@@ -1,14 +1,9 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu::compressed_pair class | muu Useful
-utilities
-for
-modern
-C++</title>
+  <title>muu::compressed_pair class | muu Useful utilities for modern C++</title>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
   <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
-  <link href="muu.css" rel="stylesheet"/>
   <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <meta content="#22272e" name="theme-color"/>
@@ -19,17 +14,14 @@ C++</title>
   for
   modern
   C++." name="description"/>
-  <script src="muu.js"></script>
+
+  <link href="dox.css" rel="stylesheet"/>
 </head>
 <body>
 <header><nav id="navigation">
   <div class="m-container">
     <div class="m-row">
-      <a class="m-col-t-8 m-col-m-none m-left-m" href="index.html" id="m-navbar-brand"><img alt="" src="logo.png"/>muu <span class="m-thin">Useful
-utilities
-for
-modern
-C++</span></a>
+      <a class="m-col-t-8 m-col-m-none m-left-m" href="index.html" id="m-navbar-brand"><img alt="" src="logo.png"/>muu <span class="m-thin">Useful utilities for modern C++</span></a>
       <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
         <a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
           <path d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z" id="m-doc-search-icon-path"></path>
@@ -46,7 +38,7 @@ C++</span></a>
           <ol class="m-col-t-6 m-col-m-none" start="3">
             <li><a href="namespaces.html">Namespaces</a></li>
             <li><a href="annotated.html">Classes</a></li>
-            <li><a class="github muu-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
+            <li><a class="github dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
             <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
               <use href="#m-doc-search-icon-path"></use>
             </svg></a></li>
@@ -114,14 +106,14 @@ C++</span></a>
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a06a2da748350865702a2ca332321bcf0">compressed_pair</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span></span>
             </dt>
             <dd>Default constructor.</dd>
-            <dt id="ad03293158338c278264fa2537f50bbe3">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad03293158338c278264fa2537f50bbe3">compressed_pair</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1compressed__pair.html">compressed_<wbr/>pair</a>&amp;&amp;) <span class="m-label m-flat m-info">defaulted</span></span>
-            </dt>
-            <dd>Move constructor.</dd>
             <dt id="a1bd0bcc4a40ffd66d50bcdc848f25485">
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a1bd0bcc4a40ffd66d50bcdc848f25485">compressed_pair</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1compressed__pair.html">compressed_<wbr/>pair</a>&amp;) <span class="m-label m-flat m-info">defaulted</span></span>
             </dt>
             <dd>Copy constructor.</dd>
+            <dt id="ad03293158338c278264fa2537f50bbe3">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad03293158338c278264fa2537f50bbe3">compressed_pair</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1compressed__pair.html">compressed_<wbr/>pair</a>&amp;&amp;) <span class="m-label m-flat m-info">defaulted</span></span>
+            </dt>
+            <dd>Move constructor.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename F, typename S&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a8849bbb95ac69e908b73fd9e37139e49">compressed_pair</a>(</span><span class="m-doc-wrap">F&amp;&amp; first_init,
@@ -133,66 +125,66 @@ C++</span></a>
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="a749aebb68bb95df852de3183d912c971">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a749aebb68bb95df852de3183d912c971">first</a>(</span><span class="m-doc-wrap">) &amp;&amp; -&gt; <a class="m-doc" href="classmuu_1_1compressed__pair.html#ac20772f6307822c393b60b6c98e9bb98">first_<wbr/>type</a>&amp;&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns an rvalue reference to the first member.</dd>
-            <dt id="aafaf3bdda1abefa3807ee6a64fc8bae1">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aafaf3bdda1abefa3807ee6a64fc8bae1">first</a>(</span><span class="m-doc-wrap">) &amp; -&gt; <a class="m-doc" href="classmuu_1_1compressed__pair.html#ac20772f6307822c393b60b6c98e9bb98">first_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns an lvalue reference to the first member.</dd>
-            <dt id="a323d719d0a1d32b5aa479f2df22b0e07">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a323d719d0a1d32b5aa479f2df22b0e07">first</a>(</span><span class="m-doc-wrap">) const &amp;&amp; -&gt; const <a class="m-doc" href="classmuu_1_1compressed__pair.html#ac20772f6307822c393b60b6c98e9bb98">first_<wbr/>type</a>&amp;&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a const rvalue reference to the first member.</dd>
-            <dt id="ac96766ace95b6520bc1d62a9db9eee5e">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac96766ace95b6520bc1d62a9db9eee5e">first</a>(</span><span class="m-doc-wrap">) const &amp; -&gt; const <a class="m-doc" href="classmuu_1_1compressed__pair.html#ac20772f6307822c393b60b6c98e9bb98">first_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a const lvalue reference to the first member.</dd>
-            <dt id="af0ac7806aba61ae6edd6e8386ee02ed8">
-              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> I&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af0ac7806aba61ae6edd6e8386ee02ed8">get</a>(</span><span class="m-doc-wrap">) &amp;&amp; -&gt; auto&amp;&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns an rvalue reference to the selected member.</dd>
-            <dt id="a00d992c81b8a127721ac9dc0b42a72c6">
-              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> I&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a00d992c81b8a127721ac9dc0b42a72c6">get</a>(</span><span class="m-doc-wrap">) &amp; -&gt; auto&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns an lvalue reference to the selected member.</dd>
-            <dt id="a2f3ba4f37263f185c057fe141d26f895">
-              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> I&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2f3ba4f37263f185c057fe141d26f895">get</a>(</span><span class="m-doc-wrap">) const &amp;&amp; -&gt; const auto&amp;&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a const rvalue reference to the selected member.</dd>
-            <dt id="a377b30f0282006edb15347aac104fe48">
-              <div class="m-doc-template">template&lt;<a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> I&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a377b30f0282006edb15347aac104fe48">get</a>(</span><span class="m-doc-wrap">) const &amp; -&gt; const auto&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a const lvalue reference to the selected member.</dd>
-            <dt id="aeb94a3f02419fd85a289c31fb602044e">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aeb94a3f02419fd85a289c31fb602044e">operator=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1compressed__pair.html">compressed_<wbr/>pair</a>&amp;&amp;) -&gt; <a class="m-doc" href="classmuu_1_1compressed__pair.html">compressed_<wbr/>pair</a>&amp; <span class="m-label m-flat m-info">defaulted</span></span>
-            </dt>
-            <dd>Move-assignment operator.</dd>
             <dt id="a5c42b37bc76350e96315e20dea926af0">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a5c42b37bc76350e96315e20dea926af0">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1compressed__pair.html">compressed_<wbr/>pair</a>&amp;) -&gt; <a class="m-doc" href="classmuu_1_1compressed__pair.html">compressed_<wbr/>pair</a>&amp; <span class="m-label m-flat m-info">defaulted</span></span>
             </dt>
             <dd>Copy-assignment operator.</dd>
-            <dt id="a2250a71d1d2a4483622e1bc1def75258">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2250a71d1d2a4483622e1bc1def75258">second</a>(</span><span class="m-doc-wrap">) &amp;&amp; -&gt; <a class="m-doc" href="classmuu_1_1compressed__pair.html#a259e5a5b5014d98abc17710f243d4383">second_<wbr/>type</a>&amp;&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="aeb94a3f02419fd85a289c31fb602044e">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aeb94a3f02419fd85a289c31fb602044e">operator=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1compressed__pair.html">compressed_<wbr/>pair</a>&amp;&amp;) -&gt; <a class="m-doc" href="classmuu_1_1compressed__pair.html">compressed_<wbr/>pair</a>&amp; <span class="m-label m-flat m-info">defaulted</span></span>
             </dt>
-            <dd>Returns an rvalue reference to the second member.</dd>
+            <dd>Move-assignment operator.</dd>
+            <dt id="aafaf3bdda1abefa3807ee6a64fc8bae1">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aafaf3bdda1abefa3807ee6a64fc8bae1">first</a>(</span><span class="m-doc-wrap">) &amp; -&gt; <a class="m-doc" href="classmuu_1_1compressed__pair.html#ac20772f6307822c393b60b6c98e9bb98">first_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an lvalue reference to the first member.</dd>
+            <dt id="a749aebb68bb95df852de3183d912c971">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a749aebb68bb95df852de3183d912c971">first</a>(</span><span class="m-doc-wrap">) &amp;&amp; -&gt; <a class="m-doc" href="classmuu_1_1compressed__pair.html#ac20772f6307822c393b60b6c98e9bb98">first_<wbr/>type</a>&amp;&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an rvalue reference to the first member.</dd>
+            <dt id="ac96766ace95b6520bc1d62a9db9eee5e">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac96766ace95b6520bc1d62a9db9eee5e">first</a>(</span><span class="m-doc-wrap">) const &amp; -&gt; const <a class="m-doc" href="classmuu_1_1compressed__pair.html#ac20772f6307822c393b60b6c98e9bb98">first_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const lvalue reference to the first member.</dd>
+            <dt id="a323d719d0a1d32b5aa479f2df22b0e07">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a323d719d0a1d32b5aa479f2df22b0e07">first</a>(</span><span class="m-doc-wrap">) const &amp;&amp; -&gt; const <a class="m-doc" href="classmuu_1_1compressed__pair.html#ac20772f6307822c393b60b6c98e9bb98">first_<wbr/>type</a>&amp;&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const rvalue reference to the first member.</dd>
             <dt id="a371bf06a9a77e22b94421441a49008c0">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a371bf06a9a77e22b94421441a49008c0">second</a>(</span><span class="m-doc-wrap">) &amp; -&gt; <a class="m-doc" href="classmuu_1_1compressed__pair.html#a259e5a5b5014d98abc17710f243d4383">second_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns an lvalue reference to the second member.</dd>
-            <dt id="a9a64f2d7471f1316084c78a7436ef7cf">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a9a64f2d7471f1316084c78a7436ef7cf">second</a>(</span><span class="m-doc-wrap">) const &amp;&amp; -&gt; const <a class="m-doc" href="classmuu_1_1compressed__pair.html#a259e5a5b5014d98abc17710f243d4383">second_<wbr/>type</a>&amp;&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a2250a71d1d2a4483622e1bc1def75258">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2250a71d1d2a4483622e1bc1def75258">second</a>(</span><span class="m-doc-wrap">) &amp;&amp; -&gt; <a class="m-doc" href="classmuu_1_1compressed__pair.html#a259e5a5b5014d98abc17710f243d4383">second_<wbr/>type</a>&amp;&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a const rvalue reference to the second member.</dd>
+            <dd>Returns an rvalue reference to the second member.</dd>
             <dt id="a96741965b939367111679153f09e3545">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a96741965b939367111679153f09e3545">second</a>(</span><span class="m-doc-wrap">) const &amp; -&gt; const <a class="m-doc" href="classmuu_1_1compressed__pair.html#a259e5a5b5014d98abc17710f243d4383">second_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a const lvalue reference to the second member.</dd>
+            <dt id="a9a64f2d7471f1316084c78a7436ef7cf">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a9a64f2d7471f1316084c78a7436ef7cf">second</a>(</span><span class="m-doc-wrap">) const &amp;&amp; -&gt; const <a class="m-doc" href="classmuu_1_1compressed__pair.html#a259e5a5b5014d98abc17710f243d4383">second_<wbr/>type</a>&amp;&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const rvalue reference to the second member.</dd>
+            <dt id="a00d992c81b8a127721ac9dc0b42a72c6">
+              <div class="m-doc-template">template&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> I&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a00d992c81b8a127721ac9dc0b42a72c6">get</a>(</span><span class="m-doc-wrap">) &amp; -&gt; auto&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an lvalue reference to the selected member.</dd>
+            <dt id="af0ac7806aba61ae6edd6e8386ee02ed8">
+              <div class="m-doc-template">template&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> I&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af0ac7806aba61ae6edd6e8386ee02ed8">get</a>(</span><span class="m-doc-wrap">) &amp;&amp; -&gt; auto&amp;&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an rvalue reference to the selected member.</dd>
+            <dt id="a377b30f0282006edb15347aac104fe48">
+              <div class="m-doc-template">template&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> I&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a377b30f0282006edb15347aac104fe48">get</a>(</span><span class="m-doc-wrap">) const &amp; -&gt; const auto&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const lvalue reference to the selected member.</dd>
+            <dt id="a2f3ba4f37263f185c057fe141d26f895">
+              <div class="m-doc-template">template&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> I&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2f3ba4f37263f185c057fe141d26f895">get</a>(</span><span class="m-doc-wrap">) const &amp;&amp; -&gt; const auto&amp;&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const rvalue reference to the selected member.</dd>
           </dl>
         </section>
         <section>
@@ -281,17 +273,26 @@ template&lt;typename F, typename S&gt;
   <div class="m-container">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <a class="muu-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
+        <a class="dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
 •
 
-<a class="muu-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
+<a class="dox-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
 an
 issue</a>
 
-<br/><br/>Documentation
-generated
+<br/><br/>
+
+Documentation
+created
 using
-<a class="muu-external" href="https://mcss.mosra.cz/" target="_blank">m.css</a>
+
+<a class="dox-external" href="https://www.doxygen.nl/index.html" target="_blank">Doxygen</a>
+
++
+<a class="dox-external" href="https://mcss.mosra.cz/documentation/doxygen/" target="_blank">mosra/m.css</a>
+
++
+<a class="dox-external" href="https://github.com/marzer/dox/" target="_blank">marzer/dox</a>
       </div>
     </div>
   </div>

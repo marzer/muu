@@ -1,14 +1,9 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu::half struct | muu Useful
-utilities
-for
-modern
-C++</title>
+  <title>muu::half struct | muu Useful utilities for modern C++</title>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
   <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
-  <link href="muu.css" rel="stylesheet"/>
   <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <meta content="#22272e" name="theme-color"/>
@@ -19,17 +14,14 @@ C++</title>
   for
   modern
   C++." name="description"/>
-  <script src="muu.js"></script>
+
+  <link href="dox.css" rel="stylesheet"/>
 </head>
 <body>
 <header><nav id="navigation">
   <div class="m-container">
     <div class="m-row">
-      <a class="m-col-t-8 m-col-m-none m-left-m" href="index.html" id="m-navbar-brand"><img alt="" src="logo.png"/>muu <span class="m-thin">Useful
-utilities
-for
-modern
-C++</span></a>
+      <a class="m-col-t-8 m-col-m-none m-left-m" href="index.html" id="m-navbar-brand"><img alt="" src="logo.png"/>muu <span class="m-thin">Useful utilities for modern C++</span></a>
       <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
         <a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
           <path d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z" id="m-doc-search-icon-path"></path>
@@ -46,7 +38,7 @@ C++</span></a>
           <ol class="m-col-t-6 m-col-m-none" start="3">
             <li><a href="namespaces.html">Namespaces</a></li>
             <li><a href="annotated.html">Classes</a></li>
-            <li><a class="github muu-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
+            <li><a class="github dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
             <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
               <use href="#m-doc-search-icon-path"></use>
             </svg></a></li>
@@ -61,10 +53,10 @@ C++</span></a>
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> <span class="m-thin">struct</span>
+          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-thin">struct</span>
           <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="half_8h.html">&lt;muu/half.h&gt;</a></div>
         </h1>
-        <p>A 16-bit "<a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision" floating point type.</p>
+        <p>A 16-bit "<a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision" floating point type.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -79,25 +71,25 @@ C++</span></a>
           </ul>
         </div>
 <p>This type is equipped with the full set of operators you'd expect from a float type, and is capable of being converted to other floats and integers, as well as direct construction using the <code>_f16</code> literal:</p><pre class="m-code"><span class="c1">// creation from other floats and integers is explicit:</span>
-<span class="k">auto</span> <span class="n">f1</span> <span class="o">=</span> <span class="ut"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a></span><span class="p">{</span> <span class="mf">1.0f</span> <span class="p">};</span>
-<span class="k">auto</span> <span class="n">f2</span> <span class="o">=</span> <span class="k"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></span><span class="o">&lt;</span><span class="ut"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a></span><span class="o">&gt;</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="k">auto</span> <span class="n">f1</span> <span class="o">=</span> <span class="ut"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a></span><span class="p">{</span> <span class="mf">1.0f</span> <span class="p">};</span>
+<span class="k">auto</span> <span class="n">f2</span> <span class="o">=</span> <span class="k"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></span><span class="o">&lt;</span><span class="ut"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a></span><span class="o">&gt;</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
 
 <span class="c1">// promotion to larger float types is implicit (to mimic the behaviour of the built-ins):</span>
 <span class="k">double</span> <span class="n">f3</span> <span class="o">=</span> <span class="n">f2</span><span class="p">;</span>
 
 <span class="c1">// using the _f16 literal</span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="ns">muu::</span><span class="n">literals</span><span class="p">;</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="ns">muu::literals</span><span class="p">;</span>
 <span class="k">auto</span> <span class="n">f4</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span><span class="p">;</span>
 
 <span class="c1">// arithmetic operators</span>
-<span class="k">auto</span> <span class="n">f5</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">*</span> <span class="mf">5.0</span><span class="n">_f16</span><span class="p">;</span> <span class="c1">// result is a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a></span>
+<span class="k">auto</span> <span class="n">f5</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">*</span> <span class="mf">5.0</span><span class="n">_f16</span><span class="p">;</span> <span class="c1">// result is a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a></span>
 <span class="k">auto</span> <span class="n">f6</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">*</span> <span class="mf">5.0</span><span class="p">;</span>     <span class="c1">// result is a double because of promotion</span>
-<span class="k">auto</span> <span class="n">f7</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">*</span> <span class="mi">5</span><span class="p">;</span>       <span class="c1">// result is a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> because of promotion</span>
+<span class="k">auto</span> <span class="n">f7</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">*</span> <span class="mi">5</span><span class="p">;</span>       <span class="c1">// result is a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> because of promotion</span>
 
 <span class="c1">// comparison operators</span>
 <span class="k">auto</span> <span class="n">b1</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">&lt;=</span> <span class="mf">5.0</span><span class="n">_f16</span><span class="p">;</span>
 <span class="k">auto</span> <span class="n">b2</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">&lt;=</span> <span class="mf">5.0</span><span class="p">;</span>
-<span class="k">auto</span> <span class="n">b3</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">;</span></pre><aside class="m-note m-info"><h4>Note</h4><p>Older compilers won't provide the necessary machinery for arithmetic and conversions to/from <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a> to work in constexpr contexts. You can check for constexpr support by examining <a class="m-doc" href="namespacemuu_1_1build.html#ae33023a7463b68374575d0cb9f42af43">build::<wbr/>supports_constexpr_half</a>.</p></aside><aside class="m-note m-warning"><h4>Attention</h4><p>Despite the arithmetic operations being implemented as you'd expect, 16-bit floating-point arithmetic is <em>very</em> lossy and should be avoided for all but the most trivial cases. In general it's better to do your arithmetic in a higher-precision type (e.g. float) and convert back to <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a> when you're finished.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a class="muu-external" href="https://en.wikipedia.org/wiki/Half-precision_floating-point_format" target="_blank">Half-precision floating-point</a></p></aside>
+<span class="k">auto</span> <span class="n">b3</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">;</span></pre><aside class="m-note m-info"><h4>Note</h4><p>Older compilers won't provide the necessary machinery for arithmetic and conversions to/from <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a> to work in constexpr contexts. You can check for constexpr support by examining <a class="m-doc" href="namespacemuu_1_1build.html#ae33023a7463b68374575d0cb9f42af43">build::<wbr/>supports_constexpr_half</a>.</p></aside><aside class="m-note m-warning"><h4>Attention</h4><p>Despite the arithmetic operations being implemented as you'd expect, 16-bit floating-point arithmetic is <em>very</em> lossy and should be avoided for all but the most trivial cases. In general it's better to do your arithmetic in a higher-precision type (e.g. float) and convert back to <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> when you're finished.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="https://en.wikipedia.org/wiki/Half-precision_floating-point_format" target="_blank">Half-precision floating-point</a></p></aside>
         <section id="pub-types">
           <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
@@ -111,96 +103,96 @@ C++</span></a>
           <h2><a href="#pub-static-methods">Public static functions</a></h2>
           <dl class="m-doc">
             <dt id="ab271e624b44ddcace710ac953457e76b">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ab271e624b44ddcace710ac953457e76b">from_bits</a>(</span><span class="m-doc-wrap"><a class="m-doc muu-injected muu-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> val) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ab271e624b44ddcace710ac953457e76b">from_bits</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> val) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Creates a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float from its raw bit equivalent.</dd>
+            <dd>Creates a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float from its raw bit equivalent.</dd>
           </dl>
         </section>
         <section id="related">
           <h2><a href="#related">Related</a></h2>
           <dl class="m-doc">
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a44b30e32ede9bd31865933e97822ed3d">operator""_f16</a>(</span><span class="m-doc-wrap">long double val) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Literal for creating a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a7d35b10d5222b2b36a00a7fcdf81d5d7">operator""_f16</a>(</span><span class="m-doc-wrap">unsigned long long val) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Literal for creating a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gafea7a631de7f6399fb55e1dffbe79c00">infinity_or_nan</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float is infinity or NaN.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__abs.html#ga5e3a3b5d552cc29822e1a17fdd1cc3bd">abs</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the absolute value of a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__acos.html#ga8bb8129170a7cc7e9902de607e1c8279">acos</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns the arc cosine of a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
+            <dd>Returns the absolute value of a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga87bf7f92a62590f695617cea9bb941fe">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> a,
               <a class="m-doc" href="structmuu_1_1half.html">half</a> b,
               <a class="m-doc" href="structmuu_1_1half.html">half</a> epsilon = <a class="m-doc" href="structmuu_1_1half.html#a330ce245f239afeaf90588eb8493e824">constants</a>&lt;<a class="m-doc" href="structmuu_1_1half.html">half</a>&gt;::<a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if two <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision floats are approximately equal.</dd>
+            <dd>Returns true if two <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision floats are approximately equal.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga5df3be4319d056f5a12b082177b1f8dd">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x,
               <a class="m-doc" href="structmuu_1_1half.html">half</a> epsilon = <a class="m-doc" href="structmuu_1_1half.html#a330ce245f239afeaf90588eb8493e824">constants</a>&lt;<a class="m-doc" href="structmuu_1_1half.html">half</a>&gt;::<a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float is approximately equal to zero.</dd>
+            <dd>Returns true a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float is approximately equal to zero.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__floor.html#ga33492d2d742e23fb32d6feddeb0a12a5">floor</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the floor of a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__ceil.html#gadb3f9b52071aea9fe1cf894a7fb9c039">ceil</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the ceiling of a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sqrt.html#gae9514bab097b1d4944394221097d5449">sqrt</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the square-root of a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__cos.html#ga3f48d168cf2a5cc17d95fd4860ce8267">cos</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the cosine of a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sin.html#ga02cf6ce14db45d5f2148ffbb9e33438e">sin</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the sine of a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__tan.html#ga2b2e08e3f3a3e7db4751921441317963">tan</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the tangent of a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__acos.html#ga8bb8129170a7cc7e9902de607e1c8279">acos</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc cosine of a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__asin.html#gab24a151709d5cbfc7c049d279307ec54">asin</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the arc sine of a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
+            <dd>Returns the arc sine of a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__atan.html#gac59b7164798fbb5ae72b13010ac7f960">atan</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the arc tangent of a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
+            <dd>Returns the arc tangent of a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__atan2.html#ga7b0d41cadc47ad6e8255fa170f640be1">atan2</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> y,
               <a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the arc tangent of a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__ceil.html#gadb3f9b52071aea9fe1cf894a7fb9c039">ceil</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns the ceiling of a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__cos.html#ga3f48d168cf2a5cc17d95fd4860ce8267">cos</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns the cosine of a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__floor.html#ga33492d2d742e23fb32d6feddeb0a12a5">floor</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns the floor of a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gafea7a631de7f6399fb55e1dffbe79c00">infinity_or_nan</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float is infinity or NaN.</dd>
+            <dd>Returns the arc tangent of a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__lerp.html#ga7d194c0af560d9e78eab17a4e76d17a5">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> start,
               <a class="m-doc" href="structmuu_1_1half.html">half</a> finish,
               <a class="m-doc" href="structmuu_1_1half.html">half</a> alpha) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a linear interpolation between two <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision floats.</dd>
+            <dd>Returns a linear interpolation between two <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision floats.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__normalize__angle.html#gae3196eacbe3561ca0edc39d280f31585">normalize_angle</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Normalizes the angle value of a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
+            <dd>Normalizes the angle value of a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__normalize__angle__signed.html#ga7569b01664a740bf2ecc532e22c3b487">normalize_angle_signed</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Normalizes the angle value of a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a44b30e32ede9bd31865933e97822ed3d">operator""_f16</a>(</span><span class="m-doc-wrap">long double val) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Literal for creating a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a7d35b10d5222b2b36a00a7fcdf81d5d7">operator""_f16</a>(</span><span class="m-doc-wrap">unsigned long long val) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Literal for creating a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sin.html#ga02cf6ce14db45d5f2148ffbb9e33438e">sin</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns the sine of a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sqrt.html#gae9514bab097b1d4944394221097d5449">sqrt</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns the square-root of a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__tan.html#ga2b2e08e3f3a3e7db4751921441317963">tan</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns the tangent of a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
+            <dd>Normalizes the angle value of a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
           </dl>
         </section>
         <section>
@@ -209,15 +201,15 @@ C++</span></a>
             <h3>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1half.html">half</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a44b30e32ede9bd31865933e97822ed3d">operator""_f16</a>(</span><span class="m-doc-wrap">long double val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Literal for creating a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float.</p>
-<pre class="m-code"><span class="k">const</span> <span class="ut"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a></span> <span class="n">val</span> <span class="o">=</span> <span class="mf">42.5</span><span class="n">_f16</span><span class="p">;</span></pre>
+            <p>Literal for creating a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</p>
+<pre class="m-code"><span class="k">const</span> <span class="ut"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a></span> <span class="n">val</span> <span class="o">=</span> <span class="mf">42.5</span><span class="n">_f16</span><span class="p">;</span></pre>
           </div></section>
           <section class="m-doc-details" id="a7d35b10d5222b2b36a00a7fcdf81d5d7"><div>
             <h3>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1half.html">half</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a7d35b10d5222b2b36a00a7fcdf81d5d7">operator""_f16</a>(</span><span class="m-doc-wrap">unsigned long long val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Literal for creating a <a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a>-precision float.</p>
-<pre class="m-code"><span class="k">const</span> <span class="ut"><a class="m-doc muu-injected" href="structmuu_1_1half.html">half</a></span> <span class="n">val</span> <span class="o">=</span> <span class="mi">42</span><span class="n">_f16</span><span class="p">;</span></pre>
+            <p>Literal for creating a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</p>
+<pre class="m-code"><span class="k">const</span> <span class="ut"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a></span> <span class="n">val</span> <span class="o">=</span> <span class="mi">42</span><span class="n">_f16</span><span class="p">;</span></pre>
           </div></section>
         </section>
       </div>
@@ -264,17 +256,26 @@ C++</span></a>
   <div class="m-container">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <a class="muu-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
+        <a class="dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
 •
 
-<a class="muu-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
+<a class="dox-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
 an
 issue</a>
 
-<br/><br/>Documentation
-generated
+<br/><br/>
+
+Documentation
+created
 using
-<a class="muu-external" href="https://mcss.mosra.cz/" target="_blank">m.css</a>
+
+<a class="dox-external" href="https://www.doxygen.nl/index.html" target="_blank">Doxygen</a>
+
++
+<a class="dox-external" href="https://mcss.mosra.cz/documentation/doxygen/" target="_blank">mosra/m.css</a>
+
++
+<a class="dox-external" href="https://github.com/marzer/dox/" target="_blank">marzer/dox</a>
       </div>
     </div>
   </div>
