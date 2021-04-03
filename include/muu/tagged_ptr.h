@@ -538,20 +538,20 @@ namespace muu
 			///
 			/// \returns	The return value of the function call.
 			/// 
-			/// \note This operator is only available when the pointed type is a function.
+			/// \availability This operator is only available when the pointed type is a function.
 			template <typename... U>
 			constexpr decltype(auto) operator () (U&&... args) const
 				noexcept(std::is_nothrow_invocable_v<element_type, U&&...>);
 
 			/// \brief	Returns a reference to the pointed object.
 			/// 
-			/// \note This operator is not available for pointers to `void` or functions.
+			/// \availability This operator is not available for pointers to `void` or functions.
 			[[nodiscard]]
 			constexpr element_type& operator * () const noexcept;
 
 			/// \brief	Returns the target pointer value.
 			/// 
-			/// \note This operator is not available for pointers to `void` or functions.
+			/// \availability This operator is not available for pointers to `void` or functions.
 			[[nodiscard]]
 			constexpr pointer operator -> () const noexcept;
 

@@ -235,6 +235,13 @@ help me improve support for your target architecture. Thanks!
 		#define MUU_MACRO_DISPATCH_CLANG_GE_11(...)
 		#define MUU_MACRO_DISPATCH_CLANG_LT_11(...)	__VA_ARGS__
 	#endif
+	#if MUU_CLANG >= 12
+		#define MUU_MACRO_DISPATCH_CLANG_GE_12(...)	__VA_ARGS__
+		#define MUU_MACRO_DISPATCH_CLANG_LT_12(...)
+	#else
+		#define MUU_MACRO_DISPATCH_CLANG_GE_12(...)
+		#define MUU_MACRO_DISPATCH_CLANG_LT_12(...)	__VA_ARGS__
+	#endif
 
 	#define MUU_PRAGMA_CLANG(decl)			_Pragma(MUU_MAKE_STRING(clang decl))
 	#define MUU_PRAGMA_CLANG_GE(ver, decl)	MUU_CONCAT(MUU_MACRO_DISPATCH_CLANG_GE_, ver)(MUU_PRAGMA_CLANG(decl))
@@ -583,20 +590,26 @@ help me improve support for your target architecture. Thanks!
 	#include MUU_CONFIG_HEADER
 #endif
 
-#if !MUU_WINDOWS
+#ifndef _MSC_VER
 	#undef MUU_DLL
 #endif
 #ifndef MUU_DLL
-	#define MUU_DLL 0
+	#ifdef _MSC_VER
+		#define MUU_DLL 1
+	#else
+		#define MUU_DLL 0
+	#endif
 #endif
 
 #ifndef MUU_API
-	#if MUU_DLL
+	#if defined(_MSC_VER) && MUU_DLL
 		#if MUU_BUILDING
 			#define MUU_API __declspec(dllexport)
 		#else
 			#define MUU_API __declspec(dllimport)
 		#endif
+	#elif MUU_CLANG || MUU_GCC
+		#define MUU_API __attribute__((visibility("default")))
 	#else
 		#define MUU_API
 	#endif
@@ -811,7 +824,7 @@ help me improve support for your target architecture. Thanks!
 	#define MUU_VECTORCALL
 #endif
 
-#if defined(__cpp_consteval) && !MUU_INTELLISENSE
+#if defined(__cpp_consteval) && __cpp_consteval >= 201811
 	#define MUU_CONSTEVAL				consteval
 #else
 	#define MUU_CONSTEVAL				constexpr
@@ -884,14 +897,14 @@ help me improve support for your target architecture. Thanks!
 
 #define MUU_PUSH_PRECISE_MATH												\
 	MUU_PRAGMA_MSVC(float_control(precise, on, push))						\
-	MUU_PRAGMA_CLANG_GE(11, float_control(precise, on, push))				\
+	MUU_PRAGMA_CLANG_GE(12, float_control(precise, on, push))				\
 	MUU_PRAGMA_GCC(push_options)											\
 	MUU_PRAGMA_GCC(optimize("-fno-fast-math"))								\
 	static_assert(true)
 
 #define MUU_POP_PRECISE_MATH												\
 	MUU_PRAGMA_GCC(pop_options)												\
-	MUU_PRAGMA_CLANG_GE(11, float_control(pop))							\
+	MUU_PRAGMA_CLANG_GE(12, float_control(pop))								\
 	MUU_PRAGMA_MSVC(float_control(pop))										\
 	static_assert(true)
 
@@ -937,9 +950,10 @@ help me improve support for your target architecture. Thanks!
 // unconditionally when the compiler supports it.
 // this requires using both MUU_ENABLE_IF and MUU_REQUIRES on constrained functions.
 
-#if !defined(MUU_CONCEPTS) && defined(__cpp_concepts)
+#if !defined(MUU_CONCEPTS) && defined(__cpp_concepts) && __cpp_concepts >= 201907
 	#define MUU_CONCEPTS				1
-#else
+#endif
+#ifndef MUU_CONCEPTS
 	#define MUU_CONCEPTS				0
 #endif
 
@@ -979,7 +993,7 @@ help me improve support for your target architecture. Thanks!
 #ifndef MUU_CONSTRAINED_TEMPLATE_2
 	#define MUU_CONSTRAINED_TEMPLATE_2(condition, ...)	template <__VA_ARGS__>
 #endif
-#if MUU_CONCEPTS && defined(__cpp_lib_concepts)
+#if MUU_CONCEPTS && defined(__cpp_lib_concepts) && __cpp_lib_concepts >= 202002
 	#define MUU_STD_CONCEPT(...)	__VA_ARGS__
 #else
 	#define MUU_STD_CONCEPT(...)	true

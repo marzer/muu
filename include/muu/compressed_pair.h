@@ -300,7 +300,6 @@ namespace muu
 namespace std
 {
 	/// \brief Specialization of std::tuple_size for muu::compressed_pair.
-	/// \related	muu::compressed_pair
 	template <typename First, typename Second>
 	struct tuple_size<muu::compressed_pair<First, Second>>
 	{
@@ -308,7 +307,6 @@ namespace std
 	};
 
 	/// \brief Specialization of std::tuple_element for muu::compressed_pair.
-	/// \related	muu::compressed_pair
 	template <size_t I, typename First, typename Second>
 	struct tuple_element<I, muu::compressed_pair<First, Second>>
 	{

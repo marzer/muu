@@ -5,3 +5,6 @@
 	path = external/Catch2
 	url = https://github.com/catchorg/Catch2.git
 	branch = v2.x
+[submodule "external/dox"]
+	path = external/dox
+	url = https://github.com/marzer/dox.git

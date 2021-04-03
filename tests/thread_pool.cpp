@@ -358,7 +358,7 @@ TEST_CASE("thread_pool - for_each")
 	{
 		INFO("collection")
 		reset();
-		pool.for_each(values, [&](auto& v) noexcept { v++; });
+		pool.for_each(values, [](auto& v) noexcept { v++; });
 		pool.wait();
 		for (auto& v : values)
 			CHECK(v == 1);
@@ -382,7 +382,7 @@ TEST_CASE("thread_pool - for_each")
 	{
 		INFO("[begin, end)")
 		reset();
-		pool.for_each(values.begin(), values.end(), [&](auto& v) noexcept { v++; });
+		pool.for_each(values.begin(), values.end(), [](auto& v) noexcept { v++; });
 		pool.wait();
 		for (auto& v : values)
 			CHECK(v == 1);
@@ -391,7 +391,7 @@ TEST_CASE("thread_pool - for_each")
 	{
 		INFO("[end, begin)")
 		reset();
-		pool.for_each(values.end(), values.begin(), [&](auto& v) noexcept { v++; });
+		pool.for_each(values.end(), values.begin(), [](auto& v) noexcept { v++; });
 		pool.wait();
 		for (auto& v : values)
 			CHECK(v == 0);

@@ -1308,8 +1308,6 @@ namespace muu
 
 namespace std
 {
-	/// \related	muu::quaternion
-	///
 	/// \brief Specialization of std::tuple_size for muu::quaternion.
 	template <typename Scalar>
 	struct tuple_size<muu::quaternion<Scalar>>
@@ -1317,8 +1315,6 @@ namespace std
 		static constexpr size_t value = 2;
 	};
 
-	/// \related	muu::quaternion
-	///
 	/// \brief Specialization of std::tuple_element for muu::quaternion.
 	template <size_t I, typename Scalar>
 	struct tuple_element<I, muu::quaternion<Scalar>>
@@ -1339,7 +1335,6 @@ MUU_PUSH_PRECISE_MATH;
 namespace muu
 {
 	/// \ingroup	constants
-	/// \related	muu::quaternion
 	/// \see		muu::quaternion
 	/// 
 	/// \brief		Quaternion constants.
@@ -1368,7 +1363,7 @@ MUU_POP_PRECISE_MATH;
 namespace muu
 {
 	/// \ingroup	infinity_or_nan
-	/// \related	muu::quaternion
+	/// \relatesalso	muu::quaternion
 	///
 	/// \brief	Returns true if any of the scalar components of a #quaternion are infinity or NaN.
 	template <typename S>
@@ -1380,7 +1375,7 @@ namespace muu
 	}
 
 	/// \ingroup	approx_equal
-	/// \related	muu::quaternion
+	/// \relatesalso	muu::quaternion
 	///
 	/// \brief		Returns true if two quaternions are approximately equal.
 	template <typename S, typename T>
@@ -1396,7 +1391,7 @@ namespace muu
 	}
 
 	/// \ingroup	approx_zero
-	/// \related	muu::quaternion
+	/// \relatesalso	muu::quaternion
 	///
 	/// \brief		Returns true if all the scalar components of a #quaternion are approximately equal to zero.
 	template <typename S>
@@ -1408,7 +1403,7 @@ namespace muu
 	}
 
 	/// \ingroup	unit_length
-	/// \related	muu::quaternion
+	/// \relatesalso	muu::quaternion
 	///
 	/// \brief Returns true if a #quaternion is unit-length (i.e. has a length of 1).
 	template <typename S>
@@ -1419,7 +1414,7 @@ namespace muu
 		return quaternion<S>::unit_length(q);
 	}
 
-	/// \related muu::quaternion
+	/// \relatesalso muu::quaternion
 	///
 	/// \brief	Returns the dot product of two quaternions.
 	template <typename S>
@@ -1430,7 +1425,7 @@ namespace muu
 		return quaternion<S>::dot(q1, q2);
 	}
 
-	/// \related muu::quaternion
+	/// \relatesalso muu::quaternion
 	///
 	/// \brief	Normalizes a #quaternion.
 	///
@@ -1445,7 +1440,7 @@ namespace muu
 		return quaternion<S>::normalize(q);
 	}
 
-	/// \related	muu::quaternion
+	/// \relatesalso	muu::quaternion
 	/// 			
 	/// \brief	Performs a spherical-linear interpolation between two quaternions.
 	template <typename S>

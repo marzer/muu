@@ -267,7 +267,7 @@ jobs:
             - run:
                 name: Pulling submodules
                 command: |
-                    git submodule update --init external/mcss
+                    git submodule update --init --recursive external/dox
             - run:
                 name: Installing dependencies
                 command: |
@@ -275,7 +275,7 @@ jobs:
             - run:
                 name: Generating documentation
                 command: |
-                    cd tools && python3 generate_documentation.py
+                    cd tools && python3 external/dox/dox.py docs/dox.toml
             - persist_to_workspace:
                 root: docs
                 paths: html

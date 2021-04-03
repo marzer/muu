@@ -62,6 +62,8 @@ message(['has_exceptions', has_exceptions])
 if is_gcc or is_clang
 	add_project_arguments(
 		'-march=native',
+		'-fvisibility=hidden',
+		'-fvisibility-inlines-hidden',
 		language : 'cpp'
 	)
 	if is_release

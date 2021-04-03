@@ -7,12 +7,12 @@
 # conversions between character types of the same size: https://godbolt.org/z/KeddME
 
 import sys
-import os.path as path
 import utils
 import re
 import math
 import bisect
 import json
+from pathlib import Path
 
 
 #### SETTINGS / MISC ##################################################################################################
@@ -1130,7 +1130,7 @@ class UnicodeDatabase:
 		self.__code_points = SparseRange()
 		self.__categories = dict()
 		code_point_list = utils.read_all_text_from_file(
-			path.join(utils.get_script_folder(), 'Unicode_UnicodeData.txt'),
+			Path(utils.entry_script_dir(), 'Unicode_UnicodeData.txt'),
 			'https://www.unicode.org/Public/UCD/latest/ucd/UnicodeData.txt'
 		)
 		first = -1
@@ -1168,7 +1168,7 @@ class UnicodeDatabase:
 	__re_property = re.compile(r'^\s*([0-9a-fA-F]{4})\s*(?:\.\.\s*([0-9a-fA-F]{4})\s*)?;\s*([A-Za-z_]+)\s+')
 
 	def __init_properties(self):
-		json_path = path.join(utils.get_script_folder(), 'Unicode_Properties.json')
+		json_path = Path(utils.entry_script_dir(), 'Unicode_Properties.json')
 		try:
 			self.__properties = json.loads(utils.read_all_text_from_file(json_path), cls=Deserializer)
 		except:
@@ -1176,7 +1176,7 @@ class UnicodeDatabase:
 			files = ('PropList.txt', 'DerivedCoreProperties.txt')
 			for file in files:
 				property_list = utils.read_all_text_from_file(
-					path.join(utils.get_script_folder(), f'Unicode_{file}'),
+					Path(utils.entry_script_dir(), f'Unicode_{file}'),
 					f'https://www.unicode.org/Public/UCD/latest/ucd/{file}'
 				)
 				for line in property_list.split('\n'):
@@ -1243,8 +1243,8 @@ def get_code_point_range(h):
 	global __code_point_range_cache
 	code_points = __code_point_range_cache.get(h)
 	if code_points is None:
-		json_path = path.join(utils.get_script_folder(), f'Unicode_CodePoints_{h}.json')
-		if path.exists(json_path):
+		json_path = Path(utils.entry_script_dir(), f'Unicode_CodePoints_{h}.json')
+		if json_path.exists():
 			try:
 				code_points = json.loads(utils.read_all_text_from_file(json_path), cls=Deserializer)
 				assert h not in __code_point_range_cache
@@ -1260,7 +1260,7 @@ def store_code_point_range(h, code_points):
 	global __code_point_range_cache
 	assert h not in __code_point_range_cache
 	__code_point_range_cache[h] = code_points
-	json_path = path.join(utils.get_script_folder(), f'Unicode_CodePoints_{h}.json')
+	json_path = Path(utils.entry_script_dir(), f'Unicode_CodePoints_{h}.json')
 	print("Writing to {}".format(json_path))
 	with open(json_path, 'w', encoding='utf-8', newline='\n') as f:
 		f.write(json.dumps(code_points, sort_keys=True, indent=4, cls=Serializer))
@@ -1608,13 +1608,11 @@ def write_compound_boolean_function(files, code_unit, name, description, *boolea
 def write_header(folders, code_unit):
 	assert utils.is_collection(folders)
 	assert len(folders) == 2
-	assert isinstance(folders[0], str)
-	assert isinstance(folders[1], str)
 	assert isinstance(code_unit, CodeUnit)
 
 	header_path = re.sub(r'\s+', '_', code_unit.typename)
-	tests_path = path.join(folders[1], f'unicode_{header_path}.cpp')
-	header_path = path.join(folders[0], f'unicode_{header_path}.h')
+	tests_path = Path(folders[1], f'unicode_{header_path}.cpp').resolve()
+	header_path = Path(folders[0], f'unicode_{header_path}.h').resolve()
 	print("Writing to {}".format(header_path))
 	with open(header_path, 'w', encoding='utf-8', newline='\n') as header_file:
 		h = lambda txt,end='\n': print(txt, file=header_file, end=end)
@@ -1985,8 +1983,8 @@ def write_header(folders, code_unit):
 
 
 def main():
-	header_folder = path.join(utils.get_script_folder(), '..', 'include', 'muu', 'impl')
-	tests_folder = path.join(utils.get_script_folder(), '..', 'tests')
+	header_folder = Path(utils.entry_script_dir(), '..', 'include', 'muu', 'impl').resolve()
+	tests_folder = Path(utils.entry_script_dir(), '..', 'tests').resolve()
 	ucd() # force generation first
 
 	# G.subdivision_allowed = False

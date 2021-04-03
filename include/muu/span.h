@@ -29,7 +29,6 @@ namespace muu
 	/// \brief Indicates the number of elements covered by a span should be dynamically-determined at runtime.
 	/// 
 	/// \ingroup	mem
-	/// \related	muu::span
 	inline constexpr size_t dynamic_extent = static_cast<size_t>(-1);
 	//(here just for doxygen; actually defined in fwd.h)
 
@@ -126,7 +125,7 @@ namespace muu
 			#if defined(DOXYGEN) || MUU_CONCEPTS
 
 			/// \brief Default constructor.
-			/// \note This constructor is not available for statically-sized spans.
+			/// \availability This constructor is not available for statically-sized spans.
 			MUU_NODISCARD_CTOR
 			constexpr span() noexcept
 				MUU_REQUIRES(Extent == 0 || Extent == dynamic_extent)
@@ -544,23 +543,20 @@ namespace muu
 
 	/// \brief	Convenience alias for `span<const T>`.
 	/// \ingroup	mem
-	/// \related	muu::span
 	template <typename T>
 	using const_span = span<const T>;
 
 	/// \brief	Convenience alias for `span<std::byte>`.
 	/// \ingroup	mem
-	/// \related	muu::span
 	using byte_span = span<std::byte>;
 
 	/// \brief	Convenience alias for `span<const std::byte>`.
 	/// \ingroup	mem
-	/// \related	muu::span
 	using const_byte_span = span<const std::byte>;
 
 	/// \brief	Reinterprets a span as an immutable view of the underlying bytes.
 	/// \ingroup	mem
-	/// \related	muu::span
+	/// \relatesalso	muu::span
 	///
 	/// \details Equivalent to C++20's std::as_bytes.
 	template <typename T, size_t N>
@@ -579,7 +575,7 @@ namespace muu
 
 	/// \brief	Reinterprets a span as a view of the underlying bytes.
 	/// \ingroup	mem
-	/// \related	muu::span
+	/// \relatesalso	muu::span
 	/// 
 	/// \details Equivalent to C++20's std::as_writable_bytes.
 	MUU_CONSTRAINED_TEMPLATE(

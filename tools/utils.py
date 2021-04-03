@@ -6,13 +6,13 @@
 
 import sys
 import os
-import os.path as path
 import subprocess
 import traceback
 import shutil
 import fnmatch
 import requests
 import hashlib
+from pathlib import Path
 
 
 
@@ -20,30 +20,54 @@ def is_tool(name):
 	return shutil.which(name) is not None
 
 
-__script_folder = None
-def get_script_folder():
-	global __script_folder
-	if __script_folder is None:
-		__script_folder = path.dirname(path.realpath(sys.argv[0]))
-	return __script_folder
+
+__entry_script_dir = None
+def entry_script_dir():
+	global __entry_script_dir
+	if __entry_script_dir is None:
+		__entry_script_dir = Path(sys.argv[0]).resolve().parent
+	return __entry_script_dir
+
+
+
+def assert_existing_file(path):
+	assert path is not None
+	if not isinstance(path, Path):
+		path = Path(path)
+	if not (path.exists() and path.is_file()):
+		raise Exception(f'{path} did not exist or was not a file')
+
+
+
+def assert_existing_directory(path):
+	assert path is not None
+	if not isinstance(path, Path):
+		path = Path(path)
+	if not (path.exists() and path.is_dir()):
+		raise Exception(f'{path} did not exist or was not a directory')
 
 
 
 def read_all_text_from_file(path, fallback_url=None, encoding='utf-8'):
+	assert path is not None
+	if not isinstance(path, Path):
+		path = Path(path)
+	if fallback_url is None:
+		assert_existing_file(path)
 	try:
-		print("Reading {}".format(path))
-		with open(path, 'r', encoding=encoding) as f:
+		print(f'Reading {path}')
+		with open(str(path), 'r', encoding=encoding) as f:
 			text = f.read()
 		return text
 	except:
 		if fallback_url is not None:
-			print("Couldn't read file locally, downloading from {}...".format(fallback_url))
+			print(f"Couldn't read file locally, downloading from {fallback_url}")
 			response = requests.get(
 				fallback_url,
 				timeout=1
 			)
 			text = response.text
-			with open(path, 'w', encoding='utf-8', newline='\n') as f:
+			with open(str(path), 'w', encoding='utf-8', newline='\n') as f:
 				print(text, end='', file=f)
 			return text
 		else:
@@ -51,28 +75,71 @@ def read_all_text_from_file(path, fallback_url=None, encoding='utf-8'):
 
 
 
-def run_python_script(script_path, *args):
-	subprocess.check_call(
-		['py' if is_tool('py') else 'python3', script_path] + [arg for arg in args]
+def run_python_script(path, *args, cwd=None):
+	assert path is not None
+	if cwd is not None:
+		cwd = str(cwd)
+	assert_existing_file(path)
+	subprocess.run(
+		['py' if shutil.which('py') is not None else 'python3', str(path)] + [arg for arg in args],
+		check=True,
+		cwd=cwd
 	)
 
 
 
-def repeat_pattern(pattern, count):
-	if len(pattern) == 1:
-		return pattern * count
+def delete_directory(path):
+	assert path is not None
+	if not isinstance(path, Path):
+		path = Path(path)
+	if path.exists():
+		if not path.is_dir():
+			raise Exception(f'{path} was not a directory')
+		print(f'Deleting {path}')
+		shutil.rmtree(str(path.resolve()))
 
-	text = ''
-	for i in range(0, count):
-		text = text + pattern[i % len(pattern)]
-	return text
 
 
+def get_all_files(path, all=None, any=None, recursive=False, sort=True):
+	assert path is not None
+	if not isinstance(path, Path):
+		path = Path(path)
+	if not path.exists():
+		return []
+	if not path.is_dir():
+		raise Exception(f'{path} was not a directory')
+	path = path.resolve()
+	
+	child_files = []
+	files = []
+	for p in path.iterdir():
+		if p.is_dir():
+			if recursive:
+				child_files = child_files + get_all_files(p, all=all, any=any, recursive=True, sort=False)
+		elif p.is_file():
+			files.append(str(p))
 
-def delete_directory(dir_path):
-	if (path.exists(dir_path)):
-		print('Deleting {}'.format(dir_path))
-		shutil.rmtree(dir_path)
+	if files and all is not None:
+		if (not is_collection(all)):
+			all = (all,)
+		all = [f for f in all if f is not None]
+		for fil in all:
+			files = fnmatch.filter(files, fil)
+
+	if files and any is not None:
+		if (not is_collection(any)):
+			any = (any,)
+		any = [f for f in any if f is not None]
+		if any:
+			results = set()
+			for fil in any:
+				results.update(fnmatch.filter(files, fil))
+			files = [f for f in results]
+
+	files = [Path(f) for f in files] + child_files
+	if sort:
+		files.sort()
+	return files
 
 
 
@@ -99,26 +166,14 @@ def next_power_of_2(n):
 
 
 
-def get_all_files(dir, all=None, any=None):
-	files = [f for f in [path.join(dir, f) for f in os.listdir(dir)] if path.isfile(f)]
-	if (files and all is not None):
-		if (not is_collection(all)):
-			all = (all,)
-		all = [f for f in all if f is not None]
-		for fil in all:
-			files = fnmatch.filter(files, fil)
+def repeat_pattern(pattern, count):
+	if len(pattern) == 1:
+		return pattern * count
 
-	if (files and any is not None):
-		if (not is_collection(any)):
-			any = (any,)
-		any = [f for f in any if f is not None]
-		if any:
-			results = set()
-			for fil in any:
-				results.update(fnmatch.filter(files, fil))
-			files = [f for f in results]
-	files.sort()
-	return files
+	text = ''
+	for i in range(0, count):
+		text = text + pattern[i % len(pattern)]
+	return text
 
 
 
@@ -192,10 +247,7 @@ def run(main_func):
 			sys.exit(int(result))
 	except Exception as err:
 		print(
-			'Fatal error: [{}] {}'.format(
-				type(err).__name__,
-				str(err)
-			),
+			rf'Fatal error: [{type(err).__name__}] {str(err)}',
 			file=sys.stderr
 		)
 		traceback.print_exc(file=sys.stderr)

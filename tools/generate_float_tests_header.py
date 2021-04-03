@@ -5,12 +5,11 @@
 # SPDX-License-Identifier: MIT
 
 import sys
-import os.path as path
 import utils
 import math
 import random
 import decimal
-
+from pathlib import Path
 
 
 __debugging = False
@@ -506,7 +505,7 @@ def write_float_data(file, traits):
 
 def main():
 	
-	file_path = path.join(utils.get_script_folder(), '..', 'tests', 'float_test_data.h')
+	file_path = Path(utils.entry_script_dir(), '..', 'tests', 'float_test_data.h').resolve()
 	print("Writing to {}".format(file_path))
 	with open(file_path, 'w', encoding='utf-8', newline='\n') as file:
 		indent = 0

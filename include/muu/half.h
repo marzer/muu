@@ -967,7 +967,6 @@ namespace muu
 	/// \brief	16-bit half-precision float constants.
 	/// 
 	/// \ingroup	constants
-	/// \related	muu::half
 	template <> struct constants<half> : impl::floating_point_constants<half> {};
 
 	inline namespace literals
@@ -977,7 +976,7 @@ namespace muu
 		/// const half val = 42.5_f16;
 		/// \ecpp
 		/// 
-		/// \related	muu::half
+		/// \relatesalso	muu::half
 		[[nodiscard]]
 		MUU_ATTR(const)
 		MUU_CONSTEVAL half operator "" _f16(long double val) noexcept
@@ -990,7 +989,7 @@ namespace muu
 		/// const half val = 42_f16;
 		/// \ecpp
 		/// 
-		/// \related	muu::half
+		/// \relatesalso	muu::half
 		[[nodiscard]]
 		MUU_ATTR(const)
 		MUU_CONSTEVAL half operator "" _f16(unsigned long long val) noexcept
@@ -1002,7 +1001,7 @@ namespace muu
 	/// \brief	Returns true if a half-precision float is infinity or NaN.
 	/// 
 	/// \ingroup	infinity_or_nan
-	/// \related	muu::half
+	/// \relatesalso	muu::half
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ATTR(flatten)
@@ -1018,7 +1017,7 @@ namespace muu
 	/// \brief	Returns the absolute value of a half-precision float.
 	/// 
 	/// \ingroup	abs
-	/// \related	muu::half
+	/// \relatesalso	muu::half
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ATTR(flatten)
@@ -1039,7 +1038,7 @@ namespace muu
 	/// \brief	Returns true if two half-precision floats are approximately equal.
 	///
 	/// \ingroup	approx_equal
-	/// \related	muu::half
+	/// \relatesalso	muu::half
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr bool MUU_VECTORCALL approx_equal(half a, half b, half epsilon = constants<half>::default_epsilon) noexcept
@@ -1050,7 +1049,7 @@ namespace muu
 	/// \brief	Returns true a half-precision float is approximately equal to zero.
 	///
 	/// \ingroup	approx_zero
-	/// \related	muu::half
+	/// \relatesalso	muu::half
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ALWAYS_INLINE
@@ -1062,7 +1061,7 @@ namespace muu
 	/// \brief	Returns the floor of a half-precision float.
 	/// 
 	/// \ingroup	floor
-	/// \related	muu::half
+	/// \relatesalso	muu::half
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ATTR(flatten)
@@ -1074,7 +1073,7 @@ namespace muu
 	/// \brief	Returns the ceiling of a half-precision float.
 	///
 	/// \ingroup	ceil
-	/// \related	muu::half
+	/// \relatesalso	muu::half
 	[[nodiscard]]
 	MUU_ATTR(const)
 	MUU_ATTR(flatten)
@@ -1086,7 +1085,7 @@ namespace muu
 	/// \brief	Returns the square-root of a half-precision float.
 	///
 	/// \ingroup	sqrt
-	/// \related	muu::half
+	/// \relatesalso	muu::half
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL sqrt(half x) noexcept
@@ -1097,7 +1096,7 @@ namespace muu
 	/// \brief	Returns the cosine of a half-precision float.
 	///
 	/// \ingroup	cos
-	/// \related	muu::half
+	/// \relatesalso	muu::half
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL cos(half x) noexcept
@@ -1108,7 +1107,7 @@ namespace muu
 	/// \brief	Returns the sine of a half-precision float.
 	///
 	/// \ingroup	sin
-	/// \related	muu::half
+	/// \relatesalso	muu::half
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL sin(half x) noexcept
@@ -1119,7 +1118,7 @@ namespace muu
 	/// \brief	Returns the tangent of a half-precision float.
 	///
 	/// \ingroup	tan
-	/// \related	muu::half
+	/// \relatesalso	muu::half
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL tan(half x) noexcept
@@ -1130,7 +1129,7 @@ namespace muu
 	/// \brief	Returns the arc cosine of a half-precision float.
 	///
 	/// \ingroup	acos
-	/// \related	muu::half
+	/// \relatesalso	muu::half
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL acos(half x) noexcept
@@ -1141,7 +1140,7 @@ namespace muu
 	/// \brief	Returns the arc sine of a half-precision float.
 	///
 	/// \ingroup	asin
-	/// \related	muu::half
+	/// \relatesalso	muu::half
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL asin(half x) noexcept
@@ -1152,7 +1151,7 @@ namespace muu
 	/// \brief	Returns the arc tangent of a half-precision float.
 	///
 	/// \ingroup	atan
-	/// \related	muu::half
+	/// \relatesalso	muu::half
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL atan(half x) noexcept
@@ -1163,7 +1162,7 @@ namespace muu
 	/// \brief	Returns the arc tangent of a half-precision float.
 	///
 	/// \ingroup	atan2
-	/// \related	muu::half
+	/// \relatesalso	muu::half
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL atan2(half y, half x) noexcept
@@ -1174,7 +1173,7 @@ namespace muu
 	/// \brief	Returns a linear interpolation between two half-precision floats.
 	///
 	/// \ingroup	lerp
-	/// \related	muu::half
+	/// \relatesalso	muu::half
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL lerp(half start, half finish, half alpha) noexcept
@@ -1185,7 +1184,7 @@ namespace muu
 	/// \brief	Normalizes the angle value of a half-precision float.
 	///
 	/// \ingroup	normalize_angle
-	/// \related	muu::half
+	/// \relatesalso	muu::half
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL normalize_angle(half x) noexcept
@@ -1196,7 +1195,7 @@ namespace muu
 	/// \brief	Normalizes the angle value of a half-precision float.
 	///
 	/// \ingroup	normalize_angle_signed
-	/// \related	muu::half
+	/// \relatesalso	muu::half
 	[[nodiscard]]
 	MUU_ATTR(const)
 	constexpr half MUU_VECTORCALL normalize_angle_signed(half x) noexcept
@@ -1393,7 +1392,6 @@ namespace std
 	/// \brief	Specialization of std::numeric_limits for muu::half.
 	///
 	/// \ingroup constants
-	/// \related	muu::half
 	template<>
 	struct numeric_limits<muu::half>
 	{

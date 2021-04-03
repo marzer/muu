@@ -623,7 +623,6 @@ namespace muu
 	MUU_ABI_VERSION_END;
 
 	/// \brief	UUID constants.
-	/// \related muu::uuid
 	/// 
 	/// \ingroup		constants
 	template <>
@@ -784,7 +783,7 @@ namespace muu
 		/// const uuid id = "{06B35EFD-A532-4410-ADD1-C8C536C31A84}"_uuid;
 		/// \ecpp
 		/// 
-		/// \related muu::uuid
+		/// \relatesalso muu::uuid
 		[[nodiscard]]
 		MUU_ATTR(pure)
 		MUU_CONSTEVAL uuid operator"" _uuid(const char* str, size_t len) noexcept

@@ -431,7 +431,7 @@ namespace muu
 
 		/// \brief	Returns true if two bounding boxes are approximately equal.
 		/// 
-		/// \note		This function is only available when at least one of #scalar_type and `T` is a floating-point type.
+		/// \availability		This function is only available when at least one of #scalar_type and `T` is a floating-point type.
 		MUU_CONSTRAINED_TEMPLATE(
 			(any_floating_point<scalar_type, T>),
 			typename T
@@ -450,7 +450,7 @@ namespace muu
 
 		/// \brief	Returns true if the bounding box is approximately equal to another.
 		/// 
-		/// \note		This function is only available when at least one of #scalar_type and `T` is a floating-point type.
+		/// \availability		This function is only available when at least one of #scalar_type and `T` is a floating-point type.
 		MUU_CONSTRAINED_TEMPLATE(
 			(any_floating_point<scalar_type, T>),
 			typename T
@@ -467,7 +467,7 @@ namespace muu
 
 		/// \brief	Returns true if all the scalar components in a bounding box are approximately equal to zero.
 		/// 
-		/// \note		This function is only available when #scalar_type is a floating-point type.
+		/// \availability		This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = scalar_type)
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -480,7 +480,7 @@ namespace muu
 
 		/// \brief	Returns true if all the scalar components in the bounding box are approximately equal to zero.
 		/// 
-		/// \note		This function is only available when #scalar_type is a floating-point type.
+		/// \availability		This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = scalar_type)
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -492,7 +492,7 @@ namespace muu
 
 		/// \brief	Returns true if a bounding box has approximately zero volume.
 		/// 
-		/// \note		This function is only available when #scalar_type is a floating-point type.
+		/// \availability		This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = scalar_type)
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -504,7 +504,7 @@ namespace muu
 
 		/// \brief	Returns true if the bounding box has approximately zero volume.
 		/// 
-		/// \note		This function is only available when #scalar_type is a floating-point type.
+		/// \availability		This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = scalar_type)
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -706,7 +706,6 @@ namespace muu
 namespace std
 {
 	/// \brief Specialization of std::tuple_size for muu::bounding_box.
-	/// \related	muu::bounding_box
 	template <typename Scalar>
 	struct tuple_size<muu::bounding_box<Scalar>>
 	{
@@ -714,7 +713,6 @@ namespace std
 	};
 
 	/// \brief Specialization of std::tuple_element for muu::bounding_box.
-	/// \related	muu::bounding_box
 	template <size_t I, typename Scalar>
 	struct tuple_element<I, muu::bounding_box<Scalar>>
 	{
@@ -746,8 +744,8 @@ MUU_POP_PRECISE_MATH;
 
 namespace muu
 {
-	/// \ingroup	infinity_or_nan
-	/// \related	muu::bounding_box
+	/// \ingroup		infinity_or_nan
+	/// \relatesalso	muu::bounding_box
 	///
 	/// \brief	Returns true if any of the scalar components of a #bounding_box are infinity or NaN.
 	template <typename S>
@@ -759,7 +757,7 @@ namespace muu
 	}
 
 	/// \ingroup	approx_equal
-	/// \related	muu::bounding_box
+	/// \relatesalso	muu::bounding_box
 	///
 	/// \brief		Returns true if two bounding_boxes are approximately equal.
 	template <typename S, typename T>
@@ -775,7 +773,7 @@ namespace muu
 	}
 
 	/// \ingroup	approx_zero
-	/// \related	muu::bounding_box
+	/// \relatesalso	muu::bounding_box
 	///
 	/// \brief		Returns true if all the scalar components of a #bounding_box are approximately equal to zero.
 	template <typename S>

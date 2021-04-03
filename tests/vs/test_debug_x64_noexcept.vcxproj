@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup Label="ProjectConfigurations">
+		<ProjectConfiguration Include="Debug|x64">
+			<Configuration>Debug</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<VCProjectVersion>16.0</VCProjectVersion>
+		<ProjectGuid>{70F7C29B-3468-5C09-8D47-B649CEBAB09E}</ProjectGuid>
+		<WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+		<!-- <PreferredToolArchitecture>x64</PreferredToolArchitecture> -->
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<UseDebugLibraries>true</UseDebugLibraries>
+		<PlatformToolset>v142</PlatformToolset>
+		<CharacterSet>MultiByte</CharacterSet>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<UseDebugLibraries>false</UseDebugLibraries>
+		<PlatformToolset>v142</PlatformToolset>
+		<WholeProgramOptimization>false</WholeProgramOptimization>
+		<CharacterSet>MultiByte</CharacterSet>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+	<ImportGroup Label="PropertySheets">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props"
+			Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<Import Project="$(SolutionDir)muu.props" />
+	<PropertyGroup>
+		<IncludePath>$(SolutionDir)external;$(IncludePath)</IncludePath>
+		<IncludePath>$(SolutionDir)include;$(IncludePath)</IncludePath>
+		<IncludePath>$(SolutionDir)tests;$(IncludePath)</IncludePath>
+	</PropertyGroup>
+	<ItemDefinitionGroup>
+		<ClCompile>
+			<ExceptionHandling>false</ExceptionHandling>
+			<PrecompiledHeader>Use</PrecompiledHeader>
+			<PrecompiledHeaderFile>tests.h</PrecompiledHeaderFile>
+			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">_HAS_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">SHOULD_HAVE_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'!='false'">SHOULD_HAVE_EXCEPTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<LanguageStandard>stdcpp17</LanguageStandard>
+			<DebugInformationFormat Condition="!$(Configuration.ToLower().Contains('debug'))">None</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<GenerateDebugInformation Condition="!$(Configuration.ToLower().Contains('debug'))">false</GenerateDebugInformation>
+			<LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
+		</Link>
+	</ItemDefinitionGroup>
+	<PropertyGroup>
+		<LocalDebuggerWorkingDirectory>$(SolutionDir)tests</LocalDebuggerWorkingDirectory>
+		<IntDir>$(SolutionDir)build\tests-70F7C29B-3468-5C09-8D47-B649CEBAB09E\</IntDir>
+		<OutDir>$(SolutionDir)build\</OutDir>
+		<LinkIncremental>false</LinkIncremental>
+	</PropertyGroup>
+	<ItemGroup>
+		<ClCompile Include="..\accumulator.cpp" />
+		<ClCompile Include="..\blob.cpp" />
+		<ClCompile Include="..\bounding_box_char.cpp" />
+		<ClCompile Include="..\bounding_box_double.cpp" />
+		<ClCompile Include="..\bounding_box_float.cpp" />
+		<ClCompile Include="..\bounding_box_half.cpp" />
+		<ClCompile Include="..\bounding_box_int.cpp" />
+		<ClCompile Include="..\bounding_box_long.cpp" />
+		<ClCompile Include="..\bounding_box_long_long.cpp" />
+		<ClCompile Include="..\bounding_box_short.cpp" />
+		<ClCompile Include="..\compressed_pair.cpp" />
+		<ClCompile Include="..\core_bit.cpp" />
+		<ClCompile Include="..\core_other.cpp" />
+		<ClCompile Include="..\core_meta.cpp" />
+		<ClCompile Include="..\half.cpp" />
+		<ClCompile Include="..\hashing.cpp" />
+		<ClCompile Include="..\main.cpp">
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+		</ClCompile>
+		<ClCompile Include="..\math.cpp" />
+		<ClCompile Include="..\matrix_char.cpp" />
+		<ClCompile Include="..\matrix_double.cpp" />
+		<ClCompile Include="..\matrix_float.cpp" />
+		<ClCompile Include="..\matrix_half.cpp" />
+		<ClCompile Include="..\matrix_int.cpp" />
+		<ClCompile Include="..\matrix_long.cpp" />
+		<ClCompile Include="..\matrix_long_long.cpp" />
+		<ClCompile Include="..\matrix_short.cpp" />
+		<ClCompile Include="..\oriented_bounding_box_double.cpp" />
+		<ClCompile Include="..\oriented_bounding_box_float.cpp" />
+		<ClCompile Include="..\oriented_bounding_box_half.cpp" />
+		<ClCompile Include="..\quaternion_double.cpp" />
+		<ClCompile Include="..\quaternion_float.cpp" />
+		<ClCompile Include="..\quaternion_half.cpp" />
+		<ClCompile Include="..\scope_guard.cpp" />
+		<ClCompile Include="..\span.cpp" />
+		<ClCompile Include="..\string_param.cpp" />
+		<ClCompile Include="..\strings.cpp" />
+		<ClCompile Include="..\tagged_ptr.cpp" />
+		<ClCompile Include="..\tests.cpp">
+			<PrecompiledHeader>Create</PrecompiledHeader>
+		</ClCompile>
+		<ClCompile Include="..\thread_pool.cpp" />
+		<ClCompile Include="..\unicode_char.cpp" />
+		<ClCompile Include="..\unicode_char16_t.cpp" />
+		<ClCompile Include="..\unicode_char32_t.cpp" />
+		<ClCompile Include="..\unicode_char8_t.cpp" />
+		<ClCompile Include="..\unicode_unsigned_char.cpp" />
+		<ClCompile Include="..\uuid.cpp" />
+		<ClCompile Include="..\vector_char.cpp" />
+		<ClCompile Include="..\vector_double.cpp" />
+		<ClCompile Include="..\vector_float.cpp" />
+		<ClCompile Include="..\vector_half.cpp" />
+		<ClCompile Include="..\vector_int.cpp" />
+		<ClCompile Include="..\vector_long.cpp" />
+		<ClCompile Include="..\vector_long_long.cpp" />
+		<ClCompile Include="..\vector_short.cpp" />
+	</ItemGroup>
+	<ItemGroup>
+		<Natvis Include="$(SolutionDir)muu.natvis" />
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\bounding_box_test_templates.h" />
+		<ClInclude Include="..\bounding_box_test_instantiations.h" />
+		<ClInclude Include="..\catch2.h" />
+		<ClInclude Include="..\float_test_data.h" />
+		<ClInclude Include="..\matrix_test_templates.h" />
+		<ClInclude Include="..\matrix_test_instantiations.h" />
+		<ClInclude Include="..\oriented_bounding_box_test_instantiations.h" />
+		<ClInclude Include="..\oriented_bounding_box_test_templates.h" />
+		<ClInclude Include="..\settings.h" />
+		<ClInclude Include="..\tests.h" />
+		<ClInclude Include="..\quaternion_test_templates.h" />
+		<ClInclude Include="..\quaternion_test_instantiations.h" />
+		<ClInclude Include="..\unicode.h" />
+		<ClInclude Include="..\vector_test_templates.h" />
+		<ClInclude Include="..\vector_test_instantiations.h" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="..\cpp.hint" />
+		<None Include="..\meson.build" />
+		<None Include="$(SolutionDir).runsettings" />
+		<None Include="$(SolutionDir)muu.props" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="muu_debug_x64_noexcept.vcxproj">
+			<Project>{2FFE44DE-F9AB-56D7-9E47-B402722487DB}</Project>
+		</ProjectReference>
+	</ItemGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>
+

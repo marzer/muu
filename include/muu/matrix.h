@@ -858,7 +858,7 @@ namespace muu
 
 		/// \brief	Returns true if two matrices are approximately equal.
 		/// 
-		/// \note		This function is only available when at least one of #scalar_type and `T` is a floating-point type.
+		/// \availability		This function is only available when at least one of #scalar_type and `T` is a floating-point type.
 		MUU_CONSTRAINED_TEMPLATE(
 			(
 				any_floating_point<Scalar, T>
@@ -904,7 +904,7 @@ namespace muu
 
 		/// \brief	Returns true if the matrix is approximately equal to another.
 		/// 
-		/// \note		This function is only available when at least one of #scalar_type and `T` is a floating-point type.
+		/// \availability		This function is only available when at least one of #scalar_type and `T` is a floating-point type.
 		MUU_CONSTRAINED_TEMPLATE(
 			(
 				any_floating_point<Scalar, T>
@@ -942,7 +942,7 @@ namespace muu
 
 		/// \brief	Returns true if all the scalar components in a matrix are approximately equal to zero.
 		/// 
-		/// \note		This function is only available when #scalar_type is a floating-point type.
+		/// \availability		This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -960,7 +960,7 @@ namespace muu
 
 		/// \brief	Returns true if all the scalar components in the matrix are approximately equal to zero.
 		/// 
-		/// \note		This function is only available when #scalar_type is a floating-point type.
+		/// \availability		This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -1182,7 +1182,7 @@ namespace muu
 
 		/// \brief Multiplies this matrix with another and assigns the result.
 		/// 
-		/// \note This function is only available when the matrix is square.
+		/// \availability This function is only available when the matrix is square.
 		MUU_LEGACY_REQUIRES(R == C, size_t R = Rows, size_t C = Columns)
 		constexpr matrix& MUU_VECTORCALL operator *= (MUU_RO_MAT rhs) noexcept
 			MUU_REQUIRES(Rows == Columns)
@@ -1487,7 +1487,7 @@ namespace muu
 
 		/// \brief	Transposes the matrix (in-place).
 		/// 
-		/// \note This function is only available when the matrix is square.
+		/// \availability This function is only available when the matrix is square.
 		MUU_LEGACY_REQUIRES(R == C, size_t R = Rows, size_t C = Columns)
 		constexpr matrix& transpose() noexcept
 			MUU_REQUIRES(Rows == Columns)
@@ -1501,7 +1501,7 @@ namespace muu
 
 		/// \brief	Calculates the determinant of a matrix.
 		/// 
-		/// \note This function is only available when the matrix is square and has at most 4 rows and columns.
+		/// \availability This function is only available when the matrix is square and has at most 4 rows and columns.
 		MUU_LEGACY_REQUIRES(R == C && C <= 4, size_t R = Rows, size_t C = Columns)
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -1516,7 +1516,7 @@ namespace muu
 
 		/// \brief	Calculates the determinant of a matrix.
 		/// 
-		/// \note This function is only available when the matrix is square and has at most 4 rows and columns.
+		/// \availability This function is only available when the matrix is square and has at most 4 rows and columns.
 		MUU_LEGACY_REQUIRES(R == C && C <= 4, size_t R = Rows, size_t C = Columns)
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -1528,7 +1528,7 @@ namespace muu
 
 		/// \brief	Returns the inverse of a matrix.
 		/// 
-		/// \note This function is only available when the matrix is square and has at most 4 rows and columns.
+		/// \availability This function is only available when the matrix is square and has at most 4 rows and columns.
 		MUU_LEGACY_REQUIRES(R == C && C <= 4, size_t R = Rows, size_t C = Columns)
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -1659,7 +1659,7 @@ namespace muu
 
 		/// \brief	Inverts the matrix (in-place).
 		/// 
-		/// \note This function is only available when the matrix is square, has at most 4 rows and columns,
+		/// \availability This function is only available when the matrix is square, has at most 4 rows and columns,
 		/// 	  and has a floating-point #scalar_type.
 		MUU_LEGACY_REQUIRES(R == C && C <= 4 && is_floating_point<Scalar>, size_t R = Rows, size_t C = Columns)
 		constexpr matrix& invert() noexcept
@@ -1745,7 +1745,7 @@ namespace muu
 
 		/// \brief	Orthonormalizes the 3x3 part of a rotation or transformation matrix.
 		/// 
-		/// \note This function is only available when the matrix has 3 or 4 rows and columns
+		/// \availability This function is only available when the matrix has 3 or 4 rows and columns
 		/// 	  and has a floating-point #scalar_type.
 		/// 
 		/// \see [Orthonormal basis](https://en.wikipedia.org/wiki/Orthonormal_basis)
@@ -1787,7 +1787,7 @@ namespace muu
 
 		/// \brief	Orthonormalizes the 3x3 part of the matrix.
 		/// 
-		/// \note This function is only available when the matrix has 3 or 4 rows and columns
+		/// \availability This function is only available when the matrix has 3 or 4 rows and columns
 		/// 	  and has a floating-point #scalar_type.
 		/// 
 		/// \see [Orthonormal basis](https://en.wikipedia.org/wiki/Orthonormal_basis)
@@ -2099,7 +2099,6 @@ namespace muu
 	/// \brief		Matrix constants.
 	///
 	/// \ingroup	constants
-	/// \related	muu::matrix
 	/// \see		muu::matrix
 	template <typename Scalar, size_t Rows, size_t Columns>
 	struct constants<matrix<Scalar, Rows, Columns>>
@@ -2123,7 +2122,7 @@ MUU_POP_PRECISE_MATH;
 namespace muu
 {
 	/// \ingroup	infinity_or_nan
-	/// \related	muu::matrix
+	/// \relatesalso	muu::matrix
 	///
 	/// \brief	Returns true if any of the scalar components of a matrix are infinity or NaN.
 	template <typename S, size_t R, size_t C>
@@ -2143,9 +2142,9 @@ namespace muu
 	/// \brief		Returns true if two matrices are approximately equal.
 	/// 
 	/// \ingroup	approx_equal
-	/// \related	muu::matrix
+	/// \relatesalso	muu::matrix
 	///
-	/// \note		This function is only available when at least one of `S` and `T` is a floating-point type.
+	/// \availability		This function is only available when at least one of `S` and `T` is a floating-point type.
 	MUU_CONSTRAINED_TEMPLATE(
 		(any_floating_point<S, T>),
 		typename S, typename T, size_t R, size_t C
@@ -2164,9 +2163,9 @@ namespace muu
 	/// \brief		Returns true if all the scalar components of a matrix are approximately equal to zero.
 	/// 
 	/// \ingroup	approx_zero
-	/// \related	muu::matrix
+	/// \relatesalso	muu::matrix
 	///
-	/// \note		This function is only available when `S` is a floating-point type.
+	/// \availability		This function is only available when `S` is a floating-point type.
 	MUU_CONSTRAINED_TEMPLATE(
 		is_floating_point<S>,
 		typename S, size_t R, size_t C
@@ -2183,7 +2182,7 @@ namespace muu
 
 	/// \brief	Returns a transposed copy of a matrix.
 	///
-	/// \related	muu::matrix
+	/// \relatesalso	muu::matrix
 	template <typename S, size_t R, size_t C>
 	[[nodiscard]]
 	MUU_ATTR(pure)
@@ -2194,9 +2193,9 @@ namespace muu
 
 	/// \brief	Calculates the determinant of a matrix.
 	/// 
-	/// \related	muu::matrix
+	/// \relatesalso	muu::matrix
 	///
-	/// \note This function is only available for square matrices with at most 4 rows and columns.
+	/// \availability This function is only available for square matrices with at most 4 rows and columns.
 	MUU_CONSTRAINED_TEMPLATE(
 		(R == C && R <= 4),
 		typename S, size_t R, size_t C
@@ -2211,9 +2210,9 @@ namespace muu
 
 	/// \brief	Returns the inverse of a matrix.
 	/// 
-	/// \related	muu::matrix
+	/// \relatesalso	muu::matrix
 	///
-	/// \note This function is only available for square matrices with at most 4 rows and columns.
+	/// \availability This function is only available for square matrices with at most 4 rows and columns.
 	MUU_CONSTRAINED_TEMPLATE(
 		(R == C && R <= 4),
 		typename S, size_t R, size_t C
@@ -2228,9 +2227,9 @@ namespace muu
 
 	/// \brief	Returns a copy of a matrix with the 3x3 part orthonormalized.
 	/// 
-	/// \related	muu::matrix
+	/// \relatesalso	muu::matrix
 	///
-	/// \note This function is only available for matrices with 3 or 4 rows and columns
+	/// \availability This function is only available for matrices with 3 or 4 rows and columns
 	/// 	  and a floating-point scalar_type.
 	/// 
 	/// \see [Orthonormal basis](https://en.wikipedia.org/wiki/Orthonormal_basis)

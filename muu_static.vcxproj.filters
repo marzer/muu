@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="include\muu\accumulator.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\bitset.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\blob.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\concatenate.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\numeric_range.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\uuid.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\tagged_ptr.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\semver.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\preprocessor.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\rolling_average.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\hashing.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\all.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\core.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\half.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\fwd.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\strings.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\unicode_char.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\unicode_char8_t.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\unicode_char16_t.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\unicode_char32_t.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\unicode_wchar_t.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\unicode_unsigned_char.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\thread_pool.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\span.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\emplacement_array.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\string_param.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\vector.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\compressed_pair.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\scope_guard.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\quaternion.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\matrix.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\math.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\chars.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\bounding_box.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\stream_printer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\bounding_boxes_common.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\geometric_types_common.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\vector_types_common.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\oriented_bounding_box.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\header_end.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\header_start.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\os.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\os_unix.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\os_windows.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\source_start.h">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".editorconfig" />
+    <None Include="CONTRIBUTING.md" />
+    <None Include="meson.build" />
+    <None Include="README.md" />
+    <None Include="docs\Doxyfile">
+      <Filter>docs</Filter>
+    </None>
+    <None Include="docs\Doxyfile-mcss">
+      <Filter>docs</Filter>
+    </None>
+    <None Include=".runsettings" />
+    <None Include="examples\meson.build">
+      <Filter>examples</Filter>
+    </None>
+    <None Include="docs\pages\main_page.dox">
+      <Filter>docs\pages</Filter>
+    </None>
+    <None Include=".gitattributes" />
+    <None Include=".gitignore" />
+    <None Include="CODE_OF_CONDUCT.md" />
+    <None Include="LICENSE" />
+    <None Include="src\meson.build">
+      <Filter>src</Filter>
+    </None>
+    <None Include="muu.props" />
+    <None Include="cpp.hint" />
+    <None Include="tools\generate_documentation.py">
+      <Filter>tools</Filter>
+    </None>
+    <None Include="tools\generate_float_tests_header.py">
+      <Filter>tools</Filter>
+    </None>
+    <None Include="tools\generate_unicode_functions.py">
+      <Filter>tools</Filter>
+    </None>
+    <None Include="tools\generate_windows_targets.py">
+      <Filter>tools</Filter>
+    </None>
+    <None Include="tools\utils.py">
+      <Filter>tools</Filter>
+    </None>
+    <None Include="docs\dox.toml">
+      <Filter>docs</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{71fc6b00-e942-4c1d-947c-ae9e8427ac49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="docs">
+      <UniqueIdentifier>{20e0e0c1-be5a-4c5b-9dba-9c351a948a81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\impl">
+      <UniqueIdentifier>{efae82c9-47b7-4e90-9d28-2fe43e325020}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="examples">
+      <UniqueIdentifier>{8c060e25-0088-4efc-87ec-0e1c502800d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="docs\pages">
+      <UniqueIdentifier>{f71d09f5-b09a-4cdf-b292-f3ff5a9dcb3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{e6706e08-07d9-4fe5-8cf6-d3ac7c413219}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools">
+      <UniqueIdentifier>{040c1d6c-588e-4f98-978b-8d5934ad901c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="muu.natvis" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="meson_options.txt" />
+    <Text Include="tools\requirements.txt">
+      <Filter>tools</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\blob.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hashing.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\thread_pool.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\uuid.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\thread_name.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\string_param.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vector_types_common.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\default_allocator.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

@@ -2027,60 +2027,65 @@ namespace muu
 		/// \brief The current C++ language version (17, 20...)
 		inline constexpr uint32_t cpp_version = MUU_CPP;
 		static_assert(
-			cpp_version == 17
-			|| cpp_version == 20
-			|| cpp_version == 23 //??
-			|| cpp_version == 26 //??
+			cpp_version == 17u
+			|| cpp_version == 20u
+			|| cpp_version == 23u //??
+			|| cpp_version == 26u //??
 		);
 
 		/// \brief The current year.
-		inline constexpr uint32_t year =
+		inline constexpr uint32_t year = static_cast<uint32_t>(
 			(impl::build_date_str[7] - '0') * 1000
 			+ (impl::build_date_str[8] - '0') * 100
 			+ (impl::build_date_str[9] - '0') * 10
-			+ (impl::build_date_str[10] - '0');
-		static_assert(year >= 2020u);
+			+ (impl::build_date_str[10] - '0')
+		);
+		static_assert(year >= 2021u);
 
 		/// \brief The current month of the year (1-12).
-		inline constexpr uint32_t month =
-			impl::build_date_month_hash == 281 ? 1 : (
-			impl::build_date_month_hash == 269 ? 2 : (
-			impl::build_date_month_hash == 288 ? 3 : (
-			impl::build_date_month_hash == 291 ? 4 : (
-			impl::build_date_month_hash == 295 ? 5 : (
-			impl::build_date_month_hash == 301 ? 6 : (
-			impl::build_date_month_hash == 299 ? 7 : (
-			impl::build_date_month_hash == 285 ? 8 : (
-			impl::build_date_month_hash == 296 ? 9 : (
-			impl::build_date_month_hash == 294 ? 10 : (
-			impl::build_date_month_hash == 307 ? 11 : (
-			impl::build_date_month_hash == 268 ? 12 : 0
+		inline constexpr uint32_t month = 
+			impl::build_date_month_hash == 281 ? 1u : (
+			impl::build_date_month_hash == 269 ? 2u : (
+			impl::build_date_month_hash == 288 ? 3u : (
+			impl::build_date_month_hash == 291 ? 4u : (
+			impl::build_date_month_hash == 295 ? 5u : (
+			impl::build_date_month_hash == 301 ? 6u : (
+			impl::build_date_month_hash == 299 ? 7u : (
+			impl::build_date_month_hash == 285 ? 8u : (
+			impl::build_date_month_hash == 296 ? 9u : (
+			impl::build_date_month_hash == 294 ? 10u : (
+			impl::build_date_month_hash == 307 ? 11u : (
+			impl::build_date_month_hash == 268 ? 12u : 0
 		)))))))))));
 		static_assert(month >= 1 && month <= 12);
 
 		/// \brief The current day of the month (1-31).
-		inline constexpr uint32_t day =
+		inline constexpr uint32_t day = static_cast<uint32_t>(
 			(impl::build_date_str[4] == ' ' ? 0 : impl::build_date_str[4] - '0') * 10
-			+ (impl::build_date_str[5] - '0');
-		static_assert(day >= 1 && day <= 31);
+			+ (impl::build_date_str[5] - '0')
+		);
+		static_assert(day >= 1u && day <= 31u);
 
 		/// \brief The current hour of the day (0-23).
-		inline constexpr uint32_t hour =
+		inline constexpr uint32_t hour = static_cast<uint32_t>(
 			(impl::build_time_str[0] == ' ' ? 0 : impl::build_time_str[0] - '0') * 10
-			+ (impl::build_time_str[1] - '0');
-		static_assert(hour >= 0 && hour <= 23);
+			+ (impl::build_time_str[1] - '0')
+		);
+		static_assert(hour <= 23u);
 
 		/// \brief The current minute (0-59).
-		inline constexpr uint32_t minute =
+		inline constexpr uint32_t minute = static_cast<uint32_t>(
 			(impl::build_time_str[3] == ' ' ? 0 : impl::build_time_str[3] - '0') * 10
-			+ (impl::build_time_str[4] - '0');
-		static_assert(minute >= 0 && minute <= 59);
+			+ (impl::build_time_str[4] - '0')
+		);
+		static_assert(minute <= 59u);
 
 		/// \brief The current second (0-59).
-		inline constexpr uint32_t second =
+		inline constexpr uint32_t second = static_cast<uint32_t>(
 			(impl::build_time_str[6] == ' ' ? 0 : impl::build_time_str[6] - '0') * 10
-			+ (impl::build_time_str[7] - '0');
-		static_assert(second >= 0 && second <= 60); // 60 b/c leap seconds
+			+ (impl::build_time_str[7] - '0')
+		);
+		static_assert(second <= 60u); // 60 b/c leap seconds
 
 		/// \brief	The bitness of the current architecture.
 		inline constexpr size_t bitness = MUU_ARCH_BITNESS;
@@ -2149,7 +2154,7 @@ namespace muu
 
 	/// \brief	Equivalent to C++17's std::launder
 	///
-	/// \details Older implementations don't provide this as an intrinsic or have a placeholder
+	/// \note Older implementations don't provide this as an intrinsic or have a placeholder
 	/// 		 for it in their standard library. Using this version allows you to get around that 
 	/// 		 by writing code 'as if' it were there and have it compile just the same.
 	template <class T>
@@ -2265,7 +2270,7 @@ namespace muu
 					}
 					#else
 					{
-						if (const auto high = static_cast<unsigned long>(val >> 32); high != 0)
+						if (const auto high = static_cast<unsigned long>(val >> 32); high != 0ull)
 							return countl_zero_intrinsic(high);
 						return 32 + countl_zero_intrinsic(static_cast<unsigned long>(val));
 					}
@@ -2398,7 +2403,7 @@ namespace muu
 					}
 					#else
 					{
-						if (const auto low = static_cast<unsigned long>(val); low != 0)
+						if (const auto low = static_cast<unsigned long>(val); low != 0ull)
 							return countr_zero_intrinsic(low);
 						return 32 + countr_zero_intrinsic(static_cast<unsigned long>(val >> 32));
 					}

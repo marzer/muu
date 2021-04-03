@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Natvis Include="..\..\muu.natvis" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\accumulator.cpp" />
+    <ClCompile Include="..\blob.cpp" />
+    <ClCompile Include="..\compressed_pair.cpp" />
+    <ClCompile Include="..\core_bit.cpp" />
+    <ClCompile Include="..\core_other.cpp" />
+    <ClCompile Include="..\core_meta.cpp" />
+    <ClCompile Include="..\half.cpp" />
+    <ClCompile Include="..\hashing.cpp" />
+    <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="..\math.cpp" />
+    <ClCompile Include="..\scope_guard.cpp" />
+    <ClCompile Include="..\span.cpp" />
+    <ClCompile Include="..\string_param.cpp" />
+    <ClCompile Include="..\strings.cpp" />
+    <ClCompile Include="..\tagged_ptr.cpp" />
+    <ClCompile Include="..\tests.cpp" />
+    <ClCompile Include="..\thread_pool.cpp" />
+    <ClCompile Include="..\uuid.cpp" />
+    <ClCompile Include="..\vector_char.cpp">
+      <Filter>vector</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vector_double.cpp">
+      <Filter>vector</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vector_float.cpp">
+      <Filter>vector</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vector_half.cpp">
+      <Filter>vector</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vector_int.cpp">
+      <Filter>vector</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vector_long.cpp">
+      <Filter>vector</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vector_long_long.cpp">
+      <Filter>vector</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vector_short.cpp">
+      <Filter>vector</Filter>
+    </ClCompile>
+    <ClCompile Include="..\matrix_char.cpp">
+      <Filter>matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="..\matrix_double.cpp">
+      <Filter>matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="..\matrix_float.cpp">
+      <Filter>matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="..\matrix_half.cpp">
+      <Filter>matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="..\matrix_int.cpp">
+      <Filter>matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="..\matrix_long.cpp">
+      <Filter>matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="..\matrix_long_long.cpp">
+      <Filter>matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="..\matrix_short.cpp">
+      <Filter>matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="..\quaternion_double.cpp">
+      <Filter>quaternion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\quaternion_float.cpp">
+      <Filter>quaternion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\quaternion_half.cpp">
+      <Filter>quaternion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\unicode_unsigned_char.cpp">
+      <Filter>unicode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\unicode_char.cpp">
+      <Filter>unicode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\unicode_char8_t.cpp">
+      <Filter>unicode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\unicode_char16_t.cpp">
+      <Filter>unicode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\unicode_char32_t.cpp">
+      <Filter>unicode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bounding_box_char.cpp">
+      <Filter>bounding_box</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bounding_box_double.cpp">
+      <Filter>bounding_box</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bounding_box_float.cpp">
+      <Filter>bounding_box</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bounding_box_half.cpp">
+      <Filter>bounding_box</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bounding_box_int.cpp">
+      <Filter>bounding_box</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bounding_box_long.cpp">
+      <Filter>bounding_box</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bounding_box_long_long.cpp">
+      <Filter>bounding_box</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bounding_box_short.cpp">
+      <Filter>bounding_box</Filter>
+    </ClCompile>
+    <ClCompile Include="..\oriented_bounding_box_double.cpp">
+      <Filter>oriented_bounding_box</Filter>
+    </ClCompile>
+    <ClCompile Include="..\oriented_bounding_box_float.cpp">
+      <Filter>oriented_bounding_box</Filter>
+    </ClCompile>
+    <ClCompile Include="..\oriented_bounding_box_half.cpp">
+      <Filter>oriented_bounding_box</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\catch2.h" />
+    <ClInclude Include="..\float_test_data.h" />
+    <ClInclude Include="..\settings.h" />
+    <ClInclude Include="..\tests.h" />
+    <ClInclude Include="..\vector_test_templates.h">
+      <Filter>vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\vector_test_instantiations.h">
+      <Filter>vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\matrix_test_templates.h">
+      <Filter>matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\matrix_test_instantiations.h">
+      <Filter>matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\quaternion_test_templates.h">
+      <Filter>quaternion</Filter>
+    </ClInclude>
+    <ClInclude Include="..\quaternion_test_instantiations.h">
+      <Filter>quaternion</Filter>
+    </ClInclude>
+    <ClInclude Include="..\unicode.h">
+      <Filter>unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\bounding_box_test_instantiations.h">
+      <Filter>bounding_box</Filter>
+    </ClInclude>
+    <ClInclude Include="..\bounding_box_test_templates.h">
+      <Filter>bounding_box</Filter>
+    </ClInclude>
+    <ClInclude Include="..\oriented_bounding_box_test_instantiations.h">
+      <Filter>oriented_bounding_box</Filter>
+    </ClInclude>
+    <ClInclude Include="..\oriented_bounding_box_test_templates.h">
+      <Filter>oriented_bounding_box</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\cpp.hint" />
+    <None Include="..\meson.build" />
+    <None Include="..\..\.runsettings" />
+    <None Include="..\..\muu.props" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="vector">
+      <UniqueIdentifier>{2a827793-fbda-4c9b-beaf-33fd0cb7f4a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="matrix">
+      <UniqueIdentifier>{eb58be8c-5619-4760-9c66-bf3361a5369d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="quaternion">
+      <UniqueIdentifier>{879c3a65-eb7d-4afc-85e5-3edc8a07c0bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="unicode">
+      <UniqueIdentifier>{eb276512-216a-4461-ac8c-543e553c330b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bounding_box">
+      <UniqueIdentifier>{0a2a2658-7365-4d92-8c47-5b16284af689}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="oriented_bounding_box">
+      <UniqueIdentifier>{9bcc9a26-b87b-46d7-b42f-b94780ef9f40}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
+

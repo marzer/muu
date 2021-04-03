@@ -734,7 +734,7 @@ namespace muu
 		/// \param	x		Initial value for the vector's first scalar component.
 		/// \param	y		Initial value for the vector's second scalar component.
 		/// 
-		/// \note		This constructor is only available when #dimensions &gt;= 2.
+		/// \availability		This constructor is only available when #dimensions &gt;= 2.
 		MUU_LEGACY_REQUIRES(Dims >= 2, size_t Dims = Dimensions)
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y) noexcept
@@ -749,7 +749,7 @@ namespace muu
 		/// \param	y		Initial value for the vector's second scalar component.
 		/// \param	z		Initial value for the vector's third scalar component.
 		/// 
-		/// \note		This constructor is only available when #dimensions &gt;= 3.
+		/// \availability		This constructor is only available when #dimensions &gt;= 3.
 		MUU_LEGACY_REQUIRES(Dims >= 3, size_t Dims = Dimensions)
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y, scalar_type z) noexcept
@@ -765,7 +765,7 @@ namespace muu
 		/// \param	z		Initial value for the vector's third scalar component.
 		/// \param	w		Initial value for the vector's fourth scalar component.
 		/// 
-		/// \note			This constructor is only available when #dimensions &gt;= 4.
+		/// \availability			This constructor is only available when #dimensions &gt;= 4.
 		MUU_LEGACY_REQUIRES(Dims >= 4, size_t Dims = Dimensions)
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y, scalar_type z, scalar_type w) noexcept
@@ -783,7 +783,7 @@ namespace muu
 		/// \param	w		Initial value for the vector's fourth scalar component.
 		/// \param	vals	Initial values for the vector's remaining scalar components.
 		/// 
-		/// \note			This constructor is only available when #dimensions &gt;= 5.
+		/// \availability			This constructor is only available when #dimensions &gt;= 5.
 		MUU_CONSTRAINED_TEMPLATE(
 			(
 				Dims >= (4 + sizeof...(T))
@@ -1413,7 +1413,7 @@ namespace muu
 
 		/// \brief	Returns true if two vectors are approximately equal.
 		/// 
-		/// \note		This function is only available when at least one of #scalar_type and `T` is a floating-point type.
+		/// \availability		This function is only available when at least one of #scalar_type and `T` is a floating-point type.
 		MUU_CONSTRAINED_TEMPLATE(
 			(
 				any_floating_point<Scalar, T>
@@ -1479,7 +1479,7 @@ namespace muu
 
 		/// \brief	Returns true if the vector is approximately equal to another.
 		/// 
-		/// \note		This function is only available when at least one of #scalar_type and `T` is a floating-point type.
+		/// \availability		This function is only available when at least one of #scalar_type and `T` is a floating-point type.
 		MUU_CONSTRAINED_TEMPLATE(
 			(
 				any_floating_point<Scalar, T>
@@ -1517,7 +1517,7 @@ namespace muu
 
 		/// \brief	Returns true if all the scalar components in a vector are approximately equal to zero.
 		/// 
-		/// \note		This function is only available when #scalar_type is a floating-point type.
+		/// \availability		This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -1531,7 +1531,7 @@ namespace muu
 
 		/// \brief	Returns true if all the scalar components in the vector are approximately equal to zero.
 		/// 
-		/// \note		This function is only available when #scalar_type is a floating-point type.
+		/// \availability		This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -1773,7 +1773,7 @@ namespace muu
 
 		/// \brief	Returns the cross product of two vectors.
 		/// 
-		/// \note		This function is only available when #dimensions == 3.
+		/// \availability		This function is only available when #dimensions == 3.
 		MUU_LEGACY_REQUIRES(Dim == 3, size_t Dim = Dimensions)
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -1785,7 +1785,7 @@ namespace muu
 
 		/// \brief	Returns the cross product of this vector and another.
 		/// 
-		/// \note		This function is only available when #dimensions == 3.
+		/// \availability		This function is only available when #dimensions == 3.
 		MUU_LEGACY_REQUIRES(Dim == 3, size_t Dim = Dimensions)
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -2190,7 +2190,7 @@ namespace muu
 
 		/// \brief Returns a vector with each scalar component left-shifted the given number of bits.
 		/// 
-		/// \note		This function is only available when #scalar_type is an integral type.
+		/// \availability		This function is only available when #scalar_type is an integral type.
 		MUU_LEGACY_REQUIRES(is_integral<T>, typename T = Scalar)
 		[[nodiscard]]
 		MUU_ATTR_NDEBUG(pure)
@@ -2208,7 +2208,7 @@ namespace muu
 
 		/// \brief Componentwise left-shifts each scalar component in the vector by the given number of bits.
 		/// 
-		/// \note		This function is only available when #scalar_type is an integral type.
+		/// \availability		This function is only available when #scalar_type is an integral type.
 		MUU_LEGACY_REQUIRES(is_integral<T>, typename T = Scalar)
 		constexpr vector& MUU_VECTORCALL operator <<= (product_type rhs) noexcept
 			MUU_REQUIRES(is_integral<Scalar>)
@@ -2223,7 +2223,7 @@ namespace muu
 
 		/// \brief Returns a vector with each scalar component right-shifted the given number of bits.
 		/// 
-		/// \note		This function is only available when #scalar_type is an integral type.
+		/// \availability		This function is only available when #scalar_type is an integral type.
 		MUU_LEGACY_REQUIRES(is_integral<T>, typename T = Scalar)
 		[[nodiscard]]
 		MUU_ATTR_NDEBUG(pure)
@@ -2241,7 +2241,7 @@ namespace muu
 
 		/// \brief Componentwise right-shifts each scalar component in the vector by the given number of bits.
 		/// 
-		/// \note		This function is only available when #scalar_type is an integral type.
+		/// \availability		This function is only available when #scalar_type is an integral type.
 		MUU_LEGACY_REQUIRES(is_integral<T>, typename T = Scalar)
 		constexpr vector& MUU_VECTORCALL operator >>= (product_type rhs) noexcept
 			MUU_REQUIRES(is_integral<Scalar>)
@@ -2265,7 +2265,7 @@ namespace muu
 		/// 
 		/// \return		A normalized copy of the input vector.
 		/// 
-		/// \note This function is only available when #scalar_type is a floating-point type.
+		/// \availability This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
 		[[nodiscard]]
 		static constexpr vector MUU_VECTORCALL normalize(MUU_RO_VEC v, delta_type& length_out) noexcept
@@ -2290,7 +2290,7 @@ namespace muu
 		/// 
 		/// \return		A normalized copy of the input vector.
 		/// 
-		/// \note This function is only available when #scalar_type is a floating-point type.
+		/// \availability This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -2312,7 +2312,7 @@ namespace muu
 		/// 
 		/// \return	A reference to the vector.
 		/// 
-		/// \note This function is only available when #scalar_type is a floating-point type.
+		/// \availability This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
 		constexpr vector& normalize(delta_type& length_out) noexcept
 			MUU_REQUIRES(is_floating_point<Scalar>)
@@ -2335,7 +2335,7 @@ namespace muu
 		///
 		/// \return	A reference to the vector.
 		/// 
-		/// \note This function is only available when #scalar_type is a floating-point type.
+		/// \availability This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
 		constexpr vector& normalize() noexcept
 			MUU_REQUIRES(is_floating_point<Scalar>)
@@ -2356,7 +2356,7 @@ namespace muu
 		/// 
 		/// \return		A normalized copy of the input vector.
 		/// 
-		/// \note This function is only available when #scalar_type is a floating-point type.
+		/// \availability This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
 		[[nodiscard]]
 		static constexpr vector MUU_VECTORCALL normalize_lensq(MUU_RO_VEC v, delta_type v_lensq) noexcept
@@ -2371,7 +2371,7 @@ namespace muu
 		/// 
 		/// \return	A reference to the vector.
 		/// 
-		/// \note This function is only available when #scalar_type is a floating-point type.
+		/// \availability This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
 		constexpr vector& MUU_VECTORCALL normalize_lensq(delta_type lensq) noexcept
 			MUU_REQUIRES(is_floating_point<Scalar>)
@@ -2391,7 +2391,7 @@ namespace muu
 		/// 
 		/// \return		A normalized direction vector pointing from the start position to the end position.
 		/// 
-		/// \note		This function is only available when #dimensions == 2 or 3.
+		/// \availability		This function is only available when #dimensions == 2 or 3.
 		MUU_LEGACY_REQUIRES((Dim == 2 || Dim == 3), size_t Dim = Dimensions)
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -2428,7 +2428,7 @@ namespace muu
 		/// 
 		/// \return		A normalized direction vector pointing from the start position to the end position.
 		/// 
-		/// \note		This function is only available when #dimensions == 2 or 3.
+		/// \availability		This function is only available when #dimensions == 2 or 3.
 		MUU_LEGACY_REQUIRES((Dim == 2 || Dim == 3), size_t Dim = Dimensions)
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -2460,7 +2460,7 @@ namespace muu
 		/// \param	to				The end position.
 		/// \param	distance_out	An output param to receive the distance between the two points.
 		/// 
-		/// \note		This function is only available when #dimensions == 2 or 3.
+		/// \availability		This function is only available when #dimensions == 2 or 3.
 		MUU_LEGACY_REQUIRES((Dim == 2 || Dim == 3), size_t Dim = Dimensions)
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -2474,7 +2474,7 @@ namespace muu
 		///
 		/// \param	to				The end position.
 		///
-		/// \note		This function is only available when #dimensions == 2 or 3.
+		/// \availability		This function is only available when #dimensions == 2 or 3.
 		MUU_LEGACY_REQUIRES((Dim == 2 || Dim == 3), size_t Dim = Dimensions)
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -2782,7 +2782,7 @@ namespace muu
 		/// 			the smaller of the two possible angles between the two vectors is used.
 		/// 			The result is never greater than `pi` radians (180 degrees).
 		/// 
-		/// \note		This function is only available when #dimensions == 2 or 3.
+		/// \availability		This function is only available when #dimensions == 2 or 3.
 		MUU_LEGACY_REQUIRES((Dim == 2 || Dim == 3), size_t Dim = Dimensions)
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -2815,7 +2815,7 @@ namespace muu
 		/// 			the smaller of the two possible angles between the two vectors is used.
 		/// 			The result is never greater than `pi` radians (180 degrees).
 		/// 
-		/// \note		This function is only available when #dimensions == 2 or 3.
+		/// \availability		This function is only available when #dimensions == 2 or 3.
 		MUU_LEGACY_REQUIRES((Dim == 2 || Dim == 3), size_t Dim = Dimensions)
 		[[nodiscard]]
 		MUU_ATTR(pure)
@@ -2943,7 +2943,6 @@ namespace muu
 namespace std
 {
 	/// \brief Specialization of std::tuple_size for muu::vector.
-	/// \related	muu::vector
 	template <typename Scalar, size_t Dimensions>
 	struct tuple_size<muu::vector<Scalar, Dimensions>>
 	{
@@ -2951,7 +2950,6 @@ namespace std
 	};
 
 	/// \brief Specialization of std::tuple_element for muu::vector.
-	/// \related	muu::vector
 	template <size_t I, typename Scalar, size_t Dimensions>
 	struct tuple_element<I, muu::vector<Scalar, Dimensions>>
 	{
@@ -3307,7 +3305,6 @@ namespace muu
 	#endif
 
 	/// \ingroup	constants
-	/// \related	muu::vector
 	/// \see		muu::vector
 	/// 
 	/// \brief		Vector constants.
@@ -3438,7 +3435,7 @@ namespace muu::impl
 namespace muu
 {
 	/// \ingroup	infinity_or_nan
-	/// \related	muu::vector
+	/// \relatesalso	muu::vector
 	///
 	/// \brief	Returns true if any of the scalar components of a vector are infinity or NaN.
 	template <typename S, size_t D>
@@ -3456,11 +3453,11 @@ namespace muu
 	}
 
 	/// \ingroup	approx_equal
-	/// \related	muu::vector
+	/// \relatesalso	muu::vector
 	///
 	/// \brief		Returns true if two vectors are approximately equal.
 	///
-	/// \note		This function is only available when at least one of `S` and `T` is a floating-point type.
+	/// \availability		This function is only available when at least one of `S` and `T` is a floating-point type.
 	MUU_CONSTRAINED_TEMPLATE(
 		(any_floating_point<S, T>),
 		typename S, typename T, size_t D
@@ -3477,11 +3474,11 @@ namespace muu
 	}
 
 	/// \ingroup	approx_zero
-	/// \related	muu::vector
+	/// \relatesalso	muu::vector
 	///
 	/// \brief		Returns true if all the scalar components of a vector are approximately equal to zero.
 	///
-	/// \note		This function is only available when `S` is a floating-point type.
+	/// \availability		This function is only available when `S` is a floating-point type.
 	MUU_CONSTRAINED_TEMPLATE(
 		(is_floating_point<S>),
 		typename S, size_t D
@@ -3500,7 +3497,7 @@ namespace muu
 	/// \brief		Unit length checks for vector types.
 	/// @{
 	
-	/// \related	muu::vector
+	/// \relatesalso	muu::vector
 	///
 	/// \brief Returns true if a vector is unit-length (i.e. has a length of 1).
 	template <typename S, size_t D>
@@ -3515,7 +3512,7 @@ namespace muu
 
 	/** @} */	// math
 
-	/// \related muu::vector
+	/// \relatesalso muu::vector
 	///
 	/// \brief	Returns the squared length of a vector.
 	template <typename S, size_t D MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)>
@@ -3526,7 +3523,7 @@ namespace muu
 		return vector<S, D>::length_squared(v);
 	}
 
-	/// \related muu::vector
+	/// \relatesalso muu::vector
 	///
 	/// \brief	Returns the length (magnitude) of a vector.
 	template <typename S, size_t D MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)>
@@ -3537,7 +3534,7 @@ namespace muu
 		return vector<S, D>::length(v);
 	}
 
-	/// \related muu::vector
+	/// \relatesalso muu::vector
 	///
 	/// \brief	Returns the squared distance between two point vectors.
 	template <typename S, size_t D MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)>
@@ -3548,7 +3545,7 @@ namespace muu
 		return vector<S, D>::distance_squared(p1, p2);
 	}
 
-	/// \related muu::vector
+	/// \relatesalso muu::vector
 	///
 	/// \brief	Returns the distance between two point vectors.
 	template <typename S, size_t D MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)>
@@ -3559,7 +3556,7 @@ namespace muu
 		return vector<S, D>::distance(p1, p2);
 	}
 
-	/// \related muu::vector
+	/// \relatesalso muu::vector
 	///
 	/// \brief	Returns the dot product of two vectors.
 	template <typename S, size_t D MUU_HIDDEN_PARAM(typename product_type = typename vector<S, D>::product_type)>
@@ -3570,7 +3567,7 @@ namespace muu
 		return vector<S, D>::dot(v1, v2);
 	}
 
-	/// \related muu::vector
+	/// \relatesalso muu::vector
 	///
 	/// \brief	Returns the cross product of two three-dimensional vectors.
 	template <typename S MUU_HIDDEN_PARAM(typename vector_product = typename vector<S, 3>::vector_product)>
@@ -3581,7 +3578,7 @@ namespace muu
 		return impl::raw_cross<typename vector<S, 3>::vector_product>(lhs, rhs);
 	}
 
-	/// \related muu::vector
+	/// \relatesalso muu::vector
 	///
 	/// \brief	Normalizes a vector.
 	///
@@ -3590,7 +3587,7 @@ namespace muu
 	/// 
 	/// \return		A normalized copy of the input vector.
 	/// 
-	/// \note This function is only available when `S` is a floating-point type.
+	/// \availability This function is only available when `S` is a floating-point type.
 	MUU_CONSTRAINED_TEMPLATE(
 		is_floating_point<S>,
 		typename S, size_t D
@@ -3602,7 +3599,7 @@ namespace muu
 		return vector<S, D>::normalize(v, length_out);
 	}
 
-	/// \related muu::vector
+	/// \relatesalso muu::vector
 	///
 	/// \brief	Normalizes a vector.
 	///
@@ -3610,7 +3607,7 @@ namespace muu
 	/// 
 	/// \return		A normalized copy of the input vector.
 	/// 
-	/// \note This function is only available when `S` is a floating-point type.
+	/// \availability This function is only available when `S` is a floating-point type.
 	MUU_CONSTRAINED_TEMPLATE(
 		is_floating_point<S>,
 		typename S, size_t D
@@ -3622,7 +3619,7 @@ namespace muu
 		return vector<S, D>::normalize(v);
 	}
 
-	/// \related muu::vector
+	/// \relatesalso muu::vector
 	///
 	/// \brief		Returns the normalized direction vector from one position to another.
 	/// 
@@ -3632,7 +3629,7 @@ namespace muu
 	/// 
 	/// \return		A normalized direction vector pointing from the start position to the end position.
 	/// 
-	/// \note		This function is only available when `D` == 2 or 3.
+	/// \availability		This function is only available when `D` == 2 or 3.
 	MUU_CONSTRAINED_TEMPLATE(
 		(D == 2 || D == 3),
 		typename S, size_t D
@@ -3649,7 +3646,7 @@ namespace muu
 		return vector<S, D>::direction(from, to, distance_out);
 	}
 
-	/// \related muu::vector
+	/// \relatesalso muu::vector
 	///
 	/// \brief		Returns the normalized direction vector from one position to another.
 	/// 
@@ -3658,7 +3655,7 @@ namespace muu
 	/// 
 	/// \return		A normalized direction vector pointing from the start position to the end position.
 	/// 
-	/// \note		This function is only available when `D` == 2 or 3.
+	/// \availability		This function is only available when `D` == 2 or 3.
 	MUU_CONSTRAINED_TEMPLATE(
 		(D == 2 || D == 3),
 		typename S, size_t D
@@ -3674,7 +3671,7 @@ namespace muu
 		return vector<S, D>::direction(from, to);
 	}
 
-	/// \related muu::vector
+	/// \relatesalso muu::vector
 	///
 	/// \brief	Returns the componentwise minimum of two vectors.
 	template <typename S, size_t D>
@@ -3685,7 +3682,7 @@ namespace muu
 		return vector<S, D>::min(v1, v2);
 	}
 
-	/// \related muu::vector
+	/// \relatesalso muu::vector
 	///
 	/// \brief	Returns the componentwise maximum of two vectors.
 	template <typename S, size_t D>
@@ -3696,7 +3693,7 @@ namespace muu
 		return vector<S, D>::max(v1, v2);
 	}
 
-	/// \related muu::vector
+	/// \relatesalso muu::vector
 	///
 	/// \brief	Componentwise clamps a vector between two others.
 	template <typename S, size_t D>
@@ -3708,7 +3705,7 @@ namespace muu
 	}
 
 	/// \ingroup lerp
-	/// \related muu::vector
+	/// \relatesalso muu::vector
 	///
 	/// \brief	Performs a linear interpolation between two vectors.
 	template <typename S, size_t D MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)>
@@ -3723,7 +3720,7 @@ namespace muu
 		return vector<S, D>::lerp(start, finish, alpha);
 	}
 
-	/// \related muu::vector
+	/// \relatesalso muu::vector
 	///
 	/// \brief	Calculates the angle between two vectors.
 	///
@@ -3736,7 +3733,7 @@ namespace muu
 	/// 			the smaller of the two possible angles between the two vectors is used.
 	/// 			The result is never greater than `pi` radians (180 degrees).
 	/// 
-	/// \note		This function is only available when `D` == 2 or 3.
+	/// \availability		This function is only available when `D` == 2 or 3.
 	MUU_CONSTRAINED_TEMPLATE(
 		(D == 2 || D == 3),
 		typename S, size_t D
@@ -3750,7 +3747,7 @@ namespace muu
 	}
 
 	/// \ingroup abs
-	/// \related muu::vector
+	/// \relatesalso muu::vector
 	///
 	/// \brief	Returns a copy of a vector with all scalar components set to their absolute values.
 	template <typename S, size_t D>
@@ -3762,7 +3759,7 @@ namespace muu
 	}
 
 	/// \ingroup ceil
-	/// \related muu::vector
+	/// \relatesalso muu::vector
 	///
 	/// \brief	Returns a copy of a vector with all scalar components set to the lowest integer not less than their original values.
 	template <typename S, size_t D>
@@ -3774,7 +3771,7 @@ namespace muu
 	}
 
 	/// \ingroup floor
-	/// \related muu::vector
+	/// \relatesalso muu::vector
 	///
 	/// \brief	Returns a copy of a vector with all scalar components set to the highest integer not greater than their original values.
 	template <typename S, size_t D>

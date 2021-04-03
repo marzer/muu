@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{17A846AF-EAF5-5097-AB65-5CCE5F2D480B}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(MuuConfigurationType)'!=''">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(SolutionDir)muu.props" />
+  </ImportGroup>
+  <PropertyGroup>
+    <IntDir>$(SolutionDir)build\muu-17A846AF-EAF5-5097-AB65-5CCE5F2D480B\</IntDir>
+    <OutDir>$(SolutionDir)build\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">_HAS_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">SHOULD_HAVE_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'%(ExceptionHandling)'!='false'">SHOULD_HAVE_EXCEPTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <!-- Config -->
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);MUU_BUILDING=1</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(ConfigurationType)'=='DynamicLibrary'">%(PreprocessorDefinitions);MUU_DLL=1</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(ConfigurationType)'=='StaticLibrary'">%(PreprocessorDefinitions);MUU_DLL=0</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <PropertyGroup>
+    <IncludePath>$(SolutionDir)src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <!-- Source files -->
+  <ItemGroup>
+    <ClInclude Include="$(SolutionDir)include\muu\accumulator.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\all.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\bitset.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\blob.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\bounding_box.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\chars.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\compressed_pair.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\core.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\concatenate.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\emplacement_array.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\fwd.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\half.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\hashing.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\bounding_boxes_common.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\geometric_types_common.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\header_end.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\header_start.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\vector_types_common.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\unicode_char.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\unicode_char16_t.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\unicode_char32_t.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\unicode_char8_t.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\unicode_unsigned_char.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\unicode_wchar_t.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\math.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\matrix.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\oriented_bounding_box.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\quaternion.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\rolling_average.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\numeric_range.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\preprocessor.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\scope_guard.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\semver.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\span.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\strings.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\string_param.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\tagged_ptr.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\thread_pool.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\uuid.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\vector.h" />
+    <ClInclude Include="$(SolutionDir)src\os.h" />
+    <ClInclude Include="$(SolutionDir)src\os_unix.h" />
+    <ClInclude Include="$(SolutionDir)src\os_windows.h" />
+    <ClInclude Include="$(SolutionDir)src\source_start.h" />
+    <ClInclude Include="$(SolutionDir)src\stream_printer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="$(SolutionDir)muu.natvis" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(SolutionDir)src\blob.cpp" />
+    <ClCompile Include="$(SolutionDir)src\default_allocator.cpp" />
+    <ClCompile Include="$(SolutionDir)src\hashing.cpp" />
+    <ClCompile Include="$(SolutionDir)src\string_param.cpp" />
+    <ClCompile Include="$(SolutionDir)src\thread_name.cpp" />
+    <ClCompile Include="$(SolutionDir)src\thread_pool.cpp" />
+    <ClCompile Include="$(SolutionDir)src\uuid.cpp" />
+    <ClCompile Include="$(SolutionDir)src\vector_types_common.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

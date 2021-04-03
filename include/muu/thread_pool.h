@@ -547,7 +547,7 @@ namespace muu
 
 			template <typename OriginalTask, typename Task>
 			[[nodiscard]]
-			static auto curry_for_each_task(Task&& task) noexcept
+			static auto wrap_for_each_task(Task&& task) noexcept
 			{
 				static_assert(std::is_reference_v<OriginalTask>);
 				static_assert(std::is_same_v<remove_cvref<OriginalTask>, remove_cvref<Task>>);
@@ -686,16 +686,16 @@ namespace muu
 					qindex,
 					[
 						=,
-						curried_task = curry_for_each_task<OriginalTask>( static_cast<Task&&>(task) )
+						wrapped_task = wrap_for_each_task<OriginalTask>( static_cast<Task&&>(task) )
 					]
 					() mutable noexcept
 					{
 						while (batch_start != batch_end)
 						{
 							if constexpr (Indexed)
-								curried_task(*batch_start, batch_index);
+								wrapped_task(*batch_start, batch_index);
 							else
-								curried_task(*batch_start);
+								wrapped_task(*batch_start);
 							std::advance(batch_start, 1);
 						}
 					}
@@ -862,7 +862,7 @@ namespace muu
 					qindex,
 					[
 						=,
-						curried_task = curry_for_each_task<OriginalTask>( static_cast<Task&&>(task) )
+						wrapped_task = wrap_for_each_task<OriginalTask>( static_cast<Task&&>(task) )
 					]
 					() mutable noexcept
 					{
@@ -871,9 +871,9 @@ namespace muu
 							for (; batch_start < batch_end; batch_start++)
 							{
 								if constexpr (Indexed)
-									curried_task(static_cast<ValueType>(batch_start), batch_index);
+									wrapped_task(static_cast<ValueType>(batch_start), batch_index);
 								else
-									curried_task(static_cast<ValueType>(batch_start));
+									wrapped_task(static_cast<ValueType>(batch_start));
 							}
 						}
 						else
@@ -881,9 +881,9 @@ namespace muu
 							for (; batch_start > batch_end; batch_start--)
 							{
 								if constexpr (Indexed)
-									curried_task(static_cast<ValueType>(batch_start), batch_index);
+									wrapped_task(static_cast<ValueType>(batch_start), batch_index);
 								else
-									curried_task(static_cast<ValueType>(batch_start));
+									wrapped_task(static_cast<ValueType>(batch_start));
 							}
 						}
 					}
