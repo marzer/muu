@@ -271,11 +271,11 @@ jobs:
             - run:
                 name: Installing dependencies
                 command: |
-                    pip3 install lxml
+                    pip3 install lxml pytomlpp
             - run:
                 name: Generating documentation
                 command: |
-                    cd tools && python3 external/dox/dox.py docs/dox.toml
+                    python3 external/dox/dox.py docs/dox.toml
             - persist_to_workspace:
                 root: docs
                 paths: html

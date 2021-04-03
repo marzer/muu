@@ -1,6 +1,6 @@
-# ⚠ this project is still in development and is not even remotely release-ready; please do not use it yet ⚠
+# ⚠&#xFE0F; this project is still in development and is not even remotely release-ready; please do not use it yet ⚠&#xFE0F;
 
-![banner](docs/banner-small.png)  
+![banner](docs/images/banner-small.png)  
 [![C++](https://img.shields.io/badge/c%2B%2B-17%2C%2020-informational)][cpp_compilers]
 [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 [![Releases](https://img.shields.io/github/release/marzer/muu.svg)](https://github.com/marzer/muu/releases)
