@@ -1,29 +1,8 @@
-namespaces = [
-	'muu',
-	'muu::literals',
-	'muu::impl',
-]
-
 inline_namespaces = [
 	'muu::literals'
 ]
 
 types = [
-	'bitset',
-	'blob',
-	'compressed_pair',
-	'constants',
-	'emplacement_array',
-	'half',
-	'matrix',
-	'quaternion',
-	'numeric_range',
-	'rolling_average',
-	'scope_(?:guard|fail|success)',
-	'string_param',
-	'tagged_ptr',
-	'thread_pool',
-	'uuid',
 
 	# documentation example-only types
 	'[Mm]y_[a-zA-Z_]+',
@@ -38,7 +17,28 @@ macros = [
 	'MUU_[A-Z0-9_]+?'
 ]
 
-string_literals = [ ]
+string_literals = [
+	'_uuid'
+]
+
+numeric_literals = [
+	'_sz',
+	'_b',
+	'_kb',
+	'_mb',
+	'_gb',
+	'_u8',
+	'_u16',
+	'_u32',
+	'_u64',
+	'_u128',
+	'_i8',
+	'_i16',
+	'_i32',
+	'_i64',
+	'_i128',
+	'_f16',
+]
 
 auto_links = [
 	['(?:muu::)?halfs?',          'structmuu_1_1half.html'],

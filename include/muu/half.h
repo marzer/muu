@@ -98,8 +98,8 @@ namespace muu
 	/// 		using the `_f16` literal: \cpp
 	/// 
 	/// // creation from other floats and integers is explicit:
-	/// auto f1 = half{ 1.0f };
-	/// auto f2 = static_cast<half>(2);
+	/// auto f1 = muu::half{ 1.0f };
+	/// auto f2 = static_cast<muu::half>(2);
 	/// 
 	/// // promotion to larger float types is implicit (to mimic the behaviour of the built-ins):
 	/// double f3 = f2;

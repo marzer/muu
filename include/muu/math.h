@@ -36,7 +36,7 @@ namespace muu
 	#if 1 // infinity_or_nan ------------------------------------------------------------------------------------------
 	/// \addtogroup		infinity_or_nan		infinity_or_nan()
 	/// \brief			Checks for infinities and not-a-numbers (NaN).
-	/// \note			Older compilers won't provide the necessary machinery for infinity and NaN checks
+	/// \availability	Older compilers won't provide the necessary machinery for infinity and NaN checks
 	/// 				to work in constexpr contexts. You can check for constexpr support by examining 
 	/// 				build::supports_constexpr_infinity_or_nan.
 	/// @{
@@ -803,7 +803,7 @@ namespace muu
 	#if 1 // sqrt -----------------------------------------------------------------------------------------------------
 	/// \addtogroup		sqrt	sqrt()
 	/// \brief			Constexpr-friendly alternatives to std::sqrt.
-	/// \note			Older compilers won't provide the necessary machinery for sqrt to work in constexpr contexts.
+	/// \availability	Older compilers won't provide the necessary machinery for sqrt to work in constexpr contexts.
 	/// 				You can check for constexpr support by examining build::supports_constexpr_math.
 	/// @{
 	
@@ -946,7 +946,7 @@ namespace muu
 	#if 1 // cos ------------------------------------------------------------------------------------------------------
 	/// \addtogroup		cos		cos()
 	/// \brief			Constexpr-friendly alternatives to std::cos.
-	/// \note			Older compilers won't provide the necessary machinery for trig functions to work in constexpr
+	/// \availability	Older compilers won't provide the necessary machinery for trig functions to work in constexpr
 	/// 				contexts. You can check for constexpr support by examining build::supports_constexpr_math.
 	/// @{
 
@@ -1106,7 +1106,7 @@ namespace muu
 	#if 1 // sin ------------------------------------------------------------------------------------------------------
 	/// \addtogroup		sin		sin()
 	/// \brief			Constexpr-friendly alternatives to std::sin.
-	/// \note			Older compilers won't provide the necessary machinery for trig functions to work in constexpr
+	/// \availability	Older compilers won't provide the necessary machinery for trig functions to work in constexpr
 	/// 				contexts. You can check for constexpr support by examining build::supports_constexpr_math.
 	/// @{
 
@@ -1259,7 +1259,7 @@ namespace muu
 	#if 1 // tan ------------------------------------------------------------------------------------------------------
 	/// \addtogroup		tan		tan()
 	/// \brief			Constexpr-friendly alternatives to std::tan.
-	/// \note			Older compilers won't provide the necessary machinery for trig functions to work in constexpr
+	/// \availability	Older compilers won't provide the necessary machinery for trig functions to work in constexpr
 	/// 				contexts. You can check for constexpr support by examining build::supports_constexpr_math.
 	/// @{
 
@@ -1403,7 +1403,7 @@ namespace muu
 	#if 1 // acos ------------------------------------------------------------------------------------------------------
 	/// \addtogroup		acos		acos()
 	/// \brief			Constexpr-friendly alternatives to std::acos.
-	/// \note			Older compilers won't provide the necessary machinery for trig functions to work in constexpr
+	/// \availability	Older compilers won't provide the necessary machinery for trig functions to work in constexpr
 	/// 				contexts. You can check for constexpr support by examining build::supports_constexpr_math.
 	/// @{
 
@@ -1543,7 +1543,7 @@ namespace muu
 	#if 1 // asin ------------------------------------------------------------------------------------------------------
 	/// \addtogroup		asin		asin()
 	/// \brief			Constexpr-friendly alternatives to std::asin.
-	/// \note			Older compilers won't provide the necessary machinery for trig functions to work in constexpr
+	/// \availability	Older compilers won't provide the necessary machinery for trig functions to work in constexpr
 	/// 				contexts. You can check for constexpr support by examining build::supports_constexpr_math.
 	/// @{
 
@@ -1695,7 +1695,7 @@ namespace muu
 	#if 1 // atan ------------------------------------------------------------------------------------------------------
 	/// \addtogroup		atan		atan()
 	/// \brief			Constexpr-friendly alternatives to std::atan.
-	/// \note			Older compilers won't provide the necessary machinery for trig functions to work in constexpr
+	/// \availability	Older compilers won't provide the necessary machinery for trig functions to work in constexpr
 	/// 				contexts. You can check for constexpr support by examining build::supports_constexpr_math.
 	/// @{
 
@@ -1847,7 +1847,7 @@ namespace muu
 	#if 1 // atan2 ------------------------------------------------------------------------------------------------------
 	/// \addtogroup		atan2		atan2()
 	/// \brief			Constexpr-friendly alternatives to std::atan2.
-	/// \note			Older compilers won't provide the necessary machinery for trig functions to work in constexpr
+	/// \availability	Older compilers won't provide the necessary machinery for trig functions to work in constexpr
 	/// 				contexts. You can check for constexpr support by examining build::supports_constexpr_math.
 	/// @{
 

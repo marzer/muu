@@ -486,12 +486,12 @@ namespace muu
 	/// @{
 
 	/// \brief	Removes the topmost const, volatile and reference qualifiers from a type.
-	/// \details This is equivalent to C++20's std::remove_cvref_t.
+	/// \remark This is equivalent to C++20's std::remove_cvref_t.
 	template <typename T>
 	using remove_cvref = std::remove_cv_t<std::remove_reference_t<T>>;
 
 	/// \brief	Removes the outer enum wrapper from a type, converting it to the underlying integer equivalent.
-	/// \details This is similar to std::underlying_type_t but preserves cv qualifiers and ref categories, as well as
+	/// \remark This is similar to std::underlying_type_t but preserves cv qualifiers and ref categories, as well as
 	/// 		being safe to use in SFINAE contexts (non-enum types are simply returned as-is).
 	template <typename T>
 	using remove_enum = typename impl::remove_enum_<T>::type;
@@ -524,12 +524,12 @@ namespace muu
 	using least_aligned = typename impl::least_aligned_<T...>::type;
 
 	/// \brief	True if T is exactly the same as one or more of the types named by U.
-	/// \details This equivalent to `(std::is_same_v<T, U1> || std::is_same_v<T, U2> || ...)`.
+	/// \remark This equivalent to `(std::is_same_v<T, U1> || std::is_same_v<T, U2> || ...)`.
 	template <typename T, typename... U>
 	inline constexpr bool is_same_as_any = (false || ... || std::is_same_v<T, U>);
 
 	/// \brief	True if all the types named by T and U are exactly the same.
-	/// \details This equivalent to `(std::is_same_v<T, U1> && std::is_same_v<T, U2> && ...)`.
+	/// \remark This equivalent to `(std::is_same_v<T, U1> && std::is_same_v<T, U2> && ...)`.
 	template <typename T, typename... U>
 	inline constexpr bool all_same = (true && ... && std::is_same_v<T, U>);
 
@@ -933,7 +933,7 @@ namespace muu
 	inline constexpr bool always_false = false;
 
 	/// \brief	Provides an identity type transformation.
-	/// \details This is equivalent to C++20's std::type_identity_t.
+	/// \remark This is equivalent to C++20's std::type_identity_t.
 	template <typename T>
 	using type_identity = typename impl::type_identity_<T>::type;
 
@@ -958,7 +958,7 @@ namespace muu
 	>;
 
 	/// \brief Returns the rank of a pointer.
-	/// \details Answers "how many stars does it have?".
+	/// \remark Answers "how many stars does it have?".
 	template <typename T>
 	inline constexpr size_t pointer_rank = impl::pointer_rank_<T>::value;
 
@@ -990,7 +990,7 @@ namespace muu
 	;
 
 	/// \brief Equivalent to std::tuple_size_v, but safe to use in SFINAE contexts.
-	/// \details Returns 0 for types that do not implement std::tuple_size.
+	/// \remark Returns 0 for types that do not implement std::tuple_size.
 	template <typename T>
 	inline constexpr size_t tuple_size = impl::tuple_size_<T>::value;
 
@@ -2118,11 +2118,11 @@ namespace muu
 
 	/// \brief	Equivalent to C++20's std::is_constant_evaluated.
 	///
-	/// \details Compilers typically implement std::is_constant_evaluated as an intrinsic which is
+	/// \remark Compilers typically implement std::is_constant_evaluated as an intrinsic which is
 	/// 		 available regardless of the C++ mode. Using this function on these compilers allows
 	/// 		 you to get the same behaviour even when you aren't targeting C++20.
 	/// 
-	/// \note On older compilers lacking support for std::is_constant_evaluated this will always return `false`.
+	/// \availability On older compilers lacking support for std::is_constant_evaluated this will always return `false`.
 	/// 		   You can check for support by examining build::supports_is_constant_evaluated.
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
@@ -2154,7 +2154,7 @@ namespace muu
 
 	/// \brief	Equivalent to C++17's std::launder
 	///
-	/// \note Older implementations don't provide this as an intrinsic or have a placeholder
+	/// \note	Older implementations don't provide this as an intrinsic or have a placeholder
 	/// 		 for it in their standard library. Using this version allows you to get around that 
 	/// 		 by writing code 'as if' it were there and have it compile just the same.
 	template <class T>
@@ -2301,7 +2301,7 @@ namespace muu
 
 	/// \brief	Counts the number of consecutive 0 bits, starting from the left.
 	///
-	/// \details This is equivalent to C++20's std::countl_zero, with the addition of also being
+	/// \remark This is equivalent to C++20's std::countl_zero, with the addition of also being
 	/// 		 extended to work with enum types.
 	/// 
 	/// \tparam	T		An unsigned integer or enum type.
@@ -2433,7 +2433,7 @@ namespace muu
 
 	/// \brief	Counts the number of consecutive 0 bits, starting from the right.
 	///
-	/// \details This is equivalent to C++20's std::countr_zero, with the addition of also being
+	/// \remark This is equivalent to C++20's std::countr_zero, with the addition of also being
 	/// 		 extended to work with enum types.
 	/// 		 
 	/// \tparam	T		An unsigned integer or enum type.
@@ -2478,7 +2478,7 @@ namespace muu
 
 	/// \brief	Counts the number of consecutive 1 bits, starting from the left.
 	///
-	/// \details This is equivalent to C++20's std::countl_one, with the addition of also being
+	/// \remark This is equivalent to C++20's std::countl_one, with the addition of also being
 	/// 		 extended to work with enum types.
 	/// 
 	/// \tparam	T		An unsigned integer or enum type.
@@ -2498,7 +2498,7 @@ namespace muu
 
 	/// \brief	Counts the number of consecutive 1 bits, starting from the right.
 	///
-	/// \details This is equivalent to C++20's std::countr_one, with the addition of also being
+	/// \remark This is equivalent to C++20's std::countr_one, with the addition of also being
 	/// 		 extended to work with enum types.
 	/// 
 	/// \tparam	T		An unsigned integer or enum type.
@@ -2518,7 +2518,7 @@ namespace muu
 
 	/// \brief	Finds the smallest integral power of two not less than the given value.
 	///
-	/// \details This is equivalent to C++20's std::bit_ceil, with the addition of also being
+	/// \remark This is equivalent to C++20's std::bit_ceil, with the addition of also being
 	/// 		 extended to work with enum types.
 	/// 
 	/// \tparam	T		An unsigned integer or enum type.
@@ -2656,12 +2656,12 @@ namespace muu
 
 	/// \brief	Equivalent to C++20's std::bit_cast.
 	///
-	/// \details Compilers implement this as an intrinsic which is typically
+	/// \remark Compilers implement this as an intrinsic which is typically
 	/// 		 available regardless of the C++ mode. Using this function
 	/// 		 on these compilers allows you to get the same behaviour
 	/// 		 even when you aren't targeting C++20.
 	/// 
-	/// \note On older compilers lacking support for std::bit_cast you won't be able to call this function
+	/// \availability On older compilers lacking support for std::bit_cast you won't be able to call this function
 	/// 		   in constexpr contexts (since it falls back to a memcpy-based implementation).
 	/// 		   You can check for constexpr support by examining build::supports_constexpr_bit_cast.
 	template <typename To, typename From>
@@ -3043,7 +3043,7 @@ namespace muu
 
 	/// \brief	Returns the minimum of two values.
 	///
-	/// \details This is equivalent to std::min without requiring you to drag in the enormity of &lt;algorithm&gt;.
+	/// \remark This is equivalent to std::min without requiring you to drag in the enormity of &lt;algorithm&gt;.
 	template <typename T>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
@@ -3054,7 +3054,7 @@ namespace muu
 
 	/// \brief	Returns the maximum of two values.
 	///
-	/// \details This is equivalent to std::max without requiring you to drag in the enormity of &lt;algorithm&gt;.
+	/// \remark This is equivalent to std::max without requiring you to drag in the enormity of &lt;algorithm&gt;.
 	template <typename T>
 	[[nodiscard]]
 	MUU_ALWAYS_INLINE
@@ -3065,7 +3065,7 @@ namespace muu
 
 	/// \brief	Returns a value clamped between two bounds (inclusive).
 	///
-	/// \details This is equivalent to std::clamp without requiring you to drag in the enormity of &lt;algorithm&gt;.
+	/// \remark This is equivalent to std::clamp without requiring you to drag in the enormity of &lt;algorithm&gt;.
 	template <typename T>
 	[[nodiscard]]
 	constexpr const T& clamp(const T& val, const T& low, const T& high) noexcept
@@ -3268,7 +3268,7 @@ namespace muu
 
 	/// \brief	Counts the number of set bits (the 'population count') of an unsigned integer.
 	///
-	/// \details This is equivalent to C++20's std::popcount, with the addition of also being
+	/// \remark This is equivalent to C++20's std::popcount, with the addition of also being
 	/// 		 extended to work with enum types.
 	/// 
 	/// \tparam	T		An unsigned integer or enum type.
@@ -3303,7 +3303,7 @@ namespace muu
 
 	/// \brief	Checks if an integral value has only a single bit set.
 	/// 
-	/// \details This is equivalent to C++20's std::has_single_bit, with the addition of also being
+	/// \remark This is equivalent to C++20's std::has_single_bit, with the addition of also being
 	/// 		 extended to work with enum types.
 	///
 	/// \tparam	T		An unsigned integer or enum type.
@@ -3333,7 +3333,7 @@ namespace muu
 
 	/// \brief	Finds the largest integral power of two not greater than the given value.
 	/// 
-	/// \details This is equivalent to C++20's std::bit_floor, with the addition of also being
+	/// \remark This is equivalent to C++20's std::bit_floor, with the addition of also being
 	/// 		 extended to work with enum types.
 	///
 	/// \tparam	T		An unsigned integer or enum type.
@@ -3357,7 +3357,7 @@ namespace muu
 
 	/// \brief	Finds the smallest number of bits needed to represent the given value.
 	/// 
-	/// \details This is equivalent to C++20's std::bit_width, with the addition of also being
+	/// \remark This is equivalent to C++20's std::bit_width, with the addition of also being
 	/// 		 extended to work with enum types.
 	///
 	/// \tparam	T		An unsigned integer or enum type.
@@ -3766,7 +3766,7 @@ namespace muu
 
 	/// \brief Obtain the address represented by p without forming a reference to the pointee.
 	///
-	/// \details This is equivalent to C++20's std::to_address.
+	/// \remark This is equivalent to C++20's std::to_address.
 	template <typename T>
 	[[nodiscard]]
 	MUU_ATTR(const)
@@ -3778,7 +3778,7 @@ namespace muu
 
 	/// \brief Obtain the address represented by p without forming a reference to the pointee.
 	///
-	/// \details This is equivalent to C++20's std::to_address.
+	/// \remark This is equivalent to C++20's std::to_address.
 	template <typename Ptr>
 	[[nodiscard]]
 	constexpr auto to_address(const Ptr& p) noexcept
@@ -3796,7 +3796,7 @@ namespace muu
 
 	/// \brief	Equivalent to C++20's std::assume_aligned.
 	///
-	/// \details Compilers typically implement std::assume_aligned as an intrinsic which is
+	/// \remark Compilers typically implement std::assume_aligned as an intrinsic which is
 	/// 		 available regardless of the C++ mode. Using this function on these compilers allows
 	/// 		 you to get the same behaviour even when you aren't targeting C++20.
 	/// 
@@ -4040,7 +4040,7 @@ namespace muu
 		virtual ~generic_allocator() noexcept = default;
 
 		/// \brief	Requests a memory allocation.
-		/// \details Allocations returned by this overload will have an alignment of #default_alignment.
+		/// \remark Allocations returned by this overload will have an alignment of #default_alignment.
 		/// 
 		/// \param 	size	 	The size of the requested allocation.
 		///

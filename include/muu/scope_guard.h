@@ -191,7 +191,7 @@ namespace muu
 	/// void do_work()
 	/// {
 	///		acquire_magic_lock();
-	///		scope_guard sg{ release_magic_lock };
+	///		muu::scope_guard sg{ release_magic_lock };
 	///		something_that_throws();
 	/// }
 	/// 
