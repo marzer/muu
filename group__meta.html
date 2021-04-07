@@ -565,7 +565,7 @@
               using <a class="m-doc-self" href="#ga3cac44d2af43c4fd98e835ff5b28988a">remove_cvref</a> = <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/remove_cv" target="_blank">std::remove_cv_t</a>&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;
             </h3>
             <p>Removes the topmost const, volatile and reference qualifiers from a type.</p>
-<p>This is equivalent to C++20's std::remove_cvref_t.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's std::remove_cvref_t.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga4f0f94bba132e44d22663319f05d2ea8"><div>
             <h3>
@@ -576,7 +576,7 @@
               using <a class="m-doc-self" href="#ga4f0f94bba132e44d22663319f05d2ea8">remove_enum</a> = typename impl::remove_enum_&lt;T&gt;::type
             </h3>
             <p>Removes the outer enum wrapper from a type, converting it to the underlying integer equivalent.</p>
-<p>This is similar to <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/underlying_type" target="_blank">std::underlying_type_t</a> but preserves cv qualifiers and ref categories, as well as being safe to use in SFINAE contexts (non-enum types are simply returned as-is).</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is similar to <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/underlying_type" target="_blank">std::underlying_type_t</a> but preserves cv qualifiers and ref categories, as well as being safe to use in SFINAE contexts (non-enum types are simply returned as-is).</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga7c930af45d2e06539c2a3dfcc908a854"><div>
             <h3>
@@ -841,7 +841,7 @@
               using <a class="m-doc-self" href="#ga8b8f215acad0e9f3d7aa52326155f030">type_identity</a> = typename impl::type_identity_&lt;T&gt;::type
             </h3>
             <p>Provides an identity type transformation.</p>
-<p>This is equivalent to C++20's <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/type_identity" target="_blank">std::type_identity_t</a>.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/type_identity" target="_blank">std::type_identity_t</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga47a90ed3608cf7b0bf562f4ad208cd21"><div>
             <h3>
@@ -912,7 +912,7 @@
               bool <a class="m-doc-self" href="#ga526c58b5a438ba0c7746e465389e013d">is_same_as_any</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>True if T is exactly the same as one or more of the types named by U.</p>
-<p>This equivalent to <code>(<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U1&gt; || <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U2&gt; || ...)</code>.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This equivalent to <code>(<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U1&gt; || <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U2&gt; || ...)</code>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga9c2b21ea2cf57533a5dcf264d0e906e8"><div>
             <h3>
@@ -923,7 +923,7 @@
               bool <a class="m-doc-self" href="#ga9c2b21ea2cf57533a5dcf264d0e906e8">all_same</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>True if all the types named by T and U are exactly the same.</p>
-<p>This equivalent to <code>(<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U1&gt; &amp;&amp; <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U2&gt; &amp;&amp; ...)</code>.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This equivalent to <code>(<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U1&gt; &amp;&amp; <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U2&gt; &amp;&amp; ...)</code>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga05ccb72a3320555db5a5115cd85d6691"><div>
             <h3>
@@ -1474,7 +1474,7 @@
               </div> <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#gae9cd96c20c0f16e1e1eac99e798724ce">pointer_rank</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Returns the rank of a pointer.</p>
-<p>Answers "how many stars does it have?".</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Answers "how many stars does it have?".</p></aside>
           </div></section>
           <section class="m-doc-details" id="gab4f017e4e9376c59602a97b3e725389c"><div>
             <h3>
@@ -1525,7 +1525,7 @@
               </div> <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#gabe21403c5219a3959df510427b829038">tuple_size</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Equivalent to <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size_v</a>, but safe to use in SFINAE contexts.</p>
-<p>Returns 0 for types that do not implement <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a>.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns 0 for types that do not implement <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga1d7ffe385c4b8f4558d170f50f5eb79a"><div>
             <h3>

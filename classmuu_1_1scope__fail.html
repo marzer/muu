@@ -84,7 +84,7 @@
 <p>Use a <a class="m-doc" href="classmuu_1_1scope__fail.html">scope_<wbr/>fail</a> to simplify cleanup routines or code that has acquire/release semantics:</p><pre class="m-code"><span class="k">void</span><span class="o">*</span> <span class="nf">get_initialized_buffer</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="k">void</span><span class="o">*</span> <span class="n">buffer</span> <span class="o">=</span> <span class="n">acquire</span><span class="p">(</span><span class="mi">1024</span><span class="p">);</span>
-    <span class="ut">scope_fail</span> <span class="n">err</span><span class="p">{</span> <span class="p">[</span><span class="o">=</span><span class="p">]()</span> <span class="k">noexcept</span> <span class="p">{</span> <span class="n">release</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span> <span class="p">}};</span>
+    <span class="n">scope_fail</span> <span class="n">err</span><span class="p">{</span> <span class="p">[</span><span class="o">=</span><span class="p">]()</span> <span class="k">noexcept</span> <span class="p">{</span> <span class="n">release</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span> <span class="p">}};</span>
     <span class="c1">//</span>
     <span class="c1">// ...a bunch of initialization code that might throw...</span>
     <span class="c1">//</span>

@@ -788,8 +788,8 @@
 <span class="p">{</span>
     <span class="k">switch</span> <span class="p">(</span><span class="n">val</span><span class="p">)</span>
     <span class="p">{</span>
-        <span class="k">case</span> <span class="ut">my_enum</span><span class="o">::</span><span class="nl">one</span><span class="p">:</span> <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
-        <span class="k">case</span> <span class="ut">my_enum</span><span class="o">::</span><span class="nl">two</span><span class="p">:</span> <span class="k">return</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">my_enum</span><span class="o">::</span><span class="nl">one</span><span class="p">:</span> <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">my_enum</span><span class="o">::</span><span class="nl">two</span><span class="p">:</span> <span class="k">return</span> <span class="mi">2</span><span class="p">;</span>
         <span class="c1">//case my_enum::three: return 3;</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
@@ -901,7 +901,7 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Marks a switch statement as not being in need of a default clause.</p>
-<pre class="m-code"><span class="k">enum</span> <span class="k">class</span> <span class="ut">my_enum</span>
+<pre class="m-code"><span class="k">enum</span> <span class="k">class</span> <span class="nc">my_enum</span>
 <span class="p">{</span>
     <span class="n">one</span><span class="p">,</span>
     <span class="n">two</span><span class="p">,</span>
@@ -912,8 +912,8 @@
 <span class="p">{</span>
     <span class="k">switch</span> <span class="p">(</span><span class="n">val</span><span class="p">)</span>
     <span class="p">{</span>
-        <span class="k">case</span> <span class="ut">my_enum</span><span class="o">::</span><span class="nl">one</span><span class="p">:</span> <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
-        <span class="k">case</span> <span class="ut">my_enum</span><span class="o">::</span><span class="nl">two</span><span class="p">:</span> <span class="k">return</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">my_enum</span><span class="o">::</span><span class="nl">one</span><span class="p">:</span> <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">my_enum</span><span class="o">::</span><span class="nl">two</span><span class="p">:</span> <span class="k">return</span> <span class="mi">2</span><span class="p">;</span>
         <span class="m">MUU_NO_DEFAULT_CASE</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">}</span>
@@ -930,7 +930,7 @@
 <p>Useful for abstract base classes:</p><pre class="m-code"><span class="k">class</span> <span class="m">MUU_ABSTRACT_INTERFACE</span> <span class="ut">virtual_base</span>
 <span class="p">{</span>
     <span class="k">virtual</span> <span class="k">void</span> <span class="n">fooify</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="k">virtual</span> <span class="o">~</span><span class="n">virtual_base</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+    <span class="k">virtual</span> <span class="o">~</span><span class="ut">virtual_base</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
 <span class="p">};</span></pre>
           </div></section>
           <section class="m-doc-details" id="ga877f0e4eacd4875af9244d38c6547277"><div>
@@ -939,19 +939,19 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Marks a class as having only empty base classes.</p>
-<p>This is required for some compilers to use Empty Base Class Optimization:</p><pre class="m-code"><span class="k">class</span> <span class="ut">empty_parent</span>
+<p>This is required for some compilers to use Empty Base Class Optimization:</p><pre class="m-code"><span class="k">class</span> <span class="nc">empty_parent</span>
 <span class="p">{</span>
     <span class="k">using</span> <span class="ut">value_type</span> <span class="o">=</span> <span class="k">int</span><span class="p">;</span>
 <span class="p">};</span>
 
 <span class="k">class</span> <span class="m">MUU_EMPTY_BASES</span> <span class="ut">nonempty_child</span> <span class="p">:</span> <span class="ut">empty_parent</span>
 <span class="p">{</span>
-    <span class="k">using</span> <span class="ut">empty_parent</span><span class="o">::</span><span class="ut">value_type</span><span class="p">;</span>
+    <span class="k">using</span> <span class="n">empty_parent</span><span class="o">::</span><span class="n">value_type</span><span class="p">;</span>
     
-    <span class="ut">value_type</span> <span class="n">value</span><span class="p">;</span>
+    <span class="n">value_type</span> <span class="n">value</span><span class="p">;</span>
 <span class="p">};</span>
 
-<span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="ut">nonempty_child</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="ut">nonempty_child</span><span class="o">::</span><span class="ut">value_type</span><span class="p">));</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="https://devblogs.microsoft.com/cppblog/optimizing-the-layout-of-empty-base-classes-in-vs2015-update-2-3/" target="_blank">_<wbr/>_<wbr/>declspec(empty_<wbr/>bases)</a></p></aside>
+<span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="ut">nonempty_child</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">nonempty_child</span><span class="o">::</span><span class="n">value_type</span><span class="p">));</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="https://devblogs.microsoft.com/cppblog/optimizing-the-layout-of-empty-base-classes-in-vs2015-update-2-3/" target="_blank">_<wbr/>_<wbr/>declspec(empty_<wbr/>bases)</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga66999b3d433c69989cc6243448a6e450"><div>
             <h3>
@@ -995,7 +995,7 @@
 <span class="k">struct</span> <span class="m">MUU_TRIVIAL_ABI</span> <span class="ut">strong_typedef</span>
 <span class="p">{</span>
     <span class="n">T</span> <span class="n">value</span><span class="p">;</span>
-    <span class="o">~</span><span class="n">strong_typedef</span><span class="p">()</span> <span class="k">noexcept</span>
+    <span class="o">~</span><span class="ut">strong_typedef</span><span class="p">()</span> <span class="k">noexcept</span>
     <span class="p">{</span>
         <span class="c1">// non-trivial for some reason, maybe debug checks</span>
     <span class="p">}</span>
@@ -1164,19 +1164,19 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Explicitly deletes the move constructor and move-assignment operator of a class or struct.</p>
-<pre class="m-code"><span class="k">class</span> <span class="ut">immovable</span>
+<pre class="m-code"><span class="k">class</span> <span class="nc">immovable</span>
 <span class="p">{</span>
-    <span class="n">immovable</span><span class="p">()</span> <span class="p">{}</span>
+    <span class="ut">immovable</span><span class="p">()</span> <span class="p">{}</span>
 
     <span class="m">MUU_DELETE_MOVE</span><span class="p">(</span><span class="ut">immovable</span><span class="p">);</span>
 <span class="p">};</span>
 
 <span class="c1">//equivalent to:</span>
-<span class="k">class</span> <span class="ut">immovable</span>
+<span class="k">class</span> <span class="nc">immovable</span>
 <span class="p">{</span>
-    <span class="n">immovable</span><span class="p">()</span> <span class="p">{}</span>
+    <span class="ut">immovable</span><span class="p">()</span> <span class="p">{}</span>
 
-    <span class="n">immovable</span><span class="p">(</span><span class="ut">immovable</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
+    <span class="ut">immovable</span><span class="p">(</span><span class="ut">immovable</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
     <span class="ut">immovable</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="ut">immovable</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
 <span class="p">};</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="https://cpppatterns.com/patterns/rule-of-five.html" target="_blank">https:/<wbr/>/<wbr/>cpppatterns.com/<wbr/>patterns/<wbr/>rule-of-five.html</a></p></aside>
           </div></section>
@@ -1186,18 +1186,18 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Explicitly deletes the copy constructor and copy-assignment operator of a class or struct.</p>
-<pre class="m-code"><span class="k">class</span> <span class="ut">uncopyable</span>
+<pre class="m-code"><span class="k">class</span> <span class="nc">uncopyable</span>
 <span class="p">{</span>
-    <span class="n">uncopyable</span><span class="p">()</span> <span class="p">{}</span>
+    <span class="ut">uncopyable</span><span class="p">()</span> <span class="p">{}</span>
     <span class="m">MUU_DELETE_COPY</span><span class="p">(</span><span class="ut">uncopyable</span><span class="p">);</span>
 <span class="p">};</span>
 
 <span class="c1">//equivalent to:</span>
-<span class="k">class</span> <span class="ut">uncopyable</span>
+<span class="k">class</span> <span class="nc">uncopyable</span>
 <span class="p">{</span>
-    <span class="n">uncopyable</span><span class="p">()</span> <span class="p">{}</span>
+    <span class="ut">uncopyable</span><span class="p">()</span> <span class="p">{}</span>
 
-    <span class="n">uncopyable</span><span class="p">(</span><span class="k">const</span> <span class="ut">uncopyable</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
+    <span class="ut">uncopyable</span><span class="p">(</span><span class="k">const</span> <span class="ut">uncopyable</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
     <span class="ut">uncopyable</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="ut">uncopyable</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
 <span class="p">};</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="https://cpppatterns.com/patterns/rule-of-five.html" target="_blank">https:/<wbr/>/<wbr/>cpppatterns.com/<wbr/>patterns/<wbr/>rule-of-five.html</a></p></aside>
           </div></section>
@@ -1250,7 +1250,7 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Stamps out operators for enum 'flags' types.</p>
-<pre class="m-code"><span class="k">enum</span> <span class="k">class</span> <span class="ut">my_flags</span> <span class="o">:</span> <span class="k">unsigned</span>
+<pre class="m-code"><span class="k">enum</span> <span class="k">class</span> <span class="nc">my_flags</span> <span class="o">:</span> <span class="k">unsigned</span>
 <span class="p">{</span>
     <span class="n">none</span>   <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">alpha</span>  <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
