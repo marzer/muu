@@ -108,6 +108,7 @@
 			<PreprocessorDefinitions>%(PreprocessorDefinitions);_SCL_SECURE_NO_WARNINGS</PreprocessorDefinitions>
 			<PreprocessorDefinitions>%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
 			<PreprocessorDefinitions>%(PreprocessorDefinitions);_MSC_TOOLSET_VER=$(PlatformToolsetVersion)</PreprocessorDefinitions>
+			<PreprocessorDefinitions>%(PreprocessorDefinitions);_ITERATOR_DEBUG_LEVEL=0</PreprocessorDefinitions>
 			<PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
 		</ClCompile>
 		<Link>
@@ -150,7 +151,6 @@
 				/MP1
 				/cgthreads$([System.Math]::Min($([System.Environment]::ProcessorCount),8))
 			</AdditionalOptions>
-			<PreprocessorDefinitions>%(PreprocessorDefinitions);_ITERATOR_DEBUG_LEVEL=0</PreprocessorDefinitions>
 		</ClCompile>
 		<Link>
 			<EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -161,6 +161,9 @@
 
 	<!-- :: release -->
 	<ItemDefinitionGroup Condition="!$(Configuration.ToLower().Contains('debug'))">
+		<ClCompile>
+			<PreprocessorDefinitions>%(PreprocessorDefinitions);NDEBUG=1</PreprocessorDefinitions>
+		</ClCompile>
 		<Link>
 			<LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
 		</Link>
