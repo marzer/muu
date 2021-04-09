@@ -143,10 +143,10 @@ def main():
 		raise Exception(rf'git exited with error: {proc.stderr.strip()}')
 
 	# figure out what to call this release
-	match = re.search(r'^(?:v([0-9]+)[.]([0-9]+)[.]([0-9]+).*?-([0-9]+)-)?(?:[a-f0-9]+)(-dirty)?$', git_commit_description, re.S)
+	match = re.search(r'^(?:v?([0-9]+)[.]([0-9]+)[.]([0-9]+)-)?(?:([0-9]+)-)?(?:[a-z0-9]+)(-dirty)?$', git_commit_description, re.S)
 	if match is None:
 		raise Exception("could not parse git commit description")
-	tag_version = ((int(match[1]) if match[1] else 0), (int(match[2]) if match[2] else 0), (int(match[2]) if match[2] else 0))
+	tag_version = ((int(match[1]) if match[1] else 0), (int(match[2]) if match[2] else 0), (int(match[3]) if match[3] else 0))
 	tag_version_value = tag_version[0] * 10000 + tag_version[1] * 100 + tag_version[2]
 	tag_version = rf'{tag_version[0]}.{tag_version[1]}.{tag_version[2]}'
 	commits_ahead = int(match[4]) if match[4] else 0
