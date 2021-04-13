@@ -138,7 +138,6 @@
     <None Include="README.md" />
     <None Include="src\meson.build" />
     <None Include="tools\build_libs_msvc.bat" />
-    <None Include="tools\generate_documentation.py" />
     <None Include="tools\generate_float_tests_header.py" />
     <None Include="tools\generate_unicode_functions.py" />
     <None Include="tools\generate_windows_targets.py" />

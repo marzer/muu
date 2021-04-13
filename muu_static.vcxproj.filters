@@ -164,9 +164,6 @@
     </None>
     <None Include="muu.props" />
     <None Include="cpp.hint" />
-    <None Include="tools\generate_documentation.py">
-      <Filter>tools</Filter>
-    </None>
     <None Include="tools\generate_float_tests_header.py">
       <Filter>tools</Filter>
     </None>
@@ -181,6 +178,12 @@
     </None>
     <None Include="docs\dox.toml">
       <Filter>docs</Filter>
+    </None>
+    <None Include="tools\make_release.py">
+      <Filter>tools</Filter>
+    </None>
+    <None Include="tools\build_libs_msvc.bat">
+      <Filter>tools</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

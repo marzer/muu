@@ -4,9 +4,9 @@
 # See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 # SPDX-License-Identifier: MIT
 
+import utils
 import sys
 import os
-import utils
 import re
 import itertools
 import shutil

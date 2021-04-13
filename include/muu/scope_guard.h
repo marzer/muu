@@ -277,7 +277,7 @@ namespace muu
 	/// void* get_initialized_buffer()
 	/// {
 	///		void* buffer = acquire(1024);
-	///		scope_fail err{ [=]() noexcept { release(buffer); }};
+	///		muu::scope_fail err{ [=]() noexcept { release(buffer); }};
 	///		//
 	///		// ...a bunch of initialization code that might throw...
 	///		//

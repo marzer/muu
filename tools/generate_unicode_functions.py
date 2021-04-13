@@ -6,8 +6,8 @@
 
 # conversions between character types of the same size: https://godbolt.org/z/KeddME
 
-import sys
 import utils
+import sys
 import re
 import math
 import bisect
@@ -1271,7 +1271,7 @@ def get_code_points_in_categories(*categories):
 	categories = [c.strip() for c in categories]
 	categories.sort()
 	categories = tuple(categories)
-	h = utils.multi_sha256(*categories)
+	h = utils.sha256(*categories)
 	code_points = get_code_point_range(h)
 	if code_points is None:
 		code_points = SparseRange()
@@ -1288,7 +1288,7 @@ def get_code_points_with_properties(*properties):
 	properties = [p.strip() for p in properties]
 	properties.sort()
 	properties = tuple(properties)
-	h = utils.multi_sha256(*properties)
+	h = utils.sha256(*properties)
 	code_points = get_code_point_range(h)
 	if code_points is None:
 		code_points = SparseRange()
@@ -1463,9 +1463,9 @@ def write_identification_function(files, code_unit, name, description, categorie
 
 
 	# get relevant code points and their inverse
-	code_points_hash = utils.multi_sha256(code_unit.bits, min_value, max_value, categories, value_ranges, properties)
+	code_points_hash = utils.sha256(code_unit.bits, min_value, max_value, categories, value_ranges, properties)
 	code_points = get_code_point_range(code_points_hash)
-	inverse_code_points_hash = utils.multi_sha256(code_points_hash, -1)
+	inverse_code_points_hash = utils.sha256(code_points_hash, -1)
 	inverse_code_points = get_code_point_range(inverse_code_points_hash)
 	assert code_points_hash != inverse_code_points_hash
 	if code_points is None:

@@ -138,10 +138,11 @@
     <None Include="meson.build" />
     <None Include="README.md" />
     <None Include="src\meson.build" />
-    <None Include="tools\generate_documentation.py" />
+    <None Include="tools\build_libs_msvc.bat" />
     <None Include="tools\generate_float_tests_header.py" />
     <None Include="tools\generate_unicode_functions.py" />
     <None Include="tools\generate_windows_targets.py" />
+    <None Include="tools\make_release.py" />
     <None Include="tools\utils.py" />
     <None Include=".runsettings" />
     <None Include="muu.props" />

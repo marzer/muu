@@ -4,12 +4,13 @@
 # See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 # SPDX-License-Identifier: MIT
 
-import sys
 import utils
+import sys
 import math
 import random
 import decimal
 from pathlib import Path
+
 
 
 __debugging = False
@@ -17,6 +18,7 @@ def dprint(*args):
 	global __debugging
 	if __debugging:
 		print(*args)
+
 
 
 __pi_multiples = dict()
@@ -151,7 +153,7 @@ def try_quantize(d, exp, rounding=None):
 
 def int_literal(val, bits, always_hex = False):
 	if not utils.is_pow2(bits):
-		bits = utils.next_power_of_2(bits)
+		bits = utils.next_pow2(bits)
 	if bits > 64:
 		vals = []
 		for _ in range(0, int(bits / 64)):
@@ -234,7 +236,7 @@ class FloatTraits(object):
 		else:
 			elem_bits = self.total_bits
 			if not utils.is_pow2(elem_bits):
-				elem_bits = utils.next_power_of_2(elem_bits) >> 1
+				elem_bits = utils.next_pow2(elem_bits) >> 1
 			while (self.total_bits % elem_bits) != 0 or elem_bits > 64:
 				elem_bits = elem_bits >> 1
 			elems = []
