@@ -7,13 +7,14 @@
   <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <meta content="#22272e" name="theme-color"/>
+  
   <meta content="gbtcNgKlNiPSMKkYMw4zWFVWGPH_oU93m9n_-nb4qK8" name="google-site-verification"/>
-  <meta content="Miscellaneous
-  useful
+
+  <meta content="Useful
   utilities
   for
   modern
-  C++." name="description"/>
+  C++" name="description"/>
 
   <link href="dox.css" rel="stylesheet"/>
 </head>
@@ -21,7 +22,7 @@
 <header><nav id="navigation">
   <div class="m-container">
     <div class="m-row">
-      <a class="m-col-t-8 m-col-m-none m-left-m" href="index.html" id="m-navbar-brand"><img alt="" src="logo.png"/>muu <span class="m-thin">Useful utilities for modern C++</span></a>
+      <a class="m-col-t-8 m-col-m-none m-left-m" href="index.html" id="m-navbar-brand">muu <span class="m-thin">Useful utilities for modern C++</span></a>
       <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
         <a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
           <path d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z" id="m-doc-search-icon-path"></path>
@@ -34,9 +35,9 @@
           <ol class="m-col-t-6 m-col-m-none">
             <li><a href="files.html">Files</a></li>
             <li><a href="modules.html">Modules</a></li>
-          </ol>
-          <ol class="m-col-t-6 m-col-m-none" start="3">
             <li><a href="namespaces.html">Namespaces</a></li>
+          </ol>
+          <ol class="m-col-t-6 m-col-m-none" start="4">
             <li><a href="annotated.html">Classes</a></li>
             <li><a class="github dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
             <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
@@ -73,7 +74,7 @@
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="#ga3cac44d2af43c4fd98e835ff5b28988a">remove_cvref</a> = <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/remove_cv" target="_blank">std::remove_cv_t</a>&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;
+              using <a class="m-doc" href="#ga3cac44d2af43c4fd98e835ff5b28988a">remove_cvref</a> = <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/remove_cv.html" target="_blank">std::<wbr/>remove_cv_t</a>&lt;<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;
             </dt>
             <dd>Removes the topmost const, volatile and reference qualifiers from a type.</dd>
             <dt>
@@ -103,22 +104,22 @@
             <dd>The type with the smallest alignment (i.e. having the smallest value for <code>alignment_of&lt;T&gt;</code>) from a set of types.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="#ga6c121fbd44449d05f6a34f26d51d923f">add_const</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/add_cv" target="_blank">std::add_const_t</a>&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
+              using <a class="m-doc" href="#ga6c121fbd44449d05f6a34f26d51d923f">add_const</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/add_cv.html" target="_blank">std::<wbr/>add_const_t</a>&lt;<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
             </dt>
             <dd>Adds a const qualifier to a type or reference.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="#ga6d7666d41f4b1baa5e5b030e85d145c1">remove_const</a> = typename impl::rebase_ref_&lt;T, std::remove_const_t&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
+              using <a class="m-doc" href="#ga6d7666d41f4b1baa5e5b030e85d145c1">remove_const</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/remove_cv.html" target="_blank">std::<wbr/>remove_const_t</a>&lt;<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
             </dt>
             <dd>Removes the topmost const qualifier from a type or reference.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, bool Const&gt;</div>
-              using <a class="m-doc" href="#ga70ea61c88a2156d5ca0576b338692597">set_const</a> = <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;Const, add_const&lt;T&gt;, remove_const&lt;T&gt;&gt;
+              using <a class="m-doc" href="#ga70ea61c88a2156d5ca0576b338692597">set_const</a> = <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;Const, add_const&lt;T&gt;, remove_const&lt;T&gt;&gt;
             </dt>
             <dd>Sets the constness of a type or reference according to a boolean.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, bool AddConst&gt;</div>
-              using <a class="m-doc" href="#ga23ee95c345637ff50a6cc88c4fb0d031">conditionally_add_const</a> = <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;AddConst, add_const&lt;T&gt;, T&gt;
+              using <a class="m-doc" href="#ga23ee95c345637ff50a6cc88c4fb0d031">conditionally_add_const</a> = <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;AddConst, add_const&lt;T&gt;, T&gt;
             </dt>
             <dd>Shorthand for conditionally adding const to a type or reference.</dd>
             <dt>
@@ -128,22 +129,22 @@
             <dd>Shorthand for marking a type or reference with the same constness as another type or reference.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="#gaf658a920120d44cf78a83198479de23c">add_volatile</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/add_cv" target="_blank">std::add_volatile_t</a>&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
+              using <a class="m-doc" href="#gaf658a920120d44cf78a83198479de23c">add_volatile</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/add_cv.html" target="_blank">std::<wbr/>add_volatile_t</a>&lt;<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
             </dt>
             <dd>Adds a volatile qualifier to a type or reference.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="#gabb6c34cb7b210e52a6d0d9e53234696b">remove_volatile</a> = typename impl::rebase_ref_&lt;T, std::remove_volatile_t&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
+              using <a class="m-doc" href="#gabb6c34cb7b210e52a6d0d9e53234696b">remove_volatile</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/remove_cv.html" target="_blank">std::<wbr/>remove_volatile_t</a>&lt;<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
             </dt>
             <dd>Removes the topmost volatile qualifier from a type or reference.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, bool Volatile&gt;</div>
-              using <a class="m-doc" href="#ga3216c56b6dfa3cd6045818d2f8e09612">set_volatile</a> = <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;Volatile, add_volatile&lt;T&gt;, remove_volatile&lt;T&gt;&gt;
+              using <a class="m-doc" href="#ga3216c56b6dfa3cd6045818d2f8e09612">set_volatile</a> = <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;Volatile, add_volatile&lt;T&gt;, remove_volatile&lt;T&gt;&gt;
             </dt>
             <dd>Sets the volatility of a type or reference according to a boolean.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, bool AddVolatile&gt;</div>
-              using <a class="m-doc" href="#ga5387101d09160941cca73a48954eb7af">conditionally_add_volatile</a> = <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;AddVolatile, add_volatile&lt;T&gt;, T&gt;
+              using <a class="m-doc" href="#ga5387101d09160941cca73a48954eb7af">conditionally_add_volatile</a> = <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;AddVolatile, add_volatile&lt;T&gt;, T&gt;
             </dt>
             <dd>Shorthand for conditionally adding volatile to a type or reference.</dd>
             <dt>
@@ -153,22 +154,22 @@
             <dd>Shorthand for marking a type or reference with the same volatility as another type or reference.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="#ga946998d98f22705d1e955cc213187310">add_cv</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/add_cv" target="_blank">std::add_volatile_t</a>&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/add_cv" target="_blank">std::add_const_t</a>&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;&gt;&gt;::type
+              using <a class="m-doc" href="#ga946998d98f22705d1e955cc213187310">add_cv</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/add_cv.html" target="_blank">std::<wbr/>add_volatile_t</a>&lt;<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/add_cv.html" target="_blank">std::<wbr/>add_const_t</a>&lt;<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;&gt;&gt;::type
             </dt>
             <dd>Adds const and volatile qualifiers to a type or reference.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="#ga3d3fbe6cee41ab6b225058f8d29a17d4">remove_cv</a> = typename impl::rebase_ref_&lt;T, std::remove_volatile_t&lt;std::remove_const_t&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;&gt;&gt;::type
+              using <a class="m-doc" href="#ga3d3fbe6cee41ab6b225058f8d29a17d4">remove_cv</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/remove_cv.html" target="_blank">std::<wbr/>remove_volatile_t</a>&lt;<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/remove_cv.html" target="_blank">std::<wbr/>remove_const_t</a>&lt;<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;&gt;&gt;::type
             </dt>
             <dd>Removes the topmost const and volatile qualifiers from a type or reference.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, bool ConstVolatile&gt;</div>
-              using <a class="m-doc" href="#ga75174a7728c44e0ef2c5c573910945d7">set_cv</a> = <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;ConstVolatile, add_cv&lt;T&gt;, remove_cv&lt;T&gt;&gt;
+              using <a class="m-doc" href="#ga75174a7728c44e0ef2c5c573910945d7">set_cv</a> = <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;ConstVolatile, add_cv&lt;T&gt;, remove_cv&lt;T&gt;&gt;
             </dt>
             <dd>Sets the constness and volatility of a type or reference according to a boolean.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, bool AddConstVolatile&gt;</div>
-              using <a class="m-doc" href="#gaccbf5f71e9b673c2f490c0c0406042ac">conditionally_add_cv</a> = <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;AddConstVolatile, add_cv&lt;T&gt;, T&gt;
+              using <a class="m-doc" href="#gaccbf5f71e9b673c2f490c0c0406042ac">conditionally_add_cv</a> = <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;AddConstVolatile, add_cv&lt;T&gt;, T&gt;
             </dt>
             <dd>Shorthand for conditionally adding const and volatile qualifiers to a type or reference.</dd>
             <dt>
@@ -198,12 +199,12 @@
             <dd>Converts a numeric type to the unsigned equivalent with the same rank.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, bool Signed&gt;</div>
-              using <a class="m-doc" href="#gafed1fc9809926331d0cdfb6ea3c1cb7c">set_signed</a> = <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;Signed, make_signed&lt;T&gt;, make_unsigned&lt;T&gt;&gt;
+              using <a class="m-doc" href="#gafed1fc9809926331d0cdfb6ea3c1cb7c">set_signed</a> = <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;Signed, make_signed&lt;T&gt;, make_unsigned&lt;T&gt;&gt;
             </dt>
             <dd>Sets the signed-ness of a numeric type or reference according to a boolean.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, bool Unsigned&gt;</div>
-              using <a class="m-doc" href="#ga53618440cb88b6a660781cd80eff06cb">set_unsigned</a> = <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;Unsigned, make_unsigned&lt;T&gt;, make_signed&lt;T&gt;&gt;
+              using <a class="m-doc" href="#ga53618440cb88b6a660781cd80eff06cb">set_unsigned</a> = <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;Unsigned, make_unsigned&lt;T&gt;, make_signed&lt;T&gt;&gt;
             </dt>
             <dd>Sets the unsigned-ness of a numeric type or reference according to a boolean.</dd>
             <dt>
@@ -541,7 +542,7 @@
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div> <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#gabe21403c5219a3959df510427b829038">tuple_size</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Equivalent to <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size_v</a>, but safe to use in SFINAE contexts.</dd>
+            <dd>Equivalent to <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/utility/tuple/tuple_size.html" target="_blank">std::<wbr/>tuple_size_v</a>, but safe to use in SFINAE contexts.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
               epsilon_type&lt;T...&gt; <a class="m-doc" href="#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_epsilon</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -562,10 +563,10 @@
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              using <a class="m-doc-self" href="#ga3cac44d2af43c4fd98e835ff5b28988a">remove_cvref</a> = <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/remove_cv" target="_blank">std::remove_cv_t</a>&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;
+              using <a class="m-doc-self" href="#ga3cac44d2af43c4fd98e835ff5b28988a">remove_cvref</a> = <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/remove_cv.html" target="_blank">std::<wbr/>remove_cv_t</a>&lt;<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;
             </h3>
             <p>Removes the topmost const, volatile and reference qualifiers from a type.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's std::remove_cvref_t.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/remove_cvref.html" target="_blank">std::<wbr/>remove_cvref_t</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga4f0f94bba132e44d22663319f05d2ea8"><div>
             <h3>
@@ -576,7 +577,7 @@
               using <a class="m-doc-self" href="#ga4f0f94bba132e44d22663319f05d2ea8">remove_enum</a> = typename impl::remove_enum_&lt;T&gt;::type
             </h3>
             <p>Removes the outer enum wrapper from a type, converting it to the underlying integer equivalent.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is similar to <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/underlying_type" target="_blank">std::underlying_type_t</a> but preserves cv qualifiers and ref categories, as well as being safe to use in SFINAE contexts (non-enum types are simply returned as-is).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is similar to <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/underlying_type.html" target="_blank">std::<wbr/>underlying_type_t</a> but preserves cv qualifiers and ref categories, as well as being safe to use in SFINAE contexts (non-enum types are simply returned as-is).</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga7c930af45d2e06539c2a3dfcc908a854"><div>
             <h3>
@@ -626,7 +627,7 @@
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              using <a class="m-doc-self" href="#ga6c121fbd44449d05f6a34f26d51d923f">add_const</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/add_cv" target="_blank">std::add_const_t</a>&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
+              using <a class="m-doc-self" href="#ga6c121fbd44449d05f6a34f26d51d923f">add_const</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/add_cv.html" target="_blank">std::<wbr/>add_const_t</a>&lt;<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
             </h3>
             <p>Adds a const qualifier to a type or reference.</p>
           </div></section>
@@ -636,7 +637,7 @@
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              using <a class="m-doc-self" href="#ga6d7666d41f4b1baa5e5b030e85d145c1">remove_const</a> = typename impl::rebase_ref_&lt;T, std::remove_const_t&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
+              using <a class="m-doc-self" href="#ga6d7666d41f4b1baa5e5b030e85d145c1">remove_const</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/remove_cv.html" target="_blank">std::<wbr/>remove_const_t</a>&lt;<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
             </h3>
             <p>Removes the topmost const qualifier from a type or reference.</p>
           </div></section>
@@ -646,7 +647,7 @@
               <div class="m-doc-template">
                 template&lt;typename T, bool Const&gt;
               </div>
-              using <a class="m-doc-self" href="#ga70ea61c88a2156d5ca0576b338692597">set_const</a> = <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;Const, add_const&lt;T&gt;, remove_const&lt;T&gt;&gt;
+              using <a class="m-doc-self" href="#ga70ea61c88a2156d5ca0576b338692597">set_const</a> = <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;Const, add_const&lt;T&gt;, remove_const&lt;T&gt;&gt;
             </h3>
             <p>Sets the constness of a type or reference according to a boolean.</p>
           </div></section>
@@ -656,7 +657,7 @@
               <div class="m-doc-template">
                 template&lt;typename T, bool AddConst&gt;
               </div>
-              using <a class="m-doc-self" href="#ga23ee95c345637ff50a6cc88c4fb0d031">conditionally_add_const</a> = <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;AddConst, add_const&lt;T&gt;, T&gt;
+              using <a class="m-doc-self" href="#ga23ee95c345637ff50a6cc88c4fb0d031">conditionally_add_const</a> = <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;AddConst, add_const&lt;T&gt;, T&gt;
             </h3>
             <p>Shorthand for conditionally adding const to a type or reference.</p>
           </div></section>
@@ -676,7 +677,7 @@
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              using <a class="m-doc-self" href="#gaf658a920120d44cf78a83198479de23c">add_volatile</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/add_cv" target="_blank">std::add_volatile_t</a>&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
+              using <a class="m-doc-self" href="#gaf658a920120d44cf78a83198479de23c">add_volatile</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/add_cv.html" target="_blank">std::<wbr/>add_volatile_t</a>&lt;<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
             </h3>
             <p>Adds a volatile qualifier to a type or reference.</p>
           </div></section>
@@ -686,7 +687,7 @@
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              using <a class="m-doc-self" href="#gabb6c34cb7b210e52a6d0d9e53234696b">remove_volatile</a> = typename impl::rebase_ref_&lt;T, std::remove_volatile_t&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
+              using <a class="m-doc-self" href="#gabb6c34cb7b210e52a6d0d9e53234696b">remove_volatile</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/remove_cv.html" target="_blank">std::<wbr/>remove_volatile_t</a>&lt;<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
             </h3>
             <p>Removes the topmost volatile qualifier from a type or reference.</p>
           </div></section>
@@ -696,7 +697,7 @@
               <div class="m-doc-template">
                 template&lt;typename T, bool Volatile&gt;
               </div>
-              using <a class="m-doc-self" href="#ga3216c56b6dfa3cd6045818d2f8e09612">set_volatile</a> = <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;Volatile, add_volatile&lt;T&gt;, remove_volatile&lt;T&gt;&gt;
+              using <a class="m-doc-self" href="#ga3216c56b6dfa3cd6045818d2f8e09612">set_volatile</a> = <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;Volatile, add_volatile&lt;T&gt;, remove_volatile&lt;T&gt;&gt;
             </h3>
             <p>Sets the volatility of a type or reference according to a boolean.</p>
           </div></section>
@@ -706,7 +707,7 @@
               <div class="m-doc-template">
                 template&lt;typename T, bool AddVolatile&gt;
               </div>
-              using <a class="m-doc-self" href="#ga5387101d09160941cca73a48954eb7af">conditionally_add_volatile</a> = <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;AddVolatile, add_volatile&lt;T&gt;, T&gt;
+              using <a class="m-doc-self" href="#ga5387101d09160941cca73a48954eb7af">conditionally_add_volatile</a> = <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;AddVolatile, add_volatile&lt;T&gt;, T&gt;
             </h3>
             <p>Shorthand for conditionally adding volatile to a type or reference.</p>
           </div></section>
@@ -726,7 +727,7 @@
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              using <a class="m-doc-self" href="#ga946998d98f22705d1e955cc213187310">add_cv</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/add_cv" target="_blank">std::add_volatile_t</a>&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/add_cv" target="_blank">std::add_const_t</a>&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;&gt;&gt;::type
+              using <a class="m-doc-self" href="#ga946998d98f22705d1e955cc213187310">add_cv</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/add_cv.html" target="_blank">std::<wbr/>add_volatile_t</a>&lt;<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/add_cv.html" target="_blank">std::<wbr/>add_const_t</a>&lt;<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;&gt;&gt;::type
             </h3>
             <p>Adds const and volatile qualifiers to a type or reference.</p>
           </div></section>
@@ -736,7 +737,7 @@
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              using <a class="m-doc-self" href="#ga3d3fbe6cee41ab6b225058f8d29a17d4">remove_cv</a> = typename impl::rebase_ref_&lt;T, std::remove_volatile_t&lt;std::remove_const_t&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/remove_reference" target="_blank">std::remove_reference_t</a>&lt;T&gt;&gt;&gt;&gt;::type
+              using <a class="m-doc-self" href="#ga3d3fbe6cee41ab6b225058f8d29a17d4">remove_cv</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/remove_cv.html" target="_blank">std::<wbr/>remove_volatile_t</a>&lt;<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/remove_cv.html" target="_blank">std::<wbr/>remove_const_t</a>&lt;<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;&gt;&gt;::type
             </h3>
             <p>Removes the topmost const and volatile qualifiers from a type or reference.</p>
           </div></section>
@@ -746,7 +747,7 @@
               <div class="m-doc-template">
                 template&lt;typename T, bool ConstVolatile&gt;
               </div>
-              using <a class="m-doc-self" href="#ga75174a7728c44e0ef2c5c573910945d7">set_cv</a> = <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;ConstVolatile, add_cv&lt;T&gt;, remove_cv&lt;T&gt;&gt;
+              using <a class="m-doc-self" href="#ga75174a7728c44e0ef2c5c573910945d7">set_cv</a> = <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;ConstVolatile, add_cv&lt;T&gt;, remove_cv&lt;T&gt;&gt;
             </h3>
             <p>Sets the constness and volatility of a type or reference according to a boolean.</p>
           </div></section>
@@ -756,7 +757,7 @@
               <div class="m-doc-template">
                 template&lt;typename T, bool AddConstVolatile&gt;
               </div>
-              using <a class="m-doc-self" href="#gaccbf5f71e9b673c2f490c0c0406042ac">conditionally_add_cv</a> = <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;AddConstVolatile, add_cv&lt;T&gt;, T&gt;
+              using <a class="m-doc-self" href="#gaccbf5f71e9b673c2f490c0c0406042ac">conditionally_add_cv</a> = <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;AddConstVolatile, add_cv&lt;T&gt;, T&gt;
             </h3>
             <p>Shorthand for conditionally adding const and volatile qualifiers to a type or reference.</p>
           </div></section>
@@ -818,7 +819,7 @@
               <div class="m-doc-template">
                 template&lt;typename T, bool Signed&gt;
               </div>
-              using <a class="m-doc-self" href="#gafed1fc9809926331d0cdfb6ea3c1cb7c">set_signed</a> = <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;Signed, make_signed&lt;T&gt;, make_unsigned&lt;T&gt;&gt;
+              using <a class="m-doc-self" href="#gafed1fc9809926331d0cdfb6ea3c1cb7c">set_signed</a> = <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;Signed, make_signed&lt;T&gt;, make_unsigned&lt;T&gt;&gt;
             </h3>
             <p>Sets the signed-ness of a numeric type or reference according to a boolean.</p>
           </div></section>
@@ -828,7 +829,7 @@
               <div class="m-doc-template">
                 template&lt;typename T, bool Unsigned&gt;
               </div>
-              using <a class="m-doc-self" href="#ga53618440cb88b6a660781cd80eff06cb">set_unsigned</a> = <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/conditional" target="_blank">std::conditional_t</a>&lt;Unsigned, make_unsigned&lt;T&gt;, make_signed&lt;T&gt;&gt;
+              using <a class="m-doc-self" href="#ga53618440cb88b6a660781cd80eff06cb">set_unsigned</a> = <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;Unsigned, make_unsigned&lt;T&gt;, make_signed&lt;T&gt;&gt;
             </h3>
             <p>Sets the unsigned-ness of a numeric type or reference according to a boolean.</p>
           </div></section>
@@ -841,7 +842,7 @@
               using <a class="m-doc-self" href="#ga8b8f215acad0e9f3d7aa52326155f030">type_identity</a> = typename impl::type_identity_&lt;T&gt;::type
             </h3>
             <p>Provides an identity type transformation.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/type_identity" target="_blank">std::type_identity_t</a>.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/type_identity.html" target="_blank">std::<wbr/>type_identity_t</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga47a90ed3608cf7b0bf562f4ad208cd21"><div>
             <h3>
@@ -912,7 +913,7 @@
               bool <a class="m-doc-self" href="#ga526c58b5a438ba0c7746e465389e013d">is_same_as_any</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>True if T is exactly the same as one or more of the types named by U.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This equivalent to <code>(<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U1&gt; || <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U2&gt; || ...)</code>.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This equivalent to <code>(<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/is_same.html" target="_blank">std::<wbr/>is_same_v</a>&lt;T, U1&gt; || <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/is_same.html" target="_blank">std::<wbr/>is_same_v</a>&lt;T, U2&gt; || ...)</code>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga9c2b21ea2cf57533a5dcf264d0e906e8"><div>
             <h3>
@@ -923,7 +924,7 @@
               bool <a class="m-doc-self" href="#ga9c2b21ea2cf57533a5dcf264d0e906e8">all_same</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>True if all the types named by T and U are exactly the same.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This equivalent to <code>(<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U1&gt; &amp;&amp; <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U2&gt; &amp;&amp; ...)</code>.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This equivalent to <code>(<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/is_same.html" target="_blank">std::<wbr/>is_same_v</a>&lt;T, U1&gt; &amp;&amp; <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/is_same.html" target="_blank">std::<wbr/>is_same_v</a>&lt;T, U2&gt; &amp;&amp; ...)</code>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga05ccb72a3320555db5a5115cd85d6691"><div>
             <h3>
@@ -1440,7 +1441,7 @@
               bool <a class="m-doc-self" href="#gad99449272de65874d3b7569d9eb9e805">inherits_from</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Does Child inherit from Parent?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This does not return true when the objects are the same type, unlike <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/is_base_of" target="_blank">std::is_base_of</a>.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This does not return true when the objects are the same type, unlike <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/is_base_of.html" target="_blank">std::<wbr/>is_base_of</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="gaa4c92e65e153e9a6c9ac01ba3bd653e5"><div>
             <h3>
@@ -1524,7 +1525,7 @@
                 template&lt;typename T&gt;
               </div> <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#gabe21403c5219a3959df510427b829038">tuple_size</a> <span class="m-label m-primary">constexpr</span>
             </h3>
-            <p>Equivalent to <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size_v</a>, but safe to use in SFINAE contexts.</p>
+            <p>Equivalent to <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/utility/tuple/tuple_size.html" target="_blank">std::<wbr/>tuple_size_v</a>, but safe to use in SFINAE contexts.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>Returns 0 for types that do not implement <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga1d7ffe385c4b8f4558d170f50f5eb79a"><div>
@@ -1623,12 +1624,17 @@
   <div class="m-container">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <a class="dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
-•
+        
+<a class="dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
 
+•
 <a class="dox-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
 an
 issue</a>
+
+•
+<a href="muu.tagfile.xml" target="_blank">Doxygen
+tagfile</a>
 
 <br/><br/>
 
