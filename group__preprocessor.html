@@ -969,7 +969,7 @@
             </h3>
             <p>The same linkage semantics as the <code>inline</code> keyword, with an additional hint to the optimizer that you'd really, <em>really</em> like a function inlined.</p>
 <pre class="m-code"><span class="m">MUU_ALWAYS_INLINE</span>
-<span class="k">void</span> <span class="nf">always_inline_me</span><span class="p">()</span> <span class="k">noexcept</span>
+<span class="k">void</span> <span class="n">always_inline_me</span><span class="p">()</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="c1">// ...</span>
 <span class="p">}</span></pre>
@@ -981,7 +981,7 @@
             </h3>
             <p>A strong hint to the optimizer that you really, <em>really</em> do not want a function inlined.</p>
 <pre class="m-code"><span class="m">MUU_NEVER_INLINE</span>
-<span class="k">int</span> <span class="nf">never_inline_me</span><span class="p">()</span> <span class="k">noexcept</span>
+<span class="k">int</span> <span class="n">never_inline_me</span><span class="p">()</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="c1">// ...</span>
 <span class="p">}</span></pre>
@@ -992,7 +992,7 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Marks a simple type which might otherwise be considered non-trivial as being trivial over ABI boundaries.</p>
-<p>This is useful for simple wrappers and 'strong typedef' types, e.g.:</p><pre class="m-code"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<p>This is useful for simple wrappers and 'strong typedef' types, e.g.:</p><pre class="m-code"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="o">&gt;</span>
 <span class="k">struct</span> <span class="m">MUU_TRIVIAL_ABI</span> <span class="ut">strong_typedef</span>
 <span class="p">{</span>
     <span class="n">T</span> <span class="n">value</span><span class="p">;</span>
@@ -1040,7 +1040,7 @@
 <p>This is useful for RAII helper types like locks:</p><pre class="m-code"><span class="k">class</span> <span class="nc">raii_lock</span>
 <span class="p">{</span>
     <span class="m">MUU_NODISCARD_CTOR</span>
-    <span class="n">raii_lock</span><span class="p">()</span> <span class="k">noexcept</span>
+    <span class="nf">raii_lock</span><span class="p">()</span> <span class="k">noexcept</span>
     <span class="p">{</span>
         <span class="n">super_special_global_lock</span><span class="p">();</span>
     <span class="p">}</span>
@@ -1324,7 +1324,7 @@ an
 issue</a>
 
 •
-<a href="muu.tagfile.xml" target="_blank">Doxygen
+<a download="" href="muu.tagfile.xml" target="_blank" type="text/xml">Doxygen
 tagfile</a>
 
 <br/><br/>

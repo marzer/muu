@@ -965,7 +965,7 @@
               </tfoot>
             </table>
 <pre class="m-code"><span class="k">const</span> <span class="k">auto</span> <span class="n">val1</span> <span class="o">=</span> <span class="n">bit_fill_right</span><span class="o">&lt;</span><span class="ut"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a></span><span class="o">&gt;</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
-<span class="k">const</span> <span class="k">auto</span> <span class="n">val2</span> <span class="o">=</span> <span class="mi">0</span><span class="n">b00000000000000000000000000011111u</span><span class="p">;</span>
+<span class="k">const</span> <span class="k">auto</span> <span class="n">val2</span> <span class="o">=</span> <span class="mb">0b00000000000000000000000000011111u</span><span class="p">;</span>
 <span class="m">assert</span><span class="p">(</span><span class="n">val1</span> <span class="o">==</span> <span class="n">val2</span><span class="p">);</span></pre>
           </div></section>
           <section class="m-doc-details" id="gaf41f6cc12b0e9ac1de1bdf63e2a28fdf"><div>
@@ -1004,7 +1004,7 @@
               </tfoot>
             </table>
 <pre class="m-code"><span class="k">const</span> <span class="k">auto</span> <span class="n">val1</span> <span class="o">=</span> <span class="n">bit_fill_left</span><span class="o">&lt;</span><span class="ut"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a></span><span class="o">&gt;</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
-<span class="k">const</span> <span class="k">auto</span> <span class="n">val2</span> <span class="o">=</span> <span class="mi">0</span><span class="n">b11111000000000000000000000000000u</span><span class="p">;</span>
+<span class="k">const</span> <span class="k">auto</span> <span class="n">val2</span> <span class="o">=</span> <span class="mb">0b11111000000000000000000000000000u</span><span class="p">;</span>
 <span class="m">assert</span><span class="p">(</span><span class="n">val1</span> <span class="o">==</span> <span class="n">val2</span><span class="p">);</span></pre>
           </div></section>
           <section class="m-doc-details" id="gae644160cd7d978d95922af233afc5ddd"><div>
@@ -1057,7 +1057,7 @@
 <span class="go">1: CC</span>
 <span class="go">2: BB</span>
 <span class="go">3: AA</span>
-<span class="go">(on a little-endian system)</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>The indexation order of bytes is the <em>memory</em> order, not their numeric significance (i.e. byte 0 is always the first byte in the integer's memory allocation, regardless of the endianness of the platform).</p></aside>
+<span class="gp gp-VirtualEnv">(on a little-endian system)</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>The indexation order of bytes is the <em>memory</em> order, not their numeric significance (i.e. byte 0 is always the first byte in the integer's memory allocation, regardless of the endianness of the platform).</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga18d1da41b1d53329c0d0605596494010"><div>
             <h3>
@@ -1111,7 +1111,7 @@
 <span class="go">1: CC</span>
 <span class="go">2: BB</span>
 <span class="go">3: AA</span>
-<span class="go">(on a little-endian system)</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>The indexation order of bytes is the <em>memory</em> order, not their numeric significance (i.e. byte 0 is always the first byte in the integer's memory allocation, regardless of the endianness of the platform).</p></aside>
+<span class="gp gp-VirtualEnv">(on a little-endian system)</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>The indexation order of bytes is the <em>memory</em> order, not their numeric significance (i.e. byte 0 is always the first byte in the integer's memory allocation, regardless of the endianness of the platform).</p></aside>
           </div></section>
           <section class="m-doc-details" id="gab3e8f4f75d417dc6880311de6c9306e9"><div>
             <h3>
@@ -1201,7 +1201,7 @@
 <span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"&lt;3, 2, 3&gt;: "</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">setw</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">swizzle</span><span class="o">&lt;</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span></pre><pre class="m-console"><span class="go">      &lt;0&gt;: 000000DD</span>
 <span class="go">   &lt;1, 0&gt;: 0000CCDD</span>
 <span class="go">&lt;3, 2, 3&gt;: 00AABBAA</span>
-<span class="go">(on a little-endian system)</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>The indexation order of bytes is the <em>memory</em> order, not their numeric significance (i.e. byte 0 is always the first byte in the integer's memory allocation, regardless of the endianness of the platform).</p></aside>
+<span class="gp gp-VirtualEnv">(on a little-endian system)</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>The indexation order of bytes is the <em>memory</em> order, not their numeric significance (i.e. byte 0 is always the first byte in the integer's memory allocation, regardless of the endianness of the platform).</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga79246c66d2df39fe825be13e654d8c52"><div>
             <h3>
@@ -1321,7 +1321,7 @@ an
 issue</a>
 
 •
-<a href="muu.tagfile.xml" target="_blank">Doxygen
+<a download="" href="muu.tagfile.xml" target="_blank" type="text/xml">Doxygen
 tagfile</a>
 
 <br/><br/>
