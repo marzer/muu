@@ -71,16 +71,19 @@ namespace muu
 		template <>
 		struct infinity_or_nan_traits<80, 64>
 		{
-			static constexpr uint16_t mask[] = { 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x7FFF_u16 };
+			struct mask_type
+			{
+				uint16_t value[5];
+			};
+			static constexpr mask_type mask = { 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x7FFF_u16 };
 
-			template <typename T>
 			[[nodiscard]]
 			MUU_ATTR(pure)
 			MUU_ALWAYS_INLINE
-			static constexpr bool MUU_VECTORCALL check(const T& val) noexcept
+			static constexpr bool MUU_VECTORCALL check(const mask_type& mask_) noexcept
 			{
-				return (val[3] & mask[3]) == mask[3]
-					&& (val[4] & mask[4]) == mask[4];
+				return (mask_.value[3] & mask.value[3]) == mask.value[3]
+					&& (mask_.value[4] & mask.value[4]) == mask.value[4];
 			}
 		};
 
@@ -90,16 +93,20 @@ namespace muu
 			#if MUU_HAS_INT128
 			static constexpr uint128_t mask = pack(0x0000000000007FFF_u64, 0x8000000000000000_u64);
 			#else
-			static constexpr uint64_t mask[] = { 0x8000000000000000_u64, 0x0000000000007FFF_u64 };
+			struct mask_type
+			{
+				uint64_t value[2];
+			};
+			static constexpr mask_type mask = { 0x8000000000000000_u64, 0x0000000000007FFF_u64 };
+			
 
-			template <typename T>
 			[[nodiscard]]
 			MUU_ATTR(pure)
 			MUU_ALWAYS_INLINE
-			static constexpr bool MUU_VECTORCALL check(const T& val) noexcept
+			static constexpr bool MUU_VECTORCALL check(const mask_type& mask_) noexcept
 			{
-				return (val[0] & mask[0]) == mask[0]
-					&& (val[1] & mask[1]) == mask[1];
+				return (mask_.value[0] & mask.value[0]) == mask.value[0]
+					&& (mask_.value[1] & mask.value[1]) == mask.value[1];
 			}
 
 			#endif
@@ -111,15 +118,18 @@ namespace muu
 			#if MUU_HAS_INT128
 			static constexpr uint128_t mask = pack(0x7FFF000000000000_u64, 0x0000000000000000_u64);
 			#else
-			static constexpr uint64_t mask[] = { 0x0000000000000000_u64, 0x7FFF000000000000_u64 };
+			struct mask_type
+			{
+				uint64_t value[2];
+			};
+			static constexpr mask_type mask = { 0x0000000000000000_u64, 0x7FFF000000000000_u64 };
 
-			template <typename T>
 			[[nodiscard]]
 			MUU_ATTR(pure)
 			MUU_ALWAYS_INLINE
-			static constexpr bool MUU_VECTORCALL check(const T& val) noexcept
+			static constexpr bool MUU_VECTORCALL check(const mask_type& mask_) noexcept
 			{
-				return (val[1] & mask[1]) == mask[1];
+				return (mask_.value[1] & mask.value[1]) == mask.value[1];
 			}
 			#endif
 		};
@@ -136,21 +146,21 @@ namespace muu
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
 
-			// Q: "what about fpclassify, isnan, isinf??"
+			// Q:  "what about fpclassify, isnan, isinf??"
 			// A1: They're not constexpr
 			// A2: They don't work reliably with -ffast-math
 			// A3: https://godbolt.org/z/P9GGdK
 
 			using traits = infinity_or_nan_traits_typed<T>;
-			using blit_type = std::remove_const_t<decltype(traits::mask)>;
+			using mask_type = std::remove_const_t<decltype(traits::mask)>;
 
-			if constexpr (is_integral<blit_type>)
+			if constexpr (is_integral<mask_type>)
 			{
-				return (muu::bit_cast<blit_type>(val) & traits::mask) == traits::mask;
+				return (muu::bit_cast<mask_type>(val) & traits::mask) == traits::mask;
 			}
 			else
 			{
-				return traits::check(muu::bit_cast<blit_type>(val));
+				return traits::check(muu::bit_cast<mask_type>(val));
 			}
 
 		}
@@ -283,7 +293,9 @@ namespace muu
 	namespace build
 	{
 		/// \brief	True if using infinity_or_nan() in constexpr contexts is supported on this compiler.
-		inline constexpr bool supports_constexpr_infinity_or_nan = build::supports_constexpr_bit_cast;
+		inline constexpr bool supports_constexpr_infinity_or_nan = build::supports_constexpr_bit_cast
+			&& (!MUU_CLANG || MUU_CLANG != 12) // constexpr bit cast seems to be broken in clang 12
+		;
 	}
 
 	/// \addtogroup	math
@@ -818,7 +830,7 @@ namespace muu
 		template <typename T>
 		[[nodiscard]]
 		MUU_ATTR(const)
-		MUU_CONSTEVAL T consteval_sqrt(T x)
+		constexpr T consteval_sqrt(T x)
 		{
 			MUU_FMA_BLOCK;
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
@@ -958,17 +970,17 @@ namespace muu
 		template <typename T>
 		[[nodiscard]]
 		MUU_ATTR(const)
-		MUU_CONSTEVAL T consteval_sin(T);
+		constexpr T consteval_sin(T);
 
 		template <typename T>
 		[[nodiscard]]
 		MUU_ATTR(const)
-		MUU_CONSTEVAL T consteval_tan(T);
+		constexpr T consteval_tan(T);
 
 		template <typename T>
 		[[nodiscard]]
 		MUU_ATTR(const)
-		MUU_CONSTEVAL T consteval_cos(T x)
+		constexpr T consteval_cos(T x)
 		{
 			MUU_FMA_BLOCK;
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
@@ -1118,7 +1130,7 @@ namespace muu
 		template <typename T>
 		[[nodiscard]]
 		MUU_ATTR(const)
-		MUU_CONSTEVAL T consteval_sin(T x)
+		constexpr T consteval_sin(T x)
 		{
 			MUU_FMA_BLOCK;
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
@@ -1271,7 +1283,7 @@ namespace muu
 		template <typename T>
 		[[nodiscard]]
 		MUU_ATTR(const)
-		MUU_CONSTEVAL T consteval_tan(T x)
+		constexpr T consteval_tan(T x)
 		{
 			MUU_FMA_BLOCK;
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
@@ -1415,17 +1427,17 @@ namespace muu
 		template <typename T>
 		[[nodiscard]]
 		MUU_ATTR(const)
-		MUU_CONSTEVAL T consteval_asin(T);
+		constexpr T consteval_asin(T);
 
 		template <typename T>
 		[[nodiscard]]
 		MUU_ATTR(const)
-		MUU_CONSTEVAL T consteval_atan(T);
+		constexpr T consteval_atan(T);
 
 		template <typename T>
 		[[nodiscard]]
 		MUU_ATTR(const)
-		MUU_CONSTEVAL T consteval_acos(T x)
+		constexpr T consteval_acos(T x)
 		{
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
 			
@@ -1555,7 +1567,7 @@ namespace muu
 		template <typename T>
 		[[nodiscard]]
 		MUU_ATTR(const)
-		MUU_CONSTEVAL T consteval_asin(T x)
+		constexpr T consteval_asin(T x)
 		{
 			MUU_FMA_BLOCK;
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
@@ -1707,7 +1719,7 @@ namespace muu
 		template <typename T>
 		[[nodiscard]]
 		MUU_ATTR(const)
-		MUU_CONSTEVAL T consteval_atan(T x)
+		constexpr T consteval_atan(T x)
 		{
 			MUU_FMA_BLOCK;
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
@@ -1859,7 +1871,7 @@ namespace muu
 		template <typename T>
 		[[nodiscard]]
 		MUU_ATTR(const)
-		MUU_CONSTEVAL T consteval_atan2(T y, T x)
+		constexpr T consteval_atan2(T y, T x)
 		{
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
 

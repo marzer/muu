@@ -242,6 +242,27 @@ help me improve support for your target architecture. Thanks!
 		#define MUU_MACRO_DISPATCH_CLANG_GE_12(...)
 		#define MUU_MACRO_DISPATCH_CLANG_LT_12(...)	__VA_ARGS__
 	#endif
+	#if MUU_CLANG >= 13
+		#define MUU_MACRO_DISPATCH_CLANG_GE_13(...)	__VA_ARGS__
+		#define MUU_MACRO_DISPATCH_CLANG_LT_13(...)
+	#else
+		#define MUU_MACRO_DISPATCH_CLANG_GE_13(...)
+		#define MUU_MACRO_DISPATCH_CLANG_LT_13(...)	__VA_ARGS__
+	#endif
+	#if MUU_CLANG >= 14
+		#define MUU_MACRO_DISPATCH_CLANG_GE_14(...)	__VA_ARGS__
+		#define MUU_MACRO_DISPATCH_CLANG_LT_14(...)
+	#else
+		#define MUU_MACRO_DISPATCH_CLANG_GE_14(...)
+		#define MUU_MACRO_DISPATCH_CLANG_LT_14(...)	__VA_ARGS__
+	#endif
+	#if MUU_CLANG >= 15
+		#define MUU_MACRO_DISPATCH_CLANG_GE_15(...)	__VA_ARGS__
+		#define MUU_MACRO_DISPATCH_CLANG_LT_15(...)
+	#else
+		#define MUU_MACRO_DISPATCH_CLANG_GE_15(...)
+		#define MUU_MACRO_DISPATCH_CLANG_LT_15(...)	__VA_ARGS__
+	#endif
 
 	#define MUU_PRAGMA_CLANG(decl)			_Pragma(MUU_MAKE_STRING(clang decl))
 	#define MUU_PRAGMA_CLANG_GE(ver, decl)	MUU_CONCAT(MUU_MACRO_DISPATCH_CLANG_GE_, ver)(MUU_PRAGMA_CLANG(decl))
@@ -495,6 +516,27 @@ help me improve support for your target architecture. Thanks!
 	#else
 		#define MUU_MACRO_DISPATCH_GCC_GE_11(...)
 		#define MUU_MACRO_DISPATCH_GCC_LT_11(...)	__VA_ARGS__
+	#endif
+	#if MUU_GCC >= 12
+		#define MUU_MACRO_DISPATCH_GCC_GE_12(...)	__VA_ARGS__
+		#define MUU_MACRO_DISPATCH_GCC_LT_12(...)
+	#else
+		#define MUU_MACRO_DISPATCH_GCC_GE_12(...)
+		#define MUU_MACRO_DISPATCH_GCC_LT_12(...)	__VA_ARGS__
+	#endif
+	#if MUU_GCC >= 13
+		#define MUU_MACRO_DISPATCH_GCC_GE_13(...)	__VA_ARGS__
+		#define MUU_MACRO_DISPATCH_GCC_LT_13(...)
+	#else
+		#define MUU_MACRO_DISPATCH_GCC_GE_13(...)
+		#define MUU_MACRO_DISPATCH_GCC_LT_13(...)	__VA_ARGS__
+	#endif
+	#if MUU_GCC >= 14
+		#define MUU_MACRO_DISPATCH_GCC_GE_14(...)	__VA_ARGS__
+		#define MUU_MACRO_DISPATCH_GCC_LT_14(...)
+	#else
+		#define MUU_MACRO_DISPATCH_GCC_GE_14(...)
+		#define MUU_MACRO_DISPATCH_GCC_LT_14(...)	__VA_ARGS__
 	#endif
 
 	#define MUU_PRAGMA_GCC(decl)			_Pragma(MUU_MAKE_STRING(GCC decl))
@@ -897,14 +939,14 @@ help me improve support for your target architecture. Thanks!
 
 #define MUU_PUSH_PRECISE_MATH												\
 	MUU_PRAGMA_MSVC(float_control(precise, on, push))						\
-	MUU_PRAGMA_CLANG_GE(12, float_control(precise, on, push))				\
+	MUU_PRAGMA_CLANG_GE(13, float_control(precise, on, push))				\
 	MUU_PRAGMA_GCC(push_options)											\
 	MUU_PRAGMA_GCC(optimize("-fno-fast-math"))								\
 	static_assert(true)
 
 #define MUU_POP_PRECISE_MATH												\
 	MUU_PRAGMA_GCC(pop_options)												\
-	MUU_PRAGMA_CLANG_GE(12, float_control(pop))								\
+	MUU_PRAGMA_CLANG_GE(13, float_control(pop))								\
 	MUU_PRAGMA_MSVC(float_control(pop))										\
 	static_assert(true)
 

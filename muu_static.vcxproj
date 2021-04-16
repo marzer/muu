@@ -123,6 +123,7 @@
     <ClInclude Include="src\stream_printer.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".circleci\config.yml" />
     <None Include=".editorconfig" />
     <None Include=".gitattributes" />
     <None Include=".gitignore" />

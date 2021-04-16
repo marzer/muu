@@ -14,4 +14,4 @@ MUU_DISABLE_SPAM_WARNINGS;
 
 MUU_PRAGMA_GCC(push_options)
 
-MUU_PRAGMA_CLANG_GE(12, float_control(push))
+MUU_PRAGMA_CLANG_GE(13, float_control(push))

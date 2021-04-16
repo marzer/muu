@@ -2634,16 +2634,21 @@ namespace muu
 		MUU_ALWAYS_INLINE
 		constexpr To bit_cast_fallback(const From& from) noexcept
 		{
-			static_assert(!std::is_reference_v<To> && !std::is_reference_v<From>);
+			static_assert(!std::is_reference_v<From> && !std::is_reference_v<To>);
 			static_assert(std::is_trivially_copyable_v<From> && std::is_trivially_copyable_v<To>);
-			static_assert(sizeof(To) == sizeof(From));
+			static_assert(sizeof(From) == sizeof(To));
 
-			if constexpr (std::is_same_v<remove_cv<To>, remove_cv<From>>)
+			if constexpr (std::is_same_v<remove_cv<From>, remove_cv<To>>)
 				return from;
-			else if constexpr (all_integral<To, From>)
+			else if constexpr (all_integral<From, To>)
 				return static_cast<To>(static_cast<remove_enum<remove_cv<To>>>(unwrap(from)));
-			else if constexpr (std::is_default_constructible_v<To>)
+			else
 			{
+				static_assert(
+					std::is_nothrow_default_constructible_v<remove_cv<To>>,
+					"Bit-cast fallback requires the To type be nothrow default-constructible"
+				);
+
 				To dst;
 				memcpy(&dst, &from, sizeof(To));
 				return dst;
@@ -2671,7 +2676,7 @@ namespace muu
 	constexpr To bit_cast(const From& from) noexcept
 	{
 		static_assert(
-			!std::is_reference_v<To> && !std::is_reference_v<From>,
+			!std::is_reference_v<From> && !std::is_reference_v<To>,
 			"From and To types cannot be references"
 		);
 		static_assert(
@@ -2679,7 +2684,7 @@ namespace muu
 			"From and To types must be trivially-copyable"
 		);
 		static_assert(
-			sizeof(To) == sizeof(From),
+			sizeof(From) == sizeof(To),
 			"From and To types must be the same size"
 		);
 

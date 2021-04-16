@@ -1,6 +1,6 @@
 #include "../preprocessor.h"
 
-MUU_PRAGMA_CLANG_GE(12, float_control(pop))
+MUU_PRAGMA_CLANG_GE(13, float_control(pop))
 
 MUU_PRAGMA_GCC(pop_options)
 
