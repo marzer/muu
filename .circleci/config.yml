@@ -4,7 +4,7 @@ jobs:
 
     debug_clang_1:
         docker:
-            - image: marzer/misc_cpp17_dev:0.2.0
+            - image: marzer/cpp_dev:0.1.0
         resource_class: large
         steps:
             - checkout
@@ -20,7 +20,7 @@ jobs:
 
     debug_clang_2:
         docker:
-            - image: marzer/misc_cpp17_dev:0.2.0
+            - image: marzer/cpp_dev:0.1.0
         resource_class: large
         steps:
             - checkout
@@ -36,7 +36,7 @@ jobs:
 
     debug_clang_3:
         docker:
-            - image: marzer/misc_cpp17_dev:0.2.0
+            - image: marzer/cpp_dev:0.1.0
         resource_class: large
         steps:
             - checkout
@@ -52,7 +52,7 @@ jobs:
 
     debug_clang_4:
         docker:
-            - image: marzer/misc_cpp17_dev:0.2.0
+            - image: marzer/cpp_dev:0.1.0
         resource_class: large
         steps:
             - checkout
@@ -68,7 +68,7 @@ jobs:
 
     release_clang_1:
         docker:
-            - image: marzer/misc_cpp17_dev:0.2.0
+            - image: marzer/cpp_dev:0.1.0
         resource_class: large
         steps:
             - checkout
@@ -84,7 +84,7 @@ jobs:
 
     release_clang_2:
         docker:
-            - image: marzer/misc_cpp17_dev:0.2.0
+            - image: marzer/cpp_dev:0.1.0
         resource_class: large
         steps:
             - checkout
@@ -100,7 +100,7 @@ jobs:
 
     release_clang_3:
         docker:
-            - image: marzer/misc_cpp17_dev:0.2.0
+            - image: marzer/cpp_dev:0.1.0
         resource_class: large
         steps:
             - checkout
@@ -116,7 +116,7 @@ jobs:
 
     release_clang_4:
         docker:
-            - image: marzer/misc_cpp17_dev:0.2.0
+            - image: marzer/cpp_dev:0.1.0
         resource_class: large
         steps:
             - checkout
@@ -132,7 +132,7 @@ jobs:
 
     debug_gcc_1:
         docker:
-            - image: marzer/misc_cpp17_dev:0.2.0
+            - image: marzer/cpp_dev:0.1.0
         resource_class: large
         steps:
             - checkout
@@ -148,7 +148,7 @@ jobs:
 
     debug_gcc_2:
         docker:
-            - image: marzer/misc_cpp17_dev:0.2.0
+            - image: marzer/cpp_dev:0.1.0
         resource_class: large
         steps:
             - checkout
@@ -164,7 +164,7 @@ jobs:
 
     debug_gcc_3:
         docker:
-            - image: marzer/misc_cpp17_dev:0.2.0
+            - image: marzer/cpp_dev:0.1.0
         resource_class: large
         steps:
             - checkout
@@ -180,7 +180,7 @@ jobs:
 
     debug_gcc_4:
         docker:
-            - image: marzer/misc_cpp17_dev:0.2.0
+            - image: marzer/cpp_dev:0.1.0
         resource_class: large
         steps:
             - checkout
@@ -196,7 +196,7 @@ jobs:
 
     release_gcc_1:
         docker:
-            - image: marzer/misc_cpp17_dev:0.2.0
+            - image: marzer/cpp_dev:0.1.0
         resource_class: large
         steps:
             - checkout
@@ -212,7 +212,7 @@ jobs:
 
     release_gcc_2:
         docker:
-            - image: marzer/misc_cpp17_dev:0.2.0
+            - image: marzer/cpp_dev:0.1.0
         resource_class: large
         steps:
             - checkout
@@ -228,7 +228,7 @@ jobs:
 
     release_gcc_3:
         docker:
-            - image: marzer/misc_cpp17_dev:0.2.0
+            - image: marzer/cpp_dev:0.1.0
         resource_class: large
         steps:
             - checkout
@@ -244,7 +244,7 @@ jobs:
 
     release_gcc_4:
         docker:
-            - image: marzer/misc_cpp17_dev:0.2.0
+            - image: marzer/cpp_dev:0.1.0
         resource_class: large
         steps:
             - checkout
@@ -260,7 +260,7 @@ jobs:
 
     generate_dox:
         docker:
-            - image: marzer/misc_cpp17_dev:0.2.0
+            - image: marzer/cpp_dev:0.1.0
         resource_class: small
         steps:
             - checkout

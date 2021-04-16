@@ -27,6 +27,7 @@
 *.vcxproj          text         eol=crlf    encoding=UTF-8-BOM
 *.vcxproj.filters  text         eol=crlf    encoding=UTF-8-BOM
 *.xml              text         eol=lf      encoding=UTF-8
+*.yaml             text         eol=lf      encoding=UTF-8
 .clang-format      text         eol=lf      encoding=UTF-8
 .editorconfig      text         eol=lf      encoding=UTF-8
 .gitattributes     text         eol=lf      encoding=UTF-8

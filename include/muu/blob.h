@@ -107,7 +107,7 @@ namespace muu
 				return size_;
 			}
 
-			/// \brief Resizes the blob, keeping the span of `min(newSize, oldSize)` intact. 
+			/// \brief Resizes the blob, keeping the region of `min(newSize, oldSize)` intact. 
 			/// 
 			/// \param	size New size.
 			/// 

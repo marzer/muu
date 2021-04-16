@@ -60,6 +60,10 @@ numeric_literals = [
 
 
 [autolinks]
-'(?:muu::)?halfs?' = 'structmuu_1_1half.html'
+'(?:muu::)?halfs?(?!-)' = 'structmuu_1_1half.html'
 '(?:muu::)?matri(?:x|ces)?' = 'structmuu_1_1matrix.html'
 '(?:muu::)?string_params?' = 'classmuu_1_1string__param.html'
+'(?:muu::)?spans?' = 'classmuu_1_1span.html'
+'(?:muu::)?uint128_ts?' = 'group__core.html#gaa82164a62949a1b029695dff5441d577'
+'(?:muu::)?int128_ts?' = 'group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c'
+'(?:muu::)?float128_ts?' = 'group__core.html#ga74a70ec9e3331f37ebbc3e875e183861'
