@@ -66,12 +66,12 @@
               Reference
               <ul>
                 <li><a href="#pub-static-attribs">Public static variables</a></li>
+                <li><a href="#rotations">Rotations</a></li>
                 <li><a href="#limits">Limits</a></li>
                 <li><a href="#integers">Integers</a></li>
                 <li><a href="#floating-point">Floating-point</a></li>
                 <li><a href="#irrational-numbers">Irrational numbers</a></li>
                 <li><a href="#conversions">Conversions</a></li>
-                <li><a href="#rotations">Rotations</a></li>
               </ul>
             </li>
           </ul>
@@ -84,6 +84,32 @@
               static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt; <a class="m-doc-self" href="#ab78829fc7af3571956a8f98a04c3dd32">identity</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The identity <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>.</dd>
+          </dl>
+        </section>
+        <section id="rotations">
+          <h2><a href="#rotations">Rotations</a></h2>
+<p><br/></p>
+          <dl class="m-doc">
+            <dt id="ac885ed3cf45d5bbdc6909756a25aa660">
+              static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt; <a class="m-doc-self" href="#ac885ed3cf45d5bbdc6909756a25aa660">right</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>A <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a> encoding a rotation 90 degrees to the right.</dd>
+            <dt id="a686d8b516545642408efec5b3259ac0f">
+              static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt; <a class="m-doc-self" href="#a686d8b516545642408efec5b3259ac0f">up</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>A <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a> encoding a rotation 90 degrees upward.</dd>
+            <dt id="a6e4d747c39e1a58b9632275e72ee29cd">
+              static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt; <a class="m-doc-self" href="#a6e4d747c39e1a58b9632275e72ee29cd">backward</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>A <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a> encoding a rotation 180 degrees backward.</dd>
+            <dt id="a1254f1db42d0cd69d663b1bb972b9151">
+              static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt; <a class="m-doc-self" href="#a1254f1db42d0cd69d663b1bb972b9151">left</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>A <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a> encoding a rotation 90 degrees to the left.</dd>
+            <dt id="a888a9bb9a196a4df907f487e3a1796a7">
+              static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt; <a class="m-doc-self" href="#a888a9bb9a196a4df907f487e3a1796a7">down</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>A <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a> encoding a rotation 90 degrees downward.</dd>
           </dl>
         </section>
         <section id="limits">
@@ -414,32 +440,6 @@
               static T <a class="m-doc-self" href="#abf3ad7c5164fb1959c4f972abfc3c2a9">radians_to_degrees</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Conversion factor for converting radians into degrees.</dd>
-          </dl>
-        </section>
-        <section id="rotations">
-          <h2><a href="#rotations">Rotations</a></h2>
-<p><br/></p>
-          <dl class="m-doc">
-            <dt id="ac885ed3cf45d5bbdc6909756a25aa660">
-              static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt; <a class="m-doc-self" href="#ac885ed3cf45d5bbdc6909756a25aa660">right</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>A <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a> encoding a rotation 90 degrees to the right.</dd>
-            <dt id="a686d8b516545642408efec5b3259ac0f">
-              static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt; <a class="m-doc-self" href="#a686d8b516545642408efec5b3259ac0f">up</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>A <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a> encoding a rotation 90 degrees upward.</dd>
-            <dt id="a6e4d747c39e1a58b9632275e72ee29cd">
-              static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt; <a class="m-doc-self" href="#a6e4d747c39e1a58b9632275e72ee29cd">backward</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>A <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a> encoding a rotation 180 degrees backward.</dd>
-            <dt id="a1254f1db42d0cd69d663b1bb972b9151">
-              static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt; <a class="m-doc-self" href="#a1254f1db42d0cd69d663b1bb972b9151">left</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>A <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a> encoding a rotation 90 degrees to the left.</dd>
-            <dt id="a888a9bb9a196a4df907f487e3a1796a7">
-              static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt; <a class="m-doc-self" href="#a888a9bb9a196a4df907f487e3a1796a7">down</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>A <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a> encoding a rotation 90 degrees downward.</dd>
           </dl>
         </section>
         <section>

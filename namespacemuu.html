@@ -78,7 +78,7 @@
           <dl class="m-doc">
             <dt>namespace <a class="m-doc" href="namespacemuu_1_1build.html">build</a></dt>
             <dd>Build environment information (compiler, date/time, support for various things...)</dd>
-            <dt>namespace <a class="m-doc" href="namespacemuu_1_1literals.html">literals</a></dt>
+            <dt>namespace <a class="m-doc" href="namespacemuu_1_1literals.html">literals</a> <span class="m-label m-flat m-info">inline</span></dt>
             <dd>Literal operators.</dd>
           </dl>
         </section>
@@ -90,11 +90,6 @@
               class <a class="m-doc" href="classmuu_1_1accumulator.html">accumulator</a>
             </dt>
             <dd>Determines min, max and sum of an interderminate number of values.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1axis__angle__rotation.html">axis_angle_rotation</a>
-            </dt>
-            <dd>An axis-angle rotation.</dd>
             <dt>
               class <a class="m-doc" href="classmuu_1_1blob.html">blob</a>
             </dt>
@@ -110,10 +105,20 @@
             </dt>
             <dd>A pair that uses Empty Base Class Optimization to elide storage for one or both of its members where possible.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants.html">constants</a>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01float_01_4.html">constants&lt;float&gt;</a>
             </dt>
-            <dd>A typed container for static constants, similar to <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/numeric_limits.html" target="_blank">std::<wbr/>numeric_limits</a>.</dd>
+            <dd><code>float</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01double_01_4.html">constants&lt;double&gt;</a>
+            </dt>
+            <dd><code>double</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01long_01double_01_4.html">constants&lt;long double&gt;</a>
+            </dt>
+            <dd><code>long double</code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01____fp16_01_4.html">constants&lt;__fp16&gt;</a>
@@ -126,9 +131,19 @@
             <dd><code><a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a></code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01float128__t_01_4.html">constants&lt;float128_t&gt;</a>
+            </dt>
+            <dd><code>float128_t</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01char_01_4.html">constants&lt;char&gt;</a>
             </dt>
             <dd><code>char</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01wchar__t_01_4.html">constants&lt;wchar_t&gt;</a>
+            </dt>
+            <dd><code><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a></code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01char16__t_01_4.html">constants&lt;char16_t&gt;</a>
@@ -141,74 +156,9 @@
             <dd><code><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a></code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01double_01_4.html">constants&lt;double&gt;</a>
-            </dt>
-            <dd><code>double</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01float_01_4.html">constants&lt;float&gt;</a>
-            </dt>
-            <dd><code>float</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01float128__t_01_4.html">constants&lt;float128_t&gt;</a>
-            </dt>
-            <dd><code>float128_t</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01half_01_4.html">constants&lt;half&gt;</a>
-            </dt>
-            <dd>16-bit <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01int128__t_01_4.html">constants&lt;int128_t&gt;</a>
-            </dt>
-            <dd><code>int128_t</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01long_01double_01_4.html">constants&lt;long double&gt;</a>
-            </dt>
-            <dd><code>long double</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01matrix_3_01_scalar_00_01_rows_00_01_columns_01_4_01_4.html">constants&lt;matrix&lt;Scalar, Rows, Columns&gt;&gt;</a>
-            </dt>
-            <dd>Matrix constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01quaternion_3_01_scalar_01_4_01_4.html">constants&lt;quaternion&lt;Scalar&gt;&gt;</a>
-            </dt>
-            <dd>Quaternion constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01char_01_4.html">constants&lt;signed char&gt;</a>
             </dt>
             <dd><code>signed char</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01int_01_4.html">constants&lt;signed int&gt;</a>
-            </dt>
-            <dd><code>signed int</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01long_01_4.html">constants&lt;signed long&gt;</a>
-            </dt>
-            <dd><code>signed long</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01long_01long_01_4.html">constants&lt;signed long long&gt;</a>
-            </dt>
-            <dd><code>signed long long</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01short_01_4.html">constants&lt;signed short&gt;</a>
-            </dt>
-            <dd><code>signed short</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01uint128__t_01_4.html">constants&lt;uint128_t&gt;</a>
-            </dt>
-            <dd><code>uint128_t</code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01unsigned_01char_01_4.html">constants&lt;unsigned char&gt;</a>
@@ -216,19 +166,9 @@
             <dd><code>unsigned char</code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01unsigned_01int_01_4.html">constants&lt;unsigned int&gt;</a>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01short_01_4.html">constants&lt;signed short&gt;</a>
             </dt>
-            <dd><code>unsigned int</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01unsigned_01long_01_4.html">constants&lt;unsigned long&gt;</a>
-            </dt>
-            <dd><code>unsigned long</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01unsigned_01long_01long_01_4.html">constants&lt;unsigned long long&gt;</a>
-            </dt>
-            <dd><code>unsigned long long</code> constants.</dd>
+            <dd><code>signed short</code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01unsigned_01short_01_4.html">constants&lt;unsigned short&gt;</a>
@@ -236,52 +176,91 @@
             <dd><code>unsigned short</code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01uuid_01_4.html">constants&lt;uuid&gt;</a>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01int_01_4.html">constants&lt;signed int&gt;</a>
             </dt>
-            <dd>UUID constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01vector_3_01_scalar_00_01_dimensions_01_4_01_4.html">constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;</a>
-            </dt>
-            <dd>Vector constants.</dd>
+            <dd><code>signed int</code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01wchar__t_01_4.html">constants&lt;wchar_t&gt;</a>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01unsigned_01int_01_4.html">constants&lt;unsigned int&gt;</a>
             </dt>
-            <dd><code><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a></code> constants.</dd>
+            <dd><code>unsigned int</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01long_01_4.html">constants&lt;signed long&gt;</a>
+            </dt>
+            <dd><code>signed long</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01unsigned_01long_01_4.html">constants&lt;unsigned long&gt;</a>
+            </dt>
+            <dd><code>unsigned long</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01long_01long_01_4.html">constants&lt;signed long long&gt;</a>
+            </dt>
+            <dd><code>signed long long</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01unsigned_01long_01long_01_4.html">constants&lt;unsigned long long&gt;</a>
+            </dt>
+            <dd><code>unsigned long long</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01int128__t_01_4.html">constants&lt;int128_t&gt;</a>
+            </dt>
+            <dd><code>int128_t</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01uint128__t_01_4.html">constants&lt;uint128_t&gt;</a>
+            </dt>
+            <dd><code>uint128_t</code> constants.</dd>
+            <dt>
+              struct <a class="m-doc" href="structmuu_1_1generic__allocator.html">generic_allocator</a>
+            </dt>
+            <dd>An interface for encapsulating generic allocators.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               class <a class="m-doc" href="classmuu_1_1emplacement__array.html">emplacement_array</a>
             </dt>
             <dd>Simple <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/container/vector.html" target="_blank">std::<wbr/>vector</a>-like array type for immovable or move-only types.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1euler__rotation.html">euler_rotation</a>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants.html">constants</a>
             </dt>
-            <dd>A set of euler angles used for rotation.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits = (sizeof(<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>)* CHAR_BIT)&gt;</div>
-              class <a class="m-doc" href="classmuu_1_1fnv1a.html">fnv1a</a>
-            </dt>
-            <dd>FNV-1a hasher.</dd>
-            <dt>
-              struct <a class="m-doc" href="structmuu_1_1generic__allocator.html">generic_allocator</a>
-            </dt>
-            <dd>An interface for encapsulating generic allocators.</dd>
+            <dd>A typed container for static constants, similar to <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/numeric_limits.html" target="_blank">std::<wbr/>numeric_limits</a>.</dd>
             <dt>
               struct <a class="m-doc" href="structmuu_1_1half.html">half</a>
             </dt>
             <dd>A 16-bit "<a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision" floating point type.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01half_01_4.html">constants&lt;half&gt;</a>
+            </dt>
+            <dd>16-bit <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits = (sizeof(<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>)* CHAR_BIT)&gt;</div>
               class <a class="m-doc" href="classmuu_1_1hash__combiner.html">hash_combiner</a>
             </dt>
             <dd>A hash combiner for integral hashes.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits = (sizeof(<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>)* CHAR_BIT)&gt;</div>
+              class <a class="m-doc" href="classmuu_1_1fnv1a.html">fnv1a</a>
+            </dt>
+            <dd>FNV-1a hasher.</dd>
+            <dt>
+              class <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>
+            </dt>
+            <dd>SHA-1 hasher.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>
             </dt>
             <dd>A <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01matrix_3_01_scalar_00_01_rows_00_01_columns_01_4_01_4.html">constants&lt;matrix&lt;Scalar, Rows, Columns&gt;&gt;</a>
+            </dt>
+            <dd>Matrix constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>
@@ -289,14 +268,24 @@
             <dd>An oriented bounding box.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1axis__angle__rotation.html">axis_angle_rotation</a>
+            </dt>
+            <dd>An axis-angle rotation.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1euler__rotation.html">euler_rotation</a>
+            </dt>
+            <dd>A set of euler angles used for rotation.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>
             </dt>
             <dd>A quaternion.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              class <a class="m-doc" href="classmuu_1_1scope__fail.html">scope_fail</a>
+              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01quaternion_3_01_scalar_01_4_01_4.html">constants&lt;quaternion&lt;Scalar&gt;&gt;</a>
             </dt>
-            <dd>Performs actions when going out of scope due to an exception being thrown.</dd>
+            <dd>Quaternion constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               class <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_guard</a>
@@ -304,13 +293,14 @@
             <dd>Performs actions when going out of scope.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
+              class <a class="m-doc" href="classmuu_1_1scope__fail.html">scope_fail</a>
+            </dt>
+            <dd>Performs actions when going out of scope due to an exception being thrown.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
               class <a class="m-doc" href="classmuu_1_1scope__success.html">scope_success</a>
             </dt>
             <dd>Performs actions when going out of scope only if no exceptions have been thrown.</dd>
-            <dt>
-              class <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>
-            </dt>
-            <dd>SHA-1 hasher.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Extent = <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>&gt;</div>
               class <a class="m-doc" href="classmuu_1_1span.html">span</a>
@@ -334,10 +324,20 @@
             </dt>
             <dd>A 128-bit universally-unique identifier (UUID).</dd>
             <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01uuid_01_4.html">constants&lt;uuid&gt;</a>
+            </dt>
+            <dd>UUID constants.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1vector.html">vector</a>
             </dt>
             <dd>An N-dimensional vector.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01vector_3_01_scalar_00_01_dimensions_01_4_01_4.html">constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;</a>
+            </dt>
+            <dd>Vector constants.</dd>
           </dl>
         </section>
         <section id="enum-members">
@@ -3016,7 +3016,7 @@
               <span class="m-doc-wrap-bumper">determinant_type muu::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4cb7a56d0f2260af3ceb0b0c5204ed0b">determinant</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Calculates the determinant of a <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>.</p>
-<aside class="m-block m-special"><h4>Conditional availability</h4><p>This function is only available for square <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrices</a> with at most 4 rows and columns.</p></aside>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available for square <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrices</a> with at most 4 rows and columns.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a279539802143d8a8227c503be45aa972"><div>
             <h3>
@@ -3026,7 +3026,7 @@
               <span class="m-doc-wrap-bumper">inverse_type muu::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a279539802143d8a8227c503be45aa972">invert</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns the inverse of a <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>.</p>
-<aside class="m-block m-special"><h4>Conditional availability</h4><p>This function is only available for square <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrices</a> with at most 4 rows and columns.</p></aside>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available for square <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrices</a> with at most 4 rows and columns.</p></aside>
           </div></section>
           <section class="m-doc-details" id="abe6723009e315776a0868a4062e4537b"><div>
             <h3>
@@ -3036,7 +3036,7 @@
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt; muu::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#abe6723009e315776a0868a4062e4537b">orthonormalize</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns a copy of a <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a> with the 3x3 part orthonormalized.</p>
-<aside class="m-block m-special"><h4>Conditional availability</h4><p>This function is only available for <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrices</a> with 3 or 4 rows and columns and a floating-point scalar_type.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="https://en.wikipedia.org/wiki/Orthonormal_basis" target="_blank">Orthonormal basis</a></p></aside>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available for <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrices</a> with 3 or 4 rows and columns and a floating-point scalar_type.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="https://en.wikipedia.org/wiki/Orthonormal_basis" target="_blank">Orthonormal basis</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ae3e92df79fe85ed96266ca70d660de8d"><div>
             <h3>
@@ -3177,7 +3177,7 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-block m-special"><h4>Conditional availability</h4><p>This function is only available when <code>S</code> is a floating-point type.</p></aside>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <code>S</code> is a floating-point type.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a0901b5c81729a1e28b3dab7c0cf1bba3"><div>
             <h3>
@@ -3204,7 +3204,7 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-block m-special"><h4>Conditional availability</h4><p>This function is only available when <code>S</code> is a floating-point type.</p></aside>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <code>S</code> is a floating-point type.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a5894cf9d191befc3a53ed17f6ead1b3f"><div>
             <h3>
@@ -3241,7 +3241,7 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-block m-special"><h4>Conditional availability</h4><p>This function is only available when <code>D</code> == 2 or 3.</p></aside>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <code>D</code> == 2 or 3.</p></aside>
           </div></section>
           <section class="m-doc-details" id="af688d95d2f8af0a0687b78875d465e93"><div>
             <h3>
@@ -3273,7 +3273,7 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-block m-special"><h4>Conditional availability</h4><p>This function is only available when <code>D</code> == 2 or 3.</p></aside>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <code>D</code> == 2 or 3.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a0677f3cf9e12c0c6cf4ee3844dd802c1"><div>
             <h3>
@@ -3336,7 +3336,7 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>The angle returned is the unsigned angle between the two vectors; the smaller of the two possible angles between the two vectors is used. The result is never greater than <code>pi</code> radians (180 degrees).</p></aside><aside class="m-block m-special"><h4>Conditional availability</h4><p>This function is only available when <code>D</code> == 2 or 3.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>The angle returned is the unsigned angle between the two vectors; the smaller of the two possible angles between the two vectors is used. The result is never greater than <code>pi</code> radians (180 degrees).</p></aside><aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <code>D</code> == 2 or 3.</p></aside>
           </div></section>
         </section>
       </div>

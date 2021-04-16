@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
-<tagfile>
+<tagfile doxygen_version="1.9.2" doxygen_gitid="98c67549bc3cd855873e0ef5eeab7c6410699d78">
   <compound kind="file">
     <name>accumulator.h</name>
     <filename>accumulator_8h.html</filename>
@@ -3531,750 +3531,10 @@
     </member>
   </compound>
   <compound kind="class">
-    <name>compressed_pair&lt; impl::default_accumulator&lt; ValueType &gt;::type, size_t &gt;</name>
-    <filename>classmuu_1_1compressed__pair.html</filename>
-    <member kind="typedef">
-      <type>impl::default_accumulator&lt; ValueType &gt;::type</type>
-      <name>first_type</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>ac20772f6307822c393b60b6c98e9bb98</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>size_t</type>
-      <name>second_type</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a259e5a5b5014d98abc17710f243d4383</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>compressed_pair</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a06a2da748350865702a2ca332321bcf0</anchor>
-      <arglist>()=default</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>compressed_pair</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a1bd0bcc4a40ffd66d50bcdc848f25485</anchor>
-      <arglist>(const compressed_pair &amp;)=default</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>compressed_pair</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>ad03293158338c278264fa2537f50bbe3</anchor>
-      <arglist>(compressed_pair &amp;&amp;)=default</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>compressed_pair</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a8849bbb95ac69e908b73fd9e37139e49</anchor>
-      <arglist>(F &amp;&amp;first_init, S &amp;&amp;second_init) noexcept(std::is_nothrow_constructible_v&lt; base, F &amp;&amp;, S &amp;&amp; &gt;)</arglist>
-    </member>
-    <member kind="function">
-      <type>compressed_pair &amp;</type>
-      <name>operator=</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a5c42b37bc76350e96315e20dea926af0</anchor>
-      <arglist>(const compressed_pair &amp;)=default</arglist>
-    </member>
-    <member kind="function">
-      <type>compressed_pair &amp;</type>
-      <name>operator=</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>aeb94a3f02419fd85a289c31fb602044e</anchor>
-      <arglist>(compressed_pair &amp;&amp;)=default</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr first_type &amp;</type>
-      <name>first</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>aafaf3bdda1abefa3807ee6a64fc8bae1</anchor>
-      <arglist>() &amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr first_type &amp;&amp;</type>
-      <name>first</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a749aebb68bb95df852de3183d912c971</anchor>
-      <arglist>() &amp;&amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const first_type &amp;</type>
-      <name>first</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>ac96766ace95b6520bc1d62a9db9eee5e</anchor>
-      <arglist>() const &amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const first_type &amp;&amp;</type>
-      <name>first</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a323d719d0a1d32b5aa479f2df22b0e07</anchor>
-      <arglist>() const &amp;&amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr second_type &amp;</type>
-      <name>second</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a371bf06a9a77e22b94421441a49008c0</anchor>
-      <arglist>() &amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr second_type &amp;&amp;</type>
-      <name>second</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a2250a71d1d2a4483622e1bc1def75258</anchor>
-      <arglist>() &amp;&amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const second_type &amp;</type>
-      <name>second</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a96741965b939367111679153f09e3545</anchor>
-      <arglist>() const &amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const second_type &amp;&amp;</type>
-      <name>second</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a9a64f2d7471f1316084c78a7436ef7cf</anchor>
-      <arglist>() const &amp;&amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr auto &amp;</type>
-      <name>get</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a00d992c81b8a127721ac9dc0b42a72c6</anchor>
-      <arglist>() &amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr auto &amp;&amp;</type>
-      <name>get</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>af0ac7806aba61ae6edd6e8386ee02ed8</anchor>
-      <arglist>() &amp;&amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const auto &amp;</type>
-      <name>get</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a377b30f0282006edb15347aac104fe48</anchor>
-      <arglist>() const &amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const auto &amp;&amp;</type>
-      <name>get</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a2f3ba4f37263f185c057fe141d26f895</anchor>
-      <arglist>() const &amp;&amp;noexcept</arglist>
-    </member>
-  </compound>
-  <compound kind="class">
-    <name>compressed_pair&lt; std::add_pointer_t, std::conditional_t &gt;</name>
-    <filename>classmuu_1_1compressed__pair.html</filename>
-    <member kind="typedef">
-      <type>std::add_pointer_t</type>
-      <name>first_type</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>ac20772f6307822c393b60b6c98e9bb98</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>std::conditional_t</type>
-      <name>second_type</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a259e5a5b5014d98abc17710f243d4383</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>compressed_pair</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a06a2da748350865702a2ca332321bcf0</anchor>
-      <arglist>()=default</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>compressed_pair</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a1bd0bcc4a40ffd66d50bcdc848f25485</anchor>
-      <arglist>(const compressed_pair &amp;)=default</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>compressed_pair</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>ad03293158338c278264fa2537f50bbe3</anchor>
-      <arglist>(compressed_pair &amp;&amp;)=default</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>compressed_pair</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a8849bbb95ac69e908b73fd9e37139e49</anchor>
-      <arglist>(F &amp;&amp;first_init, S &amp;&amp;second_init) noexcept(std::is_nothrow_constructible_v&lt; base, F &amp;&amp;, S &amp;&amp; &gt;)</arglist>
-    </member>
-    <member kind="function">
-      <type>compressed_pair &amp;</type>
-      <name>operator=</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a5c42b37bc76350e96315e20dea926af0</anchor>
-      <arglist>(const compressed_pair &amp;)=default</arglist>
-    </member>
-    <member kind="function">
-      <type>compressed_pair &amp;</type>
-      <name>operator=</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>aeb94a3f02419fd85a289c31fb602044e</anchor>
-      <arglist>(compressed_pair &amp;&amp;)=default</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr first_type &amp;</type>
-      <name>first</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>aafaf3bdda1abefa3807ee6a64fc8bae1</anchor>
-      <arglist>() &amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr first_type &amp;&amp;</type>
-      <name>first</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a749aebb68bb95df852de3183d912c971</anchor>
-      <arglist>() &amp;&amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const first_type &amp;</type>
-      <name>first</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>ac96766ace95b6520bc1d62a9db9eee5e</anchor>
-      <arglist>() const &amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const first_type &amp;&amp;</type>
-      <name>first</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a323d719d0a1d32b5aa479f2df22b0e07</anchor>
-      <arglist>() const &amp;&amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr second_type &amp;</type>
-      <name>second</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a371bf06a9a77e22b94421441a49008c0</anchor>
-      <arglist>() &amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr second_type &amp;&amp;</type>
-      <name>second</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a2250a71d1d2a4483622e1bc1def75258</anchor>
-      <arglist>() &amp;&amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const second_type &amp;</type>
-      <name>second</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a96741965b939367111679153f09e3545</anchor>
-      <arglist>() const &amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const second_type &amp;&amp;</type>
-      <name>second</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a9a64f2d7471f1316084c78a7436ef7cf</anchor>
-      <arglist>() const &amp;&amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr auto &amp;</type>
-      <name>get</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a00d992c81b8a127721ac9dc0b42a72c6</anchor>
-      <arglist>() &amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr auto &amp;&amp;</type>
-      <name>get</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>af0ac7806aba61ae6edd6e8386ee02ed8</anchor>
-      <arglist>() &amp;&amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const auto &amp;</type>
-      <name>get</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a377b30f0282006edb15347aac104fe48</anchor>
-      <arglist>() const &amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const auto &amp;&amp;</type>
-      <name>get</name>
-      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
-      <anchor>a2f3ba4f37263f185c057fe141d26f895</anchor>
-      <arglist>() const &amp;&amp;noexcept</arglist>
-    </member>
-  </compound>
-  <compound kind="class">
-    <name>matrix&lt; scalar_type, 3, 3 &gt;</name>
-    <filename>structmuu_1_1matrix.html</filename>
-    <member kind="typedef">
-      <type>scalar_type</type>
-      <name>scalar_type</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>ac0c7c109a5cfe476070e466f0fef8f05</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>muu::constants&lt; scalar_type &gt;</type>
-      <name>scalar_constants</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>afc5dd472071c02aab5a514eba07979a4</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>vector&lt; scalar_type, columns &gt;</type>
-      <name>row_type</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a82625b8c9fe89c6fc5e201649760c0a6</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>vector&lt; scalar_type, rows &gt;</type>
-      <name>column_type</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a58afa02dd5888b308b1db7e578064d4c</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>muu::constants&lt; matrix &gt;</type>
-      <name>constants</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a39aa9cffee0c8df320aa62d7f0a5abc6</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>std::conditional_t&lt; is_integral&lt; scalar_type &gt;, impl::highest_ranked&lt; make_signed&lt; scalar_type &gt;, int &gt;, scalar_type &gt;</type>
-      <name>determinant_type</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>aa89854e0c20fd0a6aa7d0068b4e31adf</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>matrix&lt; std::conditional_t&lt; is_integral&lt; scalar_type &gt;, double, scalar_type &gt;, Rows, Columns &gt;</type>
-      <name>inverse_type</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a96e9727043b61d54ad85607c34d182f8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>matrix</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>add7e478a779bd04fe35758793a7a20d0</anchor>
-      <arglist>() noexcept=default</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>matrix</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a4e7118b871205f485f7d771de0469ea3</anchor>
-      <arglist>(const matrix &amp;) noexcept=default</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>matrix</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a7e6e3e611f1af0548d22bc555ba2d6e1</anchor>
-      <arglist>(scalar_type fill) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>matrix</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a13b969ce2982626eba1f684daa8fe95b</anchor>
-      <arglist>(scalar_type v0, scalar_type v1, const T &amp;... vals) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>matrix</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>abb3a11204c1d332eafade6f0615c4a59</anchor>
-      <arglist>(const matrix&lt; S, R, C &gt; &amp;mat) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>matrix</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a6f6992ca5bcb35af69c85153aeb9f782</anchor>
-      <arglist>(const T &amp;blittable) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr matrix &amp;</type>
-      <name>operator=</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>af9f42bbf9167eec17bb9bc86bc4bdcf3</anchor>
-      <arglist>(const matrix &amp;) noexcept=default</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const scalar_type &amp;</type>
-      <name>get</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a71c4c90f6491573dfc1d5b9da35930c6</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr scalar_type &amp;</type>
-      <name>get</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>adca05c2d4d4d607d886db1c4411c763b</anchor>
-      <arglist>() noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const scalar_type &amp;</type>
-      <name>operator()</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>afdeed69a22233f335853fc9b20e39375</anchor>
-      <arglist>(size_t r, size_t c) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr scalar_type &amp;</type>
-      <name>operator()</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a9a3678dd6b823e82a3d19721440caea5</anchor>
-      <arglist>(size_t r, size_t c) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const scalar_type *</type>
-      <name>data</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a68994711ec5b1b22af112afe85b0c05b</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr scalar_type *</type>
-      <name>data</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a482a05d0104bb8c3d55580b176685a21</anchor>
-      <arglist>() noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>zero</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a3d3394a8e617dc6a0875b9c9c87367f0</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>ac80d96a85e2d95f5bf7e4096b589f011</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_equal</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a28dc67dedc67b7ab08fd343f3430207e</anchor>
-      <arglist>(const matrix&lt; T, rows, columns &gt; &amp;m, epsilon_type&lt; scalar_type, T &gt; epsilon=default_epsilon&lt; scalar_type, T &gt;) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_zero</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a0f71605faa2fa82f02abbacd61605964</anchor>
-      <arglist>(scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr matrix</type>
-      <name>operator+</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a4dd1836f1bf1e2353b4fc08e05c0e6f0</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr matrix &amp;</type>
-      <name>operator+=</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a27bf2f92cf6b79669941809489e0b2d2</anchor>
-      <arglist>(const matrix &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr matrix</type>
-      <name>operator-</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a3460593457d7db05c0ad631047c45897</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr matrix &amp;</type>
-      <name>operator-=</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a2e5c9e7954223792ef653a7d1db10087</anchor>
-      <arglist>(const matrix &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr matrix &amp;</type>
-      <name>operator*=</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a025796952565b3e266db539abbc7e87c</anchor>
-      <arglist>(const matrix &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr matrix &amp;</type>
-      <name>operator*=</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>ae0b87400772f1d607fa451f9e9548c8d</anchor>
-      <arglist>(scalar_type rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr matrix &amp;</type>
-      <name>operator/=</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a8a253e3054bce0248ede8f7919ba605d</anchor>
-      <arglist>(scalar_type rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr matrix &amp;</type>
-      <name>transpose</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>abdf68e567d61b72c9b2273bdaad7eb4d</anchor>
-      <arglist>() noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr determinant_type</type>
-      <name>determinant</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a219afb9f807add298f88ef241c19d3e1</anchor>
-      <arglist>() noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr matrix &amp;</type>
-      <name>invert</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>ae268a7221bf0ff6c24257b7638f337b9</anchor>
-      <arglist>() noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr matrix &amp;</type>
-      <name>orthonormalize</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a5cadade40d4864c6a07dade22bf58a13</anchor>
-      <arglist>() noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>zero</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a02c8f050c3465938848790f69abd7183</anchor>
-      <arglist>(const matrix &amp;m) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>ab7c61c64ca180d40b790d7313c5bcc60</anchor>
-      <arglist>(const matrix &amp;m) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>approx_equal</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>aeaf3bde7029c53524aa632fefcebb949</anchor>
-      <arglist>(const matrix &amp;m1, const matrix&lt; T, rows, columns &gt; &amp;m2, epsilon_type&lt; scalar_type, T &gt; epsilon=default_epsilon&lt; scalar_type, T &gt;) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>approx_zero</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a268b110023cb590b67aa4141554ead1e</anchor>
-      <arglist>(const matrix &amp;m, scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix&lt; scalar_type, columns, rows &gt;</type>
-      <name>transpose</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a9546248f4fbe20a1fde5b908de8ff016</anchor>
-      <arglist>(const matrix &amp;m) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr determinant_type</type>
-      <name>determinant</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>aa37c7b1214a11db42e3288bfcb54ff6b</anchor>
-      <arglist>(const matrix &amp;m) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr inverse_type</type>
-      <name>invert</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a76f7e010c833b8d44ec943e01e19ccee</anchor>
-      <arglist>(const matrix &amp;m) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>orthonormalize</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a90d37bc49d8d5a35e8c415400c47d4e7</anchor>
-      <arglist>(const matrix &amp;m) noexcept</arglist>
-    </member>
-    <member kind="variable">
-      <type>column_type</type>
-      <name>m</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>aa9374ff95558bb843c99282aa7335224</anchor>
-      <arglist>[columns]</arglist>
-    </member>
-    <member kind="variable" static="yes">
-      <type>static constexpr size_t</type>
-      <name>rows</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a228170eec0384c3a2f974a9defe4e628</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" static="yes">
-      <type>static constexpr size_t</type>
-      <name>columns</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a9e484f8d23156004ee20bf7249105d01</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend bool</type>
-      <name>operator==</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a8386b98ca92a3781a1bc35e2d4fb2950</anchor>
-      <arglist>(const matrix &amp;lhs, const matrix&lt; T, rows, columns &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend bool</type>
-      <name>operator!=</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a0d464ba1e94f2155bcaf28ffebd18570</anchor>
-      <arglist>(const matrix &amp;lhs, const matrix&lt; T, rows, columns &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend matrix</type>
-      <name>operator+</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a56d5ff720bc56a1815e93aee36c20a25</anchor>
-      <arglist>(const matrix &amp;lhs, const matrix &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend matrix</type>
-      <name>operator-</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a8705428af36a2e5c962fba04a27d4c03</anchor>
-      <arglist>(const matrix &amp;lhs, const matrix &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend matrix&lt; scalar_type, rows, C &gt;</type>
-      <name>operator*</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>af907855a38b77402be6defbb5e00531a</anchor>
-      <arglist>(const matrix &amp;lhs, const matrix&lt; scalar_type, columns, C &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend column_type</type>
-      <name>operator*</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>afe6e5481324e306f0f938f79a3421bf4</anchor>
-      <arglist>(const matrix &amp;lhs, const vector&lt; scalar_type, columns &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend row_type</type>
-      <name>operator*</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>abad69ec3b7d9187965dbee190941333f</anchor>
-      <arglist>(const vector&lt; scalar_type, rows &gt; &amp;lhs, const matrix &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend matrix</type>
-      <name>operator*</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>adf49cbaa32a6de2e3b36af53916d9aa2</anchor>
-      <arglist>(const matrix &amp;lhs, scalar_type rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend matrix</type>
-      <name>operator*</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a0898a0f30f9cfbc75e23d0ee33f6c2f8</anchor>
-      <arglist>(scalar_type lhs, const matrix &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend matrix</type>
-      <name>operator/</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a4c476dad87c48d20c778710e27a2c6ff</anchor>
-      <arglist>(const matrix &amp;lhs, scalar_type rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>friend std::basic_ostream&lt; Char, Traits &gt; &amp;</type>
-      <name>operator&lt;&lt;</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>aa58692cee8066ae4618735b5fa13cd2f</anchor>
-      <arglist>(std::basic_ostream&lt; Char, Traits &gt; &amp;os, const matrix &amp;m)</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>group__infinity__or__nan.html</anchorfile>
-      <anchor>ga1f57b7af70f0235ad644486a5943e582</anchor>
-      <arglist>(const matrix&lt; S, R, C &gt; &amp;m) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_equal</name>
-      <anchorfile>group__approx__equal.html</anchorfile>
-      <anchor>gac9148a5c5b63c63d14ca506aee43484e</anchor>
-      <arglist>(const matrix&lt; S, R, C &gt; &amp;m1, const matrix&lt; T, R, C &gt; &amp;m2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_zero</name>
-      <anchorfile>group__approx__zero.html</anchorfile>
-      <anchor>gae6774c12326004b4e421e554a35afe8b</anchor>
-      <arglist>(const matrix&lt; S, R, C &gt; &amp;m, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr matrix&lt; S, C, R &gt;</type>
-      <name>transpose</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a4d11bad2718bdbb090fb73ab6c5def00</anchor>
-      <arglist>(const matrix&lt; S, R, C &gt; &amp;m) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr determinant_type</type>
-      <name>determinant</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a4cb7a56d0f2260af3ceb0b0c5204ed0b</anchor>
-      <arglist>(const matrix&lt; S, R, C &gt; &amp;m) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr inverse_type</type>
-      <name>invert</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a279539802143d8a8227c503be45aa972</anchor>
-      <arglist>(const matrix&lt; S, R, C &gt; &amp;m) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr matrix&lt; S, R, C &gt;</type>
-      <name>orthonormalize</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>abe6723009e315776a0868a4062e4537b</anchor>
-      <arglist>(const matrix&lt; S, R, C &gt; &amp;m) noexcept</arglist>
-    </member>
-  </compound>
-  <compound kind="class">
     <name>muu::accumulator</name>
     <filename>classmuu_1_1accumulator.html</filename>
-    <templarg></templarg>
-    <templarg></templarg>
+    <templarg>typename ValueType</templarg>
+    <templarg>typename Impl</templarg>
     <member kind="typedef">
       <type>ValueType</type>
       <name>value_type</name>
@@ -4384,7 +3644,7 @@
   <compound kind="struct">
     <name>muu::axis_angle_rotation</name>
     <filename>structmuu_1_1axis__angle__rotation.html</filename>
-    <templarg></templarg>
+    <templarg>typename Scalar</templarg>
     <member kind="typedef">
       <type>Scalar</type>
       <name>scalar_type</name>
@@ -4526,7 +3786,7 @@
   <compound kind="struct">
     <name>muu::bounding_box</name>
     <filename>structmuu_1_1bounding__box.html</filename>
-    <templarg></templarg>
+    <templarg>typename Scalar</templarg>
     <member kind="typedef">
       <type>Scalar</type>
       <name>scalar_type</name>
@@ -4965,8 +4225,8 @@
   <compound kind="class">
     <name>muu::compressed_pair</name>
     <filename>classmuu_1_1compressed__pair.html</filename>
-    <templarg></templarg>
-    <templarg></templarg>
+    <templarg>typename First</templarg>
+    <templarg>typename Second</templarg>
     <member kind="typedef">
       <type>First</type>
       <name>first_type</name>
@@ -5111,7 +4371,7 @@
   <compound kind="struct">
     <name>muu::constants</name>
     <filename>structmuu_1_1constants.html</filename>
-    <templarg></templarg>
+    <templarg>typename T</templarg>
   </compound>
   <compound kind="struct">
     <name>muu::constants&lt; __fp16 &gt;</name>
@@ -5160,9 +4420,9 @@
   <compound kind="struct">
     <name>muu::constants&lt; matrix&lt; Scalar, Rows, Columns &gt; &gt;</name>
     <filename>structmuu_1_1constants_3_01matrix_3_01_scalar_00_01_rows_00_01_columns_01_4_01_4.html</filename>
-    <templarg></templarg>
-    <templarg>Rows</templarg>
-    <templarg>Columns</templarg>
+    <templarg>typename Scalar</templarg>
+    <templarg>size_t Rows</templarg>
+    <templarg>size_t Columns</templarg>
     <member kind="variable" static="yes">
       <type>static constexpr matrix&lt; Scalar, Rows, Columns &gt;</type>
       <name>identity</name>
@@ -5174,7 +4434,7 @@
   <compound kind="struct">
     <name>muu::constants&lt; quaternion&lt; Scalar &gt; &gt;</name>
     <filename>structmuu_1_1constants_3_01quaternion_3_01_scalar_01_4_01_4.html</filename>
-    <templarg></templarg>
+    <templarg>typename Scalar</templarg>
     <member kind="variable" static="yes">
       <type>static constexpr quaternion&lt; Scalar &gt;</type>
       <name>zero</name>
@@ -5304,8 +4564,8 @@
   <compound kind="struct">
     <name>muu::constants&lt; vector&lt; Scalar, Dimensions &gt; &gt;</name>
     <filename>structmuu_1_1constants_3_01vector_3_01_scalar_00_01_dimensions_01_4_01_4.html</filename>
-    <templarg></templarg>
-    <templarg>Dimensions</templarg>
+    <templarg>typename Scalar</templarg>
+    <templarg>size_t Dimensions</templarg>
   </compound>
   <compound kind="struct">
     <name>muu::constants&lt; wchar_t &gt;</name>
@@ -5314,7 +4574,7 @@
   <compound kind="class">
     <name>muu::emplacement_array</name>
     <filename>classmuu_1_1emplacement__array.html</filename>
-    <templarg></templarg>
+    <templarg>typename T</templarg>
     <member kind="typedef">
       <type>T</type>
       <name>value_type</name>
@@ -5550,7 +4810,7 @@
   <compound kind="struct">
     <name>muu::euler_rotation</name>
     <filename>structmuu_1_1euler__rotation.html</filename>
-    <templarg></templarg>
+    <templarg>typename Scalar</templarg>
     <member kind="typedef">
       <type>Scalar</type>
       <name>scalar_type</name>
@@ -5611,7 +4871,7 @@
   <compound kind="class">
     <name>muu::fnv1a</name>
     <filename>classmuu_1_1fnv1a.html</filename>
-    <templarg>Bits</templarg>
+    <templarg>size_t Bits</templarg>
     <member kind="function">
       <type>constexpr</type>
       <name>fnv1a</name>
@@ -5876,14 +5136,14 @@
   <compound kind="class">
     <name>muu::hash_combiner</name>
     <filename>classmuu_1_1hash__combiner.html</filename>
-    <templarg>Bits</templarg>
+    <templarg>size_t Bits</templarg>
   </compound>
   <compound kind="struct">
     <name>muu::matrix</name>
     <filename>structmuu_1_1matrix.html</filename>
-    <templarg></templarg>
-    <templarg>Rows</templarg>
-    <templarg>Columns</templarg>
+    <templarg>typename Scalar</templarg>
+    <templarg>size_t Rows</templarg>
+    <templarg>size_t Columns</templarg>
     <member kind="typedef">
       <type>Scalar</type>
       <name>scalar_type</name>
@@ -6336,7 +5596,7 @@
   <compound kind="struct">
     <name>muu::oriented_bounding_box</name>
     <filename>structmuu_1_1oriented__bounding__box.html</filename>
-    <templarg></templarg>
+    <templarg>typename Scalar</templarg>
     <member kind="typedef">
       <type>Scalar</type>
       <name>scalar_type</name>
@@ -6789,7 +6049,7 @@
   <compound kind="struct">
     <name>muu::quaternion</name>
     <filename>structmuu_1_1quaternion.html</filename>
-    <templarg></templarg>
+    <templarg>typename Scalar</templarg>
     <member kind="typedef">
       <type>Scalar</type>
       <name>scalar_type</name>
@@ -7249,7 +6509,7 @@
   <compound kind="class">
     <name>muu::scope_fail</name>
     <filename>classmuu_1_1scope__fail.html</filename>
-    <templarg></templarg>
+    <templarg>typename T</templarg>
     <member kind="function">
       <type></type>
       <name>scope_fail</name>
@@ -7268,7 +6528,7 @@
   <compound kind="class">
     <name>muu::scope_guard</name>
     <filename>classmuu_1_1scope__guard.html</filename>
-    <templarg></templarg>
+    <templarg>typename T</templarg>
     <member kind="function">
       <type></type>
       <name>scope_guard</name>
@@ -7287,7 +6547,7 @@
   <compound kind="class">
     <name>muu::scope_success</name>
     <filename>classmuu_1_1scope__success.html</filename>
-    <templarg></templarg>
+    <templarg>typename T</templarg>
     <member kind="function">
       <type></type>
       <name>scope_success</name>
@@ -7387,8 +6647,8 @@
   <compound kind="class">
     <name>muu::span</name>
     <filename>classmuu_1_1span.html</filename>
-    <templarg></templarg>
-    <templarg>Extent</templarg>
+    <templarg>typename T</templarg>
+    <templarg>size_t Extent</templarg>
     <member kind="typedef">
       <type>T</type>
       <name>element_type</name>
@@ -7971,8 +7231,8 @@
   <compound kind="class">
     <name>muu::tagged_ptr</name>
     <filename>classmuu_1_1tagged__ptr.html</filename>
-    <templarg></templarg>
-    <templarg>MinAlign</templarg>
+    <templarg>typename T</templarg>
+    <templarg>size_t MinAlign</templarg>
     <member kind="typedef">
       <type>T</type>
       <name>element_type</name>
@@ -8566,8 +7826,8 @@
   <compound kind="struct">
     <name>muu::vector</name>
     <filename>structmuu_1_1vector.html</filename>
-    <templarg></templarg>
-    <templarg>Dimensions</templarg>
+    <templarg>typename Scalar</templarg>
+    <templarg>size_t Dimensions</templarg>
     <member kind="typedef">
       <type>Scalar</type>
       <name>scalar_type</name>
@@ -9602,2113 +8862,61 @@
   <compound kind="struct">
     <name>std::tuple_element&lt; I, muu::bounding_box&lt; Scalar &gt; &gt;</name>
     <filename>structstd_1_1tuple__element_3_01_i_00_01muu_1_1bounding__box_3_01_scalar_01_4_01_4.html</filename>
-    <templarg>I</templarg>
-    <templarg></templarg>
+    <templarg>size_t I</templarg>
+    <templarg>typename Scalar</templarg>
   </compound>
   <compound kind="struct">
     <name>std::tuple_element&lt; I, muu::compressed_pair&lt; First, Second &gt; &gt;</name>
     <filename>structstd_1_1tuple__element_3_01_i_00_01muu_1_1compressed__pair_3_01_first_00_01_second_01_4_01_4.html</filename>
-    <templarg>I</templarg>
-    <templarg></templarg>
-    <templarg></templarg>
+    <templarg>size_t I</templarg>
+    <templarg>typename First</templarg>
+    <templarg>typename Second</templarg>
   </compound>
   <compound kind="struct">
     <name>std::tuple_element&lt; I, muu::oriented_bounding_box&lt; Scalar &gt; &gt;</name>
     <filename>structstd_1_1tuple__element_3_01_i_00_01muu_1_1oriented__bounding__box_3_01_scalar_01_4_01_4.html</filename>
-    <templarg>I</templarg>
-    <templarg></templarg>
+    <templarg>size_t I</templarg>
+    <templarg>typename Scalar</templarg>
   </compound>
   <compound kind="struct">
     <name>std::tuple_element&lt; I, muu::quaternion&lt; Scalar &gt; &gt;</name>
     <filename>structstd_1_1tuple__element_3_01_i_00_01muu_1_1quaternion_3_01_scalar_01_4_01_4.html</filename>
-    <templarg>I</templarg>
-    <templarg></templarg>
+    <templarg>size_t I</templarg>
+    <templarg>typename Scalar</templarg>
   </compound>
   <compound kind="struct">
     <name>std::tuple_element&lt; I, muu::vector&lt; Scalar, Dimensions &gt; &gt;</name>
     <filename>structstd_1_1tuple__element_3_01_i_00_01muu_1_1vector_3_01_scalar_00_01_dimensions_01_4_01_4.html</filename>
-    <templarg>I</templarg>
-    <templarg></templarg>
-    <templarg>Dimensions</templarg>
+    <templarg>size_t I</templarg>
+    <templarg>typename Scalar</templarg>
+    <templarg>size_t Dimensions</templarg>
   </compound>
   <compound kind="struct">
     <name>std::tuple_size&lt; muu::bounding_box&lt; Scalar &gt; &gt;</name>
     <filename>structstd_1_1tuple__size_3_01muu_1_1bounding__box_3_01_scalar_01_4_01_4.html</filename>
-    <templarg></templarg>
+    <templarg>typename Scalar</templarg>
   </compound>
   <compound kind="struct">
     <name>std::tuple_size&lt; muu::compressed_pair&lt; First, Second &gt; &gt;</name>
     <filename>structstd_1_1tuple__size_3_01muu_1_1compressed__pair_3_01_first_00_01_second_01_4_01_4.html</filename>
-    <templarg></templarg>
-    <templarg></templarg>
+    <templarg>typename First</templarg>
+    <templarg>typename Second</templarg>
   </compound>
   <compound kind="struct">
     <name>std::tuple_size&lt; muu::oriented_bounding_box&lt; Scalar &gt; &gt;</name>
     <filename>structstd_1_1tuple__size_3_01muu_1_1oriented__bounding__box_3_01_scalar_01_4_01_4.html</filename>
-    <templarg></templarg>
+    <templarg>typename Scalar</templarg>
   </compound>
   <compound kind="struct">
     <name>std::tuple_size&lt; muu::quaternion&lt; Scalar &gt; &gt;</name>
     <filename>structstd_1_1tuple__size_3_01muu_1_1quaternion_3_01_scalar_01_4_01_4.html</filename>
-    <templarg></templarg>
+    <templarg>typename Scalar</templarg>
   </compound>
   <compound kind="struct">
     <name>std::tuple_size&lt; muu::vector&lt; Scalar, Dimensions &gt; &gt;</name>
     <filename>structstd_1_1tuple__size_3_01muu_1_1vector_3_01_scalar_00_01_dimensions_01_4_01_4.html</filename>
-    <templarg></templarg>
-    <templarg>Dimensions</templarg>
-  </compound>
-  <compound kind="class">
-    <name>vector&lt; scalar_type, 3 &gt;</name>
-    <filename>structmuu_1_1vector.html</filename>
-    <member kind="typedef">
-      <type>scalar_type</type>
-      <name>scalar_type</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ad9d2b50a3d332271a3e7301e68bb356e</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>std::conditional_t&lt; is_integral&lt; scalar_type &gt;, double, scalar_type &gt;</type>
-      <name>delta_type</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a91c909a923225d10d323cbe249875954</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>std::conditional_t&lt; is_integral&lt; scalar_type &gt;, impl::highest_ranked&lt; make_signed&lt; scalar_type &gt;, int &gt;, scalar_type &gt;</type>
-      <name>product_type</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a8858fd6d2527b08503e1fa788befdb58</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>muu::constants&lt; scalar_type &gt;</type>
-      <name>scalar_constants</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a2b7acf3193b202ee6919652c81c67a9e</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>vector&lt; product_type, dimensions &gt;</type>
-      <name>vector_product</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a7d6e0f8467fa9a235eafc4b4393fedaa</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>muu::constants&lt; vector &gt;</type>
-      <name>constants</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>af86353cc02b9274871a182b6157a7136</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>scalar_type *</type>
-      <name>iterator</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aaee97133e6f66be9c816eaa532987bdf</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>const scalar_type *</type>
-      <name>const_iterator</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a851f2bde2b5c8a45cb0f02ac53cf85d0</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ab715d1fb4d9aa87cd5918037b933956b</anchor>
-      <arglist>() noexcept=default</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a7bc4befd275281134a09944414ab5b8b</anchor>
-      <arglist>(const vector &amp;) noexcept=default</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a0f9026824be861f778dadb15a091a8dc</anchor>
-      <arglist>(scalar_type fill) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ae04a9e78ea8934c2167ab193a9a953d6</anchor>
-      <arglist>(scalar_type x, scalar_type y) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a728ee8868452ad9f6768c4ab6f961a0c</anchor>
-      <arglist>(scalar_type x, scalar_type y, scalar_type z) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aeb9e04efd86f59a605130bb438e18c55</anchor>
-      <arglist>(scalar_type x, scalar_type y, scalar_type z, scalar_type w) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a5b1d318171e35256ff26b32181c9813a</anchor>
-      <arglist>(scalar_type x, scalar_type y, scalar_type z, scalar_type w, const T &amp;... vals) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>af1b7d1818bcca46bdca2881451f25ab4</anchor>
-      <arglist>(const scalar_type(&amp;arr)[N]) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aba94ad73fe20b986aa96e6eb23944cbe</anchor>
-      <arglist>(const T(&amp;arr)[N]) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a406ddd92df734f4b5fb5012a4571f91f</anchor>
-      <arglist>(const std::array&lt; scalar_type, N &gt; &amp;arr) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ae0170699052e7287ac2d618b3f2168cb</anchor>
-      <arglist>(const std::array&lt; T, N &gt; &amp;arr) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aa8ac1519ddfb8ae28ef7dc4ce23e8085</anchor>
-      <arglist>(const T &amp;tuple_or_bitcastable) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a803695ea1592669752281dc217bd83d3</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;vec) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a5daf0c0082c5fd76435808d7517ef7a3</anchor>
-      <arglist>(const vector&lt; S1, D1 &gt; &amp;vec1, const vector&lt; S2, D2 &gt; &amp;vec2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ab95403dc8fdf56329da3f669a48b7988</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;vec, const T &amp;... vals) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a88801e28c816d55516cb880cc094997a</anchor>
-      <arglist>(const T *vals, size_t num) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a943cab78806fe1e13f8ebaf974cb34b2</anchor>
-      <arglist>(const T *vals) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a52cf1994498457bd3ac6e93244b4811e</anchor>
-      <arglist>(const muu::span&lt; T, N &gt; &amp;vals) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ae9e5f1a81b891f045778c02650af9a7f</anchor>
-      <arglist>(const muu::span&lt; T &gt; &amp;vals) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>operator=</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a110b0bad8da61328dc19cfdcfb4f3995</anchor>
-      <arglist>(const vector &amp;) noexcept=default</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const scalar_type &amp;</type>
-      <name>get</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a6c9dc88b7400a51411156d4147b03b96</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr scalar_type &amp;</type>
-      <name>get</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a0d9b9b73cbc2caa305f06f91234d4476</anchor>
-      <arglist>() noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const scalar_type &amp;</type>
-      <name>operator[]</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a2b5fd3434b410af7c19dd9576f37c408</anchor>
-      <arglist>(size_t idx) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr scalar_type &amp;</type>
-      <name>operator[]</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a1d9237f0d5e1d0b4bd1981b6f4b816e8</anchor>
-      <arglist>(size_t idx) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const scalar_type *</type>
-      <name>data</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a6645c377ccfc635ddcc331cdd01f9256</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr scalar_type *</type>
-      <name>data</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a24f7be704e05ddc538e94e1c35e9c65c</anchor>
-      <arglist>() noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>zero</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a600a005f13c53d4b8fb0c1defc5ccf04</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aeb666e11d5ba6ebd37600da746fa4ece</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_equal</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a56ce66cfee8729e2ba1ee88725e8de3c</anchor>
-      <arglist>(const vector&lt; T, dimensions &gt; &amp;v, epsilon_type&lt; scalar_type, T &gt; epsilon=default_epsilon&lt; scalar_type, T &gt;) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_zero</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a5a645202fa0cc9e970fb0532416f2533</anchor>
-      <arglist>(scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr delta_type</type>
-      <name>length_squared</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a634be8588d1d7cd6f2463b240dd3b53a</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr delta_type</type>
-      <name>length</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a5a3aa2f4c730499ee26d675182a1ffb0</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr delta_type</type>
-      <name>distance_squared</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a16c3a3c1a46559b3c9f050518fc07e84</anchor>
-      <arglist>(const vector &amp;p) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr delta_type</type>
-      <name>distance</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>af8073104a8ad563ffaedbe8c67dd2624</anchor>
-      <arglist>(const vector &amp;p) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>unit_length</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a2fbb1a0e7898551fd58369c05baa3ab4</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr product_type</type>
-      <name>dot</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a739df5225f2c5e3e7f6269ab8e22c104</anchor>
-      <arglist>(const vector &amp;v) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; product_type, 3 &gt;</type>
-      <name>cross</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>afda8975e7299aaf9abf84b7185891021</anchor>
-      <arglist>(const vector &amp;v) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector</type>
-      <name>operator+</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a002ce4751b12edcefd80a5451e71f0cb</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>operator+=</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a882ed443d0e3f05b03f54e657e8123eb</anchor>
-      <arglist>(const vector &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector</type>
-      <name>operator-</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a7bbd962860ee3708ef34032f0c5f039f</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>operator-=</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>abcc7aeaedd318b0478b08cb1ce2b79f9</anchor>
-      <arglist>(const vector &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>operator*=</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a37ca8b644294870b49a3624a024ad80a</anchor>
-      <arglist>(const vector &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>operator*=</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ae6da16a9c85f3da2b57bcde4ccecd99d</anchor>
-      <arglist>(scalar_type rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>operator/=</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a38041affca344940ad8e7919d50922d0</anchor>
-      <arglist>(const vector &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>operator/=</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a2e815494ef568124e5ed587a98f77aea</anchor>
-      <arglist>(scalar_type rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>operator%=</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a6e1ec667d68aa4222c0f1bc010b01159</anchor>
-      <arglist>(const vector &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>operator%=</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aacbb6000957c79a92264153310b244bd</anchor>
-      <arglist>(scalar_type rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>operator&lt;&lt;=</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>acc1515143faa81f87942140da3825dd3</anchor>
-      <arglist>(product_type rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>operator&gt;&gt;=</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a01904c261289a7d4d2fd58a70bc22390</anchor>
-      <arglist>(product_type rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>normalize</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a2e8f92568a29125fe160b4f39bb3442f</anchor>
-      <arglist>(delta_type &amp;length_out) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>normalize</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a9add1f486663510193249e69745c3856</anchor>
-      <arglist>() noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>normalize_lensq</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a32ae668d84413aeb7f8a1e260102bc0a</anchor>
-      <arglist>(delta_type lensq) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector_product</type>
-      <name>direction</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>adb9c66c4575913004061cd660faa5a48</anchor>
-      <arglist>(const vector &amp;to, delta_type &amp;distance_out) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector_product</type>
-      <name>direction</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aaf4e391905a66a8054bcb552a649a66a</anchor>
-      <arglist>(const vector &amp;to) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr iterator</type>
-      <name>begin</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a3154923b04ea04a932ff42786eed4f57</anchor>
-      <arglist>() noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const_iterator</type>
-      <name>begin</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a32412aa1e3b099208bf73cb8465d2981</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr iterator</type>
-      <name>end</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a9198e267442a545ebb0d112dac7b2a0c</anchor>
-      <arglist>() noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const_iterator</type>
-      <name>end</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ac63ba31b9822742901e481fec5f3c8dd</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>clamp</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ae2e0536dff64be900206fcbf5d23a70e</anchor>
-      <arglist>(const vector &amp;low, const vector &amp;high) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>lerp</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>adb5df0fe06a58b08b4f86367fb966632</anchor>
-      <arglist>(vector target, delta_type alpha) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr delta_type</type>
-      <name>angle</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>afadf76410dd4e4432e8d777c0275a9f4</anchor>
-      <arglist>(const vector &amp;v) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector</type>
-      <name>abs</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a2e477752279697172cd6f6b1a429690a</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector</type>
-      <name>ceil</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>af560d2d0165aecf0134a273fc954fbf9</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector</type>
-      <name>floor</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a904549bd751d72f8a2cc8781ff2ba53e</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>zero</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a177638d0c10f289c0d6a6a453d7c28a7</anchor>
-      <arglist>(const vector &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aee0c79f215573ab7b818bf89b6744953</anchor>
-      <arglist>(const vector &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>approx_equal</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a35fe1423143996ce50300eeeeeda2eb5</anchor>
-      <arglist>(const vector &amp;v1, const vector&lt; T, dimensions &gt; &amp;v2, epsilon_type&lt; scalar_type, T &gt; epsilon=default_epsilon&lt; scalar_type, T &gt;) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>approx_zero</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a397a1a85527bdd10d525e7b909f6266f</anchor>
-      <arglist>(const vector &amp;v, scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr delta_type</type>
-      <name>length_squared</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>afd75180eb15dbf5c935082df80c6d7f0</anchor>
-      <arglist>(const vector &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr delta_type</type>
-      <name>length</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a595591fb94aebe07cb9155adce604b06</anchor>
-      <arglist>(const vector &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr delta_type</type>
-      <name>distance_squared</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a43895fc13b0bb95b291930ffec875879</anchor>
-      <arglist>(const vector &amp;p1, const vector &amp;p2) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr delta_type</type>
-      <name>distance</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a5d5da1fa9d49a054d951e7e594ff4237</anchor>
-      <arglist>(const vector &amp;p1, const vector &amp;p2) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>unit_length</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aac145e556c43a0ab014241c1639246ef</anchor>
-      <arglist>(const vector &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr product_type</type>
-      <name>dot</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ad6a8e8255b891922a234ecc7c08946f7</anchor>
-      <arglist>(const vector &amp;v1, const vector &amp;v2) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector&lt; product_type, 3 &gt;</type>
-      <name>cross</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>afaaba1907638af0572a02db16c4e3f39</anchor>
-      <arglist>(const vector &amp;lhs, const vector &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector</type>
-      <name>normalize</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a8fb6d941b2d70ce2729640b658b08faa</anchor>
-      <arglist>(const vector &amp;v, delta_type &amp;length_out) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector</type>
-      <name>normalize</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ab36f324a503d1fb436f63563f91715c1</anchor>
-      <arglist>(const vector &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector</type>
-      <name>normalize_lensq</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a687841de9f109ebb27ff1d270a73770f</anchor>
-      <arglist>(const vector &amp;v, delta_type v_lensq) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector_product</type>
-      <name>direction</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a986a7ea9b43cfff73c6823bc22404b45</anchor>
-      <arglist>(const vector &amp;from, const vector &amp;to, delta_type &amp;distance_out) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector_product</type>
-      <name>direction</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a437e7a7717c871c94d066de690db02af</anchor>
-      <arglist>(const vector &amp;from, const vector &amp;to) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector</type>
-      <name>min</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a2541045a2459ae9a8d5a17439b587ba0</anchor>
-      <arglist>(const vector &amp;v1, const vector &amp;v2) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector</type>
-      <name>max</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a685c402ee7f8a2eb71cdb598618b4eec</anchor>
-      <arglist>(const vector &amp;v1, const vector &amp;v2) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector</type>
-      <name>clamp</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a585b0468facf48d12a3fc82a23b7507d</anchor>
-      <arglist>(const vector &amp;v, const vector &amp;low, const vector &amp;high) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector</type>
-      <name>lerp</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a8baba734e38ebb0adbed0ab9be28ac57</anchor>
-      <arglist>(const vector &amp;start, const vector &amp;finish, delta_type alpha) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr delta_type</type>
-      <name>angle</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a3a23421b4be342955de1384af02aeeb5</anchor>
-      <arglist>(const vector &amp;v1, const vector &amp;v2) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector</type>
-      <name>abs</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a935a9bc44bb2bef21b75b1f914a1de8d</anchor>
-      <arglist>(const vector &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector</type>
-      <name>ceil</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a4918d06dc4adbee8e320dd8b9918d510</anchor>
-      <arglist>(const vector &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector</type>
-      <name>floor</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aa00b6803a1adf5e2b576b8c3ff13db5d</anchor>
-      <arglist>(const vector &amp;v) noexcept</arglist>
-    </member>
-    <member kind="variable">
-      <type>scalar_type</type>
-      <name>x</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a03d091d31e6dae7ed1d279258555598b</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>scalar_type</type>
-      <name>y</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>adcf17a6ab7f9efab07681df837a63fc3</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>scalar_type</type>
-      <name>z</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ae3a7217dfe2109b3aa2d0da555862367</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>scalar_type</type>
-      <name>w</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aa4f5a42ad04a011d2b4de2c4404ef5d6</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>scalar_type</type>
-      <name>values</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a0dd98b6ea7851559cf9c8feb3c45dddb</anchor>
-      <arglist>[dimensions]</arglist>
-    </member>
-    <member kind="variable" static="yes">
-      <type>static constexpr size_t</type>
-      <name>dimensions</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a8c5d32031f530edbe83b5464c497e33c</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend bool</type>
-      <name>operator==</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ab8aaf9b6dcb54a7b2512bf26b84f57bf</anchor>
-      <arglist>(const vector &amp;lhs, const vector&lt; T, dimensions &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend bool</type>
-      <name>operator!=</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a6a42ea429501a372c40fa7799fc4b4fd</anchor>
-      <arglist>(const vector &amp;lhs, const vector&lt; T, dimensions &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend vector</type>
-      <name>operator+</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a4b54abe8bbd52a16bb64d13bfbb28484</anchor>
-      <arglist>(const vector &amp;lhs, const vector &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend vector</type>
-      <name>operator-</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a58ad62fa3554a8c54b21da1a576f5d90</anchor>
-      <arglist>(const vector &amp;lhs, const vector &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend vector</type>
-      <name>operator*</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a9c18ba7c63d516edc1b44d3b34d97f8f</anchor>
-      <arglist>(const vector &amp;lhs, const vector &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend vector</type>
-      <name>operator*</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a377875f9428f0c0a45072ae8085d96be</anchor>
-      <arglist>(const vector &amp;lhs, scalar_type rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend vector</type>
-      <name>operator*</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>afabbdaf1a0e26c72658c2811e03cbbab</anchor>
-      <arglist>(scalar_type lhs, const vector &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend vector</type>
-      <name>operator/</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a952b8ffe2f57c1f1d6de141d0a044ad6</anchor>
-      <arglist>(const vector &amp;lhs, const vector &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend vector</type>
-      <name>operator/</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a1ad97c9f673e1175e9844e1098f3b4f4</anchor>
-      <arglist>(const vector &amp;lhs, scalar_type rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend vector</type>
-      <name>operator%</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ad3c206d2367de1aba3a270a23fce64a6</anchor>
-      <arglist>(const vector &amp;lhs, const vector &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend vector</type>
-      <name>operator%</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a9b01fe2e7642f921bc114382251778c9</anchor>
-      <arglist>(const vector &amp;lhs, scalar_type rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend vector</type>
-      <name>operator&lt;&lt;</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ae93203083268e4246ec6793fa2afb899</anchor>
-      <arglist>(const vector &amp;lhs, product_type rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>friend std::basic_ostream&lt; Char, Traits &gt; &amp;</type>
-      <name>operator&lt;&lt;</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a31bf388115e8fbe083aa056f5523bbbc</anchor>
-      <arglist>(std::basic_ostream&lt; Char, Traits &gt; &amp;os, const vector &amp;v)</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend vector</type>
-      <name>operator&gt;&gt;</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a1716301da51ba08326fb7b29665e9e52</anchor>
-      <arglist>(const vector &amp;lhs, product_type rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>group__infinity__or__nan.html</anchorfile>
-      <anchor>ga302affada638f7a69a77c925b1f38d93</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_equal</name>
-      <anchorfile>group__approx__equal.html</anchorfile>
-      <anchor>ga5d86e15710b89e3c79399cd98f597efe</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; T, D &gt; &amp;v2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_zero</name>
-      <anchorfile>group__approx__zero.html</anchorfile>
-      <anchor>gaa7e15ecff78c10af4eaa5b463eee9ca6</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr delta_type</type>
-      <name>length_squared</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>af37b8bb87586b2493271f14f82d2481e</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr delta_type</type>
-      <name>length</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a2331787cdf36e4d844da3b1f046da7f9</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr delta_type</type>
-      <name>distance_squared</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ac89dde907a1376136b6ec7296671ba65</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;p1, const vector&lt; S, D &gt; &amp;p2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr delta_type</type>
-      <name>distance</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a4633afca2e5b98a7e8b5f857cfa7a611</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;p1, const vector&lt; S, D &gt; &amp;p2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>unit_length</name>
-      <anchorfile>group__unit__length.html</anchorfile>
-      <anchor>gaa23ee7220c00563698286c33249cd119</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr product_type</type>
-      <name>dot</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ac5cdbbcc7fbf5513c01aa5e9d799c77e</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector_product</type>
-      <name>cross</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a6522fd4daefcf5bb938bd2879c99b741</anchor>
-      <arglist>(const vector&lt; S, 3 &gt; &amp;lhs, const vector&lt; S, 3 &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>normalize</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aaed6aa88dd289829bd7f1b15182d2577</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v, delta_type &amp;length_out) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>normalize</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a0901b5c81729a1e28b3dab7c0cf1bba3</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector_product</type>
-      <name>direction</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a5894cf9d191befc3a53ed17f6ead1b3f</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;from, const vector&lt; S, D &gt; &amp;to, delta_type &amp;distance_out) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector_product</type>
-      <name>direction</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>af688d95d2f8af0a0687b78875d465e93</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;from, const vector&lt; S, D &gt; &amp;to) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>min</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a0677f3cf9e12c0c6cf4ee3844dd802c1</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>max</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a28964d765fdb622739bd2ac68ce50329</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>clamp</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a13427afa8abc10b68dec66a3e6d30c94</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v, const vector&lt; S, D &gt; &amp;low, const vector&lt; S, D &gt; &amp;high) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>lerp</name>
-      <anchorfile>group__lerp.html</anchorfile>
-      <anchor>ga8a4dcbb8bec3e3ce9276430bdb3f44f3</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;start, const vector&lt; S, D &gt; &amp;finish, delta_type alpha) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr delta_type</type>
-      <name>angle</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ad3a39a64a42865cc1b4dfe5ba737c7f4</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>abs</name>
-      <anchorfile>group__abs.html</anchorfile>
-      <anchor>ga3d9f7436810436103ec0af7e77597b04</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>ceil</name>
-      <anchorfile>group__ceil.html</anchorfile>
-      <anchor>gae07fcd5b9220de0b39fa3461c3c529de</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>floor</name>
-      <anchorfile>group__floor.html</anchorfile>
-      <anchor>gaa9989749869046cff6731ead1b56f0df</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; scalar_type, sizeof...(Indices)&gt;</type>
-      <name>swizzle</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>afa84ed878b3e20e9d3ac5b467142edca</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; scalar_type, 2 &gt;</type>
-      <name>xy</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a94ce8b6378bf09ec5a986f93158fd2a1</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; scalar_type, 2 &gt;</type>
-      <name>xz</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a4813f16a5dddcf87d5cce346977d788b</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; scalar_type, 2 &gt;</type>
-      <name>yx</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a80b0003d6048b3e41d78d032ad8ba294</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; scalar_type, 3 &gt;</type>
-      <name>xyz</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aac0617343d3f899677a8bd726e2af138</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; scalar_type, 4 &gt;</type>
-      <name>xyz1</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aa6f10bf2b3ff4de2eebb762b10a9063d</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; scalar_type, 4 &gt;</type>
-      <name>xyz0</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ac03954cbdf1897b819551f9b2fa423a2</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector&lt; scalar_type, sizeof...(Indices)&gt;</type>
-      <name>swizzle</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aad56aced14ee8bab3932f5bb71e5a629</anchor>
-      <arglist>(const vector &amp;v) noexcept</arglist>
-    </member>
-  </compound>
-  <compound kind="class">
-    <name>vector&lt; scalar_type, rows &gt;</name>
-    <filename>structmuu_1_1vector.html</filename>
-    <member kind="typedef">
-      <type>scalar_type</type>
-      <name>scalar_type</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ad9d2b50a3d332271a3e7301e68bb356e</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>std::conditional_t&lt; is_integral&lt; scalar_type &gt;, double, scalar_type &gt;</type>
-      <name>delta_type</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a91c909a923225d10d323cbe249875954</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>std::conditional_t&lt; is_integral&lt; scalar_type &gt;, impl::highest_ranked&lt; make_signed&lt; scalar_type &gt;, int &gt;, scalar_type &gt;</type>
-      <name>product_type</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a8858fd6d2527b08503e1fa788befdb58</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>muu::constants&lt; scalar_type &gt;</type>
-      <name>scalar_constants</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a2b7acf3193b202ee6919652c81c67a9e</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>vector&lt; product_type, dimensions &gt;</type>
-      <name>vector_product</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a7d6e0f8467fa9a235eafc4b4393fedaa</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>muu::constants&lt; vector &gt;</type>
-      <name>constants</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>af86353cc02b9274871a182b6157a7136</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>scalar_type *</type>
-      <name>iterator</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aaee97133e6f66be9c816eaa532987bdf</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>const scalar_type *</type>
-      <name>const_iterator</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a851f2bde2b5c8a45cb0f02ac53cf85d0</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ab715d1fb4d9aa87cd5918037b933956b</anchor>
-      <arglist>() noexcept=default</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a7bc4befd275281134a09944414ab5b8b</anchor>
-      <arglist>(const vector &amp;) noexcept=default</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a0f9026824be861f778dadb15a091a8dc</anchor>
-      <arglist>(scalar_type fill) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ae04a9e78ea8934c2167ab193a9a953d6</anchor>
-      <arglist>(scalar_type x, scalar_type y) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a728ee8868452ad9f6768c4ab6f961a0c</anchor>
-      <arglist>(scalar_type x, scalar_type y, scalar_type z) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aeb9e04efd86f59a605130bb438e18c55</anchor>
-      <arglist>(scalar_type x, scalar_type y, scalar_type z, scalar_type w) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a5b1d318171e35256ff26b32181c9813a</anchor>
-      <arglist>(scalar_type x, scalar_type y, scalar_type z, scalar_type w, const T &amp;... vals) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>af1b7d1818bcca46bdca2881451f25ab4</anchor>
-      <arglist>(const scalar_type(&amp;arr)[N]) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aba94ad73fe20b986aa96e6eb23944cbe</anchor>
-      <arglist>(const T(&amp;arr)[N]) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a406ddd92df734f4b5fb5012a4571f91f</anchor>
-      <arglist>(const std::array&lt; scalar_type, N &gt; &amp;arr) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ae0170699052e7287ac2d618b3f2168cb</anchor>
-      <arglist>(const std::array&lt; T, N &gt; &amp;arr) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aa8ac1519ddfb8ae28ef7dc4ce23e8085</anchor>
-      <arglist>(const T &amp;tuple_or_bitcastable) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a803695ea1592669752281dc217bd83d3</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;vec) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a5daf0c0082c5fd76435808d7517ef7a3</anchor>
-      <arglist>(const vector&lt; S1, D1 &gt; &amp;vec1, const vector&lt; S2, D2 &gt; &amp;vec2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ab95403dc8fdf56329da3f669a48b7988</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;vec, const T &amp;... vals) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a88801e28c816d55516cb880cc094997a</anchor>
-      <arglist>(const T *vals, size_t num) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a943cab78806fe1e13f8ebaf974cb34b2</anchor>
-      <arglist>(const T *vals) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a52cf1994498457bd3ac6e93244b4811e</anchor>
-      <arglist>(const muu::span&lt; T, N &gt; &amp;vals) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ae9e5f1a81b891f045778c02650af9a7f</anchor>
-      <arglist>(const muu::span&lt; T &gt; &amp;vals) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>operator=</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a110b0bad8da61328dc19cfdcfb4f3995</anchor>
-      <arglist>(const vector &amp;) noexcept=default</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const scalar_type &amp;</type>
-      <name>get</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a6c9dc88b7400a51411156d4147b03b96</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr scalar_type &amp;</type>
-      <name>get</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a0d9b9b73cbc2caa305f06f91234d4476</anchor>
-      <arglist>() noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const scalar_type &amp;</type>
-      <name>operator[]</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a2b5fd3434b410af7c19dd9576f37c408</anchor>
-      <arglist>(size_t idx) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr scalar_type &amp;</type>
-      <name>operator[]</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a1d9237f0d5e1d0b4bd1981b6f4b816e8</anchor>
-      <arglist>(size_t idx) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const scalar_type *</type>
-      <name>data</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a6645c377ccfc635ddcc331cdd01f9256</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr scalar_type *</type>
-      <name>data</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a24f7be704e05ddc538e94e1c35e9c65c</anchor>
-      <arglist>() noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>zero</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a600a005f13c53d4b8fb0c1defc5ccf04</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aeb666e11d5ba6ebd37600da746fa4ece</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_equal</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a56ce66cfee8729e2ba1ee88725e8de3c</anchor>
-      <arglist>(const vector&lt; T, dimensions &gt; &amp;v, epsilon_type&lt; scalar_type, T &gt; epsilon=default_epsilon&lt; scalar_type, T &gt;) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_zero</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a5a645202fa0cc9e970fb0532416f2533</anchor>
-      <arglist>(scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr delta_type</type>
-      <name>length_squared</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a634be8588d1d7cd6f2463b240dd3b53a</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr delta_type</type>
-      <name>length</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a5a3aa2f4c730499ee26d675182a1ffb0</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr delta_type</type>
-      <name>distance_squared</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a16c3a3c1a46559b3c9f050518fc07e84</anchor>
-      <arglist>(const vector &amp;p) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr delta_type</type>
-      <name>distance</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>af8073104a8ad563ffaedbe8c67dd2624</anchor>
-      <arglist>(const vector &amp;p) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>unit_length</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a2fbb1a0e7898551fd58369c05baa3ab4</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr product_type</type>
-      <name>dot</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a739df5225f2c5e3e7f6269ab8e22c104</anchor>
-      <arglist>(const vector &amp;v) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; product_type, 3 &gt;</type>
-      <name>cross</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>afda8975e7299aaf9abf84b7185891021</anchor>
-      <arglist>(const vector &amp;v) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector</type>
-      <name>operator+</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a002ce4751b12edcefd80a5451e71f0cb</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>operator+=</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a882ed443d0e3f05b03f54e657e8123eb</anchor>
-      <arglist>(const vector &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector</type>
-      <name>operator-</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a7bbd962860ee3708ef34032f0c5f039f</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>operator-=</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>abcc7aeaedd318b0478b08cb1ce2b79f9</anchor>
-      <arglist>(const vector &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>operator*=</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a37ca8b644294870b49a3624a024ad80a</anchor>
-      <arglist>(const vector &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>operator*=</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ae6da16a9c85f3da2b57bcde4ccecd99d</anchor>
-      <arglist>(scalar_type rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>operator/=</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a38041affca344940ad8e7919d50922d0</anchor>
-      <arglist>(const vector &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>operator/=</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a2e815494ef568124e5ed587a98f77aea</anchor>
-      <arglist>(scalar_type rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>operator%=</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a6e1ec667d68aa4222c0f1bc010b01159</anchor>
-      <arglist>(const vector &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>operator%=</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aacbb6000957c79a92264153310b244bd</anchor>
-      <arglist>(scalar_type rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>operator&lt;&lt;=</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>acc1515143faa81f87942140da3825dd3</anchor>
-      <arglist>(product_type rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>operator&gt;&gt;=</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a01904c261289a7d4d2fd58a70bc22390</anchor>
-      <arglist>(product_type rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>normalize</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a2e8f92568a29125fe160b4f39bb3442f</anchor>
-      <arglist>(delta_type &amp;length_out) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>normalize</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a9add1f486663510193249e69745c3856</anchor>
-      <arglist>() noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>normalize_lensq</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a32ae668d84413aeb7f8a1e260102bc0a</anchor>
-      <arglist>(delta_type lensq) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector_product</type>
-      <name>direction</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>adb9c66c4575913004061cd660faa5a48</anchor>
-      <arglist>(const vector &amp;to, delta_type &amp;distance_out) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector_product</type>
-      <name>direction</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aaf4e391905a66a8054bcb552a649a66a</anchor>
-      <arglist>(const vector &amp;to) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr iterator</type>
-      <name>begin</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a3154923b04ea04a932ff42786eed4f57</anchor>
-      <arglist>() noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const_iterator</type>
-      <name>begin</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a32412aa1e3b099208bf73cb8465d2981</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr iterator</type>
-      <name>end</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a9198e267442a545ebb0d112dac7b2a0c</anchor>
-      <arglist>() noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const_iterator</type>
-      <name>end</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ac63ba31b9822742901e481fec5f3c8dd</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>clamp</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ae2e0536dff64be900206fcbf5d23a70e</anchor>
-      <arglist>(const vector &amp;low, const vector &amp;high) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector &amp;</type>
-      <name>lerp</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>adb5df0fe06a58b08b4f86367fb966632</anchor>
-      <arglist>(vector target, delta_type alpha) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr delta_type</type>
-      <name>angle</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>afadf76410dd4e4432e8d777c0275a9f4</anchor>
-      <arglist>(const vector &amp;v) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector</type>
-      <name>abs</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a2e477752279697172cd6f6b1a429690a</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector</type>
-      <name>ceil</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>af560d2d0165aecf0134a273fc954fbf9</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector</type>
-      <name>floor</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a904549bd751d72f8a2cc8781ff2ba53e</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>zero</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a177638d0c10f289c0d6a6a453d7c28a7</anchor>
-      <arglist>(const vector &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aee0c79f215573ab7b818bf89b6744953</anchor>
-      <arglist>(const vector &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>approx_equal</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a35fe1423143996ce50300eeeeeda2eb5</anchor>
-      <arglist>(const vector &amp;v1, const vector&lt; T, dimensions &gt; &amp;v2, epsilon_type&lt; scalar_type, T &gt; epsilon=default_epsilon&lt; scalar_type, T &gt;) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>approx_zero</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a397a1a85527bdd10d525e7b909f6266f</anchor>
-      <arglist>(const vector &amp;v, scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr delta_type</type>
-      <name>length_squared</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>afd75180eb15dbf5c935082df80c6d7f0</anchor>
-      <arglist>(const vector &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr delta_type</type>
-      <name>length</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a595591fb94aebe07cb9155adce604b06</anchor>
-      <arglist>(const vector &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr delta_type</type>
-      <name>distance_squared</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a43895fc13b0bb95b291930ffec875879</anchor>
-      <arglist>(const vector &amp;p1, const vector &amp;p2) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr delta_type</type>
-      <name>distance</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a5d5da1fa9d49a054d951e7e594ff4237</anchor>
-      <arglist>(const vector &amp;p1, const vector &amp;p2) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>unit_length</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aac145e556c43a0ab014241c1639246ef</anchor>
-      <arglist>(const vector &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr product_type</type>
-      <name>dot</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ad6a8e8255b891922a234ecc7c08946f7</anchor>
-      <arglist>(const vector &amp;v1, const vector &amp;v2) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector&lt; product_type, 3 &gt;</type>
-      <name>cross</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>afaaba1907638af0572a02db16c4e3f39</anchor>
-      <arglist>(const vector &amp;lhs, const vector &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector</type>
-      <name>normalize</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a8fb6d941b2d70ce2729640b658b08faa</anchor>
-      <arglist>(const vector &amp;v, delta_type &amp;length_out) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector</type>
-      <name>normalize</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ab36f324a503d1fb436f63563f91715c1</anchor>
-      <arglist>(const vector &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector</type>
-      <name>normalize_lensq</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a687841de9f109ebb27ff1d270a73770f</anchor>
-      <arglist>(const vector &amp;v, delta_type v_lensq) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector_product</type>
-      <name>direction</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a986a7ea9b43cfff73c6823bc22404b45</anchor>
-      <arglist>(const vector &amp;from, const vector &amp;to, delta_type &amp;distance_out) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector_product</type>
-      <name>direction</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a437e7a7717c871c94d066de690db02af</anchor>
-      <arglist>(const vector &amp;from, const vector &amp;to) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector</type>
-      <name>min</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a2541045a2459ae9a8d5a17439b587ba0</anchor>
-      <arglist>(const vector &amp;v1, const vector &amp;v2) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector</type>
-      <name>max</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a685c402ee7f8a2eb71cdb598618b4eec</anchor>
-      <arglist>(const vector &amp;v1, const vector &amp;v2) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector</type>
-      <name>clamp</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a585b0468facf48d12a3fc82a23b7507d</anchor>
-      <arglist>(const vector &amp;v, const vector &amp;low, const vector &amp;high) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector</type>
-      <name>lerp</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a8baba734e38ebb0adbed0ab9be28ac57</anchor>
-      <arglist>(const vector &amp;start, const vector &amp;finish, delta_type alpha) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr delta_type</type>
-      <name>angle</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a3a23421b4be342955de1384af02aeeb5</anchor>
-      <arglist>(const vector &amp;v1, const vector &amp;v2) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector</type>
-      <name>abs</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a935a9bc44bb2bef21b75b1f914a1de8d</anchor>
-      <arglist>(const vector &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector</type>
-      <name>ceil</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a4918d06dc4adbee8e320dd8b9918d510</anchor>
-      <arglist>(const vector &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector</type>
-      <name>floor</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aa00b6803a1adf5e2b576b8c3ff13db5d</anchor>
-      <arglist>(const vector &amp;v) noexcept</arglist>
-    </member>
-    <member kind="variable">
-      <type>scalar_type</type>
-      <name>x</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a03d091d31e6dae7ed1d279258555598b</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>scalar_type</type>
-      <name>y</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>adcf17a6ab7f9efab07681df837a63fc3</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>scalar_type</type>
-      <name>z</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ae3a7217dfe2109b3aa2d0da555862367</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>scalar_type</type>
-      <name>w</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aa4f5a42ad04a011d2b4de2c4404ef5d6</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>scalar_type</type>
-      <name>values</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a0dd98b6ea7851559cf9c8feb3c45dddb</anchor>
-      <arglist>[dimensions]</arglist>
-    </member>
-    <member kind="variable" static="yes">
-      <type>static constexpr size_t</type>
-      <name>dimensions</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a8c5d32031f530edbe83b5464c497e33c</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend bool</type>
-      <name>operator==</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ab8aaf9b6dcb54a7b2512bf26b84f57bf</anchor>
-      <arglist>(const vector &amp;lhs, const vector&lt; T, dimensions &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend bool</type>
-      <name>operator!=</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a6a42ea429501a372c40fa7799fc4b4fd</anchor>
-      <arglist>(const vector &amp;lhs, const vector&lt; T, dimensions &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend vector</type>
-      <name>operator+</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a4b54abe8bbd52a16bb64d13bfbb28484</anchor>
-      <arglist>(const vector &amp;lhs, const vector &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend vector</type>
-      <name>operator-</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a58ad62fa3554a8c54b21da1a576f5d90</anchor>
-      <arglist>(const vector &amp;lhs, const vector &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend vector</type>
-      <name>operator*</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a9c18ba7c63d516edc1b44d3b34d97f8f</anchor>
-      <arglist>(const vector &amp;lhs, const vector &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend vector</type>
-      <name>operator*</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a377875f9428f0c0a45072ae8085d96be</anchor>
-      <arglist>(const vector &amp;lhs, scalar_type rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend vector</type>
-      <name>operator*</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>afabbdaf1a0e26c72658c2811e03cbbab</anchor>
-      <arglist>(scalar_type lhs, const vector &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend vector</type>
-      <name>operator/</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a952b8ffe2f57c1f1d6de141d0a044ad6</anchor>
-      <arglist>(const vector &amp;lhs, const vector &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend vector</type>
-      <name>operator/</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a1ad97c9f673e1175e9844e1098f3b4f4</anchor>
-      <arglist>(const vector &amp;lhs, scalar_type rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend vector</type>
-      <name>operator%</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ad3c206d2367de1aba3a270a23fce64a6</anchor>
-      <arglist>(const vector &amp;lhs, const vector &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend vector</type>
-      <name>operator%</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a9b01fe2e7642f921bc114382251778c9</anchor>
-      <arglist>(const vector &amp;lhs, scalar_type rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend vector</type>
-      <name>operator&lt;&lt;</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ae93203083268e4246ec6793fa2afb899</anchor>
-      <arglist>(const vector &amp;lhs, product_type rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>friend std::basic_ostream&lt; Char, Traits &gt; &amp;</type>
-      <name>operator&lt;&lt;</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a31bf388115e8fbe083aa056f5523bbbc</anchor>
-      <arglist>(std::basic_ostream&lt; Char, Traits &gt; &amp;os, const vector &amp;v)</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend vector</type>
-      <name>operator&gt;&gt;</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a1716301da51ba08326fb7b29665e9e52</anchor>
-      <arglist>(const vector &amp;lhs, product_type rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>group__infinity__or__nan.html</anchorfile>
-      <anchor>ga302affada638f7a69a77c925b1f38d93</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_equal</name>
-      <anchorfile>group__approx__equal.html</anchorfile>
-      <anchor>ga5d86e15710b89e3c79399cd98f597efe</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; T, D &gt; &amp;v2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_zero</name>
-      <anchorfile>group__approx__zero.html</anchorfile>
-      <anchor>gaa7e15ecff78c10af4eaa5b463eee9ca6</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr delta_type</type>
-      <name>length_squared</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>af37b8bb87586b2493271f14f82d2481e</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr delta_type</type>
-      <name>length</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a2331787cdf36e4d844da3b1f046da7f9</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr delta_type</type>
-      <name>distance_squared</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ac89dde907a1376136b6ec7296671ba65</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;p1, const vector&lt; S, D &gt; &amp;p2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr delta_type</type>
-      <name>distance</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a4633afca2e5b98a7e8b5f857cfa7a611</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;p1, const vector&lt; S, D &gt; &amp;p2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>unit_length</name>
-      <anchorfile>group__unit__length.html</anchorfile>
-      <anchor>gaa23ee7220c00563698286c33249cd119</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr product_type</type>
-      <name>dot</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ac5cdbbcc7fbf5513c01aa5e9d799c77e</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector_product</type>
-      <name>cross</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a6522fd4daefcf5bb938bd2879c99b741</anchor>
-      <arglist>(const vector&lt; S, 3 &gt; &amp;lhs, const vector&lt; S, 3 &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>normalize</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aaed6aa88dd289829bd7f1b15182d2577</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v, delta_type &amp;length_out) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>normalize</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a0901b5c81729a1e28b3dab7c0cf1bba3</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector_product</type>
-      <name>direction</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a5894cf9d191befc3a53ed17f6ead1b3f</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;from, const vector&lt; S, D &gt; &amp;to, delta_type &amp;distance_out) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector_product</type>
-      <name>direction</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>af688d95d2f8af0a0687b78875d465e93</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;from, const vector&lt; S, D &gt; &amp;to) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>min</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a0677f3cf9e12c0c6cf4ee3844dd802c1</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>max</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a28964d765fdb622739bd2ac68ce50329</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>clamp</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a13427afa8abc10b68dec66a3e6d30c94</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v, const vector&lt; S, D &gt; &amp;low, const vector&lt; S, D &gt; &amp;high) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>lerp</name>
-      <anchorfile>group__lerp.html</anchorfile>
-      <anchor>ga8a4dcbb8bec3e3ce9276430bdb3f44f3</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;start, const vector&lt; S, D &gt; &amp;finish, delta_type alpha) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr delta_type</type>
-      <name>angle</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ad3a39a64a42865cc1b4dfe5ba737c7f4</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>abs</name>
-      <anchorfile>group__abs.html</anchorfile>
-      <anchor>ga3d9f7436810436103ec0af7e77597b04</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>ceil</name>
-      <anchorfile>group__ceil.html</anchorfile>
-      <anchor>gae07fcd5b9220de0b39fa3461c3c529de</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>floor</name>
-      <anchorfile>group__floor.html</anchorfile>
-      <anchor>gaa9989749869046cff6731ead1b56f0df</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; scalar_type, sizeof...(Indices)&gt;</type>
-      <name>swizzle</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>afa84ed878b3e20e9d3ac5b467142edca</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; scalar_type, 2 &gt;</type>
-      <name>xy</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a94ce8b6378bf09ec5a986f93158fd2a1</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; scalar_type, 2 &gt;</type>
-      <name>xz</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a4813f16a5dddcf87d5cce346977d788b</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; scalar_type, 2 &gt;</type>
-      <name>yx</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a80b0003d6048b3e41d78d032ad8ba294</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; scalar_type, 3 &gt;</type>
-      <name>xyz</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aac0617343d3f899677a8bd726e2af138</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; scalar_type, 4 &gt;</type>
-      <name>xyz1</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aa6f10bf2b3ff4de2eebb762b10a9063d</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; scalar_type, 4 &gt;</type>
-      <name>xyz0</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ac03954cbdf1897b819551f9b2fa423a2</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr vector&lt; scalar_type, sizeof...(Indices)&gt;</type>
-      <name>swizzle</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aad56aced14ee8bab3932f5bb71e5a629</anchor>
-      <arglist>(const vector &amp;v) noexcept</arglist>
-    </member>
+    <templarg>typename Scalar</templarg>
+    <templarg>size_t Dimensions</templarg>
   </compound>
   <compound kind="namespace">
     <name>muu</name>
@@ -11716,57 +8924,57 @@
     <namespace>muu::build</namespace>
     <namespace>muu::literals</namespace>
     <class kind="class">muu::accumulator</class>
-    <class kind="struct">muu::axis_angle_rotation</class>
     <class kind="class">muu::blob</class>
     <class kind="struct">muu::bounding_box</class>
     <class kind="class">muu::compressed_pair</class>
-    <class kind="struct">muu::constants</class>
+    <class kind="struct">muu::constants&lt; float &gt;</class>
+    <class kind="struct">muu::constants&lt; double &gt;</class>
+    <class kind="struct">muu::constants&lt; long double &gt;</class>
     <class kind="struct">muu::constants&lt; __fp16 &gt;</class>
     <class kind="struct">muu::constants&lt; _Float16 &gt;</class>
+    <class kind="struct">muu::constants&lt; float128_t &gt;</class>
     <class kind="struct">muu::constants&lt; char &gt;</class>
+    <class kind="struct">muu::constants&lt; wchar_t &gt;</class>
     <class kind="struct">muu::constants&lt; char16_t &gt;</class>
     <class kind="struct">muu::constants&lt; char32_t &gt;</class>
-    <class kind="struct">muu::constants&lt; double &gt;</class>
-    <class kind="struct">muu::constants&lt; float &gt;</class>
-    <class kind="struct">muu::constants&lt; float128_t &gt;</class>
-    <class kind="struct">muu::constants&lt; half &gt;</class>
-    <class kind="struct">muu::constants&lt; int128_t &gt;</class>
-    <class kind="struct">muu::constants&lt; long double &gt;</class>
-    <class kind="struct">muu::constants&lt; matrix&lt; Scalar, Rows, Columns &gt; &gt;</class>
-    <class kind="struct">muu::constants&lt; quaternion&lt; Scalar &gt; &gt;</class>
     <class kind="struct">muu::constants&lt; signed char &gt;</class>
-    <class kind="struct">muu::constants&lt; signed int &gt;</class>
-    <class kind="struct">muu::constants&lt; signed long &gt;</class>
-    <class kind="struct">muu::constants&lt; signed long long &gt;</class>
-    <class kind="struct">muu::constants&lt; signed short &gt;</class>
-    <class kind="struct">muu::constants&lt; uint128_t &gt;</class>
     <class kind="struct">muu::constants&lt; unsigned char &gt;</class>
-    <class kind="struct">muu::constants&lt; unsigned int &gt;</class>
-    <class kind="struct">muu::constants&lt; unsigned long &gt;</class>
-    <class kind="struct">muu::constants&lt; unsigned long long &gt;</class>
+    <class kind="struct">muu::constants&lt; signed short &gt;</class>
     <class kind="struct">muu::constants&lt; unsigned short &gt;</class>
-    <class kind="struct">muu::constants&lt; uuid &gt;</class>
-    <class kind="struct">muu::constants&lt; vector&lt; Scalar, Dimensions &gt; &gt;</class>
-    <class kind="struct">muu::constants&lt; wchar_t &gt;</class>
-    <class kind="class">muu::emplacement_array</class>
-    <class kind="struct">muu::euler_rotation</class>
-    <class kind="class">muu::fnv1a</class>
+    <class kind="struct">muu::constants&lt; signed int &gt;</class>
+    <class kind="struct">muu::constants&lt; unsigned int &gt;</class>
+    <class kind="struct">muu::constants&lt; signed long &gt;</class>
+    <class kind="struct">muu::constants&lt; unsigned long &gt;</class>
+    <class kind="struct">muu::constants&lt; signed long long &gt;</class>
+    <class kind="struct">muu::constants&lt; unsigned long long &gt;</class>
+    <class kind="struct">muu::constants&lt; int128_t &gt;</class>
+    <class kind="struct">muu::constants&lt; uint128_t &gt;</class>
     <class kind="struct">muu::generic_allocator</class>
+    <class kind="class">muu::emplacement_array</class>
+    <class kind="struct">muu::constants</class>
     <class kind="struct">muu::half</class>
+    <class kind="struct">muu::constants&lt; half &gt;</class>
     <class kind="class">muu::hash_combiner</class>
-    <class kind="struct">muu::matrix</class>
-    <class kind="struct">muu::oriented_bounding_box</class>
-    <class kind="struct">muu::quaternion</class>
-    <class kind="class">muu::scope_fail</class>
-    <class kind="class">muu::scope_guard</class>
-    <class kind="class">muu::scope_success</class>
+    <class kind="class">muu::fnv1a</class>
     <class kind="class">muu::sha1</class>
+    <class kind="struct">muu::matrix</class>
+    <class kind="struct">muu::constants&lt; matrix&lt; Scalar, Rows, Columns &gt; &gt;</class>
+    <class kind="struct">muu::oriented_bounding_box</class>
+    <class kind="struct">muu::axis_angle_rotation</class>
+    <class kind="struct">muu::euler_rotation</class>
+    <class kind="struct">muu::quaternion</class>
+    <class kind="struct">muu::constants&lt; quaternion&lt; Scalar &gt; &gt;</class>
+    <class kind="class">muu::scope_guard</class>
+    <class kind="class">muu::scope_fail</class>
+    <class kind="class">muu::scope_success</class>
     <class kind="class">muu::span</class>
     <class kind="class">muu::string_param</class>
     <class kind="class">muu::tagged_ptr</class>
     <class kind="class">muu::thread_pool</class>
     <class kind="struct">muu::uuid</class>
+    <class kind="struct">muu::constants&lt; uuid &gt;</class>
     <class kind="struct">muu::vector</class>
+    <class kind="struct">muu::constants&lt; vector&lt; Scalar, Dimensions &gt; &gt;</class>
     <member kind="typedef">
       <type>std::remove_cv_t&lt; std::remove_reference_t&lt; T &gt; &gt;</type>
       <name>remove_cvref</name>
@@ -15845,18 +13053,18 @@
   <compound kind="namespace">
     <name>std</name>
     <filename>namespacestd.html</filename>
-    <class kind="struct">std::hash&lt; muu::uuid &gt;</class>
-    <class kind="struct">std::numeric_limits&lt; muu::half &gt;</class>
-    <class kind="struct">std::tuple_element&lt; I, muu::bounding_box&lt; Scalar &gt; &gt;</class>
-    <class kind="struct">std::tuple_element&lt; I, muu::compressed_pair&lt; First, Second &gt; &gt;</class>
-    <class kind="struct">std::tuple_element&lt; I, muu::oriented_bounding_box&lt; Scalar &gt; &gt;</class>
-    <class kind="struct">std::tuple_element&lt; I, muu::quaternion&lt; Scalar &gt; &gt;</class>
-    <class kind="struct">std::tuple_element&lt; I, muu::vector&lt; Scalar, Dimensions &gt; &gt;</class>
     <class kind="struct">std::tuple_size&lt; muu::bounding_box&lt; Scalar &gt; &gt;</class>
+    <class kind="struct">std::tuple_element&lt; I, muu::bounding_box&lt; Scalar &gt; &gt;</class>
     <class kind="struct">std::tuple_size&lt; muu::compressed_pair&lt; First, Second &gt; &gt;</class>
+    <class kind="struct">std::tuple_element&lt; I, muu::compressed_pair&lt; First, Second &gt; &gt;</class>
+    <class kind="struct">std::numeric_limits&lt; muu::half &gt;</class>
     <class kind="struct">std::tuple_size&lt; muu::oriented_bounding_box&lt; Scalar &gt; &gt;</class>
+    <class kind="struct">std::tuple_element&lt; I, muu::oriented_bounding_box&lt; Scalar &gt; &gt;</class>
     <class kind="struct">std::tuple_size&lt; muu::quaternion&lt; Scalar &gt; &gt;</class>
+    <class kind="struct">std::tuple_element&lt; I, muu::quaternion&lt; Scalar &gt; &gt;</class>
+    <class kind="struct">std::hash&lt; muu::uuid &gt;</class>
     <class kind="struct">std::tuple_size&lt; muu::vector&lt; Scalar, Dimensions &gt; &gt;</class>
+    <class kind="struct">std::tuple_element&lt; I, muu::vector&lt; Scalar, Dimensions &gt; &gt;</class>
   </compound>
   <compound kind="group">
     <name>code_units</name>
@@ -20827,7 +18035,7 @@
   <compound kind="page">
     <name>index</name>
     <title>muu</title>
-    <filename>index</filename>
+    <filename>index.html</filename>
     <docanchor file="index.html">main</docanchor>
   </compound>
 </tagfile>

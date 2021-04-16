@@ -65,18 +65,86 @@
             <li>
               Reference
               <ul>
+                <li><a href="#unit-vectors">Unit vectors</a></li>
+                <li><a href="#directions">Directions</a></li>
                 <li><a href="#limits">Limits</a></li>
                 <li><a href="#integers">Integers</a></li>
                 <li><a href="#floating-point">Floating-point</a></li>
                 <li><a href="#irrational-numbers">Irrational numbers</a></li>
                 <li><a href="#conversions">Conversions</a></li>
-                <li><a href="#unit-vectors">Unit vectors</a></li>
-                <li><a href="#directions">Directions</a></li>
               </ul>
             </li>
           </ul>
         </div>
 <aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="structmuu_1_1vector.html">muu::<wbr/>vector</a></p></aside>
+        <section id="unit-vectors">
+          <h2><a href="#unit-vectors">Unit vectors</a></h2>
+<p><br/></p>
+          <dl class="m-doc">
+            <dt id="af24e7b70ed489a0f856114898cc7de20">
+              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#af24e7b70ed489a0f856114898cc7de20">x_axis</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>A unit-length vector representing the X axis.</dd>
+            <dt id="a2cf1a2946b83adde4b03325efc663a09">
+              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#a2cf1a2946b83adde4b03325efc663a09">y_axis</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>A unit-length vector representing the Y axis.</dd>
+            <dt id="ab9e511e784a981193068ce4a4bdb28ad">
+              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#ab9e511e784a981193068ce4a4bdb28ad">z_axis</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>A unit-length vector representing the Z axis.</dd>
+            <dt id="a8bafee83ce6c04f1856bba7cb4cb9d92">
+              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#a8bafee83ce6c04f1856bba7cb4cb9d92">w_axis</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>A unit-length vector representing the W axis.</dd>
+          </dl>
+        </section>
+        <section id="directions">
+          <h2><a href="#directions">Directions</a></h2>
+<p><br/></p>
+          <dl class="m-doc">
+            <dt id="a09a3238d50b9722fe4fc140899d5f547">
+              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#a09a3238d50b9722fe4fc140899d5f547">screen_right</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Right direction (in a top-down screen coordinate system).</dd>
+            <dt id="aee23ffd92343e1a5ed59d139bf9d8a8c">
+              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#aee23ffd92343e1a5ed59d139bf9d8a8c">screen_down</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Down direction (in a top-down screen coordinate system).</dd>
+            <dt id="aac415d290a4b424e06c9dac95b846bad">
+              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#aac415d290a4b424e06c9dac95b846bad">screen_left</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Left direction (in a top-down screen coordinate system).</dd>
+            <dt id="a171a961d85898772658a1b8017e924dc">
+              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#a171a961d85898772658a1b8017e924dc">screen_up</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Up direction (in a top-down screen coordinate system).</dd>
+            <dt id="ad077cf1d6b5b78dabced0e671b5b5859">
+              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#ad077cf1d6b5b78dabced0e671b5b5859">backward</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Backward direction (in a right-handed coordinate system).</dd>
+            <dt id="ad8e6e0e025484128a23c6f0443b6f282">
+              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#ad8e6e0e025484128a23c6f0443b6f282">forward</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Forward direction (in a right-handed coordinate system).</dd>
+            <dt id="a2ffb1106370dc80cd65b241d3f7f3851">
+              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#a2ffb1106370dc80cd65b241d3f7f3851">right</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Right direction (in a right-handed coordinate system).</dd>
+            <dt id="a3874817adc6175ef713a1d0abf963669">
+              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#a3874817adc6175ef713a1d0abf963669">up</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Up direction (in a right-handed coordinate system).</dd>
+            <dt id="ac2c57bf8d8d85a6e1aa60ebb29a387c8">
+              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#ac2c57bf8d8d85a6e1aa60ebb29a387c8">left</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Left direction (in a right-handed coordinate system).</dd>
+            <dt id="adba546a3627082a9da498a0b5b7d310a">
+              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#adba546a3627082a9da498a0b5b7d310a">down</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Down direction (in a right-handed coordinate system).</dd>
+          </dl>
+        </section>
         <section id="limits">
           <h2><a href="#limits">Limits</a></h2>
 <p><br/></p>
@@ -405,74 +473,6 @@
               static T <a class="m-doc-self" href="#abf3ad7c5164fb1959c4f972abfc3c2a9">radians_to_degrees</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Conversion factor for converting radians into degrees.</dd>
-          </dl>
-        </section>
-        <section id="unit-vectors">
-          <h2><a href="#unit-vectors">Unit vectors</a></h2>
-<p><br/></p>
-          <dl class="m-doc">
-            <dt id="af24e7b70ed489a0f856114898cc7de20">
-              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#af24e7b70ed489a0f856114898cc7de20">x_axis</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>A unit-length vector representing the X axis.</dd>
-            <dt id="a2cf1a2946b83adde4b03325efc663a09">
-              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#a2cf1a2946b83adde4b03325efc663a09">y_axis</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>A unit-length vector representing the Y axis.</dd>
-            <dt id="ab9e511e784a981193068ce4a4bdb28ad">
-              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#ab9e511e784a981193068ce4a4bdb28ad">z_axis</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>A unit-length vector representing the Z axis.</dd>
-            <dt id="a8bafee83ce6c04f1856bba7cb4cb9d92">
-              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#a8bafee83ce6c04f1856bba7cb4cb9d92">w_axis</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>A unit-length vector representing the W axis.</dd>
-          </dl>
-        </section>
-        <section id="directions">
-          <h2><a href="#directions">Directions</a></h2>
-<p><br/></p>
-          <dl class="m-doc">
-            <dt id="a09a3238d50b9722fe4fc140899d5f547">
-              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#a09a3238d50b9722fe4fc140899d5f547">screen_right</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>Right direction (in a top-down screen coordinate system).</dd>
-            <dt id="aee23ffd92343e1a5ed59d139bf9d8a8c">
-              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#aee23ffd92343e1a5ed59d139bf9d8a8c">screen_down</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>Down direction (in a top-down screen coordinate system).</dd>
-            <dt id="aac415d290a4b424e06c9dac95b846bad">
-              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#aac415d290a4b424e06c9dac95b846bad">screen_left</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>Left direction (in a top-down screen coordinate system).</dd>
-            <dt id="a171a961d85898772658a1b8017e924dc">
-              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#a171a961d85898772658a1b8017e924dc">screen_up</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>Up direction (in a top-down screen coordinate system).</dd>
-            <dt id="ad077cf1d6b5b78dabced0e671b5b5859">
-              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#ad077cf1d6b5b78dabced0e671b5b5859">backward</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>Backward direction (in a right-handed coordinate system).</dd>
-            <dt id="ad8e6e0e025484128a23c6f0443b6f282">
-              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#ad8e6e0e025484128a23c6f0443b6f282">forward</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>Forward direction (in a right-handed coordinate system).</dd>
-            <dt id="a2ffb1106370dc80cd65b241d3f7f3851">
-              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#a2ffb1106370dc80cd65b241d3f7f3851">right</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>Right direction (in a right-handed coordinate system).</dd>
-            <dt id="a3874817adc6175ef713a1d0abf963669">
-              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#a3874817adc6175ef713a1d0abf963669">up</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>Up direction (in a right-handed coordinate system).</dd>
-            <dt id="ac2c57bf8d8d85a6e1aa60ebb29a387c8">
-              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#ac2c57bf8d8d85a6e1aa60ebb29a387c8">left</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>Left direction (in a right-handed coordinate system).</dd>
-            <dt id="adba546a3627082a9da498a0b5b7d310a">
-              static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;Scalar, Dimensions&gt; <a class="m-doc-self" href="#adba546a3627082a9da498a0b5b7d310a">down</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>Down direction (in a right-handed coordinate system).</dd>
           </dl>
         </section>
         <section>
