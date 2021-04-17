@@ -87,39 +87,39 @@
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="ac039bd5671573a6ec0f61e1101286e20">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac039bd5671573a6ec0f61e1101286e20">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> byte) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a78d696ccc194131132ffdc5792571415">finish</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Appends a single byte to the hash function's input.</dd>
-            <dt id="a2cfc2f933f53af2ba83d2b85daf3f0b6">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2cfc2f933f53af2ba83d2b85daf3f0b6">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a> byte) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Appends a single byte to the hash function's input.</dd>
+            <dd>Finishes calculating the hash.</dd>
             <dt id="a03f22b6388d84cc768d060c8316afc3b">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a03f22b6388d84cc768d060c8316afc3b">operator()</a>(</span><span class="m-doc-wrap">const void* data,
               <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Appends a sequence of raw data to the hash function's input.</dd>
+            <dt id="a2cfc2f933f53af2ba83d2b85daf3f0b6">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2cfc2f933f53af2ba83d2b85daf3f0b6">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a> byte) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Appends a single byte to the hash function's input.</dd>
             <dt id="ac9ed2ee364a7d0a3cf32af0fe292d6cb">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac9ed2ee364a7d0a3cf32af0fe292d6cb">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>string_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Appends a string to the hash function's input.</dd>
-            <dt id="a0dfb107c3588a2cf043122aaa4293cc2">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0dfb107c3588a2cf043122aaa4293cc2">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>wstring_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Appends a wide string to the hash function's input.</dd>
-            <dt id="a663e577e76f1bfca07b242b7e6d8b7cb">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a663e577e76f1bfca07b242b7e6d8b7cb">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u32string_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Appends a UTF-32 string to the hash function's input.</dd>
             <dt id="a38a9f1fefb6706abd2a6b17575706249">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a38a9f1fefb6706abd2a6b17575706249">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u16string_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Appends a UTF-16 string to the hash function's input.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a78d696ccc194131132ffdc5792571415">finish</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a663e577e76f1bfca07b242b7e6d8b7cb">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a663e577e76f1bfca07b242b7e6d8b7cb">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u32string_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Finishes calculating the hash.</dd>
+            <dd>Appends a UTF-32 string to the hash function's input.</dd>
+            <dt id="a0dfb107c3588a2cf043122aaa4293cc2">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0dfb107c3588a2cf043122aaa4293cc2">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>wstring_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Appends a wide string to the hash function's input.</dd>
+            <dt id="ac039bd5671573a6ec0f61e1101286e20">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac039bd5671573a6ec0f61e1101286e20">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> byte) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Appends a single byte to the hash function's input.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a653ab6f85c2ce69355b5e45e3c7edca6">value</a>(</span><span class="m-doc-wrap">) const -&gt; const hash_type&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>

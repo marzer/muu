@@ -88,17 +88,17 @@
             <dt>
               struct <a class="m-doc" href="structmuu_1_1half.html">muu::half</a>
             </dt>
-            <dd>A 16-bit "<a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision" floating point type.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              class <a class="m-doc" href="classmuu_1_1scope__guard.html">muu::scope_guard</a>
-            </dt>
-            <dd>Performs actions when going out of scope.</dd>
+            <dd>A 16-bit "half-precision" floating point type.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               class <a class="m-doc" href="classmuu_1_1scope__fail.html">muu::scope_fail</a>
             </dt>
             <dd>Performs actions when going out of scope due to an exception being thrown.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              class <a class="m-doc" href="classmuu_1_1scope__guard.html">muu::scope_guard</a>
+            </dt>
+            <dd>Performs actions when going out of scope.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               class <a class="m-doc" href="classmuu_1_1scope__success.html">muu::scope_success</a>
@@ -124,78 +124,22 @@
           <h2><a href="#typedef-members">Typedefs</a></h2>
           <dl class="m-doc">
             <dt>
-              using <a class="m-doc" href="#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_t</a> = __int128_t
+              using <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> = <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html" target="_blank">__float128</a>
+            </dt>
+            <dd>A 128-bit quad-precision float.</dd>
+            <dt>
+              using <a class="m-doc dox-injected" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_t</a> = __int128_t
             </dt>
             <dd>A 128-bit signed integer.</dd>
             <dt>
-              using <a class="m-doc" href="#gaa82164a62949a1b029695dff5441d577">uint128_t</a> = __uint128_t
+              using <a class="m-doc dox-injected" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_t</a> = __uint128_t
             </dt>
             <dd>A 128-bit unsigned integer.</dd>
-            <dt>
-              using <a class="m-doc" href="#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> = <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html" target="_blank">__float128</a>
-            </dt>
-            <dd>A 128-bit quad-precision float.</dd>
           </dl>
         </section>
         <section id="func-members">
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga8a9b0aaf9860b30f93639333a5214d34">is_constant_evaluated</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Equivalent to C++20's <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/is_constant_evaluated.html" target="_blank">std::<wbr/>is_constant_evaluated</a>.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;class T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga279c303aaba76a43d1dc23834c35f857">launder</a>(</span><span class="m-doc-wrap">T* ptr) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Equivalent to C++17's <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/utility/launder.html" target="_blank">std::<wbr/>launder</a>.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga81642f54291cc4a1287ef141b3f4d34f">unwrap</a>(</span><span class="m-doc-wrap">T val) -&gt; <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/underlying_type.html" target="_blank">std::<wbr/>underlying_type_t</a>&lt;T&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Unwraps an enum to it's raw integer equivalent.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga12cd318fdcf736ca99f5bf66aa615fd1">countl_zero</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Counts the number of consecutive 0 bits, starting from the left.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gab5b51a3c121984cfddb8d5da4e9bf070">countr_zero</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Counts the number of consecutive 0 bits, starting from the right.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gadf75326611fa43dbacc1ff601e9e969b">countl_one</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Counts the number of consecutive 1 bits, starting from the left.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga84963e1a7bf75ec7464cda53b26dec8a">countr_one</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Counts the number of consecutive 1 bits, starting from the right.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gae62fd9413cd433a4e15c0fdf89913a1b">bit_ceil</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Finds the smallest integral power of two not less than the given value.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename Return = void, typename T, typename U, typename... V&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gafd5ebb4cf00dd4b93188521f0a2196e2">pack</a>(</span><span class="m-doc-wrap">T val1,
-              U val2,
-              V... vals) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Bitwise-packs integers left-to-right into a larger integer.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename To, typename From&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaadb4c6332c738c248f84f43ece303657">bit_cast</a>(</span><span class="m-doc-wrap">const From&amp; from) -&gt; To <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Equivalent to C++20's <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/numeric/bit_cast" target="_blank">std::bit_cast</a>.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename To, typename From&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gab714a50e01b58e7d4117d5ef9d403d39">pointer_cast</a>(</span><span class="m-doc-wrap">From from) -&gt; To <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Casts between pointers, choosing the most appropriate conversion path.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename Offset&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga95da5073b863161a6542266f4a6c5961">apply_offset</a>(</span><span class="m-doc-wrap">T* ptr,
@@ -203,24 +147,10 @@
             </dt>
             <dd>Applies a byte offset to a pointer.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gacc52016e295ef88268bd5835a23b69d8">min</a>(</span><span class="m-doc-wrap">const T&amp; val1,
-              const T&amp; val2) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N, typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaf58f3326aea89653ec725ccbc5ff29d2">assume_aligned</a>(</span><span class="m-doc-wrap">T* ptr) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the minimum of two values.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga67052cab1c45673f85ee326e91aafbde">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
-              const T&amp; val2) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns the maximum of two values.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga853b138ba34af796906a03cda9dbfabe">clamp</a>(</span><span class="m-doc-wrap">const T&amp; val,
-              const T&amp; low,
-              const T&amp; high) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a value clamped between two bounds (inclusive).</dd>
+            <dd>Equivalent to C++20's <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/memory/assume_aligned.html" target="_blank">std::<wbr/>assume_aligned</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga108fd48e10e2c18acbaaf9f611b14d5b">between</a>(</span><span class="m-doc-wrap">T val,
@@ -229,15 +159,25 @@
             </dt>
             <dd>Returns true if a value is between two bounds (inclusive).</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gab392bc74729da41c4d226f8d45e58599">popcount</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename To, typename From&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaadb4c6332c738c248f84f43ece303657">bit_cast</a>(</span><span class="m-doc-wrap">const From&amp; from) -&gt; To <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Counts the number of set bits (the 'population count') of an unsigned integer.</dd>
+            <dd>Equivalent to C++20's <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/numeric/bit_cast" target="_blank">std::bit_cast</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga309ac880015add971ee06b148191060f">has_single_bit</a>(</span><span class="m-doc-wrap">T val) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gae62fd9413cd433a4e15c0fdf89913a1b">bit_ceil</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Checks if an integral value has only a single bit set.</dd>
+            <dd>Finds the smallest integral power of two not less than the given value.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaf41f6cc12b0e9ac1de1bdf63e2a28fdf">bit_fill_left</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an unsigned integer filled from the left with the desired number of consecutive ones.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gab5cb8d563f61573ca1e2827ddd085d3d">bit_fill_right</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an unsigned integer filled from the right with the desired number of consecutive ones.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga0ef1d5961e901e2d52b3d6be07efe201">bit_floor</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -250,14 +190,9 @@
             <dd>Finds the smallest number of bits needed to represent the given value.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gab5cb8d563f61573ca1e2827ddd085d3d">bit_fill_right</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gab3e8f4f75d417dc6880311de6c9306e9">byte_reverse</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns an unsigned integer filled from the right with the desired number of consecutive ones.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaf41f6cc12b0e9ac1de1bdf63e2a28fdf">bit_fill_left</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns an unsigned integer filled from the left with the desired number of consecutive ones.</dd>
+            <dd>Reverses the byte order of an unsigned integral type.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index, typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gae644160cd7d978d95922af233afc5ddd">byte_select</a>(</span><span class="m-doc-wrap">T val) -&gt; <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -271,38 +206,111 @@
             <dd>Gets a specific byte from an integer.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gab3e8f4f75d417dc6880311de6c9306e9">byte_reverse</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga853b138ba34af796906a03cda9dbfabe">clamp</a>(</span><span class="m-doc-wrap">const T&amp; val,
+              const T&amp; low,
+              const T&amp; high) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Reverses the byte order of an unsigned integral type.</dd>
+            <dd>Returns a value clamped between two bounds (inclusive).</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gadf75326611fa43dbacc1ff601e9e969b">countl_one</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Counts the number of consecutive 1 bits, starting from the left.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga12cd318fdcf736ca99f5bf66aa615fd1">countl_zero</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Counts the number of consecutive 0 bits, starting from the left.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga84963e1a7bf75ec7464cda53b26dec8a">countr_one</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Counts the number of consecutive 1 bits, starting from the right.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gab5b51a3c121984cfddb8d5da4e9bf070">countr_zero</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Counts the number of consecutive 0 bits, starting from the right.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;auto N, typename Func&gt;</div>
+              <span class="m-doc-wrap-bumper">void <a class="m-doc" href="#gab64801b0b03f54c51a21000e8bb95ea1">for_sequence</a>(</span><span class="m-doc-wrap">Func&amp;&amp; func) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
+            </dt>
+            <dd>Generates a series of sequential function calls by pack expansion.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga309ac880015add971ee06b148191060f">has_single_bit</a>(</span><span class="m-doc-wrap">T val) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Checks if an integral value has only a single bit set.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga8a9b0aaf9860b30f93639333a5214d34">is_constant_evaluated</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Equivalent to C++20's <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/is_constant_evaluated.html" target="_blank">std::<wbr/>is_constant_evaluated</a>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;class T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga279c303aaba76a43d1dc23834c35f857">launder</a>(</span><span class="m-doc-wrap">T* ptr) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Equivalent to C++17's <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/utility/launder.html" target="_blank">std::<wbr/>launder</a>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga67052cab1c45673f85ee326e91aafbde">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              const T&amp; val2) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the maximum of two values.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gacc52016e295ef88268bd5835a23b69d8">min</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              const T&amp; val2) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the minimum of two values.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Return = void, typename T, typename U, typename... V&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gafd5ebb4cf00dd4b93188521f0a2196e2">pack</a>(</span><span class="m-doc-wrap">T val1,
+              U val2,
+              V... vals) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Bitwise-packs integers left-to-right into a larger integer.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename To, typename From&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gab714a50e01b58e7d4117d5ef9d403d39">pointer_cast</a>(</span><span class="m-doc-wrap">From from) -&gt; To <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Casts between pointers, choosing the most appropriate conversion path.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gab392bc74729da41c4d226f8d45e58599">popcount</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Counts the number of set bits (the 'population count') of an unsigned integer.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>... ByteIndices, typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga1aaa24bb10d08ad78c86695baabc1857">swizzle</a>(</span><span class="m-doc-wrap">T val) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Select and re-pack arbitrary bytes from an integer.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga79246c66d2df39fe825be13e654d8c52">to_address</a>(</span><span class="m-doc-wrap">T* p) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Obtain the address represented by p without forming a reference to the pointee.</dd>
-            <dt>
               <div class="m-doc-template">template&lt;typename Ptr&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga4ba4d37d254803b31a71fca161a46420">to_address</a>(</span><span class="m-doc-wrap">const Ptr&amp; p) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Obtain the address represented by p without forming a reference to the pointee.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N, typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaf58f3326aea89653ec725ccbc5ff29d2">assume_aligned</a>(</span><span class="m-doc-wrap">T* ptr) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga79246c66d2df39fe825be13e654d8c52">to_address</a>(</span><span class="m-doc-wrap">T* p) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Equivalent to C++20's <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/memory/assume_aligned.html" target="_blank">std::<wbr/>assume_aligned</a>.</dd>
+            <dd>Obtain the address represented by p without forming a reference to the pointee.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;auto N, typename Func&gt;</div>
-              <span class="m-doc-wrap-bumper">void <a class="m-doc" href="#gab64801b0b03f54c51a21000e8bb95ea1">for_sequence</a>(</span><span class="m-doc-wrap">Func&amp;&amp; func) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga81642f54291cc4a1287ef141b3f4d34f">unwrap</a>(</span><span class="m-doc-wrap">T val) -&gt; <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/underlying_type.html" target="_blank">std::<wbr/>underlying_type_t</a>&lt;T&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Generates a series of sequential function calls by pack expansion.</dd>
+            <dd>Unwraps an enum to it's raw integer equivalent.</dd>
           </dl>
         </section>
         <section>
           <h2>Typedef documentation</h2>
+          <section class="m-doc-details" id="ga74a70ec9e3331f37ebbc3e875e183861"><div>
+            <h3>
+              using <a class="m-doc-self" href="#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> = <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html" target="_blank">__float128</a>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="fwd_8h.html">&lt;muu/fwd.h&gt;</a></div>
+            </h3>
+            <p>A 128-bit quad-precision float.</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This typedef is only present when 128-bit floats are supported by your target platform. You can check support using <a class="m-doc" href="group__preprocessor.html#gad6cf2ebac5d966916c61f46e79f035b2">MUU_<wbr/>HAS_<wbr/>FLOAT128</a>.</p></aside>
+          </div></section>
           <section class="m-doc-details" id="gaf8e0aa5a37ec05e07c7b69077de9303c"><div>
             <h3>
               using <a class="m-doc-self" href="#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_t</a> = __int128_t
@@ -319,373 +327,9 @@
             <p>A 128-bit unsigned integer.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This typedef is only present when 128-bit integers are supported by your target platform. You can check support using <a class="m-doc" href="group__preprocessor.html#ga61a9c9471317fa76fa46bd87d8f671b6">MUU_<wbr/>HAS_<wbr/>INT128</a>.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ga74a70ec9e3331f37ebbc3e875e183861"><div>
-            <h3>
-              using <a class="m-doc-self" href="#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> = <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html" target="_blank">__float128</a>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="fwd_8h.html">&lt;muu/fwd.h&gt;</a></div>
-            </h3>
-            <p>A 128-bit quad-precision float.</p>
-<aside class="m-block m-special"><h4>Conditional availability </h4><p>This typedef is only present when 128-bit floats are supported by your target platform. You can check support using <a class="m-doc" href="group__preprocessor.html#gad6cf2ebac5d966916c61f46e79f035b2">MUU_<wbr/>HAS_<wbr/>FLOAT128</a>.</p></aside>
-          </div></section>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="ga8a9b0aaf9860b30f93639333a5214d34"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga8a9b0aaf9860b30f93639333a5214d34">is_constant_evaluated</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-            </h3>
-            <p>Equivalent to C++20's <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/is_constant_evaluated.html" target="_blank">std::<wbr/>is_constant_evaluated</a>.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Compilers typically implement <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/is_constant_evaluated.html" target="_blank">std::<wbr/>is_constant_evaluated</a> as an intrinsic which is available regardless of the C++ mode. Using this function on these compilers allows you to get the same behaviour even when you aren't targeting C++20.</p></aside><aside class="m-block m-special"><h4>Conditional availability </h4><p>On older compilers lacking support for <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/is_constant_evaluated.html" target="_blank">std::<wbr/>is_constant_evaluated</a> this will always return <code>false</code>. You can check for support by examining <a class="m-doc" href="namespacemuu_1_1build.html#a8398d41dfdf02da1234b776f754bbb3d">build::<wbr/>supports_is_constant_evaluated</a>.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="ga279c303aaba76a43d1dc23834c35f857"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;class T&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">T* </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga279c303aaba76a43d1dc23834c35f857">launder</a>(</span><span class="m-doc-wrap">T* ptr) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Equivalent to C++17's <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/utility/launder.html" target="_blank">std::<wbr/>launder</a>.</p>
-<aside class="m-note m-info"><h4>Note</h4><p>Older implementations don't provide this as an intrinsic or have a placeholder for it in their standard library. Using this version allows you to get around that by writing code 'as if' it were there and have it compile just the same.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="ga81642f54291cc4a1287ef141b3f4d34f"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/underlying_type.html" target="_blank">std::<wbr/>underlying_type_t</a>&lt;T&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga81642f54291cc4a1287ef141b3f4d34f">unwrap</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Unwraps an enum to it's raw integer equivalent.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Template parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">T</td>
-                  <td>An enum type.</td>
-                </tr>
-              </tbody>
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>val</td>
-                  <td>The value to unwrap.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td><strong><em>Enum inputs:</em></strong>  <code><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a>&lt;<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/underlying_type.html" target="_blank">std::<wbr/>underlying_type_t</a>&lt;T&gt;&gt;(val)</code><br/><strong><em>Everything else:</em></strong>  <code>T&amp;&amp;</code> (a no-op).</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="ga12cd318fdcf736ca99f5bf66aa615fd1"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">int </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga12cd318fdcf736ca99f5bf66aa615fd1">countl_zero</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Counts the number of consecutive 0 bits, starting from the left.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Template parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">T</td>
-                  <td>An unsigned integer or enum type.</td>
-                </tr>
-              </tbody>
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>val</td>
-                  <td>The value to test.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>The number of consecutive zeros from the left end of an integer's bits.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/numeric/countl_zero" target="_blank">std::countl_zero</a>, with the addition of also being extended to work with enum types.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="gab5b51a3c121984cfddb8d5da4e9bf070"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">int </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gab5b51a3c121984cfddb8d5da4e9bf070">countr_zero</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Counts the number of consecutive 0 bits, starting from the right.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Template parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">T</td>
-                  <td>An unsigned integer or enum type.</td>
-                </tr>
-              </tbody>
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>val</td>
-                  <td>The input value.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>The number of consecutive zeros from the right end of an integer's bits.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/numeric/countr_zero" target="_blank">std::countr_zero</a>, with the addition of also being extended to work with enum types.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="gadf75326611fa43dbacc1ff601e9e969b"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">int </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gadf75326611fa43dbacc1ff601e9e969b">countl_one</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Counts the number of consecutive 1 bits, starting from the left.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Template parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">T</td>
-                  <td>An unsigned integer or enum type.</td>
-                </tr>
-              </tbody>
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>val</td>
-                  <td>The value to test.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>The number of consecutive ones from the left end of an integer's bits.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/numeric/countl_one" target="_blank">std::countl_one</a>, with the addition of also being extended to work with enum types.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="ga84963e1a7bf75ec7464cda53b26dec8a"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">int </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga84963e1a7bf75ec7464cda53b26dec8a">countr_one</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Counts the number of consecutive 1 bits, starting from the right.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Template parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">T</td>
-                  <td>An unsigned integer or enum type.</td>
-                </tr>
-              </tbody>
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>val</td>
-                  <td>The value to test.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>The number of consecutive ones from the right end of an integer's bits.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/numeric/countr_one" target="_blank">std::countr_one</a>, with the addition of also being extended to work with enum types.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="gae62fd9413cd433a4e15c0fdf89913a1b"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gae62fd9413cd433a4e15c0fdf89913a1b">bit_ceil</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Finds the smallest integral power of two not less than the given value.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Template parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">T</td>
-                  <td>An unsigned integer or enum type.</td>
-                </tr>
-              </tbody>
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>val</td>
-                  <td>The input value.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>The smallest integral power of two that is not smaller than <code>val</code>.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/numeric/bit_ceil" target="_blank">std::bit_ceil</a>, with the addition of also being extended to work with enum types.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="gafd5ebb4cf00dd4b93188521f0a2196e2"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename Return = void, typename T, typename U, typename... V&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">auto </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gafd5ebb4cf00dd4b93188521f0a2196e2">pack</a>(</span><span class="m-doc-wrap">T val1,
-              U val2,
-              V... vals) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Bitwise-packs integers left-to-right into a larger integer.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Template parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">Return</td>
-                  <td>An integer or enum type, or leave as <code>void</code> to choose an unsigned type based on the total size of the inputs.</td>
-                </tr>
-                <tr>
-                  <td>T</td>
-                  <td>An integer or enum type.</td>
-                </tr>
-                <tr>
-                  <td>U</td>
-                  <td>An integer or enum type.</td>
-                </tr>
-                <tr>
-                  <td>V</td>
-                  <td>Integer or enum types.</td>
-                </tr>
-              </tbody>
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>val1</td>
-                  <td>The left-most value to be packed.</td>
-                </tr>
-                <tr>
-                  <td>val2</td>
-                  <td>The second-left-most value to be packed.</td>
-                </tr>
-                <tr>
-                  <td>vals</td>
-                  <td>Any remaining values to be packed.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>An integral value containing the input values packed bitwise left-to-right. If the total size of the inputs was less than the return type, the output will be zero-padded on the left.</td>
-                </tr>
-              </tfoot>
-            </table>
-<pre class="m-code"><span class="k">auto</span>   <span class="n">val1</span>  <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="mh">0xAABB</span><span class="mh">_u16</span><span class="p">,</span> <span class="mh">0xCCDD</span><span class="mh">_u16</span><span class="p">);</span>
-<span class="m">assert</span><span class="p">(</span><span class="n">val1</span> <span class="o">==</span> <span class="mh">0xAABBCCDD</span><span class="mh">_u32</span><span class="p">);</span>
-
-<span class="k">auto</span>   <span class="n">val2</span>  <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="mh">0xAABB</span><span class="mh">_u16</span><span class="p">,</span> <span class="mh">0xCCDD</span><span class="mh">_u16</span><span class="p">,</span> <span class="mh">0xEEFF</span><span class="mh">_u16</span><span class="p">);</span>
-<span class="m">assert</span><span class="p">(</span><span class="n">val2</span> <span class="o">==</span> <span class="mh">0x0000AABBCCDDEEFF</span><span class="mh">_u64</span><span class="p">);</span>
-              <span class="c1">// ^^^^ input was 48 bits, zero-padded to 64 on the left</span></pre>
-          </div></section>
-          <section class="m-doc-details" id="gaadb4c6332c738c248f84f43ece303657"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename To, typename From&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">To </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaadb4c6332c738c248f84f43ece303657">bit_cast</a>(</span><span class="m-doc-wrap">const From&amp; from) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Equivalent to C++20's <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/numeric/bit_cast" target="_blank">std::bit_cast</a>.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Compilers implement this as an intrinsic which is typically available regardless of the C++ mode. Using this function on these compilers allows you to get the same behaviour even when you aren't targeting C++20.</p></aside><aside class="m-block m-special"><h4>Conditional availability </h4><p>On older compilers lacking support for <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/numeric/bit_cast" target="_blank">std::bit_cast</a> you won't be able to call this function in constexpr contexts (since it falls back to a memcpy-based implementation). You can check for constexpr support by examining <a class="m-doc" href="namespacemuu_1_1build.html#a5ee6b53a87bd46b2bf84f2bea9e2a0b5">build::<wbr/>supports_constexpr_bit_cast</a>.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="gab714a50e01b58e7d4117d5ef9d403d39"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename To, typename From&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">To </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gab714a50e01b58e7d4117d5ef9d403d39">pointer_cast</a>(</span><span class="m-doc-wrap">From from) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Casts between pointers, choosing the most appropriate conversion path.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Template parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">To</td>
-                  <td>A pointer or integral type large enough to store a pointer</td>
-                </tr>
-                <tr>
-                  <td>From</td>
-                  <td>A pointer, array, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/nullptr_t" target="_blank">nullptr_t</a>, or an integral type large enough to store a pointer.</td>
-                </tr>
-              </tbody>
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>from</td>
-                  <td>The value being cast.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>The input casted to the desired type.</td>
-                </tr>
-              </tfoot>
-            </table>
-<p>Doing low-level work with pointers often requires a lot of tedious boilerplate, particularly when moving to/from raw byte representations or dealing with <code>const</code>. By using <code>pointer_cast</code> instead you can eliminate a lot of that boilerplate, since it will do 'the right thing' via some combination of:</p><table class="m-table"><thead><tr><th>From</th><th>To</th><th>Cast</th><th>Note</th></tr></thead><tbody><tr><td>T*</td><td>void*</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td>void*</td><td>T*</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td>T*</td><td>const T*</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td>T*</td><td>volatile T*</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td>T*</td><td>const volatile T*</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td>const T*</td><td>T*</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/const_cast" target="_blank">const_cast</a></td><td></td></tr><tr><td>volatile T*</td><td>T*</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/const_cast" target="_blank">const_cast</a></td><td></td></tr><tr><td>const volatile T*</td><td>T*</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/const_cast" target="_blank">const_cast</a></td><td></td></tr><tr><td>Derived*</td><td>Base*</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td>Base*</td><td>Derived*</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/dynamic_cast" target="_blank">dynamic_cast</a></td><td>Polymorphic bases</td></tr><tr><td>Base*</td><td>Derived*</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></td><td>Non-polymorphic bases</td></tr><tr><td>T*</td><td>(u)<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">intptr_t</a></td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></td><td></td></tr><tr><td>(u)<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">intptr_t</a></td><td>T*</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></td><td></td></tr><tr><td>void*</td><td>T(*)()</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></td><td>Where supported</td></tr><tr><td>T(*)()</td><td>void*</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></td><td>Where supported</td></tr><tr><td>T(*)()</td><td>T(*)()noexcept</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></td><td></td></tr><tr><td>T(*)()noexcept</td><td>T(*)()</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td><a class="m-doc dox-injected dox-external" href="https://docs.microsoft.com/en-us/windows/win32/api/unknwn/nn-unknwn-iunknown" target="_blank">IUnknown</a>*</td><td><a class="m-doc dox-injected dox-external" href="https://docs.microsoft.com/en-us/windows/win32/api/unknwn/nn-unknwn-iunknown" target="_blank">IUnknown</a>*</td><td><a class="m-doc dox-injected dox-external" href="https://docs.microsoft.com/en-us/windows/win32/api/unknwn/nf-unknwn-iunknown-queryinterface(q)" target="_blank">QueryInterface</a></td><td>Windows only</td></tr></tbody></table><aside class="m-note m-danger"><h4>Warning</h4><p>There are lots of static checks to make sure you don't do something completely insane, but ultimately the fallback behaviour for casting between unrelated types is to use a <code><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></code>, and there's nothing stopping you from using multiple <code>pointer_casts</code> through <code>void*</code> to make a conversion 'work'. Footguns aplenty!</p></aside>
-          </div></section>
           <section class="m-doc-details" id="ga95da5073b863161a6542266f4a6c5961"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
@@ -732,42 +376,15 @@
             </table>
 <aside class="m-note m-danger"><h4>Warning</h4><p>This function is a simple pointer arithmetic helper; absolutely no consideration is given to the alignment of the pointed type. If you need to dereference pointers returned by apply_offset the onus is on you to ensure that the offset made sense before doing so!</p></aside>
           </div></section>
-          <section class="m-doc-details" id="gacc52016e295ef88268bd5835a23b69d8"><div>
+          <section class="m-doc-details" id="gaf58f3326aea89653ec725ccbc5ff29d2"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
+              <div class="m-doc-template"> template&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N, typename T&gt;
               </div>
-              <span class="m-doc-wrap-bumper">const T&amp; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gacc52016e295ef88268bd5835a23b69d8">min</a>(</span><span class="m-doc-wrap">const T&amp; val1,
-              const T&amp; val2) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">T* </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaf58f3326aea89653ec725ccbc5ff29d2">assume_aligned</a>(</span><span class="m-doc-wrap">T* ptr) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Returns the minimum of two values.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/algorithm/min.html" target="_blank">std::<wbr/>min</a> without requiring you to drag in the enormity of &lt;algorithm&gt;.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="ga67052cab1c45673f85ee326e91aafbde"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">const T&amp; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga67052cab1c45673f85ee326e91aafbde">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
-              const T&amp; val2) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Returns the maximum of two values.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/algorithm/max.html" target="_blank">std::<wbr/>max</a> without requiring you to drag in the enormity of &lt;algorithm&gt;.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="ga853b138ba34af796906a03cda9dbfabe"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">const T&amp; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga853b138ba34af796906a03cda9dbfabe">clamp</a>(</span><span class="m-doc-wrap">const T&amp; val,
-              const T&amp; low,
-              const T&amp; high) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Returns a value clamped between two bounds (inclusive).</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/algorithm/clamp.html" target="_blank">std::<wbr/>clamp</a> without requiring you to drag in the enormity of &lt;algorithm&gt;.</p></aside>
+            <p>Equivalent to C++20's <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/memory/assume_aligned.html" target="_blank">std::<wbr/>assume_aligned</a>.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Compilers typically implement <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/memory/assume_aligned.html" target="_blank">std::<wbr/>assume_aligned</a> as an intrinsic which is available regardless of the C++ mode. Using this function on these compilers allows you to get the same behaviour even when you aren't targeting C++20.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1007r1.pdf" target="_blank">P1007R1: std::<wbr/>assume_aligned</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga108fd48e10e2c18acbaaf9f611b14d5b"><div>
             <h3>
@@ -781,15 +398,26 @@
             </h3>
             <p>Returns true if a value is between two bounds (inclusive).</p>
           </div></section>
-          <section class="m-doc-details" id="gab392bc74729da41c4d226f8d45e58599"><div>
+          <section class="m-doc-details" id="gaadb4c6332c738c248f84f43ece303657"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename To, typename From&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">To </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaadb4c6332c738c248f84f43ece303657">bit_cast</a>(</span><span class="m-doc-wrap">const From&amp; from) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Equivalent to C++20's <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/numeric/bit_cast" target="_blank">std::bit_cast</a>.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Compilers implement this as an intrinsic which is typically available regardless of the C++ mode. Using this function on these compilers allows you to get the same behaviour even when you aren't targeting C++20.</p></aside><aside class="m-block m-special"><h4>Conditional availability </h4><p>On older compilers lacking support for <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/numeric/bit_cast" target="_blank">std::bit_cast</a> you won't be able to call this function in constexpr contexts (since it falls back to a memcpy-based implementation). You can check for constexpr support by examining <a class="m-doc" href="namespacemuu_1_1build.html#a5ee6b53a87bd46b2bf84f2bea9e2a0b5">build::<wbr/>supports_constexpr_bit_cast</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gae62fd9413cd433a4e15c0fdf89913a1b"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              <span class="m-doc-wrap-bumper">int </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gab392bc74729da41c4d226f8d45e58599">popcount</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gae62fd9413cd433a4e15c0fdf89913a1b">bit_ceil</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Counts the number of set bits (the 'population count') of an unsigned integer.</p>
+            <p>Finds the smallest integral power of two not less than the given value.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Template parameters</th></tr>
@@ -812,21 +440,21 @@
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>The number of bits that were set to <code>1</code> in <code>val</code>.</td>
+                  <td>The smallest integral power of two that is not smaller than <code>val</code>.</td>
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/numeric/popcount" target="_blank">std::popcount</a>, with the addition of also being extended to work with enum types.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/numeric/bit_ceil" target="_blank">std::bit_ceil</a>, with the addition of also being extended to work with enum types.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ga309ac880015add971ee06b148191060f"><div>
+          <section class="m-doc-details" id="gaf41f6cc12b0e9ac1de1bdf63e2a28fdf"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga309ac880015add971ee06b148191060f">has_single_bit</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaf41f6cc12b0e9ac1de1bdf63e2a28fdf">bit_fill_left</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Checks if an integral value has only a single bit set.</p>
+            <p>Returns an unsigned integer filled from the left with the desired number of consecutive ones.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Template parameters</th></tr>
@@ -834,7 +462,7 @@
               <tbody>
                 <tr>
                   <td style="width: 1%">T</td>
-                  <td>An unsigned integer or enum type.</td>
+                  <td>An unsigned integer type.</td>
                 </tr>
               </tbody>
               <thead>
@@ -842,18 +470,59 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>val</td>
-                  <td>The value to test.</td>
+                  <td>count</td>
+                  <td>Number of consecutive ones.</td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>True if the input value had only a single bit set (and thus was a power of two).</td>
+                  <td>An instance of T left-filled with the desired number of ones.</td>
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/numeric/has_single_bit" target="_blank">std::has_single_bit</a>, with the addition of also being extended to work with enum types.</p></aside>
+<pre class="m-code"><span class="k">const</span> <span class="k">auto</span> <span class="n">val1</span> <span class="o">=</span> <span class="n">bit_fill_left</span><span class="o">&lt;</span><span class="ut"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a></span><span class="o">&gt;</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+<span class="k">const</span> <span class="k">auto</span> <span class="n">val2</span> <span class="o">=</span> <span class="mb">0b11111000000000000000000000000000u</span><span class="p">;</span>
+<span class="m">assert</span><span class="p">(</span><span class="n">val1</span> <span class="o">==</span> <span class="n">val2</span><span class="p">);</span></pre>
+          </div></section>
+          <section class="m-doc-details" id="gab5cb8d563f61573ca1e2827ddd085d3d"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gab5cb8d563f61573ca1e2827ddd085d3d">bit_fill_right</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns an unsigned integer filled from the right with the desired number of consecutive ones.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>An unsigned integer type.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>count</td>
+                  <td>Number of consecutive ones.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>An instance of T right-filled with the desired number of ones.</td>
+                </tr>
+              </tfoot>
+            </table>
+<pre class="m-code"><span class="k">const</span> <span class="k">auto</span> <span class="n">val1</span> <span class="o">=</span> <span class="n">bit_fill_right</span><span class="o">&lt;</span><span class="ut"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a></span><span class="o">&gt;</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+<span class="k">const</span> <span class="k">auto</span> <span class="n">val2</span> <span class="o">=</span> <span class="mb">0b00000000000000000000000000011111u</span><span class="p">;</span>
+<span class="m">assert</span><span class="p">(</span><span class="n">val1</span> <span class="o">==</span> <span class="n">val2</span><span class="p">);</span></pre>
           </div></section>
           <section class="m-doc-details" id="ga0ef1d5961e901e2d52b3d6be07efe201"><div>
             <h3>
@@ -929,15 +598,15 @@
             </table>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/numeric/bit_width" target="_blank">std::bit_width</a>, with the addition of also being extended to work with enum types.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="gab5cb8d563f61573ca1e2827ddd085d3d"><div>
+          <section class="m-doc-details" id="gab3e8f4f75d417dc6880311de6c9306e9"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gab5cb8d563f61573ca1e2827ddd085d3d">bit_fill_right</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gab3e8f4f75d417dc6880311de6c9306e9">byte_reverse</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Returns an unsigned integer filled from the right with the desired number of consecutive ones.</p>
+            <p>Reverses the byte order of an unsigned integral type.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Template parameters</th></tr>
@@ -945,7 +614,7 @@
               <tbody>
                 <tr>
                   <td style="width: 1%">T</td>
-                  <td>An unsigned integer type.</td>
+                  <td>An unsigned integer or enum type.</td>
                 </tr>
               </tbody>
               <thead>
@@ -953,59 +622,21 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>count</td>
-                  <td>Number of consecutive ones.</td>
+                  <td>val</td>
+                  <td>An unsigned integer or enum value.</td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>An instance of T right-filled with the desired number of ones.</td>
+                  <td>A copy of the input value with the byte order reversed.</td>
                 </tr>
               </tfoot>
             </table>
-<pre class="m-code"><span class="k">const</span> <span class="k">auto</span> <span class="n">val1</span> <span class="o">=</span> <span class="n">bit_fill_right</span><span class="o">&lt;</span><span class="ut"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a></span><span class="o">&gt;</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
-<span class="k">const</span> <span class="k">auto</span> <span class="n">val2</span> <span class="o">=</span> <span class="mb">0b00000000000000000000000000011111u</span><span class="p">;</span>
-<span class="m">assert</span><span class="p">(</span><span class="n">val1</span> <span class="o">==</span> <span class="n">val2</span><span class="p">);</span></pre>
-          </div></section>
-          <section class="m-doc-details" id="gaf41f6cc12b0e9ac1de1bdf63e2a28fdf"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaf41f6cc12b0e9ac1de1bdf63e2a28fdf">bit_fill_left</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Returns an unsigned integer filled from the left with the desired number of consecutive ones.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Template parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">T</td>
-                  <td>An unsigned integer type.</td>
-                </tr>
-              </tbody>
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>count</td>
-                  <td>Number of consecutive ones.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>An instance of T left-filled with the desired number of ones.</td>
-                </tr>
-              </tfoot>
-            </table>
-<pre class="m-code"><span class="k">const</span> <span class="k">auto</span> <span class="n">val1</span> <span class="o">=</span> <span class="n">bit_fill_left</span><span class="o">&lt;</span><span class="ut"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a></span><span class="o">&gt;</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
-<span class="k">const</span> <span class="k">auto</span> <span class="n">val2</span> <span class="o">=</span> <span class="mb">0b11111000000000000000000000000000u</span><span class="p">;</span>
-<span class="m">assert</span><span class="p">(</span><span class="n">val1</span> <span class="o">==</span> <span class="n">val2</span><span class="p">);</span></pre>
+<pre class="m-code"><span class="k">const</span> <span class="k">auto</span> <span class="n">i</span> <span class="o">=</span> <span class="mh">0xAABBCCDDu</span><span class="p">;</span>
+<span class="k">const</span> <span class="k">auto</span> <span class="n">j</span> <span class="o">=</span> <span class="n">byte_reverse</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">hex</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span> <span class="o">&lt;&lt;</span> <span class="n">j</span><span class="p">;</span></pre><pre class="m-console"><span class="go">AABBCCDD</span>
+<span class="go">DDCCBBAA</span></pre>
           </div></section>
           <section class="m-doc-details" id="gae644160cd7d978d95922af233afc5ddd"><div>
             <h3>
@@ -1113,15 +744,28 @@
 <span class="go">3: AA</span>
 <span class="gp gp-VirtualEnv">(on a little-endian system)</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>The indexation order of bytes is the <em>memory</em> order, not their numeric significance (i.e. byte 0 is always the first byte in the integer's memory allocation, regardless of the endianness of the platform).</p></aside>
           </div></section>
-          <section class="m-doc-details" id="gab3e8f4f75d417dc6880311de6c9306e9"><div>
+          <section class="m-doc-details" id="ga853b138ba34af796906a03cda9dbfabe"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gab3e8f4f75d417dc6880311de6c9306e9">byte_reverse</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">const T&amp; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga853b138ba34af796906a03cda9dbfabe">clamp</a>(</span><span class="m-doc-wrap">const T&amp; val,
+              const T&amp; low,
+              const T&amp; high) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Reverses the byte order of an unsigned integral type.</p>
+            <p>Returns a value clamped between two bounds (inclusive).</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/algorithm/clamp.html" target="_blank">std::<wbr/>clamp</a> without requiring you to drag in the enormity of &lt;algorithm&gt;.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gadf75326611fa43dbacc1ff601e9e969b"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">int </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gadf75326611fa43dbacc1ff601e9e969b">countl_one</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Counts the number of consecutive 1 bits, starting from the left.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Template parameters</th></tr>
@@ -1138,20 +782,382 @@
               <tbody>
                 <tr>
                   <td>val</td>
-                  <td>An unsigned integer or enum value.</td>
+                  <td>The value to test.</td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>A copy of the input value with the byte order reversed.</td>
+                  <td>The number of consecutive ones from the left end of an integer's bits.</td>
                 </tr>
               </tfoot>
             </table>
-<pre class="m-code"><span class="k">const</span> <span class="k">auto</span> <span class="n">i</span> <span class="o">=</span> <span class="mh">0xAABBCCDDu</span><span class="p">;</span>
-<span class="k">const</span> <span class="k">auto</span> <span class="n">j</span> <span class="o">=</span> <span class="n">byte_reverse</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">hex</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span> <span class="o">&lt;&lt;</span> <span class="n">j</span><span class="p">;</span></pre><pre class="m-console"><span class="go">AABBCCDD</span>
-<span class="go">DDCCBBAA</span></pre>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/numeric/countl_one" target="_blank">std::countl_one</a>, with the addition of also being extended to work with enum types.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga12cd318fdcf736ca99f5bf66aa615fd1"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">int </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga12cd318fdcf736ca99f5bf66aa615fd1">countl_zero</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Counts the number of consecutive 0 bits, starting from the left.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>An unsigned integer or enum type.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>val</td>
+                  <td>The value to test.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>The number of consecutive zeros from the left end of an integer's bits.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/numeric/countl_zero" target="_blank">std::countl_zero</a>, with the addition of also being extended to work with enum types.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga84963e1a7bf75ec7464cda53b26dec8a"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">int </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga84963e1a7bf75ec7464cda53b26dec8a">countr_one</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Counts the number of consecutive 1 bits, starting from the right.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>An unsigned integer or enum type.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>val</td>
+                  <td>The value to test.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>The number of consecutive ones from the right end of an integer's bits.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/numeric/countr_one" target="_blank">std::countr_one</a>, with the addition of also being extended to work with enum types.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gab5b51a3c121984cfddb8d5da4e9bf070"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">int </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gab5b51a3c121984cfddb8d5da4e9bf070">countr_zero</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Counts the number of consecutive 0 bits, starting from the right.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>An unsigned integer or enum type.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>val</td>
+                  <td>The input value.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>The number of consecutive zeros from the right end of an integer's bits.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/numeric/countr_zero" target="_blank">std::countr_zero</a>, with the addition of also being extended to work with enum types.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gab64801b0b03f54c51a21000e8bb95ea1"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;auto N, typename Func&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">void </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gab64801b0b03f54c51a21000e8bb95ea1">for_sequence</a>(</span><span class="m-doc-wrap">Func&amp;&amp; func) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept(…)</span></span></span>
+            </h3>
+            <p>Generates a series of sequential function calls by pack expansion.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">N</td>
+                  <td>The length of the sequence (the number of calls).</td>
+                </tr>
+                <tr>
+                  <td>Func</td>
+                  <td>A callable type with the signature <code>void(auto)</code>.</td>
+                </tr>
+              </tbody>
+            </table>
+<p>Generates a sequence of <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integral_constant" target="_blank">std::integral_constants</a> from 0 to N which are passed into the functor:</p><pre class="m-code"><span class="k">auto</span> <span class="n">vals</span> <span class="o">=</span> <span class="ns">std</span><span class="o">::</span><span class="ut">tuple</span><span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"1"</span><span class="sa">sv</span><span class="p">,</span> <span class="mf">2.3f</span> <span class="p">};</span>
+<span class="n">for_sequence</span><span class="o">&lt;</span><span class="mi">3</span><span class="mi">_sz</span><span class="o">&gt;</span><span class="p">([</span><span class="o">&amp;</span><span class="p">](</span><span class="k">auto</span> <span class="n">i</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="n">i</span><span class="o">&gt;</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="p">});</span></pre><pre class="m-console"><span class="go">0</span>
+<span class="go">1</span>
+<span class="go">2.3</span></pre>
+          </div></section>
+          <section class="m-doc-details" id="ga309ac880015add971ee06b148191060f"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga309ac880015add971ee06b148191060f">has_single_bit</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Checks if an integral value has only a single bit set.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>An unsigned integer or enum type.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>val</td>
+                  <td>The value to test.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>True if the input value had only a single bit set (and thus was a power of two).</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/numeric/has_single_bit" target="_blank">std::has_single_bit</a>, with the addition of also being extended to work with enum types.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga8a9b0aaf9860b30f93639333a5214d34"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga8a9b0aaf9860b30f93639333a5214d34">is_constant_evaluated</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>Equivalent to C++20's <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/is_constant_evaluated.html" target="_blank">std::<wbr/>is_constant_evaluated</a>.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Compilers typically implement <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/is_constant_evaluated.html" target="_blank">std::<wbr/>is_constant_evaluated</a> as an intrinsic which is available regardless of the C++ mode. Using this function on these compilers allows you to get the same behaviour even when you aren't targeting C++20.</p></aside><aside class="m-block m-special"><h4>Conditional availability </h4><p>On older compilers lacking support for <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/is_constant_evaluated.html" target="_blank">std::<wbr/>is_constant_evaluated</a> this will always return <code>false</code>. You can check for support by examining <a class="m-doc" href="namespacemuu_1_1build.html#a8398d41dfdf02da1234b776f754bbb3d">build::<wbr/>supports_is_constant_evaluated</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga279c303aaba76a43d1dc23834c35f857"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">T* </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga279c303aaba76a43d1dc23834c35f857">launder</a>(</span><span class="m-doc-wrap">T* ptr) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Equivalent to C++17's <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/utility/launder.html" target="_blank">std::<wbr/>launder</a>.</p>
+<aside class="m-note m-info"><h4>Note</h4><p>Older implementations don't provide this as an intrinsic or have a placeholder for it in their standard library. Using this version allows you to get around that by writing code 'as if' it were there and have it compile just the same.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga67052cab1c45673f85ee326e91aafbde"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">const T&amp; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga67052cab1c45673f85ee326e91aafbde">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              const T&amp; val2) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns the maximum of two values.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/algorithm/max.html" target="_blank">std::<wbr/>max</a> without requiring you to drag in the enormity of &lt;algorithm&gt;.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gacc52016e295ef88268bd5835a23b69d8"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">const T&amp; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gacc52016e295ef88268bd5835a23b69d8">min</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              const T&amp; val2) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns the minimum of two values.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/algorithm/min.html" target="_blank">std::<wbr/>min</a> without requiring you to drag in the enormity of &lt;algorithm&gt;.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gafd5ebb4cf00dd4b93188521f0a2196e2"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename Return = void, typename T, typename U, typename... V&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">auto </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gafd5ebb4cf00dd4b93188521f0a2196e2">pack</a>(</span><span class="m-doc-wrap">T val1,
+              U val2,
+              V... vals) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Bitwise-packs integers left-to-right into a larger integer.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">Return</td>
+                  <td>An integer or enum type, or leave as <code>void</code> to choose an unsigned type based on the total size of the inputs.</td>
+                </tr>
+                <tr>
+                  <td>T</td>
+                  <td>An integer or enum type.</td>
+                </tr>
+                <tr>
+                  <td>U</td>
+                  <td>An integer or enum type.</td>
+                </tr>
+                <tr>
+                  <td>V</td>
+                  <td>Integer or enum types.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>val1</td>
+                  <td>The left-most value to be packed.</td>
+                </tr>
+                <tr>
+                  <td>val2</td>
+                  <td>The second-left-most value to be packed.</td>
+                </tr>
+                <tr>
+                  <td>vals</td>
+                  <td>Any remaining values to be packed.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>An integral value containing the input values packed bitwise left-to-right. If the total size of the inputs was less than the return type, the output will be zero-padded on the left.</td>
+                </tr>
+              </tfoot>
+            </table>
+<pre class="m-code"><span class="k">auto</span>   <span class="n">val1</span>  <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="mh">0xAABB</span><span class="mh">_u16</span><span class="p">,</span> <span class="mh">0xCCDD</span><span class="mh">_u16</span><span class="p">);</span>
+<span class="m">assert</span><span class="p">(</span><span class="n">val1</span> <span class="o">==</span> <span class="mh">0xAABBCCDD</span><span class="mh">_u32</span><span class="p">);</span>
+
+<span class="k">auto</span>   <span class="n">val2</span>  <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="mh">0xAABB</span><span class="mh">_u16</span><span class="p">,</span> <span class="mh">0xCCDD</span><span class="mh">_u16</span><span class="p">,</span> <span class="mh">0xEEFF</span><span class="mh">_u16</span><span class="p">);</span>
+<span class="m">assert</span><span class="p">(</span><span class="n">val2</span> <span class="o">==</span> <span class="mh">0x0000AABBCCDDEEFF</span><span class="mh">_u64</span><span class="p">);</span>
+              <span class="c1">// ^^^^ input was 48 bits, zero-padded to 64 on the left</span></pre>
+          </div></section>
+          <section class="m-doc-details" id="gab714a50e01b58e7d4117d5ef9d403d39"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename To, typename From&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">To </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gab714a50e01b58e7d4117d5ef9d403d39">pointer_cast</a>(</span><span class="m-doc-wrap">From from) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Casts between pointers, choosing the most appropriate conversion path.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">To</td>
+                  <td>A pointer or integral type large enough to store a pointer</td>
+                </tr>
+                <tr>
+                  <td>From</td>
+                  <td>A pointer, array, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/nullptr_t" target="_blank">nullptr_t</a>, or an integral type large enough to store a pointer.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>from</td>
+                  <td>The value being cast.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>The input casted to the desired type.</td>
+                </tr>
+              </tfoot>
+            </table>
+<p>Doing low-level work with pointers often requires a lot of tedious boilerplate, particularly when moving to/from raw byte representations or dealing with <code>const</code>. By using <code>pointer_cast</code> instead you can eliminate a lot of that boilerplate, since it will do 'the right thing' via some combination of:</p><table class="m-table"><thead><tr><th>From</th><th>To</th><th>Cast</th><th>Note</th></tr></thead><tbody><tr><td>T*</td><td>void*</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td>void*</td><td>T*</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td>T*</td><td>const T*</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td>T*</td><td>volatile T*</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td>T*</td><td>const volatile T*</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td>const T*</td><td>T*</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/const_cast" target="_blank">const_cast</a></td><td></td></tr><tr><td>volatile T*</td><td>T*</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/const_cast" target="_blank">const_cast</a></td><td></td></tr><tr><td>const volatile T*</td><td>T*</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/const_cast" target="_blank">const_cast</a></td><td></td></tr><tr><td>Derived*</td><td>Base*</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td>Base*</td><td>Derived*</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/dynamic_cast" target="_blank">dynamic_cast</a></td><td>Polymorphic bases</td></tr><tr><td>Base*</td><td>Derived*</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></td><td>Non-polymorphic bases</td></tr><tr><td>T*</td><td>(u)<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">intptr_t</a></td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></td><td></td></tr><tr><td>(u)<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">intptr_t</a></td><td>T*</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></td><td></td></tr><tr><td>void*</td><td>T(*)()</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></td><td>Where supported</td></tr><tr><td>T(*)()</td><td>void*</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></td><td>Where supported</td></tr><tr><td>T(*)()</td><td>T(*)()noexcept</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></td><td></td></tr><tr><td>T(*)()noexcept</td><td>T(*)()</td><td><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td><a class="m-doc dox-injected dox-external" href="https://docs.microsoft.com/en-us/windows/win32/api/unknwn/nn-unknwn-iunknown" target="_blank">IUnknown</a>*</td><td><a class="m-doc dox-injected dox-external" href="https://docs.microsoft.com/en-us/windows/win32/api/unknwn/nn-unknwn-iunknown" target="_blank">IUnknown</a>*</td><td><a class="m-doc dox-injected dox-external" href="https://docs.microsoft.com/en-us/windows/win32/api/unknwn/nf-unknwn-iunknown-queryinterface(q)" target="_blank">QueryInterface</a></td><td>Windows only</td></tr></tbody></table><aside class="m-note m-danger"><h4>Warning</h4><p>There are lots of static checks to make sure you don't do something completely insane, but ultimately the fallback behaviour for casting between unrelated types is to use a <code><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></code>, and there's nothing stopping you from using multiple <code>pointer_casts</code> through <code>void*</code> to make a conversion 'work'. Footguns aplenty!</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gab392bc74729da41c4d226f8d45e58599"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">int </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gab392bc74729da41c4d226f8d45e58599">popcount</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Counts the number of set bits (the 'population count') of an unsigned integer.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>An unsigned integer or enum type.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>val</td>
+                  <td>The input value.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>The number of bits that were set to <code>1</code> in <code>val</code>.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/numeric/popcount" target="_blank">std::popcount</a>, with the addition of also being extended to work with enum types.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga1aaa24bb10d08ad78c86695baabc1857"><div>
             <h3>
@@ -1203,17 +1209,6 @@
 <span class="go">&lt;3, 2, 3&gt;: 00AABBAA</span>
 <span class="gp gp-VirtualEnv">(on a little-endian system)</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>The indexation order of bytes is the <em>memory</em> order, not their numeric significance (i.e. byte 0 is always the first byte in the integer's memory allocation, regardless of the endianness of the platform).</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ga79246c66d2df39fe825be13e654d8c52"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">T* </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga79246c66d2df39fe825be13e654d8c52">to_address</a>(</span><span class="m-doc-wrap">T* p) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Obtain the address represented by p without forming a reference to the pointee.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/memory/to_address.html" target="_blank">std::<wbr/>to_address</a>.</p></aside>
-          </div></section>
           <section class="m-doc-details" id="ga4ba4d37d254803b31a71fca161a46420"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
@@ -1225,47 +1220,52 @@
             <p>Obtain the address represented by p without forming a reference to the pointee.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/memory/to_address.html" target="_blank">std::<wbr/>to_address</a>.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="gaf58f3326aea89653ec725ccbc5ff29d2"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N, typename T&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">T* </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaf58f3326aea89653ec725ccbc5ff29d2">assume_aligned</a>(</span><span class="m-doc-wrap">T* ptr) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Equivalent to C++20's <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/memory/assume_aligned.html" target="_blank">std::<wbr/>assume_aligned</a>.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Compilers typically implement <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/memory/assume_aligned.html" target="_blank">std::<wbr/>assume_aligned</a> as an intrinsic which is available regardless of the C++ mode. Using this function on these compilers allows you to get the same behaviour even when you aren't targeting C++20.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1007r1.pdf" target="_blank">P1007R1: std::<wbr/>assume_aligned</a></p></aside>
-          </div></section>
-          <section class="m-doc-details" id="gab64801b0b03f54c51a21000e8bb95ea1"><div>
+          <section class="m-doc-details" id="ga79246c66d2df39fe825be13e654d8c52"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;auto N, typename Func&gt;
+                template&lt;typename T&gt;
               </div>
-              <span class="m-doc-wrap-bumper">void </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gab64801b0b03f54c51a21000e8bb95ea1">for_sequence</a>(</span><span class="m-doc-wrap">Func&amp;&amp; func) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept(…)</span></span></span>
+              <span class="m-doc-wrap-bumper">T* </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga79246c66d2df39fe825be13e654d8c52">to_address</a>(</span><span class="m-doc-wrap">T* p) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Generates a series of sequential function calls by pack expansion.</p>
+            <p>Obtain the address represented by p without forming a reference to the pointee.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/memory/to_address.html" target="_blank">std::<wbr/>to_address</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga81642f54291cc4a1287ef141b3f4d34f"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/underlying_type.html" target="_blank">std::<wbr/>underlying_type_t</a>&lt;T&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga81642f54291cc4a1287ef141b3f4d34f">unwrap</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Unwraps an enum to it's raw integer equivalent.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Template parameters</th></tr>
               </thead>
               <tbody>
                 <tr>
-                  <td style="width: 1%">N</td>
-                  <td>The length of the sequence (the number of calls).</td>
-                </tr>
-                <tr>
-                  <td>Func</td>
-                  <td>A callable type with the signature <code>void(auto)</code>.</td>
+                  <td style="width: 1%">T</td>
+                  <td>An enum type.</td>
                 </tr>
               </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>val</td>
+                  <td>The value to unwrap.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td><strong><em>Enum inputs:</em></strong>  <code><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a>&lt;<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/underlying_type.html" target="_blank">std::<wbr/>underlying_type_t</a>&lt;T&gt;&gt;(val)</code><br/><strong><em>Everything else:</em></strong>  <code>T&amp;&amp;</code> (a no-op).</td>
+                </tr>
+              </tfoot>
             </table>
-<p>Generates a sequence of <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integral_constant" target="_blank">std::integral_constants</a> from 0 to N which are passed into the functor:</p><pre class="m-code"><span class="k">auto</span> <span class="n">vals</span> <span class="o">=</span> <span class="ns">std</span><span class="o">::</span><span class="ut">tuple</span><span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"1"</span><span class="sa">sv</span><span class="p">,</span> <span class="mf">2.3f</span> <span class="p">};</span>
-<span class="n">for_sequence</span><span class="o">&lt;</span><span class="mi">3</span><span class="mi">_sz</span><span class="o">&gt;</span><span class="p">([</span><span class="o">&amp;</span><span class="p">](</span><span class="k">auto</span> <span class="n">i</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="n">i</span><span class="o">&gt;</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
-<span class="p">});</span></pre><pre class="m-console"><span class="go">0</span>
-<span class="go">1</span>
-<span class="go">2.3</span></pre>
           </div></section>
         </section>
       </div>

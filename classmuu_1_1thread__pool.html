@@ -98,22 +98,10 @@
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="a109ed89f995244703bb7e9a4c9005439">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a109ed89f995244703bb7e9a4c9005439">operator=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp;&amp;) -&gt; <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Move-assignment operator.</dd>
-            <dt id="adf3e1d1f730ff1f86f61a9c645a949fd">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#adf3e1d1f730ff1f86f61a9c645a949fd">workers</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>The number of worker threads in the thread pool.</dd>
             <dt id="a9ea03b02643976fa8a65dddcfdd09295">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a9ea03b02643976fa8a65dddcfdd09295">capacity</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>The maximum tasks that may be enqueued without blocking.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">void <a class="m-doc" href="#a0be5fc12fedc8dbb694b614a6e53ec23">wait</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Waits for the thread pool to finish all of its current work.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Task&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a495ad269689dadf8eebb7a8bd23574ec">enqueue</a>(</span><span class="m-doc-wrap">Task&amp;&amp; task) -&gt; <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
@@ -139,6 +127,18 @@
               Task&amp;&amp; task) -&gt; <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Enqueues a task to execute once for every value in a range.</dd>
+            <dt id="a109ed89f995244703bb7e9a4c9005439">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a109ed89f995244703bb7e9a4c9005439">operator=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp;&amp;) -&gt; <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Move-assignment operator.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">void <a class="m-doc" href="#a0be5fc12fedc8dbb694b614a6e53ec23">wait</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Waits for the thread pool to finish all of its current work.</dd>
+            <dt id="adf3e1d1f730ff1f86f61a9c645a949fd">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#adf3e1d1f730ff1f86f61a9c645a949fd">workers</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>The number of worker threads in the thread pool.</dd>
           </dl>
         </section>
         <section>
@@ -203,13 +203,6 @@
             </h3>
             <p>Destructor.</p>
 <aside class="m-note m-danger"><h4>Warning</h4><p>Any enqueued tasks <em>currently being executed</em> are allowed to finish; attempting to destroy a <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a> with an enqueued task of indeterminate length may lead to a deadlock.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="a0be5fc12fedc8dbb694b614a6e53ec23"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">void muu::<wbr/>thread_pool::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0be5fc12fedc8dbb694b614a6e53ec23">wait</a>(</span><span class="m-doc-wrap">) <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Waits for the thread pool to finish all of its current work.</p>
-<aside class="m-note m-danger"><h4>Warning</h4><p>Do not call this from one of the thread pool's workers.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a495ad269689dadf8eebb7a8bd23574ec"><div>
             <h3>
@@ -436,6 +429,13 @@
 <span class="p">{</span>
     <span class="c1">// no args is OK too</span>
 <span class="p">});</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>Tasks must be finite, otherwise the pool will fill and Wait() calls will never return.</p><p>Tasks must not throw exceptions.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>Do not call this from one of the <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>'s workers.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a0be5fc12fedc8dbb694b614a6e53ec23"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">void muu::<wbr/>thread_pool::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0be5fc12fedc8dbb694b614a6e53ec23">wait</a>(</span><span class="m-doc-wrap">) <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Waits for the thread pool to finish all of its current work.</p>
+<aside class="m-note m-danger"><h4>Warning</h4><p>Do not call this from one of the thread pool's workers.</p></aside>
           </div></section>
         </section>
       </div>

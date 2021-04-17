@@ -89,6 +89,11 @@
             <dd>An axis-angle rotation.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01quaternion_3_01_scalar_01_4_01_4.html">muu::constants&lt;quaternion&lt;Scalar&gt;&gt;</a>
+            </dt>
+            <dd>Quaternion constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1euler__rotation.html">muu::euler_rotation</a>
             </dt>
             <dd>A set of euler angles used for rotation.</dd>
@@ -98,30 +103,20 @@
             </dt>
             <dd>A quaternion.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
-              struct <a class="m-doc" href="structstd_1_1tuple__size_3_01muu_1_1quaternion_3_01_scalar_01_4_01_4.html">std::tuple_size&lt;muu::quaternion&lt;Scalar&gt;&gt;</a>
-            </dt>
-            <dd>Specialization of <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a> for <a class="m-doc" href="structmuu_1_1quaternion.html">muu::<wbr/>quaternion</a>.</dd>
-            <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/size_t.html" target="_blank">size_<wbr/>t</a> I, typename Scalar&gt;</div>
               struct <a class="m-doc" href="structstd_1_1tuple__element_3_01_i_00_01muu_1_1quaternion_3_01_scalar_01_4_01_4.html">std::tuple_element&lt;I, muu::quaternion&lt;Scalar&gt;&gt;</a>
             </dt>
             <dd>Specialization of <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_element" target="_blank">std::tuple_element</a> for <a class="m-doc" href="structmuu_1_1quaternion.html">muu::<wbr/>quaternion</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01quaternion_3_01_scalar_01_4_01_4.html">muu::constants&lt;quaternion&lt;Scalar&gt;&gt;</a>
+              struct <a class="m-doc" href="structstd_1_1tuple__size_3_01muu_1_1quaternion_3_01_scalar_01_4_01_4.html">std::tuple_size&lt;muu::quaternion&lt;Scalar&gt;&gt;</a>
             </dt>
-            <dd>Quaternion constants.</dd>
+            <dd>Specialization of <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a> for <a class="m-doc" href="structmuu_1_1quaternion.html">muu::<wbr/>quaternion</a>.</dd>
           </dl>
         </section>
         <section id="func-members">
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
-            <dt>
-              <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gaffcaea7f39fc17894285d8221923387e">infinity_or_nan</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if any of the scalar components of a #quaternion are infinity or NaN.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga6b8d6921c4f39c5881a7ea6f95f33392">approx_equal</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q1,
@@ -137,15 +132,15 @@
             <dd>Returns true if all the scalar components of a #quaternion are approximately equal to zero.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__unit__length.html#ga85b832f6824677b76dff5080ebfbcf83">unit_length</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if a #quaternion is unit-length (i.e. has a length of 1).</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename S&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#ae3e92df79fe85ed96266ca70d660de8d">dot</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q1,
               const quaternion&lt;S&gt;&amp; q2) -&gt; S <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the dot product of two quaternions.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename S&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gaffcaea7f39fc17894285d8221923387e">infinity_or_nan</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the scalar components of a #quaternion are infinity or NaN.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#aa80b85fea6664e3d955f129f9eff4a41">normalize</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q) -&gt; quaternion&lt;S&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -158,6 +153,11 @@
               S alpha) -&gt; quaternion&lt;S&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Performs a spherical-linear interpolation between two quaternions.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename S&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__unit__length.html#ga85b832f6824677b76dff5080ebfbcf83">unit_length</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a #quaternion is unit-length (i.e. has a length of 1).</dd>
           </dl>
         </section>
       </div>

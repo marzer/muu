@@ -88,14 +88,14 @@
           <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
             <dt>
-              struct <a class="m-doc" href="structmuu_1_1half.html">muu::half</a>
-            </dt>
-            <dd>A 16-bit "<a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision" floating point type.</dd>
-            <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01half_01_4.html">muu::constants&lt;half&gt;</a>
             </dt>
-            <dd>16-bit <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float constants.</dd>
+            <dd>16-bit half-precision float constants.</dd>
+            <dt>
+              struct <a class="m-doc" href="structmuu_1_1half.html">muu::half</a>
+            </dt>
+            <dd>A 16-bit "half-precision" floating point type.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structstd_1_1numeric__limits_3_01muu_1_1half_01_4.html">std::numeric_limits&lt;muu::half&gt;</a>
@@ -107,87 +107,87 @@
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a44b30e32ede9bd31865933e97822ed3d">operator""_f16</a>(</span><span class="m-doc-wrap">long double val) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Literal for creating a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a7d35b10d5222b2b36a00a7fcdf81d5d7">operator""_f16</a>(</span><span class="m-doc-wrap">unsigned long long val) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Literal for creating a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gafea7a631de7f6399fb55e1dffbe79c00">infinity_or_nan</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> x) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float is infinity or NaN.</dd>
-            <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__abs.html#ga5e3a3b5d552cc29822e1a17fdd1cc3bd">abs</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the absolute value of a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
+            <dd>Returns the absolute value of a half-precision float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__acos.html#ga8bb8129170a7cc7e9902de607e1c8279">acos</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the arc cosine of a half-precision float.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga87bf7f92a62590f695617cea9bb941fe">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> a,
               <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> b,
               <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> epsilon = constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>&gt;::default_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if two <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision floats are approximately equal.</dd>
+            <dd>Returns true if two half-precision floats are approximately equal.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga5df3be4319d056f5a12b082177b1f8dd">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> x,
               <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> epsilon = constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>&gt;::default_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float is approximately equal to zero.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__floor.html#ga33492d2d742e23fb32d6feddeb0a12a5">floor</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns the floor of a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__ceil.html#gadb3f9b52071aea9fe1cf894a7fb9c039">ceil</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns the ceiling of a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sqrt.html#gae9514bab097b1d4944394221097d5449">sqrt</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns the square-root of a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__cos.html#ga3f48d168cf2a5cc17d95fd4860ce8267">cos</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns the cosine of a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sin.html#ga02cf6ce14db45d5f2148ffbb9e33438e">sin</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns the sine of a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__tan.html#ga2b2e08e3f3a3e7db4751921441317963">tan</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns the tangent of a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__acos.html#ga8bb8129170a7cc7e9902de607e1c8279">acos</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns the arc cosine of a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
+            <dd>Returns true a half-precision float is approximately equal to zero.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__asin.html#gab24a151709d5cbfc7c049d279307ec54">asin</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the arc sine of a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
+            <dd>Returns the arc sine of a half-precision float.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__atan.html#gac59b7164798fbb5ae72b13010ac7f960">atan</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the arc tangent of a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
+            <dd>Returns the arc tangent of a half-precision float.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__atan2.html#ga7b0d41cadc47ad6e8255fa170f640be1">atan2</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> y,
               <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the arc tangent of a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
+            <dd>Returns the arc tangent of a half-precision float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__ceil.html#gadb3f9b52071aea9fe1cf894a7fb9c039">ceil</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the ceiling of a half-precision float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__cos.html#ga3f48d168cf2a5cc17d95fd4860ce8267">cos</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the cosine of a half-precision float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__floor.html#ga33492d2d742e23fb32d6feddeb0a12a5">floor</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the floor of a half-precision float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gafea7a631de7f6399fb55e1dffbe79c00">infinity_or_nan</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> x) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a half-precision float is infinity or NaN.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__lerp.html#ga7d194c0af560d9e78eab17a4e76d17a5">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> start,
               <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> finish,
               <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> alpha) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a linear interpolation between two <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision floats.</dd>
+            <dd>Returns a linear interpolation between two half-precision floats.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__normalize__angle.html#gae3196eacbe3561ca0edc39d280f31585">normalize_angle</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Normalizes the angle value of a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
+            <dd>Normalizes the angle value of a half-precision float.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__normalize__angle__signed.html#ga7569b01664a740bf2ecc532e22c3b487">normalize_angle_signed</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Normalizes the angle value of a <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>-precision float.</dd>
+            <dd>Normalizes the angle value of a half-precision float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a44b30e32ede9bd31865933e97822ed3d">operator""_f16</a>(</span><span class="m-doc-wrap">long double val) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Literal for creating a half-precision float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a7d35b10d5222b2b36a00a7fcdf81d5d7">operator""_f16</a>(</span><span class="m-doc-wrap">unsigned long long val) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Literal for creating a half-precision float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sin.html#ga02cf6ce14db45d5f2148ffbb9e33438e">sin</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the sine of a half-precision float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__sqrt.html#gae9514bab097b1d4944394221097d5449">sqrt</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the square-root of a half-precision float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__tan.html#ga2b2e08e3f3a3e7db4751921441317963">tan</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the tangent of a half-precision float.</dd>
           </dl>
         </section>
         <section id="var-members">

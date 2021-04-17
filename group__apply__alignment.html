@@ -73,63 +73,30 @@
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment, typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga6aae2e7be0cb15bed51d7cb636602c5f">apply_alignment</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Rounds an unsigned value up to the next multiple of the given alignment.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment, typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gae89c7cea139581038d585201d5b3bfee">apply_alignment</a>(</span><span class="m-doc-wrap">T* ptr) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Rounds a pointer up to the byte offset that is the next multiple of the given alignment.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga7cd587549d099b4323fda37f23097e04">apply_alignment</a>(</span><span class="m-doc-wrap">T val,
-              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Rounds an unsigned value up to the next multiple of the given alignment.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga7afe47820cb2e0951bf755832ce108be">apply_alignment</a>(</span><span class="m-doc-wrap">T* ptr,
               <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Rounds a pointer up to the byte offset that is the next multiple of the given alignment.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment, typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga6aae2e7be0cb15bed51d7cb636602c5f">apply_alignment</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Rounds an unsigned value up to the next multiple of the given alignment.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga7cd587549d099b4323fda37f23097e04">apply_alignment</a>(</span><span class="m-doc-wrap">T val,
+              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Rounds an unsigned value up to the next multiple of the given alignment.</dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="ga6aae2e7be0cb15bed51d7cb636602c5f"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment, typename T&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga6aae2e7be0cb15bed51d7cb636602c5f">apply_alignment</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Rounds an unsigned value up to the next multiple of the given alignment.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Template parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">Alignment</td>
-                  <td>The alignment to round up to. Must be a power of two.</td>
-                </tr>
-                <tr>
-                  <td>T</td>
-                  <td>An unsigned integer or enum type.</td>
-                </tr>
-              </tbody>
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>val</td>
-                  <td>The unsigned value being aligned.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div></section>
           <section class="m-doc-details" id="gae89c7cea139581038d585201d5b3bfee"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
@@ -163,41 +130,6 @@
               </tbody>
             </table>
           </div></section>
-          <section class="m-doc-details" id="ga7cd587549d099b4323fda37f23097e04"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga7cd587549d099b4323fda37f23097e04">apply_alignment</a>(</span><span class="m-doc-wrap">T val,
-              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Rounds an unsigned value up to the next multiple of the given alignment.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Template parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">T</td>
-                  <td>An unsigned integer or enum type.</td>
-                </tr>
-              </tbody>
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>val</td>
-                  <td>The unsigned value being aligned.</td>
-                </tr>
-                <tr>
-                  <td>alignment</td>
-                  <td>The alignment to round up to. Must be a power of two.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div></section>
           <section class="m-doc-details" id="ga7afe47820cb2e0951bf755832ce108be"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
@@ -225,6 +157,74 @@
                 <tr>
                   <td>ptr</td>
                   <td>The pointer being aligned.</td>
+                </tr>
+                <tr>
+                  <td>alignment</td>
+                  <td>The alignment to round up to. Must be a power of two.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="ga6aae2e7be0cb15bed51d7cb636602c5f"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment, typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga6aae2e7be0cb15bed51d7cb636602c5f">apply_alignment</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Rounds an unsigned value up to the next multiple of the given alignment.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">Alignment</td>
+                  <td>The alignment to round up to. Must be a power of two.</td>
+                </tr>
+                <tr>
+                  <td>T</td>
+                  <td>An unsigned integer or enum type.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>val</td>
+                  <td>The unsigned value being aligned.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="ga7cd587549d099b4323fda37f23097e04"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga7cd587549d099b4323fda37f23097e04">apply_alignment</a>(</span><span class="m-doc-wrap">T val,
+              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Rounds an unsigned value up to the next multiple of the given alignment.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>An unsigned integer or enum type.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>val</td>
+                  <td>The unsigned value being aligned.</td>
                 </tr>
                 <tr>
                   <td>alignment</td>

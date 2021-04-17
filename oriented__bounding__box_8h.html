@@ -88,25 +88,20 @@
             </dt>
             <dd>An oriented bounding box.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
-              struct <a class="m-doc" href="structstd_1_1tuple__size_3_01muu_1_1oriented__bounding__box_3_01_scalar_01_4_01_4.html">std::tuple_size&lt;muu::oriented_bounding_box&lt;Scalar&gt;&gt;</a>
-            </dt>
-            <dd>Specialization of <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a> for <a class="m-doc" href="structmuu_1_1bounding__box.html">muu::<wbr/>bounding_box</a>.</dd>
-            <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/size_t.html" target="_blank">size_<wbr/>t</a> I, typename Scalar&gt;</div>
               struct <a class="m-doc" href="structstd_1_1tuple__element_3_01_i_00_01muu_1_1oriented__bounding__box_3_01_scalar_01_4_01_4.html">std::tuple_element&lt;I, muu::oriented_bounding_box&lt;Scalar&gt;&gt;</a>
             </dt>
             <dd>Specialization of <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_element" target="_blank">std::tuple_element</a> for <a class="m-doc" href="structmuu_1_1bounding__box.html">muu::<wbr/>bounding_box</a>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
+              struct <a class="m-doc" href="structstd_1_1tuple__size_3_01muu_1_1oriented__bounding__box_3_01_scalar_01_4_01_4.html">std::tuple_size&lt;muu::oriented_bounding_box&lt;Scalar&gt;&gt;</a>
+            </dt>
+            <dd>Specialization of <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a> for <a class="m-doc" href="structmuu_1_1bounding__box.html">muu::<wbr/>bounding_box</a>.</dd>
           </dl>
         </section>
         <section id="func-members">
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
-            <dt>
-              <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gade7f3e7d056853c9e542ec453394a9c4">infinity_or_nan</a>(</span><span class="m-doc-wrap">const oriented_bounding_box&lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if any of the scalar components of an #oriented_bounding_box are infinity or NaN.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga44033f904b7ed733949dab5e6acccd16">approx_equal</a>(</span><span class="m-doc-wrap">const oriented_bounding_box&lt;S&gt;&amp; q1,
@@ -120,6 +115,11 @@
               S epsilon = default_epsilon&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if all the scalar components of an #oriented_bounding_box are approximately equal to zero.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename S&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gade7f3e7d056853c9e542ec453394a9c4">infinity_or_nan</a>(</span><span class="m-doc-wrap">const oriented_bounding_box&lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the scalar components of an #oriented_bounding_box are infinity or NaN.</dd>
           </dl>
         </section>
       </div>
