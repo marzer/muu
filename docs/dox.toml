@@ -1,13 +1,13 @@
-name = 'muu'
-description = 'Useful utilities for modern C++'
-cpp = 17
-github = 'marzer/muu'
-license = [ 'MIT', 'https://github.com/marzer/muu/blob/master/LICENSE' ]
-show_includes = true
-generate_tagfile = true
-favicon = 'images/favicon.ico'
-inline_namespaces = [ 'muu::literals' ]
-extra_files = [
+name				= 'muu'
+description			= 'Useful utilities for modern C++'
+cpp					= 17
+github				= 'marzer/muu'
+license				= [ 'Apache-2.0', 'https://github.com/marzer/muu/blob/master/LICENSE' ]
+show_includes		= true
+generate_tagfile	= true
+logo				= 'images/logo.png'
+favicon 			= 'images/favicon.ico'
+extra_files	= [
 	'images/banner.png',
 	'images/banner-small.png',
 ]
@@ -15,14 +15,9 @@ extra_files = [
 
 
 [warnings]
-enabled = true
-treat_as_errors = false
-undocumented = false
-
-
-
-[meta]
-google-site-verification = 'gbtcNgKlNiPSMKkYMw4zWFVWGPH_oU93m9n_-nb4qK8'
+enabled			= true
+treat_as_errors	= false
+undocumented	= false
 
 
 
