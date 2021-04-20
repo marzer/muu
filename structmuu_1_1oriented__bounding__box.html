@@ -193,20 +193,10 @@
             </dt>
             <dd>Copy constructor.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a04b7966c37e8d27c44ec39da6c2da058">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const T&amp; blittable) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a oriented bounding box from an implicitly bit-castable type.</dd>
-            <dt>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="#ac75146a2a65e579740f3365ac75a7e1c">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; cen,
               const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; ext) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a oriented bounding box from center and extent values.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#af245cd2ee458db4330a1b5a8e7d1cd7b">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; cen,
-              <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a uniformly-sized oriented bounding box.</dd>
             <dt>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="#add81e03ed9576a601ea7ca5922e4c059">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; cen,
               <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext_x,
@@ -214,6 +204,11 @@
               <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext_z) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a oriented bounding box from center and extent values.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#af245cd2ee458db4330a1b5a8e7d1cd7b">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; cen,
+              <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a uniformly-sized oriented bounding box.</dd>
             <dt>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="#ac24deab439c1494aa6cf84a91a17fead">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; ext) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -238,6 +233,11 @@
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="#ad23f68db4b47f7f5e8bde771546b8278">oriented_bounding_box</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a uniformly-sized oriented bounding box at the origin.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a04b7966c37e8d27c44ec39da6c2da058">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const T&amp; blittable) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a oriented bounding box from an implicitly bit-castable type.</dd>
           </dl>
         </section>
         <section id="pub-methods">
@@ -294,14 +294,14 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a70e3d89d9a50eee55ae7e6caad33ec7f">infinity_or_nan</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the scalar components of the oriented bounding box are infinity or NaN.</dd>
-            <dt id="a57afc721917b9298bf23e869d8166a9c">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a57afc721917b9298bf23e869d8166a9c">longest_extent</a>(</span><span class="m-doc-wrap">) const -&gt; const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns the longest of the box's three extents (const overload).</dd>
             <dt id="a371f4238d84e89a56c509fc078bf7b85">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a371f4238d84e89a56c509fc078bf7b85">longest_extent</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the longest of the box's three extents.</dd>
+            <dt id="a57afc721917b9298bf23e869d8166a9c">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a57afc721917b9298bf23e869d8166a9c">longest_extent</a>(</span><span class="m-doc-wrap">) const -&gt; const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the longest of the box's three extents (const overload).</dd>
             <dt id="a346344c3e59b987ff9b42794e63af540">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a346344c3e59b987ff9b42794e63af540">longest_side</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a43b9d7e8fb1c7e79b89314624bbab9b8">delta_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -326,14 +326,14 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#abce84ebbd395a20132fa2ba5a30fe210">scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; scale_) -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Scales the oriented bounding box (in-place).</dd>
-            <dt id="a92632202298fe2388bc4d45630975891">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a92632202298fe2388bc4d45630975891">shortest_extent</a>(</span><span class="m-doc-wrap">) const -&gt; const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns the shortest of the box's three extents (const overload).</dd>
             <dt id="a8a103afae4fe537d9429828834a9eb12">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a8a103afae4fe537d9429828834a9eb12">shortest_extent</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the shortest of the box's three extents.</dd>
+            <dt id="a92632202298fe2388bc4d45630975891">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a92632202298fe2388bc4d45630975891">shortest_extent</a>(</span><span class="m-doc-wrap">) const -&gt; const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the shortest of the box's three extents (const overload).</dd>
             <dt id="a2c0bb5d5f2bd877aeaa82f07a809d71b">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2c0bb5d5f2bd877aeaa82f07a809d71b">shortest_side</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a43b9d7e8fb1c7e79b89314624bbab9b8">delta_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -359,10 +359,6 @@
         <section id="pub-attribs">
           <h2><a href="#pub-attribs">Public variables</a></h2>
           <dl class="m-doc">
-            <dt id="a06266afb86562e550b7442dfd6d525ba">
-              <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#abf37942d5f32f6dcf31336990fca9fd2">axes_<wbr/>type</a> <a class="m-doc-self" href="#a06266afb86562e550b7442dfd6d525ba">axes</a>
-            </dt>
-            <dd>The axes of the box's orientation.</dd>
             <dt id="a93a7c36e8fc43c3737ac4170c949a5f8">
               <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a> <a class="m-doc-self" href="#a93a7c36e8fc43c3737ac4170c949a5f8">center</a>
             </dt>
@@ -371,6 +367,10 @@
               <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a> <a class="m-doc-self" href="#ac4542677a8de3faee8f11390bcffe84c">extents</a>
             </dt>
             <dd>The half-lengths of box (i.e. distances from the center to the sides).</dd>
+            <dt id="a06266afb86562e550b7442dfd6d525ba">
+              <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#abf37942d5f32f6dcf31336990fca9fd2">axes_<wbr/>type</a> <a class="m-doc-self" href="#a06266afb86562e550b7442dfd6d525ba">axes</a>
+            </dt>
+            <dd>The axes of the box's orientation.</dd>
           </dl>
         </section>
         <section id="friends">
@@ -532,28 +532,6 @@ template&lt;typename T&gt;
             <p>Returns true if all the scalar components of an oriented bounding box are exactly zero.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is a componentwise exact equality check; if you want an epsilon-based "near-enough" for floating-point oriented bounding boxes, use <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#ad5eae7fd6e033ff0d2f1fe6f26b57f8a">approx_<wbr/>zero()</a>.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a04b7966c37e8d27c44ec39da6c2da058"><div>
-            <h3>
-              <div class="m-doc-template">
-                template&lt;typename Scalar&gt;<br/>
-template&lt;typename T&gt;
-              </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>oriented_bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a04b7966c37e8d27c44ec39da6c2da058">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const T&amp; blittable) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Constructs a oriented bounding box from an implicitly bit-castable type.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Template parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">T</td>
-                  <td>A bit-castable type.</td>
-                </tr>
-              </tbody>
-            </table>
-<aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__meta.html#ga824ac2b58e006d4be8d4b0d6a0f7180d">muu::<wbr/>allow_implicit_bit_cast</a></p></aside>
-          </div></section>
           <section class="m-doc-details" id="ac75146a2a65e579740f3365ac75a7e1c"><div>
             <h3>
               <div class="m-doc-template">
@@ -575,31 +553,6 @@ template&lt;typename T&gt;
                 <tr>
                   <td>ext</td>
                   <td>The extents.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="af245cd2ee458db4330a1b5a8e7d1cd7b"><div>
-            <h3>
-              <div class="m-doc-template">
-                template&lt;typename Scalar&gt;
-              </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>oriented_bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af245cd2ee458db4330a1b5a8e7d1cd7b">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; cen,
-              <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Constructs a uniformly-sized oriented bounding box.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">cen</td>
-                  <td>The center point.</td>
-                </tr>
-                <tr>
-                  <td>ext</td>
-                  <td>The length of all three extents.</td>
                 </tr>
               </tbody>
             </table>
@@ -635,6 +588,31 @@ template&lt;typename T&gt;
                 <tr>
                   <td>ext_z</td>
                   <td>The length of the Z extent.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="af245cd2ee458db4330a1b5a8e7d1cd7b"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>oriented_bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af245cd2ee458db4330a1b5a8e7d1cd7b">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; cen,
+              <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Constructs a uniformly-sized oriented bounding box.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">cen</td>
+                  <td>The center point.</td>
+                </tr>
+                <tr>
+                  <td>ext</td>
+                  <td>The length of all three extents.</td>
                 </tr>
               </tbody>
             </table>
@@ -758,6 +736,28 @@ template&lt;typename T&gt;
                 </tr>
               </tbody>
             </table>
+          </div></section>
+          <section class="m-doc-details" id="a04b7966c37e8d27c44ec39da6c2da058"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;<br/>
+template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>oriented_bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a04b7966c37e8d27c44ec39da6c2da058">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const T&amp; blittable) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Constructs a oriented bounding box from an implicitly bit-castable type.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>A bit-castable type.</td>
+                </tr>
+              </tbody>
+            </table>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__meta.html#ga824ac2b58e006d4be8d4b0d6a0f7180d">muu::<wbr/>allow_implicit_bit_cast</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ac0ea263ca8231e840c6d869b1963b6c8"><div>
             <h3>

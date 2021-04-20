@@ -82,24 +82,24 @@
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01vector_3_01_scalar_00_01_dimensions_01_4_01_4.html">muu::constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;</a>
-            </dt>
-            <dd>Vector constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1vector.html">muu::vector</a>
             </dt>
             <dd>An N-dimensional vector.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/size_t.html" target="_blank">size_<wbr/>t</a> Dimensions&gt;</div>
+              struct <a class="m-doc" href="structstd_1_1tuple__size_3_01muu_1_1vector_3_01_scalar_00_01_dimensions_01_4_01_4.html">std::tuple_size&lt;muu::vector&lt;Scalar, Dimensions&gt;&gt;</a>
+            </dt>
+            <dd>Specialization of <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a> for <a class="m-doc" href="structmuu_1_1vector.html">muu::<wbr/>vector</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/size_t.html" target="_blank">size_<wbr/>t</a> I, typename Scalar, <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/size_t.html" target="_blank">size_<wbr/>t</a> Dimensions&gt;</div>
               struct <a class="m-doc" href="structstd_1_1tuple__element_3_01_i_00_01muu_1_1vector_3_01_scalar_00_01_dimensions_01_4_01_4.html">std::tuple_element&lt;I, muu::vector&lt;Scalar, Dimensions&gt;&gt;</a>
             </dt>
             <dd>Specialization of <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_element" target="_blank">std::tuple_element</a> for <a class="m-doc" href="structmuu_1_1vector.html">muu::<wbr/>vector</a>.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/size_t.html" target="_blank">size_<wbr/>t</a> Dimensions&gt;</div>
-              struct <a class="m-doc" href="structstd_1_1tuple__size_3_01muu_1_1vector_3_01_scalar_00_01_dimensions_01_4_01_4.html">std::tuple_size&lt;muu::vector&lt;Scalar, Dimensions&gt;&gt;</a>
+              <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01vector_3_01_scalar_00_01_dimensions_01_4_01_4.html">muu::constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;</a>
             </dt>
-            <dd>Specialization of <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a> for <a class="m-doc" href="structmuu_1_1vector.html">muu::<wbr/>vector</a>.</dd>
+            <dd>Vector constants.</dd>
           </dl>
         </section>
         <section id="func-members">
@@ -149,15 +149,15 @@
             <dd>Returns the cross product of two three-dimensional vectors.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#af688d95d2f8af0a0687b78875d465e93">direction</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; from,
-              const vector&lt;S, D&gt;&amp; to) -&gt; vector_product <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a5894cf9d191befc3a53ed17f6ead1b3f">direction</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; from,
+              const vector&lt;S, D&gt;&amp; to,
+              delta_type&amp; distance_out) -&gt; vector_product <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the normalized direction vector from one position to another.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a5894cf9d191befc3a53ed17f6ead1b3f">direction</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; from,
-              const vector&lt;S, D&gt;&amp; to,
-              delta_type&amp; distance_out) -&gt; vector_product <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#af688d95d2f8af0a0687b78875d465e93">direction</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; from,
+              const vector&lt;S, D&gt;&amp; to) -&gt; vector_product <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the normalized direction vector from one position to another.</dd>
             <dt>
@@ -219,13 +219,13 @@
             <dd>Returns the componentwise minimum of two vectors.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a0901b5c81729a1e28b3dab7c0cf1bba3">normalize</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v) -&gt; vector&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#aaed6aa88dd289829bd7f1b15182d2577">normalize</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v,
+              delta_type&amp; length_out) -&gt; vector&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Normalizes a vector.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#aaed6aa88dd289829bd7f1b15182d2577">normalize</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v,
-              delta_type&amp; length_out) -&gt; vector&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a0901b5c81729a1e28b3dab7c0cf1bba3">normalize</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v) -&gt; vector&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Normalizes a vector.</dd>
             <dt>

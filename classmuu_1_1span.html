@@ -148,42 +148,42 @@
               <span class="m-doc-wrap-bumper"><a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Default constructor.</dd>
-            <dt id="a191e5406eec3ef665f7cba40e8af9925">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a191e5406eec3ef665f7cba40e8af9925">span</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1span.html">span</a>&amp;) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Copy constructor.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename U, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> E&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;U, E&gt;&amp; s) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a <a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a> from another <a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a>.</dd>
-            <dt id="a3507165435a2f4a0dc4bac59cb0a8fa4">
-              <div class="m-doc-template">template&lt;typename U, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3507165435a2f4a0dc4bac59cb0a8fa4">span</a>(</span><span class="m-doc-wrap">const <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/container/array.html" target="_blank">std::<wbr/>array</a>&lt;U, N&gt;&amp; arr) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a <a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a> from an array.</dd>
-            <dt id="a4e8db51e6442462ecc50ff5c7e9228fd">
-              <div class="m-doc-template">template&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4e8db51e6442462ecc50ff5c7e9228fd">span</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1span.html#ac92b58600d3f008c78cdddd953fdf62d">element_<wbr/>type</a>(&amp;arr)[N]) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a <a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a> from an array.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename It, typename End&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a>(</span><span class="m-doc-wrap">It first,
-              End last) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
-            </dt>
-            <dd>Constructs a <a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a> from a pair of contiguous iterators.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename It&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a>(</span><span class="m-doc-wrap">It first,
               <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a <a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a> from a contiguous iterator and an element count.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename It, typename End&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a>(</span><span class="m-doc-wrap">It first,
+              End last) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
+            </dt>
+            <dd>Constructs a <a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a> from a pair of contiguous iterators.</dd>
+            <dt id="a4e8db51e6442462ecc50ff5c7e9228fd">
+              <div class="m-doc-template">template&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4e8db51e6442462ecc50ff5c7e9228fd">span</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1span.html#ac92b58600d3f008c78cdddd953fdf62d">element_<wbr/>type</a>(&amp;arr)[N]) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a <a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a> from an array.</dd>
             <dt id="a833777c44fb3c2e8f193006f43724b25">
               <div class="m-doc-template">template&lt;typename U, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a833777c44fb3c2e8f193006f43724b25">span</a>(</span><span class="m-doc-wrap"><a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/container/array.html" target="_blank">std::<wbr/>array</a>&lt;U, N&gt;&amp; arr) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a <a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a> from an array.</dd>
+            <dt id="a3507165435a2f4a0dc4bac59cb0a8fa4">
+              <div class="m-doc-template">template&lt;typename U, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3507165435a2f4a0dc4bac59cb0a8fa4">span</a>(</span><span class="m-doc-wrap">const <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/container/array.html" target="_blank">std::<wbr/>array</a>&lt;U, N&gt;&amp; arr) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a <a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a> from an array.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename U, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> E&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;U, E&gt;&amp; s) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a <a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a> from another <a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a>.</dd>
+            <dt id="a191e5406eec3ef665f7cba40e8af9925">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a191e5406eec3ef665f7cba40e8af9925">span</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1span.html">span</a>&amp;) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Copy constructor.</dd>
           </dl>
         </section>
         <section id="pub-methods">
@@ -293,15 +293,16 @@
             <p>Default constructor.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This constructor is not available for statically-sized <a class="m-doc dox-injected" href="classmuu_1_1span.html">spans</a>.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a734ebde437bf4f428d31ed4480e13b03"><div>
+          <section class="m-doc-details" id="a1c9b392a0e11f762151432fa40f20444"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename T, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Extent&gt;<br/>
-template&lt;typename U, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> E&gt;
+template&lt;typename It&gt;
               </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/><a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a>&lt;T, Extent&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a734ebde437bf4f428d31ed4480e13b03">span</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;U, E&gt;&amp; s) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/><a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a>&lt;T, Extent&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a1c9b392a0e11f762151432fa40f20444">span</a>(</span><span class="m-doc-wrap">It first,
+              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Constructs a <a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a> from another <a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a>.</p>
-<aside class="m-note m-info"><h4>Note</h4><p>This constructor is <code>explicit</code> when <a class="m-doc" href="classmuu_1_1span.html#a98e1fe87f955719f40e1f20cc1b42e1a">extent</a> != <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a> &amp;&amp; E == <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>.</p></aside>
+            <p>Constructs a <a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a> from a contiguous iterator and an element count.</p>
+<aside class="m-note m-info"><h4>Note</h4><p>This constructor is <code>explicit</code> when <a class="m-doc" href="classmuu_1_1span.html#a98e1fe87f955719f40e1f20cc1b42e1a">extent</a> != <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="aba4ea951565d50e0d3aac8d1eee08e10"><div>
             <h3>
@@ -314,16 +315,15 @@ template&lt;typename It, typename End&gt;
             <p>Constructs a <a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a> from a pair of contiguous iterators.</p>
 <aside class="m-note m-info"><h4>Note</h4><p>This constructor is <code>explicit</code> when <a class="m-doc" href="classmuu_1_1span.html#a98e1fe87f955719f40e1f20cc1b42e1a">extent</a> != <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a1c9b392a0e11f762151432fa40f20444"><div>
+          <section class="m-doc-details" id="a734ebde437bf4f428d31ed4480e13b03"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename T, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Extent&gt;<br/>
-template&lt;typename It&gt;
+template&lt;typename U, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> E&gt;
               </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/><a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a>&lt;T, Extent&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a1c9b392a0e11f762151432fa40f20444">span</a>(</span><span class="m-doc-wrap">It first,
-              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/><a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a>&lt;T, Extent&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a734ebde437bf4f428d31ed4480e13b03">span</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;U, E&gt;&amp; s) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Constructs a <a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a> from a contiguous iterator and an element count.</p>
-<aside class="m-note m-info"><h4>Note</h4><p>This constructor is <code>explicit</code> when <a class="m-doc" href="classmuu_1_1span.html#a98e1fe87f955719f40e1f20cc1b42e1a">extent</a> != <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>.</p></aside>
+            <p>Constructs a <a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a> from another <a class="m-doc dox-injected" href="classmuu_1_1span.html">span</a>.</p>
+<aside class="m-note m-info"><h4>Note</h4><p>This constructor is <code>explicit</code> when <a class="m-doc" href="classmuu_1_1span.html#a98e1fe87f955719f40e1f20cc1b42e1a">extent</a> != <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a> &amp;&amp; E == <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>.</p></aside>
           </div></section>
         </section>
       </div>

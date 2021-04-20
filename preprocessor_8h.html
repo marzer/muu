@@ -166,10 +166,6 @@
             </dt>
             <dd>The currently-targeted C++ standard. <code>17</code> for C++17, <code>20</code> for C++20, etc.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#gadb6fae17fb19af86f59b0ec414838070">MUU_CPP</a></span>
-            </dt>
-            <dd>The currently-targeted C++ standard. <code>17</code> for C++17, <code>20</code> for C++20, etc.</dd>
-            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga011cf3340b4f4928a24e3b83c2360f34">MUU_DECLSPEC</a>(</span><span class="m-doc-wrap">...)</span>
             </dt>
             <dd>Expands to <code>__declspec( ... )</code> when compiling with MSVC (or another compiler in MSVC-mode).</dd>
@@ -334,14 +330,6 @@
             </dt>
             <dd>A strong hint to the optimizer that you really, <em>really</em> do not want a function inlined.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga7152606bb8ad70ab6f0197461e7a24b2">MUU_NO_DEFAULT_CASE</a></span>
-            </dt>
-            <dd>Marks a switch statement as not being in need of a default clause.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga8f304d74e983202dd94830798b27d10d">MUU_NO_UNIQUE_ADDRESS</a></span>
-            </dt>
-            <dd>Expands to C++20's <code>[[no_unique_address]]</code> if supported by your compiler.</dd>
-            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga2b6bac0477246591441528bf0bafeb39">MUU_NODISCARD_CTOR</a></span>
             </dt>
             <dd>Expands to <code>[[nodiscard]]</code> if your compiler supports it on constructors.</dd>
@@ -349,6 +337,14 @@
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga208185e62d9dd3604e348e153ffc976b">MUU_NOOP</a></span>
             </dt>
             <dd>Expands to a no-op expression, e.g. <code><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a>&lt;void&gt;(0)</code>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga7152606bb8ad70ab6f0197461e7a24b2">MUU_NO_DEFAULT_CASE</a></span>
+            </dt>
+            <dd>Marks a switch statement as not being in need of a default clause.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga8f304d74e983202dd94830798b27d10d">MUU_NO_UNIQUE_ADDRESS</a></span>
+            </dt>
+            <dd>Expands to C++20's <code>[[no_unique_address]]</code> if supported by your compiler.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#gafa04ab1dd3ac1da5ddbd3df2bbadf4a1">MUU_OFFSETOF</a>(</span><span class="m-doc-wrap">type,
               member)</span>

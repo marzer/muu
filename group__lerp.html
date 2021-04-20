@@ -71,30 +71,11 @@
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga18ab33f3d13ed00aaabb060162e64a07">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> start,
-              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> finish,
-              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> alpha) -&gt; <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga7d194c0af560d9e78eab17a4e76d17a5">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> start,
+              <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> finish,
+              <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> alpha) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a linear interpolation between two <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16s</a>.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga2ef795b3516004d50fdb7003c388e15d">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> start,
-              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> finish,
-              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> alpha) -&gt; <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a linear interpolation between two <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16s</a>.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename S, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga8a4dcbb8bec3e3ce9276430bdb3f44f3">lerp</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; start,
-              const vector&lt;S, D&gt;&amp; finish,
-              delta_type alpha) -&gt; vector&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Performs a linear interpolation between two vectors.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga47e41d7626365fcf881152c286833b5a">lerp</a>(</span><span class="m-doc-wrap">double start,
-              double finish,
-              double alpha) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a linear interpolation between two doubles.</dd>
+            <dd>Returns a linear interpolation between two half-precision floats.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga86b8aacc099deefdf6284d9bab7f2dad">lerp</a>(</span><span class="m-doc-wrap">float start,
               float finish,
@@ -102,17 +83,11 @@
             </dt>
             <dd>Returns a linear interpolation between two floats.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga614ccb878d52686237995f87013cfae5">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> start,
-              <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> finish,
-              <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> alpha) -&gt; <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga47e41d7626365fcf881152c286833b5a">lerp</a>(</span><span class="m-doc-wrap">double start,
+              double finish,
+              double alpha) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a linear interpolation between two <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_ts</a>.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga7d194c0af560d9e78eab17a4e76d17a5">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> start,
-              <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> finish,
-              <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> alpha) -&gt; <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a linear interpolation between two half-precision floats.</dd>
+            <dd>Returns a linear interpolation between two doubles.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga44b514d356d6673cc0595cf0390dd8de">lerp</a>(</span><span class="m-doc-wrap">long double start,
               long double finish,
@@ -120,53 +95,49 @@
             </dt>
             <dd>Returns a linear interpolation between two long doubles.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga614ccb878d52686237995f87013cfae5">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> start,
+              <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> finish,
+              <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> alpha) -&gt; <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a linear interpolation between two <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_ts</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga2ef795b3516004d50fdb7003c388e15d">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> start,
+              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> finish,
+              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> alpha) -&gt; <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a linear interpolation between two <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16s</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga18ab33f3d13ed00aaabb060162e64a07">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> start,
+              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> finish,
+              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> alpha) -&gt; <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a linear interpolation between two <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16s</a>.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T, typename U, typename V&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga348d51a08675a8a83b04e59b7705c29e">lerp</a>(</span><span class="m-doc-wrap">T start,
               U finish,
               V alpha) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a linear interpolation between two arithmetic values.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename S, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga8a4dcbb8bec3e3ce9276430bdb3f44f3">lerp</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; start,
+              const vector&lt;S, D&gt;&amp; finish,
+              delta_type alpha) -&gt; vector&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Performs a linear interpolation between two vectors.</dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="ga18ab33f3d13ed00aaabb060162e64a07"><div>
+          <section class="m-doc-details" id="ga7d194c0af560d9e78eab17a4e76d17a5"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga18ab33f3d13ed00aaabb060162e64a07">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> start,
-              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> finish,
-              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> alpha) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga7d194c0af560d9e78eab17a4e76d17a5">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> start,
+              <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> finish,
+              <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> alpha) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="half_8h.html">&lt;muu/half.h&gt;</a></div>
             </h3>
-            <p>Returns a linear interpolation between two <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16s</a>.</p>
-          </div></section>
-          <section class="m-doc-details" id="ga2ef795b3516004d50fdb7003c388e15d"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga2ef795b3516004d50fdb7003c388e15d">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> start,
-              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> finish,
-              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> alpha) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
-            </h3>
-            <p>Returns a linear interpolation between two <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16s</a>.</p>
-          </div></section>
-          <section class="m-doc-details" id="ga8a4dcbb8bec3e3ce9276430bdb3f44f3"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="vector_8h.html">&lt;muu/vector.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename S, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">vector&lt;S, D&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga8a4dcbb8bec3e3ce9276430bdb3f44f3">lerp</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; start,
-              const vector&lt;S, D&gt;&amp; finish,
-              delta_type alpha) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Performs a linear interpolation between two vectors.</p>
-          </div></section>
-          <section class="m-doc-details" id="ga47e41d7626365fcf881152c286833b5a"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">double </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga47e41d7626365fcf881152c286833b5a">lerp</a>(</span><span class="m-doc-wrap">double start,
-              double finish,
-              double alpha) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
-            </h3>
-            <p>Returns a linear interpolation between two doubles.</p>
+            <p>Returns a linear interpolation between two half-precision floats.</p>
           </div></section>
           <section class="m-doc-details" id="ga86b8aacc099deefdf6284d9bab7f2dad"><div>
             <h3>
@@ -177,23 +148,14 @@
             </h3>
             <p>Returns a linear interpolation between two floats.</p>
           </div></section>
-          <section class="m-doc-details" id="ga614ccb878d52686237995f87013cfae5"><div>
+          <section class="m-doc-details" id="ga47e41d7626365fcf881152c286833b5a"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga614ccb878d52686237995f87013cfae5">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> start,
-              <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> finish,
-              <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> alpha) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">double </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga47e41d7626365fcf881152c286833b5a">lerp</a>(</span><span class="m-doc-wrap">double start,
+              double finish,
+              double alpha) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
             </h3>
-            <p>Returns a linear interpolation between two <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_ts</a>.</p>
-          </div></section>
-          <section class="m-doc-details" id="ga7d194c0af560d9e78eab17a4e76d17a5"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga7d194c0af560d9e78eab17a4e76d17a5">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> start,
-              <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> finish,
-              <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> alpha) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="half_8h.html">&lt;muu/half.h&gt;</a></div>
-            </h3>
-            <p>Returns a linear interpolation between two half-precision floats.</p>
+            <p>Returns a linear interpolation between two doubles.</p>
           </div></section>
           <section class="m-doc-details" id="ga44b514d356d6673cc0595cf0390dd8de"><div>
             <h3>
@@ -203,6 +165,33 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
             </h3>
             <p>Returns a linear interpolation between two long doubles.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga614ccb878d52686237995f87013cfae5"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga614ccb878d52686237995f87013cfae5">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> start,
+              <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> finish,
+              <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> alpha) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
+            </h3>
+            <p>Returns a linear interpolation between two <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_ts</a>.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga2ef795b3516004d50fdb7003c388e15d"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga2ef795b3516004d50fdb7003c388e15d">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> start,
+              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> finish,
+              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> alpha) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
+            </h3>
+            <p>Returns a linear interpolation between two <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16s</a>.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga18ab33f3d13ed00aaabb060162e64a07"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga18ab33f3d13ed00aaabb060162e64a07">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> start,
+              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> finish,
+              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> alpha) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
+            </h3>
+            <p>Returns a linear interpolation between two <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16s</a>.</p>
           </div></section>
           <section class="m-doc-details" id="ga348d51a08675a8a83b04e59b7705c29e"><div>
             <h3>
@@ -216,6 +205,17 @@
             </h3>
             <p>Returns a linear interpolation between two arithmetic values.</p>
 <p>Integer arguments are promoted to double.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga8a4dcbb8bec3e3ce9276430bdb3f44f3"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="vector_8h.html">&lt;muu/vector.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;typename S, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">vector&lt;S, D&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga8a4dcbb8bec3e3ce9276430bdb3f44f3">lerp</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; start,
+              const vector&lt;S, D&gt;&amp; finish,
+              delta_type alpha) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Performs a linear interpolation between two vectors.</p>
           </div></section>
         </section>
       </div>

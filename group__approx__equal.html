@@ -70,11 +70,42 @@
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gafeb998d47625b367c261d8bc59c7a282">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> a,
-              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> b,
-              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> epsilon = default_epsilon&lt;<a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga0535df1acd603649ac9f793d96062112">approx_equal</a>(</span><span class="m-doc-wrap">const bounding_box&lt;S&gt;&amp; q1,
+              const bounding_box&lt;T&gt;&amp; q2,
+              epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if two <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> are approximately equal.</dd>
+            <dd>Returns true if two bounding_boxes are approximately equal.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga87bf7f92a62590f695617cea9bb941fe">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> a,
+              <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> b,
+              <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> epsilon = constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>&gt;::default_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two half-precision floats are approximately equal.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaec4759ac5b40da6afc50eb0b3585f0fe">approx_equal</a>(</span><span class="m-doc-wrap">float a,
+              float b,
+              float epsilon = default_epsilon&lt;float&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two floats are approximately equal.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gab93e074083f9da2915b8a5236f1cf7cf">approx_equal</a>(</span><span class="m-doc-wrap">double a,
+              double b,
+              double epsilon = default_epsilon&lt;double&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two doubles are approximately equal.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga943da06224480e3230fc1420a245f98c">approx_equal</a>(</span><span class="m-doc-wrap">long double a,
+              long double b,
+              long double epsilon = default_epsilon&lt;long double&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two long doubles are approximately equal.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga9b1e5da7e9ef7782a93da63b886ae258">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> a,
+              <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> b,
+              <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> epsilon = default_epsilon&lt;<a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_ts</a> are approximately equal.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaac1ff3710f8b52479141460b908e0019">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> a,
               <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> b,
@@ -82,12 +113,17 @@
             </dt>
             <dd>Returns true if two <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16s</a> are approximately equal.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga0535df1acd603649ac9f793d96062112">approx_equal</a>(</span><span class="m-doc-wrap">const bounding_box&lt;S&gt;&amp; q1,
-              const bounding_box&lt;T&gt;&amp; q2,
-              epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gafeb998d47625b367c261d8bc59c7a282">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> a,
+              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> b,
+              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> epsilon = default_epsilon&lt;<a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if two bounding_boxes are approximately equal.</dd>
+            <dd>Returns true if two <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> are approximately equal.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename U&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga6a04d11e27ed0da907193cdd51b5015e">approx_equal</a>(</span><span class="m-doc-wrap">T a,
+              U b) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two scalar values are approximately equal.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, typename T, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gac9148a5c5b63c63d14ca506aee43484e">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m1,
@@ -116,64 +152,10 @@
               epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two vectors are approximately equal.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gab93e074083f9da2915b8a5236f1cf7cf">approx_equal</a>(</span><span class="m-doc-wrap">double a,
-              double b,
-              double epsilon = default_epsilon&lt;double&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if two doubles are approximately equal.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaec4759ac5b40da6afc50eb0b3585f0fe">approx_equal</a>(</span><span class="m-doc-wrap">float a,
-              float b,
-              float epsilon = default_epsilon&lt;float&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if two floats are approximately equal.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga9b1e5da7e9ef7782a93da63b886ae258">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> a,
-              <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> b,
-              <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> epsilon = default_epsilon&lt;<a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if two <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_ts</a> are approximately equal.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga87bf7f92a62590f695617cea9bb941fe">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> a,
-              <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> b,
-              <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> epsilon = constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>&gt;::default_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if two half-precision floats are approximately equal.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga943da06224480e3230fc1420a245f98c">approx_equal</a>(</span><span class="m-doc-wrap">long double a,
-              long double b,
-              long double epsilon = default_epsilon&lt;long double&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if two long doubles are approximately equal.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T, typename U&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga6a04d11e27ed0da907193cdd51b5015e">approx_equal</a>(</span><span class="m-doc-wrap">T a,
-              U b) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if two scalar values are approximately equal.</dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="gafeb998d47625b367c261d8bc59c7a282"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gafeb998d47625b367c261d8bc59c7a282">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> a,
-              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> b,
-              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> epsilon = default_epsilon&lt;<a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
-            </h3>
-            <p>Returns true if two <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> are approximately equal.</p>
-          </div></section>
-          <section class="m-doc-details" id="gaac1ff3710f8b52479141460b908e0019"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaac1ff3710f8b52479141460b908e0019">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> a,
-              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> b,
-              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> epsilon = default_epsilon&lt;<a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
-            </h3>
-            <p>Returns true if two <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16s</a> are approximately equal.</p>
-          </div></section>
           <section class="m-doc-details" id="ga0535df1acd603649ac9f793d96062112"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="bounding__box_8h.html">&lt;muu/bounding_box.h&gt;</a></div>
@@ -185,6 +167,81 @@
               epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if two bounding_boxes are approximately equal.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga87bf7f92a62590f695617cea9bb941fe"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga87bf7f92a62590f695617cea9bb941fe">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> a,
+              <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> b,
+              <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> epsilon = constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>&gt;::default_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="half_8h.html">&lt;muu/half.h&gt;</a></div>
+            </h3>
+            <p>Returns true if two half-precision floats are approximately equal.</p>
+          </div></section>
+          <section class="m-doc-details" id="gaec4759ac5b40da6afc50eb0b3585f0fe"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaec4759ac5b40da6afc50eb0b3585f0fe">approx_equal</a>(</span><span class="m-doc-wrap">float a,
+              float b,
+              float epsilon = default_epsilon&lt;float&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
+            </h3>
+            <p>Returns true if two floats are approximately equal.</p>
+          </div></section>
+          <section class="m-doc-details" id="gab93e074083f9da2915b8a5236f1cf7cf"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gab93e074083f9da2915b8a5236f1cf7cf">approx_equal</a>(</span><span class="m-doc-wrap">double a,
+              double b,
+              double epsilon = default_epsilon&lt;double&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
+            </h3>
+            <p>Returns true if two doubles are approximately equal.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga943da06224480e3230fc1420a245f98c"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga943da06224480e3230fc1420a245f98c">approx_equal</a>(</span><span class="m-doc-wrap">long double a,
+              long double b,
+              long double epsilon = default_epsilon&lt;long double&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
+            </h3>
+            <p>Returns true if two long doubles are approximately equal.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga9b1e5da7e9ef7782a93da63b886ae258"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga9b1e5da7e9ef7782a93da63b886ae258">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> a,
+              <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> b,
+              <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> epsilon = default_epsilon&lt;<a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a>&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
+            </h3>
+            <p>Returns true if two <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_ts</a> are approximately equal.</p>
+          </div></section>
+          <section class="m-doc-details" id="gaac1ff3710f8b52479141460b908e0019"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaac1ff3710f8b52479141460b908e0019">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> a,
+              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> b,
+              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> epsilon = default_epsilon&lt;<a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
+            </h3>
+            <p>Returns true if two <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16s</a> are approximately equal.</p>
+          </div></section>
+          <section class="m-doc-details" id="gafeb998d47625b367c261d8bc59c7a282"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gafeb998d47625b367c261d8bc59c7a282">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> a,
+              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> b,
+              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> epsilon = default_epsilon&lt;<a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
+            </h3>
+            <p>Returns true if two <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> are approximately equal.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga6a04d11e27ed0da907193cdd51b5015e"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename U&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga6a04d11e27ed0da907193cdd51b5015e">approx_equal</a>(</span><span class="m-doc-wrap">T a,
+              U b) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if two scalar values are approximately equal.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This reduces to <code>a == b</code> for non-float types.</p></aside>
           </div></section>
           <section class="m-doc-details" id="gac9148a5c5b63c63d14ca506aee43484e"><div>
             <h3>
@@ -233,63 +290,6 @@
             </h3>
             <p>Returns true if two vectors are approximately equal.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when at least one of <code>S</code> and <code>T</code> is a floating-point type.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="gab93e074083f9da2915b8a5236f1cf7cf"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gab93e074083f9da2915b8a5236f1cf7cf">approx_equal</a>(</span><span class="m-doc-wrap">double a,
-              double b,
-              double epsilon = default_epsilon&lt;double&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
-            </h3>
-            <p>Returns true if two doubles are approximately equal.</p>
-          </div></section>
-          <section class="m-doc-details" id="gaec4759ac5b40da6afc50eb0b3585f0fe"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaec4759ac5b40da6afc50eb0b3585f0fe">approx_equal</a>(</span><span class="m-doc-wrap">float a,
-              float b,
-              float epsilon = default_epsilon&lt;float&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
-            </h3>
-            <p>Returns true if two floats are approximately equal.</p>
-          </div></section>
-          <section class="m-doc-details" id="ga9b1e5da7e9ef7782a93da63b886ae258"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga9b1e5da7e9ef7782a93da63b886ae258">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> a,
-              <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> b,
-              <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> epsilon = default_epsilon&lt;<a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a>&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
-            </h3>
-            <p>Returns true if two <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_ts</a> are approximately equal.</p>
-          </div></section>
-          <section class="m-doc-details" id="ga87bf7f92a62590f695617cea9bb941fe"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga87bf7f92a62590f695617cea9bb941fe">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> a,
-              <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> b,
-              <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> epsilon = constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>&gt;::default_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="half_8h.html">&lt;muu/half.h&gt;</a></div>
-            </h3>
-            <p>Returns true if two half-precision floats are approximately equal.</p>
-          </div></section>
-          <section class="m-doc-details" id="ga943da06224480e3230fc1420a245f98c"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga943da06224480e3230fc1420a245f98c">approx_equal</a>(</span><span class="m-doc-wrap">long double a,
-              long double b,
-              long double epsilon = default_epsilon&lt;long double&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
-            </h3>
-            <p>Returns true if two long doubles are approximately equal.</p>
-          </div></section>
-          <section class="m-doc-details" id="ga6a04d11e27ed0da907193cdd51b5015e"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T, typename U&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga6a04d11e27ed0da907193cdd51b5015e">approx_equal</a>(</span><span class="m-doc-wrap">T a,
-              U b) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Returns true if two scalar values are approximately equal.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This reduces to <code>a == b</code> for non-float types.</p></aside>
           </div></section>
         </section>
       </div>

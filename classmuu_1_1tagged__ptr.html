@@ -127,18 +127,14 @@
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="ae5d5e35d9df585271b004a0c65d6f4e7">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae5d5e35d9df585271b004a0c65d6f4e7">tagged_ptr</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a5b08ed11193638bf054741ecdb8480d0">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a5b08ed11193638bf054741ecdb8480d0">operator bool</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Constructs zero-initialized tagged pointer.</dd>
-            <dt id="a72b3e835a295d8a858c48215d9a15572">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a72b3e835a295d8a858c48215d9a15572">tagged_ptr</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp;) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dd>Returns true if the target pointer value is not nullptr.</dd>
+            <dt id="afe0573f5cc1c73c4934e1b7c1df16627">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#afe0573f5cc1c73c4934e1b7c1df16627">operator pointer</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Copy constructor.</dd>
-            <dt id="a8b0b113a4b87dbf8036226a479fc528e">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8b0b113a4b87dbf8036226a479fc528e">tagged_ptr</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/nullptr_t" target="_blank">nullptr_t</a>) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs zero-initialized tagged pointer.</dd>
+            <dd>Returns the target pointer value.</dd>
             <dt>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a2240737b6daa475ef00fb96b9098b64b">tagged_ptr</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a7247bfb909220ebd53747353103a1001">pointer</a> value) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -149,18 +145,22 @@
               const U&amp; tag_value) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a tagged pointer.</dd>
+            <dt id="a8b0b113a4b87dbf8036226a479fc528e">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8b0b113a4b87dbf8036226a479fc528e">tagged_ptr</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/nullptr_t" target="_blank">nullptr_t</a>) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs zero-initialized tagged pointer.</dd>
+            <dt id="ae5d5e35d9df585271b004a0c65d6f4e7">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae5d5e35d9df585271b004a0c65d6f4e7">tagged_ptr</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs zero-initialized tagged pointer.</dd>
+            <dt id="a72b3e835a295d8a858c48215d9a15572">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a72b3e835a295d8a858c48215d9a15572">tagged_ptr</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp;) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Copy constructor.</dd>
             <dt id="abab6df8dbd3a73b6d276dcbc3fa70a9b">
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#abab6df8dbd3a73b6d276dcbc3fa70a9b">~tagged_ptr</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Destructor.</dd>
-            <dt id="a5b08ed11193638bf054741ecdb8480d0">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a5b08ed11193638bf054741ecdb8480d0">operator bool</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if the target pointer value is not nullptr.</dd>
-            <dt id="afe0573f5cc1c73c4934e1b7c1df16627">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#afe0573f5cc1c73c4934e1b7c1df16627">operator pointer</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns the target pointer value.</dd>
           </dl>
         </section>
         <section id="pub-methods">
@@ -245,14 +245,14 @@
         <section id="friends">
           <h2><a href="#friends">Friends</a></h2>
           <dl class="m-doc">
-            <dt id="a08031ff5015c8f8b15c28eb13315bcde">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a08031ff5015c8f8b15c28eb13315bcde">operator!=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#aa8e95e16638a31de7d053c2e8d8a14dd">const_<wbr/>pointer</a> lhs,
-              <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if a <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> and raw pointer do not refer to the same address.</dd>
             <dt id="a6c3f4744679870e0a9012a34b75a186a">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a6c3f4744679870e0a9012a34b75a186a">operator!=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> lhs,
               <a class="m-doc" href="classmuu_1_1tagged__ptr.html#aa8e95e16638a31de7d053c2e8d8a14dd">const_<wbr/>pointer</a> rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> and raw pointer do not refer to the same address.</dd>
+            <dt id="a08031ff5015c8f8b15c28eb13315bcde">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a08031ff5015c8f8b15c28eb13315bcde">operator!=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#aa8e95e16638a31de7d053c2e8d8a14dd">const_<wbr/>pointer</a> lhs,
+              <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> and raw pointer do not refer to the same address.</dd>
             <dt id="a161f3db32391e02ddf8e6f00837fa5c2">
@@ -260,14 +260,14 @@
               <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two tagged_ptrs are not equal (including their tag bits).</dd>
-            <dt id="a94d219933714bae5327dabc37bdeea69">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a94d219933714bae5327dabc37bdeea69">operator==</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#aa8e95e16638a31de7d053c2e8d8a14dd">const_<wbr/>pointer</a> lhs,
-              <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if a <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> and raw pointer refer to the same address.</dd>
             <dt id="a5be784855e42b6c3dca5bc5922fd4d76">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a5be784855e42b6c3dca5bc5922fd4d76">operator==</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> lhs,
               <a class="m-doc" href="classmuu_1_1tagged__ptr.html#aa8e95e16638a31de7d053c2e8d8a14dd">const_<wbr/>pointer</a> rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> and raw pointer refer to the same address.</dd>
+            <dt id="a94d219933714bae5327dabc37bdeea69">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a94d219933714bae5327dabc37bdeea69">operator==</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#aa8e95e16638a31de7d053c2e8d8a14dd">const_<wbr/>pointer</a> lhs,
+              <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> and raw pointer refer to the same address.</dd>
             <dt id="a2234528d4e4f8d4fb50cca33d9bef211">

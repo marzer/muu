@@ -116,10 +116,43 @@
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
+            <dt id="a999e785719acedf45fdf4dfbc97c1c65">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a999e785719acedf45fdf4dfbc97c1c65">operator bool</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if this UUID has non-zero value.</dd>
+            <dt id="a507cb7feaab9dc6e2a83def097249324">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a507cb7feaab9dc6e2a83def097249324">operator uint128_t</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Converts a UUID directly into a 128-bit integer.</dd>
             <dt id="ac6d637c87ce5a7d9a0745ec52964f0ad">
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ac6d637c87ce5a7d9a0745ec52964f0ad">uuid</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Default constructor. Leaves the UUID uninitialized.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a3f394360cf4bc0fa6e8828ec5ef60661">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> time_low,
+              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_mid,
+              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_high_and_version,
+              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> clock_seq_high_and_reserved,
+              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> clock_seq_low,
+              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a> node) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Creates a UUID from it's raw integral components, as per RFC 4122.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a52d9303cb2231fcd1613b2819b8c4ba1">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> time_low,
+              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_mid,
+              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_high_and_version,
+              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> clock_seq,
+              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a> node) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Creats a UUID from it's raw integral components, as per RFC 4122.</dd>
+            <dt id="a8d29048ee0984dcf90335a8a7507a040">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8d29048ee0984dcf90335a8a7507a040">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/nullptr_t.html" target="_blank">std::<wbr/>nullptr_t</a>) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Explicitly constructs a null UUID.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#aef18acb93c75e1c427639b855030b373">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a> val) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a UUID directly from a 128-bit integer.</dd>
             <dt>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="#aeffec1e0d86eba26298f34d0103c6228">uuid</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; name_space,
               const void* name_data,
@@ -131,39 +164,6 @@
               <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>string_view</a> name) <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a version-5 named UUID by hashing a string.</dd>
-            <dt id="a8d29048ee0984dcf90335a8a7507a040">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8d29048ee0984dcf90335a8a7507a040">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/nullptr_t.html" target="_blank">std::<wbr/>nullptr_t</a>) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Explicitly constructs a null UUID.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#aef18acb93c75e1c427639b855030b373">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a> val) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a UUID directly from a 128-bit integer.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a52d9303cb2231fcd1613b2819b8c4ba1">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> time_low,
-              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_mid,
-              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_high_and_version,
-              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> clock_seq,
-              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a> node) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Creats a UUID from it's raw integral components, as per RFC 4122.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a3f394360cf4bc0fa6e8828ec5ef60661">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> time_low,
-              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_mid,
-              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_high_and_version,
-              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> clock_seq_high_and_reserved,
-              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> clock_seq_low,
-              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a> node) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Creates a UUID from it's raw integral components, as per RFC 4122.</dd>
-            <dt id="a999e785719acedf45fdf4dfbc97c1c65">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a999e785719acedf45fdf4dfbc97c1c65">operator bool</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if this UUID has non-zero value.</dd>
-            <dt id="a507cb7feaab9dc6e2a83def097249324">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a507cb7feaab9dc6e2a83def097249324">operator uint128_t</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Converts a UUID directly into a 128-bit integer.</dd>
           </dl>
         </section>
         <section id="pub-methods">
@@ -265,6 +265,102 @@
         </section>
         <section>
           <h2>Function documentation</h2>
+          <section class="m-doc-details" id="a3f394360cf4bc0fa6e8828ec5ef60661"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>uuid::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3f394360cf4bc0fa6e8828ec5ef60661">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> time_low,
+              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_mid,
+              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_high_and_version,
+              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> clock_seq_high_and_reserved,
+              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> clock_seq_low,
+              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a> node) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Creates a UUID from it's raw integral components, as per RFC 4122.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">time_low</td>
+                  <td>The 'time-low' field.</td>
+                </tr>
+                <tr>
+                  <td>time_mid</td>
+                  <td>The 'time-middle' field.</td>
+                </tr>
+                <tr>
+                  <td>time_high_and_version</td>
+                  <td>The 'time-high-and-version' field.</td>
+                </tr>
+                <tr>
+                  <td>clock_seq_high_and_reserved</td>
+                  <td>The 'clock-seq-high-and-reserved' field.</td>
+                </tr>
+                <tr>
+                  <td>clock_seq_low</td>
+                  <td>The 'clock-seq-low' field.</td>
+                </tr>
+                <tr>
+                  <td>node</td>
+                  <td>The 'node' field. The highest 2 bytes are ignored (the 'node' field of a UUID is a 48-bit unsigned int).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a52d9303cb2231fcd1613b2819b8c4ba1"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>uuid::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a52d9303cb2231fcd1613b2819b8c4ba1">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> time_low,
+              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_mid,
+              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_high_and_version,
+              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> clock_seq,
+              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a> node) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Creats a UUID from it's raw integral components, as per RFC 4122.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">time_low</td>
+                  <td>The 'time-low' field.</td>
+                </tr>
+                <tr>
+                  <td>time_mid</td>
+                  <td>The 'time-middle' field.</td>
+                </tr>
+                <tr>
+                  <td>time_high_and_version</td>
+                  <td>The 'time-high-and-version' field.</td>
+                </tr>
+                <tr>
+                  <td>clock_seq</td>
+                  <td>The 'clock-seq-high-and-reserved' (MSB) and 'clock-seq-low' (LSB) fields.</td>
+                </tr>
+                <tr>
+                  <td>node</td>
+                  <td>The 'node' field. The highest 2 bytes are ignored (the 'node' field of a UUID is a 48-bit unsigned int).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="aef18acb93c75e1c427639b855030b373"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>uuid::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aef18acb93c75e1c427639b855030b373">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a> val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Constructs a UUID directly from a 128-bit integer.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">val</td>
+                  <td>The value to convert into a UUID.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
           <section class="m-doc-details" id="aeffec1e0d86eba26298f34d0103c6228"><div>
             <h3>
               <span class="m-doc-wrap-bumper"> muu::<wbr/>uuid::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aeffec1e0d86eba26298f34d0103c6228">uuid</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; name_space,
@@ -315,102 +411,6 @@
               </tbody>
             </table>
 <p>UUIDs generated by this constructor are deterministic; the same namespace and name will always produce the same UUID.</p><aside class="m-note m-default"><h4>See also</h4><p>RFC 4122 Section 4.3: <a class="dox-external" href="https://tools.ietf.org/html/rfc4122#section-4.3" target="_blank">https:/<wbr/>/<wbr/>tools.ietf.org/<wbr/>html/<wbr/>rfc4122#section-4.3</a></p></aside>
-          </div></section>
-          <section class="m-doc-details" id="aef18acb93c75e1c427639b855030b373"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>uuid::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aef18acb93c75e1c427639b855030b373">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a> val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Constructs a UUID directly from a 128-bit integer.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">val</td>
-                  <td>The value to convert into a UUID.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a52d9303cb2231fcd1613b2819b8c4ba1"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>uuid::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a52d9303cb2231fcd1613b2819b8c4ba1">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> time_low,
-              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_mid,
-              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_high_and_version,
-              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> clock_seq,
-              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a> node) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Creats a UUID from it's raw integral components, as per RFC 4122.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">time_low</td>
-                  <td>The 'time-low' field.</td>
-                </tr>
-                <tr>
-                  <td>time_mid</td>
-                  <td>The 'time-middle' field.</td>
-                </tr>
-                <tr>
-                  <td>time_high_and_version</td>
-                  <td>The 'time-high-and-version' field.</td>
-                </tr>
-                <tr>
-                  <td>clock_seq</td>
-                  <td>The 'clock-seq-high-and-reserved' (MSB) and 'clock-seq-low' (LSB) fields.</td>
-                </tr>
-                <tr>
-                  <td>node</td>
-                  <td>The 'node' field. The highest 2 bytes are ignored (the 'node' field of a UUID is a 48-bit unsigned int).</td>
-                </tr>
-              </tbody>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a3f394360cf4bc0fa6e8828ec5ef60661"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>uuid::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3f394360cf4bc0fa6e8828ec5ef60661">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> time_low,
-              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_mid,
-              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_high_and_version,
-              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> clock_seq_high_and_reserved,
-              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> clock_seq_low,
-              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a> node) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Creates a UUID from it's raw integral components, as per RFC 4122.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">time_low</td>
-                  <td>The 'time-low' field.</td>
-                </tr>
-                <tr>
-                  <td>time_mid</td>
-                  <td>The 'time-middle' field.</td>
-                </tr>
-                <tr>
-                  <td>time_high_and_version</td>
-                  <td>The 'time-high-and-version' field.</td>
-                </tr>
-                <tr>
-                  <td>clock_seq_high_and_reserved</td>
-                  <td>The 'clock-seq-high-and-reserved' field.</td>
-                </tr>
-                <tr>
-                  <td>clock_seq_low</td>
-                  <td>The 'clock-seq-low' field.</td>
-                </tr>
-                <tr>
-                  <td>node</td>
-                  <td>The 'node' field. The highest 2 bytes are ignored (the 'node' field of a UUID is a 48-bit unsigned int).</td>
-                </tr>
-              </tbody>
-            </table>
           </div></section>
           <section class="m-doc-details" id="a761a163d20263bfce093f280151977d2"><div>
             <h3>

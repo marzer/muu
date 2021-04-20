@@ -75,15 +75,30 @@
           <dl class="m-doc">
             <dt>namespace <a class="m-doc" href="namespacemuu.html">muu</a></dt>
             <dd>The root namespace for all muu functions and types.</dd>
-            <dt>namespace <a class="m-doc" href="namespacemuu_1_1build.html">muu::build</a></dt>
-            <dd>Build environment information (compiler, date/time, support for various things...)</dd>
             <dt>namespace <a class="m-doc" href="namespacemuu_1_1literals.html">muu::literals</a> <span class="m-label m-flat m-info">inline</span></dt>
             <dd>Literal operators.</dd>
+            <dt>namespace <a class="m-doc" href="namespacemuu_1_1build.html">muu::build</a></dt>
+            <dd>Build environment information (compiler, date/time, support for various things...)</dd>
           </dl>
         </section>
         <section id="nested-classes">
           <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01float_01_4.html">muu::constants&lt;float&gt;</a>
+            </dt>
+            <dd><code>float</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01double_01_4.html">muu::constants&lt;double&gt;</a>
+            </dt>
+            <dd><code>double</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01long_01double_01_4.html">muu::constants&lt;long double&gt;</a>
+            </dt>
+            <dd><code>long double</code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01____fp16_01_4.html">muu::constants&lt;__fp16&gt;</a>
@@ -96,9 +111,19 @@
             <dd><code><a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a></code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01float128__t_01_4.html">muu::constants&lt;float128_t&gt;</a>
+            </dt>
+            <dd><code><a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a></code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01char_01_4.html">muu::constants&lt;char&gt;</a>
             </dt>
             <dd><code>char</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01wchar__t_01_4.html">muu::constants&lt;wchar_t&gt;</a>
+            </dt>
+            <dd><code><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a></code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01char16__t_01_4.html">muu::constants&lt;char16_t&gt;</a>
@@ -111,59 +136,9 @@
             <dd><code><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a></code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01double_01_4.html">muu::constants&lt;double&gt;</a>
-            </dt>
-            <dd><code>double</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01float_01_4.html">muu::constants&lt;float&gt;</a>
-            </dt>
-            <dd><code>float</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01float128__t_01_4.html">muu::constants&lt;float128_t&gt;</a>
-            </dt>
-            <dd><code><a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a></code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01int128__t_01_4.html">muu::constants&lt;int128_t&gt;</a>
-            </dt>
-            <dd><code><a class="m-doc dox-injected" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_t</a></code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01long_01double_01_4.html">muu::constants&lt;long double&gt;</a>
-            </dt>
-            <dd><code>long double</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01char_01_4.html">muu::constants&lt;signed char&gt;</a>
             </dt>
             <dd><code>signed char</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01int_01_4.html">muu::constants&lt;signed int&gt;</a>
-            </dt>
-            <dd><code>signed int</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01long_01_4.html">muu::constants&lt;signed long&gt;</a>
-            </dt>
-            <dd><code>signed long</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01long_01long_01_4.html">muu::constants&lt;signed long long&gt;</a>
-            </dt>
-            <dd><code>signed long long</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01short_01_4.html">muu::constants&lt;signed short&gt;</a>
-            </dt>
-            <dd><code>signed short</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01uint128__t_01_4.html">muu::constants&lt;uint128_t&gt;</a>
-            </dt>
-            <dd><code><a class="m-doc dox-injected" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_t</a></code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01unsigned_01char_01_4.html">muu::constants&lt;unsigned char&gt;</a>
@@ -171,19 +146,9 @@
             <dd><code>unsigned char</code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01unsigned_01int_01_4.html">muu::constants&lt;unsigned int&gt;</a>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01short_01_4.html">muu::constants&lt;signed short&gt;</a>
             </dt>
-            <dd><code>unsigned int</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01unsigned_01long_01_4.html">muu::constants&lt;unsigned long&gt;</a>
-            </dt>
-            <dd><code>unsigned long</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01unsigned_01long_01long_01_4.html">muu::constants&lt;unsigned long long&gt;</a>
-            </dt>
-            <dd><code>unsigned long long</code> constants.</dd>
+            <dd><code>signed short</code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01unsigned_01short_01_4.html">muu::constants&lt;unsigned short&gt;</a>
@@ -191,9 +156,44 @@
             <dd><code>unsigned short</code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01wchar__t_01_4.html">muu::constants&lt;wchar_t&gt;</a>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01int_01_4.html">muu::constants&lt;signed int&gt;</a>
             </dt>
-            <dd><code><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a></code> constants.</dd>
+            <dd><code>signed int</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01unsigned_01int_01_4.html">muu::constants&lt;unsigned int&gt;</a>
+            </dt>
+            <dd><code>unsigned int</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01long_01_4.html">muu::constants&lt;signed long&gt;</a>
+            </dt>
+            <dd><code>signed long</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01unsigned_01long_01_4.html">muu::constants&lt;unsigned long&gt;</a>
+            </dt>
+            <dd><code>unsigned long</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01long_01long_01_4.html">muu::constants&lt;signed long long&gt;</a>
+            </dt>
+            <dd><code>signed long long</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01unsigned_01long_01long_01_4.html">muu::constants&lt;unsigned long long&gt;</a>
+            </dt>
+            <dd><code>unsigned long long</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01int128__t_01_4.html">muu::constants&lt;int128_t&gt;</a>
+            </dt>
+            <dd><code><a class="m-doc dox-injected" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_t</a></code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01uint128__t_01_4.html">muu::constants&lt;uint128_t&gt;</a>
+            </dt>
+            <dd><code><a class="m-doc dox-injected" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_t</a></code> constants.</dd>
             <dt>
               struct <a class="m-doc" href="structmuu_1_1generic__allocator.html">muu::generic_allocator</a>
             </dt>
@@ -370,26 +370,26 @@
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment, typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__apply__alignment.html#gae89c7cea139581038d585201d5b3bfee">apply_alignment</a>(</span><span class="m-doc-wrap">T* ptr) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Rounds a pointer up to the byte offset that is the next multiple of the given alignment.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__apply__alignment.html#ga7afe47820cb2e0951bf755832ce108be">apply_alignment</a>(</span><span class="m-doc-wrap">T* ptr,
-              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Rounds a pointer up to the byte offset that is the next multiple of the given alignment.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment, typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__apply__alignment.html#ga6aae2e7be0cb15bed51d7cb636602c5f">apply_alignment</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Rounds an unsigned value up to the next multiple of the given alignment.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment, typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__apply__alignment.html#gae89c7cea139581038d585201d5b3bfee">apply_alignment</a>(</span><span class="m-doc-wrap">T* ptr) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Rounds a pointer up to the byte offset that is the next multiple of the given alignment.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__apply__alignment.html#ga7cd587549d099b4323fda37f23097e04">apply_alignment</a>(</span><span class="m-doc-wrap">T val,
               <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Rounds an unsigned value up to the next multiple of the given alignment.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__apply__alignment.html#ga7afe47820cb2e0951bf755832ce108be">apply_alignment</a>(</span><span class="m-doc-wrap">T* ptr,
+              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Rounds a pointer up to the byte offset that is the next multiple of the given alignment.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename Offset&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga95da5073b863161a6542266f4a6c5961">apply_offset</a>(</span><span class="m-doc-wrap">T* ptr,
@@ -595,13 +595,13 @@
             </dt>
             <dd>Select and re-pack arbitrary bytes from an integer.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename Ptr&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga4ba4d37d254803b31a71fca161a46420">to_address</a>(</span><span class="m-doc-wrap">const Ptr&amp; p) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga79246c66d2df39fe825be13e654d8c52">to_address</a>(</span><span class="m-doc-wrap">T* p) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Obtain the address represented by p without forming a reference to the pointee.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga79246c66d2df39fe825be13e654d8c52">to_address</a>(</span><span class="m-doc-wrap">T* p) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename Ptr&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga4ba4d37d254803b31a71fca161a46420">to_address</a>(</span><span class="m-doc-wrap">const Ptr&amp; p) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Obtain the address represented by p without forming a reference to the pointee.</dd>
             <dt>

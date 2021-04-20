@@ -89,14 +89,14 @@
             <dd>A 16-bit "half-precision" floating point type.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              class <a class="m-doc" href="classmuu_1_1scope__fail.html">muu::scope_fail</a>
-            </dt>
-            <dd>Performs actions when going out of scope due to an exception being thrown.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
               class <a class="m-doc" href="classmuu_1_1scope__guard.html">muu::scope_guard</a>
             </dt>
             <dd>Performs actions when going out of scope.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              class <a class="m-doc" href="classmuu_1_1scope__fail.html">muu::scope_fail</a>
+            </dt>
+            <dd>Performs actions when going out of scope due to an exception being thrown.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               class <a class="m-doc" href="classmuu_1_1scope__success.html">muu::scope_success</a>
@@ -283,13 +283,13 @@
             </dt>
             <dd>Select and re-pack arbitrary bytes from an integer.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename Ptr&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga4ba4d37d254803b31a71fca161a46420">to_address</a>(</span><span class="m-doc-wrap">const Ptr&amp; p) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga79246c66d2df39fe825be13e654d8c52">to_address</a>(</span><span class="m-doc-wrap">T* p) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Obtain the address represented by p without forming a reference to the pointee.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga79246c66d2df39fe825be13e654d8c52">to_address</a>(</span><span class="m-doc-wrap">T* p) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename Ptr&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga4ba4d37d254803b31a71fca161a46420">to_address</a>(</span><span class="m-doc-wrap">const Ptr&amp; p) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Obtain the address represented by p without forming a reference to the pointee.</dd>
             <dt>
@@ -1207,17 +1207,6 @@
 <span class="go">&lt;3, 2, 3&gt;: 00AABBAA</span>
 <span class="gp gp-VirtualEnv">(on a little-endian system)</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>The indexation order of bytes is the <em>memory</em> order, not their numeric significance (i.e. byte 0 is always the first byte in the integer's memory allocation, regardless of the endianness of the platform).</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ga4ba4d37d254803b31a71fca161a46420"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename Ptr&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">auto </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga4ba4d37d254803b31a71fca161a46420">to_address</a>(</span><span class="m-doc-wrap">const Ptr&amp; p) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Obtain the address represented by p without forming a reference to the pointee.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/memory/to_address.html" target="_blank">std::<wbr/>to_address</a>.</p></aside>
-          </div></section>
           <section class="m-doc-details" id="ga79246c66d2df39fe825be13e654d8c52"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
@@ -1225,6 +1214,17 @@
                 template&lt;typename T&gt;
               </div>
               <span class="m-doc-wrap-bumper">T* </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga79246c66d2df39fe825be13e654d8c52">to_address</a>(</span><span class="m-doc-wrap">T* p) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Obtain the address represented by p without forming a reference to the pointee.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/memory/to_address.html" target="_blank">std::<wbr/>to_address</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga4ba4d37d254803b31a71fca161a46420"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename Ptr&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">auto </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga4ba4d37d254803b31a71fca161a46420">to_address</a>(</span><span class="m-doc-wrap">const Ptr&amp; p) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Obtain the address represented by p without forming a reference to the pointee.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/memory/to_address.html" target="_blank">std::<wbr/>to_address</a>.</p></aside>
@@ -1260,7 +1260,7 @@
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td><strong><em>Enum inputs:</em></strong>  <code><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a>&lt;<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/underlying_type.html" target="_blank">std::<wbr/>underlying_type_t</a>&lt;T&gt;&gt;(val)</code><br/><strong><em>Everything else:</em></strong>  <code>T&amp;&amp;</code> (a no-op).</td>
+                  <td><strong><em>Enum inputs:</em></strong> <code><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a>&lt;<a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/underlying_type.html" target="_blank">std::<wbr/>underlying_type_t</a>&lt;T&gt;&gt;(val)</code><br/><strong><em>Everything else:</em></strong> <code>T&amp;&amp;</code> (a no-op).</td>
                 </tr>
               </tfoot>
             </table>
