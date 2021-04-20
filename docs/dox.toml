@@ -1,13 +1,13 @@
-name				= 'muu'
-description			= 'Useful utilities for modern C++'
-cpp					= 17
-github				= 'marzer/muu'
-license				= [ 'Apache-2.0', 'https://github.com/marzer/muu/blob/master/LICENSE' ]
-show_includes		= true
-generate_tagfile	= true
-logo				= 'images/logo.png'
-favicon 			= 'images/favicon.ico'
-extra_files	= [
+name                = 'muu'
+description         = 'Useful utilities for modern C++'
+cpp                 = 17
+github              = 'marzer/muu'
+license             = [ 'MIT', 'https://github.com/marzer/muu/blob/master/LICENSE' ]
+show_includes       = true
+generate_tagfile    = true
+logo                = 'images/logo.png'
+favicon             = 'images/favicon.ico'
+extra_files = [
 	'images/banner.png',
 	'images/banner-small.png',
 ]
@@ -15,9 +15,9 @@ extra_files	= [
 
 
 [warnings]
-enabled			= true
-treat_as_errors	= false
-undocumented	= false
+enabled         = true
+treat_as_errors = false
+undocumented    = false
 
 
 
@@ -43,8 +43,8 @@ numeric_literals = [
 
 [implementation_headers]
 'muu/chars.h' = [
-	'muu/impl/unicode_char.h',		'muu/impl/unicode_char16_t.h',		'muu/impl/unicode_char32_t.h',
-	'muu/impl/unicode_char8_t.h',	'muu/impl/unicode_unsigned_char.h', 'muu/impl/unicode_wchar_t.h'
+	'muu/impl/unicode_char.h',      'muu/impl/unicode_char16_t.h',      'muu/impl/unicode_char32_t.h',
+	'muu/impl/unicode_char8_t.h',   'muu/impl/unicode_unsigned_char.h', 'muu/impl/unicode_wchar_t.h'
 ]
 
 

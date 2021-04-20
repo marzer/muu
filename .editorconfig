@@ -9,7 +9,7 @@ end_of_line = lf
 trim_trailing_whitespace = true
 charset = utf-8
 
-[*.{gitattributes,yml,vcxproj,vcxproj.filters,sln,rc,clang-format}]
+[*.{gitattributes,yaml,yml,vcxproj,vcxproj.filters,sln,rc,clang-format,toml}]
 indent_style = space
 
 [{Doxyfile,Doxyfile-mcss}]
