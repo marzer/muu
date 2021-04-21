@@ -162,6 +162,7 @@ def main():
 			<ExceptionHandling>{exceptions}</ExceptionHandling>
 			<PrecompiledHeader>Use</PrecompiledHeader>
 			<PrecompiledHeaderFile>tests.h</PrecompiledHeaderFile>
+			<PreprocessorDefinitions>MUU_DLL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">_HAS_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">SHOULD_HAVE_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'!='false'">SHOULD_HAVE_EXCEPTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
