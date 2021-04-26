@@ -14,7 +14,11 @@
   modern
   C++" name="description"/>
 
-  <link href="dox.css" rel="stylesheet"/>
+  <link href="poxy.css" rel="stylesheet"/>
+
+  <script src="jquery-3.6.0.slim.min.js"></script>
+
+  <script src="poxy.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -37,7 +41,7 @@
           </ol>
           <ol class="m-col-t-6 m-col-m-none" start="4">
             <li><a href="annotated.html">Classes</a></li>
-            <li><a class="github dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
+            <li><a class="github poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
             <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
               <use href="#m-doc-search-icon-path"></use>
             </svg></a></li>
@@ -243,11 +247,11 @@
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga27290363c4626a953e97d39dd042af66">MUU_HAS_FLOAT16</a></span>
             </dt>
-            <dd><code>1</code> when the target environment has the 16-bit floating point type <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>.</dd>
+            <dd><code>1</code> when the target environment has the 16-bit floating point type <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gab2a752151f65377391481d1597297eca">MUU_HAS_FP16</a></span>
             </dt>
-            <dd><code>1</code> when the target environment has the 16-bit floating point 'interchange' type <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>.</dd>
+            <dd><code>1</code> when the target environment has the 16-bit floating point 'interchange' type <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gaa46769772ecacae384f202d2288b5ef9">MUU_HAS_INCLUDE</a>(</span><span class="m-doc-wrap">header)</span>
             </dt>
@@ -335,7 +339,7 @@
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga208185e62d9dd3604e348e153ffc976b">MUU_NOOP</a></span>
             </dt>
-            <dd>Expands to a no-op expression, e.g. <code><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a>&lt;void&gt;(0)</code>.</dd>
+            <dd>Expands to a no-op expression, e.g. <code><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a>&lt;void&gt;(0)</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga7152606bb8ad70ab6f0197461e7a24b2">MUU_NO_DEFAULT_CASE</a></span>
             </dt>
@@ -594,7 +598,7 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>The value of <code>__clang_major__</code> when the code is being compiled by LLVM/Clang, otherwise <code>0</code>.</p>
-<aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="https://sourceforge.net/p/predef/wiki/Compilers/" target="_blank">https:/<wbr/>/<wbr/>sourceforge.net/<wbr/>p/<wbr/>predef/<wbr/>wiki/<wbr/>Compilers/<wbr/></a></p></aside>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://sourceforge.net/p/predef/wiki/Compilers/" target="_blank">https:/<wbr/>/<wbr/>sourceforge.net/<wbr/>p/<wbr/>predef/<wbr/>wiki/<wbr/>Compilers/<wbr/></a></p></aside>
           </div></section>
           <section class="m-doc-details" id="gad89d19ea9cfdd7ec957df9cb6189f552"><div>
             <h3>
@@ -602,7 +606,7 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Expands to C++20's <code>consteval</code> if supported by your compiler, otherwise <code>constexpr</code>.</p>
-<aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="https://en.cppreference.com/w/cpp/language/consteval" target="_blank">consteval</a></p></aside>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://en.cppreference.com/w/cpp/language/consteval" target="_blank">consteval</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="gadb6fae17fb19af86f59b0ec414838070"><div>
             <h3>
@@ -637,7 +641,7 @@
 
     <span class="n">copyable</span><span class="p">(</span><span class="k">const</span> <span class="n">copyable</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
     <span class="n">copyable</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="n">copyable</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
-<span class="p">};</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="https://cpppatterns.com/patterns/rule-of-five.html" target="_blank">https:/<wbr/>/<wbr/>cpppatterns.com/<wbr/>patterns/<wbr/>rule-of-five.html</a></p></aside>
+<span class="p">};</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://cpppatterns.com/patterns/rule-of-five.html" target="_blank">https:/<wbr/>/<wbr/>cpppatterns.com/<wbr/>patterns/<wbr/>rule-of-five.html</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="gab782b4fd93bce160098d855704eb27c0"><div>
             <h3>
@@ -659,7 +663,7 @@
 
     <span class="n">movable</span><span class="p">(</span><span class="n">movable</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
     <span class="n">movable</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">movable</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
-<span class="p">};</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="https://cpppatterns.com/patterns/rule-of-five.html" target="_blank">https:/<wbr/>/<wbr/>cpppatterns.com/<wbr/>patterns/<wbr/>rule-of-five.html</a></p></aside>
+<span class="p">};</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://cpppatterns.com/patterns/rule-of-five.html" target="_blank">https:/<wbr/>/<wbr/>cpppatterns.com/<wbr/>patterns/<wbr/>rule-of-five.html</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="gad1db2d7508ee13eae3ba5ba57df6048c"><div>
             <h3>
@@ -680,7 +684,7 @@
 
     <span class="ut">uncopyable</span><span class="p">(</span><span class="k">const</span> <span class="ut">uncopyable</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
     <span class="ut">uncopyable</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="ut">uncopyable</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
-<span class="p">};</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="https://cpppatterns.com/patterns/rule-of-five.html" target="_blank">https:/<wbr/>/<wbr/>cpppatterns.com/<wbr/>patterns/<wbr/>rule-of-five.html</a></p></aside>
+<span class="p">};</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://cpppatterns.com/patterns/rule-of-five.html" target="_blank">https:/<wbr/>/<wbr/>cpppatterns.com/<wbr/>patterns/<wbr/>rule-of-five.html</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="gade03e0a489eed8dd63593f2a28929fce"><div>
             <h3>
@@ -702,7 +706,7 @@
 
     <span class="ut">immovable</span><span class="p">(</span><span class="ut">immovable</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
     <span class="ut">immovable</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="ut">immovable</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
-<span class="p">};</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="https://cpppatterns.com/patterns/rule-of-five.html" target="_blank">https:/<wbr/>/<wbr/>cpppatterns.com/<wbr/>patterns/<wbr/>rule-of-five.html</a></p></aside>
+<span class="p">};</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://cpppatterns.com/patterns/rule-of-five.html" target="_blank">https:/<wbr/>/<wbr/>cpppatterns.com/<wbr/>patterns/<wbr/>rule-of-five.html</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga02a7d4cbc36ab3a02d1c9e153af196be"><div>
             <h3>
@@ -781,11 +785,11 @@
 <span class="k">class</span> <span class="m">MUU_EMPTY_BASES</span> <span class="ut">nonempty_child</span> <span class="p">:</span> <span class="ut">empty_parent</span>
 <span class="p">{</span>
     <span class="k">using</span> <span class="n">empty_parent</span><span class="o">::</span><span class="n">value_type</span><span class="p">;</span>
-    
+
     <span class="n">value_type</span> <span class="n">value</span><span class="p">;</span>
 <span class="p">};</span>
 
-<span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="ut">nonempty_child</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">nonempty_child</span><span class="o">::</span><span class="n">value_type</span><span class="p">));</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="https://devblogs.microsoft.com/cppblog/optimizing-the-layout-of-empty-base-classes-in-vs2015-update-2-3/" target="_blank">_<wbr/>_<wbr/>declspec(empty_<wbr/>bases)</a></p></aside>
+<span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="ut">nonempty_child</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">nonempty_child</span><span class="o">::</span><span class="n">value_type</span><span class="p">));</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://devblogs.microsoft.com/cppblog/optimizing-the-layout-of-empty-base-classes-in-vs2015-update-2-3/" target="_blank">_<wbr/>_<wbr/>declspec(empty_<wbr/>bases)</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga7328d95e2ec9777bbbd7e81c7b4ffa68"><div>
             <h3>
@@ -800,7 +804,7 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>The value of <code>__GNUC__</code> when the code is being compiled by GCC, otherwise <code>0</code>.</p>
-<aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html" target="_blank">https:/<wbr/>/<wbr/>gcc.gnu.org/<wbr/>onlinedocs/<wbr/>cpp/<wbr/>Common-Predefined-Macros.html</a></p></aside>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html" target="_blank">https:/<wbr/>/<wbr/>gcc.gnu.org/<wbr/>onlinedocs/<wbr/>cpp/<wbr/>Common-Predefined-Macros.html</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga555a63af817046f3efcdf5e5df32924b"><div>
             <h3>
@@ -829,7 +833,7 @@
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga27290363c4626a953e97d39dd042af66">MUU_HAS_FLOAT16</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p><code>1</code> when the target environment has the 16-bit floating point type <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>.</p>
+            <p><code>1</code> when the target environment has the 16-bit floating point type <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is completely unrelated to the class <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>, which is always available.</p></aside>
           </div></section>
           <section class="m-doc-details" id="gab2a752151f65377391481d1597297eca"><div>
@@ -837,7 +841,7 @@
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gab2a752151f65377391481d1597297eca">MUU_HAS_FP16</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p><code>1</code> when the target environment has the 16-bit floating point 'interchange' type <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>.</p>
+            <p><code>1</code> when the target environment has the 16-bit floating point 'interchange' type <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is completely unrelated to the class <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>, which is always available.</p></aside>
           </div></section>
           <section class="m-doc-details" id="gaa46769772ecacae384f202d2288b5ef9"><div>
@@ -868,7 +872,7 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>The value of <code>__INTEL_COMPILER</code> when the code is being compiled by ICC, otherwise <code>0</code>.</p>
-<aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="http://scv.bu.edu/computation/bladecenter/manpages/icc.html" target="_blank">http:/<wbr/>/<wbr/>scv.bu.edu/<wbr/>computation/<wbr/>bladecenter/<wbr/>manpages/<wbr/>icc.html</a></p></aside>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="http://scv.bu.edu/computation/bladecenter/manpages/icc.html" target="_blank">http:/<wbr/>/<wbr/>scv.bu.edu/<wbr/>computation/<wbr/>bladecenter/<wbr/>manpages/<wbr/>icc.html</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga0f1d961fa4c5109d8e007ddbaf868339"><div>
             <h3>
@@ -928,7 +932,7 @@
 <pre class="m-code"><span class="k">if</span> <span class="m">MUU_LIKELY</span><span class="p">(</span><span class="n">condition_that_is_almost_always_true</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">do_the_thing</span><span class="p">();</span>
-<span class="p">}</span></pre><aside class="m-note m-default"><h4>See also</h4><ul><li><a class="dox-external" href="https://en.cppreference.com/w/cpp/language/attributes/likely" target="_blank">[[likely]]</a></li><li><a class="dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html" target="_blank">_<wbr/>_<wbr/>builtin_<wbr/>expect()</a></li></ul></aside>
+<span class="p">}</span></pre><aside class="m-note m-default"><h4>See also</h4><ul><li><a class="poxy-external" href="https://en.cppreference.com/w/cpp/language/attributes/likely" target="_blank">[[likely]]</a></li><li><a class="poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html" target="_blank">_<wbr/>_<wbr/>builtin_<wbr/>expect()</a></li></ul></aside>
           </div></section>
           <section class="m-doc-details" id="ga1e4e923ae71486fc6d9ac2bb0448231f"><div>
             <h3>
@@ -977,7 +981,7 @@
             <p>Stringifies the input, converting it verbatim into a raw string literal.</p>
 <pre class="m-code"><span class="c1">// these are equivalent:</span>
 <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">str1</span> <span class="o">=</span> <span class="m">MUU_MAKE_RAW_STRING</span><span class="p">(</span><span class="s">"It's trap!"</span> <span class="n">the</span> <span class="n">admiral</span> <span class="n">cried</span><span class="p">.);</span>
-<span class="k">constexpr</span> <span class="k">auto</span> <span class="n">str2</span> <span class="o">=</span> <span class="sa">R</span><span class="s">"</span><span class="dl">(</span><span class="s">"It's trap!" the admiral cried.</span><span class="dl">)</span><span class="s">"</span><span class="p">;</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="https://en.cppreference.com/w/cpp/language/string_literal" target="_blank">String literals in C++</a></p></aside>
+<span class="k">constexpr</span> <span class="k">auto</span> <span class="n">str2</span> <span class="o">=</span> <span class="sa">R</span><span class="s">"</span><span class="dl">(</span><span class="s">"It's trap!" the admiral cried.</span><span class="dl">)</span><span class="s">"</span><span class="p">;</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://en.cppreference.com/w/cpp/language/string_literal" target="_blank">String literals in C++</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga2fb0fd64a97ececb26a198c1072d223c"><div>
             <h3>
@@ -987,7 +991,7 @@
             <p>Stringifies the input, converting it into a string literal.</p>
 <pre class="m-code"><span class="c1">// these are equivalent:</span>
 <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">str1</span> <span class="o">=</span> <span class="m">MUU_MAKE_STRING</span><span class="p">(</span><span class="n">Oh</span> <span class="n">noes</span><span class="o">!</span><span class="p">);</span>
-<span class="k">constexpr</span> <span class="k">auto</span> <span class="n">str2</span> <span class="o">=</span> <span class="s">"Oh noes!"</span><span class="p">;</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="https://en.cppreference.com/w/cpp/language/string_literal" target="_blank">String literals in C++</a></p></aside>
+<span class="k">constexpr</span> <span class="k">auto</span> <span class="n">str2</span> <span class="o">=</span> <span class="s">"Oh noes!"</span><span class="p">;</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://en.cppreference.com/w/cpp/language/string_literal" target="_blank">String literals in C++</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="gabf47b45b883c9646ed6f8ed0b73f8aaa"><div>
             <h3>
@@ -997,7 +1001,7 @@
             <p>Stringifies the input, converting it verbatim into a raw string view literal.</p>
 <pre class="m-code"><span class="c1">// these are equivalent:</span>
 <span class="k">constexpr</span> <span class="ns">std</span><span class="o">::</span><span class="ut">string_view</span> <span class="n">str1</span> <span class="o">=</span> <span class="m">MUU_MAKE_STRING_VIEW</span><span class="p">(</span><span class="s">"It's trap!"</span> <span class="n">the</span> <span class="n">admiral</span> <span class="n">cried</span><span class="p">.);</span>
-<span class="k">constexpr</span> <span class="ns">std</span><span class="o">::</span><span class="ut">string_view</span> <span class="n">str2</span> <span class="o">=</span> <span class="sa">R</span><span class="s">"</span><span class="dl">(</span><span class="s">"It's trap!" the admiral cried.</span><span class="dl">)</span><span class="s">"</span><span class="sa">sv</span><span class="p">;</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="https://en.cppreference.com/w/cpp/language/string_literal" target="_blank">String literals in C++</a></p></aside>
+<span class="k">constexpr</span> <span class="ns">std</span><span class="o">::</span><span class="ut">string_view</span> <span class="n">str2</span> <span class="o">=</span> <span class="sa">R</span><span class="s">"</span><span class="dl">(</span><span class="s">"It's trap!" the admiral cried.</span><span class="dl">)</span><span class="s">"</span><span class="sa">sv</span><span class="p">;</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://en.cppreference.com/w/cpp/language/string_literal" target="_blank">String literals in C++</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="gacf33ca59cc4d469b40b34ea471a0f57d"><div>
             <h3>
@@ -1005,7 +1009,7 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>The value of <code>_MSC_VER</code> when the code is being compiled by MSVC, otherwise <code>0</code>.</p>
-<aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros" target="_blank">https:/<wbr/>/<wbr/>docs.microsoft.com/<wbr/>en-us/<wbr/>cpp/<wbr/>preprocessor/<wbr/>predefined-macros</a></p></aside>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros" target="_blank">https:/<wbr/>/<wbr/>docs.microsoft.com/<wbr/>en-us/<wbr/>cpp/<wbr/>preprocessor/<wbr/>predefined-macros</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga00e7d0da1019e1fc64eff53311eab35e"><div>
             <h3>
@@ -1032,7 +1036,7 @@
     <span class="p">{</span>
         <span class="n">super_special_global_lock</span><span class="p">();</span>
     <span class="p">}</span>
-    
+
     <span class="o">~</span><span class="n">raii_lock</span><span class="p">()</span> <span class="k">noexcept</span>
     <span class="p">{</span>
         <span class="n">super_special_global_unlock</span><span class="p">();</span>
@@ -1052,7 +1056,7 @@
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga208185e62d9dd3604e348e153ffc976b">MUU_NOOP</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>Expands to a no-op expression, e.g. <code><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a>&lt;void&gt;(0)</code>.</p>
+            <p>Expands to a no-op expression, e.g. <code><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a>&lt;void&gt;(0)</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga7152606bb8ad70ab6f0197461e7a24b2"><div>
             <h3>
@@ -1199,7 +1203,7 @@
     <span class="p">{</span>
         <span class="c1">// non-trivial for some reason, maybe debug checks</span>
     <span class="p">}</span>
-<span class="p">}</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="https://quuxplusone.github.io/blog/2018/05/02/trivial-abi-101/" target="_blank">[[trivial_<wbr/>abi]]</a></p></aside>
+<span class="p">}</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://quuxplusone.github.io/blog/2018/05/02/trivial-abi-101/" target="_blank">[[trivial_<wbr/>abi]]</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga66999b3d433c69989cc6243448a6e450"><div>
             <h3>
@@ -1207,7 +1211,7 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Optimizer hint that marks an allocating function's pointer return value as being free from aliasing.</p>
-<aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="https://docs.microsoft.com/en-us/cpp/cpp/restrict?view=vs-2019" target="_blank">_<wbr/>_<wbr/>declspec(restrict)</a></p></aside>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://docs.microsoft.com/en-us/cpp/cpp/restrict?view=vs-2019" target="_blank">_<wbr/>_<wbr/>declspec(restrict)</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="gada1974043df8aaa452400fe53a603219"><div>
             <h3>
@@ -1225,7 +1229,7 @@
 <pre class="m-code"><span class="k">if</span> <span class="m">MUU_UNLIKELY</span><span class="p">(</span><span class="n">condition_that_is_almost_always_false</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">do_the_thing</span><span class="p">();</span>
-<span class="p">}</span></pre><aside class="m-note m-default"><h4>See also</h4><ul><li><a class="dox-external" href="https://en.cppreference.com/w/cpp/language/attributes/likely" target="_blank">[[likely]]</a></li><li><a class="dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html" target="_blank">_<wbr/>_<wbr/>builtin_<wbr/>expect()</a></li></ul></aside>
+<span class="p">}</span></pre><aside class="m-note m-default"><h4>See also</h4><ul><li><a class="poxy-external" href="https://en.cppreference.com/w/cpp/language/attributes/likely" target="_blank">[[likely]]</a></li><li><a class="poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html" target="_blank">_<wbr/>_<wbr/>builtin_<wbr/>expect()</a></li></ul></aside>
           </div></section>
           <section class="m-doc-details" id="ga5180303025bb345be8bf831f1e84abed"><div>
             <h3>
@@ -1248,7 +1252,7 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Expands to <code>__vectorcall</code> on compilers that support it.</p>
-<aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="https://docs.microsoft.com/en-us/cpp/cpp/vectorcall?view=vs-2019" target="_blank">_<wbr/>_<wbr/>vectorcall</a></p></aside>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://docs.microsoft.com/en-us/cpp/cpp/vectorcall?view=vs-2019" target="_blank">_<wbr/>_<wbr/>vectorcall</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga9dee2f6a74a083b6305a29cfea6e2e01"><div>
             <h3>
@@ -1303,10 +1307,10 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         
-<a class="dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
+<a class="poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
 
 •
-<a class="dox-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
+<a class="poxy-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
 an
 issue</a>
 
@@ -1320,13 +1324,13 @@ Documentation
 created
 using
 
-<a class="dox-external" href="https://www.doxygen.nl/index.html" target="_blank">Doxygen</a>
+<a class="poxy-external" href="https://www.doxygen.nl/index.html" target="_blank">Doxygen</a>
 
 +
-<a class="dox-external" href="https://mcss.mosra.cz/documentation/doxygen/" target="_blank">mosra/m.css</a>
+<a class="poxy-external" href="https://mcss.mosra.cz/documentation/doxygen/" target="_blank">mosra/m.css</a>
 
 +
-<a class="dox-external" href="https://github.com/marzer/dox/" target="_blank">marzer/dox</a>
+<a class="poxy-external" href="https://github.com/marzer/poxy/" target="_blank">marzer/poxy</a>
       </div>
     </div>
   </div>

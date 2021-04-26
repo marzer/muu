@@ -14,7 +14,11 @@
   modern
   C++" name="description"/>
 
-  <link href="dox.css" rel="stylesheet"/>
+  <link href="poxy.css" rel="stylesheet"/>
+
+  <script src="jquery-3.6.0.slim.min.js"></script>
+
+  <script src="poxy.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -37,7 +41,7 @@
           </ol>
           <ol class="m-col-t-6 m-col-m-none" start="4">
             <li><a href="annotated.html">Classes</a></li>
-            <li><a class="github dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
+            <li><a class="github poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
             <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
               <use href="#m-doc-search-icon-path"></use>
             </svg></a></li>
@@ -54,9 +58,9 @@
         <h1>
           <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
           <div class="m-doc-template">template&lt;&gt;</div>
-          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>constants&lt;<a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a>&gt; <span class="m-thin">struct</span>
+          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>constants&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a>&gt; <span class="m-thin">struct</span>
         </h1>
-        <p><code><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a></code> constants.</p>
+        <p><code><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a></code> constants.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -78,16 +82,16 @@
           <h2><a href="#control-characters">Control characters</a></h2>
 <p><br/></p>
           <dl class="m-doc">
-            <dt id="a8e16af502b4662cc37f47135fe582ddd">
-              static T <a class="m-doc-self" href="#a8e16af502b4662cc37f47135fe582ddd">backspace</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="0ca481c7d024ff95b7d95fa571489172dcbd6fd0c9ed4cd6b633ca20c8317010">
+              static T <a class="m-doc-self" href="#0ca481c7d024ff95b7d95fa571489172dcbd6fd0c9ed4cd6b633ca20c8317010">backspace</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The backspace character.</dd>
-            <dt id="ae3b1a7c1436fcd661f00a83d80dbd2e9">
-              static T <a class="m-doc-self" href="#ae3b1a7c1436fcd661f00a83d80dbd2e9">del</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="89a6a02f0f682ed1757bd67e861e1f3ec7c59622839761950a6edba7bbed54bd">
+              static T <a class="m-doc-self" href="#89a6a02f0f682ed1757bd67e861e1f3ec7c59622839761950a6edba7bbed54bd">del</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>DEL</code></dd>
-            <dt id="a33479058a73b737ad61f9820c1bf1c5f">
-              static T <a class="m-doc-self" href="#a33479058a73b737ad61f9820c1bf1c5f">escape</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="7980bff085129326b11f4d3e67c383288d482564b3ea27aa32d8cc823e7b7862">
+              static T <a class="m-doc-self" href="#7980bff085129326b11f4d3e67c383288d482564b3ea27aa32d8cc823e7b7862">escape</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>ESC</code></dd>
           </dl>
@@ -96,44 +100,44 @@
           <h2><a href="#digits">Digits</a></h2>
 <p><br/></p>
           <dl class="m-doc">
-            <dt id="a8cd15ce6c37565cd4363c7dd62e74f75">
-              static T <a class="m-doc-self" href="#a8cd15ce6c37565cd4363c7dd62e74f75">digit_0</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="75c83ad368f47ffeca3d582d358b10a318ad3dece9f11cb232ca67c8a7061514">
+              static T <a class="m-doc-self" href="#75c83ad368f47ffeca3d582d358b10a318ad3dece9f11cb232ca67c8a7061514">digit_0</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>0</code></dd>
-            <dt id="ad0c16810a75bfdd6a967e1994b85b177">
-              static T <a class="m-doc-self" href="#ad0c16810a75bfdd6a967e1994b85b177">digit_1</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="d70841f2c5bb835842161e5f20c5419cded5e4f4d00afa56ef21c343b993df95">
+              static T <a class="m-doc-self" href="#d70841f2c5bb835842161e5f20c5419cded5e4f4d00afa56ef21c343b993df95">digit_1</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>1</code></dd>
-            <dt id="a074c48606eecac7b83ffb39771317f41">
-              static T <a class="m-doc-self" href="#a074c48606eecac7b83ffb39771317f41">digit_2</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="76e2429248aedd34273ff7372fa6522fd8649cd8fee191819d378165f6f7fcb9">
+              static T <a class="m-doc-self" href="#76e2429248aedd34273ff7372fa6522fd8649cd8fee191819d378165f6f7fcb9">digit_2</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>2</code></dd>
-            <dt id="a1bad7d25da203e4f998e63e599cbca10">
-              static T <a class="m-doc-self" href="#a1bad7d25da203e4f998e63e599cbca10">digit_3</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="bf80bd5cc9aa5987c7ebd5d9177ebac564b55919b804a14b884a8da15480b7d3">
+              static T <a class="m-doc-self" href="#bf80bd5cc9aa5987c7ebd5d9177ebac564b55919b804a14b884a8da15480b7d3">digit_3</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>3</code></dd>
-            <dt id="a1435ede06c6498a6a11491c9dfe2a3d4">
-              static T <a class="m-doc-self" href="#a1435ede06c6498a6a11491c9dfe2a3d4">digit_4</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="46151883c8487d8a5314674820f74e2c6ff8f750b99d20b649220bd2e1b688ef">
+              static T <a class="m-doc-self" href="#46151883c8487d8a5314674820f74e2c6ff8f750b99d20b649220bd2e1b688ef">digit_4</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>4</code></dd>
-            <dt id="accec041c52911bf4a40a53a63dddc6bc">
-              static T <a class="m-doc-self" href="#accec041c52911bf4a40a53a63dddc6bc">digit_5</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="1464589cd8f25f8aa8d8654ef3ab758ee3d560ed28653a309259924fe48c7e15">
+              static T <a class="m-doc-self" href="#1464589cd8f25f8aa8d8654ef3ab758ee3d560ed28653a309259924fe48c7e15">digit_5</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>5</code></dd>
-            <dt id="a3e8338191c06479828cbaae6181419f4">
-              static T <a class="m-doc-self" href="#a3e8338191c06479828cbaae6181419f4">digit_6</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="6b0f9872f6bb813f9fff2f7c936a9d4653333a32b4b76cef3809d1930bfc1d95">
+              static T <a class="m-doc-self" href="#6b0f9872f6bb813f9fff2f7c936a9d4653333a32b4b76cef3809d1930bfc1d95">digit_6</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>6</code></dd>
-            <dt id="a4b2fcc69cdea7d35c18ad9051cb9ef76">
-              static T <a class="m-doc-self" href="#a4b2fcc69cdea7d35c18ad9051cb9ef76">digit_7</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="1321c940f1cc5162f393338dc378675b6f0f39fdc4cb9af36832b24846869a24">
+              static T <a class="m-doc-self" href="#1321c940f1cc5162f393338dc378675b6f0f39fdc4cb9af36832b24846869a24">digit_7</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>7</code></dd>
-            <dt id="a3274493875071807d1f6ab0016622254">
-              static T <a class="m-doc-self" href="#a3274493875071807d1f6ab0016622254">digit_8</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="819e57086a03dac0fc209846b706a92eb7ca1bf132f77b58f52ae4a0261c49eb">
+              static T <a class="m-doc-self" href="#819e57086a03dac0fc209846b706a92eb7ca1bf132f77b58f52ae4a0261c49eb">digit_8</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>8</code></dd>
-            <dt id="a800e90a24d3e01c03848a7770deebebc">
-              static T <a class="m-doc-self" href="#a800e90a24d3e01c03848a7770deebebc">digit_9</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="8beab796d77c3f8bb993764e51a5807932ac1f9cedd7a895193cda334e52bbdd">
+              static T <a class="m-doc-self" href="#8beab796d77c3f8bb993764e51a5807932ac1f9cedd7a895193cda334e52bbdd">digit_9</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>9</code></dd>
           </dl>
@@ -142,52 +146,52 @@
           <h2><a href="#integers">Integers</a></h2>
 <p><br/></p>
           <dl class="m-doc">
-            <dt id="af2ba01db1bb98a9bb4e922e9ab251396">
-              static T <a class="m-doc-self" href="#af2ba01db1bb98a9bb4e922e9ab251396">eight</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="2b4118d7d9271fc4cea33a9e6d2c084a762f49400a631b639567a466a4affe34">
+              static T <a class="m-doc-self" href="#2b4118d7d9271fc4cea33a9e6d2c084a762f49400a631b639567a466a4affe34">eight</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>8</code></dd>
-            <dt id="a051f1cbddd8b5767829c3ecd1cee7658">
-              static T <a class="m-doc-self" href="#a051f1cbddd8b5767829c3ecd1cee7658">five</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="64c3d22ae734a83febaed2a316dcff55297dad3ccb7aadfc981ff17b72c6c5d4">
+              static T <a class="m-doc-self" href="#64c3d22ae734a83febaed2a316dcff55297dad3ccb7aadfc981ff17b72c6c5d4">five</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>5</code></dd>
-            <dt id="a9cf66c2834e82cb6a19ad13ae42d790e">
-              static T <a class="m-doc-self" href="#a9cf66c2834e82cb6a19ad13ae42d790e">four</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="424a1ae2563048ecc6157b909cc15403222063163364724a029103269eefef77">
+              static T <a class="m-doc-self" href="#424a1ae2563048ecc6157b909cc15403222063163364724a029103269eefef77">four</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>4</code></dd>
-            <dt id="af40cf490a010287c89e833e4e338242a">
-              static T <a class="m-doc-self" href="#af40cf490a010287c89e833e4e338242a">nine</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="7c859c8c97faac9c3dba9311189901aabbcf23f93aaeb1eb119495ca0be6d448">
+              static T <a class="m-doc-self" href="#7c859c8c97faac9c3dba9311189901aabbcf23f93aaeb1eb119495ca0be6d448">nine</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>9</code></dd>
-            <dt id="ad17ac5996bb051d6721cd167dd4d4100">
-              static T <a class="m-doc-self" href="#ad17ac5996bb051d6721cd167dd4d4100">one</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="dff513d50327672502b0c53ec3eedf668ecd94f1bf7c262ba2e1133e43965243">
+              static T <a class="m-doc-self" href="#dff513d50327672502b0c53ec3eedf668ecd94f1bf7c262ba2e1133e43965243">one</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>1</code></dd>
-            <dt id="afc1bc92c2d7a2eae255cf619ea866a17">
-              static T <a class="m-doc-self" href="#afc1bc92c2d7a2eae255cf619ea866a17">one_hundred</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="478f2e025ffab5e5ed812009e23dd3dc3bb50eecc8f036e8c5a126152b9ccb74">
+              static T <a class="m-doc-self" href="#478f2e025ffab5e5ed812009e23dd3dc3bb50eecc8f036e8c5a126152b9ccb74">one_hundred</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>100</code></dd>
-            <dt id="a6630425419bc354dfbb292c590dac436">
-              static T <a class="m-doc-self" href="#a6630425419bc354dfbb292c590dac436">seven</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="b49afaf0435e37f7fdf8527f8d5eb7eb3b9baae32526dee579d04e9ce729a162">
+              static T <a class="m-doc-self" href="#b49afaf0435e37f7fdf8527f8d5eb7eb3b9baae32526dee579d04e9ce729a162">seven</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>7</code></dd>
-            <dt id="a7fe173161cd3b9add56e813abd2a6751">
-              static T <a class="m-doc-self" href="#a7fe173161cd3b9add56e813abd2a6751">six</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="930075bf69df9936176e54eaa6fa1bd6ff3b01e3fa776478ff2c1f59e1bef2a0">
+              static T <a class="m-doc-self" href="#930075bf69df9936176e54eaa6fa1bd6ff3b01e3fa776478ff2c1f59e1bef2a0">six</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>6</code></dd>
-            <dt id="a8eef5030a0dcacf4f3e4e15ba6808501">
-              static T <a class="m-doc-self" href="#a8eef5030a0dcacf4f3e4e15ba6808501">ten</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="ca013e283b5f53ebe328aa3d2683e468970572f3ef8ead177c1a7acb35e5944e">
+              static T <a class="m-doc-self" href="#ca013e283b5f53ebe328aa3d2683e468970572f3ef8ead177c1a7acb35e5944e">ten</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>10</code></dd>
-            <dt id="a5918b6cab7f5a7cc6a4db54e164b8ecd">
-              static T <a class="m-doc-self" href="#a5918b6cab7f5a7cc6a4db54e164b8ecd">three</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="635a33bae8ee571fc6faf05dbd59c6808dcae80a90936bd164a64a13f334eca4">
+              static T <a class="m-doc-self" href="#635a33bae8ee571fc6faf05dbd59c6808dcae80a90936bd164a64a13f334eca4">three</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>3</code></dd>
-            <dt id="a2c524a28fddba7e9f7e5fe2c2377835a">
-              static T <a class="m-doc-self" href="#a2c524a28fddba7e9f7e5fe2c2377835a">two</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="2cb473492b7666fdb1a6e150bcf5ecea824e96b0677ddd8e8973eb7987f17db5">
+              static T <a class="m-doc-self" href="#2cb473492b7666fdb1a6e150bcf5ecea824e96b0677ddd8e8973eb7987f17db5">two</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>2</code></dd>
-            <dt id="ab7ee6b21c3afe3e5b2b6f3904fc26fde">
-              static T <a class="m-doc-self" href="#ab7ee6b21c3afe3e5b2b6f3904fc26fde">zero</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="2562801c44706d582d7c7752d79e6e3d90c2fcb745a618e150d151c06cc0c1a5">
+              static T <a class="m-doc-self" href="#2562801c44706d582d7c7752d79e6e3d90c2fcb745a618e150d151c06cc0c1a5">zero</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>0</code></dd>
           </dl>
@@ -196,212 +200,212 @@
           <h2><a href="#letters">Letters</a></h2>
 <p><br/></p>
           <dl class="m-doc">
-            <dt id="abe925abe3a327e84d49ace3535b1a0cb">
-              static T <a class="m-doc-self" href="#abe925abe3a327e84d49ace3535b1a0cb">letter_A</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="c97ab006c975eebb417772bf4d672840a7d35f319cfd7b56a7d57ff349c11e46">
+              static T <a class="m-doc-self" href="#c97ab006c975eebb417772bf4d672840a7d35f319cfd7b56a7d57ff349c11e46">letter_A</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>A</code></dd>
-            <dt id="a104199be0083808f624496b2da822ef7">
-              static T <a class="m-doc-self" href="#a104199be0083808f624496b2da822ef7">letter_B</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="12cdfbbe1b9fd9335ee24cd0f34aaa53fb6e6cedca5cc22331934f559eb57b63">
+              static T <a class="m-doc-self" href="#12cdfbbe1b9fd9335ee24cd0f34aaa53fb6e6cedca5cc22331934f559eb57b63">letter_B</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>B</code></dd>
-            <dt id="a5944c79f82c37b5d5d42484752a2dbbf">
-              static T <a class="m-doc-self" href="#a5944c79f82c37b5d5d42484752a2dbbf">letter_C</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="dd07a99921023c5447fd2b9b91b812ebe4988d6487c1c182928aad8ac76fedd1">
+              static T <a class="m-doc-self" href="#dd07a99921023c5447fd2b9b91b812ebe4988d6487c1c182928aad8ac76fedd1">letter_C</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>C</code></dd>
-            <dt id="a50e5744b0853789dcec230cfefc11137">
-              static T <a class="m-doc-self" href="#a50e5744b0853789dcec230cfefc11137">letter_D</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="8989795b2a91042351811020c79f4b3765d598faea27f8b3c212bec3cea9f053">
+              static T <a class="m-doc-self" href="#8989795b2a91042351811020c79f4b3765d598faea27f8b3c212bec3cea9f053">letter_D</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>D</code></dd>
-            <dt id="a56c84cdec834aabcf3239a2a33bc3f6c">
-              static T <a class="m-doc-self" href="#a56c84cdec834aabcf3239a2a33bc3f6c">letter_E</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="d1b4cc8d19ad8f24b5798260e4c8b1ebdbfe3c82cc11ad22162431441b2aa2ac">
+              static T <a class="m-doc-self" href="#d1b4cc8d19ad8f24b5798260e4c8b1ebdbfe3c82cc11ad22162431441b2aa2ac">letter_E</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>E</code></dd>
-            <dt id="a21bc3083de531a01fa02632c84400ac2">
-              static T <a class="m-doc-self" href="#a21bc3083de531a01fa02632c84400ac2">letter_F</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="67d82905ab9ed5c5ba4c2621613fe4c21b14655c51d96776d0e73c821d798110">
+              static T <a class="m-doc-self" href="#67d82905ab9ed5c5ba4c2621613fe4c21b14655c51d96776d0e73c821d798110">letter_F</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>F</code></dd>
-            <dt id="aff13911634626e5a5e417da7dbca2cda">
-              static T <a class="m-doc-self" href="#aff13911634626e5a5e417da7dbca2cda">letter_G</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="4637d34154bdc3a3176104bfffe4174f57bb3856c34cf8c62f3c7f86f8f971eb">
+              static T <a class="m-doc-self" href="#4637d34154bdc3a3176104bfffe4174f57bb3856c34cf8c62f3c7f86f8f971eb">letter_G</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>G</code></dd>
-            <dt id="ad132d97b5d982cec06045573a0fc6bc0">
-              static T <a class="m-doc-self" href="#ad132d97b5d982cec06045573a0fc6bc0">letter_H</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="c39861aa02d7279d7184db51e8b9370d03d7418abba23e7061205e5298504ef2">
+              static T <a class="m-doc-self" href="#c39861aa02d7279d7184db51e8b9370d03d7418abba23e7061205e5298504ef2">letter_H</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>H</code></dd>
-            <dt id="afd969df90a39c577eb87e3c58aaaa841">
-              static T <a class="m-doc-self" href="#afd969df90a39c577eb87e3c58aaaa841">letter_I</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="ed6cd2fd71e48e88dfac933d8c0783318c213a4f07724572444f1a4d2510604a">
+              static T <a class="m-doc-self" href="#ed6cd2fd71e48e88dfac933d8c0783318c213a4f07724572444f1a4d2510604a">letter_I</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>I</code></dd>
-            <dt id="adf809bdec6b5a8b58c9ba3919d3efec0">
-              static T <a class="m-doc-self" href="#adf809bdec6b5a8b58c9ba3919d3efec0">letter_J</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="739ede949837acf7441458b97fd263f345bdec694c65cea65c0f6a381be5557a">
+              static T <a class="m-doc-self" href="#739ede949837acf7441458b97fd263f345bdec694c65cea65c0f6a381be5557a">letter_J</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>J</code></dd>
-            <dt id="ab72329968ae3142315b08d7f55159808">
-              static T <a class="m-doc-self" href="#ab72329968ae3142315b08d7f55159808">letter_K</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="5d4003d87b3e10645753e753cc9287c32b6a8e3003a3063aa450b4299786a1b3">
+              static T <a class="m-doc-self" href="#5d4003d87b3e10645753e753cc9287c32b6a8e3003a3063aa450b4299786a1b3">letter_K</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>K</code></dd>
-            <dt id="a7a8ff5ec5d3cb8fcd2033772ea71797f">
-              static T <a class="m-doc-self" href="#a7a8ff5ec5d3cb8fcd2033772ea71797f">letter_L</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="9c1bcee204c16e3671997d26664c93b1e3be837a1d8a1fe2f0047df47868de19">
+              static T <a class="m-doc-self" href="#9c1bcee204c16e3671997d26664c93b1e3be837a1d8a1fe2f0047df47868de19">letter_L</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>L</code></dd>
-            <dt id="a8cccc07c981fa067bacb7f625257dfcb">
-              static T <a class="m-doc-self" href="#a8cccc07c981fa067bacb7f625257dfcb">letter_M</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="a7ee79b1e7d60fb22e52e502cd23fc4ba8393595f33dcc06f29d35c1ed28bd1c">
+              static T <a class="m-doc-self" href="#a7ee79b1e7d60fb22e52e502cd23fc4ba8393595f33dcc06f29d35c1ed28bd1c">letter_M</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>M</code></dd>
-            <dt id="a18842061d9595e67e09df171e56755a6">
-              static T <a class="m-doc-self" href="#a18842061d9595e67e09df171e56755a6">letter_N</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="4de2d419718ee5a970fbcd00194e3700b7d2b0cf02222c82b2b18a88163a9172">
+              static T <a class="m-doc-self" href="#4de2d419718ee5a970fbcd00194e3700b7d2b0cf02222c82b2b18a88163a9172">letter_N</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>N</code></dd>
-            <dt id="aab1d9887dc7174563b37064c3bb05b2f">
-              static T <a class="m-doc-self" href="#aab1d9887dc7174563b37064c3bb05b2f">letter_O</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="0308ecaae073ef951fec0a4ac72137de16b7bd34e95b1de5b92c5d7d38305e52">
+              static T <a class="m-doc-self" href="#0308ecaae073ef951fec0a4ac72137de16b7bd34e95b1de5b92c5d7d38305e52">letter_O</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>O</code></dd>
-            <dt id="ab9c545d7eb0b8c3ab1725528ab9c8122">
-              static T <a class="m-doc-self" href="#ab9c545d7eb0b8c3ab1725528ab9c8122">letter_P</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="f2d82d987652b82ccb01301a2486f57dfcd0485a24825fa33e627af69275da32">
+              static T <a class="m-doc-self" href="#f2d82d987652b82ccb01301a2486f57dfcd0485a24825fa33e627af69275da32">letter_P</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>P</code></dd>
-            <dt id="a151a9fa6301b0b6f0abf75388d728b8a">
-              static T <a class="m-doc-self" href="#a151a9fa6301b0b6f0abf75388d728b8a">letter_Q</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="443d64db5851469eabec681055baa1f24ae98ead7589f48b1bca6657234a47f2">
+              static T <a class="m-doc-self" href="#443d64db5851469eabec681055baa1f24ae98ead7589f48b1bca6657234a47f2">letter_Q</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>Q</code></dd>
-            <dt id="a8ec2973f2f1c4f78da48acb8a4155afe">
-              static T <a class="m-doc-self" href="#a8ec2973f2f1c4f78da48acb8a4155afe">letter_R</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="d2d72afe50f086265b6af69b873903e41a3cba404ec7638db08e9438d58dbbb0">
+              static T <a class="m-doc-self" href="#d2d72afe50f086265b6af69b873903e41a3cba404ec7638db08e9438d58dbbb0">letter_R</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>R</code></dd>
-            <dt id="a3062f228af49c002f538e1efd51ef8d1">
-              static T <a class="m-doc-self" href="#a3062f228af49c002f538e1efd51ef8d1">letter_S</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="0090a8a49104754c87af8fc821c94af7e5fbe7e710fd1e13803c5cb374b88aca">
+              static T <a class="m-doc-self" href="#0090a8a49104754c87af8fc821c94af7e5fbe7e710fd1e13803c5cb374b88aca">letter_S</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>S</code></dd>
-            <dt id="ad293546113bc9aa1db53b6b19e77d5a9">
-              static T <a class="m-doc-self" href="#ad293546113bc9aa1db53b6b19e77d5a9">letter_T</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="1221d20b7c046be54a7243147911cb287b053ae35fa7b346fa8af7e574b63e7f">
+              static T <a class="m-doc-self" href="#1221d20b7c046be54a7243147911cb287b053ae35fa7b346fa8af7e574b63e7f">letter_T</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>T</code></dd>
-            <dt id="a9214853467e45fd73184bf869c8ab944">
-              static T <a class="m-doc-self" href="#a9214853467e45fd73184bf869c8ab944">letter_U</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="209a2d844e840a1b1481cac09fb71b5b883ace944e12fd17f63ca183decb7269">
+              static T <a class="m-doc-self" href="#209a2d844e840a1b1481cac09fb71b5b883ace944e12fd17f63ca183decb7269">letter_U</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>U</code></dd>
-            <dt id="aaf742b8e8c4cf628f832e343b790eb2a">
-              static T <a class="m-doc-self" href="#aaf742b8e8c4cf628f832e343b790eb2a">letter_V</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="7ec6120c842adbc26a4d8a3684cd2bf0a443626b3189f261e4bd25ffe575e9fa">
+              static T <a class="m-doc-self" href="#7ec6120c842adbc26a4d8a3684cd2bf0a443626b3189f261e4bd25ffe575e9fa">letter_V</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>V</code></dd>
-            <dt id="a21aec38c6de823b6f04abda27fa95acc">
-              static T <a class="m-doc-self" href="#a21aec38c6de823b6f04abda27fa95acc">letter_W</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="396d9c250721b69afc038779a08a27a5554761e5ef3137aae7ad0eaef047bbf6">
+              static T <a class="m-doc-self" href="#396d9c250721b69afc038779a08a27a5554761e5ef3137aae7ad0eaef047bbf6">letter_W</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>W</code></dd>
-            <dt id="a1cf0de5c889a1e2464d92596819d2b89">
-              static T <a class="m-doc-self" href="#a1cf0de5c889a1e2464d92596819d2b89">letter_X</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="498fd23427196faac4e8f2c4182d55489938ccf9bbc1f344c59c1be71849b1ab">
+              static T <a class="m-doc-self" href="#498fd23427196faac4e8f2c4182d55489938ccf9bbc1f344c59c1be71849b1ab">letter_X</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>X</code></dd>
-            <dt id="a047c36fbf0d5577101d28ffa61904d6f">
-              static T <a class="m-doc-self" href="#a047c36fbf0d5577101d28ffa61904d6f">letter_Y</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="15ecd1fc99723fb1b577e7c130629f1d53e396336fec86d7a828365bfccbe8bd">
+              static T <a class="m-doc-self" href="#15ecd1fc99723fb1b577e7c130629f1d53e396336fec86d7a828365bfccbe8bd">letter_Y</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>Y</code></dd>
-            <dt id="a746f882c030803b53c224268bec45cb0">
-              static T <a class="m-doc-self" href="#a746f882c030803b53c224268bec45cb0">letter_Z</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="fd3a034194ac251bdecc095d5aac4745ec10fd34d0e3aaa647bba2bcfcea9069">
+              static T <a class="m-doc-self" href="#fd3a034194ac251bdecc095d5aac4745ec10fd34d0e3aaa647bba2bcfcea9069">letter_Z</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>Z</code></dd>
-            <dt id="a09cec449f0ccc6f96cb97e2160b56b9d">
-              static T <a class="m-doc-self" href="#a09cec449f0ccc6f96cb97e2160b56b9d">letter_a</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="25533c6e567abbb76f09d7562e2ca6626659c38d5e7af57eccb3c3334c67f5be">
+              static T <a class="m-doc-self" href="#25533c6e567abbb76f09d7562e2ca6626659c38d5e7af57eccb3c3334c67f5be">letter_a</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>a</code></dd>
-            <dt id="ac22109569b9e0676e08711fad715b585">
-              static T <a class="m-doc-self" href="#ac22109569b9e0676e08711fad715b585">letter_b</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="2f1880a13b6ab644c51ddcbafa25d2084a44d1753c7c913452962edb8b510414">
+              static T <a class="m-doc-self" href="#2f1880a13b6ab644c51ddcbafa25d2084a44d1753c7c913452962edb8b510414">letter_b</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>b</code></dd>
-            <dt id="a16d3d5e28fd5b764a5457ff2f08eda4b">
-              static T <a class="m-doc-self" href="#a16d3d5e28fd5b764a5457ff2f08eda4b">letter_c</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="0812eed525579f548257a449defe977be5ab88646da9b8953408592d03521f24">
+              static T <a class="m-doc-self" href="#0812eed525579f548257a449defe977be5ab88646da9b8953408592d03521f24">letter_c</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>c</code></dd>
-            <dt id="aca020e45cde07ea48532dd9b76b087b1">
-              static T <a class="m-doc-self" href="#aca020e45cde07ea48532dd9b76b087b1">letter_d</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="7c5aedcd16924df341f4f020321fc35c2d89ae5ac523d94ba1e2b49cebf46d6e">
+              static T <a class="m-doc-self" href="#7c5aedcd16924df341f4f020321fc35c2d89ae5ac523d94ba1e2b49cebf46d6e">letter_d</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>d</code></dd>
-            <dt id="a1c513691a44555f76d6afd4c49347399">
-              static T <a class="m-doc-self" href="#a1c513691a44555f76d6afd4c49347399">letter_e</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="d5e01e4f7d39c57949a0066797efc2af8928bc9f9fc90a8c9730ca4bfdf2f639">
+              static T <a class="m-doc-self" href="#d5e01e4f7d39c57949a0066797efc2af8928bc9f9fc90a8c9730ca4bfdf2f639">letter_e</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>e</code></dd>
-            <dt id="a29fa43ad2b96ca7a6ee8643de5e779f7">
-              static T <a class="m-doc-self" href="#a29fa43ad2b96ca7a6ee8643de5e779f7">letter_f</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="817104fccd4e3490cbc4b9b3f5beae4db46459ec982dbdee9d69da29816f0968">
+              static T <a class="m-doc-self" href="#817104fccd4e3490cbc4b9b3f5beae4db46459ec982dbdee9d69da29816f0968">letter_f</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>f</code></dd>
-            <dt id="a108166676790659599f351e35595422e">
-              static T <a class="m-doc-self" href="#a108166676790659599f351e35595422e">letter_g</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="be822d8173077120af901a1eb52e0e33c601cef8edbaedd4bc69f1d0da18ed79">
+              static T <a class="m-doc-self" href="#be822d8173077120af901a1eb52e0e33c601cef8edbaedd4bc69f1d0da18ed79">letter_g</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>g</code></dd>
-            <dt id="a6174b0059be5541ed377928a1fc87f62">
-              static T <a class="m-doc-self" href="#a6174b0059be5541ed377928a1fc87f62">letter_h</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="758ff229427e7d63e0532b0556bf02b471c8f8dba87174f63294e5cc3a2b559e">
+              static T <a class="m-doc-self" href="#758ff229427e7d63e0532b0556bf02b471c8f8dba87174f63294e5cc3a2b559e">letter_h</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>h</code></dd>
-            <dt id="a3205a72c510c906d58b1f8659356648c">
-              static T <a class="m-doc-self" href="#a3205a72c510c906d58b1f8659356648c">letter_i</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="83f83ddf7dbc993f4996bf2d8174e0595867be8bb030e0d3822ad9fc4da5cb71">
+              static T <a class="m-doc-self" href="#83f83ddf7dbc993f4996bf2d8174e0595867be8bb030e0d3822ad9fc4da5cb71">letter_i</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>i</code></dd>
-            <dt id="af8a163357b32b441e9b8c41e6cba9620">
-              static T <a class="m-doc-self" href="#af8a163357b32b441e9b8c41e6cba9620">letter_j</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="24273f95018871c05baf1fc25f2faec13503831c5b1b1acc35a33d1f9a50c39e">
+              static T <a class="m-doc-self" href="#24273f95018871c05baf1fc25f2faec13503831c5b1b1acc35a33d1f9a50c39e">letter_j</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>j</code></dd>
-            <dt id="a77b6cdaf80d92fd820bc6a479f2258bc">
-              static T <a class="m-doc-self" href="#a77b6cdaf80d92fd820bc6a479f2258bc">letter_k</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="3bd1d3d710dbcc4af586075c0e12626a635de768ac7e95a521ec7af22ae9c38c">
+              static T <a class="m-doc-self" href="#3bd1d3d710dbcc4af586075c0e12626a635de768ac7e95a521ec7af22ae9c38c">letter_k</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>k</code></dd>
-            <dt id="ae43eada59ef29463b6dee481cd1f67df">
-              static T <a class="m-doc-self" href="#ae43eada59ef29463b6dee481cd1f67df">letter_l</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="9a8dcf0ade08e67f43e69c4dd4d12b9169255be4d02f5ed1cc7c6cf639dfd05a">
+              static T <a class="m-doc-self" href="#9a8dcf0ade08e67f43e69c4dd4d12b9169255be4d02f5ed1cc7c6cf639dfd05a">letter_l</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>l</code></dd>
-            <dt id="a99d139b2a25b9225960b45223bd86c89">
-              static T <a class="m-doc-self" href="#a99d139b2a25b9225960b45223bd86c89">letter_m</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="bb8004f4748f57349312373c28a74881d0873b8ab83ec4eda6012705e1d11686">
+              static T <a class="m-doc-self" href="#bb8004f4748f57349312373c28a74881d0873b8ab83ec4eda6012705e1d11686">letter_m</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>m</code></dd>
-            <dt id="acf2c34aa912f4407bff1d1a2928c2b1e">
-              static T <a class="m-doc-self" href="#acf2c34aa912f4407bff1d1a2928c2b1e">letter_n</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="133bfa97ce0d8be9ddbbab1a9d6416c36c4ec2eb5bfba4d2c51681fa7b0ab4d6">
+              static T <a class="m-doc-self" href="#133bfa97ce0d8be9ddbbab1a9d6416c36c4ec2eb5bfba4d2c51681fa7b0ab4d6">letter_n</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>n</code></dd>
-            <dt id="adeb38d73937536a04192cbff9a9abce8">
-              static T <a class="m-doc-self" href="#adeb38d73937536a04192cbff9a9abce8">letter_o</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="44b04de3a36b707a79e6afaab5ec91098595cc9d8f975b50578cd3acec2b0b88">
+              static T <a class="m-doc-self" href="#44b04de3a36b707a79e6afaab5ec91098595cc9d8f975b50578cd3acec2b0b88">letter_o</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>o</code></dd>
-            <dt id="af7753d0c10470d8c5f7e9f419975fabe">
-              static T <a class="m-doc-self" href="#af7753d0c10470d8c5f7e9f419975fabe">letter_p</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="9b482de27b4ac5f7a5d45fe89929142a06a665dc4eac426936248f8253deb399">
+              static T <a class="m-doc-self" href="#9b482de27b4ac5f7a5d45fe89929142a06a665dc4eac426936248f8253deb399">letter_p</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>p</code></dd>
-            <dt id="ae49517ae6f2d146ea53bccd56384b33f">
-              static T <a class="m-doc-self" href="#ae49517ae6f2d146ea53bccd56384b33f">letter_q</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="70d63e2c218e1fa3167bc8fc69f53b95671cdfc11ede9a4bb1552a01ee69bc29">
+              static T <a class="m-doc-self" href="#70d63e2c218e1fa3167bc8fc69f53b95671cdfc11ede9a4bb1552a01ee69bc29">letter_q</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>q</code></dd>
-            <dt id="ad5358d59817be57775ba8e4f816eea2e">
-              static T <a class="m-doc-self" href="#ad5358d59817be57775ba8e4f816eea2e">letter_r</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="a9d8b6e3bcb7156ede1085c15cb919831df00b38e20c80a2dba5ced9b10abcd0">
+              static T <a class="m-doc-self" href="#a9d8b6e3bcb7156ede1085c15cb919831df00b38e20c80a2dba5ced9b10abcd0">letter_r</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>r</code></dd>
-            <dt id="a2c10c6af47c658b2a9b2129d2092cdf3">
-              static T <a class="m-doc-self" href="#a2c10c6af47c658b2a9b2129d2092cdf3">letter_s</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="078c6789fd573cb971024521c4042e34c828ae381b7f77a5d6551550e34f551e">
+              static T <a class="m-doc-self" href="#078c6789fd573cb971024521c4042e34c828ae381b7f77a5d6551550e34f551e">letter_s</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>s</code></dd>
-            <dt id="aa1b1afdc11b2cfa75e68bd0098801e45">
-              static T <a class="m-doc-self" href="#aa1b1afdc11b2cfa75e68bd0098801e45">letter_t</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="c4abbb0dc7b16090301ee70bd4ef9ff71ad4d5f71d2a8f57948cd6cf7a6049b7">
+              static T <a class="m-doc-self" href="#c4abbb0dc7b16090301ee70bd4ef9ff71ad4d5f71d2a8f57948cd6cf7a6049b7">letter_t</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>t</code></dd>
-            <dt id="a1dc6d1e71ea9112db0eb6caa2bdf167f">
-              static T <a class="m-doc-self" href="#a1dc6d1e71ea9112db0eb6caa2bdf167f">letter_u</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="e546d560b8f25f35905ae4680f03a14c992f9979820ad4ab9d0e1cd60961cf1d">
+              static T <a class="m-doc-self" href="#e546d560b8f25f35905ae4680f03a14c992f9979820ad4ab9d0e1cd60961cf1d">letter_u</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>u</code></dd>
-            <dt id="aed7f16caf83f1a676df5a9dce5be72ca">
-              static T <a class="m-doc-self" href="#aed7f16caf83f1a676df5a9dce5be72ca">letter_v</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="9021ffa0a88ecb2e43c1025ccac6f9e34e600dfe7c35b0677cd74cb489b299cd">
+              static T <a class="m-doc-self" href="#9021ffa0a88ecb2e43c1025ccac6f9e34e600dfe7c35b0677cd74cb489b299cd">letter_v</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>v</code></dd>
-            <dt id="af28d87986ebcdcbdbb2b6bbcb8984207">
-              static T <a class="m-doc-self" href="#af28d87986ebcdcbdbb2b6bbcb8984207">letter_w</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="50eb691ed856f0b25e0510bc2c58ad862dc078bbeb401c8cee7ba61de2567d37">
+              static T <a class="m-doc-self" href="#50eb691ed856f0b25e0510bc2c58ad862dc078bbeb401c8cee7ba61de2567d37">letter_w</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>w</code></dd>
-            <dt id="a05f3f1fe3164bd3bc713b1b4fcf46895">
-              static T <a class="m-doc-self" href="#a05f3f1fe3164bd3bc713b1b4fcf46895">letter_x</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="8cdf705de6d07eb9ee511e3286c6f95e340e61421a2f952907dd4a1f06a4f51b">
+              static T <a class="m-doc-self" href="#8cdf705de6d07eb9ee511e3286c6f95e340e61421a2f952907dd4a1f06a4f51b">letter_x</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>x</code></dd>
-            <dt id="a6b3de25cbce2e8d165b9e67ed0b9242d">
-              static T <a class="m-doc-self" href="#a6b3de25cbce2e8d165b9e67ed0b9242d">letter_y</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="a49d97bac1902153f73fe341be967d496be12dd57241db573b1639f28b6d2703">
+              static T <a class="m-doc-self" href="#a49d97bac1902153f73fe341be967d496be12dd57241db573b1639f28b6d2703">letter_y</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>y</code></dd>
-            <dt id="a80f30e827e522dff93a7f3af67fbd45b">
-              static T <a class="m-doc-self" href="#a80f30e827e522dff93a7f3af67fbd45b">letter_z</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="49bd8032381da69b1f421f345b04e97a051bb1b625b9900f3f374720f53cdc32">
+              static T <a class="m-doc-self" href="#49bd8032381da69b1f421f345b04e97a051bb1b625b9900f3f374720f53cdc32">letter_z</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>z</code></dd>
           </dl>
@@ -410,146 +414,146 @@
           <h2><a href="#limits">Limits</a></h2>
 <p><br/></p>
           <dl class="m-doc">
-            <dt id="a24317d3d0a6baac2b01c07f15088252b">
-              static T <a class="m-doc-self" href="#a24317d3d0a6baac2b01c07f15088252b">highest</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="01667675e18cef7e33481c02c17028b98126f0a76a9ecc6ba07ce39b8d40b7df">
+              static T <a class="m-doc-self" href="#01667675e18cef7e33481c02c17028b98126f0a76a9ecc6ba07ce39b8d40b7df">highest</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>The highest representable 'normal' value (equivalent to <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/numeric_limits/max.html" target="_blank">std::<wbr/>numeric_limits::<wbr/>max()</a>).</dd>
-            <dt id="a72089a3ceead7e7dcd265ce5f6e8f13c">
-              static T <a class="m-doc-self" href="#a72089a3ceead7e7dcd265ce5f6e8f13c">lowest</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dd>The highest representable 'normal' value (equivalent to <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/numeric_limits/max.html" target="_blank">std::<wbr/>numeric_limits::<wbr/>max()</a>).</dd>
+            <dt id="00d6658b5b09f4245fb2638a637de0fdf3502c219c1e7d3bddae560ef74aeebb">
+              static T <a class="m-doc-self" href="#00d6658b5b09f4245fb2638a637de0fdf3502c219c1e7d3bddae560ef74aeebb">lowest</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>The lowest representable 'normal' value (equivalent to <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/numeric_limits/lowest.html" target="_blank">std::<wbr/>numeric_limits::<wbr/>lowest()</a>).</dd>
+            <dd>The lowest representable 'normal' value (equivalent to <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/numeric_limits/lowest.html" target="_blank">std::<wbr/>numeric_limits::<wbr/>lowest()</a>).</dd>
           </dl>
         </section>
         <section id="punctuation">
           <h2><a href="#punctuation">Punctuation</a></h2>
 <p><br/></p>
           <dl class="m-doc">
-            <dt id="ac2b7bf87c2bbc9f93d6236112cc18793">
-              static T <a class="m-doc-self" href="#ac2b7bf87c2bbc9f93d6236112cc18793">ampersand</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="2d57c9a45af681079270ef7897ce69e0ea8fc2ca2c3ae29c617a03df1ba10195">
+              static T <a class="m-doc-self" href="#2d57c9a45af681079270ef7897ce69e0ea8fc2ca2c3ae29c617a03df1ba10195">ampersand</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>&amp;</code></dd>
-            <dt id="a988c730d628a19eafe2cf1e625fd30dd">
-              static T <a class="m-doc-self" href="#a988c730d628a19eafe2cf1e625fd30dd">apostrophe</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="90aee44ecc5360b5744bcd0138db122d2061ee43673a4af390dd632e701ab0a0">
+              static T <a class="m-doc-self" href="#90aee44ecc5360b5744bcd0138db122d2061ee43673a4af390dd632e701ab0a0">apostrophe</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>'</code></dd>
-            <dt id="aee56984ad9ca8e751302501a4c9404b2">
-              static T <a class="m-doc-self" href="#aee56984ad9ca8e751302501a4c9404b2">asterisk</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="689981c5254cc3e318d021eae32db5ee9e6ba56428dd81c30c3cd83dda9d43ae">
+              static T <a class="m-doc-self" href="#689981c5254cc3e318d021eae32db5ee9e6ba56428dd81c30c3cd83dda9d43ae">asterisk</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>*</code></dd>
-            <dt id="a44fdb4eeec93e765e6ac0cb24d6bcdc8">
-              static T <a class="m-doc-self" href="#a44fdb4eeec93e765e6ac0cb24d6bcdc8">at</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="3969cde0414ea4b442811c89a2aec20f068b01b49d3c551cc5cf5651cf5643b0">
+              static T <a class="m-doc-self" href="#3969cde0414ea4b442811c89a2aec20f068b01b49d3c551cc5cf5651cf5643b0">at</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>@</code></dd>
-            <dt id="ac3d29c785e0414739ce11928197cb731">
-              static T <a class="m-doc-self" href="#ac3d29c785e0414739ce11928197cb731">back_slash</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="24d1bf6ec5b0dbf460bb833070f2c5c96a4eeab6426499c755ea714ddadf305e">
+              static T <a class="m-doc-self" href="#24d1bf6ec5b0dbf460bb833070f2c5c96a4eeab6426499c755ea714ddadf305e">back_slash</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>\\</code></dd>
-            <dt id="a636e6e0bd430f097fa2ff95b6c1403ea">
-              static T <a class="m-doc-self" href="#a636e6e0bd430f097fa2ff95b6c1403ea">backtick</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="1a5db40ff312a1f44f373729f8a3181c12047802f75cd7c68ea8555ebe5fa834">
+              static T <a class="m-doc-self" href="#1a5db40ff312a1f44f373729f8a3181c12047802f75cd7c68ea8555ebe5fa834">backtick</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>`</code></dd>
-            <dt id="a8c4051553c70ddffe40f73baeaaac5d4">
-              static T <a class="m-doc-self" href="#a8c4051553c70ddffe40f73baeaaac5d4">bar</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="8c045c668935178eef9299728f51d673c997de11baf02aafd32e6d60d6dbe676">
+              static T <a class="m-doc-self" href="#8c045c668935178eef9299728f51d673c997de11baf02aafd32e6d60d6dbe676">bar</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>|</code></dd>
-            <dt id="a99ccb1a6e737d0b868fd26d52c794bc9">
-              static T <a class="m-doc-self" href="#a99ccb1a6e737d0b868fd26d52c794bc9">colon</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="200fbfa59ad8f2e1cc258195c4ef986f611e88871f231c91608c8f8be9699848">
+              static T <a class="m-doc-self" href="#200fbfa59ad8f2e1cc258195c4ef986f611e88871f231c91608c8f8be9699848">colon</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>:</code></dd>
-            <dt id="ad4979f60d1d58f6c9771d5f6d63bd0e5">
-              static T <a class="m-doc-self" href="#ad4979f60d1d58f6c9771d5f6d63bd0e5">comma</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="773e360eaac1269213d4c51d6e709933908c87b5b5764b6052e0a6ed0098848f">
+              static T <a class="m-doc-self" href="#773e360eaac1269213d4c51d6e709933908c87b5b5764b6052e0a6ed0098848f">comma</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>,</code></dd>
-            <dt id="a7f70ee1595d7582c17b6a57e99893139">
-              static T <a class="m-doc-self" href="#a7f70ee1595d7582c17b6a57e99893139">dollar_sign</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="185b9fe0bd99823964c46e8f7bdb6f0249e66e1b561c72e3eabca89222638de0">
+              static T <a class="m-doc-self" href="#185b9fe0bd99823964c46e8f7bdb6f0249e66e1b561c72e3eabca89222638de0">dollar_sign</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>$</code></dd>
-            <dt id="a0d50ff56d1ba8b795805b7a28a840143">
-              static T <a class="m-doc-self" href="#a0d50ff56d1ba8b795805b7a28a840143">equal</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="a806818727290f55b83d757c301291b1423358ae99b19f454c7ec4695e83c77f">
+              static T <a class="m-doc-self" href="#a806818727290f55b83d757c301291b1423358ae99b19f454c7ec4695e83c77f">equal</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>=</code></dd>
-            <dt id="ad49922a6bea6f8138f2ae133bbe7d107">
-              static T <a class="m-doc-self" href="#ad49922a6bea6f8138f2ae133bbe7d107">exclamation_mark</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="848be7c939621d4be5aae4902a304cc30b6abc3d61e21bb4c686476c22955dc1">
+              static T <a class="m-doc-self" href="#848be7c939621d4be5aae4902a304cc30b6abc3d61e21bb4c686476c22955dc1">exclamation_mark</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>!</code></dd>
-            <dt id="a8863a94076797fcc4f7f7365a8515bb2">
-              static T <a class="m-doc-self" href="#a8863a94076797fcc4f7f7365a8515bb2">forward_slash</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="8aa45601d604cf4df9a1ab6a830fdab7ea68a30ef62a18cc97a6cfb26452fe04">
+              static T <a class="m-doc-self" href="#8aa45601d604cf4df9a1ab6a830fdab7ea68a30ef62a18cc97a6cfb26452fe04">forward_slash</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>/</code></dd>
-            <dt id="afbf82fcfcabe3140926cd5a0525f4d79">
-              static T <a class="m-doc-self" href="#afbf82fcfcabe3140926cd5a0525f4d79">greater_than</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="0b8609b7d5945ab1469dea743e59e112cf0df6217ae208848d7c9efbebfd3b26">
+              static T <a class="m-doc-self" href="#0b8609b7d5945ab1469dea743e59e112cf0df6217ae208848d7c9efbebfd3b26">greater_than</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>&gt;</code></dd>
-            <dt id="a0ec3af3522fa24efeab604964380b632">
-              static T <a class="m-doc-self" href="#a0ec3af3522fa24efeab604964380b632">hat</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="76a74b33cb1015eeeddf94ae5939d771b22e0f8cfa0206e97d66108d69dbe21a">
+              static T <a class="m-doc-self" href="#76a74b33cb1015eeeddf94ae5939d771b22e0f8cfa0206e97d66108d69dbe21a">hat</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>^</code></dd>
-            <dt id="a6ee53f7e5d15a4f3b3224699ba650681">
-              static T <a class="m-doc-self" href="#a6ee53f7e5d15a4f3b3224699ba650681">hyphen</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="06ed52c4fa458a5427c692ad2628045dc9a7edd25642cbcf1acb74941aa68111">
+              static T <a class="m-doc-self" href="#06ed52c4fa458a5427c692ad2628045dc9a7edd25642cbcf1acb74941aa68111">hyphen</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>-</code></dd>
-            <dt id="a02010d1b12ea6801e375c5eda0aa8c55">
-              static T <a class="m-doc-self" href="#a02010d1b12ea6801e375c5eda0aa8c55">left_brace</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="9859b44129bcfa746ea654aca40a1989cb98231249e5f3060c9ef3e0deb9c7a9">
+              static T <a class="m-doc-self" href="#9859b44129bcfa746ea654aca40a1989cb98231249e5f3060c9ef3e0deb9c7a9">left_brace</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>{</code></dd>
-            <dt id="a8cdd14f7940b9b52937cf2162719d3c0">
-              static T <a class="m-doc-self" href="#a8cdd14f7940b9b52937cf2162719d3c0">left_parenthesis</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="793dfcbd85eaafe477758301846b8c262c1dd8ca87758b5f37df1a03582f9fd7">
+              static T <a class="m-doc-self" href="#793dfcbd85eaafe477758301846b8c262c1dd8ca87758b5f37df1a03582f9fd7">left_parenthesis</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>(</code></dd>
-            <dt id="a0df1be3fe7251671a52c2fa721e5c6a0">
-              static T <a class="m-doc-self" href="#a0df1be3fe7251671a52c2fa721e5c6a0">left_square_bracket</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="3b5eb3e04063f1d076eaf93a00eacc085a21f14786f4c4a0a3698d980ac04604">
+              static T <a class="m-doc-self" href="#3b5eb3e04063f1d076eaf93a00eacc085a21f14786f4c4a0a3698d980ac04604">left_square_bracket</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>[</code></dd>
-            <dt id="ae985365ecaca513636bccc6e671935eb">
-              static T <a class="m-doc-self" href="#ae985365ecaca513636bccc6e671935eb">less_than</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="2bd1da5ef2bfe3d04e4437e09d1a3fa2999e7cceca22c1bcf9c133aaa8b39523">
+              static T <a class="m-doc-self" href="#2bd1da5ef2bfe3d04e4437e09d1a3fa2999e7cceca22c1bcf9c133aaa8b39523">less_than</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>&lt;</code></dd>
-            <dt id="a0c57fb5ad7cfe53a3f203d960984292e">
-              static T <a class="m-doc-self" href="#a0c57fb5ad7cfe53a3f203d960984292e">number_sign</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="d816bea7147d43cef316ee2143682c8abdc7c451bbb8a245f49aee774bfee246">
+              static T <a class="m-doc-self" href="#d816bea7147d43cef316ee2143682c8abdc7c451bbb8a245f49aee774bfee246">number_sign</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>#</code></dd>
-            <dt id="a765579a1c0ded48b446728566df003ee">
-              static T <a class="m-doc-self" href="#a765579a1c0ded48b446728566df003ee">percent</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="1a13142af89fcfcc7d42d5b45ff3b0a69ca09ffc5d859fed1601887da2cedec5">
+              static T <a class="m-doc-self" href="#1a13142af89fcfcc7d42d5b45ff3b0a69ca09ffc5d859fed1601887da2cedec5">percent</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>%</code></dd>
-            <dt id="aadc3f09cf01d8da232d7ab5292704753">
-              static T <a class="m-doc-self" href="#aadc3f09cf01d8da232d7ab5292704753">period</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="1f452c0bb532b1a1bc29e2aa358b7046824b3b88fc85d15750a0bb855b583e93">
+              static T <a class="m-doc-self" href="#1f452c0bb532b1a1bc29e2aa358b7046824b3b88fc85d15750a0bb855b583e93">period</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>.</code></dd>
-            <dt id="a9b30ee9b1eed8d3a4e848402fb2c4ea4">
-              static T <a class="m-doc-self" href="#a9b30ee9b1eed8d3a4e848402fb2c4ea4">plus</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="a5e240d52dc8efe37a2bd717c8be32917071b3ce32408d24126c35590e36882d">
+              static T <a class="m-doc-self" href="#a5e240d52dc8efe37a2bd717c8be32917071b3ce32408d24126c35590e36882d">plus</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>+</code></dd>
-            <dt id="a2c49f7061d890afbe5ecc616051cc540">
-              static T <a class="m-doc-self" href="#a2c49f7061d890afbe5ecc616051cc540">question_mark</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="e946157d18ed7d0db3afccdc80aca5e892530a0393da9cf6ae32a09e8069cebd">
+              static T <a class="m-doc-self" href="#e946157d18ed7d0db3afccdc80aca5e892530a0393da9cf6ae32a09e8069cebd">question_mark</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>?</code></dd>
-            <dt id="af4c5659d4fb1e3d4e5dd3e9114aebd2e">
-              static T <a class="m-doc-self" href="#af4c5659d4fb1e3d4e5dd3e9114aebd2e">quote</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="e5ebd5be76ed0a0209da9f2c31d41343e9d1311e9be5aaf166931e3df08e0322">
+              static T <a class="m-doc-self" href="#e5ebd5be76ed0a0209da9f2c31d41343e9d1311e9be5aaf166931e3df08e0322">quote</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>"</code></dd>
-            <dt id="ac5a88032036b75880ffe58e6d3e07552">
-              static T <a class="m-doc-self" href="#ac5a88032036b75880ffe58e6d3e07552">right_brace</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="bbee332c62dab06724eb5f47d49763938333777cfe59d42dddd85077e363c671">
+              static T <a class="m-doc-self" href="#bbee332c62dab06724eb5f47d49763938333777cfe59d42dddd85077e363c671">right_brace</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>}</code></dd>
-            <dt id="a64bf57d6ade98dbcaee80ac76e1da41f">
-              static T <a class="m-doc-self" href="#a64bf57d6ade98dbcaee80ac76e1da41f">right_parenthesis</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="79027bded637f20c321abdf1f07fc998382d18164a9493a8d965f4428eb524c2">
+              static T <a class="m-doc-self" href="#79027bded637f20c321abdf1f07fc998382d18164a9493a8d965f4428eb524c2">right_parenthesis</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>)</code></dd>
-            <dt id="aae3e43ac70efc13de12df9224e66318d">
-              static T <a class="m-doc-self" href="#aae3e43ac70efc13de12df9224e66318d">right_square_bracket</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="affa172b1a8787f10bdb9175c04b1295687faf2c7e27bed36f079b4e62149043">
+              static T <a class="m-doc-self" href="#affa172b1a8787f10bdb9175c04b1295687faf2c7e27bed36f079b4e62149043">right_square_bracket</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>]</code></dd>
-            <dt id="a0878a443bd02d253a9ecd0a65e880e24">
-              static T <a class="m-doc-self" href="#a0878a443bd02d253a9ecd0a65e880e24">semi_colon</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="5e0dc878c671e2e959e9f1ccec7c64202ec2f5f04ee051b71859ec9502c2e4bb">
+              static T <a class="m-doc-self" href="#5e0dc878c671e2e959e9f1ccec7c64202ec2f5f04ee051b71859ec9502c2e4bb">semi_colon</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>;</code></dd>
-            <dt id="aad37941fcc5f4ba5ec13f671212dc15a">
-              static T <a class="m-doc-self" href="#aad37941fcc5f4ba5ec13f671212dc15a">tilde</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="02c76bc61271873556827965c8d56de48ebf8c1796a6212a5d38a26af8b7e38f">
+              static T <a class="m-doc-self" href="#02c76bc61271873556827965c8d56de48ebf8c1796a6212a5d38a26af8b7e38f">tilde</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>~</code></dd>
-            <dt id="aac00dc178eee83de46c75fe8bec3ef4b">
-              static T <a class="m-doc-self" href="#aac00dc178eee83de46c75fe8bec3ef4b">underscore</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="0a912737374b347d6dc05102d491c02e0bc46ea568d5d7d26d20406e9674cca4">
+              static T <a class="m-doc-self" href="#0a912737374b347d6dc05102d491c02e0bc46ea568d5d7d26d20406e9674cca4">underscore</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>_</code></dd>
           </dl>
@@ -558,28 +562,28 @@
           <h2><a href="#whitespace">Whitespace</a></h2>
 <p><br/></p>
           <dl class="m-doc">
-            <dt id="ae8413fbab41de970c0374f7dbf74ccca">
-              static T <a class="m-doc-self" href="#ae8413fbab41de970c0374f7dbf74ccca">carriage_return</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="4ee913f58b8d40b27495b505a4ddc3c91ad8acb358b5b3243f302d6b8781571a">
+              static T <a class="m-doc-self" href="#4ee913f58b8d40b27495b505a4ddc3c91ad8acb358b5b3243f302d6b8781571a">carriage_return</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>\r</code></dd>
-            <dt id="a057fa08fc9539fc806e598750b3ee5e7">
-              static T <a class="m-doc-self" href="#a057fa08fc9539fc806e598750b3ee5e7">form_feed</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="e1b95a13bae422ce049a24aadf95ebf2f05bc60ead15f149ab335e7a89197e8c">
+              static T <a class="m-doc-self" href="#e1b95a13bae422ce049a24aadf95ebf2f05bc60ead15f149ab335e7a89197e8c">form_feed</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>\f</code></dd>
-            <dt id="a556a775c4e14604841d6517432a1a1d8">
-              static T <a class="m-doc-self" href="#a556a775c4e14604841d6517432a1a1d8">new_line</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="3391509cbe48b2806bb5bff528cc7a823771214cf3001e64d6fadf53b181d032">
+              static T <a class="m-doc-self" href="#3391509cbe48b2806bb5bff528cc7a823771214cf3001e64d6fadf53b181d032">new_line</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>\n</code></dd>
-            <dt id="a3f4a2372630a3b5d28e368c58dac73d3">
-              static T <a class="m-doc-self" href="#a3f4a2372630a3b5d28e368c58dac73d3">space</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="41706c263096955e9eae27f4ecfd207db993136135f131255782f947eee8194b">
+              static T <a class="m-doc-self" href="#41706c263096955e9eae27f4ecfd207db993136135f131255782f947eee8194b">space</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code> </code> (space)</dd>
-            <dt id="a6f93f9797819da4cc316324b9f20dba2">
-              static T <a class="m-doc-self" href="#a6f93f9797819da4cc316324b9f20dba2">tab</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="0106a60ec0fe5481b4029f0af00e5ef489e0983e49efcb5542b30a8e024e1d04">
+              static T <a class="m-doc-self" href="#0106a60ec0fe5481b4029f0af00e5ef489e0983e49efcb5542b30a8e024e1d04">tab</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>\t</code></dd>
-            <dt id="aec8201055e028cd6cfb5f43222fec82e">
-              static T <a class="m-doc-self" href="#aec8201055e028cd6cfb5f43222fec82e">vertical_tab</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="96f1e64fdf0655d0769dd20d5fbf9c161dafe7ed7de4975241f7b918a41a8adf">
+              static T <a class="m-doc-self" href="#96f1e64fdf0655d0769dd20d5fbf9c161dafe7ed7de4975241f7b918a41a8adf">vertical_tab</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>\v</code></dd>
           </dl>
@@ -629,10 +633,10 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         
-<a class="dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
+<a class="poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
 
 •
-<a class="dox-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
+<a class="poxy-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
 an
 issue</a>
 
@@ -646,13 +650,13 @@ Documentation
 created
 using
 
-<a class="dox-external" href="https://www.doxygen.nl/index.html" target="_blank">Doxygen</a>
+<a class="poxy-external" href="https://www.doxygen.nl/index.html" target="_blank">Doxygen</a>
 
 +
-<a class="dox-external" href="https://mcss.mosra.cz/documentation/doxygen/" target="_blank">mosra/m.css</a>
+<a class="poxy-external" href="https://mcss.mosra.cz/documentation/doxygen/" target="_blank">mosra/m.css</a>
 
 +
-<a class="dox-external" href="https://github.com/marzer/dox/" target="_blank">marzer/dox</a>
+<a class="poxy-external" href="https://github.com/marzer/poxy/" target="_blank">marzer/poxy</a>
       </div>
     </div>
   </div>

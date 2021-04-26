@@ -14,7 +14,11 @@
   modern
   C++" name="description"/>
 
-  <link href="dox.css" rel="stylesheet"/>
+  <link href="poxy.css" rel="stylesheet"/>
+
+  <script src="jquery-3.6.0.slim.min.js"></script>
+
+  <script src="poxy.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -37,7 +41,7 @@
           </ol>
           <ol class="m-col-t-6 m-col-m-none" start="4">
             <li><a href="annotated.html">Classes</a></li>
-            <li><a class="github dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
+            <li><a class="github poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
             <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
               <use href="#m-doc-search-icon-path"></use>
             </svg></a></li>
@@ -82,7 +86,7 @@
             </li>
           </ul>
         </div>
-<p>This type models a specific form of Euler angles relating to the Aircraft Principal Axes, and observes the following conventions:</p><table class="m-table"><tbody><tr><td><strong><em>Yaw</em></strong></td><td><ul><li>Applied <em>first</em></li><li>Corresponds to a rotation around the local up axis</li><li>A positive yaw means "turn the nose of the aircraft to the right"<br/></li></ul></td></tr><tr><td><strong><em>Pitch</em></strong></td><td><ul><li>Applied <em>second</em></li><li>Corresponds to a rotation around the local right axis</li><li>A positive pitch means "point the nose of the aircraft up toward the sky".</li></ul></td></tr><tr><td><strong><em>Roll</em></strong></td><td><ul><li>Applied <em>third</em></li><li>Corresponds to a rotation around the local forward axis</li><li>A positive roll means "tilt the right wing of the aircraft toward the ground".</li></ul></td></tr></tbody></table><p>The angles are always in radians.</p><aside class="m-note m-default"><h4>See also</h4><ul><li><a class="m-doc" href="structmuu_1_1quaternion.html">muu::<wbr/>quaternion</a></li><li><a class="dox-external" href="https://en.wikipedia.org/wiki/Euler_angles" target="_blank">Euler Angles</a></li><li><a class="dox-external" href="https://en.wikipedia.org/wiki/Aircraft_principal_axes" target="_blank">Aircraft Principal Axes</a></li><li><a class="dox-external" href="https://www.euclideanspace.com/maths/geometry/rotations/euler/index.htm" target="_blank">Euler Angles (math)</a></li></ul></aside>
+<p>This type models a specific form of Euler angles relating to the Aircraft Principal Axes, and observes the following conventions:</p><table class="m-table"><tbody><tr><td><strong><em>Yaw</em></strong></td><td><ul><li>Applied <em>first</em></li><li>Corresponds to a rotation around the local up axis</li><li>A positive yaw means "turn the nose of the aircraft to the right"<br/></li></ul></td></tr><tr><td><strong><em>Pitch</em></strong></td><td><ul><li>Applied <em>second</em></li><li>Corresponds to a rotation around the local right axis</li><li>A positive pitch means "point the nose of the aircraft up toward the sky".</li></ul></td></tr><tr><td><strong><em>Roll</em></strong></td><td><ul><li>Applied <em>third</em></li><li>Corresponds to a rotation around the local forward axis</li><li>A positive roll means "tilt the right wing of the aircraft toward the ground".</li></ul></td></tr></tbody></table><p>The angles are always in radians.</p><aside class="m-note m-default"><h4>See also</h4><ul><li><a class="m-doc" href="structmuu_1_1quaternion.html">muu::<wbr/>quaternion</a></li><li><a class="poxy-external" href="https://en.wikipedia.org/wiki/Euler_angles" target="_blank">Euler Angles</a></li><li><a class="poxy-external" href="https://en.wikipedia.org/wiki/Aircraft_principal_axes" target="_blank">Aircraft Principal Axes</a></li><li><a class="poxy-external" href="https://www.euclideanspace.com/maths/geometry/rotations/euler/index.htm" target="_blank">Euler Angles (math)</a></li></ul></aside>
         <section id="pub-types">
           <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
@@ -133,8 +137,8 @@
             <dd>Scales an euler rotation.</dd>
             <dt id="a4edf70c1013fccd2de298c0d69d1f8f6">
               <div class="m-doc-template">template&lt;typename Char, typename Traits&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a4edf70c1013fccd2de298c0d69d1f8f6">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
-              const <a class="m-doc" href="structmuu_1_1euler__rotation.html">euler_<wbr/>rotation</a>&amp; rot) -&gt; <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a4edf70c1013fccd2de298c0d69d1f8f6">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
+              const <a class="m-doc" href="structmuu_1_1euler__rotation.html">euler_<wbr/>rotation</a>&amp; rot) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
             </dt>
             <dd>Writes a euler rotation out to a text stream.</dd>
           </dl>
@@ -217,10 +221,10 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         
-<a class="dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
+<a class="poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
 
 •
-<a class="dox-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
+<a class="poxy-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
 an
 issue</a>
 
@@ -234,13 +238,13 @@ Documentation
 created
 using
 
-<a class="dox-external" href="https://www.doxygen.nl/index.html" target="_blank">Doxygen</a>
+<a class="poxy-external" href="https://www.doxygen.nl/index.html" target="_blank">Doxygen</a>
 
 +
-<a class="dox-external" href="https://mcss.mosra.cz/documentation/doxygen/" target="_blank">mosra/m.css</a>
+<a class="poxy-external" href="https://mcss.mosra.cz/documentation/doxygen/" target="_blank">mosra/m.css</a>
 
 +
-<a class="dox-external" href="https://github.com/marzer/dox/" target="_blank">marzer/dox</a>
+<a class="poxy-external" href="https://github.com/marzer/poxy/" target="_blank">marzer/poxy</a>
       </div>
     </div>
   </div>

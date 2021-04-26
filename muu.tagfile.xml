@@ -45,7 +45,6 @@
     <class kind="struct">std::tuple_size&lt; muu::bounding_box&lt; Scalar &gt; &gt;</class>
     <class kind="struct">std::tuple_element&lt; I, muu::bounding_box&lt; Scalar &gt; &gt;</class>
     <namespace>muu</namespace>
-    <namespace>std</namespace>
     <member kind="function">
       <type>constexpr bool</type>
       <name>infinity_or_nan</name>
@@ -80,7 +79,6 @@
     <class kind="struct">std::tuple_size&lt; muu::compressed_pair&lt; First, Second &gt; &gt;</class>
     <class kind="struct">std::tuple_element&lt; I, muu::compressed_pair&lt; First, Second &gt; &gt;</class>
     <namespace>muu</namespace>
-    <namespace>std</namespace>
   </compound>
   <compound kind="file">
     <name>core.h</name>
@@ -1288,7 +1286,6 @@
     <namespace>muu</namespace>
     <namespace>muu::build</namespace>
     <namespace>muu::literals</namespace>
-    <namespace>std</namespace>
     <member kind="function">
       <type>constexpr half</type>
       <name>operator&quot;&quot;_f16</name>
@@ -2400,7 +2397,6 @@
     <class kind="struct">std::tuple_size&lt; muu::oriented_bounding_box&lt; Scalar &gt; &gt;</class>
     <class kind="struct">std::tuple_element&lt; I, muu::oriented_bounding_box&lt; Scalar &gt; &gt;</class>
     <namespace>muu</namespace>
-    <namespace>std</namespace>
     <member kind="function">
       <type>constexpr bool</type>
       <name>infinity_or_nan</name>
@@ -3054,7 +3050,6 @@
     <class kind="struct">std::tuple_element&lt; I, muu::quaternion&lt; Scalar &gt; &gt;</class>
     <class kind="struct">muu::constants&lt; quaternion&lt; Scalar &gt; &gt;</class>
     <namespace>muu</namespace>
-    <namespace>std</namespace>
     <member kind="function">
       <type>constexpr bool</type>
       <name>infinity_or_nan</name>
@@ -3309,7 +3304,6 @@
     <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
     <class kind="class">muu::tagged_ptr</class>
     <namespace>muu</namespace>
-    <namespace>std</namespace>
   </compound>
   <compound kind="file">
     <name>thread_pool.h</name>
@@ -3330,7 +3324,6 @@
     <class kind="struct">std::hash&lt; muu::uuid &gt;</class>
     <namespace>muu</namespace>
     <namespace>muu::literals</namespace>
-    <namespace>std</namespace>
     <member kind="enumeration">
       <type></type>
       <name>uuid_variant</name>
@@ -3374,7 +3367,6 @@
     <class kind="struct">std::tuple_element&lt; I, muu::vector&lt; Scalar, Dimensions &gt; &gt;</class>
     <class kind="struct">muu::constants&lt; vector&lt; Scalar, Dimensions &gt; &gt;</class>
     <namespace>muu</namespace>
-    <namespace>std</namespace>
     <member kind="function">
       <type>constexpr bool</type>
       <name>infinity_or_nan</name>
@@ -9243,21 +9235,6 @@
     </member>
     <member kind="enumeration">
       <type></type>
-      <name>box_corners</name>
-      <anchorfile>group__math.html</anchorfile>
-      <anchor>ga149b29e987e85245995f74a9efec7a9c</anchor>
-      <arglist></arglist>
-      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9cad8bd79cc131920d5de426f914d17405a">min</enumvalue>
-      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca9dd4e461268c8034f5c8564e155c67a6">x</enumvalue>
-      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca415290769594460e2e485922904f345d">y</enumvalue>
-      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca3e44107170a520582ade522fa73c1d15">xy</enumvalue>
-      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9cafbade9e36a3f36d3d676c1b808451dd7">z</enumvalue>
-      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9cadbd69ee9ae289a85ea34dbef8435d7c1">xz</enumvalue>
-      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca2151a2bc77807b81113febbf50c4bc95">yz</enumvalue>
-      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca2ffe4e77325d9a7152f7086ea7aa5114">max</enumvalue>
-    </member>
-    <member kind="enumeration">
-      <type></type>
       <name>uuid_variant</name>
       <anchorfile>namespacemuu.html</anchorfile>
       <anchor>a0af5ea664875aa7ce96e0105152bc59c</anchor>
@@ -9281,6 +9258,21 @@
       <enumvalue file="namespacemuu.html" anchor="ab0531af99b7f9b575c98ea05d8b76bc8a7ddf32e17a6ac5ce04a8ecbf782ca509">random</enumvalue>
       <enumvalue file="namespacemuu.html" anchor="ab0531af99b7f9b575c98ea05d8b76bc8a79998e27ea91ebec2647c8cb2c145285">name_sha1</enumvalue>
       <enumvalue file="namespacemuu.html" anchor="ab0531af99b7f9b575c98ea05d8b76bc8aad921d60486366258809553a3db49a4a">unknown</enumvalue>
+    </member>
+    <member kind="enumeration">
+      <type></type>
+      <name>box_corners</name>
+      <anchorfile>group__math.html</anchorfile>
+      <anchor>ga149b29e987e85245995f74a9efec7a9c</anchor>
+      <arglist></arglist>
+      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9cad8bd79cc131920d5de426f914d17405a">min</enumvalue>
+      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca9dd4e461268c8034f5c8564e155c67a6">x</enumvalue>
+      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca415290769594460e2e485922904f345d">y</enumvalue>
+      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca3e44107170a520582ade522fa73c1d15">xy</enumvalue>
+      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9cafbade9e36a3f36d3d676c1b808451dd7">z</enumvalue>
+      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9cadbd69ee9ae289a85ea34dbef8435d7c1">xz</enumvalue>
+      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca2151a2bc77807b81113febbf50c4bc95">yz</enumvalue>
+      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca2ffe4e77325d9a7152f7086ea7aa5114">max</enumvalue>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -9659,6 +9651,1287 @@
       <anchorfile>group__normalize__angle__signed.html</anchorfile>
       <anchor>ga7569b01664a740bf2ecc532e22c3b487</anchor>
       <arglist>(half x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>ga244d41fcb34e53c950eddd916a6d5396</anchor>
+      <arglist>(float x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>ga251c6b64050eadcb5c29cd852e89381f</anchor>
+      <arglist>(double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>gaaefff82330e72babbf53ba1d2fc970d5</anchor>
+      <arglist>(long double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>ga7fd6b8649626ba472b2b465f42de1d7b</anchor>
+      <arglist>(float128_t x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>ga5a34372404d7751b9b764754b94d3b30</anchor>
+      <arglist>(_Float16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>ga01537de80625dd04856c091786a51c21</anchor>
+      <arglist>(__fp16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>gae0e73f57dfe538bfb813978525d029b4</anchor>
+      <arglist>(T x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>ga7165ec00307546834b2cfec5dcd18920</anchor>
+      <arglist>(const T &amp;obj) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float</type>
+      <name>abs</name>
+      <anchorfile>group__abs.html</anchorfile>
+      <anchor>ga89d1dcc8041ac8452317eae1d21493b2</anchor>
+      <arglist>(float x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>abs</name>
+      <anchorfile>group__abs.html</anchorfile>
+      <anchor>ga8721fd9fd4f1431a5f9dd1a22cdf3d3e</anchor>
+      <arglist>(double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr long double</type>
+      <name>abs</name>
+      <anchorfile>group__abs.html</anchorfile>
+      <anchor>gaeeeae9c211e65058c12d8c29e67c9157</anchor>
+      <arglist>(long double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float128_t</type>
+      <name>abs</name>
+      <anchorfile>group__abs.html</anchorfile>
+      <anchor>ga6627ff562c64be1de075e0039502adf5</anchor>
+      <arglist>(float128_t x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr _Float16</type>
+      <name>abs</name>
+      <anchorfile>group__abs.html</anchorfile>
+      <anchor>ga381bc8195a18ac0c461fb994bfdab418</anchor>
+      <arglist>(_Float16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr __fp16</type>
+      <name>abs</name>
+      <anchorfile>group__abs.html</anchorfile>
+      <anchor>ga97fef737f56413a711ba50907cea741d</anchor>
+      <arglist>(__fp16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr signed char</type>
+      <name>abs</name>
+      <anchorfile>group__abs.html</anchorfile>
+      <anchor>gaef9c6f1c1301cdb38630e96475188561</anchor>
+      <arglist>(signed char x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr short</type>
+      <name>abs</name>
+      <anchorfile>group__abs.html</anchorfile>
+      <anchor>ga5bc7d2857695d07a4f93f0d9b79603bd</anchor>
+      <arglist>(short x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>abs</name>
+      <anchorfile>group__abs.html</anchorfile>
+      <anchor>ga6d0020d25e08aef7b2f3a927fd75e128</anchor>
+      <arglist>(int x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr long</type>
+      <name>abs</name>
+      <anchorfile>group__abs.html</anchorfile>
+      <anchor>ga86ac6e3fe0a4a6168c32a44aa9b3def6</anchor>
+      <arglist>(long x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr long long</type>
+      <name>abs</name>
+      <anchorfile>group__abs.html</anchorfile>
+      <anchor>gaabdbc172d4985254b63025116f687c7e</anchor>
+      <arglist>(long long x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>abs</name>
+      <anchorfile>group__abs.html</anchorfile>
+      <anchor>gafbffb9903578ee8c8b87337ec83d5c1f</anchor>
+      <arglist>(T x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>gaec4759ac5b40da6afc50eb0b3585f0fe</anchor>
+      <arglist>(float a, float b, float epsilon=default_epsilon&lt; float &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>gab93e074083f9da2915b8a5236f1cf7cf</anchor>
+      <arglist>(double a, double b, double epsilon=default_epsilon&lt; double &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>ga943da06224480e3230fc1420a245f98c</anchor>
+      <arglist>(long double a, long double b, long double epsilon=default_epsilon&lt; long double &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>ga9b1e5da7e9ef7782a93da63b886ae258</anchor>
+      <arglist>(float128_t a, float128_t b, float128_t epsilon=default_epsilon&lt; float128_t &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>gaac1ff3710f8b52479141460b908e0019</anchor>
+      <arglist>(_Float16 a, _Float16 b, _Float16 epsilon=default_epsilon&lt; _Float16 &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>gafeb998d47625b367c261d8bc59c7a282</anchor>
+      <arglist>(__fp16 a, __fp16 b, __fp16 epsilon=default_epsilon&lt; __fp16 &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>ga6a04d11e27ed0da907193cdd51b5015e</anchor>
+      <arglist>(T a, U b) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>ga3156cd82de6c0da5a9054c544ee99725</anchor>
+      <arglist>(float x, float epsilon=default_epsilon&lt; float &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>gaa419296539b7bda59ef0f8bf62ac330c</anchor>
+      <arglist>(double x, double epsilon=default_epsilon&lt; double &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>gafe3ff928bf4edd7f2b341ee9f8480789</anchor>
+      <arglist>(long double x, long double epsilon=default_epsilon&lt; long double &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>ga2e4ec0adf720b9c8fcd10344c1bf81eb</anchor>
+      <arglist>(float128_t x, float128_t epsilon=default_epsilon&lt; float128_t &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>ga6f7edf9230c38096dead05a99bf5be4b</anchor>
+      <arglist>(_Float16 x, _Float16 epsilon=default_epsilon&lt; _Float16 &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>ga7376c26dbf846ee7e5eebbe68e431042</anchor>
+      <arglist>(__fp16 x, __fp16 epsilon=default_epsilon&lt; __fp16 &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>gabd16d3c6f14a660d037f92e612bb4dc9</anchor>
+      <arglist>(T x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float</type>
+      <name>floor</name>
+      <anchorfile>group__floor.html</anchorfile>
+      <anchor>ga789b6da21314c806db7da27d11e112c6</anchor>
+      <arglist>(float x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>floor</name>
+      <anchorfile>group__floor.html</anchorfile>
+      <anchor>ga67232bb43da7a03d03e2b2f40356a76b</anchor>
+      <arglist>(double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr long double</type>
+      <name>floor</name>
+      <anchorfile>group__floor.html</anchorfile>
+      <anchor>gaf0492a080471ae79fe3e4e31832c514f</anchor>
+      <arglist>(long double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float128_t</type>
+      <name>floor</name>
+      <anchorfile>group__floor.html</anchorfile>
+      <anchor>ga26d3f4cb15a587f4d825cbdca7f031ae</anchor>
+      <arglist>(float128_t x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr _Float16</type>
+      <name>floor</name>
+      <anchorfile>group__floor.html</anchorfile>
+      <anchor>gac9a12e90b0fa7067a096e068e764cabf</anchor>
+      <arglist>(_Float16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr __fp16</type>
+      <name>floor</name>
+      <anchorfile>group__floor.html</anchorfile>
+      <anchor>gae46f187d01b8118d5f2a778c59674c88</anchor>
+      <arglist>(__fp16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>floor</name>
+      <anchorfile>group__floor.html</anchorfile>
+      <anchor>ga630c2ae425d1019e5a06101111c299f1</anchor>
+      <arglist>(T x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float</type>
+      <name>ceil</name>
+      <anchorfile>group__ceil.html</anchorfile>
+      <anchor>ga15a26c9fb021ca5f9ac27fb0f4636060</anchor>
+      <arglist>(float x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>ceil</name>
+      <anchorfile>group__ceil.html</anchorfile>
+      <anchor>gabc53ad88d9c76a9b0ed2b42c81d2ea9d</anchor>
+      <arglist>(double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr long double</type>
+      <name>ceil</name>
+      <anchorfile>group__ceil.html</anchorfile>
+      <anchor>ga1c484df90484d3f74112cfbe0208c602</anchor>
+      <arglist>(long double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float128_t</type>
+      <name>ceil</name>
+      <anchorfile>group__ceil.html</anchorfile>
+      <anchor>ga121a468fa346aedba09c1dfd59430269</anchor>
+      <arglist>(float128_t x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr _Float16</type>
+      <name>ceil</name>
+      <anchorfile>group__ceil.html</anchorfile>
+      <anchor>gace09eecb7e26047a4d4be5f822022134</anchor>
+      <arglist>(_Float16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr __fp16</type>
+      <name>ceil</name>
+      <anchorfile>group__ceil.html</anchorfile>
+      <anchor>gadf94b04b23c51e89aaf98d5d9eeef9b8</anchor>
+      <arglist>(__fp16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>ceil</name>
+      <anchorfile>group__ceil.html</anchorfile>
+      <anchor>gaa15d5ffe910a00ffbeb36c5fc16e2a97</anchor>
+      <arglist>(T x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float</type>
+      <name>sqrt</name>
+      <anchorfile>group__sqrt.html</anchorfile>
+      <anchor>gaffcbf014cc8896089708ff930c4aa988</anchor>
+      <arglist>(float x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>sqrt</name>
+      <anchorfile>group__sqrt.html</anchorfile>
+      <anchor>ga3a3a9c69cbc81f27d3263cb91ba226ef</anchor>
+      <arglist>(double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr long double</type>
+      <name>sqrt</name>
+      <anchorfile>group__sqrt.html</anchorfile>
+      <anchor>gacbaec835db4344520dfb7a296d05bed6</anchor>
+      <arglist>(long double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float128_t</type>
+      <name>sqrt</name>
+      <anchorfile>group__sqrt.html</anchorfile>
+      <anchor>gae6fe268bd38f8fd1eb4cf94d16e10002</anchor>
+      <arglist>(float128_t x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr _Float16</type>
+      <name>sqrt</name>
+      <anchorfile>group__sqrt.html</anchorfile>
+      <anchor>gafb9b963d32e3298aa442292557578715</anchor>
+      <arglist>(_Float16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr __fp16</type>
+      <name>sqrt</name>
+      <anchorfile>group__sqrt.html</anchorfile>
+      <anchor>gabf84b6eab050b7d991fe2cbd38a307db</anchor>
+      <arglist>(__fp16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>sqrt</name>
+      <anchorfile>group__sqrt.html</anchorfile>
+      <anchor>ga0049c8d9a89e3cb79523681de737e744</anchor>
+      <arglist>(T x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float</type>
+      <name>cos</name>
+      <anchorfile>group__cos.html</anchorfile>
+      <anchor>gafc968973dde0c97322c9c6669f954e2d</anchor>
+      <arglist>(float x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>cos</name>
+      <anchorfile>group__cos.html</anchorfile>
+      <anchor>ga0648930ad64bdc3816542f336b88e92d</anchor>
+      <arglist>(double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr long double</type>
+      <name>cos</name>
+      <anchorfile>group__cos.html</anchorfile>
+      <anchor>ga56a1b3ab18e271f42aa180990868261b</anchor>
+      <arglist>(long double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float128_t</type>
+      <name>cos</name>
+      <anchorfile>group__cos.html</anchorfile>
+      <anchor>gae466125efc53b0afbe2f48c3a3c7fa95</anchor>
+      <arglist>(float128_t x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr _Float16</type>
+      <name>cos</name>
+      <anchorfile>group__cos.html</anchorfile>
+      <anchor>ga6eab0abb46d5296fc69b951458aae6c9</anchor>
+      <arglist>(_Float16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr __fp16</type>
+      <name>cos</name>
+      <anchorfile>group__cos.html</anchorfile>
+      <anchor>ga79827b43adcd7eef2612c45b91eda40c</anchor>
+      <arglist>(__fp16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>cos</name>
+      <anchorfile>group__cos.html</anchorfile>
+      <anchor>gaad6641ec7b924bb662a329f42f1f1423</anchor>
+      <arglist>(T x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float</type>
+      <name>sin</name>
+      <anchorfile>group__sin.html</anchorfile>
+      <anchor>ga929628806abc68d22dc9224af0578dd2</anchor>
+      <arglist>(float x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>sin</name>
+      <anchorfile>group__sin.html</anchorfile>
+      <anchor>gada49fd50fe8b4101cdd948cdc43ac8c0</anchor>
+      <arglist>(double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr long double</type>
+      <name>sin</name>
+      <anchorfile>group__sin.html</anchorfile>
+      <anchor>ga956da7e0f0a5e6e3b8ffeb84c5327e18</anchor>
+      <arglist>(long double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float128_t</type>
+      <name>sin</name>
+      <anchorfile>group__sin.html</anchorfile>
+      <anchor>ga976c36817620570e8dc2f9903f6f8d9f</anchor>
+      <arglist>(float128_t x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr _Float16</type>
+      <name>sin</name>
+      <anchorfile>group__sin.html</anchorfile>
+      <anchor>ga8334763ec29d37322967387ad8096695</anchor>
+      <arglist>(_Float16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr __fp16</type>
+      <name>sin</name>
+      <anchorfile>group__sin.html</anchorfile>
+      <anchor>ga3b1f6ef1c2bbad4f86a34de5f8ee7124</anchor>
+      <arglist>(__fp16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>sin</name>
+      <anchorfile>group__sin.html</anchorfile>
+      <anchor>ga3ea18db1b6602dbb58f54ff998953c05</anchor>
+      <arglist>(T x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float</type>
+      <name>tan</name>
+      <anchorfile>group__tan.html</anchorfile>
+      <anchor>ga7aa14fc0444bf0176a1e46e66e3ad747</anchor>
+      <arglist>(float x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>tan</name>
+      <anchorfile>group__tan.html</anchorfile>
+      <anchor>gad882d4b32f9b5fc1d2030b174aa6ef5f</anchor>
+      <arglist>(double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr long double</type>
+      <name>tan</name>
+      <anchorfile>group__tan.html</anchorfile>
+      <anchor>gaae78f62d62005d88dc86b9b6cc59f50c</anchor>
+      <arglist>(long double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float128_t</type>
+      <name>tan</name>
+      <anchorfile>group__tan.html</anchorfile>
+      <anchor>gac1e4f5cd1d0b9edebc1ff8ec5046ebcd</anchor>
+      <arglist>(float128_t x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr _Float16</type>
+      <name>tan</name>
+      <anchorfile>group__tan.html</anchorfile>
+      <anchor>gaee469cec74af5f1d1e84544a7b26e69d</anchor>
+      <arglist>(_Float16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr __fp16</type>
+      <name>tan</name>
+      <anchorfile>group__tan.html</anchorfile>
+      <anchor>ga3583e5518d781304a7be684fc009bdbd</anchor>
+      <arglist>(__fp16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>tan</name>
+      <anchorfile>group__tan.html</anchorfile>
+      <anchor>ga1a8ef0810e060c707c554fa995a989fc</anchor>
+      <arglist>(T x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float</type>
+      <name>acos</name>
+      <anchorfile>group__acos.html</anchorfile>
+      <anchor>ga69b28eed21b5f99faf7076f3349455dc</anchor>
+      <arglist>(float x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>acos</name>
+      <anchorfile>group__acos.html</anchorfile>
+      <anchor>ga2abfdb52a5d3b98ab3119da1155eb960</anchor>
+      <arglist>(double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr long double</type>
+      <name>acos</name>
+      <anchorfile>group__acos.html</anchorfile>
+      <anchor>ga9803e5bf3be9b110ddd704dafc891b2d</anchor>
+      <arglist>(long double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float128_t</type>
+      <name>acos</name>
+      <anchorfile>group__acos.html</anchorfile>
+      <anchor>gaeb05383011594d02f233899de601bfda</anchor>
+      <arglist>(float128_t x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr _Float16</type>
+      <name>acos</name>
+      <anchorfile>group__acos.html</anchorfile>
+      <anchor>ga06579a5e3c5e853163f611c25b2b7b79</anchor>
+      <arglist>(_Float16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr __fp16</type>
+      <name>acos</name>
+      <anchorfile>group__acos.html</anchorfile>
+      <anchor>ga189bbc017d8f1f7c9885f68b7fb36bb0</anchor>
+      <arglist>(__fp16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>acos</name>
+      <anchorfile>group__acos.html</anchorfile>
+      <anchor>ga7b9d06979da170a3200f6b675f0a682e</anchor>
+      <arglist>(T x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float</type>
+      <name>asin</name>
+      <anchorfile>group__asin.html</anchorfile>
+      <anchor>ga14329b7d2af039a939b5b03a643dbd0f</anchor>
+      <arglist>(float x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>asin</name>
+      <anchorfile>group__asin.html</anchorfile>
+      <anchor>ga1754f8044c13e5db0546b85a7d9db66e</anchor>
+      <arglist>(double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr long double</type>
+      <name>asin</name>
+      <anchorfile>group__asin.html</anchorfile>
+      <anchor>ga380b08f5141db6f53cee3c2ab2eb4231</anchor>
+      <arglist>(long double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float128_t</type>
+      <name>asin</name>
+      <anchorfile>group__asin.html</anchorfile>
+      <anchor>ga971a48168d347e790c546b65fcd0689a</anchor>
+      <arglist>(float128_t x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr _Float16</type>
+      <name>asin</name>
+      <anchorfile>group__asin.html</anchorfile>
+      <anchor>ga22633d8890da645ac8e10a13a785c3e4</anchor>
+      <arglist>(_Float16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr __fp16</type>
+      <name>asin</name>
+      <anchorfile>group__asin.html</anchorfile>
+      <anchor>ga38d3272314ef4433f29ac56ea51762a8</anchor>
+      <arglist>(__fp16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>asin</name>
+      <anchorfile>group__asin.html</anchorfile>
+      <anchor>ga05267e8f5abd22ac560bd3564bb7607f</anchor>
+      <arglist>(T x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float</type>
+      <name>atan</name>
+      <anchorfile>group__atan.html</anchorfile>
+      <anchor>gad38e7dc443023ed27f26058455c30b30</anchor>
+      <arglist>(float x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>atan</name>
+      <anchorfile>group__atan.html</anchorfile>
+      <anchor>ga6aaf46f37bb83640e45b37e0aea858b8</anchor>
+      <arglist>(double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr long double</type>
+      <name>atan</name>
+      <anchorfile>group__atan.html</anchorfile>
+      <anchor>ga0d93faf1621f38f7e0ed7cfaf37076f4</anchor>
+      <arglist>(long double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float128_t</type>
+      <name>atan</name>
+      <anchorfile>group__atan.html</anchorfile>
+      <anchor>ga0ecacb3f5d6607739ebcb5b6cc612a64</anchor>
+      <arglist>(float128_t x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr _Float16</type>
+      <name>atan</name>
+      <anchorfile>group__atan.html</anchorfile>
+      <anchor>ga28990b3c84d9b9a7fde19401b936339a</anchor>
+      <arglist>(_Float16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr __fp16</type>
+      <name>atan</name>
+      <anchorfile>group__atan.html</anchorfile>
+      <anchor>ga8e1d8ec2569793e50d9a21d02b61b5ba</anchor>
+      <arglist>(__fp16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>atan</name>
+      <anchorfile>group__atan.html</anchorfile>
+      <anchor>gaf0779f07b81c81d2ec64131dcc54bcfd</anchor>
+      <arglist>(T x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float</type>
+      <name>atan2</name>
+      <anchorfile>group__atan2.html</anchorfile>
+      <anchor>ga68e17f23ef350ccc6e6bd8c20611da12</anchor>
+      <arglist>(float y, float x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>atan2</name>
+      <anchorfile>group__atan2.html</anchorfile>
+      <anchor>ga5a5edbb63697e0d3895ecee9d3639123</anchor>
+      <arglist>(double y, double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr long double</type>
+      <name>atan2</name>
+      <anchorfile>group__atan2.html</anchorfile>
+      <anchor>ga1766c7359209816b8bd4317b9c587f79</anchor>
+      <arglist>(long double y, long double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float128_t</type>
+      <name>atan2</name>
+      <anchorfile>group__atan2.html</anchorfile>
+      <anchor>ga25d67472f15352ffe17f9bd14446ce56</anchor>
+      <arglist>(float128_t y, float128_t x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr _Float16</type>
+      <name>atan2</name>
+      <anchorfile>group__atan2.html</anchorfile>
+      <anchor>gabab1e3ea2e16d7346043f57b57a18d49</anchor>
+      <arglist>(_Float16 y, _Float16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr __fp16</type>
+      <name>atan2</name>
+      <anchorfile>group__atan2.html</anchorfile>
+      <anchor>ga19204446bd2c384f0bf47d779035c414</anchor>
+      <arglist>(__fp16 y, __fp16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>atan2</name>
+      <anchorfile>group__atan2.html</anchorfile>
+      <anchor>gabcd89688add70b87668b772617a3cc11</anchor>
+      <arglist>(Y y, X x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float</type>
+      <name>lerp</name>
+      <anchorfile>group__lerp.html</anchorfile>
+      <anchor>ga86b8aacc099deefdf6284d9bab7f2dad</anchor>
+      <arglist>(float start, float finish, float alpha) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>lerp</name>
+      <anchorfile>group__lerp.html</anchorfile>
+      <anchor>ga47e41d7626365fcf881152c286833b5a</anchor>
+      <arglist>(double start, double finish, double alpha) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr long double</type>
+      <name>lerp</name>
+      <anchorfile>group__lerp.html</anchorfile>
+      <anchor>ga44b514d356d6673cc0595cf0390dd8de</anchor>
+      <arglist>(long double start, long double finish, long double alpha) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float128_t</type>
+      <name>lerp</name>
+      <anchorfile>group__lerp.html</anchorfile>
+      <anchor>ga614ccb878d52686237995f87013cfae5</anchor>
+      <arglist>(float128_t start, float128_t finish, float128_t alpha) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr _Float16</type>
+      <name>lerp</name>
+      <anchorfile>group__lerp.html</anchorfile>
+      <anchor>ga2ef795b3516004d50fdb7003c388e15d</anchor>
+      <arglist>(_Float16 start, _Float16 finish, _Float16 alpha) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr __fp16</type>
+      <name>lerp</name>
+      <anchorfile>group__lerp.html</anchorfile>
+      <anchor>ga18ab33f3d13ed00aaabb060162e64a07</anchor>
+      <arglist>(__fp16 start, __fp16 finish, __fp16 alpha) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>lerp</name>
+      <anchorfile>group__lerp.html</anchorfile>
+      <anchor>ga348d51a08675a8a83b04e59b7705c29e</anchor>
+      <arglist>(T start, U finish, V alpha) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float</type>
+      <name>normalize_angle</name>
+      <anchorfile>group__normalize__angle.html</anchorfile>
+      <anchor>gafa124ba1db7c179c3fa9f9ad12539c59</anchor>
+      <arglist>(float x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>normalize_angle</name>
+      <anchorfile>group__normalize__angle.html</anchorfile>
+      <anchor>ga596c2eab90545d145798f271bebc72b5</anchor>
+      <arglist>(double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr long double</type>
+      <name>normalize_angle</name>
+      <anchorfile>group__normalize__angle.html</anchorfile>
+      <anchor>gaf5cb38b69c2f8c41f7fd1e9e0084d704</anchor>
+      <arglist>(long double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float128_t</type>
+      <name>normalize_angle</name>
+      <anchorfile>group__normalize__angle.html</anchorfile>
+      <anchor>gaefa5c95a33e9ba84e03e0bfd46768e68</anchor>
+      <arglist>(float128_t x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr _Float16</type>
+      <name>normalize_angle</name>
+      <anchorfile>group__normalize__angle.html</anchorfile>
+      <anchor>gaff4c5fbdda0cf56d41e39dcc0320a5d6</anchor>
+      <arglist>(_Float16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr __fp16</type>
+      <name>normalize_angle</name>
+      <anchorfile>group__normalize__angle.html</anchorfile>
+      <anchor>ga9266da36d4d28c201f1d0896e64ce593</anchor>
+      <arglist>(__fp16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>normalize_angle</name>
+      <anchorfile>group__normalize__angle.html</anchorfile>
+      <anchor>gaba28a922cc3cfdbce286f477c8b90528</anchor>
+      <arglist>(T x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float</type>
+      <name>normalize_angle_signed</name>
+      <anchorfile>group__normalize__angle__signed.html</anchorfile>
+      <anchor>ga1b9e36906462a78fe344cd8bf545d479</anchor>
+      <arglist>(float x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>normalize_angle_signed</name>
+      <anchorfile>group__normalize__angle__signed.html</anchorfile>
+      <anchor>ga68aec6ced168d6572172e0096b46bb68</anchor>
+      <arglist>(double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr long double</type>
+      <name>normalize_angle_signed</name>
+      <anchorfile>group__normalize__angle__signed.html</anchorfile>
+      <anchor>gad98b33969ab11460f65c71aea940588d</anchor>
+      <arglist>(long double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float128_t</type>
+      <name>normalize_angle_signed</name>
+      <anchorfile>group__normalize__angle__signed.html</anchorfile>
+      <anchor>ga1115610c44cc6ac505aac869b401e2f9</anchor>
+      <arglist>(float128_t x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr _Float16</type>
+      <name>normalize_angle_signed</name>
+      <anchorfile>group__normalize__angle__signed.html</anchorfile>
+      <anchor>ga5fb741c82216a6a033043a3e8759eabb</anchor>
+      <arglist>(_Float16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr __fp16</type>
+      <name>normalize_angle_signed</name>
+      <anchorfile>group__normalize__angle__signed.html</anchorfile>
+      <anchor>gab9a123e29471417050aeb3281e0d7b9a</anchor>
+      <arglist>(__fp16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>normalize_angle_signed</name>
+      <anchorfile>group__normalize__angle__signed.html</anchorfile>
+      <anchor>ga704dca3f184e06b3f20ee77f063a6536</anchor>
+      <arglist>(T x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>ga1f57b7af70f0235ad644486a5943e582</anchor>
+      <arglist>(const matrix&lt; S, R, C &gt; &amp;m) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>gac9148a5c5b63c63d14ca506aee43484e</anchor>
+      <arglist>(const matrix&lt; S, R, C &gt; &amp;m1, const matrix&lt; T, R, C &gt; &amp;m2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>gae6774c12326004b4e421e554a35afe8b</anchor>
+      <arglist>(const matrix&lt; S, R, C &gt; &amp;m, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr matrix&lt; S, C, R &gt;</type>
+      <name>transpose</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>a4d11bad2718bdbb090fb73ab6c5def00</anchor>
+      <arglist>(const matrix&lt; S, R, C &gt; &amp;m) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr determinant_type</type>
+      <name>determinant</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>a4cb7a56d0f2260af3ceb0b0c5204ed0b</anchor>
+      <arglist>(const matrix&lt; S, R, C &gt; &amp;m) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr inverse_type</type>
+      <name>invert</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>a279539802143d8a8227c503be45aa972</anchor>
+      <arglist>(const matrix&lt; S, R, C &gt; &amp;m) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr matrix&lt; S, R, C &gt;</type>
+      <name>orthonormalize</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>abe6723009e315776a0868a4062e4537b</anchor>
+      <arglist>(const matrix&lt; S, R, C &gt; &amp;m) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>gade7f3e7d056853c9e542ec453394a9c4</anchor>
+      <arglist>(const oriented_bounding_box&lt; S &gt; &amp;q) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>ga44033f904b7ed733949dab5e6acccd16</anchor>
+      <arglist>(const oriented_bounding_box&lt; S &gt; &amp;q1, const oriented_bounding_box&lt; T &gt; &amp;q2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>ga4c274a76495695493647b4e0b7af1299</anchor>
+      <arglist>(const oriented_bounding_box&lt; S &gt; &amp;q, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>gaffcaea7f39fc17894285d8221923387e</anchor>
+      <arglist>(const quaternion&lt; S &gt; &amp;q) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>ga6b8d6921c4f39c5881a7ea6f95f33392</anchor>
+      <arglist>(const quaternion&lt; S &gt; &amp;q1, const quaternion&lt; T &gt; &amp;q2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>ga04dec66856dc79915e9130ef3693e9f2</anchor>
+      <arglist>(const quaternion&lt; S &gt; &amp;q, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>unit_length</name>
+      <anchorfile>group__unit__length.html</anchorfile>
+      <anchor>ga85b832f6824677b76dff5080ebfbcf83</anchor>
+      <arglist>(const quaternion&lt; S &gt; &amp;q) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr S</type>
+      <name>dot</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>ae3e92df79fe85ed96266ca70d660de8d</anchor>
+      <arglist>(const quaternion&lt; S &gt; &amp;q1, const quaternion&lt; S &gt; &amp;q2) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr quaternion&lt; S &gt;</type>
+      <name>normalize</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>aa80b85fea6664e3d955f129f9eff4a41</anchor>
+      <arglist>(const quaternion&lt; S &gt; &amp;q) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr quaternion&lt; S &gt;</type>
+      <name>slerp</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>a8df75ca3a9d767d9132a8bf68c922ea7</anchor>
+      <arglist>(const quaternion&lt; S &gt; &amp;start, const quaternion&lt; S &gt; &amp;finish, S alpha) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>span&lt; const std::byte, impl::as_bytes_extent&lt; T, N &gt; &gt;</type>
+      <name>as_bytes</name>
+      <anchorfile>group__mem.html</anchorfile>
+      <anchor>gacaa08dc6422b5847e58a7c4ab9557362</anchor>
+      <arglist>(span&lt; T, N &gt; s) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>span&lt; std::byte, impl::as_bytes_extent&lt; T, N &gt; &gt;</type>
+      <name>as_writable_bytes</name>
+      <anchorfile>group__mem.html</anchorfile>
+      <anchor>gab6812fcab12e2e24abb7261d0f895fcb</anchor>
+      <arglist>(span&lt; T, N &gt; s) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr std::string_view</type>
+      <name>trim</name>
+      <anchorfile>group__trim.html</anchorfile>
+      <anchor>ga591693ed2095787d40f63ae8c0c60b74</anchor>
+      <arglist>(std::string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr std::wstring_view</type>
+      <name>trim</name>
+      <anchorfile>group__trim.html</anchorfile>
+      <anchor>ga71cd0aeed9fed904bbdd3789c81684a3</anchor>
+      <arglist>(std::wstring_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr std::u16string_view</type>
+      <name>trim</name>
+      <anchorfile>group__trim.html</anchorfile>
+      <anchor>gac721a6b23447d8c2950803acf99a8f34</anchor>
+      <arglist>(std::u16string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr std::u32string_view</type>
+      <name>trim</name>
+      <anchorfile>group__trim.html</anchorfile>
+      <anchor>ga74cfd907d595f68a757aa50640f9d210</anchor>
+      <arglist>(std::u32string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr std::string_view</type>
+      <name>trim_left</name>
+      <anchorfile>group__trim__left.html</anchorfile>
+      <anchor>ga3aea46929051176b4afb4e23b551ffc5</anchor>
+      <arglist>(std::string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr std::wstring_view</type>
+      <name>trim_left</name>
+      <anchorfile>group__trim__left.html</anchorfile>
+      <anchor>gac23a274a25ef0a4e5b97c0d46b2ccd39</anchor>
+      <arglist>(std::wstring_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr std::u16string_view</type>
+      <name>trim_left</name>
+      <anchorfile>group__trim__left.html</anchorfile>
+      <anchor>ga3c0e502baa6f3067e1d26bf5572938f8</anchor>
+      <arglist>(std::u16string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr std::u32string_view</type>
+      <name>trim_left</name>
+      <anchorfile>group__trim__left.html</anchorfile>
+      <anchor>gae32d321796864fd5adeaaec227134e53</anchor>
+      <arglist>(std::u32string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr std::string_view</type>
+      <name>trim_right</name>
+      <anchorfile>group__trim__right.html</anchorfile>
+      <anchor>ga3f499b7f36518026e86dd95624740111</anchor>
+      <arglist>(std::string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr std::wstring_view</type>
+      <name>trim_right</name>
+      <anchorfile>group__trim__right.html</anchorfile>
+      <anchor>ga24e088ccb48af0182c8cc2e433a7cae8</anchor>
+      <arglist>(std::wstring_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr std::u16string_view</type>
+      <name>trim_right</name>
+      <anchorfile>group__trim__right.html</anchorfile>
+      <anchor>ga18068afb63f4c781d92f7895872a180c</anchor>
+      <arglist>(std::u16string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr std::u32string_view</type>
+      <name>trim_right</name>
+      <anchorfile>group__trim__right.html</anchorfile>
+      <anchor>ga5c65eceb22233e5c09096e48cadeb195</anchor>
+      <arglist>(std::u32string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>std::basic_string&lt; Char &gt;</type>
+      <name>transcode</name>
+      <anchorfile>group__transcode.html</anchorfile>
+      <anchor>ga410a285aafea5eff602d2b95626b7b3d</anchor>
+      <arglist>(std::string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>std::basic_string&lt; Char &gt;</type>
+      <name>transcode</name>
+      <anchorfile>group__transcode.html</anchorfile>
+      <anchor>ga4b033339ba2cec62aba96a5ec7f3261c</anchor>
+      <arglist>(std::wstring_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>std::basic_string&lt; Char &gt;</type>
+      <name>transcode</name>
+      <anchorfile>group__transcode.html</anchorfile>
+      <anchor>gaf51112f9bc5c2f25bcdfe34f6b902e7e</anchor>
+      <arglist>(std::u16string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>std::basic_string&lt; Char &gt;</type>
+      <name>transcode</name>
+      <anchorfile>group__transcode.html</anchorfile>
+      <anchor>ga08c5dabffb22594f3b2589551b5875e4</anchor>
+      <arglist>(std::u32string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>set_thread_name</name>
+      <anchorfile>group__strings.html</anchorfile>
+      <anchor>ga208801d95047a6cff7dd75291d55601b</anchor>
+      <arglist>(string_param name) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>ga302affada638f7a69a77c925b1f38d93</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>ga5d86e15710b89e3c79399cd98f597efe</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; T, D &gt; &amp;v2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>gaa7e15ecff78c10af4eaa5b463eee9ca6</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;v, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>unit_length</name>
+      <anchorfile>group__unit__length.html</anchorfile>
+      <anchor>gaa23ee7220c00563698286c33249cd119</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr delta_type</type>
+      <name>length_squared</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>af37b8bb87586b2493271f14f82d2481e</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr delta_type</type>
+      <name>length</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>a2331787cdf36e4d844da3b1f046da7f9</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr delta_type</type>
+      <name>distance_squared</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>ac89dde907a1376136b6ec7296671ba65</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;p1, const vector&lt; S, D &gt; &amp;p2) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr delta_type</type>
+      <name>distance</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>a4633afca2e5b98a7e8b5f857cfa7a611</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;p1, const vector&lt; S, D &gt; &amp;p2) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr product_type</type>
+      <name>dot</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>ac5cdbbcc7fbf5513c01aa5e9d799c77e</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector_product</type>
+      <name>cross</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>a6522fd4daefcf5bb938bd2879c99b741</anchor>
+      <arglist>(const vector&lt; S, 3 &gt; &amp;lhs, const vector&lt; S, 3 &gt; &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector&lt; S, D &gt;</type>
+      <name>normalize</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>aaed6aa88dd289829bd7f1b15182d2577</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;v, delta_type &amp;length_out) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector&lt; S, D &gt;</type>
+      <name>normalize</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>a0901b5c81729a1e28b3dab7c0cf1bba3</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector_product</type>
+      <name>direction</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>a5894cf9d191befc3a53ed17f6ead1b3f</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;from, const vector&lt; S, D &gt; &amp;to, delta_type &amp;distance_out) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector_product</type>
+      <name>direction</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>af688d95d2f8af0a0687b78875d465e93</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;from, const vector&lt; S, D &gt; &amp;to) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector&lt; S, D &gt;</type>
+      <name>min</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>a0677f3cf9e12c0c6cf4ee3844dd802c1</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector&lt; S, D &gt;</type>
+      <name>max</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>a28964d765fdb622739bd2ac68ce50329</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector&lt; S, D &gt;</type>
+      <name>clamp</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>a13427afa8abc10b68dec66a3e6d30c94</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;v, const vector&lt; S, D &gt; &amp;low, const vector&lt; S, D &gt; &amp;high) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector&lt; S, D &gt;</type>
+      <name>lerp</name>
+      <anchorfile>group__lerp.html</anchorfile>
+      <anchor>ga8a4dcbb8bec3e3ce9276430bdb3f44f3</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;start, const vector&lt; S, D &gt; &amp;finish, delta_type alpha) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr delta_type</type>
+      <name>angle</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>ad3a39a64a42865cc1b4dfe5ba737c7f4</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector&lt; S, D &gt;</type>
+      <name>abs</name>
+      <anchorfile>group__abs.html</anchorfile>
+      <anchor>ga3d9f7436810436103ec0af7e77597b04</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector&lt; S, D &gt;</type>
+      <name>ceil</name>
+      <anchorfile>group__ceil.html</anchorfile>
+      <anchor>gae07fcd5b9220de0b39fa3461c3c529de</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector&lt; S, D &gt;</type>
+      <name>floor</name>
+      <anchorfile>group__floor.html</anchorfile>
+      <anchor>gaa9989749869046cff6731ead1b56f0df</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -11046,1287 +12319,6 @@
       <anchor>gacf6c4c0e50aa41b7b4916fa489d4560c</anchor>
       <arglist>(wchar_t c) noexcept</arglist>
     </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>group__infinity__or__nan.html</anchorfile>
-      <anchor>ga244d41fcb34e53c950eddd916a6d5396</anchor>
-      <arglist>(float x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>group__infinity__or__nan.html</anchorfile>
-      <anchor>ga251c6b64050eadcb5c29cd852e89381f</anchor>
-      <arglist>(double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>group__infinity__or__nan.html</anchorfile>
-      <anchor>gaaefff82330e72babbf53ba1d2fc970d5</anchor>
-      <arglist>(long double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>group__infinity__or__nan.html</anchorfile>
-      <anchor>ga7fd6b8649626ba472b2b465f42de1d7b</anchor>
-      <arglist>(float128_t x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>group__infinity__or__nan.html</anchorfile>
-      <anchor>ga5a34372404d7751b9b764754b94d3b30</anchor>
-      <arglist>(_Float16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>group__infinity__or__nan.html</anchorfile>
-      <anchor>ga01537de80625dd04856c091786a51c21</anchor>
-      <arglist>(__fp16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>group__infinity__or__nan.html</anchorfile>
-      <anchor>gae0e73f57dfe538bfb813978525d029b4</anchor>
-      <arglist>(T x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>group__infinity__or__nan.html</anchorfile>
-      <anchor>ga7165ec00307546834b2cfec5dcd18920</anchor>
-      <arglist>(const T &amp;obj) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float</type>
-      <name>abs</name>
-      <anchorfile>group__abs.html</anchorfile>
-      <anchor>ga89d1dcc8041ac8452317eae1d21493b2</anchor>
-      <arglist>(float x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr double</type>
-      <name>abs</name>
-      <anchorfile>group__abs.html</anchorfile>
-      <anchor>ga8721fd9fd4f1431a5f9dd1a22cdf3d3e</anchor>
-      <arglist>(double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr long double</type>
-      <name>abs</name>
-      <anchorfile>group__abs.html</anchorfile>
-      <anchor>gaeeeae9c211e65058c12d8c29e67c9157</anchor>
-      <arglist>(long double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float128_t</type>
-      <name>abs</name>
-      <anchorfile>group__abs.html</anchorfile>
-      <anchor>ga6627ff562c64be1de075e0039502adf5</anchor>
-      <arglist>(float128_t x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr _Float16</type>
-      <name>abs</name>
-      <anchorfile>group__abs.html</anchorfile>
-      <anchor>ga381bc8195a18ac0c461fb994bfdab418</anchor>
-      <arglist>(_Float16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr __fp16</type>
-      <name>abs</name>
-      <anchorfile>group__abs.html</anchorfile>
-      <anchor>ga97fef737f56413a711ba50907cea741d</anchor>
-      <arglist>(__fp16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr signed char</type>
-      <name>abs</name>
-      <anchorfile>group__abs.html</anchorfile>
-      <anchor>gaef9c6f1c1301cdb38630e96475188561</anchor>
-      <arglist>(signed char x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr short</type>
-      <name>abs</name>
-      <anchorfile>group__abs.html</anchorfile>
-      <anchor>ga5bc7d2857695d07a4f93f0d9b79603bd</anchor>
-      <arglist>(short x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>abs</name>
-      <anchorfile>group__abs.html</anchorfile>
-      <anchor>ga6d0020d25e08aef7b2f3a927fd75e128</anchor>
-      <arglist>(int x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr long</type>
-      <name>abs</name>
-      <anchorfile>group__abs.html</anchorfile>
-      <anchor>ga86ac6e3fe0a4a6168c32a44aa9b3def6</anchor>
-      <arglist>(long x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr long long</type>
-      <name>abs</name>
-      <anchorfile>group__abs.html</anchorfile>
-      <anchor>gaabdbc172d4985254b63025116f687c7e</anchor>
-      <arglist>(long long x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>abs</name>
-      <anchorfile>group__abs.html</anchorfile>
-      <anchor>gafbffb9903578ee8c8b87337ec83d5c1f</anchor>
-      <arglist>(T x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_equal</name>
-      <anchorfile>group__approx__equal.html</anchorfile>
-      <anchor>gaec4759ac5b40da6afc50eb0b3585f0fe</anchor>
-      <arglist>(float a, float b, float epsilon=default_epsilon&lt; float &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_equal</name>
-      <anchorfile>group__approx__equal.html</anchorfile>
-      <anchor>gab93e074083f9da2915b8a5236f1cf7cf</anchor>
-      <arglist>(double a, double b, double epsilon=default_epsilon&lt; double &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_equal</name>
-      <anchorfile>group__approx__equal.html</anchorfile>
-      <anchor>ga943da06224480e3230fc1420a245f98c</anchor>
-      <arglist>(long double a, long double b, long double epsilon=default_epsilon&lt; long double &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_equal</name>
-      <anchorfile>group__approx__equal.html</anchorfile>
-      <anchor>ga9b1e5da7e9ef7782a93da63b886ae258</anchor>
-      <arglist>(float128_t a, float128_t b, float128_t epsilon=default_epsilon&lt; float128_t &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_equal</name>
-      <anchorfile>group__approx__equal.html</anchorfile>
-      <anchor>gaac1ff3710f8b52479141460b908e0019</anchor>
-      <arglist>(_Float16 a, _Float16 b, _Float16 epsilon=default_epsilon&lt; _Float16 &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_equal</name>
-      <anchorfile>group__approx__equal.html</anchorfile>
-      <anchor>gafeb998d47625b367c261d8bc59c7a282</anchor>
-      <arglist>(__fp16 a, __fp16 b, __fp16 epsilon=default_epsilon&lt; __fp16 &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_equal</name>
-      <anchorfile>group__approx__equal.html</anchorfile>
-      <anchor>ga6a04d11e27ed0da907193cdd51b5015e</anchor>
-      <arglist>(T a, U b) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_zero</name>
-      <anchorfile>group__approx__zero.html</anchorfile>
-      <anchor>ga3156cd82de6c0da5a9054c544ee99725</anchor>
-      <arglist>(float x, float epsilon=default_epsilon&lt; float &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_zero</name>
-      <anchorfile>group__approx__zero.html</anchorfile>
-      <anchor>gaa419296539b7bda59ef0f8bf62ac330c</anchor>
-      <arglist>(double x, double epsilon=default_epsilon&lt; double &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_zero</name>
-      <anchorfile>group__approx__zero.html</anchorfile>
-      <anchor>gafe3ff928bf4edd7f2b341ee9f8480789</anchor>
-      <arglist>(long double x, long double epsilon=default_epsilon&lt; long double &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_zero</name>
-      <anchorfile>group__approx__zero.html</anchorfile>
-      <anchor>ga2e4ec0adf720b9c8fcd10344c1bf81eb</anchor>
-      <arglist>(float128_t x, float128_t epsilon=default_epsilon&lt; float128_t &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_zero</name>
-      <anchorfile>group__approx__zero.html</anchorfile>
-      <anchor>ga6f7edf9230c38096dead05a99bf5be4b</anchor>
-      <arglist>(_Float16 x, _Float16 epsilon=default_epsilon&lt; _Float16 &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_zero</name>
-      <anchorfile>group__approx__zero.html</anchorfile>
-      <anchor>ga7376c26dbf846ee7e5eebbe68e431042</anchor>
-      <arglist>(__fp16 x, __fp16 epsilon=default_epsilon&lt; __fp16 &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_zero</name>
-      <anchorfile>group__approx__zero.html</anchorfile>
-      <anchor>gabd16d3c6f14a660d037f92e612bb4dc9</anchor>
-      <arglist>(T x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float</type>
-      <name>floor</name>
-      <anchorfile>group__floor.html</anchorfile>
-      <anchor>ga789b6da21314c806db7da27d11e112c6</anchor>
-      <arglist>(float x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr double</type>
-      <name>floor</name>
-      <anchorfile>group__floor.html</anchorfile>
-      <anchor>ga67232bb43da7a03d03e2b2f40356a76b</anchor>
-      <arglist>(double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr long double</type>
-      <name>floor</name>
-      <anchorfile>group__floor.html</anchorfile>
-      <anchor>gaf0492a080471ae79fe3e4e31832c514f</anchor>
-      <arglist>(long double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float128_t</type>
-      <name>floor</name>
-      <anchorfile>group__floor.html</anchorfile>
-      <anchor>ga26d3f4cb15a587f4d825cbdca7f031ae</anchor>
-      <arglist>(float128_t x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr _Float16</type>
-      <name>floor</name>
-      <anchorfile>group__floor.html</anchorfile>
-      <anchor>gac9a12e90b0fa7067a096e068e764cabf</anchor>
-      <arglist>(_Float16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr __fp16</type>
-      <name>floor</name>
-      <anchorfile>group__floor.html</anchorfile>
-      <anchor>gae46f187d01b8118d5f2a778c59674c88</anchor>
-      <arglist>(__fp16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr double</type>
-      <name>floor</name>
-      <anchorfile>group__floor.html</anchorfile>
-      <anchor>ga630c2ae425d1019e5a06101111c299f1</anchor>
-      <arglist>(T x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float</type>
-      <name>ceil</name>
-      <anchorfile>group__ceil.html</anchorfile>
-      <anchor>ga15a26c9fb021ca5f9ac27fb0f4636060</anchor>
-      <arglist>(float x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr double</type>
-      <name>ceil</name>
-      <anchorfile>group__ceil.html</anchorfile>
-      <anchor>gabc53ad88d9c76a9b0ed2b42c81d2ea9d</anchor>
-      <arglist>(double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr long double</type>
-      <name>ceil</name>
-      <anchorfile>group__ceil.html</anchorfile>
-      <anchor>ga1c484df90484d3f74112cfbe0208c602</anchor>
-      <arglist>(long double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float128_t</type>
-      <name>ceil</name>
-      <anchorfile>group__ceil.html</anchorfile>
-      <anchor>ga121a468fa346aedba09c1dfd59430269</anchor>
-      <arglist>(float128_t x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr _Float16</type>
-      <name>ceil</name>
-      <anchorfile>group__ceil.html</anchorfile>
-      <anchor>gace09eecb7e26047a4d4be5f822022134</anchor>
-      <arglist>(_Float16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr __fp16</type>
-      <name>ceil</name>
-      <anchorfile>group__ceil.html</anchorfile>
-      <anchor>gadf94b04b23c51e89aaf98d5d9eeef9b8</anchor>
-      <arglist>(__fp16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr double</type>
-      <name>ceil</name>
-      <anchorfile>group__ceil.html</anchorfile>
-      <anchor>gaa15d5ffe910a00ffbeb36c5fc16e2a97</anchor>
-      <arglist>(T x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float</type>
-      <name>sqrt</name>
-      <anchorfile>group__sqrt.html</anchorfile>
-      <anchor>gaffcbf014cc8896089708ff930c4aa988</anchor>
-      <arglist>(float x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr double</type>
-      <name>sqrt</name>
-      <anchorfile>group__sqrt.html</anchorfile>
-      <anchor>ga3a3a9c69cbc81f27d3263cb91ba226ef</anchor>
-      <arglist>(double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr long double</type>
-      <name>sqrt</name>
-      <anchorfile>group__sqrt.html</anchorfile>
-      <anchor>gacbaec835db4344520dfb7a296d05bed6</anchor>
-      <arglist>(long double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float128_t</type>
-      <name>sqrt</name>
-      <anchorfile>group__sqrt.html</anchorfile>
-      <anchor>gae6fe268bd38f8fd1eb4cf94d16e10002</anchor>
-      <arglist>(float128_t x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr _Float16</type>
-      <name>sqrt</name>
-      <anchorfile>group__sqrt.html</anchorfile>
-      <anchor>gafb9b963d32e3298aa442292557578715</anchor>
-      <arglist>(_Float16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr __fp16</type>
-      <name>sqrt</name>
-      <anchorfile>group__sqrt.html</anchorfile>
-      <anchor>gabf84b6eab050b7d991fe2cbd38a307db</anchor>
-      <arglist>(__fp16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr double</type>
-      <name>sqrt</name>
-      <anchorfile>group__sqrt.html</anchorfile>
-      <anchor>ga0049c8d9a89e3cb79523681de737e744</anchor>
-      <arglist>(T x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float</type>
-      <name>cos</name>
-      <anchorfile>group__cos.html</anchorfile>
-      <anchor>gafc968973dde0c97322c9c6669f954e2d</anchor>
-      <arglist>(float x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr double</type>
-      <name>cos</name>
-      <anchorfile>group__cos.html</anchorfile>
-      <anchor>ga0648930ad64bdc3816542f336b88e92d</anchor>
-      <arglist>(double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr long double</type>
-      <name>cos</name>
-      <anchorfile>group__cos.html</anchorfile>
-      <anchor>ga56a1b3ab18e271f42aa180990868261b</anchor>
-      <arglist>(long double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float128_t</type>
-      <name>cos</name>
-      <anchorfile>group__cos.html</anchorfile>
-      <anchor>gae466125efc53b0afbe2f48c3a3c7fa95</anchor>
-      <arglist>(float128_t x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr _Float16</type>
-      <name>cos</name>
-      <anchorfile>group__cos.html</anchorfile>
-      <anchor>ga6eab0abb46d5296fc69b951458aae6c9</anchor>
-      <arglist>(_Float16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr __fp16</type>
-      <name>cos</name>
-      <anchorfile>group__cos.html</anchorfile>
-      <anchor>ga79827b43adcd7eef2612c45b91eda40c</anchor>
-      <arglist>(__fp16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr double</type>
-      <name>cos</name>
-      <anchorfile>group__cos.html</anchorfile>
-      <anchor>gaad6641ec7b924bb662a329f42f1f1423</anchor>
-      <arglist>(T x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float</type>
-      <name>sin</name>
-      <anchorfile>group__sin.html</anchorfile>
-      <anchor>ga929628806abc68d22dc9224af0578dd2</anchor>
-      <arglist>(float x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr double</type>
-      <name>sin</name>
-      <anchorfile>group__sin.html</anchorfile>
-      <anchor>gada49fd50fe8b4101cdd948cdc43ac8c0</anchor>
-      <arglist>(double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr long double</type>
-      <name>sin</name>
-      <anchorfile>group__sin.html</anchorfile>
-      <anchor>ga956da7e0f0a5e6e3b8ffeb84c5327e18</anchor>
-      <arglist>(long double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float128_t</type>
-      <name>sin</name>
-      <anchorfile>group__sin.html</anchorfile>
-      <anchor>ga976c36817620570e8dc2f9903f6f8d9f</anchor>
-      <arglist>(float128_t x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr _Float16</type>
-      <name>sin</name>
-      <anchorfile>group__sin.html</anchorfile>
-      <anchor>ga8334763ec29d37322967387ad8096695</anchor>
-      <arglist>(_Float16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr __fp16</type>
-      <name>sin</name>
-      <anchorfile>group__sin.html</anchorfile>
-      <anchor>ga3b1f6ef1c2bbad4f86a34de5f8ee7124</anchor>
-      <arglist>(__fp16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr double</type>
-      <name>sin</name>
-      <anchorfile>group__sin.html</anchorfile>
-      <anchor>ga3ea18db1b6602dbb58f54ff998953c05</anchor>
-      <arglist>(T x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float</type>
-      <name>tan</name>
-      <anchorfile>group__tan.html</anchorfile>
-      <anchor>ga7aa14fc0444bf0176a1e46e66e3ad747</anchor>
-      <arglist>(float x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr double</type>
-      <name>tan</name>
-      <anchorfile>group__tan.html</anchorfile>
-      <anchor>gad882d4b32f9b5fc1d2030b174aa6ef5f</anchor>
-      <arglist>(double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr long double</type>
-      <name>tan</name>
-      <anchorfile>group__tan.html</anchorfile>
-      <anchor>gaae78f62d62005d88dc86b9b6cc59f50c</anchor>
-      <arglist>(long double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float128_t</type>
-      <name>tan</name>
-      <anchorfile>group__tan.html</anchorfile>
-      <anchor>gac1e4f5cd1d0b9edebc1ff8ec5046ebcd</anchor>
-      <arglist>(float128_t x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr _Float16</type>
-      <name>tan</name>
-      <anchorfile>group__tan.html</anchorfile>
-      <anchor>gaee469cec74af5f1d1e84544a7b26e69d</anchor>
-      <arglist>(_Float16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr __fp16</type>
-      <name>tan</name>
-      <anchorfile>group__tan.html</anchorfile>
-      <anchor>ga3583e5518d781304a7be684fc009bdbd</anchor>
-      <arglist>(__fp16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr double</type>
-      <name>tan</name>
-      <anchorfile>group__tan.html</anchorfile>
-      <anchor>ga1a8ef0810e060c707c554fa995a989fc</anchor>
-      <arglist>(T x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float</type>
-      <name>acos</name>
-      <anchorfile>group__acos.html</anchorfile>
-      <anchor>ga69b28eed21b5f99faf7076f3349455dc</anchor>
-      <arglist>(float x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr double</type>
-      <name>acos</name>
-      <anchorfile>group__acos.html</anchorfile>
-      <anchor>ga2abfdb52a5d3b98ab3119da1155eb960</anchor>
-      <arglist>(double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr long double</type>
-      <name>acos</name>
-      <anchorfile>group__acos.html</anchorfile>
-      <anchor>ga9803e5bf3be9b110ddd704dafc891b2d</anchor>
-      <arglist>(long double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float128_t</type>
-      <name>acos</name>
-      <anchorfile>group__acos.html</anchorfile>
-      <anchor>gaeb05383011594d02f233899de601bfda</anchor>
-      <arglist>(float128_t x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr _Float16</type>
-      <name>acos</name>
-      <anchorfile>group__acos.html</anchorfile>
-      <anchor>ga06579a5e3c5e853163f611c25b2b7b79</anchor>
-      <arglist>(_Float16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr __fp16</type>
-      <name>acos</name>
-      <anchorfile>group__acos.html</anchorfile>
-      <anchor>ga189bbc017d8f1f7c9885f68b7fb36bb0</anchor>
-      <arglist>(__fp16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr double</type>
-      <name>acos</name>
-      <anchorfile>group__acos.html</anchorfile>
-      <anchor>ga7b9d06979da170a3200f6b675f0a682e</anchor>
-      <arglist>(T x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float</type>
-      <name>asin</name>
-      <anchorfile>group__asin.html</anchorfile>
-      <anchor>ga14329b7d2af039a939b5b03a643dbd0f</anchor>
-      <arglist>(float x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr double</type>
-      <name>asin</name>
-      <anchorfile>group__asin.html</anchorfile>
-      <anchor>ga1754f8044c13e5db0546b85a7d9db66e</anchor>
-      <arglist>(double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr long double</type>
-      <name>asin</name>
-      <anchorfile>group__asin.html</anchorfile>
-      <anchor>ga380b08f5141db6f53cee3c2ab2eb4231</anchor>
-      <arglist>(long double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float128_t</type>
-      <name>asin</name>
-      <anchorfile>group__asin.html</anchorfile>
-      <anchor>ga971a48168d347e790c546b65fcd0689a</anchor>
-      <arglist>(float128_t x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr _Float16</type>
-      <name>asin</name>
-      <anchorfile>group__asin.html</anchorfile>
-      <anchor>ga22633d8890da645ac8e10a13a785c3e4</anchor>
-      <arglist>(_Float16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr __fp16</type>
-      <name>asin</name>
-      <anchorfile>group__asin.html</anchorfile>
-      <anchor>ga38d3272314ef4433f29ac56ea51762a8</anchor>
-      <arglist>(__fp16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr double</type>
-      <name>asin</name>
-      <anchorfile>group__asin.html</anchorfile>
-      <anchor>ga05267e8f5abd22ac560bd3564bb7607f</anchor>
-      <arglist>(T x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float</type>
-      <name>atan</name>
-      <anchorfile>group__atan.html</anchorfile>
-      <anchor>gad38e7dc443023ed27f26058455c30b30</anchor>
-      <arglist>(float x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr double</type>
-      <name>atan</name>
-      <anchorfile>group__atan.html</anchorfile>
-      <anchor>ga6aaf46f37bb83640e45b37e0aea858b8</anchor>
-      <arglist>(double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr long double</type>
-      <name>atan</name>
-      <anchorfile>group__atan.html</anchorfile>
-      <anchor>ga0d93faf1621f38f7e0ed7cfaf37076f4</anchor>
-      <arglist>(long double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float128_t</type>
-      <name>atan</name>
-      <anchorfile>group__atan.html</anchorfile>
-      <anchor>ga0ecacb3f5d6607739ebcb5b6cc612a64</anchor>
-      <arglist>(float128_t x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr _Float16</type>
-      <name>atan</name>
-      <anchorfile>group__atan.html</anchorfile>
-      <anchor>ga28990b3c84d9b9a7fde19401b936339a</anchor>
-      <arglist>(_Float16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr __fp16</type>
-      <name>atan</name>
-      <anchorfile>group__atan.html</anchorfile>
-      <anchor>ga8e1d8ec2569793e50d9a21d02b61b5ba</anchor>
-      <arglist>(__fp16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr double</type>
-      <name>atan</name>
-      <anchorfile>group__atan.html</anchorfile>
-      <anchor>gaf0779f07b81c81d2ec64131dcc54bcfd</anchor>
-      <arglist>(T x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float</type>
-      <name>atan2</name>
-      <anchorfile>group__atan2.html</anchorfile>
-      <anchor>ga68e17f23ef350ccc6e6bd8c20611da12</anchor>
-      <arglist>(float y, float x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr double</type>
-      <name>atan2</name>
-      <anchorfile>group__atan2.html</anchorfile>
-      <anchor>ga5a5edbb63697e0d3895ecee9d3639123</anchor>
-      <arglist>(double y, double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr long double</type>
-      <name>atan2</name>
-      <anchorfile>group__atan2.html</anchorfile>
-      <anchor>ga1766c7359209816b8bd4317b9c587f79</anchor>
-      <arglist>(long double y, long double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float128_t</type>
-      <name>atan2</name>
-      <anchorfile>group__atan2.html</anchorfile>
-      <anchor>ga25d67472f15352ffe17f9bd14446ce56</anchor>
-      <arglist>(float128_t y, float128_t x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr _Float16</type>
-      <name>atan2</name>
-      <anchorfile>group__atan2.html</anchorfile>
-      <anchor>gabab1e3ea2e16d7346043f57b57a18d49</anchor>
-      <arglist>(_Float16 y, _Float16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr __fp16</type>
-      <name>atan2</name>
-      <anchorfile>group__atan2.html</anchorfile>
-      <anchor>ga19204446bd2c384f0bf47d779035c414</anchor>
-      <arglist>(__fp16 y, __fp16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr auto</type>
-      <name>atan2</name>
-      <anchorfile>group__atan2.html</anchorfile>
-      <anchor>gabcd89688add70b87668b772617a3cc11</anchor>
-      <arglist>(Y y, X x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float</type>
-      <name>lerp</name>
-      <anchorfile>group__lerp.html</anchorfile>
-      <anchor>ga86b8aacc099deefdf6284d9bab7f2dad</anchor>
-      <arglist>(float start, float finish, float alpha) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr double</type>
-      <name>lerp</name>
-      <anchorfile>group__lerp.html</anchorfile>
-      <anchor>ga47e41d7626365fcf881152c286833b5a</anchor>
-      <arglist>(double start, double finish, double alpha) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr long double</type>
-      <name>lerp</name>
-      <anchorfile>group__lerp.html</anchorfile>
-      <anchor>ga44b514d356d6673cc0595cf0390dd8de</anchor>
-      <arglist>(long double start, long double finish, long double alpha) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float128_t</type>
-      <name>lerp</name>
-      <anchorfile>group__lerp.html</anchorfile>
-      <anchor>ga614ccb878d52686237995f87013cfae5</anchor>
-      <arglist>(float128_t start, float128_t finish, float128_t alpha) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr _Float16</type>
-      <name>lerp</name>
-      <anchorfile>group__lerp.html</anchorfile>
-      <anchor>ga2ef795b3516004d50fdb7003c388e15d</anchor>
-      <arglist>(_Float16 start, _Float16 finish, _Float16 alpha) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr __fp16</type>
-      <name>lerp</name>
-      <anchorfile>group__lerp.html</anchorfile>
-      <anchor>ga18ab33f3d13ed00aaabb060162e64a07</anchor>
-      <arglist>(__fp16 start, __fp16 finish, __fp16 alpha) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr auto</type>
-      <name>lerp</name>
-      <anchorfile>group__lerp.html</anchorfile>
-      <anchor>ga348d51a08675a8a83b04e59b7705c29e</anchor>
-      <arglist>(T start, U finish, V alpha) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float</type>
-      <name>normalize_angle</name>
-      <anchorfile>group__normalize__angle.html</anchorfile>
-      <anchor>gafa124ba1db7c179c3fa9f9ad12539c59</anchor>
-      <arglist>(float x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr double</type>
-      <name>normalize_angle</name>
-      <anchorfile>group__normalize__angle.html</anchorfile>
-      <anchor>ga596c2eab90545d145798f271bebc72b5</anchor>
-      <arglist>(double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr long double</type>
-      <name>normalize_angle</name>
-      <anchorfile>group__normalize__angle.html</anchorfile>
-      <anchor>gaf5cb38b69c2f8c41f7fd1e9e0084d704</anchor>
-      <arglist>(long double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float128_t</type>
-      <name>normalize_angle</name>
-      <anchorfile>group__normalize__angle.html</anchorfile>
-      <anchor>gaefa5c95a33e9ba84e03e0bfd46768e68</anchor>
-      <arglist>(float128_t x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr _Float16</type>
-      <name>normalize_angle</name>
-      <anchorfile>group__normalize__angle.html</anchorfile>
-      <anchor>gaff4c5fbdda0cf56d41e39dcc0320a5d6</anchor>
-      <arglist>(_Float16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr __fp16</type>
-      <name>normalize_angle</name>
-      <anchorfile>group__normalize__angle.html</anchorfile>
-      <anchor>ga9266da36d4d28c201f1d0896e64ce593</anchor>
-      <arglist>(__fp16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr double</type>
-      <name>normalize_angle</name>
-      <anchorfile>group__normalize__angle.html</anchorfile>
-      <anchor>gaba28a922cc3cfdbce286f477c8b90528</anchor>
-      <arglist>(T x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float</type>
-      <name>normalize_angle_signed</name>
-      <anchorfile>group__normalize__angle__signed.html</anchorfile>
-      <anchor>ga1b9e36906462a78fe344cd8bf545d479</anchor>
-      <arglist>(float x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr double</type>
-      <name>normalize_angle_signed</name>
-      <anchorfile>group__normalize__angle__signed.html</anchorfile>
-      <anchor>ga68aec6ced168d6572172e0096b46bb68</anchor>
-      <arglist>(double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr long double</type>
-      <name>normalize_angle_signed</name>
-      <anchorfile>group__normalize__angle__signed.html</anchorfile>
-      <anchor>gad98b33969ab11460f65c71aea940588d</anchor>
-      <arglist>(long double x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr float128_t</type>
-      <name>normalize_angle_signed</name>
-      <anchorfile>group__normalize__angle__signed.html</anchorfile>
-      <anchor>ga1115610c44cc6ac505aac869b401e2f9</anchor>
-      <arglist>(float128_t x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr _Float16</type>
-      <name>normalize_angle_signed</name>
-      <anchorfile>group__normalize__angle__signed.html</anchorfile>
-      <anchor>ga5fb741c82216a6a033043a3e8759eabb</anchor>
-      <arglist>(_Float16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr __fp16</type>
-      <name>normalize_angle_signed</name>
-      <anchorfile>group__normalize__angle__signed.html</anchorfile>
-      <anchor>gab9a123e29471417050aeb3281e0d7b9a</anchor>
-      <arglist>(__fp16 x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr double</type>
-      <name>normalize_angle_signed</name>
-      <anchorfile>group__normalize__angle__signed.html</anchorfile>
-      <anchor>ga704dca3f184e06b3f20ee77f063a6536</anchor>
-      <arglist>(T x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>group__infinity__or__nan.html</anchorfile>
-      <anchor>ga1f57b7af70f0235ad644486a5943e582</anchor>
-      <arglist>(const matrix&lt; S, R, C &gt; &amp;m) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_equal</name>
-      <anchorfile>group__approx__equal.html</anchorfile>
-      <anchor>gac9148a5c5b63c63d14ca506aee43484e</anchor>
-      <arglist>(const matrix&lt; S, R, C &gt; &amp;m1, const matrix&lt; T, R, C &gt; &amp;m2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_zero</name>
-      <anchorfile>group__approx__zero.html</anchorfile>
-      <anchor>gae6774c12326004b4e421e554a35afe8b</anchor>
-      <arglist>(const matrix&lt; S, R, C &gt; &amp;m, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr matrix&lt; S, C, R &gt;</type>
-      <name>transpose</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>a4d11bad2718bdbb090fb73ab6c5def00</anchor>
-      <arglist>(const matrix&lt; S, R, C &gt; &amp;m) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr determinant_type</type>
-      <name>determinant</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>a4cb7a56d0f2260af3ceb0b0c5204ed0b</anchor>
-      <arglist>(const matrix&lt; S, R, C &gt; &amp;m) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr inverse_type</type>
-      <name>invert</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>a279539802143d8a8227c503be45aa972</anchor>
-      <arglist>(const matrix&lt; S, R, C &gt; &amp;m) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr matrix&lt; S, R, C &gt;</type>
-      <name>orthonormalize</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>abe6723009e315776a0868a4062e4537b</anchor>
-      <arglist>(const matrix&lt; S, R, C &gt; &amp;m) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>group__infinity__or__nan.html</anchorfile>
-      <anchor>gade7f3e7d056853c9e542ec453394a9c4</anchor>
-      <arglist>(const oriented_bounding_box&lt; S &gt; &amp;q) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_equal</name>
-      <anchorfile>group__approx__equal.html</anchorfile>
-      <anchor>ga44033f904b7ed733949dab5e6acccd16</anchor>
-      <arglist>(const oriented_bounding_box&lt; S &gt; &amp;q1, const oriented_bounding_box&lt; T &gt; &amp;q2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_zero</name>
-      <anchorfile>group__approx__zero.html</anchorfile>
-      <anchor>ga4c274a76495695493647b4e0b7af1299</anchor>
-      <arglist>(const oriented_bounding_box&lt; S &gt; &amp;q, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>group__infinity__or__nan.html</anchorfile>
-      <anchor>gaffcaea7f39fc17894285d8221923387e</anchor>
-      <arglist>(const quaternion&lt; S &gt; &amp;q) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_equal</name>
-      <anchorfile>group__approx__equal.html</anchorfile>
-      <anchor>ga6b8d6921c4f39c5881a7ea6f95f33392</anchor>
-      <arglist>(const quaternion&lt; S &gt; &amp;q1, const quaternion&lt; T &gt; &amp;q2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_zero</name>
-      <anchorfile>group__approx__zero.html</anchorfile>
-      <anchor>ga04dec66856dc79915e9130ef3693e9f2</anchor>
-      <arglist>(const quaternion&lt; S &gt; &amp;q, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>unit_length</name>
-      <anchorfile>group__unit__length.html</anchorfile>
-      <anchor>ga85b832f6824677b76dff5080ebfbcf83</anchor>
-      <arglist>(const quaternion&lt; S &gt; &amp;q) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr S</type>
-      <name>dot</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>ae3e92df79fe85ed96266ca70d660de8d</anchor>
-      <arglist>(const quaternion&lt; S &gt; &amp;q1, const quaternion&lt; S &gt; &amp;q2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr quaternion&lt; S &gt;</type>
-      <name>normalize</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>aa80b85fea6664e3d955f129f9eff4a41</anchor>
-      <arglist>(const quaternion&lt; S &gt; &amp;q) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr quaternion&lt; S &gt;</type>
-      <name>slerp</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>a8df75ca3a9d767d9132a8bf68c922ea7</anchor>
-      <arglist>(const quaternion&lt; S &gt; &amp;start, const quaternion&lt; S &gt; &amp;finish, S alpha) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>span&lt; const std::byte, impl::as_bytes_extent&lt; T, N &gt; &gt;</type>
-      <name>as_bytes</name>
-      <anchorfile>group__mem.html</anchorfile>
-      <anchor>gacaa08dc6422b5847e58a7c4ab9557362</anchor>
-      <arglist>(span&lt; T, N &gt; s) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>span&lt; std::byte, impl::as_bytes_extent&lt; T, N &gt; &gt;</type>
-      <name>as_writable_bytes</name>
-      <anchorfile>group__mem.html</anchorfile>
-      <anchor>gab6812fcab12e2e24abb7261d0f895fcb</anchor>
-      <arglist>(span&lt; T, N &gt; s) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr std::string_view</type>
-      <name>trim</name>
-      <anchorfile>group__trim.html</anchorfile>
-      <anchor>ga591693ed2095787d40f63ae8c0c60b74</anchor>
-      <arglist>(std::string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr std::wstring_view</type>
-      <name>trim</name>
-      <anchorfile>group__trim.html</anchorfile>
-      <anchor>ga71cd0aeed9fed904bbdd3789c81684a3</anchor>
-      <arglist>(std::wstring_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr std::u16string_view</type>
-      <name>trim</name>
-      <anchorfile>group__trim.html</anchorfile>
-      <anchor>gac721a6b23447d8c2950803acf99a8f34</anchor>
-      <arglist>(std::u16string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr std::u32string_view</type>
-      <name>trim</name>
-      <anchorfile>group__trim.html</anchorfile>
-      <anchor>ga74cfd907d595f68a757aa50640f9d210</anchor>
-      <arglist>(std::u32string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr std::string_view</type>
-      <name>trim_left</name>
-      <anchorfile>group__trim__left.html</anchorfile>
-      <anchor>ga3aea46929051176b4afb4e23b551ffc5</anchor>
-      <arglist>(std::string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr std::wstring_view</type>
-      <name>trim_left</name>
-      <anchorfile>group__trim__left.html</anchorfile>
-      <anchor>gac23a274a25ef0a4e5b97c0d46b2ccd39</anchor>
-      <arglist>(std::wstring_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr std::u16string_view</type>
-      <name>trim_left</name>
-      <anchorfile>group__trim__left.html</anchorfile>
-      <anchor>ga3c0e502baa6f3067e1d26bf5572938f8</anchor>
-      <arglist>(std::u16string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr std::u32string_view</type>
-      <name>trim_left</name>
-      <anchorfile>group__trim__left.html</anchorfile>
-      <anchor>gae32d321796864fd5adeaaec227134e53</anchor>
-      <arglist>(std::u32string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr std::string_view</type>
-      <name>trim_right</name>
-      <anchorfile>group__trim__right.html</anchorfile>
-      <anchor>ga3f499b7f36518026e86dd95624740111</anchor>
-      <arglist>(std::string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr std::wstring_view</type>
-      <name>trim_right</name>
-      <anchorfile>group__trim__right.html</anchorfile>
-      <anchor>ga24e088ccb48af0182c8cc2e433a7cae8</anchor>
-      <arglist>(std::wstring_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr std::u16string_view</type>
-      <name>trim_right</name>
-      <anchorfile>group__trim__right.html</anchorfile>
-      <anchor>ga18068afb63f4c781d92f7895872a180c</anchor>
-      <arglist>(std::u16string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr std::u32string_view</type>
-      <name>trim_right</name>
-      <anchorfile>group__trim__right.html</anchorfile>
-      <anchor>ga5c65eceb22233e5c09096e48cadeb195</anchor>
-      <arglist>(std::u32string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>std::basic_string&lt; Char &gt;</type>
-      <name>transcode</name>
-      <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga410a285aafea5eff602d2b95626b7b3d</anchor>
-      <arglist>(std::string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>std::basic_string&lt; Char &gt;</type>
-      <name>transcode</name>
-      <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga4b033339ba2cec62aba96a5ec7f3261c</anchor>
-      <arglist>(std::wstring_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>std::basic_string&lt; Char &gt;</type>
-      <name>transcode</name>
-      <anchorfile>group__transcode.html</anchorfile>
-      <anchor>gaf51112f9bc5c2f25bcdfe34f6b902e7e</anchor>
-      <arglist>(std::u16string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>std::basic_string&lt; Char &gt;</type>
-      <name>transcode</name>
-      <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga08c5dabffb22594f3b2589551b5875e4</anchor>
-      <arglist>(std::u32string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>set_thread_name</name>
-      <anchorfile>group__strings.html</anchorfile>
-      <anchor>ga208801d95047a6cff7dd75291d55601b</anchor>
-      <arglist>(string_param name) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>group__infinity__or__nan.html</anchorfile>
-      <anchor>ga302affada638f7a69a77c925b1f38d93</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_equal</name>
-      <anchorfile>group__approx__equal.html</anchorfile>
-      <anchor>ga5d86e15710b89e3c79399cd98f597efe</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; T, D &gt; &amp;v2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_zero</name>
-      <anchorfile>group__approx__zero.html</anchorfile>
-      <anchor>gaa7e15ecff78c10af4eaa5b463eee9ca6</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>unit_length</name>
-      <anchorfile>group__unit__length.html</anchorfile>
-      <anchor>gaa23ee7220c00563698286c33249cd119</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr delta_type</type>
-      <name>length_squared</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>af37b8bb87586b2493271f14f82d2481e</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr delta_type</type>
-      <name>length</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>a2331787cdf36e4d844da3b1f046da7f9</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr delta_type</type>
-      <name>distance_squared</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>ac89dde907a1376136b6ec7296671ba65</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;p1, const vector&lt; S, D &gt; &amp;p2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr delta_type</type>
-      <name>distance</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>a4633afca2e5b98a7e8b5f857cfa7a611</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;p1, const vector&lt; S, D &gt; &amp;p2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr product_type</type>
-      <name>dot</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>ac5cdbbcc7fbf5513c01aa5e9d799c77e</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector_product</type>
-      <name>cross</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>a6522fd4daefcf5bb938bd2879c99b741</anchor>
-      <arglist>(const vector&lt; S, 3 &gt; &amp;lhs, const vector&lt; S, 3 &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>normalize</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>aaed6aa88dd289829bd7f1b15182d2577</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v, delta_type &amp;length_out) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>normalize</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>a0901b5c81729a1e28b3dab7c0cf1bba3</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector_product</type>
-      <name>direction</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>a5894cf9d191befc3a53ed17f6ead1b3f</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;from, const vector&lt; S, D &gt; &amp;to, delta_type &amp;distance_out) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector_product</type>
-      <name>direction</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>af688d95d2f8af0a0687b78875d465e93</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;from, const vector&lt; S, D &gt; &amp;to) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>min</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>a0677f3cf9e12c0c6cf4ee3844dd802c1</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>max</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>a28964d765fdb622739bd2ac68ce50329</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>clamp</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>a13427afa8abc10b68dec66a3e6d30c94</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v, const vector&lt; S, D &gt; &amp;low, const vector&lt; S, D &gt; &amp;high) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>lerp</name>
-      <anchorfile>group__lerp.html</anchorfile>
-      <anchor>ga8a4dcbb8bec3e3ce9276430bdb3f44f3</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;start, const vector&lt; S, D &gt; &amp;finish, delta_type alpha) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr delta_type</type>
-      <name>angle</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>ad3a39a64a42865cc1b4dfe5ba737c7f4</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>abs</name>
-      <anchorfile>group__abs.html</anchorfile>
-      <anchor>ga3d9f7436810436103ec0af7e77597b04</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>ceil</name>
-      <anchorfile>group__ceil.html</anchorfile>
-      <anchor>gae07fcd5b9220de0b39fa3461c3c529de</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
-      <name>floor</name>
-      <anchorfile>group__floor.html</anchorfile>
-      <anchor>gaa9989749869046cff6731ead1b56f0df</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
-    </member>
     <member kind="variable">
       <type>constexpr size_t</type>
       <name>total_size</name>
@@ -13049,22 +13041,6 @@
       <anchor>aa47ba1752e387734c3a2b0539a4dc252</anchor>
       <arglist>(const char *str, size_t len) noexcept</arglist>
     </member>
-  </compound>
-  <compound kind="namespace">
-    <name>std</name>
-    <filename>namespacestd.html</filename>
-    <class kind="struct">std::tuple_size&lt; muu::bounding_box&lt; Scalar &gt; &gt;</class>
-    <class kind="struct">std::tuple_element&lt; I, muu::bounding_box&lt; Scalar &gt; &gt;</class>
-    <class kind="struct">std::tuple_size&lt; muu::compressed_pair&lt; First, Second &gt; &gt;</class>
-    <class kind="struct">std::tuple_element&lt; I, muu::compressed_pair&lt; First, Second &gt; &gt;</class>
-    <class kind="struct">std::numeric_limits&lt; muu::half &gt;</class>
-    <class kind="struct">std::tuple_size&lt; muu::oriented_bounding_box&lt; Scalar &gt; &gt;</class>
-    <class kind="struct">std::tuple_element&lt; I, muu::oriented_bounding_box&lt; Scalar &gt; &gt;</class>
-    <class kind="struct">std::tuple_size&lt; muu::quaternion&lt; Scalar &gt; &gt;</class>
-    <class kind="struct">std::tuple_element&lt; I, muu::quaternion&lt; Scalar &gt; &gt;</class>
-    <class kind="struct">std::hash&lt; muu::uuid &gt;</class>
-    <class kind="struct">std::tuple_size&lt; muu::vector&lt; Scalar, Dimensions &gt; &gt;</class>
-    <class kind="struct">std::tuple_element&lt; I, muu::vector&lt; Scalar, Dimensions &gt; &gt;</class>
   </compound>
   <compound kind="group">
     <name>code_units</name>

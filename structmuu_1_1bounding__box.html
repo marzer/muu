@@ -14,7 +14,11 @@
   modern
   C++" name="description"/>
 
-  <link href="dox.css" rel="stylesheet"/>
+  <link href="poxy.css" rel="stylesheet"/>
+
+  <script src="jquery-3.6.0.slim.min.js"></script>
+
+  <script src="poxy.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -37,7 +41,7 @@
           </ol>
           <ol class="m-col-t-6 m-col-m-none" start="4">
             <li><a href="annotated.html">Classes</a></li>
-            <li><a class="github dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
+            <li><a class="github poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
             <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
               <use href="#m-doc-search-icon-path"></use>
             </svg></a></li>
@@ -85,7 +89,7 @@
             </li>
           </ul>
         </div>
-<img alt="Image" class="m-image" src="diag_bounding_box.svg"/><aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="https://www.sciencedirect.com/topics/computer-science/aligned-bounding-box" target="_blank">Aligned Bounding Box</a></p></aside>
+<img alt="Image" class="m-image" src="diag_bounding_box.svg"/><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://www.sciencedirect.com/topics/computer-science/aligned-bounding-box" target="_blank">Aligned Bounding Box</a></p></aside>
         <section id="pub-types">
           <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
@@ -94,7 +98,7 @@
             </dt>
             <dd>Compile-time bounding box constants.</dd>
             <dt id="a0693bac374fc76805f1691868e4b0636">
-              using <a class="m-doc-self" href="#a0693bac374fc76805f1691868e4b0636">delta_type</a> = <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;<a class="m-doc" href="group__meta.html#ga6283839d5536a4ee096adccee42b88c5">is_<wbr/>integral</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;, double, <a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;
+              using <a class="m-doc-self" href="#a0693bac374fc76805f1691868e4b0636">delta_type</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;<a class="m-doc" href="group__meta.html#ga6283839d5536a4ee096adccee42b88c5">is_<wbr/>integral</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;, double, <a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;
             </dt>
             <dd>The scalar type used for length, distance, volume, etc. Always floating-point.</dd>
             <dt id="a8bfddb93e7f09edcc207c492694ac254">
@@ -372,8 +376,8 @@
             <dd>Returns true if two bounding boxes are not exactly equal.</dd>
             <dt id="ac6f7eb610bdb56d8a20b7d91bab1b4c8">
               <div class="m-doc-template">template&lt;typename Char, typename Traits&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac6f7eb610bdb56d8a20b7d91bab1b4c8">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
-              const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; bb) -&gt; <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac6f7eb610bdb56d8a20b7d91bab1b4c8">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
+              const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; bb) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
             </dt>
             <dd>Writes a vector out to a text stream.</dd>
             <dt>
@@ -927,10 +931,10 @@ template&lt;typename T&gt;
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         
-<a class="dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
+<a class="poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
 
 •
-<a class="dox-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
+<a class="poxy-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
 an
 issue</a>
 
@@ -944,13 +948,13 @@ Documentation
 created
 using
 
-<a class="dox-external" href="https://www.doxygen.nl/index.html" target="_blank">Doxygen</a>
+<a class="poxy-external" href="https://www.doxygen.nl/index.html" target="_blank">Doxygen</a>
 
 +
-<a class="dox-external" href="https://mcss.mosra.cz/documentation/doxygen/" target="_blank">mosra/m.css</a>
+<a class="poxy-external" href="https://mcss.mosra.cz/documentation/doxygen/" target="_blank">mosra/m.css</a>
 
 +
-<a class="dox-external" href="https://github.com/marzer/dox/" target="_blank">marzer/dox</a>
+<a class="poxy-external" href="https://github.com/marzer/poxy/" target="_blank">marzer/poxy</a>
       </div>
     </div>
   </div>

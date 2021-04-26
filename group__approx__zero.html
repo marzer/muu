@@ -14,7 +14,11 @@
   modern
   C++" name="description"/>
 
-  <link href="dox.css" rel="stylesheet"/>
+  <link href="poxy.css" rel="stylesheet"/>
+
+  <script src="jquery-3.6.0.slim.min.js"></script>
+
+  <script src="poxy.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -37,7 +41,7 @@
           </ol>
           <ol class="m-col-t-6 m-col-m-none" start="4">
             <li><a href="annotated.html">Classes</a></li>
-            <li><a class="github dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
+            <li><a class="github poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
             <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
               <use href="#m-doc-search-icon-path"></use>
             </svg></a></li>
@@ -76,8 +80,8 @@
             </dt>
             <dd>Returns true if all the scalar components of a #bounding_box are approximately equal to zero.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga5df3be4319d056f5a12b082177b1f8dd">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> x,
-              <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> epsilon = constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>&gt;::default_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga5df3be4319d056f5a12b082177b1f8dd">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="structmuu_1_1half.html">half</a> x,
+              <a class="m-doc poxy-injected" href="structmuu_1_1half.html">half</a> epsilon = constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1half.html">half</a>&gt;::default_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true a half-precision float is approximately equal to zero.</dd>
             <dt>
@@ -96,31 +100,31 @@
             </dt>
             <dd>Returns true if a long double is approximately equal to zero.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga2e4ec0adf720b9c8fcd10344c1bf81eb">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> x,
-              <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> epsilon = default_epsilon&lt;<a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga2e4ec0adf720b9c8fcd10344c1bf81eb">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> x,
+              <a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> epsilon = default_epsilon&lt;<a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if a <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> is approximately equal to zero.</dd>
+            <dd>Returns true if a <a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> is approximately equal to zero.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga6f7edf9230c38096dead05a99bf5be4b">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> x,
-              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> epsilon = default_epsilon&lt;<a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga6f7edf9230c38096dead05a99bf5be4b">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> x,
+              <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> epsilon = default_epsilon&lt;<a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if a <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> is approximately equal to zero.</dd>
+            <dd>Returns true if a <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> is approximately equal to zero.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga7376c26dbf846ee7e5eebbe68e431042">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> x,
-              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> epsilon = default_epsilon&lt;<a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga7376c26dbf846ee7e5eebbe68e431042">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> x,
+              <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> epsilon = default_epsilon&lt;<a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if a <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> is approximately equal to zero.</dd>
+            <dd>Returns true if a <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> is approximately equal to zero.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gabd16d3c6f14a660d037f92e612bb4dc9">approx_zero</a>(</span><span class="m-doc-wrap">T x) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a scalar value is approximately equal to zero.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename S, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gae6774c12326004b4e421e554a35afe8b">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m,
+              <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gae6774c12326004b4e421e554a35afe8b">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m,
               S epsilon = default_epsilon&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if all the scalar components of a <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a> are approximately equal to zero.</dd>
+            <dd>Returns true if all the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a> are approximately equal to zero.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga4c274a76495695493647b4e0b7af1299">approx_zero</a>(</span><span class="m-doc-wrap">const oriented_bounding_box&lt;S&gt;&amp; q,
@@ -134,7 +138,7 @@
             </dt>
             <dd>Returns true if all the scalar components of a #quaternion are approximately equal to zero.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename S, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
+              <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaa7e15ecff78c10af4eaa5b463eee9ca6">approx_zero</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v,
               S epsilon = default_epsilon&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -156,8 +160,8 @@
           </div></section>
           <section class="m-doc-details" id="ga5df3be4319d056f5a12b082177b1f8dd"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga5df3be4319d056f5a12b082177b1f8dd">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> x,
-              <a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a> epsilon = constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1half.html">half</a>&gt;::default_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga5df3be4319d056f5a12b082177b1f8dd">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="structmuu_1_1half.html">half</a> x,
+              <a class="m-doc poxy-injected" href="structmuu_1_1half.html">half</a> epsilon = constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1half.html">half</a>&gt;::default_epsilon) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="half_8h.html">&lt;muu/half.h&gt;</a></div>
             </h3>
             <p>Returns true a half-precision float is approximately equal to zero.</p>
@@ -188,27 +192,27 @@
           </div></section>
           <section class="m-doc-details" id="ga2e4ec0adf720b9c8fcd10344c1bf81eb"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga2e4ec0adf720b9c8fcd10344c1bf81eb">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> x,
-              <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> epsilon = default_epsilon&lt;<a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a>&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga2e4ec0adf720b9c8fcd10344c1bf81eb">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> x,
+              <a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> epsilon = default_epsilon&lt;<a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a>&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
             </h3>
-            <p>Returns true if a <a class="m-doc dox-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> is approximately equal to zero.</p>
+            <p>Returns true if a <a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> is approximately equal to zero.</p>
           </div></section>
           <section class="m-doc-details" id="ga6f7edf9230c38096dead05a99bf5be4b"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga6f7edf9230c38096dead05a99bf5be4b">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> x,
-              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> epsilon = default_epsilon&lt;<a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga6f7edf9230c38096dead05a99bf5be4b">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> x,
+              <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> epsilon = default_epsilon&lt;<a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
             </h3>
-            <p>Returns true if a <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> is approximately equal to zero.</p>
+            <p>Returns true if a <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> is approximately equal to zero.</p>
           </div></section>
           <section class="m-doc-details" id="ga7376c26dbf846ee7e5eebbe68e431042"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga7376c26dbf846ee7e5eebbe68e431042">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> x,
-              <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> epsilon = default_epsilon&lt;<a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga7376c26dbf846ee7e5eebbe68e431042">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> x,
+              <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> epsilon = default_epsilon&lt;<a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
             </h3>
-            <p>Returns true if a <a class="m-doc dox-injected dox-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> is approximately equal to zero.</p>
+            <p>Returns true if a <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> is approximately equal to zero.</p>
           </div></section>
           <section class="m-doc-details" id="gabd16d3c6f14a660d037f92e612bb4dc9"><div>
             <h3>
@@ -224,12 +228,12 @@
           <section class="m-doc-details" id="gae6774c12326004b4e421e554a35afe8b"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="matrix_8h.html">&lt;muu/matrix.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename S, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;
+              <div class="m-doc-template"> template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gae6774c12326004b4e421e554a35afe8b">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m,
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gae6774c12326004b4e421e554a35afe8b">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m,
               S epsilon = default_epsilon&lt;S&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Returns true if all the scalar components of a <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a> are approximately equal to zero.</p>
+            <p>Returns true if all the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a> are approximately equal to zero.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <code>S</code> is a floating-point type.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga4c274a76495695493647b4e0b7af1299"><div>
@@ -257,7 +261,7 @@
           <section class="m-doc-details" id="gaa7e15ecff78c10af4eaa5b463eee9ca6"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="vector_8h.html">&lt;muu/vector.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename S, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;
+              <div class="m-doc-template"> template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaa7e15ecff78c10af4eaa5b463eee9ca6">approx_zero</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v,
               S epsilon = default_epsilon&lt;S&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
@@ -311,10 +315,10 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         
-<a class="dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
+<a class="poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
 
 •
-<a class="dox-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
+<a class="poxy-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
 an
 issue</a>
 
@@ -328,13 +332,13 @@ Documentation
 created
 using
 
-<a class="dox-external" href="https://www.doxygen.nl/index.html" target="_blank">Doxygen</a>
+<a class="poxy-external" href="https://www.doxygen.nl/index.html" target="_blank">Doxygen</a>
 
 +
-<a class="dox-external" href="https://mcss.mosra.cz/documentation/doxygen/" target="_blank">mosra/m.css</a>
+<a class="poxy-external" href="https://mcss.mosra.cz/documentation/doxygen/" target="_blank">mosra/m.css</a>
 
 +
-<a class="dox-external" href="https://github.com/marzer/dox/" target="_blank">marzer/dox</a>
+<a class="poxy-external" href="https://github.com/marzer/poxy/" target="_blank">marzer/poxy</a>
       </div>
     </div>
   </div>

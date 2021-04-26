@@ -14,7 +14,11 @@
   modern
   C++" name="description"/>
 
-  <link href="dox.css" rel="stylesheet"/>
+  <link href="poxy.css" rel="stylesheet"/>
+
+  <script src="jquery-3.6.0.slim.min.js"></script>
+
+  <script src="poxy.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -37,7 +41,7 @@
           </ol>
           <ol class="m-col-t-6 m-col-m-none" start="4">
             <li><a href="annotated.html">Classes</a></li>
-            <li><a class="github dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
+            <li><a class="github poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
             <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
               <use href="#m-doc-search-icon-path"></use>
             </svg></a></li>
@@ -72,8 +76,8 @@
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a816fa41cb2488dfe46f29799b32d76b6">thread_pool</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> worker_count = 0,
-              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> task_queue_size = 0,
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a816fa41cb2488dfe46f29799b32d76b6">thread_pool</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> worker_count = 0,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> task_queue_size = 0,
               <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> name = {},
               <a class="m-doc" href="structmuu_1_1generic__allocator.html">generic_<wbr/>allocator</a>* allocator = nullptr) <span class="m-label m-flat m-info">explicit</span> </span>
             </dt>
@@ -97,7 +101,7 @@
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt id="a9ea03b02643976fa8a65dddcfdd09295">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a9ea03b02643976fa8a65dddcfdd09295">capacity</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a9ea03b02643976fa8a65dddcfdd09295">capacity</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>The maximum tasks that may be enqueued without blocking.</dd>
             <dt>
@@ -134,7 +138,7 @@
             </dt>
             <dd>Waits for the thread pool to finish all of its current work.</dd>
             <dt id="adf3e1d1f730ff1f86f61a9c645a949fd">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#adf3e1d1f730ff1f86f61a9c645a949fd">workers</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#adf3e1d1f730ff1f86f61a9c645a949fd">workers</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>The number of worker threads in the thread pool.</dd>
           </dl>
@@ -143,8 +147,8 @@
           <h2>Function documentation</h2>
           <section class="m-doc-details" id="a816fa41cb2488dfe46f29799b32d76b6"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>thread_pool::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a816fa41cb2488dfe46f29799b32d76b6">thread_pool</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> worker_count = 0,
-              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> task_queue_size = 0,
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>thread_pool::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a816fa41cb2488dfe46f29799b32d76b6">thread_pool</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> worker_count = 0,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> task_queue_size = 0,
               <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> name = {},
               <a class="m-doc" href="structmuu_1_1generic__allocator.html">generic_<wbr/>allocator</a>* allocator = nullptr) <span class="m-label m-info">explicit</span> </span></span>
             </h3>
@@ -236,7 +240,7 @@
                 </tr>
               </tfoot>
             </table>
-<p>Tasks must be callables with no parameters, or one parameter to recieve the index of the worker invoking the task:</p><pre class="m-code"><span class="n">pool</span><span class="p">.</span><span class="n">enqueue</span><span class="p">([](</span><span class="ut"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">worker_index</span><span class="p">)</span> <span class="k">noexcept</span>
+<p>Tasks must be callables with no parameters, or one parameter to recieve the index of the worker invoking the task:</p><pre class="m-code"><span class="n">pool</span><span class="p">.</span><span class="n">enqueue</span><span class="p">([](</span><span class="ut"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">worker_index</span><span class="p">)</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="c1">// worker_index is in the range [0, pool.workers() - 1]</span>
 <span class="p">});</span>
@@ -294,7 +298,7 @@
               </tfoot>
             </table>
 <p>Tasks must be callables which accept at most two arguments:<br/>Argument 0: The current element from the collection<br/>Argument 1: The task's batch (in the range <code>[0, pool.workers() - 1]</code>)<br/></p><pre class="m-code"><span class="ns">std</span><span class="o">::</span><span class="ut">array</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="mi">10</span><span class="o">&gt;</span> <span class="n">vals</span><span class="p">;</span>
-<span class="n">pool</span><span class="p">.</span><span class="n">for_each</span><span class="p">(</span><span class="n">vals</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">vals</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="p">[](</span><span class="k">int</span><span class="o">&amp;</span> <span class="n">i</span><span class="p">,</span> <span class="ut"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">batch_index</span><span class="p">)</span> <span class="k">noexcept</span>
+<span class="n">pool</span><span class="p">.</span><span class="n">for_each</span><span class="p">(</span><span class="n">vals</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">vals</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="p">[](</span><span class="k">int</span><span class="o">&amp;</span> <span class="n">i</span><span class="p">,</span> <span class="ut"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">batch_index</span><span class="p">)</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="c1">// i is one of the elements of vals</span>
     <span class="c1">// batch_index is in the range [0, pool.workers() - 1]</span>
@@ -352,7 +356,7 @@
               </tfoot>
             </table>
 <p>Tasks must be callables which accept at most two arguments:<br/>Argument 0: The current element from the collection<br/>Argument 1: The task's batch (in the range <code>[0, pool.workers() - 1]</code>)<br/></p><pre class="m-code"><span class="ns">std</span><span class="o">::</span><span class="ut">array</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="mi">10</span><span class="o">&gt;</span> <span class="n">vals</span><span class="p">;</span>
-<span class="n">pool</span><span class="p">.</span><span class="n">for_each</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="p">[](</span><span class="k">int</span><span class="o">&amp;</span> <span class="n">i</span><span class="p">,</span> <span class="ut"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">batch_index</span><span class="p">)</span> <span class="k">noexcept</span>
+<span class="n">pool</span><span class="p">.</span><span class="n">for_each</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="p">[](</span><span class="k">int</span><span class="o">&amp;</span> <span class="n">i</span><span class="p">,</span> <span class="ut"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">batch_index</span><span class="p">)</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="c1">// i is one of the elements of vals</span>
     <span class="c1">// batch_index is in the range [0, pool.workers() - 1]</span>
@@ -414,7 +418,7 @@
                 </tr>
               </tfoot>
             </table>
-<p>Tasks must be callables which accept at most two arguments:<br/>Argument 0: The current value from the range<br/>Argument 1: The task's batch (in the range <code>[0, pool.workers() - 1]</code>)<br/></p><pre class="m-code"><span class="n">pool</span><span class="p">.</span><span class="n">for_range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">[](</span><span class="k">int</span> <span class="n">i</span><span class="p">,</span> <span class="ut"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">batch_index</span><span class="p">)</span> <span class="k">noexcept</span>
+<p>Tasks must be callables which accept at most two arguments:<br/>Argument 0: The current value from the range<br/>Argument 1: The task's batch (in the range <code>[0, pool.workers() - 1]</code>)<br/></p><pre class="m-code"><span class="n">pool</span><span class="p">.</span><span class="n">for_range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">[](</span><span class="k">int</span> <span class="n">i</span><span class="p">,</span> <span class="ut"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">batch_index</span><span class="p">)</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="c1">// i is in the range [0, 9]</span>
     <span class="c1">// batch_index is in the range [0, pool.workers() - 1]</span>
@@ -481,10 +485,10 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         
-<a class="dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
+<a class="poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
 
 •
-<a class="dox-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
+<a class="poxy-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
 an
 issue</a>
 
@@ -498,13 +502,13 @@ Documentation
 created
 using
 
-<a class="dox-external" href="https://www.doxygen.nl/index.html" target="_blank">Doxygen</a>
+<a class="poxy-external" href="https://www.doxygen.nl/index.html" target="_blank">Doxygen</a>
 
 +
-<a class="dox-external" href="https://mcss.mosra.cz/documentation/doxygen/" target="_blank">mosra/m.css</a>
+<a class="poxy-external" href="https://mcss.mosra.cz/documentation/doxygen/" target="_blank">mosra/m.css</a>
 
 +
-<a class="dox-external" href="https://github.com/marzer/dox/" target="_blank">marzer/dox</a>
+<a class="poxy-external" href="https://github.com/marzer/poxy/" target="_blank">marzer/poxy</a>
       </div>
     </div>
   </div>

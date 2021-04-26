@@ -14,7 +14,11 @@
   modern
   C++" name="description"/>
 
-  <link href="dox.css" rel="stylesheet"/>
+  <link href="poxy.css" rel="stylesheet"/>
+
+  <script src="jquery-3.6.0.slim.min.js"></script>
+
+  <script src="poxy.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -37,7 +41,7 @@
           </ol>
           <ol class="m-col-t-6 m-col-m-none" start="4">
             <li><a href="annotated.html">Classes</a></li>
-            <li><a class="github dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
+            <li><a class="github poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
             <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
               <use href="#m-doc-search-icon-path"></use>
             </svg></a></li>
@@ -72,7 +76,7 @@
 <pre class="m-code"><span class="n">sha1</span> <span class="n">hasher</span><span class="p">;</span>
 <span class="n">hasher</span><span class="p">(</span><span class="s">"The quick brown fox jumps over the lazy dog"</span><span class="sa">sv</span><span class="p">);</span>
 <span class="n">hasher</span><span class="p">.</span><span class="n">finish</span><span class="p">();</span>
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">hasher</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span></pre><pre class="m-console"><span class="go">2fd4e1c67a2d28fced849ee1bb76e7391b93eb12</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="dox-external" href="https://en.wikipedia.org/wiki/SHA-1" target="_blank">SHA-1</a></p></aside>
+<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">hasher</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span></pre><pre class="m-console"><span class="go">2fd4e1c67a2d28fced849ee1bb76e7391b93eb12</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://en.wikipedia.org/wiki/SHA-1" target="_blank">SHA-1</a></p></aside>
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
@@ -90,32 +94,32 @@
             </dt>
             <dd>Finishes calculating the hash.</dd>
             <dt id="ac039bd5671573a6ec0f61e1101286e20">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac039bd5671573a6ec0f61e1101286e20">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> byte) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac039bd5671573a6ec0f61e1101286e20">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> byte) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Appends a single byte to the hash function's input.</dd>
             <dt id="a2cfc2f933f53af2ba83d2b85daf3f0b6">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2cfc2f933f53af2ba83d2b85daf3f0b6">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a> byte) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2cfc2f933f53af2ba83d2b85daf3f0b6">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a> byte) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Appends a single byte to the hash function's input.</dd>
             <dt id="a03f22b6388d84cc768d060c8316afc3b">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a03f22b6388d84cc768d060c8316afc3b">operator()</a>(</span><span class="m-doc-wrap">const void* data,
-              <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Appends a sequence of raw data to the hash function's input.</dd>
             <dt id="ac9ed2ee364a7d0a3cf32af0fe292d6cb">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac9ed2ee364a7d0a3cf32af0fe292d6cb">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>string_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac9ed2ee364a7d0a3cf32af0fe292d6cb">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>string_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Appends a string to the hash function's input.</dd>
             <dt id="a0dfb107c3588a2cf043122aaa4293cc2">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0dfb107c3588a2cf043122aaa4293cc2">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>wstring_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0dfb107c3588a2cf043122aaa4293cc2">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>wstring_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Appends a wide string to the hash function's input.</dd>
             <dt id="a663e577e76f1bfca07b242b7e6d8b7cb">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a663e577e76f1bfca07b242b7e6d8b7cb">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u32string_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a663e577e76f1bfca07b242b7e6d8b7cb">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u32string_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Appends a UTF-32 string to the hash function's input.</dd>
             <dt id="a38a9f1fefb6706abd2a6b17575706249">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a38a9f1fefb6706abd2a6b17575706249">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u16string_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a38a9f1fefb6706abd2a6b17575706249">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u16string_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Appends a UTF-16 string to the hash function's input.</dd>
             <dt>
@@ -129,8 +133,8 @@
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;typename Char, typename Traits&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a830b5f6209cf1b5f958fe56c0d5953eb">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; lhs,
-              const <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; rhs) -&gt; <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a830b5f6209cf1b5f958fe56c0d5953eb">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; lhs,
+              const <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; rhs) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
             </dt>
             <dd>Writes an SHA-1 hash to a text stream.</dd>
           </dl>
@@ -156,7 +160,7 @@
               <div class="m-doc-template">
                 template&lt;typename Char, typename Traits&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a830b5f6209cf1b5f958fe56c0d5953eb">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; lhs,
+              <span class="m-doc-wrap-bumper"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a830b5f6209cf1b5f958fe56c0d5953eb">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; lhs,
               const <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; rhs)</span></span>
             </h3>
             <p>Writes an SHA-1 hash to a text stream.</p>
@@ -208,10 +212,10 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         
-<a class="dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
+<a class="poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
 
 •
-<a class="dox-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
+<a class="poxy-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
 an
 issue</a>
 
@@ -225,13 +229,13 @@ Documentation
 created
 using
 
-<a class="dox-external" href="https://www.doxygen.nl/index.html" target="_blank">Doxygen</a>
+<a class="poxy-external" href="https://www.doxygen.nl/index.html" target="_blank">Doxygen</a>
 
 +
-<a class="dox-external" href="https://mcss.mosra.cz/documentation/doxygen/" target="_blank">mosra/m.css</a>
+<a class="poxy-external" href="https://mcss.mosra.cz/documentation/doxygen/" target="_blank">mosra/m.css</a>
 
 +
-<a class="dox-external" href="https://github.com/marzer/dox/" target="_blank">marzer/dox</a>
+<a class="poxy-external" href="https://github.com/marzer/poxy/" target="_blank">marzer/poxy</a>
       </div>
     </div>
   </div>

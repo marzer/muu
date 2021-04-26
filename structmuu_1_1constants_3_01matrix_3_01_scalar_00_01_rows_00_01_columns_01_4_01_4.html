@@ -14,7 +14,11 @@
   modern
   C++" name="description"/>
 
-  <link href="dox.css" rel="stylesheet"/>
+  <link href="poxy.css" rel="stylesheet"/>
+
+  <script src="jquery-3.6.0.slim.min.js"></script>
+
+  <script src="poxy.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -37,7 +41,7 @@
           </ol>
           <ol class="m-col-t-6 m-col-m-none" start="4">
             <li><a href="annotated.html">Classes</a></li>
-            <li><a class="github dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
+            <li><a class="github poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
             <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
               <use href="#m-doc-search-icon-path"></use>
             </svg></a></li>
@@ -53,8 +57,8 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="matrix_8h.html">&lt;muu/matrix.h&gt;</a></div>
-          <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;</div>
-          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt; <span class="m-thin">struct</span>
+          <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;</div>
+          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt; <span class="m-thin">struct</span>
         </h1>
         <p>Matrix constants.</p>
         <div class="m-block m-default">
@@ -81,19 +85,19 @@
             <dt id="ab78829fc7af3571956a8f98a04c3dd32">
               static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt; <a class="m-doc-self" href="#ab78829fc7af3571956a8f98a04c3dd32">identity</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>The identity <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>.</dd>
+            <dd>The identity <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>.</dd>
           </dl>
         </section>
         <section id="conversions">
           <h2><a href="#conversions">Conversions</a></h2>
 <p><br/></p>
           <dl class="m-doc">
-            <dt id="aeccb3b36d3bd113aee45fdd46a6f03b8">
-              static T <a class="m-doc-self" href="#aeccb3b36d3bd113aee45fdd46a6f03b8">degrees_to_radians</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="68cdabb2c7d75a41634650fa497349754a83f8ae3b9ea8d61e57d22dd68aa2f2">
+              static T <a class="m-doc-self" href="#68cdabb2c7d75a41634650fa497349754a83f8ae3b9ea8d61e57d22dd68aa2f2">degrees_to_radians</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Conversion factor for converting degrees into radians.</dd>
-            <dt id="abf3ad7c5164fb1959c4f972abfc3c2a9">
-              static T <a class="m-doc-self" href="#abf3ad7c5164fb1959c4f972abfc3c2a9">radians_to_degrees</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="f0bd153a54ee3343ead4ecd03b7379d787e4d94f00b3a84b5ccfd8cc12fc8679">
+              static T <a class="m-doc-self" href="#f0bd153a54ee3343ead4ecd03b7379d787e4d94f00b3a84b5ccfd8cc12fc8679">radians_to_degrees</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Conversion factor for converting radians into degrees.</dd>
           </dl>
@@ -102,36 +106,36 @@
           <h2><a href="#floating-point">Floating-point</a></h2>
 <p><br/></p>
           <dl class="m-doc">
-            <dt id="a2bff43b1dcb276c5afc5229947916143">
-              static int <a class="m-doc-self" href="#a2bff43b1dcb276c5afc5229947916143">decimal_digits</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="a6733ec32e5b519ab635f5cd1c97bda211e5ab0c95ef36210df5d2d5782d103d">
+              static int <a class="m-doc-self" href="#a6733ec32e5b519ab635f5cd1c97bda211e5ab0c95ef36210df5d2d5782d103d">decimal_digits</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The number of significant decimal digits that can be exactly represented.</dd>
-            <dt id="adc1531889846796666d300f83f97f652">
-              static T <a class="m-doc-self" href="#adc1531889846796666d300f83f97f652">default_epsilon</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="22f424e27635bb65bcd1ca3d69735d919aa8fd6243c00888a14f0649f9d80aa1">
+              static T <a class="m-doc-self" href="#22f424e27635bb65bcd1ca3d69735d919aa8fd6243c00888a14f0649f9d80aa1">default_epsilon</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The default epsilon used by <a class="m-doc" href="group__approx__equal.html#ga0535df1acd603649ac9f793d96062112">approx_<wbr/>equal()</a>.</dd>
-            <dt id="a6484cb7a237ef6dfc47f485ad7a3ff5b">
-              static T <a class="m-doc-self" href="#a6484cb7a237ef6dfc47f485ad7a3ff5b">infinity</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="6ffc68aed51eeaad12f01171c54ea3f5f0a309bb1fd647644db91e7dac4085e6">
+              static T <a class="m-doc-self" href="#6ffc68aed51eeaad12f01171c54ea3f5f0a309bb1fd647644db91e7dac4085e6">infinity</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Positive infinity.</dd>
-            <dt id="a4aa8a5adb80a44aacd5b32568501be01">
-              static T <a class="m-doc-self" href="#a4aa8a5adb80a44aacd5b32568501be01">nan</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="09af5dd5d84ca0657635d30b13a245359607a5726515637ea8cc7fc4e6a20403">
+              static T <a class="m-doc-self" href="#09af5dd5d84ca0657635d30b13a245359607a5726515637ea8cc7fc4e6a20403">nan</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Not-A-Number (quiet)</dd>
-            <dt id="aaa9a24c9fcb3a5e801ab0f90be0b3ee2">
-              static T <a class="m-doc-self" href="#aaa9a24c9fcb3a5e801ab0f90be0b3ee2">negative_infinity</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="88b8f9a9133532f5c8b1c3d6b236756aec4be94731a9d8c92f0df18f3191914b">
+              static T <a class="m-doc-self" href="#88b8f9a9133532f5c8b1c3d6b236756aec4be94731a9d8c92f0df18f3191914b">negative_infinity</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Negative infinity.</dd>
-            <dt id="a498e7279b134158d5e0ab808045c702e">
-              static T <a class="m-doc-self" href="#a498e7279b134158d5e0ab808045c702e">negative_zero</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="461f8e2cfb018d5ee5d3a46a8e43766143b59801aa679d744711ca9be142829b">
+              static T <a class="m-doc-self" href="#461f8e2cfb018d5ee5d3a46a8e43766143b59801aa679d744711ca9be142829b">negative_zero</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>-0.0</code></dd>
-            <dt id="a18d881c8722a05c012bced9795a67af1">
-              static T <a class="m-doc-self" href="#a18d881c8722a05c012bced9795a67af1">signaling_nan</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="e2d059df242ff846cc5b7d5abb6ed08ffe57ecdb4da04f9755f9726646d33f75">
+              static T <a class="m-doc-self" href="#e2d059df242ff846cc5b7d5abb6ed08ffe57ecdb4da04f9755f9726646d33f75">signaling_nan</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Not-A-Number (signalling)</dd>
-            <dt id="a271360bbc1c9363d6faa2268688c0450">
-              static int <a class="m-doc-self" href="#a271360bbc1c9363d6faa2268688c0450">significand_digits</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="0200d4d63db2fbeae53bad671e919a89f22d6035f4411638c61d072430d10500">
+              static int <a class="m-doc-self" href="#0200d4d63db2fbeae53bad671e919a89f22d6035f4411638c61d072430d10500">significand_digits</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The number of significand (mantissa) digits.</dd>
           </dl>
@@ -140,52 +144,52 @@
           <h2><a href="#integers">Integers</a></h2>
 <p><br/></p>
           <dl class="m-doc">
-            <dt id="af2ba01db1bb98a9bb4e922e9ab251396">
-              static T <a class="m-doc-self" href="#af2ba01db1bb98a9bb4e922e9ab251396">eight</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="2b4118d7d9271fc4cea33a9e6d2c084a762f49400a631b639567a466a4affe34">
+              static T <a class="m-doc-self" href="#2b4118d7d9271fc4cea33a9e6d2c084a762f49400a631b639567a466a4affe34">eight</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>8</code></dd>
-            <dt id="a051f1cbddd8b5767829c3ecd1cee7658">
-              static T <a class="m-doc-self" href="#a051f1cbddd8b5767829c3ecd1cee7658">five</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="64c3d22ae734a83febaed2a316dcff55297dad3ccb7aadfc981ff17b72c6c5d4">
+              static T <a class="m-doc-self" href="#64c3d22ae734a83febaed2a316dcff55297dad3ccb7aadfc981ff17b72c6c5d4">five</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>5</code></dd>
-            <dt id="a9cf66c2834e82cb6a19ad13ae42d790e">
-              static T <a class="m-doc-self" href="#a9cf66c2834e82cb6a19ad13ae42d790e">four</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="424a1ae2563048ecc6157b909cc15403222063163364724a029103269eefef77">
+              static T <a class="m-doc-self" href="#424a1ae2563048ecc6157b909cc15403222063163364724a029103269eefef77">four</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>4</code></dd>
-            <dt id="af40cf490a010287c89e833e4e338242a">
-              static T <a class="m-doc-self" href="#af40cf490a010287c89e833e4e338242a">nine</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="7c859c8c97faac9c3dba9311189901aabbcf23f93aaeb1eb119495ca0be6d448">
+              static T <a class="m-doc-self" href="#7c859c8c97faac9c3dba9311189901aabbcf23f93aaeb1eb119495ca0be6d448">nine</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>9</code></dd>
-            <dt id="ad17ac5996bb051d6721cd167dd4d4100">
-              static T <a class="m-doc-self" href="#ad17ac5996bb051d6721cd167dd4d4100">one</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="dff513d50327672502b0c53ec3eedf668ecd94f1bf7c262ba2e1133e43965243">
+              static T <a class="m-doc-self" href="#dff513d50327672502b0c53ec3eedf668ecd94f1bf7c262ba2e1133e43965243">one</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>1</code></dd>
-            <dt id="afc1bc92c2d7a2eae255cf619ea866a17">
-              static T <a class="m-doc-self" href="#afc1bc92c2d7a2eae255cf619ea866a17">one_hundred</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="478f2e025ffab5e5ed812009e23dd3dc3bb50eecc8f036e8c5a126152b9ccb74">
+              static T <a class="m-doc-self" href="#478f2e025ffab5e5ed812009e23dd3dc3bb50eecc8f036e8c5a126152b9ccb74">one_hundred</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>100</code></dd>
-            <dt id="a6630425419bc354dfbb292c590dac436">
-              static T <a class="m-doc-self" href="#a6630425419bc354dfbb292c590dac436">seven</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="b49afaf0435e37f7fdf8527f8d5eb7eb3b9baae32526dee579d04e9ce729a162">
+              static T <a class="m-doc-self" href="#b49afaf0435e37f7fdf8527f8d5eb7eb3b9baae32526dee579d04e9ce729a162">seven</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>7</code></dd>
-            <dt id="a7fe173161cd3b9add56e813abd2a6751">
-              static T <a class="m-doc-self" href="#a7fe173161cd3b9add56e813abd2a6751">six</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="930075bf69df9936176e54eaa6fa1bd6ff3b01e3fa776478ff2c1f59e1bef2a0">
+              static T <a class="m-doc-self" href="#930075bf69df9936176e54eaa6fa1bd6ff3b01e3fa776478ff2c1f59e1bef2a0">six</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>6</code></dd>
-            <dt id="a8eef5030a0dcacf4f3e4e15ba6808501">
-              static T <a class="m-doc-self" href="#a8eef5030a0dcacf4f3e4e15ba6808501">ten</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="ca013e283b5f53ebe328aa3d2683e468970572f3ef8ead177c1a7acb35e5944e">
+              static T <a class="m-doc-self" href="#ca013e283b5f53ebe328aa3d2683e468970572f3ef8ead177c1a7acb35e5944e">ten</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>10</code></dd>
-            <dt id="a5918b6cab7f5a7cc6a4db54e164b8ecd">
-              static T <a class="m-doc-self" href="#a5918b6cab7f5a7cc6a4db54e164b8ecd">three</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="635a33bae8ee571fc6faf05dbd59c6808dcae80a90936bd164a64a13f334eca4">
+              static T <a class="m-doc-self" href="#635a33bae8ee571fc6faf05dbd59c6808dcae80a90936bd164a64a13f334eca4">three</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>3</code></dd>
-            <dt id="a2c524a28fddba7e9f7e5fe2c2377835a">
-              static T <a class="m-doc-self" href="#a2c524a28fddba7e9f7e5fe2c2377835a">two</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="2cb473492b7666fdb1a6e150bcf5ecea824e96b0677ddd8e8973eb7987f17db5">
+              static T <a class="m-doc-self" href="#2cb473492b7666fdb1a6e150bcf5ecea824e96b0677ddd8e8973eb7987f17db5">two</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>2</code></dd>
-            <dt id="ab7ee6b21c3afe3e5b2b6f3904fc26fde">
-              static T <a class="m-doc-self" href="#ab7ee6b21c3afe3e5b2b6f3904fc26fde">zero</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="2562801c44706d582d7c7752d79e6e3d90c2fcb745a618e150d151c06cc0c1a5">
+              static T <a class="m-doc-self" href="#2562801c44706d582d7c7752d79e6e3d90c2fcb745a618e150d151c06cc0c1a5">zero</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>0</code></dd>
           </dl>
@@ -194,208 +198,208 @@
           <h2><a href="#irrational-numbers">Irrational numbers</a></h2>
 <p><br/></p>
           <dl class="m-doc">
-            <dt id="ab614c9b68891ad4631a6e1f213fe1d8f">
-              static T <a class="m-doc-self" href="#ab614c9b68891ad4631a6e1f213fe1d8f">e</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="b34b36b3cb2871ec9eb28a29d0941794529ea0f435dd5fb9f64eae0fcd982ad8">
+              static T <a class="m-doc-self" href="#b34b36b3cb2871ec9eb28a29d0941794529ea0f435dd5fb9f64eae0fcd982ad8">e</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>e</code></dd>
-            <dt id="a56ad5c8894be4c11f519968d8dbbb760">
-              static T <a class="m-doc-self" href="#a56ad5c8894be4c11f519968d8dbbb760">e_over_five</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="44d3fee703fb687d29bd84d670635593f7c12215c1a94efadaa56ebb8b099267">
+              static T <a class="m-doc-self" href="#44d3fee703fb687d29bd84d670635593f7c12215c1a94efadaa56ebb8b099267">e_over_five</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>e / 5</code></dd>
-            <dt id="a6058d4b08521c0b272932dba0a64d0b1">
-              static T <a class="m-doc-self" href="#a6058d4b08521c0b272932dba0a64d0b1">e_over_four</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="b6a7901475017e8dd1d6d93332e109b70b7142fa9dfe76ff3f8d3ee5c09e2a55">
+              static T <a class="m-doc-self" href="#b6a7901475017e8dd1d6d93332e109b70b7142fa9dfe76ff3f8d3ee5c09e2a55">e_over_four</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>e / 4</code></dd>
-            <dt id="a2042500a121f282059a37317b6c68619">
-              static T <a class="m-doc-self" href="#a2042500a121f282059a37317b6c68619">e_over_six</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="141b90bd9f18781b8142a3cc1f5261e4e986192a72ca5c89fb357075679aadcc">
+              static T <a class="m-doc-self" href="#141b90bd9f18781b8142a3cc1f5261e4e986192a72ca5c89fb357075679aadcc">e_over_six</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>e / 6</code></dd>
-            <dt id="adc8d4301233cc6932f4e471997257c47">
-              static T <a class="m-doc-self" href="#adc8d4301233cc6932f4e471997257c47">e_over_three</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="c48f86c8d13a701cdf1ef71ba5016493985135d70feff8479f8704de3c0bb79c">
+              static T <a class="m-doc-self" href="#c48f86c8d13a701cdf1ef71ba5016493985135d70feff8479f8704de3c0bb79c">e_over_three</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>e / 3</code></dd>
-            <dt id="a56cabc429c685f548982605088a4f61a">
-              static T <a class="m-doc-self" href="#a56cabc429c685f548982605088a4f61a">e_over_two</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="7994c7717869ae2c03f0397822e57bda16123fbaa82408d143dc1d08770a0fc7">
+              static T <a class="m-doc-self" href="#7994c7717869ae2c03f0397822e57bda16123fbaa82408d143dc1d08770a0fc7">e_over_two</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>e / 2</code></dd>
-            <dt id="a8170cf60b16d93b31f2c5a0b68beec45">
-              static T <a class="m-doc-self" href="#a8170cf60b16d93b31f2c5a0b68beec45">one_over_e</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="75852739441fe0a9479143f4089cd8a80b5fc71ac0f286485070add2ff2213e1">
+              static T <a class="m-doc-self" href="#75852739441fe0a9479143f4089cd8a80b5fc71ac0f286485070add2ff2213e1">one_over_e</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>1 / e</code></dd>
-            <dt id="a89f535a9c930387a90debf8d00d3e688">
-              static T <a class="m-doc-self" href="#a89f535a9c930387a90debf8d00d3e688">one_over_phi</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="740c37e33c7e674090e6387cff7179fdde07bd11595ffac5fc9da1b47e7db0b4">
+              static T <a class="m-doc-self" href="#740c37e33c7e674090e6387cff7179fdde07bd11595ffac5fc9da1b47e7db0b4">one_over_phi</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>1 / phi</code></dd>
-            <dt id="a2f2ab3baa6197d03e695c994ac8bba3d">
-              static T <a class="m-doc-self" href="#a2f2ab3baa6197d03e695c994ac8bba3d">one_over_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="6de529dbff18ee5fc53fab4bdc442b20ade73354d2e6106d4709583b54bdfbb7">
+              static T <a class="m-doc-self" href="#6de529dbff18ee5fc53fab4bdc442b20ade73354d2e6106d4709583b54bdfbb7">one_over_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>1 / pi</code></dd>
-            <dt id="abb157cd9eeba7b765ee96e5a99243fb2">
-              static T <a class="m-doc-self" href="#abb157cd9eeba7b765ee96e5a99243fb2">one_over_sqrt_e</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="acde32d5330a1e012cfeb270411fb47585482eb13dda62d438cbf2baa2b4437c">
+              static T <a class="m-doc-self" href="#acde32d5330a1e012cfeb270411fb47585482eb13dda62d438cbf2baa2b4437c">one_over_sqrt_e</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>1 / sqrt(e)</code></dd>
-            <dt id="a48504c114fe78e361594f13aee63d7f3">
-              static T <a class="m-doc-self" href="#a48504c114fe78e361594f13aee63d7f3">one_over_sqrt_phi</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="0977973b12d9a6cced60925fbaa8df8e763f02a5ac53dd4ad874b785e3a0dc50">
+              static T <a class="m-doc-self" href="#0977973b12d9a6cced60925fbaa8df8e763f02a5ac53dd4ad874b785e3a0dc50">one_over_sqrt_phi</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>1 / sqrt(phi)</code></dd>
-            <dt id="a2da20ada04dc7d1013930e317f771fcd">
-              static T <a class="m-doc-self" href="#a2da20ada04dc7d1013930e317f771fcd">one_over_sqrt_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="dbcdc1b6cab7146eb533b7fd457ddb30e11733539ddeb1821e30bd362d12cef4">
+              static T <a class="m-doc-self" href="#dbcdc1b6cab7146eb533b7fd457ddb30e11733539ddeb1821e30bd362d12cef4">one_over_sqrt_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>1 / sqrt(pi)</code></dd>
-            <dt id="a464252f773c9de90ce909390acb78e83">
-              static T <a class="m-doc-self" href="#a464252f773c9de90ce909390acb78e83">one_over_sqrt_three</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="4b991100c4b903aa34f5ad44f36d858ee882445c5f973f7920a41a57faa6cd07">
+              static T <a class="m-doc-self" href="#4b991100c4b903aa34f5ad44f36d858ee882445c5f973f7920a41a57faa6cd07">one_over_sqrt_three</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>1 / sqrt(3)</code></dd>
-            <dt id="a516af8ee5d8e6c4b85b6db8534decfad">
-              static T <a class="m-doc-self" href="#a516af8ee5d8e6c4b85b6db8534decfad">one_over_sqrt_three_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="9ae23a86010157448470e4f7cec7cf78b2079929344e71a246299b7f33bb83e2">
+              static T <a class="m-doc-self" href="#9ae23a86010157448470e4f7cec7cf78b2079929344e71a246299b7f33bb83e2">one_over_sqrt_three_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>1 / sqrt(3 * pi)</code></dd>
-            <dt id="abb5ab2c71232991a422af60f645a91c3">
-              static T <a class="m-doc-self" href="#abb5ab2c71232991a422af60f645a91c3">one_over_sqrt_two</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="0c32c590eb0971758cbea2ed68849eb69d0cb56f32159e23eb46eb98e7a0bc15">
+              static T <a class="m-doc-self" href="#0c32c590eb0971758cbea2ed68849eb69d0cb56f32159e23eb46eb98e7a0bc15">one_over_sqrt_two</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>1 / sqrt(2)</code></dd>
-            <dt id="af07728740f2b6eff2f12701501d05ef9">
-              static T <a class="m-doc-self" href="#af07728740f2b6eff2f12701501d05ef9">one_over_sqrt_two_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="14d9bcf80d337ddd302edbb531ec2d7fd285a86a258c89233007e231c7f95ec3">
+              static T <a class="m-doc-self" href="#14d9bcf80d337ddd302edbb531ec2d7fd285a86a258c89233007e231c7f95ec3">one_over_sqrt_two_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>1 / sqrt(2 * pi)</code></dd>
-            <dt id="a3856d9961c6e98c939110e6d936c5197">
-              static T <a class="m-doc-self" href="#a3856d9961c6e98c939110e6d936c5197">one_over_three</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="df99dc2532289e5ce9150f096b937c9212815184294bd58e491954ae7d897e84">
+              static T <a class="m-doc-self" href="#df99dc2532289e5ce9150f096b937c9212815184294bd58e491954ae7d897e84">one_over_three</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>1 / 3</code></dd>
-            <dt id="a95565ff57511b42c001c8b2bb1be2f6b">
-              static T <a class="m-doc-self" href="#a95565ff57511b42c001c8b2bb1be2f6b">one_over_three_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="5b069e91fbb5e20f6fe594cbb1ed13ab5d5b61ed43077e025d1762e551dfb140">
+              static T <a class="m-doc-self" href="#5b069e91fbb5e20f6fe594cbb1ed13ab5d5b61ed43077e025d1762e551dfb140">one_over_three_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>1 / (3 * pi)</code></dd>
-            <dt id="a97b704174f0d835c2e67d66aa08f87dc">
-              static T <a class="m-doc-self" href="#a97b704174f0d835c2e67d66aa08f87dc">one_over_two</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="cd63ab5a8bda289a15e68e36b9529f7c6d3cc9d7e34dc0cdcba3736dbb18f370">
+              static T <a class="m-doc-self" href="#cd63ab5a8bda289a15e68e36b9529f7c6d3cc9d7e34dc0cdcba3736dbb18f370">one_over_two</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>1 / 2</code></dd>
-            <dt id="a5c3f5d44a6a913421354724dec86bce5">
-              static T <a class="m-doc-self" href="#a5c3f5d44a6a913421354724dec86bce5">one_over_two_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="b714666a08a8fe2d1bbfa194d622e3b96314ddc91325acaf45cc9ac986b2731f">
+              static T <a class="m-doc-self" href="#b714666a08a8fe2d1bbfa194d622e3b96314ddc91325acaf45cc9ac986b2731f">one_over_two_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>1 / (2 * pi)</code></dd>
-            <dt id="a9f4d73938ab4e513bb05753a372a02e5">
-              static T <a class="m-doc-self" href="#a9f4d73938ab4e513bb05753a372a02e5">phi</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="49b477f96aeb601eb320e09262acea09fe99c070941ad43a1bdd10982afb72d1">
+              static T <a class="m-doc-self" href="#49b477f96aeb601eb320e09262acea09fe99c070941ad43a1bdd10982afb72d1">phi</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>phi</code></dd>
-            <dt id="a8e70ac6ef5130f7e5243a8b72779cb36">
-              static T <a class="m-doc-self" href="#a8e70ac6ef5130f7e5243a8b72779cb36">phi_over_five</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="effbbd2dbd5f8b6fb6dbb369b5b531033640f41915741e993be27abcd7e912f3">
+              static T <a class="m-doc-self" href="#effbbd2dbd5f8b6fb6dbb369b5b531033640f41915741e993be27abcd7e912f3">phi_over_five</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>phi / 5</code></dd>
-            <dt id="a94541fcbb9c39c989e951ef426e1f498">
-              static T <a class="m-doc-self" href="#a94541fcbb9c39c989e951ef426e1f498">phi_over_four</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="d9ed53cc47e9a97da4eb67ae78a3f91d8fea70dac8a2289b2a4d6f5c551482c8">
+              static T <a class="m-doc-self" href="#d9ed53cc47e9a97da4eb67ae78a3f91d8fea70dac8a2289b2a4d6f5c551482c8">phi_over_four</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>phi / 4</code></dd>
-            <dt id="a536cfa37af3221c9d2c8dcad51d896fb">
-              static T <a class="m-doc-self" href="#a536cfa37af3221c9d2c8dcad51d896fb">phi_over_six</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="6aa242607905aa14c9bba3dd85d35928dfd1f944e3aa482f908506726543a8a8">
+              static T <a class="m-doc-self" href="#6aa242607905aa14c9bba3dd85d35928dfd1f944e3aa482f908506726543a8a8">phi_over_six</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>phi / 6</code></dd>
-            <dt id="a7a02d0c7bd256d21f9dcfdeca2dd7c79">
-              static T <a class="m-doc-self" href="#a7a02d0c7bd256d21f9dcfdeca2dd7c79">phi_over_three</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="2b52c9e1fa2e3e80795f851db746630f51ee8e9be6d66f1e74349d1abc676569">
+              static T <a class="m-doc-self" href="#2b52c9e1fa2e3e80795f851db746630f51ee8e9be6d66f1e74349d1abc676569">phi_over_three</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>phi / 3</code></dd>
-            <dt id="a441419c166680b23dd9a4522aa26f196">
-              static T <a class="m-doc-self" href="#a441419c166680b23dd9a4522aa26f196">phi_over_two</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="bff7f3c3c935be6d78698f09004060651ac4df1d13c1bc503b797f036cf24b12">
+              static T <a class="m-doc-self" href="#bff7f3c3c935be6d78698f09004060651ac4df1d13c1bc503b797f036cf24b12">phi_over_two</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>phi / 2</code></dd>
-            <dt id="a0b5c78e8c9564ba7f230bde4b99dd8cb">
-              static T <a class="m-doc-self" href="#a0b5c78e8c9564ba7f230bde4b99dd8cb">pi</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="6c32990cce4e67ae1c4c73678491ad43917793b856125d00851971c835e8dc7f">
+              static T <a class="m-doc-self" href="#6c32990cce4e67ae1c4c73678491ad43917793b856125d00851971c835e8dc7f">pi</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>pi</code></dd>
-            <dt id="ac51e3d4e13b618af9dff06a99c479daf">
-              static T <a class="m-doc-self" href="#ac51e3d4e13b618af9dff06a99c479daf">pi_over_eight</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="8c2fe10f32b96a9889f91df896f56f46a52860320b0462efc9f0b3d025956160">
+              static T <a class="m-doc-self" href="#8c2fe10f32b96a9889f91df896f56f46a52860320b0462efc9f0b3d025956160">pi_over_eight</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>pi / 8</code></dd>
-            <dt id="a820f24f00a7939d22cf611082e115cc0">
-              static T <a class="m-doc-self" href="#a820f24f00a7939d22cf611082e115cc0">pi_over_five</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="92f26fcf0fef5ca55ba06f580e4f2221a537bc2cafd28556f4ed8f1daf63905f">
+              static T <a class="m-doc-self" href="#92f26fcf0fef5ca55ba06f580e4f2221a537bc2cafd28556f4ed8f1daf63905f">pi_over_five</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>pi / 5</code></dd>
-            <dt id="a1b7ed13ae6a33a313b8b7b0d20ac4542">
-              static T <a class="m-doc-self" href="#a1b7ed13ae6a33a313b8b7b0d20ac4542">pi_over_four</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="e82ff8f6fdecd88a0924679788b80cdfc90e24b822586368827858f1c93e8de1">
+              static T <a class="m-doc-self" href="#e82ff8f6fdecd88a0924679788b80cdfc90e24b822586368827858f1c93e8de1">pi_over_four</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>pi / 4</code></dd>
-            <dt id="a25fb9a6fa23e958f77f3aa4271a5c580">
-              static T <a class="m-doc-self" href="#a25fb9a6fa23e958f77f3aa4271a5c580">pi_over_seven</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="8189fed1d46a7cff40d143a08eadd9f6bc767feac73c2b0aff12bd629dcec45e">
+              static T <a class="m-doc-self" href="#8189fed1d46a7cff40d143a08eadd9f6bc767feac73c2b0aff12bd629dcec45e">pi_over_seven</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>pi / 7</code></dd>
-            <dt id="a69ee3d0e266fd6ed5ab5955101c33738">
-              static T <a class="m-doc-self" href="#a69ee3d0e266fd6ed5ab5955101c33738">pi_over_six</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="22eaefa057b630b043abec9d3d96df28523cb05d86e0f942735da242ea75826d">
+              static T <a class="m-doc-self" href="#22eaefa057b630b043abec9d3d96df28523cb05d86e0f942735da242ea75826d">pi_over_six</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>pi / 6</code></dd>
-            <dt id="adf2b0f007f4bb6fb8b510d7d945f30a4">
-              static T <a class="m-doc-self" href="#adf2b0f007f4bb6fb8b510d7d945f30a4">pi_over_three</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="8dab442a36bb3b8b596f9b09cd0ef0795c36e97a3c8a212257a3ea80e3944e86">
+              static T <a class="m-doc-self" href="#8dab442a36bb3b8b596f9b09cd0ef0795c36e97a3c8a212257a3ea80e3944e86">pi_over_three</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>pi / 3</code></dd>
-            <dt id="ad0025373b19f3711fadbf07913520799">
-              static T <a class="m-doc-self" href="#ad0025373b19f3711fadbf07913520799">pi_over_two</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="8f03be4b4b4378c1c494b1b2baccef02a10167e1d4b3c9b0049c9e1f90614c77">
+              static T <a class="m-doc-self" href="#8f03be4b4b4378c1c494b1b2baccef02a10167e1d4b3c9b0049c9e1f90614c77">pi_over_two</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>pi / 2</code></dd>
-            <dt id="a75ea66a589f47b8db0f641df39bb6289">
-              static T <a class="m-doc-self" href="#a75ea66a589f47b8db0f641df39bb6289">sqrt_e</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="8c9a52f200da39854d7524cbcb9479b0cd71b45a478aa4ab1ce8a14a021b90db">
+              static T <a class="m-doc-self" href="#8c9a52f200da39854d7524cbcb9479b0cd71b45a478aa4ab1ce8a14a021b90db">sqrt_e</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>sqrt(e)</code></dd>
-            <dt id="ab01a9e9ea6161a75b6ac2085e64d612d">
-              static T <a class="m-doc-self" href="#ab01a9e9ea6161a75b6ac2085e64d612d">sqrt_phi</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="c3775ca151e1a5f292cf35941c1d743d9d4962eeb88e6e624876b8b6226bd803">
+              static T <a class="m-doc-self" href="#c3775ca151e1a5f292cf35941c1d743d9d4962eeb88e6e624876b8b6226bd803">sqrt_phi</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>sqrt(phi)</code></dd>
-            <dt id="aba46fe74abcb1dc1cf6d913dce2e12a4">
-              static T <a class="m-doc-self" href="#aba46fe74abcb1dc1cf6d913dce2e12a4">sqrt_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="817b416e86feb28a72c54ec55644d43edfc2caa2d73d34105fc7216924a1d7bb">
+              static T <a class="m-doc-self" href="#817b416e86feb28a72c54ec55644d43edfc2caa2d73d34105fc7216924a1d7bb">sqrt_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>sqrt(pi)</code></dd>
-            <dt id="a4127bcba0f19db731a6585d5300c43aa">
-              static T <a class="m-doc-self" href="#a4127bcba0f19db731a6585d5300c43aa">sqrt_three</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="aa4507278fbca2009613be69cf93987754fb8411fe8095758826c1832ac6eec5">
+              static T <a class="m-doc-self" href="#aa4507278fbca2009613be69cf93987754fb8411fe8095758826c1832ac6eec5">sqrt_three</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>sqrt(3)</code></dd>
-            <dt id="ad2c6df93a48cab2bdb8587f9c6b01e96">
-              static T <a class="m-doc-self" href="#ad2c6df93a48cab2bdb8587f9c6b01e96">sqrt_three_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="613ecf0d836141d57734d41feeb309f9a27f6583206c6837ac50538b547a93ed">
+              static T <a class="m-doc-self" href="#613ecf0d836141d57734d41feeb309f9a27f6583206c6837ac50538b547a93ed">sqrt_three_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>sqrt(3 * pi)</code></dd>
-            <dt id="aa2ff8e551daff356a3614f440ca1130a">
-              static T <a class="m-doc-self" href="#aa2ff8e551daff356a3614f440ca1130a">sqrt_two</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="bbafdaa7d9af14a0b0b28e71b7cea0f5f3ea296d4e1e088ef64608e6598e5a35">
+              static T <a class="m-doc-self" href="#bbafdaa7d9af14a0b0b28e71b7cea0f5f3ea296d4e1e088ef64608e6598e5a35">sqrt_two</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>sqrt(2)</code></dd>
-            <dt id="aacf57290e1b19b1d9cce730ed28d0732">
-              static T <a class="m-doc-self" href="#aacf57290e1b19b1d9cce730ed28d0732">sqrt_two_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="477dc51a9fe92d70233f62dad48d300f6e5af098cc7225f104564917f86ab616">
+              static T <a class="m-doc-self" href="#477dc51a9fe92d70233f62dad48d300f6e5af098cc7225f104564917f86ab616">sqrt_two_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>sqrt(2 * pi)</code></dd>
-            <dt id="ace37b244a8fcd46233c790440694e45d">
-              static T <a class="m-doc-self" href="#ace37b244a8fcd46233c790440694e45d">three_over_five</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="c57eb1a5671092619db94eea6929b755c3d5464642a25dce6e5b42ad90fc0e2a">
+              static T <a class="m-doc-self" href="#c57eb1a5671092619db94eea6929b755c3d5464642a25dce6e5b42ad90fc0e2a">three_over_five</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>3 / 5</code></dd>
-            <dt id="abc68f787a590a5dcd8d3fd6d8485354f">
-              static T <a class="m-doc-self" href="#abc68f787a590a5dcd8d3fd6d8485354f">three_over_four</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="daf58c64162be8b026d20ee450afc1e5bcaf52564f91e2dfaf7287768f9b3ff7">
+              static T <a class="m-doc-self" href="#daf58c64162be8b026d20ee450afc1e5bcaf52564f91e2dfaf7287768f9b3ff7">three_over_four</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>3 / 4</code></dd>
-            <dt id="a3e4ecadc854e50a548a3557aea143499">
-              static T <a class="m-doc-self" href="#a3e4ecadc854e50a548a3557aea143499">three_over_two</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="1ffd15cd4fd4068b641795c22976ae28a5a821f6f081e665c1ea82fee7b8848a">
+              static T <a class="m-doc-self" href="#1ffd15cd4fd4068b641795c22976ae28a5a821f6f081e665c1ea82fee7b8848a">three_over_two</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>3 / 2</code></dd>
-            <dt id="aa5bfd8d8176b47a3af4c7e7d59e8594a">
-              static T <a class="m-doc-self" href="#aa5bfd8d8176b47a3af4c7e7d59e8594a">three_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="818fae43641eade8a3bce0da3b6981ca9f081f77333e3ee7955ee7c3a20f1033">
+              static T <a class="m-doc-self" href="#818fae43641eade8a3bce0da3b6981ca9f081f77333e3ee7955ee7c3a20f1033">three_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>3 * pi</code></dd>
-            <dt id="a893ec726c99cdc65cbd816de3fd26cee">
-              static T <a class="m-doc-self" href="#a893ec726c99cdc65cbd816de3fd26cee">three_pi_over_five</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="0a95d4bf212f7c4e307c375d535403f239354688a68cb3636463840fa8578896">
+              static T <a class="m-doc-self" href="#0a95d4bf212f7c4e307c375d535403f239354688a68cb3636463840fa8578896">three_pi_over_five</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>3 * (pi / 5)</code></dd>
-            <dt id="ae34871701f28a0a0ed646f3804021b33">
-              static T <a class="m-doc-self" href="#ae34871701f28a0a0ed646f3804021b33">three_pi_over_four</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="d5ced26072e1df9c24b3c26d12e8e308a218a6437fbb17bd4f478124d1dde947">
+              static T <a class="m-doc-self" href="#d5ced26072e1df9c24b3c26d12e8e308a218a6437fbb17bd4f478124d1dde947">three_pi_over_four</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>3 * (pi / 4)</code></dd>
-            <dt id="a717294e1f43a6464bd49705b3317057f">
-              static T <a class="m-doc-self" href="#a717294e1f43a6464bd49705b3317057f">three_pi_over_two</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="88c061639724ecfcad0d2728bba9d30be7481bf4ea869c04cc4c94fb1788ccf7">
+              static T <a class="m-doc-self" href="#88c061639724ecfcad0d2728bba9d30be7481bf4ea869c04cc4c94fb1788ccf7">three_pi_over_two</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>3 * (pi / 2)</code></dd>
-            <dt id="a7ec49dda0ba31099cafbb2341ccead62">
-              static T <a class="m-doc-self" href="#a7ec49dda0ba31099cafbb2341ccead62">two_over_five</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="c6850226b52e777e4b633a605043de1018a972ba825933e8fb19d9ca225b0a8f">
+              static T <a class="m-doc-self" href="#c6850226b52e777e4b633a605043de1018a972ba825933e8fb19d9ca225b0a8f">two_over_five</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>2 / 5</code></dd>
-            <dt id="ae4bc44456ff052b46644e3a9224ad4db">
-              static T <a class="m-doc-self" href="#ae4bc44456ff052b46644e3a9224ad4db">two_over_three</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="ccf10e5faae2c3f4ac72c4db5815971f74cb1cd044959bdedde56bf210e97868">
+              static T <a class="m-doc-self" href="#ccf10e5faae2c3f4ac72c4db5815971f74cb1cd044959bdedde56bf210e97868">two_over_three</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>2 / 3</code></dd>
-            <dt id="a83b56ce54362ebbf9d0800b4ba222b66">
-              static T <a class="m-doc-self" href="#a83b56ce54362ebbf9d0800b4ba222b66">two_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="95dcc4fe6b0116dd493994d0ba9cd756e75e18087802ae45981c7588867f3134">
+              static T <a class="m-doc-self" href="#95dcc4fe6b0116dd493994d0ba9cd756e75e18087802ae45981c7588867f3134">two_pi</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><code>2 * pi</code></dd>
           </dl>
@@ -404,40 +408,40 @@
           <h2><a href="#limits">Limits</a></h2>
 <p><br/></p>
           <dl class="m-doc">
-            <dt id="a24317d3d0a6baac2b01c07f15088252b">
-              static T <a class="m-doc-self" href="#a24317d3d0a6baac2b01c07f15088252b">highest</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="01667675e18cef7e33481c02c17028b98126f0a76a9ecc6ba07ce39b8d40b7df">
+              static T <a class="m-doc-self" href="#01667675e18cef7e33481c02c17028b98126f0a76a9ecc6ba07ce39b8d40b7df">highest</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>The highest representable 'normal' value (equivalent to <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/numeric_limits/max.html" target="_blank">std::<wbr/>numeric_limits::<wbr/>max()</a>).</dd>
-            <dt id="a72089a3ceead7e7dcd265ce5f6e8f13c">
-              static T <a class="m-doc-self" href="#a72089a3ceead7e7dcd265ce5f6e8f13c">lowest</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dd>The highest representable 'normal' value (equivalent to <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/numeric_limits/max.html" target="_blank">std::<wbr/>numeric_limits::<wbr/>max()</a>).</dd>
+            <dt id="00d6658b5b09f4245fb2638a637de0fdf3502c219c1e7d3bddae560ef74aeebb">
+              static T <a class="m-doc-self" href="#00d6658b5b09f4245fb2638a637de0fdf3502c219c1e7d3bddae560ef74aeebb">lowest</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>The lowest representable 'normal' value (equivalent to <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/numeric_limits/lowest.html" target="_blank">std::<wbr/>numeric_limits::<wbr/>lowest()</a>).</dd>
+            <dd>The lowest representable 'normal' value (equivalent to <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/numeric_limits/lowest.html" target="_blank">std::<wbr/>numeric_limits::<wbr/>lowest()</a>).</dd>
           </dl>
         </section>
         <section id="rotations">
           <h2><a href="#rotations">Rotations</a></h2>
 <p><br/></p>
           <dl class="m-doc">
-            <dt id="a6e4d747c39e1a58b9632275e72ee29cd">
-              static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt; <a class="m-doc-self" href="#a6e4d747c39e1a58b9632275e72ee29cd">backward</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="eea84ed01b2ca6bb6d0cd9ad1a05efc5638b2c622de193514526c43bef93fdd2">
+              static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt; <a class="m-doc-self" href="#eea84ed01b2ca6bb6d0cd9ad1a05efc5638b2c622de193514526c43bef93fdd2">backward</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>A <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a> encoding a rotation 180 degrees backward.</dd>
-            <dt id="a888a9bb9a196a4df907f487e3a1796a7">
-              static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt; <a class="m-doc-self" href="#a888a9bb9a196a4df907f487e3a1796a7">down</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dd>A <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a> encoding a rotation 180 degrees backward.</dd>
+            <dt id="2547cd6185391968f8c08901c1cafd86137f82134e0de10d9f7bf8266dca114d">
+              static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt; <a class="m-doc-self" href="#2547cd6185391968f8c08901c1cafd86137f82134e0de10d9f7bf8266dca114d">down</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>A <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a> encoding a rotation 90 degrees downward.</dd>
-            <dt id="a1254f1db42d0cd69d663b1bb972b9151">
-              static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt; <a class="m-doc-self" href="#a1254f1db42d0cd69d663b1bb972b9151">left</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dd>A <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a> encoding a rotation 90 degrees downward.</dd>
+            <dt id="a1e73d96bee3e88e61d125c40686150533af66c7d4300eabb61cce7aa39f337b">
+              static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt; <a class="m-doc-self" href="#a1e73d96bee3e88e61d125c40686150533af66c7d4300eabb61cce7aa39f337b">left</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>A <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a> encoding a rotation 90 degrees to the left.</dd>
-            <dt id="ac885ed3cf45d5bbdc6909756a25aa660">
-              static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt; <a class="m-doc-self" href="#ac885ed3cf45d5bbdc6909756a25aa660">right</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dd>A <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a> encoding a rotation 90 degrees to the left.</dd>
+            <dt id="25157113fde5a39b6499983a11d90e26ed3839a92047479d5adaedf72b1d5335">
+              static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt; <a class="m-doc-self" href="#25157113fde5a39b6499983a11d90e26ed3839a92047479d5adaedf72b1d5335">right</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>A <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a> encoding a rotation 90 degrees to the right.</dd>
-            <dt id="a686d8b516545642408efec5b3259ac0f">
-              static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt; <a class="m-doc-self" href="#a686d8b516545642408efec5b3259ac0f">up</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dd>A <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a> encoding a rotation 90 degrees to the right.</dd>
+            <dt id="069266b36c46993e6327e2dfde51b02ba657f43db4271ffcfdbc04bb57a622c5">
+              static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt; <a class="m-doc-self" href="#069266b36c46993e6327e2dfde51b02ba657f43db4271ffcfdbc04bb57a622c5">up</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>A <a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a> encoding a rotation 90 degrees upward.</dd>
+            <dd>A <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a> encoding a rotation 90 degrees upward.</dd>
           </dl>
         </section>
         <section>
@@ -445,677 +449,677 @@
           <section class="m-doc-details" id="aeccb3b36d3bd113aee45fdd46a6f03b8"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#aeccb3b36d3bd113aee45fdd46a6f03b8">degrees_to_radians</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#aeccb3b36d3bd113aee45fdd46a6f03b8">degrees_to_radians</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Conversion factor for converting degrees into radians.</p>
           </div></section>
           <section class="m-doc-details" id="abf3ad7c5164fb1959c4f972abfc3c2a9"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#abf3ad7c5164fb1959c4f972abfc3c2a9">radians_to_degrees</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#abf3ad7c5164fb1959c4f972abfc3c2a9">radians_to_degrees</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Conversion factor for converting radians into degrees.</p>
           </div></section>
           <section class="m-doc-details" id="a2bff43b1dcb276c5afc5229947916143"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static int muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a2bff43b1dcb276c5afc5229947916143">decimal_digits</a> <span class="m-label m-primary">constexpr</span>
+              static int muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a2bff43b1dcb276c5afc5229947916143">decimal_digits</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>The number of significant decimal digits that can be exactly represented.</p>
           </div></section>
           <section class="m-doc-details" id="adc1531889846796666d300f83f97f652"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#adc1531889846796666d300f83f97f652">default_epsilon</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#adc1531889846796666d300f83f97f652">default_epsilon</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>The default epsilon used by <a class="m-doc" href="group__approx__equal.html#ga0535df1acd603649ac9f793d96062112">approx_<wbr/>equal()</a>.</p>
           </div></section>
           <section class="m-doc-details" id="a6484cb7a237ef6dfc47f485ad7a3ff5b"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a6484cb7a237ef6dfc47f485ad7a3ff5b">infinity</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a6484cb7a237ef6dfc47f485ad7a3ff5b">infinity</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Positive infinity.</p>
           </div></section>
           <section class="m-doc-details" id="a4aa8a5adb80a44aacd5b32568501be01"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a4aa8a5adb80a44aacd5b32568501be01">nan</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a4aa8a5adb80a44aacd5b32568501be01">nan</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Not-A-Number (quiet)</p>
           </div></section>
           <section class="m-doc-details" id="aaa9a24c9fcb3a5e801ab0f90be0b3ee2"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#aaa9a24c9fcb3a5e801ab0f90be0b3ee2">negative_infinity</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#aaa9a24c9fcb3a5e801ab0f90be0b3ee2">negative_infinity</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Negative infinity.</p>
           </div></section>
           <section class="m-doc-details" id="a498e7279b134158d5e0ab808045c702e"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a498e7279b134158d5e0ab808045c702e">negative_zero</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a498e7279b134158d5e0ab808045c702e">negative_zero</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>-0.0</code></p>
           </div></section>
           <section class="m-doc-details" id="a18d881c8722a05c012bced9795a67af1"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a18d881c8722a05c012bced9795a67af1">signaling_nan</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a18d881c8722a05c012bced9795a67af1">signaling_nan</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Not-A-Number (signalling)</p>
           </div></section>
           <section class="m-doc-details" id="a271360bbc1c9363d6faa2268688c0450"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static int muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a271360bbc1c9363d6faa2268688c0450">significand_digits</a> <span class="m-label m-primary">constexpr</span>
+              static int muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a271360bbc1c9363d6faa2268688c0450">significand_digits</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>The number of significand (mantissa) digits.</p>
           </div></section>
           <section class="m-doc-details" id="af2ba01db1bb98a9bb4e922e9ab251396"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#af2ba01db1bb98a9bb4e922e9ab251396">eight</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#af2ba01db1bb98a9bb4e922e9ab251396">eight</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>8</code></p>
           </div></section>
           <section class="m-doc-details" id="a051f1cbddd8b5767829c3ecd1cee7658"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a051f1cbddd8b5767829c3ecd1cee7658">five</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a051f1cbddd8b5767829c3ecd1cee7658">five</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>5</code></p>
           </div></section>
           <section class="m-doc-details" id="a9cf66c2834e82cb6a19ad13ae42d790e"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a9cf66c2834e82cb6a19ad13ae42d790e">four</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a9cf66c2834e82cb6a19ad13ae42d790e">four</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>4</code></p>
           </div></section>
           <section class="m-doc-details" id="af40cf490a010287c89e833e4e338242a"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#af40cf490a010287c89e833e4e338242a">nine</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#af40cf490a010287c89e833e4e338242a">nine</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>9</code></p>
           </div></section>
           <section class="m-doc-details" id="ad17ac5996bb051d6721cd167dd4d4100"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#ad17ac5996bb051d6721cd167dd4d4100">one</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#ad17ac5996bb051d6721cd167dd4d4100">one</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1</code></p>
           </div></section>
           <section class="m-doc-details" id="afc1bc92c2d7a2eae255cf619ea866a17"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#afc1bc92c2d7a2eae255cf619ea866a17">one_hundred</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#afc1bc92c2d7a2eae255cf619ea866a17">one_hundred</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>100</code></p>
           </div></section>
           <section class="m-doc-details" id="a6630425419bc354dfbb292c590dac436"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a6630425419bc354dfbb292c590dac436">seven</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a6630425419bc354dfbb292c590dac436">seven</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>7</code></p>
           </div></section>
           <section class="m-doc-details" id="a7fe173161cd3b9add56e813abd2a6751"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a7fe173161cd3b9add56e813abd2a6751">six</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a7fe173161cd3b9add56e813abd2a6751">six</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>6</code></p>
           </div></section>
           <section class="m-doc-details" id="a8eef5030a0dcacf4f3e4e15ba6808501"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a8eef5030a0dcacf4f3e4e15ba6808501">ten</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a8eef5030a0dcacf4f3e4e15ba6808501">ten</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>10</code></p>
           </div></section>
           <section class="m-doc-details" id="a5918b6cab7f5a7cc6a4db54e164b8ecd"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a5918b6cab7f5a7cc6a4db54e164b8ecd">three</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a5918b6cab7f5a7cc6a4db54e164b8ecd">three</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>3</code></p>
           </div></section>
           <section class="m-doc-details" id="a2c524a28fddba7e9f7e5fe2c2377835a"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a2c524a28fddba7e9f7e5fe2c2377835a">two</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a2c524a28fddba7e9f7e5fe2c2377835a">two</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>2</code></p>
           </div></section>
           <section class="m-doc-details" id="ab7ee6b21c3afe3e5b2b6f3904fc26fde"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#ab7ee6b21c3afe3e5b2b6f3904fc26fde">zero</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#ab7ee6b21c3afe3e5b2b6f3904fc26fde">zero</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>0</code></p>
           </div></section>
           <section class="m-doc-details" id="ab614c9b68891ad4631a6e1f213fe1d8f"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#ab614c9b68891ad4631a6e1f213fe1d8f">e</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#ab614c9b68891ad4631a6e1f213fe1d8f">e</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>e</code></p>
           </div></section>
           <section class="m-doc-details" id="a56ad5c8894be4c11f519968d8dbbb760"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a56ad5c8894be4c11f519968d8dbbb760">e_over_five</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a56ad5c8894be4c11f519968d8dbbb760">e_over_five</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>e / 5</code></p>
           </div></section>
           <section class="m-doc-details" id="a6058d4b08521c0b272932dba0a64d0b1"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a6058d4b08521c0b272932dba0a64d0b1">e_over_four</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a6058d4b08521c0b272932dba0a64d0b1">e_over_four</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>e / 4</code></p>
           </div></section>
           <section class="m-doc-details" id="a2042500a121f282059a37317b6c68619"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a2042500a121f282059a37317b6c68619">e_over_six</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a2042500a121f282059a37317b6c68619">e_over_six</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>e / 6</code></p>
           </div></section>
           <section class="m-doc-details" id="adc8d4301233cc6932f4e471997257c47"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#adc8d4301233cc6932f4e471997257c47">e_over_three</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#adc8d4301233cc6932f4e471997257c47">e_over_three</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>e / 3</code></p>
           </div></section>
           <section class="m-doc-details" id="a56cabc429c685f548982605088a4f61a"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a56cabc429c685f548982605088a4f61a">e_over_two</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a56cabc429c685f548982605088a4f61a">e_over_two</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>e / 2</code></p>
           </div></section>
           <section class="m-doc-details" id="a8170cf60b16d93b31f2c5a0b68beec45"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a8170cf60b16d93b31f2c5a0b68beec45">one_over_e</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a8170cf60b16d93b31f2c5a0b68beec45">one_over_e</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1 / e</code></p>
           </div></section>
           <section class="m-doc-details" id="a89f535a9c930387a90debf8d00d3e688"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a89f535a9c930387a90debf8d00d3e688">one_over_phi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a89f535a9c930387a90debf8d00d3e688">one_over_phi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1 / phi</code></p>
           </div></section>
           <section class="m-doc-details" id="a2f2ab3baa6197d03e695c994ac8bba3d"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a2f2ab3baa6197d03e695c994ac8bba3d">one_over_pi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a2f2ab3baa6197d03e695c994ac8bba3d">one_over_pi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1 / pi</code></p>
           </div></section>
           <section class="m-doc-details" id="abb157cd9eeba7b765ee96e5a99243fb2"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#abb157cd9eeba7b765ee96e5a99243fb2">one_over_sqrt_e</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#abb157cd9eeba7b765ee96e5a99243fb2">one_over_sqrt_e</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1 / sqrt(e)</code></p>
           </div></section>
           <section class="m-doc-details" id="a48504c114fe78e361594f13aee63d7f3"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a48504c114fe78e361594f13aee63d7f3">one_over_sqrt_phi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a48504c114fe78e361594f13aee63d7f3">one_over_sqrt_phi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1 / sqrt(phi)</code></p>
           </div></section>
           <section class="m-doc-details" id="a2da20ada04dc7d1013930e317f771fcd"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a2da20ada04dc7d1013930e317f771fcd">one_over_sqrt_pi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a2da20ada04dc7d1013930e317f771fcd">one_over_sqrt_pi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1 / sqrt(pi)</code></p>
           </div></section>
           <section class="m-doc-details" id="a464252f773c9de90ce909390acb78e83"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a464252f773c9de90ce909390acb78e83">one_over_sqrt_three</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a464252f773c9de90ce909390acb78e83">one_over_sqrt_three</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1 / sqrt(3)</code></p>
           </div></section>
           <section class="m-doc-details" id="a516af8ee5d8e6c4b85b6db8534decfad"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a516af8ee5d8e6c4b85b6db8534decfad">one_over_sqrt_three_pi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a516af8ee5d8e6c4b85b6db8534decfad">one_over_sqrt_three_pi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1 / sqrt(3 * pi)</code></p>
           </div></section>
           <section class="m-doc-details" id="abb5ab2c71232991a422af60f645a91c3"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#abb5ab2c71232991a422af60f645a91c3">one_over_sqrt_two</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#abb5ab2c71232991a422af60f645a91c3">one_over_sqrt_two</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1 / sqrt(2)</code></p>
           </div></section>
           <section class="m-doc-details" id="af07728740f2b6eff2f12701501d05ef9"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#af07728740f2b6eff2f12701501d05ef9">one_over_sqrt_two_pi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#af07728740f2b6eff2f12701501d05ef9">one_over_sqrt_two_pi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1 / sqrt(2 * pi)</code></p>
           </div></section>
           <section class="m-doc-details" id="a3856d9961c6e98c939110e6d936c5197"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a3856d9961c6e98c939110e6d936c5197">one_over_three</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a3856d9961c6e98c939110e6d936c5197">one_over_three</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1 / 3</code></p>
           </div></section>
           <section class="m-doc-details" id="a95565ff57511b42c001c8b2bb1be2f6b"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a95565ff57511b42c001c8b2bb1be2f6b">one_over_three_pi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a95565ff57511b42c001c8b2bb1be2f6b">one_over_three_pi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1 / (3 * pi)</code></p>
           </div></section>
           <section class="m-doc-details" id="a97b704174f0d835c2e67d66aa08f87dc"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a97b704174f0d835c2e67d66aa08f87dc">one_over_two</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a97b704174f0d835c2e67d66aa08f87dc">one_over_two</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1 / 2</code></p>
           </div></section>
           <section class="m-doc-details" id="a5c3f5d44a6a913421354724dec86bce5"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a5c3f5d44a6a913421354724dec86bce5">one_over_two_pi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a5c3f5d44a6a913421354724dec86bce5">one_over_two_pi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>1 / (2 * pi)</code></p>
           </div></section>
           <section class="m-doc-details" id="a9f4d73938ab4e513bb05753a372a02e5"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a9f4d73938ab4e513bb05753a372a02e5">phi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a9f4d73938ab4e513bb05753a372a02e5">phi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>phi</code></p>
           </div></section>
           <section class="m-doc-details" id="a8e70ac6ef5130f7e5243a8b72779cb36"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a8e70ac6ef5130f7e5243a8b72779cb36">phi_over_five</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a8e70ac6ef5130f7e5243a8b72779cb36">phi_over_five</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>phi / 5</code></p>
           </div></section>
           <section class="m-doc-details" id="a94541fcbb9c39c989e951ef426e1f498"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a94541fcbb9c39c989e951ef426e1f498">phi_over_four</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a94541fcbb9c39c989e951ef426e1f498">phi_over_four</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>phi / 4</code></p>
           </div></section>
           <section class="m-doc-details" id="a536cfa37af3221c9d2c8dcad51d896fb"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a536cfa37af3221c9d2c8dcad51d896fb">phi_over_six</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a536cfa37af3221c9d2c8dcad51d896fb">phi_over_six</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>phi / 6</code></p>
           </div></section>
           <section class="m-doc-details" id="a7a02d0c7bd256d21f9dcfdeca2dd7c79"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a7a02d0c7bd256d21f9dcfdeca2dd7c79">phi_over_three</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a7a02d0c7bd256d21f9dcfdeca2dd7c79">phi_over_three</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>phi / 3</code></p>
           </div></section>
           <section class="m-doc-details" id="a441419c166680b23dd9a4522aa26f196"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a441419c166680b23dd9a4522aa26f196">phi_over_two</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a441419c166680b23dd9a4522aa26f196">phi_over_two</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>phi / 2</code></p>
           </div></section>
           <section class="m-doc-details" id="a0b5c78e8c9564ba7f230bde4b99dd8cb"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a0b5c78e8c9564ba7f230bde4b99dd8cb">pi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a0b5c78e8c9564ba7f230bde4b99dd8cb">pi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>pi</code></p>
           </div></section>
           <section class="m-doc-details" id="ac51e3d4e13b618af9dff06a99c479daf"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#ac51e3d4e13b618af9dff06a99c479daf">pi_over_eight</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#ac51e3d4e13b618af9dff06a99c479daf">pi_over_eight</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>pi / 8</code></p>
           </div></section>
           <section class="m-doc-details" id="a820f24f00a7939d22cf611082e115cc0"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a820f24f00a7939d22cf611082e115cc0">pi_over_five</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a820f24f00a7939d22cf611082e115cc0">pi_over_five</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>pi / 5</code></p>
           </div></section>
           <section class="m-doc-details" id="a1b7ed13ae6a33a313b8b7b0d20ac4542"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a1b7ed13ae6a33a313b8b7b0d20ac4542">pi_over_four</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a1b7ed13ae6a33a313b8b7b0d20ac4542">pi_over_four</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>pi / 4</code></p>
           </div></section>
           <section class="m-doc-details" id="a25fb9a6fa23e958f77f3aa4271a5c580"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a25fb9a6fa23e958f77f3aa4271a5c580">pi_over_seven</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a25fb9a6fa23e958f77f3aa4271a5c580">pi_over_seven</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>pi / 7</code></p>
           </div></section>
           <section class="m-doc-details" id="a69ee3d0e266fd6ed5ab5955101c33738"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a69ee3d0e266fd6ed5ab5955101c33738">pi_over_six</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a69ee3d0e266fd6ed5ab5955101c33738">pi_over_six</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>pi / 6</code></p>
           </div></section>
           <section class="m-doc-details" id="adf2b0f007f4bb6fb8b510d7d945f30a4"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#adf2b0f007f4bb6fb8b510d7d945f30a4">pi_over_three</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#adf2b0f007f4bb6fb8b510d7d945f30a4">pi_over_three</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>pi / 3</code></p>
           </div></section>
           <section class="m-doc-details" id="ad0025373b19f3711fadbf07913520799"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#ad0025373b19f3711fadbf07913520799">pi_over_two</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#ad0025373b19f3711fadbf07913520799">pi_over_two</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>pi / 2</code></p>
           </div></section>
           <section class="m-doc-details" id="a75ea66a589f47b8db0f641df39bb6289"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a75ea66a589f47b8db0f641df39bb6289">sqrt_e</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a75ea66a589f47b8db0f641df39bb6289">sqrt_e</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>sqrt(e)</code></p>
           </div></section>
           <section class="m-doc-details" id="ab01a9e9ea6161a75b6ac2085e64d612d"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#ab01a9e9ea6161a75b6ac2085e64d612d">sqrt_phi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#ab01a9e9ea6161a75b6ac2085e64d612d">sqrt_phi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>sqrt(phi)</code></p>
           </div></section>
           <section class="m-doc-details" id="aba46fe74abcb1dc1cf6d913dce2e12a4"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#aba46fe74abcb1dc1cf6d913dce2e12a4">sqrt_pi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#aba46fe74abcb1dc1cf6d913dce2e12a4">sqrt_pi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>sqrt(pi)</code></p>
           </div></section>
           <section class="m-doc-details" id="a4127bcba0f19db731a6585d5300c43aa"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a4127bcba0f19db731a6585d5300c43aa">sqrt_three</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a4127bcba0f19db731a6585d5300c43aa">sqrt_three</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>sqrt(3)</code></p>
           </div></section>
           <section class="m-doc-details" id="ad2c6df93a48cab2bdb8587f9c6b01e96"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#ad2c6df93a48cab2bdb8587f9c6b01e96">sqrt_three_pi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#ad2c6df93a48cab2bdb8587f9c6b01e96">sqrt_three_pi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>sqrt(3 * pi)</code></p>
           </div></section>
           <section class="m-doc-details" id="aa2ff8e551daff356a3614f440ca1130a"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#aa2ff8e551daff356a3614f440ca1130a">sqrt_two</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#aa2ff8e551daff356a3614f440ca1130a">sqrt_two</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>sqrt(2)</code></p>
           </div></section>
           <section class="m-doc-details" id="aacf57290e1b19b1d9cce730ed28d0732"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#aacf57290e1b19b1d9cce730ed28d0732">sqrt_two_pi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#aacf57290e1b19b1d9cce730ed28d0732">sqrt_two_pi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>sqrt(2 * pi)</code></p>
           </div></section>
           <section class="m-doc-details" id="ace37b244a8fcd46233c790440694e45d"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#ace37b244a8fcd46233c790440694e45d">three_over_five</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#ace37b244a8fcd46233c790440694e45d">three_over_five</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>3 / 5</code></p>
           </div></section>
           <section class="m-doc-details" id="abc68f787a590a5dcd8d3fd6d8485354f"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#abc68f787a590a5dcd8d3fd6d8485354f">three_over_four</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#abc68f787a590a5dcd8d3fd6d8485354f">three_over_four</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>3 / 4</code></p>
           </div></section>
           <section class="m-doc-details" id="a3e4ecadc854e50a548a3557aea143499"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a3e4ecadc854e50a548a3557aea143499">three_over_two</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a3e4ecadc854e50a548a3557aea143499">three_over_two</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>3 / 2</code></p>
           </div></section>
           <section class="m-doc-details" id="aa5bfd8d8176b47a3af4c7e7d59e8594a"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#aa5bfd8d8176b47a3af4c7e7d59e8594a">three_pi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#aa5bfd8d8176b47a3af4c7e7d59e8594a">three_pi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>3 * pi</code></p>
           </div></section>
           <section class="m-doc-details" id="a893ec726c99cdc65cbd816de3fd26cee"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a893ec726c99cdc65cbd816de3fd26cee">three_pi_over_five</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a893ec726c99cdc65cbd816de3fd26cee">three_pi_over_five</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>3 * (pi / 5)</code></p>
           </div></section>
           <section class="m-doc-details" id="ae34871701f28a0a0ed646f3804021b33"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#ae34871701f28a0a0ed646f3804021b33">three_pi_over_four</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#ae34871701f28a0a0ed646f3804021b33">three_pi_over_four</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>3 * (pi / 4)</code></p>
           </div></section>
           <section class="m-doc-details" id="a717294e1f43a6464bd49705b3317057f"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a717294e1f43a6464bd49705b3317057f">three_pi_over_two</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a717294e1f43a6464bd49705b3317057f">three_pi_over_two</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>3 * (pi / 2)</code></p>
           </div></section>
           <section class="m-doc-details" id="a7ec49dda0ba31099cafbb2341ccead62"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a7ec49dda0ba31099cafbb2341ccead62">two_over_five</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a7ec49dda0ba31099cafbb2341ccead62">two_over_five</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>2 / 5</code></p>
           </div></section>
           <section class="m-doc-details" id="ae4bc44456ff052b46644e3a9224ad4db"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#ae4bc44456ff052b46644e3a9224ad4db">two_over_three</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#ae4bc44456ff052b46644e3a9224ad4db">two_over_three</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>2 / 3</code></p>
           </div></section>
           <section class="m-doc-details" id="a83b56ce54362ebbf9d0800b4ba222b66"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a83b56ce54362ebbf9d0800b4ba222b66">two_pi</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a83b56ce54362ebbf9d0800b4ba222b66">two_pi</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><code>2 * pi</code></p>
           </div></section>
           <section class="m-doc-details" id="a24317d3d0a6baac2b01c07f15088252b"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a24317d3d0a6baac2b01c07f15088252b">highest</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a24317d3d0a6baac2b01c07f15088252b">highest</a> <span class="m-label m-primary">constexpr</span>
             </h3>
-            <p>The highest representable 'normal' value (equivalent to <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/numeric_limits/max.html" target="_blank">std::<wbr/>numeric_limits::<wbr/>max()</a>).</p>
+            <p>The highest representable 'normal' value (equivalent to <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/numeric_limits/max.html" target="_blank">std::<wbr/>numeric_limits::<wbr/>max()</a>).</p>
           </div></section>
           <section class="m-doc-details" id="a72089a3ceead7e7dcd265ce5f6e8f13c"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              static T muu::<wbr/>constants&lt;<a class="m-doc dox-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a72089a3ceead7e7dcd265ce5f6e8f13c">lowest</a> <span class="m-label m-primary">constexpr</span>
+              static T muu::<wbr/>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;Scalar, Rows, Columns&gt;&gt;&lt;Scalar, Rows, Columns&gt;::<wbr/><a class="m-doc-self" href="#a72089a3ceead7e7dcd265ce5f6e8f13c">lowest</a> <span class="m-label m-primary">constexpr</span>
             </h3>
-            <p>The lowest representable 'normal' value (equivalent to <a class="m-doc-external dox-external" href="http://en.cppreference.com/w/cpp/types/numeric_limits/lowest.html" target="_blank">std::<wbr/>numeric_limits::<wbr/>lowest()</a>).</p>
+            <p>The lowest representable 'normal' value (equivalent to <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/numeric_limits/lowest.html" target="_blank">std::<wbr/>numeric_limits::<wbr/>lowest()</a>).</p>
           </div></section>
         </section>
       </div>
@@ -1163,10 +1167,10 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         
-<a class="dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
+<a class="poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
 
 •
-<a class="dox-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
+<a class="poxy-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
 an
 issue</a>
 
@@ -1180,13 +1184,13 @@ Documentation
 created
 using
 
-<a class="dox-external" href="https://www.doxygen.nl/index.html" target="_blank">Doxygen</a>
+<a class="poxy-external" href="https://www.doxygen.nl/index.html" target="_blank">Doxygen</a>
 
 +
-<a class="dox-external" href="https://mcss.mosra.cz/documentation/doxygen/" target="_blank">mosra/m.css</a>
+<a class="poxy-external" href="https://mcss.mosra.cz/documentation/doxygen/" target="_blank">mosra/m.css</a>
 
 +
-<a class="dox-external" href="https://github.com/marzer/dox/" target="_blank">marzer/dox</a>
+<a class="poxy-external" href="https://github.com/marzer/poxy/" target="_blank">marzer/poxy</a>
       </div>
     </div>
   </div>

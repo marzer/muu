@@ -14,7 +14,11 @@
   modern
   C++" name="description"/>
 
-  <link href="dox.css" rel="stylesheet"/>
+  <link href="poxy.css" rel="stylesheet"/>
+
+  <script src="jquery-3.6.0.slim.min.js"></script>
+
+  <script src="poxy.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -37,7 +41,7 @@
           </ol>
           <ol class="m-col-t-6 m-col-m-none" start="4">
             <li><a href="annotated.html">Classes</a></li>
-            <li><a class="github dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
+            <li><a class="github poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
             <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
               <use href="#m-doc-search-icon-path"></use>
             </svg></a></li>
@@ -69,16 +73,16 @@
         <section id="var-members">
           <h2><a href="#var-members">Variables</a></h2>
           <dl class="m-doc">
-            <dt> <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#a059f47a1fea406df07928d18ba89e7c7">bitness</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#a059f47a1fea406df07928d18ba89e7c7">bitness</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The bitness of the current architecture.</dd>
-            <dt> <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#ac1422aad32070ebc2bdba6500e87bc6c">bits_per_byte</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#ac1422aad32070ebc2bdba6500e87bc6c">bits_per_byte</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The number of bits in a byte (aka CHAR_BIT).</dd>
-            <dt> <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="#ab15a2e5c61489ea57d76304612871b2c">cpp_version</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="#ab15a2e5c61489ea57d76304612871b2c">cpp_version</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The current C++ language version (17, 20...)</dd>
-            <dt> <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="#a8d9bd9685ff101794faacdc43206d662">day</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="#a8d9bd9685ff101794faacdc43206d662">day</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The current day of the month (1-31).</dd>
             <dt>
@@ -89,7 +93,7 @@
               bool <a class="m-doc" href="#ae2ac1a89ce5084508f06a8fc3046dfb6">has_rtti</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>True if run-time type identification (RTTI) is enabled.</dd>
-            <dt> <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="#a3a236f2f2246b352c3d0fddb6f898307">hour</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="#a3a236f2f2246b352c3d0fddb6f898307">hour</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The current hour of the day (0-23).</dd>
             <dt>
@@ -100,16 +104,16 @@
               bool <a class="m-doc" href="#af693226bafb2cf34c54e24b92be66c25">is_little_endian</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>True if the target environment is little-endian.</dd>
-            <dt> <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="#af7c47c598d8d8be8f43083f593a89f6e">minute</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="#af7c47c598d8d8be8f43083f593a89f6e">minute</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The current minute (0-59).</dd>
-            <dt> <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="#a1b206904913622e2851364180dffa147">month</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="#a1b206904913622e2851364180dffa147">month</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The current month of the year (1-12).</dd>
-            <dt> <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#ae50337fa6f6a72d069a0a0898e36dd08">pointer_size</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#ae50337fa6f6a72d069a0a0898e36dd08">pointer_size</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The number of bytes required to store a pointer.</dd>
-            <dt> <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="#a0a58816aa6112236ab15e6f83ef7ccb5">second</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="#a0a58816aa6112236ab15e6f83ef7ccb5">second</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The current second (0-59).</dd>
             <dt>
@@ -132,7 +136,7 @@
               bool <a class="m-doc" href="#a8398d41dfdf02da1234b776f754bbb3d">supports_is_constant_evaluated</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>True if <a class="m-doc" href="group__core.html#ga8a9b0aaf9860b30f93639333a5214d34">is_<wbr/>constant_<wbr/>evaluated()</a> is properly supported on this compiler.</dd>
-            <dt> <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="#a60ed708127e16b82cccf0db04f219969">year</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="#a60ed708127e16b82cccf0db04f219969">year</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The current year.</dd>
           </dl>
@@ -140,25 +144,25 @@
         <section>
           <h2>Variable documentation</h2>
           <section class="m-doc-details" id="a059f47a1fea406df07928d18ba89e7c7"><div>
-            <h3> <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a059f47a1fea406df07928d18ba89e7c7">bitness</a> <span class="m-label m-primary">constexpr</span>
+            <h3> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a059f47a1fea406df07928d18ba89e7c7">bitness</a> <span class="m-label m-primary">constexpr</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
             </h3>
             <p>The bitness of the current architecture.</p>
           </div></section>
           <section class="m-doc-details" id="ac1422aad32070ebc2bdba6500e87bc6c"><div>
-            <h3> <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#ac1422aad32070ebc2bdba6500e87bc6c">bits_per_byte</a> <span class="m-label m-primary">constexpr</span>
+            <h3> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#ac1422aad32070ebc2bdba6500e87bc6c">bits_per_byte</a> <span class="m-label m-primary">constexpr</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
             </h3>
             <p>The number of bits in a byte (aka CHAR_BIT).</p>
           </div></section>
           <section class="m-doc-details" id="ab15a2e5c61489ea57d76304612871b2c"><div>
-            <h3> <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#ab15a2e5c61489ea57d76304612871b2c">cpp_version</a> <span class="m-label m-primary">constexpr</span>
+            <h3> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#ab15a2e5c61489ea57d76304612871b2c">cpp_version</a> <span class="m-label m-primary">constexpr</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
             </h3>
             <p>The current C++ language version (17, 20...)</p>
           </div></section>
           <section class="m-doc-details" id="a8d9bd9685ff101794faacdc43206d662"><div>
-            <h3> <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a8d9bd9685ff101794faacdc43206d662">day</a> <span class="m-label m-primary">constexpr</span>
+            <h3> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a8d9bd9685ff101794faacdc43206d662">day</a> <span class="m-label m-primary">constexpr</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
             </h3>
             <p>The current day of the month (1-31).</p>
@@ -178,7 +182,7 @@
             <p>True if run-time type identification (RTTI) is enabled.</p>
           </div></section>
           <section class="m-doc-details" id="a3a236f2f2246b352c3d0fddb6f898307"><div>
-            <h3> <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a3a236f2f2246b352c3d0fddb6f898307">hour</a> <span class="m-label m-primary">constexpr</span>
+            <h3> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a3a236f2f2246b352c3d0fddb6f898307">hour</a> <span class="m-label m-primary">constexpr</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
             </h3>
             <p>The current hour of the day (0-23).</p>
@@ -198,25 +202,25 @@
             <p>True if the target environment is little-endian.</p>
           </div></section>
           <section class="m-doc-details" id="af7c47c598d8d8be8f43083f593a89f6e"><div>
-            <h3> <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#af7c47c598d8d8be8f43083f593a89f6e">minute</a> <span class="m-label m-primary">constexpr</span>
+            <h3> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#af7c47c598d8d8be8f43083f593a89f6e">minute</a> <span class="m-label m-primary">constexpr</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
             </h3>
             <p>The current minute (0-59).</p>
           </div></section>
           <section class="m-doc-details" id="a1b206904913622e2851364180dffa147"><div>
-            <h3> <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a1b206904913622e2851364180dffa147">month</a> <span class="m-label m-primary">constexpr</span>
+            <h3> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a1b206904913622e2851364180dffa147">month</a> <span class="m-label m-primary">constexpr</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
             </h3>
             <p>The current month of the year (1-12).</p>
           </div></section>
           <section class="m-doc-details" id="ae50337fa6f6a72d069a0a0898e36dd08"><div>
-            <h3> <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#ae50337fa6f6a72d069a0a0898e36dd08">pointer_size</a> <span class="m-label m-primary">constexpr</span>
+            <h3> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#ae50337fa6f6a72d069a0a0898e36dd08">pointer_size</a> <span class="m-label m-primary">constexpr</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
             </h3>
             <p>The number of bytes required to store a pointer.</p>
           </div></section>
           <section class="m-doc-details" id="a0a58816aa6112236ab15e6f83ef7ccb5"><div>
-            <h3> <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a0a58816aa6112236ab15e6f83ef7ccb5">second</a> <span class="m-label m-primary">constexpr</span>
+            <h3> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a0a58816aa6112236ab15e6f83ef7ccb5">second</a> <span class="m-label m-primary">constexpr</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
             </h3>
             <p>The current second (0-59).</p>
@@ -257,7 +261,7 @@
             <p>True if <a class="m-doc" href="group__core.html#ga8a9b0aaf9860b30f93639333a5214d34">is_<wbr/>constant_<wbr/>evaluated()</a> is properly supported on this compiler.</p>
           </div></section>
           <section class="m-doc-details" id="a60ed708127e16b82cccf0db04f219969"><div>
-            <h3> <a class="m-doc dox-injected dox-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a60ed708127e16b82cccf0db04f219969">year</a> <span class="m-label m-primary">constexpr</span>
+            <h3> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a60ed708127e16b82cccf0db04f219969">year</a> <span class="m-label m-primary">constexpr</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
             </h3>
             <p>The current year.</p>
@@ -308,10 +312,10 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         
-<a class="dox-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
+<a class="poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
 
 •
-<a class="dox-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
+<a class="poxy-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
 an
 issue</a>
 
@@ -325,13 +329,13 @@ Documentation
 created
 using
 
-<a class="dox-external" href="https://www.doxygen.nl/index.html" target="_blank">Doxygen</a>
+<a class="poxy-external" href="https://www.doxygen.nl/index.html" target="_blank">Doxygen</a>
 
 +
-<a class="dox-external" href="https://mcss.mosra.cz/documentation/doxygen/" target="_blank">mosra/m.css</a>
+<a class="poxy-external" href="https://mcss.mosra.cz/documentation/doxygen/" target="_blank">mosra/m.css</a>
 
 +
-<a class="dox-external" href="https://github.com/marzer/dox/" target="_blank">marzer/dox</a>
+<a class="poxy-external" href="https://github.com/marzer/poxy/" target="_blank">marzer/poxy</a>
       </div>
     </div>
   </div>
