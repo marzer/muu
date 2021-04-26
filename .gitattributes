@@ -33,6 +33,7 @@
 .editorconfig      text         eol=lf      encoding=UTF-8
 .gitattributes     text         eol=lf      encoding=UTF-8
 .gitignore         text         eol=lf      encoding=UTF-8
+.gitmodules        text         eol=lf      encoding=UTF-8
 Doxyfile           text         eol=lf      encoding=UTF-8
 Doxyfile-mcss      text         eol=lf      encoding=UTF-8
 meson.build        text         eol=lf      encoding=UTF-8

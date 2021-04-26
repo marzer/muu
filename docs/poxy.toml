@@ -7,11 +7,13 @@ show_includes       = true
 generate_tagfile    = true
 logo                = 'images/logo.png'
 favicon             = 'images/favicon.ico'
-extra_files = [
+sources             = [ 'pages' ]
+recursive_sources   = [ '../include' ]
+strip_paths         = [ '../include' ]
+extra_files         = [
 	'images/banner.png',
 	'images/banner-small.png',
 ]
-
 
 
 [warnings]
@@ -50,7 +52,7 @@ numeric_literals = [
 
 
 [badges]
-'CircleCI' = [ 'https://img.shields.io/circleci/build/github/marzer/muu?label=circle%20ci&logo=circleci&logoColor=white&style=flat-square', 'https://circleci.com/gh/marzer/muu' ]
+'CircleCI' = [ 'https://circleci.com/gh/marzer/muu.svg?style=shield', 'https://circleci.com/gh/marzer/muu' ]
 
 
 

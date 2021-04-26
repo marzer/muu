@@ -148,9 +148,6 @@
     <None Include="docs\Doxyfile">
       <Filter>docs</Filter>
     </None>
-    <None Include="docs\Doxyfile-mcss">
-      <Filter>docs</Filter>
-    </None>
     <None Include=".runsettings" />
     <None Include="examples\meson.build">
       <Filter>examples</Filter>
@@ -179,7 +176,7 @@
     <None Include="tools\utils.py">
       <Filter>tools</Filter>
     </None>
-    <None Include="docs\dox.toml">
+    <None Include="docs\poxy.toml">
       <Filter>docs</Filter>
     </None>
     <None Include="tools\make_release.py">

@@ -394,7 +394,9 @@ help me improve support for your target architecture. Thanks!
 		#define MUU_PUSH_WARNINGS			__pragma(warning(push)) \
 											static_assert(true)
 
-		#define MUU_DISABLE_SWITCH_WARNINGS	__pragma(warning(disable: 4063)) \
+		#define MUU_DISABLE_SWITCH_WARNINGS	__pragma(warning(disable: 4061)) \
+											__pragma(warning(disable: 4063)) \
+											__pragma(warning(disable: 26819)) /* cg: unannotated fallthrough */ \
 											static_assert(true)
 
 		#define MUU_DISABLE_SHADOW_WARNINGS	__pragma(warning(disable: 4458)) \
@@ -403,7 +405,18 @@ help me improve support for your target architecture. Thanks!
 		#define MUU_DISABLE_SPAM_WARNINGS	__pragma(warning(disable: 4127)) /* conditional expr is constant */ \
 											__pragma(warning(disable: 4324)) /* structure was padded due to alignment specifier */  \
 											__pragma(warning(disable: 4348)) \
-											__pragma(warning(disable: 4505))/* unreferenced local function removed */  \
+											__pragma(warning(disable: 4505)) /* unreferenced local function removed */  \
+											__pragma(warning(disable: 4514)) /* unreferenced inline function has been removed */ \
+											__pragma(warning(disable: 4623)) /* default constructor was implicitly defined as deleted		*/ \
+											__pragma(warning(disable: 4625)) /* copy constructor was implicitly defined as deleted			*/ \
+											__pragma(warning(disable: 4626)) /* assignment operator was implicitly defined as deleted		*/ \
+											__pragma(warning(disable: 4710)) /* function not inlined */ \
+											__pragma(warning(disable: 4711)) /* function selected for automatic expansion */ \
+											__pragma(warning(disable: 4820)) /* N bytes padding added */  \
+											__pragma(warning(disable: 4946)) /* reinterpret_cast used between related classes */ \
+											__pragma(warning(disable: 5026)) /* move constructor was implicitly defined as deleted	*/ \
+											__pragma(warning(disable: 5027)) /* move assignment operator was implicitly defined as deleted	*/ \
+											__pragma(warning(disable: 5045)) /* Compiler will insert Spectre mitigation */ \
 											__pragma(warning(disable: 26490)) /* cg: dont use reinterpret_cast */ \
 											static_assert(true)
 
@@ -442,7 +455,7 @@ help me improve support for your target architecture. Thanks!
 //======================================================================================================================
 
 #if MUU_ICC
-	
+
 	#define MUU_PRAGMA_ICC(...)				__pragma(__VA_ARGS__)
 
 	#define MUU_PUSH_WARNINGS				__pragma(warning(push)) \
@@ -983,7 +996,7 @@ help me improve support for your target architecture. Thanks!
 #ifndef MUU_DOXYEN_ONLY
 	#define MUU_DOXYEN_ONLY(...)	__VA_ARGS__
 #endif
-	
+
 
 //======================================================================================================================
 // SFINAE AND CONCEPTS
@@ -1240,126 +1253,126 @@ help me improve support for your target architecture. Thanks!
 ///
 /// \def MUU_ARCH_X86
 /// \brief `1` when targeting 32-bit x86, otherwise `0`.
-/// 
+///
 /// \def MUU_ARCH_ARM32
 /// \brief `1` when targeting 32-bit ARM, otherwise `0`.
-/// 
+///
 /// \def MUU_ARCH_ARM64
 /// \brief `1` when targeting 64-bit ARM, otherwise `0`.
-/// 
+///
 /// \def MUU_ARCH_ARM
 /// \brief `1` when targeting any flavour of ARM, otherwise `0`.
-/// 
+///
 /// \def MUU_ARCH_BITNESS
 /// \brief The 'bitness' of the current architecture (e.g. `64` on AMD64).
-/// 
+///
 /// \def MUU_ARCH_X64
 /// \brief `1` when targeting any 64-bit architecture, otherwise `0`.
-/// 
+///
 /// \def MUU_ISET_MMX
 /// \brief `1` when the target supports the MMX instruction set, otherwise `0`.
-/// 
+///
 /// \def MUU_ISET_SSE
 /// \brief `1` when the target supports the SSE instruction set, otherwise `0`.
-/// 
+///
 /// \def MUU_ISET_SSE2
 /// \brief `1` when the target supports the SSE2 instruction set, otherwise `0`.
-/// 
+///
 /// \def MUU_ISET_AVX
 /// \brief `1` when the target supports the AVX instruction set, otherwise `0`.
-/// 
+///
 /// \def MUU_ISET_AVX2
 /// \brief `1` when the target supports the AVX2 instruction set, otherwise `0`.
-/// 
+///
 /// \def MUU_ISET_AVX512
 /// \brief `1` when the target supports any of the AVX512 instruction sets, otherwise `0`.
-/// 
+///
 /// \def MUU_CLANG
 /// \brief The value of `__clang_major__` when the code is being compiled by LLVM/Clang, otherwise `0`.
 /// \see https://sourceforge.net/p/predef/wiki/Compilers/
-/// 
+///
 /// \def MUU_MSVC
 /// \brief The value of `_MSC_VER` when the code is being compiled by MSVC, otherwise `0`.
 /// \see https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros
-/// 
+///
 /// \def MUU_ICC
 /// \brief The value of `__INTEL_COMPILER` when the code is being compiled by ICC, otherwise `0`.
 /// \see http://scv.bu.edu/computation/bladecenter/manpages/icc.html
-/// 
+///
 /// \def MUU_GCC
 /// \brief The value of `__GNUC__` when the code is being compiled by GCC, otherwise `0`.
 /// \see https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
-/// 
+///
 /// \def MUU_WINDOWS
 /// \brief `1` when building for the Windows operating system, otherwise `0`.
-/// 
+///
 /// \def MUU_UNIX
 /// \brief `1` when building for a GNU/Unix variant, otherwise `0`.
-/// 
+///
 /// \def MUU_LINUX
 /// \brief `1` when building for a Linux distro, otherwise `0`.
-/// 
+///
 /// \def MUU_INTELLISENSE
 /// \brief `1` when the code being compiled by an IDE's 'intellisense' compiler, otherwise `0`.
-/// 
+///
 /// \def MUU_HAS_EXCEPTIONS
 /// \brief `1` when support for C++ exceptions is enabled, otherwise `0`.
-/// 
+///
 /// \def MUU_HAS_RTTI
 /// \brief `1` when support for C++ run-time type identification (RTTI) is enabled, otherwise `0`.
-/// 
+///
 /// \def MUU_LITTLE_ENDIAN
 /// \brief `1` when the target environment is little-endian, otherwise `0`.
-/// 
+///
 /// \def MUU_BIG_ENDIAN
 /// \brief `1` when the target environment is big-endian, otherwise `0`.
-/// 
+///
 /// \def MUU_CPP
 /// \brief The currently-targeted C++ standard. `17` for C++17, `20` for C++20, etc.
-/// 
+///
 /// \def MUU_PRAGMA_CLANG
 /// \brief Expands to `_Pragma("pragma clang ...")` when compiling with Clang.
-/// 
+///
 /// \def MUU_PRAGMA_CLANG_GE
 /// \brief Expands to `_Pragma("pragma clang ...")` when compiling with Clang and `__clang_major__` >= `ver`.
-/// 
+///
 /// \def MUU_PRAGMA_CLANG_LT
 /// \brief Expands to `_Pragma("pragma clang ...")` when compiling with Clang and `__clang_major__` < `ver`.
 ///
 /// \def MUU_PRAGMA_MSVC
 /// \brief Expands to `_pragma(...)` directive when compiling with MSVC.
-/// 
+///
 /// \def MUU_NOOP
 /// \brief Expands to a no-op expression, e.g. `static_cast<void>(0)`.
-/// 
+///
 /// \def MUU_UNUSED(expr)
 /// \brief Explicitly denotes the result of an expression as being explicitly unused.
-/// 
+///
 /// \def MUU_PRAGMA_ICC
 /// \brief Expands to `_pragma(...)` directive when compiling with ICC.
-/// 
+///
 /// \def MUU_PRAGMA_GCC
 /// \brief Expands to `_Pragma("pragma GCC ...")` directive when compiling with GCC.
 ///
 /// \def MUU_PRAGMA_GCC_GE
 /// \brief Expands to `_Pragma("pragma GCC ...")` when compiling with GCC and `__GNUC__` >= `ver`.
-/// 
+///
 /// \def MUU_PRAGMA_GCC_LT
 /// \brief Expands to `_Pragma("pragma GCC ...")` when compiling with GCC and `__GNUC__` < `ver`.
-/// 
+///
 /// \def MUU_ATTR
 /// \brief Expands to `__attribute__(( ... ))` when compiling with a compiler that supports GNU-style attributes.
-/// 
+///
 /// \def MUU_ATTR_NDEBUG
 /// \brief Expands to `__attribute__(( ... ))` when compiling with a compiler that supports GNU-style attributes
 /// 	   and NDEBUG is defined.
-/// 
+///
 /// \def MUU_ATTR_CLANG
 /// \brief Expands to `__attribute__(( ... ))` when compiling with Clang.
 ///
 /// \def MUU_ATTR_CLANG_GE
 /// \brief Expands to `__attribute__(( ... ))` when compiling with Clang and `__clang_major__` >= `ver`.
-/// 
+///
 /// \def MUU_ATTR_CLANG_LT
 /// \brief Expands to `__attribute__(( ... ))` when compiling with Clang and `__clang_major__` < `ver`.
 ///
@@ -1368,7 +1381,7 @@ help me improve support for your target architecture. Thanks!
 ///
 /// \def MUU_ATTR_GCC_GE
 /// \brief Expands to `__attribute__(( ... ))` when compiling with GCC and `__GNUC__` >= `ver`.
-/// 
+///
 /// \def MUU_ATTR_GCC_LT
 /// \brief Expands to `__attribute__(( ... ))` when compiling with GCC and `__GNUC__` < `ver`.
 ///
@@ -1381,7 +1394,7 @@ help me improve support for your target architecture. Thanks!
 /// 	that should have different warning semantics, e.g.: \cpp
 /// 	MUU_PUSH_WARNINGS;
 /// 	MUU_DISABLE_SWITCH_WARNINGS;
-/// 	
+///
 /// 	int do_the_thing(my_enum val) noexcept
 /// 	{
 /// 		switch (val)
@@ -1392,7 +1405,7 @@ help me improve support for your target architecture. Thanks!
 /// 		}
 /// 		return 0;
 /// 	}
-/// 	
+///
 /// 	MUU_POP_WARNINGS;
 /// \ecpp
 ///
@@ -1446,11 +1459,11 @@ help me improve support for your target architecture. Thanks!
 /// 	}
 /// \ecpp
 /// \warning Using this incorrectly can lead to seriously mis-compiled code!
-/// 
+///
 /// \def MUU_UNREACHABLE
 /// \brief Marks a position in the code as being unreachable.
 /// \warning Using this incorrectly can lead to seriously mis-compiled code!
-/// 
+///
 /// \def MUU_NO_DEFAULT_CASE
 /// \brief Marks a switch statement as not being in need of a default clause.
 /// \details \cpp
@@ -1460,7 +1473,7 @@ help me improve support for your target architecture. Thanks!
 /// 		two,
 /// 		some_invalid_sentinel // not a real, meaningful value
 /// 	};
-/// 	
+///
 /// 	int do_the_thing(my_enum val) noexcept
 /// 	{
 /// 		switch (val)
@@ -1470,12 +1483,12 @@ help me improve support for your target architecture. Thanks!
 /// 			MUU_NO_DEFAULT_CASE;
 /// 		}
 /// 	}
-/// 	
+///
 /// 	// obviously makes sense only if do_the_thing()
 /// 	// is never called with any other values
 /// \ecpp
 /// \warning Using this incorrectly can lead to seriously mis-compiled code!
-/// 
+///
 /// \def MUU_ABSTRACT_INTERFACE
 /// \brief Marks a class being interface-only and not requiring a vtable.
 /// \details Useful for abstract base classes:\cpp
@@ -1485,7 +1498,7 @@ help me improve support for your target architecture. Thanks!
 /// 		virtual ~virtual_base() noexcept = default;
 /// 	};
 /// \ecpp
-/// 
+///
 /// \def MUU_EMPTY_BASES
 /// \brief Marks a class as having only empty base classes.
 /// \details This is required for some compilers to use Empty Base Class Optimization:\cpp
@@ -1493,22 +1506,22 @@ help me improve support for your target architecture. Thanks!
 /// 	{
 /// 		using value_type = int;
 /// 	};
-/// 	
+///
 /// 	class MUU_EMPTY_BASES nonempty_child : empty_parent
 /// 	{
 /// 		using empty_parent::value_type;
-/// 		
+///
 /// 		value_type value;
 /// 	};
-/// 	
+///
 /// 	static_assert(sizeof(nonempty_child) == sizeof(nonempty_child::value_type));
 /// \ecpp
 /// \see [__declspec(empty_bases)](https://devblogs.microsoft.com/cppblog/optimizing-the-layout-of-empty-base-classes-in-vs2015-update-2-3/)
-/// 
+///
 /// \def MUU_UNALIASED_ALLOC
 /// \brief Optimizer hint that marks an allocating function's pointer return value as being free from aliasing.
 /// \see [__declspec(restrict)](https://docs.microsoft.com/en-us/cpp/cpp/restrict?view=vs-2019)
-/// 
+///
 /// \def MUU_ALWAYS_INLINE
 /// \brief The same linkage semantics as the `inline` keyword, with an additional hint to
 /// 	   the optimizer that you'd really, _really_ like a function inlined.
@@ -1545,7 +1558,7 @@ help me improve support for your target architecture. Thanks!
 /// 	}
 /// \ecpp
 /// \see [\[\[trivial_abi\]\]](https://quuxplusone.github.io/blog/2018/05/02/trivial-abi-101/)
-/// 
+///
 /// \def MUU_LIKELY
 /// \brief Expands a conditional to include an optimizer intrinsic (or C++20's [[likely]], if available)
 /// 	   indicating that an if/else conditional is the likely path.
@@ -1558,7 +1571,7 @@ help me improve support for your target architecture. Thanks!
 /// \see
 /// 	- [\[\[likely\]\]](https://en.cppreference.com/w/cpp/language/attributes/likely)
 /// 	- [__builtin_expect()](https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html)
-/// 	 
+///
 /// \def MUU_UNLIKELY
 /// \brief Expands a conditional to include an optimizer intrinsic (or C++20's [[unlikely]], if available)
 /// 	   indicating that an if/else conditional is the unlikely path.
@@ -1571,10 +1584,10 @@ help me improve support for your target architecture. Thanks!
 /// \see
 /// 	- [\[\[likely\]\]](https://en.cppreference.com/w/cpp/language/attributes/likely)
 /// 	- [__builtin_expect()](https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html)
-/// 
+///
 /// \def MUU_NO_UNIQUE_ADDRESS
 /// \brief Expands to C++20's `[[no_unique_address]]` if supported by your compiler.
-/// 
+///
 /// \def MUU_NODISCARD_CTOR
 /// \brief Expands to `[[nodiscard]]` if your compiler supports it on constructors.
 /// \details This is useful for RAII helper types like locks:\cpp
@@ -1585,13 +1598,13 @@ help me improve support for your target architecture. Thanks!
 /// 		{
 /// 			super_special_global_lock();
 /// 		}
-/// 		
+///
 /// 		~raii_lock() noexcept
 /// 		{
 /// 			super_special_global_unlock();
 /// 		}
 /// 	};
-/// 	
+///
 /// 	int whoops() noexcept
 /// 	{
 /// 		raii_lock{}; // oh noes! forgot to give a name; would be destroyed immediately.
@@ -1600,15 +1613,15 @@ help me improve support for your target architecture. Thanks!
 /// 		something_that_requires_the_lock();
 /// 	}
 /// \ecpp
-/// 
+///
 /// \def MUU_CONSTEVAL
 /// \brief Expands to C++20's `consteval` if supported by your compiler, otherwise `constexpr`.
 /// \see [consteval](https://en.cppreference.com/w/cpp/language/consteval)
-/// 
+///
 /// \def MUU_VECTORCALL
 /// \brief Expands to `__vectorcall` on compilers that support it.
 /// \see [__vectorcall](https://docs.microsoft.com/en-us/cpp/cpp/vectorcall?view=vs-2019)
-/// 
+///
 /// \def MUU_MAKE_STRING
 /// \brief Stringifies the input, converting it into a string literal.
 /// \details \cpp
@@ -1617,7 +1630,7 @@ help me improve support for your target architecture. Thanks!
 ///	constexpr auto str2 = "Oh noes!";
 /// \ecpp
 /// \see [String literals in C++](https://en.cppreference.com/w/cpp/language/string_literal)
-/// 
+///
 /// \def MUU_MAKE_RAW_STRING
 /// \brief Stringifies the input, converting it verbatim into a raw string literal.
 /// \details \cpp
@@ -1626,7 +1639,7 @@ help me improve support for your target architecture. Thanks!
 /// constexpr auto str2 = R"("It's trap!" the admiral cried.)";
 /// \ecpp
 /// \see [String literals in C++](https://en.cppreference.com/w/cpp/language/string_literal)
-/// 
+///
 /// \def MUU_MAKE_STRING_VIEW
 /// \brief Stringifies the input, converting it verbatim into a raw string view literal.
 /// \details \cpp
@@ -1641,15 +1654,15 @@ help me improve support for your target architecture. Thanks!
 /// \see
 /// 	- #muu::int128_t
 /// 	- #muu::uint128_t
-/// 
+///
 /// \def MUU_HAS_FLOAT128
 /// \brief `1` when the target environment has 128-bit floats, otherwise `0`.
 /// \see #muu::float128_t
-/// 
+///
 /// \def MUU_HAS_FLOAT16
 /// \brief `1` when the target environment has the 16-bit floating point type _Float16.
 /// \remarks This is completely unrelated to the class muu::half, which is always available.
-/// 
+///
 /// \def MUU_HAS_FP16
 /// \brief `1` when the target environment has the 16-bit floating point 'interchange' type __fp16.
 /// \remarks This is completely unrelated to the class muu::half, which is always available.
@@ -1659,25 +1672,25 @@ help me improve support for your target architecture. Thanks!
 ///
 /// \def MUU_HAS_INCLUDE
 /// \brief Expands to `__has_include(header)` when supported by the compiler, otherwise `0`.
-/// 
+///
 /// \def MUU_OFFSETOF
 /// \brief Constexpr-friendly alias of `offsetof()`.
-/// 
+///
 /// \def MUU_DELETE_MOVE
 /// \brief Explicitly deletes the move constructor and move-assignment operator of a class or struct.
 /// \details \cpp
 /// class immovable
 /// {
 /// 	immovable() {}
-/// 
+///
 /// 	MUU_DELETE_MOVE(immovable);
 /// };
-/// 
+///
 /// //equivalent to:
 /// class immovable
 /// {
 /// 	immovable() {}
-/// 
+///
 /// 	immovable(immovable&&) = delete;
 /// 	immovable& operator=(immovable&&) = delete;
 /// };
@@ -1692,12 +1705,12 @@ help me improve support for your target architecture. Thanks!
 /// 	uncopyable() {}
 /// 	MUU_DELETE_COPY(uncopyable);
 /// };
-/// 
+///
 /// //equivalent to:
 /// class uncopyable
 /// {
 /// 	uncopyable() {}
-/// 
+///
 /// 	uncopyable(const uncopyable&) = delete;
 /// 	uncopyable& operator=(const uncopyable&) = delete;
 /// };
@@ -1710,15 +1723,15 @@ help me improve support for your target architecture. Thanks!
 /// class movable
 /// {
 /// 	movable() {}
-/// 
+///
 /// 	MUU_DEFAULT_MOVE(movable);
 /// };
-/// 
+///
 /// //equivalent to:
 /// class movable
 /// {
 /// 	movable() {}
-/// 
+///
 /// 	movable(movable&&) = default;
 /// 	movable& operator=(movable&&) = default;
 /// };
@@ -1733,12 +1746,12 @@ help me improve support for your target architecture. Thanks!
 /// 	copyable() {}
 /// 	MUU_DEFAULT_COPY(copyable);
 /// };
-/// 
+///
 /// //equivalent to:
 /// class copyable
 /// {
 /// 	copyable() {}
-/// 
+///
 /// 	copyable(const copyable&) = default;
 /// 	copyable& operator=(const copyable&) = default;
 /// };
@@ -1756,7 +1769,7 @@ help me improve support for your target architecture. Thanks!
 /// 	gamma  = 4
 /// };
 /// MUU_MAKE_FLAGS(my_flags);
-/// 
+///
 /// // emits these operators:
 /// constexpr my_flags  operator &  (my_flags,  my_flags) noexcept;
 /// constexpr my_flags  operator |  (my_flags,  my_flags) noexcept;

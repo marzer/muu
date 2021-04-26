@@ -1,2 +1,3 @@
-misk>=0.3.0
+misk>=0.4.0
+poxy>=0.1.0
 python-dateutil

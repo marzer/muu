@@ -141,12 +141,6 @@ def run(args):
 			#		cwd=root_dir,
 			#		check=True
 			#	)
-			if not args.nodocs:
-				subprocess.run(
-					rf'git submodule update --init --depth 1 --jobs {os.cpu_count()} {fetch} --recursive external/dox'.split(),
-					cwd=root_dir,
-					check=True
-				)
 			subprocess.run(
 				[ 'git', 'submodule', 'foreach', 'git reset --hard --recurse-submodules'],
 				cwd=root_dir,
@@ -181,8 +175,7 @@ def run(args):
 					cmd.append('-verbosity:detailed')
 				subprocess.run(
 					cmd,
-					check=True,
-					shell=True
+					check=True
 				)
 
 		# copy libs
@@ -197,8 +190,9 @@ def run(args):
 		docs_html_dir = Path(docs_dir, 'html')
 		if not args.stale and not args.nodocs:
 			with ScopeTimer(r'Generating documentation', print_start=True) as timer:
-				utils.run_python_script(
-					Path(external_dir, 'dox'),
+				subprocess.run(
+					[ r'poxy' ],
+					check=True,
 					cwd=docs_dir
 				)
 		utils.assert_existing_directory(docs_html_dir)
