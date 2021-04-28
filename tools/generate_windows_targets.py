@@ -10,18 +10,21 @@ import os
 import re
 import itertools
 import shutil
+import codecs
 from uuid import UUID, uuid5
 from pathlib import Path
 
 
 def main():
 
-
 	uuid_namespace = UUID('{51C7001B-048C-4AF0-B598-D75E78FF31F0}')
 	root = Path(utils.entry_script_dir(), '..').resolve()
 
 	# read in muu.vcxproj and emit the static version
-	lib_project_static = utils.read_all_text_from_file(Path(root, 'muu.vcxproj'))
+	lib_project_static = utils.read_all_text_from_file(Path(root, 'muu.vcxproj')).encode()
+	while lib_project_static.startswith(codecs.BOM_UTF8):
+		lib_project_static = lib_project_static[len(codecs.BOM_UTF8):]
+	lib_project_static = lib_project_static.decode('utf-8')
 	lib_project_static = re.sub(r'<StaticDllExport>.+?</StaticDllExport>', '<StaticDllExport>false</StaticDllExport>', lib_project_static, flags=re.I)
 	lib_project_static = re.sub(r'<ConfigurationType>.+?</ConfigurationType>', '<ConfigurationType>StaticLibrary</ConfigurationType>', lib_project_static, flags=re.I)
 	lib_project_static_uuid = str(uuid5(uuid_namespace, 'muu_lib_static')).upper()

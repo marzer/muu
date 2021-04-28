@@ -68,6 +68,7 @@
       <PreprocessorDefinitions>%(PreprocessorDefinitions);MUU_BUILDING=1</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(ConfigurationType)'=='DynamicLibrary'">%(PreprocessorDefinitions);MUU_DLL=1</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(ConfigurationType)'=='StaticLibrary'">%(PreprocessorDefinitions);MUU_DLL=0</PreprocessorDefinitions>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
     </ClCompile>
   </ItemDefinitionGroup>
   <PropertyGroup>
@@ -131,8 +132,7 @@
     <None Include="CONTRIBUTING.md" />
     <None Include="cpp.hint" />
     <None Include="docs\Doxyfile" />
-    <None Include="docs\Doxyfile-mcss" />
-    <None Include="docs\dox.toml" />
+    <None Include="docs\poxy.toml" />
     <None Include="docs\pages\main_page.dox" />
     <None Include="examples\meson.build" />
     <None Include="LICENSE" />
@@ -167,3 +167,4 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
+

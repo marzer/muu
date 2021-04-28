@@ -2009,16 +2009,16 @@ namespace muu
 		#endif
 	}
 
+	MUU_DISABLE_WARNINGS; // non-determinisitic build
+
 	/// \cond
 	namespace impl
 	{
-		MUU_DISABLE_WARNINGS; // non-determinisitic build
 
 		inline constexpr auto build_date_str = __DATE__;
 		inline constexpr auto build_date_month_hash = build_date_str[0] + build_date_str[1] + build_date_str[2];
 		inline constexpr auto build_time_str = __TIME__;
 
-		MUU_ENABLE_WARNINGS;
 	}
 	/// \endcond
 
@@ -2112,6 +2112,8 @@ namespace muu
 		static_assert(is_little_endian != is_big_endian);
 	
 	} //::build
+
+	MUU_ENABLE_WARNINGS;
 
 	/// \addtogroup	core
 	/// @{

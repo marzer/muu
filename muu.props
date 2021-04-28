@@ -60,16 +60,17 @@
 	<Choose>
 		<When Condition="'$(ConfigurationType)'=='StaticLibrary' Or '$(ConfigurationType)'=='DynamicLibrary'">
 			<PropertyGroup>
-				<OutDir>$(MuuOutRoot)lib\win$(PlatformArchitecture)_vc$(PlatformToolsetVersion)_$(Configuration)_$(ConfigurationType)\</OutDir>
+				<MuuBinFolder>lib</MuuBinFolder>
 			</PropertyGroup>
 		</When>
 		<Otherwise>
 			<PropertyGroup>
-				<OutDir>$(MuuOutRoot)bin\win$(PlatformArchitecture)_vc$(PlatformToolsetVersion)_$(Configuration)_$(ConfigurationType)\</OutDir>
+				<MuuBinFolder>bin</MuuBinFolder>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>
 	<PropertyGroup>
+		<OutDir>$(MuuOutRoot)$(MuuBinFolder)\win$(PlatformArchitecture)_vc$(PlatformToolsetVersion)_$(Configuration)_$(ConfigurationType)\</OutDir>
 		<IntDir>$(MuuOutRoot)build\$(ProjectName)_win$(PlatformArchitecture)_vc$(PlatformToolsetVersion)</IntDir>
 		<IntDir Condition="'$(MuuOptimizedDebug_)'=='True'">$(IntDir)_OptimizedDebug</IntDir>
 		<IntDir Condition="'$(MuuOptimizedDebug_)'=='False'">$(IntDir)_$(Configuration)</IntDir>
@@ -101,15 +102,26 @@
 			<DiagnosticsFormat>Caret</DiagnosticsFormat>
 			<ProgramDataBaseFileName>$(OutDir)$(TargetName).pdb</ProgramDataBaseFileName>
 			<EnableEnhancedInstructionSet>$(MuuInstructionSet_)</EnableEnhancedInstructionSet>
-			<AdditionalOptions>
-				%(AdditionalOptions) /utf-8 /volatile:iso /Zc:__cplusplus /bigobj /Zc:inline /Zc:throwingNew
-			</AdditionalOptions>
+			<PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+			<AdditionalOptions>%(AdditionalOptions) /utf-8 /bigobj</AdditionalOptions>
+			<!-- conformance flags -->
+			<AdditionalOptions>%(AdditionalOptions) /volatile:iso</AdditionalOptions>
+			<AdditionalOptions>%(AdditionalOptions) /Zc:__cplusplus</AdditionalOptions>
+			<AdditionalOptions>%(AdditionalOptions) /Zc:inline</AdditionalOptions>
+			<AdditionalOptions>%(AdditionalOptions) /Zc:throwingNew</AdditionalOptions>
+			<AdditionalOptions>%(AdditionalOptions) /Zc:externConstexpr</AdditionalOptions>
+			<AdditionalOptions>%(AdditionalOptions) /Zc:preprocessor</AdditionalOptions>
+			<!-- warnings -->
+			<AdditionalOptions>%(AdditionalOptions) /wd4464</AdditionalOptions> <!-- relative include path contains '..' -->
+			<AdditionalOptions>%(AdditionalOptions) /wd4577</AdditionalOptions> <!-- 'noexcept' used with no exception handling mode specified -->
+			<AdditionalOptions>%(AdditionalOptions) /wd5031</AdditionalOptions> <!-- #pragma warning(pop): likely mismatch -->
+			<AdditionalOptions>%(AdditionalOptions) /wd5032</AdditionalOptions> <!-- detected #pragma warning(push) with no corresponding #pragma warning(pop) -->
+			<!-- defines -->
 			<PreprocessorDefinitions>%(PreprocessorDefinitions);_WINSOCK_DEPRECATED_NO_WARNINGS</PreprocessorDefinitions>
 			<PreprocessorDefinitions>%(PreprocessorDefinitions);_SCL_SECURE_NO_WARNINGS</PreprocessorDefinitions>
 			<PreprocessorDefinitions>%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
 			<PreprocessorDefinitions>%(PreprocessorDefinitions);_MSC_TOOLSET_VER=$(PlatformToolsetVersion)</PreprocessorDefinitions>
 			<PreprocessorDefinitions>%(PreprocessorDefinitions);_ITERATOR_DEBUG_LEVEL=0</PreprocessorDefinitions>
-			<PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
 		</ClCompile>
 		<Link>
 			<TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>

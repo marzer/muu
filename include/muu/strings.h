@@ -17,6 +17,7 @@ MUU_DISABLE_WARNINGS;
 MUU_ENABLE_WARNINGS;
 
 #include "impl/header_start.h"
+MUU_DISABLE_ARITHMETIC_WARNINGS;
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 
 #ifdef __cpp_lib_constexpr_string

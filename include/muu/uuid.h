@@ -16,7 +16,6 @@ MUU_ENABLE_WARNINGS;
 
 #include "impl/header_start.h"
 MUU_DISABLE_SWITCH_WARNINGS;
-MUU_PRAGMA_MSVC(warning(disable: 26812)) // core guidelines: Prefer 'enum class' over 'enum'
 
 /// \cond
 namespace muu::impl

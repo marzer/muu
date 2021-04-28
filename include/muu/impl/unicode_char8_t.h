@@ -9,7 +9,7 @@
 #include "../fwd.h"
 
 #include "header_start.h"
-MUU_PRAGMA_MSVC(warning(disable: 26819)) // core guidelines: Unannotated fallthrough between switch labels
+MUU_DISABLE_SWITCH_WARNINGS;
 MUU_PRAGMA_GCC_LT(9, optimize("O1"))
 
 namespace muu

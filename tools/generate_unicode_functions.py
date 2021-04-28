@@ -1655,7 +1655,7 @@ def write_header(folders, code_unit):
 		h('')
 		h('#include "header_start.h"')
 		if not code_unit.proxy:
-			h('MUU_PRAGMA_MSVC(warning(disable: 26819)) // core guidelines: Unannotated fallthrough between switch labels')
+			h('MUU_DISABLE_SWITCH_WARNINGS;')
 			h('MUU_PRAGMA_GCC_LT(9, optimize("O1"))')
 		h('')
 		h('namespace muu')
