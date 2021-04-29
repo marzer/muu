@@ -3,11 +3,14 @@
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 
+#include <muu/preprocessor.h>
+MUU_DISABLE_WARNINGS;
 #include <iostream>
 #include <iomanip>
 #ifdef _WIN32
 #include <Windows.h>
 #endif
+MUU_ENABLE_WARNINGS;
 
 inline void init_utf8_console(bool sync_with_stdio = false) noexcept
 {

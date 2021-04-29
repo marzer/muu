@@ -1042,7 +1042,7 @@ namespace muu::impl
 	#if MUU_HAS_VECTORCALL
 
 	template <typename T>
-	inline constexpr bool is_simd_intrinsic = is_same_as_any<remove_cvref<T>,
+	inline constexpr bool is_vectorcall_simd_intrinsic = is_same_as_any<remove_cvref<T>,
 		__m64,
 		__m128, __m128i, __m128d,
 		__m256, __m256d, __m256i,
@@ -1076,7 +1076,7 @@ namespace muu::impl
 	template <typename T>
 	inline constexpr bool is_hva_scalar =
 		is_same_as_any<T, float, double, long double>
-		|| is_simd_intrinsic<T>;
+		|| is_vectorcall_simd_intrinsic<T>;
 
 	template <typename Scalar, typename T>
 	inline constexpr bool can_be_hva_of =
@@ -1190,6 +1190,9 @@ namespace muu::impl
 	#else // ^^^ MUU_HAS_VECTORCALL / vvv !MUU_HAS_VECTORCALL
 
 	template <typename T>
+	inline constexpr bool is_vectorcall_simd_intrinsic = false;
+
+	template <typename T>
 	inline constexpr bool is_hva_scalar = false;
 
 	template <typename Scalar, typename T>
@@ -1203,19 +1206,18 @@ namespace muu::impl
 
 	#endif // !MUU_HAS_VECTORCALL
 
-	template <typename T>
-	struct readonly_param_
+	template <typename T, bool Vectorcall>
+	struct readonly_param_base_
 	{
 		using type = std::conditional_t<
 			is_floating_point<T>
 			|| is_integral<T>
 			|| std::is_scalar_v<T>
-			#if MUU_HAS_VECTORCALL
-			|| is_simd_intrinsic<T>
-			#if !MUU_ARCH_X86 // HVAs cause a bunch of codegen bugs when passed by value with vectorcall on x86
-			|| is_hva<T>
-			#endif
-			#endif
+			|| (Vectorcall
+				&& MUU_HAS_VECTORCALL
+				&& (is_vectorcall_simd_intrinsic<T> || (!MUU_ARCH_X86 && is_hva<T>))
+					// HVAs cause a bunch of codegen bugs when passed by value with vectorcall on x86
+			)
 			|| ((std::is_class_v<T> || std::is_union_v<T>)
 				&& (std::is_trivially_copyable_v<T> || std::is_nothrow_copy_constructible_v<T>)
 				&& std::is_nothrow_destructible_v<T>
@@ -1224,17 +1226,33 @@ namespace muu::impl
 			std::add_lvalue_reference_t<std::add_const_t<T>>
 		>;
 	};
-	template <typename T>	struct readonly_param_<T&>	{ using type = T&; };
-	template <typename T>	struct readonly_param_<T&&>	{ using type = T&&; };
-	template <>				struct readonly_param_<half>	{ using type = half; };
+	template <typename T>	struct readonly_param_base_<T&, false>	{ using type = T&; };
+	template <typename T>	struct readonly_param_base_<T&&, false>	{ using type = T&&; };
+	template <>				struct readonly_param_base_<half, false>	{ using type = half; };
+	template <typename T>	struct readonly_param_base_<T&, true>	{ using type = T&; };
+	template <typename T>	struct readonly_param_base_<T&&, true>	{ using type = T&&; };
+	template <>				struct readonly_param_base_<half, true>	{ using type = half; };
+
+
+	template <typename T> struct readonly_param_ : readonly_param_base_<T, false> {};
+	template <typename T> struct vectorcall_param_ : readonly_param_base_<T, true> {};
+
 	template <typename T>
 	using readonly_param = typename readonly_param_<T>::type;
+	template <typename T>
+	using vectorcall_param = typename vectorcall_param_<T>::type;
 
 	template <typename... T>
 	inline constexpr bool pass_readonly_by_reference = sizeof...(T) == 0 || (std::is_reference_v<readonly_param<T>> || ...);
 
 	template <typename... T>
 	inline constexpr bool pass_readonly_by_value = !pass_readonly_by_reference<T...>;
+
+	template <typename... T>
+	inline constexpr bool pass_vectorcall_by_reference = sizeof...(T) == 0 || (std::is_reference_v<vectorcall_param<T>> || ...);
+
+	template <typename... T>
+	inline constexpr bool pass_vectorcall_by_value = !pass_vectorcall_by_reference<T...>;
 }
 /// \endcond
 

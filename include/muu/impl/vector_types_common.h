@@ -48,7 +48,7 @@ namespace muu::impl
 	}
 
 	MUU_CONSTRAINED_TEMPLATE(
-		(pass_readonly_by_reference<T, U> || !MUU_ENABLE_PAIRED_FUNCS),
+		(!MUU_HAS_VECTORCALL || pass_vectorcall_by_reference<T, U>),
 		typename Return,
 		typename T,
 		typename U
@@ -76,10 +76,10 @@ namespace muu::impl
 		};
 	}
 
-	#if MUU_ENABLE_PAIRED_FUNCS
+	#if MUU_HAS_VECTORCALL
 
 	MUU_CONSTRAINED_TEMPLATE_2(
-		(pass_readonly_by_value<T, U>),
+		(pass_vectorcall_by_value<T, U>),
 		typename Return,
 		typename T,
 		typename U
@@ -107,7 +107,7 @@ namespace muu::impl
 		};
 	}
 
-	#endif // MUU_ENABLE_PAIRED_FUNCS
+	#endif // MUU_HAS_VECTORCALL
 
 	template <typename T, size_t AssumeAlignment = 1_sz>
 	[[nodiscard]]

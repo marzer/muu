@@ -90,8 +90,7 @@
     <ClInclude Include="include\muu\fwd.h" />
     <ClInclude Include="include\muu\half.h" />
     <ClInclude Include="include\muu\hashing.h" />
-    <ClInclude Include="include\muu\impl\bounding_boxes_common.h" />
-    <ClInclude Include="include\muu\impl\geometric_types_common.h" />
+    <ClInclude Include="include\muu\impl\geometry_common.h" />
     <ClInclude Include="include\muu\impl\header_end.h" />
     <ClInclude Include="include\muu\impl\header_start.h" />
     <ClInclude Include="include\muu\impl\vector_types_common.h" />
@@ -125,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".circleci\config.yml" />
+    <None Include=".clang-format" />
     <None Include=".editorconfig" />
     <None Include=".gitattributes" />
     <None Include=".gitignore" />
@@ -167,4 +167,3 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
-

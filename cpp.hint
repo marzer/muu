@@ -1,6 +1,5 @@
 #define COMPRESSED_PAIR_BASE_DEFAULTS(...)
 #define COMPRESSED_PAIR_BASE_GETTERS(...)
-#define DOXYGEN
 #define HALF_BINARY_OPS(...)				static_assert(true)
 #define HALF_CASTING_ASSIGN_OP(...)			static_assert(true)
 #define HALF_CAST_CONVERSION(...)			static_assert(true)
@@ -9,6 +8,7 @@
 #define HALF_DEMOTING_ASSIGN_OP(...)		static_assert(true)
 #define HALF_EXPLICIT_CONSTRUCTOR(...)		static_assert(true)
 #define HALF_PROMOTING_BINARY_OP(...)		static_assert(true)
+#define SPECIALIZED_IF(...)
 
 #define MUU_ABI_VERSION_END					static_assert(true)
 #define MUU_ABI_VERSION_START(version)		static_assert(true)
@@ -42,7 +42,6 @@
 #define MUU_DISABLE_SWITCH_WARNINGS			static_assert(true)
 #define MUU_DISABLE_WARNINGS				static_assert(true)
 #define MUU_EMPTY_BASES
-#define MUU_ENABLE_PAIRED_FUNCS				0
 #define MUU_ENABLE_IF(...)
 #define MUU_ENABLE_IF_2(...)
 #define MUU_ENABLE_WARNINGS					static_assert(true)
@@ -57,7 +56,9 @@
 #define MUU_HAS_FP16						0
 #define MUU_HAS_INT128						0
 #define MUU_HAS_RTTI						1
+#define MUU_HAS_VECTORCALL					0
 #define MUU_HIDDEN(...)
+#define MUU_HIDDEN_BASE(...)
 #define MUU_HIDDEN_PARAM(...)
 #define MUU_LEGACY_REQUIRES(...)
 #define MUU_LEGACY_REQUIRES_2(...)
@@ -69,6 +70,7 @@
 #define MUU_MOVE_CHECK						static_assert(true)
 #define MUU_MSVC							1928
 #define MUU_NEVER_INLINE
+#define MUU_NODISCARD
 #define MUU_NODISCARD_CTOR
 #define MUU_POP_PRECISE_MATH				static_assert(true)
 #define MUU_POP_WARNINGS					static_assert(true)
@@ -87,6 +89,6 @@
 #define MUU_TRIVIAL_ABI
 #define MUU_UNALIASED_ALLOC
 #define MUU_UNUSED(...)						static_assert(true)
+#define MUU_VC_PARAM(...)					const __VA_ARGS__ &
 #define MUU_VECTORCALL
 
-#define SPECIALIZED_IF(...)

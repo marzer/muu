@@ -232,7 +232,7 @@ namespace muu
 		struct basic_accumulator
 		{
 			using value_type = ValueType;
-			using value_param = impl::readonly_param<ValueType>;
+			using value_param = impl::vectorcall_param<ValueType>;
 			using sum_type = std::conditional_t<
 				is_integral<ValueType>,
 				std::conditional_t<
@@ -301,9 +301,9 @@ namespace muu
 		struct kahan_accumulator // https://en.wikipedia.org/wiki/Kahan_summation_algorithm#Further_enhancements
 		{
 			using value_type = ValueType;
-			using value_param = impl::readonly_param<ValueType>;
+			using value_param = impl::vectorcall_param<ValueType>;
 			using sum_type = impl::highest_ranked<ValueType, float>;
-			using sum_param = impl::readonly_param<sum_type>;
+			using sum_param = impl::vectorcall_param<sum_type>;
 
 			static_assert(
 				is_floating_point<value_type>,

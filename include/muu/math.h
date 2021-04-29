@@ -314,7 +314,7 @@ namespace muu
 		[[nodiscard]]
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
-		constexpr T MUU_VECTORCALL abs_(T x) noexcept
+		constexpr T MUU_VECTORCALL consteval_abs(T x) noexcept
 		{
 			static_assert(is_signed<T> && !std::is_same_v<T, half>);
 
@@ -324,6 +324,30 @@ namespace muu
 					return T{};
 			}
 			return x < T{} ? -x : x;
+		}
+
+		template <typename T>
+		[[nodiscard]]
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
+		MUU_ATTR(flatten)
+		constexpr T MUU_VECTORCALL abs_(T x) noexcept
+		{
+			static_assert(is_signed<T> && !std::is_same_v<T, half>);
+
+			if (MUU_INTELLISENSE || !build::supports_is_constant_evaluated || is_constant_evaluated())
+				return consteval_abs(x);
+			else
+			{
+				if constexpr (is_standard_arithmetic<T>)
+					return std::abs(x);
+				#if MUU_HAS_QUADMATH
+				else if constexpr (std::is_same_v<float128_t, T>)
+					return ::fabsq(x);
+				#endif
+				else
+					return static_cast<T>(std::abs(static_cast<clamp_to_standard_float<T>>(x)));
+			}
 		}
 	}
 	/// \endcond
@@ -394,7 +418,7 @@ namespace muu
 	MUU_ATTR(flatten)
 	constexpr signed char MUU_VECTORCALL abs(signed char x) noexcept
 	{
-		return impl::abs_(x);
+		return static_cast<signed char>(impl::abs_(static_cast<int>(x)));
 	}
 
 	/// \brief	Returns the absolute value of a short.
@@ -403,7 +427,7 @@ namespace muu
 	MUU_ATTR(flatten)
 	constexpr short MUU_VECTORCALL abs(short x) noexcept
 	{
-		return impl::abs_(x);
+		return static_cast<short>(impl::abs_(static_cast<int>(x)));
 	}
 
 	/// \brief	Returns the absolute value of an int.

@@ -144,7 +144,7 @@ namespace muu
 		{
 			case 0x07: return u'\u2010' <= c && c <= u'\u2011';
 			case 0x3F: return c == u'\uFE63' || c == u'\uFF0D' || c == u'\uFF65';
-			MUU_NO_DEFAULT_CASE;
+			default: MUU_UNREACHABLE;
 		}
 		// 10 code units from 9 ranges (spanning a search area of 65209)
 		MUU_UNREACHABLE;
@@ -306,7 +306,7 @@ namespace muu
 					case 0x01: return u'\u2102' <= c && (1u << (static_cast<uint_least32_t>(c) - 0x2102u)) & 0xFF21u;
 					case 0x02: return c <= u'\u214E' && (1ull << (static_cast<uint_least64_t>(c) - 0x2112u)) & 0x10F83CFFEF540F8Bull;
 					case 0x03: return u'\u2183' <= c;
-					MUU_NO_DEFAULT_CASE;
+					default: MUU_UNREACHABLE;
 				}
 				// 59 code units from 15 ranges (spanning a search area of 243)
 				MUU_UNREACHABLE;
@@ -410,7 +410,7 @@ namespace muu
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xFBEDull) % 0x40ull));
 				// 769 code units from 13 ranges (spanning a search area of 1008)
 			}
-			MUU_NO_DEFAULT_CASE;
+			default: MUU_UNREACHABLE;
 		}
 		// 48857 code units from 378 ranges (spanning a search area of 65331)
 		MUU_UNREACHABLE;
@@ -498,7 +498,7 @@ namespace muu
 					case 0x02: return u'\u2113' <= c && c <= u'\u214E'
 						&& (1ull << (static_cast<uint_least64_t>(c) - 0x2113u)) & 0x878064210000001ull;
 					case 0x03: return (u'\u2170' <= c && c <= u'\u217F') || c == u'\u2184';
-					MUU_NO_DEFAULT_CASE;
+					default: MUU_UNREACHABLE;
 				}
 				// 44 code units from 12 ranges (spanning a search area of 245)
 				MUU_UNREACHABLE;
@@ -523,7 +523,7 @@ namespace muu
 					case 0x00: return c <= u'\u2CB1' && (1ull << (static_cast<uint_least64_t>(c) - 0x2C73u)) & 0x55555555555547FBull;
 					case 0x01: return c <= u'\u2CEE' && (1ull << (static_cast<uint_least64_t>(c) - 0x2CB3u)) & 0xA03555555555555ull;
 					case 0x02: return (u'\u2D00' <= c && c <= u'\u2D25') || c == u'\u2CF3' || c == u'\u2D27' || c == u'\u2D2D';
-					MUU_NO_DEFAULT_CASE;
+					default: MUU_UNREACHABLE;
 				}
 				// 104 code units from 58 ranges (spanning a search area of 187)
 				MUU_UNREACHABLE;
@@ -560,7 +560,7 @@ namespace muu
 			}
 			case 0x3E: return u'\uFB00' <= c && c <= u'\uFB17' && (1u << (static_cast<uint_least32_t>(c) - 0xFB00u)) & 0xF8007Fu;
 			case 0x3F: return u'\uFF41' <= c;
-			MUU_NO_DEFAULT_CASE;
+			default: MUU_UNREACHABLE;
 		}
 		// 1601 code units from 617 ranges (spanning a search area of 65201)
 		MUU_UNREACHABLE;
@@ -695,7 +695,7 @@ namespace muu
 				// 40 code units from 4 ranges (spanning a search area of 554)
 			}
 			case 0x3F: return u'\uFF10' <= c;
-			MUU_NO_DEFAULT_CASE;
+			default: MUU_UNREACHABLE;
 		}
 		// 425 code units from 43 ranges (spanning a search area of 63674)
 		MUU_UNREACHABLE;
@@ -799,7 +799,7 @@ namespace muu
 					case 0x00: return c <= u'\u213F' && (1ull << (static_cast<uint_least64_t>(c) - 0x2102u)) & 0x3003CF540F89CE21ull;
 					case 0x01: return u'\u2145' <= c && c <= u'\u216F'
 						&& (1ull << (static_cast<uint_least64_t>(c) - 0x2145u)) & 0x7FFF8000001ull;
-					MUU_NO_DEFAULT_CASE;
+					default: MUU_UNREACHABLE;
 				}
 				// 45 code units from 15 ranges (spanning a search area of 130)
 				MUU_UNREACHABLE;
@@ -814,7 +814,7 @@ namespace muu
 				{
 					case 0x00: return c <= u'\u2C2E';
 					case 0x01: return u'\u2C60' <= c && (1u << (static_cast<uint_least32_t>(c) - 0x2C60u)) & 0x25EA9Du;
-					MUU_NO_DEFAULT_CASE;
+					default: MUU_UNREACHABLE;
 				}
 				// 60 code units from 9 ranges (spanning a search area of 118)
 				MUU_UNREACHABLE;
@@ -829,7 +829,7 @@ namespace muu
 				{
 					case 0x00: return c <= u'\u2CBC' && (1ull << (static_cast<uint_least64_t>(c) - 0x2C7Eu)) & 0x5555555555555557ull;
 					case 0x01: return (1ull << (static_cast<uint_least64_t>(c) - 0x2CBEu)) & 0x10A01555555555ull;
-					MUU_NO_DEFAULT_CASE;
+					default: MUU_UNREACHABLE;
 				}
 				// 55 code units from 53 ranges (spanning a search area of 117)
 				MUU_UNREACHABLE;
@@ -850,7 +850,7 @@ namespace muu
 			}
 			case 0x2A: return c <= u'\uA7F5' && (1ull << (static_cast<uint_least64_t>(c) - 0xA7C4u)) & 0x200000000002Full;
 			case 0x3F: return u'\uFF21' <= c;
-			MUU_NO_DEFAULT_CASE;
+			default: MUU_UNREACHABLE;
 		}
 		// 1138 code units from 602 ranges (spanning a search area of 65147)
 		MUU_UNREACHABLE;
@@ -885,7 +885,7 @@ namespace muu
 				return c == u'\u205F'
 					|| (c <= u'\u202F' && (1ull << (static_cast<uint_least64_t>(c) - 0x2000u)) & 0x8300000007FFull);
 			}
-			MUU_NO_DEFAULT_CASE;
+			default: MUU_UNREACHABLE;
 		}
 		// 19 code units from 8 ranges (spanning a search area of 12156)
 		MUU_UNREACHABLE;
@@ -1155,7 +1155,7 @@ namespace muu
 			}
 			case 0x2B: return u'\uABE3' <= c && c <= u'\uABED' && (1u << (static_cast<uint_least32_t>(c) - 0xABE3u)) & 0x6FFu;
 			case 0x3F: return (u'\uFE00' <= c && c <= u'\uFE0F') || u'\uFE20' <= c || c == u'\uFB1E';
-			MUU_NO_DEFAULT_CASE;
+			default: MUU_UNREACHABLE;
 		}
 		// 1288 code units from 190 ranges (spanning a search area of 64304)
 		MUU_UNREACHABLE;

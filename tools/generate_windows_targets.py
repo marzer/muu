@@ -186,14 +186,9 @@ def main():
 	<ItemGroup>
 		<ClCompile Include="..\accumulator.cpp" />
 		<ClCompile Include="..\blob.cpp" />
-		<ClCompile Include="..\bounding_box_char.cpp" />
 		<ClCompile Include="..\bounding_box_double.cpp" />
 		<ClCompile Include="..\bounding_box_float.cpp" />
 		<ClCompile Include="..\bounding_box_half.cpp" />
-		<ClCompile Include="..\bounding_box_int.cpp" />
-		<ClCompile Include="..\bounding_box_long.cpp" />
-		<ClCompile Include="..\bounding_box_long_long.cpp" />
-		<ClCompile Include="..\bounding_box_short.cpp" />
 		<ClCompile Include="..\compressed_pair.cpp" />
 		<ClCompile Include="..\core_bit.cpp" />
 		<ClCompile Include="..\core_other.cpp" />

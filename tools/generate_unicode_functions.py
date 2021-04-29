@@ -1079,7 +1079,7 @@ class CodepointChunk:
 							'\n' if c.has_expression() else '\n\t}\n',
 						)
 						emitted += 1
-					s += '\t{};\n'.format('MUU_NO_DEFAULT_CASE' if default is None else 'default: return '+str(default).lower())
+					s += '\tdefault: {};\n'.format('MUU_UNREACHABLE' if default is None else 'return '+str(default).lower())
 					s += "}"
 					if (emitted <= 1):
 							s += "\n/* FIX ME: switch has only {} case{}! */".format(emitted, 's' if emitted > 1 else '')

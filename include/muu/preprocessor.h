@@ -887,8 +887,11 @@ help me improve support for your target architecture. Thanks!
 		#define MUU_NO_UNIQUE_ADDRESS	[[no_unique_address]]
 	#endif
 #endif
-#if __has_cpp_attribute(nodiscard) >= 201907L
-	#define MUU_NODISCARD_CTOR		[[nodiscard]]
+#if __has_cpp_attribute(nodiscard)
+	#define MUU_NODISCARD       [[nodiscard]]
+	#if __has_cpp_attribute(nodiscard) >= 201907L
+		#define MUU_NODISCARD_CTOR		[[nodiscard]]
+	#endif
 #endif
 /// \endcond
 
@@ -901,22 +904,26 @@ help me improve support for your target architecture. Thanks!
 #ifndef MUU_NO_UNIQUE_ADDRESS
 	#define MUU_NO_UNIQUE_ADDRESS
 #endif
+#ifndef MUU_NODISCARD
+	#define MUU_NODISCARD MUU_ATTR(warn_unused_result)
+#endif
 #ifndef MUU_NODISCARD_CTOR
 	#define MUU_NODISCARD_CTOR
 #endif
-
 #ifndef MUU_TRIVIAL_ABI
 	#define MUU_TRIVIAL_ABI
 #endif
 
-#if (!MUU_ARCH_X86 && !MUU_ARCH_AMD64) || !MUU_ISET_SSE2
+#if defined(DOXYGEN) || !(MUU_ARCH_X86 || MUU_ARCH_AMD64) || !MUU_ISET_SSE2 || MUU_INTELLISENSE
 	#undef MUU_VECTORCALL
 #endif
 #ifdef MUU_VECTORCALL
-	#define MUU_HAS_VECTORCALL 1
+	#define MUU_HAS_VECTORCALL	1
+	#define MUU_VC_PARAM(...)	::muu::impl::vectorcall_param<__VA_ARGS__>
 #else
 	#define MUU_HAS_VECTORCALL 0
 	#define MUU_VECTORCALL
+	#define MUU_VC_PARAM(...)	const __VA_ARGS__ &
 #endif
 
 #if defined(__cpp_consteval) && __cpp_consteval >= 201811 \
@@ -1027,14 +1034,14 @@ help me improve support for your target architecture. Thanks!
 /// \cond
 #ifndef DOXYGEN
 	#define MUU_HIDDEN(...)			__VA_ARGS__
-	#define MUU_DOXYEN_ONLY(...)
+	#define MUU_HIDDEN_BASE(...)	: __VA_ARGS__
+	#define MUU_DOXYGEN_ONLY(...)
 #endif // DOXYGEN
 /// \endcond
 #ifndef MUU_HIDDEN
-	#define MUU_HIDDEN(...) // doxygen
-#endif
-#ifndef MUU_DOXYEN_ONLY
-	#define MUU_DOXYEN_ONLY(...)	__VA_ARGS__
+	#define MUU_HIDDEN(...)
+	#define MUU_HIDDEN_BASE(...)
+	#define MUU_DOXYGEN_ONLY(...)	__VA_ARGS__
 #endif
 
 
@@ -1097,15 +1104,6 @@ help me improve support for your target architecture. Thanks!
 #endif
 #define MUU_COMMA				,
 #define MUU_HIDDEN_PARAM(...)	MUU_HIDDEN(MUU_COMMA __VA_ARGS__)
-
-/// \cond
-#if !defined(DOXYGEN) && !MUU_INTELLISENSE
-	#define MUU_ENABLE_PAIRED_FUNCS 1
-#endif // DOXYGEN / intellisense
-/// \endcond
-#ifndef MUU_ENABLE_PAIRED_FUNCS
-	#define MUU_ENABLE_PAIRED_FUNCS 0
-#endif
 
 //======================================================================================================================
 // WHAT THE HELL IS WCHAR_T?
@@ -1622,11 +1620,14 @@ help me improve support for your target architecture. Thanks!
 /// 	}
 /// \ecpp
 /// \see
-/// 	- [\[\[likely\]\]](https://en.cppreference.com/w/cpp/language/attributes/likely)
+/// 	- [\[\[unlikely\]\]](https://en.cppreference.com/w/cpp/language/attributes/likely)
 /// 	- [__builtin_expect()](https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html)
 ///
 /// \def MUU_NO_UNIQUE_ADDRESS
 /// \brief Expands to C++20's `[[no_unique_address]]` if supported by your compiler.
+///
+/// \def MUU_NODISCARD
+/// \brief Expands to `[[nodiscard]]` or `__attribute__((warn_unused_result))`.
 ///
 /// \def MUU_NODISCARD_CTOR
 /// \brief Expands to `[[nodiscard]]` if your compiler supports it on constructors.

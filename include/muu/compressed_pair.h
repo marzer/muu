@@ -126,10 +126,8 @@ namespace muu
 	/// \tparam	First		First member type.
 	/// \tparam	Second		Second member type.
 	template <typename First, typename Second>
-	class compressed_pair
-		#ifndef DOXYGEN
-		: private impl::compressed_pair_base<First, Second>
-		#endif
+	class compressed_pair //
+		MUU_HIDDEN_BASE(private impl::compressed_pair_base<First, Second>)
 	{
 		private:
 			/// \cond
@@ -178,10 +176,9 @@ namespace muu
 				typename S
 			)
 			MUU_NODISCARD_CTOR
-			constexpr compressed_pair(F&& first_init, S&& second_init) noexcept(std::is_nothrow_constructible_v<base, F&&, S&&>)
-				#ifndef DOXYGEN
+			constexpr compressed_pair(F&& first_init, S&& second_init)
+				noexcept(std::is_nothrow_constructible_v<base, F&&, S&&>)
 				: base{ static_cast<F&&>(first_init), static_cast<S&&>(second_init) }
-				#endif
 			{}
 
 			/// \brief	Returns an lvalue reference to the first member.

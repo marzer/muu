@@ -148,7 +148,7 @@ namespace
 			case unwrap(mode::u8):			fn(value<mode::u8>(storage)); break;
 			case unwrap(mode::u8_view):		fn(value<mode::u8_view>(storage)); break;
 			#endif
-			MUU_NO_DEFAULT_CASE;
+			default: MUU_UNREACHABLE;
 		}
 	}
 
@@ -170,7 +170,7 @@ namespace
 			case unwrap(mode::u8):			fn(value<mode::u8>(storage1), value<mode::u8>(storage2)); break;
 			case unwrap(mode::u8_view):		fn(value<mode::u8_view>(storage1), value<mode::u8_view>(storage2)); break;
 			#endif
-			MUU_NO_DEFAULT_CASE;
+			default: MUU_UNREACHABLE;
 		}
 	}
 

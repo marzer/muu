@@ -365,10 +365,8 @@ namespace muu
 	/// 
 	/// \see [Tagged pointer](https://en.wikipedia.org/wiki/Tagged_pointer)
 	template <typename T, size_t MinAlign = alignment_of<T>>
-	class MUU_TRIVIAL_ABI tagged_ptr
-		#ifndef DOXYGEN
-		: public impl::tagged_ptr_to_object<T, MinAlign>
-		#endif
+	class MUU_TRIVIAL_ABI tagged_ptr //
+		MUU_HIDDEN_BASE(public impl::tagged_ptr_to_object<T, MinAlign>)
 	{
 		static_assert(
 			!std::is_same_v<T, impl::tptr_nullptr_deduced_tag>,

@@ -1,98 +1,92 @@
 test_sources = [
+	'accumulator.cpp',
+	'blob.cpp',
+	'bounding_box_double.cpp',
+	'bounding_box_float.cpp',
+	'bounding_box_half.cpp',
+	'bounding_box_long_double.cpp',
+	'compressed_pair.cpp',
+	'core_bit.cpp',
+	'core_meta.cpp',
+	'core_other.cpp',
+	'half.cpp',
+	'hashing.cpp',
 	'main.cpp',
-	'tests.cpp'
+	'math.cpp',
+	'matrix_char.cpp',
+	'matrix_double.cpp',
+	'matrix_float.cpp',
+	'matrix_half.cpp',
+	'matrix_int.cpp',
+	'matrix_long.cpp',
+	'matrix_long_double.cpp',
+	'matrix_long_long.cpp',
+	'matrix_short.cpp',
+	'oriented_bounding_box_double.cpp',
+	'oriented_bounding_box_float.cpp',
+	'oriented_bounding_box_half.cpp',
+	'oriented_bounding_box_long_double.cpp',
+	'quaternion_double.cpp',
+	'quaternion_float.cpp',
+	'quaternion_half.cpp',
+	'quaternion_long_double.cpp',
+	'scope_guard.cpp',
+	'span.cpp',
+	'string_param.cpp',
+	'strings.cpp',
+	'tagged_ptr.cpp',
+	'tests.cpp',
+	'thread_pool.cpp',
+	'unicode_char.cpp',
+	'unicode_char16_t.cpp',
+	'unicode_char32_t.cpp',
+	'unicode_char8_t.cpp',
+	'unicode_unsigned_char.cpp',
+	'uuid.cpp',
+	'vector_char.cpp',
+	'vector_double.cpp',
+	'vector_float.cpp',
+	'vector_half.cpp',
+	'vector_int.cpp',
+	'vector_long.cpp',
+	'vector_long_double.cpp',
+	'vector_long_long.cpp',
+	'vector_short.cpp',
 ]
-test_set = get_option('test_set')
-if test_set == 0 or test_set == 1
-	test_sources += 'accumulator.cpp'
-	test_sources += 'blob.cpp'
-	test_sources += 'bounding_box_char.cpp'
-	test_sources += 'bounding_box_double.cpp'
-	test_sources += 'compressed_pair.cpp'
-	test_sources += 'core_bit.cpp'
-	test_sources += 'matrix_char.cpp'
-	test_sources += 'matrix_double.cpp'
-	test_sources += 'oriented_bounding_box_double.cpp'
-	test_sources += 'quaternion_double.cpp'
-	test_sources += 'unicode_char.cpp'
-	test_sources += 'unicode_char8_t.cpp'
-	test_sources += 'vector_char.cpp'
-	test_sources += 'vector_double.cpp'
-	if compiler_supports_fp16
-		test_sources += 'bounding_box_fp16.cpp'
-		test_sources += 'matrix_fp16.cpp'
-		test_sources += 'oriented_bounding_box_fp16.cpp'
-		test_sources += 'quaternion_fp16.cpp'
-		test_sources += 'vector_fp16.cpp'
-	endif
+if compiler_supports_fp16
+	test_sources += [
+		'bounding_box_fp16.cpp',
+		'matrix_fp16.cpp',
+		'oriented_bounding_box_fp16.cpp',
+		'quaternion_fp16.cpp',
+		'vector_fp16.cpp',
+	]
 endif
-if test_set == 0 or test_set == 2
-	test_sources += 'bounding_box_float.cpp'
-	test_sources += 'bounding_box_half.cpp'
-	test_sources += 'core_meta.cpp'
-	test_sources += 'core_other.cpp'
-	test_sources += 'half.cpp'
-	test_sources += 'hashing.cpp'
-	test_sources += 'matrix_float.cpp'
-	test_sources += 'matrix_half.cpp'
-	test_sources += 'oriented_bounding_box_float.cpp'
-	test_sources += 'quaternion_float.cpp'
-	test_sources += 'unicode_char16_t.cpp'
-	test_sources += 'vector_float.cpp'
-	test_sources += 'vector_half.cpp'
-	test_sources += 'vector_long_double.cpp'
-	if compiler_supports_float16
-		test_sources += 'bounding_box_Float16.cpp'
-		test_sources += 'matrix_Float16.cpp'
-		test_sources += 'oriented_bounding_box_Float16.cpp'
-		test_sources += 'quaternion_Float16.cpp'
-		test_sources += 'vector_Float16.cpp'
-	endif
+if compiler_supports_float16
+	test_sources += [
+		'bounding_box_Float16.cpp',
+		'matrix_Float16.cpp',
+		'oriented_bounding_box_Float16.cpp',
+		'quaternion_Float16.cpp',
+		'vector_Float16.cpp',
+	]
 endif
-if test_set == 0 or test_set == 3
-	test_sources += 'bounding_box_int.cpp'
-	test_sources += 'bounding_box_long.cpp'
-	test_sources += 'math.cpp'
-	test_sources += 'matrix_int.cpp'
-	test_sources += 'matrix_long.cpp'
-	test_sources += 'matrix_long_double.cpp'
-	test_sources += 'oriented_bounding_box_half.cpp'
-	test_sources += 'quaternion_half.cpp'
-	test_sources += 'scope_guard.cpp'
-	test_sources += 'span.cpp'
-	test_sources += 'string_param.cpp'
-	test_sources += 'unicode_char32_t.cpp'
-	test_sources += 'vector_int.cpp'
-	test_sources += 'vector_long.cpp'
-	if compiler_supports_int128
-		test_sources += 'bounding_box_int128.cpp'
-		test_sources += 'matrix_int128.cpp'
-		test_sources += 'vector_int128.cpp'
-	endif
+if compiler_supports_int128
+	test_sources += [
+		'matrix_int128.cpp',
+		'vector_int128.cpp',
+	]
 endif
-if test_set == 0 or test_set == 4
-	test_sources += 'bounding_box_long_double.cpp'
-	test_sources += 'bounding_box_long_long.cpp'
-	test_sources += 'bounding_box_short.cpp'
-	test_sources += 'matrix_long_long.cpp'
-	test_sources += 'matrix_short.cpp'
-	test_sources += 'oriented_bounding_box_long_double.cpp'
-	test_sources += 'quaternion_long_double.cpp'
-	test_sources += 'strings.cpp'
-	test_sources += 'tagged_ptr.cpp'
-	test_sources += 'thread_pool.cpp'
-	test_sources += 'unicode_unsigned_char.cpp'
-	test_sources += 'uuid.cpp'
-	test_sources += 'vector_long_long.cpp'
-	test_sources += 'vector_short.cpp'
-	if compiler_supports_float128
-		test_sources += 'bounding_box_float128.cpp'
-		test_sources += 'matrix_float128.cpp'
-		test_sources += 'oriented_bounding_box_float128.cpp'
-		test_sources += 'quaternion_float128.cpp'
-		test_sources += 'vector_float128.cpp'
-	endif
+if compiler_supports_float128
+	test_sources += [
+		'bounding_box_float128.cpp',
+		'matrix_float128.cpp',
+		'oriented_bounding_box_float128.cpp',
+		'quaternion_float128.cpp',
+		'vector_float128.cpp'
+	]
 endif
+
 
 test_dependencies = []
 if compiler_supports_float128

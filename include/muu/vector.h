@@ -33,11 +33,9 @@
 		- vectorizer sandbox: https://godbolt.org/z/vn8aKv (change vector_param_mode to see the effect in the MSVC tab)
 
 	-	You'll see intermediate_float used instead of scalar_type or delta_type in a few places. It's a 'better' type
-		used for intermediate floating-point values where precision loss or unnecessary cast round-tripping is to be avoided.
-		generally:
-		  when scalar_type is a float >= 32 bits: intermediate_float == scalar_type
-		  when scalar_type is a float < 32 bits: intermediate_float == float
-		  when scalar_type is integral: intermediate_float == double.
+		used for intermediate floating-point values where precision loss or unnecessary cast round-tripping is to be
+   avoided. generally: when scalar_type is a float >= 32 bits: intermediate_float == scalar_type when scalar_type is a
+   float < 32 bits: intermediate_float == float when scalar_type is integral: intermediate_float == double.
 
 	-	Some code is statically switched/branched according to whether a static_cast<> is necessary; this is to avoid
 		unnecessary codegen and improve debug build performance for non-trivial scalar_types (e.g. muu::half).
@@ -60,142 +58,200 @@ MUU_PRAGMA_MSVC(float_control(precise, off))
 
 /// \cond
 
-#if 1 // helper macros -------------------------------------------------------------------------------------------------
+// helper macros -------------------------------------------------------------------------------------------------------
 
-#define COMPONENTWISE_AND(func)																						\
-	if constexpr (Dimensions == 1) return func(x);																	\
-	if constexpr (Dimensions == 2) return (func(x)) && (func(y));													\
-	if constexpr (Dimensions == 3) return (func(x)) && (func(y)) && (func(z));										\
-	if constexpr (Dimensions == 4) return (func(x)) && (func(y)) && (func(z)) && (func(w));							\
-	if constexpr (Dimensions > 4)																					\
-	{																												\
-		MUU_PRAGMA_MSVC(omp simd)																					\
-		for (size_t i = 0; i < Dimensions; i++)																		\
-			if (!(func(values[i])))																					\
-				return false;																						\
-		return true;																								\
-	}																												\
-	static_assert(true)
+	#define COMPONENTWISE_AND(func)                                                                                    \
+		if constexpr (Dimensions == 1)                                                                                 \
+			return func(x);                                                                                            \
+		if constexpr (Dimensions == 2)                                                                                 \
+			return (func(x)) && (func(y));                                                                             \
+		if constexpr (Dimensions == 3)                                                                                 \
+			return (func(x)) && (func(y)) && (func(z));                                                                \
+		if constexpr (Dimensions == 4)                                                                                 \
+			return (func(x)) && (func(y)) && (func(z)) && (func(w));                                                   \
+		if constexpr (Dimensions > 4)                                                                                  \
+		{                                                                                                              \
+			MUU_PRAGMA_MSVC(omp simd)                                                                                  \
+			for (size_t i = 0; i < Dimensions; i++)                                                                    \
+				if (!(func(values[i])))                                                                                \
+					return false;                                                                                      \
+			return true;                                                                                               \
+		}                                                                                                              \
+		static_assert(true)
 
-#define COMPONENTWISE_OR(func)																						\
-	if constexpr (Dimensions == 1) return func(x);																	\
-	if constexpr (Dimensions == 2) return (func(x)) || (func(y));													\
-	if constexpr (Dimensions == 3) return (func(x)) || (func(y)) || (func(z));										\
-	if constexpr (Dimensions == 4) return (func(x)) || (func(y)) || (func(z)) || (func(w));							\
-	if constexpr (Dimensions > 4)																					\
-	{																												\
-		MUU_PRAGMA_MSVC(omp simd)																					\
-		for (size_t i = 0; i < Dimensions; i++)																		\
-			if (func(values[i]))																					\
-				return true;																						\
-		return false;																								\
-	}																												\
-	static_assert(true)
+	#define COMPONENTWISE_OR(func)                                                                                     \
+		if constexpr (Dimensions == 1)                                                                                 \
+			return func(x);                                                                                            \
+		if constexpr (Dimensions == 2)                                                                                 \
+			return (func(x)) || (func(y));                                                                             \
+		if constexpr (Dimensions == 3)                                                                                 \
+			return (func(x)) || (func(y)) || (func(z));                                                                \
+		if constexpr (Dimensions == 4)                                                                                 \
+			return (func(x)) || (func(y)) || (func(z)) || (func(w));                                                   \
+		if constexpr (Dimensions > 4)                                                                                  \
+		{                                                                                                              \
+			MUU_PRAGMA_MSVC(omp simd)                                                                                  \
+			for (size_t i = 0; i < Dimensions; i++)                                                                    \
+				if (func(values[i]))                                                                                   \
+					return true;                                                                                       \
+			return false;                                                                                              \
+		}                                                                                                              \
+		static_assert(true)
 
-#define COMPONENTWISE_ACCUMULATE(func, op)																			\
-	if constexpr (Dimensions == 1) { MUU_FMA_BLOCK; return func(x);												}	\
-	if constexpr (Dimensions == 2) { MUU_FMA_BLOCK; return (func(x)) op (func(y));								}	\
-	if constexpr (Dimensions == 3) { MUU_FMA_BLOCK; return (func(x)) op (func(y)) op (func(z));					}	\
-	if constexpr (Dimensions == 4) { MUU_FMA_BLOCK; return (func(x)) op (func(y)) op (func(z)) op (func(w));	}	\
-	if constexpr (Dimensions > 4)																					\
-	{																												\
-		MUU_FMA_BLOCK;																								\
-		auto val = func(values[0]);																					\
-		MUU_PRAGMA_MSVC(omp simd)																					\
-		for (size_t i = 1; i < Dimensions; i++)																		\
-		{																											\
-			MUU_FMA_BLOCK;																							\
-			val op##= func(values[i]);																				\
-		}																											\
-		return val;																									\
-	}																												\
-	static_assert(true)
+	#define COMPONENTWISE_ACCUMULATE(func, op)                                                                         \
+		if constexpr (Dimensions == 1)                                                                                 \
+		{                                                                                                              \
+			MUU_FMA_BLOCK;                                                                                             \
+			return func(x);                                                                                            \
+		}                                                                                                              \
+		if constexpr (Dimensions == 2)                                                                                 \
+		{                                                                                                              \
+			MUU_FMA_BLOCK;                                                                                             \
+			return (func(x))op(func(y));                                                                               \
+		}                                                                                                              \
+		if constexpr (Dimensions == 3)                                                                                 \
+		{                                                                                                              \
+			MUU_FMA_BLOCK;                                                                                             \
+			return (func(x))op(func(y)) op(func(z));                                                                   \
+		}                                                                                                              \
+		if constexpr (Dimensions == 4)                                                                                 \
+		{                                                                                                              \
+			MUU_FMA_BLOCK;                                                                                             \
+			return (func(x))op(func(y)) op(func(z)) op(func(w));                                                       \
+		}                                                                                                              \
+		if constexpr (Dimensions > 4)                                                                                  \
+		{                                                                                                              \
+			MUU_FMA_BLOCK;                                                                                             \
+			auto val = func(values[0]);                                                                                \
+			MUU_PRAGMA_MSVC(omp simd)                                                                                  \
+			for (size_t i = 1; i < Dimensions; i++)                                                                    \
+			{                                                                                                          \
+				MUU_FMA_BLOCK;                                                                                         \
+				val op## = func(values[i]);                                                                            \
+			}                                                                                                          \
+			return val;                                                                                                \
+		}                                                                                                              \
+		static_assert(true)
 
-#define NULL_TRANSFORM(x) x
+	#define NULL_TRANSFORM(x) x
 
-#define COMPONENTWISE_CASTING_OP_BRANCH(func, transformer, x_selector)												\
-	using func_type = decltype(func(x_selector));																	\
-	if constexpr (!std::is_same_v<func_type, Scalar>)																\
-	{																												\
-		transformer(func, static_cast<Scalar>);																		\
-	}																												\
-	else																											\
-	{																												\
-		transformer(func, NULL_TRANSFORM);																			\
-	}																												\
-	static_assert(true)
+	#define COMPONENTWISE_CASTING_OP_BRANCH(func, transformer, x_selector)                                             \
+		using func_type = decltype(func(x_selector));                                                                  \
+		if constexpr (!std::is_same_v<func_type, Scalar>)                                                              \
+		{                                                                                                              \
+			transformer(func, static_cast<Scalar>);                                                                    \
+		}                                                                                                              \
+		else                                                                                                           \
+		{                                                                                                              \
+			transformer(func, NULL_TRANSFORM);                                                                         \
+		}                                                                                                              \
+		static_assert(true)
 
+	#define COMPONENTWISE_CASTING_OP(func, transformer)                                                                \
+		if constexpr (Dimensions <= 4)                                                                                 \
+		{                                                                                                              \
+			COMPONENTWISE_CASTING_OP_BRANCH(func, transformer, x);                                                     \
+		}                                                                                                              \
+		else                                                                                                           \
+		{                                                                                                              \
+			COMPONENTWISE_CASTING_OP_BRANCH(func, transformer, values[0]);                                             \
+		}                                                                                                              \
+		static_assert(true)
 
-#define COMPONENTWISE_CASTING_OP(func, transformer)																	\
-	if constexpr (Dimensions <= 4)																					\
-	{																												\
-		COMPONENTWISE_CASTING_OP_BRANCH(func, transformer, x);														\
-	}																												\
-	else																											\
-	{																												\
-		COMPONENTWISE_CASTING_OP_BRANCH(func, transformer, values[0]);												\
-	}																												\
-	static_assert(true)
+	#define COMPONENTWISE_CONSTRUCT_WITH_TRANSFORM(func, xform)                                                        \
+		if constexpr (Dimensions == 1)                                                                                 \
+		{                                                                                                              \
+			MUU_FMA_BLOCK;                                                                                             \
+			return vector{ xform(func(x)) };                                                                           \
+		}                                                                                                              \
+		if constexpr (Dimensions == 2)                                                                                 \
+		{                                                                                                              \
+			MUU_FMA_BLOCK;                                                                                             \
+			return vector{ xform(func(x)), xform(func(y)) };                                                           \
+		}                                                                                                              \
+		if constexpr (Dimensions == 3)                                                                                 \
+		{                                                                                                              \
+			MUU_FMA_BLOCK;                                                                                             \
+			return vector{ xform(func(x)), xform(func(y)), xform(func(z)) };                                           \
+		}                                                                                                              \
+		if constexpr (Dimensions == 4)                                                                                 \
+		{                                                                                                              \
+			MUU_FMA_BLOCK;                                                                                             \
+			return vector{ xform(func(x)), xform(func(y)), xform(func(z)), xform(func(w)) };                           \
+		}                                                                                                              \
+		if constexpr (Dimensions > 4)                                                                                  \
+		{                                                                                                              \
+			MUU_FMA_BLOCK;                                                                                             \
+			return vector{ impl::componentwise_func_tag{},                                                             \
+						   [&](size_t i) noexcept                                                                      \
+						   {                                                                                           \
+							   MUU_FMA_BLOCK;                                                                          \
+							   return xform(func(values[i]));                                                          \
+						   } };                                                                                        \
+		}                                                                                                              \
+		static_assert(true)
 
-#define COMPONENTWISE_CONSTRUCT_WITH_TRANSFORM(func, xform)															\
-	if constexpr (Dimensions == 1) { MUU_FMA_BLOCK; return vector{ xform(func(x)) };													} \
-	if constexpr (Dimensions == 2) { MUU_FMA_BLOCK; return vector{ xform(func(x)), xform(func(y)) };									} \
-	if constexpr (Dimensions == 3) { MUU_FMA_BLOCK; return vector{ xform(func(x)), xform(func(y)), xform(func(z)) };					} \
-	if constexpr (Dimensions == 4) { MUU_FMA_BLOCK; return vector{ xform(func(x)), xform(func(y)), xform(func(z)), xform(func(w)) };	} \
-	if constexpr (Dimensions > 4)																					\
-	{																												\
-		MUU_FMA_BLOCK;																								\
-		return vector{																								\
-			impl::componentwise_func_tag{},																			\
-			[&](size_t i) noexcept																					\
-			{																										\
-				MUU_FMA_BLOCK;																						\
-				return xform(func(values[i]));																		\
-			}																										\
-		};																											\
-	}																												\
-	static_assert(true)
+	#define COMPONENTWISE_CONSTRUCT(func) COMPONENTWISE_CASTING_OP(func, COMPONENTWISE_CONSTRUCT_WITH_TRANSFORM)
 
-#define COMPONENTWISE_CONSTRUCT(func)	COMPONENTWISE_CASTING_OP(func, COMPONENTWISE_CONSTRUCT_WITH_TRANSFORM)
+	#define COMPONENTWISE_ASSIGN_WITH_TRANSFORM(func, xform)                                                           \
+		if constexpr (Dimensions <= 4)                                                                                 \
+		{                                                                                                              \
+			{                                                                                                          \
+				MUU_FMA_BLOCK;                                                                                         \
+				base::x = xform(func(x));                                                                              \
+			}                                                                                                          \
+			if constexpr (Dimensions >= 2)                                                                             \
+			{                                                                                                          \
+				MUU_FMA_BLOCK;                                                                                         \
+				base::y = xform(func(y));                                                                              \
+			}                                                                                                          \
+			if constexpr (Dimensions >= 3)                                                                             \
+			{                                                                                                          \
+				MUU_FMA_BLOCK;                                                                                         \
+				base::z = xform(func(z));                                                                              \
+			}                                                                                                          \
+			if constexpr (Dimensions == 4)                                                                             \
+			{                                                                                                          \
+				MUU_FMA_BLOCK;                                                                                         \
+				base::w = xform(func(w));                                                                              \
+			}                                                                                                          \
+		}                                                                                                              \
+		else                                                                                                           \
+		{                                                                                                              \
+			MUU_PRAGMA_MSVC(omp simd)                                                                                  \
+			for (size_t i = 0; i < Dimensions; i++)                                                                    \
+			{                                                                                                          \
+				MUU_FMA_BLOCK;                                                                                         \
+				base::values[i] = xform(func(values[i]));                                                              \
+			}                                                                                                          \
+		}                                                                                                              \
+		return *this
 
-#define COMPONENTWISE_ASSIGN_WITH_TRANSFORM(func, xform)															\
-	if constexpr (Dimensions <= 4)																					\
-	{																												\
-										{ MUU_FMA_BLOCK; base::x = xform(func(x)); }								\
-		if constexpr (Dimensions >= 2)	{ MUU_FMA_BLOCK; base::y = xform(func(y)); }								\
-		if constexpr (Dimensions >= 3)	{ MUU_FMA_BLOCK; base::z = xform(func(z)); }								\
-		if constexpr (Dimensions == 4)	{ MUU_FMA_BLOCK; base::w = xform(func(w)); }								\
-	}																												\
-	else																											\
-	{																												\
-		MUU_PRAGMA_MSVC(omp simd)																					\
-		for (size_t i = 0; i < Dimensions; i++)																		\
-		{																											\
-			MUU_FMA_BLOCK;																							\
-			base::values[i] = xform(func(values[i]));																\
-		}																											\
-	}																												\
-	return *this
+	#define COMPONENTWISE_ASSIGN(func) COMPONENTWISE_CASTING_OP(func, COMPONENTWISE_ASSIGN_WITH_TRANSFORM)
 
-#define COMPONENTWISE_ASSIGN(func)		COMPONENTWISE_CASTING_OP(func, COMPONENTWISE_ASSIGN_WITH_TRANSFORM)
+	#define SPECIALIZED_IF(cond) , bool = (cond)
 
-#define SPECIALIZED_IF(cond)		, bool = (cond)
-
-#endif // helper macros
+// internal bits -------------------------------------------------------------------------------------------------------
 
 namespace muu::impl
 {
-	struct value_fill_tag {};
-	struct zero_fill_tag {};
-	struct array_cast_tag {};
-	struct tuple_cast_tag {};
-	struct componentwise_func_tag {};
-	struct tuple_concat_tag{};
+	struct value_fill_tag
+	{};
+	struct zero_fill_tag
+	{};
+	struct array_cast_tag
+	{};
+	struct tuple_cast_tag
+	{};
+	struct componentwise_func_tag
+	{};
+	struct tuple_concat_tag
+	{};
 
 	MUU_ABI_VERSION_START(0);
 
 	template <typename Scalar, size_t Dimensions>
-	struct MUU_TRIVIAL_ABI vector_
+	struct MUU_TRIVIAL_ABI vector_ //
 	{
 		static_assert(Dimensions > 4);
 
@@ -203,120 +259,104 @@ namespace muu::impl
 
 		vector_() noexcept = default;
 
-		explicit
-		constexpr vector_(zero_fill_tag) noexcept
+		explicit constexpr vector_(zero_fill_tag) noexcept //
 			: values{}
 		{}
 
 		template <size_t... Indices>
-		explicit
-		constexpr vector_(Scalar fill, std::index_sequence<Indices...>) noexcept
+		explicit constexpr vector_(Scalar fill, std::index_sequence<Indices...>) noexcept
 			: values{ (MUU_UNUSED(Indices), fill)... }
 		{
 			static_assert(sizeof...(Indices) <= Dimensions);
 		}
 
-		explicit
-		constexpr vector_(value_fill_tag, Scalar fill) noexcept
+		explicit constexpr vector_(value_fill_tag, Scalar fill) noexcept
 			: vector_{ fill, std::make_index_sequence<Dimensions>{} }
 		{}
 
-		explicit
-		constexpr vector_(Scalar x_, Scalar y_ = Scalar{}, Scalar z_ = Scalar{}, Scalar w_ = Scalar{}) noexcept
+		explicit constexpr vector_(Scalar x_, Scalar y_ = Scalar{}, Scalar z_ = Scalar{}, Scalar w_ = Scalar{}) noexcept
 			: values{ x_, y_, z_, w_ }
 		{}
 
 		template <typename... T>
-		explicit
-		constexpr vector_(Scalar x_, Scalar y_, Scalar z_, Scalar w_, const T&... vals) noexcept
+		explicit constexpr vector_(Scalar x_, Scalar y_, Scalar z_, Scalar w_, const T&... vals) noexcept
 			: values{ x_, y_, z_, w_, static_cast<Scalar>(vals)... }
 		{
 			static_assert(sizeof...(T) <= Dimensions - 4);
 		}
 
 		template <typename T, size_t... Indices>
-		explicit
-		constexpr vector_(array_cast_tag, std::index_sequence<Indices...>, const T& arr) noexcept
+		explicit constexpr vector_(array_cast_tag, std::index_sequence<Indices...>, const T& arr) noexcept
 			: values{ static_cast<Scalar>(arr[Indices])... }
 		{
 			static_assert(sizeof...(Indices) <= Dimensions);
 		}
 
 		template <typename T, size_t... Indices>
-		explicit
-		constexpr vector_(tuple_cast_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
+		explicit constexpr vector_(tuple_cast_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
 			: values{ static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))... }
 		{
 			static_assert(sizeof...(Indices) <= Dimensions);
 		}
 
 		template <typename Func, size_t... Indices>
-		explicit
-		constexpr vector_(componentwise_func_tag, std::index_sequence<Indices...>, Func&& func) noexcept
+		explicit constexpr vector_(componentwise_func_tag, std::index_sequence<Indices...>, Func&& func) noexcept
 			: values{ func(std::integral_constant<size_t, Indices>{})... }
 		{
 			static_assert(sizeof...(Indices) <= Dimensions);
 		}
 
 		template <typename T1, typename T2, size_t... Indices1, size_t... Indices2>
-		explicit
-		constexpr vector_(tuple_concat_tag,
-			std::index_sequence<Indices1...>, const T1& tpl1,
-			std::index_sequence<Indices2...>, const T2& tpl2
-		) noexcept
-			: values{
-				static_cast<Scalar>(get_from_tuple_like<Indices1>(tpl1))...,
-				static_cast<Scalar>(get_from_tuple_like<Indices2>(tpl2))...
-			}
+		explicit constexpr vector_(tuple_concat_tag,
+								   std::index_sequence<Indices1...>,
+								   const T1& tpl1,
+								   std::index_sequence<Indices2...>,
+								   const T2& tpl2) noexcept
+			: values{ static_cast<Scalar>(get_from_tuple_like<Indices1>(tpl1))...,
+					  static_cast<Scalar>(get_from_tuple_like<Indices2>(tpl2))... }
 		{
 			static_assert((sizeof...(Indices1) + sizeof...(Indices2)) <= Dimensions);
 		}
 
 		template <typename T, size_t... Indices, typename... V>
-		explicit
-		constexpr vector_(tuple_concat_tag, std::index_sequence<Indices...>, const T& tpl, const V&... vals) noexcept
-			: values{
-				static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))...,
-				static_cast<Scalar>(vals)...
-			}
+		explicit constexpr vector_(tuple_concat_tag,
+								   std::index_sequence<Indices...>,
+								   const T& tpl,
+								   const V&... vals) noexcept
+			: values{ static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))..., static_cast<Scalar>(vals)... }
 		{
 			static_assert((sizeof...(Indices) + sizeof...(V)) <= Dimensions);
 		}
 	};
 
 	template <typename Scalar>
-	struct MUU_TRIVIAL_ABI vector_<Scalar, 1>
+	struct MUU_TRIVIAL_ABI vector_<Scalar, 1> //
 	{
 		Scalar x;
 
 		vector_() noexcept = default;
 
-		explicit
-		constexpr vector_(zero_fill_tag) noexcept
+		explicit constexpr vector_(zero_fill_tag) noexcept //
 			: x{}
 		{}
 
-		explicit
-		constexpr vector_(value_fill_tag, Scalar x_) noexcept
+		explicit constexpr vector_(value_fill_tag, Scalar x_) noexcept //
 			: x{ x_ }
 		{}
 
-		explicit
-		constexpr vector_(Scalar x_) noexcept
+		explicit constexpr vector_(Scalar x_) noexcept //
 			: x{ x_ }
 		{}
 
 		template <typename T, size_t... Indices>
-		explicit
-		constexpr vector_(array_cast_tag, std::index_sequence<Indices...>, const T& arr) noexcept
+		explicit constexpr vector_(array_cast_tag, std::index_sequence<Indices...>, const T& arr) noexcept
 			: vector_{ static_cast<Scalar>(arr[Indices])... }
 		{
 			static_assert(sizeof...(Indices) == 1);
 		}
 
 		template <typename T, size_t... Indices>
-		explicit
-		constexpr vector_(tuple_cast_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
+		explicit constexpr vector_(tuple_cast_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
 			: vector_{ static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))... }
 		{
 			static_assert(sizeof...(Indices) == 1);
@@ -324,75 +364,67 @@ namespace muu::impl
 	};
 
 	template <typename Scalar>
-	struct MUU_TRIVIAL_ABI vector_<Scalar, 2>
+	struct MUU_TRIVIAL_ABI vector_<Scalar, 2> //
 	{
 		Scalar x;
 		Scalar y;
 
 		vector_() noexcept = default;
 
-		explicit
-		constexpr vector_(zero_fill_tag) noexcept
+		explicit constexpr vector_(zero_fill_tag) noexcept //
 			: x{},
-			y{}
+			  y{}
 		{}
 
-		explicit
-		constexpr vector_(value_fill_tag, Scalar fill) noexcept
+		explicit constexpr vector_(value_fill_tag, Scalar fill) noexcept //
 			: x{ fill },
-			y{ fill }
+			  y{ fill }
 		{}
 
-		explicit
-		constexpr vector_(Scalar x_, Scalar y_ = Scalar{}) noexcept
+		explicit constexpr vector_(Scalar x_, Scalar y_ = Scalar{}) noexcept //
 			: x{ x_ },
-			y{ y_ }
+			  y{ y_ }
 		{}
 
 		template <typename T, size_t... Indices>
-		explicit
-		constexpr vector_(array_cast_tag, std::index_sequence<Indices...>, const T& arr) noexcept
+		explicit constexpr vector_(array_cast_tag, std::index_sequence<Indices...>, const T& arr) noexcept
 			: vector_{ static_cast<Scalar>(arr[Indices])... }
 		{
 			static_assert(sizeof...(Indices) <= 2);
 		}
 
 		template <typename T, size_t... Indices>
-		explicit
-		constexpr vector_(tuple_cast_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
+		explicit constexpr vector_(tuple_cast_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
 			: vector_{ static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))... }
 		{
 			static_assert(sizeof...(Indices) <= 2);
 		}
 
 		template <typename T1, typename T2, size_t... Indices1, size_t... Indices2>
-		explicit
-		constexpr vector_(tuple_concat_tag,
-			std::index_sequence<Indices1...>, const T1& tpl1,
-			std::index_sequence<Indices2...>, const T2& tpl2
-		) noexcept
-			: vector_{
-				static_cast<Scalar>(get_from_tuple_like<Indices1>(tpl1))...,
-				static_cast<Scalar>(get_from_tuple_like<Indices2>(tpl2))...
-			}
+		explicit constexpr vector_(tuple_concat_tag,
+								   std::index_sequence<Indices1...>,
+								   const T1& tpl1,
+								   std::index_sequence<Indices2...>,
+								   const T2& tpl2) noexcept
+			: vector_{ static_cast<Scalar>(get_from_tuple_like<Indices1>(tpl1))...,
+					   static_cast<Scalar>(get_from_tuple_like<Indices2>(tpl2))... }
 		{
 			static_assert((sizeof...(Indices1) + sizeof...(Indices2)) <= 2);
 		}
 
 		template <typename T, size_t... Indices, typename... V>
-		explicit
-		constexpr vector_(tuple_concat_tag, std::index_sequence<Indices...>, const T& tpl, const V&... vals) noexcept
-			: vector_{
-				static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))...,
-				static_cast<Scalar>(vals)...
-			}
+		explicit constexpr vector_(tuple_concat_tag,
+								   std::index_sequence<Indices...>,
+								   const T& tpl,
+								   const V&... vals) noexcept
+			: vector_{ static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))..., static_cast<Scalar>(vals)... }
 		{
 			static_assert((sizeof...(Indices) + sizeof...(V)) <= 2);
 		}
 	};
 
 	template <typename Scalar>
-	struct MUU_TRIVIAL_ABI vector_<Scalar, 3>
+	struct MUU_TRIVIAL_ABI vector_<Scalar, 3> //
 	{
 		Scalar x;
 		Scalar y;
@@ -400,71 +432,63 @@ namespace muu::impl
 
 		vector_() noexcept = default;
 
-		explicit
-		constexpr vector_(zero_fill_tag) noexcept
+		explicit constexpr vector_(zero_fill_tag) noexcept //
 			: x{},
-			y{},
-			z{}
+			  y{},
+			  z{}
 		{}
 
-		explicit
-		constexpr vector_(value_fill_tag, Scalar fill) noexcept
+		explicit constexpr vector_(value_fill_tag, Scalar fill) noexcept //
 			: x{ fill },
-			y{ fill },
-			z{ fill }
+			  y{ fill },
+			  z{ fill }
 		{}
 
-		explicit
-		constexpr vector_(Scalar x_, Scalar y_ = Scalar{}, Scalar z_ = Scalar{}) noexcept
+		explicit constexpr vector_(Scalar x_, Scalar y_ = Scalar{}, Scalar z_ = Scalar{}) noexcept
 			: x{ x_ },
-			y{ y_ },
-			z{ z_ }
+			  y{ y_ },
+			  z{ z_ }
 		{}
 
 		template <typename T, size_t... Indices>
-		explicit
-		constexpr vector_(array_cast_tag, std::index_sequence<Indices...>, const T& arr) noexcept
+		explicit constexpr vector_(array_cast_tag, std::index_sequence<Indices...>, const T& arr) noexcept
 			: vector_{ static_cast<Scalar>(arr[Indices])... }
 		{
 			static_assert(sizeof...(Indices) <= 3);
 		}
 
 		template <typename T, size_t... Indices>
-		explicit
-		constexpr vector_(tuple_cast_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
+		explicit constexpr vector_(tuple_cast_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
 			: vector_{ static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))... }
 		{
 			static_assert(sizeof...(Indices) <= 3);
 		}
 
 		template <typename T1, typename T2, size_t... Indices1, size_t... Indices2>
-		explicit
-		constexpr vector_(tuple_concat_tag,
-			std::index_sequence<Indices1...>, const T1& tpl1,
-			std::index_sequence<Indices2...>, const T2& tpl2
-		) noexcept
-			: vector_{
-				static_cast<Scalar>(get_from_tuple_like<Indices1>(tpl1))...,
-				static_cast<Scalar>(get_from_tuple_like<Indices2>(tpl2))...
-			}
+		explicit constexpr vector_(tuple_concat_tag,
+								   std::index_sequence<Indices1...>,
+								   const T1& tpl1,
+								   std::index_sequence<Indices2...>,
+								   const T2& tpl2) noexcept
+			: vector_{ static_cast<Scalar>(get_from_tuple_like<Indices1>(tpl1))...,
+					   static_cast<Scalar>(get_from_tuple_like<Indices2>(tpl2))... }
 		{
 			static_assert((sizeof...(Indices1) + sizeof...(Indices2)) <= 3);
 		}
 
 		template <typename T, size_t... Indices, typename... V>
-		explicit
-		constexpr vector_(tuple_concat_tag, std::index_sequence<Indices...>, const T& tpl, const V&... vals) noexcept
-			: vector_{
-				static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))...,
-				static_cast<Scalar>(vals)...
-			}
+		explicit constexpr vector_(tuple_concat_tag,
+								   std::index_sequence<Indices...>,
+								   const T& tpl,
+								   const V&... vals) noexcept
+			: vector_{ static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))..., static_cast<Scalar>(vals)... }
 		{
 			static_assert((sizeof...(Indices) + sizeof...(V)) <= 3);
 		}
 	};
 
 	template <typename Scalar>
-	struct MUU_TRIVIAL_ABI vector_<Scalar, 4>
+	struct MUU_TRIVIAL_ABI vector_<Scalar, 4> //
 	{
 		Scalar x;
 		Scalar y;
@@ -473,67 +497,59 @@ namespace muu::impl
 
 		vector_() noexcept = default;
 
-		explicit
-		constexpr vector_(zero_fill_tag) noexcept
+		explicit constexpr vector_(zero_fill_tag) noexcept //
 			: x{},
-			y{},
-			z{},
-			w{}
+			  y{},
+			  z{},
+			  w{}
 		{}
 
-		explicit
-		constexpr vector_(value_fill_tag, Scalar fill) noexcept
+		explicit constexpr vector_(value_fill_tag, Scalar fill) noexcept //
 			: x{ fill },
-			y{ fill },
-			z{ fill },
-			w{ fill }
+			  y{ fill },
+			  z{ fill },
+			  w{ fill }
 		{}
 
-		explicit
-		constexpr vector_(Scalar x_, Scalar y_ = Scalar{}, Scalar z_ = Scalar{}, Scalar w_ = Scalar{}) noexcept
+		explicit constexpr vector_(Scalar x_, Scalar y_ = Scalar{}, Scalar z_ = Scalar{}, Scalar w_ = Scalar{}) noexcept
 			: x{ x_ },
-			y{ y_ },
-			z{ z_ },
-			w{ w_ }
+			  y{ y_ },
+			  z{ z_ },
+			  w{ w_ }
 		{}
 
 		template <typename T, size_t... Indices>
-		explicit
-		constexpr vector_(array_cast_tag, std::index_sequence<Indices...>, const T& arr) noexcept
+		explicit constexpr vector_(array_cast_tag, std::index_sequence<Indices...>, const T& arr) noexcept
 			: vector_{ static_cast<Scalar>(arr[Indices])... }
 		{
 			static_assert(sizeof...(Indices) <= 4);
 		}
 
 		template <typename T, size_t... Indices>
-		explicit
-		constexpr vector_(tuple_cast_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
+		explicit constexpr vector_(tuple_cast_tag, std::index_sequence<Indices...>, const T& tpl) noexcept
 			: vector_{ static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))... }
 		{
 			static_assert(sizeof...(Indices) <= 4);
 		}
 
 		template <typename T1, typename T2, size_t... Indices1, size_t... Indices2>
-		explicit
-		constexpr vector_(tuple_concat_tag,
-			std::index_sequence<Indices1...>, const T1& tpl1,
-			std::index_sequence<Indices2...>, const T2& tpl2
-		) noexcept
-			: vector_{
-				static_cast<Scalar>(get_from_tuple_like<Indices1>(tpl1))...,
-				static_cast<Scalar>(get_from_tuple_like<Indices2>(tpl2))...
-			}
+		explicit constexpr vector_(tuple_concat_tag,
+								   std::index_sequence<Indices1...>,
+								   const T1& tpl1,
+								   std::index_sequence<Indices2...>,
+								   const T2& tpl2) noexcept
+			: vector_{ static_cast<Scalar>(get_from_tuple_like<Indices1>(tpl1))...,
+					   static_cast<Scalar>(get_from_tuple_like<Indices2>(tpl2))... }
 		{
 			static_assert((sizeof...(Indices1) + sizeof...(Indices2)) <= 4);
 		}
 
 		template <typename T, size_t... Indices, typename... V>
-		explicit
-		constexpr vector_(tuple_concat_tag, std::index_sequence<Indices...>, const T& tpl, const V&... vals) noexcept
-			: vector_{
-				static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))...,
-				static_cast<Scalar>(vals)...
-			}
+		explicit constexpr vector_(tuple_concat_tag,
+								   std::index_sequence<Indices...>,
+								   const T& tpl,
+								   const V&... vals) noexcept
+			: vector_{ static_cast<Scalar>(get_from_tuple_like<Indices>(tpl))..., static_cast<Scalar>(vals)... }
 		{
 			static_assert((sizeof...(Indices) + sizeof...(V)) <= 4);
 		}
@@ -548,34 +564,26 @@ namespace muu::impl
 	inline constexpr bool is_hva<vector<Scalar, Dimensions>> = is_hva<vector_<Scalar, Dimensions>>;
 
 	template <typename Scalar, size_t Dimensions>
-	struct readonly_param_<vector<Scalar, Dimensions>>
+	struct vectorcall_param_<vector<Scalar, Dimensions>>
 	{
-		using type = std::conditional_t<
-			pass_readonly_by_value<vector_<Scalar, Dimensions>>,
-			vector<Scalar, Dimensions>,
-			const vector<Scalar, Dimensions>&
-		>;
+		using type = std::conditional_t<pass_vectorcall_by_value<vector_<Scalar, Dimensions>>,
+										vector<Scalar, Dimensions>,
+										const vector<Scalar, Dimensions>&>;
 	};
 }
 
 namespace muu
 {
 	template <typename From, typename Scalar, size_t Dimensions>
-	inline constexpr bool allow_implicit_bit_cast<From, impl::vector_<Scalar, Dimensions>>
-		= allow_implicit_bit_cast<From, vector<Scalar, Dimensions>>;
+	inline constexpr bool allow_implicit_bit_cast<From, impl::vector_<Scalar, Dimensions>> =
+		allow_implicit_bit_cast<From, vector<Scalar, Dimensions>>;
 }
 
 /// \endcond
 
-#if MUU_ENABLE_PAIRED_FUNCS
-	#define MUU_RO_VEC		muu::impl::readonly_param<vector>
-#else
-	#define MUU_RO_VEC		const vector&
-#endif
-
-#ifndef SPECIALIZED_IF
-	#define SPECIALIZED_IF(cond)
-#endif
+	#ifndef SPECIALIZED_IF
+		#define SPECIALIZED_IF(cond)
+	#endif
 
 #endif //===============================================================================================================
 
@@ -589,33 +597,21 @@ namespace muu
 
 	/// \brief An N-dimensional vector.
 	/// \ingroup math
-	/// 
+	///
 	/// \tparam	Scalar      The type of the vector's scalar components.
 	/// \tparam Dimensions  The number of dimensions.
 	template <typename Scalar, size_t Dimensions>
-	struct MUU_TRIVIAL_ABI vector
-		#ifndef DOXYGEN
-		: impl::vector_<Scalar, Dimensions>
-		#endif
+	struct MUU_TRIVIAL_ABI vector MUU_HIDDEN_BASE(impl::vector_<Scalar, Dimensions>)
 	{
-		static_assert(
-			!std::is_reference_v<Scalar>,
-			"Vector scalar type cannot be a reference"
-		);
-		static_assert(
-			!std::is_const_v<Scalar> && !std::is_volatile_v<Scalar>,
-			"Vector scalar type cannot be const- or volatile-qualified"
-		);
-		static_assert(
-			std::is_trivially_constructible_v<Scalar>
-			&& std::is_trivially_copyable_v<Scalar>
-			&& std::is_trivially_destructible_v<Scalar>,
-			"Vector scalar type must be trivially constructible, copyable and destructible"
-		);
-		static_assert(
-			Dimensions >= 1,
-			"Vectors must have at least one dimension"
-		);
+		static_assert(!std::is_reference_v<Scalar>, "Vector scalar type cannot be a reference");
+		static_assert(!std::is_const_v<Scalar> //
+						  && !std::is_volatile_v<Scalar>,
+					  "Vector scalar type cannot be const- or volatile-qualified");
+		static_assert(std::is_trivially_constructible_v<Scalar>	  //
+						  && std::is_trivially_copyable_v<Scalar> //
+						  && std::is_trivially_destructible_v<Scalar>,
+					  "Vector scalar type must be trivially constructible, copyable and destructible");
+		static_assert(Dimensions >= 1, "Vectors must have at least one dimension");
 
 		/// \brief The number of scalar components stored in this vector.
 		static constexpr size_t dimensions = Dimensions;
@@ -624,18 +620,11 @@ namespace muu
 		using scalar_type = Scalar;
 
 		/// \brief The scalar type used for length, distance, blend factors, etc. Always floating-point.
-		using delta_type = std::conditional_t<
-			is_integral<scalar_type>,
-			double,
-			scalar_type
-		>;
+		using delta_type = std::conditional_t<is_integral<scalar_type>, double, scalar_type>;
 
 		/// \brief The scalar type used for products (dot, cross, etc.). Always signed.
-		using product_type = std::conditional_t<
-			is_integral<scalar_type>,
-			impl::highest_ranked<make_signed<scalar_type>, int>,
-			scalar_type
-		>;
+		using product_type = std::
+			conditional_t<is_integral<scalar_type>, impl::highest_ranked<make_signed<scalar_type>, int>, scalar_type>;
 
 		/// \brief Compile-time constants for this vector's scalar type.
 		using scalar_constants = muu::constants<scalar_type>;
@@ -652,22 +641,16 @@ namespace muu
 		/// \brief A const LegacyRandomAccessIterator for the scalar components in the vector.
 		using const_iterator = const scalar_type*;
 
-	private:
-		
+	  private:
 		template <typename S, size_t D>
 		friend struct vector;
 		template <typename S>
 		friend struct quaternion;
 		template <typename S, size_t R, size_t C>
 		friend struct matrix;
-		template <typename S>
-		friend struct impl::bounding_boxes_common;
 
 		using base = impl::vector_<scalar_type, Dimensions>;
-		static_assert(
-			sizeof(base) == (sizeof(scalar_type) * Dimensions),
-			"Vectors should not have padding"
-		);
+		static_assert(sizeof(base) == (sizeof(scalar_type) * Dimensions), "Vectors should not have padding");
 
 		using intermediate_product = impl::promote_if_small_float<product_type>;
 		static_assert(is_floating_point<intermediate_product> == is_floating_point<scalar_type>);
@@ -676,9 +659,8 @@ namespace muu
 		static_assert(is_floating_point<delta_type>);
 		static_assert(is_floating_point<intermediate_float>);
 
-	public:
-
-		#ifdef DOXYGEN
+	  public:
+	#ifdef DOXYGEN
 
 		/// \brief The vector's 0th scalar component (when #dimensions &lt;= 4).
 		scalar_type x;
@@ -691,24 +673,17 @@ namespace muu
 		/// \brief The vector's scalar component array (when #dimensions &gt;= 5).
 		scalar_type values[dimensions];
 
-		#endif // DOXYGEN
+	#endif // DOXYGEN
 
 	#if 1 // constructors ----------------------------------------------------------------------------------------------
 
-	private:
-
+	  private:
 		template <typename Func>
-		explicit
-		constexpr vector(impl::componentwise_func_tag, Func&& func) noexcept
-			: base{
-				impl::componentwise_func_tag{},
-				std::make_index_sequence<Dimensions>{},
-				static_cast<Func&&>(func)
-			}
+		explicit constexpr vector(impl::componentwise_func_tag, Func&& func) noexcept
+			: base{ impl::componentwise_func_tag{}, std::make_index_sequence<Dimensions>{}, static_cast<Func&&>(func) }
 		{}
 
-	public:
-
+	  public:
 		/// \brief Default constructor. Scalar components are not initialized.
 		vector() noexcept = default;
 
@@ -717,14 +692,13 @@ namespace muu
 		constexpr vector(const vector&) noexcept = default;
 
 		/// \brief Copy-assigment operator.
-		constexpr vector& operator = (const vector&) noexcept = default;
+		constexpr vector& operator=(const vector&) noexcept = default;
 
 		/// \brief	Constructs a vector with all scalar components set to the same value.
 		///
 		/// \param	fill	The value used to initialize each of the vector's scalar components.
 		MUU_NODISCARD_CTOR
-		explicit
-		constexpr vector(scalar_type fill) noexcept
+		explicit constexpr vector(scalar_type fill) noexcept //
 			: base{ impl::value_fill_tag{}, fill }
 		{}
 
@@ -733,13 +707,11 @@ namespace muu
 		///
 		/// \param	x		Initial value for the vector's first scalar component.
 		/// \param	y		Initial value for the vector's second scalar component.
-		/// 
+		///
 		/// \availability		This constructor is only available when #dimensions &gt;= 2.
 		MUU_LEGACY_REQUIRES(Dims >= 2, size_t Dims = Dimensions)
 		MUU_NODISCARD_CTOR
-		constexpr vector(scalar_type x, scalar_type y) noexcept
-			MUU_REQUIRES(Dimensions >= 2)
-			: base{ x, y }
+		constexpr vector(scalar_type x, scalar_type y) noexcept MUU_REQUIRES(Dimensions >= 2) : base{ x, y }
 		{}
 
 		/// \brief		Constructs a vector from three scalar values.
@@ -748,12 +720,11 @@ namespace muu
 		/// \param	x		Initial value for the vector's first scalar component.
 		/// \param	y		Initial value for the vector's second scalar component.
 		/// \param	z		Initial value for the vector's third scalar component.
-		/// 
+		///
 		/// \availability		This constructor is only available when #dimensions &gt;= 3.
 		MUU_LEGACY_REQUIRES(Dims >= 3, size_t Dims = Dimensions)
 		MUU_NODISCARD_CTOR
-		constexpr vector(scalar_type x, scalar_type y, scalar_type z) noexcept
-			MUU_REQUIRES(Dimensions >= 3)
+		constexpr vector(scalar_type x, scalar_type y, scalar_type z) noexcept MUU_REQUIRES(Dimensions >= 3)
 			: base{ x, y, z }
 		{}
 
@@ -764,7 +735,7 @@ namespace muu
 		/// \param	y		Initial value for the vector's second scalar component.
 		/// \param	z		Initial value for the vector's third scalar component.
 		/// \param	w		Initial value for the vector's fourth scalar component.
-		/// 
+		///
 		/// \availability			This constructor is only available when #dimensions &gt;= 4.
 		MUU_LEGACY_REQUIRES(Dims >= 4, size_t Dims = Dimensions)
 		MUU_NODISCARD_CTOR
@@ -782,16 +753,12 @@ namespace muu
 		/// \param	z		Initial value for the vector's third scalar component.
 		/// \param	w		Initial value for the vector's fourth scalar component.
 		/// \param	vals	Initial values for the vector's remaining scalar components.
-		/// 
+		///
 		/// \availability			This constructor is only available when #dimensions &gt;= 5.
-		MUU_CONSTRAINED_TEMPLATE(
-			(
-				Dims >= (4 + sizeof...(T))
-				&& all_convertible_to<Scalar, const T...>
-			),
-			typename... T
-			MUU_HIDDEN_PARAM(size_t Dims = Dimensions)
-		)
+		MUU_CONSTRAINED_TEMPLATE((Dims >= (4 + sizeof...(T)) //
+								  && all_convertible_to<Scalar, const T...>),
+								 typename... T //
+									 MUU_HIDDEN_PARAM(size_t Dims = Dimensions))
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y, scalar_type z, scalar_type w, const T&... vals) noexcept
 			: base{ x, y, z, w, vals... }
@@ -799,34 +766,20 @@ namespace muu
 
 		/// \brief Constructs a vector from a raw array of scalars.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
-		/// 
+		///
 		/// \tparam N		The number of elements in the array.
 		/// \param	arr		Array of values used to initialize the vector's scalar components.
-		MUU_CONSTRAINED_TEMPLATE(
-			(
-				Dimensions > N
-				|| (Dimensions == N && !build::supports_constexpr_bit_cast)
-			),
-			size_t N
-		)
+		MUU_CONSTRAINED_TEMPLATE((Dimensions > N || (Dimensions == N && !build::supports_constexpr_bit_cast)), size_t N)
 		MUU_NODISCARD_CTOR
-		explicit
-		constexpr vector(const scalar_type(&arr)[N]) noexcept
+		explicit constexpr vector(const scalar_type (&arr)[N]) noexcept
 			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, arr }
 		{}
 
 		/// \cond
 
-		MUU_CONSTRAINED_TEMPLATE_2(
-			(
-				Dimensions == N
-				&& build::supports_constexpr_bit_cast
-			),
-			size_t N
-		)
+		MUU_CONSTRAINED_TEMPLATE_2((Dimensions == N && build::supports_constexpr_bit_cast), size_t N)
 		MUU_NODISCARD_CTOR
-		explicit
-		constexpr vector(const scalar_type(&arr)[N]) noexcept
+		explicit constexpr vector(const scalar_type (&arr)[N]) noexcept //
 			: base{ muu::bit_cast<base>(arr) }
 		{}
 
@@ -834,54 +787,36 @@ namespace muu
 
 		/// \brief Constructs a vector from a raw array of scalars.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
-		/// 
+		///
 		/// \tparam T		A type convertible to #scalar_type.
 		/// \tparam N		The number of elements in the array.
 		/// \param	arr		Array of values used to initialize the vector's scalar components.
-		MUU_CONSTRAINED_TEMPLATE(
-			(
-				Dimensions >= N
-				&& all_convertible_to<Scalar, const T>
-				&& !std::is_same_v<remove_cv<T>, Scalar>
-			),
-			typename T, size_t N
-		)
+		MUU_CONSTRAINED_TEMPLATE((Dimensions >= N						 //
+								  && all_convertible_to<Scalar, const T> //
+								  && !std::is_same_v<remove_cv<T>, Scalar>),
+								 typename T,
+								 size_t N)
 		MUU_NODISCARD_CTOR
-		explicit
-		constexpr vector(const T(& arr)[N]) noexcept
+		explicit constexpr vector(const T (&arr)[N]) noexcept
 			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, arr }
 		{}
 
 		/// \brief Constructs a vector from a std::array of scalars.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
-		/// 
+		///
 		/// \tparam N		The number of elements in the array.
 		/// \param	arr		Array of values used to initialize the vector's scalar components.
-		MUU_CONSTRAINED_TEMPLATE(
-			(
-				Dimensions > N
-				|| (Dimensions == N && !build::supports_constexpr_bit_cast)
-			),
-			size_t N
-		)
+		MUU_CONSTRAINED_TEMPLATE((Dimensions > N || (Dimensions == N && !build::supports_constexpr_bit_cast)), size_t N)
 		MUU_NODISCARD_CTOR
-		explicit
-		constexpr vector(const std::array<scalar_type, N>& arr) noexcept
+		explicit constexpr vector(const std::array<scalar_type, N>& arr) noexcept
 			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, arr }
 		{}
 
 		/// \cond
 
-		MUU_CONSTRAINED_TEMPLATE_2(
-			(
-				Dimensions == N
-				&& build::supports_constexpr_bit_cast
-			),
-			size_t N
-		)
+		MUU_CONSTRAINED_TEMPLATE_2((Dimensions == N && build::supports_constexpr_bit_cast), size_t N)
 		MUU_NODISCARD_CTOR
-		explicit
-		constexpr vector(const std::array<scalar_type, N>& arr) noexcept
+		explicit constexpr vector(const std::array<scalar_type, N>& arr) noexcept //
 			: base{ muu::bit_cast<base>(arr) }
 		{}
 
@@ -889,73 +824,55 @@ namespace muu
 
 		/// \brief Constructs a vector from a std::array of scalars.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
-		/// 
+		///
 		/// \tparam T		A type convertible to #scalar_type.
 		/// \tparam N		The number of elements in the array.
 		/// \param	arr		Array of values used to initialize the vector's scalar components.
-		MUU_CONSTRAINED_TEMPLATE(
-			(
-				Dimensions >= N
-				&& all_convertible_to<Scalar, const T>
-				&& !std::is_same_v<remove_cv<T>, Scalar>
-			),
-			typename T, size_t N
-		)
+		MUU_CONSTRAINED_TEMPLATE((Dimensions >= N						 //
+								  && all_convertible_to<Scalar, const T> //
+								  && !std::is_same_v<remove_cv<T>, Scalar>),
+								 typename T,
+								 size_t N)
 		MUU_NODISCARD_CTOR
-		explicit
-		constexpr vector(const std::array<T, N>& arr) noexcept
+		explicit constexpr vector(const std::array<T, N>& arr) noexcept
 			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, arr }
 		{}
 
 		/// \brief Constructs a vector from any tuple-like or implicitly bit-castable type.
-		/// 
+		///
 		/// \tparam T	A tuple-like or bit-castable type.
-		/// 
+		///
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
-		/// 
-		/// \note		This constructor is implicit when given an implicitly bit-castable type, `explicit` otherwise.
-		/// 
+		///
+		/// \note		This constructor is implicit when given an implicitly bit-castable type, `explicit`
+		/// otherwise.
+		///
 		/// \see muu::allow_implicit_bit_cast
-		MUU_CONSTRAINED_TEMPLATE(
-			(
-				!impl::is_vector_<T>
-				&& (std::is_class_v<T> || std::is_union_v<T>)
-				&& is_tuple_like<T>
-				&& Dimensions >= tuple_size<T>
-				&& !allow_implicit_bit_cast<T, vector>
-			),
-			typename T
-		)
+		MUU_CONSTRAINED_TEMPLATE((!impl::is_vector_<T>							//
+								  && (std::is_class_v<T> || std::is_union_v<T>) //
+								  &&is_tuple_like<T>							//
+								  && Dimensions >= tuple_size<T>				//
+								  && !allow_implicit_bit_cast<T, vector>),
+								 typename T)
 		MUU_NODISCARD_CTOR
-		explicit
-		constexpr vector(const T& tuple_or_bitcastable) noexcept
+		explicit constexpr vector(const T& tuple_or_bitcastable) noexcept
 			: base{ impl::tuple_cast_tag{}, std::make_index_sequence<tuple_size<T>>{}, tuple_or_bitcastable }
 		{}
 
 		/// \cond
 
-		MUU_CONSTRAINED_TEMPLATE_2(
-			(
-				!impl::is_vector_<T>
-				&& (std::is_class_v<T> || std::is_union_v<T>)
-				&& allow_implicit_bit_cast<T, vector>
-				&& (!is_tuple_like<T> || (tuple_size<T> > Dimensions))
-			),
-			typename T
-		)
+		MUU_CONSTRAINED_TEMPLATE_2((!impl::is_vector_<T>						  //
+									&& (std::is_class_v<T> || std::is_union_v<T>) //
+									&&allow_implicit_bit_cast<T, vector>		  //
+									&& (!is_tuple_like<T> || (tuple_size<T> > Dimensions))),
+								   typename T)
 		MUU_NODISCARD_CTOR
 		/*implicit*/
-		constexpr vector(const T& bitcastable) noexcept
+		constexpr vector(const T& bitcastable) noexcept //
 			: base{ muu::bit_cast<base>(bitcastable) }
 		{
-			static_assert(
-				sizeof(T) == sizeof(base),
-				"Bit-castable types must be the same size as the vector"
-			);
-			static_assert(
-				std::is_trivially_copyable_v<T>,
-				"Bit-castable types must be trivially-copyable"
-			);
+			static_assert(sizeof(T) == sizeof(base), "Bit-castable types must be the same size as the vector");
+			static_assert(std::is_trivially_copyable_v<T>, "Bit-castable types must be trivially-copyable");
 		}
 
 		/// \endcond
@@ -969,14 +886,13 @@ namespace muu
 		/// auto rect   = vector{ point1, point2 }; // { 1, 2, 10, 15 }
 		/// \ecpp
 		/// Any scalar components not covered by the constructor's parameters are initialized to zero.
-		/// 
+		///
 		/// \tparam	S		Source vector's #scalar_type.
 		/// \tparam	D		Source vector's dimensions.
 		/// \param 	vec		Source vector.
 		template <typename S, size_t D>
 		MUU_NODISCARD_CTOR
-		explicit
-		constexpr vector(const vector<S, D>& vec) noexcept
+		explicit constexpr vector(const vector<S, D>& vec) noexcept
 			: base{ impl::tuple_cast_tag{}, std::make_index_sequence<(D < Dimensions ? D : Dimensions)>{}, vec }
 		{}
 
@@ -988,25 +904,21 @@ namespace muu
 		/// vector<float, 4> rect   = { point1, point2 }; // { 1, 2, 10, 15 }
 		/// \ecpp
 		/// Any scalar components not covered by the constructor's parameters are initialized to zero.
-		///  
+		///
 		/// \tparam	S1  	Vector 1's #scalar_type.
 		/// \tparam	D1		Vector 1's #dimensions.
 		/// \tparam	S2  	Vector 2's #scalar_type.
 		/// \tparam	D2		Vector 2's #dimensions.
 		/// \param 	vec1	Vector 1.
 		/// \param 	vec2	Vector 2.
-		MUU_CONSTRAINED_TEMPLATE(
-			Dimensions >= D1 + D2,
-			typename S1, size_t D1,
-			typename S2, size_t D2
-		)
+		MUU_CONSTRAINED_TEMPLATE(Dimensions >= D1 + D2, typename S1, size_t D1, typename S2, size_t D2)
 		MUU_NODISCARD_CTOR
 		constexpr vector(const vector<S1, D1>& vec1, const vector<S2, D2>& vec2) noexcept
-			: base{
-				impl::tuple_concat_tag{},
-				std::make_index_sequence<D1>{}, vec1,
-				std::make_index_sequence<D2>{}, vec2
-			}
+			: base{ impl::tuple_concat_tag{},
+					std::make_index_sequence<D1>{},
+					vec1,
+					std::make_index_sequence<D2>{},
+					vec2 }
 		{}
 
 		/// \brief	Appending constructor.
@@ -1017,48 +929,35 @@ namespace muu
 		/// vector<float, 4> rect  = { point, 10, 15 }; // { 1, 2, 10, 15 }
 		/// \ecpp
 		/// Any scalar components not covered by the constructor's parameters are initialized to zero.
-		///  
+		///
 		/// \tparam	S	  	Vector's #scalar_type.
 		/// \tparam	D		Vector's #dimensions.
 		/// \tparam T		Types convertible to #scalar_type.
 		/// \param 	vec		A vector.
 		/// \param 	vals	Scalar values.
-		MUU_CONSTRAINED_TEMPLATE(
-			(Dimensions >= D + sizeof...(T) && all_convertible_to<Scalar, const T...>),
-			typename S, size_t D,
-			typename... T
-		)
+		MUU_CONSTRAINED_TEMPLATE((Dimensions >= D + sizeof...(T) //
+								  && all_convertible_to<Scalar, const T...>),
+								 typename S,
+								 size_t D,
+								 typename... T)
 		MUU_NODISCARD_CTOR
 		constexpr vector(const vector<S, D>& vec, const T&... vals) noexcept
-			: base{
-				impl::tuple_concat_tag{},
-				std::make_index_sequence<D>{}, vec,
-				vals...
-			}
+			: base{ impl::tuple_concat_tag{}, std::make_index_sequence<D>{}, vec, vals... }
 		{}
 
-		/// \brief Constructs a vector from a pointer to scalars. 
+		/// \brief Constructs a vector from a pointer to scalars.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
-		/// 
+		///
 		/// \tparam T			Type convertible to #scalar_type.
 		/// \param	vals		Pointer to values to copy.
 		/// \param	num			Number of values to copy.
-		MUU_CONSTRAINED_TEMPLATE(
-			(all_convertible_to<Scalar, const T>),
-			typename T
-		)
+		MUU_CONSTRAINED_TEMPLATE((all_convertible_to<Scalar, const T>), typename T)
 		MUU_NODISCARD_CTOR
 		MUU_ATTR(nonnull)
 		vector(const T* vals, size_t num) noexcept
 		{
-			MUU_CONSTEXPR_SAFE_ASSERT(
-				vals != nullptr
-				&& "vals cannot be nullptr"
-			);
-			MUU_CONSTEXPR_SAFE_ASSERT(
-				num <= Dimensions
-				&& "num cannot exceed the number of dimensions"
-			);
+			MUU_CONSTEXPR_SAFE_ASSERT(vals != nullptr && "vals cannot be nullptr");
+			MUU_CONSTEXPR_SAFE_ASSERT(num <= Dimensions && "num cannot exceed the number of dimensions");
 			MUU_ASSUME(vals != nullptr);
 			MUU_ASSUME(num <= Dimensions);
 			MUU_ASSUME(reinterpret_cast<uintptr_t>(vals) % alignof(T) == 0_sz);
@@ -1072,56 +971,47 @@ namespace muu
 			}
 
 			if (num < Dimensions)
-				memset(pointer_cast<std::byte*>(this) + num * sizeof(scalar_type), 0, (Dimensions - num) * sizeof(scalar_type));
+				memset(pointer_cast<std::byte*>(this) + num * sizeof(scalar_type),
+					   0,
+					   (Dimensions - num) * sizeof(scalar_type));
 		}
 
 		/// \brief Constructs a vector from a pointer to scalars.
-		/// 
+		///
 		/// \tparam T			Type convertible to #scalar_type.
 		/// \param	vals		Pointer to values to copy.
-		MUU_CONSTRAINED_TEMPLATE(
-			(all_convertible_to<Scalar, const T>),
-			typename T
-		)
+		MUU_CONSTRAINED_TEMPLATE((all_convertible_to<Scalar, const T>), typename T)
 		MUU_NODISCARD_CTOR
 		MUU_ATTR(nonnull)
-		explicit
-		constexpr vector(const T* MUU_HIDDEN(const&) vals) noexcept
+		explicit constexpr vector(const T* MUU_HIDDEN(const&) vals) noexcept
 			: base{ impl::array_cast_tag{}, std::make_index_sequence<Dimensions>{}, vals }
 		{}
 
 		/// \brief Constructs a vector from a statically-sized muu::span.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
-		/// 
+		///
 		/// \tparam T			Type convertible to #scalar_type.
 		/// \tparam N			The number of elements covered by the span.
 		/// \param	vals		A span representing the values to copy.
-		MUU_CONSTRAINED_TEMPLATE(
-			(
-				Dimensions >= N
-				&& all_convertible_to<Scalar, const T>
-				&& N != dynamic_extent
-			),
-			typename T, size_t N
-		)
+		MUU_CONSTRAINED_TEMPLATE((Dimensions >= N						 //
+								  && all_convertible_to<Scalar, const T> //
+								  && N != dynamic_extent),
+								 typename T,
+								 size_t N)
 		MUU_NODISCARD_CTOR
-		explicit
-		constexpr vector(const muu::span<T, N>& vals) noexcept
+		explicit constexpr vector(const muu::span<T, N>& vals) noexcept
 			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, vals }
 		{}
 
 		/// \brief Constructs a vector from a dynamically-sized muu::span.
-		/// \details			Any scalar components not covered by the constructor's parameters are initialized to zero.
-		/// 
+		/// \details			Any scalar components not covered by the constructor's parameters are initialized to
+		/// zero.
+		///
 		/// \tparam T			Type convertible to #scalar_type.
 		/// \param	vals		A span representing the values to copy.
-		MUU_CONSTRAINED_TEMPLATE(
-			(all_convertible_to<Scalar, const T>),
-			typename T
-		)
+		MUU_CONSTRAINED_TEMPLATE((all_convertible_to<Scalar, const T>), typename T)
 		MUU_NODISCARD_CTOR
-		explicit
-		constexpr vector(const muu::span<T>& vals) noexcept
+		explicit constexpr vector(const muu::span<T>& vals) noexcept //
 			: vector{ vals.data(), vals.size() }
 		{}
 
@@ -1129,39 +1019,36 @@ namespace muu
 
 	#if 1 // scalar component accessors --------------------------------------------------------------------------------
 
-	private:
-
+	  private:
 		template <size_t Index, typename T>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(pure)
 		static constexpr auto& do_get(T& vec) noexcept
 		{
-			static_assert(
-				Index < Dimensions,
-				"Element index out of range"
-			);
+			static_assert(Index < Dimensions, "Element index out of range");
 
 			if constexpr (Dimensions <= 4)
 			{
-				if constexpr (Index == 0) return vec.x;
-				if constexpr (Index == 1) return vec.y;
-				if constexpr (Index == 2) return vec.z;
-				if constexpr (Index == 3) return vec.w;
+				if constexpr (Index == 0)
+					return vec.x;
+				if constexpr (Index == 1)
+					return vec.y;
+				if constexpr (Index == 2)
+					return vec.z;
+				if constexpr (Index == 3)
+					return vec.w;
 			}
 			else
 				return vec.values[Index];
 		}
 
 		template <typename T>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR_NDEBUG(pure)
 		static constexpr auto& do_array_operator(T& vec, size_t idx) noexcept
 		{
-			MUU_CONSTEXPR_SAFE_ASSERT(
-				idx < Dimensions
-				&& "Element index out of range"
-			);
+			MUU_CONSTEXPR_SAFE_ASSERT(idx < Dimensions && "Element index out of range");
 			MUU_ASSUME(idx < Dimensions);
 
 			if constexpr (Dimensions <= 4)
@@ -1170,11 +1057,23 @@ namespace muu
 				{
 					switch (idx)
 					{
-						case 0:	return vec.x;
-						case 1:	if constexpr (Dimensions > 1) { return vec.y; } else { MUU_UNREACHABLE; }
-						case 2:	if constexpr (Dimensions > 2) { return vec.z; } else { MUU_UNREACHABLE; }
-						case 3:	if constexpr (Dimensions > 3) { return vec.w; } else { MUU_UNREACHABLE; }
-						MUU_NO_DEFAULT_CASE;
+						case 0: return vec.x;
+						case 1:
+							if constexpr (Dimensions > 1)
+								return vec.y;
+							else
+								MUU_UNREACHABLE;
+						case 2:
+							if constexpr (Dimensions > 2)
+								return vec.z;
+							else
+								MUU_UNREACHABLE;
+						case 3:
+							if constexpr (Dimensions > 3)
+								return vec.w;
+							else
+								MUU_UNREACHABLE;
+						default: MUU_UNREACHABLE;
 					}
 				}
 				else
@@ -1184,15 +1083,14 @@ namespace muu
 				return vec.values[idx];
 		}
 
-	public:
-
+	  public:
 		/// \brief Gets a reference to the scalar component at a specific index.
-		/// 
+		///
 		/// \tparam Index  The index of the scalar component to retrieve, where x == 0, y == 1, etc.
 		///
 		/// \return  A reference to the selected scalar component.
 		template <size_t Index>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(pure)
 		MUU_ATTR(flatten)
@@ -1202,12 +1100,12 @@ namespace muu
 		}
 
 		/// \brief Gets a reference to the scalar component at a specific index.
-		/// 
+		///
 		/// \tparam Index  The index of the scalar component to retrieve, where x == 0, y == 1, etc.
 		///
 		/// \return  A reference to the selected scalar component.
 		template <size_t Index>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(pure)
 		MUU_ATTR(flatten)
@@ -1221,27 +1119,27 @@ namespace muu
 		/// \param idx  The index of the scalar component to retrieve, where x == 0, y == 1, etc.
 		///
 		/// \return  A reference to the selected scalar component.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR_NDEBUG(pure)
-		constexpr const scalar_type& operator [](size_t idx) const noexcept
+		constexpr const scalar_type& operator[](size_t idx) const noexcept
 		{
 			return do_array_operator(*this, idx);
 		}
 
 		/// \brief Gets a reference to the Nth scalar component.
 		///
-		/// \param idx  The index of the scalar component to retrieve, where x == 0, y == 1, etc. 
+		/// \param idx  The index of the scalar component to retrieve, where x == 0, y == 1, etc.
 		///
 		/// \return  A reference to the selected scalar component.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR_NDEBUG(pure)
-		constexpr scalar_type& operator [](size_t idx) noexcept
+		constexpr scalar_type& operator[](size_t idx) noexcept
 		{
 			return do_array_operator(*this, idx);
 		}
 
 		/// \brief Returns a pointer to the first scalar component in the vector.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(pure)
 		MUU_ATTR(flatten)
@@ -1251,7 +1149,7 @@ namespace muu
 		}
 
 		/// \brief Returns a pointer to the first scalar component in the vector.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(pure)
 		MUU_ATTR(flatten)
@@ -1265,21 +1163,20 @@ namespace muu
 	#if 1 // equality --------------------------------------------------------------------------------------------------
 
 		/// \brief		Returns true if two vectors are exactly equal.
-		/// 
+		///
 		/// \remarks	This is a componentwise exact equality check;
 		/// 			if you want an epsilon-based "near-enough" for floating-point vectors, use #approx_equal().
-		MUU_CONSTRAINED_TEMPLATE(
-			(impl::pass_readonly_by_reference<vector, vector<T, Dimensions>> || !MUU_ENABLE_PAIRED_FUNCS),
-			typename T
-		)
-		[[nodiscard]]
+		MUU_CONSTRAINED_TEMPLATE((!MUU_HAS_VECTORCALL
+								  || impl::pass_vectorcall_by_reference<vector, vector<T, Dimensions>>),
+								 typename T)
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		friend
-		constexpr bool operator == (const vector& lhs, const vector<T, dimensions>& rhs) noexcept
+		friend constexpr bool operator==(const vector& lhs, const vector<T, dimensions>& rhs) noexcept
 		{
+			// clang-format off
 			if constexpr (std::is_same_v<scalar_type, T>)
 			{
-				#define VEC_FUNC(member)	lhs.member == rhs.member
+				#define VEC_FUNC(member) lhs.member == rhs.member
 				COMPONENTWISE_AND(VEC_FUNC);
 				#undef VEC_FUNC
 			}
@@ -1287,26 +1184,24 @@ namespace muu
 			{
 				using type = impl::equality_check_type<scalar_type, T>;
 
-				#define VEC_FUNC(member)	static_cast<type>(lhs.member) == static_cast<type>(rhs.member)
+				#define VEC_FUNC(member) static_cast<type>(lhs.member) == static_cast<type>(rhs.member)
 				COMPONENTWISE_AND(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+			// clang-format on
 		}
 
-		#if MUU_ENABLE_PAIRED_FUNCS
+		#if MUU_HAS_VECTORCALL
 
-		MUU_CONSTRAINED_TEMPLATE_2(
-			(impl::pass_readonly_by_value<vector, vector<T, Dimensions>>),
-			typename T
-		)
-		[[nodiscard]]
+		MUU_CONSTRAINED_TEMPLATE_2((impl::pass_vectorcall_by_value<vector, vector<T, Dimensions>>), typename T)
+		MUU_NODISCARD
 		MUU_ATTR(const)
-		friend
-		constexpr bool MUU_VECTORCALL operator == (vector lhs, vector<T, dimensions> rhs) noexcept
+		friend constexpr bool MUU_VECTORCALL operator==(vector lhs, vector<T, dimensions> rhs) noexcept
 		{
+			// clang-format off
 			if constexpr (std::is_same_v<scalar_type, T>)
 			{
-				#define VEC_FUNC(member)	lhs.member == rhs.member
+				#define VEC_FUNC(member) lhs.member == rhs.member
 				COMPONENTWISE_AND(VEC_FUNC);
 				#undef VEC_FUNC
 			}
@@ -1314,64 +1209,61 @@ namespace muu
 			{
 				using type = impl::equality_check_type<scalar_type, T>;
 
-				#define VEC_FUNC(member)	static_cast<type>(lhs.member) == static_cast<type>(rhs.member)
+				#define VEC_FUNC(member) static_cast<type>(lhs.member) == static_cast<type>(rhs.member)
 				COMPONENTWISE_AND(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+			// clang-format on
 		}
 
-		#endif // MUU_ENABLE_PAIRED_FUNCS
+		#endif // MUU_HAS_VECTORCALL
 
 		/// \brief	Returns true if two vectors are not exactly equal.
-		/// 
+		///
 		/// \remarks	This is a componentwise exact inequality check;
 		/// 			if you want an epsilon-based "near-enough" for floating-point vectors, use #approx_equal().
-		MUU_CONSTRAINED_TEMPLATE(
-			(impl::pass_readonly_by_reference<vector, vector<T, Dimensions>> || !MUU_ENABLE_PAIRED_FUNCS),
-			typename T
-		)
-		[[nodiscard]]
+		MUU_CONSTRAINED_TEMPLATE((!MUU_HAS_VECTORCALL
+								  || impl::pass_vectorcall_by_reference<vector, vector<T, Dimensions>>),
+								 typename T)
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		friend
-		constexpr bool operator != (const vector& lhs, const vector<T, dimensions>& rhs) noexcept
+		friend constexpr bool operator!=(const vector& lhs, const vector<T, dimensions>& rhs) noexcept
 		{
 			return !(lhs == rhs);
 		}
 
-		#if MUU_ENABLE_PAIRED_FUNCS
+		#if MUU_HAS_VECTORCALL
 
-		MUU_CONSTRAINED_TEMPLATE_2(
-			(impl::pass_readonly_by_value<vector, vector<T, Dimensions>>),
-			typename T
-		)
-		[[nodiscard]]
+		MUU_CONSTRAINED_TEMPLATE_2((impl::pass_vectorcall_by_value<vector, vector<T, Dimensions>>), typename T)
+		MUU_NODISCARD
 		MUU_ATTR(const)
-		friend
-		constexpr bool MUU_VECTORCALL operator != (vector lhs, vector<T, dimensions> rhs) noexcept
+		friend constexpr bool MUU_VECTORCALL operator!=(vector lhs, vector<T, dimensions> rhs) noexcept
 		{
 			return !(lhs == rhs);
 		}
 
-		#endif // MUU_ENABLE_PAIRED_FUNCS
+		#endif // MUU_HAS_VECTORCALL
 
 		/// \brief	Returns true if all the scalar components of a vector are exactly zero.
-		/// 
+		///
 		/// \remarks	This is a componentwise exact equality check;
 		/// 			if you want an epsilon-based "near-enough" for floating-point vectors, use #approx_zero().
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr bool MUU_VECTORCALL zero(MUU_RO_VEC v) noexcept
+		static constexpr bool MUU_VECTORCALL zero(MUU_VC_PARAM(vector) v) noexcept
 		{
-			#define VEC_FUNC(member)	v.member == scalar_constants::zero
+				// clang-format off
+			#define VEC_FUNC(member) v.member == scalar_constants::zero
 			COMPONENTWISE_AND(VEC_FUNC);
 			#undef VEC_FUNC
+			// clang-format on
 		}
 
 		/// \brief	Returns true if all the scalar components of the vector are exactly zero.
-		/// 
+		///
 		/// \remarks	This is a componentwise exact equality check;
 		/// 			if you want an epsilon-based "near-enough" for floating-point vectors, use #approx_zero().
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr bool zero() const noexcept
 		{
@@ -1379,13 +1271,14 @@ namespace muu
 		}
 
 		/// \brief	Returns true if any of the scalar components of a vector are infinity or NaN.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr bool MUU_VECTORCALL infinity_or_nan(MUU_RO_VEC v) noexcept
+		static constexpr bool MUU_VECTORCALL infinity_or_nan(MUU_VC_PARAM(vector) v) noexcept
 		{
+			// clang-format off
 			if constexpr (is_floating_point<scalar_type>)
 			{
-				#define VEC_FUNC(member)	muu::infinity_or_nan(v.member)
+				#define VEC_FUNC(member) muu::infinity_or_nan(v.member)
 				COMPONENTWISE_OR(VEC_FUNC);
 				#undef VEC_FUNC
 			}
@@ -1394,10 +1287,11 @@ namespace muu
 				MUU_UNUSED(v);
 				return false;
 			}
+			// clang-format on
 		}
 
 		/// \brief	Returns true if any of the scalar components of the vector are infinity or NaN.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr bool infinity_or_nan() const noexcept
 		{
@@ -1412,26 +1306,24 @@ namespace muu
 	#if 1 // approx_equal ----------------------------------------------------------------------------------------------
 
 		/// \brief	Returns true if two vectors are approximately equal.
-		/// 
-		/// \availability		This function is only available when at least one of #scalar_type and `T` is a floating-point type.
-		MUU_CONSTRAINED_TEMPLATE(
-			(
-				any_floating_point<Scalar, T>
-				&& (impl::pass_readonly_by_reference<vector, vector<T, Dimensions>> || !MUU_ENABLE_PAIRED_FUNCS)
-			),
-			typename T
-		)
-		[[nodiscard]]
+		///
+		/// \availability		This function is only available when at least one of #scalar_type and `T` is a
+		/// floating-point type.
+		MUU_CONSTRAINED_TEMPLATE((any_floating_point<Scalar, T> //
+								  && (!MUU_HAS_VECTORCALL
+									  || impl::pass_vectorcall_by_reference<vector, vector<T, Dimensions>>)),
+								 typename T)
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr bool MUU_VECTORCALL approx_equal(
-			const vector& v1,
-			const vector<T, dimensions>& v2,
-			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>
-		) noexcept
+		static constexpr bool MUU_VECTORCALL
+		approx_equal(const vector& v1,
+					 const vector<T, dimensions>& v2,
+					 epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
 		{
+			// clang-format off
 			if constexpr (std::is_same_v<scalar_type, T>)
 			{
-				#define VEC_FUNC(member)	muu::approx_equal(v1.member, v2.member, epsilon)
+				#define VEC_FUNC(member) muu::approx_equal(v1.member, v2.member, epsilon)
 				COMPONENTWISE_AND(VEC_FUNC);
 				#undef VEC_FUNC
 			}
@@ -1439,29 +1331,31 @@ namespace muu
 			{
 				using type = impl::equality_check_type<scalar_type, T>;
 
-				#define VEC_FUNC(member)	muu::approx_equal(static_cast<type>(v1.member), static_cast<type>(v2.member), static_cast<type>(epsilon))
+				#define VEC_FUNC(member) muu::approx_equal(static_cast<type>(v1.member),\
+															static_cast<type>(v2.member),\
+															static_cast<type>(epsilon))
 				COMPONENTWISE_AND(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+			// clang-format on
 		}
 
-		#if MUU_ENABLE_PAIRED_FUNCS
+		#if MUU_HAS_VECTORCALL
 
-		MUU_CONSTRAINED_TEMPLATE_2(
-			(any_floating_point<Scalar, T> && (impl::pass_readonly_by_value<vector, vector<T, Dimensions>>)),
-			typename T
-		)
-		[[nodiscard]]
+		MUU_CONSTRAINED_TEMPLATE_2((any_floating_point<Scalar, T> //
+									&& (impl::pass_vectorcall_by_value<vector, vector<T, Dimensions>>)),
+								   typename T)
+		MUU_NODISCARD
 		MUU_ATTR(const)
-		static constexpr bool MUU_VECTORCALL approx_equal(
-			vector v1,
-			vector<T, dimensions> v2,
-			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>
-		) noexcept
+		static constexpr bool MUU_VECTORCALL
+		approx_equal(vector v1,
+					 vector<T, dimensions> v2,
+					 epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
 		{
+			// clang-format off
 			if constexpr (std::is_same_v<scalar_type, T>)
 			{
-				#define VEC_FUNC(member)	muu::approx_equal(v1.member, v2.member, epsilon)
+				#define VEC_FUNC(member) muu::approx_equal(v1.member, v2.member, epsilon)
 				COMPONENTWISE_AND(VEC_FUNC);
 				#undef VEC_FUNC
 			}
@@ -1469,71 +1363,72 @@ namespace muu
 			{
 				using type = impl::equality_check_type<scalar_type, T>;
 
-				#define VEC_FUNC(member)	muu::approx_equal(static_cast<type>(v1.member), static_cast<type>(v2.member), static_cast<type>(epsilon))
+				#define VEC_FUNC(member) muu::approx_equal(static_cast<type>(v1.member),\
+															static_cast<type>(v2.member),\
+															static_cast<type>(epsilon))
 				COMPONENTWISE_AND(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+			// clang-format on
 		}
 
-		#endif // MUU_ENABLE_PAIRED_FUNCS
+		#endif // MUU_HAS_VECTORCALL
 
 		/// \brief	Returns true if the vector is approximately equal to another.
-		/// 
-		/// \availability		This function is only available when at least one of #scalar_type and `T` is a floating-point type.
-		MUU_CONSTRAINED_TEMPLATE(
-			(
-				any_floating_point<Scalar, T>
-				&& (impl::pass_readonly_by_reference<vector<T, Dimensions>> || !MUU_ENABLE_PAIRED_FUNCS)
-			),
-			typename T
-		)
-		[[nodiscard]]
+		///
+		/// \availability		This function is only available when at least one of #scalar_type and `T` is a
+		/// floating-point type.
+		MUU_CONSTRAINED_TEMPLATE((any_floating_point<Scalar, T> //
+								  && (!MUU_HAS_VECTORCALL
+									  || impl::pass_vectorcall_by_reference<vector<T, Dimensions>>)),
+								 typename T)
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr bool MUU_VECTORCALL approx_equal(
-			const vector<T, dimensions>& v,
-			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>
-		) const noexcept
+		constexpr bool MUU_VECTORCALL
+		approx_equal(const vector<T, dimensions>& v,
+					 epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) const noexcept
 		{
 			return approx_equal(*this, v, epsilon);
 		}
 
-		#if MUU_ENABLE_PAIRED_FUNCS
+		#if MUU_HAS_VECTORCALL
 
-		MUU_CONSTRAINED_TEMPLATE_2(
-			(any_floating_point<Scalar, T> && impl::pass_readonly_by_value<vector<T, Dimensions>>),
-			typename T
-		)
-		[[nodiscard]]
+		MUU_CONSTRAINED_TEMPLATE_2((any_floating_point<Scalar, T> //
+									&& impl::pass_vectorcall_by_value<vector<T, Dimensions>>),
+								   typename T)
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr bool MUU_VECTORCALL approx_equal(
-			vector<T, dimensions> v,
-			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>
-		) const noexcept
+		constexpr bool MUU_VECTORCALL
+		approx_equal(vector<T, dimensions> v,
+					 epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) const noexcept
 		{
 			return approx_equal(*this, v, epsilon);
 		}
 
-		#endif // MUU_ENABLE_PAIRED_FUNCS
+		#endif // MUU_HAS_VECTORCALL
 
 		/// \brief	Returns true if all the scalar components in a vector are approximately equal to zero.
-		/// 
+		///
 		/// \availability		This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr bool MUU_VECTORCALL approx_zero(MUU_RO_VEC v, scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+		static constexpr bool MUU_VECTORCALL approx_zero(MUU_VC_PARAM(vector) v,
+														 scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 			MUU_REQUIRES(is_floating_point<Scalar>)
 		{
-			#define VEC_FUNC(member)	muu::approx_zero(v.member, epsilon)
+				// clang-format off
+			#define VEC_FUNC(member) muu::approx_zero(v.member, epsilon)
 			COMPONENTWISE_AND(VEC_FUNC);
 			#undef VEC_FUNC
+			// clang-format on
 		}
 
 		/// \brief	Returns true if all the scalar components in the vector are approximately equal to zero.
-		/// 
+		///
 		/// \availability		This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_zero(scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
 			MUU_REQUIRES(is_floating_point<Scalar>)
@@ -1545,24 +1440,25 @@ namespace muu
 
 	#if 1 // length and distance ---------------------------------------------------------------------------------------
 
-	private:
-
+	  private:
 		template <typename T = intermediate_float>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr T MUU_VECTORCALL raw_length_squared(MUU_RO_VEC v) noexcept
+		static constexpr T MUU_VECTORCALL raw_length_squared(MUU_VC_PARAM(vector) v) noexcept
 		{
 			static_assert(std::is_same_v<impl::highest_ranked<T, intermediate_float>, T>); // non-truncating
 
-			#define VEC_FUNC(member)	static_cast<T>(v.member) * static_cast<T>(v.member)
+				// clang-format off
+			#define VEC_FUNC(member) static_cast<T>(v.member) * static_cast<T>(v.member)
 			COMPONENTWISE_ACCUMULATE(VEC_FUNC, +);
 			#undef VEC_FUNC
+			// clang-format on
 		}
 
 		template <typename T = intermediate_float>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr T MUU_VECTORCALL raw_length(MUU_RO_VEC v) noexcept
+		static constexpr T MUU_VECTORCALL raw_length(MUU_VC_PARAM(vector) v) noexcept
 		{
 			static_assert(std::is_same_v<impl::highest_ranked<T, intermediate_float>, T>); // non-truncating
 
@@ -1573,14 +1469,14 @@ namespace muu
 		}
 
 		template <typename T = intermediate_float>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr T MUU_VECTORCALL raw_distance_squared(MUU_RO_VEC p1, MUU_RO_VEC p2) noexcept
+		static constexpr T MUU_VECTORCALL raw_distance_squared(MUU_VC_PARAM(vector) p1,
+															   MUU_VC_PARAM(vector) p2) noexcept
 		{
 			static_assert(std::is_same_v<impl::highest_ranked<T, intermediate_float>, T>); // non-truncating
 
-			constexpr auto subtract_and_square = [](scalar_type lhs, scalar_type rhs) noexcept
-				-> T
+			constexpr auto subtract_and_square = [](scalar_type lhs, scalar_type rhs) noexcept -> T
 			{
 				MUU_FMA_BLOCK;
 
@@ -1588,15 +1484,17 @@ namespace muu
 				return temp * temp;
 			};
 
-			#define VEC_FUNC(member)	subtract_and_square(p2.member, p1.member)
+				// clang-format off
+			#define VEC_FUNC(member) subtract_and_square(p2.member, p1.member)
 			COMPONENTWISE_ACCUMULATE(VEC_FUNC, +);
 			#undef VEC_FUNC
+			// clang-format on
 		}
 
 		template <typename T = intermediate_float>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr T MUU_VECTORCALL raw_distance(MUU_RO_VEC p1, MUU_RO_VEC p2) noexcept
+		static constexpr T MUU_VECTORCALL raw_distance(MUU_VC_PARAM(vector) p1, MUU_VC_PARAM(vector) p2) noexcept
 		{
 			static_assert(std::is_same_v<impl::highest_ranked<T, intermediate_float>, T>); // non-truncating
 
@@ -1606,18 +1504,17 @@ namespace muu
 				return muu::sqrt(raw_distance_squared<T>(p1, p2));
 		}
 
-	public:
-
+	  public:
 		/// \brief	Returns the squared length (magnitude) of a vector.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr delta_type MUU_VECTORCALL length_squared(MUU_RO_VEC v) noexcept
+		static constexpr delta_type MUU_VECTORCALL length_squared(MUU_VC_PARAM(vector) v) noexcept
 		{
 			return static_cast<delta_type>(raw_length_squared(v));
 		}
 
 		/// \brief	Returns the squared length (magnitude) of the vector.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr delta_type length_squared() const noexcept
 		{
@@ -1625,15 +1522,15 @@ namespace muu
 		}
 
 		/// \brief	Returns the length (magnitude) of a vector.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr delta_type MUU_VECTORCALL length(MUU_RO_VEC v) noexcept
+		static constexpr delta_type MUU_VECTORCALL length(MUU_VC_PARAM(vector) v) noexcept
 		{
 			return static_cast<delta_type>(raw_length(v));
 		}
 
 		/// \brief	Returns the length (magnitude) of the vector.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr delta_type length() const noexcept
 		{
@@ -1641,41 +1538,42 @@ namespace muu
 		}
 
 		/// \brief	Returns the squared distance between two point vectors.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr delta_type MUU_VECTORCALL distance_squared(MUU_RO_VEC p1, MUU_RO_VEC p2) noexcept
+		static constexpr delta_type MUU_VECTORCALL distance_squared(MUU_VC_PARAM(vector) p1,
+																	MUU_VC_PARAM(vector) p2) noexcept
 		{
 			return static_cast<delta_type>(raw_distance_squared(p1, p2));
 		}
 
 		/// \brief	Returns the squared distance between this and another point vector.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr delta_type MUU_VECTORCALL distance_squared(MUU_RO_VEC p) const noexcept
+		constexpr delta_type MUU_VECTORCALL distance_squared(MUU_VC_PARAM(vector) p) const noexcept
 		{
 			return static_cast<delta_type>(raw_distance_squared(*this, p));
 		}
 
 		/// \brief	Returns the squared distance between two point vectors.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr delta_type MUU_VECTORCALL distance(MUU_RO_VEC p1, MUU_RO_VEC p2) noexcept
+		static constexpr delta_type MUU_VECTORCALL distance(MUU_VC_PARAM(vector) p1, MUU_VC_PARAM(vector) p2) noexcept
 		{
 			return static_cast<delta_type>(raw_distance(p1, p2));
 		}
 
 		/// \brief	Returns the squared distance between this and another point vector.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr delta_type MUU_VECTORCALL distance(MUU_RO_VEC p) const noexcept
+		constexpr delta_type MUU_VECTORCALL distance(MUU_VC_PARAM(vector) p) const noexcept
 		{
 			return static_cast<delta_type>(raw_distance(*this, p));
 		}
 
 		/// \brief Returns true if a vector is unit-length (i.e. has a length of 1).
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr bool MUU_VECTORCALL unit_length(MUU_RO_VEC v) noexcept
+		static constexpr bool MUU_VECTORCALL unit_length(MUU_VC_PARAM(vector) v) noexcept
 		{
 			if constexpr (is_integral<scalar_type>)
 			{
@@ -1699,25 +1597,19 @@ namespace muu
 			{
 				if constexpr (Dimensions == 1)
 					return muu::approx_equal(static_cast<intermediate_float>(v.x), intermediate_float{ 1 });
-				else 
+				else
 				{
-					constexpr auto epsilon = intermediate_float{ 1 } / (
-						100ull
-						* (sizeof(scalar_type) >= sizeof(float)  ? 10000ull : 1ull)
-						* (sizeof(scalar_type) >= sizeof(double) ? 10000ull : 1ull)
-					);
+					constexpr auto epsilon = intermediate_float{ 1 }
+										   / (100ull * (sizeof(scalar_type) >= sizeof(float) ? 10000ull : 1ull)
+											  * (sizeof(scalar_type) >= sizeof(double) ? 10000ull : 1ull));
 
-					return muu::approx_equal(
-						raw_length_squared(v),
-						intermediate_float{ 1 },
-						epsilon
-					);
+					return muu::approx_equal(raw_length_squared(v), intermediate_float{ 1 }, epsilon);
 				}
 			}
 		}
 
 		/// \brief Returns true if the vector is unit-length (i.e. has a length of 1).
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr bool unit_length() const noexcept
 		{
@@ -1728,68 +1620,69 @@ namespace muu
 
 	#if 1 // dot and cross products ------------------------------------------------------------------------------------
 
-	private:
-
+	  private:
 		template <typename T = intermediate_product>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr T MUU_VECTORCALL raw_dot(MUU_RO_VEC v1, MUU_RO_VEC v2) noexcept
+		static constexpr T MUU_VECTORCALL raw_dot(MUU_VC_PARAM(vector) v1, MUU_VC_PARAM(vector) v2) noexcept
 		{
 			static_assert(std::is_same_v<impl::highest_ranked<T, intermediate_product>, T>); // non-truncating
 
 			using mult_type = decltype(scalar_type{} * scalar_type{});
 
+			// clang-format off
 			if constexpr (std::is_same_v<mult_type, T>)
 			{
-				#define VEC_FUNC(member)	v1.member * v2.member
+				#define VEC_FUNC(member) v1.member* v2.member
 				COMPONENTWISE_ACCUMULATE(VEC_FUNC, +);
 				#undef VEC_FUNC
 			}
 			else
 			{
-				#define VEC_FUNC(member)	static_cast<T>(v1.member) * static_cast<T>(v2.member)
+				#define VEC_FUNC(member) static_cast<T>(v1.member) * static_cast<T>(v2.member)
 				COMPONENTWISE_ACCUMULATE(VEC_FUNC, +);
 				#undef VEC_FUNC
 			}
+			// clang-format on
 		}
 
-	public:
-
+	  public:
 		/// \brief	Returns the dot product of two vectors.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr product_type MUU_VECTORCALL dot(MUU_RO_VEC v1, MUU_RO_VEC v2) noexcept
+		static constexpr product_type MUU_VECTORCALL dot(MUU_VC_PARAM(vector) v1, MUU_VC_PARAM(vector) v2) noexcept
 		{
 			return static_cast<product_type>(raw_dot(v1, v2));
 		}
 
 		/// \brief	Returns the dot product of this and another vector.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr product_type MUU_VECTORCALL dot(MUU_RO_VEC v) const noexcept
+		constexpr product_type MUU_VECTORCALL dot(MUU_VC_PARAM(vector) v) const noexcept
 		{
 			return static_cast<product_type>(raw_dot(*this, v));
 		}
 
 		/// \brief	Returns the cross product of two vectors.
-		/// 
+		///
 		/// \availability		This function is only available when #dimensions == 3.
 		MUU_LEGACY_REQUIRES(Dim == 3, size_t Dim = Dimensions)
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr vector<product_type, 3> MUU_VECTORCALL cross(MUU_RO_VEC lhs, MUU_RO_VEC rhs) noexcept
+		static constexpr vector<product_type, 3> MUU_VECTORCALL cross(MUU_VC_PARAM(vector) lhs,
+																	  MUU_VC_PARAM(vector) rhs) noexcept
 			MUU_REQUIRES(Dimensions == 3)
 		{
 			return impl::raw_cross<vector<product_type, 3>>(lhs, rhs);
 		}
 
 		/// \brief	Returns the cross product of this vector and another.
-		/// 
+		///
 		/// \availability		This function is only available when #dimensions == 3.
 		MUU_LEGACY_REQUIRES(Dim == 3, size_t Dim = Dimensions)
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr vector<product_type, 3> MUU_VECTORCALL cross(MUU_RO_VEC v) const noexcept
+		constexpr vector<product_type, 3> MUU_VECTORCALL cross(MUU_VC_PARAM(vector) v) const noexcept
 			MUU_REQUIRES(Dimensions == 3)
 		{
 			return impl::raw_cross<vector<product_type, 3>>(*this, v);
@@ -1800,46 +1693,49 @@ namespace muu
 	#if 1 // addition --------------------------------------------------------------------------------------------------
 
 		/// \brief Returns the componentwise addition of two vectors.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		friend
-		constexpr vector MUU_VECTORCALL operator + (MUU_RO_VEC lhs, MUU_RO_VEC rhs) noexcept
+		friend constexpr vector MUU_VECTORCALL operator+(MUU_VC_PARAM(vector) lhs, MUU_VC_PARAM(vector) rhs) noexcept
 		{
+			// clang-format off
 			if constexpr (impl::is_small_float_<scalar_type>)
 			{
-				#define VEC_FUNC(member)	static_cast<float>(lhs.member) + static_cast<float>(rhs.member)
+				#define VEC_FUNC(member) static_cast<float>(lhs.member) + static_cast<float>(rhs.member)
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
 			else
 			{
-				#define VEC_FUNC(member)	lhs.member + rhs.member
+				#define VEC_FUNC(member) lhs.member + rhs.member
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+			// clang-format on
 		}
 
 		/// \brief Componentwise adds another vector to this one.
-		constexpr vector& MUU_VECTORCALL operator += (MUU_RO_VEC rhs) noexcept
+		constexpr vector& MUU_VECTORCALL operator+=(MUU_VC_PARAM(vector) rhs) noexcept
 		{
+			// clang-format off
 			if constexpr (impl::is_small_float_<scalar_type>)
 			{
-				#define VEC_FUNC(member)	static_cast<float>(base::member) + static_cast<float>(rhs.member)
+				#define VEC_FUNC(member) static_cast<float>(base::member) + static_cast<float>(rhs.member)
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
 			}
 			else
 			{
-				#define VEC_FUNC(member)	base::member + rhs.member
+				#define VEC_FUNC(member) base::member + rhs.member
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+			// clang-format on
 		}
 
 		/// \brief Returns a componentwise copy of a vector.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr vector operator + () const noexcept
+		constexpr vector operator+() const noexcept
 		{
 			return *this;
 		}
@@ -1849,52 +1745,56 @@ namespace muu
 	#if 1 // subtraction -----------------------------------------------------------------------------------------------
 
 		/// \brief Returns the componentwise subtraction of one vector from another.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		friend
-		constexpr vector MUU_VECTORCALL operator - (MUU_RO_VEC lhs, MUU_RO_VEC rhs) noexcept
+		friend constexpr vector MUU_VECTORCALL operator-(MUU_VC_PARAM(vector) lhs, MUU_VC_PARAM(vector) rhs) noexcept
 		{
+			// clang-format off
 			if constexpr (impl::is_small_float_<scalar_type>)
 			{
-				#define VEC_FUNC(member)	static_cast<float>(lhs.member) - static_cast<float>(rhs.member)
+				#define VEC_FUNC(member) static_cast<float>(lhs.member) - static_cast<float>(rhs.member)
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
 			else
 			{
-				#define VEC_FUNC(member)	lhs.member - rhs.member
+				#define VEC_FUNC(member) lhs.member - rhs.member
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+			// clang-format on
 		}
 
 		/// \brief Componentwise subtracts another vector from this one.
-		constexpr vector& MUU_VECTORCALL operator -= (MUU_RO_VEC rhs) noexcept
+		constexpr vector& MUU_VECTORCALL operator-=(MUU_VC_PARAM(vector) rhs) noexcept
 		{
+			// clang-format off
 			if constexpr (impl::is_small_float_<scalar_type>)
 			{
-				#define VEC_FUNC(member)	static_cast<float>(base::member) - static_cast<float>(rhs.member)
+				#define VEC_FUNC(member) static_cast<float>(base::member) - static_cast<float>(rhs.member)
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
 			}
 			else
 			{
-				#define VEC_FUNC(member)	base::member - rhs.member
+				#define VEC_FUNC(member) base::member - rhs.member
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+			// clang-format on
 		}
 
 		/// \brief Returns the componentwise negation of a vector.
 		MUU_LEGACY_REQUIRES(is_signed<T>, typename T = Scalar)
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr vector operator - () const noexcept
-			MUU_REQUIRES(is_signed<Scalar>)
+		constexpr vector operator-() const noexcept MUU_REQUIRES(is_signed<Scalar>)
 		{
-			#define VEC_FUNC(member)	-base::member
+				// clang-format off
+			#define VEC_FUNC(member) -base::member
 			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 			#undef VEC_FUNC
+			// clang-format on
 		}
 
 	#endif // subtraction
@@ -1902,120 +1802,115 @@ namespace muu
 	#if 1 // multiplication -------------------------------------------------------------------------------------------
 
 		/// \brief Returns the componentwise multiplication of two vectors.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		friend
-		constexpr vector MUU_VECTORCALL operator * (MUU_RO_VEC lhs, MUU_RO_VEC rhs) noexcept
+		friend constexpr vector MUU_VECTORCALL operator*(MUU_VC_PARAM(vector) lhs, MUU_VC_PARAM(vector) rhs) noexcept
 		{
+			// clang-format off
 			if constexpr (impl::is_small_float_<scalar_type>)
 			{
-				#define VEC_FUNC(member)	static_cast<float>(lhs.member) * static_cast<float>(rhs.member)
+				#define VEC_FUNC(member) static_cast<float>(lhs.member) * static_cast<float>(rhs.member)
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
 			else
 			{
-				#define VEC_FUNC(member)	lhs.member * rhs.member
+				#define VEC_FUNC(member) lhs.member* rhs.member
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+			// clang-format on
 		}
 
 		/// \brief Componentwise multiplies this vector by another.
-		constexpr vector& MUU_VECTORCALL operator *= (MUU_RO_VEC rhs) noexcept
+		constexpr vector& MUU_VECTORCALL operator*=(MUU_VC_PARAM(vector) rhs) noexcept
 		{
+			// clang-format off
 			if constexpr (impl::is_small_float_<scalar_type>)
 			{
-				#define VEC_FUNC(member)	static_cast<float>(base::member) * static_cast<float>(rhs.member)
+				#define VEC_FUNC(member) static_cast<float>(base::member) * static_cast<float>(rhs.member)
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
 			}
 			else
 			{
-				#define VEC_FUNC(member)	base::member * rhs.member
+				#define VEC_FUNC(member) base::member* rhs.member
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+			// clang-format on
 		}
 
-	private:
-
+	  private:
 		template <typename T>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr vector MUU_VECTORCALL raw_multiply_scalar(MUU_RO_VEC lhs, T rhs) noexcept
+		static constexpr vector MUU_VECTORCALL raw_multiply_scalar(MUU_VC_PARAM(vector) lhs, T rhs) noexcept
 		{
 			using type = set_signed<
-				impl::highest_ranked<
-					decltype(scalar_type{} * impl::promote_if_small_float<T>{}),
-					intermediate_product
-				>,
-				is_signed<scalar_type> || is_signed<T>
-			>;
+				impl::highest_ranked<decltype(scalar_type{} * impl::promote_if_small_float<T>{}), intermediate_product>,
+				is_signed<scalar_type> || is_signed<T>>;
 
+			// clang-format off
 			if constexpr (all_same<type, scalar_type, T>)
 			{
-				#define VEC_FUNC(member)	lhs.member * rhs
+				#define VEC_FUNC(member) lhs.member* rhs
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
 			else
 			{
 				const auto rhs_ = static_cast<type>(rhs);
-				#define VEC_FUNC(member)	static_cast<type>(lhs.member) * rhs_
+				#define VEC_FUNC(member) static_cast<type>(lhs.member) * rhs_
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+			// clang-format on
 		}
 
 		template <typename T>
 		constexpr vector& MUU_VECTORCALL raw_multiply_assign_scalar(T rhs) noexcept
 		{
 			using type = set_signed<
-				impl::highest_ranked<
-					decltype(scalar_type{} * impl::promote_if_small_float<T>{}),
-					intermediate_product
-				>,
-				is_signed<scalar_type> || is_signed<T>
-			>;
+				impl::highest_ranked<decltype(scalar_type{} * impl::promote_if_small_float<T>{}), intermediate_product>,
+				is_signed<scalar_type> || is_signed<T>>;
 
+			// clang-format off
 			if constexpr (all_same<type, scalar_type, T>)
 			{
-				#define VEC_FUNC(member)	base::member * rhs
+				#define VEC_FUNC(member) base::member* rhs
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
 			}
 			else
 			{
 				const auto rhs_ = static_cast<type>(rhs);
-				#define VEC_FUNC(member)	static_cast<type>(base::member) * rhs_
+				#define VEC_FUNC(member) static_cast<type>(base::member) * rhs_
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+			// clang-format on
 		}
 
-	public:
-
+	  public:
 		/// \brief Returns the componentwise multiplication of a vector and a scalar.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		friend
-		constexpr vector MUU_VECTORCALL operator * (MUU_RO_VEC lhs, scalar_type rhs) noexcept
+		friend constexpr vector MUU_VECTORCALL operator*(MUU_VC_PARAM(vector) lhs, scalar_type rhs) noexcept
 		{
 			return raw_multiply_scalar(lhs, rhs);
 		}
 
 		/// \brief Returns the componentwise multiplication of a vector and a scalar.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		friend
-		constexpr vector MUU_VECTORCALL operator * (scalar_type lhs, MUU_RO_VEC rhs) noexcept
+		friend constexpr vector MUU_VECTORCALL operator*(scalar_type lhs, MUU_VC_PARAM(vector) rhs) noexcept
 		{
 			return raw_multiply_scalar(rhs, lhs);
 		}
 
 		/// \brief Componentwise multiplies this vector by a scalar.
-		constexpr vector& MUU_VECTORCALL operator *= (scalar_type rhs) noexcept
+		constexpr vector& MUU_VECTORCALL operator*=(scalar_type rhs) noexcept
 		{
 			return raw_multiply_assign_scalar(rhs);
 		}
@@ -2025,119 +1920,115 @@ namespace muu
 	#if 1 // division -------------------------------------------------------------------------------------------------
 
 		/// \brief Returns the componentwise division of one vector by another.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		friend
-		constexpr vector MUU_VECTORCALL operator / (MUU_RO_VEC lhs, MUU_RO_VEC rhs) noexcept
+		friend constexpr vector MUU_VECTORCALL operator/(MUU_VC_PARAM(vector) lhs, MUU_VC_PARAM(vector) rhs) noexcept
 		{
+			// clang-format off
 			if constexpr (impl::is_small_float_<scalar_type>)
 			{
-				#define VEC_FUNC(member)	static_cast<float>(lhs.member) / static_cast<float>(rhs.member)
+				#define VEC_FUNC(member) static_cast<float>(lhs.member) / static_cast<float>(rhs.member)
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
 			else
 			{
-				#define VEC_FUNC(member)	lhs.member / rhs.member
+				#define VEC_FUNC(member) lhs.member / rhs.member
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+			// clang-format on
 		}
 
 		/// \brief Componentwise divides this vector by another.
-		constexpr vector& MUU_VECTORCALL operator /= (MUU_RO_VEC rhs) noexcept
+		constexpr vector& MUU_VECTORCALL operator/=(MUU_VC_PARAM(vector) rhs) noexcept
 		{
+			// clang-format off
 			if constexpr (impl::is_small_float_<scalar_type>)
 			{
-				#define VEC_FUNC(member)	static_cast<float>(base::member) / static_cast<float>(rhs.member)
+				#define VEC_FUNC(member) static_cast<float>(base::member) / static_cast<float>(rhs.member)
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
 			}
 			else
 			{
-				#define VEC_FUNC(member)	base::member / rhs.member
+				#define VEC_FUNC(member) base::member / rhs.member
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+			// clang-format on
 		}
 
-	private:
-
+	  private:
 		template <typename T>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr vector MUU_VECTORCALL raw_divide_scalar(MUU_RO_VEC lhs, T rhs) noexcept
+		static constexpr vector MUU_VECTORCALL raw_divide_scalar(MUU_VC_PARAM(vector) lhs, T rhs) noexcept
 		{
 			using type = set_signed<
-				impl::highest_ranked<
-					decltype(scalar_type{} / impl::promote_if_small_float<T>{}),
-					intermediate_product
-				>,
-				is_signed<scalar_type> || is_signed<T>
-			>;
+				impl::highest_ranked<decltype(scalar_type{} / impl::promote_if_small_float<T>{}), intermediate_product>,
+				is_signed<scalar_type> || is_signed<T>>;
 
+			// clang-format off
 			if constexpr (is_floating_point<type>)
 			{
 				return raw_multiply_scalar(lhs, type{ 1 } / static_cast<type>(rhs));
 			}
 			else if constexpr (all_same<type, scalar_type, T>)
 			{
-				#define VEC_FUNC(member)	lhs.member / rhs
+				#define VEC_FUNC(member) lhs.member / rhs
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
 			else
 			{
 				const auto rhs_ = static_cast<type>(rhs);
-				#define VEC_FUNC(member)	static_cast<type>(lhs.member) / rhs_
+				#define VEC_FUNC(member) static_cast<type>(lhs.member) / rhs_
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+			// clang-format on
 		}
 
 		template <typename T>
 		constexpr vector& MUU_VECTORCALL raw_divide_assign_scalar(T rhs) noexcept
 		{
 			using type = set_signed<
-				impl::highest_ranked<
-					decltype(scalar_type{} / impl::promote_if_small_float<T>{}),
-					intermediate_product
-				>,
-				is_signed<scalar_type> || is_signed<T>
-			>;
+				impl::highest_ranked<decltype(scalar_type{} / impl::promote_if_small_float<T>{}), intermediate_product>,
+				is_signed<scalar_type> || is_signed<T>>;
 
+			// clang-format off
 			if constexpr (is_floating_point<type>)
 			{
 				return raw_multiply_assign_scalar(type{ 1 } / static_cast<type>(rhs));
 			}
 			else if constexpr (all_same<type, scalar_type, T>)
 			{
-				#define VEC_FUNC(member)	base::member / rhs
+				#define VEC_FUNC(member) base::member / rhs
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
 			}
 			else
 			{
 				const auto rhs_ = static_cast<type>(rhs);
-				#define VEC_FUNC(member)	static_cast<type>(base::member) / rhs_
+				#define VEC_FUNC(member) static_cast<type>(base::member) / rhs_
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+			// clang-format on
 		}
 
-	public:
-
+	  public:
 		/// \brief Returns the componentwise division of a vector and a scalar.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		friend
-		constexpr vector MUU_VECTORCALL operator / (MUU_RO_VEC lhs, scalar_type rhs) noexcept
+		friend constexpr vector MUU_VECTORCALL operator/(MUU_VC_PARAM(vector) lhs, scalar_type rhs) noexcept
 		{
 			return raw_divide_scalar(lhs, rhs);
 		}
 
 		/// \brief Componentwise divides this vector by a scalar.
-		constexpr vector& MUU_VECTORCALL operator /= (scalar_type rhs) noexcept
+		constexpr vector& MUU_VECTORCALL operator/=(scalar_type rhs) noexcept
 		{
 			return raw_divide_assign_scalar(rhs);
 		}
@@ -2147,41 +2038,47 @@ namespace muu
 	#if 1 // modulo ---------------------------------------------------------------------------------------------------
 
 		/// \brief Returns the remainder of componentwise dividing of one vector by another.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		friend
-		constexpr vector MUU_VECTORCALL operator % (MUU_RO_VEC lhs, MUU_RO_VEC rhs) noexcept
+		friend constexpr vector MUU_VECTORCALL operator%(MUU_VC_PARAM(vector) lhs, MUU_VC_PARAM(vector) rhs) noexcept
 		{
-			#define VEC_FUNC(member)	impl::raw_modulo(lhs.member, rhs.member)
+				// clang-format off
+			#define VEC_FUNC(member) impl::raw_modulo(lhs.member, rhs.member)
 			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 			#undef VEC_FUNC
+			// clang-format on
 		}
 
 		/// \brief Assigns the result of componentwise dividing this vector by another.
-		constexpr vector& MUU_VECTORCALL operator %= (MUU_RO_VEC rhs) noexcept
+		constexpr vector& MUU_VECTORCALL operator%=(MUU_VC_PARAM(vector) rhs) noexcept
 		{
-			#define VEC_FUNC(member)	impl::raw_modulo(base::member, rhs.member)
+				// clang-format off
+			#define VEC_FUNC(member) impl::raw_modulo(base::member, rhs.member)
 			COMPONENTWISE_ASSIGN(VEC_FUNC);
 			#undef VEC_FUNC
+			// clang-format on
 		}
 
 		/// \brief Returns the remainder of componentwise dividing vector by a scalar.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		friend
-		constexpr vector MUU_VECTORCALL operator % (MUU_RO_VEC lhs, scalar_type rhs) noexcept
+		friend constexpr vector MUU_VECTORCALL operator%(MUU_VC_PARAM(vector) lhs, scalar_type rhs) noexcept
 		{
-			#define VEC_FUNC(member)	impl::raw_modulo(lhs.member, rhs)
+				// clang-format off
+			#define VEC_FUNC(member) impl::raw_modulo(lhs.member, rhs)
 			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 			#undef VEC_FUNC
+			// clang-format on
 		}
 
 		/// \brief Assigns the result of componentwise dividing this vector by a scalar.
-		constexpr vector& MUU_VECTORCALL operator %= (scalar_type rhs) noexcept
+		constexpr vector& MUU_VECTORCALL operator%=(scalar_type rhs) noexcept
 		{
-			#define VEC_FUNC(member)	impl::raw_modulo(base::member, rhs)
+				// clang-format off
+			#define VEC_FUNC(member) impl::raw_modulo(base::member, rhs)
 			COMPONENTWISE_ASSIGN(VEC_FUNC);
 			#undef VEC_FUNC
+			// clang-format on
 		}
 
 	#endif // modulo
@@ -2189,69 +2086,73 @@ namespace muu
 	#if 1 // bitwise shifts ----------------------------------------------------------------------------------------
 
 		/// \brief Returns a vector with each scalar component left-shifted the given number of bits.
-		/// 
+		///
 		/// \availability		This function is only available when #scalar_type is an integral type.
 		MUU_LEGACY_REQUIRES(is_integral<T>, typename T = Scalar)
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR_NDEBUG(pure)
-		friend
-		constexpr vector MUU_VECTORCALL operator << (MUU_RO_VEC lhs, product_type rhs) noexcept
+		friend constexpr vector MUU_VECTORCALL operator<<(MUU_VC_PARAM(vector) lhs, product_type rhs) noexcept
 			MUU_REQUIRES(is_integral<Scalar>)
 		{
 			MUU_CONSTEXPR_SAFE_ASSERT(rhs >= 0 && "Bitwise left-shifting by negative values is illegal");
 			MUU_ASSUME(rhs >= 0);
 
-			#define VEC_FUNC(member)	lhs.member << rhs
+				// clang-format off
+			#define VEC_FUNC(member) lhs.member << rhs
 			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 			#undef VEC_FUNC
+			// clang-format on
 		}
 
 		/// \brief Componentwise left-shifts each scalar component in the vector by the given number of bits.
-		/// 
+		///
 		/// \availability		This function is only available when #scalar_type is an integral type.
 		MUU_LEGACY_REQUIRES(is_integral<T>, typename T = Scalar)
-		constexpr vector& MUU_VECTORCALL operator <<= (product_type rhs) noexcept
-			MUU_REQUIRES(is_integral<Scalar>)
+		constexpr vector& MUU_VECTORCALL operator<<=(product_type rhs) noexcept MUU_REQUIRES(is_integral<Scalar>)
 		{
 			MUU_CONSTEXPR_SAFE_ASSERT(rhs >= 0 && "Bitwise left-shifting by negative values is illegal");
 			MUU_ASSUME(rhs >= 0);
 
-			#define VEC_FUNC(member)	base::member << rhs
+				// clang-format off
+			#define VEC_FUNC(member) base::member << rhs
 			COMPONENTWISE_ASSIGN(VEC_FUNC);
 			#undef VEC_FUNC
+			// clang-format on
 		}
 
 		/// \brief Returns a vector with each scalar component right-shifted the given number of bits.
-		/// 
+		///
 		/// \availability		This function is only available when #scalar_type is an integral type.
 		MUU_LEGACY_REQUIRES(is_integral<T>, typename T = Scalar)
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR_NDEBUG(pure)
-		friend
-		constexpr vector MUU_VECTORCALL operator >> (MUU_RO_VEC lhs, product_type rhs) noexcept
+		friend constexpr vector MUU_VECTORCALL operator>>(MUU_VC_PARAM(vector) lhs, product_type rhs) noexcept
 			MUU_REQUIRES(is_integral<Scalar>)
 		{
 			MUU_CONSTEXPR_SAFE_ASSERT(rhs >= 0 && "Bitwise right-shifting by negative values is illegal");
 			MUU_ASSUME(rhs >= 0);
 
-			#define VEC_FUNC(member)	lhs.member >> rhs
+				// clang-format off
+			#define VEC_FUNC(member) lhs.member >> rhs
 			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 			#undef VEC_FUNC
+			// clang-format on
 		}
 
 		/// \brief Componentwise right-shifts each scalar component in the vector by the given number of bits.
-		/// 
+		///
 		/// \availability		This function is only available when #scalar_type is an integral type.
 		MUU_LEGACY_REQUIRES(is_integral<T>, typename T = Scalar)
-		constexpr vector& MUU_VECTORCALL operator >>= (product_type rhs) noexcept
-			MUU_REQUIRES(is_integral<Scalar>)
+		constexpr vector& MUU_VECTORCALL operator>>=(product_type rhs) noexcept MUU_REQUIRES(is_integral<Scalar>)
 		{
 			MUU_CONSTEXPR_SAFE_ASSERT(rhs >= 0 && "Bitwise right-shifting by negative values is illegal");
 			MUU_ASSUME(rhs >= 0);
 
-			#define VEC_FUNC(member)	base::member >> rhs
+				// clang-format off
+			#define VEC_FUNC(member) base::member >> rhs
 			COMPONENTWISE_ASSIGN(VEC_FUNC);
 			#undef VEC_FUNC
+			// clang-format on
 		}
 
 	#endif // bitwise shifts
@@ -2262,13 +2163,13 @@ namespace muu
 		///
 		/// \param v			The vector to normalize.
 		/// \param length_out	An output param to receive the length of the vector pre-normalization.
-		/// 
+		///
 		/// \return		A normalized copy of the input vector.
-		/// 
+		///
 		/// \availability This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
-		[[nodiscard]]
-		static constexpr vector MUU_VECTORCALL normalize(MUU_RO_VEC v, delta_type& length_out) noexcept
+		MUU_NODISCARD
+		static constexpr vector MUU_VECTORCALL normalize(MUU_VC_PARAM(vector) v, delta_type& length_out) noexcept
 			MUU_REQUIRES(is_floating_point<Scalar>)
 		{
 			if constexpr (Dimensions == 1)
@@ -2279,7 +2180,7 @@ namespace muu
 			else
 			{
 				const auto len = raw_length(v);
-				length_out = static_cast<delta_type>(len);
+				length_out	   = static_cast<delta_type>(len);
 				return raw_divide_scalar(v, len);
 			}
 		}
@@ -2287,14 +2188,14 @@ namespace muu
 		/// \brief	Normalizes a vector.
 		///
 		/// \param v	The vector to normalize.
-		/// 
+		///
 		/// \return		A normalized copy of the input vector.
-		/// 
+		///
 		/// \availability This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr vector MUU_VECTORCALL normalize(MUU_RO_VEC v) noexcept
+		static constexpr vector MUU_VECTORCALL normalize(MUU_VC_PARAM(vector) v) noexcept
 			MUU_REQUIRES(is_floating_point<Scalar>)
 		{
 			if constexpr (Dimensions == 1)
@@ -2309,24 +2210,23 @@ namespace muu
 		/// \brief	Normalizes the vector (in-place).
 		///
 		/// \param length_out	An output param to receive the length of the vector pre-normalization.
-		/// 
+		///
 		/// \return	A reference to the vector.
-		/// 
+		///
 		/// \availability This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
-		constexpr vector& normalize(delta_type& length_out) noexcept
-			MUU_REQUIRES(is_floating_point<Scalar>)
+		constexpr vector& normalize(delta_type& length_out) noexcept MUU_REQUIRES(is_floating_point<Scalar>)
 		{
 			if constexpr (Dimensions == 1)
 			{
 				length_out = static_cast<delta_type>(base::x);
-				base::x = scalar_constants::one;
+				base::x	   = scalar_constants::one;
 				return *this;
 			}
 			else
 			{
 				const auto len = raw_length(*this);
-				length_out = static_cast<delta_type>(len);
+				length_out	   = static_cast<delta_type>(len);
 				return raw_divide_assign_scalar(len);
 			}
 		}
@@ -2334,11 +2234,10 @@ namespace muu
 		/// \brief	Normalizes the vector (in-place).
 		///
 		/// \return	A reference to the vector.
-		/// 
+		///
 		/// \availability This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
-		constexpr vector& normalize() noexcept
-			MUU_REQUIRES(is_floating_point<Scalar>)
+		constexpr vector& normalize() noexcept MUU_REQUIRES(is_floating_point<Scalar>)
 		{
 			if constexpr (Dimensions == 1)
 			{
@@ -2353,13 +2252,13 @@ namespace muu
 		///
 		/// \param v			The vector to normalize.
 		/// \param v_lensq		The pre-calculated squared-length of `v`.
-		/// 
+		///
 		/// \return		A normalized copy of the input vector.
-		/// 
+		///
 		/// \availability This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
-		[[nodiscard]]
-		static constexpr vector MUU_VECTORCALL normalize_lensq(MUU_RO_VEC v, delta_type v_lensq) noexcept
+		MUU_NODISCARD
+		static constexpr vector MUU_VECTORCALL normalize_lensq(MUU_VC_PARAM(vector) v, delta_type v_lensq) noexcept
 			MUU_REQUIRES(is_floating_point<Scalar>)
 		{
 			return raw_divide_scalar(v, muu::sqrt(static_cast<intermediate_float>(v_lensq)));
@@ -2368,9 +2267,9 @@ namespace muu
 		/// \brief	Normalizes the vector using a pre-calculated squared-length (in-place).
 		///
 		/// \param lensq		The pre-calculated squared-length of the vector.
-		/// 
+		///
 		/// \return	A reference to the vector.
-		/// 
+		///
 		/// \availability This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
 		constexpr vector& MUU_VECTORCALL normalize_lensq(delta_type lensq) noexcept
@@ -2384,18 +2283,20 @@ namespace muu
 	#if 1 // direction ------------------------------------------------------------------------------------------------
 
 		/// \brief		Returns the normalized direction vector from one position to another.
-		/// 
+		///
 		/// \param	from			The start position.
 		/// \param	to				The end position.
 		/// \param	distance_out	An output param to receive the distance between the two points.
-		/// 
+		///
 		/// \return		A normalized direction vector pointing from the start position to the end position.
-		/// 
+		///
 		/// \availability		This function is only available when #dimensions == 2 or 3.
 		MUU_LEGACY_REQUIRES((Dim == 2 || Dim == 3), size_t Dim = Dimensions)
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr vector_product MUU_VECTORCALL direction(MUU_RO_VEC from, MUU_RO_VEC to, delta_type& distance_out) noexcept
+		static constexpr vector_product MUU_VECTORCALL direction(MUU_VC_PARAM(vector) from,
+																 MUU_VC_PARAM(vector) to,
+																 delta_type& distance_out) noexcept
 			MUU_REQUIRES(Dimensions == 2 || Dimensions == 3)
 		{
 			// all are the same type - only happens with float, double, long double etc.
@@ -2422,17 +2323,18 @@ namespace muu
 		}
 
 		/// \brief		Returns the normalized direction vector from one position to another.
-		/// 			
+		///
 		/// \param	from			The start position.
 		/// \param	to				The end position.
-		/// 
+		///
 		/// \return		A normalized direction vector pointing from the start position to the end position.
-		/// 
+		///
 		/// \availability		This function is only available when #dimensions == 2 or 3.
 		MUU_LEGACY_REQUIRES((Dim == 2 || Dim == 3), size_t Dim = Dimensions)
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr vector_product MUU_VECTORCALL direction(MUU_RO_VEC from, MUU_RO_VEC to) noexcept
+		static constexpr vector_product MUU_VECTORCALL direction(MUU_VC_PARAM(vector) from,
+																 MUU_VC_PARAM(vector) to) noexcept
 			MUU_REQUIRES(Dimensions == 2 || Dimensions == 3)
 		{
 			// all are the same type - only happens with float, double, long double etc.
@@ -2456,15 +2358,16 @@ namespace muu
 		}
 
 		/// \brief		Returns the normalized direction vector from this position to another.
-		/// 
+		///
 		/// \param	to				The end position.
 		/// \param	distance_out	An output param to receive the distance between the two points.
-		/// 
+		///
 		/// \availability		This function is only available when #dimensions == 2 or 3.
 		MUU_LEGACY_REQUIRES((Dim == 2 || Dim == 3), size_t Dim = Dimensions)
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr vector_product MUU_VECTORCALL direction(MUU_RO_VEC to, delta_type& distance_out) const noexcept
+		constexpr vector_product MUU_VECTORCALL direction(MUU_VC_PARAM(vector) to,
+														  delta_type& distance_out) const noexcept
 			MUU_REQUIRES(Dimensions == 2 || Dimensions == 3)
 		{
 			return direction(*this, to, distance_out);
@@ -2476,9 +2379,9 @@ namespace muu
 		///
 		/// \availability		This function is only available when #dimensions == 2 or 3.
 		MUU_LEGACY_REQUIRES((Dim == 2 || Dim == 3), size_t Dim = Dimensions)
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr vector_product MUU_VECTORCALL direction(MUU_RO_VEC to) const noexcept
+		constexpr vector_product MUU_VECTORCALL direction(MUU_VC_PARAM(vector) to) const noexcept
 			MUU_REQUIRES(Dimensions == 2 || Dimensions == 3)
 		{
 			return direction(*this, to);
@@ -2489,7 +2392,7 @@ namespace muu
 	#if 1 // iterators ------------------------------------------------------------------------------------------------
 
 		/// \brief Returns an iterator to the first scalar component in the vector.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(pure)
 		constexpr iterator begin() noexcept
@@ -2498,7 +2401,7 @@ namespace muu
 		}
 
 		/// \brief Returns an iterator to the one-past-the-last scalar component in the vector.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(pure)
 		constexpr iterator end() noexcept
@@ -2507,7 +2410,7 @@ namespace muu
 		}
 
 		/// \brief Returns a const iterator to the first scalar component in the vector.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(pure)
 		constexpr const_iterator begin() const noexcept
@@ -2516,7 +2419,7 @@ namespace muu
 		}
 
 		/// \brief Returns a const iterator to the one-past-the-last scalar component in the vector.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(pure)
 		constexpr const_iterator end() const noexcept
@@ -2529,133 +2432,138 @@ namespace muu
 	#if 1 // min, max and clamp ---------------------------------------------------------------------------------------
 
 		/// \brief	Returns the componentwise minimum of two vectors.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr vector MUU_VECTORCALL min(MUU_RO_VEC v1, MUU_RO_VEC v2) noexcept
+		static constexpr vector MUU_VECTORCALL min(MUU_VC_PARAM(vector) v1, MUU_VC_PARAM(vector) v2) noexcept
 		{
-			#define VEC_FUNC(member)	muu::min(v1.member, v2.member)
+				// clang-format off
+			#define VEC_FUNC(member) muu::min(v1.member, v2.member)
 			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 			#undef VEC_FUNC
+			// clang-format on
 		}
 
 		/// \brief	Returns the componentwise maximum of two vectors.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr vector MUU_VECTORCALL max(MUU_RO_VEC v1, MUU_RO_VEC v2) noexcept
+		static constexpr vector MUU_VECTORCALL max(MUU_VC_PARAM(vector) v1, MUU_VC_PARAM(vector) v2) noexcept
 		{
-			#define VEC_FUNC(member)	muu::max(v1.member, v2.member)
+				// clang-format off
+			#define VEC_FUNC(member) muu::max(v1.member, v2.member)
 			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 			#undef VEC_FUNC
+			// clang-format on
 		}
 
 		/// \brief	Componentwise clamps a vector between two others.
-		/// 
+		///
 		/// \param v		The vector being clamped.
 		/// \param low		The low bound of the clamp operation.
 		/// \param high		The high bound of the clamp operation.
-		/// 
+		///
 		/// \return	A vector containing the scalar components from `v` clamped inside the given bounds.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr vector MUU_VECTORCALL clamp(MUU_RO_VEC v, MUU_RO_VEC low, MUU_RO_VEC high) noexcept
+		static constexpr vector MUU_VECTORCALL clamp(MUU_VC_PARAM(vector) v,
+													 MUU_VC_PARAM(vector) low,
+													 MUU_VC_PARAM(vector) high) noexcept
 		{
-			#define VEC_FUNC(member)	muu::clamp(v.member, low.member, high.member)
+				// clang-format off
+			#define VEC_FUNC(member) muu::clamp(v.member, low.member, high.member)
 			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 			#undef VEC_FUNC
+			// clang-format on
 		}
 
 		/// \brief	Componentwise clamps the vector between two others (in-place).
-		/// 
+		///
 		/// \param low		The low bound of the clamp operation.
 		/// \param high		The high bound of the clamp operation.
-		/// 
+		///
 		/// \return	A reference to the vector.
-		constexpr vector& MUU_VECTORCALL clamp(MUU_RO_VEC low, MUU_RO_VEC high) noexcept
+		constexpr vector& MUU_VECTORCALL clamp(MUU_VC_PARAM(vector) low, MUU_VC_PARAM(vector) high) noexcept
 		{
-			#define VEC_FUNC(member)	muu::clamp(base::member, low.member, high.member)
+				// clang-format off
+			#define VEC_FUNC(member) muu::clamp(base::member, low.member, high.member)
 			COMPONENTWISE_ASSIGN(VEC_FUNC);
 			#undef VEC_FUNC
+			// clang-format on
 		}
 
 	#endif // min, max and clamp
 
 	#if 1 // swizzles -------------------------------------------------------------------------------------------------
-	/// \name Swizzles
-	///@{ 
+		  /// \name Swizzles
+		  ///@{
 
 		/// \brief Creates a vector by selecting and re-packing scalar components from
 		/// 	   another vector in an abitrary order.
-		/// 
+		///
 		/// \tparam	Indices		Indices of the scalar components from the source vector
 		/// 					in the order they're to be re-packed.
 		/// \param v			The source vector.
-		/// 				
+		///
 		/// \details \cpp
 		///
 		/// auto v = vector{ 10, 7, 5, 9 };
 		/// //                ^  ^  ^  ^
 		/// // indices:       0  1  2  3
-		/// 
+		///
 		/// using vec4 = decltype(v);
-		/// 
+		///
 		///	std::cout << "swizzle<0>:          " << vec4::swizzle<0>(v)          << "\n";
 		///	std::cout << "swizzle<1, 0>:       " << vec4::swizzle<1, 0>(v)       << "\n";
 		///	std::cout << "swizzle<3, 2, 3>:    " << vec4::swizzle<3, 2, 3>(v)    << "\n";
 		///	std::cout << "swizzle<0, 1, 0, 1>: " << vec4::swizzle<0, 1, 0, 1>(v) << "\n";
 		/// \ecpp
-		/// 
+		///
 		/// \out
 		/// swizzle<0>:          { 10 }
 		/// swizzle<1, 0>:       { 7, 10 }
 		/// swizzle<3, 2, 3>:    { 9, 5, 9 }
 		/// swizzle<0, 1, 0, 1>: { 10, 7, 10, 7 }
 		/// \eout
-		/// 
+		///
 		/// \return  A vector composed from the desired 'swizzle' of the source vector.
 		template <size_t... Indices>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr vector<scalar_type, sizeof...(Indices)> MUU_VECTORCALL swizzle(MUU_RO_VEC v) noexcept
+		static constexpr vector<scalar_type, sizeof...(Indices)> MUU_VECTORCALL swizzle(MUU_VC_PARAM(vector) v) noexcept
 		{
-			static_assert(
-				sizeof...(Indices) > 0_sz,
-				"At least one scalar index must be specified."
-			);
-			static_assert(
-				(true && ... && (Indices < Dimensions)),
-				"One or more of the scalar indices was out-of-range"
-			);
+			static_assert(sizeof...(Indices) > 0_sz, "At least one scalar index must be specified.");
+			static_assert((true && ... && (Indices < Dimensions)),
+						  "One or more of the scalar indices was out-of-range");
 
 			return vector<scalar_type, sizeof...(Indices)>{ v.template get<Indices>()... };
 		}
 
 		/// \brief Creates a vector by selecting and re-packing the
 		/// 	   scalar components from this vector in an abitrary order.
-		/// 
+		///
 		/// \tparam	Indices		Indices of the scalar components in the order they're to be re-packed.
-		/// 				
+		///
 		/// \details \cpp
 		///
 		/// auto v = vector{ 10, 7, 5, 9 };
 		/// //                ^  ^  ^  ^
 		/// // indices:       0  1  2  3
-		/// 
+		///
 		///	std::cout << "swizzle<0>:          " << v.swizzle<0>(v)          << "\n";
 		///	std::cout << "swizzle<1, 0>:       " << v.swizzle<1, 0>(v)       << "\n";
 		///	std::cout << "swizzle<3, 2, 3>:    " << v.swizzle<3, 2, 3>(v)    << "\n";
 		///	std::cout << "swizzle<0, 1, 0, 1>: " << v.swizzle<0, 1, 0, 1>(v) << "\n";
 		/// \ecpp
-		/// 
+		///
 		/// \out
 		/// swizzle<0>:          { 10 }
 		/// swizzle<1, 0>:       { 7, 10 }
 		/// swizzle<3, 2, 3>:    { 9, 5, 9 }
 		/// swizzle<0, 1, 0, 1>: { 10, 7, 10, 7 }
 		/// \eout
-		/// 
+		///
 		/// \return  A vector composed from the desired 'swizzle' of this one.
 		template <size_t... Indices>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr vector<scalar_type, sizeof...(Indices)> swizzle() const noexcept
 		{
@@ -2664,60 +2572,54 @@ namespace muu
 
 		/// \brief Returns a two-dimensional vector containing `{ x, y }`.
 		MUU_LEGACY_REQUIRES(Dims >= 2, size_t Dims = Dimensions)
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr vector<scalar_type, 2> xy() const noexcept
-			MUU_REQUIRES(Dimensions >= 2)
+		constexpr vector<scalar_type, 2> xy() const noexcept MUU_REQUIRES(Dimensions >= 2)
 		{
 			return vector<scalar_type, 2>{ get<0>(), get<1>() };
 		}
 
 		/// \brief Returns a two-dimensional vector containing `{ x, z }`.
 		MUU_LEGACY_REQUIRES(Dims >= 3, size_t Dims = Dimensions)
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr vector<scalar_type, 2> xz() const noexcept
-			MUU_REQUIRES(Dimensions >= 3)
+		constexpr vector<scalar_type, 2> xz() const noexcept MUU_REQUIRES(Dimensions >= 3)
 		{
 			return vector<scalar_type, 2>{ get<0>(), get<2>() };
 		}
 
 		/// \brief Returns a two-dimensional vector containing `{ y, x }`.
 		MUU_LEGACY_REQUIRES(Dims >= 2, size_t Dims = Dimensions)
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr vector<scalar_type, 2> yx() const noexcept
-			MUU_REQUIRES(Dimensions >= 2)
+		constexpr vector<scalar_type, 2> yx() const noexcept MUU_REQUIRES(Dimensions >= 2)
 		{
 			return vector<scalar_type, 2>{ get<1>(), get<0>() };
 		}
 
 		/// \brief Returns a three-dimensional vector containing `{ x, y, z }`.
 		MUU_LEGACY_REQUIRES(Dims >= 3, size_t Dims = Dimensions)
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr vector<scalar_type, 3> xyz() const noexcept
-			MUU_REQUIRES(Dimensions >= 3)
+		constexpr vector<scalar_type, 3> xyz() const noexcept MUU_REQUIRES(Dimensions >= 3)
 		{
 			return vector<scalar_type, 3>{ get<0>(), get<1>(), get<2>() };
 		}
 
 		/// \brief Returns a four-dimensional vector containing `{ x, y, z, 1 }`.
 		MUU_LEGACY_REQUIRES(Dims >= 3, size_t Dims = Dimensions)
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr vector<scalar_type, 4> xyz1() const noexcept
-			MUU_REQUIRES(Dimensions >= 3)
+		constexpr vector<scalar_type, 4> xyz1() const noexcept MUU_REQUIRES(Dimensions >= 3)
 		{
 			return vector<scalar_type, 4>{ get<0>(), get<1>(), get<2>(), scalar_constants::one };
 		}
 
 		/// \brief Returns a four-dimensional vector containing `{ x, y, z, 0 }`.
 		MUU_LEGACY_REQUIRES(Dims >= 3, size_t Dims = Dimensions)
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr vector<scalar_type, 4> xyz0() const noexcept
-			MUU_REQUIRES(Dimensions >= 3)
+		constexpr vector<scalar_type, 4> xyz0() const noexcept MUU_REQUIRES(Dimensions >= 3)
 		{
 			return vector<scalar_type, 4>{ get<0>(), get<1>(), get<2>(), scalar_constants::zero };
 		}
@@ -2729,8 +2631,7 @@ namespace muu
 
 		/// \brief Writes a vector out to a text stream.
 		template <typename Char, typename Traits>
-		friend
-		std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& os, const vector& v)
+		friend std::basic_ostream<Char, Traits>& operator<<(std::basic_ostream<Char, Traits>& os, const vector& v)
 		{
 			impl::print_vector(os, v.data(), Dimensions);
 			return os;
@@ -2743,16 +2644,21 @@ namespace muu
 		/// \param	alpha 	The blend factor.
 		///
 		/// \returns	A vector with values derived from a linear interpolation from `start` to `finish`.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr vector MUU_VECTORCALL lerp(MUU_RO_VEC start, MUU_RO_VEC finish, delta_type alpha) noexcept
+		static constexpr vector MUU_VECTORCALL lerp(MUU_VC_PARAM(vector) start,
+													MUU_VC_PARAM(vector) finish,
+													delta_type alpha) noexcept
 		{
-			using type = intermediate_float;
+			using type			 = intermediate_float;
 			const auto inv_alpha = type{ 1 } - static_cast<type>(alpha);
 
-			#define VEC_FUNC(member) static_cast<type>(start.member) * inv_alpha + static_cast<type>(finish.member) * static_cast<type>(alpha)
+				// clang-format off
+			#define VEC_FUNC(member)                                                                                    \
+				static_cast<type>(start.member) * inv_alpha + static_cast<type>(finish.member) * static_cast<type>(alpha)
 			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 			#undef VEC_FUNC
+			// clang-format on
 		}
 
 		/// \brief	Linearly interpolates this vector towards another (in-place).
@@ -2763,12 +2669,15 @@ namespace muu
 		/// \return	A reference to the vector.
 		constexpr vector& MUU_VECTORCALL lerp(vector target, delta_type alpha) noexcept
 		{
-			using type = intermediate_float;
+			using type			 = intermediate_float;
 			const auto inv_alpha = type{ 1 } - static_cast<type>(alpha);
 
-			#define VEC_FUNC(member) static_cast<type>(base::member) * inv_alpha + static_cast<type>(target.member) * static_cast<type>(alpha)
+				// clang-format off
+			#define VEC_FUNC(member)                                                                                    \
+				static_cast<type>(base::member) * inv_alpha + static_cast<type>(target.member) * static_cast<type>(alpha)
 			COMPONENTWISE_ASSIGN(VEC_FUNC);
 			#undef VEC_FUNC
+			// clang-format on
 		}
 
 		/// \brief	Calculates the angle between two vectors.
@@ -2777,32 +2686,30 @@ namespace muu
 		/// \param	v2		A vector.
 		///
 		/// \returns	The angle between `v1` and `v2` (in radians).
-		/// 
+		///
 		/// \remarks	The angle returned is the unsigned angle between the two vectors;
 		/// 			the smaller of the two possible angles between the two vectors is used.
 		/// 			The result is never greater than `pi` radians (180 degrees).
-		/// 
+		///
 		/// \availability		This function is only available when #dimensions == 2 or 3.
 		MUU_LEGACY_REQUIRES((Dim == 2 || Dim == 3), size_t Dim = Dimensions)
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr delta_type MUU_VECTORCALL angle(MUU_RO_VEC v1, MUU_RO_VEC v2) noexcept
+		static constexpr delta_type MUU_VECTORCALL angle(MUU_VC_PARAM(vector) v1, MUU_VC_PARAM(vector) v2) noexcept
 			MUU_REQUIRES(Dimensions == 2 || Dimensions == 3)
 		{
 			// law of cosines
 			// https://stackoverflow.com/questions/10507620/finding-the-angle-between-vectors
 
 			// intermediate calcs are done using doubles because anything else is far too imprecise
-			using calc_type = impl::highest_ranked<intermediate_float, double>;
+			using calc_type			= impl::highest_ranked<intermediate_float, double>;
 			const calc_type divisor = raw_length<calc_type>(v1) * raw_length<calc_type>(v2);
 			if (divisor == calc_type{})
 				return delta_type{};
 
-			return static_cast<delta_type>(muu::acos(muu::clamp(
-				raw_dot<calc_type>(v1, v2) / divisor,
-				-muu::constants<calc_type>::one,
-				muu::constants<calc_type>::one
-			)));
+			return static_cast<delta_type>(muu::acos(muu::clamp(raw_dot<calc_type>(v1, v2) / divisor,
+																-muu::constants<calc_type>::one,
+																muu::constants<calc_type>::one)));
 		}
 
 		/// \brief	Calculates the angle between this vector and another.
@@ -2810,38 +2717,40 @@ namespace muu
 		/// \param	v	A vector.
 		///
 		/// \returns	The angle between this vector and `v` (in radians).
-		/// 
+		///
 		/// \remarks	The angle returned is the unsigned angle between the two vectors;
 		/// 			the smaller of the two possible angles between the two vectors is used.
 		/// 			The result is never greater than `pi` radians (180 degrees).
-		/// 
+		///
 		/// \availability		This function is only available when #dimensions == 2 or 3.
 		MUU_LEGACY_REQUIRES((Dim == 2 || Dim == 3), size_t Dim = Dimensions)
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr delta_type MUU_VECTORCALL angle(MUU_RO_VEC v) const noexcept
+		constexpr delta_type MUU_VECTORCALL angle(MUU_VC_PARAM(vector) v) const noexcept
 			MUU_REQUIRES(Dimensions == 2 || Dimensions == 3)
 		{
 			return angle(*this, v);
 		}
 
 		/// \brief	Returns a vector with all scalar components set to their absolute values.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr vector MUU_VECTORCALL abs(MUU_RO_VEC v) noexcept
+		static constexpr vector MUU_VECTORCALL abs(MUU_VC_PARAM(vector) v) noexcept
 		{
+			// clang-format off
 			if constexpr (is_signed<scalar_type>)
 			{
-				#define VEC_FUNC(member)	muu::abs(v.member)
+				#define VEC_FUNC(member) muu::abs(v.member)
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
 			else
 				return v;
+			// clang-format on
 		}
 
 		/// \brief	Returns a copy of this vector with all scalar components set to their absolute values.
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr vector abs() const noexcept
 		{
@@ -2851,23 +2760,27 @@ namespace muu
 				return *this;
 		}
 
-		/// \brief	Returns a vector with all scalar components set to the lowest integer not less than their original values.
-		[[nodiscard]]
+		/// \brief	Returns a vector with all scalar components set to the lowest integer not less than their original
+		/// values.
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr vector MUU_VECTORCALL ceil(MUU_RO_VEC v) noexcept
+		static constexpr vector MUU_VECTORCALL ceil(MUU_VC_PARAM(vector) v) noexcept
 		{
+			// clang-format off
 			if constexpr (is_floating_point<scalar_type>)
 			{
-				#define VEC_FUNC(member)	muu::ceil(v.member)
+				#define VEC_FUNC(member) muu::ceil(v.member)
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
 			else
 				return v;
+			// clang-format on
 		}
 
-		/// \brief	Returns a copy of the vector with all scalar components set to the lowest integer not less than their original values.
-		[[nodiscard]]
+		/// \brief	Returns a copy of the vector with all scalar components set to the lowest integer not less than
+		/// their original values.
+		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr vector ceil() const noexcept
 		{
@@ -2877,23 +2790,27 @@ namespace muu
 				return *this;
 		}
 
-		/// \brief	Returns a vector with all scalar components set to the highest integer not greater than their original values.
-		[[nodiscard]]
+		/// \brief	Returns a vector with all scalar components set to the highest integer not greater than their
+		/// original values.
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr vector MUU_VECTORCALL floor(MUU_RO_VEC v) noexcept
+		static constexpr vector MUU_VECTORCALL floor(MUU_VC_PARAM(vector) v) noexcept
 		{
+			// clang-format off
 			if constexpr (is_floating_point<scalar_type>)
 			{
-				#define VEC_FUNC(member)	muu::floor(v.member)
+				#define VEC_FUNC(member) muu::floor(v.member)
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
 			else
 				return v;
+			// clang-format on
 		}
 
-		/// \brief	Returns a copy of the vector with all scalar components set to the highest integer not greater than their original values.
-		[[nodiscard]]
+		/// \brief	Returns a copy of the vector with all scalar components set to the highest integer not greater than
+		/// their original values.
+		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr vector floor() const noexcept
 		{
@@ -2905,17 +2822,17 @@ namespace muu
 
 	#endif // misc
 	};
-	
+
 	/// \cond deduction_guides
 
 	MUU_CONSTRAINED_TEMPLATE((all_arithmetic<T, U, V...>), typename T, typename U, typename... V)
-	vector(T, U, V...) -> vector<impl::highest_ranked<T, U, V...>, 2 + sizeof...(V)>;
+	vector(T, U, V...)->vector<impl::highest_ranked<T, U, V...>, 2 + sizeof...(V)>;
 
 	MUU_CONSTRAINED_TEMPLATE(is_arithmetic<T>, typename T)
-	vector(T) -> vector<std::remove_cv_t<T>, 1>;
+	vector(T)->vector<std::remove_cv_t<T>, 1>;
 
 	template <typename T, size_t N>
-	vector(const T(&)[N]) -> vector<std::remove_cv_t<T>, N>;
+	vector(const T (&)[N]) -> vector<std::remove_cv_t<T>, N>;
 
 	template <typename T, size_t N>
 	vector(const std::array<T, N>&) -> vector<std::remove_cv_t<T>, N>;
@@ -2933,7 +2850,7 @@ namespace muu
 	vector(const vector<S, D>&, T...) -> vector<impl::highest_ranked<S, T...>, D + sizeof...(T)>;
 
 	MUU_CONSTRAINED_TEMPLATE(N != dynamic_extent, typename T, size_t N)
-	vector(const muu::span<T, N>&) -> vector<T, N>;
+	vector(const muu::span<T, N>&)->vector<T, N>;
 
 	/// \endcond
 
@@ -2975,112 +2892,118 @@ namespace muu
 		template <typename Scalar, size_t Dimensions>
 		struct integer_limits<vector<Scalar, Dimensions>>
 		{
-			using type = vector<Scalar, Dimensions>;
+			using type	  = vector<Scalar, Dimensions>;
 			using scalars = integer_limits<Scalar>;
-			static constexpr type lowest				= type{ scalars::lowest };
-			static constexpr type highest				= type{ scalars::highest };
+
+			static constexpr type lowest  = type{ scalars::lowest };
+			static constexpr type highest = type{ scalars::highest };
 		};
 
 		template <typename Scalar, size_t Dimensions>
 		struct integer_positive_constants<vector<Scalar, Dimensions>>
 		{
-			using type = vector<Scalar, Dimensions>;
+			using type	  = vector<Scalar, Dimensions>;
 			using scalars = integer_positive_constants<Scalar>;
-			static constexpr type zero					= type{ scalars::zero  };
-			static constexpr type one					= type{ scalars::one   };
-			static constexpr type two					= type{ scalars::two   };
-			static constexpr type three					= type{ scalars::three };
-			static constexpr type four					= type{ scalars::four  };
-			static constexpr type five					= type{ scalars::five  };
-			static constexpr type six					= type{ scalars::six   };
-			static constexpr type seven					= type{ scalars::seven };
-			static constexpr type eight					= type{ scalars::eight };
-			static constexpr type nine					= type{ scalars::nine  };
-			static constexpr type ten					= type{ scalars::ten   };
-			static constexpr type one_hundred			= type{ scalars::one_hundred };
+
+			static constexpr type zero		  = type{ scalars::zero };
+			static constexpr type one		  = type{ scalars::one };
+			static constexpr type two		  = type{ scalars::two };
+			static constexpr type three		  = type{ scalars::three };
+			static constexpr type four		  = type{ scalars::four };
+			static constexpr type five		  = type{ scalars::five };
+			static constexpr type six		  = type{ scalars::six };
+			static constexpr type seven		  = type{ scalars::seven };
+			static constexpr type eight		  = type{ scalars::eight };
+			static constexpr type nine		  = type{ scalars::nine };
+			static constexpr type ten		  = type{ scalars::ten };
+			static constexpr type one_hundred = type{ scalars::one_hundred };
 		};
 
 		template <typename Scalar, size_t Dimensions>
-		struct floating_point_traits<vector<Scalar, Dimensions>>
-			: floating_point_traits<Scalar>
+		struct floating_point_traits<vector<Scalar, Dimensions>> : floating_point_traits<Scalar>
 		{};
 
 		template <typename Scalar, size_t Dimensions>
 		struct floating_point_special_constants<vector<Scalar, Dimensions>>
 		{
-			using type = vector<Scalar, Dimensions>;
+			using type	  = vector<Scalar, Dimensions>;
 			using scalars = floating_point_special_constants<Scalar>;
-			static constexpr type nan					= type{ scalars::nan };
-			static constexpr type signaling_nan			= type{ scalars::signaling_nan };
-			static constexpr type infinity				= type{ scalars::infinity };
-			static constexpr type negative_infinity		= type{ scalars::negative_infinity };
-			static constexpr type negative_zero			= type{ scalars::negative_zero };
+
+			static constexpr type nan				= type{ scalars::nan };
+			static constexpr type signaling_nan		= type{ scalars::signaling_nan };
+			static constexpr type infinity			= type{ scalars::infinity };
+			static constexpr type negative_infinity = type{ scalars::negative_infinity };
+			static constexpr type negative_zero		= type{ scalars::negative_zero };
 		};
 
 		template <typename Scalar, size_t Dimensions>
 		struct floating_point_named_constants<vector<Scalar, Dimensions>>
 		{
-			using type = vector<Scalar, Dimensions>;
+			using type	  = vector<Scalar, Dimensions>;
 			using scalars = floating_point_named_constants<Scalar>;
-			static constexpr type one_over_two			= type{ scalars::one_over_two         };
-			static constexpr type two_over_three		= type{ scalars::two_over_three       };
-			static constexpr type two_over_five			= type{ scalars::two_over_five        };
-			static constexpr type sqrt_two				= type{ scalars::sqrt_two             };
-			static constexpr type one_over_sqrt_two		= type{ scalars::one_over_sqrt_two    };
-			static constexpr type one_over_three		= type{ scalars::one_over_three       };
-			static constexpr type three_over_two		= type{ scalars::three_over_two       };
-			static constexpr type three_over_four		= type{ scalars::three_over_four      };
-			static constexpr type three_over_five		= type{ scalars::three_over_five      };
-			static constexpr type sqrt_three			= type{ scalars::sqrt_three           };
-			static constexpr type one_over_sqrt_three	= type{ scalars::one_over_sqrt_three  };
-			static constexpr type pi					= type{ scalars::pi                   };
-			static constexpr type one_over_pi			= type{ scalars::one_over_pi          };
-			static constexpr type pi_over_two			= type{ scalars::pi_over_two          };
-			static constexpr type pi_over_three			= type{ scalars::pi_over_three        };
-			static constexpr type pi_over_four			= type{ scalars::pi_over_four         };
-			static constexpr type pi_over_five			= type{ scalars::pi_over_five         };
-			static constexpr type pi_over_six			= type{ scalars::pi_over_six          };
-			static constexpr type pi_over_seven			= type{ scalars::pi_over_seven        };
-			static constexpr type pi_over_eight			= type{ scalars::pi_over_eight        };
-			static constexpr type sqrt_pi				= type{ scalars::sqrt_pi              };
-			static constexpr type one_over_sqrt_pi		= type{ scalars::one_over_sqrt_pi     };
-			static constexpr type two_pi				= type{ scalars::two_pi               };
-			static constexpr type sqrt_two_pi			= type{ scalars::sqrt_two_pi          };
-			static constexpr type one_over_sqrt_two_pi	= type{ scalars::one_over_sqrt_two_pi };
-			static constexpr type one_over_three_pi		= type{ scalars::one_over_three_pi    };
-			static constexpr type three_pi_over_two		= type{ scalars::three_pi_over_two    };
-			static constexpr type three_pi_over_four	= type{ scalars::three_pi_over_four   };
-			static constexpr type three_pi_over_five	= type{ scalars::three_pi_over_five   };
-			static constexpr type e						= type{ scalars::e                    };
-			static constexpr type one_over_e			= type{ scalars::one_over_e           };
-			static constexpr type e_over_two			= type{ scalars::e_over_two           };
-			static constexpr type e_over_three			= type{ scalars::e_over_three         };
-			static constexpr type e_over_four			= type{ scalars::e_over_four          };
-			static constexpr type e_over_five			= type{ scalars::e_over_five          };
-			static constexpr type e_over_six			= type{ scalars::e_over_six           };
-			static constexpr type sqrt_e				= type{ scalars::sqrt_e               };
-			static constexpr type one_over_sqrt_e		= type{ scalars::one_over_sqrt_e      };
-			static constexpr type phi					= type{ scalars::phi                  };
-			static constexpr type one_over_phi			= type{ scalars::one_over_phi         };
-			static constexpr type phi_over_two			= type{ scalars::phi_over_two         };
-			static constexpr type phi_over_three		= type{ scalars::phi_over_three       };
-			static constexpr type phi_over_four			= type{ scalars::phi_over_four        };
-			static constexpr type phi_over_five			= type{ scalars::phi_over_five        };
-			static constexpr type phi_over_six			= type{ scalars::phi_over_six         };
-			static constexpr type sqrt_phi				= type{ scalars::sqrt_phi             };
-			static constexpr type one_over_sqrt_phi		= type{ scalars::one_over_sqrt_phi    };
-			static constexpr type degrees_to_radians	= type{ scalars::degrees_to_radians   };
-			static constexpr type radians_to_degrees	= type{ scalars::radians_to_degrees   };
+
+			static constexpr type one_over_two		   = type{ scalars::one_over_two };
+			static constexpr type two_over_three	   = type{ scalars::two_over_three };
+			static constexpr type two_over_five		   = type{ scalars::two_over_five };
+			static constexpr type sqrt_two			   = type{ scalars::sqrt_two };
+			static constexpr type one_over_sqrt_two	   = type{ scalars::one_over_sqrt_two };
+			static constexpr type one_over_three	   = type{ scalars::one_over_three };
+			static constexpr type three_over_two	   = type{ scalars::three_over_two };
+			static constexpr type three_over_four	   = type{ scalars::three_over_four };
+			static constexpr type three_over_five	   = type{ scalars::three_over_five };
+			static constexpr type sqrt_three		   = type{ scalars::sqrt_three };
+			static constexpr type one_over_sqrt_three  = type{ scalars::one_over_sqrt_three };
+			static constexpr type pi				   = type{ scalars::pi };
+			static constexpr type one_over_pi		   = type{ scalars::one_over_pi };
+			static constexpr type pi_over_two		   = type{ scalars::pi_over_two };
+			static constexpr type pi_over_three		   = type{ scalars::pi_over_three };
+			static constexpr type pi_over_four		   = type{ scalars::pi_over_four };
+			static constexpr type pi_over_five		   = type{ scalars::pi_over_five };
+			static constexpr type pi_over_six		   = type{ scalars::pi_over_six };
+			static constexpr type pi_over_seven		   = type{ scalars::pi_over_seven };
+			static constexpr type pi_over_eight		   = type{ scalars::pi_over_eight };
+			static constexpr type sqrt_pi			   = type{ scalars::sqrt_pi };
+			static constexpr type one_over_sqrt_pi	   = type{ scalars::one_over_sqrt_pi };
+			static constexpr type two_pi			   = type{ scalars::two_pi };
+			static constexpr type sqrt_two_pi		   = type{ scalars::sqrt_two_pi };
+			static constexpr type one_over_sqrt_two_pi = type{ scalars::one_over_sqrt_two_pi };
+			static constexpr type one_over_three_pi	   = type{ scalars::one_over_three_pi };
+			static constexpr type three_pi_over_two	   = type{ scalars::three_pi_over_two };
+			static constexpr type three_pi_over_four   = type{ scalars::three_pi_over_four };
+			static constexpr type three_pi_over_five   = type{ scalars::three_pi_over_five };
+			static constexpr type e					   = type{ scalars::e };
+			static constexpr type one_over_e		   = type{ scalars::one_over_e };
+			static constexpr type e_over_two		   = type{ scalars::e_over_two };
+			static constexpr type e_over_three		   = type{ scalars::e_over_three };
+			static constexpr type e_over_four		   = type{ scalars::e_over_four };
+			static constexpr type e_over_five		   = type{ scalars::e_over_five };
+			static constexpr type e_over_six		   = type{ scalars::e_over_six };
+			static constexpr type sqrt_e			   = type{ scalars::sqrt_e };
+			static constexpr type one_over_sqrt_e	   = type{ scalars::one_over_sqrt_e };
+			static constexpr type phi				   = type{ scalars::phi };
+			static constexpr type one_over_phi		   = type{ scalars::one_over_phi };
+			static constexpr type phi_over_two		   = type{ scalars::phi_over_two };
+			static constexpr type phi_over_three	   = type{ scalars::phi_over_three };
+			static constexpr type phi_over_four		   = type{ scalars::phi_over_four };
+			static constexpr type phi_over_five		   = type{ scalars::phi_over_five };
+			static constexpr type phi_over_six		   = type{ scalars::phi_over_six };
+			static constexpr type sqrt_phi			   = type{ scalars::sqrt_phi };
+			static constexpr type one_over_sqrt_phi	   = type{ scalars::one_over_sqrt_phi };
+			static constexpr type degrees_to_radians   = type{ scalars::degrees_to_radians };
+			static constexpr type radians_to_degrees   = type{ scalars::radians_to_degrees };
 		};
 
-		template <typename Scalar, size_t Dimensions,
-			int = (is_floating_point<Scalar> ? 2 : (is_signed<Scalar> ? 1 : 0))
-		>
-		struct vector_constants_base						: unsigned_integral_constants<vector<Scalar, Dimensions>> {};
+		template <typename Scalar,
+				  size_t Dimensions,
+				  int = (is_floating_point<Scalar> ? 2 : (is_signed<Scalar> ? 1 : 0))>
+		struct vector_constants_base : unsigned_integral_constants<vector<Scalar, Dimensions>>
+		{};
 		template <typename Scalar, size_t Dimensions>
-		struct vector_constants_base<Scalar, Dimensions, 1>	: signed_integral_constants<vector<Scalar, Dimensions>> {};
+		struct vector_constants_base<Scalar, Dimensions, 1> : signed_integral_constants<vector<Scalar, Dimensions>>
+		{};
 		template <typename Scalar, size_t Dimensions>
-		struct vector_constants_base<Scalar, Dimensions, 2>	: floating_point_constants<vector<Scalar, Dimensions>> {};
+		struct vector_constants_base<Scalar, Dimensions, 2> : floating_point_constants<vector<Scalar, Dimensions>>
+		{};
 
 		/// \endcond
 
@@ -3090,7 +3013,7 @@ namespace muu
 			using scalars = muu::constants<Scalar>;
 
 			/// \name Unit vectors
-			/// @{ 
+			/// @{
 
 			/// \brief	A unit-length vector representing the X axis.
 			static constexpr vector<Scalar, Dimensions> x_axis{ scalars::one, scalars::zero };
@@ -3104,7 +3027,7 @@ namespace muu
 			using scalars = muu::constants<Scalar>;
 
 			/// \name Unit vectors
-			/// @{ 
+			/// @{
 
 			/// \brief	A unit-length vector representing the Y axis.
 			static constexpr vector<Scalar, Dimensions> y_axis{ scalars::zero, scalars::one };
@@ -3118,7 +3041,7 @@ namespace muu
 			using scalars = muu::constants<Scalar>;
 
 			/// \name Unit vectors
-			/// @{ 
+			/// @{
 
 			/// \brief	A unit-length vector representing the Z axis.
 			static constexpr vector<Scalar, Dimensions> z_axis{ scalars::zero, scalars::zero, scalars::one };
@@ -3132,10 +3055,13 @@ namespace muu
 			using scalars = muu::constants<Scalar>;
 
 			/// \name Unit vectors
-			/// @{ 
+			/// @{
 
 			/// \brief	A unit-length vector representing the W axis.
-			static constexpr vector<Scalar, Dimensions> w_axis{ scalars::zero, scalars::zero, scalars::zero, scalars::one };
+			static constexpr vector<Scalar, Dimensions> w_axis{ scalars::zero,
+																scalars::zero,
+																scalars::zero,
+																scalars::one };
 
 			/// @}
 		};
@@ -3146,7 +3072,7 @@ namespace muu
 			using scalars = muu::constants<Scalar>;
 
 			/// \name Directions
-			/// @{ 
+			/// @{
 
 			/// \brief	Right direction (in a top-down screen coordinate system).
 			static constexpr vector<Scalar, Dimensions> screen_right{ scalars::one, scalars::zero };
@@ -3163,7 +3089,7 @@ namespace muu
 			using scalars = muu::constants<Scalar>;
 
 			/// \name Directions
-			/// @{ 
+			/// @{
 
 			/// \brief	Left direction (in a top-down screen coordinate system).
 			static constexpr vector<Scalar, Dimensions> screen_left{ -scalars::one, scalars::zero };
@@ -3180,7 +3106,7 @@ namespace muu
 			using scalars = muu::constants<Scalar>;
 
 			/// \name Directions
-			/// @{ 
+			/// @{
 
 			/// \brief	Backward direction (in a right-handed coordinate system).
 			static constexpr vector<Scalar, Dimensions> backward{ scalars::zero, scalars::zero, scalars::one };
@@ -3194,7 +3120,7 @@ namespace muu
 			using scalars = muu::constants<Scalar>;
 
 			/// \name Directions
-			/// @{ 
+			/// @{
 
 			/// \brief	Forward direction (in a right-handed coordinate system).
 			static constexpr vector<Scalar, Dimensions> forward{ scalars::zero, scalars::zero, -scalars::one };
@@ -3208,7 +3134,7 @@ namespace muu
 			using scalars = muu::constants<Scalar>;
 
 			/// \name Directions
-			/// @{ 
+			/// @{
 
 			/// \brief	Right direction (in a right-handed coordinate system).
 			static constexpr vector<Scalar, Dimensions> right{ scalars::one, scalars::zero };
@@ -3219,13 +3145,14 @@ namespace muu
 			/// @}
 		};
 
-		template <typename Scalar, size_t Dimensions SPECIALIZED_IF((Dimensions == 2 || Dimensions == 3) && is_signed<Scalar>)>
+		template <typename Scalar,
+				  size_t Dimensions SPECIALIZED_IF((Dimensions == 2 || Dimensions == 3) && is_signed<Scalar>)>
 		struct unit_length_2d_or_3d_signed_vector_constants
 		{
 			using scalars = muu::constants<Scalar>;
 
 			/// \name Directions
-			/// @{ 
+			/// @{
 
 			/// \brief	Left direction (in a right-handed coordinate system).
 			static constexpr vector<Scalar, Dimensions> left{ -scalars::one, scalars::zero };
@@ -3237,18 +3164,17 @@ namespace muu
 		};
 
 		template <typename Scalar, size_t Dimensions>
-		struct unit_length_vector_constants
-			: unit_length_ge_1d_vector_constants<Scalar, Dimensions>,
-			  unit_length_ge_2d_vector_constants<Scalar, Dimensions>,
-			  unit_length_ge_3d_vector_constants<Scalar, Dimensions>,
-			  unit_length_ge_4d_vector_constants<Scalar, Dimensions>,
-			  unit_length_2d_vector_constants<Scalar, Dimensions>,
-			  unit_length_2d_signed_vector_constants<Scalar, Dimensions>,
-			  unit_length_3d_vector_constants<Scalar, Dimensions>,
-			  unit_length_3d_signed_vector_constants<Scalar, Dimensions>,
-			  unit_length_2d_or_3d_vector_constants<Scalar, Dimensions>,
-			  unit_length_2d_or_3d_signed_vector_constants<Scalar, Dimensions>
-		{ };
+		struct unit_length_vector_constants : unit_length_ge_1d_vector_constants<Scalar, Dimensions>,
+											  unit_length_ge_2d_vector_constants<Scalar, Dimensions>,
+											  unit_length_ge_3d_vector_constants<Scalar, Dimensions>,
+											  unit_length_ge_4d_vector_constants<Scalar, Dimensions>,
+											  unit_length_2d_vector_constants<Scalar, Dimensions>,
+											  unit_length_2d_signed_vector_constants<Scalar, Dimensions>,
+											  unit_length_3d_vector_constants<Scalar, Dimensions>,
+											  unit_length_3d_signed_vector_constants<Scalar, Dimensions>,
+											  unit_length_2d_or_3d_vector_constants<Scalar, Dimensions>,
+											  unit_length_2d_or_3d_signed_vector_constants<Scalar, Dimensions>
+		{};
 
 		/// \cond
 
@@ -3261,56 +3187,62 @@ namespace muu
 		};
 
 		template <typename Scalar, size_t Dimensions>
-		struct unit_length_ge_2d_vector_constants<Scalar, Dimensions, false> { };
+		struct unit_length_ge_2d_vector_constants<Scalar, Dimensions, false>
+		{};
 
 		template <typename Scalar, size_t Dimensions>
-		struct unit_length_ge_3d_vector_constants<Scalar, Dimensions, false> { };
+		struct unit_length_ge_3d_vector_constants<Scalar, Dimensions, false>
+		{};
 
 		template <typename Scalar, size_t Dimensions>
-		struct unit_length_ge_4d_vector_constants<Scalar, Dimensions, false> { };
+		struct unit_length_ge_4d_vector_constants<Scalar, Dimensions, false>
+		{};
 
 		template <typename Scalar, size_t Dimensions>
-		struct unit_length_2d_vector_constants<Scalar, Dimensions, false> { };
+		struct unit_length_2d_vector_constants<Scalar, Dimensions, false>
+		{};
 
 		template <typename Scalar, size_t Dimensions>
-		struct unit_length_2d_signed_vector_constants<Scalar, Dimensions, false> { };
+		struct unit_length_2d_signed_vector_constants<Scalar, Dimensions, false>
+		{};
 
 		template <typename Scalar, size_t Dimensions>
-		struct unit_length_3d_vector_constants<Scalar, Dimensions, false> { };
+		struct unit_length_3d_vector_constants<Scalar, Dimensions, false>
+		{};
 
 		template <typename Scalar, size_t Dimensions>
-		struct unit_length_3d_signed_vector_constants<Scalar, Dimensions, false> { };
+		struct unit_length_3d_signed_vector_constants<Scalar, Dimensions, false>
+		{};
 
 		template <typename Scalar, size_t Dimensions>
-		struct unit_length_2d_or_3d_vector_constants<Scalar, Dimensions, false> { };
+		struct unit_length_2d_or_3d_vector_constants<Scalar, Dimensions, false>
+		{};
 
 		template <typename Scalar, size_t Dimensions>
-		struct unit_length_2d_or_3d_signed_vector_constants<Scalar, Dimensions, false> { };
+		struct unit_length_2d_or_3d_signed_vector_constants<Scalar, Dimensions, false>
+		{};
 
 		/// \endcond
 	}
 
 	#ifdef DOXYGEN
-		#define VECTOR_CONSTANTS_BASES													\
-			impl::unit_length_vector_constants<Scalar, Dimensions>,						\
-			impl::integer_limits<vector<Scalar, Dimensions>>,							\
-			impl::integer_positive_constants<vector<Scalar, Dimensions>>,				\
-			impl::floating_point_traits<vector<Scalar, Dimensions>>,					\
-			impl::floating_point_special_constants<vector<Scalar, Dimensions>>,			\
-			impl::floating_point_named_constants<vector<Scalar, Dimensions>>
+		#define VECTOR_CONSTANTS_BASES                                                                                 \
+			impl::unit_length_vector_constants<Scalar, Dimensions>, impl::integer_limits<vector<Scalar, Dimensions>>,  \
+				impl::integer_positive_constants<vector<Scalar, Dimensions>>,                                          \
+				impl::floating_point_traits<vector<Scalar, Dimensions>>,                                               \
+				impl::floating_point_special_constants<vector<Scalar, Dimensions>>,                                    \
+				impl::floating_point_named_constants<vector<Scalar, Dimensions>>
 	#else
-		#define VECTOR_CONSTANTS_BASES													\
-			impl::unit_length_vector_constants<Scalar, Dimensions>,						\
-			impl::vector_constants_base<Scalar, Dimensions>
+		#define VECTOR_CONSTANTS_BASES                                                                                 \
+			impl::unit_length_vector_constants<Scalar, Dimensions>, impl::vector_constants_base<Scalar, Dimensions>
 	#endif
 
 	/// \ingroup	constants
 	/// \see		muu::vector
-	/// 
+	///
 	/// \brief		Vector constants.
 	template <typename Scalar, size_t Dimensions>
-	struct constants<vector<Scalar, Dimensions>>
-		: VECTOR_CONSTANTS_BASES
+	struct constants<vector<Scalar, Dimensions>> : VECTOR_CONSTANTS_BASES
 	{};
 
 	#undef VECTOR_CONSTANTS_BASES
@@ -3331,18 +3263,21 @@ namespace muu::impl
 	template <typename Scalar, size_t Dimensions>
 	struct vector_accumulator
 	{
-		using value_type = vector<Scalar, Dimensions>;
-		using value_param = readonly_param<value_type>;
+		using value_type		 = vector<Scalar, Dimensions>;
+		using value_param		 = vectorcall_param<value_type>;
 		using scalar_accumulator = typename default_accumulator<Scalar>::type;
 
 		scalar_accumulator accumulators[Dimensions];
 
 		constexpr void MUU_VECTORCALL start(value_param sample) noexcept
 		{
-										  accumulators[0].start(sample.template get<0>());
-			if constexpr (Dimensions > 1) accumulators[1].start(sample.template get<1>());
-			if constexpr (Dimensions > 2) accumulators[2].start(sample.template get<2>());
-			if constexpr (Dimensions > 3) accumulators[3].start(sample.template get<3>());
+			accumulators[0].start(sample.template get<0>());
+			if constexpr (Dimensions > 1)
+				accumulators[1].start(sample.template get<1>());
+			if constexpr (Dimensions > 2)
+				accumulators[2].start(sample.template get<2>());
+			if constexpr (Dimensions > 3)
+				accumulators[3].start(sample.template get<3>());
 			if constexpr (Dimensions > 4)
 			{
 				for (size_t i = 4; i < Dimensions; i++)
@@ -3352,10 +3287,13 @@ namespace muu::impl
 
 		constexpr void MUU_VECTORCALL add(value_param sample) noexcept
 		{
-										  accumulators[0].add(sample.template get<0>());
-			if constexpr (Dimensions > 1) accumulators[1].add(sample.template get<1>());
-			if constexpr (Dimensions > 2) accumulators[2].add(sample.template get<2>());
-			if constexpr (Dimensions > 3) accumulators[3].add(sample.template get<3>());
+			accumulators[0].add(sample.template get<0>());
+			if constexpr (Dimensions > 1)
+				accumulators[1].add(sample.template get<1>());
+			if constexpr (Dimensions > 2)
+				accumulators[2].add(sample.template get<2>());
+			if constexpr (Dimensions > 3)
+				accumulators[3].add(sample.template get<3>());
 			if constexpr (Dimensions > 4)
 			{
 				for (size_t i = 4; i < Dimensions; i++)
@@ -3369,57 +3307,37 @@ namespace muu::impl
 				accumulators[i].add(other.accumulators[i]);
 		}
 
-	private:
-
+	  private:
 		template <size_t... Indices, typename Func>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
-		auto componentwise(std::index_sequence<Indices...>, Func&& func) const noexcept
+		constexpr auto componentwise(std::index_sequence<Indices...>, Func&& func) const noexcept
 		{
 			return vector{ func(accumulators[Indices])... };
 		}
 
-	public:
-
-		[[nodiscard]]
+	  public:
+		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr value_type min() const noexcept
 		{
-			return componentwise(
-				std::make_index_sequence<Dimensions>{},
-				[](auto& acc) noexcept
-				{
-					return acc.min();
-				}
-			);
+			return componentwise(std::make_index_sequence<Dimensions>{}, [](auto& acc) noexcept { return acc.min(); });
 		}
 
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr value_type max() const noexcept
 		{
-			return componentwise(
-				std::make_index_sequence<Dimensions>{},
-				[](auto& acc) noexcept
-				{
-					return acc.max();
-				}
-			);
+			return componentwise(std::make_index_sequence<Dimensions>{}, [](auto& acc) noexcept { return acc.max(); });
 		}
 
 		using sum_type = vector<decltype(std::declval<scalar_accumulator>().sum()), Dimensions>;
 
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr sum_type sum() const noexcept
 		{
-			return componentwise(
-				std::make_index_sequence<Dimensions>{},
-				[](auto& acc) noexcept
-				{
-					return acc.sum();
-				}
-			);
+			return componentwise(std::make_index_sequence<Dimensions>{}, [](auto& acc) noexcept { return acc.sum(); });
 		}
 	};
 
@@ -3439,7 +3357,7 @@ namespace muu
 	///
 	/// \brief	Returns true if any of the scalar components of a vector are infinity or NaN.
 	template <typename S, size_t D>
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr bool infinity_or_nan(const vector<S, D>& v) noexcept
 	{
@@ -3458,17 +3376,12 @@ namespace muu
 	/// \brief		Returns true if two vectors are approximately equal.
 	///
 	/// \availability		This function is only available when at least one of `S` and `T` is a floating-point type.
-	MUU_CONSTRAINED_TEMPLATE(
-		(any_floating_point<S, T>),
-		typename S, typename T, size_t D
-	)
-	[[nodiscard]]
+	MUU_CONSTRAINED_TEMPLATE((any_floating_point<S, T>), typename S, typename T, size_t D)
+	MUU_NODISCARD
 	MUU_ATTR(pure)
-	constexpr bool MUU_VECTORCALL approx_equal(
-		const vector<S, D>& v1,
-		const vector<T, D>& v2,
-		epsilon_type<S, T> epsilon = default_epsilon<S, T>
-	) noexcept
+	constexpr bool MUU_VECTORCALL approx_equal(const vector<S, D>& v1,
+											   const vector<T, D>& v2,
+											   epsilon_type<S, T> epsilon = default_epsilon<S, T>) noexcept
 	{
 		return vector<S, D>::approx_equal(v1, v2, epsilon);
 	}
@@ -3479,11 +3392,8 @@ namespace muu
 	/// \brief		Returns true if all the scalar components of a vector are approximately equal to zero.
 	///
 	/// \availability		This function is only available when `S` is a floating-point type.
-	MUU_CONSTRAINED_TEMPLATE(
-		(is_floating_point<S>),
-		typename S, size_t D
-	)
-	[[nodiscard]]
+	MUU_CONSTRAINED_TEMPLATE((is_floating_point<S>), typename S, size_t D)
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr bool MUU_VECTORCALL approx_zero(const vector<S, D>& v, S epsilon = default_epsilon<S>) noexcept
 	{
@@ -3492,31 +3402,33 @@ namespace muu
 
 	/// \addtogroup		math
 	/// @{
-	
+
 	/// \addtogroup	unit_length		unit_length()
 	/// \brief		Unit length checks for vector types.
 	/// @{
-	
+
 	/// \relatesalso	muu::vector
 	///
 	/// \brief Returns true if a vector is unit-length (i.e. has a length of 1).
 	template <typename S, size_t D>
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr bool unit_length(const vector<S, D>& v) noexcept
 	{
 		return vector<S, D>::unit_length(v);
 	}
 
-	/** @} */	// unit_length
+	/** @} */ // unit_length
 
-	/** @} */	// math
+	/** @} */ // math
 
 	/// \relatesalso muu::vector
 	///
 	/// \brief	Returns the squared length of a vector.
-	template <typename S, size_t D MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)>
-	[[nodiscard]]
+	template <typename S,
+			  size_t D //
+				  MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)>
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr delta_type length_squared(const vector<S, D>& v) noexcept
 	{
@@ -3526,8 +3438,10 @@ namespace muu
 	/// \relatesalso muu::vector
 	///
 	/// \brief	Returns the length (magnitude) of a vector.
-	template <typename S, size_t D MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)>
-	[[nodiscard]]
+	template <typename S,
+			  size_t D //
+				  MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)>
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr delta_type length(const vector<S, D>& v) noexcept
 	{
@@ -3537,8 +3451,10 @@ namespace muu
 	/// \relatesalso muu::vector
 	///
 	/// \brief	Returns the squared distance between two point vectors.
-	template <typename S, size_t D MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)>
-	[[nodiscard]]
+	template <typename S,
+			  size_t D //
+				  MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)>
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr delta_type distance_squared(const vector<S, D>& p1, const vector<S, D>& p2) noexcept
 	{
@@ -3548,8 +3464,10 @@ namespace muu
 	/// \relatesalso muu::vector
 	///
 	/// \brief	Returns the distance between two point vectors.
-	template <typename S, size_t D MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)>
-	[[nodiscard]]
+	template <typename S,
+			  size_t D //
+				  MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)>
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr delta_type distance(const vector<S, D>& p1, const vector<S, D>& p2) noexcept
 	{
@@ -3559,8 +3477,10 @@ namespace muu
 	/// \relatesalso muu::vector
 	///
 	/// \brief	Returns the dot product of two vectors.
-	template <typename S, size_t D MUU_HIDDEN_PARAM(typename product_type = typename vector<S, D>::product_type)>
-	[[nodiscard]]
+	template <typename S,
+			  size_t D //
+				  MUU_HIDDEN_PARAM(typename product_type = typename vector<S, D>::product_type)>
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr product_type dot(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
 	{
@@ -3570,8 +3490,9 @@ namespace muu
 	/// \relatesalso muu::vector
 	///
 	/// \brief	Returns the cross product of two three-dimensional vectors.
-	template <typename S MUU_HIDDEN_PARAM(typename vector_product = typename vector<S, 3>::vector_product)>
-	[[nodiscard]]
+	template <typename S //
+				  MUU_HIDDEN_PARAM(typename vector_product = typename vector<S, 3>::vector_product)>
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr vector_product cross(const vector<S, 3>& lhs, const vector<S, 3>& rhs) noexcept
 	{
@@ -3584,16 +3505,15 @@ namespace muu
 	///
 	/// \param v			The vector to normalize.
 	/// \param length_out	An output param to receive the length of the vector pre-normalization.
-	/// 
+	///
 	/// \return		A normalized copy of the input vector.
-	/// 
+	///
 	/// \availability This function is only available when `S` is a floating-point type.
-	MUU_CONSTRAINED_TEMPLATE(
-		is_floating_point<S>,
-		typename S, size_t D
-		MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)
-	)
-	[[nodiscard]]
+	MUU_CONSTRAINED_TEMPLATE(is_floating_point<S>,
+							 typename S,
+							 size_t D //
+								 MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type))
+	MUU_NODISCARD
 	constexpr vector<S, D> normalize(const vector<S, D>& v, delta_type& length_out) noexcept
 	{
 		return vector<S, D>::normalize(v, length_out);
@@ -3604,15 +3524,12 @@ namespace muu
 	/// \brief	Normalizes a vector.
 	///
 	/// \param v	The vector to normalize.
-	/// 
+	///
 	/// \return		A normalized copy of the input vector.
-	/// 
+	///
 	/// \availability This function is only available when `S` is a floating-point type.
-	MUU_CONSTRAINED_TEMPLATE(
-		is_floating_point<S>,
-		typename S, size_t D
-	)
-	[[nodiscard]]
+	MUU_CONSTRAINED_TEMPLATE(is_floating_point<S>, typename S, size_t D)
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr vector<S, D> normalize(const vector<S, D>& v) noexcept
 	{
@@ -3622,26 +3539,23 @@ namespace muu
 	/// \relatesalso muu::vector
 	///
 	/// \brief		Returns the normalized direction vector from one position to another.
-	/// 
+	///
 	/// \param	from			The start position.
 	/// \param	to				The end position.
 	/// \param	distance_out	An output param to receive the distance between the two points.
-	/// 
+	///
 	/// \return		A normalized direction vector pointing from the start position to the end position.
-	/// 
+	///
 	/// \availability		This function is only available when `D` == 2 or 3.
-	MUU_CONSTRAINED_TEMPLATE(
-		(D == 2 || D == 3),
-		typename S, size_t D
-		MUU_HIDDEN_PARAM(typename vector_product = typename vector<S, D>::vector_product)
-		MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)
-	)
-	[[nodiscard]]
-	constexpr vector_product direction(
-		const vector<S, D>& from,
-		const vector<S, D>& to,
-		delta_type& distance_out
-	) noexcept
+	MUU_CONSTRAINED_TEMPLATE((D == 2 || D == 3),
+							 typename S,
+							 size_t D																			   //
+								 MUU_HIDDEN_PARAM(typename vector_product = typename vector<S, D>::vector_product) //
+							 MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type))
+	MUU_NODISCARD
+	constexpr vector_product direction(const vector<S, D>& from,
+									   const vector<S, D>& to,
+									   delta_type& distance_out) noexcept
 	{
 		return vector<S, D>::direction(from, to, distance_out);
 	}
@@ -3649,24 +3563,20 @@ namespace muu
 	/// \relatesalso muu::vector
 	///
 	/// \brief		Returns the normalized direction vector from one position to another.
-	/// 
+	///
 	/// \param	from			The start position.
 	/// \param	to				The end position.
-	/// 
+	///
 	/// \return		A normalized direction vector pointing from the start position to the end position.
-	/// 
+	///
 	/// \availability		This function is only available when `D` == 2 or 3.
-	MUU_CONSTRAINED_TEMPLATE(
-		(D == 2 || D == 3),
-		typename S, size_t D
-		MUU_HIDDEN_PARAM(typename vector_product = typename vector<S, D>::vector_product)
-	)
-	[[nodiscard]]
+	MUU_CONSTRAINED_TEMPLATE((D == 2 || D == 3),
+							 typename S,
+							 size_t D //
+								 MUU_HIDDEN_PARAM(typename vector_product = typename vector<S, D>::vector_product))
+	MUU_NODISCARD
 	MUU_ATTR(pure)
-	constexpr vector_product direction(
-		const vector<S, D>& from,
-		const vector<S, D>& to
-	) noexcept
+	constexpr vector_product direction(const vector<S, D>& from, const vector<S, D>& to) noexcept
 	{
 		return vector<S, D>::direction(from, to);
 	}
@@ -3675,7 +3585,7 @@ namespace muu
 	///
 	/// \brief	Returns the componentwise minimum of two vectors.
 	template <typename S, size_t D>
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr vector<S, D> min(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
 	{
@@ -3686,7 +3596,7 @@ namespace muu
 	///
 	/// \brief	Returns the componentwise maximum of two vectors.
 	template <typename S, size_t D>
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr vector<S, D> max(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
 	{
@@ -3697,7 +3607,7 @@ namespace muu
 	///
 	/// \brief	Componentwise clamps a vector between two others.
 	template <typename S, size_t D>
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr vector<S, D> clamp(const vector<S, D>& v, const vector<S, D>& low, const vector<S, D>& high) noexcept
 	{
@@ -3708,14 +3618,14 @@ namespace muu
 	/// \relatesalso muu::vector
 	///
 	/// \brief	Performs a linear interpolation between two vectors.
-	template <typename S, size_t D MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)>
-	[[nodiscard]]
+	template <typename S,
+			  size_t D //
+				  MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)>
+	MUU_NODISCARD
 	MUU_ATTR(pure)
-	constexpr vector<S, D> MUU_VECTORCALL lerp(
-		const vector<S, D>& start,
-		const vector<S, D>& finish,
-		delta_type alpha
-	) noexcept
+	constexpr vector<S, D> MUU_VECTORCALL lerp(const vector<S, D>& start,
+											   const vector<S, D>& finish,
+											   delta_type alpha) noexcept
 	{
 		return vector<S, D>::lerp(start, finish, alpha);
 	}
@@ -3728,18 +3638,17 @@ namespace muu
 	/// \param	v2		A vector.
 	///
 	/// \returns	The angle between `v1` and `v2` (in radians).
-	/// 
+	///
 	/// \remarks	The angle returned is the unsigned angle between the two vectors;
 	/// 			the smaller of the two possible angles between the two vectors is used.
 	/// 			The result is never greater than `pi` radians (180 degrees).
-	/// 
+	///
 	/// \availability		This function is only available when `D` == 2 or 3.
-	MUU_CONSTRAINED_TEMPLATE(
-		(D == 2 || D == 3),
-		typename S, size_t D
-		MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)
-	)
-	[[nodiscard]]
+	MUU_CONSTRAINED_TEMPLATE((D == 2 || D == 3),
+							 typename S,
+							 size_t D //
+								 MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type))
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr delta_type angle(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
 	{
@@ -3751,7 +3660,7 @@ namespace muu
 	///
 	/// \brief	Returns a copy of a vector with all scalar components set to their absolute values.
 	template <typename S, size_t D>
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr vector<S, D> abs(const vector<S, D>& v) noexcept
 	{
@@ -3761,9 +3670,10 @@ namespace muu
 	/// \ingroup ceil
 	/// \relatesalso muu::vector
 	///
-	/// \brief	Returns a copy of a vector with all scalar components set to the lowest integer not less than their original values.
+	/// \brief	Returns a copy of a vector with all scalar components set to the lowest integer not less than their
+	/// original values.
 	template <typename S, size_t D>
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr vector<S, D> ceil(const vector<S, D>& v) noexcept
 	{
@@ -3773,9 +3683,10 @@ namespace muu
 	/// \ingroup floor
 	/// \relatesalso muu::vector
 	///
-	/// \brief	Returns a copy of a vector with all scalar components set to the highest integer not greater than their original values.
+	/// \brief	Returns a copy of a vector with all scalar components set to the highest integer not greater than their
+	/// original values.
 	template <typename S, size_t D>
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr vector<S, D> floor(const vector<S, D>& v) noexcept
 	{
@@ -3796,7 +3707,6 @@ namespace muu
 #undef COMPONENTWISE_ASSIGN
 #undef NULL_TRANSFORM
 #undef SPECIALIZED_IF
-#undef MUU_RO_VEC
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"

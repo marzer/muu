@@ -60,17 +60,16 @@
 	<Choose>
 		<When Condition="'$(ConfigurationType)'=='StaticLibrary' Or '$(ConfigurationType)'=='DynamicLibrary'">
 			<PropertyGroup>
-				<MuuBinFolder>lib</MuuBinFolder>
+				<OutDir>$(MuuOutRoot)lib\win$(PlatformArchitecture)_vc$(PlatformToolsetVersion)_$(Configuration)_$(ConfigurationType)\</OutDir>
 			</PropertyGroup>
 		</When>
 		<Otherwise>
 			<PropertyGroup>
-				<MuuBinFolder>bin</MuuBinFolder>
+				<OutDir>$(MuuOutRoot)bin\win$(PlatformArchitecture)_vc$(PlatformToolsetVersion)_$(Configuration)\</OutDir>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>
 	<PropertyGroup>
-		<OutDir>$(MuuOutRoot)$(MuuBinFolder)\win$(PlatformArchitecture)_vc$(PlatformToolsetVersion)_$(Configuration)_$(ConfigurationType)\</OutDir>
 		<IntDir>$(MuuOutRoot)build\$(ProjectName)_win$(PlatformArchitecture)_vc$(PlatformToolsetVersion)</IntDir>
 		<IntDir Condition="'$(MuuOptimizedDebug_)'=='True'">$(IntDir)_OptimizedDebug</IntDir>
 		<IntDir Condition="'$(MuuOptimizedDebug_)'=='False'">$(IntDir)_$(Configuration)</IntDir>

@@ -223,10 +223,8 @@ namespace muu
 	/// 	- scope_fail  
 	/// 	- scope_success
 	template <typename T>
-	class scope_guard
-#ifndef DOXYGEN
-		: public impl::scope_guard_<T, impl::scope_guard_mode::invoke_always>
-#endif
+	class scope_guard //
+		MUU_HIDDEN_BASE(public impl::scope_guard_<T, impl::scope_guard_mode::invoke_always>)
 	{
 		using base = impl::scope_guard_<T, impl::scope_guard_mode::invoke_always>;
 
@@ -314,10 +312,8 @@ namespace muu
 	/// 	- scope_guard  
 	/// 	- scope_success
 	template <typename T>
-	class scope_fail
-#ifndef DOXYGEN
-		: public impl::scope_guard_<T, impl::scope_guard_mode::invoke_on_fail>
-#endif
+	class scope_fail //
+		MUU_HIDDEN_BASE(public impl::scope_guard_<T, impl::scope_guard_mode::invoke_on_fail>)
 	{
 		using base = impl::scope_guard_<T, impl::scope_guard_mode::invoke_on_fail>;
 
@@ -369,10 +365,8 @@ namespace muu
 	/// 	- scope_guard  
 	/// 	- scope_fail
 	template <typename T>
-	class scope_success
-#ifndef DOXYGEN
-		: public impl::scope_guard_<T, impl::scope_guard_mode::invoke_on_success>
-#endif
+	class scope_success //
+		MUU_HIDDEN_BASE(public impl::scope_guard_<T, impl::scope_guard_mode::invoke_on_success>)
 	{
 		using base = impl::scope_guard_<T, impl::scope_guard_mode::invoke_on_success>;
 

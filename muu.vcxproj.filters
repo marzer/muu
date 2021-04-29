@@ -106,10 +106,7 @@
     <ClInclude Include="src\stream_printer.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="include\muu\impl\bounding_boxes_common.h">
-      <Filter>include\impl</Filter>
-    </ClInclude>
-    <ClInclude Include="include\muu\impl\geometric_types_common.h">
+    <ClInclude Include="include\muu\impl\geometry_common.h">
       <Filter>include\impl</Filter>
     </ClInclude>
     <ClInclude Include="include\muu\impl\vector_types_common.h">
@@ -185,6 +182,7 @@
     <None Include="tools\build_libs_msvc.bat">
       <Filter>tools</Filter>
     </None>
+    <None Include=".clang-format" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include=".circleci">

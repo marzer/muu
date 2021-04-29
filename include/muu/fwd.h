@@ -221,9 +221,6 @@ namespace muu
 		template <> struct wchar_code_unit_<sizeof(char16_t)>		{ using type = char16_t; };
 		template <> struct wchar_code_unit_<sizeof(unsigned char)>	{ using type = unsigned char; };
 		using wchar_code_unit = typename wchar_code_unit_<>::type;
-
-		template <typename>
-		struct bounding_boxes_common;
 	}
 
 	MUU_ABI_VERSION_START(0);
@@ -238,7 +235,7 @@ namespace muu
 	template <typename, size_t, size_t>	struct	matrix;
 
 	template <typename>					struct	plane;
-	template <typename, size_t>			struct	triangle;
+	template <typename>					struct	triangle;
 	template <typename>					struct	bounding_sphere;
 	template <typename>					struct	bounding_box;
 	template <typename>					struct	oriented_bounding_box;
