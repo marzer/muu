@@ -2928,6 +2928,13 @@
     </member>
     <member kind="define">
       <type>#define</type>
+      <name>MUU_NODISCARD</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga067801d06d0ecba0f17634fa6295706e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
       <name>MUU_NODISCARD_CTOR</name>
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>ga2b6bac0477246591441528bf0bafeb39</anchor>
@@ -3787,13 +3794,6 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>std::conditional_t&lt; is_integral&lt; scalar_type &gt;, double, scalar_type &gt;</type>
-      <name>delta_type</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>a0693bac374fc76805f1691868e4b0636</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
       <type>vector&lt; scalar_type, 3 &gt;</type>
       <name>vector_type</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
@@ -3892,31 +3892,31 @@
       <arglist>(const T &amp;blittable) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr delta_type</type>
+      <type>constexpr scalar_type</type>
       <name>width</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>a42014b449c98d393c5582d3d067db376</anchor>
+      <anchor>a2a63fd23abca17ee46343911e748ed53</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr delta_type</type>
+      <type>constexpr scalar_type</type>
       <name>height</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>a69e63ac2a83827322fdd7ae4a69b21a6</anchor>
+      <anchor>a8146f7abf2341fa60057945678650560</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr delta_type</type>
+      <type>constexpr scalar_type</type>
       <name>depth</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>a5e48ff9daffca129355a88710c826e90</anchor>
+      <anchor>a52925c1f1a06182e0f20aab02368c403</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr delta_type</type>
+      <type>constexpr scalar_type</type>
       <name>diagonal</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>a68bb55fdcb331a2e198b15f7aae4a035</anchor>
+      <anchor>a00f7b4bf59f9b19833df9ece17ecae20</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
@@ -3948,39 +3948,39 @@
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr delta_type</type>
+      <type>constexpr scalar_type</type>
       <name>shortest_side</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>ad418c0f2ad79ddaaae6d49fbd892ed15</anchor>
+      <anchor>a79441a48975bc1d2d8f5ef9b9d883a75</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr delta_type</type>
+      <type>constexpr scalar_type</type>
       <name>longest_side</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>a34f90aa1fafaa953692f56ba9579085e</anchor>
+      <anchor>a45f4005da5180367d557652a922860bb</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr delta_type</type>
+      <type>constexpr scalar_type</type>
       <name>volume</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>ab181ad8a3bd586f913dc3b53de9c6209</anchor>
+      <anchor>a777453ecb4a3b8709a1ad25c5f5b3b52</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr delta_type</type>
+      <type>constexpr scalar_type</type>
       <name>mass</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>ad5ff737899bd056764c9e15a650f03d7</anchor>
-      <arglist>(delta_type density) const noexcept</arglist>
+      <anchor>a3d9d0da074518f83a51a3435aacb6f22</anchor>
+      <arglist>(scalar_type density) const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr delta_type</type>
+      <type>constexpr scalar_type</type>
       <name>density</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>a514d8a58c811580250e6fff719b87af7</anchor>
-      <arglist>(delta_type mass) const noexcept</arglist>
+      <anchor>aa3d8549536d6fec3baf7b2124adaa861</anchor>
+      <arglist>(scalar_type mass) const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -4073,6 +4073,27 @@
       <anchor>a6398c383f0469873d05a622fea380485</anchor>
       <arglist>(const vector_type &amp;scale_) noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>afd5ecc1f6389e35561f56b1e74677b52</anchor>
+      <arglist>(const vector_type &amp;point) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a8b6752cb23ed16b834f8bdd0b9e7b2b0</anchor>
+      <arglist>(const bounding_box &amp;bb) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>intersects_triangle</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a050dd305a87fb68273eb92a74fe4c8ad</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2) const noexcept</arglist>
+    </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
       <name>zero</name>
@@ -4156,6 +4177,27 @@
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
       <anchor>a14c9253d3c66190db9d2a9465feec95a</anchor>
       <arglist>(const bounding_box &amp;bb, const vector_type &amp;scale_) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a0da4d9f89c8e92dd96891a67146f2ab6</anchor>
+      <arglist>(const bounding_box &amp;bb, const vector_type &amp;point) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>ab549b7013e227b7e1a3015b65d75432f</anchor>
+      <arglist>(const bounding_box &amp;bb1, const bounding_box &amp;bb2) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>intersects_triangle</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>ad99bb78151bab1bd6552724e10e8d820</anchor>
+      <arglist>(const bounding_box &amp;bb, const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2) noexcept</arglist>
     </member>
     <member kind="variable">
       <type>vector_type</type>
@@ -5179,14 +5221,14 @@
       <type>std::conditional_t&lt; is_integral&lt; scalar_type &gt;, impl::highest_ranked&lt; make_signed&lt; scalar_type &gt;, int &gt;, scalar_type &gt;</type>
       <name>determinant_type</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>aa89854e0c20fd0a6aa7d0068b4e31adf</anchor>
+      <anchor>ac4cd66fa42b6c0b41a209d4eb775a3f7</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
       <type>matrix&lt; std::conditional_t&lt; is_integral&lt; scalar_type &gt;, double, scalar_type &gt;, Rows, Columns &gt;</type>
       <name>inverse_type</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a96e9727043b61d54ad85607c34d182f8</anchor>
+      <anchor>a3cd393c7fba7512a8cc80db3bea67f7e</anchor>
       <arglist></arglist>
     </member>
     <member kind="function">
@@ -5605,13 +5647,6 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>std::conditional_t&lt; is_integral&lt; scalar_type &gt;, double, scalar_type &gt;</type>
-      <name>delta_type</name>
-      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>a43b9d7e8fb1c7e79b89314624bbab9b8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
       <type>vector&lt; scalar_type, 3 &gt;</type>
       <name>vector_type</name>
       <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
@@ -5724,31 +5759,31 @@
       <arglist>(const T &amp;blittable) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr delta_type</type>
+      <type>constexpr scalar_type</type>
       <name>width</name>
       <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>a750fe47f018f739ab989d0f929f42115</anchor>
+      <anchor>a23fbae24deb285286d6b5f370419aab6</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr delta_type</type>
+      <type>constexpr scalar_type</type>
       <name>height</name>
       <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>afb14afe1a6136c1a23edb4d5f428e0cf</anchor>
+      <anchor>a42b619cb0292870b30c574772ded549e</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr delta_type</type>
+      <type>constexpr scalar_type</type>
       <name>depth</name>
       <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>ad80e38e9c51591096976d5d7957ce34b</anchor>
+      <anchor>a8ab3110c8ffa5c91d3c007b49616a375</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr delta_type</type>
+      <type>constexpr scalar_type</type>
       <name>diagonal</name>
       <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>a987d265bd7923ffe832627d994099a08</anchor>
+      <anchor>aa0bdad0153bf50a8df0bb4d4c0128cec</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
@@ -5780,39 +5815,39 @@
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr delta_type</type>
+      <type>constexpr scalar_type</type>
       <name>shortest_side</name>
       <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>a2c0bb5d5f2bd877aeaa82f07a809d71b</anchor>
+      <anchor>af12acf86104a1c9b700262cffa3e2c44</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr delta_type</type>
+      <type>constexpr scalar_type</type>
       <name>longest_side</name>
       <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>a346344c3e59b987ff9b42794e63af540</anchor>
+      <anchor>aa1eeaa2cb32dc0fbab840bee5e3ce40f</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr delta_type</type>
+      <type>constexpr scalar_type</type>
       <name>volume</name>
       <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>a02b80022d6382a61c4e595491f9ee07b</anchor>
+      <anchor>a66b0ff4d757468a63397f3acdc5e6b4c</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr delta_type</type>
+      <type>constexpr scalar_type</type>
       <name>mass</name>
       <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>a23134fe05ba014bd66ba671e7f099248</anchor>
-      <arglist>(delta_type density) const noexcept</arglist>
+      <anchor>a8574bbecdb31fe44bb57d44698289096</anchor>
+      <arglist>(scalar_type density) const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr delta_type</type>
+      <type>constexpr scalar_type</type>
       <name>density</name>
       <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>a7bf969dbd7973027e5034fe032f4b1d6</anchor>
-      <arglist>(delta_type mass) const noexcept</arglist>
+      <anchor>ac3f351d5d65a443686a0eec3ec29c6e0</anchor>
+      <arglist>(scalar_type mass) const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -7898,14 +7933,14 @@
       <type>std::conditional_t&lt; is_integral&lt; scalar_type &gt;, double, scalar_type &gt;</type>
       <name>delta_type</name>
       <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a91c909a923225d10d323cbe249875954</anchor>
+      <anchor>a2bcea42816c322f5b9c319d54d132a96</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
       <type>std::conditional_t&lt; is_integral&lt; scalar_type &gt;, impl::highest_ranked&lt; make_signed&lt; scalar_type &gt;, int &gt;, scalar_type &gt;</type>
       <name>product_type</name>
       <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a8858fd6d2527b08503e1fa788befdb58</anchor>
+      <anchor>a1a72204a93c5e7bf5169fe2d527faf9c</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -14648,6 +14683,13 @@
       <name>MUU_NO_UNIQUE_ADDRESS</name>
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>ga8f304d74e983202dd94830798b27d10d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_NODISCARD</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga067801d06d0ecba0f17634fa6295706e</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">

@@ -68,7 +68,7 @@
           <tbody>
             <tr>
               <td style="width: 1%">Scalar</td>
-              <td>The type of the oriented bounding box's scalar components.</td>
+              <td>The type of the oriented bounding box's scalar components. Must be a floating-point type.</td>
             </tr>
           </tbody>
         </table>
@@ -105,10 +105,6 @@
               using <a class="m-doc-self" href="#a2fc9b68af2ad45481eade55cf33d8f37">constants</a> = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;<a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&gt;
             </dt>
             <dd>Compile-time bounding box constants.</dd>
-            <dt id="a43b9d7e8fb1c7e79b89314624bbab9b8">
-              using <a class="m-doc-self" href="#a43b9d7e8fb1c7e79b89314624bbab9b8">delta_type</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;<a class="m-doc" href="group__meta.html#ga6283839d5536a4ee096adccee42b88c5">is_<wbr/>integral</a>&lt;<a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>&gt;, double, <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>&gt;
-            </dt>
-            <dd>The scalar type used for length, distance, volume, etc. Always floating-point.</dd>
             <dt id="a2395efcd9d8cf5ae331a86fdcb5c9cd8">
               using <a class="m-doc-self" href="#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_type</a> = Scalar
             </dt>
@@ -274,24 +270,24 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa5de84ac81f4b8f0df92db8151a7dd04">degenerate</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if the box is degenerate (i.e. any of its extents are less than or equal to zero).</dd>
-            <dt id="a7bf969dbd7973027e5034fe032f4b1d6">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a7bf969dbd7973027e5034fe032f4b1d6">density</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a43b9d7e8fb1c7e79b89314624bbab9b8">delta_<wbr/>type</a> mass) const -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a43b9d7e8fb1c7e79b89314624bbab9b8">delta_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="ac3f351d5d65a443686a0eec3ec29c6e0">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac3f351d5d65a443686a0eec3ec29c6e0">density</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> mass) const -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Calculates the density of this box if it had a given mass.</dd>
-            <dt id="ad80e38e9c51591096976d5d7957ce34b">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad80e38e9c51591096976d5d7957ce34b">depth</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a43b9d7e8fb1c7e79b89314624bbab9b8">delta_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a8ab3110c8ffa5c91d3c007b49616a375">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a8ab3110c8ffa5c91d3c007b49616a375">depth</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the depth of the box (z-axis).</dd>
-            <dt id="a987d265bd7923ffe832627d994099a08">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a987d265bd7923ffe832627d994099a08">diagonal</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a43b9d7e8fb1c7e79b89314624bbab9b8">delta_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="aa0bdad0153bf50a8df0bb4d4c0128cec">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa0bdad0153bf50a8df0bb4d4c0128cec">diagonal</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Calculates the length of the line connecting the min and max points.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a6821c423748c91dc25f6e0281e10f51b">empty</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if the oriented bounding box has exactly zero volume.</dd>
-            <dt id="afb14afe1a6136c1a23edb4d5f428e0cf">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#afb14afe1a6136c1a23edb4d5f428e0cf">height</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a43b9d7e8fb1c7e79b89314624bbab9b8">delta_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a42b619cb0292870b30c574772ded549e">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a42b619cb0292870b30c574772ded549e">height</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the height of the box (y-axis).</dd>
             <dt id="a70e3d89d9a50eee55ae7e6caad33ec7f">
@@ -306,12 +302,12 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a57afc721917b9298bf23e869d8166a9c">longest_extent</a>(</span><span class="m-doc-wrap">) const -&gt; const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the longest of the box's three extents (const overload).</dd>
-            <dt id="a346344c3e59b987ff9b42794e63af540">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a346344c3e59b987ff9b42794e63af540">longest_side</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a43b9d7e8fb1c7e79b89314624bbab9b8">delta_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="aa1eeaa2cb32dc0fbab840bee5e3ce40f">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa1eeaa2cb32dc0fbab840bee5e3ce40f">longest_side</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the length of the longest of the box's three sides.</dd>
-            <dt id="a23134fe05ba014bd66ba671e7f099248">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a23134fe05ba014bd66ba671e7f099248">mass</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a43b9d7e8fb1c7e79b89314624bbab9b8">delta_<wbr/>type</a> density) const -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a43b9d7e8fb1c7e79b89314624bbab9b8">delta_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a8574bbecdb31fe44bb57d44698289096">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a8574bbecdb31fe44bb57d44698289096">mass</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> density) const -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Calculates the mass of this box if it had a given density.</dd>
             <dt id="a212aeb2948556abc3dd3fc95a150d6b4">
@@ -338,20 +334,20 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a92632202298fe2388bc4d45630975891">shortest_extent</a>(</span><span class="m-doc-wrap">) const -&gt; const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the shortest of the box's three extents (const overload).</dd>
-            <dt id="a2c0bb5d5f2bd877aeaa82f07a809d71b">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2c0bb5d5f2bd877aeaa82f07a809d71b">shortest_side</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a43b9d7e8fb1c7e79b89314624bbab9b8">delta_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="af12acf86104a1c9b700262cffa3e2c44">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af12acf86104a1c9b700262cffa3e2c44">shortest_side</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the length of the shortest of the box's three sides.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aebff1db2fb7a0ed35c4f07f68405a792">translate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; offset) -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Translates the oriented bounding box (in-place).</dd>
-            <dt id="a02b80022d6382a61c4e595491f9ee07b">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a02b80022d6382a61c4e595491f9ee07b">volume</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a43b9d7e8fb1c7e79b89314624bbab9b8">delta_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a66b0ff4d757468a63397f3acdc5e6b4c">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a66b0ff4d757468a63397f3acdc5e6b4c">volume</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Calculates the volume of this bounding box.</dd>
-            <dt id="a750fe47f018f739ab989d0f929f42115">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a750fe47f018f739ab989d0f929f42115">width</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a43b9d7e8fb1c7e79b89314624bbab9b8">delta_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a23fbae24deb285286d6b5f370419aab6">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a23fbae24deb285286d6b5f370419aab6">width</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the width of the box (x-axis).</dd>
             <dt>
