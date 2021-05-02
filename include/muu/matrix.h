@@ -248,7 +248,7 @@ namespace muu
 	/// \brief A matrix.
 	/// \ingroup math
 	///
-	/// \tparam	Scalar      The type of the matrix's scalar components.
+	/// \tparam	Scalar      The matrix's scalar component type.
 	/// \tparam Rows		The number of rows in the matrix.
 	/// \tparam Columns		The number of columns in the matrix.
 	template <typename Scalar, size_t Rows, size_t Columns>
@@ -273,9 +273,6 @@ namespace muu
 
 		/// \brief The type of each scalar component stored in this matrix.
 		using scalar_type = Scalar;
-
-		/// \brief Compile-time constants for this matrix's scalar type.
-		using scalar_constants = muu::constants<scalar_type>;
 
 		/// \brief The type of one row of this matrix.
 		using row_type = vector<scalar_type, columns>;
@@ -303,6 +300,8 @@ namespace muu
 		using intermediate_float = impl::promote_if_small_float<typename inverse_type::scalar_type>;
 		static_assert(is_floating_point<typename inverse_type::scalar_type>);
 		static_assert(is_floating_point<intermediate_float>);
+
+		using scalar_constants = muu::constants<scalar_type>;
 
 	  public:
 	#ifdef DOXYGEN
@@ -646,8 +645,8 @@ namespace muu
 
 		/// \brief		Returns true if two matrices are exactly equal.
 		///
-		/// \remarks	This is a componentwise exact equality check;
-		/// 			if you want an epsilon-based "near-enough" for floating-point matrices, use #approx_equal().
+		/// \remarks	This is an exact check;
+		///				use #approx_equal() if you want an epsilon-based "near-enough" check.
 		MUU_CONSTRAINED_TEMPLATE((!MUU_HAS_VECTORCALL
 								  || impl::pass_vectorcall_by_reference<matrix, matrix<T, Rows, Columns>>),
 								 typename T)
@@ -678,8 +677,8 @@ namespace muu
 
 		/// \brief	Returns true if two matrices are not exactly equal.
 		///
-		/// \remarks	This is a componentwise exact inequality check;
-		/// 			if you want an epsilon-based "near-enough" for floating-point matrices, use #approx_equal().
+		/// \remarks	This is an exact check;
+		///				use #approx_equal() if you want an epsilon-based "near-enough" check.
 		MUU_CONSTRAINED_TEMPLATE((!MUU_HAS_VECTORCALL
 								  || impl::pass_vectorcall_by_reference<matrix, matrix<T, Rows, Columns>>),
 								 typename T)
@@ -704,8 +703,8 @@ namespace muu
 
 		/// \brief	Returns true if all the scalar components of a matrix are exactly zero.
 		///
-		/// \remarks	This is a componentwise exact equality check;
-		/// 			if you want an epsilon-based "near-enough" for floating-point matrices, use #approx_zero().
+		/// \remarks	This is an exact check;
+		///				use #approx_zero() if you want an epsilon-based "near-enough" check.
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL zero(MUU_VC_PARAM(matrix) m) noexcept
@@ -718,8 +717,8 @@ namespace muu
 
 		/// \brief	Returns true if all the scalar components of the matrix are exactly zero.
 		///
-		/// \remarks	This is a componentwise exact equality check;
-		/// 			if you want an epsilon-based "near-enough" for floating-point matrices, use #approx_zero().
+		/// \remarks	This is an exact check;
+		///				use #approx_zero() if you want an epsilon-based "near-enough" check.
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr bool zero() const noexcept

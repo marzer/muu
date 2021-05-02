@@ -103,6 +103,7 @@
     <ClInclude Include="include\muu\math.h" />
     <ClInclude Include="include\muu\matrix.h" />
     <ClInclude Include="include\muu\oriented_bounding_box.h" />
+    <ClInclude Include="include\muu\plane.h" />
     <ClInclude Include="include\muu\quaternion.h" />
     <ClInclude Include="include\muu\rolling_average.h" />
     <ClInclude Include="include\muu\numeric_range.h" />

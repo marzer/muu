@@ -175,8 +175,7 @@ namespace muu
 		/// \brief	Scales an euler rotation.
 		MUU_NODISCARD
 		MUU_ATTR(const)
-		friend constexpr euler_rotation MUU_VECTORCALL operator*(MUU_VC_PARAM(euler_rotation) lhs,
-																 scalar_type rhs) noexcept
+		friend constexpr euler_rotation MUU_VECTORCALL operator*(const euler_rotation& lhs, scalar_type rhs) noexcept
 		{
 			return euler_rotation{ lhs.yaw * rhs, lhs.pitch * rhs, lhs.roll * rhs };
 		}
@@ -184,8 +183,7 @@ namespace muu
 		/// \brief	Scales an euler rotation.
 		MUU_NODISCARD
 		MUU_ATTR(const)
-		friend constexpr euler_rotation MUU_VECTORCALL operator*(scalar_type lhs,
-																 MUU_VC_PARAM(euler_rotation) rhs) noexcept
+		friend constexpr euler_rotation MUU_VECTORCALL operator*(scalar_type lhs, const euler_rotation& rhs) noexcept
 		{
 			return rhs * lhs;
 		}
@@ -241,7 +239,7 @@ namespace muu
 	/// \brief A quaternion.
 	/// \ingroup math
 	///
-	/// \tparam	Scalar      The type of the quaternion's scalar components. Must be a floating-point type.
+	/// \tparam	Scalar      The quaternion's scalar component type. Must be a floating-point type.
 	///
 	/// \see
 	/// 	 - muu::vector
@@ -263,14 +261,8 @@ namespace muu
 		/// \brief The type of each scalar component stored in this quaternion.
 		using scalar_type = Scalar;
 
-		/// \brief Compile-time constants for this quaternion's #scalar_type.
-		using scalar_constants = muu::constants<scalar_type>;
-
 		/// \brief The three-dimensional #muu::vector with the same #scalar_type as this quaternion.
 		using vector_type = vector<scalar_type, 3>;
-
-		/// \brief Compile-time constants for this quaternion's #vector_type.
-		using vector_constants = muu::constants<vector_type>;
 
 		/// \brief The #muu::axis_angle_rotation with the same #scalar_type as this quaternion.
 		using axis_angle_type = axis_angle_rotation<scalar_type>;
@@ -287,6 +279,8 @@ namespace muu
 
 		using intermediate_float = impl::promote_if_small_float<scalar_type>;
 		static_assert(is_floating_point<intermediate_float>);
+
+		using scalar_constants = muu::constants<scalar_type>;
 
 	  public:
 	#ifdef DOXYGEN
@@ -440,8 +434,8 @@ namespace muu
 
 		/// \brief		Returns true if two quaternions are exactly equal.
 		///
-		/// \remarks	This is a componentwise exact equality check;
-		/// 			if you want an epsilon-based "near-enough" for floating-point quaternions, use #approx_equal().
+		/// \remarks	This is an exact check;
+		///				use #approx_equal() if you want an epsilon-based "near-enough" check.
 		MUU_CONSTRAINED_TEMPLATE((!MUU_HAS_VECTORCALL || impl::pass_vectorcall_by_reference<quaternion, quaternion<T>>),
 								 typename T)
 		MUU_NODISCARD
@@ -487,8 +481,8 @@ namespace muu
 
 		/// \brief	Returns true if two quaternions are not exactly equal.
 		///
-		/// \remarks	This is a componentwise exact inequality check;
-		/// 			if you want an epsilon-based "near-enough" for floating-point quaternions, use #approx_equal().
+		/// \remarks	This is an exact check;
+		///				use #approx_equal() if you want an epsilon-based "near-enough" check.
 		MUU_CONSTRAINED_TEMPLATE((!MUU_HAS_VECTORCALL || impl::pass_vectorcall_by_reference<quaternion, quaternion<T>>),
 								 typename T)
 		MUU_NODISCARD
@@ -512,8 +506,8 @@ namespace muu
 
 		/// \brief	Returns true if all the scalar components of a quaternion are exactly zero.
 		///
-		/// \remarks	This is a componentwise exact equality check;
-		/// 			if you want an epsilon-based "near-enough" for floating-point quaternions, use #approx_zero().
+		/// \remarks	This is an exact check;
+		///				use #approx_zero() if you want an epsilon-based "near-enough" check.
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL zero(MUU_VC_PARAM(quaternion) q) noexcept
@@ -523,8 +517,8 @@ namespace muu
 
 		/// \brief	Returns true if all the scalar components of the quaternion are exactly zero.
 		///
-		/// \remarks	This is a componentwise exact equality check;
-		/// 			if you want an epsilon-based "near-enough" for floating-point quaternions, use #approx_zero().
+		/// \remarks	This is an exact check;
+		///				use #approx_zero() if you want an epsilon-based "near-enough" check.
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr bool zero() const noexcept
@@ -546,26 +540,6 @@ namespace muu
 		constexpr bool infinity_or_nan() const noexcept
 		{
 			return infinity_or_nan(*this);
-		}
-
-		/// \brief Returns true if a quaternion is unit-length (i.e. has a length of 1).
-		MUU_NODISCARD
-		MUU_ATTR(pure)
-		static constexpr bool MUU_VECTORCALL unit_length(MUU_VC_PARAM(quaternion) q) noexcept
-		{
-			constexpr auto epsilon = intermediate_float{ 1 }
-								   / (100ull * (sizeof(scalar_type) >= sizeof(float) ? 10000ull : 1ull)
-									  * (sizeof(scalar_type) >= sizeof(double) ? 10000ull : 1ull));
-
-			return muu::approx_equal(raw_dot(q, q), intermediate_float{ 1 }, epsilon);
-		}
-
-		/// \brief Returns true if the quaternion is unit-length (i.e. has a length of 1).
-		MUU_NODISCARD
-		MUU_ATTR(pure)
-		constexpr bool unit_length() const noexcept
-		{
-			return unit_length(*this);
 		}
 
 	#endif // equality
@@ -723,9 +697,43 @@ namespace muu
 			return *this = normalize(*this);
 		}
 
+		/// \brief Returns true if a quaternion is normalized (i.e. has a length of 1).
+		MUU_NODISCARD
+		MUU_ATTR(pure)
+		static constexpr bool MUU_VECTORCALL normalized(MUU_VC_PARAM(quaternion) q) noexcept
+		{
+			constexpr auto epsilon = intermediate_float{ 1 }
+								   / (100ull * (sizeof(scalar_type) >= sizeof(float) ? 10000ull : 1ull)
+									  * (sizeof(scalar_type) >= sizeof(double) ? 10000ull : 1ull));
+
+			return muu::approx_equal(raw_dot(q, q), intermediate_float{ 1 }, epsilon);
+		}
+
+		/// \brief Returns true if the quaternion is normalized (i.e. has a length of 1).
+		MUU_NODISCARD
+		MUU_ATTR(pure)
+		constexpr bool normalized() const noexcept
+		{
+			return normalized(*this);
+		}
+
+		[[deprecated]] MUU_NODISCARD
+		MUU_ATTR(pure)
+		static constexpr bool MUU_VECTORCALL unit_length(MUU_VC_PARAM(quaternion) q) noexcept
+		{
+			return normalized(q);
+		}
+
+		[[deprecated]] MUU_NODISCARD
+		MUU_ATTR(pure)
+		constexpr bool unit_length() const noexcept
+		{
+			return normalized(*this);
+		}
+
 	#endif // normalization
 
-	#if 1 // conjgate ------------------------------------------------------------------------------------------------
+	#if 1 // conjugate ------------------------------------------------------------------------------------------------
 
 		/// \brief		Returns the conjugate of a quaternion.
 		MUU_NODISCARD
@@ -758,8 +766,8 @@ namespace muu
 		static constexpr quaternion MUU_VECTORCALL from_axis_angle(MUU_VC_PARAM(vector_type) axis,
 																   scalar_type angle) noexcept
 		{
-			MUU_CONSTEXPR_SAFE_ASSERT(vector_type::unit_length(axis)
-									  && "from_axis_angle() expects axis inputs to be unit-length");
+			MUU_CONSTEXPR_SAFE_ASSERT(vector_type::normalized(axis)
+									  && "from_axis_angle() expects axis inputs to be normalized");
 
 			if constexpr (impl::is_small_float_<scalar_type>)
 			{
@@ -795,7 +803,7 @@ namespace muu
 		static constexpr axis_angle_rotation<T> MUU_VECTORCALL raw_to_axis_angle(MUU_VC_PARAM(quaternion) q,
 																				 bool shortest_path = true) noexcept
 		{
-			MUU_CONSTEXPR_SAFE_ASSERT(unit_length(q) && "to_axis_angle() expects a normalized quaternion");
+			MUU_CONSTEXPR_SAFE_ASSERT(normalized(q) && "to_axis_angle() expects a normalized quaternion");
 
 			using type			  = impl::highest_ranked<intermediate_float, T>;
 			const auto len		  = vector_type::template raw_length<type>(q.v);
@@ -1235,7 +1243,7 @@ namespace muu
 	/// \ingroup	infinity_or_nan
 	/// \relatesalso	muu::quaternion
 	///
-	/// \brief	Returns true if any of the scalar components of a #quaternion are infinity or NaN.
+	/// \brief	Returns true if any of the scalar components of a quaternion are infinity or NaN.
 	template <typename S>
 	MUU_NODISCARD
 	MUU_ATTR(pure)
@@ -1261,7 +1269,7 @@ namespace muu
 	/// \ingroup	approx_zero
 	/// \relatesalso	muu::quaternion
 	///
-	/// \brief		Returns true if all the scalar components of a #quaternion are approximately equal to zero.
+	/// \brief		Returns true if all the scalar components of a quaternion are approximately equal to zero.
 	template <typename S>
 	MUU_NODISCARD
 	MUU_ATTR(pure)
@@ -1270,16 +1278,24 @@ namespace muu
 		return quaternion<S>::approx_zero(q, epsilon);
 	}
 
-	/// \ingroup	unit_length
+	/// \ingroup	normalized
 	/// \relatesalso	muu::quaternion
 	///
-	/// \brief Returns true if a #quaternion is unit-length (i.e. has a length of 1).
+	/// \brief Returns true if a quaternion is normalized (i.e. has a length of 1).
 	template <typename S>
 	MUU_NODISCARD
 	MUU_ATTR(pure)
+	constexpr bool normalized(const quaternion<S>& q) noexcept
+	{
+		return quaternion<S>::normalized(q);
+	}
+
+	template <typename S>
+	MUU_NODISCARD
+	[[deprecated]] MUU_ATTR(pure)
 	constexpr bool unit_length(const quaternion<S>& q) noexcept
 	{
-		return quaternion<S>::unit_length(q);
+		return quaternion<S>::normalized(q);
 	}
 
 	/// \relatesalso muu::quaternion
@@ -1295,7 +1311,7 @@ namespace muu
 
 	/// \relatesalso muu::quaternion
 	///
-	/// \brief	Normalizes a #quaternion.
+	/// \brief	Normalizes a quaternion.
 	///
 	/// \param q	The quaternion to normalize.
 	///

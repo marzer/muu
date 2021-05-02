@@ -175,6 +175,7 @@ def main():
 		<Link>
 			<GenerateDebugInformation Condition="!$(Configuration.ToLower().Contains('debug'))">false</GenerateDebugInformation>
 			<LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
+			<SubSystem>Console</SubSystem>
 		</Link>
 	</ItemDefinitionGroup>
 	<PropertyGroup>
@@ -210,6 +211,9 @@ def main():
 		<ClCompile Include="..\oriented_bounding_box_double.cpp" />
 		<ClCompile Include="..\oriented_bounding_box_float.cpp" />
 		<ClCompile Include="..\oriented_bounding_box_half.cpp" />
+		<ClCompile Include="..\plane_double.cpp" />
+		<ClCompile Include="..\plane_float.cpp" />
+		<ClCompile Include="..\plane_half.cpp" />
 		<ClCompile Include="..\quaternion_double.cpp" />
 		<ClCompile Include="..\quaternion_float.cpp" />
 		<ClCompile Include="..\quaternion_half.cpp" />
@@ -249,6 +253,8 @@ def main():
 		<ClInclude Include="..\matrix_test_instantiations.h" />
 		<ClInclude Include="..\oriented_bounding_box_test_instantiations.h" />
 		<ClInclude Include="..\oriented_bounding_box_test_templates.h" />
+		<ClInclude Include="..\plane_test_templates.h" />
+		<ClInclude Include="..\plane_test_instantiations.h" />
 		<ClInclude Include="..\settings.h" />
 		<ClInclude Include="..\tests.h" />
 		<ClInclude Include="..\quaternion_test_templates.h" />
@@ -374,9 +380,6 @@ def main():
     <ClCompile Include="..\unicode_char32_t.cpp">
       <Filter>unicode</Filter>
     </ClCompile>
-    <ClCompile Include="..\bounding_box_char.cpp">
-      <Filter>bounding_box</Filter>
-    </ClCompile>
     <ClCompile Include="..\bounding_box_double.cpp">
       <Filter>bounding_box</Filter>
     </ClCompile>
@@ -384,18 +387,6 @@ def main():
       <Filter>bounding_box</Filter>
     </ClCompile>
     <ClCompile Include="..\bounding_box_half.cpp">
-      <Filter>bounding_box</Filter>
-    </ClCompile>
-    <ClCompile Include="..\bounding_box_int.cpp">
-      <Filter>bounding_box</Filter>
-    </ClCompile>
-    <ClCompile Include="..\bounding_box_long.cpp">
-      <Filter>bounding_box</Filter>
-    </ClCompile>
-    <ClCompile Include="..\bounding_box_long_long.cpp">
-      <Filter>bounding_box</Filter>
-    </ClCompile>
-    <ClCompile Include="..\bounding_box_short.cpp">
       <Filter>bounding_box</Filter>
     </ClCompile>
     <ClCompile Include="..\oriented_bounding_box_double.cpp">
@@ -406,6 +397,15 @@ def main():
     </ClCompile>
     <ClCompile Include="..\oriented_bounding_box_half.cpp">
       <Filter>oriented_bounding_box</Filter>
+    </ClCompile>
+    <ClCompile Include="..\plane_double.cpp">
+      <Filter>plane</Filter>
+    </ClCompile>
+    <ClCompile Include="..\plane_float.cpp">
+      <Filter>plane</Filter>
+    </ClCompile>
+    <ClCompile Include="..\plane_half.cpp">
+      <Filter>plane</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -446,6 +446,12 @@ def main():
     <ClInclude Include="..\oriented_bounding_box_test_templates.h">
       <Filter>oriented_bounding_box</Filter>
     </ClInclude>
+    <ClInclude Include="..\plane_test_instantiations.h">
+      <Filter>plane</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plane_test_templates.h">
+      <Filter>plane</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\cpp.hint" />
@@ -454,23 +460,26 @@ def main():
     <None Include="..\..\muu.props" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="vector">
-      <UniqueIdentifier>{2a827793-fbda-4c9b-beaf-33fd0cb7f4a2}</UniqueIdentifier>
+    <Filter Include="bounding_box">
+      <UniqueIdentifier>{0a2a2658-7365-4d92-8c47-5b16284af689}</UniqueIdentifier>
     </Filter>
     <Filter Include="matrix">
       <UniqueIdentifier>{eb58be8c-5619-4760-9c66-bf3361a5369d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="oriented_bounding_box">
+      <UniqueIdentifier>{9bcc9a26-b87b-46d7-b42f-b94780ef9f40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="plane">
+      <UniqueIdentifier>{d22c78a4-fd18-4dac-9b5d-5183195b8152}</UniqueIdentifier>
+    </Filter>
     <Filter Include="quaternion">
       <UniqueIdentifier>{879c3a65-eb7d-4afc-85e5-3edc8a07c0bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vector">
+      <UniqueIdentifier>{2a827793-fbda-4c9b-beaf-33fd0cb7f4a2}</UniqueIdentifier>
+    </Filter>
     <Filter Include="unicode">
       <UniqueIdentifier>{eb276512-216a-4461-ac8c-543e553c330b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="bounding_box">
-      <UniqueIdentifier>{0a2a2658-7365-4d92-8c47-5b16284af689}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="oriented_bounding_box">
-      <UniqueIdentifier>{9bcc9a26-b87b-46d7-b42f-b94780ef9f40}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -316,9 +316,9 @@ inline void quat_normalization_tests(std::string_view scalar_typename) noexcept
 
 		quat_t q2{ q };
 		q2.normalize();
-		CHECK(q2.unit_length());
+		CHECK(q2.normalized());
 		const vector<T, 4> v{ q2.s, q2.v.x, q2.v.y, q2.v.z };
-		CHECK(v.unit_length());
+		CHECK(v.normalized());
 		CHECK(v.length() == approx(T{ 1 }));
 	}
 
@@ -326,9 +326,9 @@ inline void quat_normalization_tests(std::string_view scalar_typename) noexcept
 		INFO("quaternion::normalize(quaternion)"sv)
 
 		const auto q2 = quat_t::normalize(q);
-		CHECK(q2.unit_length());
+		CHECK(q2.normalized());
 		const vector<T, 4> v{ q2.s, q2.v.x, q2.v.y, q2.v.z };
-		CHECK(v.unit_length());
+		CHECK(v.normalized());
 		CHECK(v.length() == approx(T{ 1 }));
 	}
 
@@ -336,9 +336,9 @@ inline void quat_normalization_tests(std::string_view scalar_typename) noexcept
 		INFO("muu::normalize(quaternion)"sv)
 	
 		const auto q2 = muu::normalize(q);
-		CHECK(q2.unit_length());
+		CHECK(q2.normalized());
 		const vector<T, 4> v{ q2.s, q2.v.x, q2.v.y, q2.v.z };
-		CHECK(v.unit_length());
+		CHECK(v.normalized());
 		CHECK(v.length() == approx(T{ 1 }));
 	}
 }

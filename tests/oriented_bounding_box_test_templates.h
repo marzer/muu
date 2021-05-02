@@ -75,26 +75,23 @@ namespace muu
 template <typename T>
 inline void obb_construction_tests(std::string_view scalar_typename) noexcept
 {
-	INFO("oriented_bounding_box<"sv << scalar_typename << ">"sv)
+	TEST_INFO("oriented_bounding_box<"sv << scalar_typename << ">"sv);
 	using obb = oriented_bounding_box<T>;
 	using vec = vector<T, 3>;
 	using mat = matrix<T, 3, 3>;
 
 	{
-		INFO("zero-initialization")
+		TEST_INFO("zero-initialization");
 
 		const auto bb = obb{};
-		obb_for_each(bb, [](auto s, size_t)
-		{
-			CHECK(s == T{});
-		});
+		obb_for_each(bb, [](auto s, size_t) { CHECK(s == T{}); });
 	}
 
 	{
-		INFO("vector + vector constructor")
+		TEST_INFO("vector + vector constructor");
 
-		const auto c = random_array<T, 3>();
-		const auto e = random_array<T, 3>();
+		const auto c  = random_array<T, 3>();
+		const auto e  = random_array<T, 3>();
 		const auto bb = obb{ vec{ c }, vec{ e } };
 		CHECK(bb.center[0] == c[0]);
 		CHECK(bb.center[1] == c[1]);
@@ -106,10 +103,10 @@ inline void obb_construction_tests(std::string_view scalar_typename) noexcept
 	}
 
 	{
-		INFO("vector + 3 scalars constructor")
+		TEST_INFO("vector + 3 scalars constructor");
 
-		const auto c = random_array<T, 3>();
-		const auto e = random_array<T, 3>();
+		const auto c  = random_array<T, 3>();
+		const auto e  = random_array<T, 3>();
 		const auto bb = obb{ vec{ c }, e[0], e[1], e[2] };
 		CHECK(bb.center[0] == c[0]);
 		CHECK(bb.center[1] == c[1]);
@@ -121,10 +118,10 @@ inline void obb_construction_tests(std::string_view scalar_typename) noexcept
 	}
 
 	{
-		INFO("vector + 1 scalar constructor")
+		TEST_INFO("vector + 1 scalar constructor");
 
-		const auto c = random_array<T, 3>();
-		const auto e = random<T>();
+		const auto c  = random_array<T, 3>();
+		const auto e  = random<T>();
 		const auto bb = obb{ vec{ c }, e };
 		CHECK(bb.center[0] == c[0]);
 		CHECK(bb.center[1] == c[1]);
@@ -136,9 +133,9 @@ inline void obb_construction_tests(std::string_view scalar_typename) noexcept
 	}
 
 	{
-		INFO("vector constructor")
+		TEST_INFO("vector constructor");
 
-		const auto e = random_array<T, 3>();
+		const auto e  = random_array<T, 3>();
 		const auto bb = obb{ vec{ e } };
 		CHECK(bb.center[0] == T{});
 		CHECK(bb.center[1] == T{});
@@ -150,10 +147,10 @@ inline void obb_construction_tests(std::string_view scalar_typename) noexcept
 	}
 
 	{
-		INFO("3 scalars + vector constructor")
+		TEST_INFO("3 scalars + vector constructor");
 
-		const auto c = random_array<T, 3>();
-		const auto e = random_array<T, 3>();
+		const auto c  = random_array<T, 3>();
+		const auto e  = random_array<T, 3>();
 		const auto bb = obb{ c[0], c[1], c[2], vec{ e } };
 		CHECK(bb.center[0] == c[0]);
 		CHECK(bb.center[1] == c[1]);
@@ -165,10 +162,10 @@ inline void obb_construction_tests(std::string_view scalar_typename) noexcept
 	}
 
 	{
-		INFO("6 scalars constructor")
+		TEST_INFO("6 scalars constructor");
 
 		const auto vals = random_array<T, 6>();
-		const auto bb = obb{ vals[0], vals[1], vals[2], vals[3], vals[4], vals[5] };
+		const auto bb	= obb{ vals[0], vals[1], vals[2], vals[3], vals[4], vals[5] };
 		CHECK(bb.center[0] == vals[0]);
 		CHECK(bb.center[1] == vals[1]);
 		CHECK(bb.center[2] == vals[2]);
@@ -179,9 +176,9 @@ inline void obb_construction_tests(std::string_view scalar_typename) noexcept
 	}
 
 	{
-		INFO("scalar constructor")
+		TEST_INFO("scalar constructor");
 
-		const auto e = random<T>();
+		const auto e  = random<T>();
 		const auto bb = obb{ e };
 		CHECK(bb.center[0] == T{});
 		CHECK(bb.center[1] == T{});
@@ -193,42 +190,36 @@ inline void obb_construction_tests(std::string_view scalar_typename) noexcept
 	}
 
 	{
-		INFO("copy constructor")
+		TEST_INFO("copy constructor");
 
 		obb bb1;
-		obb_for_each(bb1,[](auto& s1, size_t) { s1 = random<T>(); });
+		obb_for_each(bb1, [](auto& s1, size_t) { s1 = random<T>(); });
 		obb bb2{ bb1 };
-		obb_for_each(bb1, bb2, [](auto s1, auto s2, size_t)
-		{
-			CHECK(s1 == s2);
-		});
+		obb_for_each(bb1, bb2, [](auto s1, auto s2, size_t) { CHECK(s1 == s2); });
 	}
 
 	{
-		INFO("blitting constructor")
+		TEST_INFO("blitting constructor");
 
 		blittable<T> bb1;
 		obb_for_each(bb1, [](auto& s1, size_t) { s1 = random<T>(); });
 		obb bb2{ bb1 };
-		obb_for_each(bb1, bb2, [](auto s1, auto s2, size_t)
-		{
-			CHECK(s1 == s2);
-		});
+		obb_for_each(bb1, bb2, [](auto s1, auto s2, size_t) { CHECK(s1 == s2); });
 	}
 }
 
 template <typename T>
 inline void obb_equality_tests(std::string_view scalar_typename) noexcept
 {
-	INFO("oriented_bounding_box<"sv << scalar_typename << ">"sv)
+	TEST_INFO("oriented_bounding_box<"sv << scalar_typename << ">"sv);
 	using obb = oriented_bounding_box<T>;
 
 	obb bb;
 	obb_for_each(bb, [](auto& s, size_t) noexcept { s = random<T>(); });
-		
+
 	{
-		INFO("same type"sv)
-		
+		TEST_INFO("same type"sv);
+
 		obb same{ bb };
 		CHECK_SYMMETRIC_EQUAL(bb, same);
 		if constexpr (is_floating_point<T>)
@@ -249,24 +240,23 @@ inline void obb_equality_tests(std::string_view scalar_typename) noexcept
 
 	if constexpr (!is_floating_point<T>)
 	{
-		INFO("different type"sv)
+		TEST_INFO("different type"sv);
 
 		using other_scalar = std::conditional_t<std::is_same_v<T, long>, int, long>;
-		using other = oriented_bounding_box<other_scalar>;
+		using other		   = oriented_bounding_box<other_scalar>;
 
 		other same;
-		obb_for_each(same, bb, [](auto& lhs, auto& rhs, size_t) noexcept
-		{
-			lhs = static_cast<other_scalar>(rhs);
-		});
+		obb_for_each(same, bb, [](auto& lhs, auto& rhs, size_t) noexcept { lhs = static_cast<other_scalar>(rhs); });
 		CHECK_SYMMETRIC_EQUAL(bb, same);
 
 		other different;
-		obb_for_each(different, bb, [](auto& lhs, auto& rhs, size_t) noexcept
-		{
-			lhs = static_cast<other_scalar>(rhs);
-			lhs++;
-		});
+		obb_for_each(different,
+					 bb,
+					 [](auto& lhs, auto& rhs, size_t) noexcept
+					 {
+						 lhs = static_cast<other_scalar>(rhs);
+						 lhs++;
+					 });
 		CHECK_SYMMETRIC_INEQUAL(bb, different);
 	}
 }
@@ -274,18 +264,18 @@ inline void obb_equality_tests(std::string_view scalar_typename) noexcept
 template <typename T>
 inline void obb_zero_tests(std::string_view scalar_typename) noexcept
 {
-	INFO("oriented_bounding_box<"sv << scalar_typename << ">"sv)
+	TEST_INFO("oriented_bounding_box<"sv << scalar_typename << ">"sv);
 	using obb = oriented_bounding_box<T>;
 
 	{
-		INFO("all zeroes"sv)
+		TEST_INFO("all zeroes"sv);
 
 		obb bb{};
 		CHECK(bb.zero());
 	}
 
 	{
-		INFO("no zeroes"sv)
+		TEST_INFO("no zeroes"sv);
 
 		obb bb;
 		obb_for_each(bb, [](auto& s, size_t) noexcept { s = random<T>(1, 10); });
@@ -293,27 +283,29 @@ inline void obb_zero_tests(std::string_view scalar_typename) noexcept
 	}
 
 	{
-		INFO("some zeroes"sv)
+		TEST_INFO("some zeroes"sv);
 
-		obb bb {};
-		obb_for_each(bb, [](auto& s, size_t i) noexcept
-		{
-			if ((i % 2u))
-				s = random<T>(1, 10);
-		});
+		obb bb{};
+		obb_for_each(bb,
+					 [](auto& s, size_t i) noexcept
+					 {
+						 if ((i % 2u))
+							 s = random<T>(1, 10);
+					 });
 		CHECK_FALSE(bb.zero());
 	}
 
 	{
-		INFO("one zero"sv)
-		for (size_t i = 0; i < 4; i++)
+		TEST_INFO("one zero"sv);
+		for (size_t i = 0; i < 15; i++)
 		{
 			obb bb{};
-			obb_for_each(bb, [=](auto& s, size_t j) noexcept
-			{
-				if (i == j)
-					s = random<T>(1, 10);
-			});
+			obb_for_each(bb,
+						 [=](auto& s, size_t j) noexcept
+						 {
+							 if (i == j)
+								 s = random<T>(1, 10);
+						 });
 			CHECK_FALSE(bb.zero());
 		}
 	}
@@ -322,30 +314,31 @@ inline void obb_zero_tests(std::string_view scalar_typename) noexcept
 template <typename T>
 inline void obb_infinity_or_nan_tests(std::string_view scalar_typename) noexcept
 {
-	INFO("oriented_bounding_box<"sv << scalar_typename << ">"sv)
+	TEST_INFO("oriented_bounding_box<"sv << scalar_typename << ">"sv);
 	using obb = oriented_bounding_box<T>;
 
 	{
-		INFO("all finite"sv)
+		TEST_INFO("all finite"sv);
 
 		obb bb;
 		obb_for_each(bb, [](auto& s, size_t) noexcept { s = random<T>(1, 10); });
 		CHECK_FALSE(bb.infinity_or_nan());
 		CHECK_FALSE(muu::infinity_or_nan(bb));
 	}
-	
+
 	if constexpr (is_floating_point<T>)
 	{
-		INFO("contains one NaN"sv)
+		TEST_INFO("contains one NaN"sv);
 
-		for (size_t i = 0; i < 4; i++)
+		for (size_t i = 0; i < 15; i++)
 		{
 			obb bb{};
-			obb_for_each(bb, [=](auto& s, size_t j) noexcept
-			{
-				if (i == j)
-					s = make_nan<T>();
-			});
+			obb_for_each(bb,
+						 [=](auto& s, size_t j) noexcept
+						 {
+							 if (i == j)
+								 s = make_nan<T>();
+						 });
 			CHECK(bb.infinity_or_nan());
 			CHECK(muu::infinity_or_nan(bb));
 		}
@@ -353,16 +346,17 @@ inline void obb_infinity_or_nan_tests(std::string_view scalar_typename) noexcept
 
 	if constexpr (is_floating_point<T>)
 	{
-		INFO("contains one infinity"sv)
+		TEST_INFO("contains one infinity"sv);
 
-		for (size_t i = 0; i < 4; i++)
+		for (size_t i = 0; i < 15; i++)
 		{
 			obb bb{};
-			obb_for_each(bb, [=](auto& s, size_t j) noexcept
-			{
-				if (i == j)
-					s = make_infinity<T>();
-			});
+			obb_for_each(bb,
+						 [=](auto& s, size_t j) noexcept
+						 {
+							 if (i == j)
+								 s = make_infinity<T>();
+						 });
 			CHECK(bb.infinity_or_nan());
 			CHECK(muu::infinity_or_nan(bb));
 		}

@@ -52,6 +52,7 @@
 		<Link>
 			<GenerateDebugInformation Condition="!$(Configuration.ToLower().Contains('debug'))">false</GenerateDebugInformation>
 			<LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
+			<SubSystem>Console</SubSystem>
 		</Link>
 	</ItemDefinitionGroup>
 	<PropertyGroup>
@@ -87,6 +88,9 @@
 		<ClCompile Include="..\oriented_bounding_box_double.cpp" />
 		<ClCompile Include="..\oriented_bounding_box_float.cpp" />
 		<ClCompile Include="..\oriented_bounding_box_half.cpp" />
+		<ClCompile Include="..\plane_double.cpp" />
+		<ClCompile Include="..\plane_float.cpp" />
+		<ClCompile Include="..\plane_half.cpp" />
 		<ClCompile Include="..\quaternion_double.cpp" />
 		<ClCompile Include="..\quaternion_float.cpp" />
 		<ClCompile Include="..\quaternion_half.cpp" />
@@ -126,6 +130,8 @@
 		<ClInclude Include="..\matrix_test_instantiations.h" />
 		<ClInclude Include="..\oriented_bounding_box_test_instantiations.h" />
 		<ClInclude Include="..\oriented_bounding_box_test_templates.h" />
+		<ClInclude Include="..\plane_test_templates.h" />
+		<ClInclude Include="..\plane_test_instantiations.h" />
 		<ClInclude Include="..\settings.h" />
 		<ClInclude Include="..\tests.h" />
 		<ClInclude Include="..\quaternion_test_templates.h" />

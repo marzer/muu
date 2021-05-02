@@ -25,7 +25,7 @@ namespace muu
 	/// \ingroup math
 	/// \image html diag_bounding_box.svg
 	///
-	/// \tparam	Scalar      The type of the bounding box's scalar components. Must be a floating-point type.
+	/// \tparam	Scalar      The bounding box's scalar component type. Must be a floating-point type.
 	///
 	/// \see [Aligned Bounding Box](https://www.sciencedirect.com/topics/computer-science/aligned-bounding-box)
 	template <typename Scalar>
@@ -47,9 +47,6 @@ namespace muu
 		/// \brief The three-dimensional #muu::vector with the same #scalar_type as the bounding box.
 		using vector_type = vector<scalar_type, 3>;
 
-		/// \brief Compile-time constants for this bounding box's #vector_type.
-		using vector_constants = muu::constants<vector_type>;
-
 		/// \brief Compile-time bounding box constants.
 		using constants = muu::constants<bounding_box>;
 
@@ -64,11 +61,13 @@ namespace muu
 
 	  public:
 	#ifdef DOXYGEN
+
 		/// \brief	The center of the box.
 		vector_type center;
 
 		/// \brief	The half-lengths of box (i.e. distances from the center to the sides).
 		vector_type extents;
+
 	#endif // DOXYGEN
 
 	#if 1 // constructors ----------------------------------------------------------------------------------------------
@@ -117,7 +116,7 @@ namespace muu
 		/// \param	ext		The extents.
 		MUU_NODISCARD_CTOR
 		explicit constexpr bounding_box(const vector_type& ext) noexcept //
-			: base{ vector_constants::zero, ext }
+			: base{ vector_type::constants::zero, ext }
 		{}
 
 		/// \brief	Constructs a bounding box from center and extent values.
@@ -154,7 +153,14 @@ namespace muu
 		/// \param	ext		The length of all three extents.
 		MUU_NODISCARD_CTOR
 		explicit constexpr bounding_box(scalar_type ext) noexcept //
-			: base{ vector_constants::zero, { ext, ext, ext } }
+			: base{ vector_type::constants::zero, { ext, ext, ext } }
+		{}
+
+		/// \brief	Converting constructor.
+		template <typename S>
+		MUU_NODISCARD_CTOR
+		explicit constexpr bounding_box(const bounding_box<S>& bb) noexcept //
+			: base{ vector_type{ bb.center }, vector_type{ bb.extents } }
 		{}
 
 		/// \brief Constructs a bounding box from an implicitly bit-castable type.
@@ -175,6 +181,8 @@ namespace muu
 	#endif // constructors
 
 	#if 1 // geometric properties --------------------------------------------------------------------------------------
+		/// \name Geometric properties
+		/// @{
 
 		/// \brief	Returns the width of the box (x-axis).
 		MUU_NODISCARD
@@ -288,15 +296,17 @@ namespace muu
 			return boxes::degenerate(base::extents);
 		}
 
+			/// @}
 	#endif // geometric properties
 
 	#if 1 // equality --------------------------------------------------------------------------------------------------
+		/// \name Equality
+		/// @{
 
 		/// \brief		Returns true if two bounding boxes are exactly equal.
 		///
-		/// \remarks	This is a componentwise exact equality check;
-		/// 			if you want an epsilon-based "near-enough" for floating-point bounding boxes, use
-		/// #approx_equal().
+		/// \remarks	This is an exact check;
+		///				use #approx_equal() if you want an epsilon-based "near-enough" check.
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(pure)
@@ -308,9 +318,8 @@ namespace muu
 
 		/// \brief	Returns true if two bounding boxes are not exactly equal.
 		///
-		/// \remarks	This is a componentwise exact inequality check;
-		/// 			if you want an epsilon-based "near-enough" for floating-point bounding boxes, use
-		/// #approx_equal().
+		/// \remarks	This is an exact check;
+		///				use #approx_equal() if you want an epsilon-based "near-enough" check.
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(pure)
@@ -322,9 +331,8 @@ namespace muu
 
 		/// \brief	Returns true if all the scalar components of a bounding box are exactly zero.
 		///
-		/// \remarks	This is a componentwise exact equality check;
-		/// 			if you want an epsilon-based "near-enough" for floating-point bounding boxes, use
-		/// #approx_zero().
+		/// \remarks	This is an exact check;
+		///				use #approx_zero() if you want an epsilon-based "near-enough" check.
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL zero(MUU_VC_PARAM(bounding_box) bb) noexcept
@@ -334,9 +342,8 @@ namespace muu
 
 		/// \brief	Returns true if all the scalar components of the bounding box are exactly zero.
 		///
-		/// \remarks	This is a componentwise exact equality check;
-		/// 			if you want an epsilon-based "near-enough" for floating-point bounding boxes, use
-		/// #approx_zero().
+		/// \remarks	This is an exact check;
+		///				use #approx_zero() if you want an epsilon-based "near-enough" check.
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr bool zero() const noexcept
@@ -346,9 +353,8 @@ namespace muu
 
 		/// \brief	Returns true if a bounding box has exactly zero volume.
 		///
-		/// \remarks	This is a componentwise exact empty check;
-		/// 			if you want an epsilon-based "near-enough" for floating-point bounding boxes, use
-		/// #approx_empty().
+		/// \remarks	This is an exact check;
+		///				use #approx_empty() if you want an epsilon-based "near-enough" check.
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL empty(MUU_VC_PARAM(bounding_box) bb) noexcept
@@ -358,9 +364,8 @@ namespace muu
 
 		/// \brief	Returns true if the bounding box has exactly zero volume.
 		///
-		/// \remarks	This is a componentwise exact equality check;
-		/// 			if you want an epsilon-based "near-enough" for floating-point bounding boxes, use
-		/// #approx_empty().
+		/// \remarks	This is an exact check;
+		///				use #approx_empty() if you want an epsilon-based "near-enough" check.
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr bool empty() const noexcept
@@ -373,10 +378,7 @@ namespace muu
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL infinity_or_nan(MUU_VC_PARAM(bounding_box) bb) noexcept
 		{
-			if constexpr (is_floating_point<scalar_type>)
-				return vector_type::infinity_or_nan(bb.center) || vector_type::infinity_or_nan(bb.extents);
-			else
-				return false;
+			return vector_type::infinity_or_nan(bb.center) || vector_type::infinity_or_nan(bb.extents);
 		}
 
 		/// \brief	Returns true if any of the scalar components of the bounding box are infinity or NaN.
@@ -384,10 +386,7 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr bool infinity_or_nan() const noexcept
 		{
-			if constexpr (is_floating_point<scalar_type>)
-				return infinity_or_nan(*this);
-			else
-				return false;
+			return infinity_or_nan(*this);
 		}
 
 	#endif // equality
@@ -395,10 +394,7 @@ namespace muu
 	#if 1 // approx_equal ----------------------------------------------------------------------------------------------
 
 		/// \brief	Returns true if two bounding boxes are approximately equal.
-		///
-		/// \availability		This function is only available when at least one of #scalar_type and `T` is a
-		/// floating-point type.
-		MUU_CONSTRAINED_TEMPLATE((any_floating_point<scalar_type, T>), typename T)
+		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL
@@ -411,10 +407,7 @@ namespace muu
 		}
 
 		/// \brief	Returns true if the bounding box is approximately equal to another.
-		///
-		/// \availability		This function is only available when at least one of #scalar_type and `T` is a
-		/// floating-point type.
-		MUU_CONSTRAINED_TEMPLATE((any_floating_point<scalar_type, T>), typename T)
+		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL
@@ -425,58 +418,45 @@ namespace muu
 		}
 
 		/// \brief	Returns true if all the scalar components in a bounding box are approximately equal to zero.
-		///
-		/// \availability		This function is only available when #scalar_type is a floating-point type.
-		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = scalar_type)
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL approx_zero(MUU_VC_PARAM(bounding_box) bb,
 														 scalar_type epsilon = default_epsilon<scalar_type>) noexcept
-			MUU_REQUIRES(is_floating_point<scalar_type>)
 		{
 			return vector_type::approx_zero(bb.center, epsilon) && vector_type::approx_zero(bb.extents, epsilon);
 		}
 
 		/// \brief	Returns true if all the scalar components in the bounding box are approximately equal to zero.
-		///
-		/// \availability		This function is only available when #scalar_type is a floating-point type.
-		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = scalar_type)
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_zero(scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
-			MUU_REQUIRES(is_floating_point<scalar_type>)
 		{
 			return approx_zero(*this, epsilon);
 		}
 
 		/// \brief	Returns true if a bounding box has approximately zero volume.
-		///
-		/// \availability		This function is only available when #scalar_type is a floating-point type.
-		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = scalar_type)
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL approx_empty(MUU_VC_PARAM(bounding_box) bb,
 														  scalar_type epsilon = default_epsilon<scalar_type>) noexcept
-			MUU_REQUIRES(is_floating_point<scalar_type>)
 		{
 			return vector_type::approx_zero(bb.extents, epsilon);
 		}
 
 		/// \brief	Returns true if the bounding box has approximately zero volume.
-		///
-		/// \availability		This function is only available when #scalar_type is a floating-point type.
-		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = scalar_type)
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_empty(scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
-			MUU_REQUIRES(is_floating_point<scalar_type>)
 		{
 			return vector_type::approx_zero(base::extents, epsilon);
 		}
 
+			/// @}
 	#endif // approx_equal
 
 	#if 1 // corners ---------------------------------------------------------------------------------------------------
+		/// \name Corners
+		/// @{
 
 		/// \brief	Returns a specific corner of a bounding box.
 		template <box_corners Corner>
@@ -544,9 +524,12 @@ namespace muu
 			return boxes::corner<box_corners::max>(base::center, base::extents);
 		}
 
+			/// @}
 	#endif // corners
 
-	#if 1 // translation -----------------------------------------------------------------------------------------------
+	#if 1 // translation and scaling -----------------------------------------------------------------------------------
+		/// \name Translation and scaling
+		/// @{
 
 		/// \brief	Translates a bounding box.
 		///
@@ -573,10 +556,6 @@ namespace muu
 			return *this;
 		}
 
-	#endif // translation
-
-	#if 1 // scaling -----------------------------------------------------------------------------------------------
-
 		/// \brief	Scales a bounding box.
 		///
 		/// \param	bb		The bounding box to scale.
@@ -602,9 +581,12 @@ namespace muu
 			return *this;
 		}
 
-	#endif // scaling
+			/// @}
+	#endif // translation and scaling
 
-	#if 1 // intersection ----------------------------------------------------------------------------------------------
+	#if 1 // intersection and containment ------------------------------------------------------------------------------
+		/// \name Intersection and containment
+		/// @{
 
 		/// \brief	Returns true if a bounding box contains a point.
 		MUU_NODISCARD
@@ -640,6 +622,39 @@ namespace muu
 			return collision::aabb_intersects_aabb(base::center, base::extents, bb.center, bb.extents);
 		}
 
+		/// \brief	Returns true if a bounding box intersects a plane.
+		MUU_NODISCARD
+		MUU_ATTR(pure)
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box) bb, MUU_GEOM_PARAM(plane) p) noexcept
+		{
+			return collision::aabb_intersects_plane(bb.center, bb.extents, p.n, p.d);
+		}
+
+		/// \brief	Returns true if the bounding box intersects a plane.
+		MUU_NODISCARD
+		MUU_ATTR(pure)
+		constexpr bool MUU_VECTORCALL intersects(MUU_GEOM_PARAM(plane) p) const noexcept
+		{
+			return collision::aabb_intersects_plane(base::center, base::extents, p.n, p.d);
+		}
+
+		/// \brief	Returns true if a bounding box intersects a triangle.
+		MUU_NODISCARD
+		MUU_ATTR(pure)
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box) bb,
+														MUU_GEOM_PARAM(triangle) tri) noexcept
+		{
+			return collision::aabb_intersects_triangle(bb.center, bb.extents, tri);
+		}
+
+		/// \brief	Returns true if the bounding box intersects a triangle.
+		MUU_NODISCARD
+		MUU_ATTR(pure)
+		constexpr bool MUU_VECTORCALL intersects(MUU_GEOM_PARAM(triangle) tri) const noexcept
+		{
+			return collision::aabb_intersects_triangle(base::center, base::extents, tri);
+		}
+
 		/// \brief	Returns true if a bounding box intersects a triangle.
 		MUU_NODISCARD
 		MUU_ATTR(pure)
@@ -661,30 +676,8 @@ namespace muu
 			return collision::aabb_intersects_triangle(base::center, base::extents, p0, p1, p2);
 		}
 
-			/*
-	MUU_NODISCARD
-	MUU_ATTR(pure)
-	static constexpr bool MUU_VECTORCALL aabb_intersects_sphere_minmax(vector_param min,
-																	   vector_param max,
-																	   vector_param sphere_center,
-																	   scalar_type sphere_radius) noexcept
-	{
-		return vector_type::distance_squared(vector_type::clamp(sphere_center, min, max), sphere_center)
-			<= sphere_radius;
-	}
-
-	MUU_NODISCARD
-	MUU_ATTR(pure)
-	static constexpr bool MUU_VECTORCALL aabb_intersects_sphere(vector_param center,
-																vector_param extents,
-																vector_param sphere_center,
-																scalar_type sphere_radius) noexcept
-	{
-		return aabb_intersects_sphere_minmax(center - extents, center + extents, sphere_center, sphere_radius);
-	}
-	*/
-
-	#endif // intersection
+			/// @}
+	#endif // intersection and containment
 
 	#if 1 // misc ------------------------------------------------------------------------------------------------------
 
@@ -771,7 +764,7 @@ namespace muu
 	/// \ingroup		infinity_or_nan
 	/// \relatesalso	muu::bounding_box
 	///
-	/// \brief	Returns true if any of the scalar components of a #bounding_box are infinity or NaN.
+	/// \brief	Returns true if any of the scalar components of a bounding_box are infinity or NaN.
 	template <typename S>
 	MUU_NODISCARD
 	MUU_ATTR(pure)
@@ -797,7 +790,7 @@ namespace muu
 	/// \ingroup		approx_zero
 	/// \relatesalso	muu::bounding_box
 	///
-	/// \brief		Returns true if all the scalar components of a #bounding_box are approximately equal to zero.
+	/// \brief		Returns true if all the scalar components of a bounding_box are approximately equal to zero.
 	template <typename S>
 	MUU_NODISCARD
 	MUU_ATTR(pure)

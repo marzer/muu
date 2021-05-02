@@ -47,7 +47,7 @@ namespace muu::impl
 	template <typename Scalar>
 	struct MUU_TRIVIAL_ABI plane_
 	{
-		vector<Scalar, 3> normal;
+		vector<Scalar, 3> n;
 		Scalar d;
 	};
 
@@ -273,39 +273,70 @@ namespace muu::impl
 
 		template <box_corners Corner>
 		MUU_NODISCARD
+		MUU_ALWAYS_INLINE
 		MUU_ATTR(pure)
-		static constexpr vector_type MUU_VECTORCALL corner(vector_param center, vector_param extents) noexcept
+		static constexpr vector_type MUU_VECTORCALL corner_offset(vector_param extents) noexcept
 		{
 			static_assert(Corner <= box_corners::max);
 
 			if constexpr (Corner == box_corners::min)
-				return center - extents;
+				return -extents;
 			if constexpr (Corner == box_corners::x)
-				return vector_type{ static_cast<scalar_type>(center.x + extents.x),
-									static_cast<scalar_type>(center.y - extents.y),
-									static_cast<scalar_type>(center.z - extents.z) };
+				return vector_type{ extents.x, -extents.y, -extents.z };
 			if constexpr (Corner == box_corners::y)
-				return vector_type{ static_cast<scalar_type>(center.x - extents.x),
-									static_cast<scalar_type>(center.y + extents.y),
-									static_cast<scalar_type>(center.z - extents.z) };
+				return vector_type{ -extents.x, extents.y, -extents.z };
 			if constexpr (Corner == box_corners::z)
-				return vector_type{ static_cast<scalar_type>(center.x - extents.x),
-									static_cast<scalar_type>(center.y - extents.y),
-									static_cast<scalar_type>(center.z + extents.z) };
+				return vector_type{ -extents.x, -extents.y, extents.z };
 			if constexpr (Corner == box_corners::xy)
-				return vector_type{ static_cast<scalar_type>(center.x + extents.x),
-									static_cast<scalar_type>(center.y + extents.y),
-									static_cast<scalar_type>(center.z - extents.z) };
+				return vector_type{ extents.x, extents.y, -extents.z };
 			if constexpr (Corner == box_corners::xz)
-				return vector_type{ static_cast<scalar_type>(center.x + extents.x),
-									static_cast<scalar_type>(center.y - extents.y),
-									static_cast<scalar_type>(center.z + extents.z) };
+				return vector_type{ extents.x, -extents.y, extents.z };
 			if constexpr (Corner == box_corners::yz)
-				return vector_type{ static_cast<scalar_type>(center.x - extents.x),
-									static_cast<scalar_type>(center.y + extents.y),
-									static_cast<scalar_type>(center.z + extents.z) };
+				return vector_type{ -extents.x, extents.y, extents.z };
 			if constexpr (Corner == box_corners::max)
-				return center + extents;
+				return extents;
+		}
+
+		MUU_NODISCARD
+		MUU_ATTR_NDEBUG(pure)
+		static constexpr vector_type MUU_VECTORCALL corner_offset(vector_param extents, box_corners which) noexcept
+		{
+			MUU_CONSTEXPR_SAFE_ASSERT(which <= box_corners::max && "'which' cannot exceed box_corners::max");
+			MUU_ASSUME(which <= box_corners::max);
+
+			switch (which)
+			{
+				case box_corners::min: return corner_offset<box_corners::min>(extents);
+				case box_corners::x: return corner_offset<box_corners::x>(extents);
+				case box_corners::y: return corner_offset<box_corners::y>(extents);
+				case box_corners::xy: return corner_offset<box_corners::xy>(extents);
+				case box_corners::z: return corner_offset<box_corners::z>(extents);
+				case box_corners::xz: return corner_offset<box_corners::xz>(extents);
+				case box_corners::yz: return corner_offset<box_corners::yz>(extents);
+				case box_corners::max: return corner_offset<box_corners::max>(extents);
+				default: MUU_UNREACHABLE;
+			}
+			MUU_UNREACHABLE;
+		}
+
+		template <box_corners Corner>
+		MUU_NODISCARD
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(pure)
+		static constexpr vector_type MUU_VECTORCALL corner(vector_param center, vector_param extents) noexcept
+		{
+			return center + corner_offset<Corner>(extents);
+		}
+
+		template <box_corners Corner>
+		MUU_NODISCARD
+		MUU_ATTR(pure)
+		static constexpr vector_type MUU_VECTORCALL corner(vector_param center,
+														   vector_param extents,
+														   const matrix<scalar_type, 3, 3>& axes) noexcept
+		{
+			const auto offset = corner_offset<Corner>(extents);
+			return center + offset.x * axes.m[0] + offset.y * axes.m[1] + offset.z * axes.m[2];
 		}
 
 		MUU_NODISCARD
@@ -314,22 +345,18 @@ namespace muu::impl
 														   vector_param extents,
 														   box_corners which) noexcept
 		{
-			MUU_CONSTEXPR_SAFE_ASSERT(which <= box_corners::max && "'which' cannot exceed box_corners::max");
-			MUU_ASSUME(which <= box_corners::max);
+			return center + corner_offset(extents, which);
+		}
 
-			switch (which)
-			{
-				case box_corners::min: return corner<box_corners::min>(center, extents);
-				case box_corners::x: return corner<box_corners::x>(center, extents);
-				case box_corners::y: return corner<box_corners::y>(center, extents);
-				case box_corners::xy: return corner<box_corners::xy>(center, extents);
-				case box_corners::z: return corner<box_corners::z>(center, extents);
-				case box_corners::xz: return corner<box_corners::xz>(center, extents);
-				case box_corners::yz: return corner<box_corners::yz>(center, extents);
-				case box_corners::max: return corner<box_corners::max>(center, extents);
-				default: MUU_UNREACHABLE;
-			}
-			MUU_UNREACHABLE;
+		MUU_NODISCARD
+		MUU_ATTR_NDEBUG(pure)
+		static constexpr vector_type MUU_VECTORCALL corner(vector_param center,
+														   vector_param extents,
+														   const matrix<scalar_type, 3, 3>& axes,
+														   box_corners which) noexcept
+		{
+			const auto offset = corner_offset(extents, which);
+			return center + offset.x * axes.m[0] + offset.y * axes.m[1] + offset.z * axes.m[2];
 		}
 	};
 
@@ -346,7 +373,7 @@ namespace muu::impl
 																	scalar_type d,
 																	vector_param point) noexcept
 		{
-			return vector_param::dot(normal, point) + d;
+			return vector_type::dot(normal, point) + d;
 		}
 
 		MUU_NODISCARD
@@ -504,6 +531,7 @@ namespace muu::impl
 			scalar_type d11;
 			scalar_type denom;
 
+			MUU_NODISCARD_CTOR
 			constexpr memoized_barycentric(const vector_type& p0, const vector_type& p1, const vector_type& p2) noexcept
 				: p{ p0 },
 				  v0{ p1 - p0 },
@@ -514,6 +542,7 @@ namespace muu::impl
 				  denom{ scalar_type{ 1 } / (d00 * d11 - d01 * d01) }
 			{}
 
+			MUU_NODISCARD_CTOR
 			constexpr memoized_barycentric(const triangle_param& tri) noexcept
 				: memoized_barycentric{ tri.points[0], tri.points[1], tri.points[2] }
 			{}
@@ -549,6 +578,73 @@ namespace muu::impl
 		using planes	= planes_common<Scalar>;
 		using boxes		= boxes_common<Scalar>;
 		using triangles = triangles_common<Scalar>;
+
+		struct sat_tester
+		{
+			scalar_type min = constants<scalar_type>::highest;
+			scalar_type max = constants<scalar_type>::lowest;
+
+			constexpr void MUU_VECTORCALL operator()(vector_param axis, vector_param point) noexcept
+			{
+				const auto proj = vector_type::dot(axis, point);
+				min				= muu::min(proj, min);
+				max				= muu::max(proj, max);
+			}
+
+			template <size_t N>
+			constexpr void MUU_VECTORCALL operator()(vector_param axis, const vector_type (&points)[N]) noexcept
+			{
+				for (const auto p : points)
+					(*this)(axis, p);
+			}
+
+			MUU_NODISCARD
+			MUU_ATTR(pure)
+			constexpr bool MUU_VECTORCALL operator()(scalar_type threshold) noexcept
+			{
+				return max >= threshold && min <= threshold;
+			}
+
+			MUU_NODISCARD
+			MUU_ATTR(pure)
+			constexpr bool MUU_VECTORCALL operator()(scalar_type min_threshold, scalar_type max_threshold) noexcept
+			{
+				return max >= min_threshold && min <= max_threshold;
+			}
+
+			MUU_NODISCARD
+			MUU_ATTR(pure)
+			constexpr bool MUU_VECTORCALL operator()(const sat_tester& other) noexcept
+			{
+				return max >= other.min && min <= other.max;
+			}
+		};
+
+		MUU_NODISCARD
+		MUU_ATTR(pure)
+		static constexpr bool MUU_VECTORCALL plane_contains_point(vector_param normal,
+																  scalar_type d,
+																  vector_param point) noexcept
+		{
+			return muu::approx_zero(planes::signed_distance(normal, d, point));
+		}
+
+		MUU_NODISCARD
+		MUU_ATTR(pure)
+		static constexpr bool MUU_VECTORCALL plane_intersects_plane(vector_param normal1, vector_param normal2) noexcept
+		{
+			return muu::approx_zero(vector_type::length_squared(vector_type::cross(normal1, normal2)));
+		}
+
+		MUU_NODISCARD
+		MUU_ATTR(pure)
+		static constexpr bool MUU_VECTORCALL plane_intersects_line_segment(vector_param normal,
+																		   scalar_type d,
+																		   vector_param start,
+																		   vector_param end) noexcept
+		{
+			return planes::signed_distance(normal, d, start) * planes::signed_distance(normal, d, end) >= scalar_type{};
+		}
 
 		MUU_NODISCARD
 		MUU_ATTR(pure)
@@ -650,10 +746,7 @@ namespace muu::impl
 																   vector_param normal,
 																   scalar_type d) noexcept
 		{
-			MUU_FMA_BLOCK;
-
-			return muu::abs(vector_type::dot(normal, center) + d)
-				<= vector_type::dot(extents, vector_type::abs(normal));
+			return planes::unsigned_distance(normal, d, center) <= vector_type::dot(extents, vector_type::abs(normal));
 		}
 
 		MUU_NODISCARD
@@ -666,69 +759,104 @@ namespace muu::impl
 		{
 			MUU_FMA_BLOCK;
 
-			// check the plane containing the triangle
-			const auto plane_normal = triangles::normal(p0, p1, p2);
-			const auto plane_d		= -vector_type::dot(p0, plane_normal);
-			if (!aabb_intersects_plane(center, extents, plane_normal, plane_d))
-				return false;
+			// this is the Akenine-Moller algorithm:
+			// https://fileadmin.cs.lth.se/cs/Personal/Tomas_Akenine-Moller/pubs/tribox.pdf
 
-			// check the aabb containing the triangle
-			const auto aabb_min = center - extents;
-			const auto aabb_max = center + extents;
-			if (!aabb_intersects_aabb_minmax(aabb_min,
-											 aabb_max,
-											 vector_type::min(p0, vector_type::min(p1, p2)),
-											 vector_type::max(p0, vector_type::max(p1, p2))))
-				return false;
+			// test box normals against triangle
+			const auto aabb_min					= center - extents;
+			const auto aabb_max					= center + extents;
+			constexpr vector_type box_normals[] = { vector_type::constants::x_axis,
+													vector_type::constants::y_axis,
+													vector_type::constants::z_axis };
+			for (size_t i = 0; i < 3_sz; i++)
+			{
+				sat_tester sat;
+				sat(box_normals[i], p0);
+				sat(box_normals[i], p1);
+				sat(box_normals[i], p2);
+				if (!sat(aabb_min[i], aabb_max[i]))
+					return false;
+			}
 
-			// check the points of the triangle
-			if (aabb_contains_point(center, extents, p0)	//
-				|| aabb_contains_point(center, extents, p1) //
-				|| aabb_contains_point(center, extents, p2))
-				return true;
+			// test triangle normal against box
+			const vector_type box_verts[] = { aabb_min,
+											  boxes::template corner<box_corners::x>(center, extents),
+											  boxes::template corner<box_corners::xy>(center, extents),
+											  boxes::template corner<box_corners::xz>(center, extents),
+											  boxes::template corner<box_corners::y>(center, extents),
+											  boxes::template corner<box_corners::yz>(center, extents),
+											  boxes::template corner<box_corners::z>(center, extents),
+											  aabb_max };
+			{
+				const auto axis = triangles::normal(p0, p1, p2);
+				sat_tester sat;
+				sat(axis, box_verts);
+				if (!sat(vector_type::dot(axis, p0)))
+					return false;
+			}
 
-			// check the edges of the triangle
-			if (aabb_intersects_line_segment(center, extents, p0, p1)	 //
-				|| aabb_intersects_line_segment(center, extents, p1, p2) //
-				|| aabb_intersects_line_segment(center, extents, p2, p0))
-				return true;
+			// test edge cross products
+			const vector_type tri_edges[] = { p1 - p0, p2 - p1, p0 - p2 };
+			for (size_t i = 0; i < 3_sz; i++)
+			{
+				for (size_t j = 0; j < 3_sz; j++)
+				{
+					const auto axis = vector_type::cross(tri_edges[i], box_normals[j]);
 
-			// none of the triangle points were in the box, and none of the triangle edges intersected with the box.
-			// the only way an intersection can occur now is either:
-			// - one of the box's corners pokes through the triangle
-			// - the triangle is so large it completely contains the box's 2D projection
-			// both of which we can test for by checking if any of the box's four diagonals intersect the triangle.
+					sat_tester box_sat;
+					box_sat(axis, box_verts);
+
+					sat_tester tri_sat;
+					tri_sat(axis, p0);
+					tri_sat(axis, p1);
+					tri_sat(axis, p2);
+
+					if (!box_sat(tri_sat))
+						return false;
+				}
+			}
+
+			return true;
+#if 0				   
+
 			const typename triangles::memoized_barycentric bary_terms{ p0, p1, p2 };
 			const auto box_diagonal_test = [&](const auto& corner1, const auto& corner2) noexcept
 			{
 				MUU_FMA_BLOCK;
 
-				const auto signed_dist_1 = planes::signed_distance(plane_normal, plane_d, corner1);
-				const auto signed_dist_2 = planes::signed_distance(plane_normal, plane_d, corner2);
-
-				// are both ends on same side of plane?
-				if (signed_dist_1 * signed_dist_2 >= scalar_type{})
+				scalar_type ray_len{};
+				const auto ray_dir = vector_type::direction(corner1, corner2, ray_len);
+				if (vector_type::dot(plane_normal, ray_dir) == scalar_type{})
 					return false;
 
-				// project along the ray onto the triangle plane and test that it's inside
-				const auto bary =
-					bary_terms(corner1 + vector_param::direction(corner1, corner2) * muu::abs(signed_dist_1));
+				const auto hit_dist =
+					(-plane_d - vector_type::dot(plane_normal, corner1)) / vector_type::dot(plane_normal, ray_dir);
+				if (hit_dist < scalar_type{} || hit_dist > ray_len)
+					return false;
+
+				const auto bary = bary_terms(corner1 + ray_dir * hit_dist);
 				return bary.x >= scalar_type{} && bary.y >= scalar_type{} && bary.z >= scalar_type{};
 			};
 			return box_diagonal_test(aabb_min, aabb_max)
-				|| box_diagonal_test(boxes::corner<box_corners::x>(center, extents),
-									 boxes::corner<box_corners::yz>(center, extents))
-				|| box_diagonal_test(boxes::corner<box_corners::xz>(center, extents),
-									 boxes::corner<box_corners::y>(center, extents))
-				|| box_diagonal_test(boxes::corner<box_corners::z>(center, extents),
-									 boxes::corner<box_corners::xy>(center, extents));
+				|| box_diagonal_test(boxes::template corner<box_corners::x>(center, extents),
+									 boxes::template corner<box_corners::yz>(center, extents))
+				|| box_diagonal_test(boxes::template corner<box_corners::xz>(center, extents),
+									 boxes::template corner<box_corners::y>(center, extents))
+				|| box_diagonal_test(boxes::template corner<box_corners::z>(center, extents),
+									 boxes::template corner<box_corners::xy>(center, extents));
+#endif
+		}
+
+		MUU_NODISCARD
+		MUU_ATTR(pure)
+		static constexpr bool MUU_VECTORCALL aabb_intersects_triangle(vector_param center,
+																	  vector_param extents,
+																	  triangle_param tri) noexcept
+		{
+			return aabb_intersects_triangle(center, extents, tri.points[0], tri.points[1], tri.points[2]);
 		}
 	};
 }
-
-#if !MUU_INTELLISENSE
-	#define MUU_GEOM_PARAM(name) ::muu::impl::vectorcall_param<::muu::impl::MUU_CONCAT(name, _) < scalar_type> >
-#endif
 
 namespace muu
 {
@@ -757,6 +885,10 @@ MUU_PRAGMA_MSVC(float_control(pop))
 MUU_PRAGMA_MSVC(inline_recursion(off))
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS
+
+#if !MUU_INTELLISENSE
+	#define MUU_GEOM_PARAM(name) ::muu::impl::vectorcall_param<::muu::impl::MUU_CONCAT(name, _) < scalar_type> >
+#endif
 
 /// \endcond
 

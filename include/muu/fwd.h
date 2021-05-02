@@ -146,11 +146,12 @@ namespace muu
 	/// 
 	/// \note You do not need to pepper your codebase with this.
 	/// 	  It is only used in a few highly-specialized situations:
-	/// 	  - muu::vector constructor  
-	/// 	  - muu::quaternion constructor  
-	/// 	  - muu::matrix constructor  
 	/// 	  - muu::bounding_box constructor  
+	/// 	  - muu::matrix constructor  
 	/// 	  - muu::oriented_bounding_box constructor
+	/// 	  - muu::plane constructor
+	/// 	  - muu::quaternion constructor  
+	/// 	  - muu::vector constructor  
 	template <typename From, typename To>
 	inline constexpr bool allow_implicit_bit_cast = false;
 

@@ -598,7 +598,7 @@ namespace muu
 	/// \brief An N-dimensional vector.
 	/// \ingroup math
 	///
-	/// \tparam	Scalar      The type of the vector's scalar components.
+	/// \tparam	Scalar      The vector's scalar component type.
 	/// \tparam Dimensions  The number of dimensions.
 	template <typename Scalar, size_t Dimensions>
 	struct MUU_TRIVIAL_ABI vector MUU_HIDDEN_BASE(impl::vector_<Scalar, Dimensions>)
@@ -626,9 +626,6 @@ namespace muu
 		using product_type = std::
 			conditional_t<is_integral<scalar_type>, impl::highest_ranked<make_signed<scalar_type>, int>, scalar_type>;
 
-		/// \brief Compile-time constants for this vector's scalar type.
-		using scalar_constants = muu::constants<scalar_type>;
-
 		/// \brief The vector type with #scalar_type == #product_type and the same number of #dimensions as this one.
 		using vector_product = vector<product_type, dimensions>;
 
@@ -648,6 +645,8 @@ namespace muu
 		friend struct quaternion;
 		template <typename S, size_t R, size_t C>
 		friend struct matrix;
+		template <typename S>
+		friend struct plane;
 
 		using base = impl::vector_<scalar_type, Dimensions>;
 		static_assert(sizeof(base) == (sizeof(scalar_type) * Dimensions), "Vectors should not have padding");
@@ -658,6 +657,8 @@ namespace muu
 		using intermediate_float = impl::promote_if_small_float<delta_type>;
 		static_assert(is_floating_point<delta_type>);
 		static_assert(is_floating_point<intermediate_float>);
+
+		using scalar_constants = muu::constants<scalar_type>;
 
 	  public:
 	#ifdef DOXYGEN
@@ -1253,7 +1254,7 @@ namespace muu
 		static constexpr bool MUU_VECTORCALL zero(MUU_VC_PARAM(vector) v) noexcept
 		{
 				// clang-format off
-			#define VEC_FUNC(member) v.member == scalar_constants::zero
+			#define VEC_FUNC(member) v.member == scalar_type{}
 			COMPONENTWISE_AND(VEC_FUNC);
 			#undef VEC_FUNC
 			// clang-format on
@@ -1568,52 +1569,6 @@ namespace muu
 		constexpr delta_type MUU_VECTORCALL distance(MUU_VC_PARAM(vector) p) const noexcept
 		{
 			return static_cast<delta_type>(raw_distance(*this, p));
-		}
-
-		/// \brief Returns true if a vector is unit-length (i.e. has a length of 1).
-		MUU_NODISCARD
-		MUU_ATTR(pure)
-		static constexpr bool MUU_VECTORCALL unit_length(MUU_VC_PARAM(vector) v) noexcept
-		{
-			if constexpr (is_integral<scalar_type>)
-			{
-				if constexpr (Dimensions == 1)
-					return v.x == scalar_type{ 1 };
-				else
-				{
-					using sum_type = decltype(scalar_type{} + scalar_type{});
-					sum_type sum{};
-					for (size_t i = 0u; i < dimensions && sum > sum_type{ 1 }; i++)
-					{
-						if constexpr (muu::is_signed<scalar_type>)
-							sum += muu::abs(v[i]);
-						else
-							sum += v[i];
-					}
-					return sum == sum_type{ 1 };
-				}
-			}
-			else
-			{
-				if constexpr (Dimensions == 1)
-					return muu::approx_equal(static_cast<intermediate_float>(v.x), intermediate_float{ 1 });
-				else
-				{
-					constexpr auto epsilon = intermediate_float{ 1 }
-										   / (100ull * (sizeof(scalar_type) >= sizeof(float) ? 10000ull : 1ull)
-											  * (sizeof(scalar_type) >= sizeof(double) ? 10000ull : 1ull));
-
-					return muu::approx_equal(raw_length_squared(v), intermediate_float{ 1 }, epsilon);
-				}
-			}
-		}
-
-		/// \brief Returns true if the vector is unit-length (i.e. has a length of 1).
-		MUU_NODISCARD
-		MUU_ATTR(pure)
-		constexpr bool unit_length() const noexcept
-		{
-			return unit_length(*this);
 		}
 
 	#endif // length and distance
@@ -2276,6 +2231,66 @@ namespace muu
 			MUU_REQUIRES(is_floating_point<Scalar>)
 		{
 			return raw_divide_assign_scalar(muu::sqrt(static_cast<intermediate_float>(lensq)));
+		}
+
+		/// \brief Returns true if a vector is normalized (i.e. has a length of 1).
+		MUU_NODISCARD
+		MUU_ATTR(pure)
+		static constexpr bool MUU_VECTORCALL normalized(MUU_VC_PARAM(vector) v) noexcept
+		{
+			if constexpr (is_integral<scalar_type>)
+			{
+				if constexpr (Dimensions == 1)
+					return v.x == scalar_type{ 1 };
+				else
+				{
+					using sum_type = decltype(scalar_type{} + scalar_type{});
+					sum_type sum{};
+					for (size_t i = 0u; i < dimensions && sum > sum_type{ 1 }; i++)
+					{
+						if constexpr (muu::is_signed<scalar_type>)
+							sum += muu::abs(v[i]);
+						else
+							sum += v[i];
+					}
+					return sum == sum_type{ 1 };
+				}
+			}
+			else
+			{
+				if constexpr (Dimensions == 1)
+					return muu::approx_equal(static_cast<intermediate_float>(v.x), intermediate_float{ 1 });
+				else
+				{
+					constexpr auto epsilon = intermediate_float{ 1 }
+										   / (100ull * (sizeof(scalar_type) >= sizeof(float) ? 10000ull : 1ull)
+											  * (sizeof(scalar_type) >= sizeof(double) ? 10000ull : 1ull));
+
+					return muu::approx_equal(raw_length_squared(v), intermediate_float{ 1 }, epsilon);
+				}
+			}
+		}
+
+		/// \brief Returns true if the vector is normalized (i.e. has a length of 1).
+		MUU_NODISCARD
+		MUU_ATTR(pure)
+		constexpr bool normalized() const noexcept
+		{
+			return normalized(*this);
+		}
+
+		[[deprecated]] MUU_NODISCARD
+		MUU_ATTR(pure)
+		static constexpr bool MUU_VECTORCALL unit_length(MUU_VC_PARAM(vector) v) noexcept
+		{
+			return normalized(v);
+		}
+
+		[[deprecated]] MUU_NODISCARD
+		MUU_ATTR(pure)
+		constexpr bool unit_length() const noexcept
+		{
+			return normalized(*this);
 		}
 
 	#endif // normalization
@@ -3400,27 +3415,25 @@ namespace muu
 		return vector<S, D>::approx_zero(v, epsilon);
 	}
 
-	/// \addtogroup		math
-	/// @{
-
-	/// \addtogroup	unit_length		unit_length()
-	/// \brief		Unit length checks for vector types.
-	/// @{
-
+	/// \ingroup	normalized
 	/// \relatesalso	muu::vector
 	///
-	/// \brief Returns true if a vector is unit-length (i.e. has a length of 1).
+	/// \brief Returns true if a vector is normalized (i.e. has a length of 1).
 	template <typename S, size_t D>
 	MUU_NODISCARD
 	MUU_ATTR(pure)
-	constexpr bool unit_length(const vector<S, D>& v) noexcept
+	constexpr bool normalized(const vector<S, D>& v) noexcept
 	{
-		return vector<S, D>::unit_length(v);
+		return vector<S, D>::normalized(v);
 	}
 
-	/** @} */ // unit_length
-
-	/** @} */ // math
+	template <typename S, size_t D>
+	MUU_NODISCARD
+	[[deprecated]] MUU_ATTR(pure)
+	constexpr bool unit_length(const vector<S, D>& v) noexcept
+	{
+		return vector<S, D>::normalized(v);
+	}
 
 	/// \relatesalso muu::vector
 	///

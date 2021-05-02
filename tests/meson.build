@@ -26,6 +26,10 @@ test_sources = [
 	'oriented_bounding_box_float.cpp',
 	'oriented_bounding_box_half.cpp',
 	'oriented_bounding_box_long_double.cpp',
+	'plane_double.cpp',
+	'plane_float.cpp',
+	'plane_half.cpp',
+	'plane_long_double.cpp',
 	'quaternion_double.cpp',
 	'quaternion_float.cpp',
 	'quaternion_half.cpp',
@@ -58,6 +62,7 @@ if compiler_supports_fp16
 		'bounding_box_fp16.cpp',
 		'matrix_fp16.cpp',
 		'oriented_bounding_box_fp16.cpp',
+		'plane_fp16.cpp',
 		'quaternion_fp16.cpp',
 		'vector_fp16.cpp',
 	]
@@ -67,6 +72,7 @@ if compiler_supports_float16
 		'bounding_box_Float16.cpp',
 		'matrix_Float16.cpp',
 		'oriented_bounding_box_Float16.cpp',
+		'plane_Float16.cpp',
 		'quaternion_Float16.cpp',
 		'vector_Float16.cpp',
 	]
@@ -82,6 +88,7 @@ if compiler_supports_float128
 		'bounding_box_float128.cpp',
 		'matrix_float128.cpp',
 		'oriented_bounding_box_float128.cpp',
+		'plane_float128.cpp',
 		'quaternion_float128.cpp',
 		'vector_float128.cpp'
 	]

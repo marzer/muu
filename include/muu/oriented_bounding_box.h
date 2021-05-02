@@ -24,7 +24,7 @@ namespace muu
 	/// \brief An oriented bounding box.
 	/// \ingroup math
 	///
-	/// \tparam	Scalar      The type of the oriented bounding box's scalar components. Must be a floating-point type.
+	/// \tparam	Scalar      The oriented bounding box's scalar component type. Must be a floating-point type.
 	///
 	/// \see [Oriented Bounding Box](https://www.sciencedirect.com/topics/computer-science/oriented-bounding-box)
 	template <typename Scalar>
@@ -47,14 +47,8 @@ namespace muu
 		/// \brief The three-dimensional #muu::vector with the same #scalar_type as the oriented bounding box.
 		using vector_type = vector<scalar_type, 3>;
 
-		/// \brief Compile-time constants for this bounding box's #vector_type.
-		using vector_constants = muu::constants<vector_type>;
-
 		/// \brief The 3x3 #muu::matrix with the same #scalar_type as the oriented bounding box.
 		using axes_type = matrix<scalar_type, 3, 3>;
-
-		/// \brief Compile-time constants for this bounding box's #axes_type.
-		using axes_constants = muu::constants<axes_type>;
 
 		/// \brief Compile-time bounding box constants.
 		using constants = muu::constants<oriented_bounding_box>;
@@ -68,8 +62,11 @@ namespace muu
 		using intermediate_float = impl::promote_if_small_float<scalar_type>;
 		static_assert(is_floating_point<intermediate_float>);
 
+		using axes_constants = muu::constants<axes_type>;
+
 	  public:
 	#ifdef DOXYGEN
+
 		/// \brief	The center of the box.
 		vector_type center;
 
@@ -78,6 +75,7 @@ namespace muu
 
 		/// \brief	The axes of the box's orientation.
 		axes_type axes;
+
 	#endif // DOXYGEN
 
 	#if 1 // constructors ----------------------------------------------------------------------------------------------
@@ -129,7 +127,7 @@ namespace muu
 		/// \param	ext		The extents.
 		MUU_NODISCARD_CTOR
 		explicit constexpr oriented_bounding_box(const vector_type& ext) noexcept
-			: base{ vector_constants::zero, ext, axes_constants::identity }
+			: base{ vector_type::constants::zero, ext, axes_constants::identity }
 		{}
 
 		/// \brief	Constructs an oriented bounding box from center and extent values.
@@ -169,7 +167,14 @@ namespace muu
 		/// \param	ext		The length of all three extents.
 		MUU_NODISCARD_CTOR
 		explicit constexpr oriented_bounding_box(scalar_type ext) noexcept
-			: base{ vector_constants::zero, { ext, ext, ext }, axes_constants::identity }
+			: base{ vector_type::constants::zero, { ext, ext, ext }, axes_constants::identity }
+		{}
+
+		/// \brief	Converting constructor.
+		template <typename S>
+		MUU_NODISCARD_CTOR
+		explicit constexpr oriented_bounding_box(const oriented_bounding_box<S>& bb) noexcept //
+			: base{ vector_type{ bb.center }, vector_type{ bb.extents }, axes_type{ bb.axes } }
 		{}
 
 		/// \brief Constructs a oriented bounding box from an implicitly bit-castable type.
@@ -191,6 +196,8 @@ namespace muu
 	#endif // constructors
 
 	#if 1 // geometric properties --------------------------------------------------------------------------------------
+		/// \name Geometric properties
+		/// @{
 
 		/// \brief	Returns the width of the box (x-axis).
 		MUU_NODISCARD
@@ -304,15 +311,17 @@ namespace muu
 			return boxes::degenerate(base::extents);
 		}
 
+			/// @}
 	#endif // geometric properties
 
 	#if 1 // equality --------------------------------------------------------------------------------------------------
+		/// \name Equality
+		/// @{
 
 		/// \brief		Returns true if two oriented bounding boxes are exactly equal.
 		///
-		/// \remarks	This is a componentwise exact equality check;
-		/// 			if you want an epsilon-based "near-enough" for floating-point oriented bounding boxes, use
-		/// #approx_equal().
+		/// \remarks	This is an exact check;
+		///				use #approx_equal() if you want an epsilon-based "near-enough" check.
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(pure)
@@ -324,9 +333,8 @@ namespace muu
 
 		/// \brief	Returns true if two oriented bounding boxes are not exactly equal.
 		///
-		/// \remarks	This is a componentwise exact inequality check;
-		/// 			if you want an epsilon-based "near-enough" for floating-point oriented bounding boxes, use
-		/// #approx_equal().
+		/// \remarks	This is an exact check;
+		///				use #approx_equal() if you want an epsilon-based "near-enough" check.
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(pure)
@@ -338,9 +346,8 @@ namespace muu
 
 		/// \brief	Returns true if all the scalar components of an oriented bounding box are exactly zero.
 		///
-		/// \remarks	This is a componentwise exact equality check;
-		/// 			if you want an epsilon-based "near-enough" for floating-point oriented bounding boxes, use
-		/// #approx_zero().
+		/// \remarks	This is an exact check;
+		///				use #approx_zero() if you want an epsilon-based "near-enough" check.
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL zero(MUU_VC_PARAM(oriented_bounding_box) bb) noexcept
@@ -350,9 +357,8 @@ namespace muu
 
 		/// \brief	Returns true if all the scalar components of the oriented bounding box are exactly zero.
 		///
-		/// \remarks	This is a componentwise exact equality check;
-		/// 			if you want an epsilon-based "near-enough" for floating-point oriented bounding boxes, use
-		/// #approx_zero().
+		/// \remarks	This is an exact check;
+		///				use #approx_zero() if you want an epsilon-based "near-enough" check.
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr bool zero() const noexcept
@@ -362,9 +368,8 @@ namespace muu
 
 		/// \brief	Returns true if an oriented bounding box has exactly zero volume.
 		///
-		/// \remarks	This is a componentwise exact empty check;
-		/// 			if you want an epsilon-based "near-enough" for floating-point oriented bounding boxes, use
-		/// #approx_empty().
+		/// \remarks	This is an exact check;
+		///				use #approx_empty() if you want an epsilon-based "near-enough" check.
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL empty(MUU_VC_PARAM(oriented_bounding_box) bb) noexcept
@@ -374,9 +379,8 @@ namespace muu
 
 		/// \brief	Returns true if the oriented bounding box has exactly zero volume.
 		///
-		/// \remarks	This is a componentwise exact equality check;
-		/// 			if you want an epsilon-based "near-enough" for floating-point oriented bounding boxes, use
-		/// #approx_empty().
+		/// \remarks	This is an exact check;
+		///				use #approx_empty() if you want an epsilon-based "near-enough" check.
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr bool empty() const noexcept
@@ -389,11 +393,8 @@ namespace muu
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL infinity_or_nan(MUU_VC_PARAM(oriented_bounding_box) bb) noexcept
 		{
-			if constexpr (is_floating_point<scalar_type>)
-				return vector_type::infinity_or_nan(bb.center) || vector_type::infinity_or_nan(bb.extents)
-					|| axes_type::infinity_or_nan(bb.axes);
-			else
-				return false;
+			return vector_type::infinity_or_nan(bb.center) || vector_type::infinity_or_nan(bb.extents)
+				|| axes_type::infinity_or_nan(bb.axes);
 		}
 
 		/// \brief	Returns true if any of the scalar components of the oriented bounding box are infinity or NaN.
@@ -401,10 +402,7 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr bool infinity_or_nan() const noexcept
 		{
-			if constexpr (is_floating_point<scalar_type>)
-				return infinity_or_nan(*this);
-			else
-				return false;
+			return infinity_or_nan(*this);
 		}
 
 	#endif // equality
@@ -412,10 +410,7 @@ namespace muu
 	#if 1 // approx_equal ----------------------------------------------------------------------------------------------
 
 		/// \brief	Returns true if two oriented bounding boxes are approximately equal.
-		///
-		/// \availability		This function is only available when at least one of #scalar_type and `T` is a
-		/// floating-point type.
-		MUU_CONSTRAINED_TEMPLATE((any_floating_point<scalar_type, T>), typename T)
+		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL
@@ -429,10 +424,7 @@ namespace muu
 		}
 
 		/// \brief	Returns true if the oriented bounding box is approximately equal to another.
-		///
-		/// \availability		This function is only available when at least one of #scalar_type and `T` is a
-		/// floating-point type.
-		MUU_CONSTRAINED_TEMPLATE((any_floating_point<scalar_type, T>), typename T)
+		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL
@@ -444,14 +436,10 @@ namespace muu
 
 		/// \brief	Returns true if all the scalar components in an oriented bounding box are approximately equal to
 		/// zero.
-		///
-		/// \availability		This function is only available when #scalar_type is a floating-point type.
-		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = scalar_type)
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL approx_zero(MUU_VC_PARAM(oriented_bounding_box) bb,
 														 scalar_type epsilon = default_epsilon<scalar_type>) noexcept
-			MUU_REQUIRES(is_floating_point<scalar_type>)
 		{
 			return vector_type::approx_zero(bb.center, epsilon) && vector_type::approx_zero(bb.extents, epsilon)
 				&& axes_type::approx_zero(bb.axes, epsilon);
@@ -459,45 +447,36 @@ namespace muu
 
 		/// \brief	Returns true if all the scalar components in the oriented bounding box are approximately equal to
 		/// zero.
-		///
-		/// \availability		This function is only available when #scalar_type is a floating-point type.
-		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = scalar_type)
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_zero(scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
-			MUU_REQUIRES(is_floating_point<scalar_type>)
 		{
 			return approx_zero(*this, epsilon);
 		}
 
 		/// \brief	Returns true if an oriented bounding box has approximately zero volume.
-		///
-		/// \availability		This function is only available when #scalar_type is a floating-point type.
-		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = scalar_type)
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL approx_empty(MUU_VC_PARAM(oriented_bounding_box) bb,
 														  scalar_type epsilon = default_epsilon<scalar_type>) noexcept
-			MUU_REQUIRES(is_floating_point<scalar_type>)
 		{
 			return vector_type::approx_zero(bb.extents, epsilon);
 		}
 
 		/// \brief	Returns true if the oriented bounding box has approximately zero volume.
-		///
-		/// \availability		This function is only available when #scalar_type is a floating-point type.
-		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = scalar_type)
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_empty(scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
-			MUU_REQUIRES(is_floating_point<scalar_type>)
 		{
 			return vector_type::approx_zero(base::extents, epsilon);
 		}
 
+			/// @}
 	#endif // approx_equal
 
 	#if 1 // corners ---------------------------------------------------------------------------------------------------
+		/// \name Corners
+		/// @{
 
 		/// \brief	Returns a specific corner of an oriented bounding box.
 		template <box_corners Corner>
@@ -505,7 +484,7 @@ namespace muu
 		MUU_ATTR(pure)
 		static constexpr vector_type MUU_VECTORCALL corner(MUU_VC_PARAM(oriented_bounding_box) bb) noexcept
 		{
-			return boxes::corner<Corner>(bb.center, bb.extents);
+			return boxes::corner<Corner>(bb.center, bb.extents, bb.axes);
 		}
 
 		/// \brief	Returns a specific corner of the oriented bounding box.
@@ -514,7 +493,7 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr vector_type corner() const noexcept
 		{
-			return boxes::corner<Corner>(base::center, base::extents);
+			return boxes::corner<Corner>(base::center, base::extents, base::axes);
 		}
 
 		/// \brief	Returns a specific corner of an oriented bounding box.
@@ -523,7 +502,7 @@ namespace muu
 		static constexpr vector_type MUU_VECTORCALL corner(MUU_VC_PARAM(oriented_bounding_box) bb,
 														   box_corners which) noexcept
 		{
-			return boxes::corner(bb.center, bb.extents, which);
+			return boxes::corner(bb.center, bb.extents, bb.axes, which);
 		}
 
 		/// \brief	Returns a specific corner of the oriented bounding box.
@@ -531,7 +510,7 @@ namespace muu
 		MUU_ATTR_NDEBUG(pure)
 		constexpr vector_type corner(box_corners which) const noexcept
 		{
-			return boxes::corner(base::center, base::extents, which);
+			return boxes::corner(base::center, base::extents, base::axes, which);
 		}
 
 		/// \brief	Returns the 'min' corner of an oriented bounding box.
@@ -539,7 +518,7 @@ namespace muu
 		MUU_ATTR(pure)
 		static constexpr vector_type MUU_VECTORCALL min_corner(MUU_VC_PARAM(oriented_bounding_box) bb) noexcept
 		{
-			return boxes::corner<box_corners::min>(bb.center, bb.extents);
+			return boxes::corner<box_corners::min>(bb.center, bb.extents, bb.axes);
 		}
 
 		/// \brief	Returns the 'min' corner of the oriented bounding box.
@@ -547,7 +526,7 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr vector_type min_corner() const noexcept
 		{
-			return boxes::corner<box_corners::min>(base::center, base::extents);
+			return boxes::corner<box_corners::min>(base::center, base::extents, base::axes);
 		}
 
 		/// \brief	Returns the 'max' corner of an oriented bounding box.
@@ -555,7 +534,7 @@ namespace muu
 		MUU_ATTR(pure)
 		static constexpr vector_type MUU_VECTORCALL max_corner(MUU_VC_PARAM(oriented_bounding_box) bb) noexcept
 		{
-			return boxes::corner<box_corners::max>(bb.center, bb.extents);
+			return boxes::corner<box_corners::max>(bb.center, bb.extents, bb.axes);
 		}
 
 		/// \brief	Returns the 'max' corner of the oriented bounding box.
@@ -563,12 +542,15 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr vector_type max_corner() const noexcept
 		{
-			return boxes::corner<box_corners::max>(base::center, base::extents);
+			return boxes::corner<box_corners::max>(base::center, base::extents, base::axes);
 		}
 
+			/// @}
 	#endif // corners
 
-	#if 1 // translation -----------------------------------------------------------------------------------------------
+	#if 1 // translation and scaling -----------------------------------------------------------------------------------
+		/// \name Translation and scaling
+		/// @{
 
 		/// \brief	Translates an oriented bounding box.
 		///
@@ -595,10 +577,6 @@ namespace muu
 			return *this;
 		}
 
-	#endif // translation
-
-	#if 1 // scaling -----------------------------------------------------------------------------------------------
-
 		/// \brief	Scales an oriented bounding box.
 		///
 		/// \param	bb		The oriented bounding box to scale.
@@ -624,7 +602,8 @@ namespace muu
 			return *this;
 		}
 
-	#endif // scaling
+			/// @}
+	#endif // translation and scaling
 	};
 
 	/// \cond deduction_guides
@@ -699,7 +678,7 @@ namespace muu
 	/// \ingroup	infinity_or_nan
 	/// \relatesalso	muu::oriented_bounding_box
 	///
-	/// \brief	Returns true if any of the scalar components of an #oriented_bounding_box are infinity or NaN.
+	/// \brief	Returns true if any of the scalar components of an oriented_bounding_box are infinity or NaN.
 	template <typename S>
 	MUU_NODISCARD
 	MUU_ATTR(pure)
@@ -725,7 +704,7 @@ namespace muu
 	/// \ingroup	approx_zero
 	/// \relatesalso	muu::oriented_bounding_box
 	///
-	/// \brief		Returns true if all the scalar components of an #oriented_bounding_box are approximately equal to
+	/// \brief		Returns true if all the scalar components of an oriented_bounding_box are approximately equal to
 	/// zero.
 	template <typename S>
 	MUU_NODISCARD

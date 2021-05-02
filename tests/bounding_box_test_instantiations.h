@@ -48,4 +48,9 @@ AABB_TEST_CASE("infinity_or_nan")
 	TEST_TYPE(aabb_infinity_or_nan_tests);
 }
 
+AABB_TEST_CASE("intersections")
+{
+	TEST_TYPE(aabb_intersects_tests);
+}
+
 #undef SCALAR_TYPE

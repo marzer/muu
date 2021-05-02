@@ -15,8 +15,8 @@ tools/*.json
 *.temp
 
 # release packages
-/stim_v*_temp
-/stim_v*
+/muu_v*_temp
+/muu_v*
 *.zip
 *.dll
 *.lib

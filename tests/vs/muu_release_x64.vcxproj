@@ -87,6 +87,7 @@
     <ClInclude Include="$(SolutionDir)include\muu\math.h" />
     <ClInclude Include="$(SolutionDir)include\muu\matrix.h" />
     <ClInclude Include="$(SolutionDir)include\muu\oriented_bounding_box.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\plane.h" />
     <ClInclude Include="$(SolutionDir)include\muu\quaternion.h" />
     <ClInclude Include="$(SolutionDir)include\muu\rolling_average.h" />
     <ClInclude Include="$(SolutionDir)include\muu\numeric_range.h" />

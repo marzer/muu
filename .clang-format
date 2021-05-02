@@ -170,6 +170,7 @@ StatementMacros:
 TabWidth:        4
 TypenameMacros:
   - MUU_VC_PARAM
+  - MUU_GEOM_PARAM
 UseCRLF:         false
 UseTab:          Always
 WhitespaceSensitiveMacros:

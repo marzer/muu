@@ -332,3 +332,6 @@ MAKE_NAME_OF(char8_t);
 	MSVC_UNFUCK(func(float,						__VA_ARGS__))	\
 	MSVC_UNFUCK(func(double,					__VA_ARGS__))	\
 	MSVC_UNFUCK(func(long double,				__VA_ARGS__))
+
+#define TEST_INFO(...) INFO(__VA_ARGS__) static_assert(true)
+#define TEST_WARNING(...) WARN(__VA_ARGS__) static_assert(true)

@@ -133,6 +133,9 @@
     <ClInclude Include="src\source_start.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="include\muu\plane.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".circleci\config.yml">

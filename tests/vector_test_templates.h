@@ -637,8 +637,8 @@ inline void vector_cross_tests([[maybe_unused]] std::string_view scalar_typename
 	auto vec2 = vec3d{ static_cast<promoted>(-1.4), static_cast<promoted>(9.5), static_cast<promoted>(3.2) };
 	vec1.normalize();
 	vec2.normalize();
-	CHECK(vec1.unit_length());
-	CHECK(vec2.unit_length());
+	CHECK(vec1.normalized());
+	CHECK(vec2.normalized());
 
 	static const auto eps = static_cast<promoted>(constants<T>::default_epsilon);
 
@@ -943,7 +943,7 @@ inline void vector_normalization_tests(std::string_view scalar_typename) noexcep
 
 		vector_t vec{ x };
 		vec.normalize();
-		CHECK(vec.unit_length());
+		CHECK(vec.normalized());
 		CHECK(vec.length() == approx(T{ 1 }));
 	}
 
@@ -951,7 +951,7 @@ inline void vector_normalization_tests(std::string_view scalar_typename) noexcep
 		INFO("vector::normalize(vector)"sv)
 
 		const auto vec = vector_t::normalize(x);
-		CHECK(vec.unit_length());
+		CHECK(vec.normalized());
 		CHECK(vec.length() == approx(T{ 1 }));
 	}
 
@@ -959,7 +959,7 @@ inline void vector_normalization_tests(std::string_view scalar_typename) noexcep
 		INFO("muu::normalize(vector)"sv)
 
 		const auto vec = muu::normalize(x);
-		CHECK(vec.unit_length());
+		CHECK(vec.normalized());
 		CHECK(vec.length() == approx(T{ 1 }));
 	}
 }

@@ -20,7 +20,7 @@
 #include "vector.h"
 #include "quaternion.h"
 #include "matrix.h"
-//#include "plane.h"
+#include "plane.h"
 //#include "triangle.h"
 //#include "bounding_sphere.h"
 #include "bounding_box.h"
