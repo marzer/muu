@@ -68,7 +68,7 @@
           <tbody>
             <tr>
               <td style="width: 1%">Scalar</td>
-              <td>The type of the vector's scalar components.</td>
+              <td>The vector's scalar component type.</td>
             </tr>
             <tr>
               <td>Dimensions</td>
@@ -118,10 +118,6 @@
               using <a class="m-doc-self" href="#a1a72204a93c5e7bf5169fe2d527faf9c">product_type</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;<a class="m-doc" href="group__meta.html#ga6283839d5536a4ee096adccee42b88c5">is_<wbr/>integral</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&gt;, impl::highest_ranked&lt;<a class="m-doc" href="group__meta.html#ga8723b987045c7b40be5ce133a46e899c">make_<wbr/>signed</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&gt;, int&gt;, <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&gt;
             </dt>
             <dd>The scalar type used for products (dot, cross, etc.). Always signed.</dd>
-            <dt id="a2b7acf3193b202ee6919652c81c67a9e">
-              using <a class="m-doc-self" href="#a2b7acf3193b202ee6919652c81c67a9e">scalar_constants</a> = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&gt;
-            </dt>
-            <dd>Compile-time constants for this vector's scalar type.</dd>
             <dt id="ad9d2b50a3d332271a3e7301e68bb356e">
               using <a class="m-doc-self" href="#ad9d2b50a3d332271a3e7301e68bb356e">scalar_type</a> = Scalar
             </dt>
@@ -251,10 +247,10 @@
               <a class="m-doc" href="structmuu_1_1vector.html#a2bcea42816c322f5b9c319d54d132a96">delta_<wbr/>type</a> v_lensq) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Normalizes a vector using a pre-calculated squared-length.</dd>
-            <dt id="aac145e556c43a0ab014241c1639246ef">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#aac145e556c43a0ab014241c1639246ef">unit_length</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a31247a06a9f0c3aea6866ac63c738d58">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a31247a06a9f0c3aea6866ac63c738d58">normalized</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if a vector is unit-length (i.e. has a length of 1).</dd>
+            <dd>Returns true if a vector is normalized (i.e. has a length of 1).</dd>
             <dt>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a177638d0c10f289c0d6a6a453d7c28a7">zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -273,22 +269,22 @@
             </dt>
             <dd>Copy constructor.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a0f9026824be861f778dadb15a091a8dc">vector</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> fill) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> fill) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a vector with all scalar components set to the same value.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#ae04a9e78ea8934c2167ab193a9a953d6">vector</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> x,
+              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> x,
               <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> y) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a vector from two scalar values.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a728ee8868452ad9f6768c4ab6f961a0c">vector</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> x,
+              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> x,
               <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> y,
               <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> z) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a vector from three scalar values.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#aeb9e04efd86f59a605130bb438e18c55">vector</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> x,
+              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> x,
               <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> y,
               <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> z,
               <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> w) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -296,7 +292,7 @@
             <dd>Constructs a vector from four scalar values.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a5b1d318171e35256ff26b32181c9813a">vector</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> x,
+              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> x,
               <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> y,
               <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> z,
               <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> w,
@@ -305,65 +301,65 @@
             <dd>Constructs a vector from five or more scalar values.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#af1b7d1818bcca46bdca2881451f25ab4">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>(&amp;arr)[N]) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>(&amp;arr)[N]) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a vector from a raw array of scalars.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#aba94ad73fe20b986aa96e6eb23944cbe">vector</a>(</span><span class="m-doc-wrap">const T(&amp;arr)[N]) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>(</span><span class="m-doc-wrap">const T(&amp;arr)[N]) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a vector from a raw array of scalars.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a406ddd92df734f4b5fb5012a4571f91f">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/container/array.html" target="_blank">std::<wbr/>array</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, N&gt;&amp; arr) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/container/array.html" target="_blank">std::<wbr/>array</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, N&gt;&amp; arr) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a vector from a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/container/array.html" target="_blank">std::<wbr/>array</a> of scalars.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#ae0170699052e7287ac2d618b3f2168cb">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/container/array.html" target="_blank">std::<wbr/>array</a>&lt;T, N&gt;&amp; arr) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/container/array.html" target="_blank">std::<wbr/>array</a>&lt;T, N&gt;&amp; arr) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a vector from a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/container/array.html" target="_blank">std::<wbr/>array</a> of scalars.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#aa8ac1519ddfb8ae28ef7dc4ce23e8085">vector</a>(</span><span class="m-doc-wrap">const T&amp; tuple_or_bitcastable) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>(</span><span class="m-doc-wrap">const T&amp; tuple_or_bitcastable) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a vector from any tuple-like or implicitly bit-castable type.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a803695ea1592669752281dc217bd83d3">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; vec) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; vec) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Enlarging/truncating/converting constructor.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S1, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D1, typename S2, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D2&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a5daf0c0082c5fd76435808d7517ef7a3">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S1, D1&gt;&amp; vec1,
+              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S1, D1&gt;&amp; vec1,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S2, D2&gt;&amp; vec2) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Concatenating constructor.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D, typename... T&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#ab95403dc8fdf56329da3f669a48b7988">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; vec,
+              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; vec,
               const T&amp;... vals) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Appending constructor.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a88801e28c816d55516cb880cc094997a">vector</a>(</span><span class="m-doc-wrap">const T* vals,
+              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>(</span><span class="m-doc-wrap">const T* vals,
               <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> num) <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a vector from a pointer to scalars.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a943cab78806fe1e13f8ebaf974cb34b2">vector</a>(</span><span class="m-doc-wrap">const T* vals) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>(</span><span class="m-doc-wrap">const T* vals) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a vector from a pointer to scalars.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a52cf1994498457bd3ac6e93244b4811e">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1span.html">muu::<wbr/>span</a>&lt;T, N&gt;&amp; vals) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1span.html">muu::<wbr/>span</a>&lt;T, N&gt;&amp; vals) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a vector from a statically-sized <a class="m-doc" href="classmuu_1_1span.html">muu::<wbr/>span</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#ae9e5f1a81b891f045778c02650af9a7f">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1span.html">muu::<wbr/>span</a>&lt;T&gt;&amp; vals) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1span.html">muu::<wbr/>span</a>&lt;T&gt;&amp; vals) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a vector from a dynamically-sized <a class="m-doc" href="classmuu_1_1span.html">muu::<wbr/>span</a>.</dd>
           </dl>
@@ -490,6 +486,10 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a32ae668d84413aeb7f8a1e260102bc0a">normalize_lensq</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a2bcea42816c322f5b9c319d54d132a96">delta_<wbr/>type</a> lensq) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Normalizes the vector using a pre-calculated squared-length (in-place).</dd>
+            <dt id="ad375771f19e2d46e15239018a5b52126">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad375771f19e2d46e15239018a5b52126">normalized</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the vector is normalized (i.e. has a length of 1).</dd>
             <dt id="a6e1ec667d68aa4222c0f1bc010b01159">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a6e1ec667d68aa4222c0f1bc010b01159">operator%=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -550,10 +550,6 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a1d9237f0d5e1d0b4bd1981b6f4b816e8">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> idx) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Gets a reference to the Nth scalar component.</dd>
-            <dt id="a2fbb1a0e7898551fd58369c05baa3ab4">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2fbb1a0e7898551fd58369c05baa3ab4">unit_length</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if the vector is unit-length (i.e. has a length of 1).</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a600a005f13c53d4b8fb0c1defc5ccf04">zero</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -828,11 +824,11 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a0901b5c81729a1e28b3dab7c0cf1bba3">normalize</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Normalizes a vector.</dd>
-            <dt>
+            <dt id="a528d334a55d0d8e0349b3b746bfd8f58">
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__unit__length.html#gaa23ee7220c00563698286c33249cd119">unit_length</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a528d334a55d0d8e0349b3b746bfd8f58">normalized</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if a vector is unit-length (i.e. has a length of 1).</dd>
+            <dd>Returns true if a vector is normalized (i.e. has a length of 1).</dd>
           </dl>
         </section>
         <section>

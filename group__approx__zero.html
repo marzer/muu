@@ -75,10 +75,10 @@
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga75782bf3bacf4ef690b1811d84c9f7ea">approx_zero</a>(</span><span class="m-doc-wrap">const bounding_box&lt;S&gt;&amp; q,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga75782bf3bacf4ef690b1811d84c9f7ea">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_box</a>&lt;S&gt;&amp; q,
               S epsilon = default_epsilon&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if all the scalar components of a #bounding_box are approximately equal to zero.</dd>
+            <dd>Returns true if all the scalar components of a <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a> are approximately equal to zero.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga5df3be4319d056f5a12b082177b1f8dd">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="structmuu_1_1half.html">half</a> x,
               <a class="m-doc poxy-injected" href="structmuu_1_1half.html">half</a> epsilon = constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1half.html">half</a>&gt;::default_epsilon) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -127,22 +127,28 @@
             <dd>Returns true if all the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a> are approximately equal to zero.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga4c274a76495695493647b4e0b7af1299">approx_zero</a>(</span><span class="m-doc-wrap">const oriented_bounding_box&lt;S&gt;&amp; q,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga4c274a76495695493647b4e0b7af1299">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>&lt;S&gt;&amp; q,
               S epsilon = default_epsilon&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if all the scalar components of an #oriented_bounding_box are approximately equal to zero.</dd>
+            <dd>Returns true if all the scalar components of an <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a> are approximately equal to zero.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga04dec66856dc79915e9130ef3693e9f2">approx_zero</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaffffd5920be4c9358ad1e0e0e57a7e15">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a>&lt;S&gt;&amp; p,
               S epsilon = default_epsilon&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if all the scalar components of a #quaternion are approximately equal to zero.</dd>
+            <dd>Returns true if all the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a> are approximately equal to zero.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename S&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga04dec66856dc79915e9130ef3693e9f2">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1quaternion.html">quaternion</a>&lt;S&gt;&amp; q,
+              S epsilon = default_epsilon&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if all the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1quaternion.html">quaternion</a> are approximately equal to zero.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaa7e15ecff78c10af4eaa5b463eee9ca6">approx_zero</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaa7e15ecff78c10af4eaa5b463eee9ca6">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v,
               S epsilon = default_epsilon&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if all the scalar components of a vector are approximately equal to zero.</dd>
+            <dd>Returns true if all the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> are approximately equal to zero.</dd>
           </dl>
         </section>
         <section>
@@ -153,10 +159,10 @@
               <div class="m-doc-template">
                 template&lt;typename S&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga75782bf3bacf4ef690b1811d84c9f7ea">approx_zero</a>(</span><span class="m-doc-wrap">const bounding_box&lt;S&gt;&amp; q,
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga75782bf3bacf4ef690b1811d84c9f7ea">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_box</a>&lt;S&gt;&amp; q,
               S epsilon = default_epsilon&lt;S&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Returns true if all the scalar components of a #bounding_box are approximately equal to zero.</p>
+            <p>Returns true if all the scalar components of a <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a> are approximately equal to zero.</p>
           </div></section>
           <section class="m-doc-details" id="ga5df3be4319d056f5a12b082177b1f8dd"><div>
             <h3>
@@ -242,10 +248,21 @@
               <div class="m-doc-template">
                 template&lt;typename S&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga4c274a76495695493647b4e0b7af1299">approx_zero</a>(</span><span class="m-doc-wrap">const oriented_bounding_box&lt;S&gt;&amp; q,
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga4c274a76495695493647b4e0b7af1299">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>&lt;S&gt;&amp; q,
               S epsilon = default_epsilon&lt;S&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Returns true if all the scalar components of an #oriented_bounding_box are approximately equal to zero.</p>
+            <p>Returns true if all the scalar components of an <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a> are approximately equal to zero.</p>
+          </div></section>
+          <section class="m-doc-details" id="gaffffd5920be4c9358ad1e0e0e57a7e15"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="plane_8h.html">&lt;muu/plane.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename S&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaffffd5920be4c9358ad1e0e0e57a7e15">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a>&lt;S&gt;&amp; p,
+              S epsilon = default_epsilon&lt;S&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if all the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a> are approximately equal to zero.</p>
           </div></section>
           <section class="m-doc-details" id="ga04dec66856dc79915e9130ef3693e9f2"><div>
             <h3>
@@ -253,20 +270,20 @@
               <div class="m-doc-template">
                 template&lt;typename S&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga04dec66856dc79915e9130ef3693e9f2">approx_zero</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q,
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga04dec66856dc79915e9130ef3693e9f2">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1quaternion.html">quaternion</a>&lt;S&gt;&amp; q,
               S epsilon = default_epsilon&lt;S&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Returns true if all the scalar components of a #quaternion are approximately equal to zero.</p>
+            <p>Returns true if all the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1quaternion.html">quaternion</a> are approximately equal to zero.</p>
           </div></section>
           <section class="m-doc-details" id="gaa7e15ecff78c10af4eaa5b463eee9ca6"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="vector_8h.html">&lt;muu/vector.h&gt;</a></div>
               <div class="m-doc-template"> template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaa7e15ecff78c10af4eaa5b463eee9ca6">approx_zero</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v,
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaa7e15ecff78c10af4eaa5b463eee9ca6">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v,
               S epsilon = default_epsilon&lt;S&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Returns true if all the scalar components of a vector are approximately equal to zero.</p>
+            <p>Returns true if all the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> are approximately equal to zero.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <code>S</code> is a floating-point type.</p></aside>
           </div></section>
         </section>

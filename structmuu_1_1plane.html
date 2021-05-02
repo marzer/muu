@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8"/>
+  <title>muu::plane struct | muu Useful utilities for modern C++</title>
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
+  <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
+  <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="#22272e" name="theme-color"/>
+  
+  <meta content="Useful
+  utilities
+  for
+  modern
+  C++" name="description"/>
+
+  <link href="poxy.css" rel="stylesheet"/>
+
+  <script src="jquery-3.6.0.slim.min.js"></script>
+
+  <script src="poxy.js"></script>
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a class="m-col-t-8 m-col-m-none m-left-m" href="index.html" id="m-navbar-brand"><img alt="" src="logo.png"/>muu <span class="m-thin">Useful utilities for modern C++</span></a>
+      <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
+        <a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+          <path d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z" id="m-doc-search-icon-path"></path>
+        </svg></a>
+        <a href="#navigation" id="m-navbar-show" title="Show navigation"></a>
+        <a href="#" id="m-navbar-hide" title="Hide navigation"></a>
+      </div>
+      <div class="m-col-t-12 m-show-m m-col-m-none m-right-m" id="m-navbar-collapse">
+        <div class="m-row">
+          <ol class="m-col-t-6 m-col-m-none">
+            <li><a href="files.html">Files</a></li>
+            <li><a href="modules.html">Modules</a></li>
+            <li><a href="namespaces.html">Namespaces</a></li>
+          </ol>
+          <ol class="m-col-t-6 m-col-m-none" start="4">
+            <li><a href="annotated.html">Classes</a></li>
+            <li><a class="github poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
+            <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+              <use href="#m-doc-search-icon-path"></use>
+            </svg></a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main><article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="plane_8h.html">&lt;muu/plane.h&gt;</a></div>
+          <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
+          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>plane <span class="m-thin">struct</span>
+        </h1>
+        <p>A plane.</p>
+        <table class="m-table m-fullwidth m-flat">
+          <thead>
+            <tr><th colspan="2">Template parameters</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="width: 1%">Scalar</td>
+              <td>The plane's scalar component type. Must be a floating-point type.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="m-block m-default">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#pub-types">Public types</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#pub-attribs">Public variables</a></li>
+                <li><a href="#distance-and-projection">Distance and projection</a></li>
+                <li><a href="#equality">Equality</a></li>
+                <li><a href="#intersection-and-containment">Intersection and containment</a></li>
+                <li><a href="#normalization">Normalization</a></li>
+                <li><a href="#friends">Friends</a></li>
+                <li><a href="#related">Related</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://en.wikipedia.org/wiki/Plane_%28geometry%29" target="_blank">Plane</a></p></aside>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
+          <dl class="m-doc">
+            <dt id="a453a259e27f328a2449503cea5ce4318">
+              using <a class="m-doc-self" href="#a453a259e27f328a2449503cea5ce4318">constants</a> = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;<a class="m-doc" href="structmuu_1_1plane.html">plane</a>&gt;
+            </dt>
+            <dd>Compile-time plane constants.</dd>
+            <dt id="adcab9f359b67e7e522de98b8c8104e22">
+              using <a class="m-doc-self" href="#adcab9f359b67e7e522de98b8c8104e22">scalar_type</a> = Scalar
+            </dt>
+            <dd>The plane's scalar type.</dd>
+            <dt id="ab84d1abc27ca95d88dec6b24d159df84">
+              using <a class="m-doc-self" href="#ab84d1abc27ca95d88dec6b24d159df84">vector_type</a> = <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a>, 3&gt;
+            </dt>
+            <dd>The three-dimensional <a class="m-doc" href="structmuu_1_1vector.html">muu::<wbr/>vector</a> with the same <a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a> as the plane.</dd>
+          </dl>
+        </section>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+          <dl class="m-doc">
+            <dt id="ab1bb14fea3b8c93184e4797a1022916d">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ab1bb14fea3b8c93184e4797a1022916d">plane</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Default constructor. Values are not initialized.</dd>
+            <dt id="aa385fff11dce097c1dbd8ad561b94e47">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa385fff11dce097c1dbd8ad561b94e47">plane</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp;) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Copy constructor.</dd>
+            <dt id="aeb288621dc35283e56d82c69f99433a6">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aeb288621dc35283e56d82c69f99433a6">plane</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; n,
+              <a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a> d) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a plane from <code>n</code> and <code>d</code> terms.</dd>
+            <dt id="a3a3c3e1038a6cbc3415d0ae7f6d4919b">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3a3c3e1038a6cbc3415d0ae7f6d4919b">plane</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; position,
+              const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; direction) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a plane from a position and normal direction.</dd>
+            <dt id="a8ccde408f77d190bbc7b1f96beb978bd">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8ccde408f77d190bbc7b1f96beb978bd">plane</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; p2,
+              const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; p3) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a plane from three points.</dd>
+            <dt id="a3ed725fedf9441521faf7b01ddc64ea5">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3ed725fedf9441521faf7b01ddc64ea5">plane</a>(</span><span class="m-doc-wrap">const triangle&lt;<a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a>&gt;&amp; tri) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a plane from a triangle.</dd>
+            <dt id="afca3fcf801ccac6cb758af5b3bb5538c">
+              <div class="m-doc-template">template&lt;typename S&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#afca3fcf801ccac6cb758af5b3bb5538c">plane</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&lt;S&gt;&amp; p) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Converting constructor.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a>(</span><span class="m-doc-wrap">const T&amp; blittable) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a plane from an implicitly bit-castable type.</dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt id="a34d70856ba77358a6dcfa28f7bb2d2ce">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a34d70856ba77358a6dcfa28f7bb2d2ce">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp;) -&gt; <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Copy-assigment operator.</dd>
+          </dl>
+        </section>
+        <section id="pub-attribs">
+          <h2><a href="#pub-attribs">Public variables</a></h2>
+          <dl class="m-doc">
+            <dt id="a05c0d64b7b5eacc0c0d3f88b4c13e047">
+              <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a> <a class="m-doc-self" href="#a05c0d64b7b5eacc0c0d3f88b4c13e047">n</a>
+            </dt>
+            <dd>The plane's normal direction.</dd>
+            <dt id="a4f6422b3ea83f89e939ce521d6d06aa5">
+              <a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a> <a class="m-doc-self" href="#a4f6422b3ea83f89e939ce521d6d06aa5">d</a>
+            </dt>
+            <dd>The <code>d</code> term of the plane equation.</dd>
+          </dl>
+        </section>
+        <section id="distance-and-projection">
+          <h2><a href="#distance-and-projection">Distance and projection</a></h2>
+          <dl class="m-doc">
+            <dt id="af0831c4724a7948d3bb9a1f212e6a530">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#af0831c4724a7948d3bb9a1f212e6a530">distance</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; p,
+              const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; point) -&gt; <a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the unsigned distance of a point from a plane.</dd>
+            <dt id="a52a7c3d8492dec7e675ddbce471e0c65">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a52a7c3d8492dec7e675ddbce471e0c65">project</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; p,
+              const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; point) -&gt; <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the projection of a point onto a plane.</dd>
+            <dt id="a46032d29a79d0f4e239c3c331783c733">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a46032d29a79d0f4e239c3c331783c733">signed_distance</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; p,
+              const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; point) -&gt; <a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the signed distance of a point from a plane.</dd>
+            <dt id="aacffe605c2b847161e1e232b74f89081">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aacffe605c2b847161e1e232b74f89081">distance</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; point) const -&gt; <a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the unsigned distance of a point from the plane.</dd>
+            <dt id="a278b38f3419153f7bdcb7e04cf8f830c">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a278b38f3419153f7bdcb7e04cf8f830c">project</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; point) const -&gt; <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the projection of a point onto the plane.</dd>
+            <dt id="acac6bf0f89fb9b8773e34e6c21e8e708">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#acac6bf0f89fb9b8773e34e6c21e8e708">signed_distance</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; point) const -&gt; <a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the signed distance of a point from the plane.</dd>
+          </dl>
+        </section>
+        <section id="equality">
+          <h2><a href="#equality">Equality</a></h2>
+          <dl class="m-doc">
+            <dt id="aae015261375676408d61b5a8e3434081">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#aae015261375676408d61b5a8e3434081">approx_empty</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; p,
+              <a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a plane has approximately zero volume.</dd>
+            <dt id="a1aa7b971c7db4e18df62e28ebd31e670">
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a1aa7b971c7db4e18df62e28ebd31e670">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&lt;T&gt;&amp; p2,
+              <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;<a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a>, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a>, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two planes are approximately equal.</dd>
+            <dt id="adf8ac43672339b9b30c69c48e3e41661">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#adf8ac43672339b9b30c69c48e3e41661">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; p,
+              <a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if all the scalar components in a plane are approximately equal to zero.</dd>
+            <dt id="af1923ff478b5291f13138eca16c2baf8">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#af1923ff478b5291f13138eca16c2baf8">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; p) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the scalar components of a plane are infinity or NaN.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#aec8b3a9016fcb4680d4967454dc1b0c7">zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; p) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if all the scalar components of a plane are exactly zero.</dd>
+            <dt id="a3bf25ef232d42cec5734dc6e7f60643b">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a3bf25ef232d42cec5734dc6e7f60643b">approx_empty</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a>&gt;) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the plane has approximately zero volume.</dd>
+            <dt id="ad8b5c0a78be7df3766e48dcb6d6e0666">
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad8b5c0a78be7df3766e48dcb6d6e0666">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&lt;T&gt;&amp; p,
+              <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;<a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a>, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a>, T&gt;) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the plane is approximately equal to another.</dd>
+            <dt id="a0361e927ddbef9c6c1cf658bf3cf157c">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0361e927ddbef9c6c1cf658bf3cf157c">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a>&gt;) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if all the scalar components in the plane are approximately equal to zero.</dd>
+            <dt id="a733c81629d2c92b37e84528847431308">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a733c81629d2c92b37e84528847431308">infinity_or_nan</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the scalar components of the plane are infinity or NaN.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a7cbefafdbf691a8245df81394ae5210d">zero</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if all the scalar components of the plane are exactly zero.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a295e8990c6ede4cec00b3255b7a190ba">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; lhs,
+              const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&lt;T&gt;&amp; rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two planes are not exactly equal.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a0fb8c8305c60c530f4875c966707fe4e">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; lhs,
+              const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&lt;T&gt;&amp; rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two planes are exactly equal.</dd>
+          </dl>
+        </section>
+        <section id="intersection-and-containment">
+          <h2><a href="#intersection-and-containment">Intersection and containment</a></h2>
+          <dl class="m-doc">
+            <dt id="a7317470da577b714f161efd8b77538de">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a7317470da577b714f161efd8b77538de">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; p,
+              const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; point) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a plane contains a point.</dd>
+            <dt id="a4e9f367c8d12193247c5bbef139b7ba7">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a4e9f367c8d12193247c5bbef139b7ba7">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; p,
+              const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a>&gt;&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a plane intersects a bounding box.</dd>
+            <dt id="a0cac5c4810799635509c6c81c1a46a0d">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0cac5c4810799635509c6c81c1a46a0d">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; point) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the plane contains a point.</dd>
+            <dt id="a1d71a75ce5543a0a4a5abc8d258c1ef9">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a1d71a75ce5543a0a4a5abc8d258c1ef9">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a>&gt;&amp; bb) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the plane intersects a bounding box.</dd>
+          </dl>
+        </section>
+        <section id="normalization">
+          <h2><a href="#normalization">Normalization</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a81f9f0f92c3e55d8c2d4299d1414f217">normalize</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; p) -&gt; <a class="m-doc" href="structmuu_1_1plane.html">plane</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Normalizes a plane.</dd>
+            <dt id="a4cd48d19b05b164156b0a9fe58a405a1">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a4cd48d19b05b164156b0a9fe58a405a1">normalized</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; p) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a plane is normalized.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a744f22c9bdba9e93ba1a322a550e5ed0">normalize</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Normalizes the plane (in-place).</dd>
+            <dt id="a16efc1d15f1177149a1ad349cee164a6">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a16efc1d15f1177149a1ad349cee164a6">normalized</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the plane is normalized.</dd>
+          </dl>
+        </section>
+        <section id="friends">
+          <h2><a href="#friends">Friends</a></h2>
+          <dl class="m-doc">
+            <dt id="af90b8d7f47eb1c7a031b855c47c5135c">
+              <div class="m-doc-template">template&lt;typename Char, typename Traits&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af90b8d7f47eb1c7a031b855c47c5135c">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
+              const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; p) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
+            </dt>
+            <dd>Writes a plane out to a text stream.</dd>
+          </dl>
+        </section>
+        <section id="related">
+          <h2><a href="#related">Related</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#gae2d90458dab99f2b1ff2283177ba5835">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&lt;S&gt;&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&lt;T&gt;&amp; p2,
+              <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;S, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two planes are approximately equal.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename S&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#gaffffd5920be4c9358ad1e0e0e57a7e15">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&lt;S&gt;&amp; p,
+              S epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if all the scalar components of a plane are approximately equal to zero.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename S&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gaa55cd1d8c3534c8ffc01aea226c26997">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&lt;S&gt;&amp; p) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the scalar components of a plane are infinity or NaN.</dd>
+            <dt id="a3d29ca53ac092c2e6f66617be57f61b2">
+              <div class="m-doc-template">template&lt;typename S&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a3d29ca53ac092c2e6f66617be57f61b2">normalized</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&lt;S&gt;&amp; p) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a plane is normalized.</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="aa021fffd4654f4bc1f44303f41ac6997"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;<br/>
+template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>plane&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa021fffd4654f4bc1f44303f41ac6997">plane</a>(</span><span class="m-doc-wrap">const T&amp; blittable) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Constructs a plane from an implicitly bit-castable type.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>A bit-castable type.</td>
+                </tr>
+              </tbody>
+            </table>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__meta.html#ga824ac2b58e006d4be8d4b0d6a0f7180d">muu::<wbr/>allow_implicit_bit_cast</a></p></aside>
+          </div></section>
+          <section class="m-doc-details" id="aec8b3a9016fcb4680d4967454dc1b0c7"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static bool muu::<wbr/>plane&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aec8b3a9016fcb4680d4967454dc1b0c7">zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; p) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if all the scalar components of a plane are exactly zero.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is an exact check; use <a class="m-doc" href="structmuu_1_1plane.html#adf8ac43672339b9b30c69c48e3e41661">approx_<wbr/>zero()</a> if you want an epsilon-based "near-enough" check.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a7cbefafdbf691a8245df81394ae5210d"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool muu::<wbr/>plane&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a7cbefafdbf691a8245df81394ae5210d">zero</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if all the scalar components of the plane are exactly zero.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is an exact check; use <a class="m-doc" href="structmuu_1_1plane.html#a1aa7b971c7db4e18df62e28ebd31e670">approx_<wbr/>equal()</a> if you want an epsilon-based "near-enough" check.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a295e8990c6ede4cec00b3255b7a190ba"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;<br/>
+template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">friend bool muu::<wbr/>plane&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a295e8990c6ede4cec00b3255b7a190ba">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; lhs,
+              const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&lt;T&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if two planes are not exactly equal.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is an exact check; use <a class="m-doc" href="structmuu_1_1plane.html#a1aa7b971c7db4e18df62e28ebd31e670">approx_<wbr/>equal()</a> if you want an epsilon-based "near-enough" check.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a0fb8c8305c60c530f4875c966707fe4e"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;<br/>
+template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">friend bool muu::<wbr/>plane&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0fb8c8305c60c530f4875c966707fe4e">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; lhs,
+              const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&lt;T&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if two planes are exactly equal.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is an exact check; use <a class="m-doc" href="structmuu_1_1plane.html#a1aa7b971c7db4e18df62e28ebd31e670">approx_<wbr/>equal()</a> if you want an epsilon-based "near-enough" check.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a81f9f0f92c3e55d8c2d4299d1414f217"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1plane.html">plane</a> muu::<wbr/>plane&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a81f9f0f92c3e55d8c2d4299d1414f217">normalize</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; p) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Normalizes a plane.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">p</td>
+                  <td>The plane to normalize.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A normalized copy of the input plane.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a744f22c9bdba9e93ba1a322a550e5ed0"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; muu::<wbr/>plane&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a744f22c9bdba9e93ba1a322a550e5ed0">normalize</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Normalizes the plane (in-place).</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>A reference to the plane.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+        </section>
+      </div>
+    </div>
+  </div>
+</article></main>
+<div class="m-doc-search" id="search">
+  <a href="#!" onclick="return hideSearch()"></a>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-m-8 m-push-m-2">
+        <div class="m-doc-search-header m-text m-small">
+          <div><span class="m-label m-default">Tab</span> / <span class="m-label m-default">T</span> to search, <span class="m-label m-default">Esc</span> to close</div>
+          <div id="search-symbolcount">…</div>
+        </div>
+        <div class="m-doc-search-content">
+          <form>
+            <input autocomplete="off" autofocus="autofocus" disabled="disabled" id="search-input" name="q" placeholder="Loading …" spellcheck="false" type="search"/>
+          </form>
+          <noscript class="m-text m-danger m-text-center">Unlike everything else in the docs, the search functionality <em>requires</em> JavaScript.</noscript>
+          <div class="m-text m-dim m-text-center" id="search-help">
+            <p class="m-noindent">Search for symbols, directories, files, pages or
+            modules. You can omit any prefix from the symbol or file path; adding a
+            <code>:</code> or <code>/</code> suffix lists all members of given symbol or
+            directory.</p>
+            <p class="m-noindent">Use <span class="m-label m-dim">↓</span>
+            / <span class="m-label m-dim">↑</span> to navigate through the list,
+            <span class="m-label m-dim">Enter</span> to go.
+            <span class="m-label m-dim">Tab</span> autocompletes common prefix, you can
+            copy a link to the result using <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">L</span> while <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">M</span> produces a Markdown link.</p>
+          </div>
+          <div class="m-text m-warning m-text-center" id="search-notfound">Sorry, nothing was found.</div>
+          <ul id="search-results"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="search-v1.js"></script>
+<script async="async" src="searchdata-v1.js"></script>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        
+<a class="poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
+
+•
+<a class="poxy-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
+an
+issue</a>
+
+•
+<a download="" href="muu.tagfile.xml" target="_blank" type="text/xml">Doxygen
+tagfile</a>
+
+<br/><br/>
+
+Documentation
+created
+using
+
+<a class="poxy-external" href="https://www.doxygen.nl/index.html" target="_blank">Doxygen</a>
+
++
+<a class="poxy-external" href="https://mcss.mosra.cz/documentation/doxygen/" target="_blank">mosra/m.css</a>
+
++
+<a class="poxy-external" href="https://github.com/marzer/poxy/" target="_blank">marzer/poxy</a>
+      </div>
+    </div>
+  </div>
+</nav></footer>
+
+
+</body></html>

@@ -21,6 +21,7 @@
     <includes id="vector_8h" name="vector.h" local="yes" imported="no">vector.h</includes>
     <includes id="quaternion_8h" name="quaternion.h" local="yes" imported="no">quaternion.h</includes>
     <includes id="matrix_8h" name="matrix.h" local="yes" imported="no">matrix.h</includes>
+    <includes id="plane_8h" name="plane.h" local="yes" imported="no">plane.h</includes>
     <includes id="bounding__box_8h" name="bounding_box.h" local="yes" imported="no">bounding_box.h</includes>
     <includes id="oriented__bounding__box_8h" name="oriented_bounding_box.h" local="yes" imported="no">oriented_bounding_box.h</includes>
     <includes id="scope__guard_8h" name="scope_guard.h" local="yes" imported="no">scope_guard.h</includes>
@@ -2420,6 +2421,43 @@
     </member>
   </compound>
   <compound kind="file">
+    <name>plane.h</name>
+    <filename>plane_8h.html</filename>
+    <class kind="struct">muu::plane</class>
+    <class kind="struct">std::tuple_size&lt; muu::plane&lt; Scalar &gt; &gt;</class>
+    <class kind="struct">std::tuple_element&lt; I, muu::plane&lt; Scalar &gt; &gt;</class>
+    <class kind="struct">muu::constants&lt; plane&lt; Scalar &gt; &gt;</class>
+    <namespace>muu</namespace>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>gaa55cd1d8c3534c8ffc01aea226c26997</anchor>
+      <arglist>(const plane&lt; S &gt; &amp;p) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>gae2d90458dab99f2b1ff2283177ba5835</anchor>
+      <arglist>(const plane&lt; S &gt; &amp;p1, const plane&lt; T &gt; &amp;p2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>gaffffd5920be4c9358ad1e0e0e57a7e15</anchor>
+      <arglist>(const plane&lt; S &gt; &amp;p, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>normalized</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>a3d29ca53ac092c2e6f66617be57f61b2</anchor>
+      <arglist>(const plane&lt; S &gt; &amp;p) noexcept</arglist>
+    </member>
+  </compound>
+  <compound kind="file">
     <name>preprocessor.h</name>
     <filename>preprocessor_8h.html</filename>
     <member kind="define">
@@ -3048,6 +3086,7 @@
   </compound>
   <compound kind="file">
     <name>quaternion.h</name>
+    <path>/root/project/include/muu/</path>
     <filename>quaternion_8h.html</filename>
     <includes id="vector_8h" name="vector.h" local="yes" imported="no">vector.h</includes>
     <class kind="struct">muu::axis_angle_rotation</class>
@@ -3080,9 +3119,9 @@
     </member>
     <member kind="function">
       <type>constexpr bool</type>
-      <name>unit_length</name>
-      <anchorfile>group__unit__length.html</anchorfile>
-      <anchor>ga85b832f6824677b76dff5080ebfbcf83</anchor>
+      <name>normalized</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>aa0566104402180d9b3945e6bae7f3615</anchor>
       <arglist>(const quaternion&lt; S &gt; &amp;q) noexcept</arglist>
     </member>
     <member kind="function">
@@ -3397,9 +3436,9 @@
     </member>
     <member kind="function">
       <type>constexpr bool</type>
-      <name>unit_length</name>
-      <anchorfile>group__unit__length.html</anchorfile>
-      <anchor>gaa23ee7220c00563698286c33249cd119</anchor>
+      <name>normalized</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>a528d334a55d0d8e0349b3b746bfd8f58</anchor>
       <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
     </member>
     <member kind="function">
@@ -3801,13 +3840,6 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>muu::constants&lt; vector_type &gt;</type>
-      <name>vector_constants</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>ad341b7aba05e8147552b972b162400a1</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
       <type>muu::constants&lt; bounding_box &gt;</type>
       <name>constants</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
@@ -3888,8 +3920,155 @@
       <type>constexpr</type>
       <name>bounding_box</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a51cec8b698c36db105de47ccf0c462bc</anchor>
+      <arglist>(const bounding_box&lt; S &gt; &amp;bb) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>bounding_box</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
       <anchor>a2d3c5c431a5314d4e895a3f1c76a222a</anchor>
       <arglist>(const T &amp;blittable) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>width</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a2a63fd23abca17ee46343911e748ed53</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>height</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a8146f7abf2341fa60057945678650560</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>depth</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a52925c1f1a06182e0f20aab02368c403</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>diagonal</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a00f7b4bf59f9b19833df9ece17ecae20</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type &amp;</type>
+      <name>shortest_extent</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>adfa498b9b7265cf36b760101924609a7</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type &amp;</type>
+      <name>longest_extent</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>addfc8fe8e82c0f58670e2e3d40f34bd2</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const scalar_type &amp;</type>
+      <name>shortest_extent</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>ad2e668e4c77b7751274cfada052f0a9a</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const scalar_type &amp;</type>
+      <name>longest_extent</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a4433b0e635d33a958b9c7c382eecb9c0</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>shortest_side</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a79441a48975bc1d2d8f5ef9b9d883a75</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>longest_side</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a45f4005da5180367d557652a922860bb</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>volume</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a777453ecb4a3b8709a1ad25c5f5b3b52</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>mass</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a3d9d0da074518f83a51a3435aacb6f22</anchor>
+      <arglist>(scalar_type density) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>density</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>aa3d8549536d6fec3baf7b2124adaa861</anchor>
+      <arglist>(scalar_type mass) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>degenerate</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>af303eb2ad2199e22152ed65f1c6e8887</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="variable">
+      <type>vector_type</type>
+      <name>center</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a4c83404f24da3aa9aa1c1bb79534147f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>vector_type</type>
+      <name>extents</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a3c2eb9e9617b2d6f626beaf95ddf2da5</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="friend">
+      <type>friend std::basic_ostream&lt; Char, Traits &gt; &amp;</type>
+      <name>operator&lt;&lt;</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>ac6f7eb610bdb56d8a20b7d91bab1b4c8</anchor>
+      <arglist>(std::basic_ostream&lt; Char, Traits &gt; &amp;os, const bounding_box &amp;bb)</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>ga4bac8a8324b2e1ef33cec0f7a8f718ce</anchor>
+      <arglist>(const bounding_box&lt; S &gt; &amp;q) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>ga0535df1acd603649ac9f793d96062112</anchor>
+      <arglist>(const bounding_box&lt; S &gt; &amp;q1, const bounding_box&lt; T &gt; &amp;q2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>ga75782bf3bacf4ef690b1811d84c9f7ea</anchor>
+      <arglist>(const bounding_box&lt; S &gt; &amp;q, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr scalar_type</type>
@@ -4031,68 +4210,19 @@
       <anchor>a5d0a02735010b277966b8ba2646f43c5</anchor>
       <arglist>(scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) const noexcept</arglist>
     </member>
-    <member kind="function">
-      <type>constexpr vector_type</type>
-      <name>corner</name>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator==</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>a85db2be79f61daa90990624f35451936</anchor>
-      <arglist>() const noexcept</arglist>
+      <anchor>acbfecef565d1d2899692dccb4c1a8eb0</anchor>
+      <arglist>(const bounding_box &amp;lhs, const bounding_box&lt; T &gt; &amp;rhs) noexcept</arglist>
     </member>
-    <member kind="function">
-      <type>constexpr vector_type</type>
-      <name>corner</name>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator!=</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>ab9acce8c7f88eb1cc7d9ee2cd37ea0f5</anchor>
-      <arglist>(box_corners which) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector_type</type>
-      <name>min_corner</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>a50ccde767b3ca822579aa4c08e317d21</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector_type</type>
-      <name>max_corner</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>aee167f7f3d43664309d089635e405c3d</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bounding_box &amp;</type>
-      <name>translate</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>ab91bcae10186e49385d03565acdd53eb</anchor>
-      <arglist>(const vector_type &amp;offset) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bounding_box &amp;</type>
-      <name>scale</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>a6398c383f0469873d05a622fea380485</anchor>
-      <arglist>(const vector_type &amp;scale_) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>contains</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>afd5ecc1f6389e35561f56b1e74677b52</anchor>
-      <arglist>(const vector_type &amp;point) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>intersects</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>a8b6752cb23ed16b834f8bdd0b9e7b2b0</anchor>
-      <arglist>(const bounding_box &amp;bb) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>intersects_triangle</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>a050dd305a87fb68273eb92a74fe4c8ad</anchor>
-      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2) const noexcept</arglist>
+      <anchor>aed7dc7fd597a6824f90000873ad87e28</anchor>
+      <arglist>(const bounding_box &amp;lhs, const bounding_box&lt; T &gt; &amp;rhs) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
@@ -4136,6 +4266,34 @@
       <anchor>ad685f7bed0f4cb45b261ad352df1fd50</anchor>
       <arglist>(const bounding_box &amp;bb, scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr vector_type</type>
+      <name>corner</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a85db2be79f61daa90990624f35451936</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector_type</type>
+      <name>corner</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>ab9acce8c7f88eb1cc7d9ee2cd37ea0f5</anchor>
+      <arglist>(box_corners which) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector_type</type>
+      <name>min_corner</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a50ccde767b3ca822579aa4c08e317d21</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector_type</type>
+      <name>max_corner</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>aee167f7f3d43664309d089635e405c3d</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
     <member kind="function" static="yes">
       <type>static constexpr vector_type</type>
       <name>corner</name>
@@ -4164,6 +4322,20 @@
       <anchor>a025907e7c305c3fe9f26ba9fa1e44820</anchor>
       <arglist>(const bounding_box &amp;bb) noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr bounding_box &amp;</type>
+      <name>translate</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>ab91bcae10186e49385d03565acdd53eb</anchor>
+      <arglist>(const vector_type &amp;offset) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bounding_box &amp;</type>
+      <name>scale</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a6398c383f0469873d05a622fea380485</anchor>
+      <arglist>(const vector_type &amp;scale_) noexcept</arglist>
+    </member>
     <member kind="function" static="yes">
       <type>static constexpr bounding_box</type>
       <name>translate</name>
@@ -4177,6 +4349,41 @@
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
       <anchor>a14c9253d3c66190db9d2a9465feec95a</anchor>
       <arglist>(const bounding_box &amp;bb, const vector_type &amp;scale_) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>afd5ecc1f6389e35561f56b1e74677b52</anchor>
+      <arglist>(const vector_type &amp;point) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a8b6752cb23ed16b834f8bdd0b9e7b2b0</anchor>
+      <arglist>(const bounding_box &amp;bb) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a40ee6c90cefcbbb204030c249d055339</anchor>
+      <arglist>(const plane&lt; scalar_type &gt; &amp;p) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>ad32e8d2c31361c262ad9fec27d4a5f12</anchor>
+      <arglist>(const triangle&lt; scalar_type &gt; &amp;tri) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>intersects_triangle</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a050dd305a87fb68273eb92a74fe4c8ad</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2) const noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
@@ -4194,66 +4401,24 @@
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a69228a4772245bf42cfe9111b40b33e1</anchor>
+      <arglist>(const bounding_box &amp;bb, const plane&lt; scalar_type &gt; &amp;p) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a53aaa74149026b6c347d182d232c33d2</anchor>
+      <arglist>(const bounding_box &amp;bb, const triangle&lt; scalar_type &gt; &amp;tri) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
       <name>intersects_triangle</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
       <anchor>ad99bb78151bab1bd6552724e10e8d820</anchor>
       <arglist>(const bounding_box &amp;bb, const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2) noexcept</arglist>
-    </member>
-    <member kind="variable">
-      <type>vector_type</type>
-      <name>center</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>a4c83404f24da3aa9aa1c1bb79534147f</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>vector_type</type>
-      <name>extents</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>a3c2eb9e9617b2d6f626beaf95ddf2da5</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend bool</type>
-      <name>operator==</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>acbfecef565d1d2899692dccb4c1a8eb0</anchor>
-      <arglist>(const bounding_box &amp;lhs, const bounding_box&lt; T &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend bool</type>
-      <name>operator!=</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>aed7dc7fd597a6824f90000873ad87e28</anchor>
-      <arglist>(const bounding_box &amp;lhs, const bounding_box&lt; T &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>friend std::basic_ostream&lt; Char, Traits &gt; &amp;</type>
-      <name>operator&lt;&lt;</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>ac6f7eb610bdb56d8a20b7d91bab1b4c8</anchor>
-      <arglist>(std::basic_ostream&lt; Char, Traits &gt; &amp;os, const bounding_box &amp;bb)</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>group__infinity__or__nan.html</anchorfile>
-      <anchor>ga4bac8a8324b2e1ef33cec0f7a8f718ce</anchor>
-      <arglist>(const bounding_box&lt; S &gt; &amp;q) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_equal</name>
-      <anchorfile>group__approx__equal.html</anchorfile>
-      <anchor>ga0535df1acd603649ac9f793d96062112</anchor>
-      <arglist>(const bounding_box&lt; S &gt; &amp;q1, const bounding_box&lt; T &gt; &amp;q2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_zero</name>
-      <anchorfile>group__approx__zero.html</anchorfile>
-      <anchor>ga75782bf3bacf4ef690b1811d84c9f7ea</anchor>
-      <arglist>(const bounding_box&lt; S &gt; &amp;q, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -4462,6 +4627,39 @@
       <name>identity</name>
       <anchorfile>structmuu_1_1constants_3_01matrix_3_01_scalar_00_01_rows_00_01_columns_01_4_01_4.html</anchorfile>
       <anchor>ab78829fc7af3571956a8f98a04c3dd32</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
+    <name>muu::constants&lt; plane&lt; Scalar &gt; &gt;</name>
+    <filename>structmuu_1_1constants_3_01plane_3_01_scalar_01_4_01_4.html</filename>
+    <templarg>typename Scalar</templarg>
+    <member kind="variable" static="yes">
+      <type>static constexpr plane&lt; Scalar &gt;</type>
+      <name>zero</name>
+      <anchorfile>structmuu_1_1constants_3_01plane_3_01_scalar_01_4_01_4.html</anchorfile>
+      <anchor>aecf57f68eb4950ee2c7c0daf06b8bac9</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr plane&lt; Scalar &gt;</type>
+      <name>xy</name>
+      <anchorfile>structmuu_1_1constants_3_01plane_3_01_scalar_01_4_01_4.html</anchorfile>
+      <anchor>a6fdbb22d3d61df3ce2491f324b3c7e6e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr plane&lt; Scalar &gt;</type>
+      <name>xz</name>
+      <anchorfile>structmuu_1_1constants_3_01plane_3_01_scalar_01_4_01_4.html</anchorfile>
+      <anchor>a25d0ce9065d6f5817f735ef869dac89e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr plane&lt; Scalar &gt;</type>
+      <name>yz</name>
+      <anchorfile>structmuu_1_1constants_3_01plane_3_01_scalar_01_4_01_4.html</anchorfile>
+      <anchor>a886e4847e43aa8161364d4c564dda09a</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -5190,13 +5388,6 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>muu::constants&lt; scalar_type &gt;</type>
-      <name>scalar_constants</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>afc5dd472071c02aab5a514eba07979a4</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
       <type>vector&lt; scalar_type, columns &gt;</type>
       <name>row_type</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
@@ -5654,24 +5845,10 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>muu::constants&lt; vector_type &gt;</type>
-      <name>vector_constants</name>
-      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>a03e7cbf1560abbb3f5d8bfe9b80b89fd</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
       <type>matrix&lt; scalar_type, 3, 3 &gt;</type>
       <name>axes_type</name>
       <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
       <anchor>abf37942d5f32f6dcf31336990fca9fd2</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>muu::constants&lt; axes_type &gt;</type>
-      <name>axes_constants</name>
-      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>a24f432c998d25032283bb9f3a82ef8c0</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -5755,8 +5932,155 @@
       <type>constexpr</type>
       <name>oriented_bounding_box</name>
       <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>a26c97079d2340b6ce69933cabe8441d5</anchor>
+      <arglist>(const oriented_bounding_box&lt; S &gt; &amp;bb) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>oriented_bounding_box</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
       <anchor>a04b7966c37e8d27c44ec39da6c2da058</anchor>
       <arglist>(const T &amp;blittable) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>width</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>a23fbae24deb285286d6b5f370419aab6</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>height</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>a42b619cb0292870b30c574772ded549e</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>depth</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>a8ab3110c8ffa5c91d3c007b49616a375</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>diagonal</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>aa0bdad0153bf50a8df0bb4d4c0128cec</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type &amp;</type>
+      <name>shortest_extent</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>a8a103afae4fe537d9429828834a9eb12</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type &amp;</type>
+      <name>longest_extent</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>a371f4238d84e89a56c509fc078bf7b85</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const scalar_type &amp;</type>
+      <name>shortest_extent</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>a92632202298fe2388bc4d45630975891</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const scalar_type &amp;</type>
+      <name>longest_extent</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>a57afc721917b9298bf23e869d8166a9c</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>shortest_side</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>af12acf86104a1c9b700262cffa3e2c44</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>longest_side</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>aa1eeaa2cb32dc0fbab840bee5e3ce40f</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>volume</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>a66b0ff4d757468a63397f3acdc5e6b4c</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>mass</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>a8574bbecdb31fe44bb57d44698289096</anchor>
+      <arglist>(scalar_type density) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>density</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>ac3f351d5d65a443686a0eec3ec29c6e0</anchor>
+      <arglist>(scalar_type mass) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>degenerate</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>aa5de84ac81f4b8f0df92db8151a7dd04</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="variable">
+      <type>vector_type</type>
+      <name>center</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>a93a7c36e8fc43c3737ac4170c949a5f8</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>vector_type</type>
+      <name>extents</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>ac4542677a8de3faee8f11390bcffe84c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>axes_type</type>
+      <name>axes</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>a06266afb86562e550b7442dfd6d525ba</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>gade7f3e7d056853c9e542ec453394a9c4</anchor>
+      <arglist>(const oriented_bounding_box&lt; S &gt; &amp;q) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>ga44033f904b7ed733949dab5e6acccd16</anchor>
+      <arglist>(const oriented_bounding_box&lt; S &gt; &amp;q1, const oriented_bounding_box&lt; T &gt; &amp;q2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>ga4c274a76495695493647b4e0b7af1299</anchor>
+      <arglist>(const oriented_bounding_box&lt; S &gt; &amp;q, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr scalar_type</type>
@@ -5898,47 +6222,19 @@
       <anchor>ac0ea263ca8231e840c6d869b1963b6c8</anchor>
       <arglist>(scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) const noexcept</arglist>
     </member>
-    <member kind="function">
-      <type>constexpr vector_type</type>
-      <name>corner</name>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator==</name>
       <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>afad2a18986d9be74adfb474d7aa78aa6</anchor>
-      <arglist>() const noexcept</arglist>
+      <anchor>a04d8bb7b2d9cd6f14fe9487a0b244ee4</anchor>
+      <arglist>(const oriented_bounding_box &amp;lhs, const oriented_bounding_box&lt; T &gt; &amp;rhs) noexcept</arglist>
     </member>
-    <member kind="function">
-      <type>constexpr vector_type</type>
-      <name>corner</name>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator!=</name>
       <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>aca452c3f4d3494423c70f14b7cf52dfe</anchor>
-      <arglist>(box_corners which) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector_type</type>
-      <name>min_corner</name>
-      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>a44284127a6816ae5e43d86151551ccae</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr vector_type</type>
-      <name>max_corner</name>
-      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>a212aeb2948556abc3dd3fc95a150d6b4</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr oriented_bounding_box &amp;</type>
-      <name>translate</name>
-      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>aebff1db2fb7a0ed35c4f07f68405a792</anchor>
-      <arglist>(const vector_type &amp;offset) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr oriented_bounding_box &amp;</type>
-      <name>scale</name>
-      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>abce84ebbd395a20132fa2ba5a30fe210</anchor>
-      <arglist>(const vector_type &amp;scale_) noexcept</arglist>
+      <anchor>a0e5fa8d1fb2631dfec6a793ade4b52af</anchor>
+      <arglist>(const oriented_bounding_box &amp;lhs, const oriented_bounding_box&lt; T &gt; &amp;rhs) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
@@ -5982,6 +6278,34 @@
       <anchor>ade9ef8665b56174cd7ecd25fdb884612</anchor>
       <arglist>(const oriented_bounding_box &amp;bb, scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr vector_type</type>
+      <name>corner</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>afad2a18986d9be74adfb474d7aa78aa6</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector_type</type>
+      <name>corner</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>aca452c3f4d3494423c70f14b7cf52dfe</anchor>
+      <arglist>(box_corners which) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector_type</type>
+      <name>min_corner</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>a44284127a6816ae5e43d86151551ccae</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector_type</type>
+      <name>max_corner</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>a212aeb2948556abc3dd3fc95a150d6b4</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
     <member kind="function" static="yes">
       <type>static constexpr vector_type</type>
       <name>corner</name>
@@ -6010,6 +6334,20 @@
       <anchor>a00d1cb3e9f64b75b7430fa5df43fd102</anchor>
       <arglist>(const oriented_bounding_box &amp;bb) noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr oriented_bounding_box &amp;</type>
+      <name>translate</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>aebff1db2fb7a0ed35c4f07f68405a792</anchor>
+      <arglist>(const vector_type &amp;offset) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr oriented_bounding_box &amp;</type>
+      <name>scale</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>abce84ebbd395a20132fa2ba5a30fe210</anchor>
+      <arglist>(const vector_type &amp;scale_) noexcept</arglist>
+    </member>
     <member kind="function" static="yes">
       <type>static constexpr oriented_bounding_box</type>
       <name>translate</name>
@@ -6024,61 +6362,325 @@
       <anchor>adba7fd88ffaa708f3366fb1b48b68352</anchor>
       <arglist>(const oriented_bounding_box &amp;bb, const vector_type &amp;scale_) noexcept</arglist>
     </member>
-    <member kind="variable">
-      <type>vector_type</type>
-      <name>center</name>
-      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>a93a7c36e8fc43c3737ac4170c949a5f8</anchor>
+  </compound>
+  <compound kind="struct">
+    <name>muu::plane</name>
+    <filename>structmuu_1_1plane.html</filename>
+    <templarg>typename Scalar</templarg>
+    <member kind="typedef">
+      <type>Scalar</type>
+      <name>scalar_type</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>adcab9f359b67e7e522de98b8c8104e22</anchor>
       <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>vector&lt; scalar_type, 3 &gt;</type>
+      <name>vector_type</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>ab84d1abc27ca95d88dec6b24d159df84</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>muu::constants&lt; plane &gt;</type>
+      <name>constants</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a453a259e27f328a2449503cea5ce4318</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>plane</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>ab1bb14fea3b8c93184e4797a1022916d</anchor>
+      <arglist>() noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>plane</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>aa385fff11dce097c1dbd8ad561b94e47</anchor>
+      <arglist>(const plane &amp;) noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr plane &amp;</type>
+      <name>operator=</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a34d70856ba77358a6dcfa28f7bb2d2ce</anchor>
+      <arglist>(const plane &amp;) noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>plane</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>aeb288621dc35283e56d82c69f99433a6</anchor>
+      <arglist>(const vector_type &amp;n, scalar_type d) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>plane</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a3a3c3e1038a6cbc3415d0ae7f6d4919b</anchor>
+      <arglist>(const vector_type &amp;position, const vector_type &amp;direction) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>plane</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a8ccde408f77d190bbc7b1f96beb978bd</anchor>
+      <arglist>(const vector_type &amp;p1, const vector_type &amp;p2, const vector_type &amp;p3) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>plane</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a3ed725fedf9441521faf7b01ddc64ea5</anchor>
+      <arglist>(const triangle&lt; scalar_type &gt; &amp;tri) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>plane</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>afca3fcf801ccac6cb758af5b3bb5538c</anchor>
+      <arglist>(const plane&lt; S &gt; &amp;p) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>plane</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>aa021fffd4654f4bc1f44303f41ac6997</anchor>
+      <arglist>(const T &amp;blittable) noexcept</arglist>
     </member>
     <member kind="variable">
       <type>vector_type</type>
-      <name>extents</name>
-      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>ac4542677a8de3faee8f11390bcffe84c</anchor>
+      <name>n</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a05c0d64b7b5eacc0c0d3f88b4c13e047</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
-      <type>axes_type</type>
-      <name>axes</name>
-      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>a06266afb86562e550b7442dfd6d525ba</anchor>
+      <type>scalar_type</type>
+      <name>d</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a4f6422b3ea83f89e939ce521d6d06aa5</anchor>
       <arglist></arglist>
     </member>
     <member kind="friend">
-      <type>constexpr friend bool</type>
-      <name>operator==</name>
-      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>a04d8bb7b2d9cd6f14fe9487a0b244ee4</anchor>
-      <arglist>(const oriented_bounding_box &amp;lhs, const oriented_bounding_box&lt; T &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend bool</type>
-      <name>operator!=</name>
-      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>a0e5fa8d1fb2631dfec6a793ade4b52af</anchor>
-      <arglist>(const oriented_bounding_box &amp;lhs, const oriented_bounding_box&lt; T &gt; &amp;rhs) noexcept</arglist>
+      <type>friend std::basic_ostream&lt; Char, Traits &gt; &amp;</type>
+      <name>operator&lt;&lt;</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>af90b8d7f47eb1c7a031b855c47c5135c</anchor>
+      <arglist>(std::basic_ostream&lt; Char, Traits &gt; &amp;os, const plane &amp;p)</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
       <name>infinity_or_nan</name>
       <anchorfile>group__infinity__or__nan.html</anchorfile>
-      <anchor>gade7f3e7d056853c9e542ec453394a9c4</anchor>
-      <arglist>(const oriented_bounding_box&lt; S &gt; &amp;q) noexcept</arglist>
+      <anchor>gaa55cd1d8c3534c8ffc01aea226c26997</anchor>
+      <arglist>(const plane&lt; S &gt; &amp;p) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
       <name>approx_equal</name>
       <anchorfile>group__approx__equal.html</anchorfile>
-      <anchor>ga44033f904b7ed733949dab5e6acccd16</anchor>
-      <arglist>(const oriented_bounding_box&lt; S &gt; &amp;q1, const oriented_bounding_box&lt; T &gt; &amp;q2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
+      <anchor>gae2d90458dab99f2b1ff2283177ba5835</anchor>
+      <arglist>(const plane&lt; S &gt; &amp;p1, const plane&lt; T &gt; &amp;p2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
       <name>approx_zero</name>
       <anchorfile>group__approx__zero.html</anchorfile>
-      <anchor>ga4c274a76495695493647b4e0b7af1299</anchor>
-      <arglist>(const oriented_bounding_box&lt; S &gt; &amp;q, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
+      <anchor>gaffffd5920be4c9358ad1e0e0e57a7e15</anchor>
+      <arglist>(const plane&lt; S &gt; &amp;p, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>normalized</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a3d29ca53ac092c2e6f66617be57f61b2</anchor>
+      <arglist>(const plane&lt; S &gt; &amp;p) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>zero</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a7cbefafdbf691a8245df81394ae5210d</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a733c81629d2c92b37e84528847431308</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>ad8b5c0a78be7df3766e48dcb6d6e0666</anchor>
+      <arglist>(const plane&lt; T &gt; &amp;p, epsilon_type&lt; scalar_type, T &gt; epsilon=default_epsilon&lt; scalar_type, T &gt;) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a0361e927ddbef9c6c1cf658bf3cf157c</anchor>
+      <arglist>(scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_empty</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a3bf25ef232d42cec5734dc6e7f60643b</anchor>
+      <arglist>(scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) const noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator==</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a0fb8c8305c60c530f4875c966707fe4e</anchor>
+      <arglist>(const plane &amp;lhs, const plane&lt; T &gt; &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator!=</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a295e8990c6ede4cec00b3255b7a190ba</anchor>
+      <arglist>(const plane &amp;lhs, const plane&lt; T &gt; &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>zero</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>aec8b3a9016fcb4680d4967454dc1b0c7</anchor>
+      <arglist>(const plane &amp;p) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>af1923ff478b5291f13138eca16c2baf8</anchor>
+      <arglist>(const plane &amp;p) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a1aa7b971c7db4e18df62e28ebd31e670</anchor>
+      <arglist>(const plane &amp;p1, const plane&lt; T &gt; &amp;p2, epsilon_type&lt; scalar_type, T &gt; epsilon=default_epsilon&lt; scalar_type, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>adf8ac43672339b9b30c69c48e3e41661</anchor>
+      <arglist>(const plane &amp;p, scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>approx_empty</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>aae015261375676408d61b5a8e3434081</anchor>
+      <arglist>(const plane &amp;p, scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr plane &amp;</type>
+      <name>normalize</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a744f22c9bdba9e93ba1a322a550e5ed0</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>normalized</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a16efc1d15f1177149a1ad349cee164a6</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr plane</type>
+      <name>normalize</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a81f9f0f92c3e55d8c2d4299d1414f217</anchor>
+      <arglist>(const plane &amp;p) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>normalized</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a4cd48d19b05b164156b0a9fe58a405a1</anchor>
+      <arglist>(const plane &amp;p) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>signed_distance</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>acac6bf0f89fb9b8773e34e6c21e8e708</anchor>
+      <arglist>(const vector_type &amp;point) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>distance</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>aacffe605c2b847161e1e232b74f89081</anchor>
+      <arglist>(const vector_type &amp;point) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector_type</type>
+      <name>project</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a278b38f3419153f7bdcb7e04cf8f830c</anchor>
+      <arglist>(const vector_type &amp;point) const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr scalar_type</type>
+      <name>signed_distance</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a46032d29a79d0f4e239c3c331783c733</anchor>
+      <arglist>(const plane &amp;p, const vector_type &amp;point) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr scalar_type</type>
+      <name>distance</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>af0831c4724a7948d3bb9a1f212e6a530</anchor>
+      <arglist>(const plane &amp;p, const vector_type &amp;point) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr vector_type</type>
+      <name>project</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a52a7c3d8492dec7e675ddbce471e0c65</anchor>
+      <arglist>(const plane &amp;p, const vector_type &amp;point) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a0cac5c4810799635509c6c81c1a46a0d</anchor>
+      <arglist>(const vector_type &amp;point) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a1d71a75ce5543a0a4a5abc8d258c1ef9</anchor>
+      <arglist>(const bounding_box&lt; scalar_type &gt; &amp;bb) const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a7317470da577b714f161efd8b77538de</anchor>
+      <arglist>(const plane &amp;p, const vector_type &amp;point) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a4e9f367c8d12193247c5bbef139b7ba7</anchor>
+      <arglist>(const plane &amp;p, const bounding_box&lt; scalar_type &gt; &amp;bb) noexcept</arglist>
     </member>
   </compound>
   <compound kind="struct">
@@ -6093,24 +6695,10 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>muu::constants&lt; scalar_type &gt;</type>
-      <name>scalar_constants</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>a2f2110f3051bc97dc7f2823c1ea10983</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
       <type>vector&lt; scalar_type, 3 &gt;</type>
       <name>vector_type</name>
       <anchorfile>structmuu_1_1quaternion.html</anchorfile>
       <anchor>a6f37d9dfd591c57a0e51174a983adbc9</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>muu::constants&lt; vector_type &gt;</type>
-      <name>vector_constants</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>a043d861cf52b16fce2a1dc36380a4bdb</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -6241,13 +6829,6 @@
     </member>
     <member kind="function">
       <type>constexpr bool</type>
-      <name>unit_length</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>a9b7b7fbd50c2d4c53763bc998f579031</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
       <name>approx_equal</name>
       <anchorfile>structmuu_1_1quaternion.html</anchorfile>
       <anchor>a6ee8ed2fdcf2fd017677cf99d4acc525</anchor>
@@ -6273,6 +6854,13 @@
       <anchorfile>structmuu_1_1quaternion.html</anchorfile>
       <anchor>a36aa1796676b0c19ee1bf7cc865b015b</anchor>
       <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>normalized</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>a1ce28a44e301349333106cc868529945</anchor>
+      <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr quaternion</type>
@@ -6332,13 +6920,6 @@
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
-      <name>unit_length</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>aac39fe5923e9831e125c8f29bc9b9008</anchor>
-      <arglist>(const quaternion &amp;q) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
       <name>approx_equal</name>
       <anchorfile>structmuu_1_1quaternion.html</anchorfile>
       <anchor>aedc3132c8c2ea6a38fe049f2005c7674</anchor>
@@ -6363,6 +6944,13 @@
       <name>normalize</name>
       <anchorfile>structmuu_1_1quaternion.html</anchorfile>
       <anchor>ac7c2a825862798bdf28f8d36ece6a49b</anchor>
+      <arglist>(const quaternion &amp;q) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>normalized</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>a423f11901b4166e38166c0e4027f58b6</anchor>
       <arglist>(const quaternion &amp;q) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
@@ -6514,9 +7102,9 @@
     </member>
     <member kind="function">
       <type>constexpr bool</type>
-      <name>unit_length</name>
-      <anchorfile>group__unit__length.html</anchorfile>
-      <anchor>ga85b832f6824677b76dff5080ebfbcf83</anchor>
+      <name>normalized</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>aa0566104402180d9b3945e6bae7f3615</anchor>
       <arglist>(const quaternion&lt; S &gt; &amp;q) noexcept</arglist>
     </member>
     <member kind="function">
@@ -7643,6 +8231,12 @@
     <templarg>typename Scalar</templarg>
   </compound>
   <compound kind="struct">
+    <name>std::tuple_element&lt; I, muu::plane&lt; Scalar &gt; &gt;</name>
+    <filename>structstd_1_1tuple__element_3_01_i_00_01muu_1_1plane_3_01_scalar_01_4_01_4.html</filename>
+    <templarg>size_t I</templarg>
+    <templarg>typename Scalar</templarg>
+  </compound>
+  <compound kind="struct">
     <name>std::tuple_element&lt; I, muu::quaternion&lt; Scalar &gt; &gt;</name>
     <filename>structstd_1_1tuple__element_3_01_i_00_01muu_1_1quaternion_3_01_scalar_01_4_01_4.html</filename>
     <templarg>size_t I</templarg>
@@ -7669,6 +8263,11 @@
   <compound kind="struct">
     <name>std::tuple_size&lt; muu::oriented_bounding_box&lt; Scalar &gt; &gt;</name>
     <filename>structstd_1_1tuple__size_3_01muu_1_1oriented__bounding__box_3_01_scalar_01_4_01_4.html</filename>
+    <templarg>typename Scalar</templarg>
+  </compound>
+  <compound kind="struct">
+    <name>std::tuple_size&lt; muu::plane&lt; Scalar &gt; &gt;</name>
+    <filename>structstd_1_1tuple__size_3_01muu_1_1plane_3_01_scalar_01_4_01_4.html</filename>
     <templarg>typename Scalar</templarg>
   </compound>
   <compound kind="struct">
@@ -7944,13 +8543,6 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>muu::constants&lt; scalar_type &gt;</type>
-      <name>scalar_constants</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a2b7acf3193b202ee6919652c81c67a9e</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
       <type>vector&lt; product_type, dimensions &gt;</type>
       <name>vector_product</name>
       <anchorfile>structmuu_1_1vector.html</anchorfile>
@@ -8217,13 +8809,6 @@
       <arglist>(const vector &amp;p) const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr bool</type>
-      <name>unit_length</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a2fbb1a0e7898551fd58369c05baa3ab4</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
       <type>constexpr product_type</type>
       <name>dot</name>
       <anchorfile>structmuu_1_1vector.html</anchorfile>
@@ -8341,6 +8926,13 @@
       <anchorfile>structmuu_1_1vector.html</anchorfile>
       <anchor>a32ae668d84413aeb7f8a1e260102bc0a</anchor>
       <arglist>(delta_type lensq) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>normalized</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>ad375771f19e2d46e15239018a5b52126</anchor>
+      <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr vector_product</type>
@@ -8483,13 +9075,6 @@
       <arglist>(const vector &amp;p1, const vector &amp;p2) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>unit_length</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aac145e556c43a0ab014241c1639246ef</anchor>
-      <arglist>(const vector &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
       <type>static constexpr product_type</type>
       <name>dot</name>
       <anchorfile>structmuu_1_1vector.html</anchorfile>
@@ -8523,6 +9108,13 @@
       <anchorfile>structmuu_1_1vector.html</anchorfile>
       <anchor>a687841de9f109ebb27ff1d270a73770f</anchor>
       <arglist>(const vector &amp;v, delta_type v_lensq) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>normalized</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a31247a06a9f0c3aea6866ac63c738d58</anchor>
+      <arglist>(const vector &amp;v) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr vector_product</type>
@@ -8757,9 +9349,9 @@
     </member>
     <member kind="function">
       <type>constexpr bool</type>
-      <name>unit_length</name>
-      <anchorfile>group__unit__length.html</anchorfile>
-      <anchor>gaa23ee7220c00563698286c33249cd119</anchor>
+      <name>normalized</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a528d334a55d0d8e0349b3b746bfd8f58</anchor>
       <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
     </member>
     <member kind="function">
@@ -8987,6 +9579,8 @@
     <class kind="struct">muu::matrix</class>
     <class kind="struct">muu::constants&lt; matrix&lt; Scalar, Rows, Columns &gt; &gt;</class>
     <class kind="struct">muu::oriented_bounding_box</class>
+    <class kind="struct">muu::plane</class>
+    <class kind="struct">muu::constants&lt; plane&lt; Scalar &gt; &gt;</class>
     <class kind="struct">muu::axis_angle_rotation</class>
     <class kind="struct">muu::euler_rotation</class>
     <class kind="struct">muu::quaternion</class>
@@ -10636,6 +11230,34 @@
       <type>constexpr bool</type>
       <name>infinity_or_nan</name>
       <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>gaa55cd1d8c3534c8ffc01aea226c26997</anchor>
+      <arglist>(const plane&lt; S &gt; &amp;p) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>gae2d90458dab99f2b1ff2283177ba5835</anchor>
+      <arglist>(const plane&lt; S &gt; &amp;p1, const plane&lt; T &gt; &amp;p2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>gaffffd5920be4c9358ad1e0e0e57a7e15</anchor>
+      <arglist>(const plane&lt; S &gt; &amp;p, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>normalized</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>a3d29ca53ac092c2e6f66617be57f61b2</anchor>
+      <arglist>(const plane&lt; S &gt; &amp;p) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
       <anchor>gaffcaea7f39fc17894285d8221923387e</anchor>
       <arglist>(const quaternion&lt; S &gt; &amp;q) noexcept</arglist>
     </member>
@@ -10655,9 +11277,9 @@
     </member>
     <member kind="function">
       <type>constexpr bool</type>
-      <name>unit_length</name>
-      <anchorfile>group__unit__length.html</anchorfile>
-      <anchor>ga85b832f6824677b76dff5080ebfbcf83</anchor>
+      <name>normalized</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>aa0566104402180d9b3945e6bae7f3615</anchor>
       <arglist>(const quaternion&lt; S &gt; &amp;q) noexcept</arglist>
     </member>
     <member kind="function">
@@ -10837,9 +11459,9 @@
     </member>
     <member kind="function">
       <type>constexpr bool</type>
-      <name>unit_length</name>
-      <anchorfile>group__unit__length.html</anchorfile>
-      <anchor>gaa23ee7220c00563698286c33249cd119</anchor>
+      <name>normalized</name>
+      <anchorfile>namespacemuu.html</anchorfile>
+      <anchor>a528d334a55d0d8e0349b3b746bfd8f58</anchor>
       <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
     </member>
     <member kind="function">
@@ -13146,6 +13768,7 @@
     <class kind="struct">muu::constants&lt; half &gt;</class>
     <class kind="struct">std::numeric_limits&lt; muu::half &gt;</class>
     <class kind="struct">muu::constants&lt; matrix&lt; Scalar, Rows, Columns &gt; &gt;</class>
+    <class kind="struct">muu::constants&lt; plane&lt; Scalar &gt; &gt;</class>
     <class kind="struct">muu::constants&lt; quaternion&lt; Scalar &gt; &gt;</class>
     <class kind="struct">muu::constants&lt; uuid &gt;</class>
     <class kind="struct">muu::constants&lt; vector&lt; Scalar, Dimensions &gt; &gt;</class>
@@ -13425,11 +14048,11 @@
     <subgroup>sin</subgroup>
     <subgroup>sqrt</subgroup>
     <subgroup>tan</subgroup>
-    <subgroup>unit_length</subgroup>
     <class kind="class">muu::accumulator</class>
     <class kind="struct">muu::bounding_box</class>
     <class kind="struct">muu::matrix</class>
     <class kind="struct">muu::oriented_bounding_box</class>
+    <class kind="struct">muu::plane</class>
     <class kind="struct">muu::axis_angle_rotation</class>
     <class kind="struct">muu::euler_rotation</class>
     <class kind="struct">muu::quaternion</class>
@@ -15140,6 +15763,13 @@
       <type>constexpr bool</type>
       <name>approx_equal</name>
       <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>gae2d90458dab99f2b1ff2283177ba5835</anchor>
+      <arglist>(const plane&lt; S &gt; &amp;p1, const plane&lt; T &gt; &amp;p2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
       <anchor>ga6b8d6921c4f39c5881a7ea6f95f33392</anchor>
       <arglist>(const quaternion&lt; S &gt; &amp;q1, const quaternion&lt; T &gt; &amp;q2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
     </member>
@@ -15177,6 +15807,13 @@
       <anchorfile>group__approx__equal.html</anchorfile>
       <anchor>ga44033f904b7ed733949dab5e6acccd16</anchor>
       <arglist>(const oriented_bounding_box&lt; S &gt; &amp;q1, const oriented_bounding_box&lt; T &gt; &amp;q2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>gae2d90458dab99f2b1ff2283177ba5835</anchor>
+      <arglist>(const plane&lt; S &gt; &amp;p1, const plane&lt; T &gt; &amp;p2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -15278,6 +15915,13 @@
       <type>constexpr bool</type>
       <name>approx_zero</name>
       <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>gaffffd5920be4c9358ad1e0e0e57a7e15</anchor>
+      <arglist>(const plane&lt; S &gt; &amp;p, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
       <anchor>ga04dec66856dc79915e9130ef3693e9f2</anchor>
       <arglist>(const quaternion&lt; S &gt; &amp;q, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
     </member>
@@ -15315,6 +15959,13 @@
       <anchorfile>group__approx__zero.html</anchorfile>
       <anchor>ga4c274a76495695493647b4e0b7af1299</anchor>
       <arglist>(const oriented_bounding_box&lt; S &gt; &amp;q, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>gaffffd5920be4c9358ad1e0e0e57a7e15</anchor>
+      <arglist>(const plane&lt; S &gt; &amp;p, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -15859,6 +16510,13 @@
       <type>constexpr bool</type>
       <name>infinity_or_nan</name>
       <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>gaa55cd1d8c3534c8ffc01aea226c26997</anchor>
+      <arglist>(const plane&lt; S &gt; &amp;p) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
       <anchor>gaffcaea7f39fc17894285d8221923387e</anchor>
       <arglist>(const quaternion&lt; S &gt; &amp;q) noexcept</arglist>
     </member>
@@ -15896,6 +16554,13 @@
       <anchorfile>group__infinity__or__nan.html</anchorfile>
       <anchor>gade7f3e7d056853c9e542ec453394a9c4</anchor>
       <arglist>(const oriented_bounding_box&lt; S &gt; &amp;q) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>gaa55cd1d8c3534c8ffc01aea226c26997</anchor>
+      <arglist>(const plane&lt; S &gt; &amp;p) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -18015,39 +18680,6 @@
       <anchorfile>group__trim__right.html</anchorfile>
       <anchor>ga5c65eceb22233e5c09096e48cadeb195</anchor>
       <arglist>(std::u32string_view str) noexcept</arglist>
-    </member>
-  </compound>
-  <compound kind="group">
-    <name>unit_length</name>
-    <title>unit_length()</title>
-    <filename>group__unit__length.html</filename>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>unit_length</name>
-      <anchorfile>group__unit__length.html</anchorfile>
-      <anchor>ga85b832f6824677b76dff5080ebfbcf83</anchor>
-      <arglist>(const quaternion&lt; S &gt; &amp;q) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>unit_length</name>
-      <anchorfile>group__unit__length.html</anchorfile>
-      <anchor>gaa23ee7220c00563698286c33249cd119</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>unit_length</name>
-      <anchorfile>group__unit__length.html</anchorfile>
-      <anchor>ga85b832f6824677b76dff5080ebfbcf83</anchor>
-      <arglist>(const quaternion&lt; S &gt; &amp;q) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>unit_length</name>
-      <anchorfile>group__unit__length.html</anchorfile>
-      <anchor>gaa23ee7220c00563698286c33249cd119</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
     </member>
   </compound>
   <compound kind="page">

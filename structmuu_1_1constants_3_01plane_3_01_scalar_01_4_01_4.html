@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>Math » unit_length() module | muu Useful utilities for modern C++</title>
+  <title>muu::constants&lt;plane&lt;Scalar&gt;&gt; struct | muu Useful utilities for modern C++</title>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
   <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
   <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
@@ -56,56 +56,43 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="group__math.html">Math</a> »</span>
-          unit_length() <span class="m-thin">module</span></h1>
-        <p>Unit length checks for vector types.</p>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="plane_8h.html">&lt;muu/plane.h&gt;</a></div>
+          <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
+          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a>&lt;Scalar&gt;&gt; <span class="m-thin">struct</span>
+        </h1>
+        <p>Plane constants.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#func-members">Functions</a></li>
+                <li><a href="#pub-static-attribs">Public static variables</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="func-members">
-          <h2><a href="#func-members">Functions</a></h2>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="structmuu_1_1plane.html">muu::<wbr/>plane</a></p></aside>
+        <section id="pub-static-attribs">
+          <h2><a href="#pub-static-attribs">Public static variables</a></h2>
           <dl class="m-doc">
-            <dt>
-              <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga85b832f6824677b76dff5080ebfbcf83">unit_length</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a6fdbb22d3d61df3ce2491f324b3c7e6e">
+              static <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&lt;Scalar&gt; <a class="m-doc-self" href="#a6fdbb22d3d61df3ce2491f324b3c7e6e">xy</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a #quaternion is unit-length (i.e. has a length of 1).</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaa23ee7220c00563698286c33249cd119">unit_length</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dd>The XY <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a>.</dd>
+            <dt id="a25d0ce9065d6f5817f735ef869dac89e">
+              static <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&lt;Scalar&gt; <a class="m-doc-self" href="#a25d0ce9065d6f5817f735ef869dac89e">xz</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a vector is unit-length (i.e. has a length of 1).</dd>
+            <dd>The XZ <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a>.</dd>
+            <dt id="a886e4847e43aa8161364d4c564dda09a">
+              static <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&lt;Scalar&gt; <a class="m-doc-self" href="#a886e4847e43aa8161364d4c564dda09a">yz</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>The YZ <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a>.</dd>
+            <dt id="aecf57f68eb4950ee2c7c0daf06b8bac9">
+              static <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&lt;Scalar&gt; <a class="m-doc-self" href="#aecf57f68eb4950ee2c7c0daf06b8bac9">zero</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>A <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a> with all members initialized to zero.</dd>
           </dl>
-        </section>
-        <section>
-          <h2>Function documentation</h2>
-          <section class="m-doc-details" id="ga85b832f6824677b76dff5080ebfbcf83"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="quaternion_8h.html">&lt;muu/quaternion.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename S&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga85b832f6824677b76dff5080ebfbcf83">unit_length</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Returns true if a #quaternion is unit-length (i.e. has a length of 1).</p>
-          </div></section>
-          <section class="m-doc-details" id="gaa23ee7220c00563698286c33249cd119"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="vector_8h.html">&lt;muu/vector.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaa23ee7220c00563698286c33249cd119">unit_length</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Returns true if a vector is unit-length (i.e. has a length of 1).</p>
-          </div></section>
         </section>
       </div>
     </div>
