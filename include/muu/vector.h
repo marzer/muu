@@ -845,8 +845,7 @@ namespace muu
 		///
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
 		///
-		/// \note		This constructor is implicit when given an implicitly bit-castable type, `explicit`
-		/// otherwise.
+		/// \note		This constructor is implicit when given an implicitly bit-castable type, `explicit` otherwise.
 		///
 		/// \see muu::allow_implicit_bit_cast
 		MUU_CONSTRAINED_TEMPLATE((!impl::is_vector_<T>							//
@@ -1005,8 +1004,7 @@ namespace muu
 		{}
 
 		/// \brief Constructs a vector from a dynamically-sized muu::span.
-		/// \details			Any scalar components not covered by the constructor's parameters are initialized to
-		/// zero.
+		/// \details			Any scalar components not covered by the constructor's parameters are initialized to zero.
 		///
 		/// \tparam T			Type convertible to #scalar_type.
 		/// \param	vals		A span representing the values to copy.
@@ -1308,18 +1306,18 @@ namespace muu
 
 		/// \brief	Returns true if two vectors are approximately equal.
 		///
-		/// \availability		This function is only available when at least one of #scalar_type and `T` is a
-		/// floating-point type.
+		/// \availability		This function is only available when at least one of #scalar_type
+		///						and `T` is a floating-point type.
 		MUU_CONSTRAINED_TEMPLATE((any_floating_point<Scalar, T> //
 								  && (!MUU_HAS_VECTORCALL
 									  || impl::pass_vectorcall_by_reference<vector, vector<T, Dimensions>>)),
 								 typename T)
 		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr bool MUU_VECTORCALL
-		approx_equal(const vector& v1,
-					 const vector<T, dimensions>& v2,
-					 epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
+		static constexpr bool MUU_VECTORCALL approx_equal(
+			const vector& v1,
+			const vector<T, dimensions>& v2,
+			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
 		{
 			// clang-format off
 			if constexpr (std::is_same_v<scalar_type, T>)
@@ -1348,10 +1346,10 @@ namespace muu
 								   typename T)
 		MUU_NODISCARD
 		MUU_ATTR(const)
-		static constexpr bool MUU_VECTORCALL
-		approx_equal(vector v1,
-					 vector<T, dimensions> v2,
-					 epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
+		static constexpr bool MUU_VECTORCALL approx_equal(
+			vector v1,
+			vector<T, dimensions> v2,
+			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
 		{
 			// clang-format off
 			if constexpr (std::is_same_v<scalar_type, T>)
@@ -1377,17 +1375,17 @@ namespace muu
 
 		/// \brief	Returns true if the vector is approximately equal to another.
 		///
-		/// \availability		This function is only available when at least one of #scalar_type and `T` is a
-		/// floating-point type.
+		/// \availability		This function is only available when at least one of #scalar_type
+		///						and `T` is a floating-point type.
 		MUU_CONSTRAINED_TEMPLATE((any_floating_point<Scalar, T> //
 								  && (!MUU_HAS_VECTORCALL
 									  || impl::pass_vectorcall_by_reference<vector<T, Dimensions>>)),
 								 typename T)
 		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr bool MUU_VECTORCALL
-		approx_equal(const vector<T, dimensions>& v,
-					 epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) const noexcept
+		constexpr bool MUU_VECTORCALL approx_equal(
+			const vector<T, dimensions>& v,
+			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) const noexcept
 		{
 			return approx_equal(*this, v, epsilon);
 		}
@@ -1399,9 +1397,9 @@ namespace muu
 								   typename T)
 		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr bool MUU_VECTORCALL
-		approx_equal(vector<T, dimensions> v,
-					 epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) const noexcept
+		constexpr bool MUU_VECTORCALL approx_equal(
+			vector<T, dimensions> v,
+			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) const noexcept
 		{
 			return approx_equal(*this, v, epsilon);
 		}
@@ -2508,8 +2506,8 @@ namespace muu
 	#endif // min, max and clamp
 
 	#if 1 // swizzles -------------------------------------------------------------------------------------------------
-		  /// \name Swizzles
-		  ///@{
+		/// \name Swizzles
+		///@{
 
 		/// \brief Creates a vector by selecting and re-packing scalar components from
 		/// 	   another vector in an abitrary order.
@@ -2838,7 +2836,7 @@ namespace muu
 	#endif // misc
 	};
 
-	/// \cond deduction_guides
+	/// \cond
 
 	MUU_CONSTRAINED_TEMPLATE((all_arithmetic<T, U, V...>), typename T, typename U, typename... V)
 	vector(T, U, V...)->vector<impl::highest_ranked<T, U, V...>, 2 + sizeof...(V)>;

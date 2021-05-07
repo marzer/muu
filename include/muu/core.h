@@ -20,11 +20,12 @@ MUU_DISABLE_WARNINGS;
 // core.h include file rationale:
 // - If it's small and simple it can go in (c headers are generally OK)
 // - If it drags in half the standard library or is itself a behemoth it stays out (<algorithm>...)
-// 
+//
 // Or, put differently: If the 'impact' is anything above green-yellow according to
 // https://artificial-mind.net/projects/compile-health/, or measuring off-the-charts expensive according to
-// https://www.reddit.com/r/cpp/comments/eumou7/stl_header_token_parsing_benchmarks_for_vs2017/, it's a no from me, dawg.
-// 
+// https://www.reddit.com/r/cpp/comments/eumou7/stl_header_token_parsing_benchmarks_for_vs2017/, it's a no from me,
+// dawg.
+//
 // Mercifully, most things that you might feel compelled to stick here can be worked around by forward-declarations.
 #include <cstring>
 #include <climits>
@@ -44,7 +45,7 @@ MUU_ENABLE_WARNINGS;
 
 #include "impl/header_start.h" // must always be last in this list of headers
 MUU_DISABLE_ARITHMETIC_WARNINGS;
-MUU_PRAGMA_MSVC(warning(disable: 26475)) // core guidelines: do not use function style C-casts
+MUU_PRAGMA_MSVC(warning(disable : 26475)) // core guidelines: do not use function style C-casts
 
 //======================================================================================================================
 // ENVIRONMENT GROUND-TRUTHS
@@ -52,12 +53,13 @@ MUU_PRAGMA_MSVC(warning(disable: 26475)) // core guidelines: do not use function
 
 /// \cond
 #ifndef MUU_DISABLE_ENVIRONMENT_CHECKS
-#define MUU_ENV_MESSAGE																								\
-	"If you're seeing this error it's because you're building muu for an environment that doesn't conform to "		\
-	"one of the 'ground truths' assumed by the library. Essentially this just means that I don't have the "			\
-	"resources to test on more esoteric platforms, but I wish I did! You can try disabling the checks by defining "	\
-	"MUU_DISABLE_ENVIRONMENT_CHECKS, but your mileage may vary. Please consider filing an issue at "				\
-	"https://github.com/marzer/muu/issues to help me improve support for your target environment. Thanks!"
+	#define MUU_ENV_MESSAGE                                                                                            \
+		"If you're seeing this error it's because you're building muu for an environment that doesn't conform to "     \
+		"one of the 'ground truths' assumed by the library. Essentially this just means that I don't have the "        \
+		"resources to test on more esoteric platforms, but I wish I did! You can try disabling the checks by "         \
+		"defining "                                                                                                    \
+		"MUU_DISABLE_ENVIRONMENT_CHECKS, but your mileage may vary. Please consider filing an issue at "               \
+		"https://github.com/marzer/muu/issues to help me improve support for your target environment. Thanks!"
 
 static_assert(CHAR_BIT == 8, MUU_ENV_MESSAGE);
 static_assert(FLT_RADIX == 2, MUU_ENV_MESSAGE);
@@ -67,7 +69,7 @@ static_assert(sizeof(wchar_t) * CHAR_BIT == MUU_WCHAR_BITS, MUU_ENV_MESSAGE);
 static_assert(std::numeric_limits<float>::is_iec559, MUU_ENV_MESSAGE);
 static_assert(std::numeric_limits<double>::is_iec559, MUU_ENV_MESSAGE);
 
-#undef MUU_ENV_MESSAGE
+	#undef MUU_ENV_MESSAGE
 #endif // !MUU_DISABLE_ENVIRONMENT_CHECKS
 /// \endcond
 
@@ -81,85 +83,219 @@ namespace muu::impl
 	// note that all the structs with nested types end in underscores;
 	// this is a disambiguation mechanism for code in the impl namespace.
 
-	template <typename T, typename U> struct rebase_ref_ { using type = U; };
-	template <typename T, typename U> struct rebase_ref_<T&, U> { using type = std::add_lvalue_reference_t<U>; };
-	template <typename T, typename U> struct rebase_ref_<T&&, U> { using type = std::add_rvalue_reference_t<U>; };
+	template <typename T, typename U>
+	struct rebase_ref_
+	{
+		using type = U;
+	};
+	template <typename T, typename U>
+	struct rebase_ref_<T&, U>
+	{
+		using type = std::add_lvalue_reference_t<U>;
+	};
+	template <typename T, typename U>
+	struct rebase_ref_<T&&, U>
+	{
+		using type = std::add_rvalue_reference_t<U>;
+	};
 
-	template <typename T, typename U> struct rebase_pointer_
+	template <typename T, typename U>
+	struct rebase_pointer_
 	{
 		static_assert(std::is_pointer_v<T>);
 		using type = U*;
 	};
-	template <typename T, typename U> struct rebase_pointer_<const volatile T*, U> { using type = std::add_const_t<std::add_volatile_t<U>>*; };
-	template <typename T, typename U> struct rebase_pointer_<volatile T*, U> { using type = std::add_volatile_t<U>*; };
-	template <typename T, typename U> struct rebase_pointer_<const T*, U> { using type = std::add_const_t<U>*; };
-	template <typename T, typename U> struct rebase_pointer_<T&, U> { using type = typename rebase_pointer_<T, U>::type&; };
-	template <typename T, typename U> struct rebase_pointer_<T&&, U> { using type = typename rebase_pointer_<T, U>::type&&; };
+	template <typename T, typename U>
+	struct rebase_pointer_<const volatile T*, U>
+	{
+		using type = std::add_const_t<std::add_volatile_t<U>>*;
+	};
+	template <typename T, typename U>
+	struct rebase_pointer_<volatile T*, U>
+	{
+		using type = std::add_volatile_t<U>*;
+	};
+	template <typename T, typename U>
+	struct rebase_pointer_<const T*, U>
+	{
+		using type = std::add_const_t<U>*;
+	};
+	template <typename T, typename U>
+	struct rebase_pointer_<T&, U>
+	{
+		using type = typename rebase_pointer_<T, U>::type&;
+	};
+	template <typename T, typename U>
+	struct rebase_pointer_<T&&, U>
+	{
+		using type = typename rebase_pointer_<T, U>::type&&;
+	};
 
 	template <typename T, bool = std::is_enum_v<std::remove_reference_t<T>>>
 	struct remove_enum_
 	{
 		using type = std::underlying_type_t<T>;
 	};
-	template <typename T> struct remove_enum_<T, false> { using type = T; };
-	template <typename T> struct remove_enum_<const volatile T, true> { using type = const volatile typename remove_enum_<T>::type; };
-	template <typename T> struct remove_enum_<volatile T, true> { using type = volatile typename remove_enum_<T>::type; };
-	template <typename T> struct remove_enum_<const T, true> { using type = const typename remove_enum_<T>::type; };
-	template <typename T> struct remove_enum_<T&, true> { using type = typename remove_enum_<T>::type&; };
-	template <typename T> struct remove_enum_<T&&, true> { using type = typename remove_enum_<T>::type&&; };
+	template <typename T>
+	struct remove_enum_<T, false>
+	{
+		using type = T;
+	};
+	template <typename T>
+	struct remove_enum_<const volatile T, true>
+	{
+		using type = const volatile typename remove_enum_<T>::type;
+	};
+	template <typename T>
+	struct remove_enum_<volatile T, true>
+	{
+		using type = volatile typename remove_enum_<T>::type;
+	};
+	template <typename T>
+	struct remove_enum_<const T, true>
+	{
+		using type = const typename remove_enum_<T>::type;
+	};
+	template <typename T>
+	struct remove_enum_<T&, true>
+	{
+		using type = typename remove_enum_<T>::type&;
+	};
+	template <typename T>
+	struct remove_enum_<T&&, true>
+	{
+		using type = typename remove_enum_<T>::type&&;
+	};
 
 	template <typename T>
-	struct remove_noexcept_ { using type = T; };
+	struct remove_noexcept_
+	{
+		using type = T;
+	};
 	template <typename T>
-	struct remove_noexcept_<const T> { using type = const typename remove_noexcept_<T>::type; };
+	struct remove_noexcept_<const T>
+	{
+		using type = const typename remove_noexcept_<T>::type;
+	};
 	template <typename T>
-	struct remove_noexcept_<volatile T> { using type = volatile typename remove_noexcept_<T>::type; };
+	struct remove_noexcept_<volatile T>
+	{
+		using type = volatile typename remove_noexcept_<T>::type;
+	};
 	template <typename T>
-	struct remove_noexcept_<const volatile T> { using type = const volatile typename remove_noexcept_<T>::type; };
+	struct remove_noexcept_<const volatile T>
+	{
+		using type = const volatile typename remove_noexcept_<T>::type;
+	};
 	template <typename T>
-	struct remove_noexcept_<T&> { using type = typename remove_noexcept_<T>::type&; };
+	struct remove_noexcept_<T&>
+	{
+		using type = typename remove_noexcept_<T>::type&;
+	};
 	template <typename T>
-	struct remove_noexcept_<T&&> { using type = typename remove_noexcept_<T>::type&&; };
-	template <typename R, typename ...P>
-	struct remove_noexcept_<R(P...) noexcept> { using type = R(P...); };
-	template <typename R, typename ...P>
-	struct remove_noexcept_<R(*)(P...) noexcept> { using type = R(*)(P...); };
-	template <typename C, typename R, typename ...P>
-	struct remove_noexcept_<R(C::*)(P...) noexcept> { using type = R(C::*)(P...); };
-	template <typename C, typename R, typename ...P>
-	struct remove_noexcept_<R(C::*)(P...) & noexcept> { using type = R(C::*)(P...)&; };
-	template <typename C, typename R, typename ...P>
-	struct remove_noexcept_<R(C::*)(P...) && noexcept> { using type = R(C::*)(P...)&&; };
-	template <typename C, typename R, typename ...P>
-	struct remove_noexcept_<R(C::*)(P...) const noexcept> { using type = R(C::*)(P...) const; };
-	template <typename C, typename R, typename ...P>
-	struct remove_noexcept_<R(C::*)(P...) const& noexcept> { using type = R(C::*)(P...) const&; };
-	template <typename C, typename R, typename ...P>
-	struct remove_noexcept_<R(C::*)(P...) const&& noexcept> { using type = R(C::*)(P...) const&&; };
-	template <typename C, typename R, typename ...P>
-	struct remove_noexcept_<R(C::*)(P...) volatile noexcept> { using type = R(C::*)(P...) volatile; };
-	template <typename C, typename R, typename ...P>
-	struct remove_noexcept_<R(C::*)(P...) volatile& noexcept> { using type = R(C::*)(P...) volatile&; };
-	template <typename C, typename R, typename ...P>
-	struct remove_noexcept_<R(C::*)(P...) volatile&& noexcept> { using type = R(C::*)(P...) volatile&&; };
-	template <typename C, typename R, typename ...P>
-	struct remove_noexcept_<R(C::*)(P...) const volatile noexcept> { using type = R(C::*)(P...) const volatile; };
-	template <typename C, typename R, typename ...P>
-	struct remove_noexcept_<R(C::*)(P...) const volatile& noexcept> { using type = R(C::*)(P...) const volatile&; };
-	template <typename C, typename R, typename ...P>
-	struct remove_noexcept_<R(C::*)(P...) const volatile&& noexcept> { using type = R(C::*)(P...) const volatile&&; };
+	struct remove_noexcept_<T&&>
+	{
+		using type = typename remove_noexcept_<T>::type&&;
+	};
+	template <typename R, typename... P>
+	struct remove_noexcept_<R(P...) noexcept>
+	{
+		using type = R(P...);
+	};
+	template <typename R, typename... P>
+	struct remove_noexcept_<R (*)(P...) noexcept>
+	{
+		using type = R (*)(P...);
+	};
+	template <typename C, typename R, typename... P>
+	struct remove_noexcept_<R (C::*)(P...) noexcept>
+	{
+		using type = R (C::*)(P...);
+	};
+	template <typename C, typename R, typename... P>
+	struct remove_noexcept_<R (C::*)(P...)& noexcept>
+	{
+		using type = R (C::*)(P...) &;
+	};
+	template <typename C, typename R, typename... P>
+	struct remove_noexcept_<R (C::*)(P...)&& noexcept>
+	{
+		using type = R (C::*)(P...) &&;
+	};
+	template <typename C, typename R, typename... P>
+	struct remove_noexcept_<R (C::*)(P...) const noexcept>
+	{
+		using type = R (C::*)(P...) const;
+	};
+	template <typename C, typename R, typename... P>
+	struct remove_noexcept_<R (C::*)(P...) const& noexcept>
+	{
+		using type = R (C::*)(P...) const&;
+	};
+	template <typename C, typename R, typename... P>
+	struct remove_noexcept_<R (C::*)(P...) const&& noexcept>
+	{
+		using type = R (C::*)(P...) const&&;
+	};
+	template <typename C, typename R, typename... P>
+	struct remove_noexcept_<R (C::*)(P...) volatile noexcept>
+	{
+		using type = R (C::*)(P...) volatile;
+	};
+	template <typename C, typename R, typename... P>
+	struct remove_noexcept_<R (C::*)(P...) volatile& noexcept>
+	{
+		using type = R (C::*)(P...) volatile&;
+	};
+	template <typename C, typename R, typename... P>
+	struct remove_noexcept_<R (C::*)(P...) volatile&& noexcept>
+	{
+		using type = R (C::*)(P...) volatile&&;
+	};
+	template <typename C, typename R, typename... P>
+	struct remove_noexcept_<R (C::*)(P...) const volatile noexcept>
+	{
+		using type = R (C::*)(P...) const volatile;
+	};
+	template <typename C, typename R, typename... P>
+	struct remove_noexcept_<R (C::*)(P...) const volatile& noexcept>
+	{
+		using type = R (C::*)(P...) const volatile&;
+	};
+	template <typename C, typename R, typename... P>
+	struct remove_noexcept_<R (C::*)(P...) const volatile&& noexcept>
+	{
+		using type = R (C::*)(P...) const volatile&&;
+	};
 
 	template <typename T>
 	struct alignment_of_
 	{
 		static constexpr size_t value = alignof(T);
 	};
-	template <> struct alignment_of_<void> { static constexpr size_t value = 1; };
-	template <typename R, typename ...P> struct alignment_of_<R(P...)> { static constexpr size_t value = 1; };
-	template <typename R, typename ...P> struct alignment_of_<R(P...)noexcept> { static constexpr size_t value = 1; };
+	template <>
+	struct alignment_of_<void>
+	{
+		static constexpr size_t value = 1;
+	};
+	template <typename R, typename... P>
+	struct alignment_of_<R(P...)>
+	{
+		static constexpr size_t value = 1;
+	};
+	template <typename R, typename... P>
+	struct alignment_of_<R(P...) noexcept>
+	{
+		static constexpr size_t value = 1;
+	};
 
-	template <typename...> struct largest_;
-	template <typename T> struct largest_<T> { using type = T; };
+	template <typename...>
+	struct largest_;
+	template <typename T>
+	struct largest_<T>
+	{
+		using type = T;
+	};
 	template <typename T, typename U>
 	struct largest_<T, U>
 	{
@@ -171,8 +307,13 @@ namespace muu::impl
 		using type = typename largest_<T, typename largest_<U, V...>::type>::type;
 	};
 
-	template <typename...>	struct smallest_;
-	template <typename T>	struct smallest_<T> { using type = T; };
+	template <typename...>
+	struct smallest_;
+	template <typename T>
+	struct smallest_<T>
+	{
+		using type = T;
+	};
 	template <typename T, typename U>
 	struct smallest_<T, U>
 	{
@@ -184,14 +325,43 @@ namespace muu::impl
 		using type = typename smallest_<T, typename smallest_<U, V...>::type>::type;
 	};
 
-	template <typename...>	struct most_aligned_;
-	template <typename T>	struct most_aligned_<T> { using type = T; };
-	template <typename T>	struct most_aligned_<T, void> { using type = T; };
-	template <typename T>	struct most_aligned_<void, T> { using type = T; };
-	template <typename T, typename R, typename P> struct most_aligned_<T, R(P...)> { using type = T; };
-	template <typename T, typename R, typename P> struct most_aligned_<R(P...), T> { using type = T; };
-	template <typename T, typename R, typename P> struct most_aligned_<T, R(P...)noexcept> { using type = T; };
-	template <typename T, typename R, typename P> struct most_aligned_<R(P...)noexcept, T> { using type = T; };
+	template <typename...>
+	struct most_aligned_;
+	template <typename T>
+	struct most_aligned_<T>
+	{
+		using type = T;
+	};
+	template <typename T>
+	struct most_aligned_<T, void>
+	{
+		using type = T;
+	};
+	template <typename T>
+	struct most_aligned_<void, T>
+	{
+		using type = T;
+	};
+	template <typename T, typename R, typename P>
+	struct most_aligned_<T, R(P...)>
+	{
+		using type = T;
+	};
+	template <typename T, typename R, typename P>
+	struct most_aligned_<R(P...), T>
+	{
+		using type = T;
+	};
+	template <typename T, typename R, typename P>
+	struct most_aligned_<T, R(P...) noexcept>
+	{
+		using type = T;
+	};
+	template <typename T, typename R, typename P>
+	struct most_aligned_<R(P...) noexcept, T>
+	{
+		using type = T;
+	};
 	template <typename T, typename U>
 	struct most_aligned_<T, U>
 	{
@@ -203,14 +373,43 @@ namespace muu::impl
 		using type = typename most_aligned_<T, typename most_aligned_<U, V...>::type>::type;
 	};
 
-	template <typename...>	struct least_aligned_;
-	template <typename T>	struct least_aligned_<T> { using type = T; };
-	template <typename T>	struct least_aligned_<T, void> { using type = T; };
-	template <typename T>	struct least_aligned_<void, T> { using type = T; };
-	template <typename T, typename R, typename P> struct least_aligned_<T, R(P...)> { using type = T; };
-	template <typename T, typename R, typename P> struct least_aligned_<R(P...), T> { using type = T; };
-	template <typename T, typename R, typename P> struct least_aligned_<T, R(P...)noexcept> { using type = T; };
-	template <typename T, typename R, typename P> struct least_aligned_<R(P...)noexcept, T> { using type = T; };
+	template <typename...>
+	struct least_aligned_;
+	template <typename T>
+	struct least_aligned_<T>
+	{
+		using type = T;
+	};
+	template <typename T>
+	struct least_aligned_<T, void>
+	{
+		using type = T;
+	};
+	template <typename T>
+	struct least_aligned_<void, T>
+	{
+		using type = T;
+	};
+	template <typename T, typename R, typename P>
+	struct least_aligned_<T, R(P...)>
+	{
+		using type = T;
+	};
+	template <typename T, typename R, typename P>
+	struct least_aligned_<R(P...), T>
+	{
+		using type = T;
+	};
+	template <typename T, typename R, typename P>
+	struct least_aligned_<T, R(P...) noexcept>
+	{
+		using type = T;
+	};
+	template <typename T, typename R, typename P>
+	struct least_aligned_<R(P...) noexcept, T>
+	{
+		using type = T;
+	};
 	template <typename T, typename U>
 	struct least_aligned_<T, U>
 	{
@@ -222,62 +421,209 @@ namespace muu::impl
 		using type = typename least_aligned_<T, typename least_aligned_<U, V...>::type>::type;
 	};
 
-	template <size_t Bits> struct signed_integer_;
-	template <> struct signed_integer_<8> { using type = int8_t; };
-	template <> struct signed_integer_<16> { using type = int16_t; };
-	template <> struct signed_integer_<32> { using type = int32_t; };
-	template <> struct signed_integer_<64> { using type = int64_t; };
+	template <size_t Bits>
+	struct signed_integer_;
+	template <>
+	struct signed_integer_<8>
+	{
+		using type = int8_t;
+	};
+	template <>
+	struct signed_integer_<16>
+	{
+		using type = int16_t;
+	};
+	template <>
+	struct signed_integer_<32>
+	{
+		using type = int32_t;
+	};
+	template <>
+	struct signed_integer_<64>
+	{
+		using type = int64_t;
+	};
 	#if MUU_HAS_INT128
-	template <> struct signed_integer_<128> { using type = int128_t; };
+	template <>
+	struct signed_integer_<128>
+	{
+		using type = int128_t;
+	};
 	#endif
 
-	template <size_t Bits> struct unsigned_integer_;
-	template <> struct unsigned_integer_<8> { using type = uint8_t; };
-	template <> struct unsigned_integer_<16> { using type = uint16_t; };
-	template <> struct unsigned_integer_<32> { using type = uint32_t; };
-	template <> struct unsigned_integer_<64> { using type = uint64_t; };
+	template <size_t Bits>
+	struct unsigned_integer_;
+	template <>
+	struct unsigned_integer_<8>
+	{
+		using type = uint8_t;
+	};
+	template <>
+	struct unsigned_integer_<16>
+	{
+		using type = uint16_t;
+	};
+	template <>
+	struct unsigned_integer_<32>
+	{
+		using type = uint32_t;
+	};
+	template <>
+	struct unsigned_integer_<64>
+	{
+		using type = uint64_t;
+	};
 	#if MUU_HAS_INT128
-	template <> struct unsigned_integer_<128> { using type = uint128_t; };
+	template <>
+	struct unsigned_integer_<128>
+	{
+		using type = uint128_t;
+	};
 	#endif
 
-	template <typename T> struct make_signed_ { using type = void; };
-	template <typename T> struct make_signed_<const volatile T> { using type = const volatile typename make_signed_<T>::type; };
-	template <typename T> struct make_signed_<volatile T> { using type = volatile typename make_signed_<T>::type; };
-	template <typename T> struct make_signed_<const T> { using type = const typename make_signed_<T>::type; };
-	template <typename T> struct make_signed_<T&> { using type = typename make_signed_<T>::type&; };
-	template <typename T> struct make_signed_<T&&> { using type = typename make_signed_<T>::type&&; };
-	template <> struct make_signed_<char> { using type = signed char; };
-	template <> struct make_signed_<signed char> { using type = signed char; };
-	template <> struct make_signed_<unsigned char> { using type = signed char; };
-	template <> struct make_signed_<short> { using type = short; };
-	template <> struct make_signed_<unsigned short> { using type = short; };
-	template <> struct make_signed_<int> { using type = int; };
-	template <> struct make_signed_<unsigned int> { using type = int; };
-	template <> struct make_signed_<long> { using type = long; };
-	template <> struct make_signed_<unsigned long> { using type = long; };
-	template <> struct make_signed_<long long> { using type = long long; };
-	template <> struct make_signed_<unsigned long long> { using type = long long; };
-	template <> struct make_signed_<half> { using type = half; };
-	template <> struct make_signed_<float> { using type = float; };
-	template <> struct make_signed_<double> { using type = double; };
-	template <> struct make_signed_<long double> { using type = long double; };
+	template <typename T>
+	struct make_signed_
+	{
+		using type = void;
+	};
+	template <typename T>
+	struct make_signed_<const volatile T>
+	{
+		using type = const volatile typename make_signed_<T>::type;
+	};
+	template <typename T>
+	struct make_signed_<volatile T>
+	{
+		using type = volatile typename make_signed_<T>::type;
+	};
+	template <typename T>
+	struct make_signed_<const T>
+	{
+		using type = const typename make_signed_<T>::type;
+	};
+	template <typename T>
+	struct make_signed_<T&>
+	{
+		using type = typename make_signed_<T>::type&;
+	};
+	template <typename T>
+	struct make_signed_<T&&>
+	{
+		using type = typename make_signed_<T>::type&&;
+	};
+	template <>
+	struct make_signed_<char>
+	{
+		using type = signed char;
+	};
+	template <>
+	struct make_signed_<signed char>
+	{
+		using type = signed char;
+	};
+	template <>
+	struct make_signed_<unsigned char>
+	{
+		using type = signed char;
+	};
+	template <>
+	struct make_signed_<short>
+	{
+		using type = short;
+	};
+	template <>
+	struct make_signed_<unsigned short>
+	{
+		using type = short;
+	};
+	template <>
+	struct make_signed_<int>
+	{
+		using type = int;
+	};
+	template <>
+	struct make_signed_<unsigned int>
+	{
+		using type = int;
+	};
+	template <>
+	struct make_signed_<long>
+	{
+		using type = long;
+	};
+	template <>
+	struct make_signed_<unsigned long>
+	{
+		using type = long;
+	};
+	template <>
+	struct make_signed_<long long>
+	{
+		using type = long long;
+	};
+	template <>
+	struct make_signed_<unsigned long long>
+	{
+		using type = long long;
+	};
+	template <>
+	struct make_signed_<half>
+	{
+		using type = half;
+	};
+	template <>
+	struct make_signed_<float>
+	{
+		using type = float;
+	};
+	template <>
+	struct make_signed_<double>
+	{
+		using type = double;
+	};
+	template <>
+	struct make_signed_<long double>
+	{
+		using type = long double;
+	};
 	#if MUU_HAS_INT128
-	template <> struct make_signed_<int128_t> { using type = int128_t; };
-	template <> struct make_signed_<uint128_t> { using type = int128_t; };
+	template <>
+	struct make_signed_<int128_t>
+	{
+		using type = int128_t;
+	};
+	template <>
+	struct make_signed_<uint128_t>
+	{
+		using type = int128_t;
+	};
 	#endif
 	#if MUU_HAS_FLOAT128
-	template <> struct make_signed_<float128_t> { using type = float128_t; };
+	template <>
+	struct make_signed_<float128_t>
+	{
+		using type = float128_t;
+	};
 	#endif
 	#if MUU_HAS_FLOAT16
-	template <> struct make_signed_<_Float16> { using type = _Float16; };
+	template <>
+	struct make_signed_<_Float16>
+	{
+		using type = _Float16;
+	};
 	#endif
 	#if MUU_HAS_FP16
-	template <> struct make_signed_<__fp16> { using type = __fp16; };
+	template <>
+	struct make_signed_<__fp16>
+	{
+		using type = __fp16;
+	};
 	#endif
 	template <>
 	struct make_signed_<wchar_t>
 	{
-		using type = std::conditional_t<std::is_signed_v<wchar_t>, wchar_t, signed_integer_<sizeof(wchar_t)* CHAR_BIT>::type>;
+		using type =
+			std::conditional_t<std::is_signed_v<wchar_t>, wchar_t, signed_integer_<sizeof(wchar_t) * CHAR_BIT>::type>;
 	};
 	template <typename Scalar, size_t Dimensions>
 	struct make_signed_<vector<Scalar, Dimensions>>
@@ -295,36 +641,125 @@ namespace muu::impl
 		using type = matrix<typename make_signed_<Scalar>::type, Rows, Columns>;
 	};
 
-	template <typename T> struct make_unsigned_ { using type = void; };
-	template <typename T> struct make_unsigned_<const volatile T> { using type = const volatile typename make_unsigned_<T>::type; };
-	template <typename T> struct make_unsigned_<volatile T> { using type = volatile typename make_unsigned_<T>::type; };
-	template <typename T> struct make_unsigned_<const T> { using type = const typename make_unsigned_<T>::type; };
-	template <typename T> struct make_unsigned_<T&> { using type = typename make_unsigned_<T>::type&; };
-	template <typename T> struct make_unsigned_<T&&> { using type = typename make_unsigned_<T>::type&&; };
-	template <> struct make_unsigned_<char> { using type = unsigned char; };
-	template <> struct make_unsigned_<signed char> { using type = unsigned char; };
-	template <> struct make_unsigned_<unsigned char> { using type = unsigned char; };
-	template <> struct make_unsigned_<short> { using type = unsigned short; };
-	template <> struct make_unsigned_<unsigned short> { using type = unsigned short; };
-	template <> struct make_unsigned_<int> { using type = unsigned int; };
-	template <> struct make_unsigned_<unsigned int> { using type = unsigned int; };
-	template <> struct make_unsigned_<long> { using type = unsigned long; };
-	template <> struct make_unsigned_<unsigned long> { using type = unsigned long; };
-	template <> struct make_unsigned_<long long> { using type = unsigned long long; };
-	template <> struct make_unsigned_<unsigned long long> { using type = unsigned long long; };
-	template <> struct make_unsigned_<char32_t> { using type = char32_t; };
-	template <> struct make_unsigned_<char16_t> { using type = char16_t; };
+	template <typename T>
+	struct make_unsigned_
+	{
+		using type = void;
+	};
+	template <typename T>
+	struct make_unsigned_<const volatile T>
+	{
+		using type = const volatile typename make_unsigned_<T>::type;
+	};
+	template <typename T>
+	struct make_unsigned_<volatile T>
+	{
+		using type = volatile typename make_unsigned_<T>::type;
+	};
+	template <typename T>
+	struct make_unsigned_<const T>
+	{
+		using type = const typename make_unsigned_<T>::type;
+	};
+	template <typename T>
+	struct make_unsigned_<T&>
+	{
+		using type = typename make_unsigned_<T>::type&;
+	};
+	template <typename T>
+	struct make_unsigned_<T&&>
+	{
+		using type = typename make_unsigned_<T>::type&&;
+	};
+	template <>
+	struct make_unsigned_<char>
+	{
+		using type = unsigned char;
+	};
+	template <>
+	struct make_unsigned_<signed char>
+	{
+		using type = unsigned char;
+	};
+	template <>
+	struct make_unsigned_<unsigned char>
+	{
+		using type = unsigned char;
+	};
+	template <>
+	struct make_unsigned_<short>
+	{
+		using type = unsigned short;
+	};
+	template <>
+	struct make_unsigned_<unsigned short>
+	{
+		using type = unsigned short;
+	};
+	template <>
+	struct make_unsigned_<int>
+	{
+		using type = unsigned int;
+	};
+	template <>
+	struct make_unsigned_<unsigned int>
+	{
+		using type = unsigned int;
+	};
+	template <>
+	struct make_unsigned_<long>
+	{
+		using type = unsigned long;
+	};
+	template <>
+	struct make_unsigned_<unsigned long>
+	{
+		using type = unsigned long;
+	};
+	template <>
+	struct make_unsigned_<long long>
+	{
+		using type = unsigned long long;
+	};
+	template <>
+	struct make_unsigned_<unsigned long long>
+	{
+		using type = unsigned long long;
+	};
+	template <>
+	struct make_unsigned_<char32_t>
+	{
+		using type = char32_t;
+	};
+	template <>
+	struct make_unsigned_<char16_t>
+	{
+		using type = char16_t;
+	};
 	#ifdef __cpp_char8_t
-	template <> struct make_unsigned_<char8_t> { using type = char8_t; };
+	template <>
+	struct make_unsigned_<char8_t>
+	{
+		using type = char8_t;
+	};
 	#endif
 	#if MUU_HAS_INT128
-	template <> struct make_unsigned_<int128_t> { using type = uint128_t; };
-	template <> struct make_unsigned_<uint128_t> { using type = uint128_t; };
+	template <>
+	struct make_unsigned_<int128_t>
+	{
+		using type = uint128_t;
+	};
+	template <>
+	struct make_unsigned_<uint128_t>
+	{
+		using type = uint128_t;
+	};
 	#endif
 	template <>
 	struct make_unsigned_<wchar_t>
 	{
-		using type = std::conditional_t<std::is_unsigned_v<wchar_t>, wchar_t, unsigned_integer_<sizeof(wchar_t)* CHAR_BIT>::type>;
+		using type = std::
+			conditional_t<std::is_unsigned_v<wchar_t>, wchar_t, unsigned_integer_<sizeof(wchar_t) * CHAR_BIT>::type>;
 	};
 	template <typename Scalar, size_t Dimensions>
 	struct make_unsigned_<vector<Scalar, Dimensions>>
@@ -337,20 +772,49 @@ namespace muu::impl
 		using type = matrix<typename make_unsigned_<Scalar>::type, Rows, Columns>;
 	};
 
-	template <typename...>				struct highest_ranked_;
-	template <typename T>				struct highest_ranked_<T>		{ using type = T; };
-	template <typename T>				struct highest_ranked_<T, T>	{ using type = T; };
-	template <typename T>				struct highest_ranked_<void, T>	{ using type = T; };
-	template <typename T>				struct highest_ranked_<T, void>	{ using type = T; };
-	template <typename T, typename U>	struct highest_ranked_<T, U>	{ using type = decltype(T{} + U{}); };
+	template <typename...>
+	struct highest_ranked_;
+	template <typename T>
+	struct highest_ranked_<T>
+	{
+		using type = T;
+	};
+	template <typename T>
+	struct highest_ranked_<T, T>
+	{
+		using type = T;
+	};
+	template <typename T>
+	struct highest_ranked_<void, T>
+	{
+		using type = T;
+	};
+	template <typename T>
+	struct highest_ranked_<T, void>
+	{
+		using type = T;
+	};
+	template <typename T, typename U>
+	struct highest_ranked_<T, U>
+	{
+		using type = decltype(T{} + U{});
+	};
 	template <typename T, typename U, typename... V>
 	struct highest_ranked_<T, U, V...>
 	{
 		using type = typename highest_ranked_<T, typename highest_ranked_<U, V...>::type>::type;
 	};
-	#define MUU_HR_SPECIALIZATION(lower, higher)									\
-		template <> struct highest_ranked_<lower, higher> { using type = higher; };	\
-		template <> struct highest_ranked_<higher, lower> { using type = higher; }
+	#define MUU_HR_SPECIALIZATION(lower, higher)                                                                       \
+		template <>                                                                                                    \
+		struct highest_ranked_<lower, higher>                                                                          \
+		{                                                                                                              \
+			using type = higher;                                                                                       \
+		};                                                                                                             \
+		template <>                                                                                                    \
+		struct highest_ranked_<higher, lower>                                                                          \
+		{                                                                                                              \
+			using type = higher;                                                                                       \
+		}
 	MUU_HR_SPECIALIZATION(signed char, signed short);
 	MUU_HR_SPECIALIZATION(unsigned char, unsigned short);
 	MUU_HR_SPECIALIZATION(unsigned char, signed short);
@@ -358,28 +822,28 @@ namespace muu::impl
 	MUU_HR_SPECIALIZATION(half, double);
 	MUU_HR_SPECIALIZATION(half, long double);
 	#if MUU_HAS_FP16
-		MUU_HR_SPECIALIZATION(__fp16, half);
-		MUU_HR_SPECIALIZATION(__fp16, float);
-		MUU_HR_SPECIALIZATION(__fp16, double);
-		MUU_HR_SPECIALIZATION(__fp16, long double);
+	MUU_HR_SPECIALIZATION(__fp16, half);
+	MUU_HR_SPECIALIZATION(__fp16, float);
+	MUU_HR_SPECIALIZATION(__fp16, double);
+	MUU_HR_SPECIALIZATION(__fp16, long double);
 	#endif
 	#if MUU_HAS_FLOAT16
-		MUU_HR_SPECIALIZATION(half,		_Float16);
-		MUU_HR_SPECIALIZATION(_Float16, float);
-		MUU_HR_SPECIALIZATION(_Float16, double);
-		MUU_HR_SPECIALIZATION(_Float16, long double);
+	MUU_HR_SPECIALIZATION(half, _Float16);
+	MUU_HR_SPECIALIZATION(_Float16, float);
+	MUU_HR_SPECIALIZATION(_Float16, double);
+	MUU_HR_SPECIALIZATION(_Float16, long double);
 	#endif
 	#if MUU_HAS_FLOAT128
-		MUU_HR_SPECIALIZATION(half, float128_t);
+	MUU_HR_SPECIALIZATION(half, float128_t);
 	#endif
 	#if MUU_HAS_FP16 && MUU_HAS_FLOAT16
-		MUU_HR_SPECIALIZATION(__fp16, _Float16);
+	MUU_HR_SPECIALIZATION(__fp16, _Float16);
 	#endif
 	#if MUU_HAS_FP16 && MUU_HAS_FLOAT128
-		MUU_HR_SPECIALIZATION(__fp16, float128_t);
+	MUU_HR_SPECIALIZATION(__fp16, float128_t);
 	#endif
 	#if MUU_HAS_FLOAT16 && MUU_HAS_FLOAT128
-		MUU_HR_SPECIALIZATION(_Float16, float128_t);
+	MUU_HR_SPECIALIZATION(_Float16, float128_t);
 	#endif
 	#undef MUU_HR_SPECIALIZATION
 	template <typename... T>
@@ -391,7 +855,10 @@ namespace muu::impl
 	using iter_value_t = std::remove_reference_t<iter_reference_t<T>>;
 
 	template <typename T>
-	struct type_identity_ { using type = T; };
+	struct type_identity_
+	{
+		using type = T;
+	};
 
 	template <typename T, bool = std::is_pointer_v<T>>
 	struct pointer_rank_
@@ -409,15 +876,25 @@ namespace muu::impl
 	{
 		using type = T;
 	};
-	template <typename T> struct remove_all_pointers_<T*> : remove_all_pointers_<T> {};
-	template <typename T> struct remove_all_pointers_<T*const> : remove_all_pointers_<T> {};
-	template <typename T> struct remove_all_pointers_<T*volatile> : remove_all_pointers_<T> {};
-	template <typename T> struct remove_all_pointers_<T*const volatile> : remove_all_pointers_<T> {};
+	template <typename T>
+	struct remove_all_pointers_<T*> : remove_all_pointers_<T>
+	{};
+	template <typename T>
+	struct remove_all_pointers_<T* const> : remove_all_pointers_<T>
+	{};
+	template <typename T>
+	struct remove_all_pointers_<T* volatile> : remove_all_pointers_<T>
+	{};
+	template <typename T>
+	struct remove_all_pointers_<T* const volatile> : remove_all_pointers_<T>
+	{};
 
 	template <template <typename...> typename Trait, typename Enabler, typename... Args>
-	struct is_detected_impl : std::false_type {};
+	struct is_detected_impl : std::false_type
+	{};
 	template <template <typename...> typename Trait, typename... Args>
-	struct is_detected_impl<Trait, std::void_t<Trait<Args...>>, Args...> : std::true_type {};
+	struct is_detected_impl<Trait, std::void_t<Trait<Args...>>, Args...> : std::true_type
+	{};
 	template <template <typename...> typename Trait, typename... Args>
 	inline constexpr auto is_detected_ = is_detected_impl<Trait, void, Args...>::value;
 
@@ -434,7 +911,8 @@ namespace muu::impl
 	using has_tuple_get_member_ = decltype(std::declval<T>().template get<0>());
 
 	template <typename T, bool = is_detected_<has_tuple_size_, T>>
-	struct tuple_size_ : std::tuple_size<T>{};
+	struct tuple_size_ : std::tuple_size<T>
+	{};
 	template <typename T>
 	struct tuple_size_<T, false>
 	{
@@ -442,7 +920,7 @@ namespace muu::impl
 	};
 
 	template <size_t I, typename T>
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(pure)
 	constexpr decltype(auto) get_from_tuple_like(T&& tuple_like) noexcept
@@ -465,13 +943,14 @@ namespace muu::impl
 
 	#else
 
-	template <typename From, typename To, int =
-		(std::is_void_v<From> && std::is_void_v<To> ? 2 : (std::is_convertible_v<From, To> ? 1 : 0))
-	>
+	template <typename From,
+			  typename To,
+			  int = (std::is_void_v<From> && std::is_void_v<To> ? 2 : (std::is_convertible_v<From, To> ? 1 : 0))>
 	inline constexpr bool is_implicitly_nothrow_convertible_ = false;
 
 	template <typename From, typename To>
-	inline constexpr bool is_implicitly_nothrow_convertible_<From, To, 1> = noexcept(static_cast<To>(std::declval<From>()));
+	inline constexpr bool is_implicitly_nothrow_convertible_<From, To, 1> =
+		noexcept(static_cast<To>(std::declval<From>()));
 
 	template <typename From, typename To>
 	inline constexpr bool is_implicitly_nothrow_convertible_<From, To, 2> = true; // both void
@@ -544,12 +1023,12 @@ namespace muu
 	/// \brief	True if `From` is implicitly convertible to all of the types named by `To`.
 	template <typename From, typename... To>
 	inline constexpr bool is_implicitly_convertible_to_all = (sizeof...(To) > 0)
-		&& (true && ... && is_implicitly_convertible<From, To>);
+														  && (true && ... && is_implicitly_convertible<From, To>);
 
 	/// \brief	True if all of the types named by `From` are implicitly convertible to `To`.
 	template <typename To, typename... From>
 	inline constexpr bool all_implicitly_convertible_to = (sizeof...(From) > 0)
-		&& (true && ... && is_implicitly_convertible<From, To>);
+													   && (true && ... && is_implicitly_convertible<From, To>);
 
 	/// \brief	True if `From` is explicitly convertible to `To`.
 	template <typename From, typename To>
@@ -562,18 +1041,17 @@ namespace muu
 
 	/// \brief	True if `From` is explicitly convertible to all of the types named by `To`.
 	template <typename From, typename... To>
-	inline constexpr bool is_explicitly_convertible_to_all =
-		(sizeof...(To) > 0) && (true && ... && is_explicitly_convertible<From, To>);
+	inline constexpr bool is_explicitly_convertible_to_all = (sizeof...(To) > 0)
+														  && (true && ... && is_explicitly_convertible<From, To>);
 
 	/// \brief	True if all of the types named by `From` are explicitly convertible to `To`.
 	template <typename To, typename... From>
 	inline constexpr bool all_explicitly_convertible_to = (sizeof...(From) > 0)
-		&& (true && ... && is_explicitly_convertible<From, To>);
+													   && (true && ... && is_explicitly_convertible<From, To>);
 
 	/// \brief	True if `From` is implicitly _or_ explicitly convertible to `To`.
 	template <typename From, typename To>
-	inline constexpr bool is_convertible =
-		std::is_convertible_v<From, To> || std::is_constructible_v<To, From>;
+	inline constexpr bool is_convertible = std::is_convertible_v<From, To> || std::is_constructible_v<To, From>;
 
 	/// \brief	True if `From` is implicitly _or_ explicitly convertible to any of the types named by `To`.
 	template <typename From, typename... To>
@@ -581,13 +1059,11 @@ namespace muu
 
 	/// \brief	True if `From` is implicitly _or_ explicitly convertible to all of the types named by `To`.
 	template <typename From, typename... To>
-	inline constexpr bool is_convertible_to_all =
-		(sizeof...(To) > 0) && (true && ... && is_convertible<From, To>);
+	inline constexpr bool is_convertible_to_all = (sizeof...(To) > 0) && (true && ... && is_convertible<From, To>);
 
 	/// \brief	True if all of the types named by `From` are implicitly _or_ explicitly convertible to `To`.
 	template <typename To, typename... From>
-	inline constexpr bool all_convertible_to = (sizeof...(From) > 0)
-		&& (true && ... && is_convertible<From, To>);
+	inline constexpr bool all_convertible_to = (sizeof...(From) > 0) && (true && ... && is_convertible<From, To>);
 
 	/// \brief	True if `From` is implicitly nothrow-convertible to `To`.
 	template <typename From, typename To>
@@ -595,17 +1071,20 @@ namespace muu
 
 	/// \brief	True if `From` is implicitly nothrow-convertible to any of the types named by `To`.
 	template <typename From, typename... To>
-	inline constexpr bool is_implicitly_nothrow_convertible_to_any = (false || ... || is_implicitly_nothrow_convertible<From, To>);
+	inline constexpr bool is_implicitly_nothrow_convertible_to_any = (false || ...
+																	  || is_implicitly_nothrow_convertible<From, To>);
 
 	/// \brief	True if `From` is implicitly nothrow-convertible to all of the types named by `To`.
 	template <typename From, typename... To>
 	inline constexpr bool is_implicitly_nothrow_convertible_to_all = (sizeof...(To) > 0)
-		&& (true && ... && is_implicitly_nothrow_convertible<From, To>);
+																  && (true && ...
+																	  && is_implicitly_nothrow_convertible<From, To>);
 
 	/// \brief	True if all of the types named by `From` are implicitly nothrow-convertible to `To`.
 	template <typename To, typename... From>
 	inline constexpr bool all_implicitly_nothrow_convertible_to = (sizeof...(From) > 0)
-		&& (true && ... && is_implicitly_nothrow_convertible<From, To>);
+															   && (true && ...
+																   && is_implicitly_nothrow_convertible<From, To>);
 
 	/// \brief	True if `From` is explicitly nothrow-convertible to `To`.
 	template <typename From, typename To>
@@ -614,17 +1093,20 @@ namespace muu
 
 	/// \brief	True if `From` is explicitly nothrow-convertible to any of the types named by `To`.
 	template <typename From, typename... To>
-	inline constexpr bool is_explicitly_nothrow_convertible_to_any = (false || ... || is_explicitly_nothrow_convertible<From, To>);
+	inline constexpr bool is_explicitly_nothrow_convertible_to_any = (false || ...
+																	  || is_explicitly_nothrow_convertible<From, To>);
 
 	/// \brief	True if `From` is explicitly nothrow-convertible to all of the types named by `To`.
 	template <typename From, typename... To>
-	inline constexpr bool is_explicitly_nothrow_convertible_to_all =
-		(sizeof...(To) > 0) && (true && ... && is_explicitly_nothrow_convertible<From, To>);
+	inline constexpr bool is_explicitly_nothrow_convertible_to_all = (sizeof...(To) > 0)
+																  && (true && ...
+																	  && is_explicitly_nothrow_convertible<From, To>);
 
 	/// \brief	True if all of the types named by `From` are explicitly nothrow-convertible to `To`.
 	template <typename To, typename... From>
 	inline constexpr bool all_explicitly_nothrow_convertible_to = (sizeof...(From) > 0)
-		&& (true && ... && is_explicitly_nothrow_convertible<From, To>);
+															   && (true && ...
+																   && is_explicitly_nothrow_convertible<From, To>);
 
 	/// \brief	True if `From` is implicitly _or_ explicitly nothrow-convertible to `To`.
 	template <typename From, typename To>
@@ -637,13 +1119,13 @@ namespace muu
 
 	/// \brief	True if `From` is implicitly _or_ explicitly nothrow-convertible to all of the types named by `To`.
 	template <typename From, typename... To>
-	inline constexpr bool is_nothrow_convertible_to_all =
-		(sizeof...(To) > 0) && (true && ... && is_nothrow_convertible<From, To>);
+	inline constexpr bool is_nothrow_convertible_to_all = (sizeof...(To) > 0)
+													   && (true && ... && is_nothrow_convertible<From, To>);
 
 	/// \brief	True if all of the types named by `From` are implicitly _or_ explicitly nothrow-convertible to `To`.
 	template <typename To, typename... From>
 	inline constexpr bool all_nothrow_convertible_to = (sizeof...(From) > 0)
-		&& (true && ... && is_nothrow_convertible<From, To>);
+													&& (true && ... && is_nothrow_convertible<From, To>);
 
 	/// \brief Is a type an enum or reference-to-enum?
 	template <typename T>
@@ -659,23 +1141,23 @@ namespace muu
 
 	/// \brief Is a type a C++11 scoped enum class, or reference to one?
 	template <typename T>
-	inline constexpr bool is_scoped_enum = is_enum<T>
-		&& !std::is_convertible_v<remove_cvref<T>, remove_enum<remove_cvref<T>>>;
+	inline constexpr bool is_scoped_enum =
+		is_enum<T> && !std::is_convertible_v<remove_cvref<T>, remove_enum<remove_cvref<T>>>;
 
 	/// \brief Is a type a pre-C++11 unscoped enum, or reference to one?
 	template <typename T>
-	inline constexpr bool is_legacy_enum = is_enum<T>
-		&& std::is_convertible_v<remove_cvref<T>, remove_enum<remove_cvref<T>>>;
+	inline constexpr bool is_legacy_enum =
+		is_enum<T>&& std::is_convertible_v<remove_cvref<T>, remove_enum<remove_cvref<T>>>;
 
 	/// \brief Is a type unsigned or reference-to-unsigned?
 	/// \remarks Returns true for enums backed by unsigned integers.
 	/// \remarks Returns true for #uint128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_unsigned = std::is_unsigned_v<remove_enum<remove_cvref<T>>>
-		#if MUU_HAS_INT128
-		|| std::is_same_v<remove_enum<remove_cvref<T>>, uint128_t>
-		#endif
-	;
+	#if MUU_HAS_INT128
+									 || std::is_same_v<remove_enum<remove_cvref<T>>, uint128_t>
+	#endif
+		;
 
 	/// \brief Are any of the named types unsigned or reference-to-unsigned?
 	/// \remarks Returns true for enums backed by unsigned integers.
@@ -695,18 +1177,18 @@ namespace muu
 	inline constexpr bool is_signed = std::is_signed_v<remove_enum<remove_cvref<T>>>
 		|| is_same_as_any<remove_enum<remove_cvref<T>>,
 			half
-			#if MUU_HAS_INT128
+	#if MUU_HAS_INT128
 			, int128_t
-			#endif
-			#if MUU_HAS_FLOAT128
+	#endif
+	#if MUU_HAS_FLOAT128
 			, float128_t
-			#endif
-			#if MUU_HAS_FLOAT16
+	#endif
+	#if MUU_HAS_FLOAT16
 			, _Float16
-			#endif
-			#if MUU_HAS_FP16
+	#endif
+	#if MUU_HAS_FP16
 			, __fp16
-			#endif
+	#endif
 		>
 	;
 
@@ -725,10 +1207,10 @@ namespace muu
 	/// \remarks Returns true for #int128_t and #uint128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_integral = std::is_integral_v<remove_enum<remove_cvref<T>>>
-		#if MUU_HAS_INT128
-		|| is_same_as_any<remove_enum<remove_cvref<T>>, int128_t, uint128_t>
-		#endif
-	;
+	#if MUU_HAS_INT128
+									 || is_same_as_any<remove_enum<remove_cvref<T>>, int128_t, uint128_t>
+	#endif
+		;
 
 	/// \brief Are any of the named types integral or reference-to-integral?
 	/// \remarks Returns true for enums.
@@ -749,15 +1231,15 @@ namespace muu
 	inline constexpr bool is_floating_point = std::is_floating_point_v<std::remove_reference_t<T>>
 		|| is_same_as_any<remove_cvref<T>,
 			half
-			#if MUU_HAS_FLOAT128
+	#if MUU_HAS_FLOAT128
 			, float128_t
-			#endif
-			#if MUU_HAS_FLOAT16
+	#endif
+	#if MUU_HAS_FLOAT16
 			, _Float16
-			#endif
-			#if MUU_HAS_FP16
+	#endif
+	#if MUU_HAS_FP16
 			, __fp16
-			#endif
+	#endif
 		>
 	;
 
@@ -782,20 +1264,25 @@ namespace muu
 	/// \remarks Returns true for #int128_t, #uint128_t, __fp16, _Float16 and #float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_extended_arithmetic = is_same_as_any<remove_cvref<T>,
-		half
-		#if MUU_HAS_INT128
-		, int128_t, uint128_t
-		#endif
-		#if MUU_HAS_FLOAT128
-		, float128_t
-		#endif
-		#if MUU_HAS_FLOAT16
-		, _Float16
-		#endif
-		#if MUU_HAS_FP16
-		, __fp16
-		#endif
-	>;
+																  half
+	#if MUU_HAS_INT128
+																  ,
+																  int128_t,
+																  uint128_t
+	#endif
+	#if MUU_HAS_FLOAT128
+																  ,
+																  float128_t
+	#endif
+	#if MUU_HAS_FLOAT16
+																  ,
+																  _Float16
+	#endif
+	#if MUU_HAS_FP16
+																  ,
+																  __fp16
+	#endif
+																  >;
 
 	/// \brief Is a type arithmetic or reference-to-arithmetic?
 	/// \remarks Returns true for muu::half.
@@ -865,11 +1352,13 @@ namespace muu
 
 	/// \brief Adds const and volatile qualifiers to a type or reference.
 	template <typename T>
-	using add_cv = typename impl::rebase_ref_<T, std::add_volatile_t<std::add_const_t<std::remove_reference_t<T>>>>::type;
+	using add_cv =
+		typename impl::rebase_ref_<T, std::add_volatile_t<std::add_const_t<std::remove_reference_t<T>>>>::type;
 
 	/// \brief Removes the topmost const and volatile qualifiers from a type or reference.
 	template <typename T>
-	using remove_cv = typename impl::rebase_ref_<T, std::remove_volatile_t<std::remove_const_t<std::remove_reference_t<T>>>>::type;
+	using remove_cv =
+		typename impl::rebase_ref_<T, std::remove_volatile_t<std::remove_const_t<std::remove_reference_t<T>>>>::type;
 
 	/// \brief Sets the constness and volatility of a type or reference according to a boolean.
 	template <typename T, bool ConstVolatile>
@@ -895,9 +1384,9 @@ namespace muu
 	/// \brief Does Child inherit from Parent?
 	/// \remarks This does not return true when the objects are the same type, unlike std::is_base_of.
 	template <typename Parent, typename Child>
-	inline constexpr bool inherits_from
-		= std::is_base_of_v<remove_cvref<Parent>, remove_cvref<Child>>
-		&& !std::is_same_v<remove_cvref<Parent>, remove_cvref<Child>>;
+	inline constexpr bool inherits_from =
+		std::is_base_of_v<remove_cvref<Parent>,
+						  remove_cvref<Child>> && !std::is_same_v<remove_cvref<Parent>, remove_cvref<Child>>;
 
 	/// \brief	Rebases a pointer, preserving the const and volatile qualification of the pointed type.
 	template <typename Ptr, typename NewBase>
@@ -948,14 +1437,15 @@ namespace muu
 	/// \brief Is a type a Unicode 'code unit' type, or reference to one?
 	template <typename T>
 	inline constexpr bool is_code_unit = is_same_as_any<remove_cvref<T>,
-		char,
-		wchar_t,
-		char16_t,
-		char32_t
-		#ifdef __cpp_char8_t
-		, char8_t
-		#endif
-	>;
+														char,
+														wchar_t,
+														char16_t,
+														char32_t
+	#ifdef __cpp_char8_t
+														,
+														char8_t
+	#endif
+														>;
 
 	/// \brief Returns the rank of a pointer.
 	/// \remark Answers "how many stars does it have?".
@@ -967,7 +1457,7 @@ namespace muu
 	using remove_all_pointers = typename impl::remove_all_pointers_<T>::type;
 
 	/// \brief Detects if a type supports an interface.
-	/// \see 
+	/// \see
 	///		- [Detection Idiom](https://blog.tartanllama.xyz/detection-idiom/)
 	///		- [std::experimental::is_detected](https://en.cppreference.com/w/cpp/experimental/is_detected)
 	template <template <typename...> typename Trait, typename... Args>
@@ -975,8 +1465,10 @@ namespace muu
 
 	/// \brief Returns true if the type has an arrow operator.
 	template <typename T>
-	inline constexpr bool has_arrow_operator = is_detected<impl::has_arrow_operator_, T>
-		|| (std::is_pointer_v<T> && (std::is_class_v<std::remove_pointer_t<T>> || std::is_union_v<std::remove_pointer_t<T>>));
+	inline constexpr bool has_arrow_operator =
+		is_detected<
+			impl::has_arrow_operator_,
+			T> || (std::is_pointer_v<T> && (std::is_class_v<std::remove_pointer_t<T>> || std::is_union_v<std::remove_pointer_t<T>>));
 
 	/// \brief Returns true if the type has a unary plus operator.
 	template <typename T>
@@ -984,26 +1476,28 @@ namespace muu
 
 	/// \brief Returns true if the type implements std::tuple_size and std::tuple_element.
 	template <typename T>
-	inline constexpr bool is_tuple_like = is_detected<impl::has_tuple_size_, T>
-		&& is_detected<impl::has_tuple_element_, T>
+	inline constexpr bool is_tuple_like =
+		is_detected<impl::has_tuple_size_, T>&& is_detected<impl::has_tuple_element_, T>
 		//&& is_detected<impl::has_tuple_get_member_, T>
-	;
+		;
 
 	/// \brief Equivalent to std::tuple_size_v, but safe to use in SFINAE contexts.
 	/// \remark Returns 0 for types that do not implement std::tuple_size.
 	template <typename T>
 	inline constexpr size_t tuple_size = impl::tuple_size_<T>::value;
 
-	/** @} */	// meta
+	/** @} */ // meta
 }
 
 /// \cond
 namespace muu::impl
 {
 	template <typename T>
-	inline constexpr bool is_small_float_ = is_floating_point<T> && sizeof(T) < sizeof(float) && is_extended_arithmetic<T>;
+	inline constexpr bool is_small_float_ = is_floating_point<T> && sizeof(T) < sizeof(float)
+										 && is_extended_arithmetic<T>;
 	template <typename T>
-	inline constexpr bool is_large_float_ = is_floating_point<T> && sizeof(T) >= sizeof(long double) && is_extended_arithmetic<T>;
+	inline constexpr bool is_large_float_ = is_floating_point<T> && sizeof(T) >= sizeof(long double)
+										 && is_extended_arithmetic<T>;
 
 	template <typename T>
 	inline constexpr bool is_vector_ = false;
@@ -1029,94 +1523,95 @@ namespace muu::impl
 
 	// promotes ints to doubles, keeps floats as-is, as per the behaviour of std::sqrt, std::lerp, etc.
 	template <typename... T>
-	using std_math_common_type = highest_ranked<
-		std::conditional_t<is_integral<T> && !is_enum<T>, double, T>...
-	>;
+	using std_math_common_type = highest_ranked<std::conditional_t<is_integral<T> && !is_enum<T>, double, T>...>;
 
 	struct any_type
 	{
 		template <typename T>
-		constexpr operator T() const noexcept; //non-explicit
+		constexpr operator T() const noexcept; // non-explicit
 	};
 
 	#if MUU_HAS_VECTORCALL
 
 	template <typename T>
 	inline constexpr bool is_vectorcall_simd_intrinsic = is_same_as_any<remove_cvref<T>,
-		__m64,
-		__m128, __m128i, __m128d,
-		__m256, __m256d, __m256i,
-		__m512, __m512d, __m512i
-	>;
+																		__m64,
+																		__m128,
+																		__m128i,
+																		__m128d,
+																		__m256,
+																		__m256d,
+																		__m256i,
+																		__m512,
+																		__m512d,
+																		__m512i>;
 
 	template <typename T>
-	using is_aggregate_5_args_ = decltype(T{ { any_type{} },{ any_type{} }, { any_type{} }, { any_type{} }, { any_type{} } });
+	using is_aggregate_5_args_ =
+		decltype(T{ { any_type{} }, { any_type{} }, { any_type{} }, { any_type{} }, { any_type{} } });
 	template <typename T>
-	using is_aggregate_4_args_ = decltype(T{ { any_type{} },{ any_type{} }, { any_type{} }, { any_type{} } });
+	using is_aggregate_4_args_ = decltype(T{ { any_type{} }, { any_type{} }, { any_type{} }, { any_type{} } });
 	template <typename T>
-	using is_aggregate_3_args_ = decltype(T{ { any_type{} },{ any_type{} }, { any_type{} } });
+	using is_aggregate_3_args_ = decltype(T{ { any_type{} }, { any_type{} }, { any_type{} } });
 	template <typename T>
-	using is_aggregate_2_args_ = decltype(T{ { any_type{} },{ any_type{} } });
+	using is_aggregate_2_args_ = decltype(T{ { any_type{} }, { any_type{} } });
 	template <typename T>
-	using is_aggregate_1_arg_  = decltype(T{ { any_type{} } });
+	using is_aggregate_1_arg_ = decltype(T{ { any_type{} } });
 
 	template <typename T>
 	struct hva_member_
 	{
-		using type = T;
+		using type					  = T;
 		static constexpr size_t arity = 1;
 	};
 	template <typename T, size_t N>
 	struct hva_member_<T[N]>
 	{
-		using type = T;
+		using type					  = T;
 		static constexpr size_t arity = N;
 	};
 
 	template <typename T>
 	inline constexpr bool is_hva_scalar =
-		is_same_as_any<T, float, double, long double>
-		|| is_vectorcall_simd_intrinsic<T>;
+		is_same_as_any<T, float, double, long double> || is_vectorcall_simd_intrinsic<T>;
 
 	template <typename Scalar, typename T>
-	inline constexpr bool can_be_hva_of =
-		std::is_class_v<T>
-		&& !std::is_empty_v<T>
-		&& std::is_standard_layout_v<T>
-		&& std::is_trivially_default_constructible_v<T>
-		&& std::is_trivially_copyable_v<T>
-		&& std::is_trivially_destructible_v<T>
-		&& is_hva_scalar<Scalar>
-		&& sizeof(T) >= sizeof(Scalar)
-		&& sizeof(T) <= sizeof(Scalar) * 4
-		&& sizeof(T) % sizeof(Scalar) == 0
-		&& alignof(T) == alignof(Scalar);
+	inline constexpr bool can_be_hva_of = std::is_class_v<T>						   //
+									   && !std::is_empty_v<T>						   //
+									   && std::is_standard_layout_v<T>				   //
+									   && std::is_trivially_default_constructible_v<T> //
+									   && std::is_trivially_copyable_v<T>			   //
+									   && std::is_trivially_destructible_v<T>		   //
+									   && is_hva_scalar<Scalar>						   //
+									   && sizeof(T) >= sizeof(Scalar)				   //
+									   && sizeof(T) <= sizeof(Scalar) * 4			   //
+									   && sizeof(T) % sizeof(Scalar) == 0			   //
+									   && alignof(T) == alignof(Scalar);
 
 	template <typename T>
-	inline constexpr bool can_be_hva =
-		can_be_hva_of<float, T>
-		|| can_be_hva_of<double, T>
-		|| can_be_hva_of<long double, T>
-		|| can_be_hva_of<__m64, T>
-		|| can_be_hva_of<__m128, T>
-		|| can_be_hva_of<__m128i, T>
-		|| can_be_hva_of<__m128d, T>
-		|| can_be_hva_of<__m256, T>
-		|| can_be_hva_of<__m256d, T>
-		|| can_be_hva_of<__m256i, T>
-		|| can_be_hva_of<__m512, T>
-		|| can_be_hva_of<__m512d, T>
-		|| can_be_hva_of<__m512i, T>
-	;
+	inline constexpr bool can_be_hva = can_be_hva_of<float, T>		 //
+									|| can_be_hva_of<double, T>		 //
+									|| can_be_hva_of<long double, T> //
+									|| can_be_hva_of<__m64, T>		 //
+									|| can_be_hva_of<__m128, T>		 //
+									|| can_be_hva_of<__m128i, T>	 //
+									|| can_be_hva_of<__m128d, T>	 //
+									|| can_be_hva_of<__m256, T>		 //
+									|| can_be_hva_of<__m256d, T>	 //
+									|| can_be_hva_of<__m256i, T>	 //
+									|| can_be_hva_of<__m512, T>		 //
+									|| can_be_hva_of<__m512d, T>	 //
+									|| can_be_hva_of<__m512i, T>;
 
 	template <typename T, typename... Members>
 	struct is_valid_hva_
 	{
 		// "What is an HVA?"
 		// https://docs.microsoft.com/en-us/cpp/cpp/vectorcall?view=vs-2019
-		// 
+		//
 		// a "homogeneous vector aggregate" must:
-		// - have between 1 and 4 members (if any of the members are arrays they count as N members where N is the extent of the array)
+		// - have between 1 and 4 members (if any of the members are arrays they count as N members where N is the
+		// extent of the array)
 		// - have all members be the same type
 		// - have the member type be float or simd intrinsic vector types
 		// - have the same alignment as its member type (no padding/over-alignment)
@@ -1127,17 +1622,16 @@ namespace muu::impl
 		static constexpr bool value =
 
 			// all members are non-reference, non-volatile floats or simd intrinsics
-			(true && ... && (
-				is_hva_scalar<typename hva_member_<Members>::type>
-				&& !std::is_reference_v<Members>
-				&& !std::is_volatile_v<Members>
-			))
+			(true && ...
+			 && (is_hva_scalar<typename hva_member_<Members>::type> //
+				 && !std::is_reference_v<Members>					//
+				 && !std::is_volatile_v<Members>))					//
 
 			// min 1 member
-			&& (0 + ... + hva_member_<Members>::arity) >= 1 
+			&& (0 + ... + hva_member_<Members>::arity) >= 1
 
 			// max 4 members
-			&& (0 + ... + hva_member_<Members>::arity) <= 4 
+			&& (0 + ... + hva_member_<Members>::arity) <= 4
 
 			// all members the same type
 			&& all_same<typename hva_member_<Members>::type...>
@@ -1146,8 +1640,7 @@ namespace muu::impl
 			&& sizeof(T) == (0u + ... + sizeof(Members))
 
 			// alignment matches member type
-			&& alignof(T) == alignof(most_aligned<typename hva_member_<Members>::type...>) 
-		;
+			&& alignof(T) == alignof(most_aligned<typename hva_member_<Members>::type...>);
 	};
 
 	template <typename T>
@@ -1160,7 +1653,8 @@ namespace muu::impl
 			else if constexpr (is_detected<is_aggregate_4_args_, T>) // four
 			{
 				auto&& [a, b, c, d] = static_cast<T&&>(obj);
-				return std::bool_constant<is_valid_hva_<T, decltype(a), decltype(b), decltype(c), decltype(d)>::value>{};
+				return std::bool_constant<
+					is_valid_hva_<T, decltype(a), decltype(b), decltype(c), decltype(d)>::value>{};
 			}
 			else if constexpr (is_detected<is_aggregate_3_args_, T>) // three
 			{
@@ -1226,16 +1720,43 @@ namespace muu::impl
 			std::add_lvalue_reference_t<std::add_const_t<T>>
 		>;
 	};
-	template <typename T>	struct readonly_param_base_<T&, false>	{ using type = T&; };
-	template <typename T>	struct readonly_param_base_<T&&, false>	{ using type = T&&; };
-	template <>				struct readonly_param_base_<half, false>	{ using type = half; };
-	template <typename T>	struct readonly_param_base_<T&, true>	{ using type = T&; };
-	template <typename T>	struct readonly_param_base_<T&&, true>	{ using type = T&&; };
-	template <>				struct readonly_param_base_<half, true>	{ using type = half; };
+	template <typename T>
+	struct readonly_param_base_<T&, false>
+	{
+		using type = T&;
+	};
+	template <typename T>
+	struct readonly_param_base_<T&&, false>
+	{
+		using type = T&&;
+	};
+	template <>
+	struct readonly_param_base_<half, false>
+	{
+		using type = half;
+	};
+	template <typename T>
+	struct readonly_param_base_<T&, true>
+	{
+		using type = T&;
+	};
+	template <typename T>
+	struct readonly_param_base_<T&&, true>
+	{
+		using type = T&&;
+	};
+	template <>
+	struct readonly_param_base_<half, true>
+	{
+		using type = half;
+	};
 
-
-	template <typename T> struct readonly_param_ : readonly_param_base_<T, false> {};
-	template <typename T> struct vectorcall_param_ : readonly_param_base_<T, true> {};
+	template <typename T>
+	struct readonly_param_ : readonly_param_base_<T, false>
+	{};
+	template <typename T>
+	struct vectorcall_param_ : readonly_param_base_<T, true>
+	{};
 
 	template <typename T>
 	using readonly_param = typename readonly_param_<T>::type;
@@ -1243,13 +1764,15 @@ namespace muu::impl
 	using vectorcall_param = typename vectorcall_param_<T>::type;
 
 	template <typename... T>
-	inline constexpr bool pass_readonly_by_reference = sizeof...(T) == 0 || (std::is_reference_v<readonly_param<T>> || ...);
+	inline constexpr bool pass_readonly_by_reference = sizeof...(T) == 0
+													|| (std::is_reference_v<readonly_param<T>> || ...);
 
 	template <typename... T>
 	inline constexpr bool pass_readonly_by_value = !pass_readonly_by_reference<T...>;
 
 	template <typename... T>
-	inline constexpr bool pass_vectorcall_by_reference = sizeof...(T) == 0 || (std::is_reference_v<vectorcall_param<T>> || ...);
+	inline constexpr bool pass_vectorcall_by_reference = sizeof...(T) == 0
+													  || (std::is_reference_v<vectorcall_param<T>> || ...);
 
 	template <typename... T>
 	inline constexpr bool pass_vectorcall_by_value = !pass_vectorcall_by_reference<T...>;
@@ -1269,7 +1792,7 @@ namespace muu
 	template <typename... T>
 	inline constexpr epsilon_type<T...> default_epsilon = constants<epsilon_type<T...>>::default_epsilon;
 
-	/** @} */	// meta
+	/** @} */ // meta
 }
 
 #endif //===============================================================================================================
@@ -1300,9 +1823,8 @@ namespace muu
 		struct power
 		{
 			static constexpr intmax_t exponent = Power < 0 ? -Power : Power;
-			static constexpr T value = Power < 0
-				? T{ 1 } / T{ power_helper<T, Base, exponent>::value }
-				: T{ power_helper<T, Base, exponent>::value };
+			static constexpr T value		   = Power < 0 ? T{ 1 } / T{ power_helper<T, Base, exponent>::value }
+														   : T{ power_helper<T, Base, exponent>::value };
 		};
 
 		//------------- standalone 'trait' constant classes
@@ -1311,7 +1833,7 @@ namespace muu
 		struct integer_limits
 		{
 			/// \name Limits
-			/// @{ 
+			/// @{
 
 			/// \brief The lowest representable 'normal' value (equivalent to std::numeric_limits::lowest()).
 			static constexpr T lowest = std::numeric_limits<T>::lowest();
@@ -1324,31 +1846,30 @@ namespace muu
 
 		/// \cond
 
-		#if MUU_HAS_INT128
+	#if MUU_HAS_INT128
 		template <>
 		struct integer_limits<int128_t>
 		{
-			static constexpr int128_t highest = static_cast<int128_t>(
-				(uint128_t{ 1u } << ((__SIZEOF_INT128__ * CHAR_BIT) - 1)) - 1
-			);
+			static constexpr int128_t highest =
+				static_cast<int128_t>((uint128_t{ 1u } << ((__SIZEOF_INT128__ * CHAR_BIT) - 1)) - 1);
 			static constexpr int128_t lowest = -highest - int128_t{ 1 };
 		};
 		template <>
 		struct integer_limits<uint128_t>
 		{
-			static constexpr uint128_t lowest = uint128_t{};
+			static constexpr uint128_t lowest  = uint128_t{};
 			static constexpr uint128_t highest = (2u * static_cast<uint128_t>(integer_limits<int128_t>::highest)) + 1u;
 		};
-		#endif // MUU_HAS_INT128
+	#endif // MUU_HAS_INT128
 
-		#if MUU_HAS_FLOAT128
+	#if MUU_HAS_FLOAT128
 		template <>
 		struct integer_limits<float128_t>
 		{
 			static constexpr float128_t highest = 1.18973149535723176508575932662800702e4932q;
-			static constexpr float128_t lowest  = -highest;
+			static constexpr float128_t lowest	= -highest;
 		};
-		#endif
+	#endif
 
 		/// \endcond
 
@@ -1356,29 +1877,29 @@ namespace muu
 		struct integer_positive_constants
 		{
 			/// \name Integers
-			/// @{ 
+			/// @{
 
-			static constexpr T zero = T{ 0 };				///< `0`
-			static constexpr T one = T{ 1 };				///< `1`
-			static constexpr T two = T{ 2 };				///< `2`
-			static constexpr T three = T{ 3 };				///< `3`
-			static constexpr T four = T{ 4 };				///< `4`
-			static constexpr T five = T{ 5 };				///< `5`
-			static constexpr T six = T{ 6 };				///< `6`
-			static constexpr T seven = T{ 7 };				///< `7`
-			static constexpr T eight = T{ 8 };				///< `8`
-			static constexpr T nine = T{ 9 };				///< `9`
-			static constexpr T ten = T{ 10 };				///< `10`
-			static constexpr T one_hundred = T{ 100 };		///< `100`
+			static constexpr T zero		   = T{ 0 };   ///< `0`
+			static constexpr T one		   = T{ 1 };   ///< `1`
+			static constexpr T two		   = T{ 2 };   ///< `2`
+			static constexpr T three	   = T{ 3 };   ///< `3`
+			static constexpr T four		   = T{ 4 };   ///< `4`
+			static constexpr T five		   = T{ 5 };   ///< `5`
+			static constexpr T six		   = T{ 6 };   ///< `6`
+			static constexpr T seven	   = T{ 7 };   ///< `7`
+			static constexpr T eight	   = T{ 8 };   ///< `8`
+			static constexpr T nine		   = T{ 9 };   ///< `9`
+			static constexpr T ten		   = T{ 10 };  ///< `10`
+			static constexpr T one_hundred = T{ 100 }; ///< `100`
 
-			/// @} 
+			/// @}
 		};
 
 		template <typename T>
 		struct floating_point_traits
 		{
 			/// \name Floating-point
-			/// @{ 
+			/// @{
 
 			/// \brief The number of significand (mantissa) digits.
 			static constexpr int significand_digits = std::numeric_limits<T>::digits;
@@ -1389,40 +1910,41 @@ namespace muu
 			/// \brief The default epsilon used by #approx_equal().
 			static constexpr T default_epsilon = T{ 10 } * power<T, 10, -std::numeric_limits<T>::digits10>::value;
 
-			/// @} 
+			/// @}
 		};
 
 		/// \cond
 
-		#if MUU_HAS_FP16
+	#if MUU_HAS_FP16
 		template <>
 		struct floating_point_traits<__fp16>
 		{
 			static constexpr int significand_digits = 11;
-			static constexpr int decimal_digits = 3;
+			static constexpr int decimal_digits		= 3;
 			static constexpr __fp16 default_epsilon = static_cast<__fp16>(0.001);
 		};
-		#endif
+	#endif
 
-		#if MUU_HAS_FLOAT16
+	#if MUU_HAS_FLOAT16
 		template <>
 		struct floating_point_traits<_Float16>
 		{
-			static constexpr int significand_digits = 11;
-			static constexpr int decimal_digits = 3;
+			static constexpr int significand_digits	  = 11;
+			static constexpr int decimal_digits		  = 3;
 			static constexpr _Float16 default_epsilon = static_cast<_Float16>(0.001);
 		};
-		#endif
+	#endif
 
-		#if MUU_HAS_FLOAT128
+	#if MUU_HAS_FLOAT128
 		template <>
 		struct floating_point_traits<float128_t>
 		{
 			static constexpr int significand_digits = __FLT128_MANT_DIG__;
-			static constexpr int decimal_digits = __FLT128_DIG__;
-			static constexpr float128_t default_epsilon = float128_t{ 10 } * power<float128_t, 10, -__FLT128_DIG__>::value;
+			static constexpr int decimal_digits		= __FLT128_DIG__;
+			static constexpr float128_t default_epsilon =
+				float128_t{ 10 } * power<float128_t, 10, -__FLT128_DIG__>::value;
 		};
-		#endif
+	#endif
 
 		/// \endcond
 
@@ -1430,317 +1952,310 @@ namespace muu
 		struct floating_point_special_constants
 		{
 			/// \name Floating-point
-			/// @{ 
+			/// @{
 
-			static constexpr T nan = std::numeric_limits<T>::quiet_NaN();		///< Not-A-Number (quiet)
-			static constexpr T signaling_nan = std::numeric_limits<T>::signaling_NaN();	///< Not-A-Number (signalling)
-			static constexpr T infinity = std::numeric_limits<T>::infinity();	///< Positive infinity
-			static constexpr T negative_infinity = -infinity;					///< Negative infinity
-			static constexpr T negative_zero =		-T{};						///< `-0.0`
+			static constexpr T nan			 = std::numeric_limits<T>::quiet_NaN();		///< Not-A-Number (quiet)
+			static constexpr T signaling_nan = std::numeric_limits<T>::signaling_NaN(); ///< Not-A-Number (signalling)
+			static constexpr T infinity		 = std::numeric_limits<T>::infinity();		///< Positive infinity
+			static constexpr T negative_infinity = -infinity;							///< Negative infinity
+			static constexpr T negative_zero	 = -T{};								///< `-0.0`
 
-			/// @} 
+			/// @}
 		};
 
 		template <typename T>
 		struct floating_point_named_constants
 		{
 			/// \name Irrational numbers
-			/// @{ 
+			/// @{
 
-			static constexpr T one_over_two           = T( 0.500000000000000000000L ); ///< `1 / 2`
-			static constexpr T two_over_three         = T( 0.666666666666666666667L ); ///< `2 / 3`
-			static constexpr T two_over_five          = T( 0.400000000000000000000L ); ///< `2 / 5`
-			static constexpr T sqrt_two               = T( 1.414213562373095048802L ); ///< `sqrt(2)`
-			static constexpr T one_over_sqrt_two      = T( 0.707106781186547524401L ); ///< `1 / sqrt(2)`
-			static constexpr T one_over_three         = T( 0.333333333333333333333L ); ///< `1 / 3`
-			static constexpr T three_over_two         = T( 1.500000000000000000000L ); ///< `3 / 2`
-			static constexpr T three_over_four        = T( 0.750000000000000000000L ); ///< `3 / 4`
-			static constexpr T three_over_five        = T( 0.600000000000000000000L ); ///< `3 / 5`
-			static constexpr T sqrt_three             = T( 1.732050807568877293527L ); ///< `sqrt(3)`
-			static constexpr T one_over_sqrt_three    = T( 0.577350269189625764509L ); ///< `1 / sqrt(3)`
-			static constexpr T pi                     = T( 3.141592653589793238463L ); ///< `pi`
-			static constexpr T one_over_pi            = T( 0.318309886183790671538L ); ///< `1 / pi`
-			static constexpr T pi_over_two            = T( 1.570796326794896619231L ); ///< `pi / 2`
-			static constexpr T pi_over_three          = T( 1.047197551196597746154L ); ///< `pi / 3`
-			static constexpr T pi_over_four           = T( 0.785398163397448309616L ); ///< `pi / 4`
-			static constexpr T pi_over_five           = T( 0.628318530717958647693L ); ///< `pi / 5`
-			static constexpr T pi_over_six            = T( 0.523598775598298873077L ); ///< `pi / 6`
-			static constexpr T pi_over_seven          = T( 0.448798950512827605495L ); ///< `pi / 7`
-			static constexpr T pi_over_eight          = T( 0.392699081698724154808L ); ///< `pi / 8`
-			static constexpr T sqrt_pi                = T( 1.772453850905516027298L ); ///< `sqrt(pi)`
-			static constexpr T one_over_sqrt_pi       = T( 0.564189583547756286948L ); ///< `1 / sqrt(pi)`
-			static constexpr T two_pi                 = T( 6.283185307179586476925L ); ///< `2 * pi`
-			static constexpr T one_over_two_pi        = T( 0.159154943091895335769L ); ///< `1 / (2 * pi)`
-			static constexpr T sqrt_two_pi            = T( 2.506628274631000502416L ); ///< `sqrt(2 * pi)`
-			static constexpr T one_over_sqrt_two_pi   = T( 0.398942280401432677940L ); ///< `1 / sqrt(2 * pi)`
-			static constexpr T three_pi               = T( 9.424777960769379715388L ); ///< `3 * pi`
-			static constexpr T one_over_three_pi      = T( 0.106103295394596890513L ); ///< `1 / (3 * pi)`
-			static constexpr T three_pi_over_two      = T( 4.712388980384689857694L ); ///< `3 * (pi / 2)`
-			static constexpr T three_pi_over_four     = T( 2.356194490192344928847L ); ///< `3 * (pi / 4)`
-			static constexpr T three_pi_over_five     = T( 1.884955592153875943078L ); ///< `3 * (pi / 5)`
-			static constexpr T sqrt_three_pi          = T( 3.069980123839465465439L ); ///< `sqrt(3 * pi)`
-			static constexpr T one_over_sqrt_three_pi = T( 0.325735007935279947724L ); ///< `1 / sqrt(3 * pi)`
-			static constexpr T e                      = T( 2.718281828459045534885L ); ///< `e`
-			static constexpr T one_over_e             = T( 0.367879441171442281059L ); ///< `1 / e`
-			static constexpr T e_over_two             = T( 1.359140914229522767442L ); ///< `e / 2`
-			static constexpr T e_over_three           = T( 0.906093942819681844962L ); ///< `e / 3`
-			static constexpr T e_over_four            = T( 0.679570457114761383721L ); ///< `e / 4`
-			static constexpr T e_over_five            = T( 0.543656365691809106977L ); ///< `e / 5`
-			static constexpr T e_over_six             = T( 0.453046971409840922481L ); ///< `e / 6`
-			static constexpr T sqrt_e                 = T( 1.648721270700128237684L ); ///< `sqrt(e)`
-			static constexpr T one_over_sqrt_e        = T( 0.606530659712633390187L ); ///< `1 / sqrt(e)`
-			static constexpr T phi                    = T( 1.618033988749894848205L ); ///< `phi`
-			static constexpr T one_over_phi           = T( 0.618033988749894848205L ); ///< `1 / phi`
-			static constexpr T phi_over_two           = T( 0.809016994374947424102L ); ///< `phi / 2`
-			static constexpr T phi_over_three         = T( 0.539344662916631616068L ); ///< `phi / 3`
-			static constexpr T phi_over_four          = T( 0.404508497187473712051L ); ///< `phi / 4`
-			static constexpr T phi_over_five          = T( 0.323606797749978969641L ); ///< `phi / 5`
-			static constexpr T phi_over_six           = T( 0.269672331458315808034L ); ///< `phi / 6`
-			static constexpr T sqrt_phi               = T( 1.272019649514068964252L ); ///< `sqrt(phi)`
-			static constexpr T one_over_sqrt_phi      = T( 0.786151377757423286070L ); ///< `1 / sqrt(phi)`
+			static constexpr T one_over_two			  = T(0.500000000000000000000L); ///< `1 / 2`
+			static constexpr T two_over_three		  = T(0.666666666666666666667L); ///< `2 / 3`
+			static constexpr T two_over_five		  = T(0.400000000000000000000L); ///< `2 / 5`
+			static constexpr T sqrt_two				  = T(1.414213562373095048802L); ///< `sqrt(2)`
+			static constexpr T one_over_sqrt_two	  = T(0.707106781186547524401L); ///< `1 / sqrt(2)`
+			static constexpr T one_over_three		  = T(0.333333333333333333333L); ///< `1 / 3`
+			static constexpr T three_over_two		  = T(1.500000000000000000000L); ///< `3 / 2`
+			static constexpr T three_over_four		  = T(0.750000000000000000000L); ///< `3 / 4`
+			static constexpr T three_over_five		  = T(0.600000000000000000000L); ///< `3 / 5`
+			static constexpr T sqrt_three			  = T(1.732050807568877293527L); ///< `sqrt(3)`
+			static constexpr T one_over_sqrt_three	  = T(0.577350269189625764509L); ///< `1 / sqrt(3)`
+			static constexpr T pi					  = T(3.141592653589793238463L); ///< `pi`
+			static constexpr T one_over_pi			  = T(0.318309886183790671538L); ///< `1 / pi`
+			static constexpr T pi_over_two			  = T(1.570796326794896619231L); ///< `pi / 2`
+			static constexpr T pi_over_three		  = T(1.047197551196597746154L); ///< `pi / 3`
+			static constexpr T pi_over_four			  = T(0.785398163397448309616L); ///< `pi / 4`
+			static constexpr T pi_over_five			  = T(0.628318530717958647693L); ///< `pi / 5`
+			static constexpr T pi_over_six			  = T(0.523598775598298873077L); ///< `pi / 6`
+			static constexpr T pi_over_seven		  = T(0.448798950512827605495L); ///< `pi / 7`
+			static constexpr T pi_over_eight		  = T(0.392699081698724154808L); ///< `pi / 8`
+			static constexpr T sqrt_pi				  = T(1.772453850905516027298L); ///< `sqrt(pi)`
+			static constexpr T one_over_sqrt_pi		  = T(0.564189583547756286948L); ///< `1 / sqrt(pi)`
+			static constexpr T two_pi				  = T(6.283185307179586476925L); ///< `2 * pi`
+			static constexpr T one_over_two_pi		  = T(0.159154943091895335769L); ///< `1 / (2 * pi)`
+			static constexpr T sqrt_two_pi			  = T(2.506628274631000502416L); ///< `sqrt(2 * pi)`
+			static constexpr T one_over_sqrt_two_pi	  = T(0.398942280401432677940L); ///< `1 / sqrt(2 * pi)`
+			static constexpr T three_pi				  = T(9.424777960769379715388L); ///< `3 * pi`
+			static constexpr T one_over_three_pi	  = T(0.106103295394596890513L); ///< `1 / (3 * pi)`
+			static constexpr T three_pi_over_two	  = T(4.712388980384689857694L); ///< `3 * (pi / 2)`
+			static constexpr T three_pi_over_four	  = T(2.356194490192344928847L); ///< `3 * (pi / 4)`
+			static constexpr T three_pi_over_five	  = T(1.884955592153875943078L); ///< `3 * (pi / 5)`
+			static constexpr T sqrt_three_pi		  = T(3.069980123839465465439L); ///< `sqrt(3 * pi)`
+			static constexpr T one_over_sqrt_three_pi = T(0.325735007935279947724L); ///< `1 / sqrt(3 * pi)`
+			static constexpr T e					  = T(2.718281828459045534885L); ///< `e`
+			static constexpr T one_over_e			  = T(0.367879441171442281059L); ///< `1 / e`
+			static constexpr T e_over_two			  = T(1.359140914229522767442L); ///< `e / 2`
+			static constexpr T e_over_three			  = T(0.906093942819681844962L); ///< `e / 3`
+			static constexpr T e_over_four			  = T(0.679570457114761383721L); ///< `e / 4`
+			static constexpr T e_over_five			  = T(0.543656365691809106977L); ///< `e / 5`
+			static constexpr T e_over_six			  = T(0.453046971409840922481L); ///< `e / 6`
+			static constexpr T sqrt_e				  = T(1.648721270700128237684L); ///< `sqrt(e)`
+			static constexpr T one_over_sqrt_e		  = T(0.606530659712633390187L); ///< `1 / sqrt(e)`
+			static constexpr T phi					  = T(1.618033988749894848205L); ///< `phi`
+			static constexpr T one_over_phi			  = T(0.618033988749894848205L); ///< `1 / phi`
+			static constexpr T phi_over_two			  = T(0.809016994374947424102L); ///< `phi / 2`
+			static constexpr T phi_over_three		  = T(0.539344662916631616068L); ///< `phi / 3`
+			static constexpr T phi_over_four		  = T(0.404508497187473712051L); ///< `phi / 4`
+			static constexpr T phi_over_five		  = T(0.323606797749978969641L); ///< `phi / 5`
+			static constexpr T phi_over_six			  = T(0.269672331458315808034L); ///< `phi / 6`
+			static constexpr T sqrt_phi				  = T(1.272019649514068964252L); ///< `sqrt(phi)`
+			static constexpr T one_over_sqrt_phi	  = T(0.786151377757423286070L); ///< `1 / sqrt(phi)`
 
-			/// @} 
+			/// @}
 
 			/// \name Conversions
-			/// @{ 
+			/// @{
 
 			/// \brief  Conversion factor for converting degrees into radians.
-			static constexpr T degrees_to_radians     = T( 0.017453292519943295769L );
+			static constexpr T degrees_to_radians = T(0.017453292519943295769L);
 			/// \brief  Conversion factor for converting radians into degrees.
-			static constexpr T radians_to_degrees     = T( 57.295779513082320876798L);
+			static constexpr T radians_to_degrees = T(57.295779513082320876798L);
 
-			/// @} 
+			/// @}
 		};
 
-		/// \cond
-		#if MUU_HAS_FLOAT128
+	/// \cond
+	#if MUU_HAS_FLOAT128
 		template <>
 		struct floating_point_named_constants<float128_t>
 		{
-			static constexpr float128_t one_over_two          = 0.500000000000000000000000000000000000q;
-			static constexpr float128_t two_over_three        = 0.666666666666666666666666666666666667q;
-			static constexpr float128_t two_over_five         = 0.400000000000000000000000000000000000q;
-			static constexpr float128_t sqrt_two              = 1.414213562373095048801688724209698079q;
-			static constexpr float128_t one_over_sqrt_two     = 0.707106781186547524400844362104849039q;
-			static constexpr float128_t one_over_three        = 0.333333333333333333333333333333333333q;
-			static constexpr float128_t three_over_two        = 1.500000000000000000000000000000000000q;
-			static constexpr float128_t three_over_four       = 0.750000000000000000000000000000000000q;
-			static constexpr float128_t three_over_five       = 0.600000000000000000000000000000000000q;
-			static constexpr float128_t sqrt_three            = 1.732050807568877293527446341505872367q;
-			static constexpr float128_t one_over_sqrt_three   = 0.577350269189625764509148780501957456q;
-			static constexpr float128_t pi                    = 3.141592653589793238462643383279502884q;
-			static constexpr float128_t one_over_pi           = 0.318309886183790671537767526745028724q;
-			static constexpr float128_t pi_over_two           = 1.570796326794896619231321691639751442q;
-			static constexpr float128_t pi_over_three         = 1.047197551196597746154214461093167628q;
-			static constexpr float128_t pi_over_four          = 0.785398163397448309615660845819875721q;
-			static constexpr float128_t pi_over_five          = 0.628318530717958647692528676655900577q;
-			static constexpr float128_t pi_over_six           = 0.523598775598298873077107230546583814q;
-			static constexpr float128_t pi_over_seven         = 0.448798950512827605494663340468500412q;
-			static constexpr float128_t pi_over_eight         = 0.392699081698724154807830422909937861q;
-			static constexpr float128_t sqrt_pi               = 1.772453850905516027298167483341145183q;
-			static constexpr float128_t one_over_sqrt_pi      = 0.564189583547756286948079451560772586q;
-			static constexpr float128_t two_pi                = 6.283185307179586476925286766559005768q;
-			static constexpr float128_t one_over_two_pi       = 0.159154943091895335768883763372514362q;
-			static constexpr float128_t sqrt_two_pi           = 2.506628274631000502415765284811045253q;
-			static constexpr float128_t one_over_sqrt_two_pi  = 0.398942280401432677939946059934381868q;
-			static constexpr float128_t three_pi              = 9.424777960769379715387930149838508653q;
-			static constexpr float128_t one_over_three_pi     = 0.106103295394596890512589175581676241q;
-			static constexpr float128_t three_pi_over_two     = 4.712388980384689857693965074919254326q;
-			static constexpr float128_t three_pi_over_four    = 2.356194490192344928846982537459627163q;
-			static constexpr float128_t three_pi_over_five    = 1.884955592153875943077586029967701731q;
-			static constexpr float128_t sqrt_three_pi         = 3.069980123839465465438654874667794582q;
-			static constexpr float128_t one_over_sqrt_three_pi= 0.325735007935279947724256415225564670q;
-			static constexpr float128_t e                     = 2.718281828459045534884808148490265012q;
-			static constexpr float128_t one_over_e            = 0.367879441171442281059287928010393142q;
-			static constexpr float128_t e_over_two            = 1.359140914229522767442404074245132506q;
-			static constexpr float128_t e_over_three          = 0.906093942819681844961602716163421671q;
-			static constexpr float128_t e_over_four           = 0.679570457114761383721202037122566253q;
-			static constexpr float128_t e_over_five           = 0.543656365691809106976961629698053002q;
-			static constexpr float128_t e_over_six            = 0.453046971409840922480801358081710835q;
-			static constexpr float128_t sqrt_e                = 1.648721270700128237684053351021451524q;
-			static constexpr float128_t one_over_sqrt_e       = 0.606530659712633390187322401455485737q;
-			static constexpr float128_t phi                   = 1.618033988749894848204586834365638118q;
-			static constexpr float128_t one_over_phi          = 0.618033988749894848204586834365638118q;
-			static constexpr float128_t phi_over_two          = 0.809016994374947424102293417182819059q;
-			static constexpr float128_t phi_over_three        = 0.539344662916631616068195611455212706q;
-			static constexpr float128_t phi_over_four         = 0.404508497187473712051146708591409529q;
-			static constexpr float128_t phi_over_five         = 0.323606797749978969640917366873127624q;
-			static constexpr float128_t phi_over_six          = 0.269672331458315808034097805727606353q;
-			static constexpr float128_t sqrt_phi              = 1.272019649514068964252422461737491492q;
-			static constexpr float128_t one_over_sqrt_phi     = 0.786151377757423286069558585842958930q;
-			static constexpr float128_t degrees_to_radians    = 0.017453292519943295769236907684886127q;
-			static constexpr float128_t radians_to_degrees    = 57.295779513082320876798154814105170332q;
+			static constexpr float128_t one_over_two		   = 0.500000000000000000000000000000000000q;
+			static constexpr float128_t two_over_three		   = 0.666666666666666666666666666666666667q;
+			static constexpr float128_t two_over_five		   = 0.400000000000000000000000000000000000q;
+			static constexpr float128_t sqrt_two			   = 1.414213562373095048801688724209698079q;
+			static constexpr float128_t one_over_sqrt_two	   = 0.707106781186547524400844362104849039q;
+			static constexpr float128_t one_over_three		   = 0.333333333333333333333333333333333333q;
+			static constexpr float128_t three_over_two		   = 1.500000000000000000000000000000000000q;
+			static constexpr float128_t three_over_four		   = 0.750000000000000000000000000000000000q;
+			static constexpr float128_t three_over_five		   = 0.600000000000000000000000000000000000q;
+			static constexpr float128_t sqrt_three			   = 1.732050807568877293527446341505872367q;
+			static constexpr float128_t one_over_sqrt_three	   = 0.577350269189625764509148780501957456q;
+			static constexpr float128_t pi					   = 3.141592653589793238462643383279502884q;
+			static constexpr float128_t one_over_pi			   = 0.318309886183790671537767526745028724q;
+			static constexpr float128_t pi_over_two			   = 1.570796326794896619231321691639751442q;
+			static constexpr float128_t pi_over_three		   = 1.047197551196597746154214461093167628q;
+			static constexpr float128_t pi_over_four		   = 0.785398163397448309615660845819875721q;
+			static constexpr float128_t pi_over_five		   = 0.628318530717958647692528676655900577q;
+			static constexpr float128_t pi_over_six			   = 0.523598775598298873077107230546583814q;
+			static constexpr float128_t pi_over_seven		   = 0.448798950512827605494663340468500412q;
+			static constexpr float128_t pi_over_eight		   = 0.392699081698724154807830422909937861q;
+			static constexpr float128_t sqrt_pi				   = 1.772453850905516027298167483341145183q;
+			static constexpr float128_t one_over_sqrt_pi	   = 0.564189583547756286948079451560772586q;
+			static constexpr float128_t two_pi				   = 6.283185307179586476925286766559005768q;
+			static constexpr float128_t one_over_two_pi		   = 0.159154943091895335768883763372514362q;
+			static constexpr float128_t sqrt_two_pi			   = 2.506628274631000502415765284811045253q;
+			static constexpr float128_t one_over_sqrt_two_pi   = 0.398942280401432677939946059934381868q;
+			static constexpr float128_t three_pi			   = 9.424777960769379715387930149838508653q;
+			static constexpr float128_t one_over_three_pi	   = 0.106103295394596890512589175581676241q;
+			static constexpr float128_t three_pi_over_two	   = 4.712388980384689857693965074919254326q;
+			static constexpr float128_t three_pi_over_four	   = 2.356194490192344928846982537459627163q;
+			static constexpr float128_t three_pi_over_five	   = 1.884955592153875943077586029967701731q;
+			static constexpr float128_t sqrt_three_pi		   = 3.069980123839465465438654874667794582q;
+			static constexpr float128_t one_over_sqrt_three_pi = 0.325735007935279947724256415225564670q;
+			static constexpr float128_t e					   = 2.718281828459045534884808148490265012q;
+			static constexpr float128_t one_over_e			   = 0.367879441171442281059287928010393142q;
+			static constexpr float128_t e_over_two			   = 1.359140914229522767442404074245132506q;
+			static constexpr float128_t e_over_three		   = 0.906093942819681844961602716163421671q;
+			static constexpr float128_t e_over_four			   = 0.679570457114761383721202037122566253q;
+			static constexpr float128_t e_over_five			   = 0.543656365691809106976961629698053002q;
+			static constexpr float128_t e_over_six			   = 0.453046971409840922480801358081710835q;
+			static constexpr float128_t sqrt_e				   = 1.648721270700128237684053351021451524q;
+			static constexpr float128_t one_over_sqrt_e		   = 0.606530659712633390187322401455485737q;
+			static constexpr float128_t phi					   = 1.618033988749894848204586834365638118q;
+			static constexpr float128_t one_over_phi		   = 0.618033988749894848204586834365638118q;
+			static constexpr float128_t phi_over_two		   = 0.809016994374947424102293417182819059q;
+			static constexpr float128_t phi_over_three		   = 0.539344662916631616068195611455212706q;
+			static constexpr float128_t phi_over_four		   = 0.404508497187473712051146708591409529q;
+			static constexpr float128_t phi_over_five		   = 0.323606797749978969640917366873127624q;
+			static constexpr float128_t phi_over_six		   = 0.269672331458315808034097805727606353q;
+			static constexpr float128_t sqrt_phi			   = 1.272019649514068964252422461737491492q;
+			static constexpr float128_t one_over_sqrt_phi	   = 0.786151377757423286069558585842958930q;
+			static constexpr float128_t degrees_to_radians	   = 0.017453292519943295769236907684886127q;
+			static constexpr float128_t radians_to_degrees	   = 57.295779513082320876798154814105170332q;
 		};
-		#endif
+	#endif
 		/// \endcond
 
 		//-------------  constant class aggregates
 
 		template <typename T>
-		struct ascii_character_constants
-			: integer_limits<T>,
-			integer_positive_constants<T>
+		struct ascii_character_constants : integer_limits<T>, integer_positive_constants<T>
 		{
 			/// \name Control characters
-			/// @{ 
+			/// @{
 
-			static constexpr T backspace = T{ 8 };				///< The backspace character.
-			static constexpr T escape = T{ 27 };				///< `ESC`
-			static constexpr T del = T{ 127 };					///< `DEL`
+			static constexpr T backspace = T{ 8 };	 ///< The backspace character.
+			static constexpr T escape	 = T{ 27 };	 ///< `ESC`
+			static constexpr T del		 = T{ 127 }; ///< `DEL`
 
-			/// @} 
+			/// @}
 
 			/// \name Whitespace
-			/// @{ 
+			/// @{
 
-			static constexpr T tab = T{ 9 };					///< `\t`
-			static constexpr T new_line = T{ 10 };				///< `\n`
-			static constexpr T vertical_tab = T{ 11 };			///< `\v`
-			static constexpr T form_feed = T{ 12 };				///< `\f`
-			static constexpr T carriage_return = T{ 13 };		///< `\r`
-			static constexpr T space = T{ 32 };					///< `&nbsp;` (space)
+			static constexpr T tab			   = T{ 9 };  ///< `\t`
+			static constexpr T new_line		   = T{ 10 }; ///< `\n`
+			static constexpr T vertical_tab	   = T{ 11 }; ///< `\v`
+			static constexpr T form_feed	   = T{ 12 }; ///< `\f`
+			static constexpr T carriage_return = T{ 13 }; ///< `\r`
+			static constexpr T space		   = T{ 32 }; ///< `&nbsp;` (space)
 
 			/// @}
 
 			/// \name Punctuation
-			/// @{ 
+			/// @{
 
-			static constexpr T exclamation_mark = T{ 33 };		///< `!`
-			static constexpr T quote = T{ 34 };					///< `"`
-			static constexpr T number_sign = T{ 35 };			///< `#`
-			static constexpr T dollar_sign = T{ 36 };			///< `$`
-			static constexpr T percent = T{ 37 };				///< `%`
-			static constexpr T ampersand = T{ 38 };				///< `&amp;`
-			static constexpr T apostrophe = T{ 39 };			///< `&apos;`
-			static constexpr T left_parenthesis = T{ 40 };		///< `(`
-			static constexpr T right_parenthesis = T{ 41 };		///< `)`
-			static constexpr T asterisk = T{ 42 };				///< `*`
-			static constexpr T plus = T{ 43 };					///< `+`
-			static constexpr T comma = T{ 44 };					///< `,`
-			static constexpr T hyphen = T{ 45 };				///< `-`
-			static constexpr T period = T{ 46 };				///< `.`
-			static constexpr T forward_slash = T{ 47 };			///< `/`
+			static constexpr T exclamation_mark	 = T{ 33 }; ///< `!`
+			static constexpr T quote			 = T{ 34 }; ///< `"`
+			static constexpr T number_sign		 = T{ 35 }; ///< `#`
+			static constexpr T dollar_sign		 = T{ 36 }; ///< `$`
+			static constexpr T percent			 = T{ 37 }; ///< `%`
+			static constexpr T ampersand		 = T{ 38 }; ///< `&amp;`
+			static constexpr T apostrophe		 = T{ 39 }; ///< `&apos;`
+			static constexpr T left_parenthesis	 = T{ 40 }; ///< `(`
+			static constexpr T right_parenthesis = T{ 41 }; ///< `)`
+			static constexpr T asterisk			 = T{ 42 }; ///< `*`
+			static constexpr T plus				 = T{ 43 }; ///< `+`
+			static constexpr T comma			 = T{ 44 }; ///< `,`
+			static constexpr T hyphen			 = T{ 45 }; ///< `-`
+			static constexpr T period			 = T{ 46 }; ///< `.`
+			static constexpr T forward_slash	 = T{ 47 }; ///< `/`
 
-			static constexpr T colon = T{ 58 };					///< `:`
-			static constexpr T semi_colon = T{ 59 };			///< `;`
-			static constexpr T less_than = T{ 60 };				///< `&lt;`
-			static constexpr T equal = T{ 61 };					///< `=`
-			static constexpr T greater_than = T{ 62 };			///< `&gt;`
-			static constexpr T question_mark = T{ 63 };			///< `?`
-			static constexpr T at = T{ 64 };					///< `@`
+			static constexpr T colon		 = T{ 58 }; ///< `:`
+			static constexpr T semi_colon	 = T{ 59 }; ///< `;`
+			static constexpr T less_than	 = T{ 60 }; ///< `&lt;`
+			static constexpr T equal		 = T{ 61 }; ///< `=`
+			static constexpr T greater_than	 = T{ 62 }; ///< `&gt;`
+			static constexpr T question_mark = T{ 63 }; ///< `?`
+			static constexpr T at			 = T{ 64 }; ///< `@`
 
 			/// \name Digits
-			/// @{ 
+			/// @{
 
-			static constexpr T digit_0 = T{ 48 };				///< `0`
-			static constexpr T digit_1 = T{ 49 };				///< `1`
-			static constexpr T digit_2 = T{ 50 };				///< `2`
-			static constexpr T digit_3 = T{ 51 };				///< `3`
-			static constexpr T digit_4 = T{ 52 };				///< `4`
-			static constexpr T digit_5 = T{ 53 };				///< `5`
-			static constexpr T digit_6 = T{ 54 };				///< `6`
-			static constexpr T digit_7 = T{ 55 };				///< `7`
-			static constexpr T digit_8 = T{ 56 };				///< `8`
-			static constexpr T digit_9 = T{ 57 };				///< `9`
+			static constexpr T digit_0 = T{ 48 }; ///< `0`
+			static constexpr T digit_1 = T{ 49 }; ///< `1`
+			static constexpr T digit_2 = T{ 50 }; ///< `2`
+			static constexpr T digit_3 = T{ 51 }; ///< `3`
+			static constexpr T digit_4 = T{ 52 }; ///< `4`
+			static constexpr T digit_5 = T{ 53 }; ///< `5`
+			static constexpr T digit_6 = T{ 54 }; ///< `6`
+			static constexpr T digit_7 = T{ 55 }; ///< `7`
+			static constexpr T digit_8 = T{ 56 }; ///< `8`
+			static constexpr T digit_9 = T{ 57 }; ///< `9`
 
-			/// @} 
+			/// @}
 
 			/// \name Letters
-			/// @{ 
+			/// @{
 
-			static constexpr T letter_A = T{ 65 };				///< `A`
-			static constexpr T letter_B = T{ 66 };				///< `B`
-			static constexpr T letter_C = T{ 67 };				///< `C`
-			static constexpr T letter_D = T{ 68 };				///< `D`
-			static constexpr T letter_E = T{ 69 };				///< `E`
-			static constexpr T letter_F = T{ 70 };				///< `F`
-			static constexpr T letter_G = T{ 71 };				///< `G`
-			static constexpr T letter_H = T{ 72 };				///< `H`
-			static constexpr T letter_I = T{ 73 };				///< `I`
-			static constexpr T letter_J = T{ 74 };				///< `J`
-			static constexpr T letter_K = T{ 75 };				///< `K`
-			static constexpr T letter_L = T{ 76 };				///< `L`
-			static constexpr T letter_M = T{ 77 };				///< `M`
-			static constexpr T letter_N = T{ 78 };				///< `N`
-			static constexpr T letter_O = T{ 79 };				///< `O`
-			static constexpr T letter_P = T{ 80 };				///< `P`
-			static constexpr T letter_Q = T{ 81 };				///< `Q`
-			static constexpr T letter_R = T{ 82 };				///< `R`
-			static constexpr T letter_S = T{ 83 };				///< `S`
-			static constexpr T letter_T = T{ 84 };				///< `T`
-			static constexpr T letter_U = T{ 85 };				///< `U`
-			static constexpr T letter_V = T{ 86 };				///< `V`
-			static constexpr T letter_W = T{ 87 };				///< `W`
-			static constexpr T letter_X = T{ 88 };				///< `X`
-			static constexpr T letter_Y = T{ 89 };				///< `Y`
-			static constexpr T letter_Z = T{ 90 };				///< `Z`
+			static constexpr T letter_A = T{ 65 }; ///< `A`
+			static constexpr T letter_B = T{ 66 }; ///< `B`
+			static constexpr T letter_C = T{ 67 }; ///< `C`
+			static constexpr T letter_D = T{ 68 }; ///< `D`
+			static constexpr T letter_E = T{ 69 }; ///< `E`
+			static constexpr T letter_F = T{ 70 }; ///< `F`
+			static constexpr T letter_G = T{ 71 }; ///< `G`
+			static constexpr T letter_H = T{ 72 }; ///< `H`
+			static constexpr T letter_I = T{ 73 }; ///< `I`
+			static constexpr T letter_J = T{ 74 }; ///< `J`
+			static constexpr T letter_K = T{ 75 }; ///< `K`
+			static constexpr T letter_L = T{ 76 }; ///< `L`
+			static constexpr T letter_M = T{ 77 }; ///< `M`
+			static constexpr T letter_N = T{ 78 }; ///< `N`
+			static constexpr T letter_O = T{ 79 }; ///< `O`
+			static constexpr T letter_P = T{ 80 }; ///< `P`
+			static constexpr T letter_Q = T{ 81 }; ///< `Q`
+			static constexpr T letter_R = T{ 82 }; ///< `R`
+			static constexpr T letter_S = T{ 83 }; ///< `S`
+			static constexpr T letter_T = T{ 84 }; ///< `T`
+			static constexpr T letter_U = T{ 85 }; ///< `U`
+			static constexpr T letter_V = T{ 86 }; ///< `V`
+			static constexpr T letter_W = T{ 87 }; ///< `W`
+			static constexpr T letter_X = T{ 88 }; ///< `X`
+			static constexpr T letter_Y = T{ 89 }; ///< `Y`
+			static constexpr T letter_Z = T{ 90 }; ///< `Z`
 
-			static constexpr T letter_a = T{ 97 };				///< `a`
-			static constexpr T letter_b = T{ 98 };				///< `b`
-			static constexpr T letter_c = T{ 99 };				///< `c`
-			static constexpr T letter_d = T{ 100 };				///< `d`
-			static constexpr T letter_e = T{ 101 };				///< `e`
-			static constexpr T letter_f = T{ 102 };				///< `f`
-			static constexpr T letter_g = T{ 103 };				///< `g`
-			static constexpr T letter_h = T{ 104 };				///< `h`
-			static constexpr T letter_i = T{ 105 };				///< `i`
-			static constexpr T letter_j = T{ 106 };				///< `j`
-			static constexpr T letter_k = T{ 107 };				///< `k`
-			static constexpr T letter_l = T{ 108 };				///< `l`
-			static constexpr T letter_m = T{ 109 };				///< `m`
-			static constexpr T letter_n = T{ 110 };				///< `n`
-			static constexpr T letter_o = T{ 111 };				///< `o`
-			static constexpr T letter_p = T{ 112 };				///< `p`
-			static constexpr T letter_q = T{ 113 };				///< `q`
-			static constexpr T letter_r = T{ 114 };				///< `r`
-			static constexpr T letter_s = T{ 115 };				///< `s`
-			static constexpr T letter_t = T{ 116 };				///< `t`
-			static constexpr T letter_u = T{ 117 };				///< `u`
-			static constexpr T letter_v = T{ 118 };				///< `v`
-			static constexpr T letter_w = T{ 119 };				///< `w`
-			static constexpr T letter_x = T{ 120 };				///< `x`
-			static constexpr T letter_y = T{ 121 };				///< `y`
-			static constexpr T letter_z = T{ 122 };				///< `z`
+			static constexpr T letter_a = T{ 97 };	///< `a`
+			static constexpr T letter_b = T{ 98 };	///< `b`
+			static constexpr T letter_c = T{ 99 };	///< `c`
+			static constexpr T letter_d = T{ 100 }; ///< `d`
+			static constexpr T letter_e = T{ 101 }; ///< `e`
+			static constexpr T letter_f = T{ 102 }; ///< `f`
+			static constexpr T letter_g = T{ 103 }; ///< `g`
+			static constexpr T letter_h = T{ 104 }; ///< `h`
+			static constexpr T letter_i = T{ 105 }; ///< `i`
+			static constexpr T letter_j = T{ 106 }; ///< `j`
+			static constexpr T letter_k = T{ 107 }; ///< `k`
+			static constexpr T letter_l = T{ 108 }; ///< `l`
+			static constexpr T letter_m = T{ 109 }; ///< `m`
+			static constexpr T letter_n = T{ 110 }; ///< `n`
+			static constexpr T letter_o = T{ 111 }; ///< `o`
+			static constexpr T letter_p = T{ 112 }; ///< `p`
+			static constexpr T letter_q = T{ 113 }; ///< `q`
+			static constexpr T letter_r = T{ 114 }; ///< `r`
+			static constexpr T letter_s = T{ 115 }; ///< `s`
+			static constexpr T letter_t = T{ 116 }; ///< `t`
+			static constexpr T letter_u = T{ 117 }; ///< `u`
+			static constexpr T letter_v = T{ 118 }; ///< `v`
+			static constexpr T letter_w = T{ 119 }; ///< `w`
+			static constexpr T letter_x = T{ 120 }; ///< `x`
+			static constexpr T letter_y = T{ 121 }; ///< `y`
+			static constexpr T letter_z = T{ 122 }; ///< `z`
 
-			/// @} 
+			/// @}
 
 			/// \name Punctuation
-			/// @{ 
+			/// @{
 
-			static constexpr T left_square_bracket = T{ 91 };	///< `[`
-			static constexpr T back_slash = T{ 92 };			///< `\\`
-			static constexpr T right_square_bracket = T{ 93 };	///< `]`
-			static constexpr T hat = T{ 94 };					///< `^`
-			static constexpr T underscore = T{ 95 };			///< `_`
-			static constexpr T backtick = T{ 96 };				///< `[htmlentity #96]`
+			static constexpr T left_square_bracket	= T{ 91 }; ///< `[`
+			static constexpr T back_slash			= T{ 92 }; ///< `\\`
+			static constexpr T right_square_bracket = T{ 93 }; ///< `]`
+			static constexpr T hat					= T{ 94 }; ///< `^`
+			static constexpr T underscore			= T{ 95 }; ///< `_`
+			static constexpr T backtick				= T{ 96 }; ///< `[htmlentity #96]`
 
-			static constexpr T left_brace = T{ 123 };			///< `{`
-			static constexpr T bar = T{ 124 };					///< `|`
-			static constexpr T right_brace = T{ 125 };			///< `}`
-			static constexpr T tilde = T{ 126 };				///< `~`
+			static constexpr T left_brace  = T{ 123 }; ///< `{`
+			static constexpr T bar		   = T{ 124 }; ///< `|`
+			static constexpr T right_brace = T{ 125 }; ///< `}`
+			static constexpr T tilde	   = T{ 126 }; ///< `~`
 
-			/// @} 
+			/// @}
 		};
 
 		template <typename T>
-		struct floating_point_constants
-			: integer_limits<T>,
-			integer_positive_constants<T>,
-			floating_point_traits<T>,
-			floating_point_special_constants<T>,
-			floating_point_named_constants<T>
+		struct floating_point_constants : integer_limits<T>,
+										  integer_positive_constants<T>,
+										  floating_point_traits<T>,
+										  floating_point_special_constants<T>,
+										  floating_point_named_constants<T>
 		{};
 
 		template <typename T>
-		struct unsigned_integral_constants
-			: integer_limits<T>,
-			integer_positive_constants<T>
+		struct unsigned_integral_constants : integer_limits<T>, integer_positive_constants<T>
 		{};
 
 		template <typename T>
-		struct signed_integral_constants
-			: integer_limits<T>,
-			integer_positive_constants<T>
+		struct signed_integral_constants : integer_limits<T>, integer_positive_constants<T>
 		{};
 	}
 
@@ -1748,85 +2263,131 @@ namespace muu
 	/// @{
 
 	/// \brief	`float` constants.
-	template <> struct constants<float> : impl::floating_point_constants<float> {};
+	template <>
+	struct constants<float> : impl::floating_point_constants<float>
+	{};
 
 	/// \brief	`double` constants.
-	template <> struct constants<double> : impl::floating_point_constants<double> {};
+	template <>
+	struct constants<double> : impl::floating_point_constants<double>
+	{};
 
 	/// \brief	`long double` constants.
-	template <> struct constants<long double> : impl::floating_point_constants<long double> {};
+	template <>
+	struct constants<long double> : impl::floating_point_constants<long double>
+	{};
 
 	#if MUU_HAS_FP16
 	/// \brief	`__fp16` constants.
-	template <> struct constants<__fp16> : impl::floating_point_constants<__fp16> {};
+	template <>
+	struct constants<__fp16> : impl::floating_point_constants<__fp16>
+	{};
 	#endif
 
 	#if MUU_HAS_FLOAT16
 	/// \brief	`_Float16` constants.
-	template <> struct constants<_Float16> : impl::floating_point_constants<_Float16> {};
+	template <>
+	struct constants<_Float16> : impl::floating_point_constants<_Float16>
+	{};
 	#endif
 
 	#if MUU_HAS_FLOAT128
 	/// \brief	`float128_t` constants.
-	template <> struct constants<float128_t> : impl::floating_point_constants<float128_t> {};
+	template <>
+	struct constants<float128_t> : impl::floating_point_constants<float128_t>
+	{};
 	#endif
 
 	/// \brief	`char` constants.
-	template <> struct constants<char> : impl::ascii_character_constants<char> {};
+	template <>
+	struct constants<char> : impl::ascii_character_constants<char>
+	{};
 
 	/// \brief	`wchar_t` constants.
-	template <> struct constants<wchar_t> : impl::ascii_character_constants<wchar_t> {};
+	template <>
+	struct constants<wchar_t> : impl::ascii_character_constants<wchar_t>
+	{};
 
 	#ifdef __cpp_char8_t
 	/// \brief	`char8_t` constants.
-	template <> struct constants<char8_t> : impl::ascii_character_constants<char8_t> {};
+	template <>
+	struct constants<char8_t> : impl::ascii_character_constants<char8_t>
+	{};
 	#endif
 
 	/// \brief	`char16_t` constants.
-	template <> struct constants<char16_t> : impl::ascii_character_constants<char16_t> {};
+	template <>
+	struct constants<char16_t> : impl::ascii_character_constants<char16_t>
+	{};
 
 	/// \brief	`char32_t` constants.
-	template <> struct constants<char32_t> : impl::ascii_character_constants<char32_t> {};
+	template <>
+	struct constants<char32_t> : impl::ascii_character_constants<char32_t>
+	{};
 
 	/// \brief	`signed char` constants.
-	template <> struct constants<signed char> : impl::signed_integral_constants<signed char> {};
+	template <>
+	struct constants<signed char> : impl::signed_integral_constants<signed char>
+	{};
 
 	/// \brief	`unsigned char` constants.
-	template <> struct constants<unsigned char> : impl::unsigned_integral_constants<unsigned char> {};
+	template <>
+	struct constants<unsigned char> : impl::unsigned_integral_constants<unsigned char>
+	{};
 
 	/// \brief	`signed short` constants.
-	template <> struct constants<signed short> : impl::signed_integral_constants<signed short> {};
+	template <>
+	struct constants<signed short> : impl::signed_integral_constants<signed short>
+	{};
 
 	/// \brief	`unsigned short` constants.
-	template <> struct constants<unsigned short> : impl::unsigned_integral_constants<unsigned short> {};
+	template <>
+	struct constants<unsigned short> : impl::unsigned_integral_constants<unsigned short>
+	{};
 
 	/// \brief	`signed int` constants.
-	template <> struct constants<signed int> : impl::signed_integral_constants<signed int> {};
+	template <>
+	struct constants<signed int> : impl::signed_integral_constants<signed int>
+	{};
 
 	/// \brief	`unsigned int` constants.
-	template <> struct constants<unsigned int> : impl::unsigned_integral_constants<unsigned int> {};
+	template <>
+	struct constants<unsigned int> : impl::unsigned_integral_constants<unsigned int>
+	{};
 
 	/// \brief	`signed long` constants.
-	template <> struct constants<signed long> : impl::signed_integral_constants<signed long> {};
+	template <>
+	struct constants<signed long> : impl::signed_integral_constants<signed long>
+	{};
 
 	/// \brief	`unsigned long` constants.
-	template <> struct constants<unsigned long> : impl::unsigned_integral_constants<unsigned long> {};
+	template <>
+	struct constants<unsigned long> : impl::unsigned_integral_constants<unsigned long>
+	{};
 
 	/// \brief	`signed long long` constants.
-	template <> struct constants<signed long long> : impl::signed_integral_constants<signed long long> {};
+	template <>
+	struct constants<signed long long> : impl::signed_integral_constants<signed long long>
+	{};
 
 	/// \brief	`unsigned long long` constants.
-	template <> struct constants<unsigned long long> : impl::unsigned_integral_constants<unsigned long long> {};
+	template <>
+	struct constants<unsigned long long> : impl::unsigned_integral_constants<unsigned long long>
+	{};
 
 	#if MUU_HAS_INT128
 	/// \brief	`int128_t` constants.
-	template <> struct constants<int128_t> : impl::signed_integral_constants<int128_t> {};
+	template <>
+	struct constants<int128_t> : impl::signed_integral_constants<int128_t>
+	{};
 
 	/// \brief	`uint128_t` constants.
-	template <> struct constants<uint128_t> : impl::unsigned_integral_constants<uint128_t> {};
+	template <>
+	struct constants<uint128_t> : impl::unsigned_integral_constants<uint128_t>
+	{};
 	#endif
 
-	/** @} */	// constants
+	/** @} */ // constants
 }
 
 MUU_POP_PRECISE_MATH;
@@ -1846,10 +2407,11 @@ namespace muu
 		/// \detail \cpp
 		/// const size_t val = 42_sz;
 		/// \ecpp
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
-		MUU_CONSTEVAL size_t operator"" _sz(unsigned long long n) noexcept
+		MUU_CONSTEVAL
+		size_t operator"" _sz(unsigned long long n) noexcept
 		{
 			return static_cast<size_t>(n);
 		}
@@ -1858,10 +2420,11 @@ namespace muu
 		/// \detail \cpp
 		/// const size_t val = 42_b; // 42
 		/// \ecpp
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
-		MUU_CONSTEVAL size_t operator"" _b(unsigned long long b) noexcept
+		MUU_CONSTEVAL
+		size_t operator"" _b(unsigned long long b) noexcept
 		{
 			return static_cast<size_t>(b);
 		}
@@ -1870,10 +2433,11 @@ namespace muu
 		/// \detail \cpp
 		/// const size_t val = 42_kb; // 42 * 1024
 		/// \ecpp
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
-		MUU_CONSTEVAL size_t operator"" _kb(unsigned long long kb) noexcept
+		MUU_CONSTEVAL
+		size_t operator"" _kb(unsigned long long kb) noexcept
 		{
 			return static_cast<size_t>(kb * 1024ull);
 		}
@@ -1882,10 +2446,11 @@ namespace muu
 		/// \detail \cpp
 		/// const size_t val = 42_mb; // 42 * 1024 * 1024
 		/// \ecpp
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
-		MUU_CONSTEVAL size_t operator"" _mb(unsigned long long mb) noexcept
+		MUU_CONSTEVAL
+		size_t operator"" _mb(unsigned long long mb) noexcept
 		{
 			return static_cast<size_t>(mb * 1024ull * 1024ull);
 		}
@@ -1894,10 +2459,11 @@ namespace muu
 		/// \detail \cpp
 		/// const size_t val = 42_gb; // 42 * 1024 * 1024 * 1024
 		/// \ecpp
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
-		MUU_CONSTEVAL size_t operator"" _gb(unsigned long long gb) noexcept
+		MUU_CONSTEVAL
+		size_t operator"" _gb(unsigned long long gb) noexcept
 		{
 			return static_cast<size_t>(gb * 1024ull * 1024ull * 1024ull);
 		}
@@ -1906,10 +2472,11 @@ namespace muu
 		/// \detail \cpp
 		/// const uint8_t val = 42_u8;
 		/// \ecpp
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
-		MUU_CONSTEVAL uint8_t operator"" _u8(unsigned long long n) noexcept
+		MUU_CONSTEVAL
+		uint8_t operator"" _u8(unsigned long long n) noexcept
 		{
 			return static_cast<uint8_t>(n);
 		}
@@ -1918,10 +2485,11 @@ namespace muu
 		/// \detail \cpp
 		/// const uint16_t val = 42_u16;
 		/// \ecpp
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
-		MUU_CONSTEVAL uint16_t operator"" _u16(unsigned long long n) noexcept
+		MUU_CONSTEVAL
+		uint16_t operator"" _u16(unsigned long long n) noexcept
 		{
 			return static_cast<uint16_t>(n);
 		}
@@ -1930,10 +2498,11 @@ namespace muu
 		/// \detail \cpp
 		/// const uint32_t val = 42_u32;
 		/// \ecpp
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
-		MUU_CONSTEVAL uint32_t operator"" _u32(unsigned long long n) noexcept
+		MUU_CONSTEVAL
+		uint32_t operator"" _u32(unsigned long long n) noexcept
 		{
 			return static_cast<uint32_t>(n);
 		}
@@ -1942,10 +2511,11 @@ namespace muu
 		/// \detail \cpp
 		/// const uint64_t val = 42_u64;
 		/// \ecpp
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
-		MUU_CONSTEVAL uint64_t operator"" _u64(unsigned long long n) noexcept
+		MUU_CONSTEVAL
+		uint64_t operator"" _u64(unsigned long long n) noexcept
 		{
 			return static_cast<uint64_t>(n);
 		}
@@ -1954,10 +2524,11 @@ namespace muu
 		/// \detail \cpp
 		/// const int8_t val = 42_i8;
 		/// \ecpp
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
-		MUU_CONSTEVAL int8_t operator"" _i8(unsigned long long n) noexcept
+		MUU_CONSTEVAL
+		int8_t operator"" _i8(unsigned long long n) noexcept
 		{
 			return static_cast<int8_t>(n);
 		}
@@ -1966,10 +2537,11 @@ namespace muu
 		/// \detail \cpp
 		/// const int16_t val = 42_i16;
 		/// \ecpp
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
-		MUU_CONSTEVAL int16_t operator"" _i16(unsigned long long n) noexcept
+		MUU_CONSTEVAL
+		int16_t operator"" _i16(unsigned long long n) noexcept
 		{
 			return static_cast<int16_t>(n);
 		}
@@ -1978,10 +2550,11 @@ namespace muu
 		/// \detail \cpp
 		/// const int32_t val = 42_i32;
 		/// \ecpp
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
-		MUU_CONSTEVAL int32_t operator"" _i32(unsigned long long n) noexcept
+		MUU_CONSTEVAL
+		int32_t operator"" _i32(unsigned long long n) noexcept
 		{
 			return static_cast<int32_t>(n);
 		}
@@ -1990,24 +2563,26 @@ namespace muu
 		/// \detail \cpp
 		/// const int64_t val = 42_i64;
 		/// \ecpp
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
-		MUU_CONSTEVAL int64_t operator"" _i64(unsigned long long n) noexcept
+		MUU_CONSTEVAL
+		int64_t operator"" _i64(unsigned long long n) noexcept
 		{
 			return static_cast<int64_t>(n);
 		}
 
-		#if MUU_HAS_INT128
+	#if MUU_HAS_INT128
 
 		/// \brief	Creates an int128_t.
 		/// \detail \cpp
 		/// const int128_t val = 42_i128;
 		/// \ecpp
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
-		MUU_CONSTEVAL int128_t operator"" _i128(unsigned long long n) noexcept
+		MUU_CONSTEVAL
+		int128_t operator"" _i128(unsigned long long n) noexcept
 		{
 			return static_cast<int128_t>(n);
 		}
@@ -2016,15 +2591,16 @@ namespace muu
 		/// \detail \cpp
 		/// const uint128_t val = 42_u128;
 		/// \ecpp
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
-		MUU_CONSTEVAL uint128_t operator"" _u128(unsigned long long n) noexcept
+		MUU_CONSTEVAL
+		uint128_t operator"" _u128(unsigned long long n) noexcept
 		{
 			return static_cast<uint128_t>(n);
 		}
 
-		#endif
+	#endif
 	}
 
 	MUU_DISABLE_WARNINGS; // non-determinisitic build
@@ -2032,16 +2608,16 @@ namespace muu
 	/// \cond
 	namespace impl
 	{
-
-		inline constexpr auto build_date_str = __DATE__;
+		inline constexpr auto build_date_str		= __DATE__;
 		inline constexpr auto build_date_month_hash = build_date_str[0] + build_date_str[1] + build_date_str[2];
-		inline constexpr auto build_time_str = __TIME__;
-
+		inline constexpr auto build_time_str		= __TIME__;
 	}
 	/// \endcond
 
 	namespace build
 	{
+		// clang-format off
+
 		/// \brief The current C++ language version (17, 20...)
 		inline constexpr uint32_t cpp_version = MUU_CPP;
 		static_assert(
@@ -2128,7 +2704,8 @@ namespace muu
 	
 		static_assert(pointer_size * bits_per_byte == bitness);
 		static_assert(is_little_endian != is_big_endian);
-	
+
+		// clang-format on
 	} //::build
 
 	MUU_ENABLE_WARNINGS;
@@ -2141,27 +2718,25 @@ namespace muu
 	/// \remark Compilers typically implement std::is_constant_evaluated as an intrinsic which is
 	/// 		 available regardless of the C++ mode. Using this function on these compilers allows
 	/// 		 you to get the same behaviour even when you aren't targeting C++20.
-	/// 
+	///
 	/// \availability On older compilers lacking support for std::is_constant_evaluated this will always return `false`.
 	/// 		   You can check for support by examining build::supports_is_constant_evaluated.
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
 	MUU_ATTR(flatten)
 	constexpr bool is_constant_evaluated() noexcept
 	{
-		#if MUU_CLANG >= 9			\
-			|| MUU_GCC >= 9			\
-			|| (MUU_MSVC >= 1925 && !MUU_INTELLISENSE)
-				return __builtin_is_constant_evaluated();
-		#elif defined(__cpp_lib_is_constant_evaluated)
-			return std::is_constant_evaluated();
-		#else
-			return false;
-		#endif
+	#if MUU_CLANG >= 9 || MUU_GCC >= 9 || (MUU_MSVC >= 1925 && !MUU_INTELLISENSE)
+		return __builtin_is_constant_evaluated();
+	#elif defined(__cpp_lib_is_constant_evaluated)
+		return std::is_constant_evaluated();
+	#else
+		return false;
+	#endif
 	}
 
-	/** @} */	// core
+	/** @} */ // core
 
 	namespace build
 	{
@@ -2175,29 +2750,24 @@ namespace muu
 	/// \brief	Equivalent to C++17's std::launder
 	///
 	/// \note	Older implementations don't provide this as an intrinsic or have a placeholder
-	/// 		 for it in their standard library. Using this version allows you to get around that 
+	/// 		 for it in their standard library. Using this version allows you to get around that
 	/// 		 by writing code 'as if' it were there and have it compile just the same.
 	template <class T>
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(flatten)
 	constexpr T* launder(T* ptr) noexcept
 	{
-		static_assert(
-			!std::is_function_v<T> && !std::is_void_v<T>,
-			"launder() may not be used on pointers to functions or void."
-		);
+		static_assert(!std::is_function_v<T> && !std::is_void_v<T>,
+					  "launder() may not be used on pointers to functions or void.");
 
-		#if MUU_CLANG >= 8		\
-			|| MUU_GCC >= 7		\
-			|| MUU_ICC >= 1910	\
-			|| MUU_MSVC >= 1914
-			return __builtin_launder(ptr);
-		#elif defined(__cpp_lib_launder)
-			return std::launder(ptr);
-		#else
-			return ptr;
-		#endif
+	#if MUU_CLANG >= 8 || MUU_GCC >= 7 || MUU_ICC >= 1910 || MUU_MSVC >= 1914
+		return __builtin_launder(ptr);
+	#elif defined(__cpp_lib_launder)
+		return std::launder(ptr);
+	#else
+		return ptr;
+	#endif
 	}
 
 	/// \brief	Unwraps an enum to it's raw integer equivalent.
@@ -2209,7 +2779,7 @@ namespace muu
 	/// 			 <br>
 	/// 			\conditional_return{Everything else} `T&&` (a no-op).
 	MUU_CONSTRAINED_TEMPLATE(is_enum<T>, typename T)
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
 	constexpr std::underlying_type_t<T> MUU_VECTORCALL unwrap(T val) noexcept
@@ -2220,7 +2790,7 @@ namespace muu
 	/// \cond
 
 	MUU_CONSTRAINED_TEMPLATE_2(!is_enum<T>, typename T)
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
 	constexpr T&& unwrap(T&& val) noexcept
@@ -2235,15 +2805,15 @@ namespace muu
 	namespace impl
 	{
 		template <typename T>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(const)
 		constexpr int MUU_VECTORCALL countl_zero_native(T val) noexcept
 		{
 			MUU_ASSUME(val > T{});
-			
+
 			using bit_type = largest<T, unsigned>;
-			int count = 0;
-			bit_type bit = bit_type{ 1 } << (sizeof(T) * CHAR_BIT - 1);
+			int count	   = 0;
+			bit_type bit   = bit_type{ 1 } << (sizeof(T) * CHAR_BIT - 1);
 			while (true)
 			{
 				if ((bit & val))
@@ -2255,16 +2825,16 @@ namespace muu
 		}
 
 		template <typename T>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
 		int MUU_VECTORCALL countl_zero_intrinsic(T val) noexcept
 		{
 			MUU_ASSUME(val > T{});
 
-			#if MUU_GCC || MUU_CLANG
+		#if MUU_GCC || MUU_CLANG
 			{
-				#define MUU_HAS_INTRINSIC_COUNTL_ZERO 1
+			#define MUU_HAS_INTRINSIC_COUNTL_ZERO 1
 
 				if constexpr (std::is_same_v<T, unsigned long long>)
 					return __builtin_clzll(val);
@@ -2277,25 +2847,24 @@ namespace muu
 				else
 					static_assert(always_false<T>, "Evaluated unreachable branch!");
 			}
-			#elif MUU_MSVC || MUU_ICC_CL
+		#elif MUU_MSVC || MUU_ICC_CL
 			{
-				#define MUU_HAS_INTRINSIC_COUNTL_ZERO 1
+			#define MUU_HAS_INTRINSIC_COUNTL_ZERO 1
 				if constexpr (sizeof(T) == sizeof(unsigned long long))
 				{
-					#if MUU_ARCH_X64
+			#if MUU_ARCH_X64
 					{
 						unsigned long p;
 						_BitScanReverse64(&p, static_cast<unsigned long long>(val));
 						return 63 - static_cast<int>(p);
 					}
-					#else
+			#else
 					{
 						if (const auto high = static_cast<unsigned long>(val >> 32); high != 0ull)
 							return countl_zero_intrinsic(high);
 						return 32 + countl_zero_intrinsic(static_cast<unsigned long>(val));
 					}
-					#endif
-
+			#endif
 				}
 				else if constexpr (sizeof(T) == sizeof(unsigned long))
 				{
@@ -2304,17 +2873,18 @@ namespace muu
 					return 31 - static_cast<int>(p);
 				}
 				else if constexpr (sizeof(T) < sizeof(unsigned long))
-					return countl_zero_intrinsic(static_cast<unsigned long>(val)) - static_cast<int>((sizeof(unsigned long) - sizeof(T)) * CHAR_BIT);
+					return countl_zero_intrinsic(static_cast<unsigned long>(val))
+						 - static_cast<int>((sizeof(unsigned long) - sizeof(T)) * CHAR_BIT);
 				else
 					static_assert(always_false<T>, "Evaluated unreachable branch!");
 			}
-			#else
+		#else
 			{
-				#define MUU_HAS_INTRINSIC_COUNTL_ZERO 0
+			#define MUU_HAS_INTRINSIC_COUNTL_ZERO 0
 
 				static_assert(always_false<T>, "countl_zero not implemented on this compiler");
 			}
-			#endif
+		#endif
 		}
 	}
 	/// \endcond
@@ -2323,13 +2893,13 @@ namespace muu
 	///
 	/// \remark This is equivalent to C++20's std::countl_zero, with the addition of also being
 	/// 		 extended to work with enum types.
-	/// 
+	///
 	/// \tparam	T		An unsigned integer or enum type.
 	/// \param 	val		The value to test.
 	///
 	/// \returns	The number of consecutive zeros from the left end of an integer's bits.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(const)
 	constexpr int MUU_VECTORCALL countl_zero(T val) noexcept
 	{
@@ -2369,15 +2939,15 @@ namespace muu
 	namespace impl
 	{
 		template <typename T>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(const)
 		constexpr int MUU_VECTORCALL countr_zero_native(T val) noexcept
 		{
 			MUU_ASSUME(val > T{});
 
 			using bit_type = largest<T, unsigned>;
-			int count = 0;
-			bit_type bit = 1;
+			int count	   = 0;
+			bit_type bit   = 1;
 			while (true)
 			{
 				if ((bit & val))
@@ -2389,16 +2959,16 @@ namespace muu
 		}
 
 		template <typename T>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
 		int MUU_VECTORCALL countr_zero_intrinsic(T val) noexcept
 		{
 			MUU_ASSUME(val > T{});
 
-			#if MUU_GCC || MUU_CLANG
+		#if MUU_GCC || MUU_CLANG
 			{
-				#define MUU_HAS_INTRINSIC_COUNTR_ZERO 1
+			#define MUU_HAS_INTRINSIC_COUNTR_ZERO 1
 
 				if constexpr (std::is_same_v<T, unsigned long long>)
 					return __builtin_ctzll(val);
@@ -2409,25 +2979,25 @@ namespace muu
 				else
 					static_assert(always_false<T>, "Evaluated unreachable branch!");
 			}
-			#elif MUU_MSVC || MUU_ICC_CL
+		#elif MUU_MSVC || MUU_ICC_CL
 			{
-				#define MUU_HAS_INTRINSIC_COUNTR_ZERO 1
+			#define MUU_HAS_INTRINSIC_COUNTR_ZERO 1
 
 				if constexpr (sizeof(T) == sizeof(unsigned long long))
 				{
-					#if MUU_ARCH_X64
+			#if MUU_ARCH_X64
 					{
 						unsigned long p;
 						_BitScanForward64(&p, static_cast<unsigned long long>(val));
 						return static_cast<int>(p);
 					}
-					#else
+			#else
 					{
 						if (const auto low = static_cast<unsigned long>(val); low != 0ull)
 							return countr_zero_intrinsic(low);
 						return 32 + countr_zero_intrinsic(static_cast<unsigned long>(val >> 32));
 					}
-					#endif
+			#endif
 				}
 				else if constexpr (sizeof(T) == sizeof(unsigned long))
 				{
@@ -2440,13 +3010,13 @@ namespace muu
 				else
 					static_assert(always_false<T>, "Evaluated unreachable branch!");
 			}
-			#else
+		#else
 			{
-				#define MUU_HAS_INTRINSIC_COUNTR_ZERO 0
+			#define MUU_HAS_INTRINSIC_COUNTR_ZERO 0
 
 				static_assert(always_false<T>, "countr_zero not implemented on this compiler");
 			}
-			#endif
+		#endif
 		}
 	}
 	/// \endcond
@@ -2455,19 +3025,19 @@ namespace muu
 	///
 	/// \remark This is equivalent to C++20's std::countr_zero, with the addition of also being
 	/// 		 extended to work with enum types.
-	/// 		 
+	///
 	/// \tparam	T		An unsigned integer or enum type.
 	/// \param 	val		The input value.
 	///
 	/// \returns	The number of consecutive zeros from the right end of an integer's bits.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(const)
 	constexpr int MUU_VECTORCALL countr_zero(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
 			return countr_zero(unwrap(val));
-		
+
 		#if MUU_HAS_INT128
 		else if constexpr (std::is_same_v<T, uint128_t>)
 		{
@@ -2500,13 +3070,13 @@ namespace muu
 	///
 	/// \remark This is equivalent to C++20's std::countl_one, with the addition of also being
 	/// 		 extended to work with enum types.
-	/// 
+	///
 	/// \tparam	T		An unsigned integer or enum type.
 	/// \param 	val		The value to test.
 	///
 	/// \returns	The number of consecutive ones from the left end of an integer's bits.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(const)
 	constexpr int MUU_VECTORCALL countl_one(T val) noexcept
 	{
@@ -2520,13 +3090,13 @@ namespace muu
 	///
 	/// \remark This is equivalent to C++20's std::countr_one, with the addition of also being
 	/// 		 extended to work with enum types.
-	/// 
+	///
 	/// \tparam	T		An unsigned integer or enum type.
 	/// \param 	val		The value to test.
 	///
 	/// \returns	The number of consecutive ones from the right end of an integer's bits.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(const)
 	constexpr int MUU_VECTORCALL countr_one(T val) noexcept
 	{
@@ -2540,13 +3110,13 @@ namespace muu
 	///
 	/// \remark This is equivalent to C++20's std::bit_ceil, with the addition of also being
 	/// 		 extended to work with enum types.
-	/// 
+	///
 	/// \tparam	T		An unsigned integer or enum type.
 	/// \param 	val		The input value.
 	///
 	/// \returns	The smallest integral power of two that is not smaller than `val`.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(const)
 	constexpr T MUU_VECTORCALL bit_ceil(T val) noexcept
 	{
@@ -2565,13 +3135,14 @@ namespace muu
 	/// \details \cpp
 	/// auto   val1  = pack(0xAABB_u16, 0xCCDD_u16);
 	/// assert(val1 == 0xAABBCCDD_u32);
-	/// 
+	///
 	/// auto   val2  = pack(0xAABB_u16, 0xCCDD_u16, 0xEEFF_u16);
 	/// assert(val2 == 0x0000AABBCCDDEEFF_u64);
 	///               // ^^^^ input was 48 bits, zero-padded to 64 on the left
 	/// \ecpp
-	/// 
-	/// \tparam	Return	An integer or enum type, or leave as `void` to choose an unsigned type based on the total size of the inputs.
+	///
+	/// \tparam	Return	An integer or enum type,
+	///			or leave as `void` to choose an unsigned type based on the total size of the inputs.
 	/// \tparam	T	  	An integer or enum type.
 	/// \tparam	U	  	An integer or enum type.
 	/// \tparam	V	  	Integer or enum types.
@@ -2581,64 +3152,42 @@ namespace muu
 	///
 	/// \returns	An integral value containing the input values packed bitwise left-to-right. If the total size of the
 	/// 			inputs was less than the return type, the output will be zero-padded on the left.
-	MUU_CONSTRAINED_TEMPLATE(
-		(all_integral<T, U, V...>),
-		typename Return = void,
-		typename T,
-		typename U,
-		typename... V
-	)
-	[[nodiscard]]
+	MUU_CONSTRAINED_TEMPLATE((all_integral<T, U, V...>), typename Return = void, typename T, typename U, typename... V)
+	MUU_NODISCARD
 	MUU_ATTR(const)
 	constexpr auto MUU_VECTORCALL pack(T val1, U val2, V... vals) noexcept
 	{
-		static_assert(
-			!is_cvref<Return>,
-			"Return type cannot be const, volatile, or a reference"
-		);
-		static_assert(
-			(total_size<T, U, V...> * CHAR_BIT) <= (MUU_HAS_INT128 ? 128 : 64),
-			"No integer type large enough to hold the packed values exists on the target platform"
-		);
-		using return_type = std::conditional_t<
-			std::is_void_v<Return>,
-			unsigned_integer<bit_ceil(total_size<T, U, V...> * CHAR_BIT)>,
-			Return
-		>;
-		static_assert(
-			total_size<T, U, V...> <= sizeof(return_type),
-			"Return type cannot fit all the input values"
-		);
+		static_assert(!is_cvref<Return>, "Return type cannot be const, volatile, or a reference");
+		static_assert((total_size<T, U, V...> * CHAR_BIT) <= (MUU_HAS_INT128 ? 128 : 64),
+					  "No integer type large enough to hold the packed values exists on the target platform");
+		using return_type = std::conditional_t<std::is_void_v<Return>,
+											   unsigned_integer<bit_ceil(total_size<T, U, V...> * CHAR_BIT)>,
+											   Return>;
+		static_assert(total_size<T, U, V...> <= sizeof(return_type), "Return type cannot fit all the input values");
 
 		if constexpr (any_enum<return_type, T, U, V...>)
 		{
-			return static_cast<return_type>(pack<remove_enum<return_type>>(
-				static_cast<remove_enum<T>>(val1),
-				static_cast<remove_enum<U>>(val2),
-				static_cast<remove_enum<V>>(vals)...
-			));
+			return static_cast<return_type>(pack<remove_enum<return_type>>(static_cast<remove_enum<T>>(val1),
+																		   static_cast<remove_enum<U>>(val2),
+																		   static_cast<remove_enum<V>>(vals)...));
 		}
 		else if constexpr (any_signed<return_type, T, U, V...>)
 		{
-			return static_cast<return_type>(pack<make_unsigned<return_type>>(
-				static_cast<make_unsigned<T>>(val1),
-				static_cast<make_unsigned<U>>(val2),
-				static_cast<make_unsigned<V>>(vals)...
-			 ));
+			return static_cast<return_type>(pack<make_unsigned<return_type>>(static_cast<make_unsigned<T>>(val1),
+																			 static_cast<make_unsigned<U>>(val2),
+																			 static_cast<make_unsigned<V>>(vals)...));
 		}
 		else if constexpr (sizeof...(V) > 0)
 		{
 			return static_cast<return_type>(
 				static_cast<return_type>(static_cast<return_type>(val1) << (total_size<U, V...> * CHAR_BIT))
-				| pack<return_type>(val2, vals...)
-			);
+				| pack<return_type>(val2, vals...));
 		}
 		else
 		{
 			return static_cast<return_type>(
 				static_cast<return_type>(static_cast<return_type>(val1) << (sizeof(U) * CHAR_BIT))
-				| static_cast<return_type>(val2)
-			);
+				| static_cast<return_type>(val2));
 		}
 	}
 
@@ -2650,7 +3199,7 @@ namespace muu
 		MUU_DISABLE_LIFETIME_WARNINGS;
 
 		template <typename To, typename From>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		constexpr To bit_cast_fallback(const From& from) noexcept
 		{
@@ -2664,10 +3213,8 @@ namespace muu
 				return static_cast<To>(static_cast<remove_enum<remove_cv<To>>>(unwrap(from)));
 			else
 			{
-				static_assert(
-					std::is_nothrow_default_constructible_v<remove_cv<To>>,
-					"Bit-cast fallback requires the To type be nothrow default-constructible"
-				);
+				static_assert(std::is_nothrow_default_constructible_v<remove_cv<To>>,
+							  "Bit-cast fallback requires the To type be nothrow default-constructible");
 
 				To dst;
 				memcpy(&dst, &from, sizeof(To));
@@ -2685,41 +3232,31 @@ namespace muu
 	/// 		 available regardless of the C++ mode. Using this function
 	/// 		 on these compilers allows you to get the same behaviour
 	/// 		 even when you aren't targeting C++20.
-	/// 
+	///
 	/// \availability On older compilers lacking support for std::bit_cast you won't be able to call this function
 	/// 		   in constexpr contexts (since it falls back to a memcpy-based implementation).
 	/// 		   You can check for constexpr support by examining build::supports_constexpr_bit_cast.
 	template <typename To, typename From>
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(pure)
 	constexpr To bit_cast(const From& from) noexcept
 	{
-		static_assert(
-			!std::is_reference_v<From> && !std::is_reference_v<To>,
-			"From and To types cannot be references"
-		);
-		static_assert(
-			std::is_trivially_copyable_v<From> && std::is_trivially_copyable_v<To>,
-			"From and To types must be trivially-copyable"
-		);
-		static_assert(
-			sizeof(From) == sizeof(To),
-			"From and To types must be the same size"
-		);
+		static_assert(!std::is_reference_v<From> && !std::is_reference_v<To>, "From and To types cannot be references");
+		static_assert(std::is_trivially_copyable_v<From> && std::is_trivially_copyable_v<To>,
+					  "From and To types must be trivially-copyable");
+		static_assert(sizeof(From) == sizeof(To), "From and To types must be the same size");
 
-		#if MUU_CLANG >= 9		\
-			|| MUU_GCC >= 11	\
-			|| MUU_MSVC >= 1926
-			return __builtin_bit_cast(To, from);
+		#if MUU_CLANG >= 9 || MUU_GCC >= 11 || MUU_MSVC >= 1926
+		return __builtin_bit_cast(To, from);
 			#define MUU_HAS_INTRINSIC_BIT_CAST 1
 		#else
-			return impl::bit_cast_fallback<To>(from);
+		return impl::bit_cast_fallback<To>(from);
 			#define MUU_HAS_INTRINSIC_BIT_CAST 0
 		#endif
 	}
 
-	/** @} */	// core
+	/** @} */ // core
 
 	namespace build
 	{
@@ -2733,7 +3270,7 @@ namespace muu
 
 	#if 1 // pointer_cast ---------------------------------------------------------------------------------------------
 	MUU_PUSH_WARNINGS;
-	MUU_PRAGMA_MSVC(warning(disable: 4191)) // unsafe pointer conversion (that's the whole point)
+	MUU_PRAGMA_MSVC(warning(disable : 4191)) // unsafe pointer conversion (that's the whole point)
 
 	/// \brief	Casts between pointers, choosing the most appropriate conversion path.
 	///
@@ -2766,56 +3303,42 @@ namespace muu
 	/// 		 but ultimately the fallback behaviour for casting between unrelated types is to use a
 	/// 		 `reinterpret_cast`, and there's nothing stopping you from using multiple `pointer_casts`
 	/// 		 through `void*` to make a conversion 'work'. Footguns aplenty!
-	/// 
+	///
 	/// \tparam To	A pointer or integral type large enough to store a pointer
 	/// \tparam From A pointer, array, nullptr_t, or an integral type large enough to store a pointer.
 	/// \param from The value being cast.
-	/// 
+	///
 	/// \return The input casted to the desired type.
-	/// 
+	///
 	template <typename To, typename From>
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(flatten)
 	constexpr To pointer_cast(From from) noexcept
 	{
+		static_assert(!std::is_reference_v<To> && !std::is_reference_v<From>, // will never be deduced as a reference
+																			  // but it might be specified explicitly
+					  "From and To types cannot be references");
+		static_assert(!(is_integral<From> && is_integral<To>),
+					  "From and To types cannot both be integral types (did you mean static_cast?)");
+		static_assert(std::is_pointer_v<To> || (is_integral<To> && sizeof(To) >= sizeof(void*)),
+					  "To type must be a pointer or an integral type large enough to store a pointer");
+		static_assert(!(!std::is_same_v<From, remove_cv<nullptr_t>> && std::is_same_v<remove_cv<nullptr_t>, To>),
+					  "To type cannot be nullptr_t (such a conversion is nonsensical)");
 		static_assert(
-			!std::is_reference_v<To>
-			&& !std::is_reference_v<From>, // will never be deduced as a reference but it might be specified explicitly
-			"From and To types cannot be references"
-		);
-		static_assert(
-			!(is_integral<From> && is_integral<To>),
-			"From and To types cannot both be integral types (did you mean static_cast?)"
-		);
-		static_assert(
-			std::is_pointer_v<To>
-			|| (is_integral<To> && sizeof(To) >= sizeof(void*)),
-			"To type must be a pointer or an integral type large enough to store a pointer"
-		);
-		static_assert(
-			!(!std::is_same_v<From, remove_cv<nullptr_t>> && std::is_same_v<remove_cv<nullptr_t>, To>),
-			"To type cannot be nullptr_t (such a conversion is nonsensical)"
-		);
-		static_assert(
-			std::is_pointer_v<From>
-			|| (is_integral<From> && sizeof(From) >= sizeof(void*))
-			|| std::is_same_v<From, remove_cv<nullptr_t>>,
-			"From type must be a pointer, array, nullptr_t, or an integral type large enough to store a pointer"
-		);
-		static_assert(
-			!std::is_member_pointer_v<To> && !std::is_member_pointer_v<From>,
-			"From and To types cannot be pointers to members"
-		);
+			std::is_pointer_v<From>										//
+				|| (is_integral<From> && sizeof(From) >= sizeof(void*)) //
+				|| std::is_same_v<From, remove_cv<nullptr_t>>,
+			"From type must be a pointer, array, nullptr_t, or an integral type large enough to store a pointer");
+		static_assert(!std::is_member_pointer_v<To> && !std::is_member_pointer_v<From>,
+					  "From and To types cannot be pointers to members");
 
 		using from_base = std::remove_pointer_t<From>;
-		using to_base = std::remove_pointer_t<To>;
+		using to_base	= std::remove_pointer_t<To>;
 
-		static_assert(
-			(!std::is_function_v<from_base> || sizeof(From) == sizeof(void*))
-			&& (!std::is_function_v<to_base> || sizeof(To) == sizeof(void*)),
-			"Cannot pointer_cast with function pointers on the target platform"
-		);
+		static_assert((!std::is_function_v<from_base> || sizeof(From) == sizeof(void*))
+						  && (!std::is_function_v<to_base> || sizeof(To) == sizeof(void*)),
+					  "Cannot pointer_cast with function pointers on the target platform");
 
 		// same input and output types (no-op)
 		if constexpr (std::is_same_v<From, To>)
@@ -2902,10 +3425,8 @@ namespace muu
 				// function -> function (different exception specifier)
 				if constexpr (std::is_function_v<from_base> && std::is_function_v<to_base>)
 				{
-					static_assert(
-						std::is_same_v<remove_noexcept<from_base>, remove_noexcept<to_base>>,
-						"Cannot cast between pointers to two different function types"
-					);
+					static_assert(std::is_same_v<remove_noexcept<from_base>, remove_noexcept<to_base>>,
+								  "Cannot cast between pointers to two different function types");
 
 					// function -> function (noexcept)
 					if constexpr (std::is_same_v<from_base, remove_noexcept<from_base>>)
@@ -2919,10 +3440,8 @@ namespace muu
 				// function -> non-function
 				else if constexpr (std::is_function_v<from_base>)
 				{
-					static_assert(
-						std::is_void_v<to_base>,
-						"Cannot cast from a function pointer to a type other than void"
-					);
+					static_assert(std::is_void_v<to_base>,
+								  "Cannot cast from a function pointer to a type other than void");
 
 					// function -> void
 					return static_cast<To>(reinterpret_cast<void*>(from));
@@ -2931,10 +3450,8 @@ namespace muu
 				// non-function -> function
 				else
 				{
-					static_assert(
-						std::is_void_v<from_base>,
-						"Cannot cast to a function pointer from a type other than void"
-					);
+					static_assert(std::is_void_v<from_base>,
+								  "Cannot cast to a function pointer from a type other than void");
 
 					// void -> function
 					return reinterpret_cast<To>(pointer_cast<void*>(from));
@@ -2944,15 +3461,17 @@ namespace muu
 			// void -> non-void
 			// non-void -> void
 			// derived -> base
-			else if constexpr (std::is_void_v<from_base> || std::is_void_v<to_base> || inherits_from<to_base, from_base>)
+			else if constexpr (std::is_void_v<from_base>  //
+							   || std::is_void_v<to_base> //
+							   || inherits_from<to_base, from_base>)
 				return pointer_cast<To>(static_cast<rebase_pointer<From, remove_cv<to_base>>>(from));
 
-			// IUnknown -> IUnknown (windows only)
-			#if MUU_WINDOWS
-			else if constexpr (std::is_class_v<from_base>
-				&& std::is_class_v<to_base>
-				&& std::is_base_of_v<IUnknown, from_base>
-				&& std::is_base_of_v<IUnknown, to_base>)
+		// IUnknown -> IUnknown (windows only)
+		#if MUU_WINDOWS
+			else if constexpr (std::is_class_v<from_base>				 //
+							   && std::is_class_v<to_base>				 //
+							   && std::is_base_of_v<IUnknown, from_base> //
+							   && std::is_base_of_v<IUnknown, to_base>)
 			{
 				if (!from)
 					return nullptr;
@@ -2976,7 +3495,7 @@ namespace muu
 					return to;
 				}
 			}
-			#endif
+		#endif
 
 			// base -> derived
 			else if constexpr (inherits_from<from_base, to_base>)
@@ -3014,16 +3533,16 @@ namespace muu
 	/// \cond
 
 	template <typename To, typename From, size_t N>
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(flatten)
-	constexpr To pointer_cast(From(&arr)[N]) noexcept
+	constexpr To pointer_cast(From (&arr)[N]) noexcept
 	{
 		return pointer_cast<To, From*>(arr);
 	}
 
 	template <typename To, typename From, size_t N>
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(flatten)
 	constexpr To pointer_cast(From(&&arr)[N]) noexcept
@@ -3034,7 +3553,7 @@ namespace muu
 	/// \endcond
 
 	MUU_POP_WARNINGS; // MUU_PRAGMA_MSVC(warning(disable: 4191))
-	#endif // pointer_cast
+	#endif			  // pointer_cast
 
 	/// \brief	Applies a byte offset to a pointer.
 	///
@@ -3044,17 +3563,13 @@ namespace muu
 	/// \param	offset	The number of bytes to add to the pointer's address.
 	///
 	/// \return	The cv-correct equivalent of `(T*)((std::byte*)ptr + offset)`.
-	/// 
+	///
 	/// \warning This function is a simple pointer arithmetic helper; absolutely no consideration
 	/// 		 is given to the alignment of the pointed type. If you need to dereference pointers
 	/// 		 returned by apply_offset the onus is on you to ensure that the offset made sense
 	/// 		 before doing so!
-	MUU_CONSTRAINED_TEMPLATE(
-		(is_integral<Offset> && is_arithmetic<Offset>),
-		typename T,
-		typename Offset
-	)
-	[[nodiscard]]
+	MUU_CONSTRAINED_TEMPLATE((is_integral<Offset> && is_arithmetic<Offset>), typename T, typename Offset)
+	MUU_NODISCARD
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
 	constexpr T* apply_offset(T* ptr, Offset offset) noexcept
@@ -3070,7 +3585,7 @@ namespace muu
 	///
 	/// \remark This is equivalent to std::min without requiring you to drag in the enormity of &lt;algorithm&gt;.
 	template <typename T>
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ALWAYS_INLINE
 	constexpr const T& min(const T& val1, const T& val2) noexcept
 	{
@@ -3081,7 +3596,7 @@ namespace muu
 	///
 	/// \remark This is equivalent to std::max without requiring you to drag in the enormity of &lt;algorithm&gt;.
 	template <typename T>
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ALWAYS_INLINE
 	constexpr const T& max(const T& val1, const T& val2) noexcept
 	{
@@ -3092,17 +3607,15 @@ namespace muu
 	///
 	/// \remark This is equivalent to std::clamp without requiring you to drag in the enormity of &lt;algorithm&gt;.
 	template <typename T>
-	[[nodiscard]]
+	MUU_NODISCARD
 	constexpr const T& clamp(const T& val, const T& low, const T& high) noexcept
 	{
-		return val < low
-			? low
-			: ((high < val) ? high : val);
+		return val < low ? low : ((high < val) ? high : val);
 	}
 
 	/// \brief	Returns true if a value is between two bounds (inclusive).
 	template <typename T, typename U>
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(const)
 	constexpr bool MUU_VECTORCALL between(T val, U low, U high) noexcept
 	{
@@ -3127,11 +3640,9 @@ namespace muu
 				if constexpr (!std::is_same_v<lhs, rhs>)
 				{
 					using common_type = std::common_type_t<lhs, rhs>;
-					return between(
-						static_cast<common_type>(val),
-						static_cast<common_type>(low),
-						static_cast<common_type>(high)
-					);
+					return between(static_cast<common_type>(val),
+								   static_cast<common_type>(low),
+								   static_cast<common_type>(high));
 				}
 				else
 					return low <= val && val <= high;
@@ -3141,71 +3652,72 @@ namespace muu
 			return low <= val && val <= high; // user-defined <= operator, ideally
 	}
 
-	/** @} */	// core
+	/** @} */ // core
 
 	/// \addtogroup	core
 	/// @{
-	
+
 	#if 1 // popcount -------------------------------------------------------------------------------------------------
 	/// \cond
 	namespace impl
 	{
-		template <size_t> struct popcount_traits;
+		template <size_t>
+		struct popcount_traits;
 
 		template <>
 		struct popcount_traits<8>
 		{
-			static constexpr uint8_t m1 =  0x55_u8;
-			static constexpr uint8_t m2 =  0x33_u8;
-			static constexpr uint8_t m4 =  0x0f_u8;
+			static constexpr uint8_t m1	 = 0x55_u8;
+			static constexpr uint8_t m2	 = 0x33_u8;
+			static constexpr uint8_t m4	 = 0x0f_u8;
 			static constexpr uint8_t h01 = 0x01_u8;
-			static constexpr int rsh = 0;
+			static constexpr int rsh	 = 0;
 		};
 
 		template <>
 		struct popcount_traits<16>
 		{
-			static constexpr uint16_t m1 =  0x5555_u16;
-			static constexpr uint16_t m2 =  0x3333_u16;
-			static constexpr uint16_t m4 =  0x0f0f_u16;
+			static constexpr uint16_t m1  = 0x5555_u16;
+			static constexpr uint16_t m2  = 0x3333_u16;
+			static constexpr uint16_t m4  = 0x0f0f_u16;
 			static constexpr uint16_t h01 = 0x0101_u16;
-			static constexpr int rsh = 8;
+			static constexpr int rsh	  = 8;
 		};
 
 		template <>
 		struct popcount_traits<32>
 		{
-			static constexpr uint32_t m1 =  0x55555555_u32;
-			static constexpr uint32_t m2 =  0x33333333_u32;
-			static constexpr uint32_t m4 =  0x0f0f0f0f_u32;
+			static constexpr uint32_t m1  = 0x55555555_u32;
+			static constexpr uint32_t m2  = 0x33333333_u32;
+			static constexpr uint32_t m4  = 0x0f0f0f0f_u32;
 			static constexpr uint32_t h01 = 0x01010101_u32;
-			static constexpr int rsh = 24;
+			static constexpr int rsh	  = 24;
 		};
 
 		template <>
 		struct popcount_traits<64>
 		{
-			static constexpr uint64_t m1 =  0x5555555555555555_u64;
-			static constexpr uint64_t m2 =  0x3333333333333333_u64;
-			static constexpr uint64_t m4 =  0x0f0f0f0f0f0f0f0f_u64;
+			static constexpr uint64_t m1  = 0x5555555555555555_u64;
+			static constexpr uint64_t m2  = 0x3333333333333333_u64;
+			static constexpr uint64_t m4  = 0x0f0f0f0f0f0f0f0f_u64;
 			static constexpr uint64_t h01 = 0x0101010101010101_u64;
-			static constexpr int rsh = 56;
+			static constexpr int rsh	  = 56;
 		};
 
 		#if MUU_HAS_INT128
 		template <>
 		struct popcount_traits<128>
 		{
-			static constexpr uint128_t m1 =  pack(0x5555555555555555_u64, 0x5555555555555555_u64);
-			static constexpr uint128_t m2 =  pack(0x3333333333333333_u64, 0x3333333333333333_u64);
-			static constexpr uint128_t m4 =  pack(0x0f0f0f0f0f0f0f0f_u64, 0x0f0f0f0f0f0f0f0f_u64);
+			static constexpr uint128_t m1  = pack(0x5555555555555555_u64, 0x5555555555555555_u64);
+			static constexpr uint128_t m2  = pack(0x3333333333333333_u64, 0x3333333333333333_u64);
+			static constexpr uint128_t m4  = pack(0x0f0f0f0f0f0f0f0f_u64, 0x0f0f0f0f0f0f0f0f_u64);
 			static constexpr uint128_t h01 = pack(0x0101010101010101_u64, 0x0101010101010101_u64);
-			static constexpr int rsh = 120;
+			static constexpr int rsh	   = 120;
 		};
 		#endif
 
 		template <typename T>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(const)
 		constexpr int MUU_VECTORCALL popcount_native(T val) noexcept
 		{
@@ -3218,16 +3730,16 @@ namespace muu
 		}
 
 		template <typename T>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
 		auto MUU_VECTORCALL popcount_intrinsic(T val) noexcept
 		{
 			MUU_ASSUME(val > T{});
 
-			#if MUU_GCC || MUU_CLANG
+		#if MUU_GCC || MUU_CLANG
 			{
-				#define MUU_HAS_INTRINSIC_POPCOUNT 1
+			#define MUU_HAS_INTRINSIC_POPCOUNT 1
 
 				if constexpr (sizeof(T) <= sizeof(unsigned int))
 					return __builtin_popcount(static_cast<unsigned int>(val));
@@ -3235,17 +3747,17 @@ namespace muu
 					return __builtin_popcountl(val);
 				else if constexpr (std::is_same_v<T, unsigned long long>)
 					return __builtin_popcountll(val);
-				#if MUU_HAS_INT128
+			#if MUU_HAS_INT128
 				else if constexpr (std::is_same_v<T, uint128_t>)
 					return __builtin_popcountll(static_cast<unsigned long long>(val >> 64))
-						+ __builtin_popcountll(static_cast<unsigned long long>(val));
-				#endif
+						 + __builtin_popcountll(static_cast<unsigned long long>(val));
+			#endif
 				else
 					static_assert(always_false<T>, "Unsupported integer type");
 			}
-			#elif MUU_ICC
+		#elif MUU_ICC
 			{
-				#define MUU_HAS_INTRINSIC_POPCOUNT 1
+			#define MUU_HAS_INTRINSIC_POPCOUNT 1
 
 				if constexpr (sizeof(T) <= sizeof(int))
 					return _popcnt32(static_cast<int>(val));
@@ -3254,39 +3766,38 @@ namespace muu
 				else
 					static_assert(always_false<T>, "Unsupported integer type");
 			}
-			#elif MUU_MSVC
+		#elif MUU_MSVC
 			{
-				#define MUU_HAS_INTRINSIC_POPCOUNT 1
+			#define MUU_HAS_INTRINSIC_POPCOUNT 1
 
 				if constexpr (sizeof(T) <= sizeof(unsigned short))
 				{
-					#if MUU_MSVC >= 1928 // VS 16.8
-						return __popcnt16(static_cast<unsigned short>(val));
-					#else
-						return popcount_native(val);
-					#endif
+			#if MUU_MSVC >= 1928 // VS 16.8
+					return __popcnt16(static_cast<unsigned short>(val));
+			#else
+					return popcount_native(val);
+			#endif
 				}
 				else if constexpr (sizeof(T) == sizeof(unsigned int))
 					return __popcnt(static_cast<unsigned int>(val));
 				else if constexpr (std::is_same_v<T, unsigned __int64>)
 				{
-					#if MUU_MSVC >= 1928 && MUU_ARCH_X64 // VS 16.8
-						return __popcnt64(static_cast<unsigned __int64>(val));
-					#else
-						return __popcnt(static_cast<unsigned int>(val >> 32))
-							+ __popcnt(static_cast<unsigned int>(val));
-					#endif
+			#if MUU_MSVC >= 1928 && MUU_ARCH_X64 // VS 16.8
+					return __popcnt64(static_cast<unsigned __int64>(val));
+			#else
+					return __popcnt(static_cast<unsigned int>(val >> 32)) + __popcnt(static_cast<unsigned int>(val));
+			#endif
 				}
 				else
 					static_assert(always_false<T>, "Unsupported integer type");
 			}
-			#else
+		#else
 			{
-				#define MUU_HAS_INTRINSIC_POPCOUNT 0
+			#define MUU_HAS_INTRINSIC_POPCOUNT 0
 
 				static_assert(always_false<T>, "popcount_intrinsic not implemented for this compiler");
 			}
-			#endif
+		#endif
 		}
 	}
 	/// \endcond
@@ -3295,13 +3806,13 @@ namespace muu
 	///
 	/// \remark This is equivalent to C++20's std::popcount, with the addition of also being
 	/// 		 extended to work with enum types.
-	/// 
+	///
 	/// \tparam	T		An unsigned integer or enum type.
 	/// \param 	val		The input value.
 	///
 	/// \returns	The number of bits that were set to `1` in `val`.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(const)
 	constexpr int MUU_VECTORCALL popcount(T val) noexcept
 	{
@@ -3327,7 +3838,7 @@ namespace muu
 	#endif // popcount
 
 	/// \brief	Checks if an integral value has only a single bit set.
-	/// 
+	///
 	/// \remark This is equivalent to C++20's std::has_single_bit, with the addition of also being
 	/// 		 extended to work with enum types.
 	///
@@ -3336,7 +3847,7 @@ namespace muu
 	///
 	/// \returns	True if the input value had only a single bit set (and thus was a power of two).
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(const)
 	constexpr bool MUU_VECTORCALL has_single_bit(T val) noexcept
 	{
@@ -3357,7 +3868,7 @@ namespace muu
 	}
 
 	/// \brief	Finds the largest integral power of two not greater than the given value.
-	/// 
+	///
 	/// \remark This is equivalent to C++20's std::bit_floor, with the addition of also being
 	/// 		 extended to work with enum types.
 	///
@@ -3366,7 +3877,7 @@ namespace muu
 	///
 	/// \returns	Zero if `val` is zero; otherwise, the largest integral power of two that is not greater than `val`.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(const)
 	constexpr T MUU_VECTORCALL bit_floor(T val) noexcept
 	{
@@ -3381,7 +3892,7 @@ namespace muu
 	}
 
 	/// \brief	Finds the smallest number of bits needed to represent the given value.
-	/// 
+	///
 	/// \remark This is equivalent to C++20's std::bit_width, with the addition of also being
 	/// 		 extended to work with enum types.
 	///
@@ -3391,7 +3902,7 @@ namespace muu
 	/// \returns	If `val` is not zero, calculates the number of bits needed to store `val` (i.e. `1 + log2(x)`).
 	/// 			Returns `0` if `val` is zero.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(const)
 	constexpr T MUU_VECTORCALL bit_width(T val) noexcept
 	{
@@ -3409,13 +3920,13 @@ namespace muu
 	/// const auto val2 = 0b00000000000000000000000000011111u;
 	/// assert(val1 == val2);
 	///  \ecpp
-	///  
+	///
 	/// \tparam	T		An unsigned integer type.
 	/// \param 	count	Number of consecutive ones.
 	///
 	/// \returns	An instance of T right-filled with the desired number of ones.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(const)
 	constexpr T MUU_VECTORCALL bit_fill_right(size_t count) noexcept
 	{
@@ -3439,13 +3950,13 @@ namespace muu
 	/// const auto val2 = 0b11111000000000000000000000000000u;
 	/// assert(val1 == val2);
 	///  \ecpp
-	///  
+	///
 	/// \tparam	T		An unsigned integer type.
 	/// \param 	count	Number of consecutive ones.
 	///
 	/// \returns	An instance of T left-filled with the desired number of ones.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(const)
 	constexpr T MUU_VECTORCALL bit_fill_left(size_t count) noexcept
 	{
@@ -3467,14 +3978,14 @@ namespace muu
 	/// const auto i = 0xAABBCCDDu;
 	/// //                ^ ^ ^ ^
 	/// // byte indices:  3 2 1 0
-	/// 
+	///
 	/// std::cout << std::hex;
 	///	std::cout << "0: " << byte_select<0>(i) << "\n";
 	///	std::cout << "1: " << byte_select<1>(i) << "\n";
 	///	std::cout << "2: " << byte_select<2>(i) << "\n";
 	///	std::cout << "3: " << byte_select<3>(i) << "\n";
 	/// \ecpp
-	/// 
+	///
 	/// \out
 	/// 0: DD
 	/// 1: CC
@@ -3482,7 +3993,7 @@ namespace muu
 	/// 3: AA
 	/// (on a little-endian system)
 	/// \eout
-	/// 
+	///
 	/// \tparam	Index	Index of the byte to retrieve.
 	/// \tparam	T		An integer or enum type.
 	/// \param 	val		An integer or enum value.
@@ -3490,18 +4001,16 @@ namespace muu
 	/// \remark The indexation order of bytes is the _memory_ order, not their
 	/// 		 numeric significance (i.e. byte 0 is always the first byte in the integer's
 	/// 		 memory allocation, regardless of the endianness of the platform).
-	/// 
+	///
 	/// \returns	The value of the selected byte.
 	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, size_t Index, typename T)
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
 	constexpr uint8_t MUU_VECTORCALL byte_select(T val) noexcept
 	{
-		static_assert(
-			Index < sizeof(T),
-			"The byte index is out-of-range; it must be less than the size of the input integer"
-		);
+		static_assert(Index < sizeof(T),
+					  "The byte index is out-of-range; it must be less than the size of the input integer");
 
 		if constexpr (is_enum<T>)
 			return byte_select<Index>(unwrap(val));
@@ -3525,14 +4034,14 @@ namespace muu
 	/// const auto i = 0xAABBCCDDu;
 	/// //                ^ ^ ^ ^
 	/// // byte indices:  3 2 1 0
-	/// 
+	///
 	/// std::cout << std::hex;
 	///	std::cout << "0: " << byte_select(i, 0) << "\n";
 	///	std::cout << "1: " << byte_select(i, 1) << "\n";
 	///	std::cout << "2: " << byte_select(i, 2) << "\n";
 	///	std::cout << "3: " << byte_select(i, 3) << "\n";
 	/// \ecpp
-	/// 
+	///
 	/// \out
 	/// 0: DD
 	/// 1: CC
@@ -3540,7 +4049,7 @@ namespace muu
 	/// 3: AA
 	/// (on a little-endian system)
 	/// \eout
-	/// 
+	///
 	/// \tparam	T		An integer or enum type.
 	/// \param 	val		An integer or enum value.
 	/// \param	index	Index of the byte to retrieve.
@@ -3548,10 +4057,10 @@ namespace muu
 	/// \remark The indexation order of bytes is the _memory_ order, not their
 	/// 		 numeric significance (i.e. byte 0 is always the first byte in the integer's
 	/// 		 memory allocation, regardless of the endianness of the platform).
-	/// 
+	///
 	/// \returns	The value of the selected byte, or 0 if the index was out-of-range.
 	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
 	constexpr uint8_t MUU_VECTORCALL byte_select(T val, size_t index) noexcept
@@ -3574,14 +4083,14 @@ namespace muu
 	namespace impl
 	{
 		template <typename T>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
 		T MUU_VECTORCALL byte_reverse_intrinsic(T val) noexcept
 		{
-			#if MUU_GCC || MUU_CLANG
+		#if MUU_GCC || MUU_CLANG
 			{
-				#define MUU_HAS_INTRINSIC_BYTE_REVERSE 1
+			#define MUU_HAS_INTRINSIC_BYTE_REVERSE 1
 
 				if constexpr (std::is_same_v<T, uint16_t>)
 					return __builtin_bswap16(val);
@@ -3589,23 +4098,23 @@ namespace muu
 					return __builtin_bswap32(val);
 				else if constexpr (std::is_same_v<T, uint64_t>)
 					return __builtin_bswap64(val);
-				#if MUU_HAS_INT128
+			#if MUU_HAS_INT128
 				else if constexpr (std::is_same_v<T, uint128_t>)
 				{
-					#if MUU_HAS_BUILTIN(__builtin_bswap128)
-						return __builtin_bswap128(val);
-					#else
-						return (static_cast<uint128_t>(byte_reverse_intrinsic(static_cast<uint64_t>(val))) << 64)
-							| byte_reverse_intrinsic(static_cast<uint64_t>(val >> 64));
-					#endif
-				}
+				#if MUU_HAS_BUILTIN(__builtin_bswap128)
+					return __builtin_bswap128(val);
+				#else
+					return (static_cast<uint128_t>(byte_reverse_intrinsic(static_cast<uint64_t>(val))) << 64)
+						 | byte_reverse_intrinsic(static_cast<uint64_t>(val >> 64));
 				#endif
+				}
+			#endif
 				else
 					static_assert(always_false<T>, "Unsupported integer type");
 			}
-			#elif MUU_MSVC || MUU_ICC_CL
+		#elif MUU_MSVC || MUU_ICC_CL
 			{
-				#define MUU_HAS_INTRINSIC_BYTE_REVERSE 1
+			#define MUU_HAS_INTRINSIC_BYTE_REVERSE 1
 
 				if constexpr (sizeof(T) == sizeof(unsigned short))
 					return static_cast<T>(_byteswap_ushort(static_cast<unsigned short>(val)));
@@ -3616,54 +4125,41 @@ namespace muu
 				else
 					static_assert(always_false<T>, "Unsupported integer type");
 			}
-			#else
+		#else
 			{
-				#define MUU_HAS_INTRINSIC_BYTE_REVERSE 0
+			#define MUU_HAS_INTRINSIC_BYTE_REVERSE 0
 
 				static_assert(always_false<T>, "byte_reverse_intrinsic not implemented for this compiler");
 			}
-			#endif
+		#endif
 		}
 
 		template <typename T>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(const)
 		constexpr T MUU_VECTORCALL byte_reverse_native(T val) noexcept
 		{
 			if constexpr (sizeof(T) == sizeof(uint16_t))
 			{
-				return static_cast<T>(
-					static_cast<uint32_t>(val << 8)
-					| static_cast<uint32_t>(val >> 8)
-				);
+				return static_cast<T>(static_cast<uint32_t>(val << 8) | static_cast<uint32_t>(val >> 8));
 			}
 			else if constexpr (sizeof(T) == sizeof(uint32_t))
 			{
-				return (val << 24)
-					| ((val << 8) & 0x00FF0000_u32)
-					| ((val >> 8) & 0x0000FF00_u32)
-					| (val >> 24);
+				return (val << 24) | ((val << 8) & 0x00FF0000_u32) | ((val >> 8) & 0x0000FF00_u32) | (val >> 24);
 			}
 			else if constexpr (sizeof(T) == sizeof(uint64_t))
 			{
-				return (val << 56)
-					| ((val << 40) & 0x00FF000000000000_u64)
-					| ((val << 24) & 0x0000FF0000000000_u64)
-					| ((val << 8)  & 0x000000FF00000000_u64)
-					| ((val >> 8)  & 0x00000000FF000000_u64)
-					| ((val >> 24) & 0x0000000000FF0000_u64)
-					| ((val >> 40) & 0x000000000000FF00_u64)
-					| (val  >> 56);
+				return (val << 56) | ((val << 40) & 0x00FF000000000000_u64) | ((val << 24) & 0x0000FF0000000000_u64)
+					 | ((val << 8) & 0x000000FF00000000_u64) | ((val >> 8) & 0x00000000FF000000_u64)
+					 | ((val >> 24) & 0x0000000000FF0000_u64) | ((val >> 40) & 0x000000000000FF00_u64) | (val >> 56);
 			}
-			#if MUU_HAS_INT128
+		#if MUU_HAS_INT128
 			else if constexpr (sizeof(T) == sizeof(uint128_t))
 			{
-				return (static_cast<uint128_t>(
-					byte_reverse_native(static_cast<uint64_t>(val))) << 64)
-					| byte_reverse_native(static_cast<uint64_t>(val >> 64)
-				);
+				return (static_cast<uint128_t>(byte_reverse_native(static_cast<uint64_t>(val))) << 64)
+					 | byte_reverse_native(static_cast<uint64_t>(val >> 64));
 			}
-			#endif
+		#endif
 			else
 				static_assert(always_false<T>, "Unsupported integer type");
 		}
@@ -3677,18 +4173,18 @@ namespace muu
 	/// const auto j = byte_reverse(i);
 	/// std::cout << std::hex << i << "\n" << j;
 	/// \ecpp
-	/// 
+	///
 	/// \out
 	/// AABBCCDD
 	/// DDCCBBAA
 	/// \eout
-	/// 
+	///
 	/// \tparam	T	An unsigned integer or enum type.
 	/// \param 	val	An unsigned integer or enum value.
 	///
 	/// \returns	A copy of the input value with the byte order reversed.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
 	constexpr T MUU_VECTORCALL byte_reverse(T val) noexcept
@@ -3718,57 +4214,44 @@ namespace muu
 	/// const auto i = 0xAABBCCDDu;
 	/// //                ^ ^ ^ ^
 	/// // byte indices:  3 2 1 0
-	/// 
+	///
 	/// std::cout << std::hex << std::setfill('0');
 	///	std::cout << "      <0>: " << std::setw(8) <<       swizzle<0>(i) << "\n";
 	///	std::cout << "   <1, 0>: " << std::setw(8) <<    swizzle<1, 0>(i) << "\n";
 	///	std::cout << "<3, 2, 3>: " << std::setw(8) << swizzle<3, 2, 3>(i) << "\n";
 	/// \ecpp
-	/// 
+	///
 	/// \out
 	///       <0>: 000000DD
 	///    <1, 0>: 0000CCDD
 	/// <3, 2, 3>: 00AABBAA
 	/// (on a little-endian system)
 	/// \eout
-	/// 
+	///
 	/// \tparam	ByteIndices		Indices of the bytes from the source integer in the (little-endian) order they're to be packed.
 	/// \tparam	T				An integer or enum type.
 	/// \param	val				An integer or enum value.
-	/// 
+	///
 	/// \remark The indexation order of bytes is the _memory_ order, not their
 	/// 		 numeric significance (i.e. byte 0 is always the first byte in the integer's
 	/// 		 memory allocation, regardless of the endianness of the platform).
-	/// 
+	///
 	/// \returns	An integral value containing the selected bytes packed bitwise left-to-right. If the total size of the
 	/// 			inputs was less than the return type, the output will be zero-padded on the left.
 	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, size_t... ByteIndices, typename T)
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(const)
 	constexpr auto MUU_VECTORCALL swizzle(T val) noexcept
 	{
-		static_assert(
-			sizeof...(ByteIndices) > 0_sz,
-			"At least one byte index must be specified."
-		);
-		static_assert(
-			(sizeof...(ByteIndices) * CHAR_BIT) <= (MUU_HAS_INT128 ? 128 : 64),
-			"No integer type large enough to hold the swizzled value exists on the target platform"
-		);
-		static_assert(
-			(true && ... && (ByteIndices < sizeof(T))),
-			"One or more of the source byte indices was out-of-range"
-		);
-		using swizzle_type = std::conditional_t<
-			is_signed<T>,
-			signed_integer<bit_ceil(sizeof...(ByteIndices) * CHAR_BIT)>,
-			unsigned_integer<bit_ceil(sizeof...(ByteIndices) * CHAR_BIT)>
-		>;
-		using return_type = std::conditional_t<
-			sizeof...(ByteIndices) == sizeof(T),
-			T,
-			swizzle_type
-		>;
+		static_assert(sizeof...(ByteIndices) > 0_sz, "At least one byte index must be specified.");
+		static_assert((sizeof...(ByteIndices) * CHAR_BIT) <= (MUU_HAS_INT128 ? 128 : 64),
+					  "No integer type large enough to hold the swizzled value exists on the target platform");
+		static_assert((true && ... && (ByteIndices < sizeof(T))),
+					  "One or more of the source byte indices was out-of-range");
+		using swizzle_type = std::conditional_t<is_signed<T>,
+												signed_integer<bit_ceil(sizeof...(ByteIndices) * CHAR_BIT)>,
+												unsigned_integer<bit_ceil(sizeof...(ByteIndices) * CHAR_BIT)>>;
+		using return_type  = std::conditional_t<sizeof...(ByteIndices) == sizeof(T), T, swizzle_type>;
 
 		if constexpr (is_enum<T>)
 			return static_cast<return_type>(swizzle<ByteIndices...>(unwrap(val)));
@@ -3785,7 +4268,8 @@ namespace muu
 	namespace impl
 	{
 		template <typename T>
-		using has_pointer_traits_to_address_ = decltype(std::pointer_traits<remove_cvref<T>>::to_address(std::declval<remove_cvref<T>>()));
+		using has_pointer_traits_to_address_ =
+			decltype(std::pointer_traits<remove_cvref<T>>::to_address(std::declval<remove_cvref<T>>()));
 	}
 	/// \endcond
 
@@ -3793,7 +4277,7 @@ namespace muu
 	///
 	/// \remark This is equivalent to C++20's std::to_address.
 	template <typename T>
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(const)
 	constexpr T* to_address(T* p) noexcept
 	{
@@ -3805,7 +4289,7 @@ namespace muu
 	///
 	/// \remark This is equivalent to C++20's std::to_address.
 	template <typename Ptr>
-	[[nodiscard]]
+	MUU_NODISCARD
 	constexpr auto to_address(const Ptr& p) noexcept
 	{
 		if constexpr (is_detected<impl::has_pointer_traits_to_address_, Ptr>)
@@ -3824,24 +4308,18 @@ namespace muu
 	/// \remark Compilers typically implement std::assume_aligned as an intrinsic which is
 	/// 		 available regardless of the C++ mode. Using this function on these compilers allows
 	/// 		 you to get the same behaviour even when you aren't targeting C++20.
-	/// 
+	///
 	/// \see [P1007R1: std::assume_aligned](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1007r1.pdf)
 	template <size_t N, typename T>
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(assume_aligned(N))
 	MUU_ATTR(flatten)
 	MUU_ATTR(const)
 	constexpr T* assume_aligned(T* ptr) noexcept
 	{
-		static_assert(
-			N > 0 && has_single_bit(N),
-			"assume_aligned() requires a power-of-two alignment value."
-		);
-		static_assert(
-			!std::is_function_v<T>,
-			"assume_aligned may not be used on functions."
-		);
+		static_assert(N > 0 && has_single_bit(N), "assume_aligned() requires a power-of-two alignment value.");
+		static_assert(!std::is_function_v<T>, "assume_aligned may not be used on functions.");
 
 		MUU_ASSUME((reinterpret_cast<uintptr_t>(ptr) & (N - uintptr_t{ 1 })) == 0);
 
@@ -3851,41 +4329,40 @@ namespace muu
 		}
 		else
 		{
-			#if MUU_CLANG || MUU_GCC
+	#if MUU_CLANG || MUU_GCC
 			{
 				return static_cast<T*>(__builtin_assume_aligned(ptr, N));
 			}
-			#elif MUU_MSVC
+	#elif MUU_MSVC
 			{
 				if constexpr (N < 16384)
 					return static_cast<T*>(__builtin_assume_aligned(ptr, N));
 				else
 					return ptr;
 			}
-			#elif MUU_ICC
+	#elif MUU_ICC
 			{
 				__assume_aligned(ptr, N);
 				return ptr;
 			}
-			#elif defined(__cpp_lib_assume_aligned)
-				return std::assume_aligned<N>(ptr);
-			#else
-				return ptr;
-			#endif
+	#elif defined(__cpp_lib_assume_aligned)
+			return std::assume_aligned<N>(ptr);
+	#else
+			return ptr;
+	#endif
 		}
 	}
 
-	/// \cond 
+	/// \cond
 	namespace impl
 	{
 		template <typename Func, typename T, T... I>
-		inline constexpr bool for_sequence_impl_noexcept_ = sizeof...(I) == 0 || (
-			(noexcept(std::declval<Func>()(std::integral_constant<T, I>{})) && ...)
-		);
+		inline constexpr bool for_sequence_impl_noexcept_ =
+			sizeof...(I) == 0 || ((noexcept(std::declval<Func>()(std::integral_constant<T, I>{})) && ...));
 
 		template <typename Func, typename T, T... I>
-		constexpr void for_sequence_impl(std::integer_sequence<T, I...>, Func&& func)
-			noexcept(for_sequence_impl_noexcept_<Func&&, T, I...>)
+		constexpr void for_sequence_impl(std::integer_sequence<T, I...>,
+										 Func&& func) noexcept(for_sequence_impl_noexcept_<Func&&, T, I...>)
 		{
 			(static_cast<void>(static_cast<Func&&>(func)(std::integral_constant<T, I>{})), ...);
 		}
@@ -3894,30 +4371,29 @@ namespace muu
 		inline constexpr bool for_sequence_noexcept_ =
 			noexcept(for_sequence_impl(std::make_integer_sequence<decltype(N), N>{}, std::declval<Func>()));
 	}
-	/// \endcond 
+	/// \endcond
 
 	/// \brief	Generates a series of sequential function calls by pack expansion.
-	/// 
+	///
 	/// \details Generates a sequence of std::integral_constants from 0 to N which are passed into the functor: \cpp
-	/// 
+	///
 	/// auto vals = std::tuple{ 0, "1"sv, 2.3f };
 	/// for_sequence<3_sz>([&](auto i)
 	/// {
 	///		std::cout << std::get<i>(vals) << "\n";
 	/// });
 	/// \ecpp
-	/// 
+	///
 	/// \out
 	/// 0
 	/// 1
 	/// 2.3
 	/// \eout
-	/// 
+	///
 	/// \tparam N		The length of the sequence (the number of calls).
 	/// \tparam Func	A callable type with the signature `void(auto)`.
 	template <auto N, typename Func>
-	constexpr void for_sequence(Func && func)
-		noexcept(impl::for_sequence_noexcept_<N, Func>)
+	constexpr void for_sequence(Func&& func) noexcept(impl::for_sequence_noexcept_<N, Func>)
 	{
 		impl::for_sequence_impl(std::make_integer_sequence<decltype(N), N>{}, static_cast<Func&&>(func));
 	}
@@ -3933,7 +4409,7 @@ namespace muu
 	/// \tparam	T	An unsigned integer or enum type.
 	/// \param 	val	The unsigned value being aligned.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, size_t Alignment, typename T)
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(const)
 	constexpr T apply_alignment(T val) noexcept
 	{
@@ -3957,7 +4433,7 @@ namespace muu
 	/// \tparam	T		An object type (or void).
 	/// \param 	ptr		The pointer being aligned.
 	template <size_t Alignment, typename T>
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(const)
 	MUU_ATTR(nonnull)
 	MUU_ATTR(returns_nonnull)
@@ -3969,8 +4445,7 @@ namespace muu
 		static_assert(Alignment >= alignment_of<std::remove_pointer_t<T>>, "cannot under-align types.");
 
 		return muu::assume_aligned<Alignment>(
-			reinterpret_cast<T*>(apply_alignment<Alignment>(reinterpret_cast<uintptr_t>(ptr)))
-		);
+			reinterpret_cast<T*>(apply_alignment<Alignment>(reinterpret_cast<uintptr_t>(ptr))));
 	}
 
 	/// \brief	Rounds an unsigned value up to the next multiple of the given alignment.
@@ -3979,7 +4454,7 @@ namespace muu
 	/// \param 	val			The unsigned value being aligned.
 	/// \param 	alignment	The alignment to round up to. Must be a power of two.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR_NDEBUG(const)
 	constexpr T apply_alignment(T val, size_t alignment) noexcept
 	{
@@ -4015,10 +4490,10 @@ namespace muu
 		return reinterpret_cast<T*>(apply_alignment(reinterpret_cast<uintptr_t>(ptr), alignment));
 	}
 
-	/** @} */	// apply_alignment
-	#endif // apply_alignment
+	/** @} */ // apply_alignment
+	#endif	  // apply_alignment
 
-	/** @} */	// core
+	/** @} */ // core
 }
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
@@ -4028,11 +4503,13 @@ MUU_RESET_NDEBUG_OPTIMIZATIONS;
 // INTERFACES
 #if 1
 
-#if MUU_HAS_EXCEPTIONS
-	#define MUU_GENERIC_ALLOCATOR_ATTRS	[[nodiscard]] MUU_UNALIASED_ALLOC MUU_ATTR(returns_nonnull)
-#else
-	#define MUU_GENERIC_ALLOCATOR_ATTRS	[[nodiscard]]
-#endif
+	#if MUU_HAS_EXCEPTIONS
+		#define MUU_GENERIC_ALLOCATOR_ATTRS                                                                            \
+			MUU_NODISCARD                                                                                              \
+			MUU_UNALIASED_ALLOC MUU_ATTR(returns_nonnull)
+	#else
+		#define MUU_GENERIC_ALLOCATOR_ATTRS MUU_NODISCARD
+	#endif
 
 namespace muu
 {
@@ -4055,7 +4532,7 @@ namespace muu
 		virtual void* allocate(size_t size, size_t alignment) = 0;
 
 		/// \brief	Deallocates a memory allocation previously acquired by #allocate().
-		/// 
+		///
 		/// \param 	ptr	 		The pointer returned by #allocate().
 		/// \param 	size	 	The size of the requested allocation passed to #allocate().
 		/// \param 	alignment	The required alignment passed to #allocate().
@@ -4066,7 +4543,7 @@ namespace muu
 
 		/// \brief	Requests a memory allocation.
 		/// \remark Allocations returned by this overload will have an alignment of #default_alignment.
-		/// 
+		///
 		/// \param 	size	 	The size of the requested allocation.
 		///
 		/// \returns	\conditional_return{When exceptions are enabled} A pointer to the new allocation, or throws std::bad_alloc.

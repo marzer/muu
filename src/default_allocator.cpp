@@ -29,21 +29,21 @@ namespace
 			}
 			else
 			{
-				#if MUU_WINDOWS
+#if MUU_WINDOWS
 				void* ptr = _aligned_malloc(size, alignment);
-				#else
+#else
 				void* ptr = std::aligned_alloc(alignment, size);
-				#endif
+#endif
 
-				#if MUU_HAS_EXCEPTIONS
+#if MUU_HAS_EXCEPTIONS
 				if (!ptr)
 					throw std::bad_alloc{};
-				#endif
+#endif
 
-				#ifndef NDEBUG
+#ifndef NDEBUG
 				if (ptr)
 					MUU_ASSERT(reinterpret_cast<uintptr_t>(ptr) % alignment == 0_sz);
-				#endif
+#endif
 
 				return ptr;
 			}
@@ -69,13 +69,12 @@ namespace
 			}
 			else
 			{
-				#if MUU_WINDOWS
+#if MUU_WINDOWS
 				_aligned_free(ptr);
-				#else
+#else
 				std::free(ptr);
-				#endif
+#endif
 			}
-
 		}
 	};
 }

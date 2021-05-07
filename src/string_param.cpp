@@ -22,44 +22,132 @@ namespace
 		u16,
 		u32,
 
-		view = 128,
+		view		= 128,
 		narrow_view = narrow | view,
-		wide_view = wide | view,
-		u8_view = u8 | view,
-		u16_view = u16 | view,
-		u32_view = u32 | view
+		wide_view	= wide | view,
+		u8_view		= u8 | view,
+		u16_view	= u16 | view,
+		u32_view	= u32 | view
 	};
 
-	template <mode> struct mode_to_type						{ using type = void; };
-	template <> struct mode_to_type<mode::narrow>			{ using type = std::string; };
-	template <> struct mode_to_type<mode::wide>				{ using type = std::wstring; };
-	template <> struct mode_to_type<mode::u16>				{ using type = std::u16string; };
-	template <> struct mode_to_type<mode::u32>				{ using type = std::u32string; };
-	template <> struct mode_to_type<mode::narrow_view>		{ using type = std::string_view; };
-	template <> struct mode_to_type<mode::wide_view>		{ using type = std::wstring_view; };
-	template <> struct mode_to_type<mode::u16_view>			{ using type = std::u16string_view; };
-	template <> struct mode_to_type<mode::u32_view>			{ using type = std::u32string_view; };
-	#ifdef __cpp_lib_char8_t
-	template <> struct mode_to_type<mode::u8>				{ using type = std::u8string; };
-	template <> struct mode_to_type<mode::u8_view>			{ using type = std::u8string_view; };
-	#endif
+	template <mode>
+	struct mode_to_type
+	{
+		using type = void;
+	};
+	template <>
+	struct mode_to_type<mode::narrow>
+	{
+		using type = std::string;
+	};
+	template <>
+	struct mode_to_type<mode::wide>
+	{
+		using type = std::wstring;
+	};
+	template <>
+	struct mode_to_type<mode::u16>
+	{
+		using type = std::u16string;
+	};
+	template <>
+	struct mode_to_type<mode::u32>
+	{
+		using type = std::u32string;
+	};
+	template <>
+	struct mode_to_type<mode::narrow_view>
+	{
+		using type = std::string_view;
+	};
+	template <>
+	struct mode_to_type<mode::wide_view>
+	{
+		using type = std::wstring_view;
+	};
+	template <>
+	struct mode_to_type<mode::u16_view>
+	{
+		using type = std::u16string_view;
+	};
+	template <>
+	struct mode_to_type<mode::u32_view>
+	{
+		using type = std::u32string_view;
+	};
+#ifdef __cpp_lib_char8_t
+	template <>
+	struct mode_to_type<mode::u8>
+	{
+		using type = std::u8string;
+	};
+	template <>
+	struct mode_to_type<mode::u8_view>
+	{
+		using type = std::u8string_view;
+	};
+#endif
 
 	template <mode Mode>
 	using type_of = typename mode_to_type<Mode>::type;
 
-	template <typename> struct type_to_mode					{ static constexpr auto value = mode::none; };
-	template <> struct type_to_mode<std::string>			{ static constexpr auto value = mode::narrow; };
-	template <> struct type_to_mode<std::wstring>			{ static constexpr auto value = mode::wide; };
-	template <> struct type_to_mode<std::u16string>			{ static constexpr auto value = mode::u16; };
-	template <> struct type_to_mode<std::u32string>			{ static constexpr auto value = mode::u32; };
-	template <> struct type_to_mode<std::string_view>		{ static constexpr auto value = mode::narrow_view; };
-	template <> struct type_to_mode<std::wstring_view>		{ static constexpr auto value = mode::wide_view; };
-	template <> struct type_to_mode<std::u16string_view>	{ static constexpr auto value = mode::u16_view; };
-	template <> struct type_to_mode<std::u32string_view>	{ static constexpr auto value = mode::u32_view; };
-	#ifdef __cpp_lib_char8_t
-	template <> struct type_to_mode<std::u8string>			{ static constexpr auto value = mode::u8; };
-	template <> struct type_to_mode<std::u8string_view>		{ static constexpr auto value = mode::u8_view; };
-	#endif
+	template <typename>
+	struct type_to_mode
+	{
+		static constexpr auto value = mode::none;
+	};
+	template <>
+	struct type_to_mode<std::string>
+	{
+		static constexpr auto value = mode::narrow;
+	};
+	template <>
+	struct type_to_mode<std::wstring>
+	{
+		static constexpr auto value = mode::wide;
+	};
+	template <>
+	struct type_to_mode<std::u16string>
+	{
+		static constexpr auto value = mode::u16;
+	};
+	template <>
+	struct type_to_mode<std::u32string>
+	{
+		static constexpr auto value = mode::u32;
+	};
+	template <>
+	struct type_to_mode<std::string_view>
+	{
+		static constexpr auto value = mode::narrow_view;
+	};
+	template <>
+	struct type_to_mode<std::wstring_view>
+	{
+		static constexpr auto value = mode::wide_view;
+	};
+	template <>
+	struct type_to_mode<std::u16string_view>
+	{
+		static constexpr auto value = mode::u16_view;
+	};
+	template <>
+	struct type_to_mode<std::u32string_view>
+	{
+		static constexpr auto value = mode::u32_view;
+	};
+#ifdef __cpp_lib_char8_t
+	template <>
+	struct type_to_mode<std::u8string>
+	{
+		static constexpr auto value = mode::u8;
+	};
+	template <>
+	struct type_to_mode<std::u8string_view>
+	{
+		static constexpr auto value = mode::u8_view;
+	};
+#endif
 
 	template <typename Type>
 	inline constexpr mode mode_of = type_to_mode<Type>::value;
@@ -71,8 +159,8 @@ namespace
 			return;
 
 		using type = std::basic_string_view<Char>;
-		mode_ = unwrap(mode_of<type>);
-		::new (static_cast<void*>(&storage)) type{ str };
+		mode_	   = unwrap(mode_of<type>);
+		::new (static_cast<void*>(storage.bytes)) type{ str };
 	}
 
 	template <typename T, typename Char>
@@ -82,8 +170,8 @@ namespace
 			return;
 
 		using type = std::basic_string_view<Char>;
-		mode_ = unwrap(mode_of<type>);
-		::new (static_cast<void*>(&storage)) type{ str };
+		mode_	   = unwrap(mode_of<type>);
+		::new (static_cast<void*>(storage.bytes)) type{ str };
 	}
 
 	template <typename T, typename Char>
@@ -93,8 +181,8 @@ namespace
 			return;
 
 		using type = std::basic_string_view<Char>;
-		mode_ = unwrap(mode_of<type>);
-		::new (static_cast<void*>(&storage)) type{ str, len };
+		mode_	   = unwrap(mode_of<type>);
+		::new (static_cast<void*>(storage.bytes)) type{ str, len };
 	}
 
 	template <typename T, typename Char>
@@ -108,8 +196,8 @@ namespace
 			return;
 
 		using type = std::basic_string_view<Char>;
-		mode_ = unwrap(mode_of<type>);
-		::new (static_cast<void*>(&storage)) type{ str, len };
+		mode_	   = unwrap(mode_of<type>);
+		::new (static_cast<void*>(storage.bytes)) type{ str, len };
 	}
 
 	template <typename T, typename Char>
@@ -120,14 +208,14 @@ namespace
 			return nullptr;
 
 		mode_ = unwrap(mode_of<type>);
-		return ::new (static_cast<void*>(&storage)) type( std::move(str) );
+		return ::new (static_cast<void*>(storage.bytes)) type(std::move(str));
 	}
 
 	template <mode Mode, typename T>
-	[[nodiscard]]
+	MUU_NODISCARD
 	static auto& value(T& storage) noexcept
 	{
-		return *muu::launder(reinterpret_cast<type_of<Mode>*>(&storage));
+		return *muu::launder(reinterpret_cast<type_of<Mode>*>(storage.bytes));
 	}
 
 	template <typename T, typename Func>
@@ -135,19 +223,19 @@ namespace
 	{
 		switch (mode_)
 		{
-			case unwrap(mode::none):		break;
-			case unwrap(mode::narrow):		fn(value<mode::narrow>(storage)); break;
-			case unwrap(mode::wide):		fn(value<mode::wide>(storage)); break;
-			case unwrap(mode::u16):			fn(value<mode::u16>(storage)); break;
-			case unwrap(mode::u32):			fn(value<mode::u32>(storage)); break;
-			case unwrap(mode::narrow_view):	fn(value<mode::narrow_view>(storage)); break;
-			case unwrap(mode::wide_view):	fn(value<mode::wide_view>(storage)); break;
-			case unwrap(mode::u16_view):	fn(value<mode::u16_view>(storage)); break;
-			case unwrap(mode::u32_view):	fn(value<mode::u32_view>(storage)); break;
-			#ifdef __cpp_lib_char8_t
-			case unwrap(mode::u8):			fn(value<mode::u8>(storage)); break;
-			case unwrap(mode::u8_view):		fn(value<mode::u8_view>(storage)); break;
-			#endif
+			case unwrap(mode::none): break;
+			case unwrap(mode::narrow): fn(value<mode::narrow>(storage)); break;
+			case unwrap(mode::wide): fn(value<mode::wide>(storage)); break;
+			case unwrap(mode::u16): fn(value<mode::u16>(storage)); break;
+			case unwrap(mode::u32): fn(value<mode::u32>(storage)); break;
+			case unwrap(mode::narrow_view): fn(value<mode::narrow_view>(storage)); break;
+			case unwrap(mode::wide_view): fn(value<mode::wide_view>(storage)); break;
+			case unwrap(mode::u16_view): fn(value<mode::u16_view>(storage)); break;
+			case unwrap(mode::u32_view): fn(value<mode::u32_view>(storage)); break;
+#ifdef __cpp_lib_char8_t
+			case unwrap(mode::u8): fn(value<mode::u8>(storage)); break;
+			case unwrap(mode::u8_view): fn(value<mode::u8_view>(storage)); break;
+#endif
 			default: MUU_UNREACHABLE;
 		}
 	}
@@ -157,19 +245,21 @@ namespace
 	{
 		switch (mode_)
 		{
-			case unwrap(mode::none):		break;
-			case unwrap(mode::narrow):		fn(value<mode::narrow>(storage1), value<mode::narrow>(storage2)); break;
-			case unwrap(mode::wide):		fn(value<mode::wide>(storage1), value<mode::wide>(storage2)); break;
-			case unwrap(mode::u16):			fn(value<mode::u16>(storage1), value<mode::u16>(storage2)); break;
-			case unwrap(mode::u32):			fn(value<mode::u32>(storage1), value<mode::u32>(storage2)); break;
-			case unwrap(mode::narrow_view):	fn(value<mode::narrow_view>(storage1), value<mode::narrow_view>(storage2)); break;
-			case unwrap(mode::wide_view):	fn(value<mode::wide_view>(storage1), value<mode::wide_view>(storage2)); break;
-			case unwrap(mode::u16_view):	fn(value<mode::u16_view>(storage1), value<mode::u16_view>(storage2)); break;
-			case unwrap(mode::u32_view):	fn(value<mode::u32_view>(storage1), value<mode::u32_view>(storage2)); break;
-			#ifdef __cpp_lib_char8_t
-			case unwrap(mode::u8):			fn(value<mode::u8>(storage1), value<mode::u8>(storage2)); break;
-			case unwrap(mode::u8_view):		fn(value<mode::u8_view>(storage1), value<mode::u8_view>(storage2)); break;
-			#endif
+			case unwrap(mode::none): break;
+			case unwrap(mode::narrow): fn(value<mode::narrow>(storage1), value<mode::narrow>(storage2)); break;
+			case unwrap(mode::wide): fn(value<mode::wide>(storage1), value<mode::wide>(storage2)); break;
+			case unwrap(mode::u16): fn(value<mode::u16>(storage1), value<mode::u16>(storage2)); break;
+			case unwrap(mode::u32): fn(value<mode::u32>(storage1), value<mode::u32>(storage2)); break;
+			case unwrap(mode::narrow_view):
+				fn(value<mode::narrow_view>(storage1), value<mode::narrow_view>(storage2));
+				break;
+			case unwrap(mode::wide_view): fn(value<mode::wide_view>(storage1), value<mode::wide_view>(storage2)); break;
+			case unwrap(mode::u16_view): fn(value<mode::u16_view>(storage1), value<mode::u16_view>(storage2)); break;
+			case unwrap(mode::u32_view): fn(value<mode::u32_view>(storage1), value<mode::u32_view>(storage2)); break;
+#ifdef __cpp_lib_char8_t
+			case unwrap(mode::u8): fn(value<mode::u8>(storage1), value<mode::u8>(storage2)); break;
+			case unwrap(mode::u8_view): fn(value<mode::u8_view>(storage1), value<mode::u8_view>(storage2)); break;
+#endif
 			default: MUU_UNREACHABLE;
 		}
 	}
@@ -195,11 +285,11 @@ namespace
 MUU_ATTR(const)
 bool string_param::built_with_char8_support() noexcept
 {
-	#ifdef __cpp_lib_char8_t
+#ifdef __cpp_lib_char8_t
 	return true;
-	#else
+#else
 	return false;
-	#endif
+#endif
 }
 
 string_param::string_param() noexcept = default;
@@ -306,31 +396,31 @@ string_param::string_param(std::u32string&& str) noexcept
 
 string_param::string_param(const void* str, size_t len, char8_tag) noexcept
 {
-	#ifdef __cpp_lib_char8_t
+#ifdef __cpp_lib_char8_t
 	initialize(storage_, mode_, static_cast<const char8_t*>(str), len);
-	#else
+#else
 	initialize(storage_, mode_, static_cast<const char*>(str), len);
-	#endif
+#endif
 }
 
 string_param::string_param(void* str_obj, const void* str, size_t len, char8_tag) noexcept
 {
-	#ifdef __cpp_lib_char8_t
+#ifdef __cpp_lib_char8_t
 
 	MUU_UNUSED(str);
 	MUU_UNUSED(len);
 	initialize(storage_, mode_, std::move(*static_cast<std::u8string*>(str_obj)));
 
-	#else
+#else
 
 	MUU_UNUSED(str_obj);
 	if (str && len)
 		initialize(storage_, mode_, std::string(static_cast<const char*>(str), len));
 
-	#endif
+#endif
 }
 
-string_param& string_param::operator= (string_param&& rhs_) noexcept
+string_param& string_param::operator=(string_param&& rhs_) noexcept
 {
 	if (&rhs_ == this)
 		return *this;
@@ -338,21 +428,21 @@ string_param& string_param::operator= (string_param&& rhs_) noexcept
 	// if they're the same we can just move (don't need to destroy our value)
 	if (mode_ == rhs_.mode_)
 	{
-		visit(storage_, rhs_.storage_, mode_, [](auto& lhs, auto& rhs) noexcept
-		{
-			lhs = std::move(rhs);
-			call_destructor(rhs);
-		});
+		visit(storage_,
+			  rhs_.storage_,
+			  mode_,
+			  [](auto& lhs, auto& rhs) noexcept
+			  {
+				  lhs = std::move(rhs);
+				  call_destructor(rhs);
+			  });
 	}
 	else // otherwise we're changing mode
 	{
 		if (mode_)
 			destroy(storage_, mode_);
 
-		visit(rhs_.storage_, rhs_.mode_, [this](auto& rhs) noexcept
-		{
-			initialize(storage_, mode_, std::move(rhs));
-		});
+		visit(rhs_.storage_, rhs_.mode_, [this](auto& rhs) noexcept { initialize(storage_, mode_, std::move(rhs)); });
 	}
 	rhs_.mode_ = {};
 	return *this;
@@ -392,30 +482,33 @@ bool string_param::owning() const noexcept
 namespace
 {
 	template <typename Char, typename T>
+	MUU_NODISCARD
 	static std::basic_string_view<Char> get_view(T& storage_, uint8_t& mode_) noexcept
 	{
 		MUU_ASSUME(mode_ > uint8_t{});
 
 		std::basic_string_view<Char> out;
-		visit(storage_, mode_, [&](auto& str) noexcept
-		{
-			using type = remove_cvref<decltype(str)>;
-			if constexpr (is_same_as_any<type, std::basic_string<Char>, std::basic_string_view<Char>>)
-			{
-				out = str;
-			}
-			else
-			{
-				auto new_str = transcode<Char>(str);
-				call_destructor(str);
-				out = *initialize(storage_, mode_, std::move(new_str));
-			}
-		});
+		visit(storage_,
+			  mode_,
+			  [&](auto& str) noexcept
+			  {
+				  using type = remove_cvref<decltype(str)>;
+				  if constexpr (is_same_as_any<type, std::basic_string<Char>, std::basic_string_view<Char>>)
+				  {
+					  out = str;
+				  }
+				  else
+				  {
+					  auto new_str = transcode<Char>(str);
+					  call_destructor(str);
+					  out = *initialize(storage_, mode_, std::move(new_str));
+				  }
+			  });
 		return out;
 	}
 }
 
-string_param::operator std::string_view() const & noexcept
+string_param::operator std::string_view() const& noexcept
 {
 	if (empty())
 		return {};
@@ -423,7 +516,7 @@ string_param::operator std::string_view() const & noexcept
 	return get_view<char>(storage_, mode_);
 }
 
-string_param::operator std::wstring_view() const & noexcept
+string_param::operator std::wstring_view() const& noexcept
 {
 	if (empty())
 		return {};
@@ -431,7 +524,7 @@ string_param::operator std::wstring_view() const & noexcept
 	return get_view<wchar_t>(storage_, mode_);
 }
 
-string_param::operator std::u16string_view() const & noexcept
+string_param::operator std::u16string_view() const& noexcept
 {
 	if (empty())
 		return {};
@@ -439,7 +532,7 @@ string_param::operator std::u16string_view() const & noexcept
 	return get_view<char16_t>(storage_, mode_);
 }
 
-string_param::operator std::u32string_view() const & noexcept
+string_param::operator std::u32string_view() const& noexcept
 {
 	if (empty())
 		return {};
@@ -449,39 +542,42 @@ string_param::operator std::u32string_view() const & noexcept
 
 void string_param::get_char8_view(void* str) const noexcept
 {
-	#ifdef __cpp_lib_char8_t
+#ifdef __cpp_lib_char8_t
 	*static_cast<std::u8string_view*>(str) = get_view<char8_t>(storage_, mode_);
-	#else
+#else
 	MUU_UNUSED(str);
-	#endif
+#endif
 }
 
 namespace
 {
 	template <typename Char, typename T>
+	MUU_NODISCARD
 	static std::basic_string<Char> move_into_string(T& storage_, uint8_t& mode_) noexcept
 	{
 		MUU_ASSUME(mode_ > uint8_t{});
 
 		std::basic_string<Char> out;
-		visit(storage_, mode_, [&](auto& str) noexcept
-		{
-			using type = remove_cvref<decltype(str)>;
-			if constexpr (std::is_same_v<type, std::basic_string<Char>>)
-			{
-				out = std::move(str);
-				call_destructor(str);
-				mode_ = {};
-			}
-			else if constexpr (std::is_same_v<type, std::basic_string_view<Char>>)
-			{
-				out = str;
-			}
-			else
-			{
-				out =  transcode<Char>(str);
-			}
-		});
+		visit(storage_,
+			  mode_,
+			  [&](auto& str) noexcept
+			  {
+				  using type = remove_cvref<decltype(str)>;
+				  if constexpr (std::is_same_v<type, std::basic_string<Char>>)
+				  {
+					  out = std::move(str);
+					  call_destructor(str);
+					  mode_ = {};
+				  }
+				  else if constexpr (std::is_same_v<type, std::basic_string_view<Char>>)
+				  {
+					  out = str;
+				  }
+				  else
+				  {
+					  out = transcode<Char>(str);
+				  }
+			  });
 		return out;
 	}
 }
@@ -540,46 +636,48 @@ string_param::operator std::u32string() && noexcept
 
 void string_param::move_into_char8_string(void* str) noexcept
 {
-	#ifdef __cpp_lib_char8_t
+#ifdef __cpp_lib_char8_t
 	*static_cast<std::u8string*>(str) = move_into_string<char8_t>(storage_, mode_);
-	#else
+#else
 	MUU_UNUSED(str);
-	#endif
+#endif
 }
 
 string_param& string_param::trim() & noexcept
 {
-	visit(storage_, mode_, [&](auto& str) noexcept
-	{
-		using type = remove_cvref<decltype(str)>;
+	visit(storage_,
+		  mode_,
+		  [&](auto& str) noexcept
+		  {
+			  using type = remove_cvref<decltype(str)>;
 
-		const auto trimmed = muu::trim(str); // returns a string view
-		if (trimmed.empty())
-		{
-			call_destructor(str);
-			mode_ = {};
-		}
-		else
-		{
-			if constexpr (mode_of<type> < mode::view) // strings
-			{
-				// snip beginning
-				if (trimmed.data() != str.data())
-				{
-					MUU_ASSERT((trimmed.data() - str.data()) > 0);
-					str.erase(str.begin(), str.begin() + (trimmed.data() - str.data()));
-				}
+			  const auto trimmed = muu::trim(str); // returns a string view
+			  if (trimmed.empty())
+			  {
+				  call_destructor(str);
+				  mode_ = {};
+			  }
+			  else
+			  {
+				  if constexpr (mode_of<type> < mode::view) // strings
+				  {
+					  // snip beginning
+					  if (trimmed.data() != str.data())
+					  {
+						  MUU_ASSERT((trimmed.data() - str.data()) > 0);
+						  str.erase(str.begin(), str.begin() + (trimmed.data() - str.data()));
+					  }
 
-				// snip end
-				if (trimmed.length() != str.length())
-					str.resize(trimmed.length());
-			}
-			else // views
-			{
-				str = trimmed;
-			}
-		}
-	});
+					  // snip end
+					  if (trimmed.length() != str.length())
+						  str.resize(trimmed.length());
+				  }
+				  else // views
+				  {
+					  str = trimmed;
+				  }
+			  }
+		  });
 	return *this;
 }
 

@@ -26,6 +26,8 @@ AlwaysBreakTemplateDeclarations: Yes
 AttributeMacros:
   - MUU_ABSTRACT_INTERFACE
   - MUU_EMPTY_BASE_CLASSES
+  - MUU_TRIVIAL_ABI
+  - MUU_VECTORCALL
 BinPackArguments: false
 BinPackParameters: false
 BraceWrapping:
@@ -58,7 +60,7 @@ BreakConstructorInitializers: BeforeColon
 BreakAfterJavaFieldAnnotations: false
 BreakStringLiterals: true
 ColumnLimit:     120
-CommentPragmas:  '^ IWYU pragma:'
+CommentPragmas:  '^([/*!#]|\s*(===|---|clang-format))'
 CompactNamespaces: false
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
 ConstructorInitializerIndentWidth: 4
@@ -158,6 +160,7 @@ StatementMacros:
   - MUU_ATTR_NDEBUG
   - MUU_CONSTEVAL
   - MUU_CONSTRAINED_TEMPLATE
+  - MUU_GENERIC_ALLOCATOR_ATTRS
   - MUU_LEGACY_REQUIRES
   - MUU_LEGACY_REQUIRES_2
   - MUU_NEVER_INLINE
@@ -171,6 +174,7 @@ TabWidth:        4
 TypenameMacros:
   - MUU_VC_PARAM
   - MUU_GEOM_PARAM
+  - MUU_IDENTITY
 UseCRLF:         false
 UseTab:          Always
 WhitespaceSensitiveMacros:

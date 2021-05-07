@@ -397,10 +397,10 @@ namespace muu
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr bool MUU_VECTORCALL
-		approx_equal(MUU_VC_PARAM(bounding_box) bb1,
-					 const bounding_box<T>& bb2,
-					 epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
+		static constexpr bool MUU_VECTORCALL approx_equal(
+			MUU_VC_PARAM(bounding_box) bb1,
+			const bounding_box<T>& bb2,
+			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
 		{
 			return vector_type::approx_equal(bb1.center, bb2.center, epsilon)
 				&& vector_type::approx_equal(bb1.extents, bb2.extents, epsilon);
@@ -410,9 +410,9 @@ namespace muu
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr bool MUU_VECTORCALL
-		approx_equal(const bounding_box<T>& bb,
-					 epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) const noexcept
+		constexpr bool MUU_VECTORCALL approx_equal(
+			const bounding_box<T>& bb,
+			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) const noexcept
 		{
 			return approx_equal(*this, bb, epsilon);
 		}
@@ -497,7 +497,7 @@ namespace muu
 		MUU_ATTR(pure)
 		static constexpr vector_type MUU_VECTORCALL min_corner(MUU_VC_PARAM(bounding_box) bb) noexcept
 		{
-			return boxes::corner<box_corners::min>(bb.center, bb.extents);
+			return bb.center - bb.extents;
 		}
 
 		/// \brief	Returns the 'min' corner of the bounding box.
@@ -505,7 +505,7 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr vector_type min_corner() const noexcept
 		{
-			return boxes::corner<box_corners::min>(base::center, base::extents);
+			return base::center - base::extents;
 		}
 
 		/// \brief	Returns the 'max' corner of a bounding box.
@@ -513,7 +513,7 @@ namespace muu
 		MUU_ATTR(pure)
 		static constexpr vector_type MUU_VECTORCALL max_corner(MUU_VC_PARAM(bounding_box) bb) noexcept
 		{
-			return boxes::corner<box_corners::max>(bb.center, bb.extents);
+			return bb.center + bb.extents;
 		}
 
 		/// \brief	Returns the 'max' corner of the bounding box.
@@ -521,14 +521,14 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr vector_type max_corner() const noexcept
 		{
-			return boxes::corner<box_corners::max>(base::center, base::extents);
+			return base::center + base::extents;
 		}
 
 			/// @}
 	#endif // corners
 
-	#if 1 // translation and scaling -----------------------------------------------------------------------------------
-		/// \name Translation and scaling
+	#if 1 // transformation, translation and scaling -------------------------------------------------------------------
+		/// \name Transformation, translation and scaling
 		/// @{
 
 		/// \brief	Translates a bounding box.
@@ -581,8 +581,48 @@ namespace muu
 			return *this;
 		}
 
+		/// \brief Transforms an axis-aligned bounding box from one coordinate space to another.
+		///
+		/// \param	bb		The bounding box to transform.
+		/// \param	tx		The transform to apply.
+		///
+		/// \return	Returns an axis-aligned bounding box containing all the points of the
+		///			input bounding box after being transformed.
+		MUU_NODISCARD
+		MUU_ATTR(pure)
+		static constexpr bounding_box MUU_VECTORCALL transform(MUU_VC_PARAM(bounding_box) bb,
+															   MUU_VC_PARAM(matrix<scalar_type, 4, 4>) tx) noexcept
+		{
+			// http://dev.theomader.com/transform-bounding-boxes/
+
+			MUU_FMA_BLOCK;
+
+			auto min	  = bb.center - bb.extents;
+			auto max	  = bb.center + bb.extents;
+			const auto xa = vector_type{ tx.m[0] } * min.x;
+			const auto xb = vector_type{ tx.m[0] } * max.x;
+			const auto ya = vector_type{ tx.m[1] } * min.y;
+			const auto yb = vector_type{ tx.m[1] } * max.y;
+			const auto za = vector_type{ tx.m[2] } * min.z;
+			const auto zb = vector_type{ tx.m[2] } * max.z;
+			min			  = muu::min(xa, xb) + muu::min(ya, yb) + muu::min(za, zb);
+			max			  = muu::max(xa, xb) + muu::max(ya, yb) + muu::max(za, zb);
+			max			  = (max - min) / scalar_type{ 2 }; // extents
+			return { min + max + vector_type{ tx.m[3] }, max };
+		}
+
+		/// \brief Transforms the axis-aligned bounding box from one coordinate space to another (in-place).
+		///
+		/// \param	tx		The transform to apply.
+		///
+		/// \return	A reference to the box.
+		constexpr bounding_box& transform(MUU_VC_PARAM(matrix<scalar_type, 4, 4>) tx) noexcept
+		{
+			return *this = transform(*this, tx);
+		}
+
 			/// @}
-	#endif // translation and scaling
+	#endif // transformation, translation and scaling
 
 	#if 1 // intersection and containment ------------------------------------------------------------------------------
 		/// \name Intersection and containment
@@ -693,7 +733,7 @@ namespace muu
 	#endif // misc
 	};
 
-	/// \cond deduction_guides
+	/// \cond
 
 	template <typename CX, typename CY, typename CZ, typename EX, typename EY, typename EZ>
 	bounding_box(CX, CY, CZ, EX, EY, EZ) -> bounding_box<impl::highest_ranked<CX, CY, CZ, EX, EY, EZ>>;

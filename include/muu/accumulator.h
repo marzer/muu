@@ -90,7 +90,7 @@ namespace muu
 			}
 
 			/// \brief	Returns the number of samples added to the accumulator.
-			[[nodiscard]]
+			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
 			MUU_ATTR(pure)
 			constexpr size_t sample_count() const noexcept
@@ -99,7 +99,7 @@ namespace muu
 			}
 
 			/// \brief	Returns true if no samples have been added to the accumulator.
-			[[nodiscard]]
+			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
 			MUU_ATTR(pure)
 			constexpr bool empty() const noexcept
@@ -108,7 +108,7 @@ namespace muu
 			}
 
 			/// \brief	Returns the minimum value added to the accumulator.
-			[[nodiscard]]
+			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
 			MUU_ATTR(pure)
 			constexpr decltype(auto) min() const
@@ -118,7 +118,7 @@ namespace muu
 			}
 
 			/// \brief	Returns the maximum value added to the accumulator.
-			[[nodiscard]]
+			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
 			MUU_ATTR(pure)
 			constexpr decltype(auto) max() const
@@ -128,7 +128,7 @@ namespace muu
 			}
 
 			/// \brief	Returns the sum of all values added to the accumulator.
-			[[nodiscard]]
+			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
 			MUU_ATTR(pure)
 			constexpr decltype(auto) sum() const
@@ -270,7 +270,7 @@ namespace muu
 				sum_ += other.sum_;
 			}
 
-			[[nodiscard]]
+			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
 			MUU_ATTR(pure)
 			constexpr value_type min() const noexcept
@@ -278,7 +278,7 @@ namespace muu
 				return min_;
 			}
 
-			[[nodiscard]]
+			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
 			MUU_ATTR(pure)
 			constexpr value_type max() const noexcept
@@ -286,7 +286,7 @@ namespace muu
 				return max_;
 			}
 
-			[[nodiscard]]
+			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
 			MUU_ATTR(pure)
 			constexpr sum_type sum() const noexcept
@@ -353,7 +353,7 @@ namespace muu
 				kahan_add(other.sum);
 			}
 
-			[[nodiscard]]
+			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
 			MUU_ATTR(pure)
 			constexpr value_type min() const noexcept
@@ -361,7 +361,7 @@ namespace muu
 				return min_;
 			}
 
-			[[nodiscard]]
+			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
 			MUU_ATTR(pure)
 			constexpr value_type max() const noexcept
@@ -369,7 +369,7 @@ namespace muu
 				return max_;
 			}
 
-			[[nodiscard]]
+			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
 			MUU_ATTR(pure)
 			constexpr value_type sum() const noexcept

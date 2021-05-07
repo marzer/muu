@@ -21,9 +21,9 @@ MUU_DISABLE_ARITHMETIC_WARNINGS;
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 
 #ifdef __cpp_lib_constexpr_string
-	#define MUU_CONSTEXPR_STRING	constexpr
+	#define MUU_CONSTEXPR_STRING constexpr
 #else
-	#define MUU_CONSTEXPR_STRING	inline
+	#define MUU_CONSTEXPR_STRING inline
 #endif
 
 namespace muu
@@ -40,7 +40,7 @@ namespace muu
 	/// \defgroup		code_units		Code units
 	/// \brief			Utilities for manipulating individual code units ('characters').
 
-	#if 1 // unicode/boilerplate --------------------------------------------------------------------------------------
+#if 1 // unicode/boilerplate -------------------------------------------------------------------------------------------
 
 	/// \cond
 	namespace impl
@@ -52,81 +52,81 @@ namespace muu
 			// utf8_decoder based on this: https://bjoern.hoehrmann.de/utf-8/decoder/dfa/
 			// Copyright (c) Bjoern Hoehrmann <bjoern@hoehrmann.de>
 
-			private:
-				uint_least32_t state{};
-				static constexpr uint8_t state_table[] =
-				{
-					0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-					0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-					0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-					0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-					1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,		9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
-					7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,		7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
-					8,8,2,2,2,2,2,2,2,2,2,2,2,2,2,2,		2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
-					10,3,3,3,3,3,3,3,3,3,3,3,3,4,3,3,		11,6,6,6,5,8,8,8,8,8,8,8,8,8,8,8,
+		  private:
+			uint_least32_t state{};
+			static constexpr uint8_t state_table[] = {
+				0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,
+				0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,
+				0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,
+				0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,
+				0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	1,	1,
+				1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	9,	9,	9,	9,	9,	9,	9,	9,	9,	9,	9,	9,
+				9,	9,	9,	9,	7,	7,	7,	7,	7,	7,	7,	7,	7,	7,	7,	7,	7,	7,	7,	7,	7,	7,	7,	7,	7,	7,
+				7,	7,	7,	7,	7,	7,	7,	7,	7,	7,	8,	8,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,
+				2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	10, 3,	3,	3,	3,	3,	3,	3,	3,	3,
+				3,	3,	3,	4,	3,	3,	11, 6,	6,	6,	5,	8,	8,	8,	8,	8,	8,	8,	8,	8,	8,	8,
 
-					0,12,24,36,60,96,84,12,12,12,48,72,		12,12,12,12,12,12,12,12,12,12,12,12,
-					12, 0,12,12,12,12,12, 0,12, 0,12,12,	12,24,12,12,12,12,12,24,12,24,12,12,
-					12,12,12,12,12,12,12,24,12,12,12,12,	12,24,12,12,12,12,12,12,12,24,12,12,
-					12,12,12,12,12,12,12,36,12,36,12,12,	12,36,12,12,12,12,12,36,12,36,12,12,
-					12,36,12,12,12,12,12,12,12,12,12,12
-				};
-				uint_least32_t codepoint{};
+				0,	12, 24, 36, 60, 96, 84, 12, 12, 12, 48, 72, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 0,
+				12, 12, 12, 12, 12, 0,	12, 0,	12, 12, 12, 24, 12, 12, 12, 12, 12, 24, 12, 24, 12, 12, 12, 12, 12, 12,
+				12, 12, 12, 24, 12, 12, 12, 12, 12, 24, 12, 12, 12, 12, 12, 12, 12, 24, 12, 12, 12, 12, 12, 12, 12, 12,
+				12, 36, 12, 36, 12, 12, 12, 36, 12, 12, 12, 12, 12, 36, 12, 36, 12, 12, 12, 36, 12, 12, 12, 12, 12, 12,
+				12, 12, 12, 12
+			};
+			uint_least32_t codepoint{};
 
-			public:
+		  public:
+			MUU_NODISCARD
+			constexpr bool error() const noexcept
+			{
+				return state == uint_least32_t{ 12u };
+			}
 
-				[[nodiscard]]
-				constexpr bool error() const noexcept
-				{
-					return state == uint_least32_t{ 12u };
-				}
+			constexpr void clear_error() noexcept
+			{
+				MUU_ASSERT(error());
+				state = uint_least32_t{};
+			}
 
-				constexpr void clear_error() noexcept
-				{
-					MUU_ASSERT(error());
-					state = uint_least32_t{};
-				}
+			MUU_NODISCARD
+			constexpr bool has_value() const noexcept
+			{
+				return state == uint_least32_t{};
+			}
 
-				[[nodiscard]]
-				constexpr bool has_value() const noexcept
-				{
-					return state == uint_least32_t{};
-				}
+			MUU_NODISCARD
+			constexpr char32_t value() const noexcept
+			{
+				return static_cast<char32_t>(codepoint);
+			}
 
-				[[nodiscard]]
-				constexpr char32_t value() const noexcept
-				{
-					return static_cast<char32_t>(codepoint);
-				}
+			MUU_NODISCARD
+			constexpr bool needs_more_input() const noexcept
+			{
+				return state > uint_least32_t{} && state != uint_least32_t{ 12u };
+			}
 
-				[[nodiscard]]
-				constexpr bool needs_more_input() const noexcept
-				{
-					return state > uint_least32_t{} && state != uint_least32_t{ 12u };
-				}
+			constexpr void operator()(uint8_t code_unit) noexcept
+			{
+				MUU_ASSERT(!error());
 
-				constexpr void operator () (uint8_t code_unit) noexcept
-				{
-					MUU_ASSERT(!error());
+				const auto type = state_table[code_unit];
 
-					const auto type = state_table[code_unit];
+				codepoint = has_value()
+							  ? (uint_least32_t{ 255u } >> type) & code_unit
+							  : (code_unit & uint_least32_t{ 63u }) | (static_cast<uint_least32_t>(codepoint) << 6);
 
-					codepoint = has_value()
-							? (uint_least32_t{ 255u } >> type) & code_unit
-							: (code_unit & uint_least32_t{ 63u }) | (static_cast<uint_least32_t>(codepoint) << 6);
-
-					state = state_table[state + uint_least32_t{ 256u } + type];
-				}
-				constexpr void operator () (char code_unit) noexcept
-				{
-					(*this)(static_cast<uint8_t>(code_unit));
-				}
-				#ifdef __cpp_char8_t
-				constexpr void operator () (char8_t code_unit) noexcept
-				{
-					(*this)(static_cast<uint8_t>(code_unit));
-				}
-				#endif
+				state = state_table[state + uint_least32_t{ 256u } + type];
+			}
+			constexpr void operator()(char code_unit) noexcept
+			{
+				(*this)(static_cast<uint8_t>(code_unit));
+			}
+	#ifdef __cpp_char8_t
+			constexpr void operator()(char8_t code_unit) noexcept
+			{
+				(*this)(static_cast<uint8_t>(code_unit));
+			}
+	#endif
 		};
 
 		class MUU_TRIVIAL_ABI utf16_decoder final
@@ -141,135 +141,124 @@ namespace muu
 			decoder_state state{};
 			uint_least32_t codepoint{};
 
-			public:
+		  public:
+			MUU_NODISCARD
+			constexpr bool error() const noexcept
+			{
+				return state == ds_error;
+			}
 
-				[[nodiscard]]
-				constexpr bool error() const noexcept
+			constexpr void clear_error() noexcept
+			{
+				MUU_ASSERT(error());
+				state = ds_initial;
+			}
+
+			MUU_NODISCARD
+			constexpr bool has_value() const noexcept
+			{
+				return state == ds_has_codepoint;
+			}
+
+			MUU_NODISCARD
+			constexpr char32_t value() const noexcept
+			{
+				return static_cast<char32_t>(codepoint);
+			}
+
+			MUU_NODISCARD
+			constexpr bool needs_more_input() const noexcept
+			{
+				return state == ds_expecting_low_surrogate;
+			}
+
+			constexpr void operator()(uint16_t code_unit) noexcept
+			{
+				MUU_ASSERT(!error());
+
+				enum code_unit_classes : unsigned
 				{
-					return state == ds_error;
-				}
+					basic_multilingual,
+					low_surrogate  = 0b00010000u,
+					high_surrogate = 0b00100000u
+				};
 
-				constexpr void clear_error() noexcept
+				const auto code_unit_class = (static_cast<unsigned>(between(code_unit, 0xDC00_u16, 0xDFFF_u16)) << 4)
+										   | (static_cast<unsigned>(between(code_unit, 0xD800_u16, 0xDBFF_u16)) << 5);
+
+				switch (code_unit_class | state)
 				{
-					MUU_ASSERT(error());
-					state = ds_initial;
+					case unwrap(basic_multilingual) | ds_initial: [[fallthrough]];
+					case unwrap(basic_multilingual) | ds_has_codepoint:
+						codepoint = static_cast<uint_least32_t>(code_unit);
+						state	  = ds_has_codepoint;
+						return;
+
+					case unwrap(high_surrogate) | ds_initial: [[fallthrough]];
+					case unwrap(high_surrogate) | ds_has_codepoint:
+						codepoint = static_cast<uint_least32_t>(code_unit); // will get multiplexed in the next step
+						state	  = ds_has_codepoint;
+						return;
+
+					case unwrap(low_surrogate) | ds_expecting_low_surrogate:
+						codepoint = ((codepoint - 0xD800u) << 10) + (static_cast<uint_least32_t>(code_unit) - 0xDC00u)
+								  + 0x10000u;
+						state = ds_has_codepoint;
+						return;
+
+					default: state = ds_error;
 				}
-
-				[[nodiscard]]
-				constexpr bool has_value() const noexcept
-				{
-					return state == ds_has_codepoint;
-				}
-
-				[[nodiscard]]
-				constexpr char32_t value() const noexcept
-				{
-					return static_cast<char32_t>(codepoint);
-				}
-
-				[[nodiscard]]
-				constexpr bool needs_more_input() const noexcept
-				{
-					return state == ds_expecting_low_surrogate;
-				}
-
-				constexpr void operator() (uint16_t code_unit) noexcept
-				{
-					MUU_ASSERT(!error());
-	
-					enum code_unit_classes : unsigned
-					{
-						basic_multilingual,
-						low_surrogate  = 0b00010000u,
-						high_surrogate = 0b00100000u
-					};
-
-					const auto code_unit_class =
-						(static_cast<unsigned>(between(code_unit, 0xDC00_u16, 0xDFFF_u16)) << 4)
-						| (static_cast<unsigned>(between(code_unit, 0xD800_u16, 0xDBFF_u16)) << 5);
-
-					switch (code_unit_class | state)
-					{
-						case unwrap(basic_multilingual) | ds_initial: [[fallthrough]];
-						case unwrap(basic_multilingual) | ds_has_codepoint:
-							codepoint = static_cast<uint_least32_t>(code_unit);
-							state = ds_has_codepoint;
-							return;
-
-						case unwrap(high_surrogate) | ds_initial: [[fallthrough]];
-						case unwrap(high_surrogate) | ds_has_codepoint:
-							codepoint = static_cast<uint_least32_t>(code_unit); //will get multiplexed in the next step
-							state = ds_has_codepoint;
-							return;
-
-						case unwrap(low_surrogate) | ds_expecting_low_surrogate:
-							codepoint = ((codepoint - 0xD800u) << 10) + (static_cast<uint_least32_t>(code_unit) - 0xDC00u) + 0x10000u;
-							state = ds_has_codepoint;
-							return;
-
-						default:
-							state = ds_error;
-					}		
-				}
-				constexpr void operator () (char16_t code_unit) noexcept
-				{
-					(*this)(static_cast<uint16_t>(code_unit));
-				}
-				#if MUU_WCHAR_BYTES == 2
-				constexpr void operator () (wchar_t code_unit) noexcept
-				{
-					(*this)(static_cast<uint16_t>(code_unit));
-				}
-				#endif
+			}
+			constexpr void operator()(char16_t code_unit) noexcept
+			{
+				(*this)(static_cast<uint16_t>(code_unit));
+			}
+	#if MUU_WCHAR_BYTES == 2
+			constexpr void operator()(wchar_t code_unit) noexcept
+			{
+				(*this)(static_cast<uint16_t>(code_unit));
+			}
+	#endif
 		};
 
 		MUU_ABI_VERSION_END;
 
 		template <typename T>
-		using utf_decoder = std::conditional_t<sizeof(T) == 2, utf16_decoder,
-			std::conditional_t<sizeof(T) == 1, utf8_decoder,
-			void
-		>>;
+		using utf_decoder =
+			std::conditional_t<sizeof(T) == 2, utf16_decoder, std::conditional_t<sizeof(T) == 1, utf8_decoder, void>>;
 
-		template <typename T, typename Func, size_t PositionalArgs = (
-			std::is_nothrow_invocable_v<Func, T, size_t, size_t> ? 2u :
-			(std::is_nothrow_invocable_v<Func, T, size_t> ? 1u : 0u)
-		)>
+		template <typename T,
+				  typename Func,
+				  size_t PositionalArgs = (std::is_nothrow_invocable_v<Func, T, size_t, size_t>
+											   ? 2u
+											   : (std::is_nothrow_invocable_v<Func, T, size_t> ? 1u : 0u))>
 		struct utf_decode_func_traits
 		{
-			using return_type = decltype(std::declval<Func>()(
-				std::declval<T>(),
-				std::declval<size_t>(),
-				std::declval<size_t>()
-			));
+			using return_type =
+				decltype(std::declval<Func>()(std::declval<T>(), std::declval<size_t>(), std::declval<size_t>()));
 		};
 
 		template <typename T, typename Func>
 		struct utf_decode_func_traits<T, Func, 1>
 		{
-			using return_type = decltype(std::declval<Func>()(
-				std::declval<T>(),
-				std::declval<size_t>()
-			));
+			using return_type = decltype(std::declval<Func>()(std::declval<T>(), std::declval<size_t>()));
 		};
 
 		template <typename T, typename Func>
 		struct utf_decode_func_traits<T, Func, 0>
 		{
-			using return_type = decltype(std::declval<Func>()(
-				std::declval<T>()
-			));
+			using return_type = decltype(std::declval<Func>()(std::declval<T>()));
 		};
 
 		template <typename T>
-		constexpr bool utf_detect_platform_endian(const T* data, const T*const end) noexcept
+		constexpr bool utf_detect_platform_endian(const T* data, const T* const end) noexcept
 		{
 			static_assert(sizeof(T) >= 2);
 			int low{}, high{}; // number of zeroes in low/high byte
 			for (auto c = data; c < end; c++)
 			{
 				low += static_cast<int>(byte_select<0>(*c) == uint8_t{});
-				high += static_cast<int>(byte_select<sizeof(T)-1u>(*c) == uint8_t{});
+				high += static_cast<int>(byte_select<sizeof(T) - 1u>(*c) == uint8_t{});
 			}
 			if constexpr (build::is_big_endian)
 				return low > high;
@@ -283,19 +272,18 @@ namespace muu
 			if (str.empty())
 				return;
 
+			static_assert(is_code_unit<T>, "unknown code unit type");
 			static_assert(
-				is_code_unit<T>,
-				"unknown code unit type"
-			);
-			static_assert(
-				   std::is_nothrow_invocable_v<Func&&, T, size_t, size_t>
-				|| std::is_nothrow_invocable_v<Func&&, T, size_t>
-				|| std::is_nothrow_invocable_v<Func&&, T>,
-				"decoder func must be nothrow-invocable with (T), (T, size_t) or (T, size_t, size_t)"
-			);
+				std::is_nothrow_invocable_v<
+					Func&&,
+					T,
+					size_t,
+					size_t> || std::is_nothrow_invocable_v<Func&&, T, size_t> || std::is_nothrow_invocable_v<Func&&, T>,
+				"decoder func must be nothrow-invocable with (T), (T, size_t) or (T, size_t, size_t)");
 
 			using func_return_type = typename utf_decode_func_traits<T, Func>::return_type;
-			constexpr auto stop_after_invoking = [](auto&& f, char32_t cp, size_t cu_start, size_t cu_count) noexcept -> bool
+			constexpr auto stop_after_invoking =
+				[](auto&& f, char32_t cp, size_t cu_start, size_t cu_count) noexcept -> bool
 			{
 				MUU_UNUSED(cu_start);
 				MUU_UNUSED(cu_count);
@@ -319,18 +307,19 @@ namespace muu
 					return false;
 				}
 			};
-		
-			bool stop = false;
-			size_t data_start = 0;
+
+			bool stop							 = false;
+			size_t data_start					 = 0;
 			[[maybe_unused]] bool requires_bswap = false;
-			const auto get = [&](size_t idx) noexcept -> T
+			const auto get						 = [&](size_t idx) noexcept -> T
 			{
 				if constexpr (sizeof(T) == 1)
 					return str[idx];
 				else
 				{
 					if (requires_bswap)
-						return static_cast<T>(byte_reverse(static_cast<unsigned_integer<sizeof(T) * CHAR_BIT>>(str[idx])));
+						return static_cast<T>(
+							byte_reverse(static_cast<unsigned_integer<sizeof(T) * CHAR_BIT>>(str[idx])));
 					return str[idx];
 				}
 			};
@@ -341,7 +330,7 @@ namespace muu
 				// endianness
 				if (static_cast<uint32_t>(str[0]) == 0xFFFE0000u)
 				{
-					data_start = 1u;
+					data_start	   = 1u;
 					requires_bswap = true;
 				}
 				else if (static_cast<uint32_t>(str[0]) == 0x0000FEFFu)
@@ -351,7 +340,7 @@ namespace muu
 
 				if (reverse)
 				{
-					for (size_t i = str.length(); i --> data_start && !stop;)
+					for (size_t i = str.length(); i-- > data_start && !stop;)
 						stop = stop_after_invoking(static_cast<Func&&>(func), static_cast<char32_t>(get(i)), i, 1);
 				}
 				else
@@ -374,7 +363,7 @@ namespace muu
 				{
 					if (static_cast<uint16_t>(str[0]) == 0xFFFEu)
 					{
-						data_start = 1u;
+						data_start	   = 1u;
 						requires_bswap = true;
 					}
 					else if (static_cast<uint16_t>(str[0]) == 0xFEFFu)
@@ -386,10 +375,10 @@ namespace muu
 				utf_decoder<T> decoder;
 				if (reverse)
 				{
-					size_t cp_start = str.length();
-					size_t cu_count = {};
+					size_t cp_start				  = str.length();
+					size_t cu_count				  = {};
 					constexpr size_t max_cu_count = 4_sz / sizeof(T);
-					while (cp_start--> data_start && !stop)
+					while (cp_start-- > data_start && !stop)
 					{
 						cu_count++;
 						if (cu_count == max_cu_count || is_code_point_boundary(get(cp_start)))
@@ -402,12 +391,16 @@ namespace muu
 							}
 
 							if (decoder.has_value())
-								stop = stop_after_invoking(static_cast<Func&&>(func), decoder.value(), cp_start, cu_count);
+								stop =
+									stop_after_invoking(static_cast<Func&&>(func), decoder.value(), cp_start, cu_count);
 							else if (decoder.error())
 							{
 								decoder.clear_error();
-								for (size_t i = cp_start + cu_count; i --> cp_start && !stop;)
-									stop = stop_after_invoking(static_cast<Func&&>(func), static_cast<char32_t>(get(i)), i, 1);
+								for (size_t i = cp_start + cu_count; i-- > cp_start && !stop;)
+									stop = stop_after_invoking(static_cast<Func&&>(func),
+															   static_cast<char32_t>(get(i)),
+															   i,
+															   1);
 							}
 							cu_count = {};
 						}
@@ -415,7 +408,8 @@ namespace muu
 				}
 				else
 				{
-					for (size_t i = data_start, e = str.length(), cp_start = data_start, cu_count = 0; i < e && !stop; i++)
+					for (size_t i = data_start, e = str.length(), cp_start = data_start, cu_count = 0; i < e && !stop;
+						 i++)
 					{
 						cu_count++;
 						decoder(get(i));
@@ -429,7 +423,8 @@ namespace muu
 						{
 							decoder.clear_error();
 							for (size_t j = cp_start, je = cp_start + cu_count; j < je && !stop; j++)
-								stop = stop_after_invoking(static_cast<Func&&>(func), static_cast<char32_t>(get(j)), j, 1);
+								stop =
+									stop_after_invoking(static_cast<Func&&>(func), static_cast<char32_t>(get(j)), j, 1);
 							cp_start = i + 1u;
 							cu_count = {};
 						}
@@ -451,15 +446,14 @@ namespace muu
 			size_t index;
 			size_t length;
 
-			[[nodiscard]]
+			MUU_NODISCARD
 			MUU_ATTR(pure)
-			explicit
-			constexpr operator bool() const noexcept
+			explicit constexpr operator bool() const noexcept
 			{
 				return index != constants<size_t>::highest;
 			}
 
-			[[nodiscard]]
+			MUU_NODISCARD
 			MUU_ATTR(pure)
 			constexpr size_t end() const noexcept
 			{
@@ -473,15 +467,17 @@ namespace muu
 			utf_find_result result{ constants<size_t>::highest, {} };
 			if (!str.empty())
 			{
-				utf_decode(str, reverse, [&](char32_t cp, size_t starts_at, size_t goes_for) noexcept
-				{
-					if (static_cast<Func&&>(predicate)(cp))
-					{
-						result = { starts_at, goes_for };
-						return false;
-					}
-					return true;
-				});
+				utf_decode(str,
+						   reverse,
+						   [&](char32_t cp, size_t starts_at, size_t goes_for) noexcept
+						   {
+							   if (static_cast<Func&&>(predicate)(cp))
+							   {
+								   result = { starts_at, goes_for };
+								   return false;
+							   }
+							   return true;
+						   });
 			}
 			return result;
 		}
@@ -489,134 +485,144 @@ namespace muu
 		template <typename T>
 		class MUU_TRIVIAL_ABI utf8_code_point
 		{
-			private:
-				static_assert(sizeof(T) == 1);
-				T code_units[4] = {};
+		  private:
+			static_assert(sizeof(T) == 1);
+			T code_units[4] = {};
 
-			public:
-
-				MUU_NODISCARD_CTOR
-				constexpr utf8_code_point(uint_least32_t cp) noexcept // *** assumes cp is platform-endian ***
+		  public:
+			MUU_NODISCARD_CTOR
+			constexpr utf8_code_point(uint_least32_t cp) noexcept // *** assumes cp is platform-endian ***
+			{
+				if (cp <= 0x7Fu)
 				{
-					if (cp <= 0x7Fu)
-					{
-						code_units[0] = static_cast<T>(cp);
-					}
-					else if (cp <= 0x7FFu)
-					{
-						code_units[0] = static_cast<T>((cp >> 6) | 0xC0u);
-						code_units[1] = static_cast<T>((cp & 0x3Fu) | 0x80u);
-					}
-					else if (cp <= 0xFFFFu)
-					{
-						code_units[0] = static_cast<T>((cp >> 12) | 0xE0u);
-						code_units[1] = static_cast<T>(((cp >> 6) & 0x3Fu) | 0x80u);
-						code_units[2] = static_cast<T>((cp & 0x3Fu) | 0x80u);
-					}
-					else if (cp <= 0x10FFFFu)
-					{
-						code_units[0] = static_cast<T>((cp >> 18) | 0xF0u);
-						code_units[1] = static_cast<T>(((cp >> 12) & 0x3Fu) | 0x80u);
-						code_units[2] = static_cast<T>(((cp >> 6) & 0x3Fu) | 0x80u);
-						code_units[3] = static_cast<T>((cp & 0x3Fu) | 0x80u);
-					}
+					code_units[0] = static_cast<T>(cp);
 				}
-
-				MUU_NODISCARD_CTOR
-				constexpr utf8_code_point(char32_t cp) noexcept  // *** assumes cp is platform-endian ***
-					: utf8_code_point{ static_cast<uint_least32_t>(cp) }
-				{}
-
-				[[nodiscard]]
-				constexpr std::basic_string_view<T> view() const noexcept
+				else if (cp <= 0x7FFu)
 				{
-					return code_units[3]
-						? std::basic_string_view<T>{ code_units, 4_sz }
-						: std::basic_string_view<T>{ code_units };
+					code_units[0] = static_cast<T>((cp >> 6) | 0xC0u);
+					code_units[1] = static_cast<T>((cp & 0x3Fu) | 0x80u);
 				}
-
-				[[nodiscard]]
-				constexpr operator std::basic_string_view<T>() const noexcept
+				else if (cp <= 0xFFFFu)
 				{
-					return view();
+					code_units[0] = static_cast<T>((cp >> 12) | 0xE0u);
+					code_units[1] = static_cast<T>(((cp >> 6) & 0x3Fu) | 0x80u);
+					code_units[2] = static_cast<T>((cp & 0x3Fu) | 0x80u);
 				}
+				else if (cp <= 0x10FFFFu)
+				{
+					code_units[0] = static_cast<T>((cp >> 18) | 0xF0u);
+					code_units[1] = static_cast<T>(((cp >> 12) & 0x3Fu) | 0x80u);
+					code_units[2] = static_cast<T>(((cp >> 6) & 0x3Fu) | 0x80u);
+					code_units[3] = static_cast<T>((cp & 0x3Fu) | 0x80u);
+				}
+			}
+
+			MUU_NODISCARD_CTOR
+			constexpr utf8_code_point(char32_t cp) noexcept // *** assumes cp is platform-endian ***
+				: utf8_code_point{ static_cast<uint_least32_t>(cp) }
+			{}
+
+			MUU_NODISCARD
+			constexpr std::basic_string_view<T> view() const noexcept
+			{
+				return code_units[3] ? std::basic_string_view<T>{ code_units, 4_sz }
+									 : std::basic_string_view<T>{ code_units };
+			}
+
+			MUU_NODISCARD
+			constexpr operator std::basic_string_view<T>() const noexcept
+			{
+				return view();
+			}
 		};
 
 		template <typename T>
 		class MUU_TRIVIAL_ABI utf16_code_point
 		{
-			private:
-				static_assert(sizeof(T) == 2);
-				T code_units[2] = {};
+		  private:
+			static_assert(sizeof(T) == 2);
+			T code_units[2] = {};
 
-			public:
-
-				MUU_NODISCARD_CTOR
-				constexpr utf16_code_point(uint_least32_t cp) noexcept // *** assumes cp is platform-endian ***
+		  public:
+			MUU_NODISCARD_CTOR
+			constexpr utf16_code_point(uint_least32_t cp) noexcept // *** assumes cp is platform-endian ***
+			{
+				if (cp < 0x10000u)
 				{
-					if (cp < 0x10000u)
-					{
-						code_units[0] = static_cast<T>(cp);
-					}
-					else
-					{
-						cp -= 0x10000u;
-						code_units[0] = static_cast<T>(static_cast<uint16_t>(0xD800u | (cp >> 10))); // high
-						code_units[1] = static_cast<T>(static_cast<uint16_t>(0xDC00u | (cp & 0x3FFu))); // low
-					}
+					code_units[0] = static_cast<T>(cp);
 				}
-
-				MUU_NODISCARD_CTOR
-				constexpr utf16_code_point(char32_t cp) noexcept  // *** assumes cp is platform-endian ***
-					: utf16_code_point{ static_cast<uint_least32_t>(cp) }
-				{}
-
-				[[nodiscard]]
-				constexpr std::basic_string_view<T> view() const noexcept
+				else
 				{
-					return code_units[1]
-						? std::basic_string_view<T>{ code_units, 2_sz }
-						: std::basic_string_view<T>{ code_units };
+					cp -= 0x10000u;
+					code_units[0] = static_cast<T>(static_cast<uint16_t>(0xD800u | (cp >> 10)));	// high
+					code_units[1] = static_cast<T>(static_cast<uint16_t>(0xDC00u | (cp & 0x3FFu))); // low
 				}
+			}
 
-				[[nodiscard]]
-				constexpr operator std::basic_string_view<T>() const noexcept
-				{
-					return view();
-				}
+			MUU_NODISCARD_CTOR
+			constexpr utf16_code_point(char32_t cp) noexcept // *** assumes cp is platform-endian ***
+				: utf16_code_point{ static_cast<uint_least32_t>(cp) }
+			{}
+
+			MUU_NODISCARD
+			constexpr std::basic_string_view<T> view() const noexcept
+			{
+				return code_units[1] ? std::basic_string_view<T>{ code_units, 2_sz }
+									 : std::basic_string_view<T>{ code_units };
+			}
+
+			MUU_NODISCARD
+			constexpr operator std::basic_string_view<T>() const noexcept
+			{
+				return view();
+			}
 		};
 
 		MUU_ABI_VERSION_END;
 
-		template <typename T, size_t S = sizeof(T)> struct utf_code_point_selector;
-		template <typename T> struct utf_code_point_selector<T, 1> { using type = utf8_code_point<T>; };
-		template <typename T> struct utf_code_point_selector<T, 2> { using type = utf16_code_point<T>; };
-		template <typename T> struct utf_code_point_selector<T, 4> { using type = char32_t; };
+		template <typename T, size_t S = sizeof(T)>
+		struct utf_code_point_selector;
+		template <typename T>
+		struct utf_code_point_selector<T, 1>
+		{
+			using type = utf8_code_point<T>;
+		};
+		template <typename T>
+		struct utf_code_point_selector<T, 2>
+		{
+			using type = utf16_code_point<T>;
+		};
+		template <typename T>
+		struct utf_code_point_selector<T, 4>
+		{
+			using type = char32_t;
+		};
 
 		template <typename T>
 		using utf_code_point = typename utf_code_point_selector<T>::type;
 
 		template <typename T>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(const)
 		constexpr unsigned hex_to_dec(T codepoint) noexcept
 		{
 			if constexpr (std::is_same_v<remove_cvref<T>, unsigned>)
-				return codepoint >= 0x41u // >= 'A'
-				? 10u + (codepoint | 0x20u) - 0x61u // - 'a'
-				: codepoint - 0x30u // - '0'
-			;
+				return codepoint >= 0x41u					 // >= 'A'
+						 ? 10u + (codepoint | 0x20u) - 0x61u // - 'a'
+						 : codepoint - 0x30u				 // - '0'
+					;
 			else
 				return hex_to_dec(static_cast<unsigned>(codepoint));
 		}
 
 		template <typename Char = char>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
 		constexpr Char dec_to_hex(unsigned val, Char a = constants<Char>::letter_a) noexcept
 		{
-			return static_cast<Char>(val >= 10u ? static_cast<unsigned>(a) + (val - 10u) : constants<Char>::digit_0 + val);
+			return static_cast<Char>(val >= 10u ? static_cast<unsigned>(a) + (val - 10u)
+												: constants<Char>::digit_0 + val);
 		}
 
 		template <typename Char = char>
@@ -627,7 +633,8 @@ namespace muu
 		};
 
 		template <typename Char, typename Traits>
-		inline std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& lhs, hex_char_pair<Char> rhs)
+		inline std::basic_ostream<Char, Traits>& operator<<(std::basic_ostream<Char, Traits>& lhs,
+															hex_char_pair<Char> rhs)
 		{
 			static_assert(sizeof(hex_char_pair<Char>) == sizeof(Char) * 2);
 			lhs.write(&rhs.high, 2u);
@@ -635,7 +642,7 @@ namespace muu
 		}
 
 		template <typename Char = char>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(const)
 		constexpr hex_char_pair<Char> byte_to_hex(uint8_t byte, Char a = constants<Char>::letter_a) noexcept
 		{
@@ -643,7 +650,7 @@ namespace muu
 		}
 
 		template <typename Char = char>
-		[[nodiscard]]
+		MUU_NODISCARD
 		MUU_ATTR(const)
 		constexpr hex_char_pair<Char> byte_to_hex(std::byte byte, Char a = constants<Char>::letter_a) noexcept
 		{
@@ -652,9 +659,9 @@ namespace muu
 	}
 	/// \endcond
 
-	#endif // unicode/boilerplate
+#endif // unicode/boilerplate
 
-	#if 1 // trim -----------------------------------------------------------------------------------------------------
+#if 1 // trim -----------------------------------------------------------------------------------------------------
 	/// \addtogroup 	trim	trim()
 	/// \brief Trims whitespace from both ends of a UTF string.
 	/// @{
@@ -663,7 +670,7 @@ namespace muu
 	namespace impl
 	{
 		template <typename T, typename Func>
-		[[nodiscard]]
+		MUU_NODISCARD
 		constexpr auto predicated_trim(std::basic_string_view<T> str, Func&& predicate) noexcept
 			-> std::basic_string_view<T>
 		{
@@ -684,51 +691,53 @@ namespace muu
 	/// \endcond
 
 	/// \brief		Trims whitespace from both ends of a UTF-8 string.
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr std::string_view trim(std::string_view str) noexcept
 	{
-		return impl::predicated_trim(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+		return impl::predicated_trim(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
 	/// \brief		Trims whitespace from both ends of a UTF wide string.
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr std::wstring_view trim(std::wstring_view str) noexcept
 	{
-		return impl::predicated_trim(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+		return impl::predicated_trim(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
 	/// \brief		Trims whitespace from both ends of a UTF-16 string.
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr std::u16string_view trim(std::u16string_view str) noexcept
 	{
-		return impl::predicated_trim(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+		return impl::predicated_trim(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
 	/// \brief		Trims whitespace from both ends of a UTF-32 string.
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr std::u32string_view trim(std::u32string_view str) noexcept
 	{
-		return impl::predicated_trim(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+		return impl::predicated_trim(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
 	#ifdef __cpp_lib_char8_t
+
 	/// \brief		Trims whitespace from both ends of a UTF-8 string.
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr std::u8string_view trim(std::u8string_view str) noexcept
 	{
-		return impl::predicated_trim(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+		return impl::predicated_trim(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
+
 	#endif // __cpp_lib_char8_t
 
-	/** @} */	// strings::trim
-	#endif // trim
+	/** @} */ // strings::trim
+#endif		  // trim
 
-	#if 1 // trim_left ------------------------------------------------------------------------------------------------
+#if 1 // trim_left -----------------------------------------------------------------------------------------------------
 	/// \addtogroup 	trim_left	trim_left()
 	/// \brief Trims whitespace from the left end of a UTF string.
 	/// @{
@@ -737,7 +746,7 @@ namespace muu
 	namespace impl
 	{
 		template <typename T, typename Func>
-		[[nodiscard]]
+		MUU_NODISCARD
 		constexpr auto predicated_trim_left(std::basic_string_view<T> str, Func&& predicate) noexcept
 			-> std::basic_string_view<T>
 		{
@@ -756,51 +765,53 @@ namespace muu
 	/// \endcond
 
 	/// \brief		Trims whitespace from the left end of a UTF-8 string.
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr std::string_view trim_left(std::string_view str) noexcept
 	{
-		return impl::predicated_trim_left(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+		return impl::predicated_trim_left(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
 	/// \brief		Trims whitespace from the left end of a UTF wide string.
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr std::wstring_view trim_left(std::wstring_view str) noexcept
 	{
-		return impl::predicated_trim_left(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+		return impl::predicated_trim_left(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
 	/// \brief		Trims whitespace from the left end of a UTF-16 string.
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr std::u16string_view trim_left(std::u16string_view str) noexcept
 	{
-		return impl::predicated_trim_left(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+		return impl::predicated_trim_left(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
 	/// \brief		Trims whitespace from the left end of a UTF-32 string.
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr std::u32string_view trim_left(std::u32string_view str) noexcept
 	{
-		return impl::predicated_trim_left(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+		return impl::predicated_trim_left(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
 	#ifdef __cpp_lib_char8_t
+
 	/// \brief		Trims whitespace from the left end of a UTF-8 string.
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr std::u8string_view trim_left(std::u8string_view str) noexcept
 	{
-		return impl::predicated_trim_left(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+		return impl::predicated_trim_left(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
+
 	#endif // __cpp_lib_char8_t
 
-	/** @} */	// strings::trim_left
-	#endif // trim_left
+	/** @} */ // strings::trim_left
+#endif		  // trim_left
 
-	#if 1 // trim_right -----------------------------------------------------------------------------------------------
+#if 1 // trim_right ----------------------------------------------------------------------------------------------------
 	/// \addtogroup 	trim_right	trim_right()
 	/// \brief Trims whitespace from the right end of a UTF string.
 	/// @{
@@ -809,7 +820,7 @@ namespace muu
 	namespace impl
 	{
 		template <typename T, typename Func>
-		[[nodiscard]]
+		MUU_NODISCARD
 		constexpr auto predicated_trim_right(std::basic_string_view<T> str, Func&& predicate) noexcept
 			-> std::basic_string_view<T>
 		{
@@ -828,51 +839,53 @@ namespace muu
 	/// \endcond
 
 	/// \brief		Trims whitespace from the right end of a UTF-8 string.
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr std::string_view trim_right(std::string_view str) noexcept
 	{
-		return impl::predicated_trim_right(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+		return impl::predicated_trim_right(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
 	/// \brief		Trims whitespace from the right end of a UTF wide string.
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr std::wstring_view trim_right(std::wstring_view str) noexcept
 	{
-		return impl::predicated_trim_right(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+		return impl::predicated_trim_right(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
 	/// \brief		Trims whitespace from the right end of a UTF-16 string.
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr std::u16string_view trim_right(std::u16string_view str) noexcept
 	{
-		return impl::predicated_trim_right(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+		return impl::predicated_trim_right(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
 	/// \brief		Trims whitespace from the right end of a UTF-32 string.
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr std::u32string_view trim_right(std::u32string_view str) noexcept
 	{
-		return impl::predicated_trim_right(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+		return impl::predicated_trim_right(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
 	#ifdef __cpp_lib_char8_t
+
 	/// \brief		Trims whitespace from the right end of a UTF-8 string.
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr std::u8string_view trim_right(std::u8string_view str) noexcept
 	{
-		return impl::predicated_trim_right(str, static_cast<bool(*)(char32_t)noexcept>(is_not_whitespace));
+		return impl::predicated_trim_right(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
+
 	#endif // __cpp_lib_char8_t
 
-	/** @} */	// strings::trim_right
-	#endif // trim_right
+	/** @} */ // strings::trim_right
+#endif		  // trim_right
 
-	#if 1 // transcode ------------------------------------------------------------------------------------------------
+#if 1 // transcode -----------------------------------------------------------------------------------------------------
 	/// \addtogroup 	transcode	transcode()
 	/// \brief Transcodes a UTF string into another UTF encoding.
 	/// @{
@@ -881,17 +894,13 @@ namespace muu
 	namespace impl
 	{
 		template <typename To, typename From>
-		[[nodiscard]]
-		MUU_CONSTEXPR_STRING
-		std::basic_string<To> utf_transcode(std::basic_string_view<From> str) noexcept
+		MUU_NODISCARD
+		MUU_CONSTEXPR_STRING std::basic_string<To> utf_transcode(std::basic_string_view<From> str) noexcept
 		{
 			if (str.empty())
 				return {};
 
-			static_assert(
-				is_code_unit<From> && is_code_unit<To>,
-				"To and From must both be valid code unit types"
-			);
+			static_assert(is_code_unit<From> && is_code_unit<To>, "To and From must both be valid code unit types");
 
 			if constexpr (std::is_same_v<To, From>)
 				return std::basic_string<To>(str);
@@ -910,18 +919,19 @@ namespace muu
 				else
 					out.reserve(str.length());
 
-				impl::utf_decode(str, [&](char32_t cp) noexcept
-				{
-					if constexpr (std::is_same_v<char32_t, To>)
-						out += cp;
-					else if constexpr (sizeof(To) == sizeof(char32_t)) // e.g. wchar_t on linux
-						out += static_cast<To>(cp);
-					else
-					{
-						impl::utf_code_point<To> enc{ cp };
-						out.append(enc.view());
-					}
-				});
+				impl::utf_decode(str,
+								 [&](char32_t cp) noexcept
+								 {
+									 if constexpr (std::is_same_v<char32_t, To>)
+										 out += cp;
+									 else if constexpr (sizeof(To) == sizeof(char32_t)) // e.g. wchar_t on linux
+										 out += static_cast<To>(cp);
+									 else
+									 {
+										 impl::utf_code_point<To> enc{ cp };
+										 out.append(enc.view());
+									 }
+								 });
 
 				return out;
 			}
@@ -932,36 +942,32 @@ namespace muu
 
 	/// \brief		Transcodes a UTF-8 string into another UTF encoding.
 	template <typename Char>
-	[[nodiscard]]
-	MUU_CONSTEXPR_STRING
-	std::basic_string<Char> transcode(std::string_view str) noexcept
+	MUU_NODISCARD
+	MUU_CONSTEXPR_STRING std::basic_string<Char> transcode(std::string_view str) noexcept
 	{
 		return impl::utf_transcode<Char>(str);
 	}
 
 	/// \brief		Transcodes a UTF wide string into another UTF encoding.
 	template <typename Char>
-	[[nodiscard]]
-	MUU_CONSTEXPR_STRING
-	std::basic_string<Char> transcode(std::wstring_view str) noexcept
+	MUU_NODISCARD
+	MUU_CONSTEXPR_STRING std::basic_string<Char> transcode(std::wstring_view str) noexcept
 	{
 		return impl::utf_transcode<Char>(str);
 	}
 
 	/// \brief		Transcodes a UTF-16 string into another UTF encoding.
 	template <typename Char>
-	[[nodiscard]]
-	MUU_CONSTEXPR_STRING
-	std::basic_string<Char> transcode(std::u16string_view str) noexcept
+	MUU_NODISCARD
+	MUU_CONSTEXPR_STRING std::basic_string<Char> transcode(std::u16string_view str) noexcept
 	{
 		return impl::utf_transcode<Char>(str);
 	}
 
 	/// \brief		Transcodes a UTF-32 string into another UTF encoding.
 	template <typename Char>
-	[[nodiscard]]
-	MUU_CONSTEXPR_STRING
-	std::basic_string<Char> transcode(std::u32string_view str) noexcept
+	MUU_NODISCARD
+	MUU_CONSTEXPR_STRING std::basic_string<Char> transcode(std::u32string_view str) noexcept
 	{
 		return impl::utf_transcode<Char>(str);
 	}
@@ -969,26 +975,25 @@ namespace muu
 	#ifdef __cpp_lib_char8_t
 	/// \brief		Transcodes a UTF-8 string into another UTF encoding.
 	template <typename Char>
-	[[nodiscard]]
-	MUU_CONSTEXPR_STRING
-	std::basic_string<Char> transcode(std::u8string_view str) noexcept
+	MUU_NODISCARD
+	MUU_CONSTEXPR_STRING std::basic_string<Char> transcode(std::u8string_view str) noexcept
 	{
 		return impl::utf_transcode<Char>(str);
 	}
 	#endif // __cpp_lib_char8_t
 
-	/** @} */	// strings::transcode
-	#endif // transcode
+	/** @} */ // strings::transcode
+#endif		  // transcode
 
-	#if 1 // misc functions -------------------------------------------------------------------------------------------
+#if 1 // misc functions ------------------------------------------------------------------------------------------------
 
 	/// \brief		Sets the name of the current thread for debuggers.
 	MUU_API
 	void set_thread_name(string_param name) noexcept;
 
-	#endif // misc functions
+#endif // misc functions
 
-	/** @} */	// strings
+	/** @} */ // strings
 }
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;

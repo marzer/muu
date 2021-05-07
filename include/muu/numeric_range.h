@@ -11,5 +11,3 @@
 	#error Including muu/numeric_range.h is currently prohibited - muu::numeric_range is not fully implemented
 #endif
 /// \endcond
-
-

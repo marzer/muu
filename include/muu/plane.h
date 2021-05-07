@@ -207,10 +207,10 @@ namespace muu
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr bool MUU_VECTORCALL
-		approx_equal(MUU_VC_PARAM(plane) p1,
-					 const plane<T>& p2,
-					 epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
+		static constexpr bool MUU_VECTORCALL approx_equal(
+			MUU_VC_PARAM(plane) p1,
+			const plane<T>& p2,
+			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
 		{
 			return vector_type::approx_equal(p1.n, p2.n, epsilon) && muu::approx_equal(p1.d, p2.d, epsilon);
 		}
@@ -219,9 +219,9 @@ namespace muu
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr bool MUU_VECTORCALL
-		approx_equal(const plane<T>& p,
-					 epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) const noexcept
+		constexpr bool MUU_VECTORCALL approx_equal(
+			const plane<T>& p,
+			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) const noexcept
 		{
 			return approx_equal(*this, p, epsilon);
 		}
@@ -418,7 +418,7 @@ namespace muu
 	#endif // misc
 	};
 
-	/// \cond deduction_guides
+	/// \cond
 
 	MUU_CONSTRAINED_TEMPLATE((all_arithmetic<N, D>), typename N, typename D)
 	plane(vector<N, 3>, D)->plane<impl::highest_ranked<N, D>>;

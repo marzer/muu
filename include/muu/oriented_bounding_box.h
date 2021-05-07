@@ -413,10 +413,10 @@ namespace muu
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr bool MUU_VECTORCALL
-		approx_equal(MUU_VC_PARAM(oriented_bounding_box) bb1,
-					 const oriented_bounding_box<T>& bb2,
-					 epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
+		static constexpr bool MUU_VECTORCALL approx_equal(
+			MUU_VC_PARAM(oriented_bounding_box) bb1,
+			const oriented_bounding_box<T>& bb2,
+			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
 		{
 			return vector_type::approx_equal(bb1.center, bb2.center, epsilon)
 				&& vector_type::approx_equal(bb1.extents, bb2.extents, epsilon)
@@ -427,9 +427,9 @@ namespace muu
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr bool MUU_VECTORCALL
-		approx_equal(const oriented_bounding_box<T>& bb,
-					 epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) const noexcept
+		constexpr bool MUU_VECTORCALL approx_equal(
+			const oriented_bounding_box<T>& bb,
+			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) const noexcept
 		{
 			return approx_equal(*this, bb, epsilon);
 		}
@@ -606,7 +606,7 @@ namespace muu
 	#endif // translation and scaling
 	};
 
-	/// \cond deduction_guides
+	/// \cond
 
 	template <typename CX, typename CY, typename CZ, typename EX, typename EY, typename EZ>
 	oriented_bounding_box(CX, CY, CZ, EX, EY, EZ)

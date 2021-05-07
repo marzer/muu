@@ -24,7 +24,7 @@ namespace muu::impl
 	>;
 
 	template <typename T>
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)
 	constexpr auto MUU_VECTORCALL raw_modulo(T lhs, T rhs) noexcept // todo: constexpr fmod
@@ -53,7 +53,7 @@ namespace muu::impl
 		typename T,
 		typename U
 	)
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(pure)
 	inline constexpr Return raw_cross(const T& lhs, const U& rhs) noexcept
 	{
@@ -84,7 +84,7 @@ namespace muu::impl
 		typename T,
 		typename U
 	)
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR(const)
 	inline constexpr Return MUU_VECTORCALL raw_cross(T lhs, U rhs) noexcept
 	{
@@ -110,7 +110,7 @@ namespace muu::impl
 	#endif // MUU_HAS_VECTORCALL
 
 	template <typename T, size_t AssumeAlignment = 1_sz>
-	[[nodiscard]]
+	MUU_NODISCARD
 	MUU_ATTR_NDEBUG(pure)
 	MUU_ATTR(nonnull)
 	inline T initialize_trivial_by_memcpy(const void* ptr) noexcept

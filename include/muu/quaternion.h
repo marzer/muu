@@ -103,7 +103,7 @@ namespace muu
 		}
 	};
 
-	/// \cond deduction_guides
+	/// \cond
 
 	template <typename Axis, typename Angle>
 	axis_angle_rotation(vector<Axis, 3>, Angle)
@@ -205,7 +205,7 @@ namespace muu
 		}
 	};
 
-	/// \cond deduction_guides
+	/// \cond
 
 	template <typename Yaw, typename Pitch, typename Roll>
 	euler_rotation(Yaw, Pitch, Roll)
@@ -551,10 +551,10 @@ namespace muu
 								 typename T)
 		MUU_NODISCARD
 		MUU_ATTR(pure)
-		static constexpr bool MUU_VECTORCALL
-		approx_equal(const quaternion& q1,
-					 const quaternion<T>& q2,
-					 epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
+		static constexpr bool MUU_VECTORCALL approx_equal(
+			const quaternion& q1,
+			const quaternion<T>& q2,
+			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
 		{
 			if constexpr (std::is_same_v<scalar_type, T>)
 			{
@@ -574,10 +574,10 @@ namespace muu
 		MUU_CONSTRAINED_TEMPLATE_2((impl::pass_vectorcall_by_value<quaternion, quaternion<T>>), typename T)
 		MUU_NODISCARD
 		MUU_ATTR(const)
-		static constexpr bool MUU_VECTORCALL
-		approx_equal(quaternion q1,
-					 quaternion<T> q2,
-					 epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
+		static constexpr bool MUU_VECTORCALL approx_equal(
+			quaternion q1,
+			quaternion<T> q2,
+			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
 		{
 			if constexpr (std::is_same_v<scalar_type, T>)
 			{
@@ -598,9 +598,9 @@ namespace muu
 		MUU_CONSTRAINED_TEMPLATE((!MUU_HAS_VECTORCALL || impl::pass_vectorcall_by_reference<quaternion<T>>), typename T)
 		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr bool MUU_VECTORCALL
-		approx_equal(const quaternion<T>& q,
-					 epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) const noexcept
+		constexpr bool MUU_VECTORCALL approx_equal(
+			const quaternion<T>& q,
+			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) const noexcept
 		{
 			return approx_equal(*this, q, epsilon);
 		}
@@ -610,9 +610,9 @@ namespace muu
 		MUU_CONSTRAINED_TEMPLATE(impl::pass_vectorcall_by_value<quaternion<T>>, typename T)
 		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr bool MUU_VECTORCALL
-		approx_equal(quaternion<T> q,
-					 epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) const noexcept
+		constexpr bool MUU_VECTORCALL approx_equal(
+			quaternion<T> q,
+			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) const noexcept
 		{
 			return approx_equal(*this, q, epsilon);
 		}
@@ -1162,7 +1162,7 @@ namespace muu
 	#endif // misc
 	};
 
-	/// \cond deduction_guides
+	/// \cond
 
 	template <typename S, typename X, typename Y, typename Z>
 	quaternion(S, X, Y, Z) -> quaternion<impl::std_math_common_type<impl::highest_ranked<S, X, Y, Z>>>;

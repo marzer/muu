@@ -13,11 +13,11 @@ MUU_DISABLE_SUGGEST_WARNINGS;
 #if MUU_WINDOWS
 //======================================================================================================================
 
-#if MUU_WIN10_SDK >= 1607
-	MUU_DISABLE_WARNINGS;
-	#include <processthreadsapi.h> // SetThreadDescription()
-	MUU_ENABLE_WARNINGS;
-#endif
+	#if MUU_WIN10_SDK >= 1607
+MUU_DISABLE_WARNINGS;
+		#include <processthreadsapi.h> // SetThreadDescription()
+MUU_ENABLE_WARNINGS;
+	#endif
 
 namespace
 {
@@ -38,15 +38,16 @@ namespace
 	static void set_thread_name_legacy(const std::string& name) noexcept
 	{
 		THREADNAME_INFO info;
-		info.dwType = 0x1000u;
-		info.szName = name.c_str();
+		info.dwType		= 0x1000u;
+		info.szName		= name.c_str();
 		info.dwThreadID = GetCurrentThreadId();
-		info.dwFlags = {};
+		info.dwFlags	= {};
 		__try
 		{
 			RaiseException(MS_VC_EXCEPTION, 0, sizeof(info) / sizeof(ULONG_PTR), pointer_cast<ULONG_PTR*>(&info));
 		}
-		__except (EXCEPTION_EXECUTE_HANDLER) {}
+		__except (EXCEPTION_EXECUTE_HANDLER)
+		{}
 	}
 
 	static void set_thread_name_os_specific(string_param&& name_) noexcept
@@ -54,10 +55,10 @@ namespace
 		std::string name(std::move(name_)); // ensure zero-termination
 		set_thread_name_legacy(name);
 
-		// 'modern'
-		#if MUU_WIN10_SDK >= 1607
+	// 'modern'
+	#if MUU_WIN10_SDK >= 1607
 		SetThreadDescription(GetCurrentThread(), transcode<wchar_t>(name).c_str());
-		#endif
+	#endif
 	}
 }
 
@@ -67,8 +68,9 @@ namespace
 
 namespace
 {
-	//MUU_ATTR(const)
-	static void set_thread_name_os_specific(string_param&& /*name_*/) noexcept {}
+	// MUU_ATTR(const)
+	static void set_thread_name_os_specific(string_param&& /*name_*/) noexcept
+	{}
 }
 
 #endif // other
@@ -85,7 +87,7 @@ namespace muu
 	}
 
 	//
-	//std::string_view thread_name() noexcept
+	// std::string_view thread_name() noexcept
 	//{
 	//	return {};
 	//}

@@ -10,7 +10,9 @@ MUU_DISABLE_SPAM_WARNINGS;
 	#undef max
 #endif
 
-namespace muu {}
+namespace muu
+{
+}
 
 MUU_DISABLE_WARNINGS;
 using namespace muu;
