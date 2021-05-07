@@ -4336,6 +4336,13 @@
       <anchor>a6398c383f0469873d05a622fea380485</anchor>
       <arglist>(const vector_type &amp;scale_) noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr bounding_box &amp;</type>
+      <name>transform</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a69afca0f99f923e0df1acba8806c7623</anchor>
+      <arglist>(const matrix&lt; scalar_type, 4, 4 &gt; &amp;tx) noexcept</arglist>
+    </member>
     <member kind="function" static="yes">
       <type>static constexpr bounding_box</type>
       <name>translate</name>
@@ -4349,6 +4356,13 @@
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
       <anchor>a14c9253d3c66190db9d2a9465feec95a</anchor>
       <arglist>(const bounding_box &amp;bb, const vector_type &amp;scale_) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bounding_box</type>
+      <name>transform</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a57bf42343c6cc8a2aea761344d3e11ef</anchor>
+      <arglist>(const bounding_box &amp;bb, const matrix&lt; scalar_type, 4, 4 &gt; &amp;tx) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
