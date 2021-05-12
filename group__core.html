@@ -932,7 +932,7 @@
               </tbody>
             </table>
 <p>Generates a sequence of <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integral_constant" target="_blank">std::integral_constants</a> from 0 to N which are passed into the functor:</p><pre class="m-code"><span class="k">auto</span> <span class="n">vals</span> <span class="o">=</span> <span class="ns">std</span><span class="o">::</span><span class="ut">tuple</span><span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"1"</span><span class="sa">sv</span><span class="p">,</span> <span class="mf">2.3f</span> <span class="p">};</span>
-<span class="n">for_sequence</span><span class="o">&lt;</span><span class="mi">3</span><span class="mi">_sz</span><span class="o">&gt;</span><span class="p">([</span><span class="o">&amp;</span><span class="p">](</span><span class="k">auto</span> <span class="n">i</span><span class="p">)</span>
+<span class="n">for_sequence</span><span class="o">&lt;</span><span class="mi">3</span><span class="n">_sz</span><span class="o">&gt;</span><span class="p">([</span><span class="o">&amp;</span><span class="p">](</span><span class="k">auto</span> <span class="n">i</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="n">i</span><span class="o">&gt;</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
 <span class="p">});</span></pre><pre class="m-console"><span class="go">0</span>
@@ -1076,11 +1076,11 @@
                 </tr>
               </tfoot>
             </table>
-<pre class="m-code"><span class="k">auto</span>   <span class="n">val1</span>  <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="mh">0xAABB</span><span class="mh">_u16</span><span class="p">,</span> <span class="mh">0xCCDD</span><span class="mh">_u16</span><span class="p">);</span>
-<span class="m">assert</span><span class="p">(</span><span class="n">val1</span> <span class="o">==</span> <span class="mh">0xAABBCCDD</span><span class="mh">_u32</span><span class="p">);</span>
+<pre class="m-code"><span class="k">auto</span>   <span class="n">val1</span>  <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="mh">0xAABB</span><span class="n">_u16</span><span class="p">,</span> <span class="mh">0xCCDD</span><span class="n">_u16</span><span class="p">);</span>
+<span class="m">assert</span><span class="p">(</span><span class="n">val1</span> <span class="o">==</span> <span class="mh">0xAABBCCDD</span><span class="n">_u32</span><span class="p">);</span>
 
-<span class="k">auto</span>   <span class="n">val2</span>  <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="mh">0xAABB</span><span class="mh">_u16</span><span class="p">,</span> <span class="mh">0xCCDD</span><span class="mh">_u16</span><span class="p">,</span> <span class="mh">0xEEFF</span><span class="mh">_u16</span><span class="p">);</span>
-<span class="m">assert</span><span class="p">(</span><span class="n">val2</span> <span class="o">==</span> <span class="mh">0x0000AABBCCDDEEFF</span><span class="mh">_u64</span><span class="p">);</span>
+<span class="k">auto</span>   <span class="n">val2</span>  <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="mh">0xAABB</span><span class="n">_u16</span><span class="p">,</span> <span class="mh">0xCCDD</span><span class="n">_u16</span><span class="p">,</span> <span class="mh">0xEEFF</span><span class="n">_u16</span><span class="p">);</span>
+<span class="m">assert</span><span class="p">(</span><span class="n">val2</span> <span class="o">==</span> <span class="mh">0x0000AABBCCDDEEFF</span><span class="n">_u64</span><span class="p">);</span>
               <span class="c1">// ^^^^ input was 48 bits, zero-padded to 64 on the left</span></pre>
           </div></section>
           <section class="m-doc-details" id="gab714a50e01b58e7d4117d5ef9d403d39"><div>
@@ -1321,6 +1321,9 @@
 <a class="poxy-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
 an
 issue</a>
+
+•
+<a class="poxy-external" href="https://github.com/marzer/muu/blob/master/LICENSE" target="_blank">License</a>
 
 •
 <a download="" href="muu.tagfile.xml" target="_blank" type="text/xml">Doxygen

@@ -82,17 +82,17 @@
 
 <span class="c1">// using the _f16 literal</span>
 <span class="k">using</span> <span class="k">namespace</span> <span class="ns">muu::literals</span><span class="p">;</span>
-<span class="k">auto</span> <span class="n">f4</span> <span class="o">=</span> <span class="mf">4.0</span><span class="mf">_f16</span><span class="p">;</span>
+<span class="k">auto</span> <span class="n">f4</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span><span class="p">;</span>
 
 <span class="c1">// arithmetic operators</span>
-<span class="k">auto</span> <span class="n">f5</span> <span class="o">=</span> <span class="mf">4.0</span><span class="mf">_f16</span> <span class="o">*</span> <span class="mf">5.0</span><span class="mf">_f16</span><span class="p">;</span> <span class="c1">// result is a half</span>
-<span class="k">auto</span> <span class="n">f6</span> <span class="o">=</span> <span class="mf">4.0</span><span class="mf">_f16</span> <span class="o">*</span> <span class="mf">5.0</span><span class="p">;</span>     <span class="c1">// result is a double because of promotion</span>
-<span class="k">auto</span> <span class="n">f7</span> <span class="o">=</span> <span class="mf">4.0</span><span class="mf">_f16</span> <span class="o">*</span> <span class="mi">5</span><span class="p">;</span>       <span class="c1">// result is a half because of promotion</span>
+<span class="k">auto</span> <span class="n">f5</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">*</span> <span class="mf">5.0</span><span class="n">_f16</span><span class="p">;</span> <span class="c1">// result is a half</span>
+<span class="k">auto</span> <span class="n">f6</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">*</span> <span class="mf">5.0</span><span class="p">;</span>     <span class="c1">// result is a double because of promotion</span>
+<span class="k">auto</span> <span class="n">f7</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">*</span> <span class="mi">5</span><span class="p">;</span>       <span class="c1">// result is a half because of promotion</span>
 
 <span class="c1">// comparison operators</span>
-<span class="k">auto</span> <span class="n">b1</span> <span class="o">=</span> <span class="mf">4.0</span><span class="mf">_f16</span> <span class="o">&lt;=</span> <span class="mf">5.0</span><span class="mf">_f16</span><span class="p">;</span>
-<span class="k">auto</span> <span class="n">b2</span> <span class="o">=</span> <span class="mf">4.0</span><span class="mf">_f16</span> <span class="o">&lt;=</span> <span class="mf">5.0</span><span class="p">;</span>
-<span class="k">auto</span> <span class="n">b3</span> <span class="o">=</span> <span class="mf">4.0</span><span class="mf">_f16</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">;</span></pre><aside class="m-note m-info"><h4>Note</h4><p>Older compilers won't provide the necessary machinery for arithmetic and conversions to/from <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a> to work in constexpr contexts. You can check for constexpr support by examining <a class="m-doc" href="namespacemuu_1_1build.html#ae33023a7463b68374575d0cb9f42af43">build::<wbr/>supports_constexpr_half</a>.</p></aside><aside class="m-note m-warning"><h4>Attention</h4><p>Despite the arithmetic operations being implemented as you'd expect, 16-bit floating-point arithmetic is <em>very</em> lossy and should be avoided for all but the most trivial cases. In general it's better to do your arithmetic in a higher-precision type (e.g. float) and convert back to half when you're finished.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://en.wikipedia.org/wiki/Half-precision_floating-point_format" target="_blank">Half-precision floating-point</a></p></aside>
+<span class="k">auto</span> <span class="n">b1</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">&lt;=</span> <span class="mf">5.0</span><span class="n">_f16</span><span class="p">;</span>
+<span class="k">auto</span> <span class="n">b2</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">&lt;=</span> <span class="mf">5.0</span><span class="p">;</span>
+<span class="k">auto</span> <span class="n">b3</span> <span class="o">=</span> <span class="mf">4.0</span><span class="n">_f16</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">;</span></pre><aside class="m-note m-info"><h4>Note</h4><p>Older compilers won't provide the necessary machinery for arithmetic and conversions to/from <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a> to work in constexpr contexts. You can check for constexpr support by examining <a class="m-doc" href="namespacemuu_1_1build.html#ae33023a7463b68374575d0cb9f42af43">build::<wbr/>supports_constexpr_half</a>.</p></aside><aside class="m-note m-warning"><h4>Attention</h4><p>Despite the arithmetic operations being implemented as you'd expect, 16-bit floating-point arithmetic is <em>very</em> lossy and should be avoided for all but the most trivial cases. In general it's better to do your arithmetic in a higher-precision type (e.g. float) and convert back to half when you're finished.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://en.wikipedia.org/wiki/Half-precision_floating-point_format" target="_blank">Half-precision floating-point</a></p></aside>
         <section id="pub-types">
           <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
@@ -205,14 +205,14 @@
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1half.html">half</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a44b30e32ede9bd31865933e97822ed3d">operator""_f16</a>(</span><span class="m-doc-wrap">long double val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Literal for creating a half-precision float.</p>
-<pre class="m-code"><span class="k">const</span> <span class="n">half</span> <span class="n">val</span> <span class="o">=</span> <span class="mf">42.5</span><span class="mf">_f16</span><span class="p">;</span></pre>
+<pre class="m-code"><span class="k">const</span> <span class="n">half</span> <span class="n">val</span> <span class="o">=</span> <span class="mf">42.5</span><span class="n">_f16</span><span class="p">;</span></pre>
           </div></section>
           <section class="m-doc-details" id="a7d35b10d5222b2b36a00a7fcdf81d5d7"><div>
             <h3>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1half.html">half</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a7d35b10d5222b2b36a00a7fcdf81d5d7">operator""_f16</a>(</span><span class="m-doc-wrap">unsigned long long val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Literal for creating a half-precision float.</p>
-<pre class="m-code"><span class="k">const</span> <span class="n">half</span> <span class="n">val</span> <span class="o">=</span> <span class="mi">42</span><span class="mi">_f16</span><span class="p">;</span></pre>
+<pre class="m-code"><span class="k">const</span> <span class="n">half</span> <span class="n">val</span> <span class="o">=</span> <span class="mi">42</span><span class="n">_f16</span><span class="p">;</span></pre>
           </div></section>
         </section>
       </div>
@@ -266,6 +266,9 @@
 <a class="poxy-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
 an
 issue</a>
+
+•
+<a class="poxy-external" href="https://github.com/marzer/muu/blob/master/LICENSE" target="_blank">License</a>
 
 •
 <a download="" href="muu.tagfile.xml" target="_blank" type="text/xml">Doxygen
