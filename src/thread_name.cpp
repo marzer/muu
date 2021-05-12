@@ -37,14 +37,13 @@ namespace
 
 	static void set_thread_name_legacy(const std::string& name) noexcept
 	{
-		THREADNAME_INFO info;
-		info.dwType		= 0x1000u;
-		info.szName		= name.c_str();
-		info.dwThreadID = GetCurrentThreadId();
-		info.dwFlags	= {};
+		const THREADNAME_INFO info{ 0x1000u, name.c_str(), GetCurrentThreadId(), {} };
 		__try
 		{
-			RaiseException(MS_VC_EXCEPTION, 0, sizeof(info) / sizeof(ULONG_PTR), pointer_cast<ULONG_PTR*>(&info));
+			RaiseException(MS_VC_EXCEPTION,
+						   0,
+						   sizeof(info) / sizeof(ULONG_PTR),
+						   reinterpret_cast<const ULONG_PTR*>(&info));
 		}
 		__except (EXCEPTION_EXECUTE_HANDLER)
 		{}
@@ -83,7 +82,7 @@ namespace muu
 {
 	void set_thread_name(string_param name) noexcept
 	{
-		set_thread_name_os_specific(std::move(name));
+		::set_thread_name_os_specific(std::move(name));
 	}
 
 	//

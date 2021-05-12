@@ -44,7 +44,9 @@ MUU_DISABLE_WARNINGS;
 MUU_ENABLE_WARNINGS;
 
 #include "impl/header_start.h" // must always be last in this list of headers
+MUU_DISABLE_SPAM_WARNINGS;
 MUU_DISABLE_ARITHMETIC_WARNINGS;
+MUU_PRAGMA_MSVC(warning(disable : 4296)) // expression is always false
 MUU_PRAGMA_MSVC(warning(disable : 26475)) // core guidelines: do not use function style C-casts
 
 //======================================================================================================================

@@ -93,6 +93,7 @@
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat> <!-- /Zi -->
 			<!--<SDLCheck>false</SDLCheck> --> <!-- /sdl- -->
 			<SupportJustMyCode>false</SupportJustMyCode> <!-- /jmc- -->
+			<InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion> <!-- /Ob2 -->
 			<IntrinsicFunctions>true</IntrinsicFunctions>
 			<FunctionLevelLinking>true</FunctionLevelLinking>
 			<TreatWarningAsError>true</TreatWarningAsError>
@@ -152,7 +153,6 @@
 		<ClCompile>
 			<Optimization>MaxSpeed</Optimization> <!-- /O2 -->
 			<OmitFramePointers>true</OmitFramePointers> <!-- /Oy -->
-			<InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion> <!-- /Ob2 -->
 			<AdditionalOptions Condition="$([System.Environment]::ProcessorCount) &gt; 8">
 				%(AdditionalOptions)
 				/MP2

@@ -11,7 +11,7 @@ MUU_DISABLE_WARNINGS;
 #define WIN32_LEAN_AND_MEAN
 #define VC_EXTRALEAN
 #define OEMRESOURCE
-#define NOATOM //            - Atom Manager routines
+#define NOATOM			  // Atom Manager routines
 #define NOAPISET
 #define NOBITMAP
 #define NOCLIPBOARD		  // Clipboard routines
@@ -50,8 +50,8 @@ MUU_DISABLE_WARNINGS;
 #define NOWINOFFSETS	  // GWL_*, GCL_*, associated routines
 #define NOWINSTYLES		  // WS_*, CS_*, ES_*, LBS_*, SBS_*, CBS_*
 
-//#define NOMSG       //             - typedef MSG and associated routines
-//#define NOUSER //            - All USER defines and routines
+//#define NOMSG			  // typedef MSG and associated routines
+//#define NOUSER		  // All USER defines and routines
 
 #include <Windows.h>
 #include <objbase.h> // CoInitializeEx, CoUninitialize

@@ -1,3 +1,6 @@
+# this is a config file for Poxy - a Doxygen + m.css front-end written in Python.
+# https://github.com/marzer/poxy
+
 name                = 'muu'
 description         = 'Useful utilities for modern C++'
 cpp                 = 17
@@ -7,23 +10,34 @@ show_includes       = true
 generate_tagfile    = true
 logo                = 'images/logo.png'
 favicon             = 'images/favicon.ico'
-sources             = [ 'pages' ]
-recursive_sources   = [ '../include' ]
-strip_paths         = [ '../include' ]
 extra_files         = [
 	'images/banner.png',
 	'images/banner-small.png',
 ]
 
 
+
 [warnings]
-enabled         = true
-treat_as_errors = false
-undocumented    = false
+enabled             = true
+treat_as_errors     = false
+undocumented        = false
 
 
 
-[highlighting]
+[sources]
+paths               = [ 'pages' ]
+recursive_paths     = [ '../include' ]
+patterns            = [ '*.h', '*.dox' ]
+strip_paths         = [ '../include' ]
+
+
+
+[images]
+paths               = [ 'images' ]
+
+
+
+[code_blocks]
 types = [
 	'[Mm]y_[a-zA-Z_]+',
 	'virtual_base',

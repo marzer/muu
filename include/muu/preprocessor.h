@@ -388,21 +388,23 @@ help me improve support for your target architecture. Thanks!
 	#define MUU_CPP							_MSVC_LANG
 	#if MUU_MSVC // !intel-cl
 
-		#if MUU_HAS_INCLUDE(<CodeAnalysis\Warnings.h>)
-			#pragma warning(push, 0)
-			#include <CodeAnalysis\Warnings.h>
-			#pragma warning(pop)
-			#define MUU_DISABLE_CODE_ANALYSIS_WARNINGS	__pragma(warning(disable: ALL_CODE_ANALYSIS_WARNINGS)) \
-														static_assert(true)
-		#else
-			#define MUU_DISABLE_CODE_ANALYSIS_WARNINGS	static_assert(true)
-		#endif
-
 		#define MUU_PRAGMA_MSVC(...)		__pragma(__VA_ARGS__)
 
 		#define MUU_PUSH_WARNINGS \
 			__pragma(warning(push)) \
 			static_assert(true)
+
+		#if MUU_HAS_INCLUDE(<CodeAnalysis\Warnings.h>)
+			#pragma warning(push, 0)
+			#include <CodeAnalysis\Warnings.h>
+			#pragma warning(pop)
+			#define MUU_DISABLE_CODE_ANALYSIS_WARNINGS \
+				__pragma(warning(disable: ALL_CODE_ANALYSIS_WARNINGS)) \
+				static_assert(true)
+		#else
+			#define MUU_DISABLE_CODE_ANALYSIS_WARNINGS \
+				static_assert(true)
+		#endif
 
 		#define MUU_DISABLE_SWITCH_WARNINGS \
 			__pragma(warning(disable: 4061)) \
@@ -432,6 +434,7 @@ help me improve support for your target architecture. Thanks!
 			__pragma(warning(disable: 4946)) /* reinterpret_cast used between related classes */ \
 			__pragma(warning(disable: 5026)) /* move constructor was implicitly defined as deleted	*/ \
 			__pragma(warning(disable: 5027)) /* move assignment operator was implicitly defined as deleted	*/ \
+			__pragma(warning(disable: 5039)) /* potentially throwing function passed to 'extern "C"' function */ \
 			__pragma(warning(disable: 5045)) /* Compiler will insert Spectre mitigation */ \
 			__pragma(warning(disable: 26490)) /* cg: dont use reinterpret_cast */ \
 			__pragma(warning(disable: 26812)) /* cg: Prefer 'enum class' over 'enum' */ \
@@ -448,8 +451,12 @@ help me improve support for your target architecture. Thanks!
 
 		#define MUU_DISABLE_WARNINGS		__pragma(warning(push, 0))			\
 											__pragma(warning(disable: 4348))	\
-											MUU_DISABLE_SPAM_WARNINGS;			\
+											__pragma(warning(disable: 4668))	\
+											__pragma(warning(disable: 5105))	\
 											MUU_DISABLE_CODE_ANALYSIS_WARNINGS;	\
+											MUU_DISABLE_SWITCH_WARNINGS;		\
+											MUU_DISABLE_SHADOW_WARNINGS;		\
+											MUU_DISABLE_SPAM_WARNINGS;			\
 											MUU_DISABLE_ARITHMETIC_WARNINGS;	\
 											static_assert(true)
 

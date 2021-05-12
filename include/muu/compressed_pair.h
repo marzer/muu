@@ -12,6 +12,7 @@
 #include "impl/header_start.h"
 MUU_PRAGMA_CLANG(diagnostic ignored "-Wreorder")
 MUU_PRAGMA_GCC(diagnostic ignored "-Wreorder")
+MUU_PRAGMA_MSVC(warning(disable : 5038)) // member A will initialized before B
 
 /// \cond
 namespace muu::impl

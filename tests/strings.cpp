@@ -6,6 +6,8 @@
 #include "tests.h"
 #include "../include/muu/strings.h"
 
+MUU_PRAGMA_MSVC(warning(disable : 5052)) // char8_t C++20
+
 #define SV(v) MUU_APPEND_SV(v)
 
 #define CHECK_FUNC(func, input, expected)													\

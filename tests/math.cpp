@@ -38,7 +38,7 @@ namespace
 			const auto val = muu::lerp(
 				static_cast<val_type>(start),
 				static_cast<val_type>(end),
-				(static_cast<val_type>(i) / static_cast<val_type>(subdivs))
+				static_cast<val_type>(i) / static_cast<val_type>(subdivs)
 			);
 			const auto input = static_cast<T>(val);
 			const auto muu_output = muu_func(input);
@@ -76,7 +76,7 @@ namespace
 				const auto val = muu::lerp(
 					static_cast<val_type>(Start::value),
 					static_cast<val_type>(End::value),
-					(static_cast<val_type>(i) / static_cast<val_type>(Subdivs))
+					static_cast<val_type>(i) / static_cast<val_type>(Subdivs)
 				);
 				table[i] = { static_cast<T>(val), fn(static_cast<T>(val)) };
 			}

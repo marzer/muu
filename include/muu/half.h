@@ -1035,7 +1035,7 @@ namespace muu
 			return half::from_bits(x.impl_ & 0b0111111111111111_u16);
 		}
 #else
-		return half{ impl::abs_(x.impl_) };
+		return impl::abs_(x);
 #endif
 	}
 
@@ -1071,7 +1071,7 @@ namespace muu
 	MUU_ATTR(flatten)
 	constexpr half MUU_VECTORCALL floor(half x) noexcept
 	{
-		return half{ impl::floor_(static_cast<float>(x)) };
+		return impl::floor_(x);
 	}
 
 	/// \brief	Returns the ceiling of a half-precision float.
@@ -1083,7 +1083,7 @@ namespace muu
 	MUU_ATTR(flatten)
 	constexpr half MUU_VECTORCALL ceil(half x) noexcept
 	{
-		return half{ impl::ceil_(static_cast<float>(x)) };
+		return impl::ceil_(x);
 	}
 
 	/// \brief	Returns the square-root of a half-precision float.
@@ -1275,15 +1275,15 @@ namespace muu::impl
 	{
 		// 1000 0000 0000 0000 ->
 		// 1000 0000 0000 0000 0000 0000 0000 0000
-		const uint32_t s32 = static_cast<uint32_t>(val & 0x8000_u16) << 16;
+		const uint32_t s32 = static_cast<uint32_t>(val & 0x8000u) << 16;
 
 		// 0111 1100 0000 0000
-		const uint16_t exp16 = (val & 0x7C00_u16) >> 10;
+		const uint16_t exp16 = static_cast<uint16_t>((val & 0x7C00u) >> 10);
 
 		uint32_t exp32 = static_cast<uint32_t>(exp16) + (f16_single_exp_bias - f16_half_exp_bias);
 
 		// 0000 0011 1111 1111
-		const uint16_t frac16 = val & 0x03FF_u16;
+		const uint16_t frac16 = static_cast<uint16_t>(val & 0x03FFu);
 
 		uint32_t frac32 = static_cast<uint32_t>(frac16);
 

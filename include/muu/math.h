@@ -14,6 +14,12 @@ MUU_DISABLE_WARNINGS;
 #if MUU_HAS_QUADMATH
 	#include <quadmath.h>
 #endif
+#if MUU_MSVC && MUU_MSVC >= 1928
+	#define MUU_HAS_MSVC_INTRINSICS 1
+	#include <intrin0.h>
+#else
+	#define MUU_HAS_MSVC_INTRINSICS 0
+#endif
 MUU_ENABLE_WARNINGS;
 
 #include "impl/header_start.h"
@@ -314,13 +320,15 @@ namespace muu
 	/// \cond
 	namespace impl
 	{
+		MUU_PUSH_PRECISE_MATH;
+
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
 		constexpr T MUU_VECTORCALL consteval_abs(T x) noexcept
 		{
-			static_assert(is_signed<T> && !std::is_same_v<T, half>);
+			static_assert(is_signed<T>);
 
 			if constexpr (is_floating_point<T>)
 			{
@@ -330,6 +338,8 @@ namespace muu
 			return x < T{} ? -x : x;
 		}
 
+		MUU_POP_PRECISE_MATH;
+
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
@@ -337,20 +347,30 @@ namespace muu
 		MUU_ATTR(flatten)
 		constexpr T MUU_VECTORCALL abs_(T x) noexcept
 		{
-			static_assert(is_signed<T> && !std::is_same_v<T, half>);
+			static_assert(is_signed<T>);
 
 			if (MUU_INTELLISENSE || !build::supports_is_constant_evaluated || is_constant_evaluated())
 				return consteval_abs(x);
 			else
 			{
-				if constexpr (is_standard_arithmetic<T>)
+				if constexpr (0)
+					static_assert(always_false<T>);
+	#if (MUU_CLANG || MUU_GCC)
+				else if constexpr (std::is_same_v<T, float>)
+					return __builtin_fabsf(x);
+				else if constexpr (std::is_same_v<T, double>)
+					return __builtin_fabs(x);
+				else if constexpr (std::is_same_v<T, long double>)
+					return __builtin_fabsl(x);
+	#endif
+				else if constexpr (is_standard_arithmetic<T>)
 					return std::abs(x);
 	#if MUU_HAS_QUADMATH
 				else if constexpr (std::is_same_v<float128_t, T>)
 					return ::fabsq(x);
 	#endif
 				else
-					return static_cast<T>(std::abs(static_cast<clamp_to_standard_float<T>>(x)));
+					return consteval_abs(x);
 			}
 		}
 	}
@@ -675,18 +695,63 @@ namespace muu
 	/// \cond
 	namespace impl
 	{
+		MUU_PUSH_PRECISE_MATH;
+
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
-		constexpr T MUU_VECTORCALL floor_(T x) noexcept
+		constexpr T MUU_VECTORCALL consteval_floor(T x) noexcept
 		{
-			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
+			static_assert(is_floating_point<T>);
 
 			if (x == T{} || x != x) // accounts for -0.0 and NaN
 				return x;
 
 			return static_cast<T>(static_cast<intmax_t>(x) - static_cast<intmax_t>(x < static_cast<intmax_t>(x)));
+		}
+
+		MUU_POP_PRECISE_MATH;
+
+		template <typename T>
+		MUU_NODISCARD
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
+		MUU_ATTR(flatten)
+		constexpr T MUU_VECTORCALL floor_(T x) noexcept
+		{
+			static_assert(is_floating_point<T>);
+
+			if (MUU_INTELLISENSE || !build::supports_is_constant_evaluated || is_constant_evaluated())
+				return consteval_floor(x);
+			else
+			{
+				if constexpr (0)
+					static_assert(always_false<T>);
+	#if MUU_HAS_MSVC_INTRINSICS
+				else if constexpr (std::is_same_v<T, float>)
+					return __floorf(x);
+				else if constexpr (std::is_same_v<T, double>)
+					return __floor(x);
+				else if constexpr (std::is_same_v<T, long double>)
+					return static_cast<long double>(__floor(static_cast<double>(x)));
+	#elif (MUU_CLANG || MUU_GCC)
+				else if constexpr (std::is_same_v<T, float>)
+					return __builtin_floorf(x);
+				else if constexpr (std::is_same_v<T, double>)
+					return __builtin_floor(x);
+				else if constexpr (std::is_same_v<T, long double>)
+					return __builtin_floorl(x);
+	#endif
+				else if constexpr (is_standard_arithmetic<T>)
+					return std::floor(x);
+	#if MUU_HAS_QUADMATH
+				else if constexpr (std::is_same_v<float128_t, T>)
+					return ::floorq(x);
+	#endif
+				else
+					return consteval_floor(x);
+			}
 		}
 	}
 	/// \endcond
@@ -778,18 +843,63 @@ namespace muu
 	/// \cond
 	namespace impl
 	{
+		MUU_PUSH_PRECISE_MATH;
+
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(const)
-		constexpr T MUU_VECTORCALL ceil_(T x) noexcept
+		constexpr T MUU_VECTORCALL consteval_ceil(T x) noexcept
 		{
-			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
+			static_assert(is_floating_point<T>);
 
 			if (x == T{} || x != x) // accounts for -0.0 and NaN
 				return x;
 
 			return static_cast<T>(static_cast<intmax_t>(x) + static_cast<intmax_t>(x > static_cast<intmax_t>(x)));
+		}
+
+		MUU_POP_PRECISE_MATH;
+
+		template <typename T>
+		MUU_NODISCARD
+		MUU_ALWAYS_INLINE
+		MUU_ATTR(const)
+		MUU_ATTR(flatten)
+		constexpr T MUU_VECTORCALL ceil_(T x) noexcept
+		{
+			static_assert(is_floating_point<T>);
+
+			if (MUU_INTELLISENSE || !build::supports_is_constant_evaluated || is_constant_evaluated())
+				return consteval_ceil(x);
+			else
+			{
+				if constexpr (0)
+					static_assert(always_false<T>);
+	#if MUU_HAS_MSVC_INTRINSICS
+				else if constexpr (std::is_same_v<T, float>)
+					return __ceilf(x);
+				else if constexpr (std::is_same_v<T, double>)
+					return __ceil(x);
+				else if constexpr (std::is_same_v<T, long double>)
+					return static_cast<long double>(__ceil(static_cast<double>(x)));
+	#elif (MUU_CLANG || MUU_GCC)
+				else if constexpr (std::is_same_v<T, float>)
+					return __builtin_ceilf(x);
+				else if constexpr (std::is_same_v<T, double>)
+					return __builtin_ceil(x);
+				else if constexpr (std::is_same_v<T, long double>)
+					return __builtin_ceill(x);
+	#endif
+				else if constexpr (is_standard_arithmetic<T>)
+					return std::ceil(x);
+	#if MUU_HAS_QUADMATH
+				else if constexpr (std::is_same_v<float128_t, T>)
+					return ::ceilq(x);
+	#endif
+				else
+					return consteval_ceil(x);
+			}
 		}
 	}
 	/// \endcond
@@ -891,7 +1001,7 @@ namespace muu
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(const)
-		constexpr T consteval_sqrt(T x)
+		constexpr T MUU_VECTORCALL consteval_sqrt(T x)
 		{
 			MUU_FMA_BLOCK;
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
@@ -1037,17 +1147,17 @@ namespace muu
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(const)
-		constexpr T consteval_sin(T);
+		constexpr T MUU_VECTORCALL consteval_sin(T);
 
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(const)
-		constexpr T consteval_tan(T);
+		constexpr T MUU_VECTORCALL consteval_tan(T);
 
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(const)
-		constexpr T consteval_cos(T x)
+		constexpr T MUU_VECTORCALL consteval_cos(T x)
 		{
 			MUU_FMA_BLOCK;
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
@@ -1203,7 +1313,7 @@ namespace muu
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(const)
-		constexpr T consteval_sin(T x)
+		constexpr T MUU_VECTORCALL consteval_sin(T x)
 		{
 			MUU_FMA_BLOCK;
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
@@ -1362,7 +1472,7 @@ namespace muu
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(const)
-		constexpr T consteval_tan(T x)
+		constexpr T MUU_VECTORCALL consteval_tan(T x)
 		{
 			MUU_FMA_BLOCK;
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
@@ -1512,17 +1622,17 @@ namespace muu
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(const)
-		constexpr T consteval_asin(T);
+		constexpr T MUU_VECTORCALL consteval_asin(T);
 
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(const)
-		constexpr T consteval_atan(T);
+		constexpr T MUU_VECTORCALL consteval_atan(T);
 
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(const)
-		constexpr T consteval_acos(T x)
+		constexpr T MUU_VECTORCALL consteval_acos(T x)
 		{
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
 
@@ -1658,7 +1768,7 @@ namespace muu
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(const)
-		constexpr T consteval_asin(T x)
+		constexpr T MUU_VECTORCALL consteval_asin(T x)
 		{
 			MUU_FMA_BLOCK;
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
@@ -1816,7 +1926,7 @@ namespace muu
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(const)
-		constexpr T consteval_atan(T x)
+		constexpr T MUU_VECTORCALL consteval_atan(T x)
 		{
 			MUU_FMA_BLOCK;
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
@@ -1973,7 +2083,7 @@ namespace muu
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(const)
-		constexpr T consteval_atan2(T y, T x)
+		constexpr T MUU_VECTORCALL consteval_atan2(T y, T x)
 		{
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
 
@@ -2398,3 +2508,5 @@ namespace muu
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"
+
+#undef MUU_HAS_MSVC_INTRINSICS
