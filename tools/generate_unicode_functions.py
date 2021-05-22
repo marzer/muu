@@ -1653,11 +1653,14 @@ def write_header(folders, code_unit):
 			h('#endif')
 		else:
 			h('#include "../fwd.h"')
-		h('')
 		h('#include "header_start.h"')
 		if not code_unit.proxy:
 			h('MUU_DISABLE_SWITCH_WARNINGS;')
-			h('MUU_PRAGMA_GCC_LT(9, optimize("O1"))')
+		h('#if !MUU_GCC || MUU_GCC >= 9')
+		h('	MUU_FORCE_NDEBUG_OPTIMIZATIONS;')
+		h('#else')
+		h('	MUU_PRAGMA_GCC(optimize("O1"))')
+		h('#endif')
 		h('')
 		h('namespace muu')
 		h('{')
@@ -1674,7 +1677,7 @@ def write_header(folders, code_unit):
 			t('#include "tests.h"')
 			if code_unit.typename == 'char8_t':
 				t('')
-				t('#ifdef __cpp_char8_t')
+				t('#if MUU_HAS_CHAR8')
 				t('')
 			t('#include "unicode.h"')
 			t('#include "../include/muu/strings.h"')
@@ -1954,6 +1957,9 @@ def write_header(folders, code_unit):
 			h('\t/** @} */	// strings')
 		h('}')
 		h('')
+		h('#if !MUU_GCC || MUU_GCC >= 9')
+		h('	MUU_RESET_NDEBUG_OPTIMIZATIONS;')
+		h('#endif')
 		h('#include "header_end.h"')
 
 		# finish up tests
@@ -1974,7 +1980,7 @@ def write_header(folders, code_unit):
 					t('};')
 					t('')
 			if code_unit.typename == 'char8_t':
-				t('#endif // __cpp_char8_t')
+				t('#endif // MUU_HAS_CHAR8')
 
 		both('// clang-format on')
 		both()

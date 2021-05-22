@@ -58,9 +58,21 @@ numeric_literals = [
 
 
 [implementation_headers]
+'muu/core.h' = [
+	'muu/impl/core_bit.h',
+	'muu/impl/core_build.h',
+	'muu/impl/core_constants.h',
+	'muu/impl/core_literals.h',
+	'muu/impl/core_meta.h',
+	'muu/impl/core_utils.h'
+]
 'muu/chars.h' = [
-	'muu/impl/unicode_char.h',      'muu/impl/unicode_char16_t.h',      'muu/impl/unicode_char32_t.h',
-	'muu/impl/unicode_char8_t.h',   'muu/impl/unicode_unsigned_char.h', 'muu/impl/unicode_wchar_t.h'
+	'muu/impl/unicode_char.h',
+	'muu/impl/unicode_char16_t.h',
+	'muu/impl/unicode_char32_t.h',
+	'muu/impl/unicode_char8_t.h',
+	'muu/impl/unicode_unsigned_char.h',
+	'muu/impl/unicode_wchar_t.h'
 ]
 
 

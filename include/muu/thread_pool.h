@@ -8,8 +8,8 @@
 
 #pragma once
 #include "core.h"
+#include "generic_allocator.h"
 #include "string_param.h"
-
 #include "impl/header_start.h"
 MUU_PRAGMA_CLANG(diagnostic ignored "-Wignored-attributes")
 MUU_PRAGMA_MSVC(warning(disable : 26495)) // core guidelines: uninitialized member
@@ -162,7 +162,7 @@ namespace muu::impl
 			MUU_ASSUME(buffer);
 
 			storage_type ptr = select(static_cast<U&&>(callable));
-			memcpy(buffer, &ptr, sizeof(storage_type));
+			std::memcpy(buffer, &ptr, sizeof(storage_type));
 		}
 
 		MUU_ATTR(nonnull)
@@ -171,7 +171,7 @@ namespace muu::impl
 			MUU_ASSUME(from);
 			MUU_ASSUME(to);
 
-			memcpy(to, from, sizeof(storage_type));
+			std::memcpy(to, from, sizeof(storage_type));
 		}
 
 		template <typename... Args>
@@ -202,7 +202,7 @@ namespace muu::impl
 			MUU_ASSUME(buffer);
 
 			storage_type callable;
-			memcpy(&callable, buffer, sizeof(storage_type));
+			std::memcpy(&callable, buffer, sizeof(storage_type));
 			invoke(callable, index, static_cast<Args&&>(args)...);
 		}
 	};
@@ -236,7 +236,7 @@ namespace muu::impl
 			MUU_ASSUME(buffer);
 
 			if constexpr (std::is_trivially_copyable_v<callable_type>)
-				memcpy(buffer, &callable, sizeof(callable_type));
+				std::memcpy(buffer, &callable, sizeof(callable_type));
 			else
 			{
 				if constexpr (std::is_aggregate_v<callable_type>)
@@ -253,16 +253,16 @@ namespace muu::impl
 			MUU_ASSUME(to);
 
 			if constexpr (std::is_trivially_copyable_v<callable_type>)
-				memcpy(to, from, sizeof(callable_type));
+				std::memcpy(to, from, sizeof(callable_type));
 			else if constexpr (std::is_nothrow_move_constructible_v<callable_type>)
 			{
-				::new (to) callable_type{ std::move(*launder(static_cast<callable_type*>(from))) };
+				::new (to) callable_type{ MUU_MOVE(*launder(static_cast<callable_type*>(from))) };
 			}
 			else if constexpr (std::is_nothrow_default_constructible_v<
 								   callable_type> && std::is_nothrow_move_assignable_v<callable_type>)
 			{
 				auto val = ::new (to) callable_type;
-				*val	 = std::move(*launder(static_cast<callable_type*>(from)));
+				*val	 = MUU_MOVE(*launder(static_cast<callable_type*>(from)));
 			}
 			else if constexpr (std::is_nothrow_copy_constructible_v<callable_type>)
 			{

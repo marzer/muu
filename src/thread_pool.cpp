@@ -27,6 +27,9 @@ MUU_DISABLE_WARNINGS;
 #else
 	#define spin_wait_iteration() MUU_NOOP
 #endif
+#if !MUU_HAS_EXCEPTIONS
+	#include <exception> // std::terminate()
+#endif
 MUU_ENABLE_WARNINGS;
 
 #include "source_start.h"
@@ -132,7 +135,7 @@ namespace
 			auto t = pop_front_task();
 			MUU_ASSERT(t->action_invoker);
 
-			auto result = ::new (muu::assume_aligned<impl::thread_pool_task_granularity>(buf)) task{ std::move(*t) };
+			auto result = ::new (muu::assume_aligned<impl::thread_pool_task_granularity>(buf)) task{ MUU_MOVE(*t) };
 			MUU_ASSERT(result->action_invoker);
 
 			t->~task();
@@ -296,7 +299,7 @@ namespace
 						   thread_pool_monitor& monitor_)
 		{
 			thread =
-				std::thread{ [this, worker_index, name = std::move(worker_name), queues, monitor = &monitor_]() noexcept
+				std::thread{ [this, worker_index, name = MUU_MOVE(worker_name), queues, monitor = &monitor_]() noexcept
 							 {
 								 MUU_ASSUME(monitor != nullptr);
 
@@ -450,7 +453,7 @@ namespace
 
 				::new (static_cast<void*>(worker_buffer.data() + sizeof(thread_pool_worker) * i))
 					thread_pool_worker{ i, // worker_index
-										std::move(n),
+										MUU_MOVE(n),
 										span<thread_pool_queue>{ &queue(0), worker_count }, // queues
 										monitor };
 				constructed_workers++;
@@ -502,11 +505,11 @@ namespace
 			static constexpr auto repeat_with_delay =
 				[](auto&& action, std::chrono::milliseconds delay, size_t max_attempts) noexcept
 			{
-				using result_type = decltype(std::forward<decltype(action)>(action)());
+				using result_type = decltype(static_cast<decltype(action)&&>(action)());
 				for (size_t i = 0; i < max_attempts; i++)
 				{
 					std::this_thread::sleep_for(delay);
-					if (auto q = std::forward<decltype(action)>(action)())
+					if (auto q = static_cast<decltype(action)&&>(action)())
 						return q;
 				}
 				return result_type{};
@@ -614,7 +617,7 @@ thread_pool::thread_pool(size_t worker_count, size_t task_queue_size, string_par
 	storage_ = ::new (buffer_ptr)
 		thread_pool_storage{ allocator,
 							 buffer,
-							 thread_pool_impl{ std::move(name), queue_buffer, worker_buffer, task_buffer } };
+							 thread_pool_impl{ MUU_MOVE(name), queue_buffer, worker_buffer, task_buffer } };
 }
 
 thread_pool::thread_pool(thread_pool&& other) noexcept : storage_{ other.storage_ }

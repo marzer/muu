@@ -8,8 +8,12 @@
 
 #pragma once
 #include "unicode_unsigned_char.h"
-
 #include "header_start.h"
+#if !MUU_GCC || MUU_GCC >= 9
+	MUU_FORCE_NDEBUG_OPTIMIZATIONS;
+#else
+	MUU_PRAGMA_GCC(optimize("O1"))
+#endif
 
 namespace muu
 {
@@ -460,6 +464,9 @@ namespace muu
 	/** @} */	// strings
 }
 
+#if !MUU_GCC || MUU_GCC >= 9
+	MUU_RESET_NDEBUG_OPTIMIZATIONS;
+#endif
 #include "header_end.h"
 // clang-format on
 

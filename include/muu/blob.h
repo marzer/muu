@@ -7,7 +7,8 @@
 /// \brief Contains the definition of muu::blob.
 
 #pragma once
-#include "fwd.h"
+#include "impl/core_utils.h"
+#include "generic_allocator.h"
 #include "impl/header_start.h"
 
 namespace muu
@@ -107,7 +108,8 @@ namespace muu
 		blob& operator=(blob&&) noexcept;
 
 		/// \brief Returns the size of the blob's data, in bytes.
-		MUU_NODISCARD MUU_ATTR(pure)
+		MUU_NODISCARD
+		MUU_ATTR(pure)
 		size_t size() const noexcept
 		{
 			return size_;
@@ -122,28 +124,32 @@ namespace muu
 		blob& size(size_t size);
 
 		/// \brief Returns the alignment of the blob's data, in bytes.
-		MUU_NODISCARD MUU_ATTR(pure)
+		MUU_NODISCARD
+		MUU_ATTR(pure)
 		size_t alignment() const noexcept
 		{
 			return alignment_;
 		}
 
 		/// \brief Returns a pointer to the blob's data.
-		MUU_NODISCARD MUU_ATTR(pure)
+		MUU_NODISCARD
+		MUU_ATTR(pure)
 		std::byte* data() noexcept
 		{
 			return pointer_cast<std::byte*>(data_);
 		}
 
 		/// \brief Returns a pointer to the blob's data (const overload).
-		MUU_NODISCARD MUU_ATTR(pure)
+		MUU_NODISCARD
+		MUU_ATTR(pure)
 		const std::byte* data() const noexcept
 		{
 			return pointer_cast<const std::byte*>(data_);
 		}
 
 		/// \brief Returns true if the blob contains data.
-		MUU_NODISCARD MUU_ATTR(pure)
+		MUU_NODISCARD
+		MUU_ATTR(pure)
 		explicit operator bool() const noexcept
 		{
 			return data_ != nullptr;

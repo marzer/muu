@@ -63,17 +63,24 @@
   <ItemGroup>
     <ClInclude Include="$(SolutionDir)include\muu\accumulator.h" />
     <ClInclude Include="$(SolutionDir)include\muu\all.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\core_bit.h" />
     <ClInclude Include="$(SolutionDir)include\muu\bitset.h" />
     <ClInclude Include="$(SolutionDir)include\muu\blob.h" />
     <ClInclude Include="$(SolutionDir)include\muu\bounding_box.h" />
     <ClInclude Include="$(SolutionDir)include\muu\chars.h" />
     <ClInclude Include="$(SolutionDir)include\muu\compressed_pair.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\core_build.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\core_utils.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\core_constants.h" />
     <ClInclude Include="$(SolutionDir)include\muu\core.h" />
     <ClInclude Include="$(SolutionDir)include\muu\concatenate.h" />
     <ClInclude Include="$(SolutionDir)include\muu\emplacement_array.h" />
     <ClInclude Include="$(SolutionDir)include\muu\fwd.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\generic_allocator.h" />
     <ClInclude Include="$(SolutionDir)include\muu\half.h" />
     <ClInclude Include="$(SolutionDir)include\muu\hashing.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\core_literals.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\environment_checks.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\geometry_common.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\header_end.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\header_start.h" />
@@ -86,6 +93,7 @@
     <ClInclude Include="$(SolutionDir)include\muu\impl\unicode_wchar_t.h" />
     <ClInclude Include="$(SolutionDir)include\muu\math.h" />
     <ClInclude Include="$(SolutionDir)include\muu\matrix.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\core_meta.h" />
     <ClInclude Include="$(SolutionDir)include\muu\oriented_bounding_box.h" />
     <ClInclude Include="$(SolutionDir)include\muu\plane.h" />
     <ClInclude Include="$(SolutionDir)include\muu\quaternion.h" />
@@ -112,7 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(SolutionDir)src\blob.cpp" />
-    <ClCompile Include="$(SolutionDir)src\default_allocator.cpp" />
+    <ClCompile Include="$(SolutionDir)src\generic_allocator.cpp" />
     <ClCompile Include="$(SolutionDir)src\hashing.cpp" />
     <ClCompile Include="$(SolutionDir)src\string_param.cpp" />
     <ClCompile Include="$(SolutionDir)src\thread_name.cpp" />

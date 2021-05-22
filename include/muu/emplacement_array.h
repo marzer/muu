@@ -7,7 +7,16 @@
 /// \brief Contains the definition of muu::emplacement_array.
 
 #pragma once
-#include "core.h"
+#include "impl/core_utils.h"
+#include "generic_allocator.h"
+
+MUU_DISABLE_WARNINGS;
+#include <new> // placement new
+#if !MUU_HAS_EXCEPTIONS
+	#include <exception> // std::terminate()
+#endif
+MUU_ENABLE_WARNINGS;
+
 #include "impl/header_start.h"
 
 namespace muu

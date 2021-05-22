@@ -43,6 +43,7 @@ MUU_PRAGMA_MSVC(warning(disable: 4127)) // conditional expression is constant
 
 MUU_DISABLE_WARNINGS;
 #include <iosfwd>
+#include <cstring>
 #if MUU_HAS_FLOAT16
 std::ostream& operator << (std::ostream&, _Float16);
 #endif
@@ -287,7 +288,7 @@ MAKE_NAME_OF(char);
 MAKE_NAME_OF(wchar_t);
 MAKE_NAME_OF(char16_t);
 MAKE_NAME_OF(char32_t);
-#ifdef __cpp_char8_t
+#if MUU_HAS_CHAR8
 MAKE_NAME_OF(char8_t);
 #endif
 

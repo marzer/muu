@@ -8,7 +8,6 @@
 
 #pragma once
 #include "impl/geometry_common.h"
-
 #include "impl/header_start.h"
 MUU_DISABLE_SHADOW_WARNINGS;
 MUU_PRAGMA_MSVC(float_control(except, off))

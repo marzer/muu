@@ -50,7 +50,7 @@ uuid uuid::generate() noexcept
 			native.Data2 = byte_reverse(native.Data2);
 			native.Data3 = byte_reverse(native.Data3);
 		}
-		memcpy(&val, &native, sizeof(UUID));
+		std::memcpy(&val, &native, sizeof(UUID));
 	}
 #else
 	{
@@ -84,7 +84,7 @@ uuid::uuid(const uuid& name_space, const void* name_data, size_t name_size) noex
 		if (name_data && name_size)
 			hasher(name_data, name_size);
 		hasher.finish();
-		memcpy(&bytes, &hasher.value(), sizeof(bytes));
+		std::memcpy(&bytes, &hasher.value(), sizeof(bytes));
 	}
 
 	// "Set the four most significant bits (bits 12 through 15) of the
@@ -109,7 +109,7 @@ namespace
 		Char* pos		 = buffer;
 		const auto write = [&](const auto& cstr) noexcept
 		{
-			memcpy(pos, &cstr, sizeof(cstr));
+			std::memcpy(pos, &cstr, sizeof(cstr));
 			pos += sizeof(cstr) / sizeof(Char);
 		};
 		static_assert(sizeof(impl::hex_char_pair<Char>) == sizeof(Char) * 2);

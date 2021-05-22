@@ -8,7 +8,7 @@ MUU_DISABLE_WARNINGS;
 #include <iostream>
 #include <iomanip>
 #ifdef _WIN32
-#include <Windows.h>
+	#include <Windows.h>
 #endif
 MUU_ENABLE_WARNINGS;
 
@@ -16,9 +16,9 @@ inline void init_utf8_console(bool sync_with_stdio = false) noexcept
 {
 	std::ios_base::sync_with_stdio(sync_with_stdio);
 
-	#ifdef _WIN32
-	SetConsoleOutputCP(65001); //CP_UTF8
-	#endif
+#ifdef _WIN32
+	SetConsoleOutputCP(65001); // CP_UTF8
+#endif
 
 	std::cout << std::boolalpha;
 }

@@ -11,6 +11,6 @@
 #include "impl/unicode_wchar_t.h"
 #include "impl/unicode_char16_t.h"
 #include "impl/unicode_char32_t.h"
-#ifdef __cpp_char8_t
+#if MUU_HAS_CHAR8
 	#include "impl/unicode_char8_t.h"
 #endif

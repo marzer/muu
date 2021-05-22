@@ -298,7 +298,7 @@ compiler_supports_char8 = compiler_supports_cpp20 and compiler.links('''
 	#include <type_traits>
 	using namespace std::string_view_literals;
 
-	#ifndef __cpp_lib_char8_t
+	#if !defined(__cpp_char8_t) || __cpp_char8_t < 201811 || !defined(__cpp_lib_char8_t) || __cpp_lib_char8_t < 201907
 		#error oh noes
 	#endif
 
@@ -502,7 +502,7 @@ install_subdir('include/muu',
 )
 
 #######################################################################################################################
-# dependencies, cmake etc.
+# dependencies
 #######################################################################################################################
 
 muu_dep = declare_dependency(
@@ -513,6 +513,5 @@ muu_dep = declare_dependency(
 pkgc = import('pkgconfig')
 pkgc.generate(
 	name: meson.project_name(),
-	version: meson.project_version(),
 	description: 'Miscellaneous useful utilities for modern C++'
 )

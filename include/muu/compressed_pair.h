@@ -7,8 +7,7 @@
 /// \brief  Contains the definition of muu::compressed_pair.
 
 #pragma once
-#include "core.h"
-
+#include "impl/core_meta.h"
 #include "impl/header_start.h"
 MUU_PRAGMA_CLANG(diagnostic ignored "-Wreorder")
 MUU_PRAGMA_GCC(diagnostic ignored "-Wreorder")

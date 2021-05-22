@@ -12,6 +12,7 @@
 MUU_DISABLE_WARNINGS;
 #include <optional>
 #include <iosfwd>
+#include <typeindex> // std::hash on-the-cheap
 MUU_ENABLE_WARNINGS;
 
 #include "impl/header_start.h"

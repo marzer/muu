@@ -9,6 +9,7 @@
 
 MUU_DISABLE_WARNINGS;
 #include <iosfwd>
+#include <cstring> // memcpy
 MUU_ENABLE_WARNINGS;
 
 #include "header_start.h"
@@ -127,7 +128,7 @@ namespace muu::impl
 		MUU_ASSUME(reinterpret_cast<uintptr_t>(ptr) % AssumeAlignment == 0_sz);
 
 		T val;
-		memcpy(&val, muu::assume_aligned<AssumeAlignment>(ptr), sizeof(T));
+		std::memcpy(&val, muu::assume_aligned<AssumeAlignment>(ptr), sizeof(T));
 		return val;
 	}
 

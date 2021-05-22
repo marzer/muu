@@ -9,6 +9,10 @@
 #pragma once
 #include "core.h"
 
+MUU_DISABLE_WARNINGS;
+#include <cstring> //memcpy
+MUU_ENABLE_WARNINGS;
+
 #include "impl/header_start.h"
 MUU_DISABLE_SUGGEST_WARNINGS;
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
@@ -71,7 +75,7 @@ namespace muu::impl
 					static_assert((sizeof(T) * build::bits_per_byte) <= tag_bits,
 								  "The tag type must fit in the available tag bits");
 					auto bits = pack_ptr(ptr);
-					memcpy(&bits, &tag, sizeof(T));
+					std::memcpy(&bits, &tag, sizeof(T));
 					return bits;
 				}
 			}
@@ -107,7 +111,7 @@ namespace muu::impl
 						  "The tag type must fit in the available tag bits");
 			if constexpr ((sizeof(T) * build::bits_per_byte) < tag_bits)
 				bits &= ptr_mask;
-			memcpy(&bits, &tag, sizeof(T));
+			std::memcpy(&bits, &tag, sizeof(T));
 			return bits;
 		}
 

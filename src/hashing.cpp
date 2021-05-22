@@ -18,13 +18,15 @@ namespace
 			raw_block value;
 		};
 
-		MUU_NODISCARD MUU_ATTR(const)
+		MUU_NODISCARD
+		MUU_ATTR(const)
 		static constexpr uint32_t MUU_VECTORCALL rol(uint32_t value, uint32_t bits) noexcept
 		{
 			return (value << bits) | (value >> (32u - bits));
 		}
 
-		MUU_NODISCARD static constexpr uint32_t MUU_VECTORCALL blk(const raw_block& bl, size_t i) noexcept
+		MUU_NODISCARD
+		static constexpr uint32_t MUU_VECTORCALL blk(const raw_block& bl, size_t i) noexcept
 		{
 			return rol(bl[(i + 13u) & 15u] ^ bl[(i + 8u) & 15u] ^ bl[(i + 2u) & 15u] ^ bl[i], 1);
 		}
@@ -227,7 +229,7 @@ void sha1::add(const uint8_t* bytes, size_t num) noexcept
 	MUU_ASSERT(num <= (64_sz - current_block_length));
 
 	if (bytes)
-		memcpy(current_block + current_block_length, bytes, num);
+		std::memcpy(current_block + current_block_length, bytes, num);
 	else
 		memset(current_block + current_block_length, 0, num);
 	current_block_length += static_cast<uint8_t>(num);

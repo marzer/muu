@@ -51,7 +51,7 @@ namespace
 
 	static void set_thread_name_os_specific(string_param&& name_) noexcept
 	{
-		std::string name(std::move(name_)); // ensure zero-termination
+		std::string name(MUU_MOVE(name_)); // ensure zero-termination
 		set_thread_name_legacy(name);
 
 	// 'modern'
@@ -82,7 +82,7 @@ namespace muu
 {
 	void set_thread_name(string_param name) noexcept
 	{
-		::set_thread_name_os_specific(std::move(name));
+		::set_thread_name_os_specific(MUU_MOVE(name));
 	}
 
 	//

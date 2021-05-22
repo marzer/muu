@@ -208,7 +208,7 @@ namespace
 			return nullptr;
 
 		mode_ = unwrap(mode_of<type>);
-		return ::new (static_cast<void*>(storage.bytes)) type(std::move(str));
+		return ::new (static_cast<void*>(storage.bytes)) type(MUU_MOVE(str));
 	}
 
 	template <mode Mode, typename T>
@@ -316,7 +316,7 @@ string_param::string_param(const char* str) noexcept
 
 string_param::string_param(std::string&& str) noexcept
 {
-	initialize(storage_, mode_, std::move(str));
+	initialize(storage_, mode_, MUU_MOVE(str));
 }
 
 string_param::string_param(std::wstring_view str) noexcept
@@ -341,7 +341,7 @@ string_param::string_param(const wchar_t* str) noexcept
 
 string_param::string_param(std::wstring&& str) noexcept
 {
-	initialize(storage_, mode_, std::move(str));
+	initialize(storage_, mode_, MUU_MOVE(str));
 }
 
 string_param::string_param(std::u16string_view str) noexcept
@@ -366,7 +366,7 @@ string_param::string_param(const char16_t* str) noexcept
 
 string_param::string_param(std::u16string&& str) noexcept
 {
-	initialize(storage_, mode_, std::move(str));
+	initialize(storage_, mode_, MUU_MOVE(str));
 }
 
 string_param::string_param(std::u32string_view str) noexcept
@@ -391,7 +391,7 @@ string_param::string_param(const char32_t* str) noexcept
 
 string_param::string_param(std::u32string&& str) noexcept
 {
-	initialize(storage_, mode_, std::move(str));
+	initialize(storage_, mode_, MUU_MOVE(str));
 }
 
 string_param::string_param(const void* str, size_t len, char8_tag) noexcept
@@ -409,7 +409,7 @@ string_param::string_param(void* str_obj, const void* str, size_t len, char8_tag
 
 	MUU_UNUSED(str);
 	MUU_UNUSED(len);
-	initialize(storage_, mode_, std::move(*static_cast<std::u8string*>(str_obj)));
+	initialize(storage_, mode_, MUU_MOVE(*static_cast<std::u8string*>(str_obj)));
 
 #else
 
@@ -433,7 +433,7 @@ string_param& string_param::operator=(string_param&& rhs_) noexcept
 			  mode_,
 			  [](auto& lhs, auto& rhs) noexcept
 			  {
-				  lhs = std::move(rhs);
+				  lhs = MUU_MOVE(rhs);
 				  call_destructor(rhs);
 			  });
 	}
@@ -442,7 +442,7 @@ string_param& string_param::operator=(string_param&& rhs_) noexcept
 		if (mode_)
 			destroy(storage_, mode_);
 
-		visit(rhs_.storage_, rhs_.mode_, [this](auto& rhs) noexcept { initialize(storage_, mode_, std::move(rhs)); });
+		visit(rhs_.storage_, rhs_.mode_, [this](auto& rhs) noexcept { initialize(storage_, mode_, MUU_MOVE(rhs)); });
 	}
 	rhs_.mode_ = {};
 	return *this;
@@ -450,7 +450,7 @@ string_param& string_param::operator=(string_param&& rhs_) noexcept
 
 string_param::string_param(string_param&& other) noexcept
 {
-	*this = std::move(other);
+	*this = MUU_MOVE(other);
 }
 
 string_param::~string_param() noexcept
@@ -501,7 +501,7 @@ namespace
 				  {
 					  auto new_str = transcode<Char>(str);
 					  call_destructor(str);
-					  out = *initialize(storage_, mode_, std::move(new_str));
+					  out = *initialize(storage_, mode_, MUU_MOVE(new_str));
 				  }
 			  });
 		return out;
@@ -565,7 +565,7 @@ namespace
 				  using type = remove_cvref<decltype(str)>;
 				  if constexpr (std::is_same_v<type, std::basic_string<Char>>)
 				  {
-					  out = std::move(str);
+					  out = MUU_MOVE(str);
 					  call_destructor(str);
 					  mode_ = {};
 				  }
@@ -683,5 +683,5 @@ string_param& string_param::trim() & noexcept
 
 string_param&& string_param::trim() && noexcept
 {
-	return std::move(trim());
+	return MUU_MOVE(trim());
 }

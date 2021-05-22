@@ -11,7 +11,7 @@ MUU_DISABLE_WARNINGS;
 #define WIN32_LEAN_AND_MEAN
 #define VC_EXTRALEAN
 #define OEMRESOURCE
-#define NOATOM			  // Atom Manager routines
+#define NOATOM // Atom Manager routines
 #define NOAPISET
 #define NOBITMAP
 #define NOCLIPBOARD		  // Clipboard routines

@@ -394,9 +394,9 @@ help me improve support for your target architecture. Thanks!
 			__pragma(warning(push)) \
 			static_assert(true)
 
-		#if MUU_HAS_INCLUDE(<CodeAnalysis\Warnings.h>)
+		#if MUU_HAS_INCLUDE(<CodeAnalysis/Warnings.h>)
 			#pragma warning(push, 0)
-			#include <CodeAnalysis\Warnings.h>
+			#include <CodeAnalysis/Warnings.h>
 			#pragma warning(pop)
 			#define MUU_DISABLE_CODE_ANALYSIS_WARNINGS \
 				__pragma(warning(disable: ALL_CODE_ANALYSIS_WARNINGS)) \
@@ -774,11 +774,17 @@ help me improve support for your target architecture. Thanks!
 	#define MUU_POP_WARNINGS					static_assert(true)
 #endif
 
+MUU_DISABLE_WARNINGS;
 #if MUU_HAS_INCLUDE(<version>)
-	MUU_DISABLE_WARNINGS;
 	#include <version>
-	MUU_ENABLE_WARNINGS;
+#elif defined(_MSC_VER) && MUU_HAS_INCLUDE(<yvals_core.h>)
+	#include <yvals_core.h>
+#elif MUU_CPP <= 17 && MUU_HAS_INCLUDE(<ciso646>)
+	#include <ciso646>
+#elif MUU_HAS_INCLUDE(<iso646.h>)
+	#include <iso646.h>
 #endif
+MUU_ENABLE_WARNINGS;
 
 #ifndef MUU_HAS_BUILTIN
 	#define MUU_HAS_BUILTIN(name)		0
@@ -976,7 +982,7 @@ help me improve support for your target architecture. Thanks!
 	MUU_ATTR(const)																		\
 	linkage constexpr name operator op(name lhs, name rhs) noexcept						\
 	{																					\
-		using under = typename std::underlying_type_t<name>;							\
+		using under = std::underlying_type_t<name>;										\
 		return static_cast<name>(static_cast<under>(lhs) op static_cast<under>(rhs));	\
 	}																					\
 	linkage constexpr name& operator MUU_CONCAT(op, =)(name& lhs, name rhs) noexcept	\
@@ -992,14 +998,14 @@ help me improve support for your target architecture. Thanks!
 	MUU_ATTR(const)																		\
 	linkage constexpr name operator~(name val) noexcept									\
 	{																					\
-		using under = typename std::underlying_type_t<name>;							\
+		using under = std::underlying_type_t<name>;										\
 		return static_cast<name>(~static_cast<under>(val));								\
 	}																					\
 	[[nodiscard]]																		\
 	MUU_ATTR(const)																		\
 	linkage constexpr bool operator!(name val) noexcept									\
 	{																					\
-		using under = typename std::underlying_type_t<name>;							\
+		using under = std::underlying_type_t<name>;										\
 		return !static_cast<under>(val);												\
 	}																					\
 	static_assert(true)
@@ -1051,6 +1057,30 @@ help me improve support for your target architecture. Thanks!
 	#define MUU_DOXYGEN_ONLY(...)	__VA_ARGS__
 #endif
 
+/// \cond
+namespace muu::impl
+{
+	template <typename T>
+	struct remove_reference_
+	{
+		using type = T;
+	};
+
+	template <typename T>
+	struct remove_reference_<T&>
+	{
+		using type = T;
+	};
+
+	template <typename T>
+	struct remove_reference_<T&&>
+	{
+		using type = T;
+	};
+}
+/// \endcond
+
+#define MUU_MOVE(...) static_cast<typename ::muu::impl::remove_reference_<decltype(__VA_ARGS__)>::type&&>(__VA_ARGS__)
 
 //======================================================================================================================
 // SFINAE AND CONCEPTS
@@ -1208,6 +1238,12 @@ help me improve support for your target architecture. Thanks!
 	#define MUU_HAS_QUADMATH 0
 #endif
 
+#if defined(DOXYGEN) || (defined(__cpp_char8_t) && __cpp_char8_t >= 201811)
+	#define MUU_HAS_CHAR8 1
+#else
+	#define MUU_HAS_CHAR8 0
+#endif
+
 //======================================================================================================================
 // VERSIONS AND NAMESPACES
 //======================================================================================================================
@@ -1286,7 +1322,7 @@ help me improve support for your target architecture. Thanks!
 // DOXYGEN SPAM
 //======================================================================================================================
 
-/// \defgroup	preprocessor		Preprocessor magic
+/// \defgroup	preprocessor		Preprocessor
 /// \brief		Compiler feature detection, attributes, string-makers, etc.
 /// @{
 ///
@@ -1714,6 +1750,9 @@ help me improve support for your target architecture. Thanks!
 /// \def MUU_HAS_FP16
 /// \brief `1` when the target environment has the 16-bit floating point 'interchange' type __fp16.
 /// \remarks This is completely unrelated to the class muu::half, which is always available.
+/// 
+/// \def MUU_HAS_CHAR8
+/// \brief `1` when the target environment has the 8-bit character type char8_t.
 ///
 /// \def MUU_HAS_BUILTIN
 /// \brief Expands to `__has_builtin(name)` when supported by the compiler, otherwise `0`.

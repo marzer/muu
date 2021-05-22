@@ -43,7 +43,6 @@
 
 #pragma once
 #include "impl/vector_types_common.h"
-
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_DISABLE_SHADOW_WARNINGS;
@@ -963,7 +962,7 @@ namespace muu
 			MUU_ASSUME(reinterpret_cast<uintptr_t>(vals) % alignof(T) == 0_sz);
 
 			if constexpr (std::is_same_v<remove_cv<T>, Scalar>)
-				memcpy(this, vals, sizeof(scalar_type) * num);
+				std::memcpy(this, vals, sizeof(scalar_type) * num);
 			else
 			{
 				for (size_t i = 0; i < num; i++)

@@ -8,7 +8,7 @@
 
 #include "tests.h"
 
-#ifdef __cpp_char8_t
+#if MUU_HAS_CHAR8
 
 #include "unicode.h"
 #include "../include/muu/strings.h"
@@ -456,6 +456,6 @@ struct code_unit_func_group<char8_t, 7>
 	};
 };
 
-#endif // __cpp_char8_t
+#endif // MUU_HAS_CHAR8
 // clang-format on
 

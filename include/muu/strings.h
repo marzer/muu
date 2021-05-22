@@ -7,10 +7,12 @@
 /// \brief Functions to simplify working with strings.
 
 #pragma once
+#include "core.h"
 #include "chars.h"
 #include "string_param.h"
 
 MUU_DISABLE_WARNINGS;
+#include <cstring>
 #include <string>
 #include <string_view>
 #include <iosfwd>
@@ -121,7 +123,7 @@ namespace muu
 			{
 				(*this)(static_cast<uint8_t>(code_unit));
 			}
-	#ifdef __cpp_char8_t
+	#if MUU_HAS_CHAR8
 			constexpr void operator()(char8_t code_unit) noexcept
 			{
 				(*this)(static_cast<uint8_t>(code_unit));
@@ -290,20 +292,20 @@ namespace muu
 				if constexpr (std::is_convertible_v<func_return_type, bool>)
 				{
 					if constexpr (std::is_nothrow_invocable_v<Func&&, T, size_t, size_t>)
-						return !static_cast<bool>(std::forward<decltype(f)>(f)(cp, cu_start, cu_count));
+						return !static_cast<bool>(static_cast<decltype(f)&&>(f)(cp, cu_start, cu_count));
 					else if constexpr (std::is_nothrow_invocable_v<Func&&, T, size_t>)
-						return !static_cast<bool>(std::forward<decltype(f)>(f)(cp, cu_start));
+						return !static_cast<bool>(static_cast<decltype(f)&&>(f)(cp, cu_start));
 					else
-						return !static_cast<bool>(std::forward<decltype(f)>(f)(cp));
+						return !static_cast<bool>(static_cast<decltype(f)&&>(f)(cp));
 				}
 				else
 				{
 					if constexpr (std::is_nothrow_invocable_v<Func&&, T, size_t, size_t>)
-						std::forward<decltype(f)>(f)(cp, cu_start, cu_count);
+						static_cast<decltype(f)&&>(f)(cp, cu_start, cu_count);
 					else if constexpr (std::is_nothrow_invocable_v<Func&&, T, size_t>)
-						std::forward<decltype(f)>(f)(cp, cu_start);
+						static_cast<decltype(f)&&>(f)(cp, cu_start);
 					else
-						std::forward<decltype(f)>(f)(cp);
+						static_cast<decltype(f)&&>(f)(cp);
 					return false;
 				}
 			};
@@ -908,7 +910,7 @@ namespace muu
 			{
 				std::basic_string<To> out;
 				out.resize(str.length());
-				memcpy(out.data(), str.data(), str.length() * sizeof(From));
+				std::memcpy(out.data(), str.data(), str.length() * sizeof(From));
 				return out;
 			}
 			else

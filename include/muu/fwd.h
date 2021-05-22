@@ -8,6 +8,7 @@
 
 #pragma once
 #include "preprocessor.h"
+#include "impl/environment_checks.h"
 
 //======================================================================================================================
 // NON-MUU TYPEDEFS AND FORWARD DECLARATIONS

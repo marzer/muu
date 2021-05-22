@@ -7,12 +7,15 @@
 /// \brief  Contains the definition of muu::string_param.
 
 #pragma once
-#include "core.h"
+#include "impl/core_meta.h"
 
 MUU_DISABLE_WARNINGS;
 #include <string>
 #include <string_view>
 #include <iosfwd>
+#ifdef __cpp_lib_char8_t
+	#include <cstring>
+#endif
 MUU_ENABLE_WARNINGS;
 
 #include "impl/header_start.h"
@@ -429,7 +432,7 @@ namespace muu
 			{
 				std::string_view str{ *this };
 				out.resize(str.length());
-				memcpy(out.data(), str.data(), str.length());
+				std::memcpy(out.data(), str.data(), str.length());
 			}
 			return out;
 		}

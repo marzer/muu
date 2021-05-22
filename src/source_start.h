@@ -1,5 +1,10 @@
 #include "muu/preprocessor.h"
 
+MUU_DISABLE_WARNINGS;
+#include <new>
+#include <cstring>
+MUU_ENABLE_WARNINGS;
+
 MUU_PUSH_WARNINGS;
 MUU_DISABLE_SPAM_WARNINGS;
 

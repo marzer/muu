@@ -3,9 +3,8 @@
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 
-#include "muu/core.h"
+#include "muu/generic_allocator.h"
 #include "os.h"
-
 #include "source_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 
@@ -17,11 +16,11 @@ namespace
 		{
 			MUU_ASSERT(size > 0u);
 			MUU_ASSERT(alignment > 0u);
-			MUU_ASSERT(has_single_bit(alignment));
+			MUU_ASSERT((alignment & (alignment - 1u)) == 0u);
 
 			MUU_ASSUME(size > 0u);
 			MUU_ASSUME(alignment > 0u);
-			MUU_ASSUME((alignment & (alignment - 1_sz)) == 0_sz);
+			MUU_ASSUME((alignment & (alignment - 1u)) == 0u);
 
 			if (alignment <= __STDCPP_DEFAULT_NEW_ALIGNMENT__)
 			{
@@ -42,7 +41,7 @@ namespace
 
 #ifndef NDEBUG
 				if (ptr)
-					MUU_ASSERT(reinterpret_cast<uintptr_t>(ptr) % alignment == 0_sz);
+					MUU_ASSERT(reinterpret_cast<uintptr_t>(ptr) % alignment == 0u);
 #endif
 
 				return ptr;
@@ -54,12 +53,12 @@ namespace
 			MUU_ASSERT(ptr);
 			MUU_ASSERT(size > 0u);
 			MUU_ASSERT(alignment > 0u);
-			MUU_ASSERT(has_single_bit(alignment));
+			MUU_ASSERT((alignment & (alignment - 1u)) == 0u);
 
 			MUU_ASSUME(ptr);
 			MUU_ASSUME(size > 0u);
 			MUU_ASSUME(alignment > 0u);
-			MUU_ASSUME((alignment & (alignment - 1_sz)) == 0_sz);
+			MUU_ASSUME((alignment & (alignment - 1u)) == 0u);
 
 			MUU_UNUSED(size);
 
