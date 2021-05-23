@@ -3,8 +3,8 @@
   <compound kind="file">
     <name>accumulator.h</name>
     <filename>accumulator_8h.html</filename>
-    <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
     <includes id="compressed__pair_8h" name="compressed_pair.h" local="yes" imported="no">compressed_pair.h</includes>
+    <includes id="math_8h" name="math.h" local="yes" imported="no">math.h</includes>
     <class kind="class">muu::accumulator</class>
     <namespace>muu</namespace>
   </compound>
@@ -13,17 +13,19 @@
     <filename>all_8h.html</filename>
     <includes id="accumulator_8h" name="accumulator.h" local="yes" imported="no">accumulator.h</includes>
     <includes id="blob_8h" name="blob.h" local="yes" imported="no">blob.h</includes>
+    <includes id="bounding__box_8h" name="bounding_box.h" local="yes" imported="no">bounding_box.h</includes>
+    <includes id="chars_8h" name="chars.h" local="yes" imported="no">chars.h</includes>
     <includes id="compressed__pair_8h" name="compressed_pair.h" local="yes" imported="no">compressed_pair.h</includes>
+    <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
     <includes id="emplacement__array_8h" name="emplacement_array.h" local="yes" imported="no">emplacement_array.h</includes>
+    <includes id="generic__allocator_8h" name="generic_allocator.h" local="yes" imported="no">generic_allocator.h</includes>
     <includes id="half_8h" name="half.h" local="yes" imported="no">half.h</includes>
     <includes id="hashing_8h" name="hashing.h" local="yes" imported="no">hashing.h</includes>
     <includes id="math_8h" name="math.h" local="yes" imported="no">math.h</includes>
-    <includes id="vector_8h" name="vector.h" local="yes" imported="no">vector.h</includes>
-    <includes id="quaternion_8h" name="quaternion.h" local="yes" imported="no">quaternion.h</includes>
     <includes id="matrix_8h" name="matrix.h" local="yes" imported="no">matrix.h</includes>
-    <includes id="plane_8h" name="plane.h" local="yes" imported="no">plane.h</includes>
-    <includes id="bounding__box_8h" name="bounding_box.h" local="yes" imported="no">bounding_box.h</includes>
     <includes id="oriented__bounding__box_8h" name="oriented_bounding_box.h" local="yes" imported="no">oriented_bounding_box.h</includes>
+    <includes id="plane_8h" name="plane.h" local="yes" imported="no">plane.h</includes>
+    <includes id="quaternion_8h" name="quaternion.h" local="yes" imported="no">quaternion.h</includes>
     <includes id="scope__guard_8h" name="scope_guard.h" local="yes" imported="no">scope_guard.h</includes>
     <includes id="span_8h" name="span.h" local="yes" imported="no">span.h</includes>
     <includes id="string__param_8h" name="string_param.h" local="yes" imported="no">string_param.h</includes>
@@ -31,11 +33,12 @@
     <includes id="tagged__ptr_8h" name="tagged_ptr.h" local="yes" imported="no">tagged_ptr.h</includes>
     <includes id="thread__pool_8h" name="thread_pool.h" local="yes" imported="no">thread_pool.h</includes>
     <includes id="uuid_8h" name="uuid.h" local="yes" imported="no">uuid.h</includes>
+    <includes id="vector_8h" name="vector.h" local="yes" imported="no">vector.h</includes>
   </compound>
   <compound kind="file">
     <name>blob.h</name>
     <filename>blob_8h.html</filename>
-    <includes id="fwd_8h" name="fwd.h" local="yes" imported="no">fwd.h</includes>
+    <includes id="generic__allocator_8h" name="generic_allocator.h" local="yes" imported="no">generic_allocator.h</includes>
     <class kind="class">muu::blob</class>
     <namespace>muu</namespace>
   </compound>
@@ -75,7 +78,6 @@
   <compound kind="file">
     <name>compressed_pair.h</name>
     <filename>compressed__pair_8h.html</filename>
-    <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
     <class kind="class">muu::compressed_pair</class>
     <class kind="struct">std::tuple_size&lt; muu::compressed_pair&lt; First, Second &gt; &gt;</class>
     <class kind="struct">std::tuple_element&lt; I, muu::compressed_pair&lt; First, Second &gt; &gt;</class>
@@ -84,1158 +86,11 @@
   <compound kind="file">
     <name>core.h</name>
     <filename>core_8h.html</filename>
-    <includes id="fwd_8h" name="fwd.h" local="yes" imported="no">fwd.h</includes>
-    <class kind="struct">muu::constants&lt; float &gt;</class>
-    <class kind="struct">muu::constants&lt; double &gt;</class>
-    <class kind="struct">muu::constants&lt; long double &gt;</class>
-    <class kind="struct">muu::constants&lt; __fp16 &gt;</class>
-    <class kind="struct">muu::constants&lt; _Float16 &gt;</class>
-    <class kind="struct">muu::constants&lt; float128_t &gt;</class>
-    <class kind="struct">muu::constants&lt; char &gt;</class>
-    <class kind="struct">muu::constants&lt; wchar_t &gt;</class>
-    <class kind="struct">muu::constants&lt; char16_t &gt;</class>
-    <class kind="struct">muu::constants&lt; char32_t &gt;</class>
-    <class kind="struct">muu::constants&lt; signed char &gt;</class>
-    <class kind="struct">muu::constants&lt; unsigned char &gt;</class>
-    <class kind="struct">muu::constants&lt; signed short &gt;</class>
-    <class kind="struct">muu::constants&lt; unsigned short &gt;</class>
-    <class kind="struct">muu::constants&lt; signed int &gt;</class>
-    <class kind="struct">muu::constants&lt; unsigned int &gt;</class>
-    <class kind="struct">muu::constants&lt; signed long &gt;</class>
-    <class kind="struct">muu::constants&lt; unsigned long &gt;</class>
-    <class kind="struct">muu::constants&lt; signed long long &gt;</class>
-    <class kind="struct">muu::constants&lt; unsigned long long &gt;</class>
-    <class kind="struct">muu::constants&lt; int128_t &gt;</class>
-    <class kind="struct">muu::constants&lt; uint128_t &gt;</class>
-    <class kind="struct">muu::generic_allocator</class>
-    <namespace>muu</namespace>
-    <namespace>muu::literals</namespace>
-    <namespace>muu::build</namespace>
-    <member kind="typedef">
-      <type>std::remove_cv_t&lt; std::remove_reference_t&lt; T &gt; &gt;</type>
-      <name>remove_cvref</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga3cac44d2af43c4fd98e835ff5b28988a</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>typename impl::remove_enum_&lt; T &gt;::type</type>
-      <name>remove_enum</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga4f0f94bba132e44d22663319f05d2ea8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>typename impl::largest_&lt; T... &gt;::type</type>
-      <name>largest</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga7c930af45d2e06539c2a3dfcc908a854</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>typename impl::smallest_&lt; T... &gt;::type</type>
-      <name>smallest</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga9cd7c756a0397747aa065ac54ddbf46b</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>typename impl::most_aligned_&lt; T... &gt;::type</type>
-      <name>most_aligned</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga62680f064b38d875edbcb08604a2736d</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>typename impl::least_aligned_&lt; T... &gt;::type</type>
-      <name>least_aligned</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaeb94aca04351ff030dae9dff706fe05c</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>typename impl::rebase_ref_&lt; T, std::add_const_t&lt; std::remove_reference_t&lt; T &gt; &gt;&gt;::type</type>
-      <name>add_const</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga6c121fbd44449d05f6a34f26d51d923f</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>typename impl::rebase_ref_&lt; T, std::remove_const_t&lt; std::remove_reference_t&lt; T &gt; &gt;&gt;::type</type>
-      <name>remove_const</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga6d7666d41f4b1baa5e5b030e85d145c1</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>std::conditional_t&lt; Const, add_const&lt; T &gt;, remove_const&lt; T &gt; &gt;</type>
-      <name>set_const</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga70ea61c88a2156d5ca0576b338692597</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>std::conditional_t&lt; AddConst, add_const&lt; T &gt;, T &gt;</type>
-      <name>conditionally_add_const</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga23ee95c345637ff50a6cc88c4fb0d031</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>set_const&lt; T, is_const&lt; MatchWith &gt; &gt;</type>
-      <name>match_const</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga7f199f436b29ee4f17d93f06ff3af691</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>typename impl::rebase_ref_&lt; T, std::add_volatile_t&lt; std::remove_reference_t&lt; T &gt; &gt;&gt;::type</type>
-      <name>add_volatile</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaf658a920120d44cf78a83198479de23c</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>typename impl::rebase_ref_&lt; T, std::remove_volatile_t&lt; std::remove_reference_t&lt; T &gt; &gt;&gt;::type</type>
-      <name>remove_volatile</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gabb6c34cb7b210e52a6d0d9e53234696b</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>std::conditional_t&lt; Volatile, add_volatile&lt; T &gt;, remove_volatile&lt; T &gt; &gt;</type>
-      <name>set_volatile</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga3216c56b6dfa3cd6045818d2f8e09612</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>std::conditional_t&lt; AddVolatile, add_volatile&lt; T &gt;, T &gt;</type>
-      <name>conditionally_add_volatile</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga5387101d09160941cca73a48954eb7af</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>set_volatile&lt; T, is_volatile&lt; MatchWith &gt; &gt;</type>
-      <name>match_volatile</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaee2c9dcc0f981214aa7ee3faec5a2ff8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>typename impl::rebase_ref_&lt; T, std::add_volatile_t&lt; std::add_const_t&lt; std::remove_reference_t&lt; T &gt; &gt;&gt; &gt;::type</type>
-      <name>add_cv</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga946998d98f22705d1e955cc213187310</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>typename impl::rebase_ref_&lt; T, std::remove_volatile_t&lt; std::remove_const_t&lt; std::remove_reference_t&lt; T &gt; &gt;&gt; &gt;::type</type>
-      <name>remove_cv</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga3d3fbe6cee41ab6b225058f8d29a17d4</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>std::conditional_t&lt; ConstVolatile, add_cv&lt; T &gt;, remove_cv&lt; T &gt; &gt;</type>
-      <name>set_cv</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga75174a7728c44e0ef2c5c573910945d7</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>std::conditional_t&lt; AddConstVolatile, add_cv&lt; T &gt;, T &gt;</type>
-      <name>conditionally_add_cv</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaccbf5f71e9b673c2f490c0c0406042ac</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>match_const&lt; match_volatile&lt; T, MatchWith &gt;, MatchWith &gt;</type>
-      <name>match_cv</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga3ebb8edda949ae4da9d7c4d0293efeb9</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>typename impl::remove_noexcept_&lt; T &gt;::type</type>
-      <name>remove_noexcept</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaf61a06bf998aa195a3ec21cc20c4f348</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>typename impl::rebase_pointer_&lt; Ptr, NewBase &gt;::type</type>
-      <name>rebase_pointer</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga29769609b73728e3b7814d36a7e0c335</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>typename impl::make_signed_&lt; T &gt;::type</type>
-      <name>make_signed</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga8723b987045c7b40be5ce133a46e899c</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>typename impl::make_unsigned_&lt; T &gt;::type</type>
-      <name>make_unsigned</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga5f3932e1b40c23bd953e0444340aa1bf</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>std::conditional_t&lt; Signed, make_signed&lt; T &gt;, make_unsigned&lt; T &gt; &gt;</type>
-      <name>set_signed</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gafed1fc9809926331d0cdfb6ea3c1cb7c</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>std::conditional_t&lt; Unsigned, make_unsigned&lt; T &gt;, make_signed&lt; T &gt; &gt;</type>
-      <name>set_unsigned</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga53618440cb88b6a660781cd80eff06cb</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>typename impl::type_identity_&lt; T &gt;::type</type>
-      <name>type_identity</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga8b8f215acad0e9f3d7aa52326155f030</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>typename impl::unsigned_integer_&lt; Bits &gt;::type</type>
-      <name>unsigned_integer</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga47a90ed3608cf7b0bf562f4ad208cd21</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>typename impl::signed_integer_&lt; Bits &gt;::type</type>
-      <name>signed_integer</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga4f67907a17de3414f8f0340716e987d4</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>typename impl::remove_all_pointers_&lt; T &gt;::type</type>
-      <name>remove_all_pointers</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaff6410affb3cb93013482639fcaea000</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>impl::std_math_common_type&lt; remove_cvref&lt; T &gt;... &gt;</type>
-      <name>epsilon_type</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga25162e97f327cfee39320e501bdb2697</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr size_t</type>
-      <name>operator&quot;&quot;_sz</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>ac7cce4c07975fb4f279efb145f138f46</anchor>
-      <arglist>(unsigned long long n) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr size_t</type>
-      <name>operator&quot;&quot;_b</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a0610560ecd34fdfbd35dc1ad13878e82</anchor>
-      <arglist>(unsigned long long b) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr size_t</type>
-      <name>operator&quot;&quot;_kb</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a48ff3748178e59016dea7b5dd3ddaa0a</anchor>
-      <arglist>(unsigned long long kb) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr size_t</type>
-      <name>operator&quot;&quot;_mb</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a91f862c0a9d1903914be0aca0ae38593</anchor>
-      <arglist>(unsigned long long mb) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr size_t</type>
-      <name>operator&quot;&quot;_gb</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a2c22317398887c0a4a105b13fc55de35</anchor>
-      <arglist>(unsigned long long gb) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr uint8_t</type>
-      <name>operator&quot;&quot;_u8</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a36dc4280bf55a78f92503fc6a2216ef5</anchor>
-      <arglist>(unsigned long long n) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr uint16_t</type>
-      <name>operator&quot;&quot;_u16</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>af54dddb5b8960951e398306feae40eb0</anchor>
-      <arglist>(unsigned long long n) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr uint32_t</type>
-      <name>operator&quot;&quot;_u32</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>ae921845da59c738221bbb97e9f418f72</anchor>
-      <arglist>(unsigned long long n) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr uint64_t</type>
-      <name>operator&quot;&quot;_u64</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a1ee7ac59a10fb6d444883d13925796a0</anchor>
-      <arglist>(unsigned long long n) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int8_t</type>
-      <name>operator&quot;&quot;_i8</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a43a15b4448799e0e02621d9bf08104a1</anchor>
-      <arglist>(unsigned long long n) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int16_t</type>
-      <name>operator&quot;&quot;_i16</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>aebdabb8a45196bbc6b42c4a1aba1da70</anchor>
-      <arglist>(unsigned long long n) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int32_t</type>
-      <name>operator&quot;&quot;_i32</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a8bb8faeb0d317043b2c445b2920ed11e</anchor>
-      <arglist>(unsigned long long n) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int64_t</type>
-      <name>operator&quot;&quot;_i64</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>aa5ad5a0882c5fff84a7d5e61d836507e</anchor>
-      <arglist>(unsigned long long n) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int128_t</type>
-      <name>operator&quot;&quot;_i128</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>aa0b0811f9ce6527d86c69109a89f7fcc</anchor>
-      <arglist>(unsigned long long n) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr uint128_t</type>
-      <name>operator&quot;&quot;_u128</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a9e8a35fefddabd1aa96c32f7d22061ea</anchor>
-      <arglist>(unsigned long long n) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>is_constant_evaluated</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga8a9b0aaf9860b30f93639333a5214d34</anchor>
-      <arglist>() noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T *</type>
-      <name>launder</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga279c303aaba76a43d1dc23834c35f857</anchor>
-      <arglist>(T *ptr) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr std::underlying_type_t&lt; T &gt;</type>
-      <name>unwrap</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga81642f54291cc4a1287ef141b3f4d34f</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>countl_zero</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga12cd318fdcf736ca99f5bf66aa615fd1</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>countr_zero</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab5b51a3c121984cfddb8d5da4e9bf070</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>countl_one</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gadf75326611fa43dbacc1ff601e9e969b</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>countr_one</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga84963e1a7bf75ec7464cda53b26dec8a</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>bit_ceil</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gae62fd9413cd433a4e15c0fdf89913a1b</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr auto</type>
-      <name>pack</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gafd5ebb4cf00dd4b93188521f0a2196e2</anchor>
-      <arglist>(T val1, U val2, V... vals) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr To</type>
-      <name>bit_cast</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gaadb4c6332c738c248f84f43ece303657</anchor>
-      <arglist>(const From &amp;from) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr To</type>
-      <name>pointer_cast</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab714a50e01b58e7d4117d5ef9d403d39</anchor>
-      <arglist>(From from) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T *</type>
-      <name>apply_offset</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga95da5073b863161a6542266f4a6c5961</anchor>
-      <arglist>(T *ptr, Offset offset) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const T &amp;</type>
-      <name>min</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gacc52016e295ef88268bd5835a23b69d8</anchor>
-      <arglist>(const T &amp;val1, const T &amp;val2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const T &amp;</type>
-      <name>max</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga67052cab1c45673f85ee326e91aafbde</anchor>
-      <arglist>(const T &amp;val1, const T &amp;val2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const T &amp;</type>
-      <name>clamp</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga853b138ba34af796906a03cda9dbfabe</anchor>
-      <arglist>(const T &amp;val, const T &amp;low, const T &amp;high) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>between</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga108fd48e10e2c18acbaaf9f611b14d5b</anchor>
-      <arglist>(T val, U low, U high) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>popcount</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab392bc74729da41c4d226f8d45e58599</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>has_single_bit</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga309ac880015add971ee06b148191060f</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>bit_floor</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga0ef1d5961e901e2d52b3d6be07efe201</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>bit_width</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga1a764507fe486799f60eac32c622e63e</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>bit_fill_right</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab5cb8d563f61573ca1e2827ddd085d3d</anchor>
-      <arglist>(size_t count) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>bit_fill_left</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gaf41f6cc12b0e9ac1de1bdf63e2a28fdf</anchor>
-      <arglist>(size_t count) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr uint8_t</type>
-      <name>byte_select</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gae644160cd7d978d95922af233afc5ddd</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr uint8_t</type>
-      <name>byte_select</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga18d1da41b1d53329c0d0605596494010</anchor>
-      <arglist>(T val, size_t index) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>byte_reverse</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab3e8f4f75d417dc6880311de6c9306e9</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr auto</type>
-      <name>swizzle</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga1aaa24bb10d08ad78c86695baabc1857</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T *</type>
-      <name>to_address</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga79246c66d2df39fe825be13e654d8c52</anchor>
-      <arglist>(T *p) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr auto</type>
-      <name>to_address</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga4ba4d37d254803b31a71fca161a46420</anchor>
-      <arglist>(const Ptr &amp;p) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T *</type>
-      <name>assume_aligned</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gaf58f3326aea89653ec725ccbc5ff29d2</anchor>
-      <arglist>(T *ptr) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr void</type>
-      <name>for_sequence</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab64801b0b03f54c51a21000e8bb95ea1</anchor>
-      <arglist>(Func &amp;&amp;func) noexcept(impl::for_sequence_noexcept_&lt; N, Func &gt;)</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>apply_alignment</name>
-      <anchorfile>group__apply__alignment.html</anchorfile>
-      <anchor>ga6aae2e7be0cb15bed51d7cb636602c5f</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T *</type>
-      <name>apply_alignment</name>
-      <anchorfile>group__apply__alignment.html</anchorfile>
-      <anchor>gae89c7cea139581038d585201d5b3bfee</anchor>
-      <arglist>(T *ptr) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>apply_alignment</name>
-      <anchorfile>group__apply__alignment.html</anchorfile>
-      <anchor>ga7cd587549d099b4323fda37f23097e04</anchor>
-      <arglist>(T val, size_t alignment) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T *</type>
-      <name>apply_alignment</name>
-      <anchorfile>group__apply__alignment.html</anchorfile>
-      <anchor>ga7afe47820cb2e0951bf755832ce108be</anchor>
-      <arglist>(T *ptr, size_t alignment) noexcept</arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr size_t</type>
-      <name>total_size</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga3b7e16d2f90358811bc6231eb993ff33</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr size_t</type>
-      <name>alignment_of</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga693c421331c5f268eb2e2fdd318368fd</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_same_as_any</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga526c58b5a438ba0c7746e465389e013d</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>all_same</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga9c2b21ea2cf57533a5dcf264d0e906e8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_implicitly_convertible</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga05ccb72a3320555db5a5115cd85d6691</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_implicitly_convertible_to_any</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga022ab99547d2892239187f83bd0644f0</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_implicitly_convertible_to_all</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga3958a07eb93e42c5e6b1f65366d58968</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>all_implicitly_convertible_to</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga02add24d1eebc3839d917c0691cd6e0d</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_explicitly_convertible</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga67e98114af69303c9e5f65e56056cd06</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_explicitly_convertible_to_any</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gafd769d61abf0eea21cb8c95ab32ebc0a</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_explicitly_convertible_to_all</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gabc0a354ed72c2bc9b631b10cd9c4f451</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>all_explicitly_convertible_to</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga3034c2e89b1b9fb97c2afc24f285c175</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_convertible</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga525ce1f7e17d4abf8fae0c6aa5fd26cc</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_convertible_to_any</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaec35a37d461e7b8b6b6a92296c75c5fd</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_convertible_to_all</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga622faeced84d6fc02ccadcecd020e78a</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>all_convertible_to</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga20d0844251aba1af5b372c44803999eb</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_implicitly_nothrow_convertible</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga756aec06547ff6bd69c7f51bb4d01e46</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_implicitly_nothrow_convertible_to_any</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga2559c7587af80489da97126e645da89d</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_implicitly_nothrow_convertible_to_all</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaf0de9802b973764be7848a020088f961</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>all_implicitly_nothrow_convertible_to</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga5acc7a33b8fd21e0b8805f26d9ac992d</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_explicitly_nothrow_convertible</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gab20c2a24d63c89812c535f0a986b958d</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_explicitly_nothrow_convertible_to_any</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga3f32761c6e60e709f4e6e4b6874230a8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_explicitly_nothrow_convertible_to_all</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gadbb31fed4f56fa8869ea860a4b330f7f</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>all_explicitly_nothrow_convertible_to</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga6d0bc59b0f1a3247d4e42c39d2f00dd1</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_nothrow_convertible</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga090993f769edb7c30da887d3b6f71f23</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_nothrow_convertible_to_any</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga324c6e94dfe58e068c531e55c15ea9a4</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_nothrow_convertible_to_all</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga0ada082fe05220bf0aaca76cba7f9e83</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>all_nothrow_convertible_to</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga465e6a6c912b71ca29cf4abf4575bf4f</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_enum</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaf1d5da5278f527b501cecffdd38e2e7d</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>any_enum</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gabc989dd91eaeb76cf275afe1e1de94bf</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>all_enum</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gafaa3803206e27df19fde422d3b1eb540</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_scoped_enum</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga54c8d27010a9c661dba826d90f0c9ace</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_legacy_enum</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga0ad880900bc41c21a698d9114f333e3d</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_unsigned</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga9e9c5b2e65e4f784d2a6b52b6a33a34f</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>any_unsigned</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga3bb31ded23944badda78774761206c09</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>all_unsigned</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaa29a6fbd7e596e20dd8769aefc3cd51e</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_signed</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga8692cd4c2e3c8e2b0167a5a586f1f6e1</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>any_signed</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga68d2257a9ace0f37200d05117931baed</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>all_signed</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaa7a73625bc705a9021924a54729c192e</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_integral</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga6283839d5536a4ee096adccee42b88c5</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>any_integral</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga531166c296beeb911cb00d6ce826d3e8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>all_integral</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga02060371498ff52c8d225e379fe00975</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_floating_point</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gae74155e0cf085141e1923124718915a4</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>any_floating_point</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gadcd85258054ff54b7d0dd7f875185bf0</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>all_floating_point</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gad2165666bd79caf59277b9c4488a1bde</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_standard_arithmetic</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga31dc0c880276019ff4dc15c27db38541</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_extended_arithmetic</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga92c7057e770b054e9d54bb28d60badea</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_arithmetic</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga62cd2e27697815af581b5a8584fd1f76</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>any_arithmetic</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gad067ec94bd319f3cd1b8406d5d208701</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>all_arithmetic</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaccb79366bc73cbc96f8a6317fead16f1</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_const</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga79cf1d440a2967847a6d0a08dc22fa19</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_volatile</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaa1afdcda38765572b01f8112bea59913</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_cvref</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga21f392701d987b745866ab36fa3c6242</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>inherits_from</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gad99449272de65874d3b7569d9eb9e805</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>always_false</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaa4c92e65e153e9a6c9ac01ba3bd653e5</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_code_unit</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga0e1dddeef206a9a47a8223994c219cd3</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr size_t</type>
-      <name>pointer_rank</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gae9cd96c20c0f16e1e1eac99e798724ce</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr auto</type>
-      <name>is_detected</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gab4f017e4e9376c59602a97b3e725389c</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>has_arrow_operator</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gafc3c409c2d08bc8913db5ad46a84e0b9</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>has_unary_plus_operator</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaf2a9f6988557f79f960a87dccb414b15</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_tuple_like</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga07b1449019c885977279ee3afedb3b4f</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr size_t</type>
-      <name>tuple_size</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gabe21403c5219a3959df510427b829038</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr epsilon_type&lt; T... &gt;</type>
-      <name>default_epsilon</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga1d7ffe385c4b8f4558d170f50f5eb79a</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr uint32_t</type>
-      <name>cpp_version</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>ab15a2e5c61489ea57d76304612871b2c</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr uint32_t</type>
-      <name>year</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>a60ed708127e16b82cccf0db04f219969</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr uint32_t</type>
-      <name>month</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>a1b206904913622e2851364180dffa147</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr uint32_t</type>
-      <name>day</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>a8d9bd9685ff101794faacdc43206d662</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr uint32_t</type>
-      <name>hour</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>a3a236f2f2246b352c3d0fddb6f898307</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr uint32_t</type>
-      <name>minute</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>af7c47c598d8d8be8f43083f593a89f6e</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr uint32_t</type>
-      <name>second</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>a0a58816aa6112236ab15e6f83ef7ccb5</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr size_t</type>
-      <name>bitness</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>a059f47a1fea406df07928d18ba89e7c7</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr size_t</type>
-      <name>bits_per_byte</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>ac1422aad32070ebc2bdba6500e87bc6c</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr size_t</type>
-      <name>pointer_size</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>ae50337fa6f6a72d069a0a0898e36dd08</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>has_exceptions</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>a94df782020722e17c9d359931c92134e</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>has_rtti</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>ae2ac1a89ce5084508f06a8fc3046dfb6</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_little_endian</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>af693226bafb2cf34c54e24b92be66c25</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_big_endian</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>a4d2e05f091c6116d15b6de7ec51c213c</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>supports_is_constant_evaluated</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>a8398d41dfdf02da1234b776f754bbb3d</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>supports_constexpr_bit_cast</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>a5ee6b53a87bd46b2bf84f2bea9e2a0b5</anchor>
-      <arglist></arglist>
-    </member>
   </compound>
   <compound kind="file">
     <name>emplacement_array.h</name>
     <filename>emplacement__array_8h.html</filename>
-    <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
+    <includes id="generic__allocator_8h" name="generic_allocator.h" local="yes" imported="no">generic_allocator.h</includes>
     <class kind="class">muu::emplacement_array</class>
     <namespace>muu</namespace>
   </compound>
@@ -1275,6 +130,12 @@
       <anchor>ga824ac2b58e006d4be8d4b0d6a0f7180d</anchor>
       <arglist></arglist>
     </member>
+  </compound>
+  <compound kind="file">
+    <name>generic_allocator.h</name>
+    <filename>generic__allocator_8h.html</filename>
+    <class kind="struct">muu::generic_allocator</class>
+    <namespace>muu</namespace>
   </compound>
   <compound kind="file">
     <name>half.h</name>
@@ -2459,6 +1320,7 @@
   </compound>
   <compound kind="file">
     <name>preprocessor.h</name>
+    <path>/root/project/include/muu/</path>
     <filename>preprocessor_8h.html</filename>
     <member kind="define">
       <type>#define</type>
@@ -3078,6 +1940,13 @@
     </member>
     <member kind="define">
       <type>#define</type>
+      <name>MUU_HAS_CHAR8</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga3c123483a9bd8a9d00279f0b65eace83</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
       <name>MUU_OFFSETOF</name>
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>gafa04ab1dd3ac1da5ddbd3df2bbadf4a1</anchor>
@@ -3212,7 +2081,6 @@
     <name>string_param.h</name>
     <path>/root/project/include/muu/</path>
     <filename>string__param_8h.html</filename>
-    <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
     <class kind="class">muu::string_param</class>
     <namespace>muu</namespace>
   </compound>
@@ -3220,6 +2088,7 @@
     <name>strings.h</name>
     <path>/root/project/include/muu/</path>
     <filename>strings_8h.html</filename>
+    <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
     <includes id="chars_8h" name="chars.h" local="yes" imported="no">chars.h</includes>
     <includes id="string__param_8h" name="string_param.h" local="yes" imported="no">string_param.h</includes>
     <namespace>muu</namespace>
@@ -3356,6 +2225,7 @@
     <path>/root/project/include/muu/</path>
     <filename>thread__pool_8h.html</filename>
     <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
+    <includes id="generic__allocator_8h" name="generic_allocator.h" local="yes" imported="no">generic_allocator.h</includes>
     <includes id="string__param_8h" name="string_param.h" local="yes" imported="no">string_param.h</includes>
     <class kind="class">muu::thread_pool</class>
     <namespace>muu</namespace>
@@ -4605,6 +3475,10 @@
   <compound kind="struct">
     <name>muu::constants&lt; char32_t &gt;</name>
     <filename>structmuu_1_1constants_3_01char32__t_01_4.html</filename>
+  </compound>
+  <compound kind="struct">
+    <name>muu::constants&lt; char8_t &gt;</name>
+    <filename>structmuu_1_1constants_3_01char8__t_01_4.html</filename>
   </compound>
   <compound kind="struct">
     <name>muu::constants&lt; double &gt;</name>
@@ -9560,31 +8434,9 @@
     <class kind="class">muu::blob</class>
     <class kind="struct">muu::bounding_box</class>
     <class kind="class">muu::compressed_pair</class>
-    <class kind="struct">muu::constants&lt; float &gt;</class>
-    <class kind="struct">muu::constants&lt; double &gt;</class>
-    <class kind="struct">muu::constants&lt; long double &gt;</class>
-    <class kind="struct">muu::constants&lt; __fp16 &gt;</class>
-    <class kind="struct">muu::constants&lt; _Float16 &gt;</class>
-    <class kind="struct">muu::constants&lt; float128_t &gt;</class>
-    <class kind="struct">muu::constants&lt; char &gt;</class>
-    <class kind="struct">muu::constants&lt; wchar_t &gt;</class>
-    <class kind="struct">muu::constants&lt; char16_t &gt;</class>
-    <class kind="struct">muu::constants&lt; char32_t &gt;</class>
-    <class kind="struct">muu::constants&lt; signed char &gt;</class>
-    <class kind="struct">muu::constants&lt; unsigned char &gt;</class>
-    <class kind="struct">muu::constants&lt; signed short &gt;</class>
-    <class kind="struct">muu::constants&lt; unsigned short &gt;</class>
-    <class kind="struct">muu::constants&lt; signed int &gt;</class>
-    <class kind="struct">muu::constants&lt; unsigned int &gt;</class>
-    <class kind="struct">muu::constants&lt; signed long &gt;</class>
-    <class kind="struct">muu::constants&lt; unsigned long &gt;</class>
-    <class kind="struct">muu::constants&lt; signed long long &gt;</class>
-    <class kind="struct">muu::constants&lt; unsigned long long &gt;</class>
-    <class kind="struct">muu::constants&lt; int128_t &gt;</class>
-    <class kind="struct">muu::constants&lt; uint128_t &gt;</class>
-    <class kind="struct">muu::generic_allocator</class>
     <class kind="class">muu::emplacement_array</class>
     <class kind="struct">muu::constants</class>
+    <class kind="struct">muu::generic_allocator</class>
     <class kind="struct">muu::half</class>
     <class kind="struct">muu::constants&lt; half &gt;</class>
     <class kind="class">muu::hash_combiner</class>
@@ -9610,6 +8462,71 @@
     <class kind="struct">muu::constants&lt; uuid &gt;</class>
     <class kind="struct">muu::vector</class>
     <class kind="struct">muu::constants&lt; vector&lt; Scalar, Dimensions &gt; &gt;</class>
+    <class kind="struct">muu::constants&lt; float &gt;</class>
+    <class kind="struct">muu::constants&lt; double &gt;</class>
+    <class kind="struct">muu::constants&lt; long double &gt;</class>
+    <class kind="struct">muu::constants&lt; __fp16 &gt;</class>
+    <class kind="struct">muu::constants&lt; _Float16 &gt;</class>
+    <class kind="struct">muu::constants&lt; float128_t &gt;</class>
+    <class kind="struct">muu::constants&lt; char &gt;</class>
+    <class kind="struct">muu::constants&lt; wchar_t &gt;</class>
+    <class kind="struct">muu::constants&lt; char8_t &gt;</class>
+    <class kind="struct">muu::constants&lt; char16_t &gt;</class>
+    <class kind="struct">muu::constants&lt; char32_t &gt;</class>
+    <class kind="struct">muu::constants&lt; signed char &gt;</class>
+    <class kind="struct">muu::constants&lt; unsigned char &gt;</class>
+    <class kind="struct">muu::constants&lt; signed short &gt;</class>
+    <class kind="struct">muu::constants&lt; unsigned short &gt;</class>
+    <class kind="struct">muu::constants&lt; signed int &gt;</class>
+    <class kind="struct">muu::constants&lt; unsigned int &gt;</class>
+    <class kind="struct">muu::constants&lt; signed long &gt;</class>
+    <class kind="struct">muu::constants&lt; unsigned long &gt;</class>
+    <class kind="struct">muu::constants&lt; signed long long &gt;</class>
+    <class kind="struct">muu::constants&lt; unsigned long long &gt;</class>
+    <class kind="struct">muu::constants&lt; int128_t &gt;</class>
+    <class kind="struct">muu::constants&lt; uint128_t &gt;</class>
+    <member kind="typedef">
+      <type>__int128_t</type>
+      <name>int128_t</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gaf8e0aa5a37ec05e07c7b69077de9303c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>__uint128_t</type>
+      <name>uint128_t</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gaa82164a62949a1b029695dff5441d577</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>__float128</type>
+      <name>float128_t</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga74a70ec9e3331f37ebbc3e875e183861</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>span&lt; const T &gt;</type>
+      <name>const_span</name>
+      <anchorfile>group__mem.html</anchorfile>
+      <anchor>ga9e0fc89cb7b1f651110f32365aba1790</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>span&lt; std::byte &gt;</type>
+      <name>byte_span</name>
+      <anchorfile>group__mem.html</anchorfile>
+      <anchor>gae6d7d07e5320ddbc969461099bd00db0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>span&lt; const std::byte &gt;</type>
+      <name>const_byte_span</name>
+      <anchorfile>group__mem.html</anchorfile>
+      <anchor>gaefedbd706a97f094756e86befffcf178</anchor>
+      <arglist></arglist>
+    </member>
     <member kind="typedef">
       <type>std::remove_cv_t&lt; std::remove_reference_t&lt; T &gt; &gt;</type>
       <name>remove_cvref</name>
@@ -9834,48 +8751,6 @@
       <anchor>ga25162e97f327cfee39320e501bdb2697</anchor>
       <arglist></arglist>
     </member>
-    <member kind="typedef">
-      <type>__int128_t</type>
-      <name>int128_t</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gaf8e0aa5a37ec05e07c7b69077de9303c</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>__uint128_t</type>
-      <name>uint128_t</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gaa82164a62949a1b029695dff5441d577</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>__float128</type>
-      <name>float128_t</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga74a70ec9e3331f37ebbc3e875e183861</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>span&lt; const T &gt;</type>
-      <name>const_span</name>
-      <anchorfile>group__mem.html</anchorfile>
-      <anchor>ga9e0fc89cb7b1f651110f32365aba1790</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>span&lt; std::byte &gt;</type>
-      <name>byte_span</name>
-      <anchorfile>group__mem.html</anchorfile>
-      <anchor>gae6d7d07e5320ddbc969461099bd00db0</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>span&lt; const std::byte &gt;</type>
-      <name>const_byte_span</name>
-      <anchorfile>group__mem.html</anchorfile>
-      <anchor>gaefedbd706a97f094756e86befffcf178</anchor>
-      <arglist></arglist>
-    </member>
     <member kind="enumeration">
       <type></type>
       <name>uuid_variant</name>
@@ -9937,244 +8812,6 @@
       <anchorfile>group__approx__zero.html</anchorfile>
       <anchor>ga75782bf3bacf4ef690b1811d84c9f7ea</anchor>
       <arglist>(const bounding_box&lt; S &gt; &amp;q, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>is_constant_evaluated</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga8a9b0aaf9860b30f93639333a5214d34</anchor>
-      <arglist>() noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T *</type>
-      <name>launder</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga279c303aaba76a43d1dc23834c35f857</anchor>
-      <arglist>(T *ptr) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr std::underlying_type_t&lt; T &gt;</type>
-      <name>unwrap</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga81642f54291cc4a1287ef141b3f4d34f</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>countl_zero</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga12cd318fdcf736ca99f5bf66aa615fd1</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>countr_zero</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab5b51a3c121984cfddb8d5da4e9bf070</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>countl_one</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gadf75326611fa43dbacc1ff601e9e969b</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>countr_one</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga84963e1a7bf75ec7464cda53b26dec8a</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>bit_ceil</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gae62fd9413cd433a4e15c0fdf89913a1b</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr auto</type>
-      <name>pack</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gafd5ebb4cf00dd4b93188521f0a2196e2</anchor>
-      <arglist>(T val1, U val2, V... vals) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr To</type>
-      <name>bit_cast</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gaadb4c6332c738c248f84f43ece303657</anchor>
-      <arglist>(const From &amp;from) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr To</type>
-      <name>pointer_cast</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab714a50e01b58e7d4117d5ef9d403d39</anchor>
-      <arglist>(From from) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T *</type>
-      <name>apply_offset</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga95da5073b863161a6542266f4a6c5961</anchor>
-      <arglist>(T *ptr, Offset offset) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const T &amp;</type>
-      <name>min</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gacc52016e295ef88268bd5835a23b69d8</anchor>
-      <arglist>(const T &amp;val1, const T &amp;val2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const T &amp;</type>
-      <name>max</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga67052cab1c45673f85ee326e91aafbde</anchor>
-      <arglist>(const T &amp;val1, const T &amp;val2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const T &amp;</type>
-      <name>clamp</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga853b138ba34af796906a03cda9dbfabe</anchor>
-      <arglist>(const T &amp;val, const T &amp;low, const T &amp;high) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>between</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga108fd48e10e2c18acbaaf9f611b14d5b</anchor>
-      <arglist>(T val, U low, U high) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>popcount</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab392bc74729da41c4d226f8d45e58599</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>has_single_bit</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga309ac880015add971ee06b148191060f</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>bit_floor</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga0ef1d5961e901e2d52b3d6be07efe201</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>bit_width</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga1a764507fe486799f60eac32c622e63e</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>bit_fill_right</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab5cb8d563f61573ca1e2827ddd085d3d</anchor>
-      <arglist>(size_t count) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>bit_fill_left</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gaf41f6cc12b0e9ac1de1bdf63e2a28fdf</anchor>
-      <arglist>(size_t count) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr uint8_t</type>
-      <name>byte_select</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gae644160cd7d978d95922af233afc5ddd</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr uint8_t</type>
-      <name>byte_select</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga18d1da41b1d53329c0d0605596494010</anchor>
-      <arglist>(T val, size_t index) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>byte_reverse</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab3e8f4f75d417dc6880311de6c9306e9</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr auto</type>
-      <name>swizzle</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga1aaa24bb10d08ad78c86695baabc1857</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T *</type>
-      <name>to_address</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga79246c66d2df39fe825be13e654d8c52</anchor>
-      <arglist>(T *p) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr auto</type>
-      <name>to_address</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga4ba4d37d254803b31a71fca161a46420</anchor>
-      <arglist>(const Ptr &amp;p) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T *</type>
-      <name>assume_aligned</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gaf58f3326aea89653ec725ccbc5ff29d2</anchor>
-      <arglist>(T *ptr) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr void</type>
-      <name>for_sequence</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab64801b0b03f54c51a21000e8bb95ea1</anchor>
-      <arglist>(Func &amp;&amp;func) noexcept(impl::for_sequence_noexcept_&lt; N, Func &gt;)</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>apply_alignment</name>
-      <anchorfile>group__apply__alignment.html</anchorfile>
-      <anchor>ga6aae2e7be0cb15bed51d7cb636602c5f</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T *</type>
-      <name>apply_alignment</name>
-      <anchorfile>group__apply__alignment.html</anchorfile>
-      <anchor>gae89c7cea139581038d585201d5b3bfee</anchor>
-      <arglist>(T *ptr) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>apply_alignment</name>
-      <anchorfile>group__apply__alignment.html</anchorfile>
-      <anchor>ga7cd587549d099b4323fda37f23097e04</anchor>
-      <arglist>(T val, size_t alignment) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T *</type>
-      <name>apply_alignment</name>
-      <anchorfile>group__apply__alignment.html</anchorfile>
-      <anchor>ga7afe47820cb2e0951bf755832ce108be</anchor>
-      <arglist>(T *ptr, size_t alignment) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -11605,6 +10242,244 @@
       <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
     </member>
     <member kind="function">
+      <type>constexpr int</type>
+      <name>countl_zero</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga12cd318fdcf736ca99f5bf66aa615fd1</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>countr_zero</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab5b51a3c121984cfddb8d5da4e9bf070</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>countl_one</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gadf75326611fa43dbacc1ff601e9e969b</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>countr_one</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga84963e1a7bf75ec7464cda53b26dec8a</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_ceil</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gae62fd9413cd433a4e15c0fdf89913a1b</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>pack</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gafd5ebb4cf00dd4b93188521f0a2196e2</anchor>
+      <arglist>(T val1, U val2, V... vals) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr To</type>
+      <name>bit_cast</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gaadb4c6332c738c248f84f43ece303657</anchor>
+      <arglist>(const From &amp;from) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>popcount</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab392bc74729da41c4d226f8d45e58599</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>has_single_bit</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga309ac880015add971ee06b148191060f</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_floor</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga0ef1d5961e901e2d52b3d6be07efe201</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_width</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga1a764507fe486799f60eac32c622e63e</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_fill_right</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab5cb8d563f61573ca1e2827ddd085d3d</anchor>
+      <arglist>(size_t count) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_fill_left</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gaf41f6cc12b0e9ac1de1bdf63e2a28fdf</anchor>
+      <arglist>(size_t count) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr uint8_t</type>
+      <name>byte_select</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gae644160cd7d978d95922af233afc5ddd</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr uint8_t</type>
+      <name>byte_select</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga18d1da41b1d53329c0d0605596494010</anchor>
+      <arglist>(T val, size_t index) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>byte_reverse</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab3e8f4f75d417dc6880311de6c9306e9</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>swizzle</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga1aaa24bb10d08ad78c86695baabc1857</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr std::underlying_type_t&lt; T &gt;</type>
+      <name>unwrap</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga81642f54291cc4a1287ef141b3f4d34f</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const T &amp;</type>
+      <name>min</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gacc52016e295ef88268bd5835a23b69d8</anchor>
+      <arglist>(const T &amp;val1, const T &amp;val2) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const T &amp;</type>
+      <name>max</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga67052cab1c45673f85ee326e91aafbde</anchor>
+      <arglist>(const T &amp;val1, const T &amp;val2) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const T &amp;</type>
+      <name>clamp</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga853b138ba34af796906a03cda9dbfabe</anchor>
+      <arglist>(const T &amp;val, const T &amp;low, const T &amp;high) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>between</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga108fd48e10e2c18acbaaf9f611b14d5b</anchor>
+      <arglist>(T val, U low, U high) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>is_constant_evaluated</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga8a9b0aaf9860b30f93639333a5214d34</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T *</type>
+      <name>launder</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga279c303aaba76a43d1dc23834c35f857</anchor>
+      <arglist>(T *ptr) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr To</type>
+      <name>pointer_cast</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab714a50e01b58e7d4117d5ef9d403d39</anchor>
+      <arglist>(From from) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T *</type>
+      <name>apply_offset</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga95da5073b863161a6542266f4a6c5961</anchor>
+      <arglist>(T *ptr, Offset offset) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T *</type>
+      <name>to_address</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga79246c66d2df39fe825be13e654d8c52</anchor>
+      <arglist>(T *p) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>to_address</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga4ba4d37d254803b31a71fca161a46420</anchor>
+      <arglist>(const Ptr &amp;p) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T *</type>
+      <name>assume_aligned</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gaf58f3326aea89653ec725ccbc5ff29d2</anchor>
+      <arglist>(T *ptr) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr void</type>
+      <name>for_sequence</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab64801b0b03f54c51a21000e8bb95ea1</anchor>
+      <arglist>(Func &amp;&amp;func) noexcept(impl::for_sequence_noexcept_&lt; N, Func &gt;)</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>apply_alignment</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga6aae2e7be0cb15bed51d7cb636602c5f</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T *</type>
+      <name>apply_alignment</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gae89c7cea139581038d585201d5b3bfee</anchor>
+      <arglist>(T *ptr) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>apply_alignment</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga7cd587549d099b4323fda37f23097e04</anchor>
+      <arglist>(T val, size_t alignment) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T *</type>
+      <name>apply_alignment</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga7afe47820cb2e0951bf755832ce108be</anchor>
+      <arglist>(T *ptr, size_t alignment) noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr bool</type>
       <name>is_ascii_code_point</name>
       <anchorfile>group__is__ascii__code__point.html</anchorfile>
@@ -12991,6 +11866,20 @@
       <arglist>(wchar_t c) noexcept</arglist>
     </member>
     <member kind="variable">
+      <type>constexpr bool</type>
+      <name>allow_implicit_bit_cast</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga824ac2b58e006d4be8d4b0d6a0f7180d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr size_t</type>
+      <name>dynamic_extent</name>
+      <anchorfile>group__mem.html</anchorfile>
+      <anchor>ga3cc0f4ca005186681123b33b6a754a36</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
       <type>constexpr size_t</type>
       <name>total_size</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -13431,24 +12320,38 @@
       <anchor>ga1d7ffe385c4b8f4558d170f50f5eb79a</anchor>
       <arglist></arglist>
     </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>allow_implicit_bit_cast</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga824ac2b58e006d4be8d4b0d6a0f7180d</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr size_t</type>
-      <name>dynamic_extent</name>
-      <anchorfile>group__mem.html</anchorfile>
-      <anchor>ga3cc0f4ca005186681123b33b6a754a36</anchor>
-      <arglist></arglist>
-    </member>
   </compound>
   <compound kind="namespace">
     <name>muu::build</name>
     <filename>namespacemuu_1_1build.html</filename>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>supports_constexpr_half</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>ae33023a7463b68374575d0cb9f42af43</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>supports_constexpr_math</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>ae1f632796abc91c58e0667c38ecc384e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>supports_constexpr_infinity_or_nan</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>ac2ed8c664a3937f1d6beca3916098ebd</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>supports_constexpr_bit_cast</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>a5ee6b53a87bd46b2bf84f2bea9e2a0b5</anchor>
+      <arglist></arglist>
+    </member>
     <member kind="variable">
       <type>constexpr uint32_t</type>
       <name>cpp_version</name>
@@ -13554,38 +12457,31 @@
       <anchor>a8398d41dfdf02da1234b776f754bbb3d</anchor>
       <arglist></arglist>
     </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>supports_constexpr_bit_cast</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>a5ee6b53a87bd46b2bf84f2bea9e2a0b5</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>supports_constexpr_half</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>ae33023a7463b68374575d0cb9f42af43</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>supports_constexpr_math</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>ae1f632796abc91c58e0667c38ecc384e</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>supports_constexpr_infinity_or_nan</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>ac2ed8c664a3937f1d6beca3916098ebd</anchor>
-      <arglist></arglist>
-    </member>
   </compound>
   <compound kind="namespace">
     <name>muu::literals</name>
     <filename>namespacemuu_1_1literals.html</filename>
+    <member kind="function">
+      <type>constexpr half</type>
+      <name>operator&quot;&quot;_f16</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a44b30e32ede9bd31865933e97822ed3d</anchor>
+      <arglist>(long double val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr half</type>
+      <name>operator&quot;&quot;_f16</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a7d35b10d5222b2b36a00a7fcdf81d5d7</anchor>
+      <arglist>(unsigned long long val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr uuid</type>
+      <name>operator&quot;&quot;_uuid</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>aa47ba1752e387734c3a2b0539a4dc252</anchor>
+      <arglist>(const char *str, size_t len) noexcept</arglist>
+    </member>
     <member kind="function">
       <type>constexpr size_t</type>
       <name>operator&quot;&quot;_sz</name>
@@ -13691,27 +12587,6 @@
       <anchor>a9e8a35fefddabd1aa96c32f7d22061ea</anchor>
       <arglist>(unsigned long long n) noexcept</arglist>
     </member>
-    <member kind="function">
-      <type>constexpr half</type>
-      <name>operator&quot;&quot;_f16</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a44b30e32ede9bd31865933e97822ed3d</anchor>
-      <arglist>(long double val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr half</type>
-      <name>operator&quot;&quot;_f16</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a7d35b10d5222b2b36a00a7fcdf81d5d7</anchor>
-      <arglist>(unsigned long long val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr uuid</type>
-      <name>operator&quot;&quot;_uuid</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>aa47ba1752e387734c3a2b0539a4dc252</anchor>
-      <arglist>(const char *str, size_t len) noexcept</arglist>
-    </member>
   </compound>
   <compound kind="group">
     <name>code_units</name>
@@ -13756,6 +12631,14 @@
     <title>Constants</title>
     <filename>group__constants.html</filename>
     <namespace>muu::build</namespace>
+    <class kind="struct">muu::constants</class>
+    <class kind="struct">muu::constants&lt; half &gt;</class>
+    <class kind="struct">std::numeric_limits&lt; muu::half &gt;</class>
+    <class kind="struct">muu::constants&lt; matrix&lt; Scalar, Rows, Columns &gt; &gt;</class>
+    <class kind="struct">muu::constants&lt; plane&lt; Scalar &gt; &gt;</class>
+    <class kind="struct">muu::constants&lt; quaternion&lt; Scalar &gt; &gt;</class>
+    <class kind="struct">muu::constants&lt; uuid &gt;</class>
+    <class kind="struct">muu::constants&lt; vector&lt; Scalar, Dimensions &gt; &gt;</class>
     <class kind="struct">muu::constants&lt; float &gt;</class>
     <class kind="struct">muu::constants&lt; double &gt;</class>
     <class kind="struct">muu::constants&lt; long double &gt;</class>
@@ -13764,6 +12647,7 @@
     <class kind="struct">muu::constants&lt; float128_t &gt;</class>
     <class kind="struct">muu::constants&lt; char &gt;</class>
     <class kind="struct">muu::constants&lt; wchar_t &gt;</class>
+    <class kind="struct">muu::constants&lt; char8_t &gt;</class>
     <class kind="struct">muu::constants&lt; char16_t &gt;</class>
     <class kind="struct">muu::constants&lt; char32_t &gt;</class>
     <class kind="struct">muu::constants&lt; signed char &gt;</class>
@@ -13778,20 +12662,11 @@
     <class kind="struct">muu::constants&lt; unsigned long long &gt;</class>
     <class kind="struct">muu::constants&lt; int128_t &gt;</class>
     <class kind="struct">muu::constants&lt; uint128_t &gt;</class>
-    <class kind="struct">muu::constants</class>
-    <class kind="struct">muu::constants&lt; half &gt;</class>
-    <class kind="struct">std::numeric_limits&lt; muu::half &gt;</class>
-    <class kind="struct">muu::constants&lt; matrix&lt; Scalar, Rows, Columns &gt; &gt;</class>
-    <class kind="struct">muu::constants&lt; plane&lt; Scalar &gt; &gt;</class>
-    <class kind="struct">muu::constants&lt; quaternion&lt; Scalar &gt; &gt;</class>
-    <class kind="struct">muu::constants&lt; uuid &gt;</class>
-    <class kind="struct">muu::constants&lt; vector&lt; Scalar, Dimensions &gt; &gt;</class>
   </compound>
   <compound kind="group">
     <name>core</name>
     <title>Core</title>
     <filename>group__core.html</filename>
-    <subgroup>apply_alignment</subgroup>
     <class kind="class">muu::compressed_pair</class>
     <class kind="struct">muu::half</class>
     <class kind="class">muu::scope_guard</class>
@@ -13820,27 +12695,6 @@
       <anchorfile>group__core.html</anchorfile>
       <anchor>ga74a70ec9e3331f37ebbc3e875e183861</anchor>
       <arglist></arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>is_constant_evaluated</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga8a9b0aaf9860b30f93639333a5214d34</anchor>
-      <arglist>() noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T *</type>
-      <name>launder</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga279c303aaba76a43d1dc23834c35f857</anchor>
-      <arglist>(T *ptr) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr std::underlying_type_t&lt; T &gt;</type>
-      <name>unwrap</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga81642f54291cc4a1287ef141b3f4d34f</anchor>
-      <arglist>(T val) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr int</type>
@@ -13890,48 +12744,6 @@
       <anchorfile>group__core.html</anchorfile>
       <anchor>gaadb4c6332c738c248f84f43ece303657</anchor>
       <arglist>(const From &amp;from) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr To</type>
-      <name>pointer_cast</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab714a50e01b58e7d4117d5ef9d403d39</anchor>
-      <arglist>(From from) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T *</type>
-      <name>apply_offset</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga95da5073b863161a6542266f4a6c5961</anchor>
-      <arglist>(T *ptr, Offset offset) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const T &amp;</type>
-      <name>min</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gacc52016e295ef88268bd5835a23b69d8</anchor>
-      <arglist>(const T &amp;val1, const T &amp;val2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const T &amp;</type>
-      <name>max</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga67052cab1c45673f85ee326e91aafbde</anchor>
-      <arglist>(const T &amp;val1, const T &amp;val2) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const T &amp;</type>
-      <name>clamp</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga853b138ba34af796906a03cda9dbfabe</anchor>
-      <arglist>(const T &amp;val, const T &amp;low, const T &amp;high) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>between</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga108fd48e10e2c18acbaaf9f611b14d5b</anchor>
-      <arglist>(T val, U low, U high) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr int</type>
@@ -14004,6 +12816,69 @@
       <arglist>(T val) noexcept</arglist>
     </member>
     <member kind="function">
+      <type>constexpr std::underlying_type_t&lt; T &gt;</type>
+      <name>unwrap</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga81642f54291cc4a1287ef141b3f4d34f</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const T &amp;</type>
+      <name>min</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gacc52016e295ef88268bd5835a23b69d8</anchor>
+      <arglist>(const T &amp;val1, const T &amp;val2) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const T &amp;</type>
+      <name>max</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga67052cab1c45673f85ee326e91aafbde</anchor>
+      <arglist>(const T &amp;val1, const T &amp;val2) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const T &amp;</type>
+      <name>clamp</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga853b138ba34af796906a03cda9dbfabe</anchor>
+      <arglist>(const T &amp;val, const T &amp;low, const T &amp;high) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>between</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga108fd48e10e2c18acbaaf9f611b14d5b</anchor>
+      <arglist>(T val, U low, U high) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>is_constant_evaluated</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga8a9b0aaf9860b30f93639333a5214d34</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T *</type>
+      <name>launder</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga279c303aaba76a43d1dc23834c35f857</anchor>
+      <arglist>(T *ptr) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr To</type>
+      <name>pointer_cast</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab714a50e01b58e7d4117d5ef9d403d39</anchor>
+      <arglist>(From from) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T *</type>
+      <name>apply_offset</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga95da5073b863161a6542266f4a6c5961</anchor>
+      <arglist>(T *ptr, Offset offset) noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr T *</type>
       <name>to_address</name>
       <anchorfile>group__core.html</anchorfile>
@@ -14030,6 +12905,34 @@
       <anchorfile>group__core.html</anchorfile>
       <anchor>gab64801b0b03f54c51a21000e8bb95ea1</anchor>
       <arglist>(Func &amp;&amp;func) noexcept(impl::for_sequence_noexcept_&lt; N, Func &gt;)</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>apply_alignment</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga6aae2e7be0cb15bed51d7cb636602c5f</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T *</type>
+      <name>apply_alignment</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gae89c7cea139581038d585201d5b3bfee</anchor>
+      <arglist>(T *ptr) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>apply_alignment</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga7cd587549d099b4323fda37f23097e04</anchor>
+      <arglist>(T val, size_t alignment) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T *</type>
+      <name>apply_alignment</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga7afe47820cb2e0951bf755832ce108be</anchor>
+      <arglist>(T *ptr, size_t alignment) noexcept</arglist>
     </member>
   </compound>
   <compound kind="group">
@@ -14380,6 +13283,13 @@
       <arglist></arglist>
     </member>
     <member kind="variable">
+      <type>constexpr bool</type>
+      <name>allow_implicit_bit_cast</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga824ac2b58e006d4be8d4b0d6a0f7180d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
       <type>constexpr size_t</type>
       <name>total_size</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -14820,17 +13730,10 @@
       <anchor>ga1d7ffe385c4b8f4558d170f50f5eb79a</anchor>
       <arglist></arglist>
     </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>allow_implicit_bit_cast</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga824ac2b58e006d4be8d4b0d6a0f7180d</anchor>
-      <arglist></arglist>
-    </member>
   </compound>
   <compound kind="group">
     <name>preprocessor</name>
-    <title>Preprocessor magic</title>
+    <title>Preprocessor</title>
     <filename>group__preprocessor.html</filename>
     <member kind="define">
       <type>#define</type>
@@ -15401,6 +14304,13 @@
     </member>
     <member kind="define">
       <type>#define</type>
+      <name>MUU_HAS_CHAR8</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga3c123483a9bd8a9d00279f0b65eace83</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
       <name>MUU_HAS_BUILTIN</name>
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>ga555a63af817046f3efcdf5e5df32924b</anchor>
@@ -15657,39 +14567,6 @@
       <anchorfile>group__acos.html</anchorfile>
       <anchor>ga8bb8129170a7cc7e9902de607e1c8279</anchor>
       <arglist>(half x) noexcept</arglist>
-    </member>
-  </compound>
-  <compound kind="group">
-    <name>apply_alignment</name>
-    <title>apply_alignment()</title>
-    <filename>group__apply__alignment.html</filename>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>apply_alignment</name>
-      <anchorfile>group__apply__alignment.html</anchorfile>
-      <anchor>ga6aae2e7be0cb15bed51d7cb636602c5f</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T *</type>
-      <name>apply_alignment</name>
-      <anchorfile>group__apply__alignment.html</anchorfile>
-      <anchor>gae89c7cea139581038d585201d5b3bfee</anchor>
-      <arglist>(T *ptr) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>apply_alignment</name>
-      <anchorfile>group__apply__alignment.html</anchorfile>
-      <anchor>ga7cd587549d099b4323fda37f23097e04</anchor>
-      <arglist>(T val, size_t alignment) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T *</type>
-      <name>apply_alignment</name>
-      <anchorfile>group__apply__alignment.html</anchorfile>
-      <anchor>ga7afe47820cb2e0951bf755832ce108be</anchor>
-      <arglist>(T *ptr, size_t alignment) noexcept</arglist>
     </member>
   </compound>
   <compound kind="group">

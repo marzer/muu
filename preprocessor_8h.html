@@ -7,18 +7,19 @@
   <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <meta content="#22272e" name="theme-color"/>
-  
-  <meta content="Useful
-  utilities
-  for
-  modern
-  C++" name="description"/>
-
+  <meta content="muu" name="twitter:title"/>
+  <meta content="muu" property="og:title"/>
+  <meta content="muu" itemprop="name"/>
+  <meta content="Useful utilities for modern C++" name="description"/>
+  <meta content="Useful utilities for modern C++" name="twitter:description"/>
+  <meta content="Useful utilities for modern C++" property="og:description"/>
+  <meta content="Useful utilities for modern C++" itemprop="description"/>
+  <meta content="telephone=no" name="format-detection"/>
+  <meta content="Poxy v0.3.3" name="generator"/>
+  <meta content="no-referrer-when-downgrade" name="referrer"/>
   <link href="poxy.css" rel="stylesheet"/>
-
-  <script src="jquery-3.6.0.slim.min.js"></script>
-
   <script src="poxy.js"></script>
+  <script src="jquery-3.6.0.slim.min.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -237,6 +238,10 @@
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga555a63af817046f3efcdf5e5df32924b">MUU_HAS_BUILTIN</a>(</span><span class="m-doc-wrap">name)</span>
             </dt>
             <dd>Expands to <code>__has_builtin(name)</code> when supported by the compiler, otherwise <code>0</code>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga3c123483a9bd8a9d00279f0b65eace83">MUU_HAS_CHAR8</a></span>
+            </dt>
+            <dd><code>1</code> when the target environment has the 8-bit character type <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga9ec0bf0abed9f6d63e8ff1d061fd7fa8">MUU_HAS_EXCEPTIONS</a></span>
             </dt>

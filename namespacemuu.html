@@ -7,18 +7,19 @@
   <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <meta content="#22272e" name="theme-color"/>
-  
-  <meta content="Useful
-  utilities
-  for
-  modern
-  C++" name="description"/>
-
+  <meta content="muu" name="twitter:title"/>
+  <meta content="muu" property="og:title"/>
+  <meta content="muu" itemprop="name"/>
+  <meta content="Useful utilities for modern C++" name="description"/>
+  <meta content="Useful utilities for modern C++" name="twitter:description"/>
+  <meta content="Useful utilities for modern C++" property="og:description"/>
+  <meta content="Useful utilities for modern C++" itemprop="description"/>
+  <meta content="telephone=no" name="format-detection"/>
+  <meta content="Poxy v0.3.3" name="generator"/>
+  <meta content="no-referrer-when-downgrade" name="referrer"/>
   <link href="poxy.css" rel="stylesheet"/>
-
-  <script src="jquery-3.6.0.slim.min.js"></script>
-
   <script src="poxy.js"></script>
+  <script src="jquery-3.6.0.slim.min.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -93,6 +94,11 @@
             </dt>
             <dd>Determines min, max and sum of an interderminate number of values.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1axis__angle__rotation.html">axis_angle_rotation</a>
+            </dt>
+            <dd>An axis-angle rotation.</dd>
+            <dt>
               class <a class="m-doc" href="classmuu_1_1blob.html">blob</a>
             </dt>
             <dd>Interface for managing chunks of memory.</dd>
@@ -107,25 +113,10 @@
             </dt>
             <dd>A pair that uses Empty Base Class Optimization to elide storage for one or both of its members where possible.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01float_01_4.html">constants&lt;float&gt;</a>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants.html">constants</a>
             </dt>
-            <dd><code>float</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01double_01_4.html">constants&lt;double&gt;</a>
-            </dt>
-            <dd><code>double</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01long_01double_01_4.html">constants&lt;long double&gt;</a>
-            </dt>
-            <dd><code>long double</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01____fp16_01_4.html">constants&lt;__fp16&gt;</a>
-            </dt>
-            <dd><code><a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a></code> constants.</dd>
+            <dd>A typed container for static constants, similar to <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/numeric_limits.html" target="_blank">std::<wbr/>numeric_limits</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01___float16_01_4.html">constants&lt;_Float16&gt;</a>
@@ -133,19 +124,14 @@
             <dd><code><a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a></code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01float128__t_01_4.html">constants&lt;float128_t&gt;</a>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01____fp16_01_4.html">constants&lt;__fp16&gt;</a>
             </dt>
-            <dd><code><a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a></code> constants.</dd>
+            <dd><code><a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a></code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01char_01_4.html">constants&lt;char&gt;</a>
             </dt>
             <dd><code>char</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01wchar__t_01_4.html">constants&lt;wchar_t&gt;</a>
-            </dt>
-            <dd><code><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a></code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01char16__t_01_4.html">constants&lt;char16_t&gt;</a>
@@ -158,54 +144,29 @@
             <dd><code><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a></code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01char_01_4.html">constants&lt;signed char&gt;</a>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01char8__t_01_4.html">constants&lt;char8_t&gt;</a>
             </dt>
-            <dd><code>signed char</code> constants.</dd>
+            <dd><code><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a></code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01unsigned_01char_01_4.html">constants&lt;unsigned char&gt;</a>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01double_01_4.html">constants&lt;double&gt;</a>
             </dt>
-            <dd><code>unsigned char</code> constants.</dd>
+            <dd><code>double</code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01short_01_4.html">constants&lt;signed short&gt;</a>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01float_01_4.html">constants&lt;float&gt;</a>
             </dt>
-            <dd><code>signed short</code> constants.</dd>
+            <dd><code>float</code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01unsigned_01short_01_4.html">constants&lt;unsigned short&gt;</a>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01float128__t_01_4.html">constants&lt;float128_t&gt;</a>
             </dt>
-            <dd><code>unsigned short</code> constants.</dd>
+            <dd><code><a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a></code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01int_01_4.html">constants&lt;signed int&gt;</a>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01half_01_4.html">constants&lt;half&gt;</a>
             </dt>
-            <dd><code>signed int</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01unsigned_01int_01_4.html">constants&lt;unsigned int&gt;</a>
-            </dt>
-            <dd><code>unsigned int</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01long_01_4.html">constants&lt;signed long&gt;</a>
-            </dt>
-            <dd><code>signed long</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01unsigned_01long_01_4.html">constants&lt;unsigned long&gt;</a>
-            </dt>
-            <dd><code>unsigned long</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01long_01long_01_4.html">constants&lt;signed long long&gt;</a>
-            </dt>
-            <dd><code>signed long long</code> constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01unsigned_01long_01long_01_4.html">constants&lt;unsigned long long&gt;</a>
-            </dt>
-            <dd><code>unsigned long long</code> constants.</dd>
+            <dd>16-bit half-precision float constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01int128__t_01_4.html">constants&lt;int128_t&gt;</a>
@@ -213,56 +174,127 @@
             <dd><code><a class="m-doc poxy-injected" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_t</a></code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01long_01double_01_4.html">constants&lt;long double&gt;</a>
+            </dt>
+            <dd><code>long double</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01matrix_3_01_scalar_00_01_rows_00_01_columns_01_4_01_4.html">constants&lt;matrix&lt;Scalar, Rows, Columns&gt;&gt;</a>
+            </dt>
+            <dd>Matrix constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01plane_3_01_scalar_01_4_01_4.html">constants&lt;plane&lt;Scalar&gt;&gt;</a>
+            </dt>
+            <dd>Plane constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01quaternion_3_01_scalar_01_4_01_4.html">constants&lt;quaternion&lt;Scalar&gt;&gt;</a>
+            </dt>
+            <dd>Quaternion constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01char_01_4.html">constants&lt;signed char&gt;</a>
+            </dt>
+            <dd><code>signed char</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01int_01_4.html">constants&lt;signed int&gt;</a>
+            </dt>
+            <dd><code>signed int</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01long_01_4.html">constants&lt;signed long&gt;</a>
+            </dt>
+            <dd><code>signed long</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01long_01long_01_4.html">constants&lt;signed long long&gt;</a>
+            </dt>
+            <dd><code>signed long long</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01signed_01short_01_4.html">constants&lt;signed short&gt;</a>
+            </dt>
+            <dd><code>signed short</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01uint128__t_01_4.html">constants&lt;uint128_t&gt;</a>
             </dt>
             <dd><code><a class="m-doc poxy-injected" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_t</a></code> constants.</dd>
             <dt>
-              struct <a class="m-doc" href="structmuu_1_1generic__allocator.html">generic_allocator</a>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01unsigned_01char_01_4.html">constants&lt;unsigned char&gt;</a>
             </dt>
-            <dd>An interface for encapsulating generic allocators.</dd>
+            <dd><code>unsigned char</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01unsigned_01int_01_4.html">constants&lt;unsigned int&gt;</a>
+            </dt>
+            <dd><code>unsigned int</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01unsigned_01long_01_4.html">constants&lt;unsigned long&gt;</a>
+            </dt>
+            <dd><code>unsigned long</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01unsigned_01long_01long_01_4.html">constants&lt;unsigned long long&gt;</a>
+            </dt>
+            <dd><code>unsigned long long</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01unsigned_01short_01_4.html">constants&lt;unsigned short&gt;</a>
+            </dt>
+            <dd><code>unsigned short</code> constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01uuid_01_4.html">constants&lt;uuid&gt;</a>
+            </dt>
+            <dd>UUID constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01vector_3_01_scalar_00_01_dimensions_01_4_01_4.html">constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;</a>
+            </dt>
+            <dd>Vector constants.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01wchar__t_01_4.html">constants&lt;wchar_t&gt;</a>
+            </dt>
+            <dd><code><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a></code> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               class <a class="m-doc" href="classmuu_1_1emplacement__array.html">emplacement_array</a>
             </dt>
             <dd>Simple <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/container/vector.html" target="_blank">std::<wbr/>vector</a>-like array type for immovable or move-only types.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants.html">constants</a>
+              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1euler__rotation.html">euler_rotation</a>
             </dt>
-            <dd>A typed container for static constants, similar to <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/numeric_limits.html" target="_blank">std::<wbr/>numeric_limits</a>.</dd>
-            <dt>
-              struct <a class="m-doc" href="structmuu_1_1half.html">half</a>
-            </dt>
-            <dd>A 16-bit "half-precision" floating point type.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01half_01_4.html">constants&lt;half&gt;</a>
-            </dt>
-            <dd>16-bit half-precision float constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits = (sizeof(<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>)* CHAR_BIT)&gt;</div>
-              class <a class="m-doc" href="classmuu_1_1hash__combiner.html">hash_combiner</a>
-            </dt>
-            <dd>A hash combiner for integral hashes.</dd>
+            <dd>A set of euler angles used for rotation.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits = (sizeof(<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>)* CHAR_BIT)&gt;</div>
               class <a class="m-doc" href="classmuu_1_1fnv1a.html">fnv1a</a>
             </dt>
             <dd>FNV-1a hasher.</dd>
             <dt>
-              class <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>
+              struct <a class="m-doc" href="structmuu_1_1generic__allocator.html">generic_allocator</a>
             </dt>
-            <dd>SHA-1 hasher.</dd>
+            <dd>An interface for encapsulating generic allocators.</dd>
+            <dt>
+              struct <a class="m-doc" href="structmuu_1_1half.html">half</a>
+            </dt>
+            <dd>A 16-bit "half-precision" floating point type.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits = (sizeof(<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>)* CHAR_BIT)&gt;</div>
+              class <a class="m-doc" href="classmuu_1_1hash__combiner.html">hash_combiner</a>
+            </dt>
+            <dd>A hash combiner for integral hashes.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>
             </dt>
             <dd>A <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01matrix_3_01_scalar_00_01_rows_00_01_columns_01_4_01_4.html">constants&lt;matrix&lt;Scalar, Rows, Columns&gt;&gt;</a>
-            </dt>
-            <dd>Matrix constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>
@@ -275,34 +307,9 @@
             <dd>A <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01plane_3_01_scalar_01_4_01_4.html">constants&lt;plane&lt;Scalar&gt;&gt;</a>
-            </dt>
-            <dd>Plane constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1axis__angle__rotation.html">axis_angle_rotation</a>
-            </dt>
-            <dd>An axis-angle rotation.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1euler__rotation.html">euler_rotation</a>
-            </dt>
-            <dd>A set of euler angles used for rotation.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>
             </dt>
             <dd>A <a class="m-doc poxy-injected" href="structmuu_1_1quaternion.html">quaternion</a>.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01quaternion_3_01_scalar_01_4_01_4.html">constants&lt;quaternion&lt;Scalar&gt;&gt;</a>
-            </dt>
-            <dd>Quaternion constants.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              class <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_guard</a>
-            </dt>
-            <dd>Performs actions when going out of scope.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               class <a class="m-doc" href="classmuu_1_1scope__fail.html">scope_fail</a>
@@ -310,9 +317,18 @@
             <dd>Performs actions when going out of scope due to an exception being thrown.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
+              class <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_guard</a>
+            </dt>
+            <dd>Performs actions when going out of scope.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
               class <a class="m-doc" href="classmuu_1_1scope__success.html">scope_success</a>
             </dt>
             <dd>Performs actions when going out of scope only if no exceptions have been thrown.</dd>
+            <dt>
+              class <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>
+            </dt>
+            <dd>SHA-1 hasher.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Extent = <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>&gt;</div>
               class <a class="m-doc" href="classmuu_1_1span.html">span</a>
@@ -336,20 +352,10 @@
             </dt>
             <dd>A 128-bit universally-unique identifier (UUID).</dd>
             <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01uuid_01_4.html">constants&lt;uuid&gt;</a>
-            </dt>
-            <dd>UUID constants.</dd>
-            <dt>
               <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1vector.html">vector</a>
             </dt>
             <dd>An N-dimensional <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1constants_3_01vector_3_01_scalar_00_01_dimensions_01_4_01_4.html">constants&lt;vector&lt;Scalar, Dimensions&gt;&gt;</a>
-            </dt>
-            <dd>Vector constants.</dd>
           </dl>
         </section>
         <section id="enum-members">
@@ -678,23 +684,23 @@
             <dd>Calculates the angle between two <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vectors</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment, typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__apply__alignment.html#ga6aae2e7be0cb15bed51d7cb636602c5f">apply_alignment</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga6aae2e7be0cb15bed51d7cb636602c5f">apply_alignment</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Rounds an unsigned value up to the next multiple of the given alignment.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment, typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__apply__alignment.html#gae89c7cea139581038d585201d5b3bfee">apply_alignment</a>(</span><span class="m-doc-wrap">T* ptr) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gae89c7cea139581038d585201d5b3bfee">apply_alignment</a>(</span><span class="m-doc-wrap">T* ptr) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Rounds a pointer up to the byte offset that is the next multiple of the given alignment.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__apply__alignment.html#ga7cd587549d099b4323fda37f23097e04">apply_alignment</a>(</span><span class="m-doc-wrap">T val,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga7cd587549d099b4323fda37f23097e04">apply_alignment</a>(</span><span class="m-doc-wrap">T val,
               <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Rounds an unsigned value up to the next multiple of the given alignment.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__apply__alignment.html#ga7afe47820cb2e0951bf755832ce108be">apply_alignment</a>(</span><span class="m-doc-wrap">T* ptr,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga7afe47820cb2e0951bf755832ce108be">apply_alignment</a>(</span><span class="m-doc-wrap">T* ptr,
               <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Rounds a pointer up to the byte offset that is the next multiple of the given alignment.</dd>
@@ -1084,19 +1090,19 @@
             </dt>
             <dd>Returns a copy of a <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> with all scalar components set to the lowest integer not less than their original values.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga853b138ba34af796906a03cda9dbfabe">clamp</a>(</span><span class="m-doc-wrap">const T&amp; val,
-              const T&amp; low,
-              const T&amp; high) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a value clamped between two bounds (inclusive).</dd>
-            <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a13427afa8abc10b68dec66a3e6d30c94">clamp</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; low,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; high) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Componentwise clamps a <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> between two others.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga853b138ba34af796906a03cda9dbfabe">clamp</a>(</span><span class="m-doc-wrap">const T&amp; val,
+              const T&amp; low,
+              const T&amp; high) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a value clamped between two bounds (inclusive).</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__cos.html#ga3f48d168cf2a5cc17d95fd4860ce8267">cos</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -2187,12 +2193,6 @@
             </dt>
             <dd>Performs a linear interpolation between two <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vectors</a>.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga67052cab1c45673f85ee326e91aafbde">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
-              const T&amp; val2) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns the maximum of two values.</dd>
-            <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a28964d765fdb622739bd2ac68ce50329">max</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v1,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v2) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -2200,16 +2200,22 @@
             <dd>Returns the componentwise maximum of two <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vectors</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gacc52016e295ef88268bd5835a23b69d8">min</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga67052cab1c45673f85ee326e91aafbde">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
               const T&amp; val2) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the minimum of two values.</dd>
+            <dd>Returns the maximum of two values.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a0677f3cf9e12c0c6cf4ee3844dd802c1">min</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v1,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v2) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the componentwise minimum of two <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vectors</a>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gacc52016e295ef88268bd5835a23b69d8">min</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              const T&amp; val2) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the minimum of two values.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aa80b85fea6664e3d955f129f9eff4a41">normalize</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&lt;S&gt;&amp; q) -&gt; <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&lt;S&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
