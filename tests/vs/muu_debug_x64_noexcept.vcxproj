@@ -84,6 +84,7 @@
     <ClInclude Include="$(SolutionDir)include\muu\impl\geometry_common.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\header_end.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\header_start.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\preprocessor_for_each.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\vector_types_common.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\unicode_char.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\unicode_char16_t.h" />

@@ -37,7 +37,7 @@ struct code_unit_range
 };
 
 template <typename T, typename U>
-[[nodiscard]]
+MUU_NODISCARD
 inline bool in(code_unit_func<T>* func, const code_unit_range<U>& range) noexcept
 {
 	for (auto cu = static_cast<muu::make_unsigned<U>>(range.first), e = static_cast<muu::make_unsigned<U>>(range.last); cu <= e; cu++)
@@ -47,7 +47,7 @@ inline bool in(code_unit_func<T>* func, const code_unit_range<U>& range) noexcep
 }
 
 template <typename T, typename U>
-[[nodiscard]]
+MUU_NODISCARD
 inline bool not_in(code_unit_func<T>* func, const code_unit_range<U>& range) noexcept
 {
 	for (auto cu = static_cast<muu::make_unsigned<U>>(range.first), e = static_cast<muu::make_unsigned<U>>(range.last); cu <= e; cu++)
@@ -57,7 +57,7 @@ inline bool not_in(code_unit_func<T>* func, const code_unit_range<U>& range) noe
 }
 
 template <int GroupID, typename T>
-[[nodiscard]]
+MUU_NODISCARD
 inline bool in_only(code_unit_func<T>* func, T cu) noexcept
 {
 	if (!func(cu))
@@ -73,7 +73,7 @@ inline bool in_only(code_unit_func<T>* func, T cu) noexcept
 }
 
 template <int GroupID, typename T, typename U>
-[[nodiscard]]
+MUU_NODISCARD
 inline bool in_only(code_unit_func<T>* func, const code_unit_range<U>& range) noexcept
 {
 	for (auto cu = static_cast<muu::make_unsigned<U>>(range.first), e = static_cast<muu::make_unsigned<U>>(range.last); cu <= e; cu++)

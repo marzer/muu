@@ -14,7 +14,7 @@ MUU_DISABLE_WARNINGS;
 #include <string_view>
 #include <iosfwd>
 #ifdef __cpp_lib_char8_t
-	#include <cstring>
+	#include <cstring> // memcpy
 #endif
 MUU_ENABLE_WARNINGS;
 

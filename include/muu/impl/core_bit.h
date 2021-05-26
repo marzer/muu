@@ -7,16 +7,12 @@
 #include "core_utils.h"
 
 MUU_DISABLE_WARNINGS;
-#if MUU_CLANG >= 9 || MUU_GCC >= 11 || MUU_MSVC >= 1926
-	#define MUU_HAS_INTRINSIC_BIT_CAST 1
-#else
-	#define MUU_HAS_INTRINSIC_BIT_CAST 0
-	#include <cstring> // memcpy
-#endif
+#include <cstring> // memcpy
 MUU_ENABLE_WARNINGS;
 
 #include "header_start.h"
-MUU_FORCE_NDEBUG_OPTIMIZATIONS;			 // these should be considered "intrinsics"
+MUU_FORCE_NDEBUG_OPTIMIZATIONS; // these should be considered "intrinsics"
+MUU_DISABLE_ARITHMETIC_WARNINGS;
 MUU_PRAGMA_MSVC(warning(disable : 4191)) // unsafe pointer conversion
 
 namespace muu
@@ -431,6 +427,8 @@ namespace muu
 	MUU_PUSH_WARNINGS;
 	MUU_DISABLE_LIFETIME_WARNINGS;
 
+	#define MUU_HAS_INTRINSIC_BIT_CAST 1
+
 	/// \brief	Equivalent to C++20's std::bit_cast.
 	/// \ingroup core
 	///
@@ -454,11 +452,14 @@ namespace muu
 					  "From and To types must be trivially-copyable");
 		static_assert(sizeof(From) == sizeof(To), "From and To types must be the same size");
 
-	#if MUU_CLANG >= 9 || MUU_GCC >= 11 || MUU_MSVC >= 1926 || MUU_HAS_BUILTIN(bit_cast)
+	#if MUU_CLANG >= 11 || MUU_GCC >= 11 || MUU_MSVC >= 1926
 
 		return __builtin_bit_cast(To, from);
 
 	#else
+
+		#undef MUU_HAS_INTRINSIC_BIT_CAST
+		#define MUU_HAS_INTRINSIC_BIT_CAST 0
 
 		if constexpr (std::is_same_v<remove_cv<From>, remove_cv<To>>)
 		{

@@ -16,7 +16,7 @@ MUU_ENABLE_WARNINGS;
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_DISABLE_SHADOW_WARNINGS;
-MUU_PRAGMA_GCC(diagnostic ignored "-Wsign-conversion")
+MUU_DISABLE_ARITHMETIC_WARNINGS;
 MUU_PRAGMA_MSVC(float_control(except, off))
 MUU_PRAGMA_MSVC(float_control(precise, off))
 
@@ -766,9 +766,6 @@ namespace muu
 		static constexpr quaternion MUU_VECTORCALL from_axis_angle(MUU_VC_PARAM(vector_type) axis,
 																   scalar_type angle) noexcept
 		{
-			MUU_CONSTEXPR_SAFE_ASSERT(vector_type::normalized(axis)
-									  && "from_axis_angle() expects axis inputs to be normalized");
-
 			if constexpr (impl::is_small_float_<scalar_type>)
 			{
 				const auto angle_ =
@@ -803,8 +800,6 @@ namespace muu
 		static constexpr axis_angle_rotation<T> MUU_VECTORCALL raw_to_axis_angle(MUU_VC_PARAM(quaternion) q,
 																				 bool shortest_path = true) noexcept
 		{
-			MUU_CONSTEXPR_SAFE_ASSERT(normalized(q) && "to_axis_angle() expects a normalized quaternion");
-
 			using type			  = impl::highest_ranked<intermediate_float, T>;
 			const auto len		  = vector_type::template raw_length<type>(q.v);
 			const auto correction = shortest_path && q.s < scalar_constants::zero ? type{ -1 } : type{ 1 };

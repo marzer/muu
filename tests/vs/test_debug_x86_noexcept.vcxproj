@@ -10,7 +10,7 @@
 		<VCProjectVersion>16.0</VCProjectVersion>
 		<ProjectGuid>{F7375F00-0345-5F67-89C0-2B18412B40FB}</ProjectGuid>
 		<WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-		<!-- <PreferredToolArchitecture>x64</PreferredToolArchitecture> -->
+		<PreferredToolArchitecture>x64</PreferredToolArchitecture>
 	</PropertyGroup>
 	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -87,9 +87,10 @@
 	<ItemGroup>
 		<ClCompile Include="..\accumulator.cpp" />
 		<ClCompile Include="..\blob.cpp" />
-		<ClCompile Include="..\bounding_box_double.cpp" />
-		<ClCompile Include="..\bounding_box_float.cpp" />
-		<ClCompile Include="..\bounding_box_half.cpp" />
+		<ClCompile Include="..\bounding_box_0.cpp" />
+		<ClCompile Include="..\bounding_box_1.cpp" />
+		<ClCompile Include="..\bounding_box_2.cpp" />
+		<ClCompile Include="..\bounding_box_3.cpp" />
 		<ClCompile Include="..\compressed_pair.cpp" />
 		<ClCompile Include="..\core_bit.cpp" />
 		<ClCompile Include="..\core_other.cpp" />
@@ -100,23 +101,26 @@
 			<PrecompiledHeader>NotUsing</PrecompiledHeader>
 		</ClCompile>
 		<ClCompile Include="..\math.cpp" />
-		<ClCompile Include="..\matrix_char.cpp" />
-		<ClCompile Include="..\matrix_double.cpp" />
-		<ClCompile Include="..\matrix_float.cpp" />
-		<ClCompile Include="..\matrix_half.cpp" />
-		<ClCompile Include="..\matrix_int.cpp" />
-		<ClCompile Include="..\matrix_long.cpp" />
-		<ClCompile Include="..\matrix_long_long.cpp" />
-		<ClCompile Include="..\matrix_short.cpp" />
-		<ClCompile Include="..\oriented_bounding_box_double.cpp" />
-		<ClCompile Include="..\oriented_bounding_box_float.cpp" />
-		<ClCompile Include="..\oriented_bounding_box_half.cpp" />
-		<ClCompile Include="..\plane_double.cpp" />
-		<ClCompile Include="..\plane_float.cpp" />
-		<ClCompile Include="..\plane_half.cpp" />
-		<ClCompile Include="..\quaternion_double.cpp" />
-		<ClCompile Include="..\quaternion_float.cpp" />
-		<ClCompile Include="..\quaternion_half.cpp" />
+		<ClCompile Include="..\matrix_0.cpp" />
+		<ClCompile Include="..\matrix_1.cpp" />
+		<ClCompile Include="..\matrix_2.cpp" />
+		<ClCompile Include="..\matrix_3.cpp" />
+		<ClCompile Include="..\matrix_4.cpp" />
+		<ClCompile Include="..\matrix_5.cpp" />
+		<ClCompile Include="..\matrix_6.cpp" />
+		<ClCompile Include="..\matrix_7.cpp" />
+		<ClCompile Include="..\oriented_bounding_box_0.cpp" />
+		<ClCompile Include="..\oriented_bounding_box_1.cpp" />
+		<ClCompile Include="..\oriented_bounding_box_2.cpp" />
+		<ClCompile Include="..\oriented_bounding_box_3.cpp" />
+		<ClCompile Include="..\plane_0.cpp" />
+		<ClCompile Include="..\plane_1.cpp" />
+		<ClCompile Include="..\plane_2.cpp" />
+		<ClCompile Include="..\plane_3.cpp" />
+		<ClCompile Include="..\quaternion_0.cpp" />
+		<ClCompile Include="..\quaternion_1.cpp" />
+		<ClCompile Include="..\quaternion_2.cpp" />
+		<ClCompile Include="..\quaternion_3.cpp" />
 		<ClCompile Include="..\scope_guard.cpp" />
 		<ClCompile Include="..\span.cpp" />
 		<ClCompile Include="..\string_param.cpp" />
@@ -132,36 +136,31 @@
 		<ClCompile Include="..\unicode_char8_t.cpp" />
 		<ClCompile Include="..\unicode_unsigned_char.cpp" />
 		<ClCompile Include="..\uuid.cpp" />
-		<ClCompile Include="..\vector_char.cpp" />
-		<ClCompile Include="..\vector_double.cpp" />
-		<ClCompile Include="..\vector_float.cpp" />
-		<ClCompile Include="..\vector_half.cpp" />
-		<ClCompile Include="..\vector_int.cpp" />
-		<ClCompile Include="..\vector_long.cpp" />
-		<ClCompile Include="..\vector_long_long.cpp" />
-		<ClCompile Include="..\vector_short.cpp" />
+		<ClCompile Include="..\vector_0.cpp" />
+		<ClCompile Include="..\vector_1.cpp" />
+		<ClCompile Include="..\vector_2.cpp" />
+		<ClCompile Include="..\vector_3.cpp" />
+		<ClCompile Include="..\vector_4.cpp" />
+		<ClCompile Include="..\vector_5.cpp" />
+		<ClCompile Include="..\vector_6.cpp" />
+		<ClCompile Include="..\vector_7.cpp" />
 	</ItemGroup>
 	<ItemGroup>
 		<Natvis Include="$(SolutionDir)muu.natvis" />
 	</ItemGroup>
 	<ItemGroup>
-		<ClInclude Include="..\bounding_box_test_templates.h" />
-		<ClInclude Include="..\bounding_box_test_instantiations.h" />
+		<ClInclude Include="..\batching.h" />
+		<ClInclude Include="..\bounding_box_tests.h" />
 		<ClInclude Include="..\catch2.h" />
 		<ClInclude Include="..\float_test_data.h" />
-		<ClInclude Include="..\matrix_test_templates.h" />
-		<ClInclude Include="..\matrix_test_instantiations.h" />
-		<ClInclude Include="..\oriented_bounding_box_test_instantiations.h" />
-		<ClInclude Include="..\oriented_bounding_box_test_templates.h" />
-		<ClInclude Include="..\plane_test_templates.h" />
-		<ClInclude Include="..\plane_test_instantiations.h" />
+		<ClInclude Include="..\matrix_tests.h" />
+		<ClInclude Include="..\oriented_bounding_box_tests.h" />
+		<ClInclude Include="..\plane_tests.h" />
+		<ClInclude Include="..\quaternion_tests.h" />
 		<ClInclude Include="..\settings.h" />
 		<ClInclude Include="..\tests.h" />
-		<ClInclude Include="..\quaternion_test_templates.h" />
-		<ClInclude Include="..\quaternion_test_instantiations.h" />
 		<ClInclude Include="..\unicode.h" />
-		<ClInclude Include="..\vector_test_templates.h" />
-		<ClInclude Include="..\vector_test_instantiations.h" />
+		<ClInclude Include="..\vector_tests.h" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="..\cpp.hint" />

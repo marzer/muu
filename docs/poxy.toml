@@ -58,6 +58,9 @@ numeric_literals = [
 
 
 [implementation_headers]
+'muu/preprocessor.h' = [
+	'muu/impl/preprocessor_for_each.h'
+]
 'muu/core.h' = [
 	'muu/impl/core_bit.h',
 	'muu/impl/core_build.h',

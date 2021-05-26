@@ -18,7 +18,7 @@ MUU_ENABLE_WARNINGS;
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_DISABLE_SHADOW_WARNINGS;
 MUU_DISABLE_SUGGEST_WARNINGS;
-MUU_PRAGMA_GCC(diagnostic ignored "-Wsign-conversion")
+MUU_DISABLE_ARITHMETIC_WARNINGS;
 MUU_PRAGMA_MSVC(float_control(except, off))
 MUU_PRAGMA_MSVC(float_control(precise, off))
 
@@ -144,6 +144,70 @@ namespace muu::impl
 		{
 			static_assert(tuple_size<T> <= Rows * Columns);
 		}
+
+		// row-major scalar constructor optimizations for some common cases
+
+		// 2x2
+		MUU_LEGACY_REQUIRES((R == 2 && C == 2), size_t R = Rows, size_t C = Columns)
+		constexpr matrix_(Scalar v00, Scalar v01, Scalar v10 = Scalar{}, Scalar v11 = Scalar{}) noexcept
+			MUU_REQUIRES(Rows == 2 && Columns == 2)
+			: m{ { v00, v10 }, { v01, v11 } }
+		{}
+
+		// 3x3
+		MUU_LEGACY_REQUIRES((R == 3 && C == 3), size_t R = Rows, size_t C = Columns)
+		constexpr matrix_(Scalar v00,
+						  Scalar v01,
+						  Scalar v02 = Scalar{},
+						  Scalar v10 = Scalar{},
+						  Scalar v11 = Scalar{},
+						  Scalar v12 = Scalar{},
+						  Scalar v20 = Scalar{},
+						  Scalar v21 = Scalar{},
+						  Scalar v22 = Scalar{}) noexcept //
+			MUU_REQUIRES(Rows == 3 && Columns == 3)
+			: m{ { v00, v10, v20 }, { v01, v11, v21 }, { v02, v12, v22 } }
+		{}
+
+		// 3x4
+		MUU_LEGACY_REQUIRES((R == 3 && C == 4), size_t R = Rows, size_t C = Columns)
+		constexpr matrix_(Scalar v00,
+						  Scalar v01,
+						  Scalar v02 = Scalar{},
+						  Scalar v03 = Scalar{},
+						  Scalar v10 = Scalar{},
+						  Scalar v11 = Scalar{},
+						  Scalar v12 = Scalar{},
+						  Scalar v13 = Scalar{},
+						  Scalar v20 = Scalar{},
+						  Scalar v21 = Scalar{},
+						  Scalar v22 = Scalar{},
+						  Scalar v23 = Scalar{}) noexcept //
+			MUU_REQUIRES(Rows == 3 && Columns == 4)
+			: m{ { v00, v10, v20 }, { v01, v11, v21 }, { v02, v12, v22 }, { v03, v13, v23 } }
+		{}
+
+		// 4x4
+		MUU_LEGACY_REQUIRES((R == 4 && C == 4), size_t R = Rows, size_t C = Columns)
+		constexpr matrix_(Scalar v00,
+						  Scalar v01,
+						  Scalar v02 = Scalar{},
+						  Scalar v03 = Scalar{},
+						  Scalar v10 = Scalar{},
+						  Scalar v11 = Scalar{},
+						  Scalar v12 = Scalar{},
+						  Scalar v13 = Scalar{},
+						  Scalar v20 = Scalar{},
+						  Scalar v21 = Scalar{},
+						  Scalar v22 = Scalar{},
+						  Scalar v23 = Scalar{},
+						  Scalar v30 = Scalar{},
+						  Scalar v31 = Scalar{},
+						  Scalar v32 = Scalar{},
+						  Scalar v33 = Scalar{}) noexcept //
+			MUU_REQUIRES(Rows == 4 && Columns == 4)
+			: m{ { v00, v10, v20, v30 }, { v01, v11, v21, v31 }, { v02, v12, v22, v32 }, { v03, v13, v23, v33 } }
+		{}
 	};
 
 	MUU_ABI_VERSION_END;
@@ -162,6 +226,17 @@ namespace muu::impl
 										matrix<Scalar, Rows, Columns>,
 										const matrix<Scalar, Rows, Columns>&>;
 	};
+
+	template <size_t Rows, size_t Columns>
+	inline constexpr bool is_common_matrix = false;
+	template <>
+	inline constexpr bool is_common_matrix<2, 2> = true;
+	template <>
+	inline constexpr bool is_common_matrix<3, 3> = true;
+	template <>
+	inline constexpr bool is_common_matrix<3, 4> = true;
+	template <>
+	inline constexpr bool is_common_matrix<4, 4> = true;
 
 	#define MAT_GET(r, c) static_cast<type>(m.m[c].template get<r>())
 
@@ -381,13 +456,89 @@ namespace muu
 		/// \param	v0		Initial value for the matrix's first scalar component.
 		/// \param	v1		Initial value for the matrix's second scalar component.
 		/// \param	vals	Initial values for the matrix's remaining scalar components.
-		MUU_CONSTRAINED_TEMPLATE(((Rows * Columns) >= sizeof...(T) + 2
+		MUU_CONSTRAINED_TEMPLATE((!impl::is_common_matrix<Rows, Columns> //
+								  && (Rows * Columns) >= sizeof...(T) + 2
 								  && all_convertible_to<scalar_type, scalar_type, T...>),
 								 typename... T)
 		MUU_NODISCARD_CTOR
 		constexpr matrix(scalar_type v0, scalar_type v1, const T&... vals) noexcept
 			: base{ impl::row_major_tuple_tag{}, std::tuple<scalar_type, scalar_type, const T&...>{ v0, v1, vals... } }
 		{}
+
+		#ifndef DOXYGEN
+
+		// row-major scalar constructor optimizations for some common cases
+
+		// 2x2
+		MUU_LEGACY_REQUIRES((R == 2 && C == 2), size_t R = Rows, size_t C = Columns)
+		MUU_NODISCARD_CTOR
+		constexpr matrix(scalar_type v00,
+						 scalar_type v01,
+						 scalar_type v10 = scalar_type{},
+						 scalar_type v11 = scalar_type{}) noexcept //
+			MUU_REQUIRES(Rows == 2 && Columns == 2)
+			: base{ v00, v01, v10, v11 }
+		{}
+
+		// 3x3
+		MUU_LEGACY_REQUIRES((R == 3 && C == 3), size_t R = Rows, size_t C = Columns)
+		MUU_NODISCARD_CTOR
+		constexpr matrix(scalar_type v00,
+						 scalar_type v01,
+						 scalar_type v02 = scalar_type{},
+						 scalar_type v10 = scalar_type{},
+						 scalar_type v11 = scalar_type{},
+						 scalar_type v12 = scalar_type{},
+						 scalar_type v20 = scalar_type{},
+						 scalar_type v21 = scalar_type{},
+						 scalar_type v22 = scalar_type{}) noexcept //
+			MUU_REQUIRES(Rows == 3 && Columns == 3)
+			: base{ v00, v01, v02, v10, v11, v12, v20, v21, v22 }
+		{}
+
+		// 3x4
+		MUU_LEGACY_REQUIRES((R == 3 && C == 4), size_t R = Rows, size_t C = Columns)
+		MUU_NODISCARD_CTOR
+		constexpr matrix(scalar_type v00,
+						 scalar_type v01,
+						 scalar_type v02 = scalar_type{},
+						 scalar_type v03 = scalar_type{},
+						 scalar_type v10 = scalar_type{},
+						 scalar_type v11 = scalar_type{},
+						 scalar_type v12 = scalar_type{},
+						 scalar_type v13 = scalar_type{},
+						 scalar_type v20 = scalar_type{},
+						 scalar_type v21 = scalar_type{},
+						 scalar_type v22 = scalar_type{},
+						 scalar_type v23 = scalar_type{}) noexcept //
+			MUU_REQUIRES(Rows == 3 && Columns == 4)
+			: base{ v00, v01, v02, v03, v10, v11, v12, v13, v20, v21, v22, v23 }
+		{}
+
+		// 4x4
+		MUU_LEGACY_REQUIRES((R == 4 && C == 4), size_t R = Rows, size_t C = Columns)
+		MUU_NODISCARD_CTOR
+		constexpr matrix(scalar_type v00,
+						 scalar_type v01,
+						 scalar_type v02 = scalar_type{},
+						 scalar_type v03 = scalar_type{},
+						 scalar_type v10 = scalar_type{},
+						 scalar_type v11 = scalar_type{},
+						 scalar_type v12 = scalar_type{},
+						 scalar_type v13 = scalar_type{},
+						 scalar_type v20 = scalar_type{},
+						 scalar_type v21 = scalar_type{},
+						 scalar_type v22 = scalar_type{},
+						 scalar_type v23 = scalar_type{},
+						 scalar_type v30 = scalar_type{},
+						 scalar_type v31 = scalar_type{},
+						 scalar_type v32 = scalar_type{},
+						 scalar_type v33 = scalar_type{}) noexcept //
+			MUU_REQUIRES(Rows == 4 && Columns == 4)
+			: base{ v00, v01, v02, v03, v10, v11, v12, v13, v20, v21, v22, v23, v30, v31, v32, v33 }
+		{}
+
+		#endif
 
 		/// \brief Enlarging/truncating/converting constructor.
 		/// \details Copies source matrix's scalar components, casting if necessary:
@@ -443,81 +594,6 @@ namespace muu
 			static_assert(std::is_trivially_copyable_v<T>, "Bit-castable types must be trivially-copyable");
 		}
 
-		#if MUU_HAS_VECTORCALL
-
-		// optimizations for 2x2, 3x3, 3x4 and 4x4 cases
-
-		MUU_LEGACY_REQUIRES((R == 2 && C == 2), size_t R = Rows, size_t C = Columns)
-		MUU_NODISCARD_CTOR
-		constexpr matrix(scalar_type v00, scalar_type v01, scalar_type v10, scalar_type v11) noexcept
-			MUU_REQUIRES(Rows == 2 && Columns == 2)
-			: base{ impl::columnwise_init_tag{}, column_type{ v00, v10 }, column_type{ v01, v11 } }
-		{}
-
-		MUU_LEGACY_REQUIRES((R == 3 && C == 3), size_t R = Rows, size_t C = Columns)
-		MUU_NODISCARD_CTOR
-		constexpr matrix(scalar_type v00,
-						 scalar_type v01,
-						 scalar_type v02,
-						 scalar_type v10,
-						 scalar_type v11,
-						 scalar_type v12,
-						 scalar_type v20,
-						 scalar_type v21,
-						 scalar_type v22) noexcept MUU_REQUIRES(Rows == 3 && Columns == 3)
-			: base{ impl::columnwise_init_tag{},
-					column_type{ v00, v10, v20 },
-					column_type{ v01, v11, v21 },
-					column_type{ v02, v12, v22 } }
-		{}
-
-		MUU_LEGACY_REQUIRES((R == 3 && C == 4), size_t R = Rows, size_t C = Columns)
-		MUU_NODISCARD_CTOR
-		constexpr matrix(scalar_type v00,
-						 scalar_type v01,
-						 scalar_type v02,
-						 scalar_type v03,
-						 scalar_type v10,
-						 scalar_type v11,
-						 scalar_type v12,
-						 scalar_type v13,
-						 scalar_type v20,
-						 scalar_type v21,
-						 scalar_type v22,
-						 scalar_type v23) noexcept MUU_REQUIRES(Rows == 3 && Columns == 4)
-			: base{
-				  impl::columnwise_init_tag{},	column_type{ v00, v10, v20 }, column_type{ v01, v11, v21 },
-				  column_type{ v02, v12, v22 }, column_type{ v03, v13, v23 },
-			  }
-		{}
-
-		MUU_LEGACY_REQUIRES((R == 4 && C == 4), size_t R = Rows, size_t C = Columns)
-		MUU_NODISCARD_CTOR
-		constexpr matrix(scalar_type v00,
-						 scalar_type v01,
-						 scalar_type v02,
-						 scalar_type v03,
-						 scalar_type v10,
-						 scalar_type v11,
-						 scalar_type v12,
-						 scalar_type v13,
-						 scalar_type v20,
-						 scalar_type v21,
-						 scalar_type v22,
-						 scalar_type v23,
-						 scalar_type v30,
-						 scalar_type v31,
-						 scalar_type v32,
-						 scalar_type v33) noexcept MUU_REQUIRES(Rows == 4 && Columns == 4)
-			: base{ impl::columnwise_init_tag{},
-					column_type{ v00, v10, v20, v30 },
-					column_type{ v01, v11, v21, v31 },
-					column_type{ v02, v12, v22, v32 },
-					column_type{ v03, v13, v23, v33 } }
-		{}
-
-		#endif // MUU_HAS_VECTORCALL
-
 	  private:
 		template <typename... T>
 		MUU_NODISCARD_CTOR
@@ -546,12 +622,9 @@ namespace muu
 
 		template <typename T>
 		MUU_NODISCARD
-		MUU_ATTR_NDEBUG(pure)
-		MUU_ATTR_NDEBUG(flatten)
+		MUU_ATTR(pure)
 		static constexpr auto& do_lookup_operator(T& mat, size_t r, size_t c) noexcept
 		{
-			MUU_CONSTEXPR_SAFE_ASSERT(r < Rows && "Row index out of range");
-			MUU_CONSTEXPR_SAFE_ASSERT(c < Columns && "Column index out of range");
 			MUU_ASSUME(r < Rows);
 			MUU_ASSUME(c < Columns);
 
@@ -598,8 +671,7 @@ namespace muu
 		///
 		/// \return  A reference to the selected scalar component.
 		MUU_NODISCARD
-		MUU_ATTR_NDEBUG(pure)
-		MUU_ATTR_NDEBUG(flatten)
+		MUU_ATTR(pure)
 		constexpr const scalar_type& operator()(size_t r, size_t c) const noexcept
 		{
 			return do_lookup_operator(*this, r, c);
@@ -612,8 +684,7 @@ namespace muu
 		///
 		/// \return  A reference to the selected scalar component.
 		MUU_NODISCARD
-		MUU_ATTR_NDEBUG(pure)
-		MUU_ATTR_NDEBUG(flatten)
+		MUU_ATTR(pure)
 		constexpr scalar_type& operator()(size_t r, size_t c) noexcept
 		{
 			return do_lookup_operator(*this, r, c);
@@ -1391,10 +1462,10 @@ namespace muu
 		static constexpr inverse_type MUU_VECTORCALL invert(MUU_VC_PARAM(matrix) m) noexcept
 			MUU_REQUIRES(Rows == Columns && Columns <= 4)
 		{
+		#define MAT_GET(r, c) static_cast<intermediate_float>(m.m[c].template get<r>())
+
 			using result_scalar = typename inverse_type::scalar_type;
 			using result_column = typename inverse_type::column_type;
-
-		#define MAT_GET(r, c) static_cast<intermediate_float>(m.m[c].template get<r>())
 
 			if constexpr (Columns == 1)
 			{
@@ -1524,7 +1595,7 @@ namespace muu
 		///
 		/// \availability	This function is only available when the matrix is square,
 		///					has at most 4 rows and columns, and has a floating-point #scalar_type.
-		MUU_LEGACY_REQUIRES(R == C && C <= 4 && is_floating_point<Scalar>, size_t R = Rows, size_t C = Columns)
+		MUU_LEGACY_REQUIRES((R == C && C <= 4 && is_floating_point<Scalar>), size_t R = Rows, size_t C = Columns)
 		constexpr matrix& invert() noexcept MUU_REQUIRES(Rows == Columns && Columns <= 4 && is_floating_point<Scalar>)
 		{
 			return *this = invert(*this);

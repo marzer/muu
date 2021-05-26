@@ -47,7 +47,7 @@
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_DISABLE_SHADOW_WARNINGS;
 MUU_DISABLE_SUGGEST_WARNINGS;
-MUU_PRAGMA_GCC(diagnostic ignored "-Wsign-conversion")
+MUU_DISABLE_ARITHMETIC_WARNINGS;
 MUU_PRAGMA_MSVC(float_control(except, off))
 MUU_PRAGMA_MSVC(float_control(precise, off))
 
@@ -955,8 +955,6 @@ namespace muu
 		MUU_ATTR(nonnull)
 		vector(const T* vals, size_t num) noexcept
 		{
-			MUU_CONSTEXPR_SAFE_ASSERT(vals != nullptr && "vals cannot be nullptr");
-			MUU_CONSTEXPR_SAFE_ASSERT(num <= Dimensions && "num cannot exceed the number of dimensions");
 			MUU_ASSUME(vals != nullptr);
 			MUU_ASSUME(num <= Dimensions);
 			MUU_ASSUME(reinterpret_cast<uintptr_t>(vals) % alignof(T) == 0_sz);
@@ -1043,10 +1041,9 @@ namespace muu
 
 		template <typename T>
 		MUU_NODISCARD
-		MUU_ATTR_NDEBUG(pure)
+		MUU_ATTR(pure)
 		static constexpr auto& do_array_operator(T& vec, size_t idx) noexcept
 		{
-			MUU_CONSTEXPR_SAFE_ASSERT(idx < Dimensions && "Element index out of range");
 			MUU_ASSUME(idx < Dimensions);
 
 			if constexpr (Dimensions <= 4)
@@ -1118,7 +1115,7 @@ namespace muu
 		///
 		/// \return  A reference to the selected scalar component.
 		MUU_NODISCARD
-		MUU_ATTR_NDEBUG(pure)
+		MUU_ATTR(pure)
 		constexpr const scalar_type& operator[](size_t idx) const noexcept
 		{
 			return do_array_operator(*this, idx);
@@ -1130,7 +1127,7 @@ namespace muu
 		///
 		/// \return  A reference to the selected scalar component.
 		MUU_NODISCARD
-		MUU_ATTR_NDEBUG(pure)
+		MUU_ATTR(pure)
 		constexpr scalar_type& operator[](size_t idx) noexcept
 		{
 			return do_array_operator(*this, idx);
@@ -2042,11 +2039,10 @@ namespace muu
 		/// \availability		This function is only available when #scalar_type is an integral type.
 		MUU_LEGACY_REQUIRES(is_integral<T>, typename T = Scalar)
 		MUU_NODISCARD
-		MUU_ATTR_NDEBUG(pure)
+		MUU_ATTR(pure)
 		friend constexpr vector MUU_VECTORCALL operator<<(MUU_VC_PARAM(vector) lhs, product_type rhs) noexcept
 			MUU_REQUIRES(is_integral<Scalar>)
 		{
-			MUU_CONSTEXPR_SAFE_ASSERT(rhs >= 0 && "Bitwise left-shifting by negative values is illegal");
 			MUU_ASSUME(rhs >= 0);
 
 				// clang-format off
@@ -2062,7 +2058,6 @@ namespace muu
 		MUU_LEGACY_REQUIRES(is_integral<T>, typename T = Scalar)
 		constexpr vector& MUU_VECTORCALL operator<<=(product_type rhs) noexcept MUU_REQUIRES(is_integral<Scalar>)
 		{
-			MUU_CONSTEXPR_SAFE_ASSERT(rhs >= 0 && "Bitwise left-shifting by negative values is illegal");
 			MUU_ASSUME(rhs >= 0);
 
 				// clang-format off
@@ -2077,11 +2072,10 @@ namespace muu
 		/// \availability		This function is only available when #scalar_type is an integral type.
 		MUU_LEGACY_REQUIRES(is_integral<T>, typename T = Scalar)
 		MUU_NODISCARD
-		MUU_ATTR_NDEBUG(pure)
+		MUU_ATTR(pure)
 		friend constexpr vector MUU_VECTORCALL operator>>(MUU_VC_PARAM(vector) lhs, product_type rhs) noexcept
 			MUU_REQUIRES(is_integral<Scalar>)
 		{
-			MUU_CONSTEXPR_SAFE_ASSERT(rhs >= 0 && "Bitwise right-shifting by negative values is illegal");
 			MUU_ASSUME(rhs >= 0);
 
 				// clang-format off
@@ -2097,7 +2091,6 @@ namespace muu
 		MUU_LEGACY_REQUIRES(is_integral<T>, typename T = Scalar)
 		constexpr vector& MUU_VECTORCALL operator>>=(product_type rhs) noexcept MUU_REQUIRES(is_integral<Scalar>)
 		{
-			MUU_CONSTEXPR_SAFE_ASSERT(rhs >= 0 && "Bitwise right-shifting by negative values is illegal");
 			MUU_ASSUME(rhs >= 0);
 
 				// clang-format off

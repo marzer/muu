@@ -10,10 +10,15 @@
 #include "core.h"
 #include "generic_allocator.h"
 #include "string_param.h"
+
+MUU_DISABLE_WARNINGS;
+#include <cstring> // memcpy
+MUU_ENABLE_WARNINGS;
+
 #include "impl/header_start.h"
+MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_PRAGMA_CLANG(diagnostic ignored "-Wignored-attributes")
 MUU_PRAGMA_MSVC(warning(disable : 26495)) // core guidelines: uninitialized member
-MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 
 /// \cond
 namespace muu::impl

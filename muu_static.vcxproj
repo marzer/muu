@@ -100,6 +100,7 @@
     <ClInclude Include="include\muu\impl\geometry_common.h" />
     <ClInclude Include="include\muu\impl\header_end.h" />
     <ClInclude Include="include\muu\impl\header_start.h" />
+    <ClInclude Include="include\muu\impl\preprocessor_for_each.h" />
     <ClInclude Include="include\muu\impl\vector_types_common.h" />
     <ClInclude Include="include\muu\impl\unicode_char.h" />
     <ClInclude Include="include\muu\impl\unicode_char16_t.h" />
@@ -149,6 +150,7 @@
     <None Include="README.md" />
     <None Include="src\meson.build" />
     <None Include="tools\build_libs_msvc.bat" />
+    <None Include="tools\generate_batched_tests.py" />
     <None Include="tools\generate_float_tests_header.py" />
     <None Include="tools\generate_unicode_functions.py" />
     <None Include="tools\generate_windows_targets.py" />

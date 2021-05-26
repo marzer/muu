@@ -160,6 +160,9 @@
     <ClInclude Include="include\muu\impl\core_utils.h">
       <Filter>include\impl</Filter>
     </ClInclude>
+    <ClInclude Include="include\muu\impl\preprocessor_for_each.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".circleci\config.yml">
@@ -210,6 +213,9 @@
       <Filter>tools</Filter>
     </None>
     <None Include=".clang-format" />
+    <None Include="tools\generate_batched_tests.py">
+      <Filter>tools</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include=".circleci">

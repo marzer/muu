@@ -153,16 +153,7 @@
 		<ClCompile>
 			<Optimization>MaxSpeed</Optimization> <!-- /O2 -->
 			<OmitFramePointers>true</OmitFramePointers> <!-- /Oy -->
-			<AdditionalOptions Condition="$([System.Environment]::ProcessorCount) &gt; 8">
-				%(AdditionalOptions)
-				/MP2
-				/cgthreads8
-			</AdditionalOptions>
-			<AdditionalOptions Condition="$([System.Environment]::ProcessorCount) &lt;= 8">
-				%(AdditionalOptions)
-				/MP1
-				/cgthreads$([System.Math]::Min($([System.Environment]::ProcessorCount),8))
-			</AdditionalOptions>
+			<AdditionalOptions>%(AdditionalOptions) /MP$([System.Math]::Min($([System.Environment]::ProcessorCount),4))</AdditionalOptions>
 		</ClCompile>
 		<Link>
 			<EnableCOMDATFolding>true</EnableCOMDATFolding>

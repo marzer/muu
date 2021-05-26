@@ -112,6 +112,3 @@ TEST_CASE("string_param")
 		string_param_test(U"hello\0world");
 	}
 }
-
-
-inline constexpr std::string_view kek = "hello\0world"sv;

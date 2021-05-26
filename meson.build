@@ -153,6 +153,7 @@ if is_clang
 		'-Wno-documentation-unknown-command',
 		'-Wno-switch-enum',
 		'-Wno-covered-switch-default',
+		'-Wno-pch-date-time',
 		language : 'cpp'
 	)
 	if get_option('time_trace')
@@ -256,15 +257,7 @@ endif
 # c++ 20 check
 #######################################################################################################################
 
-compiler_supports_cpp20_args = []
-if is_gcc or is_clang
-	compiler_supports_cpp20_args += '-std=c++2a'
-elif is_icc
-	compiler_supports_cpp20_args += '/Qstd=c++2a'
-elif is_msvc
-	compiler_supports_cpp20_args += '/std:c++latest'
-endif
-compiler_supports_cpp20 = compiler_supports_cpp20_args.length() > 0 and compiler.links('''
+compiler_supports_cpp20_test_program = '''
 	#include <version>
 	#include <string>
 	#include <iostream>
@@ -275,10 +268,28 @@ compiler_supports_cpp20 = compiler_supports_cpp20_args.length() > 0 and compiler
 		std::cout << s << std::endl;
 		return 0;
 	}
-	''',
+'''
+compiler_supports_cpp20_args = []
+if is_gcc or is_clang
+	compiler_supports_cpp20_args += '-std=c++20'
+elif is_icc
+	compiler_supports_cpp20_args += '/Qstd=c++2a'
+elif is_msvc
+	compiler_supports_cpp20_args += '/std:c++latest'
+endif
+compiler_supports_cpp20 = compiler_supports_cpp20_args.length() > 0 and compiler.links(
+	compiler_supports_cpp20_test_program,
 	name : 'supports c++20',
 	args : compiler_supports_cpp20_args
 )
+if (is_gcc or is_clang) and not compiler_supports_cpp20
+	compiler_supports_cpp20_args = ['-std=c++2a', '-fconcepts']
+	compiler_supports_cpp20 = compiler_supports_cpp20_args.length() > 0 and compiler.links(
+		compiler_supports_cpp20_test_program,
+		name : 'supports c++2a',
+		args : compiler_supports_cpp20_args
+	)
+endif
 
 #######################################################################################################################
 # char8_t check

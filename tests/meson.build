@@ -1,45 +1,46 @@
 test_sources = [
+	'main.cpp',
+	'tests.cpp'
+]
+test_sources += [
 	'accumulator.cpp',
 	'blob.cpp',
-	'bounding_box_double.cpp',
-	'bounding_box_float.cpp',
-	'bounding_box_half.cpp',
-	'bounding_box_long_double.cpp',
+	'bounding_box_0.cpp',
+	'bounding_box_1.cpp',
+	'bounding_box_2.cpp',
+	'bounding_box_3.cpp',
 	'compressed_pair.cpp',
 	'core_bit.cpp',
 	'core_meta.cpp',
 	'core_other.cpp',
 	'half.cpp',
 	'hashing.cpp',
-	'main.cpp',
 	'math.cpp',
-	'matrix_char.cpp',
-	'matrix_double.cpp',
-	'matrix_float.cpp',
-	'matrix_half.cpp',
-	'matrix_int.cpp',
-	'matrix_long.cpp',
-	'matrix_long_double.cpp',
-	'matrix_long_long.cpp',
-	'matrix_short.cpp',
-	'oriented_bounding_box_double.cpp',
-	'oriented_bounding_box_float.cpp',
-	'oriented_bounding_box_half.cpp',
-	'oriented_bounding_box_long_double.cpp',
-	'plane_double.cpp',
-	'plane_float.cpp',
-	'plane_half.cpp',
-	'plane_long_double.cpp',
-	'quaternion_double.cpp',
-	'quaternion_float.cpp',
-	'quaternion_half.cpp',
-	'quaternion_long_double.cpp',
+	'matrix_0.cpp',
+	'matrix_1.cpp',
+	'matrix_2.cpp',
+	'matrix_3.cpp',
+	'matrix_4.cpp',
+	'matrix_5.cpp',
+	'matrix_6.cpp',
+	'matrix_7.cpp',
+	'oriented_bounding_box_0.cpp',
+	'oriented_bounding_box_1.cpp',
+	'oriented_bounding_box_2.cpp',
+	'oriented_bounding_box_3.cpp',
+	'plane_0.cpp',
+	'plane_1.cpp',
+	'plane_2.cpp',
+	'plane_3.cpp',
+	'quaternion_0.cpp',
+	'quaternion_1.cpp',
+	'quaternion_2.cpp',
+	'quaternion_3.cpp',
 	'scope_guard.cpp',
 	'span.cpp',
 	'string_param.cpp',
 	'strings.cpp',
 	'tagged_ptr.cpp',
-	'tests.cpp',
 	'thread_pool.cpp',
 	'unicode_char.cpp',
 	'unicode_char16_t.cpp',
@@ -47,53 +48,15 @@ test_sources = [
 	'unicode_char8_t.cpp',
 	'unicode_unsigned_char.cpp',
 	'uuid.cpp',
-	'vector_char.cpp',
-	'vector_double.cpp',
-	'vector_float.cpp',
-	'vector_half.cpp',
-	'vector_int.cpp',
-	'vector_long.cpp',
-	'vector_long_double.cpp',
-	'vector_long_long.cpp',
-	'vector_short.cpp',
+	'vector_0.cpp',
+	'vector_1.cpp',
+	'vector_2.cpp',
+	'vector_3.cpp',
+	'vector_4.cpp',
+	'vector_5.cpp',
+	'vector_6.cpp',
+	'vector_7.cpp',
 ]
-if compiler_supports_fp16
-	test_sources += [
-		'bounding_box_fp16.cpp',
-		'matrix_fp16.cpp',
-		'oriented_bounding_box_fp16.cpp',
-		'plane_fp16.cpp',
-		'quaternion_fp16.cpp',
-		'vector_fp16.cpp',
-	]
-endif
-if compiler_supports_float16
-	test_sources += [
-		'bounding_box_Float16.cpp',
-		'matrix_Float16.cpp',
-		'oriented_bounding_box_Float16.cpp',
-		'plane_Float16.cpp',
-		'quaternion_Float16.cpp',
-		'vector_Float16.cpp',
-	]
-endif
-if compiler_supports_int128
-	test_sources += [
-		'matrix_int128.cpp',
-		'vector_int128.cpp',
-	]
-endif
-if compiler_supports_float128
-	test_sources += [
-		'bounding_box_float128.cpp',
-		'matrix_float128.cpp',
-		'oriented_bounding_box_float128.cpp',
-		'plane_float128.cpp',
-		'quaternion_float128.cpp',
-		'vector_float128.cpp'
-	]
-endif
-
 
 test_dependencies = []
 if compiler_supports_float128
@@ -128,10 +91,23 @@ compiler_supports_fast_math = compiler.links('''
 # do the thing!
 #######################################################################################################################
 
-fast_math_modes = [ false, true ]
-exception_modes = [ false, true ]
-cpp20_modes = [ false, true ]
+fast_math_modes = [ false, true  ]
+exception_modes = [ false, true  ]
+cpp20_modes     = [ true , false ]
 test_executables = []
+test_additional_arguments = []
+if is_gcc
+	# precompiled headers fuck up warning pragmas in GCC =/
+	test_additional_arguments += [
+		'-Wno-float-equal',
+		'-Wno-sign-conversion',
+		'-Wno-attributes',
+		'-Wno-shadow',
+		'-Wno-all',
+		'-Wno-extra',
+		'-Wno-pedantic',
+	]
+endif
 
 foreach cpp20 : cpp20_modes
 	if cpp20 and not compiler_supports_cpp20
@@ -147,6 +123,7 @@ foreach cpp20 : cpp20_modes
 			test_overrides += overrides
 			test_args = []
 			test_args += additional_arguments
+			test_args += test_additional_arguments
 	
 			if cpp20
 				test_name = 'cpp20'
@@ -204,6 +181,7 @@ foreach cpp20 : cpp20_modes
 					override_options: test_overrides,
 					link_with: [ muu_lib ],
 					dependencies: test_dependencies,
+					cpp_pch : 'pch/gcc_pch.h'
 				)
 			]]
 

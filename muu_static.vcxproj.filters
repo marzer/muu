@@ -139,21 +139,30 @@
     <ClInclude Include="include\muu\impl\environment_checks.h">
       <Filter>include\impl</Filter>
     </ClInclude>
-    <ClInclude Include="include\muu\impl\core_meta.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\muu\impl\core_constants.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\muu\generic_allocator.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\muu\impl\core_bit.h">
-      <Filter>include</Filter>
+    <ClInclude Include="include\muu\impl\core_meta.h">
+      <Filter>include\impl</Filter>
     </ClInclude>
-    <ClInclude Include="include\muu\impl\core_literals.h" />
-    <ClInclude Include="include\muu\impl\core_utils.h" />
-    <ClInclude Include="include\muu\impl\core_build.h" />
+    <ClInclude Include="include\muu\impl\core_bit.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\core_constants.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\core_build.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\core_literals.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\core_utils.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\preprocessor_for_each.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".circleci\config.yml">
@@ -204,6 +213,9 @@
       <Filter>tools</Filter>
     </None>
     <None Include=".clang-format" />
+    <None Include="tools\generate_batched_tests.py">
+      <Filter>tools</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include=".circleci">

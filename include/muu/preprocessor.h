@@ -973,10 +973,6 @@ MUU_ENABLE_WARNINGS;
 	type(const type&) = default;			\
 	type& operator=(const type&) = default
 
-#ifndef MUU_TRACE // spam^H^H^H^H debugging hook
-	#define MUU_TRACE(...) MUU_NOOP
-#endif
-
 #define MUU_MAKE_FLAGS_2(name, op, linkage)												\
 	[[nodiscard]]																		\
 	MUU_ATTR(const)																		\
@@ -1082,6 +1078,8 @@ namespace muu::impl
 
 #define MUU_MOVE(...) static_cast<typename ::muu::impl::remove_reference_<decltype(__VA_ARGS__)>::type&&>(__VA_ARGS__)
 
+#include "impl/preprocessor_for_each.h"
+
 //======================================================================================================================
 // SFINAE AND CONCEPTS
 //======================================================================================================================
@@ -1099,18 +1097,19 @@ namespace muu::impl
 #endif
 
 /// \cond
+#define MUU_ENABLE_IF(...)							, std::enable_if_t<(__VA_ARGS__), int> = 0
+#define MUU_ENABLE_IF_2(...)						, typename = std::enable_if_t<(__VA_ARGS__)>
 #if MUU_CONCEPTS
 	#define MUU_REQUIRES(...)							requires(__VA_ARGS__)
-	#define MUU_CONSTRAINED_TEMPLATE(condition, ...)	template <__VA_ARGS__> requires(condition)
-	#define MUU_CONSTRAINED_TEMPLATE_2(condition, ...)	template <__VA_ARGS__> requires(condition)
+	#define MUU_CONSTRAINED_TEMPLATE(condition, ...)	template <__VA_ARGS__> MUU_REQUIRES(condition)
+	#define MUU_CONSTRAINED_TEMPLATE_2(condition, ...)	template <__VA_ARGS__> MUU_REQUIRES(condition)
 #else
-	#define MUU_ENABLE_IF(...)							, std::enable_if_t<(__VA_ARGS__), int> = 0
-	#define MUU_ENABLE_IF_2(...)						, typename = std::enable_if_t<(__VA_ARGS__)>
+	#define MUU_REQUIRES(...)
 	#define MUU_CONSTRAINED_TEMPLATE(condition, ...)	template <__VA_ARGS__ MUU_ENABLE_IF(condition)>
 	#define MUU_CONSTRAINED_TEMPLATE_2(condition, ...)	template <__VA_ARGS__ MUU_ENABLE_IF_2(condition)>
-	#define MUU_LEGACY_REQUIRES(condition, ...)			MUU_CONSTRAINED_TEMPLATE(condition, __VA_ARGS__)
-	#define MUU_LEGACY_REQUIRES_2(condition, ...)		MUU_CONSTRAINED_TEMPLATE_2(condition, __VA_ARGS__)
 #endif
+#define MUU_LEGACY_REQUIRES(condition, ...)			MUU_CONSTRAINED_TEMPLATE(condition, __VA_ARGS__)
+#define MUU_LEGACY_REQUIRES_2(condition, ...)		MUU_CONSTRAINED_TEMPLATE_2(condition, __VA_ARGS__)
 /// \endcond
 
 #ifndef MUU_REQUIRES
