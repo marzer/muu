@@ -151,7 +151,7 @@ namespace
 	// clang-format off
 
 	template <typename... T>
-	using all_matrices = std::tuple<
+	using all_matrices = type_list<
 		matrix<T, 1, 1>..., matrix<T, 1, 2>..., matrix<T, 1, 3>..., matrix<T, 1, 4>..., matrix<T, 1, 5>...,
 		matrix<T, 2, 1>..., matrix<T, 2, 2>..., matrix<T, 2, 3>..., matrix<T, 2, 4>..., matrix<T, 2, 5>...,
 		matrix<T, 3, 1>..., matrix<T, 3, 2>..., matrix<T, 3, 3>..., matrix<T, 3, 4>..., matrix<T, 3, 5>...,
@@ -162,13 +162,13 @@ namespace
 	// clang-format on
 
 	template <typename... T>
-	using common_matrices = std::tuple<matrix<T, 2, 2>..., matrix<T, 3, 3>..., matrix<T, 3, 4>..., matrix<T, 4, 4>...>;
+	using common_matrices = type_list<matrix<T, 2, 2>..., matrix<T, 3, 3>..., matrix<T, 3, 4>..., matrix<T, 4, 4>...>;
 
 	template <typename... T>
-	using square_matrices = std::tuple<matrix<T, 2, 2>..., matrix<T, 3, 3>..., matrix<T, 4, 4>...>;
+	using square_matrices = type_list<matrix<T, 2, 2>..., matrix<T, 3, 3>..., matrix<T, 4, 4>...>;
 
 	template <typename... T>
-	using rotation_matrices = std::tuple<matrix<T, 3, 3>..., matrix<T, 3, 4>..., matrix<T, 4, 4>...>;
+	using rotation_matrices = type_list<matrix<T, 3, 3>..., matrix<T, 3, 4>..., matrix<T, 4, 4>...>;
 }
 
 namespace muu

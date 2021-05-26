@@ -165,16 +165,16 @@ namespace
 	};
 
 	template <typename... T>
-	using vectors = std::tuple<vector<T, 1>..., vector<T, 2>..., vector<T, 3>..., vector<T, 4>..., vector<T, 5>...>;
+	using vectors = type_list<vector<T, 1>..., vector<T, 2>..., vector<T, 3>..., vector<T, 4>..., vector<T, 5>...>;
 
 	template <size_t N, typename... T>
-	using vectors_N = std::tuple<vector<T, N>...>;
+	using vectors_N = type_list<vector<T, N>...>;
 
 	template <size_t N1, size_t N2, typename... T>
-	using vectors_NN = std::tuple<vector<T, N1>..., vector<T, N2>...>;
+	using vectors_NN = type_list<vector<T, N1>..., vector<T, N2>...>;
 
 	template <size_t N1, size_t N2, size_t N3, typename... T>
-	using vectors_NNN = std::tuple<vector<T, N1>..., vector<T, N2>..., vector<T, N3>...>;
+	using vectors_NNN = type_list<vector<T, N1>..., vector<T, N2>..., vector<T, N3>...>;
 }
 
 namespace muu

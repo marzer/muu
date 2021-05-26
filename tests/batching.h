@@ -20,17 +20,10 @@
 	#define TEST_BATCH 0
 #endif
 
-template <typename T>
-struct type_tag
-{
-	using type = T;
-};
+template <typename... T>
+struct batch_picker;
 
-template <auto I>
-struct index_tag
-{
-	static constexpr auto value = I;
-};
+#if TEST_BATCHES > 1
 
 template <typename... T>
 struct batch_picker
@@ -41,21 +34,21 @@ struct batch_picker
 
 	MUU_NODISCARD
 	MUU_CONSTEVAL
-	static auto get_tuple_tag() noexcept
+	static auto get_type_list_tag() noexcept
 	{
 		if constexpr (total_batches == 1_sz)
 		{
-			return type_tag<std::tuple<T...>>{};
+			return type_list<T...>{};
 		}
 		else if constexpr (item_count <= total_batches)
 		{
 			if constexpr (current_batch < item_count)
 			{
-				return type_tag<std::tuple<std::tuple_element_t<current_batch, std::tuple<T...>>>>{};
+				return typename type_list<T...>::template slice<current_batch, 1>{};
 			}
 			else
 			{
-				return type_tag<std::tuple<>>{};
+				return type_list<>{};
 			}
 		}
 		else
@@ -87,18 +80,32 @@ struct batch_picker
 				return val;
 			}();
 
-			using subset = decltype(tuple_subset<range.start>(std::declval<std::tuple<T...>>(),
-															  std::make_index_sequence<range.size>{}));
-			return type_tag<subset>{};
+			return typename type_list<T...>::template slice<range.start, range.size>{};
 		}
 	}
 
-	using types = typename decltype(get_tuple_tag())::type;
+	using types = decltype(get_type_list_tag());
 };
+
+#else
+
 template <typename... T>
-struct batch_picker<std::tuple<T...>>
+struct batch_picker
+{
+	using types = type_list<T...>;
+};
+
+#endif
+
+template <typename... T>
+struct batch_picker<type_list<T...>>
 {
 	using types = typename batch_picker<T...>::types;
+};
+template <>
+struct batch_picker<type_list<>>
+{
+	using types = type_list<>;
 };
 
 template <typename... T>
@@ -113,15 +120,21 @@ using batched = typename batch_picker<T...>::types;
 #define TEMPLATE_BATCHED_TEST_IMPL(name, func_name, ...)                                                               \
 	template <typename TestType>                                                                                       \
 	static void func_name();                                                                                           \
+	MUU_PUSH_WARNINGS;                                                                                                 \
+	MUU_PRAGMA_MSVC(warning(disable : 4296))                                                                           \
 	TEST_CASE(name TEST_BATCH_SUFFIX, "")                                                                              \
 	{                                                                                                                  \
-		muu::for_sequence<std::tuple_size_v<batched<__VA_ARGS__>>>(                                                    \
-			[](auto i)                                                                                                 \
-			{                                                                                                          \
-				using TestType = std::tuple_element_t<decltype(i)::value, batched<__VA_ARGS__>>;                       \
-				func_name<TestType>();                                                                                 \
-			});                                                                                                        \
+		if constexpr (batched<__VA_ARGS__>::length > 0)                                                                \
+		{                                                                                                              \
+			muu::for_sequence<batched<__VA_ARGS__>::length>(                                                           \
+				[](auto i)                                                                                             \
+				{                                                                                                      \
+					using TestType = batched<__VA_ARGS__>::select<decltype(i)::value>;                                 \
+					func_name<TestType>();                                                                             \
+				});                                                                                                    \
+		}                                                                                                              \
 	}                                                                                                                  \
+	MUU_POP_WARNINGS;                                                                                                  \
 	template <typename TestType>                                                                                       \
 	static void func_name()
 

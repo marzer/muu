@@ -103,7 +103,7 @@
 			<ProgramDataBaseFileName>$(OutDir)$(TargetName).pdb</ProgramDataBaseFileName>
 			<EnableEnhancedInstructionSet>$(MuuInstructionSet_)</EnableEnhancedInstructionSet>
 			<PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-			<AdditionalOptions>%(AdditionalOptions) /utf-8 /bigobj</AdditionalOptions>
+			<AdditionalOptions>%(AdditionalOptions) /utf-8 /bigobj /MP4</AdditionalOptions>
 			<!-- conformance flags -->
 			<AdditionalOptions>%(AdditionalOptions) /volatile:iso</AdditionalOptions>
 			<AdditionalOptions>%(AdditionalOptions) /Zc:__cplusplus</AdditionalOptions>
@@ -136,7 +136,6 @@
 		<ClCompile>
 			<Optimization>Disabled</Optimization> <!-- /Od -->
 			<OmitFramePointers>false</OmitFramePointers> <!-- /Oy- -->
-			<AdditionalOptions>%(AdditionalOptions) /MP</AdditionalOptions>
 		</ClCompile>
 		<Link>
 			<OptimizeReferences>false</OptimizeReferences> <!-- /OPT:NOREF -->
@@ -153,7 +152,6 @@
 		<ClCompile>
 			<Optimization>MaxSpeed</Optimization> <!-- /O2 -->
 			<OmitFramePointers>true</OmitFramePointers> <!-- /Oy -->
-			<AdditionalOptions>%(AdditionalOptions) /MP$([System.Math]::Min($([System.Environment]::ProcessorCount),4))</AdditionalOptions>
 		</ClCompile>
 		<Link>
 			<EnableCOMDATFolding>true</EnableCOMDATFolding>

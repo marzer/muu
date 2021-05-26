@@ -40,7 +40,7 @@ namespace
 	};
 
 	template <typename... T>
-	using bounding_boxes = std::tuple<bounding_box<T>...>;
+	using bounding_boxes = type_list<bounding_box<T>...>;
 }
 
 namespace muu

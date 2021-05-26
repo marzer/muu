@@ -1730,6 +1730,150 @@ namespace muu
 	template <typename... T>
 	inline constexpr epsilon_type<T...> default_epsilon = constants<epsilon_type<T...>>::default_epsilon;
 
+	/// \brief A 'tag' type for encoding/parameterizing a single type.
+	template <typename T>
+	struct type_tag
+	{
+		using type = T;
+	};
+
+	/// \cond
+	template <typename... T>
+	struct type_list;
+
+	namespace impl
+	{
+		template <typename List, size_t N>
+		struct type_list_select_;
+
+		template <typename T0, typename... T>
+		struct type_list_select_<type_list<T0, T...>, 0>
+		{
+			using type = T0;
+		};
+		template <typename T0, typename... T, size_t N>
+		struct type_list_select_<type_list<T0, T...>, N>
+		{
+			using type = typename type_list_select_<type_list<T...>, N - 1>::type;
+		};
+
+		// manually unroll the lower-count selectors to reduce pressure on compilers
+		// clang-format off
+
+		template <typename T0> struct type_list_select_<type_list<T0>, 0> { using type = T0; };
+
+		template <typename T0, typename T1> struct type_list_select_<type_list<T0, T1>, 0> { using type = T0; };
+		template <typename T0, typename T1> struct type_list_select_<type_list<T0, T1>, 1> { using type = T1; };
+
+		#define MAKE_SELECTOR_TPARAM(T)			MUU_COMMA typename T
+		#define MAKE_SELECTOR_TARG(T)			MUU_COMMA T
+		#define MAKE_SELECTOR(Index, T0, ...)																\
+			template <typename T0 MUU_FOR_EACH(MAKE_SELECTOR_TPARAM, __VA_ARGS__)>							\
+			struct type_list_select_<type_list<T0 MUU_FOR_EACH(MAKE_SELECTOR_TARG, __VA_ARGS__)>, Index>	\
+			{																								\
+				using type = T##Index;																		\
+			}
+
+		MAKE_SELECTOR(0, T0, T1, T2);
+		MAKE_SELECTOR(1, T0, T1, T2);
+		MAKE_SELECTOR(2, T0, T1, T2);
+
+		MAKE_SELECTOR(0, T0, T1, T2, T3);
+		MAKE_SELECTOR(1, T0, T1, T2, T3);
+		MAKE_SELECTOR(2, T0, T1, T2, T3);
+		MAKE_SELECTOR(3, T0, T1, T2, T3);
+
+		MAKE_SELECTOR(0, T0, T1, T2, T3, T4);
+		MAKE_SELECTOR(1, T0, T1, T2, T3, T4);
+		MAKE_SELECTOR(2, T0, T1, T2, T3, T4);
+		MAKE_SELECTOR(3, T0, T1, T2, T3, T4);
+		MAKE_SELECTOR(4, T0, T1, T2, T3, T4);
+
+		MAKE_SELECTOR(0, T0, T1, T2, T3, T4, T5);
+		MAKE_SELECTOR(1, T0, T1, T2, T3, T4, T5);
+		MAKE_SELECTOR(2, T0, T1, T2, T3, T4, T5);
+		MAKE_SELECTOR(3, T0, T1, T2, T3, T4, T5);
+		MAKE_SELECTOR(4, T0, T1, T2, T3, T4, T5);
+		MAKE_SELECTOR(5, T0, T1, T2, T3, T4, T5);
+
+		MAKE_SELECTOR(0, T0, T1, T2, T3, T4, T5, T6);
+		MAKE_SELECTOR(1, T0, T1, T2, T3, T4, T5, T6);
+		MAKE_SELECTOR(2, T0, T1, T2, T3, T4, T5, T6);
+		MAKE_SELECTOR(3, T0, T1, T2, T3, T4, T5, T6);
+		MAKE_SELECTOR(4, T0, T1, T2, T3, T4, T5, T6);
+		MAKE_SELECTOR(5, T0, T1, T2, T3, T4, T5, T6);
+		MAKE_SELECTOR(6, T0, T1, T2, T3, T4, T5, T6);
+
+		MAKE_SELECTOR(0, T0, T1, T2, T3, T4, T5, T6, T7);
+		MAKE_SELECTOR(1, T0, T1, T2, T3, T4, T5, T6, T7);
+		MAKE_SELECTOR(2, T0, T1, T2, T3, T4, T5, T6, T7);
+		MAKE_SELECTOR(3, T0, T1, T2, T3, T4, T5, T6, T7);
+		MAKE_SELECTOR(4, T0, T1, T2, T3, T4, T5, T6, T7);
+		MAKE_SELECTOR(5, T0, T1, T2, T3, T4, T5, T6, T7);
+		MAKE_SELECTOR(6, T0, T1, T2, T3, T4, T5, T6, T7);
+		MAKE_SELECTOR(7, T0, T1, T2, T3, T4, T5, T6, T7);
+
+		#undef MAKE_SELECTOR_TPARAM
+		#undef MAKE_SELECTOR_TARG
+		#undef MAKE_SELECTOR
+
+		// clang-format on
+
+		template <typename List, size_t Start, typename Seq>
+		struct type_list_slice_;
+
+		template <typename List, size_t Start, size_t... Seq>
+		struct type_list_slice_<List, Start, std::index_sequence<Seq...>>
+		{
+			
+			using type = type_list<typename type_list_select_<List, Start + Seq>::type...>;
+		};
+
+		template <typename List, size_t Start>
+		struct type_list_slice_<List, Start, std::index_sequence<>>
+		{
+			using type = type_list<>;
+		};
+
+		template <typename... T>
+		struct type_list_slice_<type_list<T...>, 0, std::make_index_sequence<sizeof...(T)>>
+		{
+			using type = type_list<T...>;
+		};
+	}
+
+	template <>
+	struct type_list<>
+	{
+		static constexpr size_t length = 0;
+
+		// select and slice are clearly nonsensical in this case
+		// but templates will break if they're not here
+
+		template <size_t Index>
+		using select = typename impl::type_list_select_<type_list<>, Index>::type;
+
+		template <size_t Start, size_t Length>
+		using slice = typename impl::type_list_slice_<type_list<>, Start, std::make_index_sequence<Length>>::type;
+	};
+	/// \endcond
+
+	/// \brief A 'tag' type for encoding/parameterizing lists of types (without the instantiation heft of std::tuple).
+	template <typename... T>
+	struct type_list
+	{
+		/// \brief	The length of the list.
+		static constexpr size_t length = sizeof...(T);
+
+		/// \brief Selects a single type from the list.
+		template <size_t Index>
+		using select = typename impl::type_list_select_<type_list<T...>, Index>::type;
+
+		/// \brief Selects a slice of types from the list.
+		template <size_t Start, size_t Length>
+		using slice = typename impl::type_list_slice_<type_list<T...>, Start, std::make_index_sequence<Length>>::type;
+	};
+
 	/** @} */ // meta
 }
 

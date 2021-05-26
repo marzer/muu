@@ -36,7 +36,7 @@ namespace
 	};
 
 	template <typename... T>
-	using planes = std::tuple<plane<T>...>;
+	using planes = type_list<plane<T>...>;
 }
 
 namespace muu

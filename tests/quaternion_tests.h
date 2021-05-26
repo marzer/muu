@@ -41,7 +41,7 @@ namespace
 	};
 
 	template <typename... T>
-	using make_quaternions = std::tuple<quaternion<T>...>;
+	using make_quaternions = type_list<quaternion<T>...>;
 	using all_quaternions = make_quaternions<ALL_FLOATS>;
 }
 

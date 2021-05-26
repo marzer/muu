@@ -118,6 +118,12 @@ foreach cpp20 : cpp20_modes
 			continue
 		endif
 		foreach exceptions : exception_modes
+
+			# fast_math + noexcept, or neither; not one or the other
+			if fast_math == exceptions
+				continue
+			endif
+
 			test_name = ''
 			test_overrides = []
 			test_overrides += overrides

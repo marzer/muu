@@ -45,7 +45,7 @@ namespace
 	};
 
 	template <typename... T>
-	using oriented_bounding_boxes = std::tuple<oriented_bounding_box<T>...>;
+	using oriented_bounding_boxes = type_list<oriented_bounding_box<T>...>;
 }
 
 namespace muu
