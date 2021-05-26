@@ -249,6 +249,11 @@
             </dt>
             <dd>Counts the number of consecutive 0 bits, starting from the right.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;auto N1, auto N2, typename Func&gt;</div>
+              <span class="m-doc-wrap-bumper">void <a class="m-doc" href="#ga5f6c6004ed4016c437442e80f0b22421">for_product</a>(</span><span class="m-doc-wrap">Func&amp;&amp; func) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
+            </dt>
+            <dd>Generates a series of sequential function calls by pack expansion.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;auto N, typename Func&gt;</div>
               <span class="m-doc-wrap-bumper">void <a class="m-doc" href="#gab64801b0b03f54c51a21000e8bb95ea1">for_sequence</a>(</span><span class="m-doc-wrap">Func&amp;&amp; func) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
             </dt>
@@ -1058,6 +1063,50 @@
             </table>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/numeric/countr_zero" target="_blank">std::countr_zero</a>, with the addition of also being extended to work with enum types.</p></aside>
           </div></section>
+          <section class="m-doc-details" id="ga5f6c6004ed4016c437442e80f0b22421"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;auto N1, auto N2, typename Func&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">void </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga5f6c6004ed4016c437442e80f0b22421">for_product</a>(</span><span class="m-doc-wrap">Func&amp;&amp; func) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept(…)</span></span></span>
+            </h3>
+            <p>Generates a series of sequential function calls by pack expansion.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">N1</td>
+                  <td>The length of the LHS sequence. Cannot be negative.</td>
+                </tr>
+                <tr>
+                  <td>N2</td>
+                  <td>The length of the RHS sequence. Cannot be negative.</td>
+                </tr>
+                <tr>
+                  <td>Func</td>
+                  <td>A callable type with the signature <code>void(auto, auto)</code>.</td>
+                </tr>
+              </tbody>
+            </table>
+<p>Generates a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integral_constant.html" target="_blank">std::<wbr/>integral_constant</a> product sequence, [0...N1) * [0...N2), which is passed into the callable:</p><pre class="m-code"><span class="k">auto</span> <span class="n">vals_1</span> <span class="o">=</span> <span class="ns">std</span><span class="o">::</span><span class="ut">pair</span><span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="p">};</span>
+<span class="k">auto</span> <span class="n">vals_2</span> <span class="o">=</span> <span class="ns">std</span><span class="o">::</span><span class="ut">pair</span><span class="p">{</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span> <span class="p">};</span>
+<span class="n">for_product</span><span class="o">&lt;</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span><span class="p">([</span><span class="o">&amp;</span><span class="p">](</span><span class="k">auto</span> <span class="n">i</span><span class="p">,</span> <span class="k">auto</span> <span class="n">j</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">const</span> <span class="k">auto</span> <span class="n">lhs</span> <span class="o">=</span> <span class="ns">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">::</span><span class="n">value</span><span class="o">&gt;</span><span class="p">(</span><span class="n">vals_1</span><span class="p">);</span>
+    <span class="k">const</span> <span class="k">auto</span> <span class="n">rhs</span> <span class="o">=</span> <span class="ns">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">::</span><span class="n">value</span><span class="o">&gt;</span><span class="p">(</span><span class="n">vals_2</span><span class="p">);</span>
+    <span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">lhs</span>
+              <span class="o">&lt;&lt;</span> <span class="s">" * "</span>
+              <span class="o">&lt;&lt;</span> <span class="n">rhs</span>
+              <span class="o">&lt;&lt;</span> <span class="s">" = "</span>
+              <span class="o">&lt;&lt;</span> <span class="n">lhs</span> <span class="o">*</span> <span class="n">rhs</span><span class="p">;</span>
+<span class="p">});</span></pre><pre class="m-console"><span class="go">1 * 3 = 3</span>
+<span class="go">1 * 4 = 4</span>
+<span class="go">2 * 3 = 6</span>
+<span class="go">2 * 4 = 8</span></pre>
+          </div></section>
           <section class="m-doc-details" id="gab64801b0b03f54c51a21000e8bb95ea1"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
@@ -1074,7 +1123,7 @@
               <tbody>
                 <tr>
                   <td style="width: 1%">N</td>
-                  <td>The length of the sequence (the number of calls).</td>
+                  <td>The length of the sequence (the number of calls). Cannot be negative.</td>
                 </tr>
                 <tr>
                   <td>Func</td>
@@ -1082,10 +1131,10 @@
                 </tr>
               </tbody>
             </table>
-<p>Generates a sequence of <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integral_constant" target="_blank">std::integral_constants</a> from 0 to N which are passed into the functor:</p><pre class="m-code"><span class="k">auto</span> <span class="n">vals</span> <span class="o">=</span> <span class="ns">std</span><span class="o">::</span><span class="ut">tuple</span><span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"1"</span><span class="sa">sv</span><span class="p">,</span> <span class="mf">2.3f</span> <span class="p">};</span>
-<span class="n">for_sequence</span><span class="o">&lt;</span><span class="mi">3</span><span class="n">_sz</span><span class="o">&gt;</span><span class="p">([</span><span class="o">&amp;</span><span class="p">](</span><span class="k">auto</span> <span class="n">i</span><span class="p">)</span>
+<p>Generates a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integral_constant.html" target="_blank">std::<wbr/>integral_constant</a> sequence, [0...N1), which is passed into the callable:</p><pre class="m-code"><span class="k">auto</span> <span class="n">vals</span> <span class="o">=</span> <span class="ns">std</span><span class="o">::</span><span class="ut">tuple</span><span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"1"</span><span class="sa">sv</span><span class="p">,</span> <span class="mf">2.3f</span> <span class="p">};</span>
+<span class="n">for_sequence</span><span class="o">&lt;</span><span class="mi">3</span><span class="o">&gt;</span><span class="p">([</span><span class="o">&amp;</span><span class="p">](</span><span class="k">auto</span> <span class="n">i</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="n">i</span><span class="o">&gt;</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+    <span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">::</span><span class="n">value</span><span class="o">&gt;</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
 <span class="p">});</span></pre><pre class="m-console"><span class="go">0</span>
 <span class="go">1</span>
 <span class="go">2.3</span></pre>
