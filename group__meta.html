@@ -65,6 +65,7 @@
             <li>
               Reference
               <ul>
+                <li><a href="#nested-classes">Classes</a></li>
                 <li><a href="#typedef-members">Typedefs</a></li>
                 <li><a href="#var-members">Variables</a></li>
               </ul>
@@ -72,6 +73,21 @@
           </ul>
         </div>
 <aside class="m-note m-default"><h4>Remark</h4><p>Many of these are mirrors of (or supplementary to) traits found in the standard library's <code>&lt;type_traits&gt;</code>, but with simpler/saner default behaviour (e.g. most of the <code>is_X</code> metafunctions do not make a distinction between T and T&amp;).</p></aside>
+        <section id="nested-classes">
+          <h2><a href="#nested-classes">Classes</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1type__list.html">muu::type_list</a>
+            </dt>
+            <dd>A 'tag' type for encoding/parameterizing lists of types (without the instantiation heft of <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/utility/tuple.html" target="_blank">std::<wbr/>tuple</a>).</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1type__tag.html">muu::type_tag</a>
+            </dt>
+            <dd>A 'tag' type for encoding/parameterizing a single type.</dd>
+          </dl>
+        </section>
         <section id="typedef-members">
           <h2><a href="#typedef-members">Typedefs</a></h2>
           <dl class="m-doc">

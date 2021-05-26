@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu Useful utilities for modern C++</title>
+  <title>muu::type_list struct | muu Useful utilities for modern C++</title>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
   <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
   <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
@@ -20,12 +20,6 @@
   <link href="poxy.css" rel="stylesheet"/>
   <script src="poxy.js"></script>
   <script src="jquery-3.6.0.slim.min.js"></script>
-  <script type="application/ld+json">{
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "dateModified": "2021-05-26T22:43:23+00:00",
-    "headline": "muu Useful utilities for modern C++"
-}</script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -62,14 +56,47 @@
   <div class="m-container m-container-inflatable">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <img alt="Image" class="m-image main_page_banner" src="banner-small.png" style="width: 1280px;"/><div class="gh-badges"><a class="poxy-external" href="https://github.com/marzer/muu/blob/master/LICENSE" target="_blank"><img alt="MIT" src="poxy-badge-license-mit.svg"/></a><a class="poxy-external" href="https://github.com/marzer/muu/releases" target="_blank"><img alt="Releases" src="https://img.shields.io/github/v/release/marzer/muu?style=flat-square"/></a><a class="poxy-external" href="https://en.cppreference.com/w/cpp/compiler_support" target="_blank"><img alt="C++17" src="poxy-badge-c++17.svg"/></a><a class="poxy-external" href="https://circleci.com/gh/marzer/muu" target="_blank"><img alt="CircleCI" src="https://circleci.com/gh/marzer/muu.svg?style=shield"/></a></div>
+        <h1>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+          <div class="m-doc-template">template&lt;typename... T&gt;</div>
+          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>type_list <span class="m-thin">struct</span>
+        </h1>
+        <p>A 'tag' type for encoding/parameterizing lists of types (without the instantiation heft of <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/utility/tuple.html" target="_blank">std::<wbr/>tuple</a>).</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
-            <li><a href="#main">main</a></li>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#pub-types">Public types</a></li>
+                <li><a href="#pub-static-attribs">Public static variables</a></li>
+              </ul>
+            </li>
           </ul>
         </div>
-<section id="main"><h2><a href="#main">main</a></h2><p>This page is a placeholder. See <a href="modules.html">Modules</a> or <a href="annotated.html">Classes</a> for categorized lists of what's actually in the library. Or press TAB.</p></section>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
+          <dl class="m-doc">
+            <dt id="a949a8dc4bd9f21779a4f060c986098f0">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index&gt;</div>
+              using <a class="m-doc-self" href="#a949a8dc4bd9f21779a4f060c986098f0">select</a> = typename impl::type_list_select_&lt;<a class="m-doc" href="structmuu_1_1type__list.html">type_<wbr/>list</a>&lt;T...&gt;, Index&gt;::type
+            </dt>
+            <dd>Selects a single type from the list.</dd>
+            <dt id="aa4296124df0c40b969ff9e81b43758b2">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Start, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Length&gt;</div>
+              using <a class="m-doc-self" href="#aa4296124df0c40b969ff9e81b43758b2">slice</a> = typename impl::type_list_slice_&lt;<a class="m-doc" href="structmuu_1_1type__list.html">type_<wbr/>list</a>&lt;T...&gt;, Start, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/utility/integer_sequence.html" target="_blank">std::<wbr/>make_index_sequence</a>&lt;Length&gt;&gt;::type
+            </dt>
+            <dd>Selects a slice of types from the list.</dd>
+          </dl>
+        </section>
+        <section id="pub-static-attribs">
+          <h2><a href="#pub-static-attribs">Public static variables</a></h2>
+          <dl class="m-doc">
+            <dt id="a7bc9e54b6100181e7203d433a5e1b31b"> static <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#a7bc9e54b6100181e7203d433a5e1b31b">length</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>The length of the list.</dd>
+          </dl>
+        </section>
       </div>
     </div>
   </div>

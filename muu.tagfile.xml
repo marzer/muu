@@ -7170,6 +7170,37 @@
     <templarg>size_t Dimensions</templarg>
   </compound>
   <compound kind="struct">
+    <name>muu::type_list</name>
+    <filename>structmuu_1_1type__list.html</filename>
+    <templarg>typename... T</templarg>
+    <member kind="typedef">
+      <type>typename impl::type_list_select_&lt; type_list&lt; T... &gt;, Index &gt;::type</type>
+      <name>select</name>
+      <anchorfile>structmuu_1_1type__list.html</anchorfile>
+      <anchor>a949a8dc4bd9f21779a4f060c986098f0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>typename impl::type_list_slice_&lt; type_list&lt; T... &gt;, Start, std::make_index_sequence&lt; Length &gt; &gt;::type</type>
+      <name>slice</name>
+      <anchorfile>structmuu_1_1type__list.html</anchorfile>
+      <anchor>aa4296124df0c40b969ff9e81b43758b2</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr size_t</type>
+      <name>length</name>
+      <anchorfile>structmuu_1_1type__list.html</anchorfile>
+      <anchor>a7bc9e54b6100181e7203d433a5e1b31b</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
+    <name>muu::type_tag</name>
+    <filename>structmuu_1_1type__tag.html</filename>
+    <templarg>typename T</templarg>
+  </compound>
+  <compound kind="struct">
     <name>muu::uuid</name>
     <filename>structmuu_1_1uuid.html</filename>
     <member kind="typedef">
@@ -8485,6 +8516,8 @@
     <class kind="struct">muu::constants&lt; unsigned long long &gt;</class>
     <class kind="struct">muu::constants&lt; int128_t &gt;</class>
     <class kind="struct">muu::constants&lt; uint128_t &gt;</class>
+    <class kind="struct">muu::type_tag</class>
+    <class kind="struct">muu::type_list</class>
     <member kind="typedef">
       <type>__int128_t</type>
       <name>int128_t</name>
@@ -13072,6 +13105,8 @@
     <name>meta</name>
     <title>Metafunctions and type traits</title>
     <filename>group__meta.html</filename>
+    <class kind="struct">muu::type_tag</class>
+    <class kind="struct">muu::type_list</class>
     <member kind="typedef">
       <type>std::remove_cv_t&lt; std::remove_reference_t&lt; T &gt; &gt;</type>
       <name>remove_cvref</name>
