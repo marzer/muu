@@ -7174,17 +7174,17 @@
     <filename>structmuu_1_1type__list.html</filename>
     <templarg>typename... T</templarg>
     <member kind="typedef">
-      <type>typename impl::type_list_select_&lt; type_list&lt; T... &gt;, Index &gt;::type</type>
+      <type>impl::type_list_select_&lt; type_list&lt; T... &gt;, Index &gt;</type>
       <name>select</name>
       <anchorfile>structmuu_1_1type__list.html</anchorfile>
-      <anchor>a949a8dc4bd9f21779a4f060c986098f0</anchor>
+      <anchor>ae3041e0ccc2367080c6ba5985ae6778a</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>typename impl::type_list_slice_&lt; type_list&lt; T... &gt;, Start, std::make_index_sequence&lt; Length &gt; &gt;::type</type>
+      <type>impl::type_list_slice_&lt; type_list&lt; T... &gt;, Start, Length &gt;</type>
       <name>slice</name>
       <anchorfile>structmuu_1_1type__list.html</anchorfile>
-      <anchor>aa4296124df0c40b969ff9e81b43758b2</anchor>
+      <anchor>a6e820f266b9d4562e5082e39f769ee84</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable" static="yes">
@@ -8782,6 +8782,13 @@
       <name>epsilon_type</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga25162e97f327cfee39320e501bdb2697</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>std::integral_constant&lt; size_t, N &gt;</type>
+      <name>index_tag</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga6ca7fed60fe86574dd8bedf3b3332431</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
@@ -13329,6 +13336,13 @@
       <name>epsilon_type</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga25162e97f327cfee39320e501bdb2697</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>std::integral_constant&lt; size_t, N &gt;</type>
+      <name>index_tag</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga6ca7fed60fe86574dd8bedf3b3332431</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">

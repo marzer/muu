@@ -127,6 +127,11 @@
             </dt>
             <dd>A common epsilon type when comparing floating-point types named by T.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              using <a class="m-doc" href="#ga6ca7fed60fe86574dd8bedf3b3332431">index_tag</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integral_constant.html" target="_blank">std::<wbr/>integral_constant</a>&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>, N&gt;
+            </dt>
+            <dd>A 'tag' type for encoding/parameterizing a single index.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
               using <a class="m-doc" href="#ga7c930af45d2e06539c2a3dfcc908a854">largest</a> = typename impl::largest_&lt;T...&gt;::type
             </dt>
@@ -645,6 +650,15 @@
               using <a class="m-doc-self" href="#ga25162e97f327cfee39320e501bdb2697">epsilon_type</a> = impl::std_math_common_type&lt;remove_cvref&lt;T&gt;...&gt;
             </h3>
             <p>A common epsilon type when comparing floating-point types named by T.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga6ca7fed60fe86574dd8bedf3b3332431"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga6ca7fed60fe86574dd8bedf3b3332431">index_tag</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integral_constant.html" target="_blank">std::<wbr/>integral_constant</a>&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>, N&gt;
+            </h3>
+            <p>A 'tag' type for encoding/parameterizing a single index.</p>
           </div></section>
           <section class="m-doc-details" id="ga7c930af45d2e06539c2a3dfcc908a854"><div>
             <h3>
