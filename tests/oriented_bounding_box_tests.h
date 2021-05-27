@@ -54,7 +54,7 @@ namespace muu
 	inline constexpr bool allow_implicit_bit_cast<blittable<T>, oriented_bounding_box<T>> = true;
 }
 
-TEMPLATE_BATCHED_TEST("oriented_bounding_box constructors", oriented_bounding_boxes<ALL_FLOATS>)
+BATCHED_TEST_CASE("oriented_bounding_box constructors", oriented_bounding_boxes<ALL_FLOATS>)
 {
 	using obb = TestType;
 	using T = typename obb::scalar_type;
@@ -196,7 +196,7 @@ TEMPLATE_BATCHED_TEST("oriented_bounding_box constructors", oriented_bounding_bo
 	}
 }
 
-TEMPLATE_BATCHED_TEST("oriented_bounding_box equality", oriented_bounding_boxes<ALL_FLOATS>)
+BATCHED_TEST_CASE("oriented_bounding_box equality", oriented_bounding_boxes<ALL_FLOATS>)
 {
 	using obb = TestType;
 	using T = typename obb::scalar_type;
@@ -249,7 +249,7 @@ TEMPLATE_BATCHED_TEST("oriented_bounding_box equality", oriented_bounding_boxes<
 	}
 }
 
-TEMPLATE_BATCHED_TEST("oriented_bounding_box zero", oriented_bounding_boxes<ALL_FLOATS>)
+BATCHED_TEST_CASE("oriented_bounding_box zero", oriented_bounding_boxes<ALL_FLOATS>)
 {
 	using obb = TestType;
 	using T = typename obb::scalar_type;
@@ -296,7 +296,7 @@ TEMPLATE_BATCHED_TEST("oriented_bounding_box zero", oriented_bounding_boxes<ALL_
 	}
 }
 
-TEMPLATE_BATCHED_TEST("oriented_bounding_box infinity_or_nan", oriented_bounding_boxes<ALL_FLOATS>)
+BATCHED_TEST_CASE("oriented_bounding_box infinity_or_nan", oriented_bounding_boxes<ALL_FLOATS>)
 {
 	using obb = TestType;
 	using T = typename obb::scalar_type;

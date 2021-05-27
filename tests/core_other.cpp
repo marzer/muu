@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: MIT
 
 #include "tests.h"
+#include "batching.h"
 
 TEST_CASE("core - is_constant_evaluated")
 {
@@ -258,40 +259,20 @@ namespace
 			/* 13 */ { c::negative_zero,	c::negative_zero,	c::one_over_two,	c::negative_zero }
 		};
 	};
-
-	template <typename T>
-	static void lerp_tests(std::string_view type_name)
-	{
-		INFO(type_name)
-
-		size_t i{};
-		for (const auto& case_ : lerp_test_data<T>::cases)
-		{
-			INFO("test case " << i)
-			CHECK(muu::lerp(case_.start, case_.finish, case_.alpha) == case_.expected);
-			i++;
-		}
-	}
 }
 
-#define TEST_LERP(T)	lerp_tests<T>(MUU_MAKE_STRING_VIEW(T))
-
-
-TEST_CASE("core - lerp")
+BATCHED_TEST_CASE("core - lerp", type_list<ALL_FLOATS>)
 {
-	#if MUU_HAS_FP16
-	TEST_LERP(__fp16);
-	#endif
-	#if MUU_HAS_FLOAT16
-	TEST_LERP(_Float16);
-	#endif
-	TEST_LERP(half);
-	TEST_LERP(float);
-	TEST_LERP(double);
-	TEST_LERP(long double);
-	#if MUU_HAS_FLOAT128
-	TEST_LERP(float128_t);
-	#endif
+	using T = TestType;
+	TEST_INFO(nameof<T>);
+
+	size_t i{};
+	for (const auto& case_ : lerp_test_data<T>::cases)
+	{
+		TEST_INFO("test case " << i);
+		CHECK(muu::lerp(case_.start, case_.finish, case_.alpha) == case_.expected);
+		i++;
+	}
 }
 
 TEST_CASE("core - between")
@@ -437,156 +418,6 @@ TEST_CASE("core - swizzle")
 	CHECK_SWIZZLE(0xAABBCCDD_i32, 0xBBDDBB_i32, 2, 0, 2);
 	CHECK_SWIZZLE(0xAABBCCDD_i32, 0xAAAABBBB_i32, 3, 3, 2, 2);
 	CHECK_SWIZZLE(0xAABBCCDD_i32, 0xAACCBBCCDD_i64, 3, 1, 2, 1, 0);
-}
-
-namespace
-{
-	template <typename T, int sign>
-	constexpr bool test_infinity_or_nan_ranges() noexcept
-	{
-		using data = float_test_data<T>;
-
-		if constexpr (data::int_blittable)
-		{
-			constexpr auto test_range = [](auto min_, auto max_) noexcept
-			{
-				using blit_type = decltype(min_);
-				const blit_type first = (min)(min_, max_); // normalize for endiannness
-				const blit_type last = (max)(min_, max_);  //
-
-				if constexpr (constants<T>::significand_digits <= 24)
-				{
-					for (auto bits = first; bits < last; bits++)
-						if (!infinity_or_nan(muu::bit_cast<T>(bits)))
-							return false;
-				}
-				else
-				{
-					auto bits = first;
-					constexpr uint64_t step = bit_fill_right<uint64_t>(constants<T>::significand_digits - 1)
-						/ (bit_fill_right<uint64_t>(23) - 1_u64);
-					for (auto iters = bit_fill_right<uint64_t>(23) - 1_u64; iters --> uint64_t{};)
-					{
-						const auto v = muu::bit_cast<T>(bits);
-						if (!infinity_or_nan(v))
-							return false;
-						bits += static_cast<blit_type>(step);
-					}
-				}
-
-				if (!infinity_or_nan(muu::bit_cast<T>(last)))
-					return false;
-
-				return true;
-			};
-
-			if constexpr (sign >= 0)
-			{
-				if (!test_range(data::bits_pos_nan_min, data::bits_pos_nan_max)) return false;
-			}
-			else
-			{
-				if (!test_range(data::bits_neg_nan_min, data::bits_neg_nan_max)) return false;
-			}
-		}
-
-		return true;
-	}
-}
-
-#define INF_OR_NAN_CHECK(expr)																	\
-	static_assert(MUU_INTELLISENSE || !build::supports_constexpr_infinity_or_nan || (expr));	\
-	CHECK(expr)
-
-TEST_CASE("core - infinity_or_nan")
-{
-	#if MUU_HAS_FP16
-	SECTION("__fp16")
-	{
-		INF_OR_NAN_CHECK(!infinity_or_nan(__fp16{}));
-		INF_OR_NAN_CHECK(infinity_or_nan(make_nan<__fp16>()));
-		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<__fp16>(-1)));
-		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<__fp16>()));
-
-		CHECK((test_infinity_or_nan_ranges<__fp16, -1>()));
-		CHECK((test_infinity_or_nan_ranges<__fp16, 1>()));
-	}
-	#endif // MUU_HAS_FP16
-
-	#if MUU_HAS_FLOAT16
-	SECTION("_Float16")
-	{
-		INF_OR_NAN_CHECK(!infinity_or_nan(_Float16{}));
-		INF_OR_NAN_CHECK(infinity_or_nan(make_nan<_Float16>()));
-		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<_Float16>(-1)));
-		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<_Float16>()));
-
-		CHECK((test_infinity_or_nan_ranges<_Float16, -1>()));
-		CHECK((test_infinity_or_nan_ranges<_Float16, 1>()));
-	}
-	#endif // MUU_HAS_FLOAT16
-
-	SECTION("half")
-	{
-		INF_OR_NAN_CHECK(!infinity_or_nan(half::from_bits(0x0000_u16)));
-		INF_OR_NAN_CHECK(infinity_or_nan(make_nan<half>()));
-		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<half>(-1)));
-		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<half>()));
-
-		#if !MUU_INTELLISENSE
-		CHECK(test_infinity_or_nan_ranges<half, -1>());
-		CHECK(test_infinity_or_nan_ranges<half, 1>());
-		#endif
-	}
-
-	SECTION("float")
-	{
-		INF_OR_NAN_CHECK(!infinity_or_nan(0.0f));
-		INF_OR_NAN_CHECK(infinity_or_nan(make_nan<float>()));
-		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float>(-1)));
-		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float>()));
-
-		#if !MUU_INTELLISENSE
-		CHECK(test_infinity_or_nan_ranges<float, -1>());
-		CHECK(test_infinity_or_nan_ranges<float, 1>());
-		#endif
-	}
-
-	SECTION("double")
-	{
-		INF_OR_NAN_CHECK(!infinity_or_nan(0.0));
-		INF_OR_NAN_CHECK(infinity_or_nan(make_nan<double>()));
-		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<double>(-1)));
-		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<double>()));
-
-		#if !MUU_INTELLISENSE
-		CHECK(test_infinity_or_nan_ranges<double, -1>());
-		CHECK(test_infinity_or_nan_ranges<double, 1>());
-		#endif
-	}
-
-	SECTION("long double")
-	{
-		INF_OR_NAN_CHECK(!infinity_or_nan(0.0L));
-		INF_OR_NAN_CHECK(infinity_or_nan(make_nan<long double>()));
-		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<long double>(-1)));
-		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<long double>()));
-
-		#if !MUU_INTELLISENSE
-		CHECK(test_infinity_or_nan_ranges<long double, -1>());
-		CHECK(test_infinity_or_nan_ranges<long double, 1>());
-		#endif
-	}
-
-	#if MUU_HAS_FLOAT128
-	SECTION("float128_t")
-	{
-		INF_OR_NAN_CHECK(!infinity_or_nan(float128_t{}));
-		INF_OR_NAN_CHECK(infinity_or_nan(make_nan<float128_t>()));
-		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float128_t>(-1)));
-		INF_OR_NAN_CHECK(infinity_or_nan(make_infinity<float128_t>()));
-	}
-	#endif // MUU_HAS_FLOAT128
 }
 
 TEST_CASE("core - for_sequence")

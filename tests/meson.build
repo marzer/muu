@@ -15,6 +15,10 @@ test_sources += [
 	'core_other.cpp',
 	'half.cpp',
 	'hashing.cpp',
+	'infinity_or_nan_0.cpp',
+	'infinity_or_nan_1.cpp',
+	'infinity_or_nan_2.cpp',
+	'infinity_or_nan_3.cpp',
 	'math.cpp',
 	'matrix_0.cpp',
 	'matrix_1.cpp',
@@ -92,7 +96,7 @@ compiler_supports_fast_math = compiler.links('''
 #######################################################################################################################
 
 fast_math_modes = [ false, true  ]
-exception_modes = [ false, true  ]
+exception_modes = [ true , false  ]
 cpp20_modes     = [ true , false ]
 test_executables = []
 test_additional_arguments = []

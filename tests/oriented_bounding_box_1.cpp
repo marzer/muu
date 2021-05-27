@@ -5,8 +5,9 @@
 
 #include "tests.h"
 
-#define TEST_BATCHES 4
-#define TEST_BATCH   1
+#define TEST_BATCHES     4
+#define TEST_BATCH       1
+#define TEST_BATCH_INFIX oriented_bounding_box
 #include "batching.h"
 
 #include "oriented_bounding_box_tests.h"

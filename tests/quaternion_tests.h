@@ -51,7 +51,7 @@ namespace muu
 	inline constexpr bool allow_implicit_bit_cast<blittable<T>, quaternion<T>> = true;
 }
 
-TEMPLATE_BATCHED_TEST("quaternion constructors", all_quaternions)
+BATCHED_TEST_CASE("quaternion constructors", all_quaternions)
 {
 	using quat_t = TestType;
 	using T		 = typename quat_t::scalar_type;
@@ -120,7 +120,7 @@ TEMPLATE_BATCHED_TEST("quaternion constructors", all_quaternions)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("quaternion equality", all_quaternions)
+BATCHED_TEST_CASE("quaternion equality", all_quaternions)
 {
 	using quat_t = TestType;
 	using T		 = typename quat_t::scalar_type;
@@ -150,7 +150,7 @@ TEMPLATE_BATCHED_TEST("quaternion equality", all_quaternions)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("quaternion zero", all_quaternions)
+BATCHED_TEST_CASE("quaternion zero", all_quaternions)
 {
 	using quat_t = TestType;
 	using T		 = typename quat_t::scalar_type;
@@ -197,7 +197,7 @@ TEMPLATE_BATCHED_TEST("quaternion zero", all_quaternions)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("quaternion infinity_or_nan", all_quaternions)
+BATCHED_TEST_CASE("quaternion infinity_or_nan", all_quaternions)
 {
 	using quat_t = TestType;
 	using T		 = typename quat_t::scalar_type;
@@ -244,7 +244,7 @@ TEMPLATE_BATCHED_TEST("quaternion infinity_or_nan", all_quaternions)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("quaternion dot", all_quaternions)
+BATCHED_TEST_CASE("quaternion dot", all_quaternions)
 {
 	using quat_t = TestType;
 	using T		 = typename quat_t::scalar_type;
@@ -275,7 +275,7 @@ TEMPLATE_BATCHED_TEST("quaternion dot", all_quaternions)
 	CHECK_APPROX_EQUAL(muu::dot(q1, q2), expected);
 }
 
-TEMPLATE_BATCHED_TEST("quaternion normalization", all_quaternions)
+BATCHED_TEST_CASE("quaternion normalization", all_quaternions)
 {
 	using quat_t = TestType;
 	using T		 = typename quat_t::scalar_type;
@@ -312,7 +312,7 @@ TEMPLATE_BATCHED_TEST("quaternion normalization", all_quaternions)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("quaternion euler", all_quaternions)
+BATCHED_TEST_CASE("quaternion euler", all_quaternions)
 {
 	using quat_t = TestType;
 	using T		 = typename quat_t::scalar_type;
@@ -441,7 +441,7 @@ TEMPLATE_BATCHED_TEST("quaternion euler", all_quaternions)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("quaternion conjugate", all_quaternions)
+BATCHED_TEST_CASE("quaternion conjugate", all_quaternions)
 {
 	using quat_t = TestType;
 	using T		 = typename quat_t::scalar_type;
@@ -514,7 +514,7 @@ namespace
 	}
 }
 
-TEMPLATE_BATCHED_TEST("quaternion slerp", all_quaternions)
+BATCHED_TEST_CASE("quaternion slerp", all_quaternions)
 {
 	using quat_t = TestType;
 	using T		 = typename quat_t::scalar_type;
@@ -547,7 +547,7 @@ TEMPLATE_BATCHED_TEST("quaternion slerp", all_quaternions)
 	quat_slerp_test_case(360, static_cast<T>(0.25), 0);
 }
 
-TEMPLATE_BATCHED_TEST("quaternion multiplication", all_quaternions)
+BATCHED_TEST_CASE("quaternion multiplication", all_quaternions)
 {
 	using quat_t = TestType;
 	using T		 = typename quat_t::scalar_type;

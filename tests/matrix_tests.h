@@ -177,7 +177,7 @@ namespace muu
 	inline constexpr bool allow_implicit_bit_cast<blittable<T, Rows, Columns>, matrix<T, Rows, Columns>> = true;
 }
 
-TEMPLATE_BATCHED_TEST("matrix constructors", common_matrices<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("matrix constructors", common_matrices<ALL_ARITHMETIC>)
 {
 	using matrix_t					   = TestType;
 	using T							   = typename matrix_t::scalar_type;
@@ -298,7 +298,7 @@ TEMPLATE_BATCHED_TEST("matrix constructors", common_matrices<ALL_ARITHMETIC>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("matrix accessors", common_matrices<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("matrix accessors", common_matrices<ALL_ARITHMETIC>)
 {
 	using matrix_t = TestType;
 	using T		   = typename matrix_t::scalar_type;
@@ -378,7 +378,7 @@ TEMPLATE_BATCHED_TEST("matrix accessors", common_matrices<ALL_ARITHMETIC>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("matrix equality", common_matrices<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("matrix equality", common_matrices<ALL_ARITHMETIC>)
 {
 	using matrix_t = TestType;
 	using T		   = typename matrix_t::scalar_type;
@@ -432,7 +432,7 @@ TEMPLATE_BATCHED_TEST("matrix equality", common_matrices<ALL_ARITHMETIC>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("matrix zero", common_matrices<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("matrix zero", common_matrices<ALL_ARITHMETIC>)
 {
 	using matrix_t = TestType;
 	using T		   = typename matrix_t::scalar_type;
@@ -508,7 +508,7 @@ TEMPLATE_BATCHED_TEST("matrix zero", common_matrices<ALL_ARITHMETIC>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("matrix infinity_or_nan", common_matrices<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("matrix infinity_or_nan", common_matrices<ALL_ARITHMETIC>)
 {
 	using matrix_t = TestType;
 	using T		   = typename matrix_t::scalar_type;
@@ -560,7 +560,7 @@ TEMPLATE_BATCHED_TEST("matrix infinity_or_nan", common_matrices<ALL_ARITHMETIC>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("matrix addition", common_matrices<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("matrix addition", common_matrices<ALL_ARITHMETIC>)
 {
 	using matrix_t = TestType;
 	using T		   = typename matrix_t::scalar_type;
@@ -595,7 +595,7 @@ TEMPLATE_BATCHED_TEST("matrix addition", common_matrices<ALL_ARITHMETIC>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("matrix subtraction", common_matrices<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("matrix subtraction", common_matrices<ALL_ARITHMETIC>)
 {
 	using matrix_t = TestType;
 	using T		   = typename matrix_t::scalar_type;
@@ -633,7 +633,7 @@ TEMPLATE_BATCHED_TEST("matrix subtraction", common_matrices<ALL_ARITHMETIC>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("matrix multiplication", common_matrices<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("matrix multiplication", common_matrices<ALL_ARITHMETIC>)
 {
 	using matrix_t = TestType;
 	using T		   = typename matrix_t::scalar_type;
@@ -738,7 +738,7 @@ TEMPLATE_BATCHED_TEST("matrix multiplication", common_matrices<ALL_ARITHMETIC>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("matrix multiplication special cases", all_matrices<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("matrix multiplication special cases", all_matrices<ALL_ARITHMETIC>)
 {
 	using matrix_t = TestType;
 	using T		   = typename matrix_t::scalar_type;
@@ -868,7 +868,7 @@ TEMPLATE_BATCHED_TEST("matrix multiplication special cases", all_matrices<ALL_AR
 	}
 }
 
-TEMPLATE_BATCHED_TEST("matrix division", common_matrices<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("matrix division", common_matrices<ALL_ARITHMETIC>)
 {
 	using matrix_t = TestType;
 	using T		   = typename matrix_t::scalar_type;
@@ -902,7 +902,7 @@ TEMPLATE_BATCHED_TEST("matrix division", common_matrices<ALL_ARITHMETIC>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("matrix transpose", common_matrices<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("matrix transpose", common_matrices<ALL_ARITHMETIC>)
 {
 	using matrix_t = TestType;
 	using T		   = typename matrix_t::scalar_type;
@@ -942,7 +942,7 @@ TEMPLATE_BATCHED_TEST("matrix transpose", common_matrices<ALL_ARITHMETIC>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("matrix determinant", square_matrices<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("matrix determinant", square_matrices<ALL_ARITHMETIC>)
 {
 	using matrix_t = TestType;
 	using T		   = typename matrix_t::scalar_type;
@@ -1007,7 +1007,7 @@ TEMPLATE_BATCHED_TEST("matrix determinant", square_matrices<ALL_ARITHMETIC>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("matrix inverse", square_matrices<ALL_FLOATS>)
+BATCHED_TEST_CASE("matrix inverse", square_matrices<ALL_FLOATS>)
 {
 	using matrix_t = TestType;
 	using T		   = typename matrix_t::scalar_type;
@@ -1065,7 +1065,7 @@ TEMPLATE_BATCHED_TEST("matrix inverse", square_matrices<ALL_FLOATS>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("matrix orthonormalize", rotation_matrices<ALL_FLOATS>)
+BATCHED_TEST_CASE("matrix orthonormalize", rotation_matrices<ALL_FLOATS>)
 {
 	using matrix_t = TestType;
 	using T		   = typename matrix_t::scalar_type;

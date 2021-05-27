@@ -183,7 +183,7 @@ namespace muu
 	inline constexpr bool allow_implicit_bit_cast<blittable<T, Dimensions>, vector<T, Dimensions>> = true;
 }
 
-TEMPLATE_BATCHED_TEST("vector constructors", vectors<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("vector constructors", vectors<ALL_ARITHMETIC>)
 {
 	using vector_t = TestType;
 	using T		   = typename vector_t::scalar_type;
@@ -359,7 +359,7 @@ TEMPLATE_BATCHED_TEST("vector constructors", vectors<ALL_ARITHMETIC>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("vector accessors", vectors<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("vector accessors", vectors<ALL_ARITHMETIC>)
 {
 	using vector_t = TestType;
 	using T		   = typename vector_t::scalar_type;
@@ -459,7 +459,7 @@ TEMPLATE_BATCHED_TEST("vector accessors", vectors<ALL_ARITHMETIC>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("vector equality", vectors<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("vector equality", vectors<ALL_ARITHMETIC>)
 {
 	using vector_t = TestType;
 	using T		   = typename vector_t::scalar_type;
@@ -509,7 +509,7 @@ TEMPLATE_BATCHED_TEST("vector equality", vectors<ALL_ARITHMETIC>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("vector zero", vectors<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("vector zero", vectors<ALL_ARITHMETIC>)
 {
 	using vector_t = TestType;
 	using T		   = typename vector_t::scalar_type;
@@ -579,7 +579,7 @@ TEMPLATE_BATCHED_TEST("vector zero", vectors<ALL_ARITHMETIC>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("vector infinity_or_nan", vectors<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("vector infinity_or_nan", vectors<ALL_ARITHMETIC>)
 {
 	using vector_t = TestType;
 	using T		   = typename vector_t::scalar_type;
@@ -624,7 +624,7 @@ TEMPLATE_BATCHED_TEST("vector infinity_or_nan", vectors<ALL_ARITHMETIC>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("vector dot", vectors<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("vector dot", vectors<ALL_ARITHMETIC>)
 {
 	using vector_t = TestType;
 	using T		   = typename vector_t::scalar_type;
@@ -653,7 +653,7 @@ TEMPLATE_BATCHED_TEST("vector dot", vectors<ALL_ARITHMETIC>)
 	CHECK_APPROX_EQUAL(muu::dot(vector1, vector2), expected);
 }
 
-TEMPLATE_BATCHED_TEST("vector cross", vectors_N<3, ALL_FLOATS>)
+BATCHED_TEST_CASE("vector cross", vectors_N<3, ALL_FLOATS>)
 {
 	using vector_t = TestType;
 	using T		   = typename vector_t::scalar_type;
@@ -706,7 +706,7 @@ TEMPLATE_BATCHED_TEST("vector cross", vectors_N<3, ALL_FLOATS>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("vector addition", vectors<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("vector addition", vectors<ALL_ARITHMETIC>)
 {
 	using vector_t = TestType;
 	using T		   = typename vector_t::scalar_type;
@@ -732,7 +732,7 @@ TEMPLATE_BATCHED_TEST("vector addition", vectors<ALL_ARITHMETIC>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("vector subtraction", vectors<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("vector subtraction", vectors<ALL_ARITHMETIC>)
 {
 	using vector_t = TestType;
 	using T		   = typename vector_t::scalar_type;
@@ -769,7 +769,7 @@ TEMPLATE_BATCHED_TEST("vector subtraction", vectors<ALL_ARITHMETIC>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("vector multiplication", vectors<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("vector multiplication", vectors<ALL_ARITHMETIC>)
 {
 	using vector_t = TestType;
 	using T		   = typename vector_t::scalar_type;
@@ -818,7 +818,7 @@ TEMPLATE_BATCHED_TEST("vector multiplication", vectors<ALL_ARITHMETIC>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("vector division", vectors<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("vector division", vectors<ALL_ARITHMETIC>)
 {
 	using vector_t = TestType;
 	using T		   = typename vector_t::scalar_type;
@@ -859,7 +859,7 @@ TEMPLATE_BATCHED_TEST("vector division", vectors<ALL_ARITHMETIC>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("vector modulo", vectors<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("vector modulo", vectors<ALL_ARITHMETIC>)
 {
 	using vector_t = TestType;
 	using T		   = typename vector_t::scalar_type;
@@ -900,7 +900,7 @@ TEMPLATE_BATCHED_TEST("vector modulo", vectors<ALL_ARITHMETIC>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("vector bitwise shifts", vectors<ALL_INTS>)
+BATCHED_TEST_CASE("vector bitwise shifts", vectors<ALL_INTS>)
 {
 	using vector_t = TestType;
 	using T		   = typename vector_t::scalar_type;
@@ -941,7 +941,7 @@ TEMPLATE_BATCHED_TEST("vector bitwise shifts", vectors<ALL_INTS>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("vector normalization", vectors<ALL_FLOATS>)
+BATCHED_TEST_CASE("vector normalization", vectors<ALL_FLOATS>)
 {
 	using vector_t = TestType;
 	using T		   = typename vector_t::scalar_type;
@@ -972,7 +972,7 @@ TEMPLATE_BATCHED_TEST("vector normalization", vectors<ALL_FLOATS>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("vector length", vectors_NNN<2, 3, 4, float>)
+BATCHED_TEST_CASE("vector length", vectors_NNN<2, 3, 4, float>)
 {
 	using vector_t = TestType;
 	using T		   = typename vector_t::scalar_type;
@@ -1096,7 +1096,7 @@ inline void vector_lerp_specific_tests() noexcept
 	}
 }
 
-TEMPLATE_BATCHED_TEST("vector lerp", vectors<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("vector lerp", vectors<ALL_ARITHMETIC>)
 {
 	using vector_t = TestType;
 	using T		   = typename vector_t::scalar_type;
@@ -1111,7 +1111,7 @@ TEMPLATE_BATCHED_TEST("vector lerp", vectors<ALL_ARITHMETIC>)
 		vector_lerp_specific_tests<T, vector_t::dimensions, lerp_float_test_data<T>>();
 }
 
-TEMPLATE_BATCHED_TEST("vector min/max", vectors<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("vector min/max", vectors<ALL_ARITHMETIC>)
 {
 	using vector_t = TestType;
 	using T		   = typename vector_t::scalar_type;
@@ -1190,7 +1190,7 @@ TEMPLATE_BATCHED_TEST("vector min/max", vectors<ALL_ARITHMETIC>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("vector angle", vectors_NN<2, 3, ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("vector angle", vectors_NN<2, 3, ALL_ARITHMETIC>)
 {
 	using vector_t = TestType;
 	using T		   = typename vector_t::scalar_type;
@@ -1270,7 +1270,7 @@ TEMPLATE_BATCHED_TEST("vector angle", vectors_NN<2, 3, ALL_ARITHMETIC>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("vector accumulator", vectors<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("vector accumulator", vectors<ALL_ARITHMETIC>)
 {
 	using vector_t = TestType;
 	using T		   = typename vector_t::scalar_type;

@@ -1097,19 +1097,16 @@ namespace muu::impl
 #endif
 
 /// \cond
-#define MUU_ENABLE_IF(...)							, std::enable_if_t<(__VA_ARGS__), int> = 0
-#define MUU_ENABLE_IF_2(...)						, typename = std::enable_if_t<(__VA_ARGS__)>
 #if MUU_CONCEPTS
 	#define MUU_REQUIRES(...)							requires(__VA_ARGS__)
-	#define MUU_CONSTRAINED_TEMPLATE(condition, ...)	template <__VA_ARGS__> MUU_REQUIRES(condition)
-	#define MUU_CONSTRAINED_TEMPLATE_2(condition, ...)	template <__VA_ARGS__> MUU_REQUIRES(condition)
 #else
-	#define MUU_REQUIRES(...)
-	#define MUU_CONSTRAINED_TEMPLATE(condition, ...)	template <__VA_ARGS__ MUU_ENABLE_IF(condition)>
-	#define MUU_CONSTRAINED_TEMPLATE_2(condition, ...)	template <__VA_ARGS__ MUU_ENABLE_IF_2(condition)>
+	#define MUU_ENABLE_IF(...)							, std::enable_if_t<(__VA_ARGS__), int> = 0
+	#define MUU_ENABLE_IF_2(...)						, typename = std::enable_if_t<(__VA_ARGS__)>
+	#define MUU_LEGACY_REQUIRES(condition, ...)			template <__VA_ARGS__ MUU_ENABLE_IF(condition)>
+	#define MUU_LEGACY_REQUIRES_2(condition, ...)		template <__VA_ARGS__ MUU_ENABLE_IF(condition)>
 #endif
-#define MUU_LEGACY_REQUIRES(condition, ...)			MUU_CONSTRAINED_TEMPLATE(condition, __VA_ARGS__)
-#define MUU_LEGACY_REQUIRES_2(condition, ...)		MUU_CONSTRAINED_TEMPLATE_2(condition, __VA_ARGS__)
+#define MUU_CONSTRAINED_TEMPLATE(condition, ...)	template <__VA_ARGS__ MUU_ENABLE_IF(condition)> MUU_REQUIRES(condition)
+#define MUU_CONSTRAINED_TEMPLATE_2(condition, ...)	template <__VA_ARGS__ MUU_ENABLE_IF_2(condition)> MUU_REQUIRES(condition)
 /// \endcond
 
 #ifndef MUU_REQUIRES

@@ -133,7 +133,7 @@ def main():
 		<VCProjectVersion>16.0</VCProjectVersion>
 		<ProjectGuid>{{{test_project_uuid}}}</ProjectGuid>
 		<WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-		<PreferredToolArchitecture>x64</PreferredToolArchitecture>
+		<!-- <PreferredToolArchitecture>x64</PreferredToolArchitecture> -->
 	</PropertyGroup>
 	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|{platform}'" Label="Configuration">
@@ -220,6 +220,10 @@ def main():
 		<ClCompile Include="..\core_meta.cpp" />
 		<ClCompile Include="..\half.cpp" />
 		<ClCompile Include="..\hashing.cpp" />
+		<ClCompile Include="..\infinity_or_nan_0.cpp" />
+		<ClCompile Include="..\infinity_or_nan_1.cpp" />
+		<ClCompile Include="..\infinity_or_nan_2.cpp" />
+		<ClCompile Include="..\infinity_or_nan_3.cpp" />
 		<ClCompile Include="..\main.cpp">
 			<PrecompiledHeader>NotUsing</PrecompiledHeader>
 		</ClCompile>
@@ -276,6 +280,7 @@ def main():
 		<ClInclude Include="..\bounding_box_tests.h" />
 		<ClInclude Include="..\catch2.h" />
 		<ClInclude Include="..\float_test_data.h" />
+		<ClInclude Include="..\infinity_or_nan_tests.h" />
 		<ClInclude Include="..\matrix_tests.h" />
 		<ClInclude Include="..\oriented_bounding_box_tests.h" />
 		<ClInclude Include="..\plane_tests.h" />
@@ -316,9 +321,6 @@ def main():
     <ClCompile Include="..\accumulator.cpp" />
     <ClCompile Include="..\blob.cpp" />
     <ClCompile Include="..\compressed_pair.cpp" />
-    <ClCompile Include="..\core_bit.cpp" />
-    <ClCompile Include="..\core_other.cpp" />
-    <ClCompile Include="..\core_meta.cpp" />
     <ClCompile Include="..\half.cpp" />
     <ClCompile Include="..\hashing.cpp" />
     <ClCompile Include="..\main.cpp" />
@@ -330,11 +332,6 @@ def main():
     <ClCompile Include="..\tagged_ptr.cpp" />
     <ClCompile Include="..\tests.cpp" />
     <ClCompile Include="..\thread_pool.cpp" />
-    <ClCompile Include="..\unicode_char.cpp" />
-    <ClCompile Include="..\unicode_char16_t.cpp" />
-    <ClCompile Include="..\unicode_char32_t.cpp" />
-    <ClCompile Include="..\unicode_char8_t.cpp" />
-    <ClCompile Include="..\unicode_unsigned_char.cpp" />
     <ClCompile Include="..\uuid.cpp" />
     <ClCompile Include="..\matrix_0.cpp">
       <Filter>matrix</Filter>
@@ -432,6 +429,42 @@ def main():
     <ClCompile Include="..\plane_3.cpp">
       <Filter>plane</Filter>
     </ClCompile>
+    <ClCompile Include="..\core_bit.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core_meta.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core_other.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\unicode_unsigned_char.cpp">
+      <Filter>unicode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\unicode_char.cpp">
+      <Filter>unicode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\unicode_char8_t.cpp">
+      <Filter>unicode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\unicode_char16_t.cpp">
+      <Filter>unicode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\unicode_char32_t.cpp">
+      <Filter>unicode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\infinity_or_nan_0.cpp">
+      <Filter>infinity_or_nan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\infinity_or_nan_1.cpp">
+      <Filter>infinity_or_nan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\infinity_or_nan_2.cpp">
+      <Filter>infinity_or_nan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\infinity_or_nan_3.cpp">
+      <Filter>infinity_or_nan</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\batching.h" />
@@ -439,7 +472,6 @@ def main():
     <ClInclude Include="..\float_test_data.h" />
     <ClInclude Include="..\settings.h" />
     <ClInclude Include="..\tests.h" />
-    <ClInclude Include="..\unicode.h" />
     <ClInclude Include="..\matrix_tests.h">
       <Filter>matrix</Filter>
     </ClInclude>
@@ -457,6 +489,12 @@ def main():
     </ClInclude>
     <ClInclude Include="..\plane_tests.h">
       <Filter>plane</Filter>
+    </ClInclude>
+    <ClInclude Include="..\unicode.h">
+      <Filter>unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\infinity_or_nan_tests.h">
+      <Filter>infinity_or_nan</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -483,6 +521,15 @@ def main():
     </Filter>
     <Filter Include="vector">
       <UniqueIdentifier>{43aab29d-8fac-43d5-b858-80b691a6b0a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core">
+      <UniqueIdentifier>{23c11922-0b9e-4b0a-933c-f64905fcde71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="unicode">
+      <UniqueIdentifier>{202ce89f-5555-4e74-8b3b-3c56c20d20ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="infinity_or_nan">
+      <UniqueIdentifier>{b74fb7e2-dedb-4cd0-9a91-1f963c7c7f23}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

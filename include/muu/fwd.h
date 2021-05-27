@@ -76,14 +76,17 @@ MUU_ENABLE_WARNINGS;
 // TYPEDEFS AND FORWARD DECLARATIONS
 //======================================================================================================================
 
+/// \addtogroup core			Core
+/// \brief		Small, generally-useful functions and types.
+/// @{
+
 /// \defgroup	meta			Metafunctions and type traits
 /// \brief		Type traits and metaprogramming utilities.
 /// \remarks	Many of these are mirrors of (or supplementary to) traits found in the standard library's
 ///				`<type_traits>`, but with simpler/saner default behaviour (e.g. most of the `is_X` metafunctions do
 ///				not make a distinction between T and T&).
 
-/// \defgroup	core			Core
-/// \brief		Small, generally-useful functions and types.
+/// @}
 
 /// \defgroup	constants		Constants
 /// \brief		Compile-time constant values (Pi, et cetera.).

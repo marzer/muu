@@ -32,14 +32,10 @@ MUU_CONSTEVAL bool compressed_pair_static_checks() noexcept
 	static_assert(is_tuple_like<pair>);
 
 	static_assert(
-		std::is_empty_v<pair>
-		== (std::is_empty_v<First> && std::is_empty_v<Second>)
-
-		#if MUU_MSVC
+		std::is_empty_v<pair> == (std::is_empty_v<First> && std::is_empty_v<Second>)
+		|| (MUU_MSVC && MUU_MSVC < 1929)
 		// compiler bug:
 		// https://developercommunity.visualstudio.com/content/problem/1142409/c-stdis-empty-is-incorrect-for-a-template-speciali.html
-		|| (std::is_empty_v<First> && std::is_empty_v<Second>)
-		#endif
 	);
 	static_assert(
 		std::is_standard_layout_v<pair>

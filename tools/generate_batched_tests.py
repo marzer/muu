@@ -25,6 +25,12 @@ def run(args):
 	header_path = Path(args.header)
 	if not header_path.is_absolute():
 		header_path = Path(tests_dir, header_path)
+	if not header_path.suffix:
+		tentative_path = Path(rf'{header_path}.h')
+		if not tentative_path.exists():
+			tentative_path = Path(rf'{header_path}_tests.h')
+		if tentative_path.exists():
+			header_path = tentative_path
 	utils.assert_existing_file(header_path)
 
 	# output files
@@ -32,6 +38,7 @@ def run(args):
 		source_path = header_path.stem
 		if source_path.endswith(r'_tests'):
 			source_path = source_path[:-len(r'_tests')]
+		infix = source_path.strip()
 		source_path = Path(header_path.parent, source_path + rf'_{i}.cpp')
 		
 		if i < batch_size:
@@ -45,8 +52,9 @@ def run(args):
 
 #include "tests.h"
 
-#define TEST_BATCHES {batch_size}
-#define TEST_BATCH   {i}
+#define TEST_BATCHES     {batch_size}
+#define TEST_BATCH       {i}
+#define TEST_BATCH_INFIX {infix}
 #include "batching.h"
 
 #include "{header_path.name}"
@@ -66,10 +74,10 @@ def main():
 		help=r'test header file'
 	)
 	args.add_argument(
-		r'--size',
+		r'size',
 		type=int,
+		nargs='?',
 		default=4,
-		metavar=r'<N>',
 		help=r"batch size (default: 4)"
 	)
 	args = args.parse_args()

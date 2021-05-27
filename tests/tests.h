@@ -54,12 +54,19 @@ MUU_DISABLE_WARNINGS;
 #include <iosfwd>
 #include <cstring>
 
+namespace std
+{
 #if MUU_HAS_FLOAT16
-std::ostream& operator<<(std::ostream&, _Float16);
+	ostream& operator<<(ostream&, _Float16);
 #endif
 #if MUU_HAS_FLOAT128
-std::ostream& operator<<(std::ostream&, __float128);
+	ostream& operator<<(ostream&, __float128);
 #endif
+#if MUU_HAS_INT128
+	ostream& operator<<(ostream&, __int128_t);
+	ostream& operator<<(ostream&, __uint128_t);
+#endif
+}
 
 #include "catch2.h"
 #include <array>
@@ -445,6 +452,7 @@ namespace muu
 	extern template Approx approx(T) noexcept;
 
 	MUU_FOR_EACH(EXTERN_FLOAT_TEMPLATES, ALL_FLOATS)
+
 }
 
 #undef EXTERN_ARITHMETIC_TEMPLATES

@@ -10,7 +10,7 @@
 		<VCProjectVersion>16.0</VCProjectVersion>
 		<ProjectGuid>{B98D8D10-4B7B-5AA8-84B5-87FE6AA80C10}</ProjectGuid>
 		<WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-		<PreferredToolArchitecture>x64</PreferredToolArchitecture>
+		<!-- <PreferredToolArchitecture>x64</PreferredToolArchitecture> -->
 	</PropertyGroup>
 	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -97,6 +97,10 @@
 		<ClCompile Include="..\core_meta.cpp" />
 		<ClCompile Include="..\half.cpp" />
 		<ClCompile Include="..\hashing.cpp" />
+		<ClCompile Include="..\infinity_or_nan_0.cpp" />
+		<ClCompile Include="..\infinity_or_nan_1.cpp" />
+		<ClCompile Include="..\infinity_or_nan_2.cpp" />
+		<ClCompile Include="..\infinity_or_nan_3.cpp" />
 		<ClCompile Include="..\main.cpp">
 			<PrecompiledHeader>NotUsing</PrecompiledHeader>
 		</ClCompile>
@@ -153,6 +157,7 @@
 		<ClInclude Include="..\bounding_box_tests.h" />
 		<ClInclude Include="..\catch2.h" />
 		<ClInclude Include="..\float_test_data.h" />
+		<ClInclude Include="..\infinity_or_nan_tests.h" />
 		<ClInclude Include="..\matrix_tests.h" />
 		<ClInclude Include="..\oriented_bounding_box_tests.h" />
 		<ClInclude Include="..\plane_tests.h" />

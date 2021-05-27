@@ -19,91 +19,85 @@
 	#undef TEST_BATCH
 	#define TEST_BATCH 0
 #endif
+#ifndef TEST_BATCH_INFIX
+	#define TEST_BATCH_INFIX
+#endif
 
-template <typename... T>
-struct batch_picker;
-
-#if TEST_BATCHES > 1
-
-template <typename... T>
-struct batch_picker
+struct batch_range_vals
 {
-	static constexpr size_t item_count	  = sizeof...(T);
-	static constexpr size_t current_batch = static_cast<size_t>(TEST_BATCH);
-	static constexpr size_t total_batches = static_cast<size_t>(TEST_BATCHES);
+	size_t start;
+	size_t size;
+};
 
-	MUU_NODISCARD
-	MUU_CONSTEVAL
-	static auto get_type_list_tag() noexcept
+template <size_t ItemCount>
+struct batch_range
+{
+	static constexpr batch_range_vals value = []() noexcept
 	{
+		constexpr size_t current_batch = static_cast<size_t>(TEST_BATCH);
+		constexpr size_t total_batches = static_cast<size_t>(TEST_BATCHES);
+
 		if constexpr (total_batches == 1_sz)
 		{
-			return type_list<T...>{};
+			return batch_range_vals{ 0, ItemCount };
 		}
-		else if constexpr (item_count <= total_batches)
+		else if constexpr (ItemCount <= total_batches)
 		{
-			if constexpr (current_batch < item_count)
+			if constexpr (current_batch < ItemCount)
 			{
-				return typename type_list<T...>::template slice<current_batch, 1>{};
+				return batch_range_vals{ current_batch, 1_sz };
 			}
 			else
 			{
-				return type_list<>{};
+				return batch_range_vals{};
 			}
 		}
 		else
 		{
-			struct range_t
-			{
-				size_t start;
-				size_t size;
-			};
-			constexpr auto range = []() noexcept
-			{
-				constexpr size_t constant = item_count / total_batches;
-				size_t overflow			  = item_count % total_batches;
-				range_t val				  = {};
+			constexpr size_t constant = ItemCount / total_batches;
+			size_t overflow			  = ItemCount % total_batches;
+			batch_range_vals val	  = {};
 
-				size_t i = 0;
-				do
+			size_t i = 0;
+			do
+			{
+				val.start += val.size;
+				val.size = constant;
+				if (overflow)
 				{
-					val.start += val.size;
-					val.size = constant;
-					if (overflow)
-					{
-						val.size++;
-						overflow--;
-					}
+					val.size++;
+					overflow--;
 				}
-				while (++i <= current_batch);
+			}
+			while (++i <= current_batch);
 
-				return val;
-			}();
-
-			return typename type_list<T...>::template slice<range.start, range.size>{};
+			return val;
 		}
-	}
-
-	using types = decltype(get_type_list_tag());
+	}();
 };
-
-#else
 
 template <typename... T>
-struct batch_picker
-{
-	using types = type_list<T...>;
-};
-
-#endif
+struct batch_picker;
 
 template <typename... T>
 struct batch_picker<type_list<T...>>
 {
-	using types = typename batch_picker<T...>::types;
+	using range = batch_range<sizeof...(T)>;
+	using types = typename type_list<T...>::template slice<range::value.start, range::value.size>;
 };
+
+template <typename T0, typename... T>
+struct batch_picker<T0, T...> : batch_picker<type_list<T0, T...>>
+{};
+
 template <>
 struct batch_picker<type_list<>>
+{
+	using types = type_list<>;
+};
+
+template <>
+struct batch_picker<>
 {
 	using types = type_list<>;
 };
@@ -117,7 +111,7 @@ using batched = typename batch_picker<T...>::types;
 	#define TEST_BATCH_SUFFIX
 #endif
 
-#define TEMPLATE_BATCHED_TEST_IMPL(name, func_name, ...)                                                               \
+#define BATCHED_TEST_CASE_IMPL(name, func_name, ...)                                                                   \
 	template <typename TestType>                                                                                       \
 	static void func_name();                                                                                           \
 	MUU_PUSH_WARNINGS;                                                                                                 \
@@ -138,8 +132,10 @@ using batched = typename batch_picker<T...>::types;
 	template <typename TestType>                                                                                       \
 	static void func_name()
 
-#define TEMPLATE_BATCHED_TEST(name, ...)                                                                               \
-	TEMPLATE_BATCHED_TEST_IMPL(name, MUU_CONCAT(TEMPLATE_BATCHED_TEST_func_, __LINE__), __VA_ARGS__)
+#define BATCHED_TEST_CASE(name, ...)                                                                                   \
+	BATCHED_TEST_CASE_IMPL(                                                                                            \
+		name,                                                                                                          \
+		MUU_CONCAT(MUU_CONCAT(BATCHED_TEST_CASE_, TEST_BATCH_INFIX), MUU_CONCAT(_, __LINE__)), __VA_ARGS__)
 
 #if TEST_BATCHES > 1
 	#define BATCHED_SECTION(...) DYNAMIC_SECTION(__VA_ARGS__ << " - "sv << nameof<T> << TEST_BATCH_SUFFIX)

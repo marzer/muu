@@ -45,7 +45,7 @@ namespace muu
 	inline constexpr bool allow_implicit_bit_cast<blittable<T>, plane<T>> = true;
 }
 
-TEMPLATE_BATCHED_TEST("plane constructors", planes<ALL_FLOATS>)
+BATCHED_TEST_CASE("plane constructors", planes<ALL_FLOATS>)
 {
 	using plane = TestType;
 	using T		= typename plane::scalar_type;
@@ -121,7 +121,7 @@ TEMPLATE_BATCHED_TEST("plane constructors", planes<ALL_FLOATS>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("plane equality", planes<ALL_FLOATS>)
+BATCHED_TEST_CASE("plane equality", planes<ALL_FLOATS>)
 {
 	using plane = TestType;
 	using T		= typename plane::scalar_type;
@@ -176,7 +176,7 @@ TEMPLATE_BATCHED_TEST("plane equality", planes<ALL_FLOATS>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("plane zero", planes<ALL_FLOATS>)
+BATCHED_TEST_CASE("plane zero", planes<ALL_FLOATS>)
 {
 	using plane = TestType;
 	using T		= typename plane::scalar_type;
@@ -223,7 +223,7 @@ TEMPLATE_BATCHED_TEST("plane zero", planes<ALL_FLOATS>)
 	}
 }
 
-TEMPLATE_BATCHED_TEST("plane infinity_or_nan", planes<ALL_FLOATS>)
+BATCHED_TEST_CASE("plane infinity_or_nan", planes<ALL_FLOATS>)
 {
 	using plane = TestType;
 	using T		= typename plane::scalar_type;

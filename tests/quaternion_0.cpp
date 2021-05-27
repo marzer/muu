@@ -5,8 +5,9 @@
 
 #include "tests.h"
 
-#define TEST_BATCHES 4
-#define TEST_BATCH   0
+#define TEST_BATCHES     4
+#define TEST_BATCH       0
+#define TEST_BATCH_INFIX quaternion
 #include "batching.h"
 
 #include "quaternion_tests.h"

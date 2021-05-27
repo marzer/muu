@@ -5,8 +5,9 @@
 
 #include "tests.h"
 
-#define TEST_BATCHES 8
-#define TEST_BATCH   3
+#define TEST_BATCHES     8
+#define TEST_BATCH       3
+#define TEST_BATCH_INFIX vector
 #include "batching.h"
 
 #include "vector_tests.h"

@@ -5,9 +5,9 @@
 
 #include "tests.h"
 
-#define TEST_BATCHES     8
-#define TEST_BATCH       1
-#define TEST_BATCH_INFIX vector
+#define TEST_BATCHES     4
+#define TEST_BATCH       0
+#define TEST_BATCH_INFIX infinity_or_nan
 #include "batching.h"
 
-#include "vector_tests.h"
+#include "infinity_or_nan_tests.h"
