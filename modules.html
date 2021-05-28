@@ -15,7 +15,7 @@
   <meta content="Useful utilities for modern C++" property="og:description"/>
   <meta content="Useful utilities for modern C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.3.3" name="generator"/>
+  <meta content="Poxy v0.3.4" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
   <link href="poxy.css" rel="stylesheet"/>
   <script src="poxy.js"></script>
@@ -59,7 +59,12 @@
         <h1>Modules</h1>
         <ul class="m-doc">
           <li>module <a class="m-doc" href="group__constants.html">Constants</a> <span class="m-doc">Compile-time constant values (Pi, et cetera.).</span></li>
-          <li>module <a class="m-doc" href="group__core.html">Core</a> <span class="m-doc">Small, generally-useful functions and types.</span></li>
+          <li class="m-doc-collapsible">
+            <a href="#" onclick="return toggle(this)">module</a> <a class="m-doc" href="group__core.html">Core</a> <span class="m-doc">Small, generally-useful functions and types.</span>
+            <ul class="m-doc">
+              <li>module <a class="m-doc" href="group__meta.html">Metafunctions and type traits</a> <span class="m-doc">Type traits and metaprogramming utilities.</span></li>
+            </ul>
+          </li>
           <li>module <a class="m-doc" href="group__hashing.html">Hashing</a> <span class="m-doc">Utilities for generating (non-cryptographic) hashes.</span></li>
           <li class="m-doc-collapsible">
             <a href="#" onclick="return toggle(this)">module</a> <a class="m-doc" href="group__math.html">Math</a> <span class="m-doc">Math functions and types.</span>
@@ -84,7 +89,6 @@
             </ul>
           </li>
           <li>module <a class="m-doc" href="group__mem.html">Memory management</a> <span class="m-doc">Utilities for allocating, destroying and manipulating memory.</span></li>
-          <li>module <a class="m-doc" href="group__meta.html">Metafunctions and type traits</a> <span class="m-doc">Type traits and metaprogramming utilities.</span></li>
           <li>module <a class="m-doc" href="group__preprocessor.html">Preprocessor</a> <span class="m-doc">Compiler feature detection, attributes, string-makers, etc.</span></li>
           <li class="m-doc-collapsible">
             <a href="#" onclick="return toggle(this)">module</a> <a class="m-doc" href="group__strings.html">Strings</a> <span class="m-doc">Utilities to simplify working with strings.</span>

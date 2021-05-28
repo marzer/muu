@@ -15,7 +15,7 @@
   <meta content="Useful utilities for modern C++" property="og:description"/>
   <meta content="Useful utilities for modern C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.3.3" name="generator"/>
+  <meta content="Poxy v0.3.4" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
   <link href="poxy.css" rel="stylesheet"/>
   <script src="poxy.js"></script>
@@ -353,11 +353,6 @@
             </dt>
             <dd>A 'tag' type for encoding/parameterizing lists of types (without the instantiation heft of <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/utility/tuple.html" target="_blank">std::<wbr/>tuple</a>).</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1type__tag.html">type_tag</a>
-            </dt>
-            <dd>A 'tag' type for encoding/parameterizing a single type.</dd>
-            <dt>
               struct <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>
             </dt>
             <dd>A 128-bit universally-unique identifier (UUID).</dd>
@@ -461,7 +456,7 @@
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_tag</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integral_constant.html" target="_blank">std::<wbr/>integral_constant</a>&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>, N&gt;
             </dt>
-            <dd>A 'tag' type for encoding/parameterizing a single index.</dd>
+            <dd>A tag type for encoding/parameterizing a single index.</dd>
             <dt>
               using <a class="m-doc" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_t</a> = __int128_t
             </dt>
@@ -586,6 +581,11 @@
               using <a class="m-doc" href="group__meta.html#ga8b8f215acad0e9f3d7aa52326155f030">type_identity</a> = typename impl::type_identity_&lt;T&gt;::type
             </dt>
             <dd>Provides an identity type transformation.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="group__meta.html#ga90483ba1ebb9236ec76a1e5c3a0d9bdb">type_tag</a> = <a class="m-doc" href="structmuu_1_1type__list.html">type_<wbr/>list</a>&lt;T&gt;
+            </dt>
+            <dd>A tag type for encoding/parameterizing a single type.</dd>
             <dt>
               using <a class="m-doc" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_t</a> = __uint128_t
             </dt>

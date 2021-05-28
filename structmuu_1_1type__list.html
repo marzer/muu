@@ -15,7 +15,7 @@
   <meta content="Useful utilities for modern C++" property="og:description"/>
   <meta content="Useful utilities for modern C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.3.3" name="generator"/>
+  <meta content="Poxy v0.3.4" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
   <link href="poxy.css" rel="stylesheet"/>
   <script src="poxy.js"></script>
@@ -62,6 +62,17 @@
           <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>type_list <span class="m-thin">struct</span>
         </h1>
         <p>A 'tag' type for encoding/parameterizing lists of types (without the instantiation heft of <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/utility/tuple.html" target="_blank">std::<wbr/>tuple</a>).</p>
+        <table class="m-table m-fullwidth m-flat">
+          <thead>
+            <tr><th colspan="2">Template parameters</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="width: 1%">T</td>
+              <td>The list of types represented by the list.</td>
+            </tr>
+          </tbody>
+        </table>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -79,15 +90,23 @@
           <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
             <dt>
+              using <a class="m-doc" href="#a3ca238f24c7016a8b399d3ea94e1f401">first</a> = <code class="m-note m-dim poxy-impl">/* ... */</code>
+            </dt>
+            <dd>The first type in the list.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index&gt;</div>
-              using <a class="m-doc" href="#ae3041e0ccc2367080c6ba5985ae6778a">select</a> = impl::type_list_select_&lt;<a class="m-doc" href="structmuu_1_1type__list.html">type_<wbr/>list</a>&lt;T...&gt;, Index&gt;
+              using <a class="m-doc" href="#a200e4e32806a05cc13813f32677f0991">select</a> = <code class="m-note m-dim poxy-impl">/* ... */</code>
             </dt>
             <dd>Selects a single type from the list.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Start, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Length = (<a class="m-doc" href="structmuu_1_1type__list.html#a7bc9e54b6100181e7203d433a5e1b31b">length</a> - Start)&gt;</div>
-              using <a class="m-doc" href="#a6e820f266b9d4562e5082e39f769ee84">slice</a> = impl::type_list_slice_&lt;<a class="m-doc" href="structmuu_1_1type__list.html">type_<wbr/>list</a>&lt;T...&gt;, Start, Length&gt;
+              using <a class="m-doc" href="#a847c2e0d8b80aec8b0e889e9c619b1ed">slice</a> = <code class="m-note m-dim poxy-impl">/* ... */</code>
             </dt>
             <dd>Selects a slice of types from the list.</dd>
+            <dt>
+              using <a class="m-doc" href="#adf836ec5894110f63566e8bfb54a78aa">type</a> = <a class="m-doc" href="structmuu_1_1type__list.html#a3ca238f24c7016a8b399d3ea94e1f401">first</a>
+            </dt>
+            <dd>Alias for <a class="m-doc" href="structmuu_1_1type__list.html#a3ca238f24c7016a8b399d3ea94e1f401">first</a> when <code>length == 1</code>.</dd>
           </dl>
         </section>
         <section id="pub-static-attribs">
@@ -95,40 +114,71 @@
           <dl class="m-doc">
             <dt> static <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#a7bc9e54b6100181e7203d433a5e1b31b">length</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>The length of the list.</dd>
+            <dd>The number of types in the list.</dd>
           </dl>
         </section>
         <section>
           <h2>Typedef documentation</h2>
-          <section class="m-doc-details" id="ae3041e0ccc2367080c6ba5985ae6778a"><div>
+          <section class="m-doc-details" id="a3ca238f24c7016a8b399d3ea94e1f401"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename... T&gt;
+              </div>
+              using muu::<wbr/>type_list&lt;T&gt;::<wbr/><a class="m-doc-self" href="#a3ca238f24c7016a8b399d3ea94e1f401">first</a> = <code class="m-note m-dim poxy-impl">/* ... */</code>
+            </h3>
+            <p>The first type in the list.</p>
+<pre class="m-code"><span class="k">using</span> <span class="ut">first_type</span> <span class="o">=</span> <span class="ns">muu</span><span class="o">::</span><span class="ut">type_list</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">float</span><span class="p">,</span> <span class="k">char</span><span class="p">,</span> <span class="k">void</span><span class="o">&gt;::</span><span class="n">first</span><span class="p">;</span>
+
+<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"is int:   "</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="ut">first_type</span><span class="p">,</span> <span class="k">int</span><span class="o">&gt;</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"is float: "</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="ut">first_type</span><span class="p">,</span> <span class="k">float</span><span class="o">&gt;</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"is char:  "</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="ut">first_type</span><span class="p">,</span> <span class="k">char</span><span class="o">&gt;</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"is void:  "</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="ut">first_type</span><span class="p">,</span> <span class="k">void</span><span class="o">&gt;</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span></pre><pre class="m-console"><span class="go">is int:   true</span>
+<span class="go">is float: false</span>
+<span class="go">is char:  false</span>
+<span class="go">is void:  false</span></pre>
+          </div></section>
+          <section class="m-doc-details" id="a200e4e32806a05cc13813f32677f0991"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename... T&gt;<br/> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index&gt;
               </div>
-              using muu::<wbr/>type_list&lt;T&gt;::<wbr/><a class="m-doc-self" href="#ae3041e0ccc2367080c6ba5985ae6778a">select</a> = impl::type_list_select_&lt;<a class="m-doc" href="structmuu_1_1type__list.html">type_<wbr/>list</a>&lt;T...&gt;, Index&gt;
+              using muu::<wbr/>type_list&lt;T&gt;::<wbr/><a class="m-doc-self" href="#a200e4e32806a05cc13813f32677f0991">select</a> = <code class="m-note m-dim poxy-impl">/* ... */</code>
             </h3>
             <p>Selects a single type from the list.</p>
-<pre class="m-code"><span class="k">using</span> <span class="n">type</span> <span class="o">=</span> <span class="ns">muu</span><span class="o">::</span><span class="ut">type_list</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">float</span><span class="p">,</span> <span class="k">char</span><span class="p">,</span> <span class="k">void</span><span class="o">&gt;::</span><span class="n">select</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">;</span>
+<pre class="m-code"><span class="k">using</span> <span class="ut">selected_type</span> <span class="o">=</span> <span class="ns">muu</span><span class="o">::</span><span class="ut">type_list</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">float</span><span class="p">,</span> <span class="k">char</span><span class="p">,</span> <span class="k">void</span><span class="o">&gt;::</span><span class="n">select</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">;</span>
 
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"is int:   "</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="n">type</span><span class="p">,</span> <span class="k">int</span><span class="o">&gt;</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"is float: "</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="n">type</span><span class="p">,</span> <span class="k">float</span><span class="o">&gt;</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"is char:  "</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="n">type</span><span class="p">,</span> <span class="k">char</span><span class="o">&gt;</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"is void:  "</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="n">type</span><span class="p">,</span> <span class="k">void</span><span class="o">&gt;</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span></pre><pre class="m-console"><span class="go">is int:   false</span>
+<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"is int:   "</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="ut">selected_type</span><span class="p">,</span> <span class="k">int</span><span class="o">&gt;</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"is float: "</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="ut">selected_type</span><span class="p">,</span> <span class="k">float</span><span class="o">&gt;</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"is char:  "</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="ut">selected_type</span><span class="p">,</span> <span class="k">char</span><span class="o">&gt;</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"is void:  "</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="ut">selected_type</span><span class="p">,</span> <span class="k">void</span><span class="o">&gt;</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span></pre><pre class="m-console"><span class="go">is int:   false</span>
 <span class="go">is float: false</span>
 <span class="go">is char:  true</span>
 <span class="go">is void:  false</span></pre>
           </div></section>
-          <section class="m-doc-details" id="a6e820f266b9d4562e5082e39f769ee84"><div>
+          <section class="m-doc-details" id="a847c2e0d8b80aec8b0e889e9c619b1ed"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename... T&gt;<br/> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Start, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Length = (<a class="m-doc" href="structmuu_1_1type__list.html#a7bc9e54b6100181e7203d433a5e1b31b">length</a> - Start)&gt;
               </div>
-              using muu::<wbr/>type_list&lt;T&gt;::<wbr/><a class="m-doc-self" href="#a6e820f266b9d4562e5082e39f769ee84">slice</a> = impl::type_list_slice_&lt;<a class="m-doc" href="structmuu_1_1type__list.html">type_<wbr/>list</a>&lt;T...&gt;, Start, Length&gt;
+              using muu::<wbr/>type_list&lt;T&gt;::<wbr/><a class="m-doc-self" href="#a847c2e0d8b80aec8b0e889e9c619b1ed">slice</a> = <code class="m-note m-dim poxy-impl">/* ... */</code>
             </h3>
             <p>Selects a slice of types from the list.</p>
-<pre class="m-code"><span class="k">using</span> <span class="n">types</span> <span class="o">=</span> <span class="ns">muu</span><span class="o">::</span><span class="ut">type_list</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">float</span><span class="p">,</span> <span class="k">char</span><span class="p">,</span> <span class="k">void</span><span class="o">&gt;</span><span class="p">;</span>
-<span class="k">using</span> <span class="n">subtypes</span> <span class="o">=</span> <span class="n">types</span><span class="o">::</span><span class="n">slice</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span><span class="p">;</span>
-<span class="k">static_assert</span><span class="p">(</span><span class="ns">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="n">subtypes</span><span class="p">,</span> <span class="ns">muu</span><span class="o">::</span><span class="ut">type_list</span><span class="o">&lt;</span><span class="k">float</span><span class="p">,</span> <span class="k">char</span><span class="o">&gt;&gt;</span><span class="p">);</span></pre>
+<pre class="m-code"><span class="k">using</span> <span class="ut">types</span> <span class="o">=</span> <span class="ns">muu</span><span class="o">::</span><span class="ut">type_list</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">float</span><span class="p">,</span> <span class="k">char</span><span class="p">,</span> <span class="k">void</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="k">static_assert</span><span class="p">(</span><span class="ns">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span>
+    <span class="n">types</span><span class="o">::</span><span class="n">slice</span><span class="o">&lt;</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="ns">muu</span><span class="o">::</span><span class="ut">type_list</span><span class="o">&lt;</span><span class="k">char</span><span class="p">,</span> <span class="k">void</span><span class="o">&gt;</span>
+<span class="o">&gt;</span><span class="p">);</span></pre>
+          </div></section>
+          <section class="m-doc-details" id="adf836ec5894110f63566e8bfb54a78aa"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename... T&gt;
+              </div>
+              using muu::<wbr/>type_list&lt;T&gt;::<wbr/><a class="m-doc-self" href="#adf836ec5894110f63566e8bfb54a78aa">type</a> = <a class="m-doc" href="structmuu_1_1type__list.html#a3ca238f24c7016a8b399d3ea94e1f401">first</a>
+            </h3>
+            <p>Alias for <a class="m-doc" href="structmuu_1_1type__list.html#a3ca238f24c7016a8b399d3ea94e1f401">first</a> when <code>length == 1</code>.</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This member is only present when <code>length == 1</code>.</p></aside>
           </div></section>
         </section>
         <section>
@@ -139,7 +189,7 @@
                 template&lt;typename... T&gt;
               </div> static <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> muu::<wbr/>type_list&lt;T&gt;::<wbr/><a class="m-doc-self" href="#a7bc9e54b6100181e7203d433a5e1b31b">length</a> <span class="m-label m-primary">constexpr</span>
             </h3>
-            <p>The length of the list.</p>
+            <p>The number of types in the list.</p>
 <pre class="m-code"><span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="ns">muu</span><span class="o">::</span><span class="ut">type_list</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">float</span><span class="p">,</span> <span class="k">char</span><span class="p">,</span> <span class="k">void</span><span class="o">&gt;::</span><span class="n">length</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span></pre><pre class="m-console"><span class="go">4</span></pre>
           </div></section>
         </section>

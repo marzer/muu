@@ -7174,17 +7174,31 @@
     <filename>structmuu_1_1type__list.html</filename>
     <templarg>typename... T</templarg>
     <member kind="typedef">
-      <type>impl::type_list_select_&lt; type_list&lt; T... &gt;, Index &gt;</type>
-      <name>select</name>
+      <type>POXY_IMPLEMENTATION_DETAIL</type>
+      <name>first</name>
       <anchorfile>structmuu_1_1type__list.html</anchorfile>
-      <anchor>ae3041e0ccc2367080c6ba5985ae6778a</anchor>
+      <anchor>a3ca238f24c7016a8b399d3ea94e1f401</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>impl::type_list_slice_&lt; type_list&lt; T... &gt;, Start, Length &gt;</type>
+      <type>first</type>
+      <name>type</name>
+      <anchorfile>structmuu_1_1type__list.html</anchorfile>
+      <anchor>adf836ec5894110f63566e8bfb54a78aa</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>POXY_IMPLEMENTATION_DETAIL</type>
+      <name>select</name>
+      <anchorfile>structmuu_1_1type__list.html</anchorfile>
+      <anchor>a200e4e32806a05cc13813f32677f0991</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>POXY_IMPLEMENTATION_DETAIL</type>
       <name>slice</name>
       <anchorfile>structmuu_1_1type__list.html</anchorfile>
-      <anchor>a6e820f266b9d4562e5082e39f769ee84</anchor>
+      <anchor>a847c2e0d8b80aec8b0e889e9c619b1ed</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable" static="yes">
@@ -7194,11 +7208,6 @@
       <anchor>a7bc9e54b6100181e7203d433a5e1b31b</anchor>
       <arglist></arglist>
     </member>
-  </compound>
-  <compound kind="struct">
-    <name>muu::type_tag</name>
-    <filename>structmuu_1_1type__tag.html</filename>
-    <templarg>typename T</templarg>
   </compound>
   <compound kind="struct">
     <name>muu::uuid</name>
@@ -8516,7 +8525,6 @@
     <class kind="struct">muu::constants&lt; unsigned long long &gt;</class>
     <class kind="struct">muu::constants&lt; int128_t &gt;</class>
     <class kind="struct">muu::constants&lt; uint128_t &gt;</class>
-    <class kind="struct">muu::type_tag</class>
     <class kind="struct">muu::type_list</class>
     <member kind="typedef">
       <type>__int128_t</type>
@@ -8789,6 +8797,13 @@
       <name>index_tag</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga6ca7fed60fe86574dd8bedf3b3332431</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>type_list&lt; T &gt;</type>
+      <name>type_tag</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga90483ba1ebb9236ec76a1e5c3a0d9bdb</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
@@ -12714,6 +12729,7 @@
     <name>core</name>
     <title>Core</title>
     <filename>group__core.html</filename>
+    <subgroup>meta</subgroup>
     <class kind="class">muu::compressed_pair</class>
     <class kind="struct">muu::half</class>
     <class kind="class">muu::scope_guard</class>
@@ -13112,7 +13128,6 @@
     <name>meta</name>
     <title>Metafunctions and type traits</title>
     <filename>group__meta.html</filename>
-    <class kind="struct">muu::type_tag</class>
     <class kind="struct">muu::type_list</class>
     <member kind="typedef">
       <type>std::remove_cv_t&lt; std::remove_reference_t&lt; T &gt; &gt;</type>
@@ -13343,6 +13358,13 @@
       <name>index_tag</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga6ca7fed60fe86574dd8bedf3b3332431</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>type_list&lt; T &gt;</type>
+      <name>type_tag</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga90483ba1ebb9236ec76a1e5c3a0d9bdb</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">

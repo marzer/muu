@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>Metafunctions and type traits module | muu Useful utilities for modern C++</title>
+  <title>Core » Metafunctions and type traits module | muu Useful utilities for modern C++</title>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
   <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
   <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
@@ -15,7 +15,7 @@
   <meta content="Useful utilities for modern C++" property="og:description"/>
   <meta content="Useful utilities for modern C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.3.3" name="generator"/>
+  <meta content="Poxy v0.3.4" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
   <link href="poxy.css" rel="stylesheet"/>
   <script src="poxy.js"></script>
@@ -57,6 +57,7 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
+          <span class="m-breadcrumb"><a href="group__core.html">Core</a> »</span>
           Metafunctions and type traits <span class="m-thin">module</span></h1>
         <p>Type traits and metaprogramming utilities.</p>
         <div class="m-block m-default">
@@ -81,11 +82,6 @@
               struct <a class="m-doc" href="structmuu_1_1type__list.html">muu::type_list</a>
             </dt>
             <dd>A 'tag' type for encoding/parameterizing lists of types (without the instantiation heft of <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/utility/tuple.html" target="_blank">std::<wbr/>tuple</a>).</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1type__tag.html">muu::type_tag</a>
-            </dt>
-            <dd>A 'tag' type for encoding/parameterizing a single type.</dd>
           </dl>
         </section>
         <section id="typedef-members">
@@ -130,7 +126,7 @@
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
               using <a class="m-doc" href="#ga6ca7fed60fe86574dd8bedf3b3332431">index_tag</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integral_constant.html" target="_blank">std::<wbr/>integral_constant</a>&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>, N&gt;
             </dt>
-            <dd>A 'tag' type for encoding/parameterizing a single index.</dd>
+            <dd>A tag type for encoding/parameterizing a single index.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
               using <a class="m-doc" href="#ga7c930af45d2e06539c2a3dfcc908a854">largest</a> = typename impl::largest_&lt;T...&gt;::type
@@ -251,6 +247,11 @@
               using <a class="m-doc" href="#ga8b8f215acad0e9f3d7aa52326155f030">type_identity</a> = typename impl::type_identity_&lt;T&gt;::type
             </dt>
             <dd>Provides an identity type transformation.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="#ga90483ba1ebb9236ec76a1e5c3a0d9bdb">type_tag</a> = type_list&lt;T&gt;
+            </dt>
+            <dd>A tag type for encoding/parameterizing a single type.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
               using <a class="m-doc" href="#ga47a90ed3608cf7b0bf562f4ad208cd21">unsigned_integer</a> = typename impl::unsigned_integer_&lt;Bits&gt;::type
@@ -658,7 +659,7 @@
               </div>
               using <a class="m-doc-self" href="#ga6ca7fed60fe86574dd8bedf3b3332431">index_tag</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integral_constant.html" target="_blank">std::<wbr/>integral_constant</a>&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>, N&gt;
             </h3>
-            <p>A 'tag' type for encoding/parameterizing a single index.</p>
+            <p>A tag type for encoding/parameterizing a single index.</p>
           </div></section>
           <section class="m-doc-details" id="ga7c930af45d2e06539c2a3dfcc908a854"><div>
             <h3>
@@ -905,6 +906,16 @@
             </h3>
             <p>Provides an identity type transformation.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/type_identity.html" target="_blank">std::<wbr/>type_identity_t</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga90483ba1ebb9236ec76a1e5c3a0d9bdb"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga90483ba1ebb9236ec76a1e5c3a0d9bdb">type_tag</a> = type_list&lt;T&gt;
+            </h3>
+            <p>A tag type for encoding/parameterizing a single type.</p>
           </div></section>
           <section class="m-doc-details" id="ga47a90ed3608cf7b0bf562f4ad208cd21"><div>
             <h3>
