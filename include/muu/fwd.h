@@ -274,6 +274,8 @@ namespace muu
 	struct quaternion;
 	template <typename, size_t, size_t>
 	struct matrix;
+	template <typename... T>
+	struct type_list;
 
 	template <typename>
 	struct plane;
