@@ -15,11 +15,11 @@
   <meta content="Useful utilities for modern C++" property="og:description"/>
   <meta content="Useful utilities for modern C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.3.4" name="generator"/>
+  <meta content="Poxy v0.4.3" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy.css" rel="stylesheet"/>
-  <script src="poxy.js"></script>
-  <script src="jquery-3.6.0.slim.min.js"></script>
+  <link href="poxy-0.4.3.css" rel="stylesheet"/>
+  <link href="poxy-0.4.3-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.4.3.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -81,7 +81,7 @@
             </tr>
           </tbody>
         </table>
-        <div class="m-block m-default">
+        <div class="m-block m-default poxy-toc">
           <h3>Contents</h3>
           <ul>
             <li>
@@ -507,7 +507,7 @@ template&lt;typename T&gt;
                 </tr>
               </tbody>
             </table>
-<pre class="m-code"><span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">matrix</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span><span class="p">{</span> <span class="mi">1</span> <span class="p">}</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span></pre><pre class="m-console"><span class="go">{    1,    1,    1,</span>
+<pre class="m-code"><span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="n">matrix</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span><span class="p">{</span> <span class="mi">1</span> <span class="p">}</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span></pre><pre class="m-console"><span class="go">{    1,    1,    1,</span>
 <span class="go">     1,    1,    1,</span>
 <span class="go">     1,    1,    1 }</span></pre>
           </div></section>
@@ -550,13 +550,13 @@ template&lt;typename... T&gt;
               </tbody>
             </table>
 <pre class="m-code"><span class="c1">// explicitly-sized matrices:</span>
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">matrix</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span><span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span> <span class="p">}</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">;</span>
+<span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="n">matrix</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span><span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span> <span class="p">}</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">;</span>
 
 <span class="c1">// 2x2, 3x3, 3x4 and 4x4 matrices can be deduced automatically from 4, 9 12 and 16 inputs (respectively):</span>
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">matrix</span><span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span> <span class="p">}</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">;</span>
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">matrix</span><span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span> <span class="p">}</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">;</span>
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">matrix</span><span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span> <span class="p">}</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">;</span>
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">matrix</span><span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span> <span class="p">}</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">;</span></pre><pre class="m-console"><span class="go">{    1,    2,    3,</span>
+<span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="n">matrix</span><span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span> <span class="p">}</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">;</span>
+<span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="n">matrix</span><span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span> <span class="p">}</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">;</span>
+<span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="n">matrix</span><span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span> <span class="p">}</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">;</span>
+<span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="n">matrix</span><span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span> <span class="p">}</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">;</span></pre><pre class="m-console"><span class="go">{    1,    2,    3,</span>
 <span class="go">     4,    5,    6 }</span>
 
 <span class="go">{    1,    2,</span>
@@ -611,13 +611,13 @@ template&lt;typename... T&gt;
               </tbody>
             </table>
 <p>Copies source matrix's scalar components, casting if necessary:</p><pre class="m-code"><span class="n">matrix</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span> <span class="n">m33</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span> <span class="p">};</span>
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">m33</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">;</span>
+<span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="n">m33</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">;</span>
 
 <span class="n">matrix</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="n">m22</span> <span class="o">=</span> <span class="p">{</span> <span class="n">m33</span> <span class="p">};</span>
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">m22</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">;</span>
+<span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="n">m22</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">;</span>
 
 <span class="n">matrix</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="o">&gt;</span> <span class="n">m44</span> <span class="o">=</span> <span class="p">{</span> <span class="n">m33</span> <span class="p">};</span>
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">m44</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">;</span></pre><pre class="m-console"><span class="go">{    1,    2,    3,</span>
+<span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="n">m44</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">;</span></pre><pre class="m-console"><span class="go">{    1,    2,    3,</span>
 <span class="go">     4,    5,    6,</span>
 <span class="go">     7,    8,    9 }</span>
 
@@ -1036,33 +1036,13 @@ template&lt;typename T&gt;
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         
-<a class="poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
+    <a class="poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
+     • <a class="poxy-external" href="https://github.com/marzer/muu/issues" target="_blank">Report an issue</a>
+     • <a class="poxy-external" href="https://github.com/marzer/muu/blob/master/LICENSE" target="_blank">License</a>
+     • <a download="" href="muu.tagfile.xml" target="_blank" type="text/xml">Doxygen tagfile</a>
+    <br/><br/>
+    Site generated using <a class="poxy-external" href="https://github.com/marzer/poxy/" target="_blank">Poxy</a>
 
-•
-<a class="poxy-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
-an
-issue</a>
-
-•
-<a class="poxy-external" href="https://github.com/marzer/muu/blob/master/LICENSE" target="_blank">License</a>
-
-•
-<a download="" href="muu.tagfile.xml" target="_blank" type="text/xml">Doxygen
-tagfile</a>
-
-<br/><br/>
-
-Documentation
-created
-using
-
-<a class="poxy-external" href="https://www.doxygen.nl/index.html" target="_blank">Doxygen</a>
-
-+
-<a class="poxy-external" href="https://mcss.mosra.cz/documentation/doxygen/" target="_blank">mosra/m.css</a>
-
-+
-<a class="poxy-external" href="https://github.com/marzer/poxy/" target="_blank">marzer/poxy</a>
       </div>
     </div>
   </div>

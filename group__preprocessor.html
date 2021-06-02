@@ -15,11 +15,11 @@
   <meta content="Useful utilities for modern C++" property="og:description"/>
   <meta content="Useful utilities for modern C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.3.4" name="generator"/>
+  <meta content="Poxy v0.4.3" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy.css" rel="stylesheet"/>
-  <script src="poxy.js"></script>
-  <script src="jquery-3.6.0.slim.min.js"></script>
+  <link href="poxy-0.4.3.css" rel="stylesheet"/>
+  <link href="poxy-0.4.3-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.4.3.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -59,7 +59,7 @@
         <h1>
           Preprocessor <span class="m-thin">module</span></h1>
         <p>Compiler feature detection, attributes, string-makers, etc.</p>
-        <div class="m-block m-default">
+        <div class="m-block m-default poxy-toc">
           <h3>Contents</h3>
           <ul>
             <li>
@@ -448,10 +448,10 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Marks a class being interface-only and not requiring a vtable.</p>
-<p>Useful for abstract base classes:</p><pre class="m-code"><span class="k">class</span> <span class="m">MUU_ABSTRACT_INTERFACE</span> <span class="n">virtual_base</span>
+<p>Useful for abstract base classes:</p><pre class="m-code"><span class="k">class</span> <span class="m">MUU_ABSTRACT_INTERFACE</span> <span class="ut">virtual_base</span>
 <span class="p">{</span>
     <span class="k">virtual</span> <span class="k">void</span> <span class="n">fooify</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="k">virtual</span> <span class="o">~</span><span class="n">virtual_base</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+    <span class="k">virtual</span> <span class="o">~</span><span class="ut">virtual_base</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
 <span class="p">};</span></pre>
           </div></section>
           <section class="m-doc-details" id="ga364a90dd5bcbbbc7b58bbaae2b0ed904"><div>
@@ -682,17 +682,17 @@
             <p>Explicitly deletes the copy constructor and copy-assignment operator of a class or struct.</p>
 <pre class="m-code"><span class="k">class</span> <span class="nc">uncopyable</span>
 <span class="p">{</span>
-    <span class="n">uncopyable</span><span class="p">()</span> <span class="p">{}</span>
-    <span class="m">MUU_DELETE_COPY</span><span class="p">(</span><span class="n">uncopyable</span><span class="p">);</span>
+    <span class="ut">uncopyable</span><span class="p">()</span> <span class="p">{}</span>
+    <span class="m">MUU_DELETE_COPY</span><span class="p">(</span><span class="ut">uncopyable</span><span class="p">);</span>
 <span class="p">};</span>
 
 <span class="c1">//equivalent to:</span>
 <span class="k">class</span> <span class="nc">uncopyable</span>
 <span class="p">{</span>
-    <span class="n">uncopyable</span><span class="p">()</span> <span class="p">{}</span>
+    <span class="ut">uncopyable</span><span class="p">()</span> <span class="p">{}</span>
 
-    <span class="n">uncopyable</span><span class="p">(</span><span class="k">const</span> <span class="n">uncopyable</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
-    <span class="n">uncopyable</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="n">uncopyable</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
+    <span class="ut">uncopyable</span><span class="p">(</span><span class="k">const</span> <span class="ut">uncopyable</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
+    <span class="ut">uncopyable</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="ut">uncopyable</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
 <span class="p">};</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://cpppatterns.com/patterns/rule-of-five.html" target="_blank">https:/<wbr/>/<wbr/>cpppatterns.com/<wbr/>patterns/<wbr/>rule-of-five.html</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="gade03e0a489eed8dd63593f2a28929fce"><div>
@@ -703,18 +703,18 @@
             <p>Explicitly deletes the move constructor and move-assignment operator of a class or struct.</p>
 <pre class="m-code"><span class="k">class</span> <span class="nc">immovable</span>
 <span class="p">{</span>
-    <span class="n">immovable</span><span class="p">()</span> <span class="p">{}</span>
+    <span class="ut">immovable</span><span class="p">()</span> <span class="p">{}</span>
 
-    <span class="m">MUU_DELETE_MOVE</span><span class="p">(</span><span class="n">immovable</span><span class="p">);</span>
+    <span class="m">MUU_DELETE_MOVE</span><span class="p">(</span><span class="ut">immovable</span><span class="p">);</span>
 <span class="p">};</span>
 
 <span class="c1">//equivalent to:</span>
 <span class="k">class</span> <span class="nc">immovable</span>
 <span class="p">{</span>
-    <span class="n">immovable</span><span class="p">()</span> <span class="p">{}</span>
+    <span class="ut">immovable</span><span class="p">()</span> <span class="p">{}</span>
 
-    <span class="n">immovable</span><span class="p">(</span><span class="n">immovable</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
-    <span class="n">immovable</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">immovable</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
+    <span class="ut">immovable</span><span class="p">(</span><span class="ut">immovable</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
+    <span class="ut">immovable</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="ut">immovable</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
 <span class="p">};</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://cpppatterns.com/patterns/rule-of-five.html" target="_blank">https:/<wbr/>/<wbr/>cpppatterns.com/<wbr/>patterns/<wbr/>rule-of-five.html</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga02a7d4cbc36ab3a02d1c9e153af196be"><div>
@@ -791,14 +791,14 @@
     <span class="k">using</span> <span class="ut">value_type</span> <span class="o">=</span> <span class="k">int</span><span class="p">;</span>
 <span class="p">};</span>
 
-<span class="k">class</span> <span class="m">MUU_EMPTY_BASES</span> <span class="nl">nonempty_child</span> <span class="p">:</span> <span class="n">empty_parent</span>
+<span class="k">class</span> <span class="m">MUU_EMPTY_BASES</span> <span class="ut">nonempty_child</span> <span class="p">:</span> <span class="ut">empty_parent</span>
 <span class="p">{</span>
     <span class="k">using</span> <span class="n">empty_parent</span><span class="o">::</span><span class="n">value_type</span><span class="p">;</span>
 
-    <span class="n">value_type</span> <span class="n">value</span><span class="p">;</span>
+    <span class="ut">value_type</span> <span class="n">value</span><span class="p">;</span>
 <span class="p">};</span>
 
-<span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">nonempty_child</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">nonempty_child</span><span class="o">::</span><span class="n">value_type</span><span class="p">));</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://devblogs.microsoft.com/cppblog/optimizing-the-layout-of-empty-base-classes-in-vs2015-update-2-3/" target="_blank">_<wbr/>_<wbr/>declspec(empty_<wbr/>bases)</a></p></aside>
+<span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="ut">nonempty_child</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">nonempty_child</span><span class="o">::</span><span class="n">value_type</span><span class="p">));</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://devblogs.microsoft.com/cppblog/optimizing-the-layout-of-empty-base-classes-in-vs2015-update-2-3/" target="_blank">_<wbr/>_<wbr/>declspec(empty_<wbr/>bases)</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga7328d95e2ec9777bbbd7e81c7b4ffa68"><div>
             <h3>
@@ -977,17 +977,17 @@
     <span class="n">beta</span>   <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
     <span class="n">gamma</span>  <span class="o">=</span> <span class="mi">4</span>
 <span class="p">};</span>
-<span class="m">MUU_MAKE_FLAGS</span><span class="p">(</span><span class="n">my_flags</span><span class="p">);</span>
+<span class="m">MUU_MAKE_FLAGS</span><span class="p">(</span><span class="ut">my_flags</span><span class="p">);</span>
 
 <span class="c1">// emits these operators:</span>
-<span class="k">constexpr</span> <span class="n">my_flags</span>  <span class="k">operator</span> <span class="o">&amp;</span>  <span class="p">(</span><span class="n">my_flags</span><span class="p">,</span>  <span class="n">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
-<span class="k">constexpr</span> <span class="n">my_flags</span>  <span class="k">operator</span> <span class="o">|</span>  <span class="p">(</span><span class="n">my_flags</span><span class="p">,</span>  <span class="n">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
-<span class="k">constexpr</span> <span class="n">my_flags</span>  <span class="k">operator</span> <span class="o">^</span>  <span class="p">(</span><span class="n">my_flags</span><span class="p">,</span>  <span class="n">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
-<span class="k">constexpr</span> <span class="n">my_flags</span>  <span class="k">operator</span> <span class="o">~</span>  <span class="p">(</span><span class="n">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
-<span class="k">constexpr</span> <span class="k">bool</span>      <span class="k">operator</span> <span class="o">!</span>  <span class="p">(</span><span class="n">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
-<span class="k">constexpr</span> <span class="n">my_flags</span><span class="o">&amp;</span> <span class="k">operator</span> <span class="o">&amp;=</span> <span class="p">(</span><span class="n">my_flags</span><span class="o">&amp;</span><span class="p">,</span> <span class="n">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
-<span class="k">constexpr</span> <span class="n">my_flags</span><span class="o">&amp;</span> <span class="k">operator</span> <span class="o">|=</span> <span class="p">(</span><span class="n">my_flags</span><span class="o">&amp;</span><span class="p">,</span> <span class="n">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
-<span class="k">constexpr</span> <span class="n">my_flags</span><span class="o">&amp;</span> <span class="k">operator</span> <span class="o">^=</span> <span class="p">(</span><span class="n">my_flags</span><span class="o">&amp;</span><span class="p">,</span> <span class="n">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span></pre>
+<span class="k">constexpr</span> <span class="ut">my_flags</span>  <span class="k">operator</span> <span class="o">&amp;</span>  <span class="p">(</span><span class="ut">my_flags</span><span class="p">,</span>  <span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="k">constexpr</span> <span class="ut">my_flags</span>  <span class="k">operator</span> <span class="o">|</span>  <span class="p">(</span><span class="ut">my_flags</span><span class="p">,</span>  <span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="k">constexpr</span> <span class="ut">my_flags</span>  <span class="k">operator</span> <span class="o">^</span>  <span class="p">(</span><span class="ut">my_flags</span><span class="p">,</span>  <span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="k">constexpr</span> <span class="ut">my_flags</span>  <span class="k">operator</span> <span class="o">~</span>  <span class="p">(</span><span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="k">constexpr</span> <span class="k">bool</span>      <span class="k">operator</span> <span class="o">!</span>  <span class="p">(</span><span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="k">constexpr</span> <span class="ut">my_flags</span><span class="o">&amp;</span> <span class="k">operator</span> <span class="o">&amp;=</span> <span class="p">(</span><span class="ut">my_flags</span><span class="o">&amp;</span><span class="p">,</span> <span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="k">constexpr</span> <span class="ut">my_flags</span><span class="o">&amp;</span> <span class="k">operator</span> <span class="o">|=</span> <span class="p">(</span><span class="ut">my_flags</span><span class="o">&amp;</span><span class="p">,</span> <span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="k">constexpr</span> <span class="ut">my_flags</span><span class="o">&amp;</span> <span class="k">operator</span> <span class="o">^=</span> <span class="p">(</span><span class="ut">my_flags</span><span class="o">&amp;</span><span class="p">,</span> <span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span></pre>
           </div></section>
           <section class="m-doc-details" id="gadd45b899bf7c8cc6e64f6d7c02b1c4f3"><div>
             <h3>
@@ -1094,7 +1094,7 @@
     <span class="n">some_invalid_sentinel</span> <span class="c1">// not a real, meaningful value</span>
 <span class="p">};</span>
 
-<span class="k">int</span> <span class="nf">do_the_thing</span><span class="p">(</span><span class="n">my_enum</span> <span class="n">val</span><span class="p">)</span> <span class="k">noexcept</span>
+<span class="k">int</span> <span class="nf">do_the_thing</span><span class="p">(</span><span class="ut">my_enum</span> <span class="n">val</span><span class="p">)</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="k">switch</span> <span class="p">(</span><span class="n">val</span><span class="p">)</span>
     <span class="p">{</span>
@@ -1199,7 +1199,7 @@
 <p>Use this in tandem with the other warning macros to demarcate regions of code that should have different warning semantics, e.g.:</p><pre class="m-code"><span class="m">MUU_PUSH_WARNINGS</span><span class="p">;</span>
 <span class="m">MUU_DISABLE_SWITCH_WARNINGS</span><span class="p">;</span>
 
-<span class="k">int</span> <span class="nf">do_the_thing</span><span class="p">(</span><span class="n">my_enum</span> <span class="n">val</span><span class="p">)</span> <span class="k">noexcept</span>
+<span class="k">int</span> <span class="nf">do_the_thing</span><span class="p">(</span><span class="ut">my_enum</span> <span class="n">val</span><span class="p">)</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="k">switch</span> <span class="p">(</span><span class="n">val</span><span class="p">)</span>
     <span class="p">{</span>
@@ -1221,7 +1221,7 @@
 <p>This is useful for simple wrappers and 'strong typedef' types, e.g.:</p><pre class="m-code"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="o">&gt;</span>
 <span class="k">struct</span> <span class="m">MUU_TRIVIAL_ABI</span> <span class="ut">strong_typedef</span>
 <span class="p">{</span>
-    <span class="n">T</span> <span class="n">value</span><span class="p">;</span>
+    <span class="ut">T</span> <span class="n">value</span><span class="p">;</span>
     <span class="o">~</span><span class="ut">strong_typedef</span><span class="p">()</span> <span class="k">noexcept</span>
     <span class="p">{</span>
         <span class="c1">// non-trivial for some reason, maybe debug checks</span>
@@ -1330,33 +1330,13 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         
-<a class="poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
+    <a class="poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
+     • <a class="poxy-external" href="https://github.com/marzer/muu/issues" target="_blank">Report an issue</a>
+     • <a class="poxy-external" href="https://github.com/marzer/muu/blob/master/LICENSE" target="_blank">License</a>
+     • <a download="" href="muu.tagfile.xml" target="_blank" type="text/xml">Doxygen tagfile</a>
+    <br/><br/>
+    Site generated using <a class="poxy-external" href="https://github.com/marzer/poxy/" target="_blank">Poxy</a>
 
-•
-<a class="poxy-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
-an
-issue</a>
-
-•
-<a class="poxy-external" href="https://github.com/marzer/muu/blob/master/LICENSE" target="_blank">License</a>
-
-•
-<a download="" href="muu.tagfile.xml" target="_blank" type="text/xml">Doxygen
-tagfile</a>
-
-<br/><br/>
-
-Documentation
-created
-using
-
-<a class="poxy-external" href="https://www.doxygen.nl/index.html" target="_blank">Doxygen</a>
-
-+
-<a class="poxy-external" href="https://mcss.mosra.cz/documentation/doxygen/" target="_blank">mosra/m.css</a>
-
-+
-<a class="poxy-external" href="https://github.com/marzer/poxy/" target="_blank">marzer/poxy</a>
       </div>
     </div>
   </div>

@@ -15,11 +15,11 @@
   <meta content="Useful utilities for modern C++" property="og:description"/>
   <meta content="Useful utilities for modern C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.3.4" name="generator"/>
+  <meta content="Poxy v0.4.3" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy.css" rel="stylesheet"/>
-  <script src="poxy.js"></script>
-  <script src="jquery-3.6.0.slim.min.js"></script>
+  <link href="poxy-0.4.3.css" rel="stylesheet"/>
+  <link href="poxy-0.4.3-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.4.3.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -59,7 +59,7 @@
         <h1>
           Core <span class="m-thin">module</span></h1>
         <p>Small, generally-useful functions and types.</p>
-        <div class="m-block m-default">
+        <div class="m-block m-default poxy-toc">
           <h3>Contents</h3>
           <ul>
             <li>
@@ -801,7 +801,7 @@
             </table>
 <pre class="m-code"><span class="k">const</span> <span class="k">auto</span> <span class="n">i</span> <span class="o">=</span> <span class="mh">0xAABBCCDDu</span><span class="p">;</span>
 <span class="k">const</span> <span class="k">auto</span> <span class="n">j</span> <span class="o">=</span> <span class="n">byte_reverse</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">hex</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span> <span class="o">&lt;&lt;</span> <span class="n">j</span><span class="p">;</span></pre><pre class="m-console"><span class="go">AABBCCDD</span>
+<span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">hex</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span> <span class="o">&lt;&lt;</span> <span class="n">j</span><span class="p">;</span></pre><pre class="m-console"><span class="go">AABBCCDD</span>
 <span class="go">DDCCBBAA</span></pre>
           </div></section>
           <section class="m-doc-details" id="gae644160cd7d978d95922af233afc5ddd"><div>
@@ -846,11 +846,11 @@
 <span class="c1">//                ^ ^ ^ ^</span>
 <span class="c1">// byte indices:  3 2 1 0</span>
 
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">hex</span><span class="p">;</span>
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"0: "</span> <span class="o">&lt;&lt;</span> <span class="n">byte_select</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"1: "</span> <span class="o">&lt;&lt;</span> <span class="n">byte_select</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"2: "</span> <span class="o">&lt;&lt;</span> <span class="n">byte_select</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"3: "</span> <span class="o">&lt;&lt;</span> <span class="n">byte_select</span><span class="o">&lt;</span><span class="mi">3</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span></pre><pre class="m-console"><span class="go">0: DD</span>
+<span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">hex</span><span class="p">;</span>
+<span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"0: "</span> <span class="o">&lt;&lt;</span> <span class="n">byte_select</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"1: "</span> <span class="o">&lt;&lt;</span> <span class="n">byte_select</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"2: "</span> <span class="o">&lt;&lt;</span> <span class="n">byte_select</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"3: "</span> <span class="o">&lt;&lt;</span> <span class="n">byte_select</span><span class="o">&lt;</span><span class="mi">3</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span></pre><pre class="m-console"><span class="go">0: DD</span>
 <span class="go">1: CC</span>
 <span class="go">2: BB</span>
 <span class="go">3: AA</span>
@@ -900,11 +900,11 @@
 <span class="c1">//                ^ ^ ^ ^</span>
 <span class="c1">// byte indices:  3 2 1 0</span>
 
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">hex</span><span class="p">;</span>
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"0: "</span> <span class="o">&lt;&lt;</span> <span class="n">byte_select</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"1: "</span> <span class="o">&lt;&lt;</span> <span class="n">byte_select</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"2: "</span> <span class="o">&lt;&lt;</span> <span class="n">byte_select</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"3: "</span> <span class="o">&lt;&lt;</span> <span class="n">byte_select</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span></pre><pre class="m-console"><span class="go">0: DD</span>
+<span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">hex</span><span class="p">;</span>
+<span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"0: "</span> <span class="o">&lt;&lt;</span> <span class="n">byte_select</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"1: "</span> <span class="o">&lt;&lt;</span> <span class="n">byte_select</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"2: "</span> <span class="o">&lt;&lt;</span> <span class="n">byte_select</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"3: "</span> <span class="o">&lt;&lt;</span> <span class="n">byte_select</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span></pre><pre class="m-console"><span class="go">0: DD</span>
 <span class="go">1: CC</span>
 <span class="go">2: BB</span>
 <span class="go">3: AA</span>
@@ -1105,7 +1105,7 @@
 <span class="p">{</span>
     <span class="k">const</span> <span class="k">auto</span> <span class="n">lhs</span> <span class="o">=</span> <span class="ns">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">::</span><span class="n">value</span><span class="o">&gt;</span><span class="p">(</span><span class="n">vals_1</span><span class="p">);</span>
     <span class="k">const</span> <span class="k">auto</span> <span class="n">rhs</span> <span class="o">=</span> <span class="ns">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">::</span><span class="n">value</span><span class="o">&gt;</span><span class="p">(</span><span class="n">vals_2</span><span class="p">);</span>
-    <span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">lhs</span>
+    <span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="n">lhs</span>
               <span class="o">&lt;&lt;</span> <span class="s">" * "</span>
               <span class="o">&lt;&lt;</span> <span class="n">rhs</span>
               <span class="o">&lt;&lt;</span> <span class="s">" = "</span>
@@ -1142,7 +1142,7 @@
 <p>Generates a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integral_constant.html" target="_blank">std::<wbr/>integral_constant</a> sequence, [0...N1), which is passed into the callable:</p><pre class="m-code"><span class="k">auto</span> <span class="n">vals</span> <span class="o">=</span> <span class="ns">std</span><span class="o">::</span><span class="ut">tuple</span><span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"1"</span><span class="sa">sv</span><span class="p">,</span> <span class="mf">2.3f</span> <span class="p">};</span>
 <span class="n">for_sequence</span><span class="o">&lt;</span><span class="mi">3</span><span class="o">&gt;</span><span class="p">([</span><span class="o">&amp;</span><span class="p">](</span><span class="k">auto</span> <span class="n">i</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">::</span><span class="n">value</span><span class="o">&gt;</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+    <span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">::</span><span class="n">value</span><span class="o">&gt;</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
 <span class="p">});</span></pre><pre class="m-console"><span class="go">0</span>
 <span class="go">1</span>
 <span class="go">2.3</span></pre>
@@ -1284,11 +1284,11 @@
                 </tr>
               </tfoot>
             </table>
-<pre class="m-code"><span class="k">auto</span>   <span class="n">val1</span>  <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="mh">0xAABB</span><span class="n">_u16</span><span class="p">,</span> <span class="mh">0xCCDD</span><span class="n">_u16</span><span class="p">);</span>
-<span class="m">assert</span><span class="p">(</span><span class="n">val1</span> <span class="o">==</span> <span class="mh">0xAABBCCDD</span><span class="n">_u32</span><span class="p">);</span>
+<pre class="m-code"><span class="k">auto</span>   <span class="n">val1</span>  <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="mh">0xAABB</span><span class="mh">_u16</span><span class="p">,</span> <span class="mh">0xCCDD</span><span class="mh">_u16</span><span class="p">);</span>
+<span class="m">assert</span><span class="p">(</span><span class="n">val1</span> <span class="o">==</span> <span class="mh">0xAABBCCDD</span><span class="mh">_u32</span><span class="p">);</span>
 
-<span class="k">auto</span>   <span class="n">val2</span>  <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="mh">0xAABB</span><span class="n">_u16</span><span class="p">,</span> <span class="mh">0xCCDD</span><span class="n">_u16</span><span class="p">,</span> <span class="mh">0xEEFF</span><span class="n">_u16</span><span class="p">);</span>
-<span class="m">assert</span><span class="p">(</span><span class="n">val2</span> <span class="o">==</span> <span class="mh">0x0000AABBCCDDEEFF</span><span class="n">_u64</span><span class="p">);</span>
+<span class="k">auto</span>   <span class="n">val2</span>  <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="mh">0xAABB</span><span class="mh">_u16</span><span class="p">,</span> <span class="mh">0xCCDD</span><span class="mh">_u16</span><span class="p">,</span> <span class="mh">0xEEFF</span><span class="mh">_u16</span><span class="p">);</span>
+<span class="m">assert</span><span class="p">(</span><span class="n">val2</span> <span class="o">==</span> <span class="mh">0x0000AABBCCDDEEFF</span><span class="mh">_u64</span><span class="p">);</span>
               <span class="c1">// ^^^^ input was 48 bits, zero-padded to 64 on the left</span></pre>
           </div></section>
           <section class="m-doc-details" id="gab714a50e01b58e7d4117d5ef9d403d39"><div>
@@ -1411,10 +1411,10 @@
 <span class="c1">//                ^ ^ ^ ^</span>
 <span class="c1">// byte indices:  3 2 1 0</span>
 
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">hex</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">setfill</span><span class="p">(</span><span class="sc">'0'</span><span class="p">);</span>
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"      &lt;0&gt;: "</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">setw</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="o">&lt;&lt;</span>       <span class="n">swizzle</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"   &lt;1, 0&gt;: "</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">setw</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="o">&lt;&lt;</span>    <span class="n">swizzle</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
-<span class="ns">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"&lt;3, 2, 3&gt;: "</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">setw</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">swizzle</span><span class="o">&lt;</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span></pre><pre class="m-console"><span class="go">      &lt;0&gt;: 000000DD</span>
+<span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">hex</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">setfill</span><span class="p">(</span><span class="sc">'0'</span><span class="p">);</span>
+<span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"      &lt;0&gt;: "</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">setw</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="o">&lt;&lt;</span>       <span class="n">swizzle</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"   &lt;1, 0&gt;: "</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">setw</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="o">&lt;&lt;</span>    <span class="n">swizzle</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"&lt;3, 2, 3&gt;: "</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">setw</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">swizzle</span><span class="o">&lt;</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span></pre><pre class="m-console"><span class="go">      &lt;0&gt;: 000000DD</span>
 <span class="go">   &lt;1, 0&gt;: 0000CCDD</span>
 <span class="go">&lt;3, 2, 3&gt;: 00AABBAA</span>
 <span class="gp gp-VirtualEnv">(on a little-endian system)</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>The indexation order of bytes is the <em>memory</em> order, not their numeric significance (i.e. byte 0 is always the first byte in the integer's memory allocation, regardless of the endianness of the platform).</p></aside>
@@ -1523,33 +1523,13 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         
-<a class="poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
+    <a class="poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
+     • <a class="poxy-external" href="https://github.com/marzer/muu/issues" target="_blank">Report an issue</a>
+     • <a class="poxy-external" href="https://github.com/marzer/muu/blob/master/LICENSE" target="_blank">License</a>
+     • <a download="" href="muu.tagfile.xml" target="_blank" type="text/xml">Doxygen tagfile</a>
+    <br/><br/>
+    Site generated using <a class="poxy-external" href="https://github.com/marzer/poxy/" target="_blank">Poxy</a>
 
-•
-<a class="poxy-external" href="https://github.com/marzer/muu/issues" target="_blank">Report
-an
-issue</a>
-
-•
-<a class="poxy-external" href="https://github.com/marzer/muu/blob/master/LICENSE" target="_blank">License</a>
-
-•
-<a download="" href="muu.tagfile.xml" target="_blank" type="text/xml">Doxygen
-tagfile</a>
-
-<br/><br/>
-
-Documentation
-created
-using
-
-<a class="poxy-external" href="https://www.doxygen.nl/index.html" target="_blank">Doxygen</a>
-
-+
-<a class="poxy-external" href="https://mcss.mosra.cz/documentation/doxygen/" target="_blank">mosra/m.css</a>
-
-+
-<a class="poxy-external" href="https://github.com/marzer/poxy/" target="_blank">marzer/poxy</a>
       </div>
     </div>
   </div>
