@@ -939,9 +939,8 @@ MUU_ENABLE_WARNINGS;
 	#define MUU_VC_PARAM(...)	const __VA_ARGS__ &
 #endif
 
-#if defined(__cpp_consteval) && __cpp_consteval >= 201811 \
-		&& (!defined(_MSC_FULL_VER) || _MSC_FULL_VER != 192930031)
-		// https://developercommunity.visualstudio.com/t/Erroneous-C7595-error-with-consteval-in/1404234
+#if defined(__cpp_consteval) && __cpp_consteval >= 201811 && !defined(_MSC_VER)
+	// https://developercommunity.visualstudio.com/t/Erroneous-C7595-error-with-consteval-in/1404234
 	#define MUU_CONSTEVAL				consteval
 #else
 	#define MUU_CONSTEVAL				constexpr
