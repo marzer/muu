@@ -891,17 +891,17 @@ MUU_ENABLE_WARNINGS;
 /// \cond
 #if !MUU_INTELLISENSE
 	#if !defined(MUU_LIKELY) && __has_cpp_attribute(likely)
-		#define MUU_LIKELY(...)	(__VA_ARGS__) [[likely]]
+		#define MUU_LIKELY(...)			(__VA_ARGS__) [[likely]]
 	#endif
 	#if !defined(MUU_UNLIKELY) && __has_cpp_attribute(unlikely)
-		#define MUU_UNLIKELY(...)	(__VA_ARGS__) [[unlikely]]
+		#define MUU_UNLIKELY(...)		(__VA_ARGS__) [[unlikely]]
 	#endif
 	#if !defined(MUU_NO_UNIQUE_ADDRESS) && __has_cpp_attribute(no_unique_address)
 		#define MUU_NO_UNIQUE_ADDRESS	[[no_unique_address]]
 	#endif
 #endif
 #if __has_cpp_attribute(nodiscard)
-	#define MUU_NODISCARD       [[nodiscard]]
+	#define MUU_NODISCARD				[[nodiscard]]
 	#if __has_cpp_attribute(nodiscard) >= 201907L
 		#define MUU_NODISCARD_CTOR		[[nodiscard]]
 	#endif
@@ -909,7 +909,7 @@ MUU_ENABLE_WARNINGS;
 /// \endcond
 
 #ifndef MUU_LIKELY
-	#define MUU_LIKELY(...)	(__VA_ARGS__)
+	#define MUU_LIKELY(...)		(__VA_ARGS__)
 #endif
 #ifndef MUU_UNLIKELY
 	#define MUU_UNLIKELY(...)	(__VA_ARGS__)
@@ -926,6 +926,10 @@ MUU_ENABLE_WARNINGS;
 #ifndef MUU_TRIVIAL_ABI
 	#define MUU_TRIVIAL_ABI
 #endif
+#define MUU_PURE_INLINE_GETTER	\
+	MUU_NODISCARD				\
+	MUU_ALWAYS_INLINE			\
+	MUU_ATTR(pure)
 
 #if defined(DOXYGEN) || !(MUU_ARCH_X86 || MUU_ARCH_AMD64) || !MUU_ISET_SSE2 || MUU_INTELLISENSE
 	#undef MUU_VECTORCALL
@@ -1254,13 +1258,6 @@ namespace muu::impl
 /// \endcond
 #ifndef MUU_ABI_NAMESPACES
 	#define MUU_ABI_NAMESPACES 0 // doxygen
-#endif
-#if MUU_ABI_NAMESPACES
-	#define MUU_ABI_VERSION_START(version)	inline namespace MUU_CONCAT(v, version) { static_assert(true)
-	#define MUU_ABI_VERSION_END				} static_assert(true)
-#else
-	#define MUU_ABI_VERSION_START(version)	static_assert(true)
-	#define MUU_ABI_VERSION_END				static_assert(true)
 #endif
 
 //======================================================================================================================

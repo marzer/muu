@@ -873,7 +873,6 @@ namespace muu
 		template <size_t I, typename T>
 		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
 		constexpr decltype(auto) get_from_tuple_like(T&& tuple_like) noexcept
 		{
 			if constexpr (is_detected_<has_tuple_get_member_, T&&>)
@@ -1719,6 +1718,14 @@ namespace muu
 
 		template <typename... T>
 		inline constexpr bool pass_vectorcall_by_value = !pass_vectorcall_by_reference<T...>;
+
+		template <typename T, bool = has_unary_plus_operator<T>>
+		inline constexpr bool decays_to_function_pointer_by_unary_plus_ = false;
+
+		template <typename T>
+		inline constexpr bool decays_to_function_pointer_by_unary_plus_<T, true> =
+			std::is_pointer_v<std::remove_reference_t<decltype(+std::declval<T>())>> //
+				&& std::is_function_v<std::remove_pointer_t<std::remove_reference_t<decltype(+std::declval<T>())>>>;
 	}
 	/// \endcond
 
@@ -1733,6 +1740,10 @@ namespace muu
 	/// \brief A tag type for encoding/parameterizing a single index.
 	template <size_t N>
 	using index_tag = std::integral_constant<size_t, N>;
+
+	/// \brief Evaluates to true if an instance of `T` decays to a free-function pointer by explicit unary plus.
+	template <typename T>
+	inline constexpr bool decays_to_function_pointer_by_unary_plus = impl::decays_to_function_pointer_by_unary_plus_<T>;
 
 	/** @} */ // meta
 }

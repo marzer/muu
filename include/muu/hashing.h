@@ -24,8 +24,6 @@ namespace muu
 	/// \cond
 	namespace impl
 	{
-		MUU_ABI_VERSION_START(0);
-
 		// these constants are based on the 'golden ratio', as seen in boost::hash_combine
 		// and about a million other places. It probably *should* be something better, but I'm no hashing expert.
 		// see:
@@ -74,12 +72,8 @@ namespace muu
 		};
 
 #endif
-
-		MUU_ABI_VERSION_END;
 	}
 	/// \endcond
-
-	MUU_ABI_VERSION_START(0);
 
 	/// \brief	A hash combiner for integral hashes.
 	///
@@ -110,8 +104,6 @@ namespace muu
 			return value_;
 		}
 	};
-
-	MUU_ABI_VERSION_END;
 
 	/// \cond
 	namespace impl
@@ -168,8 +160,6 @@ namespace muu
 		}
 	}
 	/// \endcond
-
-	MUU_ABI_VERSION_START(0);
 
 	/// \brief	FNV-1a hasher.
 	///
@@ -413,8 +403,6 @@ namespace muu
 			return lhs;
 		}
 	};
-
-	MUU_ABI_VERSION_END;
 
 	/// @}
 }

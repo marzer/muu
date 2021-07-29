@@ -63,6 +63,7 @@
   <ItemGroup>
     <ClInclude Include="$(SolutionDir)include\muu\accumulator.h" />
     <ClInclude Include="$(SolutionDir)include\muu\all.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\function_view.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\core_bit.h" />
     <ClInclude Include="$(SolutionDir)include\muu\bitset.h" />
     <ClInclude Include="$(SolutionDir)include\muu\blob.h" />
@@ -70,6 +71,7 @@
     <ClInclude Include="$(SolutionDir)include\muu\chars.h" />
     <ClInclude Include="$(SolutionDir)include\muu\compressed_pair.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\core_build.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\core_type_list.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\core_utils.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\core_constants.h" />
     <ClInclude Include="$(SolutionDir)include\muu\core.h" />

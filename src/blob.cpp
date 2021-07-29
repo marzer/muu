@@ -87,8 +87,8 @@ blob::blob(blob&& other) noexcept
 
 blob::~blob() noexcept
 {
-	if (data_)
-		allocator_->deallocate(data_, size_, alignment_);
+	if (auto data = std::exchange(data_, nullptr))
+		allocator_->deallocate(data);
 }
 
 blob& blob::operator=(blob&& rhs) noexcept
@@ -96,7 +96,7 @@ blob& blob::operator=(blob&& rhs) noexcept
 	if (&rhs != this)
 	{
 		if (data_)
-			allocator_->deallocate(data_, size_, alignment_);
+			allocator_->deallocate(data_);
 
 		allocator_ = rhs.allocator_;
 		data_	   = rhs.data_;
@@ -128,7 +128,7 @@ blob& blob::assign(size_t sz, const void* src, size_t align, generic_allocator* 
 
 	// changing alignment or allocator; must deallocate and reallocate
 	if (data_)
-		allocator_->deallocate(data_, size_, alignment_);
+		allocator_->deallocate(data_);
 	allocator_ = alloc;
 	alignment_ = align;
 	size_	   = sz;
@@ -147,7 +147,7 @@ blob& blob::size(size_t sz)
 	if (!size_)
 	{
 		MUU_ASSERT(data_);
-		allocator_->deallocate(data_, size_, alignment_);
+		allocator_->deallocate(data_);
 		data_ = nullptr;
 	}
 
@@ -156,7 +156,7 @@ blob& blob::size(size_t sz)
 	{
 		auto new_data = blob_allocate(*allocator_, sz, alignment_);
 		std::memcpy(new_data, data_, min(sz, size_));
-		allocator_->deallocate(data_, size_, alignment_);
+		allocator_->deallocate(data_);
 		data_ = new_data;
 	}
 

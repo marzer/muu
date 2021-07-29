@@ -16,8 +16,6 @@ MUU_PRAGMA_MSVC(warning(disable : 5038)) // member A will initialized before B
 /// \cond
 namespace muu::impl
 {
-	MUU_ABI_VERSION_START(0);
-
 	enum class compressed_pair_flags : unsigned
 	{
 		none,
@@ -53,14 +51,12 @@ namespace muu::impl
 	MUU_DEFAULT_COPY(compressed_pair_base)
 
 #define COMPRESSED_PAIR_BASE_GETTERS(type, name, expression)                                                           \
-	MUU_ALWAYS_INLINE                                                                                                  \
-	MUU_ATTR(pure)                                                                                                     \
+	MUU_PURE_INLINE_GETTER                                                                                             \
 	constexpr type& get_##name() noexcept                                                                              \
 	{                                                                                                                  \
 		return expression;                                                                                             \
 	}                                                                                                                  \
-	MUU_ALWAYS_INLINE                                                                                                  \
-	MUU_ATTR(pure)                                                                                                     \
+	MUU_PURE_INLINE_GETTER                                                                                             \
 	constexpr const type& get_##name() const noexcept                                                                  \
 	{                                                                                                                  \
 		return expression;                                                                                             \
@@ -113,9 +109,7 @@ namespace muu::impl
 #undef COMPRESSED_PAIR_BASE_GETTERS
 
 	template <size_t I, typename T>
-	MUU_NODISCARD
-	MUU_ALWAYS_INLINE
-	MUU_ATTR(pure)
+	MUU_PURE_INLINE_GETTER
 	MUU_ATTR(flatten)
 	constexpr decltype(auto) compressed_pair_get(T&& cp) noexcept
 	{
@@ -125,15 +119,11 @@ namespace muu::impl
 		else
 			return static_cast<T&&>(cp).second();
 	}
-
-	MUU_ABI_VERSION_END;
 }
 /// \endcond
 
 namespace muu
 {
-	MUU_ABI_VERSION_START(0);
-
 	/// \brief	A pair that uses Empty Base Class Optimization
 	///			to elide storage for one or both of its members where possible.
 	/// \ingroup core
@@ -192,64 +182,56 @@ namespace muu
 		{}
 
 		/// \brief	Returns an lvalue reference to the first member.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr first_type& first() & noexcept
 		{
 			return base::get_first();
 		}
 
 		/// \brief	Returns an rvalue reference to the first member.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr first_type&& first() && noexcept
 		{
 			return static_cast<first_type&&>(base::get_first());
 		}
 
 		/// \brief	Returns a const lvalue reference to the first member.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr const first_type& first() const& noexcept
 		{
 			return base::get_first();
 		}
 
 		/// \brief	Returns a const rvalue reference to the first member.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr const first_type&& first() const&& noexcept
 		{
 			return static_cast<const first_type&&>(base::get_first());
 		}
 
 		/// \brief	Returns an lvalue reference to the second member.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr second_type& second() & noexcept
 		{
 			return base::get_second();
 		}
 
 		/// \brief	Returns an rvalue reference to the second member.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr second_type&& second() && noexcept
 		{
 			return static_cast<second_type&&>(base::get_second());
 		}
 
 		/// \brief	Returns a const lvalue reference to the second member.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr const second_type& second() const& noexcept
 		{
 			return base::get_second();
 		}
 
 		/// \brief	Returns a const rvalue reference to the second member.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr const second_type&& second() const&& noexcept
 		{
 			return static_cast<const second_type&&>(base::get_second());
@@ -257,8 +239,7 @@ namespace muu
 
 		/// \brief	Returns an lvalue reference to the selected member.
 		template <size_t I>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr auto& get() & noexcept
 		{
 			return impl::compressed_pair_get<I>(*this);
@@ -266,8 +247,7 @@ namespace muu
 
 		/// \brief	Returns an rvalue reference to the selected member.
 		template <size_t I>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr auto&& get() && noexcept
 		{
 			return impl::compressed_pair_get<I>(static_cast<compressed_pair&&>(*this));
@@ -275,8 +255,7 @@ namespace muu
 
 		/// \brief	Returns a const lvalue reference to the selected member.
 		template <size_t I>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr const auto& get() const& noexcept
 		{
 			return impl::compressed_pair_get<I>(*this);
@@ -284,8 +263,7 @@ namespace muu
 
 		/// \brief	Returns a const rvalue reference to the selected member.
 		template <size_t I>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr const auto&& get() const&& noexcept
 		{
 			return impl::compressed_pair_get<I>(static_cast<const compressed_pair&&>(*this));
@@ -298,8 +276,6 @@ namespace muu
 	compressed_pair(const F&, const S&) -> compressed_pair<F, S>;
 
 	/// \endcond
-
-	MUU_ABI_VERSION_END;
 }
 
 namespace std

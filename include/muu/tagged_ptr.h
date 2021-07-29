@@ -20,8 +20,6 @@ MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 /// \cond
 namespace muu::impl
 {
-	MUU_ABI_VERSION_START(0);
-
 	inline constexpr size_t tptr_addr_highest_used_bit = MUU_ARCH_AMD64 ? 47 : build::bitness - 1;
 	inline constexpr size_t tptr_addr_used_bits		   = tptr_addr_highest_used_bit + 1;
 	inline constexpr size_t tptr_addr_free_bits		   = build::bitness - tptr_addr_used_bits;
@@ -321,8 +319,6 @@ namespace muu::impl
 		using base::ptr;
 	};
 
-	MUU_ABI_VERSION_END;
-
 	struct tptr_nullptr_deduced_tag
 	{};
 }
@@ -330,8 +326,6 @@ namespace muu::impl
 
 namespace muu
 {
-	MUU_ABI_VERSION_START(0);
-
 	/// \brief	Specialized pointer capable of storing data in the unused bits of a pointer's value.
 	/// \ingroup core
 	///
@@ -695,8 +689,6 @@ namespace muu
 	tagged_ptr(T*) -> tagged_ptr<T>;
 
 	/// \endcond
-
-	MUU_ABI_VERSION_END;
 
 	namespace impl
 	{

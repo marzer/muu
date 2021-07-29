@@ -169,6 +169,7 @@ StatementMacros:
   - MUU_PRAGMA_CLANG
   - MUU_PRAGMA_GCC
   - MUU_PRAGMA_MSVC
+  - MUU_PURE_INLINE_GETTER
   - MUU_RETURNS_BY_THROWING
 TabWidth:        4
 TypenameMacros:

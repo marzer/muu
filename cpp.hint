@@ -10,8 +10,6 @@
 #define HALF_PROMOTING_BINARY_OP(...)		static_assert(true)
 #define SPECIALIZED_IF(...)
 
-#define MUU_ABI_VERSION_END					static_assert(true)
-#define MUU_ABI_VERSION_START(version)		static_assert(true)
 #define MUU_ABSTRACT_INTERFACE
 #define MUU_ALWAYS_INLINE
 #define MUU_API

@@ -247,8 +247,6 @@ namespace muu::impl
 	struct tuple_concat_tag
 	{};
 
-	MUU_ABI_VERSION_START(0);
-
 	template <typename Scalar, size_t Dimensions>
 	struct MUU_TRIVIAL_ABI vector_ //
 	{
@@ -554,8 +552,6 @@ namespace muu::impl
 		}
 	};
 
-	MUU_ABI_VERSION_END;
-
 	template <typename Scalar, size_t Dimensions>
 	inline constexpr bool is_hva<vector_<Scalar, Dimensions>> = can_be_hva_of<Scalar, vector_<Scalar, Dimensions>>;
 
@@ -592,8 +588,6 @@ namespace muu
 
 namespace muu
 {
-	MUU_ABI_VERSION_START(0);
-
 	/// \brief An N-dimensional vector.
 	/// \ingroup math
 	///
@@ -2858,8 +2852,6 @@ namespace muu
 	vector(const muu::span<T, N>&)->vector<T, N>;
 
 	/// \endcond
-
-	MUU_ABI_VERSION_END;
 }
 
 namespace std
@@ -3263,8 +3255,6 @@ MUU_POP_PRECISE_MATH;
 
 namespace muu::impl
 {
-	MUU_ABI_VERSION_START(0);
-
 	template <typename Scalar, size_t Dimensions>
 	struct vector_accumulator
 	{
@@ -3345,8 +3335,6 @@ namespace muu::impl
 			return componentwise(std::make_index_sequence<Dimensions>{}, [](auto& acc) noexcept { return acc.sum(); });
 		}
 	};
-
-	MUU_ABI_VERSION_END;
 }
 
 #endif //===============================================================================================================

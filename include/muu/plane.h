@@ -19,8 +19,6 @@ MUU_PRAGMA_MSVC(float_control(precise, off))
 
 namespace muu
 {
-	MUU_ABI_VERSION_START(0);
-
 	/// \brief A plane.
 	/// \ingroup math
 	///
@@ -432,8 +430,6 @@ namespace muu
 	plane(const triangle<T>&) -> plane<T>;
 
 	/// \endcond
-
-	MUU_ABI_VERSION_END;
 }
 
 namespace std

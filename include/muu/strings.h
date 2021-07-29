@@ -47,8 +47,6 @@ namespace muu
 	/// \cond
 	namespace impl
 	{
-		MUU_ABI_VERSION_START(0);
-
 		class MUU_TRIVIAL_ABI utf8_decoder final
 		{
 			// utf8_decoder based on this: https://bjoern.hoehrmann.de/utf-8/decoder/dfa/
@@ -222,8 +220,6 @@ namespace muu
 			}
 	#endif
 		};
-
-		MUU_ABI_VERSION_END;
 
 		template <typename T>
 		using utf_decoder =
@@ -441,8 +437,6 @@ namespace muu
 			utf_decode(str, false, static_cast<Func&&>(func));
 		}
 
-		MUU_ABI_VERSION_START(0);
-
 		struct utf_find_result
 		{
 			size_t index;
@@ -579,8 +573,6 @@ namespace muu
 				return view();
 			}
 		};
-
-		MUU_ABI_VERSION_END;
 
 		template <typename T, size_t S = sizeof(T)>
 		struct utf_code_point_selector;

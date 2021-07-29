@@ -218,6 +218,7 @@ def main():
 		<ClCompile Include="..\core_bit.cpp" />
 		<ClCompile Include="..\core_other.cpp" />
 		<ClCompile Include="..\core_meta.cpp" />
+		<ClCompile Include="..\function_view.cpp" />
 		<ClCompile Include="..\half.cpp" />
 		<ClCompile Include="..\hashing.cpp" />
 		<ClCompile Include="..\infinity_or_nan_0.cpp" />
@@ -321,6 +322,7 @@ def main():
     <ClCompile Include="..\accumulator.cpp" />
     <ClCompile Include="..\blob.cpp" />
     <ClCompile Include="..\compressed_pair.cpp" />
+	<ClCompile Include="..\function_view.cpp" />
     <ClCompile Include="..\half.cpp" />
     <ClCompile Include="..\hashing.cpp" />
     <ClCompile Include="..\main.cpp" />

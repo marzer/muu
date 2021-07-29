@@ -68,8 +68,6 @@ namespace muu
 
 #if MUU_HALF_EMULATED
 
-		MUU_ABI_VERSION_START(0);
-
 		MUU_NODISCARD
 		MUU_ATTR(const)
 		constexpr uint16_t MUU_VECTORCALL f32_to_f16(float) noexcept;
@@ -77,8 +75,6 @@ namespace muu
 		MUU_NODISCARD
 		MUU_ATTR(const)
 		constexpr float MUU_VECTORCALL f16_to_f32(uint16_t) noexcept;
-
-		MUU_ABI_VERSION_END;
 
 #endif
 	}
@@ -99,8 +95,6 @@ namespace muu
 	constexpr half MUU_VECTORCALL lerp(half, half, half) noexcept;
 
 	/// \endcond
-
-	MUU_ABI_VERSION_START(0);
 
 	/// \brief	A 16-bit "half-precision" floating point type.
 	/// \ingroup core
@@ -758,8 +752,6 @@ namespace muu
 		friend constexpr half MUU_VECTORCALL muu::lerp(half, half, half) noexcept;
 	};
 
-	MUU_ABI_VERSION_END;
-
 	namespace build
 	{
 		/// \brief	True if using #muu::half in constexpr contexts is fully supported on this compiler.
@@ -1212,8 +1204,6 @@ namespace muu
 #if MUU_HALF_EMULATED
 namespace muu::impl
 {
-	MUU_ABI_VERSION_START(0);
-
 	inline constexpr int8_t f16_single_exp_bias = 127;
 	inline constexpr int8_t f16_half_exp_bias	= 15;
 
@@ -1382,8 +1372,6 @@ namespace muu::impl
 
 		return f16_to_f32_emulated(val);
 	}
-
-	MUU_ABI_VERSION_END;
 }
 #endif // MUU_HALF_EMULATED
 /// \endcond

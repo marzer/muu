@@ -21,8 +21,6 @@ MUU_ENABLE_WARNINGS;
 
 namespace muu
 {
-	MUU_ABI_VERSION_START(0);
-
 	/// \brief	Simple std::vector-like array type for immovable or move-only types.
 	///
 	/// \tparam	T	Element type stored in the array.
@@ -80,7 +78,7 @@ namespace muu
 			if (storage_)
 			{
 				destroy_all_elements();
-				allocator_->deallocate(storage_, sizeof(T) * capacity_, alignof(T));
+				allocator_->deallocate(storage_);
 				storage_ = nullptr;
 			}
 		}
@@ -364,8 +362,6 @@ namespace muu
 			destroy_all_elements();
 		}
 	};
-
-	MUU_ABI_VERSION_END;
 }
 
 #include "impl/header_end.h"

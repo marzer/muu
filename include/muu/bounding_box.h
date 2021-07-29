@@ -18,8 +18,6 @@ MUU_PRAGMA_MSVC(float_control(precise, off))
 
 namespace muu
 {
-	MUU_ABI_VERSION_START(0);
-
 	/// \brief An axis-aligned bounding box.
 	/// \ingroup math
 	/// \image html diag_bounding_box.svg
@@ -756,8 +754,6 @@ namespace muu
 	bounding_box(E)->bounding_box<std::remove_cv_t<E>>;
 
 	/// \endcond
-
-	MUU_ABI_VERSION_END;
 }
 
 namespace std

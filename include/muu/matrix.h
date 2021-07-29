@@ -37,8 +37,6 @@ namespace muu::impl
 	struct row_major_tuple_tag
 	{};
 
-	MUU_ABI_VERSION_START(0);
-
 	template <typename Scalar, size_t Rows, size_t Columns>
 	struct MUU_TRIVIAL_ABI matrix_
 	{
@@ -210,8 +208,6 @@ namespace muu::impl
 		{}
 	};
 
-	MUU_ABI_VERSION_END;
-
 	template <typename Scalar, size_t Rows, size_t Columns>
 	inline constexpr bool is_hva<matrix_<Scalar, Rows, Columns>> =
 		can_be_hva_of<Scalar, matrix_<Scalar, Rows, Columns>>;
@@ -318,8 +314,6 @@ namespace muu
 
 namespace muu
 {
-	MUU_ABI_VERSION_START(0);
-
 	/// \brief A matrix.
 	/// \ingroup math
 	///
@@ -1799,8 +1793,6 @@ namespace muu
 		->matrix<impl::highest_ranked<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>, 4, 4>;
 
 	/// \endcond
-
-	MUU_ABI_VERSION_END;
 }
 
 #endif //===============================================================================================================

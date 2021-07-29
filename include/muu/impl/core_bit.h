@@ -441,9 +441,7 @@ namespace muu
 	/// 		   in constexpr contexts (since it falls back to a memcpy-based implementation).
 	/// 		   You can check for constexpr support by examining build::supports_constexpr_bit_cast.
 	template <typename To, typename From>
-	MUU_NODISCARD
-	MUU_ALWAYS_INLINE
-	MUU_ATTR(pure)
+	MUU_PURE_INLINE_GETTER
 	MUU_ATTR(flatten)
 	constexpr To bit_cast(const From& from) noexcept
 	{

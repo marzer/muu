@@ -119,8 +119,6 @@ namespace muu
 	}
 	/// \endcond
 
-	MUU_ABI_VERSION_START(0);
-
 	/// \brief	A non-owning view of contiguous elements.
 	/// \ingroup	core mem
 	///
@@ -532,8 +530,6 @@ namespace muu
 #endif
 
 	/// \endcond
-
-	MUU_ABI_VERSION_END;
 
 	/// \brief	Convenience alias for `span<const T>`.
 	/// \ingroup	mem

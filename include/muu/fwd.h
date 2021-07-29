@@ -259,8 +259,6 @@ namespace muu
 		using wchar_code_unit = typename wchar_code_unit_<>::type;
 	}
 
-	MUU_ABI_VERSION_START(0);
-
 	struct half;
 	struct semver;
 	struct uuid;
@@ -313,20 +311,14 @@ namespace muu
 	template <typename, size_t = dynamic_extent>
 	class span;
 
-	MUU_ABI_VERSION_END;
-
 	namespace impl
 	{
-		MUU_ABI_VERSION_START(0);
-
 		template <typename>
 		struct basic_accumulator;
 		template <typename>
 		struct kahan_accumulator;
 		template <typename, size_t>
 		struct vector_accumulator;
-
-		MUU_ABI_VERSION_END;
 
 		template <typename T>
 		struct default_accumulator
@@ -382,12 +374,8 @@ namespace muu
 		};
 	}
 
-	MUU_ABI_VERSION_START(0);
-
 	template <typename T, typename = typename impl::default_accumulator<T>::type>
 	class accumulator;
-
-	MUU_ABI_VERSION_END;
 }
 
 /// \endcond

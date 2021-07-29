@@ -15,6 +15,7 @@
 #include "compressed_pair.h"
 #include "core.h"
 #include "emplacement_array.h"
+#include "function_view.h"
 #include "generic_allocator.h"
 #include "half.h"
 #include "hashing.h"

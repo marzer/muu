@@ -8,12 +8,16 @@
 #include "source_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 
+using namespace muu;
+
 namespace
 {
-	struct MUU_EMPTY_BASES default_allocator final : generic_allocator
+	struct MUU_EMPTY_BASES default_allocator final : muu::generic_allocator
 	{
 		void* allocate(size_t size, size_t alignment) override
 		{
+			alignment = muu::max(alignment, size_t{ __STDCPP_DEFAULT_NEW_ALIGNMENT__ });
+
 			MUU_ASSERT(size > 0u);
 			MUU_ASSERT(alignment > 0u);
 			MUU_ASSERT((alignment & (alignment - 1u)) == 0u);
@@ -22,66 +26,43 @@ namespace
 			MUU_ASSUME(alignment > 0u);
 			MUU_ASSUME((alignment & (alignment - 1u)) == 0u);
 
-			if (alignment <= __STDCPP_DEFAULT_NEW_ALIGNMENT__)
-			{
-				return new std::byte[size];
-			}
-			else
-			{
 #if MUU_WINDOWS
-				void* ptr = _aligned_malloc(size, alignment);
+
+			const size_t offset = (alignment - 1u) + sizeof(void*);
+			void* p1			= std::malloc(size + offset);
+			if (!p1)
+				return nullptr;
+
+			void** p2 = reinterpret_cast<void**>((reinterpret_cast<uintptr_t>(p1) + offset) & ~(alignment - 1u));
+			p2[-1]	  = p1;
+			return p2;
+
 #else
-				void* ptr = std::aligned_alloc(alignment, size);
+			return std::aligned_alloc(alignment, size);
 #endif
-
-#if MUU_HAS_EXCEPTIONS
-				if (!ptr)
-					throw std::bad_alloc{};
-#endif
-
-#ifndef NDEBUG
-				if (ptr)
-					MUU_ASSERT(reinterpret_cast<uintptr_t>(ptr) % alignment == 0u);
-#endif
-
-				return ptr;
-			}
 		}
 
-		void deallocate(void* ptr, size_t size, size_t alignment) noexcept override
+		void deallocate(void* ptr) noexcept override
 		{
 			MUU_ASSERT(ptr);
-			MUU_ASSERT(size > 0u);
-			MUU_ASSERT(alignment > 0u);
-			MUU_ASSERT((alignment & (alignment - 1u)) == 0u);
-
 			MUU_ASSUME(ptr);
-			MUU_ASSUME(size > 0u);
-			MUU_ASSUME(alignment > 0u);
-			MUU_ASSUME((alignment & (alignment - 1u)) == 0u);
 
-			MUU_UNUSED(size);
-
-			if (alignment <= __STDCPP_DEFAULT_NEW_ALIGNMENT__)
-			{
-				delete[] static_cast<std::byte*>(ptr);
-			}
-			else
-			{
 #if MUU_WINDOWS
-				_aligned_free(ptr);
+			std::free((static_cast<void**>(ptr))[-1]);
 #else
-				std::free(ptr);
+			std::free(ptr);
 #endif
-			}
 		}
 	};
 }
 
 MUU_DISABLE_LIFETIME_WARNINGS;
 
-generic_allocator& impl::get_default_allocator() noexcept
+namespace muu::impl
 {
-	static ::default_allocator allocator;
-	return allocator;
+	generic_allocator& get_default_allocator() noexcept
+	{
+		static ::default_allocator allocator;
+		return allocator;
+	}
 }

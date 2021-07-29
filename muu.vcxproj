@@ -78,6 +78,7 @@
   <ItemGroup>
     <ClInclude Include="include\muu\accumulator.h" />
     <ClInclude Include="include\muu\all.h" />
+    <ClInclude Include="include\muu\function_view.h" />
     <ClInclude Include="include\muu\impl\core_bit.h" />
     <ClInclude Include="include\muu\bitset.h" />
     <ClInclude Include="include\muu\blob.h" />

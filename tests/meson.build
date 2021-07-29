@@ -13,6 +13,7 @@ test_sources += [
 	'core_bit.cpp',
 	'core_meta.cpp',
 	'core_other.cpp',
+	'function_view.cpp',
 	'half.cpp',
 	'hashing.cpp',
 	'infinity_or_nan_0.cpp',

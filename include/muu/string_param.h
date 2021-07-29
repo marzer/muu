@@ -58,8 +58,6 @@ namespace muu
 	}
 	/// \endcond
 
-	MUU_ABI_VERSION_START(0);
-
 	/// \brief		A move-only string type-eraser capable of representing any UTF string.
 	/// \ingroup strings
 	class string_param
@@ -449,8 +447,6 @@ namespace muu
 			return lhs;
 		}
 	};
-
-	MUU_ABI_VERSION_END;
 }
 
 #include "impl/header_end.h"

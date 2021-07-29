@@ -31,8 +31,6 @@ namespace muu::impl
 
 	namespace MUU_ENDIANNESS_NAMESPACE
 	{
-		MUU_ABI_VERSION_START(0);
-
 		template <unsigned>
 		struct uuid_slicer;
 
@@ -94,8 +92,6 @@ namespace muu::impl
 								byte_arr[first]);
 			}
 		};
-
-		MUU_ABI_VERSION_END;
 	} // be/le
 
 	template <unsigned N>
@@ -146,8 +142,6 @@ namespace muu
 		name_sha1,		 ///< Version 5: Name-based UUID generated using SHA-1 hashing.
 		unknown = 0b1111 ///< Unknown or non-standard version.
 	};
-
-	MUU_ABI_VERSION_START(0);
 
 	/// \brief A 128-bit universally-unique identifier (UUID).
 	/// \ingroup core
@@ -641,8 +635,6 @@ namespace muu
 		}
 	};
 
-	MUU_ABI_VERSION_END;
-
 	/// \brief	UUID constants.
 	///
 	/// \ingroup		constants
@@ -676,8 +668,6 @@ namespace muu
 
 	namespace impl
 	{
-		MUU_ABI_VERSION_START(0);
-
 		struct uuid_parser
 		{
 			uuid value{ nullptr };
@@ -767,8 +757,6 @@ namespace muu
 				return state != s_error;
 			}
 		};
-
-		MUU_ABI_VERSION_END;
 	}
 
 	/// \cond
@@ -819,8 +807,6 @@ namespace muu
 
 	inline namespace literals
 	{
-		MUU_ABI_VERSION_START(0);
-
 		/// \brief	Constructs a uuid from a string literal using uuid::parse.
 		/// \detail \cpp
 		/// const uuid id = "{06B35EFD-A532-4410-ADD1-C8C536C31A84}"_uuid;
@@ -835,8 +821,6 @@ namespace muu
 			auto id = uuid::parse(std::string_view{ str, len });
 			return id ? *id : uuid{};
 		}
-
-		MUU_ABI_VERSION_END;
 	}
 }
 

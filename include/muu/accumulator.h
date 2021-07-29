@@ -13,8 +13,6 @@
 
 namespace muu
 {
-	MUU_ABI_VERSION_START(0);
-
 	/// \brief	Determines min, max and sum of an interderminate number of values.
 	/// \ingroup math
 	///
@@ -76,18 +74,14 @@ namespace muu
 		}
 
 		/// \brief	Returns the number of samples added to the accumulator.
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr size_t sample_count() const noexcept
 		{
 			return impl_and_count.second();
 		}
 
 		/// \brief	Returns true if no samples have been added to the accumulator.
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr bool empty() const noexcept
 		{
 			return impl_and_count.second() == size_t{};
@@ -95,8 +89,6 @@ namespace muu
 
 		/// \brief	Returns the minimum value added to the accumulator.
 		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
 		constexpr decltype(auto) min() const noexcept(noexcept(std::declval<Impl>().min()))
 		{
 			return impl_and_count.first().min();
@@ -104,8 +96,6 @@ namespace muu
 
 		/// \brief	Returns the maximum value added to the accumulator.
 		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
 		constexpr decltype(auto) max() const noexcept(noexcept(std::declval<Impl>().max()))
 		{
 			return impl_and_count.first().max();
@@ -113,8 +103,6 @@ namespace muu
 
 		/// \brief	Returns the sum of all values added to the accumulator.
 		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
 		constexpr decltype(auto) sum() const noexcept(noexcept(std::declval<Impl>().sum()))
 		{
 			return impl_and_count.first().sum();
@@ -204,13 +192,9 @@ namespace muu
 		}
 	};
 
-	MUU_ABI_VERSION_END;
-
 	/// \cond
 	namespace impl
 	{
-		MUU_ABI_VERSION_START(0);
-
 		template <typename ValueType>
 		struct basic_accumulator
 		{
@@ -249,25 +233,19 @@ namespace muu
 				sum_ += other.sum_;
 			}
 
-			MUU_NODISCARD
-			MUU_ALWAYS_INLINE
-			MUU_ATTR(pure)
+			MUU_PURE_INLINE_GETTER
 			constexpr value_type min() const noexcept
 			{
 				return min_;
 			}
 
-			MUU_NODISCARD
-			MUU_ALWAYS_INLINE
-			MUU_ATTR(pure)
+			MUU_PURE_INLINE_GETTER
 			constexpr value_type max() const noexcept
 			{
 				return max_;
 			}
 
-			MUU_NODISCARD
-			MUU_ALWAYS_INLINE
-			MUU_ATTR(pure)
+			MUU_PURE_INLINE_GETTER
 			constexpr sum_type sum() const noexcept
 			{
 				return sum_;
@@ -329,25 +307,19 @@ namespace muu
 				kahan_add(other.sum);
 			}
 
-			MUU_NODISCARD
-			MUU_ALWAYS_INLINE
-			MUU_ATTR(pure)
+			MUU_PURE_INLINE_GETTER
 			constexpr value_type min() const noexcept
 			{
 				return min_;
 			}
 
-			MUU_NODISCARD
-			MUU_ALWAYS_INLINE
-			MUU_ATTR(pure)
+			MUU_PURE_INLINE_GETTER
 			constexpr value_type max() const noexcept
 			{
 				return max_;
 			}
 
-			MUU_NODISCARD
-			MUU_ALWAYS_INLINE
-			MUU_ATTR(pure)
+			MUU_PURE_INLINE_GETTER
 			constexpr value_type sum() const noexcept
 			{
 				return static_cast<value_type>(sum_ + correction_);
@@ -355,8 +327,6 @@ namespace muu
 		};
 
 		MUU_POP_PRECISE_MATH;
-
-		MUU_ABI_VERSION_END;
 	}
 	/// \endcond
 }

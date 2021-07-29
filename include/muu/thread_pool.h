@@ -23,8 +23,6 @@ MUU_PRAGMA_MSVC(warning(disable : 26495)) // core guidelines: uninitialized memb
 /// \cond
 namespace muu::impl
 {
-	MUU_ABI_VERSION_START(0);
-
 #ifdef __cpp_lib_hardware_interference_size
 	inline constexpr size_t thread_pool_task_granularity = max(std::hardware_destructive_interference_size, 64_sz);
 #else
@@ -121,13 +119,6 @@ namespace muu::impl
 	static_assert(MUU_OFFSETOF(thread_pool_task, buffer) == 0);
 	static_assert(std::is_standard_layout_v<thread_pool_task>);
 
-	template <typename T, bool = has_unary_plus_operator<T>>
-	inline constexpr bool decays_to_function_pointer_by_unary_plus_ = false;
-	template <typename T>
-	inline constexpr bool decays_to_function_pointer_by_unary_plus_<T, true> =
-		std::is_pointer_v<std::remove_reference_t<decltype(+std::declval<T>())>> //
-			&& std::is_function_v<std::remove_pointer_t<std::remove_reference_t<decltype(+std::declval<T>())>>>;
-
 	template <typename T>
 	struct thread_pool_task_traits_pointer_to_callable
 	{
@@ -148,7 +139,7 @@ namespace muu::impl
 		{
 			if constexpr (std::is_function_v<std::remove_reference_t<U>>)
 				return callable;
-			else if constexpr (decays_to_function_pointer_by_unary_plus_<U&&>)
+			else if constexpr (decays_to_function_pointer_by_unary_plus<U&&>)
 			{
 				using decay_type = std::remove_reference_t<decltype(+std::declval<U&&>())>;
 				if constexpr (is_convertible<decay_type, storage_type>)
@@ -346,7 +337,7 @@ namespace muu::impl
 		// lambdas that can decay to function pointers
 		else if constexpr (std::is_class_v<bare_type>	 //
 						   && std::is_empty_v<bare_type> //
-						   && decays_to_function_pointer_by_unary_plus_<T>)
+						   && decays_to_function_pointer_by_unary_plus<T>)
 		{
 			return thread_pool_task_traits_pointer_to_callable<std::remove_reference_t<decltype(+std::declval<T>())>>{};
 		}
@@ -478,8 +469,6 @@ namespace muu::impl
 			return i;
 		}
 	};
-
-	MUU_ABI_VERSION_END;
 }
 
 #define MUU_MOVE_CHECK MUU_ASSERT(storage_ != nullptr && "The thread_pool has been moved from!")
@@ -488,8 +477,6 @@ namespace muu::impl
 
 namespace muu
 {
-	MUU_ABI_VERSION_START(0);
-
 	/// \brief A thread pool.
 	class thread_pool
 	{
@@ -951,8 +938,6 @@ namespace muu
 			return *this;
 		}
 	};
-
-	MUU_ABI_VERSION_END;
 }
 
 #undef MUU_MOVE_CHECK

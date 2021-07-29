@@ -24,9 +24,6 @@ namespace muu
 	/// \ingroup mem
 	struct MUU_ABSTRACT_INTERFACE generic_allocator
 	{
-		/// \brief The default alignment used if alignment is unspecified when requesting allocations.
-		static constexpr size_t default_alignment = __STDCPP_DEFAULT_NEW_ALIGNMENT__;
-
 		/// \brief	Requests a memory allocation.
 		///
 		/// \param 	size	 	The size of the requested allocation.
@@ -41,15 +38,13 @@ namespace muu
 		/// \brief	Deallocates a memory allocation previously acquired by #allocate().
 		///
 		/// \param 	ptr	 		The pointer returned by #allocate().
-		/// \param 	size	 	The size of the requested allocation passed to #allocate().
-		/// \param 	alignment	The required alignment passed to #allocate().
 		MUU_ATTR(nonnull)
-		virtual void deallocate(void* ptr, size_t size, size_t alignment = default_alignment) noexcept = 0;
+		virtual void deallocate(void* ptr) noexcept = 0;
 
 		virtual ~generic_allocator() noexcept = default;
 
 		/// \brief	Requests a memory allocation.
-		/// \remark Allocations returned by this overload will have an alignment of #default_alignment.
+		/// \remark Allocations returned by this overload will have an alignment of __STDCPP_DEFAULT_NEW_ALIGNMENT__.
 		///
 		/// \param 	size	 	The size of the requested allocation.
 		///
@@ -57,10 +52,10 @@ namespace muu
 		/// 			<br>
 		/// 			\conditional_return{When exceptions are disabled} A pointer to the new allocation, or `nullptr`.
 		MUU_GENERIC_ALLOCATOR_ATTRS
-		MUU_ATTR(assume_aligned(default_alignment))
+		MUU_ATTR(assume_aligned(__STDCPP_DEFAULT_NEW_ALIGNMENT__))
 		void* allocate(size_t size)
 		{
-			return this->allocate(size, default_alignment);
+			return this->allocate(size, __STDCPP_DEFAULT_NEW_ALIGNMENT__);
 		}
 
 		/// \brief	Requests a memory allocation.

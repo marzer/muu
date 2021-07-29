@@ -21,8 +21,6 @@ namespace muu
 	/// \cond
 	namespace impl
 	{
-		MUU_ABI_VERSION_START(0);
-
 		enum class scope_guard_mode : unsigned
 		{
 			invoke_on_fail,
@@ -154,12 +152,8 @@ namespace muu
 				base::func_and_dismissed_.second() = true;
 			}
 		};
-
-		MUU_ABI_VERSION_END;
 	}
 	/// \endcond
-
-	MUU_ABI_VERSION_START(0);
 
 	/// \brief	Performs actions when going out of scope.
 	/// \ingroup core
@@ -374,8 +368,6 @@ namespace muu
 	scope_success(T&) -> scope_success<T&>;
 
 	/// \endcond
-
-	MUU_ABI_VERSION_END;
 }
 
 #include "impl/header_end.h"

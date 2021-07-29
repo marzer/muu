@@ -42,8 +42,6 @@ MUU_PRAGMA_MSVC(float_control(precise, off))
 
 namespace muu::impl
 {
-	MUU_ABI_VERSION_START(0);
-
 	template <typename Scalar>
 	struct MUU_TRIVIAL_ABI plane_
 	{
@@ -78,8 +76,6 @@ namespace muu::impl
 		vector<Scalar, 3> extents;
 		matrix<Scalar, 3, 3> axes;
 	};
-
-	MUU_ABI_VERSION_END;
 
 	template <typename Scalar>
 	inline constexpr bool is_hva<plane_<Scalar>> = can_be_hva_of<Scalar, plane_<Scalar>>;
@@ -156,32 +152,25 @@ namespace muu::impl
 		using vector_type  = vector<scalar_type, 3>;
 		using vector_param = vectorcall_param<vector_type>;
 
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		static constexpr scalar_type MUU_VECTORCALL width(vector_param extents) noexcept
 		{
 			return extents.x * scalar_type{ 2 };
 		}
 
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		static constexpr scalar_type MUU_VECTORCALL height(vector_param extents) noexcept
 		{
 			return extents.y * scalar_type{ 2 };
 		}
 
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		static constexpr scalar_type MUU_VECTORCALL depth(vector_param extents) noexcept
 		{
 			return extents.z * scalar_type{ 2 };
 		}
 
 		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
 		MUU_ATTR(pure)
 		static constexpr scalar_type MUU_VECTORCALL diagonal(vector_param extents) noexcept
 		{
@@ -189,7 +178,6 @@ namespace muu::impl
 		}
 
 		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
 		MUU_ATTR(pure)
 		static constexpr const scalar_type& shortest_extent(const vector_type& extents) noexcept
 		{
@@ -197,7 +185,6 @@ namespace muu::impl
 		}
 
 		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
 		MUU_ATTR(pure)
 		static constexpr const scalar_type& longest_extent(const vector_type& extents) noexcept
 		{
@@ -205,7 +192,6 @@ namespace muu::impl
 		}
 
 		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
 		MUU_ATTR(pure)
 		static constexpr scalar_type& shortest_extent(vector_type& extents) noexcept
 		{
@@ -213,7 +199,6 @@ namespace muu::impl
 		}
 
 		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
 		MUU_ATTR(pure)
 		static constexpr scalar_type& longest_extent(vector_type& extents) noexcept
 		{
@@ -221,7 +206,6 @@ namespace muu::impl
 		}
 
 		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
 		MUU_ATTR(pure)
 		static constexpr scalar_type shortest_side(const vector_type& extents) noexcept
 		{
@@ -229,7 +213,6 @@ namespace muu::impl
 		}
 
 		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
 		MUU_ATTR(pure)
 		static constexpr scalar_type longest_side(const vector_type& extents) noexcept
 		{
@@ -237,34 +220,27 @@ namespace muu::impl
 		}
 
 		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
 		MUU_ATTR(pure)
-		MUU_ATTR(flatten)
 		static constexpr scalar_type MUU_VECTORCALL volume(vector_param extents) noexcept
 		{
 			return extents.x * extents.y * extents.z * scalar_type{ 8 };
 		}
 
 		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
 		MUU_ATTR(pure)
-		MUU_ATTR(flatten)
 		static constexpr scalar_type MUU_VECTORCALL mass(vector_param extents, scalar_type density) noexcept
 		{
 			return density * volume(extents);
 		}
 
 		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
 		MUU_ATTR(pure)
-		MUU_ATTR(flatten)
 		static constexpr scalar_type MUU_VECTORCALL density(vector_param extents, scalar_type mass) noexcept
 		{
 			return mass / volume(extents);
 		}
 
 		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL degenerate(vector_param extents) noexcept
 		{
@@ -272,9 +248,7 @@ namespace muu::impl
 		}
 
 		template <box_corners Corner>
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		static constexpr vector_type MUU_VECTORCALL corner_offset(vector_param extents) noexcept
 		{
 			static_assert(Corner <= box_corners::max);
@@ -320,9 +294,7 @@ namespace muu::impl
 		}
 
 		template <box_corners Corner>
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		static constexpr vector_type MUU_VECTORCALL corner(vector_param center, vector_param extents) noexcept
 		{
 			return center + corner_offset<Corner>(extents);
@@ -385,8 +357,7 @@ namespace muu::impl
 			return muu::abs(signed_distance(normal, d, point));
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		static constexpr vector_type MUU_VECTORCALL project_with_signed_distance(vector_param normal,
 																				 vector_param point,
 																				 scalar_type signed_dist) noexcept
@@ -429,8 +400,7 @@ namespace muu::impl
 				vector_type::cross(tri.points[1] - tri.points[0], tri.points[2] - tri.points[0]));
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		static constexpr vector_type MUU_VECTORCALL center(vector_param p0, vector_param p1, vector_param p2) noexcept
 		{
 			MUU_FMA_BLOCK;
@@ -598,22 +568,19 @@ namespace muu::impl
 					(*this)(axis, p);
 			}
 
-			MUU_NODISCARD
-			MUU_ATTR(pure)
+			MUU_PURE_INLINE_GETTER
 			constexpr bool MUU_VECTORCALL operator()(scalar_type threshold) noexcept
 			{
 				return max >= threshold && min <= threshold;
 			}
 
-			MUU_NODISCARD
-			MUU_ATTR(pure)
+			MUU_PURE_INLINE_GETTER
 			constexpr bool MUU_VECTORCALL operator()(scalar_type min_threshold, scalar_type max_threshold) noexcept
 			{
 				return max >= min_threshold && min <= max_threshold;
 			}
 
-			MUU_NODISCARD
-			MUU_ATTR(pure)
+			MUU_PURE_INLINE_GETTER
 			constexpr bool MUU_VECTORCALL operator()(const sat_tester& other) noexcept
 			{
 				return max >= other.min && min <= other.max;

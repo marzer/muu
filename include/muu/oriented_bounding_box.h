@@ -18,8 +18,6 @@ MUU_PRAGMA_MSVC(float_control(precise, off))
 
 namespace muu
 {
-	MUU_ABI_VERSION_START(0);
-
 	/// \brief An oriented bounding box.
 	/// \ingroup math
 	///
@@ -630,8 +628,6 @@ namespace muu
 	oriented_bounding_box(E)->oriented_bounding_box<std::remove_cv_t<E>>;
 
 	/// \endcond
-
-	MUU_ABI_VERSION_END;
 }
 
 namespace std

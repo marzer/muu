@@ -103,6 +103,7 @@
 			<ProgramDataBaseFileName>$(OutDir)$(TargetName).pdb</ProgramDataBaseFileName>
 			<EnableEnhancedInstructionSet>$(MuuInstructionSet_)</EnableEnhancedInstructionSet>
 			<PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+			<MultiProcessorCompilation>true</MultiProcessorCompilation>
 			<AdditionalOptions>%(AdditionalOptions) /utf-8 /bigobj</AdditionalOptions>
 			<!-- conformance flags -->
 			<AdditionalOptions>%(AdditionalOptions) /volatile:iso</AdditionalOptions>

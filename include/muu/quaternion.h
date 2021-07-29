@@ -28,16 +28,12 @@ MUU_PRAGMA_MSVC(float_control(precise, off))
 
 namespace muu::impl
 {
-	MUU_ABI_VERSION_START(0);
-
 	template <typename Scalar>
 	struct MUU_TRIVIAL_ABI quaternion_
 	{
 		Scalar s;
 		vector<Scalar, 3> v;
 	};
-
-	MUU_ABI_VERSION_END;
 
 	template <typename Scalar>
 	inline constexpr bool is_hva<quaternion_<Scalar>> = can_be_hva_of<Scalar, quaternion_<Scalar>>;
@@ -69,8 +65,6 @@ namespace muu
 #if 1
 namespace muu
 {
-	MUU_ABI_VERSION_START(0);
-
 	/// \brief	An axis-angle rotation.
 	/// \ingroup math
 	///
@@ -213,8 +207,6 @@ namespace muu
 
 	/// \endcond
 
-	MUU_ABI_VERSION_END;
-
 	/// \cond
 	namespace impl
 	{
@@ -234,8 +226,6 @@ namespace muu
 
 namespace muu
 {
-	MUU_ABI_VERSION_START(0);
-
 	/// \brief A quaternion.
 	/// \ingroup math
 	///
@@ -1175,8 +1165,6 @@ namespace muu
 	quaternion(const euler_rotation<S>&) -> quaternion<S>;
 
 	/// \endcond
-
-	MUU_ABI_VERSION_END;
 }
 
 namespace std

@@ -601,13 +601,7 @@ thread_pool::thread_pool(size_t worker_count, size_t task_queue_size, string_par
 	}
 #endif
 
-	const auto unwind =
-		scope_fail{ [=]() noexcept
-					{
-						allocator->deallocate(buffer_ptr,
-											  total_allocation,
-											  max(alignof(thread_pool_storage), impl::thread_pool_task_granularity));
-					} };
+	const auto unwind = scope_fail{ [=]() noexcept { allocator->deallocate(buffer_ptr); } };
 
 	byte_span buffer{ static_cast<std::byte*>(buffer_ptr), total_allocation };
 	byte_span queue_buffer{ buffer.data() + queues_start, queues_end - queues_start };
@@ -633,15 +627,13 @@ thread_pool& thread_pool::operator=(thread_pool&& rhs) noexcept
 
 thread_pool::~thread_pool() noexcept
 {
-	if (storage_)
+	if (auto sptr = std::exchange(storage_, nullptr))
 	{
-		auto& storage  = storage_cast(storage_);
+		auto& storage  = storage_cast(sptr);
 		auto buffer	   = storage.buffer;
 		auto allocator = storage.allocator;
 		storage.~thread_pool_storage();
-		allocator->deallocate(buffer.data(),
-							  buffer.size(),
-							  max(alignof(thread_pool_storage), impl::thread_pool_task_granularity));
+		allocator->deallocate(buffer.data());
 	}
 }
 
