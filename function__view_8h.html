@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu/compressed_pair.h file | muu Useful utilities for modern C++</title>
+  <title>muu/function_view.h file | muu Useful utilities for modern C++</title>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
   <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
   <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
@@ -57,9 +57,9 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span>compressed_pair.h <span class="m-thin">file</span>
+          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span>function_view.h <span class="m-thin">file</span>
         </h1>
-        <p>Contains the definition of <a class="m-doc" href="classmuu_1_1compressed__pair.html">muu::<wbr/>compressed_pair</a>.</p>
+        <p>Contains the definition of <a class="m-doc" href="classmuu_1_1function__view.html">muu::<wbr/>function_view</a>.</p>
         <div class="m-block m-default poxy-toc">
           <h3>Contents</h3>
           <ul>
@@ -83,20 +83,10 @@
           <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;typename First, typename Second&gt;</div>
-              class <a class="m-doc" href="classmuu_1_1compressed__pair.html">muu::compressed_pair</a>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              class <a class="m-doc" href="classmuu_1_1function__view.html">muu::function_view</a>
             </dt>
-            <dd>A pair that uses Empty Base Class Optimization to elide storage for one or both of its members where possible.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename First, typename Second&gt;</div>
-              struct <a class="m-doc" href="structstd_1_1tuple__size_3_01muu_1_1compressed__pair_3_01_first_00_01_second_01_4_01_4.html">std::tuple_size&lt;muu::compressed_pair&lt;First, Second&gt;&gt;</a>
-            </dt>
-            <dd>Specialization of <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a> for <a class="m-doc" href="classmuu_1_1compressed__pair.html">muu::<wbr/>compressed_pair</a>.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/size_t.html" target="_blank">size_<wbr/>t</a> I, typename First, typename Second&gt;</div>
-              struct <a class="m-doc" href="structstd_1_1tuple__element_3_01_i_00_01muu_1_1compressed__pair_3_01_first_00_01_second_01_4_01_4.html">std::tuple_element&lt;I, muu::compressed_pair&lt;First, Second&gt;&gt;</a>
-            </dt>
-            <dd>Specialization of <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_element" target="_blank">std::tuple_element</a> for <a class="m-doc" href="classmuu_1_1compressed__pair.html">muu::<wbr/>compressed_pair</a>.</dd>
+            <dd>A non-owning view of a callable object (functions, lambdas, etc.).</dd>
           </dl>
         </section>
       </div>

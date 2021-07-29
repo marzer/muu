@@ -18,6 +18,7 @@
     <includes id="compressed__pair_8h" name="compressed_pair.h" local="yes" imported="no">compressed_pair.h</includes>
     <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
     <includes id="emplacement__array_8h" name="emplacement_array.h" local="yes" imported="no">emplacement_array.h</includes>
+    <includes id="function__view_8h" name="function_view.h" local="yes" imported="no">function_view.h</includes>
     <includes id="generic__allocator_8h" name="generic_allocator.h" local="yes" imported="no">generic_allocator.h</includes>
     <includes id="half_8h" name="half.h" local="yes" imported="no">half.h</includes>
     <includes id="hashing_8h" name="hashing.h" local="yes" imported="no">hashing.h</includes>
@@ -92,6 +93,12 @@
     <filename>emplacement__array_8h.html</filename>
     <includes id="generic__allocator_8h" name="generic_allocator.h" local="yes" imported="no">generic_allocator.h</includes>
     <class kind="class">muu::emplacement_array</class>
+    <namespace>muu</namespace>
+  </compound>
+  <compound kind="file">
+    <name>function_view.h</name>
+    <filename>function__view_8h.html</filename>
+    <class kind="class">muu::function_view</class>
     <namespace>muu</namespace>
   </compound>
   <compound kind="file">
@@ -1283,6 +1290,7 @@
   </compound>
   <compound kind="file">
     <name>plane.h</name>
+    <path>/root/project/include/muu/</path>
     <filename>plane_8h.html</filename>
     <class kind="struct">muu::plane</class>
     <class kind="struct">std::tuple_size&lt; muu::plane&lt; Scalar &gt; &gt;</class>
@@ -4063,6 +4071,46 @@
       <arglist>(std::basic_ostream&lt; Char, Traits &gt; &amp;lhs, const fnv1a &amp;rhs)</arglist>
     </member>
   </compound>
+  <compound kind="class">
+    <name>muu::function_view</name>
+    <filename>classmuu_1_1function__view.html</filename>
+    <templarg>typename T</templarg>
+    <member kind="typedef">
+      <type>T</type>
+      <name>func_type</name>
+      <anchorfile>classmuu_1_1function__view.html</anchorfile>
+      <anchor>a25087d6fca3faba987eeefc7d06f529a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>function_view</name>
+      <anchorfile>classmuu_1_1function__view.html</anchorfile>
+      <anchor>a279a5d2c512ce8d36041574fa91c9381</anchor>
+      <arglist>() noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>function_view</name>
+      <anchorfile>classmuu_1_1function__view.html</anchorfile>
+      <anchor>aa502354732030ac3e8207113442903b3</anchor>
+      <arglist>(U &amp;&amp;func) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr decltype(auto)</type>
+      <name>operator()</name>
+      <anchorfile>classmuu_1_1function__view.html</anchorfile>
+      <anchor>a415416f10aa50ea71814e8ae3428678a</anchor>
+      <arglist>(Args &amp;&amp;...) const noexcept(...)</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>operator bool</name>
+      <anchorfile>classmuu_1_1function__view.html</anchorfile>
+      <anchor>a24d91bd0cef16708f98650e8331f1db6</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+  </compound>
   <compound kind="struct">
     <name>muu::generic_allocator</name>
     <filename>structmuu_1_1generic__allocator.html</filename>
@@ -4077,8 +4125,8 @@
       <type>virtual void</type>
       <name>deallocate</name>
       <anchorfile>structmuu_1_1generic__allocator.html</anchorfile>
-      <anchor>af07323d8f14f982708a99a0e00baa0ae</anchor>
-      <arglist>(void *ptr, size_t size, size_t alignment=default_alignment) noexcept=0</arglist>
+      <anchor>a9e5e89e9722c27085c24b9eeafe11cc0</anchor>
+      <arglist>(void *ptr) noexcept=0</arglist>
     </member>
     <member kind="function">
       <type>void *</type>
@@ -4093,13 +4141,6 @@
       <anchorfile>structmuu_1_1generic__allocator.html</anchorfile>
       <anchor>a57af54df9a861a22e38158c36fc05e35</anchor>
       <arglist>(size_t size)</arglist>
-    </member>
-    <member kind="variable" static="yes">
-      <type>static constexpr size_t</type>
-      <name>default_alignment</name>
-      <anchorfile>structmuu_1_1generic__allocator.html</anchorfile>
-      <anchor>af98dd7b6f03011e5f4e1314d7ed828f8</anchor>
-      <arglist></arglist>
     </member>
   </compound>
   <compound kind="struct">
@@ -8475,6 +8516,7 @@
     <class kind="struct">muu::bounding_box</class>
     <class kind="class">muu::compressed_pair</class>
     <class kind="class">muu::emplacement_array</class>
+    <class kind="class">muu::function_view</class>
     <class kind="struct">muu::constants</class>
     <class kind="struct">muu::generic_allocator</class>
     <class kind="struct">muu::half</class>
@@ -12382,6 +12424,13 @@
       <anchor>ga1d7ffe385c4b8f4558d170f50f5eb79a</anchor>
       <arglist></arglist>
     </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>decays_to_function_pointer_by_unary_plus</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga7d0fb753d984f767d9530f4c88e4d0d2</anchor>
+      <arglist></arglist>
+    </member>
   </compound>
   <compound kind="namespace">
     <name>muu::build</name>
@@ -13813,6 +13862,13 @@
       <name>default_epsilon</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga1d7ffe385c4b8f4558d170f50f5eb79a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>decays_to_function_pointer_by_unary_plus</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga7d0fb753d984f767d9530f4c88e4d0d2</anchor>
       <arglist></arglist>
     </member>
   </compound>
