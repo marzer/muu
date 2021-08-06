@@ -89,6 +89,7 @@
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
                 <li><a href="#pub-attribs">Public variables</a></li>
+                <li><a href="#iterators">Iterators</a></li>
                 <li><a href="#swizzles">Swizzles</a></li>
                 <li><a href="#friends">Friends</a></li>
                 <li><a href="#related">Related</a></li>
@@ -386,14 +387,6 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a5a645202fa0cc9e970fb0532416f2533">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&gt;) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if all the scalar components in the vector are approximately equal to zero.</dd>
-            <dt id="a3154923b04ea04a932ff42786eed4f57">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a3154923b04ea04a932ff42786eed4f57">begin</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#aaee97133e6f66be9c816eaa532987bdf">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns an iterator to the first scalar component in the vector.</dd>
-            <dt id="a32412aa1e3b099208bf73cb8465d2981">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a32412aa1e3b099208bf73cb8465d2981">begin</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html#a851f2bde2b5c8a45cb0f02ac53cf85d0">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a const iterator to the first scalar component in the vector.</dd>
             <dt id="af560d2d0165aecf0134a273fc954fbf9">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af560d2d0165aecf0134a273fc954fbf9">ceil</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -436,14 +429,6 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a739df5225f2c5e3e7f6269ab8e22c104">dot</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html#a1a72204a93c5e7bf5169fe2d527faf9c">product_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the dot product of this and another vector.</dd>
-            <dt id="a9198e267442a545ebb0d112dac7b2a0c">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a9198e267442a545ebb0d112dac7b2a0c">end</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#aaee97133e6f66be9c816eaa532987bdf">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns an iterator to the one-past-the-last scalar component in the vector.</dd>
-            <dt id="ac63ba31b9822742901e481fec5f3c8dd">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac63ba31b9822742901e481fec5f3c8dd">end</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html#a851f2bde2b5c8a45cb0f02ac53cf85d0">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a const iterator to the one-past-the-last scalar component in the vector.</dd>
             <dt id="a904549bd751d72f8a2cc8781ff2ba53e">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a904549bd751d72f8a2cc8781ff2ba53e">floor</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -580,6 +565,59 @@
               <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> <a class="m-doc-self" href="#a0dd98b6ea7851559cf9c8feb3c45dddb">values</a>
             </dt>
             <dd>The vector's scalar component array (when <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a> &gt;= 5).</dd>
+          </dl>
+        </section>
+        <section id="iterators">
+          <h2><a href="#iterators">Iterators</a></h2>
+          <dl class="m-doc">
+            <dt id="a3154923b04ea04a932ff42786eed4f57">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a3154923b04ea04a932ff42786eed4f57">begin</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#aaee97133e6f66be9c816eaa532987bdf">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an iterator to the first scalar component in the vector.</dd>
+            <dt id="a32412aa1e3b099208bf73cb8465d2981">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a32412aa1e3b099208bf73cb8465d2981">begin</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html#a851f2bde2b5c8a45cb0f02ac53cf85d0">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the first scalar component in the vector.</dd>
+            <dt id="a822727b7a2a55b7ce06e0f0a65f874ea">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a822727b7a2a55b7ce06e0f0a65f874ea">cbegin</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html#a851f2bde2b5c8a45cb0f02ac53cf85d0">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the first scalar component in the vector.</dd>
+            <dt id="ae618ff7b03b4ea6f26d290c0f7af9108">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ae618ff7b03b4ea6f26d290c0f7af9108">cend</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html#a851f2bde2b5c8a45cb0f02ac53cf85d0">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the one-past-the-last scalar component in the vector.</dd>
+            <dt id="a9198e267442a545ebb0d112dac7b2a0c">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a9198e267442a545ebb0d112dac7b2a0c">end</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#aaee97133e6f66be9c816eaa532987bdf">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an iterator to the one-past-the-last scalar component in the vector.</dd>
+            <dt id="ac63ba31b9822742901e481fec5f3c8dd">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac63ba31b9822742901e481fec5f3c8dd">end</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html#a851f2bde2b5c8a45cb0f02ac53cf85d0">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the one-past-the-last scalar component in the vector.</dd>
+            <dt id="a072ba2759b288b15963887d74fecd277">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a072ba2759b288b15963887d74fecd277">begin</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; friend <a class="m-doc" href="structmuu_1_1vector.html#aaee97133e6f66be9c816eaa532987bdf">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an iterator to the first scalar component in a vector (via ADL).</dd>
+            <dt id="ae423119e0bdfbbee72988f546a58d9fd">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ae423119e0bdfbbee72988f546a58d9fd">begin</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; friend <a class="m-doc" href="structmuu_1_1vector.html#a851f2bde2b5c8a45cb0f02ac53cf85d0">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the first scalar component in a vector (via ADL).</dd>
+            <dt id="ab76b38d7c2d6406c434f8bb589c073ea">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab76b38d7c2d6406c434f8bb589c073ea">cbegin</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; friend <a class="m-doc" href="structmuu_1_1vector.html#a851f2bde2b5c8a45cb0f02ac53cf85d0">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the first scalar component in a vector (via ADL).</dd>
+            <dt id="a29fa2209bbaa1542881ab8293e680646">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a29fa2209bbaa1542881ab8293e680646">cend</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; friend <a class="m-doc" href="structmuu_1_1vector.html#a851f2bde2b5c8a45cb0f02ac53cf85d0">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the one-past-the-last scalar component in a vector (via ADL).</dd>
+            <dt id="ab837a1246db560433337a3c1c24affee">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab837a1246db560433337a3c1c24affee">end</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; friend <a class="m-doc" href="structmuu_1_1vector.html#aaee97133e6f66be9c816eaa532987bdf">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an iterator to the one-past-the-last scalar component in a vector (via ADL).</dd>
+            <dt id="a10bc39751925224817204975587a5641">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a10bc39751925224817204975587a5641">end</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; friend <a class="m-doc" href="structmuu_1_1vector.html#a851f2bde2b5c8a45cb0f02ac53cf85d0">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the one-past-the-last scalar component in a vector (via ADL).</dd>
           </dl>
         </section>
         <section id="swizzles">

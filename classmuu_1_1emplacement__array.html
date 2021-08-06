@@ -82,6 +82,7 @@
                 <li><a href="#pub-types">Public types</a></li>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#iterators">Iterators</a></li>
               </ul>
             </li>
           </ul>
@@ -156,26 +157,10 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a7e40e336f8add1ec783782c2a991379b">back</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#a83c8cd8617f43364a7bbc8df3303defb">const_<wbr/>reference</a> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the last element in the array.</dd>
-            <dt id="a6b2d20a544a18541bc7a42cc54cbfb0b">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a6b2d20a544a18541bc7a42cc54cbfb0b">begin</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#aca6916f99eacaa2a8b591acb4b544422">iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a pointer to the first element in the array.</dd>
-            <dt id="a076ad46543e26a0853c675a255d2b93b">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a076ad46543e26a0853c675a255d2b93b">begin</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#a83640e103d5cf6c615b0e124d266ab1b">const_<wbr/>iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a const pointer to the first element in the array.</dd>
             <dt id="abfd030159ffc17b8b4c410a84311f0a9">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#abfd030159ffc17b8b4c410a84311f0a9">capacity</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#ac144fe3dd510e085cf9278975de6105a">size_<wbr/>type</a> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>The maximum number of elements that can be stored in the array.</dd>
-            <dt id="a4ebb159a53415dc51c94e891f574f8e7">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a4ebb159a53415dc51c94e891f574f8e7">cbegin</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#a83640e103d5cf6c615b0e124d266ab1b">const_<wbr/>iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a const pointer to the first element in the array.</dd>
-            <dt id="a6064f88516ef2a0fb3ef27de85e5e39c">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a6064f88516ef2a0fb3ef27de85e5e39c">cend</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#a83640e103d5cf6c615b0e124d266ab1b">const_<wbr/>iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a const pointer to one-past-the-last element in the array.</dd>
             <dt id="a9f7e09f01b0523011d102f9beeaea3b5">
               <span class="m-doc-wrap-bumper">void <a class="m-doc-self" href="#a9f7e09f01b0523011d102f9beeaea3b5">clear</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-success">noexcept(…)</span></span>
             </dt>
@@ -202,14 +187,6 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa526ef5301cfbe4180465bfa993b0b60">empty</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if the array is empty.</dd>
-            <dt id="a28b080d7f868c02c62594147017fcc07">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a28b080d7f868c02c62594147017fcc07">end</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#aca6916f99eacaa2a8b591acb4b544422">iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a pointer to one-past-the-last element in the array.</dd>
-            <dt id="ad05728216925fad0306831e2ab08a7fd">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad05728216925fad0306831e2ab08a7fd">end</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#a83640e103d5cf6c615b0e124d266ab1b">const_<wbr/>iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a const pointer to one-past-the-last element in the array.</dd>
             <dt id="a7664debee464b174d3b7df7f1b1ec156">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a7664debee464b174d3b7df7f1b1ec156">front</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#a5172ce849cf83ddefad23d51b55ae387">reference</a> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -234,6 +211,59 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a53648a57dc8b2b5464d9c9e92c61a29a">size</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#ac144fe3dd510e085cf9278975de6105a">size_<wbr/>type</a> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>The number of elements in the array.</dd>
+          </dl>
+        </section>
+        <section id="iterators">
+          <h2><a href="#iterators">Iterators</a></h2>
+          <dl class="m-doc">
+            <dt id="a6b2d20a544a18541bc7a42cc54cbfb0b">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a6b2d20a544a18541bc7a42cc54cbfb0b">begin</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#aca6916f99eacaa2a8b591acb4b544422">iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a pointer to the first element in the array.</dd>
+            <dt id="a076ad46543e26a0853c675a255d2b93b">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a076ad46543e26a0853c675a255d2b93b">begin</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#a83640e103d5cf6c615b0e124d266ab1b">const_<wbr/>iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const pointer to the first element in the array.</dd>
+            <dt id="a4ebb159a53415dc51c94e891f574f8e7">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a4ebb159a53415dc51c94e891f574f8e7">cbegin</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#a83640e103d5cf6c615b0e124d266ab1b">const_<wbr/>iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const pointer to the first element in the array.</dd>
+            <dt id="a6064f88516ef2a0fb3ef27de85e5e39c">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a6064f88516ef2a0fb3ef27de85e5e39c">cend</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#a83640e103d5cf6c615b0e124d266ab1b">const_<wbr/>iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const pointer to one-past-the-last element in the array.</dd>
+            <dt id="a28b080d7f868c02c62594147017fcc07">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a28b080d7f868c02c62594147017fcc07">end</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#aca6916f99eacaa2a8b591acb4b544422">iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a pointer to one-past-the-last element in the array.</dd>
+            <dt id="ad05728216925fad0306831e2ab08a7fd">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad05728216925fad0306831e2ab08a7fd">end</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#a83640e103d5cf6c615b0e124d266ab1b">const_<wbr/>iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const pointer to one-past-the-last element in the array.</dd>
+            <dt id="a6a6591f4cea29cb19019094aa0696294">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a6a6591f4cea29cb19019094aa0696294">begin</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1emplacement__array.html">emplacement_<wbr/>array</a>&amp; arr) -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#aca6916f99eacaa2a8b591acb4b544422">iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a pointer to the first element in the array (via ADL).</dd>
+            <dt id="aecaa151e2982c1b6f8d1accc18cffa21">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aecaa151e2982c1b6f8d1accc18cffa21">begin</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1emplacement__array.html">emplacement_<wbr/>array</a>&amp; arr) -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#a83640e103d5cf6c615b0e124d266ab1b">const_<wbr/>iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const pointer to the first element in the array (via ADL).</dd>
+            <dt id="af6fc1a7e15acdd4a0087ac1c8c1a131f">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af6fc1a7e15acdd4a0087ac1c8c1a131f">cbegin</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1emplacement__array.html">emplacement_<wbr/>array</a>&amp; arr) -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#a83640e103d5cf6c615b0e124d266ab1b">const_<wbr/>iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const pointer to the first element in the array (via ADL).</dd>
+            <dt id="aa69e8b577ec61d6923d6ee5c68b8ffab">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa69e8b577ec61d6923d6ee5c68b8ffab">cend</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1emplacement__array.html">emplacement_<wbr/>array</a>&amp; arr) -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#a83640e103d5cf6c615b0e124d266ab1b">const_<wbr/>iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const pointer to one-past-the-last element in the array (via ADL).</dd>
+            <dt id="a953bce0bafa9c8d4fd738943d70273d4">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a953bce0bafa9c8d4fd738943d70273d4">end</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1emplacement__array.html">emplacement_<wbr/>array</a>&amp; arr) -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#aca6916f99eacaa2a8b591acb4b544422">iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a pointer to one-past-the-last element in the array (via ADL).</dd>
+            <dt id="a4d060f68272f32e1e1163e9c4c21c55c">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a4d060f68272f32e1e1163e9c4c21c55c">end</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1emplacement__array.html">emplacement_<wbr/>array</a>&amp; arr) -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#a83640e103d5cf6c615b0e124d266ab1b">const_<wbr/>iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const pointer to one-past-the-last element in the array (via ADL).</dd>
           </dl>
         </section>
         <section>

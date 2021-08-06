@@ -3872,6 +3872,27 @@
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
+      <type>pointer</type>
+      <name>data</name>
+      <anchorfile>classmuu_1_1emplacement__array.html</anchorfile>
+      <anchor>a1317afcacbfca2fa7810b355faf69259</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>const_pointer</type>
+      <name>data</name>
+      <anchorfile>classmuu_1_1emplacement__array.html</anchorfile>
+      <anchor>a4806579821cebe5a8230c3fb480faf0d</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>clear</name>
+      <anchorfile>classmuu_1_1emplacement__array.html</anchorfile>
+      <anchor>a9f7e09f01b0523011d102f9beeaea3b5</anchor>
+      <arglist>() noexcept(std::is_nothrow_destructible_v&lt; T &gt;)</arglist>
+    </member>
+    <member kind="function">
       <type>iterator</type>
       <name>begin</name>
       <anchorfile>classmuu_1_1emplacement__array.html</anchorfile>
@@ -3913,26 +3934,47 @@
       <anchor>a6064f88516ef2a0fb3ef27de85e5e39c</anchor>
       <arglist>() const noexcept</arglist>
     </member>
-    <member kind="function">
-      <type>pointer</type>
-      <name>data</name>
+    <member kind="friend">
+      <type>friend iterator</type>
+      <name>begin</name>
       <anchorfile>classmuu_1_1emplacement__array.html</anchorfile>
-      <anchor>a1317afcacbfca2fa7810b355faf69259</anchor>
-      <arglist>() noexcept</arglist>
+      <anchor>a6a6591f4cea29cb19019094aa0696294</anchor>
+      <arglist>(emplacement_array &amp;arr) noexcept</arglist>
     </member>
-    <member kind="function">
-      <type>const_pointer</type>
-      <name>data</name>
+    <member kind="friend">
+      <type>friend iterator</type>
+      <name>end</name>
       <anchorfile>classmuu_1_1emplacement__array.html</anchorfile>
-      <anchor>a4806579821cebe5a8230c3fb480faf0d</anchor>
-      <arglist>() const noexcept</arglist>
+      <anchor>a953bce0bafa9c8d4fd738943d70273d4</anchor>
+      <arglist>(emplacement_array &amp;arr) noexcept</arglist>
     </member>
-    <member kind="function">
-      <type>void</type>
-      <name>clear</name>
+    <member kind="friend">
+      <type>friend const_iterator</type>
+      <name>begin</name>
       <anchorfile>classmuu_1_1emplacement__array.html</anchorfile>
-      <anchor>a9f7e09f01b0523011d102f9beeaea3b5</anchor>
-      <arglist>() noexcept(std::is_nothrow_destructible_v&lt; T &gt;)</arglist>
+      <anchor>aecaa151e2982c1b6f8d1accc18cffa21</anchor>
+      <arglist>(const emplacement_array &amp;arr) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend const_iterator</type>
+      <name>end</name>
+      <anchorfile>classmuu_1_1emplacement__array.html</anchorfile>
+      <anchor>a4d060f68272f32e1e1163e9c4c21c55c</anchor>
+      <arglist>(const emplacement_array &amp;arr) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend const_iterator</type>
+      <name>cbegin</name>
+      <anchorfile>classmuu_1_1emplacement__array.html</anchorfile>
+      <anchor>af6fc1a7e15acdd4a0087ac1c8c1a131f</anchor>
+      <arglist>(const emplacement_array &amp;arr) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend const_iterator</type>
+      <name>cend</name>
+      <anchorfile>classmuu_1_1emplacement__array.html</anchorfile>
+      <anchor>aa69e8b577ec61d6923d6ee5c68b8ffab</anchor>
+      <arglist>(const emplacement_array &amp;arr) noexcept</arglist>
     </member>
   </compound>
   <compound kind="struct">
@@ -6356,34 +6398,6 @@
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr iterator</type>
-      <name>begin</name>
-      <anchorfile>classmuu_1_1span.html</anchorfile>
-      <anchor>ae35e9976ec1a3acfa41503078b6a53cb</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr iterator</type>
-      <name>end</name>
-      <anchorfile>classmuu_1_1span.html</anchorfile>
-      <anchor>a52f4378629db27673d633deb7c645de5</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr reverse_iterator</type>
-      <name>rbegin</name>
-      <anchorfile>classmuu_1_1span.html</anchorfile>
-      <anchor>a167648be83a620b370e89745e8adabc6</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr reverse_iterator</type>
-      <name>rend</name>
-      <anchorfile>classmuu_1_1span.html</anchorfile>
-      <anchor>a74aaa29a2581bf90ecfcf5f9ee70d8c6</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
       <type>constexpr reference</type>
       <name>front</name>
       <anchorfile>classmuu_1_1span.html</anchorfile>
@@ -6473,6 +6487,62 @@
       <anchorfile>group__mem.html</anchorfile>
       <anchor>gab6812fcab12e2e24abb7261d0f895fcb</anchor>
       <arglist>(span&lt; T, N &gt; s) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr iterator</type>
+      <name>begin</name>
+      <anchorfile>classmuu_1_1span.html</anchorfile>
+      <anchor>ae35e9976ec1a3acfa41503078b6a53cb</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr iterator</type>
+      <name>end</name>
+      <anchorfile>classmuu_1_1span.html</anchorfile>
+      <anchor>a52f4378629db27673d633deb7c645de5</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr reverse_iterator</type>
+      <name>rbegin</name>
+      <anchorfile>classmuu_1_1span.html</anchorfile>
+      <anchor>a167648be83a620b370e89745e8adabc6</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr reverse_iterator</type>
+      <name>rend</name>
+      <anchorfile>classmuu_1_1span.html</anchorfile>
+      <anchor>a74aaa29a2581bf90ecfcf5f9ee70d8c6</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend iterator</type>
+      <name>begin</name>
+      <anchorfile>classmuu_1_1span.html</anchorfile>
+      <anchor>a3317434d7057b280005cd9b5fcc87c5f</anchor>
+      <arglist>(const span &amp;s) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend iterator</type>
+      <name>end</name>
+      <anchorfile>classmuu_1_1span.html</anchorfile>
+      <anchor>a1693e47e3509f25e3e93a7e3ce11195b</anchor>
+      <arglist>(const span &amp;s) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend reverse_iterator</type>
+      <name>rbegin</name>
+      <anchorfile>classmuu_1_1span.html</anchorfile>
+      <anchor>af6d1387625f6f699a6003965741f28e0</anchor>
+      <arglist>(const span &amp;s) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend reverse_iterator</type>
+      <name>rend</name>
+      <anchorfile>classmuu_1_1span.html</anchorfile>
+      <anchor>af8581a3d03e16fae11b739a62c7410aa</anchor>
+      <arglist>(const span &amp;s) noexcept</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -7215,10 +7285,10 @@
     <filename>structmuu_1_1type__list.html</filename>
     <templarg>typename... T</templarg>
     <member kind="typedef">
-      <type>POXY_IMPLEMENTATION_DETAIL</type>
+      <type>POXY_IMPLEMENTATION_DETAIL_IMPL</type>
       <name>first</name>
       <anchorfile>structmuu_1_1type__list.html</anchorfile>
-      <anchor>a3ca238f24c7016a8b399d3ea94e1f401</anchor>
+      <anchor>a0b1d54c39538ac038e178c915e80cd67</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -7229,17 +7299,17 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>POXY_IMPLEMENTATION_DETAIL</type>
+      <type>POXY_IMPLEMENTATION_DETAIL_IMPL</type>
       <name>select</name>
       <anchorfile>structmuu_1_1type__list.html</anchorfile>
-      <anchor>a200e4e32806a05cc13813f32677f0991</anchor>
+      <anchor>a4e383a46f2f141dac3a5ff14e44d8f54</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>POXY_IMPLEMENTATION_DETAIL</type>
+      <type>POXY_IMPLEMENTATION_DETAIL_IMPL</type>
       <name>slice</name>
       <anchorfile>structmuu_1_1type__list.html</anchorfile>
-      <anchor>a847c2e0d8b80aec8b0e889e9c619b1ed</anchor>
+      <anchor>a525094f21f1941eb9910b8aaa24c9365</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable" static="yes">
@@ -7918,34 +7988,6 @@
       <arglist>(const vector &amp;to) const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr iterator</type>
-      <name>begin</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a3154923b04ea04a932ff42786eed4f57</anchor>
-      <arglist>() noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr iterator</type>
-      <name>end</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a9198e267442a545ebb0d112dac7b2a0c</anchor>
-      <arglist>() noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const_iterator</type>
-      <name>begin</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a32412aa1e3b099208bf73cb8465d2981</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr const_iterator</type>
-      <name>end</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ac63ba31b9822742901e481fec5f3c8dd</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
       <type>constexpr vector &amp;</type>
       <name>clamp</name>
       <anchorfile>structmuu_1_1vector.html</anchorfile>
@@ -8448,6 +8490,90 @@
       <anchorfile>group__floor.html</anchorfile>
       <anchor>gaa9989749869046cff6731ead1b56f0df</anchor>
       <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a072ba2759b288b15963887d74fecd277</anchor>
+      <arglist>(vector &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>ab837a1246db560433337a3c1c24affee</anchor>
+      <arglist>(vector &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>ae423119e0bdfbbee72988f546a58d9fd</anchor>
+      <arglist>(const vector &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a10bc39751925224817204975587a5641</anchor>
+      <arglist>(const vector &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>cbegin</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>ab76b38d7c2d6406c434f8bb589c073ea</anchor>
+      <arglist>(const vector &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>cend</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a29fa2209bbaa1542881ab8293e680646</anchor>
+      <arglist>(const vector &amp;v) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a3154923b04ea04a932ff42786eed4f57</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a9198e267442a545ebb0d112dac7b2a0c</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const_iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a32412aa1e3b099208bf73cb8465d2981</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const_iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>ac63ba31b9822742901e481fec5f3c8dd</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const_iterator</type>
+      <name>cbegin</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a822727b7a2a55b7ce06e0f0a65f874ea</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const_iterator</type>
+      <name>cend</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>ae618ff7b03b4ea6f26d290c0f7af9108</anchor>
+      <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr vector&lt; scalar_type, sizeof...(Indices)&gt;</type>
@@ -12391,6 +12517,13 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>has_indirection_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga7ce806883528834c0b156cf9d150f8b6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>has_arrow_operator</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gafc3c409c2d08bc8913db5ad46a84e0b9</anchor>
@@ -12398,9 +12531,170 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>has_subscript_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga99d503cf409b10ba5314452688d7abb7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>has_unary_plus_operator</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gaf2a9f6988557f79f960a87dccb414b15</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_unary_minus_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gadfa546414eebe20b450f7a7d520b4767</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_addition_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gadffe33b336020e6d4f41fba1c9788949</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_subtraction_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga6889472d0f71b499636c488a48aafe27</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_division_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaee2f7df90bf1a9447e0ff9059e6d9176</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_multiplication_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga6f9cee395159fa1cc0c85d04b5ec9414</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_modulo_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga5445f5de353c58b7e304e585b5eae84a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_bitwise_not_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga055c356204326409b8097248b5aa6b8f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_bitwise_and_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga688617eff8007838d3c3a6d82acc5e0e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_bitwise_or_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga57978bd3bd40c129640f6bf5783d3f49</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_bitwise_xor_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaf844292ffc3d2468386295a3a7a8e984</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_bitwise_lsh_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga716a51fac5f796fef6d7b20361a48c67</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_bitwise_rsh_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gae40a247ecf2dbd511377594e234d0b48</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_logical_not_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gac41ddee5c5cc860a08f13ed17e9bc618</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_logical_and_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga127032392bbc1f2ce60436c441eafa21</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_logical_or_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga56ac47fcf7be4d333864350e64528b2f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_equality_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga6c84e8498fc694ca19c225524e2b89d6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_inequality_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gac7b4aeab35fd101dabb265d96ac907cf</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_pre_increment_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga496c606e118a2028c01fdeeeb71b2824</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_pre_decrement_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gac9731899288a2ce397762c9a01afff43</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_post_increment_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga4c9c2d5fed48172635e3c6ead74b239a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_post_decrement_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gafd5fd93a0ed2590bdfb6c2f69bf1a5c6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_iterable</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga14a164d38285296acaa8c6679e1b6916</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -13831,6 +14125,13 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>has_indirection_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga7ce806883528834c0b156cf9d150f8b6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>has_arrow_operator</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gafc3c409c2d08bc8913db5ad46a84e0b9</anchor>
@@ -13838,9 +14139,170 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>has_subscript_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga99d503cf409b10ba5314452688d7abb7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>has_unary_plus_operator</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gaf2a9f6988557f79f960a87dccb414b15</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_unary_minus_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gadfa546414eebe20b450f7a7d520b4767</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_addition_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gadffe33b336020e6d4f41fba1c9788949</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_subtraction_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga6889472d0f71b499636c488a48aafe27</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_division_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaee2f7df90bf1a9447e0ff9059e6d9176</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_multiplication_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga6f9cee395159fa1cc0c85d04b5ec9414</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_modulo_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga5445f5de353c58b7e304e585b5eae84a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_bitwise_not_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga055c356204326409b8097248b5aa6b8f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_bitwise_and_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga688617eff8007838d3c3a6d82acc5e0e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_bitwise_or_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga57978bd3bd40c129640f6bf5783d3f49</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_bitwise_xor_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaf844292ffc3d2468386295a3a7a8e984</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_bitwise_lsh_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga716a51fac5f796fef6d7b20361a48c67</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_bitwise_rsh_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gae40a247ecf2dbd511377594e234d0b48</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_logical_not_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gac41ddee5c5cc860a08f13ed17e9bc618</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_logical_and_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga127032392bbc1f2ce60436c441eafa21</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_logical_or_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga56ac47fcf7be4d333864350e64528b2f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_equality_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga6c84e8498fc694ca19c225524e2b89d6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_inequality_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gac7b4aeab35fd101dabb265d96ac907cf</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_pre_increment_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga496c606e118a2028c01fdeeeb71b2824</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_pre_decrement_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gac9731899288a2ce397762c9a01afff43</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_post_increment_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga4c9c2d5fed48172635e3c6ead74b239a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_post_decrement_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gafd5fd93a0ed2590bdfb6c2f69bf1a5c6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_iterable</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga14a164d38285296acaa8c6679e1b6916</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">

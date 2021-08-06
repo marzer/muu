@@ -87,6 +87,7 @@
                 <li><a href="#pub-static-attribs">Public static variables</a></li>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#iterators">Iterators</a></li>
                 <li><a href="#related">Related</a></li>
               </ul>
             </li>
@@ -198,10 +199,6 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2712445129446fb432c02f82d6f5a993">back</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1span.html#a24e731f2ae120051119afabd76154bae">reference</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a reference to the last element in the span.</dd>
-            <dt id="ae35e9976ec1a3acfa41503078b6a53cb">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ae35e9976ec1a3acfa41503078b6a53cb">begin</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1span.html#ae35fb784f6a296753c0c2ca136eef2e7">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns an iterator to the beginning of the span.</dd>
             <dt id="a9365aafaba0d08b0a3d29cc7276a4d6f">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a9365aafaba0d08b0a3d29cc7276a4d6f">data</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1span.html#a2ecf9ad0b0fe4ac9e97b6085d8899459">pointer</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -210,10 +207,6 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa4b62a3e6650bfe2e56c7afc26539831">empty</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if the span is empty (i.e. covers zero elements).</dd>
-            <dt id="a52f4378629db27673d633deb7c645de5">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a52f4378629db27673d633deb7c645de5">end</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1span.html#ae35fb784f6a296753c0c2ca136eef2e7">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns an iterator to end of the span.</dd>
             <dt id="a6970b7c81046a494a441d41f823d5ed2">
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Count&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a6970b7c81046a494a441d41f823d5ed2">first</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc" href="classmuu_1_1span.html#ac92b58600d3f008c78cdddd953fdf62d">element_<wbr/>type</a>, Count&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -244,14 +237,6 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#acd02792eb9b093f69cebaeef2cf087bd">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> idx) const -&gt; <a class="m-doc" href="classmuu_1_1span.html#a24e731f2ae120051119afabd76154bae">reference</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a reference to an arbitrary element in the span.</dd>
-            <dt id="a167648be83a620b370e89745e8adabc6">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a167648be83a620b370e89745e8adabc6">rbegin</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1span.html#af594aec84276bdb24a26ab33fdd3f5e3">reverse_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a reverse iterator to the beginning of the span.</dd>
-            <dt id="a74aaa29a2581bf90ecfcf5f9ee70d8c6">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a74aaa29a2581bf90ecfcf5f9ee70d8c6">rend</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1span.html#af594aec84276bdb24a26ab33fdd3f5e3">reverse_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a reverse iterator to the end of the span.</dd>
             <dt id="aaf4ace4a250781ff1810c51989a2cc6e">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aaf4ace4a250781ff1810c51989a2cc6e">size</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -270,6 +255,43 @@
               <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count = <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>) const -&gt; <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc" href="classmuu_1_1span.html#ac92b58600d3f008c78cdddd953fdf62d">element_<wbr/>type</a>&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns an arbitrary subspan.</dd>
+          </dl>
+        </section>
+        <section id="iterators">
+          <h2><a href="#iterators">Iterators</a></h2>
+          <dl class="m-doc">
+            <dt id="ae35e9976ec1a3acfa41503078b6a53cb">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ae35e9976ec1a3acfa41503078b6a53cb">begin</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1span.html#ae35fb784f6a296753c0c2ca136eef2e7">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an iterator to the beginning of the span.</dd>
+            <dt id="a52f4378629db27673d633deb7c645de5">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a52f4378629db27673d633deb7c645de5">end</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1span.html#ae35fb784f6a296753c0c2ca136eef2e7">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an iterator to end of the span.</dd>
+            <dt id="a167648be83a620b370e89745e8adabc6">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a167648be83a620b370e89745e8adabc6">rbegin</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1span.html#af594aec84276bdb24a26ab33fdd3f5e3">reverse_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a reverse iterator to the beginning of the span.</dd>
+            <dt id="a74aaa29a2581bf90ecfcf5f9ee70d8c6">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a74aaa29a2581bf90ecfcf5f9ee70d8c6">rend</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1span.html#af594aec84276bdb24a26ab33fdd3f5e3">reverse_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a reverse iterator to the end of the span.</dd>
+            <dt id="a3317434d7057b280005cd9b5fcc87c5f">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a3317434d7057b280005cd9b5fcc87c5f">begin</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1span.html">span</a>&amp; s) -&gt; friend <a class="m-doc" href="classmuu_1_1span.html#ae35fb784f6a296753c0c2ca136eef2e7">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an iterator to the beginning of a span (via ADL).</dd>
+            <dt id="a1693e47e3509f25e3e93a7e3ce11195b">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a1693e47e3509f25e3e93a7e3ce11195b">end</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1span.html">span</a>&amp; s) -&gt; friend <a class="m-doc" href="classmuu_1_1span.html#ae35fb784f6a296753c0c2ca136eef2e7">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an iterator to end of a span (via ADL).</dd>
+            <dt id="af6d1387625f6f699a6003965741f28e0">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af6d1387625f6f699a6003965741f28e0">rbegin</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1span.html">span</a>&amp; s) -&gt; friend <a class="m-doc" href="classmuu_1_1span.html#af594aec84276bdb24a26ab33fdd3f5e3">reverse_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a reverse iterator to the beginning of a span (via ADL).</dd>
+            <dt id="af8581a3d03e16fae11b739a62c7410aa">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af8581a3d03e16fae11b739a62c7410aa">rend</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1span.html">span</a>&amp; s) -&gt; friend <a class="m-doc" href="classmuu_1_1span.html#af594aec84276bdb24a26ab33fdd3f5e3">reverse_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a reverse iterator to the end of a span (via ADL).</dd>
           </dl>
         </section>
         <section id="related">
