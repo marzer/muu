@@ -27,6 +27,20 @@ namespace muu
 	/// \addtogroup		meta
 	/// @{
 
+#if defined(__cpp_lib_remove_cvref) && __cpp_lib_remove_cvref >= 201711
+
+	template <typename T>
+	using remove_cvref = std::remove_cvref_t<T>;
+
+#else
+
+	/// \brief	Removes the topmost const, volatile and reference qualifiers from a type.
+	/// \remark This is equivalent to C++20's std::remove_cvref_t.
+	template <typename T>
+	using remove_cvref = std::remove_cv_t<std::remove_reference_t<T>>;
+
+#endif
+
 	/// \cond
 	namespace impl
 	{
@@ -850,9 +864,103 @@ namespace muu
 		inline constexpr auto is_detected_ = is_detected_impl<Trait, void, Args...>::value;
 
 		template <typename T>
+		using has_indirection_operator_ = decltype(*std::declval<T>());
+		template <typename T>
 		using has_arrow_operator_ = decltype(std::declval<T>().operator->());
+		template <typename T, typename U>
+		using has_subscript_operator_ = decltype(std::declval<T>()[std::declval<U>()]);
+
 		template <typename T>
 		using has_unary_plus_operator_ = decltype(+std::declval<T>());
+		template <typename T>
+		using has_unary_minus_operator_ = decltype(-std::declval<T>());
+
+		template <typename T, typename U>
+		using has_addition_operator_ = decltype(std::declval<T>() + std::declval<U>());
+		template <typename T, typename U>
+		using has_subtraction_operator_ = decltype(std::declval<T>() - std::declval<U>());
+		template <typename T, typename U>
+		using has_division_operator_ = decltype(std::declval<T>() / std::declval<U>());
+		template <typename T, typename U>
+		using has_multiplication_operator_ = decltype(std::declval<T>() * std::declval<U>());
+		template <typename T, typename U>
+		using has_modulo_operator_ = decltype(std::declval<T>() % std::declval<U>());
+
+		template <typename T>
+		using has_bitwise_not_operator_ = decltype(~std::declval<T>());
+		template <typename T, typename U>
+		using has_bitwise_and_operator_ = decltype(std::declval<T>() & std::declval<U>());
+		template <typename T, typename U>
+		using has_bitwise_or_operator_ = decltype(std::declval<T>() | std::declval<U>());
+		template <typename T, typename U>
+		using has_bitwise_xor_operator_ = decltype(std::declval<T>() ^ std::declval<U>());
+		template <typename T, typename U>
+		using has_bitwise_lsh_operator_ = decltype(std::declval<T>() << std::declval<U>());
+		template <typename T, typename U>
+		using has_bitwise_rsh_operator_ = decltype(std::declval<T>() >> std::declval<U>());
+
+		template <typename T>
+		using has_logical_not_operator_ = decltype(!std::declval<T>());
+		template <typename T, typename U>
+		using has_logical_and_operator_ = decltype(std::declval<T>() && std::declval<U>());
+		template <typename T, typename U>
+		using has_logical_or_operator_ = decltype(std::declval<T>() || std::declval<U>());
+
+		template <typename T, typename U>
+		using has_equality_operator_ = decltype(std::declval<T>() == std::declval<U>());
+		template <typename T, typename U>
+		using has_inequality_operator_ = decltype(std::declval<T>() != std::declval<U>());
+
+		template <typename T>
+		using has_pre_increment_operator_ = decltype(++std::declval<T>());
+		template <typename T>
+		using has_pre_decrement_operator_ = decltype(--std::declval<T>());
+		template <typename T>
+		using has_post_increment_operator_ = decltype(std::declval<T>()++);
+		template <typename T>
+		using has_post_decrement_operator_ = decltype(std::declval<T>()--);
+
+		template <typename T>
+		using has_begin_member_func_ = decltype(std::declval<T>().begin());
+		template <typename T>
+		using has_end_member_func_ = decltype(std::declval<T>().end());
+
+		template <typename B, typename E>
+		inline constexpr bool compatible_iterators_ =
+			!std::is_void_v<remove_cvref<B>>											 //
+			&& !std::is_void_v<remove_cvref<E>>											 //
+			&& is_detected_<has_indirection_operator_, B>								 //
+			&& is_detected_<has_pre_increment_operator_, std::add_lvalue_reference_t<B>> //
+			&& is_detected_<has_equality_operator_, B, E>								 //
+			&& is_detected_<has_inequality_operator_, B, E>;
+
+		template <typename T, bool = (is_detected_<has_begin_member_func_, T> && is_detected_<has_end_member_func_, T>)>
+		inline constexpr bool has_iterator_member_funcs_ =
+			compatible_iterators_<decltype(std::declval<T>().begin()), decltype(std::declval<T>().end())>;
+		template <typename T>
+		inline constexpr bool has_iterator_member_funcs_<T, false> = false;
+
+		template <typename T>
+		using has_begin_std_func_ = decltype(std::begin(std::declval<T>()));
+		template <typename T>
+		using has_end_std_func_ = decltype(std::end(std::declval<T>()));
+
+		template <typename T, bool = (is_detected_<has_begin_std_func_, T> && is_detected_<has_end_std_func_, T>)>
+		inline constexpr bool has_iterator_std_funcs_ =
+			compatible_iterators_<decltype(std::begin(std::declval<T>())), decltype(std::end(std::declval<T>()))>;
+		template <typename T>
+		inline constexpr bool has_iterator_std_funcs_<T, false> = false;
+
+		template <typename T>
+		using has_begin_adl_func_ = decltype(begin(std::declval<T>()));
+		template <typename T>
+		using has_end_adl_func_ = decltype(end(std::declval<T>()));
+
+		template <typename T, bool = (is_detected_<has_begin_adl_func_, T> && is_detected_<has_end_adl_func_, T>)>
+		inline constexpr bool has_iterator_adl_funcs_ =
+			compatible_iterators_<decltype(begin(std::declval<T>())), decltype(end(std::declval<T>()))>;
+		template <typename T>
+		inline constexpr bool has_iterator_adl_funcs_<T, false> = false;
 
 		template <typename T>
 		using has_tuple_size_ = decltype(std::tuple_size<std::remove_cv_t<std::remove_reference_t<T>>>::value);
@@ -886,7 +994,7 @@ namespace muu
 			}
 		}
 
-#ifdef __cpp_lib_is_nothrow_convertible
+#if defined(__cpp_lib_is_nothrow_convertible) && __cpp_lib_is_nothrow_convertible >= 201806
 
 		template <typename From, typename To>
 		inline constexpr bool is_implicitly_nothrow_convertible_ = std::is_nothrow_convertible_v<From, To>;
@@ -908,11 +1016,6 @@ namespace muu
 #endif
 	}
 	/// \endcond
-
-	/// \brief	Removes the topmost const, volatile and reference qualifiers from a type.
-	/// \remark This is equivalent to C++20's std::remove_cvref_t.
-	template <typename T>
-	using remove_cvref = std::remove_cv_t<std::remove_reference_t<T>>;
 
 	/// \brief	Removes the outer enum wrapper from a type, converting it to the underlying integer equivalent.
 	/// \remark This is similar to std::underlying_type_t but preserves cv qualifiers and ref categories, as well as
@@ -1408,16 +1511,116 @@ namespace muu
 	template <template <typename...> typename Trait, typename... Args>
 	inline constexpr auto is_detected = impl::is_detected_<Trait, Args...>;
 
-	/// \brief Returns true if the type has an arrow operator.
+	/// \brief Returns true if a type has an indirection operator (`*T`).
+	template <typename T>
+	inline constexpr bool has_indirection_operator = is_detected<impl::has_indirection_operator_, T>;
+
+	/// \brief Returns true if a type has an arrow operator (`T->`).
 	template <typename T>
 	inline constexpr bool has_arrow_operator =
-		is_detected<
-			impl::has_arrow_operator_,
-			T> || (std::is_pointer_v<T> && (std::is_class_v<std::remove_pointer_t<T>> || std::is_union_v<std::remove_pointer_t<T>>));
+		is_detected<impl::has_arrow_operator_, T>								   //
+		|| (std::is_pointer_v<std::remove_reference_t<T>>						   //
+			&& (std::is_class_v<std::remove_pointer_t<std::remove_reference_t<T>>> //
+				|| std::is_union_v<std::remove_pointer_t<std::remove_reference_t<T>>>));
 
-	/// \brief Returns true if the type has a unary plus operator.
+	/// \brief Returns true if a pair of types has a subscript operator (`T[U]`).
+	template <typename T, typename U = size_t>
+	inline constexpr bool has_subscript_operator = is_detected<impl::has_subscript_operator_, T, U>;
+
+	/// \brief Returns true if a type has a unary plus operator (`+T`).
 	template <typename T>
 	inline constexpr bool has_unary_plus_operator = is_detected<impl::has_unary_plus_operator_, T>;
+
+	/// \brief Returns true if a type has a unary minus operator (`-T`).
+	template <typename T>
+	inline constexpr bool has_unary_minus_operator = is_detected<impl::has_unary_minus_operator_, T>;
+
+	/// \brief Returns true if a pair of types has an addition operator (`T + U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_addition_operator = is_detected<impl::has_addition_operator_, T, U>;
+
+	/// \brief Returns true if a pair of types has a subtraction operator (`T - U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_subtraction_operator = is_detected<impl::has_subtraction_operator_, T, U>;
+
+	/// \brief Returns true if a pair of types has a division operator (`T / U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_division_operator = is_detected<impl::has_division_operator_, T, U>;
+
+	/// \brief Returns true if a pair of types has a multiplication operator (`T * U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_multiplication_operator = is_detected<impl::has_multiplication_operator_, T, U>;
+
+	/// \brief Returns true if a pair of types has an modulo operator (`T % U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_modulo_operator = is_detected<impl::has_modulo_operator_, T, U>;
+
+	/// \brief Returns true if a type has a unary bitwise NOT operator (`~T`).
+	template <typename T>
+	inline constexpr bool has_bitwise_not_operator = is_detected<impl::has_bitwise_not_operator_, T>;
+
+	/// \brief Returns true if a pair of types has a bitwise AND operator (`T & U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_bitwise_and_operator = is_detected<impl::has_bitwise_and_operator_, T, U>;
+
+	/// \brief Returns true if a pair of types has a bitwise OR operator (`T | U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_bitwise_or_operator = is_detected<impl::has_bitwise_or_operator_, T, U>;
+
+	/// \brief Returns true if a pair of types has a bitwise XOR operator (`T ^ U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_bitwise_xor_operator = is_detected<impl::has_bitwise_xor_operator_, T, U>;
+
+	/// \brief Returns true if a pair of types has a bitwise left-shift operator (`T << U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_bitwise_lsh_operator = is_detected<impl::has_bitwise_lsh_operator_, T, U>;
+
+	/// \brief Returns true if a pair of types has a bitwise right-shift operator (`T >> U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_bitwise_rsh_operator = is_detected<impl::has_bitwise_rsh_operator_, T, U>;
+
+	/// \brief Returns true if a type has a unary logical NOT operator (`!T`).
+	template <typename T>
+	inline constexpr bool has_logical_not_operator = is_detected<impl::has_logical_not_operator_, T>;
+
+	/// \brief Returns true if a pair of types has a logical AND operator (`T && U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_logical_and_operator = is_detected<impl::has_logical_and_operator_, T, U>;
+
+	/// \brief Returns true if a pair of types has a logical OR operator (`T || U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_logical_or_operator = is_detected<impl::has_logical_or_operator_, T, U>;
+
+	/// \brief Returns true if a pair of types has an equality operator (`T == U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_equality_operator = is_detected<impl::has_equality_operator_, T, U>;
+
+	/// \brief Returns true if a pair of types has an inequality operator (`T != U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_inequality_operator = is_detected<impl::has_inequality_operator_, T, U>;
+
+	/// \brief Returns true if a type has a pre-increment operator (`++T`).
+	template <typename T>
+	inline constexpr bool has_pre_increment_operator = is_detected<impl::has_pre_increment_operator_, T>;
+
+	/// \brief Returns true if a type has a pre-decrement operator (`--T`).
+	template <typename T>
+	inline constexpr bool has_pre_decrement_operator = is_detected<impl::has_pre_decrement_operator_, T>;
+
+	/// \brief Returns true if a type has a post-increment operator (`T++`).
+	template <typename T>
+	inline constexpr bool has_post_increment_operator = is_detected<impl::has_post_increment_operator_, T>;
+
+	/// \brief Returns true if a type has a post-decrement operator (`T--`).
+	template <typename T>
+	inline constexpr bool has_post_decrement_operator = is_detected<impl::has_post_decrement_operator_, T>;
+
+	/// \brief Returns true if a type has pair of `begin()` and `end()` iterator functions as members, in the std namespace, or found via ADL.
+	template <typename T>
+	inline constexpr bool is_iterable = impl::has_iterator_member_funcs_<T> //
+									 || impl::has_iterator_std_funcs_<T>	//
+									 || impl::has_iterator_adl_funcs_<T>	//
+									 || std::is_array_v<remove_cvref<T>>;
 
 	/// \brief Returns true if the type implements std::tuple_size and std::tuple_element.
 	template <typename T>

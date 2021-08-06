@@ -40,16 +40,14 @@ namespace muu
 		size_t count_		= {}, capacity_;
 		std::byte* storage_ = nullptr;
 
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(returns_nonnull)
 		T* ptr(size_t index) noexcept
 		{
 			return launder(reinterpret_cast<T*>(storage_ + index * sizeof(T)));
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(returns_nonnull)
 		const T* ptr(size_t index) const noexcept
 		{
@@ -221,136 +219,166 @@ namespace muu
 		}
 
 		/// \brief	Returns a reference to the element at the selected index.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		reference operator[](size_t index) noexcept
 		{
 			return *ptr(index);
 		}
 
 		/// \brief	Returns a const reference to the element at the selected index.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		const_reference operator[](size_t index) const noexcept
 		{
 			return *ptr(index);
 		}
 
 		/// \brief	The number of elements in the array.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		size_type size() const noexcept
 		{
 			return count_;
 		}
 
 		/// \brief	The maximum number of elements that can be stored in the array.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		size_type capacity() const noexcept
 		{
 			return capacity_;
 		}
 
 		/// \brief	Returns true if the array is empty.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		bool empty() const noexcept
 		{
 			return count_ == 0u;
 		}
 
 		/// \brief	Returns the first element in the array.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		reference front() noexcept
 		{
 			return (*this)[0];
 		}
 
 		/// \brief	Returns the first element in the array.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		const_reference front() const noexcept
 		{
 			return (*this)[0];
 		}
 
 		/// \brief	Returns the last element in the array.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		reference back() noexcept
 		{
 			return (*this)[count_ - 1_sz];
 		}
 
 		/// \brief	Returns the last element in the array.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		const_reference back() const noexcept
 		{
 			return (*this)[count_ - 1_sz];
 		}
 
+		/// \name Iterators
+		/// @{
+
 		/// \brief	Returns a pointer to the first element in the array.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		iterator begin() noexcept
 		{
 			return ptr(0);
 		}
 
 		/// \brief	Returns a pointer to one-past-the-last element in the array.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		iterator end() noexcept
 		{
 			return ptr(count_);
 		}
 
 		/// \brief	Returns a const pointer to the first element in the array.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		const_iterator begin() const noexcept
 		{
 			return ptr(0);
 		}
 
 		/// \brief	Returns a const pointer to one-past-the-last element in the array.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		const_iterator end() const noexcept
 		{
 			return ptr(count_);
 		}
 
 		/// \brief	Returns a const pointer to the first element in the array.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		const_iterator cbegin() const noexcept
 		{
 			return ptr(0);
 		}
 
 		/// \brief	Returns a const pointer to one-past-the-last element in the array.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		const_iterator cend() const noexcept
 		{
 			return ptr(count_);
 		}
 
+		/// \brief	Returns a pointer to the first element in the array (via ADL).
+		MUU_PURE_INLINE_GETTER
+		friend iterator begin(emplacement_array& arr) noexcept
+		{
+			return arr.begin();
+		}
+
+		/// \brief	Returns a pointer to one-past-the-last element in the array (via ADL).
+		MUU_PURE_INLINE_GETTER
+		friend iterator end(emplacement_array& arr) noexcept
+		{
+			return arr.end();
+		}
+
+		/// \brief	Returns a const pointer to the first element in the array (via ADL).
+		MUU_PURE_INLINE_GETTER
+		friend const_iterator begin(const emplacement_array& arr) noexcept
+		{
+			return arr.begin();
+		}
+
+		/// \brief	Returns a const pointer to one-past-the-last element in the array (via ADL).
+		MUU_PURE_INLINE_GETTER
+		friend const_iterator end(const emplacement_array& arr) noexcept
+		{
+			return arr.end();
+		}
+
+		/// \brief	Returns a const pointer to the first element in the array (via ADL).
+		MUU_PURE_INLINE_GETTER
+		friend const_iterator cbegin(const emplacement_array& arr) noexcept
+		{
+			return arr.begin();
+		}
+
+		/// \brief	Returns a const pointer to one-past-the-last element in the array (via ADL).
+		MUU_PURE_INLINE_GETTER
+		friend const_iterator cend(const emplacement_array& arr) noexcept
+		{
+			return arr.end();
+		}
+
+		/// @}
+
 		/// \brief	Returns a pointer to the first element in the array.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		pointer data() noexcept
 		{
 			return ptr(0);
 		}
 
 		/// \brief	Returns a const pointer to the first element in the array.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		const_pointer data() const noexcept
 		{
 			return ptr(0);

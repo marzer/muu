@@ -10,6 +10,7 @@
 #include "core.h"
 #include "generic_allocator.h"
 #include "string_param.h"
+#include "impl/iterator_utils.h"
 
 MUU_DISABLE_WARNINGS;
 #include <cstring> // memcpy
@@ -737,7 +738,7 @@ namespace muu
 		/// {
 		///		// i is one of the elements of vals
 		///	});
-		/// pool.for_range(0, 10, []() noexcept
+		/// pool.for_each(vals.begin(), vals.end(), []() noexcept
 		/// {
 		///		// no args is OK too (though unusual)
 		///	});
@@ -760,7 +761,7 @@ namespace muu
 		{
 			MUU_MOVE_CHECK;
 
-			const auto job_count = std::distance(begin, end);
+			const auto job_count = impl::get_iterator_distance(begin, end);
 			if (job_count <= 0)
 				return *this;
 
@@ -783,7 +784,7 @@ namespace muu
 		/// {
 		///		// i is one of the elements of vals
 		///	});
-		/// pool.for_range(0, 10, []() noexcept
+		/// pool.for_each(vals, []() noexcept
 		/// {
 		///		// no args is OK too (though unusual)
 		///	});
@@ -803,15 +804,9 @@ namespace muu
 		template <typename T, typename Task>
 		thread_pool& for_each(T&& collection, Task&& task) noexcept
 		{
-			MUU_MOVE_CHECK;
-
-			using std::size;
-			const size_t job_count = size(collection);
-			if (!job_count)
-				return *this;
-
-			using std::begin;
-			return for_each_impl(begin(static_cast<T&&>(collection)), job_count, static_cast<Task&&>(task));
+			return for_each(impl::get_begin_iterator(static_cast<T&&>(collection)),
+							impl::get_end_iterator(static_cast<T&&>(collection)),
+							static_cast<Task&&>(task));
 		}
 
 	  private:

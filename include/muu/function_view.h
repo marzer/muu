@@ -11,8 +11,7 @@
 #include "impl/core_utils.h"
 
 MUU_DISABLE_WARNINGS;
-#include <type_traits>
-#include <memory>
+#include <memory> // addressof
 MUU_ENABLE_WARNINGS;
 
 #include "impl/header_start.h"

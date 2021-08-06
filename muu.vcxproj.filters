@@ -169,6 +169,9 @@
     <ClInclude Include="include\muu\function_view.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\muu\impl\iterator_utils.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".circleci\config.yml">

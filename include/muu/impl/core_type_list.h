@@ -752,7 +752,7 @@ namespace muu
 		/// is char:  false
 		/// is void:  false
 		/// \eout
-		using first = POXY_IMPLEMENTATION_DETAIL;
+		using first = POXY_IMPLEMENTATION_DETAIL(...);
 
 		/// \brief Alias for #first when `length == 1`.
 		/// \availability This member is only present when `length == 1`.
@@ -775,7 +775,7 @@ namespace muu
 		/// is void:  false
 		/// \eout
 		template <size_t Index>
-		using select = POXY_IMPLEMENTATION_DETAIL;
+		using select = POXY_IMPLEMENTATION_DETAIL(...);
 
 		/// \brief Selects a slice of types from the list.
 		/// \detail \cpp
@@ -787,7 +787,7 @@ namespace muu
 		/// >);
 		/// \ecpp
 		template <size_t Start, size_t Length = (length - Start)>
-		using slice = POXY_IMPLEMENTATION_DETAIL;
+		using slice = POXY_IMPLEMENTATION_DETAIL(...);
 	};
 
 #endif

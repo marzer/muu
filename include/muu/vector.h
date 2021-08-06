@@ -1011,9 +1011,7 @@ namespace muu
 
 	  private:
 		template <size_t Index, typename T>
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		static constexpr auto& do_get(T& vec) noexcept
 		{
 			static_assert(Index < Dimensions, "Element index out of range");
@@ -1079,9 +1077,7 @@ namespace muu
 		///
 		/// \return  A reference to the selected scalar component.
 		template <size_t Index>
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(flatten)
 		constexpr const scalar_type& get() const noexcept
 		{
@@ -1094,9 +1090,7 @@ namespace muu
 		///
 		/// \return  A reference to the selected scalar component.
 		template <size_t Index>
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(flatten)
 		constexpr scalar_type& get() noexcept
 		{
@@ -1128,9 +1122,7 @@ namespace muu
 		}
 
 		/// \brief Returns a pointer to the first scalar component in the vector.
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(flatten)
 		constexpr const scalar_type* data() const noexcept
 		{
@@ -1138,9 +1130,7 @@ namespace muu
 		}
 
 		/// \brief Returns a pointer to the first scalar component in the vector.
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(flatten)
 		constexpr scalar_type* data() noexcept
 		{
@@ -2389,43 +2379,94 @@ namespace muu
 	#endif // direction
 
 	#if 1 // iterators ------------------------------------------------------------------------------------------------
+		/// \name Iterators
+		/// @{
 
 		/// \brief Returns an iterator to the first scalar component in the vector.
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr iterator begin() noexcept
 		{
 			return data();
 		}
 
 		/// \brief Returns an iterator to the one-past-the-last scalar component in the vector.
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr iterator end() noexcept
 		{
 			return begin() + Dimensions;
 		}
 
 		/// \brief Returns a const iterator to the first scalar component in the vector.
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr const_iterator begin() const noexcept
 		{
 			return data();
 		}
 
 		/// \brief Returns a const iterator to the one-past-the-last scalar component in the vector.
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr const_iterator end() const noexcept
 		{
 			return begin() + Dimensions;
 		}
 
+		/// \brief Returns a const iterator to the first scalar component in the vector.
+		MUU_PURE_INLINE_GETTER
+		constexpr const_iterator cbegin() const noexcept
+		{
+			return begin();
+		}
+
+		/// \brief Returns a const iterator to the one-past-the-last scalar component in the vector.
+		MUU_PURE_INLINE_GETTER
+		constexpr const_iterator cend() const noexcept
+		{
+			return end();
+		}
+
+		/// \brief Returns an iterator to the first scalar component in a vector (via ADL).
+		MUU_PURE_INLINE_GETTER
+		friend constexpr iterator begin(vector& v) noexcept
+		{
+			return v.begin();
+		}
+
+		/// \brief Returns an iterator to the one-past-the-last scalar component in a vector (via ADL).
+		MUU_PURE_INLINE_GETTER
+		friend constexpr iterator end(vector& v) noexcept
+		{
+			return v.end();
+		}
+
+		/// \brief Returns a const iterator to the first scalar component in a vector (via ADL).
+		MUU_PURE_INLINE_GETTER
+		friend constexpr const_iterator begin(const vector& v) noexcept
+		{
+			return v.begin();
+		}
+
+		/// \brief Returns a const iterator to the one-past-the-last scalar component in a vector (via ADL).
+		MUU_PURE_INLINE_GETTER
+		friend constexpr const_iterator end(const vector& v) noexcept
+		{
+			return v.end();
+		}
+
+		/// \brief Returns a const iterator to the first scalar component in a vector (via ADL).
+		MUU_PURE_INLINE_GETTER
+		friend constexpr const_iterator cbegin(const vector& v) noexcept
+		{
+			return v.begin();
+		}
+
+		/// \brief Returns a const iterator to the one-past-the-last scalar component in a vector (via ADL).
+		MUU_PURE_INLINE_GETTER
+		friend constexpr const_iterator cend(const vector& v) noexcept
+		{
+			return v.end();
+		}
+
+			/// @}
 	#endif // iterators
 
 	#if 1 // min, max and clamp ---------------------------------------------------------------------------------------

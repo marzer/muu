@@ -101,6 +101,7 @@
     <ClInclude Include="include\muu\impl\geometry_common.h" />
     <ClInclude Include="include\muu\impl\header_end.h" />
     <ClInclude Include="include\muu\impl\header_start.h" />
+    <ClInclude Include="include\muu\impl\iterator_utils.h" />
     <ClInclude Include="include\muu\impl\preprocessor_for_each.h" />
     <ClInclude Include="include\muu\impl\vector_types_common.h" />
     <ClInclude Include="include\muu\impl\unicode_char.h" />

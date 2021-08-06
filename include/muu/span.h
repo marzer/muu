@@ -9,11 +9,7 @@
 #pragma once
 #include "core.h"
 #include "compressed_pair.h"
-
-MUU_DISABLE_WARNINGS;
-#include <iterator>
-MUU_ENABLE_WARNINGS;
-
+#include "impl/iterator_utils.h"
 #include "impl/header_start.h"
 
 #ifdef DOXYGEN
@@ -331,8 +327,7 @@ namespace muu
 		constexpr span& operator=(const span&) noexcept = default;
 
 		/// \brief Returns the number of elements covered by the span.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr size_t size() const noexcept
 		{
 			if constexpr (Extent == dynamic_extent)
@@ -342,8 +337,7 @@ namespace muu
 		}
 
 		/// \brief Returns the total size of the elements covered by the span in bytes.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr size_t size_bytes() const noexcept
 		{
 			if constexpr (Extent == dynamic_extent)
@@ -353,72 +347,96 @@ namespace muu
 		}
 
 		/// \brief Returns true if the span is empty (i.e. covers zero elements).
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr bool empty() const noexcept
 		{
 			return !size();
 		}
 
+		/// \name Iterators
+		/// @{
+
 		/// \brief Returns an iterator to the beginning of the span.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr iterator begin() const noexcept
 		{
 			return ptr_and_size.first();
 		}
 
 		/// \brief Returns an iterator to end of the span.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr iterator end() const noexcept
 		{
 			return ptr_and_size.first() + size();
 		}
 
 		/// \brief Returns a reverse iterator to the beginning of the span.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr reverse_iterator rbegin() const noexcept
 		{
 			return reverse_iterator{ end() };
 		}
 
 		/// \brief Returns a reverse iterator to the end of the span.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr reverse_iterator rend() const noexcept
 		{
 			return reverse_iterator{ begin() };
 		}
 
+		/// \brief Returns an iterator to the beginning of a span (via ADL).
+		MUU_PURE_INLINE_GETTER
+		friend constexpr iterator begin(const span& s) noexcept
+		{
+			return s.begin();
+		}
+
+		/// \brief Returns an iterator to end of a span (via ADL).
+		MUU_PURE_INLINE_GETTER
+		friend constexpr iterator end(const span& s) noexcept
+		{
+			return s.end();
+		}
+
+		/// \brief Returns a reverse iterator to the beginning of a span (via ADL).
+		MUU_PURE_INLINE_GETTER
+		friend constexpr reverse_iterator rbegin(const span& s) noexcept
+		{
+			return s.rbegin();
+		}
+
+		/// \brief Returns a reverse iterator to the end of a span (via ADL).
+		MUU_PURE_INLINE_GETTER
+		friend constexpr reverse_iterator rend(const span& s) noexcept
+		{
+			return s.rend();
+		}
+
+		/// @}
+
 		/// \brief Returns a reference to the first element in the span.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr reference front() const noexcept
 		{
 			return *ptr_and_size.first();
 		}
 
 		/// \brief Returns a reference to the last element in the span.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr reference back() const noexcept
 		{
 			return ptr_and_size.first()[size() - 1u];
 		}
 
 		/// \brief Returns a reference to an arbitrary element in the span.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr reference operator[](size_t idx) const noexcept
 		{
 			return ptr_and_size.first()[idx];
 		}
 
 		/// \brief Returns a pointer to the first element in the span.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		constexpr pointer data() const noexcept
 		{
 			return ptr_and_size.first();
