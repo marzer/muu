@@ -2,11 +2,10 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
+#pragma once
 
 /// \file
 /// \brief		Convenience header for including _all_ other muu headers.
-
-#pragma once
 
 #include "accumulator.h"
 #include "blob.h"
@@ -19,6 +18,7 @@
 #include "generic_allocator.h"
 #include "half.h"
 #include "hashing.h"
+#include "iterators.h"
 #include "math.h"
 #include "matrix.h"
 #include "oriented_bounding_box.h"

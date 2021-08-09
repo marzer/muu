@@ -2,11 +2,11 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
+#pragma once
 
 /// \file
 /// \brief Contains the definition of muu::emplacement_array.
 
-#pragma once
 #include "impl/core_utils.h"
 #include "generic_allocator.h"
 
@@ -284,84 +284,89 @@ namespace muu
 		/// \name Iterators
 		/// @{
 
-		/// \brief	Returns a pointer to the first element in the array.
+		/// \brief	Returns an iterator to the first element in the array.
 		MUU_PURE_INLINE_GETTER
 		iterator begin() noexcept
 		{
 			return ptr(0);
 		}
 
-		/// \brief	Returns a pointer to one-past-the-last element in the array.
+		/// \brief	Returns an iterator to one-past-the-last element in the array.
 		MUU_PURE_INLINE_GETTER
 		iterator end() noexcept
 		{
 			return ptr(count_);
 		}
 
-		/// \brief	Returns a const pointer to the first element in the array.
+		/// \brief	Returns a const_iterator to the first element in the array.
 		MUU_PURE_INLINE_GETTER
 		const_iterator begin() const noexcept
 		{
 			return ptr(0);
 		}
 
-		/// \brief	Returns a const pointer to one-past-the-last element in the array.
+		/// \brief	Returns a const_iterator to one-past-the-last element in the array.
 		MUU_PURE_INLINE_GETTER
 		const_iterator end() const noexcept
 		{
 			return ptr(count_);
 		}
 
-		/// \brief	Returns a const pointer to the first element in the array.
+		/// \brief	Returns a const_iterator to the first element in the array.
 		MUU_PURE_INLINE_GETTER
 		const_iterator cbegin() const noexcept
 		{
 			return ptr(0);
 		}
 
-		/// \brief	Returns a const pointer to one-past-the-last element in the array.
+		/// \brief	Returns a const_iterator to one-past-the-last element in the array.
 		MUU_PURE_INLINE_GETTER
 		const_iterator cend() const noexcept
 		{
 			return ptr(count_);
 		}
 
-		/// \brief	Returns a pointer to the first element in the array (via ADL).
+		/// @}
+
+		/// \name Iterators (ADL)
+		/// @{
+
+		/// \brief	Returns an iterator to the first element in the array.
 		MUU_PURE_INLINE_GETTER
 		friend iterator begin(emplacement_array& arr) noexcept
 		{
 			return arr.begin();
 		}
 
-		/// \brief	Returns a pointer to one-past-the-last element in the array (via ADL).
+		/// \brief	Returns an iterator to one-past-the-last element in the array.
 		MUU_PURE_INLINE_GETTER
 		friend iterator end(emplacement_array& arr) noexcept
 		{
 			return arr.end();
 		}
 
-		/// \brief	Returns a const pointer to the first element in the array (via ADL).
+		/// \brief	Returns a const_iterator to the first element in the array.
 		MUU_PURE_INLINE_GETTER
 		friend const_iterator begin(const emplacement_array& arr) noexcept
 		{
 			return arr.begin();
 		}
 
-		/// \brief	Returns a const pointer to one-past-the-last element in the array (via ADL).
+		/// \brief	Returns a const_iterator to one-past-the-last element in the array.
 		MUU_PURE_INLINE_GETTER
 		friend const_iterator end(const emplacement_array& arr) noexcept
 		{
 			return arr.end();
 		}
 
-		/// \brief	Returns a const pointer to the first element in the array (via ADL).
+		/// \brief	Returns a const_iterator to the first element in the array.
 		MUU_PURE_INLINE_GETTER
 		friend const_iterator cbegin(const emplacement_array& arr) noexcept
 		{
 			return arr.begin();
 		}
 
-		/// \brief	Returns a const pointer to one-past-the-last element in the array (via ADL).
+		/// \brief	Returns a const_iterator to one-past-the-last element in the array.
 		MUU_PURE_INLINE_GETTER
 		friend const_iterator cend(const emplacement_array& arr) noexcept
 		{

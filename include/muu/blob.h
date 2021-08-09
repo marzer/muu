@@ -2,19 +2,18 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
+#pragma once
 
 /// \file
 /// \brief Contains the definition of muu::blob.
 
-#pragma once
-#include "impl/core_utils.h"
 #include "generic_allocator.h"
 #include "impl/header_start.h"
 
 namespace muu
 {
 	/// \brief Interface for managing chunks of memory.
-	/// \ingroup mem
+	/// \ingroup memory
 	///
 	/// \details A blob is an RAII wrapper around a memory allocation intended to be used anywhere
 	/// 		 you might previously have used something like std::vector<std::byte> or std::unique_ptr<std::byte[]>.

@@ -7,10 +7,10 @@
 /// \brief  Contains the definition of muu::thread_pool.
 
 #pragma once
-#include "core.h"
+#include "impl/core_everything_except_type_list.h"
 #include "generic_allocator.h"
 #include "string_param.h"
-#include "impl/iterator_utils.h"
+#include "iterators.h"
 
 MUU_DISABLE_WARNINGS;
 #include <cstring> // memcpy
@@ -761,7 +761,7 @@ namespace muu
 		{
 			MUU_MOVE_CHECK;
 
-			const auto job_count = impl::get_iterator_distance(begin, end);
+			const auto job_count = iterator_distance(begin, end);
 			if (job_count <= 0)
 				return *this;
 
@@ -804,8 +804,8 @@ namespace muu
 		template <typename T, typename Task>
 		thread_pool& for_each(T&& collection, Task&& task) noexcept
 		{
-			return for_each(impl::get_begin_iterator(static_cast<T&&>(collection)),
-							impl::get_end_iterator(static_cast<T&&>(collection)),
+			return for_each(begin_iterator(static_cast<T&&>(collection)),
+							end_iterator(static_cast<T&&>(collection)),
 							static_cast<Task&&>(task));
 		}
 

@@ -4,10 +4,9 @@
 // SPDX-License-Identifier: MIT
 #pragma once
 
-#include "preprocessor.h"
-
-/// \cond
-#if !MUU_INTELLISENSE && (!defined(MUU_DEV) || !MUU_DEV)
-	#error Including muu/rolling_average.h is currently prohibited - muu::rolling_average is not fully implemented
-#endif
-/// \endcond
+#include "core_bit.h"
+#include "core_build.h"
+#include "core_constants.h"
+#include "core_literals.h"
+#include "core_meta.h"
+#include "core_utils.h"

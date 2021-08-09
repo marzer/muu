@@ -2,11 +2,11 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
+#pragma once
 
 /// \file
 /// \brief Contains the definition of muu::generic_allocator.
 
-#pragma once
 #include "impl/core_utils.h"
 #include "impl/header_start.h"
 
@@ -21,7 +21,7 @@
 namespace muu
 {
 	/// \brief An interface for encapsulating generic allocators.
-	/// \ingroup mem
+	/// \ingroup memory
 	struct MUU_ABSTRACT_INTERFACE generic_allocator
 	{
 		/// \brief	Requests a memory allocation.

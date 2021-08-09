@@ -2,12 +2,11 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
+#pragma once
 
 /// \file
 /// \brief Contains the definition of muu::half.
 
-#pragma once
-#include "core.h"
 #include "math.h"
 
 // see if we can just wrap a 'real' fp16 type (better codegen while still being binary-compatible)

@@ -2,11 +2,11 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
+#pragma once
 
 /// \file
 /// \brief The bare-minimum include for forward declarations of muu functions and types.
 
-#pragma once
 #include "preprocessor.h"
 #include "impl/environment_checks.h"
 
@@ -94,8 +94,11 @@ MUU_ENABLE_WARNINGS;
 /// \defgroup	hashing			Hashing
 /// \brief		Utilities for generating (non-cryptographic) hashes.
 
-/// \defgroup	mem				Memory management
+/// \defgroup	memory			Memory management
 /// \brief		Utilities for allocating, destroying and manipulating memory.
+
+/// \defgroup	iterators		Iterators
+/// \brief		Utilities for working with iterators.
 
 /// \brief	The root namespace for all muu functions and types.
 namespace muu

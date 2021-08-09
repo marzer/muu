@@ -2,13 +2,13 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
+#pragma once
 
 // clang-format off
 
 /// \file
 /// \brief Compiler feature detection, attributes, string-makers, etc.
 
-#pragma once
 #ifndef __cplusplus
 	#error muu is a C++ library.
 #endif

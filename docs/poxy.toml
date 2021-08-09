@@ -2,7 +2,7 @@
 # https://github.com/marzer/poxy
 
 name                = 'muu'
-description         = 'Useful utilities for modern C++'
+description         = 'Miscellaneous useful utilities for C++'
 cpp                 = 17
 github              = 'marzer/muu'
 license             = [ 'MIT', 'https://github.com/marzer/muu/blob/master/LICENSE' ]

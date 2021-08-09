@@ -2424,42 +2424,47 @@ namespace muu
 			return end();
 		}
 
-		/// \brief Returns an iterator to the first scalar component in a vector (via ADL).
+		/// @}
+
+		/// \name Iterators (ADL)
+		/// @{
+
+		/// \brief Returns an iterator to the first scalar component in a vector.
 		MUU_PURE_INLINE_GETTER
 		friend constexpr iterator begin(vector& v) noexcept
 		{
 			return v.begin();
 		}
 
-		/// \brief Returns an iterator to the one-past-the-last scalar component in a vector (via ADL).
+		/// \brief Returns an iterator to the one-past-the-last scalar component in a vector.
 		MUU_PURE_INLINE_GETTER
 		friend constexpr iterator end(vector& v) noexcept
 		{
 			return v.end();
 		}
 
-		/// \brief Returns a const iterator to the first scalar component in a vector (via ADL).
+		/// \brief Returns a const iterator to the first scalar component in a vector.
 		MUU_PURE_INLINE_GETTER
 		friend constexpr const_iterator begin(const vector& v) noexcept
 		{
 			return v.begin();
 		}
 
-		/// \brief Returns a const iterator to the one-past-the-last scalar component in a vector (via ADL).
+		/// \brief Returns a const iterator to the one-past-the-last scalar component in a vector.
 		MUU_PURE_INLINE_GETTER
 		friend constexpr const_iterator end(const vector& v) noexcept
 		{
 			return v.end();
 		}
 
-		/// \brief Returns a const iterator to the first scalar component in a vector (via ADL).
+		/// \brief Returns a const iterator to the first scalar component in a vector.
 		MUU_PURE_INLINE_GETTER
 		friend constexpr const_iterator cbegin(const vector& v) noexcept
 		{
 			return v.begin();
 		}
 
-		/// \brief Returns a const iterator to the one-past-the-last scalar component in a vector (via ADL).
+		/// \brief Returns a const iterator to the one-past-the-last scalar component in a vector.
 		MUU_PURE_INLINE_GETTER
 		friend constexpr const_iterator cend(const vector& v) noexcept
 		{

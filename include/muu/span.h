@@ -2,14 +2,13 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
+#pragma once
 
 /// \file
 /// \brief  Contains the definition of muu::span.
 
-#pragma once
-#include "core.h"
 #include "compressed_pair.h"
-#include "impl/iterator_utils.h"
+#include "iterators.h"
 #include "impl/header_start.h"
 
 #ifdef DOXYGEN
@@ -24,7 +23,7 @@ namespace muu
 
 	/// \brief Indicates the number of elements covered by a span should be dynamically-determined at runtime.
 	///
-	/// \ingroup	mem
+	/// \ingroup	memory
 	inline constexpr size_t dynamic_extent = static_cast<size_t>(-1);
 	//(here just for doxygen; actually defined in fwd.h)
 
@@ -123,12 +122,7 @@ namespace muu
 	/// \tparam	T	  	The span's element type.
 	/// \tparam	Extent	The number of elements represented by the span.
 	/// 				Use muu::dynamic_extent for dynamically-sized spans.
-	template <typename T,
-			  size_t Extent
-#ifdef DOXYGEN
-			  = dynamic_extent
-#endif
-			  >
+	template <typename T, size_t Extent MUU_DOXYGEN_ONLY(= dynamic_extent)>
 	class span
 	{
 		static_assert(!std::is_reference_v<T>, "Spans cannot store references");
@@ -384,28 +378,33 @@ namespace muu
 			return reverse_iterator{ begin() };
 		}
 
-		/// \brief Returns an iterator to the beginning of a span (via ADL).
+		/// @}
+
+		/// \name Iterators (ADL)
+		/// @{
+
+		/// \brief Returns an iterator to the beginning of a span.
 		MUU_PURE_INLINE_GETTER
 		friend constexpr iterator begin(const span& s) noexcept
 		{
 			return s.begin();
 		}
 
-		/// \brief Returns an iterator to end of a span (via ADL).
+		/// \brief Returns an iterator to end of a span.
 		MUU_PURE_INLINE_GETTER
 		friend constexpr iterator end(const span& s) noexcept
 		{
 			return s.end();
 		}
 
-		/// \brief Returns a reverse iterator to the beginning of a span (via ADL).
+		/// \brief Returns a reverse iterator to the beginning of a span.
 		MUU_PURE_INLINE_GETTER
 		friend constexpr reverse_iterator rbegin(const span& s) noexcept
 		{
 			return s.rbegin();
 		}
 
-		/// \brief Returns a reverse iterator to the end of a span (via ADL).
+		/// \brief Returns a reverse iterator to the end of a span.
 		MUU_PURE_INLINE_GETTER
 		friend constexpr reverse_iterator rend(const span& s) noexcept
 		{
@@ -550,20 +549,20 @@ namespace muu
 	/// \endcond
 
 	/// \brief	Convenience alias for `span<const T>`.
-	/// \ingroup	mem
+	/// \ingroup	memory
 	template <typename T>
 	using const_span = span<const T>;
 
 	/// \brief	Convenience alias for `span<std::byte>`.
-	/// \ingroup	mem
+	/// \ingroup	memory
 	using byte_span = span<std::byte>;
 
 	/// \brief	Convenience alias for `span<const std::byte>`.
-	/// \ingroup	mem
+	/// \ingroup	memory
 	using const_byte_span = span<const std::byte>;
 
 	/// \brief	Reinterprets a span as an immutable view of the underlying bytes.
-	/// \ingroup	mem
+	/// \ingroup	memory
 	/// \relatesalso	muu::span
 	///
 	/// \details Equivalent to C++20's std::as_bytes.
@@ -582,7 +581,7 @@ namespace muu
 	}
 
 	/// \brief	Reinterprets a span as a view of the underlying bytes.
-	/// \ingroup	mem
+	/// \ingroup	memory
 	/// \relatesalso	muu::span
 	///
 	/// \details Equivalent to C++20's std::as_writable_bytes.

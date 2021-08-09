@@ -2,11 +2,11 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
+#pragma once
 
 /// \file
 /// \brief  Contains the definition of muu::string_param.
 
-#pragma once
 #include "impl/core_meta.h"
 
 MUU_DISABLE_WARNINGS;

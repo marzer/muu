@@ -2,7 +2,6 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
-
 #pragma once
 
 #define MUU_FOR_EACH_FORCE_UNROLL(x) x // without this msvc treats forwarded __VA_ARGS__ as a single token

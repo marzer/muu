@@ -524,5 +524,5 @@ muu_dep = declare_dependency(
 pkgc = import('pkgconfig')
 pkgc.generate(
 	name: meson.project_name(),
-	description: 'Miscellaneous useful utilities for modern C++'
+	description: 'Miscellaneous useful utilities for C++'
 )

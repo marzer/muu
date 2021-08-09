@@ -2,12 +2,14 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
+#pragma once
 
 /// \file
 /// \brief Functions to simplify working with strings.
 
-#pragma once
-#include "core.h"
+#include "impl/core_meta.h"
+#include "impl/core_bit.h"
+#include "impl/core_constants.h"
 #include "chars.h"
 #include "string_param.h"
 

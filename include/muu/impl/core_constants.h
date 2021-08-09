@@ -2,8 +2,8 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
-
 #pragma once
+
 #include "../fwd.h"
 #if MUU_GCC && MUU_HAS_FLOAT128
 	#pragma GCC system_header // float128 literals cause a warning in GCC that can't be silenced otherwise :(

@@ -2,8 +2,8 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
-
 #pragma once
+
 #include "../fwd.h"
 
 MUU_DISABLE_WARNINGS;
@@ -963,6 +963,20 @@ namespace muu
 		inline constexpr bool has_iterator_adl_funcs_<T, false> = false;
 
 		template <typename T>
+		struct is_bounded_array_ : std::false_type
+		{};
+		template <typename T, size_t N>
+		struct is_bounded_array_<T[N]> : std::true_type
+		{};
+
+		template <typename T>
+		struct is_unbounded_array_ : std::false_type
+		{};
+		template <typename T>
+		struct is_unbounded_array_<T[]> : std::true_type
+		{};
+
+		template <typename T>
 		using has_tuple_size_ = decltype(std::tuple_size<std::remove_cv_t<std::remove_reference_t<T>>>::value);
 		template <typename T>
 		using has_tuple_element_ = std::tuple_element_t<0, std::remove_cv_t<std::remove_reference_t<T>>>;
@@ -1615,12 +1629,26 @@ namespace muu
 	template <typename T>
 	inline constexpr bool has_post_decrement_operator = is_detected<impl::has_post_decrement_operator_, T>;
 
+	/// \brief Is a type an unbounded array (`T[]`), or reference to one?
+	/// \remark This is similar to C++20's std::is_unbounded_array.
+	template <typename T>
+	inline constexpr bool is_unbounded_array = impl::is_unbounded_array_<std::remove_reference_t<T>>::value;
+
+	/// \brief Is a type a bounded array (`T[N]`), or reference to one?
+	/// \remark This is similar to C++20's std::is_bounded_array.
+	template <typename T>
+	inline constexpr bool is_bounded_array = impl::is_bounded_array_<std::remove_reference_t<T>>::value;
+
+	/// \brief Is a type an array, or reference to one?
+	template <typename T>
+	inline constexpr bool is_array = is_unbounded_array<T> || is_bounded_array<T>;
+
 	/// \brief Returns true if a type has pair of `begin()` and `end()` iterator functions as members, in the std namespace, or found via ADL.
 	template <typename T>
 	inline constexpr bool is_iterable = impl::has_iterator_member_funcs_<T> //
 									 || impl::has_iterator_std_funcs_<T>	//
 									 || impl::has_iterator_adl_funcs_<T>	//
-									 || std::is_array_v<remove_cvref<T>>;
+									 || is_bounded_array<T>;
 
 	/// \brief Returns true if the type implements std::tuple_size and std::tuple_element.
 	template <typename T>

@@ -2,11 +2,11 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
+#pragma once
 
 /// \file
 /// \brief  Contains the definition of muu::bounding_box.
 
-#pragma once
 #include "impl/geometry_common.h"
 #include "impl/header_start.h"
 MUU_PRAGMA_MSVC(float_control(except, off))

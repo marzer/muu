@@ -169,7 +169,10 @@
     <ClInclude Include="include\muu\function_view.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\muu\impl\iterator_utils.h">
+    <ClInclude Include="include\muu\iterators.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\core_everything_except_type_list.h">
       <Filter>include\impl</Filter>
     </ClInclude>
   </ItemGroup>

@@ -2,8 +2,10 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
-
 #pragma once
+
+#include "core_build.h"
+#include "core_literals.h"
 #include "core_utils.h"
 
 MUU_DISABLE_WARNINGS;
