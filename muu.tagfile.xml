@@ -22,6 +22,7 @@
     <includes id="generic__allocator_8h" name="generic_allocator.h" local="yes" imported="no">generic_allocator.h</includes>
     <includes id="half_8h" name="half.h" local="yes" imported="no">half.h</includes>
     <includes id="hashing_8h" name="hashing.h" local="yes" imported="no">hashing.h</includes>
+    <includes id="iterators_8h" name="iterators.h" local="yes" imported="no">iterators.h</includes>
     <includes id="math_8h" name="math.h" local="yes" imported="no">math.h</includes>
     <includes id="matrix_8h" name="matrix.h" local="yes" imported="no">matrix.h</includes>
     <includes id="oriented__bounding__box_8h" name="oriented_bounding_box.h" local="yes" imported="no">oriented_bounding_box.h</includes>
@@ -147,7 +148,6 @@
   <compound kind="file">
     <name>half.h</name>
     <filename>half_8h.html</filename>
-    <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
     <includes id="math_8h" name="math.h" local="yes" imported="no">math.h</includes>
     <class kind="struct">muu::half</class>
     <class kind="struct">muu::constants&lt; half &gt;</class>
@@ -306,9 +306,34 @@
     <namespace>muu</namespace>
   </compound>
   <compound kind="file">
+    <name>iterators.h</name>
+    <filename>iterators_8h.html</filename>
+    <namespace>muu</namespace>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>begin_iterator</name>
+      <anchorfile>group__iterators.html</anchorfile>
+      <anchor>ga51289db4c35d5fb00c9a63be59911a08</anchor>
+      <arglist>(T &amp;&amp;iterable) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>end_iterator</name>
+      <anchorfile>group__iterators.html</anchorfile>
+      <anchor>gaa1738bf3c1eae5986fd53eafe6ad7c3e</anchor>
+      <arglist>(T &amp;&amp;iterable) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>iterator_distance</name>
+      <anchorfile>group__iterators.html</anchorfile>
+      <anchor>ga005a07ba4450155afd1ef02e317a9d9b</anchor>
+      <arglist>(B begin, E end) noexcept</arglist>
+    </member>
+  </compound>
+  <compound kind="file">
     <name>math.h</name>
     <filename>math_8h.html</filename>
-    <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
     <namespace>muu</namespace>
     <namespace>muu::build</namespace>
     <member kind="function">
@@ -1261,6 +1286,7 @@
   </compound>
   <compound kind="file">
     <name>oriented_bounding_box.h</name>
+    <path>/root/project/include/muu/</path>
     <filename>oriented__bounding__box_8h.html</filename>
     <class kind="struct">muu::oriented_bounding_box</class>
     <class kind="struct">std::tuple_size&lt; muu::oriented_bounding_box&lt; Scalar &gt; &gt;</class>
@@ -2027,7 +2053,6 @@
     <name>scope_guard.h</name>
     <path>/root/project/include/muu/</path>
     <filename>scope__guard_8h.html</filename>
-    <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
     <includes id="compressed__pair_8h" name="compressed_pair.h" local="yes" imported="no">compressed_pair.h</includes>
     <class kind="class">muu::scope_guard</class>
     <class kind="class">muu::scope_fail</class>
@@ -2038,49 +2063,49 @@
     <name>span.h</name>
     <path>/root/project/include/muu/</path>
     <filename>span_8h.html</filename>
-    <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
     <includes id="compressed__pair_8h" name="compressed_pair.h" local="yes" imported="no">compressed_pair.h</includes>
+    <includes id="iterators_8h" name="iterators.h" local="yes" imported="no">iterators.h</includes>
     <class kind="class">muu::span</class>
     <namespace>muu</namespace>
     <member kind="typedef">
       <type>span&lt; const T &gt;</type>
       <name>const_span</name>
-      <anchorfile>group__mem.html</anchorfile>
+      <anchorfile>group__memory.html</anchorfile>
       <anchor>ga9e0fc89cb7b1f651110f32365aba1790</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
       <type>span&lt; std::byte &gt;</type>
       <name>byte_span</name>
-      <anchorfile>group__mem.html</anchorfile>
+      <anchorfile>group__memory.html</anchorfile>
       <anchor>gae6d7d07e5320ddbc969461099bd00db0</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
       <type>span&lt; const std::byte &gt;</type>
       <name>const_byte_span</name>
-      <anchorfile>group__mem.html</anchorfile>
+      <anchorfile>group__memory.html</anchorfile>
       <anchor>gaefedbd706a97f094756e86befffcf178</anchor>
       <arglist></arglist>
     </member>
     <member kind="function">
       <type>span&lt; const std::byte, impl::as_bytes_extent&lt; T, N &gt; &gt;</type>
       <name>as_bytes</name>
-      <anchorfile>group__mem.html</anchorfile>
+      <anchorfile>group__memory.html</anchorfile>
       <anchor>gacaa08dc6422b5847e58a7c4ab9557362</anchor>
       <arglist>(span&lt; T, N &gt; s) noexcept</arglist>
     </member>
     <member kind="function">
       <type>span&lt; std::byte, impl::as_bytes_extent&lt; T, N &gt; &gt;</type>
       <name>as_writable_bytes</name>
-      <anchorfile>group__mem.html</anchorfile>
+      <anchorfile>group__memory.html</anchorfile>
       <anchor>gab6812fcab12e2e24abb7261d0f895fcb</anchor>
       <arglist>(span&lt; T, N &gt; s) noexcept</arglist>
     </member>
     <member kind="variable">
       <type>constexpr size_t</type>
       <name>dynamic_extent</name>
-      <anchorfile>group__mem.html</anchorfile>
+      <anchorfile>group__memory.html</anchorfile>
       <anchor>ga3cc0f4ca005186681123b33b6a754a36</anchor>
       <arglist></arglist>
     </member>
@@ -2096,7 +2121,6 @@
     <name>strings.h</name>
     <path>/root/project/include/muu/</path>
     <filename>strings_8h.html</filename>
-    <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
     <includes id="chars_8h" name="chars.h" local="yes" imported="no">chars.h</includes>
     <includes id="string__param_8h" name="string_param.h" local="yes" imported="no">string_param.h</includes>
     <namespace>muu</namespace>
@@ -2224,7 +2248,6 @@
     <name>tagged_ptr.h</name>
     <path>/root/project/include/muu/</path>
     <filename>tagged__ptr_8h.html</filename>
-    <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
     <class kind="class">muu::tagged_ptr</class>
     <namespace>muu</namespace>
   </compound>
@@ -2232,9 +2255,9 @@
     <name>thread_pool.h</name>
     <path>/root/project/include/muu/</path>
     <filename>thread__pool_8h.html</filename>
-    <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
     <includes id="generic__allocator_8h" name="generic_allocator.h" local="yes" imported="no">generic_allocator.h</includes>
     <includes id="string__param_8h" name="string_param.h" local="yes" imported="no">string_param.h</includes>
+    <includes id="iterators_8h" name="iterators.h" local="yes" imported="no">iterators.h</includes>
     <class kind="class">muu::thread_pool</class>
     <namespace>muu</namespace>
   </compound>
@@ -3891,6 +3914,90 @@
       <anchorfile>classmuu_1_1emplacement__array.html</anchorfile>
       <anchor>a9f7e09f01b0523011d102f9beeaea3b5</anchor>
       <arglist>() noexcept(std::is_nothrow_destructible_v&lt; T &gt;)</arglist>
+    </member>
+    <member kind="function">
+      <type>iterator</type>
+      <name>begin</name>
+      <anchorfile>classmuu_1_1emplacement__array.html</anchorfile>
+      <anchor>a6b2d20a544a18541bc7a42cc54cbfb0b</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>iterator</type>
+      <name>end</name>
+      <anchorfile>classmuu_1_1emplacement__array.html</anchorfile>
+      <anchor>a28b080d7f868c02c62594147017fcc07</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>const_iterator</type>
+      <name>begin</name>
+      <anchorfile>classmuu_1_1emplacement__array.html</anchorfile>
+      <anchor>a076ad46543e26a0853c675a255d2b93b</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>const_iterator</type>
+      <name>end</name>
+      <anchorfile>classmuu_1_1emplacement__array.html</anchorfile>
+      <anchor>ad05728216925fad0306831e2ab08a7fd</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>const_iterator</type>
+      <name>cbegin</name>
+      <anchorfile>classmuu_1_1emplacement__array.html</anchorfile>
+      <anchor>a4ebb159a53415dc51c94e891f574f8e7</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>const_iterator</type>
+      <name>cend</name>
+      <anchorfile>classmuu_1_1emplacement__array.html</anchorfile>
+      <anchor>a6064f88516ef2a0fb3ef27de85e5e39c</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend iterator</type>
+      <name>begin</name>
+      <anchorfile>classmuu_1_1emplacement__array.html</anchorfile>
+      <anchor>a6a6591f4cea29cb19019094aa0696294</anchor>
+      <arglist>(emplacement_array &amp;arr) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend iterator</type>
+      <name>end</name>
+      <anchorfile>classmuu_1_1emplacement__array.html</anchorfile>
+      <anchor>a953bce0bafa9c8d4fd738943d70273d4</anchor>
+      <arglist>(emplacement_array &amp;arr) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend const_iterator</type>
+      <name>begin</name>
+      <anchorfile>classmuu_1_1emplacement__array.html</anchorfile>
+      <anchor>aecaa151e2982c1b6f8d1accc18cffa21</anchor>
+      <arglist>(const emplacement_array &amp;arr) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend const_iterator</type>
+      <name>end</name>
+      <anchorfile>classmuu_1_1emplacement__array.html</anchorfile>
+      <anchor>a4d060f68272f32e1e1163e9c4c21c55c</anchor>
+      <arglist>(const emplacement_array &amp;arr) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend const_iterator</type>
+      <name>cbegin</name>
+      <anchorfile>classmuu_1_1emplacement__array.html</anchorfile>
+      <anchor>af6fc1a7e15acdd4a0087ac1c8c1a131f</anchor>
+      <arglist>(const emplacement_array &amp;arr) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend const_iterator</type>
+      <name>cend</name>
+      <anchorfile>classmuu_1_1emplacement__array.html</anchorfile>
+      <anchor>aa69e8b577ec61d6923d6ee5c68b8ffab</anchor>
+      <arglist>(const emplacement_array &amp;arr) noexcept</arglist>
     </member>
     <member kind="function">
       <type>iterator</type>
@@ -6467,6 +6574,34 @@
       <anchor>ae56bfb76dd7b371035d0f18a6c357121</anchor>
       <arglist>(size_t offset, size_t count=dynamic_extent) const noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr iterator</type>
+      <name>begin</name>
+      <anchorfile>classmuu_1_1span.html</anchorfile>
+      <anchor>ae35e9976ec1a3acfa41503078b6a53cb</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr iterator</type>
+      <name>end</name>
+      <anchorfile>classmuu_1_1span.html</anchorfile>
+      <anchor>a52f4378629db27673d633deb7c645de5</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr reverse_iterator</type>
+      <name>rbegin</name>
+      <anchorfile>classmuu_1_1span.html</anchorfile>
+      <anchor>a167648be83a620b370e89745e8adabc6</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr reverse_iterator</type>
+      <name>rend</name>
+      <anchorfile>classmuu_1_1span.html</anchorfile>
+      <anchor>a74aaa29a2581bf90ecfcf5f9ee70d8c6</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
     <member kind="variable" static="yes">
       <type>static constexpr size_t</type>
       <name>extent</name>
@@ -6474,17 +6609,45 @@
       <anchor>a98e1fe87f955719f40e1f20cc1b42e1a</anchor>
       <arglist></arglist>
     </member>
+    <member kind="friend">
+      <type>constexpr friend iterator</type>
+      <name>begin</name>
+      <anchorfile>classmuu_1_1span.html</anchorfile>
+      <anchor>a3317434d7057b280005cd9b5fcc87c5f</anchor>
+      <arglist>(const span &amp;s) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend iterator</type>
+      <name>end</name>
+      <anchorfile>classmuu_1_1span.html</anchorfile>
+      <anchor>a1693e47e3509f25e3e93a7e3ce11195b</anchor>
+      <arglist>(const span &amp;s) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend reverse_iterator</type>
+      <name>rbegin</name>
+      <anchorfile>classmuu_1_1span.html</anchorfile>
+      <anchor>af6d1387625f6f699a6003965741f28e0</anchor>
+      <arglist>(const span &amp;s) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend reverse_iterator</type>
+      <name>rend</name>
+      <anchorfile>classmuu_1_1span.html</anchorfile>
+      <anchor>af8581a3d03e16fae11b739a62c7410aa</anchor>
+      <arglist>(const span &amp;s) noexcept</arglist>
+    </member>
     <member kind="function">
       <type>span&lt; const std::byte, impl::as_bytes_extent&lt; T, N &gt; &gt;</type>
       <name>as_bytes</name>
-      <anchorfile>group__mem.html</anchorfile>
+      <anchorfile>group__memory.html</anchorfile>
       <anchor>gacaa08dc6422b5847e58a7c4ab9557362</anchor>
       <arglist>(span&lt; T, N &gt; s) noexcept</arglist>
     </member>
     <member kind="function">
       <type>span&lt; std::byte, impl::as_bytes_extent&lt; T, N &gt; &gt;</type>
       <name>as_writable_bytes</name>
-      <anchorfile>group__mem.html</anchorfile>
+      <anchorfile>group__memory.html</anchorfile>
       <anchor>gab6812fcab12e2e24abb7261d0f895fcb</anchor>
       <arglist>(span&lt; T, N &gt; s) noexcept</arglist>
     </member>
@@ -8029,6 +8192,48 @@
       <anchor>a904549bd751d72f8a2cc8781ff2ba53e</anchor>
       <arglist>() const noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a3154923b04ea04a932ff42786eed4f57</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a9198e267442a545ebb0d112dac7b2a0c</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const_iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a32412aa1e3b099208bf73cb8465d2981</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const_iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>ac63ba31b9822742901e481fec5f3c8dd</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const_iterator</type>
+      <name>cbegin</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a822727b7a2a55b7ce06e0f0a65f874ea</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const_iterator</type>
+      <name>cend</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>ae618ff7b03b4ea6f26d290c0f7af9108</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
       <name>zero</name>
@@ -8336,6 +8541,48 @@
       <anchorfile>structmuu_1_1vector.html</anchorfile>
       <anchor>a31bf388115e8fbe083aa056f5523bbbc</anchor>
       <arglist>(std::basic_ostream&lt; Char, Traits &gt; &amp;os, const vector &amp;v)</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a072ba2759b288b15963887d74fecd277</anchor>
+      <arglist>(vector &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>ab837a1246db560433337a3c1c24affee</anchor>
+      <arglist>(vector &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>ae423119e0bdfbbee72988f546a58d9fd</anchor>
+      <arglist>(const vector &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a10bc39751925224817204975587a5641</anchor>
+      <arglist>(const vector &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>cbegin</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>ab76b38d7c2d6406c434f8bb589c073ea</anchor>
+      <arglist>(const vector &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>cend</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a29fa2209bbaa1542881ab8293e680646</anchor>
+      <arglist>(const vector &amp;v) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -8718,21 +8965,21 @@
     <member kind="typedef">
       <type>span&lt; const T &gt;</type>
       <name>const_span</name>
-      <anchorfile>group__mem.html</anchorfile>
+      <anchorfile>group__memory.html</anchorfile>
       <anchor>ga9e0fc89cb7b1f651110f32365aba1790</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
       <type>span&lt; std::byte &gt;</type>
       <name>byte_span</name>
-      <anchorfile>group__mem.html</anchorfile>
+      <anchorfile>group__memory.html</anchorfile>
       <anchor>gae6d7d07e5320ddbc969461099bd00db0</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
       <type>span&lt; const std::byte &gt;</type>
       <name>const_byte_span</name>
-      <anchorfile>group__mem.html</anchorfile>
+      <anchorfile>group__memory.html</anchorfile>
       <anchor>gaefedbd706a97f094756e86befffcf178</anchor>
       <arglist></arglist>
     </member>
@@ -9154,6 +9401,27 @@
       <anchorfile>group__normalize__angle__signed.html</anchorfile>
       <anchor>ga7569b01664a740bf2ecc532e22c3b487</anchor>
       <arglist>(half x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>begin_iterator</name>
+      <anchorfile>group__iterators.html</anchorfile>
+      <anchor>ga51289db4c35d5fb00c9a63be59911a08</anchor>
+      <arglist>(T &amp;&amp;iterable) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>end_iterator</name>
+      <anchorfile>group__iterators.html</anchorfile>
+      <anchor>gaa1738bf3c1eae5986fd53eafe6ad7c3e</anchor>
+      <arglist>(T &amp;&amp;iterable) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>iterator_distance</name>
+      <anchorfile>group__iterators.html</anchorfile>
+      <anchor>ga005a07ba4450155afd1ef02e317a9d9b</anchor>
+      <arglist>(B begin, E end) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -10180,14 +10448,14 @@
     <member kind="function">
       <type>span&lt; const std::byte, impl::as_bytes_extent&lt; T, N &gt; &gt;</type>
       <name>as_bytes</name>
-      <anchorfile>group__mem.html</anchorfile>
+      <anchorfile>group__memory.html</anchorfile>
       <anchor>gacaa08dc6422b5847e58a7c4ab9557362</anchor>
       <arglist>(span&lt; T, N &gt; s) noexcept</arglist>
     </member>
     <member kind="function">
       <type>span&lt; std::byte, impl::as_bytes_extent&lt; T, N &gt; &gt;</type>
       <name>as_writable_bytes</name>
-      <anchorfile>group__mem.html</anchorfile>
+      <anchorfile>group__memory.html</anchorfile>
       <anchor>gab6812fcab12e2e24abb7261d0f895fcb</anchor>
       <arglist>(span&lt; T, N &gt; s) noexcept</arglist>
     </member>
@@ -12105,7 +12373,7 @@
     <member kind="variable">
       <type>constexpr size_t</type>
       <name>dynamic_extent</name>
-      <anchorfile>group__mem.html</anchorfile>
+      <anchorfile>group__memory.html</anchorfile>
       <anchor>ga3cc0f4ca005186681123b33b6a754a36</anchor>
       <arglist></arglist>
     </member>
@@ -12688,6 +12956,27 @@
       <name>has_post_decrement_operator</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gafd5fd93a0ed2590bdfb6c2f69bf1a5c6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_unbounded_array</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gab42aeb290d61ad20287ed2e8df10462b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_bounded_array</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gad0b97e37de851bc5aba414d527a4d0e1</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_array</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga7a9d2c42a55dd3a859e8cd1381dfc845</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -13358,6 +13647,32 @@
     <class kind="struct">std::hash&lt; muu::uuid &gt;</class>
   </compound>
   <compound kind="group">
+    <name>iterators</name>
+    <title>Iterators</title>
+    <filename>group__iterators.html</filename>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>begin_iterator</name>
+      <anchorfile>group__iterators.html</anchorfile>
+      <anchor>ga51289db4c35d5fb00c9a63be59911a08</anchor>
+      <arglist>(T &amp;&amp;iterable) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>end_iterator</name>
+      <anchorfile>group__iterators.html</anchorfile>
+      <anchor>gaa1738bf3c1eae5986fd53eafe6ad7c3e</anchor>
+      <arglist>(T &amp;&amp;iterable) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>iterator_distance</name>
+      <anchorfile>group__iterators.html</anchorfile>
+      <anchor>ga005a07ba4450155afd1ef02e317a9d9b</anchor>
+      <arglist>(B begin, E end) noexcept</arglist>
+    </member>
+  </compound>
+  <compound kind="group">
     <name>math</name>
     <title>Math</title>
     <filename>group__math.html</filename>
@@ -13404,65 +13719,64 @@
     </member>
   </compound>
   <compound kind="group">
-    <name>mem</name>
+    <name>memory</name>
     <title>Memory management</title>
-    <filename>group__mem.html</filename>
+    <filename>group__memory.html</filename>
     <class kind="class">muu::blob</class>
     <class kind="struct">muu::generic_allocator</class>
-    <class kind="class">muu::span</class>
     <member kind="typedef">
       <type>span&lt; const T &gt;</type>
       <name>const_span</name>
-      <anchorfile>group__mem.html</anchorfile>
+      <anchorfile>group__memory.html</anchorfile>
       <anchor>ga9e0fc89cb7b1f651110f32365aba1790</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
       <type>span&lt; std::byte &gt;</type>
       <name>byte_span</name>
-      <anchorfile>group__mem.html</anchorfile>
+      <anchorfile>group__memory.html</anchorfile>
       <anchor>gae6d7d07e5320ddbc969461099bd00db0</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
       <type>span&lt; const std::byte &gt;</type>
       <name>const_byte_span</name>
-      <anchorfile>group__mem.html</anchorfile>
+      <anchorfile>group__memory.html</anchorfile>
       <anchor>gaefedbd706a97f094756e86befffcf178</anchor>
       <arglist></arglist>
     </member>
     <member kind="function">
       <type>span&lt; const std::byte, impl::as_bytes_extent&lt; T, N &gt; &gt;</type>
       <name>as_bytes</name>
-      <anchorfile>group__mem.html</anchorfile>
+      <anchorfile>group__memory.html</anchorfile>
       <anchor>gacaa08dc6422b5847e58a7c4ab9557362</anchor>
       <arglist>(span&lt; T, N &gt; s) noexcept</arglist>
     </member>
     <member kind="function">
       <type>span&lt; std::byte, impl::as_bytes_extent&lt; T, N &gt; &gt;</type>
       <name>as_writable_bytes</name>
-      <anchorfile>group__mem.html</anchorfile>
+      <anchorfile>group__memory.html</anchorfile>
       <anchor>gab6812fcab12e2e24abb7261d0f895fcb</anchor>
       <arglist>(span&lt; T, N &gt; s) noexcept</arglist>
     </member>
     <member kind="function">
       <type>span&lt; const std::byte, impl::as_bytes_extent&lt; T, N &gt; &gt;</type>
       <name>as_bytes</name>
-      <anchorfile>group__mem.html</anchorfile>
+      <anchorfile>group__memory.html</anchorfile>
       <anchor>gacaa08dc6422b5847e58a7c4ab9557362</anchor>
       <arglist>(span&lt; T, N &gt; s) noexcept</arglist>
     </member>
     <member kind="function">
       <type>span&lt; std::byte, impl::as_bytes_extent&lt; T, N &gt; &gt;</type>
       <name>as_writable_bytes</name>
-      <anchorfile>group__mem.html</anchorfile>
+      <anchorfile>group__memory.html</anchorfile>
       <anchor>gab6812fcab12e2e24abb7261d0f895fcb</anchor>
       <arglist>(span&lt; T, N &gt; s) noexcept</arglist>
     </member>
     <member kind="variable">
       <type>constexpr size_t</type>
       <name>dynamic_extent</name>
-      <anchorfile>group__mem.html</anchorfile>
+      <anchorfile>group__memory.html</anchorfile>
       <anchor>ga3cc0f4ca005186681123b33b6a754a36</anchor>
       <arglist></arglist>
     </member>
@@ -14296,6 +14610,27 @@
       <name>has_post_decrement_operator</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gafd5fd93a0ed2590bdfb6c2f69bf1a5c6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_unbounded_array</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gab42aeb290d61ad20287ed2e8df10462b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_bounded_array</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gad0b97e37de851bc5aba414d527a4d0e1</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_array</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga7a9d2c42a55dd3a859e8cd1381dfc845</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">

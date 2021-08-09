@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu::emplacement_array class | muu Useful utilities for modern C++</title>
+  <title>muu::emplacement_array class | muu Miscellaneous useful utilities for C++</title>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
   <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
   <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
@@ -10,10 +10,10 @@
   <meta content="muu" name="twitter:title"/>
   <meta content="muu" property="og:title"/>
   <meta content="muu" itemprop="name"/>
-  <meta content="Useful utilities for modern C++" name="description"/>
-  <meta content="Useful utilities for modern C++" name="twitter:description"/>
-  <meta content="Useful utilities for modern C++" property="og:description"/>
-  <meta content="Useful utilities for modern C++" itemprop="description"/>
+  <meta content="Miscellaneous useful utilities for C++" name="description"/>
+  <meta content="Miscellaneous useful utilities for C++" name="twitter:description"/>
+  <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
+  <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
   <meta content="Poxy v0.4.5" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
@@ -25,7 +25,7 @@
 <header><nav id="navigation">
   <div class="m-container">
     <div class="m-row">
-      <a class="m-col-t-8 m-col-m-none m-left-m" href="index.html" id="m-navbar-brand"><img alt="" src="logo.png"/>muu <span class="m-thin">Useful utilities for modern C++</span></a>
+      <a class="m-col-t-8 m-col-m-none m-left-m" href="index.html" id="m-navbar-brand"><img alt="" src="logo.png"/>muu <span class="m-thin">Miscellaneous useful utilities for C++</span></a>
       <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
         <a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
           <path d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z" id="m-doc-search-icon-path"></path>
@@ -83,6 +83,7 @@
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
                 <li><a href="#iterators">Iterators</a></li>
+                <li><a href="#iterators-adl">Iterators (ADL)</a></li>
               </ul>
             </li>
           </ul>
@@ -219,51 +220,56 @@
             <dt id="a6b2d20a544a18541bc7a42cc54cbfb0b">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a6b2d20a544a18541bc7a42cc54cbfb0b">begin</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#aca6916f99eacaa2a8b591acb4b544422">iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a pointer to the first element in the array.</dd>
+            <dd>Returns an iterator to the first element in the array.</dd>
             <dt id="a076ad46543e26a0853c675a255d2b93b">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a076ad46543e26a0853c675a255d2b93b">begin</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#a83640e103d5cf6c615b0e124d266ab1b">const_<wbr/>iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a const pointer to the first element in the array.</dd>
+            <dd>Returns a const_iterator to the first element in the array.</dd>
             <dt id="a4ebb159a53415dc51c94e891f574f8e7">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a4ebb159a53415dc51c94e891f574f8e7">cbegin</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#a83640e103d5cf6c615b0e124d266ab1b">const_<wbr/>iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a const pointer to the first element in the array.</dd>
+            <dd>Returns a const_iterator to the first element in the array.</dd>
             <dt id="a6064f88516ef2a0fb3ef27de85e5e39c">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a6064f88516ef2a0fb3ef27de85e5e39c">cend</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#a83640e103d5cf6c615b0e124d266ab1b">const_<wbr/>iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a const pointer to one-past-the-last element in the array.</dd>
+            <dd>Returns a const_iterator to one-past-the-last element in the array.</dd>
             <dt id="a28b080d7f868c02c62594147017fcc07">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a28b080d7f868c02c62594147017fcc07">end</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#aca6916f99eacaa2a8b591acb4b544422">iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a pointer to one-past-the-last element in the array.</dd>
+            <dd>Returns an iterator to one-past-the-last element in the array.</dd>
             <dt id="ad05728216925fad0306831e2ab08a7fd">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad05728216925fad0306831e2ab08a7fd">end</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#a83640e103d5cf6c615b0e124d266ab1b">const_<wbr/>iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a const pointer to one-past-the-last element in the array.</dd>
+            <dd>Returns a const_iterator to one-past-the-last element in the array.</dd>
+          </dl>
+        </section>
+        <section id="iterators-adl">
+          <h2><a href="#iterators-adl">Iterators (ADL)</a></h2>
+          <dl class="m-doc">
             <dt id="a6a6591f4cea29cb19019094aa0696294">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a6a6591f4cea29cb19019094aa0696294">begin</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1emplacement__array.html">emplacement_<wbr/>array</a>&amp; arr) -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#aca6916f99eacaa2a8b591acb4b544422">iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a pointer to the first element in the array (via ADL).</dd>
+            <dd>Returns an iterator to the first element in the array.</dd>
             <dt id="aecaa151e2982c1b6f8d1accc18cffa21">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aecaa151e2982c1b6f8d1accc18cffa21">begin</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1emplacement__array.html">emplacement_<wbr/>array</a>&amp; arr) -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#a83640e103d5cf6c615b0e124d266ab1b">const_<wbr/>iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a const pointer to the first element in the array (via ADL).</dd>
+            <dd>Returns a const_iterator to the first element in the array.</dd>
             <dt id="af6fc1a7e15acdd4a0087ac1c8c1a131f">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af6fc1a7e15acdd4a0087ac1c8c1a131f">cbegin</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1emplacement__array.html">emplacement_<wbr/>array</a>&amp; arr) -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#a83640e103d5cf6c615b0e124d266ab1b">const_<wbr/>iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a const pointer to the first element in the array (via ADL).</dd>
+            <dd>Returns a const_iterator to the first element in the array.</dd>
             <dt id="aa69e8b577ec61d6923d6ee5c68b8ffab">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa69e8b577ec61d6923d6ee5c68b8ffab">cend</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1emplacement__array.html">emplacement_<wbr/>array</a>&amp; arr) -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#a83640e103d5cf6c615b0e124d266ab1b">const_<wbr/>iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a const pointer to one-past-the-last element in the array (via ADL).</dd>
+            <dd>Returns a const_iterator to one-past-the-last element in the array.</dd>
             <dt id="a953bce0bafa9c8d4fd738943d70273d4">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a953bce0bafa9c8d4fd738943d70273d4">end</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1emplacement__array.html">emplacement_<wbr/>array</a>&amp; arr) -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#aca6916f99eacaa2a8b591acb4b544422">iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a pointer to one-past-the-last element in the array (via ADL).</dd>
+            <dd>Returns an iterator to one-past-the-last element in the array.</dd>
             <dt id="a4d060f68272f32e1e1163e9c4c21c55c">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a4d060f68272f32e1e1163e9c4c21c55c">end</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1emplacement__array.html">emplacement_<wbr/>array</a>&amp; arr) -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#a83640e103d5cf6c615b0e124d266ab1b">const_<wbr/>iterator</a> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a const pointer to one-past-the-last element in the array (via ADL).</dd>
+            <dd>Returns a const_iterator to one-past-the-last element in the array.</dd>
           </dl>
         </section>
         <section>

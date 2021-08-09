@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu::span class | muu Useful utilities for modern C++</title>
+  <title>muu::span class | muu Miscellaneous useful utilities for C++</title>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
   <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
   <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
@@ -10,10 +10,10 @@
   <meta content="muu" name="twitter:title"/>
   <meta content="muu" property="og:title"/>
   <meta content="muu" itemprop="name"/>
-  <meta content="Useful utilities for modern C++" name="description"/>
-  <meta content="Useful utilities for modern C++" name="twitter:description"/>
-  <meta content="Useful utilities for modern C++" property="og:description"/>
-  <meta content="Useful utilities for modern C++" itemprop="description"/>
+  <meta content="Miscellaneous useful utilities for C++" name="description"/>
+  <meta content="Miscellaneous useful utilities for C++" name="twitter:description"/>
+  <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
+  <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
   <meta content="Poxy v0.4.5" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
@@ -25,7 +25,7 @@
 <header><nav id="navigation">
   <div class="m-container">
     <div class="m-row">
-      <a class="m-col-t-8 m-col-m-none m-left-m" href="index.html" id="m-navbar-brand"><img alt="" src="logo.png"/>muu <span class="m-thin">Useful utilities for modern C++</span></a>
+      <a class="m-col-t-8 m-col-m-none m-left-m" href="index.html" id="m-navbar-brand"><img alt="" src="logo.png"/>muu <span class="m-thin">Miscellaneous useful utilities for C++</span></a>
       <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
         <a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
           <path d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z" id="m-doc-search-icon-path"></path>
@@ -58,7 +58,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="span_8h.html">&lt;muu/span.h&gt;</a></div>
-          <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Extent = <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>&gt;</div>
+          <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Extent = <a class="m-doc" href="group__memory.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>&gt;</div>
           <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>span <span class="m-thin">class</span>
         </h1>
         <p>A non-owning view of contiguous elements.</p>
@@ -73,7 +73,7 @@
             </tr>
             <tr>
               <td>Extent</td>
-              <td>The number of elements represented by the span. Use <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">muu::<wbr/>dynamic_extent</a> for dynamically-sized spans.</td>
+              <td>The number of elements represented by the span. Use <a class="m-doc" href="group__memory.html#ga3cc0f4ca005186681123b33b6a754a36">muu::<wbr/>dynamic_extent</a> for dynamically-sized spans.</td>
             </tr>
           </tbody>
         </table>
@@ -88,6 +88,7 @@
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
                 <li><a href="#iterators">Iterators</a></li>
+                <li><a href="#iterators-adl">Iterators (ADL)</a></li>
                 <li><a href="#related">Related</a></li>
               </ul>
             </li>
@@ -144,7 +145,7 @@
           <dl class="m-doc">
             <dt id="a98e1fe87f955719f40e1f20cc1b42e1a"> static <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#a98e1fe87f955719f40e1f20cc1b42e1a">extent</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>The number of elements in the span, or <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">muu::<wbr/>dynamic_extent</a>.</dd>
+            <dd>The number of elements in the span, or <a class="m-doc" href="group__memory.html#ga3cc0f4ca005186681123b33b6a754a36">muu::<wbr/>dynamic_extent</a>.</dd>
           </dl>
         </section>
         <section id="typeless-methods">
@@ -246,13 +247,13 @@
             </dt>
             <dd>Returns the total size of the elements covered by the span in bytes.</dd>
             <dt id="a262d1958d13b5e64ad99dabdd3769f2d">
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Offset, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Count = <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>&gt;</div>
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Offset, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Count = <a class="m-doc" href="group__memory.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a262d1958d13b5e64ad99dabdd3769f2d">subspan</a>(</span><span class="m-doc-wrap">) const -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns an arbitrary subspan.</dd>
             <dt id="ae56bfb76dd7b371035d0f18a6c357121">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ae56bfb76dd7b371035d0f18a6c357121">subspan</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> offset,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count = <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>) const -&gt; <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc" href="classmuu_1_1span.html#ac92b58600d3f008c78cdddd953fdf62d">element_<wbr/>type</a>&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count = <a class="m-doc" href="group__memory.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>) const -&gt; <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc" href="classmuu_1_1span.html#ac92b58600d3f008c78cdddd953fdf62d">element_<wbr/>type</a>&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns an arbitrary subspan.</dd>
           </dl>
@@ -276,22 +277,27 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a74aaa29a2581bf90ecfcf5f9ee70d8c6">rend</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1span.html#af594aec84276bdb24a26ab33fdd3f5e3">reverse_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a reverse iterator to the end of the span.</dd>
+          </dl>
+        </section>
+        <section id="iterators-adl">
+          <h2><a href="#iterators-adl">Iterators (ADL)</a></h2>
+          <dl class="m-doc">
             <dt id="a3317434d7057b280005cd9b5fcc87c5f">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a3317434d7057b280005cd9b5fcc87c5f">begin</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1span.html">span</a>&amp; s) -&gt; friend <a class="m-doc" href="classmuu_1_1span.html#ae35fb784f6a296753c0c2ca136eef2e7">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns an iterator to the beginning of a span (via ADL).</dd>
+            <dd>Returns an iterator to the beginning of a span.</dd>
             <dt id="a1693e47e3509f25e3e93a7e3ce11195b">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a1693e47e3509f25e3e93a7e3ce11195b">end</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1span.html">span</a>&amp; s) -&gt; friend <a class="m-doc" href="classmuu_1_1span.html#ae35fb784f6a296753c0c2ca136eef2e7">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns an iterator to end of a span (via ADL).</dd>
+            <dd>Returns an iterator to end of a span.</dd>
             <dt id="af6d1387625f6f699a6003965741f28e0">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af6d1387625f6f699a6003965741f28e0">rbegin</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1span.html">span</a>&amp; s) -&gt; friend <a class="m-doc" href="classmuu_1_1span.html#af594aec84276bdb24a26ab33fdd3f5e3">reverse_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a reverse iterator to the beginning of a span (via ADL).</dd>
+            <dd>Returns a reverse iterator to the beginning of a span.</dd>
             <dt id="af8581a3d03e16fae11b739a62c7410aa">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af8581a3d03e16fae11b739a62c7410aa">rend</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1span.html">span</a>&amp; s) -&gt; friend <a class="m-doc" href="classmuu_1_1span.html#af594aec84276bdb24a26ab33fdd3f5e3">reverse_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a reverse iterator to the end of a span (via ADL).</dd>
+            <dd>Returns a reverse iterator to the end of a span.</dd>
           </dl>
         </section>
         <section id="related">
@@ -299,12 +305,12 @@
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__mem.html#gacaa08dc6422b5847e58a7c4ab9557362">as_bytes</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;T, N&gt; s) -&gt; <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;const <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>, impl::as_bytes_extent&lt;T, N&gt;&gt; <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__memory.html#gacaa08dc6422b5847e58a7c4ab9557362">as_bytes</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;T, N&gt; s) -&gt; <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;const <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>, impl::as_bytes_extent&lt;T, N&gt;&gt; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Reinterprets a span as an immutable view of the underlying bytes.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__mem.html#gab6812fcab12e2e24abb7261d0f895fcb">as_writable_bytes</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;T, N&gt; s) -&gt; <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>, impl::as_bytes_extent&lt;T, N&gt;&gt; <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__memory.html#gab6812fcab12e2e24abb7261d0f895fcb">as_writable_bytes</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;T, N&gt; s) -&gt; <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>, impl::as_bytes_extent&lt;T, N&gt;&gt; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Reinterprets a span as a view of the underlying bytes.</dd>
           </dl>
@@ -329,7 +335,7 @@ template&lt;typename It&gt;
               <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Constructs a span from a contiguous iterator and an element count.</p>
-<aside class="m-note m-info"><h4>Note</h4><p>This constructor is <code>explicit</code> when <a class="m-doc" href="classmuu_1_1span.html#a98e1fe87f955719f40e1f20cc1b42e1a">extent</a> != <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>.</p></aside>
+<aside class="m-note m-info"><h4>Note</h4><p>This constructor is <code>explicit</code> when <a class="m-doc" href="classmuu_1_1span.html#a98e1fe87f955719f40e1f20cc1b42e1a">extent</a> != <a class="m-doc" href="group__memory.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="aba4ea951565d50e0d3aac8d1eee08e10"><div>
             <h3>
@@ -340,7 +346,7 @@ template&lt;typename It, typename End&gt;
               End last) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept(…)</span></span></span>
             </h3>
             <p>Constructs a span from a pair of contiguous iterators.</p>
-<aside class="m-note m-info"><h4>Note</h4><p>This constructor is <code>explicit</code> when <a class="m-doc" href="classmuu_1_1span.html#a98e1fe87f955719f40e1f20cc1b42e1a">extent</a> != <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>.</p></aside>
+<aside class="m-note m-info"><h4>Note</h4><p>This constructor is <code>explicit</code> when <a class="m-doc" href="classmuu_1_1span.html#a98e1fe87f955719f40e1f20cc1b42e1a">extent</a> != <a class="m-doc" href="group__memory.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a734ebde437bf4f428d31ed4480e13b03"><div>
             <h3>
@@ -349,7 +355,7 @@ template&lt;typename It, typename End&gt;
               <span class="m-doc-wrap-bumper"> muu::<wbr/>span&lt;T, Extent&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a734ebde437bf4f428d31ed4480e13b03">span</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;U, E&gt;&amp; s) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Constructs a span from another span.</p>
-<aside class="m-note m-info"><h4>Note</h4><p>This constructor is <code>explicit</code> when <a class="m-doc" href="classmuu_1_1span.html#a98e1fe87f955719f40e1f20cc1b42e1a">extent</a> != <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a> &amp;&amp; E == <a class="m-doc" href="group__mem.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>.</p></aside>
+<aside class="m-note m-info"><h4>Note</h4><p>This constructor is <code>explicit</code> when <a class="m-doc" href="classmuu_1_1span.html#a98e1fe87f955719f40e1f20cc1b42e1a">extent</a> != <a class="m-doc" href="group__memory.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a> &amp;&amp; E == <a class="m-doc" href="group__memory.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>.</p></aside>
           </div></section>
         </section>
       </div>

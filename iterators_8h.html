@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu/oriented_bounding_box.h file | muu Miscellaneous useful utilities for C++</title>
+  <title>muu/iterators.h file | muu Miscellaneous useful utilities for C++</title>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
   <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
   <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
@@ -57,9 +57,9 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span><a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>.h <span class="m-thin">file</span>
+          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span>iterators.h <span class="m-thin">file</span>
         </h1>
-        <p>Contains the definition of <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">muu::<wbr/>oriented_bounding_box</a>.</p>
+        <p>Utilities for working with iterators.</p>
         <div class="m-block m-default poxy-toc">
           <h3>Contents</h3>
           <ul>
@@ -67,7 +67,6 @@
               Reference
               <ul>
                 <li><a href="#namespaces">Namespaces</a></li>
-                <li><a href="#nested-classes">Classes</a></li>
                 <li><a href="#func-members">Functions</a></li>
               </ul>
             </li>
@@ -80,47 +79,25 @@
             <dd>The root namespace for all muu functions and types.</dd>
           </dl>
         </section>
-        <section id="nested-classes">
-          <h2><a href="#nested-classes">Classes</a></h2>
-          <dl class="m-doc">
-            <dt>
-              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">muu::oriented_bounding_box</a>
-            </dt>
-            <dd>An oriented bounding box.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
-              struct <a class="m-doc" href="structstd_1_1tuple__size_3_01muu_1_1oriented__bounding__box_3_01_scalar_01_4_01_4.html">std::tuple_size&lt;muu::oriented_bounding_box&lt;Scalar&gt;&gt;</a>
-            </dt>
-            <dd>Specialization of <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a> for <a class="m-doc" href="structmuu_1_1bounding__box.html">muu::<wbr/>bounding_box</a>.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/size_t.html" target="_blank">size_<wbr/>t</a> I, typename Scalar&gt;</div>
-              struct <a class="m-doc" href="structstd_1_1tuple__element_3_01_i_00_01muu_1_1oriented__bounding__box_3_01_scalar_01_4_01_4.html">std::tuple_element&lt;I, muu::oriented_bounding_box&lt;Scalar&gt;&gt;</a>
-            </dt>
-            <dd>Specialization of <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_element" target="_blank">std::tuple_element</a> for <a class="m-doc" href="structmuu_1_1bounding__box.html">muu::<wbr/>bounding_box</a>.</dd>
-          </dl>
-        </section>
         <section id="func-members">
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga44033f904b7ed733949dab5e6acccd16">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>&lt;S&gt;&amp; q1,
-              const <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>&lt;T&gt;&amp; q2,
-              epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__iterators.html#ga51289db4c35d5fb00c9a63be59911a08">begin_iterator</a>(</span><span class="m-doc-wrap">T&amp;&amp; iterable) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if two oriented bounding boxes are approximately equal.</dd>
+            <dd>Returns the 'begin' iterator of an iterable object.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga4c274a76495695493647b4e0b7af1299">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>&lt;S&gt;&amp; q,
-              S epsilon = default_epsilon&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__iterators.html#gaa1738bf3c1eae5986fd53eafe6ad7c3e">end_iterator</a>(</span><span class="m-doc-wrap">T&amp;&amp; iterable) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if all the scalar components of an <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a> are approximately equal to zero.</dd>
+            <dd>Returns the 'end' iterator of an iterable object.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gade7f3e7d056853c9e542ec453394a9c4">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>&lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename B, typename E&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__iterators.html#ga005a07ba4450155afd1ef02e317a9d9b">iterator_distance</a>(</span><span class="m-doc-wrap">B begin,
+              E end) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if any of the scalar components of an <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a> are infinity or NaN.</dd>
+            <dd>Returns the distance between two iterators.</dd>
           </dl>
         </section>
       </div>
