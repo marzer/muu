@@ -334,6 +334,7 @@
   <compound kind="file">
     <name>math.h</name>
     <filename>math_8h.html</filename>
+    <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
     <namespace>muu</namespace>
     <namespace>muu::build</namespace>
     <member kind="function">
@@ -2248,6 +2249,7 @@
     <name>tagged_ptr.h</name>
     <path>/root/project/include/muu/</path>
     <filename>tagged__ptr_8h.html</filename>
+    <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
     <class kind="class">muu::tagged_ptr</class>
     <namespace>muu</namespace>
   </compound>
@@ -2255,6 +2257,7 @@
     <name>thread_pool.h</name>
     <path>/root/project/include/muu/</path>
     <filename>thread__pool_8h.html</filename>
+    <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
     <includes id="generic__allocator_8h" name="generic_allocator.h" local="yes" imported="no">generic_allocator.h</includes>
     <includes id="string__param_8h" name="string_param.h" local="yes" imported="no">string_param.h</includes>
     <includes id="iterators_8h" name="iterators.h" local="yes" imported="no">iterators.h</includes>
@@ -8913,6 +8916,7 @@
     <class kind="class">muu::string_param</class>
     <class kind="class">muu::tagged_ptr</class>
     <class kind="class">muu::thread_pool</class>
+    <class kind="struct">muu::type_list</class>
     <class kind="struct">muu::uuid</class>
     <class kind="struct">muu::constants&lt; uuid &gt;</class>
     <class kind="struct">muu::vector</class>
@@ -8940,7 +8944,6 @@
     <class kind="struct">muu::constants&lt; unsigned long long &gt;</class>
     <class kind="struct">muu::constants&lt; int128_t &gt;</class>
     <class kind="struct">muu::constants&lt; uint128_t &gt;</class>
-    <class kind="struct">muu::type_list</class>
     <member kind="typedef">
       <type>__int128_t</type>
       <name>int128_t</name>
@@ -8984,6 +8987,13 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
+      <type>type_list&lt; T &gt;</type>
+      <name>type_tag</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga90483ba1ebb9236ec76a1e5c3a0d9bdb</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
       <type>std::remove_cv_t&lt; std::remove_reference_t&lt; T &gt; &gt;</type>
       <name>remove_cvref</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -8995,6 +9005,20 @@
       <name>remove_enum</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga4f0f94bba132e44d22663319f05d2ea8</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>typename impl::remove_lvalue_reference_&lt; T &gt;::type</type>
+      <name>remove_lvalue_reference</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga13a69e455c20f67fc73394a02831e8d3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>typename impl::remove_rvalue_reference_&lt; T &gt;::type</type>
+      <name>remove_rvalue_reference</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga82a7eca9ca8f07f6779eff47f45d5a80</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -9054,10 +9078,10 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>set_const&lt; T, is_const&lt; MatchWith &gt; &gt;</type>
-      <name>match_const</name>
+      <type>set_const&lt; T, is_const&lt; CopyFrom &gt; &gt;</type>
+      <name>copy_const</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga7f199f436b29ee4f17d93f06ff3af691</anchor>
+      <anchor>ga3e944d0a62580bb16190d18a7a50e854</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -9089,10 +9113,10 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>set_volatile&lt; T, is_volatile&lt; MatchWith &gt; &gt;</type>
-      <name>match_volatile</name>
+      <type>set_volatile&lt; T, is_volatile&lt; CopyFrom &gt; &gt;</type>
+      <name>copy_volatile</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaee2c9dcc0f981214aa7ee3faec5a2ff8</anchor>
+      <anchor>gafdebb5c32611e098bd4074c6393ad55d</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -9124,10 +9148,10 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>match_const&lt; match_volatile&lt; T, MatchWith &gt;, MatchWith &gt;</type>
-      <name>match_cv</name>
+      <type>copy_const&lt; copy_volatile&lt; T, CopyFrom &gt;, CopyFrom &gt;</type>
+      <name>copy_cv</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga3ebb8edda949ae4da9d7c4d0293efeb9</anchor>
+      <anchor>ga13aaa81d66b143ecb5d837c8c0041d18</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -9166,10 +9190,24 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
+      <type>set_signed&lt; T, is_signed&lt; CopyFrom &gt; &gt;</type>
+      <name>copy_signed</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gac5e348d0385db539de78faa96895dba9</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
       <type>std::conditional_t&lt; Unsigned, make_unsigned&lt; T &gt;, make_signed&lt; T &gt; &gt;</type>
       <name>set_unsigned</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga53618440cb88b6a660781cd80eff06cb</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>set_unsigned&lt; T, is_unsigned&lt; CopyFrom &gt; &gt;</type>
+      <name>copy_unsigned</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaa51e86e5712ddee88175a905c427ff62</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -9201,6 +9239,27 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
+      <type>std::conditional_t&lt; impl::is_small_float_&lt; T &gt;, typename impl::rebase_ref_&lt; T, copy_cv&lt; float, T &gt; &gt;::type, T &gt;</type>
+      <name>promote_if_small_float</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga0a3f15c5886ad6189103d5705db8e37c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>std::conditional_t&lt; impl::is_large_float_&lt; T &gt;, typename impl::rebase_ref_&lt; T, copy_cv&lt; long double, T &gt; &gt;::type, T &gt;</type>
+      <name>demote_if_large_float</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga588efdcdebc69e38cb6353d8462d59ff</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>demote_if_large_float&lt; promote_if_small_float&lt; T &gt; &gt;</type>
+      <name>clamp_to_standard_float</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gae07552fde8149d1a8a6c93971edbbd86</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
       <type>impl::std_math_common_type&lt; remove_cvref&lt; T &gt;... &gt;</type>
       <name>epsilon_type</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -9212,13 +9271,6 @@
       <name>index_tag</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga6ca7fed60fe86574dd8bedf3b3332431</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>type_list&lt; T &gt;</type>
-      <name>type_tag</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga90483ba1ebb9236ec76a1e5c3a0d9bdb</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
@@ -12777,6 +12829,27 @@
       <arglist></arglist>
     </member>
     <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_unbounded_array</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gab42aeb290d61ad20287ed2e8df10462b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_bounded_array</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gad0b97e37de851bc5aba414d527a4d0e1</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_array</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga7a9d2c42a55dd3a859e8cd1381dfc845</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
       <type>constexpr auto</type>
       <name>is_detected</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -12960,23 +13033,16 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
-      <name>is_unbounded_array</name>
+      <name>has_data_member_function</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gab42aeb290d61ad20287ed2e8df10462b</anchor>
+      <anchor>gaf10843e1090d5460710e8a864f8313a9</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
-      <name>is_bounded_array</name>
+      <name>has_size_member_function</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gad0b97e37de851bc5aba414d527a4d0e1</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_array</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga7a9d2c42a55dd3a859e8cd1381dfc845</anchor>
+      <anchor>ga7dec2ef3cbf5f6ec0adaba4b0bc59887</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -13787,6 +13853,13 @@
     <filename>group__meta.html</filename>
     <class kind="struct">muu::type_list</class>
     <member kind="typedef">
+      <type>type_list&lt; T &gt;</type>
+      <name>type_tag</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga90483ba1ebb9236ec76a1e5c3a0d9bdb</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
       <type>std::remove_cv_t&lt; std::remove_reference_t&lt; T &gt; &gt;</type>
       <name>remove_cvref</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -13798,6 +13871,20 @@
       <name>remove_enum</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga4f0f94bba132e44d22663319f05d2ea8</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>typename impl::remove_lvalue_reference_&lt; T &gt;::type</type>
+      <name>remove_lvalue_reference</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga13a69e455c20f67fc73394a02831e8d3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>typename impl::remove_rvalue_reference_&lt; T &gt;::type</type>
+      <name>remove_rvalue_reference</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga82a7eca9ca8f07f6779eff47f45d5a80</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -13857,10 +13944,10 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>set_const&lt; T, is_const&lt; MatchWith &gt; &gt;</type>
-      <name>match_const</name>
+      <type>set_const&lt; T, is_const&lt; CopyFrom &gt; &gt;</type>
+      <name>copy_const</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga7f199f436b29ee4f17d93f06ff3af691</anchor>
+      <anchor>ga3e944d0a62580bb16190d18a7a50e854</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -13892,10 +13979,10 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>set_volatile&lt; T, is_volatile&lt; MatchWith &gt; &gt;</type>
-      <name>match_volatile</name>
+      <type>set_volatile&lt; T, is_volatile&lt; CopyFrom &gt; &gt;</type>
+      <name>copy_volatile</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaee2c9dcc0f981214aa7ee3faec5a2ff8</anchor>
+      <anchor>gafdebb5c32611e098bd4074c6393ad55d</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -13927,10 +14014,10 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>match_const&lt; match_volatile&lt; T, MatchWith &gt;, MatchWith &gt;</type>
-      <name>match_cv</name>
+      <type>copy_const&lt; copy_volatile&lt; T, CopyFrom &gt;, CopyFrom &gt;</type>
+      <name>copy_cv</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga3ebb8edda949ae4da9d7c4d0293efeb9</anchor>
+      <anchor>ga13aaa81d66b143ecb5d837c8c0041d18</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -13969,10 +14056,24 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
+      <type>set_signed&lt; T, is_signed&lt; CopyFrom &gt; &gt;</type>
+      <name>copy_signed</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gac5e348d0385db539de78faa96895dba9</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
       <type>std::conditional_t&lt; Unsigned, make_unsigned&lt; T &gt;, make_signed&lt; T &gt; &gt;</type>
       <name>set_unsigned</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga53618440cb88b6a660781cd80eff06cb</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>set_unsigned&lt; T, is_unsigned&lt; CopyFrom &gt; &gt;</type>
+      <name>copy_unsigned</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaa51e86e5712ddee88175a905c427ff62</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -14004,6 +14105,27 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
+      <type>std::conditional_t&lt; impl::is_small_float_&lt; T &gt;, typename impl::rebase_ref_&lt; T, copy_cv&lt; float, T &gt; &gt;::type, T &gt;</type>
+      <name>promote_if_small_float</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga0a3f15c5886ad6189103d5705db8e37c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>std::conditional_t&lt; impl::is_large_float_&lt; T &gt;, typename impl::rebase_ref_&lt; T, copy_cv&lt; long double, T &gt; &gt;::type, T &gt;</type>
+      <name>demote_if_large_float</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga588efdcdebc69e38cb6353d8462d59ff</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>demote_if_large_float&lt; promote_if_small_float&lt; T &gt; &gt;</type>
+      <name>clamp_to_standard_float</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gae07552fde8149d1a8a6c93971edbbd86</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
       <type>impl::std_math_common_type&lt; remove_cvref&lt; T &gt;... &gt;</type>
       <name>epsilon_type</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -14015,13 +14137,6 @@
       <name>index_tag</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga6ca7fed60fe86574dd8bedf3b3332431</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>type_list&lt; T &gt;</type>
-      <name>type_tag</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga90483ba1ebb9236ec76a1e5c3a0d9bdb</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -14431,6 +14546,27 @@
       <arglist></arglist>
     </member>
     <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_unbounded_array</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gab42aeb290d61ad20287ed2e8df10462b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_bounded_array</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gad0b97e37de851bc5aba414d527a4d0e1</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_array</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga7a9d2c42a55dd3a859e8cd1381dfc845</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
       <type>constexpr auto</type>
       <name>is_detected</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -14614,23 +14750,16 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
-      <name>is_unbounded_array</name>
+      <name>has_data_member_function</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gab42aeb290d61ad20287ed2e8df10462b</anchor>
+      <anchor>gaf10843e1090d5460710e8a864f8313a9</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
-      <name>is_bounded_array</name>
+      <name>has_size_member_function</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gad0b97e37de851bc5aba414d527a4d0e1</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>is_array</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga7a9d2c42a55dd3a859e8cd1381dfc845</anchor>
+      <anchor>ga7dec2ef3cbf5f6ec0adaba4b0bc59887</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">

@@ -425,6 +425,11 @@
             </dt>
             <dd>Convenience alias for <code><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>&gt;</code>.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="group__meta.html#gae07552fde8149d1a8a6c93971edbbd86">clamp_to_standard_float</a> = <a class="m-doc" href="group__meta.html#ga588efdcdebc69e38cb6353d8462d59ff">demote_<wbr/>if_<wbr/>large_<wbr/>float</a>&lt;<a class="m-doc" href="group__meta.html#ga0a3f15c5886ad6189103d5705db8e37c">promote_<wbr/>if_<wbr/>small_<wbr/>float</a>&lt;T&gt;&gt;
+            </dt>
+            <dd>Clamps extended arithmetic floating-point types (e.g. <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>, <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html" target="_blank">__float128</a>) to <code>float</code> or <code>long double</code>.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T, bool AddConst&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga23ee95c345637ff50a6cc88c4fb0d031">conditionally_add_const</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;AddConst, <a class="m-doc" href="group__meta.html#ga6c121fbd44449d05f6a34f26d51d923f">add_<wbr/>const</a>&lt;T&gt;, T&gt;
             </dt>
@@ -448,6 +453,36 @@
               using <a class="m-doc" href="group__memory.html#ga9e0fc89cb7b1f651110f32365aba1790">const_span</a> = <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;const T&gt;
             </dt>
             <dd>Convenience alias for <code><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;const T&gt;</code>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename CopyFrom&gt;</div>
+              using <a class="m-doc" href="group__meta.html#ga3e944d0a62580bb16190d18a7a50e854">copy_const</a> = <a class="m-doc" href="group__meta.html#ga70ea61c88a2156d5ca0576b338692597">set_<wbr/>const</a>&lt;T, <a class="m-doc" href="group__meta.html#ga79cf1d440a2967847a6d0a08dc22fa19">is_<wbr/>const</a>&lt;CopyFrom&gt;&gt;
+            </dt>
+            <dd>Copies the constness (or lack thereof) from one type or reference to another.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename CopyFrom&gt;</div>
+              using <a class="m-doc" href="group__meta.html#ga13aaa81d66b143ecb5d837c8c0041d18">copy_cv</a> = <a class="m-doc" href="group__meta.html#ga3e944d0a62580bb16190d18a7a50e854">copy_<wbr/>const</a>&lt;<a class="m-doc" href="group__meta.html#gafdebb5c32611e098bd4074c6393ad55d">copy_<wbr/>volatile</a>&lt;T, CopyFrom&gt;, CopyFrom&gt;
+            </dt>
+            <dd>Copies consteness and volatility (or lack thereof) from one type or reference to another.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename CopyFrom&gt;</div>
+              using <a class="m-doc" href="group__meta.html#gac5e348d0385db539de78faa96895dba9">copy_signed</a> = <a class="m-doc" href="group__meta.html#gafed1fc9809926331d0cdfb6ea3c1cb7c">set_<wbr/>signed</a>&lt;T, <a class="m-doc" href="group__meta.html#ga8692cd4c2e3c8e2b0167a5a586f1f6e1">is_<wbr/>signed</a>&lt;CopyFrom&gt;&gt;
+            </dt>
+            <dd>Copies the signed-ness (or lack thereof) from one numeric type or reference to another.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename CopyFrom&gt;</div>
+              using <a class="m-doc" href="group__meta.html#gaa51e86e5712ddee88175a905c427ff62">copy_unsigned</a> = <a class="m-doc" href="group__meta.html#ga53618440cb88b6a660781cd80eff06cb">set_<wbr/>unsigned</a>&lt;T, <a class="m-doc" href="group__meta.html#ga9e9c5b2e65e4f784d2a6b52b6a33a34f">is_<wbr/>unsigned</a>&lt;CopyFrom&gt;&gt;
+            </dt>
+            <dd>Copies the unsigned-ness (or lack thereof) from one numeric type or reference to another.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename CopyFrom&gt;</div>
+              using <a class="m-doc" href="group__meta.html#gafdebb5c32611e098bd4074c6393ad55d">copy_volatile</a> = <a class="m-doc" href="group__meta.html#ga3216c56b6dfa3cd6045818d2f8e09612">set_<wbr/>volatile</a>&lt;T, <a class="m-doc" href="group__meta.html#gaa1afdcda38765572b01f8112bea59913">is_<wbr/>volatile</a>&lt;CopyFrom&gt;&gt;
+            </dt>
+            <dd>Copies the volatility (or lack thereof) from one type or reference to another.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="group__meta.html#ga588efdcdebc69e38cb6353d8462d59ff">demote_if_large_float</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;impl::is_large_float_&lt;T&gt;, typename impl::rebase_ref_&lt;T, <a class="m-doc" href="group__meta.html#ga13aaa81d66b143ecb5d837c8c0041d18">copy_<wbr/>cv</a>&lt;long double, T&gt;&gt;::type, T&gt;
+            </dt>
+            <dd>Demotes 'large' extended arithmetic floating-point types (e.g. <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html" target="_blank">__float128</a>) to <code>long double</code>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_type</a> = impl::std_math_common_type&lt;<a class="m-doc" href="group__meta.html#ga3cac44d2af43c4fd98e835ff5b28988a">remove_<wbr/>cvref</a>&lt;T&gt;...&gt;
@@ -487,25 +522,15 @@
             </dt>
             <dd>Converts a numeric type to the unsigned equivalent with the same rank.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename MatchWith&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga7f199f436b29ee4f17d93f06ff3af691">match_const</a> = <a class="m-doc" href="group__meta.html#ga70ea61c88a2156d5ca0576b338692597">set_<wbr/>const</a>&lt;T, <a class="m-doc" href="group__meta.html#ga79cf1d440a2967847a6d0a08dc22fa19">is_<wbr/>const</a>&lt;MatchWith&gt;&gt;
-            </dt>
-            <dd>Shorthand for marking a type or reference with the same constness as another type or reference.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T, typename MatchWith&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga3ebb8edda949ae4da9d7c4d0293efeb9">match_cv</a> = <a class="m-doc" href="group__meta.html#ga7f199f436b29ee4f17d93f06ff3af691">match_<wbr/>const</a>&lt;<a class="m-doc" href="group__meta.html#gaee2c9dcc0f981214aa7ee3faec5a2ff8">match_<wbr/>volatile</a>&lt;T, MatchWith&gt;, MatchWith&gt;
-            </dt>
-            <dd>Shorthand for marking a type or reference with the same constness and volatility as another type or reference.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T, typename MatchWith&gt;</div>
-              using <a class="m-doc" href="group__meta.html#gaee2c9dcc0f981214aa7ee3faec5a2ff8">match_volatile</a> = <a class="m-doc" href="group__meta.html#ga3216c56b6dfa3cd6045818d2f8e09612">set_<wbr/>volatile</a>&lt;T, <a class="m-doc" href="group__meta.html#gaa1afdcda38765572b01f8112bea59913">is_<wbr/>volatile</a>&lt;MatchWith&gt;&gt;
-            </dt>
-            <dd>Shorthand for marking a type or reference with the same volatility as another type or reference.</dd>
-            <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga62680f064b38d875edbcb08604a2736d">most_aligned</a> = typename impl::most_aligned_&lt;T...&gt;::type
             </dt>
             <dd>The type with the largest alignment (i.e. having the largest value for <code>alignment_of&lt;T&gt;</code>) from a set of types.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="group__meta.html#ga0a3f15c5886ad6189103d5705db8e37c">promote_if_small_float</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;impl::is_small_float_&lt;T&gt;, typename impl::rebase_ref_&lt;T, <a class="m-doc" href="group__meta.html#ga13aaa81d66b143ecb5d837c8c0041d18">copy_<wbr/>cv</a>&lt;float, T&gt;&gt;::type, T&gt;
+            </dt>
+            <dd>Promotes 'small' extended arithmetic floating-point types (e.g. <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>, etc.) to <code>float</code>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Ptr, typename NewBase&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga29769609b73728e3b7814d36a7e0c335">rebase_pointer</a> = typename impl::rebase_pointer_&lt;Ptr, NewBase&gt;::type
@@ -538,9 +563,19 @@
             <dd>Removes the outer enum wrapper from a type, converting it to the underlying integer equivalent.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="group__meta.html#ga13a69e455c20f67fc73394a02831e8d3">remove_lvalue_reference</a> = typename impl::remove_lvalue_reference_&lt;T&gt;::type
+            </dt>
+            <dd>Removes reference qualification from a type if (and only if) it is an lvalue reference.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
               using <a class="m-doc" href="group__meta.html#gaf61a06bf998aa195a3ec21cc20c4f348">remove_noexcept</a> = typename impl::remove_noexcept_&lt;T&gt;::type
             </dt>
-            <dd>Removes any <code>noexcept</code> modifier from a functional type.</dd>
+            <dd>Removes any <code>noexcept</code> specifier from a functional type.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="group__meta.html#ga82a7eca9ca8f07f6779eff47f45d5a80">remove_rvalue_reference</a> = typename impl::remove_rvalue_reference_&lt;T&gt;::type
+            </dt>
+            <dd>Removes reference qualification from a type if (and only if) it is an rvalue reference.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               using <a class="m-doc" href="group__meta.html#gabb6c34cb7b210e52a6d0d9e53234696b">remove_volatile</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_cv.html" target="_blank">std::<wbr/>remove_volatile_t</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
@@ -2783,127 +2818,137 @@
               <div class="m-doc-template">template&lt;typename T, typename U = T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gadffe33b336020e6d4f41fba1c9788949">has_addition_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a pair of types has an addition operator (<code>T + U</code>).</dd>
+            <dd>True if a pair of types has an addition operator (<code>T + U</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gafc3c409c2d08bc8913db5ad46a84e0b9">has_arrow_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a type has an arrow operator (<code>T-&gt;</code>).</dd>
+            <dd>True if a type has an arrow operator (<code>T-&gt;</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U = T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga688617eff8007838d3c3a6d82acc5e0e">has_bitwise_and_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a pair of types has a bitwise AND operator (<code>T &amp; U</code>).</dd>
+            <dd>True if a pair of types has a bitwise AND operator (<code>T &amp; U</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U = T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga716a51fac5f796fef6d7b20361a48c67">has_bitwise_lsh_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a pair of types has a bitwise left-shift operator (<code>T &lt;&lt; U</code>).</dd>
+            <dd>True if a pair of types has a bitwise left-shift operator (<code>T &lt;&lt; U</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga055c356204326409b8097248b5aa6b8f">has_bitwise_not_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a type has a unary bitwise NOT operator (<code>~T</code>).</dd>
+            <dd>True if a type has a unary bitwise NOT operator (<code>~T</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U = T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga57978bd3bd40c129640f6bf5783d3f49">has_bitwise_or_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a pair of types has a bitwise OR operator (<code>T | U</code>).</dd>
+            <dd>True if a pair of types has a bitwise OR operator (<code>T | U</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U = T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gae40a247ecf2dbd511377594e234d0b48">has_bitwise_rsh_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a pair of types has a bitwise right-shift operator (<code>T &gt;&gt; U</code>).</dd>
+            <dd>True if a pair of types has a bitwise right-shift operator (<code>T &gt;&gt; U</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U = T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gaf844292ffc3d2468386295a3a7a8e984">has_bitwise_xor_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a pair of types has a bitwise XOR operator (<code>T ^ U</code>).</dd>
+            <dd>True if a pair of types has a bitwise XOR operator (<code>T ^ U</code>).</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gaf10843e1090d5460710e8a864f8313a9">has_data_member_function</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if a type has a member function <code>data()</code> returning a pointer.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U = T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gaee2f7df90bf1a9447e0ff9059e6d9176">has_division_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a pair of types has a division operator (<code>T / U</code>).</dd>
+            <dd>True if a pair of types has a division operator (<code>T / U</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U = T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga6c84e8498fc694ca19c225524e2b89d6">has_equality_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a pair of types has an equality operator (<code>T == U</code>).</dd>
+            <dd>True if a pair of types has an equality operator (<code>T == U</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga7ce806883528834c0b156cf9d150f8b6">has_indirection_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a type has an indirection operator (<code>*T</code>).</dd>
+            <dd>True if a type has an indirection operator (<code>*T</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U = T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gac7b4aeab35fd101dabb265d96ac907cf">has_inequality_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a pair of types has an inequality operator (<code>T != U</code>).</dd>
+            <dd>True if a pair of types has an inequality operator (<code>T != U</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U = T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga127032392bbc1f2ce60436c441eafa21">has_logical_and_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a pair of types has a logical AND operator (<code>T &amp;&amp; U</code>).</dd>
+            <dd>True if a pair of types has a logical AND operator (<code>T &amp;&amp; U</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gac41ddee5c5cc860a08f13ed17e9bc618">has_logical_not_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a type has a unary logical NOT operator (<code>!T</code>).</dd>
+            <dd>True if a type has a unary logical NOT operator (<code>!T</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U = T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga56ac47fcf7be4d333864350e64528b2f">has_logical_or_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a pair of types has a logical OR operator (<code>T || U</code>).</dd>
+            <dd>True if a pair of types has a logical OR operator (<code>T || U</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U = T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga5445f5de353c58b7e304e585b5eae84a">has_modulo_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a pair of types has an modulo operator (<code>T % U</code>).</dd>
+            <dd>True if a pair of types has an modulo operator (<code>T % U</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U = T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga6f9cee395159fa1cc0c85d04b5ec9414">has_multiplication_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a pair of types has a multiplication operator (<code>T * U</code>).</dd>
+            <dd>True if a pair of types has a multiplication operator (<code>T * U</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gafd5fd93a0ed2590bdfb6c2f69bf1a5c6">has_post_decrement_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a type has a post-decrement operator (<code>T--</code>).</dd>
+            <dd>True if a type has a post-decrement operator (<code>T--</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga4c9c2d5fed48172635e3c6ead74b239a">has_post_increment_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a type has a post-increment operator (<code>T++</code>).</dd>
+            <dd>True if a type has a post-increment operator (<code>T++</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gac9731899288a2ce397762c9a01afff43">has_pre_decrement_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a type has a pre-decrement operator (<code>--T</code>).</dd>
+            <dd>True if a type has a pre-decrement operator (<code>--T</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga496c606e118a2028c01fdeeeb71b2824">has_pre_increment_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a type has a pre-increment operator (<code>++T</code>).</dd>
+            <dd>True if a type has a pre-increment operator (<code>++T</code>).</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga7dec2ef3cbf5f6ec0adaba4b0bc59887">has_size_member_function</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if a type has a member function <code>size()</code> returning an arithmetic integral type.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U = <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga99d503cf409b10ba5314452688d7abb7">has_subscript_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a pair of types has a subscript operator (<code>T[U]</code>).</dd>
+            <dd>True if a pair of types has a subscript operator (<code>T[U]</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U = T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga6889472d0f71b499636c488a48aafe27">has_subtraction_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a pair of types has a subtraction operator (<code>T - U</code>).</dd>
+            <dd>True if a pair of types has a subtraction operator (<code>T - U</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gadfa546414eebe20b450f7a7d520b4767">has_unary_minus_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a type has a unary minus operator (<code>-T</code>).</dd>
+            <dd>True if a type has a unary minus operator (<code>-T</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gaf2a9f6988557f79f960a87dccb414b15">has_unary_plus_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a type has a unary plus operator (<code>+T</code>).</dd>
+            <dd>True if a type has a unary plus operator (<code>+T</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Parent, typename Child&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gad99449272de65874d3b7569d9eb9e805">inherits_from</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -3043,7 +3088,7 @@
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga14a164d38285296acaa8c6679e1b6916">is_iterable</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if a type has pair of <code>begin()</code> and <code>end()</code> iterator functions as members, in the std namespace, or found via ADL.</dd>
+            <dd>Returns true if a type is a bounded array or a class type having <code>begin()</code> and <code>end()</code> iterators (as members, in the <code>std</code> namespace, or found via ADL).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga0ad880900bc41c21a698d9114f333e3d">is_legacy_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -3088,7 +3133,7 @@
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga07b1449019c885977279ee3afedb3b4f">is_tuple_like</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns true if the type implements <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a> and <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_element" target="_blank">std::tuple_element</a>.</dd>
+            <dd>True if the type implements <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a> and <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_element" target="_blank">std::tuple_element</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gab42aeb290d61ad20287ed2e8df10462b">is_unbounded_array</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -3107,11 +3152,11 @@
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="group__meta.html#gae9cd96c20c0f16e1e1eac99e798724ce">pointer_rank</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns the rank of a pointer.</dd>
+            <dd>The rank of a pointer.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="group__meta.html#ga3b7e16d2f90358811bc6231eb993ff33">total_size</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns the sum of <code>sizeof()</code> for all of the types named by T.</dd>
+            <dd>The sum of <code>sizeof()</code> for all of the types named by T.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="group__meta.html#gabe21403c5219a3959df510427b829038">tuple_size</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
