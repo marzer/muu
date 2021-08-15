@@ -267,7 +267,7 @@ namespace muu
 		using base = impl::quaternion_<Scalar>;
 		static_assert(sizeof(base) == (sizeof(scalar_type) * 4), "Quaternions should not have padding");
 
-		using intermediate_float = impl::promote_if_small_float<scalar_type>;
+		using intermediate_float = promote_if_small_float<scalar_type>;
 		static_assert(is_floating_point<intermediate_float>);
 
 		using scalar_constants = muu::constants<scalar_type>;

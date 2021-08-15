@@ -7,5 +7,9 @@
 /// \file
 /// \brief Core functions and typedefs.
 
-#include "impl/core_everything_except_type_list.h"
-#include "impl/core_type_list.h"
+#include "impl/core_bit.h"
+#include "impl/core_build.h"
+#include "impl/core_constants.h"
+#include "impl/core_literals.h"
+#include "impl/core_meta.h"
+#include "impl/core_utils.h"

@@ -7,7 +7,7 @@
 /// \file
 /// \brief  Contains the definition of muu::tagged_ptr.
 
-#include "impl/core_everything_except_type_list.h"
+#include "core.h"
 
 MUU_DISABLE_WARNINGS;
 #include <cstring> //memcpy

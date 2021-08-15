@@ -86,8 +86,6 @@
     <ClInclude Include="include\muu\chars.h" />
     <ClInclude Include="include\muu\compressed_pair.h" />
     <ClInclude Include="include\muu\impl\core_build.h" />
-    <ClInclude Include="include\muu\impl\core_everything_except_type_list.h" />
-    <ClInclude Include="include\muu\impl\core_type_list.h" />
     <ClInclude Include="include\muu\impl\core_utils.h" />
     <ClInclude Include="include\muu\impl\core_constants.h" />
     <ClInclude Include="include\muu\core.h" />
@@ -127,6 +125,7 @@
     <ClInclude Include="include\muu\string_param.h" />
     <ClInclude Include="include\muu\tagged_ptr.h" />
     <ClInclude Include="include\muu\thread_pool.h" />
+    <ClInclude Include="include\muu\type_list.h" />
     <ClInclude Include="include\muu\uuid.h" />
     <ClInclude Include="include\muu\vector.h" />
     <ClInclude Include="src\os.h" />

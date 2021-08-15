@@ -93,7 +93,7 @@ namespace
 		static constexpr auto& table = lookup_table<T, Return, Func, Start, End, Subdivs>;
 
 		const auto epsilon = static_cast<T>(
-			muu::constants<std::conditional_t<MUU_HAS_QUADMATH, T, impl::demote_if_large_float<T>>>::default_epsilon
+			muu::constants<std::conditional_t<MUU_HAS_QUADMATH, T, demote_if_large_float<T>>>::default_epsilon
 			* 10ull);
 
 		for (size_t i = 0; i <= Subdivs; i++) // +1 for inclusive end
@@ -185,7 +185,7 @@ namespace
 		if constexpr (std::is_same_v<T, FLOAT128_T> && MUU_HAS_QUADMATH)                                               \
 			return QUADMATH_CALL(func, val);                                                                           \
 		else                                                                                                           \
-			return static_cast<Return>(::std::func(static_cast<impl::clamp_to_standard_float<T>>(val)));               \
+			return static_cast<Return>(::std::func(static_cast<clamp_to_standard_float<T>>(val)));                     \
 	}
 
 #define MATH_CHECKS(func, start_val, end_val, subdivs)                                                                 \

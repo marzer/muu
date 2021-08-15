@@ -49,6 +49,7 @@ MUU_PRAGMA_MSVC(warning(disable : 4127))			   // conditional expression is const
 #include "float_test_data.h"
 #include "../include/muu/math.h"
 #include "../include/muu/half.h"
+#include "../include/muu/type_list.h"
 
 MUU_DISABLE_WARNINGS;
 #include <iosfwd>
@@ -413,8 +414,8 @@ namespace muu
 			{
 				auto left = 1
 						  + (muu::max)(0,
-									   static_cast<int>(muu::floor(std::log10(
-										   static_cast<impl::clamp_to_standard_float<T>>(muu::abs(rhs.value))))));
+									   static_cast<int>(muu::floor(
+										   std::log10(static_cast<clamp_to_standard_float<T>>(muu::abs(rhs.value))))));
 				left += rhs.value < T{} ? 1 : 0;
 				left = 4 - left;
 				while (left-- > 0)

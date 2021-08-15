@@ -259,7 +259,7 @@ BATCHED_TEST_CASE("quaternion dot", all_quaternions)
 	// expected result
 	// (accumulating in a potentially more precise intermediate type then coverting the result is what happens in
 	// the quaternion class to minimize loss in float16, so that same behaviour is replicated here)
-	using intermediate_type = impl::promote_if_small_float<dot_type>;
+	using intermediate_type = promote_if_small_float<dot_type>;
 	auto expected_sum		= intermediate_type{};
 	quat_for_each(q1,
 				  q2,
@@ -491,7 +491,7 @@ namespace
 
 		using quat_t  = quaternion<T>;
 		using vec_t	  = vector<T, 3>;
-		using angle_t = impl::promote_if_small_float<T>;
+		using angle_t = promote_if_small_float<T>;
 
 		// const T epsilon = 1e-6f;
 		const vec_t up{ T{}, T{ 1 }, T{} };

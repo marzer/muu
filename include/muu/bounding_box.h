@@ -53,7 +53,7 @@ namespace muu
 
 		using boxes				 = impl::boxes_common<Scalar>;
 		using collision			 = impl::collision_common<Scalar>;
-		using intermediate_float = impl::promote_if_small_float<scalar_type>;
+		using intermediate_float = promote_if_small_float<scalar_type>;
 		static_assert(is_floating_point<intermediate_float>);
 
 	  public:

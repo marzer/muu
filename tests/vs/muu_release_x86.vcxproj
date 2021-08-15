@@ -71,7 +71,6 @@
     <ClInclude Include="$(SolutionDir)include\muu\chars.h" />
     <ClInclude Include="$(SolutionDir)include\muu\compressed_pair.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\core_build.h" />
-    <ClInclude Include="$(SolutionDir)include\muu\impl\core_type_list.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\core_utils.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\core_constants.h" />
     <ClInclude Include="$(SolutionDir)include\muu\core.h" />
@@ -94,6 +93,7 @@
     <ClInclude Include="$(SolutionDir)include\muu\impl\unicode_char8_t.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\unicode_unsigned_char.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\unicode_wchar_t.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\iterators.h" />
     <ClInclude Include="$(SolutionDir)include\muu\math.h" />
     <ClInclude Include="$(SolutionDir)include\muu\matrix.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\core_meta.h" />
@@ -110,6 +110,7 @@
     <ClInclude Include="$(SolutionDir)include\muu\string_param.h" />
     <ClInclude Include="$(SolutionDir)include\muu\tagged_ptr.h" />
     <ClInclude Include="$(SolutionDir)include\muu\thread_pool.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\type_list.h" />
     <ClInclude Include="$(SolutionDir)include\muu\uuid.h" />
     <ClInclude Include="$(SolutionDir)include\muu\vector.h" />
     <ClInclude Include="$(SolutionDir)src\os.h" />

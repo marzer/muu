@@ -4,15 +4,19 @@
 // SPDX-License-Identifier: MIT
 #pragma once
 
-#include "../fwd.h"
+#include "fwd.h"
 
-#if !defined(MUU_TYPE_LIST_PAGE_SIZE) || MUU_TYPE_LIST_PAGE_SIZE <= 0 || MUU_TYPE_LIST_PAGE_SIZE > 64
+#ifndef MUU_TYPE_LIST_PAGE_SIZE
 	#undef MUU_TYPE_LIST_PAGE_SIZE
 	#define MUU_TYPE_LIST_PAGE_SIZE 32
 #endif
 #if MUU_TYPE_LIST_PAGE_SIZE < 8
 	#undef MUU_TYPE_LIST_PAGE_SIZE
 	#define MUU_TYPE_LIST_PAGE_SIZE 8
+#endif
+#if MUU_TYPE_LIST_PAGE_SIZE > 64
+	#undef MUU_TYPE_LIST_PAGE_SIZE
+	#define MUU_TYPE_LIST_PAGE_SIZE 64
 #endif
 
 #ifndef MUU_HAS_JUMBO_PAGES
@@ -50,7 +54,7 @@ MUU_ENABLE_WARNINGS;
 
 /// \endcond
 
-#include "header_start.h"
+#include "impl/header_start.h"
 
 namespace muu
 {
@@ -812,4 +816,4 @@ namespace muu
 #undef MUU_0_TO_47
 #undef MUU_0_TO_63
 
-#include "header_end.h"
+#include "impl/header_end.h"

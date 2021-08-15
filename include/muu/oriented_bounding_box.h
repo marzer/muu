@@ -56,7 +56,7 @@ namespace muu
 					  "Oriented bounding boxes should not have padding");
 
 		using boxes				 = impl::boxes_common<Scalar>;
-		using intermediate_float = impl::promote_if_small_float<scalar_type>;
+		using intermediate_float = promote_if_small_float<scalar_type>;
 		static_assert(is_floating_point<intermediate_float>);
 
 		using axes_constants = muu::constants<axes_type>;

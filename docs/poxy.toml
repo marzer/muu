@@ -67,8 +67,7 @@ numeric_literals = [
 	'muu/impl/core_constants.h',
 	'muu/impl/core_literals.h',
 	'muu/impl/core_meta.h',
-	'muu/impl/core_utils.h',
-    'muu/impl/core_type_list.h',
+	'muu/impl/core_utils.h'
 ]
 'muu/chars.h' = [
 	'muu/impl/unicode_char.h',

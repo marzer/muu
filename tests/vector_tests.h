@@ -639,7 +639,7 @@ BATCHED_TEST_CASE("vector dot", vectors<ALL_ARITHMETIC>)
 	// expected result
 	// (accumulating in a potentially more precise intermediate type then coverting the result is what happens in
 	// the vector class to minimize loss in float16, so that same behaviour is replicated here)
-	using intermediate_type = impl::promote_if_small_float<dot_type>;
+	using intermediate_type = promote_if_small_float<dot_type>;
 	auto expected_sum		= intermediate_type{};
 	for (size_t i = 0; i < vector_t::dimensions; i++)
 	{

@@ -366,7 +366,7 @@ namespace muu
 		using base = impl::matrix_<Scalar, Rows, Columns>;
 		static_assert(sizeof(base) == (sizeof(scalar_type) * Rows * Columns), "Matrices should not have padding");
 
-		using intermediate_float = impl::promote_if_small_float<typename inverse_type::scalar_type>;
+		using intermediate_float = promote_if_small_float<typename inverse_type::scalar_type>;
 		static_assert(is_floating_point<typename inverse_type::scalar_type>);
 		static_assert(is_floating_point<intermediate_float>);
 

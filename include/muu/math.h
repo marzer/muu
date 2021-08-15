@@ -7,7 +7,7 @@
 /// \file
 /// \brief Math functions, mostly constexpr-friendly alternatives to functions from `<cmath>`.
 
-#include "impl/core_everything_except_type_list.h"
+#include "core.h"
 
 MUU_DISABLE_WARNINGS;
 #include <cmath>
@@ -2300,7 +2300,7 @@ namespace muu
 	constexpr auto MUU_VECTORCALL lerp(T start, U finish, V alpha) noexcept
 	{
 		using return_type		= impl::std_math_common_type<T, U, V>;
-		using intermediate_type = impl::promote_if_small_float<return_type>;
+		using intermediate_type = promote_if_small_float<return_type>;
 		return static_cast<return_type>(lerp(static_cast<intermediate_type>(start),
 											 static_cast<intermediate_type>(finish),
 											 static_cast<intermediate_type>(alpha)));

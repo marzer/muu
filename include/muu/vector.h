@@ -644,10 +644,10 @@ namespace muu
 		using base = impl::vector_<scalar_type, Dimensions>;
 		static_assert(sizeof(base) == (sizeof(scalar_type) * Dimensions), "Vectors should not have padding");
 
-		using intermediate_product = impl::promote_if_small_float<product_type>;
+		using intermediate_product = promote_if_small_float<product_type>;
 		static_assert(is_floating_point<intermediate_product> == is_floating_point<scalar_type>);
 
-		using intermediate_float = impl::promote_if_small_float<delta_type>;
+		using intermediate_float = promote_if_small_float<delta_type>;
 		static_assert(is_floating_point<delta_type>);
 		static_assert(is_floating_point<intermediate_float>);
 
@@ -1781,7 +1781,7 @@ namespace muu
 		static constexpr vector MUU_VECTORCALL raw_multiply_scalar(MUU_VC_PARAM(vector) lhs, T rhs) noexcept
 		{
 			using type = set_signed<
-				impl::highest_ranked<decltype(scalar_type{} * impl::promote_if_small_float<T>{}), intermediate_product>,
+				impl::highest_ranked<decltype(scalar_type{} * promote_if_small_float<T>{}), intermediate_product>,
 				is_signed<scalar_type> || is_signed<T>>;
 
 			// clang-format off
@@ -1805,7 +1805,7 @@ namespace muu
 		constexpr vector& MUU_VECTORCALL raw_multiply_assign_scalar(T rhs) noexcept
 		{
 			using type = set_signed<
-				impl::highest_ranked<decltype(scalar_type{} * impl::promote_if_small_float<T>{}), intermediate_product>,
+				impl::highest_ranked<decltype(scalar_type{} * promote_if_small_float<T>{}), intermediate_product>,
 				is_signed<scalar_type> || is_signed<T>>;
 
 			// clang-format off
@@ -1899,7 +1899,7 @@ namespace muu
 		static constexpr vector MUU_VECTORCALL raw_divide_scalar(MUU_VC_PARAM(vector) lhs, T rhs) noexcept
 		{
 			using type = set_signed<
-				impl::highest_ranked<decltype(scalar_type{} / impl::promote_if_small_float<T>{}), intermediate_product>,
+				impl::highest_ranked<decltype(scalar_type{} / promote_if_small_float<T>{}), intermediate_product>,
 				is_signed<scalar_type> || is_signed<T>>;
 
 			// clang-format off
@@ -1927,7 +1927,7 @@ namespace muu
 		constexpr vector& MUU_VECTORCALL raw_divide_assign_scalar(T rhs) noexcept
 		{
 			using type = set_signed<
-				impl::highest_ranked<decltype(scalar_type{} / impl::promote_if_small_float<T>{}), intermediate_product>,
+				impl::highest_ranked<decltype(scalar_type{} / promote_if_small_float<T>{}), intermediate_product>,
 				is_signed<scalar_type> || is_signed<T>>;
 
 			// clang-format off

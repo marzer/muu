@@ -468,12 +468,12 @@ namespace muu
 		template <typename T>
 		struct make_signed_<T&>
 		{
-			using type = typename make_signed_<T>::type&;
+			using type = std::add_lvalue_reference_t<typename make_signed_<T>::type>;
 		};
 		template <typename T>
 		struct make_signed_<T&&>
 		{
-			using type = typename make_signed_<T>::type&&;
+			using type = std::add_rvalue_reference_t<typename make_signed_<T>::type>;
 		};
 		template <>
 		struct make_signed_<char>
@@ -628,12 +628,12 @@ namespace muu
 		template <typename T>
 		struct make_unsigned_<T&>
 		{
-			using type = typename make_unsigned_<T>::type&;
+			using type = std::add_lvalue_reference_t<typename make_unsigned_<T>::type>;
 		};
 		template <typename T>
 		struct make_unsigned_<T&&>
 		{
-			using type = typename make_unsigned_<T>::type&&;
+			using type = std::add_rvalue_reference_t<typename make_unsigned_<T>::type>;
 		};
 		template <>
 		struct make_unsigned_<char>
@@ -854,160 +854,6 @@ namespace muu
 		struct remove_all_pointers_<T* const volatile> : remove_all_pointers_<T>
 		{};
 
-		template <template <typename...> typename Trait, typename Enabler, typename... Args>
-		struct is_detected_impl : std::false_type
-		{};
-		template <template <typename...> typename Trait, typename... Args>
-		struct is_detected_impl<Trait, std::void_t<Trait<Args...>>, Args...> : std::true_type
-		{};
-		template <template <typename...> typename Trait, typename... Args>
-		inline constexpr auto is_detected_ = is_detected_impl<Trait, void, Args...>::value;
-
-		template <typename T>
-		using has_indirection_operator_ = decltype(*std::declval<T>());
-		template <typename T>
-		using has_arrow_operator_ = decltype(std::declval<T>().operator->());
-		template <typename T, typename U>
-		using has_subscript_operator_ = decltype(std::declval<T>()[std::declval<U>()]);
-
-		template <typename T>
-		using has_unary_plus_operator_ = decltype(+std::declval<T>());
-		template <typename T>
-		using has_unary_minus_operator_ = decltype(-std::declval<T>());
-
-		template <typename T, typename U>
-		using has_addition_operator_ = decltype(std::declval<T>() + std::declval<U>());
-		template <typename T, typename U>
-		using has_subtraction_operator_ = decltype(std::declval<T>() - std::declval<U>());
-		template <typename T, typename U>
-		using has_division_operator_ = decltype(std::declval<T>() / std::declval<U>());
-		template <typename T, typename U>
-		using has_multiplication_operator_ = decltype(std::declval<T>() * std::declval<U>());
-		template <typename T, typename U>
-		using has_modulo_operator_ = decltype(std::declval<T>() % std::declval<U>());
-
-		template <typename T>
-		using has_bitwise_not_operator_ = decltype(~std::declval<T>());
-		template <typename T, typename U>
-		using has_bitwise_and_operator_ = decltype(std::declval<T>() & std::declval<U>());
-		template <typename T, typename U>
-		using has_bitwise_or_operator_ = decltype(std::declval<T>() | std::declval<U>());
-		template <typename T, typename U>
-		using has_bitwise_xor_operator_ = decltype(std::declval<T>() ^ std::declval<U>());
-		template <typename T, typename U>
-		using has_bitwise_lsh_operator_ = decltype(std::declval<T>() << std::declval<U>());
-		template <typename T, typename U>
-		using has_bitwise_rsh_operator_ = decltype(std::declval<T>() >> std::declval<U>());
-
-		template <typename T>
-		using has_logical_not_operator_ = decltype(!std::declval<T>());
-		template <typename T, typename U>
-		using has_logical_and_operator_ = decltype(std::declval<T>() && std::declval<U>());
-		template <typename T, typename U>
-		using has_logical_or_operator_ = decltype(std::declval<T>() || std::declval<U>());
-
-		template <typename T, typename U>
-		using has_equality_operator_ = decltype(std::declval<T>() == std::declval<U>());
-		template <typename T, typename U>
-		using has_inequality_operator_ = decltype(std::declval<T>() != std::declval<U>());
-
-		template <typename T>
-		using has_pre_increment_operator_ = decltype(++std::declval<T>());
-		template <typename T>
-		using has_pre_decrement_operator_ = decltype(--std::declval<T>());
-		template <typename T>
-		using has_post_increment_operator_ = decltype(std::declval<T>()++);
-		template <typename T>
-		using has_post_decrement_operator_ = decltype(std::declval<T>()--);
-
-		template <typename T>
-		using has_begin_member_func_ = decltype(std::declval<T>().begin());
-		template <typename T>
-		using has_end_member_func_ = decltype(std::declval<T>().end());
-
-		template <typename B, typename E>
-		inline constexpr bool compatible_iterators_ =
-			!std::is_void_v<remove_cvref<B>>											 //
-			&& !std::is_void_v<remove_cvref<E>>											 //
-			&& is_detected_<has_indirection_operator_, B>								 //
-			&& is_detected_<has_pre_increment_operator_, std::add_lvalue_reference_t<B>> //
-			&& is_detected_<has_equality_operator_, B, E>								 //
-			&& is_detected_<has_inequality_operator_, B, E>;
-
-		template <typename T, bool = (is_detected_<has_begin_member_func_, T> && is_detected_<has_end_member_func_, T>)>
-		inline constexpr bool has_iterator_member_funcs_ =
-			compatible_iterators_<decltype(std::declval<T>().begin()), decltype(std::declval<T>().end())>;
-		template <typename T>
-		inline constexpr bool has_iterator_member_funcs_<T, false> = false;
-
-		template <typename T>
-		using has_begin_std_func_ = decltype(std::begin(std::declval<T>()));
-		template <typename T>
-		using has_end_std_func_ = decltype(std::end(std::declval<T>()));
-
-		template <typename T, bool = (is_detected_<has_begin_std_func_, T> && is_detected_<has_end_std_func_, T>)>
-		inline constexpr bool has_iterator_std_funcs_ =
-			compatible_iterators_<decltype(std::begin(std::declval<T>())), decltype(std::end(std::declval<T>()))>;
-		template <typename T>
-		inline constexpr bool has_iterator_std_funcs_<T, false> = false;
-
-		template <typename T>
-		using has_begin_adl_func_ = decltype(begin(std::declval<T>()));
-		template <typename T>
-		using has_end_adl_func_ = decltype(end(std::declval<T>()));
-
-		template <typename T, bool = (is_detected_<has_begin_adl_func_, T> && is_detected_<has_end_adl_func_, T>)>
-		inline constexpr bool has_iterator_adl_funcs_ =
-			compatible_iterators_<decltype(begin(std::declval<T>())), decltype(end(std::declval<T>()))>;
-		template <typename T>
-		inline constexpr bool has_iterator_adl_funcs_<T, false> = false;
-
-		template <typename T>
-		struct is_bounded_array_ : std::false_type
-		{};
-		template <typename T, size_t N>
-		struct is_bounded_array_<T[N]> : std::true_type
-		{};
-
-		template <typename T>
-		struct is_unbounded_array_ : std::false_type
-		{};
-		template <typename T>
-		struct is_unbounded_array_<T[]> : std::true_type
-		{};
-
-		template <typename T>
-		using has_tuple_size_ = decltype(std::tuple_size<std::remove_cv_t<std::remove_reference_t<T>>>::value);
-		template <typename T>
-		using has_tuple_element_ = std::tuple_element_t<0, std::remove_cv_t<std::remove_reference_t<T>>>;
-		template <typename T>
-		using has_tuple_get_member_ = decltype(std::declval<T>().template get<0>());
-
-		template <typename T, bool = is_detected_<has_tuple_size_, T>>
-		struct tuple_size_ : std::tuple_size<T>
-		{};
-		template <typename T>
-		struct tuple_size_<T, false>
-		{
-			static constexpr size_t value = 0;
-		};
-
-		template <size_t I, typename T>
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		constexpr decltype(auto) get_from_tuple_like(T&& tuple_like) noexcept
-		{
-			if constexpr (is_detected_<has_tuple_get_member_, T&&>)
-			{
-				return static_cast<T&&>(tuple_like).template get<I>();
-			}
-			else // adl
-			{
-				using std::get;
-				return get<I>(static_cast<T&&>(tuple_like));
-			}
-		}
-
 #if defined(__cpp_lib_is_nothrow_convertible) && __cpp_lib_is_nothrow_convertible >= 201806
 
 		template <typename From, typename To>
@@ -1028,6 +874,42 @@ namespace muu
 		inline constexpr bool is_implicitly_nothrow_convertible_<From, To, 2> = true; // both void
 
 #endif
+
+		template <typename T>
+		struct is_bounded_array_ : std::false_type
+		{};
+		template <typename T, size_t N>
+		struct is_bounded_array_<T[N]> : std::true_type
+		{};
+
+		template <typename T>
+		struct is_unbounded_array_ : std::false_type
+		{};
+		template <typename T>
+		struct is_unbounded_array_<T[]> : std::true_type
+		{};
+
+		template <typename T>
+		struct remove_rvalue_reference_
+		{
+			using type = T;
+		};
+		template <typename T>
+		struct remove_rvalue_reference_<T&&>
+		{
+			using type = T;
+		};
+
+		template <typename T>
+		struct remove_lvalue_reference_
+		{
+			using type = T;
+		};
+		template <typename T>
+		struct remove_lvalue_reference_<T&>
+		{
+			using type = T;
+		};
 	}
 	/// \endcond
 
@@ -1037,6 +919,14 @@ namespace muu
 	template <typename T>
 	using remove_enum = typename impl::remove_enum_<T>::type;
 
+	/// \brief Removes reference qualification from a type if (and only if) it is an lvalue reference.
+	template <typename T>
+	using remove_lvalue_reference = typename impl::remove_lvalue_reference_<T>::type;
+
+	/// \brief Removes reference qualification from a type if (and only if) it is an rvalue reference.
+	template <typename T>
+	using remove_rvalue_reference = typename impl::remove_rvalue_reference_<T>::type;
+
 	/// \brief The largest type from a set of types.
 	template <typename... T>
 	using largest = typename impl::largest_<T...>::type;
@@ -1045,7 +935,7 @@ namespace muu
 	template <typename... T>
 	using smallest = typename impl::smallest_<T...>::type;
 
-	/// \brief Returns the sum of `sizeof()` for all of the types named by T.
+	/// \brief The sum of `sizeof()` for all of the types named by T.
 	template <typename... T>
 	inline constexpr size_t total_size = (size_t{} + ... + sizeof(T));
 
@@ -1212,8 +1102,8 @@ namespace muu
 		is_enum<T>&& std::is_convertible_v<remove_cvref<T>, remove_enum<remove_cvref<T>>>;
 
 	/// \brief Is a type unsigned or reference-to-unsigned?
-	/// \remarks Returns true for enums backed by unsigned integers.
-	/// \remarks Returns true for #uint128_t (where supported).
+	/// \remarks True for enums backed by unsigned integers.
+	/// \remarks True for #uint128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_unsigned = std::is_unsigned_v<remove_enum<remove_cvref<T>>>
 #if MUU_HAS_INT128
@@ -1222,19 +1112,19 @@ namespace muu
 		;
 
 	/// \brief Are any of the named types unsigned or reference-to-unsigned?
-	/// \remarks Returns true for enums backed by unsigned integers.
+	/// \remarks True for enums backed by unsigned integers.
 	template <typename T, typename... U>
 	inline constexpr bool any_unsigned = is_unsigned<T> || (false || ... || is_unsigned<U>);
 
 	/// \brief Are all of the named types unsigned or reference-to-unsigned?
-	/// \remarks Returns true for enums backed by unsigned integers.
+	/// \remarks True for enums backed by unsigned integers.
 	template <typename T, typename... U>
 	inline constexpr bool all_unsigned = is_unsigned<T> && (true && ... && is_unsigned<U>);
 
 	/// \brief Is a type signed or reference-to-signed?
-	/// \remarks Returns true for enums backed by signed integers.
-	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for #int128_t, __fp16, _Float16 and #float128_t (where supported).
+	/// \remarks True for enums backed by signed integers.
+	/// \remarks True for muu::half.
+	/// \remarks True for #int128_t, __fp16, _Float16 and #float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_signed = std::is_signed_v<remove_enum<remove_cvref<T>>>
 		|| is_same_as_any<remove_enum<remove_cvref<T>>,
@@ -1255,18 +1145,18 @@ namespace muu
 	;
 
 	/// \brief Are any of the named types signed or reference-to-signed?
-	/// \remarks Returns true for enums backed by signed integers.
+	/// \remarks True for enums backed by signed integers.
 	template <typename T, typename... U>
 	inline constexpr bool any_signed = is_signed<T> || (false || ... || is_signed<U>);
 
 	/// \brief Are all of the named types signed or reference-to-signed?
-	/// \remarks Returns true for enums backed by signed integers.
+	/// \remarks True for enums backed by signed integers.
 	template <typename T, typename... U>
 	inline constexpr bool all_signed = is_signed<T> && (true && ... && is_signed<U>);
 
 	/// \brief Is a type an integral type or a reference to an integral type?
-	/// \remarks Returns true for enums.
-	/// \remarks Returns true for #int128_t and #uint128_t (where supported).
+	/// \remarks True for enums.
+	/// \remarks True for #int128_t and #uint128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_integral = std::is_integral_v<remove_enum<remove_cvref<T>>>
 #if MUU_HAS_INT128
@@ -1275,20 +1165,20 @@ namespace muu
 		;
 
 	/// \brief Are any of the named types integral or reference-to-integral?
-	/// \remarks Returns true for enums.
-	/// \remarks Returns true for #int128_t and #uint128_t (where supported).
+	/// \remarks True for enums.
+	/// \remarks True for #int128_t and #uint128_t (where supported).
 	template <typename T, typename... U>
 	inline constexpr bool any_integral = is_integral<T> || (false || ... || is_integral<U>);
 
 	/// \brief Are all of the named types integral or reference-to-integral?
-	/// \remarks Returns true for enums.
-	/// \remarks Returns true for #int128_t and #uint128_t (where supported).
+	/// \remarks True for enums.
+	/// \remarks True for #int128_t and #uint128_t (where supported).
 	template <typename T, typename... U>
 	inline constexpr bool all_integral = is_integral<T> && (true && ... && is_integral<U>);
 
 	/// \brief Is a type a floating-point or reference-to-floating-point?
-	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for __fp16, _Float16 and #float128_t (where supported).
+	/// \remarks True for muu::half.
+	/// \remarks True for __fp16, _Float16 and #float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_floating_point = std::is_floating_point_v<std::remove_reference_t<T>>
 		|| is_same_as_any<remove_cvref<T>,
@@ -1306,14 +1196,14 @@ namespace muu
 	;
 
 	/// \brief Are any of the named types floating-point or reference-to-floating-point?
-	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for _Float16 and #float128_t (where supported).
+	/// \remarks True for muu::half.
+	/// \remarks True for _Float16 and #float128_t (where supported).
 	template <typename T, typename... U>
 	inline constexpr bool any_floating_point = is_floating_point<T> || (false || ... || is_floating_point<U>);
 
 	/// \brief Are all of the named types floating-point or reference-to-floating-point?
-	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for _Float16 and #float128_t (where supported).
+	/// \remarks True for muu::half.
+	/// \remarks True for _Float16 and #float128_t (where supported).
 	template <typename T, typename... U>
 	inline constexpr bool all_floating_point = is_floating_point<T> && (true && ... && is_floating_point<U>);
 
@@ -1322,8 +1212,8 @@ namespace muu
 	inline constexpr bool is_standard_arithmetic = std::is_arithmetic_v<std::remove_reference_t<T>>;
 
 	/// \brief Is a type a nonstandard 'extended' arithmetic type, or a reference to one?
-	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for #int128_t, #uint128_t, __fp16, _Float16 and #float128_t (where supported).
+	/// \remarks True for muu::half.
+	/// \remarks True for #int128_t, #uint128_t, __fp16, _Float16 and #float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_extended_arithmetic = is_same_as_any<remove_cvref<T>,
 																  half
@@ -1347,20 +1237,20 @@ namespace muu
 																  >;
 
 	/// \brief Is a type arithmetic or reference-to-arithmetic?
-	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for #int128_t, #uint128_t, __fp16, _Float16 and #float128_t (where supported).
+	/// \remarks True for muu::half.
+	/// \remarks True for #int128_t, #uint128_t, __fp16, _Float16 and #float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_arithmetic = is_standard_arithmetic<T> || is_extended_arithmetic<T>;
 
 	/// \brief Are any of the named types arithmetic or reference-to-arithmetic?
-	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for #int128_t, #uint128_t, _Float16 and #float128_t (where supported).
+	/// \remarks True for muu::half.
+	/// \remarks True for #int128_t, #uint128_t, _Float16 and #float128_t (where supported).
 	template <typename T, typename... U>
 	inline constexpr bool any_arithmetic = is_arithmetic<T> || (false || ... || is_arithmetic<U>);
 
 	/// \brief Are all of the named types arithmetic or reference-to-arithmetic?
-	/// \remarks Returns true for muu::half.
-	/// \remarks Returns true for #int128_t, #uint128_t, _Float16 and #float128_t (where supported).
+	/// \remarks True for muu::half.
+	/// \remarks True for #int128_t, #uint128_t, _Float16 and #float128_t (where supported).
 	template <typename T, typename... U>
 	inline constexpr bool all_arithmetic = is_arithmetic<T> && (true && ... && is_arithmetic<U>);
 
@@ -1384,9 +1274,9 @@ namespace muu
 	template <typename T, bool AddConst>
 	using conditionally_add_const = std::conditional_t<AddConst, add_const<T>, T>;
 
-	/// \brief Shorthand for marking a type or reference with the same constness as another type or reference.
-	template <typename T, typename MatchWith>
-	using match_const = set_const<T, is_const<MatchWith>>;
+	/// \brief Copies the constness (or lack thereof) from one type or reference to another.
+	template <typename T, typename CopyFrom>
+	using copy_const = set_const<T, is_const<CopyFrom>>;
 
 	/// \brief Is a type volatile or reference-to-volatile?
 	template <typename T>
@@ -1408,9 +1298,9 @@ namespace muu
 	template <typename T, bool AddVolatile>
 	using conditionally_add_volatile = std::conditional_t<AddVolatile, add_volatile<T>, T>;
 
-	/// \brief Shorthand for marking a type or reference with the same volatility as another type or reference.
-	template <typename T, typename MatchWith>
-	using match_volatile = set_volatile<T, is_volatile<MatchWith>>;
+	/// \brief Copies the volatility (or lack thereof) from one type or reference to another.
+	template <typename T, typename CopyFrom>
+	using copy_volatile = set_volatile<T, is_volatile<CopyFrom>>;
 
 	/// \brief Adds const and volatile qualifiers to a type or reference.
 	template <typename T>
@@ -1430,16 +1320,27 @@ namespace muu
 	template <typename T, bool AddConstVolatile>
 	using conditionally_add_cv = std::conditional_t<AddConstVolatile, add_cv<T>, T>;
 
-	/// \brief Shorthand for marking a type or reference with the same constness and volatility
-	/// 	   as another type or reference.
-	template <typename T, typename MatchWith>
-	using match_cv = match_const<match_volatile<T, MatchWith>, MatchWith>;
+	/// \brief Copies consteness and volatility (or lack thereof) from one type or reference to another.
+	template <typename T, typename CopyFrom>
+	using copy_cv = copy_const<copy_volatile<T, CopyFrom>, CopyFrom>;
+
+	/// \cond
+	// deprecations
+#if !MUU_INTELLISENSE
+	template <typename T, typename CopyFrom>
+	using match_const = copy_const<T, CopyFrom>;
+	template <typename T, typename CopyFrom>
+	using match_volatile = copy_volatile<T, CopyFrom>;
+	template <typename T, typename CopyFrom>
+	using match_cv = copy_cv<T, CopyFrom>;
+#endif
+	/// \endcond
 
 	/// \brief Is a type const, volatile, or a reference?
 	template <typename T>
 	inline constexpr bool is_cvref = std::is_const_v<T> || std::is_volatile_v<T> || std::is_reference_v<T>;
 
-	/// \brief Removes any `noexcept` modifier from a functional type.
+	/// \brief Removes any `noexcept` specifier from a functional type.
 	template <typename T>
 	using remove_noexcept = typename impl::remove_noexcept_<T>::type;
 
@@ -1468,9 +1369,17 @@ namespace muu
 	template <typename T, bool Signed>
 	using set_signed = std::conditional_t<Signed, make_signed<T>, make_unsigned<T>>;
 
+	/// \brief Copies the signed-ness (or lack thereof) from one numeric type or reference to another.
+	template <typename T, typename CopyFrom>
+	using copy_signed = set_signed<T, is_signed<CopyFrom>>;
+
 	/// \brief Sets the unsigned-ness of a numeric type or reference according to a boolean.
 	template <typename T, bool Unsigned>
 	using set_unsigned = std::conditional_t<Unsigned, make_unsigned<T>, make_signed<T>>;
+
+	/// \brief Copies the unsigned-ness (or lack thereof) from one numeric type or reference to another.
+	template <typename T, typename CopyFrom>
+	using copy_unsigned = set_unsigned<T, is_unsigned<CopyFrom>>;
 
 	/// \brief	Evaluates to false but with delayed, type-dependent evaluation.
 	/// \details Allows you to do things like this:
@@ -1509,7 +1418,7 @@ namespace muu
 #endif
 														>;
 
-	/// \brief Returns the rank of a pointer.
+	/// \brief The rank of a pointer.
 	/// \remark Answers "how many stars does it have?".
 	template <typename T>
 	inline constexpr size_t pointer_rank = impl::pointer_rank_<T>::value;
@@ -1517,117 +1426,6 @@ namespace muu
 	/// \brief Strips every level of pointer from a type.
 	template <typename T>
 	using remove_all_pointers = typename impl::remove_all_pointers_<T>::type;
-
-	/// \brief Detects if a type supports an interface.
-	/// \see
-	///		- [Detection Idiom](https://blog.tartanllama.xyz/detection-idiom/)
-	///		- [std::experimental::is_detected](https://en.cppreference.com/w/cpp/experimental/is_detected)
-	template <template <typename...> typename Trait, typename... Args>
-	inline constexpr auto is_detected = impl::is_detected_<Trait, Args...>;
-
-	/// \brief Returns true if a type has an indirection operator (`*T`).
-	template <typename T>
-	inline constexpr bool has_indirection_operator = is_detected<impl::has_indirection_operator_, T>;
-
-	/// \brief Returns true if a type has an arrow operator (`T->`).
-	template <typename T>
-	inline constexpr bool has_arrow_operator =
-		is_detected<impl::has_arrow_operator_, T>								   //
-		|| (std::is_pointer_v<std::remove_reference_t<T>>						   //
-			&& (std::is_class_v<std::remove_pointer_t<std::remove_reference_t<T>>> //
-				|| std::is_union_v<std::remove_pointer_t<std::remove_reference_t<T>>>));
-
-	/// \brief Returns true if a pair of types has a subscript operator (`T[U]`).
-	template <typename T, typename U = size_t>
-	inline constexpr bool has_subscript_operator = is_detected<impl::has_subscript_operator_, T, U>;
-
-	/// \brief Returns true if a type has a unary plus operator (`+T`).
-	template <typename T>
-	inline constexpr bool has_unary_plus_operator = is_detected<impl::has_unary_plus_operator_, T>;
-
-	/// \brief Returns true if a type has a unary minus operator (`-T`).
-	template <typename T>
-	inline constexpr bool has_unary_minus_operator = is_detected<impl::has_unary_minus_operator_, T>;
-
-	/// \brief Returns true if a pair of types has an addition operator (`T + U`).
-	template <typename T, typename U = T>
-	inline constexpr bool has_addition_operator = is_detected<impl::has_addition_operator_, T, U>;
-
-	/// \brief Returns true if a pair of types has a subtraction operator (`T - U`).
-	template <typename T, typename U = T>
-	inline constexpr bool has_subtraction_operator = is_detected<impl::has_subtraction_operator_, T, U>;
-
-	/// \brief Returns true if a pair of types has a division operator (`T / U`).
-	template <typename T, typename U = T>
-	inline constexpr bool has_division_operator = is_detected<impl::has_division_operator_, T, U>;
-
-	/// \brief Returns true if a pair of types has a multiplication operator (`T * U`).
-	template <typename T, typename U = T>
-	inline constexpr bool has_multiplication_operator = is_detected<impl::has_multiplication_operator_, T, U>;
-
-	/// \brief Returns true if a pair of types has an modulo operator (`T % U`).
-	template <typename T, typename U = T>
-	inline constexpr bool has_modulo_operator = is_detected<impl::has_modulo_operator_, T, U>;
-
-	/// \brief Returns true if a type has a unary bitwise NOT operator (`~T`).
-	template <typename T>
-	inline constexpr bool has_bitwise_not_operator = is_detected<impl::has_bitwise_not_operator_, T>;
-
-	/// \brief Returns true if a pair of types has a bitwise AND operator (`T & U`).
-	template <typename T, typename U = T>
-	inline constexpr bool has_bitwise_and_operator = is_detected<impl::has_bitwise_and_operator_, T, U>;
-
-	/// \brief Returns true if a pair of types has a bitwise OR operator (`T | U`).
-	template <typename T, typename U = T>
-	inline constexpr bool has_bitwise_or_operator = is_detected<impl::has_bitwise_or_operator_, T, U>;
-
-	/// \brief Returns true if a pair of types has a bitwise XOR operator (`T ^ U`).
-	template <typename T, typename U = T>
-	inline constexpr bool has_bitwise_xor_operator = is_detected<impl::has_bitwise_xor_operator_, T, U>;
-
-	/// \brief Returns true if a pair of types has a bitwise left-shift operator (`T << U`).
-	template <typename T, typename U = T>
-	inline constexpr bool has_bitwise_lsh_operator = is_detected<impl::has_bitwise_lsh_operator_, T, U>;
-
-	/// \brief Returns true if a pair of types has a bitwise right-shift operator (`T >> U`).
-	template <typename T, typename U = T>
-	inline constexpr bool has_bitwise_rsh_operator = is_detected<impl::has_bitwise_rsh_operator_, T, U>;
-
-	/// \brief Returns true if a type has a unary logical NOT operator (`!T`).
-	template <typename T>
-	inline constexpr bool has_logical_not_operator = is_detected<impl::has_logical_not_operator_, T>;
-
-	/// \brief Returns true if a pair of types has a logical AND operator (`T && U`).
-	template <typename T, typename U = T>
-	inline constexpr bool has_logical_and_operator = is_detected<impl::has_logical_and_operator_, T, U>;
-
-	/// \brief Returns true if a pair of types has a logical OR operator (`T || U`).
-	template <typename T, typename U = T>
-	inline constexpr bool has_logical_or_operator = is_detected<impl::has_logical_or_operator_, T, U>;
-
-	/// \brief Returns true if a pair of types has an equality operator (`T == U`).
-	template <typename T, typename U = T>
-	inline constexpr bool has_equality_operator = is_detected<impl::has_equality_operator_, T, U>;
-
-	/// \brief Returns true if a pair of types has an inequality operator (`T != U`).
-	template <typename T, typename U = T>
-	inline constexpr bool has_inequality_operator = is_detected<impl::has_inequality_operator_, T, U>;
-
-	/// \brief Returns true if a type has a pre-increment operator (`++T`).
-	template <typename T>
-	inline constexpr bool has_pre_increment_operator = is_detected<impl::has_pre_increment_operator_, T>;
-
-	/// \brief Returns true if a type has a pre-decrement operator (`--T`).
-	template <typename T>
-	inline constexpr bool has_pre_decrement_operator = is_detected<impl::has_pre_decrement_operator_, T>;
-
-	/// \brief Returns true if a type has a post-increment operator (`T++`).
-	template <typename T>
-	inline constexpr bool has_post_increment_operator = is_detected<impl::has_post_increment_operator_, T>;
-
-	/// \brief Returns true if a type has a post-decrement operator (`T--`).
-	template <typename T>
-	inline constexpr bool has_post_decrement_operator = is_detected<impl::has_post_decrement_operator_, T>;
 
 	/// \brief Is a type an unbounded array (`T[]`), or reference to one?
 	/// \remark This is similar to C++20's std::is_unbounded_array.
@@ -1643,19 +1441,304 @@ namespace muu
 	template <typename T>
 	inline constexpr bool is_array = is_unbounded_array<T> || is_bounded_array<T>;
 
-	/// \brief Returns true if a type has pair of `begin()` and `end()` iterator functions as members, in the std namespace, or found via ADL.
+	/// \cond
+	namespace impl
+	{
+		template <template <typename...> typename Trait, typename Enabler, typename... Args>
+		struct is_detected_impl : std::false_type
+		{};
+		template <template <typename...> typename Trait, typename... Args>
+		struct is_detected_impl<Trait, std::void_t<Trait<Args...>>, Args...> : std::true_type
+		{};
+		template <template <typename...> typename Trait, typename... Args>
+		inline constexpr auto is_detected_ = is_detected_impl<Trait, void, Args...>::value;
+	}
+
+	/// \endcond
+	///
+	/// \brief Detects if a type supports an interface.
+	/// \see
+	///		- [Detection Idiom](https://blog.tartanllama.xyz/detection-idiom/)
+	///		- [std::experimental::is_detected](https://en.cppreference.com/w/cpp/experimental/is_detected)
+	template <template <typename...> typename Trait, typename... Args>
+	inline constexpr auto is_detected = impl::is_detected_<Trait, Args...>;
+
+	/// \cond
+	namespace impl
+	{
+		template <typename T>
+		using has_indirection_operator_ = decltype(*std::declval<T>());
+		template <typename T>
+		using has_arrow_operator_ = decltype(std::declval<T>().operator->());
+		template <typename T, typename U>
+		using has_subscript_operator_ = decltype(std::declval<T>()[std::declval<U>()]);
+
+		template <typename T>
+		using has_unary_plus_operator_ = decltype(+std::declval<T>());
+		template <typename T>
+		using has_unary_minus_operator_ = decltype(-std::declval<T>());
+
+		template <typename T, typename U>
+		using has_addition_operator_ = decltype(std::declval<T>() + std::declval<U>());
+		template <typename T, typename U>
+		using has_subtraction_operator_ = decltype(std::declval<T>() - std::declval<U>());
+		template <typename T, typename U>
+		using has_division_operator_ = decltype(std::declval<T>() / std::declval<U>());
+		template <typename T, typename U>
+		using has_multiplication_operator_ = decltype(std::declval<T>() * std::declval<U>());
+		template <typename T, typename U>
+		using has_modulo_operator_ = decltype(std::declval<T>() % std::declval<U>());
+
+		template <typename T>
+		using has_bitwise_not_operator_ = decltype(~std::declval<T>());
+		template <typename T, typename U>
+		using has_bitwise_and_operator_ = decltype(std::declval<T>() & std::declval<U>());
+		template <typename T, typename U>
+		using has_bitwise_or_operator_ = decltype(std::declval<T>() | std::declval<U>());
+		template <typename T, typename U>
+		using has_bitwise_xor_operator_ = decltype(std::declval<T>() ^ std::declval<U>());
+		template <typename T, typename U>
+		using has_bitwise_lsh_operator_ = decltype(std::declval<T>() << std::declval<U>());
+		template <typename T, typename U>
+		using has_bitwise_rsh_operator_ = decltype(std::declval<T>() >> std::declval<U>());
+
+		template <typename T>
+		using has_logical_not_operator_ = decltype(!std::declval<T>());
+		template <typename T, typename U>
+		using has_logical_and_operator_ = decltype(std::declval<T>() && std::declval<U>());
+		template <typename T, typename U>
+		using has_logical_or_operator_ = decltype(std::declval<T>() || std::declval<U>());
+
+		template <typename T, typename U>
+		using has_equality_operator_ = decltype(std::declval<T>() == std::declval<U>());
+		template <typename T, typename U>
+		using has_inequality_operator_ = decltype(std::declval<T>() != std::declval<U>());
+
+		template <typename T>
+		using has_pre_increment_operator_ = decltype(++std::declval<T>());
+		template <typename T>
+		using has_pre_decrement_operator_ = decltype(--std::declval<T>());
+		template <typename T>
+		using has_post_increment_operator_ = decltype(std::declval<T>()++);
+		template <typename T>
+		using has_post_decrement_operator_ = decltype(std::declval<T>()--);
+
+		template <typename T>
+		using has_begin_member_func_ = decltype(std::declval<T>().begin());
+		template <typename T>
+		using has_end_member_func_ = decltype(std::declval<T>().end());
+
+		template <typename B, typename E>
+		inline constexpr bool compatible_iterators_ =
+			!std::is_void_v<remove_cvref<B>>											//
+			&& !std::is_void_v<remove_cvref<E>>											//
+			&& is_detected<has_indirection_operator_, B>								//
+			&& is_detected<has_pre_increment_operator_, std::add_lvalue_reference_t<B>> //
+			&& is_detected<has_equality_operator_, B, E>								//
+			&& is_detected<has_inequality_operator_, B, E>;
+
+		template <typename T, bool = (is_detected<has_begin_member_func_, T> && is_detected<has_end_member_func_, T>)>
+		inline constexpr bool has_iterator_member_funcs_ =
+			compatible_iterators_<decltype(std::declval<T>().begin()), decltype(std::declval<T>().end())>;
+		template <typename T>
+		inline constexpr bool has_iterator_member_funcs_<T, false> = false;
+
+		template <typename T>
+		using has_begin_std_func_ = decltype(std::begin(std::declval<T>()));
+		template <typename T>
+		using has_end_std_func_ = decltype(std::end(std::declval<T>()));
+
+		template <typename T, bool = (is_detected<has_begin_std_func_, T> && is_detected<has_end_std_func_, T>)>
+		inline constexpr bool has_iterator_std_funcs_ =
+			compatible_iterators_<decltype(std::begin(std::declval<T>())), decltype(std::end(std::declval<T>()))>;
+		template <typename T>
+		inline constexpr bool has_iterator_std_funcs_<T, false> = false;
+
+		template <typename T>
+		using has_begin_adl_func_ = decltype(begin(std::declval<T>()));
+		template <typename T>
+		using has_end_adl_func_ = decltype(end(std::declval<T>()));
+
+		template <typename T, bool = (is_detected<has_begin_adl_func_, T> && is_detected<has_end_adl_func_, T>)>
+		inline constexpr bool has_iterator_adl_funcs_ =
+			compatible_iterators_<decltype(begin(std::declval<T>())), decltype(end(std::declval<T>()))>;
+		template <typename T>
+		inline constexpr bool has_iterator_adl_funcs_<T, false> = false;
+
+		template <typename T>
+		using has_tuple_size_ = decltype(std::tuple_size<std::remove_cv_t<std::remove_reference_t<T>>>::value);
+		template <typename T>
+		using has_tuple_element_ = std::tuple_element_t<0, std::remove_cv_t<std::remove_reference_t<T>>>;
+		template <typename T>
+		using has_tuple_get_member_ = decltype(std::declval<T>().template get<0>());
+
+		template <typename T, bool = is_detected<has_tuple_size_, T>>
+		struct tuple_size_ : std::tuple_size<T>
+		{};
+		template <typename T>
+		struct tuple_size_<T, false>
+		{
+			static constexpr size_t value = 0;
+		};
+
+		template <size_t I, typename T>
+		MUU_NODISCARD
+		MUU_ALWAYS_INLINE
+		constexpr decltype(auto) get_from_tuple_like(T&& tuple_like) noexcept
+		{
+			if constexpr (is_detected<has_tuple_get_member_, T&&>)
+			{
+				return static_cast<T&&>(tuple_like).template get<I>();
+			}
+			else // adl
+			{
+				using std::get;
+				return get<I>(static_cast<T&&>(tuple_like));
+			}
+		}
+
+		template <typename T>
+		using has_data_member_func_impl_ = decltype(std::declval<T>().data());
+		template <typename T, bool = is_detected<has_data_member_func_impl_, T>>
+		inline constexpr bool has_data_member_func_ =
+			std::is_pointer_v<std::remove_reference_t<decltype(std::declval<T>().data())>>;
+		template <typename T>
+		inline constexpr bool has_data_member_func_<T, false> = false;
+
+		template <typename T>
+		using has_size_member_func_impl_ = decltype(std::declval<T>().size());
+		template <typename T, bool = is_detected<has_size_member_func_impl_, T>>
+		inline constexpr bool has_size_member_func_ = is_integral<decltype(std::declval<T>().size())>&&
+			is_arithmetic<decltype(std::declval<T>().size())>; // exclude bools, chars and enums
+		template <typename T>
+		inline constexpr bool has_size_member_func_<T, false> = false;
+	}
+	/// \endcond
+
+	/// \brief True if a type has an indirection operator (`*T`).
+	template <typename T>
+	inline constexpr bool has_indirection_operator = is_detected<impl::has_indirection_operator_, T>;
+
+	/// \brief True if a type has an arrow operator (`T->`).
+	template <typename T>
+	inline constexpr bool has_arrow_operator =
+		is_detected<impl::has_arrow_operator_, T>								   //
+		|| (std::is_pointer_v<std::remove_reference_t<T>>						   //
+			&& (std::is_class_v<std::remove_pointer_t<std::remove_reference_t<T>>> //
+				|| std::is_union_v<std::remove_pointer_t<std::remove_reference_t<T>>>));
+
+	/// \brief True if a pair of types has a subscript operator (`T[U]`).
+	template <typename T, typename U = size_t>
+	inline constexpr bool has_subscript_operator = is_detected<impl::has_subscript_operator_, T, U>;
+
+	/// \brief True if a type has a unary plus operator (`+T`).
+	template <typename T>
+	inline constexpr bool has_unary_plus_operator = is_detected<impl::has_unary_plus_operator_, T>;
+
+	/// \brief True if a type has a unary minus operator (`-T`).
+	template <typename T>
+	inline constexpr bool has_unary_minus_operator = is_detected<impl::has_unary_minus_operator_, T>;
+
+	/// \brief True if a pair of types has an addition operator (`T + U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_addition_operator = is_detected<impl::has_addition_operator_, T, U>;
+
+	/// \brief True if a pair of types has a subtraction operator (`T - U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_subtraction_operator = is_detected<impl::has_subtraction_operator_, T, U>;
+
+	/// \brief True if a pair of types has a division operator (`T / U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_division_operator = is_detected<impl::has_division_operator_, T, U>;
+
+	/// \brief True if a pair of types has a multiplication operator (`T * U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_multiplication_operator = is_detected<impl::has_multiplication_operator_, T, U>;
+
+	/// \brief True if a pair of types has an modulo operator (`T % U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_modulo_operator = is_detected<impl::has_modulo_operator_, T, U>;
+
+	/// \brief True if a type has a unary bitwise NOT operator (`~T`).
+	template <typename T>
+	inline constexpr bool has_bitwise_not_operator = is_detected<impl::has_bitwise_not_operator_, T>;
+
+	/// \brief True if a pair of types has a bitwise AND operator (`T & U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_bitwise_and_operator = is_detected<impl::has_bitwise_and_operator_, T, U>;
+
+	/// \brief True if a pair of types has a bitwise OR operator (`T | U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_bitwise_or_operator = is_detected<impl::has_bitwise_or_operator_, T, U>;
+
+	/// \brief True if a pair of types has a bitwise XOR operator (`T ^ U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_bitwise_xor_operator = is_detected<impl::has_bitwise_xor_operator_, T, U>;
+
+	/// \brief True if a pair of types has a bitwise left-shift operator (`T << U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_bitwise_lsh_operator = is_detected<impl::has_bitwise_lsh_operator_, T, U>;
+
+	/// \brief True if a pair of types has a bitwise right-shift operator (`T >> U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_bitwise_rsh_operator = is_detected<impl::has_bitwise_rsh_operator_, T, U>;
+
+	/// \brief True if a type has a unary logical NOT operator (`!T`).
+	template <typename T>
+	inline constexpr bool has_logical_not_operator = is_detected<impl::has_logical_not_operator_, T>;
+
+	/// \brief True if a pair of types has a logical AND operator (`T && U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_logical_and_operator = is_detected<impl::has_logical_and_operator_, T, U>;
+
+	/// \brief True if a pair of types has a logical OR operator (`T || U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_logical_or_operator = is_detected<impl::has_logical_or_operator_, T, U>;
+
+	/// \brief True if a pair of types has an equality operator (`T == U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_equality_operator = is_detected<impl::has_equality_operator_, T, U>;
+
+	/// \brief True if a pair of types has an inequality operator (`T != U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_inequality_operator = is_detected<impl::has_inequality_operator_, T, U>;
+
+	/// \brief True if a type has a pre-increment operator (`++T`).
+	template <typename T>
+	inline constexpr bool has_pre_increment_operator = is_detected<impl::has_pre_increment_operator_, T>;
+
+	/// \brief True if a type has a pre-decrement operator (`--T`).
+	template <typename T>
+	inline constexpr bool has_pre_decrement_operator = is_detected<impl::has_pre_decrement_operator_, T>;
+
+	/// \brief True if a type has a post-increment operator (`T++`).
+	template <typename T>
+	inline constexpr bool has_post_increment_operator = is_detected<impl::has_post_increment_operator_, T>;
+
+	/// \brief True if a type has a post-decrement operator (`T--`).
+	template <typename T>
+	inline constexpr bool has_post_decrement_operator = is_detected<impl::has_post_decrement_operator_, T>;
+
+	/// \brief True if a type has a member function `data()` returning a pointer.
+	template <typename T>
+	inline constexpr bool has_data_member_function = impl::has_data_member_func_<T>;
+
+	/// \brief True if a type has a member function `size()` returning an arithmetic integral type.
+	template <typename T>
+	inline constexpr bool has_size_member_function = impl::has_size_member_func_<T>;
+
+	/// \brief	Returns true if a type is a bounded array or a class type having `begin()` and `end()` iterators
+	///			(as members, in the `std` namespace, or found via ADL).
 	template <typename T>
 	inline constexpr bool is_iterable = impl::has_iterator_member_funcs_<T> //
 									 || impl::has_iterator_std_funcs_<T>	//
 									 || impl::has_iterator_adl_funcs_<T>	//
 									 || is_bounded_array<T>;
 
-	/// \brief Returns true if the type implements std::tuple_size and std::tuple_element.
+	/// \brief True if the type implements std::tuple_size and std::tuple_element.
 	template <typename T>
 	inline constexpr bool is_tuple_like =
-		is_detected<impl::has_tuple_size_, T>&& is_detected<impl::has_tuple_element_, T>
-		//&& is_detected<impl::has_tuple_get_member_, T>
-		;
+		is_detected<impl::has_tuple_size_, T>&& is_detected<impl::has_tuple_element_, T>;
 
 	/// \brief Equivalent to std::tuple_size_v, but safe to use in SFINAE contexts.
 	/// \remark Returns 0 for types that do not implement std::tuple_size.
@@ -1666,12 +1749,36 @@ namespace muu
 	namespace impl
 	{
 		template <typename T>
-		inline constexpr bool is_small_float_ = is_floating_point<T> && sizeof(T) < sizeof(float)
+		inline constexpr bool is_small_float_ = is_floating_point<T> && sizeof(T) <= sizeof(float)
 											 && is_extended_arithmetic<T>;
 		template <typename T>
 		inline constexpr bool is_large_float_ = is_floating_point<T> && sizeof(T) >= sizeof(long double)
 											 && is_extended_arithmetic<T>;
+	}
+	/// \endcond
 
+	/// \brief Promotes 'small' extended arithmetic floating-point types (e.g. __fp16, etc.) to `float`.
+	/// \remarks CV qualifiers and reference categories are preserved.
+	template <typename T>
+	using promote_if_small_float = std::conditional_t<impl::is_small_float_<T>, //
+													  typename impl::rebase_ref_<T, copy_cv<float, T>>::type,
+													  T>;
+
+	/// \brief Demotes 'large' extended arithmetic floating-point types (e.g. __float128) to `long double`.
+	/// \remarks CV qualifiers and reference categories are preserved.
+	template <typename T>
+	using demote_if_large_float = std::conditional_t<impl::is_large_float_<T>, //
+													 typename impl::rebase_ref_<T, copy_cv<long double, T>>::type,
+													 T>;
+
+	/// \brief Clamps extended arithmetic floating-point types (e.g. __fp16, __float128) to `float` or `long double`.
+	/// \remarks CV qualifiers and reference categories are preserved.
+	template <typename T>
+	using clamp_to_standard_float = demote_if_large_float<promote_if_small_float<T>>;
+
+	/// \cond
+	namespace impl
+	{
 		template <typename T>
 		inline constexpr bool is_vector_ = false;
 		template <typename S, size_t D>
@@ -1687,13 +1794,6 @@ namespace muu
 		template <typename S, size_t R, size_t C>
 		inline constexpr bool is_matrix_<::muu::matrix<S, R, C>> = true;
 
-		template <typename T>
-		using promote_if_small_float = std::conditional_t<is_small_float_<T>, float, T>;
-		template <typename T>
-		using demote_if_large_float = std::conditional_t<is_large_float_<T>, long double, T>;
-		template <typename T>
-		using clamp_to_standard_float = demote_if_large_float<promote_if_small_float<T>>;
-
 		// promotes ints to doubles, keeps floats as-is, as per the behaviour of std::sqrt, std::lerp, etc.
 		template <typename... T>
 		using std_math_common_type = highest_ranked<std::conditional_t<is_integral<T> && !is_enum<T>, double, T>...>;
@@ -1701,7 +1801,7 @@ namespace muu
 		struct any_type
 		{
 			template <typename T>
-			constexpr operator T() const noexcept; // non-explicit
+			/*implicit*/ constexpr operator T() const noexcept;
 		};
 
 #if MUU_HAS_VECTORCALL

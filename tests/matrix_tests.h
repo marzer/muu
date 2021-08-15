@@ -880,7 +880,7 @@ BATCHED_TEST_CASE("matrix division", common_matrices<ALL_ARITHMETIC>)
 		for (size_t c = 0; c < matrix_t::columns; c++)
 			mat(r, c) = random<T>(2, 5);
 
-	using promoted = impl::promote_if_small_float<T>;
+	using promoted = promote_if_small_float<T>;
 
 	BATCHED_SECTION("matrix / scalar")
 	{

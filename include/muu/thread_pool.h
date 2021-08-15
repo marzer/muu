@@ -7,7 +7,7 @@
 /// \brief  Contains the definition of muu::thread_pool.
 
 #pragma once
-#include "impl/core_everything_except_type_list.h"
+#include "core.h"
 #include "generic_allocator.h"
 #include "string_param.h"
 #include "iterators.h"

@@ -214,7 +214,7 @@ namespace muu
 	///	| T(\*)()noexcept         | T(\*)()                 | static_cast       |                       |
 	///	| IUnknown\*              | IUnknown\*              | QueryInterface    | Windows only          |
 	///
-	///  \warning There are lots of static checks to make sure you don't do something completely insane,
+	///  \warning There are lots of static checks to stop you from doing something overtly dangerous,
 	/// 		 but ultimately the fallback behaviour for casting between unrelated types is to use a
 	/// 		 `reinterpret_cast`, and there's nothing stopping you from using multiple `pointer_casts`
 	/// 		 through `void*` to make a conversion 'work'. Footguns aplenty!
@@ -426,14 +426,14 @@ namespace muu
 			// rank 2+ pointer -> *
 			else if constexpr (std::is_pointer_v<from_base>)
 			{
-				return pointer_cast<To>(static_cast<match_cv<void, from_base>*>(from));
+				return pointer_cast<To>(static_cast<copy_cv<void, from_base>*>(from));
 			}
 
 			// * -> rank 2+ pointer
 			else if constexpr (std::is_pointer_v<to_base>)
 			{
 				static_assert(!std::is_pointer_v<from_base>);
-				return static_cast<To>(pointer_cast<match_cv<void, to_base>*>(from));
+				return static_cast<To>(pointer_cast<copy_cv<void, to_base>*>(from));
 			}
 
 			// Foo -> Bar (unrelated types)

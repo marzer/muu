@@ -20,7 +20,7 @@ namespace muu
 {
 	/// \brief	Returns the 'begin' iterator of an iterable object.
 	/// \ingroup iterators
-	/// 
+	///
 	/// \detail This function tries to follow the same rules as the compiler[strong][entity 2A][/strong] for
 	/// determining the 'begin' iterator in a [range-based for loop](https://en.cppreference.com/w/cpp/language/range-for):
 	/// 1. Is the object a bounded array? If so, return a pointer to the first element.
@@ -57,7 +57,7 @@ namespace muu
 
 	/// \brief	Returns the 'end' iterator of an iterable object.
 	/// \ingroup iterators
-	/// 
+	///
 	/// \detail This function tries to follow the same rules as the compiler[strong][entity 2A][/strong] for
 	/// determining the 'end' iterator in a [range-based for loop](https://en.cppreference.com/w/cpp/language/range-for):
 	/// 1. Is the object a bounded array? If so, return a pointer to one-past-the-last element.
