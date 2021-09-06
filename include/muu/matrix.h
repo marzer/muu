@@ -1713,7 +1713,7 @@ namespace muu
 		/// 				and has a floating-point #scalar_type.
 		///
 		/// \see [Orthonormal basis](https://en.wikipedia.org/wiki/Orthonormal_basis)
-		MUU_LEGACY_REQUIRES_2((is_floating_point<T> && (Rows == 3 || Rows == 4) && (Columns == 3 || Columns == 4)),
+		MUU_LEGACY_REQUIRES((is_floating_point<T> && (Rows == 3 || Rows == 4) && (Columns == 3 || Columns == 4)),
 							  typename T = Scalar)
 		constexpr matrix& orthonormalize() noexcept
 			MUU_REQUIRES(is_floating_point<Scalar> && (Rows == 3 || Rows == 4) && (Columns == 3 || Columns == 4))

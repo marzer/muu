@@ -14,10 +14,13 @@ MUU_DISABLE_WARNINGS;
 #endif
 MUU_ENABLE_WARNINGS;
 
-// replace the muu homebrew remove_reference_ with remove_reference_t after including <type_traits>
-// because major compilers often memoize things in <type_traits> for improved throughput
+// replace the muu homebrew remove_reference_ and enable_if_ with those from <type_traits>
+// because major compilers memoize things in <type_traits> for improved throughput
 #undef MUU_MOVE
 #define MUU_MOVE(...) static_cast<std::remove_reference_t<decltype(__VA_ARGS__)>&&>(__VA_ARGS__)
+
+#undef MUU_ENABLE_IF
+#define MUU_ENABLE_IF(...)	 , std::enable_if_t<(__VA_ARGS__), int> = 0
 
 #include "header_start.h"
 MUU_PRAGMA_MSVC(warning(disable : 4296)) // condition always true/false

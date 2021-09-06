@@ -47,7 +47,7 @@ namespace muu
 
 	/// \cond
 
-	MUU_CONSTRAINED_TEMPLATE_2(!is_enum<T>, typename T)
+	MUU_CONSTRAINED_TEMPLATE(!is_enum<T>, typename T)
 	MUU_NODISCARD
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)

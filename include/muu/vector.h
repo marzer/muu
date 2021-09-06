@@ -771,7 +771,7 @@ namespace muu
 
 		/// \cond
 
-		MUU_CONSTRAINED_TEMPLATE_2((Dimensions == N && build::supports_constexpr_bit_cast), size_t N)
+		MUU_CONSTRAINED_TEMPLATE((Dimensions == N && build::supports_constexpr_bit_cast), size_t N)
 		MUU_NODISCARD_CTOR
 		explicit constexpr vector(const scalar_type (&arr)[N]) noexcept //
 			: base{ muu::bit_cast<base>(arr) }
@@ -808,7 +808,7 @@ namespace muu
 
 		/// \cond
 
-		MUU_CONSTRAINED_TEMPLATE_2((Dimensions == N && build::supports_constexpr_bit_cast), size_t N)
+		MUU_CONSTRAINED_TEMPLATE((Dimensions == N && build::supports_constexpr_bit_cast), size_t N)
 		MUU_NODISCARD_CTOR
 		explicit constexpr vector(const std::array<scalar_type, N>& arr) noexcept //
 			: base{ muu::bit_cast<base>(arr) }
@@ -854,7 +854,7 @@ namespace muu
 
 		/// \cond
 
-		MUU_CONSTRAINED_TEMPLATE_2((!impl::is_vector_<T>						  //
+		MUU_CONSTRAINED_TEMPLATE((!impl::is_vector_<T>						  //
 									&& (std::is_class_v<T> || std::is_union_v<T>) //
 									&&allow_implicit_bit_cast<T, vector>		  //
 									&& (!is_tuple_like<T> || (tuple_size<T> > Dimensions))),
@@ -1172,7 +1172,7 @@ namespace muu
 
 		#if MUU_HAS_VECTORCALL
 
-		MUU_CONSTRAINED_TEMPLATE_2((impl::pass_vectorcall_by_value<vector, vector<T, Dimensions>>), typename T)
+		MUU_CONSTRAINED_TEMPLATE((impl::pass_vectorcall_by_value<vector, vector<T, Dimensions>>), typename T)
 		MUU_NODISCARD
 		MUU_ATTR(const)
 		friend constexpr bool MUU_VECTORCALL operator==(vector lhs, vector<T, dimensions> rhs) noexcept
@@ -1213,7 +1213,7 @@ namespace muu
 
 		#if MUU_HAS_VECTORCALL
 
-		MUU_CONSTRAINED_TEMPLATE_2((impl::pass_vectorcall_by_value<vector, vector<T, Dimensions>>), typename T)
+		MUU_CONSTRAINED_TEMPLATE((impl::pass_vectorcall_by_value<vector, vector<T, Dimensions>>), typename T)
 		MUU_NODISCARD
 		MUU_ATTR(const)
 		friend constexpr bool MUU_VECTORCALL operator!=(vector lhs, vector<T, dimensions> rhs) noexcept
@@ -1321,7 +1321,7 @@ namespace muu
 
 		#if MUU_HAS_VECTORCALL
 
-		MUU_CONSTRAINED_TEMPLATE_2((any_floating_point<Scalar, T> //
+		MUU_CONSTRAINED_TEMPLATE((any_floating_point<Scalar, T> //
 									&& (impl::pass_vectorcall_by_value<vector, vector<T, Dimensions>>)),
 								   typename T)
 		MUU_NODISCARD
@@ -1372,7 +1372,7 @@ namespace muu
 
 		#if MUU_HAS_VECTORCALL
 
-		MUU_CONSTRAINED_TEMPLATE_2((any_floating_point<Scalar, T> //
+		MUU_CONSTRAINED_TEMPLATE((any_floating_point<Scalar, T> //
 									&& impl::pass_vectorcall_by_value<vector<T, Dimensions>>),
 								   typename T)
 		MUU_NODISCARD

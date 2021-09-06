@@ -285,7 +285,7 @@ namespace muu
 	/// \param 	obj		The object.
 	///
 	/// \returns	The result `T::infinity_or_nan(obj)` or `obj.infinity_or_nan()` (coerced to bool).
-	MUU_CONSTRAINED_TEMPLATE_2(impl::has_specialized_infinity_or_nan<T>, typename T)
+	MUU_CONSTRAINED_TEMPLATE(impl::has_specialized_infinity_or_nan<T>, typename T)
 	MUU_NODISCARD
 	MUU_ATTR(pure)
 	constexpr bool infinity_or_nan(const T& obj) noexcept

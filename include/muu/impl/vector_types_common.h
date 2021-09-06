@@ -78,7 +78,7 @@ namespace muu::impl
 
 	#if MUU_HAS_VECTORCALL
 
-	MUU_CONSTRAINED_TEMPLATE_2(
+	MUU_CONSTRAINED_TEMPLATE(
 		(pass_vectorcall_by_value<T, U>),
 		typename Return,
 		typename T,

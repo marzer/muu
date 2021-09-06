@@ -274,8 +274,7 @@ namespace muu
 #endif // __cpp_lib_char8_t
 
 		/// \brief	Constructs a non-owning string_param from a string-viewable object.
-		template <typename T MUU_ENABLE_IF(impl::is_string_view_ish<T&&>)>
-		MUU_REQUIRES(impl::is_string_view_ish<T&&>)
+		MUU_CONSTRAINED_TEMPLATE(impl::is_string_view_ish<T&&>, typename T)
 		MUU_NODISCARD_CTOR
 		string_param(T&& string_viewable) noexcept //
 			: string_param{ make_string_view(static_cast<T&&>(string_viewable)) }

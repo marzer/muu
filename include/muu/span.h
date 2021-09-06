@@ -201,7 +201,7 @@ namespace muu
 
 		/// \cond
 
-		MUU_CONSTRAINED_TEMPLATE_2((Extent_ == dynamic_extent														//
+		MUU_CONSTRAINED_TEMPLATE((Extent_ == dynamic_extent														//
 									&& impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type> //
 									&& MUU_STD_CONCEPT(std::contiguous_iterator<It>)),								//
 								   typename It,
@@ -239,7 +239,7 @@ namespace muu
 
 		/// \cond
 
-		MUU_CONSTRAINED_TEMPLATE_2((Extent_ == dynamic_extent														//
+		MUU_CONSTRAINED_TEMPLATE((Extent_ == dynamic_extent														//
 									&& impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type> //
 									&& !is_implicitly_convertible<End, size_t>										//
 									&& MUU_STD_CONCEPT(std::contiguous_iterator<It>)								//
@@ -300,7 +300,7 @@ namespace muu
 
 		/// \cond
 
-		MUU_CONSTRAINED_TEMPLATE_2((!(Extent_ != dynamic_extent && E == dynamic_extent)						//
+		MUU_CONSTRAINED_TEMPLATE((!(Extent_ != dynamic_extent && E == dynamic_extent)						//
 									&& impl::is_qualifier_conversion_only<U, element_type>					//
 									&& (Extent_ == dynamic_extent || E == dynamic_extent || E == Extent_)), //
 								   typename U,

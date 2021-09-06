@@ -561,7 +561,7 @@ namespace muu
 
 		#if MUU_HAS_VECTORCALL
 
-		MUU_CONSTRAINED_TEMPLATE_2((impl::pass_vectorcall_by_value<quaternion, quaternion<T>>), typename T)
+		MUU_CONSTRAINED_TEMPLATE((impl::pass_vectorcall_by_value<quaternion, quaternion<T>>), typename T)
 		MUU_NODISCARD
 		MUU_ATTR(const)
 		static constexpr bool MUU_VECTORCALL approx_equal(

@@ -1087,11 +1087,6 @@ namespace muu::impl
 // SFINAE AND CONCEPTS
 //======================================================================================================================
 
-// requires() clauses are always applicable in situations where SFINAE would have been, in addition to being much
-// faster to compile and more human-friendly, so muu uses requires() clauses instead of SFINAE constraints
-// unconditionally when the compiler supports it.
-// this requires using both MUU_ENABLE_IF and MUU_REQUIRES on constrained functions.
-
 #if !defined(MUU_CONCEPTS) && defined(__cpp_concepts) && __cpp_concepts >= 201907
 	#define MUU_CONCEPTS				1
 #endif
@@ -1100,16 +1095,23 @@ namespace muu::impl
 #endif
 
 /// \cond
+namespace muu::impl
+{
+	template <bool, typename T = void>
+	struct enable_if_;
+
+	template <typename T>
+	struct enable_if_<true, T>
+	{
+		using type = T;
+	};
+}
+#define MUU_ENABLE_IF(...)							, typename ::muu::impl::enable_if_<(__VA_ARGS__), int>::type = 0
 #if MUU_CONCEPTS
-	#define MUU_REQUIRES(...)							requires(__VA_ARGS__)
-#else
-	#define MUU_ENABLE_IF(...)							, std::enable_if_t<(__VA_ARGS__), int> = 0
-	#define MUU_ENABLE_IF_2(...)						, typename = std::enable_if_t<(__VA_ARGS__)>
-	#define MUU_LEGACY_REQUIRES(condition, ...)			template <__VA_ARGS__ MUU_ENABLE_IF(condition)>
-	#define MUU_LEGACY_REQUIRES_2(condition, ...)		template <__VA_ARGS__ MUU_ENABLE_IF(condition)>
+	#define MUU_REQUIRES(...)						requires(__VA_ARGS__)
 #endif
+#define MUU_LEGACY_REQUIRES(condition, ...)			template <__VA_ARGS__ MUU_ENABLE_IF(condition)>
 #define MUU_CONSTRAINED_TEMPLATE(condition, ...)	template <__VA_ARGS__ MUU_ENABLE_IF(condition)> MUU_REQUIRES(condition)
-#define MUU_CONSTRAINED_TEMPLATE_2(condition, ...)	template <__VA_ARGS__ MUU_ENABLE_IF_2(condition)> MUU_REQUIRES(condition)
 /// \endcond
 
 #ifndef MUU_REQUIRES
@@ -1118,20 +1120,11 @@ namespace muu::impl
 #ifndef MUU_ENABLE_IF
 	#define MUU_ENABLE_IF(...)
 #endif
-#ifndef MUU_ENABLE_IF_2
-	#define MUU_ENABLE_IF_2(...)
-#endif
 #ifndef MUU_LEGACY_REQUIRES
 	#define MUU_LEGACY_REQUIRES(condition, ...)
 #endif
-#ifndef MUU_LEGACY_REQUIRES_2
-	#define MUU_LEGACY_REQUIRES_2(condition, ...)
-#endif
 #ifndef MUU_CONSTRAINED_TEMPLATE
 	#define MUU_CONSTRAINED_TEMPLATE(condition, ...)	template <__VA_ARGS__>
-#endif
-#ifndef MUU_CONSTRAINED_TEMPLATE_2
-	#define MUU_CONSTRAINED_TEMPLATE_2(condition, ...)	template <__VA_ARGS__>
 #endif
 #if MUU_CONCEPTS && defined(__cpp_lib_concepts) && __cpp_lib_concepts >= 202002
 	#define MUU_STD_CONCEPT(...)	__VA_ARGS__

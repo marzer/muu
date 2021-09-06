@@ -273,13 +273,10 @@ namespace muu
 				return;
 
 			static_assert(is_code_unit<T>, "unknown code unit type");
-			static_assert(
-				std::is_nothrow_invocable_v<
-					Func&&,
-					T,
-					size_t,
-					size_t> || std::is_nothrow_invocable_v<Func&&, T, size_t> || std::is_nothrow_invocable_v<Func&&, T>,
-				"decoder func must be nothrow-invocable with (T), (T, size_t) or (T, size_t, size_t)");
+			static_assert(std::is_nothrow_invocable_v<Func&&, T, size_t, size_t> //
+							  || std::is_nothrow_invocable_v<Func&&, T, size_t>	 //
+							  || std::is_nothrow_invocable_v<Func&&, T>,		 //
+						  "decoder func must be nothrow-invocable with (T), (T, size_t) or (T, size_t, size_t)");
 
 			using func_return_type = typename utf_decode_func_traits<T, Func>::return_type;
 			constexpr auto stop_after_invoking =

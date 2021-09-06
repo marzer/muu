@@ -99,7 +99,7 @@ namespace muu::impl
 				return (bits & ptr_mask) | static_cast<uintptr_t>(tag);
 		}
 
-		MUU_CONSTRAINED_TEMPLATE_2(!is_unsigned<T>, typename T)
+		MUU_CONSTRAINED_TEMPLATE(!is_unsigned<T>, typename T)
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		static uintptr_t set_tag(uintptr_t bits, const T& tag) noexcept

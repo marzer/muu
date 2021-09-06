@@ -377,8 +377,7 @@ namespace muu
 		return vals;
 	}
 
-	template <typename T MUU_ENABLE_IF(is_floating_point<T>)>
-	MUU_REQUIRES(is_floating_point<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_floating_point<T>, typename T)
 	inline Approx approx(T val, T eps) noexcept
 	{
 		Approx a(val);
@@ -386,8 +385,7 @@ namespace muu
 		return a;
 	}
 
-	template <typename T MUU_ENABLE_IF(is_floating_point<T>)>
-	MUU_REQUIRES(is_floating_point<T>)
+	MUU_CONSTRAINED_TEMPLATE(is_floating_point<T>, typename T)
 	inline Approx approx(T val) noexcept
 	{
 		Approx a(val);
@@ -395,8 +393,7 @@ namespace muu
 		return a;
 	}
 
-	template <typename T MUU_ENABLE_IF_2(!is_floating_point<T>)>
-	MUU_REQUIRES(!is_floating_point<T>)
+	MUU_CONSTRAINED_TEMPLATE(!is_floating_point<T>, typename T)
 	inline T&& approx(T&& val) noexcept
 	{
 		return static_cast<T&&>(val);
