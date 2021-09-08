@@ -211,7 +211,7 @@ namespace muu::impl
 		using callable_type = T;
 
 		static_assert(std::is_class_v<callable_type> || std::is_union_v<callable_type>);
-		static_assert(!std::is_const_v<callable_type> && !std::is_volatile_v<callable_type>);
+		static_assert(!is_cv<callable_type>);
 		static_assert(sizeof(callable_type) <= thread_pool_task::buffer_capacity);
 		static_assert(alignof(callable_type) <= thread_pool_task_granularity);
 
@@ -312,7 +312,7 @@ namespace muu::impl
 
 		MUU_LEGACY_REQUIRES(sfinae, bool sfinae = requires_destruction)
 		MUU_ATTR(nonnull)
-		static void destroy(void* buffer) noexcept MUU_REQUIRES(requires_destruction)
+		static void destroy(void* buffer) noexcept
 		{
 			MUU_ASSUME(buffer);
 

@@ -1077,9 +1077,26 @@ namespace muu::impl
 		using type = T;
 	};
 }
-/// \endcond
-
 #define MUU_MOVE(...) static_cast<typename ::muu::impl::remove_reference_<decltype(__VA_ARGS__)>::type&&>(__VA_ARGS__)
+/// \endcond
+#ifndef MUU_MOVE
+	#define MUU_MOVE(...) __VA_ARGS__
+#endif
+
+/// \cond
+namespace muu::impl
+{
+	template <typename T>
+	struct type_identity_
+	{
+		using type = T;
+	};
+}
+#define MUU_IDENTITY(...) typename ::muu::impl::type_identity_<__VA_ARGS__>::type
+/// \endcond
+#ifndef MUU_IDENTITY
+	#define MUU_IDENTITY(...) __VA_ARGS__
+#endif
 
 #include "impl/preprocessor_for_each.h"
 
@@ -1110,7 +1127,7 @@ namespace muu::impl
 #if MUU_CONCEPTS
 	#define MUU_REQUIRES(...)						requires(__VA_ARGS__)
 #endif
-#define MUU_LEGACY_REQUIRES(condition, ...)			template <__VA_ARGS__ MUU_ENABLE_IF(condition)>
+#define MUU_LEGACY_REQUIRES(condition, ...)			template <__VA_ARGS__ MUU_ENABLE_IF(condition)> MUU_REQUIRES(condition)
 #define MUU_CONSTRAINED_TEMPLATE(condition, ...)	template <__VA_ARGS__ MUU_ENABLE_IF(condition)> MUU_REQUIRES(condition)
 /// \endcond
 
@@ -1133,6 +1150,7 @@ namespace muu::impl
 #endif
 #define MUU_COMMA				,
 #define MUU_HIDDEN_PARAM(...)	MUU_HIDDEN(MUU_COMMA __VA_ARGS__)
+
 
 //======================================================================================================================
 // WHAT THE HELL IS WCHAR_T?

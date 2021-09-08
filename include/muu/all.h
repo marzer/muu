@@ -27,6 +27,7 @@
 #include "scope_guard.h"
 #include "span.h"
 #include "string_param.h"
+#include "static_string.h"
 #include "strings.h"
 #include "tagged_ptr.h"
 #include "thread_pool.h"

@@ -148,7 +148,6 @@ namespace muu::impl
 		// 2x2
 		MUU_LEGACY_REQUIRES((R == 2 && C == 2), size_t R = Rows, size_t C = Columns)
 		constexpr matrix_(Scalar v00, Scalar v01, Scalar v10 = Scalar{}, Scalar v11 = Scalar{}) noexcept
-			MUU_REQUIRES(Rows == 2 && Columns == 2)
 			: m{ { v00, v10 }, { v01, v11 } }
 		{}
 
@@ -163,7 +162,6 @@ namespace muu::impl
 						  Scalar v20 = Scalar{},
 						  Scalar v21 = Scalar{},
 						  Scalar v22 = Scalar{}) noexcept //
-			MUU_REQUIRES(Rows == 3 && Columns == 3)
 			: m{ { v00, v10, v20 }, { v01, v11, v21 }, { v02, v12, v22 } }
 		{}
 
@@ -181,7 +179,6 @@ namespace muu::impl
 						  Scalar v21 = Scalar{},
 						  Scalar v22 = Scalar{},
 						  Scalar v23 = Scalar{}) noexcept //
-			MUU_REQUIRES(Rows == 3 && Columns == 4)
 			: m{ { v00, v10, v20 }, { v01, v11, v21 }, { v02, v12, v22 }, { v03, v13, v23 } }
 		{}
 
@@ -203,7 +200,6 @@ namespace muu::impl
 						  Scalar v31 = Scalar{},
 						  Scalar v32 = Scalar{},
 						  Scalar v33 = Scalar{}) noexcept //
-			MUU_REQUIRES(Rows == 4 && Columns == 4)
 			: m{ { v00, v10, v20, v30 }, { v01, v11, v21, v31 }, { v02, v12, v22, v32 }, { v03, v13, v23, v33 } }
 		{}
 	};
@@ -325,8 +321,7 @@ namespace muu
 		MUU_HIDDEN_BASE(impl::matrix_<Scalar, Rows, Columns>)
 	{
 		static_assert(!std::is_reference_v<Scalar>, "Matrix scalar type cannot be a reference");
-		static_assert(!std::is_const_v<Scalar> && !std::is_volatile_v<Scalar>,
-					  "Matrix scalar type cannot be const- or volatile-qualified");
+		static_assert(!is_cv<Scalar>, "Matrix scalar type cannot be const- or volatile-qualified");
 		static_assert(std::is_trivially_constructible_v<Scalar>	  //
 						  && std::is_trivially_copyable_v<Scalar> //
 						  && std::is_trivially_destructible_v<Scalar>,
@@ -383,6 +378,7 @@ namespace muu
 	#if 1 // constructors ---------------------------------------------------------------------------------------------
 
 		/// \brief Default constructor. Values are not initialized.
+		MUU_NODISCARD_CTOR
 		matrix() noexcept = default;
 
 		/// \brief Copy constructor.
@@ -470,7 +466,6 @@ namespace muu
 						 scalar_type v01,
 						 scalar_type v10 = scalar_type{},
 						 scalar_type v11 = scalar_type{}) noexcept //
-			MUU_REQUIRES(Rows == 2 && Columns == 2)
 			: base{ v00, v01, v10, v11 }
 		{}
 
@@ -486,7 +481,6 @@ namespace muu
 						 scalar_type v20 = scalar_type{},
 						 scalar_type v21 = scalar_type{},
 						 scalar_type v22 = scalar_type{}) noexcept //
-			MUU_REQUIRES(Rows == 3 && Columns == 3)
 			: base{ v00, v01, v02, v10, v11, v12, v20, v21, v22 }
 		{}
 
@@ -505,7 +499,6 @@ namespace muu
 						 scalar_type v21 = scalar_type{},
 						 scalar_type v22 = scalar_type{},
 						 scalar_type v23 = scalar_type{}) noexcept //
-			MUU_REQUIRES(Rows == 3 && Columns == 4)
 			: base{ v00, v01, v02, v03, v10, v11, v12, v13, v20, v21, v22, v23 }
 		{}
 
@@ -528,7 +521,6 @@ namespace muu
 						 scalar_type v31 = scalar_type{},
 						 scalar_type v32 = scalar_type{},
 						 scalar_type v33 = scalar_type{}) noexcept //
-			MUU_REQUIRES(Rows == 4 && Columns == 4)
 			: base{ v00, v01, v02, v03, v10, v11, v12, v13, v20, v21, v22, v23, v30, v31, v32, v33 }
 		{}
 
@@ -907,7 +899,6 @@ namespace muu
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL approx_zero(MUU_VC_PARAM(matrix) m,
 														 scalar_type epsilon = default_epsilon<scalar_type>) noexcept
-			MUU_REQUIRES(is_floating_point<Scalar>)
 		{
 			for (size_t i = 0; i < columns; i++)
 				if (!column_type::approx_zero(m.m[i], epsilon))
@@ -922,7 +913,6 @@ namespace muu
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_zero(scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
-			MUU_REQUIRES(is_floating_point<Scalar>)
 		{
 			return approx_zero(*this, epsilon);
 		}
@@ -990,7 +980,7 @@ namespace muu
 		MUU_LEGACY_REQUIRES(is_signed<T>, typename T = Scalar)
 		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr matrix operator-() const noexcept MUU_REQUIRES(is_signed<Scalar>)
+		constexpr matrix operator-() const noexcept
 		{
 			matrix out{ *this };
 			MUU_PRAGMA_MSVC(omp simd)
@@ -1120,7 +1110,7 @@ namespace muu
 		///
 		/// \availability	This function is only available when the matrix is square.
 		MUU_LEGACY_REQUIRES(R == C, size_t R = Rows, size_t C = Columns)
-		constexpr matrix& MUU_VECTORCALL operator*=(MUU_VC_PARAM(matrix) rhs) noexcept MUU_REQUIRES(Rows == Columns)
+		constexpr matrix& MUU_VECTORCALL operator*=(MUU_VC_PARAM(matrix) rhs) noexcept
 		{
 			return *this = *this * rhs;
 		}
@@ -1405,7 +1395,7 @@ namespace muu
 		///
 		/// \availability	This function is only available when the matrix is square.
 		MUU_LEGACY_REQUIRES(R == C, size_t R = Rows, size_t C = Columns)
-		constexpr matrix& transpose() noexcept MUU_REQUIRES(Rows == Columns)
+		constexpr matrix& transpose() noexcept
 		{
 			return *this = transpose(*this);
 		}
@@ -1422,7 +1412,6 @@ namespace muu
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		static constexpr determinant_type MUU_VECTORCALL determinant(MUU_VC_PARAM(matrix) m) noexcept
-			MUU_REQUIRES(Rows == Columns && Columns <= 4)
 		{
 			if constexpr (Columns == 1)
 				return static_cast<determinant_type>(m.m[0].x);
@@ -1441,7 +1430,7 @@ namespace muu
 		MUU_LEGACY_REQUIRES(R == C && C <= 4, size_t R = Rows, size_t C = Columns)
 		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr determinant_type determinant() noexcept MUU_REQUIRES(Rows == Columns && Columns <= 4)
+		constexpr determinant_type determinant() noexcept
 		{
 			return determinant(*this);
 		}
@@ -1454,7 +1443,6 @@ namespace muu
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		static constexpr inverse_type MUU_VECTORCALL invert(MUU_VC_PARAM(matrix) m) noexcept
-			MUU_REQUIRES(Rows == Columns && Columns <= 4)
 		{
 		#define MAT_GET(r, c) static_cast<intermediate_float>(m.m[c].template get<r>())
 
@@ -1590,7 +1578,7 @@ namespace muu
 		/// \availability	This function is only available when the matrix is square,
 		///					has at most 4 rows and columns, and has a floating-point #scalar_type.
 		MUU_LEGACY_REQUIRES((R == C && C <= 4 && is_floating_point<Scalar>), size_t R = Rows, size_t C = Columns)
-		constexpr matrix& invert() noexcept MUU_REQUIRES(Rows == Columns && Columns <= 4 && is_floating_point<Scalar>)
+		constexpr matrix& invert() noexcept
 		{
 			return *this = invert(*this);
 		}
@@ -1675,7 +1663,6 @@ namespace muu
 		MUU_LEGACY_REQUIRES((is_floating_point<T> && (Rows == 3 || Rows == 4) && (Columns == 3 || Columns == 4)),
 							typename T = Scalar)
 		static constexpr matrix MUU_VECTORCALL orthonormalize(MUU_VC_PARAM(matrix) m) noexcept
-			MUU_REQUIRES(is_floating_point<Scalar> && (Rows == 3 || Rows == 4) && (Columns == 3 || Columns == 4))
 		{
 			// 'modified' gram-schmidt:
 			// https://fgiesen.wordpress.com/2013/06/02/modified-gram-schmidt-orthogonalization/
@@ -1714,9 +1701,8 @@ namespace muu
 		///
 		/// \see [Orthonormal basis](https://en.wikipedia.org/wiki/Orthonormal_basis)
 		MUU_LEGACY_REQUIRES((is_floating_point<T> && (Rows == 3 || Rows == 4) && (Columns == 3 || Columns == 4)),
-							  typename T = Scalar)
+							typename T = Scalar)
 		constexpr matrix& orthonormalize() noexcept
-			MUU_REQUIRES(is_floating_point<Scalar> && (Rows == 3 || Rows == 4) && (Columns == 3 || Columns == 4))
 		{
 			return *this = orthonormalize(*this);
 		}

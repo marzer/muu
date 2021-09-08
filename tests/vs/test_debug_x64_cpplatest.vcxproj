@@ -128,6 +128,7 @@
 		<ClCompile Include="..\quaternion_3.cpp" />
 		<ClCompile Include="..\scope_guard.cpp" />
 		<ClCompile Include="..\span.cpp" />
+        <ClCompile Include="..\static_string.cpp" />
 		<ClCompile Include="..\string_param.cpp" />
 		<ClCompile Include="..\strings.cpp" />
 		<ClCompile Include="..\tagged_ptr.cpp" />

@@ -29,10 +29,10 @@ namespace muu
 		MUU_HIDDEN_BASE(impl::oriented_bounding_box_<Scalar>)
 	{
 		static_assert(!std::is_reference_v<Scalar>, "Oriented bounding box scalar type cannot be a reference");
-		static_assert(!std::is_const_v<Scalar> && !std::is_volatile_v<Scalar>,
-					  "Oriented bounding box scalar type cannot be const- or volatile-qualified");
-		static_assert(std::is_trivially_constructible_v<
-						  Scalar> && std::is_trivially_copyable_v<Scalar> && std::is_trivially_destructible_v<Scalar>,
+		static_assert(!is_cv<Scalar>, "Oriented bounding box scalar type cannot be const- or volatile-qualified");
+		static_assert(std::is_trivially_constructible_v<Scalar>	  //
+						  && std::is_trivially_copyable_v<Scalar> //
+						  && std::is_trivially_destructible_v<Scalar>,
 					  "Oriented bounding box scalar type must be trivially constructible, copyable and destructible");
 		static_assert(is_floating_point<Scalar>, "Oriented bounding box scalar type must be a floating-point type");
 		static_assert(is_signed<Scalar>, "Oriented bounding box scalar type must be signed");

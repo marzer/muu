@@ -106,6 +106,7 @@
     <ClInclude Include="$(SolutionDir)include\muu\scope_guard.h" />
     <ClInclude Include="$(SolutionDir)include\muu\semver.h" />
     <ClInclude Include="$(SolutionDir)include\muu\span.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\static_string.h" />
     <ClInclude Include="$(SolutionDir)include\muu\strings.h" />
     <ClInclude Include="$(SolutionDir)include\muu\string_param.h" />
     <ClInclude Include="$(SolutionDir)include\muu\tagged_ptr.h" />

@@ -75,8 +75,7 @@ namespace muu
 	struct MUU_TRIVIAL_ABI axis_angle_rotation
 	{
 		static_assert(!std::is_reference_v<Scalar>, "Axis-angle rotation scalar type cannot be a reference");
-		static_assert(!std::is_const_v<Scalar> && !std::is_volatile_v<Scalar>,
-					  "Axis-angle rotation scalar type cannot be const- or volatile-qualified");
+		static_assert(!is_cv<Scalar>, "Axis-angle rotation scalar type cannot be const- or volatile-qualified");
 
 		/// \brief The scalar type of the axis and angle.
 		using scalar_type = Scalar;
@@ -148,8 +147,7 @@ namespace muu
 	struct MUU_TRIVIAL_ABI euler_rotation
 	{
 		static_assert(!std::is_reference_v<Scalar>, "Euler rotation scalar type cannot be a reference");
-		static_assert(!std::is_const_v<Scalar> && !std::is_volatile_v<Scalar>,
-					  "Euler rotation scalar type cannot be const- or volatile-qualified");
+		static_assert(!is_cv<Scalar>, "Euler rotation scalar type cannot be const- or volatile-qualified");
 
 		/// \brief The scalar type of the rotation's angles.
 		using scalar_type = Scalar;
@@ -240,8 +238,7 @@ namespace muu
 		MUU_HIDDEN_BASE(impl::quaternion_<Scalar>)
 	{
 		static_assert(!std::is_reference_v<Scalar>, "Quaternion scalar type cannot be a reference");
-		static_assert(!std::is_const_v<Scalar> && !std::is_volatile_v<Scalar>,
-					  "Quaternion scalar type cannot be const- or volatile-qualified");
+		static_assert(!is_cv<Scalar>, "Quaternion scalar type cannot be const- or volatile-qualified");
 		static_assert(std::is_trivially_constructible_v<Scalar>	  //
 						  && std::is_trivially_copyable_v<Scalar> //
 						  && std::is_trivially_destructible_v<Scalar>,

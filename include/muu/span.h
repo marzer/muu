@@ -11,12 +11,6 @@
 #include "iterators.h"
 #include "impl/header_start.h"
 
-#ifdef DOXYGEN
-	#define MUU_IDENTITY(...) __VA_ARGS__
-#else
-	#define MUU_IDENTITY(...) muu::type_identity<__VA_ARGS__>
-#endif
-
 namespace muu
 {
 #ifdef DOXYGEN
@@ -201,11 +195,11 @@ namespace muu
 
 		/// \cond
 
-		MUU_CONSTRAINED_TEMPLATE((Extent_ == dynamic_extent														//
-									&& impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type> //
-									&& MUU_STD_CONCEPT(std::contiguous_iterator<It>)),								//
-								   typename It,
-								   size_t Extent_ = Extent) // implicit variant
+		MUU_CONSTRAINED_TEMPLATE((Extent_ == dynamic_extent														  //
+								  && impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type> //
+								  && MUU_STD_CONCEPT(std::contiguous_iterator<It>)),							  //
+								 typename It,
+								 size_t Extent_ = Extent) // implicit variant
 		MUU_NODISCARD_CTOR
 		/* implicit */
 		constexpr span(It first, size_t count) noexcept //
@@ -239,14 +233,14 @@ namespace muu
 
 		/// \cond
 
-		MUU_CONSTRAINED_TEMPLATE((Extent_ == dynamic_extent														//
-									&& impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type> //
-									&& !is_implicitly_convertible<End, size_t>										//
-									&& MUU_STD_CONCEPT(std::contiguous_iterator<It>)								//
-									&& MUU_STD_CONCEPT(std::sized_sentinel_for<End, It>)),
-								   typename It,
-								   typename End,
-								   size_t Extent_ = Extent) // implicit variant
+		MUU_CONSTRAINED_TEMPLATE((Extent_ == dynamic_extent														  //
+								  && impl::is_qualifier_conversion_only<impl::iter_reference_t<It>, element_type> //
+								  && !is_implicitly_convertible<End, size_t>									  //
+								  && MUU_STD_CONCEPT(std::contiguous_iterator<It>)								  //
+								  && MUU_STD_CONCEPT(std::sized_sentinel_for<End, It>)),
+								 typename It,
+								 typename End,
+								 size_t Extent_ = Extent) // implicit variant
 		MUU_NODISCARD_CTOR
 		/* implicit */
 		constexpr span(It first, End last) noexcept(noexcept(last - first))
@@ -300,12 +294,12 @@ namespace muu
 
 		/// \cond
 
-		MUU_CONSTRAINED_TEMPLATE((!(Extent_ != dynamic_extent && E == dynamic_extent)						//
-									&& impl::is_qualifier_conversion_only<U, element_type>					//
-									&& (Extent_ == dynamic_extent || E == dynamic_extent || E == Extent_)), //
-								   typename U,
-								   size_t E,
-								   size_t Extent_ = Extent) // implicit variant
+		MUU_CONSTRAINED_TEMPLATE((!(Extent_ != dynamic_extent && E == dynamic_extent)					  //
+								  && impl::is_qualifier_conversion_only<U, element_type>				  //
+								  && (Extent_ == dynamic_extent || E == dynamic_extent || E == Extent_)), //
+								 typename U,
+								 size_t E,
+								 size_t Extent_ = Extent) // implicit variant
 		MUU_NODISCARD_CTOR
 		/* implicit */
 		constexpr span(const span<U, E>& s) noexcept //
@@ -599,7 +593,5 @@ namespace muu
 		}
 	}
 }
-
-#undef MUU_IDENTITY
 
 #include "impl/header_end.h"

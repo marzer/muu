@@ -28,8 +28,7 @@ namespace muu
 	class emplacement_array
 	{
 		static_assert(!std::is_reference_v<T>, "emplacement_array element type cannot be a reference.");
-		static_assert(!std::is_const_v<T> && !std::is_volatile_v<T>,
-					  "emplacement_array element type cannot be const- or volatile-qualified");
+		static_assert(!is_cv<T>, "emplacement_array element type cannot be const- or volatile-qualified");
 		static_assert(std::is_nothrow_destructible_v<T>,
 					  "emplacement_array element type must be nothrow-destructible.");
 

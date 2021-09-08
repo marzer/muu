@@ -320,7 +320,7 @@ namespace muu
 				static_assert(!std::is_same_v<from_base, to_base>);
 
 				// remove const/volatile
-				if constexpr (is_const<from_base> || is_volatile<from_base>)
+				if constexpr (is_cv<from_base>)
 					return static_cast<To>(const_cast<remove_cv<from_base>*>(from));
 
 				// add const/volatile
@@ -393,17 +393,17 @@ namespace muu
 					return nullptr;
 
 				// remove const/volatile from source type
-				if constexpr (is_const<from_base> || is_volatile<from_base>)
+				if constexpr (is_cv<from_base>)
 					return pointer_cast<To>(const_cast<remove_cv<from_base>*>(from));
 
 				// remove const/volatile from destination type
-				else if constexpr (is_const<to_base> || is_volatile<to_base>)
+				else if constexpr (is_cv<to_base>)
 					return const_cast<To>(pointer_cast<remove_cv<to_base>*>(from));
 
 				else
 				{
-					static_assert(!is_const<from_base> && !is_volatile<from_base>);
-					static_assert(!is_const<to_base> && !is_volatile<to_base>);
+					static_assert(!is_cv<from_base>);
+					static_assert(!is_cv<to_base>);
 
 					to_base* to = {};
 					if (from->QueryInterface(__uuidof(to_base), reinterpret_cast<void**>(&to)) == 0)

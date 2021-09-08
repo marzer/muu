@@ -277,6 +277,8 @@ namespace muu
 	struct matrix;
 	template <typename... T>
 	struct type_list;
+	template <typename, size_t>
+	class static_string;
 
 	template <typename>
 	struct plane;

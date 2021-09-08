@@ -34,8 +34,10 @@
 
 	-	You'll see intermediate_float used instead of scalar_type or delta_type in a few places. It's a 'better' type
 		used for intermediate floating-point values where precision loss or unnecessary cast round-tripping is to be
-   avoided. generally: when scalar_type is a float >= 32 bits: intermediate_float == scalar_type when scalar_type is a
-   float < 32 bits: intermediate_float == float when scalar_type is integral: intermediate_float == double.
+		avoided. generally:
+			when scalar_type is a float >= 32 bits: intermediate_float == scalar_type
+			when scalar_type is a float < 32 bits: intermediate_float == float
+			when scalar_type is integral: intermediate_float == double.
 
 	-	Some code is statically switched/branched according to whether a static_cast<> is necessary; this is to avoid
 		unnecessary codegen and improve debug build performance for non-trivial scalar_types (e.g. muu::half).
@@ -597,9 +599,7 @@ namespace muu
 	struct MUU_TRIVIAL_ABI vector MUU_HIDDEN_BASE(impl::vector_<Scalar, Dimensions>)
 	{
 		static_assert(!std::is_reference_v<Scalar>, "Vector scalar type cannot be a reference");
-		static_assert(!std::is_const_v<Scalar> //
-						  && !std::is_volatile_v<Scalar>,
-					  "Vector scalar type cannot be const- or volatile-qualified");
+		static_assert(!is_cv<Scalar>, "Vector scalar type cannot be const- or volatile-qualified");
 		static_assert(std::is_trivially_constructible_v<Scalar>	  //
 						  && std::is_trivially_copyable_v<Scalar> //
 						  && std::is_trivially_destructible_v<Scalar>,
@@ -679,6 +679,7 @@ namespace muu
 
 	  public:
 		/// \brief Default constructor. Scalar components are not initialized.
+		MUU_NODISCARD_CTOR
 		vector() noexcept = default;
 
 		/// \brief Copy constructor.
@@ -705,7 +706,8 @@ namespace muu
 		/// \availability		This constructor is only available when #dimensions &gt;= 2.
 		MUU_LEGACY_REQUIRES(Dims >= 2, size_t Dims = Dimensions)
 		MUU_NODISCARD_CTOR
-		constexpr vector(scalar_type x, scalar_type y) noexcept MUU_REQUIRES(Dimensions >= 2) : base{ x, y }
+		constexpr vector(scalar_type x, scalar_type y) noexcept //
+			: base{ x, y }
 		{}
 
 		/// \brief		Constructs a vector from three scalar values.
@@ -718,7 +720,7 @@ namespace muu
 		/// \availability		This constructor is only available when #dimensions &gt;= 3.
 		MUU_LEGACY_REQUIRES(Dims >= 3, size_t Dims = Dimensions)
 		MUU_NODISCARD_CTOR
-		constexpr vector(scalar_type x, scalar_type y, scalar_type z) noexcept MUU_REQUIRES(Dimensions >= 3)
+		constexpr vector(scalar_type x, scalar_type y, scalar_type z) noexcept //
 			: base{ x, y, z }
 		{}
 
@@ -733,8 +735,7 @@ namespace muu
 		/// \availability			This constructor is only available when #dimensions &gt;= 4.
 		MUU_LEGACY_REQUIRES(Dims >= 4, size_t Dims = Dimensions)
 		MUU_NODISCARD_CTOR
-		constexpr vector(scalar_type x, scalar_type y, scalar_type z, scalar_type w) noexcept
-			MUU_REQUIRES(Dimensions >= 4)
+		constexpr vector(scalar_type x, scalar_type y, scalar_type z, scalar_type w) noexcept //
 			: base{ x, y, z, w }
 		{}
 
@@ -854,11 +855,11 @@ namespace muu
 
 		/// \cond
 
-		MUU_CONSTRAINED_TEMPLATE((!impl::is_vector_<T>						  //
-									&& (std::is_class_v<T> || std::is_union_v<T>) //
-									&&allow_implicit_bit_cast<T, vector>		  //
-									&& (!is_tuple_like<T> || (tuple_size<T> > Dimensions))),
-								   typename T)
+		MUU_CONSTRAINED_TEMPLATE((!impl::is_vector_<T>							//
+								  && (std::is_class_v<T> || std::is_union_v<T>) //
+								  &&allow_implicit_bit_cast<T, vector>			//
+								  && (!is_tuple_like<T> || (tuple_size<T> > Dimensions))),
+								 typename T)
 		MUU_NODISCARD_CTOR
 		/*implicit*/
 		constexpr vector(const T& bitcastable) noexcept //
@@ -1322,8 +1323,8 @@ namespace muu
 		#if MUU_HAS_VECTORCALL
 
 		MUU_CONSTRAINED_TEMPLATE((any_floating_point<Scalar, T> //
-									&& (impl::pass_vectorcall_by_value<vector, vector<T, Dimensions>>)),
-								   typename T)
+								  && (impl::pass_vectorcall_by_value<vector, vector<T, Dimensions>>)),
+								 typename T)
 		MUU_NODISCARD
 		MUU_ATTR(const)
 		static constexpr bool MUU_VECTORCALL approx_equal(
@@ -1373,8 +1374,8 @@ namespace muu
 		#if MUU_HAS_VECTORCALL
 
 		MUU_CONSTRAINED_TEMPLATE((any_floating_point<Scalar, T> //
-									&& impl::pass_vectorcall_by_value<vector<T, Dimensions>>),
-								   typename T)
+								  && impl::pass_vectorcall_by_value<vector<T, Dimensions>>),
+								 typename T)
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_equal(
@@ -1394,7 +1395,6 @@ namespace muu
 		MUU_ATTR(pure)
 		static constexpr bool MUU_VECTORCALL approx_zero(MUU_VC_PARAM(vector) v,
 														 scalar_type epsilon = default_epsilon<scalar_type>) noexcept
-			MUU_REQUIRES(is_floating_point<Scalar>)
 		{
 				// clang-format off
 			#define VEC_FUNC(member) muu::approx_zero(v.member, epsilon)
@@ -1410,7 +1410,6 @@ namespace muu
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr bool MUU_VECTORCALL approx_zero(scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
-			MUU_REQUIRES(is_floating_point<Scalar>)
 		{
 			return approx_zero(*this, epsilon);
 		}
@@ -1604,7 +1603,6 @@ namespace muu
 		MUU_ATTR(pure)
 		static constexpr vector<product_type, 3> MUU_VECTORCALL cross(MUU_VC_PARAM(vector) lhs,
 																	  MUU_VC_PARAM(vector) rhs) noexcept
-			MUU_REQUIRES(Dimensions == 3)
 		{
 			return impl::raw_cross<vector<product_type, 3>>(lhs, rhs);
 		}
@@ -1616,7 +1614,6 @@ namespace muu
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr vector<product_type, 3> MUU_VECTORCALL cross(MUU_VC_PARAM(vector) v) const noexcept
-			MUU_REQUIRES(Dimensions == 3)
 		{
 			return impl::raw_cross<vector<product_type, 3>>(*this, v);
 		}
@@ -1721,7 +1718,7 @@ namespace muu
 		MUU_LEGACY_REQUIRES(is_signed<T>, typename T = Scalar)
 		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr vector operator-() const noexcept MUU_REQUIRES(is_signed<Scalar>)
+		constexpr vector operator-() const noexcept
 		{
 				// clang-format off
 			#define VEC_FUNC(member) -base::member
@@ -2025,7 +2022,6 @@ namespace muu
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		friend constexpr vector MUU_VECTORCALL operator<<(MUU_VC_PARAM(vector) lhs, product_type rhs) noexcept
-			MUU_REQUIRES(is_integral<Scalar>)
 		{
 			MUU_ASSUME(rhs >= 0);
 
@@ -2040,7 +2036,7 @@ namespace muu
 		///
 		/// \availability		This function is only available when #scalar_type is an integral type.
 		MUU_LEGACY_REQUIRES(is_integral<T>, typename T = Scalar)
-		constexpr vector& MUU_VECTORCALL operator<<=(product_type rhs) noexcept MUU_REQUIRES(is_integral<Scalar>)
+		constexpr vector& MUU_VECTORCALL operator<<=(product_type rhs) noexcept
 		{
 			MUU_ASSUME(rhs >= 0);
 
@@ -2058,7 +2054,6 @@ namespace muu
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		friend constexpr vector MUU_VECTORCALL operator>>(MUU_VC_PARAM(vector) lhs, product_type rhs) noexcept
-			MUU_REQUIRES(is_integral<Scalar>)
 		{
 			MUU_ASSUME(rhs >= 0);
 
@@ -2073,7 +2068,7 @@ namespace muu
 		///
 		/// \availability		This function is only available when #scalar_type is an integral type.
 		MUU_LEGACY_REQUIRES(is_integral<T>, typename T = Scalar)
-		constexpr vector& MUU_VECTORCALL operator>>=(product_type rhs) noexcept MUU_REQUIRES(is_integral<Scalar>)
+		constexpr vector& MUU_VECTORCALL operator>>=(product_type rhs) noexcept
 		{
 			MUU_ASSUME(rhs >= 0);
 
@@ -2099,7 +2094,6 @@ namespace muu
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
 		MUU_NODISCARD
 		static constexpr vector MUU_VECTORCALL normalize(MUU_VC_PARAM(vector) v, delta_type& length_out) noexcept
-			MUU_REQUIRES(is_floating_point<Scalar>)
 		{
 			if constexpr (Dimensions == 1)
 			{
@@ -2125,7 +2119,6 @@ namespace muu
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		static constexpr vector MUU_VECTORCALL normalize(MUU_VC_PARAM(vector) v) noexcept
-			MUU_REQUIRES(is_floating_point<Scalar>)
 		{
 			if constexpr (Dimensions == 1)
 			{
@@ -2144,7 +2137,7 @@ namespace muu
 		///
 		/// \availability This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
-		constexpr vector& normalize(delta_type& length_out) noexcept MUU_REQUIRES(is_floating_point<Scalar>)
+		constexpr vector& normalize(delta_type& length_out) noexcept
 		{
 			if constexpr (Dimensions == 1)
 			{
@@ -2166,7 +2159,7 @@ namespace muu
 		///
 		/// \availability This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
-		constexpr vector& normalize() noexcept MUU_REQUIRES(is_floating_point<Scalar>)
+		constexpr vector& normalize() noexcept
 		{
 			if constexpr (Dimensions == 1)
 			{
@@ -2188,7 +2181,6 @@ namespace muu
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
 		MUU_NODISCARD
 		static constexpr vector MUU_VECTORCALL normalize_lensq(MUU_VC_PARAM(vector) v, delta_type v_lensq) noexcept
-			MUU_REQUIRES(is_floating_point<Scalar>)
 		{
 			return raw_divide_scalar(v, muu::sqrt(static_cast<intermediate_float>(v_lensq)));
 		}
@@ -2202,7 +2194,6 @@ namespace muu
 		/// \availability This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
 		constexpr vector& MUU_VECTORCALL normalize_lensq(delta_type lensq) noexcept
-			MUU_REQUIRES(is_floating_point<Scalar>)
 		{
 			return raw_divide_assign_scalar(muu::sqrt(static_cast<intermediate_float>(lensq)));
 		}
@@ -2286,7 +2277,6 @@ namespace muu
 		static constexpr vector_product MUU_VECTORCALL direction(MUU_VC_PARAM(vector) from,
 																 MUU_VC_PARAM(vector) to,
 																 delta_type& distance_out) noexcept
-			MUU_REQUIRES(Dimensions == 2 || Dimensions == 3)
 		{
 			// all are the same type - only happens with float, double, long double etc.
 			if constexpr (all_same<scalar_type, intermediate_float, delta_type>)
@@ -2324,7 +2314,6 @@ namespace muu
 		MUU_ATTR(pure)
 		static constexpr vector_product MUU_VECTORCALL direction(MUU_VC_PARAM(vector) from,
 																 MUU_VC_PARAM(vector) to) noexcept
-			MUU_REQUIRES(Dimensions == 2 || Dimensions == 3)
 		{
 			// all are the same type - only happens with float, double, long double etc.
 			if constexpr (all_same<scalar_type, intermediate_float, delta_type>)
@@ -2357,7 +2346,6 @@ namespace muu
 		MUU_ATTR(pure)
 		constexpr vector_product MUU_VECTORCALL direction(MUU_VC_PARAM(vector) to,
 														  delta_type& distance_out) const noexcept
-			MUU_REQUIRES(Dimensions == 2 || Dimensions == 3)
 		{
 			return direction(*this, to, distance_out);
 		}
@@ -2371,7 +2359,6 @@ namespace muu
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr vector_product MUU_VECTORCALL direction(MUU_VC_PARAM(vector) to) const noexcept
-			MUU_REQUIRES(Dimensions == 2 || Dimensions == 3)
 		{
 			return direction(*this, to);
 		}
@@ -2619,7 +2606,7 @@ namespace muu
 		MUU_LEGACY_REQUIRES(Dims >= 2, size_t Dims = Dimensions)
 		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr vector<scalar_type, 2> xy() const noexcept MUU_REQUIRES(Dimensions >= 2)
+		constexpr vector<scalar_type, 2> xy() const noexcept
 		{
 			return vector<scalar_type, 2>{ get<0>(), get<1>() };
 		}
@@ -2628,7 +2615,7 @@ namespace muu
 		MUU_LEGACY_REQUIRES(Dims >= 3, size_t Dims = Dimensions)
 		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr vector<scalar_type, 2> xz() const noexcept MUU_REQUIRES(Dimensions >= 3)
+		constexpr vector<scalar_type, 2> xz() const noexcept
 		{
 			return vector<scalar_type, 2>{ get<0>(), get<2>() };
 		}
@@ -2637,7 +2624,7 @@ namespace muu
 		MUU_LEGACY_REQUIRES(Dims >= 2, size_t Dims = Dimensions)
 		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr vector<scalar_type, 2> yx() const noexcept MUU_REQUIRES(Dimensions >= 2)
+		constexpr vector<scalar_type, 2> yx() const noexcept
 		{
 			return vector<scalar_type, 2>{ get<1>(), get<0>() };
 		}
@@ -2646,7 +2633,7 @@ namespace muu
 		MUU_LEGACY_REQUIRES(Dims >= 3, size_t Dims = Dimensions)
 		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr vector<scalar_type, 3> xyz() const noexcept MUU_REQUIRES(Dimensions >= 3)
+		constexpr vector<scalar_type, 3> xyz() const noexcept
 		{
 			return vector<scalar_type, 3>{ get<0>(), get<1>(), get<2>() };
 		}
@@ -2655,7 +2642,7 @@ namespace muu
 		MUU_LEGACY_REQUIRES(Dims >= 3, size_t Dims = Dimensions)
 		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr vector<scalar_type, 4> xyz1() const noexcept MUU_REQUIRES(Dimensions >= 3)
+		constexpr vector<scalar_type, 4> xyz1() const noexcept
 		{
 			return vector<scalar_type, 4>{ get<0>(), get<1>(), get<2>(), scalar_constants::one };
 		}
@@ -2664,7 +2651,7 @@ namespace muu
 		MUU_LEGACY_REQUIRES(Dims >= 3, size_t Dims = Dimensions)
 		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr vector<scalar_type, 4> xyz0() const noexcept MUU_REQUIRES(Dimensions >= 3)
+		constexpr vector<scalar_type, 4> xyz0() const noexcept
 		{
 			return vector<scalar_type, 4>{ get<0>(), get<1>(), get<2>(), scalar_constants::zero };
 		}
@@ -2741,7 +2728,6 @@ namespace muu
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		static constexpr delta_type MUU_VECTORCALL angle(MUU_VC_PARAM(vector) v1, MUU_VC_PARAM(vector) v2) noexcept
-			MUU_REQUIRES(Dimensions == 2 || Dimensions == 3)
 		{
 			// law of cosines
 			// https://stackoverflow.com/questions/10507620/finding-the-angle-between-vectors
@@ -2772,7 +2758,6 @@ namespace muu
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr delta_type MUU_VECTORCALL angle(MUU_VC_PARAM(vector) v) const noexcept
-			MUU_REQUIRES(Dimensions == 2 || Dimensions == 3)
 		{
 			return angle(*this, v);
 		}

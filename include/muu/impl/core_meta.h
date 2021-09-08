@@ -20,7 +20,7 @@ MUU_ENABLE_WARNINGS;
 #define MUU_MOVE(...) static_cast<std::remove_reference_t<decltype(__VA_ARGS__)>&&>(__VA_ARGS__)
 
 #undef MUU_ENABLE_IF
-#define MUU_ENABLE_IF(...)	 , std::enable_if_t<(__VA_ARGS__), int> = 0
+#define MUU_ENABLE_IF(...) , std::enable_if_t<(__VA_ARGS__), int> = 0
 
 #include "header_start.h"
 MUU_PRAGMA_MSVC(warning(disable : 4296)) // condition always true/false
@@ -822,12 +822,6 @@ namespace muu
 		template <typename T>
 		using iter_value_t = std::remove_reference_t<iter_reference_t<T>>;
 
-		template <typename T>
-		struct type_identity_
-		{
-			using type = T;
-		};
-
 		template <typename T, bool = std::is_pointer_v<T>>
 		struct pointer_rank_
 		{
@@ -1327,6 +1321,10 @@ namespace muu
 	template <typename T, typename CopyFrom>
 	using copy_cv = copy_const<copy_volatile<T, CopyFrom>, CopyFrom>;
 
+	/// \brief Is a type const- or volatile-qualified?
+	template <typename T>
+	inline constexpr bool is_cv = std::is_const_v<T> || std::is_volatile_v<T>;
+
 	/// \cond
 	// deprecations
 #if !MUU_INTELLISENSE
@@ -1408,7 +1406,7 @@ namespace muu
 	template <size_t Bits>
 	using signed_integer = typename impl::signed_integer_<Bits>::type;
 
-	/// \brief Is a type a Unicode 'code unit' type, or reference to one?
+	/// \brief Is a type a built-in text code unit (character) type, or reference to one?
 	template <typename T>
 	inline constexpr bool is_code_unit = is_same_as_any<remove_cvref<T>,
 														char,
@@ -1420,6 +1418,11 @@ namespace muu
 														char8_t
 #endif
 														>;
+
+	/// \brief Is a type a built-in text character (code unit) type, or reference to one?
+	/// \remark This an alias for #muu::is_code_unit.
+	template <typename T>
+	inline constexpr bool is_character = is_code_unit<T>;
 
 	/// \brief The rank of a pointer.
 	/// \remark Answers "how many stars does it have?".

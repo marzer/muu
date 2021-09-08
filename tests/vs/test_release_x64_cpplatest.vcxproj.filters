@@ -7,7 +7,7 @@
     <ClCompile Include="..\accumulator.cpp" />
     <ClCompile Include="..\blob.cpp" />
     <ClCompile Include="..\compressed_pair.cpp" />
-	<ClCompile Include="..\function_view.cpp" />
+    <ClCompile Include="..\function_view.cpp" />
     <ClCompile Include="..\half.cpp" />
     <ClCompile Include="..\hashing.cpp" />
     <ClCompile Include="..\main.cpp" />
@@ -152,6 +152,7 @@
     <ClCompile Include="..\infinity_or_nan_3.cpp">
       <Filter>infinity_or_nan</Filter>
     </ClCompile>
+    <ClCompile Include="..\static_string.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\batching.h" />

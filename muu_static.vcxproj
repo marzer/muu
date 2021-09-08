@@ -122,6 +122,7 @@
     <ClInclude Include="include\muu\scope_guard.h" />
     <ClInclude Include="include\muu\semver.h" />
     <ClInclude Include="include\muu\span.h" />
+    <ClInclude Include="include\muu\static_string.h" />
     <ClInclude Include="include\muu\strings.h" />
     <ClInclude Include="include\muu\string_param.h" />
     <ClInclude Include="include\muu\tagged_ptr.h" />

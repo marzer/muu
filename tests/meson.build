@@ -43,6 +43,7 @@ test_sources += [
 	'quaternion_3.cpp',
 	'scope_guard.cpp',
 	'span.cpp',
+	'static_string.cpp',
 	'string_param.cpp',
 	'strings.cpp',
 	'tagged_ptr.cpp',
