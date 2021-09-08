@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8"/>
+  <title>muu::static_string class | muu Miscellaneous useful utilities for C++</title>
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
+  <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
+  <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="#22272e" name="theme-color"/>
+  <meta content="muu" name="twitter:title"/>
+  <meta content="muu" property="og:title"/>
+  <meta content="muu" itemprop="name"/>
+  <meta content="Miscellaneous useful utilities for C++" name="description"/>
+  <meta content="Miscellaneous useful utilities for C++" name="twitter:description"/>
+  <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
+  <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
+  <meta content="telephone=no" name="format-detection"/>
+  <meta content="Poxy v0.4.5" name="generator"/>
+  <meta content="no-referrer-when-downgrade" name="referrer"/>
+  <link href="poxy-0.4.5.css" rel="stylesheet"/>
+  <link href="poxy-0.4.5-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.4.5.js"></script>
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a class="m-col-t-8 m-col-m-none m-left-m" href="index.html" id="m-navbar-brand"><img alt="" src="logo.png"/>muu <span class="m-thin">Miscellaneous useful utilities for C++</span></a>
+      <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
+        <a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+          <path d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z" id="m-doc-search-icon-path"></path>
+        </svg></a>
+        <a href="#navigation" id="m-navbar-show" title="Show navigation"></a>
+        <a href="#" id="m-navbar-hide" title="Hide navigation"></a>
+      </div>
+      <div class="m-col-t-12 m-show-m m-col-m-none m-right-m" id="m-navbar-collapse">
+        <div class="m-row">
+          <ol class="m-col-t-6 m-col-m-none">
+            <li><a href="files.html">Files</a></li>
+            <li><a href="modules.html">Modules</a></li>
+            <li><a href="namespaces.html">Namespaces</a></li>
+          </ol>
+          <ol class="m-col-t-6 m-col-m-none" start="4">
+            <li><a href="annotated.html">Classes</a></li>
+            <li><a class="github poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
+            <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+              <use href="#m-doc-search-icon-path"></use>
+            </svg></a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main><article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="static__string_8h.html">&lt;muu/static_string.h&gt;</a></div>
+          <div class="m-doc-template">template&lt;typename Character, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Length&gt;</div>
+          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>static_string <span class="m-thin">class</span>
+        </h1>
+        <p>A null-terminated string for compile-time string manipulation.</p>
+        <table class="m-table m-fullwidth m-flat">
+          <thead>
+            <tr><th colspan="2">Template parameters</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="width: 1%">Character</td>
+              <td>The character type of the string.</td>
+            </tr>
+            <tr>
+              <td>Length</td>
+              <td>The length of the string (not including the null terminator).</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="m-block m-default poxy-toc">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#pub-types">Public types</a></li>
+                <li><a href="#pub-static-attribs">Public static variables</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#characters">Characters</a></li>
+                <li><a href="#concatenation">Concatenation</a></li>
+                <li><a href="#equality-and-comparison">Equality and Comparison</a></li>
+                <li><a href="#iterators">Iterators</a></li>
+                <li><a href="#iterators-adl">Iterators (ADL)</a></li>
+                <li><a href="#length">Length</a></li>
+                <li><a href="#substrings">Substrings</a></li>
+                <li><a href="#friends">Friends</a></li>
+                <li><a href="#related">Related</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
+          <dl class="m-doc">
+            <dt id="a5b1651a0e29cf54dfea5fe185ba8e2d6">
+              using <a class="m-doc-self" href="#a5b1651a0e29cf54dfea5fe185ba8e2d6">const_iterator</a> = <a class="m-doc" href="classmuu_1_1static__string.html#a1f006c509283654e43b80533fbe48097">const_<wbr/>pointer</a>
+            </dt>
+            <dd>Iterator type used when iterating over the string.</dd>
+            <dt id="a1f006c509283654e43b80533fbe48097">
+              using <a class="m-doc-self" href="#a1f006c509283654e43b80533fbe48097">const_pointer</a> = const Character*
+            </dt>
+            <dd>Constant pointer to one of the string's characters.</dd>
+            <dt id="ad1a89bb4b4970d435640dc05c77662f4">
+              using <a class="m-doc-self" href="#ad1a89bb4b4970d435640dc05c77662f4">const_reference</a> = const Character&amp;
+            </dt>
+            <dd>Constant reference to one of the string's characters.</dd>
+            <dt id="adfb48c4c0308f9050aa375ed0adb73d6">
+              using <a class="m-doc-self" href="#adfb48c4c0308f9050aa375ed0adb73d6">const_reverse_iterator</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/iterator/reverse_iterator.html" target="_blank">std::<wbr/>reverse_iterator</a>&lt;<a class="m-doc" href="classmuu_1_1static__string.html#a5b1651a0e29cf54dfea5fe185ba8e2d6">const_<wbr/>iterator</a>&gt;
+            </dt>
+            <dd>Iterator type used when reverse-iterating over the string.</dd>
+            <dt id="ace6ecfaceb4c2368baef03930d036183">
+              using <a class="m-doc-self" href="#ace6ecfaceb4c2368baef03930d036183">difference_type</a> = <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/ptrdiff_t" target="_blank">ptrdiff_t</a>
+            </dt>
+            <dd>Difference type used by iterators.</dd>
+            <dt id="acf5fde4d0c2f53c4fd11217220afc771">
+              using <a class="m-doc-self" href="#acf5fde4d0c2f53c4fd11217220afc771">iterator</a> = <a class="m-doc" href="classmuu_1_1static__string.html#a9b9c1aaa92e22598ac1214a7b0adb7be">pointer</a>
+            </dt>
+            <dd>Iterator type used when iterating over the string.</dd>
+            <dt id="a9b9c1aaa92e22598ac1214a7b0adb7be">
+              using <a class="m-doc-self" href="#a9b9c1aaa92e22598ac1214a7b0adb7be">pointer</a> = Character*
+            </dt>
+            <dd>Pointer to one of the string's characters.</dd>
+            <dt id="af5768f5ac1a28a15e3778eff0e92541d">
+              using <a class="m-doc-self" href="#af5768f5ac1a28a15e3778eff0e92541d">reference</a> = Character&amp;
+            </dt>
+            <dd>Reference to one of the string's characters.</dd>
+            <dt id="a25095615f71b9736b00a2f204700a0c1">
+              using <a class="m-doc-self" href="#a25095615f71b9736b00a2f204700a0c1">reverse_iterator</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/iterator/reverse_iterator.html" target="_blank">std::<wbr/>reverse_iterator</a>&lt;<a class="m-doc" href="classmuu_1_1static__string.html#acf5fde4d0c2f53c4fd11217220afc771">iterator</a>&gt;
+            </dt>
+            <dd>Iterator type used when reverse-iterating over the string.</dd>
+            <dt id="a45bdb0f11776fd1f2b51468b04297193">
+              using <a class="m-doc-self" href="#a45bdb0f11776fd1f2b51468b04297193">size_type</a> = <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>
+            </dt>
+            <dd>Size/index type.</dd>
+            <dt id="a8b0fa2877676f7d3b125c05d39ede32e">
+              using <a class="m-doc-self" href="#a8b0fa2877676f7d3b125c05d39ede32e">traits_type</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/char_traits.html" target="_blank">std::<wbr/>char_traits</a>&lt;Character&gt;
+            </dt>
+            <dd>Traits type describing the string's character type.</dd>
+            <dt id="a5d3e7de401ad122618175b155a9c7c8e">
+              using <a class="m-doc-self" href="#a5d3e7de401ad122618175b155a9c7c8e">value_type</a> = Character
+            </dt>
+            <dd>Character type used in the string.</dd>
+            <dt id="a72b073a4e8307659f1a3c1e05ec6d47e">
+              using <a class="m-doc-self" href="#a72b073a4e8307659f1a3c1e05ec6d47e">view_type</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>basic_string_view</a>&lt;Character&gt;
+            </dt>
+            <dd>The string view type corresponding to this string's character type.</dd>
+          </dl>
+        </section>
+        <section id="pub-static-attribs">
+          <h2><a href="#pub-static-attribs">Public static variables</a></h2>
+          <dl class="m-doc">
+            <dt id="a3065ce7d0066bd4e96f4370fba0be109">
+              static <a class="m-doc" href="classmuu_1_1static__string.html#a45bdb0f11776fd1f2b51468b04297193">size_<wbr/>type</a> <a class="m-doc-self" href="#a3065ce7d0066bd4e96f4370fba0be109">npos</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Constant used to indicate 'not found' in find methods.</dd>
+          </dl>
+        </section>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+          <dl class="m-doc">
+            <dt id="a365f8d5f334b348c145c1d286ad6fd52">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a365f8d5f334b348c145c1d286ad6fd52">operator view_type</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a view of the string (not including the null terminator).</dd>
+            <dt id="aa7fbc5a19e6a1d81e7168f489b01634f">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa7fbc5a19e6a1d81e7168f489b01634f">static_string</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Default constructor. Characters are not initialized.</dd>
+            <dt id="a3721a2be5e0d1fd95756a2cfc099a1e1">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3721a2be5e0d1fd95756a2cfc099a1e1">static_string</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&amp;) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Copy constructor.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a91429beef953c4f1312dda46db5bee5d">static_string</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1static__string.html#a5d3e7de401ad122618175b155a9c7c8e">value_<wbr/>type</a>(&amp;arr)[N]) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a string from a character array.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Len&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a5e413456aa8f66b6104eebe6642f4bd9">static_string</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&lt;<a class="m-doc" href="classmuu_1_1static__string.html#a5d3e7de401ad122618175b155a9c7c8e">value_<wbr/>type</a>, Len&gt;&amp; str) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Lengthening/truncating constructor.</dd>
+            <dt id="a3a348414f2066b9a0435058e8ecf7c07">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3a348414f2066b9a0435058e8ecf7c07">static_string</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1static__string.html#a5d3e7de401ad122618175b155a9c7c8e">value_<wbr/>type</a> fill) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a string with each character equal to the given value.</dd>
+            <dt id="a8165991c8f92f944a99a71afb0bb88eb">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Len&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8165991c8f92f944a99a71afb0bb88eb">static_string</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1static__string.html#a5d3e7de401ad122618175b155a9c7c8e">value_<wbr/>type</a>* str,
+              <a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_<wbr/>tag</a>&lt;Len&gt;) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a string from a raw c-string pointer and integral length constant.</dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt id="a1efb98c619a8f8cf292de55d4b277f49">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a1efb98c619a8f8cf292de55d4b277f49">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&amp;) -&gt; <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Copy-assigment operator.</dd>
+            <dt id="a121b702f9f7d36c7999a05df0441d480">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a121b702f9f7d36c7999a05df0441d480">view</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1static__string.html#a72b073a4e8307659f1a3c1e05ec6d47e">view_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a view of the string (not including the null terminator).</dd>
+          </dl>
+        </section>
+        <section id="characters">
+          <h2><a href="#characters">Characters</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a606b51e07ff03a191052bf13f63a630e">back</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1static__string.html#af5768f5ac1a28a15e3778eff0e92541d">reference</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a reference to the last character in the string.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aa8f90c6f633d94fbe8b535359694d3e3">back</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1static__string.html#ad1a89bb4b4970d435640dc05c77662f4">const_<wbr/>reference</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const reference to the last character in the string.</dd>
+            <dt id="aa5b80c1bb6f14ee76f0b45d7e76fe85d">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa5b80c1bb6f14ee76f0b45d7e76fe85d">c_str</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1static__string.html#a1f006c509283654e43b80533fbe48097">const_<wbr/>pointer</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const pointer to the first character in the string.</dd>
+            <dt id="aa1b20aaa9da744127a728b9f37df82fa">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa1b20aaa9da744127a728b9f37df82fa">data</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1static__string.html#a9b9c1aaa92e22598ac1214a7b0adb7be">pointer</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a pointer to the first character in the string.</dd>
+            <dt id="ac758f426a63bd6de91b2a59eefcad312">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac758f426a63bd6de91b2a59eefcad312">data</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1static__string.html#a1f006c509283654e43b80533fbe48097">const_<wbr/>pointer</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const pointer to the first character in the string.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a2a98eca124e8cd977346429d53a538ee">front</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1static__string.html#af5768f5ac1a28a15e3778eff0e92541d">reference</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a reference to the first character in the string.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a4b97f82bb6bb41169d69598d22afa41d">front</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1static__string.html#ad1a89bb4b4970d435640dc05c77662f4">const_<wbr/>reference</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const reference to the first character in the string.</dd>
+            <dt id="adca8257376a204300f9da20d7c8e248f">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#adca8257376a204300f9da20d7c8e248f">get</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1static__string.html#af5768f5ac1a28a15e3778eff0e92541d">reference</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a reference to the character at the given index.</dd>
+            <dt id="adce810928840672531fd28f80dce7a11">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#adce810928840672531fd28f80dce7a11">get</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1static__string.html#ad1a89bb4b4970d435640dc05c77662f4">const_<wbr/>reference</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const reference to the character at the given index.</dd>
+            <dt id="a606f3093070af70bf7d1481c753603f7">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a606f3093070af70bf7d1481c753603f7">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1static__string.html#a45bdb0f11776fd1f2b51468b04297193">size_<wbr/>type</a> idx) -&gt; <a class="m-doc" href="classmuu_1_1static__string.html#af5768f5ac1a28a15e3778eff0e92541d">reference</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a reference to the character at the given index.</dd>
+            <dt id="aef01cfe9e73783a20cce59298cda6025">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aef01cfe9e73783a20cce59298cda6025">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1static__string.html#a45bdb0f11776fd1f2b51468b04297193">size_<wbr/>type</a> idx) const -&gt; <a class="m-doc" href="classmuu_1_1static__string.html#ad1a89bb4b4970d435640dc05c77662f4">const_<wbr/>reference</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const reference to the character at the given index.</dd>
+          </dl>
+        </section>
+        <section id="concatenation">
+          <h2><a href="#concatenation">Concatenation</a></h2>
+          <dl class="m-doc">
+            <dt id="a46c949d05d12af2f0bde724615f30425">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Len&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a46c949d05d12af2f0bde724615f30425">operator+</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&amp; lhs,
+              const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&lt;<a class="m-doc" href="classmuu_1_1static__string.html#a5d3e7de401ad122618175b155a9c7c8e">value_<wbr/>type</a>, Len&gt;&amp; rhs) -&gt; friend <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&lt;<a class="m-doc" href="classmuu_1_1static__string.html#a5d3e7de401ad122618175b155a9c7c8e">value_<wbr/>type</a>, Length+Len&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Concatenates two static strings.</dd>
+            <dt id="a4bcdfb71e9e8fc6ded5f011448e15d8b">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a4bcdfb71e9e8fc6ded5f011448e15d8b">operator+</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&amp; lhs,
+              <a class="m-doc" href="classmuu_1_1static__string.html#a5d3e7de401ad122618175b155a9c7c8e">value_<wbr/>type</a> rhs) -&gt; friend <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&lt;<a class="m-doc" href="classmuu_1_1static__string.html#a5d3e7de401ad122618175b155a9c7c8e">value_<wbr/>type</a>, Length+1&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Concatenates a static string and a single character.</dd>
+            <dt id="ab49411c9a14e2f8168f4de1345d68679">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab49411c9a14e2f8168f4de1345d68679">operator+</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1static__string.html#a5d3e7de401ad122618175b155a9c7c8e">value_<wbr/>type</a> lhs,
+              const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&amp; rhs) -&gt; friend <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&lt;<a class="m-doc" href="classmuu_1_1static__string.html#a5d3e7de401ad122618175b155a9c7c8e">value_<wbr/>type</a>, Length+1&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Concatenates a static string and a single character.</dd>
+          </dl>
+        </section>
+        <section id="equality-and-comparison">
+          <h2><a href="#equality-and-comparison">Equality and Comparison</a></h2>
+          <dl class="m-doc">
+            <dt id="ab90370a7496a730818364b9c2d69fb54">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Len&gt;</div>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ab90370a7496a730818364b9c2d69fb54">compare</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&amp; lhs,
+              const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&lt;<a class="m-doc" href="classmuu_1_1static__string.html#a5d3e7de401ad122618175b155a9c7c8e">value_<wbr/>type</a>, Len&gt;&amp; rhs) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the lexicographical ordering of two strings.</dd>
+            <dt id="a9c952c0234ebd2eaac91f8801703cd6c">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Len&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a9c952c0234ebd2eaac91f8801703cd6c">compare</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&lt;<a class="m-doc" href="classmuu_1_1static__string.html#a5d3e7de401ad122618175b155a9c7c8e">value_<wbr/>type</a>, Len&gt;&amp; rhs) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the lexicographical ordering of this string with respect to another.</dd>
+            <dt id="ab6681a6935373e84871bdc7bfa37b6a6">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Len&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab6681a6935373e84871bdc7bfa37b6a6">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&amp; lhs,
+              const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&lt;<a class="m-doc" href="classmuu_1_1static__string.html#a5d3e7de401ad122618175b155a9c7c8e">value_<wbr/>type</a>, Len&gt;&amp; rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two strings do not contain the same character sequence.</dd>
+            <dt id="a9392f851db545972a2a44c070d6c1981">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Len&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a9392f851db545972a2a44c070d6c1981">operator&lt;</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&amp; lhs,
+              const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&lt;<a class="m-doc" href="classmuu_1_1static__string.html#a5d3e7de401ad122618175b155a9c7c8e">value_<wbr/>type</a>, Len&gt;&amp; rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the LHS is lexicographically ordered before the RHS.</dd>
+            <dt id="a2cc4cd0a784f77cf4e25b015f6fd902f">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Len&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2cc4cd0a784f77cf4e25b015f6fd902f">operator&lt;=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&amp; lhs,
+              const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&lt;<a class="m-doc" href="classmuu_1_1static__string.html#a5d3e7de401ad122618175b155a9c7c8e">value_<wbr/>type</a>, Len&gt;&amp; rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the LHS is lexicographically ordered before or equal to the RHS.</dd>
+            <dt id="a3d40d423643ec604ef50eadcfbe4fc4d">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Len&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a3d40d423643ec604ef50eadcfbe4fc4d">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&amp; lhs,
+              const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&lt;<a class="m-doc" href="classmuu_1_1static__string.html#a5d3e7de401ad122618175b155a9c7c8e">value_<wbr/>type</a>, Len&gt;&amp; rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two strings contain the same character sequence.</dd>
+            <dt id="a06ab9205c067bc722d071c474f2c79a8">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Len&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a06ab9205c067bc722d071c474f2c79a8">operator&gt;</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&amp; lhs,
+              const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&lt;<a class="m-doc" href="classmuu_1_1static__string.html#a5d3e7de401ad122618175b155a9c7c8e">value_<wbr/>type</a>, Len&gt;&amp; rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the LHS is lexicographically ordered after than the RHS.</dd>
+            <dt id="a26bc866313e9002f1f4a88c8ed927cc2">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Len&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a26bc866313e9002f1f4a88c8ed927cc2">operator&gt;=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&amp; lhs,
+              const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&lt;<a class="m-doc" href="classmuu_1_1static__string.html#a5d3e7de401ad122618175b155a9c7c8e">value_<wbr/>type</a>, Len&gt;&amp; rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the LHS is lexicographically ordered after or equal to the RHS.</dd>
+          </dl>
+        </section>
+        <section id="iterators">
+          <h2><a href="#iterators">Iterators</a></h2>
+          <dl class="m-doc">
+            <dt id="ac37189ccbd02c4d8eb802bcf917c8ca6">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac37189ccbd02c4d8eb802bcf917c8ca6">begin</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1static__string.html#acf5fde4d0c2f53c4fd11217220afc771">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an iterator to the first character in the string.</dd>
+            <dt id="aeab3cad664903ac8e8836e682e6073a9">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aeab3cad664903ac8e8836e682e6073a9">begin</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1static__string.html#a5b1651a0e29cf54dfea5fe185ba8e2d6">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the first character in the string.</dd>
+            <dt id="a5a30da9c07ed8f84032660aed96651ba">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a5a30da9c07ed8f84032660aed96651ba">cbegin</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1static__string.html#a5b1651a0e29cf54dfea5fe185ba8e2d6">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the first character in the string.</dd>
+            <dt id="ac35f573ef02a45ab7e23dfc19893310a">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac35f573ef02a45ab7e23dfc19893310a">cend</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1static__string.html#a5b1651a0e29cf54dfea5fe185ba8e2d6">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the one-past-the-last character in the string.</dd>
+            <dt id="ad22e17935c2505418386a4afd9c98813">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad22e17935c2505418386a4afd9c98813">crbegin</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1static__string.html#adfb48c4c0308f9050aa375ed0adb73d6">const_<wbr/>reverse_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const reverse iterator to the last character in the string.</dd>
+            <dt id="adcc044b4eddd95475dadf7453bf90903">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#adcc044b4eddd95475dadf7453bf90903">crend</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1static__string.html#adfb48c4c0308f9050aa375ed0adb73d6">const_<wbr/>reverse_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const reverse iterator to one-before-the-first character in the string.</dd>
+            <dt id="a092af58c40cac282f5397641178af8cb">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a092af58c40cac282f5397641178af8cb">end</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1static__string.html#acf5fde4d0c2f53c4fd11217220afc771">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an iterator to the one-past-the-last character in the string.</dd>
+            <dt id="a335b8f0a2484cf61294bf508804e8c70">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a335b8f0a2484cf61294bf508804e8c70">end</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1static__string.html#a5b1651a0e29cf54dfea5fe185ba8e2d6">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the one-past-the-last character in the string.</dd>
+            <dt id="acef28b00a0c95079b9b5aebd3548e350">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#acef28b00a0c95079b9b5aebd3548e350">rbegin</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1static__string.html#a25095615f71b9736b00a2f204700a0c1">reverse_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a reverse iterator to the last character in the string.</dd>
+            <dt id="aa33135af18bb84d771c43b47e8ec29a4">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa33135af18bb84d771c43b47e8ec29a4">rbegin</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1static__string.html#adfb48c4c0308f9050aa375ed0adb73d6">const_<wbr/>reverse_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const reverse iterator to the last character in the string.</dd>
+            <dt id="a590f211fc7f851baff0504ab475cd7c6">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a590f211fc7f851baff0504ab475cd7c6">rend</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1static__string.html#a25095615f71b9736b00a2f204700a0c1">reverse_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a reverse iterator to one-before-the-first character in the string.</dd>
+            <dt id="a3f4c5f42068accb60a5bc5269c29f4b9">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a3f4c5f42068accb60a5bc5269c29f4b9">rend</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1static__string.html#adfb48c4c0308f9050aa375ed0adb73d6">const_<wbr/>reverse_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const reverse iterator to one-before-the-first character in the string.</dd>
+          </dl>
+        </section>
+        <section id="iterators-adl">
+          <h2><a href="#iterators-adl">Iterators (ADL)</a></h2>
+          <dl class="m-doc">
+            <dt id="a9259f70e1fdc15787582bbe7a1d0cc0d">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a9259f70e1fdc15787582bbe7a1d0cc0d">begin</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&amp; s) -&gt; friend <a class="m-doc" href="classmuu_1_1static__string.html#acf5fde4d0c2f53c4fd11217220afc771">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an iterator to the first character in a string.</dd>
+            <dt id="a40b161620f5b1433cbc59af1fb3172ae">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a40b161620f5b1433cbc59af1fb3172ae">begin</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&amp; s) -&gt; friend <a class="m-doc" href="classmuu_1_1static__string.html#a5b1651a0e29cf54dfea5fe185ba8e2d6">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the first character in a string.</dd>
+            <dt id="af9da8bc158c30cb74045d6466883b22b">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af9da8bc158c30cb74045d6466883b22b">cbegin</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&amp; s) -&gt; friend <a class="m-doc" href="classmuu_1_1static__string.html#a5b1651a0e29cf54dfea5fe185ba8e2d6">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the first character in a string.</dd>
+            <dt id="a05e85a21ee69cfd38252cdc4c8cf61ad">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a05e85a21ee69cfd38252cdc4c8cf61ad">cend</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&amp; s) -&gt; friend <a class="m-doc" href="classmuu_1_1static__string.html#a5b1651a0e29cf54dfea5fe185ba8e2d6">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the one-past-the-last character in a string.</dd>
+            <dt id="a2b124a1058101a6bb50113d73858a2e6">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2b124a1058101a6bb50113d73858a2e6">crbegin</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&amp; s) -&gt; friend <a class="m-doc" href="classmuu_1_1static__string.html#adfb48c4c0308f9050aa375ed0adb73d6">const_<wbr/>reverse_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const reverse iterator to the last character in a string.</dd>
+            <dt id="a2e6b1a4898a7daf5cb4337a0c6917e7f">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2e6b1a4898a7daf5cb4337a0c6917e7f">crend</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&amp; s) -&gt; friend <a class="m-doc" href="classmuu_1_1static__string.html#adfb48c4c0308f9050aa375ed0adb73d6">const_<wbr/>reverse_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const reverse iterator to one-before-the-first character in a string.</dd>
+            <dt id="a7bc817a43af26884a257df59aa7305e6">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a7bc817a43af26884a257df59aa7305e6">end</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&amp; s) -&gt; friend <a class="m-doc" href="classmuu_1_1static__string.html#acf5fde4d0c2f53c4fd11217220afc771">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an iterator to the one-past-the-last character in a string.</dd>
+            <dt id="ad4c3904a07a05f37c6bdac327d1d34cd">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad4c3904a07a05f37c6bdac327d1d34cd">end</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&amp; s) -&gt; friend <a class="m-doc" href="classmuu_1_1static__string.html#a5b1651a0e29cf54dfea5fe185ba8e2d6">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the one-past-the-last character in a string.</dd>
+            <dt id="afef81aab577cc02043cae88ad6cfa2af">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#afef81aab577cc02043cae88ad6cfa2af">rbegin</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&amp; s) -&gt; friend <a class="m-doc" href="classmuu_1_1static__string.html#a25095615f71b9736b00a2f204700a0c1">reverse_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a reverse iterator to the last character in a string.</dd>
+            <dt id="a1c3bcb426405e23ebdc18470259849e8">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a1c3bcb426405e23ebdc18470259849e8">rbegin</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&amp; s) -&gt; friend <a class="m-doc" href="classmuu_1_1static__string.html#adfb48c4c0308f9050aa375ed0adb73d6">const_<wbr/>reverse_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const reverse iterator to the last character in a string.</dd>
+            <dt id="aa5ef58a6dce4bd74d3336f4855b876a1">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa5ef58a6dce4bd74d3336f4855b876a1">rend</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&amp; s) -&gt; friend <a class="m-doc" href="classmuu_1_1static__string.html#a25095615f71b9736b00a2f204700a0c1">reverse_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a reverse iterator to one-before-the-first character in a string.</dd>
+            <dt id="a5aef08100182f7d1718675f72ceb785e">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a5aef08100182f7d1718675f72ceb785e">rend</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&amp; s) -&gt; friend <a class="m-doc" href="classmuu_1_1static__string.html#adfb48c4c0308f9050aa375ed0adb73d6">const_<wbr/>reverse_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const reverse iterator to one-before-the-first character in a string.</dd>
+          </dl>
+        </section>
+        <section id="length">
+          <h2><a href="#length">Length</a></h2>
+          <dl class="m-doc">
+            <dt id="ac95af9b3fa150ac601497391338f5320">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac95af9b3fa150ac601497391338f5320">empty</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the string is empty.</dd>
+            <dt id="a8682e8c22a4e260d2bbe198f5caa15f2">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a8682e8c22a4e260d2bbe198f5caa15f2">length</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1static__string.html#a45bdb0f11776fd1f2b51468b04297193">size_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the number of characters in the string (not including the null-terminator).</dd>
+            <dt id="a0f3b16cca4fccb4f357918287b6849d7">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0f3b16cca4fccb4f357918287b6849d7">operator bool</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the string is not empty.</dd>
+            <dt id="a81539ee1fed6898a2b374e608474411d">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a81539ee1fed6898a2b374e608474411d">size</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1static__string.html#a45bdb0f11776fd1f2b51468b04297193">size_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the number of characters in the string (not including the null-terminator).</dd>
+          </dl>
+        </section>
+        <section id="substrings">
+          <h2><a href="#substrings">Substrings</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;auto Start, auto End = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/ptrdiff_t" target="_blank">ptrdiff_t</a>&gt;::highest&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ab6d289e4b4f48a97ac8763431b104f61">slice</a>(</span><span class="m-doc-wrap">) const -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a substring.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;auto Start, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Len = <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a>&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>&gt;(-1)&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aa1a599e039beec8f1b432434015497c4">substr</a>(</span><span class="m-doc-wrap">) const -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a substring.</dd>
+          </dl>
+        </section>
+        <section id="friends">
+          <h2><a href="#friends">Friends</a></h2>
+          <dl class="m-doc">
+            <dt id="a7ab4981808fdf69f9546076120f1aa8e">
+              <div class="m-doc-template">template&lt;typename Char, typename Traits&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a7ab4981808fdf69f9546076120f1aa8e">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
+              const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&amp; str) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
+            </dt>
+            <dd>Writes the string out to a text stream.</dd>
+          </dl>
+        </section>
+        <section id="related">
+          <h2><a href="#related">Related</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;char... Str&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a57b7502d3109a0053c90b1ed5bb12488">operator""_ss</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&lt;char, sizeof...(Str)&gt; <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd>Constructs a <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a> exactly representing a numeric literal.</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="a91429beef953c4f1312dda46db5bee5d"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Character, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Length&gt;<br/> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>static_string&lt;Character, Length&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a91429beef953c4f1312dda46db5bee5d">static_string</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1static__string.html#a5d3e7de401ad122618175b155a9c7c8e">value_<wbr/>type</a>(&amp;arr)[N]) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Constructs a string from a character array.</p>
+<p>Any extra characters not covered by the input argument are zero-initialized.</p>
+          </div></section>
+          <section class="m-doc-details" id="a5e413456aa8f66b6104eebe6642f4bd9"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Character, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Length&gt;<br/> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Len&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>static_string&lt;Character, Length&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a5e413456aa8f66b6104eebe6642f4bd9">static_string</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&lt;<a class="m-doc" href="classmuu_1_1static__string.html#a5d3e7de401ad122618175b155a9c7c8e">value_<wbr/>type</a>, Len&gt;&amp; str) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Lengthening/truncating constructor.</p>
+<p>Any extra characters not covered by the input argument are zero-initialized.</p>
+          </div></section>
+          <section class="m-doc-details" id="a606b51e07ff03a191052bf13f63a630e"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Character, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Length&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1static__string.html#af5768f5ac1a28a15e3778eff0e92541d">reference</a> muu::<wbr/>static_string&lt;Character, Length&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a606b51e07ff03a191052bf13f63a630e">back</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns a reference to the last character in the string.</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is not available when #Length == 0.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="aa8f90c6f633d94fbe8b535359694d3e3"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Character, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Length&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1static__string.html#ad1a89bb4b4970d435640dc05c77662f4">const_<wbr/>reference</a> muu::<wbr/>static_string&lt;Character, Length&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa8f90c6f633d94fbe8b535359694d3e3">back</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns a const reference to the last character in the string.</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is not available when #Length == 0.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a2a98eca124e8cd977346429d53a538ee"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Character, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Length&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1static__string.html#af5768f5ac1a28a15e3778eff0e92541d">reference</a> muu::<wbr/>static_string&lt;Character, Length&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a2a98eca124e8cd977346429d53a538ee">front</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns a reference to the first character in the string.</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is not available when #Length == 0.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a4b97f82bb6bb41169d69598d22afa41d"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Character, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Length&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1static__string.html#ad1a89bb4b4970d435640dc05c77662f4">const_<wbr/>reference</a> muu::<wbr/>static_string&lt;Character, Length&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4b97f82bb6bb41169d69598d22afa41d">front</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns a const reference to the first character in the string.</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is not available when #Length == 0.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ab6d289e4b4f48a97ac8763431b104f61"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Character, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Length&gt;<br/>
+template&lt;auto Start, auto End = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/ptrdiff_t" target="_blank">ptrdiff_t</a>&gt;::highest&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">auto muu::<wbr/>static_string&lt;Character, Length&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ab6d289e4b4f48a97ac8763431b104f61">slice</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns a substring.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>A string containing the substring from the given range. If the source string literal was empty, the range was empty, or they do not intersect, an zero-length string is returned.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="aa1a599e039beec8f1b432434015497c4"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Character, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Length&gt;<br/> template&lt;auto Start, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Len = <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a>&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>&gt;(-1)&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">auto muu::<wbr/>static_string&lt;Character, Length&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa1a599e039beec8f1b432434015497c4">substr</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns a substring.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">Start</td>
+                  <td>Starting index of the substring. Negative values mean "this many characters from the end".</td>
+                </tr>
+                <tr>
+                  <td>Len</td>
+                  <td>Length of the substring.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A string containing the substring from the given range. If the source string literal was empty, the range was empty, or they do not intersect, an zero-length string literal is returned.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a57b7502d3109a0053c90b1ed5bb12488"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Character, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Length&gt;<br/>
+template&lt;char... Str&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&lt;char, sizeof...(Str)&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a57b7502d3109a0053c90b1ed5bb12488">operator""_ss</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span></span></span>
+            </h3>
+            <p>Constructs a <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a> exactly representing a numeric literal.</p>
+<pre class="m-code"><span class="k">constexpr</span> <span class="k">auto</span> <span class="n">str</span> <span class="o">=</span> <span class="mf">3.141</span><span class="n">_ss</span><span class="p">;</span>
+<span class="k">static_assert</span><span class="p">(</span><span class="n">str</span> <span class="o">==</span> <span class="n">static_string</span><span class="p">{</span> <span class="s">"3.141"</span> <span class="p">})</span></pre>
+          </div></section>
+        </section>
+      </div>
+    </div>
+  </div>
+</article></main>
+<div class="m-doc-search" id="search">
+  <a href="#!" onclick="return hideSearch()"></a>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-m-8 m-push-m-2">
+        <div class="m-doc-search-header m-text m-small">
+          <div><span class="m-label m-default">Tab</span> / <span class="m-label m-default">T</span> to search, <span class="m-label m-default">Esc</span> to close</div>
+          <div id="search-symbolcount">…</div>
+        </div>
+        <div class="m-doc-search-content">
+          <form>
+            <input autocomplete="off" autofocus="autofocus" disabled="disabled" id="search-input" name="q" placeholder="Loading …" spellcheck="false" type="search"/>
+          </form>
+          <noscript class="m-text m-danger m-text-center">Unlike everything else in the docs, the search functionality <em>requires</em> JavaScript.</noscript>
+          <div class="m-text m-dim m-text-center" id="search-help">
+            <p class="m-noindent">Search for symbols, directories, files, pages or
+            modules. You can omit any prefix from the symbol or file path; adding a
+            <code>:</code> or <code>/</code> suffix lists all members of given symbol or
+            directory.</p>
+            <p class="m-noindent">Use <span class="m-label m-dim">↓</span>
+            / <span class="m-label m-dim">↑</span> to navigate through the list,
+            <span class="m-label m-dim">Enter</span> to go.
+            <span class="m-label m-dim">Tab</span> autocompletes common prefix, you can
+            copy a link to the result using <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">L</span> while <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">M</span> produces a Markdown link.</p>
+          </div>
+          <div class="m-text m-warning m-text-center" id="search-notfound">Sorry, nothing was found.</div>
+          <ul id="search-results"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="search-v1.js"></script>
+<script async="async" src="searchdata-v1.js"></script>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        
+    <a class="poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
+     • <a class="poxy-external" href="https://github.com/marzer/muu/issues" target="_blank">Report an issue</a>
+     • <a class="poxy-external" href="https://github.com/marzer/muu/blob/master/LICENSE" target="_blank">License</a>
+     • <a download="" href="muu.tagfile.xml" target="_blank" type="text/xml">Doxygen tagfile</a>
+    <br/><br/>
+    Site generated using <a class="poxy-external" href="https://github.com/marzer/poxy/" target="_blank">Poxy</a>
+
+      </div>
+    </div>
+  </div>
+</nav></footer>
+
+
+</body></html>

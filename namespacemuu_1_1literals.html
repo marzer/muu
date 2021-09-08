@@ -119,6 +119,11 @@
             </dt>
             <dd>Creates a <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> for a given number of megabytes.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;char... Str&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a57b7502d3109a0053c90b1ed5bb12488">operator""_ss</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&lt;char, sizeof...(Str)&gt; <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd>Constructs a <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a> exactly representing a numeric literal.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ac7cce4c07975fb4f279efb145f138f46">operator""_sz</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Creates a <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>.</dd>
@@ -238,6 +243,18 @@
             </h3>
             <p>Creates a <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> for a given number of megabytes.</p>
 <pre class="m-code"><span class="k">const</span> <span class="ut"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">val</span> <span class="o">=</span> <span class="mi">42</span><span class="mi">_mb</span><span class="p">;</span> <span class="c1">// 42 * 1024 * 1024</span></pre>
+          </div></section>
+          <section class="m-doc-details" id="a57b7502d3109a0053c90b1ed5bb12488"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="static__string_8h.html">&lt;muu/static_string.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;char... Str&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&lt;char, sizeof...(Str)&gt; muu::<wbr/>literals::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a57b7502d3109a0053c90b1ed5bb12488">operator""_ss</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span></span></span>
+            </h3>
+            <p>Constructs a <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a> exactly representing a numeric literal.</p>
+<pre class="m-code"><span class="k">constexpr</span> <span class="k">auto</span> <span class="n">str</span> <span class="o">=</span> <span class="mf">3.141</span><span class="n">_ss</span><span class="p">;</span>
+<span class="k">static_assert</span><span class="p">(</span><span class="n">str</span> <span class="o">==</span> <span class="n">static_string</span><span class="p">{</span> <span class="s">"3.141"</span> <span class="p">})</span></pre>
           </div></section>
           <section class="m-doc-details" id="ac7cce4c07975fb4f279efb145f138f46"><div>
             <h3>

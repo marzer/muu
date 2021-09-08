@@ -865,9 +865,14 @@
             <dd>Is a type a bounded array (<code>T[N]</code>), or reference to one?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga277e445299ef15f744e94bd68733bae4">is_character</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Is a type a built-in text character (code unit) type, or reference to one?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga0e1dddeef206a9a47a8223994c219cd3">is_code_unit</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Is a type a Unicode 'code unit' type, or reference to one?</dd>
+            <dd>Is a type a built-in text code unit (character) type, or reference to one?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga79cf1d440a2967847a6d0a08dc22fa19">is_const</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -888,6 +893,11 @@
               bool <a class="m-doc" href="group__meta.html#gaec35a37d461e7b8b6b6a92296c75c5fd">is_convertible_to_any</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>True if <code>From</code> is implicitly <em>or</em> explicitly convertible to any of the types named by <code>To</code>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gaaba32cd64b5832535e6cb2279f1f7881">is_cv</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Is a type const- or volatile-qualified?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga21f392701d987b745866ab36fa3c6242">is_cvref</a> <span class="m-label m-flat m-primary">constexpr</span>

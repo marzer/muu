@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu Miscellaneous useful utilities for C++</title>
+  <title>muu/static_string.h file | muu Miscellaneous useful utilities for C++</title>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
   <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
   <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
@@ -17,12 +17,6 @@
   <meta content="telephone=no" name="format-detection"/>
   <meta content="Poxy v0.4.5" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <script type="application/ld+json">{
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "dateModified": "2021-09-08T15:45:06+00:00",
-    "headline": "muu Miscellaneous useful utilities for C++"
-}</script>
   <link href="poxy-0.4.5.css" rel="stylesheet"/>
   <link href="poxy-0.4.5-dark.css" rel="stylesheet"/>
   <script src="poxy-0.4.5.js"></script>
@@ -62,14 +56,52 @@
   <div class="m-container m-container-inflatable">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <img alt="Image" class="m-image main_page_banner" src="banner-small.png" style="width: 1280px;"/><div class="gh-badges"><a class="poxy-external" href="https://github.com/marzer/muu/blob/master/LICENSE" target="_blank"><img alt="MIT" src="poxy-badge-license-mit.svg"/></a><a class="poxy-external" href="https://github.com/marzer/muu/releases" target="_blank"><img alt="Releases" src="https://img.shields.io/github/v/release/marzer/muu?style=flat-square"/></a><a class="poxy-external" href="https://en.cppreference.com/w/cpp/compiler_support" target="_blank"><img alt="C++17" src="poxy-badge-c++17.svg"/></a><a class="poxy-external" href="https://circleci.com/gh/marzer/muu" target="_blank"><img alt="CircleCI" src="https://circleci.com/gh/marzer/muu.svg?style=shield"/></a></div>
+        <h1>
+          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span>static_string.h <span class="m-thin">file</span>
+        </h1>
+        <p>Contains the definition of <a class="m-doc" href="classmuu_1_1static__string.html">muu::<wbr/>static_string</a>.</p>
         <div class="m-block m-default poxy-toc">
           <h3>Contents</h3>
           <ul>
-            <li><a href="#main">main</a></li>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#namespaces">Namespaces</a></li>
+                <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#func-members">Functions</a></li>
+              </ul>
+            </li>
           </ul>
         </div>
-<section id="main"><h2><a href="#main">main</a></h2><p>This page is a placeholder. See <a href="modules.html">Modules</a> or <a href="annotated.html">Classes</a> for categorized lists of what's actually in the library. Or press TAB.</p></section>
+        <section id="namespaces">
+          <h2><a href="#namespaces">Namespaces</a></h2>
+          <dl class="m-doc">
+            <dt>namespace <a class="m-doc" href="namespacemuu.html">muu</a></dt>
+            <dd>The root namespace for all muu functions and types.</dd>
+            <dt>namespace <a class="m-doc" href="namespacemuu_1_1literals.html">muu::literals</a> <span class="m-label m-flat m-info">inline</span></dt>
+            <dd>Literal operators.</dd>
+          </dl>
+        </section>
+        <section id="nested-classes">
+          <h2><a href="#nested-classes">Classes</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;typename Character, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Length&gt;</div>
+              class <a class="m-doc" href="classmuu_1_1static__string.html">muu::static_string</a>
+            </dt>
+            <dd>A null-terminated string for compile-time string manipulation.</dd>
+          </dl>
+        </section>
+        <section id="func-members">
+          <h2><a href="#func-members">Functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;char... Str&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a57b7502d3109a0053c90b1ed5bb12488">operator""_ss</a>(</span><span class="m-doc-wrap">) -&gt; string&lt;char, sizeof...(Str)&gt; <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd>Constructs a <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a> exactly representing a numeric literal.</dd>
+          </dl>
+        </section>
       </div>
     </div>
   </div>
