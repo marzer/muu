@@ -1,185 +1,206 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-	<ItemGroup Label="ProjectConfigurations">
-		<ProjectConfiguration Include="Debug|x64">
-			<Configuration>Debug</Configuration>
-			<Platform>x64</Platform>
-		</ProjectConfiguration>
-	</ItemGroup>
-	<PropertyGroup Label="Globals">
-		<VCProjectVersion>16.0</VCProjectVersion>
-		<ProjectGuid>{70F7C29B-3468-5C09-8D47-B649CEBAB09E}</ProjectGuid>
-		<WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-		<!-- <PreferredToolArchitecture>x64</PreferredToolArchitecture> -->
-	</PropertyGroup>
-	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-		<ConfigurationType>Application</ConfigurationType>
-		<UseDebugLibraries>true</UseDebugLibraries>
-		<PlatformToolset>v142</PlatformToolset>
-		<CharacterSet>MultiByte</CharacterSet>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-		<ConfigurationType>Application</ConfigurationType>
-		<UseDebugLibraries>false</UseDebugLibraries>
-		<PlatformToolset>v142</PlatformToolset>
-		<WholeProgramOptimization>false</WholeProgramOptimization>
-		<CharacterSet>MultiByte</CharacterSet>
-	</PropertyGroup>
-	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-	<ImportGroup Label="PropertySheets">
-		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props"
-			Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-	</ImportGroup>
-	<Import Project="$(SolutionDir)muu.props" />
-	<PropertyGroup>
-		<IncludePath>$(SolutionDir)external;$(IncludePath)</IncludePath>
-		<IncludePath>$(SolutionDir)include;$(IncludePath)</IncludePath>
-		<IncludePath>$(SolutionDir)tests;$(IncludePath)</IncludePath>
-	</PropertyGroup>
-	<ItemDefinitionGroup>
-		<ClCompile>
-			<ExceptionHandling>false</ExceptionHandling>
-			<PrecompiledHeader>Use</PrecompiledHeader>
-			<PrecompiledHeaderFile>tests.h</PrecompiledHeaderFile>
-			<PreprocessorDefinitions>MUU_DLL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">_HAS_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">SHOULD_HAVE_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'!='false'">SHOULD_HAVE_EXCEPTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			<LanguageStandard>stdcpp17</LanguageStandard>
-			<DebugInformationFormat Condition="!$(Configuration.ToLower().Contains('debug'))">None</DebugInformationFormat>
-			<WarningLevel>EnableAllWarnings</WarningLevel>
-			<DisableSpecificWarnings>%(DisableSpecificWarnings);4127</DisableSpecificWarnings> <!-- conditional expr is constant -->
-			<DisableSpecificWarnings>%(DisableSpecificWarnings);4324</DisableSpecificWarnings> <!-- structure was padded due to alignment specifier -->
-			<DisableSpecificWarnings>%(DisableSpecificWarnings);4464</DisableSpecificWarnings> <!-- relative include path contains '..' -->
-			<DisableSpecificWarnings>%(DisableSpecificWarnings);4505</DisableSpecificWarnings> <!-- unreferenced local function removed -->
-			<DisableSpecificWarnings>%(DisableSpecificWarnings);4514</DisableSpecificWarnings> <!-- unreferenced inline function has been removed -->
-			<DisableSpecificWarnings>%(DisableSpecificWarnings);4577</DisableSpecificWarnings> <!-- 'noexcept' used with no exception handling mode specified -->
-			<DisableSpecificWarnings>%(DisableSpecificWarnings);4582</DisableSpecificWarnings> <!-- constructor is not implicitly called -->
-			<DisableSpecificWarnings>%(DisableSpecificWarnings);4623</DisableSpecificWarnings> <!-- default constructor was implicitly defined as deleted -->
-			<DisableSpecificWarnings>%(DisableSpecificWarnings);4625</DisableSpecificWarnings> <!-- copy constructor was implicitly defined as deleted -->
-			<DisableSpecificWarnings>%(DisableSpecificWarnings);4626</DisableSpecificWarnings> <!-- assignment operator was implicitly defined as deleted -->
-			<DisableSpecificWarnings>%(DisableSpecificWarnings);4710</DisableSpecificWarnings> <!-- function not inlined -->
-			<DisableSpecificWarnings>%(DisableSpecificWarnings);4711</DisableSpecificWarnings> <!-- function selected for automatic expansion -->
-			<DisableSpecificWarnings>%(DisableSpecificWarnings);4738</DisableSpecificWarnings> <!-- storing 32-bit float result in memory -->
-			<DisableSpecificWarnings>%(DisableSpecificWarnings);4820</DisableSpecificWarnings> <!-- N bytes padding added -->
-			<DisableSpecificWarnings>%(DisableSpecificWarnings);4866</DisableSpecificWarnings> <!-- compiler may not enforce ltr eval in operator[] -->
-			<DisableSpecificWarnings>%(DisableSpecificWarnings);4868</DisableSpecificWarnings> <!-- compiler may not enforce ltr eval in initializer list -->
-			<DisableSpecificWarnings>%(DisableSpecificWarnings);4883</DisableSpecificWarnings> <!-- function size suppresses optimizations -->
-			<DisableSpecificWarnings>%(DisableSpecificWarnings);4946</DisableSpecificWarnings> <!-- reinterpret_cast used between related classes -->
-			<DisableSpecificWarnings>%(DisableSpecificWarnings);5026</DisableSpecificWarnings> <!-- move constructor was implicitly defined as deleted -->
-			<DisableSpecificWarnings>%(DisableSpecificWarnings);5027</DisableSpecificWarnings> <!-- move assignment operator was implicitly defined as deleted -->
-			<DisableSpecificWarnings>%(DisableSpecificWarnings);5039</DisableSpecificWarnings> <!-- potentially throwing function passed to 'extern "C"' -->
-			<DisableSpecificWarnings>%(DisableSpecificWarnings);5045</DisableSpecificWarnings> <!-- Compiler will insert Spectre mitigation -->
-		</ClCompile>
-		<Link>
-			<GenerateDebugInformation Condition="!$(Configuration.ToLower().Contains('debug'))">false</GenerateDebugInformation>
-			<LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
-			<SubSystem>Console</SubSystem>
-		</Link>
-	</ItemDefinitionGroup>
-	<PropertyGroup>
-		<LocalDebuggerWorkingDirectory>$(SolutionDir)tests</LocalDebuggerWorkingDirectory>
-		<IntDir>$(SolutionDir)build\tests-70F7C29B-3468-5C09-8D47-B649CEBAB09E\</IntDir>
-		<OutDir>$(SolutionDir)build\</OutDir>
-		<LinkIncremental>false</LinkIncremental>
-	</PropertyGroup>
-	<ItemGroup>
-		<ClCompile Include="..\accumulator.cpp" />
-		<ClCompile Include="..\blob.cpp" />
-		<ClCompile Include="..\bounding_box_0.cpp" />
-		<ClCompile Include="..\bounding_box_1.cpp" />
-		<ClCompile Include="..\bounding_box_2.cpp" />
-		<ClCompile Include="..\bounding_box_3.cpp" />
-		<ClCompile Include="..\compressed_pair.cpp" />
-		<ClCompile Include="..\core_bit.cpp" />
-		<ClCompile Include="..\core_other.cpp" />
-		<ClCompile Include="..\core_meta.cpp" />
-		<ClCompile Include="..\function_view.cpp" />
-		<ClCompile Include="..\half.cpp" />
-		<ClCompile Include="..\hashing.cpp" />
-		<ClCompile Include="..\infinity_or_nan_0.cpp" />
-		<ClCompile Include="..\infinity_or_nan_1.cpp" />
-		<ClCompile Include="..\infinity_or_nan_2.cpp" />
-		<ClCompile Include="..\infinity_or_nan_3.cpp" />
-		<ClCompile Include="..\main.cpp">
-			<PrecompiledHeader>NotUsing</PrecompiledHeader>
-		</ClCompile>
-		<ClCompile Include="..\math.cpp" />
-		<ClCompile Include="..\matrix_0.cpp" />
-		<ClCompile Include="..\matrix_1.cpp" />
-		<ClCompile Include="..\matrix_2.cpp" />
-		<ClCompile Include="..\matrix_3.cpp" />
-		<ClCompile Include="..\matrix_4.cpp" />
-		<ClCompile Include="..\matrix_5.cpp" />
-		<ClCompile Include="..\matrix_6.cpp" />
-		<ClCompile Include="..\matrix_7.cpp" />
-		<ClCompile Include="..\oriented_bounding_box_0.cpp" />
-		<ClCompile Include="..\oriented_bounding_box_1.cpp" />
-		<ClCompile Include="..\oriented_bounding_box_2.cpp" />
-		<ClCompile Include="..\oriented_bounding_box_3.cpp" />
-		<ClCompile Include="..\plane_0.cpp" />
-		<ClCompile Include="..\plane_1.cpp" />
-		<ClCompile Include="..\plane_2.cpp" />
-		<ClCompile Include="..\plane_3.cpp" />
-		<ClCompile Include="..\quaternion_0.cpp" />
-		<ClCompile Include="..\quaternion_1.cpp" />
-		<ClCompile Include="..\quaternion_2.cpp" />
-		<ClCompile Include="..\quaternion_3.cpp" />
-		<ClCompile Include="..\scope_guard.cpp" />
-		<ClCompile Include="..\span.cpp" />
-        <ClCompile Include="..\static_string.cpp" />
-		<ClCompile Include="..\string_param.cpp" />
-		<ClCompile Include="..\strings.cpp" />
-		<ClCompile Include="..\tagged_ptr.cpp" />
-		<ClCompile Include="..\tests.cpp">
-			<PrecompiledHeader>Create</PrecompiledHeader>
-		</ClCompile>
-		<ClCompile Include="..\thread_pool.cpp" />
-		<ClCompile Include="..\unicode_char.cpp" />
-		<ClCompile Include="..\unicode_char16_t.cpp" />
-		<ClCompile Include="..\unicode_char32_t.cpp" />
-		<ClCompile Include="..\unicode_char8_t.cpp" />
-		<ClCompile Include="..\unicode_unsigned_char.cpp" />
-		<ClCompile Include="..\uuid.cpp" />
-		<ClCompile Include="..\vector_0.cpp" />
-		<ClCompile Include="..\vector_1.cpp" />
-		<ClCompile Include="..\vector_2.cpp" />
-		<ClCompile Include="..\vector_3.cpp" />
-		<ClCompile Include="..\vector_4.cpp" />
-		<ClCompile Include="..\vector_5.cpp" />
-		<ClCompile Include="..\vector_6.cpp" />
-		<ClCompile Include="..\vector_7.cpp" />
-	</ItemGroup>
-	<ItemGroup>
-		<Natvis Include="$(SolutionDir)muu.natvis" />
-	</ItemGroup>
-	<ItemGroup>
-		<ClInclude Include="..\batching.h" />
-		<ClInclude Include="..\bounding_box_tests.h" />
-		<ClInclude Include="..\catch2.h" />
-		<ClInclude Include="..\float_test_data.h" />
-		<ClInclude Include="..\infinity_or_nan_tests.h" />
-		<ClInclude Include="..\matrix_tests.h" />
-		<ClInclude Include="..\oriented_bounding_box_tests.h" />
-		<ClInclude Include="..\plane_tests.h" />
-		<ClInclude Include="..\quaternion_tests.h" />
-		<ClInclude Include="..\settings.h" />
-		<ClInclude Include="..\tests.h" />
-		<ClInclude Include="..\unicode.h" />
-		<ClInclude Include="..\vector_tests.h" />
-	</ItemGroup>
-	<ItemGroup>
-		<None Include="..\cpp.hint" />
-		<None Include="..\meson.build" />
-		<None Include="$(SolutionDir).runsettings" />
-		<None Include="$(SolutionDir)muu.props" />
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="muu_debug_x64_noexcept.vcxproj">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{70F7C29B-3468-5C09-8D47-B649CEBAB09E}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <!-- <PreferredToolArchitecture>x64</PreferredToolArchitecture> -->
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <Import Project="$(SolutionDir)muu.props" />
+  <PropertyGroup>
+    <IncludePath>$(SolutionDir)external;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)tests;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <ExceptionHandling>false</ExceptionHandling>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>tests.h</PrecompiledHeaderFile>
+      <PreprocessorDefinitions>MUU_DLL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">_HAS_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">SHOULD_HAVE_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'%(ExceptionHandling)'!='false'">SHOULD_HAVE_EXCEPTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <DebugInformationFormat Condition="!$(Configuration.ToLower().Contains('debug'))">None</DebugInformationFormat>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <DisableSpecificWarnings>%(DisableSpecificWarnings);4127</DisableSpecificWarnings>
+      <!-- conditional expr is constant -->
+      <DisableSpecificWarnings>%(DisableSpecificWarnings);4324</DisableSpecificWarnings>
+      <!-- structure was padded due to alignment specifier -->
+      <DisableSpecificWarnings>%(DisableSpecificWarnings);4464</DisableSpecificWarnings>
+      <!-- relative include path contains '..' -->
+      <DisableSpecificWarnings>%(DisableSpecificWarnings);4505</DisableSpecificWarnings>
+      <!-- unreferenced local function removed -->
+      <DisableSpecificWarnings>%(DisableSpecificWarnings);4514</DisableSpecificWarnings>
+      <!-- unreferenced inline function has been removed -->
+      <DisableSpecificWarnings>%(DisableSpecificWarnings);4577</DisableSpecificWarnings>
+      <!-- 'noexcept' used with no exception handling mode specified -->
+      <DisableSpecificWarnings>%(DisableSpecificWarnings);4582</DisableSpecificWarnings>
+      <!-- constructor is not implicitly called -->
+      <DisableSpecificWarnings>%(DisableSpecificWarnings);4623</DisableSpecificWarnings>
+      <!-- default constructor was implicitly defined as deleted -->
+      <DisableSpecificWarnings>%(DisableSpecificWarnings);4625</DisableSpecificWarnings>
+      <!-- copy constructor was implicitly defined as deleted -->
+      <DisableSpecificWarnings>%(DisableSpecificWarnings);4626</DisableSpecificWarnings>
+      <!-- assignment operator was implicitly defined as deleted -->
+      <DisableSpecificWarnings>%(DisableSpecificWarnings);4710</DisableSpecificWarnings>
+      <!-- function not inlined -->
+      <DisableSpecificWarnings>%(DisableSpecificWarnings);4711</DisableSpecificWarnings>
+      <!-- function selected for automatic expansion -->
+      <DisableSpecificWarnings>%(DisableSpecificWarnings);4738</DisableSpecificWarnings>
+      <!-- storing 32-bit float result in memory -->
+      <DisableSpecificWarnings>%(DisableSpecificWarnings);4820</DisableSpecificWarnings>
+      <!-- N bytes padding added -->
+      <DisableSpecificWarnings>%(DisableSpecificWarnings);4866</DisableSpecificWarnings>
+      <!-- compiler may not enforce ltr eval in operator[] -->
+      <DisableSpecificWarnings>%(DisableSpecificWarnings);4868</DisableSpecificWarnings>
+      <!-- compiler may not enforce ltr eval in initializer list -->
+      <DisableSpecificWarnings>%(DisableSpecificWarnings);4883</DisableSpecificWarnings>
+      <!-- function size suppresses optimizations -->
+      <DisableSpecificWarnings>%(DisableSpecificWarnings);4946</DisableSpecificWarnings>
+      <!-- reinterpret_cast used between related classes -->
+      <DisableSpecificWarnings>%(DisableSpecificWarnings);5026</DisableSpecificWarnings>
+      <!-- move constructor was implicitly defined as deleted -->
+      <DisableSpecificWarnings>%(DisableSpecificWarnings);5027</DisableSpecificWarnings>
+      <!-- move assignment operator was implicitly defined as deleted -->
+      <DisableSpecificWarnings>%(DisableSpecificWarnings);5039</DisableSpecificWarnings>
+      <!-- potentially throwing function passed to 'extern "C"' -->
+      <DisableSpecificWarnings>%(DisableSpecificWarnings);5045</DisableSpecificWarnings>
+      <!-- Compiler will insert Spectre mitigation -->
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation Condition="!$(Configuration.ToLower().Contains('debug'))">false</GenerateDebugInformation>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <PropertyGroup>
+    <LocalDebuggerWorkingDirectory>$(SolutionDir)tests</LocalDebuggerWorkingDirectory>
+    <IntDir>$(SolutionDir)build\tests-70F7C29B-3468-5C09-8D47-B649CEBAB09E\</IntDir>
+    <OutDir>$(SolutionDir)build\</OutDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemGroup>
+    <ClCompile Include="..\accumulator.cpp" />
+    <ClCompile Include="..\blob.cpp" />
+    <ClCompile Include="..\bounding_box_0.cpp" />
+    <ClCompile Include="..\bounding_box_1.cpp" />
+    <ClCompile Include="..\bounding_box_2.cpp" />
+    <ClCompile Include="..\bounding_box_3.cpp" />
+    <ClCompile Include="..\compressed_pair.cpp" />
+    <ClCompile Include="..\core_bit.cpp" />
+    <ClCompile Include="..\core_other.cpp" />
+    <ClCompile Include="..\core_meta.cpp" />
+    <ClCompile Include="..\function_view.cpp" />
+    <ClCompile Include="..\half.cpp" />
+    <ClCompile Include="..\hashing.cpp" />
+    <ClCompile Include="..\infinity_or_nan_0.cpp" />
+    <ClCompile Include="..\infinity_or_nan_1.cpp" />
+    <ClCompile Include="..\infinity_or_nan_2.cpp" />
+    <ClCompile Include="..\infinity_or_nan_3.cpp" />
+    <ClCompile Include="..\main.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\math.cpp" />
+    <ClCompile Include="..\matrix_0.cpp" />
+    <ClCompile Include="..\matrix_1.cpp" />
+    <ClCompile Include="..\matrix_2.cpp" />
+    <ClCompile Include="..\matrix_3.cpp" />
+    <ClCompile Include="..\matrix_4.cpp" />
+    <ClCompile Include="..\matrix_5.cpp" />
+    <ClCompile Include="..\matrix_6.cpp" />
+    <ClCompile Include="..\matrix_7.cpp" />
+    <ClCompile Include="..\oriented_bounding_box_0.cpp" />
+    <ClCompile Include="..\oriented_bounding_box_1.cpp" />
+    <ClCompile Include="..\oriented_bounding_box_2.cpp" />
+    <ClCompile Include="..\oriented_bounding_box_3.cpp" />
+    <ClCompile Include="..\plane_0.cpp" />
+    <ClCompile Include="..\plane_1.cpp" />
+    <ClCompile Include="..\plane_2.cpp" />
+    <ClCompile Include="..\plane_3.cpp" />
+    <ClCompile Include="..\quaternion_0.cpp" />
+    <ClCompile Include="..\quaternion_1.cpp" />
+    <ClCompile Include="..\quaternion_2.cpp" />
+    <ClCompile Include="..\quaternion_3.cpp" />
+    <ClCompile Include="..\scope_guard.cpp" />
+    <ClCompile Include="..\span.cpp" />
+    <ClCompile Include="..\static_string.cpp" />
+    <ClCompile Include="..\string_param.cpp" />
+    <ClCompile Include="..\strings.cpp" />
+    <ClCompile Include="..\tagged_ptr.cpp" />
+    <ClCompile Include="..\tests.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\thread_pool.cpp" />
+    <ClCompile Include="..\type_name.cpp" />
+    <ClCompile Include="..\unicode_char.cpp" />
+    <ClCompile Include="..\unicode_char16_t.cpp" />
+    <ClCompile Include="..\unicode_char32_t.cpp" />
+    <ClCompile Include="..\unicode_char8_t.cpp" />
+    <ClCompile Include="..\unicode_unsigned_char.cpp" />
+    <ClCompile Include="..\uuid.cpp" />
+    <ClCompile Include="..\vector_0.cpp" />
+    <ClCompile Include="..\vector_1.cpp" />
+    <ClCompile Include="..\vector_2.cpp" />
+    <ClCompile Include="..\vector_3.cpp" />
+    <ClCompile Include="..\vector_4.cpp" />
+    <ClCompile Include="..\vector_5.cpp" />
+    <ClCompile Include="..\vector_6.cpp" />
+    <ClCompile Include="..\vector_7.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="$(SolutionDir)muu.natvis" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\batching.h" />
+    <ClInclude Include="..\bounding_box_tests.h" />
+    <ClInclude Include="..\catch2.h" />
+    <ClInclude Include="..\float_test_data.h" />
+    <ClInclude Include="..\infinity_or_nan_tests.h" />
+    <ClInclude Include="..\matrix_tests.h" />
+    <ClInclude Include="..\oriented_bounding_box_tests.h" />
+    <ClInclude Include="..\plane_tests.h" />
+    <ClInclude Include="..\quaternion_tests.h" />
+    <ClInclude Include="..\settings.h" />
+    <ClInclude Include="..\tests.h" />
+    <ClInclude Include="..\unicode.h" />
+    <ClInclude Include="..\vector_tests.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\cpp.hint" />
+    <None Include="..\meson.build" />
+    <None Include="$(SolutionDir).runsettings" />
+    <None Include="$(SolutionDir)muu.props" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="muu_debug_x64_noexcept.vcxproj">
 			<Project>{2FFE44DE-F9AB-56D7-9E47-B402722487DB}</Project>
 		</ProjectReference>
-	</ItemGroup>
-	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
-

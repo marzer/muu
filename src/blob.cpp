@@ -53,12 +53,12 @@ namespace
 }
 
 blob::blob(generic_allocator* alloc) noexcept
-	: allocator_{ alloc ? alloc : &impl::get_default_allocator() },
+	: allocator_{ alloc ? alloc : ::muu_impl_get_default_allocator() },
 	  alignment_{ default_blob_alignment }
 {}
 
 blob::blob(size_t sz, const void* src, size_t align, generic_allocator* alloc)
-	: allocator_{ alloc ? alloc : &impl::get_default_allocator() },
+	: allocator_{ alloc ? alloc : ::muu_impl_get_default_allocator() },
 	  alignment_{ blob_check_alignment(align) },
 	  size_{ sz },
 	  data_{ blob_allocate(*allocator_, size_, alignment_) }

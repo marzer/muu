@@ -112,6 +112,7 @@
     <ClInclude Include="$(SolutionDir)include\muu\tagged_ptr.h" />
     <ClInclude Include="$(SolutionDir)include\muu\thread_pool.h" />
     <ClInclude Include="$(SolutionDir)include\muu\type_list.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\type_name.h" />
     <ClInclude Include="$(SolutionDir)include\muu\uuid.h" />
     <ClInclude Include="$(SolutionDir)include\muu\vector.h" />
     <ClInclude Include="$(SolutionDir)src\os.h" />

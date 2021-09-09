@@ -58,11 +58,11 @@ namespace
 
 MUU_DISABLE_LIFETIME_WARNINGS;
 
-namespace muu::impl
+extern "C" //
 {
-	generic_allocator& get_default_allocator() noexcept
+	muu::generic_allocator* MUU_CALLCONV muu_impl_get_default_allocator() noexcept
 	{
 		static ::default_allocator allocator;
-		return allocator;
+		return &allocator;
 	}
 }

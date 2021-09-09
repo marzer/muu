@@ -153,6 +153,7 @@
       <Filter>infinity_or_nan</Filter>
     </ClCompile>
     <ClCompile Include="..\static_string.cpp" />
+    <ClCompile Include="..\type_name.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\batching.h" />

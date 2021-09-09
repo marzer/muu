@@ -32,11 +32,14 @@ MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 
 namespace muu
 {
-	using namespace std::string_view_literals;
-}
+	/// \cond
+	inline namespace literals
+	{
+		using namespace std::string_literals;
+		using namespace std::string_view_literals;
+	}
+	/// \endcond
 
-namespace muu
-{
 	/// \addtogroup		strings			Strings
 	/// \brief			Utilities to simplify working with strings.
 	/// @{
@@ -49,7 +52,7 @@ namespace muu
 	/// \cond
 	namespace impl
 	{
-		class MUU_TRIVIAL_ABI utf8_decoder final
+		class MUU_TRIVIAL_ABI utf8_decoder
 		{
 			// utf8_decoder based on this: https://bjoern.hoehrmann.de/utf-8/decoder/dfa/
 			// Copyright (c) Bjoern Hoehrmann <bjoern@hoehrmann.de>
@@ -131,7 +134,7 @@ namespace muu
 	#endif
 		};
 
-		class MUU_TRIVIAL_ABI utf16_decoder final
+		class MUU_TRIVIAL_ABI utf16_decoder
 		{
 			enum decoder_state : unsigned
 			{
@@ -619,7 +622,7 @@ namespace muu
 		}
 
 		template <typename Char = char>
-		struct hex_char_pair final
+		struct hex_char_pair
 		{
 			Char high;
 			Char low;

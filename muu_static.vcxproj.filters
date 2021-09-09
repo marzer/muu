@@ -175,6 +175,9 @@
     <ClInclude Include="include\muu\static_string.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\muu\type_name.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".circleci\config.yml">

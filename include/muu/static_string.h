@@ -28,6 +28,13 @@ MUU_ENABLE_WARNINGS;
 
 namespace muu
 {
+	/// \cond
+	inline namespace literals
+	{
+		using namespace std::string_view_literals;
+	}
+	/// \endcond
+
 	/// \brief	A null-terminated string for compile-time string manipulation.
 	/// \ingroup strings
 	///
@@ -43,6 +50,9 @@ namespace muu
 					  "static_string Character type must be trivially constructible, copyable and destructible");
 
 	  public:
+		/// \brief The length of the string (not including the null-terminator).
+		static constexpr size_t string_length = Length;
+
 		/// \brief Character type used in the string.
 		using value_type = Character;
 
@@ -82,9 +92,6 @@ namespace muu
 		/// \brief	The string view type corresponding to this string's character type.
 		using view_type = std::basic_string_view<Character>;
 
-		/// \brief	Constant used to indicate 'not found' in find methods.
-		static constexpr size_type npos = static_cast<size_type>(-1);
-
 	  private:
 		template <typename, size_t>
 		friend class static_string;
@@ -105,6 +112,14 @@ namespace muu
 		MUU_NODISCARD_CTOR
 		explicit constexpr static_string(value_type fill, std::index_sequence<Indices...>) noexcept //
 			: chars_{ (static_cast<void>(Indices), fill)... }
+		{
+			static_assert(sizeof...(Indices) <= Length);
+		}
+
+		template <size_t... Indices>
+		MUU_NODISCARD_CTOR
+		explicit constexpr static_string(std::string_view str, std::index_sequence<Indices...>) noexcept //
+			: chars_{ (Indices < str.length() ? str[Indices] : '\0')... }
 		{
 			static_assert(sizeof...(Indices) <= Length);
 		}
@@ -135,6 +150,22 @@ namespace muu
 		MUU_CONSTRAINED_TEMPLATE(N == 0 || Length == 0, size_t N)
 		MUU_NODISCARD_CTOR
 		explicit constexpr static_string(const value_type (&)[N]) noexcept //
+			: chars_{}
+		{}
+		/// \endcond
+
+		/// \brief Constructs a string from a std::string_view.
+		/// \details	Any extra characters not covered by the input argument are zero-initialized.
+		MUU_LEGACY_REQUIRES(!!Len, size_t Len = Length)
+		MUU_NODISCARD_CTOR
+		explicit constexpr static_string(std::string_view str) noexcept //
+			: static_string{ str, std::make_index_sequence<Length>{} }
+		{}
+
+		/// \cond
+		MUU_LEGACY_REQUIRES(!Len, size_t Len = Length)
+		MUU_NODISCARD_CTOR
+		explicit constexpr static_string(std::string_view) noexcept //
 			: chars_{}
 		{}
 		/// \endcond
@@ -185,7 +216,7 @@ namespace muu
 
 		/// \brief Returns a reference to the first character in the string.
 		///
-		/// \availability		This function is not available when #Length == 0.
+		/// \availability		This function is not available when #string_length == 0.
 		MUU_LEGACY_REQUIRES(!!Len, size_t Len = Length)
 		MUU_PURE_INLINE_GETTER
 		constexpr reference front() noexcept
@@ -195,7 +226,7 @@ namespace muu
 
 		/// \brief Returns a reference to the last character in the string.
 		///
-		/// \availability		This function is not available when #Length == 0.
+		/// \availability		This function is not available when #string_length == 0.
 		MUU_LEGACY_REQUIRES(!!Len, size_t Len = Length)
 		MUU_PURE_INLINE_GETTER
 		constexpr reference back() noexcept
@@ -205,7 +236,7 @@ namespace muu
 
 		/// \brief Returns a const reference to the first character in the string.
 		///
-		/// \availability		This function is not available when #Length == 0.
+		/// \availability		This function is not available when #string_length == 0.
 		MUU_LEGACY_REQUIRES(!!Len, size_t Len = Length)
 		MUU_PURE_INLINE_GETTER
 		constexpr const_reference front() const noexcept
@@ -215,7 +246,7 @@ namespace muu
 
 		/// \brief Returns a const reference to the last character in the string.
 		///
-		/// \availability		This function is not available when #Length == 0.
+		/// \availability		This function is not available when #string_length == 0.
 		MUU_LEGACY_REQUIRES(!!Len, size_t Len = Length)
 		MUU_PURE_INLINE_GETTER
 		constexpr const_reference back() const noexcept
@@ -556,7 +587,9 @@ namespace muu
 		/// @}
 #endif // concatenation
 
-#if 1 // misc -----------------------------------------------------------------------------------------------------
+#if 1 // views ----------------------------------------------------------------------------------------------------
+		/// \name Views
+		/// @{
 
 		/// \brief	Returns a view of the string (not including the null terminator).
 		MUU_PURE_INLINE_GETTER
@@ -572,22 +605,8 @@ namespace muu
 			return view_type{ chars_, Length };
 		}
 
-		/// \brief Writes the string out to a text stream.
-		template <typename Char, typename Traits>
-		friend std::basic_ostream<Char, Traits>& operator<<(std::basic_ostream<Char, Traits>& os,
-															const static_string& str)
-		{
-			if constexpr (has_bitwise_lsh_operator<std::basic_ostream<Char, Traits>&, view_type>)
-				return os << str.view();
-			else if constexpr (has_bitwise_lsh_operator<std::basic_ostream<Char, Traits>&, const value_type*> //
-							   || has_bitwise_lsh_operator<std::basic_ostream<Char, Traits>&,
-														   const value_type(&)[Length + 1_sz]>)
-				return os << str.chars_;
-			else
-				static_assert(always_false<Char>, "stream operator not supported with this stream and character type");
-		}
-
-#endif // misc
+		/// @}
+#endif // views
 
 #if 1	// substrings -------------------------------------------------------------------------------------------------
 		/// \name Substrings
@@ -598,7 +617,8 @@ namespace muu
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(pure)
-		constexpr static size_t clamp_index(T idx) noexcept
+		MUU_CONSTEVAL
+		static size_t clamp_index(T idx) noexcept
 		{
 			if constexpr (!Length)
 				return 0_sz;
@@ -608,6 +628,9 @@ namespace muu
 				{
 					if (idx < T{})
 					{
+						if (idx == constants<T>::lowest)
+							return 0_sz;
+
 						const auto abs_uidx = static_cast<size_t>(-idx);
 						if (abs_uidx >= Length)
 							return 0_sz;
@@ -677,13 +700,13 @@ namespace muu
 
 		/// \brief	Returns a substring.
 		///
-		/// \tparam	START	 	Starting index of the substring, inclusive. Negative values mean "this many characters from the end".
-		/// \tparam	END			Ending index of the substring, exclusive. Negative values mean "this many characters from the end".
+		/// \tparam	Start	 	Starting index of the substring, inclusive. Negative values mean "this many characters from the end".
+		/// \tparam	End			Ending index of the substring, exclusive. Negative values mean "this many characters from the end".
 		///
 		/// \return	A string containing the substring from the given range.
 		/// 		If the source string literal was empty, the range was empty, or
 		/// 		they do not intersect, an zero-length string is returned.
-		template <auto Start, auto End = constants<ptrdiff_t>::highest>
+		template <auto Start, auto End = static_cast<size_t>(-1)>
 		MUU_NODISCARD
 		MUU_ATTR(pure)
 		constexpr auto slice() const noexcept
@@ -832,6 +855,25 @@ namespace muu
 
 		/// @}
 #endif // equality
+
+#if 1 // misc -----------------------------------------------------------------------------------------------------
+
+		/// \brief Writes the string out to a text stream.
+		template <typename Char, typename Traits>
+		friend std::basic_ostream<Char, Traits>& operator<<(std::basic_ostream<Char, Traits>& os,
+															const static_string& str)
+		{
+			if constexpr (has_bitwise_lsh_operator<std::basic_ostream<Char, Traits>&, view_type>)
+				return os << str.view();
+			else if constexpr (has_bitwise_lsh_operator<std::basic_ostream<Char, Traits>&, const value_type*> //
+							   || has_bitwise_lsh_operator<std::basic_ostream<Char, Traits>&,
+														   const value_type(&)[Length + 1_sz]>)
+				return os << str.chars_;
+			else
+				static_assert(always_false<Char>, "stream operator not supported with this stream and character type");
+		}
+
+#endif // misc
 	};
 
 	/// \cond

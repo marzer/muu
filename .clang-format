@@ -28,6 +28,7 @@ AttributeMacros:
   - MUU_EMPTY_BASE_CLASSES
   - MUU_TRIVIAL_ABI
   - MUU_VECTORCALL
+  - MUU_CALLCONV
 BinPackArguments: false
 BinPackParameters: false
 BraceWrapping:
@@ -170,6 +171,8 @@ StatementMacros:
   - MUU_PRAGMA_MSVC
   - MUU_PURE_INLINE_GETTER
   - MUU_RETURNS_BY_THROWING
+  - _Pragma
+  - __pragma
 TabWidth:        4
 TypenameMacros:
   - MUU_VC_PARAM

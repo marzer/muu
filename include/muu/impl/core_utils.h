@@ -144,7 +144,7 @@ namespace muu
 	/// 		 you to get the same behaviour even when you aren't targeting C++20.
 	///
 	/// \availability On older compilers lacking support for std::is_constant_evaluated this will always return `false`.
-	/// 		   You can check for support by examining build::supports_is_constant_evaluated.
+	/// 		   Check for support by examining build::supports_is_constant_evaluated.
 	MUU_NODISCARD
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(const)

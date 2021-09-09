@@ -692,6 +692,10 @@ help me improve support for your target architecture. Thanks!
 	#include MUU_CONFIG_HEADER
 #endif
 
+//======================================================================================================================
+// EXPORT VISIBILITY
+//======================================================================================================================
+
 #ifndef _MSC_VER
 	#undef MUU_DLL
 #endif
@@ -715,6 +719,12 @@ help me improve support for your target architecture. Thanks!
 	#else
 		#define MUU_API
 	#endif
+#endif
+
+#ifdef _MSC_VER
+	#define MUU_CALLCONV			__cdecl
+#else
+	#define MUU_CALLCONV
 #endif
 
 //======================================================================================================================
@@ -960,56 +970,56 @@ MUU_ENABLE_WARNINGS;
 #define MUU_APPEND_SV(s)				MUU_APPEND_SV_1(s)
 #define MUU_MAKE_STRING_VIEW(s)			MUU_APPEND_SV(MUU_MAKE_RAW_STRING(s))
 
-#define MUU_DELETE_MOVE(type)				\
-	type(type&&) = delete;					\
-	type& operator=(type&&) = delete
+#define MUU_DELETE_MOVE(T)					\
+	T(T&&) = delete;						\
+	T& operator=(T&&) = delete
 
-#define MUU_DELETE_COPY(type)				\
-	type(const type&) = delete;				\
-	type& operator=(const type&) = delete
+#define MUU_DELETE_COPY(T)					\
+	T(const T&) = delete;					\
+	T& operator=(const T&) = delete
 
-#define MUU_DEFAULT_MOVE(type)				\
-	type(type&&) = default;					\
-	type& operator=(type&&) = default
+#define MUU_DEFAULT_MOVE(T)					\
+	T(T&&) = default;						\
+	T& operator=(T&&) = default
 
-#define MUU_DEFAULT_COPY(type)				\
-	type(const type&) = default;			\
-	type& operator=(const type&) = default
+#define MUU_DEFAULT_COPY(T)					\
+	T(const T&) = default;					\
+	T& operator=(const T&) = default
 
-#define MUU_MAKE_FLAGS_2(name, op, linkage)												\
+#define MUU_MAKE_FLAGS_2(T, op, linkage)												\
 	[[nodiscard]]																		\
 	MUU_ATTR(const)																		\
-	linkage constexpr name operator op(name lhs, name rhs) noexcept						\
+	linkage constexpr T operator op(T lhs, T rhs) noexcept								\
 	{																					\
-		using under = std::underlying_type_t<name>;										\
-		return static_cast<name>(static_cast<under>(lhs) op static_cast<under>(rhs));	\
+		using under = std::underlying_type_t<T>;										\
+		return static_cast<T>(static_cast<under>(lhs) op static_cast<under>(rhs));		\
 	}																					\
-	linkage constexpr name& operator MUU_CONCAT(op, =)(name& lhs, name rhs) noexcept	\
+	linkage constexpr T& operator MUU_CONCAT(op, =)(T& lhs, T rhs) noexcept				\
 	{																					\
 		return lhs = (lhs op rhs);														\
 	}
 
-#define MUU_MAKE_FLAGS_1(name, linkage)													\
-	MUU_MAKE_FLAGS_2(name, &, linkage)													\
-	MUU_MAKE_FLAGS_2(name, |, linkage)													\
-	MUU_MAKE_FLAGS_2(name, ^, linkage)													\
+#define MUU_MAKE_FLAGS_1(T, linkage)													\
+	MUU_MAKE_FLAGS_2(T, &, linkage)														\
+	MUU_MAKE_FLAGS_2(T, |, linkage)														\
+	MUU_MAKE_FLAGS_2(T, ^, linkage)														\
 	[[nodiscard]]																		\
 	MUU_ATTR(const)																		\
-	linkage constexpr name operator~(name val) noexcept									\
+	linkage constexpr T operator~(T val) noexcept										\
 	{																					\
-		using under = std::underlying_type_t<name>;										\
-		return static_cast<name>(~static_cast<under>(val));								\
+		using under = std::underlying_type_t<T>;										\
+		return static_cast<T>(~static_cast<under>(val));								\
 	}																					\
 	[[nodiscard]]																		\
 	MUU_ATTR(const)																		\
-	linkage constexpr bool operator!(name val) noexcept									\
+	linkage constexpr bool operator!(T val) noexcept									\
 	{																					\
-		using under = std::underlying_type_t<name>;										\
+		using under = std::underlying_type_t<T>;										\
 		return !static_cast<under>(val);												\
 	}																					\
 	static_assert(true)
 
-#define MUU_MAKE_FLAGS(name)	MUU_MAKE_FLAGS_1(name, )
+#define MUU_MAKE_FLAGS(T)	MUU_MAKE_FLAGS_1(T, )
 
 #define MUU_PUSH_PRECISE_MATH												\
 	MUU_PRAGMA_MSVC(float_control(precise, on, push))						\
@@ -1099,6 +1109,10 @@ namespace muu::impl
 #endif
 
 #include "impl/preprocessor_for_each.h"
+
+#if !defined(__POXY__) && !defined(POXY_IMPLEMENTATION_DETAIL)
+	#define POXY_IMPLEMENTATION_DETAIL(...) __VA_ARGS__
+#endif
 
 //======================================================================================================================
 // SFINAE AND CONCEPTS

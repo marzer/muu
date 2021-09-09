@@ -25,7 +25,7 @@ namespace muu::impl
 	inline constexpr size_t tptr_addr_free_bits		   = build::bitness - tptr_addr_used_bits;
 
 	template <size_t MinAlign>
-	struct tptr final
+	struct tptr
 	{
 		static constexpr size_t tag_bits	= (max(bit_width(MinAlign), 1_sz) - 1_sz) + impl::tptr_addr_free_bits;
 		static constexpr uintptr_t tag_mask = bit_fill_right<uintptr_t>(tag_bits);

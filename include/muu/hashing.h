@@ -282,7 +282,7 @@ namespace muu
 	/// \eout
 	///
 	/// \see [SHA-1](https://en.wikipedia.org/wiki/SHA-1)
-	class sha1 final
+	class sha1
 	{
 	  public:
 		struct hash_bytes

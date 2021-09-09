@@ -18,7 +18,7 @@ MUU_ENABLE_WARNINGS;
 namespace muu
 {
 	template <typename Char>
-	struct stream_saver final
+	struct stream_saver
 	{
 		std::basic_ios<Char>& stream;
 		std::ios_base::fmtflags flags;
@@ -50,7 +50,7 @@ namespace muu
 	stream_saver(std::basic_ios<Char>&) -> stream_saver<Char>;
 
 	template <typename Char>
-	struct stream_width_saver final
+	struct stream_width_saver
 	{
 		std::basic_ios<Char>& stream;
 		std::streamsize width;

@@ -22,12 +22,11 @@ namespace
 		u16,
 		u32,
 
-		view		= 128,
-		narrow_view = narrow | view,
-		wide_view	= wide | view,
-		u8_view		= u8 | view,
-		u16_view	= u16 | view,
-		u32_view	= u32 | view
+		narrow_view,
+		wide_view,
+		u8_view,
+		u16_view,
+		u32_view,
 	};
 
 	template <mode>
@@ -221,6 +220,8 @@ namespace
 	template <typename T, typename Func>
 	static void visit(T& storage, uint8_t mode_, Func&& fn) noexcept
 	{
+		MUU_ASSUME(mode_ > uint8_t{});
+
 		switch (mode_)
 		{
 			case unwrap(mode::none): break;
@@ -235,6 +236,9 @@ namespace
 #ifdef __cpp_lib_char8_t
 			case unwrap(mode::u8): fn(value<mode::u8>(storage)); break;
 			case unwrap(mode::u8_view): fn(value<mode::u8_view>(storage)); break;
+#else
+			case unwrap(mode::u8): MUU_UNREACHABLE;
+			case unwrap(mode::u8_view): MUU_UNREACHABLE;
 #endif
 			default: MUU_UNREACHABLE;
 		}
@@ -243,6 +247,8 @@ namespace
 	template <typename T, typename Func>
 	static void visit(T& storage1, T& storage2, uint8_t mode_, Func&& fn) noexcept
 	{
+		MUU_ASSUME(mode_ > uint8_t{});
+
 		switch (mode_)
 		{
 			case unwrap(mode::none): break;
@@ -259,6 +265,9 @@ namespace
 #ifdef __cpp_lib_char8_t
 			case unwrap(mode::u8): fn(value<mode::u8>(storage1), value<mode::u8>(storage2)); break;
 			case unwrap(mode::u8_view): fn(value<mode::u8_view>(storage1), value<mode::u8_view>(storage2)); break;
+#else
+			case unwrap(mode::u8): MUU_UNREACHABLE;
+			case unwrap(mode::u8_view): MUU_UNREACHABLE;
 #endif
 			default: MUU_UNREACHABLE;
 		}
@@ -476,7 +485,7 @@ string_param::operator bool() const noexcept
 
 bool string_param::owning() const noexcept
 {
-	return mode_ && mode_ < unwrap(mode::view);
+	return mode_ && mode_ < unwrap(mode::narrow_view);
 }
 
 namespace
@@ -659,7 +668,7 @@ string_param& string_param::trim() & noexcept
 			  }
 			  else
 			  {
-				  if constexpr (mode_of<type> < mode::view) // strings
+				  if constexpr (mode_of<type> < mode::narrow_view) // strings
 				  {
 					  // snip beginning
 					  if (trimmed.data() != str.data())

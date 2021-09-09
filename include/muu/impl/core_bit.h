@@ -441,7 +441,7 @@ namespace muu
 	///
 	/// \availability On older compilers lacking support for std::bit_cast you won't be able to call this function
 	/// 		   in constexpr contexts (since it falls back to a memcpy-based implementation).
-	/// 		   You can check for constexpr support by examining build::supports_constexpr_bit_cast.
+	/// 		   Check for constexpr support by examining build::supports_constexpr_bit_cast.
 	template <typename To, typename From>
 	MUU_PURE_INLINE_GETTER
 	MUU_ATTR(flatten)

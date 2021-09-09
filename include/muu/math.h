@@ -43,7 +43,7 @@ namespace muu
 	/// \addtogroup		infinity_or_nan		infinity_or_nan()
 	/// \brief			Checks for infinities and not-a-numbers (NaN).
 	/// \availability	Older compilers won't provide the necessary machinery for infinity and NaN checks
-	/// 				to work in constexpr contexts. You can check for constexpr support by examining
+	/// 				to work in constexpr contexts. Check for constexpr support by examining
 	/// 				build::supports_constexpr_infinity_or_nan.
 	/// @{
 
@@ -987,7 +987,7 @@ namespace muu
 	/// \addtogroup		sqrt	sqrt()
 	/// \brief			Constexpr-friendly alternatives to std::sqrt.
 	/// \availability	Older compilers won't provide the necessary machinery for sqrt to work in constexpr contexts.
-	/// 				You can check for constexpr support by examining build::supports_constexpr_math.
+	/// 				Check for constexpr support by examining build::supports_constexpr_math.
 	/// @{
 
 	/// \cond
@@ -1136,7 +1136,7 @@ namespace muu
 	/// \addtogroup		cos		cos()
 	/// \brief			Constexpr-friendly alternatives to std::cos.
 	/// \availability	Older compilers won't provide the necessary machinery for trig functions to work in constexpr
-	/// 				contexts. You can check for constexpr support by examining build::supports_constexpr_math.
+	/// 				contexts. Check for constexpr support by examining build::supports_constexpr_math.
 	/// @{
 
 	/// \cond
@@ -1302,7 +1302,7 @@ namespace muu
 	/// \addtogroup		sin		sin()
 	/// \brief			Constexpr-friendly alternatives to std::sin.
 	/// \availability	Older compilers won't provide the necessary machinery for trig functions to work in constexpr
-	/// 				contexts. You can check for constexpr support by examining build::supports_constexpr_math.
+	/// 				contexts. Check for constexpr support by examining build::supports_constexpr_math.
 	/// @{
 
 	/// \cond
@@ -1461,7 +1461,7 @@ namespace muu
 	/// \addtogroup		tan		tan()
 	/// \brief			Constexpr-friendly alternatives to std::tan.
 	/// \availability	Older compilers won't provide the necessary machinery for trig functions to work in constexpr
-	/// 				contexts. You can check for constexpr support by examining build::supports_constexpr_math.
+	/// 				contexts. Check for constexpr support by examining build::supports_constexpr_math.
 	/// @{
 
 	/// \cond
@@ -1611,7 +1611,7 @@ namespace muu
 	/// \addtogroup		acos		acos()
 	/// \brief			Constexpr-friendly alternatives to std::acos.
 	/// \availability	Older compilers won't provide the necessary machinery for trig functions to work in constexpr
-	/// 				contexts. You can check for constexpr support by examining build::supports_constexpr_math.
+	/// 				contexts. Check for constexpr support by examining build::supports_constexpr_math.
 	/// @{
 
 	/// \cond
@@ -1757,7 +1757,7 @@ namespace muu
 	/// \addtogroup		asin		asin()
 	/// \brief			Constexpr-friendly alternatives to std::asin.
 	/// \availability	Older compilers won't provide the necessary machinery for trig functions to work in constexpr
-	/// 				contexts. You can check for constexpr support by examining build::supports_constexpr_math.
+	/// 				contexts. Check for constexpr support by examining build::supports_constexpr_math.
 	/// @{
 
 	/// \cond
@@ -1915,7 +1915,7 @@ namespace muu
 	/// \addtogroup		atan		atan()
 	/// \brief			Constexpr-friendly alternatives to std::atan.
 	/// \availability	Older compilers won't provide the necessary machinery for trig functions to work in constexpr
-	/// 				contexts. You can check for constexpr support by examining build::supports_constexpr_math.
+	/// 				contexts. Check for constexpr support by examining build::supports_constexpr_math.
 	/// @{
 
 	/// \cond
@@ -2072,7 +2072,7 @@ namespace muu
 	/// \addtogroup		atan2		atan2()
 	/// \brief			Constexpr-friendly alternatives to std::atan2.
 	/// \availability	Older compilers won't provide the necessary machinery for trig functions to work in constexpr
-	/// 				contexts. You can check for constexpr support by examining build::supports_constexpr_math.
+	/// 				contexts. Check for constexpr support by examining build::supports_constexpr_math.
 	/// @{
 
 	/// \cond

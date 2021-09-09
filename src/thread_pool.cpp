@@ -49,7 +49,7 @@ using namespace std::string_view_literals;
 
 namespace
 {
-	class thread_pool_monitor final
+	class thread_pool_monitor
 	{
 	  private:
 		size_t busy = {};
@@ -88,7 +88,7 @@ namespace
 		}
 	};
 
-	class thread_pool_queue final
+	class thread_pool_queue
 	{
 	  private:
 		byte_span pool;
@@ -273,7 +273,7 @@ namespace
 
 	inline constexpr size_t thread_pool_spin_wait_iterations = 20;
 
-	class thread_pool_worker final
+	class thread_pool_worker
 	{
 	  private:
 		std::thread thread;
@@ -374,7 +374,7 @@ namespace
 			max_task_queue_size / worker_count);
 	}
 
-	struct thread_pool_impl final
+	struct thread_pool_impl
 	{
 		byte_span queue_buffer;
 		byte_span worker_buffer;
@@ -572,7 +572,7 @@ namespace
 thread_pool::thread_pool(size_t worker_count, size_t task_queue_size, string_param name, generic_allocator* allocator)
 {
 	if (!allocator)
-		allocator = &impl::get_default_allocator();
+		allocator = ::muu_impl_get_default_allocator();
 
 	worker_count				 = calc_thread_pool_workers(worker_count);
 	const auto worker_queue_size = calc_thread_pool_worker_queue_size(worker_count, task_queue_size);

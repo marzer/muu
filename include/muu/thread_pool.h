@@ -45,7 +45,7 @@ namespace muu::impl
 
 	struct thread_pool_task;
 
-	struct thread_pool_task_action final
+	struct thread_pool_task_action
 	{
 		thread_pool_task& task;
 
@@ -440,7 +440,7 @@ namespace muu::impl
 	}
 
 	template <typename T>
-	class batch_size_generator final
+	class batch_size_generator
 	{
 	  private:
 		T remaining;
@@ -505,7 +505,7 @@ namespace muu
 		void unlock(size_t) noexcept;
 
 		template <typename Task>
-		class for_each_task final
+		class for_each_task
 		{
 		  public:
 			using traits	   = impl::thread_pool_task_traits<Task>;

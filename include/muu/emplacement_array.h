@@ -116,7 +116,7 @@ namespace muu
 		/// \param	allocator 	The #muu::generic_allocator used for allocations. Set to `nullptr` to use the default global allocator.
 		MUU_NODISCARD_CTOR
 		explicit emplacement_array(size_t capacity = 0, generic_allocator* allocator = nullptr)
-			: allocator_{ allocator ? allocator : &impl::get_default_allocator() },
+			: allocator_{ allocator ? allocator : ::muu_impl_get_default_allocator() },
 			  capacity_{ capacity }
 		{
 			if (capacity_)

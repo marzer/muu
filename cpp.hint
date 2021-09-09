@@ -24,6 +24,7 @@
 #define MUU_ATTR_GCC_LT(...)
 #define MUU_ATTR_NDEBUG(...)
 #define MUU_BIG_ENDIAN						0
+#define MUU_CALLCONV
 #define MUU_COMPRESSED_THREAD_POOL_TASK		1
 #define MUU_CONSTEVAL
 #define MUU_CONSTEXPR_STRING
@@ -87,3 +88,4 @@
 #define MUU_VC_PARAM(...)					const __VA_ARGS__ &
 #define MUU_VECTORCALL
 
+#define POXY_IMPLEMENTATION_DETAIL(...)		__VA_ARGS__

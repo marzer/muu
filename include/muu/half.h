@@ -124,9 +124,9 @@ namespace muu
 	/// auto b3 = 4.0_f16 <= 5;
 	/// \ecpp
 	///
-	/// \note	Older compilers won't provide the necessary machinery for arithmetic and conversions to/from muu::half
-	/// 		to work in constexpr contexts. You can check for constexpr support by examining
-	/// 		#build::supports_constexpr_half.
+	/// \availability	Older compilers won't provide the necessary machinery for arithmetic and conversions to/from
+	///					muu::half to work in constexpr contexts. Check for constexpr support by examining
+	/// 				#build::supports_constexpr_half.
 	///
 	/// \attention	Despite the arithmetic operations being implemented as you'd expect, 16-bit floating-point
 	/// 			arithmetic is _very_ lossy and should be avoided for all but the most trivial cases.

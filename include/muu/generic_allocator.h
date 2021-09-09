@@ -13,7 +13,8 @@
 #if MUU_HAS_EXCEPTIONS
 	#define MUU_GENERIC_ALLOCATOR_ATTRS                                                                                \
 		MUU_NODISCARD                                                                                                  \
-		MUU_UNALIASED_ALLOC MUU_ATTR(returns_nonnull)
+		MUU_UNALIASED_ALLOC                                                                                            \
+		MUU_ATTR(returns_nonnull)
 #else
 	#define MUU_GENERIC_ALLOCATOR_ATTRS MUU_NODISCARD
 #endif
@@ -77,13 +78,16 @@ namespace muu
 			return muu::assume_aligned<Alignment>(this->allocate(size, Alignment));
 		}
 	};
-
-	namespace impl
-	{
-		MUU_API
-		generic_allocator& get_default_allocator() noexcept;
-	}
 }
+
+/// \cond
+extern "C" //
+{
+	MUU_API
+	MUU_ATTR(returns_nonnull)
+	muu::generic_allocator* MUU_CALLCONV muu_impl_get_default_allocator() noexcept;
+}
+/// \endcond
 
 #undef MUU_GENERIC_ALLOCATOR_ATTRS
 #include "impl/header_end.h"
