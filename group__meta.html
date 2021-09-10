@@ -773,6 +773,11 @@
               <div class="m-doc-template">template&lt;typename T&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#gabe21403c5219a3959df510427b829038">tuple_size</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Equivalent to <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size_v</a>, but safe to use in SFINAE contexts.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              auto <a class="m-doc" href="#gaf8f9ff89791f3aa70312cef66f4894f4">type_name</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>A <a class="m-doc" href="classmuu_1_1static__string.html">muu::<wbr/>static_string</a> containing the name of a type.</dd>
           </dl>
         </section>
         <section>
@@ -2202,6 +2207,27 @@
             </h3>
             <p>Equivalent to <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size_v</a>, but safe to use in SFINAE contexts.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>Returns 0 for types that do not implement <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gaf8f9ff89791f3aa70312cef66f4894f4"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="type__name_8h.html">&lt;muu/type_name.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              auto <a class="m-doc-self" href="#gaf8f9ff89791f3aa70312cef66f4894f4">type_name</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>A <a class="m-doc" href="classmuu_1_1static__string.html">muu::<wbr/>static_string</a> containing the name of a type.</p>
+<pre class="m-code"><span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="ns">muu</span><span class="o">::</span><span class="n">type_name</span><span class="o">&lt;</span><span class="k">int</span><span class="o">&gt;</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span></pre><pre class="m-console"><span class="go">int</span></pre><p>Specialize the variable template if you wish to override the default name for a type:</p><pre class="m-code"><span class="k">struct</span> <span class="nc">foo</span> <span class="p">{};</span>
+
+<span class="k">namespace</span> <span class="ns">muu</span>
+<span class="p">{</span>
+    <span class="k">template</span> <span class="o">&lt;&gt;</span>
+    <span class="k">inline</span> <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">type_name</span><span class="o">&lt;</span><span class="n">foo</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">static_string</span><span class="p">{</span> <span class="s">"bar"</span> <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="ns">muu</span><span class="o">::</span><span class="n">type_name</span><span class="o">&lt;</span><span class="n">foo</span><span class="o">&gt;</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="ns">muu</span><span class="o">::</span><span class="n">type_name</span><span class="o">&lt;</span><span class="n">foo</span><span class="o">*&gt;</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span></pre><pre class="m-console"><span class="go">bar</span>
+<span class="go">bar*</span></pre><aside class="m-block m-special"><h4>Conditional availability </h4><p>Older compilers have limitations preventing the generation of (unspecialized) type names. Check for support by examining <a class="m-doc" href="namespacemuu_1_1build.html#ad4ed37ffabb38340c21bc4b899db2646">build::<wbr/>supports_type_name</a>.</p></aside>
           </div></section>
         </section>
       </div>

@@ -174,19 +174,19 @@
             </dt>
             <dd>Expands to <code>__declspec( ... )</code> when compiling with MSVC (or another compiler in MSVC-mode).</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga529288be7d1336b6df45a2630d0dec59">MUU_DEFAULT_COPY</a>(</span><span class="m-doc-wrap">type)</span>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga934ea8bd0642688273d3e5fb6f262bae">MUU_DEFAULT_COPY</a>(</span><span class="m-doc-wrap">T)</span>
             </dt>
             <dd>Explicitly defaults the copy constructor and copy-assignment operator of a class or struct.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gab782b4fd93bce160098d855704eb27c0">MUU_DEFAULT_MOVE</a>(</span><span class="m-doc-wrap">type)</span>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gae0f485363e80f9b712ba588c38a6913c">MUU_DEFAULT_MOVE</a>(</span><span class="m-doc-wrap">T)</span>
             </dt>
             <dd>Explicitly defaults the move constructor and move-assignment operator of a class or struct.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gad1db2d7508ee13eae3ba5ba57df6048c">MUU_DELETE_COPY</a>(</span><span class="m-doc-wrap">type)</span>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga25a02df45c3dbd56ef86ba14b3e89ce3">MUU_DELETE_COPY</a>(</span><span class="m-doc-wrap">T)</span>
             </dt>
             <dd>Explicitly deletes the copy constructor and copy-assignment operator of a class or struct.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gade03e0a489eed8dd63593f2a28929fce">MUU_DELETE_MOVE</a>(</span><span class="m-doc-wrap">type)</span>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga7e2f4118dd8fcd04ed314cc433b8f1af">MUU_DELETE_MOVE</a>(</span><span class="m-doc-wrap">T)</span>
             </dt>
             <dd>Explicitly deletes the move constructor and move-assignment operator of a class or struct.</dd>
             <dt>
@@ -314,7 +314,7 @@
             </dt>
             <dd><code>1</code> when the target environment is little-endian, otherwise <code>0</code>.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga3cca9489f1fe09c125d86fa2c67948b3">MUU_MAKE_FLAGS</a>(</span><span class="m-doc-wrap">name)</span>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gae04a44728acc9352d70e8a7bf067eae3">MUU_MAKE_FLAGS</a>(</span><span class="m-doc-wrap">T)</span>
             </dt>
             <dd>Stamps out operators for enum 'flags' types.</dd>
             <dt>
@@ -631,9 +631,9 @@
             </h3>
             <p>Expands to <code>__declspec( ... )</code> when compiling with MSVC (or another compiler in MSVC-mode).</p>
           </div></section>
-          <section class="m-doc-details" id="ga529288be7d1336b6df45a2630d0dec59"><div>
+          <section class="m-doc-details" id="ga934ea8bd0642688273d3e5fb6f262bae"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga529288be7d1336b6df45a2630d0dec59">MUU_DEFAULT_COPY</a>(</span><span class="m-doc-wrap">type)</span>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga934ea8bd0642688273d3e5fb6f262bae">MUU_DEFAULT_COPY</a>(</span><span class="m-doc-wrap">T)</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Explicitly defaults the copy constructor and copy-assignment operator of a class or struct.</p>
@@ -652,9 +652,9 @@
     <span class="n">copyable</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="n">copyable</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
 <span class="p">};</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://cpppatterns.com/patterns/rule-of-five.html" target="_blank">https:/<wbr/>/<wbr/>cpppatterns.com/<wbr/>patterns/<wbr/>rule-of-five.html</a></p></aside>
           </div></section>
-          <section class="m-doc-details" id="gab782b4fd93bce160098d855704eb27c0"><div>
+          <section class="m-doc-details" id="gae0f485363e80f9b712ba588c38a6913c"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gab782b4fd93bce160098d855704eb27c0">MUU_DEFAULT_MOVE</a>(</span><span class="m-doc-wrap">type)</span>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gae0f485363e80f9b712ba588c38a6913c">MUU_DEFAULT_MOVE</a>(</span><span class="m-doc-wrap">T)</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Explicitly defaults the move constructor and move-assignment operator of a class or struct.</p>
@@ -674,9 +674,9 @@
     <span class="n">movable</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">movable</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
 <span class="p">};</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://cpppatterns.com/patterns/rule-of-five.html" target="_blank">https:/<wbr/>/<wbr/>cpppatterns.com/<wbr/>patterns/<wbr/>rule-of-five.html</a></p></aside>
           </div></section>
-          <section class="m-doc-details" id="gad1db2d7508ee13eae3ba5ba57df6048c"><div>
+          <section class="m-doc-details" id="ga25a02df45c3dbd56ef86ba14b3e89ce3"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gad1db2d7508ee13eae3ba5ba57df6048c">MUU_DELETE_COPY</a>(</span><span class="m-doc-wrap">type)</span>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga25a02df45c3dbd56ef86ba14b3e89ce3">MUU_DELETE_COPY</a>(</span><span class="m-doc-wrap">T)</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Explicitly deletes the copy constructor and copy-assignment operator of a class or struct.</p>
@@ -695,9 +695,9 @@
     <span class="ut">uncopyable</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="ut">uncopyable</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
 <span class="p">};</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://cpppatterns.com/patterns/rule-of-five.html" target="_blank">https:/<wbr/>/<wbr/>cpppatterns.com/<wbr/>patterns/<wbr/>rule-of-five.html</a></p></aside>
           </div></section>
-          <section class="m-doc-details" id="gade03e0a489eed8dd63593f2a28929fce"><div>
+          <section class="m-doc-details" id="ga7e2f4118dd8fcd04ed314cc433b8f1af"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gade03e0a489eed8dd63593f2a28929fce">MUU_DELETE_MOVE</a>(</span><span class="m-doc-wrap">type)</span>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga7e2f4118dd8fcd04ed314cc433b8f1af">MUU_DELETE_MOVE</a>(</span><span class="m-doc-wrap">T)</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Explicitly deletes the move constructor and move-assignment operator of a class or struct.</p>
@@ -964,9 +964,9 @@
             </h3>
             <p><code>1</code> when the target environment is little-endian, otherwise <code>0</code>.</p>
           </div></section>
-          <section class="m-doc-details" id="ga3cca9489f1fe09c125d86fa2c67948b3"><div>
+          <section class="m-doc-details" id="gae04a44728acc9352d70e8a7bf067eae3"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga3cca9489f1fe09c125d86fa2c67948b3">MUU_MAKE_FLAGS</a>(</span><span class="m-doc-wrap">name)</span>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gae04a44728acc9352d70e8a7bf067eae3">MUU_MAKE_FLAGS</a>(</span><span class="m-doc-wrap">T)</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Stamps out operators for enum 'flags' types.</p>
