@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.4.5" name="generator"/>
+  <meta content="Poxy v0.5.0" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.4.5.css" rel="stylesheet"/>
-  <link href="poxy-0.4.5-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.4.5.js"></script>
+  <link href="poxy-0.5.0.css" rel="stylesheet"/>
+  <link href="poxy-0.5.0-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.0.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -107,7 +107,7 @@
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               using <a class="m-doc" href="group__meta.html#gae07552fde8149d1a8a6c93971edbbd86">clamp_to_standard_float</a> = demote_if_large_float&lt;promote_if_small_float&lt;T&gt;&gt;
             </dt>
-            <dd>Clamps extended arithmetic floating-point types (e.g. <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>, <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html" target="_blank">__float128</a>) to <code>float</code> or <code>long double</code>.</dd>
+            <dd>Clamps extended arithmetic floating-point types (e.g. , ) to <code>float</code> or <code>long double</code>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, bool AddConst&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga23ee95c345637ff50a6cc88c4fb0d031">conditionally_add_const</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;AddConst, add_const&lt;T&gt;, T&gt;
@@ -152,15 +152,15 @@
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga588efdcdebc69e38cb6353d8462d59ff">demote_if_large_float</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;impl::is_large_float_&lt;T&gt;, typename impl::rebase_ref_&lt;T, copy_cv&lt;long double, T&gt;&gt;::type, T&gt;
             </dt>
-            <dd>Demotes 'large' extended arithmetic floating-point types (e.g. <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html" target="_blank">__float128</a>) to <code>long double</code>.</dd>
+            <dd>Demotes 'large' extended arithmetic floating-point types (e.g. ) to <code>long double</code>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_type</a> = impl::std_math_common_type&lt;remove_cvref&lt;T&gt;...&gt;
             </dt>
             <dd>A common epsilon type when comparing floating-point types named by T.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_tag</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integral_constant.html" target="_blank">std::<wbr/>integral_constant</a>&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>, N&gt;
+              <div class="m-doc-template">template&lt; N&gt;</div>
+              using <a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_tag</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integral_constant.html" target="_blank">std::<wbr/>integral_constant</a>&lt;, N&gt;
             </dt>
             <dd>A tag type for encoding/parameterizing a single index.</dd>
             <dt>
@@ -192,7 +192,7 @@
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga0a3f15c5886ad6189103d5705db8e37c">promote_if_small_float</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;impl::is_small_float_&lt;T&gt;, typename impl::rebase_ref_&lt;T, copy_cv&lt;float, T&gt;&gt;::type, T&gt;
             </dt>
-            <dd>Promotes 'small' extended arithmetic floating-point types (e.g. <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>, etc.) to <code>float</code>.</dd>
+            <dd>Promotes 'small' extended arithmetic floating-point types (e.g. , etc.) to <code>float</code>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Ptr, typename NewBase&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga29769609b73728e3b7814d36a7e0c335">rebase_pointer</a> = typename impl::rebase_pointer_&lt;Ptr, NewBase&gt;::type
@@ -269,7 +269,7 @@
             </dt>
             <dd>Sets the volatility of a type or reference according to a boolean.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
+              <div class="m-doc-template">template&lt; Bits&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga4f67907a17de3414f8f0340716e987d4">signed_integer</a> = typename impl::signed_integer_&lt;Bits&gt;::type
             </dt>
             <dd>Gets the signed integer type with a specific number of bits for the target platform.</dd>
@@ -284,7 +284,7 @@
             </dt>
             <dd>Provides an identity type transformation.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
+              <div class="m-doc-template">template&lt; Bits&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga47a90ed3608cf7b0bf562f4ad208cd21">unsigned_integer</a> = typename impl::unsigned_integer_&lt;Bits&gt;::type
             </dt>
             <dd>Gets the unsigned integer type with a specific number of bits for the target platform.</dd>
@@ -297,7 +297,7 @@
               <div class="m-doc-template">template&lt;typename To, typename From&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gaadb4c6332c738c248f84f43ece303657">bit_cast</a>(</span><span class="m-doc-wrap">const From&amp; from) -&gt; To <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/numeric/bit_cast" target="_blank">std::bit_cast</a>.</dd>
+            <dd>Equivalent to C++20's .</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gae62fd9413cd433a4e15c0fdf89913a1b">bit_ceil</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -305,12 +305,12 @@
             <dd>Finds the smallest integral power of two not less than the given value.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gaf41f6cc12b0e9ac1de1bdf63e2a28fdf">bit_fill_left</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gaf41f6cc12b0e9ac1de1bdf63e2a28fdf">bit_fill_left</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns an unsigned integer filled from the left with the desired number of consecutive ones.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gab5cb8d563f61573ca1e2827ddd085d3d">bit_fill_right</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gab5cb8d563f61573ca1e2827ddd085d3d">bit_fill_right</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns an unsigned integer filled from the right with the desired number of consecutive ones.</dd>
             <dt>
@@ -329,14 +329,14 @@
             </dt>
             <dd>Reverses the byte order of an unsigned integral type.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index, typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gae644160cd7d978d95922af233afc5ddd">byte_select</a>(</span><span class="m-doc-wrap">T val) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt; Index, typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gae644160cd7d978d95922af233afc5ddd">byte_select</a>(</span><span class="m-doc-wrap">T val) -&gt;  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Gets a specific byte from an integer.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga18d1da41b1d53329c0d0605596494010">byte_select</a>(</span><span class="m-doc-wrap">T val,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> index) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+               index) -&gt;  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Gets a specific byte from an integer.</dd>
             <dt>
@@ -377,90 +377,90 @@
             </dt>
             <dd>Counts the number of set bits (the 'population count') of an unsigned integer.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>... ByteIndices, typename T&gt;</div>
+              <div class="m-doc-template">template&lt;... ByteIndices, typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga1aaa24bb10d08ad78c86695baabc1857">swizzle</a>(</span><span class="m-doc-wrap">T val) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Select and re-pack arbitrary bytes from an integer.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a0610560ecd34fdfbd35dc1ad13878e82">operator""_b</a>(</span><span class="m-doc-wrap">unsigned long long b) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a0610560ecd34fdfbd35dc1ad13878e82">operator""_b</a>(</span><span class="m-doc-wrap">unsigned long long b) -&gt;  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Creates a <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> for a given number of bytes.</dd>
+            <dd>Creates a  for a given number of bytes.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a2c22317398887c0a4a105b13fc55de35">operator""_gb</a>(</span><span class="m-doc-wrap">unsigned long long gb) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a2c22317398887c0a4a105b13fc55de35">operator""_gb</a>(</span><span class="m-doc-wrap">unsigned long long gb) -&gt;  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Creates a <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> for a given number of gigabytes.</dd>
+            <dd>Creates a  for a given number of gigabytes.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#aa0b0811f9ce6527d86c69109a89f7fcc">operator""_i128</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc poxy-injected" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#aa0b0811f9ce6527d86c69109a89f7fcc">operator""_i128</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt;  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Creates an <a class="m-doc poxy-injected" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_t</a>.</dd>
+            <dd>Creates an .</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#aebdabb8a45196bbc6b42c4a1aba1da70">operator""_i16</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int16_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#aebdabb8a45196bbc6b42c4a1aba1da70">operator""_i16</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt;  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Creates an <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int16_t</a>.</dd>
+            <dd>Creates an .</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a8bb8faeb0d317043b2c445b2920ed11e">operator""_i32</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int32_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a8bb8faeb0d317043b2c445b2920ed11e">operator""_i32</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt;  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Creates an <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int32_t</a>.</dd>
+            <dd>Creates an .</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#aa5ad5a0882c5fff84a7d5e61d836507e">operator""_i64</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int64_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#aa5ad5a0882c5fff84a7d5e61d836507e">operator""_i64</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt;  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Creates an <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int64_t</a>.</dd>
+            <dd>Creates an .</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a43a15b4448799e0e02621d9bf08104a1">operator""_i8</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int8_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a43a15b4448799e0e02621d9bf08104a1">operator""_i8</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt;  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Creates an <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int8_t</a>.</dd>
+            <dd>Creates an .</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a48ff3748178e59016dea7b5dd3ddaa0a">operator""_kb</a>(</span><span class="m-doc-wrap">unsigned long long kb) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a48ff3748178e59016dea7b5dd3ddaa0a">operator""_kb</a>(</span><span class="m-doc-wrap">unsigned long long kb) -&gt;  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Creates a <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> for a given number of kilobytes.</dd>
+            <dd>Creates a  for a given number of kilobytes.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a91f862c0a9d1903914be0aca0ae38593">operator""_mb</a>(</span><span class="m-doc-wrap">unsigned long long mb) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a91f862c0a9d1903914be0aca0ae38593">operator""_mb</a>(</span><span class="m-doc-wrap">unsigned long long mb) -&gt;  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Creates a <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> for a given number of megabytes.</dd>
+            <dd>Creates a  for a given number of megabytes.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#ac7cce4c07975fb4f279efb145f138f46">operator""_sz</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#ac7cce4c07975fb4f279efb145f138f46">operator""_sz</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt;  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Creates a <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>.</dd>
+            <dd>Creates a .</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a9e8a35fefddabd1aa96c32f7d22061ea">operator""_u128</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc poxy-injected" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a9e8a35fefddabd1aa96c32f7d22061ea">operator""_u128</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt;  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Creates a <a class="m-doc poxy-injected" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_t</a>.</dd>
+            <dd>Creates a .</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#af54dddb5b8960951e398306feae40eb0">operator""_u16</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#af54dddb5b8960951e398306feae40eb0">operator""_u16</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt;  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Creates a <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a>.</dd>
+            <dd>Creates a .</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#ae921845da59c738221bbb97e9f418f72">operator""_u32</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#ae921845da59c738221bbb97e9f418f72">operator""_u32</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt;  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Creates a <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a>.</dd>
+            <dd>Creates a .</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a1ee7ac59a10fb6d444883d13925796a0">operator""_u64</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a1ee7ac59a10fb6d444883d13925796a0">operator""_u64</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt;  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Creates a <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a>.</dd>
+            <dd>Creates a .</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a36dc4280bf55a78f92503fc6a2216ef5">operator""_u8</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a36dc4280bf55a78f92503fc6a2216ef5">operator""_u8</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt;  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Creates a <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a>.</dd>
+            <dd>Creates a .</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment, typename T&gt;</div>
+              <div class="m-doc-template">template&lt; Alignment, typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga6aae2e7be0cb15bed51d7cb636602c5f">apply_alignment</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Rounds an unsigned value up to the next multiple of the given alignment.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment, typename T&gt;</div>
+              <div class="m-doc-template">template&lt; Alignment, typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gae89c7cea139581038d585201d5b3bfee">apply_alignment</a>(</span><span class="m-doc-wrap">T* ptr) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Rounds a pointer up to the byte offset that is the next multiple of the given alignment.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga7cd587549d099b4323fda37f23097e04">apply_alignment</a>(</span><span class="m-doc-wrap">T val,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+               alignment) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Rounds an unsigned value up to the next multiple of the given alignment.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga7afe47820cb2e0951bf755832ce108be">apply_alignment</a>(</span><span class="m-doc-wrap">T* ptr,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+               alignment) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Rounds a pointer up to the byte offset that is the next multiple of the given alignment.</dd>
             <dt>
@@ -470,10 +470,10 @@
             </dt>
             <dd>Applies a byte offset to a pointer.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N, typename T&gt;</div>
+              <div class="m-doc-template">template&lt; N, typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gaf58f3326aea89653ec725ccbc5ff29d2">assume_aligned</a>(</span><span class="m-doc-wrap">T* ptr) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/memory/assume_aligned" target="_blank">std::assume_aligned</a>.</dd>
+            <dd>Equivalent to C++20's .</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga108fd48e10e2c18acbaaf9f611b14d5b">between</a>(</span><span class="m-doc-wrap">T val,
@@ -501,24 +501,26 @@
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga8a9b0aaf9860b30f93639333a5214d34">is_constant_evaluated</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a>.</dd>
+            <dd>Equivalent to C++20's .</dd>
             <dt>
               <div class="m-doc-template">template&lt;class T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga279c303aaba76a43d1dc23834c35f857">launder</a>(</span><span class="m-doc-wrap">T* ptr) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Equivalent to C++17's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/launder" target="_blank">std::launder</a>.</dd>
+            <dd>Equivalent to C++17's .</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga67052cab1c45673f85ee326e91aafbde">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
-              const T&amp; val2) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga290899e08db4ce22c8e9f48a02bedaa3">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              const T&amp; val2,
+              const U&amp;... vals) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the maximum of two values.</dd>
+            <dd>Returns the maximum of two or more values.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gacc52016e295ef88268bd5835a23b69d8">min</a>(</span><span class="m-doc-wrap">const T&amp; val1,
-              const T&amp; val2) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga3e6bbeba20969ce0e3ca5aca843a9e71">min</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              const T&amp; val2,
+              const U&amp;... vals) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the minimum of two values.</dd>
+            <dd>Returns the minimum of two or more values.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename To, typename From&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gab714a50e01b58e7d4117d5ef9d403d39">pointer_cast</a>(</span><span class="m-doc-wrap">From from) -&gt; To <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -548,16 +550,16 @@
               bool <a class="m-doc" href="namespacemuu_1_1build.html#a5ee6b53a87bd46b2bf84f2bea9e2a0b5">supports_constexpr_bit_cast</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>True if using <a class="m-doc" href="group__core.html#gaadb4c6332c738c248f84f43ece303657">bit_<wbr/>cast()</a> in constexpr contexts is supported on this compiler.</dd>
-            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="namespacemuu_1_1build.html#a059f47a1fea406df07928d18ba89e7c7">bitness</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc" href="namespacemuu_1_1build.html#a059f47a1fea406df07928d18ba89e7c7">bitness</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The bitness of the current architecture.</dd>
-            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="namespacemuu_1_1build.html#ac1422aad32070ebc2bdba6500e87bc6c">bits_per_byte</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc" href="namespacemuu_1_1build.html#ac1422aad32070ebc2bdba6500e87bc6c">bits_per_byte</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The number of bits in a byte (aka CHAR_BIT).</dd>
-            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="namespacemuu_1_1build.html#ab15a2e5c61489ea57d76304612871b2c">cpp_version</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a><a class="m-doc" href="namespacemuu_1_1build.html#ab15a2e5c61489ea57d76304612871b2c">cpp_version</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The current C++ language version (17, 20...)</dd>
-            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="namespacemuu_1_1build.html#a8d9bd9685ff101794faacdc43206d662">day</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a><a class="m-doc" href="namespacemuu_1_1build.html#a8d9bd9685ff101794faacdc43206d662">day</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The current day of the month (1-31).</dd>
             <dt>
@@ -568,7 +570,7 @@
               bool <a class="m-doc" href="namespacemuu_1_1build.html#ae2ac1a89ce5084508f06a8fc3046dfb6">has_rtti</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>True if run-time type identification (RTTI) is enabled.</dd>
-            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="namespacemuu_1_1build.html#a3a236f2f2246b352c3d0fddb6f898307">hour</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a><a class="m-doc" href="namespacemuu_1_1build.html#a3a236f2f2246b352c3d0fddb6f898307">hour</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The current hour of the day (0-23).</dd>
             <dt>
@@ -579,23 +581,23 @@
               bool <a class="m-doc" href="namespacemuu_1_1build.html#af693226bafb2cf34c54e24b92be66c25">is_little_endian</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>True if the target environment is little-endian.</dd>
-            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="namespacemuu_1_1build.html#af7c47c598d8d8be8f43083f593a89f6e">minute</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a><a class="m-doc" href="namespacemuu_1_1build.html#af7c47c598d8d8be8f43083f593a89f6e">minute</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The current minute (0-59).</dd>
-            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="namespacemuu_1_1build.html#a1b206904913622e2851364180dffa147">month</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a><a class="m-doc" href="namespacemuu_1_1build.html#a1b206904913622e2851364180dffa147">month</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The current month of the year (1-12).</dd>
-            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="namespacemuu_1_1build.html#ae50337fa6f6a72d069a0a0898e36dd08">pointer_size</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc" href="namespacemuu_1_1build.html#ae50337fa6f6a72d069a0a0898e36dd08">pointer_size</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The number of bytes required to store a pointer.</dd>
-            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="namespacemuu_1_1build.html#a0a58816aa6112236ab15e6f83ef7ccb5">second</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a><a class="m-doc" href="namespacemuu_1_1build.html#a0a58816aa6112236ab15e6f83ef7ccb5">second</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The current second (0-59).</dd>
-            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="namespacemuu_1_1build.html#a60ed708127e16b82cccf0db04f219969">year</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a><a class="m-doc" href="namespacemuu_1_1build.html#a60ed708127e16b82cccf0db04f219969">year</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The current year.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="group__meta.html#ga693c421331c5f268eb2e2fdd318368fd">alignment_of</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename T&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc" href="group__meta.html#ga693c421331c5f268eb2e2fdd318368fd">alignment_of</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The default alignment of a type.</dd>
             <dt>
@@ -604,10 +606,35 @@
             </dt>
             <dd>Are all of the named types arithmetic or reference-to-arithmetic?</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga10598e51bcfe8c2a8261c6617990eaea">all_array</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are all of the named types arrays, or references to arrays?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gae22dfc906ab84c2a644d7f635b00bf5d">all_bounded_array</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are all of the named types a bounded array (<code>T[N]</code>), or a reference to one?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga1fce0d7c8fa9515365a671bdee77f722">all_const</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are all of the named types const or reference-to-const?</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename To, typename... From&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga20d0844251aba1af5b372c44803999eb">all_convertible_to</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>True if all of the types named by <code>From</code> are implicitly <em>or</em> explicitly convertible to <code>To</code>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga31a739e7f932a7386e9779e05c65e1ba">all_cv</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are all of the named types const and/or volatile-qualified, or references to const and/or volatile-qualified?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gaf3bb0d8c33afd87750a47cb200a5ef57">all_cvref</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are all of the named types const, volatile, or a reference?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gafaa3803206e27df19fde422d3b1eb540">all_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -640,6 +667,11 @@
             <dd>True if all of the types named by <code>From</code> are implicitly nothrow-convertible to <code>To</code>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga891ba12282ff535141b2e581867518fe">all_integer</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are all of the named types arithmetic integers, or reference to them?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga02060371498ff52c8d225e379fe00975">all_integral</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are all of the named types integral or reference-to-integral?</dd>
@@ -660,9 +692,19 @@
             <dd>Are all of the named types signed or reference-to-signed?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gaa45d5a8ac607de08c4d7f2b1d275dc3d">all_unbounded_array</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are all of the named types an unbounded array (<code>T[]</code>), or a reference to one?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gaa29a6fbd7e596e20dd8769aefc3cd51e">all_unsigned</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are all of the named types unsigned or reference-to-unsigned?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gaabe1f5048446fbf9280d63fbb3f3d440">all_volatile</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are all of the named types volatile or reference-to-volatile?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gaa4c92e65e153e9a6c9ac01ba3bd653e5">always_false</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -675,6 +717,31 @@
             <dd>Are any of the named types arithmetic or reference-to-arithmetic?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gaa6e6a09626366fea9202ecaa1f42f414">any_array</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are any of the named types arrays, or references to arrays?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga62dc66d47da5a1d4420082e8c29bf978">any_bounded_array</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are any of the named types a bounded array (<code>T[N]</code>), or a reference to one?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga8790fee03d9e3fe2dd3b1d126b08a2ce">any_const</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are any of the named types const or reference-to-const?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga0901c12d4271170dee63a201878f49d5">any_cv</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are any of the named types const and/or volatile-qualified, or references to const and/or volatile-qualified?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga3957082e3d9c3d7225b7f7f852afa357">any_cvref</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are any of the named types const, volatile, or a reference?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gabc989dd91eaeb76cf275afe1e1de94bf">any_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are any of the named types enums or reference-to-enum?</dd>
@@ -683,6 +750,11 @@
               bool <a class="m-doc" href="group__meta.html#gadcd85258054ff54b7d0dd7f875185bf0">any_floating_point</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are any of the named types floating-point or reference-to-floating-point?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga3660079b9cf5bd6f01ef9f5322c235f7">any_integer</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are any of the named types arithmetic integers, or reference to them?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga531166c296beeb911cb00d6ce826d3e8">any_integral</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -695,9 +767,19 @@
             <dd>Are any of the named types signed or reference-to-signed?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga0f5de953c30ac2d5aa79ccece0f5681a">any_unbounded_array</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are any of the named types an unbounded array (<code>T[]</code>), or a reference to one?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga3bb31ded23944badda78774761206c09">any_unsigned</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are any of the named types unsigned or reference-to-unsigned?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gaef99eced8c220aaf5875212fdccd6fe2">any_volatile</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are any of the named types volatile or reference-to-volatile?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga7d0fb753d984f767d9530f4c88e4d0d2">decays_to_function_pointer_by_unary_plus</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -824,7 +906,7 @@
             </dt>
             <dd>True if a type has a member function <code>size()</code> returning an arithmetic integral type.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename U = <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>&gt;</div>
+              <div class="m-doc-template">template&lt;typename T, typename U = &gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga99d503cf409b10ba5314452688d7abb7">has_subscript_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>True if a pair of types has a subscript operator (<code>T[U]</code>).</dd>
@@ -897,7 +979,7 @@
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gaaba32cd64b5832535e6cb2279f1f7881">is_cv</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Is a type const- or volatile-qualified?</dd>
+            <dd>Is a type const and/or volatile-qualified?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga21f392701d987b745866ab36fa3c6242">is_cvref</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -985,6 +1067,11 @@
             <dd>True if <code>From</code> is implicitly nothrow-convertible to any of the types named by <code>To</code>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga32715027f4d7ea16b52b2a2e00ca31f3">is_integer</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Is a type an arithmetic integer type, or reference to one?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga6283839d5536a4ee096adccee42b88c5">is_integral</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Is a type an integral type or a reference to an integral type?</dd>
@@ -1037,7 +1124,7 @@
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga07b1449019c885977279ee3afedb3b4f">is_tuple_like</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>True if the type implements <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a> and <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_element" target="_blank">std::tuple_element</a>.</dd>
+            <dd>True if the type implements  and .</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gab42aeb290d61ad20287ed2e8df10462b">is_unbounded_array</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -1054,17 +1141,17 @@
             </dt>
             <dd>Is a type volatile or reference-to-volatile?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="group__meta.html#gae9cd96c20c0f16e1e1eac99e798724ce">pointer_rank</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename T&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc" href="group__meta.html#gae9cd96c20c0f16e1e1eac99e798724ce">pointer_rank</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The rank of a pointer.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename... T&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="group__meta.html#ga3b7e16d2f90358811bc6231eb993ff33">total_size</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc" href="group__meta.html#ga3b7e16d2f90358811bc6231eb993ff33">total_size</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The sum of <code>sizeof()</code> for all of the types named by T.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="group__meta.html#gabe21403c5219a3959df510427b829038">tuple_size</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename T&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc" href="group__meta.html#gabe21403c5219a3959df510427b829038">tuple_size</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Equivalent to <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size_v</a>, but safe to use in SFINAE contexts.</dd>
+            <dd>Equivalent to , but safe to use in SFINAE contexts.</dd>
             <dt>
               bool <a class="m-doc" href="namespacemuu_1_1build.html#a8398d41dfdf02da1234b776f754bbb3d">supports_is_constant_evaluated</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>

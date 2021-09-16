@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.4.5" name="generator"/>
+  <meta content="Poxy v0.5.0" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.4.5.css" rel="stylesheet"/>
-  <link href="poxy-0.4.5-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.4.5.js"></script>
+  <link href="poxy-0.5.0.css" rel="stylesheet"/>
+  <link href="poxy-0.5.0-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.0.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -57,7 +57,7 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span><a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>.h <span class="m-thin">file</span>
+          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span><a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a><span class="m-thin">file</span>
         </h1>
         <p>Contains the definition of <a class="m-doc" href="structmuu_1_1matrix.html">muu::<wbr/>matrix</a>.</p>
         <div class="m-block m-default poxy-toc">
@@ -84,12 +84,12 @@
           <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;</div>
+              <div class="m-doc-template">template&lt;typename Scalar,  Rows,  Columns&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1matrix.html">muu::matrix</a>
             </dt>
-            <dd>A <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>.</dd>
+            <dd>A .</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;</div>
+              <div class="m-doc-template">template&lt;typename Scalar,  Rows,  Columns&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01matrix_3_01_scalar_00_01_rows_00_01_columns_01_4_01_4.html">muu::constants&lt;matrix&lt;Scalar, Rows, Columns&gt;&gt;</a>
             </dt>
             <dd>Matrix constants.</dd>
@@ -99,43 +99,43 @@
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;typename S, typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#gac9148a5c5b63c63d14ca506aee43484e">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m1,
-              const <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;T, R, C&gt;&amp; m2,
+              <div class="m-doc-template">template&lt;typename S, typename T,  R,  C&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#gac9148a5c5b63c63d14ca506aee43484e">approx_equal</a>(</span><span class="m-doc-wrap">const &lt;S, R, C&gt;&amp; m1,
+              const &lt;T, R, C&gt;&amp; m2,
               epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if two <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrices</a> are approximately equal.</dd>
+            <dd>Returns true if two  are approximately equal.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#gae6774c12326004b4e421e554a35afe8b">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m,
+              <div class="m-doc-template">template&lt;typename S,  R,  C&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#gae6774c12326004b4e421e554a35afe8b">approx_zero</a>(</span><span class="m-doc-wrap">const &lt;S, R, C&gt;&amp; m,
               S epsilon = default_epsilon&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if all the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a> are approximately equal to zero.</dd>
+            <dd>Returns true if all the scalar components of a  are approximately equal to zero.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a4cb7a56d0f2260af3ceb0b0c5204ed0b">determinant</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m) -&gt; determinant_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename S,  R,  C&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a4cb7a56d0f2260af3ceb0b0c5204ed0b">determinant</a>(</span><span class="m-doc-wrap">const &lt;S, R, C&gt;&amp; m) -&gt; determinant_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Calculates the determinant of a <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>.</dd>
+            <dd>Calculates the determinant of a .</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga1f57b7af70f0235ad644486a5943e582">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename S,  R,  C&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga1f57b7af70f0235ad644486a5943e582">infinity_or_nan</a>(</span><span class="m-doc-wrap">const &lt;S, R, C&gt;&amp; m) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if any of the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a> are infinity or NaN.</dd>
+            <dd>Returns true if any of the scalar components of a  are infinity or NaN.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a279539802143d8a8227c503be45aa972">invert</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m) -&gt; inverse_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename S,  R,  C&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a279539802143d8a8227c503be45aa972">invert</a>(</span><span class="m-doc-wrap">const &lt;S, R, C&gt;&amp; m) -&gt; inverse_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the inverse of a <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>.</dd>
+            <dd>Returns the inverse of a .</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#abe6723009e315776a0868a4062e4537b">orthonormalize</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m) -&gt; <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename S,  R,  C&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#abe6723009e315776a0868a4062e4537b">orthonormalize</a>(</span><span class="m-doc-wrap">const &lt;S, R, C&gt;&amp; m) -&gt; &lt;S, R, C&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a copy of a <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a> with the 3x3 part orthonormalized.</dd>
+            <dd>Returns a copy of a  with the 3x3 part orthonormalized.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a4d11bad2718bdbb090fb73ab6c5def00">transpose</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m) -&gt; <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;S, C, R&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename S,  R,  C&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a4d11bad2718bdbb090fb73ab6c5def00">transpose</a>(</span><span class="m-doc-wrap">const &lt;S, R, C&gt;&amp; m) -&gt; &lt;S, C, R&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a transposed copy of a <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>.</dd>
+            <dd>Returns a transposed copy of a .</dd>
           </dl>
         </section>
       </div>

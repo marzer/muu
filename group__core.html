@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.4.5" name="generator"/>
+  <meta content="Poxy v0.5.0" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.4.5.css" rel="stylesheet"/>
-  <link href="poxy-0.4.5-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.4.5.js"></script>
+  <link href="poxy-0.5.0.css" rel="stylesheet"/>
+  <link href="poxy-0.5.0-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.0.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -108,12 +108,12 @@
             </dt>
             <dd>Performs actions when going out of scope only if no exceptions have been thrown.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Extent = <a class="m-doc" href="group__memory.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>&gt;</div>
+              <div class="m-doc-template">template&lt;typename T,  Extent = <a class="m-doc" href="group__memory.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>&gt;</div>
               class <a class="m-doc" href="classmuu_1_1span.html">muu::span</a>
             </dt>
             <dd>A non-owning view of contiguous elements.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> MinAlign = <a class="m-doc" href="group__meta.html#ga693c421331c5f268eb2e2fdd318368fd">alignment_<wbr/>of</a>&lt;T&gt;&gt;</div>
+              <div class="m-doc-template">template&lt;typename T,  MinAlign = <a class="m-doc" href="group__meta.html#ga693c421331c5f268eb2e2fdd318368fd">alignment_<wbr/>of</a>&lt;T&gt;&gt;</div>
               class <a class="m-doc" href="classmuu_1_1tagged__ptr.html">muu::tagged_ptr</a>
             </dt>
             <dd>Specialized pointer capable of storing data in the unused bits of a pointer's value.</dd>
@@ -127,7 +127,7 @@
           <h2><a href="#typedef-members">Typedefs</a></h2>
           <dl class="m-doc">
             <dt>
-              using <a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> = <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html" target="_blank">__float128</a>
+              using <a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> = 
             </dt>
             <dd>A 128-bit quad-precision float.</dd>
             <dt>
@@ -144,25 +144,25 @@
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment, typename T&gt;</div>
+              <div class="m-doc-template">template&lt; Alignment, typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga6aae2e7be0cb15bed51d7cb636602c5f">apply_alignment</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Rounds an unsigned value up to the next multiple of the given alignment.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment, typename T&gt;</div>
+              <div class="m-doc-template">template&lt; Alignment, typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gae89c7cea139581038d585201d5b3bfee">apply_alignment</a>(</span><span class="m-doc-wrap">T* ptr) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Rounds a pointer up to the byte offset that is the next multiple of the given alignment.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga7cd587549d099b4323fda37f23097e04">apply_alignment</a>(</span><span class="m-doc-wrap">T val,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+               alignment) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Rounds an unsigned value up to the next multiple of the given alignment.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga7afe47820cb2e0951bf755832ce108be">apply_alignment</a>(</span><span class="m-doc-wrap">T* ptr,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+               alignment) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Rounds a pointer up to the byte offset that is the next multiple of the given alignment.</dd>
             <dt>
@@ -172,10 +172,10 @@
             </dt>
             <dd>Applies a byte offset to a pointer.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N, typename T&gt;</div>
+              <div class="m-doc-template">template&lt; N, typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaf58f3326aea89653ec725ccbc5ff29d2">assume_aligned</a>(</span><span class="m-doc-wrap">T* ptr) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/memory/assume_aligned" target="_blank">std::assume_aligned</a>.</dd>
+            <dd>Equivalent to C++20's .</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga108fd48e10e2c18acbaaf9f611b14d5b">between</a>(</span><span class="m-doc-wrap">T val,
@@ -187,7 +187,7 @@
               <div class="m-doc-template">template&lt;typename To, typename From&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaadb4c6332c738c248f84f43ece303657">bit_cast</a>(</span><span class="m-doc-wrap">const From&amp; from) -&gt; To <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/numeric/bit_cast" target="_blank">std::bit_cast</a>.</dd>
+            <dd>Equivalent to C++20's .</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gae62fd9413cd433a4e15c0fdf89913a1b">bit_ceil</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -195,12 +195,12 @@
             <dd>Finds the smallest integral power of two not less than the given value.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaf41f6cc12b0e9ac1de1bdf63e2a28fdf">bit_fill_left</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaf41f6cc12b0e9ac1de1bdf63e2a28fdf">bit_fill_left</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns an unsigned integer filled from the left with the desired number of consecutive ones.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gab5cb8d563f61573ca1e2827ddd085d3d">bit_fill_right</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gab5cb8d563f61573ca1e2827ddd085d3d">bit_fill_right</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns an unsigned integer filled from the right with the desired number of consecutive ones.</dd>
             <dt>
@@ -219,14 +219,14 @@
             </dt>
             <dd>Reverses the byte order of an unsigned integral type.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index, typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gae644160cd7d978d95922af233afc5ddd">byte_select</a>(</span><span class="m-doc-wrap">T val) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt; Index, typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gae644160cd7d978d95922af233afc5ddd">byte_select</a>(</span><span class="m-doc-wrap">T val) -&gt;  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Gets a specific byte from an integer.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga18d1da41b1d53329c0d0605596494010">byte_select</a>(</span><span class="m-doc-wrap">T val,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> index) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+               index) -&gt;  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Gets a specific byte from an integer.</dd>
             <dt>
@@ -274,24 +274,26 @@
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga8a9b0aaf9860b30f93639333a5214d34">is_constant_evaluated</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a>.</dd>
+            <dd>Equivalent to C++20's .</dd>
             <dt>
               <div class="m-doc-template">template&lt;class T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga279c303aaba76a43d1dc23834c35f857">launder</a>(</span><span class="m-doc-wrap">T* ptr) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Equivalent to C++17's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/launder" target="_blank">std::launder</a>.</dd>
+            <dd>Equivalent to C++17's .</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga67052cab1c45673f85ee326e91aafbde">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
-              const T&amp; val2) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga290899e08db4ce22c8e9f48a02bedaa3">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              const T&amp; val2,
+              const U&amp;... vals) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the maximum of two values.</dd>
+            <dd>Returns the maximum of two or more values.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gacc52016e295ef88268bd5835a23b69d8">min</a>(</span><span class="m-doc-wrap">const T&amp; val1,
-              const T&amp; val2) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga3e6bbeba20969ce0e3ca5aca843a9e71">min</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              const T&amp; val2,
+              const U&amp;... vals) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the minimum of two values.</dd>
+            <dd>Returns the minimum of two or more values.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Return = void, typename T, typename U, typename... V&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gafd5ebb4cf00dd4b93188521f0a2196e2">pack</a>(</span><span class="m-doc-wrap">T val1,
@@ -310,7 +312,7 @@
             </dt>
             <dd>Counts the number of set bits (the 'population count') of an unsigned integer.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>... ByteIndices, typename T&gt;</div>
+              <div class="m-doc-template">template&lt;... ByteIndices, typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga1aaa24bb10d08ad78c86695baabc1857">swizzle</a>(</span><span class="m-doc-wrap">T val) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Select and re-pack arbitrary bytes from an integer.</dd>
@@ -335,7 +337,7 @@
           <h2>Typedef documentation</h2>
           <section class="m-doc-details" id="ga74a70ec9e3331f37ebbc3e875e183861"><div>
             <h3>
-              using <a class="m-doc-self" href="#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> = <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html" target="_blank">__float128</a>
+              using <a class="m-doc-self" href="#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> = 
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="fwd_8h.html">&lt;muu/fwd.h&gt;</a></div>
             </h3>
             <p>A 128-bit quad-precision float.</p>
@@ -363,7 +365,7 @@
           <section class="m-doc-details" id="ga6aae2e7be0cb15bed51d7cb636602c5f"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment, typename T&gt;
+              <div class="m-doc-template"> template&lt; Alignment, typename T&gt;
               </div>
               <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga6aae2e7be0cb15bed51d7cb636602c5f">apply_alignment</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -396,7 +398,7 @@
           <section class="m-doc-details" id="gae89c7cea139581038d585201d5b3bfee"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment, typename T&gt;
+              <div class="m-doc-template"> template&lt; Alignment, typename T&gt;
               </div>
               <span class="m-doc-wrap-bumper">T* </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gae89c7cea139581038d585201d5b3bfee">apply_alignment</a>(</span><span class="m-doc-wrap">T* ptr) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -433,7 +435,7 @@
                 template&lt;typename T&gt;
               </div>
               <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga7cd587549d099b4323fda37f23097e04">apply_alignment</a>(</span><span class="m-doc-wrap">T val,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+               alignment) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Rounds an unsigned value up to the next multiple of the given alignment.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -468,7 +470,7 @@
                 template&lt;typename T&gt;
               </div>
               <span class="m-doc-wrap-bumper">T* </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga7afe47820cb2e0951bf755832ce108be">apply_alignment</a>(</span><span class="m-doc-wrap">T* ptr,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+               alignment) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Rounds a pointer up to the byte offset that is the next multiple of the given alignment.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -545,12 +547,12 @@
           <section class="m-doc-details" id="gaf58f3326aea89653ec725ccbc5ff29d2"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N, typename T&gt;
+              <div class="m-doc-template"> template&lt; N, typename T&gt;
               </div>
               <span class="m-doc-wrap-bumper">T* </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaf58f3326aea89653ec725ccbc5ff29d2">assume_aligned</a>(</span><span class="m-doc-wrap">T* ptr) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/memory/assume_aligned" target="_blank">std::assume_aligned</a>.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Compilers typically implement <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/memory/assume_aligned" target="_blank">std::assume_aligned</a> as an intrinsic which is available regardless of the C++ mode. Using this function on these compilers allows you to get the same behaviour even when you aren't targeting C++20.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1007r1.pdf" target="_blank">P1007R1: std::<wbr/>assume_aligned</a></p></aside>
+            <p>Equivalent to C++20's .</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Compilers typically implement  as an intrinsic which is available regardless of the C++ mode. Using this function on these compilers allows you to get the same behaviour even when you aren't targeting C++20.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1007r1.pdf" target="_blank">P1007R1: std::<wbr/>assume_aligned</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga108fd48e10e2c18acbaaf9f611b14d5b"><div>
             <h3>
@@ -572,8 +574,8 @@
               </div>
               <span class="m-doc-wrap-bumper">To </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaadb4c6332c738c248f84f43ece303657">bit_cast</a>(</span><span class="m-doc-wrap">const From&amp; from) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/numeric/bit_cast" target="_blank">std::bit_cast</a>.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Compilers implement this as an intrinsic which is typically available regardless of the C++ mode. Using this function on these compilers allows you to get the same behaviour even when you aren't targeting C++20.</p></aside><aside class="m-block m-special"><h4>Conditional availability </h4><p>On older compilers lacking support for <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/numeric/bit_cast" target="_blank">std::bit_cast</a> you won't be able to call this function in constexpr contexts (since it falls back to a memcpy-based implementation). Check for constexpr support by examining <a class="m-doc" href="namespacemuu_1_1build.html#a5ee6b53a87bd46b2bf84f2bea9e2a0b5">build::<wbr/>supports_constexpr_bit_cast</a>.</p></aside>
+            <p>Equivalent to C++20's .</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Compilers implement this as an intrinsic which is typically available regardless of the C++ mode. Using this function on these compilers allows you to get the same behaviour even when you aren't targeting C++20.</p></aside><aside class="m-block m-special"><h4>Conditional availability </h4><p>On older compilers lacking support for  you won't be able to call this function in constexpr contexts (since it falls back to a memcpy-based implementation). Check for constexpr support by examining <a class="m-doc" href="namespacemuu_1_1build.html#a5ee6b53a87bd46b2bf84f2bea9e2a0b5">build::<wbr/>supports_constexpr_bit_cast</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="gae62fd9413cd433a4e15c0fdf89913a1b"><div>
             <h3>
@@ -610,7 +612,7 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/numeric/bit_ceil" target="_blank">std::bit_ceil</a>, with the addition of also being extended to work with enum types.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's , with the addition of also being extended to work with enum types.</p></aside>
           </div></section>
           <section class="m-doc-details" id="gaf41f6cc12b0e9ac1de1bdf63e2a28fdf"><div>
             <h3>
@@ -618,7 +620,7 @@
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaf41f6cc12b0e9ac1de1bdf63e2a28fdf">bit_fill_left</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaf41f6cc12b0e9ac1de1bdf63e2a28fdf">bit_fill_left</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns an unsigned integer filled from the left with the desired number of consecutive ones.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -657,7 +659,7 @@
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gab5cb8d563f61573ca1e2827ddd085d3d">bit_fill_right</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gab5cb8d563f61573ca1e2827ddd085d3d">bit_fill_right</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns an unsigned integer filled from the right with the desired number of consecutive ones.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -725,7 +727,7 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/numeric/bit_floor" target="_blank">std::bit_floor</a>, with the addition of also being extended to work with enum types.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's , with the addition of also being extended to work with enum types.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga1a764507fe486799f60eac32c622e63e"><div>
             <h3>
@@ -762,7 +764,7 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/numeric/bit_width" target="_blank">std::bit_width</a>, with the addition of also being extended to work with enum types.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's , with the addition of also being extended to work with enum types.</p></aside>
           </div></section>
           <section class="m-doc-details" id="gab3e8f4f75d417dc6880311de6c9306e9"><div>
             <h3>
@@ -807,9 +809,9 @@
           <section class="m-doc-details" id="gae644160cd7d978d95922af233afc5ddd"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index, typename T&gt;
+              <div class="m-doc-template"> template&lt; Index, typename T&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gae644160cd7d978d95922af233afc5ddd">byte_select</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gae644160cd7d978d95922af233afc5ddd">byte_select</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Gets a specific byte from an integer.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -862,8 +864,8 @@
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga18d1da41b1d53329c0d0605596494010">byte_select</a>(</span><span class="m-doc-wrap">T val,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> index) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga18d1da41b1d53329c0d0605596494010">byte_select</a>(</span><span class="m-doc-wrap">T val,
+               index) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Gets a specific byte from an integer.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -921,7 +923,7 @@
               const T&amp; high) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns a value clamped between two bounds (inclusive).</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/algorithm/clamp" target="_blank">std::clamp</a> without requiring you to drag in the enormity of &lt;algorithm&gt;.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to  without requiring you to drag in the enormity of &lt;algorithm&gt;.</p></aside>
           </div></section>
           <section class="m-doc-details" id="gadf75326611fa43dbacc1ff601e9e969b"><div>
             <h3>
@@ -958,7 +960,7 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/numeric/countl_one" target="_blank">std::countl_one</a>, with the addition of also being extended to work with enum types.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's , with the addition of also being extended to work with enum types.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga12cd318fdcf736ca99f5bf66aa615fd1"><div>
             <h3>
@@ -995,7 +997,7 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/numeric/countl_zero" target="_blank">std::countl_zero</a>, with the addition of also being extended to work with enum types.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's , with the addition of also being extended to work with enum types.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga84963e1a7bf75ec7464cda53b26dec8a"><div>
             <h3>
@@ -1032,7 +1034,7 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/numeric/countr_one" target="_blank">std::countr_one</a>, with the addition of also being extended to work with enum types.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's , with the addition of also being extended to work with enum types.</p></aside>
           </div></section>
           <section class="m-doc-details" id="gab5b51a3c121984cfddb8d5da4e9bf070"><div>
             <h3>
@@ -1069,7 +1071,7 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/numeric/countr_zero" target="_blank">std::countr_zero</a>, with the addition of also being extended to work with enum types.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's , with the addition of also being extended to work with enum types.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga5f6c6004ed4016c437442e80f0b22421"><div>
             <h3>
@@ -1182,15 +1184,15 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/numeric/has_single_bit" target="_blank">std::has_single_bit</a>, with the addition of also being extended to work with enum types.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's , with the addition of also being extended to work with enum types.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga8a9b0aaf9860b30f93639333a5214d34"><div>
             <h3>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga8a9b0aaf9860b30f93639333a5214d34">is_constant_evaluated</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
             </h3>
-            <p>Equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a>.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Compilers typically implement <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a> as an intrinsic which is available regardless of the C++ mode. Using this function on these compilers allows you to get the same behaviour even when you aren't targeting C++20.</p></aside><aside class="m-block m-special"><h4>Conditional availability </h4><p>On older compilers lacking support for <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a> this will always return <code>false</code>. Check for support by examining <a class="m-doc" href="namespacemuu_1_1build.html#a8398d41dfdf02da1234b776f754bbb3d">build::<wbr/>supports_is_constant_evaluated</a>.</p></aside>
+            <p>Equivalent to C++20's .</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Compilers typically implement  as an intrinsic which is available regardless of the C++ mode. Using this function on these compilers allows you to get the same behaviour even when you aren't targeting C++20.</p></aside><aside class="m-block m-special"><h4>Conditional availability </h4><p>On older compilers lacking support for  this will always return <code>false</code>. Check for support by examining <a class="m-doc" href="namespacemuu_1_1build.html#a8398d41dfdf02da1234b776f754bbb3d">build::<wbr/>supports_is_constant_evaluated</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga279c303aaba76a43d1dc23834c35f857"><div>
             <h3>
@@ -1200,32 +1202,34 @@
               </div>
               <span class="m-doc-wrap-bumper">T* </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga279c303aaba76a43d1dc23834c35f857">launder</a>(</span><span class="m-doc-wrap">T* ptr) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Equivalent to C++17's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/launder" target="_blank">std::launder</a>.</p>
+            <p>Equivalent to C++17's .</p>
 <aside class="m-note m-info"><h4>Note</h4><p>Older implementations don't provide this as an intrinsic or have a placeholder for it in their standard library. Using this version allows you to get around that by writing code 'as if' it were there and have it compile just the same.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ga67052cab1c45673f85ee326e91aafbde"><div>
+          <section class="m-doc-details" id="ga290899e08db4ce22c8e9f48a02bedaa3"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T&gt;
+                template&lt;typename T, typename... U&gt;
               </div>
-              <span class="m-doc-wrap-bumper">const T&amp; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga67052cab1c45673f85ee326e91aafbde">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
-              const T&amp; val2) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">const T&amp; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga290899e08db4ce22c8e9f48a02bedaa3">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              const T&amp; val2,
+              const U&amp;... vals) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Returns the maximum of two values.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/algorithm/max" target="_blank">std::max</a> without requiring you to drag in the enormity of &lt;algorithm&gt;.</p></aside>
+            <p>Returns the maximum of two or more values.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is a variadic version of .</p></aside>
           </div></section>
-          <section class="m-doc-details" id="gacc52016e295ef88268bd5835a23b69d8"><div>
+          <section class="m-doc-details" id="ga3e6bbeba20969ce0e3ca5aca843a9e71"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T&gt;
+                template&lt;typename T, typename... U&gt;
               </div>
-              <span class="m-doc-wrap-bumper">const T&amp; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gacc52016e295ef88268bd5835a23b69d8">min</a>(</span><span class="m-doc-wrap">const T&amp; val1,
-              const T&amp; val2) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">const T&amp; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga3e6bbeba20969ce0e3ca5aca843a9e71">min</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              const T&amp; val2,
+              const U&amp;... vals) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Returns the minimum of two values.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/algorithm/min" target="_blank">std::min</a> without requiring you to drag in the enormity of &lt;algorithm&gt;.</p></aside>
+            <p>Returns the minimum of two or more values.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is a variadic version of .</p></aside>
           </div></section>
           <section class="m-doc-details" id="gafd5ebb4cf00dd4b93188521f0a2196e2"><div>
             <h3>
@@ -1311,7 +1315,7 @@
                 </tr>
                 <tr>
                   <td>From</td>
-                  <td>A pointer, array, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/nullptr_t" target="_blank">nullptr_t</a>, or an integral type large enough to store a pointer.</td>
+                  <td>A pointer, array, , or an integral type large enough to store a pointer.</td>
                 </tr>
               </tbody>
               <thead>
@@ -1330,7 +1334,7 @@
                 </tr>
               </tfoot>
             </table>
-<p>Doing low-level work with pointers often requires a lot of tedious boilerplate, particularly when moving to/from raw byte representations or dealing with <code>const</code>. By using <code>pointer_cast</code> instead you can eliminate a lot of that boilerplate, since it will do 'the right thing' via some combination of:</p><table class="m-table"><thead><tr><th>From</th><th>To</th><th>Cast</th><th>Note</th></tr></thead><tbody><tr><td>T*</td><td>void*</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td>void*</td><td>T*</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td>T*</td><td>const T*</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td>T*</td><td>volatile T*</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td>T*</td><td>const volatile T*</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td>const T*</td><td>T*</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/const_cast" target="_blank">const_cast</a></td><td></td></tr><tr><td>volatile T*</td><td>T*</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/const_cast" target="_blank">const_cast</a></td><td></td></tr><tr><td>const volatile T*</td><td>T*</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/const_cast" target="_blank">const_cast</a></td><td></td></tr><tr><td>Derived*</td><td>Base*</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td>Base*</td><td>Derived*</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/dynamic_cast" target="_blank">dynamic_cast</a></td><td>Polymorphic bases</td></tr><tr><td>Base*</td><td>Derived*</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></td><td>Non-polymorphic bases</td></tr><tr><td>T*</td><td>(u)<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">intptr_t</a></td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></td><td></td></tr><tr><td>(u)<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">intptr_t</a></td><td>T*</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></td><td></td></tr><tr><td>void*</td><td>T(*)()</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></td><td>Where supported</td></tr><tr><td>T(*)()</td><td>void*</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></td><td>Where supported</td></tr><tr><td>T(*)()</td><td>T(*)()noexcept</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></td><td></td></tr><tr><td>T(*)()noexcept</td><td>T(*)()</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td><a class="m-doc poxy-injected poxy-external" href="https://docs.microsoft.com/en-us/windows/win32/api/unknwn/nn-unknwn-iunknown" target="_blank">IUnknown</a>*</td><td><a class="m-doc poxy-injected poxy-external" href="https://docs.microsoft.com/en-us/windows/win32/api/unknwn/nn-unknwn-iunknown" target="_blank">IUnknown</a>*</td><td><a class="m-doc poxy-injected poxy-external" href="https://docs.microsoft.com/en-us/windows/win32/api/unknwn/nf-unknwn-iunknown-queryinterface(q)" target="_blank">QueryInterface</a></td><td>Windows only</td></tr></tbody></table><aside class="m-note m-danger"><h4>Warning</h4><p>There are lots of static checks to stop you from doing something overtly dangerous, but ultimately the fallback behaviour for casting between unrelated types is to use a <code><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></code>, and there's nothing stopping you from using multiple <code>pointer_casts</code> through <code>void*</code> to make a conversion 'work'. Footguns aplenty!</p></aside>
+<p>Doing low-level work with pointers often requires a lot of tedious boilerplate, particularly when moving to/from raw byte representations or dealing with <code>const</code>. By using <code>pointer_cast</code> instead you can eliminate a lot of that boilerplate, since it will do 'the right thing' via some combination of:</p><table class="m-table"><thead><tr><th>From</th><th>To</th><th>Cast</th><th>Note</th></tr></thead><tbody><tr><td>T*</td><td>void*</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td>void*</td><td>T*</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td>T*</td><td>const T*</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td>T*</td><td>volatile T*</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td>T*</td><td>const volatile T*</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td>const T*</td><td>T*</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/const_cast" target="_blank">const_cast</a></td><td></td></tr><tr><td>volatile T*</td><td>T*</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/const_cast" target="_blank">const_cast</a></td><td></td></tr><tr><td>const volatile T*</td><td>T*</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/const_cast" target="_blank">const_cast</a></td><td></td></tr><tr><td>Derived*</td><td>Base*</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td>Base*</td><td>Derived*</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/dynamic_cast" target="_blank">dynamic_cast</a></td><td>Polymorphic bases</td></tr><tr><td>Base*</td><td>Derived*</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></td><td>Non-polymorphic bases</td></tr><tr><td>T*</td><td>(u)</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></td><td></td></tr><tr><td>(u)</td><td>T*</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></td><td></td></tr><tr><td>void*</td><td>T(*)()</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></td><td>Where supported</td></tr><tr><td>T(*)()</td><td>void*</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></td><td>Where supported</td></tr><tr><td>T(*)()</td><td>T(*)()noexcept</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></td><td></td></tr><tr><td>T(*)()noexcept</td><td>T(*)()</td><td><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></td><td></td></tr><tr><td><a class="m-doc poxy-injected poxy-external" href="https://docs.microsoft.com/en-us/windows/win32/api/unknwn/nn-unknwn-iunknown" target="_blank">IUnknown</a></td><td><a class="m-doc poxy-injected poxy-external" href="https://docs.microsoft.com/en-us/windows/win32/api/unknwn/nn-unknwn-iunknown" target="_blank">IUnknown</a></td><td><a class="m-doc poxy-injected poxy-external" href="https://docs.microsoft.com/en-us/windows/win32/api/unknwn/nf-unknwn-iunknown-queryinterface(q)" target="_blank">QueryInterface</a></td><td>Windows only</td></tr></tbody></table><aside class="m-note m-danger"><h4>Warning</h4><p>There are lots of static checks to stop you from doing something overtly dangerous, but ultimately the fallback behaviour for casting between unrelated types is to use a <code><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast" target="_blank">reinterpret_cast</a></code>, and there's nothing stopping you from using multiple <code>pointer_casts</code> through <code>void*</code> to make a conversion 'work'. Footguns aplenty!</p></aside>
           </div></section>
           <section class="m-doc-details" id="gab392bc74729da41c4d226f8d45e58599"><div>
             <h3>
@@ -1367,12 +1371,12 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/numeric/popcount" target="_blank">std::popcount</a>, with the addition of also being extended to work with enum types.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's , with the addition of also being extended to work with enum types.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga1aaa24bb10d08ad78c86695baabc1857"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>... ByteIndices, typename T&gt;
+              <div class="m-doc-template"> template&lt;... ByteIndices, typename T&gt;
               </div>
               <span class="m-doc-wrap-bumper">auto </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga1aaa24bb10d08ad78c86695baabc1857">swizzle</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -1428,7 +1432,7 @@
               <span class="m-doc-wrap-bumper">T* </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga79246c66d2df39fe825be13e654d8c52">to_address</a>(</span><span class="m-doc-wrap">T* p) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Obtain the address represented by p without forming a reference to the pointee.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/memory/to_address" target="_blank">std::to_address</a>.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's .</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga4ba4d37d254803b31a71fca161a46420"><div>
             <h3>
@@ -1439,7 +1443,7 @@
               <span class="m-doc-wrap-bumper">auto </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga4ba4d37d254803b31a71fca161a46420">to_address</a>(</span><span class="m-doc-wrap">const Ptr&amp; p) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Obtain the address represented by p without forming a reference to the pointee.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/memory/to_address" target="_blank">std::to_address</a>.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is equivalent to C++20's .</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga81642f54291cc4a1287ef141b3f4d34f"><div>
             <h3>
@@ -1472,7 +1476,7 @@
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td><strong><em>Enum inputs:</em></strong> <code><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/underlying_type.html" target="_blank">std::<wbr/>underlying_type_t</a>&lt;T&gt;&gt;(val)</code><br/><strong><em>Everything else:</em></strong> <code>T&amp;&amp;</code> (a no-op).</td>
+                  <td><strong><em>Enum inputs:</em></strong> <code><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/underlying_type.html" target="_blank">std::<wbr/>underlying_type_t</a>&lt;T&gt;&gt;(val)</code><br/><strong><em>Everything else:</em></strong> <code>T&amp;&amp;</code> (a no-op).</td>
                 </tr>
               </tfoot>
             </table>

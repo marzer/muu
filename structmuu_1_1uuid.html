@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.4.5" name="generator"/>
+  <meta content="Poxy v0.5.0" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.4.5.css" rel="stylesheet"/>
-  <link href="poxy-0.4.5-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.4.5.js"></script>
+  <link href="poxy-0.5.0.css" rel="stylesheet"/>
+  <link href="poxy-0.5.0-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.0.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -93,7 +93,7 @@
           <dl class="m-doc">
             <dt id="ab19449ba8e22d8be85e9f790555e952f">
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ab19449ba8e22d8be85e9f790555e952f">compare</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; lhs,
-              const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; rhs) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">int32_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; rhs) -&gt;  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the lexicographical ordering of two UUID's.</dd>
             <dt id="a0d71e15720bef12a18b7922331be4386">
@@ -134,20 +134,11 @@
             </dt>
             <dd>Default constructor. Leaves the UUID uninitialized.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a3f394360cf4bc0fa6e8828ec5ef60661">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> time_low,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_mid,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_high_and_version,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> clock_seq_high_and_reserved,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> clock_seq_low,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a> node) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a3f394360cf4bc0fa6e8828ec5ef60661">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a><span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Creates a UUID from it's raw integral components, as per RFC 4122.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a52d9303cb2231fcd1613b2819b8c4ba1">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> time_low,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_mid,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_high_and_version,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> clock_seq,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a> node) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a52d9303cb2231fcd1613b2819b8c4ba1">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a><span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Creats a UUID from it's raw integral components, as per RFC 4122.</dd>
             <dt id="a8d29048ee0984dcf90335a8a7507a040">
@@ -161,7 +152,7 @@
             <dt>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="#aeffec1e0d86eba26298f34d0103c6228">uuid</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; name_space,
               const void* name_data,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> name_size) <span class="m-label m-flat m-success">noexcept</span></span>
+               name_size) <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a version-5 named UUID by hashing some binary data.</dd>
             <dt>
@@ -175,27 +166,27 @@
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt id="a0142dd278affa6dcddfe0a3a8db98786">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0142dd278affa6dcddfe0a3a8db98786">clock_seq_high_and_reserved</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0142dd278affa6dcddfe0a3a8db98786">clock_seq_high_and_reserved</a>(</span><span class="m-doc-wrap">) const -&gt;  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the value of the 'clock-seq-high-and-reserved' field.</dd>
             <dt id="a75c354441ef8da4a6f0cd474c3746fcd">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a75c354441ef8da4a6f0cd474c3746fcd">clock_seq_low</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a75c354441ef8da4a6f0cd474c3746fcd">clock_seq_low</a>(</span><span class="m-doc-wrap">) const -&gt;  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the value of the 'clock-seq-low' field.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a761a163d20263bfce093f280151977d2">node</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a761a163d20263bfce093f280151977d2">node</a>(</span><span class="m-doc-wrap">) const -&gt;  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the value of the 'node' field.</dd>
             <dt id="a5fbb66418327dc3c0969c69b217cf31d">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a5fbb66418327dc3c0969c69b217cf31d">time_high_and_version</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a5fbb66418327dc3c0969c69b217cf31d">time_high_and_version</a>(</span><span class="m-doc-wrap">) const -&gt;  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the value of the 'time-high-and-version' field.</dd>
             <dt id="a0445f7982a6afa971040f61acbc55b7c">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0445f7982a6afa971040f61acbc55b7c">time_low</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0445f7982a6afa971040f61acbc55b7c">time_low</a>(</span><span class="m-doc-wrap">) const -&gt;  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the value of the 'time-low' field.</dd>
             <dt id="ab481a846a20ae5b7095fa8fef2bd2ce5">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab481a846a20ae5b7095fa8fef2bd2ce5">time_mid</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab481a846a20ae5b7095fa8fef2bd2ce5">time_mid</a>(</span><span class="m-doc-wrap">) const -&gt;  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the value of the 'time-mid' field.</dd>
             <dt id="afcbbb495f4dd099810e261b4238a1578">
@@ -263,7 +254,7 @@
           <dl class="m-doc">
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aa47ba1752e387734c3a2b0539a4dc252">operator""_uuid</a>(</span><span class="m-doc-wrap">const char* str,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> len) -&gt; <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+               len) -&gt; <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a uuid from a string literal using <a class="m-doc" href="structmuu_1_1uuid.html#ad6beda74aec99774e4b10d615aacacd5">uuid::<wbr/>parse</a>.</dd>
           </dl>
@@ -272,12 +263,7 @@
           <h2>Function documentation</h2>
           <section class="m-doc-details" id="a3f394360cf4bc0fa6e8828ec5ef60661"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>uuid::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3f394360cf4bc0fa6e8828ec5ef60661">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> time_low,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_mid,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_high_and_version,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> clock_seq_high_and_reserved,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> clock_seq_low,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a> node) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>uuid::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3f394360cf4bc0fa6e8828ec5ef60661">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a><span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Creates a UUID from it's raw integral components, as per RFC 4122.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -314,11 +300,7 @@
           </div></section>
           <section class="m-doc-details" id="a52d9303cb2231fcd1613b2819b8c4ba1"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>uuid::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a52d9303cb2231fcd1613b2819b8c4ba1">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> time_low,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_mid,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> time_high_and_version,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> clock_seq,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a> node) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>uuid::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a52d9303cb2231fcd1613b2819b8c4ba1">uuid</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a><span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Creats a UUID from it's raw integral components, as per RFC 4122.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -370,7 +352,7 @@
             <h3>
               <span class="m-doc-wrap-bumper"> muu::<wbr/>uuid::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aeffec1e0d86eba26298f34d0103c6228">uuid</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1uuid.html">uuid</a>&amp; name_space,
               const void* name_data,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> name_size) <span class="m-label m-success">noexcept</span></span></span>
+               name_size) <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Constructs a version-5 named UUID by hashing some binary data.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -419,7 +401,7 @@
           </div></section>
           <section class="m-doc-details" id="a761a163d20263bfce093f280151977d2"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a> muu::<wbr/>uuid::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a761a163d20263bfce093f280151977d2">node</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint64_t</a><wbr/>uuid::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a761a163d20263bfce093f280151977d2">node</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns the value of the 'node' field.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>The two most significant bytes of the return value will always be zero (the 'node' field of a UUID is a 48-bit unsigned int).</p></aside>
@@ -427,7 +409,7 @@
           <section class="m-doc-details" id="aa47ba1752e387734c3a2b0539a4dc252"><div>
             <h3>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1uuid.html">uuid</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa47ba1752e387734c3a2b0539a4dc252">operator""_uuid</a>(</span><span class="m-doc-wrap">const char* str,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> len) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+               len) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Constructs a uuid from a string literal using <a class="m-doc" href="structmuu_1_1uuid.html#ad6beda74aec99774e4b10d615aacacd5">uuid::<wbr/>parse</a>.</p>
 <pre class="m-code"><span class="k">const</span> <span class="n">uuid</span> <span class="n">id</span> <span class="o">=</span> <span class="s">"{06B35EFD-A532-4410-ADD1-C8C536C31A84}"</span><span class="sa">_uuid</span><span class="p">;</span></pre>

@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.4.5" name="generator"/>
+  <meta content="Poxy v0.5.0" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.4.5.css" rel="stylesheet"/>
-  <link href="poxy-0.4.5-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.4.5.js"></script>
+  <link href="poxy-0.5.0.css" rel="stylesheet"/>
+  <link href="poxy-0.5.0-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.0.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -214,7 +214,7 @@
               <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1quaternion.html">quaternion</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a> s,
               const <a class="m-doc" href="structmuu_1_1quaternion.html#a6f37d9dfd591c57a0e51174a983adbc9">vector_<wbr/>type</a>&amp; v) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Constructs a quaternion from a scalar and a <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</dd>
+            <dd>Constructs a quaternion from a scalar and a .</dd>
             <dt id="a300a11619180c4956e2f3d263b044c68">
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a300a11619180c4956e2f3d263b044c68">quaternion</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&lt;T&gt;&amp; quat) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -265,12 +265,12 @@
             </dt>
             <dd>Returns the dot product of this and another quaternion.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index&gt;</div>
+              <div class="m-doc-template">template&lt; Index&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a8c727ea4e2ec6e391f0235ee35e7ef64">get</a>(</span><span class="m-doc-wrap">) const -&gt; const auto&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Gets a reference to the value at a specific index.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index&gt;</div>
+              <div class="m-doc-template">template&lt; Index&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ae9f68c3086d34e6586d342d88b4fa5c5">get</a>(</span><span class="m-doc-wrap">) -&gt; auto&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Gets a reference to the value at a specific index.</dd>
@@ -327,7 +327,7 @@
             <dt id="ac767617ff07f372a2b4800741adb3f9d">
               <a class="m-doc" href="structmuu_1_1quaternion.html#a6f37d9dfd591c57a0e51174a983adbc9">vector_<wbr/>type</a> <a class="m-doc-self" href="#ac767617ff07f372a2b4800741adb3f9d">v</a>
             </dt>
-            <dd>The quaternion's <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> (imaginary) part.</dd>
+            <dd>The quaternion's  (imaginary) part.</dd>
           </dl>
         </section>
         <section id="friends">
@@ -348,12 +348,12 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac2e34ff956e86a2a85aacf99cd2221fc">operator*</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1quaternion.html#a6f37d9dfd591c57a0e51174a983adbc9">vector_<wbr/>type</a>&amp; rhs) -&gt; friend <a class="m-doc" href="structmuu_1_1quaternion.html#a6f37d9dfd591c57a0e51174a983adbc9">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Rotates a three-dimensional <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> by the rotation encoded in a quaternion.</dd>
+            <dd>Rotates a three-dimensional  by the rotation encoded in a quaternion.</dd>
             <dt id="a789b2466d90c6b58ab53c9b81f961b6d">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a789b2466d90c6b58ab53c9b81f961b6d">operator*</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1quaternion.html#a6f37d9dfd591c57a0e51174a983adbc9">vector_<wbr/>type</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&amp; rhs) -&gt; friend <a class="m-doc" href="structmuu_1_1quaternion.html#a6f37d9dfd591c57a0e51174a983adbc9">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Rotates a three-dimensional <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> by the rotation encoded in a quaternion.</dd>
+            <dd>Rotates a three-dimensional  by the rotation encoded in a quaternion.</dd>
             <dt id="a2374f94da554459d8dbe786328d81cc1">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2374f94da554459d8dbe786328d81cc1">operator*</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&amp; lhs,
               <a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a> rhs) -&gt; friend <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -645,15 +645,15 @@
                 </tr>
                 <tr>
                   <td>vx</td>
-                  <td>Initial value for the <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> (imaginary) part's X component.</td>
+                  <td>Initial value for the  (imaginary) part's X component.</td>
                 </tr>
                 <tr>
                   <td>vy</td>
-                  <td>Initial value for the <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> (imaginary) part's Y component.</td>
+                  <td>Initial value for the  (imaginary) part's Y component.</td>
                 </tr>
                 <tr>
                   <td>vz</td>
-                  <td>Initial value for the <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> (imaginary) part's Z component.</td>
+                  <td>Initial value for the  (imaginary) part's Z component.</td>
                 </tr>
               </tbody>
             </table>
@@ -666,7 +666,7 @@
               <span class="m-doc-wrap-bumper"> muu::<wbr/>quaternion&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae6e9f2bb8f383ffe641980edc0f03f18">quaternion</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a> s,
               const <a class="m-doc" href="structmuu_1_1quaternion.html#a6f37d9dfd591c57a0e51174a983adbc9">vector_<wbr/>type</a>&amp; v) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Constructs a quaternion from a scalar and a <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</p>
+            <p>Constructs a quaternion from a scalar and a .</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
@@ -678,7 +678,7 @@
                 </tr>
                 <tr>
                   <td>v</td>
-                  <td>Initial value for the <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> (imaginary) part.</td>
+                  <td>Initial value for the  (imaginary) part.</td>
                 </tr>
               </tbody>
             </table>
@@ -708,7 +708,7 @@ template&lt;typename T&gt;
           <section class="m-doc-details" id="a8c727ea4e2ec6e391f0235ee35e7ef64"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;typename Scalar&gt;<br/> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index&gt;
+                template&lt;typename Scalar&gt;<br/> template&lt; Index&gt;
               </div>
               <span class="m-doc-wrap-bumper">const auto&amp; muu::<wbr/>quaternion&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8c727ea4e2ec6e391f0235ee35e7ef64">get</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -734,7 +734,7 @@ template&lt;typename T&gt;
           <section class="m-doc-details" id="ae9f68c3086d34e6586d342d88b4fa5c5"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;typename Scalar&gt;<br/> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index&gt;
+                template&lt;typename Scalar&gt;<br/> template&lt; Index&gt;
               </div>
               <span class="m-doc-wrap-bumper">auto&amp; muu::<wbr/>quaternion&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae9f68c3086d34e6586d342d88b4fa5c5">get</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>

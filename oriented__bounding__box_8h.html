@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.4.5" name="generator"/>
+  <meta content="Poxy v0.5.0" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.4.5.css" rel="stylesheet"/>
-  <link href="poxy-0.4.5-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.4.5.js"></script>
+  <link href="poxy-0.5.0.css" rel="stylesheet"/>
+  <link href="poxy-0.5.0-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.0.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -57,7 +57,7 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span><a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>.h <span class="m-thin">file</span>
+          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span><a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a><span class="m-thin">file</span>
         </h1>
         <p>Contains the definition of <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">muu::<wbr/>oriented_bounding_box</a>.</p>
         <div class="m-block m-default poxy-toc">
@@ -92,12 +92,12 @@
               <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
               struct <a class="m-doc" href="structstd_1_1tuple__size_3_01muu_1_1oriented__bounding__box_3_01_scalar_01_4_01_4.html">std::tuple_size&lt;muu::oriented_bounding_box&lt;Scalar&gt;&gt;</a>
             </dt>
-            <dd>Specialization of <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a> for <a class="m-doc" href="structmuu_1_1bounding__box.html">muu::<wbr/>bounding_box</a>.</dd>
+            <dd>Specialization of  for <a class="m-doc" href="structmuu_1_1bounding__box.html">muu::<wbr/>bounding_box</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/size_t.html" target="_blank">size_<wbr/>t</a> I, typename Scalar&gt;</div>
               struct <a class="m-doc" href="structstd_1_1tuple__element_3_01_i_00_01muu_1_1oriented__bounding__box_3_01_scalar_01_4_01_4.html">std::tuple_element&lt;I, muu::oriented_bounding_box&lt;Scalar&gt;&gt;</a>
             </dt>
-            <dd>Specialization of <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_element" target="_blank">std::tuple_element</a> for <a class="m-doc" href="structmuu_1_1bounding__box.html">muu::<wbr/>bounding_box</a>.</dd>
+            <dd>Specialization of  for <a class="m-doc" href="structmuu_1_1bounding__box.html">muu::<wbr/>bounding_box</a>.</dd>
           </dl>
         </section>
         <section id="func-members">
@@ -105,20 +105,20 @@
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga44033f904b7ed733949dab5e6acccd16">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>&lt;S&gt;&amp; q1,
-              const <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>&lt;T&gt;&amp; q2,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga44033f904b7ed733949dab5e6acccd16">approx_equal</a>(</span><span class="m-doc-wrap">const &lt;S&gt;&amp; q1,
+              const &lt;T&gt;&amp; q2,
               epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two oriented bounding boxes are approximately equal.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga4c274a76495695493647b4e0b7af1299">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>&lt;S&gt;&amp; q,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga4c274a76495695493647b4e0b7af1299">approx_zero</a>(</span><span class="m-doc-wrap">const &lt;S&gt;&amp; q,
               S epsilon = default_epsilon&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if all the scalar components of an <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a> are approximately equal to zero.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gade7f3e7d056853c9e542ec453394a9c4">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>&lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gade7f3e7d056853c9e542ec453394a9c4">infinity_or_nan</a>(</span><span class="m-doc-wrap">const &lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the scalar components of an <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a> are infinity or NaN.</dd>
           </dl>

@@ -1214,6 +1214,20 @@
       <anchor>ga704dca3f184e06b3f20ee77f063a6536</anchor>
       <arglist>(T x) noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>lcm</name>
+      <anchorfile>group__math.html</anchorfile>
+      <anchor>ga747762e03956634201248a153ce0ce5e</anchor>
+      <arglist>(T val1, U val2, V... vals) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>gcd</name>
+      <anchorfile>group__math.html</anchorfile>
+      <anchor>ga54f9d1a2efa5ffdf81afdaa4fcb89fd6</anchor>
+      <arglist>(T val1, U val2, V... vals) noexcept</arglist>
+    </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>supports_constexpr_math</name>
@@ -11266,6 +11280,20 @@
       <arglist>(T x) noexcept</arglist>
     </member>
     <member kind="function">
+      <type>constexpr auto</type>
+      <name>lcm</name>
+      <anchorfile>group__math.html</anchorfile>
+      <anchor>ga747762e03956634201248a153ce0ce5e</anchor>
+      <arglist>(T val1, U val2, V... vals) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>gcd</name>
+      <anchorfile>group__math.html</anchorfile>
+      <anchor>ga54f9d1a2efa5ffdf81afdaa4fcb89fd6</anchor>
+      <arglist>(T val1, U val2, V... vals) noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr bool</type>
       <name>infinity_or_nan</name>
       <anchorfile>group__infinity__or__nan.html</anchorfile>
@@ -11829,15 +11857,15 @@
       <type>constexpr const T &amp;</type>
       <name>min</name>
       <anchorfile>group__core.html</anchorfile>
-      <anchor>gacc52016e295ef88268bd5835a23b69d8</anchor>
-      <arglist>(const T &amp;val1, const T &amp;val2) noexcept</arglist>
+      <anchor>ga3e6bbeba20969ce0e3ca5aca843a9e71</anchor>
+      <arglist>(const T &amp;val1, const T &amp;val2, const U &amp;... vals) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr const T &amp;</type>
       <name>max</name>
       <anchorfile>group__core.html</anchorfile>
-      <anchor>ga67052cab1c45673f85ee326e91aafbde</anchor>
-      <arglist>(const T &amp;val1, const T &amp;val2) noexcept</arglist>
+      <anchor>ga290899e08db4ce22c8e9f48a02bedaa3</anchor>
+      <arglist>(const T &amp;val1, const T &amp;val2, const U &amp;... vals) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr const T &amp;</type>
@@ -13647,6 +13675,27 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>is_integer</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga32715027f4d7ea16b52b2a2e00ca31f3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>any_integer</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga3660079b9cf5bd6f01ef9f5322c235f7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_integer</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga891ba12282ff535141b2e581867518fe</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>is_floating_point</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gae74155e0cf085141e1923124718915a4</anchor>
@@ -13710,9 +13759,37 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>any_const</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga8790fee03d9e3fe2dd3b1d126b08a2ce</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_const</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga1fce0d7c8fa9515365a671bdee77f722</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>is_volatile</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gaa1afdcda38765572b01f8112bea59913</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>any_volatile</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaef99eced8c220aaf5875212fdccd6fe2</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_volatile</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaabe1f5048446fbf9280d63fbb3f3d440</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -13724,9 +13801,37 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>any_cv</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga0901c12d4271170dee63a201878f49d5</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_cv</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga31a739e7f932a7386e9779e05c65e1ba</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>is_cvref</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga21f392701d987b745866ab36fa3c6242</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>any_cvref</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga3957082e3d9c3d7225b7f7f852afa357</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_cvref</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaf3bb0d8c33afd87750a47cb200a5ef57</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -13773,6 +13878,20 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>any_unbounded_array</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga0f5de953c30ac2d5aa79ccece0f5681a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_unbounded_array</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaa45d5a8ac607de08c4d7f2b1d275dc3d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>is_bounded_array</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gad0b97e37de851bc5aba414d527a4d0e1</anchor>
@@ -13780,9 +13899,37 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>any_bounded_array</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga62dc66d47da5a1d4420082e8c29bf978</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_bounded_array</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gae22dfc906ab84c2a644d7f635b00bf5d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>is_array</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga7a9d2c42a55dd3a859e8cd1381dfc845</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>any_array</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaa6e6a09626366fea9202ecaa1f42f414</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_array</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga10598e51bcfe8c2a8261c6617990eaea</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -14537,15 +14684,15 @@
       <type>constexpr const T &amp;</type>
       <name>min</name>
       <anchorfile>group__core.html</anchorfile>
-      <anchor>gacc52016e295ef88268bd5835a23b69d8</anchor>
-      <arglist>(const T &amp;val1, const T &amp;val2) noexcept</arglist>
+      <anchor>ga3e6bbeba20969ce0e3ca5aca843a9e71</anchor>
+      <arglist>(const T &amp;val1, const T &amp;val2, const U &amp;... vals) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr const T &amp;</type>
       <name>max</name>
       <anchorfile>group__core.html</anchorfile>
-      <anchor>ga67052cab1c45673f85ee326e91aafbde</anchor>
-      <arglist>(const T &amp;val1, const T &amp;val2) noexcept</arglist>
+      <anchor>ga290899e08db4ce22c8e9f48a02bedaa3</anchor>
+      <arglist>(const T &amp;val1, const T &amp;val2, const U &amp;... vals) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr const T &amp;</type>
@@ -14732,6 +14879,20 @@
       <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9cadbd69ee9ae289a85ea34dbef8435d7c1">xz</enumvalue>
       <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca2151a2bc77807b81113febbf50c4bc95">yz</enumvalue>
       <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca2ffe4e77325d9a7152f7086ea7aa5114">max</enumvalue>
+    </member>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>lcm</name>
+      <anchorfile>group__math.html</anchorfile>
+      <anchor>ga747762e03956634201248a153ce0ce5e</anchor>
+      <arglist>(T val1, U val2, V... vals) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>gcd</name>
+      <anchorfile>group__math.html</anchorfile>
+      <anchor>ga54f9d1a2efa5ffdf81afdaa4fcb89fd6</anchor>
+      <arglist>(T val1, U val2, V... vals) noexcept</arglist>
     </member>
   </compound>
   <compound kind="group">
@@ -15399,6 +15560,27 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>is_integer</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga32715027f4d7ea16b52b2a2e00ca31f3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>any_integer</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga3660079b9cf5bd6f01ef9f5322c235f7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_integer</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga891ba12282ff535141b2e581867518fe</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>is_floating_point</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gae74155e0cf085141e1923124718915a4</anchor>
@@ -15462,9 +15644,37 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>any_const</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga8790fee03d9e3fe2dd3b1d126b08a2ce</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_const</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga1fce0d7c8fa9515365a671bdee77f722</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>is_volatile</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gaa1afdcda38765572b01f8112bea59913</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>any_volatile</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaef99eced8c220aaf5875212fdccd6fe2</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_volatile</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaabe1f5048446fbf9280d63fbb3f3d440</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -15476,9 +15686,37 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>any_cv</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga0901c12d4271170dee63a201878f49d5</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_cv</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga31a739e7f932a7386e9779e05c65e1ba</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>is_cvref</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga21f392701d987b745866ab36fa3c6242</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>any_cvref</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga3957082e3d9c3d7225b7f7f852afa357</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_cvref</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaf3bb0d8c33afd87750a47cb200a5ef57</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -15525,6 +15763,20 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>any_unbounded_array</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga0f5de953c30ac2d5aa79ccece0f5681a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_unbounded_array</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaa45d5a8ac607de08c4d7f2b1d275dc3d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>is_bounded_array</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gad0b97e37de851bc5aba414d527a4d0e1</anchor>
@@ -15532,9 +15784,37 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>any_bounded_array</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga62dc66d47da5a1d4420082e8c29bf978</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_bounded_array</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gae22dfc906ab84c2a644d7f635b00bf5d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>is_array</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga7a9d2c42a55dd3a859e8cd1381dfc845</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>any_array</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaa6e6a09626366fea9202ecaa1f42f414</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_array</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga10598e51bcfe8c2a8261c6617990eaea</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">

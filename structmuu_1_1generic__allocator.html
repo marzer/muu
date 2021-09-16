@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.4.5" name="generator"/>
+  <meta content="Poxy v0.5.0" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.4.5.css" rel="stylesheet"/>
-  <link href="poxy-0.4.5-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.4.5.js"></script>
+  <link href="poxy-0.5.0.css" rel="stylesheet"/>
+  <link href="poxy-0.5.0-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.0.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -76,17 +76,16 @@
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a3ff92fb10f884b6fe6285c7450f6fe66">allocate</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment) -&gt; void* <span class="m-label m-flat m-warning">pure virtual</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a3ff92fb10f884b6fe6285c7450f6fe66">allocate</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Requests a memory allocation.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a196542e2f3f158744bc57db630fd2659">allocate</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size) -&gt; void*</span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a196542e2f3f158744bc57db630fd2659">allocate</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span>
             </dt>
             <dd>Requests a memory allocation.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a57af54df9a861a22e38158c36fc05e35">allocate</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size) -&gt; void*</span>
+              <div class="m-doc-template">template&lt; Alignment&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a57af54df9a861a22e38158c36fc05e35">allocate</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span>
             </dt>
             <dd>Requests a memory allocation.</dd>
             <dt>
@@ -99,8 +98,7 @@
           <h2>Function documentation</h2>
           <section class="m-doc-details" id="a3ff92fb10f884b6fe6285c7450f6fe66"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">void* muu::<wbr/>generic_allocator::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3ff92fb10f884b6fe6285c7450f6fe66">allocate</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment) <span class="m-label m-warning">pure virtual</span></span></span>
+              <span class="m-doc-wrap-bumper">void* muu::<wbr/>generic_allocator::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3ff92fb10f884b6fe6285c7450f6fe66">allocate</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><span class="m-label m-warning">pure virtual</span></span></span>
             </h3>
             <p>Requests a memory allocation.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -127,7 +125,7 @@
           </div></section>
           <section class="m-doc-details" id="a196542e2f3f158744bc57db630fd2659"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">void* muu::<wbr/>generic_allocator::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a196542e2f3f158744bc57db630fd2659">allocate</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size)</span></span>
+              <span class="m-doc-wrap-bumper">void* muu::<wbr/>generic_allocator::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a196542e2f3f158744bc57db630fd2659">allocate</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span></span>
             </h3>
             <p>Requests a memory allocation.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -151,9 +149,9 @@
           </div></section>
           <section class="m-doc-details" id="a57af54df9a861a22e38158c36fc05e35"><div>
             <h3>
-              <div class="m-doc-template"> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment&gt;
+              <div class="m-doc-template"> template&lt; Alignment&gt;
               </div>
-              <span class="m-doc-wrap-bumper">void* muu::<wbr/>generic_allocator::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a57af54df9a861a22e38158c36fc05e35">allocate</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size)</span></span>
+              <span class="m-doc-wrap-bumper">void* muu::<wbr/>generic_allocator::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a57af54df9a861a22e38158c36fc05e35">allocate</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span></span>
             </h3>
             <p>Requests a memory allocation.</p>
             <table class="m-table m-fullwidth m-flat">
