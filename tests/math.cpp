@@ -272,3 +272,21 @@ TEST_CASE("math - normalize_angle_signed")
 	CHECK_NORMALIZE_ANGLE(constants<double>::pi * 3.5, -constants<double>::pi * 0.5);
 	CHECK_NORMALIZE_ANGLE(constants<double>::pi * 4.0, 0.0);
 }
+
+TEST_CASE("math - lcm")
+{
+	CHECK_AND_STATIC_ASSERT(muu::lcm(20, 42) == 420);
+	CHECK_AND_STATIC_ASSERT(muu::lcm(18, 24) == 72);
+	CHECK_AND_STATIC_ASSERT(muu::lcm(12, 15, 18) == 180);
+	CHECK_AND_STATIC_ASSERT(muu::lcm(4, 6, 8, 12) == 24);
+	CHECK_AND_STATIC_ASSERT(muu::lcm(330, 75, 450, 225, 40) == 19800);
+}
+
+TEST_CASE("math - gcd")
+{
+	CHECK_AND_STATIC_ASSERT(muu::gcd(20, 42) == 2);
+	CHECK_AND_STATIC_ASSERT(muu::gcd(18, 24) == 6);
+	CHECK_AND_STATIC_ASSERT(muu::gcd(12, 15, 18) == 3);
+	CHECK_AND_STATIC_ASSERT(muu::gcd(330, 75, 450, 225) == 15);
+	CHECK_AND_STATIC_ASSERT(muu::gcd(330, 75, 450, 225, 40) == 5);
+}

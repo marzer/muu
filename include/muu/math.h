@@ -20,6 +20,7 @@ MUU_DISABLE_WARNINGS;
 #else
 	#define MUU_HAS_MSVC_INTRINSICS 0
 #endif
+#include <numeric>
 MUU_ENABLE_WARNINGS;
 
 #include "impl/header_start.h"
@@ -488,7 +489,7 @@ namespace muu
 	}
 
 	/// \brief	Returns the absolute value of an integral type.
-	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
+	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
 	MUU_NODISCARD
 	MUU_ATTR(const)
 	MUU_ATTR(flatten)
@@ -822,8 +823,8 @@ namespace muu
 
 	#endif
 
-	/// \brief	Returns the floor of an integral value.
-	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
+	/// \brief	Returns the floor of an integer.
+	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
 	MUU_NODISCARD
 	MUU_ATTR(const)
 	MUU_ATTR(flatten)
@@ -970,8 +971,8 @@ namespace muu
 
 	#endif
 
-	/// \brief	Returns the ceiling of an integral value.
-	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
+	/// \brief	Returns the ceiling of an integer.
+	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
 	MUU_NODISCARD
 	MUU_ATTR(const)
 	MUU_ATTR(flatten)
@@ -1120,8 +1121,8 @@ namespace muu
 
 	#endif
 
-	/// \brief	Returns the square-root of an integral value.
-	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
+	/// \brief	Returns the square-root of an integer.
+	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
 	MUU_NODISCARD
 	MUU_ATTR(const)
 	constexpr double MUU_VECTORCALL sqrt(T x) noexcept
@@ -1286,8 +1287,8 @@ namespace muu
 
 	#endif
 
-	/// \brief	Returns the cosine of an integral value.
-	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
+	/// \brief	Returns the cosine of an integer.
+	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
 	MUU_NODISCARD
 	MUU_ATTR(const)
 	constexpr double MUU_VECTORCALL cos(T x) noexcept
@@ -1445,8 +1446,8 @@ namespace muu
 
 	#endif
 
-	/// \brief	Returns the sine of an integral value.
-	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
+	/// \brief	Returns the sine of an integer.
+	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
 	MUU_NODISCARD
 	MUU_ATTR(const)
 	constexpr double MUU_VECTORCALL sin(T x) noexcept
@@ -1595,8 +1596,8 @@ namespace muu
 
 	#endif
 
-	/// \brief	Returns the tangent of an integral value.
-	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
+	/// \brief	Returns the tangent of an integer.
+	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
 	MUU_NODISCARD
 	MUU_ATTR(const)
 	constexpr double MUU_VECTORCALL tan(T x) noexcept
@@ -1741,8 +1742,8 @@ namespace muu
 
 	#endif
 
-	/// \brief	Returns the arc cosine of an integral value.
-	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
+	/// \brief	Returns the arc cosine of an integer.
+	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
 	MUU_NODISCARD
 	MUU_ATTR(const)
 	constexpr double MUU_VECTORCALL acos(T x) noexcept
@@ -1899,8 +1900,8 @@ namespace muu
 
 	#endif
 
-	/// \brief	Returns the arc sine of an integral value.
-	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
+	/// \brief	Returns the arc sine of an integer.
+	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
 	MUU_NODISCARD
 	MUU_ATTR(const)
 	constexpr double MUU_VECTORCALL asin(T x) noexcept
@@ -2056,8 +2057,8 @@ namespace muu
 
 	#endif
 
-	/// \brief	Returns the arc tangent of an integral value.
-	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
+	/// \brief	Returns the arc tangent of an integer.
+	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
 	MUU_NODISCARD
 	MUU_ATTR(const)
 	constexpr double MUU_VECTORCALL atan(T x) noexcept
@@ -2392,8 +2393,8 @@ namespace muu
 
 	#endif
 
-	/// \brief	Normalizes the angle of an integral value.
-	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
+	/// \brief	Normalizes the angle of an integer.
+	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
 	MUU_NODISCARD
 	MUU_ATTR(const)
 	constexpr double MUU_VECTORCALL normalize_angle(T x) noexcept
@@ -2491,8 +2492,8 @@ namespace muu
 
 	#endif
 
-	/// \brief	Normalizes the angle of an integral value.
-	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
+	/// \brief	Normalizes the angle of an integer.
+	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
 	MUU_NODISCARD
 	MUU_ATTR(const)
 	constexpr double MUU_VECTORCALL normalize_angle_signed(T x) noexcept
@@ -2502,6 +2503,50 @@ namespace muu
 
 	/** @} */ // math::normalize_angle_signed
 #endif		  // normalize_angle_signed
+
+	/// \brief Returns the lowest common multiple of two or more integers.
+	///
+	/// \remark This is a variadic version of std::lcm.
+	MUU_CONSTRAINED_TEMPLATE((all_integer<T, U, V...>), typename T, typename U, typename... V)
+	MUU_NODISCARD
+	MUU_ATTR(const)
+	constexpr auto MUU_VECTORCALL lcm(T val1, U val2, V... vals) noexcept
+	{
+		if constexpr (sizeof...(vals) == 0u)
+		{
+			return std::lcm(val1, val2);
+		}
+		else if constexpr (sizeof...(vals) == 2u)
+		{
+			return std::lcm(std::lcm(val1, val2), std::lcm(vals...));
+		}
+		else
+		{
+			return muu::lcm(std::lcm(val1, val2), vals...);
+		}
+	}
+
+	/// \brief Returns the lowest common multiple of two or more integers.
+	///
+	/// \remark This is a variadic version of std::gcd.
+	MUU_CONSTRAINED_TEMPLATE((all_integer<T, U, V...>), typename T, typename U, typename... V)
+	MUU_NODISCARD
+	MUU_ATTR(const)
+	constexpr auto MUU_VECTORCALL gcd(T val1, U val2, V... vals) noexcept
+	{
+		if constexpr (sizeof...(vals) == 0u)
+		{
+			return std::gcd(val1, val2);
+		}
+		else if constexpr (sizeof...(vals) == 2u)
+		{
+			return std::gcd(std::gcd(val1, val2), std::gcd(vals...));
+		}
+		else
+		{
+			return muu::gcd(std::gcd(val1, val2), vals...);
+		}
+	}
 
 	/** @} */ // math
 }

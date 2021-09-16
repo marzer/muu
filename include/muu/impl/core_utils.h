@@ -58,28 +58,48 @@ namespace muu
 
 	/// \endcond
 
-	/// \brief	Returns the minimum of two values.
+	/// \brief	Returns the minimum of two or more values.
 	/// \ingroup core
 	///
-	/// \remark This is equivalent to std::min without requiring you to drag in the enormity of &lt;algorithm&gt;.
-	template <typename T>
+	/// \remark This is a variadic version of std::min.
+	template <typename T, typename... U>
 	MUU_NODISCARD
-	MUU_ALWAYS_INLINE
-	constexpr const T& min(const T& val1, const T& val2) noexcept
+	constexpr const T& min(const T& val1, const T& val2, const U&... vals) noexcept
 	{
-		return val1 < val2 ? val1 : val2;
+		if constexpr (sizeof...(vals) == 0u)
+		{
+			return val1 < val2 ? val1 : val2;
+		}
+		else if constexpr (sizeof...(vals) == 2u)
+		{
+			return muu::min(muu::min(val1, val2), muu::min(vals...));
+		}
+		else
+		{
+			return muu::min(muu::min(val1, val2), vals...);
+		}
 	}
 
-	/// \brief	Returns the maximum of two values.
+	/// \brief	Returns the maximum of two or more values.
 	/// \ingroup core
 	///
-	/// \remark This is equivalent to std::max without requiring you to drag in the enormity of &lt;algorithm&gt;.
-	template <typename T>
+	/// \remark This is a variadic version of std::max.
+	template <typename T, typename... U>
 	MUU_NODISCARD
-	MUU_ALWAYS_INLINE
-	constexpr const T& max(const T& val1, const T& val2) noexcept
+	constexpr const T& max(const T& val1, const T& val2, const U&... vals) noexcept
 	{
-		return val1 < val2 ? val2 : val1;
+		if constexpr (sizeof...(vals) == 0u)
+		{
+			return val1 < val2 ? val2 : val1;
+		}
+		else if constexpr (sizeof...(vals) == 2u)
+		{
+			return muu::max(muu::max(val1, val2), muu::max(vals...));
+		}
+		else
+		{
+			return muu::max(muu::max(val1, val2), vals...);
+		}
 	}
 
 	/// \brief	Returns a value clamped between two bounds (inclusive).

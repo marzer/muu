@@ -1082,11 +1082,11 @@ namespace muu
 
 	/// \brief Are any of the named types enums or reference-to-enum?
 	template <typename T, typename... U>
-	inline constexpr bool any_enum = is_enum<T> || (false || ... || is_enum<U>);
+	inline constexpr bool any_enum = (is_enum<T> || ... || is_enum<U>);
 
 	/// \brief Are all of the named types enums or reference-to-enum?
 	template <typename T, typename... U>
-	inline constexpr bool all_enum = is_enum<T> && (true && ... && is_enum<U>);
+	inline constexpr bool all_enum = (is_enum<T> && ... && is_enum<U>);
 
 	/// \brief Is a type a C++11 scoped enum class, or reference to one?
 	template <typename T>
@@ -1111,12 +1111,12 @@ namespace muu
 	/// \brief Are any of the named types unsigned or reference-to-unsigned?
 	/// \remarks True for enums backed by unsigned integers.
 	template <typename T, typename... U>
-	inline constexpr bool any_unsigned = is_unsigned<T> || (false || ... || is_unsigned<U>);
+	inline constexpr bool any_unsigned = (is_unsigned<T> || ... || is_unsigned<U>);
 
 	/// \brief Are all of the named types unsigned or reference-to-unsigned?
 	/// \remarks True for enums backed by unsigned integers.
 	template <typename T, typename... U>
-	inline constexpr bool all_unsigned = is_unsigned<T> && (true && ... && is_unsigned<U>);
+	inline constexpr bool all_unsigned = (is_unsigned<T> && ... && is_unsigned<U>);
 
 	/// \brief Is a type signed or reference-to-signed?
 	/// \remarks True for enums backed by signed integers.
@@ -1125,31 +1125,29 @@ namespace muu
 	template <typename T>
 	inline constexpr bool is_signed = std::is_signed_v<remove_enum<remove_cvref<T>>>
 		|| is_same_as_any<remove_enum<remove_cvref<T>>,
-			half
 #if MUU_HAS_INT128
-			, int128_t
+			int128_t,
 #endif
 #if MUU_HAS_FLOAT128
-			, float128_t
+			float128_t,
 #endif
 #if MUU_HAS_FLOAT16
-			, _Float16
+			_Float16,
 #endif
 #if MUU_HAS_FP16
-			, __fp16
+			__fp16,
 #endif
-		>
-	;
+			half>;
 
 	/// \brief Are any of the named types signed or reference-to-signed?
 	/// \remarks True for enums backed by signed integers.
 	template <typename T, typename... U>
-	inline constexpr bool any_signed = is_signed<T> || (false || ... || is_signed<U>);
+	inline constexpr bool any_signed = (is_signed<T> || ... || is_signed<U>);
 
 	/// \brief Are all of the named types signed or reference-to-signed?
 	/// \remarks True for enums backed by signed integers.
 	template <typename T, typename... U>
-	inline constexpr bool all_signed = is_signed<T> && (true && ... && is_signed<U>);
+	inline constexpr bool all_signed = (is_signed<T> && ... && is_signed<U>);
 
 	/// \brief Is a type an integral type or a reference to an integral type?
 	/// \remarks True for enums.
@@ -1165,13 +1163,45 @@ namespace muu
 	/// \remarks True for enums.
 	/// \remarks True for #int128_t and #uint128_t (where supported).
 	template <typename T, typename... U>
-	inline constexpr bool any_integral = is_integral<T> || (false || ... || is_integral<U>);
+	inline constexpr bool any_integral = (is_integral<T> || ... || is_integral<U>);
 
 	/// \brief Are all of the named types integral or reference-to-integral?
 	/// \remarks True for enums.
 	/// \remarks True for #int128_t and #uint128_t (where supported).
 	template <typename T, typename... U>
-	inline constexpr bool all_integral = is_integral<T> && (true && ... && is_integral<U>);
+	inline constexpr bool all_integral = (is_integral<T> && ... && is_integral<U>);
+
+	/// \brief Is a type an arithmetic integer type, or reference to one?
+	/// \remarks True for #int128_t and #uint128_t (where supported).
+	/// \remarks False for enums, booleans, and character types.
+	template <typename T>
+	inline constexpr bool is_integer = is_same_as_any<remove_cvref<T>,
+#if MUU_HAS_INT128
+													  int128_t,
+													  uint128_t,
+#endif
+													  signed char,
+													  signed short,
+													  signed int,
+													  signed long,
+													  signed long long,
+													  unsigned char,
+													  unsigned short,
+													  unsigned int,
+													  unsigned long,
+													  unsigned long long>;
+
+	/// \brief Are any of the named types arithmetic integers, or reference to them?
+	/// \remarks True for #int128_t and #uint128_t (where supported).
+	/// \remarks False for enums, booleans, and character types.
+	template <typename T, typename... U>
+	inline constexpr bool any_integer = (is_integer<T> || ... || is_integer<U>);
+
+	/// \brief Are all of the named types arithmetic integers, or reference to them?
+	/// \remarks True for #int128_t and #uint128_t (where supported).
+	/// \remarks False for enums, booleans, and character types.
+	template <typename T, typename... U>
+	inline constexpr bool all_integer = (is_integer<T> && ... && is_integer<U>);
 
 	/// \brief Is a type a floating-point or reference-to-floating-point?
 	/// \remarks True for muu::half.
@@ -1179,30 +1209,29 @@ namespace muu
 	template <typename T>
 	inline constexpr bool is_floating_point = std::is_floating_point_v<std::remove_reference_t<T>>
 		|| is_same_as_any<remove_cvref<T>,
-			half
 #if MUU_HAS_FLOAT128
-			, float128_t
+			float128_t,
 #endif
 #if MUU_HAS_FLOAT16
-			, _Float16
+			_Float16,
 #endif
 #if MUU_HAS_FP16
-			, __fp16
+			__fp16,
 #endif
-		>
+			half>
 	;
 
 	/// \brief Are any of the named types floating-point or reference-to-floating-point?
 	/// \remarks True for muu::half.
 	/// \remarks True for _Float16 and #float128_t (where supported).
 	template <typename T, typename... U>
-	inline constexpr bool any_floating_point = is_floating_point<T> || (false || ... || is_floating_point<U>);
+	inline constexpr bool any_floating_point = (is_floating_point<T> || ... || is_floating_point<U>);
 
 	/// \brief Are all of the named types floating-point or reference-to-floating-point?
 	/// \remarks True for muu::half.
 	/// \remarks True for _Float16 and #float128_t (where supported).
 	template <typename T, typename... U>
-	inline constexpr bool all_floating_point = is_floating_point<T> && (true && ... && is_floating_point<U>);
+	inline constexpr bool all_floating_point = (is_floating_point<T> && ... && is_floating_point<U>);
 
 	/// \brief Is a type one of the standard c++ arithmetic types, or a reference to one?
 	template <typename T>
@@ -1213,25 +1242,20 @@ namespace muu
 	/// \remarks True for #int128_t, #uint128_t, __fp16, _Float16 and #float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_extended_arithmetic = is_same_as_any<remove_cvref<T>,
-																  half
 #if MUU_HAS_INT128
-																  ,
 																  int128_t,
-																  uint128_t
+																  uint128_t,
 #endif
 #if MUU_HAS_FLOAT128
-																  ,
-																  float128_t
+																  float128_t,
 #endif
 #if MUU_HAS_FLOAT16
-																  ,
-																  _Float16
+																  _Float16,
 #endif
 #if MUU_HAS_FP16
-																  ,
-																  __fp16
+																  __fp16,
 #endif
-																  >;
+																  half>;
 
 	/// \brief Is a type arithmetic or reference-to-arithmetic?
 	/// \remarks True for muu::half.
@@ -1243,17 +1267,25 @@ namespace muu
 	/// \remarks True for muu::half.
 	/// \remarks True for #int128_t, #uint128_t, _Float16 and #float128_t (where supported).
 	template <typename T, typename... U>
-	inline constexpr bool any_arithmetic = is_arithmetic<T> || (false || ... || is_arithmetic<U>);
+	inline constexpr bool any_arithmetic = (is_arithmetic<T> || ... || is_arithmetic<U>);
 
 	/// \brief Are all of the named types arithmetic or reference-to-arithmetic?
 	/// \remarks True for muu::half.
 	/// \remarks True for #int128_t, #uint128_t, _Float16 and #float128_t (where supported).
 	template <typename T, typename... U>
-	inline constexpr bool all_arithmetic = is_arithmetic<T> && (true && ... && is_arithmetic<U>);
+	inline constexpr bool all_arithmetic = (is_arithmetic<T> && ... && is_arithmetic<U>);
 
 	/// \brief Is a type const or reference-to-const?
 	template <typename T>
 	inline constexpr bool is_const = std::is_const_v<std::remove_reference_t<T>>;
+
+	/// \brief Are any of the named types const or reference-to-const?
+	template <typename T, typename... U>
+	inline constexpr bool any_const = (is_const<T> || ... || is_const<U>);
+
+	/// \brief Are all of the named types const or reference-to-const?
+	template <typename T, typename... U>
+	inline constexpr bool all_const = (is_const<T> && ... && is_const<U>);
 
 	/// \brief Adds a const qualifier to a type or reference.
 	template <typename T>
@@ -1278,6 +1310,14 @@ namespace muu
 	/// \brief Is a type volatile or reference-to-volatile?
 	template <typename T>
 	inline constexpr bool is_volatile = std::is_volatile_v<std::remove_reference_t<T>>;
+
+	/// \brief Are any of the named types volatile or reference-to-volatile?
+	template <typename T, typename... U>
+	inline constexpr bool any_volatile = (is_volatile<T> || ... || is_volatile<U>);
+
+	/// \brief Are all of the named types volatile or reference-to-volatile?
+	template <typename T, typename... U>
+	inline constexpr bool all_volatile = (is_volatile<T> && ... && is_volatile<U>);
 
 	/// \brief Adds a volatile qualifier to a type or reference.
 	template <typename T>
@@ -1321,9 +1361,17 @@ namespace muu
 	template <typename T, typename CopyFrom>
 	using copy_cv = copy_const<copy_volatile<T, CopyFrom>, CopyFrom>;
 
-	/// \brief Is a type const- or volatile-qualified?
+	/// \brief Is a type const and/or volatile-qualified?
 	template <typename T>
 	inline constexpr bool is_cv = std::is_const_v<T> || std::is_volatile_v<T>;
+
+	/// \brief Are any of the named types const and/or volatile-qualified, or references to const and/or volatile-qualified?
+	template <typename T, typename... U>
+	inline constexpr bool any_cv = (is_cv<T> || ... || is_cv<U>);
+
+	/// \brief Are all of the named types const and/or volatile-qualified, or references to const and/or volatile-qualified?
+	template <typename T, typename... U>
+	inline constexpr bool all_cv = (is_cv<T> && ... && is_cv<U>);
 
 	/// \cond
 	// deprecations
@@ -1340,6 +1388,14 @@ namespace muu
 	/// \brief Is a type const, volatile, or a reference?
 	template <typename T>
 	inline constexpr bool is_cvref = std::is_const_v<T> || std::is_volatile_v<T> || std::is_reference_v<T>;
+
+	/// \brief Are any of the named types const, volatile, or a reference?
+	template <typename T, typename... U>
+	inline constexpr bool any_cvref = (is_cvref<T> || ... || is_cvref<U>);
+
+	/// \brief Are all of the named types const, volatile, or a reference?
+	template <typename T, typename... U>
+	inline constexpr bool all_cvref = (is_cvref<T> && ... && is_cvref<U>);
 
 	/// \brief Removes any `noexcept` specifier from a functional type.
 	template <typename T>
@@ -1409,15 +1465,13 @@ namespace muu
 	/// \brief Is a type a built-in text code unit (character) type, or reference to one?
 	template <typename T>
 	inline constexpr bool is_code_unit = is_same_as_any<remove_cvref<T>,
+#if MUU_HAS_CHAR8
+														char8_t,
+#endif
 														char,
 														wchar_t,
 														char16_t,
-														char32_t
-#if MUU_HAS_CHAR8
-														,
-														char8_t
-#endif
-														>;
+														char32_t>;
 
 	/// \brief Is a type a built-in text character (code unit) type, or reference to one?
 	/// \remark This an alias for #muu::is_code_unit.
@@ -1438,14 +1492,38 @@ namespace muu
 	template <typename T>
 	inline constexpr bool is_unbounded_array = impl::is_unbounded_array_<std::remove_reference_t<T>>::value;
 
+	/// \brief Are any of the named types an unbounded array (`T[]`), or a reference to one?
+	template <typename T, typename... U>
+	inline constexpr bool any_unbounded_array = (is_unbounded_array<T> || ... || is_unbounded_array<U>);
+
+	/// \brief Are all of the named types an unbounded array (`T[]`), or a reference to one?
+	template <typename T, typename... U>
+	inline constexpr bool all_unbounded_array = (is_unbounded_array<T> && ... && is_unbounded_array<U>);
+
 	/// \brief Is a type a bounded array (`T[N]`), or reference to one?
 	/// \remark This is similar to C++20's std::is_bounded_array.
 	template <typename T>
 	inline constexpr bool is_bounded_array = impl::is_bounded_array_<std::remove_reference_t<T>>::value;
 
+	/// \brief Are any of the named types a bounded array (`T[N]`), or a reference to one?
+	template <typename T, typename... U>
+	inline constexpr bool any_bounded_array = (is_bounded_array<T> || ... || is_bounded_array<U>);
+
+	/// \brief Are all of the named types a bounded array (`T[N]`), or a reference to one?
+	template <typename T, typename... U>
+	inline constexpr bool all_bounded_array = (is_bounded_array<T> && ... && is_bounded_array<U>);
+
 	/// \brief Is a type an array, or reference to one?
 	template <typename T>
 	inline constexpr bool is_array = is_unbounded_array<T> || is_bounded_array<T>;
+
+	/// \brief Are any of the named types arrays, or references to arrays?
+	template <typename T, typename... U>
+	inline constexpr bool any_array = (is_array<T> || ... || is_array<U>);
+
+	/// \brief Are all of the named types arrays, or references to arrays?
+	template <typename T, typename... U>
+	inline constexpr bool all_array = (is_array<T> && ... && is_array<U>);
 
 	/// \cond
 	namespace impl
@@ -1614,8 +1692,7 @@ namespace muu
 		template <typename T>
 		using has_size_member_func_impl_ = decltype(std::declval<T>().size());
 		template <typename T, bool = is_detected<has_size_member_func_impl_, T>>
-		inline constexpr bool has_size_member_func_ = is_integral<decltype(std::declval<T>().size())>&&
-			is_arithmetic<decltype(std::declval<T>().size())>; // exclude bools, chars and enums
+		inline constexpr bool has_size_member_func_ = is_integer<decltype(std::declval<T>().size())>;
 		template <typename T>
 		inline constexpr bool has_size_member_func_<T, false> = false;
 	}
@@ -1802,7 +1879,7 @@ namespace muu
 
 		// promotes ints to doubles, keeps floats as-is, as per the behaviour of std::sqrt, std::lerp, etc.
 		template <typename... T>
-		using std_math_common_type = highest_ranked<std::conditional_t<is_integral<T> && !is_enum<T>, double, T>...>;
+		using std_math_common_type = highest_ranked<std::conditional_t<is_integer<T>, double, T>...>;
 
 		struct any_type
 		{

@@ -317,6 +317,7 @@ static_assert(!is_signed<unsigned&>);
 static_assert(!is_signed<an_enum_class&>);
 
 // is_integral
+static_assert(is_integral<bool>);
 static_assert(is_integral<short>);
 static_assert(is_integral<int>);
 static_assert(is_integral<long>);
@@ -344,7 +345,37 @@ static_assert(!is_integral<half&>);
 static_assert(!is_integral<float&>);
 static_assert(!is_integral<double&>);
 
+// is_integer
+static_assert(!is_integer<bool>);
+static_assert(is_integer<short>);
+static_assert(is_integer<int>);
+static_assert(is_integer<long>);
+static_assert(is_integer<long long>);
+static_assert(is_integer<unsigned short>);
+static_assert(is_integer<unsigned>);
+static_assert(is_integer<unsigned long>);
+static_assert(is_integer<unsigned long long>);
+static_assert(!is_integer<an_enum_class>);
+static_assert(!is_integer<an_enum>);
+static_assert(!is_integer<half>);
+static_assert(!is_integer<float>);
+static_assert(!is_integer<double>);
+static_assert(is_integer<short&>);
+static_assert(is_integer<int&>);
+static_assert(is_integer<long&>);
+static_assert(is_integer<long long&>);
+static_assert(is_integer<unsigned short&>);
+static_assert(is_integer<unsigned&>);
+static_assert(is_integer<unsigned long&>);
+static_assert(is_integer<unsigned long long&>);
+static_assert(!is_integer<an_enum_class&>);
+static_assert(!is_integer<an_enum&>);
+static_assert(!is_integer<half&>);
+static_assert(!is_integer<float&>);
+static_assert(!is_integer<double&>);
+
 // is_floating_point
+static_assert(!is_floating_point<bool>);
 static_assert(!is_floating_point<short>);
 static_assert(!is_floating_point<int>);
 static_assert(!is_floating_point<long>);
@@ -373,6 +404,7 @@ static_assert(is_floating_point<float&>);
 static_assert(is_floating_point<double&>);
 
 // is_arithmetic
+static_assert(is_arithmetic<bool>);
 static_assert(is_arithmetic<short>);
 static_assert(is_arithmetic<int>);
 static_assert(is_arithmetic<long>);

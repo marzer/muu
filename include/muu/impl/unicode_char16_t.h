@@ -170,7 +170,7 @@ namespace muu
 		const auto child_index_0 = (static_cast<uint_least64_t>(c) - 0xAAull) / 0x3FDull;
 		if ((1ull << child_index_0) & 0x3FC0000000000200ull)
 			return false;
-		if ((1ull << child_index_0) & 0x1FF97FFFF7E000ull)
+		if ((1ull << child_index_0) & 0x1FF9FFFFF7E000ull)
 			return true;
 		switch (child_index_0)
 		{
@@ -198,11 +198,11 @@ namespace muu
 					0xFFFFFFFFFFFFFFFFu,	0xFFFFFFFFFFFFFFFFu,	0xFE04FFFFFFFFFDFFu,	0x00000003FFFFFFFFu,
 					0xFFFFFE0000000000u,	0xFE00000000000F0Fu,	0x0000000FFFFFFFFFu,	0xFFFFFFFFFFFFFD80u,
 					0xC0005FFFFFFFFFFFu,	0xFFFFFA0001380180u,	0xFFFFFFC0000001FFu,	0x7FFFFFFFFFFFFFFFu,
-					0xFFFFFFF800000400u,	0x20087FFFFE08600Fu,	0xFE03FFFFFE000002u,	0x1E0000000000000Fu,
+					0xFFFFFFF800000400u,	0x20087FFFFE08600Fu,	0xFE03FFFFFE000002u,	0x1E0000FDFFFFFE0Fu,
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x4A7ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x4A7ull) % 0x40ull));
-				// 623 code units from 28 ranges (spanning a search area of 1021)
+				// 653 code units from 30 ranges (spanning a search area of 1021)
 			}
 			case 0x02: // [2] 08A4 - 0CA0
 			{
@@ -210,14 +210,14 @@ namespace muu
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
 				{
-					0x0000000FFFFDFFFFu,	0xFFFFFFFF00000000u,	0x3FF01000023FFFFFu,	0xFFFF99FE1FFFE000u,
+					0x0000003FFFFFFFFFu,	0xFFFFFFFF00000000u,	0x3FF01000023FFFFFu,	0xFFFF99FE1FFFE000u,
 					0x3B000400023C5FDFu,	0xFFFF987E01003000u,	0x05E000000036DFDFu,	0xFFFFBBFE0001C000u,
 					0x30001000023EDFDFu,	0xFFFF99FE00200000u,	0x3B000000023EDFDFu,	0x8D63DC7E80002000u,
-					0x00001000003FFC71u,	0xFFFFDDFE00000000u,	0x30700000023FFFDFu,	0x1FFFDDFE10000000u,
+					0x00001000003FFC71u,	0xFFFFDDFE00000000u,	0x32700000023FFFDFu,	0x1FFFDDFE10000000u,
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x8A4ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x8A4ull) % 0x40ull));
-				// 448 code units from 71 ranges (spanning a search area of 1021)
+				// 452 code units from 71 ranges (spanning a search area of 1021)
 			}
 			case 0x03: // [3] 0CA1 - 109D
 			{
@@ -227,14 +227,14 @@ namespace muu
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
 				{
-					0xA000000011F7FEFFu,	0xFFFEEFF800030001u,	0xC038200013FFFFFFu,	0xFE3FFFF07E000001u,
+					0xB000000011F7FEFFu,	0xFFFEEFF800030001u,	0xC038200013FFFFFFu,	0xFE3FFFF07E000001u,
 					0x0000003F97FDFFFFu,	0xFFFFFFFF00000000u,	0x0000003F8006FFFFu,	0xFFFFFBEB00000000u,
 					0x7800002F9006FFD7u,	0x0000000080000000u,	0xFFFFFF7F80000000u,	0x00000F8000000FFFu,
 					0x0000000000000000u,	0xFFFFFFFF80000000u,	0x1E1F8000400003FFu,	0x00002001FFF0E031u,
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xCA1ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xCA1ull) % 0x40ull));
-				// 392 code units from 47 ranges (spanning a search area of 1006)
+				// 393 code units from 47 ranges (spanning a search area of 1006)
 			}
 			case 0x04: // [4] 109E - 149A
 			{
@@ -261,12 +261,12 @@ namespace muu
 				{
 					0xFFFFFFFFFFFFFFFFu,	0xFFFFFFFFFFFFFFFFu,	0xFFFFFFFFFFFFFFFFu,	0xFFFFFFFFFFFFFFFFu,
 					0xFFFFFFFFFFFFFFFFu,	0xFFFFFFFFFFFFFFFFu,	0xFFFFFFFFFFFFFFFFu,	0xFFFFFFDFFFF3FFFFu,
-					0xFFFFFFFFFFFFFFE0u,	0x007BFFE03FC0FFFFu,	0x007FFFE0007FFFE0u,	0xFFFFFFE0003BFFE0u,
+					0xFFFFFFFFFFFFFFE0u,	0x007FFFE03FC0FFFFu,	0x007FFFE0007FFFF0u,	0xFFFFFFE0003BFFE0u,
 					0x1000000001FFFFFFu,	0x0000000000000002u,	0xFFFFFFFFFFFFFFE0u,	0x1FFFF3E03FFFFFFFu,
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x149Bull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x149Bull) % 0x40ull));
-				// 826 code units from 17 ranges (spanning a search area of 1021)
+				// 828 code units from 16 ranges (spanning a search area of 1021)
 			}
 			case 0x06: // [6] 1898 - 1C94
 			{
@@ -276,12 +276,12 @@ namespace muu
 				{
 					0xFFFFFFFFFF05FFFFu,	0xFFFFFF003FFFFFFFu,	0xFF0000000000007Fu,	0xFFFFFF001F3FFFFFu,
 					0x0003FFFFFF0FFFFFu,	0x7FFFFF0000000000u,	0x1FFFFFFFFFFFFF00u,	0x0000000000000000u,
-					0x0000000000008000u,	0xFFFFE00000000000u,	0x000FE0000FFFFFFFu,	0xFFFFF80000000000u,
+					0x0000000000008000u,	0xFFFFE00000000000u,	0x001FE0000FFFFFFFu,	0xFFFFF80000000000u,
 					0xFFFFFFFC00C001FFu,	0xFFFFFF0000003FFFu,	0x00E0000000000FFFu,	0x1F01FF3FFFFFFFFCu,
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x1898ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x1898ull) % 0x40ull));
-				// 520 code units from 21 ranges (spanning a search area of 1021)
+				// 521 code units from 21 ranges (spanning a search area of 1021)
 			}
 			case 0x07: // [7] 1C95 - 2091
 			{
@@ -315,7 +315,7 @@ namespace muu
 				// 59 code units from 15 ranges (spanning a search area of 243)
 				MUU_UNREACHABLE;
 			}
-			case 0x0A: return (u'\u2C00' <= c && c <= u'\u2C2E') || (u'\u2C30' <= c && c <= u'\u2C5E') || u'\u2C60' <= c;
+			case 0x0A: return u'\u2C00' <= c;
 			case 0x0B: // [11] 2C89 - 3085
 			{
 				MUU_ASSUME(u'\u2C89' <= c && c <= u'\u3085');
@@ -347,7 +347,6 @@ namespace muu
 				// 430 code units from 9 ranges (spanning a search area of 1021)
 			}
 			case 0x13: return c <= u'\u4DBF' || u'\u4E00' <= c;
-			case 0x27: return c <= u'\u9FFC' || u'\uA000' <= c;
 			case 0x29: // [41] A42F - A82B
 			{
 				if (c > u'\uA822')
@@ -359,11 +358,11 @@ namespace muu
 					0xFFFFFFFFFFFFFFFFu,	0x000000003FFFFFFFu,	0xFFFFFFFE00000000u,	0xFFFFFFFFFFFE7FFFu,
 					0xFFFFFFFFFFFFFFFFu,	0xFFFFFFFFFFFFFFFFu,	0xFFFFFFFFFFFFFFFFu,	0x1801FFFE3FFFFFFFu,
 					0xFFFFFFFFFFFE0000u,	0xFFFE7FFFFFFF0000u,	0x007FFFFFFFFFFFFFu,	0xFFF9FF0000000000u,
-					0xFFFFFFFFFFFFFFFFu,	0xFFFFFFFFF3FFFFFFu,	0x000000000FF9FFFFu,	0x000FFFFFEF77FFC0u,
+					0xFFFFFFFFFFFFFFFFu,	0xFFFFFFFFF3FFFFFFu,	0x000007D60FFFFFFFu,	0x000FFFFFEF77FFF8u,
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA42Full) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xA42Full) % 0x40ull));
-				// 792 code units from 16 ranges (spanning a search area of 1012)
+				// 805 code units from 18 ranges (spanning a search area of 1012)
 			}
 			case 0x2A: // [42] A82C - AC28
 			{
@@ -416,7 +415,7 @@ namespace muu
 			}
 			default: MUU_UNREACHABLE;
 		}
-		// 48857 code units from 378 ranges (spanning a search area of 65331)
+		// 48913 code units from 378 ranges (spanning a search area of 65331)
 		MUU_UNREACHABLE;
 	}
 
@@ -514,7 +513,7 @@ namespace muu
 					return false;
 				
 				return c == u'\u2C71'
-					|| (c <= u'\u2C6C' && (1ull << (static_cast<uint_least64_t>(c) - 0x2C30u)) & 0x15627FFFFFFFFFFFull);
+					|| (c <= u'\u2C6C' && (1ull << (static_cast<uint_least64_t>(c) - 0x2C30u)) & 0x1562FFFFFFFFFFFFull);
 			}
 			case 0x0B: // [11] 2C73 - 306D
 			{
@@ -534,39 +533,40 @@ namespace muu
 			}
 			case 0x29: // [41] A3DD - A7D7
 			{
-				if (u'\uA641' > c || c > u'\uA7CA')
+				if (u'\uA641' > c)
 					return false;
+				MUU_ASSUME(c <= u'\uA7D7');
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
 				{
 					0x0000155555555555u,	0x000000001D555555u,	0x0000000000000000u,	0x5555D55400000000u,
-					0x4AFFD55555555555u,	0x55504155555D2855u,	0x0000000000000284u,
+					0x4AFFD55555555555u,	0x55504155555D2855u,	0x0000000000550285u,
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA641ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xA641ull) % 0x40ull));
-				// 121 code units from 106 ranges (spanning a search area of 394)
+				// 126 code units from 111 ranges (spanning a search area of 407)
 			}
 			case 0x2A: // [42] A7D8 - ABD2
 			{
-				if (u'\uA7F6' > c || c > u'\uABBF')
+				if (u'\uA7D9' > c || c > u'\uABBF')
 					return false;
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
 				{
-					0x000000000000001Du,	0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,
+					0x00000003A0000001u,	0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,
 					0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,
 					0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,
-					0xFC00000000000000u,	0xFC07FFDFFFFFFFFFu,	0xFFFFFFFFFFFFFFFFu,	0x00000000000003FFu,
+					0x0000000000000000u,	0xFFFFFFFFFF800000u,	0xFFFFFFFFFF80FFFBu,	0x0000007FFFFFFFFFu,
 				};
-				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA7F6ull) / 0x40ull]
-					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xA7F6ull) % 0x40ull));
-				// 140 code units from 5 ranges (spanning a search area of 970)
+				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA7D9ull) / 0x40ull]
+					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xA7D9ull) % 0x40ull));
+				// 141 code units from 6 ranges (spanning a search area of 999)
 			}
 			case 0x3E: return u'\uFB00' <= c && c <= u'\uFB17' && (1u << (static_cast<uint_least32_t>(c) - 0xFB00u)) & 0xF8007Fu;
 			case 0x3F: return u'\uFF41' <= c;
 			default: MUU_UNREACHABLE;
 		}
-		// 1601 code units from 617 ranges (spanning a search area of 65201)
+		// 1608 code units from 623 ranges (spanning a search area of 65201)
 		MUU_UNREACHABLE;
 	}
 
@@ -816,11 +816,11 @@ namespace muu
 				
 				switch ((static_cast<uint_least64_t>(c) - 0x2C00ull) / 0x40ull)
 				{
-					case 0x00: return c <= u'\u2C2E';
+					case 0x00: return c <= u'\u2C2F';
 					case 0x01: return u'\u2C60' <= c && (1u << (static_cast<uint_least32_t>(c) - 0x2C60u)) & 0x25EA9Du;
 					default: MUU_UNREACHABLE;
 				}
-				// 60 code units from 9 ranges (spanning a search area of 118)
+				// 61 code units from 9 ranges (spanning a search area of 118)
 				MUU_UNREACHABLE;
 			}
 			case 0x0B: // [11] 2C7E - 3077
@@ -846,17 +846,17 @@ namespace muu
 				constexpr uint_least64_t bitmask_table_1[] = 
 				{
 					0x0000155555555555u,	0x0000000005555555u,	0x0000000000000000u,	0x5554555400000000u,
-					0x6A00555555555555u,	0x555F7D5555452855u,	0x0000000000000004u,
+					0x6A00555555555555u,	0x555F7D5555452855u,	0x0000000000000005u,
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA640ull) / 0x40ull]
 					& (0x1ull << (static_cast<uint_least64_t>(c) % 0x40ull));
-				// 113 code units from 104 ranges (spanning a search area of 387)
+				// 114 code units from 105 ranges (spanning a search area of 387)
 			}
-			case 0x2A: return c <= u'\uA7F5' && (1ull << (static_cast<uint_least64_t>(c) - 0xA7C4u)) & 0x200000000002Full;
+			case 0x2A: return c <= u'\uA7F5' && (1ull << (static_cast<uint_least64_t>(c) - 0xA7C4u)) & 0x200000014102Full;
 			case 0x3F: return u'\uFF21' <= c;
 			default: MUU_UNREACHABLE;
 		}
-		// 1138 code units from 602 ranges (spanning a search area of 65147)
+		// 1143 code units from 606 ranges (spanning a search area of 65147)
 		MUU_UNREACHABLE;
 	}
 
@@ -1054,13 +1054,13 @@ namespace muu
 				constexpr uint_least64_t bitmask_table_1[] = 
 				{
 					0x0000001000000001u,	0x000000003FFFFFF8u,	0xFE00000000000000u,	0xC00000000000000Fu,
-					0xF77FDE000001007Fu,	0x0000700000000001u,	0x0000000000000000u,	0xFFDFFFC000000000u,
+					0xF77FDE000001007Fu,	0x0000700000000001u,	0x0007F80000000000u,	0xFFDFFFFFE0000000u,
 					0x00000000007FFFFFu,	0x006007F7FFFEE000u,	0x0000000000700000u,	0x00600401CCFE8000u,
 					0x0000000000720000u,	0x00000011CC3E8000u,	0x0000000000700118u,	0x00000001DDFE8000u,
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x6EDull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x6EDull) % 0x40ull));
-				// 208 code units from 38 ranges (spanning a search area of 993)
+				// 225 code units from 39 ranges (spanning a search area of 993)
 			}
 			case 0x02: // [2] 0ADA - 0EC6
 			{
@@ -1070,13 +1070,13 @@ namespace muu
 				constexpr uint_least64_t bitmask_table_1[] = 
 				{
 					0x00000003BF000003u,	0x00380E67F4000000u,	0x0000000100000003u,	0x00200F71F0000000u,
-					0x00000007C0000000u,	0x00180F77F0000000u,	0x0000000380000003u,	0x00180F77F4000000u,
+					0x00000007C0000000u,	0x00180F77F4000000u,	0x0000000380000003u,	0x00180F77F4000000u,
 					0x00000003C0000003u,	0x00200F77F6000000u,	0x0000000380000003u,	0x3FD7E10000000000u,
 					0x0000000000030000u,	0x00001FE001FC8000u,	0x0000000000000000u,	0x0000000007FC8000u,
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xAE2ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xAE2ull) % 0x40ull));
-				// 158 code units from 45 ranges (spanning a search area of 987)
+				// 159 code units from 46 ranges (spanning a search area of 987)
 			}
 			case 0x03: // [3] 0EC7 - 12B3
 			{
@@ -1100,14 +1100,14 @@ namespace muu
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
 				{
-					0x0000000700000007u,	0x0000000300000003u,	0xFFFFFFFC00000000u,	0x0E00000000000803u,
+					0x000000070000000Fu,	0x0000000300000003u,	0xFFFFFFFC00000000u,	0x2E00000000000803u,
 					0x0000000000000000u,	0x0018000000000000u,	0x0000000000800000u,	0x0000000000000000u,
 					0x000003FFC3FFC000u,	0x0000000000000000u,	0x0000000000000000u,	0x0000000000000000u,
 					0x00000000000003E0u,	0x000027FFFFFFDFF8u,
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x1712ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x1712ull) % 0x40ull));
-				// 118 code units from 15 ranges (spanning a search area of 878)
+				// 120 code units from 16 ranges (spanning a search area of 878)
 			}
 			case 0x06: // [6] 1A8E - 1E7A
 			{
@@ -1116,14 +1116,14 @@ namespace muu
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
 				{
-					0x000000000001BFFFu,	0x00000000001F0000u,	0xF8000000001FFFF0u,	0x3FFE00000007000Fu,
+					0x000000007FFFBFFFu,	0x00000000001F0000u,	0xF8000000001FFFF0u,	0x3FFE00000007000Fu,
 					0xFFC0000000000000u,	0xFFF000000000000Fu,	0x00000000000000FFu,	0x0000000000000000u,
 					0x21FFFFF700000000u,	0x0000000000000390u,	0x0000000000000000u,	0x0000000000000000u,
-					0xFFFFFFFFFFFF0000u,	0x000000000000FBFFu,
+					0xFFFFFFFFFFFF0000u,	0x000000000000FFFFu,
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x1AB0ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x1AB0ull) % 0x40ull));
-				// 189 code units from 16 ranges (spanning a search area of 848)
+				// 204 code units from 15 ranges (spanning a search area of 848)
 			}
 			case 0x07: return u'\u20D0' <= c && c <= u'\u20F0' && (1ull << (static_cast<uint_least64_t>(c) - 0x20D0u)) & 0x1FFE21FFFull;
 			case 0x0A: return (u'\u2CEF' <= c && c <= u'\u2CF1') || (u'\u2DE0' <= c && c <= u'\u2DFF') || c == u'\u2D7F';
@@ -1161,7 +1161,7 @@ namespace muu
 			case 0x3F: return (u'\uFE00' <= c && c <= u'\uFE0F') || u'\uFE20' <= c || c == u'\uFB1E';
 			default: MUU_UNREACHABLE;
 		}
-		// 1288 code units from 190 ranges (spanning a search area of 64304)
+		// 1323 code units from 192 ranges (spanning a search area of 64304)
 		MUU_UNREACHABLE;
 	}
 
