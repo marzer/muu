@@ -10,12 +10,9 @@
 #include "impl/core_meta.h"
 #include "impl/core_utils.h"
 #include "impl/core_constants.h"
+#include "impl/std_string_view.h"
+#include "impl/std_iosfwd.h"
 #include "iterators.h"
-
-MUU_DISABLE_WARNINGS;
-#include <string_view>
-#include <iosfwd>
-MUU_ENABLE_WARNINGS;
 
 #include "impl/header_start.h"
 

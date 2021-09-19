@@ -8,11 +8,7 @@
 /// \brief  Contains the definition of muu::tagged_ptr.
 
 #include "core.h"
-
-MUU_DISABLE_WARNINGS;
-#include <cstring> //memcpy
-MUU_ENABLE_WARNINGS;
-
+#include "impl/std_memcpy.h"
 #include "impl/header_start.h"
 MUU_DISABLE_SUGGEST_WARNINGS;
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
@@ -73,7 +69,7 @@ namespace muu::impl
 					static_assert((sizeof(T) * build::bits_per_byte) <= tag_bits,
 								  "The tag type must fit in the available tag bits");
 					auto bits = pack_ptr(ptr);
-					std::memcpy(&bits, &tag, sizeof(T));
+					MUU_MEMCPY(&bits, &tag, sizeof(T));
 					return bits;
 				}
 			}
@@ -109,7 +105,7 @@ namespace muu::impl
 						  "The tag type must fit in the available tag bits");
 			if constexpr ((sizeof(T) * build::bits_per_byte) < tag_bits)
 				bits &= ptr_mask;
-			std::memcpy(&bits, &tag, sizeof(T));
+			MUU_MEMCPY(&bits, &tag, sizeof(T));
 			return bits;
 		}
 

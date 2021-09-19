@@ -1,9 +1,7 @@
 #include "muu/preprocessor.h"
-
-MUU_DISABLE_WARNINGS;
-#include <new>
-#include <cstring>
-MUU_ENABLE_WARNINGS;
+#include "muu/impl/std_memcpy.h"
+#include "muu/impl/std_new.h"
+#include "muu/impl/std_launder.h"
 
 MUU_PUSH_WARNINGS;
 MUU_DISABLE_SPAM_WARNINGS;

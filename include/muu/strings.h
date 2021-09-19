@@ -10,25 +10,15 @@
 #include "impl/core_meta.h"
 #include "impl/core_bit.h"
 #include "impl/core_constants.h"
+#include "impl/std_string.h"
+#include "impl/std_string_view.h"
+#include "impl/std_iosfwd.h"
+#include "impl/std_memcpy.h"
 #include "chars.h"
 #include "string_param.h"
-
-MUU_DISABLE_WARNINGS;
-#include <cstring>
-#include <string>
-#include <string_view>
-#include <iosfwd>
-MUU_ENABLE_WARNINGS;
-
 #include "impl/header_start.h"
 MUU_DISABLE_ARITHMETIC_WARNINGS;
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
-
-#ifdef __cpp_lib_constexpr_string
-	#define MUU_CONSTEXPR_STRING constexpr
-#else
-	#define MUU_CONSTEXPR_STRING inline
-#endif
 
 namespace muu
 {
@@ -718,7 +708,7 @@ namespace muu
 		return impl::predicated_trim(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
-	#ifdef __cpp_lib_char8_t
+	#if MUU_HAS_CHAR8_STRINGS
 
 	/// \brief		Trims whitespace from both ends of a UTF-8 string.
 	MUU_NODISCARD
@@ -728,7 +718,7 @@ namespace muu
 		return impl::predicated_trim(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
-	#endif // __cpp_lib_char8_t
+	#endif // MUU_HAS_CHAR8_STRINGS
 
 	/** @} */ // strings::trim
 #endif		  // trim
@@ -792,7 +782,7 @@ namespace muu
 		return impl::predicated_trim_left(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
-	#ifdef __cpp_lib_char8_t
+	#if MUU_HAS_CHAR8_STRINGS
 
 	/// \brief		Trims whitespace from the left end of a UTF-8 string.
 	MUU_NODISCARD
@@ -802,7 +792,7 @@ namespace muu
 		return impl::predicated_trim_left(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
-	#endif // __cpp_lib_char8_t
+	#endif // MUU_HAS_CHAR8_STRINGS
 
 	/** @} */ // strings::trim_left
 #endif		  // trim_left
@@ -866,7 +856,7 @@ namespace muu
 		return impl::predicated_trim_right(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
-	#ifdef __cpp_lib_char8_t
+	#if MUU_HAS_CHAR8_STRINGS
 
 	/// \brief		Trims whitespace from the right end of a UTF-8 string.
 	MUU_NODISCARD
@@ -876,7 +866,7 @@ namespace muu
 		return impl::predicated_trim_right(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
-	#endif // __cpp_lib_char8_t
+	#endif // MUU_HAS_CHAR8_STRINGS
 
 	/** @} */ // strings::trim_right
 #endif		  // trim_right
@@ -891,7 +881,7 @@ namespace muu
 	{
 		template <typename To, typename From>
 		MUU_NODISCARD
-		MUU_CONSTEXPR_STRING std::basic_string<To> utf_transcode(std::basic_string_view<From> str) noexcept
+		MUU_CONSTEXPR_STD_STRING std::basic_string<To> utf_transcode(std::basic_string_view<From> str) noexcept
 		{
 			if (str.empty())
 				return {};
@@ -904,7 +894,7 @@ namespace muu
 			{
 				std::basic_string<To> out;
 				out.resize(str.length());
-				std::memcpy(out.data(), str.data(), str.length() * sizeof(From));
+				MUU_MEMCPY(out.data(), str.data(), str.length() * sizeof(From));
 				return out;
 			}
 			else
@@ -939,7 +929,7 @@ namespace muu
 	/// \brief		Transcodes a UTF-8 string into another UTF encoding.
 	template <typename Char>
 	MUU_NODISCARD
-	MUU_CONSTEXPR_STRING std::basic_string<Char> transcode(std::string_view str) noexcept
+	MUU_CONSTEXPR_STD_STRING std::basic_string<Char> transcode(std::string_view str) noexcept
 	{
 		return impl::utf_transcode<Char>(str);
 	}
@@ -947,7 +937,7 @@ namespace muu
 	/// \brief		Transcodes a UTF wide string into another UTF encoding.
 	template <typename Char>
 	MUU_NODISCARD
-	MUU_CONSTEXPR_STRING std::basic_string<Char> transcode(std::wstring_view str) noexcept
+	MUU_CONSTEXPR_STD_STRING std::basic_string<Char> transcode(std::wstring_view str) noexcept
 	{
 		return impl::utf_transcode<Char>(str);
 	}
@@ -955,7 +945,7 @@ namespace muu
 	/// \brief		Transcodes a UTF-16 string into another UTF encoding.
 	template <typename Char>
 	MUU_NODISCARD
-	MUU_CONSTEXPR_STRING std::basic_string<Char> transcode(std::u16string_view str) noexcept
+	MUU_CONSTEXPR_STD_STRING std::basic_string<Char> transcode(std::u16string_view str) noexcept
 	{
 		return impl::utf_transcode<Char>(str);
 	}
@@ -963,20 +953,22 @@ namespace muu
 	/// \brief		Transcodes a UTF-32 string into another UTF encoding.
 	template <typename Char>
 	MUU_NODISCARD
-	MUU_CONSTEXPR_STRING std::basic_string<Char> transcode(std::u32string_view str) noexcept
+	MUU_CONSTEXPR_STD_STRING std::basic_string<Char> transcode(std::u32string_view str) noexcept
 	{
 		return impl::utf_transcode<Char>(str);
 	}
 
-	#ifdef __cpp_lib_char8_t
+	#if MUU_HAS_CHAR8_STRINGS
+
 	/// \brief		Transcodes a UTF-8 string into another UTF encoding.
 	template <typename Char>
 	MUU_NODISCARD
-	MUU_CONSTEXPR_STRING std::basic_string<Char> transcode(std::u8string_view str) noexcept
+	MUU_CONSTEXPR_STD_STRING std::basic_string<Char> transcode(std::u8string_view str) noexcept
 	{
 		return impl::utf_transcode<Char>(str);
 	}
-	#endif // __cpp_lib_char8_t
+
+	#endif // MUU_HAS_CHAR8_STRINGS
 
 	/** @} */ // strings::transcode
 #endif		  // transcode

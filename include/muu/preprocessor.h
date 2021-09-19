@@ -1263,10 +1263,14 @@ namespace muu::impl
 	#define MUU_HAS_QUADMATH 0
 #endif
 
-#if defined(DOXYGEN) || (defined(__cpp_char8_t) && __cpp_char8_t >= 201811)
+#if defined(__cpp_char8_t) && __cpp_char8_t >= 201811
 	#define MUU_HAS_CHAR8 1
 #else
 	#define MUU_HAS_CHAR8 0
+#endif
+#if !MUU_HAS_CHAR8
+	#undef MUU_HAS_CHAR8_STRINGS
+	#define MUU_HAS_CHAR8_STRINGS 0
 #endif
 
 //======================================================================================================================

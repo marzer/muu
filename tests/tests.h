@@ -50,11 +50,11 @@ MUU_PRAGMA_MSVC(warning(disable : 4127))			   // conditional expression is const
 #include "../include/muu/math.h"
 #include "../include/muu/half.h"
 #include "../include/muu/type_list.h"
+#include "../include/muu/impl/std_iosfwd.h"
+#include "../include/muu/impl/std_memcpy.h"
+#include "../include/muu/impl/std_string_view.h"
 
 MUU_DISABLE_WARNINGS;
-#include <iosfwd>
-#include <cstring>
-
 namespace std
 {
 #if MUU_HAS_FLOAT16
@@ -113,20 +113,25 @@ MUU_ENABLE_WARNINGS;
 #endif
 
 // CHECK asserts for string-related code
-// because a bunch of wide string traits code doesn't work in constexpr on older clang
-// (and straight-up fails to link on intel-cl)
-#if MUU_CLANG && MUU_CLANG <= 8
-	#define CHECK_STRINGS_W(...) CHECK(__VA_ARGS__)
-#elif MUU_ICC_CL
-	#define CHECK_STRINGS(...)	 CHECK(__VA_ARGS__)
-	#define CHECK_STRINGS_W(...) MUU_NOOP
+// (because compilers suck)
+#if MUU_ICC
+	#define CHECK_W(...)					MUU_NOOP
+	#define CHECK_AND_STATIC_ASSERT_W(...)	MUU_NOOP
+#elif MUU_CLANG && MUU_CLANG <= 8
+	#define CHECK_W(...)					CHECK(__VA_ARGS__)
+	#define CHECK_AND_STATIC_ASSERT_W(...)	CHECK(__VA_ARGS__)
+#else
+	#define CHECK_W(...)					CHECK(__VA_ARGS__)
+	#define CHECK_AND_STATIC_ASSERT_W(...)	CHECK_AND_STATIC_ASSERT(__VA_ARGS__)
 #endif
-#ifndef CHECK_STRINGS
-	#define CHECK_STRINGS(...) CHECK_AND_STATIC_ASSERT(__VA_ARGS__)
+#if MUU_HAS_CHAR8_STRINGS
+	#define CHECK_u8(...)					CHECK(__VA_ARGS__)
+	#define CHECK_AND_STATIC_ASSERT_u8(...) CHECK_AND_STATIC_ASSERT(__VA_ARGS__)
+#else
+	#define CHECK_u8(...)					MUU_NOOP
+	#define CHECK_AND_STATIC_ASSERT_u8(...) MUU_NOOP
 #endif
-#ifndef CHECK_STRINGS_W
-	#define CHECK_STRINGS_W(...) CHECK_AND_STATIC_ASSERT(__VA_ARGS__)
-#endif
+
 
 #define CHECK_APPROX_EQUAL_EPS(actual_, expected_, epsilon_)                                                           \
 	do                                                                                                                 \

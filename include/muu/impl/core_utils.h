@@ -5,21 +5,7 @@
 #pragma once
 
 #include "core_meta.h"
-
-MUU_DISABLE_WARNINGS;
-#if MUU_CLANG >= 8 || MUU_GCC >= 7 || MUU_ICC >= 1910 || MUU_MSVC >= 1914 || MUU_HAS_BUILTIN(launder)
-	#define MUU_LAUNDER(...) __builtin_launder(__VA_ARGS__)
-#else
-	#include <new>
-	#ifdef __cpp_lib_launder
-		#define MUU_LAUNDER(...) std::launder(__VA_ARGS__)
-	#endif
-#endif
-#ifndef MUU_LAUNDER
-	#define MUU_LAUNDER(...) __VA_ARGS__
-#endif
-MUU_ENABLE_WARNINGS;
-
+#include "std_launder.h"
 #include "header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS; // these should be considered "intrinsics"
 
@@ -862,8 +848,6 @@ namespace muu
 
 #endif
 }
-
-#undef MUU_LAUNDER
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "header_end.h"

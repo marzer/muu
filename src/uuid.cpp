@@ -34,7 +34,7 @@ namespace
 		Char* pos		 = buffer;
 		const auto write = [&](const auto& cstr) noexcept
 		{
-			std::memcpy(pos, &cstr, sizeof(cstr));
+			MUU_MEMCPY(pos, &cstr, sizeof(cstr));
 			pos += sizeof(cstr) / sizeof(Char);
 		};
 		static_assert(sizeof(impl::hex_char_pair<Char>) == sizeof(Char) * 2);
@@ -122,7 +122,7 @@ extern "C" //
 				native.Data2 = byte_reverse(native.Data2);
 				native.Data3 = byte_reverse(native.Data3);
 			}
-			std::memcpy(id, &native, sizeof(UUID));
+			MUU_MEMCPY(id, &native, sizeof(UUID));
 		}
 #else
 		{
@@ -159,7 +159,7 @@ extern "C" //
 			if (name_data && name_size)
 				hasher(name_data, name_size);
 			hasher.finish();
-			std::memcpy(id, &hasher.value(), 16_sz);
+			MUU_MEMCPY(id, &hasher.value(), 16_sz);
 		}
 
 		// "Set the four most significant bits (bits 12 through 15) of the

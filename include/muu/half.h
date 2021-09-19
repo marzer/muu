@@ -8,6 +8,7 @@
 /// \brief Contains the definition of muu::half.
 
 #include "math.h"
+#include "impl/std_iosfwd.h"
 
 // see if we can just wrap a 'real' fp16 type (better codegen while still being binary-compatible)
 #if MUU_HAS_FLOAT16
@@ -40,7 +41,6 @@
 #endif
 
 MUU_DISABLE_WARNINGS;
-#include <iosfwd>
 #if MUU_HALF_USE_INTRINSICS
 	#if MUU_MSVC
 		#include <intrin.h>

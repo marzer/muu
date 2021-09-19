@@ -10,13 +10,6 @@ MUU_PRAGMA_MSVC(warning(disable : 5052)) // char8_t C++20
 
 #define SV(v) MUU_APPEND_SV(v)
 
-#define CHECK_FUNC(func, input, expected)													\
-	CHECK_STRINGS(func(SV(input)) == SV(expected));											\
-	CHECK_STRINGS(func(MUU_CONCAT(u8, SV(input))) == MUU_CONCAT(u8, SV(expected)));			\
-	CHECK_STRINGS(func(MUU_CONCAT(u, SV(input)))  == MUU_CONCAT(u,  SV(expected)));			\
-	CHECK_STRINGS(func(MUU_CONCAT(U, SV(input)))  == MUU_CONCAT(U,  SV(expected)));			\
-	CHECK_STRINGS_W(func(MUU_CONCAT(L, SV(input))) == MUU_CONCAT(L, SV(expected)))
-
 #define ALL_WS	"\u0009\u000A\u000B\u000C\u000D\u0020\u0085\u00A0\u1680\u2000\u2001\u2002\u3000"	\
 				"\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u2028\u2029\u202F\u205F"
 
@@ -145,6 +138,13 @@ TEST_CASE("strings - utf_find")
 	CHECK(kek.length == 1);
 }
 
+#define CHECK_FUNC(func, input, expected)															\
+	CHECK_AND_STATIC_ASSERT(func(SV(input)) == SV(expected));										\
+	CHECK_AND_STATIC_ASSERT_u8(func(MUU_CONCAT(u8, SV(input)))  == MUU_CONCAT(u8,  SV(expected)));	\
+	CHECK_AND_STATIC_ASSERT(func(MUU_CONCAT(u, SV(input)))  == MUU_CONCAT(u,  SV(expected)));		\
+	CHECK_AND_STATIC_ASSERT(func(MUU_CONCAT(U, SV(input)))  == MUU_CONCAT(U,  SV(expected)));		\
+	CHECK_AND_STATIC_ASSERT_W(func(MUU_CONCAT(L, SV(input))) == MUU_CONCAT(L, SV(expected)))
+
 TEST_CASE("strings - trim")
 {
 	CHECK_FUNC(trim, "",						"");
@@ -267,13 +267,13 @@ TEST_CASE("strings - trim_right")
 
 TEST_CASE("strings - transcode")
 {
-	#define CHECK_TRANSCODE_CASE(input, prefix)														\
-		do { 																						\
-			CHECK(transcode<char>(MUU_CONCAT(prefix, SV(input))) == SV(input));						\
-			CHECK(transcode<char8_t>(MUU_CONCAT(prefix, SV(input))) == MUU_CONCAT(u8, SV(input)));	\
-			CHECK(transcode<char16_t>(MUU_CONCAT(prefix, SV(input))) == MUU_CONCAT(u,  SV(input)));	\
-			CHECK(transcode<char32_t>(MUU_CONCAT(prefix, SV(input))) == MUU_CONCAT(U,  SV(input)));	\
-			CHECK(transcode<wchar_t>(MUU_CONCAT(prefix, SV(input))) == MUU_CONCAT(L, SV(input)));	\
+	#define CHECK_TRANSCODE_CASE(input, prefix)															\
+		do { 																							\
+			CHECK(transcode<char>(MUU_CONCAT(prefix, SV(input))) == SV(input));							\
+			CHECK_u8(transcode<char8_t>(MUU_CONCAT(prefix, SV(input))) == MUU_CONCAT(u8, SV(input)));	\
+			CHECK(transcode<char16_t>(MUU_CONCAT(prefix, SV(input))) == MUU_CONCAT(u,  SV(input)));		\
+			CHECK(transcode<char32_t>(MUU_CONCAT(prefix, SV(input))) == MUU_CONCAT(U,  SV(input)));		\
+			CHECK_W(transcode<wchar_t>(MUU_CONCAT(prefix, SV(input))) == MUU_CONCAT(L, SV(input)));		\
 		} while (false)
 	
 	#if !MUU_CLANG || MUU_CLANG > 8
@@ -282,10 +282,16 @@ TEST_CASE("strings - transcode")
 		#define CHECK_TRANSCODE_CASE_W(input, prefix)	(void)0
 	#endif
 
+	#if MUU_HAS_CHAR8_STRINGS
+		#define CHECK_TRANSCODE_CASE_u8(input, prefix)	CHECK_TRANSCODE_CASE(input, prefix)
+	#else
+		#define CHECK_TRANSCODE_CASE_u8(input, prefix)	(void)0
+	#endif
+
 	#define CHECK_TRANSCODE(input)				\
 		do{ 									\
 			CHECK_TRANSCODE_CASE(input, );		\
-			CHECK_TRANSCODE_CASE(input, u8);	\
+			CHECK_TRANSCODE_CASE_u8(input, u8);	\
 			CHECK_TRANSCODE_CASE(input, u);		\
 			CHECK_TRANSCODE_CASE(input, U);		\
 			CHECK_TRANSCODE_CASE_W(input, L);	\

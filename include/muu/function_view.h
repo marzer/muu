@@ -9,11 +9,7 @@
 
 #include "impl/core_meta.h"
 #include "impl/core_utils.h"
-
-MUU_DISABLE_WARNINGS;
-#include <memory> // addressof
-MUU_ENABLE_WARNINGS;
-
+#include "impl/std_memory.h" // addressof
 #include "impl/header_start.h"
 
 namespace muu

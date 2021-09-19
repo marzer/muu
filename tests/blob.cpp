@@ -39,7 +39,7 @@ TEST_CASE("blob")
 	CHECK(blb2.data() != blb.data());
 	CHECK(blb2.alignment() == blb.alignment());
 	CHECK(blb2.alignment() == default_blob_alignment);
-	CHECK(memcmp(blb.data(), blb2.data(), blb.size()) == 0);
+	CHECK(MUU_MEMCMP(blb.data(), blb2.data(), blb.size()) == 0);
 
 	//move constructor
 	blb = blob{ std::move(blb2) };
@@ -68,5 +68,5 @@ TEST_CASE("blob")
 	CHECK(blb.data() != blb2.data());
 	CHECK(blb.alignment() == 64);
 	CHECK(blb2);
-	CHECK(memcmp(blb.data(), blb2.data(), blb.size()) == 0);
+	CHECK(MUU_MEMCMP(blb.data(), blb2.data(), blb.size()) == 0);
 }

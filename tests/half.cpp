@@ -30,7 +30,7 @@ TEST_CASE("half - construction")
 
 	// sanity check the constant
 	uint16_t val;
-	memcpy(&val, &zero_init_aggr, 2u);
+	MUU_MEMCPY(&val, &zero_init_aggr, 2u);
 	CHECK(val == 0_u16);
 }
 

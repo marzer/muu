@@ -5,13 +5,9 @@
 
 #include "muu/core.h"
 #include "muu/blob.h"
-
-MUU_DISABLE_WARNINGS;
 #if !MUU_HAS_EXCEPTIONS
-	#include <exception> // std::terminate()
+	#include "impl/std_exception.h" // std::terminate()
 #endif
-MUU_ENABLE_WARNINGS;
-
 #include "source_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 
@@ -64,7 +60,7 @@ blob::blob(size_t sz, const void* src, size_t align, generic_allocator* alloc)
 	  data_{ blob_allocate(*allocator_, size_, alignment_) }
 {
 	if (data_ && src)
-		std::memcpy(data_, src, size_);
+		MUU_MEMCPY(data_, src, size_);
 }
 
 blob::blob(const blob& other, size_t align, generic_allocator* alloc)
@@ -122,7 +118,7 @@ blob& blob::assign(size_t sz, const void* src, size_t align, generic_allocator* 
 		size(sz); // no-op if the same as current
 		MUU_ASSERT(size_ == sz);
 		if (src && data_ && data_ != src)
-			std::memcpy(data_, src, size_);
+			MUU_MEMCPY(data_, src, size_);
 		return *this;
 	}
 
@@ -134,7 +130,7 @@ blob& blob::assign(size_t sz, const void* src, size_t align, generic_allocator* 
 	size_	   = sz;
 	data_	   = blob_allocate(*allocator_, size_, alignment_);
 	if (src && data_)
-		std::memcpy(data_, src, size_);
+		MUU_MEMCPY(data_, src, size_);
 	return *this;
 }
 
@@ -155,7 +151,7 @@ blob& blob::size(size_t sz)
 	else if (data_)
 	{
 		auto new_data = blob_allocate(*allocator_, sz, alignment_);
-		std::memcpy(new_data, data_, min(sz, size_));
+		MUU_MEMCPY(new_data, data_, min(sz, size_));
 		allocator_->deallocate(data_);
 		data_ = new_data;
 	}

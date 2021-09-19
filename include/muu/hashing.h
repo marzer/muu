@@ -8,11 +8,7 @@
 /// \brief Contains the definitions of functions and types related to the generation of hashes.
 
 #include "strings.h"
-
-MUU_DISABLE_WARNINGS;
-#include <iosfwd>
-MUU_ENABLE_WARNINGS;
-
+#include "impl/std_iosfwd.h"
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 
@@ -241,7 +237,7 @@ namespace muu
 			return hash_string_view(str);
 		}
 
-#ifdef __cpp_lib_char8_t
+#if MUU_HAS_CHAR8_STRINGS
 
 		/// \brief	Appends a UTF-8 string to the hash function's input.
 		constexpr fnv1a& operator()(std::u8string_view str) noexcept
@@ -249,7 +245,7 @@ namespace muu
 			return hash_string_view(str);
 		}
 
-#endif // __cpp_lib_char8_t
+#endif // MUU_HAS_CHAR8_STRINGS
 
 		/// \brief	Returns the calculated hash value.
 		MUU_NODISCARD
@@ -367,7 +363,7 @@ namespace muu
 			return hash_string_view(str);
 		}
 
-#ifdef __cpp_lib_char8_t
+#if MUU_HAS_CHAR8_STRINGS
 
 		/// \brief	Appends a UTF-8 string to the hash function's input.
 		sha1& operator()(std::u8string_view str) noexcept
@@ -375,7 +371,7 @@ namespace muu
 			return hash_string_view(str);
 		}
 
-#endif // __cpp_lib_char8_t
+#endif // MUU_HAS_CHAR8_STRINGS
 
 		/// \brief	Finishes calculating the hash.
 		/// \details Appending to the hash function's input has no effect after finish() is called.

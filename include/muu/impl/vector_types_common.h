@@ -5,12 +5,8 @@
 #pragma once
 
 #include "../math.h"
-
-MUU_DISABLE_WARNINGS;
-#include <iosfwd>
-#include <cstring> // memcpy
-MUU_ENABLE_WARNINGS;
-
+#include "std_iosfwd.h"
+#include "std_memcpy.h"
 #include "header_start.h"
 
 /// \cond
@@ -127,7 +123,7 @@ namespace muu::impl
 		MUU_ASSUME(reinterpret_cast<uintptr_t>(ptr) % AssumeAlignment == 0_sz);
 
 		T val;
-		std::memcpy(&val, muu::assume_aligned<AssumeAlignment>(ptr), sizeof(T));
+		MUU_MEMCPY(&val, muu::assume_aligned<AssumeAlignment>(ptr), sizeof(T));
 		return val;
 	}
 

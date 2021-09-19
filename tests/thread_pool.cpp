@@ -266,8 +266,8 @@ TEST_CASE("thread_pool - for_range")
 
 	const auto reset = [&]()noexcept
 	{
-		memset(&values, 0, sizeof(values));
-		memset(batches.data(), 0, sizeof(typename remove_cvref<decltype(batches)>::value_type) * batches.size());
+		MUU_MEMSET(&values, 0, sizeof(values));
+		MUU_MEMSET(batches.data(), 0, sizeof(typename remove_cvref<decltype(batches)>::value_type) * batches.size());
 	};
 
 	{
@@ -351,8 +351,8 @@ TEST_CASE("thread_pool - for_each")
 
 	const auto reset = [&]()noexcept
 	{
-		memset(&values, 0, sizeof(values));
-		memset(batches.data(), 0, sizeof(typename remove_cvref<decltype(batches)>::value_type) * batches.size());
+		MUU_MEMSET(&values, 0, sizeof(values));
+		MUU_MEMSET(batches.data(), 0, sizeof(typename remove_cvref<decltype(batches)>::value_type) * batches.size());
 	};
 
 	{

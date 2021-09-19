@@ -229,9 +229,9 @@ void sha1::add(const uint8_t* bytes, size_t num) noexcept
 	MUU_ASSERT(num <= (64_sz - current_block_length));
 
 	if (bytes)
-		std::memcpy(current_block + current_block_length, bytes, num);
+		MUU_MEMCPY(current_block + current_block_length, bytes, num);
 	else
-		memset(current_block + current_block_length, 0, num);
+		MUU_MEMSET(current_block + current_block_length, 0, num);
 	current_block_length += static_cast<uint8_t>(num);
 	if (current_block_length == 64_u8)
 	{

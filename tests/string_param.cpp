@@ -76,39 +76,47 @@ static void string_param_test(const T(&str_)[N]) noexcept
 
 TEST_CASE("string_param")
 {
+	SECTION("empty string")
 	{
-		INFO("empty string")
 		string_param_test("");
 		string_param_test(L"");
-		string_param_test(u8"");
 		string_param_test(u"");
 		string_param_test(U"");
+#if MUU_HAS_CHAR8_STRINGS
+		string_param_test(u8"");
+#endif
 	}
 
+	SECTION("\"hello\"")
 	{
-		INFO("\"hello\"")
 		string_param_test("hello");
 		string_param_test(L"hello");
-		string_param_test(u8"hello");
 		string_param_test(u"hello");
 		string_param_test(U"hello");
+#if MUU_HAS_CHAR8_STRINGS
+		string_param_test(u8"hello");
+#endif
 	}
 
+	SECTION("\"hello world\"")
 	{
-		INFO("\"hello world\"")
 		string_param_test("hello world");
 		string_param_test(L"hello world");
-		string_param_test(u8"hello world");
 		string_param_test(u"hello world");
 		string_param_test(U"hello world");
+#if MUU_HAS_CHAR8_STRINGS
+		string_param_test(u8"hello world");
+#endif
 	}
 
+	SECTION("\"hello\\0world\"")
 	{
-		INFO("\"hello\\0world\"")
 		string_param_test("hello\0world");
 		string_param_test(L"hello\0world");
-		string_param_test(u8"hello\0world");
 		string_param_test(u"hello\0world");
 		string_param_test(U"hello\0world");
+#if MUU_HAS_CHAR8_STRINGS
+		string_param_test(u8"hello\0world");
+#endif
 	}
 }

@@ -8,11 +8,7 @@
 /// \brief  Contains the definition of muu::scope_guard.
 
 #include "compressed_pair.h"
-
-MUU_DISABLE_WARNINGS;
-#include <exception>
-MUU_ENABLE_WARNINGS;
-
+#include "impl/std_exception.h"
 #include "impl/header_start.h"
 
 namespace muu

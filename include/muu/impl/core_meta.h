@@ -13,6 +13,8 @@ MUU_DISABLE_WARNINGS;
 	#include <intrin.h>
 #endif
 MUU_ENABLE_WARNINGS;
+#include "header_start.h"
+MUU_PRAGMA_MSVC(warning(disable : 4296)) // condition always true/false
 
 // replace the muu homebrew remove_reference_ and enable_if_ with those from <type_traits>
 // because major compilers memoize things in <type_traits> for improved throughput
@@ -21,9 +23,6 @@ MUU_ENABLE_WARNINGS;
 
 #undef MUU_ENABLE_IF
 #define MUU_ENABLE_IF(...) , std::enable_if_t<(__VA_ARGS__), int> = 0
-
-#include "header_start.h"
-MUU_PRAGMA_MSVC(warning(disable : 4296)) // condition always true/false
 
 namespace muu
 {

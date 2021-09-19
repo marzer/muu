@@ -5,16 +5,15 @@
 #pragma once
 
 #include "../fwd.h"
-#if MUU_GCC && MUU_HAS_FLOAT128
-	#pragma GCC system_header // float128 literals cause a warning in GCC that can't be silenced otherwise :(
-#endif
-
 MUU_DISABLE_WARNINGS;
 #include <limits>
 MUU_ENABLE_WARNINGS;
-
 #include "header_start.h"
 MUU_PUSH_PRECISE_MATH;
+
+#if MUU_GCC && MUU_HAS_FLOAT128
+	#pragma GCC system_header // float128 literals cause a warning in GCC that can't be silenced otherwise :(
+#endif
 
 namespace muu
 {

@@ -198,17 +198,17 @@ TEST_CASE("uuid - named")
 	// the expected outputs here were externally generated using https://www.uuidtools.com/v5
 	{
 		// 4BE0643F-1D98-573B-97CD-CA98A65347DD
-		const auto id = uuid{ constants<uuid>::namespace_dns, u8"test"sv };
+		const auto id = uuid{ constants<uuid>::namespace_dns, "test"sv };
 		CHECK(id == uuid{ 0x4BE0643Fu, 0x1D98_u16, 0x573B_u16, 0x97CD_u16, 0xCA98A65347DD_u64 });
 	}
 	{
 		// 74738FF5-5367-5958-9AEE-98FFFDCD1876
-		const auto id = uuid{ constants<uuid>::namespace_dns, u8"www.example.org"sv };
+		const auto id = uuid{ constants<uuid>::namespace_dns, "www.example.org"sv };
 		CHECK(id == uuid{ 0x74738FF5u, 0x5367_u16, 0x5958_u16, 0x9AEE_u16, 0x98FFFDCD1876_u64 });
 	}
 	{
 		// 7ED715E6-67ED-5C47-8F14-755B755E6E5C
-		const auto id = uuid{ constants<uuid>::namespace_url, u8"ði ıntəˈnæʃənəl fəˈnɛtık əsoʊsiˈeıʃn"sv };
+		const auto id = uuid{ constants<uuid>::namespace_url, "ði ıntəˈnæʃənəl fəˈnɛtık əsoʊsiˈeıʃn"sv };
 		CHECK(id == uuid{ 0x7ED715E6u, 0x67ED_u16, 0x5C47_u16, 0x8F14_u16, 0x755B755E6E5C_u64 });
 	}
 }
@@ -286,19 +286,19 @@ TEST_CASE("uuid - relops")
 	}
 }
 
-#define CHECK_PARSE_FAILS(input)													\
-	CHECK_STRINGS(!uuid::parse(MUU_APPEND_SV(input)));								\
-	CHECK_STRINGS(!uuid::parse(MUU_CONCAT(u8, MUU_APPEND_SV(input))));				\
-	CHECK_STRINGS(!uuid::parse(MUU_CONCAT(u, MUU_APPEND_SV(input))));				\
-	CHECK_STRINGS(!uuid::parse(MUU_CONCAT(U, MUU_APPEND_SV(input))));				\
-	CHECK_STRINGS_W(!uuid::parse(MUU_CONCAT(L, MUU_APPEND_SV(input))))
+#define CHECK_PARSE_FAILS(input)																\
+	CHECK_AND_STATIC_ASSERT(!uuid::parse(MUU_APPEND_SV(input)));								\
+	CHECK_AND_STATIC_ASSERT_u8(!uuid::parse(MUU_CONCAT(u8, MUU_APPEND_SV(input))));				\
+	CHECK_AND_STATIC_ASSERT(!uuid::parse(MUU_CONCAT(u, MUU_APPEND_SV(input))));					\
+	CHECK_AND_STATIC_ASSERT(!uuid::parse(MUU_CONCAT(U, MUU_APPEND_SV(input))));					\
+	CHECK_AND_STATIC_ASSERT_W(!uuid::parse(MUU_CONCAT(L, MUU_APPEND_SV(input))))
 
-#define CHECK_PARSE_SUCCEEDS(input, expected)										\
-	CHECK_STRINGS(uuid::parse(MUU_APPEND_SV(input)) == expected);					\
-	CHECK_STRINGS(uuid::parse(MUU_CONCAT(u8, MUU_APPEND_SV(input))) == expected);	\
-	CHECK_STRINGS(uuid::parse(MUU_CONCAT(u, MUU_APPEND_SV(input))) == expected);	\
-	CHECK_STRINGS(uuid::parse(MUU_CONCAT(U, MUU_APPEND_SV(input))) == expected);	\
-	CHECK_STRINGS_W(uuid::parse(MUU_CONCAT(L, MUU_APPEND_SV(input))) == expected)
+#define CHECK_PARSE_SUCCEEDS(input, expected)													\
+	CHECK_AND_STATIC_ASSERT(uuid::parse(MUU_APPEND_SV(input)) == expected);						\
+	CHECK_AND_STATIC_ASSERT_u8(uuid::parse(MUU_CONCAT(u8, MUU_APPEND_SV(input))) == expected);	\
+	CHECK_AND_STATIC_ASSERT(uuid::parse(MUU_CONCAT(u, MUU_APPEND_SV(input))) == expected);		\
+	CHECK_AND_STATIC_ASSERT(uuid::parse(MUU_CONCAT(U, MUU_APPEND_SV(input))) == expected);		\
+	CHECK_AND_STATIC_ASSERT_W(uuid::parse(MUU_CONCAT(L, MUU_APPEND_SV(input))) == expected)
 
 TEST_CASE("uuid - parsing")
 {

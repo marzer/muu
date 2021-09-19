@@ -8,11 +8,7 @@
 /// \brief  Contains the definition of muu::quaternion.
 
 #include "vector.h"
-
-MUU_DISABLE_WARNINGS;
-#include <iosfwd>
-MUU_ENABLE_WARNINGS;
-
+#include "impl/std_iosfwd.h"
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_DISABLE_SHADOW_WARNINGS;

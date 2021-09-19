@@ -5,7 +5,6 @@
 
 #include "muu/string_param.h"
 #include "muu/strings.h"
-
 #include "source_start.h"
 MUU_DISABLE_SUGGEST_WARNINGS;
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
@@ -74,7 +73,7 @@ namespace
 	{
 		using type = std::u32string_view;
 	};
-#ifdef __cpp_lib_char8_t
+#if MUU_HAS_CHAR8_STRINGS
 	template <>
 	struct mode_to_type<mode::u8>
 	{
@@ -135,7 +134,7 @@ namespace
 	{
 		static constexpr auto value = mode::u32_view;
 	};
-#ifdef __cpp_lib_char8_t
+#if MUU_HAS_CHAR8_STRINGS
 	template <>
 	struct type_to_mode<std::u8string>
 	{
@@ -214,7 +213,7 @@ namespace
 	MUU_NODISCARD
 	static auto& value(T& storage) noexcept
 	{
-		return *muu::launder(reinterpret_cast<type_of<Mode>*>(storage.bytes));
+		return *MUU_LAUNDER(reinterpret_cast<type_of<Mode>*>(storage.bytes));
 	}
 
 	template <typename T, typename Func>
@@ -233,7 +232,7 @@ namespace
 			case unwrap(mode::wide_view): fn(value<mode::wide_view>(storage)); break;
 			case unwrap(mode::u16_view): fn(value<mode::u16_view>(storage)); break;
 			case unwrap(mode::u32_view): fn(value<mode::u32_view>(storage)); break;
-#ifdef __cpp_lib_char8_t
+#if MUU_HAS_CHAR8_STRINGS
 			case unwrap(mode::u8): fn(value<mode::u8>(storage)); break;
 			case unwrap(mode::u8_view): fn(value<mode::u8_view>(storage)); break;
 #else
@@ -262,7 +261,7 @@ namespace
 			case unwrap(mode::wide_view): fn(value<mode::wide_view>(storage1), value<mode::wide_view>(storage2)); break;
 			case unwrap(mode::u16_view): fn(value<mode::u16_view>(storage1), value<mode::u16_view>(storage2)); break;
 			case unwrap(mode::u32_view): fn(value<mode::u32_view>(storage1), value<mode::u32_view>(storage2)); break;
-#ifdef __cpp_lib_char8_t
+#if MUU_HAS_CHAR8_STRINGS
 			case unwrap(mode::u8): fn(value<mode::u8>(storage1), value<mode::u8>(storage2)); break;
 			case unwrap(mode::u8_view): fn(value<mode::u8_view>(storage1), value<mode::u8_view>(storage2)); break;
 #else
@@ -294,7 +293,7 @@ namespace
 MUU_ATTR(const)
 bool string_param::built_with_char8_support() noexcept
 {
-#ifdef __cpp_lib_char8_t
+#if MUU_HAS_CHAR8_STRINGS
 	return true;
 #else
 	return false;
@@ -405,7 +404,7 @@ string_param::string_param(std::u32string&& str) noexcept
 
 string_param::string_param(const void* str, size_t len, char8_tag) noexcept
 {
-#ifdef __cpp_lib_char8_t
+#if MUU_HAS_CHAR8_STRINGS
 	initialize(storage_, mode_, static_cast<const char8_t*>(str), len);
 #else
 	initialize(storage_, mode_, static_cast<const char*>(str), len);
@@ -414,7 +413,7 @@ string_param::string_param(const void* str, size_t len, char8_tag) noexcept
 
 string_param::string_param(void* str_obj, const void* str, size_t len, char8_tag) noexcept
 {
-#ifdef __cpp_lib_char8_t
+#if MUU_HAS_CHAR8_STRINGS
 
 	MUU_UNUSED(str);
 	MUU_UNUSED(len);
@@ -551,7 +550,7 @@ string_param::operator std::u32string_view() const& noexcept
 
 void string_param::get_char8_view(void* str) const noexcept
 {
-#ifdef __cpp_lib_char8_t
+#if MUU_HAS_CHAR8_STRINGS
 	*static_cast<std::u8string_view*>(str) = get_view<char8_t>(storage_, mode_);
 #else
 	MUU_UNUSED(str);
@@ -645,7 +644,7 @@ string_param::operator std::u32string() && noexcept
 
 void string_param::move_into_char8_string(void* str) noexcept
 {
-#ifdef __cpp_lib_char8_t
+#if MUU_HAS_CHAR8_STRINGS
 	*static_cast<std::u8string*>(str) = move_into_string<char8_t>(storage_, mode_);
 #else
 	MUU_UNUSED(str);

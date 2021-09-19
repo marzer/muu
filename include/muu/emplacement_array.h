@@ -8,15 +8,12 @@
 /// \brief Contains the definition of muu::emplacement_array.
 
 #include "impl/core_utils.h"
+#include "impl/std_new.h"
+#include "impl/std_launder.h"
 #include "generic_allocator.h"
-
-MUU_DISABLE_WARNINGS;
-#include <new> // placement new
 #if !MUU_HAS_EXCEPTIONS
-	#include <exception> // std::terminate()
+	#include "impl/std_exception.h" // std::terminate()
 #endif
-MUU_ENABLE_WARNINGS;
-
 #include "impl/header_start.h"
 
 namespace muu
@@ -43,14 +40,14 @@ namespace muu
 		MUU_ATTR(returns_nonnull)
 		T* ptr(size_t index) noexcept
 		{
-			return launder(reinterpret_cast<T*>(storage_ + index * sizeof(T)));
+			return MUU_LAUNDER(reinterpret_cast<T*>(storage_ + index * sizeof(T)));
 		}
 
 		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(returns_nonnull)
 		const T* ptr(size_t index) const noexcept
 		{
-			return launder(reinterpret_cast<const T*>(storage_ + index * sizeof(T)));
+			return MUU_LAUNDER(reinterpret_cast<const T*>(storage_ + index * sizeof(T)));
 		}
 
 		void destroy_all_elements() noexcept(std::is_nothrow_destructible_v<T>)

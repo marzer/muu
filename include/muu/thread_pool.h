@@ -11,11 +11,7 @@
 #include "generic_allocator.h"
 #include "string_param.h"
 #include "iterators.h"
-
-MUU_DISABLE_WARNINGS;
-#include <cstring> // memcpy
-MUU_ENABLE_WARNINGS;
-
+#include "impl/std_memcpy.h"
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_PRAGMA_CLANG(diagnostic ignored "-Wignored-attributes")
@@ -159,7 +155,7 @@ namespace muu::impl
 			MUU_ASSUME(buffer);
 
 			storage_type ptr = select(static_cast<U&&>(callable));
-			std::memcpy(buffer, &ptr, sizeof(storage_type));
+			MUU_MEMCPY(buffer, &ptr, sizeof(storage_type));
 		}
 
 		MUU_ATTR(nonnull)
@@ -168,7 +164,7 @@ namespace muu::impl
 			MUU_ASSUME(from);
 			MUU_ASSUME(to);
 
-			std::memcpy(to, from, sizeof(storage_type));
+			MUU_MEMCPY(to, from, sizeof(storage_type));
 		}
 
 		template <typename... Args>
@@ -199,7 +195,7 @@ namespace muu::impl
 			MUU_ASSUME(buffer);
 
 			storage_type callable;
-			std::memcpy(&callable, buffer, sizeof(storage_type));
+			MUU_MEMCPY(&callable, buffer, sizeof(storage_type));
 			invoke(callable, index, static_cast<Args&&>(args)...);
 		}
 	};
@@ -233,7 +229,7 @@ namespace muu::impl
 			MUU_ASSUME(buffer);
 
 			if constexpr (std::is_trivially_copyable_v<callable_type>)
-				std::memcpy(buffer, &callable, sizeof(callable_type));
+				MUU_MEMCPY(buffer, &callable, sizeof(callable_type));
 			else
 			{
 				if constexpr (std::is_aggregate_v<callable_type>)
@@ -250,26 +246,26 @@ namespace muu::impl
 			MUU_ASSUME(to);
 
 			if constexpr (std::is_trivially_copyable_v<callable_type>)
-				std::memcpy(to, from, sizeof(callable_type));
+				MUU_MEMCPY(to, from, sizeof(callable_type));
 			else if constexpr (std::is_nothrow_move_constructible_v<callable_type>)
 			{
-				::new (to) callable_type{ MUU_MOVE(*launder(static_cast<callable_type*>(from))) };
+				::new (to) callable_type{ MUU_MOVE(*muu::launder(static_cast<callable_type*>(from))) };
 			}
 			else if constexpr (std::is_nothrow_default_constructible_v<
 								   callable_type> && std::is_nothrow_move_assignable_v<callable_type>)
 			{
 				auto val = ::new (to) callable_type;
-				*val	 = MUU_MOVE(*launder(static_cast<callable_type*>(from)));
+				*val	 = MUU_MOVE(*muu::launder(static_cast<callable_type*>(from)));
 			}
 			else if constexpr (std::is_nothrow_copy_constructible_v<callable_type>)
 			{
-				::new (to) callable_type{ *launder(static_cast<callable_type*>(from)) };
+				::new (to) callable_type{ *MUU_LAUNDER(static_cast<callable_type*>(from)) };
 			}
 			else if constexpr (std::is_nothrow_default_constructible_v<
 								   callable_type> && std::is_nothrow_copy_assignable_v<callable_type>)
 			{
 				auto val = ::new (to) callable_type;
-				*val	 = *launder(static_cast<callable_type*>(from));
+				*val	 = *MUU_LAUNDER(static_cast<callable_type*>(from));
 			}
 			else
 				static_assert(always_false<T>, "Evaluated unreachable branch!");
@@ -304,7 +300,7 @@ namespace muu::impl
 			if constexpr (std::is_trivially_copyable_v<callable_type>)
 				callable = static_cast<storage_type*>(buffer);
 			else
-				callable = launder(static_cast<storage_type*>(buffer));
+				callable = MUU_LAUNDER(static_cast<storage_type*>(buffer));
 			MUU_ASSUME(callable != nullptr);
 
 			invoke(*callable, index, static_cast<Args&&>(args)...);
@@ -316,7 +312,7 @@ namespace muu::impl
 		{
 			MUU_ASSUME(buffer);
 
-			launder(static_cast<callable_type*>(buffer))->~callable_type();
+			MUU_LAUNDER(static_cast<callable_type*>(buffer))->~callable_type();
 		}
 	};
 

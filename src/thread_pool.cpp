@@ -10,11 +10,14 @@
 #include "muu/strings.h"
 #include "muu/scope_guard.h"
 #include "muu/math.h"
+#include "muu/impl/std_string.h"
 #include "os.h"
+#if !MUU_HAS_EXCEPTIONS
+	#include "impl/std_exception.h" // std::terminate()
+#endif
 
 MUU_DISABLE_WARNINGS;
 #include <atomic>
-#include <string>
 #include <mutex>
 #include <condition_variable>
 #include <thread>
@@ -26,9 +29,6 @@ MUU_DISABLE_WARNINGS;
 	#define spin_wait_iteration() _mm_pause()
 #else
 	#define spin_wait_iteration() MUU_NOOP
-#endif
-#if !MUU_HAS_EXCEPTIONS
-	#include <exception> // std::terminate()
 #endif
 MUU_ENABLE_WARNINGS;
 
@@ -106,8 +106,9 @@ namespace
 		MUU_ATTR(assume_aligned(impl::thread_pool_task_granularity))
 		task* get_task(size_t i) noexcept
 		{
-			return launder(reinterpret_cast<task*>(muu::assume_aligned<impl::thread_pool_task_granularity>(pool.data())
-												   + impl::thread_pool_task_granularity * ((front + i) % capacity)));
+			return MUU_LAUNDER(
+				reinterpret_cast<task*>(muu::assume_aligned<impl::thread_pool_task_granularity>(pool.data())
+										+ impl::thread_pool_task_granularity * ((front + i) % capacity)));
 		}
 
 		MUU_NODISCARD
@@ -390,7 +391,7 @@ namespace
 		thread_pool_queue& queue(size_t idx) noexcept
 		{
 			MUU_ASSERT(idx < worker_count);
-			return *muu::launder(
+			return *MUU_LAUNDER(
 				reinterpret_cast<thread_pool_queue*>(queue_buffer.data() + sizeof(thread_pool_queue) * idx));
 		}
 
@@ -400,7 +401,7 @@ namespace
 		thread_pool_worker& worker(size_t idx) noexcept
 		{
 			MUU_ASSERT(idx < worker_count);
-			return *muu::launder(
+			return *MUU_LAUNDER(
 				reinterpret_cast<thread_pool_worker*>(worker_buffer.data() + sizeof(thread_pool_worker) * idx));
 		}
 

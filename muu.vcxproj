@@ -101,6 +101,14 @@
     <ClInclude Include="include\muu\impl\header_end.h" />
     <ClInclude Include="include\muu\impl\header_start.h" />
     <ClInclude Include="include\muu\impl\preprocessor_for_each.h" />
+    <ClInclude Include="include\muu\impl\std_exception.h" />
+    <ClInclude Include="include\muu\impl\std_iosfwd.h" />
+    <ClInclude Include="include\muu\impl\std_launder.h" />
+    <ClInclude Include="include\muu\impl\std_memory.h" />
+    <ClInclude Include="include\muu\impl\std_new.h" />
+    <ClInclude Include="include\muu\impl\std_memcpy.h" />
+    <ClInclude Include="include\muu\impl\std_string.h" />
+    <ClInclude Include="include\muu\impl\std_string_view.h" />
     <ClInclude Include="include\muu\impl\vector_types_common.h" />
     <ClInclude Include="include\muu\impl\unicode_char.h" />
     <ClInclude Include="include\muu\impl\unicode_char16_t.h" />

@@ -27,7 +27,7 @@
 #define MUU_CALLCONV
 #define MUU_COMPRESSED_THREAD_POOL_TASK		1
 #define MUU_CONSTEVAL
-#define MUU_CONSTEXPR_STRING
+#define MUU_CONSTEXPR_STD_STRING
 #define MUU_CONSTRAINED_TEMPLATE(...)
 #define MUU_DECLSPEC(...)
 #define MUU_DELETE_COPY(...)				static_assert(true)

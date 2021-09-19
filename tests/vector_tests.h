@@ -78,7 +78,7 @@ namespace
 			BATCHED_SECTION("raw array")
 			{
 				T raw_arr[NUM];
-				memcpy(raw_arr, arr.data(), sizeof(raw_arr));
+				MUU_MEMCPY(raw_arr, arr.data(), sizeof(raw_arr));
 
 				auto vec = vector_t{ raw_arr };
 				for (size_t i = 0; i < NUM; i++)

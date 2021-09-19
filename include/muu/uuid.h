@@ -351,7 +351,7 @@ namespace muu
 			: uuid{ name_space, name.data(), name.length() }
 		{}
 
-#ifdef __cpp_lib_char8_t
+#if MUU_HAS_CHAR8_STRINGS
 
 		/// \brief	Constructs a version-5 named UUID by hashing a string.
 		///
@@ -638,7 +638,7 @@ namespace muu
 		MUU_NODISCARD
 		static constexpr std::optional<uuid> parse(std::string_view str) noexcept;
 
-#ifdef __cpp_lib_char8_t
+#if MUU_HAS_CHAR8_STRINGS
 
 		/// \brief	Attempts to parse a UUID from a UTF-8 string.
 		MUU_NODISCARD
@@ -821,7 +821,7 @@ namespace muu
 	{
 		return parse_impl(str);
 	}
-#ifdef __cpp_lib_char8_t
+#if MUU_HAS_CHAR8_STRINGS
 	MUU_ATTR(pure)
 	constexpr std::optional<uuid> uuid::parse(std::u8string_view str) noexcept
 	{

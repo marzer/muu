@@ -955,7 +955,7 @@ namespace muu
 			MUU_ASSUME(reinterpret_cast<uintptr_t>(vals) % alignof(T) == 0_sz);
 
 			if constexpr (std::is_same_v<remove_cv<T>, Scalar>)
-				std::memcpy(this, vals, sizeof(scalar_type) * num);
+				MUU_MEMCPY(this, vals, sizeof(scalar_type) * num);
 			else
 			{
 				for (size_t i = 0; i < num; i++)
@@ -963,9 +963,9 @@ namespace muu
 			}
 
 			if (num < Dimensions)
-				memset(pointer_cast<std::byte*>(this) + num * sizeof(scalar_type),
-					   0,
-					   (Dimensions - num) * sizeof(scalar_type));
+				MUU_MEMSET(pointer_cast<std::byte*>(this) + num * sizeof(scalar_type),
+						   0,
+						   (Dimensions - num) * sizeof(scalar_type));
 		}
 
 		/// \brief Constructs a vector from a pointer to scalars.

@@ -8,16 +8,10 @@
 /// \brief  Contains the definition of muu::string_param.
 
 #include "impl/core_meta.h"
-
-MUU_DISABLE_WARNINGS;
-#include <string>
-#include <string_view>
-#include <iosfwd>
-#ifdef __cpp_lib_char8_t
-	#include <cstring> // memcpy
-#endif
-MUU_ENABLE_WARNINGS;
-
+#include "impl/std_string.h"
+#include "impl/std_string_view.h"
+#include "impl/std_iosfwd.h"
+#include "impl/std_memcpy.h"
 #include "impl/header_start.h"
 
 namespace muu
@@ -51,7 +45,7 @@ namespace muu
 				std::wstring_view,
 				std::u16string_view,
 				std::u32string_view
-#ifdef __cpp_lib_char8_t
+#if MUU_HAS_CHAR8_STRINGS
 				, std::u8string_view
 #endif
 			>;
@@ -113,7 +107,7 @@ namespace muu
 		MUU_NODISCARD
 		static auto make_string_view(T&& string_viewable) noexcept
 		{
-#ifdef __cpp_lib_char8_t
+#if MUU_HAS_CHAR8_STRINGS
 			if constexpr (is_convertible_to_any<T&&, std::u8string_view>)
 				return std::u8string_view{ static_cast<T&&>(string_viewable) };
 			else
@@ -239,7 +233,7 @@ namespace muu
 		MUU_API
 		string_param(std::u32string&& str) noexcept;
 
-#ifdef __cpp_lib_char8_t
+#if MUU_HAS_CHAR8_STRINGS
 
 		/// \brief	Constructs a non-owning string_param from a UTF-8 string view.
 		MUU_NODISCARD_CTOR
@@ -271,7 +265,7 @@ namespace muu
 			: string_param{ &str, str.c_str(), str.length(), char8_tag{} }
 		{}
 
-#endif // __cpp_lib_char8_t
+#endif // MUU_HAS_CHAR8_STRINGS
 
 		/// \brief	Constructs a non-owning string_param from a string-viewable object.
 		MUU_CONSTRAINED_TEMPLATE(impl::is_string_view_ish<T&&>, typename T)
@@ -338,7 +332,7 @@ namespace muu
 		MUU_API
 		operator std::u32string_view() const& noexcept;
 
-#ifdef __cpp_lib_char8_t
+#if MUU_HAS_CHAR8_STRINGS
 
 		/// \brief	Returns a std::u8string_view of the string_param's payload.
 		MUU_NODISCARD
@@ -360,7 +354,7 @@ namespace muu
 			}
 		}
 
-#endif // __cpp_lib_char8_t
+#endif // MUU_HAS_CHAR8_STRINGS
 
 		/// \brief	Returns a std::string_view of the string_param's payload (rvalue overload).
 		MUU_NODISCARD
@@ -382,7 +376,7 @@ namespace muu
 		MUU_API
 		explicit operator std::u32string_view() const&& noexcept;
 
-#ifdef __cpp_lib_char8_t
+#if MUU_HAS_CHAR8_STRINGS
 
 		/// \brief	Returns a std::u8string_view of the string_param's payload (rvalue overload).
 		MUU_NODISCARD
@@ -391,7 +385,7 @@ namespace muu
 			return std::u8string_view{ *this }; // explicitly invoke lvalue overload
 		}
 
-#endif // __cpp_lib_char8_t
+#endif // MUU_HAS_CHAR8_STRINGS
 
 		/// \brief	Moves the string_param's payload into a std::string.
 		MUU_NODISCARD
@@ -413,7 +407,7 @@ namespace muu
 		MUU_API
 		operator std::u32string() && noexcept;
 
-#ifdef __cpp_lib_char8_t
+#if MUU_HAS_CHAR8_STRINGS
 
 		/// \brief	Moves the string_param's payload into a std::u8string.
 		MUU_NODISCARD
@@ -429,12 +423,12 @@ namespace muu
 			{
 				std::string_view str{ *this };
 				out.resize(str.length());
-				std::memcpy(out.data(), str.data(), str.length());
+				MUU_MEMCPY(out.data(), str.data(), str.length());
 			}
 			return out;
 		}
 
-#endif // __cpp_lib_char8_t
+#endif // MUU_HAS_CHAR8_STRINGS
 
 		/// \brief	Writes the string_param to a text stream.
 		template <typename Char, typename Traits>

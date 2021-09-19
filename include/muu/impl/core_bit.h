@@ -7,11 +7,7 @@
 #include "core_build.h"
 #include "core_literals.h"
 #include "core_utils.h"
-
-MUU_DISABLE_WARNINGS;
-#include <cstring> // memcpy
-MUU_ENABLE_WARNINGS;
-
+#include "std_memcpy.h"
 #include "header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS; // these should be considered "intrinsics"
 MUU_DISABLE_ARITHMETIC_WARNINGS;
@@ -476,7 +472,7 @@ namespace muu
 						  "Bit-cast fallback requires the To type be nothrow default-constructible");
 
 			remove_cv<To> dst;
-			std::memcpy(&dst, &from, sizeof(To));
+			MUU_MEMCPY(&dst, &from, sizeof(To));
 			return dst;
 		}
 
