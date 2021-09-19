@@ -2311,6 +2311,13 @@
       <arglist></arglist>
     </member>
     <member kind="variable">
+      <type>constexpr auto</type>
+      <name>type_name_list</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga7a9b12967ad4e5e7da9cd73de5cc56d6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
       <type>constexpr bool</type>
       <name>supports_type_name</name>
       <anchorfile>namespacemuu_1_1build.html</anchorfile>
@@ -3563,10 +3570,6 @@
   <compound kind="struct">
     <name>muu::constants&lt; char32_t &gt;</name>
     <filename>structmuu_1_1constants_3_01char32__t_01_4.html</filename>
-  </compound>
-  <compound kind="struct">
-    <name>muu::constants&lt; char8_t &gt;</name>
-    <filename>structmuu_1_1constants_3_01char8__t_01_4.html</filename>
   </compound>
   <compound kind="struct">
     <name>muu::constants&lt; double &gt;</name>
@@ -9858,7 +9861,6 @@
     <class kind="struct">muu::constants&lt; float128_t &gt;</class>
     <class kind="struct">muu::constants&lt; char &gt;</class>
     <class kind="struct">muu::constants&lt; wchar_t &gt;</class>
-    <class kind="struct">muu::constants&lt; char8_t &gt;</class>
     <class kind="struct">muu::constants&lt; char16_t &gt;</class>
     <class kind="struct">muu::constants&lt; char32_t &gt;</class>
     <class kind="struct">muu::constants&lt; signed char &gt;</class>
@@ -13380,6 +13382,13 @@
       <arglist></arglist>
     </member>
     <member kind="variable">
+      <type>constexpr auto</type>
+      <name>type_name_list</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga7a9b12967ad4e5e7da9cd73de5cc56d6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
       <type>constexpr size_t</type>
       <name>total_size</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -14504,7 +14513,6 @@
     <class kind="struct">muu::constants&lt; float128_t &gt;</class>
     <class kind="struct">muu::constants&lt; char &gt;</class>
     <class kind="struct">muu::constants&lt; wchar_t &gt;</class>
-    <class kind="struct">muu::constants&lt; char8_t &gt;</class>
     <class kind="struct">muu::constants&lt; char16_t &gt;</class>
     <class kind="struct">muu::constants&lt; char32_t &gt;</class>
     <class kind="struct">muu::constants&lt; signed char &gt;</class>
@@ -15262,6 +15270,13 @@
       <name>type_name</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gaf8f9ff89791f3aa70312cef66f4894f4</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr auto</type>
+      <name>type_name_list</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga7a9b12967ad4e5e7da9cd73de5cc56d6</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
