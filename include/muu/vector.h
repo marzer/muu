@@ -72,7 +72,6 @@ MUU_PRAGMA_MSVC(float_control(precise, off))
 			return (func(x)) && (func(y)) && (func(z)) && (func(w));                                                   \
 		if constexpr (Dimensions > 4)                                                                                  \
 		{                                                                                                              \
-			MUU_PRAGMA_MSVC(omp simd)                                                                                  \
 			for (size_t i = 0; i < Dimensions; i++)                                                                    \
 				if (!(func(values[i])))                                                                                \
 					return false;                                                                                      \
@@ -91,7 +90,6 @@ MUU_PRAGMA_MSVC(float_control(precise, off))
 			return (func(x)) || (func(y)) || (func(z)) || (func(w));                                                   \
 		if constexpr (Dimensions > 4)                                                                                  \
 		{                                                                                                              \
-			MUU_PRAGMA_MSVC(omp simd)                                                                                  \
 			for (size_t i = 0; i < Dimensions; i++)                                                                    \
 				if (func(values[i]))                                                                                   \
 					return true;                                                                                       \
@@ -124,7 +122,6 @@ MUU_PRAGMA_MSVC(float_control(precise, off))
 		{                                                                                                              \
 			MUU_FMA_BLOCK;                                                                                             \
 			auto val = func(values[0]);                                                                                \
-			MUU_PRAGMA_MSVC(omp simd)                                                                                  \
 			for (size_t i = 1; i < Dimensions; i++)                                                                    \
 			{                                                                                                          \
 				MUU_FMA_BLOCK;                                                                                         \
@@ -219,7 +216,6 @@ MUU_PRAGMA_MSVC(float_control(precise, off))
 		}                                                                                                              \
 		else                                                                                                           \
 		{                                                                                                              \
-			MUU_PRAGMA_MSVC(omp simd)                                                                                  \
 			for (size_t i = 0; i < Dimensions; i++)                                                                    \
 			{                                                                                                          \
 				MUU_FMA_BLOCK;                                                                                         \

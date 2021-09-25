@@ -7,12 +7,12 @@
 #include "../fwd.h"
 
 MUU_DISABLE_WARNINGS;
-#include <utility>
 #include <type_traits>
 #if MUU_HAS_VECTORCALL
 	#include <intrin.h>
 #endif
 MUU_ENABLE_WARNINGS;
+#include "std_utility.h"
 #include "header_start.h"
 MUU_PRAGMA_MSVC(warning(disable : 4296)) // condition always true/false
 

@@ -13,7 +13,7 @@
 #include "muu/impl/std_string.h"
 #include "os.h"
 #if !MUU_HAS_EXCEPTIONS
-	#include "impl/std_exception.h" // std::terminate()
+	#include "muu/impl/std_exception.h" // std::terminate()
 #endif
 
 MUU_DISABLE_WARNINGS;
@@ -572,9 +572,6 @@ namespace
 
 thread_pool::thread_pool(size_t worker_count, size_t task_queue_size, string_param name, generic_allocator* allocator)
 {
-	if (!allocator)
-		allocator = ::muu_impl_get_default_allocator();
-
 	worker_count				 = calc_thread_pool_workers(worker_count);
 	const auto worker_queue_size = calc_thread_pool_worker_queue_size(worker_count, task_queue_size);
 	task_queue_size				 = worker_count * worker_queue_size;
@@ -591,8 +588,9 @@ thread_pool::thread_pool(size_t worker_count, size_t task_queue_size, string_par
 	const auto tasks_end		= tasks_start + impl::thread_pool_task_granularity * task_queue_size;
 	const auto total_allocation = tasks_end - storage_start;
 
-	auto buffer_ptr =
-		allocator->allocate(total_allocation, max(alignof(thread_pool_storage), impl::thread_pool_task_granularity));
+	auto buffer_ptr = impl::generic_alloc(allocator,
+										  total_allocation,
+										  max(alignof(thread_pool_storage), impl::thread_pool_task_granularity));
 
 #if !MUU_HAS_EXCEPTIONS
 	{
@@ -602,7 +600,7 @@ thread_pool::thread_pool(size_t worker_count, size_t task_queue_size, string_par
 	}
 #endif
 
-	const auto unwind = scope_fail{ [=]() noexcept { allocator->deallocate(buffer_ptr); } };
+	const auto unwind = scope_fail{ [=]() noexcept { impl::generic_free(allocator, buffer_ptr); } };
 
 	byte_span buffer{ static_cast<std::byte*>(buffer_ptr), total_allocation };
 	byte_span queue_buffer{ buffer.data() + queues_start, queues_end - queues_start };
@@ -634,7 +632,7 @@ thread_pool::~thread_pool() noexcept
 		auto buffer	   = storage.buffer;
 		auto allocator = storage.allocator;
 		storage.~thread_pool_storage();
-		allocator->deallocate(buffer.data());
+		impl::generic_free(allocator, buffer.data());
 	}
 }
 

@@ -72,7 +72,7 @@ namespace muu
 			if (storage_)
 			{
 				destroy_all_elements();
-				allocator_->deallocate(storage_);
+				impl::generic_free(allocator_, storage_);
 				storage_ = nullptr;
 			}
 		}
@@ -113,12 +113,12 @@ namespace muu
 		/// \param	allocator 	The #muu::generic_allocator used for allocations. Set to `nullptr` to use the default global allocator.
 		MUU_NODISCARD_CTOR
 		explicit emplacement_array(size_t capacity = 0, generic_allocator* allocator = nullptr)
-			: allocator_{ allocator ? allocator : ::muu_impl_get_default_allocator() },
+			: allocator_{ allocator },
 			  capacity_{ capacity }
 		{
 			if (capacity_)
 			{
-				storage_ = static_cast<std::byte*>(allocator_->allocate(sizeof(T) * capacity_, alignof(T)));
+				storage_ = static_cast<std::byte*>(impl::generic_alloc(allocator_, sizeof(T) * capacity_, alignof(T)));
 				MUU_ASSERT(storage_ && "allocate() failed!");
 #if !MUU_HAS_EXCEPTIONS
 				{

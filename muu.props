@@ -51,6 +51,11 @@
 		<MuuInstructionSet_ Condition="'$(MuuInstructionSet.Trim().ToLower())'=='avx2'">AdvancedVectorExtensions2</MuuInstructionSet_>
 		<MuuInstructionSet_ Condition="'$(MuuInstructionSet.Trim().ToLower())'=='avx'">AdvancedVectorExtensions</MuuInstructionSet_>
 	</PropertyGroup>
+	<PropertyGroup Condition="'$(PlatformArchitecture)'!='64'">
+		<MuuInstructionSet_ Condition="'$(MuuInstructionSet.Trim().ToLower())'=='avx512'">StreamingSIMDExtensions2</MuuInstructionSet_>
+		<MuuInstructionSet_ Condition="'$(MuuInstructionSet.Trim().ToLower())'=='avx2'">StreamingSIMDExtensions2</MuuInstructionSet_>
+		<MuuInstructionSet_ Condition="'$(MuuInstructionSet.Trim().ToLower())'=='avx'">StreamingSIMDExtensions2</MuuInstructionSet_>
+	</PropertyGroup>
 	<PropertyGroup Condition="'$(MuuInstructionSet_)'==''">
 		<MuuInstructionSet_ Condition="'$(PlatformArchitecture)'=='64'">AdvancedVectorExtensions</MuuInstructionSet_>
 		<MuuInstructionSet_ Condition="'$(PlatformArchitecture)'=='32'">StreamingSIMDExtensions2</MuuInstructionSet_>

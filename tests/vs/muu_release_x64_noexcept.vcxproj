@@ -64,6 +64,7 @@
     <ClInclude Include="$(SolutionDir)include\muu\accumulator.h" />
     <ClInclude Include="$(SolutionDir)include\muu\all.h" />
     <ClInclude Include="$(SolutionDir)include\muu\function_view.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\aligned_alloc.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\core_bit.h" />
     <ClInclude Include="$(SolutionDir)include\muu\bitset.h" />
     <ClInclude Include="$(SolutionDir)include\muu\blob.h" />
@@ -86,6 +87,17 @@
     <ClInclude Include="$(SolutionDir)include\muu\impl\header_end.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\header_start.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\preprocessor_for_each.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\std_cstdlib.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\std_exception.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\std_iosfwd.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\std_launder.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\std_memory.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\std_new.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\std_memcpy.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\std_string.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\std_string_view.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\std_utility.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\type_name_specializations.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\vector_types_common.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\unicode_char.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\unicode_char16_t.h" />
@@ -125,8 +137,6 @@
     <Natvis Include="$(SolutionDir)muu.natvis" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(SolutionDir)src\blob.cpp" />
-    <ClCompile Include="$(SolutionDir)src\generic_allocator.cpp" />
     <ClCompile Include="$(SolutionDir)src\hashing.cpp" />
     <ClCompile Include="$(SolutionDir)src\string_param.cpp" />
     <ClCompile Include="$(SolutionDir)src\thread_name.cpp" />

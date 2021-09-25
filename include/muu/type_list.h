@@ -37,9 +37,7 @@
 	#endif
 #endif
 #if !MUU_HAS_INTEGER_SEQ
-MUU_DISABLE_WARNINGS;
-	#include <utility>
-MUU_ENABLE_WARNINGS;
+	#include "impl/std_utility.h"
 #endif
 
 /// \cond

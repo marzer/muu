@@ -1,6 +1,4 @@
 muu_lib_sources = [
-	'blob.cpp',
-	'generic_allocator.cpp',
 	'hashing.cpp',
 	'vector_types_common.cpp',
 	'string_param.cpp',

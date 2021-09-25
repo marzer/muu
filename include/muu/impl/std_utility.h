@@ -4,14 +4,14 @@
 // SPDX-License-Identifier: MIT
 // clang-format off
 #pragma once
-#ifndef MUU_STD_NEW_INCLUDED
-#define MUU_STD_NEW_INCLUDED
+#ifndef MUU_STD_UTILITY_INCLUDED
+#define MUU_STD_UTILITY_INCLUDED
 
 #include "../preprocessor.h"
 
 MUU_DISABLE_WARNINGS;
-#include <new>
+#include <utility>
 MUU_ENABLE_WARNINGS;
 
-#endif // MUU_STD_NEW_INCLUDED
+#endif // MUU_STD_UTILITY_INCLUDED
 // clang-format on

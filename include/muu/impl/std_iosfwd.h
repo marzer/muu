@@ -2,15 +2,16 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
+// clang-format off
 #pragma once
+#ifndef MUU_STD_IOSFWD_INCLUDED
+#define MUU_STD_IOSFWD_INCLUDED
 
 #include "../preprocessor.h"
 
 MUU_DISABLE_WARNINGS;
 #include <iosfwd>
 MUU_ENABLE_WARNINGS;
-
-#define MUU_STD_IOSFWD_INCLUDED
 
 #if defined(DOXYGEN) || (defined(__cpp_lib_syncbuf) && __cpp_lib_syncbuf >= 201803)
 	#define MUU_HAS_SYNCSTREAMS 1
@@ -23,3 +24,6 @@ MUU_ENABLE_WARNINGS;
 #else
 	#define MUU_HAS_SPANSTREAMS 0
 #endif
+
+#endif // MUU_STD_IOSFWD_INCLUDED
+// clang-format on

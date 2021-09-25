@@ -6,15 +6,13 @@
 #include "tests.h"
 #include "../include/muu/blob.h"
 
-static constexpr size_t default_blob_alignment = size_t{ __STDCPP_DEFAULT_NEW_ALIGNMENT__ };
-
 TEST_CASE("blob")
 {
 	//default ctor
 	blob blb;
 	CHECK(blb.size() == 0);
 	CHECK(blb.data() == nullptr);
-	CHECK(blb.alignment() == default_blob_alignment);
+	CHECK(blb.alignment() == impl::aligned_alloc_min_align);
 	CHECK(has_single_bit(blb.alignment()));
 	CHECK(!blb);
 
@@ -23,7 +21,7 @@ TEST_CASE("blob")
 	CHECK(blb2);
 	CHECK(blb2.size() == 1024);
 	CHECK(blb2.data() != nullptr);
-	CHECK(blb2.alignment() == default_blob_alignment);
+	CHECK(blb2.alignment() == impl::aligned_alloc_min_align);
 	CHECK(has_single_bit(blb2.alignment()));
 
 	//copy constructor (and move assignment)
@@ -31,14 +29,14 @@ TEST_CASE("blob")
 	CHECK(blb);
 	CHECK(blb.size() == 1024);
 	CHECK(blb.data() != nullptr);
-	CHECK(blb.alignment() == default_blob_alignment);
+	CHECK(blb.alignment() == impl::aligned_alloc_min_align);
 	CHECK(has_single_bit(blb.alignment()));
 	CHECK(blb2);
 	CHECK(blb2.size() == blb.size());
 	CHECK(blb2.data() != nullptr);
 	CHECK(blb2.data() != blb.data());
 	CHECK(blb2.alignment() == blb.alignment());
-	CHECK(blb2.alignment() == default_blob_alignment);
+	CHECK(blb2.alignment() == impl::aligned_alloc_min_align);
 	CHECK(MUU_MEMCMP(blb.data(), blb2.data(), blb.size()) == 0);
 
 	//move constructor
@@ -46,12 +44,12 @@ TEST_CASE("blob")
 	CHECK(blb);
 	CHECK(blb.size() == 1024);
 	CHECK(blb.data() != nullptr);
-	CHECK(blb.alignment() == default_blob_alignment);
+	CHECK(blb.alignment() == impl::aligned_alloc_min_align);
 	CHECK(has_single_bit(blb.alignment()));
 	CHECK(!blb2);
 	CHECK(blb2.size() == 0);
 	CHECK(blb2.data() == nullptr);
-	CHECK(blb2.alignment() == default_blob_alignment);
+	CHECK(blb2.alignment() == impl::aligned_alloc_min_align);
 
 	//aligned data
 	blb2 = blob{ 2048, nullptr, 128 };

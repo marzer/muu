@@ -2,14 +2,14 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
-#ifndef MUU_TYPE_NAME_H
-	#define MUU_TYPE_NAME_H
+#ifndef MUU_TYPE_NAME_INCLUDED
+#define MUU_TYPE_NAME_INCLUDED
 
 /// \file
 /// \brief  Contains the definition of muu::type_name.
 
-	#include "static_string.h"
-	#include "type_list.h"
+#include "static_string.h"
+#include "type_list.h"
 
 namespace muu
 {
@@ -184,18 +184,18 @@ namespace muu
 		MUU_CONSTEVAL
 		auto type_name_source_string() noexcept
 		{
-	#if defined(__GNUC__)
+#if defined(__GNUC__)
 
 			auto str = std::string_view{ __PRETTY_FUNCTION__ };
 			str		 = type_name_trim_left_from_first(str, '[');
 			str		 = type_name_trim_right_from_last(str, ']');
 
-	#elif defined(_MSC_VER)
+#elif defined(_MSC_VER)
 
 			auto str = std::string_view{ __FUNCSIG__ };
 			str		 = type_name_trim_left_from_first(str, '<');
 			str		 = type_name_trim_right_from_last(str, '>');
-	#endif
+#endif
 
 			str = type_name_trim_right_from_last(str, ';');
 			str = type_name_remove_prefixes(str);
@@ -764,13 +764,13 @@ namespace muu
 		// todo: template unpacking with NTTPs
 	}
 
-	#define MUU_SPECIALIZE_TYPENAME_ALIAS(T)                                                                           \
-		template <>                                                                                                    \
-		inline constexpr auto type_name<T> = static_string(MUU_MAKE_STRING(T))
+#define MUU_SPECIALIZE_TYPENAME_ALIAS(T)                                                                               \
+	template <>                                                                                                        \
+	inline constexpr auto type_name<T> = static_string(MUU_MAKE_STRING(T))
 
-	#define MUU_SPECIALIZE_TYPENAME_TEMPLATE_ALIAS(T)                                                                  \
-		template <typename T0>                                                                                         \
-		inline constexpr auto type_name<T<T0>> = static_string(MUU_MAKE_STRING(T)) + '<' + type_name<T0> + '>'
+#define MUU_SPECIALIZE_TYPENAME_TEMPLATE_ALIAS(T)                                                                      \
+	template <typename T0>                                                                                             \
+	inline constexpr auto type_name<T<T0>> = static_string(MUU_MAKE_STRING(T)) + '<' + type_name<T0> + '>'
 
 	// built-ins (to reduce instantiations and ensure consistent behaviour)
 	MUU_SPECIALIZE_TYPENAME_ALIAS(void);
@@ -789,25 +789,25 @@ namespace muu
 	MUU_SPECIALIZE_TYPENAME_ALIAS(unsigned int);
 	MUU_SPECIALIZE_TYPENAME_ALIAS(unsigned long);
 	MUU_SPECIALIZE_TYPENAME_ALIAS(unsigned long long);
-	#if MUU_HAS_INT128
+#if MUU_HAS_INT128
 	MUU_SPECIALIZE_TYPENAME_ALIAS(__int128_t);
 	MUU_SPECIALIZE_TYPENAME_ALIAS(__uint128_t);
-	#endif
+#endif
 	MUU_SPECIALIZE_TYPENAME_ALIAS(float);
 	MUU_SPECIALIZE_TYPENAME_ALIAS(double);
 	MUU_SPECIALIZE_TYPENAME_ALIAS(long double);
-	#if MUU_HAS_CHAR8
+#if MUU_HAS_CHAR8
 	MUU_SPECIALIZE_TYPENAME_ALIAS(char8_t);
-	#endif
-	#if MUU_HAS_FP16
+#endif
+#if MUU_HAS_FP16
 	MUU_SPECIALIZE_TYPENAME_ALIAS(__fp16);
-	#endif
-	#if MUU_HAS_FLOAT16
+#endif
+#if MUU_HAS_FLOAT16
 	MUU_SPECIALIZE_TYPENAME_ALIAS(_Float16);
-	#endif
-	#if MUU_HAS_FLOAT128
+#endif
+#if MUU_HAS_FLOAT128
 	MUU_SPECIALIZE_TYPENAME_ALIAS(__float128);
-	#endif
+#endif
 
 	// muu types forward-declared in fwd.h
 	MUU_SPECIALIZE_TYPENAME_TEMPLATE_ALIAS(muu::span);
@@ -818,9 +818,9 @@ namespace muu
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wstring_view);
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::u16string_view);
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::u32string_view);
-	#if MUU_HAS_CHAR8_STRINGS
+#if MUU_HAS_CHAR8_STRINGS
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::u8string_view);
-	#endif
+#endif
 
 	// <iosfwd> (included in this header)
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::ios);
@@ -850,13 +850,13 @@ namespace muu
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wofstream);
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wfstream);
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::streampos);
-	#if MUU_HAS_SYNCSTREAMS
+#if MUU_HAS_SYNCSTREAMS
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::syncbuf);
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::osyncstream);
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wsyncbuf);
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wosyncstream);
-	#endif
-	#if MUU_HAS_SPANSTREAMS
+#endif
+#if MUU_HAS_SPANSTREAMS
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::spanbuf);
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::ispanstream);
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::ospanstream);
@@ -865,90 +865,10 @@ namespace muu
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wispanstream);
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wospanstream);
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wspanstream);
-	#endif
+#endif
 	/// \endcond
 }
 
-#endif // MUU_TYPE_NAME_H
+#include "impl/type_name_specializations.h"
 
-/// cond
-
-// this part is outside the header guards because these stdlib-based specializations are sensitive to include order;
-// having it be 'repeatable' maximizes the chance they'll actually get included without requiring user intervention.
-
-namespace muu
-{
-	// <string>
-#if !defined(MUU_TYPENAME_SPECIALIZED_STD_STRING)                                                                      \
-	&& (defined(MUU_STD_STRING_INCLUDED) || (defined(_MSC_VER) && defined(_STRING_)) || defined(_GLIBCXX_STRING))
-
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::string);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wstring);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::u16string);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::u32string);
-	#if MUU_HAS_CHAR8_STRINGS
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::u8string);
-	#endif
-
-	#if defined(__cpp_lib_memory_resource) && __cpp_lib_memory_resource >= 201603
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::pmr::string);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::pmr::wstring);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::pmr::u16string);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::pmr::u32string);
-		#if MUU_HAS_CHAR8_STRINGS
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::pmr::u8string);
-		#endif
-	#endif
-
-	#define MUU_TYPENAME_SPECIALIZED_STD_STRING
-#endif
-
-	// <vector>
-#if !defined(MUU_TYPENAME_SPECIALIZED_STD_VECTOR)                                                                      \
-	&& (defined(MUU_STD_VECTOR_INCLUDED) || (defined(_MSC_VER) && defined(_VECTOR_)) || defined(_GLIBCXX_VECTOR))
-
-	MUU_SPECIALIZE_TYPENAME_TEMPLATE_ALIAS(std::vector);
-
-	#if defined(__cpp_lib_memory_resource) && __cpp_lib_memory_resource >= 201603
-	MUU_SPECIALIZE_TYPENAME_TEMPLATE_ALIAS(std::pmr::vector);
-	#endif
-
-	#define MUU_TYPENAME_SPECIALIZED_STD_VECTOR
-#endif
-
-	// <exception>
-#if !defined(MUU_TYPENAME_SPECIALIZED_STD_EXCEPTION)                                                                   \
-	&& (defined(MUU_STD_EXCEPTION_INCLUDED) || (defined(_MSC_VER) && defined(_EXCEPTION_))                             \
-		|| defined(_GLIBCXX_STDEXCEPT) || defined(__EXCEPTION__))
-
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::exception);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::nested_exception);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::bad_exception);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::exception_ptr);
-
-	#define MUU_TYPENAME_SPECIALIZED_STD_EXCEPTION
-#endif
-
-	// <memory>
-#if !defined(MUU_TYPENAME_SPECIALIZED_STD_MEMORY)                                                                      \
-	&& (defined(MUU_STD_MEMORY_INCLUDED) || (defined(_MSC_VER) && defined(_MEMORY_)) || defined(_GLIBCXX_MEMORY))
-
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::bad_weak_ptr);
-
-	MUU_SPECIALIZE_TYPENAME_TEMPLATE_ALIAS(std::unique_ptr);
-	MUU_SPECIALIZE_TYPENAME_TEMPLATE_ALIAS(std::shared_ptr);
-	MUU_SPECIALIZE_TYPENAME_TEMPLATE_ALIAS(std::weak_ptr);
-	MUU_SPECIALIZE_TYPENAME_TEMPLATE_ALIAS(std::default_delete);
-	MUU_SPECIALIZE_TYPENAME_TEMPLATE_ALIAS(std::enable_shared_from_this);
-	MUU_SPECIALIZE_TYPENAME_TEMPLATE_ALIAS(std::allocator);
-	MUU_SPECIALIZE_TYPENAME_TEMPLATE_ALIAS(std::allocator_traits);
-	MUU_SPECIALIZE_TYPENAME_TEMPLATE_ALIAS(std::pointer_traits);
-	MUU_SPECIALIZE_TYPENAME_TEMPLATE_ALIAS(std::owner_less);
-	MUU_SPECIALIZE_TYPENAME_TEMPLATE_ALIAS(std::hash);
-	MUU_SPECIALIZE_TYPENAME_TEMPLATE_ALIAS(std::atomic);
-
-	#define MUU_TYPENAME_SPECIALIZED_STD_MEMORY
-#endif
-}
-
-/// \endcond
+#endif // MUU_TYPE_NAME_INCLUDED

@@ -45,7 +45,6 @@
 #define MUU_FORCE_NDEBUG_OPTIMIZATIONS		static_assert(true)
 #define MUU_RESET_NDEBUG_OPTIMIZATIONS		static_assert(true)
 #define MUU_FMA_BLOCK						static_assert(true)
-#define MUU_GENERIC_ALLOCATOR_ATTRS
 #define MUU_HALF_EMULATED					1
 #define MUU_HAS_EXCEPTIONS					1
 #define MUU_HAS_FLOAT128					0

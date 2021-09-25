@@ -5,10 +5,10 @@
 
 #pragma once
 #include "muu/preprocessor.h"
+#include "muu/impl/std_cstdlib.h"
 
 MUU_DISABLE_WARNINGS;
 
-#include <cstdlib>
 #include <unistd.h>
 #include <sys/syscall.h>
 

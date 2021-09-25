@@ -202,6 +202,18 @@
     <ClInclude Include="include\muu\impl\std_memory.h">
       <Filter>include\impl</Filter>
     </ClInclude>
+    <ClInclude Include="include\muu\impl\std_utility.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\aligned_alloc.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\std_cstdlib.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\type_name_specializations.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".circleci\config.yml">
@@ -292,9 +304,6 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\blob.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\hashing.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -311,9 +320,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\vector_types_common.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\generic_allocator.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

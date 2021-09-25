@@ -2,7 +2,10 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
+// clang-format off
 #pragma once
+#ifndef MUU_STD_MEMORY_INCLUDED
+#define MUU_STD_MEMORY_INCLUDED
 
 #include "../preprocessor.h"
 
@@ -10,4 +13,7 @@ MUU_DISABLE_WARNINGS;
 #include <memory>
 MUU_ENABLE_WARNINGS;
 
-#define MUU_STD_MEMORY_INCLUDED
+#include "type_name_specializations.h"
+
+#endif // MUU_STD_MEMORY_INCLUDED
+// clang-format on

@@ -13,7 +13,6 @@ import subprocess
 import shutil
 from argparse import ArgumentParser, RawTextHelpFormatter
 from pathlib import Path
-from utils import ScopeTimer
 
 
 
@@ -29,7 +28,7 @@ def git_query(git_args, cwd=None):
 	proc = subprocess.run(
 		['git'] + str(git_args).strip().split(),
 		capture_output=True,
-		cwd=path.cwd() if cwd is None else cwd,
+		cwd=str(Path.cwd() if cwd is None else cwd),
 		encoding='utf-8',
 		check=True
 	)
@@ -51,6 +50,12 @@ def run(args):
 	utils.assert_existing_directory(include_dir)
 	utils.assert_existing_directory(docs_dir)
 
+	# ignore list for copytree
+	garbage = ['*.exp', '*.ilk', '*.build', '*.dox', '*.log']
+	if not args.debug:
+		garbage.append('*.pdb')
+	garbage = shutil.ignore_patterns(*garbage)
+
 	# read version number
 	pp_h = utils.read_all_text_from_file(Path(include_dir, 'muu/preprocessor.h'))
 	match = re.search(
@@ -64,12 +69,16 @@ def run(args):
 	version = rf'{int(match[1])}.{int(match[2])}.{int(match[3])}'
 	print(rf'Local version: {version}')
 
+	# set a few local git config options
+	git_query(r'config http.postBuffer 33554432', cwd=root_dir)
+	git_query(r'config protocol.version 2', cwd=root_dir)
+	git_query(r'config diff.ignoreSubmodules dirty', cwd=root_dir)
+
 	# git fetch
 	if not args.nofetch:
-		with ScopeTimer(r'Running git fetch', print_start=True) as timer:
-			fetch_includes_submodules = not args.stale and not args.nosubmodules and not (args.nolibs and args.nodocs)
+		with utils.ScopeTimer(r'Running git fetch', print_start=True) as timer:
 			proc = subprocess.run(
-				rf'git fetch --jobs={os.cpu_count()} {"--recurse-submodules" if fetch_includes_submodules else ""}'.split(),
+				rf'git fetch --all --jobs={os.cpu_count()} {"" if args.nosubmodules else "--recurse-submodules"}'.split(),
 				cwd=root_dir,
 				check=True
 			)
@@ -113,9 +122,9 @@ def run(args):
 
 	# create temp output directory
 	out_dir = Path(root_dir, rf'{package_name}_temp')
-	utils.delete_directory(out_dir)
+	utils.delete_directory(out_dir, logger=True)
 	print(rf'Creating {out_dir}')
-	out_dir.mkdir()
+	out_dir.mkdir(parents=True)
 
 	# write VERSION
 	with open_text_file_for_writing(out_dir, 'VERSION') as f:
@@ -126,45 +135,35 @@ def run(args):
 		print(git_commit_hash, file=f, end='')
 
 	# pull submodules
-	if not args.stale and not args.nosubmodules and not (args.nolibs and args.nodocs):
+	if not args.nosubmodules:
 		if not external_dir.exists():
-			external_dir.mkdir()
+			external_dir.mkdir(parents=True)
 		fetch = '' if args.nofetch else '--no-fetch' # update includes fetch if we didn't fetch earlier
-		with ScopeTimer(r'Pulling submodules', print_start=True) as timer:
-			#if not args.nolibs:
-			#	subprocess.run(
-			#		(rf'git submodule update --init --depth 1 --jobs {os.cpu_count()} {fetch}'
-			#			+ r' external/eigen'
-			#			+ r' external/GeometricTools'
-			#			+ r' external/muu'
-			#			+ r' external/xxHash').split(),
-			#		cwd=root_dir,
-			#		check=True
-			#	)
+		with utils.ScopeTimer(r'Pulling submodules', print_start=True) as timer:
 			subprocess.run(
-				[ 'git', 'submodule', 'foreach', 'git reset --hard --recurse-submodules'],
+				(rf'git submodule update --init --depth 1 --jobs {os.cpu_count()} {fetch}').split(),
+				cwd=root_dir,
+				check=True
+			)
+			subprocess.run(
+				r'git submodule foreach git reset --hard --recurse-submodules'.split(),
 				cwd=root_dir,
 				check=True
 			)
 		
-	# ignore list for copytree
-	garbage = ['*.exp', '*.ilk', '*.build', '*.dox', '*.log']
-	if not args.debug:
-		garbage.append('*.pdb')
-	garbage = shutil.ignore_patterns(*garbage)
-
 	# libs
 	if not args.nolibs:
 
 		# regenerate unicode functions
-		if not args.stale:
-			utils.run_python_script(Path(tools_dir, 'generate_unicode_functions.py'))
+		if not args.nounicode:
+			with utils.ScopeTimer(r'Regenerating Unicode functions', print_start=True) as timer:
+				utils.run_python_script(Path(tools_dir, 'generate_unicode_functions.py'))
 
 		# build libs
 		lib_dir = Path(root_dir, 'lib')
 		if not args.stale:
-			with ScopeTimer(r'Building libs', print_start=True) as timer:
-				utils.delete_directory(lib_dir)
+			with utils.ScopeTimer(r'Building libs', print_start=True) as timer:
+				utils.delete_directory(lib_dir, logger=True)
 				cmd = [str(Path(tools_dir, 'build_libs_msvc.bat')),
 					f'-p:MuuOptimizedDebug={not args.debug}',
 					f'-p:MuuStripSymbols={not args.debug}',
@@ -188,8 +187,8 @@ def run(args):
 
 		# generate documentation
 		docs_html_dir = Path(docs_dir, 'html')
-		if not args.stale and not args.nodocs:
-			with ScopeTimer(r'Generating documentation', print_start=True) as timer:
+		if not args.stale:
+			with utils.ScopeTimer(r'Generating documentation', print_start=True) as timer:
 				subprocess.run(
 					[ r'poxy' ],
 					check=True,
@@ -224,12 +223,12 @@ def run(args):
 		'muu.natvis'
 	]
 	for f in top_level_files:
-		utils.copy_file(Path(root_dir, f), out_dir)
+		utils.copy_file(Path(root_dir, f), out_dir, logger=True)
 
 	# zip file
 	if not args.nozip:
 		out_file = Path(root_dir, rf'{package_name}.zip')
-		with ScopeTimer(r'Zipping release', print_start=True) as timer:
+		with utils.ScopeTimer(r'Zipping release', print_start=True) as timer:
 			if out_file.exists():
 				print(f'Deleting {out_file}')
 				out_file.unlink()
@@ -239,11 +238,11 @@ def run(args):
 					archive_file = 'muu/' + str(file)[file_prefix_len:].strip(r'\/')
 					print(f'Zipping {file}')
 					zip.write(file, arcname=archive_file)
-			print(rf'Release packaged as {out_file}.')
+		print(rf'Release packaged as {out_file}.')
 
 	# delete temp directory
 	if not args.nocleanup:
-		utils.delete_directory(out_dir)
+		utils.delete_directory(out_dir, logger=True)
 
 
 
@@ -262,7 +261,12 @@ def main():
 	args.add_argument(
 		'--nosubmodules',
 		action='store_true',
-		help='Does not pull submodules.'
+		help='Does not pull submodules. (implied by --stale)'
+	)
+	args.add_argument(
+		'--nounicode',
+		action='store_true',
+		help='Does not regenerate the Unicode functions before building. (implied by --stale)'
 	)
 	args.add_argument(
 		'--nodocs',
@@ -272,7 +276,7 @@ def main():
 	args.add_argument(
 		'--nofetch',
 		action='store_true',
-		help='Does not run git fetch.'
+		help='Does not run git fetch. (implied by --stale)'
 	)
 	args.add_argument(
 		'--nolibs',
@@ -303,7 +307,16 @@ def main():
 	args = args.parse_args()
 	__verbose = args.verbose
 
-	with ScopeTimer(r'All tasks') as timer:
+	# collapse some invariants here to make the run routine easier to reason about
+	if args.stale:
+		args.nofetch = True
+		args.nosubmodules = True
+		args.nounicode = True
+	if args.nolibs:
+		args.nosubmodules = True
+		args.nounicode = True
+
+	with utils.ScopeTimer(r'All tasks') as timer:
 		run(args)
 
 

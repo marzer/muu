@@ -927,7 +927,6 @@ namespace muu
 		friend constexpr matrix MUU_VECTORCALL operator+(MUU_VC_PARAM(matrix) lhs, MUU_VC_PARAM(matrix) rhs) noexcept
 		{
 			matrix out{ lhs };
-			MUU_PRAGMA_MSVC(omp simd)
 			for (size_t i = 0; i < columns; i++)
 				out.m[i] += rhs.m[i];
 			return out;
@@ -936,7 +935,6 @@ namespace muu
 		/// \brief Componentwise adds another matrix to this one.
 		constexpr matrix& MUU_VECTORCALL operator+=(MUU_VC_PARAM(matrix) rhs) noexcept
 		{
-			MUU_PRAGMA_MSVC(omp simd)
 			for (size_t i = 0; i < columns; i++)
 				base::m[i] += rhs.m[i];
 			return *this;
@@ -961,7 +959,6 @@ namespace muu
 		friend constexpr matrix MUU_VECTORCALL operator-(MUU_VC_PARAM(matrix) lhs, MUU_VC_PARAM(matrix) rhs) noexcept
 		{
 			matrix out{ lhs };
-			MUU_PRAGMA_MSVC(omp simd)
 			for (size_t i = 0; i < columns; i++)
 				out.m[i] -= rhs.m[i];
 			return out;
@@ -970,7 +967,6 @@ namespace muu
 		/// \brief Componentwise subtracts another matrix from this one.
 		constexpr matrix& MUU_VECTORCALL operator-=(MUU_VC_PARAM(matrix) rhs) noexcept
 		{
-			MUU_PRAGMA_MSVC(omp simd)
 			for (size_t i = 0; i < columns; i++)
 				base::m[i] -= rhs.m[i];
 			return *this;
@@ -983,7 +979,6 @@ namespace muu
 		constexpr matrix operator-() const noexcept
 		{
 			matrix out{ *this };
-			MUU_PRAGMA_MSVC(omp simd)
 			for (size_t i = 0; i < columns; i++)
 				out.m[i] = -out.m[i];
 			return out;
@@ -1092,8 +1087,6 @@ namespace muu
 						MUU_FMA_BLOCK;
 
 						auto val = static_cast<type>(lhs(out_r, 0)) * static_cast<type>(rhs(0, out_c));
-
-						MUU_PRAGMA_MSVC(omp simd)
 						for (size_t r = 1; r < Columns; r++)
 							val += static_cast<type>(lhs(out_r, r)) * static_cast<type>(rhs(r, out_c));
 
@@ -1171,8 +1164,6 @@ namespace muu
 					MUU_FMA_BLOCK;
 
 					auto val = static_cast<type>(lhs(out_r, 0)) * static_cast<type>(rhs.template get<0>());
-
-					MUU_PRAGMA_MSVC(omp simd)
 					for (size_t c = 1; c < Columns; c++)
 						val += static_cast<type>(lhs(out_r, c)) * static_cast<type>(rhs[c]);
 
@@ -1239,8 +1230,6 @@ namespace muu
 					MUU_FMA_BLOCK;
 
 					auto val = static_cast<type>(lhs.template get<0>()) * static_cast<type>(rhs(0, out_col));
-
-					MUU_PRAGMA_MSVC(omp simd)
 					for (size_t r = 1; r < Rows; r++)
 						val += static_cast<type>(lhs[r]) * static_cast<type>(rhs(r, out_col));
 
@@ -1381,7 +1370,6 @@ namespace muu
 				for (size_t c = 0; c < Columns; c++)
 				{
 					auto& col = m.m[c];
-					MUU_PRAGMA_MSVC(omp simd)
 					for (size_t r = 0; r < Rows; r++)
 						out.m[r][c] = col[r];
 				}
@@ -1613,7 +1601,6 @@ namespace muu
 					dot += static_cast<type>(c1.template get<3>()) * static_cast<type>(c2.template get<3>());
 				if constexpr (Depth > 4)
 				{
-					MUU_PRAGMA_MSVC(omp simd)
 					for (size_t i = 4; i < Depth; i++)
 						dot += static_cast<type>(c1[i]) * static_cast<type>(c2[i]);
 				}
@@ -1646,7 +1633,6 @@ namespace muu
 					c.template get<3>() = static_cast<scalar_type>(static_cast<type>(c.template get<3>()) * inv_len);
 				if constexpr (Depth > 4)
 				{
-					MUU_PRAGMA_MSVC(omp simd)
 					for (size_t i = 4; i < Depth; i++)
 						c[i] = static_cast<scalar_type>(static_cast<type>(c[i]) * inv_len);
 				}

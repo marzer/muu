@@ -79,6 +79,7 @@
     <ClInclude Include="include\muu\accumulator.h" />
     <ClInclude Include="include\muu\all.h" />
     <ClInclude Include="include\muu\function_view.h" />
+    <ClInclude Include="include\muu\impl\aligned_alloc.h" />
     <ClInclude Include="include\muu\impl\core_bit.h" />
     <ClInclude Include="include\muu\bitset.h" />
     <ClInclude Include="include\muu\blob.h" />
@@ -101,6 +102,7 @@
     <ClInclude Include="include\muu\impl\header_end.h" />
     <ClInclude Include="include\muu\impl\header_start.h" />
     <ClInclude Include="include\muu\impl\preprocessor_for_each.h" />
+    <ClInclude Include="include\muu\impl\std_cstdlib.h" />
     <ClInclude Include="include\muu\impl\std_exception.h" />
     <ClInclude Include="include\muu\impl\std_iosfwd.h" />
     <ClInclude Include="include\muu\impl\std_launder.h" />
@@ -109,6 +111,8 @@
     <ClInclude Include="include\muu\impl\std_memcpy.h" />
     <ClInclude Include="include\muu\impl\std_string.h" />
     <ClInclude Include="include\muu\impl\std_string_view.h" />
+    <ClInclude Include="include\muu\impl\std_utility.h" />
+    <ClInclude Include="include\muu\impl\type_name_specializations.h" />
     <ClInclude Include="include\muu\impl\vector_types_common.h" />
     <ClInclude Include="include\muu\impl\unicode_char.h" />
     <ClInclude Include="include\muu\impl\unicode_char16_t.h" />
@@ -179,8 +183,6 @@
     <Text Include="tools\requirements.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\blob.cpp" />
-    <ClCompile Include="src\generic_allocator.cpp" />
     <ClCompile Include="src\hashing.cpp" />
     <ClCompile Include="src\string_param.cpp" />
     <ClCompile Include="src\thread_name.cpp" />
