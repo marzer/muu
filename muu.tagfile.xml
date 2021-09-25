@@ -2726,8 +2726,8 @@
       <type>blob &amp;</type>
       <name>assign</name>
       <anchorfile>classmuu_1_1blob.html</anchorfile>
-      <anchor>a7406de028cd8353c9158040778c0810c</anchor>
-      <arglist>(size_t size, const void *src, size_t align={}, generic_allocator *allocator=nullptr)</arglist>
+      <anchor>acc93e0dec9ba56b2ebe2529279288c87</anchor>
+      <arglist>(size_t sz, const void *src, size_t align={}, generic_allocator *allocator=nullptr)</arglist>
     </member>
     <member kind="function">
       <type>blob &amp;</type>
@@ -2740,8 +2740,8 @@
       <type>blob &amp;</type>
       <name>operator=</name>
       <anchorfile>classmuu_1_1blob.html</anchorfile>
-      <anchor>a860d90fdb60127d00f7d8d53d77c3150</anchor>
-      <arglist>(blob &amp;&amp;) noexcept</arglist>
+      <anchor>abd1d5ad3bd10a4ae846b37d3278578ed</anchor>
+      <arglist>(blob &amp;&amp;rhs) noexcept</arglist>
     </member>
     <member kind="function">
       <type>size_t</type>
@@ -2752,10 +2752,10 @@
     </member>
     <member kind="function">
       <type>blob &amp;</type>
-      <name>size</name>
+      <name>resize</name>
       <anchorfile>classmuu_1_1blob.html</anchorfile>
-      <anchor>ac74d12aeb98c34257162d802b6ec7fc5</anchor>
-      <arglist>(size_t size)</arglist>
+      <anchor>a4fd4c1b1bb857acb18c4ffdbcff88ae8</anchor>
+      <arglist>(size_t sz)</arglist>
     </member>
     <member kind="function">
       <type>size_t</type>
@@ -4323,33 +4323,40 @@
   <compound kind="struct">
     <name>muu::generic_allocator</name>
     <filename>structmuu_1_1generic__allocator.html</filename>
-    <member kind="function" virtualness="pure">
-      <type>virtual void *</type>
+    <member kind="typedef">
+      <type>void *(*)(void *data, size_t size, size_t alignment) noexcept</type>
+      <name>allocate_func</name>
+      <anchorfile>structmuu_1_1generic__allocator.html</anchorfile>
+      <anchor>a52e898cce336e1b58148a2bb33abab45</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>void(*)(void *data, void *ptr) noexcept</type>
+      <name>deallocate_func</name>
+      <anchorfile>structmuu_1_1generic__allocator.html</anchorfile>
+      <anchor>a8384b617463c8f114ebb971ddd5e9e25</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>void *</type>
+      <name>data</name>
+      <anchorfile>structmuu_1_1generic__allocator.html</anchorfile>
+      <anchor>a9403892a02b19fb82e6202961c14d94d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>allocate_func</type>
       <name>allocate</name>
       <anchorfile>structmuu_1_1generic__allocator.html</anchorfile>
-      <anchor>a3ff92fb10f884b6fe6285c7450f6fe66</anchor>
-      <arglist>(size_t size, size_t alignment)=0</arglist>
+      <anchor>a333fbdb60203d9088f90e31fc5e4556a</anchor>
+      <arglist></arglist>
     </member>
-    <member kind="function" virtualness="pure">
-      <type>virtual void</type>
+    <member kind="variable">
+      <type>deallocate_func</type>
       <name>deallocate</name>
       <anchorfile>structmuu_1_1generic__allocator.html</anchorfile>
-      <anchor>a9e5e89e9722c27085c24b9eeafe11cc0</anchor>
-      <arglist>(void *ptr) noexcept=0</arglist>
-    </member>
-    <member kind="function">
-      <type>void *</type>
-      <name>allocate</name>
-      <anchorfile>structmuu_1_1generic__allocator.html</anchorfile>
-      <anchor>a196542e2f3f158744bc57db630fd2659</anchor>
-      <arglist>(size_t size)</arglist>
-    </member>
-    <member kind="function">
-      <type>void *</type>
-      <name>allocate</name>
-      <anchorfile>structmuu_1_1generic__allocator.html</anchorfile>
-      <anchor>a57af54df9a861a22e38158c36fc05e35</anchor>
-      <arglist>(size_t size)</arglist>
+      <anchor>a7ff57b86bbbfa5fc47cb4cf96a5993f2</anchor>
+      <arglist></arglist>
     </member>
   </compound>
   <compound kind="struct">

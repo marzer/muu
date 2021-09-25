@@ -57,7 +57,7 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span><a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a><span class="m-thin">file</span>
+          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span>vector.h <span class="m-thin">file</span>
         </h1>
         <p>Contains the definition of <a class="m-doc" href="structmuu_1_1vector.html">muu::<wbr/>vector</a>.</p>
         <div class="m-block m-default poxy-toc">
@@ -87,7 +87,7 @@
               <div class="m-doc-template">template&lt;typename Scalar,  Dimensions&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1vector.html">muu::vector</a>
             </dt>
-            <dd>An N-dimensional .</dd>
+            <dd>An N-dimensional vector.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/size_t.html" target="_blank">size_<wbr/>t</a> Dimensions&gt;</div>
               struct <a class="m-doc" href="structstd_1_1tuple__size_3_01muu_1_1vector_3_01_scalar_00_01_dimensions_01_4_01_4.html">std::tuple_size&lt;muu::vector&lt;Scalar, Dimensions&gt;&gt;</a>
@@ -110,132 +110,132 @@
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;typename S,  D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__abs.html#ga3d9f7436810436103ec0af7e77597b04">abs</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; v) -&gt; &lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__abs.html#ga3d9f7436810436103ec0af7e77597b04">abs</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v) -&gt; vector&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a copy of a  with all scalar components set to their absolute values.</dd>
+            <dd>Returns a copy of a vector with all scalar components set to their absolute values.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S,  D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#ad3a39a64a42865cc1b4dfe5ba737c7f4">angle</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; v1,
-              const &lt;S, D&gt;&amp; v2) -&gt; delta_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#ad3a39a64a42865cc1b4dfe5ba737c7f4">angle</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v1,
+              const vector&lt;S, D&gt;&amp; v2) -&gt; delta_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Calculates the angle between two .</dd>
+            <dd>Calculates the angle between two vectors.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, typename T,  D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga5d86e15710b89e3c79399cd98f597efe">approx_equal</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; v1,
-              const &lt;T, D&gt;&amp; v2,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga5d86e15710b89e3c79399cd98f597efe">approx_equal</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v1,
+              const vector&lt;T, D&gt;&amp; v2,
               epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if two  are approximately equal.</dd>
+            <dd>Returns true if two vectors are approximately equal.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S,  D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#gaa7e15ecff78c10af4eaa5b463eee9ca6">approx_zero</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; v,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#gaa7e15ecff78c10af4eaa5b463eee9ca6">approx_zero</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v,
               S epsilon = default_epsilon&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if all the scalar components of a  are approximately equal to zero.</dd>
+            <dd>Returns true if all the scalar components of a vector are approximately equal to zero.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S,  D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__ceil.html#gae07fcd5b9220de0b39fa3461c3c529de">ceil</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; v) -&gt; &lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__ceil.html#gae07fcd5b9220de0b39fa3461c3c529de">ceil</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v) -&gt; vector&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a copy of a  with all scalar components set to the lowest integer not less than their original values.</dd>
+            <dd>Returns a copy of a vector with all scalar components set to the lowest integer not less than their original values.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S,  D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a13427afa8abc10b68dec66a3e6d30c94">clamp</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; v,
-              const &lt;S, D&gt;&amp; low,
-              const &lt;S, D&gt;&amp; high) -&gt; &lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a13427afa8abc10b68dec66a3e6d30c94">clamp</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v,
+              const vector&lt;S, D&gt;&amp; low,
+              const vector&lt;S, D&gt;&amp; high) -&gt; vector&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Componentwise clamps a  between two others.</dd>
+            <dd>Componentwise clamps a vector between two others.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a6522fd4daefcf5bb938bd2879c99b741">cross</a>(</span><span class="m-doc-wrap">const &lt;S, 3&gt;&amp; lhs,
-              const &lt;S, 3&gt;&amp; rhs) -&gt; vector_product <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a6522fd4daefcf5bb938bd2879c99b741">cross</a>(</span><span class="m-doc-wrap">const vector&lt;S, 3&gt;&amp; lhs,
+              const vector&lt;S, 3&gt;&amp; rhs) -&gt; vector_product <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the cross product of two three-dimensional .</dd>
+            <dd>Returns the cross product of two three-dimensional vectors.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S,  D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a5894cf9d191befc3a53ed17f6ead1b3f">direction</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; from,
-              const &lt;S, D&gt;&amp; to,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a5894cf9d191befc3a53ed17f6ead1b3f">direction</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; from,
+              const vector&lt;S, D&gt;&amp; to,
               delta_type&amp; distance_out) -&gt; vector_product <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the normalized direction  from one position to another.</dd>
+            <dd>Returns the normalized direction vector from one position to another.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S,  D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#af688d95d2f8af0a0687b78875d465e93">direction</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; from,
-              const &lt;S, D&gt;&amp; to) -&gt; vector_product <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#af688d95d2f8af0a0687b78875d465e93">direction</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; from,
+              const vector&lt;S, D&gt;&amp; to) -&gt; vector_product <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the normalized direction  from one position to another.</dd>
+            <dd>Returns the normalized direction vector from one position to another.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S,  D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a4633afca2e5b98a7e8b5f857cfa7a611">distance</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; p1,
-              const &lt;S, D&gt;&amp; p2) -&gt; delta_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a4633afca2e5b98a7e8b5f857cfa7a611">distance</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; p1,
+              const vector&lt;S, D&gt;&amp; p2) -&gt; delta_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the distance between two point .</dd>
+            <dd>Returns the distance between two point vectors.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S,  D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#ac89dde907a1376136b6ec7296671ba65">distance_squared</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; p1,
-              const &lt;S, D&gt;&amp; p2) -&gt; delta_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#ac89dde907a1376136b6ec7296671ba65">distance_squared</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; p1,
+              const vector&lt;S, D&gt;&amp; p2) -&gt; delta_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the squared distance between two point .</dd>
+            <dd>Returns the squared distance between two point vectors.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S,  D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#ac5cdbbcc7fbf5513c01aa5e9d799c77e">dot</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; v1,
-              const &lt;S, D&gt;&amp; v2) -&gt; product_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#ac5cdbbcc7fbf5513c01aa5e9d799c77e">dot</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v1,
+              const vector&lt;S, D&gt;&amp; v2) -&gt; product_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the dot product of two .</dd>
+            <dd>Returns the dot product of two vectors.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S,  D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__floor.html#gaa9989749869046cff6731ead1b56f0df">floor</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; v) -&gt; &lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__floor.html#gaa9989749869046cff6731ead1b56f0df">floor</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v) -&gt; vector&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a copy of a  with all scalar components set to the highest integer not greater than their original values.</dd>
+            <dd>Returns a copy of a vector with all scalar components set to the highest integer not greater than their original values.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S,  D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga302affada638f7a69a77c925b1f38d93">infinity_or_nan</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; v) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga302affada638f7a69a77c925b1f38d93">infinity_or_nan</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if any of the scalar components of a  are infinity or NaN.</dd>
+            <dd>Returns true if any of the scalar components of a vector are infinity or NaN.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S,  D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a2331787cdf36e4d844da3b1f046da7f9">length</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; v) -&gt; delta_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a2331787cdf36e4d844da3b1f046da7f9">length</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v) -&gt; delta_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the length (magnitude) of a .</dd>
+            <dd>Returns the length (magnitude) of a vector.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S,  D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#af37b8bb87586b2493271f14f82d2481e">length_squared</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; v) -&gt; delta_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#af37b8bb87586b2493271f14f82d2481e">length_squared</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v) -&gt; delta_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the squared length of a .</dd>
+            <dd>Returns the squared length of a vector.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S,  D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__lerp.html#ga8a4dcbb8bec3e3ce9276430bdb3f44f3">lerp</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; start,
-              const &lt;S, D&gt;&amp; finish,
-              delta_type alpha) -&gt; &lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__lerp.html#ga8a4dcbb8bec3e3ce9276430bdb3f44f3">lerp</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; start,
+              const vector&lt;S, D&gt;&amp; finish,
+              delta_type alpha) -&gt; vector&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Performs a linear interpolation between two .</dd>
+            <dd>Performs a linear interpolation between two vectors.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S,  D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a28964d765fdb622739bd2ac68ce50329">max</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; v1,
-              const &lt;S, D&gt;&amp; v2) -&gt; &lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a28964d765fdb622739bd2ac68ce50329">max</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v1,
+              const vector&lt;S, D&gt;&amp; v2) -&gt; vector&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the componentwise maximum of two .</dd>
+            <dd>Returns the componentwise maximum of two vectors.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S,  D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a0677f3cf9e12c0c6cf4ee3844dd802c1">min</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; v1,
-              const &lt;S, D&gt;&amp; v2) -&gt; &lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a0677f3cf9e12c0c6cf4ee3844dd802c1">min</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v1,
+              const vector&lt;S, D&gt;&amp; v2) -&gt; vector&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the componentwise minimum of two .</dd>
+            <dd>Returns the componentwise minimum of two vectors.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S,  D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#aaed6aa88dd289829bd7f1b15182d2577">normalize</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; v,
-              delta_type&amp; length_out) -&gt; &lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#aaed6aa88dd289829bd7f1b15182d2577">normalize</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v,
+              delta_type&amp; length_out) -&gt; vector&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Normalizes a .</dd>
+            <dd>Normalizes a vector.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S,  D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a0901b5c81729a1e28b3dab7c0cf1bba3">normalize</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; v) -&gt; &lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a0901b5c81729a1e28b3dab7c0cf1bba3">normalize</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v) -&gt; vector&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Normalizes a .</dd>
+            <dd>Normalizes a vector.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S,  D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a528d334a55d0d8e0349b3b746bfd8f58">normalized</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; v) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a528d334a55d0d8e0349b3b746bfd8f58">normalized</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if a  is normalized (i.e. has a length of 1).</dd>
+            <dd>Returns true if a vector is normalized (i.e. has a length of 1).</dd>
           </dl>
         </section>
       </div>

@@ -204,17 +204,17 @@
             </dt>
             <dd>Copy constructor.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1quaternion.html">quaternion</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a> s,
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a795795744f43d6eeecb97c9af2177f37">quaternion</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a> s,
               <a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a> vx,
               <a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a> vy,
               <a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a> vz) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a quaternion from raw scalar values.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1quaternion.html">quaternion</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a> s,
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#ae6e9f2bb8f383ffe641980edc0f03f18">quaternion</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a> s,
               const <a class="m-doc" href="structmuu_1_1quaternion.html#a6f37d9dfd591c57a0e51174a983adbc9">vector_<wbr/>type</a>&amp; v) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Constructs a quaternion from a scalar and a .</dd>
+            <dd>Constructs a quaternion from a scalar and a vector.</dd>
             <dt id="a300a11619180c4956e2f3d263b044c68">
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a300a11619180c4956e2f3d263b044c68">quaternion</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&lt;T&gt;&amp; quat) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -230,7 +230,7 @@
             <dd>Constructs a quaternion from a set of euler angles.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1quaternion.html">quaternion</a>(</span><span class="m-doc-wrap">const T&amp; blittable) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#af3526894b4d0dc8924b9ca19522a84bf">quaternion</a>(</span><span class="m-doc-wrap">const T&amp; blittable) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a quaternion from an implicitly bit-castable type.</dd>
           </dl>
@@ -327,7 +327,7 @@
             <dt id="ac767617ff07f372a2b4800741adb3f9d">
               <a class="m-doc" href="structmuu_1_1quaternion.html#a6f37d9dfd591c57a0e51174a983adbc9">vector_<wbr/>type</a> <a class="m-doc-self" href="#ac767617ff07f372a2b4800741adb3f9d">v</a>
             </dt>
-            <dd>The quaternion's  (imaginary) part.</dd>
+            <dd>The quaternion's vector (imaginary) part.</dd>
           </dl>
         </section>
         <section id="friends">
@@ -348,12 +348,12 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac2e34ff956e86a2a85aacf99cd2221fc">operator*</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1quaternion.html#a6f37d9dfd591c57a0e51174a983adbc9">vector_<wbr/>type</a>&amp; rhs) -&gt; friend <a class="m-doc" href="structmuu_1_1quaternion.html#a6f37d9dfd591c57a0e51174a983adbc9">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Rotates a three-dimensional  by the rotation encoded in a quaternion.</dd>
+            <dd>Rotates a three-dimensional vector by the rotation encoded in a quaternion.</dd>
             <dt id="a789b2466d90c6b58ab53c9b81f961b6d">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a789b2466d90c6b58ab53c9b81f961b6d">operator*</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1quaternion.html#a6f37d9dfd591c57a0e51174a983adbc9">vector_<wbr/>type</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&amp; rhs) -&gt; friend <a class="m-doc" href="structmuu_1_1quaternion.html#a6f37d9dfd591c57a0e51174a983adbc9">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Rotates a three-dimensional  by the rotation encoded in a quaternion.</dd>
+            <dd>Rotates a three-dimensional vector by the rotation encoded in a quaternion.</dd>
             <dt id="a2374f94da554459d8dbe786328d81cc1">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2374f94da554459d8dbe786328d81cc1">operator*</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a>&amp; lhs,
               <a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a> rhs) -&gt; friend <a class="m-doc" href="structmuu_1_1quaternion.html">quaternion</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -645,15 +645,15 @@
                 </tr>
                 <tr>
                   <td>vx</td>
-                  <td>Initial value for the  (imaginary) part's X component.</td>
+                  <td>Initial value for the vector (imaginary) part's X component.</td>
                 </tr>
                 <tr>
                   <td>vy</td>
-                  <td>Initial value for the  (imaginary) part's Y component.</td>
+                  <td>Initial value for the vector (imaginary) part's Y component.</td>
                 </tr>
                 <tr>
                   <td>vz</td>
-                  <td>Initial value for the  (imaginary) part's Z component.</td>
+                  <td>Initial value for the vector (imaginary) part's Z component.</td>
                 </tr>
               </tbody>
             </table>
@@ -666,7 +666,7 @@
               <span class="m-doc-wrap-bumper"> muu::<wbr/>quaternion&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae6e9f2bb8f383ffe641980edc0f03f18">quaternion</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1quaternion.html#a3e98bb4b06ea6527ae03261a20971647">scalar_<wbr/>type</a> s,
               const <a class="m-doc" href="structmuu_1_1quaternion.html#a6f37d9dfd591c57a0e51174a983adbc9">vector_<wbr/>type</a>&amp; v) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Constructs a quaternion from a scalar and a .</p>
+            <p>Constructs a quaternion from a scalar and a vector.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
@@ -678,7 +678,7 @@
                 </tr>
                 <tr>
                   <td>v</td>
-                  <td>Initial value for the  (imaginary) part.</td>
+                  <td>Initial value for the vector (imaginary) part.</td>
                 </tr>
               </tbody>
             </table>

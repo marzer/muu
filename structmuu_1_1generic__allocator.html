@@ -67,137 +67,41 @@
             <li>
               Reference
               <ul>
-                <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#pub-types">Public types</a></li>
+                <li><a href="#pub-attribs">Public variables</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="pub-methods">
-          <h2><a href="#pub-methods">Public functions</a></h2>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a3ff92fb10f884b6fe6285c7450f6fe66">allocate</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><span class="m-label m-flat m-warning">pure virtual</span></span>
+            <dt id="a52e898cce336e1b58148a2bb33abab45">
+              using <a class="m-doc-self" href="#a52e898cce336e1b58148a2bb33abab45">allocate_func</a> = void*(*)(void*<a class="m-doc" href="structmuu_1_1generic__allocator.html#a9403892a02b19fb82e6202961c14d94d">data</a>,  size,  alignment) noexcept
             </dt>
-            <dd>Requests a memory allocation.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a196542e2f3f158744bc57db630fd2659">allocate</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span>
+            <dd>Allocation callback.</dd>
+            <dt id="a8384b617463c8f114ebb971ddd5e9e25">
+              using <a class="m-doc-self" href="#a8384b617463c8f114ebb971ddd5e9e25">deallocate_func</a> = void(*)(void*<a class="m-doc" href="structmuu_1_1generic__allocator.html#a9403892a02b19fb82e6202961c14d94d">data</a>, void*ptr) noexcept
             </dt>
-            <dd>Requests a memory allocation.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt; Alignment&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a57af54df9a861a22e38158c36fc05e35">allocate</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span>
-            </dt>
-            <dd>Requests a memory allocation.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">void <a class="m-doc" href="#a9e5e89e9722c27085c24b9eeafe11cc0">deallocate</a>(</span><span class="m-doc-wrap">void* ptr) <span class="m-label m-flat m-warning">pure virtual</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Deallocates a memory allocation previously acquired by <a class="m-doc" href="structmuu_1_1generic__allocator.html#a3ff92fb10f884b6fe6285c7450f6fe66">allocate()</a>.</dd>
+            <dd>Deallocation callback.</dd>
           </dl>
         </section>
-        <section>
-          <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a3ff92fb10f884b6fe6285c7450f6fe66"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">void* muu::<wbr/>generic_allocator::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3ff92fb10f884b6fe6285c7450f6fe66">allocate</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><span class="m-label m-warning">pure virtual</span></span></span>
-            </h3>
-            <p>Requests a memory allocation.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">size</td>
-                  <td>The size of the requested allocation.</td>
-                </tr>
-                <tr>
-                  <td>alignment</td>
-                  <td>The required alignment. Must be a power of two.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td><strong><em>When exceptions are enabled:</em></strong> A pointer to the new allocation, or throws <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/memory/new/bad_alloc.html" target="_blank">std::<wbr/>bad_alloc</a>.<br/><strong><em>When exceptions are disabled:</em></strong> A pointer to the new allocation, or <code>nullptr</code>.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a196542e2f3f158744bc57db630fd2659"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">void* muu::<wbr/>generic_allocator::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a196542e2f3f158744bc57db630fd2659">allocate</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span></span>
-            </h3>
-            <p>Requests a memory allocation.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">size</td>
-                  <td>The size of the requested allocation.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td><strong><em>When exceptions are enabled:</em></strong> A pointer to the new allocation, or throws <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/memory/new/bad_alloc.html" target="_blank">std::<wbr/>bad_alloc</a>.<br/><strong><em>When exceptions are disabled:</em></strong> A pointer to the new allocation, or <code>nullptr</code>.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>Allocations returned by this overload will have an alignment of <strong>STDCPP_DEFAULT_NEW_ALIGNMENT</strong>.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="a57af54df9a861a22e38158c36fc05e35"><div>
-            <h3>
-              <div class="m-doc-template"> template&lt; Alignment&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">void* muu::<wbr/>generic_allocator::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a57af54df9a861a22e38158c36fc05e35">allocate</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span></span>
-            </h3>
-            <p>Requests a memory allocation.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Template parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">Alignment</td>
-                  <td>The required alignment. Must be a power of two.</td>
-                </tr>
-              </tbody>
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>size</td>
-                  <td>The size of the requested allocation.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td><strong><em>When exceptions are enabled:</em></strong> A pointer to the new allocation, or throws <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/memory/new/bad_alloc.html" target="_blank">std::<wbr/>bad_alloc</a>.<br/><strong><em>When exceptions are disabled:</em></strong> A pointer to the new allocation, or <code>nullptr</code>.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a9e5e89e9722c27085c24b9eeafe11cc0"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">void muu::<wbr/>generic_allocator::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a9e5e89e9722c27085c24b9eeafe11cc0">deallocate</a>(</span><span class="m-doc-wrap">void* ptr) <span class="m-label m-warning">pure virtual</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Deallocates a memory allocation previously acquired by <a class="m-doc" href="structmuu_1_1generic__allocator.html#a3ff92fb10f884b6fe6285c7450f6fe66">allocate()</a>.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">ptr</td>
-                  <td>The pointer returned by <a class="m-doc" href="structmuu_1_1generic__allocator.html#a3ff92fb10f884b6fe6285c7450f6fe66">allocate()</a>.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div></section>
+        <section id="pub-attribs">
+          <h2><a href="#pub-attribs">Public variables</a></h2>
+          <dl class="m-doc">
+            <dt id="a9403892a02b19fb82e6202961c14d94d">
+              void* <a class="m-doc-self" href="#a9403892a02b19fb82e6202961c14d94d">data</a>
+            </dt>
+            <dd>Generic data tag to pass to allocation and deallocation callbacks.</dd>
+            <dt id="a333fbdb60203d9088f90e31fc5e4556a">
+              <a class="m-doc" href="structmuu_1_1generic__allocator.html#a52e898cce336e1b58148a2bb33abab45">allocate_<wbr/>func</a> <a class="m-doc-self" href="#a333fbdb60203d9088f90e31fc5e4556a">allocate</a>
+            </dt>
+            <dd>Pointer to a function which allocates memory.</dd>
+            <dt id="a7ff57b86bbbfa5fc47cb4cf96a5993f2">
+              <a class="m-doc" href="structmuu_1_1generic__allocator.html#a8384b617463c8f114ebb971ddd5e9e25">deallocate_<wbr/>func</a> <a class="m-doc-self" href="#a7ff57b86bbbfa5fc47cb4cf96a5993f2">deallocate</a>
+            </dt>
+            <dd>Pointer to a function which deallocates memory.</dd>
+          </dl>
         </section>
       </div>
     </div>

@@ -57,7 +57,7 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span><a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a><span class="m-thin">file</span>
+          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span>oriented_bounding_box.h <span class="m-thin">file</span>
         </h1>
         <p>Contains the definition of <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">muu::<wbr/>oriented_bounding_box</a>.</p>
         <div class="m-block m-default poxy-toc">
@@ -105,20 +105,20 @@
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga44033f904b7ed733949dab5e6acccd16">approx_equal</a>(</span><span class="m-doc-wrap">const &lt;S&gt;&amp; q1,
-              const &lt;T&gt;&amp; q2,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga44033f904b7ed733949dab5e6acccd16">approx_equal</a>(</span><span class="m-doc-wrap">const oriented_bounding_box&lt;S&gt;&amp; q1,
+              const oriented_bounding_box&lt;T&gt;&amp; q2,
               epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two oriented bounding boxes are approximately equal.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga4c274a76495695493647b4e0b7af1299">approx_zero</a>(</span><span class="m-doc-wrap">const &lt;S&gt;&amp; q,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga4c274a76495695493647b4e0b7af1299">approx_zero</a>(</span><span class="m-doc-wrap">const oriented_bounding_box&lt;S&gt;&amp; q,
               S epsilon = default_epsilon&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if all the scalar components of an <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a> are approximately equal to zero.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gade7f3e7d056853c9e542ec453394a9c4">infinity_or_nan</a>(</span><span class="m-doc-wrap">const &lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gade7f3e7d056853c9e542ec453394a9c4">infinity_or_nan</a>(</span><span class="m-doc-wrap">const oriented_bounding_box&lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the scalar components of an <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a> are infinity or NaN.</dd>
           </dl>

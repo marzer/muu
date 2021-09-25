@@ -57,7 +57,7 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span><a class="m-doc poxy-injected" href="structmuu_1_1quaternion.html">quaternion</a><span class="m-thin">file</span>
+          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span>quaternion.h <span class="m-thin">file</span>
         </h1>
         <p>Contains the definition of <a class="m-doc" href="structmuu_1_1quaternion.html">muu::<wbr/>quaternion</a>.</p>
         <div class="m-block m-default poxy-toc">
@@ -97,7 +97,7 @@
               <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1quaternion.html">muu::quaternion</a>
             </dt>
-            <dd>A .</dd>
+            <dd>A quaternion.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
               struct <a class="m-doc" href="structstd_1_1tuple__size_3_01muu_1_1quaternion_3_01_scalar_01_4_01_4.html">std::tuple_size&lt;muu::quaternion&lt;Scalar&gt;&gt;</a>
@@ -120,45 +120,45 @@
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga6b8d6921c4f39c5881a7ea6f95f33392">approx_equal</a>(</span><span class="m-doc-wrap">const &lt;S&gt;&amp; q1,
-              const &lt;T&gt;&amp; q2,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga6b8d6921c4f39c5881a7ea6f95f33392">approx_equal</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q1,
+              const quaternion&lt;T&gt;&amp; q2,
               epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if two  are approximately equal.</dd>
+            <dd>Returns true if two quaternions are approximately equal.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga04dec66856dc79915e9130ef3693e9f2">approx_zero</a>(</span><span class="m-doc-wrap">const &lt;S&gt;&amp; q,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga04dec66856dc79915e9130ef3693e9f2">approx_zero</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q,
               S epsilon = default_epsilon&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if all the scalar components of a  are approximately equal to zero.</dd>
+            <dd>Returns true if all the scalar components of a quaternion are approximately equal to zero.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#ae3e92df79fe85ed96266ca70d660de8d">dot</a>(</span><span class="m-doc-wrap">const &lt;S&gt;&amp; q1,
-              const &lt;S&gt;&amp; q2) -&gt; S <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#ae3e92df79fe85ed96266ca70d660de8d">dot</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q1,
+              const quaternion&lt;S&gt;&amp; q2) -&gt; S <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the dot product of two .</dd>
+            <dd>Returns the dot product of two quaternions.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gaffcaea7f39fc17894285d8221923387e">infinity_or_nan</a>(</span><span class="m-doc-wrap">const &lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gaffcaea7f39fc17894285d8221923387e">infinity_or_nan</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if any of the scalar components of a  are infinity or NaN.</dd>
+            <dd>Returns true if any of the scalar components of a quaternion are infinity or NaN.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#aa80b85fea6664e3d955f129f9eff4a41">normalize</a>(</span><span class="m-doc-wrap">const &lt;S&gt;&amp; q) -&gt; &lt;S&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#aa80b85fea6664e3d955f129f9eff4a41">normalize</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q) -&gt; quaternion&lt;S&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Normalizes a .</dd>
+            <dd>Normalizes a quaternion.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#aa0566104402180d9b3945e6bae7f3615">normalized</a>(</span><span class="m-doc-wrap">const &lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#aa0566104402180d9b3945e6bae7f3615">normalized</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if a  is normalized (i.e. has a length of 1).</dd>
+            <dd>Returns true if a quaternion is normalized (i.e. has a length of 1).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a8df75ca3a9d767d9132a8bf68c922ea7">slerp</a>(</span><span class="m-doc-wrap">const &lt;S&gt;&amp; start,
-              const &lt;S&gt;&amp; finish,
-              S alpha) -&gt; &lt;S&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a8df75ca3a9d767d9132a8bf68c922ea7">slerp</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; start,
+              const quaternion&lt;S&gt;&amp; finish,
+              S alpha) -&gt; quaternion&lt;S&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Performs a spherical-linear interpolation between two .</dd>
+            <dd>Performs a spherical-linear interpolation between two quaternions.</dd>
           </dl>
         </section>
       </div>

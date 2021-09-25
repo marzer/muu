@@ -75,7 +75,7 @@
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gadb3f9b52071aea9fe1cf894a7fb9c039">ceil</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="structmuu_1_1half.html">half</a><a class="m-doc poxy-injected" href="structmuu_1_1half.html">half</a><span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gadb3f9b52071aea9fe1cf894a7fb9c039">ceil</a>(</span><span class="m-doc-wrap">half x) -&gt; half <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the ceiling of a half-precision float.</dd>
             <dt>
@@ -91,9 +91,9 @@
             </dt>
             <dd>Returns the ceiling of a long double value.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga121a468fa346aedba09c1dfd59430269">ceil</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a><a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a><span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga121a468fa346aedba09c1dfd59430269">ceil</a>(</span><span class="m-doc-wrap">float128_t x) -&gt; float128_t <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the ceiling of a  value.</dd>
+            <dd>Returns the ceiling of a float128_t value.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gace09eecb7e26047a4d4be5f822022134">ceil</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a><a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a><span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -109,16 +109,16 @@
             <dd>Returns the ceiling of an integer.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S,  D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gae07fcd5b9220de0b39fa3461c3c529de">ceil</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; v) -&gt; &lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gae07fcd5b9220de0b39fa3461c3c529de">ceil</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v) -&gt; vector&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a copy of a  with all scalar components set to the lowest integer not less than their original values.</dd>
+            <dd>Returns a copy of a vector with all scalar components set to the lowest integer not less than their original values.</dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
           <section class="m-doc-details" id="gadb3f9b52071aea9fe1cf894a7fb9c039"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1half.html">half</a></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gadb3f9b52071aea9fe1cf894a7fb9c039">ceil</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="structmuu_1_1half.html">half</a><span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">half </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gadb3f9b52071aea9fe1cf894a7fb9c039">ceil</a>(</span><span class="m-doc-wrap">half x) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="half_8h.html">&lt;muu/half.h&gt;</a></div>
             </h3>
             <p>Returns the ceiling of a half-precision float.</p>
@@ -146,10 +146,10 @@
           </div></section>
           <section class="m-doc-details" id="ga121a468fa346aedba09c1dfd59430269"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga121a468fa346aedba09c1dfd59430269">ceil</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a><span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">float128_t </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga121a468fa346aedba09c1dfd59430269">ceil</a>(</span><span class="m-doc-wrap">float128_t x) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
             </h3>
-            <p>Returns the ceiling of a  value.</p>
+            <p>Returns the ceiling of a float128_t value.</p>
           </div></section>
           <section class="m-doc-details" id="gace09eecb7e26047a4d4be5f822022134"><div>
             <h3>
@@ -180,9 +180,9 @@
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="vector_8h.html">&lt;muu/vector.h&gt;</a></div>
               <div class="m-doc-template"> template&lt;typename S,  D&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gae07fcd5b9220de0b39fa3461c3c529de">ceil</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; v) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">vector&lt;S, D&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gae07fcd5b9220de0b39fa3461c3c529de">ceil</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Returns a copy of a  with all scalar components set to the lowest integer not less than their original values.</p>
+            <p>Returns a copy of a vector with all scalar components set to the lowest integer not less than their original values.</p>
           </div></section>
         </section>
       </div>

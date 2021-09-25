@@ -76,7 +76,9 @@
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga7d194c0af560d9e78eab17a4e76d17a5">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="structmuu_1_1half.html">half</a><a class="m-doc poxy-injected" href="structmuu_1_1half.html">half</a><a class="m-doc poxy-injected" href="structmuu_1_1half.html">half</a><a class="m-doc poxy-injected" href="structmuu_1_1half.html">half</a><span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga7d194c0af560d9e78eab17a4e76d17a5">lerp</a>(</span><span class="m-doc-wrap">half start,
+              half finish,
+              half alpha) -&gt; half <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a linear interpolation between two half-precision floats.</dd>
             <dt>
@@ -98,9 +100,11 @@
             </dt>
             <dd>Returns a linear interpolation between two long doubles.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga614ccb878d52686237995f87013cfae5">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a><a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a><a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a><a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a><span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga614ccb878d52686237995f87013cfae5">lerp</a>(</span><span class="m-doc-wrap">float128_t start,
+              float128_t finish,
+              float128_t alpha) -&gt; float128_t <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns a linear interpolation between two .</dd>
+            <dd>Returns a linear interpolation between two float128_ts.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga2ef795b3516004d50fdb7003c388e15d">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a><a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a><a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a><a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a><span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -118,18 +122,20 @@
             <dd>Returns a linear interpolation between two arithmetic values.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S,  D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga8a4dcbb8bec3e3ce9276430bdb3f44f3">lerp</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; start,
-              const &lt;S, D&gt;&amp; finish,
-              delta_type alpha) -&gt; &lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga8a4dcbb8bec3e3ce9276430bdb3f44f3">lerp</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; start,
+              const vector&lt;S, D&gt;&amp; finish,
+              delta_type alpha) -&gt; vector&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Performs a linear interpolation between two .</dd>
+            <dd>Performs a linear interpolation between two vectors.</dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
           <section class="m-doc-details" id="ga7d194c0af560d9e78eab17a4e76d17a5"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1half.html">half</a></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga7d194c0af560d9e78eab17a4e76d17a5">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="structmuu_1_1half.html">half</a><a class="m-doc poxy-injected" href="structmuu_1_1half.html">half</a><a class="m-doc poxy-injected" href="structmuu_1_1half.html">half</a><span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">half </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga7d194c0af560d9e78eab17a4e76d17a5">lerp</a>(</span><span class="m-doc-wrap">half start,
+              half finish,
+              half alpha) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="half_8h.html">&lt;muu/half.h&gt;</a></div>
             </h3>
             <p>Returns a linear interpolation between two half-precision floats.</p>
@@ -163,10 +169,12 @@
           </div></section>
           <section class="m-doc-details" id="ga614ccb878d52686237995f87013cfae5"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga614ccb878d52686237995f87013cfae5">lerp</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a><a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a><a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a><span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">float128_t </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga614ccb878d52686237995f87013cfae5">lerp</a>(</span><span class="m-doc-wrap">float128_t start,
+              float128_t finish,
+              float128_t alpha) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
             </h3>
-            <p>Returns a linear interpolation between two .</p>
+            <p>Returns a linear interpolation between two float128_ts.</p>
           </div></section>
           <section class="m-doc-details" id="ga2ef795b3516004d50fdb7003c388e15d"><div>
             <h3>
@@ -200,11 +208,11 @@
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="vector_8h.html">&lt;muu/vector.h&gt;</a></div>
               <div class="m-doc-template"> template&lt;typename S,  D&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga8a4dcbb8bec3e3ce9276430bdb3f44f3">lerp</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; start,
-              const &lt;S, D&gt;&amp; finish,
+              <span class="m-doc-wrap-bumper">vector&lt;S, D&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga8a4dcbb8bec3e3ce9276430bdb3f44f3">lerp</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; start,
+              const vector&lt;S, D&gt;&amp; finish,
               delta_type alpha) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Performs a linear interpolation between two .</p>
+            <p>Performs a linear interpolation between two vectors.</p>
           </div></section>
         </section>
       </div>

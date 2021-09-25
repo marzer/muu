@@ -192,24 +192,24 @@
             </dt>
             <dd>Copy constructor.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> fill) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a7e6e3e611f1af0548d22bc555ba2d6e1">matrix</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> fill) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a matrix with all scalar components set to the same value.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> v0,
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a13b969ce2982626eba1f684daa8fe95b">matrix</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> v0,
               <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> v1,
               const T&amp;... vals) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a matrix from (row-major-ordered) scalars.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S,  R,  C&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; mat) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#abb3a11204c1d332eafade6f0615c4a59">matrix</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; mat) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Enlarging/truncating/converting constructor.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>(</span><span class="m-doc-wrap">const T&amp; blittable) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a6f6992ca5bcb35af69c85153aeb9f782">matrix</a>(</span><span class="m-doc-wrap">const T&amp; blittable) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a matrix from an implicitly bit-castable type.</dd>
           </dl>
@@ -339,12 +339,12 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#afe6e5481324e306f0f938f79a3421bf4">operator*</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, <a class="m-doc" href="structmuu_1_1matrix.html#a9e484f8d23156004ee20bf7249105d01">columns</a>&gt;&amp; rhs) -&gt; friend <a class="m-doc" href="structmuu_1_1matrix.html#a58afa02dd5888b308b1db7e578064d4c">column_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Multiplies a matrix and a column .</dd>
+            <dd>Multiplies a matrix and a column vector.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#abad69ec3b7d9187965dbee190941333f">operator*</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, <a class="m-doc" href="structmuu_1_1matrix.html#a228170eec0384c3a2f974a9defe4e628">rows</a>&gt;&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; rhs) -&gt; friend <a class="m-doc" href="structmuu_1_1matrix.html#a82625b8c9fe89c6fc5e201649760c0a6">row_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Multiplies a row  and a matrix.</dd>
+            <dd>Multiplies a row vector and a matrix.</dd>
             <dt id="adf49cbaa32a6de2e3b36af53916d9aa2">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#adf49cbaa32a6de2e3b36af53916d9aa2">operator*</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; lhs,
               <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> rhs) -&gt; friend <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -895,7 +895,7 @@ template&lt;typename T&gt;
               <span class="m-doc-wrap-bumper">friend <a class="m-doc" href="structmuu_1_1matrix.html#a58afa02dd5888b308b1db7e578064d4c">column_<wbr/>type</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#afe6e5481324e306f0f938f79a3421bf4">operator*</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, <a class="m-doc" href="structmuu_1_1matrix.html#a9e484f8d23156004ee20bf7249105d01">columns</a>&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Multiplies a matrix and a column .</p>
+            <p>Multiplies a matrix and a column vector.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
@@ -907,7 +907,7 @@ template&lt;typename T&gt;
                 </tr>
                 <tr>
                   <td>rhs</td>
-                  <td>The RHS column .</td>
+                  <td>The RHS column vector.</td>
                 </tr>
               </tbody>
               <tfoot>
@@ -925,7 +925,7 @@ template&lt;typename T&gt;
               <span class="m-doc-wrap-bumper">friend <a class="m-doc" href="structmuu_1_1matrix.html#a82625b8c9fe89c6fc5e201649760c0a6">row_<wbr/>type</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#abad69ec3b7d9187965dbee190941333f">operator*</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, <a class="m-doc" href="structmuu_1_1matrix.html#a228170eec0384c3a2f974a9defe4e628">rows</a>&gt;&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Multiplies a row  and a matrix.</p>
+            <p>Multiplies a row vector and a matrix.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
@@ -933,7 +933,7 @@ template&lt;typename T&gt;
               <tbody>
                 <tr>
                   <td style="width: 1%">lhs</td>
-                  <td>The LHS row .</td>
+                  <td>The LHS row vector.</td>
                 </tr>
                 <tr>
                   <td>rhs</td>

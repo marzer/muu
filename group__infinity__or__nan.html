@@ -77,11 +77,11 @@
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga4bac8a8324b2e1ef33cec0f7a8f718ce">infinity_or_nan</a>(</span><span class="m-doc-wrap">const &lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga4bac8a8324b2e1ef33cec0f7a8f718ce">infinity_or_nan</a>(</span><span class="m-doc-wrap">const bounding_box&lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the scalar components of a <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a> are infinity or NaN.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gafea7a631de7f6399fb55e1dffbe79c00">infinity_or_nan</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="structmuu_1_1half.html">half</a><span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gafea7a631de7f6399fb55e1dffbe79c00">infinity_or_nan</a>(</span><span class="m-doc-wrap">half x) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a half-precision float is infinity or NaN.</dd>
             <dt>
@@ -97,9 +97,9 @@
             </dt>
             <dd>Returns true if a long double is infinity or NaN.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga7fd6b8649626ba472b2b465f42de1d7b">infinity_or_nan</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a><span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga7fd6b8649626ba472b2b465f42de1d7b">infinity_or_nan</a>(</span><span class="m-doc-wrap">float128_t x) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if a  is infinity or NaN.</dd>
+            <dd>Returns true if a float128_t is infinity or NaN.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga5a34372404d7751b9b764754b94d3b30">infinity_or_nan</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a><span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -120,29 +120,29 @@
             <dd>Checks if an object is infinity or NaN.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S,  R,  C&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga1f57b7af70f0235ad644486a5943e582">infinity_or_nan</a>(</span><span class="m-doc-wrap">const &lt;S, R, C&gt;&amp; m) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga1f57b7af70f0235ad644486a5943e582">infinity_or_nan</a>(</span><span class="m-doc-wrap">const matrix&lt;S, R, C&gt;&amp; m) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if any of the scalar components of a  are infinity or NaN.</dd>
+            <dd>Returns true if any of the scalar components of a matrix are infinity or NaN.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gade7f3e7d056853c9e542ec453394a9c4">infinity_or_nan</a>(</span><span class="m-doc-wrap">const &lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gade7f3e7d056853c9e542ec453394a9c4">infinity_or_nan</a>(</span><span class="m-doc-wrap">const oriented_bounding_box&lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the scalar components of an <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a> are infinity or NaN.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaa55cd1d8c3534c8ffc01aea226c26997">infinity_or_nan</a>(</span><span class="m-doc-wrap">const &lt;S&gt;&amp; p) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaa55cd1d8c3534c8ffc01aea226c26997">infinity_or_nan</a>(</span><span class="m-doc-wrap">const plane&lt;S&gt;&amp; p) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if any of the scalar components of a  are infinity or NaN.</dd>
+            <dd>Returns true if any of the scalar components of a plane are infinity or NaN.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaffcaea7f39fc17894285d8221923387e">infinity_or_nan</a>(</span><span class="m-doc-wrap">const &lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaffcaea7f39fc17894285d8221923387e">infinity_or_nan</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if any of the scalar components of a  are infinity or NaN.</dd>
+            <dd>Returns true if any of the scalar components of a quaternion are infinity or NaN.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S,  D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga302affada638f7a69a77c925b1f38d93">infinity_or_nan</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; v) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga302affada638f7a69a77c925b1f38d93">infinity_or_nan</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if any of the scalar components of a  are infinity or NaN.</dd>
+            <dd>Returns true if any of the scalar components of a vector are infinity or NaN.</dd>
           </dl>
         </section>
         <section>
@@ -153,13 +153,13 @@
               <div class="m-doc-template">
                 template&lt;typename S&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga4bac8a8324b2e1ef33cec0f7a8f718ce">infinity_or_nan</a>(</span><span class="m-doc-wrap">const &lt;S&gt;&amp; q) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga4bac8a8324b2e1ef33cec0f7a8f718ce">infinity_or_nan</a>(</span><span class="m-doc-wrap">const bounding_box&lt;S&gt;&amp; q) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if any of the scalar components of a <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a> are infinity or NaN.</p>
           </div></section>
           <section class="m-doc-details" id="gafea7a631de7f6399fb55e1dffbe79c00"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gafea7a631de7f6399fb55e1dffbe79c00">infinity_or_nan</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="structmuu_1_1half.html">half</a><span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gafea7a631de7f6399fb55e1dffbe79c00">infinity_or_nan</a>(</span><span class="m-doc-wrap">half x) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="half_8h.html">&lt;muu/half.h&gt;</a></div>
             </h3>
             <p>Returns true if a half-precision float is infinity or NaN.</p>
@@ -187,10 +187,10 @@
           </div></section>
           <section class="m-doc-details" id="ga7fd6b8649626ba472b2b465f42de1d7b"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga7fd6b8649626ba472b2b465f42de1d7b">infinity_or_nan</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a><span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga7fd6b8649626ba472b2b465f42de1d7b">infinity_or_nan</a>(</span><span class="m-doc-wrap">float128_t x) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
             </h3>
-            <p>Returns true if a  is infinity or NaN.</p>
+            <p>Returns true if a float128_t is infinity or NaN.</p>
           </div></section>
           <section class="m-doc-details" id="ga5a34372404d7751b9b764754b94d3b30"><div>
             <h3>
@@ -257,9 +257,9 @@
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="matrix_8h.html">&lt;muu/matrix.h&gt;</a></div>
               <div class="m-doc-template"> template&lt;typename S,  R,  C&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga1f57b7af70f0235ad644486a5943e582">infinity_or_nan</a>(</span><span class="m-doc-wrap">const &lt;S, R, C&gt;&amp; m) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga1f57b7af70f0235ad644486a5943e582">infinity_or_nan</a>(</span><span class="m-doc-wrap">const matrix&lt;S, R, C&gt;&amp; m) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Returns true if any of the scalar components of a  are infinity or NaN.</p>
+            <p>Returns true if any of the scalar components of a matrix are infinity or NaN.</p>
           </div></section>
           <section class="m-doc-details" id="gade7f3e7d056853c9e542ec453394a9c4"><div>
             <h3>
@@ -267,7 +267,7 @@
               <div class="m-doc-template">
                 template&lt;typename S&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gade7f3e7d056853c9e542ec453394a9c4">infinity_or_nan</a>(</span><span class="m-doc-wrap">const &lt;S&gt;&amp; q) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gade7f3e7d056853c9e542ec453394a9c4">infinity_or_nan</a>(</span><span class="m-doc-wrap">const oriented_bounding_box&lt;S&gt;&amp; q) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if any of the scalar components of an <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a> are infinity or NaN.</p>
           </div></section>
@@ -277,9 +277,9 @@
               <div class="m-doc-template">
                 template&lt;typename S&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaa55cd1d8c3534c8ffc01aea226c26997">infinity_or_nan</a>(</span><span class="m-doc-wrap">const &lt;S&gt;&amp; p) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaa55cd1d8c3534c8ffc01aea226c26997">infinity_or_nan</a>(</span><span class="m-doc-wrap">const plane&lt;S&gt;&amp; p) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Returns true if any of the scalar components of a  are infinity or NaN.</p>
+            <p>Returns true if any of the scalar components of a plane are infinity or NaN.</p>
           </div></section>
           <section class="m-doc-details" id="gaffcaea7f39fc17894285d8221923387e"><div>
             <h3>
@@ -287,18 +287,18 @@
               <div class="m-doc-template">
                 template&lt;typename S&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaffcaea7f39fc17894285d8221923387e">infinity_or_nan</a>(</span><span class="m-doc-wrap">const &lt;S&gt;&amp; q) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaffcaea7f39fc17894285d8221923387e">infinity_or_nan</a>(</span><span class="m-doc-wrap">const quaternion&lt;S&gt;&amp; q) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Returns true if any of the scalar components of a  are infinity or NaN.</p>
+            <p>Returns true if any of the scalar components of a quaternion are infinity or NaN.</p>
           </div></section>
           <section class="m-doc-details" id="ga302affada638f7a69a77c925b1f38d93"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="vector_8h.html">&lt;muu/vector.h&gt;</a></div>
               <div class="m-doc-template"> template&lt;typename S,  D&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga302affada638f7a69a77c925b1f38d93">infinity_or_nan</a>(</span><span class="m-doc-wrap">const &lt;S, D&gt;&amp; v) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga302affada638f7a69a77c925b1f38d93">infinity_or_nan</a>(</span><span class="m-doc-wrap">const vector&lt;S, D&gt;&amp; v) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Returns true if any of the scalar components of a  are infinity or NaN.</p>
+            <p>Returns true if any of the scalar components of a vector are infinity or NaN.</p>
           </div></section>
         </section>
       </div>
