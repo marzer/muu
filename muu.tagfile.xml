@@ -8423,6 +8423,13 @@
       <anchor>a7bc9e54b6100181e7203d433a5e1b31b</anchor>
       <arglist></arglist>
     </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr size_t</type>
+      <name>index_of</name>
+      <anchorfile>structmuu_1_1type__list.html</anchorfile>
+      <anchor>ac721e0f97de92f684b6caa3423253800</anchor>
+      <arglist></arglist>
+    </member>
   </compound>
   <compound kind="struct">
     <name>muu::uuid</name>
@@ -13396,6 +13403,13 @@
       <arglist></arglist>
     </member>
     <member kind="variable">
+      <type>constexpr bool</type>
+      <name>always_false</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaa4c92e65e153e9a6c9ac01ba3bd653e5</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
       <type>constexpr size_t</type>
       <name>total_size</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -13411,9 +13425,9 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
-      <name>is_same_as_any</name>
+      <name>any_same</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga526c58b5a438ba0c7746e465389e013d</anchor>
+      <anchor>gaed6f4fa9f355d5e882000e65dc7cd0b2</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -13421,6 +13435,13 @@
       <name>all_same</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga9c2b21ea2cf57533a5dcf264d0e906e8</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr size_t</type>
+      <name>index_of_type</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga27d95776f3cf0c19b01db50c4373fb63</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -13855,13 +13876,6 @@
       <name>inherits_from</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gad99449272de65874d3b7569d9eb9e805</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>always_false</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaa4c92e65e153e9a6c9ac01ba3bd653e5</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -15287,6 +15301,13 @@
       <arglist></arglist>
     </member>
     <member kind="variable">
+      <type>constexpr bool</type>
+      <name>always_false</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaa4c92e65e153e9a6c9ac01ba3bd653e5</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
       <type>constexpr size_t</type>
       <name>total_size</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -15302,9 +15323,9 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
-      <name>is_same_as_any</name>
+      <name>any_same</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga526c58b5a438ba0c7746e465389e013d</anchor>
+      <anchor>gaed6f4fa9f355d5e882000e65dc7cd0b2</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -15312,6 +15333,13 @@
       <name>all_same</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga9c2b21ea2cf57533a5dcf264d0e906e8</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr size_t</type>
+      <name>index_of_type</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga27d95776f3cf0c19b01db50c4373fb63</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -15746,13 +15774,6 @@
       <name>inherits_from</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gad99449272de65874d3b7569d9eb9e805</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>always_false</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaa4c92e65e153e9a6c9ac01ba3bd653e5</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">

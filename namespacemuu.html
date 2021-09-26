@@ -2872,6 +2872,11 @@
             <dd>Are any of the named types integral or reference-to-integral?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gaed6f4fa9f355d5e882000e65dc7cd0b2">any_same</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if T is exactly the same as one or more of the types named by U.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga68d2257a9ace0f37200d05117931baed">any_signed</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are any of the named types signed or reference-to-signed?</dd>
@@ -3038,6 +3043,10 @@
               bool <a class="m-doc" href="group__meta.html#gaf2a9f6988557f79f960a87dccb414b15">has_unary_plus_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>True if a type has a unary plus operator (<code>+T</code>).</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc" href="group__meta.html#ga27d95776f3cf0c19b01db50c4373fb63">index_of_type</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Returns the index of the first appearance of the type T in the type list U.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Parent, typename Child&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gad99449272de65874d3b7569d9eb9e805">inherits_from</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -3213,11 +3222,6 @@
               bool <a class="m-doc" href="group__meta.html#ga324c6e94dfe58e068c531e55c15ea9a4">is_nothrow_convertible_to_any</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>True if <code>From</code> is implicitly <em>or</em> explicitly nothrow-convertible to any of the types named by <code>To</code>.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="group__meta.html#ga526c58b5a438ba0c7746e465389e013d">is_same_as_any</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>True if T is exactly the same as one or more of the types named by U.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga54c8d27010a9c661dba826d90f0c9ace">is_scoped_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
