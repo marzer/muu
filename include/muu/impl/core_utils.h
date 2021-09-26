@@ -303,7 +303,7 @@ namespace muu
 					return pointer_cast<To>(static_cast<std::underlying_type_t<From>>(from));
 
 				// (uintptr_t, intptr_t) -> pointer
-				else if constexpr (is_same_as_any<From, uintptr_t, intptr_t>)
+				else if constexpr (any_same<From, uintptr_t, intptr_t>)
 					return reinterpret_cast<To>(from);
 
 				// other integers -> pointer
@@ -333,7 +333,7 @@ namespace muu
 				else
 				{
 					static_assert(std::is_same_v<From, remove_cv<from_base>*>);
-					static_assert(is_same_as_any<To, const to_base*, const volatile to_base*, volatile to_base*>);
+					static_assert(any_same<To, const to_base*, const volatile to_base*, volatile to_base*>);
 					return static_cast<To>(from);
 				}
 			}

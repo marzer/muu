@@ -118,16 +118,16 @@ static_assert(std::is_same_v<least_aligned<void, aligned<2>, aligned<4>, aligned
 static_assert(std::is_same_v<least_aligned<void, aligned<4>, aligned<128>>, aligned<4>>);
 static_assert(std::is_same_v<least_aligned<void, aligned<128>>, aligned<128>>);
 
-// is_same_as_any (variadic std::is_same_v || ...)
-static_assert(!is_same_as_any<int>);
-static_assert(is_same_as_any<int, int>);
-static_assert(is_same_as_any<int, int, float>);
-static_assert(is_same_as_any<int, int, float, double>);
-static_assert(is_same_as_any<int, float, int, double>);
-static_assert(!is_same_as_any<int&, int>);
-static_assert(!is_same_as_any<int&, int, float>);
-static_assert(!is_same_as_any<int&, int, float, double>);
-static_assert(!is_same_as_any<int&, float, int, double>);
+// any_same (variadic std::is_same_v || ...)
+static_assert(!any_same<int>);
+static_assert(any_same<int, int>);
+static_assert(any_same<int, int, float>);
+static_assert(any_same<int, int, float, double>);
+static_assert(any_same<int, float, int, double>);
+static_assert(!any_same<int&, int>);
+static_assert(!any_same<int&, int, float>);
+static_assert(!any_same<int&, int, float, double>);
+static_assert(!any_same<int&, float, int, double>);
 
 // all_same (variadic std::is_same_v && ...)
 static_assert(all_same<int>); // one type is the same as itself
@@ -1189,7 +1189,6 @@ static_assert(!impl::is_hva<non_hva7>);
 
 #endif // MUU_HAS_VECTORCALL
 
-
 // promote_if_small_float
 static_assert(std::is_same_v<promote_if_small_float<char>, char>);
 static_assert(std::is_same_v<promote_if_small_float<int>, int>);
@@ -1324,3 +1323,18 @@ static_assert(std::is_same_v<test_type_list::slice<9, 5>, make_type_list<9, 5>>)
 static_assert(std::is_same_v<test_type_list::slice<10, 5>, make_type_list<10, 5>>);
 static_assert(std::is_same_v<test_type_list::slice<60, 5>, make_type_list<60, 5>>);
 static_assert(std::is_same_v<test_type_list::slice<70, 5>, make_type_list<70, 5>>);
+
+static_assert(test_type_list::index_of<index_tag<0>> == 0);
+static_assert(test_type_list::index_of<index_tag<1>> == 1);
+static_assert(test_type_list::index_of<index_tag<2>> == 2);
+static_assert(test_type_list::index_of<index_tag<3>> == 3);
+static_assert(test_type_list::index_of<index_tag<4>> == 4);
+static_assert(test_type_list::index_of<index_tag<5>> == 5);
+static_assert(test_type_list::index_of<index_tag<6>> == 6);
+static_assert(test_type_list::index_of<index_tag<7>> == 7);
+static_assert(test_type_list::index_of<index_tag<8>> == 8);
+static_assert(test_type_list::index_of<index_tag<9>> == 9);
+static_assert(test_type_list::index_of<index_tag<10>> == 10);
+static_assert(test_type_list::index_of<index_tag<60>> == 60);
+static_assert(test_type_list::index_of<index_tag<70>> == 70);
+static_assert(test_type_list::index_of<index_tag<99>> == 99);

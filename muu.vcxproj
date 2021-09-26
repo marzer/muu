@@ -111,6 +111,7 @@
     <ClInclude Include="include\muu\impl\std_memcpy.h" />
     <ClInclude Include="include\muu\impl\std_string.h" />
     <ClInclude Include="include\muu\impl\std_string_view.h" />
+    <ClInclude Include="include\muu\impl\std_type_traits.h" />
     <ClInclude Include="include\muu\impl\std_utility.h" />
     <ClInclude Include="include\muu\impl\type_name_specializations.h" />
     <ClInclude Include="include\muu\impl\vector_types_common.h" />

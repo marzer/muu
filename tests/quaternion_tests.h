@@ -69,7 +69,7 @@ BATCHED_TEST_CASE("quaternion constructors", all_quaternions)
 	static_assert(std::is_nothrow_constructible_v<quat_t, T, vector<T, 3>>);
 
 #if MUU_HAS_VECTORCALL
-	static_assert(impl::is_hva<quat_t> == is_same_as_any<T, float, double, long double>);
+	static_assert(impl::is_hva<quat_t> == any_same<T, float, double, long double>);
 #endif
 
 	BATCHED_SECTION("zero-initialization")

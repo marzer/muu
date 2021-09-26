@@ -673,6 +673,8 @@ namespace muu
 		using select = typename impl::type_list_selector_<type_list<>, Index>::type;
 		template <size_t Start, size_t Length = (length - Start)>
 		using slice = type_list<>;
+		template <typename U>
+		static constexpr size_t index_of = index_of_type<U>;
 	};
 
 	template <typename T>
@@ -693,6 +695,9 @@ namespace muu
 
 		template <size_t Start, size_t Length = (length - Start)>
 		using slice = typename impl::type_list_slicer_<type_list<T>, Start, Length>::type;
+
+		template <typename U>
+		static constexpr size_t index_of = index_of_type<U, T>;
 	};
 
 	template <typename T0, typename... T>
@@ -712,6 +717,9 @@ namespace muu
 
 		template <size_t Start, size_t Length = (length - Start)>
 		using slice = typename impl::type_list_slicer_<type_list<T0, T...>, Start, Length>::type;
+
+		template <typename U>
+		static constexpr size_t index_of = index_of_type<U, T0, T...>;
 	};
 
 	/// \endcond
@@ -790,6 +798,10 @@ namespace muu
 		/// \ecpp
 		template <size_t Start, size_t Length = (length - Start)>
 		using slice = POXY_IMPLEMENTATION_DETAIL(...);
+
+		/// \brief Returns the index of the first appearance of a given type in the list.
+		template <typename U>
+		static constexpr size_t index_of = index_of_type<U, T...>;
 	};
 
 #endif

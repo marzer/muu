@@ -47,14 +47,14 @@ namespace muu
 		MUU_NODISCARD
 		MUU_UNALIASED_ALLOC
 		MUU_ATTR(assume_aligned(aligned_alloc_min_align))
-		inline void* generic_alloc(generic_allocator* alloc, size_t size, size_t alignment) noexcept
+		inline void* generic_alloc(const generic_allocator* alloc, size_t size, size_t alignment) noexcept
 		{
 			if (!alloc)
 				return muu::impl::aligned_alloc(size, alignment);
 			return alloc->allocate(alloc->data, size, aligned_alloc_actual_align(size, alignment));
 		}
 
-		inline void generic_free(generic_allocator* alloc, void* ptr) noexcept
+		inline void generic_free(const generic_allocator* alloc, void* ptr) noexcept
 		{
 			if (!alloc)
 				muu::impl::aligned_free(ptr);

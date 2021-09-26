@@ -214,6 +214,9 @@
     <ClInclude Include="include\muu\impl\type_name_specializations.h">
       <Filter>include\impl</Filter>
     </ClInclude>
+    <ClInclude Include="include\muu\impl\std_type_traits.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".circleci\config.yml">

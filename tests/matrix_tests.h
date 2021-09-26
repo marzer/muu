@@ -198,7 +198,7 @@ BATCHED_TEST_CASE("matrix constructors", common_matrices<ALL_ARITHMETIC>)
 #if MUU_HAS_VECTORCALL
 	static_assert(
 		impl::is_hva<
-			matrix_t> == ((matrix_t::rows * matrix_t::columns) <= 4 && is_same_as_any<T, float, double, long double>));
+			matrix_t> == ((matrix_t::rows * matrix_t::columns) <= 4 && any_same<T, float, double, long double>));
 #endif
 
 	BATCHED_SECTION("zero-initialization")
@@ -254,7 +254,7 @@ BATCHED_TEST_CASE("matrix constructors", common_matrices<ALL_ARITHMETIC>)
 	BATCHED_SECTION("coercing constructor")
 	{
 		using other_type = std::
-			conditional_t<is_same_as_any<T, signed int, unsigned int>, float, set_signed<signed int, is_signed<T>>>;
+			conditional_t<any_same<T, signed int, unsigned int>, float, set_signed<signed int, is_signed<T>>>;
 
 		matrix<other_type, matrix_t::rows, matrix_t::columns> other;
 		for (size_t r = 0; r < matrix_t::rows; r++)

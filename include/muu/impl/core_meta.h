@@ -7,22 +7,14 @@
 #include "../fwd.h"
 
 MUU_DISABLE_WARNINGS;
-#include <type_traits>
+#include "std_type_traits.h"
+#include "std_utility.h"
 #if MUU_HAS_VECTORCALL
 	#include <intrin.h>
 #endif
 MUU_ENABLE_WARNINGS;
-#include "std_utility.h"
 #include "header_start.h"
 MUU_PRAGMA_MSVC(warning(disable : 4296)) // condition always true/false
-
-// replace the muu homebrew remove_reference_ and enable_if_ with those from <type_traits>
-// because major compilers memoize things in <type_traits> for improved throughput
-#undef MUU_MOVE
-#define MUU_MOVE(...) static_cast<std::remove_reference_t<decltype(__VA_ARGS__)>&&>(__VA_ARGS__)
-
-#undef MUU_ENABLE_IF
-#define MUU_ENABLE_IF(...) , std::enable_if_t<(__VA_ARGS__), int> = 0
 
 namespace muu
 {
@@ -42,6 +34,17 @@ namespace muu
 	using remove_cvref = std::remove_cv_t<std::remove_reference_t<T>>;
 
 #endif
+
+	/// \brief	Evaluates to false but with delayed, type-dependent evaluation.
+	/// \details Allows you to do things like this:
+	/// \cpp
+	/// if constexpr (is_some_fancy_type<T>)
+	///		// ...
+	/// else
+	///		static_assert(always_false<T>, "Oh no, T was bad!");
+	/// \ecpp
+	template <typename T>
+	inline constexpr bool always_false = false;
 
 	/// \cond
 	namespace impl
@@ -906,6 +909,22 @@ namespace muu
 		{
 			using type = T;
 		};
+
+		template <typename T, size_t I, typename... Types>
+		struct index_of_type_
+		{
+			static_assert(always_false<T>, "type not found in list");
+		};
+
+		template <typename T, size_t I, typename... Types>
+		struct index_of_type_<T, I, T, Types...>
+		{
+			static constexpr size_t value = I;
+		};
+
+		template <typename T, size_t I, typename U, typename... Types>
+		struct index_of_type_<T, I, U, Types...> : index_of_type_<T, I + 1, Types...>
+		{};
 	}
 	/// \endcond
 
@@ -953,12 +972,16 @@ namespace muu
 	/// \brief	True if T is exactly the same as one or more of the types named by U.
 	/// \remark This equivalent to `(std::is_same_v<T, U1> || std::is_same_v<T, U2> || ...)`.
 	template <typename T, typename... U>
-	inline constexpr bool is_same_as_any = (false || ... || std::is_same_v<T, U>);
+	inline constexpr bool any_same = (false || ... || std::is_same_v<T, U>);
 
 	/// \brief	True if all the types named by T and U are exactly the same.
 	/// \remark This equivalent to `(std::is_same_v<T, U1> && std::is_same_v<T, U2> && ...)`.
 	template <typename T, typename... U>
 	inline constexpr bool all_same = (true && ... && std::is_same_v<T, U>);
+
+	/// \brief	Returns the index of the first appearance of the type T in the type list U.
+	template <typename T, typename... U>
+	inline constexpr size_t index_of_type = impl::index_of_type_<T, 0, U...>::value;
 
 	/// \brief	True if `From` is implicitly convertible to `To`.
 	template <typename From, typename To>
@@ -1123,7 +1146,7 @@ namespace muu
 	/// \remarks True for #int128_t, __fp16, _Float16 and #float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_signed = std::is_signed_v<remove_enum<remove_cvref<T>>>
-		|| is_same_as_any<remove_enum<remove_cvref<T>>,
+		|| any_same<remove_enum<remove_cvref<T>>,
 #if MUU_HAS_INT128
 			int128_t,
 #endif
@@ -1154,7 +1177,7 @@ namespace muu
 	template <typename T>
 	inline constexpr bool is_integral = std::is_integral_v<remove_enum<remove_cvref<T>>>
 #if MUU_HAS_INT128
-									 || is_same_as_any<remove_enum<remove_cvref<T>>, int128_t, uint128_t>
+									 || any_same<remove_enum<remove_cvref<T>>, int128_t, uint128_t>
 #endif
 		;
 
@@ -1174,21 +1197,21 @@ namespace muu
 	/// \remarks True for #int128_t and #uint128_t (where supported).
 	/// \remarks False for enums, booleans, and character types.
 	template <typename T>
-	inline constexpr bool is_integer = is_same_as_any<remove_cvref<T>,
+	inline constexpr bool is_integer = any_same<remove_cvref<T>,
 #if MUU_HAS_INT128
-													  int128_t,
-													  uint128_t,
+												int128_t,
+												uint128_t,
 #endif
-													  signed char,
-													  signed short,
-													  signed int,
-													  signed long,
-													  signed long long,
-													  unsigned char,
-													  unsigned short,
-													  unsigned int,
-													  unsigned long,
-													  unsigned long long>;
+												signed char,
+												signed short,
+												signed int,
+												signed long,
+												signed long long,
+												unsigned char,
+												unsigned short,
+												unsigned int,
+												unsigned long,
+												unsigned long long>;
 
 	/// \brief Are any of the named types arithmetic integers, or reference to them?
 	/// \remarks True for #int128_t and #uint128_t (where supported).
@@ -1207,7 +1230,7 @@ namespace muu
 	/// \remarks True for __fp16, _Float16 and #float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_floating_point = std::is_floating_point_v<std::remove_reference_t<T>>
-		|| is_same_as_any<remove_cvref<T>,
+		|| any_same<remove_cvref<T>,
 #if MUU_HAS_FLOAT128
 			float128_t,
 #endif
@@ -1240,21 +1263,21 @@ namespace muu
 	/// \remarks True for muu::half.
 	/// \remarks True for #int128_t, #uint128_t, __fp16, _Float16 and #float128_t (where supported).
 	template <typename T>
-	inline constexpr bool is_extended_arithmetic = is_same_as_any<remove_cvref<T>,
+	inline constexpr bool is_extended_arithmetic = any_same<remove_cvref<T>,
 #if MUU_HAS_INT128
-																  int128_t,
-																  uint128_t,
+															int128_t,
+															uint128_t,
 #endif
 #if MUU_HAS_FLOAT128
-																  float128_t,
+															float128_t,
 #endif
 #if MUU_HAS_FLOAT16
-																  _Float16,
+															_Float16,
 #endif
 #if MUU_HAS_FP16
-																  __fp16,
+															__fp16,
 #endif
-																  half>;
+															half>;
 
 	/// \brief Is a type arithmetic or reference-to-arithmetic?
 	/// \remarks True for muu::half.
@@ -1372,18 +1395,6 @@ namespace muu
 	template <typename T, typename... U>
 	inline constexpr bool all_cv = (is_cv<T> && ... && is_cv<U>);
 
-	/// \cond
-	// deprecations
-#if !MUU_INTELLISENSE
-	template <typename T, typename CopyFrom>
-	using match_const = copy_const<T, CopyFrom>;
-	template <typename T, typename CopyFrom>
-	using match_volatile = copy_volatile<T, CopyFrom>;
-	template <typename T, typename CopyFrom>
-	using match_cv = copy_cv<T, CopyFrom>;
-#endif
-	/// \endcond
-
 	/// \brief Is a type const, volatile, or a reference?
 	template <typename T>
 	inline constexpr bool is_cvref = std::is_const_v<T> || std::is_volatile_v<T> || std::is_reference_v<T>;
@@ -1437,17 +1448,6 @@ namespace muu
 	template <typename T, typename CopyFrom>
 	using copy_unsigned = set_unsigned<T, is_unsigned<CopyFrom>>;
 
-	/// \brief	Evaluates to false but with delayed, type-dependent evaluation.
-	/// \details Allows you to do things like this:
-	/// \cpp
-	/// if constexpr (is_some_fancy_type<T>)
-	///		// ...
-	/// else
-	///		static_assert(always_false<T>, "Oh no, T was bad!");
-	/// \ecpp
-	template <typename T>
-	inline constexpr bool always_false = false;
-
 	/// \brief	Provides an identity type transformation.
 	/// \remark This is equivalent to C++20's std::type_identity_t.
 	template <typename T>
@@ -1463,14 +1463,14 @@ namespace muu
 
 	/// \brief Is a type a built-in text code unit (character) type, or reference to one?
 	template <typename T>
-	inline constexpr bool is_code_unit = is_same_as_any<remove_cvref<T>,
+	inline constexpr bool is_code_unit = any_same<remove_cvref<T>,
 #if MUU_HAS_CHAR8
-														char8_t,
+												  char8_t,
 #endif
-														char,
-														wchar_t,
-														char16_t,
-														char32_t>;
+												  char,
+												  wchar_t,
+												  char16_t,
+												  char32_t>;
 
 	/// \brief Is a type a built-in text character (code unit) type, or reference to one?
 	/// \remark This an alias for #muu::is_code_unit.
@@ -1889,17 +1889,17 @@ namespace muu
 #if MUU_HAS_VECTORCALL
 
 		template <typename T>
-		inline constexpr bool is_vectorcall_simd_intrinsic = is_same_as_any<remove_cvref<T>,
-																			__m64,
-																			__m128,
-																			__m128i,
-																			__m128d,
-																			__m256,
-																			__m256d,
-																			__m256i,
-																			__m512,
-																			__m512d,
-																			__m512i>;
+		inline constexpr bool is_vectorcall_simd_intrinsic = any_same<remove_cvref<T>,
+																	  __m64,
+																	  __m128,
+																	  __m128i,
+																	  __m128d,
+																	  __m256,
+																	  __m256d,
+																	  __m256i,
+																	  __m512,
+																	  __m512d,
+																	  __m512i>;
 
 		template <typename T>
 		using is_aggregate_5_args_ =
@@ -1928,7 +1928,7 @@ namespace muu
 
 		template <typename T>
 		inline constexpr bool is_hva_scalar =
-			is_same_as_any<T, float, double, long double> || is_vectorcall_simd_intrinsic<T>;
+			any_same<T, float, double, long double> || is_vectorcall_simd_intrinsic<T>;
 
 		template <typename Scalar, typename T>
 		inline constexpr bool can_be_hva_of = std::is_class_v<T>						   //
@@ -2159,6 +2159,20 @@ namespace muu
 	inline constexpr bool decays_to_function_pointer_by_unary_plus = impl::decays_to_function_pointer_by_unary_plus_<T>;
 
 	/** @} */ // meta
+
+	/// \cond
+	// deprecations
+#if !MUU_INTELLISENSE
+	template <typename T, typename CopyFrom>
+	using match_const = copy_const<T, CopyFrom>;
+	template <typename T, typename CopyFrom>
+	using match_volatile = copy_volatile<T, CopyFrom>;
+	template <typename T, typename CopyFrom>
+	using match_cv = copy_cv<T, CopyFrom>;
+	template <typename T, typename... U>
+	inline constexpr bool is_same_as_any = any_same<T, U...>;
+#endif
+	/// \endcond
 }
 
 #include "header_end.h"

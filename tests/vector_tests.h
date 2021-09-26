@@ -206,7 +206,7 @@ BATCHED_TEST_CASE("vector constructors", vectors<ALL_ARITHMETIC>)
 
 #if MUU_HAS_VECTORCALL
 	static_assert(
-		impl::is_hva<vector_t> == (vector_t::dimensions <= 4 && is_same_as_any<T, float, double, long double>));
+		impl::is_hva<vector_t> == (vector_t::dimensions <= 4 && any_same<T, float, double, long double>));
 #endif
 
 	BATCHED_SECTION("zero-initialization")
@@ -262,7 +262,7 @@ BATCHED_TEST_CASE("vector constructors", vectors<ALL_ARITHMETIC>)
 	BATCHED_SECTION("coercing constructor")
 	{
 		using other_type = std::
-			conditional_t<is_same_as_any<T, signed int, unsigned int>, float, set_signed<signed int, is_signed<T>>>;
+			conditional_t<any_same<T, signed int, unsigned int>, float, set_signed<signed int, is_signed<T>>>;
 
 		vector<other_type, vector_t::dimensions> other;
 		for (size_t i = 0; i < vector_t::dimensions; i++)
