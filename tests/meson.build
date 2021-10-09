@@ -20,6 +20,7 @@ test_sources += [
 	'infinity_or_nan_1.cpp',
 	'infinity_or_nan_2.cpp',
 	'infinity_or_nan_3.cpp',
+	'integer_range.cpp',
 	'math.cpp',
 	'matrix_0.cpp',
 	'matrix_1.cpp',

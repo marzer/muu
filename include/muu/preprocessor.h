@@ -428,6 +428,7 @@ help me improve support for your target architecture. Thanks!
 			__pragma(warning(disable: 4623)) /* default constructor was implicitly defined as deleted		*/ \
 			__pragma(warning(disable: 4625)) /* copy constructor was implicitly defined as deleted			*/ \
 			__pragma(warning(disable: 4626)) /* assignment operator was implicitly defined as deleted		*/ \
+			__pragma(warning(disable: 4686)) /* possible change in behavior, change in UDT return calling convention	*/ \
 			__pragma(warning(disable: 4710)) /* function not inlined */ \
 			__pragma(warning(disable: 4711)) /* function selected for automatic expansion */ \
 			__pragma(warning(disable: 4820)) /* N bytes padding added */  \
@@ -937,10 +938,22 @@ MUU_ENABLE_WARNINGS;
 #ifndef MUU_TRIVIAL_ABI
 	#define MUU_TRIVIAL_ABI
 #endif
-#define MUU_PURE_INLINE_GETTER	\
+
+#define MUU_PURE_GETTER			\
 	MUU_NODISCARD				\
-	MUU_ALWAYS_INLINE			\
 	MUU_ATTR(pure)
+
+#define MUU_PURE_INLINE_GETTER	\
+	MUU_PURE_GETTER				\
+	MUU_ALWAYS_INLINE			\
+
+#define MUU_CONST_GETTER		\
+	MUU_NODISCARD				\
+	MUU_ATTR(const)
+
+#define MUU_CONST_INLINE_GETTER	\
+	MUU_CONST_GETTER			\
+	MUU_ALWAYS_INLINE			\
 
 #if defined(DOXYGEN) || !(MUU_ARCH_X86 || MUU_ARCH_AMD64) || !MUU_ISET_SSE2 || MUU_INTELLISENSE
 	#undef MUU_VECTORCALL

@@ -115,14 +115,14 @@ MUU_ENABLE_WARNINGS;
 // CHECK asserts for string-related code
 // (because compilers suck)
 #if MUU_ICC
-	#define CHECK_W(...)					MUU_NOOP
-	#define CHECK_AND_STATIC_ASSERT_W(...)	MUU_NOOP
+	#define CHECK_W(...)				   MUU_NOOP
+	#define CHECK_AND_STATIC_ASSERT_W(...) MUU_NOOP
 #elif MUU_CLANG && MUU_CLANG <= 8
-	#define CHECK_W(...)					CHECK(__VA_ARGS__)
-	#define CHECK_AND_STATIC_ASSERT_W(...)	CHECK(__VA_ARGS__)
+	#define CHECK_W(...)				   CHECK(__VA_ARGS__)
+	#define CHECK_AND_STATIC_ASSERT_W(...) CHECK(__VA_ARGS__)
 #else
-	#define CHECK_W(...)					CHECK(__VA_ARGS__)
-	#define CHECK_AND_STATIC_ASSERT_W(...)	CHECK_AND_STATIC_ASSERT(__VA_ARGS__)
+	#define CHECK_W(...)				   CHECK(__VA_ARGS__)
+	#define CHECK_AND_STATIC_ASSERT_W(...) CHECK_AND_STATIC_ASSERT(__VA_ARGS__)
 #endif
 #if MUU_HAS_CHAR8_STRINGS
 	#define CHECK_u8(...)					CHECK(__VA_ARGS__)
@@ -131,7 +131,6 @@ MUU_ENABLE_WARNINGS;
 	#define CHECK_u8(...)					MUU_NOOP
 	#define CHECK_AND_STATIC_ASSERT_u8(...) MUU_NOOP
 #endif
-
 
 #define CHECK_APPROX_EQUAL_EPS(actual_, expected_, epsilon_)                                                           \
 	do                                                                                                                 \
@@ -178,20 +177,20 @@ MUU_ENABLE_WARNINGS;
 #define CHECK_SYMMETRIC_EQUAL(lhs, rhs)                                                                                \
 	do                                                                                                                 \
 	{                                                                                                                  \
-		CHECK(lhs == rhs);                                                                                             \
-		CHECK_FALSE(lhs != rhs);                                                                                       \
-		CHECK(rhs == lhs);                                                                                             \
-		CHECK_FALSE(rhs != lhs);                                                                                       \
+		CHECK((lhs) == (rhs));                                                                                         \
+		CHECK_FALSE((lhs) != (rhs));                                                                                   \
+		CHECK((rhs) == (lhs));                                                                                         \
+		CHECK_FALSE((rhs) != (lhs));                                                                                   \
 	}                                                                                                                  \
 	while (false)
 
 #define CHECK_SYMMETRIC_INEQUAL(lhs, rhs)                                                                              \
 	do                                                                                                                 \
 	{                                                                                                                  \
-		CHECK_FALSE(lhs == rhs);                                                                                       \
-		CHECK(lhs != rhs);                                                                                             \
-		CHECK_FALSE(rhs == lhs);                                                                                       \
-		CHECK(rhs != lhs);                                                                                             \
+		CHECK_FALSE((lhs) == (rhs));                                                                                   \
+		CHECK((lhs) != (rhs));                                                                                         \
+		CHECK_FALSE((rhs) == (lhs));                                                                                   \
+		CHECK((rhs) != (lhs));                                                                                         \
 	}                                                                                                                  \
 	while (false)
 

@@ -315,6 +315,18 @@ namespace muu
 
 	template <typename, size_t = dynamic_extent>
 	class span;
+	template <typename T>
+	using const_span	  = span<const T>;
+	using byte_span		  = span<std::byte>;
+	using const_byte_span = span<const std::byte>;
+
+	template <typename>
+	struct integer_range;
+	template <typename>
+	struct integer_range_iterator;
+	using index_range	= integer_range<size_t>;
+	using uintptr_range = integer_range<uintptr_t>;
+	using intptr_range	= integer_range<intptr_t>;
 
 	namespace impl
 	{

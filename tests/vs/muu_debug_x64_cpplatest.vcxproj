@@ -116,7 +116,7 @@
     <ClInclude Include="$(SolutionDir)include\muu\plane.h" />
     <ClInclude Include="$(SolutionDir)include\muu\quaternion.h" />
     <ClInclude Include="$(SolutionDir)include\muu\rolling_average.h" />
-    <ClInclude Include="$(SolutionDir)include\muu\numeric_range.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\integer_range.h" />
     <ClInclude Include="$(SolutionDir)include\muu\preprocessor.h" />
     <ClInclude Include="$(SolutionDir)include\muu\scope_guard.h" />
     <ClInclude Include="$(SolutionDir)include\muu\semver.h" />

@@ -132,7 +132,7 @@
     <ClInclude Include="include\muu\plane.h" />
     <ClInclude Include="include\muu\quaternion.h" />
     <ClInclude Include="include\muu\rolling_average.h" />
-    <ClInclude Include="include\muu\numeric_range.h" />
+    <ClInclude Include="include\muu\integer_range.h" />
     <ClInclude Include="include\muu\preprocessor.h" />
     <ClInclude Include="include\muu\scope_guard.h" />
     <ClInclude Include="include\muu\semver.h" />

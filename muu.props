@@ -114,6 +114,7 @@
 			<!-- warnings -->
 			<AdditionalOptions>%(AdditionalOptions) /wd4464</AdditionalOptions> <!-- relative include path contains '..' -->
 			<AdditionalOptions>%(AdditionalOptions) /wd4577</AdditionalOptions> <!-- 'noexcept' used with no exception handling mode specified -->
+			<AdditionalOptions>%(AdditionalOptions) /wd4686</AdditionalOptions> <!-- possible change in behavior, change in UDT return calling convention -->
 			<AdditionalOptions>%(AdditionalOptions) /wd5031</AdditionalOptions> <!-- #pragma warning(pop): likely mismatch -->
 			<AdditionalOptions>%(AdditionalOptions) /wd5032</AdditionalOptions> <!-- detected #pragma warning(push) with no corresponding #pragma warning(pop) -->
 			<!-- defines -->

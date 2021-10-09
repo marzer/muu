@@ -123,6 +123,7 @@
     <ClCompile Include="..\infinity_or_nan_1.cpp" />
     <ClCompile Include="..\infinity_or_nan_2.cpp" />
     <ClCompile Include="..\infinity_or_nan_3.cpp" />
+    <ClCompile Include="..\integer_range.cpp" />
     <ClCompile Include="..\main.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
