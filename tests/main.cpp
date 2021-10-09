@@ -12,7 +12,13 @@ MUU_PRAGMA_GCC(diagnostic ignored "-Wpadded")
 #include "catch2.h"
 #include <clocale>
 
-int main(int argc, char* argv[])
+#ifdef _WIN32
+	#define MAIN_CALLCONV __cdecl
+#else
+	#define MAIN_CALLCONV
+#endif
+
+int MAIN_CALLCONV main(int argc, char* argv[])
 {
 	#ifdef _WIN32
 		SetConsoleOutputCP(65001);

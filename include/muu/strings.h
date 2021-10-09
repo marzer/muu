@@ -7,15 +7,16 @@
 /// \file
 /// \brief Functions to simplify working with strings.
 
+#include "bit.h"
+#include "chars.h"
+#include "string_param.h"
 #include "impl/core_meta.h"
-#include "impl/core_bit.h"
 #include "impl/core_constants.h"
 #include "impl/std_string.h"
 #include "impl/std_string_view.h"
 #include "impl/std_iosfwd.h"
 #include "impl/std_memcpy.h"
-#include "chars.h"
-#include "string_param.h"
+#include "impl/thread_name.h"
 #include "impl/header_start.h"
 MUU_DISABLE_ARITHMETIC_WARNINGS;
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
@@ -346,7 +347,7 @@ namespace muu
 				// endianness
 				if constexpr (sizeof(T) == 1)
 				{
-					if (str.length() >= 3u && pack(str[0], str[1], str[2]) == 0x00EFBBBF)
+					if (str.length() >= 3u && bit_pack(str[0], str[1], str[2]) == 0x00EFBBBF)
 						data_start = 3u;
 				}
 				else
@@ -972,14 +973,6 @@ namespace muu
 
 	/** @} */ // strings::transcode
 #endif		  // transcode
-
-#if 1 // misc functions ------------------------------------------------------------------------------------------------
-
-	/// \brief		Sets the name of the current thread for debuggers.
-	MUU_API
-	void set_thread_name(string_param name) noexcept;
-
-#endif // misc functions
 
 	/** @} */ // strings
 }

@@ -8,6 +8,7 @@
 #pragma once
 #include "settings.h"
 #include "../include/muu/core.h"
+#include "../include/muu/bit.h"
 MUU_DISABLE_WARNINGS;
 #include <array>
 MUU_ENABLE_WARNINGS;
@@ -775,18 +776,18 @@ namespace muu
 
 		#if MUU_HAS_INT128
 		static constexpr auto int_blittable    = true;
-		static constexpr auto bits_sign        = pack(0x0000000000008000_u64, 0x0000000000000000_u64);
-		static constexpr auto bits_exponent    = pack(0x0000000000007FFF_u64, 0x0000000000000000_u64);
-		static constexpr auto bits_integer     = pack(0x0000000000000000_u64, 0x8000000000000000_u64);
-		static constexpr auto bits_mantissa    = pack(0x0000000000000000_u64, 0x7FFFFFFFFFFFFFFF_u64);
-		static constexpr auto bits_pos_inf     = pack(0x0000000000007FFF_u64, 0x8000000000000000_u64);
-		static constexpr auto bits_neg_inf     = pack(0x000000000000FFFF_u64, 0x8000000000000000_u64);
-		static constexpr auto bits_pos_nan_min = pack(0x0000000000007FFF_u64, 0x8000000000000001_u64);
-		static constexpr auto bits_pos_nan_max = pack(0x0000000000007FFF_u64, 0xFFFFFFFFFFFFFFFF_u64);
-		static constexpr auto bits_neg_nan_min = pack(0x000000000000FFFF_u64, 0x8000000000000001_u64);
-		static constexpr auto bits_neg_nan_max = pack(0x000000000000FFFF_u64, 0xFFFFFFFFFFFFFFFF_u64);
-		static constexpr auto bits_snan        = pack(0x000000000000FFFF_u64, 0x8000000000000001_u64);
-		static constexpr auto bits_qnan        = pack(0x000000000000FFFF_u64, 0xC000000000000001_u64);
+		static constexpr auto bits_sign        = bit_pack(0x0000000000008000_u64, 0x0000000000000000_u64);
+		static constexpr auto bits_exponent    = bit_pack(0x0000000000007FFF_u64, 0x0000000000000000_u64);
+		static constexpr auto bits_integer     = bit_pack(0x0000000000000000_u64, 0x8000000000000000_u64);
+		static constexpr auto bits_mantissa    = bit_pack(0x0000000000000000_u64, 0x7FFFFFFFFFFFFFFF_u64);
+		static constexpr auto bits_pos_inf     = bit_pack(0x0000000000007FFF_u64, 0x8000000000000000_u64);
+		static constexpr auto bits_neg_inf     = bit_pack(0x000000000000FFFF_u64, 0x8000000000000000_u64);
+		static constexpr auto bits_pos_nan_min = bit_pack(0x0000000000007FFF_u64, 0x8000000000000001_u64);
+		static constexpr auto bits_pos_nan_max = bit_pack(0x0000000000007FFF_u64, 0xFFFFFFFFFFFFFFFF_u64);
+		static constexpr auto bits_neg_nan_min = bit_pack(0x000000000000FFFF_u64, 0x8000000000000001_u64);
+		static constexpr auto bits_neg_nan_max = bit_pack(0x000000000000FFFF_u64, 0xFFFFFFFFFFFFFFFF_u64);
+		static constexpr auto bits_snan        = bit_pack(0x000000000000FFFF_u64, 0x8000000000000001_u64);
+		static constexpr auto bits_qnan        = bit_pack(0x000000000000FFFF_u64, 0xC000000000000001_u64);
 		#else
 		static constexpr auto int_blittable    = false;
 		static constexpr auto bits_sign        = std::array{ 0x0000000000000000_u64, 0x0000000000008000_u64 };
@@ -1074,17 +1075,17 @@ namespace muu
 
 		#if MUU_HAS_INT128
 		static constexpr auto int_blittable    = true;
-		static constexpr auto bits_sign        = pack(0x8000000000000000_u64, 0x0000000000000000_u64);
-		static constexpr auto bits_exponent    = pack(0x7FFF000000000000_u64, 0x0000000000000000_u64);
-		static constexpr auto bits_mantissa    = pack(0x0000FFFFFFFFFFFF_u64, 0xFFFFFFFFFFFFFFFF_u64);
-		static constexpr auto bits_pos_inf     = pack(0x7FFF000000000000_u64, 0x0000000000000000_u64);
-		static constexpr auto bits_neg_inf     = pack(0xFFFF000000000000_u64, 0x0000000000000000_u64);
-		static constexpr auto bits_pos_nan_min = pack(0x7FFF000000000000_u64, 0x0000000000000001_u64);
-		static constexpr auto bits_pos_nan_max = pack(0x7FFFFFFFFFFFFFFF_u64, 0xFFFFFFFFFFFFFFFF_u64);
-		static constexpr auto bits_neg_nan_min = pack(0xFFFF000000000000_u64, 0x0000000000000001_u64);
-		static constexpr auto bits_neg_nan_max = pack(0xFFFFFFFFFFFFFFFF_u64, 0xFFFFFFFFFFFFFFFF_u64);
-		static constexpr auto bits_snan        = pack(0xFFFF000000000000_u64, 0x0000000000000001_u64);
-		static constexpr auto bits_qnan        = pack(0xFFFF800000000000_u64, 0x0000000000000001_u64);
+		static constexpr auto bits_sign        = bit_pack(0x8000000000000000_u64, 0x0000000000000000_u64);
+		static constexpr auto bits_exponent    = bit_pack(0x7FFF000000000000_u64, 0x0000000000000000_u64);
+		static constexpr auto bits_mantissa    = bit_pack(0x0000FFFFFFFFFFFF_u64, 0xFFFFFFFFFFFFFFFF_u64);
+		static constexpr auto bits_pos_inf     = bit_pack(0x7FFF000000000000_u64, 0x0000000000000000_u64);
+		static constexpr auto bits_neg_inf     = bit_pack(0xFFFF000000000000_u64, 0x0000000000000000_u64);
+		static constexpr auto bits_pos_nan_min = bit_pack(0x7FFF000000000000_u64, 0x0000000000000001_u64);
+		static constexpr auto bits_pos_nan_max = bit_pack(0x7FFFFFFFFFFFFFFF_u64, 0xFFFFFFFFFFFFFFFF_u64);
+		static constexpr auto bits_neg_nan_min = bit_pack(0xFFFF000000000000_u64, 0x0000000000000001_u64);
+		static constexpr auto bits_neg_nan_max = bit_pack(0xFFFFFFFFFFFFFFFF_u64, 0xFFFFFFFFFFFFFFFF_u64);
+		static constexpr auto bits_snan        = bit_pack(0xFFFF000000000000_u64, 0x0000000000000001_u64);
+		static constexpr auto bits_qnan        = bit_pack(0xFFFF800000000000_u64, 0x0000000000000001_u64);
 		#else
 		static constexpr auto int_blittable    = false;
 		static constexpr auto bits_sign        = std::array{ 0x0000000000000000_u64, 0x8000000000000000_u64 };

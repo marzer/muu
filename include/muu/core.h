@@ -7,7 +7,6 @@
 /// \file
 /// \brief Core functions and typedefs.
 
-#include "impl/core_bit.h"
 #include "impl/core_build.h"
 #include "impl/core_constants.h"
 #include "impl/core_literals.h"

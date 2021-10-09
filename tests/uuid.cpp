@@ -128,7 +128,7 @@ TEST_CASE("uuid - initialization")
 		#if MUU_HAS_INT128
 
 		// 0CBC8F62-78FE-4061-8473-9FCB662AEEDF
-		auto i128 = pack(0x0CBC8F6278FE4061_u64, 0x84739FCB662AEEDF_u64);
+		auto i128 = bit_pack(0x0CBC8F6278FE4061_u64, 0x84739FCB662AEEDF_u64);
 		if constexpr (build::is_big_endian)
 			i128 = byte_reverse(i128);
 		id = uuid{ i128 };
@@ -322,7 +322,7 @@ TEST_CASE("uuid - parsing")
 	CHECK_PARSE_FAILS("ZFAEADACA-BBAA-9988-7766-554433221100");
 	CHECK_PARSE_FAILS("T  {FAEADACA-BBAA-9988-7766-554433221100}  ");
 
-	//contains invalid characters                              vv
+	//contains invalid characters           vv
 	CHECK_PARSE_FAILS("FAEADACA-BBAA-9988-77GG-554433221100");
 
 	//valid characters but in the wrong place
@@ -338,7 +338,7 @@ TEST_CASE("uuid - parsing")
 	CHECK_PARSE_FAILS("{{FAEADACA-BBAA-9988-7766-554433221100}");
 	CHECK_PARSE_FAILS("{FAEADACA-BBAA-9988-7766-554433221100}}");
 
-	//splices an octet                              v
+	//splices an octet           v
 	CHECK_PARSE_FAILS("FAEADACA-B-BAA-99887766-554433221100");
 
 	//valid!

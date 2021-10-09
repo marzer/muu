@@ -9,6 +9,9 @@ MUU_DISABLE_WARNINGS;
 #include <iomanip>
 #ifdef _WIN32
 	#include <Windows.h>
+	#define MAIN_CALLCONV __cdecl
+#else
+	#define MAIN_CALLCONV
 #endif
 MUU_ENABLE_WARNINGS;
 

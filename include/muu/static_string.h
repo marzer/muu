@@ -7,13 +7,12 @@
 /// \file
 /// \brief  Contains the definition of muu::static_string.
 
+#include "iterators.h"
 #include "impl/core_meta.h"
 #include "impl/core_utils.h"
 #include "impl/core_constants.h"
 #include "impl/std_string_view.h"
 #include "impl/std_iosfwd.h"
-#include "iterators.h"
-
 #include "impl/header_start.h"
 
 #if !defined(DOXYGEN) && defined(__cpp_nontype_template_args) && __cpp_nontype_template_args >= 201911                 \

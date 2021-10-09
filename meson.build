@@ -2,7 +2,7 @@ project(
 	'muu',
 	'cpp',
 	version : '0.1.0',
-	meson_version : '>=0.53.0',
+	meson_version : '>=0.54.0',
 	license : 'MIT',
 	default_options : [ # https://mesonbuild.com/Builtin-options.html
 		# core options
@@ -91,7 +91,6 @@ if is_gcc
 			'-Wcast-qual',
 			'-Wctor-dtor-privacy',
 			'-Wdisabled-optimization',
-			'-Wextra',
 			'-Wfloat-equal',
 			'-Wimport',
 			'-Winit-self',
@@ -106,7 +105,6 @@ if is_gcc
 			'-Woverloaded-virtual',
 			'-Wpacked',
 			'-Wpadded',
-			'-Wpedantic',
 			'-Wpointer-arith',
 			'-Wredundant-decls',
 			'-Wshadow',
@@ -161,7 +159,6 @@ if is_clang
 	endif
 	if is_release
 		add_project_arguments(
-			'-Oz',
 			'-fmerge-all-constants',
 			language : 'cpp'
 		)
@@ -507,10 +504,12 @@ if build_examples
 	subdir('examples')
 endif
 
-install_subdir('include/muu',
-	strip_directory: true,
-	install_dir: 'include/muu'
-)
+if not is_subproject
+	install_subdir('include' / 'muu',
+		strip_directory: true,
+		install_dir: get_option('includedir') / 'muu'
+	)
+endif
 
 #######################################################################################################################
 # dependencies
@@ -521,8 +520,11 @@ muu_dep = declare_dependency(
 	version : meson.project_version(),
 )
 
-pkgc = import('pkgconfig')
-pkgc.generate(
-	name: meson.project_name(),
-	description: 'Miscellaneous useful utilities for C++'
-)
+meson.override_dependency('muu', muu_dep)
+
+if not is_subproject
+	import('pkgconfig').generate(
+		name: meson.project_name(),
+		description: 'Miscellaneous useful utilities for C++'
+	)
+endif

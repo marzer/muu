@@ -41,8 +41,6 @@ using namespace std::chrono_literals;
 using namespace std::string_literals;
 using namespace std::string_view_literals;
 
-#define MUU_MOVE_CHECK MUU_ASSERT(storage_ != nullptr && "The thread_pool has been moved from!")
-
 //----------------------------------------------------------------------------------------------------------------------
 // thread_pool internal implementation
 //----------------------------------------------------------------------------------------------------------------------
@@ -570,102 +568,103 @@ namespace
 // thread_pool
 //----------------------------------------------------------------------------------------------------------------------
 
-thread_pool::thread_pool(size_t worker_count, size_t task_queue_size, string_param name, generic_allocator* allocator)
+extern "C" //
 {
-	worker_count				 = calc_thread_pool_workers(worker_count);
-	const auto worker_queue_size = calc_thread_pool_worker_queue_size(worker_count, task_queue_size);
-	task_queue_size				 = worker_count * worker_queue_size;
+	void* MUU_CALLCONV muu_impl_thread_pool_create(size_t worker_count,
+												   size_t task_queue_size,
+												   string_param* name,
+												   generic_allocator* allocator)
+	{
+		MUU_ASSUME(name != nullptr);
 
-	static_assert(impl::thread_pool_task_granularity >= sizeof(impl::thread_pool_task));
+		worker_count				 = calc_thread_pool_workers(worker_count);
+		const auto worker_queue_size = calc_thread_pool_worker_queue_size(worker_count, task_queue_size);
+		task_queue_size				 = worker_count * worker_queue_size;
 
-	constexpr auto storage_start = 0_sz;
-	const auto queues_start =
-		apply_alignment<impl::thread_pool_task_granularity>(storage_start + sizeof(thread_pool_storage));
-	const auto queues_end		= queues_start + sizeof(thread_pool_queue) * worker_count;
-	const auto workers_start	= apply_alignment<impl::thread_pool_task_granularity>(queues_end);
-	const auto workers_end		= workers_start + sizeof(thread_pool_worker) * worker_count;
-	const auto tasks_start		= apply_alignment<impl::thread_pool_task_granularity>(workers_end);
-	const auto tasks_end		= tasks_start + impl::thread_pool_task_granularity * task_queue_size;
-	const auto total_allocation = tasks_end - storage_start;
+		static_assert(impl::thread_pool_task_granularity >= sizeof(impl::thread_pool_task));
 
-	auto buffer_ptr = impl::generic_alloc(allocator,
-										  total_allocation,
-										  max(alignof(thread_pool_storage), impl::thread_pool_task_granularity));
+		constexpr auto storage_start = 0_sz;
+		const auto queues_start =
+			apply_alignment<impl::thread_pool_task_granularity>(storage_start + sizeof(thread_pool_storage));
+		const auto queues_end		= queues_start + sizeof(thread_pool_queue) * worker_count;
+		const auto workers_start	= apply_alignment<impl::thread_pool_task_granularity>(queues_end);
+		const auto workers_end		= workers_start + sizeof(thread_pool_worker) * worker_count;
+		const auto tasks_start		= apply_alignment<impl::thread_pool_task_granularity>(workers_end);
+		const auto tasks_end		= tasks_start + impl::thread_pool_task_granularity * task_queue_size;
+		const auto total_allocation = tasks_end - storage_start;
+
+		auto buffer_ptr = impl::generic_alloc(allocator,
+											  total_allocation,
+											  max(alignof(thread_pool_storage), impl::thread_pool_task_granularity));
 
 #if !MUU_HAS_EXCEPTIONS
-	{
-		MUU_ASSERT(buffer_ptr && "allocate() failed!");
-		if (!buffer_ptr)
-			std::terminate();
-	}
+		{
+			MUU_ASSERT(buffer_ptr && "allocate() failed!");
+			if (!buffer_ptr)
+				std::terminate();
+		}
 #endif
 
-	const auto unwind = scope_fail{ [=]() noexcept { impl::generic_free(allocator, buffer_ptr); } };
+		const auto unwind = scope_fail{ [=]() noexcept { impl::generic_free(allocator, buffer_ptr); } };
 
-	byte_span buffer{ static_cast<std::byte*>(buffer_ptr), total_allocation };
-	byte_span queue_buffer{ buffer.data() + queues_start, queues_end - queues_start };
-	byte_span worker_buffer{ buffer.data() + workers_start, workers_end - workers_start };
-	byte_span task_buffer{ buffer.data() + tasks_start, tasks_end - tasks_start };
+		byte_span buffer{ static_cast<std::byte*>(buffer_ptr), total_allocation };
+		byte_span queue_buffer{ buffer.data() + queues_start, queues_end - queues_start };
+		byte_span worker_buffer{ buffer.data() + workers_start, workers_end - workers_start };
+		byte_span task_buffer{ buffer.data() + tasks_start, tasks_end - tasks_start };
 
-	storage_ = ::new (buffer_ptr)
-		thread_pool_storage{ allocator,
-							 buffer,
-							 thread_pool_impl{ MUU_MOVE(name), queue_buffer, worker_buffer, task_buffer } };
-}
+		return ::new (buffer_ptr)
+			thread_pool_storage{ allocator,
+								 buffer,
+								 thread_pool_impl{ MUU_MOVE(*name), queue_buffer, worker_buffer, task_buffer } };
+	}
 
-thread_pool::thread_pool(thread_pool&& other) noexcept : storage_{ other.storage_ }
-{
-	other.storage_ = nullptr;
-}
-
-thread_pool& thread_pool::operator=(thread_pool&& rhs) noexcept
-{
-	storage_ = std::exchange(rhs.storage_, nullptr);
-	return *this;
-}
-
-thread_pool::~thread_pool() noexcept
-{
-	if (auto sptr = std::exchange(storage_, nullptr))
+	void MUU_CALLCONV muu_impl_thread_pool_destroy(void* storage_) noexcept
 	{
-		auto& storage  = storage_cast(sptr);
+		MUU_ASSUME(storage_ != nullptr);
+
+		auto& storage  = storage_cast(storage_);
 		auto buffer	   = storage.buffer;
 		auto allocator = storage.allocator;
 		storage.~thread_pool_storage();
 		impl::generic_free(allocator, buffer.data());
 	}
-}
 
-size_t thread_pool::lock() noexcept
-{
-	MUU_MOVE_CHECK;
-	return storage_cast(storage_).impl.lock();
-}
+	size_t MUU_CALLCONV muu_impl_thread_pool_lock(void* storage_) noexcept
+	{
+		MUU_ASSUME(storage_ != nullptr);
 
-void* thread_pool::acquire(size_t qindex) noexcept
-{
-	MUU_MOVE_CHECK;
-	return storage_cast(storage_).impl.acquire(qindex);
-}
+		return storage_cast(storage_).impl.lock();
+	}
 
-void thread_pool::unlock(size_t qindex) noexcept
-{
-	MUU_MOVE_CHECK;
-	storage_cast(storage_).impl.unlock(qindex);
-}
+	void* MUU_CALLCONV muu_impl_thread_pool_acquire(void* storage_, size_t qindex) noexcept
+	{
+		MUU_ASSUME(storage_ != nullptr);
 
-size_t thread_pool::workers() const noexcept
-{
-	return storage_ ? storage_cast(storage_).impl.worker_count : 0_sz;
-}
+		return storage_cast(storage_).impl.acquire(qindex);
+	}
 
-size_t thread_pool::capacity() const noexcept
-{
-	return storage_ ? storage_cast(storage_).impl.worker_count * storage_cast(storage_).impl.worker_queue_size : 0_sz;
-}
+	void MUU_CALLCONV muu_impl_thread_pool_unlock(void* storage_, size_t qindex) noexcept
+	{
+		MUU_ASSUME(storage_ != nullptr);
 
-void thread_pool::wait() noexcept
-{
-	MUU_MOVE_CHECK;
-	storage_cast(storage_).impl.wait();
+		storage_cast(storage_).impl.unlock(qindex);
+	}
+
+	void MUU_CALLCONV muu_impl_thread_pool_wait(void* storage_) noexcept
+	{
+		MUU_ASSUME(storage_ != nullptr);
+
+		storage_cast(storage_).impl.wait();
+	}
+
+	size_t MUU_CALLCONV muu_impl_thread_pool_workers(void* storage_) noexcept
+	{
+		return storage_ ? storage_cast(storage_).impl.worker_count : 0_sz;
+	}
+
+	size_t MUU_CALLCONV muu_impl_thread_pool_capacity(void* storage_) noexcept
+	{
+		return storage_ ? storage_cast(storage_).impl.worker_count * storage_cast(storage_).impl.worker_queue_size
+						: 0_sz;
+	}
 }

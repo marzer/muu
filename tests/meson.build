@@ -4,13 +4,13 @@ test_sources = [
 ]
 test_sources += [
 	'accumulator.cpp',
+	'bit.cpp',
 	'blob.cpp',
 	'bounding_box_0.cpp',
 	'bounding_box_1.cpp',
 	'bounding_box_2.cpp',
 	'bounding_box_3.cpp',
 	'compressed_pair.cpp',
-	'core_bit.cpp',
 	'core_meta.cpp',
 	'core_other.cpp',
 	'function_view.cpp',

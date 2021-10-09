@@ -4,11 +4,14 @@
 // SPDX-License-Identifier: MIT
 #pragma once
 
-#include "core_build.h"
-#include "core_literals.h"
-#include "core_utils.h"
-#include "std_memcpy.h"
-#include "header_start.h"
+/// \file
+/// \brief Bit manipulation functions.
+
+#include "impl/core_build.h"
+#include "impl/core_literals.h"
+#include "impl/core_utils.h"
+#include "impl/bit_cast.h"
+#include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS; // these should be considered "intrinsics"
 MUU_DISABLE_ARITHMETIC_WARNINGS;
 MUU_PRAGMA_MSVC(warning(disable : 4191)) // unsafe pointer conversion
@@ -363,10 +366,10 @@ namespace muu
 	/// \ingroup core
 	///
 	/// \details \cpp
-	/// auto   val1  = pack(0xAABB_u16, 0xCCDD_u16);
+	/// auto   val1  = bit_pack(0xAABB_u16, 0xCCDD_u16);
 	/// assert(val1 == 0xAABBCCDD_u32);
 	///
-	/// auto   val2  = pack(0xAABB_u16, 0xCCDD_u16, 0xEEFF_u16);
+	/// auto   val2  = bit_pack(0xAABB_u16, 0xCCDD_u16, 0xEEFF_u16);
 	/// assert(val2 == 0x0000AABBCCDDEEFF_u64);
 	///               // ^^^^ input was 48 bits, zero-padded to 64 on the left
 	/// \ecpp
@@ -385,7 +388,7 @@ namespace muu
 	MUU_CONSTRAINED_TEMPLATE((all_integral<T, U, V...>), typename Return = void, typename T, typename U, typename... V)
 	MUU_NODISCARD
 	MUU_ATTR(const)
-	constexpr auto MUU_VECTORCALL pack(T val1, U val2, V... vals) noexcept
+	constexpr auto MUU_VECTORCALL bit_pack(T val1, U val2, V... vals) noexcept
 	{
 		static_assert(!is_cvref<Return>, "Return type cannot be const, volatile, or a reference");
 		static_assert((total_size<T, U, V...> * CHAR_BIT) <= (MUU_HAS_INT128 ? 128 : 64),
@@ -398,21 +401,22 @@ namespace muu
 		if constexpr (any_enum<return_type, T, U, V...>)
 		{
 			return static_cast<return_type>(
-				pack<remove_enum<return_type>>(static_cast<std::underlying_type_t<T>>(val1),
-											   static_cast<std::underlying_type_t<U>>(val2),
-											   static_cast<std::underlying_type_t<V>>(vals)...));
+				bit_pack<remove_enum<return_type>>(static_cast<std::underlying_type_t<T>>(val1),
+												   static_cast<std::underlying_type_t<U>>(val2),
+												   static_cast<std::underlying_type_t<V>>(vals)...));
 		}
 		else if constexpr (any_signed<return_type, T, U, V...>)
 		{
-			return static_cast<return_type>(pack<make_unsigned<return_type>>(static_cast<make_unsigned<T>>(val1),
-																			 static_cast<make_unsigned<U>>(val2),
-																			 static_cast<make_unsigned<V>>(vals)...));
+			return static_cast<return_type>(
+				bit_pack<make_unsigned<return_type>>(static_cast<make_unsigned<T>>(val1),
+													 static_cast<make_unsigned<U>>(val2),
+													 static_cast<make_unsigned<V>>(vals)...));
 		}
 		else if constexpr (sizeof...(V) > 0)
 		{
 			return static_cast<return_type>(
 				static_cast<return_type>(static_cast<return_type>(val1) << (total_size<U, V...> * CHAR_BIT))
-				| pack<return_type>(val2, vals...));
+				| bit_pack<return_type>(val2, vals...));
 		}
 		else
 		{
@@ -420,71 +424,6 @@ namespace muu
 				static_cast<return_type>(static_cast<return_type>(val1) << (sizeof(U) * CHAR_BIT))
 				| static_cast<return_type>(val2));
 		}
-	}
-
-	MUU_PUSH_WARNINGS;
-	MUU_DISABLE_LIFETIME_WARNINGS;
-
-	#define MUU_HAS_INTRINSIC_BIT_CAST 1
-
-	/// \brief	Equivalent to C++20's std::bit_cast.
-	/// \ingroup core
-	///
-	/// \remark Compilers implement this as an intrinsic which is typically
-	/// 		 available regardless of the C++ mode. Using this function
-	/// 		 on these compilers allows you to get the same behaviour
-	/// 		 even when you aren't targeting C++20.
-	///
-	/// \availability On older compilers lacking support for std::bit_cast you won't be able to call this function
-	/// 		   in constexpr contexts (since it falls back to a memcpy-based implementation).
-	/// 		   Check for constexpr support by examining build::supports_constexpr_bit_cast.
-	template <typename To, typename From>
-	MUU_PURE_INLINE_GETTER
-	MUU_ATTR(flatten)
-	constexpr To bit_cast(const From& from) noexcept
-	{
-		static_assert(!std::is_reference_v<From> && !std::is_reference_v<To>, "From and To types cannot be references");
-		static_assert(std::is_trivially_copyable_v<From> && std::is_trivially_copyable_v<To>,
-					  "From and To types must be trivially-copyable");
-		static_assert(sizeof(From) == sizeof(To), "From and To types must be the same size");
-
-	#if MUU_CLANG >= 11 || MUU_GCC >= 11 || MUU_MSVC >= 1926
-
-		return __builtin_bit_cast(To, from);
-
-	#else
-
-		#undef MUU_HAS_INTRINSIC_BIT_CAST
-		#define MUU_HAS_INTRINSIC_BIT_CAST 0
-
-		if constexpr (std::is_same_v<remove_cv<From>, remove_cv<To>>)
-		{
-			return from;
-		}
-		else if constexpr (all_integral<From, To>)
-		{
-			return static_cast<To>(
-				static_cast<std::underlying_type_t<remove_cv<To>>>(static_cast<std::underlying_type_t<From>>(from)));
-		}
-		else
-		{
-			static_assert(std::is_nothrow_default_constructible_v<remove_cv<To>>,
-						  "Bit-cast fallback requires the To type be nothrow default-constructible");
-
-			remove_cv<To> dst;
-			MUU_MEMCPY(&dst, &from, sizeof(To));
-			return dst;
-		}
-
-	#endif
-	}
-
-	MUU_POP_WARNINGS;
-
-	namespace build
-	{
-		/// \brief	True if using bit_cast() in constexpr contexts is supported on this compiler.
-		inline constexpr bool supports_constexpr_bit_cast = !!MUU_HAS_INTRINSIC_BIT_CAST;
 	}
 
 	/// \cond
@@ -538,10 +477,10 @@ namespace muu
 		template <>
 		struct popcount_traits<128>
 		{
-			static constexpr uint128_t m1  = pack(0x5555555555555555_u64, 0x5555555555555555_u64);
-			static constexpr uint128_t m2  = pack(0x3333333333333333_u64, 0x3333333333333333_u64);
-			static constexpr uint128_t m4  = pack(0x0f0f0f0f0f0f0f0f_u64, 0x0f0f0f0f0f0f0f0f_u64);
-			static constexpr uint128_t h01 = pack(0x0101010101010101_u64, 0x0101010101010101_u64);
+			static constexpr uint128_t m1  = bit_pack(0x5555555555555555_u64, 0x5555555555555555_u64);
+			static constexpr uint128_t m2  = bit_pack(0x3333333333333333_u64, 0x3333333333333333_u64);
+			static constexpr uint128_t m4  = bit_pack(0x0f0f0f0f0f0f0f0f_u64, 0x0f0f0f0f0f0f0f0f_u64);
+			static constexpr uint128_t h01 = bit_pack(0x0101010101010101_u64, 0x0101010101010101_u64);
 			static constexpr int rsh	   = 120;
 		};
 		#endif
@@ -1102,17 +1041,11 @@ namespace muu
 		else if constexpr (sizeof...(ByteIndices) == 1_sz)
 			return static_cast<return_type>(byte_select<ByteIndices...>(val));
 		else
-			return pack<return_type>(byte_select<ByteIndices>(val)...);
+			return bit_pack<return_type>(byte_select<ByteIndices>(val)...);
 	}
 
 #endif
 }
 
-#undef MUU_HAS_INTRINSIC_BIT_CAST
-#undef MUU_HAS_INTRINSIC_POPCOUNT
-#undef MUU_HAS_INTRINSIC_BYTE_REVERSE
-#undef MUU_HAS_INTRINSIC_COUNTL_ZERO
-#undef MUU_HAS_INTRINSIC_COUNTR_ZERO
-
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
-#include "header_end.h"
+#include "impl/header_end.h"

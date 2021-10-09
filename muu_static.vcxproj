@@ -79,15 +79,16 @@
   <ItemGroup>
     <ClInclude Include="include\muu\accumulator.h" />
     <ClInclude Include="include\muu\all.h" />
+    <ClInclude Include="include\muu\bit.h" />
     <ClInclude Include="include\muu\function_view.h" />
     <ClInclude Include="include\muu\impl\aligned_alloc.h" />
-    <ClInclude Include="include\muu\impl\core_bit.h" />
     <ClInclude Include="include\muu\bitset.h" />
     <ClInclude Include="include\muu\blob.h" />
     <ClInclude Include="include\muu\bounding_box.h" />
     <ClInclude Include="include\muu\chars.h" />
     <ClInclude Include="include\muu\compressed_pair.h" />
     <ClInclude Include="include\muu\impl\core_build.h" />
+    <ClInclude Include="include\muu\impl\bit_cast.h" />
     <ClInclude Include="include\muu\impl\core_utils.h" />
     <ClInclude Include="include\muu\impl\core_constants.h" />
     <ClInclude Include="include\muu\core.h" />
@@ -103,6 +104,7 @@
     <ClInclude Include="include\muu\impl\header_end.h" />
     <ClInclude Include="include\muu\impl\header_start.h" />
     <ClInclude Include="include\muu\impl\preprocessor_for_each.h" />
+    <ClInclude Include="include\muu\impl\thread_name.h" />
     <ClInclude Include="include\muu\impl\std_cstdlib.h" />
     <ClInclude Include="include\muu\impl\std_exception.h" />
     <ClInclude Include="include\muu\impl\std_iosfwd.h" />

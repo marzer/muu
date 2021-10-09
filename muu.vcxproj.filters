@@ -145,13 +145,10 @@
     <ClInclude Include="include\muu\impl\core_meta.h">
       <Filter>include\impl</Filter>
     </ClInclude>
-    <ClInclude Include="include\muu\impl\core_bit.h">
-      <Filter>include\impl</Filter>
-    </ClInclude>
     <ClInclude Include="include\muu\impl\core_constants.h">
       <Filter>include\impl</Filter>
     </ClInclude>
-    <ClInclude Include="include\muu\impl\core_build.h">
+    <ClInclude Include="include\muu\impl\bit_cast.h">
       <Filter>include\impl</Filter>
     </ClInclude>
     <ClInclude Include="include\muu\impl\core_literals.h">
@@ -215,6 +212,15 @@
       <Filter>include\impl</Filter>
     </ClInclude>
     <ClInclude Include="include\muu\impl\std_type_traits.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\bit.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\core_build.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\thread_name.h">
       <Filter>include\impl</Filter>
     </ClInclude>
   </ItemGroup>

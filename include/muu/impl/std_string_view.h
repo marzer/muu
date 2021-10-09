@@ -14,7 +14,7 @@ MUU_DISABLE_WARNINGS;
 MUU_ENABLE_WARNINGS;
 
 #if !defined(MUU_HAS_CHAR8_STRINGS)
-	#if defined(__cpp_lib_char8_t) && __cpp_lib_char8_t >= 201907
+	#if defined(DOXYGEN) || (defined(__cpp_lib_char8_t) && __cpp_lib_char8_t >= 201907)
 		#define MUU_HAS_CHAR8_STRINGS 1
 	#else
 		#define MUU_HAS_CHAR8_STRINGS 0

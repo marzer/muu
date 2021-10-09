@@ -62,7 +62,7 @@ namespace muu
 		template <>
 		struct hash_combiner_traits<128>
 		{
-			static constexpr uint128_t offset = pack(0x9E3779B97F4A7C15_u64, 0xF39CC0605D396154_u64);
+			static constexpr uint128_t offset = bit_pack(0x9E3779B97F4A7C15_u64, 0xF39CC0605D396154_u64);
 			static constexpr int left_shift	  = 24;
 			static constexpr int right_shift  = 8;
 		};
@@ -131,8 +131,8 @@ namespace muu
 		template <>
 		struct fnv1a_traits<128>
 		{
-			static constexpr uint128_t prime		= pack(0x0000000001000000_u64, 0x000000000000013B_u64);
-			static constexpr uint128_t offset_basis = pack(0x6C62272E07BB0142_u64, 0x62B821756295C58D_u64);
+			static constexpr uint128_t prime		= bit_pack(0x0000000001000000_u64, 0x000000000000013B_u64);
+			static constexpr uint128_t offset_basis = bit_pack(0x6C62272E07BB0142_u64, 0x62B821756295C58D_u64);
 		};
 
 #endif

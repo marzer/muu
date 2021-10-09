@@ -116,9 +116,6 @@
     <ClCompile Include="..\plane_3.cpp">
       <Filter>plane</Filter>
     </ClCompile>
-    <ClCompile Include="..\core_bit.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
     <ClCompile Include="..\core_meta.cpp">
       <Filter>core</Filter>
     </ClCompile>
@@ -154,6 +151,7 @@
     </ClCompile>
     <ClCompile Include="..\static_string.cpp" />
     <ClCompile Include="..\type_name.cpp" />
+    <ClCompile Include="..\bit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\batching.h" />

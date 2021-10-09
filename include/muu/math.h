@@ -8,6 +8,7 @@
 /// \brief Math functions, mostly constexpr-friendly alternatives to functions from `<cmath>`.
 
 #include "core.h"
+#include "bit.h"
 
 MUU_DISABLE_WARNINGS;
 #include <cmath>
@@ -98,7 +99,7 @@ namespace muu
 		struct infinity_or_nan_traits<128, 64>
 		{
 	#if MUU_HAS_INT128
-			static constexpr uint128_t mask = pack(0x0000000000007FFF_u64, 0x8000000000000000_u64);
+			static constexpr uint128_t mask = bit_pack(0x0000000000007FFF_u64, 0x8000000000000000_u64);
 	#else
 			struct mask_type
 			{
@@ -122,7 +123,7 @@ namespace muu
 		struct infinity_or_nan_traits<128, 113>
 		{
 	#if MUU_HAS_INT128
-			static constexpr uint128_t mask = pack(0x7FFF000000000000_u64, 0x0000000000000000_u64);
+			static constexpr uint128_t mask = bit_pack(0x7FFF000000000000_u64, 0x0000000000000000_u64);
 	#else
 			struct mask_type
 			{
@@ -2553,5 +2554,3 @@ namespace muu
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"
-
-#undef MUU_HAS_MSVC_INTRINSICS

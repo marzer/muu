@@ -113,7 +113,7 @@
     <ClCompile Include="..\bounding_box_2.cpp" />
     <ClCompile Include="..\bounding_box_3.cpp" />
     <ClCompile Include="..\compressed_pair.cpp" />
-    <ClCompile Include="..\core_bit.cpp" />
+    <ClCompile Include="..\bit.cpp" />
     <ClCompile Include="..\core_other.cpp" />
     <ClCompile Include="..\core_meta.cpp" />
     <ClCompile Include="..\function_view.cpp" />

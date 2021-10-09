@@ -11,6 +11,7 @@
 #include "generic_allocator.h"
 #include "string_param.h"
 #include "iterators.h"
+#include "impl/std_utility.h"
 #include "impl/std_memcpy.h"
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
@@ -470,6 +471,45 @@ namespace muu::impl
 
 #define MUU_MOVE_CHECK MUU_ASSERT(storage_ != nullptr && "The thread_pool has been moved from!")
 
+extern "C" //
+{
+	MUU_API
+	MUU_ATTR(returns_nonnull)
+	void* MUU_CALLCONV muu_impl_thread_pool_create(size_t, size_t, muu::string_param*, muu::generic_allocator*);
+
+	MUU_API
+	MUU_ATTR(nonnull)
+	void MUU_CALLCONV muu_impl_thread_pool_destroy(void*) noexcept;
+
+	MUU_API
+	MUU_ATTR(nonnull)
+	size_t MUU_CALLCONV muu_impl_thread_pool_lock(void*) noexcept;
+
+	MUU_API
+	MUU_ATTR(nonnull)
+	MUU_ATTR(returns_nonnull)
+	MUU_ATTR(assume_aligned(muu::impl::thread_pool_task_granularity))
+	void* MUU_CALLCONV muu_impl_thread_pool_acquire(void*, size_t) noexcept;
+
+	MUU_API
+	MUU_ATTR(nonnull)
+	void MUU_CALLCONV muu_impl_thread_pool_unlock(void*, size_t) noexcept;
+
+	MUU_API
+	MUU_ATTR(nonnull)
+	void MUU_CALLCONV muu_impl_thread_pool_wait(void*) noexcept;
+
+	MUU_API
+	MUU_ATTR(pure)
+	size_t MUU_CALLCONV muu_impl_thread_pool_workers(void*) noexcept;
+
+	MUU_API
+	MUU_ATTR(pure)
+	size_t MUU_CALLCONV muu_impl_thread_pool_capacity(void*) noexcept;
+}
+
+/// \endcond
+
 /// \endcond
 
 namespace muu
@@ -480,25 +520,13 @@ namespace muu
 	  private:
 		void* storage_ = nullptr;
 
-		MUU_NODISCARD
-		MUU_API
-		size_t lock() noexcept;
-
-		MUU_NODISCARD
-		MUU_API
-		MUU_ATTR(returns_nonnull)
-		MUU_ATTR(assume_aligned(impl::thread_pool_task_granularity))
-		void* acquire(size_t) noexcept;
-
 		template <typename T>
 		void enqueue(size_t queue_index, T&& task) noexcept
 		{
-			::new (muu::assume_aligned<impl::thread_pool_task_granularity>(acquire(queue_index)))
+			::new (muu::assume_aligned<impl::thread_pool_task_granularity>(
+				::muu_impl_thread_pool_acquire(storage_, queue_index)))
 				impl::thread_pool_task{ static_cast<T&&>(task) };
 		}
-
-		MUU_API
-		void unlock(size_t) noexcept;
 
 		template <typename Task>
 		class for_each_task
@@ -559,11 +587,12 @@ namespace muu
 		/// \param	name 				The name of your threadpool (for debugging purposes).
 		/// \param	allocator 			The #muu::generic_allocator used for allocations. Leave as `nullptr` to use the default global allocator.
 		MUU_NODISCARD_CTOR
-		MUU_API
 		explicit thread_pool(size_t worker_count		  = 0,
 							 size_t task_queue_size		  = 0,
 							 string_param name			  = {},
-							 generic_allocator* allocator = nullptr);
+							 generic_allocator* allocator = nullptr)
+			: storage_{ ::muu_impl_thread_pool_create(worker_count, task_queue_size, &name, allocator) }
+		{}
 
 		/// \brief	Constructs a thread pool.
 		///
@@ -575,39 +604,52 @@ namespace muu
 		{}
 
 		/// \brief	Move constructor.
-		MUU_API
-		thread_pool(thread_pool&&) noexcept;
+		thread_pool(thread_pool&& other) noexcept //
+			: storage_{ std::exchange(other.storage_, nullptr) }
+		{}
 
 		/// \brief	Move-assignment operator.
-		MUU_API
-		thread_pool& operator=(thread_pool&&) noexcept;
+		thread_pool& operator=(thread_pool&& rhs) noexcept
+		{
+			storage_ = std::exchange(rhs.storage_, nullptr);
+			return *this;
+		}
 
 		/// \brief	Destructor.
 		/// \warning Any enqueued tasks *currently being executed* are allowed to finish;
 		/// 		 attempting to destroy a thread_pool with an enqueued task of indeterminate
 		/// 		 length may lead to a deadlock.
-		MUU_API
-		~thread_pool() noexcept;
+		~thread_pool() noexcept
+		{
+			if (auto storage = std::exchange(storage_, nullptr))
+				::muu_impl_thread_pool_destroy(storage);
+		}
 
 		MUU_DELETE_COPY(thread_pool);
 
 		/// \brief	The number of worker threads in the thread pool.
-		MUU_NODISCARD
-		MUU_API
-		MUU_ATTR(pure)
-		size_t workers() const noexcept;
+		MUU_PURE_INLINE_GETTER
+		size_t workers() const noexcept
+		{
+			return ::muu_impl_thread_pool_workers(storage_);
+		}
 
 		/// \brief	The maximum tasks that may be enqueued without blocking.
-		MUU_NODISCARD
-		MUU_API
-		MUU_ATTR(pure)
-		size_t capacity() const noexcept;
+		MUU_PURE_INLINE_GETTER
+		size_t capacity() const noexcept
+		{
+			return ::muu_impl_thread_pool_capacity(storage_);
+		}
 
 		/// \brief	Waits for the thread pool to finish all of its current work.
 		///
 		/// \warning Do not call this from one of the thread pool's workers.
-		MUU_API
-		void wait() noexcept;
+		void wait() noexcept
+		{
+			MUU_MOVE_CHECK;
+
+			::muu_impl_thread_pool_wait(storage_);
+		}
 
 		/// \brief	Enqueues a task.
 		///
@@ -642,9 +684,9 @@ namespace muu
 				"Tasks passed to thread_pool::enqueue() must be callable as void() noexcept or void(size_t) noexcept");
 			MUU_MOVE_CHECK;
 
-			const auto qindex = lock();
+			const auto qindex = ::muu_impl_thread_pool_lock(storage_);
 			enqueue(qindex, static_cast<Task&&>(task));
-			unlock(qindex);
+			::muu_impl_thread_pool_unlock(storage_, qindex);
 			return *this;
 		}
 
@@ -657,7 +699,7 @@ namespace muu
 			else
 				MUU_UNUSED(batch_index);
 
-			const auto qindex = lock();
+			const auto qindex = ::muu_impl_thread_pool_lock(storage_);
 
 			enqueue(qindex,
 					[=, wrapped_task = wrap_for_each_task<OriginalTask>(static_cast<Task&&>(task))]() mutable noexcept
@@ -672,7 +714,7 @@ namespace muu
 						}
 					});
 
-			unlock(qindex);
+			::muu_impl_thread_pool_unlock(storage_, qindex);
 		}
 
 		template <typename Begin, typename Task>
@@ -814,7 +856,7 @@ namespace muu
 			else
 				MUU_UNUSED(batch_index);
 
-			const auto qindex = lock();
+			const auto qindex = ::muu_impl_thread_pool_lock(storage_);
 
 			enqueue(qindex,
 					[=, wrapped_task = wrap_for_each_task<OriginalTask>(static_cast<Task&&>(task))]() mutable noexcept
@@ -841,7 +883,7 @@ namespace muu
 						}
 					});
 
-			unlock(qindex);
+			::muu_impl_thread_pool_unlock(storage_, qindex);
 		}
 
 	  public:

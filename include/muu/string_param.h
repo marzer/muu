@@ -89,7 +89,7 @@ namespace muu
 
 		MUU_ATTR(const)
 		MUU_API
-		static bool built_with_char8_support() noexcept;
+		static bool MUU_CALLCONV built_with_char8_support() noexcept;
 
 		MUU_API
 		string_param(const void*, size_t, char8_tag) noexcept; // non-owning (const char8_t*, len)
@@ -128,6 +128,9 @@ namespace muu
 		/// \endcond
 
 	  public:
+		/// \name `char`
+		/// @{
+
 		/// \brief	Constructs an empty string_param.
 		MUU_NODISCARD_CTOR
 		MUU_API
@@ -158,6 +161,26 @@ namespace muu
 		MUU_API
 		string_param(std::string&& str) noexcept;
 
+		/// \brief	Returns a std::string_view of the string_param's payload.
+		MUU_NODISCARD
+		MUU_API
+		operator std::string_view() const& noexcept;
+
+		/// \brief	Returns a std::string_view of the string_param's payload (rvalue overload).
+		MUU_NODISCARD
+		MUU_API
+		explicit operator std::string_view() const&& noexcept;
+
+		/// \brief	Moves the string_param's payload into a std::string.
+		MUU_NODISCARD
+		MUU_API
+		operator std::string() && noexcept;
+
+		/// @}
+
+		/// \name `wchar_t`
+		/// @{
+
 		/// \brief	Constructs a non-owning string_param from a UTF wide string view.
 		MUU_NODISCARD_CTOR
 		MUU_API
@@ -182,6 +205,26 @@ namespace muu
 		MUU_NODISCARD_CTOR
 		MUU_API
 		string_param(std::wstring&& str) noexcept;
+
+		/// \brief	Returns a std::wstring_view of the string_param's payload.
+		MUU_NODISCARD
+		MUU_API
+		operator std::wstring_view() const& noexcept;
+
+		/// \brief	Returns a std::wstring_view of the string_param's payload (rvalue overload).
+		MUU_NODISCARD
+		MUU_API
+		explicit operator std::wstring_view() const&& noexcept;
+
+		/// \brief	Moves the string_param's payload into a std::wstring.
+		MUU_NODISCARD
+		MUU_API
+		operator std::wstring() && noexcept;
+
+		/// @}
+
+		/// \name `char16_t`
+		/// @{
 
 		/// \brief	Constructs a non-owning string_param from a UTF-16 string view.
 		MUU_NODISCARD_CTOR
@@ -208,6 +251,26 @@ namespace muu
 		MUU_API
 		string_param(std::u16string&& str) noexcept;
 
+		/// \brief	Returns a std::u16string_view of the string_param's payload.
+		MUU_NODISCARD
+		MUU_API
+		operator std::u16string_view() const& noexcept;
+
+		/// \brief	Returns a std::u16string_view of the string_param's payload (rvalue overload).
+		MUU_NODISCARD
+		MUU_API
+		explicit operator std::u16string_view() const&& noexcept;
+
+		/// \brief	Moves the string_param's payload into a std::u16string.
+		MUU_NODISCARD
+		MUU_API
+		operator std::u16string() && noexcept;
+
+		/// @}
+
+		/// \name `char32_t`
+		/// @{
+
 		/// \brief	Constructs a non-owning string_param from a UTF-32 string view.
 		MUU_NODISCARD_CTOR
 		MUU_API
@@ -233,7 +296,26 @@ namespace muu
 		MUU_API
 		string_param(std::u32string&& str) noexcept;
 
+		/// \brief	Returns a std::u32string_view of the string_param's payload.
+		MUU_NODISCARD
+		MUU_API
+		operator std::u32string_view() const& noexcept;
+
+		/// \brief	Returns a std::u32string_view of the string_param's payload (rvalue overload).
+		MUU_NODISCARD
+		MUU_API
+		explicit operator std::u32string_view() const&& noexcept;
+
+		/// \brief	Moves the string_param's payload into a std::u32string.
+		MUU_NODISCARD
+		MUU_API
+		operator std::u32string() && noexcept;
+
+		/// @}
+
 #if MUU_HAS_CHAR8_STRINGS
+		/// \name `char8_t`
+		/// @{
 
 		/// \brief	Constructs a non-owning string_param from a UTF-8 string view.
 		MUU_NODISCARD_CTOR
@@ -265,6 +347,53 @@ namespace muu
 			: string_param{ &str, str.c_str(), str.length(), char8_tag{} }
 		{}
 
+		/// \brief	Returns a std::u8string_view of the string_param's payload.
+		MUU_NODISCARD
+		operator std::u8string_view() const& noexcept
+		{
+			if (empty())
+				return {};
+
+			if (built_with_char8_support())
+			{
+				std::u8string_view out;
+				get_char8_view(&out);
+				return out;
+			}
+			else
+			{
+				std::string_view str{ *this };
+				return std::u8string_view{ reinterpret_cast<const char8_t*>(str.data()), str.length() };
+			}
+		}
+
+		/// \brief	Returns a std::u8string_view of the string_param's payload (rvalue overload).
+		MUU_NODISCARD
+		explicit operator std::u8string_view() const&& noexcept
+		{
+			return std::u8string_view{ *this }; // explicitly invoke lvalue overload
+		}
+
+		/// \brief	Moves the string_param's payload into a std::u8string.
+		MUU_NODISCARD
+		operator std::u8string() && noexcept
+		{
+			if (empty())
+				return {};
+
+			std::u8string out;
+			if (built_with_char8_support())
+				move_into_char8_string(&out);
+			else
+			{
+				std::string_view str{ *this };
+				out.resize(str.length());
+				MUU_MEMCPY(out.data(), str.data(), str.length());
+			}
+			return out;
+		}
+
+		/// @}
 #endif // MUU_HAS_CHAR8_STRINGS
 
 		/// \brief	Constructs a non-owning string_param from a string-viewable object.
@@ -311,124 +440,6 @@ namespace muu
 		/// \brief	Trims leading and trailing whitespace from the payload string (rvalue overload).
 		MUU_API
 		string_param&& trim() && noexcept;
-
-		/// \brief	Returns a std::string_view of the string_param's payload.
-		MUU_NODISCARD
-		MUU_API
-		operator std::string_view() const& noexcept;
-
-		/// \brief	Returns a std::wstring_view of the string_param's payload.
-		MUU_NODISCARD
-		MUU_API
-		operator std::wstring_view() const& noexcept;
-
-		/// \brief	Returns a std::u16string_view of the string_param's payload.
-		MUU_NODISCARD
-		MUU_API
-		operator std::u16string_view() const& noexcept;
-
-		/// \brief	Returns a std::u32string_view of the string_param's payload.
-		MUU_NODISCARD
-		MUU_API
-		operator std::u32string_view() const& noexcept;
-
-#if MUU_HAS_CHAR8_STRINGS
-
-		/// \brief	Returns a std::u8string_view of the string_param's payload.
-		MUU_NODISCARD
-		operator std::u8string_view() const& noexcept
-		{
-			if (empty())
-				return {};
-
-			if (built_with_char8_support())
-			{
-				std::u8string_view out;
-				get_char8_view(&out);
-				return out;
-			}
-			else
-			{
-				std::string_view str{ *this };
-				return std::u8string_view{ reinterpret_cast<const char8_t*>(str.data()), str.length() };
-			}
-		}
-
-#endif // MUU_HAS_CHAR8_STRINGS
-
-		/// \brief	Returns a std::string_view of the string_param's payload (rvalue overload).
-		MUU_NODISCARD
-		MUU_API
-		explicit operator std::string_view() const&& noexcept;
-
-		/// \brief	Returns a std::wstring_view of the string_param's payload (rvalue overload).
-		MUU_NODISCARD
-		MUU_API
-		explicit operator std::wstring_view() const&& noexcept;
-
-		/// \brief	Returns a std::u16string_view of the string_param's payload (rvalue overload).
-		MUU_NODISCARD
-		MUU_API
-		explicit operator std::u16string_view() const&& noexcept;
-
-		/// \brief	Returns a std::u32string_view of the string_param's payload (rvalue overload).
-		MUU_NODISCARD
-		MUU_API
-		explicit operator std::u32string_view() const&& noexcept;
-
-#if MUU_HAS_CHAR8_STRINGS
-
-		/// \brief	Returns a std::u8string_view of the string_param's payload (rvalue overload).
-		MUU_NODISCARD
-		explicit operator std::u8string_view() const&& noexcept
-		{
-			return std::u8string_view{ *this }; // explicitly invoke lvalue overload
-		}
-
-#endif // MUU_HAS_CHAR8_STRINGS
-
-		/// \brief	Moves the string_param's payload into a std::string.
-		MUU_NODISCARD
-		MUU_API
-		operator std::string() && noexcept;
-
-		/// \brief	Moves the string_param's payload into a std::wstring.
-		MUU_NODISCARD
-		MUU_API
-		operator std::wstring() && noexcept;
-
-		/// \brief	Moves the string_param's payload into a std::u16string.
-		MUU_NODISCARD
-		MUU_API
-		operator std::u16string() && noexcept;
-
-		/// \brief	Moves the string_param's payload into a std::u32string.
-		MUU_NODISCARD
-		MUU_API
-		operator std::u32string() && noexcept;
-
-#if MUU_HAS_CHAR8_STRINGS
-
-		/// \brief	Moves the string_param's payload into a std::u8string.
-		MUU_NODISCARD
-		operator std::u8string() && noexcept
-		{
-			if (empty())
-				return {};
-
-			std::u8string out;
-			if (built_with_char8_support())
-				move_into_char8_string(&out);
-			else
-			{
-				std::string_view str{ *this };
-				out.resize(str.length());
-				MUU_MEMCPY(out.data(), str.data(), str.length());
-			}
-			return out;
-		}
-
-#endif // MUU_HAS_CHAR8_STRINGS
 
 		/// \brief	Writes the string_param to a text stream.
 		template <typename Char, typename Traits>

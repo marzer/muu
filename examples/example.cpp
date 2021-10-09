@@ -13,7 +13,7 @@
 
 using namespace std::string_view_literals;
 
-int main(int /*argc*/, char** /*argv*/)
+int MAIN_CALLCONV main(int /*argc*/, char** /*argv*/)
 {
 	std::ios_base::sync_with_stdio(false);
 	init_utf8_console();

@@ -8,6 +8,7 @@
 /// \brief		Convenience header for including _all_ other muu headers.
 
 #include "accumulator.h"
+#include "bit.h"
 #include "blob.h"
 #include "bounding_box.h"
 #include "chars.h"

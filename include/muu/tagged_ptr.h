@@ -8,6 +8,7 @@
 /// \brief  Contains the definition of muu::tagged_ptr.
 
 #include "core.h"
+#include "bit.h"
 #include "impl/std_memcpy.h"
 #include "impl/header_start.h"
 MUU_DISABLE_SUGGEST_WARNINGS;

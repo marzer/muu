@@ -7,10 +7,9 @@
 /// \file
 /// \brief Contains the definition of muu::blob.
 
+#include "generic_allocator.h"
 #include "impl/std_memcpy.h"
 #include "impl/std_utility.h"
-#include "impl/core_bit.h"
-#include "generic_allocator.h"
 #include "impl/header_start.h"
 
 namespace muu

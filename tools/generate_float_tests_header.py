@@ -159,7 +159,7 @@ def int_literal(val, bits, always_hex = False):
 		for _ in range(0, int(bits / 64)):
 			vals.insert(0, int_literal(val & 0xFFFFFFFFFFFFFFFF, 64, always_hex))
 			val = val >> 64
-		return 'pack({})'.format(', '.join(vals))
+		return 'bit_pack({})'.format(', '.join(vals))
 	else:
 		mask = int((1 << bits) - 1)
 		if bits > 32 or always_hex:
@@ -524,6 +524,7 @@ def main():
 		write('#pragma once')
 		write('#include "settings.h"')
 		write('#include "../include/muu/core.h"')
+		write('#include "../include/muu/bit.h"')
 		write('MUU_DISABLE_WARNINGS;')
 		write('#include <array>')
 		write('MUU_ENABLE_WARNINGS;')

@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: MIT
 #pragma once
 
-#include "core_bit.h"
+#include "../bit.h"
 #include "core_utils.h"
 #if !MUU_WINDOWS
 	#include "std_cstdlib.h"

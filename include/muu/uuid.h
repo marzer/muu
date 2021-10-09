@@ -55,9 +55,9 @@ namespace muu::impl
 			{
 				MUU_ASSUME((first + 2u) <= 16u);
 				if constexpr (build::is_little_endian)
-					return pack(bytes[first], bytes[first + 1u]);
+					return bit_pack(bytes[first], bytes[first + 1u]);
 				else
-					return pack(bytes[first + 1u], bytes[first]);
+					return bit_pack(bytes[first + 1u], bytes[first]);
 			}
 		};
 
@@ -70,9 +70,9 @@ namespace muu::impl
 			{
 				MUU_ASSUME((first + 4u) <= 16u);
 				if constexpr (build::is_little_endian)
-					return pack(bytes[first], bytes[first + 1u], bytes[first + 2u], bytes[first + 3u]);
+					return bit_pack(bytes[first], bytes[first + 1u], bytes[first + 2u], bytes[first + 3u]);
 				else
-					return pack(bytes[first + 3u], bytes[first + 2u], bytes[first + 1u], bytes[first]);
+					return bit_pack(bytes[first + 3u], bytes[first + 2u], bytes[first + 1u], bytes[first]);
 			}
 		};
 
@@ -85,23 +85,23 @@ namespace muu::impl
 			{
 				MUU_ASSUME((first + 8u) <= 16u);
 				if constexpr (build::is_little_endian)
-					return pack(bytes[first],
-								bytes[first + 1u],
-								bytes[first + 2u],
-								bytes[first + 3u],
-								bytes[first + 4u],
-								bytes[first + 5u],
-								bytes[first + 6u],
-								bytes[first + 7u]);
+					return bit_pack(bytes[first],
+									bytes[first + 1u],
+									bytes[first + 2u],
+									bytes[first + 3u],
+									bytes[first + 4u],
+									bytes[first + 5u],
+									bytes[first + 6u],
+									bytes[first + 7u]);
 				else
-					return pack(bytes[first + 7u],
-								bytes[first + 6u],
-								bytes[first + 5u],
-								bytes[first + 4u],
-								bytes[first + 3u],
-								bytes[first + 2u],
-								bytes[first + 1u],
-								bytes[first]);
+					return bit_pack(bytes[first + 7u],
+									bytes[first + 6u],
+									bytes[first + 5u],
+									bytes[first + 4u],
+									bytes[first + 3u],
+									bytes[first + 2u],
+									bytes[first + 1u],
+									bytes[first]);
 			}
 		};
 	} // be/le
@@ -477,39 +477,39 @@ namespace muu
 			else
 			{
 				if constexpr (build::is_little_endian)
-					return pack(bytes.value[0],
-								bytes.value[1],
-								bytes.value[2],
-								bytes.value[3],
-								bytes.value[4],
-								bytes.value[5],
-								bytes.value[6],
-								bytes.value[7],
-								bytes.value[8],
-								bytes.value[9],
-								bytes.value[10],
-								bytes.value[11],
-								bytes.value[12],
-								bytes.value[13],
-								bytes.value[14],
-								bytes.value[15]);
+					return bit_pack(bytes.value[0],
+									bytes.value[1],
+									bytes.value[2],
+									bytes.value[3],
+									bytes.value[4],
+									bytes.value[5],
+									bytes.value[6],
+									bytes.value[7],
+									bytes.value[8],
+									bytes.value[9],
+									bytes.value[10],
+									bytes.value[11],
+									bytes.value[12],
+									bytes.value[13],
+									bytes.value[14],
+									bytes.value[15]);
 				else
-					return pack(bytes.value[15],
-								bytes.value[14],
-								bytes.value[13],
-								bytes.value[12],
-								bytes.value[11],
-								bytes.value[10],
-								bytes.value[9],
-								bytes.value[8],
-								bytes.value[7],
-								bytes.value[6],
-								bytes.value[5],
-								bytes.value[4],
-								bytes.value[3],
-								bytes.value[2],
-								bytes.value[1],
-								bytes.value[0]);
+					return bit_pack(bytes.value[15],
+									bytes.value[14],
+									bytes.value[13],
+									bytes.value[12],
+									bytes.value[11],
+									bytes.value[10],
+									bytes.value[9],
+									bytes.value[8],
+									bytes.value[7],
+									bytes.value[6],
+									bytes.value[5],
+									bytes.value[4],
+									bytes.value[3],
+									bytes.value[2],
+									bytes.value[1],
+									bytes.value[0]);
 			}
 		}
 
